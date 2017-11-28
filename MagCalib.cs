@@ -658,7 +658,7 @@ namespace MissionPlanner
 
             if (MainV2.comPort.MAV.param.ContainsKey("COMPASS_DIA_X"))
             {
-                ellipsoid = true;
+                ellipsoid = false;
             }
 
             log.Info("Compass 1");
