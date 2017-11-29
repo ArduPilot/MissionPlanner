@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MissionPlanner.Utilities;
 
-namespace MissionPlanner.HIL
+namespace MissionPlanner.Utilities
 {
     public class Utils
     {

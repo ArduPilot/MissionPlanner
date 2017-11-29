@@ -38,42 +38,6 @@ namespace MissionPlanner
             knots
         }
 
-
-        /// <summary>
-        /// from libraries\AP_Math\rotations.h
-        /// </summary>
-        public enum Rotation
-        {
-            ROTATION_NONE = 0,
-            ROTATION_YAW_45,
-            ROTATION_YAW_90,
-            ROTATION_YAW_135,
-            ROTATION_YAW_180,
-            ROTATION_YAW_225,
-            ROTATION_YAW_270,
-            ROTATION_YAW_315,
-            ROTATION_ROLL_180,
-            ROTATION_ROLL_180_YAW_45,
-            ROTATION_ROLL_180_YAW_90,
-            ROTATION_ROLL_180_YAW_135,
-            ROTATION_PITCH_180,
-            ROTATION_ROLL_180_YAW_225,
-            ROTATION_ROLL_180_YAW_270,
-            ROTATION_ROLL_180_YAW_315,
-            ROTATION_ROLL_90,
-            ROTATION_ROLL_90_YAW_45,
-            ROTATION_ROLL_90_YAW_90,
-            ROTATION_ROLL_90_YAW_135,
-            ROTATION_ROLL_270,
-            ROTATION_ROLL_270_YAW_45,
-            ROTATION_ROLL_270_YAW_90,
-            ROTATION_ROLL_270_YAW_135,
-            ROTATION_PITCH_90,
-            ROTATION_PITCH_270,
-            ROTATION_MAX
-        }
-
-
         public enum ap_product
         {
             [DisplayText("HIL")]

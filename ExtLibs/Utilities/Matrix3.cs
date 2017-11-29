@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MissionPlanner.HIL
+namespace MissionPlanner.Utilities
 {
     public class Matrix3
     {
@@ -23,6 +23,11 @@ namespace MissionPlanner.HIL
             this.a = a;
             this.b = b;
             this.c = c;
+        }
+
+        public Matrix3(object o, object o2, object o3)
+        {
+            throw new NotImplementedException();
         }
 
         public new string ToString()

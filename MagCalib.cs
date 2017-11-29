@@ -375,7 +375,7 @@ namespace MissionPlanner
             DateTime lastlsq2 = DateTime.MinValue;
             DateTime lastlsq3 = DateTime.MinValue;
 
-            HIL.Vector3 centre = new HIL.Vector3();
+            Vector3 centre = new Vector3();
 
             while (true)
             {
@@ -428,7 +428,7 @@ namespace MissionPlanner
                         // simple validation
                         if (Math.Abs(lsq[0]) < 999)
                         {
-                            centre = new HIL.Vector3(lsq[0], lsq[1], lsq[2]);
+                            centre = new Vector3(lsq[0], lsq[1], lsq[2]);
                             log.Info("new centre " + centre.ToString());
 
                             ((ProgressReporterSphere) sender).sphere1.CenterPoint = new OpenTK.Vector3(
@@ -447,7 +447,7 @@ namespace MissionPlanner
                         // simple validation
                         if (Math.Abs(lsq[0]) < 999)
                         {
-                            HIL.Vector3 centre2 = new HIL.Vector3(lsq[0], lsq[1], lsq[2]);
+                            Vector3 centre2 = new Vector3(lsq[0], lsq[1], lsq[2]);
                             log.Info("new centre2 " + centre2.ToString());
 
                             ((ProgressReporterSphere) sender).sphere2.CenterPoint = new OpenTK.Vector3(
@@ -466,7 +466,7 @@ namespace MissionPlanner
                         // simple validation
                         if (Math.Abs(lsq[0]) < 999)
                         {
-                            HIL.Vector3 centre3 = new HIL.Vector3(lsq[0], lsq[1], lsq[2]);
+                            Vector3 centre3 = new Vector3(lsq[0], lsq[1], lsq[2]);
                             log.Info("new centre2 " + centre3.ToString());
 
                             ((ProgressReporterSphere) sender).sphere3.CenterPoint = new OpenTK.Vector3(
@@ -509,15 +509,15 @@ namespace MissionPlanner
 
                 //Console.WriteLine("2 " + DateTime.Now.Millisecond);
 
-                HIL.Vector3 point;
+                Vector3 point;
 
-                point = new HIL.Vector3(rawmx, rawmy, rawmz) + centre;
+                point = new Vector3(rawmx, rawmy, rawmz) + centre;
 
                 //find the mean radius                    
                 float radius = 0;
                 for (int i = 0; i < datacompass1.Count; i++)
                 {
-                    point = new HIL.Vector3(datacompass1[i].Item1, datacompass1[i].Item2, datacompass1[i].Item3);
+                    point = new Vector3(datacompass1[i].Item1, datacompass1[i].Item2, datacompass1[i].Item3);
                     radius += (float) (point + centre).length();
                 }
                 radius /= datacompass1.Count;
@@ -536,7 +536,7 @@ namespace MissionPlanner
                     {
                         double phi = (2*Math.PI*i)/factor2;
 
-                        HIL.Vector3 point_sphere = new HIL.Vector3(
+                        Vector3 point_sphere = new Vector3(
                             (float) (Math.Sin(theta)*Math.Cos(phi)*radius),
                             (float) (Math.Sin(theta)*Math.Sin(phi)*radius),
                             (float) (Math.Cos(theta)*radius)) - centre;
@@ -546,7 +546,7 @@ namespace MissionPlanner
                         bool found = false;
                         for (int k = 0; k < datacompass1.Count; k++)
                         {
-                            point = new HIL.Vector3(datacompass1[k].Item1, datacompass1[k].Item2, datacompass1[k].Item3);
+                            point = new Vector3(datacompass1[k].Item1, datacompass1[k].Item2, datacompass1[k].Item3);
                             double d = (point_sphere - point).length();
                             if (d < max_distance)
                             {
@@ -980,6 +980,16 @@ namespace MissionPlanner
 
             double[] x = LeastSq(data);
 
+            log.InfoFormat("magcal 1 ofs {0},{1},{2} strength {3} ", x[0], x[1], x[2], x[3]);
+
+            x = LeastSq(data, true);
+
+            log.InfoFormat("magcalel 1 ofs {0},{1},{2} di {3},{4},{5} di {6} {7} {8} rad {9}", x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], x[8],rad);
+
+            x = doLSQ(data, sphere_ellipsoid_error, new double[] {x[0], x[1], x[2], 1, 1, 1, 0, 0, 0});
+
+            log.InfoFormat("magcalel 2 ofs {0},{1},{2} di {3},{4},{5} di {6} {7} {8} rad {9}", x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], x[8], rad);
+
             log.Info("Least Sq Done " + DateTime.Now);
 
             doDXF(vertexes, x);
@@ -1011,6 +1021,19 @@ namespace MissionPlanner
 
         static double avg_samples = 0;
 
+        static double calcRadius(List<Tuple<float, float, float>> data)
+        {
+            var avg_samples = 0.0;
+            foreach (var item in data)
+            {
+                avg_samples += Math.Sqrt(Math.Pow(item.Item1, 2) + Math.Pow(item.Item2, 2) + Math.Pow(item.Item3, 2));
+            }
+
+            avg_samples /= data.Count;
+
+            return avg_samples;
+        }
+
         /// <summary>
         /// Does the least sq adjustment to find the center of the sphere
         /// </summary>
@@ -1018,13 +1041,7 @@ namespace MissionPlanner
         /// <returns>offsets</returns>
         public static double[] LeastSq(List<Tuple<float, float, float>> data, bool ellipsoid = false)
         {
-            avg_samples = 0;
-            foreach (var item in data)
-            {
-                avg_samples += Math.Sqrt(Math.Pow(item.Item1, 2) + Math.Pow(item.Item2, 2) + Math.Pow(item.Item3, 2));
-            }
-
-            avg_samples /= data.Count;
+            avg_samples = calcRadius(data);
 
             log.Info("lsq avg " + avg_samples + " count " + data.Count);
 
@@ -1058,7 +1075,7 @@ namespace MissionPlanner
         static double[] doLSQ(List<Tuple<float, float, float>> data, Action<double[], double[], object> fitalgo,
             double[] x)
         {
-            double epsg = 0.001;
+            double epsg = 0.0001;
             double epsf = 0;
             double epsx = 0;
             int maxits = 100;
@@ -1066,7 +1083,7 @@ namespace MissionPlanner
             alglib.minlmstate state;
             alglib.minlmreport rep;
 
-            alglib.minlmcreatev(data.Count, x, 1, out state);
+            alglib.minlmcreatev(data.Count, x, 0.1, out state);
             alglib.minlmsetcond(state, epsg, epsf, epsx, maxits);
 
             var t1 = new alglib.ndimensional_fvec(fitalgo);
@@ -1299,16 +1316,25 @@ namespace MissionPlanner
 
         static void sphere_ellipsoid_error(double[] p1, double[] fi, object obj)
         {
+            var data = (List<Tuple<float, float, float>>) obj;
             var offsets = new Vector3(p1[0], p1[1], p1[2]);
             var diagonals = new Vector3(1.0, 1.0, 1.0);
             var offdiagonals = new Vector3(0.0, 0.0, 0.0);
             if (p1.Length >= 6)
+            {
                 diagonals = new Vector3(p1[3], p1[4], p1[5]);
+                diagonals = diagonals.normalized() * Math.Sqrt(3);
+                p1[3] = diagonals.x;
+                p1[4] = diagonals.y;
+                p1[5] = diagonals.z;
+            }
             if (p1.Length >= 8)
+            {
                 offdiagonals = new Vector3(p1[6], p1[7], p1[8]);
+            }
 
             int a = 0;
-            foreach (var d in (List<Tuple<float, float, float>>) obj)
+            foreach (var d in data)
             {
                 var mag = new Vector3(d.Item1, d.Item2, d.Item3);
                 double err = rad - radius(mag, offsets, diagonals, offdiagonals);
