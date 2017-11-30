@@ -1115,5 +1115,17 @@ namespace MissionPlanner
         {
             MainV2.comPort.MAV.Proximity.Show();
         }
+
+        private void but_dashware_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "bin|*.bin";
+            ofd.ShowDialog();
+
+            if (ofd.CheckFileExists)
+            {
+                DashWare.Create(ofd.FileName, ofd.FileName + ".csv");
+            }
+        }
     }
 }
