@@ -319,6 +319,14 @@ namespace MissionPlanner
                 MainV2.comPort.setParam("COMPASS_OFS2_Y", 0, true);
                 MainV2.comPort.setParam("COMPASS_OFS2_Z", 0, true);
 
+                MainV2.comPort.setParam("COMPASS_DIA2_X", 1, true);
+                MainV2.comPort.setParam("COMPASS_DIA2_Y", 1, true);
+                MainV2.comPort.setParam("COMPASS_DIA2_Z", 1, true);
+
+                MainV2.comPort.setParam("COMPASS_ODI2_X", 0, true);
+                MainV2.comPort.setParam("COMPASS_ODI2_Y", 0, true);
+                MainV2.comPort.setParam("COMPASS_ODI2_Z", 0, true);
+
                 havecompass2 = true;
             }
 
@@ -328,6 +336,14 @@ namespace MissionPlanner
                 MainV2.comPort.setParam("COMPASS_OFS3_X", 0, true);
                 MainV2.comPort.setParam("COMPASS_OFS3_Y", 0, true);
                 MainV2.comPort.setParam("COMPASS_OFS3_Z", 0, true);
+
+                MainV2.comPort.setParam("COMPASS_DIA3_X", 1, true);
+                MainV2.comPort.setParam("COMPASS_DIA3_Y", 1, true);
+                MainV2.comPort.setParam("COMPASS_DIA3_Z", 1, true);
+
+                MainV2.comPort.setParam("COMPASS_ODI3_X", 0, true);
+                MainV2.comPort.setParam("COMPASS_ODI3_Y", 0, true);
+                MainV2.comPort.setParam("COMPASS_ODI3_Z", 0, true);
 
                 havecompass3 = true;
             }
@@ -658,7 +674,7 @@ namespace MissionPlanner
 
             if (MainV2.comPort.MAV.param.ContainsKey("COMPASS_DIA_X"))
             {
-                ellipsoid = false;
+                ellipsoid = true;
             }
 
             log.Info("Compass 1");
@@ -789,24 +805,24 @@ namespace MissionPlanner
 
             log.InfoFormat("magcal 1 ofs {0},{1},{2} strength {3} old ofs {4},{5},{6}", x[0], x[1], x[2], x[3], ofsDoubles[0], ofsDoubles[1], ofsDoubles[2]);
             
-            //x = LeastSq(data,true);
+            x = LeastSq(data,true);
 
-            //log.InfoFormat("magcalel 1 ofs {0},{1},{2} strength {3} old ofs {4},{5},{6}", x[0], x[1], x[2], x[3], ofsDoubles[0], ofsDoubles[1], ofsDoubles[2]);
+            log.InfoFormat("magcalel 1 ofs {0},{1},{2} strength {3} old ofs {4},{5},{6}", x[0], x[1], x[2], x[3], ofsDoubles[0], ofsDoubles[1], ofsDoubles[2]);
 
             if (data2.Count > 0)
             {
                 double[] x2 = LeastSq(data2, false);
                 log.InfoFormat("magcal 2 ofs {0},{1},{2} strength {3} old ofs {4},{5},{6}", x2[0], x2[1], x2[2], x2[3], ofsDoubles2[0], ofsDoubles2[1], ofsDoubles2[2]);
-                //x2 = LeastSq(data2, true);
-                //log.InfoFormat("magcalel 2 ofs {0},{1},{2} strength {3} old ofs {4},{5},{6}", x2[0], x2[1], x2[2], x2[3], ofsDoubles2[0], ofsDoubles2[1], ofsDoubles2[2]);
+                x2 = LeastSq(data2, true);
+                log.InfoFormat("magcalel 2 ofs {0},{1},{2} strength {3} old ofs {4},{5},{6}", x2[0], x2[1], x2[2], x2[3], ofsDoubles2[0], ofsDoubles2[1], ofsDoubles2[2]);
             }
 
             if (data3.Count > 0)
             {
                 double[] x3 = LeastSq(data3, false);
                 log.InfoFormat("magcal 3 ofs {0},{1},{2} strength {3} old ofs {4},{5},{6}", x3[0], x3[1], x3[2], x3[3], ofsDoubles3[0], ofsDoubles3[1], ofsDoubles3[2]);
-                //x3 = LeastSq(data3, true);
-                //log.InfoFormat("magcalel 3 ofs {0},{1},{2} strength {3} old ofs {4},{5},{6}", x3[0], x3[1], x3[2], x3[3], ofsDoubles3[0], ofsDoubles3[1], ofsDoubles3[2]);
+                x3 = LeastSq(data3, true);
+                log.InfoFormat("magcalel 3 ofs {0},{1},{2} strength {3} old ofs {4},{5},{6}", x3[0], x3[1], x3[2], x3[3], ofsDoubles3[0], ofsDoubles3[1], ofsDoubles3[2]);
             }
 
 
@@ -1054,6 +1070,8 @@ namespace MissionPlanner
 
             rad = avg_samples;//x[3];
 
+            Array.Resize(ref x, 3);
+
             log.Info("lsq rad " + rad);
 
             if (ellipsoid)
@@ -1170,7 +1188,7 @@ namespace MissionPlanner
                         MainV2.comPort.GetParam("COMPASS_OFS_Z");
                     }
 
-                    if (ofs.Length > 3 && MainV2.comPort.MAV.param.ContainsKey("COMPASS_DIA_X"))
+                    if (ofs.Length > 5 && MainV2.comPort.MAV.param.ContainsKey("COMPASS_DIA_X"))
                     {
                         // ellipsoid
                         MainV2.comPort.setParam("COMPASS_DIA_X", (float)ofs[3]);
@@ -1225,7 +1243,7 @@ namespace MissionPlanner
                         MainV2.comPort.GetParam("COMPASS_OFS2_Y");
                         MainV2.comPort.GetParam("COMPASS_OFS2_Z");
                     }
-                    if (ofs.Length > 3 && MainV2.comPort.MAV.param.ContainsKey("COMPASS_DIA2_X"))
+                    if (ofs.Length > 5 && MainV2.comPort.MAV.param.ContainsKey("COMPASS_DIA2_X"))
                     {
                         // ellipsoid
                         MainV2.comPort.setParam("COMPASS_DIA2_X", (float)ofs[3]);
@@ -1268,7 +1286,7 @@ namespace MissionPlanner
                         MainV2.comPort.setParam("COMPASS_OFS3_Y", (float)ofs[1]);
                         MainV2.comPort.setParam("COMPASS_OFS3_Z", (float)ofs[2]);
                     }
-                    if (ofs.Length > 3 && MainV2.comPort.MAV.param.ContainsKey("COMPASS_DIA3_X"))
+                    if (ofs.Length > 5 && MainV2.comPort.MAV.param.ContainsKey("COMPASS_DIA3_X"))
                     {
                         // ellipsoid
                         MainV2.comPort.setParam("COMPASS_DIA3_X", (float)ofs[3]);
