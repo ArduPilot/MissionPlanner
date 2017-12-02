@@ -312,6 +312,21 @@ namespace MissionPlanner
             bool havecompass2 = false;
             bool havecompass3 = false;
 
+            if (MainV2.comPort.MAV.param.ContainsKey("COMPASS_OFS_X"))
+            {
+                MainV2.comPort.setParam("COMPASS_OFS_X", 0, true);
+                MainV2.comPort.setParam("COMPASS_OFS_Y", 0, true);
+                MainV2.comPort.setParam("COMPASS_OFS_Z", 0, true);
+
+                MainV2.comPort.setParam("COMPASS_DIA_X", 1, true);
+                MainV2.comPort.setParam("COMPASS_DIA_Y", 1, true);
+                MainV2.comPort.setParam("COMPASS_DIA_Z", 1, true);
+
+                MainV2.comPort.setParam("COMPASS_ODI_X", 0, true);
+                MainV2.comPort.setParam("COMPASS_ODI_Y", 0, true);
+                MainV2.comPort.setParam("COMPASS_ODI_Z", 0, true);
+            }
+
             //compass2 get mag2 offsets
             if (MainV2.comPort.MAV.param.ContainsKey("COMPASS_OFS2_X"))
             {
