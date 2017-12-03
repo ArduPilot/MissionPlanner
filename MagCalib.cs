@@ -304,8 +304,67 @@ namespace MissionPlanner
             return true;
         }
 
+        public static void test()
+        {
+            getOffsets(@"C:\Users\michael\Downloads\2017-12-03 19-26-47.tlog");
+
+            CompassCalibrator com = new CompassCalibrator();
+
+            com.start(true, 0, 999);
+            bool test = false;
+
+            using (MAVLinkInterface mine = new MAVLinkInterface())
+            {
+                try
+                {
+                    mine.logplaybackfile =
+                        new BinaryReader(File.Open(@"C:\Users\michael\Downloads\2017-12-03 19-26-47.tlog", FileMode.Open, FileAccess.Read, FileShare.Read));
+                }
+                catch (Exception ex)
+                {
+                    log.Debug(ex.ToString());
+                    CustomMessageBox.Show("Log Can not be opened. Are you still connected?");
+                    return;
+                }
+
+                mine.logreadmode = true;
+
+                int a = 0;
+
+                var sub = mine.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.RAW_IMU, message =>
+                {
+                    var imu = message.ToStructure<MAVLink.mavlink_raw_imu_t>();
+                    com.new_sample(new Vector3f(imu.xmag, imu.ymag, imu.zmag));
+                    return true;
+                });
+
+                Vector3f offsets = null;
+                Vector3f diagonals = null;
+                Vector3f offdiagonals = null;
+
+                // gather data
+                while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
+                {
+                    MAVLink.MAVLinkMessage packetraw = mine.readPacket();
+
+                    com.update(ref test);
+
+                    com.get_calibration(ref offsets, ref diagonals, ref offdiagonals);
+
+                    if (com.get_completion_percent() == 100)
+                    {
+                        Console.WriteLine("{0} {1} {2} {3}", com.get_completion_percent(), offsets.ToString(),
+                            diagonals.ToString(), offdiagonals.ToString());
+                        break;
+                    }
+                }
+            }
+        }
+
         static void prd_DoWork(object sender, ProgressWorkerEventArgs e, object passdata = null)
         {
+            var prsphere = sender as ProgressReporterSphere;
+
             // turn learning off
             MainV2.comPort.setParam("COMPASS_LEARN", 0);
 
@@ -396,9 +455,9 @@ namespace MissionPlanner
             string extramsg = "";
 
             // clear any old data
-            ((ProgressReporterSphere) sender).sphere1.Clear();
-            ((ProgressReporterSphere) sender).sphere2.Clear();
-            ((ProgressReporterSphere) sender).sphere3.Clear();
+            prsphere.sphere1.Clear();
+            prsphere.sphere2.Clear();
+            prsphere.sphere3.Clear();
 
             // keep track of data count and last lsq run
             int lastcount = 0;
@@ -415,13 +474,13 @@ namespace MissionPlanner
 
                 string str = "Got + " + datacompass1.Count + " samples\n" +
                              "Compass 1 error: " + error;
-                if (MainV2.comPort.MAV.param.ContainsKey("COMPASS_OFS2_X"))
+                if (havecompass2)
                     str += "\nCompass 2 error: " + error2;
-                if (MainV2.comPort.MAV.param.ContainsKey("COMPASS_OFS3_X"))
+                if (havecompass3)
                     str += "\nCompass 3 error: " + error3;
                 str += "\n" + extramsg;
 
-                ((ProgressReporterDialogue) sender).UpdateProgressAndStatus(-1, str);
+                prsphere.UpdateProgressAndStatus(-1, str);
 
                 if (e.CancelRequested)
                 {
@@ -462,7 +521,7 @@ namespace MissionPlanner
                             centre = new Vector3(lsq[0], lsq[1], lsq[2]);
                             log.Info("new centre " + centre.ToString());
 
-                            ((ProgressReporterSphere) sender).sphere1.CenterPoint = new OpenTK.Vector3(
+                            prsphere.sphere1.CenterPoint = new OpenTK.Vector3(
                                 (float) centre.x, (float) centre.y, (float) centre.z);
                         }
                     }
@@ -481,7 +540,7 @@ namespace MissionPlanner
                             Vector3 centre2 = new Vector3(lsq[0], lsq[1], lsq[2]);
                             log.Info("new centre2 " + centre2.ToString());
 
-                            ((ProgressReporterSphere) sender).sphere2.CenterPoint = new OpenTK.Vector3(
+                            prsphere.sphere2.CenterPoint = new OpenTK.Vector3(
                                 (float) centre2.x, (float) centre2.y, (float) centre2.z);
                         }
                     }
@@ -500,7 +559,7 @@ namespace MissionPlanner
                             Vector3 centre3 = new Vector3(lsq[0], lsq[1], lsq[2]);
                             log.Info("new centre2 " + centre3.ToString());
 
-                            ((ProgressReporterSphere) sender).sphere3.CenterPoint = new OpenTK.Vector3(
+                            prsphere.sphere3.CenterPoint = new OpenTK.Vector3(
                                 (float) centre3.x, (float) centre3.y, (float) centre3.z);
                         }
                     }
@@ -515,8 +574,8 @@ namespace MissionPlanner
                 lastcount = datacompass1.Count;
 
                 // add to sphere with center correction
-                ((ProgressReporterSphere) sender).sphere1.AddPoint(new OpenTK.Vector3(rawmx, rawmy, rawmz));
-                ((ProgressReporterSphere) sender).sphere1.AimClear();
+                prsphere.sphere1.AddPoint(new OpenTK.Vector3(rawmx, rawmy, rawmz));
+                prsphere.sphere1.AimClear();
 
                 if (datacompass2.Count > 30)
                 {
@@ -524,8 +583,8 @@ namespace MissionPlanner
                     float raw2my = datacompass2[datacompass2.Count - 1].Item2;
                     float raw2mz = datacompass2[datacompass2.Count - 1].Item3;
 
-                    ((ProgressReporterSphere) sender).sphere2.AddPoint(new OpenTK.Vector3(raw2mx, raw2my, raw2mz));
-                    ((ProgressReporterSphere) sender).sphere2.AimClear();
+                    prsphere.sphere2.AddPoint(new OpenTK.Vector3(raw2mx, raw2my, raw2mz));
+                    prsphere.sphere2.AimClear();
                 }
 
                 if (datacompass3.Count > 30)
@@ -534,8 +593,8 @@ namespace MissionPlanner
                     float raw3my = datacompass3[datacompass3.Count - 1].Item2;
                     float raw3mz = datacompass3[datacompass3.Count - 1].Item3;
 
-                    ((ProgressReporterSphere) sender).sphere3.AddPoint(new OpenTK.Vector3(raw3mx, raw3my, raw3mz));
-                    ((ProgressReporterSphere) sender).sphere3.AimClear();
+                    prsphere.sphere3.AddPoint(new OpenTK.Vector3(raw3mx, raw3my, raw3mz));
+                    prsphere.sphere3.AimClear();
                 }
 
                 //Console.WriteLine("2 " + DateTime.Now.Millisecond);
@@ -592,7 +651,7 @@ namespace MissionPlanner
                         {
                             displayresult = "more data needed Aim For " +
                                             GetColour((int) (theta*MathHelper.rad2deg), (int) (phi*MathHelper.rad2deg));
-                            ((ProgressReporterSphere) sender).sphere1.AimFor(new OpenTK.Vector3((float) point_sphere.x,
+                            prsphere.sphere1.AimFor(new OpenTK.Vector3((float) point_sphere.x,
                                 (float) point_sphere.y, (float) point_sphere.z));
                             //j = factor;
                             //break;
@@ -604,7 +663,7 @@ namespace MissionPlanner
                 //Console.WriteLine("3 "+ DateTime.Now.Millisecond);
 
                 // check primary compass error
-                if (error < 0.2 && pointshit > hittarget && ((ProgressReporterSphere) sender).autoaccept)
+                if (error < 0.2 && pointshit > hittarget && prsphere.autoaccept)
                 {
                     extramsg = "";
                     break;
@@ -1085,7 +1144,7 @@ namespace MissionPlanner
 
             rad = avg_samples;//x[3];
 
-            Array.Resize(ref x, 3);
+            Array.Resize(ref x, 4);
 
             log.Info("lsq rad " + rad);
 
@@ -1350,7 +1409,7 @@ namespace MissionPlanner
         static void sphere_ellipsoid_error(double[] p1, double[] fi, object obj)
         {
             var data = (List<Tuple<float, float, float>>) obj;
-            var offsets = new Vector3(p1[0], p1[1], p1[2]);
+            var offsets = new Vector3(0,0,0);//(p1[0], p1[1], p1[2]);
             var diagonals = new Vector3(1.0, 1.0, 1.0);
             var offdiagonals = new Vector3(0.0, 0.0, 0.0);
             if (p1.Length >= 6)

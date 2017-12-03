@@ -7,6 +7,16 @@ using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Utilities
 {
+    public class Vector3f : Vector3<float>
+    {
+        public static readonly Vector3f Zero = new Vector3f(0, 0, 0);
+        public static readonly Vector3f One = new Vector3f(1.0f, 1.0f, 1.0f);
+
+        public Vector3f(float x = 0, float y = 0, float z = 0) : base(x, y, z)
+        {
+        }
+    }
+
     public class Vector3 : Vector3<double>
     {
         public static readonly Vector3 Zero = new Vector3(0, 0, 0);
@@ -28,6 +38,20 @@ namespace MissionPlanner.Utilities
             this.x = x;
             this.y = y;
             this.z = z;
+        }
+
+        public Vector3(Tuple<T,T,T> inp)
+        {
+            this.x = inp.Item1;
+            this.y = inp.Item2;
+            this.z = inp.Item3;
+        }
+
+        public Vector3((T, T, T) inp)
+        {
+            this.x = inp.Item1;
+            this.y = inp.Item2;
+            this.z = inp.Item3;
         }
 
         public Vector3(Vector3<T> copyme)
@@ -69,6 +93,15 @@ namespace MissionPlanner.Utilities
             return new Vector3((dynamic)a.x, (dynamic)a.y, (dynamic)a.z);
         }
 
+        public static implicit operator Vector3f(Vector3<T> a)
+        {
+            var x = (float)(dynamic)a.x ;
+            var y = (float)(dynamic)a.y ;
+            var z = (float)(dynamic)a.z ;
+
+            return new Vector3f(x,y,z);
+        }
+
         public T this[int index]
         {
             get
@@ -97,17 +130,17 @@ namespace MissionPlanner.Utilities
 
         public static Vector3<T> operator +(Vector3<T> self, Vector3<T> v)
         {
-            return new Vector3<T>((dynamic)self.x + v.x,
-                (dynamic)self.y + v.y,
-                (dynamic)self.z + v.z);
+            return new Vector3<T>((T)((dynamic)self.x + v.x),
+                (T)((dynamic)self.y + v.y),
+                (T)((dynamic)self.z + v.z));
         }
 
 
         public static Vector3<T> operator -(Vector3<T> self, Vector3<T> v)
         {
-            return new Vector3<T>((dynamic)self.x - v.x,
-                (dynamic)self.y - v.y,
-                (dynamic)self.z - v.z);
+            return new Vector3<T>((T)((dynamic)self.x - v.x),
+                (T)((dynamic)self.y - v.y),
+                (T)((dynamic)self.z - v.z));
         }
 
         public static Vector3<T> operator -(Vector3<T> self)
@@ -123,9 +156,9 @@ namespace MissionPlanner.Utilities
 
         public static Vector3<T> operator *(Vector3<T> self, double v)
         {
-            return new Vector3<T>((dynamic)self.x*v,
-                (dynamic)self.y*v,
-                (dynamic)self.z*v);
+            return new Vector3<T>((T)((dynamic)self.x*v),
+                (T)((dynamic)self.y*v),
+                (T)((dynamic)self.z*v));
         }
 
         public static Vector3<T> operator *(double v, Vector3<T> self)
@@ -135,17 +168,17 @@ namespace MissionPlanner.Utilities
 
         public static Vector3<T> operator /(Vector3<T> self, double v)
         {
-            return new Vector3<T>((dynamic)self.x/v,
-                (dynamic)self.y/v,
-                (dynamic)self.z/v);
+            return new Vector3<T>((T)((dynamic)self.x/v),
+                (T)((dynamic)self.y/v),
+                (T)((dynamic)self.z/v));
         }
 
         public static Vector3<T> operator %(Vector3<T> self, Vector3<T> v)
         {
             //  '''cross product'''
-            return new Vector3<T>((dynamic)self.y*v.z - (dynamic)self.z*v.y,
-                (dynamic)self.z*v.x - (dynamic)self.x*v.z,
-                (dynamic)self.x*v.y - (dynamic)self.y*v.x);
+            return new Vector3<T>((T)((dynamic)self.y*v.z - (dynamic)self.z*v.y),
+                (T)((dynamic)self.z*v.x - (dynamic)self.x*v.z),
+                (T)((dynamic)self.x*v.y - (dynamic)self.y*v.x));
         }
 
         public Vector3<T> copy()
@@ -154,9 +187,9 @@ namespace MissionPlanner.Utilities
         }
 
 
-        public double length()
+        public T length()
         {
-            return Math.Sqrt((dynamic)x *x + (dynamic)y *y + (dynamic)z *z);
+            return (T)Math.Sqrt((dynamic) x * x + (dynamic) y * y + (dynamic) z * z);
         }
 
         public void zero()
@@ -171,7 +204,7 @@ namespace MissionPlanner.Utilities
 
         public Vector3<T> normalized()
         {
-            return this/length();
+            return (dynamic)this/length();
         }
 
         public void normalize()
@@ -184,7 +217,7 @@ namespace MissionPlanner.Utilities
 
         private T HALF_SQRT_2
         {
-            get { return (dynamic)0.70710678118654757; }
+            get { return (T)(dynamic)0.70710678118654757; }
         }
 
         public Vector3<T> rotate(Rotation rotation)

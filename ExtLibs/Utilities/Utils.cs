@@ -13,6 +13,11 @@ namespace MissionPlanner.Utilities
         public const bool True = true;
         public const bool False = false;
 
+        public static void memset(byte[] array, int start, int size)
+        {
+            array.Initialize();
+        }
+
         public static string str(byte[] input)
         {
             string st = System.Text.ASCIIEncoding.ASCII.GetString(input);
@@ -85,6 +90,11 @@ namespace MissionPlanner.Utilities
             return System.Math.Acos(val);
         }
 
+        public static float acosf(float val)
+        {
+            return (float)System.Math.Acos(val);
+        }
+
         public static float asinf(float val)
         {
             return (float) System.Math.Asin(val);
@@ -98,6 +108,11 @@ namespace MissionPlanner.Utilities
         public static double atan2(double val, double val2)
         {
             return System.Math.Atan2(val, val2);
+        }
+
+        public static void free(object inp)
+        {
+            inp = null;
         }
 
         public static double radians(double val)
@@ -144,6 +159,11 @@ namespace MissionPlanner.Utilities
             return ((amt) < (low) ? (low) : ((amt) > (high) ? (high) : (amt)));
         }
 
+        public static float roundf(float input)
+        {
+            return (float)Math.Round(input);
+        }
+
 
         // a varient of asin() that checks the input ranges and ensures a
         // valid angle as output. If nan is given as input then zero is
@@ -179,6 +199,235 @@ namespace MissionPlanner.Utilities
             }
             return ret;
         }
+
+        public static dynamic sq(dynamic inp)
+        {
+            return inp * inp;
+        }
+
+        /*
+         *    fast matrix inverse code only for 3x3 square matrix
+         *
+         *    @param     m,           input 4x4 matrix
+         *    @param     invOut,      Output inverted 4x4 matrix
+         *    @returns                false = matrix is Singular, true = matrix inversion successful
+         */
+
+        public static bool inverse3x3(float[] m, float[] invOut)
+        {
+            float[] inv = new float[9];
+            // computes the inverse of a matrix m
+            float det = m[0] * (m[4] * m[8] - m[7] * m[5]) -
+            m[1] * (m[3] * m[8] - m[5] * m[6]) +
+            m[2] * (m[3] * m[7] - m[4] * m[6]);
+            if (is_zero(det) || float.IsInfinity(det))
+            {
+                return false;
+            }
+
+            float invdet = 1 / det;
+
+            inv[0] = (m[4] * m[8] - m[7] * m[5]) * invdet;
+            inv[1] = (m[2] * m[7] - m[1] * m[8]) * invdet;
+            inv[2] = (m[1] * m[5] - m[2] * m[4]) * invdet;
+            inv[3] = (m[5] * m[6] - m[3] * m[8]) * invdet;
+            inv[4] = (m[0] * m[8] - m[2] * m[6]) * invdet;
+            inv[5] = (m[3] * m[2] - m[0] * m[5]) * invdet;
+            inv[6] = (m[3] * m[7] - m[6] * m[4]) * invdet;
+            inv[7] = (m[6] * m[1] - m[0] * m[7]) * invdet;
+            inv[8] = (m[0] * m[4] - m[3] * m[1]) * invdet;
+
+            for (byte i = 0; i < 9; i++)
+            {
+                invOut[i] = inv[i];
+            }
+
+            return true;
+        }
+
+        /*
+         *    fast matrix inverse code only for 4x4 square matrix copied from
+         *    gluInvertMatrix implementation in opengl for 4x4 matrices.
+         *
+         *    @param     m,           input 4x4 matrix
+         *    @param     invOut,      Output inverted 4x4 matrix
+         *    @returns                false = matrix is Singular, true = matrix inversion successful
+         */
+
+        public static bool inverse4x4(float[] m, float[] invOut)
+        {
+            float[] inv = new float[16];
+            float det;
+            byte i;
+
+            inv[0] = m[5] * m[10] * m[15] -
+            m[5] * m[11] * m[14] -
+            m[9] * m[6] * m[15] +
+            m[9] * m[7] * m[14] +
+            m[13] * m[6] * m[11] -
+            m[13] * m[7] * m[10];
+
+            inv[4] = -m[4] * m[10] * m[15] +
+            m[4] * m[11] * m[14] +
+            m[8] * m[6] * m[15] -
+            m[8] * m[7] * m[14] -
+            m[12] * m[6] * m[11] +
+            m[12] * m[7] * m[10];
+
+            inv[8] = m[4] * m[9] * m[15] -
+            m[4] * m[11] * m[13] -
+            m[8] * m[5] * m[15] +
+            m[8] * m[7] * m[13] +
+            m[12] * m[5] * m[11] -
+            m[12] * m[7] * m[9];
+
+            inv[12] = -m[4] * m[9] * m[14] +
+            m[4] * m[10] * m[13] +
+            m[8] * m[5] * m[14] -
+            m[8] * m[6] * m[13] -
+            m[12] * m[5] * m[10] +
+            m[12] * m[6] * m[9];
+
+            inv[1] = -m[1] * m[10] * m[15] +
+            m[1] * m[11] * m[14] +
+            m[9] * m[2] * m[15] -
+            m[9] * m[3] * m[14] -
+            m[13] * m[2] * m[11] +
+            m[13] * m[3] * m[10];
+
+            inv[5] = m[0] * m[10] * m[15] -
+            m[0] * m[11] * m[14] -
+            m[8] * m[2] * m[15] +
+            m[8] * m[3] * m[14] +
+            m[12] * m[2] * m[11] -
+            m[12] * m[3] * m[10];
+
+            inv[9] = -m[0] * m[9] * m[15] +
+            m[0] * m[11] * m[13] +
+            m[8] * m[1] * m[15] -
+            m[8] * m[3] * m[13] -
+            m[12] * m[1] * m[11] +
+            m[12] * m[3] * m[9];
+
+            inv[13] = m[0] * m[9] * m[14] -
+            m[0] * m[10] * m[13] -
+            m[8] * m[1] * m[14] +
+            m[8] * m[2] * m[13] +
+            m[12] * m[1] * m[10] -
+            m[12] * m[2] * m[9];
+
+            inv[2] = m[1] * m[6] * m[15] -
+            m[1] * m[7] * m[14] -
+            m[5] * m[2] * m[15] +
+            m[5] * m[3] * m[14] +
+            m[13] * m[2] * m[7] -
+            m[13] * m[3] * m[6];
+
+            inv[6] = -m[0] * m[6] * m[15] +
+            m[0] * m[7] * m[14] +
+            m[4] * m[2] * m[15] -
+            m[4] * m[3] * m[14] -
+            m[12] * m[2] * m[7] +
+            m[12] * m[3] * m[6];
+
+            inv[10] = m[0] * m[5] * m[15] -
+            m[0] * m[7] * m[13] -
+            m[4] * m[1] * m[15] +
+            m[4] * m[3] * m[13] +
+            m[12] * m[1] * m[7] -
+            m[12] * m[3] * m[5];
+
+            inv[14] = -m[0] * m[5] * m[14] +
+            m[0] * m[6] * m[13] +
+            m[4] * m[1] * m[14] -
+            m[4] * m[2] * m[13] -
+            m[12] * m[1] * m[6] +
+            m[12] * m[2] * m[5];
+
+            inv[3] = -m[1] * m[6] * m[11] +
+            m[1] * m[7] * m[10] +
+            m[5] * m[2] * m[11] -
+            m[5] * m[3] * m[10] -
+            m[9] * m[2] * m[7] +
+            m[9] * m[3] * m[6];
+
+            inv[7] = m[0] * m[6] * m[11] -
+            m[0] * m[7] * m[10] -
+            m[4] * m[2] * m[11] +
+            m[4] * m[3] * m[10] +
+            m[8] * m[2] * m[7] -
+            m[8] * m[3] * m[6];
+
+            inv[11] = -m[0] * m[5] * m[11] +
+            m[0] * m[7] * m[9] +
+            m[4] * m[1] * m[11] -
+            m[4] * m[3] * m[9] -
+            m[8] * m[1] * m[7] +
+            m[8] * m[3] * m[5];
+
+            inv[15] = m[0] * m[5] * m[10] -
+            m[0] * m[6] * m[9] -
+            m[4] * m[1] * m[10] +
+            m[4] * m[2] * m[9] +
+            m[8] * m[1] * m[6] -
+            m[8] * m[2] * m[5];
+
+            det = m[0] * inv[0] + m[1] * inv[4] + m[2] * inv[8] + m[3] * inv[12];
+
+            if (is_zero(det) || float.IsInfinity(det))
+            {
+                return false;
+            }
+
+            det = 1.0f / det;
+
+            for (i = 0; i < 16; i++)
+                invOut[i] = inv[i] * det;
+            return true;
+        }
+
+        /*
+         *    generic matrix inverse code
+         *
+         *    @param     x,     input nxn matrix
+         *    @param     y,     Output inverted nxn matrix
+         *    @param     n,     dimension of square matrix
+         *    @returns          false = matrix is Singular, true = matrix inversion successful
+         */
+        public static bool inverse(float[] x, float[] y, ushort dim)
+        {
+            switch (dim)
+            {
+                case 3: return inverse3x3(x, y);
+                case 4: return inverse4x4(x, y);
+                default:
+                {
+                    int info = 0;
+                    alglib.matinvreport rep = new alglib.matinvreport();
+                    double[,] input = new double[dim, dim];
+
+                    int a = 0;
+                    foreach (var f in x)
+                    {
+                        input[a / dim, a % dim] = f;
+                        a++;
+                    }
+
+                    alglib.rmatrixinverse(ref input, dim, out info, out rep); // mat_inverse(x, y, dim);
+
+                    a = 0;
+                    foreach (var f in input)
+                    {
+                        y[a] = (float)f;
+                        a++;
+                    }
+
+                    return true;
+                }
+            }
+            return false;
+        }
+
 
         public static int[] range(int no)
         {

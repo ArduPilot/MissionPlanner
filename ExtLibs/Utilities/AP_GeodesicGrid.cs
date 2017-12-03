@@ -6,7 +6,7 @@ using uint8_t = System.Byte;
 
 namespace MissionPlanner.Utilities
 {
-    public class AP_GeodesicGrid
+    public static class AP_GeodesicGrid
     {
         public struct neighbor_umbrella
         {
@@ -151,7 +151,7 @@ namespace MissionPlanner.Utilities
 
         /* This was generated with
          * libraries/AP_Math/tools/geodesic_grid/geodesic_grid.py */
-        private neighbor_umbrella[] _neighbor_umbrellas =
+       static private neighbor_umbrella[] _neighbor_umbrellas =
         {
             new neighbor_umbrella(new byte[] {9, 8, 7, 12, 14}, 1, 2, 0, 0, 2),
             new neighbor_umbrella(new byte[] {1, 2, 4, 5, 3}, 0, 0, 2, 2, 0),
@@ -160,85 +160,85 @@ namespace MissionPlanner.Utilities
 
         /* This was generated with
          * libraries/AP_Math/tools/geodesic_grid/geodesic_grid.py */
-        private Matrix3[] _inverses =
+        static private Matrix3[] _inverses =
         {
-            new Matrix3(new Vector3(-0.309017f, 0.500000f, 0.190983f),
+            new Matrix3((-0.309017f, 0.500000f, 0.190983f),
                 ( 0.000000f, 0.000000f, -0.618034f),
                 (-0.309017f, -0.500000f, 0.190983f)),
-            new Matrix3(new Vector3(-0.190983f, 0.309017f, -0.500000f),
+            new Matrix3((-0.190983f, 0.309017f, -0.500000f),
                 (-0.500000f, -0.190983f, 0.309017f),
                 ( 0.309017f, -0.500000f, -0.190983f)),
-            new Matrix3(new Vector3(-0.618034f, 0.000000f, 0.000000f),
+            new Matrix3((-0.618034f, 0.000000f, 0.000000f),
                 ( 0.190983f, -0.309017f, -0.500000f),
                 ( 0.190983f, -0.309017f, 0.500000f)),
-            new Matrix3(new Vector3(-0.500000f, 0.190983f, -0.309017f),
+            new Matrix3((-0.500000f, 0.190983f, -0.309017f),
                 ( 0.000000f, -0.618034f, 0.000000f),
                 ( 0.500000f, 0.190983f, -0.309017f)),
-            new Matrix3(new Vector3(-0.190983f, -0.309017f, -0.500000f),
+            new Matrix3((-0.190983f, -0.309017f, -0.500000f),
                 (-0.190983f, -0.309017f, 0.500000f),
                 ( 0.618034f, 0.000000f, 0.000000f)),
-            new Matrix3(new Vector3(-0.309017f, -0.500000f, -0.190983f),
+            new Matrix3((-0.309017f, -0.500000f, -0.190983f),
                 ( 0.190983f, 0.309017f, -0.500000f),
                 ( 0.500000f, -0.190983f, 0.309017f)),
-            new Matrix3(new Vector3(0.309017f, -0.500000f, 0.190983f),
+            new Matrix3((0.309017f, -0.500000f, 0.190983f),
                 ( 0.000000f, 0.000000f, -0.618034f),
                 ( 0.309017f, 0.500000f, 0.190983f)),
-            new Matrix3(new Vector3(0.190983f, -0.309017f, -0.500000f),
+            new Matrix3((0.190983f, -0.309017f, -0.500000f),
                 ( 0.500000f, 0.190983f, 0.309017f),
                 (-0.309017f, 0.500000f, -0.190983f)),
-            new Matrix3(new Vector3(0.500000f, -0.190983f, -0.309017f),
+            new Matrix3((0.500000f, -0.190983f, -0.309017f),
                 ( 0.000000f, 0.618034f, 0.000000f),
                 (-0.500000f, -0.190983f, -0.309017f)),
-            new Matrix3(new Vector3(0.309017f, 0.500000f, -0.190983f),
+            new Matrix3((0.309017f, 0.500000f, -0.190983f),
                 (-0.500000f, 0.190983f, 0.309017f),
                 (-0.190983f, -0.309017f, -0.500000f)),
         };
 
         /* This was generated with
          * libraries/AP_Math/tools/geodesic_grid/geodesic_grid.py */
-        private Matrix3[] _mid_inverses =
+        static private Matrix3[] _mid_inverses =
         {
-            new Matrix3(new Vector3(-0.000000f, 1.000000f, -0.618034f),
-                new Vector3(0.000000f, -1.000000f, -0.618034f),
-                new Vector3(-0.618034f, 0.000000f, 1.000000f)),
-            new Matrix3(new Vector3(-1.000000f, 0.618034f, -0.000000f),
-                new Vector3(-0.000000f, -1.000000f, 0.618034f),
-                new Vector3(0.618034f, -0.000000f, -1.000000f)),
-            new Matrix3(new Vector3(-0.618034f, -0.000000f, -1.000000f),
-                new Vector3(1.000000f, -0.618034f, -0.000000f),
-                new Vector3(-0.618034f, 0.000000f, 1.000000f)),
-            new Matrix3(new Vector3(-1.000000f, -0.618034f, -0.000000f),
-                new Vector3(1.000000f, -0.618034f, 0.000000f),
-                new Vector3(-0.000000f, 1.000000f, -0.618034f)),
-            new Matrix3(new Vector3(-1.000000f, -0.618034f, 0.000000f),
-                new Vector3(0.618034f, 0.000000f, 1.000000f),
-                new Vector3(0.618034f, 0.000000f, -1.000000f)),
-            new Matrix3(new Vector3(-0.618034f, -0.000000f, -1.000000f),
-                new Vector3(1.000000f, 0.618034f, -0.000000f),
-                new Vector3(0.000000f, -1.000000f, 0.618034f)),
-            new Matrix3(new Vector3(0.000000f, -1.000000f, -0.618034f),
-                new Vector3(0.000000f, 1.000000f, -0.618034f),
-                new Vector3(0.618034f, -0.000000f, 1.000000f)),
-            new Matrix3(new Vector3(1.000000f, -0.618034f, -0.000000f),
-                new Vector3(0.000000f, 1.000000f, 0.618034f),
-                new Vector3(-0.618034f, 0.000000f, -1.000000f)),
-            new Matrix3(new Vector3(1.000000f, 0.618034f, -0.000000f),
-                new Vector3(-1.000000f, 0.618034f, 0.000000f),
-                new Vector3(0.000000f, -1.000000f, -0.618034f)),
-            new Matrix3(new Vector3(-0.000000f, 1.000000f, 0.618034f),
-                new Vector3(-1.000000f, -0.618034f, -0.000000f),
-                new Vector3(0.618034f, 0.000000f, -1.000000f)),
+            new Matrix3((-0.000000f, 1.000000f, -0.618034f),
+                 (0.000000f, -1.000000f, -0.618034f),
+                 (-0.618034f, 0.000000f, 1.000000f)),
+            new Matrix3((-1.000000f, 0.618034f, -0.000000f),
+                 (-0.000000f, -1.000000f, 0.618034f),
+                 (0.618034f, -0.000000f, -1.000000f)),
+            new Matrix3((-0.618034f, -0.000000f, -1.000000f),
+                (1.000000f, -0.618034f, -0.000000f),
+                (-0.618034f, 0.000000f, 1.000000f)),
+            new Matrix3((-1.000000f, -0.618034f, -0.000000f),
+                (1.000000f, -0.618034f, 0.000000f),
+                (-0.000000f, 1.000000f, -0.618034f)),
+            new Matrix3((-1.000000f, -0.618034f, 0.000000f),
+                (0.618034f, 0.000000f, 1.000000f),
+                (0.618034f, 0.000000f, -1.000000f)),
+            new Matrix3((-0.618034f, -0.000000f, -1.000000f),
+                (1.000000f, 0.618034f, -0.000000f),
+                (0.000000f, -1.000000f, 0.618034f)),
+            new Matrix3((0.000000f, -1.000000f, -0.618034f),
+                (0.000000f, 1.000000f, -0.618034f),
+                (0.618034f, -0.000000f, 1.000000f)),
+            new Matrix3((1.000000f, -0.618034f, -0.000000f),
+                (0.000000f, 1.000000f, 0.618034f),
+                (-0.618034f, 0.000000f, -1.000000f)),
+            new Matrix3((1.000000f, 0.618034f, -0.000000f),
+                (-1.000000f, 0.618034f, 0.000000f),
+                (0.000000f, -1.000000f, -0.618034f)),
+            new Matrix3((-0.000000f, 1.000000f, 0.618034f),
+                (-1.000000f, -0.618034f, -0.000000f),
+                (0.618034f, 0.000000f, -1.000000f)),
         };
 
-        int section(ref Vector3 v, bool inclusive)
+        public static int section(Vector3 v, bool inclusive)
         {
-            int i = _triangle_index(ref v, inclusive);
+            int i = _triangle_index(v, inclusive);
             if (i < 0)
             {
                 return -1;
             }
 
-            int j = _subtriangle_index(ref i, ref v, inclusive);
+            int j = _subtriangle_index(i, v, inclusive);
             if (j < 0)
             {
                 return -1;
@@ -247,7 +247,7 @@ namespace MissionPlanner.Utilities
             return 4 * i + j;
         }
 
-        int _neighbor_umbrella_component(int idx, int comp_idx)
+        static int _neighbor_umbrella_component(int idx, int comp_idx)
         {
             if (idx < 3)
             {
@@ -256,7 +256,7 @@ namespace MissionPlanner.Utilities
             return (_neighbor_umbrellas[idx % 3].components[comp_idx] + 10) % 20;
         }
 
-        int _from_neighbor_umbrella(int idx,
+        static int _from_neighbor_umbrella(int idx,
             ref Vector3 v,
             ref Vector3 u,
             bool inclusive)
@@ -381,17 +381,17 @@ namespace MissionPlanner.Utilities
             }
         }
 
-        private bool is_zero(double x0)
+        static private bool is_zero(double x0)
         {
             return x0 == 0;
         }
 
-        private bool is_equal(double x, double y)
+        static private bool is_equal(double x, double y)
         {
             return x == y;
         }
 
-        int _triangle_index(ref Vector3 v, bool inclusive)
+        static int _triangle_index(Vector3 v, bool inclusive)
         {
             /* w holds the coordinates of v with respect to the basis comprised by the
              * vectors of T_i */
@@ -559,8 +559,8 @@ namespace MissionPlanner.Utilities
             return _from_neighbor_umbrella(umbrella, ref v, ref w, inclusive);
         }
 
-        int _subtriangle_index(ref int triangle_index,
-            ref Vector3 v,
+        static int _subtriangle_index(int triangle_index,
+            Vector3 v,
             bool inclusive)
         {
             /* w holds the coordinates of v with respect to the basis comprised by the
