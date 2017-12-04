@@ -73,6 +73,8 @@ namespace MissionPlanner.GCSViews
             try
             {
                 Utilities.Update.dobeta = true;
+                if (Control.ModifierKeys == Keys.Control)
+                    Utilities.Update.domaster = true;
                 Utilities.Update.DoUpdate();
             }
             catch (Exception ex)
