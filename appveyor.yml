@@ -26,7 +26,9 @@ build_script:
 
     7z a -tzip ..\..\..\MissionPlannerBeta.zip *  
 
-    c:\cygwin\bin\find.exe ./ -type f -print0 | xargs.exe -i -0 md5sum.exe '{}' > checksums.txt
+    cd ..
+
+    c:\cygwin\bin\find.exe net461 -type f -print0 | xargs.exe -i -0 md5sum.exe '{}' > checksums.txt
 
     copy checksums.txt c:\mp\
 
