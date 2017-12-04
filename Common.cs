@@ -80,87 +80,6 @@ namespace MissionPlanner
             AP_PRODUCT_ID_L3G4200D = 0x101, // Linux with L3G4200D and ADXL345
         }
 
-        public static bool getFilefromNet(string url, string saveto)
-        {
-            try
-            {
-                // this is for mono to a ssl server
-                //ServicePointManager.CertificatePolicy = new NoCheckCertificatePolicy(); 
-
-                ServicePointManager.ServerCertificateValidationCallback =
-                    new System.Net.Security.RemoteCertificateValidationCallback(
-                        (sender, certificate, chain, policyErrors) => { return true; });
-
-                log.Info(url);
-                // Create a request using a URL that can receive a post. 
-                WebRequest request = WebRequest.Create(url);
-                request.Timeout = 10000;
-                // Set the Method property of the request to POST.
-                request.Method = "GET";
-                // Get the response.
-                WebResponse response = request.GetResponse();
-                // Display the status.
-                log.Info(((HttpWebResponse)response).StatusDescription);
-                if (((HttpWebResponse)response).StatusCode != HttpStatusCode.OK)
-                    return false;
-
-                if (File.Exists(saveto))
-                {
-                    DateTime lastfilewrite = new FileInfo(saveto).LastWriteTime;
-                    DateTime lasthttpmod = ((HttpWebResponse)response).LastModified;
-
-                    if (lasthttpmod < lastfilewrite)
-                    {
-                        if (((HttpWebResponse)response).ContentLength == new FileInfo(saveto).Length)
-                        {
-                            log.Info("got LastModified " + saveto + " " + ((HttpWebResponse)response).LastModified +
-                                     " vs " + new FileInfo(saveto).LastWriteTime);
-                            response.Close();
-                            return true;
-                        }
-                    }
-                }
-
-                // Get the stream containing content returned by the server.
-                Stream dataStream = response.GetResponseStream();
-
-                long bytes = response.ContentLength;
-                long contlen = bytes;
-
-                byte[] buf1 = new byte[1024];
-
-                if (!Directory.Exists(Path.GetDirectoryName(saveto)))
-                    Directory.CreateDirectory(Path.GetDirectoryName(saveto));
-
-                FileStream fs = new FileStream(saveto + ".new", FileMode.Create);
-
-                DateTime dt = DateTime.Now;
-
-                while (dataStream.CanRead && bytes > 0)
-                {
-                    Application.DoEvents();
-                    log.Debug(saveto + " " + bytes);
-                    int len = dataStream.Read(buf1, 0, buf1.Length);
-                    bytes -= len;
-                    fs.Write(buf1, 0, len);
-                }
-
-                fs.Close();
-                dataStream.Close();
-                response.Close();
-
-                File.Delete(saveto);
-                File.Move(saveto + ".new", saveto);
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                log.Info("getFilefromNet(): " + ex.ToString());
-                return false;
-            }
-        }
-
         //from px4firmwareplugin.cc
         enum PX4_CUSTOM_MAIN_MODE
         {
@@ -462,34 +381,7 @@ union px4_custom_mode {
             return input;
         }
 
-        public static bool CheckHTTPFileExists(string url)
-        {
-            bool result = false;
-
-            WebRequest webRequest = WebRequest.Create(url);
-            webRequest.Timeout = 1200; // miliseconds
-            webRequest.Method = "HEAD";
-
-            HttpWebResponse response = null;
-
-            try
-            {
-                response = (HttpWebResponse)webRequest.GetResponse();
-                result = true;
-            }
-            catch (WebException webException)
-            {
-            }
-            finally
-            {
-                if (response != null)
-                {
-                    response.Close();
-                }
-            }
-
-            return result;
-        }
+       
 
         public static GMapMarker getMAVMarker(MAVState MAV)
         {
@@ -500,14 +392,18 @@ union px4_custom_mode {
                 return (new GMapMarkerPlane(portlocation, MAV.cs.yaw,
                     MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing, MAV.cs.radius)
                 {
-                    ToolTipText = MAV.cs.alt.ToString("0"),
+                    ToolTipText = MAV.cs.alt.ToString("0") + "\n" + MAV.sysid.ToString("sysid: 0"),
                     ToolTipMode = MarkerTooltipMode.Always
                 });
             }
             else if (MAV.aptype == MAVLink.MAV_TYPE.GROUND_ROVER)
             {
                 return  (new GMapMarkerRover(portlocation, MAV.cs.yaw,
-                    MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing));
+                    MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing)
+                {
+                    ToolTipText = MAV.cs.alt.ToString("0") + "\n" + MAV.sysid.ToString("sysid: 0"),
+                    ToolTipMode = MarkerTooltipMode.Always
+                });
             }
             else if (MAV.aptype == MAVLink.MAV_TYPE.SURFACE_BOAT)
             { 
@@ -1264,16 +1160,6 @@ union px4_custom_mode {
             g.DrawImage(icon, -20, -20, 40, 40);
 
             g.Transform = temp;
-        }
-    }
-
-
-    class NoCheckCertificatePolicy : ICertificatePolicy
-    {
-        public bool CheckValidationResult(ServicePoint srvPoint, X509Certificate certificate, WebRequest request,
-            int certificateProblem)
-        {
-            return true;
         }
     }
 }

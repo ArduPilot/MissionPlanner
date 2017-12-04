@@ -121,6 +121,9 @@
     <Compile Include="..\ExtLibs\Mavlink\Mavlink.cs">
       <Link>Linked\Mavlink.cs</Link>
     </Compile>
+    <Compile Include="..\ExtLibs\Utilities\Download.cs">
+      <Link>Linked\Download.cs</Link>
+    </Compile>
     <Compile Include="..\Radio\IHex.cs">
       <Link>Linked\IHex.cs</Link>
     </Compile>

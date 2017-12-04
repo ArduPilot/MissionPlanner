@@ -365,80 +365,80 @@ namespace MissionPlanner
 
                     if (software.url != "")
                     {
-                        Common.getFilefromNet(software.url, basedir + new Uri(software.url).LocalPath);
+                        Download.getFilefromNet(software.url, basedir + new Uri(software.url).LocalPath);
                     }
                     if (software.url2560 != "")
                     {
-                        Common.getFilefromNet(software.url2560, basedir + new Uri(software.url2560).LocalPath);
+                        Download.getFilefromNet(software.url2560, basedir + new Uri(software.url2560).LocalPath);
                     }
                     if (software.url2560_2 != "")
                     {
-                        Common.getFilefromNet(software.url2560_2, basedir + new Uri(software.url2560_2).LocalPath);
+                        Download.getFilefromNet(software.url2560_2, basedir + new Uri(software.url2560_2).LocalPath);
                     }
                     if (software.urlpx4v1 != "")
                     {
-                        Common.getFilefromNet(software.urlpx4v1, basedir + new Uri(software.urlpx4v1).LocalPath);
+                        Download.getFilefromNet(software.urlpx4v1, basedir + new Uri(software.urlpx4v1).LocalPath);
                     }
                     if (software.urlpx4v2 != "")
                     {
-                        Common.getFilefromNet(software.urlpx4v2, basedir + new Uri(software.urlpx4v2).LocalPath);
+                        Download.getFilefromNet(software.urlpx4v2, basedir + new Uri(software.urlpx4v2).LocalPath);
                     }
                     if (software.urlpx4v4 != "")
                     {
-                        Common.getFilefromNet(software.urlpx4v4, basedir + new Uri(software.urlpx4v4).LocalPath);
+                        Download.getFilefromNet(software.urlpx4v4, basedir + new Uri(software.urlpx4v4).LocalPath);
                     }
                     if (software.urlpx4v4pro != "")
                     {
-                        Common.getFilefromNet(software.urlpx4v4pro, basedir + new Uri(software.urlpx4v4pro).LocalPath);
+                        Download.getFilefromNet(software.urlpx4v4pro, basedir + new Uri(software.urlpx4v4pro).LocalPath);
                     }
 
                     if (software.urlvrbrainv40 != "")
                     {
-                        Common.getFilefromNet(software.urlvrbrainv40,
+                        Download.getFilefromNet(software.urlvrbrainv40,
                             basedir + new Uri(software.urlvrbrainv40).LocalPath);
                     }
                     if (software.urlvrbrainv45 != "")
                     {
-                        Common.getFilefromNet(software.urlvrbrainv45,
+                        Download.getFilefromNet(software.urlvrbrainv45,
                             basedir + new Uri(software.urlvrbrainv45).LocalPath);
                     }
                     if (software.urlvrbrainv50 != "")
                     {
-                        Common.getFilefromNet(software.urlvrbrainv50,
+                        Download.getFilefromNet(software.urlvrbrainv50,
                             basedir + new Uri(software.urlvrbrainv50).LocalPath);
                     }
                     if (software.urlvrbrainv51 != "")
                     {
-                        Common.getFilefromNet(software.urlvrbrainv51,
+                        Download.getFilefromNet(software.urlvrbrainv51,
                             basedir + new Uri(software.urlvrbrainv51).LocalPath);
                     }
                     if (software.urlvrbrainv52 != "")
                     {
-                        Common.getFilefromNet(software.urlvrbrainv52,
+                        Download.getFilefromNet(software.urlvrbrainv52,
                             basedir + new Uri(software.urlvrbrainv52).LocalPath);
                     }
                     if (software.urlvrcorev10 != "")
                     {
-                        Common.getFilefromNet(software.urlvrcorev10, basedir + new Uri(software.urlvrcorev10).LocalPath);
+                        Download.getFilefromNet(software.urlvrcorev10, basedir + new Uri(software.urlvrcorev10).LocalPath);
                     }
                     if (software.urlvrubrainv51 != "")
                     {
-                        Common.getFilefromNet(software.urlvrubrainv51,
+                        Download.getFilefromNet(software.urlvrubrainv51,
                             basedir + new Uri(software.urlvrubrainv51).LocalPath);
                     }
                     if (software.urlvrubrainv52 != "")
                     {
-                        Common.getFilefromNet(software.urlvrubrainv52,
+                        Download.getFilefromNet(software.urlvrubrainv52,
                             basedir + new Uri(software.urlvrubrainv52).LocalPath);
                     }
                     if (software.urlbebop2 != "")
                     {
-                        Common.getFilefromNet(software.urlbebop2,
+                        Download.getFilefromNet(software.urlbebop2,
                             basedir + new Uri(software.urlbebop2).LocalPath);
                     }
                     if (software.urldisco != "")
                     {
-                        Common.getFilefromNet(software.urldisco,
+                        Download.getFilefromNet(software.urldisco,
                             basedir + new Uri(software.urldisco).LocalPath);
                     }
                 }

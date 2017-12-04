@@ -194,22 +194,22 @@ namespace MissionPlanner.Controls
 
             var load = Common.LoadingBox("Downloading", "Downloading sitl software");
 
-            Common.getFilefromNet(fullurl.ToString(),
+            Download.getFilefromNet(fullurl.ToString(),
                 sitldirectory + Path.GetFileNameWithoutExtension(filename) + ".exe");
 
             load.Refresh();
 
             // dependancys
             var depurl = new Uri(sitlurl, "cyggcc_s-1.dll");
-            Common.getFilefromNet(depurl.ToString(), sitldirectory + depurl.Segments[depurl.Segments.Length - 1]);
+            Download.getFilefromNet(depurl.ToString(), sitldirectory + depurl.Segments[depurl.Segments.Length - 1]);
 
             load.Refresh();
             depurl = new Uri(sitlurl, "cygstdc++-6.dll");
-            Common.getFilefromNet(depurl.ToString(), sitldirectory + depurl.Segments[depurl.Segments.Length - 1]);
+            Download.getFilefromNet(depurl.ToString(), sitldirectory + depurl.Segments[depurl.Segments.Length - 1]);
 
             load.Refresh();
             depurl = new Uri(sitlurl, "cygwin1.dll");
-            Common.getFilefromNet(depurl.ToString(), sitldirectory + depurl.Segments[depurl.Segments.Length - 1]);
+            Download.getFilefromNet(depurl.ToString(), sitldirectory + depurl.Segments[depurl.Segments.Length - 1]);
 
             load.Close();
 
@@ -218,7 +218,7 @@ namespace MissionPlanner.Controls
 
         private string GetDefaultConfig(string model)
         {
-            if (Common.getFilefromNet(
+            if (Download.getFilefromNet(
                 "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/sim_vehicle.py",
                 sitldirectory + "sim_vehicle.py") || File.Exists(sitldirectory + "sim_vehicle.py"))
             {
@@ -228,7 +228,7 @@ namespace MissionPlanner.Controls
                 {
                     if (match.Groups[1].Value.ToLower().Equals(model))
                     {
-                        if (Common.getFilefromNet(
+                        if (Download.getFilefromNet(
                             "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/" +
                             match.Groups[2].Value.ToString(),
                             sitldirectory + match.Groups[2].Value.ToString()) || File.Exists(sitldirectory + match.Groups[2].Value.ToString()))
@@ -237,7 +237,7 @@ namespace MissionPlanner.Controls
                 }
             }
 
-            if (Common.getFilefromNet(
+            if (Download.getFilefromNet(
                 "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/pysim/vehicleinfo.py",
                 sitldirectory + "vehicleinfo.py") || File.Exists(sitldirectory + "vehicleinfo.py"))
             {
@@ -265,7 +265,7 @@ namespace MissionPlanner.Controls
 
                         if (configs is JValue)
                         {
-                            if (Common.getFilefromNet(
+                            if (Download.getFilefromNet(
                                 "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/" +
                                 configs.ToString(),
                                 sitldirectory + configs.ToString()) || File.Exists(sitldirectory + configs.ToString()))
@@ -278,7 +278,7 @@ namespace MissionPlanner.Controls
 
                         foreach (var config1 in configs)
                         {
-                            if (Common.getFilefromNet(
+                            if (Download.getFilefromNet(
                                 "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/" +
                                 config1.ToString(),
                                 sitldirectory + config1.ToString()) || File.Exists(sitldirectory + config1.ToString()))
