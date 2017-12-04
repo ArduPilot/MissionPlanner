@@ -3,13 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.InteropServices;
-using MissionPlanner.GCSViews;
 
 namespace MissionPlanner.Utilities
 {
     public class vlcrender
     {
-        internal static List<vlcrender> store = new List<vlcrender>();
+        public static List<vlcrender> store = new List<vlcrender>();
 
         LibVLCLibrary library;
         IntPtr inst, mp, m;
@@ -20,6 +19,13 @@ namespace MissionPlanner.Utilities
         LibVLCLibrary.libvlc_video_display_cb vlc_picture_delegate;
         LibVLCLibrary.libvlc_video_format_cb vlc_video_format_delegate;
         LibVLCLibrary.libvlc_video_cleanup_cb vlc_video_cleanup_delegate;
+
+        private static event EventHandler<Image> _onNewImage;
+        public static event EventHandler<Image> onNewImage
+        {
+            add { _onNewImage += value; }
+            remove { _onNewImage -= value; }
+        }
 
         public string playurl = "rtsp://192.168.1.253:554/Streaming/Channels/1";
 
@@ -134,10 +140,7 @@ namespace MissionPlanner.Utilities
         {
             var image = new Bitmap(Width, Height, 4 * Width, System.Drawing.Imaging.PixelFormat.Format24bppRgb, picture);
 
-            var old = FlightData.myhud.bgimage as Bitmap;
-            FlightData.myhud.bgimage = image;
-            if (old != null)
-                old.Dispose();
+            _onNewImage?.Invoke(this, image);
         }
     }
 }

@@ -3,8 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
-using System.Windows.Forms;
 using System.Xml;
 
 namespace MissionPlanner.Utilities
@@ -195,7 +195,17 @@ namespace MissionPlanner.Utilities
         /// <returns></returns>
         public static string GetRunningDirectory()
         {
-            return Application.StartupPath + Path.DirectorySeparatorChar;
+            var location = Assembly.GetEntryAssembly().Location;
+
+            var path = Path.GetDirectoryName(location);
+
+            return path + Path.DirectorySeparatorChar;
+        }
+
+        static bool isMono()
+        {
+            var t = Type.GetType("Mono.Runtime");
+            return (t != null);
         }
 
         /// <summary>
@@ -204,7 +214,7 @@ namespace MissionPlanner.Utilities
         /// <returns></returns>
         public static string GetDataDirectory()
         {
-            if (Program.MONO)
+            if (isMono())
             {
                 return GetRunningDirectory();
             }

@@ -2861,6 +2861,17 @@ namespace MissionPlanner
             //log.Info("start udpmavlinkshim");
             //UDPMavlinkShim.Start();
 
+            GStreamer.onNewImage += (sender, image) => { GCSViews.FlightData.myhud.bgimage = image; };
+
+            vlcrender.onNewImage += (sender, image) =>
+            {
+                var old = GCSViews.FlightData.myhud.bgimage;
+                GCSViews.FlightData.myhud.bgimage = image;
+                if (old != null)
+                    old.Dispose()
+                        ;
+            };
+
             ZeroConf.EnumerateAllServicesFromAllHosts();
 
             ZeroConf.ProbeForRTSP();

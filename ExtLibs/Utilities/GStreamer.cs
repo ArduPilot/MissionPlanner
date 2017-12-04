@@ -11,9 +11,7 @@ using System.IO;
 using System.IO.Pipes;
 using System.Runtime.InteropServices;
 using System.Threading;
-using System.Windows.Forms;
 using log4net;
-using MissionPlanner.GCSViews;
 using guint = System.UInt32;
 using GstClockTime = System.UInt64;
 using gsize = System.UInt64;
@@ -29,133 +27,144 @@ namespace MissionPlanner.Utilities
 
         static object _lock = new object();
 
+        private static event EventHandler<Image> _onNewImage;
+        public static event EventHandler<Image> onNewImage
+        {
+            add { _onNewImage += value; }
+            remove { _onNewImage -= value; }
+        }
+
         //static NamedPipeServerStream pipeServer = new NamedPipeServerStream("gstreamer", PipeDirection.In);
 
-        [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void gst_init(ref int argc, ref IntPtr[] argv);
-
-        [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void gst_init(IntPtr argc, IntPtr argv);
-
-        [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern bool gst_init_check(ref int argc, ref IntPtr[] argv, out IntPtr error);
-
-        [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern bool gst_init_check(IntPtr argc, IntPtr argv, out IntPtr error);
-
-        [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void gst_version(ref guint major,
-            ref guint minor,
-            ref guint micro,
-            ref guint nano);
-
-        [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern UIntPtr gst_buffer_extract(IntPtr raw, UIntPtr offset, byte[] dest, UIntPtr size);
-
-
-        [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void gst_buffer_extract_dup(IntPtr raw, UIntPtr offset, UIntPtr size, out IntPtr dest,
-            out UIntPtr dest_size);
-
-        [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr gst_pipeline_new(string name);
-
-        [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr gst_element_factory_make(string factoryname, string name);
-
-        [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void gst_message_parse_error(IntPtr msg, out IntPtr err, out IntPtr debug);
-
-        [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr gst_message_get_stream_status_object(IntPtr raw);
-
-        [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void gst_element_set_state(IntPtr pipeline, GstState gST_STATE_PLAYING);
-
-        [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr gst_parse_launch(string cmdline, out IntPtr error);
-
-        [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr gst_bus_timed_pop_filtered(IntPtr bus, ulong gST_CLOCK_TIME_NONE,
-            GstMessageType gstMessageType);
-
-        [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr gst_element_get_bus(IntPtr pipeline);
-
-        [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void gst_message_set_stream_status_object(IntPtr raw, IntPtr value);
-
-
-        [DllImport("libgstapp-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr gst_app_sink_try_pull_sample(IntPtr appsink,
-            GstClockTime timeout);
-        [DllImport("libgstapp-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr
-            gst_app_sink_get_caps(IntPtr appsink);
-
-        [DllImport("libgstapp-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void gst_app_sink_set_max_buffers(IntPtr appsink, guint max);
-
-        [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr gst_bin_get_by_name(IntPtr pipeline, string name);
-
-        [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr gst_sample_get_buffer(IntPtr sample);
-
-        [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr
-            gst_sample_get_caps(IntPtr sample);
-
-        [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr
-            gst_sample_get_info(IntPtr sample);
-
-        [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern
-            StringBuilder
-            gst_structure_to_string(IntPtr structure);
-
-        [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern bool
-            gst_structure_get_int(IntPtr structure,
-                string fieldname,
-                out int value);
-
-        [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr
-            gst_caps_get_structure(IntPtr caps,
-                guint index);
-
-        [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern
-            StringBuilder gst_caps_to_string(IntPtr caps);
-
-        [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern bool gst_buffer_map(IntPtr buffer, out GstMapInfo info, GstMapFlags GstMapFlags);
-
-        [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void gst_buffer_unmap(IntPtr buffer, out GstMapInfo info);
-     
-        public static void gst_sample_unref(IntPtr sample)
+        public static class NativeMethods
         {
-            gst_mini_object_unref(sample);
+            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern void gst_init(ref int argc, ref IntPtr[] argv);
+
+            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern void gst_init(IntPtr argc, IntPtr argv);
+
+            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern bool gst_init_check(ref int argc, ref IntPtr[] argv, out IntPtr error);
+
+            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern bool gst_init_check(IntPtr argc, IntPtr argv, out IntPtr error);
+
+            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern void gst_version(ref guint major,
+                ref guint minor,
+                ref guint micro,
+                ref guint nano);
+
+            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern UIntPtr gst_buffer_extract(IntPtr raw, UIntPtr offset, byte[] dest, UIntPtr size);
+
+
+            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern void gst_buffer_extract_dup(IntPtr raw, UIntPtr offset, UIntPtr size, out IntPtr dest,
+                out UIntPtr dest_size);
+
+            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern IntPtr gst_pipeline_new(string name);
+
+            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern IntPtr gst_element_factory_make(string factoryname, string name);
+
+            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern void gst_message_parse_error(IntPtr msg, out IntPtr err, out IntPtr debug);
+
+            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern IntPtr gst_message_get_stream_status_object(IntPtr raw);
+
+            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern void gst_element_set_state(IntPtr pipeline, GstState gST_STATE_PLAYING);
+
+            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern IntPtr gst_parse_launch(string cmdline, out IntPtr error);
+
+            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern IntPtr gst_bus_timed_pop_filtered(IntPtr bus, ulong gST_CLOCK_TIME_NONE,
+                GstMessageType gstMessageType);
+
+            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern IntPtr gst_element_get_bus(IntPtr pipeline);
+
+            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern void gst_message_set_stream_status_object(IntPtr raw, IntPtr value);
+
+
+            [DllImport("libgstapp-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern IntPtr gst_app_sink_try_pull_sample(IntPtr appsink,
+                GstClockTime timeout);
+
+            [DllImport("libgstapp-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern IntPtr
+                gst_app_sink_get_caps(IntPtr appsink);
+
+            [DllImport("libgstapp-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern void gst_app_sink_set_max_buffers(IntPtr appsink, guint max);
+
+            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern IntPtr gst_bin_get_by_name(IntPtr pipeline, string name);
+
+            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern IntPtr gst_sample_get_buffer(IntPtr sample);
+
+            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern IntPtr
+                gst_sample_get_caps(IntPtr sample);
+
+            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern IntPtr
+                gst_sample_get_info(IntPtr sample);
+
+            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern
+                StringBuilder
+                gst_structure_to_string(IntPtr structure);
+
+            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern bool
+                gst_structure_get_int(IntPtr structure,
+                    string fieldname,
+                    out int value);
+
+            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern IntPtr
+                gst_caps_get_structure(IntPtr caps,
+                    guint index);
+
+            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern
+                StringBuilder gst_caps_to_string(IntPtr caps);
+
+            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern bool gst_buffer_map(IntPtr buffer, out GstMapInfo info, GstMapFlags GstMapFlags);
+
+            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern void gst_buffer_unmap(IntPtr buffer, out GstMapInfo info);
+
+            public static void gst_sample_unref(IntPtr sample)
+            {
+                gst_mini_object_unref(sample);
+            }
+
+            public static void gst_buffer_unref(IntPtr buffer)
+            {
+                gst_mini_object_unref(buffer);
+            }
+
+            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.StdCall)]
+            public static extern void
+                gst_caps_unref(IntPtr caps);
+
+            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern void gst_structure_free(IntPtr structure);
+
+            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern void
+                gst_mini_object_unref(IntPtr mini_object);
         }
-
-        public static void gst_buffer_unref(IntPtr buffer)
-        {
-            gst_mini_object_unref(buffer);
-        }
-
-    [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.StdCall)]
-        public static extern void
-           gst_caps_unref(IntPtr caps);
-
-        [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void gst_structure_free(IntPtr structure);
-
-        [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void
-            gst_mini_object_unref(IntPtr mini_object);
 
         public const UInt64 GST_CLOCK_TIME_NONE = 18446744073709551615;
 
@@ -248,32 +257,32 @@ namespace MissionPlanner.Utilities
                 pathvar +
                 @";C:\gstreamer\1.0\x86\bin\;D:\gstreamer\1.0\x86\bin\;E:\gstreamer\1.0\x86\bin\;F:\gstreamer\1.0\x86\bin\");
 
-            gst_init(IntPtr.Zero, IntPtr.Zero);
+            NativeMethods.gst_init(IntPtr.Zero, IntPtr.Zero);
 
             IntPtr error;
-            gst_init_check(IntPtr.Zero, IntPtr.Zero, out error);
+            NativeMethods.gst_init_check(IntPtr.Zero, IntPtr.Zero, out error);
 
             uint v1 = 0, v2 = 0, v3 = 0, v4 = 0;
-            gst_version(ref v1, ref v2, ref v3, ref v4);
+            NativeMethods.gst_version(ref v1, ref v2, ref v3, ref v4);
 
             /* Set up the pipeline */
 
-            var pipeline = gst_parse_launch(
+            var pipeline = NativeMethods.gst_parse_launch(
                 //@"videotestsrc ! video/x-raw, width=1280, height=720, framerate=30/1 ! clockoverlay ! x264enc speed-preset=1 threads=1 sliced-threads=1 mb-tree=0 rc-lookahead=0 sync-lookahead=0 bframes=0 ! rtph264pay ! application/x-rtp ! rtph264depay ! avdec_h264 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink",
                 @"-v udpsrc port=5601 buffer-size=300000 ! application/x-rtp ! rtph264depay ! avdec_h264 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink",
                 out error);
 
             Console.WriteLine(error);
 
-            var appsink = gst_bin_get_by_name(pipeline, "outsink");
+            var appsink = NativeMethods.gst_bin_get_by_name(pipeline, "outsink");
 
             /* Start playing */
-            gst_element_set_state(pipeline, GstState.GST_STATE_PLAYING);
+            NativeMethods.gst_element_set_state(pipeline, GstState.GST_STATE_PLAYING);
 
-            gst_app_sink_set_max_buffers(appsink, 5);
+            NativeMethods.gst_app_sink_set_max_buffers(appsink, 5);
 
             /* Wait until error or EOS */
-            var bus = gst_element_get_bus(pipeline);
+            var bus = NativeMethods.gst_element_get_bus(pipeline);
             //var msg = GStreamer.gst_bus_timed_pop_filtered(bus, GStreamer.GST_CLOCK_TIME_NONE, GStreamer.GstMessageType.GST_MESSAGE_ERROR | GStreamer.GstMessageType.GST_MESSAGE_EOS);
 
             int Width = 0;
@@ -281,42 +290,42 @@ namespace MissionPlanner.Utilities
 
             while (true)
             {
-                var sample = gst_app_sink_try_pull_sample(appsink, GST_SECOND);
+                var sample = NativeMethods.gst_app_sink_try_pull_sample(appsink, GST_SECOND);
                 if (sample != IntPtr.Zero)
                 {
                     //var caps = gst_app_sink_get_caps(appsink);
-                    var caps = gst_sample_get_caps(sample);
-                    var caps_s = gst_caps_get_structure(caps, 0);
-                    gst_structure_get_int(caps_s, "width", out Width);
-                    gst_structure_get_int(caps_s, "height", out Height);
+                    var caps = NativeMethods.gst_sample_get_caps(sample);
+                    var caps_s = NativeMethods.gst_caps_get_structure(caps, 0);
+                    NativeMethods.gst_structure_get_int(caps_s, "width", out Width);
+                    NativeMethods.gst_structure_get_int(caps_s, "height", out Height);
 
                     //var capsstring = gst_caps_to_string(caps_s);
                     //var structure = gst_sample_get_info(sample);
                     //var structstring = gst_structure_to_string(structure);
-                    var buffer = gst_sample_get_buffer(sample);
+                    var buffer = NativeMethods.gst_sample_get_buffer(sample);
                     if (buffer != IntPtr.Zero)
                     {
                         var info = new GstMapInfo();
-                        if (gst_buffer_map(buffer, out info, GstMapFlags.GST_MAP_READ))
+                        if (NativeMethods.gst_buffer_map(buffer, out info, GstMapFlags.GST_MAP_READ))
                         {
                             //byte[] data = new byte[info.size];
                             //Marshal.Copy(info.data, data, 0, (int) info.size);
 
                             var image = new Bitmap(Width, Height, 4 * Width, System.Drawing.Imaging.PixelFormat.Format32bppArgb, info.data);
 
-                            FlightData.myhud.bgimage = image;
-                                
+                            _onNewImage?.Invoke(null, image);
+
                             //image.Save("image.bmp");
 
                             //gst_mini_object_unref(info.memory);
 
-                            gst_buffer_unmap(buffer, out info);
+                            NativeMethods.gst_buffer_unmap(buffer, out info);
                         }
                        // gst_buffer_unref(buffer);
                         //gst_mini_object_unref(buffer);
                     }
                     //gst_mini_object_unref(sample);
-                    gst_sample_unref(sample);
+                    NativeMethods.gst_sample_unref(sample);
                 }
 
                 //image.Save("image.bmp");
@@ -336,8 +345,6 @@ namespace MissionPlanner.Utilities
             }
             */
         }
-
-
 
         ~GStreamer()
         {
@@ -370,14 +377,6 @@ namespace MissionPlanner.Utilities
             set { Settings.Instance["gstlaunchexe"] = value; }
         }
 
-        public static bool checkGstLaunchExe()
-        {
-            if (File.Exists(gstlaunch))
-                return true;
-
-            return getGstLaunchExe();
-        }
-
         public static string LookForGstreamer()
         {
             List<string> dirs = new List<string>();
@@ -408,28 +407,6 @@ namespace MissionPlanner.Utilities
             }
 
             return "";
-        }
-
-        public static bool getGstLaunchExe()
-        {
-            if (gstlaunch == "")
-                gstlaunch = LookForGstreamer();
-
-            using (OpenFileDialog ofd = new OpenFileDialog())
-            {
-                ofd.Filter = "gst-launch|gst-launch-1.0.exe";
-                ofd.FileName = gstlaunch;
-                if (ofd.ShowDialog() == DialogResult.OK)
-                {
-                    if (File.Exists(ofd.FileName))
-                    {
-                        gstlaunch = ofd.FileName;
-                        return true;
-                    }
-                }
-            }
-
-            return false;
         }
 
         public static int UdpPort { get; set; }
@@ -556,7 +533,7 @@ namespace MissionPlanner.Utilities
                     }
 
                     //cleanup on disconnect
-                    FlightData.myhud.bgimage = null;
+                    _onNewImage?.Invoke(null, null);
                 }
             }
         }
@@ -612,14 +589,14 @@ namespace MissionPlanner.Utilities
                                 }
                             }
                             //cleanup on disconnect
-                            FlightData.myhud.bgimage = null;
+                            _onNewImage?.Invoke(null, null);
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                FlightData.myhud.bgimage = null;
+                _onNewImage?.Invoke(null, null);
                 log.Error(ex);
             }
         }
@@ -816,7 +793,7 @@ namespace MissionPlanner.Utilities
 
                                 //img.Save("test.bmp");
 
-                                FlightData.myhud.bgimage = img;
+                                _onNewImage?.Invoke(null, img);
 
                                 tempno++;
                                 persecond++;
@@ -906,7 +883,7 @@ namespace MissionPlanner.Utilities
 
                         //File.WriteAllBytes(tempno + ".bmp", ms.ToArray());
 
-                        FlightData.myhud.bgimage = temp;
+                        _onNewImage?.Invoke(null, temp);
 
                         tempno++;
                         persecond++;

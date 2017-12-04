@@ -809,7 +809,8 @@ namespace MissionPlanner
         {
             try
             {
-                if (GStreamer.checkGstLaunchExe())
+                GStreamer.gstlaunch = GStreamer.LookForGstreamer();
+                if (File.Exists(GStreamer.gstlaunch))
                 {
                     GStreamer.Start();
                 }
