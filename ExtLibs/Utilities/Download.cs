@@ -52,7 +52,10 @@ namespace MissionPlanner.Utilities
                 if (uris.Count() == uridates.Count())
                 {
                     _cacheChunks.Remove(downloadStream._uri);
-                    _instances.Remove(downloadStream);
+                    foreach (var uridate in uridates)
+                    {
+                        _instances.Remove(uridate);
+                    }
                 }
             }
         }
