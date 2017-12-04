@@ -17,14 +17,29 @@ build_script:
     "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\MSBuild.exe" MissionPlanner.sln /m /p:Configuration=Release /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
     
     dir c:\mp\bin\Release\net461
+
+    cd bin\Release\net461
+
+    for /f %%f in ('dir /a-d /b plugins') do if exist .\%%f del .\plugins\%%f
+
+    set PATH=c:\cygwin\bin;%PATH%
+
+    7z a -tzip ..\..\..\MissionPlannerBeta.zip *  
+
+    c:\cygwin\bin\find.exe ./ -type f -print0 | xargs.exe -i -0 md5sum.exe '{}' > checksums.txt
+
+    copy checksums.txt c:\mp\
+
 test: off
 artifacts:
-- path: bin\Release\net461
+- path: MissionPlannerBeta.zip
   name: MissionPlannerBeta
+- path: checksums.txt
+  name: checksums
 deploy: off
 notifications:
 - provider: Webhook
-  url: https://webhooks.gitter.im/e/e12df81fc82d8b11e3d8
+  url: https://webhooks.gitter.im/e/c7f1e74edef028cfa905
   method: POST
   on_build_success: true
   on_build_failure: false
