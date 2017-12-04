@@ -1592,6 +1592,62 @@ namespace MissionPlanner
                         MAV.clearPacket((uint)MAVLink.MAVLINK_MSG_ID.FENCE_STATUS);
                     }
 
+                    mavLinkMessage = MAV.getPacket((uint)MAVLink.MAVLINK_MSG_ID.HIGH_LATENCY);
+
+                    if (mavLinkMessage != null)
+                    {
+                        var highlatency = mavLinkMessage.ToStructure<MAVLink.mavlink_high_latency_t>();
+
+                        landed = highlatency.landed_state == 1;
+
+                        if ((highlatency.base_mode & (byte) MAVLink.MAV_MODE_FLAG.CUSTOM_MODE_ENABLED) != 0)
+                        {
+                            List<KeyValuePair<int, string>> modelist = Common.getModesList(this);
+
+                            if (modelist != null)
+                            {
+                                bool found = false;
+
+                                foreach (KeyValuePair<int, string> pair in modelist)
+                                {
+                                    if (pair.Key == highlatency.custom_mode)
+                                    {
+                                        mode = pair.Value.ToString();
+                                        _mode = highlatency.custom_mode;
+                                        found = true;
+                                        break;
+                                    }
+                                }
+
+                                if (!found)
+                                {
+                                    log.Warn("Mode not found bm:" + highlatency.base_mode + " cm:" + highlatency.custom_mode);
+                                }
+                            }
+                        }
+
+                        roll = highlatency.roll / 100f;
+                        pitch = highlatency.pitch / 100f;
+                        yaw = highlatency.heading / 100f;
+                        ch3percent = highlatency.throttle;
+                        lat = highlatency.latitude / 1e7;
+                        lng = highlatency.longitude / 1e7;
+                        altasl = highlatency.altitude_amsl;
+                        alt = highlatency.altitude_sp;
+                        airspeed = highlatency.airspeed;
+                        _targetairspeed = highlatency.airspeed_sp;
+                        groundspeed = highlatency.groundspeed;
+                        climbrate = highlatency.climb_rate;
+                        satcount = highlatency.gps_nsat;
+                        gpsstatus = highlatency.gps_fix_type;
+                        battery_remaining = highlatency.battery_remaining;
+                        press_temp = highlatency.temperature;
+                        raw_temp = highlatency.temperature_air;
+                        failsafe = highlatency.failsafe > 0;
+                        wpno = highlatency.wp_num;
+                        wp_dist = highlatency.wp_distance;
+                    }
+
                     mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.HIL_CONTROLS);
 
                     if (mavLinkMessage != null) // hil mavlink 0.9 and 1.0
