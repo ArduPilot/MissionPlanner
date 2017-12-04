@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Security;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using log4net;
 
@@ -12,15 +14,74 @@ namespace MissionPlanner.Utilities
     public class DownloadStream : Stream
     {
         private long _length;
-        private string _uri = "";
-        private int chunksize = 1024 * 50;
+        string _uri = "";
+        private int chunksize = 1000 * 50;
 
-        readonly Dictionary<long,MemoryStream> _chunks = new Dictionary<long, MemoryStream>();
+        private static object _lock = new object();
+        /// <summary>
+        /// static global cache of instance cache
+        /// </summary>
+        static readonly Dictionary<string, Dictionary<long, MemoryStream>> _cacheChunks = new Dictionary<string, Dictionary<long, MemoryStream>>();
+        /// <summary>
+        /// instances
+        /// </summary>
+        static readonly List<DownloadStream> _instances = new List<DownloadStream>();
+        /// <summary>
+        /// per instance cache
+        /// </summary>
+        Dictionary<long,MemoryStream> _chunks = new Dictionary<long, MemoryStream>();
+
+        DateTime _lastread = DateTime.MinValue;
+
+        static void expireCache()
+        {
+            List<string> seen = new List<string>();
+            foreach (var downloadStream in _instances.ToArray())
+            {
+                // only process a uri once
+                if(seen.Contains(downloadStream._uri))
+                    continue;
+                seen.Add(downloadStream._uri);
+
+                // total instances with this uri
+                var uris = _instances.Where(a => { return a._uri == downloadStream._uri; });
+                // total instance with thsi uri and old lastread
+                var uridates = _instances.Where(a => { return a._uri == downloadStream._uri && a._lastread < DateTime.Now.AddSeconds(-180); });
+
+                // check if they are equal and expire
+                if (uris.Count() == uridates.Count())
+                {
+                    _cacheChunks.Remove(downloadStream._uri);
+                    _instances.Remove(downloadStream);
+                }
+            }
+        }
+
+        private static Timer _timer;
+
+        static DownloadStream()
+        {
+            _timer = new Timer(a => { expireCache(); }, null, 1000 * 30, 1000 * 30);
+        }
 
         public DownloadStream(string uri)
         {
             _uri = uri;
             SetLength(Download.GetFileSize(uri));
+
+            _instances.Add(this);
+
+            lock (_lock)
+            {
+                if (_cacheChunks.ContainsKey(uri))
+                {
+                    _chunks = _cacheChunks[uri];
+                }
+                else
+                {
+                    _cacheChunks[uri] = _chunks;
+                }
+            }
         }
 
         public override void Flush()
@@ -40,6 +101,7 @@ namespace MissionPlanner.Utilities
 
         public override int Read(byte[] buffer, int offset, int count)
         {
+            _lastread = DateTime.Now;
             var start = getAlignedChunk(Position);
 
             // check the cache
@@ -52,7 +114,7 @@ namespace MissionPlanner.Utilities
                 request.AddRange(start, end);
                 HttpWebResponse response = (HttpWebResponse) request.GetResponse();
 
-                //Console.WriteLine("{0}: {1} - {2}", _uri, start, end);
+                Console.WriteLine("{0}: {1} - {2}", _uri, start, end);
 
                 MemoryStream ms = new MemoryStream();
                 using (Stream stream = response.GetResponseStream())
