@@ -31,6 +31,25 @@ namespace MissionPlanner.Utilities
             return (MAVLink.mavlink_mission_item_int_t)Convert(input, true);
         }
 
+        public static implicit operator Locationwp(MAVLink.mavlink_set_position_target_global_int_t input)
+        {
+            Locationwp temp = new Locationwp()
+            {
+                id = (byte) MAVLink.MAV_CMD.WAYPOINT,
+                p1 = 0,
+                p2 = 0,
+                p3 = 0,
+                p4 = 0,
+                lat = input.lat_int / 1e7,
+                lng = input.lon_int / 1e7,
+                alt = input.alt,
+                _seq = 0,
+                _frame = input.coordinate_frame
+            };
+
+            return temp;
+        }
+
         public static implicit operator Locationwp(MAVLink.mavlink_mission_item_t input)
         {
             Locationwp temp = new Locationwp()

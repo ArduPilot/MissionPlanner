@@ -3049,11 +3049,14 @@ Please check the following
                         setMode(sysid, compid, "GUIDED");
                 }
 
-                MAV_MISSION_RESULT ans = setWP(sysid, compid, gotohere, 0, MAV_FRAME.GLOBAL_RELATIVE_ALT,
-                    (byte) 2);
+                MainV2.comPort.setPositionTargetGlobalInt((byte)sysidcurrent, (byte)compidcurrent,
+                    true, false, false, false, MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT_INT,
+                    gotohere.lat, gotohere.lng, MainV2.comPort.MAV.GuidedMode.z, 0, 0, 0, 0, 0);
 
-                if (ans != MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
-                    throw new Exception("Guided Mode Failed");
+                //MAV_MISSION_RESULT ans = setWP(sysid, compid, gotohere, 0, MAV_FRAME.GLOBAL_RELATIVE_ALT,(byte) 2);
+
+                //if (ans != MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
+                    //throw new Exception("Guided Mode Failed");
             }
             catch (Exception ex)
             {
@@ -4071,6 +4074,14 @@ Please check the following
                 Console.WriteLine("WP INT # {7} cmd {8} p1 {0} p2 {1} p3 {2} p4 {3} x {4} y {5} z {6}", wp.param1,
                     wp.param2,
                     wp.param3, wp.param4, wp.x, wp.y, wp.z, wp.seq, wp.command);
+            }
+            else if (buffer.msgid == (byte)MAVLINK_MSG_ID.SET_POSITION_TARGET_GLOBAL_INT)
+            {
+                mavlink_set_position_target_global_int_t setpos = buffer.ToStructure<mavlink_set_position_target_global_int_t>();
+
+                MAVlist[setpos.target_system, setpos.target_component].GuidedMode = (mavlink_mission_item_t)(Locationwp)setpos;
+
+                Console.WriteLine("SET_POSITION_TARGET_GLOBAL_INT x {0} y {1} z {2} frame {3}", setpos.lat_int/1e7, setpos.lon_int/1e7, setpos.alt, setpos.coordinate_frame);
             }
             else if (buffer.msgid == (byte) MAVLINK_MSG_ID.RALLY_POINT)
             {
