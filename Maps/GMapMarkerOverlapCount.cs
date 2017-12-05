@@ -7,8 +7,9 @@ using DotSpatial.Projections.Transforms;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using MissionPlanner.Properties;
+using MissionPlanner.Utilities;
 
-namespace MissionPlanner.Utilities
+namespace MissionPlanner.Maps
 {
     [Serializable]
     public class GMapMarkerOverlapCount : GMapMarker

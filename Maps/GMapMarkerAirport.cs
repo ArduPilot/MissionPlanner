@@ -7,7 +7,7 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 
-namespace MissionPlanner.Utilities
+namespace MissionPlanner.Maps
 {
     [Serializable]
     public class GMapMarkerAirport : GMapMarker

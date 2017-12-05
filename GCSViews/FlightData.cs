@@ -28,6 +28,7 @@ using OpenTK;
 using WebCamService;
 using ZedGraph;
 using LogAnalyzer = MissionPlanner.Utilities.LogAnalyzer;
+using MissionPlanner.Maps;
 
 // written by michael oborne
 

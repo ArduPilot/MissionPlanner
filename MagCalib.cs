@@ -329,8 +329,6 @@ namespace MissionPlanner
 
                 mine.logreadmode = true;
 
-                int a = 0;
-
                 var sub = mine.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.RAW_IMU, message =>
                 {
                     var imu = message.ToStructure<MAVLink.mavlink_raw_imu_t>();

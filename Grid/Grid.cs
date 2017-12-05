@@ -10,6 +10,7 @@ using GMap.NET.WindowsForms;
 using MissionPlanner.Utilities;
 using MissionPlanner.Controls;
 using Timer = System.Windows.Forms.Timer;
+using MissionPlanner.Maps;
 
 namespace MissionPlanner
 {

@@ -8,7 +8,7 @@ using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using MissionPlanner.Properties;
 
-namespace MissionPlanner.Utilities
+namespace MissionPlanner.Maps
 {
     [Serializable]
     public class GMapMarkerPOI : GMarkerGoogle

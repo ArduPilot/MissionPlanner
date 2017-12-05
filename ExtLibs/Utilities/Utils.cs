@@ -425,7 +425,6 @@ namespace MissionPlanner.Utilities
                     return true;
                 }
             }
-            return false;
         }
 
 

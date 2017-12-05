@@ -361,10 +361,6 @@ namespace MissionPlanner.Utilities
 
             public PointLatLngAlt getPointLatLngAlt()
             {
-                double lat = 0;
-                double lng = 0;
-                double alt = 0;
-
                 if (flags == 2)
                 {
                     var X = ecefXorLat / 100.0 + ecefXOrLatHP * 0.0001;

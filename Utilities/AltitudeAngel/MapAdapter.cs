@@ -9,6 +9,7 @@ using AltitudeAngel.IsolatedPlugin.Common.Maps;
 using AltitudeAngelWings;
 using GMap.NET;
 using GMap.NET.WindowsForms;
+using MissionPlanner.Maps;
 using SharpKml.Dom;
 using Feature = GeoJSON.Net.Feature.Feature;
 using Timer = System.Windows.Forms.Timer;

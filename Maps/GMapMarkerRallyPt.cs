@@ -7,7 +7,7 @@ using GMap.NET;
 using GMap.NET.WindowsForms;
 using MissionPlanner.Properties;
 
-namespace MissionPlanner.Utilities
+namespace MissionPlanner.Maps
 {
     [Serializable]
     public class GMapMarkerRallyPt : GMapMarker
