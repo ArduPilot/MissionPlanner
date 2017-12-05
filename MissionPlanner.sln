@@ -82,7 +82,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arduino", "ExtLibs\Arduino\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zeroconf", "ExtLibs\Zeroconf\Zeroconf\Zeroconf.csproj", "{F4B60F03-F4C8-42CD-A46D-712838DC184B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Windows.Forms-net_4_x", "..\mono\mcs\class\System.Windows.Forms\System.Windows.Forms-net_4_x.csproj", "{108227C7-8ED9-4483-949D-07BF0DA1A201}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Windows.Forms-net_4_x", "ExtLibs\mono\mcs\class\System.Windows.Forms\System.Windows.Forms-net_4_x.csproj", "{108227C7-8ED9-4483-949D-07BF0DA1A201}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
