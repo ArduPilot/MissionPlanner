@@ -3,6 +3,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using MissionPlanner.Controls;
@@ -41,6 +42,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
             startup = true;
+
+            CH7_OPTION.setup(
+                ParameterMetaDataRepository.GetParameterOptionsInt("CH7_OPTION", MainV2.comPort.MAV.cs.firmware.ToString())
+                    .ToList(), "CH7_OPTION", MainV2.comPort.MAV.param);
+            ATC_BRAKE.setup(
+                ParameterMetaDataRepository.GetParameterOptionsInt("ATC_BRAKE", MainV2.comPort.MAV.cs.firmware.ToString())
+                    .ToList(), "ATC_BRAKE", MainV2.comPort.MAV.param);
+            MOT_PWM_TYPE.setup(
+                ParameterMetaDataRepository.GetParameterOptionsInt("MOT_PWM_TYPE", MainV2.comPort.MAV.cs.firmware.ToString())
+                    .ToList(), "MOT_PWM_TYPE", MainV2.comPort.MAV.param);
 
             STEER2SRV_P.setup(0, 0, 1, 0.1f, "ATC_STR_RAT_P", MainV2.comPort.MAV.param);
             STEER2SRV_I.setup(0, 0, 1, 0.1f, "ATC_STR_RAT_I", MainV2.comPort.MAV.param);
