@@ -1125,7 +1125,12 @@ namespace MissionPlanner
 
             if (ofd.CheckFileExists)
             {
-                DashWare.Create(ofd.FileName, ofd.FileName + ".csv");
+                string options = "GPS;ATT;NTUN;CTUN;MODE;CURR";
+                InputBox.Show("", "Enter Messages you want eg PARM;NTUN;CTUN", ref options);
+
+                var split = options.Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries);
+
+                DashWare.Create(ofd.FileName, ofd.FileName + ".csv", split.Length > 0 ? split.ToList() : null);
             }
         }
     }

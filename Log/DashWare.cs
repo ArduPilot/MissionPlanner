@@ -9,7 +9,7 @@ namespace MissionPlanner.Log
 {
     public class DashWare
     {
-        public static void Create(string filein, string fileout)
+        public static void Create(string filein, string fileout, List<string> fmtList = null)
         {
             using (StreamReader tr = new StreamReader(filein))
             using (CollectionBuffer logdata = new CollectionBuffer(tr.BaseStream))
@@ -22,6 +22,8 @@ namespace MissionPlanner.Log
 
                 foreach (var logformatValue in logdata.dflog.logformat.Values)
                 {
+                    if(fmtList != null && !fmtList.Contains(logformatValue.Name))
+                        continue;
                     colStart.Add(logformatValue.Name, colList.Count);
                     foreach (var field in logformatValue.FieldNames)
                     {
@@ -39,7 +41,7 @@ namespace MissionPlanner.Log
                     sr.WriteLine();
 
                     // lines
-                    foreach (var dfitem in logdata.GetEnumeratorTypeAll())
+                    foreach (var dfitem in logdata.GetEnumeratorType(colStart.Keys.ToArray()))
                     {
                         if (dfitem.msgtype == "FMT")
                             continue;
