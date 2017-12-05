@@ -107,12 +107,6 @@
     <Reference Include="Microsoft.Scripting.Metadata">
       <HintPath>packages\DynamicLanguageRuntime.1.1.2\lib\Net45\Microsoft.Scripting.Metadata.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.VisualStudio.Threading">
-      <HintPath>packages\Microsoft.VisualStudio.Threading.15.3.23\lib\net45\Microsoft.VisualStudio.Threading.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.Validation">
-      <HintPath>packages\Microsoft.VisualStudio.Validation.15.3.15\lib\net45\Microsoft.VisualStudio.Validation.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Win32.Primitives">
       <HintPath>packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
     </Reference>
@@ -152,12 +146,6 @@
     <Reference Include="SharpDX.DirectInput">
       <HintPath>packages\SharpDX.DirectInput.4.0.1\lib\net45\SharpDX.DirectInput.dll</HintPath>
     </Reference>
-    <Reference Include="SkiaSharp">
-      <HintPath>packages\SkiaSharp.1.58.0\lib\net45\SkiaSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="StreamJsonRpc">
-      <HintPath>packages\StreamJsonRpc.1.0.36\lib\net45\StreamJsonRpc.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.AppContext">
       <HintPath>packages\System.AppContext.4.3.0\lib\net46\System.AppContext.dll</HintPath>
@@ -168,9 +156,6 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Diagnostics.DiagnosticSource">
-      <HintPath>packages\System.Diagnostics.DiagnosticSource.4.4.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
-    </Reference>
     <Reference Include="System.Diagnostics.Tracing">
       <HintPath>packages\System.Diagnostics.Tracing.4.3.0\lib\net462\System.Diagnostics.Tracing.dll</HintPath>
     </Reference>
@@ -216,9 +201,6 @@
     <Reference Include="System.Reflection">
       <HintPath>packages\System.Reflection.4.3.0\lib\net462\System.Reflection.dll</HintPath>
     </Reference>
-    <Reference Include="System.Reflection.TypeExtensions">
-      <HintPath>packages\System.Reflection.TypeExtensions.4.3.0\lib\net462\System.Reflection.TypeExtensions.dll</HintPath>
-    </Reference>
     <Reference Include="System.Runtime.Extensions">
       <HintPath>packages\System.Runtime.Extensions.4.3.0\lib\net462\System.Runtime.Extensions.dll</HintPath>
     </Reference>
@@ -245,9 +227,6 @@
     <Reference Include="System.Speech">
       <Private>True</Private>
       <HintPath>ExtLibs\System.Speech.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Text.Encoding.CodePages">
-      <HintPath>packages\System.Text.Encoding.CodePages.4.4.0\lib\net461\System.Text.Encoding.CodePages.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -276,14 +255,6 @@
     </Reference>
     <Reference Include="Xamarin.Forms.Xaml">
       <HintPath>packages\Xamarin.Forms.2.3.4.247\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.Xaml.dll</HintPath>
-    </Reference>
-    <Reference Include="Zeroconf">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>ExtLibs\Zeroconf.dll</HintPath>
-    </Reference>
-    <Reference Include="zlib.net, Version=1.0.3.0, Culture=neutral, PublicKeyToken=47d7877cb3620160">
-      <HintPath>packages\zlib.net.1.0.4.0\lib\zlib.net.dll</HintPath>
-      <Private>True</Private>
     </Reference>
   </ItemGroup>
  <ItemGroup>
