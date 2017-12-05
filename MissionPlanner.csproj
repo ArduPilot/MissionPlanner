@@ -63,10 +63,6 @@
     <Reference Include="BitMiracle.LibTiff.NetStandard">
       <HintPath>..\..\..\.nuget\packages\bitmiracle.libtiff.net\2.4.584.1\lib\netstandard1.3\BitMiracle.LibTiff.NetStandard.dll</HintPath>
     </Reference>
-    <Reference Include="csmatio">
-      <HintPath>packages\CSMatIO.1.0.2\lib\net40\csmatio.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="DotNetZip">
       <HintPath>packages\DotNetZip.1.10.1\lib\net20\DotNetZip.dll</HintPath>
       <Private>True</Private>
@@ -252,7 +248,6 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
@@ -697,6 +692,7 @@
     <EmbeddedResource Include="Resources\up.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\mono\mcs\class\System.Windows.Forms\System.Windows.Forms-net_4_x.csproj" />
     <ProjectReference Include="ExtLibs\AltitudeAngelWings\AltitudeAngelWings.csproj">
       <Project>{098f542c-7c70-4b9c-b2e2-ac5dc5e0294b}</Project>
       <Name>AltitudeAngelWings</Name>
