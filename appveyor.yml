@@ -8,7 +8,7 @@ init:
 cache: packages
 build_script:
 - cmd: >-
-    git submodule update --init
+    git submodule update --init --depth=1
 
     dotnet --info
 
