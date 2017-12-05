@@ -15,6 +15,15 @@ namespace MissionPlanner.Utilities
     {
         private static bool _enabled;
         private static double _percentDevCrnt;
+        private static InterpolationMode _interpModeCurr = InterpolationMode.LinearInterp;
+        private static InterpolationMode _interpModeVel = InterpolationMode.LinearInterp;
+
+        public enum InterpolationMode
+        {
+            LinearInterp,
+            CubicSpline,
+            None
+        }
 
         /// <summary>
         /// populate/initialize energyprofile
@@ -164,6 +173,18 @@ namespace MissionPlanner.Utilities
         public static List<PointF> MinVelocitySplinePoints { get; set; } = new List<PointF>();
         public static List<PointF> AverageVelocitySplinePoints { get; set; } = new List<PointF>();
         public static List<PointF> MaxVelocitySplinePoints { get; set; } = new List<PointF>();
+
+        public static InterpolationMode InterpModeCurr
+        {
+            get { return _interpModeCurr; }
+            set { _interpModeCurr = value; }
+        }
+
+        public static InterpolationMode InterpModeVel
+        {
+            get { return _interpModeVel; }
+            set { _interpModeVel = value; }
+        }
 
         //gives the deviation from percent
         public static double PercentDevCrnt
@@ -334,6 +355,8 @@ namespace MissionPlanner.Utilities
         public List<GPS_Model> GPS_Lines { get; set; }
         public List<CURR_Model> CURR_Lines { get; set; }
         public List<MODE_Model> MODE_Lines { get; set; }
+        // for statistic work
+        public Dictionary<int, double[]> EnergyDatas;
         
         public EnergyLogFileModel()
         {
@@ -341,6 +364,7 @@ namespace MissionPlanner.Utilities
             GPS_Lines = new List<GPS_Model>();
             CURR_Lines = new List<CURR_Model>();
             MODE_Lines = new List<MODE_Model>();
+            EnergyDatas = new Dictionary<int, double[]>();
         }
 
     }
@@ -422,6 +446,7 @@ namespace MissionPlanner.Utilities
         public string Voltage { get; }
         public string Current { get; }
         //public string CurrPower { get; }
+        public  string TotalCurrennt { get; }
 
         public CURR_Model(int time, string voltage, string current)
         {
@@ -429,6 +454,16 @@ namespace MissionPlanner.Utilities
             Voltage = voltage;
             Current = current;
             //CurrPower = currPower;
+
+        }
+
+        public CURR_Model(int time, string voltage, string current, string totalCurrennt)
+        {
+            Time_ms = time;
+            Voltage = voltage;
+            Current = current;
+            //CurrPower = currPower;
+            TotalCurrennt = totalCurrennt;
         }
     }
 

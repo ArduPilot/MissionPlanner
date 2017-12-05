@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Web.UI.WebControls;
 using System.Windows.Forms.DataVisualization.Charting;
+using Transitions;
 
 namespace MissionPlanner.Utilities
 {
@@ -12,9 +13,9 @@ namespace MissionPlanner.Utilities
     {
         void ChangeDeviation(int dev);
 
-        void LinearInterpolation(EnergyProfileController.PlotProfile profile);
+        bool Interpolation(EnergyProfileController.PlotProfile profile);
 
-        void Plot_Spline(Chart chart, EnergyProfileController.PlotProfile profile);
+        void Plot(Chart chart, EnergyProfileController.PlotProfile profile);
 
         void ExportProfile();
 
@@ -22,9 +23,13 @@ namespace MissionPlanner.Utilities
 
         bool AnalyzeLogs(List<string> filenames, int minval, int transtime);
 
+        //only for Dev --> statistic results
+        void SetTransitionState(bool currentstate, bool speedstate, int cmdflighttime);
+
     }
     interface IEnergyConsumption
     {
         Dictionary<EnergyProfileController.ECID, double> EnergyConsumption(double distance_Horizontal, double angle, double altitudeDiff, double hoverTime);
     }
+
 }

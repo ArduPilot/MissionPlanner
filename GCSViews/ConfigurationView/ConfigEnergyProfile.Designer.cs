@@ -36,29 +36,31 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigEnergyProfile));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend7 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series17 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint17 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, "22,18");
-            System.Windows.Forms.DataVisualization.Charting.Series series18 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint18 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 22D);
-            System.Windows.Forms.DataVisualization.Charting.Series series19 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint19 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 18D);
-            System.Windows.Forms.DataVisualization.Charting.Series series20 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint20 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 22D);
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend8 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend9 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series21 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint21 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, "22,18");
-            System.Windows.Forms.DataVisualization.Charting.Series series22 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint22 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 22D);
-            System.Windows.Forms.DataVisualization.Charting.Series series23 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint23 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 18D);
-            System.Windows.Forms.DataVisualization.Charting.Series series24 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint24 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 22D);
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, "22,18");
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 22D);
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 18D);
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 22D);
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint5 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, "22,18");
+            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint6 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 22D);
+            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint7 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 18D);
+            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint8 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 22D);
             this.CB_EnableEnergyProfile = new System.Windows.Forms.CheckBox();
             this.panelCurrentConfiguration = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.CB_Interp_Curr = new System.Windows.Forms.ComboBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.LabelDeviationCB = new System.Windows.Forms.Label();
             this.ComboBoxCrntDeviation = new System.Windows.Forms.ComboBox();
@@ -133,6 +135,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.BtnExport = new MissionPlanner.Controls.MyButton();
             this.label29 = new System.Windows.Forms.Label();
             this.panelVelocityConfiguration = new System.Windows.Forms.Panel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.CB_Interp_Vel = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.ComboBoxVelDeviation = new System.Windows.Forms.ComboBox();
             this.BtnPlotVelocity = new MissionPlanner.Controls.MyButton();
@@ -193,10 +197,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Btn_Analyze = new MissionPlanner.Controls.MyButton();
             this.Btn_LoadLogfile = new MissionPlanner.Controls.MyButton();
             this.Btn_DeleteLogfile = new MissionPlanner.Controls.MyButton();
-            this.Panel_LogAnalyzer = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.lb_transtime = new System.Windows.Forms.Label();
             this.lb_minvalues = new System.Windows.Forms.Label();
+            this.lbl_cmdflighttime = new System.Windows.Forms.Label();
+            this.Panel_LogAnalyzer = new System.Windows.Forms.Panel();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.tb_cmdflighttime = new System.Windows.Forms.TextBox();
+            this.ChB_SpeedTransition = new System.Windows.Forms.CheckBox();
+            this.ChB_CurrentTransition = new System.Windows.Forms.CheckBox();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.tb_transtime = new System.Windows.Forms.TextBox();
             this.tb_minval = new System.Windows.Forms.TextBox();
             this.Lb_LogAnalyzer = new System.Windows.Forms.ListBox();
@@ -214,6 +223,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.VelocityTable.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ChartV)).BeginInit();
             this.Panel_LogAnalyzer.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -231,6 +241,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // panelCurrentConfiguration
             // 
             this.panelCurrentConfiguration.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelCurrentConfiguration.Controls.Add(this.label3);
+            this.panelCurrentConfiguration.Controls.Add(this.CB_Interp_Curr);
             this.panelCurrentConfiguration.Controls.Add(this.checkBox1);
             this.panelCurrentConfiguration.Controls.Add(this.LabelDeviationCB);
             this.panelCurrentConfiguration.Controls.Add(this.ComboBoxCrntDeviation);
@@ -246,6 +258,32 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.panelCurrentConfiguration.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
             this.panelCurrentConfiguration.Size = new System.Drawing.Size(818, 505);
             this.panelCurrentConfiguration.TabIndex = 40;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(653, 237);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(138, 13);
+            this.label3.TabIndex = 71;
+            this.label3.Text = "Interpolation Mode [%]:";
+            // 
+            // CB_Interp_Curr
+            // 
+            this.CB_Interp_Curr.DisplayMember = "0";
+            this.CB_Interp_Curr.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Interp_Curr.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CB_Interp_Curr.Items.AddRange(new object[] {
+            "Linear",
+            "Cubic Spline"});
+            this.CB_Interp_Curr.Location = new System.Drawing.Point(656, 263);
+            this.CB_Interp_Curr.MaxDropDownItems = 5;
+            this.CB_Interp_Curr.Name = "CB_Interp_Curr";
+            this.CB_Interp_Curr.Size = new System.Drawing.Size(135, 21);
+            this.CB_Interp_Curr.TabIndex = 70;
+            this.ToolTip.SetToolTip(this.CB_Interp_Curr, "Set a fix deviation for all current values.");
+            this.CB_Interp_Curr.SelectedIndexChanged += new System.EventHandler(this.CB_Interp_Curr_SelectedIndexChanged);
             // 
             // checkBox1
             // 
@@ -901,69 +939,69 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.ChartI.BackColor = System.Drawing.Color.Transparent;
             this.ChartI.BorderlineColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ChartI.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            chartArea5.AxisX.Interval = 22.5D;
-            chartArea5.AxisX.IsLabelAutoFit = false;
-            chartArea5.AxisX.LabelAutoFitMaxFontSize = 8;
-            chartArea5.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
-            chartArea5.AxisX.LabelStyle.ForeColor = System.Drawing.Color.White;
-            chartArea5.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
-            chartArea5.AxisX.Maximum = 90D;
-            chartArea5.AxisX.Minimum = -90D;
-            chartArea5.AxisX.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Horizontal;
-            chartArea5.AxisX.Title = "Angle [Degree]";
-            chartArea5.AxisX.TitleForeColor = System.Drawing.Color.White;
-            chartArea5.AxisY.IsLabelAutoFit = false;
-            chartArea5.AxisY.LabelAutoFitMaxFontSize = 7;
-            chartArea5.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
-            chartArea5.AxisY.LabelStyle.ForeColor = System.Drawing.Color.White;
-            chartArea5.AxisY.MajorGrid.LineColor = System.Drawing.Color.DimGray;
-            chartArea5.AxisY.Title = "Current [A]";
-            chartArea5.AxisY.TitleForeColor = System.Drawing.Color.White;
-            chartArea5.BackColor = System.Drawing.Color.Transparent;
-            chartArea5.Name = "ChartArea1";
-            this.ChartI.ChartAreas.Add(chartArea5);
-            legend7.AutoFitMinFontSize = 8;
-            legend7.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            legend7.ForeColor = System.Drawing.SystemColors.Control;
-            legend7.IsTextAutoFit = false;
-            legend7.Name = "Legend1";
-            this.ChartI.Legends.Add(legend7);
+            chartArea1.AxisX.Interval = 22.5D;
+            chartArea1.AxisX.IsLabelAutoFit = false;
+            chartArea1.AxisX.LabelAutoFitMaxFontSize = 8;
+            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
+            chartArea1.AxisX.LabelStyle.ForeColor = System.Drawing.Color.White;
+            chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
+            chartArea1.AxisX.Maximum = 90D;
+            chartArea1.AxisX.Minimum = -90D;
+            chartArea1.AxisX.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Horizontal;
+            chartArea1.AxisX.Title = "Angle [Degree]";
+            chartArea1.AxisX.TitleForeColor = System.Drawing.Color.White;
+            chartArea1.AxisY.IsLabelAutoFit = false;
+            chartArea1.AxisY.LabelAutoFitMaxFontSize = 7;
+            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
+            chartArea1.AxisY.LabelStyle.ForeColor = System.Drawing.Color.White;
+            chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.DimGray;
+            chartArea1.AxisY.Title = "Current [A]";
+            chartArea1.AxisY.TitleForeColor = System.Drawing.Color.White;
+            chartArea1.BackColor = System.Drawing.Color.Transparent;
+            chartArea1.Name = "ChartArea1";
+            this.ChartI.ChartAreas.Add(chartArea1);
+            legend1.AutoFitMinFontSize = 8;
+            legend1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            legend1.ForeColor = System.Drawing.SystemColors.Control;
+            legend1.IsTextAutoFit = false;
+            legend1.Name = "Legend1";
+            this.ChartI.Legends.Add(legend1);
             this.ChartI.Location = new System.Drawing.Point(3, 52);
             this.ChartI.Name = "ChartI";
-            series17.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            series17.ChartArea = "ChartArea1";
-            series17.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.SplineRange;
-            series17.Color = System.Drawing.Color.Wheat;
-            series17.Legend = "Legend1";
-            series17.Name = "Range";
-            series17.Points.Add(dataPoint17);
-            series17.YValuesPerPoint = 2;
-            series18.BorderWidth = 3;
-            series18.ChartArea = "ChartArea1";
-            series18.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series18.Color = System.Drawing.Color.OrangeRed;
-            series18.Legend = "Legend1";
-            series18.MarkerColor = System.Drawing.Color.White;
-            series18.Name = "MaxCurrent";
-            series18.Points.Add(dataPoint18);
-            series19.BorderWidth = 3;
-            series19.ChartArea = "ChartArea1";
-            series19.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series19.Color = System.Drawing.Color.Cyan;
-            series19.Legend = "Legend1";
-            series19.Name = "MinCurrent";
-            series19.Points.Add(dataPoint19);
-            series20.BorderWidth = 3;
-            series20.ChartArea = "ChartArea1";
-            series20.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series20.Color = System.Drawing.Color.LawnGreen;
-            series20.Legend = "Legend1";
-            series20.Name = "AverageCurrent";
-            series20.Points.Add(dataPoint20);
-            this.ChartI.Series.Add(series17);
-            this.ChartI.Series.Add(series18);
-            this.ChartI.Series.Add(series19);
-            this.ChartI.Series.Add(series20);
+            series1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.SplineRange;
+            series1.Color = System.Drawing.Color.Wheat;
+            series1.Legend = "Legend1";
+            series1.Name = "Range";
+            series1.Points.Add(dataPoint1);
+            series1.YValuesPerPoint = 2;
+            series2.BorderWidth = 3;
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series2.Color = System.Drawing.Color.OrangeRed;
+            series2.Legend = "Legend1";
+            series2.MarkerColor = System.Drawing.Color.White;
+            series2.Name = "MaxCurrent";
+            series2.Points.Add(dataPoint2);
+            series3.BorderWidth = 3;
+            series3.ChartArea = "ChartArea1";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series3.Color = System.Drawing.Color.Cyan;
+            series3.Legend = "Legend1";
+            series3.Name = "MinCurrent";
+            series3.Points.Add(dataPoint3);
+            series4.BorderWidth = 3;
+            series4.ChartArea = "ChartArea1";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series4.Color = System.Drawing.Color.LawnGreen;
+            series4.Legend = "Legend1";
+            series4.Name = "AverageCurrent";
+            series4.Points.Add(dataPoint4);
+            this.ChartI.Series.Add(series1);
+            this.ChartI.Series.Add(series2);
+            this.ChartI.Series.Add(series3);
+            this.ChartI.Series.Add(series4);
             this.ChartI.Size = new System.Drawing.Size(810, 293);
             this.ChartI.TabIndex = 54;
             this.ChartI.Text = "chart1";
@@ -1173,6 +1211,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // panelVelocityConfiguration
             // 
             this.panelVelocityConfiguration.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelVelocityConfiguration.Controls.Add(this.label4);
+            this.panelVelocityConfiguration.Controls.Add(this.CB_Interp_Vel);
             this.panelVelocityConfiguration.Controls.Add(this.label2);
             this.panelVelocityConfiguration.Controls.Add(this.ComboBoxVelDeviation);
             this.panelVelocityConfiguration.Controls.Add(this.BtnPlotVelocity);
@@ -1186,6 +1226,32 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.panelVelocityConfiguration.Name = "panelVelocityConfiguration";
             this.panelVelocityConfiguration.Size = new System.Drawing.Size(818, 502);
             this.panelVelocityConfiguration.TabIndex = 64;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(653, 221);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(138, 13);
+            this.label4.TabIndex = 72;
+            this.label4.Text = "Interpolation Mode [%]:";
+            // 
+            // CB_Interp_Vel
+            // 
+            this.CB_Interp_Vel.DisplayMember = "0";
+            this.CB_Interp_Vel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Interp_Vel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CB_Interp_Vel.Items.AddRange(new object[] {
+            "Linear",
+            "Cubic Spline"});
+            this.CB_Interp_Vel.Location = new System.Drawing.Point(656, 248);
+            this.CB_Interp_Vel.MaxDropDownItems = 5;
+            this.CB_Interp_Vel.Name = "CB_Interp_Vel";
+            this.CB_Interp_Vel.Size = new System.Drawing.Size(135, 21);
+            this.CB_Interp_Vel.TabIndex = 71;
+            this.ToolTip.SetToolTip(this.CB_Interp_Vel, "Set a fix deviation for all current values.");
+            this.CB_Interp_Vel.SelectedIndexChanged += new System.EventHandler(this.CB_Interp_Vel_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -1829,72 +1895,72 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.ChartV.BackColor = System.Drawing.Color.Transparent;
             this.ChartV.BorderlineColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ChartV.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            chartArea6.AxisX.Interval = 22.5D;
-            chartArea6.AxisX.IsLabelAutoFit = false;
-            chartArea6.AxisX.LabelAutoFitMaxFontSize = 8;
-            chartArea6.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
-            chartArea6.AxisX.LabelStyle.ForeColor = System.Drawing.Color.White;
-            chartArea6.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
-            chartArea6.AxisX.Maximum = 90D;
-            chartArea6.AxisX.Minimum = -90D;
-            chartArea6.AxisX.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Horizontal;
-            chartArea6.AxisX.Title = "Angle [Degree]";
-            chartArea6.AxisX.TitleForeColor = System.Drawing.Color.White;
-            chartArea6.AxisY.IsLabelAutoFit = false;
-            chartArea6.AxisY.LabelAutoFitMaxFontSize = 7;
-            chartArea6.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
-            chartArea6.AxisY.LabelStyle.ForeColor = System.Drawing.Color.White;
-            chartArea6.AxisY.MajorGrid.LineColor = System.Drawing.Color.DimGray;
-            chartArea6.AxisY.Title = "Velocity [m/s]";
-            chartArea6.AxisY.TitleForeColor = System.Drawing.Color.White;
-            chartArea6.BackColor = System.Drawing.Color.Transparent;
-            chartArea6.Name = "ChartArea1";
-            this.ChartV.ChartAreas.Add(chartArea6);
-            legend8.AutoFitMinFontSize = 8;
-            legend8.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            legend8.ForeColor = System.Drawing.SystemColors.Control;
-            legend8.IsTextAutoFit = false;
-            legend8.Name = "Legend1";
-            legend9.Enabled = false;
-            legend9.Name = "Legend2";
-            this.ChartV.Legends.Add(legend8);
-            this.ChartV.Legends.Add(legend9);
+            chartArea2.AxisX.Interval = 22.5D;
+            chartArea2.AxisX.IsLabelAutoFit = false;
+            chartArea2.AxisX.LabelAutoFitMaxFontSize = 8;
+            chartArea2.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
+            chartArea2.AxisX.LabelStyle.ForeColor = System.Drawing.Color.White;
+            chartArea2.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
+            chartArea2.AxisX.Maximum = 90D;
+            chartArea2.AxisX.Minimum = -90D;
+            chartArea2.AxisX.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Horizontal;
+            chartArea2.AxisX.Title = "Angle [Degree]";
+            chartArea2.AxisX.TitleForeColor = System.Drawing.Color.White;
+            chartArea2.AxisY.IsLabelAutoFit = false;
+            chartArea2.AxisY.LabelAutoFitMaxFontSize = 7;
+            chartArea2.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
+            chartArea2.AxisY.LabelStyle.ForeColor = System.Drawing.Color.White;
+            chartArea2.AxisY.MajorGrid.LineColor = System.Drawing.Color.DimGray;
+            chartArea2.AxisY.Title = "Velocity [m/s]";
+            chartArea2.AxisY.TitleForeColor = System.Drawing.Color.White;
+            chartArea2.BackColor = System.Drawing.Color.Transparent;
+            chartArea2.Name = "ChartArea1";
+            this.ChartV.ChartAreas.Add(chartArea2);
+            legend2.AutoFitMinFontSize = 8;
+            legend2.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            legend2.ForeColor = System.Drawing.SystemColors.Control;
+            legend2.IsTextAutoFit = false;
+            legend2.Name = "Legend1";
+            legend3.Enabled = false;
+            legend3.Name = "Legend2";
+            this.ChartV.Legends.Add(legend2);
+            this.ChartV.Legends.Add(legend3);
             this.ChartV.Location = new System.Drawing.Point(3, 52);
             this.ChartV.Name = "ChartV";
-            series21.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            series21.ChartArea = "ChartArea1";
-            series21.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.SplineRange;
-            series21.Color = System.Drawing.Color.Wheat;
-            series21.Legend = "Legend2";
-            series21.Name = "Range";
-            series21.Points.Add(dataPoint21);
-            series21.YValuesPerPoint = 2;
-            series22.BorderWidth = 3;
-            series22.ChartArea = "ChartArea1";
-            series22.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series22.Color = System.Drawing.Color.OrangeRed;
-            series22.Legend = "Legend2";
-            series22.MarkerColor = System.Drawing.Color.White;
-            series22.Name = "MaxVelocity";
-            series22.Points.Add(dataPoint22);
-            series23.BorderWidth = 3;
-            series23.ChartArea = "ChartArea1";
-            series23.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series23.Color = System.Drawing.Color.Cyan;
-            series23.Legend = "Legend2";
-            series23.Name = "MinVelocity";
-            series23.Points.Add(dataPoint23);
-            series24.BorderWidth = 3;
-            series24.ChartArea = "ChartArea1";
-            series24.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series24.Color = System.Drawing.Color.LawnGreen;
-            series24.Legend = "Legend1";
-            series24.Name = "AverageVelocity";
-            series24.Points.Add(dataPoint24);
-            this.ChartV.Series.Add(series21);
-            this.ChartV.Series.Add(series22);
-            this.ChartV.Series.Add(series23);
-            this.ChartV.Series.Add(series24);
+            series5.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            series5.ChartArea = "ChartArea1";
+            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.SplineRange;
+            series5.Color = System.Drawing.Color.Wheat;
+            series5.Legend = "Legend2";
+            series5.Name = "Range";
+            series5.Points.Add(dataPoint5);
+            series5.YValuesPerPoint = 2;
+            series6.BorderWidth = 3;
+            series6.ChartArea = "ChartArea1";
+            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series6.Color = System.Drawing.Color.OrangeRed;
+            series6.Legend = "Legend2";
+            series6.MarkerColor = System.Drawing.Color.White;
+            series6.Name = "MaxVelocity";
+            series6.Points.Add(dataPoint6);
+            series7.BorderWidth = 3;
+            series7.ChartArea = "ChartArea1";
+            series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series7.Color = System.Drawing.Color.Cyan;
+            series7.Legend = "Legend2";
+            series7.Name = "MinVelocity";
+            series7.Points.Add(dataPoint7);
+            series8.BorderWidth = 3;
+            series8.ChartArea = "ChartArea1";
+            series8.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series8.Color = System.Drawing.Color.LawnGreen;
+            series8.Legend = "Legend1";
+            series8.Name = "AverageVelocity";
+            series8.Points.Add(dataPoint8);
+            this.ChartV.Series.Add(series5);
+            this.ChartV.Series.Add(series6);
+            this.ChartV.Series.Add(series7);
+            this.ChartV.Series.Add(series8);
             this.ChartV.Size = new System.Drawing.Size(810, 293);
             this.ChartV.TabIndex = 54;
             // 
@@ -1950,35 +2016,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Btn_DeleteLogfile.UseVisualStyleBackColor = true;
             this.Btn_DeleteLogfile.Click += new System.EventHandler(this.Btn_DeleteLogfile_Click);
             // 
-            // Panel_LogAnalyzer
-            // 
-            this.Panel_LogAnalyzer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Panel_LogAnalyzer.Controls.Add(this.panel2);
-            this.Panel_LogAnalyzer.Controls.Add(this.Btn_DeleteLogfile);
-            this.Panel_LogAnalyzer.Controls.Add(this.Btn_LoadLogfile);
-            this.Panel_LogAnalyzer.Controls.Add(this.Lb_LogAnalyzer);
-            this.Panel_LogAnalyzer.Controls.Add(this.Btn_Analyze);
-            this.Panel_LogAnalyzer.Controls.Add(this.lb_Infotext_LogfileAnalyzer);
-            this.Panel_LogAnalyzer.Controls.Add(this.label22);
-            this.Panel_LogAnalyzer.Controls.Add(this.Lbl_Head_LogfileAnalyzer);
-            this.Panel_LogAnalyzer.Enabled = false;
-            this.Panel_LogAnalyzer.Location = new System.Drawing.Point(17, 1152);
-            this.Panel_LogAnalyzer.Name = "Panel_LogAnalyzer";
-            this.Panel_LogAnalyzer.Size = new System.Drawing.Size(818, 279);
-            this.Panel_LogAnalyzer.TabIndex = 65;
-            // 
-            // panel2
-            // 
-            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel2.Controls.Add(this.lb_transtime);
-            this.panel2.Controls.Add(this.lb_minvalues);
-            this.panel2.Controls.Add(this.tb_transtime);
-            this.panel2.Controls.Add(this.tb_minval);
-            this.panel2.Location = new System.Drawing.Point(3, 208);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(204, 66);
-            this.panel2.TabIndex = 72;
-            // 
             // lb_transtime
             // 
             this.lb_transtime.AutoSize = true;
@@ -1998,6 +2035,88 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.lb_minvalues.TabIndex = 61;
             this.lb_minvalues.Text = "Min. Valid Values:";
             this.ToolTip.SetToolTip(this.lb_minvalues, "This is the minimum number of sample-points for an valid mean_value.");
+            // 
+            // lbl_cmdflighttime
+            // 
+            this.lbl_cmdflighttime.AutoSize = true;
+            this.lbl_cmdflighttime.Location = new System.Drawing.Point(14, 10);
+            this.lbl_cmdflighttime.Name = "lbl_cmdflighttime";
+            this.lbl_cmdflighttime.Size = new System.Drawing.Size(94, 13);
+            this.lbl_cmdflighttime.TabIndex = 73;
+            this.lbl_cmdflighttime.Text = "CMD_Flight_Time:";
+            this.ToolTip.SetToolTip(this.lbl_cmdflighttime, "This is the time before or after a waypoint passes for a valid value.");
+            // 
+            // Panel_LogAnalyzer
+            // 
+            this.Panel_LogAnalyzer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Panel_LogAnalyzer.Controls.Add(this.panel3);
+            this.Panel_LogAnalyzer.Controls.Add(this.panel2);
+            this.Panel_LogAnalyzer.Controls.Add(this.Btn_DeleteLogfile);
+            this.Panel_LogAnalyzer.Controls.Add(this.Btn_LoadLogfile);
+            this.Panel_LogAnalyzer.Controls.Add(this.Lb_LogAnalyzer);
+            this.Panel_LogAnalyzer.Controls.Add(this.Btn_Analyze);
+            this.Panel_LogAnalyzer.Controls.Add(this.lb_Infotext_LogfileAnalyzer);
+            this.Panel_LogAnalyzer.Controls.Add(this.label22);
+            this.Panel_LogAnalyzer.Controls.Add(this.Lbl_Head_LogfileAnalyzer);
+            this.Panel_LogAnalyzer.Enabled = false;
+            this.Panel_LogAnalyzer.Location = new System.Drawing.Point(17, 1152);
+            this.Panel_LogAnalyzer.Name = "Panel_LogAnalyzer";
+            this.Panel_LogAnalyzer.Size = new System.Drawing.Size(818, 279);
+            this.Panel_LogAnalyzer.TabIndex = 65;
+            // 
+            // panel3
+            // 
+            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Controls.Add(this.lbl_cmdflighttime);
+            this.panel3.Controls.Add(this.tb_cmdflighttime);
+            this.panel3.Controls.Add(this.ChB_SpeedTransition);
+            this.panel3.Controls.Add(this.ChB_CurrentTransition);
+            this.panel3.Location = new System.Drawing.Point(208, 209);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(256, 66);
+            this.panel3.TabIndex = 73;
+            // 
+            // tb_cmdflighttime
+            // 
+            this.tb_cmdflighttime.Location = new System.Drawing.Point(121, 7);
+            this.tb_cmdflighttime.Margin = new System.Windows.Forms.Padding(10);
+            this.tb_cmdflighttime.Name = "tb_cmdflighttime";
+            this.tb_cmdflighttime.Size = new System.Drawing.Size(89, 20);
+            this.tb_cmdflighttime.TabIndex = 72;
+            this.tb_cmdflighttime.Text = "3";
+            this.tb_cmdflighttime.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // ChB_SpeedTransition
+            // 
+            this.ChB_SpeedTransition.AutoSize = true;
+            this.ChB_SpeedTransition.Location = new System.Drawing.Point(132, 40);
+            this.ChB_SpeedTransition.Name = "ChB_SpeedTransition";
+            this.ChB_SpeedTransition.Size = new System.Drawing.Size(103, 17);
+            this.ChB_SpeedTransition.TabIndex = 1;
+            this.ChB_SpeedTransition.Text = "SpeedTransition";
+            this.ChB_SpeedTransition.UseVisualStyleBackColor = true;
+            // 
+            // ChB_CurrentTransition
+            // 
+            this.ChB_CurrentTransition.AutoSize = true;
+            this.ChB_CurrentTransition.Location = new System.Drawing.Point(17, 40);
+            this.ChB_CurrentTransition.Name = "ChB_CurrentTransition";
+            this.ChB_CurrentTransition.Size = new System.Drawing.Size(104, 17);
+            this.ChB_CurrentTransition.TabIndex = 0;
+            this.ChB_CurrentTransition.Text = "CurrentTransiton";
+            this.ChB_CurrentTransition.UseVisualStyleBackColor = true;
+            // 
+            // panel2
+            // 
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.lb_transtime);
+            this.panel2.Controls.Add(this.lb_minvalues);
+            this.panel2.Controls.Add(this.tb_transtime);
+            this.panel2.Controls.Add(this.tb_minval);
+            this.panel2.Location = new System.Drawing.Point(3, 208);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(204, 66);
+            this.panel2.TabIndex = 72;
             // 
             // tb_transtime
             // 
@@ -2072,8 +2191,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Controls.Add(this.CB_EnableEnergyProfile);
             this.Controls.Add(this.label1);
             this.Name = "ConfigEnergyProfile";
-            this.Size = new System.Drawing.Size(841, 804);
-            this.Leave += new System.EventHandler(this.ConfigEnergyProfile_Leave);
+            this.Size = new System.Drawing.Size(739, 702);
             this.panelCurrentConfiguration.ResumeLayout(false);
             this.panelCurrentConfiguration.PerformLayout();
             this.CrntTable.ResumeLayout(false);
@@ -2094,6 +2212,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             ((System.ComponentModel.ISupportInitialize)(this.ChartV)).EndInit();
             this.Panel_LogAnalyzer.ResumeLayout(false);
             this.Panel_LogAnalyzer.PerformLayout();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.ResumeLayout(false);
@@ -2248,5 +2368,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private Label lb_minvalues;
         private TextBox tb_transtime;
         private TextBox tb_minval;
+        private Panel panel3;
+        private CheckBox ChB_SpeedTransition;
+        private CheckBox ChB_CurrentTransition;
+        private Label lbl_cmdflighttime;
+        private TextBox tb_cmdflighttime;
+        private Label label3;
+        private ComboBox CB_Interp_Curr;
+        private Label label4;
+        private ComboBox CB_Interp_Vel;
     }
 }

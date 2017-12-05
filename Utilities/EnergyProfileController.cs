@@ -27,6 +27,7 @@ using ILog = log4net.ILog;
 using System.Reflection;
 using Core.ExtendedObjects;
 using DirectShowLib;
+using DotSpatial.Symbology;
 using MissionPlanner.GCSViews;
 using MissionPlanner.GCSViews.ConfigurationView;
 using Org.BouncyCastle.Asn1.Ocsp;
@@ -80,10 +81,21 @@ namespace MissionPlanner.Utilities
         // -------------------------------------
 
         private int validMinValues;
-        private int transitionTime;
+        private int transitionDelayTime;
         private int ampfactor = 100;
         LogAnalizerModel logAnalizerModel;
         private bool validAnalysis;
+        private int cmdFlightTime;
+
+        private StatisticModus statsmodus = StatisticModus.None;
+
+        enum StatisticModus
+        {
+            GPS_Speed,
+            Curr,
+            Both,
+            None
+        }
 
         public enum PlotProfile
         {
@@ -139,6 +151,7 @@ namespace MissionPlanner.Utilities
         {
             Curr,
             Volt,
+            CurrTot,
             None
         }
 
@@ -223,144 +236,331 @@ namespace MissionPlanner.Utilities
 
         /// <summary>
         /// This should be a spline interpolation for the chart nodes.
+        /// http://siegert.f2.htw-berlin.de/Buero/Arblaetter/arblSPLINE.html
         /// </summary>
-        public void SplineInterpolation()
+        /// <param name="_x">This are the supporting values for X</param>
+        /// <param name="_y">This are the supporting values for Y</param>
+        /// <param name="_steps">This is the steps for each angle</param>
+        /// <returns>A PointList of all angles</returns>
+        private List<PointF> SplineInterpolation(double[] _x, double[] _y, double _steps)
         {
-            //TODO: make a spline interpolation
+            List<PointF> interpPoints = new List<PointF>();
+            int n = _x.Length - 1;
+            double[] h = new double[n];
+            double[,] matrix = new Double[n - 1, n];
+
+            // 1. calculate the c-moments
+            for (int i = 0; i < _x.Length - 1; i++)
+            {
+                h[i] = _x[i + 1] - _x[i];
+            }
+
+            for (int i = 0; i < n - 1; i++)
+            {
+                for (int col = 0; col < n; col++)
+                {
+                    if (col.Equals(i))
+                    {
+                        matrix[i, col] = Math.Round(2 * (h[i + 1] + h[i]), 2);
+                    }
+                    else if (col.Equals(i - 1))
+                    {
+                        matrix[i, col] = Math.Round(h[i], 2);
+                    }
+                    else if (col.Equals(i + 1) && !col.Equals(n - 1))
+                    {
+                        matrix[i, col] = Math.Round(h[i + 1], 2);
+                    }
+                    else if (col.Equals(h.Length - 1))
+                    {
+                        double r = Math.Round(6 * ((_y[i + 2] - _y[i + 1]) / h[i + 1] - (_y[i + 1] - _y[i]) / h[i]), 2);
+
+                        matrix[i, col] = r;
+                    }
+                    else
+                    {
+                        matrix[i, col] = 0;
+                    }
+                }
+            }
+
+            Double[] coeffs = Gauss(matrix);
+
+            double[] c = new double[n + 1];
+
+            for (int i = 0; i <= n; i++)
+            {
+                if (i.Equals(0) || i.Equals(n))
+                {
+                    c[i] = 0;
+                }
+                else
+                {
+                    c[i] = coeffs[i - 1];
+                }
+            } // --> End of calculating c-moments
+
+        
+            // 2. calculate the a, b and d values
+            double[] a = new double[n];
+            double[] b = new double[n];
+            double[] d = new double[n];
+
+            for (int i = 0; i < n; i++)
+            {
+                a[i] = _y[i];
+                d[i] = Math.Round((c[i + 1] - c[i]) / h[i], 2);
+                b[i] = Math.Round((_y[i + 1] - _y[i]) / h[i] - (double)Decimal.Divide(1, 2) * c[i] * h[i] - (double)Decimal.Divide(1, 6) * d[i] * Math.Pow(h[i], 2), 2);
+            } // --> End calculating a,b,d - values
+
+            // calculate result 
+            for (int i = 0; i < n; i++)
+            {
+                for (double x = Math.Round(_x[i], 2); x < Math.Round(_x[i + 1], 2); x = Math.Round(x + _steps, 2))
+                {
+                    var y = Math.Round(a[i] + b[i] * (x - _x[i]) + c[i] / 2 * Math.Pow(x - _x[i], 2) +
+                                              d[i] / 6 * Math.Pow(x - _x[i], 3), 2);
+                    interpPoints.Add(new PointF((float)x, (float)y));
+                }
+                // insert last point
+                if (i.Equals(n - 1))
+                {
+                    interpPoints.Add(new PointF((float)Math.Round(_x[n], 2), (float)Math.Round(_y[n], 2)));
+                }
+            }
+            return interpPoints;
+        }
+
+        /// <summary>
+        /// This is the Gauss-Elimination-Algorithm.
+        /// </summary>
+        /// <param name="_matrix">coefficients matrix</param>
+        /// <returns>coefficients as array</returns>
+        static double[] Gauss(double[,] _matrix)
+        {
+            for (int line = 0; line < _matrix.GetLength(0); line++)
+            {
+                // change lines if necessary
+                try
+                {
+                    if (_matrix[line, line].Equals(0))
+                    {
+                        for (int tmpline = line + 1; tmpline < _matrix.GetLength(0) - 1; tmpline++)
+                        {
+                            if (!_matrix[tmpline, line].Equals(0))
+                            {
+                                for (int x = 0; x < _matrix.GetLength(1); x++)
+                                {
+                                    double tmp = _matrix[x, line];
+                                    _matrix[x, line] = _matrix[x, tmpline];
+                                    _matrix[x, tmpline] = tmp;
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+
+                if (_matrix[line, line].Equals(0))
+                    throw new DivideByZeroException("no clear solution");
+                // subtract lines
+                for (int line2 = line + 1; line2 < _matrix.GetLength(0); line2++)
+                {
+                    if (_matrix[line2, line].Equals(0))
+                        continue;
+                    //double factor = Math.Round(_matrix[line2, line] / _matrix[line, line], 1);
+                    double factor = _matrix[line2, line] / _matrix[line, line];
+                    for (int x = line; x < _matrix.GetLength(1); x++)
+                    {
+                        _matrix[line2, x] -= Math.Round(factor * _matrix[line, x], 1);
+                    }
+                }
+            }
+            // equation-matrix is finish
+            double[] result = new double[_matrix.GetLength(0)];
+            for (int line = _matrix.GetLength(0) - 1; line >= 0; line--)
+            {
+                result[line] = _matrix[line, _matrix.GetLength(1) - 1];
+                for (int x = line + 1; x < result.Length; x++)
+                {
+                    result[line] -= Math.Round(result[x] * _matrix[line, x], 1);
+                }
+                try
+                {
+                    result[line] = Math.Round(result[line] / _matrix[line, line], 1);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// // formula for linear interpolation (https://en.wikipedia.org/wiki/Linear_interpolation)
+        /// </summary>
+        /// <param name="_x">This are the supporting values for X</param>
+        /// <param name="_y">This are the supporting values for Y</param>
+        /// <param name="_steps">This is the steps for each angle</param>
+        /// <returns></returns>
+        private static List<PointF> LinearInterpolation(double[] _x, double[] _y, double _steps)
+        {
+            double n = _x.Length - 1;
+            List<PointF> interpPoints = new List<PointF>();
+            for (int i = 0; i < n; i++)
+            {
+                for (double x = Math.Round(_x[i], 2); x < Math.Round(_x[i + 1], 2); x = Math.Round(x + _steps, 2))
+                {
+                    var y = Math.Round(((_y[i + 1] - _y[i]) / (_x[i + 1] - _x[i])) * x + _y[i] - ((_y[i + 1] - _y[i]) / (_x[i + 1] - _x[i])) * _x[i], 2);
+                    interpPoints.Add(new PointF((float)x, (float)Math.Round(y, 2)));
+                }
+                // last point
+                if (i >= n - 1)
+                {
+                    interpPoints.Add(new PointF((float)Math.Round(_x[i + 1], 2), (float)Math.Round(_y[i + 1], 2)));
+                }
+            }
+            return interpPoints;
+        }
+
+        /// <summary>
+        /// This methos fill PointList with default-values
+        /// </summary>
+        /// <returns></returns>
+        private List<PointF> InterpListNull()
+        {
+            List<PointF> interpPoints = new List<PointF>();
+            for (int i = -90; i <= 181; i++)
+            {
+                interpPoints.Add(new PointF(i, 0));
+            }
+            return interpPoints;
         }
 
         /// <summary>
         /// This method interpolate points between two nodes. It fills a list with new interpolated spline-points.
         /// </summary>
-        public void LinearInterpolation(PlotProfile profile)
+        public bool Interpolation(PlotProfile profile)
         {
+            bool validValues = true;
             switch (profile)
             {
                 case PlotProfile.Current:
                     EnergyProfileModel.AverageCurrentSplinePoints.Clear();
                     EnergyProfileModel.MaxCurrentSplinePoints.Clear();
                     EnergyProfileModel.MinCurrentSplinePoints.Clear();
-                    for (int points = 1; points < EnergyProfileModel.CurrentSet.Count; points++)
+                    double[] angels2curr = new double[EnergyProfileModel.CurrentSet.Count];
+                    double[] currents = new double[EnergyProfileModel.CurrentSet.Count];
+                    double[] maxcurrents = new double[EnergyProfileModel.CurrentSet.Count];
+                    double[] mincurrents = new double[EnergyProfileModel.CurrentSet.Count];
+                    for (int i = 1; i < EnergyProfileModel.CurrentSet.Count + 1; i++)
                     {
-                        // set start and end parameters for each segment
-                        double x1 = EnergyProfileModel.CurrentSet[points].Angle;
-                        double x2 = EnergyProfileModel.CurrentSet[points + 1].Angle;
-                        double y1 = EnergyProfileModel.CurrentSet[points].AverageCurrent;
-                        double y2 = EnergyProfileModel.CurrentSet[points + 1].AverageCurrent;
-                        double y1_max = EnergyProfileModel.CurrentSet[points].MaxCurrent;
-                        double y2_max = EnergyProfileModel.CurrentSet[points + 1].MaxCurrent;
-                        double y1_min = EnergyProfileModel.CurrentSet[points].MinCurrent;
-                        double y2_min = EnergyProfileModel.CurrentSet[points + 1].MinCurrent;
-
-
-                        // set default values for interp
-                        double n = (x2 - x1);
-                        double x = x1;
-
-                        // set the first Item
-                        if (points == 1)
+                        if (EnergyProfileModel.CurrentSet[i].Angle.Equals(0) && !i.Equals(6))
                         {
-                            EnergyProfileModel.AverageCurrentSplinePoints.Add(new PointF((float)x1,
-                                (float)EnergyProfileModel.CurrentSet[points].AverageCurrent));
-                            EnergyProfileModel.MaxCurrentSplinePoints.Add(new PointF((float)x1,
-                                (float)EnergyProfileModel.CurrentSet[points].MaxCurrent));
-                            EnergyProfileModel.MinCurrentSplinePoints.Add(new PointF((float)x1,
-                                (float)EnergyProfileModel.CurrentSet[points].MinCurrent));
+                            validValues = false;
+                            EnergyProfileModel.InterpModeCurr = EnergyProfileModel.InterpolationMode.None;
+                            break;
                         }
-                        for (int i = 0; i < n - 1; i++)
-                        {
-                            // for each degree
-                            x++;
-                            // formula for linear interpolation (https://en.wikipedia.org/wiki/Linear_interpolation)
-                            var y = ((y2 - y1) / (x2 - x1)) * x + y1 - ((y2 - y1) / (x2 - x1)) * x1;
-                            var y_max = ((y2_max - y1_max) / (x2 - x1)) * x + y1_max -
-                                        ((y2_max - y1_max) / (x2 - x1)) * x1;
-                            var y_min = ((y2_min - y1_min) / (x2 - x1)) * x + y1_min -
-                                        ((y2_min - y1_min) / (x2 - x1)) * x1;
-                            EnergyProfileModel.AverageCurrentSplinePoints.Add(new PointF((float)x,
-                                (float)Math.Round(y, 2)));
-                            EnergyProfileModel.MaxCurrentSplinePoints.Add(new PointF((float)x,
-                                (float)Math.Round(y_max, 2)));
-                            EnergyProfileModel.MinCurrentSplinePoints.Add(new PointF((float)x,
-                                (float)Math.Round(y_min, 2)));
-                        }
-                        // fill the last parameter
-                        EnergyProfileModel.AverageCurrentSplinePoints.Add(new PointF((float)x2,
-                            (float)EnergyProfileModel.CurrentSet[points + 1].AverageCurrent));
-                        EnergyProfileModel.MaxCurrentSplinePoints.Add(new PointF((float)x2,
-                            (float)EnergyProfileModel.CurrentSet[points + 1].MaxCurrent));
-                        EnergyProfileModel.MinCurrentSplinePoints.Add(new PointF((float)x2,
-                            (float)EnergyProfileModel.CurrentSet[points + 1].MinCurrent));
-
+                        angels2curr[i - 1] = Math.Round(EnergyProfileModel.CurrentSet[i].Angle, 2);
+                        currents[i - 1] = Math.Round(EnergyProfileModel.CurrentSet[i].AverageCurrent, 2);
+                        maxcurrents[i - 1] = Math.Round(EnergyProfileModel.CurrentSet[i].MaxCurrent, 2);
+                        mincurrents[i - 1] = Math.Round(EnergyProfileModel.CurrentSet[i].MinCurrent, 2);
                     }
+
+                    switch (EnergyProfileModel.InterpModeCurr)
+                    {
+                        case EnergyProfileModel.InterpolationMode.LinearInterp:
+                            EnergyProfileModel.AverageCurrentSplinePoints =
+                                LinearInterpolation(angels2curr, currents, 1);
+                            EnergyProfileModel.MaxCurrentSplinePoints =
+                                LinearInterpolation(angels2curr, maxcurrents, 1);
+                            EnergyProfileModel.MinCurrentSplinePoints =
+                                LinearInterpolation(angels2curr, mincurrents, 1);
+                            break;
+                        case EnergyProfileModel.InterpolationMode.CubicSpline:
+                            EnergyProfileModel.AverageCurrentSplinePoints =
+                                SplineInterpolation(angels2curr, currents, 1);
+                            EnergyProfileModel.MaxCurrentSplinePoints =
+                                SplineInterpolation(angels2curr, maxcurrents, 1);
+                            EnergyProfileModel.MinCurrentSplinePoints =
+                                SplineInterpolation(angels2curr, mincurrents, 1);
+                            break;
+                        case EnergyProfileModel.InterpolationMode.None:
+                            EnergyProfileModel.AverageCurrentSplinePoints = InterpListNull();
+                            EnergyProfileModel.MaxCurrentSplinePoints = InterpListNull();
+                            EnergyProfileModel.MinCurrentSplinePoints = InterpListNull();
+                            break;
+                    }
+
                     break;
                 case PlotProfile.Velocity:
                     EnergyProfileModel.AverageVelocitySplinePoints.Clear();
                     EnergyProfileModel.MaxVelocitySplinePoints.Clear();
                     EnergyProfileModel.MinVelocitySplinePoints.Clear();
-                    for (int points = 1; points < EnergyProfileModel.VelocitySet.Count; points++)
+                    double[] angels2vel = new double[EnergyProfileModel.VelocitySet.Count];
+                    double[] velocitys = new double[EnergyProfileModel.VelocitySet.Count];
+                    double[] maxvelocitys = new double[EnergyProfileModel.VelocitySet.Count];
+                    double[] minvelocitys = new double[EnergyProfileModel.VelocitySet.Count];
+                    for (int i = 1; i < EnergyProfileModel.VelocitySet.Count + 1; i++)
                     {
-                        // set start and end parameters for each segment
-                        double x1 = EnergyProfileModel.VelocitySet[points].Angle;
-                        double x2 = EnergyProfileModel.VelocitySet[points + 1].Angle;
-                        double y1 = EnergyProfileModel.VelocitySet[points].AverageVelocity;
-                        double y2 = EnergyProfileModel.VelocitySet[points + 1].AverageVelocity;
-                        double y1_max = EnergyProfileModel.VelocitySet[points].MaxVelocity;
-                        double y2_max = EnergyProfileModel.VelocitySet[points + 1].MaxVelocity;
-                        double y1_min = EnergyProfileModel.VelocitySet[points].MinVelocity;
-                        double y2_min = EnergyProfileModel.VelocitySet[points + 1].MinVelocity;
-
-                        // set default values for interp
-                        double n = (x2 - x1);
-                        double x = x1;
-
-                        // set the first Item
-                        if (points == 1)
+                        if (EnergyProfileModel.VelocitySet[i].Angle.Equals(0) && !i.Equals(6))
                         {
-                            EnergyProfileModel.AverageVelocitySplinePoints.Add(new PointF((float)x1,
-                                (float)EnergyProfileModel.VelocitySet[points].AverageVelocity));
-                            EnergyProfileModel.MaxVelocitySplinePoints.Add(new PointF((float)x1,
-                                (float)EnergyProfileModel.VelocitySet[points].MaxVelocity));
-                            EnergyProfileModel.MinVelocitySplinePoints.Add(new PointF((float)x1,
-                                (float)EnergyProfileModel.VelocitySet[points].MinVelocity));
+                            validValues = false;
+                            EnergyProfileModel.InterpModeVel = EnergyProfileModel.InterpolationMode.None;
+                            break;
                         }
-                        for (int i = 0; i < n - 1; i++)
-                        {
-                            // for each degree
-                            x++;
-                            // formula for linear interpolation (https://en.wikipedia.org/wiki/Linear_interpolation)
-                            var y = ((y2 - y1) / (x2 - x1)) * x + y1 - ((y2 - y1) / (x2 - x1)) * x1;
-                            var y_max = ((y2_max - y1_max) / (x2 - x1)) * x + y1_max -
-                                        ((y2_max - y1_max) / (x2 - x1)) * x1;
-                            var y_min = ((y2_min - y1_min) / (x2 - x1)) * x + y1_min -
-                                        ((y2_min - y1_min) / (x2 - x1)) * x1;
-                            EnergyProfileModel.AverageVelocitySplinePoints.Add(new PointF((float)x,
-                                (float)Math.Round(y, 2)));
-                            EnergyProfileModel.MaxVelocitySplinePoints.Add(new PointF((float)x,
-                                (float)Math.Round(y_max, 2)));
-                            EnergyProfileModel.MinVelocitySplinePoints.Add(new PointF((float)x,
-                                (float)Math.Round(y_min, 2)));
-                        }
-                        // fill the last parameter
-                        EnergyProfileModel.AverageVelocitySplinePoints.Add(new PointF((float)x2,
-                            (float)EnergyProfileModel.VelocitySet[points + 1].AverageVelocity));
-                        EnergyProfileModel.MaxVelocitySplinePoints.Add(new PointF((float)x2,
-                            (float)EnergyProfileModel.VelocitySet[points + 1].MaxVelocity));
-                        EnergyProfileModel.MinVelocitySplinePoints.Add(new PointF((float)x2,
-                            (float)EnergyProfileModel.VelocitySet[points + 1].MinVelocity));
+                        angels2vel[i - 1] = Math.Round(EnergyProfileModel.VelocitySet[i].Angle, 2);
+                        velocitys[i - 1] = Math.Round(EnergyProfileModel.VelocitySet[i].AverageVelocity, 2);
+                        //maxvelocitys[i - 1] = Math.Round(EnergyProfileModel.VelocitySet[i].MaxVelocity, 2);
+                        //minvelocitys[i - 1] = Math.Round(EnergyProfileModel.VelocitySet[i].MinVelocity, 2);
                     }
+                    switch (EnergyProfileModel.InterpModeVel)
+                    {
+                        case EnergyProfileModel.InterpolationMode.LinearInterp:
+                            EnergyProfileModel.AverageVelocitySplinePoints =
+                                LinearInterpolation(angels2vel, velocitys, 1);
+                            EnergyProfileModel.MaxVelocitySplinePoints =
+                                LinearInterpolation(angels2vel, maxvelocitys, 1);
+                            EnergyProfileModel.MinVelocitySplinePoints =
+                                LinearInterpolation(angels2vel, minvelocitys, 1);
+                            break;
+                        case EnergyProfileModel.InterpolationMode.CubicSpline:
+                            EnergyProfileModel.AverageVelocitySplinePoints =
+                                SplineInterpolation(angels2vel, velocitys, 1);
+                            EnergyProfileModel.MaxVelocitySplinePoints =
+                                SplineInterpolation(angels2vel, maxvelocitys, 1);
+                            EnergyProfileModel.MinVelocitySplinePoints =
+                                SplineInterpolation(angels2vel, minvelocitys, 1);
+                            break;
+                        case EnergyProfileModel.InterpolationMode.None:
+                            EnergyProfileModel.AverageVelocitySplinePoints = InterpListNull();
+                            EnergyProfileModel.MaxVelocitySplinePoints = InterpListNull();
+                            EnergyProfileModel.MinVelocitySplinePoints = InterpListNull();
+                            break;
+                    }
+
                     break;
             }
             WritePlotLogfile(profile);
+            return validValues;
         }
 
         /// <summary>
         /// plot the current
         /// </summary>
-        public void Plot_Spline(Chart chart, PlotProfile profile)
+        public void Plot(Chart chart, PlotProfile profile)
         {
             try
             {
+
                 switch (profile)
                 {
                     case PlotProfile.Current:
@@ -379,10 +579,28 @@ namespace MissionPlanner.Utilities
                             minCrnt.Points.Clear();
                             range.Points.Clear();
 
+                            switch (EnergyProfileModel.InterpModeCurr)
+                            {
+                                case EnergyProfileModel.InterpolationMode.LinearInterp:
+                                    avrgCrnt.ChartType = SeriesChartType.Line;
+                                    maxCrnt.ChartType = SeriesChartType.Line;
+                                    minCrnt.ChartType = SeriesChartType.Line;
+                                    range.ChartType = SeriesChartType.Line;
+                                    break;
+                                case EnergyProfileModel.InterpolationMode.CubicSpline:
+                                    avrgCrnt.ChartType = SeriesChartType.Spline;
+                                    maxCrnt.ChartType = SeriesChartType.Spline;
+                                    minCrnt.ChartType = SeriesChartType.Spline;
+                                    range.ChartType = SeriesChartType.Spline;
+                                    break;
+                            }
+
+
                             // set new series
                             range.Points.DataBindXY(xValue: EnergyProfileModel.CurrentSet.Values, xField: "Angle",
                                 yValue: EnergyProfileModel.CurrentSet.Values, yFields: "MaxCurrent,MinCurrent");
-                            avrgCrnt.Points.DataBindXY(xValue: EnergyProfileModel.CurrentSet.Values, xField: "Angle",
+                            avrgCrnt.Points.DataBindXY(xValue: EnergyProfileModel.CurrentSet.Values,
+                                xField: "Angle",
                                 yValue: EnergyProfileModel.CurrentSet.Values, yFields: "AverageCurrent");
                             maxCrnt.Points.DataBindXY(xValue: EnergyProfileModel.CurrentSet.Values, xField: "Angle",
                                 yValue: EnergyProfileModel.CurrentSet.Values,
@@ -420,10 +638,27 @@ namespace MissionPlanner.Utilities
                             minVel.Points.Clear();
                             range.Points.Clear();
 
+                            switch (EnergyProfileModel.InterpModeVel)
+                            {
+                                case EnergyProfileModel.InterpolationMode.LinearInterp:
+                                    avrgVel.ChartType = SeriesChartType.Line;
+                                    maxVel.ChartType = SeriesChartType.Line;
+                                    minVel.ChartType = SeriesChartType.Line;
+                                    range.ChartType = SeriesChartType.Line;
+                                    break;
+                                case EnergyProfileModel.InterpolationMode.CubicSpline:
+                                    avrgVel.ChartType = SeriesChartType.Spline;
+                                    maxVel.ChartType = SeriesChartType.Spline;
+                                    minVel.ChartType = SeriesChartType.Spline;
+                                    range.ChartType = SeriesChartType.Spline;
+                                    break;
+                            }
+
                             // set new series
                             range.Points.DataBindXY(xValue: EnergyProfileModel.VelocitySet.Values, xField: "Angle",
                                 yValue: EnergyProfileModel.VelocitySet.Values, yFields: "MaxVelocity,MinVelocity");
-                            avrgVel.Points.DataBindXY(xValue: EnergyProfileModel.VelocitySet.Values, xField: "Angle",
+                            avrgVel.Points.DataBindXY(xValue: EnergyProfileModel.VelocitySet.Values,
+                                xField: "Angle",
                                 yValue: EnergyProfileModel.VelocitySet.Values, yFields: "AverageVelocity");
                             maxVel.Points.DataBindXY(xValue: EnergyProfileModel.VelocitySet.Values, xField: "Angle",
                                 yValue: EnergyProfileModel.VelocitySet.Values,
@@ -448,8 +683,6 @@ namespace MissionPlanner.Utilities
 
                         break;
                 }
-                LinearInterpolation(profile);
-
             }
             catch (Exception e)
             {
@@ -601,24 +834,20 @@ namespace MissionPlanner.Utilities
         /// <summary>
         /// Calculate the Energy-Consumption of actual part of moving
         /// </summary>
-        /// <param name="distance_Horizontal">distance (only horizontal) between two waypoints</param>
+        /// <param name="dist">distance (only horizontal) between two waypoints</param>
         /// <param name="angle">the angle between two waypoints</param>
         /// <param name="altitudeDiff">result of altitude WP1 and WP2</param>
         /// <param name="hoverTime">the delay time btw the loiter_Time</param>
         /// <returns>energy-consumption in mAh</returns>
-        public Dictionary<ECID, double> EnergyConsumption(double distance_Horizontal, double angle,
+        public Dictionary<ECID, double> EnergyConsumption(double dist, double angle,
             double altitudeDiff, double hoverTime)
         {
             // testing the calculating methods
-            TestCalculateClimbDistance();
             TestCalculateFlightTime();
             TestCalculateEnergyConsumption();
 
             angle = Math.Round(angle);
-
-            var distance = Math.Abs(angle) > 0
-                ? CalcClimbDistance(distance_Horizontal, angle)
-                : distance_Horizontal;
+            var distance = dist;
 
             if (Math.Abs(distance) <= 0.001)
                 distance = altitudeDiff;
@@ -862,9 +1091,15 @@ namespace MissionPlanner.Utilities
         private EnergyLogFileModel LogDatas(CollectionBuffer logData)
         {
             Dictionary<string, string[]> Columns_Data = new Dictionary<string, string[]>();
-
-            int timedelay = transitionTime;
-
+            int timedelay;
+            if (statsmodus.Equals(StatisticModus.GPS_Speed) || statsmodus.Equals(StatisticModus.GPS_Speed))
+            {
+                timedelay = transitionDelayTime;
+            }
+            else
+            {
+                timedelay = 0;
+            }
             // find the Headers of DataFrames "FMT"
             foreach (var item in logData.GetEnumeratorType(RowType.FMT.ToString()))
             {
@@ -953,9 +1188,10 @@ namespace MissionPlanner.Utilities
                 int time = curritem.timems; // time in ms
                 var curr = dict.ContainsKey(CURRFrame.Curr.ToString()) ? dict[CURRFrame.Curr.ToString()].Replace('.', ',') : CURRFrame.None.ToString(); // current drawns from battery in amps * 100
                 var volt = dict.ContainsKey(CURRFrame.Volt.ToString()) ? dict[CURRFrame.Volt.ToString()].Replace('.', ',') : CURRFrame.None.ToString(); // actual battery voltage in volts * 100
+                var currTot = dict.ContainsKey(CURRFrame.CurrTot.ToString()) ? dict[CURRFrame.CurrTot.ToString()].Replace('.', ',') : CURRFrame.None.ToString(); // actual battery voltage in volts * 100
 
                 // create current-object and add in list
-                energyLogfileModel.CURR_Lines.Add(new CURR_Model(time, volt, curr));
+                energyLogfileModel.CURR_Lines.Add(new CURR_Model(time, volt, curr, currTot));
             }
 
             ESearchFlag searchflag = ESearchFlag.Start; //set init flag
@@ -1008,7 +1244,7 @@ namespace MissionPlanner.Utilities
                         }
                         break;
                     case ESearchFlag.End:
-                        if (!energyLogfileModel.CMD_Lines.Count.Equals(cmdindex) && gpsitem.timems >= energyLogfileModel.CMD_Lines[cmdindex].Time_ms - timedelay)
+                        if (!energyLogfileModel.CMD_Lines.Count.Equals(cmdindex) && gpsitem.timems >= energyLogfileModel.CMD_Lines[cmdindex].Time_ms - timedelay) // all cmd_line except last cmd_line ... in general is this the return_to_launch 
                         {
                             energyLogfileModel.CMD_Lines[cmdindex - 1].GPS_END_Index = gpsindex;
                             //energyLogfileModel.GPS_Lines.Add(new GPS_Model(time, hdop, lat, lng, alt, false, true));
@@ -1035,7 +1271,7 @@ namespace MissionPlanner.Utilities
         {
             // init values
             validMinValues = gvalues;
-            transitionTime = transtime;
+            transitionDelayTime = transtime;
             validAnalysis = false;
             GC.Collect();
             Loading.ShowLoading("Analyze Logfiles ..."); // show loading window
@@ -1242,8 +1478,21 @@ namespace MissionPlanner.Utilities
         /// </summary>
         private void CalcCMDValues()
         {
+            int currentsTransitionDelayTime = 0;
+            int gpsTransitionDelayTime = 0;
+            if (statsmodus.Equals(StatisticModus.Curr) ||
+                statsmodus.Equals(StatisticModus.Both))
+            {
+                currentsTransitionDelayTime = transitionDelayTime;
+            }
+            if (statsmodus.Equals(StatisticModus.GPS_Speed) ||
+                statsmodus.Equals(StatisticModus.Both))
+            {
+                gpsTransitionDelayTime = transitionDelayTime;
+            }
             foreach (var logfilemodel in logAnalizerModel.AllLogfiles)
             {
+
                 for (int cmdindex = 0; cmdindex < logfilemodel.Value.CMD_Lines.Count; cmdindex++)
                 {
                     // init actual position points
@@ -1319,38 +1568,50 @@ namespace MissionPlanner.Utilities
                                     // save all values for calculate energy in hoverstate
                                     logfilemodel.Value.CMD_Lines[cmdindex].currentHoverList = GetCurrentList(
                                         logfilemodel.Value.CURR_Lines, logfilemodel.Value.CMD_Lines[cmdindex].Time_ms,
-                                        delaytime);
-                                    // save all values for calculate energy after hoverstate
-                                    logfilemodel.Value.CMD_Lines[cmdindex].currentList = GetCurrentList(
-                                        logfilemodel.Value.CURR_Lines, logfilemodel.Value.CMD_Lines[cmdindex].Time_ms,
-                                        logfilemodel.Value.CMD_Lines[cmdindex + 1].Time_ms);
+                                        logfilemodel.Value.CMD_Lines[cmdindex].Time_ms + delaytime);
+
+                                    //// save all values for calculate energy after hoverstate
+                                    //logfilemodel.Value.CMD_Lines[cmdindex].currentList = GetCurrentList(
+                                    //    logfilemodel.Value.CURR_Lines,
+                                    //    logfilemodel.Value.CMD_Lines[cmdindex].Time_ms + delaytime + delaytime + currentsTransitionDelayTime,
+                                    //    logfilemodel.Value.CMD_Lines[cmdindex + 1].Time_ms - currentsTransitionDelayTime);
+
                                 }
-                                else // save speed and currentvalues 
-                                {
-                                    logfilemodel.Value.CMD_Lines[cmdindex].Speed = CalcSpeed(
-                                        logfilemodel.Value.GPS_Lines
-                                            [logfilemodel.Value.CMD_Lines[cmdindex].GPS_START_Index],
-                                        logfilemodel.Value.GPS_Lines[
-                                            logfilemodel.Value.CMD_Lines[cmdindex].GPS_END_Index],
-                                        logfilemodel.Value.CMD_Lines[cmdindex].Angle, alt_diff);
 
-                                    logfilemodel.Value.CMD_Lines[cmdindex].CurrentMean = CalcMeanCurrent(
-                                        logfilemodel.Value.CURR_Lines, logfilemodel.Value.CMD_Lines[cmdindex].Time_ms,
-                                        logfilemodel.Value.CMD_Lines[cmdindex + 1].Time_ms,
-                                        validMinValues); // only for one Command
+                                // set all qualified currents in list
+                                logfilemodel.Value.CMD_Lines[cmdindex].currentList = GetCurrentList(
+                                    logfilemodel.Value.CURR_Lines, logfilemodel.Value.CMD_Lines[cmdindex].Time_ms + delaytime + currentsTransitionDelayTime,
+                                    logfilemodel.Value.CMD_Lines[cmdindex + 1].Time_ms - currentsTransitionDelayTime);
 
-                                    logfilemodel.Value.CMD_Lines[cmdindex].currentList = GetCurrentList(
-                                        logfilemodel.Value.CURR_Lines, logfilemodel.Value.CMD_Lines[cmdindex].Time_ms,
-                                        logfilemodel.Value.CMD_Lines[cmdindex + 1].Time_ms);
+                                logfilemodel.Value.CMD_Lines[cmdindex].CurrentCount =
+                                    logfilemodel.Value.CMD_Lines[cmdindex].currentList.Count;
 
-                                    logfilemodel.Value.CMD_Lines[cmdindex].CurrentCount =
-                                        logfilemodel.Value.CMD_Lines[cmdindex].currentList.Count;
-                                }
+                                // calculate gps_speed and save it
+
+                                // first way for calculate speed
+                                //logfilemodel.Value.CMD_Lines[cmdindex].Speed = CalcSpeed(
+                                //    logfilemodel.Value.GPS_Lines
+                                //        [logfilemodel.Value.CMD_Lines[cmdindex].GPS_START_Index],
+                                //    logfilemodel.Value.GPS_Lines[
+                                //        logfilemodel.Value.CMD_Lines[cmdindex].GPS_END_Index],
+                                //    logfilemodel.Value.CMD_Lines[cmdindex].Angle, alt_diff);
+
+                                // second way for calculate speed
+                                logfilemodel.Value.CMD_Lines[cmdindex].Speed = CalcSpeed2(
+                                    logfilemodel.Value.GPS_Lines, logfilemodel.Value.CMD_Lines[cmdindex].Time_ms + gpsTransitionDelayTime,
+                                    logfilemodel.Value.CMD_Lines[cmdindex + 1].Time_ms - gpsTransitionDelayTime, Math.Abs(alt_diff));
+
+                                // ToDo: set EnergyTime and TotalEnergy
+                                logfilemodel.Value.EnergyDatas[cmdindex] = GetEnergyValues(
+                                    logfilemodel.Value.CURR_Lines, logfilemodel.Value.CMD_Lines[cmdindex].Time_ms,
+                                    logfilemodel.Value.CMD_Lines[cmdindex + 1].Time_ms); // only for one Command
+
                             }
+                            // calculate values in "Loiter_Time" only for hover
                             else if (Convert.ToByte(logfilemodel.Value.CMD_Lines[cmdindex].CmdId).Equals(19)) // only values for Hover in Loiter_Time
                             {
                                 logfilemodel.Value.CMD_Lines[cmdindex].FlightMode = FlightMode.Hover.ToString();
-                                int delaytime = Convert.ToInt16(logfilemodel.Value.CMD_Lines[cmdindex + 1].Param[0]) *
+                                int delaytime = Convert.ToInt16(logfilemodel.Value.CMD_Lines[cmdindex].Param[0]) *
                                                 1000; // in milliseconds
                                 if (delaytime > 0)
                                 {
@@ -1394,10 +1655,115 @@ namespace MissionPlanner.Utilities
 
 
                 }
+                PrintStatisticEnergyValues(logfilemodel.Value, logfilemodel.Key);
             }
             //logAnalizerModel.LogDictionary.GetEnumerator(RowType.CMD.ToString());
         }
 
+        private double[] GetEnergyValues(List<CURR_Model> currList, int timestart, int timeend)
+        {
+            List<CURR_Model> tempCurrList = new List<CURR_Model>();
+            double energytot = 0;
+            double energy1 = 0;
+            double energy2 = 0;
+            var energytime = Convert.ToDouble(timeend - timestart) / 1000; // [s]
+            if (energytime > cmdFlightTime)
+            {
+                foreach (var currModel in currList)
+                {
+                    if (currModel.Time_ms >= timestart && currModel.Time_ms <= timeend)
+                    {
+                        tempCurrList.Add(currModel);
+                    }
+                }
+                //var energyfirst = currList.Find(x => x.Time_ms >= timestart);
+                //var energylast = currList.Find(x => x.Time_ms >= timeend);
+                var energyfirst = tempCurrList.First().TotalCurrennt;
+                var energylast = tempCurrList.Last().TotalCurrennt;
+                energy1 = Convert.ToDouble(energyfirst);
+                energy2 = Convert.ToDouble(energylast);
+                energytot = Convert.ToDouble(energylast) - Convert.ToDouble(energyfirst);
+            }
+
+            return new[] { energytime, energytot, energy1, energy2 };
+        }
+        /// <summary>
+        /// Calculate the GPS_Speed
+        /// </summary>
+        /// <param name="gpslist">Full list of all GPS_Samples of one Logfile</param>
+        /// <param name="timestart">Start_Time for first GPS_Sample</param>
+        /// <param name="timeend">END_Time for last GPS_Sample</param>
+        /// <param name="alt_diff">Differnce of altitude of to commands.</param>
+        /// <returns>Get the GPS_Speed.</returns>
+        private double CalcSpeed2(List<GPS_Model> gpslist, int timestart, int timeend, double alt_diff)
+        {
+            double speed = 0;
+            bool start = false;
+            double startLong = 0;
+            double startLat = 0;
+            double endLong = 0;
+            double endLat = 0;
+            double gpsstarttime = 0;
+            double gpsendtime = 0;
+            double distance = 0;
+            foreach (var gpsModel in gpslist)
+            {
+                if (gpsModel.Time_ms >= timestart && !start)
+                {
+                    try
+                    {
+                        startLong = Convert.ToDouble((gpsModel.Longitude));
+                        startLat = Convert.ToDouble((gpsModel.Latitude));
+                        gpsstarttime = Convert.ToDouble((gpsModel.Time_ms));
+                        start = true;
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                        throw;
+                    }
+                }
+                else if (gpsModel.Time_ms >= timeend && start)
+                {
+                    try
+                    {
+                        endLong = Convert.ToDouble((gpsModel.Longitude));
+                        endLat = Convert.ToDouble((gpsModel.Latitude));
+                        gpsendtime = Convert.ToDouble((gpsModel.Time_ms));
+                        break;
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                        throw;
+                    }
+                }
+            }
+            var time = (gpsendtime - gpsstarttime) / 1000;
+            if (time < 0 || time < cmdFlightTime)
+            {
+                return speed;
+            }
+            double distance_on_ground = CalcGeoDistance(startLat, endLat, startLong, endLong);
+
+            if (alt_diff.Equals(0) && distance_on_ground > 0)
+            {
+                distance = distance_on_ground;
+            }
+            else if (alt_diff > 0 && distance_on_ground.Equals(0))
+            {
+                distance = alt_diff;
+            }
+            else if (alt_diff > 0 && distance_on_ground > 0)
+            {
+
+                distance = Math.Sqrt(Math.Pow(distance_on_ground, 2) + Math.Pow(alt_diff, 2));
+            }
+
+            speed = distance / time;
+
+            return speed;
+        }
         /// <summary>
         /// Calculation the distance on ground btw. airline. [meters]
         /// https://www.kompf.de/gps/distcalc.html --> better method
@@ -1462,20 +1828,33 @@ namespace MissionPlanner.Utilities
                 double distance_on_ground = CalcGeoDistance(Convert.ToDouble(startmodel.Latitude),
                     Convert.ToDouble(endmodel.Latitude),
                     Convert.ToDouble(startmodel.Longitude), Convert.ToDouble(endmodel.Longitude));
-                double rad = angle * Math.PI / 180;
-                distance = distance_on_ground / Math.Cos(rad);
+                distance = angle.Equals(0) ? distance_on_ground : Math.Sqrt(Math.Pow(distance_on_ground, 2) + Math.Pow(altitude, 2));
             }
             else
             {
                 distance = Math.Abs(altitude);
             }
             var time = (endmodel.Time_ms - startmodel.Time_ms) / 1000; // from ms to s
-            if (time > transitionTime / 1000 && !Math.Round(distance).Equals(0))
+            if (statsmodus.Equals(StatisticModus.GPS_Speed) || statsmodus.Equals(StatisticModus.Both))
             {
-                speed = Math.Round(distance / time, 1);
+                if (time > transitionDelayTime / 1000 && !Math.Round(distance).Equals(0)) //set speed only if time larger than transitiontime --> discuss
+                {
+                    speed = Math.Round(distance / time, 1);
+                }
+                else
+                    speed = 0;
             }
             else
-                speed = 0;
+            {
+                if (!time.Equals(0) && !Math.Round(distance).Equals(0))
+                {
+                    speed = Math.Round(distance / time, 1);
+                }
+                else
+                {
+                    speed = 0;
+                }
+            }
             return speed;
         }
 
@@ -1521,11 +1900,16 @@ namespace MissionPlanner.Utilities
         private List<double> GetCurrentList(List<CURR_Model> allCurrentLines, int starttime, int endtime)
         {
             List<double> actCurrList = new List<double>();
-            foreach (var line in allCurrentLines)
+            int time = endtime - starttime;
+            if (time > cmdFlightTime)
             {
-                if (line.Time_ms >= starttime && line.Time_ms <= endtime)
+                foreach (var line in allCurrentLines)
                 {
-                    actCurrList.Add(Convert.ToDouble(line.Current));
+
+                    if (line.Time_ms >= starttime && line.Time_ms <= endtime)
+                    {
+                        actCurrList.Add(Convert.ToDouble(line.Current));
+                    }
                 }
             }
             return actCurrList;
@@ -2075,6 +2459,49 @@ namespace MissionPlanner.Utilities
                         file.WriteLine(line);
                     }
                 }
+            }
+        }
+
+        private void PrintStatisticEnergyValues(EnergyLogFileModel logmodel, string logname)
+        {
+            if (logmodel != null)
+            {
+                string path = Settings.Instance.LogDir + @"\CSV\";
+                DateTime date = DateTime.Now;
+                string filename = "EnergyStatistic_" + logname;
+                using (StreamWriter file =
+                    new StreamWriter(path + filename + ".txt"))
+                {
+
+                    foreach (var line in logmodel.EnergyDatas)
+                    {
+                        file.WriteLine("CMD --> " + line.Key + " || Time --> " + line.Value[0] + " || Energy --> " + line.Value[1] + " || E1 --> " + line.Value[2] + " || E2 --> " + line.Value[3]);
+                    }
+                }
+            }
+        }
+
+        public void SetTransitionState(bool currenttransstate, bool speedtransstate, int cmdflighttime)
+        {
+            if (cmdflighttime > 0)
+            {
+                cmdFlightTime = cmdflighttime;
+            }
+            if (currenttransstate && speedtransstate)
+            {
+                statsmodus = StatisticModus.Both;
+            }
+            else if (!currenttransstate && speedtransstate)
+            {
+                statsmodus = StatisticModus.GPS_Speed;
+            }
+            else if (!speedtransstate && currenttransstate)
+            {
+                statsmodus = StatisticModus.Curr;
+            }
+            else
+            {
+                statsmodus = StatisticModus.None;
             }
         }
     }
