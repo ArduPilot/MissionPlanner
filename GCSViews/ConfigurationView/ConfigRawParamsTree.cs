@@ -591,14 +591,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     }
                 }
 
+                // add to change record
                 _changes[((data) e.RowObject).paramname] = newvalue;
 
+                // update underlying data
                 ((data) e.RowObject).Value = e.NewValue.ToString();
 
-                var typer = e.RowObject.GetType();
 
-                e.Cancel = true;
+                e.Cancel = false;
 
+                // refresh from underlying data
                 Params.RefreshObject(e.RowObject);
             }
         }
