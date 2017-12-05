@@ -8,6 +8,8 @@ init:
 cache: packages
 build_script:
 - cmd: >-
+    git submodule update --init --recursive
+
     dotnet --info
 
     c:\mp\.nuget\nuget.exe update -self
