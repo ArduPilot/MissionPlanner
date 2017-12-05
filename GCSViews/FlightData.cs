@@ -1394,6 +1394,11 @@ namespace MissionPlanner.GCSViews
                                 foreach (var MAV in port.MAVlist)
                                 {
                                     var marker = Common.getMAVMarker(MAV);
+                                    
+                                    if (port.MAVlist.Count > 1)
+                                    {
+                                        marker.ToolTipText = "Alt: " + MAV.cs.alt.ToString("0") + " \n ID: " + (int)MAV.sysid;
+                                    }
 
                                     if(marker.Position.Lat == 0 && marker.Position.Lng == 0)
                                         continue;
