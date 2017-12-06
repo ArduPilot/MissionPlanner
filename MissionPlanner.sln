@@ -90,7 +90,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibTessDotNet", "ExtLibs\Li
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SvgNet", "ExtLibs\SvgNet\SvgNet.csproj", "{BB4C8021-B5E1-4DE2-82CB-14BDFB9837E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MissionPlanner.Maps", "ExtLibs\Maps\MissionPlanner.Maps.csproj", "{6C4FF9C3-7AFF-4274-B8FC-4A93A1FAADEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissionPlanner.Maps", "ExtLibs\Maps\MissionPlanner.Maps.csproj", "{6C4FF9C3-7AFF-4274-B8FC-4A93A1FAADEA}"
 EndProject
 Global
 	GlobalSection(Performance) = preSolution
@@ -616,6 +616,9 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F7AF94B5-83B0-46CD-B258-67F2404F82FC}
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 	GlobalSection(Performance) = preSolution
 		HasPerformanceSessions = true
