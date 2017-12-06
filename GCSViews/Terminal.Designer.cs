@@ -38,6 +38,7 @@
             this.BUT_ConnectAPM = new MissionPlanner.Controls.MyButton();
             this.BUT_disconnect = new MissionPlanner.Controls.MyButton();
             this.CMB_boardtype = new System.Windows.Forms.ComboBox();
+            this.IPAddressBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // TXT_terminal
@@ -107,13 +108,22 @@
             resources.GetString("CMB_boardtype.Items"),
             resources.GetString("CMB_boardtype.Items1"),
             resources.GetString("CMB_boardtype.Items2"),
-            resources.GetString("CMB_boardtype.Items3")});
+            resources.GetString("CMB_boardtype.Items3"),
+            resources.GetString("CMB_boardtype.Items4")});
             resources.ApplyResources(this.CMB_boardtype, "CMB_boardtype");
             this.CMB_boardtype.Name = "CMB_boardtype";
+            this.CMB_boardtype.SelectedIndexChanged += new System.EventHandler(this.CMB_boardtype_SelectedIndexChanged);
+            // 
+            // IPAddressBox
+            // 
+            resources.ApplyResources(this.IPAddressBox, "IPAddressBox");
+            this.IPAddressBox.ForeColor = System.Drawing.SystemColors.InfoText;
+            this.IPAddressBox.Name = "IPAddressBox";
             // 
             // Terminal
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.Controls.Add(this.IPAddressBox);
             this.Controls.Add(this.CMB_boardtype);
             this.Controls.Add(this.BUT_disconnect);
             this.Controls.Add(this.BUT_ConnectAPM);
@@ -128,6 +138,7 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Terminal_FormClosing);
             this.Load += new System.EventHandler(this.Terminal_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -142,5 +153,6 @@
         private Controls.MyButton BUT_ConnectAPM;
         private Controls.MyButton BUT_disconnect;
         private System.Windows.Forms.ComboBox CMB_boardtype;
+        private System.Windows.Forms.TextBox IPAddressBox;
     }
 }
