@@ -96,9 +96,6 @@
       <HintPath>..\..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
       <Private>false</Private>
     </Reference>
-    <Reference Include="System.Windows.Forms">
-      <Private>false</Private>
-    </Reference>
     <Reference Include="System.Xml.Linq">
       <Private>false</Private>
     </Reference>
