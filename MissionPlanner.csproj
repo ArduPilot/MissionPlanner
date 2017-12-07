@@ -755,6 +755,8 @@
       <Project>{B46F6C6C-9184-41AF-8F8B-E0084752CA7C}</Project>
       <Name>MetaDataExtractor</Name>
     </ProjectReference>
+    <ProjectReference Include="ExtLibs\mono\mcs\class\Accessibility\Accessibility-net_4_x.csproj" />
+    <ProjectReference Include="ExtLibs\mono\mcs\class\System.Runtime.Serialization.Formatters.Soap\System.Runtime.Serialization.Formatters.Soap-net_4_x.csproj" />
     <ProjectReference Include="ExtLibs\mono\mcs\class\System.Windows.Forms\System.Windows.Forms-net_4_x.csproj" />
     <ProjectReference Include="ExtLibs\px4uploader\px4uploader.csproj">
       <Project>{664FC484-2A94-4B0D-808F-A71F88E06B11}</Project>
