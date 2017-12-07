@@ -284,7 +284,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (!EnergyProfileModel.Enabled)
                 {
                     EnergyProfileModel.Enabled = true;
-                    UpdateTables(3);
+                    UpdateTables(2);
                 }
             }
             else
@@ -359,7 +359,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             _configEnergyProfile.ExportProfile();
         }
-        
+
         // Private functions
         /// <summary>
         /// Update funtion for activated the form
@@ -370,7 +370,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (EnergyProfileModel.Enabled)
             {
                 ComboBoxCrntDeviation.SelectedIndex = ComboBoxIndex;
-                CB_Interp_Curr.SelectedIndex = (int) EnergyProfileModel.InterpModeCurr;
+                CB_Interp_Curr.SelectedIndex = (int)EnergyProfileModel.InterpModeCurr;
                 CB_Interp_Vel.SelectedIndex = (int)EnergyProfileModel.InterpModeVel;
                 //Write back values to settings page
                 UpdateTables();
@@ -406,7 +406,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     "One or more values are incorrect in current-model. The energy-profile doesn't work.");
             }
             else if (!validVel)
-            { 
+            {
                 CustomMessageBox.Show(
                     "One or more values are incorrect in velocity-model. The energy-profile doesn't work.");
             }
@@ -446,7 +446,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             bool validVel = _configEnergyProfile.Interpolation(EnergyProfileController.PlotProfile.Velocity);
             if (validVel)
             {
-            _configEnergyProfile.Plot(ChartV, EnergyProfileController.PlotProfile.Velocity);
+                _configEnergyProfile.Plot(ChartV, EnergyProfileController.PlotProfile.Velocity);
             }
             else
             {
@@ -540,7 +540,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             _configEnergyProfile.SetTransitionState(ChB_CurrentTransition.Checked, ChB_SpeedTransition.Checked, Convert.ToInt16(tb_cmdflighttime.Text));
             bool validAnalyze = _configEnergyProfile.AnalyzeLogs(filenames, Convert.ToInt16(tb_minval.Text), Convert.ToInt16(tb_transtime.Text));
-            
 
             // update view
             if (validAnalyze)
@@ -566,11 +565,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 case 0:
                     CrntTBDatabindings();
                     VelocityTBDatabindings();
-                    //if (validprofile)
-                    //{
-                    //    BtnPlotCrnt.PerformClick();
-                    //    BtnPlotVelocity.PerformClick();
-                    //}
+                    BtnPlotCrnt.PerformClick();
+                    BtnPlotVelocity.PerformClick();
+
                     //else
                     //{
                     //    CustomMessageBox.Show(
@@ -588,16 +585,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     //}
                     break;
                 case 2:
-                    CrntTBDatabindings();
-                    //if (validprofile)
-                    //    VelocityTBDatabindings();
-                    //else
-                    //{
-                    //    CustomMessageBox.Show(
-                    //        "One or more values are incorrect in velocity-model. The energy-profile doesn't work.");
-                    //}
-                    break;
-                case 3:
                     CrntTBDatabindings();
                     VelocityTBDatabindings();
                     break;

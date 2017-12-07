@@ -141,6 +141,7 @@ namespace MissionPlanner.Utilities
             Lat,
             Lng,
             RelAlt,
+            RAlt,
             None
         }
 
@@ -1209,7 +1210,13 @@ namespace MissionPlanner.Utilities
                 var hdop = dict.ContainsKey(GPSFrame.HDop.ToString()) ? dict[GPSFrame.HDop.ToString()].Replace('.', ',') : GPSFrame.None.ToString(); // gps hdop - gps precision < 1 - 1.5
                 var lat = dict.ContainsKey(GPSFrame.Lat.ToString()) ? dict[GPSFrame.Lat.ToString()].Replace('.', ',') : GPSFrame.None.ToString(); // gps latitude
                 var lng = dict.ContainsKey(GPSFrame.Lng.ToString()) ? dict[GPSFrame.Lng.ToString()].Replace('.', ',') : GPSFrame.None.ToString(); // gps longitude
-                var alt = dict.ContainsKey(GPSFrame.RelAlt.ToString()) ? dict[GPSFrame.RelAlt.ToString()].Replace('.', ',') : GPSFrame.None.ToString(); // gps altitude
+                string alt;
+                if (dict.ContainsKey(GPSFrame.RelAlt.ToString()))
+                    alt = dict[GPSFrame.RelAlt.ToString()].Replace('.', ',');
+                else if (dict.ContainsKey(GPSFrame.RAlt.ToString()))
+                    alt = dict[GPSFrame.RAlt.ToString()].Replace('.', ',');
+                else
+                    alt = GPSFrame.None.ToString(); // gps altitude
 
                 switch (searchflag)
                 {
@@ -1599,7 +1606,7 @@ namespace MissionPlanner.Utilities
                                 // second way for calculate speed
                                 logfilemodel.Value.CMD_Lines[cmdindex].Speed = CalcSpeed2(
                                     logfilemodel.Value.GPS_Lines, logfilemodel.Value.CMD_Lines[cmdindex].Time_ms + gpsTransitionDelayTime,
-                                    logfilemodel.Value.CMD_Lines[cmdindex + 1].Time_ms - gpsTransitionDelayTime, Math.Abs(alt_diff));
+                                    logfilemodel.Value.CMD_Lines[cmdindex + 1].Time_ms - gpsTransitionDelayTime);
 
                                 // ToDo: set EnergyTime and TotalEnergy
                                 logfilemodel.Value.EnergyDatas[cmdindex] = GetEnergyValues(
@@ -1693,74 +1700,133 @@ namespace MissionPlanner.Utilities
         /// <param name="gpslist">Full list of all GPS_Samples of one Logfile</param>
         /// <param name="timestart">Start_Time for first GPS_Sample</param>
         /// <param name="timeend">END_Time for last GPS_Sample</param>
-        /// <param name="alt_diff">Differnce of altitude of to commands.</param>
         /// <returns>Get the GPS_Speed.</returns>
-        private double CalcSpeed2(List<GPS_Model> gpslist, int timestart, int timeend, double alt_diff)
+        private double CalcSpeed2(List<GPS_Model> gpslist, int timestart, int timeend)
         {
             double speed = 0;
             bool start = false;
             double startLong = 0;
             double startLat = 0;
+            double startAlt = 0;
             double endLong = 0;
             double endLat = 0;
+            double endAlt = 0;
             double gpsstarttime = 0;
             double gpsendtime = 0;
             double distance = 0;
+            bool convertValid = true;
             foreach (var gpsModel in gpslist)
             {
                 if (gpsModel.Time_ms >= timestart && !start)
                 {
                     try
                     {
-                        startLong = Convert.ToDouble((gpsModel.Longitude));
-                        startLat = Convert.ToDouble((gpsModel.Latitude));
-                        gpsstarttime = Convert.ToDouble((gpsModel.Time_ms));
+                        if (!gpsModel.Longitude.Equals(GPSFrame.None.ToString()))
+                        {
+                            startLong = Convert.ToDouble(gpsModel.Longitude);
+                        }
+                        else
+                        {
+                            convertValid = false;
+                            break;
+                        }
+                        if (!gpsModel.Latitude.Equals(GPSFrame.None.ToString()))
+                        {
+                            startLat = Convert.ToDouble(gpsModel.Latitude);
+                        }
+                        else
+                        {
+                            convertValid = false;
+                            break;
+                        }
+                        if (!gpsModel.Altitude.Equals(GPSFrame.None.ToString()))
+                        {
+                            startAlt = Convert.ToDouble(gpsModel.Altitude);
+                        }
+                        else
+                        {
+                            convertValid = false;
+                            break;
+                        }
+                        gpsstarttime = Convert.ToDouble(gpsModel.Time_ms);
+
                         start = true;
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine(e);
-                        throw;
+                        convertValid = false;
+                        CustomMessageBox.Show(e.ToString());
+                        break;
                     }
                 }
                 else if (gpsModel.Time_ms >= timeend && start)
                 {
                     try
                     {
-                        endLong = Convert.ToDouble((gpsModel.Longitude));
-                        endLat = Convert.ToDouble((gpsModel.Latitude));
+                        if (!gpsModel.Longitude.Equals(GPSFrame.None.ToString()))
+                        {
+                            endLong = Convert.ToDouble(gpsModel.Longitude);
+                        }
+                        else
+                        {
+                            convertValid = false;
+                            break;
+                        }
+                        if (!gpsModel.Latitude.Equals(GPSFrame.None.ToString()))
+                        {
+                            endLat = Convert.ToDouble(gpsModel.Latitude);
+                        }
+                        else
+                        {
+                            convertValid = false;
+                            break;
+                        }
+                        if (!gpsModel.Altitude.Equals(GPSFrame.None.ToString()))
+                        {
+                            endAlt = Convert.ToDouble(gpsModel.Altitude);
+                        }
+                        else
+                        {
+                            convertValid = false;
+                            break;
+                        }
                         gpsendtime = Convert.ToDouble((gpsModel.Time_ms));
                         break;
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine(e);
-                        throw;
+                        convertValid = false;
+                        CustomMessageBox.Show(e.ToString());
+                        break;
                     }
                 }
             }
-            var time = (gpsendtime - gpsstarttime) / 1000;
-            if (time < 0 || time < cmdFlightTime)
+            if (convertValid)
             {
-                return speed;
-            }
-            double distance_on_ground = CalcGeoDistance(startLat, endLat, startLong, endLong);
+                var time = (gpsendtime - gpsstarttime) / 1000;
+                var alt_diff = Math.Abs(endAlt - startAlt);
+                if (time < 0 || time < cmdFlightTime)
+                {
+                    return speed;
+                }
+                double distance_on_ground = CalcGeoDistance(startLat, endLat, startLong, endLong);
 
-            if (alt_diff.Equals(0) && distance_on_ground > 0)
-            {
-                distance = distance_on_ground;
-            }
-            else if (alt_diff > 0 && distance_on_ground.Equals(0))
-            {
-                distance = alt_diff;
-            }
-            else if (alt_diff > 0 && distance_on_ground > 0)
-            {
+                if (alt_diff.Equals(0) && distance_on_ground > 0)
+                {
+                    distance = distance_on_ground;
+                }
+                else if (alt_diff > 0 && distance_on_ground.Equals(0))
+                {
+                    distance = alt_diff;
+                }
+                else if (alt_diff > 0 && distance_on_ground > 0)
+                {
 
-                distance = Math.Sqrt(Math.Pow(distance_on_ground, 2) + Math.Pow(alt_diff, 2));
-            }
+                    distance = Math.Sqrt(Math.Pow(distance_on_ground, 2) + Math.Pow(alt_diff, 2));
+                }
 
-            speed = distance / time;
+                speed = distance / time;
+            }
 
             return speed;
         }
