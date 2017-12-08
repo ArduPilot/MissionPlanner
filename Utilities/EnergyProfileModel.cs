@@ -15,8 +15,6 @@ namespace MissionPlanner.Utilities
     {
         private static bool _enabled;
         private static double _percentDevCrnt;
-        private static InterpolationMode _interpModeCurr = InterpolationMode.LinearInterp;
-        private static InterpolationMode _interpModeVel = InterpolationMode.LinearInterp;
 
         public enum InterpolationMode
         {
@@ -174,17 +172,8 @@ namespace MissionPlanner.Utilities
         public static List<PointF> AverageVelocitySplinePoints { get; set; } = new List<PointF>();
         public static List<PointF> MaxVelocitySplinePoints { get; set; } = new List<PointF>();
 
-        public static InterpolationMode InterpModeCurr
-        {
-            get { return _interpModeCurr; }
-            set { _interpModeCurr = value; }
-        }
-
-        public static InterpolationMode InterpModeVel
-        {
-            get { return _interpModeVel; }
-            set { _interpModeVel = value; }
-        }
+        public static InterpolationMode InterpModeCurr { get; set; } = InterpolationMode.LinearInterp;
+        public static InterpolationMode InterpModeVel { get; set; } = InterpolationMode.LinearInterp;
 
         //gives the deviation from percent
         public static double PercentDevCrnt

@@ -33,8 +33,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             ComboBoxCrntDeviation.DataSource = EnergyProfileModel.DeviationInPercentList;
             ComboBoxCrntDeviation.SelectedItem = EnergyProfileModel.DeviationInPercentList[0];
+            // set linear as default
+            if (EnergyProfileModel.InterpModeCurr.Equals(EnergyProfileModel.InterpolationMode.None))
+                EnergyProfileModel.InterpModeCurr = EnergyProfileModel.InterpolationMode.LinearInterp;
+            if (EnergyProfileModel.InterpModeVel.Equals(EnergyProfileModel.InterpolationMode.None))
+                EnergyProfileModel.InterpModeVel = EnergyProfileModel.InterpolationMode.LinearInterp;
             CB_Interp_Curr.SelectedIndex = (int)EnergyProfileModel.InterpModeCurr;
             CB_Interp_Vel.SelectedIndex = (int)EnergyProfileModel.InterpModeVel;
+
         }
         /// <summary>
         /// Set binding on the textboxes

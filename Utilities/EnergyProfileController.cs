@@ -1694,6 +1694,7 @@ namespace MissionPlanner.Utilities
 
             return new[] { energytime, energytot, energy1, energy2 };
         }
+
         /// <summary>
         /// Calculate the GPS_Speed
         /// </summary>
@@ -1827,9 +1828,9 @@ namespace MissionPlanner.Utilities
 
                 speed = distance / time;
             }
-
             return speed;
         }
+
         /// <summary>
         /// Calculation the distance on ground btw. airline. [meters]
         /// https://www.kompf.de/gps/distcalc.html --> better method
