@@ -15,7 +15,7 @@ namespace MissionPlanner.Utilities
     {
         private long _length;
         string _uri = "";
-        private int chunksize = 1000 * 50;
+        public int chunksize { get; set; } = 1000 * 50;
 
         private static object _lock = new object();
         /// <summary>

@@ -286,6 +286,9 @@ namespace MissionPlanner.Utilities
         
         public void Load()
         {
+            if (!File.Exists(GetConfigFullPath()))
+                return;
+
             using (XmlTextReader xmlreader = new XmlTextReader(GetConfigFullPath()))
             {
                 while (xmlreader.Read())
