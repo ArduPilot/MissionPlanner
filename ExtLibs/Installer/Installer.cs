@@ -112,6 +112,8 @@ namespace Installer
 
                 UpdateText("Done");
 
+                //certutil -addstore "Root" signed.cer
+
                 but_Start.Enabled = true;
             }
             else
