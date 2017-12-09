@@ -53,35 +53,35 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 ParameterMetaDataRepository.GetParameterOptionsInt("MOT_PWM_TYPE", MainV2.comPort.MAV.cs.firmware.ToString())
                     .ToList(), "MOT_PWM_TYPE", MainV2.comPort.MAV.param);
 
-            STEER2SRV_P.setup(0, 0, 1, 0.1f, "ATC_STR_RAT_P", MainV2.comPort.MAV.param);
-            STEER2SRV_I.setup(0, 0, 1, 0.1f, "ATC_STR_RAT_I", MainV2.comPort.MAV.param);
-            STEER2SRV_D.setup(0, 0, 1, 0.1f, "ATC_STR_RAT_D", MainV2.comPort.MAV.param);
-            STEER2SRV_IMAX.setup(0, 0, 1, 0.1f, "ATC_STR_RAT_IMAX", MainV2.comPort.MAV.param);
+            STEER2SRV_P.setup(0, 0, 1, 0.1f, new[] {"STEER2SRV_P", "ATC_STR_RAT_P"}, MainV2.comPort.MAV.param);
+            STEER2SRV_I.setup(0, 0, 1, 0.1f, new[] {"STEER2SRV_I", "ATC_STR_RAT_I"}, MainV2.comPort.MAV.param);
+            STEER2SRV_D.setup(0, 0, 1, 0.1f, new[] {"STEER2SRV_D", "ATC_STR_RAT_D"}, MainV2.comPort.MAV.param);
+            STEER2SRV_IMAX.setup(0, 0, 1, 0.1f, new[] {"STEER2SRV_IMAX", "ATC_STR_RAT_IMAX"}, MainV2.comPort.MAV.param);
 
             TURN_RADIUS.setup(0, 0, 1, 0.1f, "TURN_RADIUS", MainV2.comPort.MAV.param);
 
-            SPEED2THR_P.setup(0, 0, 1, 0.1f, "ATC_SPEED_P", MainV2.comPort.MAV.param);
-            SPEED2THR_I.setup(0, 0, 1, 0.1f, "ATC_SPEED_I", MainV2.comPort.MAV.param);
-            SPEED2THR_D.setup(0, 0, 1, 0.1f, "ATC_SPEED_D", MainV2.comPort.MAV.param);
-            SPEED2THR_IMAX.setup(0, 0, 1, 0.1f, "ATC_SPEED_IMAX", MainV2.comPort.MAV.param);
+            SPEED2THR_P.setup(0, 0, 1, 0.1f, new[] {"SPEED2THR_P", "ATC_SPEED_P"}, MainV2.comPort.MAV.param);
+            SPEED2THR_I.setup(0, 0, 1, 0.1f, new[] {"SPEED2THR_I", "ATC_SPEED_I"}, MainV2.comPort.MAV.param);
+            SPEED2THR_D.setup(0, 0, 1, 0.1f, new[] {"SPEED2THR_D", "ATC_SPEED_D"}, MainV2.comPort.MAV.param);
+            SPEED2THR_IMAX.setup(0, 0, 1, 0.1f, new[] {"SPEED2THR_IMAX", "ATC_SPEED_IMAX"}, MainV2.comPort.MAV.param);
             ATC_ACCEL_MAX.setup(0, 0, 1, 0.1f, "ATC_ACCEL_MAX", MainV2.comPort.MAV.param);
 
             CRUISE_SPEED.setup(0, 0, 1, 0.1f, "CRUISE_SPEED", MainV2.comPort.MAV.param);
             CRUISE_THROTTLE.setup(0, 0, 1, 1, "CRUISE_THROTTLE", MainV2.comPort.MAV.param);
-            THR_MIN.setup(0, 0, 1, 1, "MOT_THR_MIN", MainV2.comPort.MAV.param);
-            THR_MAX.setup(0, 0, 1, 1, "MOT_THR_MAX", MainV2.comPort.MAV.param);
+            THR_MIN.setup(0, 0, 1, 1, new[] {"THR_MIN", "MOT_THR_MIN"}, MainV2.comPort.MAV.param);
+            THR_MAX.setup(0, 0, 1, 1, new[] {"THR_MAX", "MOT_THR_MAX"}, MainV2.comPort.MAV.param);
             MOT_SKID_FRIC.setup(0, 0, 1, 1, "MOT_SKID_FRIC", MainV2.comPort.MAV.param);
 
             WP_RADIUS.setup(0, 0, 1, 0.1f, "WP_RADIUS", MainV2.comPort.MAV.param);
             WP_OVERSHOOT.setup(0, 0, 1, 0.1f, "WP_OVERSHOOT", MainV2.comPort.MAV.param);
-            TURN_G_MAX.setup(0, 0, 1, 1, "TURN_MAX_G", MainV2.comPort.MAV.param);      
+            TURN_G_MAX.setup(0, 0, 1, 1, "TURN_MAX_G", MainV2.comPort.MAV.param);
             NAVL1_PERIOD.setup(0, 0, 1, 1, "NAVL1_PERIOD", MainV2.comPort.MAV.param);
             NAVL1_DAMPING.setup(0, 0, 1, 0.05f, "NAVL1_DAMPING", MainV2.comPort.MAV.param);
 
-            SONAR_TRIGGER_CM.setup(0, 0, 1, 1, "RNGFND_TRIGGR_CM", MainV2.comPort.MAV.param);
-            SONAR_TURN_ANGLE.setup(0, 0, 1, 1, "RNGFND_TURN_ANGL", MainV2.comPort.MAV.param);
-            SONAR_TURN_TIME.setup(0, 0, 1, 1, "RNGFND_TURN_TIME", MainV2.comPort.MAV.param);
-            SONAR_DEBOUNCE.setup(0, 0, 1, 1, "RNGFND_DEBOUNCE", MainV2.comPort.MAV.param);
+            SONAR_TRIGGER_CM.setup(0, 0, 1, 1, new[] {"SONAR_TRIGGER_CM", "RNGFND_TRIGGR_CM"}, MainV2.comPort.MAV.param);
+            SONAR_TURN_ANGLE.setup(0, 0, 1, 1, new[] {"SONAR_TURN_ANGLE", "RNGFND_TURN_ANGL"}, MainV2.comPort.MAV.param);
+            SONAR_TURN_TIME.setup(0, 0, 1, 1, new[] {"SONAR_TURN_TIME", "RNGFND_TURN_TIME"}, MainV2.comPort.MAV.param);
+            SONAR_DEBOUNCE.setup(0, 0, 1, 1, new[] {"SONAR_DEBOUNCE", "RNGFND_DEBOUNCE"}, MainV2.comPort.MAV.param);
 
             changes.Clear();
 
@@ -92,14 +92,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     if (control2 is MavlinkNumericUpDown)
                     {
-                        var ParamName = ((MavlinkNumericUpDown)control2).ParamName;
+                        var ParamName = ((MavlinkNumericUpDown) control2).ParamName;
                         toolTip1.SetToolTip(control2,
                             ParameterMetaDataRepository.GetParameterMetaData(ParamName,
                                 ParameterMetaDataConstants.Description, MainV2.comPort.MAV.cs.firmware.ToString()));
                     }
                     if (control2 is MavlinkComboBox)
                     {
-                        var ParamName = ((MavlinkComboBox)control2).ParamName;
+                        var ParamName = ((MavlinkComboBox) control2).ParamName;
                         toolTip1.SetToolTip(control2,
                             ParameterMetaDataRepository.GetParameterMetaData(ParamName,
                                 ParameterMetaDataConstants.Description, MainV2.comPort.MAV.cs.firmware.ToString()));
