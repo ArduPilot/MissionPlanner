@@ -1,15 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using GMap.NET;
-using GMap.NET.MapProviders;
-using GMap.NET.WindowsForms;
-using GMap.NET.WindowsForms.Markers;
-using MissionPlanner.Controls;
-using MissionPlanner.HIL;
 
 namespace MissionPlanner.Utilities
 {
@@ -82,9 +73,6 @@ namespace MissionPlanner.Utilities
                 return ans2;
             }
 
-            
-            GMapPolygon poly = new GMapPolygon(new List<PointLatLng>(), "rect");
-
             double frontangle = (P*0) + vfov/2;
             double backangle = (P*0) - vfov/2;
             double leftangle = (R*0) + hfov/2;
@@ -149,8 +137,6 @@ namespace MissionPlanner.Utilities
 
             var groundpointtr = calcIntersection(plla, newpos2);
 
-            poly.Points.Add(groundpointtr);
-
             addtomap(groundpointtr, "tr");
 
             //
@@ -169,8 +155,6 @@ namespace MissionPlanner.Utilities
             newpos2.Alt -= test.z;
 
             var groundpointtl = calcIntersection(plla, newpos2);
-
-            poly.Points.Add(groundpointtl);
 
             addtomap(groundpointtl, "tl");
 
@@ -191,8 +175,6 @@ namespace MissionPlanner.Utilities
 
             var groundpointbl = calcIntersection(plla, newpos2);
 
-            poly.Points.Add(groundpointbl);
-
             addtomap(groundpointbl, "bl");
 
             //
@@ -212,14 +194,9 @@ namespace MissionPlanner.Utilities
 
             var groundpointbr = calcIntersection(plla, newpos2);
 
-            poly.Points.Add(groundpointbr);
-
             addtomap(groundpointbr, "br");
 
             //
-
-            polygons.Polygons.Clear();
-            polygons.Polygons.Add(poly);
 
             var ans = new List<PointLatLngAlt>();
             ans.Add(groundpointtl);
@@ -303,46 +280,10 @@ namespace MissionPlanner.Utilities
 
             return plla;
         }
-
-        static GMapOverlay polygons = new GMapOverlay("polygons");
-        static myGMAP map = null;
-
-        static void DoDebug()
-        {
-            if (map != null)
-            {
-                if (map.Overlays.Count != 0)
-                {
-                    while (polygons.Markers.Count > 7)
-                        polygons.Markers.RemoveAt(0);
-                    //polygons.Markers.Clear();
-                    return;
-                }
-            }
-
-            polygons = new GMapOverlay("polygons");
-            map = new myGMAP();
-            var form = new Form() { Size = new Size(1024, 768), WindowState = FormWindowState.Maximized };
-            map.Dock = DockStyle.Fill;
-            map.MapProvider = GMapProviders.GoogleSatelliteMap;
-            map.MaxZoom = 20;
-            map.Overlays.Add(polygons);
-            form.Controls.Add(map);
-            form.Show();
-        }
-
+        
         static void addtomap(PointLatLngAlt pos, string tag)
         {
-            if (map != null)
-            {
-                polygons.Markers.Add(new GMarkerGoogle(pos, GMarkerGoogleType.blue)
-                {
-                    ToolTipText = tag,
-                    ToolTipMode = MarkerTooltipMode.Always
-                });
 
-                map.ZoomAndCenterMarkers("polygons");
-            }
         }
 
         public static PointF FindLineIntersection(PointF start1, PointF end1, PointF start2, PointF end2)
