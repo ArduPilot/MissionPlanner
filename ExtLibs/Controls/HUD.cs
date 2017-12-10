@@ -714,22 +714,7 @@ namespace MissionPlanner.Controls
             {
                 get
                 {
-                    if (Item.PropertyType == typeof(Single))
-                    {
-                        return (double) (float) Item.GetValue(src, null);
-                    }
-
-                    if (Item.PropertyType == typeof(Int32))
-                    {
-                        return (double) (int) Item.GetValue(src, null);
-                    }
-
-                    if (Item.PropertyType == typeof(double))
-                    {
-                        return (double) Item.GetValue(src, null);
-                    }
-
-                    throw new Exception("Bad data type");
+                    return Convert.ToDouble(Item.GetValue(src, null));
                 }
             }
 
