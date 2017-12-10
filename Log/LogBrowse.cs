@@ -2853,6 +2853,7 @@ namespace MissionPlanner.Log
                 zg1.GraphPane.XAxis.Scale.MajorUnit = DateUnit.Minute;
                 zg1.GraphPane.XAxis.Scale.MinorUnit = DateUnit.Second;
                 zg1.GraphPane.YAxis.Title.Text = "Output";
+                zg1.PointDateFormat = "HH:mm:ss.fff";
             }
             else
             {
