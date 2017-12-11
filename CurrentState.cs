@@ -1507,19 +1507,19 @@ namespace MissionPlanner
                         try
                         {
                             mavinterface.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTENDED_STATUS, MAV.cs.ratestatus,
-                                MAV.sysid); // mode
+                                MAV.sysid, MAV.compid); // mode
                             mavinterface.requestDatastream(MAVLink.MAV_DATA_STREAM.POSITION, MAV.cs.rateposition,
-                                MAV.sysid); // request gps
+                                MAV.sysid, MAV.compid); // request gps
                             mavinterface.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA1, MAV.cs.rateattitude,
-                                MAV.sysid); // request attitude
+                                MAV.sysid, MAV.compid); // request attitude
                             mavinterface.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA2, MAV.cs.rateattitude,
-                                MAV.sysid); // request vfr
-                            mavinterface.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA3, MAV.cs.ratesensors, MAV.sysid);
-                                // request extra stuff - tridge
+                                MAV.sysid, MAV.compid); // request vfr
+                            mavinterface.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA3, MAV.cs.ratesensors, MAV.sysid,
+                                MAV.compid);// request extra stuff - tridge
                             mavinterface.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MAV.cs.ratesensors,
-                                MAV.sysid); // request raw sensor
-                            mavinterface.requestDatastream(MAVLink.MAV_DATA_STREAM.RC_CHANNELS, MAV.cs.raterc, MAV.sysid);
-                                // request rc info
+                                MAV.sysid, MAV.compid); // request raw sensor
+                            mavinterface.requestDatastream(MAVLink.MAV_DATA_STREAM.RC_CHANNELS, MAV.cs.raterc, MAV.sysid,
+                                MAV.compid);// request rc info
                         }
                         catch
                         {
@@ -1590,6 +1590,62 @@ namespace MissionPlanner
                         }
 
                         MAV.clearPacket((uint)MAVLink.MAVLINK_MSG_ID.FENCE_STATUS);
+                    }
+
+                    mavLinkMessage = MAV.getPacket((uint)MAVLink.MAVLINK_MSG_ID.HIGH_LATENCY);
+
+                    if (mavLinkMessage != null)
+                    {
+                        var highlatency = mavLinkMessage.ToStructure<MAVLink.mavlink_high_latency_t>();
+
+                        landed = highlatency.landed_state == 1;
+
+                        if ((highlatency.base_mode & (byte) MAVLink.MAV_MODE_FLAG.CUSTOM_MODE_ENABLED) != 0)
+                        {
+                            List<KeyValuePair<int, string>> modelist = Common.getModesList(this);
+
+                            if (modelist != null)
+                            {
+                                bool found = false;
+
+                                foreach (KeyValuePair<int, string> pair in modelist)
+                                {
+                                    if (pair.Key == highlatency.custom_mode)
+                                    {
+                                        mode = pair.Value.ToString();
+                                        _mode = highlatency.custom_mode;
+                                        found = true;
+                                        break;
+                                    }
+                                }
+
+                                if (!found)
+                                {
+                                    log.Warn("Mode not found bm:" + highlatency.base_mode + " cm:" + highlatency.custom_mode);
+                                }
+                            }
+                        }
+
+                        roll = highlatency.roll / 100f;
+                        pitch = highlatency.pitch / 100f;
+                        yaw = highlatency.heading / 100f;
+                        ch3percent = highlatency.throttle;
+                        lat = highlatency.latitude / 1e7;
+                        lng = highlatency.longitude / 1e7;
+                        altasl = highlatency.altitude_amsl;
+                        alt = highlatency.altitude_sp;
+                        airspeed = highlatency.airspeed;
+                        _targetairspeed = highlatency.airspeed_sp;
+                        groundspeed = highlatency.groundspeed;
+                        climbrate = highlatency.climb_rate;
+                        satcount = highlatency.gps_nsat;
+                        gpsstatus = highlatency.gps_fix_type;
+                        battery_remaining = highlatency.battery_remaining;
+                        press_temp = highlatency.temperature;
+                        raw_temp = highlatency.temperature_air;
+                        failsafe = highlatency.failsafe > 0;
+                        wpno = highlatency.wp_num;
+                        wp_dist = highlatency.wp_distance;
                     }
 
                     mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.HIL_CONTROLS);

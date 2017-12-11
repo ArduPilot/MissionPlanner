@@ -28,6 +28,7 @@ using OpenTK;
 using WebCamService;
 using ZedGraph;
 using LogAnalyzer = MissionPlanner.Utilities.LogAnalyzer;
+using MissionPlanner.Maps;
 
 // written by michael oborne
 
@@ -1021,7 +1022,7 @@ namespace MissionPlanner.GCSViews
                     // update opengltest
                     if (OpenGLtest.instance != null)
                     {
-                        OpenGLtest.instance.rpy = new Vector3(MainV2.comPort.MAV.cs.roll, MainV2.comPort.MAV.cs.pitch,
+                        OpenGLtest.instance.rpy = new OpenTK.Vector3(MainV2.comPort.MAV.cs.roll, MainV2.comPort.MAV.cs.pitch,
                             MainV2.comPort.MAV.cs.yaw);
                         OpenGLtest.instance.LocationCenter = new PointLatLngAlt(MainV2.comPort.MAV.cs.lat,
                             MainV2.comPort.MAV.cs.lng, MainV2.comPort.MAV.cs.altasl, "here");
@@ -1030,7 +1031,7 @@ namespace MissionPlanner.GCSViews
                     // update opengltest2
                     if (OpenGLtest2.instance != null)
                     {
-                        OpenGLtest2.instance.rpy = new Vector3(MainV2.comPort.MAV.cs.roll, MainV2.comPort.MAV.cs.pitch,
+                        OpenGLtest2.instance.rpy = new OpenTK.Vector3(MainV2.comPort.MAV.cs.roll, MainV2.comPort.MAV.cs.pitch,
                             MainV2.comPort.MAV.cs.yaw);
                         OpenGLtest2.instance.LocationCenter = new PointLatLngAlt(MainV2.comPort.MAV.cs.lat,
                             MainV2.comPort.MAV.cs.lng, MainV2.comPort.MAV.cs.altasl, "here");
@@ -4508,6 +4509,22 @@ namespace MissionPlanner.GCSViews
             {
                 GStreamer.Stop(gst);
             }
+        }
+
+        private void setEKFHomeHereToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!MainV2.comPort.BaseStream.IsOpen)
+                return;
+
+            MAVLink.mavlink_set_gps_global_origin_t go = new MAVLink.mavlink_set_gps_global_origin_t()
+            {
+                latitude = (int)(MouseDownStart.Lat * 1e7),
+                longitude = (int)(MouseDownStart.Lng * 1e7),
+                altitude = (int)srtm.getAltitude(MouseDownStart.Lat, MouseDownStart.Lng).alt,
+                target_system = MainV2.comPort.MAV.sysid
+            };
+
+            MainV2.comPort.sendPacket(go, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid);
         }
     }
 }

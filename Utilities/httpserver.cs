@@ -115,7 +115,8 @@ namespace MissionPlanner.Utilities
 
             TcpClient client = listener.EndAcceptTcpClient(ar);
 
-            new Thread(ProcessClient).Start(client);
+            var th = new Thread(ProcessClient) { IsBackground = true };
+            th.Start(client);
 
             // Signal the calling thread to continue.
             tcpClientConnected.Set();
@@ -466,55 +467,46 @@ namespace MissionPlanner.Utilities
 
                         SharpKml.Dom.CoordinateCollection coords = new SharpKml.Dom.CoordinateCollection();
 
-                        //if (loc.Latitude.Value != 0 && loc.Longitude.Value != 0)
+                        PointLatLngAlt home = null;
+                        // draw track
+                        try
                         {
-                            //foreach (var point in MainV2.comPort.MAV.wps.Values)
-                            {
-                                //    coords.Add(new SharpKml.Base.Vector(point.x, point.y, point.z));
-                            }
-                        }
-                        //else
-                        {
-                            PointLatLngAlt home = null;
-                            // draw track
-                            try
-                            {
-                                foreach (var point in GCSViews.FlightPlanner.instance.fullpointlist)
-                                {
-                                    if (point.Tag.ToLower().Contains("home"))
-                                        home = point;
-
-                                    if (point != null)
-                                        coords.Add(new SharpKml.Base.Vector(point.Lat, point.Lng, point.Alt));
-                                }
-                            }
-                            catch
-                            {
-                            }
-
                             foreach (var point in GCSViews.FlightPlanner.instance.fullpointlist)
                             {
-                                if (point == null)
-                                    continue;
+                                if (point.Tag.ToLower().Contains("home"))
+                                    home = point;
 
-                                SharpKml.Dom.Placemark wp = new SharpKml.Dom.Placemark();
-                                wp.Name = "WP " + point.Tag + " Alt: " + point.Alt;
-                                SharpKml.Dom.Point wppoint = new SharpKml.Dom.Point();
-                                var altmode = SharpKml.Dom.AltitudeMode.RelativeToGround;
-                                wppoint.AltitudeMode = altmode;
-                                wppoint.Coordinate = new Vector()
-                                {
-                                    Latitude = point.Lat,
-                                    Longitude = point.Lng,
-                                    Altitude = point.Alt
-                                };
-                                wp.Geometry = wppoint;
-                                kml.AddFeature(wp);
+                                if (point != null)
+                                    coords.Add(new SharpKml.Base.Vector(point.Lat, point.Lng, point.Alt));
                             }
+                        }
+                        catch
+                        {
+                        }
+
+                        var altmode = SharpKml.Dom.AltitudeMode.Absolute;
+
+                        foreach (var point in GCSViews.FlightPlanner.instance.fullpointlist)
+                        {
+                            if (point == null)
+                                continue;
+
+                            SharpKml.Dom.Placemark wp = new SharpKml.Dom.Placemark();
+                            wp.Name = "WP " + point.Tag + " Alt: " + point.Alt;
+                            SharpKml.Dom.Point wppoint = new SharpKml.Dom.Point();
+                            wppoint.AltitudeMode = altmode;
+                            wppoint.Coordinate = new Vector()
+                            {
+                                Latitude = point.Lat,
+                                Longitude = point.Lng,
+                                Altitude = point.Alt
+                            };
+                            wp.Geometry = wppoint;
+                            kml.AddFeature(wp);
                         }
 
                         SharpKml.Dom.LineString ls = new SharpKml.Dom.LineString();
-                        ls.AltitudeMode = SharpKml.Dom.AltitudeMode.RelativeToGround;
+                        ls.AltitudeMode = altmode;
                         ls.Coordinates = coords;
                         ls.Extrude = false;
                         ls.Tessellate = true;

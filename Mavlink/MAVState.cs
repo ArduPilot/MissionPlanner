@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using GMap.NET;
 using log4net;
+using MissionPlanner.Maps;
 using MissionPlanner.Utilities;
 using Newtonsoft.Json;
 

@@ -137,6 +137,7 @@
             this.triggerCameraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.flightPlannerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setHomeHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.setEKFHomeHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.takeOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.onOffCameraOverlapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.altitudeAngelSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1909,9 +1910,17 @@
             // 
             // setHomeHereToolStripMenuItem
             // 
+            this.setHomeHereToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.setEKFHomeHereToolStripMenuItem});
             this.setHomeHereToolStripMenuItem.Name = "setHomeHereToolStripMenuItem";
             resources.ApplyResources(this.setHomeHereToolStripMenuItem, "setHomeHereToolStripMenuItem");
             this.setHomeHereToolStripMenuItem.Click += new System.EventHandler(this.setHomeHereToolStripMenuItem_Click);
+            // 
+            // setEKFHomeHereToolStripMenuItem
+            // 
+            this.setEKFHomeHereToolStripMenuItem.Name = "setEKFHomeHereToolStripMenuItem";
+            resources.ApplyResources(this.setEKFHomeHereToolStripMenuItem, "setEKFHomeHereToolStripMenuItem");
+            this.setEKFHomeHereToolStripMenuItem.Click += new System.EventHandler(this.setEKFHomeHereToolStripMenuItem_Click);
             // 
             // takeOffToolStripMenuItem
             // 
@@ -2029,7 +2038,6 @@
             this.gMapControl1.RetryLoadTile = 0;
             this.gMapControl1.RoutesEnabled = true;
             this.gMapControl1.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Fractional;
-            this.gMapControl1.SelectedArea = ((GMap.NET.RectLatLng)(resources.GetObject("gMapControl1.SelectedArea")));
             this.gMapControl1.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.gMapControl1.ShowTileGridLines = false;
             this.gMapControl1.Zoom = 3D;
@@ -2264,10 +2272,10 @@
         public Controls.myGMAP gMapControl1;
         private ZedGraph.ZedGraphControl zg1;
         public System.Windows.Forms.TabControl tabControlactions;
-        private System.Windows.Forms.TabPage tabGauges;
+        public System.Windows.Forms.TabPage tabGauges;
         public System.Windows.Forms.TabPage tabStatus;
         public System.Windows.Forms.TabPage tabActions;
-        private System.Windows.Forms.TabPage tabTLogs;
+        public System.Windows.Forms.TabPage tabTLogs;
         private System.Windows.Forms.ComboBox CMB_modes;
         private Controls.MyButton BUT_setmode;
         private System.Windows.Forms.ComboBox CMB_setwp;
@@ -2286,7 +2294,7 @@
         private Controls.HSI Gheading;
         private Controls.MyLabel lbl_playbackspeed;
         private System.Windows.Forms.ToolStripMenuItem setAspectRatioToolStripMenuItem;
-        private System.Windows.Forms.TabPage tabQuick;
+        public System.Windows.Forms.TabPage tabQuick;
         private Controls.QuickView quickView3;
         private Controls.QuickView quickView2;
         private Controls.QuickView quickView1;
@@ -2327,7 +2335,7 @@
         private Controls.MyButton BUT_speed1_4;
         private Controls.MyButton BUT_speed1_10;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TabPage tablogbrowse;
+        public System.Windows.Forms.TabPage tablogbrowse;
         private Controls.MyButton BUT_logbrowse;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
@@ -2358,7 +2366,7 @@
         private Controls.MyButton but_bintolog;
         private Controls.MyButton but_dflogtokml;
         private Controls.MyButton BUT_DFMavlink;
-        private System.Windows.Forms.TabPage tabPagemessages;
+        public System.Windows.Forms.TabPage tabPagemessages;
         private System.Windows.Forms.TextBox txt_messagebox;
         private System.Windows.Forms.Timer Messagetabtimer;
         public System.Windows.Forms.TabPage tabActionsSimple;
@@ -2373,7 +2381,7 @@
         private Controls.DistanceBar distanceBar1;
         private System.Windows.Forms.ToolStripMenuItem takeOffToolStripMenuItem;
         private Controls.MyButton BUT_resumemis;
-        private System.Windows.Forms.TabPage tabPagePreFlight;
+        public System.Windows.Forms.TabPage tabPagePreFlight;
         private Controls.PreFlight.CheckListControl checkListControl1;
         private System.Windows.Forms.ToolStripMenuItem swapWithMapToolStripMenuItem;
         private Controls.MyButton BUT_abortland;
@@ -2392,5 +2400,6 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStripQuickView;
         private System.Windows.Forms.ToolStripMenuItem setViewCountToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem setGStreamerSourceToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem setEKFHomeHereToolStripMenuItem;
     }
 }

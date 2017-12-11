@@ -502,7 +502,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 if (paramfiles == null)
                 {
-                    paramfiles = GitHubContent.GetDirContent("diydrones", "ardupilot", "/Tools/Frame_params/", ".param");
+                    paramfiles = GitHubContent.GetDirContent("ardupilot", "ardupilot", "/Tools/Frame_params/", ".param");
                 }
 
                 BeginInvoke((Action) delegate

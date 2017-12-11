@@ -44,13 +44,13 @@ namespace MissionPlanner.Utilities
                 bool gotit = false;
                 if (Environment.Is64BitOperatingSystem)
                 {
-                    gotit = Common.getFilefromNet(
+                    gotit = Download.getFilefromNet(
                         "http://firmware.ardupilot.org/Tools/MissionPlanner/LogAnalyzer/LogAnalyzer64.zip",
                         zip);
                 }
                 else
                 {
-                    gotit = Common.getFilefromNet(
+                    gotit = Download.getFilefromNet(
                         "http://firmware.ardupilot.org/Tools/MissionPlanner/LogAnalyzer/LogAnalyzer.zip",
                         zip);
                 }

@@ -6,7 +6,7 @@
     <OutputType>Exe</OutputType>
     <StartupObject></StartupObject>
     <Authors>Michael Oborne</Authors>
-    <Version>1.3.50.8</Version>
+    <Version>1.3.51</Version>    <DebugType>full</DebugType>
     <Company>Mission Planner</Company>
     <Product>Mission Planner</Product>
     <Description>Mission Planner ground control station for ardupilot</Description>
@@ -22,11 +22,13 @@
     <OutputPath>bin\Debug\</OutputPath>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <Optimize>false</Optimize>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>bin\Release\</OutputPath>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <Optimize>false</Optimize>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="APMPlannerXplanes\**" />
@@ -60,12 +62,6 @@
   <ItemGroup>
     <Reference Include="BitMiracle.LibTiff.NetStandard">
       <HintPath>..\..\..\.nuget\packages\bitmiracle.libtiff.net\2.4.584.1\lib\netstandard1.3\BitMiracle.LibTiff.NetStandard.dll</HintPath>
-    </Reference>
-    <Reference Include="Community.CsharpSqlite">
-      <HintPath>packages\Community.CsharpSqlite.SQLiteClient.3.7.7.3\lib\net45\Community.CsharpSqlite.dll</HintPath>
-    </Reference>
-    <Reference Include="Community.CsharpSqlite.SQLiteClient">
-      <HintPath>packages\Community.CsharpSqlite.SQLiteClient.3.7.7.3\lib\net45\Community.CsharpSqlite.SQLiteClient.dll</HintPath>
     </Reference>
     <Reference Include="csmatio">
       <HintPath>packages\CSMatIO.1.0.2\lib\net40\csmatio.dll</HintPath>
@@ -111,12 +107,6 @@
     <Reference Include="Microsoft.Scripting.Metadata">
       <HintPath>packages\DynamicLanguageRuntime.1.1.2\lib\Net45\Microsoft.Scripting.Metadata.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.VisualStudio.Threading">
-      <HintPath>packages\Microsoft.VisualStudio.Threading.15.3.23\lib\net45\Microsoft.VisualStudio.Threading.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.Validation">
-      <HintPath>packages\Microsoft.VisualStudio.Validation.15.3.15\lib\net45\Microsoft.VisualStudio.Validation.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Win32.Primitives">
       <HintPath>packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
     </Reference>
@@ -156,12 +146,6 @@
     <Reference Include="SharpDX.DirectInput">
       <HintPath>packages\SharpDX.DirectInput.4.0.1\lib\net45\SharpDX.DirectInput.dll</HintPath>
     </Reference>
-    <Reference Include="SkiaSharp">
-      <HintPath>packages\SkiaSharp.1.58.0\lib\net45\SkiaSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="StreamJsonRpc">
-      <HintPath>packages\StreamJsonRpc.1.0.36\lib\net45\StreamJsonRpc.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.AppContext">
       <HintPath>packages\System.AppContext.4.3.0\lib\net46\System.AppContext.dll</HintPath>
@@ -172,9 +156,6 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Diagnostics.DiagnosticSource">
-      <HintPath>packages\System.Diagnostics.DiagnosticSource.4.4.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
-    </Reference>
     <Reference Include="System.Diagnostics.Tracing">
       <HintPath>packages\System.Diagnostics.Tracing.4.3.0\lib\net462\System.Diagnostics.Tracing.dll</HintPath>
     </Reference>
@@ -220,9 +201,6 @@
     <Reference Include="System.Reflection">
       <HintPath>packages\System.Reflection.4.3.0\lib\net462\System.Reflection.dll</HintPath>
     </Reference>
-    <Reference Include="System.Reflection.TypeExtensions">
-      <HintPath>packages\System.Reflection.TypeExtensions.4.3.0\lib\net462\System.Reflection.TypeExtensions.dll</HintPath>
-    </Reference>
     <Reference Include="System.Runtime.Extensions">
       <HintPath>packages\System.Runtime.Extensions.4.3.0\lib\net462\System.Runtime.Extensions.dll</HintPath>
     </Reference>
@@ -249,9 +227,6 @@
     <Reference Include="System.Speech">
       <Private>True</Private>
       <HintPath>ExtLibs\System.Speech.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Text.Encoding.CodePages">
-      <HintPath>packages\System.Text.Encoding.CodePages.4.4.0\lib\net461\System.Text.Encoding.CodePages.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -280,14 +255,6 @@
     </Reference>
     <Reference Include="Xamarin.Forms.Xaml">
       <HintPath>packages\Xamarin.Forms.2.3.4.247\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.Xaml.dll</HintPath>
-    </Reference>
-    <Reference Include="Zeroconf">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>ExtLibs\Zeroconf.dll</HintPath>
-    </Reference>
-    <Reference Include="zlib.net, Version=1.0.3.0, Culture=neutral, PublicKeyToken=47d7877cb3620160">
-      <HintPath>packages\zlib.net.1.0.4.0\lib\zlib.net.dll</HintPath>
-      <Private>True</Private>
     </Reference>
   </ItemGroup>
  <ItemGroup>
@@ -611,6 +578,9 @@
     <Content Include="Scripts\example1.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Update="Drivers\signed.cer">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="version.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -729,6 +699,7 @@
     <ProjectReference Include="ExtLibs\Core\Core.csproj">
       <Project>{59129078-7B12-4198-B93E-0AA08D0BB7ED}</Project>
       <Name>Core</Name>
+      <Private>true</Private>
     </ProjectReference>
     <ProjectReference Include="ExtLibs\GDAL\GDAL.NET.csproj" />
     <ProjectReference Include="ExtLibs\GeoUtility\GeoUtility.csproj">
@@ -817,10 +788,10 @@
     <PackageReference Include="DotSpatial.Topology" version="1.9" targetFramework="net462" />
   
     <PackageReference Include="Flurl" version="2.5.0" targetFramework="net462" />
-    <PackageReference Include="Flurl.Http" version="1.2.0" targetFramework="net462" />
+    <PackageReference Include="Flurl.Http" version="2.0.1" targetFramework="net462" />
     <PackageReference Include="GDAL" version="1.11.1" targetFramework="net462" />
     <PackageReference Include="GDAL.Native" version="1.11.1" targetFramework="net462" />
-    <PackageReference Include="GeoJSON.Net" version="0.1.56" targetFramework="net462" />
+    <PackageReference Include="GeoJSON.Net" version="1.1.64" targetFramework="net462" />
     <PackageReference Include="IronPython" version="2.7.7" targetFramework="net462" />
     <PackageReference Include="IronPython.StdLib" version="2.7.7" targetFramework="net462" />
     <PackageReference Include="log4net" version="2.0.8" targetFramework="net462" />
@@ -834,7 +805,6 @@
     <PackageReference Include="SharpDX" version="4.0.1" targetFramework="net462" />
     <PackageReference Include="SharpDX.DirectInput" version="4.0.1" targetFramework="net462" />
     <PackageReference Include="SharpZipLib" version="0.86.0" targetFramework="net40" />
-    <PackageReference Include="SkiaSharp" version="1.58.0" targetFramework="net462" />
     <PackageReference Include="SSH.NET" version="2016.0.0" targetFramework="net40" />
     <PackageReference Include="System.Drawing.Common" Version="4.5.0-preview1-25914-04" />
     <PackageReference Include="System.IO.Ports" Version="4.4.0" />
@@ -843,7 +813,7 @@
     <PackageReference Include="System.Reactive.Linq" Version="3.1.1" />
  
     <PackageReference Include="Unofficial.ObjectListView" version="2.6.0" targetFramework="net40" />
-    <PackageReference Include="Xamarin.Forms" version="2.3.4.247" targetFramework="net462" />
+    <PackageReference Include="Xamarin.Forms" version="2.5.0.91635" targetFramework="net462" />
     <PackageReference Include="zlib.net" version="1.0.4.0" targetFramework="net40" />
   </ItemGroup>
 
@@ -1280,6 +1250,12 @@
     </Compile>
     <Compile Update="GCSViews\ConfigurationView\ConfigRadioInput.Designer.cs">
       <DependentUpon>ConfigRadioInput.cs</DependentUpon>
+    </Compile>
+		   <Compile Update="GCSViews\ConfigurationView\ConfigRadioOutput.cs">
+      <SubType>Control</SubType>
+    </Compile>
+	   <Compile Update="GCSViews\ConfigurationView\ConfigRadioOutput.Designer.cs">
+      <DependentUpon>ConfigRadioOutput.cs</DependentUpon>
     </Compile>
     <Compile Update="GCSViews\ConfigurationView\ConfigRawParams.cs">
       <SubType>Control</SubType>
@@ -2781,10 +2757,16 @@
     <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigPlanner.zh-TW.resx">
       <DependentUpon>ConfigPlanner.cs</DependentUpon>
     </EmbeddedResource>
+	    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRadioOutput.resx">
+      <DependentUpon>ConfigRadioOutput.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRadioInput.ar.resx">
       <DependentUpon>ConfigRadioInput.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRadioInput.de-DE.resx">
+      <DependentUpon>ConfigRadioInput.cs</DependentUpon>
+    </EmbeddedResource>
+	    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRadioInput.az-Latn-AZ.resx">
       <DependentUpon>ConfigRadioInput.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRadioInput.es-ES.resx">

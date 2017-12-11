@@ -5,10 +5,10 @@
     <ApplicationIcon />
     <OutputTypeEx>library</OutputTypeEx>
     <StartupObject />
-    <DebugType>embedded</DebugType>
+    <DebugType>full</DebugType>
     <DebugSymbols>True</DebugSymbols>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

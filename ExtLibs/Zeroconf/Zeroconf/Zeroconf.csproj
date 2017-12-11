@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.3</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
     <Authors>Oren Novotny</Authors>
     <PackageLicenseUrl>http://opensource.org/licenses/ms-pl</PackageLicenseUrl>
@@ -19,7 +19,6 @@
     <Compile Remove="Platforms\**\*.*" />
     <None Include="Platforms\**\*.*" />
     <EmbeddedResource Include="Properties\Zeroconf.rd.xml" />
-    <PackageReference Include="MSBuild.Sdk.Extras" Version="1.0.0-rc4-31" PrivateAssets="All" />
     <PackageReference Include="System.Reactive" Version="3.1.1" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
@@ -28,7 +27,7 @@
   <ItemGroup Condition=" '$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'wpa81' or '$(TargetFramework)' == 'win8' or '$(TargetFramework)' == 'portable-win81+wpa81' or '$(TargetFramework)' == 'wp8' ">
     <Compile Include="Platforms\winrt\*.cs" />
   </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
     <Compile Include="Platforms\netstandard1.3\*.cs" />
     <PackageReference Include="System.Net.NetworkInformation" Version="4.3.0" />
   </ItemGroup>

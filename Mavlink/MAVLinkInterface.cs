@@ -403,7 +403,7 @@ namespace MissionPlanner
                     }
                 }
 
-                MAVLinkMessage buffer = MAVLinkMessage.Invalid;
+                List<MAVLinkMessage> hbhistory = new List<MAVLinkMessage>();
 
                 DateTime start = DateTime.Now;
                 DateTime deadline = start.AddSeconds(CONNECT_TIMEOUT_SECONDS);
@@ -420,9 +420,9 @@ namespace MissionPlanner
                 // px4 native
                 BaseStream.WriteLine("sh /etc/init.d/rc.usb");
 
-                int flightControllerHBCount = 0;
+                int count = 0;
 
-                while (flightControllerHBCount < 5)
+                while (true)
                 {
                     if (progressWorkerEventArgs.CancelRequested)
                     {
@@ -445,7 +445,7 @@ namespace MissionPlanner
 
                         if (hbseen)
                         {
-                            progressWorkerEventArgs.ErrorMessage = "No FlightController board detected";
+                            progressWorkerEventArgs.ErrorMessage = Strings.Only1Hb;
                             throw new Exception(Strings.Only1HbD);
                         }
                         else
@@ -463,11 +463,21 @@ Please check the following
 
                     Thread.Sleep(1);
 
-                    // listen for heartbeats from component id 1 (flight controller) only ensures that at least one flight controller is operational
-                    buffer = getHeartBeat();
-
+                    var buffer = getHeartBeat();
                     if (buffer.Length > 0)
+                    {
+                        mavlink_heartbeat_t hb = buffer.ToStructure<mavlink_heartbeat_t>();
+
+                        if (hb.type != (byte) MAV_TYPE.GCS)
+                        {
+                            hbhistory.Add(buffer);
+                        }
+                    }
+
+                    if (hbhistory.Count > 0)
                         hbseen = true;
+
+                    count++;
 
                     // if we get no data, try enableing rts/cts
                     if (buffer.Length == 0 && BaseStream is SerialPort)
@@ -475,19 +485,34 @@ Please check the following
                         BaseStream.RtsEnable = !BaseStream.RtsEnable;
                     }
 
-                    // 2 hbs that match
-                    if (buffer.Length > 5)
+                    // check we have hb's
+                    if (hbhistory.Count > 0)
                     {
-                        mavlink_heartbeat_t hb = buffer.ToStructure<mavlink_heartbeat_t>();
-
-                        if (buffer.compid == 1 && hb.type != (byte)MAV_TYPE.GCS)
+                        bool exit = false;
+                        // get most seen hbs
+                        var mostseenlist = hbhistory.GroupBy(s => MAVList.GetID(s.sysid, s.compid))
+                            .OrderByDescending(s => s.Count()).Where(s => s.Key >= 2);
+                        foreach (var mostseen in mostseenlist)
                         {
-                            flightControllerHBCount++;
-                            sysidcurrent = buffer.sysid;
-                            compidcurrent = buffer.compid;
+                            // get count on most seen
+                            var seentimes = mostseen.Count();
+                            // get the most seen mavlinkmessage
+                            var msg = mostseen.First();
+
+                            // preference compid of 1, failover to anything that we have seen 4 times
+                            if (seentimes >= 2 && msg.compid == 1 || seentimes >= 4)
+                            {
+                                SetupMavConnect(msg, (mavlink_heartbeat_t) msg.data);
+                                exit = true;
+                                break;
+                            }
                         }
+
+                        if (exit)
+                            break;
                     }
                 }
+
                 countDown.Stop();
 
                 byte[] temp = ASCIIEncoding.ASCII.GetBytes("Mission Planner " + getAppVersion() + "\0");
@@ -571,6 +596,9 @@ Please check the following
 
         void SetupMavConnect(MAVLinkMessage message, mavlink_heartbeat_t hb)
         {
+            sysidcurrent = message.sysid;
+            compidcurrent = message.compid;
+
             mavlinkversion = hb.mavlink_version;
             MAVlist[message.sysid, message.compid].aptype = (MAV_TYPE) hb.type;
             MAVlist[message.sysid, message.compid].apname = (MAV_AUTOPILOT) hb.autopilot;
@@ -3015,11 +3043,14 @@ Please check the following
                         setMode(sysid, compid, "GUIDED");
                 }
 
-                MAV_MISSION_RESULT ans = setWP(sysid, compid, gotohere, 0, MAV_FRAME.GLOBAL_RELATIVE_ALT,
-                    (byte) 2);
+                MainV2.comPort.setPositionTargetGlobalInt((byte)sysidcurrent, (byte)compidcurrent,
+                    true, false, false, false, MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT_INT,
+                    gotohere.lat, gotohere.lng, MainV2.comPort.MAV.GuidedMode.z, 0, 0, 0, 0, 0);
 
-                if (ans != MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
-                    throw new Exception("Guided Mode Failed");
+                //MAV_MISSION_RESULT ans = setWP(sysid, compid, gotohere, 0, MAV_FRAME.GLOBAL_RELATIVE_ALT,(byte) 2);
+
+                //if (ans != MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
+                    //throw new Exception("Guided Mode Failed");
             }
             catch (Exception ex)
             {
@@ -3751,6 +3782,14 @@ Please check the following
                                 MAVlist[sysid, compid].apname = (MAV_AUTOPILOT) hb.autopilot;
                                 setAPType(sysid, compid);
                             }
+
+                            // attach to the only remote device. / default to first device seen
+                            if (MAVlist.Count == 1)
+                            {
+                                // set it private as compidset will trigger new mavstate
+                                _sysidcurrent = sysid;
+                                compidcurrent = compid;
+                            }
                         }
                     }
 
@@ -4029,6 +4068,14 @@ Please check the following
                 Console.WriteLine("WP INT # {7} cmd {8} p1 {0} p2 {1} p3 {2} p4 {3} x {4} y {5} z {6}", wp.param1,
                     wp.param2,
                     wp.param3, wp.param4, wp.x, wp.y, wp.z, wp.seq, wp.command);
+            }
+            else if (buffer.msgid == (byte)MAVLINK_MSG_ID.SET_POSITION_TARGET_GLOBAL_INT)
+            {
+                mavlink_set_position_target_global_int_t setpos = buffer.ToStructure<mavlink_set_position_target_global_int_t>();
+
+                MAVlist[setpos.target_system, setpos.target_component].GuidedMode = (mavlink_mission_item_t)(Locationwp)setpos;
+
+                Console.WriteLine("SET_POSITION_TARGET_GLOBAL_INT x {0} y {1} z {2} frame {3}", setpos.lat_int/1e7, setpos.lon_int/1e7, setpos.alt, setpos.coordinate_frame);
             }
             else if (buffer.msgid == (byte) MAVLINK_MSG_ID.RALLY_POINT)
             {

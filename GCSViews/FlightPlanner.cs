@@ -943,8 +943,31 @@ namespace MissionPlanner.GCSViews
             }
 
             Visible = true;
+            updateDisplayView();
 
             timer1.Start();
+        }
+
+
+        public void updateDisplayView()
+        {
+            rallyPointsToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayRallyPointsMenu;
+            geoFenceToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayGeoFenceMenu;
+            createSplineCircleToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displaySplineCircleAutoWp;
+            textToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayTextAutoWp;
+            createCircleSurveyToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayCircleSurveyAutoWp;
+            pOIToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayPoiMenu;
+            trackerHomeToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayTrackerHomeMenu;
+            CHK_verifyheight.Visible = MainV2.DisplayConfiguration.displayCheckHeightBox;
+
+            //hide dynamically generated toolstrip items in the auto WP dropdown (these do not have name objects populated)
+            foreach (ToolStripItem item in autoWPToolStripMenuItem.DropDownItems)
+            {
+                if (item.Name.Equals(""))
+                {
+                    item.Visible = MainV2.DisplayConfiguration.displayPluginAutoWp;
+                }
+            }
         }
 
         void POI_POIModified(object sender, EventArgs e)
@@ -1277,6 +1300,38 @@ namespace MissionPlanner.GCSViews
                     objectsoverlay.Markers.Clear();
                 }
 
+                // setup for centerpoint calc etc.
+                double avglat = 0;
+                double avglong = 0;
+                double maxlat = -180;
+                double maxlong = -180;
+                double minlat = 180;
+                double minlong = 180;
+                Func<double, double, double> gethomealt = (lat, lng) =>
+                {
+                    if ((altmode)CMB_altmode.SelectedValue == altmode.Absolute)
+                    {
+                        return 0; // for absolute we dont need to add homealt
+                    }
+
+                    if ((altmode)CMB_altmode.SelectedValue == altmode.Terrain)
+                    {
+                        return srtm.getAltitude(lat, lng).alt;
+                    }
+
+                    try
+                    {
+                        if (!String.IsNullOrEmpty(TXT_homealt.Text))
+                            return (int) double.Parse(TXT_homealt.Text);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error(ex);
+                    }
+
+                    return 0;
+                };
+
                 // process and add home to the list
                 string home;
                 if (TXT_homealt.Text != "" && TXT_homelat.Text != "" && TXT_homelng.Text != "")
@@ -1285,7 +1340,7 @@ namespace MissionPlanner.GCSViews
                     if (objectsoverlay != null) // during startup
                     {
                         pointlist.Add(new PointLatLngAlt(double.Parse(TXT_homelat.Text), double.Parse(TXT_homelng.Text),
-                            double.Parse(TXT_homealt.Text), "H"));
+                            double.Parse(TXT_homealt.Text), "H") {Tag2 = CMB_altmode.SelectedValue.ToString()});
                         fullpointlist.Add(pointlist[pointlist.Count - 1]);
                         addpolygonmarker("H", double.Parse(TXT_homelng.Text), double.Parse(TXT_homelat.Text), 0, null);
                     }
@@ -1295,28 +1350,6 @@ namespace MissionPlanner.GCSViews
                     home = "";
                     pointlist.Add(null);
                     fullpointlist.Add(pointlist[pointlist.Count - 1]);
-                }
-
-                // setup for centerpoint calc etc.
-                double avglat = 0;
-                double avglong = 0;
-                double maxlat = -180;
-                double maxlong = -180;
-                double minlat = 180;
-                double minlong = 180;
-                double homealt = 0;
-                try
-                {
-                    if (!String.IsNullOrEmpty(TXT_homealt.Text))
-                        homealt = (int) double.Parse(TXT_homealt.Text);
-                }
-                catch (Exception ex)
-                {
-                    log.Error(ex);
-                }
-                if ((altmode) CMB_altmode.SelectedValue == altmode.Absolute)
-                {
-                    homealt = 0; // for absolute we dont need to add homealt
                 }
 
                 int usable = 0;
@@ -1360,7 +1393,7 @@ namespace MissionPlanner.GCSViews
                             if (command == (ushort) MAVLink.MAV_CMD.DO_SET_ROI)
                             {
                                 pointlist.Add(new PointLatLngAlt(double.Parse(cell3), double.Parse(cell4),
-                                    double.Parse(cell2) + homealt, "ROI" + (a + 1)) {color = Color.Red});
+                                    double.Parse(cell2) + gethomealt(double.Parse(cell3), double.Parse(cell4)), "ROI" + (a + 1)) {color = Color.Red});
                                 // do set roi is not a nav command. so we dont route through it
                                 //fullpointlist.Add(pointlist[pointlist.Count - 1]);
                                 GMarkerGoogle m =
@@ -1389,7 +1422,7 @@ namespace MissionPlanner.GCSViews
                                      command == (ushort) MAVLink.MAV_CMD.LOITER_UNLIM)
                             {
                                 pointlist.Add(new PointLatLngAlt(double.Parse(cell3), double.Parse(cell4),
-                                    double.Parse(cell2) + homealt, (a + 1).ToString())
+                                    double.Parse(cell2) + gethomealt(double.Parse(cell3), double.Parse(cell4)), (a + 1).ToString())
                                 {
                                     color = Color.LightBlue
                                 });
@@ -1400,7 +1433,7 @@ namespace MissionPlanner.GCSViews
                             else if (command == (ushort) MAVLink.MAV_CMD.SPLINE_WAYPOINT)
                             {
                                 pointlist.Add(new PointLatLngAlt(double.Parse(cell3), double.Parse(cell4),
-                                    double.Parse(cell2) + homealt, (a + 1).ToString()) {Tag2 = "spline"});
+                                    double.Parse(cell2) + gethomealt(double.Parse(cell3), double.Parse(cell4)), (a + 1).ToString()) {Tag2 = "spline"});
                                 fullpointlist.Add(pointlist[pointlist.Count - 1]);
                                 addpolygonmarker((a + 1).ToString(), double.Parse(cell4), double.Parse(cell3),
                                     double.Parse(cell2), Color.Green);
@@ -1408,7 +1441,7 @@ namespace MissionPlanner.GCSViews
                             else
                             {
                                 pointlist.Add(new PointLatLngAlt(double.Parse(cell3), double.Parse(cell4),
-                                    double.Parse(cell2) + homealt, (a + 1).ToString()));
+                                    double.Parse(cell2) + gethomealt(double.Parse(cell3), double.Parse(cell4)), (a + 1).ToString()));
                                 fullpointlist.Add(pointlist[pointlist.Count - 1]);
                                 addpolygonmarker((a + 1).ToString(), double.Parse(cell4), double.Parse(cell3),
                                     double.Parse(cell2), null);

@@ -97,9 +97,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="BaseClassesNET.snk" />
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseClasses.cs" />
