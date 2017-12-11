@@ -49,7 +49,9 @@ namespace Installer
 
         async void start_dowork()
         {
-            but_Start.Enabled = false;
+            this.Invoke((Action) delegate() { 
+                but_Start.Enabled = false;
+            });
 
             Directory.CreateDirectory(installlocation);
 
@@ -98,7 +100,7 @@ namespace Installer
                     foreach (var file in filestoget)
                     {
                         var entry = zip.GetEntry(file);
-                        UpdateText(String.Format("Getting {0} : {1}/{2}\n{3}->{4}", file, got, filestoget.Count,
+                        UpdateText(String.Format("Getting {0}\nFile {1} of {2}\nCompressed size {3}\nSize {4}", file, got, filestoget.Count,
                             entry?.CompressedLength, entry?.Length));
                         var output = tmp + file.Replace('/', '\\');
                         var dir = Path.GetDirectoryName(output);
@@ -113,8 +115,10 @@ namespace Installer
                 UpdateText("Done");
 
                 //certutil -addstore "Root" signed.cer
-
-                but_Start.Enabled = true;
+                this.Invoke((Action) delegate()
+                {
+                    but_Start.Enabled = true;
+                });
             }
             else
             {
