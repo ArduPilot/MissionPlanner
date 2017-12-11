@@ -1507,19 +1507,19 @@ namespace MissionPlanner
                         try
                         {
                             mavinterface.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTENDED_STATUS, MAV.cs.ratestatus,
-                                MAV.sysid); // mode
+                                MAV.sysid, MAV.compid); // mode
                             mavinterface.requestDatastream(MAVLink.MAV_DATA_STREAM.POSITION, MAV.cs.rateposition,
-                                MAV.sysid); // request gps
+                                MAV.sysid, MAV.compid); // request gps
                             mavinterface.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA1, MAV.cs.rateattitude,
-                                MAV.sysid); // request attitude
+                                MAV.sysid, MAV.compid); // request attitude
                             mavinterface.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA2, MAV.cs.rateattitude,
-                                MAV.sysid); // request vfr
-                            mavinterface.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA3, MAV.cs.ratesensors, MAV.sysid);
-                                // request extra stuff - tridge
+                                MAV.sysid, MAV.compid); // request vfr
+                            mavinterface.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA3, MAV.cs.ratesensors, MAV.sysid,
+                                MAV.compid);// request extra stuff - tridge
                             mavinterface.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MAV.cs.ratesensors,
-                                MAV.sysid); // request raw sensor
-                            mavinterface.requestDatastream(MAVLink.MAV_DATA_STREAM.RC_CHANNELS, MAV.cs.raterc, MAV.sysid);
-                                // request rc info
+                                MAV.sysid, MAV.compid); // request raw sensor
+                            mavinterface.requestDatastream(MAVLink.MAV_DATA_STREAM.RC_CHANNELS, MAV.cs.raterc, MAV.sysid,
+                                MAV.compid);// request rc info
                         }
                         catch
                         {
