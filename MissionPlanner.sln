@@ -11,17 +11,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wix", "wix\wix.csproj", "{7
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{9B3AC501-5FCB-4A2A-A628-BE0985DB2BD4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MissionPlanner.Stats", "ExtLibs\MissionPlanner.Stats\MissionPlanner.Stats.csproj", "{6A6F4345-0A45-413E-B6D6-FD73660DAD4C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissionPlanner.Stats", "ExtLibs\MissionPlanner.Stats\MissionPlanner.Stats.csproj", "{6A6F4345-0A45-413E-B6D6-FD73660DAD4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackerHomeGPS", "ExtLibs\TrackerHome\TrackerHomeGPS.csproj", "{94C380C1-566A-4D86-855B-2E987851BF0A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackerHomeGPS", "ExtLibs\TrackerHome\TrackerHomeGPS.csproj", "{94C380C1-566A-4D86-855B-2E987851BF0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MissionPlanner.SimpleGrid", "ExtLibs\SimpleGrid\MissionPlanner.SimpleGrid.csproj", "{28D0BEF6-D69C-43AB-A22C-724F116D50EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissionPlanner.SimpleGrid", "ExtLibs\SimpleGrid\MissionPlanner.SimpleGrid.csproj", "{28D0BEF6-D69C-43AB-A22C-724F116D50EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MissionPlanner.Gridv2", "ExtLibs\MissionPlanner.Gridv2\MissionPlanner.Gridv2.csproj", "{A7AA6037-BF11-473E-94F9-717276FE080C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissionPlanner.Gridv2", "ExtLibs\MissionPlanner.Gridv2\MissionPlanner.Gridv2.csproj", "{A7AA6037-BF11-473E-94F9-717276FE080C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExtLibs", "ExtLibs", "{7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AviFile", "ExtLibs\AviFile\AviFile.csproj", "{ABB32A29-AF50-47FA-B243-5FD75A5ABA54}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AviFile", "ExtLibs\AviFile\AviFile.csproj", "{ABB32A29-AF50-47FA-B243-5FD75A5ABA54}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "ExtLibs\Core\Core.csproj", "{59129078-7B12-4198-B93E-0AA08D0BB7ED}"
 EndProject
@@ -60,7 +60,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{6A21E0
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tlogThumbnailHandler", "ExtLibs\tlogThumbnailHandler\tlogThumbnailHandler.csproj", "{ABA78B2E-77C3-4377-8568-9542AC227971}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtGuided", "ExtLibs\ExtGuided\ExtGuided.csproj", "{B5211B56-CA30-4B2A-843B-832849F18CEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtGuided", "ExtLibs\ExtGuided\ExtGuided.csproj", "{B5211B56-CA30-4B2A-843B-832849F18CEA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibVLC.NET", "ExtLibs\LibVLC.NET\LibVLC.NET.csproj", "{BB06DFF7-4F41-4B9D-A3C3-3B6D2B8702B6}"
 EndProject
@@ -82,9 +82,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arduino", "ExtLibs\Arduino\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zeroconf", "ExtLibs\Zeroconf\Zeroconf\Zeroconf.csproj", "{F4B60F03-F4C8-42CD-A46D-712838DC184B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Installer", "ExtLibs\Installer\Installer.csproj", "{FF6AA762-7AD3-4F38-94B1-EA75D7B1F217}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Installer", "ExtLibs\Installer\Installer.csproj", "{FF6AA762-7AD3-4F38-94B1-EA75D7B1F217}"
 EndProject
 Global
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Ad-Hoc|Any CPU = Ad-Hoc|Any CPU
 		Ad-Hoc|ARM = Ad-Hoc|ARM
