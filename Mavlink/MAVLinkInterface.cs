@@ -403,8 +403,7 @@ namespace MissionPlanner
                     }
                 }
 
-                MAVLinkMessage buffer = MAVLinkMessage.Invalid;
-                MAVLinkMessage buffer1 = MAVLinkMessage.Invalid;
+                List<MAVLinkMessage> hbhistory = new List<MAVLinkMessage>();
 
                 DateTime start = DateTime.Now;
                 DateTime deadline = start.AddSeconds(CONNECT_TIMEOUT_SECONDS);
@@ -464,58 +463,53 @@ Please check the following
 
                     Thread.Sleep(1);
 
-                    // can see 2 heartbeat packets at any time, and will connect - was one after the other
-
-                    if (buffer.Length == 0)
-                        buffer = getHeartBeat();
-
-                    Thread.Sleep(1);
-
-                    if (buffer1.Length == 0)
-                        buffer1 = getHeartBeat();
-
-
-                    if (buffer.Length > 0 || buffer1.Length > 0)
-                        hbseen = true;
-
-                    count++;
-
-                    // if we get no data, try enableing rts/cts
-                    if (buffer.Length == 0 && buffer1.Length == 0 && BaseStream is SerialPort)
-                    {
-                        BaseStream.RtsEnable = !BaseStream.RtsEnable;
-                    }
-
-                    // 2 hbs that match
-                    if (buffer.Length > 5 && buffer1.Length > 5 && buffer.sysid == buffer1.sysid && buffer.compid == buffer1.compid)
+                    var buffer = getHeartBeat();
+                    if (buffer.Length > 0)
                     {
                         mavlink_heartbeat_t hb = buffer.ToStructure<mavlink_heartbeat_t>();
 
                         if (hb.type != (byte) MAV_TYPE.GCS)
                         {
-                            SetupMavConnect(buffer, hb);
-                            break;
+                            hbhistory.Add(buffer);
                         }
                     }
 
-                    // 2 hb's that dont match. more than one sysid here
-                    if (buffer.Length > 5 && buffer1.Length > 5 && (buffer.sysid == buffer1.sysid || buffer.compid == buffer1.compid))
+                    if (hbhistory.Count > 0)
+                        hbseen = true;
+
+                    count++;
+
+                    // if we get no data, try enableing rts/cts
+                    if (buffer.Length == 0 && BaseStream is SerialPort)
                     {
-                        mavlink_heartbeat_t hb = buffer.ToStructure<mavlink_heartbeat_t>();
+                        BaseStream.RtsEnable = !BaseStream.RtsEnable;
+                    }
 
-                        if (hb.type != (byte) MAV_TYPE.ANTENNA_TRACKER && hb.type != (byte) MAV_TYPE.GCS)
+                    // check we have hb's
+                    if (hbhistory.Count > 0)
+                    {
+                        bool exit = false;
+                        // get most seen hbs
+                        var mostseenlist = hbhistory.GroupBy(s => MAVList.GetID(s.sysid, s.compid))
+                            .OrderByDescending(s => s.Count()).Where(s => s.Key >= 2);
+                        foreach (var mostseen in mostseenlist)
                         {
-                            SetupMavConnect(buffer, hb);
-                            break;
+                            // get count on most seen
+                            var seentimes = mostseen.Count();
+                            // get the most seen mavlinkmessage
+                            var msg = mostseen.First();
+
+                            // preference compid of 1, failover to anything that we have seen 4 times
+                            if (seentimes >= 2 && msg.compid == 1 || seentimes >= 4)
+                            {
+                                SetupMavConnect(msg, (mavlink_heartbeat_t) msg.data);
+                                exit = true;
+                                break;
+                            }
                         }
 
-                        hb = buffer1.ToStructure<mavlink_heartbeat_t>();
-
-                        if (hb.type != (byte) MAV_TYPE.ANTENNA_TRACKER && hb.type != (byte) MAV_TYPE.GCS)
-                        {
-                            SetupMavConnect(buffer1, hb);
+                        if (exit)
                             break;
-                        }
                     }
                 }
 
