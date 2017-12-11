@@ -36,25 +36,31 @@ namespace MissionPlanner.Utilities
         static void expireCache()
         {
             List<string> seen = new List<string>();
-            foreach (var downloadStream in _instances.ToArray())
+            lock (_lock)
             {
-                // only process a uri once
-                if(seen.Contains(downloadStream._uri))
-                    continue;
-                seen.Add(downloadStream._uri);
-
-                // total instances with this uri
-                var uris = _instances.Where(a => { return a._uri == downloadStream._uri; });
-                // total instance with thsi uri and old lastread
-                var uridates = _instances.Where(a => { return a._uri == downloadStream._uri && a._lastread < DateTime.Now.AddSeconds(-180); });
-
-                // check if they are equal and expire
-                if (uris.Count() == uridates.Count())
+                foreach (var downloadStream in _instances.ToArray())
                 {
-                    _cacheChunks.Remove(downloadStream._uri);
-                    foreach (var uridate in uridates.ToArray())
+                    // only process a uri once
+                    if (seen.Contains(downloadStream._uri))
+                        continue;
+                    seen.Add(downloadStream._uri);
+
+                    // total instances with this uri
+                    var uris = _instances.Where(a => { return a._uri == downloadStream._uri; });
+                    // total instance with thsi uri and old lastread
+                    var uridates = _instances.Where(a =>
                     {
-                        _instances.Remove(uridate);
+                        return a._uri == downloadStream._uri && a._lastread < DateTime.Now.AddSeconds(-180);
+                    });
+
+                    // check if they are equal and expire
+                    if (uris.Count() == uridates.Count())
+                    {
+                        _cacheChunks.Remove(downloadStream._uri);
+                        foreach (var uridate in uridates.ToArray())
+                        {
+                            _instances.Remove(uridate);
+                        }
                     }
                 }
             }
@@ -72,10 +78,10 @@ namespace MissionPlanner.Utilities
             _uri = uri;
             SetLength(Download.GetFileSize(uri));
 
-            _instances.Add(this);
-
             lock (_lock)
             {
+                _instances.Add(this);
+           
                 if (_cacheChunks.ContainsKey(uri))
                 {
                     _chunks = _cacheChunks[uri];
