@@ -194,8 +194,14 @@ namespace MissionPlanner.Utilities
         /// </summary>
         /// <returns></returns>
         public static string GetRunningDirectory()
-        {
-            var location = Assembly.GetEntryAssembly().Location;
+        {     
+            
+            var ass = Assembly.GetEntryAssembly();
+
+            if (ass == null)
+                return "." + Path.DirectorySeparatorChar;
+
+            var location = ass.Location;
 
             var path = Path.GetDirectoryName(location);
 
