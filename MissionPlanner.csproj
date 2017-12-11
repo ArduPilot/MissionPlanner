@@ -1251,6 +1251,12 @@
     <Compile Update="GCSViews\ConfigurationView\ConfigRadioInput.Designer.cs">
       <DependentUpon>ConfigRadioInput.cs</DependentUpon>
     </Compile>
+		   <Compile Update="GCSViews\ConfigurationView\ConfigRadioOutput.cs">
+      <SubType>Control</SubType>
+    </Compile>
+	   <Compile Update="GCSViews\ConfigurationView\ConfigRadioOutput.Designer.cs">
+      <DependentUpon>ConfigRadioOutput.cs</DependentUpon>
+    </Compile>
     <Compile Update="GCSViews\ConfigurationView\ConfigRawParams.cs">
       <SubType>Control</SubType>
     </Compile>
@@ -2751,10 +2757,16 @@
     <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigPlanner.zh-TW.resx">
       <DependentUpon>ConfigPlanner.cs</DependentUpon>
     </EmbeddedResource>
+	    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRadioOutput.resx">
+      <DependentUpon>ConfigRadioOutput.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRadioInput.ar.resx">
       <DependentUpon>ConfigRadioInput.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRadioInput.de-DE.resx">
+      <DependentUpon>ConfigRadioInput.cs</DependentUpon>
+    </EmbeddedResource>
+	    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRadioInput.az-Latn-AZ.resx">
       <DependentUpon>ConfigRadioInput.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRadioInput.es-ES.resx">

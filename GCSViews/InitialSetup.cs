@@ -135,6 +135,8 @@ namespace MissionPlanner.GCSViews
             if (MainV2.DisplayConfiguration.displayRadioCalibration)
             {
                 AddBackstageViewPage(typeof(ConfigRadioInput), rm.GetString("backstageViewPageradio.Text"), isConnected, mand);
+                AddBackstageViewPage(typeof(ConfigRadioOutput), "Servo Output", isConnected, mand);
+                
             }
             if (MainV2.DisplayConfiguration.displayEscCalibration)
             {
