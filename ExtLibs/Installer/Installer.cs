@@ -188,5 +188,10 @@ namespace Installer
             md5s = ConfigurationManager.AppSettings["MasterUpdateLocationMD5"];
             zip = ConfigurationManager.AppSettings["MasterUpdateLocationZip"];
         }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            installlocation = textBox1.Text;
+        }
     }
 }
