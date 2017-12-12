@@ -31,7 +31,9 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigArdurover));
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label22 = new System.Windows.Forms.Label();
             this.CRUISE_SPEED = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.MOT_PWM_TYPE = new MissionPlanner.Controls.MavlinkComboBox();
             this.label12 = new System.Windows.Forms.Label();
             this.MOT_SKID_FRIC = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label5 = new System.Windows.Forms.Label();
@@ -42,7 +44,9 @@
             this.CRUISE_THROTTLE = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
+            this.label23 = new System.Windows.Forms.Label();
             this.ATC_ACCEL_MAX = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.ATC_BRAKE = new MissionPlanner.Controls.MavlinkComboBox();
             this.label20 = new System.Windows.Forms.Label();
             this.SPEED2THR_IMAX = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label73 = new System.Windows.Forms.Label();
@@ -90,10 +94,6 @@
             this.BUT_refreshpart = new MissionPlanner.Controls.MyButton();
             this.CH7_OPTION = new MissionPlanner.Controls.MavlinkComboBox();
             this.label21 = new System.Windows.Forms.Label();
-            this.MOT_PWM_TYPE = new MissionPlanner.Controls.MavlinkComboBox();
-            this.label22 = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
-            this.ATC_BRAKE = new MissionPlanner.Controls.MavlinkComboBox();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CRUISE_SPEED)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MOT_SKID_FRIC)).BeginInit();
@@ -144,6 +144,11 @@
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
             // 
+            // label22
+            // 
+            resources.ApplyResources(this.label22, "label22");
+            this.label22.Name = "label22";
+            // 
             // CRUISE_SPEED
             // 
             resources.ApplyResources(this.CRUISE_SPEED, "CRUISE_SPEED");
@@ -151,6 +156,15 @@
             this.CRUISE_SPEED.Min = 0F;
             this.CRUISE_SPEED.Name = "CRUISE_SPEED";
             this.CRUISE_SPEED.ParamName = null;
+            // 
+            // MOT_PWM_TYPE
+            // 
+            this.MOT_PWM_TYPE.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.MOT_PWM_TYPE, "MOT_PWM_TYPE");
+            this.MOT_PWM_TYPE.FormattingEnabled = true;
+            this.MOT_PWM_TYPE.Name = "MOT_PWM_TYPE";
+            this.MOT_PWM_TYPE.ParamName = null;
+            this.MOT_PWM_TYPE.SubControl = null;
             // 
             // label12
             // 
@@ -227,6 +241,11 @@
             this.groupBox14.Name = "groupBox14";
             this.groupBox14.TabStop = false;
             // 
+            // label23
+            // 
+            resources.ApplyResources(this.label23, "label23");
+            this.label23.Name = "label23";
+            // 
             // ATC_ACCEL_MAX
             // 
             resources.ApplyResources(this.ATC_ACCEL_MAX, "ATC_ACCEL_MAX");
@@ -234,6 +253,15 @@
             this.ATC_ACCEL_MAX.Min = 0F;
             this.ATC_ACCEL_MAX.Name = "ATC_ACCEL_MAX";
             this.ATC_ACCEL_MAX.ParamName = null;
+            // 
+            // ATC_BRAKE
+            // 
+            this.ATC_BRAKE.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.ATC_BRAKE, "ATC_BRAKE");
+            this.ATC_BRAKE.FormattingEnabled = true;
+            this.ATC_BRAKE.Name = "ATC_BRAKE";
+            this.ATC_BRAKE.ParamName = null;
+            this.ATC_BRAKE.SubControl = null;
             // 
             // label20
             // 
@@ -571,34 +599,6 @@
             // 
             resources.ApplyResources(this.label21, "label21");
             this.label21.Name = "label21";
-            // 
-            // PWM_TYPE
-            // 
-            this.MOT_PWM_TYPE.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.MOT_PWM_TYPE, "PWM_TYPE");
-            this.MOT_PWM_TYPE.FormattingEnabled = true;
-            this.MOT_PWM_TYPE.Name = "PWM_TYPE";
-            this.MOT_PWM_TYPE.ParamName = null;
-            this.MOT_PWM_TYPE.SubControl = null;
-            // 
-            // label22
-            // 
-            resources.ApplyResources(this.label22, "label22");
-            this.label22.Name = "label22";
-            // 
-            // label23
-            // 
-            resources.ApplyResources(this.label23, "label23");
-            this.label23.Name = "label23";
-            // 
-            // ATC_BRAKE
-            // 
-            this.ATC_BRAKE.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.ATC_BRAKE, "ATC_BRAKE");
-            this.ATC_BRAKE.FormattingEnabled = true;
-            this.ATC_BRAKE.Name = "ATC_BRAKE";
-            this.ATC_BRAKE.ParamName = null;
-            this.ATC_BRAKE.SubControl = null;
             // 
             // ConfigArdurover
             // 

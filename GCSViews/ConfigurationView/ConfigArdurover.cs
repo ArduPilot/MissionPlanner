@@ -74,7 +74,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             WP_RADIUS.setup(0, 0, 1, 0.1f, "WP_RADIUS", MainV2.comPort.MAV.param);
             WP_OVERSHOOT.setup(0, 0, 1, 0.1f, "WP_OVERSHOOT", MainV2.comPort.MAV.param);
-            TURN_G_MAX.setup(0, 0, 1, 1, "TURN_MAX_G", MainV2.comPort.MAV.param);
+            TURN_G_MAX.setup(0, 0, 1, 0.1f, "TURN_MAX_G", MainV2.comPort.MAV.param);
             NAVL1_PERIOD.setup(0, 0, 1, 1, "NAVL1_PERIOD", MainV2.comPort.MAV.param);
             NAVL1_DAMPING.setup(0, 0, 1, 0.05f, "NAVL1_DAMPING", MainV2.comPort.MAV.param);
 
