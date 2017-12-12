@@ -3865,7 +3865,7 @@ Please check the following
 
                         if (BaseStream.IsOpen)
                         {
-                            doCommand(MAV_CMD.PREFLIGHT_STORAGE, 0, 0, 0, 0, 0, 0, 0, false);
+                            doCommand(MAV_CMD.PREFLIGHT_STORAGE, 1, 0, 0, 0, 0, 0, 0, false);
                         }
                     }
 
