@@ -42,7 +42,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.BUT_writePIDS = new MissionPlanner.Controls.MyButton();
             this.BUT_save = new MissionPlanner.Controls.MyButton();
             this.BUT_load = new MissionPlanner.Controls.MyButton();
-            this.Params = new MyDataGridView();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.BUT_paramfileload = new MissionPlanner.Controls.MyButton();
@@ -50,6 +49,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.BUT_reset_params = new MissionPlanner.Controls.MyButton();
             this.txt_search = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.BUT_commitToFlash = new MissionPlanner.Controls.MyButton();
+            this.Params = new MissionPlanner.Controls.MyDataGridView();
             this.Command = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Units = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -92,6 +93,56 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.BUT_load.Name = "BUT_load";
             this.BUT_load.UseVisualStyleBackColor = true;
             this.BUT_load.Click += new System.EventHandler(this.BUT_load_Click);
+            // 
+            // toolTip1
+            // 
+            this.toolTip1.AutoPopDelay = 180000;
+            this.toolTip1.InitialDelay = 500;
+            this.toolTip1.ReshowDelay = 100;
+            // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
+            // 
+            // BUT_paramfileload
+            // 
+            resources.ApplyResources(this.BUT_paramfileload, "BUT_paramfileload");
+            this.BUT_paramfileload.Name = "BUT_paramfileload";
+            this.BUT_paramfileload.UseVisualStyleBackColor = true;
+            this.BUT_paramfileload.Click += new System.EventHandler(this.BUT_paramfileload_Click);
+            // 
+            // CMB_paramfiles
+            // 
+            resources.ApplyResources(this.CMB_paramfiles, "CMB_paramfiles");
+            this.CMB_paramfiles.FormattingEnabled = true;
+            this.CMB_paramfiles.Name = "CMB_paramfiles";
+            this.CMB_paramfiles.SelectedIndexChanged += new System.EventHandler(this.CMB_paramfiles_SelectedIndexChanged);
+            // 
+            // BUT_reset_params
+            // 
+            resources.ApplyResources(this.BUT_reset_params, "BUT_reset_params");
+            this.BUT_reset_params.Name = "BUT_reset_params";
+            this.BUT_reset_params.UseVisualStyleBackColor = true;
+            this.BUT_reset_params.Click += new System.EventHandler(this.BUT_reset_params_Click);
+            // 
+            // txt_search
+            // 
+            resources.ApplyResources(this.txt_search, "txt_search");
+            this.txt_search.Name = "txt_search";
+            this.txt_search.TextChanged += new System.EventHandler(this.txt_search_TextChanged);
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
+            // 
+            // BUT_commitToFlash
+            // 
+            resources.ApplyResources(this.BUT_commitToFlash, "BUT_commitToFlash");
+            this.BUT_commitToFlash.Name = "BUT_commitToFlash";
+            this.BUT_commitToFlash.UseVisualStyleBackColor = true;
+            this.BUT_commitToFlash.Click += new System.EventHandler(this.BUT_commitToFlash_Click);
             // 
             // Params
             // 
@@ -137,49 +188,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Params.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Params_CellContentClick);
             this.Params.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.Params_CellValueChanged);
             // 
-            // toolTip1
-            // 
-            this.toolTip1.AutoPopDelay = 180000;
-            this.toolTip1.InitialDelay = 500;
-            this.toolTip1.ReshowDelay = 100;
-            // 
-            // label1
-            // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
-            // 
-            // BUT_paramfileload
-            // 
-            resources.ApplyResources(this.BUT_paramfileload, "BUT_paramfileload");
-            this.BUT_paramfileload.Name = "BUT_paramfileload";
-            this.BUT_paramfileload.UseVisualStyleBackColor = true;
-            this.BUT_paramfileload.Click += new System.EventHandler(this.BUT_paramfileload_Click);
-            // 
-            // CMB_paramfiles
-            // 
-            resources.ApplyResources(this.CMB_paramfiles, "CMB_paramfiles");
-            this.CMB_paramfiles.FormattingEnabled = true;
-            this.CMB_paramfiles.Name = "CMB_paramfiles";
-            this.CMB_paramfiles.SelectedIndexChanged += new System.EventHandler(this.CMB_paramfiles_SelectedIndexChanged);
-            // 
-            // BUT_reset_params
-            // 
-            resources.ApplyResources(this.BUT_reset_params, "BUT_reset_params");
-            this.BUT_reset_params.Name = "BUT_reset_params";
-            this.BUT_reset_params.UseVisualStyleBackColor = true;
-            this.BUT_reset_params.Click += new System.EventHandler(this.BUT_reset_params_Click);
-            // 
-            // txt_search
-            // 
-            resources.ApplyResources(this.txt_search, "txt_search");
-            this.txt_search.Name = "txt_search";
-            this.txt_search.TextChanged += new System.EventHandler(this.txt_search_TextChanged);
-            // 
-            // label2
-            // 
-            resources.ApplyResources(this.label2, "label2");
-            this.label2.Name = "label2";
-            // 
             // Command
             // 
             resources.ApplyResources(this.Command, "Command");
@@ -215,6 +223,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // ConfigRawParams
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.Controls.Add(this.BUT_commitToFlash);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txt_search);
             this.Controls.Add(this.BUT_reset_params);
@@ -255,5 +264,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private System.Windows.Forms.DataGridViewTextBoxColumn Units;
         private System.Windows.Forms.DataGridViewTextBoxColumn Options;
         private System.Windows.Forms.DataGridViewTextBoxColumn Desc;
+        private MyButton BUT_commitToFlash;
     }
 }
