@@ -125,11 +125,8 @@ namespace MissionPlanner.Utilities
                         CustomMessageBox.Show(
                             "Please download gstreamer 1.9.2 from [link;HERE;https://gstreamer.freedesktop.org/data/pkg/windows/1.9.2/gstreamer-1.0-x86-1.9.2.msi]\n And install it using the 'COMPLETE' option");
 
-                        if (GStreamer.getGstLaunchExe())
-                        {
-
-                        }
-                        else
+                        GStreamer.gstlaunch = GStreamer.LookForGstreamer();
+                        if (!File.Exists(GStreamer.gstlaunch))
                         {
                             return;
                         }

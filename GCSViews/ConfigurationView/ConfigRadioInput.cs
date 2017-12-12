@@ -116,13 +116,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
             // this controls the direction of the output, not the input.
-            CHK_revch1.setup(new double[] {-1, 1}, new double[] {1, 0}, new string[] {"RC1_REV", "SERVO1_REVERSED"},
+            CHK_revch1.setup(new double[] {-1, 1}, new double[] {1, 0}, new string[] {"RC1_REV", "RC1_REVERSED"},
                 MainV2.comPort.MAV.param);
-            CHK_revch2.setup(new double[] {-1, 1}, new double[] {1, 0}, new string[] {"RC2_REV", "SERVO2_REVERSED"},
+            CHK_revch2.setup(new double[] {-1, 1}, new double[] {1, 0}, new string[] {"RC2_REV", "RC2_REVERSED"},
                 MainV2.comPort.MAV.param);
-            CHK_revch3.setup(new double[] {-1, 1}, new double[] {1, 0}, new string[] {"RC3_REV", "SERVO3_REVERSED"},
+            CHK_revch3.setup(new double[] {-1, 1}, new double[] {1, 0}, new string[] {"RC3_REV", "RC3_REVERSED"},
                 MainV2.comPort.MAV.param);
-            CHK_revch4.setup(new double[] {-1, 1}, new double[] {1, 0}, new string[] {"RC4_REV", "SERVO4_REVERSED"},
+            CHK_revch4.setup(new double[] {-1, 1}, new double[] {1, 0}, new string[] {"RC4_REV", "RC4_REVERSED"},
                 MainV2.comPort.MAV.param);
 
             // run after to ensure they are disabled on copter

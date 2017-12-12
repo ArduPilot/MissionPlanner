@@ -103,6 +103,8 @@
             this.but_td = new MissionPlanner.Controls.MyButton();
             this.but_dem = new MissionPlanner.Controls.MyButton();
             this.but_gsttest = new MissionPlanner.Controls.MyButton();
+            this.but_proximity = new MissionPlanner.Controls.MyButton();
+            this.but_dashware = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -381,6 +383,7 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 29.46636F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70.53365F));
+            this.tableLayoutPanel1.Controls.Add(this.but_dashware, 0, 21);
             this.tableLayoutPanel1.Controls.Add(this.label26, 1, 25);
             this.tableLayoutPanel1.Controls.Add(this.label25, 1, 24);
             this.tableLayoutPanel1.Controls.Add(this.label24, 1, 23);
@@ -927,10 +930,31 @@
             this.but_gsttest.UseVisualStyleBackColor = true;
             this.but_gsttest.Click += new System.EventHandler(this.but_gsttest_Click);
             // 
+            // but_proximity
+            // 
+            this.but_proximity.Location = new System.Drawing.Point(467, 501);
+            this.but_proximity.Name = "but_proximity";
+            this.but_proximity.Size = new System.Drawing.Size(75, 23);
+            this.but_proximity.TabIndex = 91;
+            this.but_proximity.Text = "Proximity";
+            this.but_proximity.UseVisualStyleBackColor = true;
+            this.but_proximity.Click += new System.EventHandler(this.but_proximity_Click);
+            // 
+            // but_dashware
+            // 
+            this.but_dashware.Location = new System.Drawing.Point(3, 444);
+            this.but_dashware.Name = "but_dashware";
+            this.but_dashware.Size = new System.Drawing.Size(75, 15);
+            this.but_dashware.TabIndex = 92;
+            this.but_dashware.Text = "DashWare";
+            this.but_dashware.UseVisualStyleBackColor = true;
+            this.but_dashware.Click += new System.EventHandler(this.but_dashware_Click);
+            // 
             // temp
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(830, 595);
+            this.Controls.Add(this.but_proximity);
             this.Controls.Add(this.but_gsttest);
             this.Controls.Add(this.but_dem);
             this.Controls.Add(this.but_td);
@@ -1043,5 +1067,7 @@
         private Controls.MyButton but_td;
         private Controls.MyButton but_dem;
         private Controls.MyButton but_gsttest;
+        private Controls.MyButton but_proximity;
+        private Controls.MyButton but_dashware;
     }
 }

@@ -9,8 +9,6 @@
     <RootNamespace>SikRadio</RootNamespace>
     <AssemblyName>SikRadio</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
@@ -120,6 +118,9 @@
     </Compile>
     <Compile Include="..\ExtLibs\Mavlink\Mavlink.cs">
       <Link>Linked\Mavlink.cs</Link>
+    </Compile>
+    <Compile Include="..\ExtLibs\Utilities\Download.cs">
+      <Link>Linked\Download.cs</Link>
     </Compile>
     <Compile Include="..\Radio\IHex.cs">
       <Link>Linked\IHex.cs</Link>
@@ -243,9 +244,6 @@
       <DependentUpon>Terminal.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\Settings.settings">

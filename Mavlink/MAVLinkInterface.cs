@@ -57,6 +57,7 @@ namespace MissionPlanner
             }
         }
 
+        public event EventHandler<MAVLinkMessage> OnPacketReceived;
 
         public ICommsSerial MirrorStream { get; set; }
         public bool MirrorStreamWrite { get; set; }
@@ -402,8 +403,7 @@ namespace MissionPlanner
                     }
                 }
 
-                MAVLinkMessage buffer = MAVLinkMessage.Invalid;
-                MAVLinkMessage buffer1 = MAVLinkMessage.Invalid;
+                List<MAVLinkMessage> hbhistory = new List<MAVLinkMessage>();
 
                 DateTime start = DateTime.Now;
                 DateTime deadline = start.AddSeconds(CONNECT_TIMEOUT_SECONDS);
@@ -463,58 +463,53 @@ Please check the following
 
                     Thread.Sleep(1);
 
-                    // can see 2 heartbeat packets at any time, and will connect - was one after the other
-
-                    if (buffer.Length == 0)
-                        buffer = getHeartBeat();
-
-                    Thread.Sleep(1);
-
-                    if (buffer1.Length == 0)
-                        buffer1 = getHeartBeat();
-
-
-                    if (buffer.Length > 0 || buffer1.Length > 0)
-                        hbseen = true;
-
-                    count++;
-
-                    // if we get no data, try enableing rts/cts
-                    if (buffer.Length == 0 && buffer1.Length == 0 && BaseStream is SerialPort)
-                    {
-                        BaseStream.RtsEnable = !BaseStream.RtsEnable;
-                    }
-
-                    // 2 hbs that match
-                    if (buffer.Length > 5 && buffer1.Length > 5 && buffer.sysid == buffer1.sysid && buffer.compid == buffer1.compid)
+                    var buffer = getHeartBeat();
+                    if (buffer.Length > 0)
                     {
                         mavlink_heartbeat_t hb = buffer.ToStructure<mavlink_heartbeat_t>();
 
                         if (hb.type != (byte) MAV_TYPE.GCS)
                         {
-                            SetupMavConnect(buffer, hb);
-                            break;
+                            hbhistory.Add(buffer);
                         }
                     }
 
-                    // 2 hb's that dont match. more than one sysid here
-                    if (buffer.Length > 5 && buffer1.Length > 5 && (buffer.sysid == buffer1.sysid || buffer.compid == buffer1.compid))
+                    if (hbhistory.Count > 0)
+                        hbseen = true;
+
+                    count++;
+
+                    // if we get no data, try enableing rts/cts
+                    if (buffer.Length == 0 && BaseStream is SerialPort)
                     {
-                        mavlink_heartbeat_t hb = buffer.ToStructure<mavlink_heartbeat_t>();
+                        BaseStream.RtsEnable = !BaseStream.RtsEnable;
+                    }
 
-                        if (hb.type != (byte) MAV_TYPE.ANTENNA_TRACKER && hb.type != (byte) MAV_TYPE.GCS)
+                    // check we have hb's
+                    if (hbhistory.Count > 0)
+                    {
+                        bool exit = false;
+                        // get most seen hbs
+                        var mostseenlist = hbhistory.GroupBy(s => MAVList.GetID(s.sysid, s.compid))
+                            .OrderByDescending(s => s.Count()).Where(s => s.Key >= 2);
+                        foreach (var mostseen in mostseenlist)
                         {
-                            SetupMavConnect(buffer, hb);
-                            break;
+                            // get count on most seen
+                            var seentimes = mostseen.Count();
+                            // get the most seen mavlinkmessage
+                            var msg = mostseen.First();
+
+                            // preference compid of 1, failover to anything that we have seen 4 times
+                            if (seentimes >= 2 && msg.compid == 1 || seentimes >= 4)
+                            {
+                                SetupMavConnect(msg, (mavlink_heartbeat_t) msg.data);
+                                exit = true;
+                                break;
+                            }
                         }
 
-                        hb = buffer1.ToStructure<mavlink_heartbeat_t>();
-
-                        if (hb.type != (byte) MAV_TYPE.ANTENNA_TRACKER && hb.type != (byte) MAV_TYPE.GCS)
-                        {
-                            SetupMavConnect(buffer1, hb);
+                        if (exit)
                             break;
-                        }
                     }
                 }
 
@@ -605,15 +600,15 @@ Please check the following
             compidcurrent = message.compid;
 
             mavlinkversion = hb.mavlink_version;
-            MAV.aptype = (MAV_TYPE) hb.type;
-            MAV.apname = (MAV_AUTOPILOT) hb.autopilot;
+            MAVlist[message.sysid, message.compid].aptype = (MAV_TYPE) hb.type;
+            MAVlist[message.sysid, message.compid].apname = (MAV_AUTOPILOT) hb.autopilot;
 
             setAPType(message.sysid, message.compid);
 
-            MAV.sysid = message.sysid;
-            MAV.compid = message.compid;
-            MAV.recvpacketcount = message.seq;
-            log.InfoFormat("ID sys {0} comp {1} ver{2} type {3} name {4}", MAV.sysid, MAV.compid, mavlinkversion,
+            MAVlist[message.sysid, message.compid].sysid = message.sysid;
+            MAVlist[message.sysid, message.compid].compid = message.compid;
+            MAVlist[message.sysid, message.compid].recvpacketcount = message.seq;
+            log.InfoFormat("ID sys {0} comp {1} ver{2} type {3} name {4}", message.sysid, message.compid, mavlinkversion,
                 MAV.aptype.ToString(), MAV.apname.ToString());
         }
 
@@ -3044,15 +3039,23 @@ Please check the following
                 if (setguidedmode)
                 {
                     // fix for followme change
-                    if (MAVlist[sysid,compid].cs.mode.ToUpper() != "GUIDED")
+                    if (MAVlist[sysid, compid].cs.mode.ToUpper() != "GUIDED")
                         setMode(sysid, compid, "GUIDED");
                 }
 
-                MAV_MISSION_RESULT ans = setWP(sysid, compid, gotohere, 0, MAV_FRAME.GLOBAL_RELATIVE_ALT,
-                    (byte) 2);
+                if (MAVlist[sysid,compid].cs.firmware == MainV2.Firmwares.ArduPlane)
+                {
+                    MAV_MISSION_RESULT ans = setWP(sysid, compid, gotohere, 0, MAV_FRAME.GLOBAL_RELATIVE_ALT, (byte)2);
 
-                if (ans != MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
-                    throw new Exception("Guided Mode Failed");
+                    if (ans != MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
+                        throw new Exception("Guided Mode Failed");
+                }
+                else
+                {
+                    setPositionTargetGlobalInt((byte)sysid, (byte)compid,
+                        true, false, false, false, MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT_INT,
+                        gotohere.lat, gotohere.lng, MainV2.comPort.MAV.GuidedMode.z, 0, 0, 0, 0, 0);
+                }
             }
             catch (Exception ex)
             {
@@ -3799,6 +3802,8 @@ Please check the following
                     if (sysidcurrent == sysid && compidcurrent == compid)
                         PacketReceived(message);
 
+                    OnPacketReceived?.Invoke(this, message);
+
                     if (debugmavlink)
                         DebugPacket(message);
 
@@ -3865,7 +3870,7 @@ Please check the following
 
                         if (BaseStream.IsOpen)
                         {
-                            doCommand(MAV_CMD.PREFLIGHT_STORAGE, 0, 0, 0, 0, 0, 0, 0, false);
+                            doCommand(MAV_CMD.PREFLIGHT_STORAGE, 1, 0, 0, 0, 0, 0, 0, false);
                         }
                     }
 
@@ -4069,6 +4074,14 @@ Please check the following
                     wp.param2,
                     wp.param3, wp.param4, wp.x, wp.y, wp.z, wp.seq, wp.command);
             }
+            else if (buffer.msgid == (byte)MAVLINK_MSG_ID.SET_POSITION_TARGET_GLOBAL_INT)
+            {
+                mavlink_set_position_target_global_int_t setpos = buffer.ToStructure<mavlink_set_position_target_global_int_t>();
+
+                MAVlist[setpos.target_system, setpos.target_component].GuidedMode = (mavlink_mission_item_t)(Locationwp)setpos;
+
+                Console.WriteLine("SET_POSITION_TARGET_GLOBAL_INT x {0} y {1} z {2} frame {3}", setpos.lat_int/1e7, setpos.lon_int/1e7, setpos.alt, setpos.coordinate_frame);
+            }
             else if (buffer.msgid == (byte) MAVLINK_MSG_ID.RALLY_POINT)
             {
                 mavlink_rally_point_t rallypt = buffer.ToStructure<mavlink_rally_point_t>();
@@ -4121,7 +4134,7 @@ Please check the following
 
                 MAVlist[sysid, compid].param_types[st] = (MAV_PARAM_TYPE)value.param_type;
 
-                if (MAV.apname == MAV_AUTOPILOT.ARDUPILOTMEGA && buffer.compid != (byte)MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE)
+                if (MAVlist[sysid, compid].apname == MAV_AUTOPILOT.ARDUPILOTMEGA && buffer.compid != (byte)MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE)
                 {
                     var offset = Marshal.OffsetOf(typeof (mavlink_param_value_t), "param_value");
                     MAVlist[sysid, compid].param[st] = new MAVLinkParam(st, BitConverter.GetBytes(value.param_value),

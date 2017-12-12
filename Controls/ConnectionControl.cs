@@ -18,8 +18,7 @@ namespace MissionPlanner.Controls
             InitializeComponent();
             this.linkLabel1.Click += (sender, e) =>
             {
-                if (ShowLinkStats != null)
-                    ShowLinkStats.Invoke(this, EventArgs.Empty);
+                ShowLinkStats?.Invoke(this, EventArgs.Empty);
             };
         }
 
@@ -93,7 +92,11 @@ namespace MissionPlanner.Controls
 
         public void UpdateSysIDS()
         {
+            cmb_sysid.SelectedIndexChanged -= CMB_sysid_SelectedIndexChanged;
+
             cmb_sysid.Items.Clear();
+
+            int selectidx = -1;
 
             foreach (var port in MainV2.Comports.ToArray())
             {
@@ -103,9 +106,21 @@ namespace MissionPlanner.Controls
                 {
                     var temp = new port_sysid() { compid = (item % 256) , sysid = (item /256), port = port};
 
-                    cmb_sysid.Items.Add(temp);
+                    var idx = cmb_sysid.Items.Add(temp);
+
+                    if(temp.port == MainV2.comPort && temp.sysid == MainV2.comPort.sysidcurrent && temp.compid == MainV2.comPort.compidcurrent)
+                    {
+                        selectidx = idx;
+                    }
                 }
             }
+
+            if (selectidx != -1)
+            {                
+                cmb_sysid.SelectedIndex = selectidx;               
+            }
+
+            cmb_sysid.SelectedIndexChanged += CMB_sysid_SelectedIndexChanged;
         }
 
         internal struct port_sysid

@@ -125,6 +125,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                         ",   Z: " + ((int) MainV2.comPort.MAV.param["COMPASS_MOT_Z"]).ToString();
             }
 
+            if (!MainV2.DisplayConfiguration.displayCompassConfiguration)
+            {
+                CHK_compass1_use.Enabled = false;
+                CHK_compass1_external.Enabled = false;
+                CMB_compass1_orient.Enabled = false;
+            }
 
             // Compass 2 settings
             if (MainV2.comPort.MAV.param.ContainsKey("COMPASS_EXTERN2"))
@@ -161,6 +167,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                             ",   Y: " + ((int) MainV2.comPort.MAV.param["COMPASS_MOT2_Y"]).ToString() +
                                             ",   Z: " + ((int) MainV2.comPort.MAV.param["COMPASS_MOT2_Z"]).ToString();
                 }
+
+                if (!MainV2.DisplayConfiguration.displayCompassConfiguration)
+                {
+                    CHK_compass2_use.Enabled = false;
+                    CHK_compass2_external.Enabled = false;
+                    CMB_compass2_orient.Enabled = false;
+                }
+
             }
             else
             {
@@ -199,6 +213,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                             ",   Y: " + ((int) MainV2.comPort.MAV.param["COMPASS_MOT3_Y"]).ToString() +
                                             ",   Z: " + ((int) MainV2.comPort.MAV.param["COMPASS_MOT3_Z"]).ToString();
                 }
+
+                if (!MainV2.DisplayConfiguration.displayCompassConfiguration)
+                {
+                    CHK_compass3_use.Enabled = false;
+                    CHK_compass3_external.Enabled = false;
+                    CMB_compass3_orient.Enabled = false;
+                }
             }
             else
             {
@@ -209,6 +230,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     MainV2.comPort.MAV.cs.firmware.ToString()), "COMPASS_CAL_FIT", MainV2.comPort.MAV.param);
 
             ShowRelevantFields();
+
+            if (!MainV2.DisplayConfiguration.displayCompassConfiguration)
+            {
+                CHK_enablecompass.Enabled = false;
+                CHK_compass_learn.Enabled = false;
+                CHK_autodec.Enabled = false;
+                CMB_primary_compass.Enabled = false;
+            }
 
             startup = false;
         }
@@ -607,11 +636,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     CustomMessageBox.Show("is the FW version greater than APM:copter 3.01 or APM:Plane 2.74?", "",
                         MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    CMB_compass1_orient.SelectedIndex = (int) Common.Rotation.ROTATION_NONE;
+                    CMB_compass1_orient.SelectedIndex = (int) Rotation.ROTATION_NONE;
                 }
                 else
                 {
-                    CMB_compass1_orient.SelectedIndex = (int) Common.Rotation.ROTATION_ROLL_180;
+                    CMB_compass1_orient.SelectedIndex = (int) Rotation.ROTATION_ROLL_180;
                     MainV2.comPort.setParam("COMPASS_EXTERNAL", 0);
                 }
             }
@@ -632,7 +661,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             try
             {
-                CMB_compass1_orient.SelectedIndex = (int) Common.Rotation.ROTATION_NONE;
+                CMB_compass1_orient.SelectedIndex = (int) Rotation.ROTATION_NONE;
                 MainV2.comPort.setParam("COMPASS_USE1", 1);
                 MainV2.comPort.setParam("COMPASS_USE2", 0);
                 MainV2.comPort.setParam("COMPASS_USE3", 0);
@@ -659,7 +688,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             try
             {
-                CMB_compass1_orient.SelectedIndex = (int) Common.Rotation.ROTATION_ROLL_180;
+                CMB_compass1_orient.SelectedIndex = (int) Rotation.ROTATION_ROLL_180;
                 MainV2.comPort.setParam("COMPASS_EXTERNAL", 1);
                 MainV2.comPort.setParam("COMPASS_EXTERN2", 0);
                 MainV2.comPort.setParam("COMPASS_EXTERN3", 0);

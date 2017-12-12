@@ -17,6 +17,7 @@ using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using log4net;
 using MissionPlanner.GCSViews;
+using MissionPlanner.Maps;
 using MissionPlanner.Properties;
 using MissionPlanner.Utilities;
 using ProjNet.CoordinateSystems;
@@ -906,7 +907,7 @@ namespace MissionPlanner
 
             double secs = seconds % 60;
             int mins = (int)(seconds / 60) % 60;
-            int hours = (int)(seconds / 3600) % 24;
+            int hours = (int)(seconds / 3600);// % 24;
 
             if (hours > 0)
             {

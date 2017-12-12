@@ -35,10 +35,10 @@ namespace MissionPlanner.Controls.PreFlight
         {
             InitializeComponent();
 
-            MissionPlanner.Controls.PreFlight.CheckListItem.defaultsrc = MainV2.comPort.MAV.cs;
-
             try
             {
+                MissionPlanner.Controls.PreFlight.CheckListItem.defaultsrc = MainV2.comPort.MAV.cs;
+
                 LoadConfig();
             }
             catch

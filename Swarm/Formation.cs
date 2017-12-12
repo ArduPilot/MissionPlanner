@@ -16,24 +16,24 @@ namespace MissionPlanner.Swarm
     /// </summary>
     class Formation : Swarm
     {
-        Dictionary<MAVState, HIL.Vector3> offsets = new Dictionary<MAVState, HIL.Vector3>();
+        Dictionary<MAVState, Vector3> offsets = new Dictionary<MAVState, Vector3>();
 
         PointLatLngAlt masterpos = new PointLatLngAlt();
 
         public void setOffsets(MAVState mav, double x, double y, double z)
         {
-            offsets[mav] = new HIL.Vector3(x, y, z);
+            offsets[mav] = new Vector3(x, y, z);
             log.Info(mav.ToString() + " " + offsets[mav].ToString());
         }
 
-        public HIL.Vector3 getOffsets(MAVState mav)
+        public Vector3 getOffsets(MAVState mav)
         {
             if (offsets.ContainsKey(mav))
             {
                 return offsets[mav];
             }
 
-            return new HIL.Vector3(offsets.Count, 0, 0);
+            return new Vector3(offsets.Count, 0, 0);
         }
 
         public override void Update()
@@ -87,8 +87,8 @@ namespace MissionPlanner.Swarm
 
                         double length = offsets[mav].length();
 
-                        var x = ((HIL.Vector3) offsets[mav]).x;
-                        var y = ((HIL.Vector3) offsets[mav]).y;
+                        var x = ((Vector3) offsets[mav]).x;
+                        var y = ((Vector3) offsets[mav]).y;
 
                         // add offsets to utm
                         p1[0] += x*Math.Cos(heading*MathHelper.deg2rad) - y*Math.Sin(heading*MathHelper.deg2rad);
@@ -108,7 +108,7 @@ namespace MissionPlanner.Swarm
 
                         target.Lat = point[1];
                         target.Lng = point[0];
-                        target.Alt += ((HIL.Vector3) offsets[mav]).z;
+                        target.Alt += ((Vector3) offsets[mav]).z;
 
                         if (mav.cs.firmware == MainV2.Firmwares.ArduPlane)
                         {
