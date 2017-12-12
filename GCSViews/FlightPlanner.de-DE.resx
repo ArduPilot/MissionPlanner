@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="elevationGraphToolStripMenuItem.Text" xml:space="preserve">
-    <value>Höhenschreiber</value>
+    <value>Zeige WP- zu Terrainhöhen</value>
   </data>
   <data name="enterUTMCoordToolStripMenuItem.Text" xml:space="preserve">
     <value>UTM Koord. eingeben</value>
@@ -136,7 +136,7 @@
     <value>Laden und Anhängen</value>
   </data>
   <data name="label11.Text" xml:space="preserve">
-    <value>Vergrössern</value>
+    <value>Vergrößern</value>
   </data>
   <data name="comboBoxMapType.ToolTip" xml:space="preserve">
     <value>Aktuellen Kartentyp ändern</value>
@@ -241,7 +241,7 @@
     <value>Zeile löschen</value>
   </data>
   <data name="prefetchWPPathToolStripMenuItem.Text" xml:space="preserve">
-    <value>Prefetch WP Pfad</value>
+    <value>WP Pfad vorab laden</value>
   </data>
   <data name="addPolygonPointToolStripMenuItem.Text" xml:space="preserve">
     <value>Polygonpunkt hinzufügen</value>
@@ -331,7 +331,7 @@
     <value>Wegpunkte</value>
   </data>
   <data name="switchDockingToolStripMenuItem.Text" xml:space="preserve">
-    <value>Docking wechseln</value>
+    <value>Ansicht wechseln</value>
   </data>
   <data name="loadFromFileToolStripMenuItem.Text" xml:space="preserve">
     <value>Datei laden</value>
