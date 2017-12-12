@@ -18,5 +18,15 @@ namespace MissionPlanner.Utilities
         {
             await Task.Run(() => { function(); });
         }
+
+        public static async Task<TOut> Async<TOut>(this Func<TOut> function)
+        {
+            return await Task.Run(() => { return function(); });
+        }
+
+        public static async Task<TOut> Async<TIn, TOut>(this Func<TIn,TOut> function, TIn input)
+        {
+            return await Task.Run(() => { return function(input); });
+        }
     }
 }
