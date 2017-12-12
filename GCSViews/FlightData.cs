@@ -2880,6 +2880,14 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
+            selectform.Shown += (o, args) => {
+                selectform.Controls.ForEach(a =>
+                {
+                    if (a is CheckBox && ((CheckBox)a).Checked)
+                        ((CheckBox)a).BackColor = Color.Green;
+                });
+            };
+
             selectform.Show();
         }
 
@@ -2947,6 +2955,14 @@ namespace MissionPlanner.GCSViews
                     chk_box.BackColor = Color.Green;
                 selectform.Controls.Add(chk_box);
             }
+
+            selectform.Shown += (o, args) => {
+                selectform.Controls.ForEach(a =>
+                {
+                    if (a is CheckBox && ((CheckBox)a).Checked)
+                        ((CheckBox)a).BackColor = Color.Green;
+                });
+            };
 
             selectform.ShowDialog(this);
         }
@@ -3329,8 +3345,13 @@ namespace MissionPlanner.GCSViews
                 if (chk_box.Checked)
                     chk_box.BackColor = Color.Green;
                 selectform.Controls.Add(chk_box);
-                Application.DoEvents();
             }
+
+            selectform.Shown += (o, args) => { selectform.Controls.ForEach(a =>
+            {
+                if (a is CheckBox && ((CheckBox) a).Checked)
+                    ((CheckBox) a).BackColor = Color.Green;
+            }); };
 
             selectform.ShowDialog(this);
         }
