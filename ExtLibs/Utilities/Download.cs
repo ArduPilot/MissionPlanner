@@ -196,7 +196,7 @@ namespace MissionPlanner.Utilities
         private static readonly ILog log =
             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public static async bool getFilefromNetAsync(string url, string saveto)
+        public static async Task<bool> getFilefromNetAsync(string url, string saveto)
         {
             return await Task.Run(() =>
             {
