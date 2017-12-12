@@ -2800,7 +2800,7 @@ namespace MissionPlanner.GCSViews
                 fields.Add(field.Name);
             }
             max_length += 15;
-            fields.Sort();
+            fields.Sort();          
 
             foreach (var field in fields)
             {
@@ -2861,13 +2861,12 @@ namespace MissionPlanner.GCSViews
 
                 chk_box.Text = field;
                 chk_box.Name = field;
+                chk_box.Tag = "custom";
                 chk_box.Location = new Point(x, y);
                 chk_box.Size = new Size(100, 20);
                 chk_box.CheckedChanged += chk_box_CheckedChanged;
 
                 selectform.Controls.Add(chk_box);
-
-                Application.DoEvents();
 
                 x += 0;
                 y += 20;
@@ -2938,7 +2937,7 @@ namespace MissionPlanner.GCSViews
                 {
                     Text = fields[i],
                     Name = fields[i],
-                    Tag = sender,
+                    Tag = "custom",
                     Location = new Point(5 + (i/row_count)*(max_length + 5), 2 + (i%row_count)*row_height),
                     Size = new Size(max_length, row_height),
                     Checked = hud1.CustomItems.ContainsKey(fields[i])
@@ -2947,7 +2946,6 @@ namespace MissionPlanner.GCSViews
                 if (chk_box.Checked)
                     chk_box.BackColor = Color.Green;
                 selectform.Controls.Add(chk_box);
-                Application.DoEvents();
             }
 
             selectform.ShowDialog(this);
@@ -3015,6 +3013,8 @@ namespace MissionPlanner.GCSViews
 
         void chk_box_CheckedChanged(object sender, EventArgs e)
         {
+            ThemeManager.ApplyThemeTo((Control)sender);
+
             if (((CheckBox) sender).Checked)
             {
                 ((CheckBox) sender).BackColor = Color.Green;
@@ -3111,8 +3111,7 @@ namespace MissionPlanner.GCSViews
                     CustomMessageBox.Show("Max 10 at a time.");
                     ((CheckBox) sender).Checked = false;
                 }
-                ThemeManager.ApplyThemeTo((Control)sender);
-
+            
                 string selected = "";
                 try
                 {
