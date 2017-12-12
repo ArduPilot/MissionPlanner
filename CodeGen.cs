@@ -69,12 +69,19 @@ namespace MissionPlanner
             compilerParams.GenerateExecutable = false;
             compilerParams.GenerateInMemory = true;
             compilerParams.IncludeDebugInformation = false;
-            compilerParams.ReferencedAssemblies.Add("mscorlib.dll");
             compilerParams.ReferencedAssemblies.Add("netstandard.dll");
-            compilerParams.ReferencedAssemblies.Add("System.dll");
-            compilerParams.ReferencedAssemblies.Add("System.Windows.Forms.dll");
-            compilerParams.ReferencedAssemblies.Add(Application.ExecutablePath);
-            compilerParams.ReferencedAssemblies.Add("MAVLink.dll");
+            
+            foreach (var assembly in Assembly.GetExecutingAssembly().GetReferencedAssemblies())
+            {
+                var ass = Assembly.ReflectionOnlyLoad(assembly.FullName);
+
+                var loc = ass.Location;
+
+                var file = Path.GetFileName(loc);
+
+                if(!compilerParams.ReferencedAssemblies.Contains(file))
+                    compilerParams.ReferencedAssemblies.Add(file);
+            }
 
             compilerParams.ReferencedAssemblies.Add("");
 
