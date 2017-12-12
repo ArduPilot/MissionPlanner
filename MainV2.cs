@@ -420,7 +420,7 @@ namespace MissionPlanner
             MenuDonate.Visible = DisplayConfiguration.displayDonate;
             MissionPlanner.Controls.BackstageView.BackstageView.Advanced = DisplayConfiguration.isAdvancedMode;
 
-            if (Settings.Instance.GetBoolean("menu_autohide") != DisplayConfiguration.autoHideMenuForce)
+            if (DisplayConfiguration.autoHideMenuForce && (Settings.Instance.GetBoolean("menu_autohide") != DisplayConfiguration.autoHideMenuForce))
             {
                 AutoHideMenu(DisplayConfiguration.autoHideMenuForce);
                 Settings.Instance["menu_autohide"] = DisplayConfiguration.autoHideMenuForce.ToString();
