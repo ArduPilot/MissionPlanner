@@ -3039,18 +3039,23 @@ Please check the following
                 if (setguidedmode)
                 {
                     // fix for followme change
-                    if (MAVlist[sysid,compid].cs.mode.ToUpper() != "GUIDED")
+                    if (MAVlist[sysid, compid].cs.mode.ToUpper() != "GUIDED")
                         setMode(sysid, compid, "GUIDED");
                 }
 
-                MainV2.comPort.setPositionTargetGlobalInt((byte)sysidcurrent, (byte)compidcurrent,
-                    true, false, false, false, MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT_INT,
-                    gotohere.lat, gotohere.lng, MainV2.comPort.MAV.GuidedMode.z, 0, 0, 0, 0, 0);
+                if (MAVlist[sysid,compid].cs.firmware == MainV2.Firmwares.ArduPlane)
+                {
+                    MAV_MISSION_RESULT ans = setWP(sysid, compid, gotohere, 0, MAV_FRAME.GLOBAL_RELATIVE_ALT, (byte)2);
 
-                //MAV_MISSION_RESULT ans = setWP(sysid, compid, gotohere, 0, MAV_FRAME.GLOBAL_RELATIVE_ALT,(byte) 2);
-
-                //if (ans != MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
-                    //throw new Exception("Guided Mode Failed");
+                    if (ans != MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
+                        throw new Exception("Guided Mode Failed");
+                }
+                else
+                {
+                    setPositionTargetGlobalInt((byte)sysid, (byte)compid,
+                        true, false, false, false, MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT_INT,
+                        gotohere.lat, gotohere.lng, MainV2.comPort.MAV.GuidedMode.z, 0, 0, 0, 0, 0);
+                }
             }
             catch (Exception ex)
             {
