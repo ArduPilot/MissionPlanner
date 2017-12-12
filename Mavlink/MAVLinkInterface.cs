@@ -3884,14 +3884,16 @@ Please check the following
                             }
                         }
                     }
-
-                    if (lastparamset != DateTime.MinValue && lastparamset.AddSeconds(10) < DateTime.Now)
+                    if (Settings.Instance["autoParamCommit"] == null || Settings.Instance.GetBoolean("autoParamCommit") == true)
                     {
-                        lastparamset = DateTime.MinValue;
-
-                        if (BaseStream.IsOpen)
+                        if (lastparamset != DateTime.MinValue && lastparamset.AddSeconds(10) < DateTime.Now)
                         {
-                            doCommand(MAV_CMD.PREFLIGHT_STORAGE, 1, 0, 0, 0, 0, 0, 0, false);
+                            lastparamset = DateTime.MinValue;
+
+                            if (BaseStream.IsOpen)
+                            {
+                                doCommand(MAV_CMD.PREFLIGHT_STORAGE, 1, 0, 0, 0, 0, 0, 0, false);
+                            }
                         }
                     }
 

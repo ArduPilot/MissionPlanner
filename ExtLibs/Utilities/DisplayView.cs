@@ -86,6 +86,7 @@ namespace MissionPlanner.Utilities
         public Boolean displayAdvancedParams { get; set; }
         public Boolean displayFullParamList { get; set; }
         public Boolean displayFullParamTree { get; set; }
+        public Boolean displayParamCommitButton { get; set; }
         public Boolean displayBaudCMB { get; set; }
         public Boolean displaySerialPortCMB { get; set; }
         public Boolean standardFlightModesOnly { get; set; }
@@ -164,6 +165,7 @@ namespace MissionPlanner.Utilities
             displayAdvancedParams = false;
             displayFullParamList = false;
             displayFullParamTree = false;
+            displayParamCommitButton = false;
             displayBaudCMB = true;
             standardFlightModesOnly = false;
             displaySerialPortCMB = true;
@@ -271,6 +273,7 @@ namespace MissionPlanner.Utilities
                 displayAdvancedParams = false,
                 displayFullParamList = false,
                 displayFullParamTree = false,
+                displayParamCommitButton = false,
                 displayBaudCMB = true,
                 displaySerialPortCMB = true,
                 standardFlightModesOnly = false,
@@ -348,6 +351,7 @@ namespace MissionPlanner.Utilities
                 displayAdvancedParams = true,
                 displayFullParamList = true,
                 displayFullParamTree = true,
+                displayParamCommitButton = false,
                 displayBaudCMB = true,
                 displaySerialPortCMB = true,
                 standardFlightModesOnly =  false,
