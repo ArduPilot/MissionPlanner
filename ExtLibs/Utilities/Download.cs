@@ -196,6 +196,14 @@ namespace MissionPlanner.Utilities
         private static readonly ILog log =
             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
+        public static async bool getFilefromNetAsync(string url, string saveto)
+        {
+            return await Task.Run(() =>
+            {
+                return getFilefromNet(url, saveto);
+            });            
+        }
+
         public static bool getFilefromNet(string url, string saveto)
         {
             try
@@ -274,6 +282,14 @@ namespace MissionPlanner.Utilities
                 log.Info("getFilefromNet(): " + ex.ToString());
                 return false;
             }
+        }
+
+        public static async Task<bool> CheckHTTPFileExistsAsync(string url)
+        {
+            return await Task.Run(() =>
+            {
+                return CheckHTTPFileExists(url);
+            });
         }
 
         public static bool CheckHTTPFileExists(string url)
