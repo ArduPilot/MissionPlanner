@@ -3043,6 +3043,8 @@ Please check the following
                         setMode(sysid, compid, "GUIDED");
                 }
 
+                log.InfoFormat("setGuidedModeWP {0}:{1} lat {2} lng {3} alt {4}", sysid, compid, gotohere.lat, gotohere.lng, gotohere.alt);
+
                 if (MAVlist[sysid,compid].cs.firmware == MainV2.Firmwares.ArduPlane)
                 {
                     MAV_MISSION_RESULT ans = setWP(sysid, compid, gotohere, 0, MAV_FRAME.GLOBAL_RELATIVE_ALT, (byte)2);
@@ -3067,16 +3069,30 @@ Please check the following
 
         public void setNewWPAlt(Locationwp gotohere)
         {
+            setNewWPAlt((byte)sysidcurrent, (byte)compidcurrent, gotohere);
+        }
+
+        public void setNewWPAlt(byte sysid, byte compid, Locationwp gotohere)
+        {
             giveComport = true;
 
             try
             {
                 gotohere.id = (ushort)MAV_CMD.WAYPOINT;
 
-                MAV_MISSION_RESULT ans = setWP(gotohere, 0, MAV_FRAME.GLOBAL_RELATIVE_ALT, (byte) 3);
+                log.InfoFormat("setNewWPAlt {0}:{1} lat {2} lng {3} alt {4}", sysid, compid, gotohere.lat, gotohere.lng, gotohere.alt);
+
+                MAV_MISSION_RESULT ans = setWP(gotohere, 0, MAV_FRAME.GLOBAL_RELATIVE_ALT, (byte)3);
 
                 if (ans != MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
                     throw new Exception("Alt Change Failed");
+
+                /*
+                // currently plane supports just an alt change, copter requires all lat/lng/alt
+                setPositionTargetGlobalInt((byte)sysid, (byte)compid,
+                    true, false, false, false, MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT_INT,
+                    gotohere.lat, gotohere.lng, gotohere.alt, 0, 0, 0, 0, 0);
+                    */
             }
             catch (Exception ex)
             {
@@ -3092,6 +3108,7 @@ Please check the following
         {
             // for mavlink SET_POSITION_TARGET messages
             const ushort MAVLINK_SET_POS_TYPE_MASK_POS_IGNORE = ((1 << 0) | (1 << 1) | (1 << 2));
+            const ushort MAVLINK_SET_POS_TYPE_MASK_ALT_IGNORE = ((0 << 0) | (0 << 1) | (1 << 2));
             const ushort MAVLINK_SET_POS_TYPE_MASK_VEL_IGNORE = ((1 << 3) | (1 << 4) | (1 << 5));
             const ushort MAVLINK_SET_POS_TYPE_MASK_ACC_IGNORE = ((1 << 6) | (1 << 7) | (1 << 8));
             const ushort MAVLINK_SET_POS_TYPE_MASK_FORCE = ((1 << 9));
@@ -3101,21 +3118,23 @@ Please check the following
             {
                 target_system = sysid,
                 target_component = compid,
-                alt = (float) alt,
-                lat_int = (int) (lat*1e7),
-                lon_int = (int) (lng*1e7),
-                coordinate_frame = (byte) frame,
-                vx = (float) vx,
-                vy = (float) vy,
-                vz = (float) vz,
+                alt = (float)alt,
+                lat_int = (int)(lat * 1e7),
+                lon_int = (int)(lng * 1e7),
+                coordinate_frame = (byte)frame,
+                vx = (float)vx,
+                vy = (float)vy,
+                vz = (float)vz,
                 yaw = (float)yawangle,
                 yaw_rate = (float)yawrate
             };
 
             target.type_mask = ushort.MaxValue;
 
-            if (pos)
+            if (pos && lat != 0 && lng != 0)
                 target.type_mask -= MAVLINK_SET_POS_TYPE_MASK_POS_IGNORE;
+            if (pos && lat == 0 && lng == 0)
+                target.type_mask -= MAVLINK_SET_POS_TYPE_MASK_ALT_IGNORE;
             if (vel)
                 target.type_mask -= MAVLINK_SET_POS_TYPE_MASK_VEL_IGNORE;
             if (acc)
@@ -3125,8 +3144,10 @@ Please check the following
 
             if (pos)
             {
-                MAVlist[sysid, compid].GuidedMode.x = (float)lat;
-                MAVlist[sysid, compid].GuidedMode.y = (float)lng;
+                if (lat != 0)
+                    MAVlist[sysid, compid].GuidedMode.x = (float)lat;
+                if (lng != 0)
+                    MAVlist[sysid, compid].GuidedMode.y = (float)lng;
                 MAVlist[sysid, compid].GuidedMode.z = (float)alt;
             }
 

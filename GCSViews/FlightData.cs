@@ -3539,7 +3539,6 @@ namespace MissionPlanner.GCSViews
             {
                 CustomMessageBox.Show(Strings.ErrorCommunicating, Strings.ERROR);
             }
-            //MainV2.comPort.setNextWPTargetAlt((ushort)MainV2.comPort.MAV.cs.wpno, newalt);
         }
 
         private void gMapControl1_MouseLeave(object sender, EventArgs e)
