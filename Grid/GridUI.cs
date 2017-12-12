@@ -907,7 +907,7 @@ namespace MissionPlanner
 
             double secs = seconds % 60;
             int mins = (int)(seconds / 60) % 60;
-            int hours = (int)(seconds / 3600) % 24;
+            int hours = (int)(seconds / 3600);// % 24;
 
             if (hours > 0)
             {
