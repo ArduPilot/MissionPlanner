@@ -70,6 +70,7 @@ namespace MissionPlanner
             compilerParams.GenerateInMemory = true;
             compilerParams.IncludeDebugInformation = false;
             compilerParams.ReferencedAssemblies.Add("mscorlib.dll");
+            compilerParams.ReferencedAssemblies.Add("netstandard.dll");
             compilerParams.ReferencedAssemblies.Add("System.dll");
             compilerParams.ReferencedAssemblies.Add("System.Windows.Forms.dll");
             compilerParams.ReferencedAssemblies.Add(Application.ExecutablePath);
@@ -303,7 +304,7 @@ namespace MissionPlanner
             CodeNamespace myNamespace = new CodeNamespace("ExpressionEvaluator");
             myNamespace.Imports.Add(new CodeNamespaceImport("System"));
             myNamespace.Imports.Add(new CodeNamespaceImport("System.Windows.Forms"));
-
+            myNamespace.Imports.Add(new CodeNamespaceImport("MissionPlanner.Utilities"));
             myNamespace.Imports.Add(new CodeNamespaceImport("MissionPlanner"));
 
             //Build the class declaration and member variables			
