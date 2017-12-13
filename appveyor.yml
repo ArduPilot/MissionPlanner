@@ -1,5 +1,5 @@
 version: 1.0.{build}
-image: Visual Studio 2017
+image: Previous Visual Studio 2017
 configuration: Release
 clone_depth: 1
 clone_folder: c:\MP\
@@ -14,7 +14,7 @@ build_script:
     
     c:\mp\.nuget\nuget.exe restore
     
-    "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\MSBuild.exe" MissionPlanner.sln /m /p:Configuration=Release /verbosity:minimal /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+    "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\MSBuild.exe" MissionPlanner.sln /m /p:Configuration=Release /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
     
     dir c:\mp\bin\Release\net461
 
@@ -32,8 +32,16 @@ build_script:
 
     copy checksums.txt c:\mp\
 
+    cd c:\mp\
+
+    cov-build.exe --dir cov-int msbuild.exe MissionPlanner.sln /m /p:Configuration=Release /l:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+
+    7z a -tzip MissionPlannerCov-int.zip c:\mp\cov-int 
+
 test: off
 artifacts:
+- path: MissionPlannerCov-int.zip
+  name: MissionPlannerCov-int
 - path: MissionPlannerBeta.zip
   name: MissionPlannerBeta
 - path: checksums.txt
