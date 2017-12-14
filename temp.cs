@@ -158,6 +158,8 @@ namespace MissionPlanner
                     // Application.DoEvents();
                 }
             }
+
+            MainMap.Dispose();
         }
 
         private void BUT_clearcustommaps_Click(object sender, EventArgs e)
@@ -170,6 +172,8 @@ namespace MissionPlanner
             CustomMessageBox.Show("Removed " + removed + " images");
 
             log.InfoFormat("Removed {0} images", removed);
+
+            MainMap.Dispose();
         }
 
         private void BUT_lang_edit_Click(object sender, EventArgs e)

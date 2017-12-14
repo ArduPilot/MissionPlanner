@@ -5388,7 +5388,12 @@ namespace MissionPlanner.GCSViews
                     obj.Start(area, i, MainMap.MapProvider, 0, 0);
 
                     if (obj.UserAborted)
+                    {
+                        obj.Dispose();
                         break;
+                    }
+
+                    obj.Dispose();
                 }
             }
             else

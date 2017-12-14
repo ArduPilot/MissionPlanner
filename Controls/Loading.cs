@@ -68,18 +68,16 @@ namespace MissionPlanner.Controls
         public new static void Close()
         {
             log.Info("Loading.Close()");
-            if (Instance != null)
+            lock (locker)
             {
-                if (!Instance.IsDisposed)
+                if (Instance != null)
                 {
-                    if (Instance.IsHandleCreated)
+                    if (!Instance.IsDisposed)
                     {
-                        lock (locker)
+                        if (Instance.IsHandleCreated)
                         {
-                            MainV2.instance.Invoke((MethodInvoker) delegate
-                            {
-                                ((Form) Instance).Close();
-                            });
+
+                            MainV2.instance.Invoke((MethodInvoker) delegate { ((Form) Instance).Close(); });
 
                             Instance = null;
                         }

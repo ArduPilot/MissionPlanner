@@ -189,7 +189,8 @@ namespace MissionPlanner.Controls.PreFlight
         {
             CheckListEditor form = new CheckListEditor(this);
             form.Show();
-            rowcount = 0;
+            lock (this.CheckListItems)
+                rowcount = 0;
         }
 
         private void timer1_Tick(object sender, EventArgs e)

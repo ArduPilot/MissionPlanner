@@ -395,8 +395,14 @@ namespace MissionPlanner.Utilities
 
             log.Info(address);
 
-            while (cachequeue.ContainsKey(address))
+            while (true)
             {
+                lock (cachequeue)
+                {
+                    if (!cachequeue.Keys.Contains(address))
+                        break;
+                }
+
                 Console.WriteLine("ReadDataFromAddress Queued "+ address);
                 Thread.Sleep(200);
             }
