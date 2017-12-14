@@ -78,11 +78,7 @@
     </Reference>
     <Reference Include="System.Configuration" />
     <Reference Include="System.Management" />
-
-    <Reference Include="System.Speech">
-      <SpecificVersion>True</SpecificVersion>
-      <HintPath>ExtLibs\System.Speech.dll</HintPath>
-    </Reference>
+    <Reference Include="System.Speech" />
 
     <Reference Include="System.Web" />
 
