@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Log.test
 {

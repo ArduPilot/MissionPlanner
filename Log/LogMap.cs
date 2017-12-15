@@ -123,45 +123,41 @@ namespace MissionPlanner.Log
                 {
                     // add a bit of buffer
                     var area = RectLatLng.FromLTRB(minx - 0.001, maxy + 0.001, maxx + 0.001, miny - 0.001);
-                    var map = GetMap(area);
-
-                    var grap = Graphics.FromImage(map);
-
-                    if (sitl)
+                    using (var map = GetMap(area))
+                    using (var grap = Graphics.FromImage(map))
                     {
-                        AddTextToMap(grap, "SITL");
-                    }
-
-                    Color[] colours =
-                    {
-                        Color.Red, Color.Orange, Color.Yellow, Color.Green, Color.Blue, Color.Indigo,
-                        Color.Violet, Color.Pink
-                    };
-
-                    int a = 0;
-                    foreach (var locs in loc_list.Values)
-                    {
-                        PointF lastpoint = new PointF();
-                        var pen = new Pen(colours[a%(colours.Length - 1)]);
-
-                        foreach (var loc in locs)
+                        if (sitl)
                         {
-                            PointF newpoint = GetPixel(area, loc, map.Size);
-
-                            if (!lastpoint.IsEmpty)
-                                grap.DrawLine(pen, lastpoint, newpoint);
-
-                            lastpoint = newpoint;
+                            AddTextToMap(grap, "SITL");
                         }
 
-                        a++;
+                        Color[] colours =
+                        {
+                            Color.Red, Color.Orange, Color.Yellow, Color.Green, Color.Blue, Color.Indigo,
+                            Color.Violet, Color.Pink
+                        };
+
+                        int a = 0;
+                        foreach (var locs in loc_list.Values)
+                        {
+                            PointF lastpoint = new PointF();
+                            var pen = new Pen(colours[a % (colours.Length - 1)]);
+
+                            foreach (var loc in locs)
+                            {
+                                PointF newpoint = GetPixel(area, loc, map.Size);
+
+                                if (!lastpoint.IsEmpty)
+                                    grap.DrawLine(pen, lastpoint, newpoint);
+
+                                lastpoint = newpoint;
+                            }
+
+                            a++;
+                        }
+
+                        map.Save(logfile + ".jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
                     }
-
-                    map.Save(logfile + ".jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
-
-                    map.Dispose();
-
-                    map = null;
                 }
                 else
                 {

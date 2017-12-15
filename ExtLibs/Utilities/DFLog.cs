@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using log4net;
 
-namespace MissionPlanner.Log
+namespace MissionPlanner.Utilities
 {
     /// <summary>
     /// read log and extract log
@@ -33,7 +33,7 @@ namespace MissionPlanner.Log
             public int timems;
             public int lineno;
 
-            internal DFLog parent;
+            public DFLog parent;
 
             public string this[string item]
             {
@@ -233,7 +233,6 @@ namespace MissionPlanner.Log
                     catch (OutOfMemoryException ex)
                     {
                         log.Error(ex);
-                        CustomMessageBox.Show("out of memory");
                         return answer;
                     }
                     catch
@@ -504,7 +503,7 @@ namespace MissionPlanner.Log
         public int FindMessageOffset(string linetype, string find)
         {
             if (logformat.ContainsKey(linetype.ToUpper()))
-                return Log.DFLog.FindInArray(logformat[linetype].FieldNames, find);
+                return FindInArray(logformat[linetype].FieldNames, find);
 
             return -1;
         }

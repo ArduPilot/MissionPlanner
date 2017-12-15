@@ -266,7 +266,7 @@ namespace MissionPlanner.GCSViews
 
             CMB_action.DataSource = list;
 
-            CMB_modes.DataSource = Common.getModesList(MainV2.comPort.MAV.cs);
+            CMB_modes.DataSource = Common.getModesList(MainV2.comPort.MAV.cs.firmware);
             CMB_modes.ValueMember = "Key";
             CMB_modes.DisplayMember = "Value";
 
@@ -2583,7 +2583,7 @@ namespace MissionPlanner.GCSViews
 
         private void CMB_modes_Click(object sender, EventArgs e)
         {
-            CMB_modes.DataSource = Common.getModesList(MainV2.comPort.MAV.cs);
+            CMB_modes.DataSource = Common.getModesList(MainV2.comPort.MAV.cs.firmware);
             CMB_modes.ValueMember = "Key";
             CMB_modes.DisplayMember = "Value";
         }

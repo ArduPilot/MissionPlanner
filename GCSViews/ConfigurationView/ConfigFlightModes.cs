@@ -403,7 +403,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void updateDropDown(ComboBox ctl, string param)
         {
-            ctl.DataSource = Common.getModesList(MainV2.comPort.MAV.cs);
+            ctl.DataSource = Common.getModesList(MainV2.comPort.MAV.cs.firmware);
             ctl.DisplayMember = "Value";
             ctl.ValueMember = "Key";
         }

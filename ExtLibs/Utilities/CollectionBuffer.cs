@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using MissionPlanner.Utilities;
 
-namespace MissionPlanner.Log
+namespace MissionPlanner.Utilities
 {
     public class CollectionBuffer : IEnumerable<String>, IDisposable
     {

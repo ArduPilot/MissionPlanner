@@ -5,11 +5,9 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Runtime.InteropServices;
-using MissionPlanner.Controls;
 using uint8_t = System.Byte;
-using MissionPlanner.Utilities;
 
-namespace MissionPlanner.Log
+namespace MissionPlanner.Utilities
 {
     /// <summary>
     /// Convert a binary log to an assci log
@@ -53,58 +51,23 @@ namespace MissionPlanner.Log
             public short[] Shorts;
         }
 
-        private IProgressReporterDialogue prd;
         private string inputfn;
         private string outputfn;
-        private event convertProgress convertstatus;
+
         object locker = new object();
-
-        private delegate void convertProgress(IProgressReporterDialogue prd, float progress);
-
+ 
         Dictionary<string, log_Format> logformat = new Dictionary<string, log_Format>();
 
-        public static void ConvertBin(string inputfn, string outputfn, bool showui = true)
-        {
-            if (!showui)
-            {
-                new BinaryLog().ConvertBini(inputfn, outputfn, false);
-                return;
-            }
+        public static event getFlightMode onFlightMode;
 
-            new BinaryLog().doUI(inputfn, outputfn, true);
+        public delegate string getFlightMode(string firmware, int modeno);
+
+        public static void ConvertBin(string inputfn, string outputfn, Action<int> progress = null)
+        {
+            new BinaryLog().ConvertBini(inputfn, outputfn, progress);
         }
 
-        void doUI(string inputfn, string outputfn, bool showui = true)
-        {
-            this.inputfn = inputfn;
-            this.outputfn = outputfn;
-
-            prd = new ProgressReporterDialogue();
-
-            prd.DoWork += prd_DoWork;
-
-            prd.UpdateProgressAndStatus(-1, Strings.Converting_bin_to_log);
-
-            this.convertstatus += BinaryLog_convertstatus;
-
-            ThemeManager.ApplyThemeTo(prd);
-
-            prd.RunBackgroundOperationAsync();
-
-            prd.Dispose();
-        }
-
-        void BinaryLog_convertstatus(IProgressReporterDialogue prd, float progress)
-        {
-            prd.UpdateProgressAndStatus((int) progress, Strings.Converting_bin_to_log);
-        }
-
-        void prd_DoWork(object sender, ProgressWorkerEventArgs e, object passdata = null)
-        {
-            this.ConvertBini(inputfn, outputfn, true);
-        }
-
-        void ConvertBini(string inputfn, string outputfn, bool showui = true)
+        void ConvertBini(string inputfn, string outputfn, Action<int> progress = null)
         {
             using (var stream = File.Open(outputfn, FileMode.Create))
             {
@@ -116,8 +79,8 @@ namespace MissionPlanner.Log
                     {
                         if (displaytimer.Second != DateTime.Now.Second)
                         {
-                            if (convertstatus != null && prd != null)
-                                convertstatus(prd, (br.BaseStream.Position/(float) br.BaseStream.Length)*100);
+                            if (progress != null)
+                                progress((int) ((br.BaseStream.Position / (float) br.BaseStream.Length) * 100));
 
                             Console.WriteLine("ConvertBin " + (br.BaseStream.Position/(float) br.BaseStream.Length)*100);
                             displaytimer = DateTime.Now;
@@ -128,6 +91,8 @@ namespace MissionPlanner.Log
                 }
             }
         }
+
+        private string _firmware = "";
 
         public string ReadMessage(Stream br)
         {
@@ -171,25 +136,25 @@ namespace MissionPlanner.Log
                                 if (line.Contains("PARM, RATE_RLL_P") || line.Contains("ArduCopter") ||
                                     line.Contains("Copter"))
                                 {
-                                    MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduCopter2;
+                                    _firmware = "ArduCopter2";
                                 }
                                 else if ((line.Contains("PARM, H_SWASH_PLATE")) || line.Contains("ArduCopter"))
                                 {
-                                    MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduCopter2;
+                                    _firmware = "ArduCopter2";
                                 }
                                 else if (line.Contains("PARM, PTCH2SRV_P") || line.Contains("ArduPlane") ||
                                          line.Contains("Plane"))
                                 {
-                                    MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduPlane;
+                                    _firmware ="ArduPlane";
                                 }
                                 else if (line.Contains("PARM, SKID_STEER_OUT") || line.Contains("ArduRover") ||
                                          line.Contains("Rover"))
                                 {
-                                    MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduRover;
+                                    _firmware = "ArduRover";
                                 }
                                 else if (line.Contains("AntennaTracker") || line.Contains("Tracker"))
                                 {
-                                    MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduTracker;
+                                    _firmware = "ArduTracker";
                                 }
 
                                 return line;
@@ -815,18 +780,8 @@ namespace MissionPlanner.Log
                         break;
                     case 'M':
                         int modeno = message[offset];
-                        var modes = Common.getModesList(MainV2.comPort.MAV.cs);
-                        string currentmode = "";
-
-                        foreach (var mode in modes)
-                        {
-                            if (mode.Key == modeno)
-                            {
-                                currentmode = mode.Value;
-                                break;
-                            }
-                        }
-
+                        var mode = onFlightMode?.Invoke(_firmware, modeno);
+                        string currentmode = mode == null ? modeno.ToString() : mode;
                         line.Append(", " + currentmode);
                         offset++;
                         break;

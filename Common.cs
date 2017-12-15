@@ -103,11 +103,11 @@ namespace MissionPlanner
             PX4_CUSTOM_SUB_MODE_AUTO_RTGS
         }
 
-        public static List<KeyValuePair<int, string>> getModesList(CurrentState cs)
+        public static List<KeyValuePair<int, string>> getModesList(MainV2.Firmwares firmware)
         {
             log.Info("getModesList Called");
 
-            if (cs.firmware == MainV2.Firmwares.PX4)
+            if (firmware == MainV2.Firmwares.PX4)
             {
                 /*
 union px4_custom_mode {
@@ -158,10 +158,10 @@ union px4_custom_mode {
 
                 return temp;
             }
-            else if (cs.firmware == MainV2.Firmwares.ArduPlane)
+            else if (firmware == MainV2.Firmwares.ArduPlane)
             {
                 var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FLTMODE1",
-                    cs.firmware.ToString());
+                    firmware.ToString());
                 flightModes.Add(new KeyValuePair<int, string>(16, "INITIALISING"));
 
                 flightModes.Add(new KeyValuePair<int, string>(17, "QStabilize"));
@@ -172,25 +172,25 @@ union px4_custom_mode {
 
                 return flightModes;
             }
-            else if (cs.firmware == MainV2.Firmwares.Ateryx)
+            else if (firmware == MainV2.Firmwares.Ateryx)
             {
                 var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FLTMODE1",
-                    cs.firmware.ToString()); //same as apm
+                    firmware.ToString()); //same as apm
                 return flightModes;
             }
-            else if (cs.firmware == MainV2.Firmwares.ArduCopter2)
+            else if (firmware == MainV2.Firmwares.ArduCopter2)
             {
                 var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FLTMODE1",
-                    cs.firmware.ToString());
+                    firmware.ToString());
                 return flightModes;
             }
-            else if (cs.firmware == MainV2.Firmwares.ArduRover)
+            else if (firmware == MainV2.Firmwares.ArduRover)
             {
                 var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("MODE1",
-                    cs.firmware.ToString());
+                    firmware.ToString());
                 return flightModes;
             }
-            else if (cs.firmware == MainV2.Firmwares.ArduTracker)
+            else if (firmware == MainV2.Firmwares.ArduTracker)
             {
                 var temp = new List<KeyValuePair<int, string>>();
                 temp.Add(new KeyValuePair<int, string>(0, "MANUAL"));

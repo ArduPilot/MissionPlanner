@@ -33,6 +33,24 @@ namespace MissionPlanner.Utilities
         public T y;
         public T z;
 
+        public T X
+        {
+            get { return x; }
+            set { x = value; }
+        }
+
+        public T Y
+        {
+            get { return y; }
+            set { y = value; }
+        }
+
+        public T Z
+        {
+            get { return z; }
+            set { z = value; }
+        }
+
         public Vector3(T x, T y, T z)
         {
             this.x = x;

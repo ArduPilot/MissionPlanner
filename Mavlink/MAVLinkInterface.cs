@@ -1762,6 +1762,14 @@ Please check the following
                 giveComport = false;
                 return true;
             }
+            else if (actionid == MAV_CMD.PREFLIGHT_CALIBRATION && p6 == 1)
+            {
+                // compassmot
+                // send again just incase
+                generatePacket((byte)MAVLINK_MSG_ID.COMMAND_LONG, req, sysid, compid);
+                giveComport = false;
+                return true;
+            }
             else if (actionid == MAV_CMD.PREFLIGHT_CALIBRATION)
             {
                 retrys = 1;
@@ -1777,14 +1785,6 @@ Please check the following
             {
                 // 10 seconds as may need an imu calib
                 timeout = 10000;
-            }
-            else if (actionid == MAV_CMD.PREFLIGHT_CALIBRATION && p6 == 1)
-            {
-                // compassmot
-                // send again just incase
-                generatePacket((byte) MAVLINK_MSG_ID.COMMAND_LONG, req, sysid, compid);
-                giveComport = false;
-                return true;
             }
             else if (actionid == MAV_CMD.GET_HOME_POSITION)
             {
@@ -4905,7 +4905,7 @@ Please check the following
 
             try
             {
-                List<KeyValuePair<int, string>> modelist = Common.getModesList(MAVlist[sysid,compid].cs);
+                List<KeyValuePair<int, string>> modelist = Common.getModesList(MAVlist[sysid,compid].cs.firmware);
 
                 foreach (KeyValuePair<int, string> pair in modelist)
                 {

@@ -1602,7 +1602,7 @@ namespace MissionPlanner
 
                         if ((highlatency.base_mode & (byte) MAVLink.MAV_MODE_FLAG.CUSTOM_MODE_ENABLED) != 0)
                         {
-                            List<KeyValuePair<int, string>> modelist = Common.getModesList(this);
+                            List<KeyValuePair<int, string>> modelist = Common.getModesList(this.firmware);
 
                             if (modelist != null)
                             {
@@ -1890,7 +1890,7 @@ namespace MissionPlanner
                                 // prevent running thsi unless we have to
                                 if (_mode != hb.custom_mode)
                                 {
-                                    List<KeyValuePair<int, string>> modelist = Common.getModesList(this);
+                                    List<KeyValuePair<int, string>> modelist = Common.getModesList(this.firmware);
 
                                     if (modelist != null)
                                     {

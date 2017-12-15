@@ -84,7 +84,8 @@ namespace MissionPlanner.Utilities
                 process.Start();
                 log.Info("Quitting existing process");
 
-                frmProgressReporter.BeginInvoke((Action) delegate { Application.Exit(); });
+                if (frmProgressReporter != null)
+                    frmProgressReporter.BeginInvoke((Action) delegate { Application.Exit(); });
             }
             catch (AggregateException ex)
             {

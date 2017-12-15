@@ -390,10 +390,6 @@
     <Compile Include="Joystick\Joy_Do_Set_Relay.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Joystick\Joy_Do_Set_Servo.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Joystick\Joy_Mount_Mode.cs"> <SubType>Control</SubType> </Compile>
-    <Compile Include="Log\BinaryLog.cs" />
-    <Compile Include="Log\CollectionBuffer.cs" />
-    <Compile Include="Log\DashWare.cs" />
-    <Compile Include="Log\DFLog.cs" />
     <Compile Include="Log\DFLogScript.cs" />
     <Compile Include="Log\LogBrowse.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Log\LogDownload.cs"> <SubType>Control</SubType> </Compile>
