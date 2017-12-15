@@ -660,6 +660,9 @@
     <Compile Include="Wizard\Wizard.Designer.cs"><DependentUpon>Wizard.cs</DependentUpon> </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="acsimplepids.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="aircraft.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -667,6 +670,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="camerasBuiltin.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ChangeLog.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="checklistDefault.xml">
@@ -691,6 +697,15 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="mavgraphs.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="mpdesktop.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="mpdesktop150.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="mpdesktop44.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="ParameterFactMetaData.xml">
@@ -1718,10 +1733,22 @@
     <EmbeddedResource Include="Wizard\Wizard.zh-TW.resx"><DependentUpon>Wizard.cs</DependentUpon> </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="adb.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="AdbWinApi.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="airports.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="aot.sh">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="app.config" />
+    <None Include="block_plane_0.dae">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="DLLs\fftpack_lite.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
