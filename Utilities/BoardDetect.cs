@@ -101,7 +101,7 @@ namespace MissionPlanner.Utilities
                                             up.board_type,
                                             up.board_rev, up.bl_rev, up.fw_maxsize, port1);
 
-                                        if (up.fw_maxsize == 2080768 && up.board_type == 9)
+                                        if (up.fw_maxsize == 2080768 && up.board_type == 9 && up.bl_rev >= 5)
                                         {
                                             log.Info("is a px4v3");
                                             return boards.px4v3;
