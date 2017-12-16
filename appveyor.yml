@@ -43,7 +43,7 @@ build_script:
 
     7z a -tzip MissionPlannerCov-int.zip c:\mp\cov-int 
 
-    curl --form %token%   --form %email%   --form file=@MissionPlannerCov-int.zip https://scan.coverity.com/builds?project=ArduPilot%2FMissionPlanner
+    curl --form %token% --form %email% --form file=@MissionPlannerCov-int.zip --form version="%APPVEYOR_BUILD_VERSION%" --form description="" https://scan.coverity.com/builds?project=ArduPilot%2FMissionPlanner
 
 test: off
 artifacts:
