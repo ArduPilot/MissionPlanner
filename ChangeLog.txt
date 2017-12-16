@@ -1,4 +1,60 @@
-﻿*Mission Planner 1.3.51 - 9-12-2017
+﻿*Mission Planner 1.3.52 - 16-12-2017
+Utilities: namespace update
+Refactor and move
+BoardDetect: only upload v3 fw to bl_rev >= 5
+appveyor: add form fields
+CommsNTRIP: fix nmea string
+appveyor: coverity upload
+MAVLinkInterface: make getParamList targetable
+MavLink interface enhancements to improve handling of non-fc components (#1686)
+disabled setting target sysid/compid from SetupMavConnect()
+connection control
+CommsStream: create stream
+Utilities: refactor and coverity
+Coverity: fixs
+MissionPlanner: fix speech reference
+MissionPlanner: project cleanup
+appveyor: add coverity
+Added option to enable/disable automatic param commit
+Also adds param commit button visibility option to displayview
+Added ability to commit params to flash in param list/tree
+also fixed ctrl+Y command so that it sends a write params command
+rather than a read params command.
+Extensions: generic async extensions
+Extensions: add generic async on Action delegate
+Revised german translation
+Every thing else is just a byproduct...
+Download: add async versions
+MAVLinkInterface: prep for setNewWPAlt change
+MAVLinkInterface: revert arduplane to old guided mode
+GridUI: fix displayed flighttime > 24hrs
+FlightData: fix quickview highlighting
+CodeGen: add all assemblys
+FlightData: fix green highlight of selected fields
+CodeGen: add netstandard dll
+MAVLinkinterface: fix PREFLIGHT_STORAGE save #1704
+ConfigArduRover: fix #1691
+ConnectionControl: show current mav on list update
+HorizontalProgressBar2: fix label redraw in tablelayout
+ConfigRadioOutput: create
+CheckListControl: fix designer fail
+FlightData: add set EKF Origin Here #1702
+Settings: add null check to GetRunningDirectory
+Installer: crossthread call fix
+Download: make expirecache threadsafe
+Download: prevent exception on collection change
+Installer: ensure path is changed
+fixed param type corruption on ardupilot type MAVs and reverted mav
+change behaviour
+MAVLinkInterface: fix #1698 connect issue
+CurrentState: make sure compid is correct
+GMap: remove sqlite dependancy
+AviFile: netstandard 2
+Remove missing files
+Scripts: fix sendpacket example #1699
+Projects: remove TargetFrameworkProfile
+
+*Mission Planner 1.3.51 - 9-12-2017
 ParameterMetaDataBackup: update
 ConfigArduRover: support older versions
 Installer: create
