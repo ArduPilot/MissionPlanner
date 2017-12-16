@@ -537,7 +537,7 @@ Please check the following
                     frmProgressReporter.UpdateProgressAndStatus(0,
                         "Getting Params.. (sysid " + MAV.sysid + " compid " + MAV.compid + ") ");
 
-                    getParamListBG();
+                    getParamList(MAV.sysid,MAV.compid);
                 }
 
                 if (frmProgressReporter.doWorkArgs.CancelAcknowledged == true)
@@ -1137,14 +1137,14 @@ Please check the following
 
         void FrmProgressReporterGetParams(object sender, ProgressWorkerEventArgs e, object passdata = null)
         {
-            getParamListBG();
+            getParamList(MAV.sysid, MAV.compid);
         }
 
         /// <summary>
         /// Get param list from apm
         /// </summary>
         /// <returns></returns>
-        private Dictionary<string, double> getParamListBG()
+        public Dictionary<string, double> getParamList(byte sysid, byte compid)
         {
             giveComport = true;
             List<int> indexsreceived = new List<int>();
@@ -1155,8 +1155,8 @@ Please check the following
             int param_total = 1;
 
             mavlink_param_request_list_t req = new mavlink_param_request_list_t();
-            req.target_system = MAV.sysid;
-            req.target_component = MAV.compid;
+            req.target_system = sysid;
+            req.target_component = compid;
 
             generatePacket((byte) MAVLINK_MSG_ID.PARAM_REQUEST_LIST, req);
 
@@ -1173,7 +1173,7 @@ Please check the following
 
             do
             {
-                if (frmProgressReporter.doWorkArgs.CancelRequested)
+                if (frmProgressReporter != null && frmProgressReporter.doWorkArgs.CancelRequested)
                 {
                     frmProgressReporter.doWorkArgs.CancelAcknowledged = true;
                     giveComport = false;
@@ -1205,12 +1205,12 @@ Please check the following
                         {
                             if (!indexsreceived.Contains(i))
                             {
-                                if (frmProgressReporter.doWorkArgs.CancelRequested)
+                                if (frmProgressReporter != null && frmProgressReporter.doWorkArgs.CancelRequested)
                                 {
                                     frmProgressReporter.doWorkArgs.CancelAcknowledged = true;
                                     giveComport = false;
                                     frmProgressReporter.doWorkArgs.ErrorMessage = "User Canceled";
-                                    return MAV.param;
+                                    return MAVlist[sysid, compid].param;
                                 }
 
                                 // prevent dropping out of this get params loop
@@ -1219,8 +1219,8 @@ Please check the following
                                     queued++;
 
                                     mavlink_param_request_read_t req2 = new mavlink_param_request_read_t();
-                                    req2.target_system = MAV.sysid;
-                                    req2.target_component = MAV.compid;
+                                    req2.target_system = sysid;
+                                    req2.target_component = compid;
                                     req2.param_index = i;
                                     req2.param_id = new byte[] {0x0};
 
@@ -1277,8 +1277,9 @@ Please check the following
                         if (indexsreceived.Contains(par.param_index))
                         {
                             log.Info("Already got " + (par.param_index) + " '" + paramID + "' " + (indexsreceived.Count * 100) / param_total);
-                            this.frmProgressReporter.UpdateProgressAndStatus((indexsreceived.Count*100)/param_total,
-                                "Already Got param " + paramID);
+                            if (frmProgressReporter != null)
+                                this.frmProgressReporter.UpdateProgressAndStatus(
+                                    (indexsreceived.Count * 100) / param_total, "Already Got param " + paramID);
                             continue;
                         }
 
@@ -1290,7 +1291,7 @@ Please check the following
 
                         //Console.WriteLine(DateTime.Now.Millisecond + " gp2a ");
 
-                        if (MAV.apname == MAV_AUTOPILOT.ARDUPILOTMEGA)
+                        if (MAVlist[sysid,compid].apname == MAV_AUTOPILOT.ARDUPILOTMEGA)
                         {
                             var offset = Marshal.OffsetOf(typeof(mavlink_param_value_t), "param_value");
                             newparamlist[paramID] = new MAVLinkParam(paramID, BitConverter.GetBytes(par.param_value), MAV_PARAM_TYPE.REAL32, (MAV_PARAM_TYPE)par.param_type);
@@ -1307,12 +1308,12 @@ Please check the following
                         if (par.param_index != 65535)
                             indexsreceived.Add(par.param_index);
 
-                        MAV.param_types[paramID] = (MAV_PARAM_TYPE) par.param_type;
+                        MAVlist[sysid, compid].param_types[paramID] = (MAV_PARAM_TYPE) par.param_type;
 
                         //Console.WriteLine(DateTime.Now.Millisecond + " gp3 ");
 
-                        this.frmProgressReporter.UpdateProgressAndStatus((indexsreceived.Count*100)/param_total,
-                            Strings.Gotparam + paramID);
+                        if(frmProgressReporter != null)
+                            this.frmProgressReporter.UpdateProgressAndStatus((indexsreceived.Count*100)/param_total,Strings.Gotparam + paramID);
 
                         // we hit the last param - lets escape eq total = 176 index = 0-175
                         if (par.param_index == (param_total - 1))
@@ -1331,19 +1332,19 @@ Please check the following
                         if (logdata.ToLower().Contains("copter") || logdata.ToLower().Contains("rover") ||
                             logdata.ToLower().Contains("plane"))
                         {
-                            MAV.VersionString = logdata;
+                            MAVlist[sysid, compid].VersionString = logdata;
                         }
                         else if (logdata.ToLower().Contains("nuttx"))
                         {
-                            MAV.SoftwareVersions = logdata;
+                            MAVlist[sysid, compid].SoftwareVersions = logdata;
                         }
                         else if (logdata.ToLower().Contains("px4v2"))
                         {
-                            MAV.SerialString = logdata;
+                            MAVlist[sysid, compid].SerialString = logdata;
                         }
                         else if (logdata.ToLower().Contains("frame"))
                         {
-                            MAV.FrameString = logdata;
+                            MAVlist[sysid, compid].FrameString = logdata;
                         }
                     }
                     //stopwatch.Stop();
@@ -1370,10 +1371,10 @@ Please check the following
             }
             giveComport = false;
 
-            MAV.param.Clear();
-            MAV.param.TotalReported = param_total;
-            MAV.param.AddRange(newparamlist);
-            return MAV.param;
+            MAVlist[sysid, compid].param.Clear();
+            MAVlist[sysid, compid].param.TotalReported = param_total;
+            MAVlist[sysid, compid].param.AddRange(newparamlist);
+            return MAVlist[sysid, compid].param;
         }
 
         private int _parampoll = 0;
