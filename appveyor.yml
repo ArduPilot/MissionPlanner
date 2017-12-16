@@ -6,6 +6,11 @@ clone_folder: c:\MP\
 init:
 - cmd: 
 cache: packages
+environment:
+  email:
+    secure: dkWdmOxf3t/x2H0gEo1GurKM8Due1idnog5VJtUlSEA=
+  token:
+    secure: FfCpqsH/V1r7PoXHkMcJpW7kWiQ6rQaedlH2L8smyeY=
 build_script:
 - cmd: >-
     dotnet --info
@@ -37,6 +42,8 @@ build_script:
     cov-build.exe --dir cov-int msbuild.exe MissionPlanner.sln /m /p:Configuration=Debug /l:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 
     7z a -tzip MissionPlannerCov-int.zip c:\mp\cov-int 
+
+    curl --form %token%   --form %email%   --form file=@MissionPlannerCov-int.zip https://scan.coverity.com/builds?project=ArduPilot%2FMissionPlanner
 
 test: off
 artifacts:
