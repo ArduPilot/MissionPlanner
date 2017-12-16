@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -11,32 +12,23 @@ namespace MissionPlanner.Utilities
     {
         public static void anonymise(string logfile, string outputfile)
         {
+            var latrandom = new Random().NextDouble();
             //LOG
             using (CollectionBuffer col = new CollectionBuffer(File.OpenRead(logfile)))
             using (var outfilestream = File.Open(outputfile, FileMode.Create, FileAccess.ReadWrite, FileShare.Read))
             {
                 foreach (var dfItem in col.GetEnumeratorTypeAll())
                 {
-                    if (dfItem.msgtype.StartsWith("GPS"))
-                        continue;
-                    if (dfItem.msgtype.StartsWith("CMD"))
-                        continue;
-                    if (dfItem.msgtype.StartsWith("CAM"))
-                        continue;
-                    if (dfItem.msgtype.StartsWith("TRIG"))
-                        continue;
-                    if (dfItem.msgtype.StartsWith("AHR2"))
-                        continue;
-                    if (dfItem.msgtype.StartsWith("POS"))
-                        continue;
-                    if (dfItem.msgtype.StartsWith("TERR"))
-                        continue;
-                    if (dfItem.msgtype.StartsWith("SBFE"))
-                        continue;
-                    if (dfItem.msgtype.StartsWith("ORGN"))
-                        continue;
+                    var index = col.dflog.FindMessageOffset(dfItem.msgtype, "lat");
 
-                    var str = String.Join(",", dfItem.items);
+                    if (index != -1)
+                    {
+                        dfItem.items[index] =
+                            (Double.Parse(dfItem.items[index], CultureInfo.InvariantCulture) + latrandom).ToString(
+                                CultureInfo.InvariantCulture);
+                    }
+
+                    var str = String.Join(",", dfItem.items) + "\r\n";
                     outfilestream.Write(ASCIIEncoding.ASCII.GetBytes(str), 0, str.Length);
                 }
             }

@@ -21,7 +21,7 @@ using Timer = System.Timers.Timer;
 
 namespace MissionPlanner
 {
-    public class MAVLinkInterface : MAVLink, IDisposable
+    public class MAVLinkInterface : MAVLink, IDisposable, IMAVLinkInterface
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private ICommsSerial _baseStream;

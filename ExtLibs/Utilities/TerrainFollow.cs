@@ -21,9 +21,9 @@ namespace MissionPlanner.Utilities
 
         private static ManualResetEvent mre = new ManualResetEvent(false);
 
-        private MAVLinkInterface _interface;
+        private IMAVLinkInterface _interface;
 
-        public TerrainFollow(MAVLinkInterface inInterface)
+        public TerrainFollow(IMAVLinkInterface inInterface)
         {
             _interface = inInterface;
 

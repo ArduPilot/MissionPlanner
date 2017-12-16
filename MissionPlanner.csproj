@@ -370,7 +370,6 @@
     <Compile Include="GeoRef\Rational.cs" />
     <Compile Include="GeoRef\SingleLocation.cs" />
     <Compile Include="GeoRef\VehicleLocation.cs" />
-    <Compile Include="Grid\Grid.cs" />
     <Compile Include="Grid\GridPlugin.cs" />
     <Compile Include="Grid\GridUI.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="HIL\Aircraft.cs" />
@@ -495,7 +494,6 @@
     <Compile Include="Utilities\Speech.cs" />
     <Compile Include="Utilities\StreamCombiner.cs" />
     <Compile Include="Utilities\StringRedirectWriter.cs" />
-    <Compile Include="Utilities\TerrainFollow.cs" />
     <Compile Include="Utilities\ThemeManager.cs" />
     <Compile Include="Utilities\Tracking.cs" />
     <Compile Include="Utilities\UDPMavlinkShim.cs" />
