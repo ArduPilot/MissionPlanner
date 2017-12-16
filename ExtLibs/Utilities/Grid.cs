@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MissionPlanner.Utilities;
 
-namespace MissionPlanner
+namespace MissionPlanner.Utilities
 {
     public class Grid
     {

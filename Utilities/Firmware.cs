@@ -96,7 +96,7 @@ namespace MissionPlanner.Utilities
         /// </summary>
         public Firmware()
         {
-            string file = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar +
+            string file = Path.GetDirectoryName(Path.GetFullPath(Assembly.GetExecutingAssembly().Location)) + Path.DirectorySeparatorChar +
                           "FirmwareHistory.txt";
 
             if (!File.Exists(file))
@@ -972,11 +972,11 @@ namespace MissionPlanner.Utilities
             PingReply pingReply = pingParrotVehicle(ping);
 
             updateProgress(0, "Trying to connect to " + vehicleName);
-
+            
             if (pingReply == null || pingReply.Status != IPStatus.Success)
             {
                 bool ssidFound = isParrotWifiConnected(vehicleName);
-
+                
                 if (!ssidFound)
                 {
                     CustomMessageBox.Show("Please connect to " + vehicleName + " Wifi now and after that press OK", vehicleName, MessageBoxButtons.OK);
@@ -1215,7 +1215,7 @@ namespace MissionPlanner.Utilities
             {
                 AdbClient.Instance.KillAdb();
             }
-
+            
             return true;
         }
 

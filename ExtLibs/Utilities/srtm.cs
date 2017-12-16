@@ -8,7 +8,7 @@ using System.Threading;
 using System.Collections;
 using log4net;
 
-namespace MissionPlanner
+namespace MissionPlanner.Utilities
 {
     public class srtm : IDisposable
     {

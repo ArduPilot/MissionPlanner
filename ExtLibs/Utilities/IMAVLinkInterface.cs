@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MissionPlanner
+namespace MissionPlanner.Utilities
 {
     public interface IMAVLinkInterface
     {

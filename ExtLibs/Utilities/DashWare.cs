@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MissionPlanner.Utilities;
 
-namespace MissionPlanner.Log
+namespace MissionPlanner.Utilities
 {
     public class DashWare
     {
