@@ -503,6 +503,8 @@ Please check the following
                             if (seentimes >= 2 && msg.compid == 1 || seentimes >= 4)
                             {
                                 SetupMavConnect(msg, (mavlink_heartbeat_t) msg.data);
+                                sysidcurrent = msg.sysid;
+                                compidcurrent = msg.compid;
                                 exit = true;
                                 break;
                             }
@@ -596,9 +598,6 @@ Please check the following
 
         void SetupMavConnect(MAVLinkMessage message, mavlink_heartbeat_t hb)
         {
-            sysidcurrent = message.sysid;
-            compidcurrent = message.compid;
-
             mavlinkversion = hb.mavlink_version;
             MAVlist[message.sysid, message.compid].aptype = (MAV_TYPE) hb.type;
             MAVlist[message.sysid, message.compid].apname = (MAV_AUTOPILOT) hb.autopilot;

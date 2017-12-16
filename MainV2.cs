@@ -1502,17 +1502,7 @@ namespace MissionPlanner
                     return;
                 }
 
-                // get all the params
-                foreach (var mavstate in comPort.MAVlist)
-                {
-                    comPort.sysidcurrent = mavstate.sysid;
-                    comPort.compidcurrent = mavstate.compid;
-                    comPort.getParamList();
-                }
-
-                // set to first seen
-                comPort.sysidcurrent = comPort.MAVlist.First().sysid;
-                comPort.compidcurrent = comPort.MAVlist.First().compid;
+                comPort.getParamList();
 
                 _connectionControl.UpdateSysIDS();
 
