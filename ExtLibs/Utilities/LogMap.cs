@@ -1,16 +1,13 @@
 ﻿using GMap.NET;
 using GMap.NET.MapProviders;
-using GMap.NET.WindowsForms;
 using MissionPlanner.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using MissionPlanner.Attributes;
-using MissionPlanner.Mavlink;
+using MissionPlanner.Comms;
 
 namespace MissionPlanner.Log
 {
@@ -39,46 +36,44 @@ namespace MissionPlanner.Log
             {
                 if (logfile.ToLower().EndsWith(".tlog"))
                 {
-                    using (MAVLinkInterface mine = new MAVLinkInterface())
-                    using (
-                        mine.logplaybackfile =
-                            new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-                        )
+                    Comms.CommsFile cf = new CommsFile();
+                    cf.Open(logfile);
+
+                    using (CommsStream cs = new CommsStream(cf, cf.BytesToRead))
                     {
-                        mine.logreadmode = true;
-                        mine.speechenabled = false;
+                        MAVLink.MavlinkParse parse = new MAVLink.MavlinkParse(true);
 
-                        while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
+                        while (cs.Position < cs.Length)
                         {
-                            MAVLink.MAVLinkMessage packet = mine.readPacket();
+                            MAVLink.MAVLinkMessage packet = parse.ReadPacket(cs);
 
-                            if (packet.Length < 5)
+                            if (packet == null || packet.Length < 5)
                                 continue;
 
-                            if (packet.msgid == (byte) MAVLink.MAVLINK_MSG_ID.SIM_STATE ||
-                                packet.msgid == (byte) MAVLink.MAVLINK_MSG_ID.SIMSTATE)
+                            if (packet.msgid == (byte)MAVLink.MAVLINK_MSG_ID.SIM_STATE ||
+                                packet.msgid == (byte)MAVLink.MAVLINK_MSG_ID.SIMSTATE)
                             {
                                 sitl = true;
                             }
 
-                            if (packet.msgid == (byte) MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT)
+                            if (packet.msgid == (byte)MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT)
                             {
                                 var loc = packet.ToStructure<MAVLink.mavlink_global_position_int_t>();
 
                                 if (loc.lat == 0 || loc.lon == 0)
                                     continue;
 
-                                var id = MAVList.GetID(packet.sysid, packet.compid);
+                                var id = packet.sysid * 256 + packet.compid;
 
                                 if (!loc_list.ContainsKey(id))
                                     loc_list[id] = new List<PointLatLngAlt>();
 
-                                loc_list[id].Add(new PointLatLngAlt(loc.lat/10000000.0f, loc.lon/10000000.0f));
+                                loc_list[id].Add(new PointLatLngAlt(loc.lat / 10000000.0f, loc.lon / 10000000.0f));
 
-                                minx = Math.Min(minx, loc.lon/10000000.0f);
-                                maxx = Math.Max(maxx, loc.lon/10000000.0f);
-                                miny = Math.Min(miny, loc.lat/10000000.0f);
-                                maxy = Math.Max(maxy, loc.lat/10000000.0f);
+                                minx = Math.Min(minx, loc.lon / 10000000.0f);
+                                maxx = Math.Max(maxx, loc.lon / 10000000.0f);
+                                miny = Math.Min(miny, loc.lat / 10000000.0f);
+                                maxy = Math.Max(maxy, loc.lat / 10000000.0f);
                             }
                         }
                     }
@@ -157,21 +152,22 @@ namespace MissionPlanner.Log
                         }
 
                         map.Save(logfile + ".jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+
+                        File.SetLastWriteTime(logfile + ".jpg", new FileInfo(logfile).LastWriteTime);
                     }
                 }
                 else
                 {
                     DoTextMap(logfile + ".jpg", "No gps data");
+
+                    File.SetLastWriteTime(logfile + ".jpg", new FileInfo(logfile).LastWriteTime);
                 }
             }
             catch (Exception ex)
             {
                 if (ex.ToString().Contains("Mavlink 0.9"))
                     DoTextMap(logfile + ".jpg", "Old log\nMavlink 0.9");
-
-                return;
             }
-
         }
 
         static void DoTextMap(string jpgname, string text)
@@ -248,7 +244,7 @@ namespace MissionPlanner.Log
                         foreach (var tp in type.Overlays)
                         {
                             Exception ex;
-                            using (GMapImage tile = GMaps.Instance.GetImageFrom(tp, p, zoom, out ex) as GMapImage)
+                            using (var tile = GMaps.Instance.GetImageFrom(tp, p, zoom, out ex))
                             {
                                 if (tile != null)
                                 {
@@ -257,7 +253,7 @@ namespace MissionPlanner.Log
                                         long x = p.X*prj.TileSize.Width - topLeftPx.X + padding;
                                         long y = p.Y*prj.TileSize.Width - topLeftPx.Y + padding;
                                         {
-                                            gfx.DrawImage(tile.Img, x, y, prj.TileSize.Width, prj.TileSize.Height);
+                                            gfx.DrawImage(Image.FromStream(tile.Data), x, y, prj.TileSize.Width, prj.TileSize.Height);
                                         }
                                     }
                                 }
