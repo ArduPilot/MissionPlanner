@@ -94,6 +94,8 @@ namespace MissionPlanner.Controls
         {
             cmb_sysid.SelectedIndexChanged -= CMB_sysid_SelectedIndexChanged;
 
+            var oldidx = cmb_sysid.SelectedIndex;
+
             cmb_sysid.Items.Clear();
 
             int selectidx = -1;
@@ -115,7 +117,7 @@ namespace MissionPlanner.Controls
                 }
             }
 
-            if (selectidx != -1)
+            if (oldidx == -1 && selectidx != -1)
             {                
                 cmb_sysid.SelectedIndex = selectidx;               
             }
