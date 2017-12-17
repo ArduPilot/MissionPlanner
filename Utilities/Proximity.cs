@@ -159,7 +159,7 @@ namespace MissionPlanner.Utilities
 
         ~Proximity()
         {
-            _parent.parent.UnSubscribeToPacketType(sub);
+            _parent?.parent?.UnSubscribeToPacketType(sub);
         }
 
         private bool messageReceived(MAVLinkMessage arg)
