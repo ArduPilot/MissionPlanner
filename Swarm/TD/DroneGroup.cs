@@ -362,7 +362,7 @@ namespace MissionPlanner.Swarm.TD
 
                 var x = map(state.X, ushort.MinValue, ushort.MaxValue, short.MinValue, short.MaxValue);
                 var y = map(state.Y, ushort.MinValue, ushort.MaxValue, short.MinValue, short.MaxValue);
-                var z = map(state.Z, ushort.MinValue, ushort.MaxValue, short.MinValue, short.MaxValue);
+                var z = map(state.Z, ushort.MinValue, ushort.MaxValue, -1, 1);
                 var yaw = map(state.Rz, ushort.MinValue, ushort.MaxValue, short.MinValue, short.MaxValue);
 
                 // matrix with our current copter yaw
@@ -371,11 +371,11 @@ namespace MissionPlanner.Swarm.TD
                 Matrix.from_euler(0, 0, drone.MavState.cs.yaw * MathHelper.deg2rad);
 
                 // z deadzone
-                if (Math.Abs(z) < 5000)
+                if (Math.Abs(z) < 0.1)
                     z = 0;
 
                 // rotated vector based on heading.
-                var vector = new Vector3(x, y, z);
+                var vector = new Vector3(x, y, 0);
                 vector = Matrix * vector;
 
                 var vectorbase = new Vector3(short.MaxValue, short.MaxValue, 0);
@@ -392,7 +392,7 @@ namespace MissionPlanner.Swarm.TD
 
                 newpos = drone.Location.newpos(yawtarget, drone.speed * lengthscale);
 
-                newpos.Alt += newvector.z;
+                newpos.Alt += z;
 
                 drone.TargetVelocity =  Vector3.Zero;
                 //new Vector3(Math.Cos(yawtarget * MathHelper.deg2rad) *

@@ -37,6 +37,8 @@ namespace MissionPlanner.Swarm.TD
 
                 joystick.Poll();
 
+                Console.WriteLine(joystick.Information.ProductName);
+
                 Joysticks.Add(joystick);
             }
 
