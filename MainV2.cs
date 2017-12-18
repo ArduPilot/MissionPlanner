@@ -1020,11 +1020,23 @@ namespace MissionPlanner
             {
                 this.Invoke((MethodInvoker) delegate
                 {
+                    //enable the payload control page if a mavlink gimbal is detected
+                    if (instance.FlightData != null)
+                    {
+                        instance.FlightData.updatePayloadTabVisible();
+                    }
+
                     instance.MyView.Reload();
                 });
             }
             else
             {
+                //enable the payload control page if a mavlink gimbal is detected
+                if (instance.FlightData != null)
+                {
+                    instance.FlightData.updatePayloadTabVisible();
+                }
+
                 instance.MyView.Reload();
             }
         }
