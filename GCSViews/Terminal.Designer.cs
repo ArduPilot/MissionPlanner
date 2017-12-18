@@ -1,4 +1,7 @@
-﻿namespace MissionPlanner.GCSViews
+﻿using System;
+using System.Windows.Forms;
+
+namespace MissionPlanner.GCSViews
 {
     partial class Terminal
     {
@@ -36,7 +39,6 @@
             this.Logs = new MissionPlanner.Controls.MyButton();
             this.BUT_logbrowse = new MissionPlanner.Controls.MyButton();
             this.BUT_ConnectAPM = new MissionPlanner.Controls.MyButton();
-            this.BUT_disconnect = new MissionPlanner.Controls.MyButton();
             this.CMB_boardtype = new System.Windows.Forms.ComboBox();
             this.IPAddressBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
@@ -48,6 +50,7 @@
             this.TXT_terminal.BackColor = System.Drawing.Color.Black;
             this.TXT_terminal.ForeColor = System.Drawing.Color.White;
             this.TXT_terminal.Name = "TXT_terminal";
+            this.TXT_terminal.TabStop = false;
             this.TXT_terminal.Click += new System.EventHandler(this.TXT_terminal_Click);
             this.TXT_terminal.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TXT_terminal_KeyDown);
             this.TXT_terminal.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TXT_terminal_KeyPress);
@@ -94,13 +97,6 @@
             this.BUT_ConnectAPM.UseVisualStyleBackColor = true;
             this.BUT_ConnectAPM.Click += new System.EventHandler(this.BUT_RebootAPM_Click);
             // 
-            // BUT_disconnect
-            // 
-            resources.ApplyResources(this.BUT_disconnect, "BUT_disconnect");
-            this.BUT_disconnect.Name = "BUT_disconnect";
-            this.BUT_disconnect.UseVisualStyleBackColor = true;
-            this.BUT_disconnect.Click += new System.EventHandler(this.BUT_disconnect_Click);
-            // 
             // CMB_boardtype
             // 
             this.CMB_boardtype.FormattingEnabled = true;
@@ -119,13 +115,13 @@
             resources.ApplyResources(this.IPAddressBox, "IPAddressBox");
             this.IPAddressBox.ForeColor = System.Drawing.SystemColors.InfoText;
             this.IPAddressBox.Name = "IPAddressBox";
+            this.IPAddressBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.IPAddressBox_KeyDown);
             // 
             // Terminal
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.IPAddressBox);
             this.Controls.Add(this.CMB_boardtype);
-            this.Controls.Add(this.BUT_disconnect);
             this.Controls.Add(this.BUT_ConnectAPM);
             this.Controls.Add(this.BUT_logbrowse);
             this.Controls.Add(this.Logs);
@@ -151,7 +147,6 @@
         private Controls.MyButton Logs;
         private Controls.MyButton BUT_logbrowse;
         private Controls.MyButton BUT_ConnectAPM;
-        private Controls.MyButton BUT_disconnect;
         private System.Windows.Forms.ComboBox CMB_boardtype;
         private System.Windows.Forms.TextBox IPAddressBox;
     }
