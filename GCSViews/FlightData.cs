@@ -115,7 +115,6 @@ namespace MissionPlanner.GCSViews
         //whether or not the output console has already started
         bool outputwindowstarted;
 
-
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (CurrentGMapMarker == null || !(CurrentGMapMarker is GMapMarkerPOI))
@@ -1660,6 +1659,10 @@ namespace MissionPlanner.GCSViews
                     else if (tabControlactions.SelectedTab == tabPagePreFlight)
                     {
                         MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceGaugesTab);
+                    }
+                    else if (tabControlactions.SelectedTab == tabPayload)
+                    {
+                        MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourcePayloadTab);
                     }
                 }
                 else
@@ -4546,6 +4549,49 @@ namespace MissionPlanner.GCSViews
             };
 
             MainV2.comPort.sendPacket(go, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid);
+        }
+
+
+        //Updates the visibility of the payload control tab based on whether the payload target is available or not
+        public void updatePayloadTabVisible()
+        {
+            bool gimbalPresent = false;
+
+            //if the currently connected target is a flight controller check if there is an associated mavlink gimbal
+            if (MainV2.comPort.compidcurrent == 1)
+            {
+                foreach (var mav in MainV2.comPort.MAVlist)
+                {
+                    if (mav.sysid == MainV2.comPort.sysidcurrent && mav.compid == (int)MAVLink.MAV_COMPONENT.MAV_COMP_ID_GIMBAL)
+                    {
+                        gimbalPresent = true;
+                        break;
+                    }
+                }
+            }
+
+            if (tabControlactions.TabPages.Contains(tabPayload) == true && gimbalPresent == false)
+            {
+                tabControlactions.TabPages.Remove(tabPayload);
+            }
+            else if (tabControlactions.TabPages.Contains(tabPayload) == false && gimbalPresent == true)
+            {
+                tabControlactions.TabPages.Add(tabPayload);
+            }
+        }
+
+        private void gimbalTrackbar_Scroll(object sender, EventArgs e)
+        {
+            MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f, (float)trackBarYaw.Value * 100.0f, false);
+        }
+
+        private void BUT_resetGimbalPos_Click(object sender, EventArgs e)
+        {
+            trackBarPitch.Value = 0;
+            trackBarRoll.Value = 0;
+            trackBarYaw.Value = 0;
+            MainV2.comPort.setMountConfigure(MAVLink.MAV_MOUNT_MODE.MAVLINK_TARGETING, false, false, false);
+            MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f, (float)trackBarYaw.Value * 100.0f, false);
         }
     }
 }
