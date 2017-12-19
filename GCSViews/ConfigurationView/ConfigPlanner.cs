@@ -18,6 +18,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
     {
         private List<CultureInfo> _languages;
         private bool startup;
+        static temp temp;
 
         public ConfigPlanner()
         {
@@ -876,8 +877,24 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void chk_temp_CheckedChanged(object sender, EventArgs e)
         {
-            var temp = new temp();
-            temp.Show();
+            if (chk_temp.Checked)
+            {
+                temp = new temp();
+                temp.FormClosing += chk_temp_FormClosing;
+                temp.Show();
+            }
+            else
+            {
+                if (temp != null)
+                { 
+                    temp.Close();
+                }
+            }
+        }
+
+        private void chk_temp_FormClosing(object sender, EventArgs e)
+        {
+            chk_temp.Checked = false;
         }
 
         private void chk_norcreceiver_CheckedChanged(object sender, EventArgs e)
