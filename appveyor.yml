@@ -5,7 +5,9 @@ clone_depth: 1
 clone_folder: c:\MP\
 init:
 - cmd: 
-cache: packages
+cache:
+    - packages -> appveyor.yml
+    - date.txt
 environment:
   email:
     secure: dkWdmOxf3t/x2H0gEo1GurKM8Due1idnog5VJtUlSEA=
@@ -39,11 +41,18 @@ build_script:
 
     cd c:\mp\
 
-    cov-build.exe --dir cov-int msbuild.exe MissionPlanner.sln /m /p:Configuration=Debug /l:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+    if exist date.txt set /p datecheck=<date.txt
 
-    7z a -tzip MissionPlannerCov-int.zip c:\mp\cov-int 
+    echo %date% > datenow.txt
 
-    rem curl --form %token% --form %email% --form file=@MissionPlannerCov-int.zip --form version="%APPVEYOR_BUILD_VERSION%" --form description="" https://scan.coverity.com/builds?project=ArduPilot%2FMissionPlanner
+    if exist datenow.txt set /p datenow=<datenow.txt
+
+    if not "%datecheck%"=="%datenow%" (
+        echo %date% > date.txt
+        cov-build.exe --dir cov-int msbuild.exe MissionPlanner.sln /m /p:Configuration=Debug /l:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+        7z a -tzip MissionPlannerCov-int.zip c:\mp\cov-int 
+        rem curl --form %token% --form %email% --form file=@MissionPlannerCov-int.zip --form version="%APPVEYOR_BUILD_VERSION%" --form project="ArduPilot\MissionPlanner" --form description="" https://scan.coverity.com/builds
+    )
 
 test: off
 artifacts:

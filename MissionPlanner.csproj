@@ -245,6 +245,9 @@
     <Compile Include="CodeGen.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="ConnectionOptions.cs"> <SubType>Control</SubType> </Compile>
+    <Compile Include="Controls\Forms\MavlinkCheckBox.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="CurrentState.cs" />
     <Compile Include="ElevationProfile.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="FollowMe.cs"> <SubType>Control</SubType> </Compile>
@@ -664,6 +667,7 @@
     <Content Include="aircraft.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="appxmanifest.xml" />
     <Content Include="ArduCopterConfig.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -1744,9 +1748,13 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="app.config" />
+    <None Include="appveyor.yml" />
     <None Include="block_plane_0.dae">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <EmbeddedResource Include="Controls\Forms\MavlinkCheckBox.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <None Include="DLLs\fftpack_lite.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
