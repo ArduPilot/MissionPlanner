@@ -240,7 +240,7 @@ namespace MissionPlanner.Utilities
         public void normalize()
         {
             //  '''re-normalise a rotation matrix'''
-            Vector3 error = a*b;
+            double error = a*b;
             Vector3 t0 = a - (b*(0.5*error));
             Vector3 t1 = b - (a*(0.5*error));
             Vector3 t2 = t0%t1;
