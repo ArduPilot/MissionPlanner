@@ -166,10 +166,10 @@ namespace MissionPlanner.Utilities
             return new Vector3<T>(-(dynamic)self.x, -(dynamic)self.y, -(dynamic)self.z);
         }
 
-        public static Vector3<T> operator *(Vector3<T> self, Vector3<T> v)
+        public static double operator *(Vector3<T> self, Vector3<T> v)
         {
             //  '''dot product'''
-            return new Vector3<T>((dynamic)self.x*v.x + (dynamic)self.y*v.y + (dynamic)self.z*v.z);
+            return ((dynamic)self.x*v.x + (dynamic)self.y*v.y + (dynamic)self.z*v.z);
         }
 
         public static Vector3<T> operator *(Vector3<T> self, double v)
