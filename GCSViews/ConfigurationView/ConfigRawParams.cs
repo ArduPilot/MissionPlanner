@@ -41,6 +41,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             startup = true;
 
+            BUT_writePIDS.Enabled = MainV2.comPort.BaseStream.IsOpen;
+            BUT_rerequestparams.Enabled = MainV2.comPort.BaseStream.IsOpen;
+            BUT_reset_params.Enabled = MainV2.comPort.BaseStream.IsOpen;
+            BUT_commitToFlash.Visible = MainV2.DisplayConfiguration.displayParamCommitButton;
+
             CMB_paramfiles.Enabled = false;
             BUT_paramfileload.Enabled = false;
             ThreadPool.QueueUserWorkItem(updatedefaultlist);
@@ -100,12 +105,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 if (dr == DialogResult.OK)
                 {
-                    loadparamsfromfile(ofd.FileName);
+                    loadparamsfromfile(ofd.FileName, !MainV2.comPort.BaseStream.IsOpen);
+
+                    if(!MainV2.comPort.BaseStream.IsOpen)
+                        Activate();
                 }
             }
         }
 
-        private void loadparamsfromfile(string fn)
+        private void loadparamsfromfile(string fn, bool offline = false)
         {
             var param2 = ParamFile.loadParamFile(fn);
 
@@ -149,6 +157,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             row.Cells[1].Value = value;
                         break;
                     }
+                }
+
+                if (offline && !set)
+                {
+                    set = true;
+                    MainV2.comPort.MAV.param.Add(new MAVLink.MAVLinkParam(name, double.Parse(value),
+                        MAVLink.MAV_PARAM_TYPE.REAL32));
                 }
 
                 if (set)
@@ -488,7 +503,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 if (paramfiles == null)
                 {
-                    paramfiles = GitHubContent.GetDirContent("diydrones", "ardupilot", "/Tools/Frame_params/", ".param");
+                    paramfiles = GitHubContent.GetDirContent("ardupilot", "ardupilot", "/Tools/Frame_params/", ".param");
                 }
 
                 BeginInvoke((Action) delegate
@@ -656,6 +671,22 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     return;
                 }
             }
+        }
+
+        private void BUT_commitToFlash_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_STORAGE, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+            }
+            catch
+            {
+                CustomMessageBox.Show("Invalid command");
+                return;
+            }
+
+            CustomMessageBox.Show("Parameters committed to non-volatile memory");
+            return;
         }
     }
 }

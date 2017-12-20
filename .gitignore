@@ -57,3 +57,4 @@ obj/
 /ExtLibs/Mavlink/MAVLink2.csproj
 /ExtLibs/Utilities/MissionPlanner.Utilities2.csproj
 /Plugins/Shortcuts
+/test

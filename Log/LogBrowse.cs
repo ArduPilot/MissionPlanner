@@ -2330,6 +2330,8 @@ namespace MissionPlanner.Log
                 }
             }
 
+            opt.Dispose();
+
             zg1.Invalidate();
         }
 

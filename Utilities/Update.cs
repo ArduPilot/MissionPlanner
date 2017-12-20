@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
@@ -24,6 +25,7 @@ namespace MissionPlanner.Utilities
 
         static bool MONO = false;
         public static bool dobeta = false;
+        public static bool domaster = false;
 
         public static void updateCheckMain(ProgressReporterDialogue frmProgressReporter)
         {
@@ -32,13 +34,21 @@ namespace MissionPlanner.Utilities
 
             try
             {
-                if (dobeta)
+                if (domaster)
                 {
-                    CheckMD5(frmProgressReporter, ConfigurationManager.AppSettings["BetaUpdateLocationMD5"].ToString());
+                    CheckMD5(frmProgressReporter,
+                        ConfigurationManager.AppSettings["MasterUpdateLocationMD5"].ToString(),
+                        ConfigurationManager.AppSettings["MasterUpdateLocationZip"]);
                 }
+                else if (dobeta)
+                {
+                    CheckMD5(frmProgressReporter, ConfigurationManager.AppSettings["BetaUpdateLocationMD5"].ToString(),
+                        ConfigurationManager.AppSettings["BetaUpdateLocation"]);
+                } 
                 else
                 {
-                    CheckMD5(frmProgressReporter, ConfigurationManager.AppSettings["UpdateLocationMD5"].ToString());
+                    CheckMD5(frmProgressReporter, ConfigurationManager.AppSettings["UpdateLocationMD5"].ToString(),
+                        ConfigurationManager.AppSettings["UpdateLocation"]);
                 }
 
                 var process = new Process();
@@ -74,7 +84,8 @@ namespace MissionPlanner.Utilities
                 process.Start();
                 log.Info("Quitting existing process");
 
-                frmProgressReporter.BeginInvoke((Action) delegate { Application.Exit(); });
+                if (frmProgressReporter != null)
+                    frmProgressReporter.BeginInvoke((Action) delegate { Application.Exit(); });
             }
             catch (AggregateException ex)
             {
@@ -232,20 +243,13 @@ namespace MissionPlanner.Utilities
             frmProgressReporter.Dispose();
         }
 
-        static void CheckMD5(ProgressReporterDialogue frmProgressReporter, string url)
+        static void CheckMD5(ProgressReporterDialogue frmProgressReporter, string md5url, string baseurl)
         {
-            var baseurl = ConfigurationManager.AppSettings["UpdateLocation"];
-
-            if (dobeta)
-            {
-                baseurl = ConfigurationManager.AppSettings["BetaUpdateLocation"];
-            }
-
             L10N.ReplaceMirrorUrl(ref baseurl);
 
             string responseFromServer = "";
 
-            WebRequest request = WebRequest.Create(url);
+            WebRequest request = WebRequest.Create(md5url);
             request.Timeout = 10000;
             // Set the Method property of the request to POST.
             request.Method = "GET";
@@ -262,7 +266,7 @@ namespace MissionPlanner.Utilities
                 responseFromServer = reader.ReadToEnd();
             }
 
-            Regex regex = new Regex(@"([^\s]+)\s+upgrade/(.*)", RegexOptions.IgnoreCase);
+            Regex regex = new Regex(@"([^\s]+)\s+[^/]+/(.*)", RegexOptions.IgnoreCase);
 
             if (regex.IsMatch(responseFromServer))
             {
@@ -307,8 +311,16 @@ namespace MissionPlanner.Utilities
                             subdir = subdir.Replace("" + Path.DirectorySeparatorChar + Path.DirectorySeparatorChar,
                                 "" + Path.DirectorySeparatorChar);
 
-                            GetNewFile(frmProgressReporter, baseurl + subdir.Replace('\\', '/'), subdir,
-                                Path.GetFileName(file));
+                            if (baseurl.ToLower().Contains(".zip"))
+                            {
+                                GetNewFileZip(frmProgressReporter, baseurl, subdir,
+                                    Path.GetFileName(file));
+                            }
+                            else
+                            {
+                                GetNewFile(frmProgressReporter, baseurl + subdir.Replace('\\', '/'), subdir,
+                                    Path.GetFileName(file));
+                            }
 
                             // check the new downloaded file matchs hash
                             if (!MD5File(file + ".new", hash))
@@ -357,6 +369,36 @@ namespace MissionPlanner.Utilities
             }
 
             return false;
+        }
+
+        static void GetNewFileZip(ProgressReporterDialogue frmProgressReporter, string baseurl, string subdir, string file)
+        {          
+            // create dest dir
+            string dir = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + subdir;
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+
+            // get dest path
+            string path = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + subdir +
+                          file;
+
+            DownloadStream ds = new DownloadStream(baseurl);
+
+            ZipArchive zip = new ZipArchive(ds);
+
+            var entry = zip.GetEntry((subdir.TrimStart('\\').Replace('\\', '/') + file));
+
+            if (entry == null)
+            {
+                Console.WriteLine("{0} {1}", file, baseurl);
+                return;
+            }
+
+            entry.ExtractToFile(path + ".new", true);
+
+            zip.Dispose();
+
+            ds.Dispose();
         }
 
         static void GetNewFile(ProgressReporterDialogue frmProgressReporter, string baseurl, string subdir, string file)

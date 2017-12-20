@@ -443,8 +443,6 @@ namespace MissionPlanner.Controls.BackstageView
         {
             if (associatedPage == null)
             {
-                if (associatedPage.Page == null)
-                    return;
                 if (_activePage == null)
                     DrawMenu(null, true);
                 return;

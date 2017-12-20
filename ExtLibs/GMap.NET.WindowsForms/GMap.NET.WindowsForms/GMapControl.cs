@@ -368,7 +368,7 @@ namespace GMap.NET.WindowsForms
       /// </summary>
       private RectLatLng selectedArea;
 
-      [Browsable(false)]
+      [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
       public RectLatLng SelectedArea
       {
          get

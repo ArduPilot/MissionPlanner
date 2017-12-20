@@ -241,8 +241,8 @@ namespace MissionPlanner.Controls
             {
                 try
                 {
-                    Console.WriteLine("MainSwitcher dispose " + item.Name);
-                    if (item != null && item.Control != null)
+                    Console.WriteLine("MainSwitcher dispose " + item?.Name);
+                    if (item?.Control != null)
                     {
                         item.Control.Close();
                         item.Control.Dispose();

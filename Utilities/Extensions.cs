@@ -4,12 +4,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace MissionPlanner.Utilities
 {
     public static class Extensions
     {
+        public static void Stop(this System.Threading.Timer timer)
+        {
+            timer.Change(Timeout.Infinite, Timeout.Infinite);
+        }
+
+        public static void Start(this System.Threading.Timer timer, int intervalms)
+        {
+            timer.Change(intervalms, intervalms);
+        }
+
         public static void LogInfoFormat(this Control ctl, string format, params object[] args)
         {
             ILog log = LogManager.GetLogger(ctl.GetType().FullName);

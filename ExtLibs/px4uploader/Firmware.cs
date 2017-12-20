@@ -12,18 +12,23 @@ namespace px4uploader
     public class Firmware
     {
         public int board_id;
+        public string airframe_xml;
+        public int airframe_xml_size;
         public string magic;
         public string description;
+        public string ardupilot_git_hash;
         public string image;
         public byte[] imagebyte;
+        public int parameter_xml_size;
         public uint build_time;
         public string summary;
+        public string nuttx_git_hash;
         public string version;
+        public string parameter_xml;
         public int image_size;
         public string git_identity;
+        public int mav_autopilot;
         public int board_revision;
-
-        static Firmware fw;
 
         readonly uint[] crctab = new uint[] {
 		0x00000000, 0x77073096, 0xee0e612c, 0x990951ba, 0x076dc419, 0x706af48f, 0xe963a535, 0x9e6495a3,
@@ -65,9 +70,7 @@ namespace px4uploader
 
         public static Firmware ProcessFirmware(string path)
         {
-            
-
-           // JavaScriptSerializer serializer = new JavaScriptSerializer();
+            Firmware fw;
 
             Console.WriteLine("Read File " + path);
 
@@ -118,9 +121,9 @@ namespace px4uploader
 
         public int crc(int padlen)
         {
-            uint state = __crc32(fw.imagebyte, 0);
+            uint state = __crc32(imagebyte, 0);
 
-            for (int i = fw.imagebyte.Length; i < (padlen -1); i += 4)
+            for (int i = imagebyte.Length; i < (padlen -1); i += 4)
             {
                 state = __crc32(crcpad, state);
             }

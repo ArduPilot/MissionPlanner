@@ -18,8 +18,7 @@ namespace MissionPlanner.Controls
             InitializeComponent();
             this.linkLabel1.Click += (sender, e) =>
             {
-                if (ShowLinkStats != null)
-                    ShowLinkStats.Invoke(this, EventArgs.Empty);
+                ShowLinkStats?.Invoke(this, EventArgs.Empty);
             };
         }
 
@@ -93,7 +92,13 @@ namespace MissionPlanner.Controls
 
         public void UpdateSysIDS()
         {
+            cmb_sysid.SelectedIndexChanged -= CMB_sysid_SelectedIndexChanged;
+
+            var oldidx = cmb_sysid.SelectedIndex;
+
             cmb_sysid.Items.Clear();
+
+            int selectidx = -1;
 
             foreach (var port in MainV2.Comports.ToArray())
             {
@@ -103,9 +108,21 @@ namespace MissionPlanner.Controls
                 {
                     var temp = new port_sysid() { compid = (item % 256) , sysid = (item /256), port = port};
 
-                    cmb_sysid.Items.Add(temp);
+                    var idx = cmb_sysid.Items.Add(temp);
+
+                    if(temp.port == MainV2.comPort && temp.sysid == MainV2.comPort.sysidcurrent && temp.compid == MainV2.comPort.compidcurrent)
+                    {
+                        selectidx = idx;
+                    }
                 }
             }
+
+            if (oldidx == -1 && selectidx != -1)
+            {                
+                cmb_sysid.SelectedIndex = selectidx;               
+            }
+
+            cmb_sysid.SelectedIndexChanged += CMB_sysid_SelectedIndexChanged;
         }
 
         internal struct port_sysid
@@ -132,6 +149,8 @@ namespace MissionPlanner.Controls
 
                     if (MainV2.comPort.MAV.param.Count == 0 && !(Control.ModifierKeys == Keys.Control))
                         MainV2.comPort.getParamList();
+
+                    MainV2.View.Reload();
                 }
             }
         }
@@ -139,12 +158,30 @@ namespace MissionPlanner.Controls
         private void cmb_sysid_Format(object sender, ListControlConvertEventArgs e)
         {
             var temp = (port_sysid) e.Value;
+            MAVLink.MAV_COMPONENT compid = (MAVLink.MAV_COMPONENT)temp.compid;
+            string mavComponentHeader = "MAV_COMP_ID_";
+            string mavComponentString = null;
 
             foreach (var port in MainV2.Comports)
             {
                 if (port == temp.port)
                 {
-                    e.Value = temp.port.BaseStream.PortName + "-" + port.MAVlist[temp.sysid, temp.compid].aptype.ToString() + "-" + ((int)temp.sysid);
+                    if (compid == (MAVLink.MAV_COMPONENT)1)
+                    {
+                        //use Autopilot type as displaystring instead of "FCS1"
+                        mavComponentString = port.MAVlist[temp.sysid, temp.compid].aptype.ToString();
+                    }
+                    else
+                    {
+                        //use name from enum if it exists, use the component ID otherwise
+                        mavComponentString = compid.ToString();
+                        if (mavComponentString.Length > mavComponentHeader.Length)
+                        {
+                            //remove "MAV_COMP_ID_" header
+                            mavComponentString = mavComponentString.Remove(0, mavComponentHeader.Length);
+                        }
+                    }
+                    e.Value = temp.port.BaseStream.PortName + "-" + ((int)temp.sysid) + "-" + mavComponentString.Replace("_"," ");
                 }
             }
         }

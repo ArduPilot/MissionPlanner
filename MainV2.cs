@@ -417,12 +417,37 @@ namespace MissionPlanner
             MenuSimulation.Visible = DisplayConfiguration.displaySimulation;
             MenuTerminal.Visible = DisplayConfiguration.displayTerminal;
             MenuHelp.Visible = DisplayConfiguration.displayHelp;
+            MenuDonate.Visible = DisplayConfiguration.displayDonate;
             MissionPlanner.Controls.BackstageView.BackstageView.Advanced = DisplayConfiguration.isAdvancedMode;
 
+            if (Settings.Instance.GetBoolean("menu_autohide") != DisplayConfiguration.autoHideMenuForce)
+            {
+                AutoHideMenu(DisplayConfiguration.autoHideMenuForce);
+                Settings.Instance["menu_autohide"] = DisplayConfiguration.autoHideMenuForce.ToString();
+            }
+
+            autoHideToolStripMenuItem.Visible = !DisplayConfiguration.autoHideMenuForce;
+
+            //Flight data page
             if (MainV2.instance.FlightData != null)
             {
                 TabControl t = MainV2.instance.FlightData.tabControlactions;
-
+                if (DisplayConfiguration.displayQuickTab && !t.TabPages.Contains(FlightData.tabQuick))
+                {
+                    t.TabPages.Add(FlightData.tabQuick);
+                }
+                else if (!DisplayConfiguration.displayQuickTab && t.TabPages.Contains(FlightData.tabQuick))
+                {
+                    t.TabPages.Remove(FlightData.tabQuick);
+                }
+                if (DisplayConfiguration.displayPreFlightTab && !t.TabPages.Contains(FlightData.tabPagePreFlight))
+                {
+                    t.TabPages.Add(FlightData.tabPagePreFlight);
+                }
+                else if (!DisplayConfiguration.displayPreFlightTab && t.TabPages.Contains(FlightData.tabPagePreFlight))
+                {
+                    t.TabPages.Remove(FlightData.tabPagePreFlight);
+                }
                 if (DisplayConfiguration.displayAdvActionsTab && !t.TabPages.Contains(FlightData.tabActions))
                 {
                     t.TabPages.Add(FlightData.tabActions);
@@ -438,6 +463,14 @@ namespace MissionPlanner
                 else if (!DisplayConfiguration.displaySimpleActionsTab && t.TabPages.Contains(FlightData.tabActionsSimple))
                 {
                     t.TabPages.Remove(FlightData.tabActionsSimple);
+                }
+                if (DisplayConfiguration.displayGaugesTab && !t.TabPages.Contains(FlightData.tabGauges))
+                {
+                    t.TabPages.Add(FlightData.tabGauges);
+                }
+                else if (!DisplayConfiguration.displayGaugesTab && t.TabPages.Contains(FlightData.tabGauges))
+                {
+                    t.TabPages.Remove(FlightData.tabGauges);
                 }
                 if (DisplayConfiguration.displayStatusTab && !t.TabPages.Contains(FlightData.tabStatus))
                 {
@@ -463,6 +496,37 @@ namespace MissionPlanner
                 {
                     t.TabPages.Remove(FlightData.tabScripts);
                 }
+                if (DisplayConfiguration.displayTelemetryTab && !t.TabPages.Contains(FlightData.tabTLogs))
+                {
+                    t.TabPages.Add(FlightData.tabTLogs);
+                }
+                else if (!DisplayConfiguration.displayTelemetryTab && t.TabPages.Contains(FlightData.tabTLogs))
+                {
+                    t.TabPages.Remove(FlightData.tabTLogs);
+                }
+                if (DisplayConfiguration.displayDataflashTab && !t.TabPages.Contains(FlightData.tablogbrowse))
+                {
+                    t.TabPages.Add(FlightData.tablogbrowse);
+                }
+                else if (!DisplayConfiguration.displayDataflashTab && t.TabPages.Contains(FlightData.tablogbrowse))
+                {
+                    t.TabPages.Remove(FlightData.tablogbrowse);
+                }
+                if (DisplayConfiguration.displayMessagesTab && !t.TabPages.Contains(FlightData.tabPagemessages))
+                {
+                    t.TabPages.Add(FlightData.tabPagemessages);
+                }
+                else if (!DisplayConfiguration.displayMessagesTab && t.TabPages.Contains(FlightData.tabPagemessages))
+                {
+                    t.TabPages.Remove(FlightData.tabPagemessages);
+                }
+                t.SelectedIndex = 0;
+            }
+
+            if (MainV2.instance.FlightPlanner != null)
+            {
+                //hide menu items 
+                MainV2.instance.FlightPlanner.updateDisplayView();
             }
         }
         
@@ -583,10 +647,14 @@ namespace MissionPlanner
             string temp2 = Settings.Instance.BaudRate;
             if (!string.IsNullOrEmpty(temp2))
             {
-                _connectionControl.CMB_baudrate.SelectedIndex = _connectionControl.CMB_baudrate.FindString(temp2);
-                if (_connectionControl.CMB_baudrate.SelectedIndex == -1)
+                var idx =  _connectionControl.CMB_baudrate.FindString(temp2);
+                if (idx == -1)
                 {
                     _connectionControl.CMB_baudrate.Text = temp2;
+                }
+                else
+                {
+                    _connectionControl.CMB_baudrate.SelectedIndex = idx;
                 }
 
                 comPortBaud = int.Parse(temp2);
@@ -952,11 +1020,23 @@ namespace MissionPlanner
             {
                 this.Invoke((MethodInvoker) delegate
                 {
+                    //enable the payload control page if a mavlink gimbal is detected
+                    if (instance.FlightData != null)
+                    {
+                        instance.FlightData.updatePayloadTabVisible();
+                    }
+
                     instance.MyView.Reload();
                 });
             }
             else
             {
+                //enable the payload control page if a mavlink gimbal is detected
+                if (instance.FlightData != null)
+                {
+                    instance.FlightData.updatePayloadTabVisible();
+                }
+
                 instance.MyView.Reload();
             }
         }
@@ -1434,17 +1514,7 @@ namespace MissionPlanner
                     return;
                 }
 
-                // get all the params
-                foreach (var mavstate in comPort.MAVlist)
-                {
-                    comPort.sysidcurrent = mavstate.sysid;
-                    comPort.compidcurrent = mavstate.compid;
-                    comPort.getParamList();
-                }
-
-                // set to first seen
-                comPort.sysidcurrent = comPort.MAVlist.First().sysid;
-                comPort.compidcurrent = comPort.MAVlist.First().compid;
+                comPort.getParamList();
 
                 _connectionControl.UpdateSysIDS();
 
@@ -1520,6 +1590,21 @@ namespace MissionPlanner
                     (DateTime.Now - connecttime).TotalMilliseconds, "");
 
                 MissionPlanner.Utilities.Tracking.AddEvent("Connect", "Baud", comPort.BaseStream.BaudRate.ToString(), "");
+
+                if(comPort.MAV.param.ContainsKey("SPRAY_ENABLE"))
+                    MissionPlanner.Utilities.Tracking.AddEvent("Param", "Value", "SPRAY_ENABLE",comPort.MAV.param["SPRAY_ENABLE"].ToString());
+
+                if (comPort.MAV.param.ContainsKey("CHUTE_ENABLE"))
+                    MissionPlanner.Utilities.Tracking.AddEvent("Param", "Value", "CHUTE_ENABLE", comPort.MAV.param["CHUTE_ENABLE"].ToString());
+
+                if (comPort.MAV.param.ContainsKey("TERRAIN_ENABLE"))
+                    MissionPlanner.Utilities.Tracking.AddEvent("Param", "Value", "TERRAIN_ENABLE", comPort.MAV.param["TERRAIN_ENABLE"].ToString());
+
+                if (comPort.MAV.param.ContainsKey("ADSB_ENABLE"))
+                    MissionPlanner.Utilities.Tracking.AddEvent("Param", "Value", "ADSB_ENABLE", comPort.MAV.param["ADSB_ENABLE"].ToString());
+
+                if (comPort.MAV.param.ContainsKey("AVD_ENABLE"))
+                    MissionPlanner.Utilities.Tracking.AddEvent("Param", "Value", "AVD_ENABLE", comPort.MAV.param["AVD_ENABLE"].ToString());
 
                 // save the baudrate for this port
                 Settings.Instance[_connectionControl.CMB_serialport.Text + "_BAUD"] = _connectionControl.CMB_baudrate.Text;
@@ -1875,10 +1960,10 @@ namespace MissionPlanner
             // save config
             SaveConfig();
 
-            Console.WriteLine(httpthread.IsAlive);
-            Console.WriteLine(joystickthread.IsAlive);
-            Console.WriteLine(serialreaderthread.IsAlive);
-            Console.WriteLine(pluginthread.IsAlive);
+            Console.WriteLine(httpthread?.IsAlive);
+            Console.WriteLine(joystickthread?.IsAlive);
+            Console.WriteLine(serialreaderthread?.IsAlive);
+            Console.WriteLine(pluginthread?.IsAlive);
 
             log.Info("MainV2_FormClosing done");
 
@@ -2801,6 +2886,41 @@ namespace MissionPlanner
             //log.Info("start udpmavlinkshim");
             //UDPMavlinkShim.Start();
 
+            BinaryLog.onFlightMode += (firmware, modeno) =>
+            {
+                try
+                {
+                    var modes = Common.getModesList((MainV2.Firmwares) Enum.Parse(typeof(MainV2.Firmwares), firmware));
+                    string currentmode = null;
+
+                    foreach (var mode in modes)
+                    {
+                        if (mode.Key == modeno)
+                        {
+                            currentmode = mode.Value;
+                            break;
+                        }
+                    }
+
+                    return currentmode;
+                }
+                catch
+                {
+                    return null;
+                }
+            };
+
+            GStreamer.onNewImage += (sender, image) => { GCSViews.FlightData.myhud.bgimage = image; };
+
+            vlcrender.onNewImage += (sender, image) =>
+            {
+                var old = GCSViews.FlightData.myhud.bgimage;
+                GCSViews.FlightData.myhud.bgimage = image;
+                if (old != null)
+                    old.Dispose()
+                        ;
+            };
+
             ZeroConf.EnumerateAllServicesFromAllHosts();
 
             ZeroConf.ProbeForRTSP();
@@ -3231,6 +3351,8 @@ namespace MissionPlanner
 
                 otp.ShowDialog(this);
 
+                otp.Dispose();
+
                 return true;
             }
             if (keyData == (Keys.Control | Keys.T)) // for override connect
@@ -3250,7 +3372,7 @@ namespace MissionPlanner
                 // write
                 try
                 {
-                    MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_STORAGE, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+                    MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_STORAGE, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
                 }
                 catch
                 {
@@ -3458,7 +3580,7 @@ namespace MissionPlanner
                 MainMenu.MouseLeave -= MainMenu_MouseLeave;
                 panel1.MouseLeave -= MainMenu_MouseLeave;
                 toolStripConnectionControl.MouseLeave -= MainMenu_MouseLeave;
-                this.ResumeLayout(false);
+                this.ResumeLayout();
             }
             else
             {
@@ -3470,7 +3592,7 @@ namespace MissionPlanner
                 toolStripConnectionControl.MouseLeave += MainMenu_MouseLeave;
                 menu.Visible = true;
                 menu.SendToBack();
-                this.ResumeLayout(false);
+                this.ResumeLayout();
             }
         }
 

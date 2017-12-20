@@ -448,7 +448,15 @@ namespace MissionPlanner.Joystick
             Controls.MyButton but_settings = new Controls.MyButton();
 
             if (MainV2.joystick == null)
+            {
+                butlabel.Dispose();
+                butnumberlist.Dispose();
+                but_detect.Dispose();
+                hbar.Dispose();
+                cmbaction.Dispose();
+                but_settings.Dispose();
                 return;
+            }
 
             var config = MainV2.joystick.getButton(int.Parse(name));
 

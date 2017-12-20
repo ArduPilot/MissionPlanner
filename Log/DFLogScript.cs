@@ -5,12 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Core.ExtendedObjects;
-using MissionPlanner.HIL;
+using MissionPlanner.Utilities;
 using ZedGraph;
 
 namespace MissionPlanner.Log
 {
-    public class DFLogScript : HIL.Utils
+    public class DFLogScript : Utils
     {
         public static Vector3 earth_accel_df(IMU_t IMU, ATT_t ATT)
         {

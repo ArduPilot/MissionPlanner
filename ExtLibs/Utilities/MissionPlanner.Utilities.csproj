@@ -1,47 +1,45 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <ApplicationIcon />
     <OutputTypeEx>library</OutputTypeEx>
     <StartupObject />
-    <DebugType>embedded</DebugType>
+    <DebugType>full</DebugType>
     <DebugSymbols>True</DebugSymbols>
-    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BitMiracle.LibTiff.NET" Version="2.4.571" />
+    <PackageReference Include="alglibnet2" Version="0.0.0" />
+    <PackageReference Include="BitMiracle.LibTiff.NET" Version="2.4.560" />
+    <PackageReference Include="DirectShowLib" Version="1.0.0" />
     <PackageReference Include="log4net" Version="2.0.8" />
+    <PackageReference Include="netDXF" Version="2.0.2" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="ProjNet" Version="1.2.0" />
     <PackageReference Include="SharpZipLib" Version="0.86.0" />
+    <PackageReference Include="System.Drawing.Common" Version="4.5.0-preview1-25914-04" />
+    <PackageReference Include="System.Reactive.Linq" Version="3.1.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Comms\MissionPlanner.Comms.csproj" />
     <ProjectReference Include="..\GeoUtility\GeoUtility.csproj" />
     <ProjectReference Include="..\GMap.NET.Core\GMap.NET.Core.csproj" />
+    <ProjectReference Include="..\LibVLC.NET\LibVLC.NET.csproj" />
     <ProjectReference Include="..\Mavlink\MAVLink.csproj" />
+    <ProjectReference Include="..\Zeroconf\Zeroconf\Zeroconf.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="DirectShowLib-2005">
-      <HintPath>..\DirectShowLib-2005.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\..\..\..\..\.nuget\packages\SharpZipLib\0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
+
     <Reference Include="OpenTK">
       <HintPath>..\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK.GLControl">
       <HintPath>..\OpenTK.GLControl.dll</HintPath>
     </Reference>
-    <Reference Include="ProjNet">
-      <HintPath>..\..\..\..\..\.nuget\packages\ProjNet\1.2.0\lib\net20\ProjNet.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web" />
   </ItemGroup>
 
 

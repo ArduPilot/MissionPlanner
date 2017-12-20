@@ -28,6 +28,7 @@ using OpenTK;
 using WebCamService;
 using ZedGraph;
 using LogAnalyzer = MissionPlanner.Utilities.LogAnalyzer;
+using MissionPlanner.Maps;
 
 // written by michael oborne
 
@@ -113,7 +114,6 @@ namespace MissionPlanner.GCSViews
         Script script;
         //whether or not the output console has already started
         bool outputwindowstarted;
-
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -243,6 +243,8 @@ namespace MissionPlanner.GCSViews
                     HUD.Custom.src = MainV2.comPort.MAV.cs;
 
                     addHudUserItem(ref cust, chk);
+
+                    chk.Dispose();
                 }
             }
 
@@ -263,7 +265,7 @@ namespace MissionPlanner.GCSViews
 
             CMB_action.DataSource = list;
 
-            CMB_modes.DataSource = Common.getModesList(MainV2.comPort.MAV.cs);
+            CMB_modes.DataSource = Common.getModesList(MainV2.comPort.MAV.cs.firmware);
             CMB_modes.ValueMember = "Key";
             CMB_modes.DisplayMember = "Value";
 
@@ -1021,7 +1023,7 @@ namespace MissionPlanner.GCSViews
                     // update opengltest
                     if (OpenGLtest.instance != null)
                     {
-                        OpenGLtest.instance.rpy = new Vector3(MainV2.comPort.MAV.cs.roll, MainV2.comPort.MAV.cs.pitch,
+                        OpenGLtest.instance.rpy = new OpenTK.Vector3(MainV2.comPort.MAV.cs.roll, MainV2.comPort.MAV.cs.pitch,
                             MainV2.comPort.MAV.cs.yaw);
                         OpenGLtest.instance.LocationCenter = new PointLatLngAlt(MainV2.comPort.MAV.cs.lat,
                             MainV2.comPort.MAV.cs.lng, MainV2.comPort.MAV.cs.altasl, "here");
@@ -1030,7 +1032,7 @@ namespace MissionPlanner.GCSViews
                     // update opengltest2
                     if (OpenGLtest2.instance != null)
                     {
-                        OpenGLtest2.instance.rpy = new Vector3(MainV2.comPort.MAV.cs.roll, MainV2.comPort.MAV.cs.pitch,
+                        OpenGLtest2.instance.rpy = new OpenTK.Vector3(MainV2.comPort.MAV.cs.roll, MainV2.comPort.MAV.cs.pitch,
                             MainV2.comPort.MAV.cs.yaw);
                         OpenGLtest2.instance.LocationCenter = new PointLatLngAlt(MainV2.comPort.MAV.cs.lat,
                             MainV2.comPort.MAV.cs.lng, MainV2.comPort.MAV.cs.altasl, "here");
@@ -1657,6 +1659,10 @@ namespace MissionPlanner.GCSViews
                     else if (tabControlactions.SelectedTab == tabPagePreFlight)
                     {
                         MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceGaugesTab);
+                    }
+                    else if (tabControlactions.SelectedTab == tabPayload)
+                    {
+                        MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourcePayloadTab);
                     }
                 }
                 else
@@ -2580,7 +2586,7 @@ namespace MissionPlanner.GCSViews
 
         private void CMB_modes_Click(object sender, EventArgs e)
         {
-            CMB_modes.DataSource = Common.getModesList(MainV2.comPort.MAV.cs);
+            CMB_modes.DataSource = Common.getModesList(MainV2.comPort.MAV.cs.firmware);
             CMB_modes.ValueMember = "Key";
             CMB_modes.DisplayMember = "Value";
         }
@@ -2799,7 +2805,7 @@ namespace MissionPlanner.GCSViews
                 fields.Add(field.Name);
             }
             max_length += 15;
-            fields.Sort();
+            fields.Sort();          
 
             foreach (var field in fields)
             {
@@ -2860,13 +2866,12 @@ namespace MissionPlanner.GCSViews
 
                 chk_box.Text = field;
                 chk_box.Name = field;
+                chk_box.Tag = "custom";
                 chk_box.Location = new Point(x, y);
                 chk_box.Size = new Size(100, 20);
                 chk_box.CheckedChanged += chk_box_CheckedChanged;
 
                 selectform.Controls.Add(chk_box);
-
-                Application.DoEvents();
 
                 x += 0;
                 y += 20;
@@ -2879,6 +2884,14 @@ namespace MissionPlanner.GCSViews
                     selectform.Width = x + 100;
                 }
             }
+
+            selectform.Shown += (o, args) => {
+                selectform.Controls.ForEach(a =>
+                {
+                    if (a is CheckBox && ((CheckBox)a).Checked)
+                        ((CheckBox)a).BackColor = Color.Green;
+                });
+            };
 
             selectform.Show();
         }
@@ -2937,7 +2950,7 @@ namespace MissionPlanner.GCSViews
                 {
                     Text = fields[i],
                     Name = fields[i],
-                    Tag = sender,
+                    Tag = "custom",
                     Location = new Point(5 + (i/row_count)*(max_length + 5), 2 + (i%row_count)*row_height),
                     Size = new Size(max_length, row_height),
                     Checked = hud1.CustomItems.ContainsKey(fields[i])
@@ -2946,8 +2959,15 @@ namespace MissionPlanner.GCSViews
                 if (chk_box.Checked)
                     chk_box.BackColor = Color.Green;
                 selectform.Controls.Add(chk_box);
-                Application.DoEvents();
             }
+
+            selectform.Shown += (o, args) => {
+                selectform.Controls.ForEach(a =>
+                {
+                    if (a is CheckBox && ((CheckBox)a).Checked)
+                        ((CheckBox)a).BackColor = Color.Green;
+                });
+            };
 
             selectform.ShowDialog(this);
         }
@@ -3014,6 +3034,8 @@ namespace MissionPlanner.GCSViews
 
         void chk_box_CheckedChanged(object sender, EventArgs e)
         {
+            ThemeManager.ApplyThemeTo((Control)sender);
+
             if (((CheckBox) sender).Checked)
             {
                 ((CheckBox) sender).BackColor = Color.Green;
@@ -3110,8 +3132,7 @@ namespace MissionPlanner.GCSViews
                     CustomMessageBox.Show("Max 10 at a time.");
                     ((CheckBox) sender).Checked = false;
                 }
-                ThemeManager.ApplyThemeTo((Control)sender);
-
+            
                 string selected = "";
                 try
                 {
@@ -3329,8 +3350,13 @@ namespace MissionPlanner.GCSViews
                 if (chk_box.Checked)
                     chk_box.BackColor = Color.Green;
                 selectform.Controls.Add(chk_box);
-                Application.DoEvents();
             }
+
+            selectform.Shown += (o, args) => { selectform.Controls.ForEach(a =>
+            {
+                if (a is CheckBox && ((CheckBox) a).Checked)
+                    ((CheckBox) a).BackColor = Color.Green;
+            }); };
 
             selectform.ShowDialog(this);
         }
@@ -3518,7 +3544,6 @@ namespace MissionPlanner.GCSViews
             {
                 CustomMessageBox.Show(Strings.ErrorCommunicating, Strings.ERROR);
             }
-            //MainV2.comPort.setNextWPTargetAlt((ushort)MainV2.comPort.MAV.cs.wpno, newalt);
         }
 
         private void gMapControl1_MouseLeave(object sender, EventArgs e)
@@ -4508,6 +4533,65 @@ namespace MissionPlanner.GCSViews
             {
                 GStreamer.Stop(gst);
             }
+        }
+
+        private void setEKFHomeHereToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!MainV2.comPort.BaseStream.IsOpen)
+                return;
+
+            MAVLink.mavlink_set_gps_global_origin_t go = new MAVLink.mavlink_set_gps_global_origin_t()
+            {
+                latitude = (int)(MouseDownStart.Lat * 1e7),
+                longitude = (int)(MouseDownStart.Lng * 1e7),
+                altitude = (int)srtm.getAltitude(MouseDownStart.Lat, MouseDownStart.Lng).alt,
+                target_system = MainV2.comPort.MAV.sysid
+            };
+
+            MainV2.comPort.sendPacket(go, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid);
+        }
+
+
+        //Updates the visibility of the payload control tab based on whether the payload target is available or not
+        public void updatePayloadTabVisible()
+        {
+            bool gimbalPresent = false;
+
+            //if the currently connected target is a flight controller check if there is an associated mavlink gimbal
+            if (MainV2.comPort.compidcurrent == 1)
+            {
+                foreach (var mav in MainV2.comPort.MAVlist)
+                {
+                    if (mav.sysid == MainV2.comPort.sysidcurrent && mav.compid == (int)MAVLink.MAV_COMPONENT.MAV_COMP_ID_GIMBAL)
+                    {
+                        gimbalPresent = true;
+                        break;
+                    }
+                }
+            }
+
+            if (tabControlactions.TabPages.Contains(tabPayload) == true && gimbalPresent == false)
+            {
+                tabControlactions.TabPages.Remove(tabPayload);
+            }
+            else if (tabControlactions.TabPages.Contains(tabPayload) == false && gimbalPresent == true)
+            {
+                tabControlactions.TabPages.Add(tabPayload);
+            }
+        }
+
+        private void gimbalTrackbar_Scroll(object sender, EventArgs e)
+        {
+            MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f, (float)trackBarYaw.Value * 100.0f, false);
+        }
+
+        private void BUT_resetGimbalPos_Click(object sender, EventArgs e)
+        {
+            trackBarPitch.Value = 0;
+            trackBarRoll.Value = 0;
+            trackBarYaw.Value = 0;
+            MainV2.comPort.setMountConfigure(MAVLink.MAV_MOUNT_MODE.MAVLINK_TARGETING, false, false, false);
+            MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f, (float)trackBarYaw.Value * 100.0f, false);
         }
     }
 }

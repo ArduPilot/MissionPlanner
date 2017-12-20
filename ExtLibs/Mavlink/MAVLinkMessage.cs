@@ -73,7 +73,7 @@ public partial class MAVLink
                     try
                     {
                         // fill in the data of the object
-                        if (buffer[0] == MAVLINK_STX)
+                        if (ismavlink2)
                         {
                             MavlinkUtil.ByteArrayToStructure(buffer, ref _data, MAVLINK_NUM_HEADER_BYTES, payloadlength);
                         }
@@ -157,6 +157,8 @@ public partial class MAVLink
 
         internal void processBuffer(byte[] buffer)
         {
+            _data = null;
+
             if (buffer[0] == MAVLINK_STX)
             {
                 header = buffer[0];

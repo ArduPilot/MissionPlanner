@@ -10,7 +10,7 @@ using int32_t = System.Int32;
 
 namespace MissionPlanner.Controls.Waypoints
 {
-    public class Spline2 : MissionPlanner.HIL.Utils
+    public class Spline2 : Utils
     {
         public Vector3 target_pos = new Vector3();
         public Vector3 target_vel = new Vector3();

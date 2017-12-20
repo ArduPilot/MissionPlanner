@@ -13,6 +13,7 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
@@ -33,8 +34,6 @@ namespace MissionPlanner.Utilities
         string[] gholdurls = new string[] {};
 
         public List<KeyValuePair<string, string>> niceNames = new List<KeyValuePair<string, string>>();
-
-        int ingetapmversion = 0;
 
         List<software> softwares = new List<software>();
 
@@ -97,7 +96,7 @@ namespace MissionPlanner.Utilities
         /// </summary>
         public Firmware()
         {
-            string file = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar +
+            string file = Path.GetDirectoryName(Path.GetFullPath(Assembly.GetExecutingAssembly().Location)) + Path.DirectorySeparatorChar +
                           "FirmwareHistory.txt";
 
             if (!File.Exists(file))
@@ -285,33 +284,6 @@ namespace MissionPlanner.Utilities
                                     temp.urldisco = disco;
                                     temp.k_format_version = k_format_version;
 
-                                    try
-                                    {
-                                        try
-                                        {
-                                            if (!url2560.Contains("github"))
-                                            {
-                                                //name = 
-
-                                                lock (this)
-                                                {
-                                                    ingetapmversion++;
-                                                }
-
-                                                System.Threading.ThreadPool.QueueUserWorkItem(getAPMVersion, temp);
-
-                                                //if (name != "")
-                                                //temp.name = name;
-                                            }
-                                        }
-                                        catch
-                                        {
-                                        }
-                                    }
-                                    catch
-                                    {
-                                    } // just in case
-
                                     softwares.Add(temp);
                                 }
                                 url = "";
@@ -342,6 +314,17 @@ namespace MissionPlanner.Utilities
                         }
                     }
                 }
+
+                Parallel.ForEach(softwares, software =>
+                {
+                    try
+                    {
+                        getAPMVersion(software);
+                    }
+                    catch
+                    {
+                    }
+                });
             }
             catch (Exception ex)
             {
@@ -349,9 +332,6 @@ namespace MissionPlanner.Utilities
                 //CustomMessageBox.Show("Failed to get Firmware List : " + ex.Message);
                 throw;
             }
-
-            while (ingetapmversion > 0)
-                System.Threading.Thread.Sleep(100);
 
             log.Info("load done");
 
@@ -428,30 +408,30 @@ namespace MissionPlanner.Utilities
 
                 WebRequest wr = WebRequest.Create(url);
                 wr.Timeout = 10000;
-                WebResponse wresp = wr.GetResponse();
-
-                StreamReader sr = new StreamReader(wresp.GetResponseStream());
-
-                while (!sr.EndOfStream)
+                using (WebResponse wresp = wr.GetResponse())
+                using (StreamReader sr = new StreamReader(wresp.GetResponseStream()))
                 {
-                    string line = sr.ReadLine();
-
-                    if (line.Contains("APMVERSION:"))
+                    while (!sr.EndOfStream)
                     {
-                        log.Info(line);
+                        string line = sr.ReadLine();
 
-                        // get index
-                        var index = softwares.IndexOf(temp);
-                        // get item to modify
-                        var item = softwares[index];
-                        // move existing name
-                        item.desc = item.name;
-                        // change name
-                        item.name = line.Substring(line.IndexOf(':') + 2);
-                        // save back to list
-                        softwares[index] = item;
+                        if (line.Contains("APMVERSION:"))
+                        {
+                            log.Info(line);
 
-                        return;
+                            // get index
+                            var index = softwares.IndexOf(temp);
+                            // get item to modify
+                            var item = softwares[index];
+                            // move existing name
+                            item.desc = item.name;
+                            // change name
+                            item.name = line.Substring(line.IndexOf(':') + 2);
+                            // save back to list
+                            softwares[index] = item;
+
+                            return;
+                        }
                     }
                 }
 
@@ -460,13 +440,6 @@ namespace MissionPlanner.Utilities
             catch (Exception ex)
             {
                 log.Error(ex);
-            }
-            finally
-            {
-                lock (this)
-                {
-                    ingetapmversion--;
-                }
             }
         }
 
@@ -519,7 +492,7 @@ namespace MissionPlanner.Utilities
                 else if (board == BoardDetect.boards.px4v3)
                 {
                     baseurl = temp.urlpx4v3.ToString();
-                    if (String.IsNullOrEmpty(baseurl) || !Common.CheckHTTPFileExists(baseurl))
+                    if (String.IsNullOrEmpty(baseurl) || !Download.CheckHTTPFileExists(baseurl))
                     {
                         baseurl = temp.urlpx4v2.ToString();
                     }
@@ -999,11 +972,11 @@ namespace MissionPlanner.Utilities
             PingReply pingReply = pingParrotVehicle(ping);
 
             updateProgress(0, "Trying to connect to " + vehicleName);
-
+            
             if (pingReply == null || pingReply.Status != IPStatus.Success)
             {
                 bool ssidFound = isParrotWifiConnected(vehicleName);
-
+                
                 if (!ssidFound)
                 {
                     CustomMessageBox.Show("Please connect to " + vehicleName + " Wifi now and after that press OK", vehicleName, MessageBoxButtons.OK);
@@ -1242,7 +1215,7 @@ namespace MissionPlanner.Utilities
             {
                 AdbClient.Instance.KillAdb();
             }
-
+            
             return true;
         }
 

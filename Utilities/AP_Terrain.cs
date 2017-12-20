@@ -15,7 +15,7 @@ using int64_t = System.Int64;
 
 namespace MissionPlanner.Utilities
 {
-    public class AP_Terrain : HIL.Utils
+    public class AP_Terrain : Utils
     {
         private bool enable = true;
         private int32_t grid_spacing = 100;

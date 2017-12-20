@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.HIL
 {
@@ -22,7 +23,7 @@ namespace MissionPlanner.HIL
             self = this;
 
             string[] a = windstring.Split(',');
-            if (Utils.len(a) != 3)
+            if (len(a) != 3)
             {
                 return;
                 //raise RuntimeError("Expected wind in speed,direction,turbulance form, not %s" % windstring);
@@ -59,10 +60,10 @@ namespace MissionPlanner.HIL
             }
 
             //# update turbulance random walk
-            double w_delta = Utils.sqrt(deltat)*(1.0 - new GaussianRandom().NextGaussian(1.0, self.turbulance + 0.01));
+            double w_delta = sqrt(deltat)*(1.0 - new GaussianRandom().NextGaussian(1.0, self.turbulance + 0.01));
             w_delta -= (self.turbulance_mul - 1.0)*(deltat/self.turbulance_time_constant);
             self.turbulance_mul += w_delta;
-            speed = self.speed*(float) Utils.fabs(self.turbulance_mul);
+            speed = self.speed*(float) fabs(self.turbulance_mul);
 
             direction = self.direction;
         }

@@ -517,14 +517,13 @@ namespace MissionPlanner.Log
                         LogOutput lo = new LogOutput();
                         try
                         {
-                            TextReader tr = new StreamReader(logfile);
-
-                            while (tr.Peek() != -1)
+                            using (TextReader tr = new StreamReader(logfile))
                             {
-                                lo.processLine(tr.ReadLine());
+                                while (tr.Peek() != -1)
+                                {
+                                    lo.processLine(tr.ReadLine());
+                                }
                             }
-
-                            tr.Close();
                         }
                         catch (Exception ex)
                         {

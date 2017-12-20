@@ -154,8 +154,6 @@ namespace MissionPlanner
                 {
                     var list = ctls.Invoke(obs[0].sys);
                     panel1.Controls.Remove(list.First());
-                    panel1.Controls.Remove(list.First().lbl);
-                    panel1.Controls.Remove(list.First().lbl1);
                 }
 
                 int width = panel1.Width/panel1.Controls.OfType<VerticalProgressBar2>().Count();

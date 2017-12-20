@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using log4net;
 using MissionPlanner;
-using MissionPlanner.HIL;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner
 {
-    public class Magfitrotation : HIL.Utils
+    public class Magfitrotation : Utils
     {
         private static readonly ILog log =
             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);

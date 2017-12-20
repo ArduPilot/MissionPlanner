@@ -17,6 +17,7 @@ using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using log4net;
 using MissionPlanner.GCSViews;
+using MissionPlanner.Maps;
 using MissionPlanner.Properties;
 using MissionPlanner.Utilities;
 using ProjNet.CoordinateSystems;
@@ -625,7 +626,7 @@ namespace MissionPlanner
                     (double) NUM_Distance.Value, (double) NUM_spacing.Value, (double) NUM_angle.Value,
                     (double) NUM_overshoot.Value, (double) NUM_overshoot2.Value,
                     (Grid.StartPosition) Enum.Parse(typeof(Grid.StartPosition), CMB_startfrom.Text), false,
-                    (float) NUM_Lane_Dist.Value, (float) NUM_leadin.Value);
+                    (float) NUM_Lane_Dist.Value, (float) NUM_leadin.Value, MainV2.comPort.MAV.cs.HomeLocation);
             }
 
             map.HoldInvalidation = true;
@@ -650,7 +651,7 @@ namespace MissionPlanner
                     (double) NUM_Distance.Value, (double) NUM_spacing.Value, (double) NUM_angle.Value + 90.0,
                     (double) NUM_overshoot.Value, (double) NUM_overshoot2.Value,
                     Grid.StartPosition.Point, false,
-                    (float) NUM_Lane_Dist.Value, (float) NUM_leadin.Value));
+                    (float) NUM_Lane_Dist.Value, (float) NUM_leadin.Value, MainV2.comPort.MAV.cs.HomeLocation));
             }
 
             if (CHK_boundary.Checked)
@@ -906,7 +907,7 @@ namespace MissionPlanner
 
             double secs = seconds % 60;
             int mins = (int)(seconds / 60) % 60;
-            int hours = (int)(seconds / 3600) % 24;
+            int hours = (int)(seconds / 3600);// % 24;
 
             if (hours > 0)
             {

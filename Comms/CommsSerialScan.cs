@@ -165,7 +165,7 @@ namespace MissionPlanner.Comms
                 if (MainV2.instance.InvokeRequired)
                 {
                     MainV2.instance.BeginInvoke(
-                        (MethodInvoker) delegate()
+                        (Action) delegate()
                         {
                             MAVLinkInterface mav = new MAVLinkInterface();
                             mav.BaseStream = port;

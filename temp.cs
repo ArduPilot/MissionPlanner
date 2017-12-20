@@ -158,6 +158,8 @@ namespace MissionPlanner
                     // Application.DoEvents();
                 }
             }
+
+            MainMap.Dispose();
         }
 
         private void BUT_clearcustommaps_Click(object sender, EventArgs e)
@@ -170,6 +172,8 @@ namespace MissionPlanner
             CustomMessageBox.Show("Removed " + removed + " images");
 
             log.InfoFormat("Removed {0} images", removed);
+
+            MainMap.Dispose();
         }
 
         private void BUT_lang_edit_Click(object sender, EventArgs e)
@@ -365,80 +369,80 @@ namespace MissionPlanner
 
                     if (software.url != "")
                     {
-                        Common.getFilefromNet(software.url, basedir + new Uri(software.url).LocalPath);
+                        Download.getFilefromNet(software.url, basedir + new Uri(software.url).LocalPath);
                     }
                     if (software.url2560 != "")
                     {
-                        Common.getFilefromNet(software.url2560, basedir + new Uri(software.url2560).LocalPath);
+                        Download.getFilefromNet(software.url2560, basedir + new Uri(software.url2560).LocalPath);
                     }
                     if (software.url2560_2 != "")
                     {
-                        Common.getFilefromNet(software.url2560_2, basedir + new Uri(software.url2560_2).LocalPath);
+                        Download.getFilefromNet(software.url2560_2, basedir + new Uri(software.url2560_2).LocalPath);
                     }
                     if (software.urlpx4v1 != "")
                     {
-                        Common.getFilefromNet(software.urlpx4v1, basedir + new Uri(software.urlpx4v1).LocalPath);
+                        Download.getFilefromNet(software.urlpx4v1, basedir + new Uri(software.urlpx4v1).LocalPath);
                     }
                     if (software.urlpx4v2 != "")
                     {
-                        Common.getFilefromNet(software.urlpx4v2, basedir + new Uri(software.urlpx4v2).LocalPath);
+                        Download.getFilefromNet(software.urlpx4v2, basedir + new Uri(software.urlpx4v2).LocalPath);
                     }
                     if (software.urlpx4v4 != "")
                     {
-                        Common.getFilefromNet(software.urlpx4v4, basedir + new Uri(software.urlpx4v4).LocalPath);
+                        Download.getFilefromNet(software.urlpx4v4, basedir + new Uri(software.urlpx4v4).LocalPath);
                     }
                     if (software.urlpx4v4pro != "")
                     {
-                        Common.getFilefromNet(software.urlpx4v4pro, basedir + new Uri(software.urlpx4v4pro).LocalPath);
+                        Download.getFilefromNet(software.urlpx4v4pro, basedir + new Uri(software.urlpx4v4pro).LocalPath);
                     }
 
                     if (software.urlvrbrainv40 != "")
                     {
-                        Common.getFilefromNet(software.urlvrbrainv40,
+                        Download.getFilefromNet(software.urlvrbrainv40,
                             basedir + new Uri(software.urlvrbrainv40).LocalPath);
                     }
                     if (software.urlvrbrainv45 != "")
                     {
-                        Common.getFilefromNet(software.urlvrbrainv45,
+                        Download.getFilefromNet(software.urlvrbrainv45,
                             basedir + new Uri(software.urlvrbrainv45).LocalPath);
                     }
                     if (software.urlvrbrainv50 != "")
                     {
-                        Common.getFilefromNet(software.urlvrbrainv50,
+                        Download.getFilefromNet(software.urlvrbrainv50,
                             basedir + new Uri(software.urlvrbrainv50).LocalPath);
                     }
                     if (software.urlvrbrainv51 != "")
                     {
-                        Common.getFilefromNet(software.urlvrbrainv51,
+                        Download.getFilefromNet(software.urlvrbrainv51,
                             basedir + new Uri(software.urlvrbrainv51).LocalPath);
                     }
                     if (software.urlvrbrainv52 != "")
                     {
-                        Common.getFilefromNet(software.urlvrbrainv52,
+                        Download.getFilefromNet(software.urlvrbrainv52,
                             basedir + new Uri(software.urlvrbrainv52).LocalPath);
                     }
                     if (software.urlvrcorev10 != "")
                     {
-                        Common.getFilefromNet(software.urlvrcorev10, basedir + new Uri(software.urlvrcorev10).LocalPath);
+                        Download.getFilefromNet(software.urlvrcorev10, basedir + new Uri(software.urlvrcorev10).LocalPath);
                     }
                     if (software.urlvrubrainv51 != "")
                     {
-                        Common.getFilefromNet(software.urlvrubrainv51,
+                        Download.getFilefromNet(software.urlvrubrainv51,
                             basedir + new Uri(software.urlvrubrainv51).LocalPath);
                     }
                     if (software.urlvrubrainv52 != "")
                     {
-                        Common.getFilefromNet(software.urlvrubrainv52,
+                        Download.getFilefromNet(software.urlvrubrainv52,
                             basedir + new Uri(software.urlvrubrainv52).LocalPath);
                     }
                     if (software.urlbebop2 != "")
                     {
-                        Common.getFilefromNet(software.urlbebop2,
+                        Download.getFilefromNet(software.urlbebop2,
                             basedir + new Uri(software.urlbebop2).LocalPath);
                     }
                     if (software.urldisco != "")
                     {
-                        Common.getFilefromNet(software.urldisco,
+                        Download.getFilefromNet(software.urldisco,
                             basedir + new Uri(software.urldisco).LocalPath);
                     }
                 }
@@ -809,7 +813,8 @@ namespace MissionPlanner
         {
             try
             {
-                if (GStreamer.checkGstLaunchExe())
+                GStreamer.gstlaunch = GStreamer.LookForGstreamer();
+                if (File.Exists(GStreamer.gstlaunch))
                 {
                     GStreamer.Start();
                 }
@@ -864,7 +869,29 @@ namespace MissionPlanner
          "https://raw.githubusercontent.com/ArduPilot/ardupilot/Copter-3.4/ArduCopter/Parameters.cpp"
          , "ArduCopter3.4.xml");
 
+            ParameterMetaDataParser.GetParameterInformation(
+                "https://raw.githubusercontent.com/ArduPilot/ardupilot/Copter-3.4.6/ArduCopter/Parameters.cpp"
+                , "ArduCopter3.4.6.xml");
+
+            ParameterMetaDataParser.GetParameterInformation(
+                "https://raw.githubusercontent.com/ArduPilot/ardupilot/Copter-3.5.0/ArduCopter/Parameters.cpp"
+                , "ArduCopter3.5.0.xml");
+
+            ParameterMetaDataParser.GetParameterInformation(
+                "https://raw.githubusercontent.com/ArduPilot/ardupilot/Copter-3.5.2/ArduCopter/Parameters.cpp"
+                , "ArduCopter3.5.2.xml");
+
+            ParameterMetaDataParser.GetParameterInformation(
+                "https://raw.githubusercontent.com/ArduPilot/ardupilot/Copter-3.5.4/ArduCopter/Parameters.cpp"
+                , "ArduCopter3.5.4.xml");
+
+
+
             // plane
+
+            ParameterMetaDataParser.GetParameterInformation(
+                "https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduPlane-3.8.3/ArduPlane/Parameters.cpp"
+                , "ArduPlane3.8.3.xml");
 
             ParameterMetaDataParser.GetParameterInformation(
           "https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduPlane-3.7.1/ArduPlane/Parameters.cpp"
@@ -1109,6 +1136,28 @@ namespace MissionPlanner
             {
                 GStreamer.test();
             });
+        }
+
+        private void but_proximity_Click(object sender, EventArgs e)
+        {
+            MainV2.comPort.MAV.Proximity.Show();
+        }
+
+        private void but_dashware_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "bin|*.bin";
+            ofd.ShowDialog();
+
+            if (ofd.CheckFileExists)
+            {
+                string options = "GPS;ATT;NTUN;CTUN;MODE;CURR";
+                InputBox.Show("", "Enter Messages you want eg PARM;NTUN;CTUN", ref options);
+
+                var split = options.Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries);
+
+                DashWare.Create(ofd.FileName, ofd.FileName + ".csv", split.Length > 0 ? split.ToList() : null);
+            }
         }
     }
 }

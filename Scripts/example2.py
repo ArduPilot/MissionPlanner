@@ -38,4 +38,5 @@ mavlink_command_long_t.target_component.SetValue(commandlong,67)
 mavlink_command_long_t.param1.SetValue(commandlong, MAVLink.MAV_MOUNT_MODE.NEUTRAL.value__)
 mavlink_command_long_t.command.SetValue(commandlong, MAVLink.MAV_CMD.DO_DIGICAM_CONTROL.value__)
 
-MAV.sendPacket(commandlong)
+# command , target sysid, target compid    used to keep track of the remote state
+MAV.sendPacket(commandlong, 71, 67)

@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using log4net;
 using MissionPlanner.Comms;
 using MissionPlanner.Radio;
+using MissionPlanner.Utilities;
 using uploader;
 
 namespace MissionPlanner
@@ -85,43 +86,43 @@ S15: MAX_WINDOW=131
             {
                 if (beta)
                 {
-                    return Common.getFilefromNet("http://firmware.ardupilot.org/SiK/beta/radio~hm_trp.ihx", firmwarefile);
+                    return Download.getFilefromNet("http://firmware.ardupilot.org/SiK/beta/radio~hm_trp.ihx", firmwarefile);
                 }
-                return Common.getFilefromNet("http://firmware.ardupilot.org/SiK/stable/radio~hm_trp.ihx",
+                return Download.getFilefromNet("http://firmware.ardupilot.org/SiK/stable/radio~hm_trp.ihx",
                     firmwarefile);
             }
             if (device == Uploader.Board.DEVICE_ID_RFD900)
             {
                 if (beta)
                 {
-                    return Common.getFilefromNet("http://firmware.ardupilot.org/SiK/beta/radio~rfd900.ihx", firmwarefile);
+                    return Download.getFilefromNet("http://firmware.ardupilot.org/SiK/beta/radio~rfd900.ihx", firmwarefile);
                 }
-                return Common.getFilefromNet("http://firmware.ardupilot.org/SiK/stable/radio~rfd900.ihx", firmwarefile);
+                return Download.getFilefromNet("http://firmware.ardupilot.org/SiK/stable/radio~rfd900.ihx", firmwarefile);
             }
             if (device == Uploader.Board.DEVICE_ID_RFD900A)
             {
                 if (beta)
                 {
-                    return Common.getFilefromNet("http://firmware.ardupilot.org/SiK/beta/radio~rfd900a.ihx",
+                    return Download.getFilefromNet("http://firmware.ardupilot.org/SiK/beta/radio~rfd900a.ihx",
                         firmwarefile);
                 }
-                return Common.getFilefromNet("http://firmware.ardupilot.org/SiK/stable/radio~rfd900a.ihx", firmwarefile);
+                return Download.getFilefromNet("http://firmware.ardupilot.org/SiK/stable/radio~rfd900a.ihx", firmwarefile);
             }
             if (device == Uploader.Board.DEVICE_ID_RFD900U)
             {
                 if (beta)
                 {
-                    return Common.getFilefromNet("http://files.rfdesign.com.au/Files/firmware/MPSiK%20V2.6%20rfd900u.ihx", firmwarefile);
+                    return Download.getFilefromNet("http://files.rfdesign.com.au/Files/firmware/MPSiK%20V2.6%20rfd900u.ihx", firmwarefile);
                 }
-                return Common.getFilefromNet("http://files.rfdesign.com.au/Files/firmware/RFDSiK%20V1.9%20rfd900u.ihx", firmwarefile);
+                return Download.getFilefromNet("http://files.rfdesign.com.au/Files/firmware/RFDSiK%20V1.9%20rfd900u.ihx", firmwarefile);
             }
             if (device == Uploader.Board.DEVICE_ID_RFD900P)
             {
                 if (beta)
                 {
-                    return Common.getFilefromNet("http://files.rfdesign.com.au/Files/firmware/MPSiK%20V2.6%20rfd900p.ihx", firmwarefile);
+                    return Download.getFilefromNet("http://files.rfdesign.com.au/Files/firmware/MPSiK%20V2.6%20rfd900p.ihx", firmwarefile);
                 }
-                return Common.getFilefromNet("http://files.rfdesign.com.au/Files/firmware/RFDSiK%20V1.9%20rfd900p.ihx", firmwarefile);
+                return Download.getFilefromNet("http://files.rfdesign.com.au/Files/firmware/RFDSiK%20V1.9%20rfd900p.ihx", firmwarefile);
             }
             return false;
         }

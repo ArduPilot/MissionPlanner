@@ -12,6 +12,7 @@ using MissionPlanner.Utilities;
 using GMap.NET.MapProviders;
 using GMap.NET.Projections;
 using MathHelper = MissionPlanner.Utilities.MathHelper;
+using Vector3 = OpenTK.Vector3;
 
 namespace MissionPlanner.Controls
 {

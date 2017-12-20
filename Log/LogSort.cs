@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MissionPlanner.Log
 {
@@ -16,9 +17,10 @@ namespace MissionPlanner.Log
 
         public static void SortLogs(string[] logs, string masterdestdir = "")
         {
-            foreach (var logfile in logs)
+            Parallel.ForEach(logs, logfile =>
+                //foreach (var logfile in logs)
             {
-                if(masterdestdir == "")
+                if (masterdestdir == "")
                     masterdestdir = Path.GetDirectoryName(logfile);
 
                 issitl = false;
@@ -35,7 +37,8 @@ namespace MissionPlanner.Log
                     catch
                     {
                     }
-                    continue;
+
+                    return;
                 }
 
                 // move small logs - most likerly invalid
@@ -44,19 +47,20 @@ namespace MissionPlanner.Log
                     try
                     {
                         string destdir = masterdestdir + Path.DirectorySeparatorChar
-                                         + "SMALL" + Path.DirectorySeparatorChar;
+                                                       + "SMALL" + Path.DirectorySeparatorChar;
 
                         if (!Directory.Exists(destdir))
                             Directory.CreateDirectory(destdir);
 
                         log.Info("Move log small " + logfile + " to " + destdir + Path.GetFileName(logfile));
 
-                        movefileusingmask(logfile, destdir);
+                        MoveFileUsingMask(logfile, destdir);
                     }
                     catch
                     {
                     }
-                    continue;
+
+                    return;
                 }
 
                 try
@@ -74,15 +78,16 @@ namespace MissionPlanner.Log
                         mine.logplaybackfile.BaseStream.Seek(midpoint, SeekOrigin.Begin);
 
                         // used for sitl detection
-                        mine.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.SIMSTATE, sitldetection);
-                        mine.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.SIM_STATE, sitldetection);
+                        mine.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.SIMSTATE, SitlDetection);
+                        mine.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.SIM_STATE, SitlDetection);
 
                         MAVLink.MAVLinkMessage hbpacket = mine.getHeartBeat();
                         MAVLink.MAVLinkMessage hbpacket1 = mine.getHeartBeat();
                         MAVLink.MAVLinkMessage hbpacket2 = mine.getHeartBeat();
                         MAVLink.MAVLinkMessage hbpacket3 = mine.getHeartBeat();
 
-                        if (hbpacket.Length == 0 && hbpacket1.Length == 0 && hbpacket2.Length == 0 && hbpacket3.Length == 0)
+                        if (hbpacket.Length == 0 && hbpacket1.Length == 0 && hbpacket2.Length == 0 &&
+                            hbpacket3.Length == 0)
                         {
                             mine.logreadmode = false;
                             mine.logplaybackfile.Close();
@@ -95,10 +100,10 @@ namespace MissionPlanner.Log
                                      Path.DirectorySeparatorChar + "BAD" + Path.DirectorySeparatorChar +
                                      Path.GetFileName(logfile));
 
-                            movefileusingmask(logfile,
+                            MoveFileUsingMask(logfile,
                                 masterdestdir + Path.DirectorySeparatorChar + "BAD" +
                                 Path.DirectorySeparatorChar);
-                            continue;
+                            return;
                         }
 
                         if (hbpacket.Length != 0)
@@ -108,17 +113,17 @@ namespace MissionPlanner.Log
 
                         if (hbpacket1.Length != 0)
                         {
-                            MAVLink.mavlink_heartbeat_t hb1 = (MAVLink.mavlink_heartbeat_t)mine.DebugPacket(hbpacket1);
+                            MAVLink.mavlink_heartbeat_t hb1 = (MAVLink.mavlink_heartbeat_t) mine.DebugPacket(hbpacket1);
                         }
 
                         if (hbpacket2.Length != 0)
                         {
-                            MAVLink.mavlink_heartbeat_t hb2 = (MAVLink.mavlink_heartbeat_t)mine.DebugPacket(hbpacket2);
+                            MAVLink.mavlink_heartbeat_t hb2 = (MAVLink.mavlink_heartbeat_t) mine.DebugPacket(hbpacket2);
                         }
 
                         if (hbpacket3.Length != 0)
                         {
-                            MAVLink.mavlink_heartbeat_t hb3 = (MAVLink.mavlink_heartbeat_t)mine.DebugPacket(hbpacket3);
+                            MAVLink.mavlink_heartbeat_t hb3 = (MAVLink.mavlink_heartbeat_t) mine.DebugPacket(hbpacket3);
                         }
 
                         // find most appropriate
@@ -140,38 +145,38 @@ namespace MissionPlanner.Log
                         mine.logplaybackfile.Close();
 
                         string destdir = masterdestdir + Path.DirectorySeparatorChar
-                                         + mine.MAV.aptype.ToString() + Path.DirectorySeparatorChar
-                                         + mine.MAV.sysid + Path.DirectorySeparatorChar;
+                                                       + mine.MAV.aptype.ToString() + Path.DirectorySeparatorChar
+                                                       + mine.MAV.sysid + Path.DirectorySeparatorChar;
 
                         if (issitl)
                         {
-                            destdir = masterdestdir + Path.DirectorySeparatorChar 
-                                + "SITL" + Path.DirectorySeparatorChar 
-                                + mine.MAV.aptype.ToString() + Path.DirectorySeparatorChar 
-                                + mine.MAV.sysid + Path.DirectorySeparatorChar;
+                            destdir = masterdestdir + Path.DirectorySeparatorChar
+                                                    + "SITL" + Path.DirectorySeparatorChar
+                                                    + mine.MAV.aptype.ToString() + Path.DirectorySeparatorChar
+                                                    + mine.MAV.sysid + Path.DirectorySeparatorChar;
                         }
 
                         if (!Directory.Exists(destdir))
                             Directory.CreateDirectory(destdir);
 
-                        movefileusingmask(logfile, destdir);
+                        MoveFileUsingMask(logfile, destdir);
                     }
                 }
                 catch
                 {
-                    continue;
+                    return;
                 }
-            }
+            });
         }
 
-        private static bool sitldetection(MAVLink.MAVLinkMessage arg)
+        private static bool SitlDetection(MAVLink.MAVLinkMessage arg)
         {
             issitl = true;
 
             return true;
         }
 
-        static void movefileusingmask(string logfile, string destdir)
+        static void MoveFileUsingMask(string logfile, string destdir)
         {
             string dir = Path.GetDirectoryName(logfile);
             string filter = Path.GetFileNameWithoutExtension(logfile) + "*";
