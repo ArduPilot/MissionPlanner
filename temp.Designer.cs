@@ -107,17 +107,7 @@
             this.but_dashware = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // BUT_xplane
-            // 
-            this.BUT_xplane.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.BUT_xplane.Location = new System.Drawing.Point(3, 234);
-            this.BUT_xplane.Name = "BUT_xplane";
-            this.BUT_xplane.Size = new System.Drawing.Size(113, 15);
-            this.BUT_xplane.TabIndex = 23;
-            this.BUT_xplane.Text = "live xplane output";
-            this.BUT_xplane.UseVisualStyleBackColor = true;
-            this.BUT_xplane.Click += new System.EventHandler(this.BUT_xplane_Click);
+
             // 
             // but_osdvideo
             // 

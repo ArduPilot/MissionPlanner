@@ -378,12 +378,8 @@
     <Compile Include="Grid\GridUI.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="HIL\Aircraft.cs" />
     <Compile Include="HIL\Hil.cs" />
-    <Compile Include="HIL\Point3d.cs" />
     <Compile Include="HIL\QuadCopter.cs" />
-    <Compile Include="HIL\Quaternion.cs" />
-    <Compile Include="HIL\Vector3d.cs" />
     <Compile Include="HIL\Wind.cs" />
-    <Compile Include="HIL\XPlane.cs" />
     <Compile Include="Joystick\Joystick.cs" />
     <Compile Include="Joystick\JoystickSetup.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Joystick\Joy_Button_axis.cs"> <SubType>Control</SubType> </Compile>

@@ -45,8 +45,6 @@ namespace MissionPlanner
         private static readonly ILog log =
             LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        public static XPlane xp;
-
         private static MAVLinkSerialPort comport;
 
         private static TcpListener listener;
@@ -210,32 +208,6 @@ namespace MissionPlanner
             new OSDVideo().Show();
         }
 
-        private void BUT_xplane_Click(object sender, EventArgs e)
-        {
-            if (xp == null)
-            {
-                xp = new XPlane();
-
-                xp.SetupSockets(49005, 49000, "127.0.0.1");
-            }
-
-
-            ThreadPool.QueueUserWorkItem(runxplanemove);
-
-            //xp.Shutdown();
-        }
-
-        private void runxplanemove(object o)
-        {
-            while (xp != null)
-            {
-                Thread.Sleep(500);
-                xp.MoveToPos(MainV2.comPort.MAV.cs.lat, MainV2.comPort.MAV.cs.lng, MainV2.comPort.MAV.cs.alt,
-                    MainV2.comPort.MAV.cs.roll, MainV2.comPort.MAV.cs.pitch, MainV2.comPort.MAV.cs.yaw);
-            }
-        }
-
-
         private void BUT_swarm_Click(object sender, EventArgs e)
         {
             new FormationControl().Show();
@@ -255,7 +227,6 @@ namespace MissionPlanner
         {
             new FollowPathControl().Show();
         }
-
 
         private void BUT_sorttlogs_Click(object sender, EventArgs e)
         {

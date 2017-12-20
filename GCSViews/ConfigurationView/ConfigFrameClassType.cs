@@ -28,7 +28,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             MOTOR_FRAME_HELI = 6,
             MOTOR_FRAME_TRI = 7,
             MOTOR_FRAME_SINGLE = 8,
-            MOTOR_FRAME_COAX = 9
+            MOTOR_FRAME_COAX = 9,
+            MOTOR_FRAME_TAILSITTER = 10,
+            MOTOR_FRAME_HELI_DUAL = 11,
+            MOTOR_FRAME_DODECAHEXA = 12,
+            MOTOR_FRAME_HELI_QUAD = 13,
         };
 
         public enum motor_frame_type
@@ -39,8 +43,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             MOTOR_FRAME_TYPE_H = 3,
             MOTOR_FRAME_TYPE_VTAIL = 4,
             MOTOR_FRAME_TYPE_ATAIL = 5,
-            MOTOR_FRAME_TYPE_Y6B = 10
-
+            MOTOR_FRAME_TYPE_Y6B = 10,
+            MOTOR_FRAME_TYPE_Y6F = 11 // for FireFlyY6
         };
 
         // list of valid options enterd from https://github.com/ArduPilot/ardupilot/blob/master/libraries/AP_Motors/AP_MotorsMatrix.cpp#L378
@@ -71,6 +75,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     motor_frame_type.MOTOR_FRAME_TYPE_X),
                 new Tuple<motor_frame_class, motor_frame_type?>(motor_frame_class.MOTOR_FRAME_OCTA,
                     motor_frame_type.MOTOR_FRAME_TYPE_V),
+                new Tuple<motor_frame_class, motor_frame_type?>(motor_frame_class.MOTOR_FRAME_OCTA,
+                    motor_frame_type.MOTOR_FRAME_TYPE_H),
 
                 new Tuple<motor_frame_class, motor_frame_type?>(motor_frame_class.MOTOR_FRAME_OCTAQUAD,
                     motor_frame_type.MOTOR_FRAME_TYPE_PLUS),
@@ -80,6 +86,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     motor_frame_type.MOTOR_FRAME_TYPE_V),
                 new Tuple<motor_frame_class, motor_frame_type?>(motor_frame_class.MOTOR_FRAME_OCTAQUAD,
                     motor_frame_type.MOTOR_FRAME_TYPE_H),
+
+                new Tuple<motor_frame_class, motor_frame_type?>(motor_frame_class.MOTOR_FRAME_DODECAHEXA,
+                    motor_frame_type.MOTOR_FRAME_TYPE_PLUS),
+                new Tuple<motor_frame_class, motor_frame_type?>(motor_frame_class.MOTOR_FRAME_DODECAHEXA,
+                    motor_frame_type.MOTOR_FRAME_TYPE_X),
 
                 new Tuple<motor_frame_class, motor_frame_type?>(motor_frame_class.MOTOR_FRAME_Y6,
                     motor_frame_type.MOTOR_FRAME_TYPE_Y6B),
@@ -93,6 +104,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 new Tuple<motor_frame_class, motor_frame_type?>(motor_frame_class.MOTOR_FRAME_SINGLE,
                     null),
                 new Tuple<motor_frame_class, motor_frame_type?>(motor_frame_class.MOTOR_FRAME_COAX,
+                    null),
+
+                new Tuple<motor_frame_class, motor_frame_type?>(motor_frame_class.MOTOR_FRAME_TAILSITTER,
+                    null),
+                new Tuple<motor_frame_class, motor_frame_type?>(motor_frame_class.MOTOR_FRAME_HELI_DUAL,
+                    null),
+                new Tuple<motor_frame_class, motor_frame_type?>(motor_frame_class.MOTOR_FRAME_DODECAHEXA,
+                    null),
+                new Tuple<motor_frame_class, motor_frame_type?>(motor_frame_class.MOTOR_FRAME_HELI_QUAD,
                     null),
 
                 new Tuple<motor_frame_class, motor_frame_type?>(motor_frame_class.MOTOR_FRAME_UNDEFINED,
