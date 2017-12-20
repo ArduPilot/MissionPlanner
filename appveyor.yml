@@ -47,12 +47,14 @@ build_script:
 
     if exist datenow.txt set /p datenow=<datenow.txt
 
-    if not "%datecheck%"=="%datenow%" (
-        echo %date% > date.txt
-        cov-build.exe --dir cov-int msbuild.exe MissionPlanner.sln /m /p:Configuration=Debug /l:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
-        7z a -tzip MissionPlannerCov-int.zip c:\mp\cov-int 
-        rem curl --form %token% --form %email% --form file=@MissionPlannerCov-int.zip --form version="%APPVEYOR_BUILD_VERSION%" --form project="ArduPilot\MissionPlanner" --form description="" https://scan.coverity.com/builds
-    )
+    rem if not "%datecheck%"=="%datenow%" echo %date% > date.txt
+
+    rem if not "%datecheck%"=="%datenow%" cov-build.exe --dir cov-int msbuild.exe MissionPlanner.sln /m /p:Configuration=Debug /l:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+
+    rem if not "%datecheck%"=="%datenow%" 7z a -tzip MissionPlannerCov-int.zip c:\mp\cov-int 
+
+    rem curl --form %token% --form %email% --form file=@MissionPlannerCov-int.zip --form version="%APPVEYOR_BUILD_VERSION%" --form project="ArduPilot\MissionPlanner" --form description="" https://scan.coverity.com/builds
+   
 
 test: off
 artifacts:
