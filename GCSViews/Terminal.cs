@@ -45,7 +45,8 @@ namespace MissionPlanner.GCSViews
         private int ScreenWidth = 80;
         private int ScreenHeight = 24;
         private int CursorPosition;
-        private int LineCounter = 24;
+        private int LineCounter = 23;
+        private string PageUpText = "";
         private bool ByobuMode = false;
         private bool Scrolling = false;
 
@@ -670,6 +671,7 @@ namespace MissionPlanner.GCSViews
         {
             BeginInvoke((MethodInvoker)delegate
             {
+                LineCounter = ScreenHeight - 1;
 
                 Clipboard.Clear();
                 if (inputStartPos > TXT_terminal.Text.Length)
@@ -712,14 +714,13 @@ namespace MissionPlanner.GCSViews
                     var index = data.IndexOf(m.Value);
                     data = data.Remove(index, m.Length);
                     Scrolling = true;
-                    TXT_terminal.Clear();
                 }
                 //If page needs to scroll then do so
                 if (Scrolling) { data = PageUpDown(data); }
                 //Stop byobu for outputting data
                 if (ByobuMode) { data = ""; }
                 string pattern = @"\e[\(\[\]](\d+;)*\??(\d+)?[ABCDEFGHQJKSPTLflXthmbnirpdsu]";
-                foreach (Match match in Regex.Matches(data, pattern))
+               foreach (Match match in Regex.Matches(data, pattern))
                 {
                     var index = data.IndexOf(match.Value);
                     if (index != 0) //There are words to add before next ANSI character
@@ -746,6 +747,10 @@ namespace MissionPlanner.GCSViews
                 //Format Data to remove any unwanted characters
                 data = FormatData(data);
                 AppendText(data);
+                if (PageUpText != "" && LineCounter != 0 && LineCounter != ScreenHeight-1)
+                {
+                    PageUpAdd();
+                }
                 inputStartPos = TXT_terminal.TextLength;
                 SelectStartIndex = TXT_terminal.SelectionStart;
                 ArrowMovement = false;
@@ -753,20 +758,68 @@ namespace MissionPlanner.GCSViews
             });
         }
 
+        //If Pageup wasn't complete page size then add start of previous page
+        private void PageUpAdd()
+        {
+            int index = TXT_terminal.GetFirstCharIndexFromLine(LineCounter);
+            int endIndex = TXT_terminal.GetFirstCharIndexFromLine(ScreenHeight - 1);
+            if (endIndex == -1 && index == -1) { PageUpText = ""; return; }
+            //Get new page text and last line of text
+            TXT_terminal.Select(index, TXT_terminal.GetFirstCharIndexFromLine(ScreenHeight - 1) - index);
+            string newPageText = TXT_terminal.SelectedText;
+            TXT_terminal.Select(endIndex, TXT_terminal.TextLength);
+            string lastLine = TXT_terminal.SelectedText;
+            TXT_terminal.Clear();
+            //Append text from new page at top of screen
+            for (int i = 0; i < ScreenHeight - 1; i++)
+            {
+                if (newPageText == "") break;
+                CursorToLine(i);
+                string subString = newPageText.Substring(0, newPageText.IndexOf("\n"));
+                newPageText = newPageText.Remove(0, subString.Length + 1);
+                if (subString == "") break;
+                AppendText(subString + "\n");
+            }
+            //Until we reach end of screen size append text from previous page
+            int count = ScreenHeight - LineCounter - 1;
+            for (int i = count; i < ScreenHeight - 1; i++)
+            {
+                if (PageUpText == "") break;
+                CursorToLine(i);
+                string subString = PageUpText.Substring(0, PageUpText.IndexOf("\n"));
+                PageUpText = PageUpText.Remove(0, subString.Length + 1);
+                if (subString == "") break;
+                AppendText(subString + "\n");
+            }
+            //Append Last line
+            AppendText(lastLine);
+            PageUpText = "";
+            return;
+        }
         private string PageUpDown(string data)
         {
             if (data == "") return data;
             if (Regex.IsMatch(data, @"\e\[H\eM")) //If page up then we need to reverse order
             {
-                LineCounter = ScreenHeight;
+                int index = TXT_terminal.SelectionStart;
+                LineCounter = ScreenHeight - 2;
+                TXT_terminal.Select(0, TXT_terminal.TextLength);
+                PageUpText = TXT_terminal.SelectedText;
+                TXT_terminal.Select(index, 0);
                 Match match = (Regex.Match(data, @"\e\[H\eM"));
                 data = data.Replace(match.Value, "\u001b[Q");
+                TXT_terminal.Clear();
             }
             if (Regex.IsMatch(data, @"\e\[7m\(END\)\e\[27m")) //Print only one end statement
             {
                 Match match = (Regex.Match(data, @"\e\[7m\(END\)\e\[27m"));
                 int RemoveIndex = match.Length + match.Index;
                 data = data.Remove(RemoveIndex, data.Length - RemoveIndex);
+            }
+            if (Regex.IsMatch(data, @"^\d*\/\d*\s\(END\).*\e\[27m")) //Print only one end statement
+            {
+                Match match = (Regex.Match(data, @"^\d*\/\d*\s\(END\).*\e\[27m"));
+                data = data.Remove(match.Index, data.Length - match.Index); 
             }
             Scrolling = false;
             return data;
@@ -845,6 +898,7 @@ namespace MissionPlanner.GCSViews
 
         private string FormatData(string data)
         {
+            if (data == "") return data;
             //Save or restore cursor 
             foreach (Match match in Regex.Matches(data, @"\e[78]"))
             {
@@ -871,7 +925,7 @@ namespace MissionPlanner.GCSViews
             foreach (Match match in Regex.Matches(data, @"^ESC"))
             {
                 var index = data.IndexOf(match.Value);
-                data = data.Remove(index, match.Length);
+                data = data.Remove(index, data.Length);
             }
             //Remove unneeded repeated sequences
             if (Regex.IsMatch(data, @"[A-Za-z0-9]\.*\r[A-Za-z0-09]"))
