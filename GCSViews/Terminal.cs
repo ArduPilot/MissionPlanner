@@ -37,18 +37,17 @@ namespace MissionPlanner.GCSViews
         private bool Bold = false;
         private bool Underline = false;
         private Color DefaultColor = Color.White;
-        private bool DebugMode = false;
-        private bool Resizing = false;
         private Color DefaultBackgroundColor;
         private Color SetBackground;
         private bool Connected = false;
-        private RichTextBox DebugtextBox;
         private bool ArrowMovement = false;
         DateTime lastsend = DateTime.MinValue;
-        private int MaxColumns = 235;
-        private int MaxLines = 57;
-        private int ScreenHeight = 998;
+        private int ScreenWidth = 80;
+        private int ScreenHeight = 24;
         private int CursorPosition;
+        private int LineCounter = 24;
+        private bool ByobuMode = false;
+        private bool Scrolling = false;
 
         public Terminal()
         {
@@ -256,12 +255,19 @@ namespace MissionPlanner.GCSViews
                     case Keys.F12:
                         if (SSHTerminal) shellStream.Write("\u001b[24~");
                         break;
+                    case Keys.PageUp:
+                        if (SSHTerminal) shellStream.WriteLine("\u001b[5~");
+                        break;
+                    case Keys.PageDown:
+                        if (SSHTerminal) shellStream.WriteLine("\u001b[6~");
+                        break;
                 }
             }
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
+            //If tab key is pressed send it through shellstream
             if (keyData == Keys.Tab)
             {
                 shellStream.Write("\t");
@@ -301,6 +307,7 @@ namespace MissionPlanner.GCSViews
             {
                 DefaultColor = Color.White;
             }
+
             if (e.KeyChar == '\r')
             {
                 if (comPort.IsOpen)
@@ -574,6 +581,7 @@ namespace MissionPlanner.GCSViews
                 int Port = 22;
                 TXT_terminal.Clear();
                 TXT_terminal.SelectedText = "Connecting.... \r\n";
+                //Get user needed input to start an SSH connection then connect using SSH.net
                 string promptvalue = Prompt.ShowDialog("Username", "Password", "Please enter username and password to connect");
                 string IpAddress = IPAddressBox.Text;
                 if (IPAddressBox.Text.Contains(":"))
@@ -583,37 +591,18 @@ namespace MissionPlanner.GCSViews
                 }
                 string Username = promptvalue.Substring(0, promptvalue.IndexOf(":"));
                 string Password = promptvalue.Substring(promptvalue.IndexOf(":") + 1);
-                //string IpAddress = "192.168.2.147";
-                //string Username = "csiriett";
-                //string Password = "catherine";
                 client = new SshClient(IpAddress, Port, Username, Password);
                 client.Connect();
                 TXT_terminal.AppendText("SSH Connected \r\n");
-                inputStartPos = TXT_terminal.Text.Length;
-                SelectStartIndex = TXT_terminal.TextLength;
+                //Setting required variables for ssh terminal
+                SelectStartIndex = inputStartPos = TXT_terminal.Text.Length;
                 DefaultBackgroundColor = SetBackground = TXT_terminal.BackColor;
-                CMB_boardtype.Enabled = false;
-                IPAddressBox.Enabled = false;
+                IPAddressBox.Enabled = CMB_boardtype.Enabled = false;
                 ChangeConnectStatus(true);
+                //Terminal type is set to xterm
                 shellStream = client.CreateShellStream("xterm", 0, 0, 0, 0, 1000);
-
+                LineCounter = ScreenHeight - 1;
                 startSSHthread();
-                if (DebugMode)
-                {
-                    Form newForm = new Form()
-                    {
-                        Width = 800,
-                        Height = 500,
-                        FormBorderStyle = FormBorderStyle.FixedDialog,
-
-
-                    };
-                    Font font = new Font("Calibri", 14.0f);
-                    DebugtextBox = new RichTextBox() { Left = 50, Top = 50, Height = 400, Width = 700 };
-                    DebugtextBox.Font = font;
-                    newForm.Controls.Add(DebugtextBox);
-                    newForm.Show();
-                }
             }
             catch (SshAuthenticationException)
             {
@@ -643,11 +632,13 @@ namespace MissionPlanner.GCSViews
                     Thread.Sleep(10);
                     if (!threadrun)
                         break;
+                    //If connection lost then break
                     if (!SSHTerminal)
                     {
                         Console.WriteLine("The SSH Connection has been lost");
                         break;
                     }
+                    //If there is text to read in the do so else loop
                     if (shellStream.Length > 0)
                     {
                         SSH_StreamReader();
@@ -664,7 +655,8 @@ namespace MissionPlanner.GCSViews
 
         private void SSH_StreamReader()
         {
-
+            //While there are characters to read in the stream
+            //read them in and add them to the terminal window
             while (shellStream.Length > 0)
             {
                 var character = shellStream.Read();
@@ -677,58 +669,124 @@ namespace MissionPlanner.GCSViews
         private void SSH_AddText(string data)
         {
             BeginInvoke((MethodInvoker)delegate
-           {
+            {
 
-               Clipboard.Clear();
+                Clipboard.Clear();
+                if (inputStartPos > TXT_terminal.Text.Length)
+                    inputStartPos = TXT_terminal.Text.Length - 1;
 
+                // gather current typed data
+                string currenttypedtext = TXT_terminal.Text.Substring(inputStartPos,
+                    TXT_terminal.Text.Length - inputStartPos);
 
-               if (inputStartPos > TXT_terminal.Text.Length)
-                   inputStartPos = TXT_terminal.Text.Length - 1;
+                // remove typed data
+                TXT_terminal.Select(inputStartPos, 1);
+                TXT_terminal.SelectedText = String.Empty;
 
-               // gather current typed data
-               string currenttypedtext = TXT_terminal.Text.Substring(inputStartPos,
-                  TXT_terminal.Text.Length - inputStartPos);
+                if (SelectStartIndex < inputStartPos)
+                {
+                    TXT_terminal.SelectionStart = SelectStartIndex;
+                }
+                //Acknowledging byobu mode has been entered
+                //Byobu is currently disables
+                if (Regex.IsMatch(data, @"- byobu\a"))
+                {
+                    //To Disable Byobu
+                    ByobuMode = true;
+                    shellStream.WriteLine("exit");
+                    data = "";
+                }
+                //Acknowledging byobu mode
+                if (data.Contains("[exited]")) { ByobuMode = false; TXT_terminal.Clear(); data = data.Insert(data.IndexOf("[exited]") + 8, " Byobu is unsupported by this terminal "); }
 
-               // remove typed data
-               TXT_terminal.Select(inputStartPos, 1);
-               TXT_terminal.SelectedText = String.Empty;
+                //Handle directional arrows
+                foreach (Match m in Regex.Matches(data, @".*ESC.*\[?[ABCD]\a"))
+                {
+                    var index = data.IndexOf(m.Value);
+                    data = data.Remove(index, m.Length);
+                    Scrolling = true;
+                }
+                //Handle page up or page down
+                foreach (Match m in Regex.Matches(data, @".*ESC.*\[?[56~]"))
+                {
+                    var index = data.IndexOf(m.Value);
+                    data = data.Remove(index, m.Length);
+                    Scrolling = true;
+                    TXT_terminal.Clear();
+                }
+                //If page needs to scroll then do so
+                if (Scrolling) { data = PageUpDown(data); }
+                //Stop byobu for outputting data
+                if (ByobuMode) { data = ""; }
+                string pattern = @"\e[\(\[\]](\d+;)*\??(\d+)?[ABCDEFGHQJKSPTLflXthmbnirpdsu]";
+                foreach (Match match in Regex.Matches(data, pattern))
+                {
+                    var index = data.IndexOf(match.Value);
+                    if (index != 0) //There are words to add before next ANSI character
+                    {
+                        var subString = data.Substring(0, data.IndexOf(match.Value));
+                        if (subString != "") data = data.Remove(0, subString.Length);
+                        //Handle text wrapping
+                        if (subString.Contains("$")) { subString = WrapTextHandler(subString); }
+                        //If newline or return character move down line instead of printing newline or return character
+                        if (subString.Contains("\r\n")) subString = TrimText(subString, "\r\n");
+                        if (subString.Contains("\r")) subString = TrimText(subString, "\r");
+                        //Format Data to remove any unwanted characters
+                        subString = FormatData(subString);
+                        //Handle text wrapping
+                        AppendText(subString);
+                        inputStartPos = TXT_terminal.TextLength;
+                    }
+                    ResolveCommand(match.Value);
+                    data = data.Remove(0, match.Length);
+                }
+                //If newline or return character move down line instead of printing newline or return character
+                if (data.Contains("\r\n")) data = TrimText(data, "\r\n");
+                if (data.Contains("\r")) data = TrimText(data, "\r");
+                //Format Data to remove any unwanted characters
+                data = FormatData(data);
+                AppendText(data);
+                inputStartPos = TXT_terminal.TextLength;
+                SelectStartIndex = TXT_terminal.SelectionStart;
+                ArrowMovement = false;
+                TXT_terminal.Focus();
+            });
+        }
 
-               if (SelectStartIndex < inputStartPos)
-               {
-                   TXT_terminal.SelectionStart = SelectStartIndex;
-               }
-               string pattern = @"\e[\(\[\]](\d+;)*\??(\d+)?[ABCDEFGHJKSPTLflXthmbnirpdsu]";
-               foreach (Match match in Regex.Matches(data, pattern))
-               {
-                   var index = data.IndexOf(match.Value);
-                   if (index != 0) //There are words to add before next ANSI character
-                   {
-                       var subString = data.Substring(0, data.IndexOf(match.Value));
+        private string PageUpDown(string data)
+        {
+            if (data == "") return data;
+            if (Regex.IsMatch(data, @"\e\[H\eM")) //If page up then we need to reverse order
+            {
+                LineCounter = ScreenHeight;
+                Match match = (Regex.Match(data, @"\e\[H\eM"));
+                data = data.Replace(match.Value, "\u001b[Q");
+            }
+            if (Regex.IsMatch(data, @"\e\[7m\(END\)\e\[27m")) //Print only one end statement
+            {
+                Match match = (Regex.Match(data, @"\e\[7m\(END\)\e\[27m"));
+                int RemoveIndex = match.Length + match.Index;
+                data = data.Remove(RemoveIndex, data.Length - RemoveIndex);
+            }
+            Scrolling = false;
+            return data;
+        }
 
-                       if (subString != "") data = data.Remove(0, subString.Length);
-                       //If newline or return character move down line instead of printing newline or return character
-                       if (subString.Contains("\r\n")) subString = TrimText(subString, "\r\n");
-                       if (subString.Contains("\r")) subString = TrimText(subString, "\r");
-                       subString = FormatData(subString);
-                       //Deal with text wrapping
-                       if (subString.Contains("$")) { subString = WrapText(subString); }
-                       AppendText(TXT_terminal, subString);
-                       inputStartPos = TXT_terminal.TextLength;
-                       if (DebugMode) { DebugtextBox.AppendText(subString); }
-                   }
-                   ResolveCommand(match.Value);
-                   if (DebugMode) { DebugtextBox.AppendText(match.Value); }
-                   data = data.Remove(0, match.Length);
-               }
-               if (data.Contains("\r\n")) data = TrimText(data, "\r\n");
-               if (data.Contains("\r")) data = TrimText(data, "\r");
-               data = FormatData(data);
-               AppendText(TXT_terminal, data);
-               inputStartPos = TXT_terminal.TextLength;
-               SelectStartIndex = TXT_terminal.SelectionStart;
-               ArrowMovement = false;
-               TXT_terminal.Focus();
-           });
+        private void ScreenScroll()
+        {
+            int temp = 0; int line = 0; int index = 0; int length = 0;
+            //Remove first line
+            TXT_terminal.Select(0, TXT_terminal.GetFirstCharIndexFromLine(1));
+            TXT_terminal.SelectedText = "";
+            //Find last line and set selectionstart to it then clear rest of screen
+            for (int i = 0; i < TXT_terminal.Lines.Count(); i++)
+            {
+                temp = TXT_terminal.GetFirstCharIndexFromLine(i);
+                if (temp != -1) { index = temp; line = i; }
+            }
+            if (TXT_terminal.Lines.Count() != 0) { length = TXT_terminal.Lines[line].Length; }
+            TXT_terminal.SelectionStart = index + length;
+            Clear("\u001b[J");
         }
 
         private string TrimText(string data, string trim)
@@ -738,8 +796,10 @@ namespace MissionPlanner.GCSViews
             else if (trim == "\r") { count = data.Count(f => f == '\r'); }
             for (int i = 0; i < count; i++)
             {
-                if (data == "") break;
+                if (data == "" || data.Length < trim.Length) break;
                 var check = data.Substring(0, trim.Length);
+                //If start of next substring isn't newline or return character append
+                //text up until next newline or return character
                 if (check != trim)
                 {
                     int newlineIndex = data.IndexOf(trim);
@@ -747,34 +807,45 @@ namespace MissionPlanner.GCSViews
                     var subString = data.Substring(0, newlineIndex);
                     subString = FormatData(subString);
                     subString = subString.TrimEnd('\r', '\n');
-                    AppendText(TXT_terminal, subString);
+                    AppendText(subString);
                     data = data.Remove(0, newlineIndex);
                 }
-                CursorDown("\u001b[B");
+                int line = TXT_terminal.GetLineFromCharIndex(TXT_terminal.GetFirstCharIndexOfCurrentLine());
+                //If last line finishes with a return line chracter move to front of line
+                //else move down a line
+                if (trim == "\r" && count == 1 && line == ScreenHeight - 1)
+                {
+                    data = data.TrimEnd('\r');
+                    CursorToColumn(0);
+                }
+                else
+                {
+                    CursorDown("\u001b[B");
+                }
                 if (data != "") data = data.Remove(data.IndexOf(trim), trim.Length);
             }
             return data;
         }
 
-        private string WrapText(string data)
+        //Handle text wrapping in Nano
+        private string WrapTextHandler(string data)
         {
             if (data.StartsWith("\r$"))
             {
                 CursorToColumn(0);
                 data = data.Remove(data.IndexOf('\r'), 1);
-
             }
             if (data.EndsWith("$"))
             {
                 CursorToColumn(0);
                 if (data.Contains("\r")) data = data.Remove(data.IndexOf('\r'), 1);
-
             }
             return data;
         }
 
         private string FormatData(string data)
         {
+            //Save or restore cursor 
             foreach (Match match in Regex.Matches(data, @"\e[78]"))
             {
                 if (match.Value.Contains("7")) { SaveCursor(); }
@@ -782,6 +853,7 @@ namespace MissionPlanner.GCSViews
                 var index = data.IndexOf(match.Value);
                 data = data.Remove(index, match.Length);
             }
+            //Remove operating system insturctions
             foreach (Match match in Regex.Matches(data, @"\u001b]\d+;"))
             {
                 int index = data.IndexOf('\u001b');
@@ -789,11 +861,19 @@ namespace MissionPlanner.GCSViews
                 if (endIndex < index) { data = data.Remove(endIndex, 1); endIndex = data.IndexOf("\a"); }
                 data = data.Remove(match.Index, endIndex - match.Index + 1);
             }
+            //Remove unwanted ANSI characters
             foreach (Match match in Regex.Matches(data, @"\e\[?\]?\=?\>?[0-9]*[M@]?"))
             {
                 var index = data.IndexOf(match.Value);
                 data = data.Remove(index, match.Length);
             }
+            //Remove ESC sequences that were not correctly handled
+            foreach (Match match in Regex.Matches(data, @"^ESC"))
+            {
+                var index = data.IndexOf(match.Value);
+                data = data.Remove(index, match.Length);
+            }
+            //Remove unneeded repeated sequences
             if (Regex.IsMatch(data, @"[A-Za-z0-9]\.*\r[A-Za-z0-09]"))
             {
                 string txt = "";
@@ -811,89 +891,94 @@ namespace MissionPlanner.GCSViews
                 TXT_terminal.SelectionStart = SelectIndex + 1;
                 data = "";
             }
+            //Remove unneeded alerts from data
             foreach (Match match in Regex.Matches(data, @".*\a.*"))
             {
                 var index = data.IndexOf(match.Value);
                 data = data.Remove(index, match.Length);
             }
-            //if (data.Contains("\a"))
-            //{
-            //    data = data.Remove(data.IndexOf("\a"), 1);
-            //}
             return data;
         }
 
-        private string Backspace(string data, string backSpaceKey)
+        private string BackspaceHandler(string data, string backSpaceKey)
         {
-          int count = 0;
+            int count = 0;
             count = data.Count(f => f == '\b');
             for (int i = 0; i <= count; i++)
             {
                 if (data == "") break;
                 var check = data.Substring(0, backSpaceKey.Length);
                 int backSpaceIndex = data.IndexOf(backSpaceKey);
+                //Check if next substring is a backspace or more text to append
                 if (check != backSpaceKey)
                 {
                     if (backSpaceIndex == -1) backSpaceIndex = data.Length;
                     string Substring = data.Substring(0, backSpaceIndex);
-                    AppendText(TXT_terminal, Substring);
+                    AppendText(Substring);
                     if (data != "") data = data.Remove(0, backSpaceIndex);
                 }
-                    if (backSpaceIndex == -1) backSpaceIndex = data.Length;
-                    if (backSpaceKey == "\b \b")
-                    {
-                        CursorBack("\u001b[D");
-                        ClearLine("\u001b[K");
-                    }
-                    else if (backSpaceKey == "\b")
-                    {
-                        TXT_terminal.SelectionStart = TXT_terminal.SelectionStart - 1;
-                    }
-                    if (data != "") data = data.Remove(data.IndexOf(backSpaceKey), backSpaceKey.Length);
+                if (backSpaceIndex == -1) backSpaceIndex = data.Length;
+                //If double backspace then need to clearline, if not just move cursor back
+                if (backSpaceKey == "\b \b")
+                {
+                    CursorBack("\u001b[D");
+                    ClearLine("\u001b[K");
+                }
+                else if (backSpaceKey == "\b")
+                {
+                    TXT_terminal.SelectionStart = TXT_terminal.SelectionStart - 1;
+                }
+                if (data != "") data = data.Remove(data.IndexOf(backSpaceKey), backSpaceKey.Length);
             }
             return data;
         }
 
-        private void AppendText(RichTextBox box, string text)
+        private void AppendText(string text)
         {
             int lastIndex = 0;
             int firstchar = 0;
             if (text == "\n" || text == "") return;
-            if (text.Contains("\b \b")) text = Backspace(text, "\b \b");
-            if (text.Contains("\b")) text = Backspace(text, "\b");
-            var index = box.SelectionStart;
-            var line = box.GetLineFromCharIndex(index);
+            if (text.Contains("\b \b")) text = BackspaceHandler(text, "\b \b");
+            if (text.Contains("\b")) text = BackspaceHandler(text, "\b");
+            var index = TXT_terminal.SelectionStart;
+            var line = TXT_terminal.GetLineFromCharIndex(index);
             var length = 0;
-            if (box.Lines.Count() > line && box.Lines[line] != "")
+            if (TXT_terminal.Lines.Count() > line && TXT_terminal.Lines[line] != "")
             {
-                lastIndex = box.Lines[line].LastIndexOf(box.Lines[line].Last());
-                firstchar = box.GetFirstCharIndexFromLine(line);
+                lastIndex = TXT_terminal.Lines[line].LastIndexOf(TXT_terminal.Lines[line].Last());
+                firstchar = TXT_terminal.GetFirstCharIndexFromLine(line);
                 length = lastIndex + firstchar;
             }
-
+            //Check if we need to scroll one up
+            if (line == ScreenHeight)
+            {
+                ScreenScroll();
+            }
+            //Set selection length based on length of line
             if (index <= length)
             {
                 if (index + text.Length > length)
-                    box.SelectionLength = (length - index) + 1;
+                    TXT_terminal.SelectionLength = (length - index) + 1;
                 else
-                    box.SelectionLength = text.Length;
+                    TXT_terminal.SelectionLength = text.Length;
             }
-
-            if (box.SelectedText == "\n") { box.SelectedText = text + Environment.NewLine; }
-            else { box.SelectedText = text; }
-            box.Select(index, text.Length);
+            //Make sure not to remove newline character at the end of a line
+            if (TXT_terminal.SelectedText == "\n") { TXT_terminal.SelectedText = text + Environment.NewLine; }
+            else { TXT_terminal.SelectedText = text; }
+            //Apply Character Attributes
+            TXT_terminal.Select(index, text.Length);
             {
-                box.SelectionBackColor = SetBackground;
-                box.SelectionColor = DefaultColor;
-                if (Bold && Underline) box.SelectionFont = new Font(TXT_terminal.Font, FontStyle.Bold | FontStyle.Underline);
-                else if (Bold) box.SelectionFont = new Font(TXT_terminal.Font, FontStyle.Bold);
-                else if (Underline) box.SelectionFont = new Font(TXT_terminal.Font, FontStyle.Underline);
-                else box.SelectionFont = new Font(TXT_terminal.Font, FontStyle.Regular);
+                TXT_terminal.SelectionBackColor = SetBackground;
+                TXT_terminal.SelectionColor = DefaultColor;
+                if (Bold && Underline) TXT_terminal.SelectionFont = new Font(TXT_terminal.Font, FontStyle.Bold | FontStyle.Underline);
+                else if (Bold) TXT_terminal.SelectionFont = new Font(TXT_terminal.Font, FontStyle.Bold);
+                else if (Underline) TXT_terminal.SelectionFont = new Font(TXT_terminal.Font, FontStyle.Underline);
+                else TXT_terminal.SelectionFont = new Font(TXT_terminal.Font, FontStyle.Regular);
             }
-            index = box.SelectionStart;
+            index = TXT_terminal.SelectionStart;
             var position = index + text.Length;
-            box.Select(position, 0);
-
+            //Move cursor to end
+            TXT_terminal.Select(position, 0);
         }
 
         private void startreadthread()
@@ -1117,6 +1202,7 @@ namespace MissionPlanner.GCSViews
             logbrowse.Show();
         }
 
+        //Connect and Disconnect buttons have been condensed to one button
         private void BUT_RebootAPM_Click(object sender, EventArgs e)
         {
             if (Connected)
@@ -1171,7 +1257,6 @@ namespace MissionPlanner.GCSViews
                 start_Terminal(true);
             if (CMB_boardtype.Text.Contains("SSH"))
             { start_SSHterminal(); SSHTerminal = true; }
-
             TXT_terminal.Focus();
 
 
@@ -1213,7 +1298,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
-        #region ANSI resolvers
+        #region ANSI Escape Sequence Resolvers
         private void ResolveCommand(string command)
         {
             if (command.EndsWith("(B")) return;
@@ -1229,9 +1314,10 @@ namespace MissionPlanner.GCSViews
             if (command.EndsWith("J")) Clear(command);
             if (command.EndsWith("L")) NewLine();
             if (command.EndsWith("n")) ReportCursorPosition(command);
-            if (command.EndsWith("m")) EditDisplay(command); ;
+            if (command.EndsWith("m")) EditDisplay(command);
             if (command.EndsWith("r")) SetScrollSize(command);
             if (command.EndsWith("P")) DeleteChars(command);
+            if (command.EndsWith("Q")) ReverseOrder(command);
             if (command.EndsWith("S")) ScrollUp(command);
             if (command.EndsWith("T")) ScrollDown(command);
             if (command.EndsWith("X")) RemoveChars(command);
@@ -1333,14 +1419,12 @@ namespace MissionPlanner.GCSViews
 
         private void CursorToLine(int line)
         {
-
+            //If line is bigger or equal to screen height, then we need to scroll up
+            if (line >= ScreenHeight) { ScreenScroll(); if (line > ScreenHeight) { line = ScreenHeight; } else { line--; } }
             int index = TXT_terminal.SelectionStart;
             int currentLine = TXT_terminal.GetLineFromCharIndex(index);
             int rowIndex = TXT_terminal.GetFirstCharIndexFromLine(line);
-            if (Resizing)
-            {
-                if (line > ScreenHeight) line = ScreenHeight;
-            }
+            //If line exists move to it else loop until we reach that line
             if (rowIndex != -1)
             {
                 TXT_terminal.Select(rowIndex, 1);
@@ -1352,9 +1436,10 @@ namespace MissionPlanner.GCSViews
                     int charIndex = TXT_terminal.GetFirstCharIndexFromLine(i);
                     if (charIndex == -1)
                     {
-                        if (i == line)
+                        int SelectionIndex = TXT_terminal.GetFirstCharIndexFromLine(i - 1);
+                        if (i == line && SelectionIndex != -1)
                         {
-                            TXT_terminal.Select(TXT_terminal.GetFirstCharIndexFromLine(i - 1), 0);
+                            TXT_terminal.Select(SelectionIndex, 0);
                             TXT_terminal.AppendText("\r");
                             TXT_terminal.Select(TXT_terminal.GetFirstCharIndexFromLine(i), 1);
                         }
@@ -1369,7 +1454,7 @@ namespace MissionPlanner.GCSViews
                     }
                 }
             }
-            Resizing = false;
+
         }
 
         private void CursorToColumn(string command)
@@ -1384,11 +1469,9 @@ namespace MissionPlanner.GCSViews
             int line = TXT_terminal.GetLineFromCharIndex(index);
             int firstChar = TXT_terminal.GetFirstCharIndexFromLine(line);
             if (firstChar == -1) { firstChar = index; }
+            //If column is bigger than max set to max column
+            if (column > ScreenWidth) column = ScreenWidth;
             //Loop until find coloumn
-            if (column > MaxColumns)
-            {
-                column = MaxColumns;
-            }
             for (int i = 0; i < column; i++)
             {
                 TXT_terminal.Select(firstChar, 1);
@@ -1450,7 +1533,7 @@ namespace MissionPlanner.GCSViews
             else if (command.Contains("1"))
             {
                 TXT_terminal.Select(charIndex, index - charIndex);
-                AppendText(TXT_terminal, new string(' ', index - charIndex));
+                AppendText(new string(' ', index - charIndex));
                 TXT_terminal.Select(index, 0);
             }
             //Clear line right of cursor
@@ -1495,6 +1578,7 @@ namespace MissionPlanner.GCSViews
             TXT_terminal.SelectionStart = index++;
         }
 
+        //Calulate Cursor Position and report back using shellstream, used for resize
         private void ReportCursorPosition(string command)
         {
             int value = Convert.ToInt32((command.Substring(command.IndexOf('[') + 1, command.Length - command.IndexOf('[') - 2)));
@@ -1514,6 +1598,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        //Set character attributes based on command
         private void EditDisplay(string command)
         {
             var pattern = @"\e\[(\d+;)*\d+m";
@@ -1573,18 +1658,24 @@ namespace MissionPlanner.GCSViews
 
         private void SetScrollSize(string command)
         {
+            //Set screen to specified size
             if (command.Contains(";"))
             {
-                ScreenHeight = Convert.ToInt32(command.Substring(command.IndexOf(';') + 1, command.IndexOf('r') - 1 - command.IndexOf(';')));
+                int height = Convert.ToInt32(command.Substring(command.IndexOf(';') + 1, command.IndexOf('r') - 1 - command.IndexOf(';')));
+                if (height != 0 && height >= ScreenHeight) { ScreenHeight = height; }
             }
             else
             {
-                ScreenHeight = MaxLines;
+                //Set screen size to size of the window
+                int height = TXT_terminal.Size.Height;
+                int width = TXT_terminal.Size.Width;
+                ScreenHeight = height / 17;
+                ScreenWidth = width / 9;
             }
-            Resizing = true;
-            if (ScreenHeight == 0) { ScreenHeight = MaxLines; }
+            LineCounter = ScreenHeight - 1;
         }
 
+        //Delete given number of characters and replace with nothing
         private void DeleteChars(string command)
         {
             int delNum = Convert.ToInt32((command.Substring(command.IndexOf('[') + 1, command.Length - command.IndexOf('[') - 2)));
@@ -1592,6 +1683,19 @@ namespace MissionPlanner.GCSViews
             int currentLine = TXT_terminal.GetLineFromCharIndex(index);
             TXT_terminal.Select(index, delNum);
             TXT_terminal.SelectedText = "";
+        }
+
+        //Reverse order of data so first line is printed on last line
+        private void ReverseOrder(string command)
+        {
+            int firstChar = TXT_terminal.GetFirstCharIndexOfCurrentLine();
+            int line = TXT_terminal.GetLineFromCharIndex(firstChar);
+            line = ScreenHeight - line;
+            if (LineCounter > 0)
+            {
+                CursorToLine(LineCounter);
+                LineCounter--;
+            }
         }
 
         private void ScrollUp(string command)
@@ -1609,27 +1713,30 @@ namespace MissionPlanner.GCSViews
                 TXT_terminal.SelectionStart = LastIndex;
             }
             int scrollNum = Convert.ToInt32((command.Substring(command.IndexOf('[') + 1, command.Length - command.IndexOf('[') - 2)));
+            //Scroll up to top of replacement text
             CursorUp("\u001b[" + scrollNum + "A");
             int IntitialScrollIndex = TXT_terminal.SelectionStart;
-
-
+            //Select replacement text and save it
             TXT_terminal.Select(IntitialScrollIndex, LastIndex - IntitialScrollIndex);
             string replacementText = TXT_terminal.SelectedText;
 
+            //Scroll to top of old text
             CursorUp("\u001b[" + scrollNum + "A");
             int FinalScrollIndex = TXT_terminal.SelectionStart;
 
+            //Select old text and replace with new text
             TXT_terminal.Select(FinalScrollIndex, IntitialScrollIndex - FinalScrollIndex);
-            string OldText = TXT_terminal.SelectedText;
             TXT_terminal.SelectedText = replacementText;
+
             int charIndex = TXT_terminal.GetFirstCharIndexOfCurrentLine();
             int line = TXT_terminal.GetLineFromCharIndex(charIndex);
+            //Replace lines with blank characters
             for (int i = line; i <= LastLine; i++)
             {
                 int firstchar = TXT_terminal.GetFirstCharIndexFromLine(i);
                 int length = TXT_terminal.Lines[i].Length;
                 TXT_terminal.SelectionStart = firstchar;
-                AppendText(TXT_terminal, new string(' ', length));
+                AppendText(new string(' ', length));
             }
             ArrowMovement = false;
         }
@@ -1641,30 +1748,35 @@ namespace MissionPlanner.GCSViews
             int FirstLine = TXT_terminal.GetLineFromCharIndex(LastIndex);
             int scrollNum = Convert.ToInt32((command.Substring(command.IndexOf('[') + 1, command.Length - command.IndexOf('[') - 2)));
 
+            //Scroll down to bottom of replacement text
             CursorDown("\u001b[" + scrollNum + "B");
             int IntitialScrollIndex = TXT_terminal.SelectionStart;
+            //Select replacement text and save it
             TXT_terminal.Select(IntitialScrollIndex, LastIndex - IntitialScrollIndex);
             string replacementText = TXT_terminal.SelectedText;
 
-            CursorDown("\u001b[" + scrollNum + "B");
+            //Scroll to bottom of old text
+            TXT_terminal.Select(IntitialScrollIndex, 0);
             CursorDown("\u001b[" + scrollNum + "B");
             int FinalScrollIndex = TXT_terminal.SelectionStart;
+            //Select old text and replace with new text
             TXT_terminal.Select(IntitialScrollIndex, FinalScrollIndex - IntitialScrollIndex);
-            string OldText = TXT_terminal.SelectedText;
             TXT_terminal.SelectedText = replacementText;
 
             int charIndex = TXT_terminal.GetFirstCharIndexOfCurrentLine();
             int line = TXT_terminal.GetLineFromCharIndex(IntitialScrollIndex);
+            //Replace lines with blank characters
             for (int i = FirstLine; i < line; i++)
             {
                 int firstchar = TXT_terminal.GetFirstCharIndexFromLine(i);
                 int length = TXT_terminal.Lines[i].Length;
                 TXT_terminal.SelectionStart = firstchar;
-                AppendText(TXT_terminal, new string(' ', length));
+                AppendText(new string(' ', length));
             }
             ArrowMovement = false;
         }
 
+        //Remove characters and replace them with the blank characters
         private void RemoveChars(string command)
         {
             int delNum = Convert.ToInt32((command.Substring(command.IndexOf('[') + 1, command.Length - command.IndexOf('[') - 2)));
@@ -1686,6 +1798,8 @@ namespace MissionPlanner.GCSViews
 
         #endregion
     }
+
+    //Class used to get connection details from user
     public static class Prompt
     {
         public static string ShowDialog(string text, string text2, string caption)
