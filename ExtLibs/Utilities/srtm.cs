@@ -192,8 +192,8 @@ namespace MissionPlanner.Utilities
                     lng -= x;
 
                     // values should be 0-1199, 1200 is for interpolation
-                    double xf = lng*(size - 2);
-                    double yf = lat*(size - 2);
+                    double xf = lng*(size - 1);
+                    double yf = lat*(size - 1);
 
                     int x_int = (int) xf;
                     double x_frac = xf - x_int;
@@ -210,7 +210,7 @@ namespace MissionPlanner.Utilities
 
                     double v1 = avg(alt00, alt10, x_frac);
                     double v2 = avg(alt01, alt11, x_frac);
-                    double v = avg(v1, v2, -y_frac);
+                    double v = avg(v1, v2, 1-y_frac);
 
                     if (v < -1000)
                         return altresponce.Invalid;
