@@ -41,11 +41,11 @@ build_script:
 
     cd c:\mp\
 
-    if exist date.txt set /p datecheck=<date.txt
+    rem if exist date.txt set /p datecheck=<date.txt
 
-    echo %date% > datenow.txt
+    rem echo %date% > datenow.txt
 
-    if exist datenow.txt set /p datenow=<datenow.txt
+    rem if exist datenow.txt set /p datenow=<datenow.txt
 
     rem if not "%datecheck%"=="%datenow%" echo %date% > date.txt
 
