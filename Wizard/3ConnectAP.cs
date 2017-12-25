@@ -165,7 +165,7 @@ namespace MissionPlanner.Wizard
             return false;
         }
 
-        void pdr_DoWork(object sender, Controls.ProgressWorkerEventArgs e, object passdata = null)
+        void pdr_DoWork(IProgressReporterDialogue sender)
         {
             // upload fw
 
@@ -179,7 +179,7 @@ namespace MissionPlanner.Wizard
 
             if (swlist.Count == 0)
             {
-                e.ErrorMessage = "Error getting Firmware list";
+                sender.doWorkArgs.ErrorMessage = "Error getting Firmware list";
                 return;
             }
 
@@ -197,9 +197,9 @@ namespace MissionPlanner.Wizard
             string target = Wizard.config["fwframe"].ToString();
 
 
-            if (e.CancelRequested)
+            if (sender.doWorkArgs.CancelRequested)
             {
-                e.CancelAcknowledged = true;
+                sender.doWorkArgs.CancelAcknowledged = true;
                 return;
             }
 
@@ -220,7 +220,7 @@ namespace MissionPlanner.Wizard
                         }
                         if (fwdone == false)
                         {
-                            e.ErrorMessage = "Error uploading Firmware";
+                            sender.doWorkArgs.ErrorMessage = "Error uploading Firmware";
                             return;
                         }
                         break;
@@ -230,15 +230,15 @@ namespace MissionPlanner.Wizard
                     break;
             }
 
-            if (e.CancelRequested)
+            if (sender.doWorkArgs.CancelRequested)
             {
-                e.CancelAcknowledged = true;
+                sender.doWorkArgs.CancelAcknowledged = true;
                 return;
             }
 
             if (!fwdone)
             {
-                e.ErrorMessage = "Error with Firmware";
+                sender.doWorkArgs.ErrorMessage = "Error with Firmware";
                 return;
             }
 

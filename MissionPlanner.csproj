@@ -245,6 +245,7 @@
     <Compile Include="CodeGen.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="ConnectionOptions.cs"> <SubType>Control</SubType> </Compile>
+    <Compile Include="Controls\Forms\OpenGLPage.cs" />
     <Compile Include="Controls\Forms\MavlinkCheckBox.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

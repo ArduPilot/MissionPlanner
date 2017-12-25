@@ -89,7 +89,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             pdr.Dispose();
         }
 
-        private void pdr_DoWork(object sender, ProgressWorkerEventArgs e, object passdata = null)
+        private void pdr_DoWork(IProgressReporterDialogue sender)
         {
             var fw = new Firmware();
             fw.Progress -= fw_Progress1;

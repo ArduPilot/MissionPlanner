@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace MissionPlanner.Controls
 {
-    public delegate void DoWorkEventHandler(object sender, ProgressWorkerEventArgs e, object passdata = null);
+    public delegate void DoWorkEventHandler(IProgressReporterDialogue sender);
 
     public interface IProgressReporterDialogue
     {
@@ -24,6 +24,8 @@ namespace MissionPlanner.Controls
         /// <param name="progress">progress in %, -1 means inderteminate</param>
         /// <param name="status"></param>
         void UpdateProgressAndStatus(int progress, string status);
+
+        IAsyncResult BeginInvoke(Delegate method);
     }
 
     public class ProgressWorkerEventArgs : EventArgs

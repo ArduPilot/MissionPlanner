@@ -1985,7 +1985,7 @@ namespace MissionPlanner.GCSViews
             frmProgressReporter.Dispose();
         }
 
-        void getWPs(object sender, ProgressWorkerEventArgs e, object passdata = null)
+        void getWPs(IProgressReporterDialogue sender)
         {
             List<Locationwp> cmds = new List<Locationwp>();
 
@@ -2159,7 +2159,7 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
-            ProgressReporterDialogue frmProgressReporter = new ProgressReporterDialogue
+            IProgressReporterDialogue frmProgressReporter = new ProgressReporterDialogue
             {
                 StartPosition = FormStartPosition.CenterScreen,
                 Text = "Sending WP's"
@@ -2230,7 +2230,7 @@ namespace MissionPlanner.GCSViews
             return commands;
         }
 
-        void saveWPs(object sender, ProgressWorkerEventArgs e, object passdata = null)
+        void saveWPs(IProgressReporterDialogue sender)
         {
             try
             {
@@ -2410,12 +2410,12 @@ namespace MissionPlanner.GCSViews
 
                     if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_NO_SPACE)
                     {
-                        e.ErrorMessage = "Upload failed, please reduce the number of wp's";
+                        sender.doWorkArgs.ErrorMessage = "Upload failed, please reduce the number of wp's";
                         return;
                     }
                     if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_INVALID)
                     {
-                        e.ErrorMessage =
+                        sender.doWorkArgs.ErrorMessage =
                             "Upload failed, mission was rejected byt the Mav,\n item had a bad option wp# " + a + " " +
                             ans;
                         return;
@@ -2434,7 +2434,7 @@ namespace MissionPlanner.GCSViews
                     }
                     if (ans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
                     {
-                        e.ErrorMessage = "Upload wps failed " + Enum.Parse(typeof (MAVLink.MAV_CMD), temp.id.ToString()) +
+                        sender.doWorkArgs.ErrorMessage = "Upload wps failed " + Enum.Parse(typeof (MAVLink.MAV_CMD), temp.id.ToString()) +
                                          " " + Enum.Parse(typeof (MAVLink.MAV_MISSION_RESULT), ans.ToString());
                         return;
                     }

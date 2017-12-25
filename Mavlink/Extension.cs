@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Windows.Forms;
+using MissionPlanner;
+using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
 using Newtonsoft.Json;
 
-namespace MissionPlanner.Mavlink
+public static class Extension
 {
-    static class Extension
+    public static string ToJSON(this MAVLink.MAVLinkMessage msg)
     {
-        public static string ToJSON(this MAVLink.MAVLinkMessage msg)
-        {
-            return JsonConvert.SerializeObject(msg);
-        }
+        return JsonConvert.SerializeObject(msg);
+    }
 
-        public static MAVLink.MAVLinkMessage FromJSON(this string msg)
-        {
-            return JsonConvert.DeserializeObject<MAVLink.MAVLinkMessage>(msg);
-        }
+    public static MAVLink.MAVLinkMessage FromJSON(this string msg)
+    {
+        return JsonConvert.DeserializeObject<MAVLink.MAVLinkMessage>(msg);
     }
 }

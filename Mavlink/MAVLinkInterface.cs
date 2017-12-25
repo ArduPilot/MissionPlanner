@@ -350,17 +350,17 @@ namespace MissionPlanner
             }
         }
 
-        void FrmProgressReporterDoWorkAndParams(object sender, ProgressWorkerEventArgs e, object passdata = null)
+        void FrmProgressReporterDoWorkAndParams(IProgressReporterDialogue sender)
         {
-            OpenBg(sender, true, e);
+            OpenBg(sender, true);
         }
 
-        void FrmProgressReporterDoWorkNOParams(object sender, ProgressWorkerEventArgs e, object passdata = null)
+        void FrmProgressReporterDoWorkNOParams(IProgressReporterDialogue sender)
         {
-            OpenBg(sender, false, e);
+            OpenBg(sender, false);
         }
 
-        private void OpenBg(object PRsender, bool getparams, ProgressWorkerEventArgs progressWorkerEventArgs)
+        private void OpenBg(IProgressReporterDialogue PRsender, bool getparams)
         {
             frmProgressReporter.UpdateProgressAndStatus(-1, Strings.MavlinkConnecting);
 
@@ -386,7 +386,7 @@ namespace MissionPlanner
 
                     if (BaseStream is UdpSerial)
                     {
-                        progressWorkerEventArgs.CancelRequestChanged += (o,e) => { ((UdpSerial)BaseStream).CancelConnect = true;
+                        PRsender.doWorkArgs.CancelRequestChanged += (o,e) => { ((UdpSerial)BaseStream).CancelConnect = true;
                                                                                      ((ProgressWorkerEventArgs) o)
                                                                                          .CancelAcknowledged = true;
                         };
@@ -424,9 +424,9 @@ namespace MissionPlanner
 
                 while (true)
                 {
-                    if (progressWorkerEventArgs.CancelRequested)
+                    if (PRsender.doWorkArgs.CancelRequested)
                     {
-                        progressWorkerEventArgs.CancelAcknowledged = true;
+                        PRsender.doWorkArgs.CancelAcknowledged = true;
                         countDown.Stop();
                         if (BaseStream.IsOpen)
                             BaseStream.Close();
@@ -445,12 +445,12 @@ namespace MissionPlanner
 
                         if (hbseen)
                         {
-                            progressWorkerEventArgs.ErrorMessage = Strings.Only1Hb;
+                            PRsender.doWorkArgs.ErrorMessage = Strings.Only1Hb;
                             throw new Exception(Strings.Only1HbD);
                         }
                         else
                         {
-                            progressWorkerEventArgs.ErrorMessage = "No Heartbeat Packets Received";
+                            PRsender.doWorkArgs.ErrorMessage = "No Heartbeat Packets Received";
                             throw new Exception(@"Can not establish a connection\n
 Please check the following
 1. You have firmware loaded
@@ -558,8 +558,8 @@ Please check the following
                 {
                 }
                 giveComport = false;
-                if (string.IsNullOrEmpty(progressWorkerEventArgs.ErrorMessage))
-                    progressWorkerEventArgs.ErrorMessage = Strings.ConnectFailed;
+                if (string.IsNullOrEmpty(PRsender.doWorkArgs.ErrorMessage))
+                    PRsender.doWorkArgs.ErrorMessage = Strings.ConnectFailed;
                 log.Error(e);
                 throw;
             }
@@ -1135,7 +1135,7 @@ Please check the following
             }
         }
 
-        void FrmProgressReporterGetParams(object sender, ProgressWorkerEventArgs e, object passdata = null)
+        void FrmProgressReporterGetParams(IProgressReporterDialogue sender)
         {
             getParamList(MAV.sysid, MAV.compid);
         }

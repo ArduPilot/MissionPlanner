@@ -27,7 +27,7 @@ namespace MissionPlanner.Utilities
         public static bool dobeta = false;
         public static bool domaster = false;
 
-        public static void updateCheckMain(ProgressReporterDialogue frmProgressReporter)
+        public static void updateCheckMain(IProgressReporterDialogue frmProgressReporter)
         {
             var t = Type.GetType("Mono.Runtime");
             MONO = (t != null);
@@ -243,7 +243,7 @@ namespace MissionPlanner.Utilities
             frmProgressReporter.Dispose();
         }
 
-        static void CheckMD5(ProgressReporterDialogue frmProgressReporter, string md5url, string baseurl)
+        static void CheckMD5(IProgressReporterDialogue frmProgressReporter, string md5url, string baseurl)
         {
             L10N.ReplaceMirrorUrl(ref baseurl);
 
@@ -371,7 +371,7 @@ namespace MissionPlanner.Utilities
             return false;
         }
 
-        static void GetNewFileZip(ProgressReporterDialogue frmProgressReporter, string baseurl, string subdir, string file)
+        static void GetNewFileZip(IProgressReporterDialogue frmProgressReporter, string baseurl, string subdir, string file)
         {          
             // create dest dir
             string dir = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + subdir;
@@ -401,7 +401,7 @@ namespace MissionPlanner.Utilities
             ds.Dispose();
         }
 
-        static void GetNewFile(ProgressReporterDialogue frmProgressReporter, string baseurl, string subdir, string file)
+        static void GetNewFile(IProgressReporterDialogue frmProgressReporter, string baseurl, string subdir, string file)
         {
             // create dest dir
             string dir = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + subdir;
@@ -518,13 +518,13 @@ namespace MissionPlanner.Utilities
             }
         }
 
-        static void DoUpdateWorker_DoWork(object sender, ProgressWorkerEventArgs e, object passdata = null)
+        static void DoUpdateWorker_DoWork(IProgressReporterDialogue sender)
         {
             // TODO: Is this the right place?
 
             #region Fetch Parameter Meta Data
 
-            var progressReporterDialogue = ((ProgressReporterDialogue) sender);
+            var progressReporterDialogue = ((IProgressReporterDialogue) sender);
             progressReporterDialogue.UpdateProgressAndStatus(-1, "Getting Updated Parameters");
 
             try
