@@ -116,22 +116,7 @@ namespace MissionPlanner.Utilities
             // check the cache
             if (!_chunks.ContainsKey(start))
             {
-                var end = Math.Min(Length, start + chunksize);
-
-                // cache it
-                HttpWebRequest request = (HttpWebRequest) WebRequest.Create(_uri);
-                request.AddRange(start, end);
-                HttpWebResponse response = (HttpWebResponse) request.GetResponse();
-
-                Console.WriteLine("{0}: {1} - {2}", _uri, start, end);
-
-                MemoryStream ms = new MemoryStream();
-                using (Stream stream = response.GetResponseStream())
-                {
-                    stream.CopyTo(ms);
-
-                    _chunks[start] = ms;
-                }
+                GetChunk(start);
             }
 
             // return data
@@ -142,6 +127,11 @@ namespace MissionPlanner.Utilities
                 var bytesgot = 0;
                 var startchunk = getChunkNo(Position);
                 var endchunk = getChunkNo(Position + count - 1);
+
+                // download all chunks required
+                Parallel.For(start+1, endchunk+1, new ParallelOptions() {MaxDegreeOfParallelism = 3},
+                    ((l, state) => { GetChunk(l * chunksize); }));
+
                 for (long chunkno = startchunk; chunkno <= endchunk; chunkno++)
                 {
                     var leftinchunk = Position % chunksize == 0 ? chunksize : chunksize - (Position % chunksize);
@@ -156,6 +146,26 @@ namespace MissionPlanner.Utilities
             }
 
             return count;
+        }
+
+        private void GetChunk(long start)
+        {
+            var end = Math.Min(Length, start + chunksize);
+
+            // cache it
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(_uri);
+            request.AddRange(start, end);
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+            Console.WriteLine("{0}: {1} - {2}", _uri, start, end);
+
+            MemoryStream ms = new MemoryStream();
+            using (Stream stream = response.GetResponseStream())
+            {
+                stream.CopyTo(ms);
+
+                _chunks[start] = ms;
+            }
         }
 
         public override long Seek(long offset, SeekOrigin origin)
