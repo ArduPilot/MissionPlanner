@@ -273,6 +273,10 @@ namespace MissionPlanner.Utilities
                 // background md5
                 List<Tuple<string, string, Task<bool>>> tasklist = new List<Tuple<string, string, Task<bool>>>();
 
+                if (frmProgressReporter != null)
+                    frmProgressReporter.UpdateProgressAndStatus(-1,"Hashing Files");
+
+                // hash everything
                 MatchCollection matchs = regex.Matches(responseFromServer);
                 for (int i = 0; i < matchs.Count; i++)
                 {
@@ -284,8 +288,17 @@ namespace MissionPlanner.Utilities
                     tasklist.Add(new Tuple<string, string, Task<bool>>(file, hash, ismatch));
                 }
 
+                // get count and wait for all hashing to be done
+                int count = tasklist.Count(a =>
+                {
+                    a.Item3.Wait();
+                    return !a.Item3.Result;
+                });
+
                 // parallel download
                 ParallelOptions opt = new ParallelOptions() { MaxDegreeOfParallelism = 3 };
+
+                int done = 0;
 
                 Parallel.ForEach(tasklist, opt, task =>
                     //foreach (var task in tasklist)
@@ -298,13 +311,16 @@ namespace MissionPlanner.Utilities
 
                     if (!match)
                     {
+                        done++;
                         log.Info("Newer File " + file);
 
                         // check is we have already downloaded and matchs hash
                         if (!MD5File(file + ".new", hash))
                         {
                             if (frmProgressReporter != null)
-                                frmProgressReporter.UpdateProgressAndStatus(-1, Strings.Getting + file);
+                                frmProgressReporter.UpdateProgressAndStatus((int)((done/(double)count)*100),
+                                    Strings.Getting + file + "\n" + done + " of " + count + " of total " +
+                                    tasklist.Count);
 
                             string subdir = Path.GetDirectoryName(file) + Path.DirectorySeparatorChar;
 
@@ -394,6 +410,8 @@ namespace MissionPlanner.Utilities
                 return;
             }
 
+            log.InfoFormat("unzip {0}", file);
+
             entry.ExtractToFile(path + ".new", true);
 
             zip.Dispose();
@@ -445,10 +463,6 @@ namespace MissionPlanner.Utilities
                         log.Info(((HttpWebResponse) response).StatusDescription);
                         // Get the stream containing content returned by the server.
                         Stream dataStream = response.GetResponseStream();
-
-                        // update status
-                        if (frmProgressReporter != null)
-                            frmProgressReporter.UpdateProgressAndStatus(-1, Strings.Getting + file);
 
                         // from head
                         long bytes = response.ContentLength;
