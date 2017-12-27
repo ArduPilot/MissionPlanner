@@ -89,6 +89,9 @@ namespace MissionPlanner.Utilities
 
         private StatisticModus statsmodus = StatisticModus.None;
 
+        /// <summary>
+        /// Enum for different statistic modi
+        /// </summary>
         enum StatisticModus
         {
             GPS_Speed,
@@ -97,6 +100,9 @@ namespace MissionPlanner.Utilities
             None
         }
 
+        /// <summary>
+        /// Enum for different Plotpfofiles
+        /// </summary>
         public enum PlotProfile
         {
             Current,
@@ -171,6 +177,9 @@ namespace MissionPlanner.Utilities
             Warning
         }
 
+        /// <summary>
+        /// Enum for different states.
+        /// </summary>
         enum ESearchFlag
         {
             First,
@@ -238,6 +247,8 @@ namespace MissionPlanner.Utilities
         /// <summary>
         /// This should be a spline interpolation for the chart nodes.
         /// http://siegert.f2.htw-berlin.de/Buero/Arblaetter/arblSPLINE.html
+        /// The gaussian algorithm code has parts from 
+        /// https://trainyourprogrammer.de/csharp-122-loesen-eines-linearen-gleichungssystems.html
         /// </summary>
         /// <param name="_x">This are the supporting values for X</param>
         /// <param name="_y">This are the supporting values for Y</param>
@@ -284,7 +295,8 @@ namespace MissionPlanner.Utilities
                     }
                 }
             }
-
+            // testing gaussian algorithm
+            TestGauss();
             Double[] coeffs = Gauss(matrix);
 
             double[] c = new double[n + 1];
@@ -333,7 +345,8 @@ namespace MissionPlanner.Utilities
         }
 
         /// <summary>
-        /// This is the Gauss-Elimination-Algorithm.
+        /// This is the Gauss-Elimination-Algorithm. (code-idea from eulerscheZhl in "Train Your Programmer")
+        /// https://trainyourprogrammer.de/csharp-A122-L2-loesen-eines-linearen-gleichungssystems.html
         /// </summary>
         /// <param name="_matrix">coefficients matrix</param>
         /// <returns>coefficients as array</returns>
@@ -412,7 +425,7 @@ namespace MissionPlanner.Utilities
         /// <param name="_y">This are the supporting values for Y</param>
         /// <param name="_steps">This is the steps for each angle</param>
         /// <returns></returns>
-        private static List<PointF> LinearInterpolation(double[] _x, double[] _y, double _steps)
+        private List<PointF> LinearInterpolation(double[] _x, double[] _y, double _steps)
         {
             double n = _x.Length - 1;
             List<PointF> interpPoints = new List<PointF>();
@@ -550,6 +563,7 @@ namespace MissionPlanner.Utilities
 
                     break;
             }
+            // write interp-points into txt file
             WritePlotLogfile(profile);
             return validValues;
         }
@@ -586,13 +600,13 @@ namespace MissionPlanner.Utilities
                                     avrgCrnt.ChartType = SeriesChartType.Line;
                                     maxCrnt.ChartType = SeriesChartType.Line;
                                     minCrnt.ChartType = SeriesChartType.Line;
-                                    range.ChartType = SeriesChartType.Line;
+                                    range.ChartType = SeriesChartType.Range;
                                     break;
                                 case EnergyProfileModel.InterpolationMode.CubicSpline:
                                     avrgCrnt.ChartType = SeriesChartType.Spline;
                                     maxCrnt.ChartType = SeriesChartType.Spline;
                                     minCrnt.ChartType = SeriesChartType.Spline;
-                                    range.ChartType = SeriesChartType.Spline;
+                                    range.ChartType = SeriesChartType.SplineRange;
                                     break;
                             }
 
@@ -645,13 +659,13 @@ namespace MissionPlanner.Utilities
                                     avrgVel.ChartType = SeriesChartType.Line;
                                     maxVel.ChartType = SeriesChartType.Line;
                                     minVel.ChartType = SeriesChartType.Line;
-                                    range.ChartType = SeriesChartType.Line;
+                                    range.ChartType = SeriesChartType.Range;
                                     break;
                                 case EnergyProfileModel.InterpolationMode.CubicSpline:
                                     avrgVel.ChartType = SeriesChartType.Spline;
                                     maxVel.ChartType = SeriesChartType.Spline;
                                     minVel.ChartType = SeriesChartType.Spline;
-                                    range.ChartType = SeriesChartType.Spline;
+                                    range.ChartType = SeriesChartType.SplineRange;
                                     break;
                             }
 
@@ -827,6 +841,10 @@ namespace MissionPlanner.Utilities
             }
         }
 
+        /// <summary>
+        /// changing the fix deviation
+        /// </summary>
+        /// <param name="dev"></param>
         public void ChangeDeviation(int dev)
         {
             EnergyProfileModel.PercentDevCrnt = Math.Round(((double)dev / 100), 2);
@@ -983,7 +1001,7 @@ namespace MissionPlanner.Utilities
         /// <param name="profile">Current or Velocity</param>
         void WritePlotLogfile(PlotProfile profile)
         {
-            string path = _energyProfilePath + @"PlotProfile\";
+            string path = _energyProfilePath + @"InterpProfile\";
             // create dir if not exist
             if (!Directory.Exists(path))
             {
@@ -1055,12 +1073,27 @@ namespace MissionPlanner.Utilities
             var flighttime4 = CalcFlightTime(50, -37);
             var flighttime5 = CalcFlightTime(-50, -37);
 
-            Assert.IsEquals((double)0, flighttime1, "Wrong value (flighttime1) of CalculateClimbDistance");
-            Assert.IsEquals((double)6, flighttime2, "Wrong value (flighttime2) of CalculateClimbDistance");
-            Assert.IsEquals((double)0, flighttime3, "Wrong value (flighttime3) of CalculateClimbDistance");
-            Assert.IsEquals((double)0, flighttime4, "Wrong value (flighttime4) of CalculateClimbDistance");
-            Assert.IsEquals((double)0, flighttime5, "Wrong value (flighttime5) of CalculateClimbDistance");
+            Assert.IsEquals((double)0, flighttime1, "--> Wrong value (flighttime1) of CalculateClimbDistance");
+            Assert.IsEquals((double)6, flighttime2, "--> Wrong value (flighttime2) of CalculateClimbDistance");
+            Assert.IsEquals((double)0, flighttime3, "--> Wrong value (flighttime3) of CalculateClimbDistance");
+            Assert.IsEquals((double)0, flighttime4, "--> Wrong value (flighttime4) of CalculateClimbDistance");
+            Assert.IsEquals((double)0, flighttime5, "--> Wrong value (flighttime5) of CalculateClimbDistance");
         }
+
+        /// <summary>
+        /// Test for calculate coeff matrix over gaussian formula
+        /// </summary>
+        private void TestGauss()
+        {
+            double[,] testmatrix = {{2, 0.5, 0, -1.2}, { 0.5, 2, 0.5, -4.8 } , { 0, 0.5, 2, -1.2 } };
+
+            double[] coeff = Gauss(testmatrix);
+
+            Assert.IsEquals((double)0, coeff[0], "--> Wrong coeff[0] from gaussian algorithm.");
+            Assert.IsEquals((double)-2.4, coeff[1], "--> Wrong coeff[1] from gaussian algorithm.");
+            Assert.IsEquals((double)0, coeff[2], "--> Wrong coeff[2] from gaussian algorithm.");
+        }
+
 
         /// <summary>
         /// Test for calculate consumed energy
@@ -1316,13 +1349,13 @@ namespace MissionPlanner.Utilities
             SelectAngleSpeedValues();
             SelectHoverValue();
 
-            // print values as CSV
-            PrintCSV(logAnalizerModel.Angle_MeanCurrent, SectionType.Current);
-            PrintCSV(logAnalizerModel.Angle_MeanSpeed, SectionType.Speed);
-            PrintCSV(logAnalizerModel.AngleSection, SectionType.Current);
-            PrintCSV(logAnalizerModel.AngleSection, SectionType.Speed);
-            if (logAnalizerModel.HoverCurrentList.Count > 0)
-                PrintCSV(logAnalizerModel.HoverCurrentList, SectionType.Hover);
+            // print values as CSV for better offline statistics
+            //PrintCSV(logAnalizerModel.Angle_MeanCurrent, SectionType.Current);
+            //PrintCSV(logAnalizerModel.Angle_MeanSpeed, SectionType.Speed);
+            //PrintCSV(logAnalizerModel.AngleSection, SectionType.Current);
+            //PrintCSV(logAnalizerModel.AngleSection, SectionType.Speed);
+            //if (logAnalizerModel.HoverCurrentList.Count > 0)
+            //    PrintCSV(logAnalizerModel.HoverCurrentList, SectionType.Hover);
 
             Loading.Close(); // close loading window after analyze
 
@@ -1604,7 +1637,7 @@ namespace MissionPlanner.Utilities
                                 //    logfilemodel.Value.CMD_Lines[cmdindex].Angle, alt_diff);
 
                                 // second way for calculate speed
-                                logfilemodel.Value.CMD_Lines[cmdindex].Speed = CalcSpeed2(
+                                logfilemodel.Value.CMD_Lines[cmdindex].Speed = CalcGPSSpeed(
                                     logfilemodel.Value.GPS_Lines, logfilemodel.Value.CMD_Lines[cmdindex].Time_ms + gpsTransitionDelayTime,
                                     logfilemodel.Value.CMD_Lines[cmdindex + 1].Time_ms - gpsTransitionDelayTime);
 
@@ -1659,14 +1692,19 @@ namespace MissionPlanner.Utilities
                             }
                         }
                     }
-
-
                 }
-                PrintStatisticEnergyValues(logfilemodel.Value, logfilemodel.Key);
+                // For better statistic overview ... in release is that outcomment
+                //PrintStatisticEnergyValues(logfilemodel.Value, logfilemodel.Key);
             }
-            //logAnalizerModel.LogDictionary.GetEnumerator(RowType.CMD.ToString());
         }
 
+        /// <summary>
+        /// Get a list of energy values from beginning of a command until next comand
+        /// </summary>
+        /// <param name="currList">This is the all over current list.</param>
+        /// <param name="timestart">This is the timestamp from beginning command.</param>
+        /// <param name="timeend">This is the time from the ending command.</param>
+        /// <returns>Returns a list of double values: [0]=energytotaltime [s], [1]=energydiff, [2]=firstenergysample (CurrTot), [3]=lastenergysample (CurrTot) </returns>
         private double[] GetEnergyValues(List<CURR_Model> currList, int timestart, int timeend)
         {
             List<CURR_Model> tempCurrList = new List<CURR_Model>();
@@ -1683,15 +1721,12 @@ namespace MissionPlanner.Utilities
                         tempCurrList.Add(currModel);
                     }
                 }
-                //var energyfirst = currList.Find(x => x.Time_ms >= timestart);
-                //var energylast = currList.Find(x => x.Time_ms >= timeend);
                 var energyfirst = tempCurrList.First().TotalCurrennt;
                 var energylast = tempCurrList.Last().TotalCurrennt;
                 energy1 = Convert.ToDouble(energyfirst);
                 energy2 = Convert.ToDouble(energylast);
                 energytot = Convert.ToDouble(energylast) - Convert.ToDouble(energyfirst);
             }
-
             return new[] { energytime, energytot, energy1, energy2 };
         }
 
@@ -1702,7 +1737,7 @@ namespace MissionPlanner.Utilities
         /// <param name="timestart">Start_Time for first GPS_Sample</param>
         /// <param name="timeend">END_Time for last GPS_Sample</param>
         /// <returns>Get the GPS_Speed.</returns>
-        private double CalcSpeed2(List<GPS_Model> gpslist, int timestart, int timeend)
+        private double CalcGPSSpeed(List<GPS_Model> gpslist, int timestart, int timeend)
         {
             double speed = 0;
             bool start = false;
@@ -1885,7 +1920,7 @@ namespace MissionPlanner.Utilities
         /// <param name="angle">The climb or descent angle.</param>
         /// <param name="altitude">The difference of altitude from pos1 to pos2.</param>
         /// <returns>The result speed.</returns>
-        private double CalcSpeed(GPS_Model startmodel, GPS_Model endmodel, double angle, double altitude)
+        private double CalcSpeed2(GPS_Model startmodel, GPS_Model endmodel, double angle, double altitude)
         {
             double distance;
             double speed;
@@ -2469,7 +2504,7 @@ namespace MissionPlanner.Utilities
         {
             string path = Settings.Instance.LogDir + @"\CSV\";
             DateTime date = DateTime.Now;
-            string filename = date.ToString(CultureInfo.CurrentCulture).Replace(":", "_");
+            string filename = date.ToString("yyyy_MM_dd",CultureInfo.CurrentCulture).Replace(":", "_");
 
             // check if dirfectory exist
             if (!Directory.Exists(path))
@@ -2479,7 +2514,7 @@ namespace MissionPlanner.Utilities
             if (model.GetType() == typeof(Dictionary<double, double>))
             {
                 using (StreamWriter file =
-                new StreamWriter(path + filename + "_Angle_Mean" + sectiontype + ".csv"))
+                new StreamWriter(path + "Angle_Mean" + sectiontype + "_" + filename + ".csv"))
                 {
 
                     foreach (var line in (Dictionary<double, double>)model)
@@ -2493,7 +2528,7 @@ namespace MissionPlanner.Utilities
             {
 
                 using (StreamWriter file =
-                    new StreamWriter(path + filename + "_Angle_" + sectiontype + ".csv"))
+                    new StreamWriter(path + "Angle_" + sectiontype + "_" + filename + ".csv"))
                 {
                     file.WriteLine("angle; " + sectiontype);
                     foreach (var anglepair in (Dictionary<double, Dictionary<SectionType, List<double>>>)model)
@@ -2518,7 +2553,7 @@ namespace MissionPlanner.Utilities
             else if (model.GetType() == typeof(List<double>))
             {
                 using (StreamWriter file =
-                    new StreamWriter(path + filename + "_" + sectiontype + "_Current" + ".csv"))
+                    new StreamWriter(path + "_" + sectiontype + "_Current_" + filename + ".csv"))
                 {
 
                     foreach (var line in (List<double>)model)
@@ -2529,6 +2564,11 @@ namespace MissionPlanner.Utilities
             }
         }
 
+        /// <summary>
+        /// For statistic and value validation. Print the values of selected model in a seperate textfile.
+        /// </summary>
+        /// <param name="logmodel">specific logfilemodel</param>
+        /// <param name="logname">String of the logfilename</param>
         private void PrintStatisticEnergyValues(EnergyLogFileModel logmodel, string logname)
         {
             if (logmodel != null)
@@ -2539,7 +2579,6 @@ namespace MissionPlanner.Utilities
                 using (StreamWriter file =
                     new StreamWriter(path + filename + ".txt"))
                 {
-
                     foreach (var line in logmodel.EnergyDatas)
                     {
                         file.WriteLine("CMD --> " + line.Key + " || Time --> " + line.Value[0] + " || Energy --> " + line.Value[1] + " || E1 --> " + line.Value[2] + " || E2 --> " + line.Value[3]);
@@ -2548,6 +2587,12 @@ namespace MissionPlanner.Utilities
             }
         }
 
+        /// <summary>
+        /// Set the specific trigger of minimum flighttime and transition time
+        /// </summary>
+        /// <param name="currenttransstate">Flag for current vakues</param>
+        /// <param name="speedtransstate">Flag for speed values</param>
+        /// <param name="cmdflighttime">value for minimum flighttime</param>
         public void SetTransitionState(bool currenttransstate, bool speedtransstate, int cmdflighttime)
         {
             if (cmdflighttime > 0)

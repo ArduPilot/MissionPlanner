@@ -383,6 +383,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        /// <summary>
+        /// Set the interpolate mode in the energyprofile model.
+        /// </summary>
         private void SetInterpMode()
         {
             if (CB_Interp_Curr.Enabled)
@@ -401,6 +404,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        /// <summary>
+        /// If the user switch to other view its deactivate this state and do actions to check of valid values.
+        /// </summary>
         public void Deactivate()
         {
             SetInterpMode();
@@ -573,22 +579,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     VelocityTBDatabindings();
                     BtnPlotCrnt.PerformClick();
                     BtnPlotVelocity.PerformClick();
-
-                    //else
-                    //{
-                    //    CustomMessageBox.Show(
-                    //        "One or more values are incorrect. The energy-profile doesn't work.");
-                    //}
                     break;
                 case 1:
                     CrntTBDatabindings();
-                    //if (validprofile)
-                    //    BtnPlotCrnt.PerformClick();
-                    //else
-                    //{
-                    //    CustomMessageBox.Show(
-                    //        "One or more values are incorrect in current-model. The energy-profile doesn't work.");
-                    //}
                     break;
                 case 2:
                     CrntTBDatabindings();

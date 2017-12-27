@@ -9,6 +9,9 @@ using Transitions;
 
 namespace MissionPlanner.Utilities
 {
+    /// <summary>
+    /// Interface for configure the enery profile 
+    /// </summary>
     interface IConfigEnergyProfile
     {
         void ChangeDeviation(int dev);
@@ -27,6 +30,9 @@ namespace MissionPlanner.Utilities
         void SetTransitionState(bool currentstate, bool speedstate, int cmdflighttime);
 
     }
+    /// <summary>
+    /// Interface for caluclate the energy consumption
+    /// </summary>
     interface IEnergyConsumption
     {
         Dictionary<EnergyProfileController.ECID, double> EnergyConsumption(double distance_Horizontal, double angle, double altitudeDiff, double hoverTime);
