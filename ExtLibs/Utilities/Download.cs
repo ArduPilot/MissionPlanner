@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -129,8 +130,12 @@ namespace MissionPlanner.Utilities
                 var endchunk = getChunkNo(Position + count - 1);
 
                 // download all chunks required
-                Parallel.For(start+1, endchunk+1, new ParallelOptions() {MaxDegreeOfParallelism = 3},
-                    ((l, state) => { GetChunk(l * chunksize); }));
+                Parallel.For(startchunk + 1, endchunk + 1, new ParallelOptions() {MaxDegreeOfParallelism = 3},
+                    (l) =>
+                    {
+                        Console.WriteLine("Parallel download {0}: {1}", _uri, l * chunksize);
+                        GetChunk(l * chunksize);
+                    });
 
                 for (long chunkno = startchunk; chunkno <= endchunk; chunkno++)
                 {
@@ -148,23 +153,61 @@ namespace MissionPlanner.Utilities
             return count;
         }
 
+        private static List<string> gettingChunk = new List<string>();
+        private static object gettingChunkLock = new object();
+
         private void GetChunk(long start)
         {
-            var end = Math.Min(Length, start + chunksize);
-
-            // cache it
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(_uri);
-            request.AddRange(start, end);
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-
-            Console.WriteLine("{0}: {1} - {2}", _uri, start, end);
-
-            MemoryStream ms = new MemoryStream();
-            using (Stream stream = response.GetResponseStream())
+            var key = _uri + "-" + start;
+            try
             {
-                stream.CopyTo(ms);
+                var test = false;
+                do
+                {
+                    lock (gettingChunkLock)
+                    {
+                        // see if we are already getting it
+                        test = gettingChunk.Contains(key);
+                    }
 
-                _chunks[start] = ms;
+                    if (test)
+                    {
+                        Thread.Sleep(50);
+                    }
+                    else
+                    {
+                        // we dont have it and we need to get it
+                        gettingChunk.Add(key);
+                    }
+                } while (test);
+
+                // we have it already
+                if (_chunks.ContainsKey(start))
+                    return;
+
+                var end = Math.Min(Length, start + chunksize);
+
+                // cache it
+                HttpWebRequest request = (HttpWebRequest) WebRequest.Create(_uri);
+                request.AddRange(start, end);
+                HttpWebResponse response = (HttpWebResponse) request.GetResponse();
+
+                Console.WriteLine("{0}: {1} - {2}", _uri, start, end);
+
+                MemoryStream ms = new MemoryStream();
+                using (Stream stream = response.GetResponseStream())
+                {
+                    stream.CopyTo(ms);
+
+                    _chunks[start] = ms;
+                }
+            }
+            finally
+            {
+                lock (gettingChunkLock)
+                {
+                    gettingChunk.Remove(key);
+                }
             }
         }
 
