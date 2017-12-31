@@ -77,6 +77,7 @@ namespace MissionPlanner.Log
                             }
                         }
                     }
+                    cf.Close();
                 }
                 else if (logfile.ToLower().EndsWith(".bin") || logfile.ToLower().EndsWith(".log"))
                 {

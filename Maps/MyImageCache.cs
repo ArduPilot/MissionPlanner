@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Windows.Forms;
 using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
@@ -53,8 +52,7 @@ namespace MissionPlanner.Maps
                     }
                     catch
                     {
-                        CustomMessageBox.Show("Error creating cache directory " + dir + ", the program will now exit.");
-                        Application.Exit();
+                        throw;
                     }
                 }
 
