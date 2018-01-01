@@ -205,7 +205,7 @@ namespace wix
 
     <PropertyRef Id=""WIX_IS_NETFRAMEWORK_46_OR_LATER_INSTALLED"" />
 
-    <Condition Message=""This application requires .NET Framework 4.0. Please install the .NET Framework then run this installer again.""><![CDATA[Installed OR WIX_IS_NETFRAMEWORK_46_OR_LATER_INSTALLED]]></Condition>
+    <Condition Message=""This application requires .NET Framework 4.6.1. Please install the .NET Framework then run this installer again.""><![CDATA[Installed OR WIX_IS_NETFRAMEWORK_46_OR_LATER_INSTALLED]]></Condition>
 
     <Media Id=""1"" Cabinet=""product.cab"" EmbedCab=""yes"" />
 
