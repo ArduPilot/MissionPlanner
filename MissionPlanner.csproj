@@ -396,7 +396,6 @@
     <Compile Include="Log\LogDownloadMavLink.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Log\LogDownloadscp.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Log\LogIndex.cs"> <SubType>Control</SubType> </Compile>
-    <Compile Include="Log\LogOutput.cs" />
     <Compile Include="Log\LogSort.cs" />
     <Compile Include="Log\MatLab.cs" />
     <Compile Include="Log\MavlinkLog.cs"> <SubType>Control</SubType> </Compile>

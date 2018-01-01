@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Windows.Forms;
 using Core.Geometry;
 using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
@@ -389,7 +388,7 @@ namespace MissionPlanner.Log
                     Path.GetFileNameWithoutExtension(filename) + ".gpx", Encoding.ASCII);
 
             xw.WriteStartElement("gpx");
-            xw.WriteAttributeString("creator", MainV2.instance.Text);
+            xw.WriteAttributeString("creator", "Mission Planner");
             xw.WriteAttributeString("xmlns", "http://www.topografix.com/GPX/1/1");
 
             xw.WriteStartElement("trk");
@@ -868,7 +867,7 @@ gnssId GNSS Type
                 Style style2 = new Style();
                 Color color = Color.FromArgb(0xff, (stylecode >> 16) & 0xff, (stylecode >> 8) & 0xff,
                     (stylecode >> 0) & 0xff);
-                log.Info("colour " + color.ToArgb().ToString("X") + " " + color.ToKnownColor().ToString());
+                log.Info("colour " + color.ToArgb().ToString("X") + " " + color.ToString());
                 style2.Add(new LineStyle(color, 4));
 
 

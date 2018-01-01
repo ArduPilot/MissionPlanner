@@ -128,7 +128,7 @@ namespace tlogThumbnailHandler
 
             try
             {
-                Core Core = new Core();
+                var Core = new GMap.NET.Internals.Core();
                 GMaps.Instance.UseMemoryCache = false;
                 GMaps.Instance.CacheOnIdleRead = false;
                 GMaps.Instance.BoostCacheEngine = true;
