@@ -309,7 +309,7 @@ namespace MissionPlanner
         /// <summary>
         /// spech engine static class
         /// </summary>
-        public static Speech speechEngine { get; set; }
+        public static ISpeech speechEngine { get; set; }
 
         /// <summary>
         /// joystick static class

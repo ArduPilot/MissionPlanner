@@ -7,6 +7,10 @@ namespace uploader
 {
     public class IHex : SortedList<uint, byte[]>
     {
+        public delegate void LogEventHandler(string message, int level = 0);
+
+        public delegate void ProgressEventHandler(double completed);
+
         public bool bankingDetected;
 
         private readonly SortedList<uint, uint> merge_index;
@@ -18,9 +22,9 @@ namespace uploader
             merge_index = new SortedList<uint, uint>();
         }
 
-        public event Sikradio.LogEventHandler LogEvent;
+        public event LogEventHandler LogEvent;
 
-        public event Sikradio.ProgressEventHandler ProgressEvent;
+        public event ProgressEventHandler ProgressEvent;
 
         public void load(string fromPath)
         {

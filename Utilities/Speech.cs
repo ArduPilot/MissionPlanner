@@ -8,7 +8,7 @@ using log4net;
 
 namespace MissionPlanner.Utilities
 {
-    public class Speech: IDisposable
+    public class Speech: IDisposable, ISpeech
     {
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 

@@ -18,10 +18,6 @@ namespace MissionPlanner
 {
     public partial class Sikradio : UserControl
     {
-        public delegate void LogEventHandler(string message, int level = 0);
-
-        public delegate void ProgressEventHandler(double completed);
-
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         private bool beta;

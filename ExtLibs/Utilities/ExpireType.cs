@@ -9,12 +9,11 @@ namespace MissionPlanner.Utilities
     {
         DateTime _setAt;
         DateTime _expireAt;
-        T _expiredValue;
         T _value;
 
         public T Value
         {
-            get { if (DateTime.Now > _expireAt) return _expiredValue; return _value; }
+            get { return _value; }
             set { _value = value; }
         }
 

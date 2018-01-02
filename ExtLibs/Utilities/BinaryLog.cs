@@ -51,9 +51,6 @@ namespace MissionPlanner.Utilities
             public short[] Shorts;
         }
 
-        private string inputfn;
-        private string outputfn;
-
         object locker = new object();
  
         Dictionary<string, log_Format> logformat = new Dictionary<string, log_Format>();
