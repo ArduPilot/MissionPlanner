@@ -375,7 +375,7 @@ namespace MissionPlanner.Utilities
         }
 
         //https://stackoverflow.com/questions/13606523/retrieving-partial-content-using-multiple-http-requsets-to-fetch-data-via-parlle
-        public static void ParallelDownloadFile(string uri, string filePath, int chunkSize)
+        public static void ParallelDownloadFile(string uri, string filePath, int chunkSize = 0)
         {
             if (uri == null)
                 throw new ArgumentNullException("uri");
@@ -383,15 +383,19 @@ namespace MissionPlanner.Utilities
             // determine file size first
             long size = GetFileSize(uri);
 
+            if (chunkSize == 0)
+                chunkSize = (int)(size / 20);
+
             using (FileStream file = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.Write))
             {
                 file.SetLength(size); // set the length first
 
                 object syncObject = new object(); // synchronize file writes
-                Parallel.ForEach(LongRange(0, 1 + size / chunkSize), (start) =>
+                Parallel.ForEach(LongRange(0, 1 + size / chunkSize), new ParallelOptions { MaxDegreeOfParallelism = 3 }, (start) =>
                 {
                     HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
                     request.AddRange(start * chunkSize, start * chunkSize + chunkSize - 1);
+                    Console.WriteLine("{0} {1}-{2}", uri, start * chunkSize, start * chunkSize + chunkSize - 1);
                     HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
                     lock (syncObject)
