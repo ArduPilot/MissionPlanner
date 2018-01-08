@@ -449,10 +449,8 @@ namespace MissionPlanner.Utilities
                 {
                     ProcessStartInfo psi = new ProcessStartInfo(gstlaunch,
                         String.Format(
-                            //"-v udpsrc port={0} buffer-size=300000 ! application/x-rtp ! rtph264depay ! avdec_h264 ! queue leaky=2 ! videoconvert ! video/x-raw,format=BGRA ! queue leaky=2 ! rtpvrawpay ! tcpserversink host=127.0.0.1 port={1} sync=false",
-                            "-v udpsrc port={0} buffer-size=300000 ! application/x-rtp ! rtph264depay ! avdec_h264 ! queue leaky=2 ! avenc_mjpeg ! queue leaky=2 ! tcpserversink host=127.0.0.1 port={1} sync=false",
-                            //"-v udpsrc port={0} buffer-size=300000 ! application/x-rtp ! rtph264depay ! avdec_h264 ! glimagesink",
-                            UdpPort, OutputPort));
+                            "-v udpsrc port={0} buffer-size=300000 ! application/x-rtp ! rtph264depay ! avdec_h264 ",
+                            UdpPort));
 
                     if (custompipelinesrc != "")
                     {
@@ -462,6 +460,19 @@ namespace MissionPlanner.Utilities
                         {
                             psi.Arguments += String.Format(
                                 " ! queue leaky=2 ! tcpserversink host=127.0.0.1 port={0} sync=false",
+                                OutputPort);
+                        }
+                        else
+                        {
+                            psi.Arguments += " ! decodebin ! queue leaky=2 ! autovideosink";
+                        }
+                    }
+                    else
+                    {
+                        if (!externalpipeline)
+                        {
+                            psi.Arguments += String.Format(
+                                " ! queue leaky=2 ! avenc_mjpeg ! queue leaky=2 ! tcpserversink host=127.0.0.1 port={0} sync=false",
                                 OutputPort);
                         }
                         else
@@ -484,36 +495,13 @@ namespace MissionPlanner.Utilities
                     var process = Process.Start(psi);
                     GStreamer.processList.Add(process);
 
-                    var th = new Thread((() =>
-                    {
-                        using (StreamReader sr = process.StandardOutput)
-                        using (StreamReader sr2 = process.StandardError)
-                        {
-                            try
-                            {
-                                while (process != null && !process.HasExited)
-                                {
-                                    if(!sr.EndOfStream)
-                                        log.Info(sr.ReadLine());
-                                    if (!sr2.EndOfStream)
-                                        log.Info(sr2.ReadLine());
-
-                                    Thread.Sleep(1);
-                                }
-                            }
-                            catch
-                            {
-                            }
-                        }
-                    }));
-                    th.IsBackground = true;
-                    th.Start();
-
                     process.Exited += delegate(object sender, EventArgs args) { Stop(process); };
 
-                    //pipeServer.WaitForConnection();
+                    process.ErrorDataReceived += (sender, args) => { log.Error(args.Data); };
+                    process.OutputDataReceived += (sender, args) => { log.Info(args.Data); };
 
-                    //NamedPipeConnect(pipeServer);
+                    process.BeginOutputReadLine();
+                    process.BeginErrorReadLine();
 
                     System.Threading.ThreadPool.QueueUserWorkItem(_Start);
 
@@ -521,11 +509,6 @@ namespace MissionPlanner.Utilities
                 }
             }
             return null;
-        }
-
-        private static void Process_Exited(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
         }
 
         private static void NamedPipeConnect(NamedPipeServerStream pipeServer)
