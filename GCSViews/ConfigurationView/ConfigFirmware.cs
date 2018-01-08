@@ -321,7 +321,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         //Load custom firmware (old CTRL+C shortcut)
         private void Custom_firmware_label_Click(object sender, EventArgs e)
         {
-            using (var fd = new OpenFileDialog {Filter = "Firmware (*.hex;*.px4;*.vrx)|*.hex;*.px4;*.vrx|All files (*.*)|*.*" })
+            using (var fd = new OpenFileDialog {Filter = "Firmware (*.hex;*.px4;*.vrx;*.apj)|*.hex;*.px4;*.vrx;*.apj|All files (*.*)|*.*" })
             {
                 if (Directory.Exists(custom_fw_dir))
                     fd.InitialDirectory = custom_fw_dir;
@@ -336,7 +336,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     var boardtype = BoardDetect.boards.none;
                     try
                     {
-                        if (fd.FileName.ToLower().EndsWith(".px4"))
+                        if (fd.FileName.ToLower().EndsWith(".px4") || fd.FileName.ToLower().EndsWith(".apj"))
                         {
                             if (solo.Solo.is_solo_alive)
                             {
