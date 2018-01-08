@@ -1497,6 +1497,9 @@ namespace MissionPlanner
                         if ((ch3percent > 12  || _groundspeed > 3.0) && armed)
                             timeInAir++;
 
+                        if (!armed)
+                            timeInAir = 0;
+
                         if (!gotwind)
                             dowindcalc();
                     }
