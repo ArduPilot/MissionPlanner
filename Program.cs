@@ -381,6 +381,12 @@ namespace MissionPlanner
                 CustomMessageBox.Show("Serial connection has been lost");
                 return;
             }
+            if (ex.Message.Contains("Array.Empty"))
+            {
+                CustomMessageBox.Show("Please install Microsoft Dot Net 4.6.2");
+                Application.Exit();
+                return;
+            }
             if (ex.Message == "A device attached to the system is not functioning.")
             {
                 CustomMessageBox.Show("Serial connection has been lost");
