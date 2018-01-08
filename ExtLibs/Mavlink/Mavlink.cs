@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Fri Sep 15 2017";
+    public const string MAVLINK_BUILD_DATE = "Tue Jan 09 2018";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -779,8 +779,10 @@ AOA_SSA = 11020,
         SOLO_BTN_FLY_HOLD=42002, 
     	///<summary> PAUSE button has been clicked. |1 if Solo is in a shot mode, 0 otherwise| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
         SOLO_BTN_PAUSE_CLICK=42003, 
-    	///<summary> Magnetometer calibration based on fixed position in earth field |MagDeclinationDegrees| MagInclinationDegrees| MagIntensityMilliGauss| YawDegrees| Empty| Empty| Empty|  </summary>
+    	///<summary> Magnetometer calibration based on fixed position         in earth field given by inclination, declination and intensity |MagDeclinationDegrees| MagInclinationDegrees| MagIntensityMilliGauss| YawDegrees| Empty| Empty| Empty|  </summary>
         FIXED_MAG_CAL=42004, 
+    	///<summary> Magnetometer calibration based on fixed expected field values in milliGauss |FieldX| FieldY| FieldZ| Empty| Empty| Empty| Empty|  </summary>
+        FIXED_MAG_CAL_FIELD=42005, 
     	///<summary> Initiate a magnetometer calibration |uint8_t bitmask of magnetometers (0 means all)| Automatically retry on failure (0=no retry, 1=retry).| Save without user input (0=require input, 1=autosave).| Delay (seconds)| Autoreboot (0=user reboot, 1=autoreboot)| Empty| Empty|  </summary>
         DO_START_MAG_CAL=42424, 
     	///<summary> Initiate a magnetometer calibration |uint8_t bitmask of magnetometers (0 means all)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
@@ -801,6 +803,8 @@ AOA_SSA = 11020,
         GIMBAL_REQUEST_AXIS_CALIBRATION=42503, 
     	///<summary> Erases gimbal application and parameters |Magic number| Magic number| Magic number| Magic number| Magic number| Magic number| Magic number|  </summary>
         GIMBAL_FULL_RESET=42505, 
+    	///<summary> Command to operate winch |winch number (0 for the default winch, otherwise a number from 1 to max number of winches on the vehicle)| action (0=relax, 1=relative length control, 2=rate control.  See WINCH_ACTIONS enum)| release length (cable distance to unwind in meters, negative numbers to wind in cable)| release rate (meters/second)| Empty| Empty| Empty|  </summary>
+        DO_WINCH=42600, 
     
     };
     
@@ -863,6 +867,18 @@ AOA_SSA = 11020,
         GRIPPER_ACTION_RELEASE=0, 
     	///<summary> gripper grabs onto cargo | </summary>
         GRIPPER_ACTION_GRAB=1, 
+    
+    };
+    
+    ///<summary> Winch actions </summary>
+    public enum WINCH_ACTIONS: int /*default*/
+    {
+			///<summary> relax winch | </summary>
+        WINCH_RELAXED=0, 
+    	///<summary> winch unwinds or winds specified length of cable optionally using specified rate | </summary>
+        WINCH_RELATIVE_LENGTH_CONTROL=1, 
+    	///<summary> winch unwinds or winds cable at specified rate in meters/seconds | </summary>
+        WINCH_RATE_CONTROL=2, 
     
     };
     
@@ -2554,6 +2570,16 @@ AOA_SSA = 11020,
         RTK_FIXED=6, 
     	///<summary> Static fixed, typically used for base stations | </summary>
         STATIC=7, 
+    
+    };
+    
+    ///<summary> RTK GPS baseline coordinate system, used for RTK corrections </summary>
+    public enum RTK_BASELINE_COORDINATE_SYSTEM: byte
+    {
+			///<summary> Earth-centered, Earth-fixed | </summary>
+        ECEF=0, 
+    	///<summary> North, East, Down | </summary>
+        NED=1, 
     
     };
     
@@ -6143,8 +6169,8 @@ AOA_SSA = 11020,
         public  byte rtk_rate;
             /// <summary> Current number of sats used for RTK calculation. </summary>
         public  byte nsats;
-            /// <summary> Coordinate system of baseline. 0 == ECEF, 1 == NED </summary>
-        public  byte baseline_coords_type;
+            /// <summary> Coordinate system of baseline RTK_BASELINE_COORDINATE_SYSTEM</summary>
+        public  /*RTK_BASELINE_COORDINATE_SYSTEM*/byte baseline_coords_type;
     
     };
 
@@ -6177,8 +6203,8 @@ AOA_SSA = 11020,
         public  byte rtk_rate;
             /// <summary> Current number of sats used for RTK calculation. </summary>
         public  byte nsats;
-            /// <summary> Coordinate system of baseline. 0 == ECEF, 1 == NED </summary>
-        public  byte baseline_coords_type;
+            /// <summary> Coordinate system of baseline RTK_BASELINE_COORDINATE_SYSTEM</summary>
+        public  /*RTK_BASELINE_COORDINATE_SYSTEM*/byte baseline_coords_type;
     
     };
 
