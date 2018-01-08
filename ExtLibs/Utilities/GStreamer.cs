@@ -9,6 +9,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.IO.Pipes;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using log4net;
@@ -381,6 +382,10 @@ namespace MissionPlanner.Utilities
         {
             List<string> dirs = new List<string>();
 
+            dirs.Add(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+
+            dirs.Add(Settings.GetDataDirectory());
+
             DriveInfo[] allDrives = DriveInfo.GetDrives();
             foreach (DriveInfo d in allDrives)
             {
@@ -474,6 +479,7 @@ namespace MissionPlanner.Utilities
                     log.Info("Starting " + psi.FileName + " " + psi.Arguments);
 
                     psi.RedirectStandardOutput = true;
+                    psi.RedirectStandardError = true;
 
                     var process = Process.Start(psi);
                     GStreamer.processList.Add(process);
@@ -481,12 +487,18 @@ namespace MissionPlanner.Utilities
                     var th = new Thread((() =>
                     {
                         using (StreamReader sr = process.StandardOutput)
+                        using (StreamReader sr2 = process.StandardError)
                         {
                             try
                             {
                                 while (process != null && !process.HasExited)
                                 {
-                                    log.Info(sr.ReadLine());
+                                    if(!sr.EndOfStream)
+                                        log.Info(sr.ReadLine());
+                                    if (!sr2.EndOfStream)
+                                        log.Info(sr2.ReadLine());
+
+                                    Thread.Sleep(1);
                                 }
                             }
                             catch
