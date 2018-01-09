@@ -102,6 +102,8 @@ namespace MissionPlanner
             }
         }
 
+
+
         private float _groundcourse = 0;
 
         // position
@@ -169,6 +171,15 @@ namespace MissionPlanner
 
         [DisplayText("Sat Count")]
         public float satcount { get; set; }
+
+        [DisplayText("Horizontal Accuracy")]
+        public float gpsh_acc { get; private set; }
+        [DisplayText("Vertical Accuracy")]
+        public float gpsv_acc { get; private set; }
+        [DisplayText("Velocity Accuracy")]
+        public float gpsvel_acc { get; private set; }
+        [DisplayText("Heading Accuracy")]
+        public float gpshdg_acc { get; private set; }
 
         [DisplayText("Latitude2 (dd)")]
         public double lat2 { get; set; }
@@ -2173,6 +2184,21 @@ namespace MissionPlanner
 
                         groundspeed = gps.vel*1.0e-2f;
                         groundcourse = gps.cog*1.0e-2f;
+
+                        if (mavLinkMessage.ismavlink2)
+                        {
+                            gpsh_acc = gps.h_acc / 1000.0f;
+                            gpsv_acc = gps.v_acc / 1000.0f;
+                            gpsvel_acc = gps.vel_acc / 1000.0f;
+                            gpshdg_acc = gps.hdg_acc / 1e5f;
+                        }
+                        else
+                        {
+                            gpsh_acc = -1;
+                            gpsv_acc = -1;
+                            gpsvel_acc = -1;
+                            gpshdg_acc = -1;
+                        }
 
                         //MAVLink.packets[(byte)MAVLink.MSG_NAMES.GPS_RAW);
                     }
