@@ -172,6 +172,7 @@
             this.label1 = new MissionPlanner.Controls.MyLabel();
             this.CHK_autopan = new System.Windows.Forms.CheckBox();
             this.CB_tuning = new System.Windows.Forms.CheckBox();
+            this.Elevation_overlay = new System.Windows.Forms.CheckBox();
             this.ZedGraphTimer = new System.Windows.Forms.Timer(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.openScriptDialog = new System.Windows.Forms.OpenFileDialog();
@@ -2087,7 +2088,7 @@
             this.windDir1.BackColor = System.Drawing.Color.Transparent;
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Direction", this.bindingSource1, "wind_dir", true, System.Windows.Forms.DataSourceUpdateMode.Never));
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Speed", this.bindingSource1, "wind_vel", true, System.Windows.Forms.DataSourceUpdateMode.Never));
-            this.windDir1.Direction = 180D;
+            this.windDir1.Direction = 360D;
             resources.ApplyResources(this.windDir1, "windDir1");
             this.windDir1.Name = "windDir1";
             this.windDir1.Speed = 0D;
@@ -2190,6 +2191,7 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.CHK_autopan);
             this.panel1.Controls.Add(this.CB_tuning);
+            this.panel1.Controls.Add(this.Elevation_overlay);
             resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
             // 
@@ -2258,6 +2260,14 @@
             this.toolTip1.SetToolTip(this.CB_tuning, resources.GetString("CB_tuning.ToolTip"));
             this.CB_tuning.UseVisualStyleBackColor = true;
             this.CB_tuning.CheckedChanged += new System.EventHandler(this.CB_tuning_CheckedChanged);
+            // 
+            // Elevation_overlay
+            // 
+            resources.ApplyResources(this.Elevation_overlay, "Elevation_overlay");
+            this.Elevation_overlay.Name = "Elevation_overlay";
+            this.toolTip1.SetToolTip(this.Elevation_overlay, resources.GetString("Elevation_overlay.ToolTip"));
+            this.Elevation_overlay.UseVisualStyleBackColor = true;
+            this.Elevation_overlay.CheckedChanged += new System.EventHandler(this.Elevation_overlay_CheckedChanged);
             // 
             // ZedGraphTimer
             // 
@@ -2387,6 +2397,7 @@
         private Controls.HUD hud1;
         private Controls.MyButton BUT_clear_track;
         private System.Windows.Forms.CheckBox CB_tuning;
+        private System.Windows.Forms.CheckBox Elevation_overlay;
         private Controls.MyButton BUT_RAWSensor;
         private Controls.MyButton BUTactiondo;
         private Controls.MyButton BUTrestartmission;

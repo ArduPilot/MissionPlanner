@@ -2060,6 +2060,20 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        private void Elevation_overlay_CheckedChanged(object sender, EventArgs e)
+        {
+            RectLatLng p = gMapControl1.ViewArea;
+            if (Elevation_overlay.Checked)
+            {
+
+            }
+            else
+            {
+
+            }
+        }
+
+
         private void BUT_RAWSensor_Click(object sender, EventArgs e)
         {
             Form temp = new RAW_Sensor();
