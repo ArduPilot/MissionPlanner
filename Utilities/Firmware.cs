@@ -54,6 +54,7 @@ namespace MissionPlanner.Utilities
             public string urlvrbrainv50;
             public string urlvrbrainv51;
             public string urlvrbrainv52;
+            public string urlvrbrainv54;
             public string urlvrcorev10;
             public string urlvrubrainv51;
             public string urlvrubrainv52;
@@ -165,6 +166,7 @@ namespace MissionPlanner.Utilities
             string vrbrainv50 = "";
             string vrbrainv51 = "";
             string vrbrainv52 = "";
+            string vrbrainv54 = "";
             string vrcorev10 = "";
             string vrubrainv51 = "";
             string vrubrainv52 = "";
@@ -235,6 +237,9 @@ namespace MissionPlanner.Utilities
                             case "urlvrbrainv52":
                                 vrbrainv52 = xmlreader.ReadString();
                                 break;
+                            case "urlvrbrainv54":
+                                vrbrainv54 = xmlreader.ReadString();
+                                break;
                             case "urlvrcorev10":
                                 vrcorev10 = xmlreader.ReadString();
                                 break;
@@ -277,6 +282,7 @@ namespace MissionPlanner.Utilities
                                     temp.urlvrbrainv50 = vrbrainv50;
                                     temp.urlvrbrainv51 = vrbrainv51;
                                     temp.urlvrbrainv52 = vrbrainv52;
+                                    temp.urlvrbrainv54 = vrbrainv54;
                                     temp.urlvrcorev10 = vrcorev10;
                                     temp.urlvrubrainv51 = vrubrainv51;
                                     temp.urlvrubrainv52 = vrubrainv52;
@@ -299,6 +305,7 @@ namespace MissionPlanner.Utilities
                                 vrbrainv50 = "";
                                 vrbrainv51 = "";
                                 vrbrainv52 = "";
+                                vrbrainv54 = "";
                                 vrcorev10 = "";
                                 vrubrainv51 = "";
                                 vrubrainv52 = "";
@@ -524,6 +531,10 @@ namespace MissionPlanner.Utilities
                 else if (board == BoardDetect.boards.vrbrainv52)
                 {
                     baseurl = temp.urlvrbrainv52.ToString();
+                }
+                else if (board == BoardDetect.boards.vrbrainv54)
+                {
+                    baseurl = temp.urlvrbrainv54.ToString();
                 }
                 else if (board == BoardDetect.boards.vrcorev10)
                 {
@@ -1289,7 +1300,8 @@ namespace MissionPlanner.Utilities
 
             if (board == BoardDetect.boards.vrbrainv40 || board == BoardDetect.boards.vrbrainv45 ||
                 board == BoardDetect.boards.vrbrainv50 || board == BoardDetect.boards.vrbrainv51 ||
-                board == BoardDetect.boards.vrbrainv52 || board == BoardDetect.boards.vrcorev10 ||
+                board == BoardDetect.boards.vrbrainv52 || board == BoardDetect.boards.vrbrainv54 ||
+                board == BoardDetect.boards.vrcorev10 ||
                 board == BoardDetect.boards.vrubrainv51 || board == BoardDetect.boards.vrubrainv52)
             {
                 return UploadVRBRAIN(filename, board);
