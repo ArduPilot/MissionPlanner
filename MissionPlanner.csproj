@@ -289,7 +289,6 @@
     <Compile Include="Antenna\ITrackerOutput.cs" />
     <Compile Include="Antenna\Maestro.cs" />
     <Compile Include="Antenna\Tracker.cs"> <SubType>Control</SubType> </Compile>
-    <Compile Include="Comms\CommsSerialScan.cs" />
     <Compile Include="Controls\AuthKeys.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Controls\ConnectionControl.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Controls\ConnectionStats.cs"> <SubType>Control</SubType> </Compile>
@@ -1948,6 +1947,9 @@
     <None Include="version.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Comms\" />
   </ItemGroup>
 
 

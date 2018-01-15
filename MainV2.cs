@@ -2925,6 +2925,28 @@ namespace MissionPlanner
 
             ZeroConf.ProbeForRTSP();
 
+            CommsSerialScan.doConnect += port =>
+            {
+                if (MainV2.instance.InvokeRequired)
+                {
+                    MainV2.instance.BeginInvoke(
+                        (Action) delegate()
+                        {
+                            MAVLinkInterface mav = new MAVLinkInterface();
+                            mav.BaseStream = port;
+                            MainV2.instance.doConnect(mav, "preset", "0");
+                            MainV2.Comports.Add(mav);
+                        });
+                }
+                else
+                {
+                    MAVLinkInterface mav = new MAVLinkInterface();
+                    mav.BaseStream = port;
+                    MainV2.instance.doConnect(mav, "preset", "0");
+                    MainV2.Comports.Add(mav);
+                }
+            };
+
             try
             {
                 log.Info("Load AltitudeAngel");

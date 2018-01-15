@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
-using System.Windows.Forms;
 
 namespace MissionPlanner.Comms
 {
@@ -106,7 +105,7 @@ namespace MissionPlanner.Comms
 
                                         if (connect)
                                         {
-                                            doconnect(port);
+                                            doConnect?.Invoke(port);
                                         }
 
                                         break;
@@ -153,34 +152,9 @@ namespace MissionPlanner.Comms
             Console.WriteLine("Scan port {0} Finished!!", portname);
         }
 
-        static void doconnect(SerialPort port)
-        {
-            if (MainV2.instance == null)
-            {
-                MainV2.comPort.BaseStream = port;
-                MainV2.comPort.Open(false);
-            }
-            else
-            {
-                if (MainV2.instance.InvokeRequired)
-                {
-                    MainV2.instance.BeginInvoke(
-                        (Action) delegate()
-                        {
-                            MAVLinkInterface mav = new MAVLinkInterface();
-                            mav.BaseStream = port;
-                            MainV2.instance.doConnect(mav, "preset", "0");
-                            MainV2.Comports.Add(mav);
-                        });
-                }
-                else
-                {
-                    MAVLinkInterface mav = new MAVLinkInterface();
-                    mav.BaseStream = port;
-                    MainV2.instance.doConnect(mav, "preset", "0");
-                    MainV2.Comports.Add(mav);
-                }
-            }
-        }
+        public static event doconnect doConnect;
+
+        public delegate void doconnect(SerialPort port);
+
     }
 }
