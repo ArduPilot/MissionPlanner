@@ -31,6 +31,7 @@ namespace MissionPlanner.Utilities
             vrbrainv50,
             vrbrainv51,
             vrbrainv52,
+            vrbrainv54,
             vrcorev10,
             vrubrainv51,
             vrubrainv52,
@@ -180,6 +181,12 @@ namespace MissionPlanner.Utilities
                     {
                         log.Info("is a vrbrain 5.2 bootloader");
                         return boards.vrbrainv52;
+                    }
+
+                    if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_27AC&PID_1154"))
+                    {
+                        log.Info("is a vrbrain 5.4 bootloader");
+                        return boards.vrbrainv54;
                     }
 
                     if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_27AC&PID_1910"))

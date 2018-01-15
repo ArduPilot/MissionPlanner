@@ -321,6 +321,9 @@ namespace MissionPlanner
                     if (software.urlvrbrainv52 != "")
                         xmlwriter.WriteElementString("urlvrbrainv52",
                             new Uri(software.urlvrbrainv52).LocalPath.TrimStart('/', '\\'));
+                    if (software.urlvrbrainv54 != "")
+                        xmlwriter.WriteElementString("urlvrbrainv54",
+                            new Uri(software.urlvrbrainv54).LocalPath.TrimStart('/', '\\'));
                     if (software.urlvrcorev10 != "")
                         xmlwriter.WriteElementString("urlvrcorev10",
                             new Uri(software.urlvrcorev10).LocalPath.TrimStart('/', '\\'));
@@ -395,6 +398,11 @@ namespace MissionPlanner
                     {
                         Download.getFilefromNet(software.urlvrbrainv52,
                             basedir + new Uri(software.urlvrbrainv52).LocalPath);
+                    }
+                    if (software.urlvrbrainv54 != "")
+                    {
+                        Download.getFilefromNet(software.urlvrbrainv54,
+                            basedir + new Uri(software.urlvrbrainv54).LocalPath);
                     }
                     if (software.urlvrcorev10 != "")
                     {
