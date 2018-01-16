@@ -79,6 +79,7 @@ namespace MissionPlanner.GCSViews
         internal static GMapOverlay rallypointoverlay;
         internal static GMapOverlay photosoverlay;
         internal static GMapOverlay poioverlay = new GMapOverlay("POI"); // poi layer
+        internal static GMapOverlay elevationoverlay;
 
         List<TabPage> TabListOriginal = new List<TabPage>();
 
@@ -315,6 +316,9 @@ namespace MissionPlanner.GCSViews
 
             rallypointoverlay = new GMapOverlay("rally points");
             gMapControl1.Overlays.Add(rallypointoverlay);
+
+            elevationoverlay = new GMapOverlay("elevation overlay");
+            gMapControl1.Overlays.Add(elevationoverlay);
 
             gMapControl1.Overlays.Add(poioverlay);
 
@@ -1227,8 +1231,61 @@ namespace MissionPlanner.GCSViews
                                         log.Error(e);
                                     }
                                 }
+                                
+
                             }
                             waypoints = DateTime.Now;
+
+                        }
+                        elevationoverlay.Markers.Clear();
+                        if (Elevation_overlay.Checked)
+                        {
+                            List<Double> elev = new List<double>();
+                            PointLatLng lnglat = new PointLatLng();
+                            byte[,] imageData = new byte[gMapControl1.Width+3, gMapControl1.Height+1];
+
+                            for (int y = 0; y< gMapControl1.Height+1; y++)
+                            {
+                                for(int x = 0; x<gMapControl1.Width+3; x++)
+                                {
+                                    lnglat = gMapControl1.FromLocalToLatLng(x, y);
+                                    elev.Add(srtm.getAltitude(lnglat.Lat, lnglat.Lng).alt);
+
+                                    double alts = srtm.getAltitude(lnglat.Lat, lnglat.Lng).alt;
+                                    if (alts < 5)
+                                    {
+                                        imageData[x, y] = 0;
+                                    }
+
+                                    else if(alts<50)
+                                    {
+                                        imageData[x, y] = 10;
+                                    }
+
+                                    else if(alts<100)
+                                    {
+                                        imageData[x, y] = 50;
+                                    }
+
+                                    else if(alts<500)
+                                    {
+                                        imageData[x, y] = 100;
+                                    }
+
+                                    else if (alts < 1000)
+                                    {
+                                        imageData[x, y] = 150;
+                                    }
+
+                                    else
+                                    {
+                                        imageData[x, y] = 255;
+                                    }
+                                   
+                                }
+                            }
+
+                            elevationoverlay.Markers.Add(new GMapMarkerElevation(imageData));
                         }
 
                         updateClearRoutesMarkers();
