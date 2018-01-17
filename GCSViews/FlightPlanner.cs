@@ -7100,5 +7100,10 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             grid.Host = new PluginHost();
             grid.but_Click(sender, e);
         }
+        
+        private void Commands_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+        {
+            writeKML();
+        }
     }
 }
