@@ -312,6 +312,9 @@ union px4_custom_mode {
             if (MainV2.comPort.MAV.cs.mode == "RTL")
                 input = input.Replace("Waypoint {wpn}", "return to launch");
 
+            if (MainV2.comPort.MAV.cs.wpno == 0)
+                input = input.Replace("{wpn}", "Home");
+
 
             input = input.Replace("{asp}", MainV2.comPort.MAV.cs.airspeed.ToString("0"));
 
