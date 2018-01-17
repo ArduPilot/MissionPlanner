@@ -543,7 +543,10 @@ namespace MissionPlanner.Utilities
 
             try
             {
-                ParameterMetaDataParser.GetParameterInformation();
+                if (MissionPlanner.Utilities.Update.dobeta)
+                    ParameterMetaDataParser.GetParameterInformation(ConfigurationManager.AppSettings["ParameterLocationsBleeding"], String.Format("{0}{1}", Settings.GetUserDataDirectory(), "ParameterMetaDataBackup.xml"));
+                else
+                    ParameterMetaDataParser.GetParameterInformation(ConfigurationManager.AppSettings["ParameterLocations"], String.Format("{0}{1}", Settings.GetUserDataDirectory(), "ParameterMetaDataBackup.xml"));
             }
             catch (Exception ex)
             {

@@ -262,6 +262,7 @@
     <Compile Include="MagCalib.cs" />
     <Compile Include="Magfitrotation.cs" />
     <Compile Include="MainV2.cs"> <SubType>Control</SubType> </Compile>
+    <Compile Include="Mavlink\MAVInspector.cs" />
     <Compile Include="MovingBase.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="OpenGLtest.cs" />
     <Compile Include="OpenGLtest2.cs" />
@@ -479,12 +480,6 @@
     <Compile Include="Utilities\MeasureString.cs" />
     <Compile Include="Utilities\NGEN.cs" />
     <Compile Include="Utilities\OpticalFlow.cs" />
-    <Compile Include="Utilities\ParameterMetaDataConstants.cs" />
-    <Compile Include="Utilities\ParameterMetaDataParser.cs" />
-    <Compile Include="Utilities\ParameterMetaDataRepository.cs" />
-    <Compile Include="Utilities\ParameterMetaDataRepositoryAPM.cs" />
-    <Compile Include="Utilities\ParameterMetaDataRepositoryAPMpdef.cs" />
-    <Compile Include="Utilities\ParameterMetaDataRepositoryPX4.cs" />
     <Compile Include="Utilities\ParamFile.cs" />
     <Compile Include="Utilities\Password.cs" />
     <Compile Include="Utilities\POI.cs" />

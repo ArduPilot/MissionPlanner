@@ -1,7 +1,6 @@
 using System;
 using System.Configuration;
 using System.IO;
-using System.Windows.Forms;
 using System.Xml.Linq;
 using System.Linq;
 using System.Collections;
@@ -29,10 +28,10 @@ namespace MissionPlanner.Utilities
 
         public static void Reload()
         {
-            string paramMetaDataXMLFileName = String.Format("{0}{1}", Settings.GetUserDataDirectory(), ConfigurationManager.AppSettings["ParameterMetaDataXMLFileName"]);
+            string paramMetaDataXMLFileName = String.Format("{0}{1}", Settings.GetUserDataDirectory(), "ParameterMetaData.xml");
 
             string paramMetaDataXMLFileNameBackup = String.Format("{0}{1}{2}", Settings.GetRunningDirectory(),
-                Path.DirectorySeparatorChar, ConfigurationManager.AppSettings["ParameterMetaDataXMLFileNameBackup"]);
+                Path.DirectorySeparatorChar, "ParameterMetaDataBackup.xml");
 
             try
             {
@@ -43,7 +42,6 @@ namespace MissionPlanner.Utilities
             catch (Exception ex)
             {
                 log.Error(ex);
-                Tracking.AddException(ex);
             }
 
             try

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -193,7 +194,10 @@ namespace MissionPlanner
 
         private void BUT_paramgen_Click(object sender, EventArgs e)
         {
-            ParameterMetaDataParser.GetParameterInformation();
+            if(MissionPlanner.Utilities.Update.dobeta)
+                ParameterMetaDataParser.GetParameterInformation(ConfigurationManager.AppSettings["ParameterLocationsBleeding"]);
+            else
+                ParameterMetaDataParser.GetParameterInformation(ConfigurationManager.AppSettings["ParameterLocations"]);
 
             ParameterMetaDataRepositoryAPM.Reload();
         }

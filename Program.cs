@@ -214,6 +214,8 @@ namespace MissionPlanner
             tmp.GenerateMAVLinkPacket20(MAVLink.MAVLINK_MSG_ID.HEARTBEAT, hb, true);
             tmp.GenerateMAVLinkPacket20(MAVLink.MAVLINK_MSG_ID.HEARTBEAT, hb, true);
 
+            var msg = new MAVLink.MAVLinkMessage(t2);
+
 
             try
             {

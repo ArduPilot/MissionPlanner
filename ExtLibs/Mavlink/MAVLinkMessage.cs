@@ -197,5 +197,10 @@ public partial class MAVLink
                 crc16 = (ushort) ((buffer[crc2] << 8) + buffer[crc1]);
             }
         }
+
+        public override string ToString()
+        {
+            return String.Format("{5},{4},{0},{1},{2},{3}", sysid, compid, msgid, msgtypename, ismavlink2, rxtime);
+        }
     }
 }
