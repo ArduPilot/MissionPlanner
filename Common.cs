@@ -314,6 +314,8 @@ union px4_custom_mode {
 
             if (MainV2.comPort.MAV.cs.wpno == 0)
                 input = input.Replace("{wpn}", "Home");
+            else
+                input = input.Replace("{wpn}", MainV2.comPort.MAV.cs.wpno.ToString());
 
 
             input = input.Replace("{asp}", MainV2.comPort.MAV.cs.airspeed.ToString("0"));
