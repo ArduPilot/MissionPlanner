@@ -303,14 +303,15 @@ union px4_custom_mode {
 
         public static string speechConversion(string input)
         {
-            if (MainV2.comPort.MAV.cs.wpno == 0)
-            {
-                input = input.Replace("{wpn}", "Home");
-            }
-            else
-            {
-                input = input.Replace("{wpn}", MainV2.comPort.MAV.cs.wpno.ToString());
-            }
+            if (MainV2.comPort.MAV.cs.mode != "Auto" && MainV2.comPort.MAV.cs.mode != "Guided" && MainV2.comPort.MAV.cs.mode != "RTL")
+                input = input.Replace("Heading to Waypoint {wpn}", "");
+
+            if (MainV2.comPort.MAV.cs.mode == "Guided")
+                input = input.Replace("Waypoint {wpn}", "Guided point");
+
+            if (MainV2.comPort.MAV.cs.mode == "RTL")
+                input = input.Replace("Waypoint {wpn}", "return to launch");
+
 
             input = input.Replace("{asp}", MainV2.comPort.MAV.cs.airspeed.ToString("0"));
 
