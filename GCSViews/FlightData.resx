@@ -222,7 +222,7 @@
     <value>0, 0</value>
   </data>
   <data name="hud1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>358, 264</value>
+    <value>358, 401</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="hud1.TabIndex" type="System.Int32, mscorlib">
@@ -307,13 +307,13 @@
     <value>Fill</value>
   </data>
   <data name="quickView6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>175, 107</value>
+    <value>175, 175</value>
   </data>
   <data name="quickView6.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>100, 27</value>
   </data>
   <data name="quickView6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 48</value>
+    <value>166, 81</value>
   </data>
   <data name="quickView6.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -334,13 +334,13 @@
     <value>Fill</value>
   </data>
   <data name="quickView5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 107</value>
+    <value>3, 175</value>
   </data>
   <data name="quickView5.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>100, 27</value>
   </data>
   <data name="quickView5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 48</value>
+    <value>166, 81</value>
   </data>
   <data name="quickView5.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -361,13 +361,13 @@
     <value>Fill</value>
   </data>
   <data name="quickView4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>175, 55</value>
+    <value>175, 89</value>
   </data>
   <data name="quickView4.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>100, 27</value>
   </data>
   <data name="quickView4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 46</value>
+    <value>166, 80</value>
   </data>
   <data name="quickView4.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -388,13 +388,13 @@
     <value>Fill</value>
   </data>
   <data name="quickView3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 55</value>
+    <value>3, 89</value>
   </data>
   <data name="quickView3.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>100, 27</value>
   </data>
   <data name="quickView3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 46</value>
+    <value>166, 80</value>
   </data>
   <data name="quickView3.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -421,7 +421,7 @@
     <value>100, 27</value>
   </data>
   <data name="quickView2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 46</value>
+    <value>166, 80</value>
   </data>
   <data name="quickView2.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -448,7 +448,7 @@
     <value>100, 27</value>
   </data>
   <data name="quickView1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 46</value>
+    <value>166, 80</value>
   </data>
   <data name="quickView1.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -481,7 +481,7 @@
     <value>3</value>
   </data>
   <data name="tableLayoutPanelQuick.Size" type="System.Drawing.Size, System.Drawing">
-    <value>344, 158</value>
+    <value>344, 259</value>
   </data>
   <data name="tableLayoutPanelQuick.TabIndex" type="System.Int32, mscorlib">
     <value>73</value>
@@ -508,7 +508,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabQuick.Size" type="System.Drawing.Size, System.Drawing">
-    <value>350, 164</value>
+    <value>350, 265</value>
   </data>
   <data name="tabQuick.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -3076,7 +3076,7 @@
     <value>0, 0</value>
   </data>
   <data name="tabControlactions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>358, 190</value>
+    <value>358, 291</value>
   </data>
   <data name="tabControlactions.TabIndex" type="System.Int32, mscorlib">
     <value>84</value>
@@ -3106,10 +3106,10 @@
     <value>1</value>
   </data>
   <data name="SubMainLeft.Size" type="System.Drawing.Size, System.Drawing">
-    <value>360, 462</value>
+    <value>360, 700</value>
   </data>
   <data name="SubMainLeft.SplitterDistance" type="System.Int32, mscorlib">
-    <value>266</value>
+    <value>403</value>
   </data>
   <data name="SubMainLeft.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -3331,7 +3331,7 @@
     <value>66, 0</value>
   </data>
   <data name="distanceBar1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>517, 22</value>
+    <value>843, 22</value>
   </data>
   <data name="distanceBar1.TabIndex" type="System.Int32, mscorlib">
     <value>76</value>
@@ -3385,7 +3385,7 @@
     <value>NoControl</value>
   </data>
   <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>332, 388</value>
+    <value>332, 626</value>
   </data>
   <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
     <value>96, 13</value>
@@ -3418,7 +3418,7 @@
     <value>NoControl</value>
   </data>
   <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>245, 388</value>
+    <value>245, 626</value>
   </data>
   <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
     <value>81, 13</value>
@@ -3451,7 +3451,7 @@
     <value>NoControl</value>
   </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>135, 388</value>
+    <value>135, 626</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 13</value>
@@ -3484,7 +3484,7 @@
     <value>NoControl</value>
   </data>
   <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>45, 388</value>
+    <value>45, 626</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
     <value>84, 13</value>
@@ -3514,7 +3514,7 @@
     <value>NoControl</value>
   </data>
   <data name="lbl_hdop.Location" type="System.Drawing.Point, System.Drawing">
-    <value>-1, 370</value>
+    <value>-1, 608</value>
   </data>
   <data name="lbl_hdop.Size" type="System.Drawing.Size, System.Drawing">
     <value>43, 12</value>
@@ -3547,7 +3547,7 @@
     <value>NoControl</value>
   </data>
   <data name="lbl_sats.Location" type="System.Drawing.Point, System.Drawing">
-    <value>-1, 389</value>
+    <value>-1, 627</value>
   </data>
   <data name="lbl_sats.Size" type="System.Drawing.Size, System.Drawing">
     <value>40, 12</value>
@@ -3583,7 +3583,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="gMapControl1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>589, 418</value>
+    <value>915, 656</value>
   </data>
   <data name="gMapControl1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -3607,13 +3607,13 @@
     <value>NoControl</value>
   </data>
   <data name="TRK_zoom.Location" type="System.Drawing.Point, System.Drawing">
-    <value>589, 0</value>
+    <value>915, 0</value>
   </data>
   <data name="TRK_zoom.Orientation" type="System.Windows.Forms.Orientation, System.Windows.Forms">
     <value>Vertical</value>
   </data>
   <data name="TRK_zoom.Size" type="System.Drawing.Size, System.Drawing">
-    <value>45, 418</value>
+    <value>45, 656</value>
   </data>
   <data name="TRK_zoom.TabIndex" type="System.Int32, mscorlib">
     <value>72</value>
@@ -3643,7 +3643,7 @@
     <value>1</value>
   </data>
   <data name="splitContainer1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>634, 418</value>
+    <value>960, 656</value>
   </data>
   <data name="splitContainer1.SplitterDistance" type="System.Int32, mscorlib">
     <value>210</value>
@@ -3688,7 +3688,7 @@
     <value>Bottom, Left</value>
   </data>
   <data name="Zoomlevel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>528, 5</value>
+    <value>602, 7</value>
   </data>
   <data name="Zoomlevel.Size" type="System.Drawing.Size, System.Drawing">
     <value>76, 20</value>
@@ -3718,7 +3718,7 @@
     <value>NoControl</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>488, 8</value>
+    <value>562, 11</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>34, 13</value>
@@ -3751,7 +3751,7 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_autopan.Location" type="System.Drawing.Point, System.Drawing">
-    <value>412, 8</value>
+    <value>486, 8</value>
   </data>
   <data name="CHK_autopan.Size" type="System.Drawing.Size, System.Drawing">
     <value>70, 17</value>
@@ -3787,7 +3787,7 @@
     <value>NoControl</value>
   </data>
   <data name="CB_tuning.Location" type="System.Drawing.Point, System.Drawing">
-    <value>347, 7</value>
+    <value>411, 8</value>
   </data>
   <data name="CB_tuning.Size" type="System.Drawing.Size, System.Drawing">
     <value>59, 17</value>
@@ -3814,7 +3814,7 @@
     <value>4</value>
   </data>
   <data name="Elevation_overlay.Location" type="System.Drawing.Point, System.Drawing">
-    <value>271, 4</value>
+    <value>335, 4</value>
   </data>
   <data name="Elevation_overlay.Size" type="System.Drawing.Size, System.Drawing">
     <value>70, 24</value>
@@ -3840,17 +3840,44 @@
   <data name="&gt;&gt;Elevation_overlay.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
+  <data name="rel_elevation.Location" type="System.Drawing.Point, System.Drawing">
+    <value>267, 4</value>
+  </data>
+  <data name="rel_elevation.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 24</value>
+  </data>
+  <data name="rel_elevation.TabIndex" type="System.Int32, mscorlib">
+    <value>73</value>
+  </data>
+  <data name="rel_elevation.Text" xml:space="preserve">
+    <value>relelev</value>
+  </data>
+  <data name="rel_elevation.ToolTip" xml:space="preserve">
+    <value>Relative elevation to drone</value>
+  </data>
+  <data name="&gt;&gt;rel_elevation.Name" xml:space="preserve">
+    <value>rel_elevation</value>
+  </data>
+  <data name="&gt;&gt;rel_elevation.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rel_elevation.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;rel_elevation.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
   <data name="panel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
   <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>1, 426</value>
+    <value>1, 664</value>
   </data>
   <data name="panel1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
   <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>640, 33</value>
+    <value>966, 33</value>
   </data>
   <data name="panel1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -3877,7 +3904,7 @@
     <value>2</value>
   </data>
   <data name="tableMap.Size" type="System.Drawing.Size, System.Drawing">
-    <value>642, 460</value>
+    <value>968, 698</value>
   </data>
   <data name="tableMap.TabIndex" type="System.Int32, mscorlib">
     <value>75</value>
@@ -3910,7 +3937,7 @@
     <value>1</value>
   </data>
   <data name="MainH.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1008, 462</value>
+    <value>1334, 700</value>
   </data>
   <data name="MainH.SplitterDistance" type="System.Int32, mscorlib">
     <value>360</value>
@@ -3970,7 +3997,7 @@
     <value>1008, 462</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1008, 462</value>
+    <value>1334, 700</value>
   </data>
   <data name="&gt;&gt;videoToolStripMenuItem.Name" xml:space="preserve">
     <value>videoToolStripMenuItem</value>

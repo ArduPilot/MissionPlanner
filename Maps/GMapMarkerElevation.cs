@@ -14,36 +14,15 @@ namespace MissionPlanner.Maps
     {
         static Bitmap elevation;
 
-        int i = 0;
+        int Width = 0;
+        int Height = 0;
 
-        public GMapMarkerElevation(byte [,] imageData)
-        : base(new PointLatLng())
+        public GMapMarkerElevation(byte [,] imageData, int width, int height, PointLatLng currentloc)
+        : base(currentloc)
         {
-            //byte[] imageData = new byte[elev.Count];
-            //byte[] imageData = new byte[31];
 
-            /*
-            foreach (double alt in elev)
-            {
-                imageData[i] = 255;
-                i++;
-            }
-            
-
-            for(int i = 0; i<31;i++)
-            {
-                imageData[i] = 255;
-            }
-            
-            using (var ms = new MemoryStream(imageData))
-            {
-                elevation = Image.FromStream(ms);
-            }
-
-            /*
-            ImageConverter converter = new ImageConverter();
-            elevation = (Image)converter.ConvertFrom(imageData);
-           */
+            Width = width;
+            Height = height;
 
             //elevation = PureImage.FromArray(imageData);
 
@@ -66,7 +45,7 @@ namespace MissionPlanner.Maps
             //create grayscale palette
             for (int i = 0; i < 256; i++)
             {
-                pal.Entries[i] = Color.FromArgb((int)255, i, i, i);
+                pal.Entries[i] = Color.FromArgb((int)200, i, i, i);
             }
 
             //assign to bmp
@@ -83,13 +62,18 @@ namespace MissionPlanner.Maps
             bmp.UnlockBits(bmData);
 
             //display
+            //bmp.MakeTransparent(Color.FromArgb((int)5, 255, 0, 0));
             elevation = bmp;
+            
         }
 
         public override void OnRender(Graphics g)
         {
-            //base.OnRender(g);
-            g.DrawImageUnscaled(elevation, -720, -477);
+
+            base.OnRender(g);
+            elevation.MakeTransparent();
+            GPoint loc = new GPoint(LocalPosition.X, LocalPosition.Y);
+            g.DrawImageUnscaled(elevation, (int)loc.X-Width/2, (int)loc.Y-Height/2);
 
         }
     }

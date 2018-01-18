@@ -1242,39 +1242,22 @@ namespace MissionPlanner.GCSViews
                         {
                             List<Double> elev = new List<double>();
                             PointLatLng lnglat = new PointLatLng();
-                            byte[,] imageData = new byte[gMapControl1.Width+3, gMapControl1.Height+1];
-
-                            for (int y = 0; y< gMapControl1.Height+1; y++)
+                            byte[,] imageData = new byte[(gMapControl1.Width+3), (gMapControl1.Height+1)];
+                            System.Diagnostics.Stopwatch sw = System.Diagnostics.Stopwatch.StartNew();
+                            for (int y = 0; y< gMapControl1.Height+1; y+=2)
                             {
-                                for(int x = 0; x<gMapControl1.Width+3; x++)
+                                for(int x = 0; x<gMapControl1.Width+3; x+=2)
                                 {
                                     lnglat = gMapControl1.FromLocalToLatLng(x, y);
                                     elev.Add(srtm.getAltitude(lnglat.Lat, lnglat.Lng).alt);
 
                                     double alts = srtm.getAltitude(lnglat.Lat, lnglat.Lng).alt;
-                                    if (alts < 5)
-                                    {
-                                        imageData[x, y] = 0;
-                                    }
 
-                                    else if(alts<50)
-                                    {
-                                        imageData[x, y] = 10;
-                                    }
+                                    //double plus = alts / 4;
 
-                                    else if(alts<100)
+                                     if (alts <= 2500)
                                     {
-                                        imageData[x, y] = 50;
-                                    }
-
-                                    else if(alts<500)
-                                    {
-                                        imageData[x, y] = 100;
-                                    }
-
-                                    else if (alts < 1000)
-                                    {
-                                        imageData[x, y] = 150;
+                                        imageData[x, y] = Convert.ToByte(alts / 10);
                                     }
 
                                     else
@@ -1284,8 +1267,61 @@ namespace MissionPlanner.GCSViews
                                    
                                 }
                             }
+                            sw.Stop();
+                            elevationoverlay.Markers.Add(new GMapMarkerElevation(imageData,gMapControl1.Width,gMapControl1.Height, currentloc));
+                        }
 
-                            elevationoverlay.Markers.Add(new GMapMarkerElevation(imageData));
+                        if(rel_elevation.Checked && hud1.connected)
+                        {
+                            elevationoverlay.Markers.Clear();
+
+                            PointLatLngAlt lnglat = new PointLatLngAlt();
+                            byte[,] imageData = new byte[(gMapControl1.Width + 3), (gMapControl1.Height + 1)];
+
+                            for (int y = 2; y < gMapControl1.Height + 1-4; y+=4)
+                            {
+                                for (int x = 2; x < gMapControl1.Width + 3-4; x+=4)
+                                {
+                                    lnglat = gMapControl1.FromLocalToLatLng(x, y);
+
+                                    //double alts = srtm.getAltitude(lnglat.Lat, lnglat.Lng).alt;
+                                    double alts = DEM.getAltitude(lnglat).Alt;
+
+                                    double rel = Math.Abs(alts - (hud1.alt+hud1.groundalt));
+
+                                    double drone_height = hud1.alt + hud1.groundalt;
+
+                                    if (drone_height <= alts)
+                                    {
+                                        imageData[x-2, y-2] = 220;
+                                        imageData[x-1, y-1] = 220;
+                                        imageData[x, y] = 	220;        //red
+                                        imageData[x+1, y+1] = 220;
+                                        imageData[x+1, y+1] = 220;
+                                    }
+
+                                    else if (drone_height - 10 > alts)
+                                    {
+                                        imageData[x - 2, y - 2] = 180;
+                                        imageData[x - 1, y - 1] = 180;
+                                        imageData[x, y] = 180;          //green
+                                        imageData[x + 1, y + 1] = 180;
+                                        imageData[x + 1, y + 1] = 180;
+                                    }
+
+                                    else
+                                    {
+                                        imageData[x - 2, y - 2] = 250;
+                                        imageData[x - 1, y - 1] = 250;
+                                        imageData[x, y] = 250;          //yellow
+                                        imageData[x + 1, y + 1] = 250;
+                                        imageData[x + 1, y + 1] = 250;
+                                    }
+
+                                }
+                            }
+
+                            elevationoverlay.Markers.Add(new GMapMarkerElevation(imageData, gMapControl1.Width, gMapControl1.Height, center.Position));
                         }
 
                         updateClearRoutesMarkers();
@@ -4675,6 +4711,11 @@ namespace MissionPlanner.GCSViews
             trackBarYaw.Value = 0;
             MainV2.comPort.setMountConfigure(MAVLink.MAV_MOUNT_MODE.MAVLINK_TARGETING, false, false, false);
             MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f, (float)trackBarYaw.Value * 100.0f, false);
+        }
+
+        private void rel_elevation_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
