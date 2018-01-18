@@ -22,7 +22,7 @@ namespace MissionPlanner.Controls
         private GroupBox groupBox1;
         private ComboBox comboBox1;
         private ComboBox comboBox2;
-        private TreeView treeView1;
+        private MyTreeView treeView1;
         private Timer timer1;
         private IContainer components;
         MAVInspector mavi = new MAVInspector();
@@ -133,7 +133,11 @@ namespace MissionPlanner.Controls
 
                         var value2 = (Array) value;
 
-                        if (field.Name == "param_id")
+                        if (field.Name == "param_id") // param_value
+                        {
+                            value = ASCIIEncoding.ASCII.GetString((byte[]) value2);
+                        }
+                        else if (field.Name == "text") // statustext
                         {
                             value = ASCIIEncoding.ASCII.GetString((byte[]) value2);
                         }
@@ -143,7 +147,7 @@ namespace MissionPlanner.Controls
                         }
                     }
 
-                    msgidnode.Nodes[field.Name].Text = (String.Format("{0,-20} {1,20} {2,-20}", field.Name, value,
+                    msgidnode.Nodes[field.Name].Text = (String.Format("{0,-32} {1,20} {2,-20}", field.Name, value,
                         field.FieldType.ToString()));
                 }
             }
@@ -157,7 +161,7 @@ namespace MissionPlanner.Controls
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.treeView1 = new MyTreeView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
@@ -168,7 +172,7 @@ namespace MissionPlanner.Controls
             // treeView1
             // 
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeView1.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
+            //this.treeView1.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
             this.treeView1.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.treeView1.Location = new System.Drawing.Point(3, 16);
             this.treeView1.Name = "treeView1";
@@ -242,6 +246,33 @@ namespace MissionPlanner.Controls
             mav.OnPacketReceived -= MavOnOnPacketReceived;
 
             timer1.Stop();
+        }
+
+        public class MyTreeView: TreeView
+        {
+            public MyTreeView()
+            {
+                SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+                //SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+                //UpdateStyles();
+            }
+
+            protected override void OnPaint(PaintEventArgs e)
+            {
+                if (GetStyle(ControlStyles.UserPaint))
+                {
+                    Message m = new Message();
+                    m.HWnd = Handle;
+                    int WM_PRINTCLIENT = 0x318;
+                    m.Msg = WM_PRINTCLIENT;
+                    m.WParam = e.Graphics.GetHdc();
+                    int PRF_CLIENT = 0x00000004;
+                    m.LParam = (IntPtr)PRF_CLIENT;
+                    DefWndProc(ref m);
+                    e.Graphics.ReleaseHdc(m.WParam);
+                }
+                base.OnPaint(e);
+            }
         }
     }
 }
