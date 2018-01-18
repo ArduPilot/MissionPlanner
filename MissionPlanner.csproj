@@ -249,6 +249,9 @@
     <Compile Include="Controls\Forms\MavlinkCheckBox.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controls\MAVLinkInspector.cs">
+      <SubType>Control</SubType>
+    </Compile>
     <Compile Include="CurrentState.cs" />
     <Compile Include="ElevationProfile.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="FollowMe.cs"> <SubType>Control</SubType> </Compile>
@@ -715,6 +718,7 @@
     <EmbeddedResource Include="ConnectionOptions.ko-KR.resx"><DependentUpon>ConnectionOptions.cs</DependentUpon> </EmbeddedResource>
     <EmbeddedResource Include="ConnectionOptions.pt.resx"><DependentUpon>ConnectionOptions.cs</DependentUpon> </EmbeddedResource>
     <EmbeddedResource Include="ConnectionOptions.zh-Hans.resx"><DependentUpon>ConnectionOptions.cs</DependentUpon> </EmbeddedResource>
+    <EmbeddedResource Include="Controls\MAVLinkInspector.resx" />
     <EmbeddedResource Include="ElevationProfile.resx"><DependentUpon>ElevationProfile.cs</DependentUpon> </EmbeddedResource>
     <EmbeddedResource Include="FollowMe.resx"><DependentUpon>FollowMe.cs</DependentUpon> </EmbeddedResource>
     <EmbeddedResource Include="FollowMe.ar.resx"><DependentUpon>FollowMe.cs</DependentUpon> </EmbeddedResource>

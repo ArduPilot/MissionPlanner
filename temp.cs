@@ -1142,5 +1142,10 @@ namespace MissionPlanner
                 DashWare.Create(ofd.FileName, ofd.FileName + ".csv", split.Length > 0 ? split.ToList() : null);
             }
         }
+
+        private void but_mavinspector_Click(object sender, EventArgs e)
+        {
+            new MAVLinkInspector(MainV2.comPort).Show();
+        }
     }
 }
