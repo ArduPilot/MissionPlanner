@@ -74,7 +74,11 @@ namespace MissionPlanner.GCSViews
             {
                 Utilities.Update.dobeta = true;
                 if (Control.ModifierKeys == Keys.Control)
+                {
                     Utilities.Update.domaster = true;
+                    CustomMessageBox.Show("This will update to MASTER release");
+                }
+
                 Utilities.Update.DoUpdate();
             }
             catch (Exception ex)
