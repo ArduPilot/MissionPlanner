@@ -1078,6 +1078,12 @@ namespace MissionPlanner.GCSViews
                             });
                         }
 
+                        // show proximity screen
+                        if (MainV2.comPort.MAV?.Proximity != null && MainV2.comPort.MAV.Proximity.DataAvailable)
+                        {
+                            this.BeginInvoke((MethodInvoker)delegate { MainV2.comPort.MAV?.Proximity?.Show(); });
+                        }
+
                         if (Settings.Instance.GetBoolean("CHK_maprotation"))
                         {
                             // dont holdinvalidation here
