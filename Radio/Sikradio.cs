@@ -621,7 +621,11 @@ S15: MAX_WINDOW=131
                     {
                         //if (item.StartsWith("S"))
                         {
-                            var values = item.Split(':', '=');
+							int multipoint_fix = -1;
+							if (item.StartsWith("[")) multipoint_fix = item.IndexOf(']') + 1;
+							var mod_item = item;
+							if (multipoint_fix > 0 && item.Length > multipoint_fix) mod_item = item.Substring(multipoint_fix).Trim();
+                            var values = mod_item.Split(':', '=');
 
                             if (values.Length == 3)
                             {
@@ -651,6 +655,19 @@ S15: MAX_WINDOW=131
                                     }
                                     else if (controls[0] is TextBox)
                                     {
+                                        if (controls[0].Text != values[2].Trim())
+                                        {
+                                            var cmdanswer = doCommand(comPort,
+                                                "ATS" + values[0].Trim().TrimStart('S') + "=" + controls[0].Text + "\r");
+
+                                            if (cmdanswer.Contains("OK"))
+                                            {
+                                            }
+                                            else
+                                            {
+                                                CustomMessageBox.Show("Set Command error");
+                                            }
+                                        }
                                     }
                                     else if (controls[0].Name.Contains("MAVLINK")) //
                                     {
@@ -818,11 +835,15 @@ S15: MAX_WINDOW=131
 
                     lbl_status.Text = "Doing Command ATI & RTI";
 
-                    ATI.Text = doCommand(comPort, "ATI");
+					int multipoint_fix = -1;
+                    var ati_str = doCommand(comPort, "ATI").Trim();
+					if (ati_str.StartsWith("[")) multipoint_fix = ati_str.IndexOf(']') + 1;
+					ATI.Text = ati_str;
 
                     NumberStyles style = NumberStyles.Any;
 
                     var freqstring = doCommand(comPort, "ATI3").Trim();
+					if (multipoint_fix > 0) freqstring = freqstring.Substring(multipoint_fix).Trim();
 
                     if(freqstring.ToLower().Contains('x'))
                         style = NumberStyles.AllowHexSpecifier;
@@ -837,6 +858,7 @@ S15: MAX_WINDOW=131
                     style = NumberStyles.Any;
 
                     var boardstring = doCommand(comPort, "ATI2").Trim();
+					if (multipoint_fix > 0) boardstring = boardstring.Substring(multipoint_fix).Trim();
 
                     if (boardstring.ToLower().Contains('x'))
                         style = NumberStyles.AllowHexSpecifier;
@@ -897,8 +919,10 @@ S15: MAX_WINDOW=131
                     foreach (var item in items)
                     {
                         //if (item.StartsWith("S"))
-                        {
-                            var values = item.Split(new char[] { ':', '='}, StringSplitOptions.RemoveEmptyEntries);
+                        {                            
+                            var mod_item = item;
+                            if (multipoint_fix > 0 && item.Length > multipoint_fix) mod_item = item.Substring(multipoint_fix).Trim();
+                            var values = mod_item.Split(new char[] { ':', '='}, StringSplitOptions.RemoveEmptyEntries);
 
                             if (values.Length == 3)
                             {

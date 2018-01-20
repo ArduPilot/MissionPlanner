@@ -132,6 +132,14 @@
             this.label10 = new System.Windows.Forms.Label();
             this.BUT_resettodefault = new MissionPlanner.Controls.MyButton();
             this.BUT_loadcustom = new MissionPlanner.Controls.MyButton();
+            this.label43 = new System.Windows.Forms.Label();
+            this.label44 = new System.Windows.Forms.Label();
+            this.label45 = new System.Windows.Forms.Label();
+            this.label46 = new System.Windows.Forms.Label();
+            this.NODEID = new System.Windows.Forms.TextBox();
+            this.NODEDESTINATION = new System.Windows.Forms.TextBox();
+            this.NODECOUNT = new System.Windows.Forms.TextBox();
+            this.SYNCANY = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.SPLIT_local)).BeginInit();
             this.SPLIT_local.Panel1.SuspendLayout();
             this.SPLIT_local.Panel2.SuspendLayout();
@@ -151,6 +159,12 @@
             // 
             // SPLIT_local.Panel1
             // 
+            this.SPLIT_local.Panel1.Controls.Add(this.NODECOUNT);
+            this.SPLIT_local.Panel1.Controls.Add(this.NODEDESTINATION);
+            this.SPLIT_local.Panel1.Controls.Add(this.NODEID);
+            this.SPLIT_local.Panel1.Controls.Add(this.label45);
+            this.SPLIT_local.Panel1.Controls.Add(this.label44);
+            this.SPLIT_local.Panel1.Controls.Add(this.label43);
             this.SPLIT_local.Panel1.Controls.Add(this.label40);
             this.SPLIT_local.Panel1.Controls.Add(this.GPO1_1R_COUT);
             this.SPLIT_local.Panel1.Controls.Add(this.label39);
@@ -174,6 +188,8 @@
             // 
             // SPLIT_local.Panel2
             // 
+            this.SPLIT_local.Panel2.Controls.Add(this.SYNCANY);
+            this.SPLIT_local.Panel2.Controls.Add(this.label46);
             this.SPLIT_local.Panel2.Controls.Add(this.ENCRYPTION_LEVEL);
             this.SPLIT_local.Panel2.Controls.Add(this.label36);
             this.SPLIT_local.Panel2.Controls.Add(this.label35);
@@ -1151,6 +1167,46 @@
             this.BUT_loadcustom.UseVisualStyleBackColor = true;
             this.BUT_loadcustom.Click += new System.EventHandler(this.BUT_loadcustom_Click);
             // 
+            // label43
+            // 
+            resources.ApplyResources(this.label43, "label43");
+            this.label43.Name = "label43";
+            // 
+            // label44
+            // 
+            resources.ApplyResources(this.label44, "label44");
+            this.label44.Name = "label44";
+            // 
+            // label45
+            // 
+            resources.ApplyResources(this.label45, "label45");
+            this.label45.Name = "label45";
+            // 
+            // label46
+            // 
+            resources.ApplyResources(this.label46, "label46");
+            this.label46.Name = "label46";
+            // 
+            // NODEID
+            // 
+            resources.ApplyResources(this.NODEID, "NODEID");
+            this.NODEID.Name = "NODEID";
+            // 
+            // NODEDESTINATION
+            // 
+            resources.ApplyResources(this.NODEDESTINATION, "NODEDESTINATION");
+            this.NODEDESTINATION.Name = "NODEDESTINATION";
+            // 
+            // NODECOUNT
+            // 
+            resources.ApplyResources(this.NODECOUNT, "NODECOUNT");
+            this.NODECOUNT.Name = "NODECOUNT";
+            // 
+            // SYNCANY
+            // 
+            resources.ApplyResources(this.SYNCANY, "SYNCANY");
+            this.SYNCANY.Name = "SYNCANY";
+            // 
             // Sikradio
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1166,9 +1222,8 @@
             this.Controls.Add(this.lbl_status);
             this.Controls.Add(this.Progressbar);
             this.Controls.Add(this.BUT_upload);
-            this.MinimumSize = new System.Drawing.Size(781, 433);
-            this.Name = "Sikradio";
             resources.ApplyResources(this, "$this");
+            this.Name = "Sikradio";
             this.SPLIT_local.Panel1.ResumeLayout(false);
             this.SPLIT_local.Panel1.PerformLayout();
             this.SPLIT_local.Panel2.ResumeLayout(false);
@@ -1294,5 +1349,13 @@
         private System.Windows.Forms.CheckBox RGPO1_1R_COUT;
         private System.Windows.Forms.Label label42;
         private System.Windows.Forms.CheckBox RGPI1_1R_CIN;
+        private System.Windows.Forms.Label label43;
+        private System.Windows.Forms.Label label45;
+        private System.Windows.Forms.Label label44;
+        private System.Windows.Forms.Label label46;
+        private System.Windows.Forms.TextBox NODEID;
+        private System.Windows.Forms.TextBox NODECOUNT;
+        private System.Windows.Forms.TextBox NODEDESTINATION;
+        private System.Windows.Forms.TextBox SYNCANY;
     }
 }
