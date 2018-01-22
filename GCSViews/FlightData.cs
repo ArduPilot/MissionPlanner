@@ -4452,8 +4452,8 @@ namespace MissionPlanner.GCSViews
 
         private void setQuickViewRowsCols(string cols, string rows)
         {
-            tableLayoutPanelQuick.ColumnCount = int.Parse(cols);
-            tableLayoutPanelQuick.RowCount = int.Parse(rows);
+            tableLayoutPanelQuick.ColumnCount = Math.Max(1,int.Parse(cols));
+            tableLayoutPanelQuick.RowCount = Math.Max(1,int.Parse(rows));
 
             Settings.Instance["quickViewRows"] = tableLayoutPanelQuick.RowCount.ToString();
             Settings.Instance["quickViewCols"] = tableLayoutPanelQuick.ColumnCount.ToString();
