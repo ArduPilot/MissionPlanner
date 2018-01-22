@@ -241,7 +241,11 @@
   </ItemGroup>
 
     <ItemGroup>
-    <Compile Include="Antenna\Tracker.Designer.cs" />
+      <Compile Include="Antenna\Tracker.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Tracker.cs</DependentUpon>
+      </Compile>
     <Compile Include="CodeGen.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="ConnectionOptions.cs"> <SubType>Control</SubType> </Compile>
@@ -266,6 +270,8 @@
     <Compile Include="Magfitrotation.cs" />
     <Compile Include="MainV2.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Mavlink\MAVInspector.cs" />
+    <Compile Include="Models\DelegateCommand.cs" />
+    <Compile Include="Models\ICommand.cs" />
     <Compile Include="MovingBase.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="OpenGLtest.cs" />
     <Compile Include="OpenGLtest2.cs" />
@@ -322,7 +328,6 @@
     <Compile Include="Controls\PreFlight\CheckListEditor.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Controls\PreFlight\CheckListInput.cs" />
     <Compile Include="Controls\PreFlight\CheckListItem.cs" />
-    <Compile Include="Controls\Waypoints\Spline2.cs" />
     <Compile Include="GCSViews\FlightData.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="GCSViews\FlightPlanner.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="GCSViews\Help.cs"> <SubType>Control</SubType> </Compile>
@@ -434,8 +439,6 @@
     <Compile Include="Mavlink\MAVLinkSerialPort.cs" />
     <Compile Include="Mavlink\MAVList.cs" />
     <Compile Include="Mavlink\MAVState.cs" />
-    <Compile Include="Models\DelegateCommand.cs" />
-    <Compile Include="Models\ICommand.cs" />
     <Compile Include="NoFly\NoFly.cs" />
     <Compile Include="Plugin\Plugin.cs" />
     <Compile Include="Plugin\PluginLoader.cs" />
@@ -1946,9 +1949,6 @@
     <None Include="version.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Comms\" />
   </ItemGroup>
 
 

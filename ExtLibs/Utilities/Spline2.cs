@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MissionPlanner.HIL;
 using MissionPlanner.Utilities;
-using uint8_t = System.Byte;
 using uint32_t = System.UInt32;
 using int32_t = System.Int32;
 
@@ -72,7 +67,7 @@ namespace MissionPlanner.Controls.Waypoints
         // pv_latlon_to_vector - convert lat/lon coordinates to a position vector
         public Vector3 pv_location_to_vector(PointLatLngAlt loc)
         {
-            PointLatLngAlt home = MainV2.comPort.MAV.cs.HomeLocation;
+            PointLatLngAlt home = homeLocation;
 
             scaleLongDown = longitude_scale(home);
             scaleLongUp = 1.0f/scaleLongDown;
@@ -90,7 +85,7 @@ namespace MissionPlanner.Controls.Waypoints
         // pv_get_lon - extract latitude from position vector
         int32_t pv_get_lat(Vector3 pos_vec)
         {
-            PointLatLngAlt home = MainV2.comPort.MAV.cs.HomeLocation;
+            PointLatLngAlt home = homeLocation;
 
             return (int32_t) (home.Lat*1.0e7f) + (int32_t) (pos_vec.x/LATLON_TO_CM);
         }
@@ -98,12 +93,19 @@ namespace MissionPlanner.Controls.Waypoints
         // pv_get_lon - extract longitude from position vector
         int32_t pv_get_lon(Vector3 pos_vec)
         {
-            PointLatLngAlt home = MainV2.comPort.MAV.cs.HomeLocation;
+            PointLatLngAlt home = homeLocation;
 
             return (int32_t) (home.Lng*1.0e7f) + (int32_t) (pos_vec.y/LATLON_TO_CM*scaleLongUp);
         }
 
         const float LATLON_TO_CM = 1.113195f;
+
+        private PointLatLngAlt homeLocation;
+
+        public Spline2(PointLatLngAlt homeLocation)
+        {
+            this.homeLocation = homeLocation;
+        }
 
         float longitude_scale(PointLatLngAlt loc)
         {

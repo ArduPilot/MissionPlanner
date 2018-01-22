@@ -1623,7 +1623,7 @@ namespace MissionPlanner.GCSViews
 
                         splinepnts.Add(fullpointlist[a]);
 
-                        Spline2 sp = new Spline2();
+                        Spline2 sp = new Spline2(MainV2.comPort.MAV.cs.HomeLocation);
 
                         //sp._flags.segment_type = MissionPlanner.Controls.Waypoints.Spline2.SegmentType.SEGMENT_STRAIGHT;
                         //sp._flags.reached_destination = true;
