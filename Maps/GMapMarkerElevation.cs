@@ -62,7 +62,6 @@ namespace MissionPlanner.Maps
             bmp.UnlockBits(bmData);
 
             //display
-            //bmp.MakeTransparent(Color.FromArgb((int)5, 255, 0, 0));
             elevation = bmp;
             
         }

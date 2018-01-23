@@ -2277,7 +2277,7 @@
             this.rel_elevation.Name = "rel_elevation";
             this.toolTip1.SetToolTip(this.rel_elevation, resources.GetString("rel_elevation.ToolTip"));
             this.rel_elevation.UseVisualStyleBackColor = true;
-            this.rel_elevation.CheckedChanged += new System.EventHandler(this.rel_elevation_CheckedChanged);
+            //this.rel_elevation.CheckedChanged += new System.EventHandler(this.rel_elevation_CheckedChanged);
             // 
             // ZedGraphTimer
             // 

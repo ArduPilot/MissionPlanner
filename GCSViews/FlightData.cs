@@ -40,6 +40,9 @@ namespace MissionPlanner.GCSViews
 
         public static bool threadrun;
         int tickStart;
+        int count = 0;
+        double normvalue = 0;
+        byte[] colors = new byte[] {220, 226, 232, 233, 244, 250, 214, 142, 106};
         RollingPointPairList list1 = new RollingPointPairList(1200);
         RollingPointPairList list2 = new RollingPointPairList(1200);
         RollingPointPairList list3 = new RollingPointPairList(1200);
@@ -1237,19 +1240,17 @@ namespace MissionPlanner.GCSViews
                             waypoints = DateTime.Now;
 
                         }
-                        elevationoverlay.Markers.Clear();
+                        //elevationoverlay.Markers.Clear();
                         if (Elevation_overlay.Checked)
                         {
-                            List<Double> elev = new List<double>();
                             PointLatLng lnglat = new PointLatLng();
                             byte[,] imageData = new byte[(gMapControl1.Width+3), (gMapControl1.Height+1)];
-                            System.Diagnostics.Stopwatch sw = System.Diagnostics.Stopwatch.StartNew();
+                            //System.Diagnostics.Stopwatch sw = System.Diagnostics.Stopwatch.StartNew();
                             for (int y = 0; y< gMapControl1.Height+1; y+=2)
                             {
                                 for(int x = 0; x<gMapControl1.Width+3; x+=2)
                                 {
                                     lnglat = gMapControl1.FromLocalToLatLng(x, y);
-                                    elev.Add(srtm.getAltitude(lnglat.Lat, lnglat.Lng).alt);
 
                                     double alts = srtm.getAltitude(lnglat.Lat, lnglat.Lng).alt;
 
@@ -1267,15 +1268,20 @@ namespace MissionPlanner.GCSViews
                                    
                                 }
                             }
-                            sw.Stop();
-                            elevationoverlay.Markers.Add(new GMapMarkerElevation(imageData,gMapControl1.Width,gMapControl1.Height, currentloc));
+                            //sw.Stop();
+                            elevationoverlay.Markers.Add(new GMapMarkerElevation(imageData,gMapControl1.Width,gMapControl1.Height, center.Position));
                         }
-
-                        if(rel_elevation.Checked && hud1.connected)
+                        if(rel_elevation.Checked == false)
+                        {
+                            count = 0;
+                            elevationoverlay.Markers.Clear();
+                        }
+                        count++;
+                        if(rel_elevation.Checked && hud1.connected && count>2)
                         {
                             elevationoverlay.Markers.Clear();
-
-                            PointLatLngAlt lnglat = new PointLatLngAlt();
+                            count = 0;
+                            PointLatLng lnglat = new PointLatLng();
                             byte[,] imageData = new byte[(gMapControl1.Width + 3), (gMapControl1.Height + 1)];
 
                             for (int y = 2; y < gMapControl1.Height + 1-4; y+=4)
@@ -1284,39 +1290,30 @@ namespace MissionPlanner.GCSViews
                                 {
                                     lnglat = gMapControl1.FromLocalToLatLng(x, y);
 
-                                    //double alts = srtm.getAltitude(lnglat.Lat, lnglat.Lng).alt;
-                                    double alts = DEM.getAltitude(lnglat).Alt;
+                                    double alts = srtm.getAltitude(lnglat.Lat, lnglat.Lng).alt;
 
-                                    double rel = Math.Abs(alts - (hud1.alt+hud1.groundalt));
+                                    double rel = (hud1.alt+hud1.groundalt)-alts;
 
-                                    double drone_height = hud1.alt + hud1.groundalt;
+                                    //double drone_height = hud1.alt + hud1.groundalt;
 
-                                    if (drone_height <= alts)
-                                    {
-                                        imageData[x-2, y-2] = 220;
-                                        imageData[x-1, y-1] = 220;
-                                        imageData[x, y] = 	220;        //red
-                                        imageData[x+1, y+1] = 220;
-                                        imageData[x+1, y+1] = 220;
-                                    }
+                                    normalize(rel);
+                                    /*
+                                        imageData[x-2, y-2] = ColorToUInt(Gradient_Color(normvalue, 0, 10)); 
+                                        imageData[x-1, y-1] = ColorToUInt(Gradient_Color(normvalue, 0, 10)); 
+                                        imageData[x, y] = ColorToUInt(Gradient_Color(normvalue, 0, 10));       //Dark red
+                                        imageData[x + 1, y + 1] = ColorToUInt(Gradient_Color(normvalue, 0, 10));
+                                        imageData[x+1, y+1] = ColorToUInt(Gradient_Color(normvalue, 0, 10));
+                                        */
+                                    imageData[x - 2, y - 2] = Gradient_byte(normvalue);
+                                    imageData[x - 1, y - 1] = Gradient_byte(normvalue);
+                                    imageData[x, y] = Gradient_byte(normvalue);
+                                    imageData[x + 1, y + 1] = Gradient_byte(normvalue);
+                                    imageData[x + 1, y + 1] = Gradient_byte(normvalue);
 
-                                    else if (drone_height - 10 > alts)
-                                    {
-                                        imageData[x - 2, y - 2] = 180;
-                                        imageData[x - 1, y - 1] = 180;
-                                        imageData[x, y] = 180;          //green
-                                        imageData[x + 1, y + 1] = 180;
-                                        imageData[x + 1, y + 1] = 180;
-                                    }
+                                    //(byte)(Color.FromArgb(255, 255, 0, 0)).ToArgb(); 
 
-                                    else
-                                    {
-                                        imageData[x - 2, y - 2] = 250;
-                                        imageData[x - 1, y - 1] = 250;
-                                        imageData[x, y] = 250;          //yellow
-                                        imageData[x + 1, y + 1] = 250;
-                                        imageData[x + 1, y + 1] = 250;
-                                    }
+
+
 
                                 }
                             }
@@ -4713,10 +4710,56 @@ namespace MissionPlanner.GCSViews
             MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f, (float)trackBarYaw.Value * 100.0f, false);
         }
 
-        private void rel_elevation_CheckedChanged(object sender, EventArgs e)
+        private Color Gradient_Color(double value, double min, double max)
         {
 
+            int r = Convert.ToByte(255 * (1-value));
+            int g = Convert.ToByte(255 * (value));
+            int b = 0;
+
+            return Color.FromArgb(255, r, g, b);
+
         }
+
+        private byte Gradient_byte(double value)
+        {
+            byte val = 0;
+            if (value == 1)
+            {
+                 val = colors[(int)(colors.Length * (value))-1];
+            }
+
+            else
+            {
+                 val = colors[(int)(colors.Length * (value))];
+            }
+
+            return val;
+
+        }
+
+        private void normalize(double value)
+        {
+            normvalue = value / 10;
+
+            if (normvalue <0)
+            {
+                normvalue = 0;
+            }
+
+            else if (normvalue > 1)
+            {
+                normvalue = 1;
+            }
+
+        }
+
+        private byte ColorToUInt(Color color)
+        {
+            return (byte)((color.R << 4) |
+                    (color.G << 2) | (color.B));
+        }
+
     }
 }
  
