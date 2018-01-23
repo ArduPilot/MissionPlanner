@@ -108,7 +108,7 @@ namespace MissionPlanner.Utilities
 
         public static implicit operator Vector3(Vector3<T> a)
         {
-            return new Vector3((dynamic)a.x, (dynamic)a.y, (dynamic)a.z);
+            return new Vector3((double) (dynamic) a.x, (double) (dynamic) a.y, (double) (dynamic) a.z);
         }
 
         public static implicit operator Vector3f(Vector3<T> a)
@@ -163,7 +163,7 @@ namespace MissionPlanner.Utilities
 
         public static Vector3<T> operator -(Vector3<T> self)
         {
-            return new Vector3<T>(-(dynamic)self.x, -(dynamic)self.y, -(dynamic)self.z);
+            return new Vector3<T>((T)(-(dynamic)self.x), (T)(-(dynamic)self.y), (T)(-(dynamic)self.z));
         }
 
         public static double operator *(Vector3<T> self, Vector3<T> v)
