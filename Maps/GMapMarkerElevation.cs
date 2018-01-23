@@ -68,10 +68,10 @@ namespace MissionPlanner.Maps
 
         public override void OnRender(Graphics g)
         {
-
             base.OnRender(g);
             elevation.MakeTransparent();
             GPoint loc = new GPoint(LocalPosition.X, LocalPosition.Y);
+
             g.DrawImageUnscaled(elevation, (int)loc.X-Width/2, (int)loc.Y-Height/2);
 
         }

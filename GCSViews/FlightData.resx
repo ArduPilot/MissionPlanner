@@ -1141,7 +1141,7 @@
     <value>4, 22</value>
   </data>
   <data name="tabActions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>350, 164</value>
+    <value>350, 265</value>
   </data>
   <data name="tabActions.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -1255,7 +1255,7 @@
     <value>4, 22</value>
   </data>
   <data name="tabActionsSimple.Size" type="System.Drawing.Size, System.Drawing">
-    <value>350, 164</value>
+    <value>350, 265</value>
   </data>
   <data name="tabActionsSimple.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -1282,7 +1282,7 @@
     <value>3, 3</value>
   </data>
   <data name="checkListControl1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>344, 158</value>
+    <value>344, 259</value>
   </data>
   <data name="checkListControl1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1306,7 +1306,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabPagePreFlight.Size" type="System.Drawing.Size, System.Drawing">
-    <value>350, 164</value>
+    <value>350, 265</value>
   </data>
   <data name="tabPagePreFlight.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -1459,7 +1459,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabGauges.Size" type="System.Drawing.Size, System.Drawing">
-    <value>350, 164</value>
+    <value>350, 265</value>
   </data>
   <data name="tabGauges.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1489,7 +1489,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabStatus.Size" type="System.Drawing.Size, System.Drawing">
-    <value>350, 164</value>
+    <value>350, 265</value>
   </data>
   <data name="tabStatus.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1729,7 +1729,7 @@
     <value>3, 3</value>
   </data>
   <data name="flowLayoutPanelServos.Size" type="System.Drawing.Size, System.Drawing">
-    <value>344, 158</value>
+    <value>344, 259</value>
   </data>
   <data name="flowLayoutPanelServos.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1753,7 +1753,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabServo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>350, 164</value>
+    <value>350, 265</value>
   </data>
   <data name="tabServo.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -2212,7 +2212,7 @@
     <value>89, 69</value>
   </data>
   <data name="panel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>217, 92</value>
+    <value>217, 193</value>
   </data>
   <data name="panel2.TabIndex" type="System.Int32, mscorlib">
     <value>81</value>
@@ -2239,7 +2239,7 @@
     <value>3</value>
   </data>
   <data name="tableLayoutPaneltlogs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>350, 164</value>
+    <value>350, 265</value>
   </data>
   <data name="tableLayoutPaneltlogs.TabIndex" type="System.Int32, mscorlib">
     <value>81</value>
@@ -2263,7 +2263,7 @@
     <value>4, 22</value>
   </data>
   <data name="tabTLogs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>350, 164</value>
+    <value>350, 265</value>
   </data>
   <data name="tabTLogs.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -2452,7 +2452,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tablogbrowse.Size" type="System.Drawing.Size, System.Drawing">
-    <value>350, 164</value>
+    <value>350, 265</value>
   </data>
   <data name="tablogbrowse.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -2686,7 +2686,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabScripts.Size" type="System.Drawing.Size, System.Drawing">
-    <value>350, 164</value>
+    <value>350, 265</value>
   </data>
   <data name="tabScripts.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -2719,7 +2719,7 @@
     <value>Vertical</value>
   </data>
   <data name="txt_messagebox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>344, 158</value>
+    <value>344, 259</value>
   </data>
   <data name="txt_messagebox.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -2743,7 +2743,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabPagemessages.Size" type="System.Drawing.Size, System.Drawing">
-    <value>350, 164</value>
+    <value>350, 265</value>
   </data>
   <data name="tabPagemessages.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -3046,7 +3046,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabPayload.Size" type="System.Drawing.Size, System.Drawing">
-    <value>350, 164</value>
+    <value>350, 265</value>
   </data>
   <data name="tabPayload.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -3166,7 +3166,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="zg1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>634, 210</value>
+    <value>960, 210</value>
   </data>
   <data name="zg1.TabIndex" type="System.Int32, mscorlib">
     <value>67</value>
@@ -3175,7 +3175,7 @@
     <value>zg1</value>
   </data>
   <data name="&gt;&gt;zg1.Type" xml:space="preserve">
-    <value>ZedGraph.ZedGraphControl, ZedGraph, Version=5.1.5.28501, Culture=neutral, PublicKeyToken=null</value>
+    <value>ZedGraph.ZedGraphControl, ZedGraph, Version=5.1.5.25168, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;zg1.Parent" xml:space="preserve">
     <value>splitContainer1.Panel1</value>
@@ -3813,44 +3813,17 @@
   <data name="&gt;&gt;CB_tuning.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="Elevation_overlay.Location" type="System.Drawing.Point, System.Drawing">
-    <value>335, 4</value>
-  </data>
-  <data name="Elevation_overlay.Size" type="System.Drawing.Size, System.Drawing">
-    <value>70, 24</value>
-  </data>
-  <data name="Elevation_overlay.TabIndex" type="System.Int32, mscorlib">
-    <value>72</value>
-  </data>
-  <data name="Elevation_overlay.Text" xml:space="preserve">
-    <value>Elevation</value>
-  </data>
-  <data name="Elevation_overlay.ToolTip" xml:space="preserve">
-    <value>Overlays Elevation colour gradient</value>
-  </data>
-  <data name="&gt;&gt;Elevation_overlay.Name" xml:space="preserve">
-    <value>Elevation_overlay</value>
-  </data>
-  <data name="&gt;&gt;Elevation_overlay.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Elevation_overlay.Parent" xml:space="preserve">
-    <value>panel1</value>
-  </data>
-  <data name="&gt;&gt;Elevation_overlay.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
   <data name="rel_elevation.Location" type="System.Drawing.Point, System.Drawing">
-    <value>267, 4</value>
+    <value>333, 4</value>
   </data>
   <data name="rel_elevation.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 24</value>
+    <value>72, 24</value>
   </data>
   <data name="rel_elevation.TabIndex" type="System.Int32, mscorlib">
     <value>73</value>
   </data>
   <data name="rel_elevation.Text" xml:space="preserve">
-    <value>relelev</value>
+    <value>Elevation</value>
   </data>
   <data name="rel_elevation.ToolTip" xml:space="preserve">
     <value>Relative elevation to drone</value>
@@ -3865,7 +3838,7 @@
     <value>panel1</value>
   </data>
   <data name="&gt;&gt;rel_elevation.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>5</value>
   </data>
   <data name="panel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -3956,6 +3929,27 @@
   </data>
   <data name="&gt;&gt;MainH.ZOrder" xml:space="preserve">
     <value>4</value>
+  </data>
+  <data name="Elevation_overlay.Location" type="System.Drawing.Point, System.Drawing">
+    <value>335, 4</value>
+  </data>
+  <data name="Elevation_overlay.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 24</value>
+  </data>
+  <data name="Elevation_overlay.TabIndex" type="System.Int32, mscorlib">
+    <value>72</value>
+  </data>
+  <data name="Elevation_overlay.Text" xml:space="preserve">
+    <value>Elevation</value>
+  </data>
+  <data name="Elevation_overlay.ToolTip" xml:space="preserve">
+    <value>Overlays Elevation colour gradient</value>
+  </data>
+  <data name="&gt;&gt;Elevation_overlay.Name" xml:space="preserve">
+    <value>Elevation_overlay</value>
+  </data>
+  <data name="&gt;&gt;Elevation_overlay.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ZedGraphTimer.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>171, 17</value>

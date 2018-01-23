@@ -172,8 +172,8 @@
             this.label1 = new MissionPlanner.Controls.MyLabel();
             this.CHK_autopan = new System.Windows.Forms.CheckBox();
             this.CB_tuning = new System.Windows.Forms.CheckBox();
-            this.Elevation_overlay = new System.Windows.Forms.CheckBox();
             this.rel_elevation = new System.Windows.Forms.CheckBox();
+            this.Elevation_overlay = new System.Windows.Forms.CheckBox();
             this.ZedGraphTimer = new System.Windows.Forms.Timer(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.openScriptDialog = new System.Windows.Forms.OpenFileDialog();
@@ -2192,7 +2192,6 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.CHK_autopan);
             this.panel1.Controls.Add(this.CB_tuning);
-            this.panel1.Controls.Add(this.Elevation_overlay);
             this.panel1.Controls.Add(this.rel_elevation);
             resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
@@ -2263,6 +2262,14 @@
             this.CB_tuning.UseVisualStyleBackColor = true;
             this.CB_tuning.CheckedChanged += new System.EventHandler(this.CB_tuning_CheckedChanged);
             // 
+            // rel_elevation
+            // 
+            resources.ApplyResources(this.rel_elevation, "rel_elevation");
+            this.rel_elevation.Name = "rel_elevation";
+            this.toolTip1.SetToolTip(this.rel_elevation, resources.GetString("rel_elevation.ToolTip"));
+            this.rel_elevation.UseVisualStyleBackColor = true;
+            this.rel_elevation.CheckedChanged += new System.EventHandler(this.rel_elevation_CheckedChanged);
+            // 
             // Elevation_overlay
             // 
             resources.ApplyResources(this.Elevation_overlay, "Elevation_overlay");
@@ -2270,14 +2277,6 @@
             this.toolTip1.SetToolTip(this.Elevation_overlay, resources.GetString("Elevation_overlay.ToolTip"));
             this.Elevation_overlay.UseVisualStyleBackColor = true;
             this.Elevation_overlay.CheckedChanged += new System.EventHandler(this.Elevation_overlay_CheckedChanged);
-            // 
-            // rel_elevation
-            // 
-            resources.ApplyResources(this.rel_elevation, "rel_elevation");
-            this.rel_elevation.Name = "rel_elevation";
-            this.toolTip1.SetToolTip(this.rel_elevation, resources.GetString("rel_elevation.ToolTip"));
-            this.rel_elevation.UseVisualStyleBackColor = true;
-            //this.rel_elevation.CheckedChanged += new System.EventHandler(this.rel_elevation_CheckedChanged);
             // 
             // ZedGraphTimer
             // 
