@@ -6,7 +6,7 @@
     <OutputType>Exe</OutputType>
     <StartupObject></StartupObject>
     <Authors>Michael Oborne</Authors>
-    <Version>1.3.52.5</Version>
+    <Version>1.3.52.6</Version>
     <DebugType>full</DebugType>
     <Company>Michael Oborne</Company>
     <Product>Mission Planner</Product>
@@ -246,7 +246,7 @@
         <AutoGen>True</AutoGen>
         <DependentUpon>Tracker.cs</DependentUpon>
       </Compile>
-    <Compile Include="CodeGen.cs" />
+      <Compile Include="CodeGen.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="ConnectionOptions.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Controls\Forms\OpenGLPage.cs" />
@@ -1953,7 +1953,12 @@
 
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="&quot;$(TargetDir)version.exe&quot; &quot;$(TargetPath)&quot; &gt; &quot;$(TargetDir)version.txt&quot;" />
+    <Exec Command="&quot;$(TargetDir)version.exe&quot; &quot;$(TargetPath)&quot; &gt; &quot;$(TargetDir)version.txt&quot;&#xD;&#xA;" />
+  </Target>
+
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="echo $(TargetDir)" />
   </Target>
 
 

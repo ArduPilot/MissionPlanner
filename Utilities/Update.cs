@@ -42,12 +42,14 @@ namespace MissionPlanner.Utilities
                 }
                 else if (dobeta)
                 {
-                    CheckMD5(frmProgressReporter, ConfigurationManager.AppSettings["BetaUpdateLocationMD5"].ToString(),
+                    CheckMD5(frmProgressReporter, 
+                        ConfigurationManager.AppSettings["BetaUpdateLocationMD5"].ToString(),
                         ConfigurationManager.AppSettings["BetaUpdateLocation"]);
-                } 
+                }
                 else
                 {
-                    CheckMD5(frmProgressReporter, ConfigurationManager.AppSettings["UpdateLocationMD5"].ToString(),
+                    CheckMD5(frmProgressReporter, 
+                        ConfigurationManager.AppSettings["UpdateLocationMD5"].ToString(),
                         ConfigurationManager.AppSettings["UpdateLocation"]);
                 }
 

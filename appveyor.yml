@@ -29,6 +29,8 @@ build_script:
 
     for /f %%f in ('dir /a-d /b plugins') do if exist .\%%f del .\plugins\%%f
 
+    copy version.txt c:\mp\
+
     set PATH=c:\cygwin\bin;%PATH%
 
     7z a -tzip ..\..\..\MissionPlannerBeta.zip *  
@@ -64,6 +66,8 @@ artifacts:
   name: MissionPlannerBeta
 - path: checksums.txt
   name: checksums
+- path: version.txt
+  name: version
 deploy: off
 notifications:
 - provider: Webhook
