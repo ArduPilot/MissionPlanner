@@ -28,5 +28,15 @@ namespace MissionPlanner.Utilities
         {
             return await Task.Run(() => { return function(input); });
         }
+
+        public static void Add<T, T2>(this List<Tuple<T, T2>> input, T in1, T2 in2)
+        {
+            input.Add(new Tuple<T, T2>(in1, in2));
+        }
+
+        public static void Add<T, T2, T3>(this List<Tuple<T, T2, T3>> input, T in1, T2 in2, T3 in3)
+        {
+            input.Add(new Tuple<T, T2, T3>(in1, in2, in3));
+        }
     }
 }

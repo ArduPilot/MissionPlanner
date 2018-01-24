@@ -1209,7 +1209,12 @@ namespace MissionPlanner.Log
             else
             {
                 var list1 = DFLogScript.ProcessExpression(ref dflog, ref logdata, type);
-                GraphItem_AddCurve(list1, type, fieldname, left);
+                var newlist = new PointPairList();
+                list1.ForEach(a =>
+                {
+                    newlist.Add(new PointPair(a.Item1, a.Item2));
+                });
+                GraphItem_AddCurve(newlist, type, fieldname, left);
             }
         }
 

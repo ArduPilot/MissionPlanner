@@ -266,6 +266,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>LogStrings.resx</DependentUpon>
     </Compile>
+    <Compile Include="Log\MatLabForms.cs" />
     <Compile Include="MagCalib.cs" />
     <Compile Include="Magfitrotation.cs" />
     <Compile Include="MainV2.cs"> <SubType>Control</SubType> </Compile>
@@ -398,14 +399,12 @@
     <Compile Include="Joystick\Joy_Do_Set_Relay.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Joystick\Joy_Do_Set_Servo.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Joystick\Joy_Mount_Mode.cs"> <SubType>Control</SubType> </Compile>
-    <Compile Include="Log\DFLogScript.cs" />
     <Compile Include="Log\LogBrowse.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Log\LogDownload.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Log\LogDownloadMavLink.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Log\LogDownloadscp.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Log\LogIndex.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Log\LogSort.cs" />
-    <Compile Include="Log\MatLab.cs" />
     <Compile Include="Log\MavlinkLog.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Log\Scan.cs" />
     <Compile Include="Log\test\MotorFailure.cs" />

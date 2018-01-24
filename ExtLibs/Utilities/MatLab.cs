@@ -3,74 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using MissionPlanner;
 using csmatio.io;
 using csmatio.types;
 using System.Globalization;
 using log4net;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using MissionPlanner.Utilities;
+using MissionPlanner.Comms;
 
 namespace MissionPlanner.Log
 {
     public class MatLab
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
-        public static void ProcessTLog()
-        {
-            using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
-            {
-                openFileDialog1.Filter = "*.tlog|*.tlog";
-                openFileDialog1.FilterIndex = 2;
-                openFileDialog1.RestoreDirectory = true;
-                openFileDialog1.Multiselect = true;
-                try
-                {
-                    openFileDialog1.InitialDirectory = Settings.Instance.LogDir + Path.DirectorySeparatorChar;
-                }
-                catch
-                {
-                } // incase dir doesnt exist
-
-                if (openFileDialog1.ShowDialog() == DialogResult.OK)
-                {
-                    foreach (string logfile in openFileDialog1.FileNames)
-                    {
-                        MissionPlanner.Log.MatLab.tlog(logfile);
-                    }
-                }
-            }
-        }
-
-        public static void ProcessLog()
-        {
-            using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
-            {
-                openFileDialog1.Filter = "Log Files|*.log;*.bin";
-                openFileDialog1.FilterIndex = 2;
-                openFileDialog1.RestoreDirectory = true;
-                openFileDialog1.Multiselect = true;
-                try
-                {
-                    openFileDialog1.InitialDirectory = Settings.Instance.LogDir + Path.DirectorySeparatorChar;
-                }
-                catch
-                {
-                } // incase dir doesnt exist
-
-                if (openFileDialog1.ShowDialog() == DialogResult.OK)
-                {
-                    foreach (string logfile in openFileDialog1.FileNames)
-                    {
-                        MissionPlanner.Log.MatLab.ProcessLog(logfile);
-                    }
-                }
-            }
-        }
 
         private static MLArray CreateCellArray(string name, string[] names)
         {
@@ -101,15 +46,14 @@ namespace MissionPlanner.Log
             return cell;
         }
 
-        public static void ProcessLog(string fn)
+        public static void ProcessLog(string fn, Action<string> ProgressEvent = null)
         {
             using (CollectionBuffer colbuf = new CollectionBuffer(File.OpenRead(fn)))
             {
-
                 // store all the arrays
                 List<MLArray> mlList = new List<MLArray>();
                 // store data to putinto the arrays
-                Dictionary<string, DoubleList> data = new Dictionary<string, DoubleList>();
+                Dictionary<string, MatLab.DoubleList> data = new Dictionary<string, MatLab.DoubleList>();
 
                 Dictionary<string, List<MLCell>> dataCell = new Dictionary<string, List<MLCell>>();
                 // store line item lengths
@@ -130,7 +74,7 @@ namespace MissionPlanner.Log
                     if (a%1000 == 0)
                     {
                         Console.Write(a + "/" + colbuf.Count + "\r");
-                        MissionPlanner.Controls.Loading.ShowLoading("Processing "+a + "/" + colbuf.Count);
+                        ProgressEvent?.Invoke("Processing "+a + "/" + colbuf.Count);
                     }
 
                     string strLine = line.Replace(", ", ",");
@@ -207,7 +151,7 @@ namespace MissionPlanner.Log
                         }
 
                         if (!data.ContainsKey(items[0]))
-                            data[items[0]] = new DoubleList();
+                            data[items[0]] = new MatLab.DoubleList();
 
                         data[items[0]].Add(dbarray);
                     }
@@ -226,12 +170,11 @@ namespace MissionPlanner.Log
                     }
                 }
 
-                MissionPlanner.Controls.Loading.Close();
                 DoWrite(fn + "-" + a, data, dataCell, param, mlList, seen);
             }
         }
 
-        static void DoWrite(string fn, Dictionary<string, DoubleList> data, Dictionary<string, List<MLCell>> dataCell, SortedDictionary<string, double> param,
+        static void DoWrite(string fn, Dictionary<string, MatLab.DoubleList> data, Dictionary<string, List<MLCell>> dataCell, SortedDictionary<string, double> param,
             List<MLArray> mlList, Hashtable seen)
         {
             log.Info("DoWrite start " + (GC.GetTotalMemory(false)/1024.0/1024.0));
@@ -287,9 +230,7 @@ namespace MissionPlanner.Log
             }
             catch (Exception err)
             {
-                CustomMessageBox.Show("There was an error when creating the MAT-file: \n" + err.ToString(),
-                    "MAT-File Creation Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return;
+                throw new Exception("There was an error when creating the MAT-file: \n" + err.ToString(), err);
             }
         }
 
@@ -298,24 +239,15 @@ namespace MissionPlanner.Log
             List<MLArray> mlList = new List<MLArray>();
             Hashtable datappl = new Hashtable();
 
-            using (MAVLinkInterface mine = new MAVLinkInterface())
+            using (Comms.CommsFile cf = new CommsFile(logfile))
+            using (CommsStream cs = new CommsStream(cf, cf.BytesToRead))
             {
-                try
-                {
-                    mine.logplaybackfile =
-                        new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
-                }
-                catch
-                {
-                    CustomMessageBox.Show("Log Can not be opened. Are you still connected?");
-                    return;
-                }
-                mine.logreadmode = true;
-                mine.speechenabled = false;
+                MAVLink.MavlinkParse parse = new MAVLink.MavlinkParse(true);
 
-                while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
+                while (cs.Position < cs.Length)
                 {
-                    MAVLink.MAVLinkMessage packet = mine.readPacket();
+                    MAVLink.MAVLinkMessage packet = parse.ReadPacket(cs);
+
                     object data = packet.data;
 
                     if (data == null)
@@ -323,13 +255,13 @@ namespace MissionPlanner.Log
 
                     if (data is MAVLink.mavlink_heartbeat_t)
                     {
-                        if (((MAVLink.mavlink_heartbeat_t) data).type == (byte) MAVLink.MAV_TYPE.GCS)
+                        if (((MAVLink.mavlink_heartbeat_t)data).type == (byte)MAVLink.MAV_TYPE.GCS)
                             continue;
                     }
 
                     Type test = data.GetType();
 
-                    DateTime time = mine.lastlogread;
+                    DateTime time = packet.rxtime;
 
                     double matlabtime = GetMatLabSerialDate(time);
 
@@ -351,49 +283,49 @@ namespace MissionPlanner.Log
                                 }
 
                                 List<double[]> list =
-                                    ((List<double[]>) datappl[field.Name + "_" + field.DeclaringType.Name]);
+                                    ((List<double[]>)datappl[field.Name + "_" + field.DeclaringType.Name]);
 
                                 object value = fieldValue;
 
-                                if (value.GetType() == typeof (Single))
+                                if (value.GetType() == typeof(Single))
                                 {
-                                    list.Add(new double[] {matlabtime, (double) (Single) field.GetValue(data)});
+                                    list.Add(new double[] { matlabtime, (double)(Single)field.GetValue(data) });
                                 }
-                                else if (value.GetType() == typeof (short))
+                                else if (value.GetType() == typeof(short))
                                 {
-                                    list.Add(new double[] {matlabtime, (double) (short) field.GetValue(data)});
+                                    list.Add(new double[] { matlabtime, (double)(short)field.GetValue(data) });
                                 }
-                                else if (value.GetType() == typeof (ushort))
+                                else if (value.GetType() == typeof(ushort))
                                 {
-                                    list.Add(new double[] {matlabtime, (double) (ushort) field.GetValue(data)});
+                                    list.Add(new double[] { matlabtime, (double)(ushort)field.GetValue(data) });
                                 }
-                                else if (value.GetType() == typeof (byte))
+                                else if (value.GetType() == typeof(byte))
                                 {
-                                    list.Add(new double[] {matlabtime, (double) (byte) field.GetValue(data)});
+                                    list.Add(new double[] { matlabtime, (double)(byte)field.GetValue(data) });
                                 }
-                                else if (value.GetType() == typeof (sbyte))
+                                else if (value.GetType() == typeof(sbyte))
                                 {
-                                    list.Add(new double[] {matlabtime, (double) (sbyte) field.GetValue(data)});
+                                    list.Add(new double[] { matlabtime, (double)(sbyte)field.GetValue(data) });
                                 }
-                                else if (value.GetType() == typeof (Int32))
+                                else if (value.GetType() == typeof(Int32))
                                 {
-                                    list.Add(new double[] {matlabtime, (double) (Int32) field.GetValue(data)});
+                                    list.Add(new double[] { matlabtime, (double)(Int32)field.GetValue(data) });
                                 }
-                                else if (value.GetType() == typeof (UInt32))
+                                else if (value.GetType() == typeof(UInt32))
                                 {
-                                    list.Add(new double[] {matlabtime, (double) (UInt32) field.GetValue(data)});
+                                    list.Add(new double[] { matlabtime, (double)(UInt32)field.GetValue(data) });
                                 }
-                                else if (value.GetType() == typeof (ulong))
+                                else if (value.GetType() == typeof(ulong))
                                 {
-                                    list.Add(new double[] {matlabtime, (double) (ulong) field.GetValue(data)});
+                                    list.Add(new double[] { matlabtime, (double)(ulong)field.GetValue(data) });
                                 }
-                                else if (value.GetType() == typeof (long))
+                                else if (value.GetType() == typeof(long))
                                 {
-                                    list.Add(new double[] {matlabtime, (double) (long) field.GetValue(data)});
+                                    list.Add(new double[] { matlabtime, (double)(long)field.GetValue(data) });
                                 }
-                                else if (value.GetType() == typeof (double))
+                                else if (value.GetType() == typeof(double))
                                 {
-                                    list.Add(new double[] {matlabtime, (double) (double) field.GetValue(data)});
+                                    list.Add(new double[] { matlabtime, (double)(double)field.GetValue(data) });
                                 }
                                 else
                                 {
@@ -406,10 +338,6 @@ namespace MissionPlanner.Log
                     {
                     }
                 }
-
-                mine.logreadmode = false;
-                mine.logplaybackfile.Close();
-                mine.logplaybackfile = null;
             }
 
             foreach (string item in datappl.Keys)
@@ -425,9 +353,7 @@ namespace MissionPlanner.Log
             }
             catch (Exception err)
             {
-                MessageBox.Show("There was an error when creating the MAT-file: \n" + err.ToString(),
-                    "MAT-File Creation Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return;
+                throw new Exception("There was an error when creating the MAT-file: \n" + err.ToString(), err);
             }
         }
 

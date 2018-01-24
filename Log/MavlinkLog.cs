@@ -1722,7 +1722,7 @@ namespace MissionPlanner.Log
 
         private void BUT_matlab_Click(object sender, EventArgs e)
         {
-            MissionPlanner.Log.MatLab.ProcessTLog();
+            MatLabForms.ProcessTLog();
         }
 
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)

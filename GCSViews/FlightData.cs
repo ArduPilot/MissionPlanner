@@ -3790,7 +3790,7 @@ namespace MissionPlanner.GCSViews
 
         private void BUT_matlab_Click(object sender, EventArgs e)
         {
-            MatLab.ProcessLog();
+            MatLabForms.ProcessLog();
         }
 
         private void BUT_mountmode_Click(object sender, EventArgs e)
