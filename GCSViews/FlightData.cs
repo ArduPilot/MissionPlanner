@@ -142,11 +142,6 @@ namespace MissionPlanner.GCSViews
             {
                 if (hud1 != null)
                     Settings.Instance["FlightSplitter"] = MainH.SplitterDistance.ToString();
-
-                if (!this.SubMainLeft.Panel1.Controls.Contains(hud1))
-                    Settings.Instance["HudSwap"] = "true";
-                else
-                    Settings.Instance["HudSwap"] = "false";
             }
             catch
             {
@@ -4208,11 +4203,13 @@ namespace MissionPlanner.GCSViews
 
             if (this.SubMainLeft.Panel1.Controls.Contains(hud1))
             {
+                Settings.Instance["HudSwap"] = "true";
                 MainH.Panel2.Controls.Add(hud1);
                 SubMainLeft.Panel1.Controls.Add(tableMap);
             }
             else
             {
+                Settings.Instance["HudSwap"] = "false";
                 MainH.Panel2.Controls.Add(tableMap);
                 SubMainLeft.Panel1.Controls.Add(hud1);
             }
