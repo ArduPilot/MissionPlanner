@@ -662,7 +662,9 @@ namespace MissionPlanner
             int a = 1;
             PointLatLngAlt prevprevpoint = grid[0];
             PointLatLngAlt prevpoint = grid[0];
-            float routetotal = 0;
+            // distance to/from home
+            double routetotal = grid.First().GetDistance(MainV2.comPort.MAV.cs.HomeLocation)/1000.0 +
+                               grid.Last().GetDistance(MainV2.comPort.MAV.cs.HomeLocation)/1000.0;
             List<PointLatLng> segment = new List<PointLatLng>();
             double maxgroundelevation = double.MinValue;
             double mingroundelevation = double.MaxValue;
@@ -818,7 +820,7 @@ namespace MissionPlanner
                 }
 
                 // Distance
-                float distance = routetotal * 3280.84f; // Calculate the distance in feet
+                double distance = routetotal * 3280.8399; // Calculate the distance in feet
                 if (distance < 5280f)
                 {
                     lbl_distance.Text = distance.ToString("#") + " ft";
