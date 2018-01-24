@@ -44,7 +44,7 @@ namespace MissionPlanner.Utilities
                 {
                     CheckMD5(frmProgressReporter, 
                         ConfigurationManager.AppSettings["BetaUpdateLocationMD5"].ToString(),
-                        ConfigurationManager.AppSettings["BetaUpdateLocation"]);
+                        ConfigurationManager.AppSettings["BetaUpdateLocationZip"]);
                 }
                 else
                 {
@@ -127,7 +127,7 @@ namespace MissionPlanner.Utilities
             log.Debug(path);
 
             // Create a request using a URL that can receive a post. 
-            string requestUriString = baseurl + Path.GetFileName(path);
+            string requestUriString = baseurl;
 
             L10N.ReplaceMirrorUrl(ref requestUriString);
 
