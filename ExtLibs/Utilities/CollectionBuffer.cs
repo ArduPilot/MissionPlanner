@@ -96,8 +96,41 @@ namespace MissionPlanner.Utilities
                 // build fmt line database using type
                 foreach (var item in GetEnumeratorType("FMT"))
                 {
-                    //Console.WriteLine("Found FMT");
-                    bool t = true;
+                    try
+                    {
+                        FMT[int.Parse(item["Type"])] = new Tuple<int, string, string, string>(
+                        int.Parse(item["Length"]),
+                        item["Name"],
+                        item["Format"],
+                        item["Columns"]);
+                    }
+                    catch { }
+                }
+
+                foreach (var item in GetEnumeratorType("FMTU"))
+                {
+                    try
+                    {
+                        FMTU[int.Parse(item["FmtType"])] = new Tuple<string, string>(item["UnitIds"], item["MultIds"]);
+                    }
+                    catch { }
+                }
+
+                foreach (var item in GetEnumeratorType("UNIT"))
+                {
+                    try
+                    {
+                        Unit[(char) int.Parse(item["Id"])] = item["Label"];
+                    } catch { }
+                }
+
+                foreach (var item in GetEnumeratorType("MULT"))
+                {
+                    try
+                    {
+                        Mult[(char)int.Parse(item["Id"])] = item["Mult"];
+                    }
+                    catch { }
                 }
             }
             else
@@ -145,6 +178,12 @@ namespace MissionPlanner.Utilities
 
             indexcachelineno = -1;
         }
+
+        public Dictionary<int, Tuple<int, string, string, string>> FMT { get; set; } = new Dictionary<int, Tuple<int, string, string, string>>();
+        public Dictionary<int, Tuple<string, string>> FMTU { get; set; } = new Dictionary<int, Tuple<string, string>>();
+
+        public Dictionary<char, string> Unit { get; set; } = new Dictionary<char, string>();
+        public Dictionary<char, string> Mult { get; set; } = new Dictionary<char, string>();
 
         public String this[int index]
         {
