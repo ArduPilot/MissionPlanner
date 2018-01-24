@@ -4103,7 +4103,7 @@ namespace MissionPlanner.GCSViews
                 } catch (Exception ex)
                 {
                     log.Error(ex);
-                    CustomMessageBox.Show("Invalid Lat/Lng, please fix",Strings.ERROR);
+                    CustomMessageBox.Show("Invalid Lat/Long, please fix",Strings.ERROR);
                 }
             }
 
