@@ -238,7 +238,11 @@ namespace MissionPlanner.Log
             new displaylist()
             {
                 Name = "Power Issues",
-                items = new displayitem[] {new displayitem() {type = "CURR", field = "Vcc"}}
+                items = new displayitem[]
+                {
+                    new displayitem() {type = "CURR", field = "Vcc"},
+                    new displayitem() {type = "POWR", field = "Vcc"}
+                }
             },
             new displaylist()
             {
