@@ -1344,6 +1344,19 @@ namespace MissionPlanner.Log
                 return;
             }
 
+            (string unit, double multiplier) = logdata.GetUnit(type, header);
+
+            if (unit != "")
+                header += " (" + unit + ")";
+
+            if (multiplier != 0 && multiplier != 1)
+            {
+                for (var i = 0; i < list1.Count; i++)
+                {
+                    list1[i].Y *= multiplier;
+                }
+            }
+
             LineItem myCurve;
 
             myCurve = zg1.GraphPane.AddCurve(type + "." + header, list1,
