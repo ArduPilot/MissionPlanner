@@ -74,9 +74,9 @@ namespace MissionPlanner.GCSViews
 
         double normvalue = 0;
         byte[] colors = new byte[] { 220, 226, 232, 233, 244, 250, 214, 142, 106 }; //Colors: Red - Yellow - Green
+        byte[] colors2 = new byte[] { 195, 189, 123, 80, 81, 45, 51, 57, 105, 111, 75, 74, 70, 72, 106, 108, 142, 178, 214, 215, 250, 244, 239, 238, 233, 232, 226, 220 }; //Colors: Blue - Green - Yellow - Red
         byte[,] imageData;
         double[,] alts;
-        float prev_alt = 0;
         PointLatLng prev_position;
         int prev_height = 0;
         int prev_width = 0;
@@ -89,6 +89,8 @@ namespace MissionPlanner.GCSViews
         int clearance;
         int prev_res;
         double drone_alt;
+        double max_alt;
+        double min_alt;
 
         PointLatLng lnglat = new PointLatLng();
 
@@ -7196,18 +7198,40 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                             alts = new double[(width * 4 + extend), (height*res+10 + extend)];
                         }
 
+                        if (center.Position != prev_position || MainMap.Zoom != prev_zoom)
+                        {
+                            max_alt = srtm.getAltitude(center.Position.Lat, center.Position.Lng).alt;
+                            min_alt = max_alt;
+
+                            for (int y = res / 2; y < MainMap.Height + extend + 1 - res; y += res)
+                            {
+                                for (int x = res / 2; x < width * 4 + extend - res; x += res)
+                                {
+
+                                    lnglat = MainMap.FromLocalToLatLng(x - extend / 2, y - extend / 2);
+                                    alts[x, y] = (srtm.getAltitude(lnglat.Lat, lnglat.Lng).alt);
+
+                                    if (ter_run)
+                                    {
+                                        if (max_alt < (srtm.getAltitude(lnglat.Lat, lnglat.Lng).alt))
+                                        {
+                                            max_alt = (srtm.getAltitude(lnglat.Lat, lnglat.Lng).alt);
+                                        }
+
+                                        if (min_alt > (srtm.getAltitude(lnglat.Lat, lnglat.Lng).alt))
+                                        {
+                                            min_alt = (srtm.getAltitude(lnglat.Lat, lnglat.Lng).alt);
+
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
                         for (int y = res / 2; y < height*res + extend- res; y += res)
                         {
                             for (int x = res / 2; x < width * 4 + extend - res; x += res)
                             {
-                                lnglat = MainMap.FromLocalToLatLng(x - extend / 2, y - extend / 2);
-
-
-                                if (center.Position != prev_position || MainMap.Zoom != prev_zoom)
-                                {
-                                    alts[x, y] = (srtm.getAltitude(lnglat.Lat, lnglat.Lng).alt);
-                                }
-
                                 if (ele_run)
                                 {
                                     rel = (drone_alt + MainV2.comPort.MAV.cs.HomeAlt) - alts[x, y];
@@ -7218,7 +7242,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                                     //diagonal pattern
                                     for (int i = -res / 2; i < res / 2; i++)
                                     {
-                                        imageData[x + i, y + i] = Gradient_byte(normvalue);
+                                        imageData[x + i, y + i] = Gradient_byte(normvalue,colors);
                                     }
                                 }
 
@@ -7230,7 +7254,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                                     //diagonal pattern
                                     for (int i = -res / 2; i <= res / 2; i++)
                                     {
-                                        imageData[x + i, y + i] = Gradient_byte(normvalue);
+                                        imageData[x + i, y + i] = Gradient_byte(normvalue,colors2);
                                     }
                                 }
 
@@ -7266,17 +7290,17 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
         }
 
-        private byte Gradient_byte(double value)
+        private byte Gradient_byte(double value, byte[] colr)
         {
             byte val = 0;
             if (value == 1)
             {
-                val = colors[(int)(colors.Length * (value)) - 1];
+                val = colr[(int)(colr.Length * (value)) - 1];
             }
 
             else
             {
-                val = colors[(int)(colors.Length * (value))];
+                val = colr[(int)(colr.Length * (value))];
             }
 
             return val;
@@ -7293,7 +7317,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
             else if (ter_run)
             {
-                normvalue = value / 1000;
+                normvalue = (value - min_alt) / (max_alt - min_alt);
             }
 
             if (normvalue < 0)

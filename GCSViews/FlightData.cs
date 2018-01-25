@@ -43,7 +43,7 @@ namespace MissionPlanner.GCSViews
 
         double normvalue = 0;
         byte[] colors = new byte[] {220, 226, 232, 233, 244, 250, 214, 142, 106}; //Colors: Red - Yellow - Green
-        byte[] colors2 = new byte[] { }; //Colors: Blue - Green - Yellow - Red
+        byte[] colors2 = new byte[] {195,189,123,80,81,45,51,57,105,111,75,74,70,72,106,108,142,178,214,215,250,244,239,238,233,232,226,220}; //Colors: Blue - Green - Yellow - Red
         byte[,] imageData;
         double[,] alts;
         float prev_alt = 0;
@@ -57,6 +57,8 @@ namespace MissionPlanner.GCSViews
         double rel; //relative elevation between drone and ground
         int clearance;
         int prev_res;
+        double max_alt; 
+        double min_alt;
 
         RollingPointPairList list1 = new RollingPointPairList(1200);
         RollingPointPairList list2 = new RollingPointPairList(1200);
@@ -1268,39 +1270,6 @@ namespace MissionPlanner.GCSViews
                             waypoints = DateTime.Now;
 
                         }
-
-                        /*
-                        if (Elevation_overlay.Checked)
-                        {
-                            PointLatLng lnglat = new PointLatLng();
-                            byte[,] imageData = new byte[(gMapControl1.Width+3), (gMapControl1.Height+1)];
-                            //System.Diagnostics.Stopwatch sw = System.Diagnostics.Stopwatch.StartNew();
-                            for (int y = 0; y< gMapControl1.Height+1; y+=2)
-                            {
-                                for(int x = 0; x<gMapControl1.Width+3; x+=2)
-                                {
-                                    lnglat = gMapControl1.FromLocalToLatLng(x, y);
-
-                                    double alts = srtm.getAltitude(lnglat.Lat, lnglat.Lng).alt;
-
-                                    //double plus = alts / 4;
-
-                                     if (alts <= 2500)
-                                    {
-                                        imageData[x, y] = Convert.ToByte(alts / 10);
-                                    }
-
-                                    else
-                                    {
-                                        imageData[x, y] = 255;
-                                    }
-                                   
-                                }
-                            }
-                            //sw.Stop();
-                            elevationoverlay.Markers.Add(new GMapMarkerElevation(imageData,gMapControl1.Width,gMapControl1.Height, center.Position));
-                        }
-                        */
 
                         updateClearRoutesMarkers();
 
@@ -3379,18 +3348,42 @@ namespace MissionPlanner.GCSViews
                             alts = new double[(width*4+extend), (gMapControl1.Height+extend + 1)];
                         }
 
+
+                        if (center.Position != prev_position || gMapControl1.Zoom != prev_zoom)
+                        {
+                            max_alt = srtm.getAltitude(center.Position.Lat, center.Position.Lng).alt;
+                            min_alt = max_alt;
+
+                            for (int y = res / 2; y < gMapControl1.Height + extend + 1 - res; y += res)
+                            {
+                                for (int x = res / 2; x < width * 4 + extend - res; x += res)
+                                {
+
+                                    lnglat = gMapControl1.FromLocalToLatLng(x - extend / 2, y - extend / 2);
+                                    alts[x, y] = (srtm.getAltitude(lnglat.Lat, lnglat.Lng).alt);
+
+                                    if (ter_run)
+                                    {
+                                        if (max_alt < (srtm.getAltitude(lnglat.Lat, lnglat.Lng).alt))
+                                        {
+                                            max_alt = (srtm.getAltitude(lnglat.Lat, lnglat.Lng).alt);
+                                        }
+
+                                        if (min_alt > (srtm.getAltitude(lnglat.Lat, lnglat.Lng).alt))
+                                        {
+                                            min_alt = (srtm.getAltitude(lnglat.Lat, lnglat.Lng).alt);
+
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
                         for (int y = res/2; y < gMapControl1.Height+extend + 1 - res; y += res)
                         {
                             for (int x = res/2; x < width*4+extend - res; x += res)
                             {
-                                lnglat = gMapControl1.FromLocalToLatLng(x-extend/2, y-extend/2);
-
-
-                                if (center.Position != prev_position || gMapControl1.Zoom != prev_zoom)
-                                {
-                                   alts[x,y] = (srtm.getAltitude(lnglat.Lat, lnglat.Lng).alt);
-                                }
-
+                       
                                 if (ele_run)
                                 {
                                     rel = (hud1.alt + hud1.groundalt) - alts[x, y];
@@ -3401,7 +3394,7 @@ namespace MissionPlanner.GCSViews
                                     //diagonal pattern
                                     for (int i = -res / 2; i <= res / 2; i++)
                                     {
-                                        imageData[x + i, y + i] = Gradient_byte(normvalue);
+                                        imageData[x + i, y + i] = Gradient_byte(normvalue,colors);
                                     }
                                 }
 
@@ -3413,7 +3406,7 @@ namespace MissionPlanner.GCSViews
                                     //diagonal pattern
                                     for (int i = -res / 2; i <= res / 2; i++)
                                     {
-                                        imageData[x + i, y + i] = Gradient_byte(normvalue);
+                                        imageData[x + i, y + i] = Gradient_byte(normvalue,colors2);
                                     }
                                 }
                                 
@@ -4798,17 +4791,17 @@ namespace MissionPlanner.GCSViews
         }
 
  
-        private byte Gradient_byte(double value)
+        private byte Gradient_byte(double value,byte[] colr)
         {
             byte val = 0;
             if (value == 1)
             {
-                 val = colors[(int)(colors.Length * (value))-1];
+                 val = colr[(int)(colr.Length * (value))-1];
             }
 
             else
             {
-                 val = colors[(int)(colors.Length * (value))];
+                 val = colr[(int)(colr.Length * (value))];
             }
 
             return val;
@@ -4825,7 +4818,7 @@ namespace MissionPlanner.GCSViews
 
             else if(ter_run)
             {
-                normvalue = value / 1000;
+                normvalue = (value-min_alt) / (max_alt-min_alt);
             }
 
             if (normvalue <0)
