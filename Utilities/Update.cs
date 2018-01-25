@@ -316,6 +316,12 @@ namespace MissionPlanner.Utilities
                         done++;
                         log.Info("Newer File " + file);
 
+                        if (frmProgressReporter != null && frmProgressReporter.doWorkArgs.CancelRequested)
+                        {
+                            frmProgressReporter.doWorkArgs.CancelAcknowledged = true;
+                            throw new Exception("User Request");
+                        }
+
                         // check is we have already downloaded and matchs hash
                         if (!MD5File(file + ".new", hash))
                         {
@@ -546,9 +552,11 @@ namespace MissionPlanner.Utilities
             try
             {
                 if (MissionPlanner.Utilities.Update.dobeta)
-                    ParameterMetaDataParser.GetParameterInformation(ConfigurationManager.AppSettings["ParameterLocationsBleeding"], String.Format("{0}{1}", Settings.GetUserDataDirectory(), "ParameterMetaDataBackup.xml"));
+                    ParameterMetaDataParser.GetParameterInformation(
+                        ConfigurationManager.AppSettings["ParameterLocationsBleeding"], "ParameterMetaData.xml");
                 else
-                    ParameterMetaDataParser.GetParameterInformation(ConfigurationManager.AppSettings["ParameterLocations"], String.Format("{0}{1}", Settings.GetUserDataDirectory(), "ParameterMetaDataBackup.xml"));
+                    ParameterMetaDataParser.GetParameterInformation(
+                        ConfigurationManager.AppSettings["ParameterLocations"], "ParameterMetaData.xml");
             }
             catch (Exception ex)
             {
