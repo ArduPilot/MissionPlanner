@@ -11,7 +11,7 @@ namespace MissionPlanner.Utilities
     {
         public static string TrimUnPrintable(this string input)
         {
-            return Regex.Replace(input, @"[^\u0020-\u007E]", string.Empty);
+            return Regex.Replace(input, @"[^\u0020-\u007E]", String.Empty);
         }
 
         public static async void Async(this Action function)
@@ -24,7 +24,7 @@ namespace MissionPlanner.Utilities
             return await Task.Run(() => { return function(); });
         }
 
-        public static async Task<TOut> Async<TIn, TOut>(this Func<TIn,TOut> function, TIn input)
+        public static async Task<TOut> Async<TIn, TOut>(this Func<TIn, TOut> function, TIn input)
         {
             return await Task.Run(() => { return function(input); });
         }
@@ -37,6 +37,26 @@ namespace MissionPlanner.Utilities
         public static void Add<T, T2, T3>(this List<Tuple<T, T2, T3>> input, T in1, T2 in2, T3 in3)
         {
             input.Add(new Tuple<T, T2, T3>(in1, in2, in3));
+        }
+
+        public static bool IsNumber(this object value)
+        {
+            if (Equals(value, null))
+            {
+                return false;
+            }
+
+            return value is sbyte
+                   || value is byte
+                   || value is short
+                   || value is ushort
+                   || value is int
+                   || value is uint
+                   || value is long
+                   || value is ulong
+                   || value is float
+                   || value is double
+                   || value is decimal;
         }
     }
 }

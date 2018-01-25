@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.IO;
@@ -127,7 +128,24 @@ namespace MissionPlanner.Utilities
                             log_step = 0;
                             try
                             {
-                                string line = logEntry(data, br);
+                                string line = logEntryObjects(data, br).Aggregate((a, b) =>
+                                              {
+                                                  StringBuilder sb = new StringBuilder();
+                                                  if (a.IsNumber())
+                                                      sb.Append(((IConvertible) a).ToString(CultureInfo.InvariantCulture));
+                                                  else
+                                                      sb.Append(a);
+
+                                                  sb.Append(", ");
+
+                                                  if (b.IsNumber())
+                                                      sb.Append(((IConvertible) b).ToString(CultureInfo.InvariantCulture));
+                                                  else
+                                                      sb.Append(b);
+
+                                                  return sb.ToString();
+                                              }) as string +
+                                              "\r\n";
 
                                 // we need to know the mav type to use the correct mode list.
                                 if (line.Contains("PARM, RATE_RLL_P") || line.Contains("ArduCopter") ||
@@ -305,8 +323,7 @@ namespace MissionPlanner.Utilities
             }
         }
 
-        public
-            object[] ReadMessageObjects(Stream br)
+        public object[] ReadMessageObjects(Stream br)
         {
             lock (locker)
             {
@@ -394,7 +411,7 @@ namespace MissionPlanner.Utilities
 
                         logformat[lgname] = logfmt;
 
-                        return null;
+                        return new object[] {"FMT", logfmt.type, logfmt.length, lgname, lgformat, lglabels};
 
                     default:
                         string format = "";
@@ -450,6 +467,8 @@ namespace MissionPlanner.Utilities
             int offset = 0;
 
             List<object> answer = new List<object>();
+
+            answer.Add(name);
 
             foreach (char ch in form)
             {
@@ -543,103 +562,6 @@ namespace MissionPlanner.Utilities
             return answer.ToArray();
         }
 
-        /// <summary>
-        /// Process each log entry
-        /// </summary>
-        /// <param name="packettype">packet type</param>
-        /// <param name="br">input file</param>
-        /// <returns>string of converted data</returns>
-        string logEntry(byte packettype, Stream br)
-        {
-            lock (locker)
-            {
-                switch (packettype)
-                {
-                    case 0x80: // FMT
-
-                        log_Format logfmt = new log_Format();
-
-                        object obj = logfmt;
-
-                        int len = Marshal.SizeOf(obj);
-
-                        byte[] bytearray = new byte[len];
-
-                        br.Read(bytearray, 0, bytearray.Length);
-
-                        IntPtr i = Marshal.AllocHGlobal(len);
-
-                        // create structure from ptr
-                        obj = Marshal.PtrToStructure(i, obj.GetType());
-
-                        // copy byte array to ptr
-                        Marshal.Copy(bytearray, 0, i, len);
-
-                        obj = Marshal.PtrToStructure(i, obj.GetType());
-
-                        Marshal.FreeHGlobal(i);
-
-                        logfmt = (log_Format) obj;
-
-                        string lgname = ASCIIEncoding.ASCII.GetString(logfmt.name).Trim(new char[] {'\0'});
-                        string lgformat = ASCIIEncoding.ASCII.GetString(logfmt.format).Trim(new char[] {'\0'});
-                        string lglabels = ASCIIEncoding.ASCII.GetString(logfmt.labels).Trim(new char[] {'\0'});
-
-                        logformat[lgname] = logfmt;
-
-                        string line = String.Format("FMT, {0}, {1}, {2}, {3}, {4}\r\n", logfmt.type, logfmt.length,
-                            lgname,
-                            lgformat, lglabels);
-
-                        return line;
-
-                    default:
-                        string format = "";
-                        string name = "";
-                        int size = 0;
-
-                        if (packettypecache.ContainsKey(packettype))
-                        {
-                            var fmt = packettypecache[packettype];
-                            name = fmt.name;
-                            format = fmt.format;
-                            size = fmt.length;
-                        }
-                        else
-                        {
-                            foreach (log_Format fmt in logformat.Values)
-                            {
-                                packettypecache[fmt.type] = new log_format_cache()
-                                {
-                                    length = fmt.length,
-                                    type = fmt.type,
-                                    name = ASCIIEncoding.ASCII.GetString(fmt.name).Trim(new char[] {'\0'}),
-                                    format = ASCIIEncoding.ASCII.GetString(fmt.format).Trim(new char[] {'\0'}),
-                                };
-
-                                if (fmt.type == packettype)
-                                {
-                                    name = packettypecache[fmt.type].name;
-                                    format = packettypecache[fmt.type].format;
-                                    size = fmt.length;
-                                    //break;
-                                }
-                            }
-                        }
-
-                        // didnt find a match, return unknown packet type
-                        if (size == 0)
-                            return "UNKW, " + packettype;
-
-                        byte[] data = new byte[size - 3]; // size - 3 = message - messagetype - (header *2)
-
-                        br.Read(data, 0, data.Length);
-
-                        return ProcessMessage(data, name, format);
-                }
-            }
-        }
-
         Dictionary<int, log_format_cache> packettypecache = new Dictionary<int, log_format_cache>();
 
         /*  
@@ -660,142 +582,5 @@ namespace MissionPlanner.Utilities
     118    +  L   : uint32_t latitude/longitude  
     a : short[32]
     119    + */
-
-
-        /// <summary>
-        /// Convert to ascii based on the existing format message
-        /// </summary>
-        /// <param name="message">raw binary message</param>
-        /// <param name="name">Message type name</param>
-        /// <param name="format">format string containing packet structure</param>
-        /// <returns>formated ascii string</returns>
-        string ProcessMessage(byte[] message, string name, string format)
-        {
-            char[] form = format.ToCharArray();
-
-            int offset = 0;
-
-            StringBuilder line = new StringBuilder(name,1024);
-
-            foreach (char ch in form)
-            {
-                switch (ch)
-                {
-                    case 'b':
-                        line.Append(", " + (sbyte) message[offset]);
-                        offset++;
-                        break;
-                    case 'B':
-                        line.Append(", " + message[offset]);
-                        offset++;
-                        break;
-                    case 'h':
-                        line.Append(", " +
-                                    BitConverter.ToInt16(message, offset)
-                                        .ToString(System.Globalization.CultureInfo.InvariantCulture));
-                        offset += 2;
-                        break;
-                    case 'H':
-                        line.Append(", " +
-                                    BitConverter.ToUInt16(message, offset)
-                                        .ToString(System.Globalization.CultureInfo.InvariantCulture));
-                        offset += 2;
-                        break;
-                    case 'i':
-                        line.Append(", " +
-                                    BitConverter.ToInt32(message, offset)
-                                        .ToString(System.Globalization.CultureInfo.InvariantCulture));
-                        offset += 4;
-                        break;
-                    case 'I':
-                        line.Append(", " +
-                                    BitConverter.ToUInt32(message, offset)
-                                        .ToString(System.Globalization.CultureInfo.InvariantCulture));
-                        offset += 4;
-                        break;
-                    case 'q':
-                        line.Append(", " +
-                                    BitConverter.ToInt64(message, offset)
-                                        .ToString(System.Globalization.CultureInfo.InvariantCulture));
-                        offset += 8;
-                        break;
-                    case 'Q':
-                        line.Append(", " +
-                                    BitConverter.ToUInt64(message, offset)
-                                        .ToString(System.Globalization.CultureInfo.InvariantCulture));
-                        offset += 8;
-                        break;
-                    case 'f':
-                        line.Append(", " +
-                                    BitConverter.ToSingle(message,offset)
-                                        .ToString(System.Globalization.CultureInfo.InvariantCulture));
-                        offset += 4;
-                        break;
-                    case 'd':
-                        line.Append(", " +
-                                    BitConverter.ToDouble(message, offset)
-                                        .ToString(System.Globalization.CultureInfo.InvariantCulture));
-                        offset += 8;
-                        break;
-                    case 'c':
-                        line.Append(", " +
-                                    (BitConverter.ToInt16(message, offset)/100.0).ToString("0.00",
-                                        System.Globalization.CultureInfo.InvariantCulture));
-                        offset += 2;
-                        break;
-                    case 'C':
-                        line.Append(", " +
-                                    (BitConverter.ToUInt16(message, offset)/100.0).ToString("0.00",
-                                        System.Globalization.CultureInfo.InvariantCulture));
-                        offset += 2;
-                        break;
-                    case 'e':
-                        line.Append(", " +
-                                    (BitConverter.ToInt32(message, offset)/100.0).ToString("0.00",
-                                        System.Globalization.CultureInfo.InvariantCulture));
-                        offset += 4;
-                        break;
-                    case 'E':
-                        line.Append(", " +
-                                    (BitConverter.ToUInt32(message, offset)/100.0).ToString("0.00",
-                                        System.Globalization.CultureInfo.InvariantCulture));
-                        offset += 4;
-                        break;
-                    case 'L':
-                        line.Append(", " +
-                                    ((double) BitConverter.ToInt32(message, offset)/10000000.0).ToString(
-                                        System.Globalization.CultureInfo.InvariantCulture));
-                        offset += 4;
-                        break;
-                    case 'n':
-                        line.Append(", " + ASCIIEncoding.ASCII.GetString(message, offset, 4).Trim(new char[] {'\0'}));
-                        offset += 4;
-                        break;
-                    case 'N':
-                        line.Append(", " + ASCIIEncoding.ASCII.GetString(message, offset, 16).Trim(new char[] {'\0'}));
-                        offset += 16;
-                        break;
-                    case 'M':
-                        int modeno = message[offset];
-                        var mode = onFlightMode?.Invoke(_firmware, modeno);
-                        string currentmode = mode == null ? modeno.ToString() : mode;
-                        line.Append(", " + currentmode);
-                        offset++;
-                        break;
-                    case 'Z':
-                        line.Append(", " + ASCIIEncoding.ASCII.GetString(message, offset, 64).Trim(new char[] {'\0'}));
-                        offset += 64;
-                        break;
-                    case 'a':
-                        line.Append(", [" + String.Join(" ", new UnionArray(message.Skip(offset).Take(64).ToArray()).Shorts.Take(32).ToList())+"]");
-                        offset += 2 * 32;
-                        break;
-                    default:
-                        return "Bad Conversion";
-                }
-            }
-
-            return line.ToString().Trim() + "\r\n";
-        }
     }
 }

@@ -188,17 +188,32 @@ namespace MissionPlanner.Utilities
             foreach (var msgtype in FMT)
             {
                 // get unit and mult info
-                var fmtu = FMTU.First(a => a.Key == msgtype.Key);
+                var fmtu = FMTU.FirstOrDefault(a => a.Key == msgtype.Key);
+
+                if(fmtu.Value == null)
+                    continue;
 
                 var units = fmtu.Value.Item1.ToCharArray().Select(a => Unit.FirstOrDefault(b => b.Key == a));
                 var multipliers = fmtu.Value.Item2.ToCharArray().Select(a => Mult.FirstOrDefault(b => b.Key == a));
+                var binfmts = msgtype.Value.Item3.ToCharArray();
 
                 for (var i = 0; i < msgtype.Value.Item4.Length; i++)
                 {
                     var field = msgtype.Value.Item4[i].Trim();
                     var unit = units.Skip(i).First().Value;
+                    var binfmt = binfmts[i];
                     var multi = 1.0;
                     double.TryParse(multipliers.Skip(i).First().Value, out multi);
+
+                    if (binfmt == 'c' || binfmt == 'C' ||
+                        binfmt == 'e' || binfmt == 'E' ||
+                        binfmt == 'L')
+                    {
+                        // these are scaled from the DF format * 100/1e7 etc
+                        // to ensure csv's continue to work we dont modify these values
+                        // 1 = no change
+                        multi = 1;
+                    }
 
                     UnitMultiList.Add((msgtype.Value.Item2, field, unit, multi));
                 }
