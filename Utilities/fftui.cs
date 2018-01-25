@@ -568,9 +568,17 @@ namespace MissionPlanner.Utilities
 
                         alldata[sensorno + 3].lasttime = time;
 
-                        alldata[sensorno + 3].datax.Add(double.Parse(item.items[offsetAX]));
-                        alldata[sensorno + 3].datay.Add(double.Parse(item.items[offsetAY]));
-                        alldata[sensorno + 3].dataz.Add(double.Parse(item.items[offsetAZ]));
+                        double AccAx = 0;
+                        double AccAy = 0;
+                        double AccAz = 0;
+
+                        double.TryParse(item.items[offsetAX].Replace('.', ','), out AccAx);
+                        double.TryParse(item.items[offsetAY].Replace('.', ','), out AccAy);
+                        double.TryParse(item.items[offsetAZ].Replace('.', ','), out AccAz);
+
+                        alldata[sensorno + 3].datax.Add(AccAx);
+                        alldata[sensorno + 3].datay.Add(AccAy);
+                        alldata[sensorno + 3].dataz.Add(AccAz);
 
                         //gyro
                         alldata[sensorno].type = item.msgtype + " GYR";
@@ -585,9 +593,18 @@ namespace MissionPlanner.Utilities
 
                         alldata[sensorno].lasttime = time;
 
-                        alldata[sensorno].datax.Add(double.Parse(item.items[offsetGX]));
-                        alldata[sensorno].datay.Add(double.Parse(item.items[offsetGY]));
-                        alldata[sensorno].dataz.Add(double.Parse(item.items[offsetGZ]));
+
+                        double Gyrx = 0;
+                        double Gyry = 0;
+                        double Gyrz = 0;
+
+                        double.TryParse(item.items[offsetGX].Replace('.', ','), out Gyrx);
+                        double.TryParse(item.items[offsetGY].Replace('.', ','), out Gyry);
+                        double.TryParse(item.items[offsetGZ].Replace('.', ','), out Gyrz);
+
+                        alldata[sensorno].datax.Add(Gyrx);
+                        alldata[sensorno].datay.Add(Gyry);
+                        alldata[sensorno].dataz.Add(Gyrz);
                     }
                 }
 
