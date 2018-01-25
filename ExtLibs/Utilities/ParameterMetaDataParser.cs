@@ -47,7 +47,7 @@ namespace MissionPlanner.Utilities
             var parameterLocationsString = urls;
 
             string XMLFileName =
-                String.Format("{0}{1}", Settings.GetUserDataDirectory(), "ParameterMetaDataBackup.xml");
+                String.Format("{0}{1}", Settings.GetUserDataDirectory(), "ParameterMetaData.xml");
 
             if (file != null)
                 XMLFileName = String.Format("{0}{1}", Settings.GetUserDataDirectory(), file);
