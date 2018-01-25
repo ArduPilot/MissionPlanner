@@ -92,46 +92,6 @@ namespace MissionPlanner.Utilities
                 {
                     dflog.GetDFItemFromLine(this[a].ToString(), a);
                 }
-
-                // build fmt line database using type
-                foreach (var item in GetEnumeratorType("FMT"))
-                {
-                    try
-                    {
-                        FMT[int.Parse(item["Type"])] = new Tuple<int, string, string, string>(
-                        int.Parse(item["Length"]),
-                        item["Name"],
-                        item["Format"],
-                        item["Columns"]);
-                    }
-                    catch { }
-                }
-
-                foreach (var item in GetEnumeratorType("FMTU"))
-                {
-                    try
-                    {
-                        FMTU[int.Parse(item["FmtType"])] = new Tuple<string, string>(item["UnitIds"], item["MultIds"]);
-                    }
-                    catch { }
-                }
-
-                foreach (var item in GetEnumeratorType("UNIT"))
-                {
-                    try
-                    {
-                        Unit[(char) int.Parse(item["Id"])] = item["Label"];
-                    } catch { }
-                }
-
-                foreach (var item in GetEnumeratorType("MULT"))
-                {
-                    try
-                    {
-                        Mult[(char)int.Parse(item["Id"])] = item["Mult"];
-                    }
-                    catch { }
-                }
             }
             else
             {
@@ -174,6 +134,47 @@ namespace MissionPlanner.Utilities
                     }
                     b++;
                 }
+            }
+
+            // build fmt line database using type
+            foreach (var item in GetEnumeratorType("FMT"))
+            {
+                try
+                {
+                    FMT[int.Parse(item["Type"])] = new Tuple<int, string, string, string>(
+                        int.Parse(item["Length"]),
+                        item["Name"],
+                        item["Format"],
+                        item["Columns"]);
+                }
+                catch { }
+            }
+
+            foreach (var item in GetEnumeratorType("FMTU"))
+            {
+                try
+                {
+                    FMTU[int.Parse(item["FmtType"])] = new Tuple<string, string>(item["UnitIds"], item["MultIds"]);
+                }
+                catch { }
+            }
+
+            foreach (var item in GetEnumeratorType("UNIT"))
+            {
+                try
+                {
+                    Unit[(char)int.Parse(item["Id"])] = item["Label"];
+                }
+                catch { }
+            }
+
+            foreach (var item in GetEnumeratorType("MULT"))
+            {
+                try
+                {
+                    Mult[(char)int.Parse(item["Id"])] = item["Mult"];
+                }
+                catch { }
             }
 
             indexcachelineno = -1;
