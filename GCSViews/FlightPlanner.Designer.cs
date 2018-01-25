@@ -92,6 +92,11 @@ namespace MissionPlanner.GCSViews
             this.panel5 = new System.Windows.Forms.Panel();
             this.BUT_write = new MissionPlanner.Controls.MyButton();
             this.BUT_read = new MissionPlanner.Controls.MyButton();
+            this.panel6 = new System.Windows.Forms.Panel();
+            this.chk_Rel_Elevation = new System.Windows.Forms.CheckBox();
+            this.chk_Elevation = new System.Windows.Forms.CheckBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.NUM_alt = new System.Windows.Forms.NumericUpDown();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.LinkLabel();
             this.label3 = new System.Windows.Forms.Label();
@@ -208,6 +213,8 @@ namespace MissionPlanner.GCSViews
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.Commands)).BeginInit();
             this.panel5.SuspendLayout();
+            this.panel6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_alt)).BeginInit();
             this.panel1.SuspendLayout();
             this.panelWaypoints.SuspendLayout();
             this.panelAction.SuspendLayout();
@@ -483,6 +490,58 @@ namespace MissionPlanner.GCSViews
             this.BUT_read.UseVisualStyleBackColor = true;
             this.BUT_read.Click += new System.EventHandler(this.BUT_read_Click);
             // 
+            // panel6
+            // 
+            this.panel6.Controls.Add(this.chk_Rel_Elevation);
+            this.panel6.Controls.Add(this.chk_Elevation);
+            this.panel6.Controls.Add(this.NUM_alt);
+            this.panel6.Controls.Add(this.label7);
+            resources.ApplyResources(this.panel6, "panel6");
+            this.panel6.Name = "panel6";
+            // 
+            // chk_Rel_Elevation
+            // 
+            resources.ApplyResources(this.chk_Rel_Elevation, "chk_Rel_Elevation");
+            this.chk_Rel_Elevation.Name = "chk_Rel_Elevation";
+            this.chk_Rel_Elevation.UseVisualStyleBackColor = true;
+            this.chk_Rel_Elevation.CheckedChanged += new System.EventHandler(this.chk_Rel_Elevation_CheckedChanged);
+            // 
+            // chk_Elevation
+            // 
+            resources.ApplyResources(this.chk_Elevation, "chk_Elevation");
+            this.chk_Elevation.Name = "chk_Elevation";
+            this.chk_Elevation.UseVisualStyleBackColor = true;
+            this.chk_Elevation.CheckedChanged += new System.EventHandler(this.chk_Elevation_CheckedChanged);
+            // 
+            // label7
+            // 
+            resources.ApplyResources(this.label7, "label7");
+            this.label7.Name = "label7";
+            // 
+            // NUM_alt
+            // 
+            resources.ApplyResources(this.NUM_alt, "NUM_alt");
+            this.NUM_alt.DecimalPlaces = 1;
+            this.NUM_alt.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            65536});
+            this.NUM_alt.Maximum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            this.NUM_alt.Minimum = decimal.MinValue;
+            this.NUM_alt.Name = "NUM_alt";
+            //this.toolTip1.SetToolTip(this.NUM_alt, resources.GetString("NUM_alt.ToolTip"));
+            this.NUM_alt.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.NUM_alt.ValueChanged += new System.EventHandler(this.NUM_alt_ValueChanged);
+            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.label4);
@@ -702,6 +761,7 @@ namespace MissionPlanner.GCSViews
             this.flowLayoutPanel1.Controls.Add(this.panel2);
             this.flowLayoutPanel1.Controls.Add(this.panel5);
             this.flowLayoutPanel1.Controls.Add(this.panel1);
+            this.flowLayoutPanel1.Controls.Add(this.panel6);
             resources.ApplyResources(this.flowLayoutPanel1, "flowLayoutPanel1");
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             // 
@@ -1373,6 +1433,8 @@ namespace MissionPlanner.GCSViews
             this.Resize += new System.EventHandler(this.Planner_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.Commands)).EndInit();
             this.panel5.ResumeLayout(false);
+            this.panel6.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_alt)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panelWaypoints.ResumeLayout(false);
@@ -1399,6 +1461,7 @@ namespace MissionPlanner.GCSViews
         private Controls.MyButton BUT_read;
         private Controls.MyButton BUT_write;
         private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.LinkLabel label4;
         private System.Windows.Forms.Label label3;
@@ -1410,6 +1473,7 @@ namespace MissionPlanner.GCSViews
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn1;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn2;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label lbl_status;
         private Controls.MyDataGridView Commands;
         private Controls.MyButton BUT_Add;
@@ -1474,6 +1538,8 @@ namespace MissionPlanner.GCSViews
         private System.Windows.Forms.ToolStripMenuItem loadPolygonToolStripMenuItem;
         public System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.CheckBox chk_grid;
+        private System.Windows.Forms.CheckBox chk_Rel_Elevation;
+        private System.Windows.Forms.CheckBox chk_Elevation;
         private System.Windows.Forms.ToolStripMenuItem insertWpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem rallyPointsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem getRallyPointsToolStripMenuItem;
@@ -1541,5 +1607,6 @@ namespace MissionPlanner.GCSViews
         private System.Windows.Forms.ToolStripMenuItem createCircleSurveyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem currentPositionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem surveyGridToolStripMenuItem;
+        private System.Windows.Forms.NumericUpDown NUM_alt;
     }
 }

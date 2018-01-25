@@ -98,9 +98,15 @@
             this.but_AAsignin = new MissionPlanner.Controls.MyButton();
             this.CMB_Layout = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.label91 = new System.Windows.Forms.Label();
             this.CHK_AutoParamCommit = new System.Windows.Forms.CheckBox();
             this.chk_shownofly = new System.Windows.Forms.CheckBox();
+            this.CMB_Resolution = new System.Windows.Forms.ComboBox();
+            this.label90 = new System.Windows.Forms.Label();
+            this.Clearance = new System.Windows.Forms.NumericUpDown();
+            this.label89 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_tracklength)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Clearance)).BeginInit();
             this.SuspendLayout();
             // 
             // label33
@@ -641,6 +647,11 @@
             resources.ApplyResources(this.label5, "label5");
             this.label5.Name = "label5";
             // 
+            // label91
+            // 
+            resources.ApplyResources(this.label91, "label91");
+            this.label91.Name = "label91";
+            // 
             // CHK_AutoParamCommit
             // 
             resources.ApplyResources(this.CHK_AutoParamCommit, "CHK_AutoParamCommit");
@@ -658,6 +669,56 @@
             this.chk_shownofly.Name = "chk_shownofly";
             this.chk_shownofly.UseVisualStyleBackColor = true;
             this.chk_shownofly.CheckedChanged += new System.EventHandler(this.chk_shownofly_CheckedChanged);
+            // 
+            // CMB_Resolution
+            // 
+            this.CMB_Resolution.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CMB_Resolution.FormattingEnabled = true;
+            this.CMB_Resolution.Items.AddRange(new object[] {
+            resources.GetString("CMB_Resolution.Items"),
+            resources.GetString("CMB_Resolution.Items1"),
+            resources.GetString("CMB_Resolution.Items2"),
+            resources.GetString("CMB_Resolution.Items3"),
+            resources.GetString("CMB_Resolution.Items4")});
+            resources.ApplyResources(this.CMB_Resolution, "CMB_Resolution");
+            this.CMB_Resolution.Name = "CMB_Resolution";
+            this.CMB_Resolution.SelectedIndexChanged += new System.EventHandler(this.CMB_Resolution_SelectedIndexChanged);
+            // 
+            // label90
+            // 
+            resources.ApplyResources(this.label90, "label90");
+            this.label90.Name = "label90";
+            // 
+            // Clearance
+            // 
+            this.Clearance.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            resources.ApplyResources(this.Clearance, "Clearance");
+            this.Clearance.Maximum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            this.Clearance.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.Clearance.Name = "Clearance";
+            this.Clearance.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.Clearance.ValueChanged += new System.EventHandler(this.Clearance_ValueChanged);
+            // 
+            // label89
+            // 
+            resources.ApplyResources(this.label89, "label89");
+            this.label89.Name = "label89";
             // 
             // ConfigPlanner
             // 
@@ -733,10 +794,16 @@
             this.Controls.Add(this.BUT_Joystick);
             this.Controls.Add(this.BUT_videostop);
             this.Controls.Add(this.BUT_videostart);
+            this.Controls.Add(this.label91);
+            this.Controls.Add(this.CMB_Resolution);
+            this.Controls.Add(this.label90);
+            this.Controls.Add(this.Clearance);
+            this.Controls.Add(this.label89);
             this.Name = "ConfigPlanner";
             resources.ApplyResources(this, "$this");
             this.Load += new System.EventHandler(this.ConfigPlanner_Load);
             ((System.ComponentModel.ISupportInitialize)(this.NUM_tracklength)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Clearance)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -815,5 +882,10 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.CheckBox CHK_AutoParamCommit;
         private System.Windows.Forms.CheckBox chk_shownofly;
+        private System.Windows.Forms.Label label91;
+        private System.Windows.Forms.ComboBox CMB_Resolution;
+        private System.Windows.Forms.Label label90;
+        private System.Windows.Forms.NumericUpDown Clearance;
+        private System.Windows.Forms.Label label89;
     }
 }

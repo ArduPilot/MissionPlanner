@@ -121,6 +121,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             // this can't fail because it set at startup
             NUM_tracklength.Value = Settings.Instance.GetInt32("NUM_tracklength");
+            Clearance.Value = Settings.Instance.GetInt32("Clearance");
 
             // get wps on connect
             SetCheckboxFromConfig("loadwpsonconnect", CHK_loadwponconnect);
@@ -133,6 +134,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             CMB_raterc.Text = MainV2.comPort.MAV.cs.raterc.ToString();
             CMB_ratestatus.Text = MainV2.comPort.MAV.cs.ratestatus.ToString();
             CMB_ratesensors.Text = MainV2.comPort.MAV.cs.ratesensors.ToString();
+
+            //CMB_Resolution.Text = Settings.Instance.["Clearance"].ToString();
 
             SetCheckboxFromConfig("analyticsoptout", chk_analytics);
 
@@ -162,6 +165,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CMB_distunits.Text = Settings.Instance["distunits"].ToString();
             if (Settings.Instance["speedunits"] != null)
                 CMB_speedunits.Text = Settings.Instance["speedunits"].ToString();
+            if (Settings.Instance["Resolution"] != null)
+                CMB_Resolution.Text = Settings.Instance["Resolution"].ToString();
 
             try
             {
@@ -926,9 +931,22 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             Settings.Instance["autoParamCommit"] = CHK_AutoParamCommit.Checked.ToString();
         }
 
+        private void CMB_Resolution_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (startup)
+                return;
+
+            Settings.Instance["Resolution"] = CMB_Resolution.Text;
+        }
+        
         private void chk_shownofly_CheckedChanged(object sender, EventArgs e)
         {
             Settings.Instance["ShowNoFly"] = chk_shownofly.Checked.ToString();
+        }
+        
+        private void Clearance_ValueChanged(object sender, EventArgs e)
+        {
+            Settings.Instance["Clearance"] = Clearance.Value.ToString();
         }
     }
 }

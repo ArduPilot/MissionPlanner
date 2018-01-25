@@ -3175,7 +3175,7 @@
     <value>zg1</value>
   </data>
   <data name="&gt;&gt;zg1.Type" xml:space="preserve">
-    <value>ZedGraph.ZedGraphControl, ZedGraph, Version=5.1.5.25168, Culture=neutral, PublicKeyToken=null</value>
+    <value>ZedGraph.ZedGraphControl, ZedGraph, Version=5.1.5.21824, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;zg1.Parent" xml:space="preserve">
     <value>splitContainer1.Panel1</value>
@@ -3751,7 +3751,7 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_autopan.Location" type="System.Drawing.Point, System.Drawing">
-    <value>486, 8</value>
+    <value>486, 7</value>
   </data>
   <data name="CHK_autopan.Size" type="System.Drawing.Size, System.Drawing">
     <value>70, 17</value>
@@ -3787,7 +3787,7 @@
     <value>NoControl</value>
   </data>
   <data name="CB_tuning.Location" type="System.Drawing.Point, System.Drawing">
-    <value>411, 8</value>
+    <value>421, 8</value>
   </data>
   <data name="CB_tuning.Size" type="System.Drawing.Size, System.Drawing">
     <value>59, 17</value>
@@ -3814,16 +3814,16 @@
     <value>4</value>
   </data>
   <data name="rel_elevation.Location" type="System.Drawing.Point, System.Drawing">
-    <value>333, 4</value>
+    <value>245, 4</value>
   </data>
   <data name="rel_elevation.Size" type="System.Drawing.Size, System.Drawing">
-    <value>72, 24</value>
+    <value>94, 24</value>
   </data>
   <data name="rel_elevation.TabIndex" type="System.Int32, mscorlib">
     <value>73</value>
   </data>
   <data name="rel_elevation.Text" xml:space="preserve">
-    <value>Elevation</value>
+    <value>Rel_Elevation</value>
   </data>
   <data name="rel_elevation.ToolTip" xml:space="preserve">
     <value>Relative elevation to drone</value>
@@ -3839,6 +3839,33 @@
   </data>
   <data name="&gt;&gt;rel_elevation.ZOrder" xml:space="preserve">
     <value>5</value>
+  </data>
+  <data name="Elevation_overlay.Location" type="System.Drawing.Point, System.Drawing">
+    <value>345, 4</value>
+  </data>
+  <data name="Elevation_overlay.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 24</value>
+  </data>
+  <data name="Elevation_overlay.TabIndex" type="System.Int32, mscorlib">
+    <value>72</value>
+  </data>
+  <data name="Elevation_overlay.Text" xml:space="preserve">
+    <value>Elevation</value>
+  </data>
+  <data name="Elevation_overlay.ToolTip" xml:space="preserve">
+    <value>Overlays Elevation colour gradient</value>
+  </data>
+  <data name="&gt;&gt;Elevation_overlay.Name" xml:space="preserve">
+    <value>Elevation_overlay</value>
+  </data>
+  <data name="&gt;&gt;Elevation_overlay.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Elevation_overlay.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;Elevation_overlay.ZOrder" xml:space="preserve">
+    <value>6</value>
   </data>
   <data name="panel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -3929,27 +3956,6 @@
   </data>
   <data name="&gt;&gt;MainH.ZOrder" xml:space="preserve">
     <value>4</value>
-  </data>
-  <data name="Elevation_overlay.Location" type="System.Drawing.Point, System.Drawing">
-    <value>335, 4</value>
-  </data>
-  <data name="Elevation_overlay.Size" type="System.Drawing.Size, System.Drawing">
-    <value>70, 24</value>
-  </data>
-  <data name="Elevation_overlay.TabIndex" type="System.Int32, mscorlib">
-    <value>72</value>
-  </data>
-  <data name="Elevation_overlay.Text" xml:space="preserve">
-    <value>Elevation</value>
-  </data>
-  <data name="Elevation_overlay.ToolTip" xml:space="preserve">
-    <value>Overlays Elevation colour gradient</value>
-  </data>
-  <data name="&gt;&gt;Elevation_overlay.Name" xml:space="preserve">
-    <value>Elevation_overlay</value>
-  </data>
-  <data name="&gt;&gt;Elevation_overlay.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ZedGraphTimer.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>171, 17</value>
