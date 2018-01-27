@@ -379,6 +379,9 @@ namespace MissionPlanner.Utilities
         {
             var answer = UnitMultiList.Where(tuple => tuple.Item1 == type && tuple.Item2 == header);
 
+            if (answer.Count() == 0)
+                return ("", 1);
+
             return (answer.First().Item3, answer.First().Item4);
         }
     }
