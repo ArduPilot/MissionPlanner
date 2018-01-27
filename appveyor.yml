@@ -31,13 +31,11 @@ build_script:
 
     copy version.txt c:\mp\
 
-    set PATH=c:\cygwin\bin;%PATH%
-
     7z a -tzip ..\..\..\MissionPlannerBeta.zip *  
 
     cd ..
 
-    c:\cygwin\bin\find.exe net461 -type f -print0 | xargs.exe -i -0 md5sum.exe '{}' > checksums.txt
+    md5sum.exe net461 > checksums.txt
 
     copy checksums.txt c:\mp\
 
