@@ -636,7 +636,8 @@ namespace MissionPlanner.GCSViews
 
             tfr.GotTFRs += tfr_GotTFRs;
 
-            NoFly.NoFly.NoFlyEvent += NoFly_NoFlyEvent;
+            if (!Settings.Instance.ContainsKey("ShowNoFly") || Settings.Instance.GetBoolean("ShowNoFly"))
+                NoFly.NoFly.NoFlyEvent += NoFly_NoFlyEvent;
 
             // update tabs displayed
             loadTabControlActions();
