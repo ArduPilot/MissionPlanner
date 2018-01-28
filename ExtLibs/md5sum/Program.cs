@@ -20,9 +20,9 @@ namespace md5sum
                 file =>
                 {
                     lock (obj)
-                        Console.WriteLine("{0} {1}",
+                        Console.Write("{0} {1}\n",
                             MD5File(file),
-                            file.TrimStart('\\', '/'));
+                            file.TrimStart('\\', '/').Replace('\\','/'));
                 });
         }
 

@@ -249,6 +249,8 @@ namespace MissionPlanner.Utilities
         {
             L10N.ReplaceMirrorUrl(ref baseurl);
 
+            log.InfoFormat("get checksums {0} - base {1}", md5url, baseurl);
+
             string responseFromServer = "";
 
             WebRequest request = WebRequest.Create(md5url);
@@ -592,15 +594,7 @@ namespace MissionPlanner.Utilities
                 }
             }
 
-            // check for updates
-            //  if (Debugger.IsAttached)
-            {
-                //      log.Info("Skipping update test as it appears we are debugging");
-            }
-            //  else
-            {
-                updateCheckMain(progressReporterDialogue);
-            }
+            updateCheckMain(progressReporterDialogue);
         }
     }
 }
