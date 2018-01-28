@@ -107,6 +107,9 @@ namespace Installer
                         if (!Directory.Exists(dir))
                             Directory.CreateDirectory(dir);
 
+                        if(Application.ExecutablePath.ToLower() == output.ToLower())
+                            continue;
+
                         await Task.Run(() => { entry.ExtractToFile(output, true); });
                         got++;
                     }
