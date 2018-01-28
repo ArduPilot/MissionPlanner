@@ -220,6 +220,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 pictureAntennaTracker.Text = temp.name;
                 pictureAntennaTracker.Tag = temp;
             }
+            else if (temp.urlpx4v2.ToLower().Contains("ardusub"))
+            {
+                pictureBoxSub.Text = temp.name;
+                pictureBoxSub.Tag = temp;
+            }
             else
             {
                 log.Info("No Home " + temp.name + " " + temp.url2560);
@@ -435,6 +440,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 CustomMessageBox.Show("http://www.proficnc.com/?utm_source=missionplanner&utm_medium=click&utm_campaign=mission", Strings.ERROR);
             }
+        }
+
+        private void imageLabel1_Click(object sender, EventArgs e)
+        {
+            Custom_firmware_label_Click(sender, e);
+        }
+
+        private void imageLabel1_Load(object sender, EventArgs e)
+        {
+           
         }
     }
 }
