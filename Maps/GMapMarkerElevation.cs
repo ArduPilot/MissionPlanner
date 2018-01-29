@@ -41,16 +41,17 @@ namespace MissionPlanner.Maps
 
             System.Drawing.Imaging.ColorPalette pal = bmp.Palette;
 
-            /*
+
+            
             //create grayscale palette
             for (int i = 0; i < 256; i++)
             {
-                pal.Entries[i] = Color.FromArgb((int)200, i, i, i);
+                pal.Entries[i] = Color.FromArgb((int)100, bmp.Palette.Entries[i].R, bmp.Palette.Entries[i].G, bmp.Palette.Entries[i].B);
             }
 
             //assign to bmp
             bmp.Palette = pal;
-            */
+            
             //lock it to get the BitmapData Object
             System.Drawing.Imaging.BitmapData bmData =
                 bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), System.Drawing.Imaging.ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format8bppIndexed);

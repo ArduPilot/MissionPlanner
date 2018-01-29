@@ -41,6 +41,7 @@ namespace MissionPlanner.GCSViews
         public static bool threadrun;
         int tickStart;
 
+        //Releif Shading Parameters
         double normvalue = 0;
         byte[] colors = new byte[] {220, 226, 232, 233, 244, 250, 214, 142, 106}; //Colors: Red - Yellow - Green
         byte[] colors2 = new byte[] {195,189,123,80,81,45,51,57,105,111,75,74,70,72,106,108,142,178,214,215,250,244,239,238,233,232,226,220}; //Colors: Blue - Green - Yellow - Red
@@ -3390,11 +3391,21 @@ namespace MissionPlanner.GCSViews
 
                                     normalize(rel);
 
-
+                                    /*
                                     //diagonal pattern
                                     for (int i = -res / 2; i <= res / 2; i++)
                                     {
                                         imageData[x + i, y + i] = Gradient_byte(normvalue,colors);
+                                    }
+                                    */
+
+                                    //Square pattern
+                                    for (int i = -res / 2; i <= res / 2; i++)
+                                    {
+                                        for (int j = -res / 2; j <= res / 2; j++)
+                                        {
+                                            imageData[x + i, y + j] = Gradient_byte(normvalue, colors);
+                                        }
                                     }
                                 }
 
@@ -3402,24 +3413,26 @@ namespace MissionPlanner.GCSViews
                                 {
                                   
                                     normalize(alts[x,y]);
-
+                                    /*
                                     //diagonal pattern
                                     for (int i = -res / 2; i <= res / 2; i++)
                                     {
                                         imageData[x + i, y + i] = Gradient_byte(normvalue,colors2);
                                     }
-                                }
-                                
-                                /*
-                                //Square pattern
-                                for (int i = -res / 2; i <= res / 2; i++)
-                                {
-                                    for (int j = -res / 2; j <= res / 2; j++)
+                                    */
+                                    
+                                    //Square pattern
+                                    for (int i = -res / 2; i <= res / 2; i++)
                                     {
-                                        imageData[x + i, y + j] = Gradient_byte(normvalue);
+                                        for (int j = -res / 2; j <= res / 2; j++)
+                                        {
+                                            imageData[x + i, y + j] = Gradient_byte(normvalue,colors2);
+                                        }
                                     }
+
                                 }
-                                */
+
+
                             }
                         }
 
