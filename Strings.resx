@@ -484,7 +484,7 @@ Please use Standard/Advanced Params for the safe settings</value>
     <value>These are the latest trunk firmware, use at your own risk!!!</value>
   </data>
   <data name="BadGPSHealth" xml:space="preserve">
-    <value>Bad GPS Health</value>
+    <value>Bad GPS Signal Health</value>
   </data>
   <data name="BadGyroHealth" xml:space="preserve">
     <value>Bad Gyro Health</value>
@@ -596,7 +596,8 @@ Please contact your hardware vendor about signing your hardware.</value>
   </data>
   <data name="Converting_bin_to_log" xml:space="preserve">
     <value>Converting bin to log</value>
-  </data>  <data name="UpdateNotFound" xml:space="preserve">
+  </data>
+  <data name="UpdateNotFound" xml:space="preserve">
     <value>No update available.</value>
   </data>
   <data name="Failed_to_connect_to_SITL_instance" xml:space="preserve">
