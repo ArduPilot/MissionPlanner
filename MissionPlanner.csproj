@@ -262,6 +262,9 @@
     <Compile Include="CurrentState.cs" />
     <Compile Include="ElevationProfile.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="FollowMe.cs"> <SubType>Control</SubType> </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigFFT.cs">
+      <SubType>Control</SubType>
+    </Compile>
     <Compile Include="GenOTP.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="L10N.cs" />
     <Compile Include="Log\LogStrings.Designer.cs">
@@ -739,6 +742,9 @@
     <EmbeddedResource Include="FollowMe.zh-Hans.resx"><DependentUpon>FollowMe.cs</DependentUpon> </EmbeddedResource>
     <EmbeddedResource Include="FollowMe.zh-Hant.resx"><DependentUpon>FollowMe.cs</DependentUpon> </EmbeddedResource>
     <EmbeddedResource Include="FollowMe.zh-TW.resx"><DependentUpon>FollowMe.cs</DependentUpon> </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFFT.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
     <EmbeddedResource Include="GenOTP.resx"><DependentUpon>GenOTP.cs</DependentUpon> </EmbeddedResource>
     <EmbeddedResource Include="Log\LogStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>

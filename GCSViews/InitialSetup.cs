@@ -218,7 +218,8 @@ namespace MissionPlanner.GCSViews
             {
                 AddBackstageViewPage(typeof(Antenna.Tracker), "Antenna Tracker", true, opt);
             }
-            
+
+            AddBackstageViewPage(typeof(ConfigFFT), "FFT Setup", isConnected, opt);
 
             // remeber last page accessed
             foreach (BackstageViewPage page in backstageView.Pages)
