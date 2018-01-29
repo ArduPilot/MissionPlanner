@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -8,6 +9,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
 using log4net;
@@ -433,31 +435,23 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             toolTip1.RemoveAll();
             Params.Rows.Clear();
 
-
-            //Params.Sort(Params.Columns[0], ListSortDirection.Ascending);
-
             log.Info("processToScreen");
 
-            var sorted = new List<string>();
+            var list = new List<string>();
             foreach (string item in MainV2.comPort.MAV.param.Keys)
-                sorted.Add(item);
-
-            sorted.Sort();
-
-            log.Info("sorted");
+                list.Add(item);
 
             var rowlist = new List<DataGridViewRow>();
 
             // process hashdefines and update display
-            foreach (var value in sorted)
+            Parallel.ForEach(list, value =>
             {
                 if (value == null || value == "")
-                    continue;
-
-                log.Info("Doing: " + value);
+                    return;
 
                 var row = new DataGridViewRow();
-                rowlist.Add(row);
+                lock(rowlist)
+                    rowlist.Add(row);
                 row.CreateCells(Params);
                 row.Cells[Command.Index].Value = value;
                 row.Cells[Value.Index].Value = MainV2.comPort.MAV.param[value].ToString();
@@ -486,13 +480,23 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     log.Error(ex);
                 }
-            }
+            });
 
             log.Info("about to add all");
 
+            Params.SuspendLayout();
+            Params.Visible = false;
             Params.Enabled = false;
+
             Params.Rows.AddRange(rowlist.ToArray());
+
+            log.Info("about to sort");
+
+            Params.Sort(Params.Columns[Command.Index], ListSortDirection.Ascending);
+
             Params.Enabled = true;
+            Params.Visible = true;
+            Params.ResumeLayout();
 
             log.Info("Done");
         }
