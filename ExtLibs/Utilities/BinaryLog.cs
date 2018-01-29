@@ -37,7 +37,7 @@ namespace MissionPlanner.Utilities
         }
 
         [StructLayout(LayoutKind.Explicit)]
-        struct UnionArray
+        public struct UnionArray
         {
             public UnionArray(byte[] bytes)
             {
@@ -50,6 +50,11 @@ namespace MissionPlanner.Utilities
 
             [FieldOffset(0)]
             public short[] Shorts;
+
+            public override string ToString()
+            {
+                return "[" + String.Join(" ", Shorts.Take((Bytes.Length / 2)).ToList()) + "]";
+            }
         }
 
         object locker = new object();
@@ -552,7 +557,7 @@ namespace MissionPlanner.Utilities
                         offset += 64;
                         break;
                     case 'a':
-                        answer.Add(new UnionArray(message.Skip(offset).Take(64).ToArray()).Shorts.Take(32));
+                        answer.Add(new UnionArray(message.Skip(offset).Take(64).ToArray()));
                         offset += 2 * 32;
                         break;
                     default:
