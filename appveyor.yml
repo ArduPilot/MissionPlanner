@@ -6,8 +6,6 @@ clone_folder: c:\MP\
 init:
 - cmd: 
 cache:
-    - packages -> appveyor.yml
-    - date.txt
 environment:
   email:
     secure: dkWdmOxf3t/x2H0gEo1GurKM8Due1idnog5VJtUlSEA=
