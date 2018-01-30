@@ -5,7 +5,6 @@ clone_depth: 1
 clone_folder: c:\MP\
 init:
 - cmd: 
-cache:
 environment:
   email:
     secure: dkWdmOxf3t/x2H0gEo1GurKM8Due1idnog5VJtUlSEA=
