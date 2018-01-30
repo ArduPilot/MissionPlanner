@@ -649,6 +649,9 @@ namespace MissionPlanner.GCSViews
             elevationoverlay2 = new GMapOverlay("elevation overlay2");
             MainMap.Overlays.Add(elevationoverlay2);
 
+            LineOfSight = new GMapOverlay("LineOfSight");
+            MainMap.Overlays.Add(LineOfSight);
+
             MainMap.Overlays.Add(poioverlay);
 
             top = new GMapOverlay("top");
@@ -3143,6 +3146,7 @@ namespace MissionPlanner.GCSViews
         GMapOverlay kmlpolygonsoverlay;
         GMapOverlay geofenceoverlay;
         static GMapOverlay rallypointoverlay;
+        public static GMapOverlay LineOfSight;
 
         // etc
         readonly Random rnd = new Random();
@@ -7172,6 +7176,20 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             }
         }
 
+        private void chk_sight_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chk_sight.Checked)
+            {
+             
+            }
+
+            else
+            {
+                LineOfSight.Markers.Clear();
+
+            }
+        }
+
         private void NUM_alt_ValueChanged(object sender, EventArgs e)
         {
             drone_alt = (double) NUM_alt.Value;
@@ -7294,6 +7312,15 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                         prev_width = MainMap.Width;
                         prev_zoom = MainMap.Zoom;
                         prev_res = res;
+                    }
+                }
+
+                if(chk_sight.Checked)
+                {
+                    LineOfSight.Markers.Add(new GMapMarkerSight(MainV2.comPort.MAV.cs.HomeLocation));
+                    if (LineOfSight.Markers.Count > 1)
+                    {
+                        LineOfSight.Markers.RemoveAt(0);
                     }
                 }
 
