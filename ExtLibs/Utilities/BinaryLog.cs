@@ -549,7 +549,10 @@ namespace MissionPlanner.Utilities
                         break;
                     case 'M':
                         int modeno = message[offset];
-                        answer.Add(modeno);
+                        string mode = onFlightMode?.Invoke(_firmware, modeno);
+                        if (mode == null)
+                            mode = modeno.ToString();
+                        answer.Add(mode);
                         offset++;
                         break;
                     case 'Z':
