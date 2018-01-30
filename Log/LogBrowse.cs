@@ -1344,7 +1344,9 @@ namespace MissionPlanner.Log
                 return;
             }
 
-            (string unit, double multiplier) = logdata.GetUnit(type, header);
+            var ans = logdata.GetUnit(type, header);
+            string unit = ans.Item1;
+            double multiplier = ans.Item2;
 
             if (unit != "")
                 header += " (" + unit + ")";

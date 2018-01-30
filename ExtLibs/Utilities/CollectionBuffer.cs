@@ -375,14 +375,14 @@ namespace MissionPlanner.Utilities
             return this[indexcachelineno+1];
         }
 
-        public (string unit, double multiplier) GetUnit(string type, string header)
+        public Tuple<string,double> GetUnit(string type, string header)
         {
             var answer = UnitMultiList.Where(tuple => tuple.Item1 == type && tuple.Item2 == header);
 
             if (answer.Count() == 0)
-                return ("", 1);
+                return new Tuple<string, double>("", 1);
 
-            return (answer.First().Item3, answer.First().Item4);
+            return new Tuple<string, double>(answer.First().Item3, answer.First().Item4);
         }
     }
 }
