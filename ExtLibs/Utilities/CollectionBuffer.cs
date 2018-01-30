@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Utilities
 {
@@ -215,12 +214,13 @@ namespace MissionPlanner.Utilities
                         multi = 1;
                     }
 
-                    UnitMultiList.Add((msgtype.Value.Item2, field, unit, multi));
+                    UnitMultiList.Add(
+                        new Tuple<string, string, string, double>(msgtype.Value.Item2, field, unit, multi));
                 }
             }
         }
 
-        public List<ValueTuple<string,string,string,double>> UnitMultiList = new List<(string, string, string, double)>();
+        public List<Tuple<string,string,string,double>> UnitMultiList = new List<Tuple<string, string, string, double>>();
 
         public Dictionary<int, Tuple<int, string, string, string[]>> FMT { get; set; } = new Dictionary<int, Tuple<int, string, string, string[]>>();
         public Dictionary<int, Tuple<string, string>> FMTU { get; set; } = new Dictionary<int, Tuple<string, string>>();

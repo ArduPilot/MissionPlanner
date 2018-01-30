@@ -15,7 +15,7 @@ build_script:
 - cmd: >-
     dotnet --info
 
-    c:\mp\.nuget\nuget.exe update -self
+    rem c:\mp\.nuget\nuget.exe update -self
     
     c:\mp\.nuget\nuget.exe restore
     
