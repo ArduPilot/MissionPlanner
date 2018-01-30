@@ -149,8 +149,6 @@ namespace MissionPlanner.Utilities
                 firmwareurl = this.firmwareurl;
 
             // mirror support
-            L10N.ReplaceMirrorUrl(ref firmwareurl);
-
             log.Info("getFWList");
 
             string url = "";
@@ -405,8 +403,6 @@ namespace MissionPlanner.Utilities
 
                 if (baseurl == "" || !baseurl.ToLower().StartsWith("http")) return;
 
-                L10N.ReplaceMirrorUrl(ref baseurl);
-
                 Uri url = new Uri(new Uri(baseurl), "git-version.txt");
 
                 log.Info("Get url " + url.ToString());
@@ -571,8 +567,6 @@ namespace MissionPlanner.Utilities
                     baseurl = getUrl(historyhash, baseurl);
 
                 // update to use mirror url
-                L10N.ReplaceMirrorUrl(ref baseurl);
-
                 log.Info("Using " + baseurl);
 
                 var starttime = DateTime.Now;
