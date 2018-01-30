@@ -260,7 +260,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (!MainV2.comPort.BaseStream.IsOpen)
                 return;
 
-            if (!MainV2.comPort.MAV.cs.armed || DialogResult.OK ==
+            if (!MainV2.comPort.MAV.cs.armed || (int)DialogResult.OK ==
                 CustomMessageBox.Show(Strings.WarningUpdateParamList, Strings.ERROR, MessageBoxButtons.OKCancel))
             {
                 ((Control) sender).Enabled = false;
@@ -536,7 +536,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (
                 CustomMessageBox.Show("Reset all parameters to default\nAre you sure!!", "Reset",
-                    MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
             {
                 try
                 {
@@ -585,7 +585,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         if (
                             CustomMessageBox.Show(
                                 ((data) e.RowObject).paramname + " value is out of range. Do you want to continue?",
-                                "Out of range", MessageBoxButtons.YesNo) == DialogResult.No)
+                                "Out of range", MessageBoxButtons.YesNo) == (int)DialogResult.No)
                         {
                             return;
                         }

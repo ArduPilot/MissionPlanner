@@ -1986,7 +1986,7 @@ namespace MissionPlanner.GCSViews
 
             if (
                 CustomMessageBox.Show("Are you sure you want to do " + CMB_action.Text + " ?", "Action",
-                    MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
             {
                 try
                 {
@@ -2464,7 +2464,7 @@ namespace MissionPlanner.GCSViews
         {
             if (MainV2.comPort.MAV.cs.failsafe)
             {
-                if (CustomMessageBox.Show("You are in failsafe, are you sure?", "Failsafe",MessageBoxButtons.YesNo) != DialogResult.Yes)
+                if (CustomMessageBox.Show("You are in failsafe, are you sure?", "Failsafe",MessageBoxButtons.YesNo) != (int)DialogResult.Yes)
                 {
                     return;
                 }
@@ -3530,7 +3530,7 @@ namespace MissionPlanner.GCSViews
             {
                 if (MainV2.comPort.MAV.cs.armed)
                     if (CustomMessageBox.Show("Are you sure you want to Disarm?", "Disarm?", MessageBoxButtons.YesNo) !=
-                        DialogResult.Yes)
+                        (int)DialogResult.Yes)
                         return;
 
                 bool ans = MainV2.comPort.doARM(!MainV2.comPort.MAV.cs.armed);

@@ -197,14 +197,11 @@ namespace MissionPlanner.Utilities
                     if (dobeta)
                         extra = "BETA ";
 
-                    DialogResult dr = DialogResult.Cancel;
-
-
-                    dr = CustomMessageBox.Show(
+                    var dr = CustomMessageBox.Show(
                         extra + Strings.UpdateFound + " [link;" + baseurl + "/ChangeLog.txt;ChangeLog]",
                         Strings.UpdateNow, MessageBoxButtons.YesNo);
 
-                    if (dr == DialogResult.Yes)
+                    if (dr == (int)DialogResult.Yes)
                     {
                         DoUpdate();
                     }

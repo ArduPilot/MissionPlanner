@@ -235,7 +235,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             var dr = CustomMessageBox.Show(Strings.AreYouSureYouWantToUpload + fwtoupload.name + Strings.QuestionMark,
                 Strings.Continue, MessageBoxButtons.YesNo);
-            if (dr == DialogResult.Yes)
+            if (dr == (int)DialogResult.Yes)
             {
                 try
                 {

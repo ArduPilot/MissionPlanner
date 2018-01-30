@@ -1699,7 +1699,7 @@ namespace MissionPlanner
             // sanity check
             if (comPort.BaseStream.IsOpen && MainV2.comPort.MAV.cs.groundspeed > 4)
             {
-                if (DialogResult.No ==
+                if ((int)DialogResult.No ==
                     CustomMessageBox.Show(Strings.Stillmoving, Strings.Disconnect, MessageBoxButtons.YesNo))
                 {
                     return;
@@ -2957,7 +2957,7 @@ namespace MissionPlanner
                 {
                     if (CustomMessageBox.Show(
                             "Do you wish to enable Altitude Angel airspace management data?\nFor more information visit [link;http://www.altitudeangel.com;www.altitudeangel.com]",
-                            "Altitude Angel - Enable", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                            "Altitude Angel - Enable", MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
                     {
                         Utilities.AltitudeAngel.AltitudeAngel.service.SignInAsync();
                     }
@@ -3097,7 +3097,7 @@ namespace MissionPlanner
             // show wizard on first use
             if (Settings.Instance["newuser"] == null)
             {
-                if (CustomMessageBox.Show("This is your first run, Do you wish to use the setup wizard?\nRecomended for new users.", "Wizard", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                if (CustomMessageBox.Show("This is your first run, Do you wish to use the setup wizard?\nRecomended for new users.", "Wizard", MessageBoxButtons.YesNo) == (int)System.Windows.Forms.DialogResult.Yes)
                 {
                     Wizard.Wizard wiz = new Wizard.Wizard();
 

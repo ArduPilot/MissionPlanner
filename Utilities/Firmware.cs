@@ -999,12 +999,12 @@ namespace MissionPlanner.Utilities
                 {
                     if (!ssidFound)
                     {
-                        if (CustomMessageBox.Show("You don't seem connected to " + vehicleName + " Wifi. Please connect to it and press OK to try again", vehicleName, MessageBoxButtons.OKCancel) == DialogResult.Cancel)
+                        if (CustomMessageBox.Show("You don't seem connected to " + vehicleName + " Wifi. Please connect to it and press OK to try again", vehicleName, MessageBoxButtons.OKCancel) == (int)DialogResult.Cancel)
                         {
                             return false;
                         }
                     }
-                    else if (CustomMessageBox.Show("You seem connected to " + vehicleName + " Wifi but it didn't answer our request. Do you want to try again?", vehicleName, MessageBoxButtons.OKCancel) == DialogResult.Cancel)
+                    else if (CustomMessageBox.Show("You seem connected to " + vehicleName + " Wifi but it didn't answer our request. Do you want to try again?", vehicleName, MessageBoxButtons.OKCancel) == (int)DialogResult.Cancel)
                     {
                         return false;
                     }
@@ -1035,7 +1035,7 @@ namespace MissionPlanner.Utilities
 
                     while (!response.Contains("connected to 192.168.42.1:9050"))
                     {
-                        if (CustomMessageBox.Show("Couldn't contact " + vehicleName + ". Press the Power button " + ntimes + " times. Do you want to try to connect again?", vehicleName, MessageBoxButtons.OKCancel) == DialogResult.Cancel)
+                        if (CustomMessageBox.Show("Couldn't contact " + vehicleName + ". Press the Power button " + ntimes + " times. Do you want to try to connect again?", vehicleName, MessageBoxButtons.OKCancel) == (int)DialogResult.Cancel)
                         {
                             return false;
                         }

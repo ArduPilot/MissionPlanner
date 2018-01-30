@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using MissionPlanner.Controls;
 using System.IO;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Wizard
 {

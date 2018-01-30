@@ -299,7 +299,7 @@ namespace MissionPlanner.Log
             if (status == SerialStatus.Reading)
             {
                 if (CustomMessageBox.Show(LogStrings.CancelDownload, "Cancel Download", MessageBoxButtons.YesNo) ==
-                    System.Windows.Forms.DialogResult.No)
+                    (int)System.Windows.Forms.DialogResult.No)
                 {
                     e.Cancel = true;
                     return;
@@ -456,7 +456,7 @@ namespace MissionPlanner.Log
         private void BUT_clearlogs_Click(object sender, EventArgs e)
         {
             if (CustomMessageBox.Show(LogStrings.Confirmation, "sure", MessageBoxButtons.YesNo) ==
-                System.Windows.Forms.DialogResult.Yes)
+                (int)System.Windows.Forms.DialogResult.Yes)
             {
                 try
                 {
