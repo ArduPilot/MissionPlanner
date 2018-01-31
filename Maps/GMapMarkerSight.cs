@@ -12,7 +12,13 @@ namespace MissionPlanner.Maps
     [Serializable]
     public class GMapMarkerSight : GMapMarker
     {
-        public Pen Pen = new Pen(Brushes.White, 2);
+        public Pen Pen = new Pen(Brushes.White, 5);
+
+        public List<PointLatLng> po = new List<PointLatLng>();
+
+        public float shiftx;
+        public float shifty;
+        public PointLatLng xy;
 
         public Color Color
         {
@@ -39,7 +45,7 @@ namespace MissionPlanner.Maps
                 Color = Color.White;
         }
 
-        public GMapMarkerSight(PointLatLng p)
+        public GMapMarkerSight(PointLatLng p, List<PointLatLng> pointslist)
             : base(p)
         {
             Pen.DashStyle = DashStyle.Dash;
@@ -48,6 +54,9 @@ namespace MissionPlanner.Maps
             // if so, you shall have no event on it ;}
             Size = new System.Drawing.Size(50, 50);
             Offset = new System.Drawing.Point(-Size.Width / 2, -Size.Height / 2);
+
+            po = pointslist;
+            xy = p;
         }
 
         public override void OnRender(Graphics g)
@@ -61,45 +70,32 @@ namespace MissionPlanner.Maps
             if (!initcolor.HasValue)
                 Color = Color.White;
 
-            double width =
-                (Overlay.Control.MapProvider.Projection.GetDistance(Overlay.Control.FromLocalToLatLng(0, 0),
-                    Overlay.Control.FromLocalToLatLng(Overlay.Control.Width, 0)) * 1000.0);
-            double height =
-                (Overlay.Control.MapProvider.Projection.GetDistance(Overlay.Control.FromLocalToLatLng(0, 0),
-                    Overlay.Control.FromLocalToLatLng(Overlay.Control.Height, 0)) * 1000.0);
-            double m2pixelwidth = Overlay.Control.Width / width;
-            double m2pixelheight = Overlay.Control.Height / height;
+            PointF[] point;
+            List<PointF> points = new List<PointF>();
 
-            GPoint loc = new GPoint((int)(LocalPosition.X - (m2pixelwidth * wprad * 2)), LocalPosition.Y);
-            // MainMap.FromLatLngToLocal(wpradposition);
-
-
-            int x = LocalPosition.X - Offset.X - (int)(Math.Abs(loc.X - LocalPosition.X) / 2);
-            int y = LocalPosition.Y - Offset.Y - (int)Math.Abs(loc.X - LocalPosition.X) / 2;
-            int widtharc = (int)Math.Abs(loc.X - LocalPosition.X);
-            int heightarc = (int)Math.Abs(loc.X - LocalPosition.X);
-
-            List<PointF> pointsList = new List<PointF>();
-            
-
-            for(float i = -200; i<x+200;i++)
+            foreach (PointLatLng loca in po)
             {
-                for (float j = -200; j< y + 200;j++)
-                {
+                points.Add(new PointF(Overlay.Control.FromLatLngToLocal(loca).X, Overlay.Control.FromLatLngToLocal(loca).Y));
 
-                    pointsList.Add(new PointF(i,j));
-                }
-            
             }
 
-            PointF[] points = pointsList.ToArray();
+            point = points.ToArray();
 
-            if (widtharc > 0 && widtharc < 200000000 && Overlay.Control.Zoom > 3)
+            //shiftx = Overlay.Control.FromLatLngToLocal(xy).X;// - point[180].X);
+            //shifty = Overlay.Control.FromLatLngToLocal(xy).Y;// - point[180].Y);
+
+
+            for (int i = 0; i<point.Count(); i++)
             {
-                //g.DrawArc(Pen, new System.Drawing.Rectangle(x, y, widtharc, heightarc), 0, 360);
+                float x = point[i].X - 869;// - shiftx - Offset.X;// - (int)(Math.Abs(loc.X - shiftx) / 2);
+                float y = point[i].Y - 431;// -shifty - Offset.Y;// - (int)Math.Abs(loc.X - shiftx) / 2;
 
-                //g.FillPie(new SolidBrush(Color.FromArgb(25, Color.Red)), x, y, widtharc, heightarc, 0, 360);
-                g.DrawPolygon(new Pen(Color.FromArgb(50, Color.Red)), points);
+                point[i] = new PointF(x, y);
+            }
+            
+            if (Overlay.Control.Zoom > 3)
+            {
+                g.DrawPolygon( Pen, point);
             }
         }
     }

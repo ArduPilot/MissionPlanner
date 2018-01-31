@@ -7317,7 +7317,14 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                 if(chk_sight.Checked)
                 {
-                    LineOfSight.Markers.Add(new GMapMarkerSight(MainV2.comPort.MAV.cs.HomeLocation));
+                    List<PointLatLng> pointslist = new List<PointLatLng>();
+
+                    PointLatLng ho = MainV2.comPort.MAV.cs.HomeLocation;
+
+                    SightGen t = new SightGen(MainV2.comPort.MAV.cs.HomeLocation, pointslist, MainV2.comPort.MAV.cs.HomeAlt);
+
+                    LineOfSight.Markers.Add(new GMapMarkerSight(MainV2.comPort.MAV.cs.HomeLocation, pointslist));
+
                     if (LineOfSight.Markers.Count > 1)
                     {
                         LineOfSight.Markers.RemoveAt(0);

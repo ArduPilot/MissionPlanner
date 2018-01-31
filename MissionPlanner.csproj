@@ -497,6 +497,7 @@
     <Compile Include="Utilities\Password.cs" />
     <Compile Include="Utilities\POI.cs" />
     <Compile Include="Utilities\Proximity.cs" />
+    <Compile Include="Utilities\SightGen.cs" />
     <Compile Include="Utilities\Speech.cs" />
     <Compile Include="Utilities\StreamCombiner.cs" />
     <Compile Include="Utilities\StringRedirectWriter.cs" />
