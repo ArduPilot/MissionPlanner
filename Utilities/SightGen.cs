@@ -17,35 +17,50 @@ namespace MissionPlanner.Utilities
         PointLatLngAlt gelocs = new PointLatLngAlt();
         List<PointLatLngAlt> srtmlocs = new List<PointLatLngAlt>();
         List<PointLatLngAlt> pointends = new List<PointLatLngAlt>();
+        PointLatLng point = new PointLatLng();
 
         double homealt;
 
+        bool carryon = true;
+
         public SightGen(PointLatLng location, List<PointLatLng> pointslist, double alt)
         {
-            double distance = 0.99 / 6371; //km
+            double distance = 0; //km
             double latend = 0;
             double lngend = 0;
             double latradians = location.Lat * Math.PI / 180;
             double lngradians = location.Lng * Math.PI / 180;
 
+
             homealt = alt;
 
             for (float angle = 0; angle <= 2 * (float)Math.PI; angle += (float)Math.PI / 180)
             {
-                pointends.Clear();
-                pointends.Add(location);
+                carryon = true;
+                float triangle = 85 * (float)Math.PI / 180;
+                while (carryon && triangle > 0)
+                {
+                    pointends.Clear();
+                    pointends.Add(location);
 
-                latend = Math.Asin(Math.Sin(latradians) * Math.Cos(distance) + Math.Cos(latradians) * Math.Sin(distance) * Math.Cos(angle));
-                if (Math.Cos(latradians) == 0)
-                    lngend = lngradians;      // endpoint a pole
-                else
-                    lngend = mod(lngradians - Math.Asin(Math.Sin(angle) * Math.Sin(distance) / Math.Cos(latend)) + Math.PI, 2 * Math.PI) - Math.PI;
+                    distance = (5 * Math.Cos(triangle)) / 6371;
 
-                double newlatend = latend * 180 / Math.PI;
-                double newlngend = lngend * 180 / Math.PI;
+                    latend = Math.Asin(Math.Sin(latradians) * Math.Cos(distance) + Math.Cos(latradians) * Math.Sin(distance) * Math.Cos(angle));
+                    if (Math.Cos(latend) == 0)
+                        lngend = lngradians;      // endpoint a pole
+                    else
+                        lngend = mod(lngradians - Math.Asin(Math.Sin(angle) * Math.Sin(distance) / Math.Cos(latend)) + Math.PI, 2 * Math.PI) - Math.PI;
 
-                pointends.Add(new PointLatLngAlt(newlatend, newlngend, 0, (1).ToString()));
-                pointslist.Add(getSRTMAltPath(pointends)); //DEM data
+                    double newlatend = latend * 180 / Math.PI;
+                    double newlngend = lngend * 180 / Math.PI;
+
+                    pointends.Add(new PointLatLngAlt(newlatend, newlngend, 0, (1).ToString()));
+                    point = getSRTMAltPath(pointends,triangle); //DEM data
+
+                    triangle -= (float)Math.PI / 180;
+                }
+
+                pointslist.Add(point);
             }
             pointslist.Add(pointslist[0]);
         }
@@ -58,7 +73,7 @@ namespace MissionPlanner.Utilities
             return result;
         }
 
-        PointLatLngAlt getSRTMAltPath(List<PointLatLngAlt> list)
+        PointLatLngAlt getSRTMAltPath(List<PointLatLngAlt> list,float triangle)
         {
             PointLatLngAlt answer = new PointLatLngAlt();
 
@@ -68,7 +83,7 @@ namespace MissionPlanner.Utilities
             double disttotal = 0;
             int a = 0;
             double elev = 0;
-
+            double height = 0;
 
             double dist = last.GetDistance(loc);
 
@@ -81,7 +96,7 @@ namespace MissionPlanner.Utilities
             double steplng = deltalng / points;
 
             PointLatLngAlt lastpnt = last;
-            while (a <= points && elev < homealt+20)
+            while (a <= points && elev < homealt+2+height || a <= points && elev < homealt + 2 + 40)
             {
                 double lat = last.Lat - steplat * a;
                 double lng = last.Lng - steplng * a;
@@ -92,11 +107,18 @@ namespace MissionPlanner.Utilities
 
                 disttotal += subdist;
 
+                height = disttotal * Math.Tan(triangle);
+
                 // srtm alts
                 answer = newpoint;
                 elev = newpoint.Alt;
                 lastpnt = newpoint;
                 a++;   
+            }
+
+            if(a <= points)
+            {
+                carryon = false;
             }
 
             return answer;
