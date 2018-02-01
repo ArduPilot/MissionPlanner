@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -455,6 +456,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 row.CreateCells(Params);
                 row.Cells[Command.Index].Value = value;
                 row.Cells[Value.Index].Value = MainV2.comPort.MAV.param[value].ToString();
+                var fav_params = Settings.Instance.GetList("fav_params");
+                row.Cells[Fav.Index].Value = fav_params.Contains(value);
                 try
                 {
                     var metaDataDescription = ParameterMetaDataRepository.GetParameterMetaData(value,
@@ -492,6 +495,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             log.Info("about to sort");
 
+            Params.SortCompare += OnParamsOnSortCompare;
+
             Params.Sort(Params.Columns[Command.Index], ListSortDirection.Ascending);
 
             Params.Enabled = true;
@@ -499,6 +504,27 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             Params.ResumeLayout();
 
             log.Info("Done");
+        }
+
+        private void OnParamsOnSortCompare(object sender, DataGridViewSortCompareEventArgs args)
+        {
+            var fav1obj = Params[Fav.Index, args.RowIndex1].Value;
+            var fav2obj = Params[Fav.Index, args.RowIndex2].Value;
+
+            var fav1 = fav1obj == null ? false : (bool) fav1obj;
+
+            var fav2 = fav2obj == null ? false : (bool) fav2obj;
+
+            args.SortResult = args.CellValue1.ToString().CompareTo(args.CellValue2.ToString());
+            args.Handled = true;
+
+            if (fav1 && fav2)
+            {
+                return;
+            }
+
+            if (fav1 || fav2)
+                args.SortResult = fav1.CompareTo(fav2) * (Params.SortOrder == SortOrder.Ascending ? -1 : 1);
         }
 
         private void updatedefaultlist(object crap)
@@ -639,15 +665,27 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void Params_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             // Only process the Description column
-            if (e.RowIndex == -1 || startup || e.ColumnIndex != 4)
+            if (e.RowIndex == -1 || startup)
                 return;
 
-            try
+            if (e.ColumnIndex == 4)
             {
-                string descStr = Params[e.ColumnIndex, e.RowIndex].Value.ToString();
-                CheckForUrlAndLaunchInBrowser(descStr);
+                try
+                {
+                    string descStr = Params[e.ColumnIndex, e.RowIndex].Value.ToString();
+                    CheckForUrlAndLaunchInBrowser(descStr);
+                }
+                catch
+                {
+                }
             }
-            catch { }
+
+            if (e.ColumnIndex == 5)
+            {
+                Params.Sort(Command, ListSortDirection.Ascending);
+
+                Settings.Instance.AppendList("fav_params", Params[Command.Index, e.RowIndex].Value.ToString());
+            }
         }
 
         public static void CheckForUrlAndLaunchInBrowser(string stringWithPossibleUrl)
