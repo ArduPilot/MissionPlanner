@@ -266,13 +266,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             // imageLabel1
             // 
-            this.imageLabel1.Image = global::MissionPlanner.Properties.Resources.dark_help_icon;
+            this.imageLabel1.Image = global::MissionPlanner.Properties.Resources.pixhawk2cube;
             resources.ApplyResources(this.imageLabel1, "imageLabel1");
             this.imageLabel1.Name = "imageLabel1";
             this.imageLabel1.TabStop = false;
             this.imageLabel1.Tag = "";
-            this.imageLabel1.Click += new System.EventHandler(this.imageLabel1_Click);
-            this.imageLabel1.Load += new System.EventHandler(this.imageLabel1_Load);
+            this.imageLabel1.Click += new System.EventHandler(this.picturebox_ph2_Click);
             // 
             // ConfigFirmware
             // 
