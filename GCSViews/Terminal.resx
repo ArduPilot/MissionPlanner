@@ -360,7 +360,7 @@ Newer versions only support logt download via mavlink, please see the flightdata
     <value>10</value>
   </data>
   <data name="IPAddressBox.Text" xml:space="preserve">
-    <value>IP Address:Socket</value>
+    <value>IP Address:Port</value>
   </data>
   <data name="&gt;&gt;IPAddressBox.Name" xml:space="preserve">
     <value>IPAddressBox</value>
