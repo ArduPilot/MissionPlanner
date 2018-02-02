@@ -89,9 +89,14 @@ namespace MissionPlanner.GCSViews
         double rel; //relative elevation between drone and ground
         int clearance;
         int prev_res;
-        double drone_alt;
+        double drone_alt = 10;
         double max_alt;
         double min_alt;
+        double range = 2;
+        PointLatLng prev_home;
+        double prev_range;
+        double prev_alt;
+        double prev_altel;
 
         PointLatLng lnglat = new PointLatLng();
 
@@ -99,6 +104,9 @@ namespace MissionPlanner.GCSViews
         bool ele_run = false;
         bool ter_run = false;
         bool ele_enabled;
+        bool switched;
+        bool eleswitch;
+        bool switchedhorizon;
 
         internal static GMapOverlay elevationoverlay2;
 
@@ -7153,6 +7161,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             if (chk_Rel_Elevation.Checked)
             {
                 ele_run = true;
+                eleswitch = true;
             }
 
             else
@@ -7167,6 +7176,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             if(chk_Elevation.Checked)
             {
                 ter_run = true;
+                eleswitch = true;
             }
 
             else
@@ -7180,7 +7190,21 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
         {
             if (chk_sight.Checked)
             {
-             
+                switched = true;
+            }
+
+            else
+            {
+                LineOfSight.Markers.Clear();
+
+            }
+        }
+
+        private void chk_horizon_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chk_horizon.Checked)
+            {
+                switchedhorizon = true;
             }
 
             else
@@ -7193,6 +7217,11 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
         private void NUM_alt_ValueChanged(object sender, EventArgs e)
         {
             drone_alt = (double) NUM_alt.Value;
+        }
+
+        private void NUM_range_ValueChanged(object sender, EventArgs e)
+        {
+            range = (double)NUM_range.Value;
         }
 
         void elevation_calc2()
@@ -7209,8 +7238,10 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                     res = Settings.Instance.GetInt32("Resolution");
                     height = MainMap.Height / res;
 
-                    if (center.Position != prev_position || MainMap.Height != prev_height || MainMap.Width != prev_width || MainMap.Zoom != prev_zoom)
+                    if (center.Position != prev_position || MainMap.Height != prev_height || MainMap.Width != prev_width || MainMap.Zoom != prev_zoom || eleswitch || prev_altel != drone_alt)
                     {
+                        eleswitch = false;
+
                         if (MainMap.Height != prev_height || MainMap.Width != prev_width || res != prev_res)
                         {
                             imageData = new byte[(width * 4 + extend), (height*res+10 + extend)];
@@ -7312,22 +7343,54 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                         prev_width = MainMap.Width;
                         prev_zoom = MainMap.Zoom;
                         prev_res = res;
+                        prev_altel = drone_alt;
                     }
                 }
 
-                if(chk_sight.Checked)
+                if (chk_sight.Checked)
                 {
-                    List<PointLatLng> pointslist = new List<PointLatLng>();
-
-                    PointLatLng ho = MainV2.comPort.MAV.cs.HomeLocation;
-
-                    SightGen t = new SightGen(MainV2.comPort.MAV.cs.HomeLocation, pointslist, MainV2.comPort.MAV.cs.HomeAlt);
-
-                    LineOfSight.Markers.Add(new GMapMarkerSight(MainV2.comPort.MAV.cs.HomeLocation, pointslist));
-
-                    if (LineOfSight.Markers.Count > 1)
+                    if (prev_home != MainV2.comPort.MAV.cs.HomeLocation || switched || prev_range != Settings.Instance.GetInt32("NUM_range") || prev_alt != drone_alt)
                     {
-                        LineOfSight.Markers.RemoveAt(0);
+                        switched = false;
+                        List<PointLatLng> pointslist = new List<PointLatLng>();
+
+                        PointLatLng ho = MainV2.comPort.MAV.cs.HomeLocation;
+
+                        SightGen t = new SightGen(MainV2.comPort.MAV.cs.HomeLocation, pointslist, MainV2.comPort.MAV.cs.HomeAlt, drone_alt);
+
+                        LineOfSight.Markers.Add(new GMapMarkerSight(MainV2.comPort.MAV.cs.HomeLocation, pointslist,true));
+
+                        if (LineOfSight.Markers.Count > 1)
+                        {
+                            LineOfSight.Markers.RemoveAt(0);
+                        }
+
+                        prev_home = ho;
+                        prev_range = Settings.Instance.GetInt32("NUM_range");
+                        prev_alt = drone_alt;
+                    }
+                }
+
+                if (chk_horizon.Checked)
+                {
+                    if (prev_home != MainV2.comPort.MAV.cs.HomeLocation || switchedhorizon || prev_range != Settings.Instance.GetInt32("NUM_range"))
+                    {
+                        switchedhorizon = false;
+                        List<PointLatLng> horizonlist = new List<PointLatLng>();
+
+                        PointLatLng ho = MainV2.comPort.MAV.cs.HomeLocation;
+
+                        HorizonGen b = new HorizonGen(MainV2.comPort.MAV.cs.HomeLocation, horizonlist, MainV2.comPort.MAV.cs.HomeAlt);
+
+                        LineOfSight.Markers.Add(new GMapMarkerSight(MainV2.comPort.MAV.cs.HomeLocation, horizonlist,true));
+
+                        if (LineOfSight.Markers.Count > 1)
+                        {
+                            LineOfSight.Markers.RemoveAt(0);
+                        }
+
+                        prev_home = ho;
+                        prev_range = Settings.Instance.GetInt32("NUM_range");
                     }
                 }
 

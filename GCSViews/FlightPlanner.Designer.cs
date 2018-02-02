@@ -96,9 +96,12 @@ namespace MissionPlanner.GCSViews
             this.chk_Rel_Elevation = new System.Windows.Forms.CheckBox();
             this.chk_Elevation = new System.Windows.Forms.CheckBox();
             this.chk_sight = new System.Windows.Forms.CheckBox();
+            this.chk_horizon = new System.Windows.Forms.CheckBox();
             this.NUM_alt = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
             this.lab7 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.NUM_range = new System.Windows.Forms.NumericUpDown();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.LinkLabel();
             this.label3 = new System.Windows.Forms.Label();
@@ -217,6 +220,7 @@ namespace MissionPlanner.GCSViews
             this.panel5.SuspendLayout();
             this.panel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_alt)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_range)).BeginInit();
             this.panel1.SuspendLayout();
             this.panelWaypoints.SuspendLayout();
             this.panelAction.SuspendLayout();
@@ -497,9 +501,12 @@ namespace MissionPlanner.GCSViews
             this.panel6.Controls.Add(this.chk_Rel_Elevation);
             this.panel6.Controls.Add(this.chk_Elevation);
             this.panel6.Controls.Add(this.chk_sight);
+            this.panel6.Controls.Add(this.chk_horizon);
             this.panel6.Controls.Add(this.NUM_alt);
             this.panel6.Controls.Add(this.label8);
             this.panel6.Controls.Add(this.lab7);
+            this.panel6.Controls.Add(this.label9);
+            //this.panel6.Controls.Add(this.NUM_range);
             resources.ApplyResources(this.panel6, "panel6");
             this.panel6.Name = "panel6";
             // 
@@ -523,6 +530,13 @@ namespace MissionPlanner.GCSViews
             this.chk_sight.Name = "chk_sight";
             this.chk_sight.UseVisualStyleBackColor = true;
             this.chk_sight.CheckedChanged += new System.EventHandler(this.chk_sight_CheckedChanged);
+            // 
+            // chk_horizon
+            // 
+            resources.ApplyResources(this.chk_horizon, "chk_horizon");
+            this.chk_horizon.Name = "chk_horizon";
+            this.chk_horizon.UseVisualStyleBackColor = true;
+            this.chk_horizon.CheckedChanged += new System.EventHandler(this.chk_horizon_CheckedChanged);
             // 
             // NUM_alt
             // 
@@ -560,6 +574,38 @@ namespace MissionPlanner.GCSViews
             // 
             resources.ApplyResources(this.lab7, "lab7");
             this.lab7.Name = "lab7";
+            // 
+            // label9
+            // 
+            resources.ApplyResources(this.label9, "label9");
+            this.label9.Name = "label9";
+            // 
+            // NUM_range
+            // 
+            this.NUM_range.DecimalPlaces = 1;
+            this.NUM_range.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            65536});
+            resources.ApplyResources(this.NUM_range, "NUM_range");
+            this.NUM_range.Maximum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            this.NUM_range.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.NUM_range.Name = "NUM_range";
+            this.NUM_range.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.NUM_range.ValueChanged += new System.EventHandler(this.NUM_range_ValueChanged);
             // 
             // panel1
             // 
@@ -1454,6 +1500,7 @@ namespace MissionPlanner.GCSViews
             this.panel5.ResumeLayout(false);
             this.panel6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NUM_alt)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_range)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panelWaypoints.ResumeLayout(false);
@@ -1494,6 +1541,7 @@ namespace MissionPlanner.GCSViews
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label lab7;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label lbl_status;
         private Controls.MyDataGridView Commands;
         private Controls.MyButton BUT_Add;
@@ -1561,6 +1609,7 @@ namespace MissionPlanner.GCSViews
         private System.Windows.Forms.CheckBox chk_Rel_Elevation;
         private System.Windows.Forms.CheckBox chk_Elevation;
         private System.Windows.Forms.CheckBox chk_sight;
+        private System.Windows.Forms.CheckBox chk_horizon;
         private System.Windows.Forms.ToolStripMenuItem insertWpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem rallyPointsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem getRallyPointsToolStripMenuItem;
@@ -1629,5 +1678,6 @@ namespace MissionPlanner.GCSViews
         private System.Windows.Forms.ToolStripMenuItem currentPositionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem surveyGridToolStripMenuItem;
         private System.Windows.Forms.NumericUpDown NUM_alt;
+        private System.Windows.Forms.NumericUpDown NUM_range;
     }
 }

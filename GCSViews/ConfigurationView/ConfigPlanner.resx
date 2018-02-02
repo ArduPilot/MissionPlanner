@@ -2302,6 +2302,78 @@
   <data name="&gt;&gt;CMB_Resolution.ZOrder" xml:space="preserve">
     <value>71</value>
   </data>
+  <data name="CMB_Angular.Items" xml:space="preserve">
+    <value>0.5</value>
+  </data>
+  <data name="CMB_Angular.Items1" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="CMB_Angular.Items2" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="CMB_Angular.Items3" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="CMB_Angular.Items4" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="CMB_Angular.Location" type="System.Drawing.Point, System.Drawing">
+    <value>329, 534</value>
+  </data>
+  <data name="CMB_Angular.Size" type="System.Drawing.Size, System.Drawing">
+    <value>40, 21</value>
+  </data>
+  <data name="CMB_Angular.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;CMB_Angular.Name" xml:space="preserve">
+    <value>CMB_Angular</value>
+  </data>
+  <data name="&gt;&gt;CMB_Angular.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CMB_Angular.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;CMB_Angular.ZOrder" xml:space="preserve">
+    <value>73</value>
+  </data>
+  <data name="CMB_Rotational.Items" xml:space="preserve">
+    <value>0.5</value>
+  </data>
+  <data name="CMB_Rotational.Items1" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="CMB_Rotational.Items2" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="CMB_Rotational.Items3" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="CMB_Rotational.Items4" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="CMB_Rotational.Location" type="System.Drawing.Point, System.Drawing">
+    <value>199, 534</value>
+  </data>
+  <data name="CMB_Rotational.Size" type="System.Drawing.Size, System.Drawing">
+    <value>40, 21</value>
+  </data>
+  <data name="CMB_Rotational.TabIndex" type="System.Int32, mscorlib">
+    <value>119</value>
+  </data>
+  <data name="&gt;&gt;CMB_Rotational.Name" xml:space="preserve">
+    <value>CMB_Rotational</value>
+  </data>
+  <data name="&gt;&gt;CMB_Rotational.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CMB_Rotational.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;CMB_Rotational.ZOrder" xml:space="preserve">
+    <value>72</value>
+  </data>
   <data name="label90.Location" type="System.Drawing.Point, System.Drawing">
     <value>121, 504</value>
   </data>
@@ -2324,10 +2396,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label90.ZOrder" xml:space="preserve">
-    <value>72</value>
+    <value>74</value>
   </data>
   <data name="Clearance.Location" type="System.Drawing.Point, System.Drawing">
-    <value>313, 501</value>
+    <value>329, 501</value>
   </data>
   <data name="Clearance.Size" type="System.Drawing.Size, System.Drawing">
     <value>56, 20</value>
@@ -2345,19 +2417,61 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Clearance.ZOrder" xml:space="preserve">
-    <value>73</value>
+    <value>75</value>
+  </data>
+  <data name="NUM_range.Location" type="System.Drawing.Point, System.Drawing">
+    <value>456, 538</value>
+  </data>
+  <data name="NUM_range.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 20</value>
+  </data>
+  <data name="NUM_range.TabIndex" type="System.Int32, mscorlib">
+    <value>121</value>
+  </data>
+  <data name="&gt;&gt;NUM_range.Name" xml:space="preserve">
+    <value>NUM_range</value>
+  </data>
+  <data name="&gt;&gt;NUM_range.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUM_range.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;NUM_range.ZOrder" xml:space="preserve">
+    <value>76</value>
+  </data>
+  <data name="NUM_height.Location" type="System.Drawing.Point, System.Drawing">
+    <value>616, 535</value>
+  </data>
+  <data name="NUM_height.Size" type="System.Drawing.Size, System.Drawing">
+    <value>46, 20</value>
+  </data>
+  <data name="NUM_height.TabIndex" type="System.Int32, mscorlib">
+    <value>122</value>
+  </data>
+  <data name="&gt;&gt;NUM_height.Name" xml:space="preserve">
+    <value>NUM_height</value>
+  </data>
+  <data name="&gt;&gt;NUM_height.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUM_height.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;NUM_height.ZOrder" xml:space="preserve">
+    <value>77</value>
   </data>
   <data name="label89.Location" type="System.Drawing.Point, System.Drawing">
     <value>253, 504</value>
   </data>
   <data name="label89.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 17</value>
+    <value>76, 17</value>
   </data>
   <data name="label89.TabIndex" type="System.Int32, mscorlib">
     <value>121</value>
   </data>
   <data name="label89.Text" xml:space="preserve">
-    <value>Clearance</value>
+    <value>Clearance [m]</value>
   </data>
   <data name="&gt;&gt;label89.Name" xml:space="preserve">
     <value>label89</value>
@@ -2369,7 +2483,127 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label89.ZOrder" xml:space="preserve">
-    <value>74</value>
+    <value>78</value>
+  </data>
+  <data name="label100.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 537</value>
+  </data>
+  <data name="label100.Size" type="System.Drawing.Size, System.Drawing">
+    <value>69, 23</value>
+  </data>
+  <data name="label100.TabIndex" type="System.Int32, mscorlib">
+    <value>122</value>
+  </data>
+  <data name="label100.Text" xml:space="preserve">
+    <value>Propagation</value>
+  </data>
+  <data name="&gt;&gt;label100.Name" xml:space="preserve">
+    <value>label100</value>
+  </data>
+  <data name="&gt;&gt;label100.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label100.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label100.ZOrder" xml:space="preserve">
+    <value>79</value>
+  </data>
+  <data name="label109.Location" type="System.Drawing.Point, System.Drawing">
+    <value>121, 540</value>
+  </data>
+  <data name="label109.Size" type="System.Drawing.Size, System.Drawing">
+    <value>89, 23</value>
+  </data>
+  <data name="label109.TabIndex" type="System.Int32, mscorlib">
+    <value>123</value>
+  </data>
+  <data name="label109.Text" xml:space="preserve">
+    <value>Azimuth Step</value>
+  </data>
+  <data name="&gt;&gt;label109.Name" xml:space="preserve">
+    <value>label109</value>
+  </data>
+  <data name="&gt;&gt;label109.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label109.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label109.ZOrder" xml:space="preserve">
+    <value>80</value>
+  </data>
+  <data name="label110.Location" type="System.Drawing.Point, System.Drawing">
+    <value>254, 540</value>
+  </data>
+  <data name="label110.Size" type="System.Drawing.Size, System.Drawing">
+    <value>82, 23</value>
+  </data>
+  <data name="label110.TabIndex" type="System.Int32, mscorlib">
+    <value>124</value>
+  </data>
+  <data name="label110.Text" xml:space="preserve">
+    <value>Elevation Step</value>
+  </data>
+  <data name="&gt;&gt;label110.Name" xml:space="preserve">
+    <value>label110</value>
+  </data>
+  <data name="&gt;&gt;label110.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label110.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label110.ZOrder" xml:space="preserve">
+    <value>81</value>
+  </data>
+  <data name="label111.Location" type="System.Drawing.Point, System.Drawing">
+    <value>386, 540</value>
+  </data>
+  <data name="label111.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 23</value>
+  </data>
+  <data name="label111.TabIndex" type="System.Int32, mscorlib">
+    <value>125</value>
+  </data>
+  <data name="label111.Text" xml:space="preserve">
+    <value>Range [Km]</value>
+  </data>
+  <data name="&gt;&gt;label111.Name" xml:space="preserve">
+    <value>label111</value>
+  </data>
+  <data name="&gt;&gt;label111.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label111.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label111.ZOrder" xml:space="preserve">
+    <value>82</value>
+  </data>
+  <data name="label112.Location" type="System.Drawing.Point, System.Drawing">
+    <value>529, 540</value>
+  </data>
+  <data name="label112.Size" type="System.Drawing.Size, System.Drawing">
+    <value>84, 23</value>
+  </data>
+  <data name="label112.TabIndex" type="System.Int32, mscorlib">
+    <value>126</value>
+  </data>
+  <data name="label112.Text" xml:space="preserve">
+    <value>Base Height [m]</value>
+  </data>
+  <data name="&gt;&gt;label112.Name" xml:space="preserve">
+    <value>label112</value>
+  </data>
+  <data name="&gt;&gt;label112.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label112.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label112.ZOrder" xml:space="preserve">
+    <value>83</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

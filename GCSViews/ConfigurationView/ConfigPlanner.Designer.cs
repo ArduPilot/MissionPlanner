@@ -102,11 +102,22 @@
             this.CHK_AutoParamCommit = new System.Windows.Forms.CheckBox();
             this.chk_shownofly = new System.Windows.Forms.CheckBox();
             this.CMB_Resolution = new System.Windows.Forms.ComboBox();
+            this.CMB_Angular = new System.Windows.Forms.ComboBox();
+            this.CMB_Rotational = new System.Windows.Forms.ComboBox();
             this.label90 = new System.Windows.Forms.Label();
             this.Clearance = new System.Windows.Forms.NumericUpDown();
+            this.NUM_range = new System.Windows.Forms.NumericUpDown();
+            this.NUM_height = new System.Windows.Forms.NumericUpDown();
             this.label89 = new System.Windows.Forms.Label();
+            this.label100 = new System.Windows.Forms.Label();
+            this.label109 = new System.Windows.Forms.Label();
+            this.label110 = new System.Windows.Forms.Label();
+            this.label111 = new System.Windows.Forms.Label();
+            this.label112 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_tracklength)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Clearance)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_range)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_height)).BeginInit();
             this.SuspendLayout();
             // 
             // label33
@@ -684,6 +695,34 @@
             this.CMB_Resolution.Name = "CMB_Resolution";
             this.CMB_Resolution.SelectedIndexChanged += new System.EventHandler(this.CMB_Resolution_SelectedIndexChanged);
             // 
+            // CMB_Angular
+            // 
+            this.CMB_Angular.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CMB_Angular.FormattingEnabled = true;
+            this.CMB_Angular.Items.AddRange(new object[] {
+            resources.GetString("CMB_Angular.Items"),
+            resources.GetString("CMB_Angular.Items1"),
+            resources.GetString("CMB_Angular.Items2"),
+            resources.GetString("CMB_Angular.Items3"),
+            resources.GetString("CMB_Angular.Items4")});
+            resources.ApplyResources(this.CMB_Angular, "CMB_Angular");
+            this.CMB_Angular.Name = "CMB_Angular";
+            this.CMB_Angular.SelectedIndexChanged += new System.EventHandler(this.CMB_Angular_SelectedIndexChanged);
+            // 
+            // CMB_Rotational
+            // 
+            this.CMB_Rotational.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CMB_Rotational.FormattingEnabled = true;
+            this.CMB_Rotational.Items.AddRange(new object[] {
+            resources.GetString("CMB_Rotational.Items"),
+            resources.GetString("CMB_Rotational.Items1"),
+            resources.GetString("CMB_Rotational.Items2"),
+            resources.GetString("CMB_Rotational.Items3"),
+            resources.GetString("CMB_Rotational.Items4")});
+            resources.ApplyResources(this.CMB_Rotational, "CMB_Rotational");
+            this.CMB_Rotational.Name = "CMB_Rotational";
+            this.CMB_Rotational.SelectedIndexChanged += new System.EventHandler(this.CMB_Rotational_SelectedIndexChanged);
+            // 
             // label90
             // 
             resources.ApplyResources(this.label90, "label90");
@@ -691,11 +730,6 @@
             // 
             // Clearance
             // 
-            this.Clearance.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
             resources.ApplyResources(this.Clearance, "Clearance");
             this.Clearance.Maximum = new decimal(new int[] {
             2000,
@@ -715,10 +749,69 @@
             0});
             this.Clearance.ValueChanged += new System.EventHandler(this.Clearance_ValueChanged);
             // 
+            // NUM_range
+            // 
+            this.NUM_range.DecimalPlaces = 1;
+            resources.ApplyResources(this.NUM_range, "NUM_range");
+            this.NUM_range.Maximum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            this.NUM_range.Name = "NUM_range";
+            this.NUM_range.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.NUM_range.ValueChanged += new System.EventHandler(this.NUM_range_ValueChanged);
+            // 
+            // NUM_height
+            // 
+            this.NUM_height.DecimalPlaces = 1;
+            resources.ApplyResources(this.NUM_height, "NUM_height");
+            this.NUM_height.Maximum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            this.NUM_height.Name = "NUM_height";
+            this.NUM_height.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.NUM_height.ValueChanged += new System.EventHandler(this.NUM_height_ValueChanged);
+            // 
             // label89
             // 
             resources.ApplyResources(this.label89, "label89");
             this.label89.Name = "label89";
+            // 
+            // label100
+            // 
+            resources.ApplyResources(this.label100, "label100");
+            this.label100.Name = "label100";
+            // 
+            // label109
+            // 
+            resources.ApplyResources(this.label109, "label109");
+            this.label109.Name = "label109";
+            // 
+            // label110
+            // 
+            resources.ApplyResources(this.label110, "label110");
+            this.label110.Name = "label110";
+            // 
+            // label111
+            // 
+            resources.ApplyResources(this.label111, "label111");
+            this.label111.Name = "label111";
+            // 
+            // label112
+            // 
+            resources.ApplyResources(this.label112, "label112");
+            this.label112.Name = "label112";
             // 
             // ConfigPlanner
             // 
@@ -796,14 +889,25 @@
             this.Controls.Add(this.BUT_videostart);
             this.Controls.Add(this.label91);
             this.Controls.Add(this.CMB_Resolution);
+            this.Controls.Add(this.CMB_Rotational);
+            this.Controls.Add(this.CMB_Angular);
             this.Controls.Add(this.label90);
             this.Controls.Add(this.Clearance);
+            this.Controls.Add(this.NUM_range);
+            this.Controls.Add(this.NUM_height);
             this.Controls.Add(this.label89);
+            this.Controls.Add(this.label100);
+            this.Controls.Add(this.label109);
+            this.Controls.Add(this.label110);
+            this.Controls.Add(this.label111);
+            this.Controls.Add(this.label112);
             this.Name = "ConfigPlanner";
             resources.ApplyResources(this, "$this");
             this.Load += new System.EventHandler(this.ConfigPlanner_Load);
             ((System.ComponentModel.ISupportInitialize)(this.NUM_tracklength)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Clearance)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_range)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_height)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -884,8 +988,17 @@
         private System.Windows.Forms.CheckBox chk_shownofly;
         private System.Windows.Forms.Label label91;
         private System.Windows.Forms.ComboBox CMB_Resolution;
+        private System.Windows.Forms.ComboBox CMB_Rotational;
+        private System.Windows.Forms.ComboBox CMB_Angular;
         private System.Windows.Forms.Label label90;
         private System.Windows.Forms.NumericUpDown Clearance;
+        private System.Windows.Forms.NumericUpDown NUM_range;
+        private System.Windows.Forms.NumericUpDown NUM_height;
         private System.Windows.Forms.Label label89;
+        private System.Windows.Forms.Label label100;
+        private System.Windows.Forms.Label label109;
+        private System.Windows.Forms.Label label110;
+        private System.Windows.Forms.Label label111;
+        private System.Windows.Forms.Label label112;
     }
 }

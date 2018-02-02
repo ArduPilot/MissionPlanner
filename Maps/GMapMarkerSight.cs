@@ -20,6 +20,8 @@ namespace MissionPlanner.Maps
         public float shifty;
         public PointLatLng xy;
 
+        public bool use;
+
         public Color Color
         {
             get { return Pen.Color; }
@@ -32,11 +34,6 @@ namespace MissionPlanner.Maps
 
         Color? initcolor = null;
 
-        public GMapMarker InnerMarker;
-
-        // m
-        public int wprad = 9000;
-
         public void ResetColor()
         {
             if (initcolor.HasValue)
@@ -45,7 +42,7 @@ namespace MissionPlanner.Maps
                 Color = Color.White;
         }
 
-        public GMapMarkerSight(PointLatLng p, List<PointLatLng> pointslist)
+        public GMapMarkerSight(PointLatLng p, List<PointLatLng> pointslist, bool yes)
             : base(p)
         {
             Pen.DashStyle = DashStyle.Dash;
@@ -57,13 +54,15 @@ namespace MissionPlanner.Maps
 
             po = pointslist;
             xy = p;
+
+            use = yes;
         }
 
         public override void OnRender(Graphics g)
         {
             base.OnRender(g);
 
-            if (wprad == 0 || Overlay.Control == null)
+            if (Overlay.Control == null)
                 return;
 
             // if we have drawn it, then keep that color
@@ -81,16 +80,29 @@ namespace MissionPlanner.Maps
 
             point = points.ToArray();
 
-            //shiftx = Overlay.Control.FromLatLngToLocal(xy).X;// - point[180].X);
-            //shifty = Overlay.Control.FromLatLngToLocal(xy).Y;// - point[180].Y);
+            shiftx = Overlay.Control.FromLatLngToLocal(xy).X;// - point[180].X);
+            shifty = Overlay.Control.FromLatLngToLocal(xy).Y;// - point[180].Y);
 
-
-            for (int i = 0; i<point.Count(); i++)
+            if (use)
             {
-                float x = point[i].X - 869;// - shiftx - Offset.X;// - (int)(Math.Abs(loc.X - shiftx) / 2);
-                float y = point[i].Y - 431;// -shifty - Offset.Y;// - (int)Math.Abs(loc.X - shiftx) / 2;
+                for (int i = 0; i < point.Count(); i++)
+                {
+                    float x = point[i].X - 869;// - shiftx - Offset.X;// - (int)(Math.Abs(loc.X - shiftx) / 2);
+                    float y = point[i].Y - 431;// -shifty - Offset.Y;// - (int)Math.Abs(loc.X - shiftx) / 2;
 
-                point[i] = new PointF(x, y);
+                    point[i] = new PointF(x, y);
+                }
+            }
+
+            else
+            {
+                for (int i = 0; i < point.Count(); i++)
+                {
+                    float x = point[i].X - 713;// - Overlay.Control.FromLatLngToLocal(xy).X;// - shiftx - Offset.X;// - (int)(Math.Abs(loc.X - shiftx) / 2);
+                    float y = point[i].Y - 476; // - Overlay.Control.FromLatLngToLocal(xy).Y; // -shifty - Offset.Y;// - (int)Math.Abs(loc.X - shiftx) / 2;
+
+                    point[i] = new PointF(x, y);
+                }
             }
             
             if (Overlay.Control.Zoom > 3)

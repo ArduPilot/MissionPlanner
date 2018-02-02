@@ -60,6 +60,9 @@ namespace MissionPlanner.GCSViews
         int prev_res;
         double max_alt; 
         double min_alt;
+        double prev_range;
+        PointLatLng prev_home;
+        bool switched = false;
 
         RollingPointPairList list1 = new RollingPointPairList(1200);
         RollingPointPairList list2 = new RollingPointPairList(1200);
@@ -101,6 +104,7 @@ namespace MissionPlanner.GCSViews
         internal static GMapOverlay photosoverlay;
         internal static GMapOverlay poioverlay = new GMapOverlay("POI"); // poi layer
         internal static GMapOverlay elevationoverlay;
+        public static GMapOverlay LineOfSight;
 
         List<TabPage> TabListOriginal = new List<TabPage>();
 
@@ -347,6 +351,9 @@ namespace MissionPlanner.GCSViews
 
             elevationoverlay = new GMapOverlay("elevation overlay");
             gMapControl1.Overlays.Add(elevationoverlay);
+
+            LineOfSight = new GMapOverlay("LineOfSight");
+            gMapControl1.Overlays.Add(LineOfSight);
 
             gMapControl1.Overlays.Add(poioverlay);
 
@@ -3329,6 +3336,20 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        private void CHK_RF_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rel_elevation.Checked)
+            {
+                switched = true;
+
+            }
+
+            else
+            {
+                LineOfSight.Markers.Clear();
+            }
+        }
+
         void elevation_calc()
         {
             ele_enabled = true;
@@ -3450,6 +3471,32 @@ namespace MissionPlanner.GCSViews
                         prev_res = res;
                     }
                 }
+
+                
+                if (CHK_RF.Checked && hud1.connected)
+                {
+                    if (prev_home != MainV2.comPort.MAV.cs.HomeLocation || switched || prev_range != Settings.Instance.GetInt32("NUM_range") || prev_alt != hud1.alt)
+                    {
+                        switched = false;
+                        List<PointLatLng> pointslist = new List<PointLatLng>();
+
+                        PointLatLng ho = MainV2.comPort.MAV.cs.HomeLocation;
+
+                        SightGen t = new SightGen(MainV2.comPort.MAV.cs.HomeLocation, pointslist, MainV2.comPort.MAV.cs.HomeAlt, hud1.alt);
+
+                        LineOfSight.Markers.Add(new GMapMarkerSight(MainV2.comPort.MAV.cs.HomeLocation, pointslist,false));
+
+                        if (LineOfSight.Markers.Count > 1)
+                        {
+                            LineOfSight.Markers.RemoveAt(0);
+                        }
+
+                        prev_home = ho;
+                        prev_range = Settings.Instance.GetInt32("NUM_range");
+                        prev_alt = hud1.alt;
+                    }
+                }
+                
 
                 Thread.Sleep(500);
             }

@@ -746,16 +746,16 @@
     <value>1</value>
   </data>
   <data name="chk_sight.Location" type="System.Drawing.Point, System.Drawing">
-    <value>16, 97</value>
+    <value>16, 94</value>
   </data>
   <data name="chk_sight.Size" type="System.Drawing.Size, System.Drawing">
-    <value>104, 24</value>
+    <value>100, 24</value>
   </data>
   <data name="chk_sight.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
   <data name="chk_sight.Text" xml:space="preserve">
-    <value>Line of Sight</value>
+    <value>RF Propagation</value>
   </data>
   <data name="&gt;&gt;chk_sight.Name" xml:space="preserve">
     <value>chk_sight</value>
@@ -768,6 +768,30 @@
   </data>
   <data name="&gt;&gt;chk_sight.ZOrder" xml:space="preserve">
     <value>2</value>
+  </data>
+  <data name="chk_horizon.Location" type="System.Drawing.Point, System.Drawing">
+    <value>16, 150</value>
+  </data>
+  <data name="chk_horizon.Size" type="System.Drawing.Size, System.Drawing">
+    <value>66, 24</value>
+  </data>
+  <data name="chk_horizon.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="chk_horizon.Text" xml:space="preserve">
+    <value>Horizon</value>
+  </data>
+  <data name="&gt;&gt;chk_horizon.Name" xml:space="preserve">
+    <value>chk_horizon</value>
+  </data>
+  <data name="&gt;&gt;chk_horizon.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chk_horizon.Parent" xml:space="preserve">
+    <value>panel6</value>
+  </data>
+  <data name="&gt;&gt;chk_horizon.ZOrder" xml:space="preserve">
+    <value>3</value>
   </data>
   <data name="NUM_alt.Location" type="System.Drawing.Point, System.Drawing">
     <value>65, 71</value>
@@ -788,7 +812,7 @@
     <value>panel6</value>
   </data>
   <data name="&gt;&gt;NUM_alt.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
     <value>24, 8</value>
@@ -812,7 +836,7 @@
     <value>panel6</value>
   </data>
   <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="lab7.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 73</value>
@@ -836,13 +860,58 @@
     <value>panel6</value>
   </data>
   <data name="&gt;&gt;lab7.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
+  </data>
+  <data name="label9.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 126</value>
+  </data>
+  <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 23</value>
+  </data>
+  <data name="label9.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Range</value>
+  </data>
+  <data name="&gt;&gt;label9.Name" xml:space="preserve">
+    <value>label9</value>
+  </data>
+  <data name="&gt;&gt;label9.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label9.Parent" xml:space="preserve">
+    <value>panel6</value>
+  </data>
+  <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="NUM_range.Location" type="System.Drawing.Point, System.Drawing">
+    <value>63, 124</value>
+  </data>
+  <data name="NUM_range.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 20</value>
+  </data>
+  <data name="NUM_range.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;NUM_range.Name" xml:space="preserve">
+    <value>NUM_range</value>
+  </data>
+  <data name="&gt;&gt;NUM_range.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUM_range.Parent" xml:space="preserve">
+    <value>panel6</value>
+  </data>
+  <data name="&gt;&gt;NUM_range.ZOrder" xml:space="preserve">
+    <value>8</value>
   </data>
   <data name="panel6.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 364</value>
   </data>
   <data name="panel6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 125</value>
+    <value>123, 203</value>
   </data>
   <data name="panel6.TabIndex" type="System.Int32, mscorlib">
     <value>51</value>

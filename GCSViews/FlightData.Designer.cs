@@ -174,6 +174,7 @@
             this.CB_tuning = new System.Windows.Forms.CheckBox();
             this.rel_elevation = new System.Windows.Forms.CheckBox();
             this.Elevation_overlay = new System.Windows.Forms.CheckBox();
+            this.CHK_RF = new System.Windows.Forms.CheckBox();
             this.ZedGraphTimer = new System.Windows.Forms.Timer(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.openScriptDialog = new System.Windows.Forms.OpenFileDialog();
@@ -2089,7 +2090,7 @@
             this.windDir1.BackColor = System.Drawing.Color.Transparent;
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Direction", this.bindingSource1, "wind_dir", true, System.Windows.Forms.DataSourceUpdateMode.Never));
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Speed", this.bindingSource1, "wind_vel", true, System.Windows.Forms.DataSourceUpdateMode.Never));
-            this.windDir1.Direction = 360D;
+            this.windDir1.Direction = 180D;
             resources.ApplyResources(this.windDir1, "windDir1");
             this.windDir1.Name = "windDir1";
             this.windDir1.Speed = 0D;
@@ -2194,6 +2195,7 @@
             this.panel1.Controls.Add(this.CB_tuning);
             this.panel1.Controls.Add(this.rel_elevation);
             this.panel1.Controls.Add(this.Elevation_overlay);
+            this.panel1.Controls.Add(this.CHK_RF);
             resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
             // 
@@ -2278,6 +2280,14 @@
             this.toolTip1.SetToolTip(this.Elevation_overlay, resources.GetString("Elevation_overlay.ToolTip"));
             this.Elevation_overlay.UseVisualStyleBackColor = true;
             this.Elevation_overlay.CheckedChanged += new System.EventHandler(this.Elevation_overlay_CheckedChanged);
+            // 
+            // CHK_RF
+            // 
+            resources.ApplyResources(this.CHK_RF, "CHK_RF");
+            this.CHK_RF.Name = "CHK_RF";
+            this.toolTip1.SetToolTip(this.CHK_RF, resources.GetString("CHK_RF.ToolTip"));
+            this.CHK_RF.UseVisualStyleBackColor = true;
+            this.CHK_RF.CheckedChanged += new System.EventHandler(this.CHK_RF_CheckedChanged);
             // 
             // ZedGraphTimer
             // 
@@ -2425,6 +2435,7 @@
         private System.Windows.Forms.NumericUpDown Zoomlevel;
         private Controls.MyLabel label1;
         private System.Windows.Forms.CheckBox CHK_autopan;
+        private System.Windows.Forms.CheckBox CHK_RF;
         public Controls.myGMAP gMapControl1;
         private ZedGraph.ZedGraphControl zg1;
         public System.Windows.Forms.TabControl tabControlactions;

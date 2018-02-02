@@ -12,7 +12,7 @@ using MissionPlanner.Controls;
 
 namespace MissionPlanner.Utilities
 {
-    public class SightGen
+    public class HorizonGen
     {
         PointLatLngAlt gelocs = new PointLatLngAlt();
         List<PointLatLngAlt> srtmlocs = new List<PointLatLngAlt>();
@@ -20,13 +20,12 @@ namespace MissionPlanner.Utilities
         PointLatLng point = new PointLatLng();
 
         double homealt;
-        double drone_alt;
-        double clearance;
+
         bool carryon = true;
         double range;
         double base_height;
 
-        public SightGen(PointLatLng location, List<PointLatLng> pointslist, double alt, double aircraft_alt)
+        public HorizonGen(PointLatLng location, List<PointLatLng> pointslist, double alt)
         {
             double distance = 0; //km
             double latend = 0;
@@ -34,23 +33,16 @@ namespace MissionPlanner.Utilities
             double latradians = location.Lat * Math.PI / 180;
             double lngradians = location.Lng * Math.PI / 180;
 
+            homealt = alt;
             range = Settings.Instance.GetInt32("NUM_range");
-            clearance = Settings.Instance.GetInt32("Clearance");
             base_height = Settings.Instance.GetInt32("NUM_height");
 
-            drone_alt = aircraft_alt;
-
-
-            float stop = (float)Math.Asin(((drone_alt- clearance) *0.001) / range);
-
-            homealt = alt;
-
-            for (float angle = 0; angle <= 2 * (float)Math.PI; angle += (float)Math.PI / 180 * Settings.Instance.GetInt32("Rotational"))
+            for (float angle = 0; angle <= 2 * (float)Math.PI; angle += (float)Math.PI / 180* Settings.Instance.GetInt32("Rotational"))
             {
                 carryon = true;
-                float triangle = 85 * (float)Math.PI / 180; 
+                float triangle = 85 * (float)Math.PI / 180 ;
 
-                while (carryon && triangle >= stop)
+                while (carryon && triangle >= 0)
                 {
                     pointends.Clear();
                     pointends.Add(location);
@@ -67,9 +59,10 @@ namespace MissionPlanner.Utilities
                     double newlngend = lngend * 180 / Math.PI;
 
                     pointends.Add(new PointLatLngAlt(newlatend, newlngend, 0, (1).ToString()));
-                    point = getSRTMAltPath(pointends,triangle); //DEM data
+                    point = getSRTMAltPath(pointends, triangle); //DEM data
 
-                    triangle -= (float)Math.PI / 180 * Settings.Instance.GetInt32("Angular");
+                    float p = Settings.Instance.GetInt32("CMB_Angular");
+                    triangle -= ((float)Math.PI / 180) * Settings.Instance.GetInt32("Angular");
                 }
 
                 pointslist.Add(point);
@@ -85,7 +78,7 @@ namespace MissionPlanner.Utilities
             return result;
         }
 
-        PointLatLngAlt getSRTMAltPath(List<PointLatLngAlt> list,float triangle)
+        PointLatLngAlt getSRTMAltPath(List<PointLatLngAlt> list, float triangle)
         {
             PointLatLngAlt answer = new PointLatLngAlt();
 
@@ -108,7 +101,7 @@ namespace MissionPlanner.Utilities
             double steplng = deltalng / points;
 
             PointLatLngAlt lastpnt = last;
-            while (a <= points && elev < homealt+ base_height + height && elev < homealt + drone_alt-clearance)
+            while (a <= points && elev < homealt + base_height + height)
             {
                 double lat = last.Lat - steplat * a;
                 double lng = last.Lng - steplng * a;
@@ -125,10 +118,10 @@ namespace MissionPlanner.Utilities
                 answer = newpoint;
                 elev = newpoint.Alt;
                 lastpnt = newpoint;
-                a++;   
+                a++;
             }
 
-            if(a <= points)
+            if (a <= points)
             {
                 carryon = false;
             }

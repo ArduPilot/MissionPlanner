@@ -487,6 +487,7 @@
     <Compile Include="Utilities\fftui.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Utilities\Firmware.cs" />
     <Compile Include="Utilities\GimbalPoint.cs" />
+    <Compile Include="Utilities\HorizonGen.cs" />
     <Compile Include="Utilities\httpserver.cs" />
     <Compile Include="Utilities\LangUtility.cs" />
     <Compile Include="Utilities\LogAnalyzer.cs" />
