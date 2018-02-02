@@ -360,7 +360,8 @@ namespace MissionPlanner.GCSViews
                     CMB_boardtype.Enabled = true;
                     IPAddressBox.Enabled = true;
                     SSHTerminal = false;
-                    ArrowMovement = false;
+                    threadrun = ConnectionInfo = ReverseIndex  = ArrowMovement = false;
+                    DisplayChars = true;
                 }
                 if (comPort != null && comPort.IsOpen)
                 {
@@ -784,7 +785,15 @@ namespace MissionPlanner.GCSViews
         {
             BeginInvoke((MethodInvoker)delegate
             {
-                Clipboard.Clear();
+                //Need to clear clipboard for controls to work in nano
+                try
+                {
+                    Clipboard.Clear();
+                }
+                catch
+                {
+
+                }
                 if (inputStartPos > TXT_terminal.Text.Length)
                     inputStartPos = TXT_terminal.Text.Length - 1;
                 // gather current typed data
@@ -1390,9 +1399,8 @@ namespace MissionPlanner.GCSViews
                         client.Dispose();
                         CMB_boardtype.Enabled = true;
                         IPAddressBox.Enabled = true;
-                        SSHTerminal = false;
-                        ArrowMovement = false;
-                        threadrun = false;
+                        ConnectionInfo = ReverseIndex = threadrun = ArrowMovement  = SSHTerminal = false;
+                        DisplayChars = true;
                     }
                     else
                         comPort.Write("reboot\n");
