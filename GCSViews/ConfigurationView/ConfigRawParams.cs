@@ -682,9 +682,22 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (e.ColumnIndex == 5)
             {
-                Params.Sort(Command, ListSortDirection.Ascending);
+                var check = Params[e.ColumnIndex, e.RowIndex].EditedFormattedValue;
+                var name = Params[Command.Index, e.RowIndex].Value.ToString();
 
-                Settings.Instance.AppendList("fav_params", Params[Command.Index, e.RowIndex].Value.ToString());
+                if (check != null && (bool)check)
+                {
+                    // add entry
+                    Settings.Instance.AppendList("fav_params", name);
+                }
+                else
+                {
+                    // remove entry
+                    var list = Settings.Instance.GetList("fav_params");
+                    Settings.Instance.SetList("fav_params", list.Where(s => s != name));
+                }
+
+                Params.Sort(Command, ListSortDirection.Ascending);
             }
         }
 

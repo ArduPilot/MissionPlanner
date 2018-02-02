@@ -343,7 +343,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             foreach (string item in MainV2.comPort.MAV.param.Keys)
                 sorted.Add(item);
 
-            sorted.Sort();
+            sorted.Sort(ComparisonTree);
 
             var roots = new List<data>();
             var lastroot = new data();
@@ -410,6 +410,30 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 Params.AddObject(item);
             }
+        }
+
+        private int ComparisonTree(string s, string s1)
+        {
+            var list = Settings.Instance.GetList("fav_params");
+
+            var fav1 = list.Contains(s);
+            var fav2 = list.Contains(s1);
+
+            var ans = s.CompareTo(s1);
+
+            // both fav use string compare
+            if (fav1 == fav2)
+                return ans;
+
+            // fav1 is greater
+            if (fav1 && !fav2)
+                return -1;
+
+            // fav1 is not greater
+            if (!fav1 && fav2)
+                return 1;
+
+            return ans;
         }
 
         private void updatedefaultlist(object crap)
