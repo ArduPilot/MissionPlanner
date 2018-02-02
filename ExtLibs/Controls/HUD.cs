@@ -904,7 +904,7 @@ namespace MissionPlanner.Controls
                     log.Debug("Enable");
                     GL.Enable(EnableCap.LineSmooth);
                     GL.Enable(EnableCap.PointSmooth);
-                    GL.Enable(EnableCap.PolygonSmooth);
+                    GL.Disable(EnableCap.PolygonSmooth);
 
                 }
                 catch (Exception ex)
@@ -1413,7 +1413,7 @@ namespace MissionPlanner.Controls
                 float width = rectf.Width;
                 float height = rectf.Height;
 
-                GL.Begin(PrimitiveType.Quads);
+                GL.Begin(PrimitiveType.TriangleFan);
 
                 GL.LineWidth(0);
 
@@ -2758,7 +2758,7 @@ namespace MissionPlanner.Controls
                     GL.Enable(EnableCap.Texture2D);
                     GL.BindTexture(TextureTarget.Texture2D, charDict[charid].gltextureid);
 
-                    GL.Begin(PrimitiveType.Quads);
+                    GL.Begin(PrimitiveType.TriangleFan);
                     GL.TexCoord2(0, 0);
                     GL.Vertex2(x, y);
                     GL.TexCoord2(1, 0);
