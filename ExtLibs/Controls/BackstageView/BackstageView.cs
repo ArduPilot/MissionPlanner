@@ -450,6 +450,8 @@ namespace MissionPlanner.Controls.BackstageView
 
             Tracking?.Invoke(associatedPage.Page.GetType().ToString(), associatedPage.LinkText);
 
+            var start = DateTime.Now;
+
             this.SuspendLayout();
             associatedPage.Page.SuspendLayout();
 
@@ -511,6 +513,11 @@ namespace MissionPlanner.Controls.BackstageView
             {
                 log.Error(ex);
             }
+
+            var end = DateTime.Now;
+
+            log.DebugFormat("{0} {1} {2}", associatedPage.Page.GetType().ToString(), associatedPage.LinkText,
+                (end - start).TotalMilliseconds);
 
             _activePage = associatedPage;
         }
