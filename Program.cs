@@ -236,6 +236,13 @@ namespace MissionPlanner
             }
         }
 
+        /// <summary>
+        /// Shows a dialog box in which to enter comms information.
+        /// </summary>
+        /// <param name="title">The title of the dialog box.</param>
+        /// <param name="prompttext">The text in the dialog box.</param>
+        /// <param name="text">A place to put the result.</param>
+        /// <returns></returns>
         private static inputboxreturn CommsBaseOnInputBoxShow(string title, string prompttext, ref string text)
         {
             var ans = InputBox.Show(title, prompttext, ref text);

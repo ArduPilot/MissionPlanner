@@ -102,20 +102,12 @@ S15: MAX_WINDOW=131
             SaveDefaultCBObjects(MAX_WINDOW);
             SaveDefaultCBObjects(RMAX_WINDOW);
 
-            MissionPlanner.Comms.CommsBase.InputBoxShow += CommsBaseOnInputBoxShow;
             this.Disposed += DisposedEvtHdlr;
         }
 
         void DisposedEvtHdlr(object sender, EventArgs e)
         {
             EndSession();
-        }
-
-        public static inputboxreturn CommsBaseOnInputBoxShow(string title, string prompttext, ref string text)
-        {
-            text = Interaction.InputBox(prompttext, title, "");
-
-            return inputboxreturn.OK;
         }
 
         private void SaveDefaultCBObjects(ComboBox CB)
@@ -1622,7 +1614,7 @@ red LED solid - in firmware update mode");
 
                 try
                 {
-                    if (MainV2.comPort.BaseStream.PortName == "TCP")
+                    if (MainV2.comPort.BaseStream.PortName.Contains("TCP"))
                     {
                         comPort = new TcpSerial();
                         comPort.BaudRate = MainV2.comPort.BaseStream.BaudRate;

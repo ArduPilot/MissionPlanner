@@ -6,6 +6,9 @@
  *          p2p firmware and 8 bit for async firmware, if range isn't specified by modem.
  * 2.5 - Added TCP port capability.
  * 2.6 - Can now generate a random encryption key.
+ * 2.7 - Resolved issues in which it asks for IP address and port multiple times when using a tx module.
+ *          Also resolved issue in which mission planner's sik radio page doesn't load settings via
+ *          tx module when the main part of mission planner had had a connection (but was disconnected).
  */
 
 using System;

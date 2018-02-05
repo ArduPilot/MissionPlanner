@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using MissionPlanner;
 using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
+using Microsoft.VisualBasic;
 
 namespace SikRadio
 {
@@ -27,6 +28,22 @@ namespace SikRadio
 
             // default
             CMB_Baudrate.SelectedIndex = CMB_Baudrate.Items.IndexOf("57600");
+
+            MissionPlanner.Comms.CommsBase.InputBoxShow += CommsBaseOnInputBoxShow;
+        }
+
+        /// <summary>
+        /// Shows a dialog box in which to enter comms information.
+        /// </summary>
+        /// <param name="title">The title of the dialog box.</param>
+        /// <param name="prompttext">The text to display in the dialog box.</param>
+        /// <param name="text">The text to return.</param>
+        /// <returns></returns>
+        public static inputboxreturn CommsBaseOnInputBoxShow(string title, string prompttext, ref string text)
+        {
+            text = Interaction.InputBox(prompttext, title, "");
+
+            return inputboxreturn.OK;
         }
 
         private void loadSettings()
