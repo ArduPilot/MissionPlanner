@@ -276,6 +276,7 @@
     <Compile Include="MagCalib.cs" />
     <Compile Include="Magfitrotation.cs" />
     <Compile Include="MainV2.cs"> <SubType>Control</SubType> </Compile>
+    <Compile Include="Maps\GMapMarkerDistance.cs" />
     <Compile Include="Mavlink\MAVInspector.cs" />
     <Compile Include="Maps\GMapMarkerElevation.cs" />
     <Compile Include="Maps\GMapMarkerSight.cs" />

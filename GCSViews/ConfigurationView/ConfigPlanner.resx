@@ -2461,6 +2461,27 @@
   <data name="&gt;&gt;NUM_height.ZOrder" xml:space="preserve">
     <value>77</value>
   </data>
+  <data name="Tolerance.Location" type="System.Drawing.Point, System.Drawing">
+    <value>190, 566</value>
+  </data>
+  <data name="Tolerance.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 20</value>
+  </data>
+  <data name="Tolerance.TabIndex" type="System.Int32, mscorlib">
+    <value>123</value>
+  </data>
+  <data name="&gt;&gt;Tolerance.Name" xml:space="preserve">
+    <value>Tolerance</value>
+  </data>
+  <data name="&gt;&gt;Tolerance.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Tolerance.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;Tolerance.ZOrder" xml:space="preserve">
+    <value>78</value>
+  </data>
   <data name="label89.Location" type="System.Drawing.Point, System.Drawing">
     <value>253, 504</value>
   </data>
@@ -2483,7 +2504,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label89.ZOrder" xml:space="preserve">
-    <value>78</value>
+    <value>79</value>
   </data>
   <data name="label100.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 537</value>
@@ -2507,7 +2528,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label100.ZOrder" xml:space="preserve">
-    <value>79</value>
+    <value>80</value>
   </data>
   <data name="label109.Location" type="System.Drawing.Point, System.Drawing">
     <value>121, 540</value>
@@ -2531,7 +2552,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label109.ZOrder" xml:space="preserve">
-    <value>80</value>
+    <value>81</value>
   </data>
   <data name="label110.Location" type="System.Drawing.Point, System.Drawing">
     <value>254, 540</value>
@@ -2555,7 +2576,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label110.ZOrder" xml:space="preserve">
-    <value>81</value>
+    <value>82</value>
   </data>
   <data name="label111.Location" type="System.Drawing.Point, System.Drawing">
     <value>386, 540</value>
@@ -2579,7 +2600,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label111.ZOrder" xml:space="preserve">
-    <value>82</value>
+    <value>83</value>
   </data>
   <data name="label112.Location" type="System.Drawing.Point, System.Drawing">
     <value>529, 540</value>
@@ -2603,7 +2624,55 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label112.ZOrder" xml:space="preserve">
-    <value>83</value>
+    <value>84</value>
+  </data>
+  <data name="label113.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 568</value>
+  </data>
+  <data name="label113.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 23</value>
+  </data>
+  <data name="label113.TabIndex" type="System.Int32, mscorlib">
+    <value>127</value>
+  </data>
+  <data name="label113.Text" xml:space="preserve">
+    <value>Kmleft</value>
+  </data>
+  <data name="&gt;&gt;label113.Name" xml:space="preserve">
+    <value>label113</value>
+  </data>
+  <data name="&gt;&gt;label113.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label113.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label113.ZOrder" xml:space="preserve">
+    <value>85</value>
+  </data>
+  <data name="label114.Location" type="System.Drawing.Point, System.Drawing">
+    <value>121, 568</value>
+  </data>
+  <data name="label114.Size" type="System.Drawing.Size, System.Drawing">
+    <value>63, 23</value>
+  </data>
+  <data name="label114.TabIndex" type="System.Int32, mscorlib">
+    <value>128</value>
+  </data>
+  <data name="label114.Text" xml:space="preserve">
+    <value>Tolerance</value>
+  </data>
+  <data name="&gt;&gt;label114.Name" xml:space="preserve">
+    <value>label114</value>
+  </data>
+  <data name="&gt;&gt;label114.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label114.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label114.ZOrder" xml:space="preserve">
+    <value>86</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

@@ -61,7 +61,6 @@ namespace MissionPlanner.Utilities
                     pointends.Add(new PointLatLngAlt(newlatend, newlngend, 0, (1).ToString()));
                     point = getSRTMAltPath(pointends, triangle); //DEM data
 
-                    float p = Settings.Instance.GetInt32("CMB_Angular");
                     triangle -= ((float)Math.PI / 180) * Settings.Instance.GetInt32("Angular");
                 }
 

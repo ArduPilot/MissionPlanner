@@ -122,8 +122,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // this can't fail because it set at startup
             NUM_tracklength.Value = Settings.Instance.GetInt32("NUM_tracklength");
             Clearance.Value = Settings.Instance.GetInt32("Clearance");
-            NUM_range.Value = Settings.Instance.GetInt32("NUM_range");
-            NUM_height.Value = Settings.Instance.GetInt32("NUM_height");
+            NUM_range.Value = (decimal) Settings.Instance.GetFloat("NUM_range");
+            NUM_height.Value = (decimal) Settings.Instance.GetFloat("NUM_height");
+            Tolerance.Value = (decimal) Settings.Instance.GetFloat("Tolerance");
 
             // get wps on connect
             SetCheckboxFromConfig("loadwpsonconnect", CHK_loadwponconnect);
@@ -978,6 +979,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void NUM_height_ValueChanged(object sender, EventArgs e)
         {
             Settings.Instance["NUM_height"] = NUM_height.Value.ToString();
+        }
+
+        private void Tolerance_ValueChanged(object sender, EventArgs e)
+        {
+            Settings.Instance["Tolerance"] = Tolerance.Value.ToString();
         }
     }
 }

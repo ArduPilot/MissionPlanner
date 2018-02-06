@@ -22,29 +22,15 @@ namespace MissionPlanner.Maps
 
         public bool use;
 
-        public Color Color
-        {
-            get { return Pen.Color; }
-            set
-            {
-                if (!initcolor.HasValue) initcolor = value;
-                Pen.Color = value;
-            }
-        }
 
-        Color? initcolor = null;
-
-        public void ResetColor()
-        {
-            if (initcolor.HasValue)
-                Color = initcolor.Value;
-            else
-                Color = Color.White;
-        }
-
-        public GMapMarkerSight(PointLatLng p, List<PointLatLng> pointslist, bool yes)
+        public GMapMarkerSight(PointLatLng p, List<PointLatLng> pointslist, bool yes, bool blue)
             : base(p)
         {
+            if (blue)
+            {
+                Pen = new Pen(Brushes.Red, 5);
+            }
+
             Pen.DashStyle = DashStyle.Dash;
 
             // do not forget set Size of the marker
@@ -56,6 +42,11 @@ namespace MissionPlanner.Maps
             xy = p;
 
             use = yes;
+
+            if(blue)
+            {
+                Pen = new Pen(Brushes.Blue, 5); 
+            }
         }
 
         public override void OnRender(Graphics g)
@@ -64,10 +55,6 @@ namespace MissionPlanner.Maps
 
             if (Overlay.Control == null)
                 return;
-
-            // if we have drawn it, then keep that color
-            if (!initcolor.HasValue)
-                Color = Color.White;
 
             PointF[] point;
             List<PointF> points = new List<PointF>();
@@ -106,7 +93,7 @@ namespace MissionPlanner.Maps
             }
             
             if (Overlay.Control.Zoom > 3)
-            {
+            {               
                 g.DrawPolygon( Pen, point);
             }
         }

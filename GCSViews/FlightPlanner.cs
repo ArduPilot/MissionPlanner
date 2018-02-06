@@ -660,6 +660,9 @@ namespace MissionPlanner.GCSViews
             LineOfSight = new GMapOverlay("LineOfSight");
             MainMap.Overlays.Add(LineOfSight);
 
+            Horizon = new GMapOverlay("Horizon");
+            MainMap.Overlays.Add(Horizon);
+
             MainMap.Overlays.Add(poioverlay);
 
             top = new GMapOverlay("top");
@@ -3155,6 +3158,7 @@ namespace MissionPlanner.GCSViews
         GMapOverlay geofenceoverlay;
         static GMapOverlay rallypointoverlay;
         public static GMapOverlay LineOfSight;
+        public static GMapOverlay Horizon;
 
         // etc
         readonly Random rnd = new Random();
@@ -7209,7 +7213,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
             else
             {
-                LineOfSight.Markers.Clear();
+                Horizon.Markers.Clear();
 
             }
         }
@@ -7358,7 +7362,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                         SightGen t = new SightGen(MainV2.comPort.MAV.cs.HomeLocation, pointslist, MainV2.comPort.MAV.cs.HomeAlt, drone_alt);
 
-                        LineOfSight.Markers.Add(new GMapMarkerSight(MainV2.comPort.MAV.cs.HomeLocation, pointslist,true));
+                        LineOfSight.Markers.Add(new GMapMarkerSight(MainV2.comPort.MAV.cs.HomeLocation, pointslist,true,false));
 
                         if (LineOfSight.Markers.Count > 1)
                         {
@@ -7382,11 +7386,11 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                         HorizonGen b = new HorizonGen(MainV2.comPort.MAV.cs.HomeLocation, horizonlist, MainV2.comPort.MAV.cs.HomeAlt);
 
-                        LineOfSight.Markers.Add(new GMapMarkerSight(MainV2.comPort.MAV.cs.HomeLocation, horizonlist,true));
+                        Horizon.Markers.Add(new GMapMarkerSight(MainV2.comPort.MAV.cs.HomeLocation, horizonlist,true,true));
 
-                        if (LineOfSight.Markers.Count > 1)
+                        if (Horizon.Markers.Count > 1)
                         {
-                            LineOfSight.Markers.RemoveAt(0);
+                            Horizon.Markers.RemoveAt(0);
                         }
 
                         prev_home = ho;

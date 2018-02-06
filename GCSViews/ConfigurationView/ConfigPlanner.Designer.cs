@@ -108,16 +108,20 @@
             this.Clearance = new System.Windows.Forms.NumericUpDown();
             this.NUM_range = new System.Windows.Forms.NumericUpDown();
             this.NUM_height = new System.Windows.Forms.NumericUpDown();
+            this.Tolerance = new System.Windows.Forms.NumericUpDown();
             this.label89 = new System.Windows.Forms.Label();
             this.label100 = new System.Windows.Forms.Label();
             this.label109 = new System.Windows.Forms.Label();
             this.label110 = new System.Windows.Forms.Label();
             this.label111 = new System.Windows.Forms.Label();
             this.label112 = new System.Windows.Forms.Label();
+            this.label113 = new System.Windows.Forms.Label();
+            this.label114 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_tracklength)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Clearance)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_range)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_height)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Tolerance)).BeginInit();
             this.SuspendLayout();
             // 
             // label33
@@ -752,6 +756,11 @@
             // NUM_range
             // 
             this.NUM_range.DecimalPlaces = 1;
+            this.NUM_range.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             resources.ApplyResources(this.NUM_range, "NUM_range");
             this.NUM_range.Maximum = new decimal(new int[] {
             2000,
@@ -769,6 +778,11 @@
             // NUM_height
             // 
             this.NUM_height.DecimalPlaces = 1;
+            this.NUM_height.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             resources.ApplyResources(this.NUM_height, "NUM_height");
             this.NUM_height.Maximum = new decimal(new int[] {
             2000,
@@ -782,6 +796,28 @@
             0,
             0});
             this.NUM_height.ValueChanged += new System.EventHandler(this.NUM_height_ValueChanged);
+            // 
+            // Tolerance
+            // 
+            this.Tolerance.DecimalPlaces = 1;
+            this.Tolerance.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            resources.ApplyResources(this.Tolerance, "Tolerance");
+            this.Tolerance.Maximum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.Tolerance.Name = "Tolerance";
+            this.Tolerance.Value = new decimal(new int[] {
+            8,
+            0,
+            0,
+            65536});
+            this.Tolerance.ValueChanged += new System.EventHandler(this.Tolerance_ValueChanged);
             // 
             // label89
             // 
@@ -812,6 +848,16 @@
             // 
             resources.ApplyResources(this.label112, "label112");
             this.label112.Name = "label112";
+            // 
+            // label113
+            // 
+            resources.ApplyResources(this.label113, "label113");
+            this.label113.Name = "label113";
+            // 
+            // label114
+            // 
+            resources.ApplyResources(this.label114, "label114");
+            this.label114.Name = "label114";
             // 
             // ConfigPlanner
             // 
@@ -895,12 +941,15 @@
             this.Controls.Add(this.Clearance);
             this.Controls.Add(this.NUM_range);
             this.Controls.Add(this.NUM_height);
+            this.Controls.Add(this.Tolerance);
             this.Controls.Add(this.label89);
             this.Controls.Add(this.label100);
             this.Controls.Add(this.label109);
             this.Controls.Add(this.label110);
             this.Controls.Add(this.label111);
             this.Controls.Add(this.label112);
+            this.Controls.Add(this.label113);
+            this.Controls.Add(this.label114);
             this.Name = "ConfigPlanner";
             resources.ApplyResources(this, "$this");
             this.Load += new System.EventHandler(this.ConfigPlanner_Load);
@@ -908,6 +957,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.Clearance)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_range)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_height)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Tolerance)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -994,11 +1044,14 @@
         private System.Windows.Forms.NumericUpDown Clearance;
         private System.Windows.Forms.NumericUpDown NUM_range;
         private System.Windows.Forms.NumericUpDown NUM_height;
+        private System.Windows.Forms.NumericUpDown Tolerance;
         private System.Windows.Forms.Label label89;
         private System.Windows.Forms.Label label100;
         private System.Windows.Forms.Label label109;
         private System.Windows.Forms.Label label110;
         private System.Windows.Forms.Label label111;
         private System.Windows.Forms.Label label112;
+        private System.Windows.Forms.Label label113;
+        private System.Windows.Forms.Label label114;
     }
 }

@@ -105,6 +105,7 @@ namespace MissionPlanner.GCSViews
         internal static GMapOverlay poioverlay = new GMapOverlay("POI"); // poi layer
         internal static GMapOverlay elevationoverlay;
         public static GMapOverlay LineOfSight;
+        internal static GMapOverlay distance;
 
         List<TabPage> TabListOriginal = new List<TabPage>();
 
@@ -354,6 +355,9 @@ namespace MissionPlanner.GCSViews
 
             LineOfSight = new GMapOverlay("LineOfSight");
             gMapControl1.Overlays.Add(LineOfSight);
+
+            distance = new GMapOverlay("distance");
+            gMapControl1.Overlays.Add(distance);
 
             gMapControl1.Overlays.Add(poioverlay);
 
@@ -1275,6 +1279,7 @@ namespace MissionPlanner.GCSViews
                                 
 
                             }
+
                             waypoints = DateTime.Now;
 
                         }
@@ -1290,6 +1295,17 @@ namespace MissionPlanner.GCSViews
                                 ToolTipText = "Moving Base",
                                 ToolTipMode = MarkerTooltipMode.OnMouseOver
                             });
+                        }
+
+                        distance.Markers.Clear();
+                        if (hud1.connected && home_kmleft.Checked)
+                        {
+                            distance.Markers.Add(new GMapMarkerDistance(MainV2.comPort.MAV.cs.HomeLocation, MainV2.comPort.MAV.cs.battery_kmleft, Settings.Instance.GetFloat("Tolerance")));
+                        }
+
+                        if (hud1.connected && drone_kmleft.Checked)
+                        {
+                            distance.Markers.Add(new GMapMarkerDistance(MainV2.comPort.MAV.cs.Location, MainV2.comPort.MAV.cs.battery_kmleft, Settings.Instance.GetFloat("Tolerance")));
                         }
 
                         // add gimbal point center
@@ -3484,7 +3500,7 @@ namespace MissionPlanner.GCSViews
 
                         SightGen t = new SightGen(MainV2.comPort.MAV.cs.HomeLocation, pointslist, MainV2.comPort.MAV.cs.HomeAlt, hud1.alt);
 
-                        LineOfSight.Markers.Add(new GMapMarkerSight(MainV2.comPort.MAV.cs.HomeLocation, pointslist,false));
+                        LineOfSight.Markers.Add(new GMapMarkerSight(MainV2.comPort.MAV.cs.HomeLocation, pointslist,false,false));
 
                         if (LineOfSight.Markers.Count > 1)
                         {

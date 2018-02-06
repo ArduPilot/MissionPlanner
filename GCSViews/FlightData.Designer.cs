@@ -175,6 +175,8 @@
             this.rel_elevation = new System.Windows.Forms.CheckBox();
             this.Elevation_overlay = new System.Windows.Forms.CheckBox();
             this.CHK_RF = new System.Windows.Forms.CheckBox();
+            this.drone_kmleft = new System.Windows.Forms.CheckBox();
+            this.home_kmleft = new System.Windows.Forms.CheckBox();
             this.ZedGraphTimer = new System.Windows.Forms.Timer(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.openScriptDialog = new System.Windows.Forms.OpenFileDialog();
@@ -2196,6 +2198,8 @@
             this.panel1.Controls.Add(this.rel_elevation);
             this.panel1.Controls.Add(this.Elevation_overlay);
             this.panel1.Controls.Add(this.CHK_RF);
+            this.panel1.Controls.Add(this.drone_kmleft);
+            this.panel1.Controls.Add(this.home_kmleft);
             resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
             // 
@@ -2288,6 +2292,20 @@
             this.toolTip1.SetToolTip(this.CHK_RF, resources.GetString("CHK_RF.ToolTip"));
             this.CHK_RF.UseVisualStyleBackColor = true;
             this.CHK_RF.CheckedChanged += new System.EventHandler(this.CHK_RF_CheckedChanged);
+            // 
+            // drone_kmleft
+            // 
+            resources.ApplyResources(this.drone_kmleft, "drone_kmleft");
+            this.drone_kmleft.Name = "drone_kmleft";
+            this.toolTip1.SetToolTip(this.drone_kmleft, resources.GetString("drone_kmleft.ToolTip"));
+            this.drone_kmleft.UseVisualStyleBackColor = true;
+            // 
+            // home_kmleft
+            // 
+            resources.ApplyResources(this.home_kmleft, "home_kmleft");
+            this.home_kmleft.Name = "home_kmleft";
+            this.toolTip1.SetToolTip(this.home_kmleft, resources.GetString("home_kmleft.ToolTip"));
+            this.home_kmleft.UseVisualStyleBackColor = true;
             // 
             // ZedGraphTimer
             // 
@@ -2436,6 +2454,8 @@
         private Controls.MyLabel label1;
         private System.Windows.Forms.CheckBox CHK_autopan;
         private System.Windows.Forms.CheckBox CHK_RF;
+        private System.Windows.Forms.CheckBox drone_kmleft;
+        private System.Windows.Forms.CheckBox home_kmleft;
         public Controls.myGMAP gMapControl1;
         private ZedGraph.ZedGraphControl zg1;
         public System.Windows.Forms.TabControl tabControlactions;
