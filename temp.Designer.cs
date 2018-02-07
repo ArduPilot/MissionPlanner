@@ -253,6 +253,7 @@
             this.BUT_driverclean.Name = "BUT_driverclean";
             this.BUT_driverclean.Size = new System.Drawing.Size(75, 15);
             this.BUT_driverclean.TabIndex = 73;
+            this.BUT_driverclean.Click += new System.EventHandler(this.BUT_driverclean_Click);
             // 
             // BUT_sorttlogs
             // 

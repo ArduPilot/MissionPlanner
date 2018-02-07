@@ -1147,5 +1147,10 @@ namespace MissionPlanner
         {
             new MAVLinkInspector(MainV2.comPort).Show();
         }
+
+        private void BUT_driverclean_Click(object sender, EventArgs e)
+        {
+            CleanDrivers.Clean();
+        }
     }
 }
