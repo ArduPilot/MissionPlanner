@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Tue Jan 09 2018";
+    public const string MAVLINK_BUILD_DATE = "Thu Feb 08 2018";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -152,7 +152,7 @@ public partial class MAVLink
 		new message_info(144, "FOLLOW_TARGET", 127, 93, 93, typeof( mavlink_follow_target_t )),
 		new message_info(146, "CONTROL_SYSTEM_STATE", 103, 100, 100, typeof( mavlink_control_system_state_t )),
 		new message_info(147, "BATTERY_STATUS", 154, 36, 36, typeof( mavlink_battery_status_t )),
-		new message_info(148, "AUTOPILOT_VERSION", 178, 60, 60, typeof( mavlink_autopilot_version_t )),
+		new message_info(148, "AUTOPILOT_VERSION", 178, 60, 78, typeof( mavlink_autopilot_version_t )),
 		new message_info(149, "LANDING_TARGET", 200, 30, 60, typeof( mavlink_landing_target_t )),
 		new message_info(150, "SENSOR_OFFSETS", 134, 42, 42, typeof( mavlink_sensor_offsets_t )),
 		new message_info(151, "SET_MAG_OFFSETS", 219, 8, 8, typeof( mavlink_set_mag_offsets_t )),
@@ -244,6 +244,7 @@ public partial class MAVLink
 		new message_info(322, "PARAM_EXT_VALUE", 243, 149, 149, typeof( mavlink_param_ext_value_t )),
 		new message_info(323, "PARAM_EXT_SET", 78, 147, 147, typeof( mavlink_param_ext_set_t )),
 		new message_info(324, "PARAM_EXT_ACK", 132, 146, 146, typeof( mavlink_param_ext_ack_t )),
+		new message_info(330, "OBSTACLE_DISTANCE", 23, 158, 158, typeof( mavlink_obstacle_distance_t )),
 		new message_info(10001, "UAVIONIX_ADSB_OUT_CFG", 209, 20, 20, typeof( mavlink_uavionix_adsb_out_cfg_t )),
 		new message_info(10002, "UAVIONIX_ADSB_OUT_DYNAMIC", 186, 41, 41, typeof( mavlink_uavionix_adsb_out_dynamic_t )),
 		new message_info(10003, "UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT", 4, 1, 1, typeof( mavlink_uavionix_adsb_transceiver_health_report_t )),
@@ -254,6 +255,8 @@ public partial class MAVLink
 		new message_info(11010, "ADAP_TUNING", 46, 49, 49, typeof( mavlink_adap_tuning_t )),
 		new message_info(11011, "VISION_POSITION_DELTA", 106, 44, 44, typeof( mavlink_vision_position_delta_t )),
 		new message_info(11020, "AOA_SSA", 205, 16, 16, typeof( mavlink_aoa_ssa_t )),
+		new message_info(42000, "ICAROUS_HEARTBEAT", 227, 1, 1, typeof( mavlink_icarous_heartbeat_t )),
+		new message_info(42001, "ICAROUS_KINEMATIC_BANDS", 239, 46, 46, typeof( mavlink_icarous_kinematic_bands_t )),
 
 	};
 
@@ -496,6 +499,7 @@ PARAM_EXT_REQUEST_LIST = 321,
 PARAM_EXT_VALUE = 322,
 PARAM_EXT_SET = 323,
 PARAM_EXT_ACK = 324,
+OBSTACLE_DISTANCE = 330,
 UAVIONIX_ADSB_OUT_CFG = 10001,
 UAVIONIX_ADSB_OUT_DYNAMIC = 10002,
 UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
@@ -506,6 +510,8 @@ DEVICE_OP_WRITE_REPLY = 11003,
 ADAP_TUNING = 11010,
 VISION_POSITION_DELTA = 11011,
 AOA_SSA = 11020,
+ICAROUS_HEARTBEAT = 42000,
+ICAROUS_KINEMATIC_BANDS = 42001,
 
     }  
 	    
@@ -535,13 +541,13 @@ AOA_SSA = 11020,
     ///<summary> Commands to be executed by the MAV. They can be executed on user request, or as part of a mission script. If the action is used in a mission, the parameter mapping to the waypoint/mission message is as follows: Param 1, Param 2, Param 3, Param 4, X: Param 5, Y:Param 6, Z:Param 7. This command list is similar what ARINC 424 is for commercial aircraft: A data format how to interpret waypoint/mission data. </summary>
     public enum MAV_CMD: ushort
     {
-			///<summary> Navigate to MISSION. |Hold time in decimal seconds. (ignored by fixed wing, time to stay at MISSION for rotary wing)| Acceptance radius in meters (if the sphere with this radius is hit, the MISSION counts as reached)| 0 to pass through the WP, if > 0 radius in meters to pass by WP. Positive value for clockwise orbit, negative value for counter-clockwise orbit. Allows trajectory control.| Desired yaw angle at MISSION (rotary wing). NaN for unchanged.| Latitude| Longitude| Altitude|  </summary>
+			///<summary> Navigate to waypoint. |Hold time in decimal seconds. (ignored by fixed wing, time to stay at waypoint for rotary wing)| Acceptance radius in meters (if the sphere with this radius is hit, the waypoint counts as reached)| 0 to pass through the WP, if > 0 radius in meters to pass by WP. Positive value for clockwise orbit, negative value for counter-clockwise orbit. Allows trajectory control.| Desired yaw angle at waypoint (rotary wing). NaN for unchanged.| Latitude| Longitude| Altitude|  </summary>
         WAYPOINT=16, 
-    	///<summary> Loiter around this MISSION an unlimited amount of time |Empty| Empty| Radius around MISSION, in meters. If positive loiter clockwise, else counter-clockwise| Desired yaw angle.| Latitude| Longitude| Altitude|  </summary>
+    	///<summary> Loiter around this waypoint an unlimited amount of time |Empty| Empty| Radius around waypoint, in meters. If positive loiter clockwise, else counter-clockwise| Desired yaw angle.| Latitude| Longitude| Altitude|  </summary>
         LOITER_UNLIM=17, 
-    	///<summary> Loiter around this MISSION for X turns |Turns| Empty| Radius around MISSION, in meters. If positive loiter clockwise, else counter-clockwise| Forward moving aircraft this sets exit xtrack location: 0 for center of loiter wp, 1 for exit location. Else, this is desired yaw angle| Latitude| Longitude| Altitude|  </summary>
+    	///<summary> Loiter around this waypoint for X turns |Turns| Empty| Radius around waypoint, in meters. If positive loiter clockwise, else counter-clockwise| Forward moving aircraft this sets exit xtrack location: 0 for center of loiter wp, 1 for exit location. Else, this is desired yaw angle| Latitude| Longitude| Altitude|  </summary>
         LOITER_TURNS=18, 
-    	///<summary> Loiter around this MISSION for X seconds |Seconds (decimal)| Empty| Radius around MISSION, in meters. If positive loiter clockwise, else counter-clockwise| Forward moving aircraft this sets exit xtrack location: 0 for center of loiter wp, 1 for exit location. Else, this is desired yaw angle| Latitude| Longitude| Altitude|  </summary>
+    	///<summary> Loiter around this waypoint for X seconds |Seconds (decimal)| Empty| Radius around waypoint, in meters. If positive loiter clockwise, else counter-clockwise| Forward moving aircraft this sets exit xtrack location: 0 for center of loiter wp, 1 for exit location. Else, this is desired yaw angle| Latitude| Longitude| Altitude|  </summary>
         LOITER_TIME=19, 
     	///<summary> Return to launch location |Empty| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
         RETURN_TO_LAUNCH=20, 
@@ -553,7 +559,7 @@ AOA_SSA = 11020,
         LAND_LOCAL=23, 
     	///<summary> Takeoff from local position (local frame only) |Minimum pitch (if airspeed sensor present), desired pitch without sensor [rad]| Empty| Takeoff ascend rate [ms^-1]| Yaw angle [rad] (if magnetometer or another yaw estimation source present), ignored without one of these| Y-axis position [m]| X-axis position [m]| Z-axis position [m]|  </summary>
         TAKEOFF_LOCAL=24, 
-    	///<summary> Vehicle following, i.e. this waypoint represents the position of a moving vehicle |Following logic to use (e.g. loitering or sinusoidal following) - depends on specific autopilot implementation| Ground speed of vehicle to be followed| Radius around MISSION, in meters. If positive loiter clockwise, else counter-clockwise| Desired yaw angle.| Latitude| Longitude| Altitude|  </summary>
+    	///<summary> Vehicle following, i.e. this waypoint represents the position of a moving vehicle |Following logic to use (e.g. loitering or sinusoidal following) - depends on specific autopilot implementation| Ground speed of vehicle to be followed| Radius around waypoint, in meters. If positive loiter clockwise, else counter-clockwise| Desired yaw angle.| Latitude| Longitude| Altitude|  </summary>
         FOLLOW=25, 
     	///<summary> Continue on the current course and climb/descend to specified altitude.  When the altitude is reached continue to the next command (i.e., don't proceed to the next command until the desired altitude is reached. |Climb or Descend (0 = Neutral, command completes when within 5m of this command's altitude, 1 = Climbing, command completes when at or above this command's altitude, 2 = Descending, command completes when at or below this command's altitude. | Empty| Empty| Empty| Empty| Empty| Desired altitude in meters|  </summary>
         CONTINUE_AND_CHANGE_ALT=30, 
@@ -563,11 +569,11 @@ AOA_SSA = 11020,
         DO_FOLLOW=32, 
     	///<summary> Reposition the MAV after a follow target command has been sent |Camera q1 (where 0 is on the ray from the camera to the tracking device)| Camera q2| Camera q3| Camera q4| altitude offset from target (m)| X offset from target (m)| Y offset from target (m)|  </summary>
         DO_FOLLOW_REPOSITION=33, 
-    	///<summary> Sets the region of interest (ROI) for a sensor set or the vehicle itself. This can then be used by the vehicles control system to control the vehicle attitude and the attitude of various sensors such as cameras. |Region of intereset mode. (see MAV_ROI enum)| MISSION index/ target ID. (see MAV_ROI enum)| ROI index (allows a vehicle to manage multiple ROI's)| Empty| x the location of the fixed ROI (see MAV_FRAME)| y| z|  </summary>
+    	///<summary> Sets the region of interest (ROI) for a sensor set or the vehicle itself. This can then be used by the vehicles control system to control the vehicle attitude and the attitude of various sensors such as cameras. |Region of intereset mode. (see MAV_ROI enum)| Waypoint index/ target ID. (see MAV_ROI enum)| ROI index (allows a vehicle to manage multiple ROI's)| Empty| x the location of the fixed ROI (see MAV_FRAME)| y| z|  </summary>
         ROI=80, 
     	///<summary> Control autonomous path planning on the MAV. |0: Disable local obstacle avoidance / local path planning (without resetting map), 1: Enable local path planning, 2: Enable and reset local path planning| 0: Disable full path planning (without resetting map), 1: Enable, 2: Enable and reset map/occupancy grid, 3: Enable and reset planned route, but not occupancy grid| Empty| Yaw angle at goal, in compass degrees, [0..360]| Latitude/X of goal| Longitude/Y of goal| Altitude/Z of goal|  </summary>
         PATHPLANNING=81, 
-    	///<summary> Navigate to MISSION using a spline path. |Hold time in decimal seconds. (ignored by fixed wing, time to stay at MISSION for rotary wing)| Empty| Empty| Empty| Latitude/X of goal| Longitude/Y of goal| Altitude/Z of goal|  </summary>
+    	///<summary> Navigate to waypoint using a spline path. |Hold time in decimal seconds. (ignored by fixed wing, time to stay at waypoint for rotary wing)| Empty| Empty| Empty| Latitude/X of goal| Longitude/Y of goal| Altitude/Z of goal|  </summary>
         SPLINE_WAYPOINT=82, 
     	///<summary> Mission command to wait for an altitude or downwards vertical speed. This is meant for high altitude balloon launches, allowing the aircraft to be idle until either an altitude is reached or a negative vertical speed is reached (indicating early balloon burst). The wiggle time is how often to wiggle the control surfaces to prevent them seizing up. |altitude (m)| descent speed (m/s)| Wiggle Time (s)| Empty| Empty| Empty| Empty|  </summary>
         ALTITUDE_WAIT=83, 
@@ -629,7 +635,7 @@ AOA_SSA = 11020,
         DO_SET_REVERSE=194, 
     	///<summary> Control onboard camera system. |Camera ID (-1 for all)| Transmission: 0: disabled, 1: enabled compressed, 2: enabled raw| Transmission mode: 0: video stream, >0: single images every n seconds (decimal)| Recording: 0: disabled, 1: enabled compressed, 2: enabled raw| Empty| Empty| Empty|  </summary>
         DO_CONTROL_VIDEO=200, 
-    	///<summary> Sets the region of interest (ROI) for a sensor set or the vehicle itself. This can then be used by the vehicles control system to control the vehicle attitude and the attitude of various sensors such as cameras. |Region of intereset mode. (see MAV_ROI enum)| MISSION index/ target ID. (see MAV_ROI enum)| ROI index (allows a vehicle to manage multiple ROI's)| Empty| x the location of the fixed ROI (see MAV_FRAME)| y| z|  </summary>
+    	///<summary> Sets the region of interest (ROI) for a sensor set or the vehicle itself. This can then be used by the vehicles control system to control the vehicle attitude and the attitude of various sensors such as cameras. |Region of intereset mode. (see MAV_ROI enum)| Waypoint index/ target ID. (see MAV_ROI enum)| ROI index (allows a vehicle to manage multiple ROI's)| Empty| x the location of the fixed ROI (see MAV_FRAME)| y| z|  </summary>
         DO_SET_ROI=201, 
     	///<summary> Mission command to configure an on-board camera controller system. |Modes: P, TV, AV, M, Etc| Shutter speed: Divisor number for one second| Aperture: F stop number| ISO number e.g. 80, 100, 200, Etc| Exposure type enumerator| Command Identity| Main engine cut-off time before camera trigger in seconds/10 (0 means no cut-off)|  </summary>
         DO_DIGICAM_CONFIGURE=202, 
@@ -1566,8 +1572,10 @@ AOA_SSA = 11020,
         GIMBAL=26, 
     	///<summary> Onboard ADSB peripheral | </summary>
         ADSB=27, 
+    	///<summary> Steerable, nonrigid airfoil | </summary>
+        PARAFOIL=28, 
     	///<summary> Dodecarotor | </summary>
-        DODECAROTOR=28, 
+        DODECAROTOR=29, 
     
     };
     
@@ -1596,7 +1604,7 @@ AOA_SSA = 11020,
         TEST_ENABLED=2, 
     	///<summary> 0b00000100 autonomous mode enabled, system finds its own goal positions. Guided flag can be set or not, depends on the actual implementation. | </summary>
         AUTO_ENABLED=4, 
-    	///<summary> 0b00001000 guided mode enabled, system flies MISSIONs / mission items. | </summary>
+    	///<summary> 0b00001000 guided mode enabled, system flies waypoints / mission items. | </summary>
         GUIDED_ENABLED=8, 
     	///<summary> 0b00010000 system stabilizes electronically its attitude (and optionally position). It needs however further control inputs to move around. | </summary>
         STABILIZE_ENABLED=16, 
@@ -1658,7 +1666,7 @@ AOA_SSA = 11020,
         STABILIZE_DISARMED=80, 
     	///<summary> System is allowed to be active, under autonomous control, manual setpoint | </summary>
         GUIDED_DISARMED=88, 
-    	///<summary> System is allowed to be active, under autonomous control and navigation (the trajectory is decided onboard and not pre-programmed by MISSIONs) | </summary>
+    	///<summary> System is allowed to be active, under autonomous control and navigation (the trajectory is decided onboard and not pre-programmed by waypoints) | </summary>
         AUTO_DISARMED=92, 
     	///<summary> System is allowed to be active, under manual (RC) control, no stabilization | </summary>
         MANUAL_ARMED=192, 
@@ -1668,7 +1676,7 @@ AOA_SSA = 11020,
         STABILIZE_ARMED=208, 
     	///<summary> System is allowed to be active, under autonomous control, manual setpoint | </summary>
         GUIDED_ARMED=216, 
-    	///<summary> System is allowed to be active, under autonomous control and navigation (the trajectory is decided onboard and not pre-programmed by MISSIONs) | </summary>
+    	///<summary> System is allowed to be active, under autonomous control and navigation (the trajectory is decided onboard and not pre-programmed by waypoints) | </summary>
         AUTO_ARMED=220, 
     
     };
@@ -1982,9 +1990,9 @@ AOA_SSA = 11020,
     {
 			///<summary> No region of interest. | </summary>
         NONE=0, 
-    	///<summary> Point toward next MISSION. | </summary>
+    	///<summary> Point toward next waypoint. | </summary>
         WPNEXT=1, 
-    	///<summary> Point toward given MISSION. | </summary>
+    	///<summary> Point toward given waypoint. | </summary>
         WPINDEX=2, 
     	///<summary> Point toward fixed location. | </summary>
         LOCATION=3, 
@@ -2847,6 +2855,37 @@ AOA_SSA = 11020,
         UAVIONIX_ADSB_OUT_DOWNED_AIRCRAFT_EMERGENCY=6, 
     	///<summary>  | </summary>
         UAVIONIX_ADSB_OUT_RESERVED=7, 
+    
+    };
+    
+    
+    ///<summary>  </summary>
+    public enum ICAROUS_TRACK_BAND_TYPES: byte
+    {
+			///<summary>  | </summary>
+        ICAROUS_TRACK_BAND_TYPE_NONE=0, 
+    	///<summary>  | </summary>
+        ICAROUS_TRACK_BAND_TYPE_NEAR=1, 
+    	///<summary>  | </summary>
+        ICAROUS_TRACK_BAND_TYPE_RECOVERY=2, 
+    
+    };
+    
+    ///<summary>  </summary>
+    public enum ICAROUS_FMS_STATE: byte
+    {
+			///<summary>  | </summary>
+        IDLE=0, 
+    	///<summary>  | </summary>
+        TAKEOFF=1, 
+    	///<summary>  | </summary>
+        CLIMB=2, 
+    	///<summary>  | </summary>
+        CRUISE=3, 
+    	///<summary>  | </summary>
+        APPROACH=4, 
+    	///<summary>  | </summary>
+        LAND=5, 
     
     };
     
@@ -4632,13 +4671,13 @@ AOA_SSA = 11020,
         public  float z;
             /// <summary> Sequence </summary>
         public  ushort seq;
-            /// <summary> The scheduled action for the MISSION. see MAV_CMD in common.xml MAVLink specs MAV_CMD</summary>
+            /// <summary> The scheduled action for the waypoint. see MAV_CMD in common.xml MAVLink specs MAV_CMD</summary>
         public  /*MAV_CMD*/ushort command;
             /// <summary> System ID </summary>
         public  byte target_system;
             /// <summary> Component ID </summary>
         public  byte target_component;
-            /// <summary> The coordinate system of the MISSION. see MAV_FRAME in mavlink_types.h MAV_FRAME</summary>
+            /// <summary> The coordinate system of the waypoint. see MAV_FRAME in mavlink_types.h MAV_FRAME</summary>
         public  /*MAV_FRAME*/byte frame;
             /// <summary> false:0, true:1 </summary>
         public  byte current;
@@ -4705,7 +4744,7 @@ AOA_SSA = 11020,
 
 
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=5)]
-    ///<summary> This message is emitted as response to MISSION_REQUEST_LIST by the MAV and to initiate a write transaction. The GCS can then request the individual mission item based on the knowledge of the total number of MISSIONs. </summary>
+    ///<summary> This message is emitted as response to MISSION_REQUEST_LIST by the MAV and to initiate a write transaction. The GCS can then request the individual mission item based on the knowledge of the total number of waypoints. </summary>
     public struct mavlink_mission_count_t
     {
         /// <summary> Number of mission items in the sequence </summary>
@@ -4735,7 +4774,7 @@ AOA_SSA = 11020,
 
 
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=2)]
-    ///<summary> A certain mission item has been reached. The system will either hold this position (or circle on the orbit) or (if the autocontinue on the WP was set) continue to the next MISSION. </summary>
+    ///<summary> A certain mission item has been reached. The system will either hold this position (or circle on the orbit) or (if the autocontinue on the WP was set) continue to the next waypoint. </summary>
     public struct mavlink_mission_item_reached_t
     {
         /// <summary> Sequence </summary>
@@ -4745,7 +4784,7 @@ AOA_SSA = 11020,
 
 
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=4)]
-    ///<summary> Ack message during MISSION handling. The type field states if this message is a positive ack (type=0) or if an error happened (type=non-zero). </summary>
+    ///<summary> Ack message during waypoint handling. The type field states if this message is a positive ack (type=0) or if an error happened (type=non-zero). </summary>
     public struct mavlink_mission_ack_t
     {
         /// <summary> System ID </summary>
@@ -4761,12 +4800,12 @@ AOA_SSA = 11020,
 
 
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=21)]
-    ///<summary> As local waypoints exist, the global MISSION reference allows to transform between the local coordinate frame and the global (GPS) coordinate frame. This can be necessary when e.g. in- and outdoor settings are connected and the MAV should move from in- to outdoor. </summary>
+    ///<summary> As local waypoints exist, the global waypoint reference allows to transform between the local coordinate frame and the global (GPS) coordinate frame. This can be necessary when e.g. in- and outdoor settings are connected and the MAV should move from in- to outdoor. </summary>
     public struct mavlink_set_gps_global_origin_t
     {
         /// <summary> Latitude (WGS84), in degrees * 1E7 </summary>
         public  int latitude;
-            /// <summary> Longitude (WGS84, in degrees * 1E7 </summary>
+            /// <summary> Longitude (WGS84), in degrees * 1E7 </summary>
         public  int longitude;
             /// <summary> Altitude (AMSL), in meters * 1000 (positive for up) </summary>
         public  int altitude;
@@ -4838,7 +4877,7 @@ AOA_SSA = 11020,
 
 
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=27)]
-    ///<summary> Set a safety zone (volume), which is defined by two corners of a cube. This message can be used to tell the MAV which setpoints/MISSIONs to accept and which to reject. Safety areas are often enforced by national or competition regulations. </summary>
+    ///<summary> Set a safety zone (volume), which is defined by two corners of a cube. This message can be used to tell the MAV which setpoints/waypoints to accept and which to reject. Safety areas are often enforced by national or competition regulations. </summary>
     public struct mavlink_safety_set_allowed_area_t
     {
         /// <summary> x position 1 / Latitude 1 </summary>
@@ -4923,9 +4962,9 @@ AOA_SSA = 11020,
         public  float xtrack_error;
             /// <summary> Current desired heading in degrees </summary>
         public  short nav_bearing;
-            /// <summary> Bearing to current MISSION/target in degrees </summary>
+            /// <summary> Bearing to current waypoint/target in degrees </summary>
         public  short target_bearing;
-            /// <summary> Distance to active MISSION in meters </summary>
+            /// <summary> Distance to active waypoint in meters </summary>
         public  ushort wp_dist;
     
     };
@@ -5143,13 +5182,13 @@ AOA_SSA = 11020,
         public  float z;
             /// <summary> Waypoint ID (sequence number). Starts at zero. Increases monotonically for each waypoint, no gaps in the sequence (0,1,2,3,4). </summary>
         public  ushort seq;
-            /// <summary> The scheduled action for the MISSION. see MAV_CMD in common.xml MAVLink specs MAV_CMD</summary>
+            /// <summary> The scheduled action for the waypoint. see MAV_CMD in common.xml MAVLink specs MAV_CMD</summary>
         public  /*MAV_CMD*/ushort command;
             /// <summary> System ID </summary>
         public  byte target_system;
             /// <summary> Component ID </summary>
         public  byte target_component;
-            /// <summary> The coordinate system of the MISSION. see MAV_FRAME in mavlink_types.h MAV_FRAME</summary>
+            /// <summary> The coordinate system of the waypoint. see MAV_FRAME in mavlink_types.h MAV_FRAME</summary>
         public  /*MAV_FRAME*/byte frame;
             /// <summary> false:0, true:1 </summary>
         public  byte current;
@@ -5290,9 +5329,9 @@ AOA_SSA = 11020,
 		public float[] q;
             /// <summary> Body roll rate in radians per second </summary>
         public  float body_roll_rate;
-            /// <summary> Body roll rate in radians per second </summary>
+            /// <summary> Body pitch rate in radians per second </summary>
         public  float body_pitch_rate;
-            /// <summary> Body roll rate in radians per second </summary>
+            /// <summary> Body yaw rate in radians per second </summary>
         public  float body_yaw_rate;
             /// <summary> Collective thrust, normalized to 0 .. 1 (-1 .. 1 for vehicles capable of reverse trust) </summary>
         public  float thrust;
@@ -5411,9 +5450,9 @@ AOA_SSA = 11020,
     {
         /// <summary> Timestamp in milliseconds since system boot. The rationale for the timestamp in the setpoint is to allow the system to compensate for the transport delay of the setpoint. This allows the system to compensate processing latency. </summary>
         public  uint time_boot_ms;
-            /// <summary> X Position in WGS84 frame in 1e7 * meters </summary>
+            /// <summary> X Position in WGS84 frame in 1e7 * degrees </summary>
         public  int lat_int;
-            /// <summary> Y Position in WGS84 frame in 1e7 * meters </summary>
+            /// <summary> Y Position in WGS84 frame in 1e7 * degrees </summary>
         public  int lon_int;
             /// <summary> Altitude in meters in AMSL altitude, not WGS84 if absolute or relative, above terrain if GLOBAL_TERRAIN_ALT_INT </summary>
         public  float alt;
@@ -5451,9 +5490,9 @@ AOA_SSA = 11020,
     {
         /// <summary> Timestamp in milliseconds since system boot. The rationale for the timestamp in the setpoint is to allow the system to compensate for the transport delay of the setpoint. This allows the system to compensate processing latency. </summary>
         public  uint time_boot_ms;
-            /// <summary> X Position in WGS84 frame in 1e7 * meters </summary>
+            /// <summary> X Position in WGS84 frame in 1e7 * degrees </summary>
         public  int lat_int;
-            /// <summary> Y Position in WGS84 frame in 1e7 * meters </summary>
+            /// <summary> Y Position in WGS84 frame in 1e7 * degrees </summary>
         public  int lon_int;
             /// <summary> Altitude in meters in AMSL altitude, not WGS84 if absolute or relative, above terrain if GLOBAL_TERRAIN_ALT_INT </summary>
         public  float alt;
@@ -5521,9 +5560,9 @@ AOA_SSA = 11020,
         public  float pitchspeed;
             /// <summary> Body frame yaw / psi angular speed (rad/s) </summary>
         public  float yawspeed;
-            /// <summary> Latitude, expressed as * 1E7 </summary>
+            /// <summary> Latitude, expressed as degrees * 1E7 </summary>
         public  int lat;
-            /// <summary> Longitude, expressed as * 1E7 </summary>
+            /// <summary> Longitude, expressed as degrees * 1E7 </summary>
         public  int lon;
             /// <summary> Altitude in meters, expressed as * 1000 (millimeters) </summary>
         public  int alt;
@@ -6038,9 +6077,9 @@ AOA_SSA = 11020,
         public  float pitchspeed;
             /// <summary> Body frame yaw / psi angular speed (rad/s) </summary>
         public  float yawspeed;
-            /// <summary> Latitude, expressed as * 1E7 </summary>
+            /// <summary> Latitude, expressed as degrees * 1E7 </summary>
         public  int lat;
-            /// <summary> Longitude, expressed as * 1E7 </summary>
+            /// <summary> Longitude, expressed as degrees * 1E7 </summary>
         public  int lon;
             /// <summary> Altitude in meters, expressed as * 1000 (millimeters) </summary>
         public  int alt;
@@ -6416,7 +6455,7 @@ AOA_SSA = 11020,
         public  /*MAV_DISTANCE_SENSOR*/byte type;
             /// <summary> Onboard ID of the sensor </summary>
         public  byte id;
-            /// <summary> Direction the sensor faces from MAV_SENSOR_ORIENTATION enum. MAV_SENSOR_ORIENTATION</summary>
+            /// <summary> Direction the sensor faces from MAV_SENSOR_ORIENTATION enum. downward-facing: ROTATION_PITCH_270, upward-facing: ROTATION_PITCH_90, backward-facing: ROTATION_PITCH_180, forward-facing: ROTATION_NONE, left-facing: ROTATION_YAW_90, right-facing: ROTATION_YAW_270 MAV_SENSOR_ORIENTATION</summary>
         public  /*MAV_SENSOR_ORIENTATION*/byte orientation;
             /// <summary> Measurement covariance in centimeters, 0 for unknown / invalid readings </summary>
         public  byte covariance;
@@ -6727,13 +6766,13 @@ AOA_SSA = 11020,
     };
 
 
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=60)]
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=78)]
     ///<summary> Version and capability of autopilot software </summary>
     public struct mavlink_autopilot_version_t
     {
         /// <summary> bitmask of capabilities (see MAV_PROTOCOL_CAPABILITY enum) MAV_PROTOCOL_CAPABILITY</summary>
         public  /*MAV_PROTOCOL_CAPABILITY*/ulong capabilities;
-            /// <summary> UID if provided by hardware </summary>
+            /// <summary> UID if provided by hardware (see uid2) </summary>
         public  ulong uid;
             /// <summary> Firmware version number </summary>
         public  uint flight_sw_version;
@@ -6756,6 +6795,9 @@ AOA_SSA = 11020,
             /// <summary> Custom version field, commonly the first 8 bytes of the git hash. This is not an unique identifier, but should allow to identify the commit using the main version number even for very large code bases. </summary>
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=8)]
 		public byte[] os_custom_version;
+            /// <summary> UID if provided by hardware (supersedes the uid field. If this is non-zero, use this field, otherwise use uid) </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=18)]
+		public byte[] uid2;
     
     };
 
@@ -7593,6 +7635,27 @@ AOA_SSA = 11020,
     };
 
 
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=158)]
+    ///<summary> Obstacle distances in front of the sensor, starting from the left in increment degrees to the right </summary>
+    public struct mavlink_obstacle_distance_t
+    {
+        /// <summary> Timestamp (microseconds since system boot or since UNIX epoch) </summary>
+        public  ulong time_usec;
+            /// <summary> Distance of obstacles in front of the sensor starting on the left side. A value of 0 means that the obstacle is right in front of the sensor. A value of max_distance +1 means no obstace is present. A value of UINT16_MAX for unknown/not used. In a array element, each unit corresponds to 1cm. </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=72)]
+		public UInt16[] distances;
+            /// <summary> Minimum distance the sensor can measure in centimeters </summary>
+        public  ushort min_distance;
+            /// <summary> Maximum distance the sensor can measure in centimeters </summary>
+        public  ushort max_distance;
+            /// <summary> Class id of the distance sensor type. MAV_DISTANCE_SENSOR</summary>
+        public  /*MAV_DISTANCE_SENSOR*/byte sensor_type;
+            /// <summary> Angular width in degrees of each array element. </summary>
+        public  byte increment;
+    
+    };
+
+
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=20)]
     ///<summary> Request to read the value of a parameter with the either the param_id string id or param_index. </summary>
     public struct mavlink_param_ext_request_read_t
@@ -7751,6 +7814,56 @@ AOA_SSA = 11020,
     {
         /// <summary> ADS-B transponder messages UAVIONIX_ADSB_RF_HEALTH</summary>
         public  /*UAVIONIX_ADSB_RF_HEALTH*/byte rfHealth;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=1)]
+    ///<summary> ICAROUS heartbeat </summary>
+    public struct mavlink_icarous_heartbeat_t
+    {
+        /// <summary> See the FMS_STATE enum. ICAROUS_FMS_STATE</summary>
+        public  /*ICAROUS_FMS_STATE*/byte status;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=46)]
+    ///<summary> Kinematic multi bands (track) output from Daidalus </summary>
+    public struct mavlink_icarous_kinematic_bands_t
+    {
+        /// <summary> min angle (degrees) </summary>
+        public  float min1;
+            /// <summary> max angle (degrees) </summary>
+        public  float max1;
+            /// <summary> min angle (degrees) </summary>
+        public  float min2;
+            /// <summary> max angle (degrees) </summary>
+        public  float max2;
+            /// <summary> min angle (degrees) </summary>
+        public  float min3;
+            /// <summary> max angle (degrees) </summary>
+        public  float max3;
+            /// <summary> min angle (degrees) </summary>
+        public  float min4;
+            /// <summary> max angle (degrees) </summary>
+        public  float max4;
+            /// <summary> min angle (degrees) </summary>
+        public  float min5;
+            /// <summary> max angle (degrees) </summary>
+        public  float max5;
+            /// <summary> Number of track bands </summary>
+        public  byte numBands;
+            /// <summary> See the TRACK_BAND_TYPES enum. ICAROUS_TRACK_BAND_TYPES</summary>
+        public  /*ICAROUS_TRACK_BAND_TYPES*/byte type1;
+            /// <summary> See the TRACK_BAND_TYPES enum. ICAROUS_TRACK_BAND_TYPES</summary>
+        public  /*ICAROUS_TRACK_BAND_TYPES*/byte type2;
+            /// <summary> See the TRACK_BAND_TYPES enum. ICAROUS_TRACK_BAND_TYPES</summary>
+        public  /*ICAROUS_TRACK_BAND_TYPES*/byte type3;
+            /// <summary> See the TRACK_BAND_TYPES enum. ICAROUS_TRACK_BAND_TYPES</summary>
+        public  /*ICAROUS_TRACK_BAND_TYPES*/byte type4;
+            /// <summary> See the TRACK_BAND_TYPES enum. ICAROUS_TRACK_BAND_TYPES</summary>
+        public  /*ICAROUS_TRACK_BAND_TYPES*/byte type5;
     
     };
 
