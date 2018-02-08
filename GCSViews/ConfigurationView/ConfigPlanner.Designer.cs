@@ -733,7 +733,13 @@
             this.label90.Name = "label90";
             // 
             // Clearance
-            // 
+            //
+            this.Clearance.DecimalPlaces = 1;
+            this.Clearance.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             resources.ApplyResources(this.Clearance, "Clearance");
             this.Clearance.Maximum = new decimal(new int[] {
             2000,
@@ -741,7 +747,7 @@
             0,
             0});
             this.Clearance.Minimum = new decimal(new int[] {
-            1,
+            0,
             0,
             0,
             0});

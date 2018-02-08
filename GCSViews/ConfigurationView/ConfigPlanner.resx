@@ -2303,19 +2303,19 @@
     <value>71</value>
   </data>
   <data name="CMB_Angular.Items" xml:space="preserve">
-    <value>0.5</value>
+    <value>0</value>
   </data>
   <data name="CMB_Angular.Items1" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="CMB_Angular.Items2" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="CMB_Angular.Items3" xml:space="preserve">
     <value>5</value>
   </data>
-  <data name="CMB_Angular.Items4" xml:space="preserve">
+  <data name="CMB_Angular.Items3" xml:space="preserve">
     <value>10</value>
+  </data>
+  <data name="CMB_Angular.Items4" xml:space="preserve">
+    <value>15</value>
   </data>
   <data name="CMB_Angular.Location" type="System.Drawing.Point, System.Drawing">
     <value>329, 534</value>
@@ -2564,7 +2564,7 @@
     <value>124</value>
   </data>
   <data name="label110.Text" xml:space="preserve">
-    <value>Elevation Step</value>
+    <value>Convergance</value>
   </data>
   <data name="&gt;&gt;label110.Name" xml:space="preserve">
     <value>label110</value>
@@ -2674,9 +2674,9 @@
   <data name="&gt;&gt;label114.ZOrder" xml:space="preserve">
     <value>86</value>
   </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
     <value>759, 667</value>
   </data>

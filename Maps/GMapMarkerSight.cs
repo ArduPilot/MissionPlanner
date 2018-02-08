@@ -72,7 +72,7 @@ namespace MissionPlanner.Maps
 
             if (use)
             {
-                for (int i = 0; i < point.Count(); i++)
+                for (int i = 0; i < point.Count(); i++) //FlightPlanner.cs
                 {
                     float x = point[i].X - 869;// - shiftx - Offset.X;// - (int)(Math.Abs(loc.X - shiftx) / 2);
                     float y = point[i].Y - 431;// -shifty - Offset.Y;// - (int)Math.Abs(loc.X - shiftx) / 2;
@@ -83,10 +83,10 @@ namespace MissionPlanner.Maps
 
             else
             {
-                for (int i = 0; i < point.Count(); i++)
+                for (int i = 0; i < point.Count(); i++) //flightData.cs
                 {
-                    float x = point[i].X - 713;// - Overlay.Control.FromLatLngToLocal(xy).X;// - shiftx - Offset.X;// - (int)(Math.Abs(loc.X - shiftx) / 2);
-                    float y = point[i].Y - 476; // - Overlay.Control.FromLatLngToLocal(xy).Y; // -shifty - Offset.Y;// - (int)Math.Abs(loc.X - shiftx) / 2;
+                    float x = point[i].X - 750;// - Overlay.Control.FromLatLngToLocal(xy).X;// - shiftx - Offset.X;// - (int)(Math.Abs(loc.X - shiftx) / 2);
+                    float y = point[i].Y - 456; // - Overlay.Control.FromLatLngToLocal(xy).Y; // -shifty - Offset.Y;// - (int)Math.Abs(loc.X - shiftx) / 2;
 
                     point[i] = new PointF(x, y);
                 }

@@ -121,7 +121,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             // this can't fail because it set at startup
             NUM_tracklength.Value = Settings.Instance.GetInt32("NUM_tracklength");
-            Clearance.Value = Settings.Instance.GetInt32("Clearance");
+            Clearance.Value = (decimal) Settings.Instance.GetFloat("Clearance");
             NUM_range.Value = (decimal) Settings.Instance.GetFloat("NUM_range");
             NUM_height.Value = (decimal) Settings.Instance.GetFloat("NUM_height");
             Tolerance.Value = (decimal) Settings.Instance.GetFloat("Tolerance");
@@ -171,8 +171,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CMB_Resolution.Text = Settings.Instance["Resolution"].ToString();
             if (Settings.Instance["Rotational"] != null)
                 CMB_Rotational.Text = Settings.Instance["Rotational"].ToString();
-            if (Settings.Instance["Angular"] != null)
-                CMB_Angular.Text = Settings.Instance["Angular"].ToString();
+            if (Settings.Instance["Converge"] != null)
+                CMB_Angular.Text = Settings.Instance["Converge"].ToString();
 
             try
             {
@@ -968,7 +968,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (startup)
                 return;
 
-            Settings.Instance["Angular"] = CMB_Angular.Text;
+            Settings.Instance["Converge"] = CMB_Angular.Text;
         }
 
         private void NUM_range_ValueChanged(object sender, EventArgs e)

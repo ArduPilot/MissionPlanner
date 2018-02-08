@@ -87,20 +87,20 @@ namespace MissionPlanner.GCSViews
         int res; //resolution
         int extend = 384; //elevation extention
         double rel; //relative elevation between drone and ground
-        int clearance;
+        float clearance;
         int prev_res;
         double drone_alt = 10;
         double max_alt;
         double min_alt;
-        double range = 2;
         PointLatLng prev_home;
         double prev_range;
         double prev_alt;
         double prev_altel;
+        double prev_alt2;
 
         PointLatLng lnglat = new PointLatLng();
 
-        Thread elevation2;
+        Thread elevation2; //Map Overlay Thread
         bool ele_run = false;
         bool ter_run = false;
         bool ele_enabled;
@@ -108,7 +108,7 @@ namespace MissionPlanner.GCSViews
         bool eleswitch;
         bool switchedhorizon;
 
-        internal static GMapOverlay elevationoverlay2;
+        internal static GMapOverlay elevationoverlay;
 
         public enum altmode
         {
@@ -654,8 +654,8 @@ namespace MissionPlanner.GCSViews
             drawnpolygonsoverlay = new GMapOverlay("drawnpolygons");
             MainMap.Overlays.Add(drawnpolygonsoverlay);
 
-            elevationoverlay2 = new GMapOverlay("elevation overlay2");
-            MainMap.Overlays.Add(elevationoverlay2);
+            elevationoverlay = new GMapOverlay("elevation overlay");
+            MainMap.Overlays.Add(elevationoverlay);
 
             LineOfSight = new GMapOverlay("LineOfSight");
             MainMap.Overlays.Add(LineOfSight);
@@ -994,7 +994,7 @@ namespace MissionPlanner.GCSViews
 
             timer1.Start();
 
-            elevation2 = new Thread(elevation_calc2);
+            elevation2 = new Thread(elevation_calc);
             elevation2.Name = "elevation2";
             elevation2.IsBackground = true;
             elevation2.Start();
@@ -7171,7 +7171,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             else
             {
                 ele_run = false;
-                elevationoverlay2.Markers.Clear();
+                elevationoverlay.Markers.Clear();
             }
         }
 
@@ -7186,7 +7186,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             else
             {
                 ter_run = false;
-                elevationoverlay2.Markers.Clear();
+                elevationoverlay.Markers.Clear();
             }
         }
 
@@ -7223,17 +7223,19 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             drone_alt = (double) NUM_alt.Value;
         }
 
-        private void NUM_range_ValueChanged(object sender, EventArgs e)
-        {
-            range = (double)NUM_range.Value;
-        }
-
-        void elevation_calc2()
+        void elevation_calc()
         {
             ele_enabled = true;
 
             while (ele_enabled)
             {
+                //
+                // Color gradient
+                //
+                if (ele_run == false && ter_run == false && elevationoverlay.Markers.Count > 0)
+                {
+                    elevationoverlay.Markers.RemoveAt(0);
+                }
 
                 if (ele_run || ter_run)
                 {
@@ -7336,10 +7338,10 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                             }
                         }
 
-                        elevationoverlay2.Markers.Add(new GMapMarkerElevation(imageData, MainMap.Width + extend, MainMap.Height + extend, center.Position));
-                        if (elevationoverlay2.Markers.Count > 1)
+                        elevationoverlay.Markers.Add(new GMapMarkerElevation(imageData, MainMap.Width + extend, MainMap.Height + extend, center.Position));
+                        if (elevationoverlay.Markers.Count > 1)
                         {
-                            elevationoverlay2.Markers.RemoveAt(0);
+                            elevationoverlay.Markers.RemoveAt(0);
                         }
 
                         prev_position = center.Position;
@@ -7351,14 +7353,20 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                     }
                 }
 
+                //
+                // Propagation
+                //
+                if (chk_sight.Checked == false && LineOfSight.Markers.Count > 0)
+                {
+                    //LineOfSight.Markers.RemoveAt(0);
+                }
                 if (chk_sight.Checked)
                 {
-                    if (prev_home != MainV2.comPort.MAV.cs.HomeLocation || switched || prev_range != Settings.Instance.GetInt32("NUM_range") || prev_alt != drone_alt)
+                    if (prev_home != MainV2.comPort.MAV.cs.HomeLocation || switched || prev_range != Settings.Instance.GetFloat("NUM_range") || prev_alt2 != drone_alt)
                     {
                         switched = false;
                         List<PointLatLng> pointslist = new List<PointLatLng>();
 
-                        PointLatLng ho = MainV2.comPort.MAV.cs.HomeLocation;
 
                         SightGen t = new SightGen(MainV2.comPort.MAV.cs.HomeLocation, pointslist, MainV2.comPort.MAV.cs.HomeAlt, drone_alt);
 
@@ -7369,20 +7377,23 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                             LineOfSight.Markers.RemoveAt(0);
                         }
 
-                        prev_home = ho;
-                        prev_range = Settings.Instance.GetInt32("NUM_range");
-                        prev_alt = drone_alt;
+                        prev_home = MainV2.comPort.MAV.cs.HomeLocation; ;
+                        prev_range = Settings.Instance.GetFloat("NUM_range");
+                        prev_alt2 = drone_alt;
                     }
+                }
+
+                if (chk_horizon.Checked == false && Horizon.Markers.Count > 0)
+                {
+                    //Horizon.Markers.RemoveAt(0);
                 }
 
                 if (chk_horizon.Checked)
                 {
-                    if (prev_home != MainV2.comPort.MAV.cs.HomeLocation || switchedhorizon || prev_range != Settings.Instance.GetInt32("NUM_range"))
+                    if (prev_home != MainV2.comPort.MAV.cs.HomeLocation || switchedhorizon || prev_range != Settings.Instance.GetFloat("NUM_range"))
                     {
                         switchedhorizon = false;
                         List<PointLatLng> horizonlist = new List<PointLatLng>();
-
-                        PointLatLng ho = MainV2.comPort.MAV.cs.HomeLocation;
 
                         HorizonGen b = new HorizonGen(MainV2.comPort.MAV.cs.HomeLocation, horizonlist, MainV2.comPort.MAV.cs.HomeAlt);
 
@@ -7393,8 +7404,8 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                             Horizon.Markers.RemoveAt(0);
                         }
 
-                        prev_home = ho;
-                        prev_range = Settings.Instance.GetInt32("NUM_range");
+                        prev_home = MainV2.comPort.MAV.cs.HomeLocation;
+                        prev_range = Settings.Instance.GetFloat("NUM_range");
                     }
                 }
 
@@ -7424,8 +7435,8 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
         {
             if (ele_run)
             {
-                clearance = Settings.Instance.GetInt32("Clearance");
-                normvalue = value / clearance; //10 metre clearance
+                clearance = Settings.Instance.GetFloat("Clearance"); //metres
+                normvalue = value / clearance; 
             }
 
             else if (ter_run)

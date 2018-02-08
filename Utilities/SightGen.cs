@@ -14,6 +14,10 @@ namespace MissionPlanner.Utilities
 {
     public class SightGen
     {
+        //
+        // RF Propagation
+        //
+
         PointLatLngAlt gelocs = new PointLatLngAlt();
         List<PointLatLngAlt> srtmlocs = new List<PointLatLngAlt>();
         List<PointLatLngAlt> pointends = new List<PointLatLngAlt>();
@@ -22,7 +26,11 @@ namespace MissionPlanner.Utilities
         double homealt;
         double drone_alt;
         double clearance;
+
         bool carryon = true;
+        bool up = false;
+        bool down = false;
+
         double range;
         double base_height;
 
@@ -34,28 +42,36 @@ namespace MissionPlanner.Utilities
             double latradians = location.Lat * Math.PI / 180;
             double lngradians = location.Lng * Math.PI / 180;
 
-            range = Settings.Instance.GetInt32("NUM_range");
-            clearance = Settings.Instance.GetInt32("Clearance");
-            base_height = Settings.Instance.GetInt32("NUM_height");
+            float Max = 90 * (float)Math.PI / 180;  //radians
+            float Min = 0;                          //radians
+
+
+            range = Settings.Instance.GetFloat("NUM_range");
+            clearance = Settings.Instance.GetFloat("Clearance");
+            base_height = Settings.Instance.GetFloat("NUM_height");
 
             drone_alt = aircraft_alt;
 
-
-            float stop = (float)Math.Asin(((drone_alt- clearance) *0.001) / range);
-
             homealt = alt;
 
-            for (float angle = 0; angle <= 2 * (float)Math.PI; angle += (float)Math.PI / 180 * Settings.Instance.GetInt32("Rotational"))
+            for (float angle = 0; angle <= 2 * (float)Math.PI; angle += (float)Math.PI / 180 * Settings.Instance.GetInt32("Rotational")) //Terrain intercept scan full 360
             {
                 carryon = true;
-                float triangle = 85 * (float)Math.PI / 180; 
+                
+                up = false;
+                down = false;
 
-                while (carryon && triangle >= stop)
+                float triangle = 45 * (float)Math.PI / 180; //radians
+                Max = 90 * (float)Math.PI / 180;            //radians
+                Min = 0;                                    //radians
+
+
+                while (carryon && Min + Settings.Instance.GetInt32("Converge") * (float)Math.PI/180 < Max) //Breaks if terrain intercept found or convergence occurs
                 {
                     pointends.Clear();
                     pointends.Add(location);
 
-                    distance = (range * Math.Cos(triangle)) / 6371;
+                    distance = (range * Math.Cos(triangle)) / 6371; //Km
 
                     latend = Math.Asin(Math.Sin(latradians) * Math.Cos(distance) + Math.Cos(latradians) * Math.Sin(distance) * Math.Cos(angle));
                     if (Math.Cos(latend) == 0)
@@ -69,7 +85,16 @@ namespace MissionPlanner.Utilities
                     pointends.Add(new PointLatLngAlt(newlatend, newlngend, 0, (1).ToString()));
                     point = getSRTMAltPath(pointends,triangle); //DEM data
 
-                    triangle -= (float)Math.PI / 180 * Settings.Instance.GetInt32("Angular");
+                    if (up)
+                    {
+                        Min = triangle;
+                    }
+
+                    else if (down)
+                    {
+                        Max = triangle;
+                    }
+                    triangle = (Max + Min) / 2;
                 }
 
                 pointslist.Add(point);
@@ -119,7 +144,7 @@ namespace MissionPlanner.Utilities
 
                 disttotal += subdist;
 
-                height = disttotal * Math.Tan(triangle);
+                height = disttotal * Math.Tan(triangle); //Height of traingle formed at point with projected line
 
                 // srtm alts
                 answer = newpoint;
@@ -128,9 +153,25 @@ namespace MissionPlanner.Utilities
                 a++;   
             }
 
-            if(a <= points)
+            if (elev < homealt + base_height + height + 0.1 && elev > homealt + base_height + height - 0.1
+                && elev < homealt + drone_alt - clearance + 0.1 && elev > homealt + drone_alt - clearance -0.1) //Terrain intercept found
             {
                 carryon = false;
+            }
+
+            else
+            {
+                if (elev > homealt + base_height + height && elev > homealt+drone_alt-clearance)
+                {
+                    up = true;
+                    down = false;
+                }
+
+                else
+                {
+                    down = true;
+                    up = false;
+                }
             }
 
             return answer;

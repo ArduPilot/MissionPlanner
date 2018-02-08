@@ -56,11 +56,12 @@ namespace MissionPlanner.GCSViews
         int res; //resolution
         int extend = 384; //elevation extention
         double rel; //relative elevation between drone and ground
-        int clearance;
+        float clearance;
         int prev_res;
         double max_alt; 
         double min_alt;
         double prev_range;
+        double prev_alt2;
         PointLatLng prev_home;
         bool switched = false;
 
@@ -144,7 +145,7 @@ namespace MissionPlanner.GCSViews
         //whether or not the output console has already started
         bool outputwindowstarted;
 
-        Thread elevation;
+        Thread elevation; //Map Overlay Thread
         bool ele_run = false;
         bool ter_run = false;
         bool ele_enabled;
@@ -3372,6 +3373,13 @@ namespace MissionPlanner.GCSViews
 
             while (ele_enabled)
             {
+                //
+                // Color gradient
+                //
+                if (ele_run == false && ter_run == false && elevationoverlay.Markers.Count > 0)
+                {
+                    elevationoverlay.Markers.RemoveAt(0);
+                }
 
                 if (hud1.connected && ele_run || ter_run)
                 {
@@ -3488,15 +3496,20 @@ namespace MissionPlanner.GCSViews
                     }
                 }
 
-                
+                //
+                // Propagation
+                //
+                if(CHK_RF.Checked == false && LineOfSight.Markers.Count > 0)
+                {
+                    LineOfSight.Markers.RemoveAt(0);
+                }
+
                 if (CHK_RF.Checked && hud1.connected)
                 {
-                    if (prev_home != MainV2.comPort.MAV.cs.HomeLocation || switched || prev_range != Settings.Instance.GetInt32("NUM_range") || prev_alt != hud1.alt)
+                    if (prev_home != MainV2.comPort.MAV.cs.HomeLocation || switched || prev_range != Settings.Instance.GetFloat("NUM_range") || prev_alt2 != hud1.alt)
                     {
                         switched = false;
                         List<PointLatLng> pointslist = new List<PointLatLng>();
-
-                        PointLatLng ho = MainV2.comPort.MAV.cs.HomeLocation;
 
                         SightGen t = new SightGen(MainV2.comPort.MAV.cs.HomeLocation, pointslist, MainV2.comPort.MAV.cs.HomeAlt, hud1.alt);
 
@@ -3507,9 +3520,9 @@ namespace MissionPlanner.GCSViews
                             LineOfSight.Markers.RemoveAt(0);
                         }
 
-                        prev_home = ho;
-                        prev_range = Settings.Instance.GetInt32("NUM_range");
-                        prev_alt = hud1.alt;
+                        prev_home = MainV2.comPort.MAV.cs.HomeLocation;
+                        prev_range = Settings.Instance.GetFloat("NUM_range");
+                        prev_alt2 = hud1.alt;
                     }
                 }
                 
@@ -4888,8 +4901,8 @@ namespace MissionPlanner.GCSViews
         {
             if (ele_run)
             {
-                clearance = Settings.Instance.GetInt32("Clearance");
-                normvalue = value / clearance; //10 metre clearance
+                clearance = Settings.Instance.GetFloat("Clearance"); //metres
+                normvalue = value / clearance; 
             }
 
             else if(ter_run)

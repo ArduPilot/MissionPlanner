@@ -14,6 +14,10 @@ namespace MissionPlanner.Utilities
 {
     public class HorizonGen
     {
+        //
+        //Horizon Propagation
+        //
+
         PointLatLngAlt gelocs = new PointLatLngAlt();
         List<PointLatLngAlt> srtmlocs = new List<PointLatLngAlt>();
         List<PointLatLngAlt> pointends = new List<PointLatLngAlt>();
@@ -22,6 +26,10 @@ namespace MissionPlanner.Utilities
         double homealt;
 
         bool carryon = true;
+
+        bool up = false;
+        bool down = false;
+
         double range;
         double base_height;
 
@@ -33,16 +41,24 @@ namespace MissionPlanner.Utilities
             double latradians = location.Lat * Math.PI / 180;
             double lngradians = location.Lng * Math.PI / 180;
 
-            homealt = alt;
-            range = Settings.Instance.GetInt32("NUM_range");
-            base_height = Settings.Instance.GetInt32("NUM_height");
+            float Max = 90 * (float)Math.PI / 180;  //radians
+            float Min = 0;                          //radians
 
-            for (float angle = 0; angle <= 2 * (float)Math.PI; angle += (float)Math.PI / 180* Settings.Instance.GetInt32("Rotational"))
+
+            homealt = alt;
+            range = Settings.Instance.GetFloat("NUM_range");
+            base_height = Settings.Instance.GetFloat("NUM_height");
+
+            for (float angle = 0; angle <= 2 * (float)Math.PI; angle += (float)Math.PI / 180 * Settings.Instance.GetInt32("Rotational")) //Terrain intercept scan full 360
             {
                 carryon = true;
-                float triangle = 85 * (float)Math.PI / 180 ;
+                float triangle = 45 * (float)Math.PI / 180;
+                up = false;
+                down = false;
+                Max = 90 * (float)Math.PI / 180;
+                Min = 0;
 
-                while (carryon && triangle >= 0)
+                while (carryon && Min + Settings.Instance.GetInt32("Converge") * (float)Math.PI/180 < Max) //Breaks if terrain intercept found or convergence occurs
                 {
                     pointends.Clear();
                     pointends.Add(location);
@@ -61,7 +77,16 @@ namespace MissionPlanner.Utilities
                     pointends.Add(new PointLatLngAlt(newlatend, newlngend, 0, (1).ToString()));
                     point = getSRTMAltPath(pointends, triangle); //DEM data
 
-                    triangle -= ((float)Math.PI / 180) * Settings.Instance.GetInt32("Angular");
+                    if (up)
+                    {
+                        Min = triangle;
+                    }
+
+                    else if (down)
+                    {
+                        Max = triangle;
+                    }
+                    triangle = (Max + Min) / 2;
                 }
 
                 pointslist.Add(point);
@@ -120,9 +145,24 @@ namespace MissionPlanner.Utilities
                 a++;
             }
 
-            if (a <= points)
+            if (elev < homealt + base_height + height + 0.1 && elev > homealt + base_height + height - 0.1) //Terrain intercept found
             {
                 carryon = false;
+            }
+
+            else
+            {
+                if (elev > homealt + base_height + height)
+                {
+                    up = true;
+                    down = false;
+                }
+
+                else
+                {
+                    down = true;
+                    up = false;
+                }
             }
 
             return answer;
