@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigPlanner));
             this.label33 = new System.Windows.Forms.Label();
             this.CMB_ratesensors = new System.Windows.Forms.ComboBox();
@@ -117,11 +118,14 @@
             this.label112 = new System.Windows.Forms.Label();
             this.label113 = new System.Windows.Forms.Label();
             this.label114 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.NUM_tracklength)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Clearance)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_range)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_height)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Tolerance)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label33
@@ -712,6 +716,7 @@
             resources.ApplyResources(this.CMB_Angular, "CMB_Angular");
             this.CMB_Angular.Name = "CMB_Angular";
             this.CMB_Angular.SelectedIndexChanged += new System.EventHandler(this.CMB_Angular_SelectedIndexChanged);
+            this.toolTip1.SetToolTip(this.CMB_Angular, resources.GetString("CMB_Angular.ToolTip"));
             // 
             // CMB_Rotational
             // 
@@ -726,6 +731,7 @@
             resources.ApplyResources(this.CMB_Rotational, "CMB_Rotational");
             this.CMB_Rotational.Name = "CMB_Rotational";
             this.CMB_Rotational.SelectedIndexChanged += new System.EventHandler(this.CMB_Rotational_SelectedIndexChanged);
+            this.toolTip1.SetToolTip(this.CMB_Rotational, resources.GetString("CMB_Rotational.ToolTip"));
             // 
             // label90
             // 
@@ -733,7 +739,7 @@
             this.label90.Name = "label90";
             // 
             // Clearance
-            //
+            // 
             this.Clearance.DecimalPlaces = 1;
             this.Clearance.Increment = new decimal(new int[] {
             1,
@@ -746,11 +752,6 @@
             0,
             0,
             0});
-            this.Clearance.Minimum = new decimal(new int[] {
-            0,
-            0,
-            0,
-            0});
             this.Clearance.Name = "Clearance";
             this.Clearance.Value = new decimal(new int[] {
             5,
@@ -758,6 +759,7 @@
             0,
             0});
             this.Clearance.ValueChanged += new System.EventHandler(this.Clearance_ValueChanged);
+            this.toolTip1.SetToolTip(this.Clearance, resources.GetString("Clearance.ToolTip"));
             // 
             // NUM_range
             // 
@@ -780,6 +782,7 @@
             0,
             0});
             this.NUM_range.ValueChanged += new System.EventHandler(this.NUM_range_ValueChanged);
+            this.toolTip1.SetToolTip(this.NUM_range, resources.GetString("NUM_range.ToolTip"));
             // 
             // NUM_height
             // 
@@ -802,6 +805,7 @@
             0,
             0});
             this.NUM_height.ValueChanged += new System.EventHandler(this.NUM_height_ValueChanged);
+            this.toolTip1.SetToolTip(this.NUM_height, resources.GetString("NUM_height.ToolTip"));
             // 
             // Tolerance
             // 
@@ -824,6 +828,7 @@
             0,
             65536});
             this.Tolerance.ValueChanged += new System.EventHandler(this.Tolerance_ValueChanged);
+            this.toolTip1.SetToolTip(this.Tolerance, resources.GetString("Tolerance.ToolTip"));
             // 
             // label89
             // 
@@ -865,10 +870,39 @@
             resources.ApplyResources(this.label114, "label114");
             this.label114.Name = "label114";
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.label91);
+            this.groupBox1.Controls.Add(this.label89);
+            this.groupBox1.Controls.Add(this.Clearance);
+            this.groupBox1.Controls.Add(this.label100);
+            this.groupBox1.Controls.Add(this.label113);
+            this.groupBox1.Controls.Add(this.label109);
+            this.groupBox1.Controls.Add(this.CMB_Rotational);
+            this.groupBox1.Controls.Add(this.label90);
+            this.groupBox1.Controls.Add(this.CMB_Resolution);
+            this.groupBox1.Controls.Add(this.label110);
+            this.groupBox1.Controls.Add(this.CMB_Angular);
+            this.groupBox1.Controls.Add(this.label111);
+            this.groupBox1.Controls.Add(this.NUM_range);
+            this.groupBox1.Controls.Add(this.label112);
+            this.groupBox1.Controls.Add(this.NUM_height);
+            this.groupBox1.Controls.Add(this.label114);
+            this.groupBox1.Controls.Add(this.Tolerance);
+            resources.ApplyResources(this.groupBox1, "groupBox1");
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.TabStop = false;
+            // 
+            // toolTip1
+            // 
+            this.toolTip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.toolTip1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            // 
             // ConfigPlanner
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.chk_shownofly);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.CHK_AutoParamCommit);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.CMB_Layout);
@@ -939,23 +973,6 @@
             this.Controls.Add(this.BUT_Joystick);
             this.Controls.Add(this.BUT_videostop);
             this.Controls.Add(this.BUT_videostart);
-            this.Controls.Add(this.label91);
-            this.Controls.Add(this.CMB_Resolution);
-            this.Controls.Add(this.CMB_Rotational);
-            this.Controls.Add(this.CMB_Angular);
-            this.Controls.Add(this.label90);
-            this.Controls.Add(this.Clearance);
-            this.Controls.Add(this.NUM_range);
-            this.Controls.Add(this.NUM_height);
-            this.Controls.Add(this.Tolerance);
-            this.Controls.Add(this.label89);
-            this.Controls.Add(this.label100);
-            this.Controls.Add(this.label109);
-            this.Controls.Add(this.label110);
-            this.Controls.Add(this.label111);
-            this.Controls.Add(this.label112);
-            this.Controls.Add(this.label113);
-            this.Controls.Add(this.label114);
             this.Name = "ConfigPlanner";
             resources.ApplyResources(this, "$this");
             this.Load += new System.EventHandler(this.ConfigPlanner_Load);
@@ -964,6 +981,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUM_range)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_height)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Tolerance)).EndInit();
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1059,5 +1077,7 @@
         private System.Windows.Forms.Label label112;
         private System.Windows.Forms.Label label113;
         private System.Windows.Forms.Label label114;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

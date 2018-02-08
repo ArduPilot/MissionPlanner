@@ -517,7 +517,7 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_mavdebug.Location" type="System.Drawing.Point, System.Drawing">
-    <value>124, 641</value>
+    <value>124, 497</value>
   </data>
   <data name="CHK_mavdebug.Size" type="System.Drawing.Size, System.Drawing">
     <value>144, 17</value>
@@ -2054,7 +2054,7 @@
     <value>NoControl</value>
   </data>
   <data name="chk_temp.Location" type="System.Drawing.Point, System.Drawing">
-    <value>357, 641</value>
+    <value>266, 497</value>
   </data>
   <data name="chk_temp.Size" type="System.Drawing.Size, System.Drawing">
     <value>144, 17</value>
@@ -2186,10 +2186,10 @@
     <value>2</value>
   </data>
   <data name="label91.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 504</value>
+    <value>16, 62</value>
   </data>
   <data name="label91.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 23</value>
+    <value>66, 23</value>
   </data>
   <data name="label91.TabIndex" type="System.Int32, mscorlib">
     <value>117</value>
@@ -2204,10 +2204,10 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label91.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label91.ZOrder" xml:space="preserve">
-    <value>70</value>
+    <value>0</value>
   </data>
   <data name="CHK_AutoParamCommit.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2264,7 +2264,6 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;chk_shownofly.ZOrder" xml:space="preserve">
-    <value>0</value>
   </data>
   <data name="CMB_Resolution.Items" xml:space="preserve">
     <value>2</value>
@@ -2282,7 +2281,7 @@
     <value>10</value>
   </data>
   <data name="CMB_Resolution.Location" type="System.Drawing.Point, System.Drawing">
-    <value>183, 501</value>
+    <value>174, 56</value>
   </data>
   <data name="CMB_Resolution.Size" type="System.Drawing.Size, System.Drawing">
     <value>40, 21</value>
@@ -2297,10 +2296,10 @@
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CMB_Resolution.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;CMB_Resolution.ZOrder" xml:space="preserve">
-    <value>71</value>
+    <value>8</value>
   </data>
   <data name="CMB_Angular.Items" xml:space="preserve">
     <value>0</value>
@@ -2318,7 +2317,7 @@
     <value>15</value>
   </data>
   <data name="CMB_Angular.Location" type="System.Drawing.Point, System.Drawing">
-    <value>329, 534</value>
+    <value>317, 92</value>
   </data>
   <data name="CMB_Angular.Size" type="System.Drawing.Size, System.Drawing">
     <value>40, 21</value>
@@ -2333,10 +2332,10 @@
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CMB_Angular.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;CMB_Angular.ZOrder" xml:space="preserve">
-    <value>73</value>
+    <value>10</value>
   </data>
   <data name="CMB_Rotational.Items" xml:space="preserve">
     <value>0.5</value>
@@ -2354,7 +2353,7 @@
     <value>10</value>
   </data>
   <data name="CMB_Rotational.Location" type="System.Drawing.Point, System.Drawing">
-    <value>199, 534</value>
+    <value>174, 92</value>
   </data>
   <data name="CMB_Rotational.Size" type="System.Drawing.Size, System.Drawing">
     <value>40, 21</value>
@@ -2369,13 +2368,13 @@
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CMB_Rotational.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;CMB_Rotational.ZOrder" xml:space="preserve">
-    <value>72</value>
+    <value>6</value>
   </data>
   <data name="label90.Location" type="System.Drawing.Point, System.Drawing">
-    <value>121, 504</value>
+    <value>97, 59</value>
   </data>
   <data name="label90.Size" type="System.Drawing.Size, System.Drawing">
     <value>63, 17</value>
@@ -2393,13 +2392,13 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label90.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label90.ZOrder" xml:space="preserve">
-    <value>74</value>
+    <value>7</value>
   </data>
   <data name="Clearance.Location" type="System.Drawing.Point, System.Drawing">
-    <value>329, 501</value>
+    <value>174, 25</value>
   </data>
   <data name="Clearance.Size" type="System.Drawing.Size, System.Drawing">
     <value>56, 20</value>
@@ -2414,13 +2413,13 @@
     <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;Clearance.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;Clearance.ZOrder" xml:space="preserve">
-    <value>75</value>
+    <value>2</value>
   </data>
   <data name="NUM_range.Location" type="System.Drawing.Point, System.Drawing">
-    <value>456, 538</value>
+    <value>442, 93</value>
   </data>
   <data name="NUM_range.Size" type="System.Drawing.Size, System.Drawing">
     <value>56, 20</value>
@@ -2435,13 +2434,13 @@
     <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;NUM_range.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;NUM_range.ZOrder" xml:space="preserve">
-    <value>76</value>
+    <value>12</value>
   </data>
   <data name="NUM_height.Location" type="System.Drawing.Point, System.Drawing">
-    <value>616, 535</value>
+    <value>601, 93</value>
   </data>
   <data name="NUM_height.Size" type="System.Drawing.Size, System.Drawing">
     <value>46, 20</value>
@@ -2456,13 +2455,13 @@
     <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;NUM_height.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;NUM_height.ZOrder" xml:space="preserve">
-    <value>77</value>
+    <value>14</value>
   </data>
   <data name="Tolerance.Location" type="System.Drawing.Point, System.Drawing">
-    <value>190, 566</value>
+    <value>174, 126</value>
   </data>
   <data name="Tolerance.Size" type="System.Drawing.Size, System.Drawing">
     <value>56, 20</value>
@@ -2477,13 +2476,13 @@
     <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;Tolerance.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;Tolerance.ZOrder" xml:space="preserve">
-    <value>78</value>
+    <value>16</value>
   </data>
   <data name="label89.Location" type="System.Drawing.Point, System.Drawing">
-    <value>253, 504</value>
+    <value>97, 28</value>
   </data>
   <data name="label89.Size" type="System.Drawing.Size, System.Drawing">
     <value>76, 17</value>
@@ -2501,13 +2500,13 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label89.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label89.ZOrder" xml:space="preserve">
-    <value>79</value>
+    <value>1</value>
   </data>
   <data name="label100.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 537</value>
+    <value>16, 95</value>
   </data>
   <data name="label100.Size" type="System.Drawing.Size, System.Drawing">
     <value>69, 23</value>
@@ -2525,16 +2524,16 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label100.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label100.ZOrder" xml:space="preserve">
-    <value>80</value>
+    <value>3</value>
   </data>
   <data name="label109.Location" type="System.Drawing.Point, System.Drawing">
-    <value>121, 540</value>
+    <value>97, 95</value>
   </data>
   <data name="label109.Size" type="System.Drawing.Size, System.Drawing">
-    <value>89, 23</value>
+    <value>71, 23</value>
   </data>
   <data name="label109.TabIndex" type="System.Int32, mscorlib">
     <value>123</value>
@@ -2549,16 +2548,16 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label109.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label109.ZOrder" xml:space="preserve">
-    <value>81</value>
+    <value>5</value>
   </data>
   <data name="label110.Location" type="System.Drawing.Point, System.Drawing">
-    <value>254, 540</value>
+    <value>236, 95</value>
   </data>
   <data name="label110.Size" type="System.Drawing.Size, System.Drawing">
-    <value>82, 23</value>
+    <value>75, 23</value>
   </data>
   <data name="label110.TabIndex" type="System.Int32, mscorlib">
     <value>124</value>
@@ -2573,13 +2572,13 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label110.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label110.ZOrder" xml:space="preserve">
-    <value>82</value>
+    <value>9</value>
   </data>
   <data name="label111.Location" type="System.Drawing.Point, System.Drawing">
-    <value>386, 540</value>
+    <value>372, 95</value>
   </data>
   <data name="label111.Size" type="System.Drawing.Size, System.Drawing">
     <value>64, 23</value>
@@ -2597,13 +2596,13 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label111.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label111.ZOrder" xml:space="preserve">
-    <value>83</value>
+    <value>11</value>
   </data>
   <data name="label112.Location" type="System.Drawing.Point, System.Drawing">
-    <value>529, 540</value>
+    <value>511, 95</value>
   </data>
   <data name="label112.Size" type="System.Drawing.Size, System.Drawing">
     <value>84, 23</value>
@@ -2621,16 +2620,16 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label112.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label112.ZOrder" xml:space="preserve">
-    <value>84</value>
+    <value>13</value>
   </data>
   <data name="label113.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 568</value>
+    <value>18, 128</value>
   </data>
   <data name="label113.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 23</value>
+    <value>57, 23</value>
   </data>
   <data name="label113.TabIndex" type="System.Int32, mscorlib">
     <value>127</value>
@@ -2645,13 +2644,13 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label113.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label113.ZOrder" xml:space="preserve">
-    <value>85</value>
+    <value>4</value>
   </data>
   <data name="label114.Location" type="System.Drawing.Point, System.Drawing">
-    <value>121, 568</value>
+    <value>97, 128</value>
   </data>
   <data name="label114.Size" type="System.Drawing.Size, System.Drawing">
     <value>63, 23</value>
@@ -2669,21 +2668,63 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label114.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label114.ZOrder" xml:space="preserve">
-    <value>86</value>
+    <value>15</value>
+  </data>
+  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>18, 542</value>
+  </data>
+  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>674, 223</value>
+  </data>
+  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>129</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Map Overlay</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="$this.Localizable" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>759, 667</value>
+    <value>1409, 855</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>ConfigPlanner</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Clearance.ToolTip" xml:space="preserve">
+    <value>Adjusts minimum ground clearance</value>
+  </data>
+  <data name="CMB_Angular.ToolTip" xml:space="preserve">
+    <value>Adjusts angle convergence</value>
+  </data>
+  <data name="CMB_Rotational.ToolTip" xml:space="preserve">
+    <value>Adjusts azimuth step size</value>
+  </data>
+  <data name="NUM_height.ToolTip" xml:space="preserve">
+    <value>Adjust height above ground of ground station</value>
+  </data>
+  <data name="NUM_range.ToolTip" xml:space="preserve">
+    <value>Adjusts range of signal</value>
+  </data>
+  <data name="Tolerance.ToolTip" xml:space="preserve">
+    <value>Changes the tolerance of Km Left of current battery</value>
   </data>
 </root>
