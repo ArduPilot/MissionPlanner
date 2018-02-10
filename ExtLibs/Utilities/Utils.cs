@@ -200,7 +200,12 @@ namespace MissionPlanner.Utilities
             return ret;
         }
 
-        public static dynamic sq(dynamic inp)
+        public static double sq(double inp)
+        {
+            return inp * inp;
+        }
+
+        public static float sq(float inp)
         {
             return inp * inp;
         }
