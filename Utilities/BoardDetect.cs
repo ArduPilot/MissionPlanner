@@ -107,11 +107,6 @@ namespace MissionPlanner.Utilities
                                             log.Info("is a px4v3");
                                             return boards.px4v3;
                                         }
-                                        else if (up.fw_maxsize == 2080768 && up.board_type == 33 && up.bl_rev >= 5)
-                                        {
-                                            log.Info("is a px4v3 X2.1");
-                                            return boards.px4v3;
-                                        }
                                         else
                                         {
                                             log.Info("is a px4v2");
@@ -128,6 +123,12 @@ namespace MissionPlanner.Utilities
 
                         log.Info("Failed to detect px4 board type");
                         return boards.none;
+                    }
+
+                    if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0021"))
+                    {
+                        log.Info("is a px4v3 X2.1");
+                        return boards.px4v3;
                     }
 
                     if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0012"))
