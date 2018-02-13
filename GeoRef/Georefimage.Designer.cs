@@ -1,9 +1,20 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Reflection;
+using System.Windows.Forms;
+using com.drew.imaging.jpg;
+using com.drew.imaging.tiff;
+using com.drew.metadata;
+using log4net;
+using MissionPlanner.Utilities;
+
 namespace MissionPlanner.GeoRef
 {
     partial class Georefimage
     {
-
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Georefimage));

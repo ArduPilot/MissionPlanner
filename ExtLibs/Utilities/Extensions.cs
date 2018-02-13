@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using MissionPlanner.Comms;
 
 namespace MissionPlanner.Utilities
 {
@@ -57,6 +58,23 @@ namespace MissionPlanner.Utilities
                    || value is float
                    || value is double
                    || value is decimal;
+        }
+
+        public static IEnumerable<MAVLink.MAVLinkMessage> GetMessageOfType(this CommsFile commsFile,
+            MAVLink.MAVLINK_MSG_ID[] packetids = null, bool hasTimestamp = false)
+        {
+            var parse = new MAVLink.MavlinkParse(hasTimestamp);
+
+            var list = packetids.Cast<uint>();
+
+            while (commsFile.BytesToRead > 0)
+            {
+                var packet = parse.ReadPacket(commsFile.BaseStream);
+                if (packet == null)
+                    continue;
+                if (packetids == null || list.Contains(packet.msgid))
+                    yield return packet;
+            }
         }
     }
 }

@@ -386,10 +386,6 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigTradHeli.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigWizard.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="GeoRef\georefimage.cs"> <SubType>Control</SubType> </Compile>
-    <Compile Include="GeoRef\PictureInformation.cs" />
-    <Compile Include="GeoRef\Rational.cs" />
-    <Compile Include="GeoRef\SingleLocation.cs" />
-    <Compile Include="GeoRef\VehicleLocation.cs" />
     <Compile Include="Grid\GridPlugin.cs" />
     <Compile Include="Grid\GridUI.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="HIL\Aircraft.cs" />

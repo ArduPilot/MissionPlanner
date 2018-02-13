@@ -33,6 +33,8 @@
     <ProjectReference Include="..\KMLib\KMLib.csproj" />
     <ProjectReference Include="..\LibVLC.NET\LibVLC.NET.csproj" />
     <ProjectReference Include="..\Mavlink\MAVLink.csproj" />
+    <ProjectReference Include="..\MetaDataExtractorCSharp240d\MetaDataExtractor.csproj" />
+    <ProjectReference Include="..\SharpKml\SharpKml.csproj" />
     <ProjectReference Include="..\Zeroconf\Zeroconf\Zeroconf.csproj" />
   </ItemGroup>
 
