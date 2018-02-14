@@ -15,6 +15,8 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using System.Linq;
+using System.Runtime.InteropServices;
+using PixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
 
 
 // Control written by Michael Oborne 2011
@@ -1259,7 +1261,31 @@ namespace MissionPlanner.Controls
         {
             try
             {
-                DrawPolygon(penn, gp.PathPoints);
+                List<PointF> list = new List<PointF>();
+                for (int i = 0; i < gp.PointCount; i++)
+                {
+                    var pnt = gp.PathPoints[i];
+                    var type = gp.PathTypes[i];
+
+                    if (type == 0)
+                    {
+                        if (list.Count != 0)
+                            DrawPolygon(penn, list.ToArray());
+                        list.Clear();
+                        list.Add(pnt);
+                    }
+
+                    if(type <= 3)
+                        list.Add(pnt);
+
+                    if ((type & 0x80) > 0)
+                    {
+                        list.Add(pnt);
+                        list.Add(list[0]);
+                        DrawPolygon(penn, list.ToArray());
+                        list.Clear();
+                    }
+                }
             }
             catch
             {
@@ -1270,7 +1296,88 @@ namespace MissionPlanner.Controls
         {
             try
             {
-                FillPolygon(brushh, gp.PathPoints);
+                if (opengl)
+                {
+                    var bounds = gp.GetBounds();
+
+                    var list = gp.PathPoints;
+   
+                    
+                    GL.Enable(EnableCap.StencilTest);
+                    GL.Disable(EnableCap.CullFace);
+                    GL.ClearStencil(0);
+
+                    GL.ColorMask(false,false,false,false);
+                    GL.Clear(ClearBufferMask.StencilBufferBit);
+                    GL.DepthMask(false);
+                    GL.StencilFunc(StencilFunction.Always, 0, 0xff);
+                    GL.StencilOp(StencilOp.Invert, StencilOp.Invert, StencilOp.Invert);
+                    
+
+                    //DrawPath(new Pen(Color.Black), gp);
+                    
+                    GL.Begin(PrimitiveType.TriangleFan);
+                    GL.Color4(((SolidBrush)brushh).Color);
+                    GL.Vertex2(0,0);
+                    foreach (var pnt in list)
+                    {
+                        GL.Vertex2(pnt.X, pnt.Y);
+                    }
+                    GL.End();
+                    //GL.Vertex2(list[list.Length - 1].X, list[list.Length - 1].Y);
+        
+                    GL.ColorMask(true, true, true, true);
+                    GL.DepthMask(true);
+
+                    GL.StencilFunc(StencilFunction.Equal, 1, 1);
+                    GL.StencilOp(StencilOp.Keep, StencilOp.Keep, StencilOp.Keep);
+                    /*
+                    IntPtr data = Marshal.AllocHGlobal((int)(bounds.Right * bounds.Bottom));
+                    GL.ReadPixels(0,0, (int)bounds.Right, (int)bounds.Bottom, PixelFormat.StencilIndex, PixelType.UnsignedByte, data);
+
+                    var bmp = new Bitmap((int)bounds.Right, (int)bounds.Bottom, (int)bounds.Bottom,
+                        System.Drawing.Imaging.PixelFormat.Format1bppIndexed
+                        , data);
+                    bmp.Save("test.bmp");
+                    Marshal.FreeHGlobal(data);
+                    */
+
+                    GL.Begin(PrimitiveType.TriangleFan);
+                    GL.Color4(((SolidBrush)brushh).Color);
+                    GL.Vertex2(0, 0);
+                    foreach (var pnt in list)
+                    {
+                        GL.Vertex2(pnt.X, pnt.Y);
+                    }
+                    GL.End();
+                    /*
+                    var bounds = gp.GetBounds();
+                    bounds.Inflate(1, 1);
+                    GL.Color4(((SolidBrush)brushh).Color);
+
+                    GL.Begin(PrimitiveType.Quads); // Draw big box over polygon area 
+                    GL.Vertex2(bounds.Left, bounds.Bottom);
+                    GL.Vertex2(bounds.Left, bounds.Top);
+                    GL.Vertex2(bounds.Right, bounds.Top);
+                    GL.Vertex2(bounds.Right, bounds.Bottom);
+                    GL.End();
+                   */
+                    GL.Disable(EnableCap.StencilTest);
+                    /*
+                    GL.Begin(PrimitiveType.Quads); // Draw big box over polygon area 
+                    GL.Color4(((SolidBrush)brushh).Color);
+                    GL.Vertex2(bounds.Left, bounds.Bottom);
+                    GL.Vertex2(bounds.Left, bounds.Top);
+                    GL.Vertex2(bounds.Right, bounds.Top);
+                    GL.Vertex2(bounds.Right, bounds.Bottom);
+                    GL.End();
+                    */
+                    //GL.Enable(EnableCap.CullFace);
+                    //GL.ClearStencil(0);
+                    //FillPolygon(brushh, gp.PathPoints);
+                }
+                else
+                    graphicsObjectGDIP.FillPath(brushh, gp);
             }
             catch
             {
@@ -1288,7 +1395,7 @@ namespace MissionPlanner.Controls
         }
 
         public void ResetTransform()
-        {
+        { 
             if (opengl)
             {
                 GL.LoadIdentity();
@@ -2683,13 +2790,15 @@ namespace MissionPlanner.Controls
 
 
                     // create bitmap
-                    using (Graphics gfx = Graphics.FromImage(charDict[charid].bitmap))
+                    using (var gfx = SkiaGraphics.FromImage(charDict[charid].bitmap))
                     {
                         var pth = new GraphicsPath();
 
                         if (text != null)
                             pth.AddString(cha + "", font.FontFamily, 0, fontsize + 5, new Point((int) 0, (int) 0),
                                 StringFormat.GenericTypographic);
+
+                        charDict[charid].pth = pth;
 
                         gfx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
@@ -2752,6 +2861,16 @@ namespace MissionPlanner.Controls
                 // dont draw spaces
                 if (cha != ' ')
                 {
+                    /*
+                    TranslateTransform(x, y);
+                    DrawPath(this._p, charDict[charid].pth);
+
+                    //Draw the face
+
+                    FillPath(brush, charDict[charid].pth);
+
+                    TranslateTransform(-x, -y);
+                    */
                     //GL.Enable(EnableCap.Blend);
                     GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 

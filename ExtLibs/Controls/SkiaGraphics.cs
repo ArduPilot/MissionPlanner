@@ -23,7 +23,7 @@ namespace System
 
         public static SKPaint SKPaint(this Pen pen)
         {
-            return new SKPaint() { Color = pen.Color.SKColor(), StrokeWidth = pen.Width, Style = SKPaintStyle.Stroke };
+            return new SKPaint() { Color = pen.Color.SKColor(), StrokeWidth = pen.Width, IsAntialias = true, Style = SKPaintStyle.Stroke, BlendMode = SKBlendMode.SrcOver, FilterQuality = SKFilterQuality.High};
         }
 
         public static SKPaint SKPaint(this Font font)
@@ -39,7 +39,7 @@ namespace System
         {
             if (brush is SolidBrush)
             {
-                return new SKPaint() { Color = ((SolidBrush)brush).Color.SKColor(), Style = SKPaintStyle.Fill };
+                return new SKPaint() { Color = ((SolidBrush)brush).Color.SKColor(), IsAntialias = true, Style = SKPaintStyle.Fill };
             }
 
             if (brush is LinearGradientBrush)
@@ -47,6 +47,7 @@ namespace System
                 var lgb = (LinearGradientBrush)brush;
                 return new SKPaint()
                 {
+                    IsAntialias = true,
                     Style = SKPaintStyle.Fill,
                     Shader = SKShader.CreateLinearGradient(new SKPoint(lgb.Rectangle.X, lgb.Rectangle.Y), new SKPoint(lgb.Rectangle.X, lgb.Rectangle.Bottom),
                         new SKColor[] {
@@ -177,6 +178,8 @@ namespace System
         {
             var ans = new SKPath();
 
+            var cubic = new List<PointF>();
+
             for (int i = 0; i < path.PointCount; i++)
             {
                 if (path.PathTypes[i] == 0)
@@ -185,8 +188,21 @@ namespace System
                     continue;
                 }
 
-                if (path.PathTypes[i] <= 3)
+                if ((path.PathTypes[i] & 0x7) == 1)
+                {
                     ans.LineTo(path.PathPoints[i].X, path.PathPoints[i].Y);
+                }
+
+                if ((path.PathTypes[i] & 0x7) == 3)
+                {
+                    /* first bezier requires 4 points, other 3 more points */
+                    cubic.Add(path.PathPoints[i]);
+                    if (cubic.Count == 3)
+                    {
+                        ans.CubicTo(cubic[0].X, cubic[0].Y, cubic[1].X, cubic[1].Y, cubic[2].X, cubic[2].Y);
+                        cubic.Clear();
+                    }
+                }
 
                 //if ((path.PathTypes[i] & 0x20) > 0)
                     //list.Add(path.PathPoints[i]);
