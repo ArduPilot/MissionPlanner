@@ -9,13 +9,12 @@ using System.IO;
 using System.Drawing.Imaging;
 using System.Collections;
 using System.Threading;
- 
 using System.Drawing.Drawing2D;
 using log4net;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
-//using OpenTK.Graphics;
+using System.Linq;
 
 
 // Control written by Michael Oborne 2011
@@ -65,6 +64,7 @@ namespace MissionPlanner.Controls
 
         private class character
         {
+            public GraphicsPath pth;
             public Bitmap bitmap;
             public int gltextureid;
             public int width;
@@ -148,7 +148,7 @@ namespace MissionPlanner.Controls
             objBitmap.MakeTransparent();
 
             graphicsObject = this;
-            graphicsObjectGDIP = Graphics.FromImage(objBitmap);
+            graphicsObjectGDIP = SkiaGraphics.FromImage(objBitmap);
         }
 
         private float _roll = 0;
@@ -780,7 +780,7 @@ namespace MissionPlanner.Controls
         private int count = 0;
         private DateTime countdate = DateTime.Now;
         private HUD graphicsObject;
-        private Graphics graphicsObjectGDIP;
+        private SkiaGraphics graphicsObjectGDIP;
 
         private DateTime starttime = DateTime.MinValue;
 
@@ -1512,7 +1512,7 @@ namespace MissionPlanner.Controls
                 {
                     objBitmap = new Bitmap(this.Width, this.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
                     objBitmap.MakeTransparent();
-                    graphicsObjectGDIP = Graphics.FromImage(objBitmap);
+                    graphicsObjectGDIP = SkiaGraphics.FromImage(objBitmap);
 
                     graphicsObjectGDIP.SmoothingMode = SmoothingMode.HighSpeed;
                     graphicsObjectGDIP.InterpolationMode = InterpolationMode.NearestNeighbor;
@@ -2645,7 +2645,7 @@ namespace MissionPlanner.Controls
         {
             if (!opengl)
             {
-                drawstring(graphicsObjectGDIP, text, font, fontsize, brush, x, y);
+                drawstring(text, font, fontsize, brush, x, y);
                 return;
             }
 
@@ -2685,7 +2685,7 @@ namespace MissionPlanner.Controls
                     // create bitmap
                     using (Graphics gfx = Graphics.FromImage(charDict[charid].bitmap))
                     {
-                        pth.Reset();
+                        var pth = new GraphicsPath();
 
                         if (text != null)
                             pth.AddString(cha + "", font.FontFamily, 0, fontsize + 5, new Point((int) 0, (int) 0),
@@ -2776,7 +2776,7 @@ namespace MissionPlanner.Controls
             }
         }
 
-        void drawstring(Graphics e, string text, Font font, float fontsize, SolidBrush brush, float x, float y)
+        void drawstring(string text, Font font, float fontsize, SolidBrush brush, float x, float y)
         {
             if (text == null || text == "")
                 return;
@@ -2805,14 +2805,16 @@ namespace MissionPlanner.Controls
 
 
                     // create bitmap
-                    using (Graphics gfx = Graphics.FromImage(charDict[charid].bitmap))
+                    using (var gfx = SkiaGraphics.FromImage(charDict[charid].bitmap))
                     {
-                        pth.Reset();
+                        var pth = new GraphicsPath();
 
                         if (text != null)
                             pth.AddString(cha + "", font.FontFamily, 0, fontsize + 5, new Point((int) 0, (int) 0),
                                 StringFormat.GenericTypographic);
 
+                        charDict[charid].pth = pth;
+                        
                         gfx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
                         gfx.DrawPath(this._p, pth);
@@ -2820,7 +2822,7 @@ namespace MissionPlanner.Controls
                         //Draw the face
 
                         gfx.FillPath(brush, pth);
-
+                        
 
                         if (pth.PointCount > 0)
                         {
@@ -2844,8 +2846,17 @@ namespace MissionPlanner.Controls
                 // dont draw spaces
                 if (cha != ' ')
                 {
-                    DrawImage(charDict[charid].bitmap, (int) x, (int) y, charDict[charid].bitmap.Width,
-                        charDict[charid].bitmap.Height, charDict[charid].gltextureid);
+                    DrawImage(charDict[charid].bitmap, (int) x, (int) y, charDict[charid].bitmap.Width,charDict[charid].bitmap.Height, charDict[charid].gltextureid);
+                    /*
+                    TranslateTransform(x,y);
+                    DrawPath(this._p, charDict[charid].pth);
+
+                    //Draw the face
+
+                    FillPath(brush, charDict[charid].pth);
+
+                    TranslateTransform(-x, -y);
+                    */
                 }
                 else
                 {
@@ -2922,7 +2933,7 @@ namespace MissionPlanner.Controls
                 }
             }
 
-            graphicsObjectGDIP = Graphics.FromImage(objBitmap);
+            graphicsObjectGDIP = SkiaGraphics.FromImage(objBitmap);
 
             try
             {
