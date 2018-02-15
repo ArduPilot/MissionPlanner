@@ -31,6 +31,7 @@ namespace MissionPlanner.Utilities
             vrbrainv50,
             vrbrainv51,
             vrbrainv52,
+            vrbrainv54,
             vrcorev10,
             vrubrainv51,
             vrubrainv52,
@@ -124,6 +125,12 @@ namespace MissionPlanner.Utilities
                         return boards.none;
                     }
 
+                    if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0021"))
+                    {
+                        log.Info("is a px4v3 X2.1");
+                        return boards.px4v3;
+                    }
+
                     if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0012"))
                     {
                         log.Info("is a px4v4 pixracer");
@@ -182,6 +189,12 @@ namespace MissionPlanner.Utilities
                         return boards.vrbrainv52;
                     }
 
+                    if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_27AC&PID_1154"))
+                    {
+                        log.Info("is a vrbrain 5.4 bootloader");
+                        return boards.vrbrainv54;
+                    }
+
                     if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_27AC&PID_1910"))
                     {
                         log.Info("is a vrbrain core 1.0 bootloader");
@@ -204,26 +217,26 @@ namespace MissionPlanner.Utilities
             else
             {
                 // if its mono
-                if (DialogResult.Yes == CustomMessageBox.Show("Is this a APM 2+?", "APM 2+", MessageBoxButtons.YesNo))
+                if ((int)DialogResult.Yes == CustomMessageBox.Show("Is this a APM 2+?", "APM 2+", MessageBoxButtons.YesNo))
                 {
                     return boards.b2560v2;
                 }
                 else
                 {
-                    if (DialogResult.Yes ==
+                    if ((int)DialogResult.Yes ==
                         CustomMessageBox.Show("Is this a PX4/PIXHAWK/PIXRACER?", "PX4/PIXHAWK", MessageBoxButtons.YesNo))
                     {
-                        if (DialogResult.Yes ==
+                        if ((int)DialogResult.Yes ==
                             CustomMessageBox.Show("Is this a PIXRACER?", "PIXRACER", MessageBoxButtons.YesNo))
                         {
                             return boards.px4v4;
                         }
-                        if (DialogResult.Yes ==
+                        if ((int)DialogResult.Yes ==
                             CustomMessageBox.Show("Is this a CUBE?", "CUBE", MessageBoxButtons.YesNo))
                         {
                             return boards.px4v3;
                         }
-                        if (DialogResult.Yes ==
+                        if ((int)DialogResult.Yes ==
                             CustomMessageBox.Show("Is this a PIXHAWK?", "PIXHAWK", MessageBoxButtons.YesNo))
                         {
                             return boards.px4v2;
@@ -237,14 +250,14 @@ namespace MissionPlanner.Utilities
                 }
             }
 
-            if (DialogResult.Yes == CustomMessageBox.Show("Is this a Linux board?", "Linux", MessageBoxButtons.YesNo))
+            if ((int)DialogResult.Yes == CustomMessageBox.Show("Is this a Linux board?", "Linux", MessageBoxButtons.YesNo))
             {
-                if (DialogResult.Yes == CustomMessageBox.Show("Is this Bebop2?", "Bebop2", MessageBoxButtons.YesNo))
+                if ((int)DialogResult.Yes == CustomMessageBox.Show("Is this Bebop2?", "Bebop2", MessageBoxButtons.YesNo))
                 {
                     return boards.bebop2;
                 }
 
-                if (DialogResult.Yes == CustomMessageBox.Show("Is this Disco?", "Disco", MessageBoxButtons.YesNo))
+                if ((int)DialogResult.Yes == CustomMessageBox.Show("Is this Disco?", "Disco", MessageBoxButtons.YesNo))
                 {
                     return boards.disco;
                 }
@@ -358,16 +371,16 @@ namespace MissionPlanner.Utilities
             serialPort.Close();
             log.Warn("Not a 2560");
 
-            if (DialogResult.Yes == CustomMessageBox.Show("Is this a APM 2+?", "APM 2+", MessageBoxButtons.YesNo))
+            if ((int)DialogResult.Yes == CustomMessageBox.Show("Is this a APM 2+?", "APM 2+", MessageBoxButtons.YesNo))
             {
                 return boards.b2560v2;
             }
             else
             {
-                if (DialogResult.Yes ==
+                if ((int)DialogResult.Yes ==
                     CustomMessageBox.Show("Is this a PX4/PIXHAWK?", "PX4/PIXHAWK", MessageBoxButtons.YesNo))
                 {
-                    if (DialogResult.Yes ==
+                    if ((int)DialogResult.Yes ==
                         CustomMessageBox.Show("Is this a PIXHAWK?", "PIXHAWK", MessageBoxButtons.YesNo))
                     {
                         return boards.px4v2;

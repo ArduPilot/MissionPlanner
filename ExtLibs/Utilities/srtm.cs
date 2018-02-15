@@ -192,8 +192,8 @@ namespace MissionPlanner.Utilities
                     lng -= x;
 
                     // values should be 0-1199, 1200 is for interpolation
-                    double xf = lng*(size - 1);
-                    double yf = lat*(size - 1);
+                    double xf = lng*(size - 2);
+                    double yf = lat*(size - 2);
 
                     int x_int = (int) xf;
                     double x_frac = xf - x_int;
@@ -201,7 +201,7 @@ namespace MissionPlanner.Utilities
                     int y_int = (int) yf;
                     double y_frac = yf - y_int;
 
-                    y_int = (size - 2) - y_int;
+                    y_int = (size-2) - y_int;
 
                     double alt00 = GetAlt(filename, x_int, y_int);
                     double alt10 = GetAlt(filename, x_int + 1, y_int);

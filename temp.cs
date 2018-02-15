@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -193,7 +194,10 @@ namespace MissionPlanner
 
         private void BUT_paramgen_Click(object sender, EventArgs e)
         {
-            ParameterMetaDataParser.GetParameterInformation();
+            if(MissionPlanner.Utilities.Update.dobeta)
+                ParameterMetaDataParser.GetParameterInformation(ConfigurationManager.AppSettings["ParameterLocationsBleeding"]);
+            else
+                ParameterMetaDataParser.GetParameterInformation(ConfigurationManager.AppSettings["ParameterLocations"]);
 
             ParameterMetaDataRepositoryAPM.Reload();
         }
@@ -317,6 +321,9 @@ namespace MissionPlanner
                     if (software.urlvrbrainv52 != "")
                         xmlwriter.WriteElementString("urlvrbrainv52",
                             new Uri(software.urlvrbrainv52).LocalPath.TrimStart('/', '\\'));
+                    if (software.urlvrbrainv54 != "")
+                        xmlwriter.WriteElementString("urlvrbrainv54",
+                            new Uri(software.urlvrbrainv54).LocalPath.TrimStart('/', '\\'));
                     if (software.urlvrcorev10 != "")
                         xmlwriter.WriteElementString("urlvrcorev10",
                             new Uri(software.urlvrcorev10).LocalPath.TrimStart('/', '\\'));
@@ -391,6 +398,11 @@ namespace MissionPlanner
                     {
                         Download.getFilefromNet(software.urlvrbrainv52,
                             basedir + new Uri(software.urlvrbrainv52).LocalPath);
+                    }
+                    if (software.urlvrbrainv54 != "")
+                    {
+                        Download.getFilefromNet(software.urlvrbrainv54,
+                            basedir + new Uri(software.urlvrbrainv54).LocalPath);
                     }
                     if (software.urlvrcorev10 != "")
                     {
@@ -1129,6 +1141,16 @@ namespace MissionPlanner
 
                 DashWare.Create(ofd.FileName, ofd.FileName + ".csv", split.Length > 0 ? split.ToList() : null);
             }
+        }
+
+        private void but_mavinspector_Click(object sender, EventArgs e)
+        {
+            new MAVLinkInspector(MainV2.comPort).Show();
+        }
+
+        private void BUT_driverclean_Click(object sender, EventArgs e)
+        {
+            CleanDrivers.Clean();
         }
     }
 }

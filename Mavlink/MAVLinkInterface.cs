@@ -21,7 +21,7 @@ using Timer = System.Timers.Timer;
 
 namespace MissionPlanner
 {
-    public class MAVLinkInterface : MAVLink, IDisposable, IMAVLinkInterface
+    public class MAVLinkInterface : MAVLink, IDisposable, IMAVLinkInterface, IMAVLinkInterfaceLogRead
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private ICommsSerial _baseStream;
@@ -200,7 +200,7 @@ namespace MissionPlanner
         /// <summary>
         /// used to disable all speech originating from this module
         /// </summary>
-        public bool speechenabled = true;
+        public bool speechenabled { get; set; } = true;
 
         bool _logreadmode = false;
 

@@ -8,7 +8,7 @@ Class=Ports
 ClassGuid={4D36E978-E325-11CE-BFC1-08002BE10318}
 Provider=%MFGNAME%
 LayoutFile=layout.inf
-CatalogFile=Cube.cat
+CatalogFile=cube.cat
 DriverVer=04/10/2017,1.0.0.1
 
 [Manufacturer]

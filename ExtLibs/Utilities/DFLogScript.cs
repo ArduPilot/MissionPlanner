@@ -4,9 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using Core.ExtendedObjects;
 using MissionPlanner.Utilities;
-using ZedGraph;
 
 namespace MissionPlanner.Log
 {
@@ -96,9 +94,9 @@ namespace MissionPlanner.Log
             return ret;
         }
 
-        public static PointPairList ProcessExpression(ref DFLog dflog, ref CollectionBuffer logdata, string expression)
+        public static List<Tuple<double, double>> ProcessExpression(ref DFLog dflog, ref CollectionBuffer logdata, string expression)
         {
-            PointPairList answer = new PointPairList();
+            List<Tuple<double, double>> answer = new List<Tuple<double, double>>();
 
             //earth_accel_df(IMU2,ATT).x
             if (expression.Contains("earth_accel_df"))
@@ -226,7 +224,7 @@ namespace MissionPlanner.Log
             {
                 // there are alot of assumptions made in this code
                 Dictionary<int, double> work = new Dictionary<int, double>();
-                List<KeyValuePair<string, string>> types = new EventList<KeyValuePair<string, string>>();
+                List<KeyValuePair<string, string>> types = new List<KeyValuePair<string, string>>();
 
                 var matchs = Regex.Matches(expression, @"(([A-z0-9_]+)\.([A-z0-9_]+)\*\*2)");
 

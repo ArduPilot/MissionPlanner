@@ -123,6 +123,25 @@ namespace MissionPlanner.Utilities
             return directory;
         }
 
+        public IEnumerable<string> GetList(string key)
+        {
+            if(config.ContainsKey(key))
+                return config[key].Split(';');
+            return new string[0];
+        }
+
+        public void SetList(string key, IEnumerable<string> list)
+        {
+            config[key] = list.Aggregate((s, s1) => s + ';' + s1);
+        }
+
+        public void AppendList(string key, string item)
+        {
+            var list = GetList(key).ToList();
+            list.Add(item);
+            SetList(key, list);
+        }
+
         public int GetInt32(string key)
         {
             int result = 0;

@@ -74,8 +74,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.pictureAntennaTracker = new MissionPlanner.Controls.ImageLabel();
             this.lbl_licence = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.picturebox_ph2 = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.picturebox_ph2)).BeginInit();
+            this.pictureBoxSub = new MissionPlanner.Controls.ImageLabel();
+            this.imageLabel1 = new MissionPlanner.Controls.ImageLabel();
             this.SuspendLayout();
             // 
             // pictureBoxAPM
@@ -255,19 +255,29 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.linkLabel1.TabStop = true;
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
-            // picturebox_ph2
+            // pictureBoxSub
             // 
-            this.picturebox_ph2.Image = global::MissionPlanner.Properties.Resources.pixhawk2cube;
-            resources.ApplyResources(this.picturebox_ph2, "picturebox_ph2");
-            this.picturebox_ph2.Name = "picturebox_ph2";
-            this.picturebox_ph2.TabStop = false;
-            this.picturebox_ph2.Click += new System.EventHandler(this.picturebox_ph2_Click);
+            this.pictureBoxSub.Image = global::MissionPlanner.Properties.Resources.sub;
+            resources.ApplyResources(this.pictureBoxSub, "pictureBoxSub");
+            this.pictureBoxSub.Name = "pictureBoxSub";
+            this.pictureBoxSub.TabStop = false;
+            this.pictureBoxSub.Tag = "";
+            this.pictureBoxSub.Click += new System.EventHandler(this.pictureBoxFW_Click);
+            // 
+            // imageLabel1
+            // 
+            this.imageLabel1.Image = global::MissionPlanner.Properties.Resources.pixhawk2cube;
+            resources.ApplyResources(this.imageLabel1, "imageLabel1");
+            this.imageLabel1.Name = "imageLabel1";
+            this.imageLabel1.TabStop = false;
+            this.imageLabel1.Tag = "";
+            this.imageLabel1.Click += new System.EventHandler(this.picturebox_ph2_Click);
             // 
             // ConfigFirmware
             // 
-            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.Controls.Add(this.picturebox_ph2);
+            this.Controls.Add(this.imageLabel1);
+            this.Controls.Add(this.pictureBoxSub);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.lbl_licence);
             this.Controls.Add(this.pictureAntennaTracker);
@@ -291,7 +301,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Controls.Add(this.pictureBoxQuad);
             this.Controls.Add(this.pictureBoxAPM);
             this.Name = "ConfigFirmware";
-            ((System.ComponentModel.ISupportInitialize)(this.picturebox_ph2)).EndInit();
+            resources.ApplyResources(this, "$this");
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -307,6 +317,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private Controls.ImageLabel pictureAntennaTracker;
         private Label lbl_licence;
         private LinkLabel linkLabel1;
-        private PictureBox picturebox_ph2;
+        private Controls.ImageLabel pictureBoxSub;
+        private Controls.ImageLabel imageLabel1;
     }
 }

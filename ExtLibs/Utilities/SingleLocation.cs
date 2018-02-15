@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MissionPlanner.GeoRef
 {
-    public class SingleLocation
+    public class SingleLocation: ICloneable
     {
         DateTime time;
 
@@ -82,6 +82,11 @@ namespace MissionPlanner.GeoRef
         public double getAltitude(bool AMSL)
         {
             return (AMSL ? AltAMSL : RelAlt);
+        }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
         }
     }
 }

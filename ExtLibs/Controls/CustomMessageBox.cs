@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using MissionPlanner.Controls;
 using System.Threading;
 
-namespace System
+namespace MissionPlanner.MsgBox
 {
     public static class CustomMessageBox
     {

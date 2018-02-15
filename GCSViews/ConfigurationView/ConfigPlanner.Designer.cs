@@ -99,6 +99,7 @@
             this.CMB_Layout = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.CHK_AutoParamCommit = new System.Windows.Forms.CheckBox();
+            this.chk_shownofly = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_tracklength)).BeginInit();
             this.SuspendLayout();
             // 
@@ -649,9 +650,19 @@
             this.CHK_AutoParamCommit.UseVisualStyleBackColor = true;
             this.CHK_AutoParamCommit.CheckedChanged += new System.EventHandler(this.CHK_AutoParamCommit_CheckedChanged);
             // 
+            // chk_shownofly
+            // 
+            resources.ApplyResources(this.chk_shownofly, "chk_shownofly");
+            this.chk_shownofly.Checked = true;
+            this.chk_shownofly.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chk_shownofly.Name = "chk_shownofly";
+            this.chk_shownofly.UseVisualStyleBackColor = true;
+            this.chk_shownofly.CheckedChanged += new System.EventHandler(this.chk_shownofly_CheckedChanged);
+            // 
             // ConfigPlanner
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.Controls.Add(this.chk_shownofly);
             this.Controls.Add(this.CHK_AutoParamCommit);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.CMB_Layout);
@@ -803,5 +814,6 @@
         public System.Windows.Forms.ComboBox CMB_Layout;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.CheckBox CHK_AutoParamCommit;
+        private System.Windows.Forms.CheckBox chk_shownofly;
     }
 }

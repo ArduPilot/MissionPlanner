@@ -490,9 +490,8 @@ namespace MissionPlanner.Utilities
 
         public static DateTime gpsTimeToTime(int week, double sec)
         {
-            int leap = 17;
+            int leap = rtcm3.StaticUtils.LeapSecondsGPS(DateTime.Now.Year, DateTime.Now.Month);
 
-            // not correct for leap seconds                   day   days  weeks  seconds
             var basetime = new DateTime(1980, 1, 6, 0, 0, 0, DateTimeKind.Utc);
             basetime = basetime.AddDays(week*7);
             basetime = basetime.AddSeconds((sec - leap));

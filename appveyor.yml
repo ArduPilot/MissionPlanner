@@ -5,9 +5,6 @@ clone_depth: 1
 clone_folder: c:\MP\
 init:
 - cmd: 
-cache:
-    - packages -> appveyor.yml
-    - date.txt
 environment:
   email:
     secure: dkWdmOxf3t/x2H0gEo1GurKM8Due1idnog5VJtUlSEA=
@@ -17,7 +14,7 @@ build_script:
 - cmd: >-
     dotnet --info
 
-    c:\mp\.nuget\nuget.exe update -self
+    rem c:\mp\.nuget\nuget.exe update -self
     
     c:\mp\.nuget\nuget.exe restore
     
@@ -29,13 +26,13 @@ build_script:
 
     for /f %%f in ('dir /a-d /b plugins') do if exist .\%%f del .\plugins\%%f
 
-    set PATH=c:\cygwin\bin;%PATH%
+    copy version.txt c:\mp\
 
     7z a -tzip ..\..\..\MissionPlannerBeta.zip *  
 
     cd ..
 
-    c:\cygwin\bin\find.exe net461 -type f -print0 | xargs.exe -i -0 md5sum.exe '{}' > checksums.txt
+    md5sum.exe net461 > checksums.txt
 
     copy checksums.txt c:\mp\
 
@@ -64,6 +61,8 @@ artifacts:
   name: MissionPlannerBeta
 - path: checksums.txt
   name: checksums
+- path: version.txt
+  name: version
 deploy: off
 notifications:
 - provider: Webhook

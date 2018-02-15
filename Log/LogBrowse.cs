@@ -238,7 +238,11 @@ namespace MissionPlanner.Log
             new displaylist()
             {
                 Name = "Power Issues",
-                items = new displayitem[] {new displayitem() {type = "CURR", field = "Vcc"}}
+                items = new displayitem[]
+                {
+                    new displayitem() {type = "CURR", field = "Vcc"},
+                    new displayitem() {type = "POWR", field = "Vcc"}
+                }
             },
             new displaylist()
             {
@@ -1209,7 +1213,12 @@ namespace MissionPlanner.Log
             else
             {
                 var list1 = DFLogScript.ProcessExpression(ref dflog, ref logdata, type);
-                GraphItem_AddCurve(list1, type, fieldname, left);
+                var newlist = new PointPairList();
+                list1.ForEach(a =>
+                {
+                    newlist.Add(new PointPair(a.Item1, a.Item2));
+                });
+                GraphItem_AddCurve(newlist, type, fieldname, left);
             }
         }
 
@@ -1333,6 +1342,21 @@ namespace MissionPlanner.Log
             {
                 Loading.Close();
                 return;
+            }
+
+            var ans = logdata.GetUnit(type, header);
+            string unit = ans.Item1;
+            double multiplier = ans.Item2;
+
+            if (unit != "")
+                header += " (" + unit + ")";
+
+            if (multiplier != 0 && multiplier != 1)
+            {
+                for (var i = 0; i < list1.Count; i++)
+                {
+                    list1[i].Y *= multiplier;
+                }
             }
 
             LineItem myCurve;

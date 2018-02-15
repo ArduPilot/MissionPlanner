@@ -7,7 +7,6 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Xml;
 using MissionPlanner.Utilities;
 using log4net;
@@ -43,21 +42,12 @@ namespace MissionPlanner.Utilities
         /// <summary>
         /// retrived parameter info from the net
         /// </summary>
-        public static void GetParameterInformation(string urls = null,string file = null)
+        public static void GetParameterInformation(string urls, string file = null)
         {
-            string parameterLocationsString = ConfigurationManager.AppSettings["ParameterLocations"];
+            var parameterLocationsString = urls;
 
-            if (MissionPlanner.Utilities.Update.dobeta)
-            {
-                parameterLocationsString = ConfigurationManager.AppSettings["ParameterLocationsBleeding"];
-                log.Info("Using Bleeding param gen urls");
-            }
-
-            if (urls != null)
-                parameterLocationsString = urls;
-
-            string XMLFileName = String.Format("{0}{1}", Settings.GetUserDataDirectory(),
-                ConfigurationManager.AppSettings["ParameterMetaDataXMLFileName"]);
+            string XMLFileName =
+                String.Format("{0}{1}", Settings.GetUserDataDirectory(), "ParameterMetaData.xml");
 
             if (file != null)
                 XMLFileName = String.Format("{0}{1}", Settings.GetUserDataDirectory(), file);
@@ -84,23 +74,23 @@ namespace MissionPlanner.Utilities
 
                         if (parameterLocation.ToLower().Contains("arducopter"))
                         {
-                            element = MainV2.Firmwares.ArduCopter2.ToString();
+                            element = "ArduCopter2";
                         }
                         else if (parameterLocation.ToLower().Contains("arduplane"))
                         {
-                            element = MainV2.Firmwares.ArduPlane.ToString();
+                            element = "ArduPlane";
                         }
                         else if (parameterLocation.ToLower().Contains("rover"))
                         {
-                            element = MainV2.Firmwares.ArduRover.ToString();
+                            element = "ArduRover";
                         }
                         else if (parameterLocation.ToLower().Contains("ardusub"))
                         {
-                            element = MainV2.Firmwares.ArduSub.ToString();
+                            element = "ArduSub";
                         }
                         else if (parameterLocation.ToLower().Contains("tracker"))
                         {
-                            element = MainV2.Firmwares.ArduTracker.ToString();
+                            element = "ArduTracker";
                         }
 
                         // Read and parse the content.

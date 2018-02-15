@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
 using log4net;
@@ -308,7 +311,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (!MainV2.comPort.BaseStream.IsOpen)
                 return;
 
-            if (!MainV2.comPort.MAV.cs.armed || DialogResult.OK ==
+            if (!MainV2.comPort.MAV.cs.armed || (int)DialogResult.OK ==
                 CustomMessageBox.Show(Strings.WarningUpdateParamList, Strings.ERROR, MessageBoxButtons.OKCancel))
             {
                 ((Control) sender).Enabled = false;
@@ -380,7 +383,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             CustomMessageBox.Show(
                                 Params[Command.Index, e.RowIndex].Value +
                                 " value is out of range. Do you want to continue?", "Out of range",
-                                MessageBoxButtons.YesNo) == DialogResult.No)
+                                MessageBoxButtons.YesNo) == (int)DialogResult.No)
                         {
                             return;
                         }
@@ -433,34 +436,28 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             toolTip1.RemoveAll();
             Params.Rows.Clear();
 
-
-            //Params.Sort(Params.Columns[0], ListSortDirection.Ascending);
-
             log.Info("processToScreen");
 
-            var sorted = new List<string>();
+            var list = new List<string>();
             foreach (string item in MainV2.comPort.MAV.param.Keys)
-                sorted.Add(item);
-
-            sorted.Sort();
-
-            log.Info("sorted");
+                list.Add(item);
 
             var rowlist = new List<DataGridViewRow>();
 
             // process hashdefines and update display
-            foreach (var value in sorted)
+            Parallel.ForEach(list, value =>
             {
                 if (value == null || value == "")
-                    continue;
-
-                log.Info("Doing: " + value);
+                    return;
 
                 var row = new DataGridViewRow();
-                rowlist.Add(row);
+                lock(rowlist)
+                    rowlist.Add(row);
                 row.CreateCells(Params);
                 row.Cells[Command.Index].Value = value;
                 row.Cells[Value.Index].Value = MainV2.comPort.MAV.param[value].ToString();
+                var fav_params = Settings.Instance.GetList("fav_params");
+                row.Cells[Fav.Index].Value = fav_params.Contains(value);
                 try
                 {
                     var metaDataDescription = ParameterMetaDataRepository.GetParameterMetaData(value,
@@ -486,15 +483,48 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     log.Error(ex);
                 }
-            }
+            });
 
             log.Info("about to add all");
 
+            Params.SuspendLayout();
+            Params.Visible = false;
             Params.Enabled = false;
+
             Params.Rows.AddRange(rowlist.ToArray());
+
+            log.Info("about to sort");
+
+            Params.SortCompare += OnParamsOnSortCompare;
+
+            Params.Sort(Params.Columns[Command.Index], ListSortDirection.Ascending);
+
             Params.Enabled = true;
+            Params.Visible = true;
+            Params.ResumeLayout();
 
             log.Info("Done");
+        }
+
+        private void OnParamsOnSortCompare(object sender, DataGridViewSortCompareEventArgs args)
+        {
+            var fav1obj = Params[Fav.Index, args.RowIndex1].Value;
+            var fav2obj = Params[Fav.Index, args.RowIndex2].Value;
+
+            var fav1 = fav1obj == null ? false : (bool) fav1obj;
+
+            var fav2 = fav2obj == null ? false : (bool) fav2obj;
+
+            args.SortResult = args.CellValue1.ToString().CompareTo(args.CellValue2.ToString());
+            args.Handled = true;
+
+            if (fav1 && fav2)
+            {
+                return;
+            }
+
+            if (fav1 || fav2)
+                args.SortResult = fav1.CompareTo(fav2) * (Params.SortOrder == SortOrder.Ascending ? -1 : 1);
         }
 
         private void updatedefaultlist(object crap)
@@ -581,7 +611,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (
                 CustomMessageBox.Show("Reset all parameters to default\nAre you sure!!", "Reset",
-                    MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
             {
                 try
                 {
@@ -635,15 +665,40 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void Params_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             // Only process the Description column
-            if (e.RowIndex == -1 || startup || e.ColumnIndex != 4)
+            if (e.RowIndex == -1 || startup)
                 return;
 
-            try
+            if (e.ColumnIndex == 4)
             {
-                string descStr = Params[e.ColumnIndex, e.RowIndex].Value.ToString();
-                CheckForUrlAndLaunchInBrowser(descStr);
+                try
+                {
+                    string descStr = Params[e.ColumnIndex, e.RowIndex].Value.ToString();
+                    CheckForUrlAndLaunchInBrowser(descStr);
+                }
+                catch
+                {
+                }
             }
-            catch { }
+
+            if (e.ColumnIndex == 5)
+            {
+                var check = Params[e.ColumnIndex, e.RowIndex].EditedFormattedValue;
+                var name = Params[Command.Index, e.RowIndex].Value.ToString();
+
+                if (check != null && (bool)check)
+                {
+                    // add entry
+                    Settings.Instance.AppendList("fav_params", name);
+                }
+                else
+                {
+                    // remove entry
+                    var list = Settings.Instance.GetList("fav_params");
+                    Settings.Instance.SetList("fav_params", list.Where(s => s != name));
+                }
+
+                Params.Sort(Command, ListSortDirection.Ascending);
+            }
         }
 
         public static void CheckForUrlAndLaunchInBrowser(string stringWithPossibleUrl)

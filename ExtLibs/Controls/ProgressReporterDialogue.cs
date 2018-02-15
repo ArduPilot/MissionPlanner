@@ -4,6 +4,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Reflection;
 using log4net;
+using MissionPlanner.MsgBox;
 
 namespace MissionPlanner.Controls
 {

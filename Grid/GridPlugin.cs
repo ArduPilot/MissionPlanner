@@ -75,7 +75,7 @@ namespace MissionPlanner
                 {
                     if (
                         CustomMessageBox.Show("No polygon defined. Load a file?", "Load File", MessageBoxButtons.YesNo) ==
-                        DialogResult.Yes)
+                        (int)DialogResult.Yes)
                     {
                         gridui.LoadGrid();
                         gridui.ShowDialog();

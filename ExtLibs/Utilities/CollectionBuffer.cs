@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Utilities
 {
@@ -92,13 +91,6 @@ namespace MissionPlanner.Utilities
                 {
                     dflog.GetDFItemFromLine(this[a].ToString(), a);
                 }
-
-                // build fmt line database using type
-                foreach (var item in GetEnumeratorType("FMT"))
-                {
-                    //Console.WriteLine("Found FMT");
-                    bool t = true;
-                }
             }
             else
             {
@@ -143,8 +135,98 @@ namespace MissionPlanner.Utilities
                 }
             }
 
+            // build fmt line database using type
+            foreach (var item in GetEnumeratorType("FMT"))
+            {
+                try
+                {
+                    FMT[int.Parse(item["Type"])] = new Tuple<int, string, string, string[]>(
+                        int.Parse(item["Length"].Trim()),
+                        item["Name"].Trim(),
+                        item["Format"].Trim(),
+                        item.items.Skip(dflog.FindMessageOffset("FMT", "Columns")).ToArray());
+                }
+                catch { }
+            }
+
+            foreach (var item in GetEnumeratorType("FMTU"))
+            {
+                try
+                {
+                    FMTU[int.Parse(item["FmtType"])] =
+                        new Tuple<string, string>(item["UnitIds"].Trim(), item["MultIds"].Trim());
+                }
+                catch { }
+            }
+
+            foreach (var item in GetEnumeratorType("UNIT"))
+            {
+                try
+                {
+                    Unit[(char)int.Parse(item["Id"])] = item["Label"].Trim();
+                }
+                catch { }
+            }
+
+            foreach (var item in GetEnumeratorType("MULT"))
+            {
+                try
+                {
+                    Mult[(char)int.Parse(item["Id"])] = item["Mult"].Trim();
+                }
+                catch { }
+            }
+
+            BuildUnitMultiList();
+
             indexcachelineno = -1;
         }
+
+        private void BuildUnitMultiList()
+        {
+            foreach (var msgtype in FMT)
+            {
+                // get unit and mult info
+                var fmtu = FMTU.FirstOrDefault(a => a.Key == msgtype.Key);
+
+                if(fmtu.Value == null)
+                    continue;
+
+                var units = fmtu.Value.Item1.ToCharArray().Select(a => Unit.FirstOrDefault(b => b.Key == a));
+                var multipliers = fmtu.Value.Item2.ToCharArray().Select(a => Mult.FirstOrDefault(b => b.Key == a));
+                var binfmts = msgtype.Value.Item3.ToCharArray();
+
+                for (var i = 0; i < msgtype.Value.Item4.Length; i++)
+                {
+                    var field = msgtype.Value.Item4[i].Trim();
+                    var unit = units.Skip(i).First().Value;
+                    var binfmt = binfmts[i];
+                    var multi = 1.0;
+                    double.TryParse(multipliers.Skip(i).First().Value, out multi);
+
+                    if (binfmt == 'c' || binfmt == 'C' ||
+                        binfmt == 'e' || binfmt == 'E' ||
+                        binfmt == 'L')
+                    {
+                        // these are scaled from the DF format * 100/1e7 etc
+                        // to ensure csv's continue to work we dont modify these values
+                        // 1 = no change
+                        multi = 1;
+                    }
+
+                    UnitMultiList.Add(
+                        new Tuple<string, string, string, double>(msgtype.Value.Item2, field, unit, multi));
+                }
+            }
+        }
+
+        public List<Tuple<string,string,string,double>> UnitMultiList = new List<Tuple<string, string, string, double>>();
+
+        public Dictionary<int, Tuple<int, string, string, string[]>> FMT { get; set; } = new Dictionary<int, Tuple<int, string, string, string[]>>();
+        public Dictionary<int, Tuple<string, string>> FMTU { get; set; } = new Dictionary<int, Tuple<string, string>>();
+
+        public Dictionary<char, string> Unit { get; set; } = new Dictionary<char, string>();
+        public Dictionary<char, string> Mult { get; set; } = new Dictionary<char, string>();
 
         public String this[int index]
         {
@@ -291,6 +373,16 @@ namespace MissionPlanner.Utilities
         public String ReadLine()
         {
             return this[indexcachelineno+1];
+        }
+
+        public Tuple<string,double> GetUnit(string type, string header)
+        {
+            var answer = UnitMultiList.Where(tuple => tuple.Item1 == type && tuple.Item2 == header);
+
+            if (answer.Count() == 0)
+                return new Tuple<string, double>("", 1);
+
+            return new Tuple<string, double>(answer.First().Item3, answer.First().Item4);
         }
     }
 }

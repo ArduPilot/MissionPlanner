@@ -1623,7 +1623,7 @@ namespace MissionPlanner.GCSViews
 
                         splinepnts.Add(fullpointlist[a]);
 
-                        Spline2 sp = new Spline2();
+                        Spline2 sp = new Spline2(MainV2.comPort.MAV.cs.HomeLocation);
 
                         //sp._flags.segment_type = MissionPlanner.Controls.Waypoints.Spline2.SegmentType.SEGMENT_STRAIGHT;
                         //sp._flags.reached_destination = true;
@@ -1962,7 +1962,7 @@ namespace MissionPlanner.GCSViews
                 {
                     if (
                         CustomMessageBox.Show("This will clear your existing planned mission, Continue?", "Confirm",
-                            MessageBoxButtons.OKCancel) != DialogResult.OK)
+                            MessageBoxButtons.OKCancel) != (int)DialogResult.OK)
                     {
                         return;
                     }
@@ -2096,7 +2096,7 @@ namespace MissionPlanner.GCSViews
         {
             if ((altmode) CMB_altmode.SelectedValue == altmode.Absolute)
             {
-                if (DialogResult.No ==
+                if ((int)DialogResult.No ==
                     CustomMessageBox.Show("Absolute Alt is selected are you sure?", "Alt Mode", MessageBoxButtons.YesNo))
                 {
                     CMB_altmode.SelectedValue = (int) altmode.Relative;
@@ -2590,10 +2590,10 @@ namespace MissionPlanner.GCSViews
                     {
                         if (cellhome.Value.ToString() != TXT_homelat.Text && cellhome.Value.ToString() != "0")
                         {
-                            DialogResult dr = CustomMessageBox.Show("Reset Home to loaded coords", "Reset Home Coords",
+                            var dr = CustomMessageBox.Show("Reset Home to loaded coords", "Reset Home Coords",
                                 MessageBoxButtons.YesNo);
 
-                            if (dr == DialogResult.Yes)
+                            if (dr == (int)DialogResult.Yes)
                             {
                                 TXT_homelat.Text = (double.Parse(cellhome.Value.ToString())).ToString();
                                 cellhome = Commands.Rows[0].Cells[Lon.Index] as DataGridViewTextBoxCell;
@@ -4103,7 +4103,7 @@ namespace MissionPlanner.GCSViews
                 } catch (Exception ex)
                 {
                     log.Error(ex);
-                    CustomMessageBox.Show("Invalid Lat/Lng, please fix",Strings.ERROR);
+                    CustomMessageBox.Show("Invalid Lat/Long, please fix",Strings.ERROR);
                 }
             }
 
@@ -5357,9 +5357,9 @@ namespace MissionPlanner.GCSViews
             RectLatLng area = MainMap.SelectedArea;
             if (area.IsEmpty)
             {
-                DialogResult res = CustomMessageBox.Show("No ripp area defined, ripp displayed on screen?", "Rip",
+                var res = CustomMessageBox.Show("No ripp area defined, ripp displayed on screen?", "Rip",
                     MessageBoxButtons.YesNo);
-                if (res == DialogResult.Yes)
+                if (res == (int)DialogResult.Yes)
                 {
                     area = MainMap.ViewArea;
                 }
@@ -5475,7 +5475,7 @@ namespace MissionPlanner.GCSViews
                             parser.ElementAdded += parser_ElementAdded;
                             parser.ParseString(kml, false);
 
-                            if (DialogResult.Yes ==
+                            if ((int)DialogResult.Yes ==
                                 CustomMessageBox.Show(Strings.Do_you_want_to_load_this_into_the_flight_data_screen, Strings.Load_data,
                                     MessageBoxButtons.YesNo))
                             {
@@ -5491,7 +5491,7 @@ namespace MissionPlanner.GCSViews
 
                             if (
                                 CustomMessageBox.Show(Strings.Zoom_To, Strings.Zoom_to_the_center_or_the_loaded_file, MessageBoxButtons.YesNo) ==
-                                DialogResult.Yes)
+                                (int)DialogResult.Yes)
                             {
                                 MainMap.SetZoomToFitRect(GetBoundingLayer(kmlpolygonsoverlay));
                             }
@@ -7099,6 +7099,11 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             GridPlugin grid = new GridPlugin();
             grid.Host = new PluginHost();
             grid.but_Click(sender, e);
+        }
+        
+        private void Commands_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+        {
+            writeKML();
         }
     }
 }

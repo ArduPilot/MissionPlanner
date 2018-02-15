@@ -22,6 +22,8 @@ namespace MissionPlanner.Utilities
 
         Form temp = new Form();
 
+        public bool DataAvailable { get; set; } = false;
+
         public Proximity(MAVState mavInt)
         {
             _parent = mavInt;
@@ -170,6 +172,8 @@ namespace MissionPlanner.Utilities
 
             if (arg.msgid == (uint)MAVLINK_MSG_ID.DISTANCE_SENSOR)
             {
+                DataAvailable = true;
+
                 var dist = arg.ToStructure<mavlink_distance_sensor_t>();
 
                 if (dist.current_distance >= dist.max_distance)
@@ -193,6 +197,9 @@ namespace MissionPlanner.Utilities
         {
             if (!temp.IsDisposed)
             {
+                if (temp.Visible)
+                    return;
+
                 temp.Show();
             }
             else

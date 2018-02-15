@@ -110,7 +110,7 @@ namespace MissionPlanner.Radio
                     }
                     else if (ack == NAK)
                     {
-                        CustomMessageBox.Show("Corrupted packet. Please power cycle and try again.\r\n", "Warning",
+                        MsgBox.CustomMessageBox.Show("Corrupted packet. Please power cycle and try again.\r\n", "Warning",
                             MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         len = 0;
                     }

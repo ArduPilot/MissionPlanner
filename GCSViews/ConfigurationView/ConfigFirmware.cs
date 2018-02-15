@@ -220,6 +220,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 pictureAntennaTracker.Text = temp.name;
                 pictureAntennaTracker.Tag = temp;
             }
+            else if (temp.urlpx4v2.ToLower().Contains("ardusub"))
+            {
+                pictureBoxSub.Text = temp.name;
+                pictureBoxSub.Tag = temp;
+            }
             else
             {
                 log.Info("No Home " + temp.name + " " + temp.url2560);
@@ -230,7 +235,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             var dr = CustomMessageBox.Show(Strings.AreYouSureYouWantToUpload + fwtoupload.name + Strings.QuestionMark,
                 Strings.Continue, MessageBoxButtons.YesNo);
-            if (dr == DialogResult.Yes)
+            if (dr == (int)DialogResult.Yes)
             {
                 try
                 {

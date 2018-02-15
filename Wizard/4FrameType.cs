@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using MissionPlanner.Controls;
 using MissionPlanner.GCSViews.ConfigurationView;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Wizard
 {

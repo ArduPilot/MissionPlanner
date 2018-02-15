@@ -10,6 +10,7 @@ using System.Threading;
 using System.Windows.Forms;
 using log4net;
 using MissionPlanner.Comms;
+using MissionPlanner.MsgBox;
 using MissionPlanner.Radio;
 using MissionPlanner.Utilities;
 using uploader;
@@ -139,7 +140,7 @@ S15: MAX_WINDOW=131
                     }
                     catch (Exception ex)
                     {
-                        CustomMessageBox.Show("Error copying file\n" + ex, "ERROR");
+                        MsgBox.CustomMessageBox.Show("Error copying file\n" + ex, "ERROR");
                         return false;
                     }
                     return true;
@@ -253,7 +254,7 @@ S15: MAX_WINDOW=131
                 }
                 catch (Exception ex)
                 {
-                    CustomMessageBox.Show("Error " + ex);
+                    MsgBox.CustomMessageBox.Show("Error " + ex);
                 }
             }
 
@@ -266,7 +267,7 @@ S15: MAX_WINDOW=131
             }
             catch
             {
-                CustomMessageBox.Show("Invalid ComPort or in use");
+                MsgBox.CustomMessageBox.Show("Invalid ComPort or in use");
                 return;
             }
 
@@ -323,7 +324,7 @@ S15: MAX_WINDOW=131
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Error opening port", "Error");
+                    MsgBox.CustomMessageBox.Show("Error opening port", "Error");
                     return;
                 }
 
@@ -368,7 +369,7 @@ S15: MAX_WINDOW=131
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Failed to sync with Radio");
+                    MsgBox.CustomMessageBox.Show("Failed to sync with Radio");
                     goto exit;
                 }
 
@@ -388,7 +389,7 @@ S15: MAX_WINDOW=131
                     }
                     catch
                     {
-                        CustomMessageBox.Show("Bad Firmware File");
+                        MsgBox.CustomMessageBox.Show("Bad Firmware File");
                         goto exit;
                     }
 
@@ -399,17 +400,17 @@ S15: MAX_WINDOW=131
                     }
                     catch (Exception ex)
                     {
-                        CustomMessageBox.Show("Upload Failed " + ex.Message);
+                        MsgBox.CustomMessageBox.Show("Upload Failed " + ex.Message);
                     }
                 }
                 else
                 {
-                    CustomMessageBox.Show("Failed to download new firmware");
+                    MsgBox.CustomMessageBox.Show("Failed to download new firmware");
                 }
             }
             else
             {
-                CustomMessageBox.Show("Failed to identify Radio");
+                MsgBox.CustomMessageBox.Show("Failed to identify Radio");
             }
 
             exit:
@@ -501,7 +502,7 @@ S15: MAX_WINDOW=131
             }
             catch
             {
-                CustomMessageBox.Show("Invalid ComPort or in use");
+                MsgBox.CustomMessageBox.Show("Invalid ComPort or in use");
                 return;
             }
 
@@ -560,7 +561,7 @@ S15: MAX_WINDOW=131
                                                 }
                                                 else
                                                 {
-                                                    CustomMessageBox.Show("Set Command error");
+                                                    MsgBox.CustomMessageBox.Show("Set Command error");
                                                 }
                                             }
                                         }
@@ -581,7 +582,7 @@ S15: MAX_WINDOW=131
                                             }
                                             else
                                             {
-                                                CustomMessageBox.Show("Set Command error");
+                                                MsgBox.CustomMessageBox.Show("Set Command error");
                                             }
                                         }
                                     }
@@ -597,7 +598,7 @@ S15: MAX_WINDOW=131
                                             }
                                             else
                                             {
-                                                CustomMessageBox.Show("Set Command error");
+                                                MsgBox.CustomMessageBox.Show("Set Command error");
                                             }
                                         }
                                     }
@@ -645,7 +646,7 @@ S15: MAX_WINDOW=131
                                             }
                                             else
                                             {
-                                                CustomMessageBox.Show("Set Command error");
+                                                MsgBox.CustomMessageBox.Show("Set Command error");
                                             }
                                         }
                                     }
@@ -665,7 +666,7 @@ S15: MAX_WINDOW=131
                                             }
                                             else
                                             {
-                                                CustomMessageBox.Show("Set Command error");
+                                                MsgBox.CustomMessageBox.Show("Set Command error");
                                             }
                                         }
                                     }
@@ -681,7 +682,7 @@ S15: MAX_WINDOW=131
                                             }
                                             else
                                             {
-                                                CustomMessageBox.Show("Set Command error");
+                                                MsgBox.CustomMessageBox.Show("Set Command error");
                                             }
                                         }
                                     }
@@ -727,7 +728,7 @@ S15: MAX_WINDOW=131
                 doCommand(comPort, "ATZ");
 
                 lbl_status.Text = "Fail";
-                CustomMessageBox.Show("Failed to enter command mode");
+                MsgBox.CustomMessageBox.Show("Failed to enter command mode");
             }
 
 
@@ -801,7 +802,7 @@ S15: MAX_WINDOW=131
             }
             catch
             {
-                CustomMessageBox.Show("Invalid ComPort or in use");
+                MsgBox.CustomMessageBox.Show("Invalid ComPort or in use");
                 return;
             }
 
@@ -1027,7 +1028,7 @@ S15: MAX_WINDOW=131
                     doCommand(comPort, "ATO");
 
                     lbl_status.Text = "Fail";
-                    CustomMessageBox.Show("Failed to enter command mode");
+                    MsgBox.CustomMessageBox.Show("Failed to enter command mode");
                 }
 
                 comPort.Close();
@@ -1047,7 +1048,7 @@ S15: MAX_WINDOW=131
                 {
                 }
                 lbl_status.Text = "Error";
-                CustomMessageBox.Show("Error during read " + ex);
+                MsgBox.CustomMessageBox.Show("Error during read " + ex);
             }
         }
 
@@ -1215,7 +1216,7 @@ S15: MAX_WINDOW=131
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            CustomMessageBox.Show(@"The Sik Radios have 2 status LEDs, one red and one green.
+            MsgBox.CustomMessageBox.Show(@"The Sik Radios have 2 status LEDs, one red and one green.
 green LED blinking - searching for another radio 
 green LED solid - link is established with another radio 
 red LED flashing - transmitting data 
@@ -1237,7 +1238,7 @@ red LED solid - in firmware update mode");
             }
             catch
             {
-                CustomMessageBox.Show("Invalid ComPort or in use");
+                MsgBox.CustomMessageBox.Show("Invalid ComPort or in use");
                 return;
             }
 
@@ -1270,7 +1271,7 @@ red LED solid - in firmware update mode");
                 doCommand(comPort, "ATO");
 
                 lbl_status.Text = "Fail";
-                CustomMessageBox.Show("Failed to enter command mode");
+                MsgBox.CustomMessageBox.Show("Failed to enter command mode");
             }
 
             if (comPort.IsOpen)
@@ -1285,7 +1286,7 @@ red LED solid - in firmware update mode");
         private void Progressbar_Click(object sender, EventArgs e)
         {
             beta = !beta;
-            CustomMessageBox.Show("Beta set to " + beta);
+            MsgBox.CustomMessageBox.Show("Beta set to " + beta);
         }
 
         private void linkLabel_mavlink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

@@ -125,6 +125,7 @@ namespace MissionPlanner.Utilities
         public void ProcessClient(object clientobj)
         {
             var client = clientobj as TcpClient;
+            using(client)
             {
                 try
                 {
@@ -587,7 +588,8 @@ namespace MissionPlanner.Utilities
                     /////////////////////////////////////////////////////////////////
                     else if (url.Contains(" /hud.html"))
                     {
-                        string header = "HTTP/1.1 200 OK\r\nConnection: close\r\nContent-Type: text/html\r\n\r\n";
+                        var fi = new FileInfo("hud.html");
+                        string header = "HTTP/1.1 200 OK\r\nConnection: close\r\nContent-Type: text/html\r\nContent-Length: " + fi.Length + "\r\n\r\n";
                         byte[] temp = asciiEncoding.GetBytes(header);
                         stream.Write(temp, 0, temp.Length);
 

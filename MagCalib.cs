@@ -712,7 +712,7 @@ namespace MissionPlanner
             if (extramsg != "")
             {
                 if (CustomMessageBox.Show(Strings.MissingDataPoints, Strings.RunAnyway, MessageBoxButtons.YesNo) ==
-                    DialogResult.No)
+                    (int)DialogResult.No)
                 {
                     sender.doWorkArgs.CancelAcknowledged = true;
                     sender.doWorkArgs.CancelRequested = true;

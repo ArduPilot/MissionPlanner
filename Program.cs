@@ -127,8 +127,13 @@ namespace MissionPlanner
             Application.DoEvents();
             Application.DoEvents();
 
+            CustomMessageBox.ShowEvent += (text, caption, buttons, icon) =>
+            {
+                return (CustomMessageBox.DialogResult)(int)MsgBox.CustomMessageBox.Show(text, caption, (MessageBoxButtons) (int)buttons, (MessageBoxIcon)(int)icon);
+            };
+
             // setup theme provider
-            CustomMessageBox.ApplyTheme += MissionPlanner.Utilities.ThemeManager.ApplyThemeTo;
+            MsgBox.CustomMessageBox.ApplyTheme += MissionPlanner.Utilities.ThemeManager.ApplyThemeTo;
             Controls.MainSwitcher.ApplyTheme += MissionPlanner.Utilities.ThemeManager.ApplyThemeTo;
             MissionPlanner.Controls.InputBox.ApplyTheme += MissionPlanner.Utilities.ThemeManager.ApplyThemeTo;
             Controls.BackstageView.BackstageViewPage.ApplyTheme += MissionPlanner.Utilities.ThemeManager.ApplyThemeTo;
@@ -213,6 +218,8 @@ namespace MissionPlanner
 
             tmp.GenerateMAVLinkPacket20(MAVLink.MAVLINK_MSG_ID.HEARTBEAT, hb, true);
             tmp.GenerateMAVLinkPacket20(MAVLink.MAVLINK_MSG_ID.HEARTBEAT, hb, true);
+
+            var msg = new MAVLink.MAVLinkMessage(t2);
 
 
             try
@@ -426,10 +433,10 @@ namespace MissionPlanner
 
             log.Info("Th Name " + Thread.Name);
 
-            DialogResult dr =
+            var dr =
                 CustomMessageBox.Show("An error has occurred\n" + ex.ToString() + "\n\nReport this Error???",
                     "Send Error", MessageBoxButtons.YesNo);
-            if (DialogResult.Yes == dr)
+            if ((int)DialogResult.Yes == dr)
             {
                 try
                 {

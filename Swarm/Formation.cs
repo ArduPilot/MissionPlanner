@@ -143,7 +143,7 @@ namespace MissionPlanner.Swarm
                             port.setPositionTargetGlobalInt(mav.sysid, mav.compid, true,
                                 true, false, false,
                                 MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT_INT, target.Lat, target.Lng, target.Alt, vel.x,
-                                vel.y, -vel.z, 0, 0);
+                                vel.y, vel.z, 0, 0);
 
                             // do yaw
                             if (!gimbal)

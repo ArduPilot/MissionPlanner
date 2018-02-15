@@ -54,6 +54,7 @@
             this.but_structtest = new MissionPlanner.Controls.MyButton();
             this.but_armandtakeoff = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.but_dashware = new MissionPlanner.Controls.MyButton();
             this.label26 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
@@ -104,10 +105,16 @@
             this.but_dem = new MissionPlanner.Controls.MyButton();
             this.but_gsttest = new MissionPlanner.Controls.MyButton();
             this.but_proximity = new MissionPlanner.Controls.MyButton();
-            this.but_dashware = new MissionPlanner.Controls.MyButton();
+            this.but_mavinspector = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
-
+            // 
+            // BUT_xplane
+            // 
+            this.BUT_xplane.Location = new System.Drawing.Point(3, 234);
+            this.BUT_xplane.Name = "BUT_xplane";
+            this.BUT_xplane.Size = new System.Drawing.Size(75, 15);
+            this.BUT_xplane.TabIndex = 93;
             // 
             // but_osdvideo
             // 
@@ -246,6 +253,7 @@
             this.BUT_driverclean.Name = "BUT_driverclean";
             this.BUT_driverclean.Size = new System.Drawing.Size(75, 15);
             this.BUT_driverclean.TabIndex = 73;
+            this.BUT_driverclean.Click += new System.EventHandler(this.BUT_driverclean_Click);
             // 
             // BUT_sorttlogs
             // 
@@ -456,6 +464,16 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(406, 548);
             this.tableLayoutPanel1.TabIndex = 57;
+            // 
+            // but_dashware
+            // 
+            this.but_dashware.Location = new System.Drawing.Point(3, 444);
+            this.but_dashware.Name = "but_dashware";
+            this.but_dashware.Size = new System.Drawing.Size(75, 15);
+            this.but_dashware.TabIndex = 92;
+            this.but_dashware.Text = "DashWare";
+            this.but_dashware.UseVisualStyleBackColor = true;
+            this.but_dashware.Click += new System.EventHandler(this.but_dashware_Click);
             // 
             // label26
             // 
@@ -930,20 +948,21 @@
             this.but_proximity.UseVisualStyleBackColor = true;
             this.but_proximity.Click += new System.EventHandler(this.but_proximity_Click);
             // 
-            // but_dashware
+            // but_mavinspector
             // 
-            this.but_dashware.Location = new System.Drawing.Point(3, 444);
-            this.but_dashware.Name = "but_dashware";
-            this.but_dashware.Size = new System.Drawing.Size(75, 15);
-            this.but_dashware.TabIndex = 92;
-            this.but_dashware.Text = "DashWare";
-            this.but_dashware.UseVisualStyleBackColor = true;
-            this.but_dashware.Click += new System.EventHandler(this.but_dashware_Click);
+            this.but_mavinspector.Location = new System.Drawing.Point(424, 236);
+            this.but_mavinspector.Name = "but_mavinspector";
+            this.but_mavinspector.Size = new System.Drawing.Size(37, 23);
+            this.but_mavinspector.TabIndex = 92;
+            this.but_mavinspector.Text = "MAVLink Inspector";
+            this.but_mavinspector.UseVisualStyleBackColor = true;
+            this.but_mavinspector.Click += new System.EventHandler(this.but_mavinspector_Click);
             // 
             // temp
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(830, 595);
+            this.Controls.Add(this.but_mavinspector);
             this.Controls.Add(this.but_proximity);
             this.Controls.Add(this.but_gsttest);
             this.Controls.Add(this.but_dem);
@@ -1059,5 +1078,6 @@
         private Controls.MyButton but_gsttest;
         private Controls.MyButton but_proximity;
         private Controls.MyButton but_dashware;
+        private Controls.MyButton but_mavinspector;
     }
 }

@@ -6,7 +6,7 @@
     <OutputType>Exe</OutputType>
     <StartupObject></StartupObject>
     <Authors>Michael Oborne</Authors>
-    <Version>1.3.52.4</Version>
+    <Version>1.3.52.10</Version>
     <DebugType>full</DebugType>
     <Company>Michael Oborne</Company>
     <Product>Mission Planner</Product>
@@ -79,7 +79,9 @@
     </Reference>
     <Reference Include="System.Configuration" />
     <Reference Include="System.Management" />
-    <Reference Include="System.Speech" />
+    <Reference Include="System.Speech">
+      <Private>true</Private>
+    </Reference>
 
     <Reference Include="System.Web" />
 
@@ -234,6 +236,7 @@
     <PackageReference Include="System.Reactive" Version="3.1.1" />
     <PackageReference Include="System.Reactive.Core" Version="3.1.1" />
     <PackageReference Include="System.Reactive.Linq" Version="3.1.1" />
+    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
 
     <PackageReference Include="Unofficial.ObjectListView" version="2.6.0" targetFramework="net40" />
     <PackageReference Include="Xamarin.Forms" version="2.5.0.91635" targetFramework="net462" />
@@ -241,17 +244,27 @@
   </ItemGroup>
 
     <ItemGroup>
-    <Compile Include="Antenna\Tracker.Designer.cs" />
-    <Compile Include="CodeGen.cs" />
+      <Compile Include="Antenna\Tracker.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Tracker.cs</DependentUpon>
+      </Compile>
+      <Compile Include="CodeGen.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="ConnectionOptions.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Controls\Forms\OpenGLPage.cs" />
     <Compile Include="Controls\Forms\MavlinkCheckBox.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controls\MAVLinkInspector.cs">
+      <SubType>Control</SubType>
+    </Compile>
     <Compile Include="CurrentState.cs" />
     <Compile Include="ElevationProfile.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="FollowMe.cs"> <SubType>Control</SubType> </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigFFT.cs">
+      <SubType>Control</SubType>
+    </Compile>
     <Compile Include="GenOTP.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="L10N.cs" />
     <Compile Include="Log\LogStrings.Designer.cs">
@@ -259,9 +272,13 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>LogStrings.resx</DependentUpon>
     </Compile>
+    <Compile Include="Log\MatLabForms.cs" />
     <Compile Include="MagCalib.cs" />
     <Compile Include="Magfitrotation.cs" />
     <Compile Include="MainV2.cs"> <SubType>Control</SubType> </Compile>
+    <Compile Include="Mavlink\MAVInspector.cs" />
+    <Compile Include="Models\DelegateCommand.cs" />
+    <Compile Include="Models\ICommand.cs" />
     <Compile Include="MovingBase.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="OpenGLtest.cs" />
     <Compile Include="OpenGLtest2.cs" />
@@ -318,7 +335,6 @@
     <Compile Include="Controls\PreFlight\CheckListEditor.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Controls\PreFlight\CheckListInput.cs" />
     <Compile Include="Controls\PreFlight\CheckListItem.cs" />
-    <Compile Include="Controls\Waypoints\Spline2.cs" />
     <Compile Include="GCSViews\FlightData.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="GCSViews\FlightPlanner.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="GCSViews\Help.cs"> <SubType>Control</SubType> </Compile>
@@ -370,10 +386,6 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigTradHeli.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigWizard.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="GeoRef\georefimage.cs"> <SubType>Control</SubType> </Compile>
-    <Compile Include="GeoRef\PictureInformation.cs" />
-    <Compile Include="GeoRef\Rational.cs" />
-    <Compile Include="GeoRef\SingleLocation.cs" />
-    <Compile Include="GeoRef\VehicleLocation.cs" />
     <Compile Include="Grid\GridPlugin.cs" />
     <Compile Include="Grid\GridUI.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="HIL\Aircraft.cs" />
@@ -389,14 +401,12 @@
     <Compile Include="Joystick\Joy_Do_Set_Relay.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Joystick\Joy_Do_Set_Servo.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Joystick\Joy_Mount_Mode.cs"> <SubType>Control</SubType> </Compile>
-    <Compile Include="Log\DFLogScript.cs" />
     <Compile Include="Log\LogBrowse.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Log\LogDownload.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Log\LogDownloadMavLink.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Log\LogDownloadscp.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Log\LogIndex.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Log\LogSort.cs" />
-    <Compile Include="Log\MatLab.cs" />
     <Compile Include="Log\MavlinkLog.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Log\Scan.cs" />
     <Compile Include="Log\test\MotorFailure.cs" />
@@ -430,8 +440,6 @@
     <Compile Include="Mavlink\MAVLinkSerialPort.cs" />
     <Compile Include="Mavlink\MAVList.cs" />
     <Compile Include="Mavlink\MAVState.cs" />
-    <Compile Include="Models\DelegateCommand.cs" />
-    <Compile Include="Models\ICommand.cs" />
     <Compile Include="NoFly\NoFly.cs" />
     <Compile Include="Plugin\Plugin.cs" />
     <Compile Include="Plugin\PluginLoader.cs" />
@@ -479,12 +487,6 @@
     <Compile Include="Utilities\MeasureString.cs" />
     <Compile Include="Utilities\NGEN.cs" />
     <Compile Include="Utilities\OpticalFlow.cs" />
-    <Compile Include="Utilities\ParameterMetaDataConstants.cs" />
-    <Compile Include="Utilities\ParameterMetaDataParser.cs" />
-    <Compile Include="Utilities\ParameterMetaDataRepository.cs" />
-    <Compile Include="Utilities\ParameterMetaDataRepositoryAPM.cs" />
-    <Compile Include="Utilities\ParameterMetaDataRepositoryAPMpdef.cs" />
-    <Compile Include="Utilities\ParameterMetaDataRepositoryPX4.cs" />
     <Compile Include="Utilities\ParamFile.cs" />
     <Compile Include="Utilities\Password.cs" />
     <Compile Include="Utilities\POI.cs" />
@@ -720,6 +722,7 @@
     <EmbeddedResource Include="ConnectionOptions.ko-KR.resx"><DependentUpon>ConnectionOptions.cs</DependentUpon> </EmbeddedResource>
     <EmbeddedResource Include="ConnectionOptions.pt.resx"><DependentUpon>ConnectionOptions.cs</DependentUpon> </EmbeddedResource>
     <EmbeddedResource Include="ConnectionOptions.zh-Hans.resx"><DependentUpon>ConnectionOptions.cs</DependentUpon> </EmbeddedResource>
+    <EmbeddedResource Include="Controls\MAVLinkInspector.resx" />
     <EmbeddedResource Include="ElevationProfile.resx"><DependentUpon>ElevationProfile.cs</DependentUpon> </EmbeddedResource>
     <EmbeddedResource Include="FollowMe.resx"><DependentUpon>FollowMe.cs</DependentUpon> </EmbeddedResource>
     <EmbeddedResource Include="FollowMe.ar.resx"><DependentUpon>FollowMe.cs</DependentUpon> </EmbeddedResource>
@@ -1948,13 +1951,15 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Comms\" />
-  </ItemGroup>
 
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="&quot;$(TargetDir)version.exe&quot; &quot;$(TargetPath)&quot; &gt; &quot;$(TargetDir)version.txt&quot;" />
+    <Exec Command="&quot;$(TargetDir)version.exe&quot; &quot;$(TargetPath)&quot; &gt; &quot;$(TargetDir)version.txt&quot;&#xD;&#xA;" />
+  </Target>
+
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="echo $(TargetDir)" />
   </Target>
 
 

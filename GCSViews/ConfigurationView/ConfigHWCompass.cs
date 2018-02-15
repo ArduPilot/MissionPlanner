@@ -634,7 +634,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 if (
                     CustomMessageBox.Show("is the FW version greater than APM:copter 3.01 or APM:Plane 2.74?", "",
-                        MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
                 {
                     CMB_compass1_orient.SelectedIndex = (int) Rotation.ROTATION_NONE;
                 }
