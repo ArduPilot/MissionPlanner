@@ -72,6 +72,44 @@ namespace MissionPlanner.GCSViews
 
         List<int> groupmarkers = new List<int>();
 
+        //Releif Shading Parameters
+        double normvalue = 0;
+        byte[] colors = new byte[] { 220, 226, 232, 233, 244, 250, 214, 142, 106 }; //Colors: Red - Yellow - Green
+        byte[] colors2 = new byte[] { 195, 189, 123, 80, 81, 45, 51, 57, 105, 111, 75, 74, 70, 72, 106, 108, 142, 178, 214, 215, 250, 244, 239, 238, 233, 232, 226, 220 }; //Colors: Blue - Green - Yellow - Red
+        byte[,] imageData;
+        double[,] alts;
+        PointLatLng prev_position;
+        int prev_height = 0;
+        int prev_width = 0;
+        double prev_zoom = 0;
+        int width; //width of map
+        int height; //height of map
+        int res; //resolution
+        int extend = 384; //elevation extention
+        double rel; //relative elevation between drone and ground
+        float clearance;
+        int prev_res;
+        double drone_alt = 10;
+        double max_alt;
+        double min_alt;
+        PointLatLng prev_home;
+        double prev_range;
+        double prev_alt;
+        double prev_altel;
+        double prev_alt2;
+
+        PointLatLng lnglat = new PointLatLng();
+
+        Thread elevation2; //Map Overlay Thread
+        bool ele_run = false;
+        bool ter_run = false;
+        bool ele_enabled;
+        bool switched;
+        bool eleswitch;
+        bool switchedhorizon;
+
+        internal static GMapOverlay elevationoverlay;
+
         public enum altmode
         {
             Relative = MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT,
@@ -616,6 +654,15 @@ namespace MissionPlanner.GCSViews
             drawnpolygonsoverlay = new GMapOverlay("drawnpolygons");
             MainMap.Overlays.Add(drawnpolygonsoverlay);
 
+            elevationoverlay = new GMapOverlay("elevation overlay");
+            MainMap.Overlays.Add(elevationoverlay);
+
+            LineOfSight = new GMapOverlay("LineOfSight");
+            MainMap.Overlays.Add(LineOfSight);
+
+            Horizon = new GMapOverlay("Horizon");
+            MainMap.Overlays.Add(Horizon);
+
             MainMap.Overlays.Add(poioverlay);
 
             top = new GMapOverlay("top");
@@ -946,6 +993,11 @@ namespace MissionPlanner.GCSViews
             updateDisplayView();
 
             timer1.Start();
+
+            elevation2 = new Thread(elevation_calc);
+            elevation2.Name = "elevation2";
+            elevation2.IsBackground = true;
+            elevation2.Start();
         }
 
 
@@ -3105,6 +3157,8 @@ namespace MissionPlanner.GCSViews
         GMapOverlay kmlpolygonsoverlay;
         GMapOverlay geofenceoverlay;
         static GMapOverlay rallypointoverlay;
+        public static GMapOverlay LineOfSight;
+        public static GMapOverlay Horizon;
 
         // etc
         readonly Random rnd = new Random();
@@ -7104,6 +7158,302 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
         private void Commands_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
         {
             writeKML();
+        }
+
+        private void chk_Rel_Elevation_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chk_Rel_Elevation.Checked)
+            {
+                ele_run = true;
+                eleswitch = true;
+            }
+
+            else
+            {
+                ele_run = false;
+                elevationoverlay.Markers.Clear();
+            }
+        }
+
+        private void chk_Elevation_CheckedChanged(object sender, EventArgs e)
+        {
+            if(chk_Elevation.Checked)
+            {
+                ter_run = true;
+                eleswitch = true;
+            }
+
+            else
+            {
+                ter_run = false;
+                elevationoverlay.Markers.Clear();
+            }
+        }
+
+        private void chk_sight_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chk_sight.Checked)
+            {
+                switched = true;
+            }
+
+            else
+            {
+                LineOfSight.Markers.Clear();
+
+            }
+        }
+
+        private void chk_horizon_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chk_horizon.Checked)
+            {
+                switchedhorizon = true;
+            }
+
+            else
+            {
+                Horizon.Markers.Clear();
+
+            }
+        }
+
+        private void NUM_alt_ValueChanged(object sender, EventArgs e)
+        {
+            drone_alt = (double) NUM_alt.Value;
+        }
+
+        void elevation_calc()
+        {
+            ele_enabled = true;
+
+            while (ele_enabled)
+            {
+                //
+                // Color gradient
+                //
+                if (ele_run == false && ter_run == false && elevationoverlay.Markers.Count > 0)
+                {
+                    elevationoverlay.Markers.RemoveAt(0);
+                }
+
+                if (ele_run || ter_run)
+                {
+                    width = MainMap.Width / 4;
+
+                    res = Settings.Instance.GetInt32("Resolution");
+                    height = MainMap.Height / res;
+
+                    if (center.Position != prev_position || MainMap.Height != prev_height || MainMap.Width != prev_width || MainMap.Zoom != prev_zoom || eleswitch || prev_altel != drone_alt)
+                    {
+                        eleswitch = false;
+
+                        if (MainMap.Height != prev_height || MainMap.Width != prev_width || res != prev_res)
+                        {
+                            imageData = new byte[(width * 4 + extend), (height*res+10 + extend)];
+                            alts = new double[(width * 4 + extend), (height*res+10 + extend)];
+                        }
+
+                        if (center.Position != prev_position || MainMap.Zoom != prev_zoom)
+                        {
+                            max_alt = srtm.getAltitude(center.Position.Lat, center.Position.Lng).alt;
+                            min_alt = max_alt;
+
+                            for (int y = res / 2; y < MainMap.Height + extend + 1 - res; y += res)
+                            {
+                                for (int x = res / 2; x < width * 4 + extend - res; x += res)
+                                {
+
+                                    lnglat = MainMap.FromLocalToLatLng(x - extend / 2, y - extend / 2);
+                                    alts[x, y] = (srtm.getAltitude(lnglat.Lat, lnglat.Lng).alt);
+
+                                    if (ter_run)
+                                    {
+                                        if (max_alt < (srtm.getAltitude(lnglat.Lat, lnglat.Lng).alt))
+                                        {
+                                            max_alt = (srtm.getAltitude(lnglat.Lat, lnglat.Lng).alt);
+                                        }
+
+                                        if (min_alt > (srtm.getAltitude(lnglat.Lat, lnglat.Lng).alt))
+                                        {
+                                            min_alt = (srtm.getAltitude(lnglat.Lat, lnglat.Lng).alt);
+
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        for (int y = res / 2; y < height*res + extend- res; y += res)
+                        {
+                            for (int x = res / 2; x < width * 4 + extend - res; x += res)
+                            {
+                                if (ele_run)
+                                {
+                                    rel = (drone_alt + MainV2.comPort.MAV.cs.HomeAlt) - alts[x, y];
+
+                                    normalize(rel);
+
+                                    /*
+                                    //diagonal pattern
+                                    for (int i = -res / 2; i < res / 2; i++)
+                                    {
+                                        imageData[x + i, y + i] = Gradient_byte(normvalue,colors);
+                                    }
+                                    */
+
+                                    //Square pattern
+                                    for (int i = -res / 2; i <= res / 2; i++)
+                                    {
+                                        for (int j = -res / 2; j <= res / 2; j++)
+                                        {
+                                            imageData[x + i, y + j] = Gradient_byte(normvalue,colors);
+                                        }
+                                    }
+                                }
+
+                                else if (ter_run)
+                                {
+
+                                    normalize(alts[x, y]);
+
+                                    /*
+                                    //diagonal pattern
+                                    for (int i = -res / 2; i <= res / 2; i++)
+                                    {
+                                        imageData[x + i, y + i] = Gradient_byte(normvalue,colors2);
+                                    }
+                                    */
+                                    
+                                    //Square pattern
+                                    for (int i = -res / 2; i <= res / 2; i++)
+                                    {
+                                        for (int j = -res / 2; j <= res / 2; j++)
+                                        {
+                                            imageData[x + i, y + j] = Gradient_byte(normvalue,colors2);
+                                        }
+                                    }
+
+                                }
+                            }
+                        }
+
+                        elevationoverlay.Markers.Add(new GMapMarkerElevation(imageData, MainMap.Width + extend, MainMap.Height + extend, center.Position));
+                        if (elevationoverlay.Markers.Count > 1)
+                        {
+                            elevationoverlay.Markers.RemoveAt(0);
+                        }
+
+                        prev_position = center.Position;
+                        prev_height = MainMap.Height;
+                        prev_width = MainMap.Width;
+                        prev_zoom = MainMap.Zoom;
+                        prev_res = res;
+                        prev_altel = drone_alt;
+                    }
+                }
+
+                //
+                // Propagation
+                //
+                if (chk_sight.Checked == false && LineOfSight.Markers.Count > 0)
+                {
+                    //LineOfSight.Markers.RemoveAt(0);
+                }
+                if (chk_sight.Checked)
+                {
+                    if (prev_home != MainV2.comPort.MAV.cs.HomeLocation || switched || prev_range != Settings.Instance.GetFloat("NUM_range") || prev_alt2 != drone_alt)
+                    {
+                        switched = false;
+                        List<PointLatLng> pointslist = new List<PointLatLng>();
+
+
+                        SightGen t = new SightGen(MainV2.comPort.MAV.cs.HomeLocation, pointslist, MainV2.comPort.MAV.cs.HomeAlt, drone_alt);
+
+                        LineOfSight.Markers.Add(new GMapMarkerSight(MainV2.comPort.MAV.cs.HomeLocation, pointslist,true,false));
+
+                        if (LineOfSight.Markers.Count > 1)
+                        {
+                            LineOfSight.Markers.RemoveAt(0);
+                        }
+
+                        prev_home = MainV2.comPort.MAV.cs.HomeLocation; ;
+                        prev_range = Settings.Instance.GetFloat("NUM_range");
+                        prev_alt2 = drone_alt;
+                    }
+                }
+
+                if (chk_horizon.Checked == false && Horizon.Markers.Count > 0)
+                {
+                    //Horizon.Markers.RemoveAt(0);
+                }
+
+                if (chk_horizon.Checked)
+                {
+                    if (prev_home != MainV2.comPort.MAV.cs.HomeLocation || switchedhorizon || prev_range != Settings.Instance.GetFloat("NUM_range"))
+                    {
+                        switchedhorizon = false;
+                        List<PointLatLng> horizonlist = new List<PointLatLng>();
+
+                        HorizonGen b = new HorizonGen(MainV2.comPort.MAV.cs.HomeLocation, horizonlist, MainV2.comPort.MAV.cs.HomeAlt);
+
+                        Horizon.Markers.Add(new GMapMarkerSight(MainV2.comPort.MAV.cs.HomeLocation, horizonlist,true,true));
+
+                        if (Horizon.Markers.Count > 1)
+                        {
+                            Horizon.Markers.RemoveAt(0);
+                        }
+
+                        prev_home = MainV2.comPort.MAV.cs.HomeLocation;
+                        prev_range = Settings.Instance.GetFloat("NUM_range");
+                    }
+                }
+
+                Thread.Sleep(500);
+            }
+
+        }
+
+        private byte Gradient_byte(double value, byte[] colr)
+        {
+            byte val = 0;
+            if (value == 1)
+            {
+                val = colr[(int)(colr.Length * (value)) - 1];
+            }
+
+            else
+            {
+                val = colr[(int)(colr.Length * (value))];
+            }
+
+            return val;
+
+        }
+
+        private void normalize(double value)
+        {
+            if (ele_run)
+            {
+                clearance = Settings.Instance.GetFloat("Clearance"); //metres
+                normvalue = value / clearance; 
+            }
+
+            else if (ter_run)
+            {
+                normvalue = (value - min_alt) / (max_alt - min_alt);
+            }
+
+            if (normvalue < 0)
+            {
+                normvalue = 0;
+            }
+
+            else if (normvalue > 1)
+            {
+                normvalue = 1;
+            }
+
         }
     }
 }

@@ -172,6 +172,11 @@
             this.label1 = new MissionPlanner.Controls.MyLabel();
             this.CHK_autopan = new System.Windows.Forms.CheckBox();
             this.CB_tuning = new System.Windows.Forms.CheckBox();
+            this.rel_elevation = new System.Windows.Forms.CheckBox();
+            this.Elevation_overlay = new System.Windows.Forms.CheckBox();
+            this.CHK_RF = new System.Windows.Forms.CheckBox();
+            this.drone_kmleft = new System.Windows.Forms.CheckBox();
+            this.home_kmleft = new System.Windows.Forms.CheckBox();
             this.ZedGraphTimer = new System.Windows.Forms.Timer(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.openScriptDialog = new System.Windows.Forms.OpenFileDialog();
@@ -2190,6 +2195,11 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.CHK_autopan);
             this.panel1.Controls.Add(this.CB_tuning);
+            this.panel1.Controls.Add(this.rel_elevation);
+            this.panel1.Controls.Add(this.Elevation_overlay);
+            this.panel1.Controls.Add(this.CHK_RF);
+            this.panel1.Controls.Add(this.drone_kmleft);
+            this.panel1.Controls.Add(this.home_kmleft);
             resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
             // 
@@ -2258,6 +2268,44 @@
             this.toolTip1.SetToolTip(this.CB_tuning, resources.GetString("CB_tuning.ToolTip"));
             this.CB_tuning.UseVisualStyleBackColor = true;
             this.CB_tuning.CheckedChanged += new System.EventHandler(this.CB_tuning_CheckedChanged);
+            // 
+            // rel_elevation
+            // 
+            resources.ApplyResources(this.rel_elevation, "rel_elevation");
+            this.rel_elevation.Name = "rel_elevation";
+            this.toolTip1.SetToolTip(this.rel_elevation, resources.GetString("rel_elevation.ToolTip"));
+            this.rel_elevation.UseVisualStyleBackColor = true;
+            this.rel_elevation.CheckedChanged += new System.EventHandler(this.rel_elevation_CheckedChanged);
+            // 
+            // Elevation_overlay
+            // 
+            resources.ApplyResources(this.Elevation_overlay, "Elevation_overlay");
+            this.Elevation_overlay.Name = "Elevation_overlay";
+            this.toolTip1.SetToolTip(this.Elevation_overlay, resources.GetString("Elevation_overlay.ToolTip"));
+            this.Elevation_overlay.UseVisualStyleBackColor = true;
+            this.Elevation_overlay.CheckedChanged += new System.EventHandler(this.Elevation_overlay_CheckedChanged);
+            // 
+            // CHK_RF
+            // 
+            resources.ApplyResources(this.CHK_RF, "CHK_RF");
+            this.CHK_RF.Name = "CHK_RF";
+            this.toolTip1.SetToolTip(this.CHK_RF, resources.GetString("CHK_RF.ToolTip"));
+            this.CHK_RF.UseVisualStyleBackColor = true;
+            this.CHK_RF.CheckedChanged += new System.EventHandler(this.CHK_RF_CheckedChanged);
+            // 
+            // drone_kmleft
+            // 
+            resources.ApplyResources(this.drone_kmleft, "drone_kmleft");
+            this.drone_kmleft.Name = "drone_kmleft";
+            this.toolTip1.SetToolTip(this.drone_kmleft, resources.GetString("drone_kmleft.ToolTip"));
+            this.drone_kmleft.UseVisualStyleBackColor = true;
+            // 
+            // home_kmleft
+            // 
+            resources.ApplyResources(this.home_kmleft, "home_kmleft");
+            this.home_kmleft.Name = "home_kmleft";
+            this.toolTip1.SetToolTip(this.home_kmleft, resources.GetString("home_kmleft.ToolTip"));
+            this.home_kmleft.UseVisualStyleBackColor = true;
             // 
             // ZedGraphTimer
             // 
@@ -2387,6 +2435,8 @@
         private Controls.HUD hud1;
         private Controls.MyButton BUT_clear_track;
         private System.Windows.Forms.CheckBox CB_tuning;
+        private System.Windows.Forms.CheckBox Elevation_overlay;
+        private System.Windows.Forms.CheckBox rel_elevation;
         private Controls.MyButton BUT_RAWSensor;
         private Controls.MyButton BUTactiondo;
         private Controls.MyButton BUTrestartmission;
@@ -2403,6 +2453,9 @@
         private System.Windows.Forms.NumericUpDown Zoomlevel;
         private Controls.MyLabel label1;
         private System.Windows.Forms.CheckBox CHK_autopan;
+        private System.Windows.Forms.CheckBox CHK_RF;
+        private System.Windows.Forms.CheckBox drone_kmleft;
+        private System.Windows.Forms.CheckBox home_kmleft;
         public Controls.myGMAP gMapControl1;
         private ZedGraph.ZedGraphControl zg1;
         public System.Windows.Forms.TabControl tabControlactions;

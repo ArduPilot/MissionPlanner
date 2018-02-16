@@ -121,6 +121,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             // this can't fail because it set at startup
             NUM_tracklength.Value = Settings.Instance.GetInt32("NUM_tracklength");
+            Clearance.Value = (decimal) Settings.Instance.GetFloat("Clearance");
+            NUM_range.Value = (decimal) Settings.Instance.GetFloat("NUM_range");
+            NUM_height.Value = (decimal) Settings.Instance.GetFloat("NUM_height");
+            Tolerance.Value = (decimal) Settings.Instance.GetFloat("Tolerance");
 
             // get wps on connect
             SetCheckboxFromConfig("loadwpsonconnect", CHK_loadwponconnect);
@@ -133,6 +137,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             CMB_raterc.Text = MainV2.comPort.MAV.cs.raterc.ToString();
             CMB_ratestatus.Text = MainV2.comPort.MAV.cs.ratestatus.ToString();
             CMB_ratesensors.Text = MainV2.comPort.MAV.cs.ratesensors.ToString();
+
 
             SetCheckboxFromConfig("analyticsoptout", chk_analytics);
 
@@ -162,6 +167,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CMB_distunits.Text = Settings.Instance["distunits"].ToString();
             if (Settings.Instance["speedunits"] != null)
                 CMB_speedunits.Text = Settings.Instance["speedunits"].ToString();
+            if (Settings.Instance["Resolution"] != null)
+                CMB_Resolution.Text = Settings.Instance["Resolution"].ToString();
+            if (Settings.Instance["Rotational"] != null)
+                CMB_Rotational.Text = Settings.Instance["Rotational"].ToString();
+            if (Settings.Instance["Converge"] != null)
+                CMB_Angular.Text = Settings.Instance["Converge"].ToString();
 
             try
             {
@@ -926,9 +937,53 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             Settings.Instance["autoParamCommit"] = CHK_AutoParamCommit.Checked.ToString();
         }
 
+        private void CMB_Resolution_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (startup)
+                return;
+
+            Settings.Instance["Resolution"] = CMB_Resolution.Text;
+        }
+        
         private void chk_shownofly_CheckedChanged(object sender, EventArgs e)
         {
             Settings.Instance["ShowNoFly"] = chk_shownofly.Checked.ToString();
+        }
+        
+        private void Clearance_ValueChanged(object sender, EventArgs e)
+        {
+            Settings.Instance["Clearance"] = Clearance.Value.ToString();
+        }
+
+        private void CMB_Rotational_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (startup)
+                return;
+
+            Settings.Instance["Rotational"] = CMB_Rotational.Text;
+        }
+
+        private void CMB_Angular_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (startup)
+                return;
+
+            Settings.Instance["Converge"] = CMB_Angular.Text;
+        }
+
+        private void NUM_range_ValueChanged(object sender, EventArgs e)
+        {
+            Settings.Instance["NUM_range"] = NUM_range.Value.ToString();
+        }
+
+        private void NUM_height_ValueChanged(object sender, EventArgs e)
+        {
+            Settings.Instance["NUM_height"] = NUM_height.Value.ToString();
+        }
+
+        private void Tolerance_ValueChanged(object sender, EventArgs e)
+        {
+            Settings.Instance["Tolerance"] = Tolerance.Value.ToString();
         }
     }
 }

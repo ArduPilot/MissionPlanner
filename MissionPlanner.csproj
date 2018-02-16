@@ -276,7 +276,10 @@
     <Compile Include="MagCalib.cs" />
     <Compile Include="Magfitrotation.cs" />
     <Compile Include="MainV2.cs"> <SubType>Control</SubType> </Compile>
+    <Compile Include="Maps\GMapMarkerDistance.cs" />
     <Compile Include="Mavlink\MAVInspector.cs" />
+    <Compile Include="Maps\GMapMarkerElevation.cs" />
+    <Compile Include="Maps\GMapMarkerSight.cs" />
     <Compile Include="Models\DelegateCommand.cs" />
     <Compile Include="Models\ICommand.cs" />
     <Compile Include="MovingBase.cs"> <SubType>Control</SubType> </Compile>
@@ -481,6 +484,7 @@
     <Compile Include="Utilities\fftui.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Utilities\Firmware.cs" />
     <Compile Include="Utilities\GimbalPoint.cs" />
+    <Compile Include="Utilities\HorizonGen.cs" />
     <Compile Include="Utilities\httpserver.cs" />
     <Compile Include="Utilities\LangUtility.cs" />
     <Compile Include="Utilities\LogAnalyzer.cs" />
@@ -491,6 +495,7 @@
     <Compile Include="Utilities\Password.cs" />
     <Compile Include="Utilities\POI.cs" />
     <Compile Include="Utilities\Proximity.cs" />
+    <Compile Include="Utilities\SightGen.cs" />
     <Compile Include="Utilities\Speech.cs" />
     <Compile Include="Utilities\StreamCombiner.cs" />
     <Compile Include="Utilities\StringRedirectWriter.cs" />
