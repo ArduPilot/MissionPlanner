@@ -19,7 +19,7 @@
     <EnableDefaultItems>false</EnableDefaultItems>
     <EnableDefaultNoneItems>false</EnableDefaultNoneItems>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-  </PropertyGroup>
+ </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)'=='Debug' ">
     <BumpRevision>false</BumpRevision>
     <BumpResetLabel>dev</BumpResetLabel>
@@ -230,6 +230,7 @@
     <PackageReference Include="SharpDX" version="4.0.1" targetFramework="net462" />
     <PackageReference Include="SharpDX.DirectInput" version="4.0.1" targetFramework="net462" />
     <PackageReference Include="SharpZipLib" version="0.86.0" targetFramework="net40" />
+    <PackageReference Include="SkiaSharp" Version="1.59.3" />
     <PackageReference Include="SSH.NET" version="2016.0.0" targetFramework="net40" />
     <PackageReference Include="System.Drawing.Common" Version="4.5.0-preview1-25914-04" />
     <PackageReference Include="System.IO.Ports" Version="4.4.0" />
@@ -1961,6 +1962,13 @@
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec Command="echo $(TargetDir)" />
   </Target>
+
+
+  <ItemGroup>
+    <None Update="C:\Users\hog\.nuget\packages\skiasharp\1.59.3\build\net45\..\..\runtimes\win7-x64\native\libSkiaSharp.dll">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 
 
 </Project>

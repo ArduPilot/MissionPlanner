@@ -58,6 +58,25 @@ namespace MissionPlanner
 
             static public int SW_SHOWNORMAL = 1;
             static public int SW_HIDE = 0;
+
+            [DllImport("kernel32.dll", SetLastError = true)]
+            public static extern IntPtr LoadLibraryEx(string lpFileName, IntPtr hReservedNull, LoadLibraryFlags dwFlags);
+
+            [System.Flags]
+            public enum LoadLibraryFlags : uint
+            {
+                DONT_RESOLVE_DLL_REFERENCES = 0x00000001,
+                LOAD_IGNORE_CODE_AUTHZ_LEVEL = 0x00000010,
+                LOAD_LIBRARY_AS_DATAFILE = 0x00000002,
+                LOAD_LIBRARY_AS_DATAFILE_EXCLUSIVE = 0x00000040,
+                LOAD_LIBRARY_AS_IMAGE_RESOURCE = 0x00000020,
+                LOAD_LIBRARY_SEARCH_APPLICATION_DIR = 0x00000200,
+                LOAD_LIBRARY_SEARCH_DEFAULT_DIRS = 0x00001000,
+                LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR = 0x00000100,
+                LOAD_LIBRARY_SEARCH_SYSTEM32 = 0x00000800,
+                LOAD_LIBRARY_SEARCH_USER_DIRS = 0x00000400,
+                LOAD_WITH_ALTERED_SEARCH_PATH = 0x00000008
+            }
         }
 
         public static menuicons displayicons = new burntkermitmenuicons();
@@ -537,6 +556,18 @@ namespace MissionPlanner
 
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
 
+            try
+            {
+                if (Environment.Is64BitProcess)
+                {
+                    var skia = NativeMethods.LoadLibraryEx("x64/libSkiaSharp.dll", IntPtr.Zero, 0);
+                }
+                else
+                {
+                    var skia = NativeMethods.LoadLibraryEx("x86/libSkiaSharp.dll", IntPtr.Zero, 0);
+                }
+            } catch { }
+
             // set this before we reset it
             Settings.Instance["NUM_tracklength"] = "200";
 
@@ -980,6 +1011,8 @@ namespace MissionPlanner
                 MenuDonate.Text = "";
                 MenuDonate.Image = Program.Logo;
             }
+
+
 
             Application.DoEvents();
 
