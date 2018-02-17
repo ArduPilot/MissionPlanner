@@ -275,6 +275,12 @@ namespace MissionPlanner.Controls
             }
         }
 
+        public string distunit { get; set; }
+
+        public string speedunit { get; set; }
+
+        public string altunit { get; set; }
+
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
         public float alt
         {
@@ -2202,7 +2208,7 @@ namespace MissionPlanner.Controls
 
                     graphicsObject.DrawPolygon(this._blackPen, arrow);
                     graphicsObject.FillPolygon(Brushes.Black, arrow);
-                    drawstring(graphicsObject, (speed).ToString("0"), font, 10, (SolidBrush) Brushes.AliceBlue, 0, -9);
+                    drawstring(graphicsObject, (speed).ToString("0")+speedunit, font, 10, (SolidBrush) Brushes.AliceBlue, 0, -9);
 
                     graphicsObject.ResetTransform();
 
@@ -2210,23 +2216,23 @@ namespace MissionPlanner.Controls
 
                     if (_lowairspeed)
                     {
-                        drawstring(graphicsObject, HUDT.AS + _airspeed.ToString("0.0"), font, fontsize,
+                        drawstring(graphicsObject, HUDT.AS + _airspeed.ToString("0.0")+speedunit, font, fontsize,
                             (SolidBrush) Brushes.Red, 1, scrollbg.Bottom + 5);
                     }
                     else
                     {
-                        drawstring(graphicsObject, HUDT.AS + _airspeed.ToString("0.0"), font, fontsize, _whiteBrush, 1,
+                        drawstring(graphicsObject, HUDT.AS + _airspeed.ToString("0.0") + speedunit, font, fontsize, _whiteBrush, 1,
                             scrollbg.Bottom + 5);
                     }
 
                     if (_lowgroundspeed)
                     {
-                        drawstring(graphicsObject, HUDT.GS + _groundspeed.ToString("0.0"), font, fontsize,
+                        drawstring(graphicsObject, HUDT.GS + _groundspeed.ToString("0.0") + speedunit, font, fontsize,
                             (SolidBrush) Brushes.Red, 1, scrollbg.Bottom + fontsize + 2 + 10);
                     }
                     else
                     {
-                        drawstring(graphicsObject, HUDT.GS + _groundspeed.ToString("0.0"), font, fontsize, _whiteBrush,
+                        drawstring(graphicsObject, HUDT.GS + _groundspeed.ToString("0.0") + speedunit, font, fontsize, _whiteBrush,
                             1, scrollbg.Bottom + fontsize + 2 + 10);
                     }
                 }
@@ -2382,14 +2388,14 @@ namespace MissionPlanner.Controls
                     graphicsObject.ResetTransform();
                     graphicsObject.TranslateTransform(0, this.Height / 2);
 
-                    drawstring(graphicsObject, ((int) _alt).ToString("0"), font, 10, (SolidBrush) Brushes.AliceBlue,
+                    drawstring(graphicsObject, ((int) _alt).ToString("0 ") + altunit, font, 10, (SolidBrush) Brushes.AliceBlue,
                         scrollbg.Left + 10, -9);
                     graphicsObject.ResetTransform();
 
                     // mode and wp dist and wp
                     drawstring(graphicsObject, _mode, font, fontsize, _whiteBrush, scrollbg.Left - 30,
                         scrollbg.Bottom + 5);
-                    drawstring(graphicsObject, (int) _disttowp + ">" + _wpno, font, fontsize, _whiteBrush,
+                    drawstring(graphicsObject, (int) _disttowp +distunit + ">" + _wpno, font, fontsize, _whiteBrush,
                         scrollbg.Left - 30, scrollbg.Bottom + fontsize + 2 + 10);
                 }
 
