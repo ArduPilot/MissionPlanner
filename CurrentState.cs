@@ -32,6 +32,8 @@ namespace MissionPlanner
         public static string DistanceUnit = "";
         public static float multiplierspeed = 1;
         public static string SpeedUnit = "";
+        public static float multiplieralt = 1;
+        public static string AltUnit = "";
 
         public static double toDistDisplayUnit(double input)
         {
@@ -116,7 +118,7 @@ namespace MissionPlanner
         [DisplayText("Altitude (dist)")]
         public float alt
         {
-            get { return (_alt - altoffsethome)*multiplierdist; }
+            get { return (_alt - altoffsethome)* multiplieralt; }
             set
             {
                 // check update rate, and ensure time hasnt gone backwards                
@@ -139,7 +141,7 @@ namespace MissionPlanner
         [DisplayText("Altitude (dist)")]
         public float altasl
         {
-            get { return _altasl*multiplierdist; }
+            get { return _altasl* multiplieralt; }
             set { _altasl = value; }
         }
 
@@ -535,7 +537,7 @@ namespace MissionPlanner
         [DisplayText("Altitude Error (dist)")]
         public float alt_error
         {
-            get { return _alt_error*multiplierdist; }
+            get { return _alt_error* multiplieralt; }
             set
             {
                 if (_alt_error == value) return;

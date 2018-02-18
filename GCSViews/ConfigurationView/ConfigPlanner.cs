@@ -54,6 +54,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // set distance/speed unit states
             CMB_distunits.DataSource = Enum.GetNames(typeof (Common.distances));
             CMB_speedunits.DataSource = Enum.GetNames(typeof (Common.speeds));
+            CMB_altunits.DataSource = Enum.GetNames(typeof(Common.altitudes));
 
             CMB_theme.DataSource = Enum.GetNames(typeof (ThemeManager.Themes));
 
@@ -929,6 +930,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void chk_shownofly_CheckedChanged(object sender, EventArgs e)
         {
             Settings.Instance["ShowNoFly"] = chk_shownofly.Checked.ToString();
+        }
+
+        private void CMB_altunits_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (startup)
+                return;
+            Settings.Instance["altunits"] = CMB_altunits.Text;
+            MainV2.instance.ChangeUnits();
         }
     }
 }

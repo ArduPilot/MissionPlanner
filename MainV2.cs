@@ -3529,6 +3529,28 @@ namespace MissionPlanner
                     CurrentState.DistanceUnit = "m";
                 }
 
+                // alt
+                if (Settings.Instance["altunits"] != null)
+                {
+                    switch (
+                        (Common.distances)Enum.Parse(typeof(Common.altitudes), Settings.Instance["altunits"].ToString()))
+                    {
+                        case Common.distances.Meters:
+                            CurrentState.multiplieralt = 1;
+                            CurrentState.AltUnit = "m";
+                            break;
+                        case Common.distances.Feet:
+                            CurrentState.multiplieralt = 3.2808399f;
+                            CurrentState.AltUnit = "ft";
+                            break;
+                    }
+                }
+                else
+                {
+                    CurrentState.multiplieralt = 1;
+                    CurrentState.AltUnit = "m";
+                }
+
                 // speed
                 if (Settings.Instance["speedunits"] != null)
                 {
@@ -3552,7 +3574,7 @@ namespace MissionPlanner
                             break;
                         case Common.speeds.knots:
                             CurrentState.multiplierspeed = 1.94384449f;
-                            CurrentState.SpeedUnit = "knots";
+                            CurrentState.SpeedUnit = "kts";
                             break;
                     }
                 }
