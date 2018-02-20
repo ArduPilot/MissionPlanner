@@ -59,7 +59,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 if (!String.IsNullOrEmpty(Settings.Instance["rawparam_" + col.Name + "_width"]))
                 {
-                    col.Width = Settings.Instance.GetInt32("rawparam_" + col.Name + "_width");
+                    col.Width = Math.Max(50,Settings.Instance.GetInt32("rawparam_" + col.Name + "_width"));
                     log.InfoFormat("{0} to {1}", col.Name, col.Width);
                 }
             }

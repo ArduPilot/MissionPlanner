@@ -52,7 +52,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 if (!String.IsNullOrEmpty(Settings.Instance["rawtree_" + col.Text + "_width"]))
                 {
-                    col.Width = Settings.Instance.GetInt32("rawtree_" + col.Text + "_width");
+                    col.Width = Math.Max(50, Settings.Instance.GetInt32("rawtree_" + col.Text + "_width"));
                 }
             }
 
