@@ -1178,7 +1178,7 @@ Please check the following
                     frmProgressReporter.doWorkArgs.CancelAcknowledged = true;
                     giveComport = false;
                     frmProgressReporter.doWorkArgs.ErrorMessage = "User Canceled";
-                    return MAV.param;
+                    return MAVlist[sysid, compid].param;
                 }
 
                 // 4 seconds between valid packets
