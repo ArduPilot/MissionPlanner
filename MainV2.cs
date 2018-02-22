@@ -1404,11 +1404,11 @@ namespace MissionPlanner
                     // do autoscan
                     Comms.CommsSerialScan.Scan(true);
                     DateTime deadline = DateTime.Now.AddSeconds(50);
-                    while (Comms.CommsSerialScan.foundport == false)
+                    while (Comms.CommsSerialScan.foundport == false || Comms.CommsSerialScan.run == 1)
                     {
                         System.Threading.Thread.Sleep(100);
 
-                        if (DateTime.Now > deadline || Comms.CommsSerialScan.run == 0)
+                        if (DateTime.Now > deadline)
                         {
                             CustomMessageBox.Show(Strings.Timeout);
                             _connectionControl.IsConnected(false);
