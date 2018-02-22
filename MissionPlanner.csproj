@@ -1947,7 +1947,7 @@
 
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="&quot;$(TargetDir)version.exe&quot; &quot;$(TargetPath)&quot; &gt; &quot;$(TargetDir)version.txt&quot;&#xD;&#xA;" />
+    <Exec Command="&quot;$(TargetDir)version.exe&quot; &quot;$(TargetPath)&quot; &gt; &quot;$(TargetDir)version.txt&quot;&#xD;&#xA;copy &quot;$(ProjectDir)ExtLibs\System.Speech.dll&quot; &quot;$(TargetDir)&quot;&#xD;&#xA;" />
   </Target>
 
 

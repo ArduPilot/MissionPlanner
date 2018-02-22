@@ -5,14 +5,12 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
-using System.Xml;
 using System.Collections;
 using System.Runtime.InteropServices;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
 using MissionPlanner.Utilities;
-using IronPython.Hosting;
 using log4net;
 using MissionPlanner.Controls;
 using MissionPlanner.Comms;
@@ -20,11 +18,8 @@ using MissionPlanner.Log;
 using Transitions;
 using MissionPlanner.Warnings;
 using System.Collections.Concurrent;
-using MissionPlanner.GCSViews.ConfigurationView;
-using WebCamService;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace MissionPlanner
 {
@@ -555,18 +550,6 @@ namespace MissionPlanner
             log.Info("Mainv2 ctor");
 
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-
-            try
-            {
-                if (Environment.Is64BitProcess)
-                {
-                    var skia = NativeMethods.LoadLibraryEx("x64/libSkiaSharp.dll", IntPtr.Zero, 0);
-                }
-                else
-                {
-                    var skia = NativeMethods.LoadLibraryEx("x86/libSkiaSharp.dll", IntPtr.Zero, 0);
-                }
-            } catch { }
 
             // set this before we reset it
             Settings.Instance["NUM_tracklength"] = "200";
@@ -1725,14 +1708,19 @@ namespace MissionPlanner
 
         private void MenuConnect_Click(object sender, EventArgs e)
         {
+            Connect();
+        }
+
+        private void Connect()
+        {
             comPort.giveComport = false;
 
             log.Info("MenuConnect Start");
 
             // sanity check
-            if (comPort.BaseStream.IsOpen && MainV2.comPort.MAV.cs.groundspeed > 4)
+            if (comPort.BaseStream.IsOpen && comPort.MAV.cs.groundspeed > 4)
             {
-                if ((int)DialogResult.No ==
+                if ((int) DialogResult.No ==
                     CustomMessageBox.Show(Strings.Stillmoving, Strings.Disconnect, MessageBoxButtons.YesNo))
                 {
                     return;
@@ -1767,7 +1755,7 @@ namespace MissionPlanner
                 doConnect(comPort, _connectionControl.CMB_serialport.Text, _connectionControl.CMB_baudrate.Text);
             }
 
-            MainV2._connectionControl.UpdateSysIDS();
+            _connectionControl.UpdateSysIDS();
 
             loadph_serial();
         }
