@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Threading;
 using log4net;
 using System.Globalization;
+using System.Runtime.InteropServices;
 using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
 using px4uploader;
@@ -39,7 +40,7 @@ namespace MissionPlanner.Utilities
             disco,
             solo
         }
-
+   
         /// <summary>
         /// Detect board version
         /// </summary>
@@ -52,11 +53,29 @@ namespace MissionPlanner.Utilities
 
             if (!MainV2.MONO)
             {
+                try
+                {
+                    var ports = Win32DeviceMgmt.GetAllCOMPorts();
+
+                    foreach (var item in ports)
+                    {
+                        log.InfoFormat("{0}: {1} - {2}", item.name, item.description, item.board);
+                    }
+                } catch { }
+
                 ObjectQuery query = new ObjectQuery("SELECT * FROM Win32_SerialPort"); // Win32_USBControllerDevice
                 ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
                 foreach (ManagementObject obj2 in searcher.Get())
                 {
-                    Console.WriteLine("PNPID: " + obj2.Properties["PNPDeviceID"].Value.ToString());
+                    log.InfoFormat("-----------------------------------");
+                    log.InfoFormat("Win32_USBDevice instance");
+                    log.InfoFormat("-----------------------------------");
+   
+                    foreach (var item in obj2.Properties)
+                    {
+                        log.InfoFormat("{0}: {1}", item.Name, item.Value);
+                    }
+
 
                     // check vid and pid
                     if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_2341&PID_0010"))

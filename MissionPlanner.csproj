@@ -38,24 +38,18 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="APMPlannerXplanes\**" />
-    <Compile Remove="ExtLibs\**" />
-    <Compile Remove="Msi\**" />
     <Compile Remove="Plugins\**" />
     <Compile Remove="resedit\**" />
     <Compile Remove="SikRadio\**" />
     <Compile Remove="Updater\**" />
     <Compile Remove="wix\**" />
     <EmbeddedResource Remove="APMPlannerXplanes\**" />
-    <EmbeddedResource Remove="ExtLibs\**" />
-    <EmbeddedResource Remove="Msi\**" />
     <EmbeddedResource Remove="Plugins\**" />
     <EmbeddedResource Remove="resedit\**" />
     <EmbeddedResource Remove="SikRadio\**" />
     <EmbeddedResource Remove="Updater\**" />
     <EmbeddedResource Remove="wix\**" />
     <None Remove="APMPlannerXplanes\**" />
-    <None Remove="ExtLibs\**" />
-    <None Remove="Msi\**" />
     <None Remove="Plugins\**" />
     <None Remove="resedit\**" />
     <None Remove="SikRadio\**" />
@@ -79,11 +73,9 @@
     </Reference>
     <Reference Include="System.Configuration" />
     <Reference Include="System.Management" />
-    <Reference Include="System.Speech">
-      <Private>true</Private>
-    </Reference>
+    <Reference Include="System.Speech" />
 
-    <Reference Include="System.Web" />
+    <Reference Include="System.Web, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
 
     <Reference Include="System.Web.Extensions" />
 
@@ -195,6 +187,7 @@
 
   <ItemGroup>
     <PackageReference Include="alglibnet2" version="0.0.0" targetFramework="net40" />
+    <PackageReference Include="Avalonia.Skia.Linux.Natives" Version="1.57.1.4" />
     <PackageReference Include="BitMiracle.LibTiff.NET" Version="2.4.560" />
     <PackageReference Include="BouncyCastle" version="1.8.1" targetFramework="net40" />
     <PackageReference Include="Community.CsharpSqlite.SQLiteClient" version="3.7.7.3" targetFramework="net462" />
@@ -505,6 +498,7 @@
     <Compile Include="Utilities\AltitudeAngel\MapAdapter.cs" />
     <Compile Include="Utilities\AltitudeAngel\MissionPlannerAdaptor.cs" />
     <Compile Include="Utilities\AltitudeAngel\OverlayAdapter.cs" />
+    <Compile Include="Utilities\Win32DeviceMgnt.cs" />
     <Compile Include="Warnings\CustomWarning.cs" />
     <Compile Include="Warnings\WarningControl.cs" />
     <Compile Include="Warnings\WarningEngine.cs" />
