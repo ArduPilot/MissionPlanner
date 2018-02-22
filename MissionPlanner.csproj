@@ -187,7 +187,6 @@
 
   <ItemGroup>
     <PackageReference Include="alglibnet2" version="0.0.0" targetFramework="net40" />
-    <PackageReference Include="Avalonia.Skia.Linux.Natives" Version="1.57.1.4" />
     <PackageReference Include="BitMiracle.LibTiff.NET" Version="2.4.560" />
     <PackageReference Include="BouncyCastle" version="1.8.1" targetFramework="net40" />
     <PackageReference Include="Community.CsharpSqlite.SQLiteClient" version="3.7.7.3" targetFramework="net462" />
@@ -223,7 +222,6 @@
     <PackageReference Include="SharpDX" version="4.0.1" targetFramework="net462" />
     <PackageReference Include="SharpDX.DirectInput" version="4.0.1" targetFramework="net462" />
     <PackageReference Include="SharpZipLib" version="0.86.0" targetFramework="net40" />
-    <PackageReference Include="SkiaSharp" Version="1.59.3" />
     <PackageReference Include="SSH.NET" version="2016.0.0" targetFramework="net40" />
     <PackageReference Include="System.Drawing.Common" Version="4.5.0-preview1-25914-04" />
     <PackageReference Include="System.IO.Ports" Version="4.4.0" />

@@ -150,7 +150,7 @@ namespace MissionPlanner.Controls
             objBitmap.MakeTransparent();
 
             graphicsObject = this;
-            graphicsObjectGDIP = SkiaGraphics.FromImage(objBitmap);
+            graphicsObjectGDIP = Graphics.FromImage(objBitmap);
         }
 
         private float _roll = 0;
@@ -788,7 +788,7 @@ namespace MissionPlanner.Controls
         private int count = 0;
         private DateTime countdate = DateTime.Now;
         private HUD graphicsObject;
-        private SkiaGraphics graphicsObjectGDIP;
+        private Graphics graphicsObjectGDIP;
 
         private DateTime starttime = DateTime.MinValue;
 
@@ -1625,7 +1625,7 @@ namespace MissionPlanner.Controls
                 {
                     objBitmap = new Bitmap(this.Width, this.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
                     objBitmap.MakeTransparent();
-                    graphicsObjectGDIP = SkiaGraphics.FromImage(objBitmap);
+                    graphicsObjectGDIP = Graphics.FromImage(objBitmap);
 
                     graphicsObjectGDIP.SmoothingMode = SmoothingMode.HighSpeed;
                     graphicsObjectGDIP.InterpolationMode = InterpolationMode.NearestNeighbor;
@@ -2796,7 +2796,7 @@ namespace MissionPlanner.Controls
 
 
                     // create bitmap
-                    using (var gfx = SkiaGraphics.FromImage(charDict[charid].bitmap))
+                    using (var gfx = Graphics.FromImage(charDict[charid].bitmap))
                     {
                         var pth = new GraphicsPath();
 
@@ -2930,7 +2930,7 @@ namespace MissionPlanner.Controls
 
 
                     // create bitmap
-                    using (var gfx = SkiaGraphics.FromImage(charDict[charid].bitmap))
+                    using (var gfx = Graphics.FromImage(charDict[charid].bitmap))
                     {
                         var pth = new GraphicsPath();
 
@@ -3058,7 +3058,7 @@ namespace MissionPlanner.Controls
                 }
             }
 
-            graphicsObjectGDIP = SkiaGraphics.FromImage(objBitmap);
+            graphicsObjectGDIP = Graphics.FromImage(objBitmap);
 
             try
             {
