@@ -376,7 +376,7 @@ namespace MissionPlanner.Utilities
                 log.Error(String.Format("Failed {0}", address));
                 lock (cachequeue)
                 {
-                    cachequeue.Remove(address);
+                    while (cachequeue.Remove(address)) ;
                 }
                 return String.Empty;
             }
@@ -394,7 +394,7 @@ namespace MissionPlanner.Utilities
                 }
 
                 Console.WriteLine("ReadDataFromAddress Queued "+ address);
-                Thread.Sleep(200);
+                Thread.Sleep(500);
             }
 
             lock (cachequeue)
@@ -457,7 +457,7 @@ namespace MissionPlanner.Utilities
 
                 lock (cachequeue)
                 {
-                    cachequeue.Remove(address);
+                    while (cachequeue.Remove(address)) ;
                 }
 
                 return ReadDataFromAddress(address, attempt);
@@ -466,7 +466,7 @@ namespace MissionPlanner.Utilities
             {
                 lock (cachequeue)
                 {
-                    cachequeue.Remove(address);
+                    while (cachequeue.Remove(address)) ;
                 }
             }
         }
