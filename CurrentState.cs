@@ -613,6 +613,16 @@ namespace MissionPlanner
         [DisplayText("Time in Air (sec)")]
         public float timeInAir { get; set; }
 
+        //Time in Air converted to min.sec format for easier reading
+        [DisplayText("Time in Air (min.sec)")]
+        public float timeInAirMinSec
+        {
+            get
+            {
+                return ((float)((int)(timeInAir / 60))) + ((timeInAir % 60) / 100);
+            }
+        }
+        
         // calced turn rate
         [DisplayText("Turn Rate (speed)")]
         public float turnrate
