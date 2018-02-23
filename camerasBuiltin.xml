@@ -241,7 +241,7 @@
     <senw>6.16</senw>
   </Camera>
  <Camera>
-    <name>AH_imx219</name>
+    <name>AeroHawk_8MP</name>
     <flen>3.039</flen>
     <imgh>2464</imgh>
     <imgw>3280</imgw>
