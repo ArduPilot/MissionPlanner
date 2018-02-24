@@ -3056,7 +3056,7 @@ Please check the following
                 {
                     setPositionTargetGlobalInt((byte)sysid, (byte)compid,
                         true, false, false, false, MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT_INT,
-                        gotohere.lat, gotohere.lng, MainV2.comPort.MAV.GuidedMode.z, 0, 0, 0, 0, 0);
+                        gotohere.lat, gotohere.lng, gotohere.alt, 0, 0, 0, 0, 0);
                 }
             }
             catch (Exception ex)
