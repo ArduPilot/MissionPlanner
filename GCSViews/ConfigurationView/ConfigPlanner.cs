@@ -587,7 +587,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     InputBox.Show("Min Alt", "What altitude do you want to warn at? (relative to home)",
                         ref speechstring))
                     return;
-                Settings.Instance["speechaltheight"] = (double.Parse(speechstring)/CurrentState.multiplierdist).ToString();
+                Settings.Instance["speechaltheight"] = (double.Parse(speechstring)/CurrentState.multiplieralt).ToString();
                 // save as m
             }
         }

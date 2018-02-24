@@ -109,13 +109,13 @@ namespace MissionPlanner
         private float _groundcourse = 0;
 
         // position
-        [DisplayText("Latitude")]
+        [DisplayText("Latitude (dd)")]
         public double lat { get; set; }
 
-        [DisplayText("Longitude")]
+        [DisplayText("Longitude (dd)")]
         public double lng { get; set; }
 
-        [DisplayText("Altitude (dist)")]
+        [DisplayText("Altitude (alt)")]
         public float alt
         {
             get { return (_alt - altoffsethome)* multiplieralt; }
@@ -1210,7 +1210,7 @@ namespace MissionPlanner
         [DisplayText("Terrain AGL")]
         public float ter_curalt
         {
-            get { return _ter_curalt * multiplierdist; }
+            get { return _ter_curalt * multiplieralt; }
             set { _ter_curalt = value; }
         }
 
@@ -1219,7 +1219,7 @@ namespace MissionPlanner
         [DisplayText("Terrain GL")]
         public float ter_alt
         {
-            get { return _ter_alt * multiplierdist; }
+            get { return _ter_alt * multiplieralt; }
             set { _ter_alt = value; }
         }
 
@@ -1445,6 +1445,10 @@ namespace MissionPlanner
             else if (desc.Contains("(speed)"))
             {
                 desc = desc.Replace("(speed)", "(" + CurrentState.SpeedUnit + ")");
+            }
+            else if (desc.Contains("(alt)"))
+            {
+                desc = desc.Replace("(alt)", "(" + CurrentState.AltUnit + ")");
             }
 
             return desc;

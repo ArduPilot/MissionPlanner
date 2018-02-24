@@ -2285,7 +2285,7 @@ namespace MissionPlanner.GCSViews
             }
             else
             {
-                MainV2.comPort.MAV.cs.altoffsethome = (float)(-MainV2.comPort.MAV.cs.HomeAlt/CurrentState.multiplierdist);
+                MainV2.comPort.MAV.cs.altoffsethome = (float)(-MainV2.comPort.MAV.cs.HomeAlt/CurrentState.multiplieralt);
             }
         }
 
@@ -3229,7 +3229,7 @@ namespace MissionPlanner.GCSViews
 
             double srtmalt = srtm.getAltitude(MouseDownStart.Lat, MouseDownStart.Lng).alt;
 
-            string alt = (srtmalt *CurrentState.multiplierdist).ToString("0");
+            string alt = (srtmalt *CurrentState.multiplieralt).ToString("0");
             if (DialogResult.Cancel == InputBox.Show("Enter Alt", "Enter Target Alt (absolute, default value is ground alt)", ref alt))
                 return;
 
@@ -3249,7 +3249,7 @@ namespace MissionPlanner.GCSViews
             try
             {
                 MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, (float) MouseDownStart.Lat,
-                    (float) MouseDownStart.Lng, intalt/CurrentState.multiplierdist);
+                    (float) MouseDownStart.Lng, intalt/CurrentState.multiplieralt);
             }
             catch
             {
@@ -3409,11 +3409,11 @@ namespace MissionPlanner.GCSViews
 
             if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
             {
-                alt = (10*CurrentState.multiplierdist).ToString("0");
+                alt = (10*CurrentState.multiplieralt).ToString("0");
             }
             else
             {
-                alt = (100*CurrentState.multiplierdist).ToString("0");
+                alt = (100*CurrentState.multiplieralt).ToString("0");
             }
 
             if (Settings.Instance.ContainsKey("guided_alt"))
@@ -3424,14 +3424,14 @@ namespace MissionPlanner.GCSViews
 
             Settings.Instance["guided_alt"] = alt;
 
-            int intalt = (int) (100*CurrentState.multiplierdist);
+            int intalt = (int) (100*CurrentState.multiplieralt);
             if (!int.TryParse(alt, out intalt))
             {
                 CustomMessageBox.Show("Bad Alt");
                 return;
             }
 
-            MainV2.comPort.MAV.GuidedMode.z = intalt/CurrentState.multiplierdist;
+            MainV2.comPort.MAV.GuidedMode.z = intalt/CurrentState.multiplieralt;
 
             if (MainV2.comPort.MAV.cs.mode == "Guided")
             {
@@ -3553,7 +3553,7 @@ namespace MissionPlanner.GCSViews
             int newalt = (int) modifyandSetAlt.Value;
             try
             {
-                MainV2.comPort.setNewWPAlt(new Locationwp {alt = newalt/CurrentState.multiplierdist});
+                MainV2.comPort.setNewWPAlt(new Locationwp {alt = newalt/CurrentState.multiplieralt });
             }
             catch
             {
@@ -4400,13 +4400,13 @@ namespace MissionPlanner.GCSViews
                 var alt = float.Parse(split[2], CultureInfo.InvariantCulture);
 
                 MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, lat, lng,
-                    alt/CurrentState.multiplierdist);
+                    alt/CurrentState.multiplieralt);
             } 
             else if (split.Length == 2)
             {
                 var lat = float.Parse(split[0], CultureInfo.InvariantCulture);
                 var lng = float.Parse(split[1], CultureInfo.InvariantCulture);
-                var alt = srtm.getAltitude(MouseDownStart.Lat, MouseDownStart.Lng).alt;
+                var alt = srtm.getAltitude(MouseDownStart.Lat, MouseDownStart.Lng).alt/CurrentState.multiplieralt;
 
                 MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, lat, lng, (float) alt);
             }
