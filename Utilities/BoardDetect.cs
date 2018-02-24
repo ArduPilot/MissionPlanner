@@ -60,6 +60,30 @@ namespace MissionPlanner.Utilities
                     foreach (var item in ports)
                     {
                         log.InfoFormat("{0}: {1} - {2}", item.name, item.description, item.board);
+
+                        if (port.ToLower() == item.name.ToLower())
+                        {
+                            if (item.board == "PX4 FMU v4.x")
+                            {
+                                log.Info("is a px4v4 pixracer");
+                                return boards.px4v4;
+                            }
+                            /*if (item.board == "PX4 FMU v2.x")
+                            {
+                                log.Info("is a px4v2");
+                                return boards.px4v2;
+                            }
+                            if (item.board == "Arduino Mega 2560")
+                            {
+                                log.Info("is a 2560v2");
+                                return boards.b2560v2;
+                            }*/
+                            if (item.board == "revo-mini")
+                            {
+                                log.Info("is a revo-mini");
+                                return boards.none;
+                            }
+                        }
                     }
                 } catch { }
 
