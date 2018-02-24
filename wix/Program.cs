@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
-using System.Windows.Forms;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Reflection;
@@ -47,14 +46,6 @@ namespace wix
         [DllImport("DIFXApi.dll", CharSet = CharSet.Unicode)]
         public static extern Int32 DriverPackagePreinstall(string DriverPackageInfPath, Int32 Flags);
 
-        static void driverinstall()
-        {
-            int result = DriverPackagePreinstall(@"..\Drivers\Arduino MEGA 2560.inf", 0);
-            if (result != 0)
-                MessageBox.Show("Driver installation failed. " + result);
-
-        }
-
         static int no = 0;
 
         static StreamWriter sw;
@@ -73,12 +64,6 @@ namespace wix
             if (args.Length == 0)
             {
                 Console.WriteLine("Bad Directory");
-                return;
-            }
-
-            if (args[0] == "driver")
-            {
-                driverinstall();
                 return;
             }
 

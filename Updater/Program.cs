@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using System.IO;
+using System.Reflection;
 
 namespace Updater
 {
@@ -24,7 +24,7 @@ namespace Updater
                 MAC = true;
             }
 
-            string path = Path.GetDirectoryName(Application.ExecutablePath);
+            string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
             // give 4 seconds grace
             System.Threading.Thread.Sleep(5000);
@@ -45,11 +45,11 @@ namespace Updater
                     if (MAC)
                     {
                         P.StartInfo.FileName = "mono";
-                        P.StartInfo.Arguments = " \"" + Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + "MissionPlanner.exe\"";
+                        P.StartInfo.Arguments = " \"" + Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + Path.DirectorySeparatorChar + "MissionPlanner.exe\"";
                     }
                     else
                     {
-                        P.StartInfo.FileName = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + "MissionPlanner.exe";
+                        P.StartInfo.FileName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + Path.DirectorySeparatorChar + "MissionPlanner.exe";
                         P.StartInfo.Arguments = "";
                     }
                     Console.WriteLine("Start " + P.StartInfo.FileName + " with " + P.StartInfo.Arguments);
