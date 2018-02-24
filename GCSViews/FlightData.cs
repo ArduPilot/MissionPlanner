@@ -1351,8 +1351,9 @@ namespace MissionPlanner.GCSViews
                                 kmlpolygons.Markers.Clear();
                             }
                         }
-                        catch
+                        catch (Exception ex)
                         {
+                            log.Error(ex);
                         }
 
                         lock (MainV2.instance.adsblock)
