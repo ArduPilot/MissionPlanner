@@ -15,6 +15,8 @@ build_script:
     dotnet --info
 
     rem c:\mp\.nuget\nuget.exe update -self
+
+    c:\mp\.nuget\nuget.exe sources Add -Name "myget" -Source https://dotnet.myget.org/F/dotnet-core/api/v3/index.json
     
     c:\mp\.nuget\nuget.exe restore
     

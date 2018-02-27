@@ -64,7 +64,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var cultureCodes = new[]
             {
                 "en-US", "zh-Hans", "zh-TW", "ru-RU", "Fr", "Pl", "it-IT", "es-ES", "de-DE", "ja-JP", "id-ID", "ko-KR",
-                "ar", "pt"
+                "ar", "pt", "tr", "ru-KZ"
             };
 
             _languages = cultureCodes
@@ -163,6 +163,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CMB_distunits.Text = Settings.Instance["distunits"].ToString();
             if (Settings.Instance["speedunits"] != null)
                 CMB_speedunits.Text = Settings.Instance["speedunits"].ToString();
+            if (Settings.Instance["altunits"] != null)
+                CMB_altunits.Text = Settings.Instance["altunits"].ToString();
 
             try
             {

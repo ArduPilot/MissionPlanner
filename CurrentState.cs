@@ -25,6 +25,14 @@ namespace MissionPlanner
         [IgnoreDataMember]
         public MAVState parent;
 
+        public double this[string name]
+        {
+            get
+            {
+                return (double)this.GetPropertyOrField(name);
+            }
+        }
+
         public int lastautowp = -1;
 
         // multipliers

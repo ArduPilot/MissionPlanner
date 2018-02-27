@@ -76,5 +76,17 @@ namespace MissionPlanner.Utilities
                     yield return packet;
             }
         }
+
+        public static object GetPropertyOrField(this object obj, string name)
+        {
+            var type = obj.GetType();
+            var pi = type.GetProperty(name);
+            if (pi == null)
+            {
+                var fi1 = type.GetField(name);
+                return fi1.GetValue(obj);
+            }
+            return pi.GetValue(obj);
+        }
     }
 }
