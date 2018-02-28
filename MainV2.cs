@@ -945,8 +945,11 @@ namespace MissionPlanner
                     Directory.CreateDirectory(Settings.Instance.LogDir);
             }
             catch (Exception ex) { log.Error(ex); }
-
+#if !NETSTANDARD2_0
+#if !NETCOREAPP2_0
             Microsoft.Win32.SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
+#endif
+#endif
 
             // make sure new enough .net framework is installed
             if (!MONO)
@@ -1056,7 +1059,8 @@ namespace MissionPlanner
                 instance.MyView.Reload();
             }
         }
-
+#if !NETSTANDARD2_0
+#if !NETCOREAPP2_0
         void SystemEvents_PowerModeChanged(object sender, Microsoft.Win32.PowerModeChangedEventArgs e)
         {
             // try prevent crash on resume
@@ -1065,7 +1069,8 @@ namespace MissionPlanner
                 doDisconnect(MainV2.comPort);
             }
         }
-
+#endif
+#endif
         private void BGLoadAirports(object nothing)
         {
             // read airport list
@@ -2942,7 +2947,7 @@ namespace MissionPlanner
                         ;
             };
 
-            ZeroConf.EnumerateAllServicesFromAllHosts();
+            //ZeroConf.EnumerateAllServicesFromAllHosts();
 
             ZeroConf.ProbeForRTSP();
 

@@ -89,7 +89,7 @@ namespace AGaugeApp
 
         private Byte m_RangeIdx;
         private Boolean[] m_RangeEnabled = { true, true, false, false, false };
-        private Color[] m_RangeColor = { Color.LightGreen, Color.Red, Color.FromKnownColor(KnownColor.Control), Color.FromKnownColor(KnownColor.Control), Color.FromKnownColor(KnownColor.Control) };
+        private Color[] m_RangeColor = { Color.LightGreen, Color.Red, SystemColors.Control, SystemColors.Control, SystemColors.Control };
         private Single[] m_RangeStartValue = { -100.0f, 300.0f, 0.0f, 0.0f, 0.0f };
         private Single[] m_RangeEndValue = { 300.0f, 400.0f, 0.0f, 0.0f, 0.0f };
         private Int32[] m_RangeInnerRadius = { 70, 70, 70, 70, 70 };

@@ -57,7 +57,7 @@ namespace MissionPlanner.Controls
             mavi.Add(linkMessage);
         }
 
-        public void Update()
+        public new void Update()
         {
             treeView1.BeginUpdate();
 

@@ -925,7 +925,7 @@ namespace MissionPlanner.Utilities
 
                         if (match.Success)
                         {
-                            string fileurl = HttpUtility.UrlDecode(match.Groups[2].Value);
+                            string fileurl = WebUtility.UrlDecode(match.Groups[2].Value);
 
                             fileurl = fileurl.Replace("/mav/", "");
 

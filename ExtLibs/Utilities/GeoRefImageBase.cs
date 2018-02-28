@@ -1156,7 +1156,7 @@ namespace MissionPlanner.GeoRef
                         Pic.Save(outputfilename);
                     }
                 }
-                catch (Exception ex)
+                catch
                 {
                     AppendText("There was a problem with image " + Filename);
                 }

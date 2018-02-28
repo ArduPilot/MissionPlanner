@@ -360,7 +360,7 @@ namespace MissionPlanner.Utilities
                 response = (HttpWebResponse)webRequest.GetResponse();
                 result = true;
             }
-            catch (WebException webException)
+            catch
             {
             }
             finally
