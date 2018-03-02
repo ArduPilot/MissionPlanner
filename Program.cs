@@ -39,6 +39,16 @@ namespace MissionPlanner
         public static string[] names = new string[] { "VVVVZ" };
         public static bool MONO = false;
 
+        static Program()
+        {
+            AppDomain.CurrentDomain.AssemblyLoad += CurrentDomain_AssemblyLoad;
+
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
+            AppDomain.CurrentDomain.TypeResolve += CurrentDomain_TypeResolve;
+
+            AppDomain.CurrentDomain.FirstChanceException += CurrentDomain_FirstChanceException;
+        }
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -63,15 +73,6 @@ namespace MissionPlanner
             ServicePointManager.DefaultConnectionLimit = 10;
 
             System.Windows.Forms.Application.ThreadException += Application_ThreadException;
-
-            AppDomain.CurrentDomain.UnhandledException +=
-                new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
-
-            AppDomain.CurrentDomain.AssemblyLoad += CurrentDomain_AssemblyLoad;
-
-            AppDomain.CurrentDomain.TypeResolve += CurrentDomain_TypeResolve;
-
-            AppDomain.CurrentDomain.FirstChanceException += CurrentDomain_FirstChanceException;
 
             // fix ssl on mono
             ServicePointManager.ServerCertificateValidationCallback =
@@ -255,7 +256,6 @@ namespace MissionPlanner
 
         private static void CurrentDomain_FirstChanceException(object sender, System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs e)
         {
-            Debug.WriteLine(e.Exception);
             log.Debug("FirstChanceException in: " + e.Exception.Source, e.Exception);
         }
 
