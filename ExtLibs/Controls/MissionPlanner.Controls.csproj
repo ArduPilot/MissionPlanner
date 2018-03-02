@@ -32,12 +32,6 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="SkiaGraphics.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="SkiaGraphics.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="OpenTK">
       <HintPath>..\OpenTK.dll</HintPath>
     </Reference>
@@ -45,54 +39,25 @@
       <HintPath>..\OpenTK.GLControl.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AGauge.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="BackstageView\BackstageView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BackstageView\BackstageView.Designer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BackstageView\BackstageViewButton.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="BackstageView\BackstageViewCollection.cs" />
-    <Compile Include="BackstageView\BackStageViewMenuPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="BackstageView\BackstageViewPage.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="ControlExt.cs" />
     <Compile Include="ControlHelpers.cs" />
     <Compile Include="Coords.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Coords.Designer.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="CustomMessageBox.cs" />
     <Compile Include="FileBrowse.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="FileBrowse.Designer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="FlashMessage.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="FlashMessage.designer.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="GradientBG.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GradientBG.Designer.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="HorizontalProgressBar.cs">
@@ -104,19 +69,12 @@
     <Compile Include="HSI.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="HSI.Designer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="HUD.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="HUDT.Designer.cs" />
     <Compile Include="IActivate.cs" />
     <Compile Include="IDynamicParameterControl.cs" />
     <Compile Include="ImageLabel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ImageLabel.Designer.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="InputBox.cs" />
@@ -140,9 +98,6 @@
     <Compile Include="MyProgressBar.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="MyProgressBar.Designer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="MyTrackBar.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -150,9 +105,6 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="OptionForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="OptionForm.Designer.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="PictureBoxMouseOver.cs">
@@ -164,45 +116,26 @@
     <Compile Include="ProgressReporterDialogue.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ProgressReporterDialogue.designer.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="ProgressReporterSphere.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ProgressStep.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ProgressStep.Designer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs" />
     <Compile Include="PseudoOpacityHelper.cs" />
     <Compile Include="QuickView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="QuickView.Designer.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="RadialGradientBG.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="RadialGradientBG.Designer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="RangeControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="RangeControl.Designer.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Sphere.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="ValuesControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ValuesControl.Designer.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="VerticalProgressBar.cs">
@@ -214,19 +147,136 @@
     <Compile Include="WindDir.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="WindDir.Designer.cs">
+    <Compile Include="BackstageView\BackstageView.cs">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BackstageView\BackstageViewButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="BackstageView\BackstageViewCollection.cs" />
+    <Compile Include="BackstageView\BackStageViewMenuPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="BackstageView\BackstageViewPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HUDT.Designer.cs" />
+    <Compile Include="Properties\Resources.Designer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Coords.Designer.cs">
+      <DependentUpon>Coords.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FileBrowse.Designer.cs">
+      <DependentUpon>FileBrowse.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FlashMessage.Designer.cs">
+      <DependentUpon>FlashMessage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GradientBG.Designer.cs">
+      <DependentUpon>GradientBG.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HSI.Designer.cs">
+      <DependentUpon>HSI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImageLabel.Designer.cs">
+      <DependentUpon>ImageLabel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyProgressBar.Designer.cs">
+      <DependentUpon>MyProgressBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OptionForm.Designer.cs">
+      <DependentUpon>OptionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProgressReporterDialogue.Designer.cs">
+      <DependentUpon>ProgressReporterDialogue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProgressStep.Designer.cs">
+      <DependentUpon>ProgressStep.cs</DependentUpon>
+    </Compile>
+    <Compile Include="QuickView.Designer.cs">
+      <DependentUpon>QuickView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RadialGradientBG.Designer.cs">
+      <DependentUpon>RadialGradientBG.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RangeControl.Designer.cs">
+      <DependentUpon>RangeControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ValuesControl.Designer.cs">
+      <DependentUpon>ValuesControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WindDir.Designer.cs">
+      <DependentUpon>WindDir.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BackstageView\BackstageView.Designer.cs">
+      <DependentUpon>BackstageView.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AGauge.resx">
+      <DependentUpon>AGauge.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Coords.resx">
+      <DependentUpon>Coords.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FileBrowse.resx">
+      <DependentUpon>FileBrowse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FlashMessage.resx">
+      <DependentUpon>FlashMessage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GradientBG.resx">
+      <DependentUpon>GradientBG.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HSI.resx">
+      <DependentUpon>HSI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImageLabel.resx">
+      <DependentUpon>ImageLabel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyProgressBar.resx">
+      <DependentUpon>MyProgressBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OptionForm.resx">
+      <DependentUpon>OptionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProgressReporterDialogue.resx">
+      <DependentUpon>ProgressReporterDialogue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProgressReporterDialogue.zh-Hans.resx">
+      <DependentUpon>ProgressReporterDialogue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProgressReporterSphere.resx">
+      <DependentUpon>ProgressReporterSphere.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProgressReporterSphere.zh-Hans.resx">
+      <DependentUpon>ProgressReporterSphere.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProgressStep.resx">
+      <DependentUpon>ProgressStep.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QuickView.resx">
+      <DependentUpon>QuickView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RadialGradientBG.resx">
+      <DependentUpon>RadialGradientBG.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RangeControl.resx">
+      <DependentUpon>RangeControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ValuesControl.resx">
+      <DependentUpon>ValuesControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WindDir.resx">
+      <DependentUpon>WindDir.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BackstageView\BackstageView.resx">
+      <DependentUpon>BackstageView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="HUDT.resx" />
     <EmbeddedResource Include="HUDT.zh-Hans.resx" />
     <EmbeddedResource Include="Properties\Resources.resx" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Resources\guagebg.jpg" />
-    <Content Include="Resources\iconWarning32.png" />
-    <Content Include="Resources\iconWarning48.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BSE.Windows.Forms\BSE.Windows.Forms.csproj">
@@ -247,8 +297,16 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\guagebg.jpg" />
+    <Content Include="Resources\iconWarning32.png" />
+    <Content Include="Resources\iconWarning48.png" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="log4net">
       <Version>2.0.8</Version>
+    </PackageReference>
+    <PackageReference Include="System.Drawing.Common">
+      <Version>4.5.0-preview1-26216-02</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
