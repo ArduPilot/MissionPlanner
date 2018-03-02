@@ -1250,12 +1250,17 @@ namespace MissionPlanner.GCSViews
 
         void updateRowNumbers()
         {
+            if (this.IsDisposed || this.Disposing)
+                return;
+
             // number rows 
             this.BeginInvoke((MethodInvoker) delegate
             {
                 // thread for updateing row numbers
                 for (int a = 0; a < Commands.Rows.Count - 0; a++)
                 {
+                    if (this.IsDisposed || this.Disposing)
+                        return;
                     try
                     {
                         if (Commands.Rows[a].HeaderCell.Value == null)
