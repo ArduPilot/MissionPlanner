@@ -8,14 +8,11 @@ using System.Threading;
 using log4net;
 using log4net.Config;
 using System.Diagnostics;
-using System.Linq;
-using MissionPlanner.Utilities;
-using MissionPlanner;
 using System.Drawing;
-using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
+using System.Reflection;
 using MissionPlanner.Comms;
 using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner
 {
@@ -69,6 +66,12 @@ namespace MissionPlanner
 
             AppDomain.CurrentDomain.UnhandledException +=
                 new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+
+            AppDomain.CurrentDomain.AssemblyLoad += CurrentDomain_AssemblyLoad;
+
+            AppDomain.CurrentDomain.TypeResolve += CurrentDomain_TypeResolve;
+
+            AppDomain.CurrentDomain.FirstChanceException += CurrentDomain_FirstChanceException;
 
             // fix ssl on mono
             ServicePointManager.ServerCertificateValidationCallback =
@@ -248,6 +251,23 @@ namespace MissionPlanner
             catch
             {
             }
+        }
+
+        private static void CurrentDomain_FirstChanceException(object sender, System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs e)
+        {
+            Debug.WriteLine(e.Exception);
+            log.Debug("FirstChanceException in: " + e.Exception.Source, e.Exception);
+        }
+
+        private static Assembly CurrentDomain_TypeResolve(object sender, ResolveEventArgs args)
+        {
+            log.Debug("TypeResolve Failed: " + args.Name + " from "+ args.RequestingAssembly);
+            return null;
+        }
+
+        private static void CurrentDomain_AssemblyLoad(object sender, AssemblyLoadEventArgs args)
+        {
+            log.Debug("Loaded: " + args.LoadedAssembly);
         }
 
         private static inputboxreturn CommsBaseOnInputBoxShow(string title, string prompttext, ref string text)
