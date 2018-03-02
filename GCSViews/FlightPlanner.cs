@@ -38,6 +38,7 @@ using ILog = log4net.ILog;
 using Placemark = SharpKml.Dom.Placemark;
 using Point = System.Drawing.Point;
 using System.Text.RegularExpressions;
+using MissionPlanner.Grid;
 using MissionPlanner.Plugin;
 
 namespace MissionPlanner.GCSViews
