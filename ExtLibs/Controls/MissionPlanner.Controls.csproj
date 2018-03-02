@@ -1,43 +1,43 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
   <PropertyGroup>
-    <TargetFramework>net461</TargetFramework>
-    <ApplicationIcon />
-    <OutputTypeEx>library</OutputTypeEx>
-    <StartupObject />
-    <DebugType>full</DebugType>
-    <DebugSymbols>True</DebugSymbols>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C8B88795-6D01-494D-83AD-6944BD4C5023}</ProjectGuid>
+    <RootNamespace>MissionPlanner.Controls</RootNamespace>
+    <AssemblyName>MissionPlanner.Controls</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath></OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath />
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Release\</OutputPath>
   </PropertyGroup>
-
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <Prefer32Bit>false</Prefer32Bit>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <Prefer32Bit>false</Prefer32Bit>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Compile Remove="SkiaGraphics.cs" />
   </ItemGroup>
-
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="SkiaGraphics.cs" />
   </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="log4net" Version="2.0.8" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\BSE.Windows.Forms\BSE.Windows.Forms.csproj" />
-    <ProjectReference Include="..\GeoUtility\GeoUtility.csproj" />
-    <ProjectReference Include="..\GMap.NET.Core\GMap.NET.Core.csproj" />
-    <ProjectReference Include="..\GMap.NET.WindowsForms\GMap.NET.WindowsForms.csproj" />
-  </ItemGroup>
-
   <ItemGroup>
     <Reference Include="OpenTK">
       <HintPath>..\OpenTK.dll</HintPath>
@@ -45,167 +45,207 @@
     <Reference Include="OpenTK.GLControl">
       <HintPath>..\OpenTK.GLControl.dll</HintPath>
     </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
-
   <ItemGroup>
-    <Compile Update="AGauge.cs">
+    <Compile Include="AGauge.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="BackstageView\BackstageView.cs">
+    <Compile Include="BackstageView\BackstageView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="BackstageView\BackstageView.Designer.cs">
+    <Compile Include="BackstageView\BackstageView.Designer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="BackstageView\BackstageViewButton.cs">
+    <Compile Include="BackstageView\BackstageViewButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="BackstageView\BackStageViewMenuPanel.cs">
+    <Compile Include="BackstageView\BackstageViewCollection.cs" />
+    <Compile Include="BackstageView\BackStageViewMenuPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="BackstageView\BackstageViewPage.cs">
+    <Compile Include="BackstageView\BackstageViewPage.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="Coords.cs">
+    <Compile Include="ControlExt.cs" />
+    <Compile Include="ControlHelpers.cs" />
+    <Compile Include="Coords.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Coords.Designer.cs">
+    <Compile Include="Coords.Designer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="FileBrowse.cs">
+    <Compile Include="CustomMessageBox.cs" />
+    <Compile Include="FileBrowse.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="FileBrowse.Designer.cs">
+    <Compile Include="FileBrowse.Designer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="FlashMessage.cs">
+    <Compile Include="FlashMessage.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="FlashMessage.designer.cs">
+    <Compile Include="FlashMessage.designer.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="GradientBG.cs">
+    <Compile Include="GradientBG.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="GradientBG.Designer.cs">
+    <Compile Include="GradientBG.Designer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="HorizontalProgressBar.cs">
+    <Compile Include="HorizontalProgressBar.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="HorizontalProgressBar2.cs">
+    <Compile Include="HorizontalProgressBar2.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="HSI.cs">
+    <Compile Include="HSI.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="HSI.Designer.cs">
+    <Compile Include="HSI.Designer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="HUD.cs">
+    <Compile Include="HUD.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="ImageLabel.cs">
+    <Compile Include="HUDT.Designer.cs" />
+    <Compile Include="IActivate.cs" />
+    <Compile Include="IDynamicParameterControl.cs" />
+    <Compile Include="ImageLabel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="ImageLabel.Designer.cs">
+    <Compile Include="ImageLabel.Designer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="LabelWithPseudoOpacity.cs">
+    <Compile Include="InputBox.cs" />
+    <Compile Include="IProgressReporterDialogue.cs" />
+    <Compile Include="LabelWithPseudoOpacity.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="LineSeparator.cs">
+    <Compile Include="LineSeparator.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="MyButton.cs">
+    <Compile Include="MainSwitcher.cs" />
+    <Compile Include="MyButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="myGMAP.cs">
+    <Compile Include="myGMAP.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="MyLabel.cs">
+    <Compile Include="MyLabel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="MyProgressBar.cs">
+    <Compile Include="MyProgressBar.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="MyProgressBar.Designer.cs">
+    <Compile Include="MyProgressBar.Designer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="MyTrackBar.cs">
+    <Compile Include="MyTrackBar.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="MyUserControl.cs">
+    <Compile Include="MyUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="OptionForm.cs">
+    <Compile Include="OptionForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="OptionForm.Designer.cs">
+    <Compile Include="OptionForm.Designer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="PictureBoxMouseOver.cs">
+    <Compile Include="PictureBoxMouseOver.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="PictureBoxWithPseudoOpacity.cs">
+    <Compile Include="PictureBoxWithPseudoOpacity.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="ProgressReporterDialogue.cs">
+    <Compile Include="ProgressReporterDialogue.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="ProgressReporterDialogue.designer.cs">
+    <Compile Include="ProgressReporterDialogue.designer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="ProgressReporterSphere.cs">
+    <Compile Include="ProgressReporterSphere.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="ProgressStep.cs">
+    <Compile Include="ProgressStep.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="ProgressStep.Designer.cs">
+    <Compile Include="ProgressStep.Designer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="QuickView.cs">
+    <Compile Include="Properties\Resources.Designer.cs" />
+    <Compile Include="PseudoOpacityHelper.cs" />
+    <Compile Include="QuickView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="QuickView.Designer.cs">
+    <Compile Include="QuickView.Designer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="RadialGradientBG.cs">
+    <Compile Include="RadialGradientBG.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="RadialGradientBG.Designer.cs">
+    <Compile Include="RadialGradientBG.Designer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="RangeControl.cs">
+    <Compile Include="RangeControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="RangeControl.Designer.cs">
+    <Compile Include="RangeControl.Designer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Sphere.cs">
+    <Compile Include="Sphere.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="ValuesControl.cs">
+    <Compile Include="ValuesControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="ValuesControl.Designer.cs">
+    <Compile Include="ValuesControl.Designer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="VerticalProgressBar.cs">
+    <Compile Include="VerticalProgressBar.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="VerticalProgressBar2.cs">
+    <Compile Include="VerticalProgressBar2.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="WindDir.cs">
+    <Compile Include="WindDir.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="WindDir.Designer.cs">
+    <Compile Include="WindDir.Designer.cs">
       <SubType>UserControl</SubType>
     </Compile>
   </ItemGroup>
-
-
+  <ItemGroup>
+    <EmbeddedResource Include="HUDT.resx" />
+    <EmbeddedResource Include="HUDT.zh-Hans.resx" />
+    <EmbeddedResource Include="Properties\Resources.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\guagebg.jpg" />
+    <Content Include="Resources\iconWarning32.png" />
+    <Content Include="Resources\iconWarning48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BSE.Windows.Forms\BSE.Windows.Forms.csproj">
+      <Project>{9ca367b8-0b98-49d1-84fb-735e612e3ba9}</Project>
+      <Name>BSE.Windows.Forms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GeoUtility\GeoUtility.csproj">
+      <Project>{7f7994ce-823f-4a04-bbea-d0a3808ff56d}</Project>
+      <Name>GeoUtility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GMap.NET.Core\GMap.NET.Core.csproj">
+      <Project>{d0c39d9d-bed0-418b-9a5e-713176caf40c}</Project>
+      <Name>GMap.NET.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GMap.NET.WindowsForms\GMap.NET.WindowsForms.csproj">
+      <Project>{e06def77-f933-42fb-afd7-db2d0d8d6a98}</Project>
+      <Name>GMap.NET.WindowsForms</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

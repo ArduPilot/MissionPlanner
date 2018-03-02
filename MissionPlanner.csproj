@@ -110,10 +110,7 @@
       <Project>{825E7A10-390C-4A2B-B3A8-491D14966912}</Project>
       <Name>MissionPlanner.Comms</Name>
     </ProjectReference>
-    <ProjectReference Include="ExtLibs\Controls\MissionPlanner.Controls.csproj">
-      <Project>{C8B88795-6D01-494D-83AD-6944BD4C5023}</Project>
-      <Name>MissionPlanner.Controls</Name>
-    </ProjectReference>
+    <ProjectReference Include="ExtLibs\Controls\MissionPlanner.Controls.csproj" />
     <ProjectReference Include="ExtLibs\Core\Core.csproj">
       <Project>{59129078-7B12-4198-B93E-0AA08D0BB7ED}</Project>
       <Name>Core</Name>

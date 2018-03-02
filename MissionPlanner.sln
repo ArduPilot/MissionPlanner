@@ -37,7 +37,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetaDataExtractor", "ExtLib
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseClasses", "ExtLibs\BaseClasses\BaseClasses.csproj", "{2A8E8AF5-74E7-49DB-A42E-9360FA7A6CC4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissionPlanner.Controls", "ExtLibs\Controls\MissionPlanner.Controls.csproj", "{C8B88795-6D01-494D-83AD-6944BD4C5023}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MissionPlanner.Controls", "ExtLibs\Controls\MissionPlanner.Controls.csproj", "{C8B88795-6D01-494D-83AD-6944BD4C5023}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissionPlanner.Comms", "ExtLibs\Comms\MissionPlanner.Comms.csproj", "{825E7A10-390C-4A2B-B3A8-491D14966912}"
 EndProject
