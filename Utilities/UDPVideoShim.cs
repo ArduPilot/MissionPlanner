@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using log4net;
+using MissionPlanner.GCSViews;
 
 namespace MissionPlanner.Utilities
 {
@@ -186,7 +187,19 @@ namespace MissionPlanner.Utilities
                     if (test.Contains("SkyViper"))
                     {
                         //slave to sender clock and Pipeline clock time
-                        GStreamer.Start("rtspsrc location=rtsp://192.168.99.1/media/stream2 debug=false buffer-mode=1 latency=100 ntp-time-source=3 ! application/x-rtp ! rtph264depay ! avdec_h264 ! avenc_mjpeg ");
+                        //GStreamer.Start("rtspsrc location=rtsp://192.168.99.1/media/stream2 debug=false buffer-mode=1 latency=100 ntp-time-source=3 ! application/x-rtp ! rtph264depay ! avdec_h264 ! avenc_mjpeg ");
+
+                        string url = "http://192.168.99.1/ajax/video.mjpg";
+
+                        Settings.Instance["mjpeg_url"] = url;
+
+                        CaptureMJPEG.Stop();
+
+                        CaptureMJPEG.URL = url;
+
+                        CaptureMJPEG.OnNewImage += FlightData.instance.CaptureMJPEG_OnNewImage;
+
+                        CaptureMJPEG.runAsync();
                     }
                 }
             }

@@ -3288,7 +3288,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
-        void CaptureMJPEG_OnNewImage(object sender, EventArgs e)
+        public void CaptureMJPEG_OnNewImage(object sender, EventArgs e)
         {
             myhud.bgimage = (Image) sender;
         }
