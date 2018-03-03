@@ -1030,8 +1030,8 @@ namespace MissionPlanner.Controls
                 if (opengl)
                 {
                     // make this gl window and thread current
-                    if (!Context.IsCurrent || DateTime.Now.Second % 5 == 0)
-                        MakeCurrent();
+                    //if (!Context.IsCurrent || DateTime.Now.Second % 5 == 0)
+                    MakeCurrent();
 
                     GL.Clear(ClearBufferMask.ColorBufferBit);
 
@@ -1044,7 +1044,7 @@ namespace MissionPlanner.Controls
                     this.SwapBuffers();
 
                     // free from this thread
-                    //Context.MakeCurrent(null);
+                    Context.MakeCurrent(null);
                 }
 
             }

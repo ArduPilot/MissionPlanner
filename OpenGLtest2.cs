@@ -160,18 +160,41 @@ namespace MissionPlanner.Controls
 
         private int utmzone = -999;
 
+        private Dictionary<object, double> coordcache = new Dictionary<object, double>();
+
         double[] convertCoords(PointLatLngAlt plla)
         {
             if (utmzone < -360)
                 utmzone = plla.GetUTMZone();
 
-            var utm = plla.ToUTM(utmzone);
+            var minlat = (int) plla.Lat - 1;
+            var maxlat = (int) plla.Lat + 1;
+            var minlng = (int) plla.Lng - 1;
+            var maxlng = (int) plla.Lng + 1;
 
-            Array.Resize(ref utm, 3);
+            var id = maxlat * 1e10 + minlng;
+            var diagdist = 0.0;
 
-            utm[2] = plla.Alt;
+            if (!coordcache.ContainsKey(id))
+            {
+                diagdist = new PointLatLngAlt(maxlat, minlng).GetDistance(new PointLatLngAlt(minlat, maxlng));
+                coordcache[id] = diagdist;
+            }
+            else
+            {
+                diagdist = coordcache[id];
+            }
 
-            return utm;
+            var lat = MathHelper.map(plla.Lat, minlat, maxlat, 0, diagdist);
+            var lng = MathHelper.map(plla.Lng, minlng, maxlng, 0, diagdist);
+
+            //var utm = plla.ToUTM(utmzone);
+
+            //Array.Resize(ref utm, 3);
+
+            //utm[2] = plla.Alt;
+
+            return new[] {lng, lat, plla.Alt};
         }
 
         protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
@@ -233,7 +256,7 @@ namespace MissionPlanner.Controls
        
             float screenscale = 1;//this.Width/(float) this.Height*1f;
 
-            if(!Context.IsCurrent)
+            //if(!Context.IsCurrent)
                 MakeCurrent();
 
             GL.MatrixMode(MatrixMode.Projection);
@@ -557,7 +580,7 @@ namespace MissionPlanner.Controls
                 this.SwapBuffers();
 
 
-                //Context.MakeCurrent(null);
+                Context.MakeCurrent(null);
             }
             catch
             {

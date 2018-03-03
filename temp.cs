@@ -62,7 +62,7 @@ namespace MissionPlanner
                 {
                     var ogl = new OpenGLtest2();
 
-                    //Controls.Add(ogl);
+                    Controls.Add(ogl);
 
                     ogl.Dock = DockStyle.Fill;
 
