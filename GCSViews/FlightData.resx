@@ -140,9 +140,9 @@
   <data name="SubMainLeft.Orientation" type="System.Windows.Forms.Orientation, System.Windows.Forms">
     <value>Horizontal</value>
   </data>
-  <data name="contextMenuStripHud.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="contextMenuStripHud.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>714, 17</value>
-  </data>
+  </metadata>
   <data name="recordHudToAVIToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>187, 22</value>
   </data>
@@ -212,9 +212,9 @@
   <data name="&gt;&gt;contextMenuStripHud.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="bindingSourceHud.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="bindingSourceHud.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
-  </data>
+  </metadata>
   <data name="hud1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -232,7 +232,7 @@
     <value>hud1</value>
   </data>
   <data name="&gt;&gt;hud1.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.HUD, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.HUD, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;hud1.Parent" xml:space="preserve">
     <value>SubMainLeft.Panel1</value>
@@ -252,9 +252,9 @@
   <data name="&gt;&gt;SubMainLeft.Panel1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="contextMenuStripactionstab.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="contextMenuStripactionstab.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>491, 57</value>
-  </data>
+  </metadata>
   <data name="customizeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>130, 22</value>
   </data>
@@ -282,9 +282,9 @@
   <data name="tableLayoutPanelQuick.ColumnCount" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="contextMenuStripQuickView.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="contextMenuStripQuickView.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>696, 57</value>
-  </data>
+  </metadata>
   <data name="setViewCountToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>154, 22</value>
   </data>
@@ -300,20 +300,20 @@
   <data name="&gt;&gt;contextMenuStripQuickView.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="bindingSourceQuickTab.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="bindingSourceQuickTab.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>1162, 18</value>
-  </data>
+  </metadata>
   <data name="quickView6.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
   <data name="quickView6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>175, 107</value>
+    <value>175, 83</value>
   </data>
   <data name="quickView6.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>100, 27</value>
   </data>
   <data name="quickView6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 48</value>
+    <value>166, 36</value>
   </data>
   <data name="quickView6.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -322,7 +322,7 @@
     <value>quickView6</value>
   </data>
   <data name="&gt;&gt;quickView6.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.QuickView, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.QuickView, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;quickView6.Parent" xml:space="preserve">
     <value>tableLayoutPanelQuick</value>
@@ -334,13 +334,13 @@
     <value>Fill</value>
   </data>
   <data name="quickView5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 107</value>
+    <value>3, 83</value>
   </data>
   <data name="quickView5.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>100, 27</value>
   </data>
   <data name="quickView5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 48</value>
+    <value>166, 36</value>
   </data>
   <data name="quickView5.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -349,7 +349,7 @@
     <value>quickView5</value>
   </data>
   <data name="&gt;&gt;quickView5.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.QuickView, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.QuickView, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;quickView5.Parent" xml:space="preserve">
     <value>tableLayoutPanelQuick</value>
@@ -361,13 +361,13 @@
     <value>Fill</value>
   </data>
   <data name="quickView4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>175, 55</value>
+    <value>175, 43</value>
   </data>
   <data name="quickView4.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>100, 27</value>
   </data>
   <data name="quickView4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 46</value>
+    <value>166, 34</value>
   </data>
   <data name="quickView4.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -376,7 +376,7 @@
     <value>quickView4</value>
   </data>
   <data name="&gt;&gt;quickView4.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.QuickView, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.QuickView, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;quickView4.Parent" xml:space="preserve">
     <value>tableLayoutPanelQuick</value>
@@ -388,13 +388,13 @@
     <value>Fill</value>
   </data>
   <data name="quickView3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 55</value>
+    <value>3, 43</value>
   </data>
   <data name="quickView3.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>100, 27</value>
   </data>
   <data name="quickView3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 46</value>
+    <value>166, 34</value>
   </data>
   <data name="quickView3.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -403,7 +403,7 @@
     <value>quickView3</value>
   </data>
   <data name="&gt;&gt;quickView3.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.QuickView, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.QuickView, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;quickView3.Parent" xml:space="preserve">
     <value>tableLayoutPanelQuick</value>
@@ -421,7 +421,7 @@
     <value>100, 27</value>
   </data>
   <data name="quickView2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 46</value>
+    <value>166, 34</value>
   </data>
   <data name="quickView2.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -430,7 +430,7 @@
     <value>quickView2</value>
   </data>
   <data name="&gt;&gt;quickView2.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.QuickView, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.QuickView, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;quickView2.Parent" xml:space="preserve">
     <value>tableLayoutPanelQuick</value>
@@ -448,14 +448,14 @@
     <value>100, 27</value>
   </data>
   <data name="quickView1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 46</value>
+    <value>166, 34</value>
   </data>
   <data name="quickView1.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>617, 17</value>
-  </data>
+  </metadata>
   <data name="quickView1.ToolTip" xml:space="preserve">
     <value>Double Click me to change</value>
   </data>
@@ -463,7 +463,7 @@
     <value>quickView1</value>
   </data>
   <data name="&gt;&gt;quickView1.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.QuickView, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.QuickView, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;quickView1.Parent" xml:space="preserve">
     <value>tableLayoutPanelQuick</value>
@@ -481,7 +481,7 @@
     <value>3</value>
   </data>
   <data name="tableLayoutPanelQuick.Size" type="System.Drawing.Size, System.Drawing">
-    <value>344, 158</value>
+    <value>344, 122</value>
   </data>
   <data name="tableLayoutPanelQuick.TabIndex" type="System.Int32, mscorlib">
     <value>73</value>
@@ -502,13 +502,13 @@
     <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="quickView6" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="quickView5" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="quickView4" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="quickView3" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="quickView2" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="quickView1" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Percent,50" /&gt;&lt;Rows Styles="Percent,33.33333,Percent,33.33333,Percent,33.33333" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="tabQuick.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
+    <value>4, 58</value>
   </data>
   <data name="tabQuick.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabQuick.Size" type="System.Drawing.Size, System.Drawing">
-    <value>350, 164</value>
+    <value>350, 128</value>
   </data>
   <data name="tabQuick.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -544,7 +544,7 @@
     <value>modifyandSetLoiterRad</value>
   </data>
   <data name="&gt;&gt;modifyandSetLoiterRad.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.ModifyandSet, MissionPlanner, Version=1.3.52.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.ModifyandSet, MissionPlanner, Version=1.3.52.10, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;modifyandSetLoiterRad.Parent" xml:space="preserve">
     <value>tabActions</value>
@@ -574,7 +574,7 @@
     <value>BUT_abortland</value>
   </data>
   <data name="&gt;&gt;BUT_abortland.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_abortland.Parent" xml:space="preserve">
     <value>tabActions</value>
@@ -601,7 +601,7 @@
     <value>BUT_resumemis</value>
   </data>
   <data name="&gt;&gt;BUT_resumemis.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_resumemis.Parent" xml:space="preserve">
     <value>tabActions</value>
@@ -652,7 +652,7 @@
     <value>BUT_mountmode</value>
   </data>
   <data name="&gt;&gt;BUT_mountmode.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_mountmode.Parent" xml:space="preserve">
     <value>tabActions</value>
@@ -685,7 +685,7 @@
     <value>BUT_ARM</value>
   </data>
   <data name="&gt;&gt;BUT_ARM.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_ARM.Parent" xml:space="preserve">
     <value>tabActions</value>
@@ -715,7 +715,7 @@
     <value>BUT_joystick</value>
   </data>
   <data name="&gt;&gt;BUT_joystick.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_joystick.Parent" xml:space="preserve">
     <value>tabActions</value>
@@ -745,7 +745,7 @@
     <value>BUT_quickmanual</value>
   </data>
   <data name="&gt;&gt;BUT_quickmanual.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_quickmanual.Parent" xml:space="preserve">
     <value>tabActions</value>
@@ -775,7 +775,7 @@
     <value>BUT_quickrtl</value>
   </data>
   <data name="&gt;&gt;BUT_quickrtl.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_quickrtl.Parent" xml:space="preserve">
     <value>tabActions</value>
@@ -805,7 +805,7 @@
     <value>BUT_quickauto</value>
   </data>
   <data name="&gt;&gt;BUT_quickauto.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_quickauto.Parent" xml:space="preserve">
     <value>tabActions</value>
@@ -859,7 +859,7 @@
     <value>BUT_setwp</value>
   </data>
   <data name="&gt;&gt;BUT_setwp.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_setwp.Parent" xml:space="preserve">
     <value>tabActions</value>
@@ -910,7 +910,7 @@
     <value>BUT_setmode</value>
   </data>
   <data name="&gt;&gt;BUT_setmode.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_setmode.Parent" xml:space="preserve">
     <value>tabActions</value>
@@ -940,7 +940,7 @@
     <value>BUT_clear_track</value>
   </data>
   <data name="&gt;&gt;BUT_clear_track.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_clear_track.Parent" xml:space="preserve">
     <value>tabActions</value>
@@ -991,7 +991,7 @@
     <value>BUT_Homealt</value>
   </data>
   <data name="&gt;&gt;BUT_Homealt.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_Homealt.Parent" xml:space="preserve">
     <value>tabActions</value>
@@ -1021,7 +1021,7 @@
     <value>BUT_RAWSensor</value>
   </data>
   <data name="&gt;&gt;BUT_RAWSensor.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_RAWSensor.Parent" xml:space="preserve">
     <value>tabActions</value>
@@ -1051,7 +1051,7 @@
     <value>BUTrestartmission</value>
   </data>
   <data name="&gt;&gt;BUTrestartmission.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUTrestartmission.Parent" xml:space="preserve">
     <value>tabActions</value>
@@ -1081,7 +1081,7 @@
     <value>BUTactiondo</value>
   </data>
   <data name="&gt;&gt;BUTactiondo.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUTactiondo.Parent" xml:space="preserve">
     <value>tabActions</value>
@@ -1105,7 +1105,7 @@
     <value>modifyandSetSpeed</value>
   </data>
   <data name="&gt;&gt;modifyandSetSpeed.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.ModifyandSet, MissionPlanner, Version=1.3.52.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.ModifyandSet, MissionPlanner, Version=1.3.52.10, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;modifyandSetSpeed.Parent" xml:space="preserve">
     <value>tabActions</value>
@@ -1129,7 +1129,7 @@
     <value>modifyandSetAlt</value>
   </data>
   <data name="&gt;&gt;modifyandSetAlt.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.ModifyandSet, MissionPlanner, Version=1.3.52.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.ModifyandSet, MissionPlanner, Version=1.3.52.10, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;modifyandSetAlt.Parent" xml:space="preserve">
     <value>tabActions</value>
@@ -1183,7 +1183,7 @@
     <value>myButton1</value>
   </data>
   <data name="&gt;&gt;myButton1.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;myButton1.Parent" xml:space="preserve">
     <value>tabActionsSimple</value>
@@ -1213,7 +1213,7 @@
     <value>myButton2</value>
   </data>
   <data name="&gt;&gt;myButton2.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;myButton2.Parent" xml:space="preserve">
     <value>tabActionsSimple</value>
@@ -1243,7 +1243,7 @@
     <value>myButton3</value>
   </data>
   <data name="&gt;&gt;myButton3.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;myButton3.Parent" xml:space="preserve">
     <value>tabActionsSimple</value>
@@ -1291,7 +1291,7 @@
     <value>checkListControl1</value>
   </data>
   <data name="&gt;&gt;checkListControl1.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.PreFlight.CheckListControl, MissionPlanner, Version=1.3.52.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.PreFlight.CheckListControl, MissionPlanner, Version=1.3.52.10, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;checkListControl1.Parent" xml:space="preserve">
     <value>tabPagePreFlight</value>
@@ -1329,9 +1329,9 @@
   <data name="Gvspeed.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>Zoom</value>
   </data>
-  <data name="bindingSourceGaugesTab.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="bindingSourceGaugesTab.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>154, 57</value>
-  </data>
+  </metadata>
   <data name="Gvspeed.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 9pt</value>
   </data>
@@ -1351,7 +1351,7 @@
     <value>Gvspeed</value>
   </data>
   <data name="&gt;&gt;Gvspeed.Type" xml:space="preserve">
-    <value>AGaugeApp.AGauge, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>AGaugeApp.AGauge, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Gvspeed.Parent" xml:space="preserve">
     <value>tabGauges</value>
@@ -1381,7 +1381,7 @@
     <value>Gheading</value>
   </data>
   <data name="&gt;&gt;Gheading.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.HSI, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.HSI, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Gheading.Parent" xml:space="preserve">
     <value>tabGauges</value>
@@ -1411,7 +1411,7 @@
     <value>Galt</value>
   </data>
   <data name="&gt;&gt;Galt.Type" xml:space="preserve">
-    <value>AGaugeApp.AGauge, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>AGaugeApp.AGauge, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Galt.Parent" xml:space="preserve">
     <value>tabGauges</value>
@@ -1444,7 +1444,7 @@
     <value>Gspeed</value>
   </data>
   <data name="&gt;&gt;Gspeed.Type" xml:space="preserve">
-    <value>AGaugeApp.AGauge, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>AGaugeApp.AGauge, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Gspeed.Parent" xml:space="preserve">
     <value>tabGauges</value>
@@ -1525,7 +1525,7 @@
     <value>servoOptions1</value>
   </data>
   <data name="&gt;&gt;servoOptions1.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.ServoOptions, MissionPlanner, Version=1.3.52.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.ServoOptions, MissionPlanner, Version=1.3.52.10, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;servoOptions1.Parent" xml:space="preserve">
     <value>flowLayoutPanelServos</value>
@@ -1546,7 +1546,7 @@
     <value>servoOptions2</value>
   </data>
   <data name="&gt;&gt;servoOptions2.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.ServoOptions, MissionPlanner, Version=1.3.52.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.ServoOptions, MissionPlanner, Version=1.3.52.10, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;servoOptions2.Parent" xml:space="preserve">
     <value>flowLayoutPanelServos</value>
@@ -1567,7 +1567,7 @@
     <value>servoOptions3</value>
   </data>
   <data name="&gt;&gt;servoOptions3.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.ServoOptions, MissionPlanner, Version=1.3.52.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.ServoOptions, MissionPlanner, Version=1.3.52.10, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;servoOptions3.Parent" xml:space="preserve">
     <value>flowLayoutPanelServos</value>
@@ -1588,7 +1588,7 @@
     <value>servoOptions4</value>
   </data>
   <data name="&gt;&gt;servoOptions4.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.ServoOptions, MissionPlanner, Version=1.3.52.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.ServoOptions, MissionPlanner, Version=1.3.52.10, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;servoOptions4.Parent" xml:space="preserve">
     <value>flowLayoutPanelServos</value>
@@ -1609,7 +1609,7 @@
     <value>servoOptions5</value>
   </data>
   <data name="&gt;&gt;servoOptions5.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.ServoOptions, MissionPlanner, Version=1.3.52.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.ServoOptions, MissionPlanner, Version=1.3.52.10, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;servoOptions5.Parent" xml:space="preserve">
     <value>flowLayoutPanelServos</value>
@@ -1630,7 +1630,7 @@
     <value>servoOptions6</value>
   </data>
   <data name="&gt;&gt;servoOptions6.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.ServoOptions, MissionPlanner, Version=1.3.52.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.ServoOptions, MissionPlanner, Version=1.3.52.10, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;servoOptions6.Parent" xml:space="preserve">
     <value>flowLayoutPanelServos</value>
@@ -1651,7 +1651,7 @@
     <value>servoOptions7</value>
   </data>
   <data name="&gt;&gt;servoOptions7.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.ServoOptions, MissionPlanner, Version=1.3.52.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.ServoOptions, MissionPlanner, Version=1.3.52.10, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;servoOptions7.Parent" xml:space="preserve">
     <value>flowLayoutPanelServos</value>
@@ -1672,7 +1672,7 @@
     <value>servoOptions8</value>
   </data>
   <data name="&gt;&gt;servoOptions8.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.ServoOptions, MissionPlanner, Version=1.3.52.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.ServoOptions, MissionPlanner, Version=1.3.52.10, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;servoOptions8.Parent" xml:space="preserve">
     <value>flowLayoutPanelServos</value>
@@ -1693,7 +1693,7 @@
     <value>servoOptions9</value>
   </data>
   <data name="&gt;&gt;servoOptions9.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.ServoOptions, MissionPlanner, Version=1.3.52.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.ServoOptions, MissionPlanner, Version=1.3.52.10, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;servoOptions9.Parent" xml:space="preserve">
     <value>flowLayoutPanelServos</value>
@@ -1714,7 +1714,7 @@
     <value>servoOptions10</value>
   </data>
   <data name="&gt;&gt;servoOptions10.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.ServoOptions, MissionPlanner, Version=1.3.52.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.ServoOptions, MissionPlanner, Version=1.3.52.10, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;servoOptions10.Parent" xml:space="preserve">
     <value>flowLayoutPanelServos</value>
@@ -1795,7 +1795,7 @@
     <value>BUT_loadtelem</value>
   </data>
   <data name="&gt;&gt;BUT_loadtelem.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_loadtelem.Parent" xml:space="preserve">
     <value>tableLayoutPaneltlogs</value>
@@ -1822,7 +1822,7 @@
     <value>lbl_playbackspeed</value>
   </data>
   <data name="&gt;&gt;lbl_playbackspeed.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyLabel, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyLabel, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lbl_playbackspeed.Parent" xml:space="preserve">
     <value>tableLayoutPaneltlogs</value>
@@ -1849,7 +1849,7 @@
     <value>lbl_logpercent</value>
   </data>
   <data name="&gt;&gt;lbl_logpercent.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyLabel, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyLabel, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lbl_logpercent.Parent" xml:space="preserve">
     <value>tableLayoutPaneltlogs</value>
@@ -1900,7 +1900,7 @@
     <value>LBL_logfn</value>
   </data>
   <data name="&gt;&gt;LBL_logfn.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyLabel, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyLabel, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;LBL_logfn.Parent" xml:space="preserve">
     <value>tableLayoutPaneltlogs</value>
@@ -1930,7 +1930,7 @@
     <value>BUT_log2kml</value>
   </data>
   <data name="&gt;&gt;BUT_log2kml.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_log2kml.Parent" xml:space="preserve">
     <value>tableLayoutPaneltlogs</value>
@@ -1957,7 +1957,7 @@
     <value>BUT_playlog</value>
   </data>
   <data name="&gt;&gt;BUT_playlog.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_playlog.Parent" xml:space="preserve">
     <value>tableLayoutPaneltlogs</value>
@@ -2017,7 +2017,7 @@
     <value>BUT_speed10</value>
   </data>
   <data name="&gt;&gt;BUT_speed10.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_speed10.Parent" xml:space="preserve">
     <value>panel2</value>
@@ -2047,7 +2047,7 @@
     <value>BUT_speed5</value>
   </data>
   <data name="&gt;&gt;BUT_speed5.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_speed5.Parent" xml:space="preserve">
     <value>panel2</value>
@@ -2077,7 +2077,7 @@
     <value>BUT_speed2</value>
   </data>
   <data name="&gt;&gt;BUT_speed2.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_speed2.Parent" xml:space="preserve">
     <value>panel2</value>
@@ -2107,7 +2107,7 @@
     <value>BUT_speed1</value>
   </data>
   <data name="&gt;&gt;BUT_speed1.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_speed1.Parent" xml:space="preserve">
     <value>panel2</value>
@@ -2137,7 +2137,7 @@
     <value>BUT_speed1_2</value>
   </data>
   <data name="&gt;&gt;BUT_speed1_2.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_speed1_2.Parent" xml:space="preserve">
     <value>panel2</value>
@@ -2167,7 +2167,7 @@
     <value>BUT_speed1_4</value>
   </data>
   <data name="&gt;&gt;BUT_speed1_4.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_speed1_4.Parent" xml:space="preserve">
     <value>panel2</value>
@@ -2197,7 +2197,7 @@
     <value>BUT_speed1_10</value>
   </data>
   <data name="&gt;&gt;BUT_speed1_10.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_speed1_10.Parent" xml:space="preserve">
     <value>panel2</value>
@@ -2212,7 +2212,7 @@
     <value>89, 69</value>
   </data>
   <data name="panel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>217, 92</value>
+    <value>217, 74</value>
   </data>
   <data name="panel2.TabIndex" type="System.Int32, mscorlib">
     <value>81</value>
@@ -2239,7 +2239,7 @@
     <value>3</value>
   </data>
   <data name="tableLayoutPaneltlogs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>350, 164</value>
+    <value>350, 146</value>
   </data>
   <data name="tableLayoutPaneltlogs.TabIndex" type="System.Int32, mscorlib">
     <value>81</value>
@@ -2260,10 +2260,10 @@
     <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="BUT_loadtelem" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="lbl_playbackspeed" Row="2" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="lbl_logpercent" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="tracklog" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="LBL_logfn" Row="0" RowSpan="1" Column="1" ColumnSpan="2" /&gt;&lt;Control Name="BUT_log2kml" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BUT_playlog" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="panel2" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,86,AutoSize,0,Absolute,41" /&gt;&lt;Rows Styles="Absolute,33,Absolute,33,Absolute,55" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="tabTLogs.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
+    <value>4, 40</value>
   </data>
   <data name="tabTLogs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>350, 164</value>
+    <value>350, 146</value>
   </data>
   <data name="tabTLogs.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -2302,7 +2302,7 @@
     <value>BUT_loganalysis</value>
   </data>
   <data name="&gt;&gt;BUT_loganalysis.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_loganalysis.Parent" xml:space="preserve">
     <value>tablogbrowse</value>
@@ -2329,7 +2329,7 @@
     <value>BUT_DFMavlink</value>
   </data>
   <data name="&gt;&gt;BUT_DFMavlink.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_DFMavlink.Parent" xml:space="preserve">
     <value>tablogbrowse</value>
@@ -2356,7 +2356,7 @@
     <value>but_dflogtokml</value>
   </data>
   <data name="&gt;&gt;but_dflogtokml.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;but_dflogtokml.Parent" xml:space="preserve">
     <value>tablogbrowse</value>
@@ -2383,7 +2383,7 @@
     <value>but_bintolog</value>
   </data>
   <data name="&gt;&gt;but_bintolog.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;but_bintolog.Parent" xml:space="preserve">
     <value>tablogbrowse</value>
@@ -2410,7 +2410,7 @@
     <value>BUT_matlab</value>
   </data>
   <data name="&gt;&gt;BUT_matlab.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_matlab.Parent" xml:space="preserve">
     <value>tablogbrowse</value>
@@ -2437,7 +2437,7 @@
     <value>BUT_logbrowse</value>
   </data>
   <data name="&gt;&gt;BUT_logbrowse.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_logbrowse.Parent" xml:space="preserve">
     <value>tablogbrowse</value>
@@ -2446,13 +2446,13 @@
     <value>5</value>
   </data>
   <data name="tablogbrowse.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
+    <value>4, 40</value>
   </data>
   <data name="tablogbrowse.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tablogbrowse.Size" type="System.Drawing.Size, System.Drawing">
-    <value>350, 164</value>
+    <value>350, 146</value>
   </data>
   <data name="tablogbrowse.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -2524,7 +2524,7 @@
     <value>BUT_edit_selected</value>
   </data>
   <data name="&gt;&gt;BUT_edit_selected.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_edit_selected.Parent" xml:space="preserve">
     <value>tabScripts</value>
@@ -2584,7 +2584,7 @@
     <value>BUT_run_script</value>
   </data>
   <data name="&gt;&gt;BUT_run_script.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_run_script.Parent" xml:space="preserve">
     <value>tabScripts</value>
@@ -2614,7 +2614,7 @@
     <value>BUT_abort_script</value>
   </data>
   <data name="&gt;&gt;BUT_abort_script.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_abort_script.Parent" xml:space="preserve">
     <value>tabScripts</value>
@@ -2671,7 +2671,7 @@
     <value>BUT_select_script</value>
   </data>
   <data name="&gt;&gt;BUT_select_script.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_select_script.Parent" xml:space="preserve">
     <value>tabScripts</value>
@@ -2680,13 +2680,13 @@
     <value>6</value>
   </data>
   <data name="tabScripts.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
+    <value>4, 40</value>
   </data>
   <data name="tabScripts.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabScripts.Size" type="System.Drawing.Size, System.Drawing">
-    <value>350, 164</value>
+    <value>350, 146</value>
   </data>
   <data name="tabScripts.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -2719,7 +2719,7 @@
     <value>Vertical</value>
   </data>
   <data name="txt_messagebox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>344, 158</value>
+    <value>344, 140</value>
   </data>
   <data name="txt_messagebox.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -2737,13 +2737,13 @@
     <value>0</value>
   </data>
   <data name="tabPagemessages.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
+    <value>4, 40</value>
   </data>
   <data name="tabPagemessages.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabPagemessages.Size" type="System.Drawing.Size, System.Drawing">
-    <value>350, 164</value>
+    <value>350, 146</value>
   </data>
   <data name="tabPagemessages.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -2785,7 +2785,7 @@
     <value>BUT_PayloadFolder</value>
   </data>
   <data name="&gt;&gt;BUT_PayloadFolder.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_PayloadFolder.Parent" xml:space="preserve">
     <value>tabPayload</value>
@@ -2793,9 +2793,9 @@
   <data name="&gt;&gt;BUT_PayloadFolder.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="bindingSourcePayloadTab.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="bindingSourcePayloadTab.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>902, 57</value>
-  </data>
+  </metadata>
   <data name="TXT_gimbalRollPos.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 19</value>
   </data>
@@ -2959,7 +2959,7 @@
     <value>BUT_resetGimbalPos</value>
   </data>
   <data name="&gt;&gt;BUT_resetGimbalPos.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_resetGimbalPos.Parent" xml:space="preserve">
     <value>tabPayload</value>
@@ -3040,13 +3040,13 @@
     <value>4</value>
   </data>
   <data name="tabPayload.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
+    <value>4, 58</value>
   </data>
   <data name="tabPayload.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabPayload.Size" type="System.Drawing.Size, System.Drawing">
-    <value>350, 164</value>
+    <value>350, 128</value>
   </data>
   <data name="tabPayload.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -3069,8 +3069,14 @@
   <data name="tabControlactions.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
+  <data name="tabControlactions.ItemSize" type="System.Drawing.Size, System.Drawing">
+    <value>55, 18</value>
+  </data>
   <data name="tabControlactions.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
+  </data>
+  <data name="tabControlactions.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
   </data>
   <data name="tabControlactions.Padding" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -3175,7 +3181,7 @@
     <value>zg1</value>
   </data>
   <data name="&gt;&gt;zg1.Type" xml:space="preserve">
-    <value>ZedGraph.ZedGraphControl, ZedGraph, Version=5.1.5.19855, Culture=neutral, PublicKeyToken=null</value>
+    <value>ZedGraph.ZedGraphControl, ZedGraph, Version=5.1.5.21404, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;zg1.Parent" xml:space="preserve">
     <value>splitContainer1.Panel1</value>
@@ -3195,9 +3201,9 @@
   <data name="&gt;&gt;splitContainer1.Panel1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="contextMenuStripMap.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="contextMenuStripMap.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>444, 17</value>
-  </data>
+  </metadata>
   <data name="goHereToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>195, 22</value>
   </data>
@@ -3316,7 +3322,7 @@
     <value>but_disablejoystick</value>
   </data>
   <data name="&gt;&gt;but_disablejoystick.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;but_disablejoystick.Parent" xml:space="preserve">
     <value>splitContainer1.Panel2</value>
@@ -3340,7 +3346,7 @@
     <value>distanceBar1</value>
   </data>
   <data name="&gt;&gt;distanceBar1.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.DistanceBar, MissionPlanner, Version=1.3.52.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.DistanceBar, MissionPlanner, Version=1.3.52.10, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;distanceBar1.Parent" xml:space="preserve">
     <value>splitContainer1.Panel2</value>
@@ -3348,9 +3354,9 @@
   <data name="&gt;&gt;distanceBar1.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="bindingSource1.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="bindingSource1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>307, 17</value>
-  </data>
+  </metadata>
   <data name="windDir1.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 8.25pt, style=Bold</value>
   </data>
@@ -3367,7 +3373,7 @@
     <value>windDir1</value>
   </data>
   <data name="&gt;&gt;windDir1.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.WindDir, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.WindDir, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;windDir1.Parent" xml:space="preserve">
     <value>splitContainer1.Panel2</value>
@@ -3532,7 +3538,7 @@
     <value>lbl_hdop</value>
   </data>
   <data name="&gt;&gt;lbl_hdop.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyLabel, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyLabel, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lbl_hdop.Parent" xml:space="preserve">
     <value>splitContainer1.Panel2</value>
@@ -3565,7 +3571,7 @@
     <value>lbl_sats</value>
   </data>
   <data name="&gt;&gt;lbl_sats.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyLabel, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyLabel, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lbl_sats.Parent" xml:space="preserve">
     <value>splitContainer1.Panel2</value>
@@ -3592,7 +3598,7 @@
     <value>gMapControl1</value>
   </data>
   <data name="&gt;&gt;gMapControl1.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.myGMAP, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.myGMAP, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;gMapControl1.Parent" xml:space="preserve">
     <value>splitContainer1.Panel2</value>
@@ -3622,7 +3628,7 @@
     <value>TRK_zoom</value>
   </data>
   <data name="&gt;&gt;TRK_zoom.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyTrackBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyTrackBar, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;TRK_zoom.Parent" xml:space="preserve">
     <value>splitContainer1.Panel2</value>
@@ -3676,7 +3682,7 @@
     <value>coords1</value>
   </data>
   <data name="&gt;&gt;coords1.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.Coords, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.Coords, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;coords1.Parent" xml:space="preserve">
     <value>panel1</value>
@@ -3733,7 +3739,7 @@
     <value>label1</value>
   </data>
   <data name="&gt;&gt;label1.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyLabel, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyLabel, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;label1.Parent" xml:space="preserve">
     <value>panel1</value>
@@ -3903,18 +3909,18 @@
   <data name="&gt;&gt;MainH.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="ZedGraphTimer.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="ZedGraphTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>171, 17</value>
-  </data>
-  <data name="openScriptDialog.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  </metadata>
+  <metadata name="openScriptDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>891, 18</value>
-  </data>
+  </metadata>
   <data name="openScriptDialog.Filter" xml:space="preserve">
     <value>Python Files|*.py|All files|*.*</value>
   </data>
-  <data name="scriptChecker.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="scriptChecker.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>1037, 18</value>
-  </data>
+  </metadata>
   <data name="dataGridViewImageColumn1.HeaderText" xml:space="preserve">
     <value>Up</value>
   </data>
@@ -3927,15 +3933,15 @@
   <data name="dataGridViewImageColumn2.Width" type="System.Int32, mscorlib">
     <value>20</value>
   </data>
-  <data name="Messagetabtimer.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="Messagetabtimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>345, 57</value>
-  </data>
-  <data name="bindingSourceStatusTab.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  </metadata>
+  <metadata name="bindingSourceStatusTab.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 57</value>
-  </data>
-  <data name="$this.Localizable" type="System.Boolean, mscorlib">
+  </metadata>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
-  </data>
+  </metadata>
   <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
@@ -4189,6 +4195,6 @@
     <value>FlightData</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.MyUserControl, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>System.Windows.Forms.MyUserControl, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

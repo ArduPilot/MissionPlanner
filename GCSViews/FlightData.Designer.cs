@@ -264,6 +264,7 @@
             // 
             this.hud1.airspeed = 0F;
             this.hud1.alt = 0F;
+            this.hud1.altunit = null;
             this.hud1.AOA = 0F;
             this.hud1.BackColor = System.Drawing.Color.Black;
             this.hud1.batterylevel = 0F;
@@ -317,6 +318,7 @@
             this.hud1.datetime = new System.DateTime(((long)(0)));
             this.hud1.displayAOASSA = false;
             this.hud1.disttowp = 0F;
+            this.hud1.distunit = null;
             resources.ApplyResources(this.hud1, "hud1");
             this.hud1.ekfstatus = 0F;
             this.hud1.failsafe = false;
@@ -342,6 +344,7 @@
             this.hud1.pitch = 0F;
             this.hud1.roll = 0F;
             this.hud1.Russian = false;
+            this.hud1.speedunit = null;
             this.hud1.SSA = 0F;
             this.hud1.status = false;
             this.hud1.streamjpg = null;
@@ -457,8 +460,10 @@
             this.tabControlactions.Controls.Add(this.tabPagemessages);
             this.tabControlactions.Controls.Add(this.tabPayload);
             resources.ApplyResources(this.tabControlactions, "tabControlactions");
+            this.tabControlactions.Multiline = true;
             this.tabControlactions.Name = "tabControlactions";
             this.tabControlactions.SelectedIndex = 0;
+            this.tabControlactions.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight;
             this.tabControlactions.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabControl1_DrawItem);
             this.tabControlactions.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 

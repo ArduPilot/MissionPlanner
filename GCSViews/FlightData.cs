@@ -3325,17 +3325,15 @@ namespace MissionPlanner.GCSViews
 
             foreach (var field in test.GetProperties())
             {
+                TypeCode typeCode = Type.GetTypeCode(field.PropertyType);
+
+                if (!(typeCode == TypeCode.Single || typeCode == TypeCode.Double || typeCode == TypeCode.Int32 ||
+                      typeCode == TypeCode.UInt16))
+                    continue;
+                
                 // field.Name has the field's name.
                 object fieldValue = field.GetValue(thisBoxed, null); // Get value
                 if (fieldValue == null)
-                    continue;
-
-                // Get the TypeCode enumeration. Multiple types get mapped to a common typecode.
-                TypeCode typeCode = Type.GetTypeCode(fieldValue.GetType());
-
-                if (
-                    !(typeCode == TypeCode.Single || typeCode == TypeCode.Double || typeCode == TypeCode.Int32 ||
-                      typeCode == TypeCode.UInt16))
                     continue;
 
                 max_length = Math.Max(max_length, TextRenderer.MeasureText(field.Name, selectform.Font).Width);
