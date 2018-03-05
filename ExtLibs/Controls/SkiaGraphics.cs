@@ -6,8 +6,10 @@ using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.IO;
 using System.Linq;
+using MissionPlanner.Utilities;
 using SkiaSharp;
 using Color = System.Drawing.Color;
+using Matrix = System.Drawing.Drawing2D.Matrix;
 using Point = System.Drawing.Point;
 using Rectangle = System.Drawing.Rectangle;
 
@@ -63,7 +65,7 @@ namespace System
         }
     }
 
-    public class SkiaGraphics: IDisposable
+    public class SkiaGraphics: IGraphics, IDisposable
     {
         private SKSurface _surface = null;
 
@@ -75,28 +77,49 @@ namespace System
         private SKPaint _paint =
             new SKPaint() {IsAntialias = true, FilterQuality = SKFilterQuality.High, StrokeWidth = 0};
 
-        public SizeF MeasureString(string toolTipText, Font font)
+        public override SizeF MeasureString(string text, Font font, SizeF layoutArea, StringFormat stringFormat)
         {
             SKRect bound = new SKRect();
-            font.SKPaint().MeasureText(toolTipText, ref bound);
+            font.SKPaint().MeasureText(text, ref bound);
             return new SizeF(bound.Width, bound.Height);
         }
 
-        public void Clear(Color color)
+        public override SizeF MeasureString(string text, Font font, PointF origin, StringFormat stringFormat)
+        {
+            SKRect bound = new SKRect();
+            font.SKPaint().MeasureText(text, ref bound);
+            return new SizeF(bound.Width/* + origin.X*/, bound.Height/* + origin.Y*/);
+        }
+
+        public override void Clear(Color color)
         {
             _image.Clear(color.SKColor());
         }
 
-        public void DrawArc(Pen penn, RectangleF rect, float start, float degrees)
+        public override void DrawArc(Pen pen, float x, float y, float width, float height, float startAngle, float sweepAngle)
         {
             var path = new SKPath();
-            path.AddArc(new SKRect(rect.Left, rect.Top, rect.Right, rect.Bottom), start, degrees);
-            _image.DrawPath(path, penn.SKPaint());
+            path.AddArc(new SKRect(x,y,x+width,y+height), startAngle, sweepAngle);
+            _image.DrawPath(path, pen.SKPaint());
         }
 
-        public void DrawEllipse(Pen penn, RectangleF rect)
+        public override void DrawArc(Pen pen, int x, int y, int width, int height, int startAngle, int sweepAngle)
         {
-            DrawArc(penn, rect, 0, 360);
+            var path = new SKPath();
+            path.AddArc(new SKRect(x, y, x + width, y + height), startAngle, sweepAngle);
+            _image.DrawPath(path, pen.SKPaint());
+        }
+
+        public override void DrawEllipse(Pen pen, float x, float y, float width, float height)
+        {
+            DrawArc(pen, x, y, width, height, 0, 360);
+        }
+
+        public override void CopyFromScreen(int sourceX, int sourceY, int destinationX, int destinationY, Size blockRegionSize,
+            CopyPixelOperation copyPixelOperation)
+        {
+            //fixme
+
         }
 
         public void DrawImage(Image img, RectangleF rect)
@@ -123,22 +146,32 @@ namespace System
             data = null;
         }
 
-        public void DrawRectangle(Pen stroke, Rectangle rect)
+        public override void DrawRectangle(Pen pen, float x, float y, float width, float height)
         {
-            DrawRectangle(stroke, rect.X, rect.Y, rect.Width, rect.Height);
+            _image.DrawRect(new SKRect(x, y, x + width, y + height), pen.SKPaint());
         }
 
-        public void ResetTransform()
+        public override void ResetTransform()
         {
             _image.ResetMatrix();
         }
 
-        public void RotateTransform(float angle)
+        public override void RotateTransform(float angle, MatrixOrder order)
         {
-            _image.RotateDegrees(angle);
+            if(order == MatrixOrder.Prepend)
+                _image.RotateDegrees(angle);
+
+            if (order == MatrixOrder.Append)
+            {
+                //checkthis
+                var old = _image.TotalMatrix;
+                var extra = SKMatrix.MakeRotation(angle);
+                SKMatrix.PreConcat(ref old, extra);
+                _image.SetMatrix(old);
+            }
         }
 
-        public void TranslateTransform(float f, float f1, MatrixOrder order = MatrixOrder.Prepend)
+        public override void TranslateTransform(float f, float f1, MatrixOrder order)
         {
             if(order == MatrixOrder.Prepend)
             _image.Translate(f, f1);
@@ -151,7 +184,7 @@ namespace System
             }
         }
 
-        public void ScaleTransform(float sx, float sy, MatrixOrder order = MatrixOrder.Prepend)
+        public override void ScaleTransform(float sx, float sy, MatrixOrder order)
         {
             if (order == MatrixOrder.Prepend)
                 _image.Scale(sx, sy);
@@ -227,52 +260,35 @@ namespace System
             _image.DrawPath(pathtopintfarr(graphicsPath), stroke.SKPaint());
         }
 
-        public void FillPolygon(Brush brushh, Point[] list)
+        public override void FillPolygon(Brush brush, Point[] points, FillMode fillMode)
         {
             var path = new SKPath();
-            path.AddPoly(list.Select(a => new SKPoint(a.X, a.Y)).ToArray());
-            _image.DrawPath(path, brushh.SKPaint());
+            path.AddPoly(points.Select(a => new SKPoint(a.X, a.Y)).ToArray());
+            _image.DrawPath(path, brush.SKPaint());
         }
 
-        public void DrawPolygon(Pen penn, Point[] list)
+        public override void DrawPolygon(Pen pen, Point[] points)
         {
             var path = new SKPath();
-            path.AddPoly(list.Select(a => new SKPoint(a.X, a.Y)).ToArray());
-            _image.DrawPath(path, penn.SKPaint());
+            path.AddPoly(points.Select(a => new SKPoint(a.X, a.Y)).ToArray());
+            _image.DrawPath(path, pen.SKPaint());
         }
 
-        public void FillRectangle(Brush brushh, long x, long y, long width, long height)
+        public override void FillRectangle(Brush brush, float x, float y, float width, float height)
         {
-            FillRectangle(brushh, new RectangleF(x, y, width, height));
+            _image.DrawRect(new SKRect(x, y, x + width, y + height), brush.SKPaint());
         }
 
-        public void FillRectangle(Brush brushh, RectangleF rectf)
+        public override void DrawLine(Pen pen, float x1, float y1, float x2, float y2)
         {
-            _image.DrawRect(new SKRect(rectf.Left, rectf.Top, rectf.Right, rectf.Bottom), brushh.SKPaint());
+            _image.DrawLine(x1, y1, x2, y2, pen.SKPaint());
         }
 
-        public void DrawRectangle(Pen penn, float x1, float y1, float width, float height)
-        {
-            _image.DrawRect(new SKRect(x1, y1, x1 + width, y1 + height), penn.SKPaint());
-        }
-
-        public void DrawLine(Pen penn, float x1, float y1, float x2, float y2)
-        {
-            _image.DrawLine(x1, y1, x2, y2, penn.SKPaint());
-        }
-
-        public SmoothingMode SmoothingMode { get; set; }
-        public InterpolationMode InterpolationMode { get; set; }
-        public CompositingMode CompositingMode { get; set; }
-        public CompositingQuality CompositingQuality { get; set; }
-        public PixelOffsetMode PixelOffsetMode { get; set; }
-        public TextRenderingHint TextRenderingHint { get; set; }
         public Matrix Transform
         {
             get { return new Matrix(_image.TotalMatrix.Persp0, _image.TotalMatrix.Persp1, _image.TotalMatrix.ScaleX, _image.TotalMatrix.ScaleY, _image.TotalMatrix.TransX, _image.TotalMatrix.TransY); }
             set { }
         }
-        public Region Clip { get;  set; }
 
         public static SkiaGraphics FromImage(Bitmap bmp)
         {
@@ -324,11 +340,11 @@ namespace System
             _image.DrawPath(path, brushh.SKPaint());
         }
 
-        public void DrawPolygon(Pen penn, PointF[] list)
+        public override void DrawPolygon(Pen pen, PointF[] points)
         {
             var path = new SKPath();
-            path.AddPoly(list.Select(a => new SKPoint(a.X, a.Y)).ToArray());
-            _image.DrawPath(path, penn.SKPaint());
+            path.AddPoly(points.Select(a => new SKPoint(a.X, a.Y)).ToArray());
+            _image.DrawPath(path, pen.SKPaint());
         }
 
         public void Dispose()
@@ -337,30 +353,19 @@ namespace System
             _paint?.Dispose();
         }
 
-
-        public void DrawString(string p0, Font missingDataFont, Brush red, RectangleF p3)
+        public override void DrawString(string s, Font font, Brush brush, RectangleF layoutRectangle, StringFormat format)
         {
-            missingDataFont.SKPaint().Color = red.SKPaint().Color;
-            _image.DrawText(p0, p3.X, p3.Y, _paint);
-        }
-
-        public void DrawString(string v1, Font copyrightFont, Brush blue, int v2, int height)
-        {
-            _paint.Color = blue.SKPaint().Color;
-            _image.DrawText(v1, v2, height, _paint);
-        }
-
-        public void DrawString(string EmptyTileText, System.Drawing.Font MissingDataFont, Brush brush, RectangleF rectangleF, StringFormat CenterFormat)
-        {
-            float textWidth = _paint.MeasureText(EmptyTileText);
+            var pnt = brush.SKPaint();
             // Find the text bounds
-            SKRect textBounds= SKRect.Empty;
-            _paint.MeasureText(EmptyTileText, ref textBounds);
+            SKRect textBounds = SKRect.Empty;
+            var fnt = font.SKPaint();
+            fnt.MeasureText(s, ref textBounds);
 
-            _paint.StrokeWidth = 1;
+            pnt.TextSize = fnt.TextSize;
+            pnt.Typeface = fnt.Typeface;
 
-            _paint.Color = brush.SKPaint().Color;
-            _image.DrawText(EmptyTileText, rectangleF.X, rectangleF.Y, _paint);
+            pnt.StrokeWidth = 1;
+            _image.DrawText(s, layoutRectangle.X, layoutRectangle.Y, pnt);
         }
 
         public void DrawImage(Image image, Rectangle rectangle, float srcX, float srcY, float srcWidth, float srcHeight,
@@ -374,20 +379,16 @@ namespace System
             DrawImage(image, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
         }
 
-        public void SetClip(RectangleF rect, CombineMode mode = CombineMode.Replace)
+        public override void SetClip(RectangleF rect, CombineMode mode)
         {
             _image.ClipRect(new SKRect(rect.Left, rect.Top, rect.Right, rect.Bottom), SKClipOperation.Intersect,
                 false);
         }
 
-        public void SetClip(Region rect1, CombineMode mode = CombineMode.Replace)
+        public override void ResetClip()
         {
-            
-        }
-
-        public void ResetClip()
-        {
-            _image.ClipRect(SKRect.Create(0, 0, 10000, 10000), SKClipOperation.Intersect, false);
+            _image.ClipRect(_image.LocalClipBounds);
+            //_image.ClipRect(SKRect.Create(0, 0, 10000, 10000), SKClipOperation.Intersect, false);
         }
         
     }

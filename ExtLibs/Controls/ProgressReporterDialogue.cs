@@ -286,7 +286,7 @@ namespace MissionPlanner.Controls
                           + Environment.NewLine + Environment.NewLine
                           + this.workerException.StackTrace;
 
-            CustomMessageBox.Show(message,"Exception Details",MessageBoxButtons.OK,MessageBoxIcon.Information);
+            MsgBox.CustomMessageBox.Show(message,"Exception Details",MessageBoxButtons.OK,MessageBoxIcon.Information);
         }
 
         /// <summary>
