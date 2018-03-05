@@ -390,6 +390,9 @@ namespace MissionPlanner.Utilities
             {
                 file.SetLength(size); // set the length first
 
+                var starttime = DateTime.Now;
+                var got = 0;
+
                 object syncObject = new object(); // synchronize file writes
                 Parallel.ForEach(LongRange(0, 1 + size / chunkSize), new ParallelOptions { MaxDegreeOfParallelism = 3 }, (start) =>
                 {
@@ -404,6 +407,10 @@ namespace MissionPlanner.Utilities
                         {
                             file.Seek(start * chunkSize, SeekOrigin.Begin);
                             stream.CopyTo(file);
+                            got += chunkSize;
+                            var elapsed = (DateTime.Now - starttime).TotalSeconds;
+                            Console.WriteLine("{0} bps {1} {2}s {3}% of {4}", got / elapsed, got, elapsed,
+                                (got / (float) size) * 100.0f, size);
                         }
                     }
                 });
