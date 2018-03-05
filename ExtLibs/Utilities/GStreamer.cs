@@ -8,6 +8,7 @@ using System.Net.Sockets;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.IO.Compression;
 using System.IO.Pipes;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -411,6 +412,7 @@ namespace MissionPlanner.Utilities
                 }
             }
 
+            log.Info("No gstreamer found");
             return "";
         }
 
@@ -489,6 +491,7 @@ namespace MissionPlanner.Utilities
 
                     log.Info("Starting " + psi.FileName + " " + psi.Arguments);
 
+                    psi.RedirectStandardInput = true;
                     psi.RedirectStandardOutput = true;
                     psi.RedirectStandardError = true;
 
@@ -506,6 +509,10 @@ namespace MissionPlanner.Utilities
                     System.Threading.ThreadPool.QueueUserWorkItem(_Start);
 
                     return process;
+                }
+                else
+                {
+                    log.Info("No gstreamer found");
                 }
             }
             return null;
@@ -918,8 +925,21 @@ namespace MissionPlanner.Utilities
 
                 if (run != null)
                 {
+                    try
+                    {
+                        log.Info("StandardInput close");
+                        run.StandardInput.Write('\x3');
+                        run.StandardInput.Close();
+                    } catch { }
+
                     if (!run.CloseMainWindow())
+                    {
+                        Thread.Sleep(100);
+                        log.Info("Kill");
                         run.Kill();
+                    }
+
+                    log.Info("Close");
                     run.Close();
                 }
             }
@@ -936,6 +956,21 @@ namespace MissionPlanner.Utilities
             {
                 Stop(process);
             }
+        }
+
+        public static void DownloadGStreamer()
+        {
+            var output = Settings.GetDataDirectory() + "gstreamer-1.0-x86-1.9.2.zip";
+
+            Download.ParallelDownloadFile(
+                "http://firmware.ardupilot.org/MissionPlanner/gstreamer/gstreamer-1.0-x86-1.9.2.zip",
+                output);
+
+            ZipArchive zip = new ZipArchive(File.OpenRead(output));
+
+            zip.ExtractToDirectory(Settings.GetDataDirectory());
+
+            zip.Dispose();
         }
     }
 }
