@@ -2952,7 +2952,7 @@ namespace MissionPlanner
 
             //ZeroConf.EnumerateAllServicesFromAllHosts();
 
-            ZeroConf.ProbeForRTSP();
+            //ZeroConf.ProbeForRTSP();
 
             CommsSerialScan.doConnect += port =>
             {

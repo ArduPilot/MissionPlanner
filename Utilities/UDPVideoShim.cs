@@ -123,17 +123,7 @@ namespace MissionPlanner.Utilities
                     {
                         //CustomMessageBox.Show("Please download gstreamer 1.9.2 from [link;HERE;https://gstreamer.freedesktop.org/data/pkg/windows/1.9.2/gstreamer-1.0-x86-1.9.2.msi]\n And install it using the 'COMPLETE' option");
 
-                        var output = Settings.GetDataDirectory() + "gstreamer-1.0-x86-1.9.2.zip";
-
-                        Download.ParallelDownloadFile(
-                            "http://firmware.ardupilot.org/MissionPlanner/gstreamer/gstreamer-1.0-x86-1.9.2.zip",
-                            output);
-
-                        ZipArchive zip = new ZipArchive(File.OpenRead(output));
-
-                        zip.ExtractToDirectory(Settings.GetDataDirectory());
-
-                        zip.Dispose();
+                        GStreamer.DownloadGStreamer();
 
                         GStreamer.gstlaunch = GStreamer.LookForGstreamer();
                         if (!File.Exists(GStreamer.gstlaunch))
@@ -165,6 +155,7 @@ namespace MissionPlanner.Utilities
 
                 if (Ping("10.1.1.1"))
                 {
+                    log.Info("Detected a solo IP");
                     // solo video
                     tcpclient = new TcpClient("10.1.1.1", 5502);
                 }
@@ -181,14 +172,51 @@ namespace MissionPlanner.Utilities
             {
                 if (Ping("192.168.99.1"))
                 {
-                    // skyviper video
-                    var test = new WebClient().DownloadString("http://192.168.99.1/");
+                    log.Info("Detected a SkyViper IP");
 
-                    if (test.Contains("SkyViper"))
+                    bool skyviper = false;
+
+                    // skyviper rtsp
+                    try
                     {
-                        //slave to sender clock and Pipeline clock time
-                        //GStreamer.Start("rtspsrc location=rtsp://192.168.99.1/media/stream2 debug=false buffer-mode=1 latency=100 ntp-time-source=3 ! application/x-rtp ! rtph264depay ! avdec_h264 ! avenc_mjpeg ");
+                        var rtspclient = new TcpClient("192.168.99.1", 554);
+                        rtspclient.Close();
+                        skyviper = true;
+                    } catch { }
 
+                    // skyviper video
+                    try
+                    {
+                        var test = new WebClient().DownloadString("http://192.168.99.1/");
+                        if (test.Contains("SkyViper"))
+                            skyviper = true;
+                    } catch { }
+
+                    if (skyviper)
+                    {
+                        log.Info("Detected a SkyViper");
+
+                        if (!File.Exists(GStreamer.gstlaunch))
+                        {
+                            GStreamer.gstlaunch = GStreamer.LookForGstreamer();
+
+                            if (GStreamer.gstlaunch == "")
+                            {
+                                if (CustomMessageBox.Show(
+                                        "A video stream has been detected, but gstreamer has not been configured/installed.\nDo you want to install/config it now? It will download in the background.",
+                                        "GStreamer", System.Windows.Forms.MessageBoxButtons.YesNo) ==
+                                    (int) System.Windows.Forms.DialogResult.Yes)
+                                {
+                                    GStreamer.DownloadGStreamer();
+
+                                    GStreamer.gstlaunch = GStreamer.LookForGstreamer();
+                                }
+                            }
+                        }
+
+                        //slave to sender clock and Pipeline clock time
+                        gst = GStreamer.Start("rtspsrc location=rtsp://192.168.99.1/media/stream2 debug=false buffer-mode=1 latency=100 ntp-time-source=3 ! application/x-rtp ! rtph264depay ! avdec_h264 ! avenc_mjpeg ");
+                        /*
                         string url = "http://192.168.99.1/ajax/video.mjpg";
 
                         Settings.Instance["mjpeg_url"] = url;
@@ -200,6 +228,7 @@ namespace MissionPlanner.Utilities
                         CaptureMJPEG.OnNewImage += FlightData.instance.CaptureMJPEG_OnNewImage;
 
                         CaptureMJPEG.runAsync();
+                        */
                     }
                 }
             }
