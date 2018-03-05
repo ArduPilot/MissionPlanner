@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using MissionPlanner.Comms;
 
@@ -87,6 +89,31 @@ namespace MissionPlanner.Utilities
                 return fi1.GetValue(obj);
             }
             return pi.GetValue(obj);
+        }
+
+        static ConcurrentDictionary<Action,long> reentryDictionary = new ConcurrentDictionary<Action, long>();
+
+        public static void ProtectReentry(Action action)
+        {
+            long m_InFunction = reentryDictionary.ContainsKey(action) ? reentryDictionary[action] : 0;
+
+            if (Interlocked.CompareExchange(ref m_InFunction, 1, 0) == 0)
+            {
+                // We're not in the function
+                try
+                {
+                    action();
+                }
+                finally
+                {
+                    long temp;
+                    reentryDictionary.TryRemove(action, out temp);
+                }
+            }
+            else
+            {
+                // We're already in the function
+            }
         }
     }
 }

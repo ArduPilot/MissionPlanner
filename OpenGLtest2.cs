@@ -167,10 +167,10 @@ namespace MissionPlanner.Controls
             if (utmzone < -360)
                 utmzone = plla.GetUTMZone();
 
-            var minlat = (int) plla.Lat - 1;
-            var maxlat = (int) plla.Lat + 1;
-            var minlng = (int) plla.Lng - 1;
-            var maxlng = (int) plla.Lng + 1;
+            var minlat = LocationCenter.Lat - 0.5;
+            var maxlat = LocationCenter.Lat + 0.5;
+            var minlng = LocationCenter.Lng - 0.5;
+            var maxlng = LocationCenter.Lng + 0.5;
 
             var id = maxlat * 1e10 + minlng;
             var diagdist = 0.0;
@@ -199,14 +199,6 @@ namespace MissionPlanner.Controls
 
         protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
         {
-            DateTime start = DateTime.Now;
-            
-            if (this.DesignMode)
-                return;
-
-            if (area.LocationMiddle.Lat == 0 && area.LocationMiddle.Lng == 0)
-                return;
-
             try
             {
                 base.OnPaint(e);
@@ -215,6 +207,19 @@ namespace MissionPlanner.Controls
             {
                 return;
             }
+
+            Utilities.Extensions.ProtectReentry(doPaint);
+        }
+
+        public void doPaint()
+        {
+            DateTime start = DateTime.Now;
+            
+            if (this.DesignMode)
+                return;
+
+            if (area.LocationMiddle.Lat == 0 && area.LocationMiddle.Lng == 0)
+                return;
 
             utmzone = center.GetUTMZone();
 
@@ -232,7 +237,7 @@ namespace MissionPlanner.Controls
             lookY = campos[1] + Math.Cos(MathHelper.Radians(rpy.Z)) * 100;
             lookZ = cameraZ;
 
-            var size = 20000;
+            var size = 10000;
 
             // in front
             PointLatLngAlt front = center.newpos(rpy.Z, size);
@@ -294,7 +299,7 @@ namespace MissionPlanner.Controls
             GL.Fog(FogParameter.FogColor, new float[] {100/255.0f, 149/255.0f, 237/255.0f, 1f});
             //GL.Fog(FogParameter.FogDensity,0.1f);
             GL.Fog(FogParameter.FogMode, (int) FogMode.Linear);
-            GL.Fog(FogParameter.FogStart, (float) 4000);
+            GL.Fog(FogParameter.FogStart, (float) 700);
             GL.Fog(FogParameter.FogEnd, (float) size);
 
             GL.Disable(EnableCap.DepthTest);
@@ -370,6 +375,8 @@ namespace MissionPlanner.Controls
                 // 200m at max zoom
                 // step at 0 zoom
                 var distm = MathHelper.map(a, 0, zoom, size, 50);
+
+                //Console.WriteLine("tiles z {0} max {1} dist {2}", a, zoom, distm);
 
                 var offset = center.newpos(rpy.Z, distm);
 

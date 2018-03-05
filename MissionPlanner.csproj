@@ -457,7 +457,7 @@
     <Compile Include="Utilities\AP_Terrain.cs" />
     <Compile Include="Utilities\BoardDetect.cs" />
     <Compile Include="Utilities\CircleSurveyMission.cs" />
-    <Compile Include="Utilities\Extensions.cs" />
+    <Compile Include="Utilities\ExtensionsMP.cs" />
     <Compile Include="Utilities\fftui.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Utilities\Firmware.cs" />
     <Compile Include="Utilities\GimbalPoint.cs" />

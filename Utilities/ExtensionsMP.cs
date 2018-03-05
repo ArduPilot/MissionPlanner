@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace MissionPlanner.Utilities
 {
-    public static class Extensions
+    public static class ExtensionsMP
     {
         public static void Stop(this System.Threading.Timer timer)
         {
