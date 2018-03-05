@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using log4net;
 
 namespace MissionPlanner.Utilities
@@ -15,12 +16,16 @@ namespace MissionPlanner.Utilities
 
         private static UdpClient client;
 
+        private static Timer timer;
+
         static UDPMavlinkShim()
         {
             try
             {
                 client = new UdpClient(14550, AddressFamily.InterNetwork);
                 client.BeginReceive(clientdata, client);
+
+                timer = new Timer(state => { Stop(); }, null, 30000, 0);
             }
             catch (Exception ex)
             {
@@ -30,6 +35,7 @@ namespace MissionPlanner.Utilities
 
         private static void clientdata(IAsyncResult ar)
         {
+            timer = null;
             var client = ((UdpClient) ar.AsyncState);
 
             if (client == null || client.Client == null)
