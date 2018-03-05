@@ -215,7 +215,7 @@ namespace MissionPlanner.Utilities
                         }
 
                         //slave to sender clock and Pipeline clock time
-                        gst = GStreamer.Start("rtspsrc location=rtsp://192.168.99.1/media/stream2 debug=false buffer-mode=1 latency=100 ntp-time-source=3 ! application/x-rtp ! rtph264depay ! avdec_h264 ! avenc_mjpeg ");
+                        gst = GStreamer.Start("rtspsrc location=rtsp://192.168.99.1/media/stream2 debug=false buffer-mode=1 latency=100 ntp-time-source=3 ! application/x-rtp ! rtph264depay ! avdec_h264 ! queue leaky=2 ! jpegenc ");
                         /*
                         string url = "http://192.168.99.1/ajax/video.mjpg";
 
