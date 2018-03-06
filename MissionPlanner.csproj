@@ -243,6 +243,8 @@
     <Compile Include="GenOTP.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Grid\camerainfo.cs" />
     <Compile Include="Grid\GridData.cs" />
+    <Compile Include="Joystick\Extensions.cs" />
+    <Compile Include="Joystick\MyJoystickState.cs" />
     <Compile Include="L10N.cs" />
     <Compile Include="MagCalib.cs" />
     <Compile Include="Magfitrotation.cs" />
