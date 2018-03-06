@@ -13,7 +13,6 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
-    
     <UpgradeBackupLocation />
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
@@ -41,7 +40,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
@@ -220,6 +218,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Revision_History.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common">
+      <Version>4.5.0-preview2-26225-02</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

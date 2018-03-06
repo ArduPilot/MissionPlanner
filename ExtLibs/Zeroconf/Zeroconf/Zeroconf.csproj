@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
     <Authors>Oren Novotny</Authors>
     <PackageLicenseUrl>http://opensource.org/licenses/ms-pl</PackageLicenseUrl>
@@ -21,7 +21,7 @@
     <EmbeddedResource Include="Properties\Zeroconf.rd.xml" />
     <PackageReference Include="System.Reactive" Version="3.1.1" />
   </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
     <Compile Include="Platforms\netstandard1.3\*.cs" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'wpa81' or '$(TargetFramework)' == 'win8' or '$(TargetFramework)' == 'portable-win81+wpa81' or '$(TargetFramework)' == 'wp8' ">
