@@ -1154,12 +1154,10 @@ namespace MissionPlanner
             }
         }
 
-        void adsb_UpdatePlanePosition(object sender, EventArgs e)
+        void adsb_UpdatePlanePosition(object sender, MissionPlanner.Utilities.adsb.PointLatLngAltHdg adsb)
         {
             lock (adsblock)
             {
-                var adsb = ((MissionPlanner.Utilities.adsb.PointLatLngAltHdg)sender);
-
                 var id = adsb.Tag;
 
                 if (MainV2.instance.adsbPlanes.ContainsKey(id))

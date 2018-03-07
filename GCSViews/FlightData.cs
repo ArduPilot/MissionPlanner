@@ -1086,6 +1086,8 @@ namespace MissionPlanner.GCSViews
                             });
                         }
 
+                        adsb.CurrentPosition = MainV2.comPort.MAV.cs.HomeLocation;
+
                         // show proximity screen
                         if (MainV2.comPort.MAV?.Proximity != null && MainV2.comPort.MAV.Proximity.DataAvailable)
                         {
