@@ -49,7 +49,7 @@ namespace MissionPlanner.Utilities
             log.Error(ex);
         }
 
-        public static void ShowUserControl(this UserControl ctl)
+        public static Form ShowUserControl(this UserControl ctl)
         {
             Form frm = new Form();
             int header = frm.Height - frm.ClientRectangle.Height;
@@ -59,10 +59,14 @@ namespace MissionPlanner.Utilities
             frm.Height += header;
             frm.Tag = ctl;
             ctl.Dock = DockStyle.Fill;
+            frm.MinimumSize = ctl.MinimumSize;
+            frm.MaximumSize = ctl.MaximumSize;
             frm.Controls.Add(ctl);
             frm.Load += Frm_Load;
             frm.Closing += Frm_Closing;
             frm.Show();
+
+            return frm;
         }
 
         private static void Frm_Closing(object sender, System.ComponentModel.CancelEventArgs e)

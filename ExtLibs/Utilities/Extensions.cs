@@ -115,5 +115,15 @@ namespace MissionPlanner.Utilities
                 // We're already in the function
             }
         }
+
+        public static int toUnixTime(this DateTime dateTime)
+        {
+            return (int)dateTime.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+        }
+
+        public static DateTime fromUnixTime(this int time)
+        {
+            return new DateTime(1970, 1, 1).AddSeconds(time);
+        }
     }
 }
