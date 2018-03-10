@@ -375,7 +375,7 @@ namespace MissionPlanner.Utilities
         }
 
         //https://stackoverflow.com/questions/13606523/retrieving-partial-content-using-multiple-http-requsets-to-fetch-data-via-parlle
-        public static void ParallelDownloadFile(string uri, string filePath, int chunkSize = 0)
+        public static void ParallelDownloadFile(string uri, string filePath, int chunkSize = 0, Action<int,string> status = null)
         {
             if (uri == null)
                 throw new ArgumentNullException("uri");
@@ -391,7 +391,8 @@ namespace MissionPlanner.Utilities
                 file.SetLength(size); // set the length first
 
                 var starttime = DateTime.Now;
-                var got = 0;
+                var got = 0l;
+                DateTime lastupdate = DateTime.MinValue;
 
                 object syncObject = new object(); // synchronize file writes
                 Parallel.ForEach(LongRange(0, 1 + size / chunkSize), new ParallelOptions { MaxDegreeOfParallelism = 3 }, (start) =>
@@ -401,19 +402,38 @@ namespace MissionPlanner.Utilities
                     Console.WriteLine("{0} {1}-{2}", uri, start * chunkSize, start * chunkSize + chunkSize - 1);
                     HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
-                    lock (syncObject)
+                    using (Stream stream = response.GetResponseStream())
                     {
-                        using (Stream stream = response.GetResponseStream())
+                        var seek = start * chunkSize;
+
+                        byte[] array = new byte[1024 * 80];
+                        int count;
+                        while ((count = stream.Read(array, 0, array.Length)) != 0)
                         {
-                            file.Seek(start * chunkSize, SeekOrigin.Begin);
-                            stream.CopyTo(file);
-                            got += chunkSize;
-                            var elapsed = (DateTime.Now - starttime).TotalSeconds;
-                            Console.WriteLine("{0} bps {1} {2}s {3}% of {4}", got / elapsed, got, elapsed,
-                                (got / (float) size) * 100.0f, size);
+                            lock (syncObject)
+                            {
+                                file.Seek(seek, SeekOrigin.Begin);
+                                file.Write(array, 0, count);
+                                got += count;
+                                seek += count;
+                                var elapsed = (DateTime.Now - starttime).TotalSeconds;
+                                var percent = ((got / (float) size) * 100.0f);
+                                Console.WriteLine("{0} bps {1} {2}s {3}% of {4}     \r", got / elapsed, got, elapsed,
+                                    percent, size);
+                                if (lastupdate.Second != DateTime.Now.Second)
+                                {
+                                    lastupdate = DateTime.Now;
+                                    status?.Invoke((int) percent,
+                                        "Downloading.. ETA: " +
+                                        DateTime.Now.AddSeconds(((elapsed / percent) * (100 - percent)))
+                                            .ToShortTimeString());
+                                }
+                            }
                         }
                     }
                 });
+
+                status?.Invoke(100, "Complete");
             }
         }
 

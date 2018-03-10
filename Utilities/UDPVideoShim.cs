@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using log4net;
+using MissionPlanner.Controls;
 using MissionPlanner.GCSViews;
 
 namespace MissionPlanner.Utilities
@@ -119,11 +120,19 @@ namespace MissionPlanner.Utilities
                 }
                 else
                 {
-                    if (CustomMessageBox.Show("A video stream has been detected, but gstreamer has not been configured/installed.\nDo you want to install/config it now? It will download in the background.", "GStreamer", System.Windows.Forms.MessageBoxButtons.YesNo) == (int)System.Windows.Forms.DialogResult.Yes)
+                    if (CustomMessageBox.Show("A video stream has been detected, but gstreamer has not been configured/installed.\nDo you want to install/config it now?", "GStreamer", System.Windows.Forms.MessageBoxButtons.YesNo) == (int)System.Windows.Forms.DialogResult.Yes)
                     {
-                        //CustomMessageBox.Show("Please download gstreamer 1.9.2 from [link;HERE;https://gstreamer.freedesktop.org/data/pkg/windows/1.9.2/gstreamer-1.0-x86-1.9.2.msi]\n And install it using the 'COMPLETE' option");
-
-                        GStreamer.DownloadGStreamer();
+                        ProgressReporterDialogue prd = new ProgressReporterDialogue();
+                        ThemeManager.ApplyThemeTo(prd);
+                        prd.DoWork += sender =>
+                        {
+                            GStreamer.DownloadGStreamer(((i, s) =>
+                            {
+                                prd.UpdateProgressAndStatus(i, s);
+                                if (prd.doWorkArgs.CancelRequested) throw new Exception("User Request");
+                            }));
+                        };
+                        prd.RunBackgroundOperationAsync();
 
                         GStreamer.gstlaunch = GStreamer.LookForGstreamer();
                         if (!File.Exists(GStreamer.gstlaunch))
@@ -139,7 +148,8 @@ namespace MissionPlanner.Utilities
             }
 
             GStreamer.UdpPort = port;
-            gst = GStreamer.Start();
+            GStreamer.StartA("udpsrc port=" + port +
+                             " buffer-size=300000 ! application/x-rtp ! rtph264depay ! avdec_h264 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink");
         }
 
         public static void Start()
@@ -203,11 +213,17 @@ namespace MissionPlanner.Utilities
                             if (GStreamer.gstlaunch == "")
                             {
                                 if (CustomMessageBox.Show(
-                                        "A video stream has been detected, but gstreamer has not been configured/installed.\nDo you want to install/config it now? It will download in the background.",
+                                        "A video stream has been detected, but gstreamer has not been configured/installed.\nDo you want to install/config it now?",
                                         "GStreamer", System.Windows.Forms.MessageBoxButtons.YesNo) ==
                                     (int) System.Windows.Forms.DialogResult.Yes)
                                 {
-                                    GStreamer.DownloadGStreamer();
+                                    ProgressReporterDialogue prd = new ProgressReporterDialogue();
+                                    ThemeManager.ApplyThemeTo(prd);
+                                    prd.DoWork += sender =>
+                                    {
+                                        GStreamer.DownloadGStreamer(((i, s) => prd.UpdateProgressAndStatus(i, s)));
+                                    };
+                                    prd.RunBackgroundOperationAsync();
 
                                     GStreamer.gstlaunch = GStreamer.LookForGstreamer();
                                 }
@@ -215,7 +231,7 @@ namespace MissionPlanner.Utilities
                         }
 
                         //slave to sender clock and Pipeline clock time
-                        gst = GStreamer.Start("rtspsrc location=rtsp://192.168.99.1/media/stream2 debug=false buffer-mode=1 latency=100 ntp-time-source=3 ! application/x-rtp ! rtph264depay ! avdec_h264 ! queue leaky=2 ! jpegenc ");
+                        GStreamer.StartA("rtspsrc location=rtsp://192.168.99.1/media/stream2 debug=false buffer-mode=1 latency=100 ntp-time-source=3 ! application/x-rtp ! rtph264depay ! avdec_h264 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink");
                         /*
                         string url = "http://192.168.99.1/ajax/video.mjpg";
 
