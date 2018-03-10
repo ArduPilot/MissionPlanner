@@ -122,19 +122,7 @@ namespace MissionPlanner.Utilities
                 {
                     if (CustomMessageBox.Show("A video stream has been detected, but gstreamer has not been configured/installed.\nDo you want to install/config it now?", "GStreamer", System.Windows.Forms.MessageBoxButtons.YesNo) == (int)System.Windows.Forms.DialogResult.Yes)
                     {
-                        ProgressReporterDialogue prd = new ProgressReporterDialogue();
-                        ThemeManager.ApplyThemeTo(prd);
-                        prd.DoWork += sender =>
-                        {
-                            GStreamer.DownloadGStreamer(((i, s) =>
-                            {
-                                prd.UpdateProgressAndStatus(i, s);
-                                if (prd.doWorkArgs.CancelRequested) throw new Exception("User Request");
-                            }));
-                        };
-                        prd.RunBackgroundOperationAsync();
-
-                        GStreamer.gstlaunch = GStreamer.LookForGstreamer();
+                        DownloadGStreamer();
                         if (!File.Exists(GStreamer.gstlaunch))
                         {
                             return;
@@ -150,6 +138,23 @@ namespace MissionPlanner.Utilities
             GStreamer.UdpPort = port;
             GStreamer.StartA("udpsrc port=" + port +
                              " buffer-size=300000 ! application/x-rtp ! rtph264depay ! avdec_h264 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink");
+        }
+
+        private static void DownloadGStreamer()
+        {
+            ProgressReporterDialogue prd = new ProgressReporterDialogue();
+            ThemeManager.ApplyThemeTo(prd);
+            prd.DoWork += sender =>
+            {
+                GStreamer.DownloadGStreamer(((i, s) =>
+                {
+                    prd.UpdateProgressAndStatus(i, s);
+                    if (prd.doWorkArgs.CancelRequested) throw new Exception("User Request");
+                }));
+            };
+            prd.RunBackgroundOperationAsync();
+
+            GStreamer.gstlaunch = GStreamer.LookForGstreamer();
         }
 
         public static void Start()
@@ -217,15 +222,7 @@ namespace MissionPlanner.Utilities
                                         "GStreamer", System.Windows.Forms.MessageBoxButtons.YesNo) ==
                                     (int) System.Windows.Forms.DialogResult.Yes)
                                 {
-                                    ProgressReporterDialogue prd = new ProgressReporterDialogue();
-                                    ThemeManager.ApplyThemeTo(prd);
-                                    prd.DoWork += sender =>
-                                    {
-                                        GStreamer.DownloadGStreamer(((i, s) => prd.UpdateProgressAndStatus(i, s)));
-                                    };
-                                    prd.RunBackgroundOperationAsync();
-
-                                    GStreamer.gstlaunch = GStreamer.LookForGstreamer();
+                                    DownloadGStreamer();
                                 }
                             }
                         }
