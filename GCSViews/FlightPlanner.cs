@@ -1912,22 +1912,22 @@ namespace MissionPlanner.GCSViews
                             sw.Write("\t" + mode);
                             sw.Write("\t" +
                                      double.Parse(Commands.Rows[a].Cells[Param1.Index].Value.ToString())
-                                         .ToString("0.000000", new CultureInfo("en-US")));
+                                         .ToString("0.00000000", new CultureInfo("en-US")));
                             sw.Write("\t" +
                                      double.Parse(Commands.Rows[a].Cells[Param2.Index].Value.ToString())
-                                         .ToString("0.000000", new CultureInfo("en-US")));
+                                         .ToString("0.00000000", new CultureInfo("en-US")));
                             sw.Write("\t" +
                                      double.Parse(Commands.Rows[a].Cells[Param3.Index].Value.ToString())
-                                         .ToString("0.000000", new CultureInfo("en-US")));
+                                         .ToString("0.00000000", new CultureInfo("en-US")));
                             sw.Write("\t" +
                                      double.Parse(Commands.Rows[a].Cells[Param4.Index].Value.ToString())
-                                         .ToString("0.000000", new CultureInfo("en-US")));
+                                         .ToString("0.00000000", new CultureInfo("en-US")));
                             sw.Write("\t" +
                                      double.Parse(Commands.Rows[a].Cells[Lat.Index].Value.ToString())
-                                         .ToString("0.000000", new CultureInfo("en-US")));
+                                         .ToString("0.00000000", new CultureInfo("en-US")));
                             sw.Write("\t" +
                                      double.Parse(Commands.Rows[a].Cells[Lon.Index].Value.ToString())
-                                         .ToString("0.000000", new CultureInfo("en-US")));
+                                         .ToString("0.00000000", new CultureInfo("en-US")));
                             sw.Write("\t" +
                                      (double.Parse(Commands.Rows[a].Cells[Alt.Index].Value.ToString())/
                                       CurrentState.multiplieralt).ToString("0.000000", new CultureInfo("en-US")));
