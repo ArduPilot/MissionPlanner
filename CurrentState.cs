@@ -145,6 +145,13 @@ namespace MissionPlanner
             set { _altasl = value; }
         }
 
+        [DisplayText("Horizon Dist (dist)")]
+        public float horizondist
+        {
+            // alt = above home
+            get { return (float) (3570 * Math.Sqrt(alt)) * multiplierdist; }
+        }
+
         float _altasl = 0;
         float oldalt = 0;
 
