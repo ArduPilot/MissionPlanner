@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using GMap.NET;
 using MissionPlanner.Utilities;
+using Newtonsoft.Json;
 
 namespace MissionPlanner.Utilities
 {
@@ -12,6 +13,7 @@ namespace MissionPlanner.Utilities
         public static readonly Vector3f Zero = new Vector3f(0, 0, 0);
         public static readonly Vector3f One = new Vector3f(1.0f, 1.0f, 1.0f);
 
+        [JsonConstructor]
         public Vector3f(float x = 0, float y = 0, float z = 0) : base(x, y, z)
         {
         }
@@ -22,6 +24,7 @@ namespace MissionPlanner.Utilities
         public static readonly Vector3 Zero = new Vector3(0, 0, 0);
         public static readonly Vector3 One = new Vector3(1.0, 1.0, 1.0);
 
+        [JsonConstructor]
         public Vector3(double x = 0, double y = 0, double z = 0) : base(x, y, z) { }
 
         public Vector3(Vector3<double> copyme) : base(copyme) { }
@@ -33,24 +36,28 @@ namespace MissionPlanner.Utilities
         public T y;
         public T z;
 
+        [JsonIgnore]
         public T X
         {
             get { return x; }
             set { x = value; }
         }
 
+        [JsonIgnore]
         public T Y
         {
             get { return y; }
             set { y = value; }
         }
 
+        [JsonIgnore]
         public T Z
         {
             get { return z; }
             set { z = value; }
         }
 
+        [JsonConstructor]
         public Vector3(T x, T y, T z)
         {
             this.x = x;

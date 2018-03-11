@@ -766,11 +766,7 @@ namespace MissionPlanner
 
         private void but_trimble_Click(object sender, EventArgs e)
         {
-            var port = "com1";
-            if (InputBox.Show("enter comport", "enter comport", ref port) == DialogResult.OK)
-            {
-                new AP_GPS_GSOF(port);
-            }
+            new Swarm.Sequence.LayoutEditor().Show();
         }
 
         private void myButton_vlc_Click(object sender, EventArgs e)

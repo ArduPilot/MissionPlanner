@@ -213,6 +213,8 @@
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.4.0" />
 
     <PackageReference Include="netDXF" version="2.0.2" targetFramework="net462" />
+
+    <PackageReference Include="NETStandard.Library" Version="2.0.1" />
     <PackageReference Include="Newtonsoft.Json" version="10.0.3" targetFramework="net462" />
     <PackageReference Include="ProjNet" version="1.2" targetFramework="net40" />
     <PackageReference Include="protobuf-net" version="2.1.0" targetFramework="net40" requireReinstallation="true" />
@@ -271,6 +273,13 @@
     <Compile Include="SerialOutputPass.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Splash.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Strings.cs"> <SubType>Control</SubType> </Compile>
+    <Compile Include="Swarm\Sequence\Controller.cs" />
+    <Compile Include="Swarm\Sequence\Drone.cs" />
+    <Compile Include="Swarm\Sequence\DroneGroup.cs" />
+    <Compile Include="Swarm\Sequence\Layout.cs" />
+    <Compile Include="Swarm\Sequence\LayoutEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="temp.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Antenna\ArduTracker.cs" />
     <Compile Include="Antenna\DegreeTracker.cs" />
