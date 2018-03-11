@@ -16,6 +16,7 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using System.Linq;
 using System.Runtime.InteropServices;
+using SvgNet.SvgGdi;
 using PixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
 
 
@@ -148,7 +149,7 @@ namespace MissionPlanner.Controls
             objBitmap.MakeTransparent();
 
             graphicsObject = this;
-            graphicsObjectGDIP = Graphics.FromImage(objBitmap);
+            graphicsObjectGDIP = new GdiGraphics(Graphics.FromImage(objBitmap));
         }
 
         private float _roll = 0;
@@ -789,7 +790,7 @@ namespace MissionPlanner.Controls
         private int count = 0;
         private DateTime countdate = DateTime.Now;
         private HUD graphicsObject;
-        private Graphics graphicsObjectGDIP;
+        private IGraphics graphicsObjectGDIP;
 
         private DateTime starttime = DateTime.MinValue;
 
@@ -1044,6 +1045,8 @@ namespace MissionPlanner.Controls
                 if (!opengl)
                 {
                     e.Graphics.DrawImageUnscaled(objBitmap, 0, 0);
+
+                    //File.WriteAllText("hud.svg", graphicsObjectGDIP.WriteSVGString());
                 }
                 else if (opengl)
                 {
@@ -1638,7 +1641,7 @@ namespace MissionPlanner.Controls
                 {
                     objBitmap = new Bitmap(this.Width, this.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
                     objBitmap.MakeTransparent();
-                    graphicsObjectGDIP = Graphics.FromImage(objBitmap);
+                    graphicsObjectGDIP = new GdiGraphics(Graphics.FromImage(objBitmap));
 
                     graphicsObjectGDIP.SmoothingMode = SmoothingMode.HighSpeed;
                     graphicsObjectGDIP.InterpolationMode = InterpolationMode.NearestNeighbor;
@@ -3077,7 +3080,7 @@ namespace MissionPlanner.Controls
                 }
             }
 
-            graphicsObjectGDIP = Graphics.FromImage(objBitmap);
+            graphicsObjectGDIP = new GdiGraphics(Graphics.FromImage(objBitmap));
 
             try
             {

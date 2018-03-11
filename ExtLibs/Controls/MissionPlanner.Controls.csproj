@@ -296,6 +296,10 @@
       <Project>{e06def77-f933-42fb-afd7-db2d0d8d6a98}</Project>
       <Name>GMap.NET.WindowsForms</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SvgNet\SvgNet.csproj">
+      <Project>{bb4c8021-b5e1-4de2-82cb-14bdfb9837e4}</Project>
+      <Name>SvgNet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Utilities\MissionPlanner.Utilities.csproj">
       <Project>{1378a66c-38e4-46f5-a05f-dc04ef7d4d16}</Project>
       <Name>MissionPlanner.Utilities</Name>
