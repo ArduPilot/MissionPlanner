@@ -500,5 +500,83 @@ namespace MissionPlanner.Controls
             mousedown = true;
             MouseDownStart = myGMAP1.FromLocalToLatLng(e.X, e.Y);
         }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Control | Keys.S))
+            {
+                var exepath = CheckandGetSITLImage("ArduCopter.elf");
+                var max = 5;
+
+                for (int a = max; a >= 0 ; a--)
+                {
+                    var extra = "";
+                    var model = "+";
+
+                    var config = GetDefaultConfig(model);
+
+                    if (!string.IsNullOrEmpty(config))
+                        extra += @" --defaults """ + config + @"""";
+
+                    var home = new PointLatLngAlt(markeroverlay.Markers[0].Position).newpos((double)NUM_heading.Value, a * 4);
+
+                    if (max == a)
+                    {
+                        extra += String.Format(
+                            " -M{4} -s1 --home {3} --instance {0} --uartA tcp:0 {1} -P SYSID_THISMAV={2} ",
+                            a, "", a + 1, BuildHomeLocation(home, (int) NUM_heading.Value), model);
+                    }
+                    else
+                    {
+                        extra += String.Format(
+                            " -M{4} -s1 --home {3} --instance {0} --uartA tcp:0 {1} -P SYSID_THISMAV={2} ",
+                            a, "--uartD tcpclient:127.0.0.1:" + (5770 + 10 * a), a + 1, BuildHomeLocation(home, (int) NUM_heading.Value), model);
+                    }
+
+                    string simdir = sitldirectory + model + (a+1) + Path.DirectorySeparatorChar;
+
+                    Directory.CreateDirectory(simdir);
+
+                    string path = Environment.GetEnvironmentVariable("PATH");
+
+                    Environment.SetEnvironmentVariable("PATH", sitldirectory + ";" + simdir + ";" + path, EnvironmentVariableTarget.Process);
+
+                    Environment.SetEnvironmentVariable("HOME", simdir, EnvironmentVariableTarget.Process);
+
+                    ProcessStartInfo exestart = new ProcessStartInfo();
+                    exestart.FileName = exepath;
+                    exestart.Arguments = extra;
+                    exestart.WorkingDirectory = simdir;
+                    exestart.WindowStyle = ProcessWindowStyle.Minimized;
+                    exestart.UseShellExecute = true;
+
+                    Process.Start(exestart);
+                }
+
+                try
+                {
+                    var client = new Comms.TcpSerial();
+
+                    client.client = new TcpClient("127.0.0.1", 5760);
+
+                    MainV2.comPort.BaseStream = client;
+
+                    SITLSEND = new UdpClient("127.0.0.1", 5501);
+
+                    Thread.Sleep(200);
+
+                    MainV2.instance.doConnect(MainV2.comPort, "preset", "5760");
+
+                    return true;
+                }
+                catch
+                {
+                    CustomMessageBox.Show(Strings.Failed_to_connect_to_SITL_instance, Strings.ERROR);
+                    return true;
+                }
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
     }
 }
