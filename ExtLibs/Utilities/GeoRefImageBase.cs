@@ -236,6 +236,8 @@ namespace MissionPlanner.GeoRef
                                     location.RelAlt = double.Parse(item.items[raltindex], CultureInfo.InvariantCulture);
                                 if (altindex != -1)
                                     location.AltAMSL = double.Parse(item.items[altindex], CultureInfo.InvariantCulture);
+                                if (altindex != -1)
+                                    location.GPSAlt = double.Parse(item.items[altindex], CultureInfo.InvariantCulture);
 
                                 location.Roll = currentRoll;
                                 location.Pitch = currentPitch;
@@ -348,6 +350,8 @@ namespace MissionPlanner.GeoRef
                 float currentSAlt = 0;
                 using (var sr = new CollectionBuffer(File.OpenRead(fn)))
                 {
+                    //FMT, 146, 43, CAM, QIHLLeeeccC, TimeUS,GPSTime,GPSWeek,Lat,Lng,Alt,RelAlt,GPSAlt,Roll,Pitch,Yaw
+                    //FMT, 198, 17, RFND, QCBCB, TimeUS,Dist1,Orient1,Dist2,Orient2
                     foreach (var item in sr.GetEnumeratorType(new string[] { "CAM", "RFND" }))
                     {
                         if (item.msgtype == "CAM")
@@ -356,6 +360,7 @@ namespace MissionPlanner.GeoRef
                             int lngindex = sr.dflog.FindMessageOffset("CAM", "Lng");
                             int altindex = sr.dflog.FindMessageOffset("CAM", "Alt");
                             int raltindex = sr.dflog.FindMessageOffset("CAM", "RelAlt");
+                            int galtindex = sr.dflog.FindMessageOffset("CAM", "GPSAlt");
 
                             int rindex = sr.dflog.FindMessageOffset("CAM", "Roll");
                             int pindex = sr.dflog.FindMessageOffset("CAM", "Pitch");
@@ -374,6 +379,8 @@ namespace MissionPlanner.GeoRef
                             p.AltAMSL = double.Parse(item.items[altindex], CultureInfo.InvariantCulture);
                             if (raltindex != -1)
                                 p.RelAlt = double.Parse(item.items[raltindex], CultureInfo.InvariantCulture);
+                            if (galtindex != -1)
+                                p.GPSAlt = double.Parse(item.items[galtindex], CultureInfo.InvariantCulture);
 
                             p.Pitch = float.Parse(item.items[pindex], CultureInfo.InvariantCulture);
                             p.Roll = float.Parse(item.items[rindex], CultureInfo.InvariantCulture);
@@ -413,6 +420,7 @@ namespace MissionPlanner.GeoRef
                         int lngindex = sr.dflog.FindMessageOffset("TRIG", "Lng");
                         int altindex = sr.dflog.FindMessageOffset("TRIG", "Alt");
                         int raltindex = sr.dflog.FindMessageOffset("TRIG", "RelAlt");
+                        int galtindex = sr.dflog.FindMessageOffset("TRIG", "GPSAlt");
 
                         int rindex = sr.dflog.FindMessageOffset("TRIG", "Roll");
                         int pindex = sr.dflog.FindMessageOffset("TRIG", "Pitch");
@@ -431,6 +439,8 @@ namespace MissionPlanner.GeoRef
                         p.AltAMSL = double.Parse(item.items[altindex], CultureInfo.InvariantCulture);
                         if (raltindex != -1)
                             p.RelAlt = double.Parse(item.items[raltindex], CultureInfo.InvariantCulture);
+                        if (galtindex != -1)
+                            p.GPSAlt = double.Parse(item.items[galtindex], CultureInfo.InvariantCulture);
 
                         p.Pitch = float.Parse(item.items[pindex], CultureInfo.InvariantCulture);
                         p.Roll = float.Parse(item.items[rindex], CultureInfo.InvariantCulture);
@@ -779,6 +789,7 @@ namespace MissionPlanner.GeoRef
                     p.Lon = currentCAM.Lon;
                     p.AltAMSL = currentCAM.AltAMSL;
                     p.RelAlt = currentCAM.RelAlt;
+                    p.GPSAlt = currentCAM.GPSAlt;
 
                     VehicleLocation cameraLocationFromGPSMsg = null;
 
@@ -837,6 +848,7 @@ namespace MissionPlanner.GeoRef
                             p.Lon = currentCAM.Lon;
                             p.AltAMSL = currentCAM.AltAMSL;
                             p.RelAlt = currentCAM.RelAlt;
+                            p.GPSAlt = currentCAM.GPSAlt;
 
                             string logAltMsg = "RelAlt";
 
@@ -869,6 +881,7 @@ namespace MissionPlanner.GeoRef
                             p.Lon = cameraLocationFromGPSMsg.Lon;
                             p.AltAMSL = cameraLocationFromGPSMsg.AltAMSL;
                             p.RelAlt = cameraLocationFromGPSMsg.RelAlt;
+                            p.GPSAlt = cameraLocationFromGPSMsg.GPSAlt;
 
                             string logAltMsg = useAMSLAlt ? "AMSL Alt" : "RelAlt";
 
@@ -955,7 +968,7 @@ namespace MissionPlanner.GeoRef
                 p.Lon = currentTRIG.Lon;
                 p.AltAMSL = currentTRIG.AltAMSL;
                 p.RelAlt = currentTRIG.RelAlt;
-
+                p.GPSAlt = currentTRIG.GPSAlt;
 
                 p.Pitch = currentTRIG.Pitch;
                 p.Roll = currentTRIG.Roll;
@@ -1173,7 +1186,7 @@ namespace MissionPlanner.GeoRef
         }
 
         public void CreateReportFiles(Dictionary<string, PictureInformation> listPhotosWithInfo, string dirWithImages,
-            float offset, double num_camerarotation, double num_hfov, double num_vfov, Action<string> AppendText, Action<string> GeoRefKML = null)
+            float offset, double num_camerarotation, double num_hfov, double num_vfov, Action<string> AppendText = null, Action<string> GeoRefKML = null, bool usegpsalt = false)
         {
             // Write report files
             Document kmlroot = new Document();
@@ -1342,7 +1355,7 @@ namespace MissionPlanner.GeoRef
 
                 swloctxt.WriteLine("#name latitude/Y longitude/X height/Z yaw pitch roll SAlt");
 
-                AppendText("Start Processing\n");
+                AppendText?.Invoke("Start Processing\n");
 
                 // Dont know why but it was 10 in the past so let it be. Used to generate jxl file simulating x100 from trimble
                 int lastRecordN = JXL_ID_OFFSET;
@@ -1353,7 +1366,7 @@ namespace MissionPlanner.GeoRef
                 foreach (var item in vehicleLocations.Values)
                 {
                     if (item != null)
-                        coords.Add(new SharpKml.Base.Vector(item.Lat, item.Lon, item.AltAMSL));
+                        coords.Add(new SharpKml.Base.Vector(item.Lat, item.Lon, item.getAltitude(useAMSLAlt,usegpsalt)));
                 }
 
                 var ls = new LineString() { Coordinates = coords, AltitudeMode = AltitudeMode.Absolute };
@@ -1379,7 +1392,7 @@ namespace MissionPlanner.GeoRef
                             Name = filenameWithoutExt,
                             Geometry = new SharpKml.Dom.Point()
                             {
-                                Coordinate = new Vector(picInfo.Lat, picInfo.Lon, picInfo.AltAMSL),
+                                Coordinate = new Vector(picInfo.Lat, picInfo.Lon, picInfo.getAltitude(true,usegpsalt)),
                                 AltitudeMode = AltitudeMode.Absolute
                             },
                             Description = new Description()
@@ -1399,7 +1412,7 @@ namespace MissionPlanner.GeoRef
                     double lng = picInfo.Lon;
                     double alpha = picInfo.Yaw + num_camerarotation;
 
-                    RectangleF rect = getboundingbox(picInfo.Lat, picInfo.Lon, picInfo.AltAMSL, alpha, num_hfov, num_vfov);
+                    RectangleF rect = getboundingbox(picInfo.Lat, picInfo.Lon, picInfo.getAltitude(true, usegpsalt), alpha, num_hfov, num_vfov);
 
                     Console.WriteLine(rect);
 
@@ -1440,7 +1453,7 @@ namespace MissionPlanner.GeoRef
 
                     swloctxt.WriteLine(filename + " " + picInfo.Lat.ToString(CultureInfo.InvariantCulture) + " " +
                                        picInfo.Lon.ToString(CultureInfo.InvariantCulture) + " " +
-                                       picInfo.getAltitude(useAMSLAlt).ToString(CultureInfo.InvariantCulture) + " " +
+                                       picInfo.getAltitude(useAMSLAlt, usegpsalt).ToString(CultureInfo.InvariantCulture) + " " +
                                        picInfo.Yaw.ToString(CultureInfo.InvariantCulture) + " " +
                                        picInfo.Pitch.ToString(CultureInfo.InvariantCulture) + " " +
                                        picInfo.Roll.ToString(CultureInfo.InvariantCulture) + " " +
@@ -1448,21 +1461,21 @@ namespace MissionPlanner.GeoRef
 
                     swloccsv.WriteLine(filename + "," + picInfo.Lat.ToString(CultureInfo.InvariantCulture) + "," +
                                        picInfo.Lon.ToString(CultureInfo.InvariantCulture) + "," +
-                                       picInfo.getAltitude(useAMSLAlt).ToString(CultureInfo.InvariantCulture) + "," +
+                                       picInfo.getAltitude(useAMSLAlt, usegpsalt).ToString(CultureInfo.InvariantCulture) + "," +
                                        picInfo.Yaw.ToString(CultureInfo.InvariantCulture) + "," +
                                        picInfo.Pitch.ToString(CultureInfo.InvariantCulture) + "," +
                                        picInfo.Roll.ToString(CultureInfo.InvariantCulture));
 
                     swloctel.WriteLine(filename + "\t" + picInfo.Time.ToString("yyyy:MM:dd HH:mm:ss") + "\t" +
-                                       picInfo.Lon + "\t" + picInfo.Lat + "\t" + picInfo.getAltitude(useAMSLAlt));
+                                       picInfo.Lon + "\t" + picInfo.Lat + "\t" + picInfo.getAltitude(useAMSLAlt, usegpsalt));
                     swloctel.Flush();
                     swloctxt.Flush();
 
                     lastRecordN = GenPhotoStationRecord(swloctrim, picInfo.Path, picInfo.Lat, picInfo.Lon,
-                        picInfo.getAltitude(useAMSLAlt), 0, 0, picInfo.Yaw, picInfo.Width, picInfo.Height, lastRecordN);
+                        picInfo.getAltitude(useAMSLAlt, usegpsalt), 0, 0, picInfo.Yaw, picInfo.Width, picInfo.Height, lastRecordN);
 
                     log.InfoFormat(filename + " " + picInfo.Lon + " " + picInfo.Lat + " " +
-                                   picInfo.getAltitude(useAMSLAlt) + "           ");
+                                   picInfo.getAltitude(useAMSLAlt, usegpsalt) + "           ");
                 }
 
                 Serializer serializer = new Serializer();
@@ -1480,7 +1493,7 @@ namespace MissionPlanner.GeoRef
                 swloctrim.WriteEndElement(); // job
                 swloctrim.WriteEndDocument();
 
-                AppendText("Done \n\n");
+                AppendText?.Invoke("Done \n\n");
             }
         }
 

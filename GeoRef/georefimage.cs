@@ -166,14 +166,14 @@ namespace MissionPlanner.GeoRef
                         if (georef.picturesInfo != null)
                             georef.CreateReportFiles(georef.picturesInfo, dirPictures, seconds,
                                 (double) num_camerarotation.Value, (double) num_hfov.Value, (double) num_vfov.Value,
-                                AppendText, httpGeoRefKML);
+                                AppendText, httpGeoRefKML, chk_camusegpsalt.Checked);
                         break;
                     case PROCESSING_MODE.TRIG:
                         georef.picturesInfo = georef.doworkTRIG(logFilePath, dirPictures, UseGpsorGPS2(), AppendText);
                         if (georef.picturesInfo != null)
                             georef.CreateReportFiles(georef.picturesInfo, dirPictures, seconds,
                                 (double) num_camerarotation.Value, (double) num_hfov.Value, (double) num_vfov.Value,
-                                AppendText, httpGeoRefKML);
+                                AppendText, httpGeoRefKML, chk_trigusergpsalt.Checked);
                         break;
                 }
             }
@@ -257,11 +257,25 @@ namespace MissionPlanner.GeoRef
 
             foreach (PictureInformation picInfo in georef.picturesInfo.Values)
             {
-                if (georef.useAMSLAlt)
+                // use cam gpsalt
+                if (chk_camusegpsalt.Checked && RDIO_CAMMsgSynchro.Checked)
+                {
+                    georef.WriteCoordinatesToImage(picInfo.Path, picInfo.Lat, picInfo.Lon, picInfo.GPSAlt,
+                        TXT_jpgdir.Text, AppendText);
+                }
+                // use trig gpsalt
+                else if (chk_trigusergpsalt.Checked && RDIO_trigmsg.Checked)
+                {
+                    georef.WriteCoordinatesToImage(picInfo.Path, picInfo.Lat, picInfo.Lon, picInfo.GPSAlt,
+                        TXT_jpgdir.Text, AppendText);
+                }
+                // use altamsl
+                else if (georef.useAMSLAlt)
                 {
                     georef.WriteCoordinatesToImage(picInfo.Path, picInfo.Lat, picInfo.Lon,
                         double.Parse(txt_basealt.Text) + picInfo.AltAMSL, TXT_jpgdir.Text, AppendText);
                 }
+                // use relalt
                 else
                 {
                     georef.WriteCoordinatesToImage(picInfo.Path, picInfo.Lat, picInfo.Lon, picInfo.RelAlt,
