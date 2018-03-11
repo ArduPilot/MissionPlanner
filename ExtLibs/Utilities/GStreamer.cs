@@ -139,7 +139,7 @@ namespace MissionPlanner.Utilities
 
             [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
             public static extern
-                StringBuilder gst_caps_to_string(IntPtr caps);
+                IntPtr gst_caps_to_string(IntPtr caps);
 
             [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
             public static extern bool gst_buffer_map(IntPtr buffer, out GstMapInfo info, GstMapFlags GstMapFlags);
@@ -316,6 +316,7 @@ namespace MissionPlanner.Utilities
                 var sample = NativeMethods.gst_app_sink_try_pull_sample(appsink, GST_SECOND);
                 if (sample != IntPtr.Zero)
                 {
+                    trys = 0;
                     //var caps = gst_app_sink_get_caps(appsink);
                     var caps = NativeMethods.gst_sample_get_caps(sample);
                     var caps_s = NativeMethods.gst_caps_get_structure(caps, 0);
@@ -344,7 +345,7 @@ namespace MissionPlanner.Utilities
                 {
                     log.Info("failed gst_app_sink_try_pull_sample");
                     trys++;
-                    if(trys > 300)
+                    if(trys > 10)
                         break;
                 }
             }
