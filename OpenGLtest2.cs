@@ -519,7 +519,6 @@ namespace MissionPlanner.Controls
                     if (dist < 500)
                         pxstep = 32;
 
-                    double[] oldutm = null;
                     GL.Begin(PrimitiveType.TriangleStrip);
                     for (long x = xr; x < x2; x += pxstep)
                     {

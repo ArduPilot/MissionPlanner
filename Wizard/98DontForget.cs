@@ -42,7 +42,7 @@ namespace MissionPlanner.Wizard
             {
                 System.Diagnostics.Process.Start(((LinkLabel) sender).Tag.ToString());
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 CustomMessageBox.Show("Failed to open the link " + ((LinkLabel) sender).Tag.ToString(), Strings.ERROR,
                     MessageBoxButtons.OK);

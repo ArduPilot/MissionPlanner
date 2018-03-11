@@ -391,7 +391,7 @@ namespace MissionPlanner.Utilities
                 file.SetLength(size); // set the length first
 
                 var starttime = DateTime.Now;
-                var got = 0l;
+                var got = 0L;
                 DateTime lastupdate = DateTime.MinValue;
 
                 object syncObject = new object(); // synchronize file writes

@@ -338,7 +338,6 @@ public class Win32DeviceMgmt
                         0xa4, 0x52, 0x4d, 0x52, 0x99, 0x6e, 0x57, 82), // DEVPROP_TYPE_STRING
                 };
 
-                uint propertyRegDataType = 0;
                 ulong propertyType = 0;
                 int requiredSize = 0;
                 for (int i=0; i < list.Length;i++)
