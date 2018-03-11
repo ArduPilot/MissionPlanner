@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MissionPlanner.Comms;
@@ -381,12 +382,15 @@ namespace MissionPlanner.Swarm.Sequence
             
         }
 
-        private int step = 0;
+        public int step { get; set; } = 0;
         private Controller controller = new Controller();
         private PointLatLngAlt startpos = PointLatLngAlt.Zero;
 
         private void BUT_runstep_Click(object sender, EventArgs e)
         {
+            if (step >= workingSequence.Steps.Count)
+                return;
+
             // get step layout name
             var layoutname = workingSequence.Steps[step];
 
@@ -407,6 +411,7 @@ namespace MissionPlanner.Swarm.Sequence
                     a.MavState.parent.doCommand(a.MavState.sysid, a.MavState.compid, MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 2);
                     return true;
                 });
+                Thread.Sleep(3000);
             }
 
             label1.Text = String.Format("{1} : {0}", step, layoutname);
