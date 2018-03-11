@@ -29,6 +29,7 @@ namespace MissionPlanner.Swarm.Sequence
         private BindingSource stepsBindingSource;
         private Button BUT_runstep;
         private Label label1;
+        private Button BUT_resetstep;
         private Grid grid;
 
         public LayoutEditor()
@@ -63,6 +64,7 @@ namespace MissionPlanner.Swarm.Sequence
             this.BUT_addstep = new System.Windows.Forms.Button();
             this.BUT_runstep = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.BUT_resetstep = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.layoutsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.stepsBindingSource)).BeginInit();
@@ -195,9 +197,20 @@ namespace MissionPlanner.Swarm.Sequence
             this.label1.TabIndex = 9;
             this.label1.Text = "label1";
             // 
+            // BUT_resetstep
+            // 
+            this.BUT_resetstep.Location = new System.Drawing.Point(528, 12);
+            this.BUT_resetstep.Name = "BUT_resetstep";
+            this.BUT_resetstep.Size = new System.Drawing.Size(75, 23);
+            this.BUT_resetstep.TabIndex = 10;
+            this.BUT_resetstep.Text = "Reset";
+            this.BUT_resetstep.UseVisualStyleBackColor = true;
+            this.BUT_resetstep.Click += new System.EventHandler(this.BUT_resetstep_Click);
+            // 
             // LayoutEditor
             // 
             this.ClientSize = new System.Drawing.Size(899, 494);
+            this.Controls.Add(this.BUT_resetstep);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.BUT_runstep);
             this.Controls.Add(this.BUT_addstep);
@@ -385,6 +398,17 @@ namespace MissionPlanner.Swarm.Sequence
                 startpos = controller.DG.Drones[0].MavState.cs.Location;
             }
 
+            if (step == 0)
+            {
+                controller.DG.Drones.All(a =>
+                {
+                    a.MavState.parent.setMode(a.MavState.sysid, a.MavState.compid, "GUIDED");
+                    a.MavState.parent.doARM(a.MavState.sysid, a.MavState.compid, true);
+                    a.MavState.parent.doCommand(a.MavState.sysid, a.MavState.compid, MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 2);
+                    return true;
+                });
+            }
+
             label1.Text = String.Format("{1} : {0}", step, layoutname);
 
             // get the layout
@@ -399,6 +423,11 @@ namespace MissionPlanner.Swarm.Sequence
             }
 
             step++;
+        }
+
+        private void BUT_resetstep_Click(object sender, EventArgs e)
+        {
+            step = 0;
         }
     }
 }
