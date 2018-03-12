@@ -14,14 +14,12 @@ namespace MissionPlanner.Maps
     {
         Bitmap elevation;
 
-        int Width = 0;
-        int Height = 0;
+        private RectLatLng rect;
 
-        public GMapMarkerElevation(byte [,] imageData, int width, int height, PointLatLng currentloc)
+        public GMapMarkerElevation(byte [,] imageData, RectLatLng rect, PointLatLng currentloc)
         : base(currentloc)
         {
-            Width = width;
-            Height = height;
+            this.rect = rect;
 
             IsHitTestVisible = false;
 
@@ -66,10 +64,18 @@ namespace MissionPlanner.Maps
         public override void OnRender(Graphics g)
         {
             base.OnRender(g);
-            elevation.MakeTransparent();
-            GPoint loc = new GPoint(LocalPosition.X, LocalPosition.Y);
 
-            g.DrawImageUnscaled(elevation, (int)loc.X-Width/2, (int)loc.Y-Height/2);
+            elevation.MakeTransparent();
+            var tlll = Overlay.Control.FromLatLngToLocal(rect.LocationTopLeft);
+            var brll = Overlay.Control.FromLatLngToLocal(rect.LocationRightBottom);
+
+            var old = g.Transform;
+
+            g.ResetTransform();
+
+            g.DrawImage(elevation, tlll.X, tlll.Y, brll.X - tlll.X, brll.Y - tlll.Y);
+
+            g.Transform = old;
         }
     }
 }

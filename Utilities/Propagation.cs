@@ -19,6 +19,8 @@ namespace MissionPlanner.Utilities
         byte[] colors = new byte[] { 220, 226, 232, 233, 244, 250, 214, 142, 106 }; //Colors: Red - Yellow - Green
         byte[] colors2 = new byte[] { 195, 189, 123, 80, 81, 45, 51, 57, 105, 111, 75, 74, 70, 72, 106, 108, 142, 178, 214, 215, 250, 244, 239, 238, 233, 232, 226, 220 }; //Colors: Blue - Green - Yellow - Red
         byte[,] imageData;
+        RectLatLng imageDataRect;
+        private PointLatLngAlt imageDataCenter;
         double[,] alts;
         float prev_alt = 0;
         PointLatLngAlt prev_position;
@@ -139,15 +141,15 @@ namespace MissionPlanner.Utilities
 
                 if (connected && ele_run || ter_run)
                 {
-                    width = gMapControl1.Width / 4;
+                    width = gMapControl1.Width;
                     res = Settings.Instance.GetInt32("Propagation_Resolution", 4);
 
                     if (elevationoverlay.Markers.Count == 0 || center != prev_position || alt != prev_alt || gMapControl1.Height != prev_height || gMapControl1.Width != prev_width || gMapControl1.Zoom != prev_zoom)
                     {
                         if (gMapControl1.Height != prev_height || gMapControl1.Width != prev_width || res != prev_res)
                         {
-                            imageData = new byte[(width * 4 + extend), (gMapControl1.Height + extend + 1)];
-                            alts = new double[(width * 4 + extend), (gMapControl1.Height + extend + 1)];
+                            imageData = new byte[(width+ extend), (gMapControl1.Height + extend + 1)];
+                            alts = new double[(width + extend), (gMapControl1.Height + extend + 1)];
                         }
 
                         if (elevationoverlay.Markers.Count == 0 || center != prev_position || gMapControl1.Zoom != prev_zoom)
@@ -155,9 +157,14 @@ namespace MissionPlanner.Utilities
                             max_alt = srtm.getAltitude(center.Lat, center.Lng).alt;
                             min_alt = max_alt;
 
+                            imageDataCenter = center;
+                            var tl = gMapControl1.FromLocalToLatLng(-extend / 2, -extend / 2);
+                            var rb = gMapControl1.FromLocalToLatLng(gMapControl1.Width + extend / 2, gMapControl1.Height + extend / 2);
+                            imageDataRect = RectLatLng.FromLTRB(tl.Lng, tl.Lat, rb.Lng, rb.Lat);
+
                             for (int y = res / 2; y < gMapControl1.Height + extend + 1 - res; y += res)
                             {
-                                for (int x = res / 2; x < width * 4 + extend - res; x += res)
+                                for (int x = res / 2; x < width + extend - res; x += res)
                                 {
                                     var lnglat = gMapControl1.FromLocalToLatLng(x - extend / 2, y - extend / 2);
                                     var alt = srtm.getAltitude(lnglat.Lat, lnglat.Lng).alt;
@@ -183,7 +190,7 @@ namespace MissionPlanner.Utilities
 
                         for (int y = res / 2; y < gMapControl1.Height + extend + 1 - res; y += res)
                         {
-                            for (int x = res / 2; x < width * 4 + extend - res; x += res)
+                            for (int x = res / 2; x < width + extend - res; x += res)
                             {
 
                                 if (ele_run)
@@ -240,8 +247,7 @@ namespace MissionPlanner.Utilities
 
                         gMapControl1.Invoke((Action) delegate
                         {
-                            elevationoverlay.Markers.Add(new GMapMarkerElevation(imageData, gMapControl1.Width + extend,
-                                gMapControl1.Height + extend, center));
+                            elevationoverlay.Markers.Add(new GMapMarkerElevation(imageData, imageDataRect, imageDataCenter));
                             if (elevationoverlay.Markers.Count > 1)
                             {
                                 elevationoverlay.Markers.RemoveAt(0);
