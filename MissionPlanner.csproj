@@ -213,8 +213,6 @@
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.4.0" />
 
     <PackageReference Include="netDXF" version="2.0.2" targetFramework="net462" />
-
-    <PackageReference Include="NETStandard.Library" Version="2.0.1" />
     <PackageReference Include="Newtonsoft.Json" version="10.0.3" targetFramework="net462" />
     <PackageReference Include="ProjNet" version="1.2" targetFramework="net40" />
     <PackageReference Include="protobuf-net" version="2.1.0" targetFramework="net40" requireReinstallation="true" />
@@ -240,6 +238,9 @@
     <Compile Include="CodeGen.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="ConnectionOptions.cs"> <SubType>Control</SubType> </Compile>
+    <Compile Include="Controls\PropagationSettings.cs">
+      <SubType>Control</SubType>
+    </Compile>
     <Compile Include="CurrentState.cs" />
     <Compile Include="ElevationProfile.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="FollowMe.cs"> <SubType>Control</SubType> </Compile>
@@ -252,6 +253,8 @@
     <Compile Include="MagCalib.cs" />
     <Compile Include="Magfitrotation.cs" />
     <Compile Include="MainV2.cs"> <SubType>Control</SubType> </Compile>
+    <Compile Include="Maps\GMapMarkerDistance.cs" />
+    <Compile Include="Maps\GMapMarkerElevation.cs" />
     <Compile Include="MovingBase.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="OpenGLtest.cs" />
     <Compile Include="OpenGLtest2.cs" />
@@ -298,6 +301,9 @@
     <Compile Include="Controls\LogAnalyzer.cs"> <SubType>Control</SubType> </Compile>
 	<Compile Include="Log\LogStrings.cs"> <SubType>Control</SubType> </Compile>
 	<Compile Include="Log\LogStrings.Designer.cs"><DependentUpon>LogStrings.cs</DependentUpon> </Compile>
+	<Compile Include="Utilities\HorizonGen.cs" />
+	<Compile Include="Utilities\Propagation.cs" />
+	<Compile Include="Utilities\SightGen.cs" />
 	<EmbeddedResource Include="Log\LogStrings.resx"><DependentUpon>LogStrings.cs</DependentUpon> </EmbeddedResource>
     <Compile Include="Controls\MavlinkCheckBox.cs" />
     <Compile Include="Controls\MavlinkCheckBoxBitMask.cs" />

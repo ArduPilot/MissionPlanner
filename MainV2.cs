@@ -3390,7 +3390,7 @@ namespace MissionPlanner
             }
             if (keyData == (Keys.Control | Keys.W)) // test ac config
             {
-                new Swarm.SRB.Control().Show();
+                new PropagationSettings().Show();
 
                 return true;
             }

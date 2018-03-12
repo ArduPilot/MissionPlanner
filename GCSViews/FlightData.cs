@@ -80,6 +80,8 @@ namespace MissionPlanner.GCSViews
         internal static GMapOverlay photosoverlay;
         internal static GMapOverlay poioverlay = new GMapOverlay("POI"); // poi layer
 
+        private Utilities.Propagation prop;
+
         List<TabPage> TabListOriginal = new List<TabPage>();
 
         bool huddropout;
@@ -686,6 +688,8 @@ namespace MissionPlanner.GCSViews
             }
 
             hud1.doResize();
+
+            prop = new Propagation(gMapControl1);
 
             thisthread = new Thread(mainloop);
             thisthread.Name = "FD Mainloop";
@@ -1434,6 +1438,13 @@ namespace MissionPlanner.GCSViews
                                 updateMapZoom(17);
                             }
                         }
+
+                        prop.Update(MainV2.comPort.MAV.cs.HomeLocation, MainV2.comPort.MAV.cs.Location,
+                            MainV2.comPort.MAV.cs.battery_kmleft);
+
+                        prop.alt = MainV2.comPort.MAV.cs.alt;
+                        prop.altasl = MainV2.comPort.MAV.cs.altasl;
+                        prop.center = gMapControl1.Position;
 
                         gMapControl1.HoldInvalidation = false;
 
