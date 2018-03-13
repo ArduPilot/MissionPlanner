@@ -17,17 +17,9 @@ namespace MissionPlanner.Utilities
         //
         // RF Propagation
         //
-        List<PointLatLngAlt> pointends = new List<PointLatLngAlt>();
-        PointLatLng point = new PointLatLng();
-
         double homealt;
         double drone_alt;
         double clearance;
-
-        bool carryon = true;
-        bool up = false;
-        bool down = false;
-
         double range;
         double base_height;
 
@@ -51,12 +43,16 @@ namespace MissionPlanner.Utilities
             var startlocation = new PointLatLngAlt(location) {Alt = homealt + base_height};
             var dronelocation = new PointLatLngAlt(aircraftlocation) {Alt = drone_alt - clearance};
 
-            for (float angle = 0; angle <= 2 * (float)Math.PI; angle += (float)Math.PI / 180 * rotational) //Terrain intercept scan full 360
-            {
-                carryon = true;
+            SortedDictionary<double,PointLatLngAlt> sortedlist = new SortedDictionary<double, PointLatLngAlt>();
 
-                up = false;
-                down = false;
+            Parallel.ForEach(Extensions.SteppedRange(0, 2 * (float)Math.PI, Math.PI / 180 * rotational), angle =>  //Terrain intercept scan full 360
+            {
+                List<PointLatLngAlt> pointends = new List<PointLatLngAlt>();
+
+                var carryon = true;
+
+                var up = false;
+                var down = false;
 
                 float triangle = 45 * (float)Math.PI / 180; //radians
                 var Max = 90 * (float)Math.PI / 180;  //radians
@@ -64,16 +60,16 @@ namespace MissionPlanner.Utilities
 
                 // calc LOS vector and intersection with terrain
                 //point = srtm.getIntersectionWithTerrain(startlocation, endlocation);
-                
+                PointLatLngAlt point = null;
+
+                var newpos = new PointLatLngAlt(location).newpos(angle * MathHelper.rad2deg, range * 1000);
+                pointends.Clear();
+                pointends.Add(location);
+                pointends.Add(newpos);
+
                 while (carryon && Min + converge * (float)Math.PI / 180 < Max) //Breaks if terrain intercept found or convergence occurs
                 {
-                    pointends.Clear();
-                    pointends.Add(location);
-
-                    var newpos = new PointLatLngAlt(location).newpos(angle * MathHelper.rad2deg, range * 1000);
-
-                    pointends.Add(newpos);
-                    point = getSRTMAltPath(pointends, triangle); //DEM data
+                    point = getSRTMAltPath(pointends, triangle, ref carryon, ref up, ref down); //DEM data
 
                     if (up)
                     {
@@ -87,14 +83,18 @@ namespace MissionPlanner.Utilities
                     triangle = (Max + Min) / 2;
                 }
 
-                pointslist.Add(point);
-            }
+                lock(sortedlist)
+                    sortedlist.Add(angle, point);
+            });
+
+            sortedlist.Values.ForEach(a => pointslist.Add(a));
+
             pointslist.Add(pointslist[0]);
 
             pointslist.DeDupOrderedList();
         }
 
-        PointLatLngAlt getSRTMAltPath(List<PointLatLngAlt> list, float triangle)
+        PointLatLngAlt getSRTMAltPath(List<PointLatLngAlt> list, float triangle, ref bool carryon, ref bool up, ref bool down)
         {
             PointLatLngAlt answer = new PointLatLngAlt();
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -91,6 +92,22 @@ namespace MissionPlanner.Utilities
                 }
 
                 a++;
+            }
+        }
+
+        public static IEnumerable<int> SteppedRange(int fromInclusive, int toExclusive, int step)
+        {
+            for (var i = fromInclusive; i < toExclusive; i += step)
+            {
+                yield return i;
+            }
+        }
+
+        public static IEnumerable<double> SteppedRange(double fromInclusive, double toExclusive, double step)
+        {
+            for (var i = fromInclusive; i < toExclusive; i += step)
+            {
+                yield return i;
             }
         }
 
