@@ -93,6 +93,8 @@ namespace MissionPlanner.Controls
             // chk_ele
             // 
             this.chk_ele.AutoSize = true;
+            this.chk_ele.Checked = true;
+            this.chk_ele.CheckState = System.Windows.Forms.CheckState.Indeterminate;
             this.chk_ele.Location = new System.Drawing.Point(13, 13);
             this.chk_ele.Name = "chk_ele";
             this.chk_ele.Size = new System.Drawing.Size(70, 17);
@@ -104,6 +106,8 @@ namespace MissionPlanner.Controls
             // chk_terrain
             // 
             this.chk_terrain.AutoSize = true;
+            this.chk_terrain.Checked = true;
+            this.chk_terrain.CheckState = System.Windows.Forms.CheckState.Indeterminate;
             this.chk_terrain.Location = new System.Drawing.Point(13, 36);
             this.chk_terrain.Name = "chk_terrain";
             this.chk_terrain.Size = new System.Drawing.Size(59, 17);
@@ -115,6 +119,8 @@ namespace MissionPlanner.Controls
             // chk_rf
             // 
             this.chk_rf.AutoSize = true;
+            this.chk_rf.Checked = true;
+            this.chk_rf.CheckState = System.Windows.Forms.CheckState.Indeterminate;
             this.chk_rf.Location = new System.Drawing.Point(13, 59);
             this.chk_rf.Name = "chk_rf";
             this.chk_rf.Size = new System.Drawing.Size(64, 17);
@@ -126,6 +132,8 @@ namespace MissionPlanner.Controls
             // chk_dronedist
             // 
             this.chk_dronedist.AutoSize = true;
+            this.chk_dronedist.Checked = true;
+            this.chk_dronedist.CheckState = System.Windows.Forms.CheckState.Indeterminate;
             this.chk_dronedist.Location = new System.Drawing.Point(107, 36);
             this.chk_dronedist.Name = "chk_dronedist";
             this.chk_dronedist.Size = new System.Drawing.Size(97, 17);
@@ -137,6 +145,8 @@ namespace MissionPlanner.Controls
             // chk_homedist
             // 
             this.chk_homedist.AutoSize = true;
+            this.chk_homedist.Checked = true;
+            this.chk_homedist.CheckState = System.Windows.Forms.CheckState.Indeterminate;
             this.chk_homedist.Location = new System.Drawing.Point(107, 13);
             this.chk_homedist.Name = "chk_homedist";
             this.chk_homedist.Size = new System.Drawing.Size(96, 17);
@@ -206,11 +216,6 @@ namespace MissionPlanner.Controls
             this.Clearance.Name = "Clearance";
             this.Clearance.Size = new System.Drawing.Size(56, 20);
             this.Clearance.TabIndex = 120;
-            this.Clearance.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
             this.Clearance.ValueChanged += new System.EventHandler(this.Clearance_ValueChanged);
             // 
             // label100
@@ -332,11 +337,6 @@ namespace MissionPlanner.Controls
             this.NUM_range.Name = "NUM_range";
             this.NUM_range.Size = new System.Drawing.Size(56, 20);
             this.NUM_range.TabIndex = 121;
-            this.NUM_range.Value = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
             this.NUM_range.ValueChanged += new System.EventHandler(this.NUM_range_ValueChanged);
             // 
             // label112
@@ -365,11 +365,6 @@ namespace MissionPlanner.Controls
             this.NUM_height.Name = "NUM_height";
             this.NUM_height.Size = new System.Drawing.Size(46, 20);
             this.NUM_height.TabIndex = 122;
-            this.NUM_height.Value = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
             this.NUM_height.ValueChanged += new System.EventHandler(this.NUM_height_ValueChanged);
             // 
             // label114
@@ -398,11 +393,6 @@ namespace MissionPlanner.Controls
             this.Tolerance.Name = "Tolerance";
             this.Tolerance.Size = new System.Drawing.Size(56, 20);
             this.Tolerance.TabIndex = 123;
-            this.Tolerance.Value = new decimal(new int[] {
-            8,
-            0,
-            0,
-            65536});
             this.Tolerance.ValueChanged += new System.EventHandler(this.Tolerance_ValueChanged);
             // 
             // PropagationSettings

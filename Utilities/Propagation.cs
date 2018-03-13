@@ -252,9 +252,13 @@ namespace MissionPlanner.Utilities
 
                         start2 = DateTime.Now;
 
+                        var gMapMarkerElevation = new GMapMarkerElevation(imageData,
+                            new RectLatLng(imageDataRect.LocationTopLeft, imageDataRect.Size),
+                            new PointLatLngAlt(imageDataCenter));
+
                         gMapControl1.Invoke((Action) delegate
                         {
-                            elevationoverlay.Markers.Add(new GMapMarkerElevation(imageData, imageDataRect, imageDataCenter));
+                            elevationoverlay.Markers.Add(gMapMarkerElevation);
                             if (elevationoverlay.Markers.Count > 1)
                             {
                                 elevationoverlay.Markers.RemoveAt(0);
