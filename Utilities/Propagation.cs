@@ -30,7 +30,6 @@ namespace MissionPlanner.Utilities
         int width; //width of screen
         int res; //resolution
         int extend = 384; //elevation extention
-        double rel; //relative elevation between drone and ground
         float clearance;
         int prev_res;
         double max_alt;
@@ -166,89 +165,92 @@ namespace MissionPlanner.Utilities
 
                             imageDataCenter = center;
                             var tl = gMapControl1.FromLocalToLatLng(-extend / 2, -extend / 2);
-                            var rb = gMapControl1.FromLocalToLatLng(gMapControl1.Width + extend / 2, gMapControl1.Height + extend / 2);
+                            var rb = gMapControl1.FromLocalToLatLng(gMapControl1.Width + extend / 2,
+                                gMapControl1.Height + extend / 2);
                             imageDataRect = RectLatLng.FromLTRB(tl.Lng, tl.Lat, rb.Lng, rb.Lat);
 
-                            for (int y = res / 2; y < gMapControl1.Height + extend + 1 - res; y += res)
-                            {
-                                for (int x = res / 2; x < width + extend - res; x += res)
+                            Parallel.ForEach(
+                                Extensions.SteppedRange(res / 2, gMapControl1.Height + extend + 1 - res, res), y =>
                                 {
-                                    var lnglat = gMapControl1.FromLocalToLatLng(x - extend / 2, y - extend / 2);
-                                    var alt = srtm.getAltitude(lnglat.Lat, lnglat.Lng).alt;
-                                    alts[x, y] = alt;
-
-                                    if (ter_run)
+                                    for (int x = res / 2; x < width + extend - res; x += res)
                                     {
-                                        if (max_alt < alt)
-                                        {
-                                            max_alt = alt;
-                                        }
+                                        var lnglat = gMapControl1.FromLocalToLatLng(x - extend / 2, y - extend / 2);
+                                        var alt = srtm.getAltitude(lnglat.Lat, lnglat.Lng).alt;
+                                        alts[x, y] = alt;
 
-                                        if (min_alt > alt)
+                                        if (ter_run)
                                         {
-                                            min_alt = alt;
+                                            if (max_alt < alt)
+                                            {
+                                                max_alt = alt;
+                                            }
+
+                                            if (min_alt > alt)
+                                            {
+                                                min_alt = alt;
+                                            }
                                         }
                                     }
-                                }
-                            }
+                                });
                         }
 
                         start1 = DateTime.Now;
 
-                        for (int y = res / 2; y < gMapControl1.Height + extend + 1 - res; y += res)
-                        {
-                            for (int x = res / 2; x < width + extend - res; x += res)
+                        Parallel.ForEach(
+                            Extensions.SteppedRange(res / 2, gMapControl1.Height + extend + 1 - res, res), y =>
                             {
-
-                                if (ele_run)
+                                for (int x = res / 2; x < width + extend - res; x += res)
                                 {
-                                    rel = (altasl) - alts[x, y];
 
-                                    var normvalue = normalize(rel);
-
-                                    /*
-                                    //diagonal pattern
-                                    for (int i = -res / 2; i <= res / 2; i++)
+                                    if (ele_run)
                                     {
-                                        imageData[x + i, y + i] = Gradient_byte(normvalue,colors);
-                                    }
-                                    */
+                                        var rel = (altasl) - alts[x, y];
 
-                                    //Square pattern
-                                    for (int i = -res / 2; i <= res / 2; i++)
-                                    {
-                                        for (int j = -res / 2; j <= res / 2; j++)
+                                        var normvalue = normalize(rel);
+
+                                        /*
+                                        //diagonal pattern
+                                        for (int i = -res / 2; i <= res / 2; i++)
                                         {
-                                            imageData[x + i, y + j] = Gradient_byte(normvalue, colors);
+                                            imageData[x + i, y + i] = Gradient_byte(normvalue,colors);
                                         }
-                                    }
-                                }
+                                        */
 
-                                else if (ter_run)
-                                {
-                                    var normvalue = normalize(alts[x, y]);
-                                    /*
-                                    //diagonal pattern
-                                    for (int i = -res / 2; i <= res / 2; i++)
-                                    {
-                                        imageData[x + i, y + i] = Gradient_byte(normvalue,colors2);
-                                    }
-                                    */
-
-                                    //Square pattern
-                                    for (int i = -res / 2; i <= res / 2; i++)
-                                    {
-                                        for (int j = -res / 2; j <= res / 2; j++)
+                                        //Square pattern
+                                        for (int i = -res / 2; i <= res / 2; i++)
                                         {
-                                            imageData[x + i, y + j] = Gradient_byte(normvalue, colors2);
+                                            for (int j = -res / 2; j <= res / 2; j++)
+                                            {
+                                                imageData[x + i, y + j] = Gradient_byte(normvalue, colors);
+                                            }
                                         }
                                     }
 
+                                    else if (ter_run)
+                                    {
+                                        var normvalue = normalize(alts[x, y]);
+                                        /*
+                                        //diagonal pattern
+                                        for (int i = -res / 2; i <= res / 2; i++)
+                                        {
+                                            imageData[x + i, y + i] = Gradient_byte(normvalue,colors2);
+                                        }
+                                        */
+
+                                        //Square pattern
+                                        for (int i = -res / 2; i <= res / 2; i++)
+                                        {
+                                            for (int j = -res / 2; j <= res / 2; j++)
+                                            {
+                                                imageData[x + i, y + j] = Gradient_byte(normvalue, colors2);
+                                            }
+                                        }
+
+                                    }
+
+
                                 }
-
-
-                            }
-                        }
+                            });
 
                         start2 = DateTime.Now;
 
@@ -314,8 +316,8 @@ namespace MissionPlanner.Utilities
                 }
 
                 Console.WriteLine("Propagation all {0} ms {1} ms  {2} ms {3} ms", (DateTime.Now - start).TotalMilliseconds,
-                    (DateTime.Now - start1).TotalMilliseconds, (DateTime.Now - start2).TotalMilliseconds,
-                    (DateTime.Now - start3).TotalMilliseconds);
+                    (start - start1).TotalMilliseconds, (start1 - start2).TotalMilliseconds,
+                    (start2 - start3).TotalMilliseconds);
 
                 Thread.Sleep(500);
             }
