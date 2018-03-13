@@ -160,6 +160,9 @@ namespace MissionPlanner.GCSViews
             if (aviwriter != null)
                 aviwriter.Dispose();
 
+            if (prop != null)
+                prop.Stop();
+
             if (disposing && (components != null))
             {
                 components.Dispose();

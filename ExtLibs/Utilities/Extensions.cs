@@ -79,6 +79,21 @@ namespace MissionPlanner.Utilities
             }
         }
 
+        public static void DeDupOrderedList<T>(this List<T> list)
+        {
+            int a = 0;
+            while (a < (list.Count-2))
+            {
+                if (list[a].Equals(list[a + 1]))
+                {
+                    list.RemoveAt(a + 1);
+                    continue;
+                }
+
+                a++;
+            }
+        }
+
         public static object GetPropertyOrField(this object obj, string name)
         {
             var type = obj.GetType();

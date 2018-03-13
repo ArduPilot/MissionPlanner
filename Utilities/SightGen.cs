@@ -31,18 +31,8 @@ namespace MissionPlanner.Utilities
         double range;
         double base_height;
 
-        public SightGen(PointLatLng location, List<PointLatLng> pointslist, double alt, double aircraft_alt)
+        public SightGen(PointLatLng location, List<PointLatLng> pointslist, double alt, PointLatLng aircraftlocation, double aircraft_alt)
         {
-            double distance = 0; //km
-            double latend = 0;
-            double lngend = 0;
-            double latradians = location.Lat * Math.PI / 180;
-            double lngradians = location.Lng * Math.PI / 180;
-
-            float Max = 90 * (float)Math.PI / 180;  //radians
-            float Min = 0;                          //radians
-
-
             range = Settings.Instance.GetFloat("Propagation_Range");
             clearance = Settings.Instance.GetFloat("Propagation_Clearance");
             base_height = Settings.Instance.GetFloat("Propagation_Height");
@@ -53,7 +43,13 @@ namespace MissionPlanner.Utilities
 
             drone_alt = aircraft_alt;
 
+            if (drone_alt == 0)
+                drone_alt = alt;
+
             homealt = alt;
+
+            var startlocation = new PointLatLngAlt(location) {Alt = homealt + base_height};
+            var dronelocation = new PointLatLngAlt(aircraftlocation) {Alt = drone_alt - clearance};
 
             for (float angle = 0; angle <= 2 * (float)Math.PI; angle += (float)Math.PI / 180 * rotational) //Terrain intercept scan full 360
             {
@@ -63,27 +59,20 @@ namespace MissionPlanner.Utilities
                 down = false;
 
                 float triangle = 45 * (float)Math.PI / 180; //radians
-                Max = 90 * (float)Math.PI / 180;            //radians
-                Min = 0;                                    //radians
+                var Max = 90 * (float)Math.PI / 180;  //radians
+                float Min = 0;                          //radians
 
-
+                // calc LOS vector and intersection with terrain
+                //point = srtm.getIntersectionWithTerrain(startlocation, endlocation);
+                
                 while (carryon && Min + converge * (float)Math.PI / 180 < Max) //Breaks if terrain intercept found or convergence occurs
                 {
                     pointends.Clear();
                     pointends.Add(location);
 
-                    distance = (range * Math.Cos(triangle)) / 6371; //Km
+                    var newpos = new PointLatLngAlt(location).newpos(angle * MathHelper.rad2deg, range * 1000);
 
-                    latend = Math.Asin(Math.Sin(latradians) * Math.Cos(distance) + Math.Cos(latradians) * Math.Sin(distance) * Math.Cos(angle));
-                    if (Math.Cos(latend) == 0)
-                        lngend = lngradians;      // endpoint a pole
-                    else
-                        lngend = mod(lngradians - Math.Asin(Math.Sin(angle) * Math.Sin(distance) / Math.Cos(latend)) + Math.PI, 2 * Math.PI) - Math.PI;
-
-                    double newlatend = latend * 180 / Math.PI;
-                    double newlngend = lngend * 180 / Math.PI;
-
-                    pointends.Add(new PointLatLngAlt(newlatend, newlngend, 0, (1).ToString()));
+                    pointends.Add(newpos);
                     point = getSRTMAltPath(pointends, triangle); //DEM data
 
                     if (up)
@@ -101,14 +90,8 @@ namespace MissionPlanner.Utilities
                 pointslist.Add(point);
             }
             pointslist.Add(pointslist[0]);
-        }
 
-        double mod(double a, double n)
-        {
-            double result = a % n;
-            if ((a < 0 && n > 0) || (a > 0 && n < 0))
-                result += n;
-            return result;
+            pointslist.DeDupOrderedList();
         }
 
         PointLatLngAlt getSRTMAltPath(List<PointLatLngAlt> list, float triangle)
@@ -134,7 +117,7 @@ namespace MissionPlanner.Utilities
             double steplng = deltalng / points;
 
             PointLatLngAlt lastpnt = last;
-            while (a <= points && elev < homealt + base_height + height && elev < homealt + drone_alt - clearance)
+            while (a <= points && elev < homealt + base_height + height && elev < drone_alt - clearance)
             {
                 double lat = last.Lat - steplat * a;
                 double lng = last.Lng - steplng * a;
@@ -155,14 +138,14 @@ namespace MissionPlanner.Utilities
             }
 
             if (elev < homealt + base_height + height + 0.1 && elev > homealt + base_height + height - 0.1
-                && elev < homealt + drone_alt - clearance + 0.1 && elev > homealt + drone_alt - clearance - 0.1) //Terrain intercept found
+                && elev < drone_alt - clearance + 0.1 && elev > drone_alt - clearance - 0.1) //Terrain intercept found
             {
                 carryon = false;
             }
 
             else
             {
-                if (elev > homealt + base_height + height && elev > homealt + drone_alt - clearance)
+                if (elev > homealt + base_height + height && elev > drone_alt - clearance)
                 {
                     up = true;
                     down = false;

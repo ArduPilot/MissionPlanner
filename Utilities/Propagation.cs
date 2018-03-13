@@ -81,6 +81,7 @@ namespace MissionPlanner.Utilities
         public float alt { get;  set; }
         public float altasl { get; set; }
         public PointLatLngAlt HomeLocation { get; set; } = PointLatLngAlt.Zero;
+        public PointLatLngAlt DroneLocation { get; set; } = PointLatLngAlt.Zero;
 
         private GMapControl gMapControl1;
         public PointLatLngAlt center = PointLatLngAlt.Zero;
@@ -104,9 +105,15 @@ namespace MissionPlanner.Utilities
             elevation.Start();
         }
 
+        public void Stop()
+        {
+            ele_enabled = false;
+        }
+
         public void Update(PointLatLngAlt HomeLocation, PointLatLngAlt Location, double battery_kmleft)
         {
             this.HomeLocation = HomeLocation;
+            this.DroneLocation = Location;
             distance.Markers.Clear();
             if (connected && home_kmleft)
             {
@@ -280,7 +287,7 @@ namespace MissionPlanner.Utilities
                         switched = false;
                         List<PointLatLng> pointslist = new List<PointLatLng>();
 
-                        new SightGen(HomeLocation, pointslist, HomeLocation.Alt, altasl);
+                        new SightGen(HomeLocation, pointslist, HomeLocation.Alt, DroneLocation, altasl);
 
                         gMapControl1.Invoke((Action) delegate
                         {
