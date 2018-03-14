@@ -303,7 +303,6 @@
     <Compile Include="Controls\LogAnalyzer.cs"> <SubType>Control</SubType> </Compile>
 	<Compile Include="Log\LogStrings.cs"> <SubType>Control</SubType> </Compile>
 	<Compile Include="Log\LogStrings.Designer.cs"><DependentUpon>LogStrings.cs</DependentUpon> </Compile>
-	<Compile Include="Utilities\HorizonGen.cs" />
 	<Compile Include="Utilities\Propagation.cs" />
 	<Compile Include="Utilities\SightGen.cs" />
 	<EmbeddedResource Include="Log\LogStrings.resx"><DependentUpon>LogStrings.cs</DependentUpon> </EmbeddedResource>
