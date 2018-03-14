@@ -3209,8 +3209,9 @@ namespace MissionPlanner.GCSViews
         }
 
         // click on some marker
-        void MainMap_OnMarkerClick(GMapMarker item, MouseEventArgs e)
+        void MainMap_OnMarkerClick(GMapMarker item, object ei)
         {
+            var e = ei as MouseEventArgs;
             int answer;
             try // when dragging item can sometimes be null
             {

@@ -80,7 +80,7 @@ namespace MissionPlanner.GCSViews
         internal static GMapOverlay photosoverlay;
         internal static GMapOverlay poioverlay = new GMapOverlay("POI"); // poi layer
 
-        private Utilities.Propagation prop;
+        private Propagation prop;
 
         List<TabPage> TabListOriginal = new List<TabPage>();
 

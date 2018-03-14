@@ -27,7 +27,7 @@ namespace GMap.NET.WindowsForms
    /// <summary>
    /// GMap.NET control for Windows Forms
    /// </summary>   
-   public partial class GMapControl : UserControl, Interface
+   public partial class GMapControl : UserControl, Interface, IControl
    {
 #if !PocketPC
       /// <summary>
@@ -84,7 +84,11 @@ namespace GMap.NET.WindowsForms
       /// <summary>
       /// list of overlays, should be thread safe
       /// </summary>
-      public readonly ObservableCollectionThreadSafe<GMapOverlay> Overlays = new ObservableCollectionThreadSafe<GMapOverlay>();
+      public readonly ObservableCollectionThreadSafe<GMapOverlay> _Overlays = new ObservableCollectionThreadSafe<GMapOverlay>();
+      public ObservableCollectionThreadSafe<GMapOverlay> Overlays
+      {
+          get { return _Overlays; }
+      }
 
       /// <summary>
       /// max zoom
@@ -401,11 +405,11 @@ namespace GMap.NET.WindowsForms
       readonly bool ForceDoubleBuffer = true;
 #endif
 
-      /// <summary>
-      /// stops immediate marker/route/polygon invalidations;
-      /// call Refresh to perform single refresh and reset invalidation state
-      /// </summary>
-      public bool HoldInvalidation = false;
+       /// <summary>
+       /// stops immediate marker/route/polygon invalidations;
+       /// call Refresh to perform single refresh and reset invalidation state
+       /// </summary>
+       public bool HoldInvalidation { get; set; } = false;
 
       /// <summary>
       /// call this to stop HoldInvalidation and perform single forced instant refresh 
@@ -494,7 +498,11 @@ namespace GMap.NET.WindowsForms
 #endif
 
       // internal stuff
-      public readonly Core Core = new Core();
+       public readonly Core _Core = new Core();
+       public Core Core
+       {
+           get { return _Core; }
+       }
 
       internal readonly Font CopyrightFont = new Font(FontFamily.GenericSansSerif, 7, FontStyle.Regular);
 #if !PocketPC
@@ -2309,7 +2317,7 @@ namespace GMap.NET.WindowsForms
 
 #if !PocketPC
 
-      internal void RestoreCursorOnLeave()
+      public void RestoreCursorOnLeave()
       {
          if(overObjectCount <= 0 && cursorBefore != null)
          {
@@ -2817,7 +2825,7 @@ namespace GMap.NET.WindowsForms
          {
             return isMouseOverMarker;
          }
-         internal set
+          set
          {
             isMouseOverMarker = value;
             overObjectCount += value ? 1 : -1;
@@ -2837,7 +2845,7 @@ namespace GMap.NET.WindowsForms
          {
             return isMouseOverRoute;
          }
-         internal set
+          set
          {
             isMouseOverRoute = value;
             overObjectCount += value ? 1 : -1;            
@@ -2857,7 +2865,7 @@ namespace GMap.NET.WindowsForms
          {
             return isMouseOverPolygon;
          }
-         internal set
+          set
          {
             isMouseOverPolygon = value;
             overObjectCount += value ? 1 : -1;

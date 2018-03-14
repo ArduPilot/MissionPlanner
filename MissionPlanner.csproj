@@ -141,6 +141,7 @@
       <Project>{cce510f7-1da6-40f2-8921-b86ed41bb85e}</Project>
       <Name>ManagedNativeWifi.Simple</Name>
     </ProjectReference>
+    <ProjectReference Include="ExtLibs\Maps\MissionPlanner.Maps.csproj" />
     <ProjectReference Include="ExtLibs\Mavlink\MAVLink.csproj">
       <Project>{13d2ec90-c41f-48a1-aada-859b6dc24edc}</Project>
       <Name>MAVLink</Name>
@@ -255,8 +256,6 @@
     <Compile Include="MagCalib.cs" />
     <Compile Include="Magfitrotation.cs" />
     <Compile Include="MainV2.cs"> <SubType>Control</SubType> </Compile>
-    <Compile Include="Maps\GMapMarkerDistance.cs" />
-    <Compile Include="Maps\GMapMarkerElevation.cs" />
     <Compile Include="MovingBase.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="OpenGLtest.cs" />
     <Compile Include="OpenGLtest2.cs" />
@@ -303,8 +302,6 @@
     <Compile Include="Controls\LogAnalyzer.cs"> <SubType>Control</SubType> </Compile>
 	<Compile Include="Log\LogStrings.cs"> <SubType>Control</SubType> </Compile>
 	<Compile Include="Log\LogStrings.Designer.cs"><DependentUpon>LogStrings.cs</DependentUpon> </Compile>
-	<Compile Include="Utilities\Propagation.cs" />
-	<Compile Include="Utilities\SightGen.cs" />
 	<EmbeddedResource Include="Log\LogStrings.resx"><DependentUpon>LogStrings.cs</DependentUpon> </EmbeddedResource>
     <Compile Include="Controls\MavlinkCheckBox.cs" />
     <Compile Include="Controls\MavlinkCheckBoxBitMask.cs" />
@@ -406,30 +403,6 @@
     <Compile Include="Log\MavlinkLog.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Log\Scan.cs" />
     <Compile Include="Log\test\MotorFailure.cs" />
-    <Compile Include="Maps\Custom.cs" />
-    <Compile Include="Maps\Earthbuilder.cs" />
-    <Compile Include="Maps\Eniro_Topo.cs" />
-    <Compile Include="Maps\GMapMarkerADSBPlane.cs" />
-    <Compile Include="Maps\GMapMarkerAirport.cs" />
-    <Compile Include="Maps\GMapMarkerAntennaTracker.cs" />
-    <Compile Include="Maps\GMapMarkerBoat.cs" />
-    <Compile Include="Maps\GMapMarkerHeli.cs" />
-    <Compile Include="Maps\GMapMarkerOverlapCount.cs" />
-    <Compile Include="Maps\GMapMarkerPhoto.cs" />
-    <Compile Include="Maps\GMapMarkerPlane.cs" />
-    <Compile Include="Maps\GMapMarkerPOI.cs" />
-    <Compile Include="Maps\GMapMarkerQuad.cs" />
-    <Compile Include="Maps\GMapMarkerRallyPt.cs" />
-    <Compile Include="Maps\GMapMarkerRect.cs" />
-    <Compile Include="Maps\GMapMarkerRover.cs" />
-    <Compile Include="Maps\GMapMarkerSingle.cs" />
-    <Compile Include="Maps\GMapMarkerSub.cs" />
-    <Compile Include="Maps\GMapMarkerWP.cs" />
-    <Compile Include="Maps\Mapbox.cs" />
-    <Compile Include="Maps\MapboxNoFly.cs" />
-    <Compile Include="Maps\MyImageCache.cs" />
-    <Compile Include="Maps\Statkart_Topo2.cs" />
-    <Compile Include="Maps\WMSProvider.cs" />
     <Compile Include="Mavlink\Extension.cs" />
     <Compile Include="Mavlink\MAVAuthKeys.cs" />
     <Compile Include="Mavlink\MAVInspector.cs" />

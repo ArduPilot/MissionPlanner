@@ -2676,8 +2676,9 @@ namespace MissionPlanner.Log
         }
 
 
-        private void myGMAP1_OnRouteClick(GMapRoute item, MouseEventArgs e)
+        private void myGMAP1_OnRouteClick(GMapRoute item, object ei)
         {
+            var e = ei as MouseEventArgs;
             if ((item.Name != null) && (item.Name.StartsWith("route_")))
             {
                 LogRouteInfo lri = item.Tag as LogRouteInfo;

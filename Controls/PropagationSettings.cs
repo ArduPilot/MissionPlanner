@@ -51,11 +51,11 @@ namespace MissionPlanner.Controls
             NUM_height.Value = (decimal) Settings.Instance.GetFloat("Propagation_Height", 2.0f);
             Tolerance.Value = (decimal) Settings.Instance.GetFloat("Propagation_Tolerance", 0.8f);
 
-            chk_ele.Checked = Utilities.Propagation.ele_run;
-            chk_terrain.Checked = Utilities.Propagation.ter_run;
-            chk_rf.Checked = Utilities.Propagation.rf_run;
-            chk_homedist.Checked = Utilities.Propagation.home_kmleft;
-            chk_dronedist.Checked = Utilities.Propagation.drone_kmleft;
+            chk_ele.Checked = Maps.Propagation.ele_run;
+            chk_terrain.Checked = Maps.Propagation.ter_run;
+            chk_rf.Checked = Maps.Propagation.rf_run;
+            chk_homedist.Checked = Maps.Propagation.home_kmleft;
+            chk_dronedist.Checked = Maps.Propagation.drone_kmleft;
         }
 
         private void InitializeComponent()
@@ -419,27 +419,27 @@ namespace MissionPlanner.Controls
 
         private void chk_ele_CheckedChanged(object sender, EventArgs e)
         {
-            Utilities.Propagation.ele_run = chk_ele.Checked;
+            Maps.Propagation.ele_run = chk_ele.Checked;
         }
 
         private void chk_terrain_CheckedChanged(object sender, EventArgs e)
         {
-            Utilities.Propagation.ter_run = chk_terrain.Checked;
+            Maps.Propagation.ter_run = chk_terrain.Checked;
         }
 
         private void chk_rf_CheckedChanged(object sender, EventArgs e)
         {
-            Utilities.Propagation.rf_run = chk_rf.Checked;
+            Maps.Propagation.rf_run = chk_rf.Checked;
         }
 
         private void chk_homedist_CheckedChanged(object sender, EventArgs e)
         {
-            Utilities.Propagation.home_kmleft = chk_homedist.Checked;
+            Maps.Propagation.home_kmleft = chk_homedist.Checked;
         }
 
         private void chk_dronedist_CheckedChanged(object sender, EventArgs e)
         {
-            Utilities.Propagation.drone_kmleft = chk_dronedist.Checked;
+            Maps.Propagation.drone_kmleft = chk_dronedist.Checked;
         }
 
         private void Clearance_ValueChanged(object sender, EventArgs e)

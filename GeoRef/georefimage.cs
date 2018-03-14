@@ -40,8 +40,9 @@ namespace MissionPlanner.GeoRef
             myGMAP1.OnMarkerClick += MyGMAP1_OnMarkerClick;
         }
 
-        private void MyGMAP1_OnMarkerClick(GMapMarker item, MouseEventArgs e)
+        private void MyGMAP1_OnMarkerClick(GMapMarker item, object ei)
         {
+            var e = ei as MouseEventArgs;
             foreach (var pictureInformation in georef.picturesInfo)
             {
                 if (item.ToolTipText == Path.GetFileName(pictureInformation.Value.Path))
