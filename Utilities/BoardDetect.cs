@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Threading;
 using log4net;
 using System.Globalization;
+using System.Runtime.InteropServices;
 using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
 using px4uploader;
@@ -39,7 +40,7 @@ namespace MissionPlanner.Utilities
             disco,
             solo
         }
-
+   
         /// <summary>
         /// Detect board version
         /// </summary>
@@ -52,11 +53,53 @@ namespace MissionPlanner.Utilities
 
             if (!MainV2.MONO)
             {
+                try
+                {
+                    var ports = Win32DeviceMgmt.GetAllCOMPorts();
+
+                    foreach (var item in ports)
+                    {
+                        log.InfoFormat("{0}: {1} - {2}", item.name, item.description, item.board);
+
+                        if (port.ToLower() == item.name.ToLower())
+                        {
+                            if (item.board == "PX4 FMU v4.x")
+                            {
+                                log.Info("is a px4v4 pixracer");
+                                return boards.px4v4;
+                            }
+                            /*if (item.board == "PX4 FMU v2.x")
+                            {
+                                log.Info("is a px4v2");
+                                return boards.px4v2;
+                            }
+                            if (item.board == "Arduino Mega 2560")
+                            {
+                                log.Info("is a 2560v2");
+                                return boards.b2560v2;
+                            }*/
+                            if (item.board == "revo-mini")
+                            {
+                                log.Info("is a revo-mini");
+                                return boards.none;
+                            }
+                        }
+                    }
+                } catch { }
+
                 ObjectQuery query = new ObjectQuery("SELECT * FROM Win32_SerialPort"); // Win32_USBControllerDevice
                 ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
                 foreach (ManagementObject obj2 in searcher.Get())
                 {
-                    Console.WriteLine("PNPID: " + obj2.Properties["PNPDeviceID"].Value.ToString());
+                    log.InfoFormat("-----------------------------------");
+                    log.InfoFormat("Win32_USBDevice instance");
+                    log.InfoFormat("-----------------------------------");
+   
+                    foreach (var item in obj2.Properties)
+                    {
+                        log.InfoFormat("{0}: {1}", item.Name, item.Value);
+                    }
+
 
                     // check vid and pid
                     if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_2341&PID_0010"))

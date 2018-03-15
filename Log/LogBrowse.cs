@@ -1462,8 +1462,6 @@ namespace MissionPlanner.Log
         void DrawModes()
         {
             bool top = false;
-            double a = 0;
-            int count = 0;
 
             zg1.GraphPane.GraphObjList.Clear();
 
@@ -1480,7 +1478,7 @@ namespace MissionPlanner.Log
 
             foreach (var item in logdata.GetEnumeratorType("MODE"))
             {
-                a = item.lineno;
+                double a = item.lineno;
 
                 if (item.msgtype == "MODE")
                 {
@@ -2678,8 +2676,9 @@ namespace MissionPlanner.Log
         }
 
 
-        private void myGMAP1_OnRouteClick(GMapRoute item, MouseEventArgs e)
+        private void myGMAP1_OnRouteClick(GMapRoute item, object ei)
         {
+            var e = ei as MouseEventArgs;
             if ((item.Name != null) && (item.Name.StartsWith("route_")))
             {
                 LogRouteInfo lri = item.Tag as LogRouteInfo;

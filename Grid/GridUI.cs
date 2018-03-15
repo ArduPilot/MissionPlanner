@@ -23,7 +23,7 @@ using MissionPlanner.Utilities;
 using ProjNet.CoordinateSystems;
 using ProjNet.CoordinateSystems.Transformations;
 
-namespace MissionPlanner
+namespace MissionPlanner.Grid
 {
     public partial class GridUI : Form
     {
@@ -61,71 +61,6 @@ namespace MissionPlanner
         bool isMouseDown = false;
         bool isMouseDraging = false;
 
-        // Structures
-        public struct camerainfo
-        {
-            public string name;
-            public float focallen;
-            public float sensorwidth;
-            public float sensorheight;
-            public float imagewidth;
-            public float imageheight;
-        }
-
-        public struct GridData
-        {
-            public List<PointLatLngAlt> poly;
-            //simple
-            public string camera;
-            public decimal alt;
-            public decimal angle;
-            public bool camdir;
-            public decimal speed;
-            public bool usespeed;
-            public bool autotakeoff;
-            public bool autotakeoff_RTL;
-
-            public decimal splitmission;
-
-            public bool internals;
-            public bool footprints;
-            public bool advanced;
-
-            //options
-            public decimal dist;
-            public decimal overshoot1;
-            public decimal overshoot2;
-            public decimal leadin;
-            public string startfrom;
-            public decimal overlap;
-            public decimal sidelap;
-            public decimal spacing;
-            public bool crossgrid;
-            // Copter Settings
-            public decimal copter_delay;
-            public bool copter_headinghold_chk;
-            public decimal copter_headinghold;
-            // plane settings
-            public bool alternateLanes;
-            public decimal minlaneseparation;
-
-            // camera config
-            public bool trigdist;
-            public bool digicam;
-            public bool repeatservo;
-
-            public bool breaktrigdist;
-
-            public decimal repeatservo_no;
-            public decimal repeatservo_pwm;
-            public decimal repeatservo_cycle;
-
-            // do set servo
-            public decimal setservo_no;
-            public decimal setservo_low;
-            public decimal setservo_high;
-        }
-
         // GridUI
         public GridUI(GridPlugin plugin)
         {
@@ -158,7 +93,7 @@ namespace MissionPlanner
             if (plugin.Host.config["distunits"] != null)
                 DistUnits = plugin.Host.config["distunits"].ToString();
 
-            CMB_startfrom.DataSource = Enum.GetNames(typeof (Grid.StartPosition));
+            CMB_startfrom.DataSource = Enum.GetNames(typeof (Utilities.Grid.StartPosition));
             CMB_startfrom.SelectedIndex = 0;
 
             // set and angle that is good
@@ -614,18 +549,18 @@ namespace MissionPlanner
 
             if (chk_test.Checked)
             {
-                grid = Grid.CreateCorridor(list, CurrentState.fromDistDisplayUnit((double)NUM_altitude.Value),
+                grid = Utilities.Grid.CreateCorridor(list, CurrentState.fromDistDisplayUnit((double)NUM_altitude.Value),
                     (double)NUM_Distance.Value, (double)NUM_spacing.Value, (double)NUM_angle.Value,
                     (double)NUM_overshoot.Value, (double)NUM_overshoot2.Value,
-                    (Grid.StartPosition)Enum.Parse(typeof(Grid.StartPosition), CMB_startfrom.Text), false,
+                    (Utilities.Grid.StartPosition)Enum.Parse(typeof(Utilities.Grid.StartPosition), CMB_startfrom.Text), false,
                     (float)NUM_Lane_Dist.Value, (float)num_corridorwidth.Value, (float)NUM_leadin.Value);
             }
             else
             {
-                grid = Grid.CreateGrid(list, CurrentState.fromDistDisplayUnit((double) NUM_altitude.Value),
+                grid = Utilities.Grid.CreateGrid(list, CurrentState.fromDistDisplayUnit((double) NUM_altitude.Value),
                     (double) NUM_Distance.Value, (double) NUM_spacing.Value, (double) NUM_angle.Value,
                     (double) NUM_overshoot.Value, (double) NUM_overshoot2.Value,
-                    (Grid.StartPosition) Enum.Parse(typeof(Grid.StartPosition), CMB_startfrom.Text), false,
+                    (Utilities.Grid.StartPosition) Enum.Parse(typeof(Utilities.Grid.StartPosition), CMB_startfrom.Text), false,
                     (float) NUM_Lane_Dist.Value, (float) NUM_leadin.Value, MainV2.comPort.MAV.cs.HomeLocation);
             }
 
@@ -645,12 +580,12 @@ namespace MissionPlanner
             if (chk_crossgrid.Checked)
             {
                 // add crossover
-                Grid.StartPointLatLngAlt = grid[grid.Count - 1];
+                Utilities.Grid.StartPointLatLngAlt = grid[grid.Count - 1];
 
-                grid.AddRange(Grid.CreateGrid(list, CurrentState.fromDistDisplayUnit((double) NUM_altitude.Value),
+                grid.AddRange(Utilities.Grid.CreateGrid(list, CurrentState.fromDistDisplayUnit((double) NUM_altitude.Value),
                     (double) NUM_Distance.Value, (double) NUM_spacing.Value, (double) NUM_angle.Value + 90.0,
                     (double) NUM_overshoot.Value, (double) NUM_overshoot2.Value,
-                    Grid.StartPosition.Point, false,
+                    Utilities.Grid.StartPosition.Point, false,
                     (float) NUM_Lane_Dist.Value, (float) NUM_leadin.Value, MainV2.comPort.MAV.cs.HomeLocation));
             }
 

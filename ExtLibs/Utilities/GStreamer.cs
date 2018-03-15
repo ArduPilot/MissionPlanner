@@ -8,6 +8,7 @@ using System.Net.Sockets;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.IO.Compression;
 using System.IO.Pipes;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -35,8 +36,6 @@ namespace MissionPlanner.Utilities
             remove { _onNewImage -= value; }
         }
 
-        //static NamedPipeServerStream pipeServer = new NamedPipeServerStream("gstreamer", PipeDirection.In);
-
         public static class NativeMethods
         {
             [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -44,6 +43,9 @@ namespace MissionPlanner.Utilities
 
             [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
             public static extern void gst_init(IntPtr argc, IntPtr argv);
+
+            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern void gst_init(ref int argc, string[] argv);
 
             [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
             public static extern bool gst_init_check(ref int argc, ref IntPtr[] argv, out IntPtr error);
@@ -137,7 +139,7 @@ namespace MissionPlanner.Utilities
 
             [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
             public static extern
-                StringBuilder gst_caps_to_string(IntPtr caps);
+                IntPtr gst_caps_to_string(IntPtr caps);
 
             [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
             public static extern bool gst_buffer_map(IntPtr buffer, out GstMapInfo info, GstMapFlags GstMapFlags);
@@ -247,33 +249,51 @@ namespace MissionPlanner.Utilities
             private IntPtr[] _gstGstReserved;
         }
 
-        public static void test()
+        [StructLayout(LayoutKind.Sequential)]
+        public struct GError
         {
-            string pathvar = System.Environment.GetEnvironmentVariable("PATH");
-            System.Environment.SetEnvironmentVariable("PATH",
-                pathvar +
-                @";C:\gstreamer\1.0\x86_64\bin\;D:\gstreamer\1.0\x86_64\bin\;E:\gstreamer\1.0\x86_64\bin\;F:\gstreamer\1.0\x86_64\bin\");
-            pathvar = System.Environment.GetEnvironmentVariable("PATH");
-            System.Environment.SetEnvironmentVariable("PATH",
-                pathvar +
-                @";C:\gstreamer\1.0\x86\bin\;D:\gstreamer\1.0\x86\bin\;E:\gstreamer\1.0\x86\bin\;F:\gstreamer\1.0\x86\bin\");
+            public UInt32 domain; // typedef guint32 GQuark;
+            public int code;
+            public string message;
+        }
 
-            NativeMethods.gst_init(IntPtr.Zero, IntPtr.Zero);
+        public static void StartA(string stringpipeline)
+        {
+            int argc = 1;
+            string[] argv = new string[] {"-vvv"};
+
+            NativeMethods.gst_init(ref argc, argv);
 
             IntPtr error;
             NativeMethods.gst_init_check(IntPtr.Zero, IntPtr.Zero, out error);
 
+            if (error != IntPtr.Zero)
+            {
+                var er = Marshal.PtrToStructure<GError>(error);
+                log.Error("gst_init_check: " + er.message);
+                return;
+            }
+
             uint v1 = 0, v2 = 0, v3 = 0, v4 = 0;
             NativeMethods.gst_version(ref v1, ref v2, ref v3, ref v4);
+
+            log.InfoFormat("GStreamer {0}.{1}.{2}.{3}", v1, v2, v3, v4);
 
             /* Set up the pipeline */
 
             var pipeline = NativeMethods.gst_parse_launch(
-                //@"videotestsrc ! video/x-raw, width=1280, height=720, framerate=30/1 ! clockoverlay ! x264enc speed-preset=1 threads=1 sliced-threads=1 mb-tree=0 rc-lookahead=0 sync-lookahead=0 bframes=0 ! rtph264pay ! application/x-rtp ! rtph264depay ! avdec_h264 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink",
-                @"-v udpsrc port=5601 buffer-size=300000 ! application/x-rtp ! rtph264depay ! avdec_h264 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink",
+                stringpipeline,
+                //@"videotestsrc ! video/x-raw, width=1280, height=720, framerate=30/1 ! x264enc speed-preset=1 threads=1 sliced-threads=1 mb-tree=0 rc-lookahead=0 sync-lookahead=0 bframes=0 ! rtph264pay ! application/x-rtp ! rtph264depay ! avdec_h264 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink",
+                //@"-v udpsrc port=5601 buffer-size=300000 ! application/x-rtp ! rtph264depay ! avdec_h264 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink",
+                //@"rtspsrc location=rtsp://192.168.1.252/video1 ! application/x-rtp ! rtph264depay ! avdec_h264 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink",
                 out error);
 
-            Console.WriteLine(error);
+            if (error != IntPtr.Zero)
+            {
+                var er = Marshal.PtrToStructure<GError>(error);
+                log.Error("gst_parse_launch: " + er.message);
+                return;
+            }
 
             var appsink = NativeMethods.gst_bin_get_by_name(pipeline, "outsink");
 
@@ -284,16 +304,19 @@ namespace MissionPlanner.Utilities
 
             /* Wait until error or EOS */
             var bus = NativeMethods.gst_element_get_bus(pipeline);
+
             //var msg = GStreamer.gst_bus_timed_pop_filtered(bus, GStreamer.GST_CLOCK_TIME_NONE, GStreamer.GstMessageType.GST_MESSAGE_ERROR | GStreamer.GstMessageType.GST_MESSAGE_EOS);
 
             int Width = 0;
             int Height = 0;
+            int trys = 0;
 
             while (true)
             {
                 var sample = NativeMethods.gst_app_sink_try_pull_sample(appsink, GST_SECOND);
                 if (sample != IntPtr.Zero)
                 {
+                    trys = 0;
                     //var caps = gst_app_sink_get_caps(appsink);
                     var caps = NativeMethods.gst_sample_get_caps(sample);
                     var caps_s = NativeMethods.gst_caps_get_structure(caps, 0);
@@ -309,42 +332,29 @@ namespace MissionPlanner.Utilities
                         var info = new GstMapInfo();
                         if (NativeMethods.gst_buffer_map(buffer, out info, GstMapFlags.GST_MAP_READ))
                         {
-                            //byte[] data = new byte[info.size];
-                            //Marshal.Copy(info.data, data, 0, (int) info.size);
-
                             var image = new Bitmap(Width, Height, 4 * Width, System.Drawing.Imaging.PixelFormat.Format32bppArgb, info.data);
 
                             _onNewImage?.Invoke(null, image);
 
-                            //image.Save("image.bmp");
-
-                            //gst_mini_object_unref(info.memory);
-
                             NativeMethods.gst_buffer_unmap(buffer, out info);
                         }
-                       // gst_buffer_unref(buffer);
-                        //gst_mini_object_unref(buffer);
                     }
-                    //gst_mini_object_unref(sample);
                     NativeMethods.gst_sample_unref(sample);
                 }
-
-                //image.Save("image.bmp");
-
-
-
-                //image.Save("image2.bmp");
-
-                //File.WriteAllBytes("image.raw", data);
-
+                else
+                {
+                    log.Info("failed gst_app_sink_try_pull_sample");
+                    trys++;
+                    if(trys > 10)
+                        break;
+                }
             }
 
-            /*
-            fixed (byte* data = new byte[info.size])
-            {
-                File.WriteAllBytes("image.raw", data);
-            }
-            */
+            NativeMethods.gst_buffer_unref(bus);
+            NativeMethods.gst_element_set_state(pipeline, GstState.GST_STATE_NULL);
+            //NativeMethods.gst_buffer_unref(pipeline);
+
+            log.Info("Gstreamer Exit");
         }
 
         ~GStreamer()
@@ -356,6 +366,17 @@ namespace MissionPlanner.Utilities
         {
             UdpPort = 5600;
             OutputPort = 1235;
+
+            var dataDirectory = Settings.GetDataDirectory();
+            var gstdir = Path.Combine(dataDirectory, @"gstreamer\1.0\x86_64");
+
+            // Prepend native path to environment path, to ensure the
+            // right libs are being used.
+            var path = Environment.GetEnvironmentVariable("PATH");
+            path = Path.Combine(gstdir, "bin") + ";" + Path.Combine(gstdir, "lib") + ";" + path;
+            Environment.SetEnvironmentVariable("PATH", path);
+
+            Environment.SetEnvironmentVariable("GST_PLUGIN_PATH", Path.Combine(gstdir, "lib"));
         }
 
         //gst-launch-1.0.exe  videotestsrc pattern=ball ! video/x-raw,width=640,height=480 ! clockoverlay ! x264enc ! rtph264pay ! udpsink host=127.0.0.1 port=5600
@@ -411,6 +432,7 @@ namespace MissionPlanner.Utilities
                 }
             }
 
+            log.Info("No gstreamer found");
             return "";
         }
 
@@ -472,7 +494,7 @@ namespace MissionPlanner.Utilities
                         if (!externalpipeline)
                         {
                             psi.Arguments += String.Format(
-                                " ! queue leaky=2 ! avenc_mjpeg ! queue leaky=2 ! tcpserversink host=127.0.0.1 port={0} sync=false",
+                                " ! queue leaky=2 ! jpegenc ! queue leaky=2 ! tcpserversink host=127.0.0.1 port={0} sync=false",
                                 OutputPort);
                         }
                         else
@@ -489,6 +511,7 @@ namespace MissionPlanner.Utilities
 
                     log.Info("Starting " + psi.FileName + " " + psi.Arguments);
 
+                    psi.RedirectStandardInput = true;
                     psi.RedirectStandardOutput = true;
                     psi.RedirectStandardError = true;
 
@@ -506,6 +529,10 @@ namespace MissionPlanner.Utilities
                     System.Threading.ThreadPool.QueueUserWorkItem(_Start);
 
                     return process;
+                }
+                else
+                {
+                    log.Info("No gstreamer found");
                 }
             }
             return null;
@@ -918,8 +945,21 @@ namespace MissionPlanner.Utilities
 
                 if (run != null)
                 {
+                    try
+                    {
+                        log.Info("StandardInput close");
+                        run.StandardInput.Write('\x3');
+                        run.StandardInput.Close();
+                    } catch { }
+
                     if (!run.CloseMainWindow())
+                    {
+                        Thread.Sleep(100);
+                        log.Info("Kill");
                         run.Kill();
+                    }
+
+                    log.Info("Close");
                     run.Close();
                 }
             }
@@ -936,6 +976,21 @@ namespace MissionPlanner.Utilities
             {
                 Stop(process);
             }
+        }
+
+        public static void DownloadGStreamer(Action<int, string> status = null)
+        {
+            var output = Settings.GetDataDirectory() + "gstreamer-1.0-x86_64-1.12.4.zip";
+
+            Download.ParallelDownloadFile(
+                "http://firmware.ardupilot.org/MissionPlanner/gstreamer/gstreamer-1.0-x86_64-1.12.4.zip",
+                output, status: status);
+
+            ZipArchive zip = new ZipArchive(File.OpenRead(output));
+
+            zip.ExtractToDirectory(Settings.GetDataDirectory());
+
+            zip.Dispose();
         }
     }
 }

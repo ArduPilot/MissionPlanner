@@ -13,6 +13,8 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using log4net;
+using MissionPlanner.Controls;
+using MissionPlanner.GCSViews;
 
 namespace MissionPlanner.Utilities
 {
@@ -118,23 +120,9 @@ namespace MissionPlanner.Utilities
                 }
                 else
                 {
-                    if (CustomMessageBox.Show("A video stream has been detected, but gstreamer has not been configured/installed.\nDo you want to install/config it now? It will download in the background.", "GStreamer", System.Windows.Forms.MessageBoxButtons.YesNo) == (int)System.Windows.Forms.DialogResult.Yes)
+                    if (CustomMessageBox.Show("A video stream has been detected, but gstreamer has not been configured/installed.\nDo you want to install/config it now?", "GStreamer", System.Windows.Forms.MessageBoxButtons.YesNo) == (int)System.Windows.Forms.DialogResult.Yes)
                     {
-                        //CustomMessageBox.Show("Please download gstreamer 1.9.2 from [link;HERE;https://gstreamer.freedesktop.org/data/pkg/windows/1.9.2/gstreamer-1.0-x86-1.9.2.msi]\n And install it using the 'COMPLETE' option");
-
-                        var output = Settings.GetDataDirectory() + "gstreamer-1.0-x86-1.9.2.zip";
-
-                        Download.ParallelDownloadFile(
-                            "http://firmware.ardupilot.org/MissionPlanner/gstreamer/gstreamer-1.0-x86-1.9.2.zip",
-                            output);
-
-                        ZipArchive zip = new ZipArchive(File.OpenRead(output));
-
-                        zip.ExtractToDirectory(Settings.GetDataDirectory());
-
-                        zip.Dispose();
-
-                        GStreamer.gstlaunch = GStreamer.LookForGstreamer();
+                        DownloadGStreamer();
                         if (!File.Exists(GStreamer.gstlaunch))
                         {
                             return;
@@ -148,7 +136,25 @@ namespace MissionPlanner.Utilities
             }
 
             GStreamer.UdpPort = port;
-            gst = GStreamer.Start();
+            GStreamer.StartA("udpsrc port=" + port +
+                             " buffer-size=300000 ! application/x-rtp ! rtph264depay ! avdec_h264 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink");
+        }
+
+        private static void DownloadGStreamer()
+        {
+            ProgressReporterDialogue prd = new ProgressReporterDialogue();
+            ThemeManager.ApplyThemeTo(prd);
+            prd.DoWork += sender =>
+            {
+                GStreamer.DownloadGStreamer(((i, s) =>
+                {
+                    prd.UpdateProgressAndStatus(i, s);
+                    if (prd.doWorkArgs.CancelRequested) throw new Exception("User Request");
+                }));
+            };
+            prd.RunBackgroundOperationAsync();
+
+            GStreamer.gstlaunch = GStreamer.LookForGstreamer();
         }
 
         public static void Start()
@@ -164,6 +170,7 @@ namespace MissionPlanner.Utilities
 
                 if (Ping("10.1.1.1"))
                 {
+                    log.Info("Detected a solo IP");
                     // solo video
                     tcpclient = new TcpClient("10.1.1.1", 5502);
                 }
@@ -180,13 +187,61 @@ namespace MissionPlanner.Utilities
             {
                 if (Ping("192.168.99.1"))
                 {
-                    // skyviper video
-                    var test = new WebClient().DownloadString("http://192.168.99.1/");
+                    log.Info("Detected a SkyViper IP");
 
-                    if (test.Contains("SkyViper"))
+                    bool skyviper = false;
+
+                    // skyviper rtsp
+                    try
                     {
+                        var rtspclient = new TcpClient("192.168.99.1", 554);
+                        rtspclient.Close();
+                        skyviper = true;
+                    } catch { }
+
+                    // skyviper video
+                    try
+                    {
+                        var test = new WebClient().DownloadString("http://192.168.99.1/");
+                        if (test.Contains("SkyViper"))
+                            skyviper = true;
+                    } catch { }
+
+                    if (skyviper)
+                    {
+                        log.Info("Detected a SkyViper");
+
+                        if (!File.Exists(GStreamer.gstlaunch))
+                        {
+                            GStreamer.gstlaunch = GStreamer.LookForGstreamer();
+
+                            if (GStreamer.gstlaunch == "")
+                            {
+                                if (CustomMessageBox.Show(
+                                        "A video stream has been detected, but gstreamer has not been configured/installed.\nDo you want to install/config it now?",
+                                        "GStreamer", System.Windows.Forms.MessageBoxButtons.YesNo) ==
+                                    (int) System.Windows.Forms.DialogResult.Yes)
+                                {
+                                    DownloadGStreamer();
+                                }
+                            }
+                        }
+
                         //slave to sender clock and Pipeline clock time
-                        GStreamer.Start("rtspsrc location=rtsp://192.168.99.1/media/stream2 debug=false buffer-mode=1 latency=100 ntp-time-source=3 ! application/x-rtp ! rtph264depay ! avdec_h264 ! avenc_mjpeg ");
+                        GStreamer.StartA("rtspsrc location=rtsp://192.168.99.1/media/stream2 debug=false buffer-mode=1 latency=100 ntp-time-source=3 ! application/x-rtp ! rtph264depay ! avdec_h264 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink");
+                        /*
+                        string url = "http://192.168.99.1/ajax/video.mjpg";
+
+                        Settings.Instance["mjpeg_url"] = url;
+
+                        CaptureMJPEG.Stop();
+
+                        CaptureMJPEG.URL = url;
+
+                        CaptureMJPEG.OnNewImage += FlightData.instance.CaptureMJPEG_OnNewImage;
+
+                        CaptureMJPEG.runAsync();
+                        */
                     }
                 }
             }

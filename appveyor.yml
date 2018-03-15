@@ -5,6 +5,8 @@ clone_depth: 1
 clone_folder: c:\MP\
 init:
 - cmd: 
+cache:
+    - packages -> appveyor.yml
 environment:
   email:
     secure: dkWdmOxf3t/x2H0gEo1GurKM8Due1idnog5VJtUlSEA=
@@ -15,6 +17,8 @@ build_script:
     dotnet --info
 
     rem c:\mp\.nuget\nuget.exe update -self
+
+    c:\mp\.nuget\nuget.exe sources Add -Name "myget" -Source https://dotnet.myget.org/F/dotnet-core/api/v3/index.json
     
     c:\mp\.nuget\nuget.exe restore
     

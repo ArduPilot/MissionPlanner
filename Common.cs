@@ -22,6 +22,12 @@ namespace MissionPlanner
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
+        public enum altitudes
+        {
+            Meters,
+            Feet
+        }
+
         public enum distances
         {
             Meters,

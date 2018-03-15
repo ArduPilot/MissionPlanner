@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using MissionPlanner.Utilities;
@@ -8,7 +9,7 @@ using System.IO;
 
 namespace MissionPlanner.Utilities
 {
-    class fontgen
+    public class fontgen
     {
         public static int width = 8;
         public static int height = 16;
@@ -29,112 +30,53 @@ namespace MissionPlanner.Utilities
 
                 // Try a smaller font (90% of old size)
                 Font oldFont = font;
-                font = new Font(font.Name, (float) (font.Size*.9), font.Style);
+                font = new Font(font.Name, (float) (font.Size * .9), font.Style);
                 oldFont.Dispose();
             }
         }
 
         public static void dowork()
         {
-            char letter = '0';
+            char letter = (char) 0;
 
-            StreamWriter file = new StreamWriter(File.Open("fonts.txt", FileMode.Create));
+            Font font = new Font("Arial Narrow", 40, FontStyle.Regular);
+
+            //font = FindBestFitFont(g, letter.ToString(), font, new Size(width,height), flags);
+
+            var fsize = Graphics.FromImage(new Bitmap(1, 1)).MeasureString("@", font);
+
+            width = (int) Math.Ceiling(fsize.Width);
+            height = (int) Math.Ceiling(fsize.Height);
+
+            Bitmap bmp = new Bitmap(width * 16, height * 16);
+
+            bmp.MakeTransparent(Color.BlueViolet);
+
+            Graphics g = Graphics.FromImage(bmp);
+
+            //g.Clear(Color.BlueViolet);
+
+            g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixelGridFit;
+
 
             //var flags = TextFormatFlags.Default;// TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter;// |  TextFormatFlags.GlyphOverhangPadding;
 
-            for (; letter <= 'Z'; letter++)
+            for (; letter <= (char) 255; letter++)
             {
-                Font font = new Font("Arial Narrow", 7, FontStyle.Regular);
+                var wl = (letter % 16);
+                var hl = (letter - wl) / 16;
 
-                Bitmap bmp = new Bitmap(width, height);
+                g.DrawString(letter.ToString(), font, Brushes.Black,
+                    new RectangleF(wl * width, hl * height, width, height),
+                    new StringFormat() {Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center});
 
-                Graphics g = Graphics.FromImage(bmp);
 
-                g.Clear(Color.White);
 
-                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-                g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixelGridFit;
+                bmp.Save("font.png");
 
-                //font = FindBestFitFont(g, letter.ToString(), font, new Size(width,height), flags);
-
-                var fsize = g.MeasureString(letter.ToString(), font);
-
-                g.DrawString(letter.ToString(), font, Brushes.Black, 0, 0);
-
-                try
-                {
-                    // bmp = new Bitmap(bmp, new Size(8, 16));
-                    if (letter >= ':' && letter <= '@')
-                        continue;
-
-                    bmp.Save("!" + letter + ".bmp");
-
-                    string outlet = letter.ToString().ToLower();
-
-                    switch (letter)
-                    {
-                        case '0':
-                            outlet = "ze";
-                            break;
-                        case '1':
-                            outlet = "on";
-                            break;
-                        case '2':
-                            outlet = "tw";
-                            break;
-                        case '3':
-                            outlet = "th";
-                            break;
-                        case '4':
-                            outlet = "fo";
-                            break;
-                        case '5':
-                            outlet = "fi";
-                            break;
-                        case '6':
-                            outlet = "si";
-                            break;
-                        case '7':
-                            outlet = "se";
-                            break;
-                        case '8':
-                            outlet = "ei";
-                            break;
-                        case '9':
-                            outlet = "ni";
-                            break;
-                    }
-
-                    file.Write("byte " + outlet + "[16] = {");
-
-                    for (int h = 0; h < 16; h++)
-                    {
-                        byte chr = 0x0;
-
-                        for (int w = 0; w < 8; w++)
-                        {
-                            var pix = bmp.GetPixel(w, h);
-                            if (pix.R == 255 && pix.G == 255 && pix.B == 255)
-                            {
-                                chr += (byte) (1 << w);
-                            }
-                            else
-                            {
-                            }
-                        }
-
-                        file.Write(String.Format("0x{0:X},", chr));
-                    }
-
-                    file.WriteLine("};");
-                }
-                catch
-                {
-                }
             }
-
-            file.Close();
         }
     }
 }

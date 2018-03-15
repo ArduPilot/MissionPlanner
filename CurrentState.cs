@@ -32,6 +32,8 @@ namespace MissionPlanner
         public static string DistanceUnit = "";
         public static float multiplierspeed = 1;
         public static string SpeedUnit = "";
+        public static float multiplieralt = 1;
+        public static string AltUnit = "";
 
         public static double toDistDisplayUnit(double input)
         {
@@ -107,16 +109,16 @@ namespace MissionPlanner
         private float _groundcourse = 0;
 
         // position
-        [DisplayText("Latitude")]
+        [DisplayText("Latitude (dd)")]
         public double lat { get; set; }
 
-        [DisplayText("Longitude")]
+        [DisplayText("Longitude (dd)")]
         public double lng { get; set; }
 
-        [DisplayText("Altitude (dist)")]
+        [DisplayText("Altitude (alt)")]
         public float alt
         {
-            get { return (_alt - altoffsethome)*multiplierdist; }
+            get { return (_alt - altoffsethome)* multiplieralt; }
             set
             {
                 // check update rate, and ensure time hasnt gone backwards                
@@ -139,8 +141,15 @@ namespace MissionPlanner
         [DisplayText("Altitude (dist)")]
         public float altasl
         {
-            get { return _altasl*multiplierdist; }
+            get { return _altasl* multiplieralt; }
             set { _altasl = value; }
+        }
+
+        [DisplayText("Horizon Dist (dist)")]
+        public float horizondist
+        {
+            // alt = above home
+            get { return (float) (3570 * Math.Sqrt(alt)) * multiplierdist; }
         }
 
         float _altasl = 0;
@@ -535,7 +544,7 @@ namespace MissionPlanner
         [DisplayText("Altitude Error (dist)")]
         public float alt_error
         {
-            get { return _alt_error*multiplierdist; }
+            get { return _alt_error* multiplieralt; }
             set
             {
                 if (_alt_error == value) return;
@@ -611,6 +620,16 @@ namespace MissionPlanner
         [DisplayText("Time in Air (sec)")]
         public float timeInAir { get; set; }
 
+        //Time in Air converted to min.sec format for easier reading
+        [DisplayText("Time in Air (min.sec)")]
+        public float timeInAirMinSec
+        {
+            get
+            {
+                return ((float)((int)(timeInAir / 60))) + ((timeInAir % 60) / 100);
+            }
+        }
+        
         // calced turn rate
         [DisplayText("Turn Rate (speed)")]
         public float turnrate
@@ -1198,7 +1217,7 @@ namespace MissionPlanner
         [DisplayText("Terrain AGL")]
         public float ter_curalt
         {
-            get { return _ter_curalt * multiplierdist; }
+            get { return _ter_curalt * multiplieralt; }
             set { _ter_curalt = value; }
         }
 
@@ -1207,7 +1226,7 @@ namespace MissionPlanner
         [DisplayText("Terrain GL")]
         public float ter_alt
         {
-            get { return _ter_alt * multiplierdist; }
+            get { return _ter_alt * multiplieralt; }
             set { _ter_alt = value; }
         }
 
@@ -1433,6 +1452,10 @@ namespace MissionPlanner
             else if (desc.Contains("(speed)"))
             {
                 desc = desc.Replace("(speed)", "(" + CurrentState.SpeedUnit + ")");
+            }
+            else if (desc.Contains("(alt)"))
+            {
+                desc = desc.Replace("(alt)", "(" + CurrentState.AltUnit + ")");
             }
 
             return desc;

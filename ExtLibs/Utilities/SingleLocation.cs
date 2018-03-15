@@ -47,6 +47,14 @@ namespace MissionPlanner.GeoRef
             set { relAlt = value; }
         }
 
+        double gpsalt;
+
+        public double GPSAlt
+        {
+            get { return gpsalt; }
+            set { gpsalt = value; }
+        }
+
         double salt;
 
         public double SAlt
@@ -79,8 +87,10 @@ namespace MissionPlanner.GeoRef
             set { yaw = value; }
         }
 
-        public double getAltitude(bool AMSL)
+        public double getAltitude(bool AMSL, bool gpsalt)
         {
+            if (gpsalt)
+                return GPSAlt;
             return (AMSL ? AltAMSL : RelAlt);
         }
 

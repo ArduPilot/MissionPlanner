@@ -73,10 +73,11 @@ namespace MissionPlanner.Log
         }
 
         List<object> logs = new List<object>();
-
+        int a = 0;
         void processbg(string file)
         {
-            Loading.ShowLoading(file, this);
+            a++;
+            Loading.ShowLoading(a+"/"+files.Count + " " + file, this);
 
             if (!File.Exists(file + ".jpg"))
             {

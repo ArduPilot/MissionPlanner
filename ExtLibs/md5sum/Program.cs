@@ -40,7 +40,7 @@ namespace md5sum
                     }
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 return "";
             }

@@ -18,7 +18,7 @@ namespace MissionPlanner.Swarm
         float xline;
         float yline;
 
-        List<icon> icons = new List<icon>();
+        public List<icon> icons = new List<icon>();
         icon mouseover = null;
         bool ismousedown = false;
 
@@ -102,7 +102,7 @@ namespace MissionPlanner.Swarm
             //icons
             foreach (icon ico in icons)
             {
-                if (ico.interf.parent.BaseStream.IsOpen)
+                //if (ico.interf.parent.BaseStream.IsOpen)
                 {
                     if (Vertical)
                     {
@@ -294,6 +294,11 @@ namespace MissionPlanner.Swarm
             public void MouseOver(PaintEventArgs e)
             {
             }
+        }
+
+        public void Clear()
+        {
+            icons.Clear();
         }
 
         private void changeAltToolStripMenuItem_Click(object sender, EventArgs e)

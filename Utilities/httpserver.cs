@@ -9,7 +9,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Web;
-using System.Web.Script.Serialization;
 using System.Windows.Forms;
 using log4net;
 using MissionPlanner.Utilities;
@@ -795,8 +794,6 @@ namespace MissionPlanner.Utilities
         "NAV_CONTROLLER_OUTPUT": {"msg": {"wp_dist": 0, "nav_pitch": 0.0, "target_bearing": 0, "nav_roll": 0.0, "aspd_error": 0.0, "alt_error": 0.0, "mavpackettype": "NAV_CONTROLLER_OUTPUT", "xtrack_error": 0.0, "nav_bearing": 0}, "index": 687, "time_usec": 0}}
                       */
 
-                        JavaScriptSerializer serializer = new JavaScriptSerializer();
-
                         object[] data = new object[20];
 
                         if (MainV2.comPort.MAV.getPacket((byte) MAVLink.MAVLINK_MSG_ID.ATTITUDE) != null)
@@ -897,7 +894,7 @@ namespace MissionPlanner.Utilities
 
                         packetindex++;
 
-                        string output = serializer.Serialize(message);
+                        string output = JsonConvert.SerializeObject(message);
 
                         string header = "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: " +
                                         output.Length + "\r\n\r\n";
@@ -925,7 +922,7 @@ namespace MissionPlanner.Utilities
 
                         if (match.Success)
                         {
-                            string fileurl = HttpUtility.UrlDecode(match.Groups[2].Value);
+                            string fileurl = WebUtility.UrlDecode(match.Groups[2].Value);
 
                             fileurl = fileurl.Replace("/mav/", "");
 

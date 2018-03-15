@@ -379,6 +379,83 @@ namespace MissionPlanner.Utilities
             return v2*weight + v1*(1 - weight);
         }
 
+        public static PointLatLngAlt getIntersectionWithTerrain(PointLatLngAlt start, PointLatLngAlt end)
+        {
+            int distout = 0;
+            int stepsize = 50;
+            var maxdist = start.GetDistance(end);
+            var bearing = start.GetBearing(end);
+            var altdiff = end.Alt - start.Alt;
+            PointLatLngAlt newpos = PointLatLngAlt.Zero;
+
+            while (distout < maxdist)
+            {
+                // get a projected point to test intersection against - not using slope distance
+                PointLatLngAlt terrainstart = start.newpos(bearing, distout);
+                terrainstart.Alt = srtm.getAltitude(terrainstart.Lat, terrainstart.Lng).alt;
+
+                // get another point stepsize infront
+                PointLatLngAlt terrainend = start.newpos(bearing, distout + stepsize);
+                terrainend.Alt = srtm.getAltitude(terrainend.Lat, terrainend.Lng).alt;
+
+                // x is dist from start, y is alt
+                var newpoint = FindLineIntersection(new PointF(0, (float)start.Alt),
+                    new PointF((float)maxdist, (float)end.Alt),
+                    new PointF((float)distout, (float)terrainstart.Alt),
+                    new PointF((float)distout + stepsize, (float)terrainend.Alt));
+
+                if (newpoint.X != 0)
+                {
+                    newpos = start.newpos(bearing, newpoint.X);
+                    newpos.Alt = newpoint.Y;
+                    break;
+                }
+
+                distout += stepsize;
+            }
+
+            if (newpos == PointLatLngAlt.Zero)
+                newpos = end;
+
+            return newpos;
+        }
+
+        class PointF
+        {
+            internal PointF()
+            {
+            }
+
+            internal  PointF(float X, float Y)
+            {
+                this.X = X;
+                this.Y = Y;
+            }
+
+            internal  float Y { get; set; }
+
+            internal  float X { get; set; }
+        }
+
+        static PointF FindLineIntersection(PointF start1, PointF end1, PointF start2, PointF end2)
+        {
+            double denom = ((end1.X - start1.X) * (end2.Y - start2.Y)) - ((end1.Y - start1.Y) * (end2.X - start2.X));
+            //  AB & CD are parallel         
+            if (denom == 0)
+                return new PointF();
+            double numer = ((start1.Y - start2.Y) * (end2.X - start2.X)) - ((start1.X - start2.X) * (end2.Y - start2.Y));
+            double r = numer / denom;
+            double numer2 = ((start1.Y - start2.Y) * (end1.X - start1.X)) - ((start1.X - start2.X) * (end1.Y - start1.Y));
+            double s = numer2 / denom;
+            if ((r < 0 || r > 1) || (s < 0 || s > 1))
+                return new PointF();
+            // Find intersection point      
+            PointF result = new PointF();
+            result.X = (float)(start1.X + (r * (end1.X - start1.X)));
+            result.Y = (float)(start1.Y + (r * (end1.Y - start1.Y)));
+            return result;
+        }
+
         static MemoryStream readFile(string filename)
         {
             log.Info(filename);

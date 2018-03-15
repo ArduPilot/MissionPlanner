@@ -142,9 +142,9 @@ namespace MissionPlanner.Utilities
             SetList(key, list);
         }
 
-        public int GetInt32(string key)
+        public int GetInt32(string key, int defaulti = 0)
         {
-            int result = 0;
+            int result = defaulti;
             string value = null;
             if (config.TryGetValue(key, out value))
             {
@@ -164,9 +164,9 @@ namespace MissionPlanner.Utilities
             return result;
         }
 
-        public bool GetBoolean(string key)
+        public bool GetBoolean(string key, bool defaultb = false)
         {
-            bool result = false;
+            bool result = defaultb;
             string value = null;
             if (config.TryGetValue(key, out value))
             {
@@ -175,9 +175,9 @@ namespace MissionPlanner.Utilities
             return result;
         }
 
-        public float GetFloat(string key)
+        public float GetFloat(string key, float defaultv = 0)
         {
-            float result = 0f;
+            float result = defaultv;
             string value = null;
             if (config.TryGetValue(key, out value))
             {
@@ -186,9 +186,9 @@ namespace MissionPlanner.Utilities
             return result;
         }
 
-        public double GetDouble(string key)
+        public double GetDouble(string key, double defaultd = 0)
         {
-            double result = 0D;
+            double result = defaultd;
             string value = null;
             if (config.TryGetValue(key, out value))
             {
@@ -197,9 +197,9 @@ namespace MissionPlanner.Utilities
             return result;
         }
 
-        public byte GetByte(string key)
+        public byte GetByte(string key, byte defaultb = 0)
         {
-            byte result = 0;
+            byte result = defaultb;
             string value = null;
             if (config.TryGetValue(key, out value))
             {

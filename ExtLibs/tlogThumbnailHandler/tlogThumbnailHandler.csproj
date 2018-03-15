@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
     <ApplicationIcon />
     <OutputTypeEx>library</OutputTypeEx>
     <StartupObject />
@@ -22,18 +22,16 @@
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\..\Maps\MyImageCache.cs" Link="MyImageCache.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="System.Drawing.Common" Version="4.5.0-preview1-25914-04" />
+    <PackageReference Include="System.Drawing.Common" Version="4.5.0-preview2-26225-02" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Maps\MissionPlanner.Maps.csproj" />
     <ProjectReference Include="..\Utilities\MissionPlanner.Utilities.csproj" />
   </ItemGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="C:\Windows\Microsoft.NET\Framework64\v4.0.30319\regasm /regfile /codebase &quot;$(TargetPath)&quot;&#xD;&#xA;" />
+    <Exec Command="rem C:\Windows\Microsoft.NET\Framework64\v4.0.30319\regasm /regfile /codebase &quot;$(TargetPath)&quot;&#xD;&#xA;" />
   </Target>
 </Project>

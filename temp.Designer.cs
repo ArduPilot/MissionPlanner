@@ -756,7 +756,7 @@
             this.but_trimble.Name = "but_trimble";
             this.but_trimble.Size = new System.Drawing.Size(75, 23);
             this.but_trimble.TabIndex = 64;
-            this.but_trimble.Text = "trimble";
+            this.but_trimble.Text = "Sequence Swarm";
             this.but_trimble.UseVisualStyleBackColor = true;
             this.but_trimble.Click += new System.EventHandler(this.but_trimble_Click);
             // 

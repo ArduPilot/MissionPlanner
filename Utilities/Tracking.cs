@@ -271,7 +271,7 @@ namespace MissionPlanner.Utilities
 
                 foreach (KeyValuePair<string, string> item in data1)
                 {
-                    data += "&" + item.Key + "=" + HttpUtility.UrlEncode(item.Value);
+                    data += "&" + item.Key + "=" + WebUtility.UrlEncode(item.Value);
                 }
 
                 data = data.TrimStart(new char[] {'&'});

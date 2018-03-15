@@ -11,6 +11,7 @@ using System.Timers;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
 using log4net;
+using Microsoft.Scripting.Utils;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 
@@ -51,7 +52,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 if (!String.IsNullOrEmpty(Settings.Instance["rawtree_" + col.Text + "_width"]))
                 {
-                    col.Width = Settings.Instance.GetInt32("rawtree_" + col.Text + "_width");
+                    col.Width = Math.Max(50, Settings.Instance.GetInt32("rawtree_" + col.Text + "_width"));
                 }
             }
 
@@ -632,10 +633,19 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void Params_FormatRow(object sender, FormatRowEventArgs e)
         {
+            var shortv = _changes.Keys.Select(a => {
+                if (a.ToString().Contains('_'))
+                    return a.ToString().Substring(0, a.ToString().IndexOf('_'));
+                return "";
+            });
+
             if (e != null && e.ListView != null && e.ListView.Items.Count > 0)
             {
-                if (_changes.ContainsKey(((data) e.Model).paramname))
+                var it = ((data) e.Model);
+                if (_changes.ContainsKey(it.paramname) || shortv.Contains(it.paramname))
+                {
                     e.Item.BackColor = Color.Green;
+                }
                 else
                     e.Item.BackColor = BackColor;
             }

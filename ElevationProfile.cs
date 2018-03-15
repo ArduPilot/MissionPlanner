@@ -64,7 +64,7 @@ namespace MissionPlanner
                 lastloc = loc;
             }
 
-            this.homealt = homealt/CurrentState.multiplierdist;
+            this.homealt = homealt/CurrentState.multiplieralt;
 
             Form frm = Common.LoadingBox("Loading", "using alt data");
 
@@ -123,13 +123,13 @@ namespace MissionPlanner
                 else if (altmode == GCSViews.FlightPlanner.altmode.Relative)
                 {
                     // already includes the home alt
-                    list1.Add(a, (planloc.Alt/CurrentState.multiplierdist), 0, planloc.Tag);
+                    list1.Add(a, (planloc.Alt/CurrentState.multiplieralt), 0, planloc.Tag);
                 }
                 else
                 {
                     // abs
                     // already absolute
-                    list1.Add(a, (planloc.Alt/CurrentState.multiplierdist), 0, planloc.Tag);
+                    list1.Add(a, (planloc.Alt/CurrentState.multiplieralt), 0, planloc.Tag);
                 }
 
                 lastloc = planloc;
@@ -182,10 +182,10 @@ namespace MissionPlanner
                     disttotal += subdist;
 
                     // srtm alts
-                    list3.Add(disttotal, newpoint.Alt/CurrentState.multiplierdist);
+                    list3.Add(disttotal, newpoint.Alt/CurrentState.multiplieralt);
 
                     // terrain alt
-                    list4terrain.Add(disttotal, (newpoint.Alt - homealt + loc.Alt)/CurrentState.multiplierdist);
+                    list4terrain.Add(disttotal, (newpoint.Alt - homealt + loc.Alt)/CurrentState.multiplieralt);
 
                     lastpnt = newpoint;
                 }

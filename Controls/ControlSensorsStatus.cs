@@ -44,7 +44,7 @@ namespace MissionPlanner.Controls
                 }
 
                 tableLayoutPanel1.Controls.Add(
-                    new Label() {Text = name.Replace("_", ""), Font = new Font(Font.FontFamily, 5)}, 0, a);
+                    new Label() { Text = name.Replace("MAV_SYS_STATUS", "").Replace("_", " "), Font = new Font(Font.FontFamily, 5), Margin = new Padding(0), Padding = new Padding(0) }, 0, a);
                 a++;
             }
 
@@ -100,14 +100,14 @@ namespace MissionPlanner.Controls
             }
         }
 
-        private void updateLabel(int coloumn, int row, string text, Color color)
+        private void updateLabel(int coloum, int row, string text, Color color)
         {
-            var ctl = tableLayoutPanel1.GetControlFromPosition(coloumn, row);
+            var ctl = tableLayoutPanel1.GetControlFromPosition(coloum, row);
 
             if (ctl == null)
             {
-                ctl = new Label();
-                tableLayoutPanel1.Controls.Add(ctl, coloumn, row);
+                ctl = new Label() { Font = new Font(Font.FontFamily, 5), Margin = new Padding(0), Padding = new Padding(0) };
+                tableLayoutPanel1.Controls.Add(ctl, coloum, row);
             }
 
             ctl.Text = text;

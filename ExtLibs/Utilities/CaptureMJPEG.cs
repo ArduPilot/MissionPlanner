@@ -71,11 +71,12 @@ namespace MissionPlanner.Utilities
 
         static void getUrl()
         {
-
             running = true;
+
+            start:
+
             try
             {
-
                 // Create a request using a URL that can receive a post. 
                 WebRequest request = HttpWebRequest.Create(URL);
                 // Set the Method property of the request to POST.
@@ -119,8 +120,8 @@ namespace MissionPlanner.Utilities
                     mpheader = mpheader.Substring(startboundary, endboundary - startboundary);
                 }
 
-                dataStream.ReadTimeout = 30000; // 30 seconds
-                br.BaseStream.ReadTimeout = 30000;
+                dataStream.ReadTimeout = 10000; // 10 seconds
+                br.BaseStream.ReadTimeout = 10000;
 
                 while (running)
                 {
@@ -187,6 +188,10 @@ namespace MissionPlanner.Utilities
 
             }
             catch (Exception ex) { log.Error(ex); }
+
+            // dont stop trying until we are told to stop
+            if (running)
+                goto start;
 
             running = false;
         }

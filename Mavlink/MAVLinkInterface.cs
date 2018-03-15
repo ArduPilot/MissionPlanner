@@ -254,8 +254,6 @@ namespace MissionPlanner
             _mavlink1count = 0;
             _mavlink2count = 0;
             _mavlink2signed = 0;
-
-            this.lastbad = new byte[2];
         }
 
         public MAVLinkInterface(Stream logfileStream)
@@ -1178,7 +1176,7 @@ Please check the following
                     frmProgressReporter.doWorkArgs.CancelAcknowledged = true;
                     giveComport = false;
                     frmProgressReporter.doWorkArgs.ErrorMessage = "User Canceled";
-                    return MAV.param;
+                    return MAVlist[sysid, compid].param;
                 }
 
                 // 4 seconds between valid packets
@@ -3056,7 +3054,7 @@ Please check the following
                 {
                     setPositionTargetGlobalInt((byte)sysid, (byte)compid,
                         true, false, false, false, MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT_INT,
-                        gotohere.lat, gotohere.lng, MainV2.comPort.MAV.GuidedMode.z, 0, 0, 0, 0, 0);
+                        gotohere.lat, gotohere.lng, gotohere.alt, 0, 0, 0, 0, 0);
                 }
             }
             catch (Exception ex)
@@ -3264,11 +3262,6 @@ Please check the following
             generatePacket((byte) (byte) MAVLINK_MSG_ID.SET_MODE, mode, sysid, compid);
         }
 
-        /// <summary>
-        /// used for last bad serial characters
-        /// </summary>
-        byte[] lastbad = new byte[2];
-
         private double t7 = 1.0e7;
 
         /// <summary>
@@ -3291,8 +3284,6 @@ Please check the following
 
             lock (readlock)
             {
-                lastbad = new byte[2];
-
                 //Console.WriteLine(DateTime.Now.Millisecond + " SR1 " + BaseStream.BytesToRead);
 
                 while (BaseStream.IsOpen || logreadmode)
@@ -3370,8 +3361,6 @@ Please check the following
                         }
                         _bytesReceivedSubj.OnNext(1);
                         count = 0;
-                        lastbad[0] = lastbad[1];
-                        lastbad[1] = buffer[0];
                         buffer[1] = 0;
                         continue;
                     }
@@ -4069,8 +4058,7 @@ Please check the following
                     MAVlist[wp.target_system, wp.target_component].wps[wp.seq] = wp;
                 }
 
-                Console.WriteLine("WP # {7} cmd {8} p1 {0} p2 {1} p3 {2} p4 {3} x {4} y {5} z {6}", wp.param1, wp.param2,
-                    wp.param3, wp.param4, wp.x, wp.y, wp.z, wp.seq, wp.command);
+                Console.WriteLine("WP # {7} cmd {8} p1 {0} p2 {1} p3 {2} p4 {3} x {4} y {5} z {6}", wp.param1, wp.param2, wp.param3, wp.param4, wp.x, wp.y, wp.z, wp.seq, wp.command);
             }
             else if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_ITEM_INT)
             {
@@ -4093,9 +4081,7 @@ Please check the following
                         (mavlink_mission_item_t) (Locationwp) wp;
                 }
 
-                Console.WriteLine("WP INT # {7} cmd {8} p1 {0} p2 {1} p3 {2} p4 {3} x {4} y {5} z {6}", wp.param1,
-                    wp.param2,
-                    wp.param3, wp.param4, wp.x, wp.y, wp.z, wp.seq, wp.command);
+                Console.WriteLine("WP INT # {7} cmd {8} p1 {0} p2 {1} p3 {2} p4 {3} x {4} y {5} z {6}", wp.param1, wp.param2, wp.param3, wp.param4, wp.x, wp.y, wp.z, wp.seq, wp.command);
             }
             else if (buffer.msgid == (byte)MAVLINK_MSG_ID.SET_POSITION_TARGET_GLOBAL_INT)
             {
@@ -4117,8 +4103,7 @@ Please check the following
 
                 MAVlist[rallypt.target_system, rallypt.target_component].rallypoints[rallypt.idx] = rallypt;
 
-                Console.WriteLine("RP # {0} {1} {2} {3} {4}", rallypt.idx, rallypt.lat, rallypt.lng, rallypt.alt,
-                    rallypt.break_alt);
+                Console.WriteLine("RP # {0} {1} {2} {3} {4}", rallypt.idx, rallypt.lat, rallypt.lng, rallypt.alt, rallypt.break_alt);
             }
             else if (buffer.msgid == (byte) MAVLINK_MSG_ID.CAMERA_FEEDBACK)
             {
@@ -4763,6 +4748,8 @@ Please check the following
             return doCommand(MAV_CMD.PREFLIGHT_SET_SENSOR_OFFSETS, (int) sensor, x, y, z, 0, 0, 0);
         }
 
+        Dictionary<Stream, Tuple<string, long>> streamfncache = new Dictionary<Stream, Tuple<string, long>>();
+
         MAVLinkMessage readlogPacketMavlink()
         {
             byte[] datearray = new byte[8];
@@ -4771,8 +4758,16 @@ Please check the following
 
             if (logplaybackfile.BaseStream is FileStream)
             {
-                if (((FileStream) _logplaybackfile.BaseStream).Name.ToLower().EndsWith(".rlog"))
+                if (!streamfncache.ContainsKey(_logplaybackfile.BaseStream))
+                    streamfncache[_logplaybackfile.BaseStream] = new Tuple<string, long>(((FileStream)_logplaybackfile.BaseStream).Name.ToLower(), logplaybackfile.BaseStream.Length);
+
+                if (streamfncache[_logplaybackfile.BaseStream].Item1.EndsWith(".rlog"))
                     missingtimestamp = true;
+            }
+            else
+            {
+                if (!streamfncache.ContainsKey(_logplaybackfile.BaseStream))
+                    streamfncache[_logplaybackfile.BaseStream] = new Tuple<string, long>("", logplaybackfile.BaseStream.Length);
             }
 
             if (!missingtimestamp)
@@ -4814,7 +4809,7 @@ Please check the following
             byte byte1 = 0;
             byte byte2 = 0;
 
-            var filelength = logplaybackfile.BaseStream.Length;
+            var filelength = streamfncache[_logplaybackfile.BaseStream].Item2;
             var filepos = logplaybackfile.BaseStream.Position;
 
             if(filelength == filepos)

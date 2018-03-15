@@ -68,7 +68,7 @@ namespace tlogThumbnailHandler
             {
                 Console.WriteLine(Thread.CurrentThread.ManagedThreadId + " " + format, arg);
             }
-            catch (Exception e)
+            catch
             {
             }
         }

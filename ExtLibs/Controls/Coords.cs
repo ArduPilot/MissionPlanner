@@ -101,13 +101,13 @@ namespace MissionPlanner.Controls
             {
                 if (Vertical)
                 {
-                    e.Graphics.DrawString(Lat.ToString("0.000000") + "\n" + Lng.ToString("0.000000") + "\n" + Alt.ToString("0.00") + AltUnit, this.Font, new SolidBrush(this.ForeColor), text, StringFormat.GenericDefault);
+                    e.Graphics.DrawString(Lat.ToString("0.0000000") + "\n" + Lng.ToString("0.0000000") + "\n" + Alt.ToString("0.00") + AltUnit, this.Font, new SolidBrush(this.ForeColor), text, StringFormat.GenericDefault);
                     e.Graphics.DrawString(AltSource, this.Font, new SolidBrush(this.ForeColor),
                         new PointF(CMB_coordsystem.Left, CMB_coordsystem.Bottom + 4), StringFormat.GenericDefault);
                 }
                 else
                 {
-                    e.Graphics.DrawString(Lat.ToString("0.000000") + " " + Lng.ToString("0.000000") + "   " + Alt.ToString("0.00") + AltUnit, this.Font, new SolidBrush(this.ForeColor), text, StringFormat.GenericDefault);
+                    e.Graphics.DrawString(Lat.ToString("0.0000000") + " " + Lng.ToString("0.0000000") + "   " + Alt.ToString("0.00") + AltUnit, this.Font, new SolidBrush(this.ForeColor), text, StringFormat.GenericDefault);
                 }
             } 
             else  if (System == CoordsSystems.UTM.ToString())

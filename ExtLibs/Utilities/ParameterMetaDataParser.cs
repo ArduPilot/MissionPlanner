@@ -59,7 +59,14 @@ namespace MissionPlanner.Utilities
 
                 // precache all the base urls
                 Parallel.ForEach(parameterLocations,
-                    parameterLocation => { ReadDataFromAddress(parameterLocation.Trim()); });
+                    parameterLocation =>
+                    {
+                        // load the base urls
+                        var dataFromAddress = ReadDataFromAddress(parameterLocation.Trim());
+                        // load the group urls
+                        ParseGroupInformation(dataFromAddress, null, parameterLocation.Trim(), string.Empty,
+                            string.Empty);
+                    });
 
                 using (var objXmlTextWriter = new XmlTextWriter(XMLFileName, null))
                 {
@@ -203,6 +210,9 @@ namespace MissionPlanner.Utilities
         private static void ParseParameterInformation(string fileContents, XmlTextWriter objXmlTextWriter,
             string parameterPrefix, string url, string vehicleType)
         {
+            if (objXmlTextWriter == null)
+                return;
+
             var parsedInformation = ParseKeyValuePairs(fileContents, ParameterMetaDataConstants.Param, vehicleType);
             if (parsedInformation != null && parsedInformation.Count > 0)
             {
@@ -371,43 +381,41 @@ namespace MissionPlanner.Utilities
         /// <returns></returns>
         private static string ReadDataFromAddress(string address, int attempt = 0)
         {
+            // check attempt no
             if (attempt > 2)
             {
                 log.Error(String.Format("Failed {0}", address));
                 lock (cachequeue)
                 {
-                    cachequeue.Remove(address);
+                    while (cachequeue.Remove(address)) ;
                 }
                 return String.Empty;
             }
 
             string data = string.Empty;
 
-            log.Info(address);
-
             while (true)
             {
                 lock (cachequeue)
                 {
                     if (!cachequeue.Keys.Contains(address))
+                    {
+                        cachequeue[address] = "";
                         break;
+                    }
                 }
 
-                Console.WriteLine("ReadDataFromAddress Queued "+ address);
-                Thread.Sleep(200);
+                Console.WriteLine("ReadDataFromAddress attempt {1} Queued {0}", address, attempt);
+                Thread.Sleep(500);
             }
 
-            lock (cachequeue)
-            {
-                cachequeue[address] = "";
-            }
-
+            // check cache - after delay above for other loader
             if (cache.ContainsKey(address))
             {
                 log.Info("using cache " + address);
                 lock (cachequeue)
                 {
-                    cachequeue.Remove(address);
+                    while (cachequeue.Remove(address)) ;
                 }
                 return cache[address];
             }
@@ -457,7 +465,7 @@ namespace MissionPlanner.Utilities
 
                 lock (cachequeue)
                 {
-                    cachequeue.Remove(address);
+                    while (cachequeue.Remove(address)) ;
                 }
 
                 return ReadDataFromAddress(address, attempt);
@@ -466,7 +474,7 @@ namespace MissionPlanner.Utilities
             {
                 lock (cachequeue)
                 {
-                    cachequeue.Remove(address);
+                    while (cachequeue.Remove(address)) ;
                 }
             }
         }

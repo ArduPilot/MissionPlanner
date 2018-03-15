@@ -57,7 +57,7 @@ namespace MissionPlanner.Controls
             mavi.Add(linkMessage);
         }
 
-        public void Update()
+        public new void Update()
         {
             treeView1.BeginUpdate();
 
@@ -261,8 +261,10 @@ namespace MissionPlanner.Controls
             {
                 if (GetStyle(ControlStyles.UserPaint))
                 {
-                    Message m = new Message();
-                    m.HWnd = Handle;
+                    Message m = new Message
+                    {
+                        HWnd = Handle
+                    };
                     int WM_PRINTCLIENT = 0x318;
                     m.Msg = WM_PRINTCLIENT;
                     m.WParam = e.Graphics.GetHdc();

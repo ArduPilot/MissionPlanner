@@ -195,8 +195,10 @@ namespace MissionPlanner.Log
                         delegate ()
                         {
                             DownloadThread(toDownload);
-                        });
-                t11.Name = "Log Download All thread";
+                        })
+                    {
+                        Name = "Log Download All thread"
+                    };
                 t11.Start();
             }
         }
@@ -205,7 +207,7 @@ namespace MissionPlanner.Log
         {
             log.Info("GetLog " + no);
 
-            MainV2.comPort.Progress += comPort_Progress;
+            MainV2.comPort.Progress += ComPort_Progress;
 
             status = SerialStatus.Reading;
 
@@ -281,7 +283,7 @@ namespace MissionPlanner.Log
                 }
             }
 
-            MainV2.comPort.Progress -= comPort_Progress;
+            MainV2.comPort.Progress -= ComPort_Progress;
 
             return logfile;
         }
@@ -289,7 +291,7 @@ namespace MissionPlanner.Log
         protected override void OnClosed(EventArgs e)
         {
             this.closed = true;
-            MainV2.comPort.Progress -= comPort_Progress;
+            MainV2.comPort.Progress -= ComPort_Progress;
 
             base.OnClosed(e);
         }
@@ -314,7 +316,7 @@ namespace MissionPlanner.Log
             return fileName.Replace('/', '-').Replace('\\', '-').Replace(':', '-').Replace('?', ' ').Replace('"', '\'').Replace('<', '[').Replace('>', ']').Replace('|', ' ');
         }
 
-        void comPort_Progress(int progress, string status)
+        void ComPort_Progress(int progress, string status)
         {
             receivedbytes = (uint)progress;
 
@@ -446,8 +448,10 @@ namespace MissionPlanner.Log
                 {
                     BUT_DLall.Enabled = false;
                     BUT_DLthese.Enabled = false;
-                    System.Threading.Thread t11 = new System.Threading.Thread(delegate () { DownloadThread(toDownload); });
-                    t11.Name = "Log download single thread";
+                    System.Threading.Thread t11 = new System.Threading.Thread(delegate () { DownloadThread(toDownload); })
+                    {
+                        Name = "Log download single thread"
+                    };
                     t11.Start();
                 }
             }

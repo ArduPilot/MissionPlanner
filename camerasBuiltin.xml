@@ -240,4 +240,12 @@
     <senh>4.62</senh>
     <senw>6.16</senw>
   </Camera>
+ <Camera>
+    <name>AeroHawk_8MP</name>
+    <flen>3.039</flen>
+    <imgh>2464</imgh>
+    <imgw>3280</imgw>
+    <senh>2.76</senh>
+    <senw>3.674</senw>
+  </Camera>
 </Cameras>

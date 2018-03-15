@@ -94,7 +94,7 @@ namespace MissionPlanner.Plugin
             }
             catch (Exception ex)
             {
-                log.Error(ex);
+                log.Error("Failed to load plugin " + file, ex);
             }
         }
 

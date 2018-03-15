@@ -1,4 +1,134 @@
-﻿*Mission Planner 1.3.52 - 16-12-2017
+﻿*Mission Planner 1.3.53 - 24-2-2018
+BoardDetect: prep for new detection method
+FlightData: log camera errors
+MainV2: fix auto connect
+Added a minute.second interpretation of TimeInAir to currentstate for easier read. (#1769)
+Adding the AeroHawk camera parameters to the camerasBuiltin.xml file (#1768)
+GMap.NET: fix for mono
+MainV2: refactor
+SkiaSharp: remove
+Installer: update path slash
+BoardDetect: include DeviceDesc
+ParameterMetaDataParser: fix queue clear
+MAVLinkInterface: fix param abort
+Program: display build
+ConfigRawParams: min col size
+ConfigRawParamsTree: highlight root node
+Common: change knots to kts
+mavgraph:add autoland preselection
+SkiaSharp: load correct arch
+HUD: add units
+HUD: fix Antialias
+HUD: skiasharp
+Uploader: fix
+GeoRef: refactor
+BoardDetect: detect board_type 33 as fmuv3
+Uploader: allow board_type 33 to load fmuv3 firmware
+Utils: remove dynamic
+Formation: change z axis to NED
+BoardDetect: detect board_type 33 as fmuv3
+Mavlink: update
+CleanDrivers: use pnputil
+Drivers: fix bad cat
+Drivers
+Line: fix label
+HUD: disable PolygonSmooth
+version: update to use build and rev number
+ConfigRawParams: sort by Fav
+BackStageView: add timing to debug logs
+GMapProvider: update UserAgent
+ConfigRawParams: add favs
+ConfigFirmware: fix ph2 image
+L10N: cleanup
+CustomMessageBox: abstract
+BinaryLog: fix mode decode
+appveyor: remove cache
+CollectionBuffer: GetUnit to tuple
+CollectionBuffer: change to tuple
+appveyor: remove cache
+ConfigFFT: add log_bitmask
+RangeControl: rounding
+MavlinkCheckBoxBitMask: auto fill name and label
+ConfigFFT: initial
+BinaryLog: fix format a
+FlightData: rename bin to log button
+ConfigRawParams: Parallel load
+String: update gps message
+Installer: update beta urls
+md5sum: use web/unix slash
+NoFly: add ability to turn nofly off #1724
+ConfigFirmware: add Sub
+md5sum: use own implementation
+CollectionBuffer: fix GetUnit when none are available
+httpserver: add hud content-length
+fftui: fix globalization #1739
+Update: fix beta links
+ParameterMetaDataParser: fix filename
+CollectionBuffer: fix double scaling
+LogBrowse: units support
+CollectionBuffer: parse units for text and bins
+CollectionBuffer: add unit parsing
+FlightData: Fix hudswap
+Update: switch beta to use zip
+LogBrowse: update "power issues"
+GridUI: add distance to/from home as part of route total distance
+When row is deleted from grid in flight planner redraw waypoints. Allow saving of map / hud swap on flightdata view. fixed bug in saving hud width... changed to save splitter width.
+FlightPlanner: Change the error message to item name
+MatLab: move to utils
+CommsFile: implement idisposable
+appveyor: update
+Vector3: fix - and convert
+FlightData: add quickview number filter
+Spline2: move
+FirmwareHistory: update
+Help: add update master message
+Proximity: add autodisplay
+MAVLinkInspector: add more text formating
+MAVLinkInspector: create
+srtm: fix out of range
+VRBRAIN: Added new board VR Brain 5.4 (detection, driver and upload firmware)
+ParameterMetaData: make generic
+CommsSerialScan: make generic
+rtcm3: update
+ConfigArduRover: update #1719
+CurrentState: add gps accuracys
+Mavlink: upstream update
+ConfigFirmware: add apj extension #1720
+Mavlink: update xml
+GStreamer: allow external sink
+CurrentState: reset timeinair on disarm
+Program: add dotnet 4.6.2 error message
+UDPVideoShim: add gstreamer download
+GStreamer: add error output reading
+Download: auto chunksize and limit parallel
+Cleanup Unused variables
+Installer: copy to output dir
+LogOutput: move
+tlogThumbnailHandler: update
+Download: fix Parallel for
+Update: add file no status
+Download: parallel download chunks
+IProgressReporterDialogue: generalize interface
+ConfigFlightMode: enable fmode6
+appveyor: fix build
+srtm: fix inverse Y
+ConfigFrameClassType: update options
+appveyor: fix multiline command
+SikRadio: cleanup references
+appveyor: run cov once per day
+Fixed testing screen checkbox behaviour in config planner view
+simple interface tab for MavLink Gimbals
+Vector3: changed dot product overload to output a scalar #1712
+appveyor: remove curl upload
+TD: update alt change
+Firmware: add missing fields
+Utils: culture and null check
+Log: Parallel
+Privacy: update for tlog
+Mavlink: dont cache _data on processBuffer and add log/timestamp support
+CommsFile: dont limit by default
+ConnectionControl: fix selection issue
+*Mission Planner 1.3.52 - 16-12-2017
 Utilities: namespace update
 Refactor and move
 BoardDetect: only upload v3 fw to bl_rev >= 5
