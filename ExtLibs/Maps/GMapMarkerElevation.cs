@@ -24,16 +24,6 @@ namespace MissionPlanner.Maps
 
             IsHitTestVisible = false;
 
-            //now we have to convert the 2 dimensional array into a one dimensional byte-array for use with 8bpp bitmaps
-            byte[] pixels = new byte[imageData.GetLength(0) * imageData.GetLength(1)];
-            for (int y = 0; y < imageData.GetLength(1); y++)
-            {
-                for (int x = 0; x < imageData.GetLength(0); x++)
-                {
-                    pixels[y * imageData.GetLength(0) + x] = imageData[x, y];
-                }
-            }
-
             //create a new Bitmap
             Bitmap bmp = new Bitmap(imageData.GetLength(0), imageData.GetLength(1), System.Drawing.Imaging.PixelFormat.Format8bppIndexed);
 
@@ -52,8 +42,19 @@ namespace MissionPlanner.Maps
             System.Drawing.Imaging.BitmapData bmData =
                 bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), System.Drawing.Imaging.ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format8bppIndexed);
 
+            //now we have to convert the 2 dimensional array into a one dimensional byte-array for use with 8bpp bitmaps
+            // use stride and height to prevent stride mod 4 issues
+            byte[] pixels = new byte[bmData.Stride * bmData.Height];
+            for (int y = 0; y < imageData.GetLength(1); y++)
+            {
+                for (int x = 0; x < imageData.GetLength(0); x++)
+                {
+                    pixels[y * bmData.Stride + x] = imageData[x, y];
+                }
+            }
+
             //copy the bytes
-            System.Runtime.InteropServices.Marshal.Copy(pixels, 0, bmData.Scan0, bmData.Stride * bmData.Height);
+            System.Runtime.InteropServices.Marshal.Copy(pixels, 0, bmData.Scan0, bmData.Stride * bmData.Height);            
 
             //never forget to unlock the bitmap
             bmp.UnlockBits(bmData);
