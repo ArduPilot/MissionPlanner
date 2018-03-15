@@ -61,13 +61,14 @@ namespace MissionPlanner.Maps
 
             //display
             elevation = bmp;
+
+            elevation.MakeTransparent();
         }
 
         public override void OnRender(Graphics g)
         {
             base.OnRender(g);
 
-            elevation.MakeTransparent();
             var tlll = Overlay.Control.FromLatLngToLocal(rect.LocationTopLeft);
             var brll = Overlay.Control.FromLatLngToLocal(rect.LocationRightBottom);
 
