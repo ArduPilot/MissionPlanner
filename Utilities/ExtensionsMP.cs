@@ -21,6 +21,15 @@ namespace MissionPlanner.Utilities
             timer.Change(intervalms, intervalms);
         }
 
+        public static Action<T> UpdateDataSource<T>(this BindingSource ctl, T input)
+        {
+            return obj =>
+            {
+                ctl.DataSource = input;
+                ctl.ResetBindings(false);
+            };
+        }
+
         public static void LogInfoFormat(this Control ctl, string format, params object[] args)
         {
             ILog log = LogManager.GetLogger(ctl.GetType().FullName);

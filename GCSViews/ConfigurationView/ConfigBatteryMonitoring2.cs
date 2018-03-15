@@ -27,7 +27,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (MainV2.comPort.MAV.param["BATT2_CAPACITY"] != null)
                 TXT_battcapacity.Text = MainV2.comPort.MAV.param["BATT2_CAPACITY"].ToString();
 
-            TXT_voltage.Text = MainV2.comPort.MAV.cs._battery_voltage2.ToString();
+            TXT_voltage.Text = MainV2.comPort.MAV.cs.battery_voltage2.ToString();
             TXT_measuredvoltage.Text = TXT_voltage.Text;
 
             // new
@@ -161,7 +161,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            TXT_voltage.Text = MainV2.comPort.MAV.cs._battery_voltage2.ToString();
+            TXT_voltage.Text = MainV2.comPort.MAV.cs.battery_voltage2.ToString();
             txt_current.Text = MainV2.comPort.MAV.cs.current2.ToString();
         }
 

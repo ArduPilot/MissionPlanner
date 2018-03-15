@@ -20,6 +20,7 @@ using MissionPlanner.Warnings;
 using System.Collections.Concurrent;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
+using MissionPlanner.ArduPilot;
 
 namespace MissionPlanner
 {
@@ -318,12 +319,16 @@ namespace MissionPlanner
         /// <summary>
         /// speech engine enable
         /// </summary>
-        public static bool speechEnable = false;
+        public static bool speechEnable
+        {
+            get { return Speech.speechEnable; }
+            set { Speech.speechEnable = value; }
+        }
 
         /// <summary>
         /// spech engine static class
         /// </summary>
-        public static ISpeech speechEngine { get; set; }
+        public static ISpeech speechEngine { get; set; } = Speech.Instance;
 
         /// <summary>
         /// joystick static class
@@ -388,20 +393,6 @@ namespace MissionPlanner
         DateTime nodatawarning = DateTime.Now;
         DateTime OpenTime = DateTime.Now;
 
-        /// <summary>
-        /// enum of firmwares
-        /// </summary>
-        public enum Firmwares
-        {
-            ArduPlane,
-            ArduCopter2,
-            ArduRover,
-            ArduSub,
-            Ateryx,
-            ArduTracker,
-            Gymbal,
-            PX4
-        }
 
         DateTime connectButtonUpdate = DateTime.Now;
 
@@ -681,7 +672,7 @@ namespace MissionPlanner
                 if (_connectionControl.TOOL_APMFirmware.SelectedIndex == -1)
                     _connectionControl.TOOL_APMFirmware.SelectedIndex = 0;
                 MainV2.comPort.MAV.cs.firmware =
-                    (MainV2.Firmwares) Enum.Parse(typeof (MainV2.Firmwares), _connectionControl.TOOL_APMFirmware.Text);
+                    (Firmwares) Enum.Parse(typeof (Firmwares), _connectionControl.TOOL_APMFirmware.Text);
             }
 
             MissionPlanner.Utilities.Tracking.cid = new Guid(Settings.Instance["guid"].ToString());
@@ -2398,7 +2389,7 @@ namespace MissionPlanner
                         {
                             if (Settings.Instance.GetBoolean("speechcustomenabled"))
                             {
-                                MainV2.speechEngine.SpeakAsync(Common.speechConversion(""+ Settings.Instance["speechcustom"]));
+                                MainV2.speechEngine.SpeakAsync(ArduPilot.Common.speechConversion(comPort.MAV, ""+ Settings.Instance["speechcustom"]));
                             }
 
                             speechcustomtime = DateTime.Now;
@@ -2415,7 +2406,7 @@ namespace MissionPlanner
                         {
                             if (MainV2.speechEngine.IsReady)
                             {
-                                MainV2.speechEngine.SpeakAsync(Common.speechConversion(""+ Settings.Instance["speechbattery"]));
+                                MainV2.speechEngine.SpeakAsync(ArduPilot.Common.speechConversion(comPort.MAV, "" + Settings.Instance["speechbattery"]));
                             }
                         }
                         else if (Settings.Instance.GetBoolean("speechbatteryenabled") == true &&
@@ -2426,7 +2417,7 @@ namespace MissionPlanner
                             if (MainV2.speechEngine.IsReady)
                             {
                                 MainV2.speechEngine.SpeakAsync(
-                                    Common.speechConversion("" + Settings.Instance["speechbattery"]));
+                                    ArduPilot.Common.speechConversion(comPort.MAV, "" + Settings.Instance["speechbattery"]));
                             }
                         }
                     }
@@ -2445,7 +2436,7 @@ namespace MissionPlanner
                                 if (MainV2.speechEngine.IsReady)
                                 {
                                     MainV2.speechEngine.SpeakAsync(
-                                        Common.speechConversion(""+ Settings.Instance["speechlowairspeed"]));
+                                        ArduPilot.Common.speechConversion(comPort.MAV, "" + Settings.Instance["speechlowairspeed"]));
                                     speechlowspeedtime = DateTime.Now;
                                 }
                             }
@@ -2454,7 +2445,7 @@ namespace MissionPlanner
                                 if (MainV2.speechEngine.IsReady)
                                 {
                                     MainV2.speechEngine.SpeakAsync(
-                                        Common.speechConversion(""+ Settings.Instance["speechlowgroundspeed"]));
+                                        ArduPilot.Common.speechConversion(comPort.MAV, "" + Settings.Instance["speechlowgroundspeed"]));
                                     speechlowspeedtime = DateTime.Now;
                                 }
                             }
@@ -2485,7 +2476,7 @@ namespace MissionPlanner
                                 {
                                     if (MainV2.speechEngine.IsReady)
                                         MainV2.speechEngine.SpeakAsync(
-                                            Common.speechConversion(""+Settings.Instance["speechalt"]));
+                                            ArduPilot.Common.speechConversion(comPort.MAV, "" +Settings.Instance["speechalt"]));
                                 }
                             }
                         }
@@ -2592,7 +2583,7 @@ namespace MissionPlanner
                                 string speech = armedstatus ? Settings.Instance["speecharm"] : Settings.Instance["speechdisarm"];
                                 if (!string.IsNullOrEmpty(speech))
                                 {
-                                    MainV2.speechEngine.SpeakAsync(Common.speechConversion(speech));
+                                    MainV2.speechEngine.SpeakAsync(ArduPilot.Common.speechConversion(comPort.MAV, speech));
                                 }
                             }
                         }
@@ -2917,7 +2908,7 @@ namespace MissionPlanner
             {
                 try
                 {
-                    var modes = Common.getModesList((MainV2.Firmwares) Enum.Parse(typeof(MainV2.Firmwares), firmware));
+                    var modes = Common.getModesList((Firmwares) Enum.Parse(typeof(Firmwares), firmware));
                     string currentmode = null;
 
                     foreach (var mode in modes)
@@ -3506,13 +3497,13 @@ namespace MissionPlanner
                 if (Settings.Instance["distunits"] != null)
                 {
                     switch (
-                        (Common.distances) Enum.Parse(typeof (Common.distances), Settings.Instance["distunits"].ToString()))
+                        (distances) Enum.Parse(typeof (distances), Settings.Instance["distunits"].ToString()))
                     {
-                        case Common.distances.Meters:
+                        case distances.Meters:
                             CurrentState.multiplierdist = 1;
                             CurrentState.DistanceUnit = "m";
                             break;
-                        case Common.distances.Feet:
+                        case distances.Feet:
                             CurrentState.multiplierdist = 3.2808399f;
                             CurrentState.DistanceUnit = "ft";
                             break;
@@ -3528,13 +3519,13 @@ namespace MissionPlanner
                 if (Settings.Instance["altunits"] != null)
                 {
                     switch (
-                        (Common.distances)Enum.Parse(typeof(Common.altitudes), Settings.Instance["altunits"].ToString()))
+                        (distances)Enum.Parse(typeof(altitudes), Settings.Instance["altunits"].ToString()))
                     {
-                        case Common.distances.Meters:
+                        case distances.Meters:
                             CurrentState.multiplieralt = 1;
                             CurrentState.AltUnit = "m";
                             break;
-                        case Common.distances.Feet:
+                        case distances.Feet:
                             CurrentState.multiplieralt = 3.2808399f;
                             CurrentState.AltUnit = "ft";
                             break;
@@ -3549,25 +3540,25 @@ namespace MissionPlanner
                 // speed
                 if (Settings.Instance["speedunits"] != null)
                 {
-                    switch ((Common.speeds) Enum.Parse(typeof (Common.speeds), Settings.Instance["speedunits"].ToString()))
+                    switch ((speeds) Enum.Parse(typeof (speeds), Settings.Instance["speedunits"].ToString()))
                     {
-                        case Common.speeds.meters_per_second:
+                        case speeds.meters_per_second:
                             CurrentState.multiplierspeed = 1;
                             CurrentState.SpeedUnit = "m/s";
                             break;
-                        case Common.speeds.fps:
+                        case speeds.fps:
                             CurrentState.multiplierdist = 3.2808399f;
                             CurrentState.SpeedUnit = "fps";
                             break;
-                        case Common.speeds.kph:
+                        case speeds.kph:
                             CurrentState.multiplierspeed = 3.6f;
                             CurrentState.SpeedUnit = "kph";
                             break;
-                        case Common.speeds.mph:
+                        case speeds.mph:
                             CurrentState.multiplierspeed = 2.23693629f;
                             CurrentState.SpeedUnit = "mph";
                             break;
-                        case Common.speeds.knots:
+                        case speeds.knots:
                             CurrentState.multiplierspeed = 1.94384449f;
                             CurrentState.SpeedUnit = "kts";
                             break;

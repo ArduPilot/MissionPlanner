@@ -446,7 +446,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                MainV2.comPort.MAV.cs.UpdateCurrentSettings(currentStateBindingSource);
+                MainV2.comPort.MAV.cs.UpdateCurrentSettings(currentStateBindingSource.UpdateDataSource(MainV2.comPort.MAV.cs));
 
                 GenerateGraphData();
             }

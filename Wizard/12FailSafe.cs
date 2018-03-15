@@ -10,6 +10,7 @@ using MissionPlanner.Controls;
 using MissionPlanner.Controls.BackstageView;
 using MissionPlanner.Utilities;
 using System.Globalization;
+using MissionPlanner.ArduPilot;
 
 namespace MissionPlanner.Wizard
 {
@@ -32,7 +33,7 @@ namespace MissionPlanner.Wizard
         {
             flowLayoutPanel1.Controls.Clear();
 
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+            if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
             {
                 foreach (var item in ac_failsafe)
                 {
@@ -47,7 +48,7 @@ namespace MissionPlanner.Wizard
                     }
                 }
             }
-            else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
+            else if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduPlane)
             {
                 foreach (var item in ap_failsafe)
                 {

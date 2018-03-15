@@ -2,7 +2,9 @@
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
 using Timer = System.Windows.Forms.Timer;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
@@ -102,8 +104,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             startup = true;
 
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane ||
-                MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
+            if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduPlane ||
+                MainV2.comPort.MAV.cs.firmware == Firmwares.Ateryx)
             {
                 CHK_mixmode.setup(1, 0, "ELEVON_MIXING", MainV2.comPort.MAV.param);
                 CHK_elevonrev.setup(1, 0, "ELEVON_REVERSE", MainV2.comPort.MAV.param);
@@ -126,7 +128,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 MainV2.comPort.MAV.param);
 
             // run after to ensure they are disabled on copter
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+            if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
             {
                 CHK_revch1.Visible = false;
                 CHK_revch2.Visible = false;
@@ -147,7 +149,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // update all linked controls - 10hz
             try
             {
-                MainV2.comPort.MAV.cs.UpdateCurrentSettings(currentStateBindingSource);
+                MainV2.comPort.MAV.cs.UpdateCurrentSettings(currentStateBindingSource.UpdateDataSource(MainV2.comPort.MAV.cs));
             }
             catch (Exception ex)
             {
@@ -199,7 +201,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 Thread.Sleep(5);
 
-                MainV2.comPort.MAV.cs.UpdateCurrentSettings(currentStateBindingSource, true, MainV2.comPort);
+                MainV2.comPort.MAV.cs.UpdateCurrentSettings(currentStateBindingSource.UpdateDataSource(MainV2.comPort.MAV.cs), true, MainV2.comPort);
 
                 // check for non 0 values
                 if (MainV2.comPort.MAV.cs.ch1in > 800 && MainV2.comPort.MAV.cs.ch1in < 2200)
@@ -289,7 +291,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             CustomMessageBox.Show("Ensure all your sticks are centered and throttle is down, and click ok to continue");
 
-            MainV2.comPort.MAV.cs.UpdateCurrentSettings(currentStateBindingSource, true, MainV2.comPort);
+            MainV2.comPort.MAV.cs.UpdateCurrentSettings(currentStateBindingSource.UpdateDataSource(MainV2.comPort.MAV.cs), true, MainV2.comPort);
 
             rctrim[0] = MainV2.comPort.MAV.cs.ch1in;
             rctrim[1] = MainV2.comPort.MAV.cs.ch2in;

@@ -1,5 +1,4 @@
 ﻿using log4net;
-using MissionPlanner.HIL;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -7,37 +6,35 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
+using MissionPlanner.ArduPilot;
 using static MAVLink;
+using MissionPlanner.Properties;
 
 namespace MissionPlanner.Utilities
 {
-    public class Proximity : IDisposable
+    public class ProximityControl : Form
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         MAVState _parent;
-        directionState _dS = new directionState();
+        private Proximity.directionState _dS => _parent.Proximity.DirectionState;
 
         KeyValuePair<MAVLINK_MSG_ID, Func<MAVLinkMessage, bool>> sub;
 
-        Form temp = new Form();
-
         public bool DataAvailable { get; set; } = false;
 
-        public Proximity(MAVState mavInt)
+        public ProximityControl(MAVState state)
         {
-            _parent = mavInt;
-            sub = mavInt.parent.SubscribeToPacketType(MAVLINK_MSG_ID.DISTANCE_SENSOR, messageReceived);
-            log.InfoFormat("created for {0} - {1}", mavInt.sysid, mavInt.compid);
+            _parent = state;
 
-            temp.Paint += Temp_Paint;
-            temp.KeyPress += Temp_KeyPress;
-            temp.Resize += Temp_Resize;
+            Paint += Temp_Paint;
+            KeyPress += Temp_KeyPress;
+            Resize += Temp_Resize;
         }
 
         private void Temp_Resize(object sender, EventArgs e)
         {
-            temp.Invalidate();
+            Invalidate();
         }
 
         private void Temp_KeyPress(object sender, KeyPressEventArgs e)
@@ -68,7 +65,7 @@ namespace MissionPlanner.Utilities
             if (mavsize < 1)
                 mavsize = 1;
 
-            temp.Invalidate();
+            Invalidate();
         }
 
         //cm's
@@ -79,25 +76,25 @@ namespace MissionPlanner.Utilities
         {
             var rawdata = _dS.GetRaw();
 
-            e.Graphics.Clear(temp.BackColor);
+            e.Graphics.Clear(BackColor);
 
             var midx = e.ClipRectangle.Width / 2.0f;
             var midy = e.ClipRectangle.Height / 2.0f;
 
             //e.Graphics.DrawArc(System.Drawing.Pens.Green, midx - 10, midy - 10, 20, 20, 0, 360);
 
-            temp.Text = "Radius(+/-): " + (screenradius / 100.0) + "m MAV size([/]): " + (mavsize / 100.0) + "m";
+            Text = "Radius(+/-): " + (screenradius / 100.0) + "m MAV size([/]): " + (mavsize / 100.0) + "m";
 
             // 11m radius = 22 m coverage
-            var scale = ((screenradius+50) * 2) / Math.Min(this.temp.Height,this.temp.Width);
+            var scale = ((screenradius+50) * 2) / Math.Min(Height,Width);
             // 80cm quad / scale
             var size = mavsize / scale;
 
             switch(_parent.cs.firmware)
             {
-                case MainV2.Firmwares.ArduCopter2:
+                case Firmwares.ArduCopter2:
                     var imw = size/2;
-                    e.Graphics.DrawImage(global::MissionPlanner.Properties.Resources.quadicon, midx - imw, midy - imw, size, size);
+                    e.Graphics.DrawImage(Resources.quadicon, midx - imw, midy - imw, size, size);
                     break;
             }
 
@@ -111,7 +108,7 @@ namespace MissionPlanner.Utilities
 
                 Pen redpen = new Pen(Color.Red, 3);
                 float move = 5;
-                var font = new Font(Control.DefaultFont.FontFamily, Control.DefaultFont.Size+2, FontStyle.Bold);
+                var font = new Font(SystemFonts.DefaultFont.FontFamily, SystemFonts.DefaultFont.Size+2, FontStyle.Bold);
 
                 switch (temp.Orientation)
                 {
@@ -159,54 +156,20 @@ namespace MissionPlanner.Utilities
             }
         }
 
-        ~Proximity()
-        {
-            _parent?.parent?.UnSubscribeToPacketType(sub);
-        }
-
-        private bool messageReceived(MAVLinkMessage arg)
-        {
-            //accept any compid, but filter sysid
-            if (arg.sysid != _parent.sysid)
-                return true;
-
-            if (arg.msgid == (uint)MAVLINK_MSG_ID.DISTANCE_SENSOR)
-            {
-                DataAvailable = true;
-
-                var dist = arg.ToStructure<mavlink_distance_sensor_t>();
-
-                if (dist.current_distance >= dist.max_distance)
-                    return true;
-
-                if (dist.current_distance <= dist.min_distance)
-                    return true;
-
-                _dS.Add(dist.id, (MAV_SENSOR_ORIENTATION)dist.orientation, dist.current_distance, DateTime.Now, 3);
-
-                if (temp.IsHandleCreated)
-                {
-                    temp.Invalidate();
-                }
-            }
-
-            return true;
-        }
-
         public void Show()
         {
-            if (!temp.IsDisposed)
+            if (!IsDisposed)
             {
-                if (temp.Visible)
+                if (Visible)
                     return;
 
-                temp.Show();
+                base.Show();
             }
             else
             {
                 Dispose();
                 _parent.Proximity = new Proximity(_parent);
-                _parent.Proximity.Show();
+                base.Show();
             }
         }
 
@@ -216,111 +179,5 @@ namespace MissionPlanner.Utilities
                 _parent.parent.UnSubscribeToPacketType(sub);
         }
 
-        public class directionState
-        {
-            List<data> _dists = new List<data>();
-
-            public class data
-            {
-                public uint SensorId;
-                public MAV_SENSOR_ORIENTATION Orientation;
-                public double Distance;
-                public DateTime Received;
-                public double Age;
-
-                public DateTime ExpireTime { get { return Received.AddSeconds(Age); } }
-
-                public data(uint id, MAV_SENSOR_ORIENTATION orientation, double distance, DateTime received, double age = 1)
-                {
-                    SensorId = id;
-                    Orientation = orientation;
-                    Distance = distance;
-                    Received = received;
-                    Age = age;
-                }
-            }
-
-            public void Add(uint id, MAV_SENSOR_ORIENTATION orientation, double distance, DateTime received, double age = 1)
-            {
-                var existing = _dists.Where((a) => { return a.Orientation == orientation; });
-
-                foreach (var item in existing.ToList())
-                {
-                    _dists.Remove(item);
-                }
-
-                _dists.Add(new data(id, orientation, distance, received, age));
-
-                expire();
-            }
-
-            /// <summary>
-            /// Closest distance
-            /// </summary>
-            /// <returns></returns>
-            public double GetClosest()
-            {
-                expire();
-
-                double min = double.MaxValue;
-
-                for (int a = 0; a < _dists.Count; a++)
-                {
-                    min = Math.Min(min, _dists[a].Distance);
-                }
-
-                return min;
-            }
-
-            /// <summary>
-            /// List of direction bellow the min_distance
-            /// </summary>
-            /// <param name="min_distance"></param>
-            /// <returns>List of directions</returns>
-            public List<MAV_SENSOR_ORIENTATION> GetWarnings(double min_distance = 2)
-            {
-                expire();
-
-                List<MAV_SENSOR_ORIENTATION> list = new List<MAV_SENSOR_ORIENTATION>();
-
-                for (int a = 0; a < _dists.Count; a++)
-                {
-                    if (_dists[a].Distance < min_distance)
-                    {
-                        list.Add(_dists[a].Orientation);
-                    }
-                }
-
-                return list;
-            }
-
-            public List<data> GetRaw()
-            {
-                expire();
-
-                return _dists;
-            }
-
-            void expire()
-            {
-                lock (this)
-                {
-                    for (int a = 0; a < _dists.Count; a++)
-                    {
-                        var expireat = _dists[a].ExpireTime;
-
-                        if (expireat < DateTime.Now)
-                        {
-                            // remove it
-                            _dists.RemoveAt(a);
-                            // make sure we dont skip an element
-                            a--;
-                            // move on
-                            continue;
-                        }
-                    }
-                }
-            }
-        }
-    }
+   }
 }

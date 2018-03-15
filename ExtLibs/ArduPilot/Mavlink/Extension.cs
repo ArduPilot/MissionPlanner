@@ -1,8 +1,4 @@
-﻿using System.Windows.Forms;
-using MissionPlanner;
-using MissionPlanner.Controls;
-using MissionPlanner.Utilities;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 public static class Extension
 {

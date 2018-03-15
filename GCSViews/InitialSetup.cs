@@ -7,6 +7,7 @@ using MissionPlanner.Controls.BackstageView;
 using MissionPlanner.GCSViews.ConfigurationView;
 using MissionPlanner.Utilities;
 using System.Resources;
+using MissionPlanner.ArduPilot;
 
 namespace MissionPlanner.GCSViews
 {
@@ -32,12 +33,12 @@ namespace MissionPlanner.GCSViews
 
         public bool isTracker
         {
-            get { return isConnected && MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduTracker; }
+            get { return isConnected && MainV2.comPort.MAV.cs.firmware == Firmwares.ArduTracker; }
         }
 
         public bool isCopter
         {
-            get { return isConnected && MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2; }
+            get { return isConnected && MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2; }
         }
 
         public bool isCopter35plus
@@ -65,14 +66,14 @@ namespace MissionPlanner.GCSViews
             get
             {
                 return isConnected &&
-                       (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane ||
-                        MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx);
+                       (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduPlane ||
+                        MainV2.comPort.MAV.cs.firmware == Firmwares.Ateryx);
             }
         }
 
         public bool isRover
         {
-            get { return isConnected && MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover; }
+            get { return isConnected && MainV2.comPort.MAV.cs.firmware == Firmwares.ArduRover; }
         }
 
         private BackstageViewPage AddBackstageViewPage(Type userControl, string headerText, bool enabled = true,

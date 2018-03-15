@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -18,7 +20,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 Enabled = false;
                 return;
             }
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
+            if (MainV2.comPort.MAV.cs.firmware == Firmwares.Ateryx)
             {
                 Enabled = true;
             }
@@ -84,7 +86,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSource1);
+            MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSource1.UpdateDataSource(MainV2.comPort.MAV.cs));
         }
     }
 }

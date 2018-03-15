@@ -11,6 +11,7 @@ using System.Collections;
 using System.Linq;
 using System.Runtime.Serialization;
 using DirectShowLib;
+using MissionPlanner.ArduPilot;
 using Newtonsoft.Json;
 
 namespace MissionPlanner
@@ -444,13 +445,13 @@ namespace MissionPlanner
                     return _ch3percent;
                 try
                 {
-                    if (MainV2.comPort.MAV.param.ContainsKey("RC3_MIN") &&
-                        MainV2.comPort.MAV.param.ContainsKey("RC3_MAX"))
+                    if (parent.parent.MAV.param.ContainsKey("RC3_MIN") &&
+                        parent.parent.MAV.param.ContainsKey("RC3_MAX"))
                     {
                         return
                             (int)
-                                (((ch3out - MainV2.comPort.MAV.param["RC3_MIN"].Value)/
-                                  (MainV2.comPort.MAV.param["RC3_MAX"].Value - MainV2.comPort.MAV.param["RC3_MIN"].Value))*
+                                (((ch3out - parent.parent.MAV.param["RC3_MIN"].Value)/
+                                  (parent.parent.MAV.param["RC3_MAX"].Value - parent.parent.MAV.param["RC3_MIN"].Value))*
                                  100);
                     }
                     else
@@ -483,11 +484,11 @@ namespace MissionPlanner
             {
                 try
                 {
-                    if (MainV2.comPort.MAV.param.ContainsKey("AOA_CRIT"))
+                    if (parent.parent.MAV.param.ContainsKey("AOA_CRIT"))
                     {
                         return
                             (int)
-                                (MainV2.comPort.MAV.param["AOA_CRIT"].Value);
+                                (parent.parent.MAV.param["AOA_CRIT"].Value);
                     }
                     else
                     {
@@ -690,7 +691,7 @@ namespace MissionPlanner
         //message
         public List<string> messages { get; set; }
 
-        internal string message
+        public string message
         {
             get
             {
@@ -867,7 +868,7 @@ namespace MissionPlanner
                     PointLatLngAlt lineStartLatLngAlt = null;
                     var R = 6371e3;
                     // close loop
-                    var list = MainV2.comPort.MAV.fencepoints.ToList();
+                    var list = parent.parent.MAV.fencepoints.ToList();
                     if (list.Count > 0)
                     {
                         // remove return location
@@ -1030,7 +1031,7 @@ namespace MissionPlanner
         public float sonarvoltage { get; set; }
 
         // current firmware
-        public MainV2.Firmwares firmware = MainV2.Firmwares.ArduCopter2;
+        public Firmwares firmware = Firmwares.ArduCopter2;
         public float freemem { get; set; }
         public float load { get; set; }
         public float brklevel { get; set; }
@@ -1166,18 +1167,18 @@ namespace MissionPlanner
         public byte ratesensors { get; set; }
         public byte raterc { get; set; }
 
-        internal static byte rateattitudebackup { get; set; }
-        internal static byte ratepositionbackup { get; set; }
-        internal static byte ratestatusbackup { get; set; }
-        internal static byte ratesensorsbackup { get; set; }
-        internal static byte ratercbackup { get; set; }
+        public static byte rateattitudebackup { get; set; }
+        public static byte ratepositionbackup { get; set; }
+        public static byte ratestatusbackup { get; set; }
+        public static byte ratesensorsbackup { get; set; }
+        public static byte ratercbackup { get; set; }
 
         // reference
         public DateTime datetime { get; set; }
 
         public bool connected
         {
-            get { return (MainV2.comPort.BaseStream.IsOpen || MainV2.comPort.logreadmode); }
+            get { return (parent.parent.BaseStream.IsOpen || parent.parent.logreadmode); }
         }
 
 
@@ -1328,9 +1329,9 @@ namespace MissionPlanner
         public short rcoverridech7;// { get; set; }
         public short rcoverridech8;// { get; set; }
 
-        internal Mavlink_Sensors sensors_enabled = new Mavlink_Sensors();
-        internal Mavlink_Sensors sensors_health = new Mavlink_Sensors();
-        internal Mavlink_Sensors sensors_present = new Mavlink_Sensors();
+        public Mavlink_Sensors sensors_enabled = new Mavlink_Sensors();
+        public Mavlink_Sensors sensors_health = new Mavlink_Sensors();
+        public Mavlink_Sensors sensors_present = new Mavlink_Sensors();
 
         bool useLocation = false;
         bool gotwind = false;
@@ -1466,9 +1467,9 @@ namespace MissionPlanner
         /// use for main serial port only
         /// </summary>
         /// <param name="bs"></param>
-        public void UpdateCurrentSettings(System.Windows.Forms.BindingSource bs)
+        public void UpdateCurrentSettings(Action<CurrentState> bs)
         {
-            UpdateCurrentSettings(bs, false, MainV2.comPort, MainV2.comPort.MAV);
+            UpdateCurrentSettings(bs, false, parent.parent, parent.parent.MAV);
         }
 
         /// <summary>
@@ -1477,13 +1478,13 @@ namespace MissionPlanner
         /// <param name="bs"></param>
         /// <param name="updatenow"></param>
         /// <param name="mavinterface"></param>
-        public void UpdateCurrentSettings(System.Windows.Forms.BindingSource bs, bool updatenow,
+        public void UpdateCurrentSettings(Action<CurrentState> bs, bool updatenow,
             MAVLinkInterface mavinterface)
         {
             UpdateCurrentSettings(bs, updatenow, mavinterface, mavinterface.MAV);
         }
 
-        public void UpdateCurrentSettings(System.Windows.Forms.BindingSource bs, bool updatenow,
+        public void UpdateCurrentSettings(Action<CurrentState> bs, bool updatenow,
             MAVLinkInterface mavinterface, MAVState MAV)
         {
             lock (this)
@@ -1954,10 +1955,10 @@ namespace MissionPlanner
                                 }
                             }
 
-                            if (oldmode != mode && MainV2.speechEnable && MainV2.comPort.MAV.cs == this &&
+                            if (oldmode != mode && Speech.speechEnable && parent.parent.MAV.cs == this &&
                                 Settings.Instance.GetBoolean("speechmodeenabled"))
                             {
-                                MainV2.speechEngine.SpeakAsync(Common.speechConversion(""+ Settings.Instance["speechmode"]));
+                                Speech.Instance.SpeakAsync(Common.speechConversion(parent, ""+ Settings.Instance["speechmode"]));
                             }
                         }
                     }
@@ -2291,10 +2292,10 @@ namespace MissionPlanner
                             lastautowp = (int) wpno;
                         }
 
-                        if (oldwp != wpno && MainV2.speechEnable && MainV2.comPort.MAV.cs == this &&
+                        if (oldwp != wpno && Speech.speechEnable && parent.parent.MAV.cs == this &&
                             Settings.Instance.GetBoolean("speechwaypointenabled"))
                         {
-                            MainV2.speechEngine.SpeakAsync(Common.speechConversion(""+ Settings.Instance["speechwaypoint"]));
+                            Speech.Instance.SpeakAsync(Common.speechConversion(parent, "" + Settings.Instance["speechwaypoint"]));
                         }
 
                         //MAVLink.packets[(byte)MAVLink.MSG_NAMES.WAYPOINT_CURRENT);
@@ -2574,8 +2575,9 @@ namespace MissionPlanner
                 {
                     if (bs != null)
                     {
-                        bs.DataSource = this;
-                        bs.ResetBindings(false);
+                        bs?.Invoke(this);
+                        //bs.DataSource = this;
+                        //bs.ResetBindings(false);
 
                         return;
                         /*

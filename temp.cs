@@ -1119,7 +1119,7 @@ namespace MissionPlanner
 
         private void but_proximity_Click(object sender, EventArgs e)
         {
-            MainV2.comPort.MAV.Proximity.Show();
+            //MainV2.comPort.MAV.ProximityControl.Show();
         }
 
         private void but_dashware_Click(object sender, EventArgs e)

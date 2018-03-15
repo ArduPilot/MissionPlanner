@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using log4net;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.HIL;
 using MissionPlanner.GCSViews;
 using MissionPlanner.Utilities;
@@ -351,7 +352,7 @@ namespace MissionPlanner.HIL
             self = this;
 
             motors = Motor.build_motors(MAVLink.MAV_TYPE.QUADROTOR,
-                (int) MissionPlanner.GCSViews.ConfigurationView.ConfigFrameType.Frame.Plus);
+                (int)Frame.Plus);
             motor_speed = new double[motors.Length];
             mass = 1.5; // # Kg
             frame_height = 0.1;

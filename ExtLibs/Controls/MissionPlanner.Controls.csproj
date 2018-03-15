@@ -78,7 +78,6 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="InputBox.cs" />
-    <Compile Include="IProgressReporterDialogue.cs" />
     <Compile Include="LabelWithPseudoOpacity.cs">
       <SubType>Component</SubType>
     </Compile>

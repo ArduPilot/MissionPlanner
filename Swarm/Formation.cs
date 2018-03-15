@@ -7,6 +7,7 @@ using ProjNet.CoordinateSystems;
 using ProjNet.Converters;
 using MissionPlanner.Utilities;
 using MissionPlanner;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.HIL;
 
 namespace MissionPlanner.Swarm
@@ -94,7 +95,7 @@ namespace MissionPlanner.Swarm
                         p1[0] += x*Math.Cos(heading*MathHelper.deg2rad) - y*Math.Sin(heading*MathHelper.deg2rad);
                         p1[1] += x*Math.Sin(heading*MathHelper.deg2rad) + y*Math.Cos(heading*MathHelper.deg2rad);
 
-                        if (mav.cs.firmware == MainV2.Firmwares.ArduPlane)
+                        if (mav.cs.firmware == Firmwares.ArduPlane)
                         {
                             // project the point forwards gs*5
                             var gs = mav.cs.groundspeed*5;
@@ -110,7 +111,7 @@ namespace MissionPlanner.Swarm
                         target.Lng = point[0];
                         target.Alt += ((Vector3) offsets[mav]).z;
 
-                        if (mav.cs.firmware == MainV2.Firmwares.ArduPlane)
+                        if (mav.cs.firmware == Firmwares.ArduPlane)
                         {
                             var dist =
                                 target.GetDistance(new PointLatLngAlt(mav.cs.lat, mav.cs.lng, mav.cs.alt));

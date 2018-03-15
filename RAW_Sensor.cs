@@ -9,6 +9,7 @@ using ZedGraph;
 using AGaugeApp;
 using System.IO.Ports;
 using System.Threading;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner
 {
@@ -147,7 +148,7 @@ namespace MissionPlanner
             //Console.WriteLine(DateTime.Now.Millisecond + " timer2 serial");
             try
             {
-                MainV2.comPort.MAV.cs.UpdateCurrentSettings(currentStateBindingSource);
+                MainV2.comPort.MAV.cs.UpdateCurrentSettings(currentStateBindingSource.UpdateDataSource(MainV2.comPort.MAV.cs));
             }
             catch
             {

@@ -48,6 +48,10 @@
     <Reference Include="OpenTK.GLControl">
       <HintPath>..\OpenTK.GLControl.dll</HintPath>
     </Reference>
+    <Reference Include="System.Speech">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Speech.dll</HintPath>
+      <SpecificVersion>false</SpecificVersion>
+    </Reference>
   </ItemGroup>
 
 

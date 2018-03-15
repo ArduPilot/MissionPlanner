@@ -29,6 +29,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <Optimize>false</Optimize>
     <DebugSymbols>true</DebugSymbols>
+    <LangVersion>6</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>bin\Release\</OutputPath>
@@ -97,6 +98,7 @@
       <Project>{DFA3C3B7-F098-4567-A780-A37DC52CA577}</Project>
       <Name>Arduino</Name>
     </ProjectReference>
+    <ProjectReference Include="ExtLibs\ArduPilot\MissionPlanner.ArduPilot.csproj" />
     <ProjectReference Include="ExtLibs\AviFile\AviFile.csproj">
       <Project>{ABB32A29-AF50-47FA-B243-5FD75A5ABA54}</Project>
       <Name>AviFile</Name>
@@ -244,7 +246,7 @@
     <Compile Include="Controls\PropagationSettings.cs">
       <SubType>Control</SubType>
     </Compile>
-    <Compile Include="CurrentState.cs" />
+    <Compile Include="Controls\ProximityControl.cs" />
     <Compile Include="ElevationProfile.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="FollowMe.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Utilities\SSHTerminal.cs" />
@@ -304,6 +306,9 @@
     <Compile Include="Controls\LogAnalyzer.cs"> <SubType>Control</SubType> </Compile>
 	<Compile Include="Log\LogStrings.cs"> <SubType>Control</SubType> </Compile>
 	<Compile Include="Log\LogStrings.Designer.cs"><DependentUpon>LogStrings.cs</DependentUpon> </Compile>
+	<EmbeddedResource Include="Controls\PropagationSettings.resx">
+	  <DependentUpon>PropagationSettings.cs</DependentUpon>
+	</EmbeddedResource>
 	<EmbeddedResource Include="Log\LogStrings.resx"><DependentUpon>LogStrings.cs</DependentUpon> </EmbeddedResource>
     <Compile Include="Controls\MavlinkCheckBox.cs" />
     <Compile Include="Controls\MavlinkCheckBoxBitMask.cs" />
@@ -405,13 +410,6 @@
     <Compile Include="Log\MavlinkLog.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Log\Scan.cs" />
     <Compile Include="Log\test\MotorFailure.cs" />
-    <Compile Include="Mavlink\Extension.cs" />
-    <Compile Include="Mavlink\MAVAuthKeys.cs" />
-    <Compile Include="Mavlink\MAVInspector.cs" />
-    <Compile Include="Mavlink\MAVLinkInterface.cs" />
-    <Compile Include="Mavlink\MAVLinkSerialPort.cs" />
-    <Compile Include="Mavlink\MAVList.cs" />
-    <Compile Include="Mavlink\MAVState.cs" />
     <Compile Include="Models\DelegateCommand.cs" />
     <Compile Include="Models\ICommand.cs" />
     <Compile Include="NoFly\NoFly.cs" />
@@ -464,8 +462,6 @@
     <Compile Include="Utilities\ParamFile.cs" />
     <Compile Include="Utilities\Password.cs" />
     <Compile Include="Utilities\POI.cs" />
-    <Compile Include="Utilities\Proximity.cs" />
-    <Compile Include="Utilities\Speech.cs" />
     <Compile Include="Utilities\StreamCombiner.cs" />
     <Compile Include="Utilities\StringRedirectWriter.cs" />
     <Compile Include="Utilities\ThemeManager.cs" />
