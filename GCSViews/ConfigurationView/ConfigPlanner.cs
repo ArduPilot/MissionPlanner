@@ -119,6 +119,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             SetCheckboxFromConfig("showtfr", chk_tfr);
             SetCheckboxFromConfig("autoParamCommit", CHK_AutoParamCommit);
             SetCheckboxFromConfig("ShowNoFly", chk_shownofly);
+            SetCheckboxFromConfig("adsbexchange", chkAdsbExchange);
 
             // this can't fail because it set at startup
             NUM_tracklength.Value = Settings.Instance.GetInt32("NUM_tracklength");

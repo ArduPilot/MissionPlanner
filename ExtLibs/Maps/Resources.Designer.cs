@@ -813,30 +813,30 @@ namespace MissionPlanner.Maps {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static System.Drawing.Bitmap Helicopter_Selected {
+        internal static byte[] Helicopter_Selected {
             get {
                 object obj = ResourceManager.GetObject("Helicopter_Selected", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                return ((byte[])(obj));
             }
         }
         
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static System.Drawing.Bitmap Helicopter_Selectedo {
+        internal static byte[] Helicopter_Selectedo {
             get {
                 object obj = ResourceManager.GetObject("Helicopter_Selectedo", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                return ((byte[])(obj));
             }
         }
         
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static System.Drawing.Bitmap Helicopter_Selectedr {
+        internal static byte[] Helicopter_Selectedr {
             get {
                 object obj = ResourceManager.GetObject("Helicopter_Selectedr", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                return ((byte[])(obj));
             }
         }
         
@@ -1161,7 +1161,7 @@ namespace MissionPlanner.Maps {
         ///
         ///It includes both fixed wing (APM) and rotary wing (!ArduCopter) parameters. Some may only be relevant for one platform or another.
         ///
-        ///|| *EEPROM variable name* || *Min* || *Max* || *Default* || *Multiplier* || *Enabled (0 = no, 1 = yes)* [rest of string was truncated]&quot;;.
+        ///|| *EEPROM variable name* || *Min* || *Max* || *Default* || *Multiplier* || *Enabled (0 = no, 1 = [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string MAVParam {
             get {
@@ -1702,40 +1702,40 @@ namespace MissionPlanner.Maps {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static System.Drawing.Bitmap WTC_Light_1_Prop {
+        internal static byte[] WTC_Light_1_Prop {
             get {
                 object obj = ResourceManager.GetObject("WTC_Light_1_Prop", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                return ((byte[])(obj));
             }
         }
         
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static System.Drawing.Bitmap WTC_Light_1_Prop_Selected {
+        internal static byte[] WTC_Light_1_Prop_Selected {
             get {
                 object obj = ResourceManager.GetObject("WTC_Light_1_Prop_Selected", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                return ((byte[])(obj));
             }
         }
         
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static System.Drawing.Bitmap WTC_Light_1_Prop_Selectedo {
+        internal static byte[] WTC_Light_1_Prop_Selectedo {
             get {
                 object obj = ResourceManager.GetObject("WTC_Light_1_Prop_Selectedo", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                return ((byte[])(obj));
             }
         }
         
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static System.Drawing.Bitmap WTC_Light_1_Prop_Selectedr {
+        internal static byte[] WTC_Light_1_Prop_Selectedr {
             get {
                 object obj = ResourceManager.GetObject("WTC_Light_1_Prop_Selectedr", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                return ((byte[])(obj));
             }
         }
         

@@ -12,16 +12,24 @@ namespace MissionPlanner.Maps
         //private static readonly Bitmap iconr = new Bitmap(global::MissionPlanner.Maps.Resources.FW_icons_2013_logos_011, new Size(40, 40));
         //private static readonly Bitmap icono = new Bitmap(global::MissionPlanner.Maps.Resources.FW_icons_2013_logos_012, new Size(40, 40));
 
-        private static readonly Bitmap icong = new Bitmap(global::MissionPlanner.Maps.Resources.WTC_Light_1_Prop_Selected, new Size(40, 40));
-        private static readonly Bitmap iconr = new Bitmap(global::MissionPlanner.Maps.Resources.WTC_Light_1_Prop_Selectedr, new Size(40, 40));
-        private static readonly Bitmap icono = new Bitmap(global::MissionPlanner.Maps.Resources.WTC_Light_1_Prop_Selectedo, new Size(40, 40));
-        private static readonly Bitmap iconhg = new Bitmap(global::MissionPlanner.Maps.Resources.Helicopter_Selected, new Size(40, 40));
-        private static readonly Bitmap iconhr = new Bitmap(global::MissionPlanner.Maps.Resources.Helicopter_Selectedr, new Size(40, 40));
-        private static readonly Bitmap iconho = new Bitmap(global::MissionPlanner.Maps.Resources.Helicopter_Selectedo, new Size(40, 40));
+        private static readonly Bitmap icong = new Bitmap(Convert(global::MissionPlanner.Maps.Resources.WTC_Light_1_Prop_Selected), new Size(40, 40));
+        private static readonly Bitmap iconr = new Bitmap(Convert(global::MissionPlanner.Maps.Resources.WTC_Light_1_Prop_Selectedr), new Size(40, 40));
+        private static readonly Bitmap icono = new Bitmap(Convert(global::MissionPlanner.Maps.Resources.WTC_Light_1_Prop_Selectedo), new Size(40, 40));
+        private static readonly Bitmap iconhg = new Bitmap(Convert(global::MissionPlanner.Maps.Resources.Helicopter_Selected), new Size(40, 40));
+        private static readonly Bitmap iconhr = new Bitmap(Convert(global::MissionPlanner.Maps.Resources.Helicopter_Selectedr), new Size(40, 40));
+        private static readonly Bitmap iconho = new Bitmap(Convert(global::MissionPlanner.Maps.Resources.Helicopter_Selectedo), new Size(40, 40));
 
         public float heading = 0;
         public AlertLevelOptions AlertLevel = AlertLevelOptions.Green;
         public bool IsHeli { get; set; }
+
+        private static Bitmap Convert(byte[] imageData)
+        {
+            using(var ms = new System.IO.MemoryStream(imageData))
+            {
+                return new Bitmap(ms);
+            }
+        }
 
         public enum AlertLevelOptions
         {

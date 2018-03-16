@@ -122,7 +122,6 @@ namespace MissionPlanner.Utilities
                 if (MainV2.comPort.MAV == null || MainV2.comPort.MAV.cs == null) return;
                 if (MainV2.comPort.MAV.cs.Location == null) return;
                 if (MainV2.comPort.MAV.cs.Location.Lat == 0 && MainV2.comPort.MAV.cs.Location.Lng == 0) return;
-                if (MainV2.comPort.MAV.cs.firmware != MainV2.Firmwares.ArduCopter2 && MainV2.comPort.MAV.cs.firmware != MainV2.Firmwares.ArduPlane) return;
                 //if (MainV2.comPort.MAV.cs.gpsstatus <= 3) return;
 
                 System.ComponentModel.BackgroundWorker bgWorker = new System.ComponentModel.BackgroundWorker();

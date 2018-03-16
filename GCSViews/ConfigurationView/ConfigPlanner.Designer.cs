@@ -102,6 +102,7 @@
             this.chk_shownofly = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
             this.CMB_altunits = new System.Windows.Forms.ComboBox();
+            this.chkAdsbExchange = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_tracklength)).BeginInit();
             this.SuspendLayout();
             // 
