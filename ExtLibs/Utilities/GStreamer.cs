@@ -986,11 +986,7 @@ namespace MissionPlanner.Utilities
                 "http://firmware.ardupilot.org/MissionPlanner/gstreamer/gstreamer-1.0-x86_64-1.12.4.zip",
                 output, status: status);
 
-            ZipArchive zip = new ZipArchive(File.OpenRead(output));
-
-            zip.ExtractToDirectory(Settings.GetDataDirectory());
-
-            zip.Dispose();
+            ZipFile.ExtractToDirectory(output, Settings.GetDataDirectory());
         }
     }
 }
