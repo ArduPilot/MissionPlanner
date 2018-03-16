@@ -415,7 +415,10 @@ namespace MissionPlanner.Utilities
 
             log.InfoFormat("unzip {0}", file);
 
-            entry.ExtractToFile(path + ".new", true);
+            //entry.ExtractToFile(path + ".new", true);
+
+            using (var fo = File.Open(path + ".new", FileMode.Create))
+                entry.Open().CopyTo(fo);
 
             zip.Dispose();
 
