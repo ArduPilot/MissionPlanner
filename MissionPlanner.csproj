@@ -444,6 +444,7 @@
     <Compile Include="Swarm\WaypointLeader\DroneGroup.cs" />
     <Compile Include="Swarm\WaypointLeader\Path.cs" />
     <Compile Include="Swarm\WaypointLeader\WPControl.cs"> <SubType>Control</SubType> </Compile>
+    <Compile Include="Utilities\ADSBExchange.cs" />
     <Compile Include="Utilities\AP_GPS_base.cs" />
     <Compile Include="Utilities\AP_GPS_GSOF.cs" />
     <Compile Include="Utilities\AP_GPS_NOVA.cs" />

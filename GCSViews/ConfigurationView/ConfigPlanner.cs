@@ -929,9 +929,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             Settings.Instance["autoParamCommit"] = CHK_AutoParamCommit.Checked.ToString();
         }
 
+
         private void chk_shownofly_CheckedChanged(object sender, EventArgs e)
         {
             Settings.Instance["ShowNoFly"] = chk_shownofly.Checked.ToString();
+		}
+		
+		private void chkAdsbExchange_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Instance["adsbexchange"] = chkAdsbExchange.Checked.ToString();
+            MainV2.instance.EnableADSBExchange = chkAdsbExchange.Checked;
         }
 
         private void CMB_altunits_SelectedIndexChanged(object sender, EventArgs e)

@@ -660,6 +660,12 @@
             this.chk_shownofly.Name = "chk_shownofly";
             this.chk_shownofly.UseVisualStyleBackColor = true;
             this.chk_shownofly.CheckedChanged += new System.EventHandler(this.chk_shownofly_CheckedChanged);
+            // chkAdsbExchange
+            // 
+            resources.ApplyResources(this.chkAdsbExchange, "chkAdsbExchange");
+            this.chkAdsbExchange.Name = "chkAdsbExchange";
+            this.chkAdsbExchange.UseVisualStyleBackColor = true;
+            this.chkAdsbExchange.CheckedChanged += new System.EventHandler(this.chkAdsbExchange_CheckedChanged);
             // 
             // label6
             // 
@@ -680,6 +686,7 @@
             this.Controls.Add(this.label6);
             this.Controls.Add(this.CMB_altunits);
             this.Controls.Add(this.chk_shownofly);
+            this.Controls.Add(this.chkAdsbExchange);
             this.Controls.Add(this.CHK_AutoParamCommit);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.CMB_Layout);
@@ -834,5 +841,6 @@
         private System.Windows.Forms.CheckBox chk_shownofly;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox CMB_altunits;
+        private System.Windows.Forms.CheckBox chkAdsbExchange;
     }
 }

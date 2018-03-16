@@ -2245,6 +2245,36 @@
   <data name="label6.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="chkAdsbExchange.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chkAdsbExchange.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chkAdsbExchange.Location" type="System.Drawing.Point, System.Drawing">
+    <value>615, 474</value>
+  </data>
+  <data name="chkAdsbExchange.Size" type="System.Drawing.Size, System.Drawing">
+    <value>106, 17</value>
+  </data>
+  <data name="chkAdsbExchange.TabIndex" type="System.Int32, mscorlib">
+    <value>117</value>
+  </data>
+  <data name="chkAdsbExchange.Text" xml:space="preserve">
+    <value>ADSB Exchange</value>
+  </data>
+  <data name="&gt;&gt;chkAdsbExchange.Name" xml:space="preserve">
+    <value>chkAdsbExchange</value>
+  </data>
+  <data name="&gt;&gt;chkAdsbExchange.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chkAdsbExchange.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chkAdsbExchange.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
   <data name="label6.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
