@@ -134,12 +134,12 @@ namespace MissionPlanner.Swarm
                             att_target.target_component = mav.compid;
                             att_target.type_mask = 0xff;
 
-                            var extraroll = 0d;
+                            var newroll = 0d;
                             var newpitch = 0d;
 
-                            if (Math.Abs(Leader.cs.altasl - mav.cs.altasl) > 5)
+                            if (true)
                             {
-                                var altdelta = Leader.cs.altasl - mav.cs.altasl;
+                                var altdelta = target.Alt - mav.cs.alt;
                                 newpitch = altdelta;
                                 att_target.type_mask -= 0b00000010;
                             }
@@ -156,7 +156,10 @@ namespace MissionPlanner.Swarm
 
                                 var angle = ((mav.cs.groundspeed * mav.cs.groundspeed) / mavturnradius) / 9.8;
 
-                                extraroll = Leader.cs.roll - angle * MathHelper.rad2deg;
+                                newroll = angle * MathHelper.rad2deg;
+
+                                // 1 degree of roll for ever 1 degree of yaw error
+                                newroll += (targyaw - mav.cs.yaw) * 1;
                             }
 
                             // do speed
@@ -167,7 +170,7 @@ namespace MissionPlanner.Swarm
                             }
 
                             Quaternion q = new Quaternion();
-                            q.from_vector312((Leader.cs.roll + extraroll) * MathHelper.deg2rad, (Leader.cs.pitch + newpitch) * MathHelper.deg2rad, (targyaw - mav.cs.yaw) * MathHelper.deg2rad);
+                            q.from_vector312(newroll * MathHelper.deg2rad, newpitch * MathHelper.deg2rad, (targyaw - mav.cs.yaw) * MathHelper.deg2rad);
 
                             att_target.q = new float[4];
                             att_target.q[0] = (float) q.q1;
@@ -177,6 +180,7 @@ namespace MissionPlanner.Swarm
                    
                              //0b0= rpy
                             att_target.type_mask -= 0b10000101;
+                            //att_target.type_mask -= 0b10000100;
 
                             Console.WriteLine("sysid {0} - {1} dist {2}", mav.sysid, att_target.thrust, dist);
 
