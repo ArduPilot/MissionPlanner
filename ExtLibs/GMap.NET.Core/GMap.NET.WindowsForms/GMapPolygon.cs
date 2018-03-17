@@ -165,7 +165,7 @@ namespace GMap.NET.WindowsForms
                      var maxx = Math.Abs(firstpoint.X);
                      var maxy = Math.Abs(firstpoint.Y);
                      // max graphics size
-                     if (maxx > ((1 << 24) - 1) || maxy > ((1 << 24) - 1))
+                     if (maxx > ((1 << 16) - 1) || maxy > ((1 << 16) - 1))
                          return;
 
                      g.FillPath(Fill, graphicsPath);
