@@ -600,8 +600,8 @@ namespace MissionPlanner
         {
             get
             {
-                if (groundspeed <= 0) return 0;
-                return (int) (wp_dist/groundspeed);
+                if (_groundspeed <= 0) return 0;
+                return (int) (_wpdist/_groundspeed);
             }
         }
 
@@ -610,7 +610,7 @@ namespace MissionPlanner
         {
             get
             {
-                if (groundspeed <= 0) return 0;
+                if (_groundspeed <= 0) return 0;
                 return (int) (DistToHome/groundspeed);
             }
         }
@@ -637,8 +637,8 @@ namespace MissionPlanner
         {
             get
             {
-                if (groundspeed <= 1) return 0;
-                return (roll*9.8f)/groundspeed;
+                if (_groundspeed <= 1) return 0;
+                return (float)((roll* 9.80665)/ groundspeed);
             }
         }
 
@@ -648,8 +648,8 @@ namespace MissionPlanner
         {
             get
             {
-                if (groundspeed <= 1) return 0;
-                return ((groundspeed*groundspeed)/(float) (9.8f*Math.Tan(roll*MathHelper.deg2rad)));
+                if (_groundspeed <= 1) return 0;
+                return (float)((groundspeed*groundspeed)/(9.80665*Math.Tan(roll*MathHelper.deg2rad)));
             }
         }
 
@@ -1167,11 +1167,11 @@ namespace MissionPlanner
         public byte ratesensors { get; set; }
         public byte raterc { get; set; }
 
-        public static byte rateattitudebackup { get; set; }
-        public static byte ratepositionbackup { get; set; }
-        public static byte ratestatusbackup { get; set; }
-        public static byte ratesensorsbackup { get; set; }
-        public static byte ratercbackup { get; set; }
+        public static byte rateattitudebackup;
+        public static byte ratepositionbackup;
+        public static byte ratestatusbackup;
+        public static byte ratesensorsbackup;
+        public static byte ratercbackup;
 
         // reference
         public DateTime datetime { get; set; }
@@ -2645,13 +2645,13 @@ namespace MissionPlanner
 
             double Kw = 0.010; // 0.01 // 0.10
 
-            if (airspeed < 1 || groundspeed < 1)
+            if (airspeed < 1 || _groundspeed < 1)
                 return;
 
             double Wn_error = airspeed*Math.Cos((yaw)*MathHelper.deg2rad)*Math.Cos(pitch*MathHelper.deg2rad) -
-                              groundspeed*Math.Cos((groundcourse)*MathHelper.deg2rad) - Wn_fgo;
+                              _groundspeed*Math.Cos((groundcourse)*MathHelper.deg2rad) - Wn_fgo;
             double We_error = airspeed*Math.Sin((yaw)*MathHelper.deg2rad)*Math.Cos(pitch*MathHelper.deg2rad) -
-                              groundspeed*Math.Sin((groundcourse)*MathHelper.deg2rad) - We_fgo;
+                              _groundspeed*Math.Sin((groundcourse)*MathHelper.deg2rad) - We_fgo;
 
             Wn_fgo = Wn_fgo + Kw*Wn_error;
             We_fgo = We_fgo + Kw*We_error;

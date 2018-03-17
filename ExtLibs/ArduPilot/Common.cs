@@ -285,7 +285,7 @@ union px4_custom_mode {
             if (MAV.aptype == MAVLink.MAV_TYPE.FIXED_WING)
             {
                 return (new GMapMarkerPlane(portlocation, MAV.cs.yaw,
-                    MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing, MAV.cs.radius)
+                    MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing, MAV.cs.radius * CurrentState.multiplierdist)
                 {
                     ToolTipText = MAV.cs.alt.ToString("0") + "\n" + MAV.sysid.ToString("sysid: 0"),
                     ToolTipMode = MarkerTooltipMode.Always
