@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 using ProjNet.CoordinateSystems.Transformations;
 using ProjNet.CoordinateSystems;
-using ProjNet.Converters;
 using MissionPlanner.Utilities;
-using MissionPlanner;
 using MissionPlanner.ArduPilot;
-using MissionPlanner.HIL;
+using Vector3 = MissionPlanner.Utilities.Vector3;
 
 namespace MissionPlanner.Swarm
 {
@@ -97,11 +94,11 @@ namespace MissionPlanner.Swarm
 
                         if (mav.cs.firmware == Firmwares.ArduPlane)
                         {
-                            // project the point forwards gs*5
-                            var gs = mav.cs.groundspeed*5;
+                            // project the point forwards gs
+                            var gs = mav.cs.groundspeed;
 
-                            p1[1] += gs*Math.Cos((-heading)*MathHelper.deg2rad);
-                            p1[0] += gs*Math.Sin((-heading)*MathHelper.deg2rad);
+                            //p1[1] += gs*Math.Cos((-heading)*MathHelper.deg2rad);
+                            //p1[0] += gs*Math.Sin((-heading)*MathHelper.deg2rad);
                         }
                         // convert back to wgs84
                         IMathTransform inversedTransform = trans.MathTransform.Inverse();
@@ -113,28 +110,88 @@ namespace MissionPlanner.Swarm
 
                         if (mav.cs.firmware == Firmwares.ArduPlane)
                         {
-                            var dist =
-                                target.GetDistance(new PointLatLngAlt(mav.cs.lat, mav.cs.lng, mav.cs.alt));
+                            // display update
+                            mav.GuidedMode.x = (float)target.Lat;
+                            mav.GuidedMode.y = (float)target.Lng;
+                            mav.GuidedMode.z = (float)target.Alt;
 
-                            dist -= mav.cs.groundspeed*5;
+                            // get distance from target position
+                            var dist = target.GetDistance(mav.cs.Location);
 
-                            var leadergs = Leader.cs.groundspeed;
+                            // get bearing to target
+                            var targyaw = mav.cs.Location.GetBearing(target);
 
-                            var newspeed = (leadergs + (float) (dist/10));
+                            if (Math.Abs(mav.cs.yaw - targyaw) > 135)
+                            {
+                                dist *= -1;
+                            }
 
-                            if (newspeed < 5)
-                                newspeed = 5;
+                            targyaw = mav.cs.Location.GetBearing(target.newpos(Leader.cs.yaw,
+                                2 + Math.Min(Math.Abs(dist), 100)));
 
-                            port.setParam(mav.sysid, mav.compid, "TRIM_ARSPD_CM", newspeed*100.0f);
+                            MAVLink.mavlink_set_attitude_target_t att_target = new MAVLink.mavlink_set_attitude_target_t();
+                            att_target.target_system = mav.sysid;
+                            att_target.target_component = mav.compid;
+                            att_target.type_mask = 0xff;
+
+                            var extraroll = 0d;
+                            var newpitch = 0d;
+
+                            if (Math.Abs(Leader.cs.altasl - mav.cs.altasl) > 5)
+                            {
+                                var altdelta = Leader.cs.altasl - mav.cs.altasl;
+                                newpitch = altdelta;
+                                att_target.type_mask -= 0b00000010;
+                            }
+
+                            if (true)
+                            {
+                                var leaderturnrad = Leader.cs.radius;
+                                var mavturnradius = leaderturnrad - x;
+
+                                // tr = gs2 / (9.8 * x)
+                                // (9.8 * x) * tr = gs2
+                                // 9.8 * x = gs2 / tr
+                                // (gs2/tr)/9.8 = x
+
+                                var angle = ((mav.cs.groundspeed * mav.cs.groundspeed) / mavturnradius) / 9.8;
+
+                                extraroll = Leader.cs.roll - angle * MathHelper.rad2deg;
+                            }
+
+                            // do speed
+                            if (true)
+                            {
+                                att_target.thrust = (float) MathHelper.map(dist, 0, 40, 0, 1);
+                                att_target.type_mask -= 0b01000000;
+                            }
+
+                            Quaternion q = new Quaternion();
+                            q.from_vector312((Leader.cs.roll + extraroll) * MathHelper.deg2rad, (Leader.cs.pitch + newpitch) * MathHelper.deg2rad, (targyaw - mav.cs.yaw) * MathHelper.deg2rad);
+
+                            att_target.q = new float[4];
+                            att_target.q[0] = (float) q.q1;
+                            att_target.q[1] = (float) q.q2;
+                            att_target.q[2] = (float) q.q3;
+                            att_target.q[3] = (float) q.q4;
+                   
+                             //0b0= rpy
+                            att_target.type_mask -= 0b10000101;
+
+                            Console.WriteLine("sysid {0} - {1} dist {2}", mav.sysid, att_target.thrust, dist);
+
+                            port.sendPacket(att_target, mav.sysid, mav.compid);
+
+                            //port.setParam(mav.sysid, mav.compid, "TRIM_ARSPD_CM", newspeed*100.0f);
 
                             // send position
-                            port.setGuidedModeWP(mav.sysid, mav.compid, new Locationwp()
+                            /*port.setGuidedModeWP(mav.sysid, mav.compid, new Locationwp()
                             {
                                 alt = (float) target.Alt,
                                 lat = target.Lat,
                                 lng = target.Lng,
                                 id = (ushort) MAVLink.MAV_CMD.WAYPOINT
-                            });
+                            });*/
                         }
                         else
                         {
