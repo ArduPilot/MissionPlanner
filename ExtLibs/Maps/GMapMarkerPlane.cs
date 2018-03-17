@@ -63,26 +63,28 @@ namespace MissionPlanner.Maps
 
                 float alpha = (float)(((desired_lead_dist * (float)m2pixelwidth) / radius) * MathHelper.rad2deg);
 
-                if (radius < -1 && alpha > 1)
+                var scaledradius = radius * (float)m2pixelwidth;
+
+                if (radius < -1 && alpha < -1)
                 {
                     // fixme 
 
-                    float p1 = (float)Math.Cos((cog) * MathHelper.deg2rad) * radius + radius;
+                    float p1 = (float)Math.Cos((cog) * MathHelper.deg2rad) * scaledradius + scaledradius;
 
-                    float p2 = (float)Math.Sin((cog) * MathHelper.deg2rad) * radius + radius;
+                    float p2 = (float)Math.Sin((cog) * MathHelper.deg2rad) * scaledradius + scaledradius;
 
-                    g.DrawArc(new Pen(Color.HotPink, 2), p1, p2, Math.Abs(radius) * 2, Math.Abs(radius) * 2, cog, alpha);
+                    g.DrawArc(new Pen(Color.HotPink, 2), p1, p2, Math.Abs(scaledradius) * 2, Math.Abs(scaledradius) * 2, cog, alpha);
                 }
 
                 else if (radius > 1 && alpha > 1)
                 {
                     // correct
 
-                    float p1 = (float)Math.Cos((cog - 180) * MathHelper.deg2rad) * radius + radius;
+                    float p1 = (float)Math.Cos((cog - 180) * MathHelper.deg2rad) * scaledradius + scaledradius;
 
-                    float p2 = (float)Math.Sin((cog - 180) * MathHelper.deg2rad) * radius + radius;
+                    float p2 = (float)Math.Sin((cog - 180) * MathHelper.deg2rad) * scaledradius + scaledradius;
 
-                    g.DrawArc(new Pen(Color.HotPink, 2), -p1, -p2, radius * 2, radius * 2, cog - 180, alpha);
+                    g.DrawArc(new Pen(Color.HotPink, 2), -p1, -p2, scaledradius * 2, scaledradius * 2, cog - 180, alpha);
                 }
             }
             catch
