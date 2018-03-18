@@ -26,6 +26,8 @@ namespace MissionPlanner.Utilities
 
         public event ProgressEventHandler Progress;
 
+        //http://firmware.ardupilot.org/manifest.json
+
         string firmwareurl = "https://raw.github.com/diydrones/binary/master/Firmware/firmware2.xml";
 
         readonly string gholdurl = ("https://github.com/diydrones/binary/raw/!Hash!/Firmware/firmware2.xml");

@@ -129,7 +129,7 @@ namespace MissionPlanner.Swarm
             SwarmInterface.Leader.cs.rateposition = 10;
             SwarmInterface.Leader.cs.rateattitude = 10;
 
-            while (threadrun)
+            while (threadrun && !this.IsDisposed)
             {
                 // update leader pos
                 SwarmInterface.Update();

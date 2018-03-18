@@ -1365,7 +1365,7 @@ namespace MissionPlanner
             this.MenuConnect.Image = global::MissionPlanner.Properties.Resources.light_connect_icon;
         }
 
-        public void doConnect(MAVLinkInterface comPort, string portname, string baud)
+        public void doConnect(MAVLinkInterface comPort, string portname, string baud, bool getparams = true)
         {
             bool skipconnectcheck = false;
             log.Info("We are connecting to " + portname + " " + baud );
@@ -1527,7 +1527,8 @@ namespace MissionPlanner
                     return;
                 }
 
-                comPort.getParamList();
+                if (getparams)
+                    comPort.getParamList();
 
                 _connectionControl.UpdateSysIDS();
 
@@ -3966,7 +3967,7 @@ namespace MissionPlanner
                             continue;
                         }
 
-                        doConnect(mav, "preset", "0");
+                        doConnect(mav, "preset", "0", false);
                         Comports.Add(mav);
                     }
                     catch
