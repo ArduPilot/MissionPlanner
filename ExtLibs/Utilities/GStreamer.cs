@@ -984,11 +984,15 @@ namespace MissionPlanner.Utilities
         {
             var output = Settings.GetDataDirectory() + "gstreamer-1.0-x86_64-1.12.4.zip";
 
+            status?.Invoke(0, "Downloading..");
+
             Download.ParallelDownloadFile(
                 "http://firmware.ardupilot.org/MissionPlanner/gstreamer/gstreamer-1.0-x86_64-1.12.4.zip",
                 output, status: status);
 
+            status?.Invoke(50, "Extracting..");
             ZipFile.ExtractToDirectory(output, Settings.GetDataDirectory());
+            status?.Invoke(100, "Done.");
         }
     }
 }
