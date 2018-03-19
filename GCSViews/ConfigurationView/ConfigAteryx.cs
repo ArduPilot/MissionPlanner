@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using log4net;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
@@ -35,7 +36,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 Enabled = false;
                 return;
             }
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
+            if (MainV2.comPort.MAV.cs.firmware == Firmwares.Ateryx)
             {
                 Enabled = true;
             }

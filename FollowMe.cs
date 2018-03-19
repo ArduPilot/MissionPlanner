@@ -11,6 +11,7 @@ using System.Globalization;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 using System.IO;
+using MissionPlanner.ArduPilot;
 
 namespace MissionPlanner
 {
@@ -89,7 +90,7 @@ namespace MissionPlanner
 
                 string alt = "100";
 
-                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+                if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
                 {
                     alt = (10*CurrentState.multiplierdist).ToString("0");
                 }

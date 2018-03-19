@@ -81,8 +81,8 @@ namespace MissionPlanner.Utilities
 
         static string GetFilename(double lat, double lng)
         {
-            int x = (lng < 0) ? (int) (lng - 1) : (int) lng; //(int)Math.Floor(lng);
-            int y = (lat < 0) ? (int) (lat - 1) : (int) lat; //(int)Math.Floor(lat);
+            int x = /*(lng < 0) ? (int) (lng - 1) : (int) lng; */(int)Math.Floor(lng);
+            int y = /*(lat < 0) ? (int) (lat - 1) : (int) lat; */(int)Math.Floor(lat);
 
             int id = y*1000 + x;
 
@@ -184,16 +184,16 @@ namespace MissionPlanner.Utilities
                     else
                         return srtm.altresponce.Invalid;
 
-                    int x = (lng < 0) ? (int) (lng - 1) : (int) lng;
-                    int y = (lat < 0) ? (int) (lat - 1) : (int) lat;
+                    int x = /*(lng < 0) ? (int) (lng - 1) : (int) lng; */(int)Math.Floor(lng);
+                    int y = /*(lat < 0) ? (int) (lat - 1) : (int) lat; */(int)Math.Floor(lat);
 
                     // remove the base lat long
                     lat -= y;
                     lng -= x;
 
                     // values should be 0-1199, 1200 is for interpolation
-                    double xf = lng*(size - 2);
-                    double yf = lat*(size - 2);
+                    double xf = lng*(size - 1);
+                    double yf = lat*(size - 1);
 
                     int x_int = (int) xf;
                     double x_frac = xf - x_int;

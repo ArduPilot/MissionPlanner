@@ -34,8 +34,10 @@ namespace MissionPlanner.Utilities
 
             drone_alt = aircraft_alt;
 
+            // enable rf when there is no drone connected
+            // use home loc + max(base height , clearance) + 0.1;
             if (drone_alt == 0)
-                drone_alt = alt;
+                drone_alt = alt + Math.Max(base_height, clearance) + 0.1;
 
             homealt = alt;
 

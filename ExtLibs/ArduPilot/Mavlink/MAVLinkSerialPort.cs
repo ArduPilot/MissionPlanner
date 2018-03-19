@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using log4net;
 using System.Threading;
+using MissionPlanner.ArduPilot;
 
 namespace MissionPlanner.Comms
 {

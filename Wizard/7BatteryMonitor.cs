@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
 using MissionPlanner.Controls.BackstageView;
 
@@ -135,24 +136,24 @@ namespace MissionPlanner.Wizard
 
             switch (MainV2.comPort.MAV.Product_ID)
             {
-                case Common.ap_product.AP_PRODUCT_ID_APM1_1280:
+                case ap_product.AP_PRODUCT_ID_APM1_1280:
                     CMB_apmversion.SelectedIndex = 0;
                     break;
-                case Common.ap_product.AP_PRODUCT_ID_APM1_2560:
+                case ap_product.AP_PRODUCT_ID_APM1_2560:
                     CMB_apmversion.SelectedIndex = 0;
                     break;
-                case Common.ap_product.AP_PRODUCT_ID_PX4:
+                case ap_product.AP_PRODUCT_ID_PX4:
                     CMB_apmversion.SelectedIndex = 3;
                     break;
-                case Common.ap_product.AP_PRODUCT_ID_PX4_V2:
+                case ap_product.AP_PRODUCT_ID_PX4_V2:
                     CMB_apmversion.SelectedIndex = 4;
                     break;
-                case Common.ap_product.AP_PRODUCT_ID_SITL:
+                case ap_product.AP_PRODUCT_ID_SITL:
                     CMB_apmversion.SelectedIndex = 1;
                     break;
                 default:
-                    if (MainV2.comPort.MAV.Product_ID >= Common.ap_product.AP_PRODUCT_ID_APM2_REV_C4 &&
-                        MainV2.comPort.MAV.Product_ID <= Common.ap_product.AP_PRODUCT_ID_APM2_REV_D9)
+                    if (MainV2.comPort.MAV.Product_ID >= ap_product.AP_PRODUCT_ID_APM2_REV_C4 &&
+                        MainV2.comPort.MAV.Product_ID <= ap_product.AP_PRODUCT_ID_APM2_REV_D9)
                         CMB_apmversion.SelectedIndex = 2;
                     break;
             }

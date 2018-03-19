@@ -16,6 +16,7 @@ using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using log4net;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.GCSViews;
 using MissionPlanner.Maps;
 using MissionPlanner.Properties;
@@ -100,7 +101,7 @@ namespace MissionPlanner.Grid
             NUM_angle.Value = (decimal) ((getAngleOfLongestSide(list) + 360)%360);
             TXT_headinghold.Text = (Math.Round(NUM_angle.Value)).ToString();
 
-            if (plugin.Host.cs.firmware == MainV2.Firmwares.ArduPlane)
+            if (plugin.Host.cs.firmware == Firmwares.ArduPlane)
                 NUM_UpDownFlySpeed.Value = (decimal) (12*CurrentState.multiplierspeed);
 
             map.MapScaleInfoEnabled = true;
@@ -1541,7 +1542,7 @@ namespace MissionPlanner.Grid
 
                     if (CHK_toandland.Checked)
                     {
-                        if (plugin.Host.cs.firmware == MainV2.Firmwares.ArduCopter2)
+                        if (plugin.Host.cs.firmware == Firmwares.ArduCopter2)
                         {
                             var wpno = plugin.Host.AddWPtoList(MAVLink.MAV_CMD.TAKEOFF, 20, 0, 0, 0, 0, 0,
                                 (int) (30*CurrentState.multiplierdist), gridobject);

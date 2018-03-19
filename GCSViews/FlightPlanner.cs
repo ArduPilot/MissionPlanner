@@ -38,6 +38,7 @@ using ILog = log4net.ILog;
 using Placemark = SharpKml.Dom.Placemark;
 using Point = System.Drawing.Point;
 using System.Text.RegularExpressions;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.Grid;
 using MissionPlanner.Plugin;
 
@@ -262,7 +263,7 @@ namespace MissionPlanner.GCSViews
                         cell.Value = alt.ToString();
                     if (ans == 0) // default
                         cell.Value = 50;
-                    if (ans == 0 && (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2))
+                    if (ans == 0 && (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2))
                         cell.Value = 15;
 
                     // not online and verify alt via srtm
@@ -784,12 +785,12 @@ namespace MissionPlanner.GCSViews
             {
                 reader.Read();
                 reader.ReadStartElement("CMD");
-                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane ||
-                    MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
+                if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduPlane ||
+                    MainV2.comPort.MAV.cs.firmware == Firmwares.Ateryx)
                 {
                     reader.ReadToFollowing("APM");
                 }
-                else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover)
+                else if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduRover)
                 {
                     reader.ReadToFollowing("APRover");
                 }
@@ -4228,12 +4229,12 @@ namespace MissionPlanner.GCSViews
         private string FormatDistance(double distInKM, bool toMeterOrFeet)
         {
             string sunits = Settings.Instance["distunits"];
-            Common.distances units = Common.distances.Meters;
+            distances units = distances.Meters;
 
             if (sunits != null)
                 try
                 {
-                    units = (Common.distances) Enum.Parse(typeof (Common.distances), sunits);
+                    units = (distances) Enum.Parse(typeof (distances), sunits);
                 }
                 catch (Exception)
                 {
@@ -4241,11 +4242,11 @@ namespace MissionPlanner.GCSViews
 
             switch (units)
             {
-                case Common.distances.Feet:
+                case distances.Feet:
                     return toMeterOrFeet
                         ? string.Format((distInKM*3280.8399).ToString("0.00 ft"))
                         : string.Format((distInKM*0.621371).ToString("0.0000 miles"));
-                case Common.distances.Meters:
+                case distances.Meters:
                 default:
                     return toMeterOrFeet
                         ? string.Format((distInKM*1000).ToString("0.00 m"))
@@ -4579,7 +4580,7 @@ namespace MissionPlanner.GCSViews
                 if (MainV2.comPort.MAV.cs.lat == 0 || MainV2.comPort.MAV.cs.lng == 0)
                     return;
 
-                var marker = Common.getMAVMarker(MainV2.comPort.MAV);
+                var marker = ArduPilot.Common.getMAVMarker(MainV2.comPort.MAV);
 
                 routesoverlay.Markers.Add(marker);
 
@@ -5170,7 +5171,7 @@ namespace MissionPlanner.GCSViews
         {
             timer1.Start();
 
-            if (MainV2.comPort.BaseStream.IsOpen && MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 &&
+            if (MainV2.comPort.BaseStream.IsOpen && MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2 &&
                 MainV2.comPort.MAV.cs.version < new Version(3, 3))
             {
                 CMB_altmode.Visible = false;
@@ -5840,8 +5841,8 @@ namespace MissionPlanner.GCSViews
             // take off pitch
             int topi = 0;
 
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane ||
-                MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
+            if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduPlane ||
+                MainV2.comPort.MAV.cs.firmware == Firmwares.Ateryx)
             {
                 string top = "15";
 

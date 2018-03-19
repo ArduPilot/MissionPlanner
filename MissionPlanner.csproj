@@ -6,7 +6,7 @@
     <OutputType>Exe</OutputType>
     <StartupObject></StartupObject>
     <Authors>Michael Oborne</Authors>
-    <Version>1.3.52.10</Version>
+    <Version>1.3.53</Version>
     <DebugType>full</DebugType>
     <Company>Michael Oborne</Company>
     <Product>Mission Planner</Product>
@@ -29,6 +29,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <Optimize>false</Optimize>
     <DebugSymbols>true</DebugSymbols>
+    <LangVersion>default</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>bin\Release\</OutputPath>
@@ -97,6 +98,7 @@
       <Project>{DFA3C3B7-F098-4567-A780-A37DC52CA577}</Project>
       <Name>Arduino</Name>
     </ProjectReference>
+    <ProjectReference Include="ExtLibs\ArduPilot\MissionPlanner.ArduPilot.csproj" />
     <ProjectReference Include="ExtLibs\AviFile\AviFile.csproj">
       <Project>{ABB32A29-AF50-47FA-B243-5FD75A5ABA54}</Project>
       <Name>AviFile</Name>
@@ -223,14 +225,11 @@
     <PackageReference Include="SkiaSharp" Version="1.60.0" />
     <PackageReference Include="SSH.NET" version="2016.1.0" targetFramework="net40" />
     <PackageReference Include="System.Drawing.Common" Version="4.5.0-preview2-26225-02" />
-    <PackageReference Include="System.IO.Compression" Version="4.3.0" />
-    <PackageReference Include="System.IO.Compression.ZipFile" Version="4.3.0" />
     <PackageReference Include="System.IO.Ports" Version="4.4.0" />
     <PackageReference Include="System.Reactive" Version="3.1.1" />
     <PackageReference Include="System.Reactive.Core" Version="3.1.1" />
     <PackageReference Include="System.Reactive.Linq" Version="3.1.1" />
     <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
-    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
 
     <PackageReference Include="Unofficial.ObjectListView" version="2.6.0" targetFramework="net40" />
     <PackageReference Include="Xamarin.Forms" version="2.5.0.91635" targetFramework="net462" />
@@ -244,7 +243,7 @@
     <Compile Include="Controls\PropagationSettings.cs">
       <SubType>Control</SubType>
     </Compile>
-    <Compile Include="CurrentState.cs" />
+    <Compile Include="Controls\ProximityControl.cs" />
     <Compile Include="ElevationProfile.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="FollowMe.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Utilities\SSHTerminal.cs" />
@@ -304,6 +303,9 @@
     <Compile Include="Controls\LogAnalyzer.cs"> <SubType>Control</SubType> </Compile>
 	<Compile Include="Log\LogStrings.cs"> <SubType>Control</SubType> </Compile>
 	<Compile Include="Log\LogStrings.Designer.cs"><DependentUpon>LogStrings.cs</DependentUpon> </Compile>
+	<EmbeddedResource Include="Controls\PropagationSettings.resx">
+	  <DependentUpon>PropagationSettings.cs</DependentUpon>
+	</EmbeddedResource>
 	<EmbeddedResource Include="Log\LogStrings.resx"><DependentUpon>LogStrings.cs</DependentUpon> </EmbeddedResource>
     <Compile Include="Controls\MavlinkCheckBox.cs" />
     <Compile Include="Controls\MavlinkCheckBoxBitMask.cs" />
@@ -405,13 +407,6 @@
     <Compile Include="Log\MavlinkLog.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Log\Scan.cs" />
     <Compile Include="Log\test\MotorFailure.cs" />
-    <Compile Include="Mavlink\Extension.cs" />
-    <Compile Include="Mavlink\MAVAuthKeys.cs" />
-    <Compile Include="Mavlink\MAVInspector.cs" />
-    <Compile Include="Mavlink\MAVLinkInterface.cs" />
-    <Compile Include="Mavlink\MAVLinkSerialPort.cs" />
-    <Compile Include="Mavlink\MAVList.cs" />
-    <Compile Include="Mavlink\MAVState.cs" />
     <Compile Include="Models\DelegateCommand.cs" />
     <Compile Include="Models\ICommand.cs" />
     <Compile Include="NoFly\NoFly.cs" />
@@ -465,8 +460,6 @@
     <Compile Include="Utilities\ParamFile.cs" />
     <Compile Include="Utilities\Password.cs" />
     <Compile Include="Utilities\POI.cs" />
-    <Compile Include="Utilities\Proximity.cs" />
-    <Compile Include="Utilities\Speech.cs" />
     <Compile Include="Utilities\StreamCombiner.cs" />
     <Compile Include="Utilities\StringRedirectWriter.cs" />
     <Compile Include="Utilities\ThemeManager.cs" />
@@ -1834,7 +1827,9 @@
     <Content Include="aircraft.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="appxmanifest.xml" />
+    <Content Include="appxmanifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="ArduCopterConfig.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -2106,7 +2101,7 @@
 
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="&quot;$(TargetDir)version.exe&quot; &quot;$(TargetPath)&quot; &gt; &quot;$(TargetDir)version.txt&quot;&#xD;&#xA;copy &quot;$(ProjectDir)ExtLibs\System.Speech.dll&quot; &quot;$(TargetDir)&quot;&#xD;&#xA;" />
+    <Exec Command="&quot;$(TargetDir)version.exe&quot; &quot;$(TargetPath)&quot; &gt; &quot;$(TargetDir)version.txt&quot;&#xD;&#xA;copy &quot;$(ProjectDir)ExtLibs\System.Speech.dll&quot; &quot;$(TargetDir)&quot;&#xD;&#xA;&#xD;&#xA;cd &quot;$(TargetDir)&quot;&#xD;&#xA;for /f %%f in ('dir /a-d /b plugins') do if exist .\%%f del .\plugins\%%f&#xD;&#xA;" />
   </Target>
 
 
@@ -2119,6 +2114,13 @@
     <None Update="C:\Users\hog\.nuget\packages\skiasharp\1.59.3\build\net45\..\..\runtimes\win7-x64\native\libSkiaSharp.dll">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Reference Update="System.IO.Compression.FileSystem">
+      <Private>true</Private>
+    </Reference>
   </ItemGroup>
 
 

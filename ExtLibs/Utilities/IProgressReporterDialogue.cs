@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace MissionPlanner.Controls
+namespace MissionPlanner.Utilities
 {
     public delegate void DoWorkEventHandler(IProgressReporterDialogue sender);
 

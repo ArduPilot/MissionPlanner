@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Windows.Forms;
 using log4net;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
 using MissionPlanner.Controls.BackstageView;
 using MissionPlanner.GCSViews.ConfigurationView;
@@ -50,10 +51,10 @@ namespace MissionPlanner.GCSViews
                         start = AddBackstageViewPage(typeof(ConfigFlightModes), Strings.FlightModes);
                     }
 
-                    if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+                    if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
                         AddBackstageViewPage(typeof(ConfigAC_Fence), Strings.GeoFence);
 
-                    if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+                    if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
                     {
                         if (MainV2.DisplayConfiguration.displayBasicTuning)
                         { 
@@ -65,17 +66,17 @@ namespace MissionPlanner.GCSViews
                         }
                     }
 
-                    if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
+                    if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduPlane)
                     {
                         start = AddBackstageViewPage(typeof(ConfigArduplane), Strings.BasicTuning);
                     }
 
-                    if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover)
+                    if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduRover)
                     {
                         start = AddBackstageViewPage(typeof(ConfigArdurover), Strings.BasicTuning);
                     }
 
-                    if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduTracker)
+                    if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduTracker)
                     {
                         start = AddBackstageViewPage(typeof(ConfigAntennaTracker), Strings.ExtendedTuning);
                     }
@@ -102,7 +103,7 @@ namespace MissionPlanner.GCSViews
 
                 if (MainV2.comPort.BaseStream.IsOpen)
                 {
-                    if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
+                    if (MainV2.comPort.MAV.cs.firmware == Firmwares.Ateryx)
                     {
                         start = AddBackstageViewPage(typeof(ConfigFlightModes), Strings.FlightModes);
                         AddBackstageViewPage(typeof(ConfigAteryxSensors), "Ateryx Zero Sensors");

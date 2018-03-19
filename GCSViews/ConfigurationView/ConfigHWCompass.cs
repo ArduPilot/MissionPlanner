@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Drawing;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 
@@ -39,7 +40,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             startup = true;
 
             if (MainV2.comPort.MAV.cs.version > Version.Parse("3.2.1") &&
-                MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+                MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
             {
                 QuickAPM25.Visible = false;
                 buttonAPMExternal.Visible = false;
@@ -48,7 +49,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
             if (MainV2.comPort.MAV.cs.version >= Version.Parse("3.7.1") &&
-                MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane 
+                MainV2.comPort.MAV.cs.firmware == Firmwares.ArduPlane 
                 || Control.ModifierKeys == Keys.Control)
             {
                 groupBoxonboardcalib.Visible = true;

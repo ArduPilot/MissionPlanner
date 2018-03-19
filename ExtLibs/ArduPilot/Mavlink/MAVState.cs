@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using GMap.NET;
 using log4net;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.Maps;
 using MissionPlanner.Utilities;
 using Newtonsoft.Json;
@@ -193,12 +194,12 @@ namespace MissionPlanner
 
         public MAV_AUTOPILOT apname { get; set; }
 
-        public Common.ap_product Product_ID
+        public ap_product Product_ID
         {
             get
             {
-                if (param.ContainsKey("INS_PRODUCT_ID")) return (Common.ap_product) (float) param["INS_PRODUCT_ID"];
-                return Common.ap_product.AP_PRODUCT_ID_NONE;
+                if (param.ContainsKey("INS_PRODUCT_ID")) return (ap_product) (float) param["INS_PRODUCT_ID"];
+                return ap_product.AP_PRODUCT_ID_NONE;
             }
         }
 

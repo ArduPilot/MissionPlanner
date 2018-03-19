@@ -407,6 +407,8 @@ namespace MissionPlanner.Utilities
 
             dirs.Add(Settings.GetDataDirectory());
 
+            // packaged version only
+            /*
             DriveInfo[] allDrives = DriveInfo.GetDrives();
             foreach (DriveInfo d in allDrives)
             {
@@ -417,7 +419,7 @@ namespace MissionPlanner.Utilities
                     dirs.Add(d.RootDirectory.Name + "Program Files (x86)" + Path.DirectorySeparatorChar + "gstreamer");
                 }
             }
-
+            */
             foreach (var dir in dirs)
             {
                 if (Directory.Exists(dir))
@@ -982,15 +984,15 @@ namespace MissionPlanner.Utilities
         {
             var output = Settings.GetDataDirectory() + "gstreamer-1.0-x86_64-1.12.4.zip";
 
+            status?.Invoke(0, "Downloading..");
+
             Download.ParallelDownloadFile(
                 "http://firmware.ardupilot.org/MissionPlanner/gstreamer/gstreamer-1.0-x86_64-1.12.4.zip",
                 output, status: status);
 
-            ZipArchive zip = new ZipArchive(File.OpenRead(output));
-
-            zip.ExtractToDirectory(Settings.GetDataDirectory());
-
-            zip.Dispose();
+            status?.Invoke(50, "Extracting..");
+            ZipFile.ExtractToDirectory(output, Settings.GetDataDirectory());
+            status?.Invoke(100, "Done.");
         }
     }
 }

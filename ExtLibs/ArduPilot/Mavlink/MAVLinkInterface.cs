@@ -10,11 +10,9 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
-using System.Windows.Forms;
 using log4net;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.Comms;
-using MissionPlanner.Controls;
-using MissionPlanner.HIL;
 using MissionPlanner.Mavlink;
 using MissionPlanner.Utilities;
 using Timer = System.Timers.Timer;
@@ -138,7 +136,7 @@ namespace MissionPlanner
         /// <summary>
         /// used for outbound packet sending
         /// </summary>
-        internal int packetcount = 0;
+        public int packetcount { get; internal set; } = 0;
 
         private readonly Subject<int> _bytesReceivedSubj = new Subject<int>();
         private readonly Subject<int> _bytesSentSubj = new Subject<int>();
@@ -309,23 +307,23 @@ namespace MissionPlanner
             }
         }
 
+        public delegate IProgressReporterDialogue ProgressEventHandle(string title);
+
+        public static event ProgressEventHandle CreateIProgressReporterDialogue;
+
         public void Open()
         {
             Open(false);
         }
 
-        public void Open(bool getparams, bool skipconnectedcheck = false)
+        public void Open(bool getparams,  bool skipconnectedcheck = false)
         {
             if (BaseStream.IsOpen && !skipconnectedcheck)
                 return;
 
             MAVlist.Clear();
 
-            frmProgressReporter = new ProgressReporterDialogue
-            {
-                StartPosition = FormStartPosition.CenterScreen,
-                Text = Strings.ConnectingMavlink
-            };
+            frmProgressReporter = CreateIProgressReporterDialogue(Strings.ConnectingMavlink);
 
             if (getparams)
             {
@@ -336,12 +334,11 @@ namespace MissionPlanner
                 frmProgressReporter.DoWork += FrmProgressReporterDoWorkNOParams;
             }
             frmProgressReporter.UpdateProgressAndStatus(-1, Strings.MavlinkConnecting);
-            ThemeManager.ApplyThemeTo(frmProgressReporter);
 
             frmProgressReporter.RunBackgroundOperationAsync();
 
             frmProgressReporter.Dispose();
-
+            
             if (ParamListChanged != null)
             {
                 ParamListChanged(this, null);
@@ -1113,20 +1110,15 @@ Please check the following
         {
             log.InfoFormat("getParamList {0} {1}", sysidcurrent, compidcurrent);
 
-            frmProgressReporter = new ProgressReporterDialogue
-            {
-                StartPosition = FormStartPosition.CenterScreen,
-                Text = Strings.GettingParams + " " + sysidcurrent
-            };
+            frmProgressReporter = CreateIProgressReporterDialogue(Strings.GettingParams + " " + sysidcurrent);
 
             frmProgressReporter.DoWork += FrmProgressReporterGetParams;
             frmProgressReporter.UpdateProgressAndStatus(-1, Strings.GettingParamsD);
-            ThemeManager.ApplyThemeTo(frmProgressReporter);
 
             frmProgressReporter.RunBackgroundOperationAsync();
 
             frmProgressReporter.Dispose();
-
+            
             if (ParamListChanged != null)
             {
                 ParamListChanged(this, null);
@@ -1283,9 +1275,8 @@ Please check the following
 
                         //Console.WriteLine(DateTime.Now.Millisecond + " gp2 ");
 
-                        if (!MainV2.MONO)
-                            log.Info(DateTime.Now.Millisecond + " got param " + (par.param_index) + " of " +
-                                     (par.param_count) + " name: " + paramID);
+                        log.Info(DateTime.Now.Millisecond + " got param " + (par.param_index) + " of " +
+                                 (par.param_count) + " name: " + paramID);
 
                         //Console.WriteLine(DateTime.Now.Millisecond + " gp2a ");
 
@@ -1704,7 +1695,7 @@ Please check the following
 
         public bool doMotorTest(int motor, MOTOR_TEST_THROTTLE_TYPE thr_type, int throttle, int timeout, int motorcount = 0)
         {
-            return MainV2.comPort.doCommand(MAV_CMD.DO_MOTOR_TEST, (float) motor, (float) (byte) thr_type,
+            return doCommand(MAV_CMD.DO_MOTOR_TEST, (float) motor, (float) (byte) thr_type,
                 (float) throttle, (float) timeout, (float) motorcount, 0, 0);
         }
 
@@ -3043,7 +3034,7 @@ Please check the following
 
                 log.InfoFormat("setGuidedModeWP {0}:{1} lat {2} lng {3} alt {4}", sysid, compid, gotohere.lat, gotohere.lng, gotohere.alt);
 
-                if (MAVlist[sysid,compid].cs.firmware == MainV2.Firmwares.ArduPlane)
+                if (MAVlist[sysid,compid].cs.firmware == Firmwares.ArduPlane)
                 {
                     MAV_MISSION_RESULT ans = setWP(sysid, compid, gotohere, 0, MAV_FRAME.GLOBAL_RELATIVE_ALT, (byte)2);
 
@@ -3181,7 +3172,7 @@ Please check the following
 
             generatePacket((byte) MAVLINK_MSG_ID.DIGICAM_CONTROL, req);
 
-            MainV2.comPort.doCommand(MAV_CMD.DO_DIGICAM_CONTROL, 0, 0, 0, 0, 1, 0, 0);
+            doCommand(MAV_CMD.DO_DIGICAM_CONTROL, 0, 0, 0, 0, 1, 0, 0);
 
             //MAVLINK_MSG_ID.CAMERA_FEEDBACK;
 
@@ -3718,7 +3709,7 @@ Please check the following
                             var adsb = message.ToStructure<mavlink_adsb_vehicle_t>();
 
                             var id = adsb.ICAO_address.ToString("X5");
-
+                            /*
                             if (MainV2.instance.adsbPlanes.ContainsKey(id))
                             {
                                 // update existing
@@ -3736,7 +3727,7 @@ Please check the following
                                     new adsb.PointLatLngAltHdg(adsb.lat/1e7, adsb.lon/1e7,
                                         adsb.altitude/1000.0, adsb.heading*0.01f, id,
                                         DateTime.Now) {CallSign = ASCIIEncoding.ASCII.GetString(adsb.callsign)};
-                            }
+                            }*/
                         }
 
                         if (msgid == (byte) MAVLINK_MSG_ID.COLLISION)
@@ -3757,9 +3748,9 @@ Please check the following
 
                             var threat_level = (MAV_COLLISION_THREAT_LEVEL)coll.threat_level;
 
-                            if (MainV2.instance.adsbPlanes.ContainsKey(id))
+                            //if (MainV2.instance.adsbPlanes.ContainsKey(id))
                             {
-                                ((adsb.PointLatLngAltHdg) MainV2.instance.adsbPlanes[id]).ThreatLevel = threat_level;
+                                //((adsb.PointLatLngAltHdg) MainV2.instance.adsbPlanes[id]).ThreatLevel = threat_level;
                             }
                         }
                     }
@@ -3863,13 +3854,13 @@ Please check the following
                             MAVlist[sysid, compid].cs.messageHigh = logdata;
                             MAVlist[sysid, compid].cs.messageHighTime = DateTime.Now;
 
-                            if (MainV2.speechEngine != null &&
-                                MainV2.speechEngine.IsReady &&
+                            if (Speech.Instance != null &&
+                                Speech.Instance.IsReady &&
                                 Settings.Instance["speechenable"] != null &&
                                 Settings.Instance["speechenable"].ToString() == "True")
                             {
                                 if (speechenabled)
-                                    MainV2.speechEngine.SpeakAsync(logdata);
+                                    Speech.Instance.SpeakAsync(logdata);
                             }
                         }
                     }
@@ -4937,31 +4928,31 @@ Please check the following
                     switch (MAVlist[sysid, compid].aptype)
                     {
                         case MAV_TYPE.FIXED_WING:
-                            MAVlist[sysid, compid].cs.firmware = MainV2.Firmwares.ArduPlane;
+                            MAVlist[sysid, compid].cs.firmware = Firmwares.ArduPlane;
                             break;
                         case MAV_TYPE.QUADROTOR:
-                            MAVlist[sysid, compid].cs.firmware = MainV2.Firmwares.ArduCopter2;
+                            MAVlist[sysid, compid].cs.firmware = Firmwares.ArduCopter2;
                             break;
                         case MAV_TYPE.TRICOPTER:
-                            MAVlist[sysid, compid].cs.firmware = MainV2.Firmwares.ArduCopter2;
+                            MAVlist[sysid, compid].cs.firmware = Firmwares.ArduCopter2;
                             break;
                         case MAV_TYPE.HEXAROTOR:
-                            MAVlist[sysid, compid].cs.firmware = MainV2.Firmwares.ArduCopter2;
+                            MAVlist[sysid, compid].cs.firmware = Firmwares.ArduCopter2;
                             break;
                         case MAV_TYPE.OCTOROTOR:
-                            MAVlist[sysid, compid].cs.firmware = MainV2.Firmwares.ArduCopter2;
+                            MAVlist[sysid, compid].cs.firmware = Firmwares.ArduCopter2;
                             break;
                         case MAV_TYPE.HELICOPTER:
-                            MAVlist[sysid, compid].cs.firmware = MainV2.Firmwares.ArduCopter2;
+                            MAVlist[sysid, compid].cs.firmware = Firmwares.ArduCopter2;
                             break;
                         case MAV_TYPE.GROUND_ROVER:
-                            MAVlist[sysid, compid].cs.firmware = MainV2.Firmwares.ArduRover;
+                            MAVlist[sysid, compid].cs.firmware = Firmwares.ArduRover;
                             break;
                         case MAV_TYPE.SUBMARINE:
-                            MAVlist[sysid, compid].cs.firmware = MainV2.Firmwares.ArduSub;
+                            MAVlist[sysid, compid].cs.firmware = Firmwares.ArduSub;
                             break;
                         case MAV_TYPE.ANTENNA_TRACKER:
-                            MAVlist[sysid, compid].cs.firmware = MainV2.Firmwares.ArduTracker;
+                            MAVlist[sysid, compid].cs.firmware = Firmwares.ArduTracker;
                             break;
                         default:
                             log.Error(MAVlist[sysid, compid].aptype + " not registered as valid type");
@@ -4972,7 +4963,7 @@ Please check the following
                     switch (MAVlist[sysid, compid].aptype)
                     {
                         case MAV_TYPE.FIXED_WING:
-                            MAVlist[sysid, compid].cs.firmware = MainV2.Firmwares.ArduPlane;
+                            MAVlist[sysid, compid].cs.firmware = Firmwares.ArduPlane;
                             break;
                     }
                     break;
@@ -4980,18 +4971,18 @@ Please check the following
                     switch (MAVlist[sysid, compid].aptype)
                     {
                         case MAV_TYPE.FIXED_WING:
-                            MAVlist[sysid, compid].cs.firmware = MainV2.Firmwares.Ateryx;
+                            MAVlist[sysid, compid].cs.firmware = Firmwares.Ateryx;
                             break;
                     }
                     break;
                 case MAV_AUTOPILOT.PX4:
-                    MAVlist[sysid, compid].cs.firmware = MainV2.Firmwares.PX4;
+                    MAVlist[sysid, compid].cs.firmware = Firmwares.PX4;
                     break;
                 default:
                     switch (MAVlist[sysid, compid].aptype)
                     {
                         case MAV_TYPE.GIMBAL: // storm32 - name 83
-                            MAVlist[sysid, compid].cs.firmware = MainV2.Firmwares.Gymbal;
+                            MAVlist[sysid, compid].cs.firmware = Firmwares.Gymbal;
                             break;
                     }
                     break;
@@ -5029,4 +5020,6 @@ Please check the following
             logplaybackfile = null;
         }
     }
+
+    public delegate void ProgressEventHandler(int percent, string status);
 }

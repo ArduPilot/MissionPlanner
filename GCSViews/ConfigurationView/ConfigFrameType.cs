@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Windows.Forms;
 using log4net;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
 using Transitions;
 
@@ -9,16 +10,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigFrameType : MyUserControl, IActivate, IDeactivate
     {
-        public enum Frame
-        {
-            Plus = ConfigFrameClassType.motor_frame_type.MOTOR_FRAME_TYPE_PLUS,
-            X = ConfigFrameClassType.motor_frame_type.MOTOR_FRAME_TYPE_X,
-            V = ConfigFrameClassType.motor_frame_type.MOTOR_FRAME_TYPE_V,
-            H = ConfigFrameClassType.motor_frame_type.MOTOR_FRAME_TYPE_H,
-            VTail = ConfigFrameClassType.motor_frame_type.MOTOR_FRAME_TYPE_VTAIL,
-            Y = ConfigFrameClassType.motor_frame_type.MOTOR_FRAME_TYPE_Y6B
-        }
-
         private const float DisabledOpacity = 0.2F;
         private const float EnabledOpacity = 1.0F;
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);

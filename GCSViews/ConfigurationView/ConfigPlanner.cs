@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using DirectShowLib;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
 using MissionPlanner.Joystick;
 using MissionPlanner.Utilities;
@@ -52,9 +53,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             CMB_osdcolor.DataSource = Enum.GetNames(typeof (KnownColor));
 
             // set distance/speed unit states
-            CMB_distunits.DataSource = Enum.GetNames(typeof (Common.distances));
-            CMB_speedunits.DataSource = Enum.GetNames(typeof (Common.speeds));
-            CMB_altunits.DataSource = Enum.GetNames(typeof(Common.altitudes));
+            CMB_distunits.DataSource = Enum.GetNames(typeof (distances));
+            CMB_speedunits.DataSource = Enum.GetNames(typeof (speeds));
+            CMB_altunits.DataSource = Enum.GetNames(typeof(altitudes));
 
             CMB_theme.DataSource = Enum.GetNames(typeof (ThemeManager.Themes));
 

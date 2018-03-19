@@ -4,6 +4,7 @@ using System.Collections;
 using log4net;
 using System.Reflection;
 using System.IO;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.Utilities;
 using SharpDX.DirectInput;
 
@@ -149,17 +150,17 @@ namespace MissionPlanner.Joystick
             for (int a = 0; a < JoyButtons.Length; a++)
                 JoyButtons[a].buttonno = -1;
 
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
+            if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduPlane)
             {
                 loadconfig("joystickbuttons" + MainV2.comPort.MAV.cs.firmware + ".xml",
                     "joystickaxis" + MainV2.comPort.MAV.cs.firmware + ".xml");
             }
-            else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+            else if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
             {
                 loadconfig("joystickbuttons" + MainV2.comPort.MAV.cs.firmware + ".xml",
                     "joystickaxis" + MainV2.comPort.MAV.cs.firmware + ".xml");
             }
-            else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover)
+            else if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduRover)
             {
                 loadconfig("joystickbuttons" + MainV2.comPort.MAV.cs.firmware + ".xml",
                     "joystickaxis" + MainV2.comPort.MAV.cs.firmware + ".xml");
@@ -742,7 +743,7 @@ namespace MissionPlanner.Joystick
                             try
                             {
                                 MainV2.comPort.setMode("Guided");
-                                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+                                if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
                                 {
                                     MainV2.comPort.doCommand(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 2);
                                 }

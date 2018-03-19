@@ -72,13 +72,6 @@ namespace MissionPlanner.Utilities
             this.z = inp.Item3;
         }
 
-        public Vector3((T, T, T) inp)
-        {
-            this.x = inp.Item1;
-            this.y = inp.Item2;
-            this.z = inp.Item3;
-        }
-
         public Vector3(Vector3<T> copyme)
         {
             this.x = copyme.x;

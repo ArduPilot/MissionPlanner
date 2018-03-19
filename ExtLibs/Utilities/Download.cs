@@ -418,15 +418,17 @@ namespace MissionPlanner.Utilities
                                 seek += count;
                                 var elapsed = (DateTime.Now - starttime).TotalSeconds;
                                 var percent = ((got / (float) size) * 100.0f);
-                                Console.WriteLine("{0} bps {1} {2}s {3}% of {4}     \r", got / elapsed, got, elapsed,
-                                    percent, size);
                                 if (lastupdate.Second != DateTime.Now.Second)
                                 {
                                     lastupdate = DateTime.Now;
+                                    Console.WriteLine("{0} bps {1} {2}s {3}% of {4}     \r", got / elapsed, got, elapsed,
+                                        percent, size);
+                                    var timeleft = TimeSpan.FromSeconds(((elapsed / percent) * (100 - percent)));
                                     status?.Invoke((int) percent,
                                         "Downloading.. ETA: " +
-                                        DateTime.Now.AddSeconds(((elapsed / percent) * (100 - percent)))
-                                            .ToShortTimeString());
+                                       //DateTime.Now.AddSeconds(((elapsed / percent) * (100 - percent))).ToShortTimeString()
+                                        formatTimeSpan(timeleft)
+                                        );
                                 }
                             }
                         }
@@ -435,6 +437,16 @@ namespace MissionPlanner.Utilities
 
                 status?.Invoke(100, "Complete");
             }
+        }
+
+        private static string formatTimeSpan(TimeSpan timeleft)
+        {
+            if (timeleft.TotalHours >= 1)
+                return timeleft.TotalHours.ToString("0.0") + " Hours";
+            if (timeleft.TotalSeconds >= 60)
+                return timeleft.Minutes + ":" + timeleft.Seconds.ToString("00") + " Minutes";
+
+            return timeleft.Seconds + " Seconds";
         }
 
         public static long GetFileSize(string uri)

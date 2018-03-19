@@ -22,9 +22,7 @@
     <PackageReference Include="ProjNet" Version="1.2.0" />
     <PackageReference Include="SharpZipLib" Version="0.86.0" />
     <PackageReference Include="System.Drawing.Common" Version="4.5.0-preview2-26225-02" />
-    <PackageReference Include="System.IO.Compression" Version="4.3.0" />
     <PackageReference Include="System.Reactive.Linq" Version="3.1.1" />
-    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,6 +45,10 @@
     </Reference>
     <Reference Include="OpenTK.GLControl">
       <HintPath>..\OpenTK.GLControl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Speech">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Speech.dll</HintPath>
+      <SpecificVersion>false</SpecificVersion>
     </Reference>
   </ItemGroup>
 

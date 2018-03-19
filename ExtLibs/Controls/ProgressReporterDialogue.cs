@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Reflection;
 using log4net;
 using MissionPlanner.MsgBox;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Controls
 {
@@ -30,7 +31,7 @@ namespace MissionPlanner.Controls
 
   
         // This is the event that will be raised on the BG thread
-        public event DoWorkEventHandler DoWork;
+        public event Utilities.DoWorkEventHandler DoWork;
 
         public ProgressReporterDialogue()
         {

@@ -19,6 +19,7 @@ using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using log4net;
 using Microsoft.Scripting.Utils;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
 using MissionPlanner.Joystick;
 using MissionPlanner.Log;
@@ -1098,7 +1099,7 @@ namespace MissionPlanner.GCSViews
                         // show proximity screen
                         if (MainV2.comPort.MAV?.Proximity != null && MainV2.comPort.MAV.Proximity.DataAvailable)
                         {
-                            this.BeginInvoke((MethodInvoker)delegate { MainV2.comPort.MAV?.Proximity?.Show(); });
+                            this.BeginInvoke((MethodInvoker)delegate { new ProximityControl(MainV2.comPort.MAV).Show(); });
                         }
 
                         if (Settings.Instance.GetBoolean("CHK_maprotation"))
@@ -1247,7 +1248,7 @@ namespace MissionPlanner.GCSViews
                         updateClearRoutesMarkers();
 
                         // add this after the mav icons are drawn
-                        if (MainV2.comPort.MAV.cs.MovingBase != null)
+                        if (MainV2.comPort.MAV.cs.MovingBase != null && MainV2.comPort.MAV.cs.MovingBase == PointLatLngAlt.Zero)
                         {
                             addMissionRouteMarker(new GMarkerGoogle(currentloc, GMarkerGoogleType.blue_dot)
                             {
@@ -1419,7 +1420,7 @@ namespace MissionPlanner.GCSViews
                                 // draw the mavs seen on this port
                                 foreach (var MAV in port.MAVlist)
                                 {
-                                    var marker = Common.getMAVMarker(MAV);
+                                    var marker = ArduPilot.Common.getMAVMarker(MAV);
 
                                     if(marker.Position.Lat == 0 && marker.Position.Lng == 0)
                                         continue;
@@ -1670,36 +1671,36 @@ namespace MissionPlanner.GCSViews
                 if (this.Visible)
                 {
                     //Console.Write("bindingSource1 ");
-                    MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSource1);
+                    MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSource1.UpdateDataSource(MainV2.comPort.MAV.cs));
                     //Console.Write("bindingSourceHud ");
-                    MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceHud);
+                    MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceHud.UpdateDataSource(MainV2.comPort.MAV.cs));
                     //Console.WriteLine("DONE ");
 
                     if (tabControlactions.SelectedTab == tabStatus)
                     {
-                        MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceStatusTab);
+                        MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceStatusTab.UpdateDataSource(MainV2.comPort.MAV.cs));
                     }
                     else if (tabControlactions.SelectedTab == tabQuick)
                     {
-                        MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceQuickTab);
+                        MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceQuickTab.UpdateDataSource(MainV2.comPort.MAV.cs));
                     }
                     else if (tabControlactions.SelectedTab == tabGauges)
                     {
-                        MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceGaugesTab);
+                        MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceGaugesTab.UpdateDataSource(MainV2.comPort.MAV.cs));
                     }
                     else if (tabControlactions.SelectedTab == tabPagePreFlight)
                     {
-                        MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceGaugesTab);
+                        MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceGaugesTab.UpdateDataSource(MainV2.comPort.MAV.cs));
                     }
                     else if (tabControlactions.SelectedTab == tabPayload)
                     {
-                        MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourcePayloadTab);
+                        MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourcePayloadTab.UpdateDataSource(MainV2.comPort.MAV.cs));
                     }
                 }
                 else
                 {
                     //Console.WriteLine("Null Binding");
-                    MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceHud);
+                    MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceHud.UpdateDataSource(MainV2.comPort.MAV.cs));
                 }
                 lastscreenupdate = DateTime.Now;
             }
@@ -2019,7 +2020,7 @@ namespace MissionPlanner.GCSViews
                     // request gyro
                     if (CMB_action.Text == "PREFLIGHT_CALIBRATION")
                     {
-                        if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+                        if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
                             param1 = 1; // gyro
                         param3 = 1; // baro / airspeed
                     }
@@ -2587,11 +2588,11 @@ namespace MissionPlanner.GCSViews
             try
             {
                 ((Button) sender).Enabled = false;
-                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane ||
-                    MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx ||
-                    MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover)
+                if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduPlane ||
+                    MainV2.comPort.MAV.cs.firmware == Firmwares.Ateryx ||
+                    MainV2.comPort.MAV.cs.firmware == Firmwares.ArduRover)
                     MainV2.comPort.setMode("Loiter");
-                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+                if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
                     MainV2.comPort.setMode("Loiter");
             }
             catch
@@ -3421,7 +3422,7 @@ namespace MissionPlanner.GCSViews
         {
             string alt = "100";
 
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+            if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
             {
                 alt = (10*CurrentState.multiplieralt).ToString("0");
             }
@@ -4130,7 +4131,7 @@ namespace MissionPlanner.GCSViews
                         // set index back to 1
                         MainV2.comPort.setWPCurrent(1);
 
-                        if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+                        if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
                         {
                             while (MainV2.comPort.MAV.cs.mode.ToLower() != "Guided".ToLower())
                             {
@@ -4557,6 +4558,16 @@ namespace MissionPlanner.GCSViews
             if (DialogResult.OK == InputBox.Show("GStreamer url", "Enter the source pipeline\nEnsure the final payload is ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink", ref url))
             {
                 Settings.Instance["gstreamer_url"] = url;
+
+                if (!File.Exists(GStreamer.gstlaunch))
+                {
+                    UDPVideoShim.DownloadGStreamer();
+
+                    if (!File.Exists(GStreamer.gstlaunch))
+                    {
+                        return;
+                    }
+                }
 
                 GStreamer.StartA(url);
             }

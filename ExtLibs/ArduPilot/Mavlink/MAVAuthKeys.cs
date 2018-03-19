@@ -10,7 +10,7 @@ using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Mavlink
 {
-    internal class MAVAuthKeys
+    public class MAVAuthKeys
     {
         private static readonly ILog log =
     LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
@@ -19,12 +19,12 @@ namespace MissionPlanner.Mavlink
 
         static Crypto Rij = new Crypto();
 
-        static internal AuthKeys Keys = new AuthKeys();
+        public static AuthKeys Keys = new AuthKeys();
 
         //https://msdn.microsoft.com/en-us/library/aa347850(v=vs.110).aspx
 
         [CollectionDataContract(ItemName = "AuthKeys", Namespace = "")]
-        internal class AuthKeys : Dictionary<string, AuthKey>
+        public class AuthKeys : Dictionary<string, AuthKey>
         {
         }
 
@@ -42,7 +42,7 @@ namespace MissionPlanner.Mavlink
             Load();
         }
 
-        internal static void AddKey(string name, string seed)
+        public static void AddKey(string name, string seed)
         {
             // sha the user input string
             SHA256Managed signit = new SHA256Managed();
@@ -52,7 +52,7 @@ namespace MissionPlanner.Mavlink
             Keys[name] = new AuthKey() { Key = shauser, Name = name };
         }
 
-        internal static void Save()
+        public static void Save()
         {
             // save config
             DataContractSerializer writer =

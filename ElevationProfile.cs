@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using ZedGraph;
 using GMap.NET;
 using System.Xml;
+using MissionPlanner.GCSViews;
 using MissionPlanner.Utilities; // GE xml alt reader
 
 namespace MissionPlanner
@@ -155,18 +156,25 @@ namespace MissionPlanner
                 if (last == null)
                 {
                     last = loc;
+                    if (altmode == FlightPlanner.altmode.Terrain)
+                        loc.Alt -= srtm.getAltitude(loc.Lat, loc.Lng).alt;
                     continue;
                 }
 
                 double dist = last.GetDistance(loc);
 
+                if (altmode == FlightPlanner.altmode.Terrain)
+                    loc.Alt -= srtm.getAltitude(loc.Lat, loc.Lng).alt;
+
                 int points = (int) (dist/10) + 1;
 
                 double deltalat = (last.Lat - loc.Lat);
                 double deltalng = (last.Lng - loc.Lng);
+                double deltaalt = last.Alt - loc.Alt;
 
                 double steplat = deltalat/points;
                 double steplng = deltalng/points;
+                double stepalt = deltaalt / points;
 
                 PointLatLngAlt lastpnt = last;
 
@@ -174,6 +182,7 @@ namespace MissionPlanner
                 {
                     double lat = last.Lat - steplat*a;
                     double lng = last.Lng - steplng*a;
+                    double alt = last.Alt - stepalt * a;
 
                     var newpoint = new PointLatLngAlt(lat, lng, srtm.getAltitude(lat, lng).alt, "");
 
@@ -185,7 +194,7 @@ namespace MissionPlanner
                     list3.Add(disttotal, newpoint.Alt/CurrentState.multiplieralt);
 
                     // terrain alt
-                    list4terrain.Add(disttotal, (newpoint.Alt - homealt + loc.Alt)/CurrentState.multiplieralt);
+                    list4terrain.Add(disttotal, (newpoint.Alt + alt) /CurrentState.multiplieralt);
 
                     lastpnt = newpoint;
                 }

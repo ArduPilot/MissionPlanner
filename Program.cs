@@ -170,6 +170,10 @@ namespace MissionPlanner
             GMap.NET.MapProviders.GMapProvider.WebProxy = WebRequest.GetSystemWebProxy();
             GMap.NET.MapProviders.GMapProvider.WebProxy.Credentials = CredentialCache.DefaultCredentials;
 
+            // generic status report screen
+            MAVLinkInterface.CreateIProgressReporterDialogue += title =>
+                new ProgressReporterDialogue() {StartPosition = FormStartPosition.CenterScreen, Text = title};
+
             WebRequest.DefaultWebProxy = WebRequest.GetSystemWebProxy();
             WebRequest.DefaultWebProxy.Credentials = CredentialCache.DefaultNetworkCredentials;
 
