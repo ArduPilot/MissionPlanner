@@ -193,6 +193,49 @@ namespace MissionPlanner.Swarm
                                 var leaderturnrad = Leader.cs.radius;
                                 var mavturnradius = leaderturnrad - x;
 
+                                {
+                                    var distToTarget = mav.cs.Location.GetDistance(target);
+                                    var bearingToTarget = mav.cs.Location.GetBearing(target);
+
+                                    // bearing stability
+                                    if (distToTarget < 30)
+                                        bearingToTarget = mav.cs.Location.GetBearing(targetleader);
+                                    // fly in from behind
+                                    if (distToTarget > 100)
+                                        bearingToTarget = mav.cs.Location.GetBearing(targettrailer);
+
+                                    var bearingDelta = wrap_180(bearingToTarget - mav.cs.yaw);
+                                    var tangent90 = bearingDelta > 0 ? 90 : -90;
+
+                                    newroll = 0;
+
+                                    // if the delta is > 90 then we are facing the wrong direction
+                                    if (Math.Abs(bearingDelta) < 85)
+                                    {
+                                        var insideAngle = Math.Abs(tangent90 - bearingDelta);
+                                        var angleCenter = 180 - insideAngle * 2;
+
+                                        // sine rule
+                                        var sine1 = Math.Max(distToTarget, 40) /
+                                                    Math.Sin(angleCenter * MathHelper.deg2rad);
+                                        var radius = sine1 * Math.Sin(insideAngle * MathHelper.deg2rad);
+
+                                        // average calced + leader offset turnradius - acts as a FF
+                                        radius = (Math.Abs(radius) + Math.Abs(mavturnradius)) / 2;
+
+                                        var angleBank = ((mav.cs.groundspeed * mav.cs.groundspeed) / radius) / 9.8;
+
+                                        angleBank *= MathHelper.rad2deg;
+
+                                        if (bearingDelta > 0)
+                                            newroll = Math.Abs(angleBank);
+                                        else
+                                            newroll = -Math.Abs(angleBank);
+                                    }
+
+                                    newroll += MathHelper.constrain(bearingDelta, -20, 20);
+                                }
+
                                 // tr = gs2 / (9.8 * x)
                                 // (9.8 * x) * tr = gs2
                                 // 9.8 * x = gs2 / tr
@@ -200,10 +243,10 @@ namespace MissionPlanner.Swarm
 
                                 var angle = ((mav.cs.groundspeed * mav.cs.groundspeed) / mavturnradius) / 9.8;
 
-                                newroll = angle * MathHelper.rad2deg;
+                                //newroll = angle * MathHelper.rad2deg;
 
                                 // 1 degree of roll for ever 1 degree of yaw error
-                                newroll += MathHelper.constrain(yawerror, -20, 20);
+                                //newroll += MathHelper.constrain(yawerror, -20, 20);
 
                                 //rollp.set_input_filter_all((float)yawdelta);
                             }
