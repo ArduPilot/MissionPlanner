@@ -797,6 +797,10 @@ namespace MissionPlanner
                 {
                     GStreamer.Start();
                 }
+                else
+                {
+                    UDPVideoShim.DownloadGStreamer();
+                }
             }
             catch (Exception ex)
             {

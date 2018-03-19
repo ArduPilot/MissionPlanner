@@ -407,6 +407,8 @@ namespace MissionPlanner.Utilities
 
             dirs.Add(Settings.GetDataDirectory());
 
+            // packaged version only
+            /*
             DriveInfo[] allDrives = DriveInfo.GetDrives();
             foreach (DriveInfo d in allDrives)
             {
@@ -417,7 +419,7 @@ namespace MissionPlanner.Utilities
                     dirs.Add(d.RootDirectory.Name + "Program Files (x86)" + Path.DirectorySeparatorChar + "gstreamer");
                 }
             }
-
+            */
             foreach (var dir in dirs)
             {
                 if (Directory.Exists(dir))

@@ -4559,6 +4559,16 @@ namespace MissionPlanner.GCSViews
             {
                 Settings.Instance["gstreamer_url"] = url;
 
+                if (!File.Exists(GStreamer.gstlaunch))
+                {
+                    UDPVideoShim.DownloadGStreamer();
+
+                    if (!File.Exists(GStreamer.gstlaunch))
+                    {
+                        return;
+                    }
+                }
+
                 GStreamer.StartA(url);
             }
             else
