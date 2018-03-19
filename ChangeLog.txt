@@ -1,4 +1,93 @@
-﻿*Mission Planner 1.3.53 - 24-2-2018
+﻿*Mission Planner 1.3.53 - 19-3-2018
+Formation: tweaks
+Formation: more plane tweaks
+GMapMarkerPlane: fix arc scaling
+SightGen: show rf propigation while not connected
+GMapPolygon: fix draw hang on large offscreen polygon
+CurrentState: fix some units
+Swarm: improve plane support and use mavlink_set_attitude_target_t
+PluginLoader: look in install directory first
+Resources: shrink
+Update: remove use of System.IO.Compression.FileSystem
+remove use of ValueTuple and Compression
+GMapMarkerElevation: change to 32bpp to work on mono
+srtm: fix srtm off by 1
+GMapMarkerElevation: fix width vs stride
+FlightData: dont display Movingbase if its Zero
+ConfigFirmware: windows store no firmware
+Ardupilot: new project refactor
+Adding SSH functionality to Terminal. Allows use all all common commands and nano.
+Modifying terminal layout, and adding more features to SSH terminal
+SSH Terminal allows tab, arrow keys and corrections to htop and top.
+Disabling scolling in SSH terminal, disabled Byobu, implemented pageup/down
+Byobu has been disabled due to issues with status bar.  Resize now works for any screen size.
+Adjusting PageUp for SSH Terminal. Minor adjustments to regexes to catch ANSI codes.
+Correcting Issue with ANSI code interpretations
+Byobu is now enabled. Login has been changed to terminal login. Resolved issues with ANSI codes.
+Changing booleans when disconnecting
+Changing booleans to opposite values when disconnecting, or page has changed
+GMaps: rearrange code
+Propagation: parallel
+SightGen: Parallel
+Propagation: prevent image exception
+SightGen: use PointLatLngAlt
+Propagation: fix elevation marker on zoom
+Propagation: RF/Elevation/Terrain based on #1758
+Settings: add default override
+LayoutEditor: give time for takeoff
+LayoutEditor: add mode/arm/takeoff
+Sequence: add new swarm
+SITL: add swarm start (ctl-s)
+nuget: consolidate
+PluginLoader: add file name to failed load
+GeoRef: add use gpsalt for cam and trig
+Warning cleanup
+SvgNet: update project
+CurrentState: add horizondist
+HUD: use svgnet
+SvgNet: add
+GStreamer: change try limit to 10 seconds
+HUD: modify dopaint
+UDPVideoShim: remove duplicate code
+GStreamer: use pinvoke
+Coords: 7 dp
+FlightPlanner: save to 8 dp #1776
+Extensions: unix time
+adsb: add adsbexchange data
+CrossCompile
+NoFly: cleanup after display
+Joystick: seperate class
+ParameterMetaDataParser: preload
+FlightData: modify tabs
+UDPMavlinkShim: enable
+UDPVideoShim: switch to jpegenc
+UDPVideoShim: skyviper update
+GStreamer: add download
+Download: add stats
+CaptureMJPEG: add retry
+Skia: wip
+OpenGLtest2: performance
+LibTessDotNet: add
+HUD: enable MakeCurrent
+UDPVideoShim: change skyviper to mjpeg
+Controls: fix compile
+Grid: namespace update
+Program: add FirstChanceException logging
+Controls: fix nuget
+Controls: convert to old style project
+MainV2: remove splash dependancy
+httpserver: remove dependancy
+FlightPlanner: invoke check
+Warning cleanup
+appveyor: cache packages
+Language: add turkish by msg1217 and add russian by PaShaKZ
+LogIndex: progress feedback
+MAVLinkInterface: readlog performance mod
+Loading: change to timer
+Reference: cleanup
+FlightPlanner: intergrate multiplieralt
+ControlSensorsStatus: cleanup
+MAVLinkInterface: fix guided mode alt
 BoardDetect: prep for new detection method
 FlightData: log camera errors
 MainV2: fix auto connect
