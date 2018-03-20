@@ -2172,7 +2172,7 @@ namespace MissionPlanner.GCSViews
                 Text = "Sending WP's"
             };
 
-            frmProgressReporter.DoWork += saveWPs;
+            frmProgressReporter.DoWork += saveWPsFast;//saveWPs;
             frmProgressReporter.UpdateProgressAndStatus(-1, "Sending WP's");
 
             ThemeManager.ApplyThemeTo(frmProgressReporter);
@@ -2235,6 +2235,189 @@ namespace MissionPlanner.GCSViews
             }
 
             return commands;
+        }
+
+        void saveWPsFast(IProgressReporterDialogue sender)
+        {
+            var totalwpcountforupload = (ushort) (Commands.RowCount + 1);
+            var reqno = 0;
+            MAVLink.MAV_MISSION_RESULT result = MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED;
+
+            var sub1 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.MISSION_ACK,
+                message =>
+                {
+                    var ans = (MAVLink.MAV_MISSION_RESULT)((MAVLink.mavlink_mission_ack_t) message.data).type;
+                    result = ans;
+                    Console.WriteLine("MISSION_ACK " + ans);
+                    return true;
+                });
+
+            var sub2 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.MISSION_REQUEST,
+                message =>
+                {
+                    reqno = ((MAVLink.mavlink_mission_request_t) message.data).seq;
+                    Console.WriteLine("MISSION_REQUEST " + reqno);
+                    return true;
+                });
+
+            ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(0, "Set total wps ");
+            MainV2.comPort.setWPTotal(totalwpcountforupload);
+
+            // define the home point
+            Locationwp home = new Locationwp();
+            try
+            {
+                home.id = (ushort)MAVLink.MAV_CMD.WAYPOINT;
+                home.lat = (double.Parse(TXT_homelat.Text));
+                home.lng = (double.Parse(TXT_homelng.Text));
+                home.alt = (float.Parse(TXT_homealt.Text) / CurrentState.multiplieralt); // use saved home
+            }
+            catch
+            {
+                MainV2.comPort.UnSubscribeToPacketType(sub1);
+                MainV2.comPort.UnSubscribeToPacketType(sub2);
+                throw new Exception("Your home location is invalid");
+            }
+
+            // define the default frame.
+            MAVLink.MAV_FRAME frame = MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT;
+
+            // get the command list from the datagrid
+            var commandlist = GetCommandList();
+
+            commandlist.Insert(0, home);
+
+            // process commandlist to the mav
+            for (var a = 0; a < commandlist.Count; a++)
+            {
+                if (a % 10 == 0 && a != 0)
+                {
+                    var start = DateTime.Now;
+                    while (true)
+                    {
+                        if (sender.doWorkArgs.CancelRequested)
+                        {
+                            MainV2.comPort.setWPTotal(0);
+                            MainV2.comPort.UnSubscribeToPacketType(sub1);
+                            MainV2.comPort.UnSubscribeToPacketType(sub2);
+                            return;
+                        }
+
+                        if (reqno == a)
+                        {
+                            // all received
+                            break;
+                        }
+
+                        if (start.AddSeconds(1.1) < DateTime.Now)
+                        {
+                            // do next 10 starting at reqno
+                            a = reqno;
+                            break;
+                        }
+
+                        if (result == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_INVALID_SEQUENCE)
+                            Thread.Sleep(500);
+
+                        if (result == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ERROR)
+                        {
+                            // resend for partial upload
+                            MainV2.comPort.setWPPartialUpdate((ushort) (reqno), totalwpcountforupload);
+                            a = reqno;
+                            break;
+                        }
+
+                        if (result == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_NO_SPACE)
+                        {
+                            sender.doWorkArgs.ErrorMessage = "Upload failed, please reduce the number of wp's";
+                            MainV2.comPort.UnSubscribeToPacketType(sub1);
+                            MainV2.comPort.UnSubscribeToPacketType(sub2);
+                            return;
+                        }
+                        if (result == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_INVALID)
+                        {
+                            sender.doWorkArgs.ErrorMessage =
+                                "Upload failed, mission was rejected byt the Mav,\n item had a bad option wp# " + a + " " +
+                                result;
+                            MainV2.comPort.UnSubscribeToPacketType(sub1);
+                            MainV2.comPort.UnSubscribeToPacketType(sub2);
+                            return;
+                        }
+                        if (result != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
+                        {
+                            sender.doWorkArgs.ErrorMessage = "Upload wps failed " + reqno +
+                                             " " + Enum.Parse(typeof(MAVLink.MAV_MISSION_RESULT), result.ToString());
+                            MainV2.comPort.UnSubscribeToPacketType(sub1);
+                            MainV2.comPort.UnSubscribeToPacketType(sub2);
+                            return;
+                        }
+
+                        System.Threading.Thread.Sleep(10);
+                    }
+                }
+
+                var loc = commandlist[a];
+
+                // make sure we are using the correct frame for these commands
+                if (loc.id < (ushort)MAVLink.MAV_CMD.LAST || loc.id == (ushort)MAVLink.MAV_CMD.DO_SET_HOME)
+                {
+                    var mode = currentaltmode;
+
+                    if (mode == altmode.Terrain)
+                    {
+                        frame = MAVLink.MAV_FRAME.GLOBAL_TERRAIN_ALT;
+                    }
+                    else if (mode == altmode.Absolute)
+                    {
+                        frame = MAVLink.MAV_FRAME.GLOBAL;
+                    }
+                    else
+                    {
+                        frame = MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT;
+                    }
+                }
+
+                MAVLink.mavlink_mission_item_int_t req = new MAVLink.mavlink_mission_item_int_t();
+
+                req.target_system = MainV2.comPort.MAV.sysid;
+                req.target_component = MainV2.comPort.MAV.compid;
+
+                req.command = loc.id;
+
+                req.current = 0;
+                req.autocontinue = 1;
+
+                req.frame = (byte)frame;
+                if (loc.id == (ushort)MAVLink.MAV_CMD.DO_DIGICAM_CONTROL || loc.id == (ushort)MAVLink.MAV_CMD.DO_DIGICAM_CONFIGURE)
+                {
+                    req.y = (int)(loc.lng);
+                    req.x = (int)(loc.lat);
+                }
+                else
+                {
+                    req.y = (int)(loc.lng * 1.0e7);
+                    req.x = (int)(loc.lat * 1.0e7);
+                }
+                req.z = (float)(loc.alt);
+
+                req.param1 = loc.p1;
+                req.param2 = loc.p2;
+                req.param3 = loc.p3;
+                req.param4 = loc.p4;
+
+                req.seq = (ushort)a;
+
+                ((ProgressReporterDialogue) sender).UpdateProgressAndStatus(a * 100 / Commands.Rows.Count,
+                    "Setting WP " + a);
+                Console.WriteLine("WP no " + a);
+
+                MainV2.comPort.sendPacket(req, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid);
+            }
+
+            MainV2.comPort.UnSubscribeToPacketType(sub1);
+            MainV2.comPort.UnSubscribeToPacketType(sub2);
+
+            MainV2.comPort.setWPACK();
         }
 
         void saveWPs(IProgressReporterDialogue sender)

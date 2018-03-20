@@ -2313,7 +2313,7 @@ namespace MissionPlanner
                         target_bearing = nav.target_bearing;
                         wp_dist = nav.wp_dist;
                         alt_error = nav.alt_error;
-                        aspd_error = nav.aspd_error/100.0f;
+						aspd_error = nav.aspd_error/100.0f;
                         xtrack_error = nav.xtrack_error;
 
                         //MAVLink.packets[(byte)MAVLink.MSG_NAMES.NAV_CONTROLLER_OUTPUT);
