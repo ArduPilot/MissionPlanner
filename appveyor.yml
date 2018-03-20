@@ -7,11 +7,6 @@ init:
 - cmd: 
 cache:
     - packages -> appveyor.yml
-environment:
-  email:
-    secure: dkWdmOxf3t/x2H0gEo1GurKM8Due1idnog5VJtUlSEA=
-  token:
-    secure: FfCpqsH/V1r7PoXHkMcJpW7kWiQ6rQaedlH2L8smyeY=
 build_script:
 - cmd: >-
     dotnet --info
@@ -64,15 +59,10 @@ build_script:
 test: off
 artifacts:
 - path: MissionPlannerCov-int.zip
-  name: MissionPlannerCov-int
 - path: MissionPlannerBeta.zip
-  name: MissionPlannerBeta
-- path: MissionPlanner*.msi
-  name: MissionPlanner.msi
+- path: 'msi\*.msi'
 - path: checksums.txt
-  name: checksums
 - path: version.txt
-  name: version
 deploy: off
 notifications:
 - provider: Webhook
