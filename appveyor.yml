@@ -41,10 +41,10 @@ build_script:
     copy checksums.txt c:\mp\
 
     cd c:\mp\
-	
-	cd msi
-	
-	wix.exe ..\bin\release\net461\
+
+    cd msi
+
+    wix.exe ..\bin\release\net461\
 
     rem if exist date.txt set /p datecheck=<date.txt
 
