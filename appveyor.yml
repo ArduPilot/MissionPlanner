@@ -41,6 +41,10 @@ build_script:
     copy checksums.txt c:\mp\
 
     cd c:\mp\
+	
+	cd msi
+	
+	wix.exe ..\bin\release\net461\
 
     rem if exist date.txt set /p datecheck=<date.txt
 
@@ -63,6 +67,8 @@ artifacts:
   name: MissionPlannerCov-int
 - path: MissionPlannerBeta.zip
   name: MissionPlannerBeta
+- path: MissionPlanner*.msi
+  name: MissionPlanner.msi
 - path: checksums.txt
   name: checksums
 - path: version.txt
