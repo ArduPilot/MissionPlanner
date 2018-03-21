@@ -4948,6 +4948,9 @@ Please check the following
                         case MAV_TYPE.GROUND_ROVER:
                             MAVlist[sysid, compid].cs.firmware = Firmwares.ArduRover;
                             break;
+                        case MAV_TYPE.SURFACE_BOAT:
+                            MAVlist[sysid, compid].cs.firmware = Firmwares.ArduRover;
+                            break;
                         case MAV_TYPE.SUBMARINE:
                             MAVlist[sysid, compid].cs.firmware = Firmwares.ArduSub;
                             break;
