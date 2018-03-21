@@ -471,7 +471,7 @@ namespace MissionPlanner.Utilities
                         // draw track
                         try
                         {
-                            foreach (var point in GCSViews.FlightPlanner.instance.fullpointlist)
+                            foreach (var point in GCSViews.FlightPlanner.instance.pointlist)
                             {
                                 if (point.Tag.ToLower().Contains("home"))
                                     home = point;
@@ -486,7 +486,7 @@ namespace MissionPlanner.Utilities
 
                         var altmode = SharpKml.Dom.AltitudeMode.Absolute;
 
-                        foreach (var point in GCSViews.FlightPlanner.instance.fullpointlist)
+                        foreach (var point in GCSViews.FlightPlanner.instance.pointlist)
                         {
                             if (point == null)
                                 continue;

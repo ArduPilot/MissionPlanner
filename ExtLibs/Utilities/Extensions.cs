@@ -95,6 +95,45 @@ namespace MissionPlanner.Utilities
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <typeparam name="TAccumulate"></typeparam>
+        /// <param name="source">Source list</param>
+        /// <param name="seed">Start value</param>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        public static TAccumulate Aggregate<TSource, TAccumulate>(this IEnumerable<TSource> source, TAccumulate seed,
+            Func<TAccumulate, TSource, TSource, TAccumulate> func)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+            if (func == null)
+            {
+                throw new ArgumentNullException("func");
+            }
+            if (source.Count() == 0)
+                return seed;
+            TAccumulate val = seed;
+            TSource last = source.First();
+            int a = -1;
+            foreach (TSource item in source)
+            {
+                a++;
+                if (a == 0)
+                {
+                    last = item;
+                    continue;
+                }
+
+                val = func(val, last, item);
+            }
+            return val;
+        }
+
         public static IEnumerable<int> SteppedRange(int fromInclusive, int toExclusive, int step)
         {
             for (var i = fromInclusive; i < toExclusive; i += step)
