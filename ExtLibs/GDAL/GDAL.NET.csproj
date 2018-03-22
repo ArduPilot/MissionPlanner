@@ -14,15 +14,24 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="gdal\**" />
+    <Compile Remove="Native\**" />
+    <EmbeddedResource Remove="gdal\**" />
+    <EmbeddedResource Remove="Native\**" />
+    <None Remove="gdal\**" />
+    <None Remove="Native\**" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="log4net" Version="2.0.8" />
     <PackageReference Include="GDAL" Version="1.11.1" />
-    <PackageReference Include="GDAL.Native" Version="1.11.1" />
+    <PackageReference Include="log4net" Version="2.0.8" />
+    <PackageReference Include="MP.GDAL.Native" Version="2.2.3" />
     <PackageReference Include="System.Drawing.Common" Version="4.5.0-preview2-26225-02" />
     <ProjectReference Include="..\GMap.NET.Core\GMap.NET.Core.csproj" />
 	
   </ItemGroup>
+
 </Project>
