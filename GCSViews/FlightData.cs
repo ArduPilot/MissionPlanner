@@ -192,6 +192,9 @@ namespace MissionPlanner.GCSViews
             // populate the unmodified base list
             tabControlactions.TabPages.ForEach(i => { TabListOriginal.Add((TabPage)i); });
 
+            // update tabs displayed
+            loadTabControlActions();
+
             //  mymap.Manager.UseMemoryCache = false;
 
             log.Info("Tunning Graph Settings");
@@ -648,9 +651,6 @@ namespace MissionPlanner.GCSViews
 
             if (!Settings.Instance.ContainsKey("ShowNoFly") || Settings.Instance.GetBoolean("ShowNoFly"))
                 NoFly.NoFly.NoFlyEvent += NoFly_NoFlyEvent;
-
-            // update tabs displayed
-            loadTabControlActions();
 
             TRK_zoom.Minimum = gMapControl1.MapProvider.MinZoom;
             TRK_zoom.Maximum = 24;
@@ -4334,7 +4334,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
-        private void loadTabControlActions()
+        public void loadTabControlActions()
         {
             string tabs = Settings.Instance["tabcontrolactions"];
 

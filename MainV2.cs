@@ -526,6 +526,8 @@ namespace MissionPlanner
                     t.TabPages.Remove(FlightData.tabPagemessages);
                 }
                 t.SelectedIndex = 0;
+
+                MainV2.instance.FlightData.loadTabControlActions();
             }
 
             if (MainV2.instance.FlightPlanner != null)
