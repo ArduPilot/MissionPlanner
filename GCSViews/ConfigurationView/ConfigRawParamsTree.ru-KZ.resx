@@ -121,7 +121,7 @@
     <value>Поиск</value>
   </data>
   <data name="BUT_load.Text" xml:space="preserve">
-    <value>Загрузить из файла</value>
+    <value>Загрузить файл</value>
   </data>
   <data name="BUT_commitToFlash.Text" xml:space="preserve">
     <value>Фиксировать Параметры</value>
@@ -145,18 +145,18 @@
     <value>Сохранить в файл</value>
   </data>
   <data name="BUT_writePIDS.Text" xml:space="preserve">
-    <value>Записать Параметры</value>
+    <value>Записать</value>
   </data>
   <data name="BUT_reset_params.Text" xml:space="preserve">
-    <value>Восстановление значений по умолчанию</value>
+    <value>Восст. по умолч.</value>
   </data>
   <data name="BUT_compare.Text" xml:space="preserve">
-    <value>Сравнить Параметры</value>
+    <value>Сравнить</value>
   </data>
   <data name="BUT_paramfileload.Text" xml:space="preserve">
-    <value>Загрузить сохраненные</value>
+    <value>Загр.сохраненные</value>
   </data>
   <data name="BUT_rerequestparams.Text" xml:space="preserve">
-    <value>Обновить Параметры</value>
+    <value>Обновить</value>
   </data>
 </root>

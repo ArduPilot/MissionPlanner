@@ -118,22 +118,22 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="label12.Text" xml:space="preserve">
-    <value>Максимальный подъем (м / с)</value>
+    <value>Макс. под. (м/с)</value>
   </data>
   <data name="label10.Text" xml:space="preserve">
     <value>Период</value>
   </data>
   <data name="label13.Text" xml:space="preserve">
-    <value>Сглаживать Тангаж</value>
+    <value>Сгл. Тангаж</value>
   </data>
   <data name="label11.Text" xml:space="preserve">
-    <value>Снижение Мин. (м/с)</value>
+    <value>Сниж.Мин.(м/с)</value>
   </data>
   <data name="label14.Text" xml:space="preserve">
-    <value>Продолжительность</value>
+    <value>Продолж.</value>
   </data>
   <data name="label15.Text" xml:space="preserve">
-    <value>Снижение Макс. (м/с)</value>
+    <value>Сниж.Макс.(м/с)</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>FBW макс</value>
@@ -157,7 +157,7 @@
     <value>Мин</value>
   </data>
   <data name="groupBox4.Text" xml:space="preserve">
-    <value>Управление L1 - Управление поворотом</value>
+    <value>Упр. L1 - Упр. повор.</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
     <value>Круиз</value>
@@ -172,7 +172,7 @@
     <value>Воздушная скорость м/с</value>
   </data>
   <data name="label9.Text" xml:space="preserve">
-    <value>Демпфирование</value>
+    <value>Демпф.</value>
   </data>
   <data name="label58.Text" xml:space="preserve">
     <value>Демпфировать</value>
@@ -181,10 +181,10 @@
     <value>Внутренний</value>
   </data>
   <data name="groupBox10.Text" xml:space="preserve">
-    <value>Серво Пов</value>
+    <value>Серво Пов.</value>
   </data>
   <data name="BUT_writePIDS.Text" xml:space="preserve">
-    <value>Записать Параметры</value>
+    <value>Зап. Парам</value>
   </data>
   <data name="label78.Text" xml:space="preserve">
     <value>Смешивание руля</value>

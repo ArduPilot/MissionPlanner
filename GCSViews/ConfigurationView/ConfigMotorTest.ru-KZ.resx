@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="label2.Text" xml:space="preserve">
-    <value>ПРИМЕЧАНИЕ: ПОЖАЛУЙСТА, ДЕРЖИТЕ СВОЙ БПЛА. Это проверит ваши двигатели. Двигатели тестируются по часовой стрелке начиная спереди справа.</value>
+    <value>ПОЖАЛУЙСТА, ДЕРЖИТЕ СВОЙ БПЛА.</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>Продолжительность (с)</value>
+    <value>Продолж. (с)</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Дроссель %</value>
+    <value>Дросс. %</value>
   </data>
   <data name="groupBox1.Text" xml:space="preserve">
     <value>Тест двигателя</value>

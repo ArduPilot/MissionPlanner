@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CMB_history_label.Text" xml:space="preserve">
-    <value>Выберите предыдущую прошивку</value>
+    <value>Выбрать предыдущую прошивку</value>
   </data>
   <data name="lbl_devfw.Text" xml:space="preserve">
     <value>Бета-прошивки</value>
@@ -130,7 +130,7 @@
     <value>Изобр. Max Levine</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Пожалуйста, нажмите на изображения, приведенные выше для «Версии полета»</value>
+    <value>Пожалуйста, нажмите на изображения, приведенные выше.</value>
   </data>
   <data name="lbl_status.Text" xml:space="preserve">
     <value>Статус</value>
@@ -139,7 +139,7 @@
     <value>Настройка двигателей коптера</value>
   </data>
   <data name="lbl_Custom_firmware_label.Text" xml:space="preserve">
-    <value>Загрузка пользовательской прошивки</value>
+    <value>Загрузка пользователь. прошивки</value>
   </data>
   <data name="lbl_px4bl.Text" xml:space="preserve">
     <value>Загрузчик Force PX4</value>

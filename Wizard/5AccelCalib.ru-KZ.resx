@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="label2.Text" xml:space="preserve">
-    <value>Здесь мы будем откалибровать минимальные и максимальные значения, наблюдаемые вашим акселерометром. Нажмите кнопку «Пуск» и следуйте указанным изображениям.</value>
+    <value>Колебровка минимальных и максимальных значений, вашиго акселерометра. Нажмите «Начать» и повторяйте за изображениями.</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>КАЛИБРОВКА АКСЕЛЕРОМЕТРА</value>

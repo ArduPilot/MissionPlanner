@@ -132,6 +132,9 @@
   <data name="label5action.Text" xml:space="preserve">
     <value>Действие</value>
   </data>
+  <data name="label1gftitle.Text" xml:space="preserve">
+    <value>Geo Забор</value>
+  </data>
   <data name="label2rtlalt.Text" xml:space="preserve">
     <value>Высота ВОЗВРАТа</value>
   </data>

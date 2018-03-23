@@ -124,7 +124,7 @@
     <value>Включить</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Расстояние:</value>
+    <value>Расст.:</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>Есть ли у вас СОНАР?</value>
@@ -139,10 +139,10 @@
     <value>Оптический поток</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>Напряжение:</value>
+    <value>Напряж.:</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>Модель сонара</value>
+    <value>Мод. сонара</value>
   </data>
   <data name="radialGradientBG1.Label.Text" xml:space="preserve">
     <value>Доп. элементы</value>

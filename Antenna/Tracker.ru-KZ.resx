@@ -139,10 +139,10 @@
     <value>Ускорение</value>
   </data>
   <data name="label15.Text" xml:space="preserve">
-    <value>Скорость</value>
+    <value>Скор.</value>
   </data>
   <data name="label18.Text" xml:space="preserve">
-    <value>Скорость</value>
+    <value>Скор.</value>
   </data>
   <data name="LBL_tilttrim.Text" xml:space="preserve">
     <value>Угол</value>
@@ -154,10 +154,10 @@
     <value>Интерфейс</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
-    <value>Диапазон ШИМ</value>
+    <value>Диап. ШИМ</value>
   </data>
   <data name="label9.Text" xml:space="preserve">
-    <value>Диапазон ШИМ</value>
+    <value>Диап. ШИМ</value>
   </data>
   <data name="CHK_revtilt.Text" xml:space="preserve">
     <value>Реверс</value>
@@ -166,6 +166,6 @@
     <value>Реверс</value>
   </data>
   <data name="BUT_connect.Text" xml:space="preserve">
-    <value>соединить</value>
+    <value>Соединить</value>
   </data>
 </root>

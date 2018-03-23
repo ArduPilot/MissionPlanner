@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="label3.Text" xml:space="preserve">
-    <value>Здесь мы выбираем, какие режимы полета вы хотите на основе положения переключателя вашего передатчика.</value>
+    <value>Здесь мы выбираем, какие режимы полета на какие положения переключателя установить.</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>Выбор режима полета</value>

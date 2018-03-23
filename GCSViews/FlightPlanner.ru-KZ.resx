@@ -151,19 +151,19 @@
     <value>Сменить тип карты</value>
   </data>
   <data name="Param4.HeaderText" xml:space="preserve">
-    <value>Парам4</value>
+    <value>П4</value>
   </data>
   <data name="loitertimeToolStripMenuItem.Text" xml:space="preserve">
     <value>Время</value>
   </data>
   <data name="label17.Text" xml:space="preserve">
-    <value>Опасная Высота</value>
+    <value>Оп.Выс.</value>
   </data>
   <data name="LBL_defalutalt.Text" xml:space="preserve">
-    <value>Высота по умолчанию</value>
+    <value>Выс. по ум.</value>
   </data>
   <data name="Param2.HeaderText" xml:space="preserve">
-    <value>Парам2</value>
+    <value>П2</value>
   </data>
   <data name="rotateMapToolStripMenuItem.Text" xml:space="preserve">
     <value>Повернуть карту</value>
@@ -175,7 +175,7 @@
     <value>Север</value>
   </data>
   <data name="Lat.HeaderText" xml:space="preserve">
-    <value>Широта</value>
+    <value>Шир.</value>
   </data>
   <data name="CHK_splinedefault.Text" xml:space="preserve">
     <value>Сплайн</value>
@@ -184,22 +184,22 @@
     <value>Создание Круговой Съемки</value>
   </data>
   <data name="autoWPToolStripMenuItem.Text" xml:space="preserve">
-    <value>Авто ТМ</value>
+    <value>Авто МТ</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Долгота</value>
+    <value>Долг.</value>
   </data>
   <data name="insertSplineWPToolStripMenuItem.Text" xml:space="preserve">
     <value>Вставить Сплайн МТ</value>
   </data>
   <data name="CHK_verifyheight.Text" xml:space="preserve">
-    <value>Проверить высоту</value>
+    <value>Пров. высоту</value>
   </data>
   <data name="coordZone.HeaderText" xml:space="preserve">
     <value>Область</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>Абс.Выс.</value>
+    <value>Аб.Выс</value>
   </data>
   <data name="mapToolToolStripMenuItem.Text" xml:space="preserve">
     <value>Инструменты карты</value>
@@ -214,7 +214,7 @@
     <value>Выс</value>
   </data>
   <data name="BUT_saveWPFile.Text" xml:space="preserve">
-    <value>Сохранить МТ файл</value>
+    <value>Сохранить МТ-ки</value>
   </data>
   <data name="dataGridViewImageColumn1.HeaderText" xml:space="preserve">
     <value>Вверх</value>
@@ -223,10 +223,10 @@
     <value>Относительный</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>Коорд. Базы</value>
+    <value>Коорд. Дома</value>
   </data>
   <data name="BUT_loadwpfile.Text" xml:space="preserve">
-    <value>Загрузить МТ-файл</value>
+    <value>Загрузить МТ-ки</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
     <value>Рад.Кружения</value>
@@ -238,13 +238,13 @@
     <value>Старт</value>
   </data>
   <data name="BUT_read.Text" xml:space="preserve">
-    <value>Считать МТки</value>
+    <value>Считать МТ-ки</value>
   </data>
   <data name="loadPolygonToolStripMenuItem.Text" xml:space="preserve">
     <value>Загрузить полигон</value>
   </data>
   <data name="surveyGridToolStripMenuItem.Text" xml:space="preserve">
-    <value>Обзор (сетка)</value>
+    <value>Маршрут съемки(сетка)</value>
   </data>
   <data name="prefetchToolStripMenuItem.Text" xml:space="preserve">
     <value>Предвыборка</value>
@@ -277,7 +277,7 @@
     <value>Раст.</value>
   </data>
   <data name="setReturnLocationToolStripMenuItem.Text" xml:space="preserve">
-    <value>Установить местоположение возврата</value>
+    <value>Установить место возврата</value>
   </data>
   <data name="clearPolygonToolStripMenuItem.Text" xml:space="preserve">
     <value>Стереть полигон</value>
@@ -289,7 +289,7 @@
     <value>Действие</value>
   </data>
   <data name="Param1.HeaderText" xml:space="preserve">
-    <value>Парам1</value>
+    <value>П1</value>
   </data>
   <data name="chk_grid.Text" xml:space="preserve">
     <value>Сетка</value>
@@ -301,7 +301,7 @@
     <value>Взлет</value>
   </data>
   <data name="addPolygonPointToolStripMenuItem.Text" xml:space="preserve">
-    <value>Добавить точку полигона</value>
+    <value>Добавить точку</value>
   </data>
   <data name="loiterToolStripMenuItem.Text" xml:space="preserve">
     <value>Кружить</value>
@@ -310,7 +310,7 @@
     <value>Команда автопилота</value>
   </data>
   <data name="setRallyPointToolStripMenuItem.Text" xml:space="preserve">
-    <value>Установить раллийную точку</value>
+    <value>Установить ралл.точку</value>
   </data>
   <data name="rallyPointsToolStripMenuItem.Text" xml:space="preserve">
     <value>Точка ралли</value>
@@ -328,7 +328,7 @@
     <value>Сдвинуть строку вниз</value>
   </data>
   <data name="BUT_write.Text" xml:space="preserve">
-    <value>Записать МТ</value>
+    <value>Записать МТ-ки</value>
   </data>
   <data name="modifyAltToolStripMenuItem.Text" xml:space="preserve">
     <value>Изм. Высоту</value>
@@ -337,7 +337,7 @@
     <value>Вниз</value>
   </data>
   <data name="Lon.HeaderText" xml:space="preserve">
-    <value>Долгота</value>
+    <value>Долг.</value>
   </data>
   <data name="polygonToolStripMenuItem.Text" xml:space="preserve">
     <value>Нарисовать полигон</value>
@@ -352,10 +352,13 @@
     <value>Приземлиться</value>
   </data>
   <data name="fileLoadSaveToolStripMenuItem.Text" xml:space="preserve">
-    <value>Загрузка/сохранение файла</value>
+    <value>Загр./сохр. файла</value>
   </data>
   <data name="clearToolStripMenuItem.Text" xml:space="preserve">
     <value>Очистить</value>
+  </data>
+  <data name="geoFenceToolStripMenuItem.Text" xml:space="preserve">
+    <value>Geo-Забор</value>
   </data>
   <data name="coordEasting.HeaderText" xml:space="preserve">
     <value>Восток</value>
@@ -379,7 +382,7 @@
     <value>Удалить</value>
   </data>
   <data name="setHomeHereToolStripMenuItem.Text" xml:space="preserve">
-    <value>Установить Базу здесь</value>
+    <value>Установить Дом здесь</value>
   </data>
   <data name="Up.HeaderText" xml:space="preserve">
     <value>Вверх</value>
@@ -391,19 +394,19 @@
     <value>Круги</value>
   </data>
   <data name="jumpwPToolStripMenuItem.Text" xml:space="preserve">
-    <value>МТ #</value>
+    <value>МТ №</value>
   </data>
   <data name="deleteWPToolStripMenuItem.Text" xml:space="preserve">
     <value>Удалить МТ</value>
   </data>
   <data name="panelWaypoints.Text" xml:space="preserve">
-    <value>Точки (МТ)</value>
+    <value>Маршрутные точки (МТ)</value>
   </data>
   <data name="getRallyPointsToolStripMenuItem.Text" xml:space="preserve">
     <value>Скачать</value>
   </data>
   <data name="switchDockingToolStripMenuItem.Text" xml:space="preserve">
-    <value>Переключение стыковки</value>
+    <value>Панели наоборот</value>
   </data>
   <data name="Grad.HeaderText" xml:space="preserve">
     <value>Град %</value>
@@ -427,7 +430,7 @@
     <value>Очистить точки ралли</value>
   </data>
   <data name="Param3.HeaderText" xml:space="preserve">
-    <value>Парам3</value>
+    <value>П3</value>
   </data>
   <data name="toolStripMenuItem1.Text" xml:space="preserve">
     <value>Сложный</value>
@@ -451,7 +454,7 @@
     <value>Вниз</value>
   </data>
   <data name="lnk_kml.Text" xml:space="preserve">
-    <value>Просмотр KML</value>
+    <value>Смот. KML</value>
   </data>
   <data name="loadSHPFileToolStripMenuItem.Text" xml:space="preserve">
     <value>Загрузить файл SHP</value>

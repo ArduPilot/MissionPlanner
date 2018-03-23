@@ -127,7 +127,7 @@
     <value>4. Измеренный ток:</value>
   </data>
   <data name="label29.Text" xml:space="preserve">
-    <value>Емкость батареи</value>
+    <value>Емк.батареи</value>
   </data>
   <data name="groupBox4.Text" xml:space="preserve">
     <value>Калибровка</value>
@@ -136,21 +136,21 @@
     <value>5. Сила тока(Calced)</value>
   </data>
   <data name="label30.Text" xml:space="preserve">
-    <value>Монитор</value>
+    <value>Мон.</value>
   </data>
   <data name="label32.Text" xml:space="preserve">
-    <value>1. Измеренное напряжение батареи:</value>
+    <value>1. Изм. напр. батареи:</value>
   </data>
   <data name="label34.Text" xml:space="preserve">
-    <value>3. Разделитель напряжения (Calced):</value>
+    <value>3. Разд. напр. (Calced):</value>
   </data>
   <data name="label33.Text" xml:space="preserve">
-    <value>2. Напряжение батареи (Calced):</value>
+    <value>2. Напр. батареи (Calced):</value>
   </data>
   <data name="label35.Text" xml:space="preserve">
     <value>6. Ампер на вольт:</value>
   </data>
   <data name="label47.Text" xml:space="preserve">
-    <value>Датчик</value>
+    <value>Датч.</value>
   </data>
 </root>

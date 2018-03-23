@@ -124,10 +124,10 @@
     <value>ПРИМЕЧАНИЕ: после изменения этой опции требуется перезагрузка</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Включить БПЛА CAN</value>
+    <value>Включить CAN</value>
   </data>
   <data name="checkBox1.Text" xml:space="preserve">
-    <value>Заводские настройки</value>
+    <value>Завод. настр.</value>
   </data>
   <data name="but_saveconfig.Text" xml:space="preserve">
     <value>Сохранить все настройки</value>

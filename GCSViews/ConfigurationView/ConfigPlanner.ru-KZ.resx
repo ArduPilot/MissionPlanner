@@ -118,28 +118,28 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CHK_maprotation.Text" xml:space="preserve">
-    <value>Карта поворачивается, чтобы следовать за БПЛА</value>
+    <value>Карта след. за БПЛА</value>
   </data>
   <data name="CHK_speechaltwarning.Text" xml:space="preserve">
-    <value>Предупреждение Высоты</value>
+    <value>Пред.Выс.</value>
   </data>
   <data name="BUT_videostop.Text" xml:space="preserve">
     <value>Стоп</value>
   </data>
   <data name="CHK_speechbattery.Text" xml:space="preserve">
-    <value>Предупреждение о разряде батареи</value>
+    <value>Пред.батареи</value>
   </data>
   <data name="CHK_enablespeech.Text" xml:space="preserve">
     <value>Включить речь</value>
   </data>
   <data name="CHK_Password.Text" xml:space="preserve">
-    <value>Настройка защиты Паролем</value>
+    <value>Защита паролем</value>
   </data>
   <data name="CHK_AutoParamCommit.Text" xml:space="preserve">
     <value>Автоматически фиксировать Параметры</value>
   </data>
   <data name="chk_analytics.Text" xml:space="preserve">
-    <value>Статистика OptOut Anon</value>
+    <value>Стат. OptOut Anon</value>
   </data>
   <data name="chk_norcreceiver.Text" xml:space="preserve">
     <value>Нет RC-приемника</value>
@@ -148,13 +148,13 @@
     <value>Длина трека</value>
   </data>
   <data name="label24.Text" xml:space="preserve">
-    <value>Маршрут.точка</value>
+    <value>Маршрут.точ.</value>
   </data>
   <data name="CHK_speechcustom.Text" xml:space="preserve">
-    <value>Интервал 30 с</value>
+    <value>Инт. 30 с</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Растояние до БАЗЫ</value>
+    <value>Раст. до Дома</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>Путевой журнал</value>
@@ -163,22 +163,28 @@
     <value>Формат видео</value>
   </data>
   <data name="label103.Text" xml:space="preserve">
-    <value>Позиция</value>
+    <value>Поз.</value>
   </data>
   <data name="label102.Text" xml:space="preserve">
-    <value>Положение</value>
+    <value>Пол.</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Карта следить</value>
+    <value>Карта двигаться</value>
   </data>
   <data name="CHK_speechlowspeed.Text" xml:space="preserve">
     <value>Низкая скорость</value>
   </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Выс. изм.</value>
+  </data>
   <data name="label4.Text" xml:space="preserve">
     <value>Тема</value>
   </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Отображение</value>
+  </data>
   <data name="label104.Text" xml:space="preserve">
-    <value>Режим/Состояние</value>
+    <value>Реж/Сост</value>
   </data>
   <data name="CHK_hudshow.Text" xml:space="preserve">
     <value>Включить наложение HUD</value>
@@ -187,19 +193,19 @@
     <value>Сброс APM</value>
   </data>
   <data name="CHK_loadwponconnect.Text" xml:space="preserve">
-    <value>Загрузить путевые точки при подключении?</value>
+    <value>Загр. МТ при подключении.</value>
   </data>
   <data name="CHK_beta.Text" xml:space="preserve">
     <value>Бета-обновление</value>
   </data>
   <data name="label98.Text" xml:space="preserve">
-    <value>Единица Измерения Скорости</value>
+    <value>Ед. Скорости</value>
   </data>
   <data name="CHK_speechwaypoint.Text" xml:space="preserve">
-    <value>Маршрут.точка</value>
+    <value>Марш.точ.</value>
   </data>
   <data name="label99.Text" xml:space="preserve">
-    <value>ПРИМЕЧАНИЕ. Вкладка «Конфигурация» НЕ отображает эти единицы, так как это необработанные значения.</value>
+    <value>Вкладка «Конфигурация» НЕ отображает эти ед., так как это необр. значения.</value>
   </data>
   <data name="label92.Text" xml:space="preserve">
     <value>Видеоустройство</value>
@@ -217,16 +223,16 @@
     <value>Цвет OSD</value>
   </data>
   <data name="label33.Text" xml:space="preserve">
-    <value>Датчик</value>
+    <value>Датч.</value>
   </data>
   <data name="label97.Text" xml:space="preserve">
-    <value>Единицы измерения</value>
+    <value>Ед. измерения</value>
   </data>
   <data name="CHK_showairports.Text" xml:space="preserve">
-    <value>Показать аэропорты</value>
+    <value>Показ. аэропорт.</value>
   </data>
   <data name="BUT_themecustom.Text" xml:space="preserve">
-    <value>Пользовательский</value>
+    <value>Своя</value>
   </data>
   <data name="label95.Text" xml:space="preserve">
     <value>Речь</value>
@@ -235,16 +241,16 @@
     <value>Настройка джойстика</value>
   </data>
   <data name="CHK_disttohomeflightdata.Text" xml:space="preserve">
-    <value>Показать в Полетных данных</value>
+    <value>Пок. в Пол. данн.</value>
   </data>
   <data name="CHK_mavdebug.Text" xml:space="preserve">
-    <value>Отладка сообщений Mavlink</value>
+    <value>Отл. сообщ. Mavlink</value>
   </data>
   <data name="chk_temp.Text" xml:space="preserve">
     <value>Экран тестирования</value>
   </data>
   <data name="CHK_resetapmonconnect.Text" xml:space="preserve">
-    <value>Сбросить APM на USB-подключении</value>
+    <value>Сброс через USB</value>
   </data>
   <data name="CHK_speechmode.Text" xml:space="preserve">
     <value>Режим</value>
@@ -253,6 +259,6 @@
     <value>Просмотр</value>
   </data>
   <data name="BUT_videostart.Text" xml:space="preserve">
-    <value>Начало</value>
+    <value>Начать</value>
   </data>
 </root>

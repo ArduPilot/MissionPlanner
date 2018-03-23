@@ -130,7 +130,11 @@
     <value>когда двигатели вооружены, но дроссель находится на нуле (холостом ходу)</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Удалите винт(ы)! После нажатия этой кнопки: -Отключить USB и батарею -Подключить  батарею  Когда светодиоды мигают, нажмите переключатель безопасности (если имеется) -ESC должны подавать звуковой сигнал, когда калибруются - перезапустить контроллер полета</value>
+    <value>Удалите винт(ы)! После нажатия этой кнопки: 
+    - Отключить USB и батарею 
+    - Подключить  батарею,  Когда светодиоды замигают, нажмите переключатель безопасности (если имеется) 
+    - ESC должны подавать звуковой сигнал, когда откалибруются.
+    - Перезапустить контроллер полета</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>ESC Тип:</value>
@@ -142,16 +146,16 @@
     <value>Калибровка ESC (AC3.3 +)</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
-    <value>Вращение при Арминге</value>
+    <value>Вращ. при Арм.</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
     <value>Вращение Мин.</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>Выход PWM Мин.</value>
+    <value>Вых. ШИМ Мин.</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>Выход PWM Макс.</value>
+    <value>Вых. ШИМ Макс.</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
     <value>Вращение Макс.</value>
