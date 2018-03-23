@@ -135,7 +135,7 @@ namespace MissionPlanner
 
             CustomMessageBox.ShowEvent += (text, caption, buttons, icon) =>
             {
-                return (CustomMessageBox.DialogResult)(int)MsgBox.CustomMessageBox.Show(text, caption, (MessageBoxButtons) (int)buttons, (MessageBoxIcon)(int)icon);
+                return (CustomMessageBox.DialogResult)(int)MsgBox.CustomMessageBox.Show(text, caption, (MessageBoxButtons)(int)buttons, (MessageBoxIcon)(int)icon);
             };
 
             // setup theme provider
@@ -172,7 +172,7 @@ namespace MissionPlanner
 
             // generic status report screen
             MAVLinkInterface.CreateIProgressReporterDialogue += title =>
-                new ProgressReporterDialogue() {StartPosition = FormStartPosition.CenterScreen, Text = title};
+                new ProgressReporterDialogue() { StartPosition = FormStartPosition.CenterScreen, Text = title };
 
             WebRequest.DefaultWebProxy = WebRequest.GetSystemWebProxy();
             WebRequest.DefaultWebProxy.Credentials = CredentialCache.DefaultNetworkCredentials;
