@@ -134,46 +134,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             return sb.ToString();
         }
 
-        private void ComboBox_Validated(object sender, EventArgs e)
-        {
-            EEPROM_View_float_TextChanged(sender, e);
-        }
-
-        private void Configuration_Validating(object sender, CancelEventArgs e)
-        {
-            EEPROM_View_float_TextChanged(sender, e);
-        }
-
-        internal void EEPROM_View_float_TextChanged(object sender, EventArgs e)
-        {
-            if (startup)
-                return;
-
-            float value = 0;
-            var name = ((Control) sender).Name;
-
-            // do domainupdown state check
-            try
-            {
-                if (sender.GetType() == typeof (NumericUpDown))
-                {
-                    value = (float) ((NumericUpDown) sender).Value;
-                    MAVLinkInterface.modifyParamForDisplay(false, ((Control) sender).Name, ref value);
-                    changes[name] = value;
-                }
-                else if (sender.GetType() == typeof (ComboBox))
-                {
-                    value = (int) ((ComboBox) sender).SelectedValue;
-                    changes[name] = value;
-                }
-                ((Control) sender).BackColor = Color.Green;
-            }
-            catch (Exception)
-            {
-                ((Control) sender).BackColor = Color.Red;
-            }
-        }
-
         private void BUT_writePIDS_Click(object sender, EventArgs e)
         {
             var temp = (Hashtable) changes.Clone();

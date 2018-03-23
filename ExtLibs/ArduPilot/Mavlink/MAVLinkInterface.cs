@@ -1504,44 +1504,6 @@ Please check the following
             }
         }
 
-        public static void modifyParamForDisplay(bool fromapm, string paramname, ref float value)
-        {
-            int planforremoval;
-
-            if (paramname.ToUpper().EndsWith("_IMAX") || paramname.ToUpper().EndsWith("ALT_HOLD_RTL") ||
-                paramname.ToUpper().EndsWith("APPROACH_ALT") || paramname.ToUpper().EndsWith("TRIM_ARSPD_CM") ||
-                paramname.ToUpper().EndsWith("MIN_GNDSPD_CM")
-                || paramname.ToUpper().EndsWith("XTRK_ANGLE_CD") || paramname.ToUpper().EndsWith("LIM_PITCH_MAX") ||
-                paramname.ToUpper().EndsWith("LIM_PITCH_MIN")
-                || paramname.ToUpper().EndsWith("LIM_ROLL_CD") || paramname.ToUpper().EndsWith("PITCH_MAX") ||
-                paramname.ToUpper().EndsWith("WP_SPEED_MAX"))
-            {
-                if (paramname.ToUpper().EndsWith("THR_RATE_IMAX") || paramname.ToUpper().EndsWith("THR_HOLD_IMAX")
-                    || paramname.ToUpper().EndsWith("RATE_RLL_IMAX") || paramname.ToUpper().EndsWith("RATE_PIT_IMAX"))
-                    return;
-
-                if (fromapm)
-                {
-                    value /= 100.0f;
-                }
-                else
-                {
-                    value *= 100.0f;
-                }
-            }
-            else if (paramname.ToUpper().StartsWith("TUNE_"))
-            {
-                if (fromapm)
-                {
-                    value /= 1000.0f;
-                }
-                else
-                {
-                    value *= 1000.0f;
-                }
-            }
-        }
-
         /// <summary>
         /// Stops all requested data packets.
         /// </summary>
