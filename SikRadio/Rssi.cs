@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using MissionPlanner;
 using MissionPlanner.MsgBox;
+using MissionPlanner.Radio;
 using ZedGraph;
 
 namespace SikRadio

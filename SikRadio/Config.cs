@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using MissionPlanner;
 using MissionPlanner.Comms;
+using MissionPlanner.Radio;
 using MissionPlanner.Utilities;
 
 namespace SikRadio

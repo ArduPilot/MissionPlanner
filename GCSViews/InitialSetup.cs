@@ -8,6 +8,7 @@ using MissionPlanner.GCSViews.ConfigurationView;
 using MissionPlanner.Utilities;
 using System.Resources;
 using MissionPlanner.ArduPilot;
+using MissionPlanner.Radio;
 
 namespace MissionPlanner.GCSViews
 {

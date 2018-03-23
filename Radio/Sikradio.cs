@@ -15,7 +15,7 @@ using MissionPlanner.Radio;
 using MissionPlanner.Utilities;
 using uploader;
 
-namespace MissionPlanner
+namespace MissionPlanner.Radio
 {
     public partial class Sikradio : UserControl
     {
