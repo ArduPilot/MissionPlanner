@@ -188,15 +188,20 @@ namespace MissionPlanner.Maps
                                         for (var x = res / 2; x < width + extend - res; x += res)
                                         {
                                             var lnglat = gMapControl1.FromLocalToLatLng(x - extend / 2, y - extend / 2);
-                                            var alt = srtm.getAltitude(lnglat.Lat, lnglat.Lng).alt;
-                                            alts[x, y] = alt;
-
-                                            if (ter_run)
+                                            var altresponce = srtm.getAltitude(lnglat.Lat, lnglat.Lng);
+                                            if (altresponce != srtm.altresponce.Invalid)
                                             {
-                                                if (max_alt < alt) max_alt = alt;
+                                                alts[x, y] = altresponce.alt;
 
-                                                if (min_alt > alt) min_alt = alt;
+                                                if (ter_run)
+                                                {
+                                                    if (max_alt < altresponce.alt) max_alt = altresponce.alt;
+
+                                                    if (min_alt > altresponce.alt) min_alt = altresponce.alt;
+                                                }
                                             }
+                                            else
+                                                alts[x, y] = -65535;
                                         }
                                     });
                             }
@@ -223,6 +228,9 @@ namespace MissionPlanner.Maps
 
                                             var gradcolor = Gradient_byte(normvalue, colors);
 
+                                            if (alts[x, y] < -999)
+                                                gradcolor = 0;
+
                                             //Square pattern
                                             for (var i = -res / 2; i <= res / 2; i++)
                                             for (var j = -res / 2; j <= res / 2; j++)
@@ -240,6 +248,9 @@ namespace MissionPlanner.Maps
                                             */
 
                                             var gradcolor = Gradient_byte(normvalue, colors2);
+
+                                            if (alts[x, y] < -999)
+                                                gradcolor = 0;
 
                                             //Square pattern
                                             for (var i = -res / 2; i <= res / 2; i++)
@@ -345,7 +356,7 @@ namespace MissionPlanner.Maps
             {
                 normvalue = (value - min_alt) / (max_alt - min_alt);
             }
-
+            
             if (normvalue < 0)
                 normvalue = 0;
 
