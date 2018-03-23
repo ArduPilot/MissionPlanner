@@ -159,6 +159,12 @@ namespace MissionPlanner.Maps
                         var width = gMapControl1.Width;
                         var height = gMapControl1.Height;
 
+                        if (gMapControl1.Zoom < 8)
+                        {
+                            Thread.Sleep(500);
+                            continue;
+                        }
+
                         if (elevationoverlay.Markers.Count == 0 || center != prev_position || alt != prev_alt ||
                             height != prev_height || width != prev_width ||
                             gMapControl1.Zoom != prev_zoom)
