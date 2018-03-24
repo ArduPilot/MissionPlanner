@@ -45,6 +45,7 @@ namespace MissionPlanner.Utilities
         }
 
         static object objlock = new object();
+        static object extract = new object();
 
         static Thread requestThread;
 
@@ -77,6 +78,8 @@ namespace MissionPlanner.Utilities
                         x >= 0 ? "E" : "W", sx, ".hgt");
                 }
             }
+
+            StartQueueProcess();
         }
 
         static string GetFilename(double lat, double lng)
@@ -134,16 +137,21 @@ namespace MissionPlanner.Utilities
                     // add to cache
                     if (!cache.ContainsKey(filename))
                     {
+                        lock (extract)
+                        {
+                            Thread.Sleep(0);
+                        }
+
                         using (
                             FileStream fs = new FileStream(datadirectory + Path.DirectorySeparatorChar + filename,
                                 FileMode.Open, FileAccess.Read, FileShare.Read))
                         {
 
-                            if (fs.Length == (1201*1201*2))
+                            if (fs.Length == (1201 * 1201 * 2))
                             {
                                 size = 1201;
                             }
-                            else if (fs.Length == (3601*3601*2))
+                            else if (fs.Length == (3601 * 3601 * 2))
                             {
                                 size = 3601;
                             }
@@ -173,27 +181,27 @@ namespace MissionPlanner.Utilities
                         }
                     }
 
-                    if (cache[filename].Length == (1201*1201))
+                    if (cache[filename].Length == (1201 * 1201))
                     {
                         size = 1201;
                     }
-                    else if (cache[filename].Length == (3601*3601))
+                    else if (cache[filename].Length == (3601 * 3601))
                     {
                         size = 3601;
                     }
                     else
                         return srtm.altresponce.Invalid;
 
-                    int x = /*(lng < 0) ? (int) (lng - 1) : (int) lng; */(int)Math.Floor(lng);
-                    int y = /*(lat < 0) ? (int) (lat - 1) : (int) lat; */(int)Math.Floor(lat);
+                    int x = /*(lng < 0) ? (int) (lng - 1) : (int) lng; */(int) Math.Floor(lng);
+                    int y = /*(lat < 0) ? (int) (lat - 1) : (int) lat; */(int) Math.Floor(lat);
 
                     // remove the base lat long
                     lat -= y;
                     lng -= x;
 
                     // values should be 0-1199, 1200 is for interpolation
-                    double xf = lng*(size - 1);
-                    double yf = lat*(size - 1);
+                    double xf = lng * (size - 1);
+                    double yf = lat * (size - 1);
 
                     int x_int = (int) xf;
                     double x_frac = xf - x_int;
@@ -201,7 +209,7 @@ namespace MissionPlanner.Utilities
                     int y_int = (int) yf;
                     double y_frac = yf - y_int;
 
-                    y_int = (size-2) - y_int;
+                    y_int = (size - 2) - y_int;
 
                     double alt00 = GetAlt(filename, x_int, y_int);
                     double alt10 = GetAlt(filename, x_int + 1, y_int);
@@ -210,7 +218,7 @@ namespace MissionPlanner.Utilities
 
                     double v1 = avg(alt00, alt10, x_frac);
                     double v2 = avg(alt01, alt11, x_frac);
-                    double v = avg(v1, v2, 1-y_frac);
+                    double v = avg(v1, v2, 1 - y_frac);
 
                     if (v < -1000)
                         return altresponce.Invalid;
@@ -223,8 +231,8 @@ namespace MissionPlanner.Utilities
                     };
                 }
 
-                string filename2 = "srtm_" + Math.Round((lng + 2.5 + 180)/5, 0).ToString("00") + "_" +
-                                   Math.Round((60 - lat + 2.5)/5, 0).ToString("00") + ".asc";
+                string filename2 = "srtm_" + Math.Round((lng + 2.5 + 180) / 5, 0).ToString("00") + "_" +
+                                   Math.Round((60 - lat + 2.5) / 5, 0).ToString("00") + ".asc";
 
                 if (File.Exists(datadirectory + Path.DirectorySeparatorChar + filename2))
                 {
@@ -288,15 +296,15 @@ namespace MissionPlanner.Utilities
 
                                     wantrow = (float) ((lat - Math.Round(top, 0)));
 
-                                    wantrow = (int) (wantrow/cellsize);
-                                    wantcol = (int) (wantcol/cellsize);
+                                    wantrow = (int) (wantrow / cellsize);
+                                    wantcol = (int) (wantcol / cellsize);
 
                                     wantrow = noy - wantrow;
 
                                     if (rowcounter == wantrow)
                                     {
                                         Console.WriteLine("{0} {1} {2} {3} ans {4} x {5}", lng, lat, left, top,
-                                            data[(int) wantcol], (nox + wantcol*cellsize));
+                                            data[(int) wantcol], (nox + wantcol * cellsize));
 
                                         return new altresponce()
                                         {
@@ -310,6 +318,7 @@ namespace MissionPlanner.Utilities
                             }
                         }
                     }
+
                     return new altresponce()
                     {
                         currenttype = tiletype.valid,
@@ -319,8 +328,10 @@ namespace MissionPlanner.Utilities
                 }
                 else // get something
                 {
-                    if (filename.Contains("S00W000") || filename.Contains("S00W001") ||
-                        filename.Contains("S01W000") || filename.Contains("S01W001"))
+                    if (filename.Contains("00W000") || filename.Contains("00W001") ||
+                        filename.Contains("01W000") || filename.Contains("01W001")||
+                        filename.Contains("00E000") || filename.Contains("00E001") ||
+                        filename.Contains("01E000") || filename.Contains("01E001"))
                     {
                         return altresponce.Ocean;
                     }
@@ -333,30 +344,15 @@ namespace MissionPlanner.Utilities
                         if (!Directory.Exists(datadirectory))
                             Directory.CreateDirectory(datadirectory);
 
-                        if (requestThread == null)
+                        lock (objlock)
                         {
-                            log.Info("Getting " + filename);
-                            lock (objlock)
+                            if (!queue.Contains(filename))
                             {
+                                log.Info("Getting " + filename);
                                 queue.Add(filename);
                             }
+                        }
 
-                            requestThread = new Thread(requestRunner);
-                            requestThread.IsBackground = true;
-                            requestThread.Name = "SRTM request runner";
-                            requestThread.Start();
-                        }
-                        else
-                        {
-                            lock (objlock)
-                            {
-                                if (!queue.Contains(filename))
-                                {
-                                    log.Info("Getting " + filename);
-                                    queue.Add(filename);
-                                }
-                            }
-                        }
                     }
                 }
             }
@@ -367,6 +363,14 @@ namespace MissionPlanner.Utilities
             }
 
             return altresponce.Invalid;
+        }
+
+        private static void StartQueueProcess()
+        {
+            requestThread = new Thread(requestRunner);
+            requestThread.IsBackground = true;
+            requestThread.Name = "SRTM request runner";
+            requestThread.Start();
         }
 
         static double GetAlt(string filename, int x, int y)
@@ -593,14 +597,17 @@ namespace MissionPlanner.Utilities
 
                         size += len;
                     }
-
+                    bw.Flush();
                     bw.Close();
 
                     log.Info("Got " + url + " " + size);
 
                     FastZip fzip = new FastZip();
 
-                    fzip.ExtractZip(datadirectory + Path.DirectorySeparatorChar + filename + ".zip", datadirectory, "");
+                    lock(extract)
+                        fzip.ExtractZip(datadirectory + Path.DirectorySeparatorChar + filename + ".zip", datadirectory, "");
+
+                    fzip = null;
                 }
             }
             catch (Exception ex)
@@ -611,11 +618,14 @@ namespace MissionPlanner.Utilities
 
         static List<string> getListing(string url)
         {
+            List<string> list = new List<string>();
+
+            if (url.EndsWith("bios"))
+                return list;
+
             string name = new Uri(url).AbsolutePath;
 
             name = Path.GetFileName(name.TrimEnd('/'));
-
-            List<string> list = new List<string>();
 
             if (File.Exists(datadirectory + Path.DirectorySeparatorChar + name))
             {
