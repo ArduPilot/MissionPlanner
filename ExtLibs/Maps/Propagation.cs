@@ -153,31 +153,34 @@ namespace MissionPlanner.Maps
                     if (ele_run == false && ter_run == false && elevationoverlay.Markers.Count > 0)
                         elevationoverlay.Markers.RemoveAt(0);
 
+                    if (center == PointLatLngAlt.Zero)
+                    {
+                        Thread.Sleep(100);
+                        continue;
+                    }
+
                     if (connected && ele_run || ter_run)
                     {
                         var res = Settings.Instance.GetInt32("Propagation_Resolution", 4);
                         var width = gMapControl1.Width;
                         var height = gMapControl1.Height;
-
-                        if (gMapControl1.Zoom < 8)
-                        {
-                            Thread.Sleep(500);
-                            continue;
-                        }
+                        var zoom = gMapControl1.Zoom;
+                        var area = gMapControl1.ViewArea;
 
                         if (elevationoverlay.Markers.Count == 0 || center != prev_position || alt != prev_alt ||
                             height != prev_height || width != prev_width ||
-                            gMapControl1.Zoom != prev_zoom)
+                            zoom != prev_zoom)
                         {
-                            if (height != prev_height || width != prev_width ||
-                                res != prev_res)
+                            // reset imagedata and alts
+                            if (height != prev_height || width != prev_width)
                             {
                                 imageData = new byte[width + extend, height + extend + 1];
                                 alts = new double[width + extend, height + extend + 1];
                             }
 
+                            // get alt data
                             if (elevationoverlay.Markers.Count == 0 || center != prev_position ||
-                                gMapControl1.Zoom != prev_zoom)
+                                zoom != prev_zoom)
                             {
                                 max_alt = srtm.getAltitude(center.Lat, center.Lng).alt;
                                 min_alt = max_alt;
@@ -194,8 +197,8 @@ namespace MissionPlanner.Maps
                                         for (var x = res / 2; x < width + extend - res; x += res)
                                         {
                                             var lnglat = gMapControl1.FromLocalToLatLng(x - extend / 2, y - extend / 2);
-                                            var altresponce = srtm.getAltitude(lnglat.Lat, lnglat.Lng);
-                                            if (altresponce != srtm.altresponce.Invalid)
+                                            var altresponce = srtm.getAltitude(lnglat.Lat, lnglat.Lng, zoom);
+                                            if (altresponce != srtm.altresponce.Invalid && altresponce != srtm.altresponce.Ocean)
                                             {
                                                 alts[x, y] = altresponce.alt;
 
@@ -210,10 +213,18 @@ namespace MissionPlanner.Maps
                                                 alts[x, y] = -65535;
                                         }
                                     });
+
+                                if (zoom != gMapControl1.Zoom || area != gMapControl1.ViewArea)
+                                {
+                                    // zoom or view area has been modified while we where getting data
+                                    continue;
+                                }
+
                             }
 
                             start1 = DateTime.Now;
 
+                            // populate imagedata from altdata
                             Parallel.ForEach(
                                 Extensions.SteppedRange(res / 2, height + extend + 1 - res, res), y =>
                                 {
@@ -281,7 +292,7 @@ namespace MissionPlanner.Maps
                             prev_alt = alt;
                             prev_height = height;
                             prev_width = width;
-                            prev_zoom = gMapControl1.Zoom;
+                            prev_zoom = zoom;
                             prev_res = res;
                         }
                     }
@@ -331,7 +342,7 @@ namespace MissionPlanner.Maps
                     log.Error(ex);
                 }
 
-                Thread.Sleep(500);
+                Thread.Sleep(100);
             }
         }
 
