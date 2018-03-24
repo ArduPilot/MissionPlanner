@@ -155,6 +155,7 @@ namespace MissionPlanner.Maps
 
                     if (center == PointLatLngAlt.Zero)
                     {
+                        // center has not been set yet
                         Thread.Sleep(100);
                         continue;
                     }
@@ -196,6 +197,9 @@ namespace MissionPlanner.Maps
                                     {
                                         for (var x = res / 2; x < width + extend - res; x += res)
                                         {
+                                            // dont process if changed
+                                            if (zoom != gMapControl1.Zoom || area != gMapControl1.ViewArea)
+                                                return;
                                             var lnglat = gMapControl1.FromLocalToLatLng(x - extend / 2, y - extend / 2);
                                             var altresponce = srtm.getAltitude(lnglat.Lat, lnglat.Lng, zoom);
                                             if (altresponce != srtm.altresponce.Invalid && altresponce != srtm.altresponce.Ocean)
