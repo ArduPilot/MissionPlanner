@@ -117,4 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Geri çek: süspansiyonu önceden ayarlanmış pozisyonlara kaldırın. Nötr: varsayılan yük konumu, yani İleri. Mavlink_targeting: alınan atışı, yayını, yawı gösterir. rc_targeting: eksenleri kontrol etmek için rc kanalları kullanın. gps_point: temel noktayı izlemek için kullanılır.</value>
+  </data>
 </root>

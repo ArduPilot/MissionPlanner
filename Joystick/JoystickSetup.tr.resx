@@ -130,22 +130,19 @@
     <value>Kanal 6</value>
   </data>
   <data name="label14.Text" xml:space="preserve">
-    <value>Için kurulumu indirin </value>
+    <value>Icin yuklenen yapılandirma </value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Cubuk Kontrolu</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>Motor gucu</value>
-  </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>Cubuk Kontrolu</value>
+    <value>Gaz</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
     <value>Denetleyici</value>
   </data>
   <data name="label9.Text" xml:space="preserve">
-    <value>Denetleyici </value>
+    <value>Ters</value>
   </data>
   <data name="BUT_save.Text" xml:space="preserve">
     <value>Kaydet</value>
@@ -177,4 +174,11 @@
   <data name="BUT_enable.Text" xml:space="preserve">
     <value>Aktivasyon</value>
   </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Dumen</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Cikti</value>
+  </data>
+
 </root>

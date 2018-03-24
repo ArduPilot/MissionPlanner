@@ -133,10 +133,10 @@
     <value>Yuksekligi Kaydet</value>
   </data>
   <data name="groupBox5.Text" xml:space="preserve">
-    <value>O.Orani</value>
+    <value>Gaz Orani</value>
   </data>
   <data name="groupBox2.Text" xml:space="preserve">
-    <value>o.Kalibrasyonu</value>
+    <value>Gaz Kalibrasyonu</value>
   </data>
   <data name="groupBox1.Text" xml:space="preserve">
     <value>Dondurme Orani</value>
@@ -145,7 +145,7 @@
     <value>Donus Hizi</value>
   </data>
   <data name="BUT_writePIDS.Text" xml:space="preserve">
-    <value>Islemleri Gonder</value>
+    <value>Islemleri Yazdir</value>
   </data>
   <data name="BUT_refreshpart.Text" xml:space="preserve">
     <value>Ekrani Yenile</value>
@@ -153,4 +153,31 @@
   <data name="BUT_rerequestparams.Text" xml:space="preserve">
     <value>Islemleri Guncelle</value>
   </data>
+  <data name="CHK_lockrollpitch.Text" xml:space="preserve">
+    <value>Pitch ve Roll Degerlerini Kilitle</value>
+  </data>
+  <data name="label27.Text" xml:space="preserve">
+    <value>Hizlandir</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Sogutucu Hiz</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>Hiz Dn</value>
+  </data>
+  <data name="groupBox7.Text" xml:space="preserve">
+    <value>Yükseklik Tutuşu (Alttan tırmanmaya)</value>
+  </data>
+  <data name="groupBox23.Text" xml:space="preserve">
+    <value>Yaw Oran</value>
+  </data>
+  <data name="groupBox24.Text" xml:space="preserve">
+    <value>Pitch Oran</value>
+  </data>
+  <data name="groupBox25.Text" xml:space="preserve">
+    <value>Roll Oran</value>
+
+
+  </data>
+
 </root>

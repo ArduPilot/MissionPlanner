@@ -117,64 +117,76 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-    <data name="MenuSimulation.ToolTipText" xml:space="preserve">
-    <value>Simulasyon</value>
+  <data name="MenuSimulation.ToolTipText" xml:space="preserve">
+    <value>SIMULASYON</value>
   </data>
   <data name="MenuFlightPlanner.Text" xml:space="preserve">
-    <value>Ucus planlama</value>
+    <value>UCUS PLANI</value>
   </data>
   <data name="MenuHelp.Text" xml:space="preserve">
-    <value>Yardim</value>
+    <value>YARDIM</value>
+  </data>
+  <data name="connectionListToolStripMenuItem.Text" xml:space="preserve">
+    <value>Bağlantı listesi</value>
   </data>
   <data name="MenuInitConfig.ToolTipText" xml:space="preserve">
-    <value>Donanimi yapilandir</value>
+    <value>Donanım yapılandırması</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Görev Planlayıcısı - Michael Oborn</value>
   </data>
   <data name="connectionOptionsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Iletisim Secenekleri</value>
+    <value>Baglanti ayarları</value>
+  </data>
+  <data name="MenuTerminal.Text" xml:space="preserve">
+    <value>TERMINAL</value>
   </data>
   <data name="MenuDonate.Text" xml:space="preserve">
-    <value>Bagıs</value>
+    <value>TESEKKUR</value>
   </data>
   <data name="readonlyToolStripMenuItem.Text" xml:space="preserve">
-    <value>Oku</value>
+    <value>Sadece oku</value>
   </data>
   <data name="MenuFlightData.Text" xml:space="preserve">
-    <value>Ucus bilgileri</value>
+    <value>UCUS VERILERI</value>
   </data>
   <data name="MenuInitConfig.Text" xml:space="preserve">
-    <value>Ilk kurulum</value>
+    <value>KURULUM</value>
   </data>
   <data name="MenuConnect.Text" xml:space="preserve">
-    <value>Iletisim</value>
+    <value>BAGLAN</value>
   </data>
   <data name="MenuFlightPlanner.ToolTipText" xml:space="preserve">
-    <value>Planlayici</value>
+    <value>Ucus Planlayıcisi</value>
   </data>
   <data name="MenuConfigTune.Text" xml:space="preserve">
-    <value>Planlayici</value>
+    <value>AYARLAR</value>
   </data>
   <data name="MenuFlightData.ToolTipText" xml:space="preserve">
-    <value>Ucus Bilgileri</value>
+    <value>Ucus Verileri</value>
   </data>
   <data name="MenuConfigTune.ToolTipText" xml:space="preserve">
     <value>Yazilim yapilandirmasi</value>
   </data>
   <data name="MenuSimulation.Text" xml:space="preserve">
-    <value>Simülasyon</value>
+    <value>SİMULASYON</value>
   </data>
   <data name="MenuHelp.ToolTipText" xml:space="preserve">
-    <value>المحطة الطرفية</value>
+    <value>yardım</value>
   </data>
   <data name="MenuTerminal.ToolTipText" xml:space="preserve">
-    <value>terminal</value>
+    <value>Теrminal</value>
   </data>
   <data name="menu.Text" xml:space="preserve">
-    <value>Liste</value>
+    <value>menu</value>
   </data>
   <data name="fullScreenToolStripMenuItem.Text" xml:space="preserve">
-    <value>Tam ekran</value>
+    <value>Tam Ekran</value>
   </data>
   <data name="autoHideToolStripMenuItem.Text" xml:space="preserve">
     <value>Otomatik Gizle</value>
+  </data>
+  <data name="MenuDonate.ToolTipText" xml:space="preserve">
+    <value>Tesekkur</value>
   </data>
 </root>

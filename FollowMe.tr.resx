@@ -117,4 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="textBox1.Text" xml:space="preserve">
+    <value>O ne yapar. 1. Mevcut gps koordinatlarını nmea gps'den alın. 2. İstenen hz'de yönetilen mod ile WP'yi AP'ye gönderir. (Bunun kullanılan gps ile sınırlı olduğunu unutmayın). Nasıl kullanılır? 1. otopilot'a bağlanın. 2. kalkış modu, test modu çalışır. 3. Açın ve gps'iniz için bağlantı noktasını ve baud hızınızı seçin. 4. Şimdi seni takip etmeli. NOT: Otomatik pilotu manuel moda geçirmeniz gerekir.</value>
+  </data>
 </root>

@@ -159,4 +159,31 @@
   <data name="BUT_test_yaw.Text" xml:space="preserve">
     <value>Test</value>
   </data>
+  <data name="label16.Text" xml:space="preserve">
+    <value>Tur</value>
+  </data>
+  <data name="label17.Text" xml:space="preserve">
+    <value>Notr</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>Tur</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Notr</value>
+  </data>
+  <data name="groupBox5.Text" xml:space="preserve">
+    <value>Hareket araligi</value>
+  </data>
+  <data name="groupBox6.Text" xml:space="preserve">
+    <value>Yaw Kazanc</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Max Oran</value>
+  </data>
+  <data name="groupBox7.Text" xml:space="preserve">
+    <value>Saha Kazanc</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>Max Oran</value>
+  </data>
 </root>

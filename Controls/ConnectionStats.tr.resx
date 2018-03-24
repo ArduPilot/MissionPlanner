@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
  <data name="label10.Text" xml:space="preserve">
-    <value>Paketler arasindaki maksimum sure</value>
+    <value>Paketler arasindaki max sure</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Bayt / sn</value>
+    <value>Bayt/sn</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>Paket</value>

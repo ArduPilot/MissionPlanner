@@ -118,6 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
     <data name="textBox1.Text" xml:space="preserve">
-    <value> 1 :Verilerin bulunduğu konumun geçerli koordinatlarını öğrenin . 2. Haritadaki başlangıç konumunu güncelleyin (konumun vericinin ayarlarında oluşmadığına dikkat edin)  </value>
+    <value> O ne yapar. 1. Mevcut gps koordinatlarını, nmea gps'den alır. 2. Haritadaki ana pozisyonu günceller. (not MAV'da evde güncellenmez). Nasıl kullanılır 1. Otopilot'a bağlanır. 2. Açın ve nmea gps'iniz için derleme ve baud hızınızı seçin. 3. Güncelleme kalkış noktasını.</value>
   </data>
 </root>

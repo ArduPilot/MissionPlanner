@@ -121,7 +121,7 @@
     <value>Platform Komut Dosyalari</value>
   </data>
   <data name="BUT_clear.Text" xml:space="preserve">
-    <value>Anket</value>
+    <value>Temizle</value>
   </data>
   <data name="autoscrollCheckbox.Text" xml:space="preserve">
     <value>Otomatik kaydirma</value>
