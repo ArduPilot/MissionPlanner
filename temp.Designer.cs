@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(temp));
             this.BUT_xplane = new MissionPlanner.Controls.MyButton();
             this.but_osdvideo = new MissionPlanner.Controls.MyButton();
             this.BUT_outputMD = new MissionPlanner.Controls.MyButton();
@@ -111,276 +112,178 @@
             // 
             // BUT_xplane
             // 
-            this.BUT_xplane.Location = new System.Drawing.Point(3, 234);
+            resources.ApplyResources(this.BUT_xplane, "BUT_xplane");
             this.BUT_xplane.Name = "BUT_xplane";
-            this.BUT_xplane.Size = new System.Drawing.Size(75, 15);
-            this.BUT_xplane.TabIndex = 93;
             // 
             // but_osdvideo
             // 
-            this.but_osdvideo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.but_osdvideo.Location = new System.Drawing.Point(3, 171);
+            resources.ApplyResources(this.but_osdvideo, "but_osdvideo");
             this.but_osdvideo.Name = "but_osdvideo";
-            this.but_osdvideo.Size = new System.Drawing.Size(113, 15);
-            this.but_osdvideo.TabIndex = 22;
-            this.but_osdvideo.Text = "OSDVideo";
             this.but_osdvideo.UseVisualStyleBackColor = true;
             this.but_osdvideo.Click += new System.EventHandler(this.but_osdvideo_Click);
             // 
             // BUT_outputMD
             // 
-            this.BUT_outputMD.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.BUT_outputMD.Location = new System.Drawing.Point(3, 87);
+            resources.ApplyResources(this.BUT_outputMD, "BUT_outputMD");
             this.BUT_outputMD.Name = "BUT_outputMD";
-            this.BUT_outputMD.Size = new System.Drawing.Size(113, 15);
-            this.BUT_outputMD.TabIndex = 21;
-            this.BUT_outputMD.Text = "MicroDrone";
             this.BUT_outputMD.UseVisualStyleBackColor = true;
             this.BUT_outputMD.Click += new System.EventHandler(this.myButton1_Click);
             // 
             // BUT_paramgen
             // 
-            this.BUT_paramgen.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.BUT_paramgen.Location = new System.Drawing.Point(3, 129);
+            resources.ApplyResources(this.BUT_paramgen, "BUT_paramgen");
             this.BUT_paramgen.Name = "BUT_paramgen";
-            this.BUT_paramgen.Size = new System.Drawing.Size(113, 15);
-            this.BUT_paramgen.TabIndex = 20;
-            this.BUT_paramgen.Text = "Param gen";
             this.BUT_paramgen.UseVisualStyleBackColor = true;
             this.BUT_paramgen.Click += new System.EventHandler(this.BUT_paramgen_Click);
             // 
             // BUT_follow_me
             // 
-            this.BUT_follow_me.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.BUT_follow_me.Location = new System.Drawing.Point(3, 45);
+            resources.ApplyResources(this.BUT_follow_me, "BUT_follow_me");
             this.BUT_follow_me.Name = "BUT_follow_me";
-            this.BUT_follow_me.Size = new System.Drawing.Size(113, 15);
-            this.BUT_follow_me.TabIndex = 17;
-            this.BUT_follow_me.Text = "Follow Me";
             this.BUT_follow_me.UseVisualStyleBackColor = true;
             this.BUT_follow_me.Click += new System.EventHandler(this.BUT_follow_me_Click);
             // 
             // BUT_georefimage
             // 
-            this.BUT_georefimage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.BUT_georefimage.Location = new System.Drawing.Point(3, 3);
+            resources.ApplyResources(this.BUT_georefimage, "BUT_georefimage");
             this.BUT_georefimage.Name = "BUT_georefimage";
-            this.BUT_georefimage.Size = new System.Drawing.Size(113, 15);
-            this.BUT_georefimage.TabIndex = 0;
-            this.BUT_georefimage.Text = "Geo ref images";
             this.BUT_georefimage.Click += new System.EventHandler(this.BUT_georefimage_Click);
             // 
             // BUT_lang_edit
             // 
-            this.BUT_lang_edit.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.BUT_lang_edit.Location = new System.Drawing.Point(3, 150);
+            resources.ApplyResources(this.BUT_lang_edit, "BUT_lang_edit");
             this.BUT_lang_edit.Name = "BUT_lang_edit";
-            this.BUT_lang_edit.Size = new System.Drawing.Size(113, 15);
-            this.BUT_lang_edit.TabIndex = 16;
-            this.BUT_lang_edit.Text = "Lang Edit";
             this.BUT_lang_edit.UseVisualStyleBackColor = true;
             this.BUT_lang_edit.Click += new System.EventHandler(this.BUT_lang_edit_Click);
             // 
             // BUT_clearcustommaps
             // 
-            this.BUT_clearcustommaps.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.BUT_clearcustommaps.Location = new System.Drawing.Point(3, 402);
+            resources.ApplyResources(this.BUT_clearcustommaps, "BUT_clearcustommaps");
             this.BUT_clearcustommaps.Name = "BUT_clearcustommaps";
-            this.BUT_clearcustommaps.Size = new System.Drawing.Size(113, 15);
-            this.BUT_clearcustommaps.TabIndex = 15;
-            this.BUT_clearcustommaps.Text = "Clear Custom Maps";
             this.BUT_clearcustommaps.UseVisualStyleBackColor = true;
             this.BUT_clearcustommaps.Click += new System.EventHandler(this.BUT_clearcustommaps_Click);
             // 
             // BUT_geinjection
             // 
-            this.BUT_geinjection.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.BUT_geinjection.Location = new System.Drawing.Point(3, 381);
+            resources.ApplyResources(this.BUT_geinjection, "BUT_geinjection");
             this.BUT_geinjection.Name = "BUT_geinjection";
-            this.BUT_geinjection.Size = new System.Drawing.Size(113, 15);
-            this.BUT_geinjection.TabIndex = 14;
-            this.BUT_geinjection.Text = "Inject GE";
             this.BUT_geinjection.UseVisualStyleBackColor = true;
             this.BUT_geinjection.Click += new System.EventHandler(this.BUT_geinjection_Click);
             // 
             // BUT_swarm
             // 
-            this.BUT_swarm.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.BUT_swarm.Location = new System.Drawing.Point(3, 255);
+            resources.ApplyResources(this.BUT_swarm, "BUT_swarm");
             this.BUT_swarm.Name = "BUT_swarm";
-            this.BUT_swarm.Size = new System.Drawing.Size(113, 15);
-            this.BUT_swarm.TabIndex = 27;
-            this.BUT_swarm.Text = "Swarm";
             this.BUT_swarm.UseVisualStyleBackColor = true;
             this.BUT_swarm.Click += new System.EventHandler(this.BUT_swarm_Click);
             // 
             // BUT_outputnmea
             // 
-            this.BUT_outputnmea.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.BUT_outputnmea.Location = new System.Drawing.Point(3, 66);
+            resources.ApplyResources(this.BUT_outputnmea, "BUT_outputnmea");
             this.BUT_outputnmea.Name = "BUT_outputnmea";
-            this.BUT_outputnmea.Size = new System.Drawing.Size(113, 15);
-            this.BUT_outputnmea.TabIndex = 28;
-            this.BUT_outputnmea.Text = "NMEA";
             this.BUT_outputnmea.UseVisualStyleBackColor = true;
             this.BUT_outputnmea.Click += new System.EventHandler(this.BUT_outputnmea_Click);
             // 
             // BUT_outputMavlink
             // 
-            this.BUT_outputMavlink.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.BUT_outputMavlink.Location = new System.Drawing.Point(3, 108);
+            resources.ApplyResources(this.BUT_outputMavlink, "BUT_outputMavlink");
             this.BUT_outputMavlink.Name = "BUT_outputMavlink";
-            this.BUT_outputMavlink.Size = new System.Drawing.Size(113, 15);
-            this.BUT_outputMavlink.TabIndex = 29;
-            this.BUT_outputMavlink.Text = "Mavlink";
             this.BUT_outputMavlink.UseVisualStyleBackColor = true;
             this.BUT_outputMavlink.Click += new System.EventHandler(this.BUT_outputMavlink_Click);
             // 
             // BUT_followleader
             // 
-            this.BUT_followleader.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.BUT_followleader.Location = new System.Drawing.Point(3, 276);
+            resources.ApplyResources(this.BUT_followleader, "BUT_followleader");
             this.BUT_followleader.Name = "BUT_followleader";
-            this.BUT_followleader.Size = new System.Drawing.Size(113, 15);
-            this.BUT_followleader.TabIndex = 33;
-            this.BUT_followleader.Text = "Follow the leader";
             this.BUT_followleader.UseVisualStyleBackColor = true;
             this.BUT_followleader.Click += new System.EventHandler(this.BUT_followleader_Click);
             // 
             // BUT_driverclean
             // 
-            this.BUT_driverclean.Location = new System.Drawing.Point(3, 318);
+            resources.ApplyResources(this.BUT_driverclean, "BUT_driverclean");
             this.BUT_driverclean.Name = "BUT_driverclean";
-            this.BUT_driverclean.Size = new System.Drawing.Size(75, 15);
-            this.BUT_driverclean.TabIndex = 73;
             this.BUT_driverclean.Click += new System.EventHandler(this.BUT_driverclean_Click);
             // 
             // BUT_sorttlogs
             // 
-            this.BUT_sorttlogs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.BUT_sorttlogs.Location = new System.Drawing.Point(3, 339);
+            resources.ApplyResources(this.BUT_sorttlogs, "BUT_sorttlogs");
             this.BUT_sorttlogs.Name = "BUT_sorttlogs";
-            this.BUT_sorttlogs.Size = new System.Drawing.Size(113, 15);
-            this.BUT_sorttlogs.TabIndex = 38;
-            this.BUT_sorttlogs.Text = "Sort TLogs";
             this.BUT_sorttlogs.UseVisualStyleBackColor = true;
             this.BUT_sorttlogs.Click += new System.EventHandler(this.BUT_sorttlogs_Click);
             // 
             // BUT_movingbase
             // 
-            this.BUT_movingbase.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.BUT_movingbase.Location = new System.Drawing.Point(3, 192);
+            resources.ApplyResources(this.BUT_movingbase, "BUT_movingbase");
             this.BUT_movingbase.Name = "BUT_movingbase";
-            this.BUT_movingbase.Size = new System.Drawing.Size(113, 15);
-            this.BUT_movingbase.TabIndex = 40;
-            this.BUT_movingbase.Text = "Moving Base";
             this.BUT_movingbase.UseVisualStyleBackColor = true;
             this.BUT_movingbase.Click += new System.EventHandler(this.BUT_movingbase_Click);
             // 
             // but_getfw
             // 
-            this.but_getfw.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.but_getfw.Location = new System.Drawing.Point(3, 360);
+            resources.ApplyResources(this.but_getfw, "but_getfw");
             this.but_getfw.Name = "but_getfw";
-            this.but_getfw.Size = new System.Drawing.Size(113, 15);
-            this.but_getfw.TabIndex = 41;
-            this.but_getfw.Text = "rip all fw";
             this.but_getfw.UseVisualStyleBackColor = true;
             this.but_getfw.Click += new System.EventHandler(this.but_getfw_Click);
             // 
             // but_mavserialport
             // 
-            this.but_mavserialport.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.but_mavserialport.Location = new System.Drawing.Point(3, 297);
+            resources.ApplyResources(this.but_mavserialport, "but_mavserialport");
             this.but_mavserialport.Name = "but_mavserialport";
-            this.but_mavserialport.Size = new System.Drawing.Size(113, 15);
-            this.but_mavserialport.TabIndex = 44;
-            this.but_mavserialport.Text = "MAVSerial pass";
             this.but_mavserialport.UseVisualStyleBackColor = true;
             this.but_mavserialport.Click += new System.EventHandler(this.but_mavserialport_Click);
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(0, 21);
-            this.button3.Margin = new System.Windows.Forms.Padding(0);
+            resources.ApplyResources(this.button3, "button3");
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(119, 21);
-            this.button3.TabIndex = 44;
-            this.button3.Text = "Warning Manager";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // BUT_shptopoly
             // 
-            this.BUT_shptopoly.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.BUT_shptopoly.Location = new System.Drawing.Point(3, 213);
+            resources.ApplyResources(this.BUT_shptopoly, "BUT_shptopoly");
             this.BUT_shptopoly.Name = "BUT_shptopoly";
-            this.BUT_shptopoly.Size = new System.Drawing.Size(113, 15);
-            this.BUT_shptopoly.TabIndex = 46;
-            this.BUT_shptopoly.Text = "Shp to Poly";
             this.BUT_shptopoly.UseVisualStyleBackColor = true;
             this.BUT_shptopoly.Click += new System.EventHandler(this.BUT_shptopoly_Click);
             // 
             // but_gimbaltest
             // 
-            this.but_gimbaltest.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.but_gimbaltest.Location = new System.Drawing.Point(3, 486);
+            resources.ApplyResources(this.but_gimbaltest, "but_gimbaltest");
             this.but_gimbaltest.Name = "but_gimbaltest";
-            this.but_gimbaltest.Size = new System.Drawing.Size(113, 15);
-            this.but_gimbaltest.TabIndex = 48;
-            this.but_gimbaltest.Text = "gimbal test";
             this.but_gimbaltest.UseVisualStyleBackColor = true;
             this.but_gimbaltest.Click += new System.EventHandler(this.but_gimbaltest_Click);
             // 
             // but_maplogs
             // 
-            this.but_maplogs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.but_maplogs.Location = new System.Drawing.Point(3, 507);
+            resources.ApplyResources(this.but_maplogs, "but_maplogs");
             this.but_maplogs.Name = "but_maplogs";
-            this.but_maplogs.Size = new System.Drawing.Size(113, 15);
-            this.but_maplogs.TabIndex = 50;
-            this.but_maplogs.Text = "map logs";
             this.but_maplogs.UseVisualStyleBackColor = true;
             this.but_maplogs.Click += new System.EventHandler(this.but_maplogs_Click);
             // 
             // butlogindex
             // 
-            this.butlogindex.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.butlogindex.Location = new System.Drawing.Point(3, 528);
+            resources.ApplyResources(this.butlogindex, "butlogindex");
             this.butlogindex.Name = "butlogindex";
-            this.butlogindex.Size = new System.Drawing.Size(113, 17);
-            this.butlogindex.TabIndex = 51;
-            this.butlogindex.Text = "logindex";
             this.butlogindex.UseVisualStyleBackColor = true;
             this.butlogindex.Click += new System.EventHandler(this.butlogindex_Click);
             // 
             // but_structtest
             // 
-            this.but_structtest.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.but_structtest.Location = new System.Drawing.Point(3, 423);
+            resources.ApplyResources(this.but_structtest, "but_structtest");
             this.but_structtest.Name = "but_structtest";
-            this.but_structtest.Size = new System.Drawing.Size(113, 15);
-            this.but_structtest.TabIndex = 54;
-            this.but_structtest.Text = "structtest";
             this.but_structtest.UseVisualStyleBackColor = true;
             this.but_structtest.Click += new System.EventHandler(this.but_structtest_Click);
             // 
             // but_armandtakeoff
             // 
-            this.but_armandtakeoff.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.but_armandtakeoff.Location = new System.Drawing.Point(3, 465);
+            resources.ApplyResources(this.but_armandtakeoff, "but_armandtakeoff");
             this.but_armandtakeoff.Name = "but_armandtakeoff";
-            this.but_armandtakeoff.Size = new System.Drawing.Size(113, 15);
-            this.but_armandtakeoff.TabIndex = 56;
-            this.but_armandtakeoff.Text = "arm and takeoff";
             this.but_armandtakeoff.Click += new System.EventHandler(this.but_armandtakeoff_Click);
             // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 29.46636F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70.53365F));
+            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
             this.tableLayoutPanel1.Controls.Add(this.but_dashware, 0, 21);
             this.tableLayoutPanel1.Controls.Add(this.label26, 1, 25);
             this.tableLayoutPanel1.Controls.Add(this.label25, 1, 24);
@@ -432,536 +335,325 @@
             this.tableLayoutPanel1.Controls.Add(this.BUT_followleader, 0, 13);
             this.tableLayoutPanel1.Controls.Add(this.label1, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.but_mavserialport, 0, 14);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 12);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 26;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(406, 548);
-            this.tableLayoutPanel1.TabIndex = 57;
             // 
             // but_dashware
             // 
-            this.but_dashware.Location = new System.Drawing.Point(3, 444);
+            resources.ApplyResources(this.but_dashware, "but_dashware");
             this.but_dashware.Name = "but_dashware";
-            this.but_dashware.Size = new System.Drawing.Size(75, 15);
-            this.but_dashware.TabIndex = 92;
-            this.but_dashware.Text = "DashWare";
             this.but_dashware.UseVisualStyleBackColor = true;
             this.but_dashware.Click += new System.EventHandler(this.but_dashware_Click);
             // 
             // label26
             // 
-            this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(122, 525);
+            resources.ApplyResources(this.label26, "label26");
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(64, 13);
-            this.label26.TabIndex = 72;
-            this.label26.Text = "tlog browser";
             // 
             // label25
             // 
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(122, 504);
+            resources.ApplyResources(this.label25, "label25");
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(171, 13);
-            this.label25.TabIndex = 71;
-            this.label25.Text = "create map jpg\'s for all tlogs in a dir";
             // 
             // label24
             // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(122, 483);
+            resources.ApplyResources(this.label24, "label24");
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(136, 13);
-            this.label24.TabIndex = 70;
-            this.label24.Text = "run the gimbal pointing algo";
             // 
             // label23
             // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(122, 462);
+            resources.ApplyResources(this.label23, "label23");
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(111, 13);
-            this.label23.TabIndex = 69;
-            this.label23.Text = "quad: arm and takeoff";
             // 
             // label21
             // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(122, 420);
+            resources.ApplyResources(this.label21, "label21");
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(140, 13);
-            this.label21.TabIndex = 67;
-            this.label21.Text = "struct conversion speed test";
             // 
             // label20
             // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(122, 399);
+            resources.ApplyResources(this.label20, "label20");
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(105, 13);
-            this.label20.TabIndex = 66;
-            this.label20.Text = "wipe custom imagery";
             // 
             // label19
             // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(122, 378);
+            resources.ApplyResources(this.label19, "label19");
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(130, 13);
-            this.label19.TabIndex = 65;
-            this.label19.Text = "add custom imagery to mp";
             // 
             // label18
             // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(122, 357);
+            resources.ApplyResources(this.label18, "label18");
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(123, 13);
-            this.label18.TabIndex = 64;
-            this.label18.Text = "download all current fw\'s";
             // 
             // label17
             // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(122, 336);
+            resources.ApplyResources(this.label17, "label17");
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(214, 13);
-            this.label17.TabIndex = 63;
-            this.label17.Text = "sort tlogs into there type and sysid directorys";
             // 
             // label16
             // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(122, 315);
+            resources.ApplyResources(this.label16, "label16");
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(112, 13);
-            this.label16.TabIndex = 62;
-            this.label16.Text = "remove all apm drivers";
             // 
             // label15
             // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(122, 294);
+            resources.ApplyResources(this.label15, "label15");
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(252, 13);
-            this.label15.TabIndex = 61;
-            this.label15.Text = "create a exclusive passthrough to the gps (port 500)";
             // 
             // label14
             // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(122, 273);
+            resources.ApplyResources(this.label14, "label14");
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(117, 13);
-            this.label14.TabIndex = 60;
-            this.label14.Text = "follow the leader swarm";
             // 
             // label13
             // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(122, 252);
+            resources.ApplyResources(this.label13, "label13");
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(128, 13);
-            this.label13.TabIndex = 59;
-            this.label13.Text = "multi mav swarm interface";
             // 
             // label12
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(122, 231);
+            resources.ApplyResources(this.label12, "label12");
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(177, 13);
-            this.label12.TabIndex = 58;
-            this.label12.Text = "output the mav location into xplanes";
             // 
             // label11
             // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(122, 210);
+            resources.ApplyResources(this.label11, "label11");
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(156, 13);
-            this.label11.TabIndex = 57;
-            this.label11.Text = "convert shp file ot a polygon file";
             // 
             // label10
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(122, 189);
+            resources.ApplyResources(this.label10, "label10");
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(266, 13);
-            this.label10.TabIndex = 56;
-            this.label10.Text = "show an extra icon on the map of your current location.";
             // 
             // label9
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(122, 168);
+            resources.ApplyResources(this.label9, "label9");
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(202, 13);
-            this.label9.TabIndex = 55;
-            this.label9.Text = "overlay the hud into your recorded videos";
             // 
             // label8
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(122, 147);
+            resources.ApplyResources(this.label8, "label8");
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(131, 13);
-            this.label8.TabIndex = 54;
-            this.label8.Text = "translation language editor";
             // 
             // label7
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(122, 126);
+            resources.ApplyResources(this.label7, "label7");
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(204, 13);
-            this.label7.TabIndex = 53;
-            this.label7.Text = "regenerage the param info used inside mp";
             // 
             // label6
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(122, 105);
+            resources.ApplyResources(this.label6, "label6");
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(203, 13);
-            this.label6.TabIndex = 52;
-            this.label6.Text = "mirrors the mavlink stream received by mp";
             // 
             // label5
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(122, 84);
+            resources.ApplyResources(this.label5, "label5");
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(221, 13);
-            this.label5.TabIndex = 51;
-            this.label5.Text = "outputs the mav location in microdrone format";
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(122, 63);
+            resources.ApplyResources(this.label4, "label4");
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(163, 13);
-            this.label4.TabIndex = 50;
-            this.label4.Text = "outputs the mav location in nmea";
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(122, 42);
+            resources.ApplyResources(this.label3, "label3");
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(141, 13);
-            this.label3.TabIndex = 49;
-            this.label3.Text = "use a nmea gps to follow me";
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(122, 21);
+            resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(149, 13);
-            this.label2.TabIndex = 48;
-            this.label2.Text = "Create custom audio warnings";
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(122, 0);
+            resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(109, 13);
-            this.label1.TabIndex = 47;
-            this.label1.Text = "Geo Refrence photos";
             // 
             // but_sitl_comb
             // 
-            this.but_sitl_comb.Location = new System.Drawing.Point(467, 33);
+            resources.ApplyResources(this.but_sitl_comb, "but_sitl_comb");
             this.but_sitl_comb.Name = "but_sitl_comb";
-            this.but_sitl_comb.Size = new System.Drawing.Size(75, 23);
-            this.but_sitl_comb.TabIndex = 58;
-            this.but_sitl_comb.Text = "sitl streamcombiner";
             this.but_sitl_comb.UseVisualStyleBackColor = true;
             this.but_sitl_comb.Click += new System.EventHandler(this.but_sitl_comb_Click);
             // 
             // but_injectgps
             // 
-            this.but_injectgps.Location = new System.Drawing.Point(467, 62);
+            resources.ApplyResources(this.but_injectgps, "but_injectgps");
             this.but_injectgps.Name = "but_injectgps";
-            this.but_injectgps.Size = new System.Drawing.Size(75, 23);
-            this.but_injectgps.TabIndex = 59;
-            this.but_injectgps.Text = "Inject GPS";
             this.but_injectgps.UseVisualStyleBackColor = true;
             this.but_injectgps.Click += new System.EventHandler(this.but_injectgps_Click);
             // 
             // BUT_fft
             // 
-            this.BUT_fft.Location = new System.Drawing.Point(467, 91);
+            resources.ApplyResources(this.BUT_fft, "BUT_fft");
             this.BUT_fft.Name = "BUT_fft";
-            this.BUT_fft.Size = new System.Drawing.Size(75, 23);
-            this.BUT_fft.TabIndex = 60;
-            this.BUT_fft.Text = "FFT";
             this.BUT_fft.UseVisualStyleBackColor = true;
             this.BUT_fft.Click += new System.EventHandler(this.BUT_fft_Click);
             // 
             // but_reboot
             // 
-            this.but_reboot.Location = new System.Drawing.Point(467, 149);
+            resources.ApplyResources(this.but_reboot, "but_reboot");
             this.but_reboot.Name = "but_reboot";
-            this.but_reboot.Size = new System.Drawing.Size(75, 23);
-            this.but_reboot.TabIndex = 62;
-            this.but_reboot.Text = "reboot pixhawk";
             this.but_reboot.UseVisualStyleBackColor = true;
             this.but_reboot.Click += new System.EventHandler(this.but_reboot_Click);
             // 
             // BUT_QNH
             // 
-            this.BUT_QNH.Location = new System.Drawing.Point(467, 178);
+            resources.ApplyResources(this.BUT_QNH, "BUT_QNH");
             this.BUT_QNH.Name = "BUT_QNH";
-            this.BUT_QNH.Size = new System.Drawing.Size(75, 23);
-            this.BUT_QNH.TabIndex = 63;
-            this.BUT_QNH.Text = "QNH";
             this.BUT_QNH.UseVisualStyleBackColor = true;
             this.BUT_QNH.Click += new System.EventHandler(this.BUT_QNH_Click);
             // 
             // but_trimble
             // 
-            this.but_trimble.Location = new System.Drawing.Point(467, 207);
+            resources.ApplyResources(this.but_trimble, "but_trimble");
             this.but_trimble.Name = "but_trimble";
-            this.but_trimble.Size = new System.Drawing.Size(75, 23);
-            this.but_trimble.TabIndex = 64;
-            this.but_trimble.Text = "Sequence Swarm";
             this.but_trimble.UseVisualStyleBackColor = true;
             this.but_trimble.Click += new System.EventHandler(this.but_trimble_Click);
             // 
             // myButton_vlc
             // 
-            this.myButton_vlc.Location = new System.Drawing.Point(467, 236);
+            resources.ApplyResources(this.myButton_vlc, "myButton_vlc");
             this.myButton_vlc.Name = "myButton_vlc";
-            this.myButton_vlc.Size = new System.Drawing.Size(75, 23);
-            this.myButton_vlc.TabIndex = 65;
-            this.myButton_vlc.Text = "vlc";
             this.myButton_vlc.UseVisualStyleBackColor = true;
             this.myButton_vlc.Click += new System.EventHandler(this.myButton_vlc_Click);
             // 
             // but_gstream
             // 
-            this.but_gstream.Location = new System.Drawing.Point(467, 265);
+            resources.ApplyResources(this.but_gstream, "but_gstream");
             this.but_gstream.Name = "but_gstream";
-            this.but_gstream.Size = new System.Drawing.Size(75, 23);
-            this.but_gstream.TabIndex = 66;
-            this.but_gstream.Text = "gstream";
             this.but_gstream.UseVisualStyleBackColor = true;
             this.but_gstream.Click += new System.EventHandler(this.but_gstream_Click);
             // 
             // but_agemapdata
             // 
-            this.but_agemapdata.Location = new System.Drawing.Point(467, 294);
+            resources.ApplyResources(this.but_agemapdata, "but_agemapdata");
             this.but_agemapdata.Name = "but_agemapdata";
-            this.but_agemapdata.Size = new System.Drawing.Size(75, 23);
-            this.but_agemapdata.TabIndex = 75;
-            this.but_agemapdata.Text = "Age Map Data";
             this.but_agemapdata.UseVisualStyleBackColor = true;
             this.but_agemapdata.Click += new System.EventHandler(this.but_agemapdata_Click);
             // 
             // myButton1
             // 
-            this.myButton1.Location = new System.Drawing.Point(467, 323);
+            resources.ApplyResources(this.myButton1, "myButton1");
             this.myButton1.Name = "myButton1";
-            this.myButton1.Size = new System.Drawing.Size(75, 23);
-            this.myButton1.TabIndex = 73;
-            this.myButton1.Text = "Param gen cust";
             this.myButton1.UseVisualStyleBackColor = true;
             this.myButton1.Click += new System.EventHandler(this.myButton1_Click_2);
             // 
             // but_signkey
             // 
-            this.but_signkey.Location = new System.Drawing.Point(467, 352);
+            resources.ApplyResources(this.but_signkey, "but_signkey");
             this.but_signkey.Name = "but_signkey";
-            this.but_signkey.Size = new System.Drawing.Size(75, 23);
-            this.but_signkey.TabIndex = 76;
-            this.but_signkey.Text = "signing";
             this.but_signkey.UseVisualStyleBackColor = true;
             this.but_signkey.Click += new System.EventHandler(this.but_signkey_Click);
             // 
             // but_optflowcalib
             // 
-            this.but_optflowcalib.Location = new System.Drawing.Point(467, 381);
+            resources.ApplyResources(this.but_optflowcalib, "but_optflowcalib");
             this.but_optflowcalib.Name = "but_optflowcalib";
-            this.but_optflowcalib.Size = new System.Drawing.Size(75, 23);
-            this.but_optflowcalib.TabIndex = 77;
-            this.but_optflowcalib.Text = "opticalflow calib";
             this.but_optflowcalib.UseVisualStyleBackColor = true;
             this.but_optflowcalib.Click += new System.EventHandler(this.but_optflowcalib_Click);
             // 
             // myButton2
             // 
-            this.myButton2.Location = new System.Drawing.Point(467, 414);
+            resources.ApplyResources(this.myButton2, "myButton2");
             this.myButton2.Name = "myButton2";
-            this.myButton2.Size = new System.Drawing.Size(75, 23);
-            this.myButton2.TabIndex = 78;
-            this.myButton2.Text = "sphere";
             this.myButton2.UseVisualStyleBackColor = true;
             this.myButton2.Click += new System.EventHandler(this.myButton2_Click);
             // 
             // BUT_magfit2
             // 
-            this.BUT_magfit2.Location = new System.Drawing.Point(467, 443);
+            resources.ApplyResources(this.BUT_magfit2, "BUT_magfit2");
             this.BUT_magfit2.Name = "BUT_magfit2";
-            this.BUT_magfit2.Size = new System.Drawing.Size(75, 23);
-            this.BUT_magfit2.TabIndex = 79;
-            this.BUT_magfit2.Text = "mag calb log";
             this.BUT_magfit2.UseVisualStyleBackColor = true;
             this.BUT_magfit2.Click += new System.EventHandler(this.BUT_magfit2_Click);
             // 
             // but_gpsinj
             // 
-            this.but_gpsinj.Location = new System.Drawing.Point(467, 472);
+            resources.ApplyResources(this.but_gpsinj, "but_gpsinj");
             this.but_gpsinj.Name = "but_gpsinj";
-            this.but_gpsinj.Size = new System.Drawing.Size(75, 23);
-            this.but_gpsinj.TabIndex = 81;
-            this.but_gpsinj.Text = "extract gps_inject";
             this.but_gpsinj.UseVisualStyleBackColor = true;
             this.but_gpsinj.Click += new System.EventHandler(this.but_gpsinj_Click);
             // 
             // controlSensorsStatus1
             // 
             this.controlSensorsStatus1.BackColor = System.Drawing.Color.Transparent;
-            this.controlSensorsStatus1.Location = new System.Drawing.Point(548, 12);
+            resources.ApplyResources(this.controlSensorsStatus1, "controlSensorsStatus1");
             this.controlSensorsStatus1.Name = "controlSensorsStatus1";
-            this.controlSensorsStatus1.Size = new System.Drawing.Size(272, 586);
-            this.controlSensorsStatus1.TabIndex = 80;
             // 
             // but_followswarm
             // 
-            this.but_followswarm.Location = new System.Drawing.Point(467, 530);
+            resources.ApplyResources(this.but_followswarm, "but_followswarm");
             this.but_followswarm.Name = "but_followswarm";
-            this.but_followswarm.Size = new System.Drawing.Size(75, 23);
-            this.but_followswarm.TabIndex = 83;
-            this.but_followswarm.Text = "Follow Swarm";
             this.but_followswarm.UseVisualStyleBackColor = true;
             this.but_followswarm.Click += new System.EventHandler(this.but_followswarm_Click);
             // 
             // myButton3
             // 
-            this.myButton3.Location = new System.Drawing.Point(467, 559);
+            resources.ApplyResources(this.myButton3, "myButton3");
             this.myButton3.Name = "myButton3";
-            this.myButton3.Size = new System.Drawing.Size(75, 23);
-            this.myButton3.TabIndex = 84;
-            this.myButton3.Text = "Custom DTED";
             this.myButton3.UseVisualStyleBackColor = true;
             this.myButton3.Click += new System.EventHandler(this.myButton3_Click);
             // 
             // but_GDAL
             // 
-            this.but_GDAL.Location = new System.Drawing.Point(386, 566);
+            resources.ApplyResources(this.but_GDAL, "but_GDAL");
             this.but_GDAL.Name = "but_GDAL";
-            this.but_GDAL.Size = new System.Drawing.Size(75, 23);
-            this.but_GDAL.TabIndex = 85;
-            this.but_GDAL.Text = "Custom GDAL";
             this.but_GDAL.UseVisualStyleBackColor = true;
             this.but_GDAL.Click += new System.EventHandler(this.but_GDAL_Click);
             // 
             // but_sortlogs
             // 
-            this.but_sortlogs.Location = new System.Drawing.Point(305, 566);
+            resources.ApplyResources(this.but_sortlogs, "but_sortlogs");
             this.but_sortlogs.Name = "but_sortlogs";
-            this.but_sortlogs.Size = new System.Drawing.Size(75, 23);
-            this.but_sortlogs.TabIndex = 86;
-            this.but_sortlogs.Text = "ReSort All logs";
             this.but_sortlogs.UseVisualStyleBackColor = true;
             this.but_sortlogs.Click += new System.EventHandler(this.but_sortlogs_Click);
             // 
             // but_logdlscp
             // 
-            this.but_logdlscp.Location = new System.Drawing.Point(224, 566);
+            resources.ApplyResources(this.but_logdlscp, "but_logdlscp");
             this.but_logdlscp.Name = "but_logdlscp";
-            this.but_logdlscp.Size = new System.Drawing.Size(75, 23);
-            this.but_logdlscp.TabIndex = 87;
-            this.but_logdlscp.Text = "logdownload scp";
             this.but_logdlscp.UseVisualStyleBackColor = true;
             this.but_logdlscp.Click += new System.EventHandler(this.but_logdlscp_Click);
             // 
             // but_td
             // 
-            this.but_td.Location = new System.Drawing.Point(467, 120);
+            resources.ApplyResources(this.but_td, "but_td");
             this.but_td.Name = "but_td";
-            this.but_td.Size = new System.Drawing.Size(75, 23);
-            this.but_td.TabIndex = 88;
-            this.but_td.Text = "TD";
             this.but_td.UseVisualStyleBackColor = true;
             this.but_td.Click += new System.EventHandler(this.but_td_Click);
             // 
             // but_dem
             // 
-            this.but_dem.Location = new System.Drawing.Point(143, 566);
+            resources.ApplyResources(this.but_dem, "but_dem");
             this.but_dem.Name = "but_dem";
-            this.but_dem.Size = new System.Drawing.Size(75, 23);
-            this.but_dem.TabIndex = 89;
-            this.but_dem.Text = "DEM";
             this.but_dem.UseVisualStyleBackColor = true;
             this.but_dem.Click += new System.EventHandler(this.but_dem_Click);
             // 
             // but_gsttest
             // 
-            this.but_gsttest.Location = new System.Drawing.Point(62, 566);
+            resources.ApplyResources(this.but_gsttest, "but_gsttest");
             this.but_gsttest.Name = "but_gsttest";
-            this.but_gsttest.Size = new System.Drawing.Size(75, 23);
-            this.but_gsttest.TabIndex = 90;
-            this.but_gsttest.Text = "GST test";
             this.but_gsttest.UseVisualStyleBackColor = true;
             this.but_gsttest.Click += new System.EventHandler(this.but_gsttest_Click);
             // 
             // but_proximity
             // 
-            this.but_proximity.Location = new System.Drawing.Point(467, 501);
+            resources.ApplyResources(this.but_proximity, "but_proximity");
             this.but_proximity.Name = "but_proximity";
-            this.but_proximity.Size = new System.Drawing.Size(75, 23);
-            this.but_proximity.TabIndex = 91;
-            this.but_proximity.Text = "Proximity";
             this.but_proximity.UseVisualStyleBackColor = true;
             this.but_proximity.Click += new System.EventHandler(this.but_proximity_Click);
             // 
             // but_mavinspector
             // 
-            this.but_mavinspector.Location = new System.Drawing.Point(424, 236);
+            resources.ApplyResources(this.but_mavinspector, "but_mavinspector");
             this.but_mavinspector.Name = "but_mavinspector";
-            this.but_mavinspector.Size = new System.Drawing.Size(37, 23);
-            this.but_mavinspector.TabIndex = 92;
-            this.but_mavinspector.Text = "MAVLink Inspector";
             this.but_mavinspector.UseVisualStyleBackColor = true;
             this.but_mavinspector.Click += new System.EventHandler(this.but_mavinspector_Click);
             // 
             // temp
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(830, 595);
+            resources.ApplyResources(this, "$this");
             this.Controls.Add(this.but_mavinspector);
             this.Controls.Add(this.but_proximity);
             this.Controls.Add(this.but_gsttest);
@@ -990,7 +682,6 @@
             this.Controls.Add(this.but_sitl_comb);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "temp";
-            this.Text = "temp";
             this.Load += new System.EventHandler(this.temp_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
