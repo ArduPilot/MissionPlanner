@@ -150,6 +150,26 @@ namespace MissionPlanner.Utilities
             }
         }
 
+        public static IEnumerable<Tuple<T, T, T>> PrevNowNext<T>(this IEnumerable<T> list, T InitialValue = default(T), T InvalidValue = default(T))
+        {
+            T prev = InvalidValue;
+            T now = InvalidValue;
+            T next = InitialValue;
+            int a = -1;
+            foreach (var item in list)
+            {
+                a++;
+                prev = now;
+                now = next;
+                next = item;
+                if(a==0)
+                    continue;
+                yield return new Tuple<T, T, T>(prev, now, next);
+            }
+
+            yield return new Tuple<T, T, T>(now, next, InvalidValue);
+        }
+
         public static object GetPropertyOrField(this object obj, string name)
         {
             var type = obj.GetType();
