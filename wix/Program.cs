@@ -132,7 +132,7 @@ namespace wix
 
             st.Close();
 
-            runProgram("create.bat");
+            //runProgram("create.bat");
 
 
         }
