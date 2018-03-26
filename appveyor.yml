@@ -48,7 +48,7 @@ build_script:
 
     "%wix%\bin\candle" installer.wxs -ext WiXNetFxExtension -ext WixDifxAppExtension -ext WixUIExtension.dll -ext WixUtilExtension -ext WixIisExtension 
   
-    "%wix%\bin\light" installer.wixobj "%wix%\bin\difxapp_x86.wixlib" -sval -o MissionPlanner-1.3.54.1.msi -ext WiXNetFxExtension -ext WixDifxAppExtension -ext WixUIExtension.dll -ext WixUtilExtension -ext WixIisExtension 
+    "%wix%\bin\light" installer.wixobj "%wix%\bin\difxapp_x86.wixlib" -sval -o MissionPlanner-latest.msi -ext WiXNetFxExtension -ext WixDifxAppExtension -ext WixUIExtension.dll -ext WixUtilExtension -ext WixIisExtension 
 
     rem if exist date.txt set /p datecheck=<date.txt
 
