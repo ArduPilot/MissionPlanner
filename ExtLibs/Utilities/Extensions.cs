@@ -130,6 +130,7 @@ namespace MissionPlanner.Utilities
                 }
 
                 val = func(val, last, item);
+                last = item;
             }
             return val;
         }
