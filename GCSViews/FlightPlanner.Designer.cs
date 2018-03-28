@@ -132,6 +132,7 @@ namespace MissionPlanner.GCSViews
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteWPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insertWpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.currentPositionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insertSplineWPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loiterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loiterForeverToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -174,6 +175,8 @@ namespace MissionPlanner.GCSViews
             this.createSplineCircleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.areaToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.textToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.createCircleSurveyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.surveyGridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mapToolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ContextMeasure = new System.Windows.Forms.ToolStripMenuItem();
             this.rotateMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -203,7 +206,6 @@ namespace MissionPlanner.GCSViews
             this.panelBASE = new System.Windows.Forms.Panel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.createCircleSurveyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.Commands)).BeginInit();
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -272,6 +274,7 @@ namespace MissionPlanner.GCSViews
             this.Commands.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.Commands_EditingControlShowing);
             this.Commands.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.Commands_RowEnter);
             this.Commands.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.Commands_RowsAdded);
+            this.Commands.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.Commands_RowsRemoved);
             this.Commands.RowValidating += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.Commands_RowValidating);
             // 
             // Command
@@ -816,7 +819,6 @@ namespace MissionPlanner.GCSViews
             this.MainMap.RetryLoadTile = 0;
             this.MainMap.RoutesEnabled = false;
             this.MainMap.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Fractional;
-            
             this.MainMap.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.MainMap.ShowTileGridLines = false;
             this.MainMap.Zoom = 0D;
@@ -861,9 +863,17 @@ namespace MissionPlanner.GCSViews
             // 
             // insertWpToolStripMenuItem
             // 
+            this.insertWpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.currentPositionToolStripMenuItem});
             this.insertWpToolStripMenuItem.Name = "insertWpToolStripMenuItem";
             resources.ApplyResources(this.insertWpToolStripMenuItem, "insertWpToolStripMenuItem");
             this.insertWpToolStripMenuItem.Click += new System.EventHandler(this.insertWpToolStripMenuItem_Click);
+            // 
+            // currentPositionToolStripMenuItem
+            // 
+            this.currentPositionToolStripMenuItem.Name = "currentPositionToolStripMenuItem";
+            resources.ApplyResources(this.currentPositionToolStripMenuItem, "currentPositionToolStripMenuItem");
+            this.currentPositionToolStripMenuItem.Click += new System.EventHandler(this.currentPositionToolStripMenuItem_Click);
             // 
             // insertSplineWPToolStripMenuItem
             // 
@@ -1116,7 +1126,8 @@ namespace MissionPlanner.GCSViews
             this.createSplineCircleToolStripMenuItem,
             this.areaToolStripMenuItem1,
             this.textToolStripMenuItem,
-            this.createCircleSurveyToolStripMenuItem});
+            this.createCircleSurveyToolStripMenuItem,
+            this.surveyGridToolStripMenuItem});
             this.autoWPToolStripMenuItem.Name = "autoWPToolStripMenuItem";
             resources.ApplyResources(this.autoWPToolStripMenuItem, "autoWPToolStripMenuItem");
             // 
@@ -1143,6 +1154,18 @@ namespace MissionPlanner.GCSViews
             this.textToolStripMenuItem.Name = "textToolStripMenuItem";
             resources.ApplyResources(this.textToolStripMenuItem, "textToolStripMenuItem");
             this.textToolStripMenuItem.Click += new System.EventHandler(this.textToolStripMenuItem_Click);
+            // 
+            // createCircleSurveyToolStripMenuItem
+            // 
+            this.createCircleSurveyToolStripMenuItem.Name = "createCircleSurveyToolStripMenuItem";
+            resources.ApplyResources(this.createCircleSurveyToolStripMenuItem, "createCircleSurveyToolStripMenuItem");
+            this.createCircleSurveyToolStripMenuItem.Click += new System.EventHandler(this.createCircleSurveyToolStripMenuItem_Click);
+            // 
+            // surveyGridToolStripMenuItem
+            // 
+            this.surveyGridToolStripMenuItem.Name = "surveyGridToolStripMenuItem";
+            resources.ApplyResources(this.surveyGridToolStripMenuItem, "surveyGridToolStripMenuItem");
+            this.surveyGridToolStripMenuItem.Click += new System.EventHandler(this.surveyGridToolStripMenuItem_Click);
             // 
             // mapToolToolStripMenuItem
             // 
@@ -1338,12 +1361,6 @@ namespace MissionPlanner.GCSViews
             this.timer1.Interval = 1200;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // createCircleSurveyToolStripMenuItem
-            // 
-            this.createCircleSurveyToolStripMenuItem.Name = "createCircleSurveyToolStripMenuItem";
-            resources.ApplyResources(this.createCircleSurveyToolStripMenuItem, "createCircleSurveyToolStripMenuItem");
-            this.createCircleSurveyToolStripMenuItem.Click += new System.EventHandler(this.createCircleSurveyToolStripMenuItem_Click);
-            // 
             // FlightPlanner
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1522,5 +1539,7 @@ namespace MissionPlanner.GCSViews
         private System.Windows.Forms.DataGridViewTextBoxColumn TagData;
         private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem createCircleSurveyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem currentPositionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem surveyGridToolStripMenuItem;
     }
 }

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 
@@ -29,7 +30,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 Enabled = false;
                 return;
             }
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduTracker)
+            if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduTracker)
             {
                 Enabled = true;
             }
@@ -133,46 +134,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             return sb.ToString();
         }
 
-        private void ComboBox_Validated(object sender, EventArgs e)
-        {
-            EEPROM_View_float_TextChanged(sender, e);
-        }
-
-        private void Configuration_Validating(object sender, CancelEventArgs e)
-        {
-            EEPROM_View_float_TextChanged(sender, e);
-        }
-
-        internal void EEPROM_View_float_TextChanged(object sender, EventArgs e)
-        {
-            if (startup)
-                return;
-
-            float value = 0;
-            var name = ((Control) sender).Name;
-
-            // do domainupdown state check
-            try
-            {
-                if (sender.GetType() == typeof (NumericUpDown))
-                {
-                    value = (float) ((NumericUpDown) sender).Value;
-                    MAVLinkInterface.modifyParamForDisplay(false, ((Control) sender).Name, ref value);
-                    changes[name] = value;
-                }
-                else if (sender.GetType() == typeof (ComboBox))
-                {
-                    value = (int) ((ComboBox) sender).SelectedValue;
-                    changes[name] = value;
-                }
-                ((Control) sender).BackColor = Color.Green;
-            }
-            catch (Exception)
-            {
-                ((Control) sender).BackColor = Color.Red;
-            }
-        }
-
         private void BUT_writePIDS_Click(object sender, EventArgs e)
         {
             var temp = (Hashtable) changes.Clone();
@@ -184,7 +145,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     if ((float) changes[value] > MainV2.comPort.MAV.param[value].Value*2.0f)
                         if (
                             CustomMessageBox.Show(value + " has more than doubled the last input. Are you sure?",
-                                "Large Value", MessageBoxButtons.YesNo) == DialogResult.No)
+                                "Large Value", MessageBoxButtons.YesNo) == (int)DialogResult.No)
                             return;
 
                     MainV2.comPort.setParam(value, (float) changes[value]);

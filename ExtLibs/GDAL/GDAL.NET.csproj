@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
+    <ApplicationIcon />
+    <OutputTypeEx>library</OutputTypeEx>
+    <StartupObject />
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Michael Oborne</Authors>
+    <Company>Michael Oborne</Company>
+    <AssemblyName>GDAL.NET</AssemblyName>
+    <RootNamespace>GDAL</RootNamespace>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="gdal\**" />
+    <Compile Remove="Native\**" />
+    <EmbeddedResource Remove="gdal\**" />
+    <EmbeddedResource Remove="Native\**" />
+    <None Remove="gdal\**" />
+    <None Remove="Native\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="GDAL" Version="1.11.1" />
+    <PackageReference Include="log4net" Version="2.0.8" />
+    <PackageReference Include="MP.GDAL.Native" Version="2.2.3" />
+    <PackageReference Include="System.Drawing.Common" Version="4.5.0-preview1-26216-02" />
+    <ProjectReference Include="..\GMap.NET.Core\GMap.NET.Core.csproj" />
+	
+  </ItemGroup>
+
+</Project>

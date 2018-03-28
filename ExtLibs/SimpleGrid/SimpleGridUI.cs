@@ -13,6 +13,7 @@ using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using log4net;
+using MissionPlanner.Plugin;
 using MissionPlanner.Utilities;
 using ProjNet.CoordinateSystems;
 using ProjNet.CoordinateSystems.Transformations;
@@ -116,6 +117,8 @@ namespace MissionPlanner.SimpleGrid
         bool isMouseDown = false;
         bool isMouseDraging = false;
         static public Object thisLock = new Object();
+
+        public PluginHost Host2 { get; private set; }
 
         private void map_OnMarkerLeave(GMapMarker item)
         {
@@ -277,7 +280,7 @@ namespace MissionPlanner.SimpleGrid
 
         private void domainUpDown1_ValueChanged(object sender, EventArgs e)
         {
-            Grid.Host2 = plugin.Host;
+            Host2 = plugin.Host;
             
             grid = Grid.CreateGrid(list, (double) NUM_altitude.Value, (double) NUM_Distance.Value,
                 (double) NUM_spacing.Value, (double) NUM_angle.Value, (double) NUM_overshoot.Value,

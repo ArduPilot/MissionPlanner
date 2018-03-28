@@ -8,6 +8,8 @@ using System.Net.Sockets;
 using System.Text;
 using log4net;
 using System.Threading;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace MissionPlanner.Utilities
 {
@@ -18,19 +20,25 @@ namespace MissionPlanner.Utilities
         //http://adsb.tc.faa.gov/WG3_Meetings/Meeting9/1090-WP-9-14.pdf
         //*8D75804B580FF2CF7E9BA6F701D0
         //*8D75804B580FF6B283EB7A157117
+        //https://www.adsbexchange.com/data/
+        //https://public-api.adsbexchange.com/VirtualRadar/AircraftList.json?lat=33.433638&lng=-112.008113&fDstL=0&fDstU=100
 
         private static readonly ILog log =        LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         /// <summary>
         /// When a plane position has been updated. you will need to age your own entries
         /// </summary>
-        public static event EventHandler UpdatePlanePosition;
+        public static event EventHandler<MissionPlanner.Utilities.adsb.PointLatLngAltHdg> UpdatePlanePosition;
+
+        public static PointLatLngAlt CurrentPosition = PointLatLngAlt.Zero;
 
         static bool run = false;
         static Thread thisthread;
 
         public static string server = "";
-        public static int serverport = 0;  
+        public static int serverport = 0;
+
+        private static int adsbexchangerange = 100;
 
         public adsb()
         {
@@ -161,12 +169,127 @@ namespace MissionPlanner.Utilities
                 }
                 catch (Exception) {  }
 
+                // adsbexchange
+                try
+                {
+
+                    if (CurrentPosition != PointLatLngAlt.Zero)
+                    {
+                        string url =
+                            "http://public-api.adsbexchange.com/VirtualRadar/AircraftList.json?lat={0}&lng={1}&fDstL=0&fDstU={2}";
+                        string path = Settings.GetDataDirectory() + Path.DirectorySeparatorChar + "adsb.json";
+                        var ans = Download.getFilefromNet(String.Format(url, CurrentPosition.Lat, CurrentPosition.Lng, adsbexchangerange),
+                            path);
+
+                        if (ans)
+                        {
+                            var result = JsonConvert.DeserializeObject<RootObject>(File.ReadAllText(path));
+
+                            if (result.acList.Count < 1)
+                                adsbexchangerange = Math.Min(adsbexchangerange + 10, 400);
+
+                            foreach (var acList in result.acList)
+                            {
+                                var plane = new MissionPlanner.Utilities.adsb.PointLatLngAltHdg(acList.Lat, acList.Long,
+                                    acList.Alt * 0.3048,
+                                    (float) acList.Trak, acList.Icao, DateTime.Now);
+
+                                UpdatePlanePosition(null, plane);
+                            }
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+
+                }
+
                 // cleanup any sockets that might be outstanding.
                 GC.Collect();
                 System.Threading.Thread.Sleep(5000);
             }
 
             log.Info("adsb thread exit");
+        }
+
+        public class Feed
+        {
+            public int id { get; set; }
+            public string name { get; set; }
+            public bool polarPlot { get; set; }
+        }
+
+        public class AcList
+        {
+            public int Id { get; set; }
+            public int Rcvr { get; set; }
+            public bool HasSig { get; set; }
+            public int Sig { get; set; }
+            public string Icao { get; set; }
+            public bool Bad { get; set; }
+            public string Reg { get; set; }
+            public string FSeen { get; set; }
+            public int TSecs { get; set; }
+            public int CMsgs { get; set; }
+            public int Alt { get; set; }
+            public int GAlt { get; set; }
+            public double InHg { get; set; }
+            public int AltT { get; set; }
+            public string Call { get; set; }
+            public double Lat { get; set; }
+            public double Long { get; set; }
+            public string PosTime { get; set; }
+            public bool Mlat { get; set; }
+            public bool Tisb { get; set; }
+            public double Spd { get; set; }
+            public double Trak { get; set; }
+            public bool TrkH { get; set; }
+            public string Type { get; set; }
+            public string Mdl { get; set; }
+            public string Man { get; set; }
+            public string CNum { get; set; }
+            public string Op { get; set; }
+            public string OpIcao { get; set; }
+            public string Sqk { get; set; }
+            public int Vsi { get; set; }
+            public int VsiT { get; set; }
+            public double Dst { get; set; }
+            public double Brng { get; set; }
+            public int WTC { get; set; }
+            public int Species { get; set; }
+            public string Engines { get; set; }
+            public int EngType { get; set; }
+            public int EngMount { get; set; }
+            public bool Mil { get; set; }
+            public string Cou { get; set; }
+            public bool HasPic { get; set; }
+            public bool Interested { get; set; }
+            public int FlightsCount { get; set; }
+            public bool Gnd { get; set; }
+            public int SpdTyp { get; set; }
+            public bool CallSus { get; set; }
+            public int Trt { get; set; }
+            public string Year { get; set; }
+            public string From { get; set; }
+            public string To { get; set; }
+            public bool? Help { get; set; }
+        }
+
+        public class RootObject
+        {
+            public int src { get; set; }
+            public List<Feed> feeds { get; set; }
+            public int srcFeed { get; set; }
+            public bool showSil { get; set; }
+            public bool showFlg { get; set; }
+            public bool showPic { get; set; }
+            public int flgH { get; set; }
+            public int flgW { get; set; }
+            public List<AcList> acList { get; set; }
+            public int totalAc { get; set; }
+            public string lastDv { get; set; }
+            public int shtTrlSec { get; set; }
+            public long stm { get; set; }
         }
 
         static Hashtable Planes = new Hashtable();
@@ -637,7 +760,7 @@ namespace MissionPlanner.Utilities
                             if (plla.Lat == 0 && plla.Lng == 0)
                                 continue;
                             if (UpdatePlanePosition != null && plla != null)
-                                UpdatePlanePosition(plla, EventArgs.Empty);
+                                UpdatePlanePosition(null, plla);
                             //Console.WriteLine(plane.pllalocal(plane.llaeven));
                             Console.WriteLine(plane.ID + " " + plla);
                         }
@@ -693,7 +816,7 @@ namespace MissionPlanner.Utilities
                                 continue;
 
                             if (UpdatePlanePosition != null && plane != null)
-                                UpdatePlanePosition(new PointLatLngAltHdg(lat, lon, altitude / 3.048, (float)plane.heading, hex_ident, DateTime.Now), EventArgs.Empty);
+                                UpdatePlanePosition(null, new PointLatLngAltHdg(lat, lon, altitude / 3.048, (float)plane.heading, hex_ident, DateTime.Now));
                         }
                         else if (strArray[1] == "4")
                         {
@@ -781,7 +904,7 @@ namespace MissionPlanner.Utilities
                                     continue;
                                 plla.Heading = (float)plane.heading;
                                 if (UpdatePlanePosition != null && plla != null)
-                                    UpdatePlanePosition(plla, EventArgs.Empty);
+                                    UpdatePlanePosition(null, plla);
                                 //Console.WriteLine(plane.pllalocal(plane.llaeven));
                                 Console.WriteLine(plla);
                             }

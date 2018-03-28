@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -181,7 +182,8 @@ namespace MissionPlanner.Utilities
                         int offsetAZ = file.dflog.FindMessageOffset("ACC1", "AccZ");
                         int offsetTime = file.dflog.FindMessageOffset("ACC1", "TimeUS");
 
-                        double time = double.Parse(item.items[offsetTime])/1000.0;
+                        double time = double.Parse(item.items[offsetTime],
+                                          CultureInfo.InvariantCulture) /1000.0;
 
                         timedelta = timedelta*0.99 + (time - lasttime)*0.01;
 
@@ -189,9 +191,12 @@ namespace MissionPlanner.Utilities
                         if (samplecounta >= N)
                             continue;
 
-                        datainAX[samplecounta] = double.Parse(item.items[offsetAX]);
-                        datainAY[samplecounta] = double.Parse(item.items[offsetAY]);
-                        datainAZ[samplecounta] = double.Parse(item.items[offsetAZ]);
+                        datainAX[samplecounta] = double.Parse(item.items[offsetAX],
+                            CultureInfo.InvariantCulture);
+                        datainAY[samplecounta] = double.Parse(item.items[offsetAY],
+                            CultureInfo.InvariantCulture);
+                        datainAZ[samplecounta] = double.Parse(item.items[offsetAZ],
+                            CultureInfo.InvariantCulture);
 
                         samplecounta++;
 
@@ -204,15 +209,19 @@ namespace MissionPlanner.Utilities
                         int offsetGZ = file.dflog.FindMessageOffset("GYR1", "GyrZ");
                         int offsetTime = file.dflog.FindMessageOffset("ACC1", "TimeUS");
 
-                        double time = double.Parse(item.items[offsetTime])/1000.0;
+                        double time = double.Parse(item.items[offsetTime],
+                                          CultureInfo.InvariantCulture) /1000.0;
 
                         // we missed accel data
                         if (samplecountg >= N)
                             continue;
 
-                        datainGX[samplecountg] = double.Parse(item.items[offsetGX]);
-                        datainGY[samplecountg] = double.Parse(item.items[offsetGY]);
-                        datainGZ[samplecountg] = double.Parse(item.items[offsetGZ]);
+                        datainGX[samplecountg] = double.Parse(item.items[offsetGX],
+                            CultureInfo.InvariantCulture);
+                        datainGY[samplecountg] = double.Parse(item.items[offsetGY],
+                            CultureInfo.InvariantCulture);
+                        datainGZ[samplecountg] = double.Parse(item.items[offsetGZ],
+                            CultureInfo.InvariantCulture);
 
                         samplecountg++;
                     }
@@ -344,7 +353,8 @@ namespace MissionPlanner.Utilities
 
                     if (item.msgtype.StartsWith("ACC"))
                     {
-                        int sensorno = int.Parse(item.msgtype.Substring(3)) - 1 + 3;
+                        int sensorno = int.Parse(item.msgtype.Substring(3),
+                                           CultureInfo.InvariantCulture) - 1 + 3;
                         alldata[sensorno].type = item.msgtype;
 
                         int offsetAX = file.dflog.FindMessageOffset(item.msgtype, "AccX");
@@ -352,7 +362,8 @@ namespace MissionPlanner.Utilities
                         int offsetAZ = file.dflog.FindMessageOffset(item.msgtype, "AccZ");
                         int offsetTime = file.dflog.FindMessageOffset(item.msgtype, "TimeUS");
 
-                        double time = double.Parse(item.items[offsetTime])/1000.0;
+                        double time = double.Parse(item.items[offsetTime],
+                                          CultureInfo.InvariantCulture) /1000.0;
 
                         if (time < alldata[sensorno].lasttime)
                             continue;
@@ -363,13 +374,17 @@ namespace MissionPlanner.Utilities
 
                         alldata[sensorno].lasttime = time;
 
-                        alldata[sensorno].datax.Add(double.Parse(item.items[offsetAX]));
-                        alldata[sensorno].datay.Add(double.Parse(item.items[offsetAY]));
-                        alldata[sensorno].dataz.Add(double.Parse(item.items[offsetAZ]));
+                        alldata[sensorno].datax.Add(double.Parse(item.items[offsetAX],
+                            CultureInfo.InvariantCulture));
+                        alldata[sensorno].datay.Add(double.Parse(item.items[offsetAY],
+                            CultureInfo.InvariantCulture));
+                        alldata[sensorno].dataz.Add(double.Parse(item.items[offsetAZ],
+                            CultureInfo.InvariantCulture));
                     }
                     else if (item.msgtype.StartsWith("GYR"))
                     {
-                        int sensorno = int.Parse(item.msgtype.Substring(3)) - 1;
+                        int sensorno = int.Parse(item.msgtype.Substring(3),
+                                           CultureInfo.InvariantCulture) - 1;
                         alldata[sensorno].type = item.msgtype;
 
                         int offsetGX = file.dflog.FindMessageOffset(item.msgtype, "GyrX");
@@ -377,7 +392,8 @@ namespace MissionPlanner.Utilities
                         int offsetGZ = file.dflog.FindMessageOffset(item.msgtype, "GyrZ");
                         int offsetTime = file.dflog.FindMessageOffset(item.msgtype, "TimeUS");
 
-                        double time = double.Parse(item.items[offsetTime])/1000.0;
+                        double time = double.Parse(item.items[offsetTime],
+                                          CultureInfo.InvariantCulture) /1000.0;
 
                         if(time < alldata[sensorno].lasttime)
                             continue;
@@ -388,9 +404,12 @@ namespace MissionPlanner.Utilities
 
                         alldata[sensorno].lasttime = time;
 
-                        alldata[sensorno].datax.Add(double.Parse(item.items[offsetGX]));
-                        alldata[sensorno].datay.Add(double.Parse(item.items[offsetGY]));
-                        alldata[sensorno].dataz.Add(double.Parse(item.items[offsetGZ]));
+                        alldata[sensorno].datax.Add(double.Parse(item.items[offsetGX],
+                            CultureInfo.InvariantCulture));
+                        alldata[sensorno].datay.Add(double.Parse(item.items[offsetGY],
+                            CultureInfo.InvariantCulture));
+                        alldata[sensorno].dataz.Add(double.Parse(item.items[offsetGZ],
+                            CultureInfo.InvariantCulture));
                     }
                 }
 
@@ -560,7 +579,8 @@ namespace MissionPlanner.Utilities
                         int offsetAZ = file.dflog.FindMessageOffset(item.msgtype, "AccZ");
                         int offsetTime = file.dflog.FindMessageOffset(item.msgtype, "TimeUS");
 
-                        double time = double.Parse(item.items[offsetTime]) / 1000.0;
+                        double time = double.Parse(item.items[offsetTime],
+                                          CultureInfo.InvariantCulture) / 1000.0;
 
                         if (time != alldata[sensorno + 3].lasttime)
                             alldata[sensorno + 3].timedelta = alldata[sensorno + 3].timedelta * 0.99 +
@@ -568,9 +588,12 @@ namespace MissionPlanner.Utilities
 
                         alldata[sensorno + 3].lasttime = time;
 
-                        alldata[sensorno + 3].datax.Add(double.Parse(item.items[offsetAX]));
-                        alldata[sensorno + 3].datay.Add(double.Parse(item.items[offsetAY]));
-                        alldata[sensorno + 3].dataz.Add(double.Parse(item.items[offsetAZ]));
+                        alldata[sensorno + 3].datax.Add(double.Parse(item.items[offsetAX],
+                            CultureInfo.InvariantCulture));
+                        alldata[sensorno + 3].datay.Add(double.Parse(item.items[offsetAY],
+                            CultureInfo.InvariantCulture));
+                        alldata[sensorno + 3].dataz.Add(double.Parse(item.items[offsetAZ],
+                            CultureInfo.InvariantCulture));
 
                         //gyro
                         alldata[sensorno].type = item.msgtype + " GYR";
@@ -585,9 +608,12 @@ namespace MissionPlanner.Utilities
 
                         alldata[sensorno].lasttime = time;
 
-                        alldata[sensorno].datax.Add(double.Parse(item.items[offsetGX]));
-                        alldata[sensorno].datay.Add(double.Parse(item.items[offsetGY]));
-                        alldata[sensorno].dataz.Add(double.Parse(item.items[offsetGZ]));
+                        alldata[sensorno].datax.Add(double.Parse(item.items[offsetGX],
+                            CultureInfo.InvariantCulture));
+                        alldata[sensorno].datay.Add(double.Parse(item.items[offsetGY],
+                            CultureInfo.InvariantCulture));
+                        alldata[sensorno].dataz.Add(double.Parse(item.items[offsetGZ],
+                            CultureInfo.InvariantCulture));
                     }
                 }
 
@@ -682,6 +708,180 @@ namespace MissionPlanner.Utilities
 
             // not handled
             return false;
+        }
+
+        private void but_ISBH_Click(object sender, EventArgs e)
+        {
+            Utilities.FFT2 fft = new FFT2();
+            using (
+                OpenFileDialog ofd = new OpenFileDialog())
+            {
+                ofd.Filter = "*.log;*.bin|*.log;*.bin";
+
+                ofd.ShowDialog();
+
+                if (!File.Exists(ofd.FileName))
+                    return;
+
+                var file = new CollectionBuffer(File.OpenRead(ofd.FileName));
+
+                int bins = (int)NUM_bins.Value;
+
+                int N = 1 << bins;
+
+                Color[] color = new Color[]
+                {Color.Red, Color.Green, Color.Blue, Color.Black, Color.Violet, Color.Orange};
+                ZedGraphControl[] ctls = new ZedGraphControl[]
+                {
+                    zedGraphControl1, zedGraphControl2, zedGraphControl3, zedGraphControl4, zedGraphControl5,
+                    zedGraphControl6
+                };
+
+                // 3 imus * 2 sets of measurements(gyr/acc)
+                datastate[] alldata = new datastate[3 * 2];
+                for (int a = 0; a < alldata.Length; a++)
+                    alldata[a] = new datastate();
+
+                // state cache
+                int Ns = 0;
+                int type = 0;
+                int instance = 0;
+                int sensorno = 0;
+                double smp_rate = 0;
+
+                foreach (var item in file.GetEnumeratorType(new string[] { "ISBH", "ISBD" }))
+                {
+                    if (item.msgtype == null)
+                    {
+                        continue;
+                    }
+
+                    if (item.msgtype.StartsWith("ISBH"))
+                    {
+                        Ns = int.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "N")],
+                            CultureInfo.InvariantCulture);
+                        type = int.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "type")],
+                            CultureInfo.InvariantCulture);
+                        instance = int.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "instance")],
+                            CultureInfo.InvariantCulture);
+                        smp_rate = double.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "smp_rate")],
+                            CultureInfo.InvariantCulture);
+
+                        sensorno = type * 3 + instance;
+                        if(type == 0)
+                            alldata[sensorno].type = "ACC"+ instance.ToString();
+                        if (type == 1)
+                            alldata[sensorno].type = "GYR"+ instance.ToString();
+
+                    }
+                    else if (item.msgtype.StartsWith("ISBD"))
+                    {
+                        var Nsdata = int.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "N")],
+                            CultureInfo.InvariantCulture);
+
+                        if (Ns != Nsdata)
+                            continue;
+
+                        int offsetX = file.dflog.FindMessageOffset(item.msgtype, "x");
+                        int offsetY = file.dflog.FindMessageOffset(item.msgtype, "y");
+                        int offsetZ = file.dflog.FindMessageOffset(item.msgtype, "z");
+                        int offsetTime = file.dflog.FindMessageOffset(item.msgtype, "TimeUS");
+
+                        double time = double.Parse(item.items[offsetTime],
+                                          CultureInfo.InvariantCulture) / 1000.0;
+
+                        if (time < alldata[sensorno].lasttime)
+                            continue;
+
+                        if (time != alldata[sensorno].lasttime)
+                            alldata[sensorno].timedelta = alldata[sensorno].timedelta * 0.99 +
+                                                          (time - alldata[sensorno].lasttime) * 0.01;
+
+                        alldata[sensorno].lasttime = time;
+
+                        item.items[offsetX].Split(new[] { ' ', '[', ']' }, StringSplitOptions.RemoveEmptyEntries).ForEach(aa => { alldata[sensorno].datax.Add(double.Parse(aa,
+                            CultureInfo.InvariantCulture)); });
+                        item.items[offsetY].Split(new[] { ' ', '[', ']' }, StringSplitOptions.RemoveEmptyEntries).ForEach(aa => { alldata[sensorno].datay.Add(double.Parse(aa,
+                            CultureInfo.InvariantCulture)); });
+                        item.items[offsetZ].Split(new[] { ' ', '[', ']' }, StringSplitOptions.RemoveEmptyEntries).ForEach(aa => { alldata[sensorno].dataz.Add(double.Parse(aa,
+                            CultureInfo.InvariantCulture)); });
+                    }
+                }
+
+                int controlindex = 0;
+
+                foreach (var sensordata in alldata)
+                {
+                    if (sensordata.datax.Count <= N)
+                        continue;
+
+                    double samplerate = 0;
+
+                    samplerate = smp_rate;// Math.Round(1000 / sensordata.timedelta, 1);
+
+                    double[] freqt = fft.FreqTable(N, (int)samplerate);
+
+                    double[] avgx = new double[N / 2];
+                    double[] avgy = new double[N / 2];
+                    double[] avgz = new double[N / 2];
+
+                    int totalsamples = sensordata.datax.Count;
+                    int count = totalsamples / N;
+                    int done = 0;
+                    while (count > 1) // skip last part
+                    {
+                        var fftanswerx = fft.rin(sensordata.datax.Skip(N * done).Take(N).ToArray(), (uint)bins);
+                        var fftanswery = fft.rin(sensordata.datay.Skip(N * done).Take(N).ToArray(), (uint)bins);
+                        var fftanswerz = fft.rin(sensordata.dataz.Skip(N * done).Take(N).ToArray(), (uint)bins);
+
+                        for (int b = 0; b < N / 2; b++)
+                        {
+                            if (freqt[b] < (double)NUM_startfreq.Value)
+                                continue;
+
+                            avgx[b] += fftanswerx[b] / (N / 2);
+                            avgy[b] += fftanswery[b] / (N / 2);
+                            avgz[b] += fftanswerz[b] / (N / 2);
+                        }
+
+                        count--;
+                        done++;
+                    }
+
+                    ZedGraph.PointPairList pplx = new ZedGraph.PointPairList(freqt, avgx);
+                    ZedGraph.PointPairList pply = new ZedGraph.PointPairList(freqt, avgy);
+                    ZedGraph.PointPairList pplz = new ZedGraph.PointPairList(freqt, avgz);
+
+                    var curvex = new LineItem(sensordata.type + " x", pplx, color[0], SymbolType.None);
+                    var curvey = new LineItem(sensordata.type + " y", pply, color[1], SymbolType.None);
+                    var curvez = new LineItem(sensordata.type + " z", pplz, color[2], SymbolType.None);
+
+                    ctls[controlindex].GraphPane.Legend.IsVisible = true;
+
+                    ctls[controlindex].GraphPane.XAxis.Title.Text = "Freq Hz";
+                    ctls[controlindex].GraphPane.YAxis.Title.Text = "Amplitude";
+                    ctls[controlindex].GraphPane.Title.Text = "FFT " + sensordata.type + " - " +
+                                                              Path.GetFileName(ofd.FileName) + " - " + samplerate +
+                                                              "hz input";
+
+                    ctls[controlindex].GraphPane.CurveList.Clear();
+
+                    ctls[controlindex].GraphPane.CurveList.Add(curvex);
+                    ctls[controlindex].GraphPane.CurveList.Add(curvey);
+                    ctls[controlindex].GraphPane.CurveList.Add(curvez);
+
+                    ctls[controlindex].Invalidate();
+                    ctls[controlindex].AxisChange();
+
+                    ctls[controlindex].GraphPane.XAxis.Scale.Max = samplerate / 2;
+
+                    ctls[controlindex].Refresh();
+
+                    controlindex++;
+                }
+
+                SetScale(ctls);
+            }
         }
     }
 }

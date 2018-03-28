@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using ZedGraph;
 using GMap.NET;
 using System.Xml;
+using MissionPlanner.GCSViews;
 using MissionPlanner.Utilities; // GE xml alt reader
 
 namespace MissionPlanner
@@ -64,7 +65,7 @@ namespace MissionPlanner
                 lastloc = loc;
             }
 
-            this.homealt = homealt/CurrentState.multiplierdist;
+            this.homealt = homealt/CurrentState.multiplieralt;
 
             Form frm = Common.LoadingBox("Loading", "using alt data");
 
@@ -123,13 +124,13 @@ namespace MissionPlanner
                 else if (altmode == GCSViews.FlightPlanner.altmode.Relative)
                 {
                     // already includes the home alt
-                    list1.Add(a, (planloc.Alt/CurrentState.multiplierdist), 0, planloc.Tag);
+                    list1.Add(a, (planloc.Alt/CurrentState.multiplieralt), 0, planloc.Tag);
                 }
                 else
                 {
                     // abs
                     // already absolute
-                    list1.Add(a, (planloc.Alt/CurrentState.multiplierdist), 0, planloc.Tag);
+                    list1.Add(a, (planloc.Alt/CurrentState.multiplieralt), 0, planloc.Tag);
                 }
 
                 lastloc = planloc;
@@ -155,18 +156,25 @@ namespace MissionPlanner
                 if (last == null)
                 {
                     last = loc;
+                    if (altmode == FlightPlanner.altmode.Terrain)
+                        loc.Alt -= srtm.getAltitude(loc.Lat, loc.Lng).alt;
                     continue;
                 }
 
                 double dist = last.GetDistance(loc);
 
+                if (altmode == FlightPlanner.altmode.Terrain)
+                    loc.Alt -= srtm.getAltitude(loc.Lat, loc.Lng).alt;
+
                 int points = (int) (dist/10) + 1;
 
                 double deltalat = (last.Lat - loc.Lat);
                 double deltalng = (last.Lng - loc.Lng);
+                double deltaalt = last.Alt - loc.Alt;
 
                 double steplat = deltalat/points;
                 double steplng = deltalng/points;
+                double stepalt = deltaalt / points;
 
                 PointLatLngAlt lastpnt = last;
 
@@ -174,6 +182,7 @@ namespace MissionPlanner
                 {
                     double lat = last.Lat - steplat*a;
                     double lng = last.Lng - steplng*a;
+                    double alt = last.Alt - stepalt * a;
 
                     var newpoint = new PointLatLngAlt(lat, lng, srtm.getAltitude(lat, lng).alt, "");
 
@@ -182,10 +191,10 @@ namespace MissionPlanner
                     disttotal += subdist;
 
                     // srtm alts
-                    list3.Add(disttotal, newpoint.Alt/CurrentState.multiplierdist);
+                    list3.Add(disttotal, newpoint.Alt/CurrentState.multiplieralt);
 
                     // terrain alt
-                    list4terrain.Add(disttotal, (newpoint.Alt - homealt + loc.Alt)/CurrentState.multiplierdist);
+                    list4terrain.Add(disttotal, (newpoint.Alt + alt) /CurrentState.multiplieralt);
 
                     lastpnt = newpoint;
                 }
@@ -281,7 +290,7 @@ namespace MissionPlanner
 
             myCurve = myPane.AddCurve("Planned Path", list1, Color.Red, SymbolType.None);
             myCurve = myPane.AddCurve("Google", list2, Color.Green, SymbolType.None);
-            myCurve = myPane.AddCurve("SRTM", list3, Color.Blue, SymbolType.None);
+            myCurve = myPane.AddCurve("DEM", list3, Color.Blue, SymbolType.None);
 
             foreach (PointPair pp in list1)
             {

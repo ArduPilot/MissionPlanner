@@ -1,28 +1,37 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
   <PropertyGroup>
-    <TargetFramework>net462</TargetFramework>
-    <ApplicationIcon />
-    <OutputTypeEx>library</OutputTypeEx>
-    <StartupObject />
-    <DebugType>embedded</DebugType>
-    <DebugSymbols>True</DebugSymbols>
-    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C8B88795-6D01-494D-83AD-6944BD4C5023}</ProjectGuid>
+    <RootNamespace>MissionPlanner.Controls</RootNamespace>
+    <AssemblyName>MissionPlanner.Controls</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>bin\Debug\net462\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
   </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\BSE.Windows.Forms\BSE.Windows.Forms.csproj" />
-    <ProjectReference Include="..\GeoUtility\GeoUtility.csproj" />
-    <ProjectReference Include="..\GMap.NET.Core\GMap.NET.Core.csproj" />
-    <ProjectReference Include="..\GMap.NET.WindowsForms\GMap.NET.WindowsForms.csproj" />
-    <ProjectReference Include="..\Utilities\MissionPlanner.Utilities.csproj" />
-  </ItemGroup>
-
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <Prefer32Bit>false</Prefer32Bit>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <Prefer32Bit>false</Prefer32Bit>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="OpenTK">
       <HintPath>..\OpenTK.dll</HintPath>
@@ -30,167 +39,290 @@
     <Reference Include="OpenTK.GLControl">
       <HintPath>..\OpenTK.GLControl.dll</HintPath>
     </Reference>
+    <Reference Include="System" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
-
   <ItemGroup>
-    <Compile Update="AGauge.cs">
+    <Compile Include="AGauge.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="BackstageView\BackstageView.cs">
+    <Compile Include="ControlExt.cs" />
+    <Compile Include="ControlHelpers.cs" />
+    <Compile Include="Coords.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="BackstageView\BackstageView.Designer.cs">
+    <Compile Include="CustomMessageBox.cs" />
+    <Compile Include="FileBrowse.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="BackstageView\BackstageViewButton.cs">
+    <Compile Include="FlashMessage.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="BackstageView\BackStageViewMenuPanel.cs">
+    <Compile Include="GradientBG.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HorizontalProgressBar.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="BackstageView\BackstageViewPage.cs">
+    <Compile Include="HorizontalProgressBar2.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="Coords.cs">
+    <Compile Include="HSI.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Coords.Designer.cs">
+    <Compile Include="HUD.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="FileBrowse.cs">
+    <Compile Include="IActivate.cs" />
+    <Compile Include="IDynamicParameterControl.cs" />
+    <Compile Include="ImageLabel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="FileBrowse.Designer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="FlashMessage.cs">
+    <Compile Include="InputBox.cs" />
+    <Compile Include="LabelWithPseudoOpacity.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="FlashMessage.designer.cs">
+    <Compile Include="LineSeparator.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MainSwitcher.cs" />
+    <Compile Include="MyButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="GradientBG.cs">
+    <Compile Include="myGMAP.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="GradientBG.Designer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="HorizontalProgressBar.cs">
+    <Compile Include="MyLabel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="HorizontalProgressBar2.cs">
+    <Compile Include="MyProgressBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MyTrackBar.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="HSI.cs">
+    <Compile Include="MyUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="HSI.Designer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="HUD.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="ImageLabel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="ImageLabel.Designer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="LabelWithPseudoOpacity.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="LineSeparator.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="MyButton.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="myGMAP.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="MyLabel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="MyProgressBar.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="MyProgressBar.Designer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="MyTrackBar.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="MyUserControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="OptionForm.cs">
+    <Compile Include="OptionForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="OptionForm.Designer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="PictureBoxMouseOver.cs">
+    <Compile Include="PictureBoxMouseOver.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="PictureBoxWithPseudoOpacity.cs">
+    <Compile Include="PictureBoxWithPseudoOpacity.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="ProgressReporterDialogue.cs">
+    <Compile Include="ProgressReporterDialogue.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="ProgressReporterDialogue.designer.cs">
+    <Compile Include="ProgressReporterSphere.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="ProgressReporterSphere.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="ProgressStep.cs">
+    <Compile Include="ProgressStep.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="ProgressStep.Designer.cs">
+    <Compile Include="PseudoOpacityHelper.cs" />
+    <Compile Include="QuickView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="QuickView.cs">
+    <Compile Include="RadialGradientBG.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="QuickView.Designer.cs">
+    <Compile Include="RangeControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="RadialGradientBG.cs">
+    <None Include="SkiaGraphics.cs" />
+    <Compile Include="Sphere.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="RadialGradientBG.Designer.cs">
+    <Compile Include="ValuesControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="RangeControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="RangeControl.Designer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Sphere.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="ValuesControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="ValuesControl.Designer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="VerticalProgressBar.cs">
+    <Compile Include="VerticalProgressBar.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="VerticalProgressBar2.cs">
+    <Compile Include="VerticalProgressBar2.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="WindDir.cs">
+    <Compile Include="WindDir.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="WindDir.Designer.cs">
+    <Compile Include="BackstageView\BackstageView.cs">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BackstageView\BackstageViewButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="BackstageView\BackstageViewCollection.cs" />
+    <Compile Include="BackstageView\BackStageViewMenuPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="BackstageView\BackstageViewPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HUDT.Designer.cs" />
+    <Compile Include="Properties\Resources.Designer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Coords.Designer.cs">
+      <DependentUpon>Coords.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FileBrowse.Designer.cs">
+      <DependentUpon>FileBrowse.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FlashMessage.Designer.cs">
+      <DependentUpon>FlashMessage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GradientBG.Designer.cs">
+      <DependentUpon>GradientBG.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HSI.Designer.cs">
+      <DependentUpon>HSI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImageLabel.Designer.cs">
+      <DependentUpon>ImageLabel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyProgressBar.Designer.cs">
+      <DependentUpon>MyProgressBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OptionForm.Designer.cs">
+      <DependentUpon>OptionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProgressReporterDialogue.Designer.cs">
+      <DependentUpon>ProgressReporterDialogue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProgressStep.Designer.cs">
+      <DependentUpon>ProgressStep.cs</DependentUpon>
+    </Compile>
+    <Compile Include="QuickView.Designer.cs">
+      <DependentUpon>QuickView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RadialGradientBG.Designer.cs">
+      <DependentUpon>RadialGradientBG.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RangeControl.Designer.cs">
+      <DependentUpon>RangeControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ValuesControl.Designer.cs">
+      <DependentUpon>ValuesControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WindDir.Designer.cs">
+      <DependentUpon>WindDir.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BackstageView\BackstageView.Designer.cs">
+      <DependentUpon>BackstageView.cs</DependentUpon>
     </Compile>
   </ItemGroup>
-
-
+  <ItemGroup>
+    <EmbeddedResource Include="AGauge.resx">
+      <DependentUpon>AGauge.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Coords.resx">
+      <DependentUpon>Coords.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FileBrowse.resx">
+      <DependentUpon>FileBrowse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FlashMessage.resx">
+      <DependentUpon>FlashMessage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GradientBG.resx">
+      <DependentUpon>GradientBG.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HSI.resx">
+      <DependentUpon>HSI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImageLabel.resx">
+      <DependentUpon>ImageLabel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyProgressBar.resx">
+      <DependentUpon>MyProgressBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OptionForm.resx">
+      <DependentUpon>OptionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProgressReporterDialogue.resx">
+      <DependentUpon>ProgressReporterDialogue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProgressReporterDialogue.zh-Hans.resx">
+      <DependentUpon>ProgressReporterDialogue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProgressReporterSphere.resx">
+      <DependentUpon>ProgressReporterSphere.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProgressReporterSphere.zh-Hans.resx">
+      <DependentUpon>ProgressReporterSphere.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProgressStep.resx">
+      <DependentUpon>ProgressStep.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QuickView.resx">
+      <DependentUpon>QuickView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RadialGradientBG.resx">
+      <DependentUpon>RadialGradientBG.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RangeControl.resx">
+      <DependentUpon>RangeControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ValuesControl.resx">
+      <DependentUpon>ValuesControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WindDir.resx">
+      <DependentUpon>WindDir.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BackstageView\BackstageView.resx">
+      <DependentUpon>BackstageView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HUDT.resx" />
+    <EmbeddedResource Include="HUDT.zh-Hans.resx" />
+    <EmbeddedResource Include="Properties\Resources.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BSE.Windows.Forms\BSE.Windows.Forms.csproj">
+      <Project>{9ca367b8-0b98-49d1-84fb-735e612e3ba9}</Project>
+      <Name>BSE.Windows.Forms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GeoUtility\GeoUtility.csproj">
+      <Project>{7f7994ce-823f-4a04-bbea-d0a3808ff56d}</Project>
+      <Name>GeoUtility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GMap.NET.Core\GMap.NET.Core.csproj">
+      <Project>{d0c39d9d-bed0-418b-9a5e-713176caf40c}</Project>
+      <Name>GMap.NET.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GMap.NET.WindowsForms\GMap.NET.WindowsForms.csproj">
+      <Project>{e06def77-f933-42fb-afd7-db2d0d8d6a98}</Project>
+      <Name>GMap.NET.WindowsForms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SvgNet\SvgNet.csproj">
+      <Project>{bb4c8021-b5e1-4de2-82cb-14bdfb9837e4}</Project>
+      <Name>SvgNet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\MissionPlanner.Utilities.csproj">
+      <Project>{1378a66c-38e4-46f5-a05f-dc04ef7d4d16}</Project>
+      <Name>MissionPlanner.Utilities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\guagebg.jpg" />
+    <Content Include="Resources\iconWarning32.png" />
+    <Content Include="Resources\iconWarning48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="log4net">
+      <Version>2.0.8</Version>
+    </PackageReference>
+    <PackageReference Include="SkiaSharp">
+      <Version>1.60.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Data.Common">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Drawing.Common">
+      <Version>4.5.0-preview1-26216-02</Version>
+    </PackageReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

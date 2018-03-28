@@ -54,7 +54,8 @@
             resources.GetString("cmb_Baud.Items8"),
             resources.GetString("cmb_Baud.Items9"),
             resources.GetString("cmb_Baud.Items10"),
-            resources.GetString("cmb_Baud.Items11")});
+            resources.GetString("cmb_Baud.Items11"),
+            resources.GetString("cmb_Baud.Items12")});
             resources.ApplyResources(this.cmb_Baud, "cmb_Baud");
             this.cmb_Baud.Name = "cmb_Baud";
             // 
@@ -100,7 +101,6 @@
             // 
             // ConnectionControl
             // 
-            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackgroundImage = global::MissionPlanner.Properties.Resources.bgdark;
             this.Controls.Add(this.cmb_sysid);
@@ -108,7 +108,7 @@
             this.Controls.Add(this.cmb_Connection);
             this.Controls.Add(this.cmb_ConnectionType);
             this.Controls.Add(this.cmb_Baud);
-            this.MinimumSize = new System.Drawing.Size(230, 54);
+            resources.ApplyResources(this, "$this");
             this.Name = "ConnectionControl";
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ConnectionControl_MouseClick);
             this.ResumeLayout(false);

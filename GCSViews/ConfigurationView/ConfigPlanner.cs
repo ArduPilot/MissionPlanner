@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using DirectShowLib;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
 using MissionPlanner.Joystick;
 using MissionPlanner.Utilities;
@@ -18,6 +19,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
     {
         private List<CultureInfo> _languages;
         private bool startup;
+        static temp temp;
 
         public ConfigPlanner()
         {
@@ -51,8 +53,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             CMB_osdcolor.DataSource = Enum.GetNames(typeof (KnownColor));
 
             // set distance/speed unit states
-            CMB_distunits.DataSource = Enum.GetNames(typeof (Common.distances));
-            CMB_speedunits.DataSource = Enum.GetNames(typeof (Common.speeds));
+            CMB_distunits.DataSource = Enum.GetNames(typeof (distances));
+            CMB_speedunits.DataSource = Enum.GetNames(typeof (speeds));
+            CMB_altunits.DataSource = Enum.GetNames(typeof(altitudes));
 
             CMB_theme.DataSource = Enum.GetNames(typeof (ThemeManager.Themes));
 
@@ -62,7 +65,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var cultureCodes = new[]
             {
                 "en-US", "zh-Hans", "zh-TW", "ru-RU", "Fr", "Pl", "it-IT", "es-ES", "de-DE", "ja-JP", "id-ID", "ko-KR",
-                "ar", "pt"
+                "ar", "pt", "tr", "ru-KZ"
             };
 
             _languages = cultureCodes
@@ -115,6 +118,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             SetCheckboxFromConfig("enableadsb", chk_ADSB);
             SetCheckboxFromConfig("norcreceiver", chk_norcreceiver);
             SetCheckboxFromConfig("showtfr", chk_tfr);
+            SetCheckboxFromConfig("autoParamCommit", CHK_AutoParamCommit);
+            SetCheckboxFromConfig("ShowNoFly", chk_shownofly);
 
             // this can't fail because it set at startup
             NUM_tracklength.Value = Settings.Instance.GetInt32("NUM_tracklength");
@@ -138,6 +143,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             SetCheckboxFromConfig("CHK_disttohomeflightdata", CHK_disttohomeflightdata);
 
+            CHK_AutoParamCommit.Visible = MainV2.DisplayConfiguration.displayParamCommitButton;
+
             //set hud color state
             var hudcolor = Settings.Instance["hudcolor"];
             if (hudcolor != null)
@@ -157,6 +164,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CMB_distunits.Text = Settings.Instance["distunits"].ToString();
             if (Settings.Instance["speedunits"] != null)
                 CMB_speedunits.Text = Settings.Instance["speedunits"].ToString();
+            if (Settings.Instance["altunits"] != null)
+                CMB_altunits.Text = Settings.Instance["altunits"].ToString();
 
             try
             {
@@ -581,7 +590,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     InputBox.Show("Min Alt", "What altitude do you want to warn at? (relative to home)",
                         ref speechstring))
                     return;
-                Settings.Instance["speechaltheight"] = (double.Parse(speechstring)/CurrentState.multiplierdist).ToString();
+                Settings.Instance["speechaltheight"] = (double.Parse(speechstring)/CurrentState.multiplieralt).ToString();
                 // save as m
             }
         }
@@ -873,8 +882,24 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void chk_temp_CheckedChanged(object sender, EventArgs e)
         {
-            var temp = new temp();
-            temp.Show();
+            if (chk_temp.Checked)
+            {
+                temp = new temp();
+                temp.FormClosing += chk_temp_FormClosing;
+                temp.Show();
+            }
+            else
+            {
+                if (temp != null)
+                { 
+                    temp.Close();
+                }
+            }
+        }
+
+        private void chk_temp_FormClosing(object sender, EventArgs e)
+        {
+            chk_temp.Checked = false;
         }
 
         private void chk_norcreceiver_CheckedChanged(object sender, EventArgs e)
@@ -884,7 +909,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void but_AAsignin_Click(object sender, EventArgs e)
         {
-            //new Utilities.AltitudeAngel.AASettings().Show(this);
+            new Utilities.AltitudeAngel.AASettings().Show(this);
         }
 
         private void CMB_Layout_SelectedIndexChanged(object sender, EventArgs e)
@@ -898,6 +923,24 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 MainV2.DisplayConfiguration = MainV2.DisplayConfiguration.Basic();
             }
             Settings.Instance["displayview"] = MainV2.DisplayConfiguration.ConvertToString();
+        }
+
+        private void CHK_AutoParamCommit_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Instance["autoParamCommit"] = CHK_AutoParamCommit.Checked.ToString();
+        }
+
+        private void chk_shownofly_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Instance["ShowNoFly"] = chk_shownofly.Checked.ToString();
+        }
+
+        private void CMB_altunits_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (startup)
+                return;
+            Settings.Instance["altunits"] = CMB_altunits.Text;
+            MainV2.instance.ChangeUnits();
         }
     }
 }

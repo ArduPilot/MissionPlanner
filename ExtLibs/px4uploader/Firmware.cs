@@ -12,18 +12,23 @@ namespace px4uploader
     public class Firmware
     {
         public int board_id;
+        public string airframe_xml;
+        public int airframe_xml_size;
         public string magic;
         public string description;
+        public string ardupilot_git_hash;
         public string image;
         public byte[] imagebyte;
+        public int parameter_xml_size;
         public uint build_time;
         public string summary;
+        public string nuttx_git_hash;
         public string version;
+        public string parameter_xml;
         public int image_size;
         public string git_identity;
+        public int mav_autopilot;
         public int board_revision;
-
-        static Firmware fw;
 
         readonly uint[] crctab = new uint[] {
 		0x00000000, 0x77073096, 0xee0e612c, 0x990951ba, 0x076dc419, 0x706af48f, 0xe963a535, 0x9e6495a3,
@@ -65,9 +70,7 @@ namespace px4uploader
 
         public static Firmware ProcessFirmware(string path)
         {
-            
-
-           // JavaScriptSerializer serializer = new JavaScriptSerializer();
+            Firmware fw;
 
             Console.WriteLine("Read File " + path);
 
@@ -82,7 +85,6 @@ namespace px4uploader
             MemoryStream imagems = new MemoryStream(data, true);
 
             ZlibStream decompressionStream = new ZlibStream(imagems, CompressionMode.Decompress);
-
 
             int size = fw.image_size + (fw.image_size % 4);
             fw.imagebyte = new byte[size];
@@ -99,17 +101,6 @@ namespace px4uploader
             catch { Console.WriteLine("Possible bad file - usually safe to ignore"); }
 
             Console.WriteLine("image_size {0} size {1}",fw.image_size,size);
-
-            using (BinaryWriter sw = new BinaryWriter(File.Open("px4fw.bin", FileMode.Create)))
-            {
-                foreach (byte by in fw.imagebyte)
-                {
-                    sw.Write(by);
-                    //   Console.Write("{0:x2}", by);
-                }
-
-                sw.Close();
-            }
 
             // pad image to 4-byte length
             //while ((fw.imagebyte.Length % 4) != 0) {
@@ -130,9 +121,9 @@ namespace px4uploader
 
         public int crc(int padlen)
         {
-            uint state = __crc32(fw.imagebyte, 0);
+            uint state = __crc32(imagebyte, 0);
 
-            for (int i = fw.imagebyte.Length; i < (padlen -1); i += 4)
+            for (int i = imagebyte.Length; i < (padlen -1); i += 4)
             {
                 state = __crc32(crcpad, state);
             }

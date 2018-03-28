@@ -11,11 +11,13 @@ using System.Windows.Forms;
 using log4net;
 using MissionPlanner.Comms;
 using MissionPlanner.Controls;
+using MissionPlanner.MsgBox;
 using MissionPlanner.Radio;
+using MissionPlanner.Utilities;
 using uploader;
 using Microsoft.VisualBasic;
 
-namespace MissionPlanner
+namespace MissionPlanner.Radio
 {
     public partial class Sikradio : UserControl
     {
@@ -159,43 +161,43 @@ S15: MAX_WINDOW=131
             {
                 if (beta)
                 {
-                    return Common.getFilefromNet("http://firmware.ardupilot.org/SiK/beta/radio~hm_trp.ihx", firmwarefile);
+                    return Download.getFilefromNet("http://firmware.ardupilot.org/SiK/beta/radio~hm_trp.ihx", firmwarefile);
                 }
-                return Common.getFilefromNet("http://firmware.ardupilot.org/SiK/stable/radio~hm_trp.ihx",
+                return Download.getFilefromNet("http://firmware.ardupilot.org/SiK/stable/radio~hm_trp.ihx",
                     firmwarefile);
             }
             if (device == Uploader.Board.DEVICE_ID_RFD900)
             {
                 if (beta)
                 {
-                    return Common.getFilefromNet("http://firmware.ardupilot.org/SiK/beta/radio~rfd900.ihx", firmwarefile);
+                    return Download.getFilefromNet("http://firmware.ardupilot.org/SiK/beta/radio~rfd900.ihx", firmwarefile);
                 }
-                return Common.getFilefromNet("http://firmware.ardupilot.org/SiK/stable/radio~rfd900.ihx", firmwarefile);
+                return Download.getFilefromNet("http://firmware.ardupilot.org/SiK/stable/radio~rfd900.ihx", firmwarefile);
             }
             if (device == Uploader.Board.DEVICE_ID_RFD900A)
             {
                 if (beta)
                 {
-                    return Common.getFilefromNet("http://firmware.ardupilot.org/SiK/beta/radio~rfd900a.ihx",
+                    return Download.getFilefromNet("http://firmware.ardupilot.org/SiK/beta/radio~rfd900a.ihx",
                         firmwarefile);
                 }
-                return Common.getFilefromNet("http://firmware.ardupilot.org/SiK/stable/radio~rfd900a.ihx", firmwarefile);
+                return Download.getFilefromNet("http://firmware.ardupilot.org/SiK/stable/radio~rfd900a.ihx", firmwarefile);
             }
             if (device == Uploader.Board.DEVICE_ID_RFD900U)
             {
                 if (beta)
                 {
-                    return Common.getFilefromNet("http://files.rfdesign.com.au/Files/firmware/MPSiK%20V2.6%20rfd900u.ihx", firmwarefile);
+                    return Download.getFilefromNet("http://files.rfdesign.com.au/Files/firmware/MPSiK%20V2.6%20rfd900u.ihx", firmwarefile);
                 }
-                return Common.getFilefromNet("http://files.rfdesign.com.au/Files/firmware/RFDSiK%20V1.9%20rfd900u.ihx", firmwarefile);
+                return Download.getFilefromNet("http://files.rfdesign.com.au/Files/firmware/RFDSiK%20V1.9%20rfd900u.ihx", firmwarefile);
             }
             if (device == Uploader.Board.DEVICE_ID_RFD900P)
             {
                 if (beta)
                 {
-                    return Common.getFilefromNet("http://files.rfdesign.com.au/Files/firmware/MPSiK%20V2.6%20rfd900p.ihx", firmwarefile);
+                    return Download.getFilefromNet("http://files.rfdesign.com.au/Files/firmware/MPSiK%20V2.6%20rfd900p.ihx", firmwarefile);
                 }
-                return Common.getFilefromNet("http://files.rfdesign.com.au/Files/firmware/RFDSiK%20V1.9%20rfd900p.ihx", firmwarefile);
+                return Download.getFilefromNet("http://files.rfdesign.com.au/Files/firmware/RFDSiK%20V1.9%20rfd900p.ihx", firmwarefile);
             }
             return false;
         }
@@ -220,7 +222,7 @@ S15: MAX_WINDOW=131
                     }
                     catch (Exception ex)
                     {
-                        CustomMessageBox.Show("Error copying file\n" + ex, "ERROR");
+                        MsgBox.CustomMessageBox.Show("Error copying file\n" + ex, "ERROR");
                         return false;
                     }
                     return true;
@@ -242,7 +244,6 @@ S15: MAX_WINDOW=131
                 // prime the mavlinkserial loop with data.
                 if (comPort != null)
                 {
-                    
                     var test = comPort.BytesToRead;
                     test++;
                 }
@@ -267,7 +268,7 @@ S15: MAX_WINDOW=131
 
                 Thread.Sleep(2000);
                 var tempd = comPort.ReadExisting();
-                //Console.WriteLine(tempd);
+                Console.WriteLine(tempd);
                 comPort.Write("U");
                 Thread.Sleep(1000);
                 var resp1 = Serial_ReadLine(comPort); // echo
@@ -319,6 +320,191 @@ S15: MAX_WINDOW=131
             return false;
         }
 
+        private void BUT_upload_Click(object sender, EventArgs e)
+        {
+            UploadFW(false);
+        }
+
+        private void UploadFW(bool custom = false)
+        {
+            ICommsSerial comPort = new SerialPort();
+
+            var uploader = new Uploader();
+
+            if (MainV2.comPort.BaseStream.IsOpen)
+            {
+                try
+                {
+                    getTelemPortWithRadio(ref comPort);
+
+                    uploader.PROG_MULTI_MAX = 64;
+                }
+                catch (Exception ex)
+                {
+                    MsgBox.CustomMessageBox.Show("Error " + ex);
+                }
+            }
+
+            try
+            {
+                comPort.PortName = MainV2.comPortName;
+                comPort.BaudRate = 115200;
+
+                comPort.Open();
+            }
+            catch
+            {
+                MsgBox.CustomMessageBox.Show("Invalid ComPort or in use");
+                return;
+            }
+
+            // prep what we are going to upload
+            var iHex = new IHex();
+
+            iHex.LogEvent += iHex_LogEvent;
+
+            iHex.ProgressEvent += iHex_ProgressEvent;
+
+            var bootloadermode = false;
+
+            // attempt bootloader mode
+            try
+            {
+                if (upload_xmodem(comPort))
+                {
+                    comPort.Close();
+                    return;
+                }
+
+                comPort.BaudRate = 115200;
+
+                uploader_ProgressEvent(0);
+                uploader_LogEvent("Trying Bootloader Mode");
+
+                uploader.port = comPort;
+                uploader.connect_and_sync();
+
+                uploader.ProgressEvent += uploader_ProgressEvent;
+                uploader.LogEvent += uploader_LogEvent;
+
+                uploader_LogEvent("In Bootloader Mode");
+                bootloadermode = true;
+            }
+            catch (Exception ex1)
+            {
+                log.Error(ex1);
+
+                // cleanup bootloader mode fail, and try firmware mode
+                comPort.Close();
+                if (MainV2.comPort.BaseStream.IsOpen)
+                {
+                    // default baud... guess
+                    comPort.BaudRate = 57600;
+                }
+                else
+                {
+                    comPort.BaudRate = MainV2.comPort.BaseStream.BaudRate;
+                }
+                try
+                {
+                    comPort.Open();
+                }
+                catch
+                {
+                    MsgBox.CustomMessageBox.Show("Error opening port", "Error");
+                    return;
+                }
+
+                uploader.ProgressEvent += uploader_ProgressEvent;
+                uploader.LogEvent += uploader_LogEvent;
+
+                uploader_LogEvent("Trying Firmware Mode");
+                bootloadermode = false;
+            }
+
+            // check for either already bootloadermode, or if we can do a ATI to ID the firmware 
+            if (bootloadermode || doConnect(comPort))
+            {
+                // put into bootloader mode/update mode
+                if (!bootloadermode)
+                {
+                    try
+                    {
+                        comPort.Write("AT&UPDATE\r\n");
+                        var left = comPort.ReadExisting();
+                        log.Info(left);
+                        Sleep(700);
+                        comPort.BaudRate = 115200;
+                    }
+                    catch
+                    {
+                    }
+
+                    if (upload_xmodem(comPort))
+                    {
+                        comPort.Close();
+                        return;
+                    }
+
+                    comPort.BaudRate = 115200;
+                }
+
+                try
+                {
+                    // force sync after changing baudrate
+                    uploader.connect_and_sync();
+                }
+                catch
+                {
+                    MsgBox.CustomMessageBox.Show("Failed to sync with Radio");
+                    goto exit;
+                }
+
+                var device = Uploader.Board.FAILED;
+                var freq = Uploader.Frequency.FAILED;
+
+                // get the device type and frequency in the bootloader
+                uploader.getDevice(ref device, ref freq);
+
+                // get firmware for this device
+                if (getFirmware(device, custom))
+                {
+                    // load the hex
+                    try
+                    {
+                        iHex.load(firmwarefile);
+                    }
+                    catch
+                    {
+                        MsgBox.CustomMessageBox.Show("Bad Firmware File");
+                        goto exit;
+                    }
+
+                    // upload the hex and verify
+                    try
+                    {
+                        uploader.upload(comPort, iHex);
+                    }
+                    catch (Exception ex)
+                    {
+                        MsgBox.CustomMessageBox.Show("Upload Failed " + ex.Message);
+                    }
+                }
+                else
+                {
+                    MsgBox.CustomMessageBox.Show("Failed to download new firmware");
+                }
+            }
+            else
+            {
+                MsgBox.CustomMessageBox.Show("Failed to identify Radio");
+            }
+
+            exit:
+            if (comPort.IsOpen)
+                comPort.Close();
+        }
+
         private void iHex_ProgressEvent(double completed)
         {
             try
@@ -359,7 +545,7 @@ S15: MAX_WINDOW=131
                 if (level == 0)
                 {
                     lbl_status.Text = message;
-                    //Console.WriteLine(message);
+                    Console.WriteLine(message);
                     log.Info(message);
                     Application.DoEvents();
                 }
@@ -446,7 +632,7 @@ S15: MAX_WINDOW=131
                                                 }
                                                 else
                                                 {
-                                                    CustomMessageBox.Show("Set Command error");
+                                                    MsgBox.CustomMessageBox.Show("Set Command error");
                                                 }
                                             }
                                         }
@@ -467,7 +653,7 @@ S15: MAX_WINDOW=131
                                             }
                                             else
                                             {
-                                                CustomMessageBox.Show("Set Command error");
+                                                MsgBox.CustomMessageBox.Show("Set Command error");
                                             }
                                         }
                                     }
@@ -484,7 +670,7 @@ S15: MAX_WINDOW=131
                                             }
                                             else
                                             {
-                                                CustomMessageBox.Show("Set Command error");
+                                                MsgBox.CustomMessageBox.Show("Set Command error");
                                             }
                                         }
                                     }
@@ -532,7 +718,7 @@ S15: MAX_WINDOW=131
                                             }
                                             else
                                             {
-                                                CustomMessageBox.Show("Set Command error");
+                                                MsgBox.CustomMessageBox.Show("Set Command error");
                                             }
                                         }
                                     }
@@ -552,7 +738,7 @@ S15: MAX_WINDOW=131
                                             }
                                             else
                                             {
-                                                CustomMessageBox.Show("Set Command error");
+                                                MsgBox.CustomMessageBox.Show("Set Command error");
                                             }
                                         }
                                     }
@@ -569,7 +755,7 @@ S15: MAX_WINDOW=131
                                             }
                                             else
                                             {
-                                                CustomMessageBox.Show("Set Command error");
+                                                MsgBox.CustomMessageBox.Show("Set Command error");
                                             }
                                         }
                                     }
@@ -591,7 +777,7 @@ S15: MAX_WINDOW=131
                         {
                             //Complain that encryption key invalid.
                             lbl_status.Text = "Fail";
-                            CustomMessageBox.Show("Encryption key not valid hex number <= 32 hex numerals");
+                            MsgBox.CustomMessageBox.Show("Encryption key not valid hex number <= 32 hex numerals");
                         }
                     }
                     if (ENCRYPTION_LEVEL.Checked)
@@ -605,7 +791,7 @@ S15: MAX_WINDOW=131
                         {
                             //Complain that encryption key invalid.
                             lbl_status.Text = "Fail";
-                            CustomMessageBox.Show("Encryption key not valid hex number <= 32 hex numerals");
+                            MsgBox.CustomMessageBox.Show("Encryption key not valid hex number <= 32 hex numerals");
                         }
                     }
 
@@ -635,7 +821,7 @@ S15: MAX_WINDOW=131
                 doCommand(Session.Port, "ATZ");
 
                 lbl_status.Text = "Fail";
-                CustomMessageBox.Show("Failed to enter command mode");
+                MsgBox.CustomMessageBox.Show("Failed to enter command mode");
             }
 
             //Need to do this because modem rebooted.
@@ -868,6 +1054,7 @@ S15: MAX_WINDOW=131
                         RestoreAllDefaultCBObjects();
                     }
 
+                    // 8 and 9
                     if (freq == Uploader.Frequency.FREQ_915)
                     {
                         MIN_FREQ.DataSource = Range(895000, 1000, 935000);
@@ -987,11 +1174,7 @@ S15: MAX_WINDOW=131
                                         }
                                      
                                     }
-                                    
-                                    
                                 }
-                                
-                               
                             }
                         }
                     }
@@ -1070,7 +1253,6 @@ S15: MAX_WINDOW=131
                                         }
                                     }
                                 }
-                              
                             }
                             else
                             {
@@ -1092,7 +1274,7 @@ S15: MAX_WINDOW=131
                     }
 
                     // off hook
-                    //doCommand(Session.Port, "ATO");
+                    doCommand(Session.Port, "ATO");
 
                     if (SomeSettingsInvalid)
                     {
@@ -1106,10 +1288,10 @@ S15: MAX_WINDOW=131
                 else
                 {
                     // off hook
-                    //doCommand(Session.Port, "ATO");
+                    doCommand(Session.Port, "ATO");
 
                     lbl_status.Text = "Fail";
-                    CustomMessageBox.Show("Failed to enter command mode");
+                    MsgBox.CustomMessageBox.Show("Failed to enter command mode");
                 }
 
                 //BUT_Syncoptions.Enabled = true;
@@ -1131,7 +1313,7 @@ S15: MAX_WINDOW=131
                 {
                 }
                 lbl_status.Text = "Error";
-                CustomMessageBox.Show("Error during read " + ex);
+                MsgBox.CustomMessageBox.Show("Error during read " + ex);
             }
         }
 
@@ -1231,7 +1413,7 @@ S15: MAX_WINDOW=131
         {
             try
             {
-                //Console.WriteLine("doConnect");
+                Console.WriteLine("doConnect");
 
                 var trys = 1;
 
@@ -1312,7 +1494,7 @@ S15: MAX_WINDOW=131
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            CustomMessageBox.Show(@"The Sik Radios have 2 status LEDs, one red and one green.
+            MsgBox.CustomMessageBox.Show(@"The Sik Radios have 2 status LEDs, one red and one green.
 green LED blinking - searching for another radio 
 green LED solid - link is established with another radio 
 red LED flashing - transmitting data 
@@ -1369,10 +1551,10 @@ red LED solid - in firmware update mode");
             else
             {
                 // off hook
-                //doCommand(Session.Port, "ATO");
+                doCommand(Session.Port, "ATO");
 
                 lbl_status.Text = "Fail";
-                CustomMessageBox.Show("Failed to enter command mode");
+                MsgBox.CustomMessageBox.Show("Failed to enter command mode");
             }
         }
 
@@ -1522,7 +1704,7 @@ red LED solid - in firmware update mode");
         private void Progressbar_Click(object sender, EventArgs e)
         {
             beta = !beta;
-            CustomMessageBox.Show("Beta set to " + beta);
+            MsgBox.CustomMessageBox.Show("Beta set to " + beta);
         }
 
         private void linkLabel_mavlink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -1547,6 +1729,7 @@ red LED solid - in firmware update mode");
         {
             RawData = 0,
             Mavlink = 1,
+            LowLatency = 2
         }
 
         private void txt_aeskey_TextChanged(object sender, EventArgs e)
@@ -1602,7 +1785,7 @@ red LED solid - in firmware update mode");
                 //doCommand(Session.Port, "ATO");
 
                 lbl_status.Text = "Fail";
-                CustomMessageBox.Show("Failed to enter command mode");
+                MsgBox.CustomMessageBox.Show("Failed to enter command mode");
             }
         }
 
@@ -1643,7 +1826,7 @@ red LED solid - in firmware update mode");
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Invalid ComPort or in use");
+                    MsgBox.CustomMessageBox.Show("Invalid ComPort or in use");
                     return null;
                 }
             }

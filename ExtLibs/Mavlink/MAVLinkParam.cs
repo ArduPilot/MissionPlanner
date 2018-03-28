@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 
 public partial class MAVLink
@@ -52,10 +53,12 @@ public partial class MAVLink
         short int16_value { get { return BitConverter.ToInt16(data, 0); } }
         UInt32 uint32_value { get { return BitConverter.ToUInt32(data, 0); } }
         Int32 int32_value { get { return BitConverter.ToInt32(data, 0); } }
+        [IgnoreDataMember]
         public float float_value { get { return BitConverter.ToSingle(data, 0); } }
 
         byte[] _data = new byte[4];
 
+        [IgnoreDataMember]
         public byte[] data
         {
             get { return _data; }

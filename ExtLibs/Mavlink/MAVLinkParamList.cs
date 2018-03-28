@@ -6,7 +6,7 @@ using System.Text;
 
 public partial class MAVLink
 {
-    public class MAVLinkParamList: List<MAVLinkParam>
+    public class MAVLinkParamList : List<MAVLinkParam>
     {
         object locker = new object();
 
@@ -18,7 +18,7 @@ public partial class MAVLink
         }
 
         public MAVLinkParam this[string name]
-        { 
+        {
             get
             {
                 lock (locker)
@@ -49,7 +49,7 @@ public partial class MAVLink
                         index++;
                     }
 
-                    this.Add(value);
+                    base.Add(value);
                 }
             }
         }
@@ -90,10 +90,7 @@ public partial class MAVLink
 
         public new void Add(MAVLinkParam item)
         {
-            lock (locker)
-            {
-                base.Add(item);
-            }
+            this[item.Name] = item;
         }
 
         public new void AddRange(IEnumerable<MAVLinkParam> collection)
@@ -104,7 +101,7 @@ public partial class MAVLink
             }
         }
 
-        public static implicit operator Dictionary<string,double>(MAVLinkParamList list)
+        public static implicit operator Dictionary<string, double>(MAVLinkParamList list)
         {
             var copy = new Dictionary<string, double>();
             foreach (MAVLinkParam item in list.ToArray())

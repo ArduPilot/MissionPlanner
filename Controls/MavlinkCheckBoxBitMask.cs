@@ -82,6 +82,13 @@ namespace MissionPlanner.Controls
             {
                 this.Enabled = true;
 
+                Name = paramname;
+
+                myLabel1.Text = ParameterMetaDataRepository.GetParameterMetaData(paramname,
+                    ParameterMetaDataConstants.DisplayName, MainV2.comPort.MAV.cs.firmware.ToString());
+                label1.Text = ParameterMetaDataRepository.GetParameterMetaData(paramname,
+                    ParameterMetaDataConstants.Description, MainV2.comPort.MAV.cs.firmware.ToString());
+
                 list = ParameterMetaDataRepository.GetParameterBitMaskInt(ParamName,
                     MainV2.comPort.MAV.cs.firmware.ToString());
                 chkcount = list.Count;

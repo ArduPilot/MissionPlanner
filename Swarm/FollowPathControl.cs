@@ -75,7 +75,7 @@ namespace MissionPlanner.Swarm
         {
             threadrun = true;
 
-            while (threadrun)
+            while (threadrun && !this.IsDisposed)
             {
                 // update leader pos
                 SwarmInterface.Update();

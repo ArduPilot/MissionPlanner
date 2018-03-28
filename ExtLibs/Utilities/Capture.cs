@@ -15,7 +15,7 @@ using System.Diagnostics;
 using System.Collections.Generic;
 
 using DirectShowLib;
-
+using System.Linq;
 
 namespace WebCamService
 {
@@ -49,7 +49,22 @@ namespace WebCamService
         public Image image = null;
         IntPtr ip = IntPtr.Zero;
 
-        public event CamImage camimage;
+        public event CamImage camimage
+        {
+            add
+            {
+                if (m_camimage == null || !m_camimage.GetInvocationList().Contains(value))
+                {
+                    m_camimage += value;
+                }
+            }
+            remove
+            {
+                m_camimage -= value;
+            }
+        }
+        private event CamImage m_camimage = null;
+
         Thread timer1;
 
         #endregion
@@ -152,9 +167,9 @@ namespace WebCamService
             if (timer1 != null)
                 timer1.Abort();
 
-            if (camimage != null)
+            if (m_camimage != null)
             {
-                camimage(null); // clear last pic
+                m_camimage(null); // clear last pic
             }
             CloseInterfaces();
             if (m_PictureReady != null)
@@ -269,9 +284,9 @@ namespace WebCamService
                 ip = this.GetBitMap();
                 image = new Bitmap(this.Width, this.Height, this.Stride, PixelFormat.Format24bppRgb, ip);
                 image.RotateFlip(RotateFlipType.RotateNoneFlipY);
-                if (camimage != null)
+                if (m_camimage != null)
                 {
-                    camimage(image);
+                    m_camimage(image);
                 }
             }//System.Windows.Forms.CustomMessageBox.Show("Problem with capture device, grabbing frame took longer than 5 sec");
             catch { Console.WriteLine("Grab bmp failed"); }

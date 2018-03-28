@@ -13,6 +13,7 @@ using MissionPlanner.Utilities;
 using GMap.NET.MapProviders;
 using GMap.NET.Projections;
 using MathHelper = MissionPlanner.Utilities.MathHelper;
+using Vector3 = OpenTK.Vector3;
 
 namespace MissionPlanner.Controls
 {
@@ -159,30 +160,45 @@ namespace MissionPlanner.Controls
 
         private int utmzone = -999;
 
+        private Dictionary<object, double> coordcache = new Dictionary<object, double>();
+
         double[] convertCoords(PointLatLngAlt plla)
         {
             if (utmzone < -360)
                 utmzone = plla.GetUTMZone();
 
-            var utm = plla.ToUTM(utmzone);
+            var minlat = LocationCenter.Lat - 0.5;
+            var maxlat = LocationCenter.Lat + 0.5;
+            var minlng = LocationCenter.Lng - 0.5;
+            var maxlng = LocationCenter.Lng + 0.5;
 
-            Array.Resize(ref utm, 3);
+            var id = maxlat * 1e10 + minlng;
+            var diagdist = 0.0;
 
-            utm[2] = plla.Alt;
+            if (!coordcache.ContainsKey(id))
+            {
+                diagdist = new PointLatLngAlt(maxlat, minlng).GetDistance(new PointLatLngAlt(minlat, maxlng));
+                coordcache[id] = diagdist;
+            }
+            else
+            {
+                diagdist = coordcache[id];
+            }
 
-            return utm;
+            var lat = MathHelper.map(plla.Lat, minlat, maxlat, 0, diagdist);
+            var lng = MathHelper.map(plla.Lng, minlng, maxlng, 0, diagdist);
+
+            //var utm = plla.ToUTM(utmzone);
+
+            //Array.Resize(ref utm, 3);
+
+            //utm[2] = plla.Alt;
+
+            return new[] {lng, lat, plla.Alt};
         }
 
         protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
         {
-            DateTime start = DateTime.Now;
-            
-            if (this.DesignMode)
-                return;
-
-            if (area.LocationMiddle.Lat == 0 && area.LocationMiddle.Lng == 0)
-                return;
-
             try
             {
                 base.OnPaint(e);
@@ -191,6 +207,19 @@ namespace MissionPlanner.Controls
             {
                 return;
             }
+
+            Utilities.Extensions.ProtectReentry(doPaint);
+        }
+
+        public void doPaint()
+        {
+            DateTime start = DateTime.Now;
+            
+            if (this.DesignMode)
+                return;
+
+            if (area.LocationMiddle.Lat == 0 && area.LocationMiddle.Lng == 0)
+                return;
 
             utmzone = center.GetUTMZone();
 
@@ -208,7 +237,7 @@ namespace MissionPlanner.Controls
             lookY = campos[1] + Math.Cos(MathHelper.Radians(rpy.Z)) * 100;
             lookZ = cameraZ;
 
-            var size = 20000;
+            var size = 10000;
 
             // in front
             PointLatLngAlt front = center.newpos(rpy.Z, size);
@@ -232,7 +261,7 @@ namespace MissionPlanner.Controls
        
             float screenscale = 1;//this.Width/(float) this.Height*1f;
 
-            if(!Context.IsCurrent)
+            //if(!Context.IsCurrent)
                 MakeCurrent();
 
             GL.MatrixMode(MatrixMode.Projection);
@@ -270,7 +299,7 @@ namespace MissionPlanner.Controls
             GL.Fog(FogParameter.FogColor, new float[] {100/255.0f, 149/255.0f, 237/255.0f, 1f});
             //GL.Fog(FogParameter.FogDensity,0.1f);
             GL.Fog(FogParameter.FogMode, (int) FogMode.Linear);
-            GL.Fog(FogParameter.FogStart, (float) 4000);
+            GL.Fog(FogParameter.FogStart, (float) 700);
             GL.Fog(FogParameter.FogEnd, (float) size);
 
             GL.Disable(EnableCap.DepthTest);
@@ -346,6 +375,8 @@ namespace MissionPlanner.Controls
                 // 200m at max zoom
                 // step at 0 zoom
                 var distm = MathHelper.map(a, 0, zoom, size, 50);
+
+                //Console.WriteLine("tiles z {0} max {1} dist {2}", a, zoom, distm);
 
                 var offset = center.newpos(rpy.Z, distm);
 
@@ -488,7 +519,6 @@ namespace MissionPlanner.Controls
                     if (dist < 500)
                         pxstep = 32;
 
-                    double[] oldutm = null;
                     GL.Begin(PrimitiveType.TriangleStrip);
                     for (long x = xr; x < x2; x += pxstep)
                     {
@@ -556,7 +586,7 @@ namespace MissionPlanner.Controls
                 this.SwapBuffers();
 
 
-                //Context.MakeCurrent(null);
+                Context.MakeCurrent(null);
             }
             catch
             {

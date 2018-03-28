@@ -8,9 +8,13 @@ using log4net;
 
 namespace MissionPlanner.Utilities
 {
-    public class Speech: IDisposable
+    public class Speech: IDisposable, ISpeech
     {
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+        public static Speech Instance { get; } = new Speech();
+
+        public static bool speechEnable { get; set; } = false;
 
         SpeechSynthesizer _speechwindows;
         System.Diagnostics.Process _speechlinux;

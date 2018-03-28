@@ -1,4 +1,4 @@
-﻿namespace MissionPlanner
+﻿namespace MissionPlanner.Radio
 {
     partial class Sikradio
     {

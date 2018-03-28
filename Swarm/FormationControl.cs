@@ -125,10 +125,11 @@ namespace MissionPlanner.Swarm
             threadrun = true;
 
             // make sure leader is high freq updates
-            SwarmInterface.Leader.parent.requestDatastream(MAVLink.MAV_DATA_STREAM.POSITION, 5, SwarmInterface.Leader.sysid, SwarmInterface.Leader.compid);
-            SwarmInterface.Leader.cs.rateposition = 5;
+            SwarmInterface.Leader.parent.requestDatastream(MAVLink.MAV_DATA_STREAM.POSITION, 10, SwarmInterface.Leader.sysid, SwarmInterface.Leader.compid);
+            SwarmInterface.Leader.cs.rateposition = 10;
+            SwarmInterface.Leader.cs.rateattitude = 10;
 
-            while (threadrun)
+            while (threadrun && !this.IsDisposed)
             {
                 // update leader pos
                 SwarmInterface.Update();
@@ -218,7 +219,7 @@ namespace MissionPlanner.Swarm
             bindingSource1.ResetBindings(false);
         }
 
-        public HIL.Vector3 getOffsetFromLeader(MAVState leader, MAVState mav)
+        public Vector3 getOffsetFromLeader(MAVState leader, MAVState mav)
         {
             //convert Wgs84ConversionInfo to utm
             CoordinateTransformationFactory ctfac = new CoordinateTransformationFactory();
@@ -244,12 +245,12 @@ namespace MissionPlanner.Swarm
 
             var heading = -leader.cs.yaw;
 
-           var norotation = new HIL.Vector3(masterutm[1] - mavutm[1], masterutm[0] - mavutm[0], 0);
+           var norotation = new Vector3(masterutm[1] - mavutm[1], masterutm[0] - mavutm[0], 0);
 
             norotation.x *= -1;
             norotation.y *= -1;
 
-            return new HIL.Vector3( norotation.x * Math.Cos(heading * MathHelper.deg2rad) - norotation.y * Math.Sin(heading * MathHelper.deg2rad), norotation.x * Math.Sin(heading * MathHelper.deg2rad) + norotation.y * Math.Cos(heading * MathHelper.deg2rad), 0);
+            return new Vector3( norotation.x * Math.Cos(heading * MathHelper.deg2rad) - norotation.y * Math.Sin(heading * MathHelper.deg2rad), norotation.x * Math.Sin(heading * MathHelper.deg2rad) + norotation.y * Math.Cos(heading * MathHelper.deg2rad), 0);
         }
 
         private void grid1_UpdateOffsets(MAVState mav, float x, float y, float z, Grid.icon ico)
@@ -281,7 +282,7 @@ namespace MissionPlanner.Swarm
                     if (mav == SwarmInterface.Leader)
                         continue;
 
-                    HIL.Vector3 offset = getOffsetFromLeader(((Formation) SwarmInterface).getLeader(), mav);
+                    Vector3 offset = getOffsetFromLeader(((Formation) SwarmInterface).getLeader(), mav);
 
                     if (Math.Abs(offset.x) < 200 && Math.Abs(offset.y) < 200)
                     {

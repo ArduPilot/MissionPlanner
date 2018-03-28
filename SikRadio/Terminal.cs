@@ -6,6 +6,7 @@ using System.Threading;
 using System.Windows.Forms;
 using MissionPlanner;
 using MissionPlanner.Comms;
+using MissionPlanner.MsgBox;
 
 namespace SikRadio
 {

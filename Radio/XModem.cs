@@ -11,8 +11,12 @@ namespace MissionPlanner.Radio
 {
     public class XModem
     {
-        public static event Sikradio.LogEventHandler LogEvent;
-        public static event Sikradio.ProgressEventHandler ProgressEvent;
+        public delegate void LogEventHandler(string message, int level = 0);
+
+        public delegate void ProgressEventHandler(double completed);
+
+        public static event LogEventHandler LogEvent;
+        public static event ProgressEventHandler ProgressEvent;
 
         const byte SOH = 0x01;
         const byte EOT = 0x04;
@@ -69,14 +73,13 @@ namespace MissionPlanner.Radio
                 packet[131] = (byte)(CRC >> 8);
                 packet[132] = (byte)(CRC);
                 Serial.Write(packet, 0, packet.Length);
-                //Console.WriteLine("CRC is " + CRC.ToString());
-                Serial.Write(new byte[] { EOT }, 0, 1);
-                //CustomMessageBox.Show("Firmware upgraded successfully.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Serial.Write("" + EOT);
+                ProgressEvent?.Invoke(100);
             }
             else if (bytesRead == 0)
             {
-                Serial.Write(new byte[] { EOT }, 0, 1);
-                //CustomMessageBox.Show("Firmware upgraded successfully.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Serial.Write("" + EOT);
+                ProgressEvent?.Invoke(100);
             }
         }
 
@@ -94,8 +97,7 @@ namespace MissionPlanner.Radio
                 int NoAckCount = 0;
                 while (len > 0)
                 {
-                    if (LogEvent != null)
-                        LogEvent("Uploading block " + a + "/" + startlen);
+                    LogEvent?.Invoke("Uploading block " + a + "/" + startlen);
 
                     //comPort.DiscardInBuffer();
                     SendBlock(fs, comPort, a);
@@ -112,12 +114,11 @@ namespace MissionPlanner.Radio
                         len--;
                         a++;
 
-                        if (ProgressEvent != null)
-                            ProgressEvent(1 - ((float)len / (float)startlen));
+                        ProgressEvent?.Invoke(len / startlen);
                     }
                     else if (ack == NAK)
                     {
-                        CustomMessageBox.Show("Corrupted packet. Please power cycle and try again.\r\n", "Warning",
+                        MsgBox.CustomMessageBox.Show("Corrupted packet. Please power cycle and try again.\r\n", "Warning",
                             MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         len = 0;
                     }

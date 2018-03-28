@@ -211,7 +211,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (!MainV2.comPort.BaseStream.IsOpen)
                 return;
 
-            if (DialogResult.OK ==
+            if ((int)DialogResult.OK ==
                 CustomMessageBox.Show(Strings.WarningUpdateParamList, Strings.ERROR, MessageBoxButtons.OKCancel))
             {
                 ((Control) sender).Enabled = false;
@@ -351,13 +351,24 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             var toadd = new List<Control>();
 
-            _params.OrderBy(x => x.Key).ForEach(x =>
+            var list = Settings.Instance.GetList("fav_params");
+
+            _params.OrderBy(x =>
+            {
+                if (list.Contains(x.Key))
+                    return "0" + x.Key;
+                return x.Key;
+            }).ForEach(x =>
             {
                 AddControl(x, toadd); //,ref ypos);
                 Console.WriteLine("add ctl " + x.Key + " " + DateTime.Now.ToString("ss.fff"));
             });
 
+            tableLayoutPanel1.SuspendLayout();
+            tableLayoutPanel1.Visible = false;
             tableLayoutPanel1.Controls.AddRange(toadd.ToArray());
+            tableLayoutPanel1.Visible = true;
+            tableLayoutPanel1.ResumeLayout();
 
             Console.WriteLine("Add done" + DateTime.Now.ToString("ss.fff"));
 

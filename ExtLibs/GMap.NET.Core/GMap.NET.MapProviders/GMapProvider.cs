@@ -312,7 +312,9 @@ namespace GMap.NET.MapProviders
         /// Gets or sets the value of the User-agent HTTP header.
         /// It's pseudo-randomized to avoid blockages...
         /// </summary>                  
-        public static string UserAgent = string.Format("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:{0}.0) Gecko/{2}{3:00}{4:00} Firefox/{0}.0.{1}", Stuff.random.Next(3, 14), Stuff.random.Next(1, 10), Stuff.random.Next(DateTime.Today.Year - 4, DateTime.Today.Year), Stuff.random.Next(12), Stuff.random.Next(30));
+        public static string UserAgent =
+            string.Format(
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36 Edge/17.17074");
 
         /// <summary>
         /// timeout for provider connections

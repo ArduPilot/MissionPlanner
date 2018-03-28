@@ -98,6 +98,10 @@
             this.but_AAsignin = new MissionPlanner.Controls.MyButton();
             this.CMB_Layout = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.CHK_AutoParamCommit = new System.Windows.Forms.CheckBox();
+            this.chk_shownofly = new System.Windows.Forms.CheckBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.CMB_altunits = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_tracklength)).BeginInit();
             this.SuspendLayout();
             // 
@@ -639,9 +643,44 @@
             resources.ApplyResources(this.label5, "label5");
             this.label5.Name = "label5";
             // 
+            // CHK_AutoParamCommit
+            // 
+            resources.ApplyResources(this.CHK_AutoParamCommit, "CHK_AutoParamCommit");
+            this.CHK_AutoParamCommit.Checked = true;
+            this.CHK_AutoParamCommit.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_AutoParamCommit.Name = "CHK_AutoParamCommit";
+            this.CHK_AutoParamCommit.UseVisualStyleBackColor = true;
+            this.CHK_AutoParamCommit.CheckedChanged += new System.EventHandler(this.CHK_AutoParamCommit_CheckedChanged);
+            // 
+            // chk_shownofly
+            // 
+            resources.ApplyResources(this.chk_shownofly, "chk_shownofly");
+            this.chk_shownofly.Checked = true;
+            this.chk_shownofly.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chk_shownofly.Name = "chk_shownofly";
+            this.chk_shownofly.UseVisualStyleBackColor = true;
+            this.chk_shownofly.CheckedChanged += new System.EventHandler(this.chk_shownofly_CheckedChanged);
+            // 
+            // label6
+            // 
+            resources.ApplyResources(this.label6, "label6");
+            this.label6.Name = "label6";
+            // 
+            // CMB_altunits
+            // 
+            this.CMB_altunits.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CMB_altunits.FormattingEnabled = true;
+            resources.ApplyResources(this.CMB_altunits, "CMB_altunits");
+            this.CMB_altunits.Name = "CMB_altunits";
+            this.CMB_altunits.SelectedIndexChanged += new System.EventHandler(this.CMB_altunits_SelectedIndexChanged);
+            // 
             // ConfigPlanner
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.CMB_altunits);
+            this.Controls.Add(this.chk_shownofly);
+            this.Controls.Add(this.CHK_AutoParamCommit);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.CMB_Layout);
             this.Controls.Add(this.but_AAsignin);
@@ -791,5 +830,9 @@
         private Controls.MyButton but_AAsignin;
         public System.Windows.Forms.ComboBox CMB_Layout;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.CheckBox CHK_AutoParamCommit;
+        private System.Windows.Forms.CheckBox chk_shownofly;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ComboBox CMB_altunits;
     }
 }

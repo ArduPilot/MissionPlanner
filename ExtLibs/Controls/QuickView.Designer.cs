@@ -31,17 +31,17 @@ namespace MissionPlanner.Controls
         {
             this.components = new System.ComponentModel.Container();
             this.labelWithPseudoOpacity1 = new System.Windows.Forms.Label();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+  
             this.labelWithPseudoOpacity2 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.tableLayoutPanel1.SuspendLayout();
+          
             this.SuspendLayout();
             // 
             // labelWithPseudoOpacity1
             // 
             this.labelWithPseudoOpacity1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelWithPseudoOpacity1.AutoSize = true;
+            this.labelWithPseudoOpacity1.AutoSize = false;
             this.labelWithPseudoOpacity1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelWithPseudoOpacity1.Location = new System.Drawing.Point(3, 0);
             this.labelWithPseudoOpacity1.Name = "labelWithPseudoOpacity1";
@@ -51,20 +51,7 @@ namespace MissionPlanner.Controls
             this.labelWithPseudoOpacity1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.toolTip1.SetToolTip(this.labelWithPseudoOpacity1, "Double click to change");
             // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Controls.Add(this.labelWithPseudoOpacity2, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.labelWithPseudoOpacity1, 0, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(122, 54);
-            this.tableLayoutPanel1.TabIndex = 2;
+
             // 
             // labelWithPseudoOpacity2
             // 
@@ -82,12 +69,12 @@ namespace MissionPlanner.Controls
             // 
             // QuickView
             // 
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.labelWithPseudoOpacity1);
+            this.Controls.Add(this.labelWithPseudoOpacity2);
             this.Name = "QuickView";
             this.Size = new System.Drawing.Size(122, 54);
             this.Resize += new System.EventHandler(this.QuickView_Resize);
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
+
             this.ResumeLayout(false);
 
         }
@@ -95,7 +82,7 @@ namespace MissionPlanner.Controls
         #endregion
 
         private System.Windows.Forms.Label labelWithPseudoOpacity1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+
         private System.Windows.Forms.Label labelWithPseudoOpacity2;
         private System.Windows.Forms.ToolTip toolTip1;
     }

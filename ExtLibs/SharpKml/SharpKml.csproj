@@ -1,291 +1,31 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{53F12A60-E9CC-44BC-8366-1AE3AB2B547D}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SharpKml</RootNamespace>
-    <AssemblyName>SharpKml</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
+    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
+    <OutputTypeEx>library</OutputTypeEx>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\SharpKml.XML</DocumentationFile>
-    <NoWarn>1591</NoWarn>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\SharpKml.XML</DocumentationFile>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>dont care.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="Ionic.Zip.Reduced">
-      <HintPath>Ionic.Zip.Reduced.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.AppContext, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.AppContext.4.3.0\lib\net46\System.AppContext.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.Console, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Console.4.3.0\lib\net46\System.Console.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Diagnostics.DiagnosticSource.4.3.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Diagnostics.Tracing, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Diagnostics.Tracing.4.3.0\lib\net462\System.Diagnostics.Tracing.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Globalization.Calendars, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Globalization.Calendars.4.3.0\lib\net46\System.Globalization.Calendars.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IO.Compression, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.IO.Compression.4.3.0\lib\net46\System.IO.Compression.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IO.Compression.FileSystem" />
-    <Reference Include="System.IO.Compression.ZipFile, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.IO.Compression.ZipFile.4.3.0\lib\net46\System.IO.Compression.ZipFile.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IO.FileSystem, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.IO.FileSystem.4.3.0\lib\net46\System.IO.FileSystem.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.IO.FileSystem.Primitives.4.3.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Net.Http.4.3.1\lib\net46\System.Net.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Sockets, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Net.Sockets.4.3.0\lib\net46\System.Net.Sockets.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Reflection, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Reflection.4.3.0\lib\net462\System.Reflection.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.Extensions, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Runtime.Extensions.4.3.0\lib\net462\System.Runtime.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.InteropServices, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Runtime.InteropServices.4.3.0\lib\net462\System.Runtime.InteropServices.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net461\System.Security.Cryptography.Algorithms.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Xml.ReaderWriter, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Xml.ReaderWriter.4.3.0\lib\net46\System.Xml.ReaderWriter.dll</HintPath>
-    </Reference>
+    <Compile Remove="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Base\Angle.cs" />
-    <Compile Include="Base\ElementEventArgs.cs" />
-    <Compile Include="Base\ElementWalker.cs" />
-    <Compile Include="Engine\FileHandler.cs" />
-    <Compile Include="Base\ValueConverter.cs" />
-    <Compile Include="Dom\Features\Placemark.cs" />
-    <Compile Include="Dom\Fields\AltitudeMode.cs" />
-    <Compile Include="Dom\Fields\ColorMode.cs" />
-    <Compile Include="Dom\Fields\DisplayMode.cs" />
-    <Compile Include="Dom\Fields\GridOrigin.cs" />
-    <Compile Include="Dom\Fields\ItemIconStates.cs" />
-    <Compile Include="Dom\Fields\ListItemType.cs" />
-    <Compile Include="Dom\Fields\RefreshMode.cs" />
-    <Compile Include="Dom\Fields\Shape.cs" />
-    <Compile Include="Dom\Fields\StyleState.cs" />
-    <Compile Include="Dom\Fields\Unit.cs" />
-    <Compile Include="Dom\Geometries\InnerBoundary.cs" />
-    <Compile Include="Dom\Geometries\LinearRing.cs" />
-    <Compile Include="Dom\Geometries\OuterBoundary.cs" />
-    <Compile Include="Dom\Geometries\Point.cs" />
-    <Compile Include="Dom\Geometries\LineString.cs" />
-    <Compile Include="Dom\Geometries\Polygon.cs" />
-    <Compile Include="Dom\GX\AnimatedUpdate.cs" />
-    <Compile Include="Dom\GX\FlyTo.cs" />
-    <Compile Include="Dom\GX\LatLonQuad.cs" />
-    <Compile Include="Dom\GX\MultipleTrack.cs" />
-    <Compile Include="Dom\GX\Playlist.cs" />
-    <Compile Include="Dom\GX\SoundCue.cs" />
-    <Compile Include="Dom\GX\TimeSpan.cs" />
-    <Compile Include="Dom\GX\Timestamp.cs" />
-    <Compile Include="Dom\GX\Tour.cs" />
-    <Compile Include="Dom\GX\TourControl.cs" />
-    <Compile Include="Dom\GX\TourPrimitive.cs" />
-    <Compile Include="Dom\GX\Track.cs" />
-    <Compile Include="Dom\GX\Wait.cs" />
-    <Compile Include="Dom\IBoundsInformation.cs" />
-    <Compile Include="Dom\Kml.cs" />
-    <Compile Include="Dom\Features\NetworkLink.cs" />
-    <Compile Include="Dom\Links\ChangeCollection.cs" />
-    <Compile Include="Dom\Links\CreateCollection.cs" />
-    <Compile Include="Dom\Links\DeleteCollection.cs" />
-    <Compile Include="Dom\Links\NetworkLinkControl.cs" />
-    <Compile Include="Dom\Links\Update.cs" />
-    <Compile Include="Dom\Overlays\ImagePyramid.cs" />
-    <Compile Include="Dom\Overlays\PhotoOverlay.cs" />
-    <Compile Include="Dom\Overlays\ScreenOverlay.cs" />
-    <Compile Include="Dom\Overlays\SizeVector.cs" />
-    <Compile Include="Dom\Overlays\RotationVector.cs" />
-    <Compile Include="Dom\Overlays\ScreenVector.cs" />
-    <Compile Include="Dom\Overlays\GroundOverlay.cs" />
-    <Compile Include="Dom\Overlays\LatLonBox.cs" />
-    <Compile Include="Dom\Overlays\Overlay.cs" />
-    <Compile Include="Dom\Overlays\OverlayVector.cs" />
-    <Compile Include="Dom\Overlays\ViewVolume.cs" />
-    <Compile Include="Dom\Styles\BasicLink.cs" />
-    <Compile Include="Dom\Geometries\Geometry.cs" />
-    <Compile Include="Dom\ICustomElement.cs" />
-    <Compile Include="Dom\Links\LinkType.cs" />
-    <Compile Include="Dom\Styles\ItemIcon.cs" />
-    <Compile Include="Dom\Styles\LineStyle.cs" />
-    <Compile Include="Dom\Styles\LabelStyle.cs" />
-    <Compile Include="Dom\Styles\Hotspot.cs" />
-    <Compile Include="Dom\Styles\IconStyle.cs" />
-    <Compile Include="Dom\Styles\ListStyle.cs" />
-    <Compile Include="Dom\Styles\Pair.cs" />
-    <Compile Include="Dom\Styles\PolygonStyle.cs" />
-    <Compile Include="Dom\Styles\Style.cs" />
-    <Compile Include="Dom\Styles\StyleMapCollection.cs" />
-    <Compile Include="Dom\Time\TimeSpan.cs" />
-    <Compile Include="Dom\Time\Timestamp.cs" />
-    <Compile Include="Dom\Url.cs" />
-    <Compile Include="Dom\Links\Icon.cs" />
-    <Compile Include="Dom\Geometries\Alias.cs" />
-    <Compile Include="Dom\Fields\CoordinateCollection.cs" />
-    <Compile Include="Dom\Features\Folder.cs" />
-    <Compile Include="Dom\Geometries\Location.cs" />
-    <Compile Include="Dom\Geometries\Model.cs" />
-    <Compile Include="Dom\Geometries\MultipleGeometry.cs" />
-    <Compile Include="Dom\Geometries\Orientation.cs" />
-    <Compile Include="Dom\Geometries\ResourceMap.cs" />
-    <Compile Include="Dom\Geometries\Scale.cs" />
-    <Compile Include="Dom\GX\Enums.cs" />
-    <Compile Include="Base\XmlExtractor.cs" />
-    <Compile Include="Dom\Features\Container.cs" />
-    <Compile Include="Dom\IHtmlContent.cs" />
-    <Compile Include="Dom\Features\Document.cs" />
-    <Compile Include="Dom\GX\SimpleArrayField.cs" />
-    <Compile Include="Dom\Links\Link.cs" />
-    <Compile Include="Dom\Links\LinkSnippet.cs" />
-    <Compile Include="Dom\Features\Data.cs" />
-    <Compile Include="Dom\Features\ExtendedData.cs" />
-    <Compile Include="Dom\GX\SimpleArrayData.cs" />
-    <Compile Include="Base\Color32.cs" />
-    <Compile Include="Base\KmlAttributeAttribute.cs" />
-    <Compile Include="Dom\Fields\ViewRefreshMode.cs" />
-    <Compile Include="Base\KmlFactory.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Base\KmlFormatter.cs" />
-    <Compile Include="Base\KmlElementAttribute.cs" />
-    <Compile Include="Base\Parser.cs" />
-    <Compile Include="Base\Serializer.cs" />
-    <Compile Include="Base\TypeBrowser.cs" />
-    <Compile Include="Base\XmlComponent.cs" />
-    <Compile Include="Dom\Features\AbstractLatLonBox.cs" />
-    <Compile Include="Dom\Views\AbstractView.cs" />
-    <Compile Include="Dom\Atom\Author.cs" />
-    <Compile Include="Dom\Atom\Category.cs" />
-    <Compile Include="Dom\Atom\Content.cs" />
-    <Compile Include="Dom\Atom\Entry.cs" />
-    <Compile Include="Dom\Atom\Link.cs" />
-    <Compile Include="Dom\Styles\BalloonStyle.cs" />
-    <Compile Include="Dom\Views\Camera.cs" />
-    <Compile Include="Dom\Atom\Feed.cs" />
-    <Compile Include="Dom\Styles\ColorStyle.cs" />
-    <Compile Include="Dom\Features\Description.cs" />
-    <Compile Include="Dom\Element.cs" />
-    <Compile Include="Dom\Features\Feature.cs" />
-    <Compile Include="Dom\KmlObject.cs" />
-    <Compile Include="Dom\Features\LatLonAltBox.cs" />
-    <Compile Include="Base\MathHelpers.cs" />
-    <Compile Include="Base\Vector.cs" />
-    <Compile Include="Base\KmlNamespaces.cs" />
-    <Compile Include="Dom\Features\Lod.cs" />
-    <Compile Include="Dom\Views\LookAt.cs" />
-    <Compile Include="Dom\Styles\StyleSelector.cs" />
-    <Compile Include="Dom\Styles\SubStyle.cs" />
-    <Compile Include="Dom\Features\Region.cs" />
-    <Compile Include="Dom\Time\TimePrimitive.cs" />
-    <Compile Include="Dom\Features\Schema.cs" />
-    <Compile Include="Dom\Features\SchemaData.cs" />
-    <Compile Include="Dom\Features\SimpleData.cs" />
-    <Compile Include="Dom\Features\SimpleField.cs" />
-    <Compile Include="Dom\Features\Snippet.cs" />
-    <Compile Include="Dom\UnknownElement.cs" />
-    <Compile Include="Dom\Fields\VectorType.cs" />
-    <Compile Include="Dom\Xal\AddressDetails.cs" />
-    <Compile Include="Dom\Xal\AdministrativeArea.cs" />
-    <Compile Include="Dom\Xal\Country.cs" />
-    <Compile Include="Dom\Xal\Locality.cs" />
-    <Compile Include="Dom\Xal\PostalCode.cs" />
-    <Compile Include="Dom\Xal\SubAdministrativeArea.cs" />
-    <Compile Include="Dom\Xal\Thoroughfare.cs" />
-    <Compile Include="Engine\BoundingBox.cs" />
-    <Compile Include="Engine\ElementExtensions.cs" />
-    <Compile Include="Engine\EntityMapper.cs" />
-    <Compile Include="Engine\FeatureExtensions.cs" />
-    <Compile Include="Engine\GeometryExtensions.cs" />
-    <Compile Include="Engine\KmlFile.cs" />
-    <Compile Include="Engine\LinkResolver.cs" />
-    <Compile Include="Engine\StyleResolver.cs" />
-    <Compile Include="Engine\UpdateExtensions.cs" />
-    <Compile Include="Engine\UriExtensions.cs" />
-    <Compile Include="Engine\KmzFile.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <None Include="packages.config" />
-    <None Include="Tuple.cs" />
+    <PackageReference Include="DotNetZip" Version="1.10.1" />
   </ItemGroup>
+
   <ItemGroup>
-    <None Include="dont care.snk" />
+    <Folder Include="Properties\" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!--<Import Project="$(ProgramFiles)\MSBuild\Microsoft\StyleCop\v4.4\Microsoft.StyleCop.targets" />-->
-  <!--<Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>-->
+
+
 </Project>

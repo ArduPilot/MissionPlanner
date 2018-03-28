@@ -31,6 +31,25 @@ namespace MissionPlanner.Utilities
             return (MAVLink.mavlink_mission_item_int_t)Convert(input, true);
         }
 
+        public static implicit operator Locationwp(MAVLink.mavlink_set_position_target_global_int_t input)
+        {
+            Locationwp temp = new Locationwp()
+            {
+                id = (byte) MAVLink.MAV_CMD.WAYPOINT,
+                p1 = 0,
+                p2 = 0,
+                p3 = 0,
+                p4 = 0,
+                lat = input.lat_int / 1e7,
+                lng = input.lon_int / 1e7,
+                alt = input.alt,
+                _seq = 0,
+                _frame = input.coordinate_frame
+            };
+
+            return temp;
+        }
+
         public static implicit operator Locationwp(MAVLink.mavlink_mission_item_t input)
         {
             Locationwp temp = new Locationwp()
@@ -69,36 +88,33 @@ namespace MissionPlanner.Utilities
             return temp;
         }
 
-        public static implicit operator Locationwp(MissionFile.MissionItem input)
+        public static implicit operator Locationwp(MissionFile.Item input)
         {
             Locationwp temp = new Locationwp()
             {
-                id = input.command,
-                p1 = input.param1,
-                p2 = input.param2,
-                p3 = input.param3,
-                p4 = input.param4,
+                id = (ushort)input.command,
+                p1 = (float)input.@params[0],
+                p2 = (float)input.@params[1],
+                p3 = (float)input.@params[2],
+                p4 = (float)input.@params[3],
                 lat = input.coordinate[0],
                 lng = input.coordinate[1],
                 alt = (float)input.coordinate[2],
-                _seq = (ushort)input.id,
-                _frame = input.frame
+                _seq = (ushort)input.doJumpId,
+                _frame = (byte)input.frame
             };
 
             return temp;
         }
 
-        public static implicit operator MissionFile.MissionItem(Locationwp input)
+        public static implicit operator MissionFile.Item(Locationwp input)
         {
-            MissionFile.MissionItem temp = new MissionFile.MissionItem()
+            MissionFile.Item temp = new MissionFile.Item()
             {
                 command = input.id,
-                param1 = input.p1,
-                param2 = input.p2,
-                param3 = input.p3,
-                param4 = input.p4,
-                coordinate = new double[] { input.lat, input.lng, input.alt },
-                id = input._seq,
+                @params = new List<double>(new double[] { input.p1,input.p2,input.p3,input.p4}),
+                coordinate = new List<double>(new double[] { input.lat, input.lng, input.alt }),
+                doJumpId = input._seq,
                 frame = input._frame
             };
 

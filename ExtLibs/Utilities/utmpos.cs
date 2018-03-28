@@ -94,6 +94,14 @@ namespace MissionPlanner.Utilities
             return Math.Sqrt(Math.Pow(Math.Abs(x - b.x), 2) + Math.Pow(Math.Abs(y - b.y), 2));
         }
 
+        public double GetBearing(utmpos b)
+        {
+            var y = b.y - this.y;
+            var x = b.x - this.x;
+
+            return (MathHelper.rad2deg * (Math.Atan2(x, y)) + 360) % 360;
+        }
+
         public override bool Equals(object obj)
         {
             if (!(obj is utmpos))

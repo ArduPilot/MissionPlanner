@@ -25,15 +25,35 @@ namespace MissionPlanner.Plugin
         {
             if (args.RequestingAssembly == null)
                 return null;
-            string folderPath = Path.GetDirectoryName(args.RequestingAssembly.Location);
+
+            // check install folder
+            string folderPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             string[] search = Directory.GetFiles(folderPath, new AssemblyName(args.Name).Name + ".dll",
                 SearchOption.AllDirectories);
 
             foreach (var file in search)
             {
-                Assembly assembly = Assembly.LoadFrom(file);
-                if (assembly.FullName == args.Name) 
-                    return assembly;
+                try
+                {
+                    Assembly assembly = Assembly.LoadFrom(file);
+                    if (assembly.FullName == args.Name)
+                        return assembly;
+                } catch { }
+            }
+
+            // check local directory
+            folderPath = Path.GetDirectoryName(args.RequestingAssembly.Location);
+            search = Directory.GetFiles(folderPath, new AssemblyName(args.Name).Name + ".dll",
+                SearchOption.AllDirectories);
+
+            foreach (var file in search)
+            {
+                try
+                {
+                    Assembly assembly = Assembly.LoadFrom(file);
+                    if (assembly.FullName == args.Name)
+                        return assembly;
+                } catch { }
             }
 
             return null;
@@ -41,7 +61,7 @@ namespace MissionPlanner.Plugin
 
         public static void Load(String file)
         {
-            if (!File.Exists(file) || !file.EndsWith(".dll", true, null) || file.ToLower().Contains("microsoft."))
+            if (!File.Exists(file) || !file.EndsWith(".dll", true, null) || file.ToLower().Contains("microsoft.") || file.ToLower().Contains("system.") || file.ToLower().Contains("missionplanner.grid.dll"))
                 return;
 
             AppDomain currentDomain = AppDomain.CurrentDomain;
@@ -94,7 +114,7 @@ namespace MissionPlanner.Plugin
             }
             catch (Exception ex)
             {
-                log.Error(ex);
+                log.Error("Failed to load plugin " + file, ex);
             }
         }
 

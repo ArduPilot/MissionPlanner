@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 
@@ -38,8 +39,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public void Activate()
         {
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane ||
-                MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx) // APM
+            if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduPlane ||
+                MainV2.comPort.MAV.cs.firmware == Firmwares.Ateryx) // APM
             {
                 CB_simple1.Visible = false;
                 CB_simple2.Visible = false;
@@ -71,14 +72,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     CMB_fmode3.SelectedValue = int.Parse(MainV2.comPort.MAV.param["FLTMODE3"].ToString());
                     CMB_fmode4.SelectedValue = int.Parse(MainV2.comPort.MAV.param["FLTMODE4"].ToString());
                     CMB_fmode5.SelectedValue = int.Parse(MainV2.comPort.MAV.param["FLTMODE5"].ToString());
-                    CMB_fmode6.Text = "Manual";
-                    CMB_fmode6.Enabled = false;
+                    CMB_fmode6.SelectedValue = int.Parse(MainV2.comPort.MAV.param["FLTMODE6"].ToString());
                 }
                 catch
                 {
                 }
             }
-            else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover) // APM
+            else if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduRover) // APM
             {
                 CB_simple1.Visible = false;
                 CB_simple2.Visible = false;
@@ -110,15 +110,32 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     CMB_fmode3.SelectedValue = int.Parse(MainV2.comPort.MAV.param["MODE3"].ToString());
                     CMB_fmode4.SelectedValue = int.Parse(MainV2.comPort.MAV.param["MODE4"].ToString());
                     CMB_fmode5.SelectedValue = int.Parse(MainV2.comPort.MAV.param["MODE5"].ToString());
-                    CMB_fmode6.Text = "Manual";
-                    CMB_fmode6.Enabled = false;
+                    CMB_fmode6.SelectedValue = int.Parse(MainV2.comPort.MAV.param["MODE6"].ToString());
                 }
                 catch
                 {
                 }
             }
-            else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2) // ac2
+            else if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2) // ac2
             {
+                if (MainV2.DisplayConfiguration.standardFlightModesOnly)
+                {
+                    CB_simple1.Visible = false;
+                    CB_simple2.Visible = false;
+                    CB_simple3.Visible = false;
+                    CB_simple4.Visible = false;
+                    CB_simple5.Visible = false;
+                    CB_simple6.Visible = false;
+
+                    chk_ss1.Visible = false;
+                    chk_ss2.Visible = false;
+                    chk_ss3.Visible = false;
+                    chk_ss4.Visible = false;
+                    chk_ss5.Visible = false;
+                    chk_ss6.Visible = false;
+
+                    linkLabel1_ss.Visible = false;
+                }
                 try
                 {
                     updateDropDown(CMB_fmode1, "FLTMODE1");
@@ -164,7 +181,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                 }
             }
-            else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.PX4) // APM
+            else if (MainV2.comPort.MAV.cs.firmware == Firmwares.PX4) // APM
             {
                 CB_simple1.Visible = false;
                 CB_simple2.Visible = false;
@@ -236,7 +253,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                MainV2.comPort.MAV.cs.UpdateCurrentSettings(currentStateBindingSource);
+                MainV2.comPort.MAV.cs.UpdateCurrentSettings(currentStateBindingSource.UpdateDataSource(MainV2.comPort.MAV.cs));
             }
             catch
             {
@@ -244,9 +261,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             float pwm = 0;
 
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane ||
-                MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover ||
-                MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx) // APM 
+            if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduPlane ||
+                MainV2.comPort.MAV.cs.firmware == Firmwares.ArduRover ||
+                MainV2.comPort.MAV.cs.firmware == Firmwares.Ateryx) // APM 
             {
                 if (MainV2.comPort.MAV.param.ContainsKey("FLTMODE_CH") ||
                     MainV2.comPort.MAV.param.ContainsKey("MODE_CH"))
@@ -291,7 +308,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
             }
 
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2) // ac2
+            if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2) // ac2
             {
                 pwm = MainV2.comPort.MAV.cs.ch5in;
                 LBL_flightmodepwm.Text = "5: " + MainV2.comPort.MAV.cs.ch5in;
@@ -354,7 +371,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     MainV2.comPort.setParam("COM_FLTMODE6", int.Parse(CMB_fmode6.SelectedValue.ToString()));
                 }
 
-                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2) // ac2
+                if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2) // ac2
                 {
                     // simple
                     var value = (float) (CB_simple1.Checked ? (int) SimpleMode.Simple1 : 0) +
@@ -386,7 +403,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void updateDropDown(ComboBox ctl, string param)
         {
-            ctl.DataSource = Common.getModesList(MainV2.comPort.MAV.cs);
+            ctl.DataSource = Common.getModesList(MainV2.comPort.MAV.cs.firmware);
             ctl.DisplayMember = "Value";
             ctl.ValueMember = "Key";
         }
@@ -406,7 +423,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void flightmode_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+            if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
             {
                 var sender2 = (Control) sender;
                 var currentmode = sender2.Text.ToLower();

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using GMap.NET.WindowsForms;
+using MissionPlanner.Plugin;
 
 namespace MissionPlanner
 {
@@ -26,6 +27,8 @@ namespace MissionPlanner
             get { return "Michael Oborne"; }
         }
 
+        public PluginHost Host2 { get; private set; }
+
         public override bool Init()
         {
             return true;
@@ -33,7 +36,7 @@ namespace MissionPlanner
 
         public override bool Loaded()
         {
-            Grid.Host2 = Host;
+            Host2 = Host;
 
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GridUIv2));
             var temp = (string)(resources.GetObject("$this.Text"));

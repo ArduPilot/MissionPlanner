@@ -15,14 +15,18 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
+using MissionPlanner.Maps;
 using MissionPlanner.Utilities;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace MissionPlanner.Controls
 {
     public partial class SITL : MyUserControl, IActivate
     {
         //https://regex101.com/r/cH3kV3/2
-        Regex default_params_regex = new Regex(@"""([^""]+)""\s*:\s*\{\s*[^\}]+""default_params_filename""\s*:\s*""([^""]+)""\s*[^\}]*\}");
+        //https://regex101.com/r/cH3kV3/3
+        Regex default_params_regex = new Regex(@"""([^""]+)""\s*:\s*\{\s*[^\{}]+""default_params_filename""\s*:\s*\[*""([^""]+)""\s*[^\}]*\}");
 
         Uri sitlurl = new Uri("http://firmware.ardupilot.org/Tools/MissionPlanner/sitl/");
 
@@ -187,32 +191,26 @@ namespace MissionPlanner.Controls
 
         private string CheckandGetSITLImage(string filename)
         {
-            if (Program.WindowsStoreApp)
-            {
-                CustomMessageBox.Show(Strings.Not_available_when_used_as_a_windows_store_app);
-                return "";
-            }
-
             Uri fullurl = new Uri(sitlurl, filename);
 
             var load = Common.LoadingBox("Downloading", "Downloading sitl software");
 
-            Common.getFilefromNet(fullurl.ToString(),
+            Download.getFilefromNet(fullurl.ToString(),
                 sitldirectory + Path.GetFileNameWithoutExtension(filename) + ".exe");
 
             load.Refresh();
 
             // dependancys
             var depurl = new Uri(sitlurl, "cyggcc_s-1.dll");
-            Common.getFilefromNet(depurl.ToString(), sitldirectory + depurl.Segments[depurl.Segments.Length - 1]);
+            Download.getFilefromNet(depurl.ToString(), sitldirectory + depurl.Segments[depurl.Segments.Length - 1]);
 
             load.Refresh();
             depurl = new Uri(sitlurl, "cygstdc++-6.dll");
-            Common.getFilefromNet(depurl.ToString(), sitldirectory + depurl.Segments[depurl.Segments.Length - 1]);
+            Download.getFilefromNet(depurl.ToString(), sitldirectory + depurl.Segments[depurl.Segments.Length - 1]);
 
             load.Refresh();
             depurl = new Uri(sitlurl, "cygwin1.dll");
-            Common.getFilefromNet(depurl.ToString(), sitldirectory + depurl.Segments[depurl.Segments.Length - 1]);
+            Download.getFilefromNet(depurl.ToString(), sitldirectory + depurl.Segments[depurl.Segments.Length - 1]);
 
             load.Close();
 
@@ -221,9 +219,9 @@ namespace MissionPlanner.Controls
 
         private string GetDefaultConfig(string model)
         {
-            if (Common.getFilefromNet(
+            if (Download.getFilefromNet(
                 "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/sim_vehicle.py",
-                sitldirectory + "sim_vehicle.py"))
+                sitldirectory + "sim_vehicle.py") || File.Exists(sitldirectory + "sim_vehicle.py"))
             {
                 var matches = default_params_regex.Matches(File.ReadAllText(sitldirectory + "sim_vehicle.py"));
 
@@ -231,14 +229,114 @@ namespace MissionPlanner.Controls
                 {
                     if (match.Groups[1].Value.ToLower().Equals(model))
                     {
-                        if (Common.getFilefromNet(
+                        if (Download.getFilefromNet(
                             "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/" +
                             match.Groups[2].Value.ToString(),
-                            sitldirectory + match.Groups[2].Value.ToString()))
+                            sitldirectory + match.Groups[2].Value.ToString()) || File.Exists(sitldirectory + match.Groups[2].Value.ToString()))
                             return sitldirectory + match.Groups[2].Value.ToString();
                     }
                 }
             }
+
+            if (Download.getFilefromNet(
+                "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/pysim/vehicleinfo.py",
+                sitldirectory + "vehicleinfo.py") || File.Exists(sitldirectory + "vehicleinfo.py"))
+            {
+                cleanupJson(sitldirectory + "vehicleinfo.py");
+
+                using (Newtonsoft.Json.JsonTextReader reader =
+                    new JsonTextReader(File.OpenText(sitldirectory + "vehicleinfo.py")))
+                {
+                    JsonSerializer serializer = new JsonSerializer();
+                    var obj = (JObject) serializer.Deserialize(reader);
+
+                    foreach (var fwtype in obj)
+                    {
+                        var frames = fwtype.Value["frames"];
+
+                        if (frames == null)
+                            continue;
+
+                        var config = frames[model];
+
+                        if (config == null)
+                            continue;
+
+                        var configs = config["default_params_filename"];
+
+                        if (configs is JValue)
+                        {
+                            if (Download.getFilefromNet(
+                                "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/" +
+                                configs.ToString(),
+                                sitldirectory + configs.ToString()) || File.Exists(sitldirectory + configs.ToString()))
+                            {
+                                return sitldirectory + configs.ToString();
+                            }
+                        }
+
+                        string data = "";
+
+                        foreach (var config1 in configs)
+                        {
+                            if (Download.getFilefromNet(
+                                "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/" +
+                                config1.ToString(),
+                                sitldirectory + config1.ToString()) || File.Exists(sitldirectory + config1.ToString()))
+                            {
+                                data += "\r\n" + File.ReadAllText(sitldirectory + config1.ToString());
+                            }
+                        }
+
+                        var temp = Path.GetTempFileName();
+                        File.WriteAllText(temp, data);
+                        return temp;
+                    }
+                }
+            }
+            return "";
+        }
+
+        void cleanupJson(string filename)
+        {
+            var content = File.ReadAllText(filename);
+
+            var match = BraceMatch(content, '{', '}');
+
+            match = Regex.Replace(match, @"#.*", "");
+
+            File.WriteAllText(filename, match);
+        }
+
+        static string BraceMatch(string text, char braces, char bracee)
+        {
+            int level = 0;
+            int start = 0;
+            int end = 0;
+
+            int index = -1;
+
+            foreach (char c in text)
+            {
+                index++;
+                if (c == braces)
+                {
+                    if (level == 0)
+                        start = index;
+                    // opening brace detected
+                    level++;
+                }
+
+                if (c == bracee)
+                {
+                    level--;
+                    end = index;
+
+                    if (level == 0)
+                        return text.Substring(start, end - start + 1);
+                }
+            }
+
             return "";
         }
 
@@ -401,6 +499,84 @@ namespace MissionPlanner.Controls
         {
             mousedown = true;
             MouseDownStart = myGMAP1.FromLocalToLatLng(e.X, e.Y);
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Control | Keys.S))
+            {
+                var exepath = CheckandGetSITLImage("ArduCopter.elf");
+                var max = 5;
+
+                for (int a = max; a >= 0 ; a--)
+                {
+                    var extra = "";
+                    var model = "+";
+
+                    var config = GetDefaultConfig(model);
+
+                    if (!string.IsNullOrEmpty(config))
+                        extra += @" --defaults """ + config + @"""";
+
+                    var home = new PointLatLngAlt(markeroverlay.Markers[0].Position).newpos((double)NUM_heading.Value, a * 4);
+
+                    if (max == a)
+                    {
+                        extra += String.Format(
+                            " -M{4} -s1 --home {3} --instance {0} --uartA tcp:0 {1} -P SYSID_THISMAV={2} ",
+                            a, "", a + 1, BuildHomeLocation(home, (int) NUM_heading.Value), model);
+                    }
+                    else
+                    {
+                        extra += String.Format(
+                            " -M{4} -s1 --home {3} --instance {0} --uartA tcp:0 {1} -P SYSID_THISMAV={2} ",
+                            a, "--uartD tcpclient:127.0.0.1:" + (5770 + 10 * a), a + 1, BuildHomeLocation(home, (int) NUM_heading.Value), model);
+                    }
+
+                    string simdir = sitldirectory + model + (a+1) + Path.DirectorySeparatorChar;
+
+                    Directory.CreateDirectory(simdir);
+
+                    string path = Environment.GetEnvironmentVariable("PATH");
+
+                    Environment.SetEnvironmentVariable("PATH", sitldirectory + ";" + simdir + ";" + path, EnvironmentVariableTarget.Process);
+
+                    Environment.SetEnvironmentVariable("HOME", simdir, EnvironmentVariableTarget.Process);
+
+                    ProcessStartInfo exestart = new ProcessStartInfo();
+                    exestart.FileName = exepath;
+                    exestart.Arguments = extra;
+                    exestart.WorkingDirectory = simdir;
+                    exestart.WindowStyle = ProcessWindowStyle.Minimized;
+                    exestart.UseShellExecute = true;
+
+                    Process.Start(exestart);
+                }
+
+                try
+                {
+                    var client = new Comms.TcpSerial();
+
+                    client.client = new TcpClient("127.0.0.1", 5760);
+
+                    MainV2.comPort.BaseStream = client;
+
+                    SITLSEND = new UdpClient("127.0.0.1", 5501);
+
+                    Thread.Sleep(200);
+
+                    MainV2.instance.doConnect(MainV2.comPort, "preset", "5760");
+
+                    return true;
+                }
+                catch
+                {
+                    CustomMessageBox.Show(Strings.Failed_to_connect_to_SITL_instance, Strings.ERROR);
+                    return true;
+                }
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
         }
     }
 }

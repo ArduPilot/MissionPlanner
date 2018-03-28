@@ -785,7 +785,7 @@ namespace RFD.RFD900
                 if (SearchHex(Hex, GetFirmwareSearchToken()))
                 {
                     uploader.Uploader UL = new uploader.Uploader();
-                    UL.ProgressEvent += new MissionPlanner.Sikradio.ProgressEventHandler(Progress);
+                    UL.ProgressEvent += (d) => Progress(d);
                     UL.upload(_Session.Port, Hex);
                     return true;
                 }
@@ -890,7 +890,7 @@ namespace RFD.RFD900
                 {
                     try
                     {
-                        MissionPlanner.Radio.XModem.ProgressEvent += new MissionPlanner.Sikradio.ProgressEventHandler(Progress);
+                        MissionPlanner.Radio.XModem.ProgressEvent += (d) => Progress(d);
                         MissionPlanner.Radio.XModem.Upload(FilePath, _Session.Port);
                         return true;
                     }

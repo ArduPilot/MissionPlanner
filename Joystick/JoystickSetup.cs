@@ -168,7 +168,12 @@ namespace MissionPlanner.Joystick
 
         private void BUT_save_Click(object sender, EventArgs e)
         {
-            Joystick.self.saveconfig();
+            if (MainV2.joystick == null)
+            {
+                CustomMessageBox.Show("Please select a joystick");
+                return;
+            }
+            MainV2.joystick.saveconfig();
 
             Settings.Instance["joy_elevons"] = CHK_elevons.Checked.ToString();
         }
@@ -229,6 +234,8 @@ namespace MissionPlanner.Joystick
 
                         SuspendLayout();
 
+                        MainV2.joystick = joy;
+
                         for (int f = 0; f < noButtons; f++)
                         {
                             string name = (f).ToString();
@@ -241,8 +248,6 @@ namespace MissionPlanner.Joystick
                         }
 
                         ResumeLayout();
-
-                        MainV2.joystick = joy;
 
                         ThemeManager.ApplyThemeTo(this);
 
@@ -312,7 +317,10 @@ namespace MissionPlanner.Joystick
                 {
                     string name = (f).ToString();
 
-                    ((HorizontalProgressBar) this.Controls.Find("hbar" + name, false)[0]).Value =
+                    var items = this.Controls.Find("hbar" + name, false);
+
+                    if(items.Length > 0)
+                    ((HorizontalProgressBar)items[0]).Value =
                         MainV2.joystick.isButtonPressed(f) ? 100 : 0;
                 }
             }
@@ -439,7 +447,18 @@ namespace MissionPlanner.Joystick
             ComboBox cmbaction = new ComboBox();
             Controls.MyButton but_settings = new Controls.MyButton();
 
-            var config = Joystick.self.getButton(int.Parse(name));
+            if (MainV2.joystick == null)
+            {
+                butlabel.Dispose();
+                butnumberlist.Dispose();
+                but_detect.Dispose();
+                hbar.Dispose();
+                cmbaction.Dispose();
+                but_settings.Dispose();
+                return;
+            }
+
+            var config = MainV2.joystick.getButton(int.Parse(name));
 
             // do this here so putting in text works
             this.Controls.AddRange(new Control[] {butlabel, butnumberlist, but_detect, hbar, cmbaction, but_settings});
@@ -499,10 +518,10 @@ namespace MissionPlanner.Joystick
         void cmbaction_SelectedIndexChanged(object sender, EventArgs e)
         {
             int num = int.Parse(((Control) sender).Tag.ToString());
-            var config = Joystick.self.getButton(num);
+            var config = MainV2.joystick.getButton(num);
             config.function =
                 (Joystick.buttonfunction) Enum.Parse(typeof (Joystick.buttonfunction), ((Control) sender).Text);
-            Joystick.self.setButton(num, config);
+            MainV2.joystick.setButton(num, config);
         }
 
         void but_settings_Click(object sender, EventArgs e)

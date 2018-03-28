@@ -141,7 +141,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;TXT_logfile.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>18</value>
   </data>
   <data name="TXT_jpgdir.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 47</value>
@@ -162,7 +162,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;TXT_jpgdir.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>17</value>
   </data>
   <data name="TXT_offsetseconds.Location" type="System.Drawing.Point, System.Drawing">
     <value>115, 21</value>
@@ -220,7 +220,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;TXT_outputlog.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>15</value>
   </data>
   <data name="label1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -268,13 +268,13 @@
     <value>BUT_Geotagimages</value>
   </data>
   <data name="&gt;&gt;BUT_Geotagimages.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6203.10369, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_Geotagimages.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_Geotagimages.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>14</value>
   </data>
   <data name="BUT_estoffset.Location" type="System.Drawing.Point, System.Drawing">
     <value>240, 18</value>
@@ -292,7 +292,7 @@
     <value>BUT_estoffset</value>
   </data>
   <data name="&gt;&gt;BUT_estoffset.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6203.10369, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_estoffset.Parent" xml:space="preserve">
     <value>PANEL_TIME_OFFSET</value>
@@ -316,13 +316,13 @@
     <value>BUT_doit</value>
   </data>
   <data name="&gt;&gt;BUT_doit.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6203.10369, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_doit.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_doit.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>16</value>
   </data>
   <data name="BUT_browsedir.Location" type="System.Drawing.Point, System.Drawing">
     <value>507, 42</value>
@@ -340,13 +340,13 @@
     <value>BUT_browsedir</value>
   </data>
   <data name="&gt;&gt;BUT_browsedir.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6203.10369, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_browsedir.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_browsedir.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>19</value>
   </data>
   <data name="BUT_browselog.Location" type="System.Drawing.Point, System.Drawing">
     <value>507, 7</value>
@@ -364,13 +364,13 @@
     <value>BUT_browselog</value>
   </data>
   <data name="&gt;&gt;BUT_browselog.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6203.10369, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_browselog.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_browselog.ZOrder" xml:space="preserve">
-    <value>18</value>
+    <value>20</value>
   </data>
   <data name="BUT_networklinkgeoref.Location" type="System.Drawing.Point, System.Drawing">
     <value>254, 305</value>
@@ -388,13 +388,13 @@
     <value>BUT_networklinkgeoref</value>
   </data>
   <data name="&gt;&gt;BUT_networklinkgeoref.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6203.10369, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_networklinkgeoref.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_networklinkgeoref.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>13</value>
   </data>
   <data name="label11.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -427,7 +427,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label11.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>12</value>
   </data>
   <data name="label12.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -460,7 +460,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label12.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>11</value>
   </data>
   <data name="RDIO_TimeOffset.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -487,7 +487,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;RDIO_TimeOffset.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>10</value>
   </data>
   <data name="RDIO_CAMMsgSynchro.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -517,7 +517,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;RDIO_CAMMsgSynchro.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>9</value>
   </data>
   <data name="PANEL_TIME_OFFSET.Location" type="System.Drawing.Point, System.Drawing">
     <value>16, 128</value>
@@ -538,7 +538,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;PANEL_TIME_OFFSET.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>8</value>
   </data>
   <data name="label9.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -693,75 +693,6 @@
   <data name="&gt;&gt;num_vfov.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
-  <data name="&gt;&gt;chk_usegps2.Name" xml:space="preserve">
-    <value>chk_usegps2</value>
-  </data>
-  <data name="&gt;&gt;chk_usegps2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;chk_usegps2.Parent" xml:space="preserve">
-    <value>panel3</value>
-  </data>
-  <data name="&gt;&gt;chk_usegps2.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;label28.Name" xml:space="preserve">
-    <value>label28</value>
-  </data>
-  <data name="&gt;&gt;label28.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label28.Parent" xml:space="preserve">
-    <value>panel3</value>
-  </data>
-  <data name="&gt;&gt;label28.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;txt_basealt.Name" xml:space="preserve">
-    <value>txt_basealt</value>
-  </data>
-  <data name="&gt;&gt;txt_basealt.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;txt_basealt.Parent" xml:space="preserve">
-    <value>panel3</value>
-  </data>
-  <data name="&gt;&gt;txt_basealt.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;CHECK_AMSLAlt_Use.Name" xml:space="preserve">
-    <value>CHECK_AMSLAlt_Use</value>
-  </data>
-  <data name="&gt;&gt;CHECK_AMSLAlt_Use.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CHECK_AMSLAlt_Use.Parent" xml:space="preserve">
-    <value>panel3</value>
-  </data>
-  <data name="&gt;&gt;CHECK_AMSLAlt_Use.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="panel3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>16, 189</value>
-  </data>
-  <data name="panel3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>597, 96</value>
-  </data>
-  <data name="panel3.TabIndex" type="System.Int32, mscorlib">
-    <value>40</value>
-  </data>
-  <data name="&gt;&gt;panel3.Name" xml:space="preserve">
-    <value>panel3</value>
-  </data>
-  <data name="&gt;&gt;panel3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panel3.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;panel3.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
   <data name="chk_usegps2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -873,50 +804,26 @@
   <data name="&gt;&gt;CHECK_AMSLAlt_Use.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="&gt;&gt;TXT_shutterLag.Name" xml:space="preserve">
-    <value>TXT_shutterLag</value>
+  <data name="panel3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>16, 189</value>
   </data>
-  <data name="&gt;&gt;TXT_shutterLag.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="panel3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>597, 96</value>
   </data>
-  <data name="&gt;&gt;TXT_shutterLag.Parent" xml:space="preserve">
-    <value>PANEL_SHUTTER_LAG</value>
+  <data name="panel3.TabIndex" type="System.Int32, mscorlib">
+    <value>40</value>
   </data>
-  <data name="&gt;&gt;TXT_shutterLag.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="&gt;&gt;panel3.Name" xml:space="preserve">
+    <value>panel3</value>
   </data>
-  <data name="&gt;&gt;label27.Name" xml:space="preserve">
-    <value>label27</value>
-  </data>
-  <data name="&gt;&gt;label27.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label27.Parent" xml:space="preserve">
-    <value>PANEL_SHUTTER_LAG</value>
-  </data>
-  <data name="&gt;&gt;label27.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="PANEL_SHUTTER_LAG.Location" type="System.Drawing.Point, System.Drawing">
-    <value>390, 128</value>
-  </data>
-  <data name="PANEL_SHUTTER_LAG.Size" type="System.Drawing.Size, System.Drawing">
-    <value>223, 55</value>
-  </data>
-  <data name="PANEL_SHUTTER_LAG.TabIndex" type="System.Int32, mscorlib">
-    <value>41</value>
-  </data>
-  <data name="&gt;&gt;PANEL_SHUTTER_LAG.Name" xml:space="preserve">
-    <value>PANEL_SHUTTER_LAG</value>
-  </data>
-  <data name="&gt;&gt;PANEL_SHUTTER_LAG.Type" xml:space="preserve">
+  <data name="&gt;&gt;panel3.Type" xml:space="preserve">
     <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;PANEL_SHUTTER_LAG.Parent" xml:space="preserve">
+  <data name="&gt;&gt;panel3.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;PANEL_SHUTTER_LAG.ZOrder" xml:space="preserve">
-    <value>4</value>
+  <data name="&gt;&gt;panel3.ZOrder" xml:space="preserve">
+    <value>7</value>
   </data>
   <data name="TXT_shutterLag.Location" type="System.Drawing.Point, System.Drawing">
     <value>128, 19</value>
@@ -972,6 +879,27 @@
   <data name="&gt;&gt;label27.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="PANEL_SHUTTER_LAG.Location" type="System.Drawing.Point, System.Drawing">
+    <value>390, 128</value>
+  </data>
+  <data name="PANEL_SHUTTER_LAG.Size" type="System.Drawing.Size, System.Drawing">
+    <value>223, 55</value>
+  </data>
+  <data name="PANEL_SHUTTER_LAG.TabIndex" type="System.Int32, mscorlib">
+    <value>41</value>
+  </data>
+  <data name="&gt;&gt;PANEL_SHUTTER_LAG.Name" xml:space="preserve">
+    <value>PANEL_SHUTTER_LAG</value>
+  </data>
+  <data name="&gt;&gt;PANEL_SHUTTER_LAG.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PANEL_SHUTTER_LAG.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;PANEL_SHUTTER_LAG.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
   <data name="chk_cammsg.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -997,7 +925,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;chk_cammsg.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>5</value>
   </data>
   <data name="RDIO_trigmsg.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1027,7 +955,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;RDIO_trigmsg.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="myGMAP1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
@@ -1035,7 +963,6 @@
   <data name="myGMAP1.Location" type="System.Drawing.Point, System.Drawing">
     <value>636, 9</value>
   </data>
-
   <data name="myGMAP1.Size" type="System.Drawing.Size, System.Drawing">
     <value>437, 262</value>
   </data>
@@ -1046,13 +973,13 @@
     <value>myGMAP1</value>
   </data>
   <data name="&gt;&gt;myGMAP1.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.myGMAP, MissionPlanner.Controls, Version=1.0.6203.10369, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.myGMAP, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;myGMAP1.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;myGMAP1.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="pictureBox1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left, Right</value>
@@ -1079,6 +1006,66 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBox1.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="chk_camusegpsalt.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chk_camusegpsalt.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chk_camusegpsalt.Location" type="System.Drawing.Point, System.Drawing">
+    <value>261, 108</value>
+  </data>
+  <data name="chk_camusegpsalt.Size" type="System.Drawing.Size, System.Drawing">
+    <value>82, 17</value>
+  </data>
+  <data name="chk_camusegpsalt.TabIndex" type="System.Int32, mscorlib">
+    <value>46</value>
+  </data>
+  <data name="chk_camusegpsalt.Text" xml:space="preserve">
+    <value>Use GPSAlt</value>
+  </data>
+  <data name="&gt;&gt;chk_camusegpsalt.Name" xml:space="preserve">
+    <value>chk_camusegpsalt</value>
+  </data>
+  <data name="&gt;&gt;chk_camusegpsalt.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chk_camusegpsalt.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chk_camusegpsalt.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="chk_trigusergpsalt.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chk_trigusergpsalt.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chk_trigusergpsalt.Location" type="System.Drawing.Point, System.Drawing">
+    <value>487, 108</value>
+  </data>
+  <data name="chk_trigusergpsalt.Size" type="System.Drawing.Size, System.Drawing">
+    <value>82, 17</value>
+  </data>
+  <data name="chk_trigusergpsalt.TabIndex" type="System.Int32, mscorlib">
+    <value>47</value>
+  </data>
+  <data name="chk_trigusergpsalt.Text" xml:space="preserve">
+    <value>Use GPSAlt</value>
+  </data>
+  <data name="&gt;&gt;chk_trigusergpsalt.Name" xml:space="preserve">
+    <value>chk_trigusergpsalt</value>
+  </data>
+  <data name="&gt;&gt;chk_trigusergpsalt.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chk_trigusergpsalt.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chk_trigusergpsalt.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">

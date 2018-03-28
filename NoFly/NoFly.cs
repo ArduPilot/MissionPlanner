@@ -52,6 +52,8 @@ namespace MissionPlanner.NoFly
                     {
                         LoadNoFly(kml);
                     }
+
+                    Directory.Delete(outputDirectory, true);
                 }
                 catch
                 {

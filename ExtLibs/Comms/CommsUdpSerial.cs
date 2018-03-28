@@ -6,6 +6,7 @@ using log4net;
 using System.IO.Ports;
 using System.IO;
 using System;
+using System.Collections.Generic;
 
 namespace MissionPlanner.Comms
 {
@@ -13,7 +14,13 @@ namespace MissionPlanner.Comms
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public UdpClient client = new UdpClient();
+        /// <summary>
+        /// this is the remote endpoint we send messages too. this class does not support multiple remote endpoints.
+        /// </summary>
         public IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
+
+        private List<IPEndPoint> EndPointList = new List<IPEndPoint>();
+
         byte[] rbuffer = new byte[0];
         int rbufferread = 0;
 
@@ -138,8 +145,12 @@ namespace MissionPlanner.Comms
 
             try
             {
+                // reset any previous connection
+                RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
+
                 client.Receive(ref RemoteIpEndPoint);
                 log.InfoFormat("UDPSerial connecting to {0} : {1}", RemoteIpEndPoint.Address, RemoteIpEndPoint.Port);
+                EndPointList.Add(RemoteIpEndPoint);
                 _isopen = true;
             }
             catch (Exception ex)
@@ -181,8 +192,13 @@ namespace MissionPlanner.Comms
                         // read more
                         while (client.Available > 0 && r.Length < (1024 * 1024))
                         {
-                            Byte[] b = client.Receive(ref RemoteIpEndPoint);
+                            var currentRemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
+                            // assumes the udp packets are mavlink aligned, if we are receiving from more than one source
+                            Byte[] b = client.Receive(ref currentRemoteIpEndPoint);
                             r.Write(b, 0, b.Length);
+
+                            if(!EndPointList.Contains(currentRemoteIpEndPoint))
+                                EndPointList.Add(currentRemoteIpEndPoint);
                         }
                         // copy mem stream to byte array.
                         rbuffer = r.ToArray();
@@ -256,11 +272,15 @@ namespace MissionPlanner.Comms
         public  void Write(byte[] write, int offset, int length)
         {
             VerifyConnected();
-            try
+            // this is not ideal. but works
+            foreach (var ipEndPoint in EndPointList)
             {
-                client.Send(write, length, RemoteIpEndPoint);
+                try
+                {
+                    client.Send(write, length, ipEndPoint);
+                }
+                catch { }//throw new Exception("Comport / Socket Closed"); }
             }
-            catch { }//throw new Exception("Comport / Socket Closed"); }
         }
 
         public  void DiscardInBuffer()

@@ -35,11 +35,8 @@ namespace MissionPlanner.Controls
         int _min = 0;
         int _max = 0;
         int _value = 0;
-        public System.Windows.Forms.Label lbl1 = new System.Windows.Forms.Label();
-        public System.Windows.Forms.Label lbl = new System.Windows.Forms.Label();
         public bool reverse = false;
         int displayvalue = 0;
-        bool ctladded = false;
         bool _drawlabel = true;
 
         //BSE.Windows.Forms.ProgressBar basepb = new BSE.Windows.Forms.ProgressBar();
@@ -56,15 +53,6 @@ System.ComponentModel.Description("draw text under Bar")]
             set
             {
                 _drawlabel = value;
-                if (_drawlabel == false)
-                {
-                    if (this.Parent != null && ctladded == true)
-                    {
-                        this.Parent.Controls.Remove(lbl);
-                        this.Parent.Controls.Remove(lbl1);
-                    }
-                    ctladded = true;
-                }
             }
         }
 
@@ -92,13 +80,6 @@ System.ComponentModel.Description("draw text under Bar")]
     ControlStyles.AllPaintingInWmPaint |
     ControlStyles.SupportsTransparentBackColor |
     ControlStyles.UserPaint, true);
-
-            //this.Controls.Add(lbl);
-            //this.Controls.Add(lbl1);
-
-
-            //this.Controls.Add(basepb);
-            //ctladded = true;
         }
 
         public new int Value
@@ -132,13 +113,6 @@ System.ComponentModel.Description("draw text under Bar")]
                 this.Invalidate();
 
                 if (this.DesignMode) return;
-
-                if (this.Parent != null && ctladded == false)
-                {
-                    this.Parent.Controls.Add(lbl);
-                    this.Parent.Controls.Add(lbl1);
-                    ctladded = true;
-                }
             }
         }
 
@@ -190,19 +164,26 @@ System.ComponentModel.Description("values scaled for display")]
 
         private float _displayscale = 1;
 
+        StringFormat drawFormat = new StringFormat() { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
+
         private void drawlbl(Graphics e)
         {
             if (DrawLabel)
             {
-                lbl.Location = new Point(this.Location.X, this.Location.Y + this.Height + 2);
-                lbl.ClientSize = new Size(this.Width, 13);
-                lbl.TextAlign = ContentAlignment.MiddleCenter;
-                lbl.Text = m_Text;
+                var rect = new RectangleF(0, 0, Width, Height);
+                var tran = e.Transform;
+                e.ResetTransform();
+                if (Width < Height)
+                {
+                    drawFormat.FormatFlags = StringFormatFlags.DirectionVertical;
+                }
+                else
+                {
+                    drawFormat.FormatFlags = 0;
+                }
 
-                lbl1.Location = new Point(this.Location.X, this.Location.Y + this.Height + 15);
-                lbl1.ClientSize = new Size(this.Width, 13);
-                lbl1.TextAlign = ContentAlignment.MiddleCenter;
-                lbl1.Text = (Value * _displayscale).ToString();
+                e.DrawString((m_Text + "  " + (Value * _displayscale).ToString()+" ").Trim(), this.Font, new SolidBrush(this.ForeColor), rect, drawFormat);
+                e.Transform = tran;
             }
 
             if (minline != 0 && maxline != 0)
@@ -262,37 +243,10 @@ System.ComponentModel.Description("values scaled for display")]
         public int minline { get; set; }
         public int maxline { get; set; }
 
-        public Color BackgroundColor
-        {
-            get { return base.BackgroundColor; }
-            set { base.BackgroundColor = value; }
-        }
-
-        public Color ValueColor
-        {
-            get { return base.ValueColor; }
-            set { base.ValueColor = value; }
-        }
-
-        public Color BorderColor
-        {
-            get { return base.BorderColor; }
-            set { base.BorderColor = value; }
-        }
-
-        public string Text
-        {
-            get { return base.Text; }
-            set { base.Text = value; }
-        }
-
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
             drawlbl(e.Graphics);
         }
-
     }
-
-
 }

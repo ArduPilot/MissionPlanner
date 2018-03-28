@@ -8,14 +8,11 @@ using System.Threading;
 using log4net;
 using log4net.Config;
 using System.Diagnostics;
-using System.Linq;
-using MissionPlanner.Utilities;
-using MissionPlanner;
 using System.Drawing;
-using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
+using System.Reflection;
 using MissionPlanner.Comms;
 using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner
 {
@@ -40,7 +37,18 @@ namespace MissionPlanner
         public static Bitmap SplashBG = null;
 
         public static string[] names = new string[] { "VVVVZ" };
+        public static bool MONO = false;
 
+        static Program()
+        {
+            AppDomain.CurrentDomain.AssemblyLoad += CurrentDomain_AssemblyLoad;
+
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
+            AppDomain.CurrentDomain.TypeResolve += CurrentDomain_TypeResolve;
+
+            AppDomain.CurrentDomain.FirstChanceException += CurrentDomain_FirstChanceException;
+        }
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -52,6 +60,9 @@ namespace MissionPlanner
                 "If your error is about Microsoft.DirectX.DirectInput, please install the latest directx redist from here http://www.microsoft.com/en-us/download/details.aspx?id=35 \n\n");
             Console.WriteLine("Debug under mono    MONO_LOG_LEVEL=debug mono MissionPlanner.exe");
 
+            var t = Type.GetType("Mono.Runtime");
+            MONO = (t != null);
+
             Thread = Thread.CurrentThread;
 
             System.Windows.Forms.Application.EnableVisualStyles();
@@ -62,9 +73,6 @@ namespace MissionPlanner
             ServicePointManager.DefaultConnectionLimit = 10;
 
             System.Windows.Forms.Application.ThreadException += Application_ThreadException;
-
-            AppDomain.CurrentDomain.UnhandledException +=
-                new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
             // fix ssl on mono
             ServicePointManager.ServerCertificateValidationCallback =
@@ -116,15 +124,22 @@ namespace MissionPlanner
             if (IconFile != null)
                 Splash.Icon = Icon.FromHandle(((Bitmap)IconFile).GetHicon());
 
-            string strVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            string strVersion = File.Exists("version.txt")
+                ? File.ReadAllText("version.txt")
+                : System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
             Splash.Text = name + " " + Application.ProductVersion + " build " + strVersion;
             Splash.Show();
 
             Application.DoEvents();
             Application.DoEvents();
 
+            CustomMessageBox.ShowEvent += (text, caption, buttons, icon) =>
+            {
+                return (CustomMessageBox.DialogResult)(int)MsgBox.CustomMessageBox.Show(text, caption, (MessageBoxButtons)(int)buttons, (MessageBoxIcon)(int)icon);
+            };
+
             // setup theme provider
-            CustomMessageBox.ApplyTheme += MissionPlanner.Utilities.ThemeManager.ApplyThemeTo;
+            MsgBox.CustomMessageBox.ApplyTheme += MissionPlanner.Utilities.ThemeManager.ApplyThemeTo;
             Controls.MainSwitcher.ApplyTheme += MissionPlanner.Utilities.ThemeManager.ApplyThemeTo;
             MissionPlanner.Controls.InputBox.ApplyTheme += MissionPlanner.Utilities.ThemeManager.ApplyThemeTo;
             Controls.BackstageView.BackstageViewPage.ApplyTheme += MissionPlanner.Utilities.ThemeManager.ApplyThemeTo;
@@ -144,6 +159,7 @@ namespace MissionPlanner
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Custom.Instance);
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Earthbuilder.Instance);
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Statkart_Topo2.Instance);
+            GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Eniro_Topo.Instance);
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.MapBox.Instance);
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.MapboxNoFly.Instance);
             // optionally add gdal support
@@ -153,6 +169,10 @@ namespace MissionPlanner
             // add proxy settings
             GMap.NET.MapProviders.GMapProvider.WebProxy = WebRequest.GetSystemWebProxy();
             GMap.NET.MapProviders.GMapProvider.WebProxy.Credentials = CredentialCache.DefaultCredentials;
+
+            // generic status report screen
+            MAVLinkInterface.CreateIProgressReporterDialogue += title =>
+                new ProgressReporterDialogue() { StartPosition = FormStartPosition.CenterScreen, Text = title };
 
             WebRequest.DefaultWebProxy = WebRequest.GetSystemWebProxy();
             WebRequest.DefaultWebProxy.Credentials = CredentialCache.DefaultNetworkCredentials;
@@ -178,9 +198,9 @@ namespace MissionPlanner
             Device.DeviceStructure test2 = new Device.DeviceStructure(262434);
             Device.DeviceStructure test3 = new Device.DeviceStructure(131874);
 
-            //ph2
-            Device.DeviceStructure test5 = new Device.DeviceStructure(131874);
-            Device.DeviceStructure test6 = new Device.DeviceStructure(263178);
+            //ph2 - cube with here
+            Device.DeviceStructure test5 = new Device.DeviceStructure(466441);
+            Device.DeviceStructure test6 = new Device.DeviceStructure(131874);
             Device.DeviceStructure test7 = new Device.DeviceStructure(263178);
             // 
             Device.DeviceStructure test8 = new Device.DeviceStructure(1442082);
@@ -209,6 +229,8 @@ namespace MissionPlanner
             tmp.GenerateMAVLinkPacket20(MAVLink.MAVLINK_MSG_ID.HEARTBEAT, hb, true);
             tmp.GenerateMAVLinkPacket20(MAVLink.MAVLINK_MSG_ID.HEARTBEAT, hb, true);
 
+            var msg = new MAVLink.MAVLinkMessage(t2);
+
 
             try
             {
@@ -236,13 +258,22 @@ namespace MissionPlanner
             }
         }
 
-        /// <summary>
-        /// Shows a dialog box in which to enter comms information.
-        /// </summary>
-        /// <param name="title">The title of the dialog box.</param>
-        /// <param name="prompttext">The text in the dialog box.</param>
-        /// <param name="text">A place to put the result.</param>
-        /// <returns></returns>
+        private static void CurrentDomain_FirstChanceException(object sender, System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs e)
+        {
+            log.Debug("FirstChanceException in: " + e.Exception.Source, e.Exception);
+        }
+
+        private static Assembly CurrentDomain_TypeResolve(object sender, ResolveEventArgs args)
+        {
+            log.Debug("TypeResolve Failed: " + args.Name + " from "+ args.RequestingAssembly);
+            return null;
+        }
+
+        private static void CurrentDomain_AssemblyLoad(object sender, AssemblyLoadEventArgs args)
+        {
+            log.Debug("Loaded: " + args.LoadedAssembly);
+        }
+
         private static inputboxreturn CommsBaseOnInputBoxShow(string title, string prompttext, ref string text)
         {
             var ans = InputBox.Show(title, prompttext, ref text);
@@ -327,6 +358,10 @@ namespace MissionPlanner
 
         static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
+            var list = AppDomain.CurrentDomain.ReflectionOnlyGetAssemblies();
+
+            log.Error(list);
+
             handleException((Exception) e.ExceptionObject);
         }
 
@@ -379,6 +414,12 @@ namespace MissionPlanner
                 CustomMessageBox.Show("Serial connection has been lost");
                 return;
             }
+            if (ex.Message.Contains("Array.Empty"))
+            {
+                CustomMessageBox.Show("Please install Microsoft Dot Net 4.6.2");
+                Application.Exit();
+                return;
+            }
             if (ex.Message == "A device attached to the system is not functioning.")
             {
                 CustomMessageBox.Show("Serial connection has been lost");
@@ -418,10 +459,10 @@ namespace MissionPlanner
 
             log.Info("Th Name " + Thread.Name);
 
-            DialogResult dr =
+            var dr =
                 CustomMessageBox.Show("An error has occurred\n" + ex.ToString() + "\n\nReport this Error???",
                     "Send Error", MessageBoxButtons.YesNo);
-            if (DialogResult.Yes == dr)
+            if ((int)DialogResult.Yes == dr)
             {
                 try
                 {

@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
 using MissionPlanner.Models;
 using MissionPlanner.Utilities;
@@ -40,7 +41,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             SetErrorMessageOpacity();
 
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
+            if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduPlane)
             {
                 mavlinkComboBoxTilt.Items.AddRange(Enum.GetNames(typeof (Channelap)));
                 mavlinkComboBoxRoll.Items.AddRange(Enum.GetNames(typeof (Channelap)));
@@ -116,6 +117,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 Enabled = false;
                 return;
             }
+
+            startup = true;
 
             CMB_shuttertype.SelectedItem = Enum.GetName(typeof(ChannelCameraShutter),
                 (Int32)MainV2.comPort.MAV.param["CAM_TRIGG_TYPE"]);

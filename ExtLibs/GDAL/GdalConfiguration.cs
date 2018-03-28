@@ -30,8 +30,8 @@
 using System;
 using System.IO;
 using System.Reflection;
-using Gdal = OSGeo.GDAL.Gdal;
-using Ogr = OSGeo.OGR.Ogr;
+using OSGeo.GDAL;
+using OSGeo.OGR;
 
 namespace GDAL
 {

@@ -17,8 +17,19 @@ public partial class MAVLink
         public static readonly MAVLinkMessage Invalid = new MAVLinkMessage();
         object _locker = new object();
 
-        public byte[] buffer { get; internal set; }
+        private byte[] _buffer;
 
+        public byte[] buffer
+        {
+            get { return _buffer; }
+            set
+            {
+                _buffer = value;
+                processBuffer(_buffer);
+            }
+        }
+
+        public DateTime rxtime { get; set; }
         public byte header { get; internal set; }
         public byte payloadlength { get; internal set; }
 
@@ -41,6 +52,11 @@ public partial class MAVLink
             }
         }
 
+        public string msgtypename
+        {
+            get { return MAVLINK_MESSAGE_INFOS.GetMessageInfo(msgid).name; }
+        }
+
         object _data;
         public object data
         {
@@ -57,7 +73,7 @@ public partial class MAVLink
                     try
                     {
                         // fill in the data of the object
-                        if (buffer[0] == MAVLINK_STX)
+                        if (ismavlink2)
                         {
                             MavlinkUtil.ByteArrayToStructure(buffer, ref _data, MAVLINK_NUM_HEADER_BYTES, payloadlength);
                         }
@@ -124,12 +140,24 @@ public partial class MAVLink
 
         public MAVLinkMessage()
         {
-
+            this.rxtime = DateTime.MinValue;
         }
 
-        public MAVLinkMessage(byte[] buffer)
+        public MAVLinkMessage(byte[] buffer): this(buffer, DateTime.UtcNow)
+        {
+        }
+
+        public MAVLinkMessage(byte[] buffer, DateTime rxTime)
         {
             this.buffer = buffer;
+            this.rxtime = rxTime;
+
+            processBuffer(buffer);
+        }
+
+        internal void processBuffer(byte[] buffer)
+        {
+            _data = null;
 
             if (buffer[0] == MAVLINK_STX)
             {
@@ -140,12 +168,12 @@ public partial class MAVLink
                 seq = buffer[4];
                 sysid = buffer[5];
                 compid = buffer[6];
-                msgid = (uint)((buffer[9] << 16) + (buffer[8] << 8) + buffer[7]);
+                msgid = (uint) ((buffer[9] << 16) + (buffer[8] << 8) + buffer[7]);
 
                 var crc1 = MAVLINK_CORE_HEADER_LEN + payloadlength + 1;
                 var crc2 = MAVLINK_CORE_HEADER_LEN + payloadlength + 2;
 
-                crc16 = (ushort)((buffer[crc2] << 8) + buffer[crc1]);
+                crc16 = (ushort) ((buffer[crc2] << 8) + buffer[crc1]);
 
                 if ((incompat_flags & MAVLINK_IFLAG_SIGNED) > 0)
                 {
@@ -166,8 +194,13 @@ public partial class MAVLink
                 var crc1 = MAVLINK_CORE_HEADER_MAVLINK1_LEN + payloadlength + 1;
                 var crc2 = MAVLINK_CORE_HEADER_MAVLINK1_LEN + payloadlength + 2;
 
-                crc16 = (ushort)((buffer[crc2] << 8) + buffer[crc1]);
+                crc16 = (ushort) ((buffer[crc2] << 8) + buffer[crc1]);
             }
+        }
+
+        public override string ToString()
+        {
+            return String.Format("{5},{4},{0},{1},{2},{3}", sysid, compid, msgid, msgtypename, ismavlink2, rxtime);
         }
     }
 }

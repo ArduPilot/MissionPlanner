@@ -1,47 +1,55 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net462</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
     <ApplicationIcon />
     <OutputTypeEx>library</OutputTypeEx>
     <StartupObject />
-    <DebugType>embedded</DebugType>
+    <DebugType>full</DebugType>
     <DebugSymbols>True</DebugSymbols>
-    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BitMiracle.LibTiff.NET" Version="2.4.571" />
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
+    <PackageReference Include="alglibnet2" Version="0.0.0" />
+    <PackageReference Include="BitMiracle.LibTiff.NET" Version="2.4.560" />
+    <PackageReference Include="CSMatIO" Version="1.0.2" />
+    <PackageReference Include="DirectShowLib" Version="1.0.0" />
+    <PackageReference Include="log4net" Version="2.0.8" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.4.1" />
+    <PackageReference Include="netDXF" Version="2.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="ProjNet" Version="1.2.0" />
     <PackageReference Include="SharpZipLib" Version="0.86.0" />
+    <PackageReference Include="System.Drawing.Common" Version="4.5.0-preview1-26216-02" />
+    <PackageReference Include="System.Reactive.Linq" Version="3.1.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Comms\MissionPlanner.Comms.csproj" />
+    <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\GeoUtility\GeoUtility.csproj" />
     <ProjectReference Include="..\GMap.NET.Core\GMap.NET.Core.csproj" />
+    <ProjectReference Include="..\KMLib\KMLib.csproj" />
+    <ProjectReference Include="..\LibVLC.NET\LibVLC.NET.csproj" />
     <ProjectReference Include="..\Mavlink\MAVLink.csproj" />
+    <ProjectReference Include="..\MetaDataExtractorCSharp240d\MetaDataExtractor.csproj" />
+    <ProjectReference Include="..\SharpKml\SharpKml.csproj" />
+    <ProjectReference Include="..\Zeroconf\Zeroconf\Zeroconf.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="DirectShowLib-2005">
-      <HintPath>..\DirectShowLib-2005.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
+
     <Reference Include="OpenTK">
       <HintPath>..\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK.GLControl">
       <HintPath>..\OpenTK.GLControl.dll</HintPath>
     </Reference>
-    <Reference Include="System.Speech, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
-      <Private>true</Private>
-        <HintPath>..\System.Speech.dll</HintPath>
-        <SpecificVersion>true</SpecificVersion>
-        <EmbedInteropTypes>false</EmbedInteropTypes>
+    <Reference Include="System.Speech">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Speech.dll</HintPath>
+      <SpecificVersion>false</SpecificVersion>
     </Reference>
-    <Reference Include="System.Web" />
-    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
 
 

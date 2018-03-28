@@ -143,6 +143,9 @@ namespace MissionPlanner.Controls
             base.OnResize(e);
             this.ResizeRedraw = true;
 
+            labelWithPseudoOpacity1.Size = new Size(this.Width, labelWithPseudoOpacity1.Size.Height);
+            labelWithPseudoOpacity2.Size = new Size(this.Width, this.Height - labelWithPseudoOpacity1.Size.Height);
+
             GetFontSize();
 
           

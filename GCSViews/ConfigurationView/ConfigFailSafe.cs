@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 
@@ -75,7 +76,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // update all linked controls - 10hz
             try
             {
-                MainV2.comPort.MAV.cs.UpdateCurrentSettings(currentStateBindingSource);
+                MainV2.comPort.MAV.cs.UpdateCurrentSettings(currentStateBindingSource.UpdateDataSource(MainV2.comPort.MAV.cs));
             }
             catch
             {
@@ -84,13 +85,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void LNK_wiki_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+            if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
             {
-                Process.Start(new ProcessStartInfo("http://copter.ardupilot.com/wiki/failsafe/"));
+                Process.Start(new ProcessStartInfo("http://ardupilot.org/copter/docs/failsafe-landing-page.html"));
             }
             else
             {
-                Process.Start(new ProcessStartInfo("http://plane.ardupilot.com/wiki/failsafe/"));
+                Process.Start(new ProcessStartInfo("http://ardupilot.org/plane/docs/advanced-failsafe-configuration.html"));
             }
         }
 

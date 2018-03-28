@@ -64,6 +64,14 @@ namespace MissionPlanner.Utilities
             this.Alt = locwp.alt;
         }
 
+        public PointLatLngAlt(double[] dblarr)
+        {
+            this.Lat = dblarr[0];
+            this.Lng = dblarr[1];
+            if (dblarr.Length > 2)
+                this.Alt = dblarr[2];
+        }
+
         public PointLatLngAlt(PointLatLngAlt plla)
         {
             this.Lat = plla.Lat;
@@ -133,7 +141,7 @@ namespace MissionPlanner.Utilities
 
         public override string ToString()
         {
-            return Lat + "," + Lng + "," + Alt;
+            return Lat + "," + Lng + "," + Alt + "," + Tag;
         }
 
         public int GetUTMZone()

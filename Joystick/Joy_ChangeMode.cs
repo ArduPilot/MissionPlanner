@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using MissionPlanner.ArduPilot;
 
 namespace MissionPlanner.Joystick
 {
@@ -19,7 +20,7 @@ namespace MissionPlanner.Joystick
 
             this.Tag = name;
 
-            comboBox1.DataSource = Common.getModesList(MainV2.comPort.MAV.cs);
+            comboBox1.DataSource = Common.getModesList(MainV2.comPort.MAV.cs.firmware);
             comboBox1.ValueMember = "Key";
             comboBox1.DisplayMember = "Value";
 

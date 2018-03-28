@@ -93,7 +93,7 @@ namespace MissionPlanner.Swarm.WaypointLeader
                     if (MAV.cs.armed && MAV.cs.alt > 1)
                     {
                         var result = CustomMessageBox.Show("There appears to be a drone in the air at the moment. Are you sure you want to continue?", "continue", MessageBoxButtons.YesNo);
-                        if (result == DialogResult.Yes)
+                        if (result == (int)DialogResult.Yes)
                             break;
                         return;
                     }
@@ -304,7 +304,7 @@ namespace MissionPlanner.Swarm.WaypointLeader
                     if (MAV.cs.armed && MAV.cs.alt > 1)
                     {
                         var result = CustomMessageBox.Show("There appears to be a drone in the air at the moment. Are you sure you want to continue?", "continue", MessageBoxButtons.YesNo);
-                        if (result == DialogResult.Yes)
+                        if (result == (int)DialogResult.Yes)
                             break;
                         return;
                     }

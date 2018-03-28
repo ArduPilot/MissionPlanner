@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Text;
 using System.Windows.Forms;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 
@@ -30,7 +31,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 Enabled = false;
                 return;
             }
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
+            if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduPlane)
             {
                 Enabled = true;
             }
@@ -211,7 +212,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     if ((float)changes[value] > (float)MainV2.comPort.MAV.param[value] * 2.0f)
                         if (
                             CustomMessageBox.Show(value + " has more than doubled the last input. Are you sure?",
-                                "Large Value", MessageBoxButtons.YesNo) == DialogResult.No)
+                                "Large Value", MessageBoxButtons.YesNo) == (int)DialogResult.No)
                         {
                             try
                             {
