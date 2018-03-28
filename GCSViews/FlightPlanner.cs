@@ -1315,11 +1315,11 @@ namespace MissionPlanner.GCSViews
             overlay.overlay.ForceUpdate();
 
             lbl_distance.Text = rm.GetString("lbl_distance.Text") + ": " +
-                                FormatDistance(
+                                FormatDistance((
                                     overlay.route.Points.Select(a => (PointLatLngAlt) a)
                                         .Aggregate(0.0, (d, p1, p2) => d + p1.GetDistance(p2)) + 
                                     overlay.homeroute.Points.Select(a => (PointLatLngAlt) a)
-                                        .Aggregate(0.0, (d, p1, p2) => d + p1.GetDistance(p2)), false);
+                                        .Aggregate(0.0, (d, p1, p2) => d + p1.GetDistance(p2)))/1000.0, false);
 
             setgradanddistandaz(overlay.pointlist, home);
 
@@ -1712,7 +1712,7 @@ namespace MissionPlanner.GCSViews
                 Text = "Sending WP's"
             };
 
-            frmProgressReporter.DoWork += saveWPsFast;//saveWPs;
+            frmProgressReporter.DoWork += saveWPs;
             frmProgressReporter.UpdateProgressAndStatus(-1, "Sending WP's");
 
             ThemeManager.ApplyThemeTo(frmProgressReporter);
@@ -4882,6 +4882,13 @@ namespace MissionPlanner.GCSViews
         {
             timer1.Start();
 
+            // set the firmware type if we are not connected. this allows overrideing
+            if (!MainV2.comPort.BaseStream.IsOpen)
+            {
+                MainV2.comPort.MAV.cs.firmware = (Firmwares) MainV2._connectionControl.TOOL_APMFirmware.SelectedItem;
+            }
+
+            // hide altmode if old copter version
             if (MainV2.comPort.BaseStream.IsOpen && MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2 &&
                 MainV2.comPort.MAV.cs.version < new Version(3, 3))
             {
@@ -4891,6 +4898,12 @@ namespace MissionPlanner.GCSViews
             {
                 CMB_altmode.Visible = true;
             }
+
+            // hide spline wp options if not arducopter
+            if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
+                CHK_splinedefault.Visible = true;
+            else
+                CHK_splinedefault.Visible = false;
 
             updateHome();
 
