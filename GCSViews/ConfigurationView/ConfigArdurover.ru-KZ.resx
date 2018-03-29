@@ -147,6 +147,9 @@
   <data name="groupBox5.Text" xml:space="preserve">
     <value>Скорость рулевого управления</value>
   </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>МТ скорость</value>
+  </data>
   <data name="groupBox2.Text" xml:space="preserve">
     <value>Режим управления</value>
   </data>

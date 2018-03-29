@@ -121,22 +121,31 @@
     <value>Включить компасы</value>
   </data>
   <data name="BUT_OBmagcalstart.Text" xml:space="preserve">
-    <value>Начало</value>
+    <value>Начать</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Выберите устройство для быстрой настройки параметров:</value>
+    <value>Выберите устр. для быст. настр. парам.:</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
-    <value>Расслабьтесь), если калибровка не удалась</value>
+    <value>Осл.Fitness, если калиб.не удал.</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>К 1</value>
   </data>
   <data name="CHK_compass1_use.Text" xml:space="preserve">
-    <value>Использовать этот компас</value>
+    <value>Использовать</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
     <value>ИЛИ</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
     <value>Компас</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>К 2</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>К 3</value>
   </data>
   <data name="groupBoxonboardcalib.Text" xml:space="preserve">
     <value>Калибровка встроенного Компаса</value>
@@ -157,10 +166,10 @@
     <value>APM и внешний компас</value>
   </data>
   <data name="CHK_compass3_use.Text" xml:space="preserve">
-    <value>Использовать этот компас</value>
+    <value>Использовать</value>
   </data>
   <data name="CHK_compass2_use.Text" xml:space="preserve">
-    <value>Использовать этот компас</value>
+    <value>Использовать</value>
   </data>
   <data name="BUT_OBmagcalaccept.Text" xml:space="preserve">
     <value>Принять</value>
@@ -169,16 +178,16 @@
     <value>Компас №3</value>
   </data>
   <data name="CHK_compass_learn.Text" xml:space="preserve">
-    <value>Автоматическое изучение смещений</value>
+    <value>Авт. изуч. смещ.</value>
   </data>
   <data name="groupBoxCompass1.Text" xml:space="preserve">
     <value>Компас №1</value>
   </data>
   <data name="CHK_autodec.Text" xml:space="preserve">
-    <value>Получить отклонение автоматически</value>
+    <value>Получить откл. авт.</value>
   </data>
   <data name="QuickAPM25.Text" xml:space="preserve">
-    <value>APM2.5 (внутренний компас)</value>
+    <value>APM2.5 (внут. компас)</value>
   </data>
   <data name="groupBoxCompass2.Text" xml:space="preserve">
     <value>Компас №2</value>
@@ -187,10 +196,10 @@
     <value>Внешний монтаж</value>
   </data>
   <data name="LBL_primary_compass.Text" xml:space="preserve">
-    <value>Первичный компас:</value>
+    <value>Перв. компас:</value>
   </data>
   <data name="groupBoxmpcalib.Text" xml:space="preserve">
-    <value>Mission Planner колибровка компаса</value>
+    <value>Mission Planner кол. компаса</value>
   </data>
   <data name="groupBoxGeneralSettings.Text" xml:space="preserve">
     <value>Общие настройки компаса</value>

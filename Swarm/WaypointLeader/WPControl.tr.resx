@@ -117,4 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="textBox1.Text" xml:space="preserve">
+    <value>Nasil kullanlir:
+1. Tum Dronlari Baglayın (Sag Ust Icon "Baglanti Secenekleri")
+2. Dogru araci secin ve "Veritabani Sihirbazi Yukle" butonuna tiklayin.
+3. Dogru araci secin ve "Air Master'i Yukle" dugmesine tiklayin
+4. ana drone'a giden yolu yükleyin.
+5. Secenekleri ve olasi secenekleri ayarla
+6. Dronlarin GPS kilidi almasina izin verin ve kalibre edin. (Bunu yapmamak, ön kontroller yapamayacağı anlamına gelir, bu sorunsuz bir çalışma sağlamak için kontrol edilebilir)
+7. Hazir ve ucus yolunda beklediginden emin olun
+8. Baslat Bas</value>
+  </data>
 </root>

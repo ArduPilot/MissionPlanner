@@ -62,12 +62,19 @@ namespace MissionPlanner.Maps
             {
                 pal.Entries[i] = Color.FromArgb((int)100, bmp.Palette.Entries[i].R, bmp.Palette.Entries[i].G, bmp.Palette.Entries[i].B);
             }
+
+            transparent = Color.Transparent.ToArgb();
         }
 
         private static ColorPalette pal;
 
+        private static int transparent;
+
         int ConvertColor(byte incol)
         {
+            if (incol == 0)
+                return transparent;
+
             return pal.Entries[incol].ToArgb();
         }
 

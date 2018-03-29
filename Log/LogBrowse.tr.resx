@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
     <data name="BUT_loadlog.Text" xml:space="preserve">
-    <value>Kayit Indir</value>
+    <value>Kayit A Yukle</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Kayit defterini inceleyin</value>
   </data>
   <data name="BUT_Graphit_R.Text" xml:space="preserve">
-    <value>Fogru Grafik</value>
+    <value>Grafik Sag</value>
   </data>
   <data name="CHK_map.Text" xml:space="preserve">
     <value>Haritayi Goruntule</value>
@@ -133,10 +133,10 @@
     <value>Kullanim süresi</value>
   </data>
   <data name="BUT_removeitem.Text" xml:space="preserve">
-    <value>Cihaz Sil</value>
+    <value>Ogeyi Sil</value>
   </data>
   <data name="BUT_Graphit.Text" xml:space="preserve">
-    <value>Grafik Kaydet</value>
+    <value>Grafik Sol</value>
   </data>
   <data name="BUT_cleargraph.Text" xml:space="preserve">
     <value>Grafigi Temizle</value>

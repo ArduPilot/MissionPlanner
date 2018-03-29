@@ -117,7 +117,112 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-    <data name="BUT_connect.Text" xml:space="preserve">
-    <value>Baglantı</value>
+  <data name="chk_m8p_130p.ToolTip" xml:space="preserve">
+    <value>Ublox firmware 1.30 veya üzeri bir temel ve mobil sürümünüz varsa, bu kutuyu işaretleyin</value>
   </data>
+  <data name="txt_surveyinAcc.ToolTip" xml:space="preserve">
+    <value>tetikleyici böyle hassas olmalı</value>
+  </data>
+  <data name="BaseName1.HeaderText" xml:space="preserve">
+    <value>Adi</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>Röportaj Giriş</value>
+  </data>
+  <data name="Use.HeaderText" xml:space="preserve">
+    <value>Kullanma</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>Glonass</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>Taban</value>
+  </data>
+  <data name="chk_rtcmmsg.ToolTip" xml:space="preserve">
+    <value>Yeni mesaj otomatik olarak veriyi işlediğinden, eğer mümkünse, açık kalsın, otopilotunuzdaki bellenimin sürümüne bağlıdır.</value>
+  </data>
+  <data name="but_restartsvin.ToolTip" xml:space="preserve">
+    <value>Kullanılan geçerli konumunu bir baz istasyonu olarak kaydet</value>
+  </data>
+  <data name="label1.ToolTip" xml:space="preserve">
+    <value>Anketi tamamlamak için hem doğruluk hem de süreyi karşılamalıdır. yani doğruluk 2 m'den az ve 60 saniyeden fazla gözlem</value>
+  </data>
+  <data name="label9.ToolTip" xml:space="preserve">
+    <value>Bilgilere genel bakış. Gerçekten: bu gerçek bir anket. InProgress: Şu anda pozisyonlarımızı tutuyor muyuz? Süre: Girişi sorguladığımız saniye sayısı. Obs: giriş anketimizde kullanılan anket sayısı. Acc: Anketimizin şu andaki doğruluğu.</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Zaman(с)</value>
+  </data>
+  <data name="chk_m8pautoconfig.Text" xml:space="preserve">
+    <value>M8P otomatik ayar</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Giriş Hızı</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Alınan Mesajlar</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>giriş anketi</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Veri aktarım hızı</value>
+  </data>
+  <data name="chk_m8pautoconfig.ToolTip" xml:space="preserve">
+    <value>Ublox m8p yapılandırmasını otomatik olarak yapılandır</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>RTCM tabanı</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>Bağlantı durumu</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>giriş anketi</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>giriş anketi</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>giriş anketi</value>
+  </data>
+  <data name="lbl_svin.Text" xml:space="preserve">
+    <value>giriş anketi</value>
+  </data>
+  <data name="chk_rtcmmsg.Text" xml:space="preserve">
+    <value>MSG Giriş Türü</value>
+  </data>
+  <data name="but_save_basepos.ToolTip" xml:space="preserve">
+    <value>Temel istasyonun mevcut konumunu bir anket olarak saklamak için kullanılır</value>
+  </data>
+  <data name="label7.ToolTip" xml:space="preserve">
+    <value>Bilgilere genel bakış. Gerçekten: bu gerçek bir anket. InProgress: Şu anda pozisyonlarımızı tutuyor muyuz? Süre: Girişi sorguladığımız saniye sayısı. Obs: giriş anketimizde kullanılan anket sayısı. Acc: Anketimizin şu andaki doğruluğu.</value>
+  </data>
+  <data name="but_restartsvin.Text" xml:space="preserve">
+    <value>yeniden başlatma</value>
+  </data>
+  <data name="BUT_connect.Text" xml:space="preserve">
+    <value>Baglan</value>
+  </data>
+  <data name="but_save_basepos.Text" xml:space="preserve">
+    <value>Mevcut konumu kaydet</value>
+  </data>
+  <data name="Delete.HeaderText" xml:space="preserve">
+    <value>Sil</value>
+  </data>
+  <data name="txt_surveyinDur.ToolTip" xml:space="preserve">
+    <value>Asgari zamanda denetim. Bu numaradan daha büyük olmalı</value>
+  </data>
+  <data name="lbl_svin.ToolTip" xml:space="preserve">
+    <value>Bilgilere genel bakış. Gerçekten: bu gerçek bir anket. InProgress: Şu anda pozisyonlarımızı tutuyor muyuz? Süre: Girişi sorguladığımız saniye sayısı. Obs: giriş anketimizde kullanılan anket sayısı. Acc: Anketimizin şu andaki doğruluğu.</value>
+  </data>
+  <data name="label10.ToolTip" xml:space="preserve">
+    <value>Bilgilere genel bakış. Gerçekten: bu gerçek bir anket. InProgress: Şu anda pozisyonlarımızı tutuyor muyuz? Süre: Girişi sorguladığımız saniye sayısı. Obs: giriş anketimizde kullanılan anket sayısı. Acc: Anketimizin şu andaki doğruluğu.</value>
+  </data>
+  <data name="chk_movingbase.Text" xml:space="preserve">
+    <value>Перемещение базы</value>
+  </data>
+  <data name="label8.ToolTip" xml:space="preserve">
+    <value>Bilgilere genel bakış. Gerçekten: bu gerçek bir anket. InProgress: Şu anda pozisyonlarımızı tutuyor muyuz? Süre: Girişi sorguladığımız saniye sayısı. Obs: giriş anketimizde kullanılan anket sayısı. Acc: Anketimizin şu andaki doğruluğu.</value>
+  </data>  
 </root>

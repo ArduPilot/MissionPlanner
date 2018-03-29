@@ -121,7 +121,7 @@
     <value>Воздушная скорость</value>
   </data>
   <data name="lbl_airspeed_pin.Text" xml:space="preserve">
-    <value>Пин воздушной скорости</value>
+    <value>Пин воз.ск.</value>
   </data>
   <data name="CHK_enableairspeed.Text" xml:space="preserve">
     <value>Включить</value>

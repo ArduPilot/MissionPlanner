@@ -130,13 +130,13 @@
     <value>Настройка Bluetooth</value>
   </data>
   <data name="backstageViewPagecompassmot.Text" xml:space="preserve">
-    <value>Компас/Мотор Калиб.</value>
+    <value>Компас/Мот. Калиб.</value>
   </data>
   <data name="backstageViewPageParachute.Text" xml:space="preserve">
     <value>Парашют</value>
   </data>
   <data name="backstageViewPageopt.Text" xml:space="preserve">
-    <value>Дополнительное оборудование</value>
+    <value>Доп. оборудование</value>
   </data>
   <data name="backstageViewPageradio.Text" xml:space="preserve">
     <value>Калибровка радио</value>
@@ -178,7 +178,7 @@
     <value>Оптический поток</value>
   </data>
   <data name="backstageViewPagemand.Text" xml:space="preserve">
-    <value>Обязательное оборудование</value>
+    <value>Обяз. оборудование</value>
   </data>
   <data name="backstageViewPageESP.Text" xml:space="preserve">
     <value>Настройка ESP8266</value>

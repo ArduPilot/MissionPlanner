@@ -314,31 +314,39 @@ namespace MissionPlanner.Utilities
             if (!File.Exists(GetConfigFullPath()))
                 return;
 
-            using (XmlTextReader xmlreader = new XmlTextReader(GetConfigFullPath()))
+            try
             {
-                while (xmlreader.Read())
+                using (XmlTextReader xmlreader = new XmlTextReader(GetConfigFullPath()))
                 {
-                    if (xmlreader.NodeType == XmlNodeType.Element)
+                    while (xmlreader.Read())
                     {
-                        try
+                        if (xmlreader.NodeType == XmlNodeType.Element)
                         {
-                            switch (xmlreader.Name)
+                            try
                             {
-                                case "Config":
-                                    break;
-                                case "xml":
-                                    break;
-                                default:
-                                    config[xmlreader.Name] = xmlreader.ReadString();
-                                    break;
+                                switch (xmlreader.Name)
+                                {
+                                    case "Config":
+                                        break;
+                                    case "xml":
+                                        break;
+                                    default:
+                                        config[xmlreader.Name] = xmlreader.ReadString();
+                                        break;
+                                }
                             }
-                        }
-                        // silent fail on bad entry
-                        catch (Exception)
-                        {
+                            // silent fail on bad entry
+                            catch (Exception)
+                            {
+                            }
                         }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                File.Copy(GetConfigFullPath(), GetConfigFullPath() + DateTime.Now.toUnixTime() + ".failed", true);
+                throw;
             }
         }
 

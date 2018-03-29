@@ -124,19 +124,16 @@
     <value>Использовать GPS2</value>
   </data>
   <data name="label27.Text" xml:space="preserve">
-    <value>Задержка затвора (мс)</value>
+    <value>Задер. затв. (мс)</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Смещение секунд</value>
+    <value>Смещ. секунд</value>
   </data>
   <data name="label28.Text" xml:space="preserve">
-    <value>Выс. отн. Базы</value>
-  </data>
-  <data name="label9.Text" xml:space="preserve">
-    <value>Вращать</value>
+    <value>Выс.отн.Н</value>
   </data>
   <data name="chk_cammsg.Text" xml:space="preserve">
-    <value>Использование сообщений Cam</value>
+    <value>Использование сообщений Cam.</value>
   </data>
   <data name="BUT_doit.Text" xml:space="preserve">
     <value>Пред. обработка</value>
@@ -145,16 +142,16 @@
     <value>Просмотр фото</value>
   </data>
   <data name="BUT_networklinkgeoref.Text" xml:space="preserve">
-    <value>Местоположение Kml</value>
+    <value>Местопол. Kml</value>
   </data>
   <data name="CHECK_AMSLAlt_Use.Text" xml:space="preserve">
-    <value>Использовать AMSL Выс</value>
+    <value>Испол. AMSL Выс.</value>
   </data>
   <data name="BUT_browselog.Text" xml:space="preserve">
     <value>Просмотр журнала</value>
   </data>
   <data name="RDIO_CAMMsgSynchro.Text" xml:space="preserve">
-    <value>Синхронизация сообщений CAM (только для журнала DF)</value>
+    <value>Синхронизация сообщений CAM (жур.DF)</value>
   </data>
   <data name="RDIO_TimeOffset.Text" xml:space="preserve">
     <value>Смещение времени</value>

@@ -42,6 +42,14 @@ build_script:
 
     cd c:\mp\
 
+    cd msi 
+
+    wix.exe ..\bin\release\net461\ 
+
+    "%wix%\bin\candle" installer.wxs -ext WiXNetFxExtension -ext WixDifxAppExtension -ext WixUIExtension.dll -ext WixUtilExtension -ext WixIisExtension 
+  
+    "%wix%\bin\light" installer.wixobj "%wix%\bin\difxapp_x86.wixlib" -sval -o MissionPlanner-latest.msi -ext WiXNetFxExtension -ext WixDifxAppExtension -ext WixUIExtension.dll -ext WixUtilExtension -ext WixIisExtension 
+
     rem if exist date.txt set /p datecheck=<date.txt
 
     rem echo %date% > datenow.txt
@@ -63,6 +71,7 @@ artifacts:
   name: MissionPlannerCov-int
 - path: MissionPlannerBeta.zip
   name: MissionPlannerBeta
+- path: 'msi\*.msi' 
 - path: checksums.txt
   name: checksums
 - path: version.txt

@@ -537,6 +537,8 @@ namespace MissionPlanner
                     t.TabPages.Remove(FlightData.tabPagemessages);
                 }
                 t.SelectedIndex = 0;
+
+                MainV2.instance.FlightData.loadTabControlActions();
             }
 
             if (MainV2.instance.FlightPlanner != null)
@@ -2578,12 +2580,11 @@ namespace MissionPlanner
                             {
                                 try
                                 {
-                                    //MainV2.comPort.getHomePosition();
                                     MainV2.comPort.MAV.cs.HomeLocation = new PointLatLngAlt(MainV2.comPort.getWP(0));
                                     if (MyView.current != null && MyView.current.Name == "FlightPlanner")
                                     {
                                         // update home if we are on flight data tab
-                                        FlightPlanner.updateHome();
+                                        this.BeginInvoke((Action) delegate { FlightPlanner.updateHome(); });
                                     }
 
                                 }
@@ -2591,7 +2592,7 @@ namespace MissionPlanner
                                 {
                                     // dont hang this loop
                                     this.BeginInvoke(
-                                        (MethodInvoker)
+                                        (Action)
                                             delegate
                                             {
                                                 CustomMessageBox.Show("Failed to update home location (" +

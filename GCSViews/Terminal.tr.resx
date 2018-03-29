@@ -130,12 +130,15 @@
     <value>Radyo ayarlari</value>
   </data>
   <data name="BUT_disconnect.Text" xml:space="preserve">
-    <value>Cikart</value>
+    <value>Baglantıyı Kes</value>
   </data>
   <data name="BUT_logbrowse.Text" xml:space="preserve">
     <value>Kayit defterini inceleyin</value>
   </data>
   <data name="BUTsetupshow.Text" xml:space="preserve">
     <value>Ayarları goruntule</value>
+  </data>
+  <data name="TXT_terminal.Text" xml:space="preserve">
+    <value>UYARI! Diğer sekmelerle çalışmak için anahtarı yeniden bağlamanız ve taşımanız gerekir.</value>
   </data>
 </root>

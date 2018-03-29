@@ -136,7 +136,7 @@
     <value>Bir Matlab dosyası olustur</value>
   </data>
   <data name="BUT_graphmavlog.Text" xml:space="preserve">
-    <value>Resmi kayit</value>
+    <value>Grafik kayit</value>
   </data>
   <data name="BUT_humanreadable.Text" xml:space="preserve">
     <value>Metne donusturun</value>

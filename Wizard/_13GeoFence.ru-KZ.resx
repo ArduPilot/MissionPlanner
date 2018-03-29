@@ -117,7 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ThisBoardHasBeenRetired" xml:space="preserve">
-    <value>This board has been retired, Mission Planner this will upload the last available version to your board</value>
+  <data name="label3.Text" xml:space="preserve">
+    <value>GeoЗабор - это виртуальный забор, который автопилот не будет пересекать. Настройки основаны на исходной позиции</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Настройки GeoЗабор</value>
+  </data>
+  <data name="radialGradientBG1.Label.Text" xml:space="preserve">
+    <value>GeoЗабор</value>
   </data>
 </root>

@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="pointCameraHereToolStripMenuItem.Text" xml:space="preserve">
-    <value>Точка камеры здесь</value>
+    <value>Точка камеры</value>
   </data>
   <data name="BUT_setmode.ToolTip" xml:space="preserve">
     <value>Установить другой полетный режим</value>
@@ -130,7 +130,7 @@
     <value>Прервать Выполнение Скрипта</value>
   </data>
   <data name="BUT_quickmanual.Text" xml:space="preserve">
-    <value>Летать около</value>
+    <value>Кружить</value>
   </data>
   <data name="tabServo.Text" xml:space="preserve">
     <value>Серво</value>
@@ -172,7 +172,7 @@
     <value>Стирает проложенный путь с карты</value>
   </data>
   <data name="BUT_resumemis.Text" xml:space="preserve">
-    <value>Возобновить Миссию</value>
+    <value>Возобн. Миссию</value>
   </data>
   <data name="videoToolStripMenuItem.Text" xml:space="preserve">
     <value>Видео</value>
@@ -187,7 +187,7 @@
     <value>Снят с охраны через Mav</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>Переместиться к текущей МТ</value>
+    <value>Перем. к тек. МТ</value>
   </data>
   <data name="BUT_log2kml.Text" xml:space="preserve">
     <value>Tlog&gt; Kml или Graph</value>
@@ -200,6 +200,9 @@
   </data>
   <data name="label6.Text" xml:space="preserve">
     <value>GPS-трек (черный)</value>
+  </data>
+  <data name="BUT_ARM.Text" xml:space="preserve">
+    <value>Arm/Disarm</value>
   </data>
   <data name="dataGridViewImageColumn1.HeaderText" xml:space="preserve">
     <value>Вверх</value>
@@ -254,6 +257,9 @@
   </data>
   <data name="CB_tuning.Text" xml:space="preserve">
     <value>Тюнинг</value>
+  </data>
+  <data name="altitudeAngelSettingsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Altitude Angel Настройки</value>
   </data>
   <data name="triggerCameraToolStripMenuItem.Text" xml:space="preserve">
     <value>Сделать фото/видео</value>
@@ -337,10 +343,10 @@
     <value>Выбранный сценарий: нет</value>
   </data>
   <data name="swapWithMapToolStripMenuItem.Text" xml:space="preserve">
-    <value>Поменять Местами С Картой</value>
+    <value>Поменять местами с картой</value>
   </data>
   <data name="tabQuick.Text" xml:space="preserve">
-    <value>Быстро</value>
+    <value>Кратко</value>
   </data>
   <data name="BUT_loadtelem.Text" xml:space="preserve">
     <value>Загрузить журнал</value>

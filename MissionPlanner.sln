@@ -92,7 +92,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SvgNet", "ExtLibs\SvgNet\Sv
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissionPlanner.Maps", "ExtLibs\Maps\MissionPlanner.Maps.csproj", "{6C4FF9C3-7AFF-4274-B8FC-4A93A1FAADEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MissionPlanner.ArduPilot", "ExtLibs\ArduPilot\MissionPlanner.ArduPilot.csproj", "{CA6345D3-7A6D-478B-A0ED-A58E50DCAA83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissionPlanner.ArduPilot", "ExtLibs\ArduPilot\MissionPlanner.ArduPilot.csproj", "{CA6345D3-7A6D-478B-A0ED-A58E50DCAA83}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

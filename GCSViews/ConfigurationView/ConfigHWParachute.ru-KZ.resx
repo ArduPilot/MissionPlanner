@@ -120,6 +120,9 @@
   <data name="label2.Text" xml:space="preserve">
     <value>Тип</value>
   </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Серво №</value>
+  </data>
   <data name="label1.Text" xml:space="preserve">
     <value>Парашют</value>
   </data>
@@ -127,10 +130,10 @@
     <value>Мин. Выс. (м)</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>Неподвижный ШИМ</value>
+    <value>Закр. ШИМ</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>Развертывание ШИМ</value>
+    <value>Откр. ШИМ</value>
   </data>
   <data name="mavlinkCheckBoxEnable.Text" xml:space="preserve">
     <value>Включить (AC3.3 +)</value>

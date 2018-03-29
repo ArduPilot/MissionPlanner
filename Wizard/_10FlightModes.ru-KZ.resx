@@ -117,19 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Здесь мы будем откалибровать минимальные и максимальные значения, наблюдаемые вашим акселерометром. Нажмите кнопку «Пуск» и следуйте указанным изображениям.</value>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Здесь мы выбираем, какие режимы полета на какие положения переключателя установить.</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>КАЛИБРОВКА АКСЕЛЕРОМЕТРА</value>
-  </data>
-  <data name="BUT_start.Text" xml:space="preserve">
-    <value>Начать</value>
+    <value>Выбор режима полета</value>
   </data>
   <data name="radialGradientBG1.Label.Text" xml:space="preserve">
-    <value>Откалибруйте свой акселерометр</value>
-  </data>
-  <data name="BUT_continue.Text" xml:space="preserve">
-    <value>Продолжить</value>
+    <value>Режимы полета</value>
   </data>
 </root>

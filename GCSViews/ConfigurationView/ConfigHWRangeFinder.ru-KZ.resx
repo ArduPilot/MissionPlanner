@@ -118,12 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="label2.Text" xml:space="preserve">
-    <value>Расстояние:</value>
+    <value>Раст:</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>Дальномер</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>Напряжение:</value>
+    <value>Напряж.:</value>
   </data>
 </root>

@@ -121,7 +121,7 @@
     <value>Загруженный Config для</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Джойстик</value>
+    <value>Джойст.</value>
   </data>
   <data name="chk_manualcontrol.Text" xml:space="preserve">
     <value>Ручное управление</value>
@@ -140,6 +140,9 @@
   </data>
   <data name="label7.Text" xml:space="preserve">
     <value>Вывод</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Руль</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
     <value>Джойстик</value>

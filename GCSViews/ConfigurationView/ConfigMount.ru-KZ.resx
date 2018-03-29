@@ -121,31 +121,31 @@
     <value>Мин.</value>
   </data>
   <data name="label10.Text" xml:space="preserve">
-    <value>Серво лимиты</value>
+    <value>Серво лим.</value>
   </data>
   <data name="label13.Text" xml:space="preserve">
-    <value>Макс.</value>
+    <value>Мак.</value>
   </data>
   <data name="label16.Text" xml:space="preserve">
-    <value>Угол лимит</value>
+    <value>Угол лим.</value>
   </data>
   <data name="label11.Text" xml:space="preserve">
-    <value>Макс.</value>
+    <value>Мак.</value>
   </data>
   <data name="label14.Text" xml:space="preserve">
     <value>Мин.</value>
   </data>
   <data name="label17.Text" xml:space="preserve">
-    <value>Серво лимиты</value>
+    <value>Серво лим.</value>
   </data>
   <data name="label18.Text" xml:space="preserve">
-    <value>Макс.</value>
+    <value>Мак.</value>
   </data>
   <data name="label19.Text" xml:space="preserve">
     <value>Мин.</value>
   </data>
   <data name="label20.Text" xml:space="preserve">
-    <value>Макс.</value>
+    <value>Мак.</value>
   </data>
   <data name="label21.Text" xml:space="preserve">
     <value>Мин.</value>
@@ -154,7 +154,7 @@
     <value>Вход Канал</value>
   </data>
   <data name="CHK_stab_roll.Text" xml:space="preserve">
-    <value>Стабилизировать Крен</value>
+    <value>Стабилизировать Roll</value>
   </data>
   <data name="label23.Text" xml:space="preserve">
     <value>Вход Канал</value>
@@ -163,22 +163,22 @@
     <value>Вход Канал</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Серво лимиты</value>
+    <value>Серво лим.</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>Макс.</value>
+    <value>Мак.</value>
+  </data>
+  <data name="CHK_stab_tilt.Text" xml:space="preserve">
+    <value>Стабилизировать Tilt</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Угол лимит</value>
-  </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>Крен</value>
+    <value>Угол лим.</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
-    <value>Макс.</value>
+    <value>Мак.</value>
   </data>
   <data name="groupBox4.Text" xml:space="preserve">
-    <value>Сжимать углы</value>
+    <value>Retract углы</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
     <value>Мин.</value>
@@ -190,34 +190,37 @@
     <value>Мин.</value>
   </data>
   <data name="label9.Text" xml:space="preserve">
-    <value>Угол лимит</value>
+    <value>Угол лим.</value>
   </data>
   <data name="label34.Text" xml:space="preserve">
-    <value>Продолжительность (1/10 сек)</value>
+    <value>Прод. (1/10 сек)</value>
   </data>
   <data name="label36.Text" xml:space="preserve">
-    <value>Серво лимиты</value>
+    <value>Серво лим.</value>
   </data>
   <data name="label35.Text" xml:space="preserve">
     <value>Затвор</value>
   </data>
   <data name="label38.Text" xml:space="preserve">
-    <value>Нажатый</value>
+    <value>Нажат</value>
   </data>
   <data name="mavlinkCheckBoxRR.Text" xml:space="preserve">
     <value>Реверс</value>
   </data>
   <data name="label37.Text" xml:space="preserve">
-    <value>Не нажатый</value>
+    <value>Не нажат</value>
   </data>
   <data name="label39.Text" xml:space="preserve">
-    <value>Макс.</value>
+    <value>Мак.</value>
   </data>
   <data name="mavlinkCheckBoxTR.Text" xml:space="preserve">
     <value>Реверс</value>
   </data>
   <data name="mavlinkCheckBoxPR.Text" xml:space="preserve">
     <value>Реверс</value>
+  </data>
+  <data name="CHK_stab_pan.Text" xml:space="preserve">
+    <value>Стабилизировать Pan</value>
   </data>
   <data name="label44.Text" xml:space="preserve">
     <value>ПРИМЕЧАНИЕ: тип подвеса вступает в силу при следующей перезагрузке полетного контроллера</value>

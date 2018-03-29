@@ -192,6 +192,9 @@ namespace MissionPlanner.GCSViews
             // populate the unmodified base list
             tabControlactions.TabPages.ForEach(i => { TabListOriginal.Add((TabPage)i); });
 
+            // update tabs displayed
+            loadTabControlActions();
+
             //  mymap.Manager.UseMemoryCache = false;
 
             log.Info("Tunning Graph Settings");
@@ -649,9 +652,6 @@ namespace MissionPlanner.GCSViews
             if (!Settings.Instance.ContainsKey("ShowNoFly") || Settings.Instance.GetBoolean("ShowNoFly"))
                 NoFly.NoFly.NoFlyEvent += NoFly_NoFlyEvent;
 
-            // update tabs displayed
-            loadTabControlActions();
-
             TRK_zoom.Minimum = gMapControl1.MapProvider.MinZoom;
             TRK_zoom.Maximum = 24;
             TRK_zoom.Value = (float) gMapControl1.Zoom;
@@ -1099,7 +1099,7 @@ namespace MissionPlanner.GCSViews
                         // show proximity screen
                         if (MainV2.comPort.MAV?.Proximity != null && MainV2.comPort.MAV.Proximity.DataAvailable)
                         {
-                            this.BeginInvoke((MethodInvoker)delegate { new ProximityControl(MainV2.comPort.MAV).Show(); });
+                            //this.BeginInvoke((MethodInvoker)delegate { new ProximityControl(MainV2.comPort.MAV).Show(); });
                         }
 
                         if (Settings.Instance.GetBoolean("CHK_maprotation"))
@@ -1141,75 +1141,56 @@ namespace MissionPlanner.GCSViews
                         {
                             //Console.WriteLine("Doing FD WP's");
                             updateClearMissionRouteMarkers();
-
-                            float dist = 0;
-                            float travdist = 0;
-                            distanceBar1.ClearWPDist();
-                            MAVLink.mavlink_mission_item_t lastplla = new MAVLink.mavlink_mission_item_t();
-                            MAVLink.mavlink_mission_item_t home = new MAVLink.mavlink_mission_item_t();
-
-                            foreach (MAVLink.mavlink_mission_item_t plla in MainV2.comPort.MAV.wps.Values)
+                            
+                            var wps = MainV2.comPort.MAV.wps.Values.ToList();
+                            if (wps.Count > 1)
                             {
-                                if (plla.x == 0 || plla.y == 0)
-                                    continue;
+                                var homeplla = new PointLatLngAlt(MainV2.comPort.MAV.cs.HomeLocation.Lat,
+                                    MainV2.comPort.MAV.cs.HomeLocation.Lng,
+                                    MainV2.comPort.MAV.cs.HomeLocation.Alt / CurrentState.multiplieralt, "H");
 
-                                if (plla.command == (ushort)MAVLink.MAV_CMD.DO_SET_ROI)
+                                var overlay = new WPOverlay();
+
+                                overlay.CreateOverlay((MAVLink.MAV_FRAME) wps[1].frame, homeplla,
+                                    MainV2.comPort.MAV.wps.Values.Select(a => (Locationwp) a).ToList(),
+                                    0 / CurrentState.multiplieralt, 0 / CurrentState.multiplieralt);
+
+                                var existing = gMapControl1.Overlays.Where(a => a.Id == overlay.overlay.Id).ToList();
+                                foreach (var b in existing)
                                 {
-                                    addpolygonmarkerred(plla.seq.ToString(), plla.y, plla.x, (int) plla.z, Color.Red,
-                                        routes);
-                                    continue;
+                                    gMapControl1.Overlays.Remove(b);
                                 }
 
-                                string tag = plla.seq.ToString();
-                                if (plla.seq == 0 && plla.current != 2)
+                                gMapControl1.Overlays.Insert(1, overlay.overlay);
+
+                                overlay.overlay.ForceUpdate();
+
+                                distanceBar1.ClearWPDist();
+
+                                var i = -1;
+                                var travdist = 0.0;
+                                var lastplla = overlay.pointlist.First();
+                                foreach (var plla in overlay.pointlist)
                                 {
-                                    tag = "Home";
-                                    home = plla;
-                                }
-                                if (plla.current == 2)
-                                {
-                                    continue;
-                                }
+                                    i++;
+                                    if (plla == null)
+                                        continue;
 
-                                if (lastplla.command == 0)
-                                    lastplla = plla;
+                                    var dist = lastplla.GetDistance(plla);
 
-                                try
-                                {
-                                    dist =
-                                        (float)
-                                            new PointLatLngAlt(plla.x, plla.y).GetDistance(new PointLatLngAlt(
-                                                lastplla.x, lastplla.y));
+                                    distanceBar1.AddWPDist((float) dist);
 
-                                    distanceBar1.AddWPDist(dist);
-
-                                    if (plla.seq <= MainV2.comPort.MAV.cs.wpno)
+                                    if (i <= MainV2.comPort.MAV.cs.wpno)
                                     {
                                         travdist += dist;
                                     }
-
-                                    lastplla = plla;
-                                }
-                                catch
-                                {
                                 }
 
-                                addpolygonmarker(tag, plla.y, plla.x, (int) plla.z, Color.White, polygons);
-                            }
+                                travdist -= MainV2.comPort.MAV.cs.wp_dist;
 
-                            try
-                            {
-                                //dist = (float)new PointLatLngAlt(home.x, home.y).GetDistance(new PointLatLngAlt(lastplla.x, lastplla.y));
-                                // distanceBar1.AddWPDist(dist);
+                                if (MainV2.comPort.MAV.cs.mode.ToUpper() == "AUTO")
+                                    distanceBar1.traveleddist = (float) travdist;
                             }
-                            catch
-                            {
-                            }
-
-                            travdist -= MainV2.comPort.MAV.cs.wp_dist;
-
-                            if (MainV2.comPort.MAV.cs.mode.ToUpper() == "AUTO")
-                                distanceBar1.traveleddist = travdist;
 
                             RegeneratePolygon();
 
@@ -4353,7 +4334,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
-        private void loadTabControlActions()
+        public void loadTabControlActions()
         {
             string tabs = Settings.Instance["tabcontrolactions"];
 

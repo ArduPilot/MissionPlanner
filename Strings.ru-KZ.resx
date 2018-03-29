@@ -193,10 +193,10 @@
     <value>Требуется обновление параметров - нажмите F5 было # {0} стало # {1}</value>
   </data>
   <data name="StandardParams" xml:space="preserve">
-    <value>Стандартные параметры</value>
+    <value>Стандарт. параметры</value>
   </data>
   <data name="AdvancedParams" xml:space="preserve">
-    <value>Расширенные параметры</value>
+    <value>Расшир. параметры</value>
   </data>
   <data name="BadGPSHealth" xml:space="preserve">
     <value>Плохие данные GPS</value>
@@ -370,7 +370,7 @@
     <value>Получено только 1 полученное Heatbeat</value>
   </data>
   <data name="compass_variance" xml:space="preserve">
-    <value>дисперсия компаса</value>
+    <value>Дисперсия компаса</value>
   </data>
   <data name="BadGyroHealth" xml:space="preserve">
     <value>Плохие данные гироскопа</value>
@@ -447,6 +447,9 @@
   <data name="RawParamWarningi" xml:space="preserve">
     <value>Все значения на этом экране не проверяются мин / макс. Пожалуйста, дважды проверьте свой ввод. Пожалуйста, используйте стандартные / расширенные параметры для безопасных настроек</value>
   </data>
+  <data name="GeoFence" xml:space="preserve">
+    <value>GeoЗабор</value>
+  </data>
   <data name="VerifyFirmware" xml:space="preserve">
     <value>Проверка прошивки</value>
   </data>
@@ -479,13 +482,13 @@
 Обновите пожалуйста</value>
   </data>
   <data name="GeofenceBreach" xml:space="preserve">
-    <value>Geofence нарушен</value>
+    <value>GeoЗабор нарушен</value>
   </data>
   <data name="PleaseWaitForTheMusicalTones" xml:space="preserve">
     <value>Подождите, пока музыкальные мелодии не закончатся, прежде чем нажать OK.</value>
   </data>
   <data name="InvalidAlt" xml:space="preserve">
-    <value>Недопустимая Висота</value>
+    <value>Недопустимая Высота</value>
   </data>
   <data name="InvalidField" xml:space="preserve">
     <value>Недопустимая область</value>

@@ -117,109 +117,34 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ERROR" xml:space="preserve">
-    <value>Error</value>
+  <data name="mavlinkCheckBox1.Text" xml:space="preserve">
+    <value>Включить</value>
   </data>
-  <data name="PleaseConnect" xml:space="preserve">
-    <value>Please connect first</value>
+  <data name="mavlinkCheckBox2.Text" xml:space="preserve">
+    <value>Включить</value>
   </data>
-  <data name="Getting" xml:space="preserve">
-    <value>Getting </value>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Расст.:</value>
   </data>
-  <data name="ConnectFailed" xml:space="preserve">
-    <value>Connect Failed</value>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Есть ли у вас СОНАР?</value>
   </data>
-  <data name="ConnectingMavlink" xml:space="preserve">
-    <value>Connecting Mavlink</value>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Сонар</value>
   </data>
-  <data name="Done" xml:space="preserve">
-    <value>Done</value>
+  <data name="label6.Text" xml:space="preserve">
+    <value>У вас есть датчик оптического потока?</value>
   </data>
-  <data name="GettingParams" xml:space="preserve">
-    <value>Getting Params</value>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Оптический поток</value>
   </data>
-  <data name="GettingParamsD" xml:space="preserve">
-    <value>Getting Params...</value>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Напряж.:</value>
   </data>
-  <data name="Gotparam" xml:space="preserve">
-    <value>Got param </value>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Мод. сонара</value>
   </data>
-  <data name="MavlinkConnecting" xml:space="preserve">
-    <value>Mavlink Connecting...</value>
-  </data>
-  <data name="Only1Hb" xml:space="preserve">
-    <value>Only 1 Heatbeat Received</value>
-  </data>
-  <data name="Only1HbD" xml:space="preserve">
-    <value>Only 1 Mavlink Heartbeat Packets was read from this port - Verify your hardware is setup correctly
-Mission Planner waits for 2 valid heartbeat packets before connecting</value>
-  </data>
-  <data name="Trying" xml:space="preserve">
-    <value>Trying to connect.
-Timeout in {0}</value>
-  </data>
-  <data name="Connect" xml:space="preserve">
-    <value>Connect</value>
-  </data>
-  <data name="BadGPSHealth" xml:space="preserve">
-    <value>Bad GPS Signal Health</value>
-  </data>
-  <data name="BadGyroHealth" xml:space="preserve">
-    <value>Bad Gyro Health</value>
-  </data>
-  <data name="BadAccelHealth" xml:space="preserve">
-    <value>Bad Accel Health</value>
-  </data>
-  <data name="BadCompassHealth" xml:space="preserve">
-    <value>Bad Compass Health</value>
-  </data>
-  <data name="BadBaroHealth" xml:space="preserve">
-    <value>Bad Baro Health</value>
-  </data>
-  <data name="BadLiDARHealth" xml:space="preserve">
-    <value>Bad LiDAR Health</value>
-  </data>
-  <data name="BadOptFlowHealth" xml:space="preserve">
-    <value>Bad OptFlow Health</value>
-  </data>
-  <data name="BadorNoTerrainData" xml:space="preserve">
-    <value>Bad or No Terrain Data</value>
-  </data>
-  <data name="GeofenceBreach" xml:space="preserve">
-    <value>Geofence Breach</value>
-  </data>
-  <data name="BadAHRS" xml:space="preserve">
-    <value>Bad AHRS</value>
-  </data>
-  <data name="NORCReceiver" xml:space="preserve">
-    <value>NO RC Receiver</value>
-  </data>
-  <data name="velocity_variance" xml:space="preserve">
-    <value>velocity variance</value>
-  </data>
-  <data name="compass_variance" xml:space="preserve">
-    <value>compass variance</value>
-  </data>
-  <data name="pos_horiz_variance" xml:space="preserve">
-    <value>pos horiz variance</value>
-  </data>
-  <data name="pos_vert_variance" xml:space="preserve">
-    <value>pos vert variance</value>
-  </data>
-  <data name="terrain_alt_variance" xml:space="preserve">
-    <value>terrain alt variance</value>
-  </data>
-  <data name="No_valid_heartbeats_read_from_port" xml:space="preserve">
-    <value>No valid heartbeats read from port</value>
-  </data>
-  <data name="Bad_Vision_Position" xml:space="preserve">
-    <value>Bad Vision Position</value>
-  </data>
-  <data name="BadLogging" xml:space="preserve">
-    <value>Bad Logging</value>
-  </data>
-  <data name="ParamRefreshRequired" xml:space="preserve">
-    <value>A Param refresh is required - Please press F5
-old #{0}  new #{1}</value>
+  <data name="radialGradientBG1.Label.Text" xml:space="preserve">
+    <value>Доп. элементы</value>
   </data>
 </root>

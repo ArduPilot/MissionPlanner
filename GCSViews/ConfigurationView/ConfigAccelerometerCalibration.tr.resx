@@ -117,4 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BUT_calib_accell.Text" xml:space="preserve">
+    <value>Kalibrasyon</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Varsayılan ivmeölçer ofsetlerini ayarlamak için otomatik pilotunuzu hizalayın (eksen 1 / AHRS hizalaması). Bu, otomatik pilotunuzu tam olarak seviyeye yerleştirmenizi gerektirir.</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>İvmeölçeri varsayılan Min / Maks (3 eksen) olarak ayarlamak için otomatik pilotunuzu hizalayın. Otopilotunuzu her iki tarafta döndürmeniz gerekecek</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Ivmeolcer kalibrasyonu</value>
+  </data>
+  <data name="BUT_level.Text" xml:space="preserve">
+    <value>Seviye Kalibrasyonu</value>
+  </data>
 </root>

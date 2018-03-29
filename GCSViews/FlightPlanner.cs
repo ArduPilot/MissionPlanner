@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -38,6 +39,7 @@ using ILog = log4net.ILog;
 using Placemark = SharpKml.Dom.Placemark;
 using Point = System.Drawing.Point;
 using System.Text.RegularExpressions;
+using GDAL;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Grid;
 using MissionPlanner.Plugin;
@@ -59,12 +61,8 @@ namespace MissionPlanner.GCSViews
 
         public static FlightPlanner instance;
 
-        public bool autopan { get; set; }
+        public List<PointLatLngAlt> pointlist { get; set; }
 
-        public List<PointLatLngAlt> pointlist = new List<PointLatLngAlt>(); // used to calc distance
-        public List<PointLatLngAlt> fullpointlist = new List<PointLatLngAlt>();
-        public GMapRoute route = new GMapRoute("wp route");
-        public GMapRoute homeroute = new GMapRoute("home route");
         static public Object thisLock = new Object();
         private ComponentResourceManager rm = new ComponentResourceManager(typeof (FlightPlanner));
 
@@ -641,8 +639,6 @@ namespace MissionPlanner.GCSViews
 
             //set default
             CMB_altmode.SelectedItem = altmode.Relative;
-
-            RegeneratePolygon();
 
             updateCMDParams();
 
@@ -1294,515 +1290,59 @@ namespace MissionPlanner.GCSViews
             if (quickadd)
                 return;
 
-            // this is to share the current mission with the data tab
-            pointlist = new List<PointLatLngAlt>();
+            updateRowNumbers();
 
-            fullpointlist.Clear();
+            var home = new PointLatLngAlt(
+                    double.Parse(TXT_homelat.Text), double.Parse(TXT_homelng.Text),
+                    double.Parse(TXT_homealt.Text) / CurrentState.multiplieralt, "H")
+                {Tag2 = CMB_altmode.SelectedValue.ToString()};
 
-            Debug.WriteLine(DateTime.Now);
-            try
+            var overlay = new WPOverlay();
+
+            overlay.CreateOverlay((MAVLink.MAV_FRAME) (altmode) CMB_altmode.SelectedValue, home, GetCommandList(), double.Parse(TXT_WPRad.Text) / CurrentState.multiplieralt,
+                double.Parse(TXT_loiterrad.Text) / CurrentState.multiplieralt);
+
+            MainMap.HoldInvalidation = true;
+
+            var existing = MainMap.Overlays.Where(a => a.Id == overlay.overlay.Id).ToList();
+            foreach (var b in existing)
             {
-                if (objectsoverlay != null) // hasnt been created yet
-                {
-                    objectsoverlay.Markers.Clear();
-                }
-
-                // setup for centerpoint calc etc.
-                double avglat = 0;
-                double avglong = 0;
-                double maxlat = -180;
-                double maxlong = -180;
-                double minlat = 180;
-                double minlong = 180;
-                Func<double, double, double> gethomealt = (lat, lng) =>
-                {
-                    if ((altmode)CMB_altmode.SelectedValue == altmode.Absolute)
-                    {
-                        return 0; // for absolute we dont need to add homealt
-                    }
-
-                    if ((altmode)CMB_altmode.SelectedValue == altmode.Terrain)
-                    {
-                        return srtm.getAltitude(lat, lng).alt;
-                    }
-
-                    try
-                    {
-                        if (!String.IsNullOrEmpty(TXT_homealt.Text))
-                            return (int) double.Parse(TXT_homealt.Text);
-                    }
-                    catch (Exception ex)
-                    {
-                        log.Error(ex);
-                    }
-
-                    return 0;
-                };
-
-                // process and add home to the list
-                string home;
-                if (TXT_homealt.Text != "" && TXT_homelat.Text != "" && TXT_homelng.Text != "")
-                {
-                    home = string.Format("{0},{1},{2}\r\n", TXT_homelng.Text, TXT_homelat.Text, TXT_DefaultAlt.Text);
-                    if (objectsoverlay != null) // during startup
-                    {
-                        pointlist.Add(new PointLatLngAlt(double.Parse(TXT_homelat.Text), double.Parse(TXT_homelng.Text),
-                            double.Parse(TXT_homealt.Text), "H") {Tag2 = CMB_altmode.SelectedValue.ToString()});
-                        fullpointlist.Add(pointlist[pointlist.Count - 1]);
-                        addpolygonmarker("H", double.Parse(TXT_homelng.Text), double.Parse(TXT_homelat.Text), 0, null);
-                    }
-                }
-                else
-                {
-                    home = "";
-                    pointlist.Add(null);
-                    fullpointlist.Add(pointlist[pointlist.Count - 1]);
-                }
-
-                int usable = 0;
-
-                updateRowNumbers();
-
-                long temp = Stopwatch.GetTimestamp();
-
-                string lookat = "";
-                for (int a = 0; a < Commands.Rows.Count - 0; a++)
-                {
-                    try
-                    {
-                        if (Commands.Rows[a].Cells[Command.Index].Value.ToString().Contains("UNKNOWN"))
-                            continue;
-
-                        ushort command =
-                            (ushort)
-                                    Enum.Parse(typeof (MAVLink.MAV_CMD),
-                                        Commands.Rows[a].Cells[Command.Index].Value.ToString(), false);
-                        if (command < (ushort) MAVLink.MAV_CMD.LAST &&
-                            command != (ushort) MAVLink.MAV_CMD.TAKEOFF && // doesnt have a position
-                            command != (ushort)MAVLink.MAV_CMD.VTOL_TAKEOFF && // doesnt have a position
-                            command != (ushort) MAVLink.MAV_CMD.RETURN_TO_LAUNCH &&
-                            command != (ushort) MAVLink.MAV_CMD.CONTINUE_AND_CHANGE_ALT &&
-                            command != (ushort)MAVLink.MAV_CMD.DELAY &&
-                            command != (ushort) MAVLink.MAV_CMD.GUIDED_ENABLE
-                            || command == (ushort) MAVLink.MAV_CMD.DO_SET_ROI)
-                        {
-                            string cell2 = Commands.Rows[a].Cells[Alt.Index].Value.ToString(); // alt
-                            string cell3 = Commands.Rows[a].Cells[Lat.Index].Value.ToString(); // lat
-                            string cell4 = Commands.Rows[a].Cells[Lon.Index].Value.ToString(); // lng
-
-                            // land can be 0,0 or a lat,lng
-                            if (command == (ushort) MAVLink.MAV_CMD.LAND && cell3 == "0" && cell4 == "0")
-                                continue;
-
-                            if (cell4 == "?" || cell3 == "?")
-                                continue;
-
-                            if (command == (ushort) MAVLink.MAV_CMD.DO_SET_ROI)
-                            {
-                                pointlist.Add(new PointLatLngAlt(double.Parse(cell3), double.Parse(cell4),
-                                    double.Parse(cell2) + gethomealt(double.Parse(cell3), double.Parse(cell4)), "ROI" + (a + 1)) {color = Color.Red});
-                                // do set roi is not a nav command. so we dont route through it
-                                //fullpointlist.Add(pointlist[pointlist.Count - 1]);
-                                GMarkerGoogle m =
-                                    new GMarkerGoogle(new PointLatLng(double.Parse(cell3), double.Parse(cell4)),
-                                        GMarkerGoogleType.red);
-                                m.ToolTipMode = MarkerTooltipMode.Always;
-                                m.ToolTipText = (a + 1).ToString();
-                                m.Tag = (a + 1).ToString();
-
-                                GMapMarkerRect mBorders = new GMapMarkerRect(m.Position);
-                                {
-                                    mBorders.InnerMarker = m;
-                                    mBorders.Tag = "Dont draw line";
-                                }
-
-                                // check for clear roi, and hide it
-                                if (m.Position.Lat != 0 && m.Position.Lng != 0)
-                                {
-                                    // order matters
-                                    objectsoverlay.Markers.Add(m);
-                                    objectsoverlay.Markers.Add(mBorders);
-                                }
-                            }
-                            else if (command == (ushort) MAVLink.MAV_CMD.LOITER_TIME ||
-                                     command == (ushort) MAVLink.MAV_CMD.LOITER_TURNS ||
-                                     command == (ushort) MAVLink.MAV_CMD.LOITER_UNLIM)
-                            {
-                                pointlist.Add(new PointLatLngAlt(double.Parse(cell3), double.Parse(cell4),
-                                    double.Parse(cell2) + gethomealt(double.Parse(cell3), double.Parse(cell4)), (a + 1).ToString())
-                                {
-                                    color = Color.LightBlue
-                                });
-                                fullpointlist.Add(pointlist[pointlist.Count - 1]);
-                                addpolygonmarker((a + 1).ToString(), double.Parse(cell4), double.Parse(cell3),
-                                    double.Parse(cell2), Color.LightBlue);
-                            }
-                            else if (command == (ushort) MAVLink.MAV_CMD.SPLINE_WAYPOINT)
-                            {
-                                pointlist.Add(new PointLatLngAlt(double.Parse(cell3), double.Parse(cell4),
-                                    double.Parse(cell2) + gethomealt(double.Parse(cell3), double.Parse(cell4)), (a + 1).ToString()) {Tag2 = "spline"});
-                                fullpointlist.Add(pointlist[pointlist.Count - 1]);
-                                addpolygonmarker((a + 1).ToString(), double.Parse(cell4), double.Parse(cell3),
-                                    double.Parse(cell2), Color.Green);
-                            }
-                            else
-                            {
-                                pointlist.Add(new PointLatLngAlt(double.Parse(cell3), double.Parse(cell4),
-                                    double.Parse(cell2) + gethomealt(double.Parse(cell3), double.Parse(cell4)), (a + 1).ToString()));
-                                fullpointlist.Add(pointlist[pointlist.Count - 1]);
-                                addpolygonmarker((a + 1).ToString(), double.Parse(cell4), double.Parse(cell3),
-                                    double.Parse(cell2), null);
-                            }
-
-                            avglong += double.Parse(Commands.Rows[a].Cells[Lon.Index].Value.ToString());
-                            avglat += double.Parse(Commands.Rows[a].Cells[Lat.Index].Value.ToString());
-                            usable++;
-
-                            maxlong = Math.Max(double.Parse(Commands.Rows[a].Cells[Lon.Index].Value.ToString()), maxlong);
-                            maxlat = Math.Max(double.Parse(Commands.Rows[a].Cells[Lat.Index].Value.ToString()), maxlat);
-                            minlong = Math.Min(double.Parse(Commands.Rows[a].Cells[Lon.Index].Value.ToString()), minlong);
-                            minlat = Math.Min(double.Parse(Commands.Rows[a].Cells[Lat.Index].Value.ToString()), minlat);
-
-                            Debug.WriteLine(temp - Stopwatch.GetTimestamp());
-                        }
-                        else if (command == (ushort) MAVLink.MAV_CMD.DO_JUMP) // fix do jumps into the future
-                        {
-                            pointlist.Add(null);
-
-                            int wpno = int.Parse(Commands.Rows[a].Cells[Param1.Index].Value.ToString());
-                            int repeat = int.Parse(Commands.Rows[a].Cells[Param2.Index].Value.ToString());
-
-                            List<PointLatLngAlt> list = new List<PointLatLngAlt>();
-
-                            // cycle through reps
-                            for (int repno = repeat; repno > 0; repno--)
-                            {
-                                // cycle through wps
-                                for (int no = wpno; no <= a; no++)
-                                {
-                                    if (pointlist[no] != null)
-                                        list.Add(pointlist[no]);
-                                }
-                            }
-
-                            fullpointlist.AddRange(list);
-                        }
-                        else
-                        {
-                            pointlist.Add(null);
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        log.Info("writekml - bad wp data " + e);
-                    }
-                }
-
-                if (usable > 0)
-                {
-                    avglat = avglat/usable;
-                    avglong = avglong/usable;
-                    double latdiff = maxlat - minlat;
-                    double longdiff = maxlong - minlong;
-                    float range = 4000;
-
-                    Locationwp loc1 = new Locationwp();
-                    loc1.lat = (minlat);
-                    loc1.lng = (minlong);
-                    Locationwp loc2 = new Locationwp();
-                    loc2.lat = (maxlat);
-                    loc2.lng = (maxlong);
-
-                    //double distance = getDistance(loc1, loc2);  // same code as ardupilot
-                    double distance = 2000;
-
-                    if (usable > 1)
-                    {
-                        range = (float) (distance*2);
-                    }
-                    else
-                    {
-                        range = 4000;
-                    }
-
-                    if (avglong != 0 && usable < 3)
-                    {
-                        // no autozoom
-                        lookat = "<LookAt>     <longitude>" + (minlong + longdiff/2).ToString(new CultureInfo("en-US")) +
-                                 "</longitude>     <latitude>" + (minlat + latdiff/2).ToString(new CultureInfo("en-US")) +
-                                 "</latitude> <range>" + range + "</range> </LookAt>";
-                        //MainMap.ZoomAndCenterMarkers("objects");
-                        //MainMap.Zoom -= 1;
-                        //MainMap_OnMapZoomChanged();
-                    }
-                }
-                else if (home.Length > 5 && usable == 0)
-                {
-                    lookat = "<LookAt>     <longitude>" + TXT_homelng.Text.ToString(new CultureInfo("en-US")) +
-                             "</longitude>     <latitude>" + TXT_homelat.Text.ToString(new CultureInfo("en-US")) +
-                             "</latitude> <range>4000</range> </LookAt>";
-
-                    RectLatLng? rect = MainMap.GetRectOfAllMarkers("objects");
-                    if (rect.HasValue)
-                    {
-                        MainMap.Position = rect.Value.LocationMiddle;
-                    }
-
-                    //MainMap.Zoom = 17;
-
-                    MainMap_OnMapZoomChanged();
-                }
-
-                //RegeneratePolygon();
-
-                RegenerateWPRoute(fullpointlist);
-
-                if (fullpointlist.Count > 0)
-                {
-                    double homedist = 0;
-
-                    if (home.Length > 5)
-                    {
-                        homedist = MainMap.MapProvider.Projection.GetDistance(fullpointlist[fullpointlist.Count - 1],
-                            fullpointlist[0]);
-                    }
-
-                    double dist = 0;
-
-                    for (int a = 1; a < fullpointlist.Count; a++)
-                    {
-                        if (fullpointlist[a - 1] == null)
-                            continue;
-
-                        if (fullpointlist[a] == null)
-                            continue;
-
-                        dist += MainMap.MapProvider.Projection.GetDistance(fullpointlist[a - 1], fullpointlist[a]);
-                    }
-
-                    lbl_distance.Text = rm.GetString("lbl_distance.Text") + ": " +
-                                        FormatDistance(dist + homedist, false);
-                }
-
-                setgradanddistandaz();
-            }
-            catch (Exception ex)
-            {
-                log.Info(ex.ToString());
+                MainMap.Overlays.Remove(b);
             }
 
-            Debug.WriteLine(DateTime.Now);
+            MainMap.Overlays.Insert(1, overlay.overlay);
+
+            overlay.overlay.ForceUpdate();
+
+            lbl_distance.Text = rm.GetString("lbl_distance.Text") + ": " +
+                                FormatDistance((
+                                    overlay.route.Points.Select(a => (PointLatLngAlt) a)
+                                        .Aggregate(0.0, (d, p1, p2) => d + p1.GetDistance(p2)) + 
+                                    overlay.homeroute.Points.Select(a => (PointLatLngAlt) a)
+                                        .Aggregate(0.0, (d, p1, p2) => d + p1.GetDistance(p2)))/1000.0, false);
+
+            setgradanddistandaz(overlay.pointlist, home);
+
+            if (overlay.pointlist.Count <= 1)
+            {
+                RectLatLng? rect = MainMap.GetRectOfAllMarkers(overlay.overlay.Id);
+                if (rect.HasValue)
+                {
+                    MainMap.Position = rect.Value.LocationMiddle;
+                }
+
+                MainMap_OnMapZoomChanged();
+            }
+
+            pointlist = overlay.pointlist;
+
+            MainMap.Refresh();
         }
 
-        private void RegenerateWPRoute(List<PointLatLngAlt> fullpointlist)
-        {
-            route.Clear();
-            homeroute.Clear();
-
-            polygonsoverlay.Routes.Clear();
-
-            PointLatLngAlt lastpnt = fullpointlist[0];
-            PointLatLngAlt lastpnt2 = fullpointlist[0];
-            PointLatLngAlt lastnonspline = fullpointlist[0];
-            List<PointLatLngAlt> splinepnts = new List<PointLatLngAlt>();
-            List<PointLatLngAlt> wproute = new List<PointLatLngAlt>();
-
-            // add home - this causeszx the spline to always have a straight finish
-            fullpointlist.Add(fullpointlist[0]);
-
-            for (int a = 0; a < fullpointlist.Count; a++)
-            {
-                if (fullpointlist[a] == null)
-                    continue;
-
-                if (fullpointlist[a].Tag2 == "spline")
-                {
-                    if (splinepnts.Count == 0)
-                        splinepnts.Add(lastpnt);
-
-                    splinepnts.Add(fullpointlist[a]);
-                }
-                else
-                {
-                    if (splinepnts.Count > 0)
-                    {
-                        List<PointLatLng> list = new List<PointLatLng>();
-
-                        splinepnts.Add(fullpointlist[a]);
-
-                        Spline2 sp = new Spline2(MainV2.comPort.MAV.cs.HomeLocation);
-
-                        //sp._flags.segment_type = MissionPlanner.Controls.Waypoints.Spline2.SegmentType.SEGMENT_STRAIGHT;
-                        //sp._flags.reached_destination = true;
-                        //sp._origin = sp.pv_location_to_vector(lastpnt);
-                        //sp._destination = sp.pv_location_to_vector(fullpointlist[0]);
-
-                        // sp._spline_origin_vel = sp.pv_location_to_vector(lastpnt) - sp.pv_location_to_vector(lastnonspline);
-
-                        sp.set_wp_origin_and_destination(sp.pv_location_to_vector(lastpnt2),
-                            sp.pv_location_to_vector(lastpnt));
-
-                        sp._flags.reached_destination = true;
-
-                        for (int no = 1; no < (splinepnts.Count - 1); no++)
-                        {
-                            Spline2.spline_segment_end_type segtype =
-                                Spline2.spline_segment_end_type.SEGMENT_END_STRAIGHT;
-
-                            if (no < (splinepnts.Count - 2))
-                            {
-                                segtype = Spline2.spline_segment_end_type.SEGMENT_END_SPLINE;
-                            }
-
-                            sp.set_spline_destination(sp.pv_location_to_vector(splinepnts[no]), false, segtype,
-                                sp.pv_location_to_vector(splinepnts[no + 1]));
-
-                            //sp.update_spline();
-
-                            while (sp._flags.reached_destination == false)
-                            {
-                                float t = 1f;
-                                //sp.update_spline();
-                                sp.advance_spline_target_along_track(t);
-                                // Console.WriteLine(sp.pv_vector_to_location(sp.target_pos).ToString());
-                                list.Add(sp.pv_vector_to_location(sp.target_pos));
-                            }
-
-                            list.Add(splinepnts[no]);
-                        }
-
-                        list.ForEach(x => { wproute.Add(x); });
-
-
-                        splinepnts.Clear();
-
-                        /*
-                        MissionPlanner.Controls.Waypoints.Spline sp = new Controls.Waypoints.Spline();
-                        
-                        var spline = sp.doit(splinepnts, 20, lastlastpnt.GetBearing(splinepnts[0]),false);
-
-                  
-                         */
-
-                        lastnonspline = fullpointlist[a];
-                    }
-
-                    wproute.Add(fullpointlist[a]);
-
-                    lastpnt2 = lastpnt;
-                    lastpnt = fullpointlist[a];
-                }
-            }
-            /*
-
-           List<PointLatLng> list = new List<PointLatLng>();
-           fullpointlist.ForEach(x => { list.Add(x); });
-           route.Points.AddRange(list);
-           */
-            // route is full need to get 1, 2 and last point as "HOME" route
-
-            int count = wproute.Count;
-            int counter = 0;
-            PointLatLngAlt homepoint = new PointLatLngAlt();
-            PointLatLngAlt firstpoint = new PointLatLngAlt();
-            PointLatLngAlt lastpoint = new PointLatLngAlt();
-
-            if (count > 2)
-            {
-                // homeroute = last, home, first
-                wproute.ForEach(x =>
-                {
-                    counter++;
-                    if (counter == 1)
-                    {
-                        homepoint = x;
-                        return;
-                    }
-                    if (counter == 2)
-                    {
-                        firstpoint = x;
-                    }
-                    if (counter == count - 1)
-                    {
-                        lastpoint = x;
-                    }
-                    if (counter == count)
-                    {
-                        homeroute.Points.Add(lastpoint);
-                        homeroute.Points.Add(homepoint);
-                        homeroute.Points.Add(firstpoint);
-                        return;
-                    }
-                    route.Points.Add(x);
-                });
-
-                homeroute.Stroke = new Pen(Color.Yellow, 2);
-                // if we have a large distance between home and the first/last point, it hangs on the draw of a the dashed line.
-                if (homepoint.GetDistance(lastpoint) < 5000 && homepoint.GetDistance(firstpoint) < 5000)
-                    homeroute.Stroke.DashStyle = DashStyle.Dash;
-
-                polygonsoverlay.Routes.Add(homeroute);
-
-                route.Stroke = new Pen(Color.Yellow, 4);
-                route.Stroke.DashStyle = DashStyle.Custom;
-                polygonsoverlay.Routes.Add(route);
-            }
-        }
-
-        /// <summary>
-        /// used to redraw the polygon
-        /// </summary>
-        void RegeneratePolygon()
-        {
-            List<PointLatLng> polygonPoints = new List<PointLatLng>();
-
-            if (objectsoverlay == null)
-                return;
-
-            foreach (GMapMarker m in objectsoverlay.Markers)
-            {
-                if (m is GMapMarkerRect)
-                {
-                    if (m.Tag == null)
-                    {
-                        m.Tag = polygonPoints.Count;
-                        polygonPoints.Add(m.Position);
-                    }
-                }
-            }
-
-            if (wppolygon == null)
-            {
-                wppolygon = new GMapPolygon(polygonPoints, "polygon test");
-                polygonsoverlay.Polygons.Add(wppolygon);
-            }
-            else
-            {
-                wppolygon.Points.Clear();
-                wppolygon.Points.AddRange(polygonPoints);
-
-                wppolygon.Stroke = new Pen(Color.Yellow, 4);
-                wppolygon.Stroke.DashStyle = DashStyle.Custom;
-                wppolygon.Fill = Brushes.Transparent;
-
-                if (polygonsoverlay.Polygons.Count == 0)
-                {
-                    polygonsoverlay.Polygons.Add(wppolygon);
-                }
-                else
-                {
-                    lock (thisLock)
-                    {
-                        MainMap.UpdatePolygonLocalPosition(wppolygon);
-                    }
-                }
-            }
-        }
-
-        void setgradanddistandaz()
+        void setgradanddistandaz(List<PointLatLngAlt> pointlist, PointLatLngAlt HomeLocation)
         {
             int a = 0;
-            PointLatLngAlt last = MainV2.comPort.MAV.cs.HomeLocation;
+            PointLatLngAlt last = HomeLocation;
             foreach (var lla in pointlist)
             {
                 if (lla == null)
@@ -2235,6 +1775,189 @@ namespace MissionPlanner.GCSViews
             }
 
             return commands;
+        }
+
+        void saveWPsFast(IProgressReporterDialogue sender)
+        {
+            var totalwpcountforupload = (ushort) (Commands.RowCount + 1);
+            var reqno = 0;
+            MAVLink.MAV_MISSION_RESULT result = MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED;
+
+            var sub1 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.MISSION_ACK,
+                message =>
+                {
+                    var ans = (MAVLink.MAV_MISSION_RESULT)((MAVLink.mavlink_mission_ack_t) message.data).type;
+                    result = ans;
+                    Console.WriteLine("MISSION_ACK " + ans);
+                    return true;
+                });
+
+            var sub2 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.MISSION_REQUEST,
+                message =>
+                {
+                    reqno = ((MAVLink.mavlink_mission_request_t) message.data).seq;
+                    Console.WriteLine("MISSION_REQUEST " + reqno);
+                    return true;
+                });
+
+            ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(0, "Set total wps ");
+            MainV2.comPort.setWPTotal(totalwpcountforupload);
+
+            // define the home point
+            Locationwp home = new Locationwp();
+            try
+            {
+                home.id = (ushort)MAVLink.MAV_CMD.WAYPOINT;
+                home.lat = (double.Parse(TXT_homelat.Text));
+                home.lng = (double.Parse(TXT_homelng.Text));
+                home.alt = (float.Parse(TXT_homealt.Text) / CurrentState.multiplieralt); // use saved home
+            }
+            catch
+            {
+                MainV2.comPort.UnSubscribeToPacketType(sub1);
+                MainV2.comPort.UnSubscribeToPacketType(sub2);
+                throw new Exception("Your home location is invalid");
+            }
+
+            // define the default frame.
+            MAVLink.MAV_FRAME frame = MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT;
+
+            // get the command list from the datagrid
+            var commandlist = GetCommandList();
+
+            commandlist.Insert(0, home);
+
+            // process commandlist to the mav
+            for (var a = 0; a < commandlist.Count; a++)
+            {
+                if (a % 10 == 0 && a != 0)
+                {
+                    var start = DateTime.Now;
+                    while (true)
+                    {
+                        if (sender.doWorkArgs.CancelRequested)
+                        {
+                            MainV2.comPort.setWPTotal(0);
+                            MainV2.comPort.UnSubscribeToPacketType(sub1);
+                            MainV2.comPort.UnSubscribeToPacketType(sub2);
+                            return;
+                        }
+
+                        if (reqno == a)
+                        {
+                            // all received
+                            break;
+                        }
+
+                        if (start.AddSeconds(1.1) < DateTime.Now)
+                        {
+                            // do next 10 starting at reqno
+                            a = reqno;
+                            break;
+                        }
+
+                        if (result == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_INVALID_SEQUENCE)
+                            Thread.Sleep(500);
+
+                        if (result == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ERROR)
+                        {
+                            // resend for partial upload
+                            MainV2.comPort.setWPPartialUpdate((ushort) (reqno), totalwpcountforupload);
+                            a = reqno;
+                            break;
+                        }
+
+                        if (result == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_NO_SPACE)
+                        {
+                            sender.doWorkArgs.ErrorMessage = "Upload failed, please reduce the number of wp's";
+                            MainV2.comPort.UnSubscribeToPacketType(sub1);
+                            MainV2.comPort.UnSubscribeToPacketType(sub2);
+                            return;
+                        }
+                        if (result == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_INVALID)
+                        {
+                            sender.doWorkArgs.ErrorMessage =
+                                "Upload failed, mission was rejected byt the Mav,\n item had a bad option wp# " + a + " " +
+                                result;
+                            MainV2.comPort.UnSubscribeToPacketType(sub1);
+                            MainV2.comPort.UnSubscribeToPacketType(sub2);
+                            return;
+                        }
+                        if (result != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
+                        {
+                            sender.doWorkArgs.ErrorMessage = "Upload wps failed " + reqno +
+                                             " " + Enum.Parse(typeof(MAVLink.MAV_MISSION_RESULT), result.ToString());
+                            MainV2.comPort.UnSubscribeToPacketType(sub1);
+                            MainV2.comPort.UnSubscribeToPacketType(sub2);
+                            return;
+                        }
+
+                        System.Threading.Thread.Sleep(10);
+                    }
+                }
+
+                var loc = commandlist[a];
+
+                // make sure we are using the correct frame for these commands
+                if (loc.id < (ushort)MAVLink.MAV_CMD.LAST || loc.id == (ushort)MAVLink.MAV_CMD.DO_SET_HOME)
+                {
+                    var mode = currentaltmode;
+
+                    if (mode == altmode.Terrain)
+                    {
+                        frame = MAVLink.MAV_FRAME.GLOBAL_TERRAIN_ALT;
+                    }
+                    else if (mode == altmode.Absolute)
+                    {
+                        frame = MAVLink.MAV_FRAME.GLOBAL;
+                    }
+                    else
+                    {
+                        frame = MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT;
+                    }
+                }
+
+                MAVLink.mavlink_mission_item_int_t req = new MAVLink.mavlink_mission_item_int_t();
+
+                req.target_system = MainV2.comPort.MAV.sysid;
+                req.target_component = MainV2.comPort.MAV.compid;
+
+                req.command = loc.id;
+
+                req.current = 0;
+                req.autocontinue = 1;
+
+                req.frame = (byte)frame;
+                if (loc.id == (ushort)MAVLink.MAV_CMD.DO_DIGICAM_CONTROL || loc.id == (ushort)MAVLink.MAV_CMD.DO_DIGICAM_CONFIGURE)
+                {
+                    req.y = (int)(loc.lng);
+                    req.x = (int)(loc.lat);
+                }
+                else
+                {
+                    req.y = (int)(loc.lng * 1.0e7);
+                    req.x = (int)(loc.lat * 1.0e7);
+                }
+                req.z = (float)(loc.alt);
+
+                req.param1 = loc.p1;
+                req.param2 = loc.p2;
+                req.param3 = loc.p3;
+                req.param4 = loc.p4;
+
+                req.seq = (ushort)a;
+
+                ((ProgressReporterDialogue) sender).UpdateProgressAndStatus(a * 100 / Commands.Rows.Count,
+                    "Setting WP " + a);
+                Console.WriteLine("WP no " + a);
+
+                MainV2.comPort.sendPacket(req, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid);
+            }
+
+            MainV2.comPort.UnSubscribeToPacketType(sub1);
+            MainV2.comPort.UnSubscribeToPacketType(sub2);
+
+            MainV2.comPort.setWPACK();
         }
 
         void saveWPs(IProgressReporterDialogue sender)
@@ -2831,7 +2554,6 @@ namespace MissionPlanner.GCSViews
                     Commands.Rows.Insert(e.RowIndex + 1, myrow);
                     writeKML();
                 }
-                setgradanddistandaz();
             }
             catch (Exception)
             {
@@ -4589,17 +4311,6 @@ namespace MissionPlanner.GCSViews
                     addpolygonmarker("Guided Mode", MainV2.comPort.MAV.GuidedMode.y, MainV2.comPort.MAV.GuidedMode.x,
                         (int) MainV2.comPort.MAV.GuidedMode.z, Color.Blue, routesoverlay);
                 }
-
-                //autopan
-                if (autopan)
-                {
-                    if (route.Points[route.Points.Count - 1].Lat != 0 && (mapupdate.AddSeconds(3) < DateTime.Now))
-                    {
-                        PointLatLng currentloc = new PointLatLng(MainV2.comPort.MAV.cs.lat, MainV2.comPort.MAV.cs.lng);
-                        updateMapPosition(currentloc);
-                        mapupdate = DateTime.Now;
-                    }
-                }
             }
             catch (Exception ex)
             {
@@ -5171,6 +4882,13 @@ namespace MissionPlanner.GCSViews
         {
             timer1.Start();
 
+            // set the firmware type if we are not connected. this allows overrideing
+            if (!MainV2.comPort.BaseStream.IsOpen)
+            {
+                MainV2.comPort.MAV.cs.firmware = (Firmwares) MainV2._connectionControl.TOOL_APMFirmware.SelectedItem;
+            }
+
+            // hide altmode if old copter version
             if (MainV2.comPort.BaseStream.IsOpen && MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2 &&
                 MainV2.comPort.MAV.cs.version < new Version(3, 3))
             {
@@ -5181,7 +4899,11 @@ namespace MissionPlanner.GCSViews
                 CMB_altmode.Visible = true;
             }
 
-            //switchDockingToolStripMenuItem_Click(null, null);
+            // hide spline wp options if not arducopter
+            if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
+                CHK_splinedefault.Visible = true;
+            else
+                CHK_splinedefault.Visible = false;
 
             updateHome();
 
@@ -5203,14 +4925,7 @@ namespace MissionPlanner.GCSViews
         public void updateHome()
         {
             quickadd = true;
-            if (InvokeRequired)
-            {
-                Invoke((MethodInvoker) delegate { updateHomeText(); });
-            }
-            else
-            {
-                updateHomeText();
-            }
+            updateHomeText();
             quickadd = false;
         }
 
@@ -5415,7 +5130,7 @@ namespace MissionPlanner.GCSViews
         {
             using (OpenFileDialog fd = new OpenFileDialog())
             {
-                fd.Filter = "All Supported|*.kml;*.kmz;*.dxf|Google Earth KML|*.kml;*.kmz|AutoCad DXF|*.dxf";
+                fd.Filter = "All Supported|*.kml;*.kmz;*.dxf;*.gpkg|Google Earth KML|*.kml;*.kmz|AutoCad DXF|*.dxf|GeoPackage|*.gpkg";
                 DialogResult result = fd.ShowDialog();
                 string file = fd.FileName;
                 if (file != "")
@@ -5425,7 +5140,44 @@ namespace MissionPlanner.GCSViews
 
                     FlightData.kmlpolygons.Routes.Clear();
                     FlightData.kmlpolygons.Polygons.Clear();
-                    if (file.ToLower().EndsWith("dxf"))
+                    if (file.ToLower().EndsWith("gpkg"))
+                    {
+                        using (var ogr = OGR.Open(file))
+                        {
+                            ogr.NewPoint += pnt =>
+                            {
+                                var mark = new GMarkerGoogle(new PointLatLngAlt(pnt), GMarkerGoogleType.brown_small);
+                                FlightData.kmlpolygons.Markers.Add(mark);
+                                kmlpolygonsoverlay.Markers.Add(mark);
+                            };
+                            ogr.NewLineString += ls =>
+                            {
+                                var route =
+                                    new GMapRoute(ls.Select(a => new PointLatLngAlt(a.y, a.x, a.z).Point()), "")
+                                    {
+                                        IsHitTestVisible = false,
+                                        Stroke = new Pen(Color.Red)
+                                    };
+                                FlightData.kmlpolygons.Routes.Add(route);
+                                kmlpolygonsoverlay.Routes.Add(route);
+                            };
+                            ogr.NewPolygon += ls =>
+                            {
+                                var polygon =
+                                    new GMapPolygon(ls.Select(a => new PointLatLngAlt(a.y, a.x, a.z).Point()).ToList(), "")
+                                    {
+                                        Fill = Brushes.Transparent,
+                                        IsHitTestVisible = false,
+                                        Stroke = new Pen(Color.Red)
+                                    };
+                                FlightData.kmlpolygons.Polygons.Add(polygon);
+                                kmlpolygonsoverlay.Polygons.Add(polygon);
+                            };
+
+                            ogr.Process();
+                        }
+                    }
+                    else if (file.ToLower().EndsWith("dxf"))
                     {
                         string zone = "-99";
                         InputBox.Show("Zone", "Please enter the UTM zone, or cancel to not change", ref zone);

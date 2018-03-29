@@ -126,4 +126,88 @@
   <data name="label2.Text" xml:space="preserve">
     <value>sunucu modu</value>
   </data>
+   <data name="label41.Text" xml:space="preserve">
+    <value>Alt</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Kuyruk Hizi</value>
+  </data>
+  <data name="label46.Text" xml:space="preserve">
+    <value>Kazanc</value>
+  </data>
+  <data name="label43.Text" xml:space="preserve">
+    <value>Devir</value>
+  </data>
+  <data name="label44.Text" xml:space="preserve">
+    <value>Duzeltme</value>
+  </data>
+  <data name="label37.Text" xml:space="preserve">
+    <value>Position</value>
+  </data>
+   <data name="label23.Text" xml:space="preserve">
+    <value>Manuel Seyahat</value>
+  </data>
+  <data name="label22.Text" xml:space="preserve">
+    <value>Toplu Seyahat</value>
+  </data>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>Toplu on olusturma</value>
+  </data>
+  <data name="groupBox7.Text" xml:space="preserve">
+    <value>RSC Rampa Hizi</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>Hassas</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Oran(Sec)</value>
+  </data>
+  <data name="groupBox8.Text" xml:space="preserve">
+    <value>Mode 1 Setpoint</value>
+  </data>
+  <data name="groupBox9.Text" xml:space="preserve">
+    <value>Pervane Hiz Kontrol</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>Acilis Servo Test</value>
+  </data>
+   <data name="label8.Text" xml:space="preserve">
+    <value>Peryodik Seyahat</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Toplu Inis</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Servo Modu</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Faz Acisi</value>
+  </data>
+  <data name="groupBox11.Text" xml:space="preserve">
+    <value>Gaz Output</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>Devir</value>
+  </data>
+  <data name="groupBox12.Text" xml:space="preserve">
+    <value>V-Egrisi</value>
+  </data>
+  <data name="label26.Text" xml:space="preserve">
+    <value>Bos</value>
+  </data>
+  <data name="groupBox13.Text" xml:space="preserve">
+    <value>Egri</value>
+  </data>
+  <data name="label30.Text" xml:space="preserve">
+    <value>Bolum 4</value>
+  </data>
+  <data name="label27.Text" xml:space="preserve">
+    <value>Bolum 3</value>
+  </data>
+  <data name="label28.Text" xml:space="preserve">
+    <value>Bolum 2</value>
+  </data>
+  <data name="label29.Text" xml:space="preserve">
+    <value>Bolum 1</value>
+  </data>
 </root>

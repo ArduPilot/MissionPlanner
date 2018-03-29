@@ -117,4 +117,55 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Geo Ref goruntuleri</value>
+  </data>
+  <data name="chk_usegps2.Text" xml:space="preserve">
+    <value>GPS2 kullan</value>
+  </data>
+  <data name="label27.Text" xml:space="preserve">
+    <value>Deklansor gecikmesi (мс)</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Saniye degisimi</value>
+  </data>
+  <data name="label28.Text" xml:space="preserve">
+    <value>Yukseklik. rel. Veritabanlari</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Dondur</value>
+  </data>
+  <data name="chk_cammsg.Text" xml:space="preserve">
+    <value>Mesajlarini Kullanma</value>
+  </data>
+  <data name="BUT_doit.Text" xml:space="preserve">
+    <value>Onceki. Isleme</value>
+  </data>
+  <data name="BUT_browsedir.Text" xml:space="preserve">
+    <value>Просмотр фото</value>
+  </data>
+  <data name="BUT_networklinkgeoref.Text" xml:space="preserve">
+    <value>Kml'nin yeri</value>
+  </data>
+  <data name="CHECK_AMSLAlt_Use.Text" xml:space="preserve">
+    <value>AMSL HIGH kullanın</value>
+  </data>
+  <data name="BUT_browselog.Text" xml:space="preserve">
+    <value>Gecmisi goruntuleme</value>
+  </data>
+  <data name="RDIO_CAMMsgSynchro.Text" xml:space="preserve">
+    <value>CAM Mesajlarini Senkronize Etme (Sadece DF Kaydi)</value>
+  </data>
+  <data name="RDIO_TimeOffset.Text" xml:space="preserve">
+    <value>Zaman ofset</value>
+  </data>
+  <data name="BUT_Geotagimages.Text" xml:space="preserve">
+    <value>GeoTag Resimleri</value>
+  </data>
+  <data name="RDIO_trigmsg.Text" xml:space="preserve">
+    <value>Baslangıc mesaji</value>
+  </data>
+  <data name="BUT_estoffset.Text" xml:space="preserve">
+    <value>Ofset Hesaplamasi</value>
+  </data>
 </root>

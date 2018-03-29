@@ -157,7 +157,7 @@
     <value>M8P автонастройка</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>Скорость входных данных</value>
+    <value>Скорость вх. данных</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
     <value>Сообщений получено</value>
@@ -166,7 +166,7 @@
     <value>Опрос входа</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>Скорость передачи данных</value>
+    <value>Скорость пер. данных</value>
   </data>
   <data name="chk_m8pautoconfig.ToolTip" xml:space="preserve">
     <value>Автоматически настроить конфигурацию ublox m8p</value>

@@ -148,16 +148,16 @@
     <value>Батарея</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>Низкий заряд батареи</value>
+    <value>Низк. зар. бат.</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>Зарезервировано MAH</value>
+    <value>Резерв MAH</value>
   </data>
   <data name="groupBox2.Text" xml:space="preserve">
     <value>Радио</value>
   </data>
   <data name="mavlinkNumericUpDownlow_voltage.ToolTip" xml:space="preserve">
-    <value>Низкое напряжение Запуск</value>
+    <value>Низк. напр. Запуск</value>
   </data>
   <data name="lbl_gpslock.Text" xml:space="preserve">
     <value>Нет блокировки</value>

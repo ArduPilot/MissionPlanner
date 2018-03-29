@@ -132,4 +132,11 @@
   <data name="BUT_clearlogs.Text" xml:space="preserve">
     <value>Kayıtlari temizle</value>
   </data>
+  <data name="LabelStatus.Text" xml:space="preserve">
+    <value>NOT: Destek sorguları gönderirken, lütfen .bin dosyasını gönderin.</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Cıktı:</value>
+  </data>
+
 </root>
