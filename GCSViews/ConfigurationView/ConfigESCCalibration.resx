@@ -195,7 +195,7 @@ After pushing this button:
 -Disconnect USB and battery
 -Plug in battery
 -when LEDs flash, push Saftey Switch (if present)
--ESCs should beep as the are calibrated
+-ESCs should beep as they are calibrated
 - restart flight controller normally</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
