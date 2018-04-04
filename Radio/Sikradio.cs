@@ -33,6 +33,8 @@ namespace MissionPlanner.Radio
         private Dictionary<Control, bool> _DefaultLocalEnabled = new Dictionary<Control, bool>();
         private Dictionary<ComboBox, object> _DefaultCBObjects = new Dictionary<ComboBox, object>();
         RFD.RFD900.TSession _Session;
+        ExtraParamControlsSet _LocalExtraParams;
+        ExtraParamControlsSet _RemoteExtraParams;
 
         /*
 ATI5
@@ -61,6 +63,18 @@ S15: MAX_WINDOW=131
             // hide advanced view
             //SPLIT_local.Panel2Collapsed = true;
             //SPLIT_remote.Panel2Collapsed = true;
+
+            _LocalExtraParams = new ExtraParamControlsSet(lblNODEID, NODEID,
+                lblDESTID, DESTID, lblTX_ENCAP_METHOD, TX_ENCAP_METHOD, lblRX_ENCAP_METHOD, RX_ENCAP_METHOD,
+                new Control[] { lblMAX_DATA, MAX_DATA, lblMAX_RETRIES, MAX_RETRIES,
+                lblGLOBAL_RETRIES, GLOBAL_RETRIES, lblSER_BRK_DETMS, SER_BRK_DETMS,
+                lblANT_MODE, ANT_MODE}, false);
+
+            _RemoteExtraParams = new ExtraParamControlsSet(lblRNODEID, RNODEID,
+                lblRDESTID, RDESTID, lblRTX_ENCAP_METHOD, RTX_ENCAP_METHOD, lblRRX_ENCAP_METHOD, RRX_ENCAP_METHOD,
+                new Control[] { lblRMAX_DATA, RMAX_DATA, lblRMAX_RETRIES, RMAX_RETRIES,
+                lblRGLOBAL_RETRIES, RGLOBAL_RETRIES, lblRSER_BRK_DETMS, RSER_BRK_DETMS,
+                lblRANT_MODE, RANT_MODE}, true);
 
             // setup netid
             NETID.DataSource = Enumerable.Range(0, 500).ToArray();
@@ -567,9 +581,18 @@ S15: MAX_WINDOW=131
             }
         }
 
+        string GetParamNumber(string Part1)
+        {
+            Part1 = Part1.Trim();
+            int S = Part1.IndexOf('S');
+            return Part1.Substring(S + 1);
+        }
+
         private void BUT_savesettings_Click(object sender, EventArgs e)
         {
+            EndSession();
             var Session = GetSession();
+            
             if (Session == null)
             {
                 return;
@@ -600,7 +623,17 @@ S15: MAX_WINDOW=131
                     {
                         //if (item.StartsWith("S"))
                         {
-                            var values = item.Split(':', '=');
+                            int multipoint_fix = -1;
+                            if (item.StartsWith("["))
+                            {
+                                multipoint_fix = item.IndexOf(']') + 1;
+                            }
+                            var mod_item = item;
+                            if (multipoint_fix > 0 && item.Length > multipoint_fix)
+                            {
+                                mod_item = item.Substring(multipoint_fix).Trim();
+                            }
+                            var values = mod_item.Split(':', '=');
 
                             if (values.Length == 3)
                             {
@@ -639,6 +672,19 @@ S15: MAX_WINDOW=131
                                     }
                                     else if (controls[0] is TextBox)
                                     {
+                                        if (controls[0].Text != values[2].Trim())
+                                        {
+                                            var cmdanswer = doCommand(Session.Port,
+                                                "ATS" + values[0].Trim().TrimStart('S') + "=" + controls[0].Text + "\r");
+                                            
+                                            if (cmdanswer.Contains("OK"))
+                                            {
+                                            }
+                                            else
+                                            {
+                                                MsgBox.CustomMessageBox.Show("Set Command error");
+                                            }
+                                        }
                                     }
                                     else if (controls[0].Name.Contains("MAVLINK")) //
                                     {
@@ -685,8 +731,15 @@ S15: MAX_WINDOW=131
                 Session.Port.DiscardInBuffer();
                 {
                     //local
-
-                    var answer = doCommand(Session.Port, "ATI5", true);
+                    string answer = "";
+                    for (int n = 0; n < 5; n++)
+                    {
+                        answer = doCommand(Session.Port, "ATI5", true);
+                        if (answer.Length != 0)
+                        {
+                            break;
+                        }
+                    }
 
                     var items = answer.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
 
@@ -711,7 +764,7 @@ S15: MAX_WINDOW=131
                                         if (value != values[2].Trim())
                                         {
                                             var cmdanswer = doCommand(Session.Port,
-                                                "ATS" + values[0].Trim().TrimStart('S') + "=" + value + "\r");
+                                                "ATS" + GetParamNumber(values[0]) + "=" + value);
 
                                             if (cmdanswer.Contains("OK"))
                                             {
@@ -730,8 +783,7 @@ S15: MAX_WINDOW=131
                                         if (((ComboBox) controls[0]).SelectedValue.ToString() != values[2].Trim())
                                         {
                                             var cmdanswer = doCommand(Session.Port,
-                                                "ATS" + values[0].Trim().TrimStart('S') + "=" + ((ComboBox) controls[0]).SelectedValue +
-                                                "\r");
+                                                "ATS" + GetParamNumber(values[0]) + "=" + ((ComboBox) controls[0]).SelectedValue);
 
                                             if (cmdanswer.Contains("OK"))
                                             {
@@ -748,7 +800,7 @@ S15: MAX_WINDOW=131
                                         if (CBValue != values[2].Trim())
                                         {
                                             var cmdanswer = doCommand(Session.Port,
-                                                "ATS" + values[0].Trim().TrimStart('S') + "=" + CBValue + "\r");
+                                                "ATS" + GetParamNumber(values[0]) + "=" + CBValue);
 
                                             if (cmdanswer.Contains("OK"))
                                             {
@@ -949,6 +1001,18 @@ S15: MAX_WINDOW=131
             return CB.Text;
         }
 
+        void SetupLocalControlsForMultipointFirmware()
+        {
+        }
+
+        void SetupLocalControlsFor2PointFirmware()
+        {
+        }
+
+        void SetupRemoteControlsForMultipointFirmware()
+        {
+        }
+
         /// <summary>
         /// Load settings button evt hdlr
         /// </summary>
@@ -985,14 +1049,24 @@ S15: MAX_WINDOW=131
                     lbl_status.Text = "Doing Command ATI & RTI";
 
                     //Set the text box to show the radio version
-                    ATI.Text = doCommand(Session.Port, "ATI");
+                    int multipoint_fix = -1;
+                    var ati_str = doCommand(Session.Port, "ATI").Trim();
+                    if (ati_str.StartsWith("["))
+                    {
+                        multipoint_fix = ati_str.IndexOf(']') + 1;
+                    }
+                    ATI.Text = ati_str;
 
                     NumberStyles style = NumberStyles.Any;
 
                     //Get the board frequency.
                     var freqstring = doCommand(Session.Port, "ATI3").Trim();
+                    if (multipoint_fix > 0)
+                    {
+                        freqstring = freqstring.Substring(multipoint_fix).Trim();
+                    }
 
-                    if(freqstring.ToLower().Contains('x'))
+                    if (freqstring.ToLower().Contains('x'))
                         style = NumberStyles.AllowHexSpecifier;
 
                     var freq =
@@ -1005,6 +1079,10 @@ S15: MAX_WINDOW=131
                     style = NumberStyles.Any;
 
                     var boardstring = doCommand(Session.Port, "ATI2").Trim();
+                    if (multipoint_fix > 0)
+                    {
+                        boardstring = boardstring.Substring(multipoint_fix).Trim();
+                    }
 
                     if (boardstring.ToLower().Contains('x'))
                         style = NumberStyles.AllowHexSpecifier;
@@ -1126,12 +1204,35 @@ S15: MAX_WINDOW=131
                         kvp.Key.Enabled = kvp.Value;
                     }
 
+                    if (ATI.Text.Contains("ASYNC"))
+                    {
+                        _LocalExtraParams.SetModel(Model.ASYNC);
+                    }
+                    else
+                    {
+                        if ((items.Length > 0) && items[0].StartsWith("["))
+                        {
+                            //This is multipoint firmware.
+                            _LocalExtraParams.SetModel(Model.MULTIPOINT);
+                        }
+                        else
+                        {
+                            //This is p2p firmware.
+                            _LocalExtraParams.SetModel(Model.P2P);
+                        }
+                    }
+
                     //For each of the settings returned by the radio...
                     foreach (var item in items)
                     {
                         //if (item.StartsWith("S"))
                         {
-                            var values = item.Split(new char[] { ':', '='}, StringSplitOptions.RemoveEmptyEntries);
+                            var mod_item = item;
+                            if (multipoint_fix > 0 && item.Length > multipoint_fix)
+                            {
+                                mod_item = item.Substring(multipoint_fix).Trim();
+                            }
+                            var values = mod_item.Split(new char[] { ':', '=' }, StringSplitOptions.RemoveEmptyEntries);
 
                             if (values.Length == 3)
                             {
@@ -1210,6 +1311,24 @@ S15: MAX_WINDOW=131
                     answer = doCommand(Session.Port, "RTI5", true);
 
                     items = answer.Split('\n');
+
+                    if (RTI.Text.Contains("ASYNC"))
+                    {
+                        _RemoteExtraParams.SetModel(Model.ASYNC);
+                    }
+                    else
+                    {
+                        if ((items.Length > 0) && items[0].StartsWith("["))
+                        {
+                            //This is multipoint firmware.
+                            _RemoteExtraParams.SetModel(Model.MULTIPOINT);
+                        }
+                        else
+                        {
+                            //This is 2-point firmware.
+                            _RemoteExtraParams.SetModel(Model.P2P);
+                        }
+                    }
 
                     foreach (var item in items)
                     {
@@ -1354,6 +1473,8 @@ S15: MAX_WINDOW=131
             lbl_status.Text = "Doing Command " + cmd;
             log.Info("Doing Command " + cmd);
 
+            comPort.Write("\r\n");
+            Thread.Sleep(50);
             comPort.Write(cmd + "\r\n");
 
             comPort.ReadTimeout = 1000;

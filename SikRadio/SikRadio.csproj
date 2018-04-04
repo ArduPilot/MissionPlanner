@@ -171,6 +171,9 @@
     <Compile Include="..\Radio\IHex.cs">
       <Link>Linked\IHex.cs</Link>
     </Compile>
+    <Compile Include="..\Radio\Models.cs">
+      <Link>Linked\Models.cs</Link>
+    </Compile>
     <Compile Include="..\Radio\Sikradio.cs">
       <Link>Linked\Sikradio.cs</Link>
       <SubType>UserControl</SubType>

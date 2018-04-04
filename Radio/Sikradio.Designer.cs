@@ -74,13 +74,13 @@
             this.lbl_status = new System.Windows.Forms.Label();
             this.ATI3 = new System.Windows.Forms.TextBox();
             this.groupBoxLocal = new System.Windows.Forms.GroupBox();
-            this.label61 = new System.Windows.Forms.Label();
-            this.label47 = new System.Windows.Forms.Label();
+            this.btnRandom = new System.Windows.Forms.Button();
+            this.lblRX_ENCAP_METHOD = new System.Windows.Forms.Label();
             this.RX_ENCAP_METHOD = new System.Windows.Forms.ComboBox();
-            this.label48 = new System.Windows.Forms.Label();
+            this.lblTX_ENCAP_METHOD = new System.Windows.Forms.Label();
             this.TX_ENCAP_METHOD = new System.Windows.Forms.ComboBox();
-            this.label49 = new System.Windows.Forms.Label();
-            this.label50 = new System.Windows.Forms.Label();
+            this.lblDESTID = new System.Windows.Forms.Label();
+            this.lblNODEID = new System.Windows.Forms.Label();
             this.DESTID = new System.Windows.Forms.ComboBox();
             this.NODEID = new System.Windows.Forms.ComboBox();
             this.label40 = new System.Windows.Forms.Label();
@@ -94,16 +94,16 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.label51 = new System.Windows.Forms.Label();
+            this.lblANT_MODE = new System.Windows.Forms.Label();
             this.ANT_MODE = new System.Windows.Forms.ComboBox();
-            this.label46 = new System.Windows.Forms.Label();
-            this.label45 = new System.Windows.Forms.Label();
-            this.label44 = new System.Windows.Forms.Label();
+            this.lblSER_BRK_DETMS = new System.Windows.Forms.Label();
+            this.lblGLOBAL_RETRIES = new System.Windows.Forms.Label();
+            this.lblMAX_RETRIES = new System.Windows.Forms.Label();
             this.SER_BRK_DETMS = new System.Windows.Forms.ComboBox();
             this.GLOBAL_RETRIES = new System.Windows.Forms.ComboBox();
             this.MAX_RETRIES = new System.Windows.Forms.ComboBox();
             this.MAX_DATA = new System.Windows.Forms.ComboBox();
-            this.label43 = new System.Windows.Forms.Label();
+            this.lblMAX_DATA = new System.Windows.Forms.Label();
             this.ENCRYPTION_LEVEL = new System.Windows.Forms.CheckBox();
             this.label36 = new System.Windows.Forms.Label();
             this.label35 = new System.Windows.Forms.Label();
@@ -119,13 +119,12 @@
             this.label14 = new System.Windows.Forms.Label();
             this.ATI2 = new System.Windows.Forms.TextBox();
             this.groupBoxRemote = new System.Windows.Forms.GroupBox();
-            this.label62 = new System.Windows.Forms.Label();
-            this.label52 = new System.Windows.Forms.Label();
+            this.lblRRX_ENCAP_METHOD = new System.Windows.Forms.Label();
             this.RRX_ENCAP_METHOD = new System.Windows.Forms.ComboBox();
-            this.label53 = new System.Windows.Forms.Label();
+            this.lblRTX_ENCAP_METHOD = new System.Windows.Forms.Label();
             this.RTX_ENCAP_METHOD = new System.Windows.Forms.ComboBox();
-            this.label54 = new System.Windows.Forms.Label();
-            this.label55 = new System.Windows.Forms.Label();
+            this.lblRDESTID = new System.Windows.Forms.Label();
+            this.lblRNODEID = new System.Windows.Forms.Label();
             this.RDESTID = new System.Windows.Forms.ComboBox();
             this.RNODEID = new System.Windows.Forms.ComboBox();
             this.label41 = new System.Windows.Forms.Label();
@@ -139,16 +138,16 @@
             this.label32 = new System.Windows.Forms.Label();
             this.label30 = new System.Windows.Forms.Label();
             this.label31 = new System.Windows.Forms.Label();
-            this.label56 = new System.Windows.Forms.Label();
+            this.lblRANT_MODE = new System.Windows.Forms.Label();
             this.RANT_MODE = new System.Windows.Forms.ComboBox();
-            this.label57 = new System.Windows.Forms.Label();
-            this.label58 = new System.Windows.Forms.Label();
-            this.label59 = new System.Windows.Forms.Label();
+            this.lblRSER_BRK_DETMS = new System.Windows.Forms.Label();
+            this.lblRGLOBAL_RETRIES = new System.Windows.Forms.Label();
+            this.lblRMAX_RETRIES = new System.Windows.Forms.Label();
             this.RSER_BRK_DETMS = new System.Windows.Forms.ComboBox();
             this.RGLOBAL_RETRIES = new System.Windows.Forms.ComboBox();
             this.RMAX_RETRIES = new System.Windows.Forms.ComboBox();
             this.RMAX_DATA = new System.Windows.Forms.ComboBox();
-            this.label60 = new System.Windows.Forms.Label();
+            this.lblRMAX_DATA = new System.Windows.Forms.Label();
             this.label38 = new System.Windows.Forms.Label();
             this.RENCRYPTION_LEVEL = new System.Windows.Forms.CheckBox();
             this.txt_Raeskey = new System.Windows.Forms.TextBox();
@@ -169,7 +168,6 @@
             this.BUT_getcurrent = new MissionPlanner.Controls.MyButton();
             this.BUT_upload = new MissionPlanner.Controls.MyButton();
             this.BUT_Syncoptions = new MissionPlanner.Controls.MyButton();
-            this.btnRandom = new System.Windows.Forms.Button();
             this.groupBoxLocal.SuspendLayout();
             this.groupBoxRemote.SuspendLayout();
             this.SuspendLayout();
@@ -789,13 +787,12 @@
             // groupBoxLocal
             // 
             this.groupBoxLocal.Controls.Add(this.btnRandom);
-            this.groupBoxLocal.Controls.Add(this.label61);
-            this.groupBoxLocal.Controls.Add(this.label47);
+            this.groupBoxLocal.Controls.Add(this.lblRX_ENCAP_METHOD);
             this.groupBoxLocal.Controls.Add(this.RX_ENCAP_METHOD);
-            this.groupBoxLocal.Controls.Add(this.label48);
+            this.groupBoxLocal.Controls.Add(this.lblTX_ENCAP_METHOD);
             this.groupBoxLocal.Controls.Add(this.TX_ENCAP_METHOD);
-            this.groupBoxLocal.Controls.Add(this.label49);
-            this.groupBoxLocal.Controls.Add(this.label50);
+            this.groupBoxLocal.Controls.Add(this.lblDESTID);
+            this.groupBoxLocal.Controls.Add(this.lblNODEID);
             this.groupBoxLocal.Controls.Add(this.DESTID);
             this.groupBoxLocal.Controls.Add(this.NODEID);
             this.groupBoxLocal.Controls.Add(this.label40);
@@ -818,16 +815,16 @@
             this.groupBoxLocal.Controls.Add(this.label8);
             this.groupBoxLocal.Controls.Add(this.OPPRESEND);
             this.groupBoxLocal.Controls.Add(this.label7);
-            this.groupBoxLocal.Controls.Add(this.label51);
+            this.groupBoxLocal.Controls.Add(this.lblANT_MODE);
             this.groupBoxLocal.Controls.Add(this.ANT_MODE);
-            this.groupBoxLocal.Controls.Add(this.label46);
-            this.groupBoxLocal.Controls.Add(this.label45);
-            this.groupBoxLocal.Controls.Add(this.label44);
+            this.groupBoxLocal.Controls.Add(this.lblSER_BRK_DETMS);
+            this.groupBoxLocal.Controls.Add(this.lblGLOBAL_RETRIES);
+            this.groupBoxLocal.Controls.Add(this.lblMAX_RETRIES);
             this.groupBoxLocal.Controls.Add(this.SER_BRK_DETMS);
             this.groupBoxLocal.Controls.Add(this.GLOBAL_RETRIES);
             this.groupBoxLocal.Controls.Add(this.MAX_RETRIES);
             this.groupBoxLocal.Controls.Add(this.MAX_DATA);
-            this.groupBoxLocal.Controls.Add(this.label43);
+            this.groupBoxLocal.Controls.Add(this.lblMAX_DATA);
             this.groupBoxLocal.Controls.Add(this.ENCRYPTION_LEVEL);
             this.groupBoxLocal.Controls.Add(this.label36);
             this.groupBoxLocal.Controls.Add(this.label35);
@@ -858,15 +855,17 @@
             this.groupBoxLocal.Name = "groupBoxLocal";
             this.groupBoxLocal.TabStop = false;
             // 
-            // label61
+            // btnRandom
             // 
-            resources.ApplyResources(this.label61, "label61");
-            this.label61.Name = "label61";
+            resources.ApplyResources(this.btnRandom, "btnRandom");
+            this.btnRandom.Name = "btnRandom";
+            this.btnRandom.UseVisualStyleBackColor = true;
+            this.btnRandom.Click += new System.EventHandler(this.btnRandom_Click);
             // 
-            // label47
+            // lblRX_ENCAP_METHOD
             // 
-            resources.ApplyResources(this.label47, "label47");
-            this.label47.Name = "label47";
+            resources.ApplyResources(this.lblRX_ENCAP_METHOD, "lblRX_ENCAP_METHOD");
+            this.lblRX_ENCAP_METHOD.Name = "lblRX_ENCAP_METHOD";
             // 
             // RX_ENCAP_METHOD
             // 
@@ -875,10 +874,10 @@
             this.RX_ENCAP_METHOD.FormattingEnabled = true;
             this.RX_ENCAP_METHOD.Name = "RX_ENCAP_METHOD";
             // 
-            // label48
+            // lblTX_ENCAP_METHOD
             // 
-            resources.ApplyResources(this.label48, "label48");
-            this.label48.Name = "label48";
+            resources.ApplyResources(this.lblTX_ENCAP_METHOD, "lblTX_ENCAP_METHOD");
+            this.lblTX_ENCAP_METHOD.Name = "lblTX_ENCAP_METHOD";
             // 
             // TX_ENCAP_METHOD
             // 
@@ -887,15 +886,15 @@
             this.TX_ENCAP_METHOD.FormattingEnabled = true;
             this.TX_ENCAP_METHOD.Name = "TX_ENCAP_METHOD";
             // 
-            // label49
+            // lblDESTID
             // 
-            resources.ApplyResources(this.label49, "label49");
-            this.label49.Name = "label49";
+            resources.ApplyResources(this.lblDESTID, "lblDESTID");
+            this.lblDESTID.Name = "lblDESTID";
             // 
-            // label50
+            // lblNODEID
             // 
-            resources.ApplyResources(this.label50, "label50");
-            this.label50.Name = "label50";
+            resources.ApplyResources(this.lblNODEID, "lblNODEID");
+            this.lblNODEID.Name = "lblNODEID";
             // 
             // DESTID
             // 
@@ -967,10 +966,10 @@
             resources.ApplyResources(this.label7, "label7");
             this.label7.Name = "label7";
             // 
-            // label51
+            // lblANT_MODE
             // 
-            resources.ApplyResources(this.label51, "label51");
-            this.label51.Name = "label51";
+            resources.ApplyResources(this.lblANT_MODE, "lblANT_MODE");
+            this.lblANT_MODE.Name = "lblANT_MODE";
             // 
             // ANT_MODE
             // 
@@ -979,20 +978,20 @@
             this.ANT_MODE.FormattingEnabled = true;
             this.ANT_MODE.Name = "ANT_MODE";
             // 
-            // label46
+            // lblSER_BRK_DETMS
             // 
-            resources.ApplyResources(this.label46, "label46");
-            this.label46.Name = "label46";
+            resources.ApplyResources(this.lblSER_BRK_DETMS, "lblSER_BRK_DETMS");
+            this.lblSER_BRK_DETMS.Name = "lblSER_BRK_DETMS";
             // 
-            // label45
+            // lblGLOBAL_RETRIES
             // 
-            resources.ApplyResources(this.label45, "label45");
-            this.label45.Name = "label45";
+            resources.ApplyResources(this.lblGLOBAL_RETRIES, "lblGLOBAL_RETRIES");
+            this.lblGLOBAL_RETRIES.Name = "lblGLOBAL_RETRIES";
             // 
-            // label44
+            // lblMAX_RETRIES
             // 
-            resources.ApplyResources(this.label44, "label44");
-            this.label44.Name = "label44";
+            resources.ApplyResources(this.lblMAX_RETRIES, "lblMAX_RETRIES");
+            this.lblMAX_RETRIES.Name = "lblMAX_RETRIES";
             // 
             // SER_BRK_DETMS
             // 
@@ -1022,10 +1021,10 @@
             this.MAX_DATA.FormattingEnabled = true;
             this.MAX_DATA.Name = "MAX_DATA";
             // 
-            // label43
+            // lblMAX_DATA
             // 
-            resources.ApplyResources(this.label43, "label43");
-            this.label43.Name = "label43";
+            resources.ApplyResources(this.lblMAX_DATA, "lblMAX_DATA");
+            this.lblMAX_DATA.Name = "lblMAX_DATA";
             // 
             // ENCRYPTION_LEVEL
             // 
@@ -1103,13 +1102,12 @@
             // 
             // groupBoxRemote
             // 
-            this.groupBoxRemote.Controls.Add(this.label62);
-            this.groupBoxRemote.Controls.Add(this.label52);
+            this.groupBoxRemote.Controls.Add(this.lblRRX_ENCAP_METHOD);
             this.groupBoxRemote.Controls.Add(this.RRX_ENCAP_METHOD);
-            this.groupBoxRemote.Controls.Add(this.label53);
+            this.groupBoxRemote.Controls.Add(this.lblRTX_ENCAP_METHOD);
             this.groupBoxRemote.Controls.Add(this.RTX_ENCAP_METHOD);
-            this.groupBoxRemote.Controls.Add(this.label54);
-            this.groupBoxRemote.Controls.Add(this.label55);
+            this.groupBoxRemote.Controls.Add(this.lblRDESTID);
+            this.groupBoxRemote.Controls.Add(this.lblRNODEID);
             this.groupBoxRemote.Controls.Add(this.RDESTID);
             this.groupBoxRemote.Controls.Add(this.RNODEID);
             this.groupBoxRemote.Controls.Add(this.label41);
@@ -1132,16 +1130,16 @@
             this.groupBoxRemote.Controls.Add(this.label32);
             this.groupBoxRemote.Controls.Add(this.label30);
             this.groupBoxRemote.Controls.Add(this.label31);
-            this.groupBoxRemote.Controls.Add(this.label56);
+            this.groupBoxRemote.Controls.Add(this.lblRANT_MODE);
             this.groupBoxRemote.Controls.Add(this.RANT_MODE);
-            this.groupBoxRemote.Controls.Add(this.label57);
-            this.groupBoxRemote.Controls.Add(this.label58);
-            this.groupBoxRemote.Controls.Add(this.label59);
+            this.groupBoxRemote.Controls.Add(this.lblRSER_BRK_DETMS);
+            this.groupBoxRemote.Controls.Add(this.lblRGLOBAL_RETRIES);
+            this.groupBoxRemote.Controls.Add(this.lblRMAX_RETRIES);
             this.groupBoxRemote.Controls.Add(this.RSER_BRK_DETMS);
             this.groupBoxRemote.Controls.Add(this.RGLOBAL_RETRIES);
             this.groupBoxRemote.Controls.Add(this.RMAX_RETRIES);
             this.groupBoxRemote.Controls.Add(this.RMAX_DATA);
-            this.groupBoxRemote.Controls.Add(this.label60);
+            this.groupBoxRemote.Controls.Add(this.lblRMAX_DATA);
             this.groupBoxRemote.Controls.Add(this.label38);
             this.groupBoxRemote.Controls.Add(this.RENCRYPTION_LEVEL);
             this.groupBoxRemote.Controls.Add(this.txt_Raeskey);
@@ -1167,15 +1165,10 @@
             this.groupBoxRemote.Name = "groupBoxRemote";
             this.groupBoxRemote.TabStop = false;
             // 
-            // label62
+            // lblRRX_ENCAP_METHOD
             // 
-            resources.ApplyResources(this.label62, "label62");
-            this.label62.Name = "label62";
-            // 
-            // label52
-            // 
-            resources.ApplyResources(this.label52, "label52");
-            this.label52.Name = "label52";
+            resources.ApplyResources(this.lblRRX_ENCAP_METHOD, "lblRRX_ENCAP_METHOD");
+            this.lblRRX_ENCAP_METHOD.Name = "lblRRX_ENCAP_METHOD";
             // 
             // RRX_ENCAP_METHOD
             // 
@@ -1184,10 +1177,10 @@
             this.RRX_ENCAP_METHOD.FormattingEnabled = true;
             this.RRX_ENCAP_METHOD.Name = "RRX_ENCAP_METHOD";
             // 
-            // label53
+            // lblRTX_ENCAP_METHOD
             // 
-            resources.ApplyResources(this.label53, "label53");
-            this.label53.Name = "label53";
+            resources.ApplyResources(this.lblRTX_ENCAP_METHOD, "lblRTX_ENCAP_METHOD");
+            this.lblRTX_ENCAP_METHOD.Name = "lblRTX_ENCAP_METHOD";
             // 
             // RTX_ENCAP_METHOD
             // 
@@ -1196,15 +1189,15 @@
             this.RTX_ENCAP_METHOD.FormattingEnabled = true;
             this.RTX_ENCAP_METHOD.Name = "RTX_ENCAP_METHOD";
             // 
-            // label54
+            // lblRDESTID
             // 
-            resources.ApplyResources(this.label54, "label54");
-            this.label54.Name = "label54";
+            resources.ApplyResources(this.lblRDESTID, "lblRDESTID");
+            this.lblRDESTID.Name = "lblRDESTID";
             // 
-            // label55
+            // lblRNODEID
             // 
-            resources.ApplyResources(this.label55, "label55");
-            this.label55.Name = "label55";
+            resources.ApplyResources(this.lblRNODEID, "lblRNODEID");
+            this.lblRNODEID.Name = "lblRNODEID";
             // 
             // RDESTID
             // 
@@ -1276,10 +1269,10 @@
             resources.ApplyResources(this.label31, "label31");
             this.label31.Name = "label31";
             // 
-            // label56
+            // lblRANT_MODE
             // 
-            resources.ApplyResources(this.label56, "label56");
-            this.label56.Name = "label56";
+            resources.ApplyResources(this.lblRANT_MODE, "lblRANT_MODE");
+            this.lblRANT_MODE.Name = "lblRANT_MODE";
             // 
             // RANT_MODE
             // 
@@ -1288,20 +1281,20 @@
             this.RANT_MODE.FormattingEnabled = true;
             this.RANT_MODE.Name = "RANT_MODE";
             // 
-            // label57
+            // lblRSER_BRK_DETMS
             // 
-            resources.ApplyResources(this.label57, "label57");
-            this.label57.Name = "label57";
+            resources.ApplyResources(this.lblRSER_BRK_DETMS, "lblRSER_BRK_DETMS");
+            this.lblRSER_BRK_DETMS.Name = "lblRSER_BRK_DETMS";
             // 
-            // label58
+            // lblRGLOBAL_RETRIES
             // 
-            resources.ApplyResources(this.label58, "label58");
-            this.label58.Name = "label58";
+            resources.ApplyResources(this.lblRGLOBAL_RETRIES, "lblRGLOBAL_RETRIES");
+            this.lblRGLOBAL_RETRIES.Name = "lblRGLOBAL_RETRIES";
             // 
-            // label59
+            // lblRMAX_RETRIES
             // 
-            resources.ApplyResources(this.label59, "label59");
-            this.label59.Name = "label59";
+            resources.ApplyResources(this.lblRMAX_RETRIES, "lblRMAX_RETRIES");
+            this.lblRMAX_RETRIES.Name = "lblRMAX_RETRIES";
             // 
             // RSER_BRK_DETMS
             // 
@@ -1331,10 +1324,10 @@
             this.RMAX_DATA.FormattingEnabled = true;
             this.RMAX_DATA.Name = "RMAX_DATA";
             // 
-            // label60
+            // lblRMAX_DATA
             // 
-            resources.ApplyResources(this.label60, "label60");
-            this.label60.Name = "label60";
+            resources.ApplyResources(this.lblRMAX_DATA, "lblRMAX_DATA");
+            this.lblRMAX_DATA.Name = "lblRMAX_DATA";
             // 
             // label38
             // 
@@ -1449,13 +1442,6 @@
             this.BUT_Syncoptions.UseVisualStyleBackColor = true;
             this.BUT_Syncoptions.Click += new System.EventHandler(this.BUT_Syncoptions_Click);
             // 
-            // btnRandom
-            // 
-            resources.ApplyResources(this.btnRandom, "btnRandom");
-            this.btnRandom.Name = "btnRandom";
-            this.btnRandom.UseVisualStyleBackColor = true;
-            this.btnRandom.Click += new System.EventHandler(this.btnRandom_Click);
-            // 
             // Sikradio
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1508,13 +1494,12 @@
         private System.Windows.Forms.TextBox RTI2;
         private Controls.MyButton BUT_loadcustom;
         private Controls.MyButton BUT_SetPPMFailSafe;
-        private System.Windows.Forms.Label label61;
-        private System.Windows.Forms.Label label47;
+        private System.Windows.Forms.Label lblRX_ENCAP_METHOD;
         private System.Windows.Forms.ComboBox RX_ENCAP_METHOD;
-        private System.Windows.Forms.Label label48;
+        private System.Windows.Forms.Label lblTX_ENCAP_METHOD;
         private System.Windows.Forms.ComboBox TX_ENCAP_METHOD;
-        private System.Windows.Forms.Label label49;
-        private System.Windows.Forms.Label label50;
+        private System.Windows.Forms.Label lblDESTID;
+        private System.Windows.Forms.Label lblNODEID;
         private System.Windows.Forms.ComboBox DESTID;
         private System.Windows.Forms.ComboBox NODEID;
         private System.Windows.Forms.Label label40;
@@ -1537,16 +1522,16 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.CheckBox OPPRESEND;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label51;
+        private System.Windows.Forms.Label lblANT_MODE;
         private System.Windows.Forms.ComboBox ANT_MODE;
-        private System.Windows.Forms.Label label46;
-        private System.Windows.Forms.Label label45;
-        private System.Windows.Forms.Label label44;
+        private System.Windows.Forms.Label lblSER_BRK_DETMS;
+        private System.Windows.Forms.Label lblGLOBAL_RETRIES;
+        private System.Windows.Forms.Label lblMAX_RETRIES;
         private System.Windows.Forms.ComboBox SER_BRK_DETMS;
         private System.Windows.Forms.ComboBox GLOBAL_RETRIES;
         private System.Windows.Forms.ComboBox MAX_RETRIES;
         private System.Windows.Forms.ComboBox MAX_DATA;
-        private System.Windows.Forms.Label label43;
+        private System.Windows.Forms.Label lblMAX_DATA;
         private System.Windows.Forms.CheckBox ENCRYPTION_LEVEL;
         private System.Windows.Forms.Label label36;
         private System.Windows.Forms.Label label35;
@@ -1567,13 +1552,12 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.ComboBox DUTY_CYCLE;
-        private System.Windows.Forms.Label label62;
-        private System.Windows.Forms.Label label52;
+        private System.Windows.Forms.Label lblRRX_ENCAP_METHOD;
         private System.Windows.Forms.ComboBox RRX_ENCAP_METHOD;
-        private System.Windows.Forms.Label label53;
+        private System.Windows.Forms.Label lblRTX_ENCAP_METHOD;
         private System.Windows.Forms.ComboBox RTX_ENCAP_METHOD;
-        private System.Windows.Forms.Label label54;
-        private System.Windows.Forms.Label label55;
+        private System.Windows.Forms.Label lblRDESTID;
+        private System.Windows.Forms.Label lblRNODEID;
         private System.Windows.Forms.ComboBox RDESTID;
         private System.Windows.Forms.ComboBox RNODEID;
         private System.Windows.Forms.Label label41;
@@ -1596,16 +1580,16 @@
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.Label label31;
-        private System.Windows.Forms.Label label56;
+        private System.Windows.Forms.Label lblRANT_MODE;
         private System.Windows.Forms.ComboBox RANT_MODE;
-        private System.Windows.Forms.Label label57;
-        private System.Windows.Forms.Label label58;
-        private System.Windows.Forms.Label label59;
+        private System.Windows.Forms.Label lblRSER_BRK_DETMS;
+        private System.Windows.Forms.Label lblRGLOBAL_RETRIES;
+        private System.Windows.Forms.Label lblRMAX_RETRIES;
         private System.Windows.Forms.ComboBox RSER_BRK_DETMS;
         private System.Windows.Forms.ComboBox RGLOBAL_RETRIES;
         private System.Windows.Forms.ComboBox RMAX_RETRIES;
         private System.Windows.Forms.ComboBox RMAX_DATA;
-        private System.Windows.Forms.Label label60;
+        private System.Windows.Forms.Label lblRMAX_DATA;
         private System.Windows.Forms.Label label38;
         private System.Windows.Forms.CheckBox RENCRYPTION_LEVEL;
         private System.Windows.Forms.TextBox txt_Raeskey;
