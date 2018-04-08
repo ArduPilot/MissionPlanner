@@ -1292,10 +1292,21 @@ namespace MissionPlanner.GCSViews
 
             updateRowNumbers();
 
-            var home = new PointLatLngAlt(
-                    double.Parse(TXT_homelat.Text), double.Parse(TXT_homelng.Text),
-                    double.Parse(TXT_homealt.Text) / CurrentState.multiplieralt, "H")
-                {Tag2 = CMB_altmode.SelectedValue.ToString()};
+            PointLatLngAlt home = new PointLatLngAlt();
+            if (TXT_homealt.Text != "" && TXT_homelat.Text != "" && TXT_homelng.Text != "")
+            {
+                try
+                {
+                    home = new PointLatLngAlt(
+                        double.Parse(TXT_homelat.Text), double.Parse(TXT_homelng.Text),
+                        double.Parse(TXT_homealt.Text) / CurrentState.multiplieralt, "H")
+                    { Tag2 = CMB_altmode.SelectedValue.ToString() };
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                }
+            }
 
             var overlay = new WPOverlay();
 
