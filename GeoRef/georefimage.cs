@@ -66,9 +66,12 @@ namespace MissionPlanner.GeoRef
 
         private void AppendText(string text)
         {
-            var inv = new MethodInvoker(delegate { TXT_outputlog.AppendText(text); });
+            var inv = new MethodInvoker(delegate {
+                TXT_outputlog.AppendText(text);
+                TXT_outputlog.Refresh();
+            });
 
-            this.BeginInvoke(inv);
+            this.Invoke(inv);
         }
 
         private void BUT_browselog_Click(object sender, EventArgs e)
