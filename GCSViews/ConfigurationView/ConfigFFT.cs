@@ -27,6 +27,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             InitializeComponent();
 
+            if (!MainV2.comPort.MAV.param.ContainsKey("INS_LOG_BAT_CNT"))
+            {
+                Enabled = false;
+                return;
+            }
+
             var inc = 32.0;
             ParameterMetaDataRepository.GetParameterIncrement("INS_LOG_BAT_CNT",
                 ref inc, MainV2.comPort.MAV.cs.firmware.ToString());
