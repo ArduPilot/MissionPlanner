@@ -80,7 +80,7 @@ namespace MissionPlanner.Comms
             try
             {
                 base.Open();
-                base.WriteTimeout = 0;
+                base.WriteTimeout = -1;
             }
             catch {
                 try { Close(); }
