@@ -5156,7 +5156,7 @@ namespace MissionPlanner.GCSViews
                                     new GMapRoute(ls.Select(a => new PointLatLngAlt(a.y, a.x, a.z).Point()), "")
                                     {
                                         IsHitTestVisible = false,
-                                        Stroke = Pens.Red
+                                        Stroke = new Pen(Color.Red)
                                     };
                                 FlightData.kmlpolygons.Routes.Add(route);
                                 kmlpolygonsoverlay.Routes.Add(route);
@@ -5168,7 +5168,7 @@ namespace MissionPlanner.GCSViews
                                     {
                                         Fill = Brushes.Transparent,
                                         IsHitTestVisible = false,
-                                        Stroke = Pens.Red
+                                        Stroke = new Pen(Color.Red)
                                     };
                                 FlightData.kmlpolygons.Polygons.Add(polygon);
                                 kmlpolygonsoverlay.Polygons.Add(polygon);

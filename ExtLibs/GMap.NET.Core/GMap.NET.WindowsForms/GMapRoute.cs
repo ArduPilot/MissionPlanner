@@ -134,9 +134,12 @@ namespace GMap.NET.WindowsForms
                GPoint p2 = LocalPoints[i];
 
                 if (Math.Abs(p2.X) > 99000 || Math.Abs(p2.Y) > 99000)
-                    Stroke.DashStyle = DashStyle.Solid;
+                {
+                    if(Stroke.DashStyle != DashStyle.Solid)
+                        Stroke.DashStyle = DashStyle.Solid;
+                }
 
-               if(i == 0)
+                if(i == 0)
                {
                   graphicsPath.AddLine(p2.X, p2.Y, p2.X, p2.Y);
                }
