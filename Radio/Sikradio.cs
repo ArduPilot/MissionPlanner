@@ -1189,8 +1189,17 @@ S15: MAX_WINDOW=131
 
                     if (multipoint_fix == -1)
                     {
-                        txt_aeskey.Text = doCommand(Session.Port, "AT&E?").Trim();
-                        txt_aeskey.Enabled = true;
+                        var AESKey = doCommand(Session.Port, "AT&E?").Trim();
+                        if (AESKey.Contains("ERROR"))
+                        {
+                            txt_aeskey.Text = "";
+                            txt_aeskey.Enabled = false;
+                        }
+                        else
+                        {
+                            txt_aeskey.Text = AESKey;
+                            txt_aeskey.Enabled = true;
+                        }
                         SetupComboForMavlink(MAVLINK, false);
                     }
                     else
@@ -1321,8 +1330,17 @@ S15: MAX_WINDOW=131
 
                     if (multipoint_fix == -1)
                     {
-                        txt_Raeskey.Text = doCommand(Session.Port, "RT&E?").Trim();
-                        txt_Raeskey.Enabled = true;
+                        var AESKey = doCommand(Session.Port, "RT&E?").Trim();
+                        if (AESKey.Contains("ERROR"))
+                        {
+                            txt_Raeskey.Text = "";
+                            txt_Raeskey.Enabled = false;
+                        }
+                        else
+                        {
+                            txt_Raeskey.Text = AESKey;
+                            txt_Raeskey.Enabled = true;
+                        }
                         SetupComboForMavlink(RMAVLINK, false);
                     }
                     else

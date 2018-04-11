@@ -73,12 +73,12 @@ namespace MissionPlanner.Radio
                 packet[131] = (byte)(CRC >> 8);
                 packet[132] = (byte)(CRC);
                 Serial.Write(packet, 0, packet.Length);
-                Serial.Write("" + EOT);
+                Serial.Write(new byte[] { EOT }, 0, 1);
                 ProgressEvent?.Invoke(100);
             }
             else if (bytesRead == 0)
             {
-                Serial.Write("" + EOT);
+                Serial.Write(new byte[] { EOT }, 0, 1);
                 ProgressEvent?.Invoke(100);
             }
         }
@@ -114,7 +114,7 @@ namespace MissionPlanner.Radio
                         len--;
                         a++;
 
-                        ProgressEvent?.Invoke(len / startlen);
+                        ProgressEvent?.Invoke(1 - ((double)len / (double)startlen));
                     }
                     else if (ack == NAK)
                     {

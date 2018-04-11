@@ -63,9 +63,9 @@ namespace MissionPlanner.Radio
                     break;
                 case Model.ASYNC:
                     DestID.ComboBox.Name = Prefix + "DESTID";
-                    TXENCAP.ComboBox.Name = Prefix + "TXENCAP";
+                    TXENCAP.ComboBox.Name = Prefix + "TX_ENCAP_METHOD";
                     TXENCAP.Label.Text = "TXENCAP";
-                    RXENCAP.ComboBox.Name = Prefix + "RXENCAP";
+                    RXENCAP.ComboBox.Name = Prefix + "RX_ENCAP_METHOD";
                     RXENCAP.Label.Text = "RXENCAP";
                     NodeID.ComboBox.DataSource = Sikradio.Range(1, 1, 32767);
                     DestID.ComboBox.DataSource = Sikradio.Range(1, 1, 65535);
