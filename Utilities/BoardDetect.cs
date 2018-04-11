@@ -38,7 +38,8 @@ namespace MissionPlanner.Utilities
             vrubrainv52,
             bebop2,
             disco,
-            solo
+            solo,
+            revomini
         }
    
         /// <summary>
@@ -81,7 +82,7 @@ namespace MissionPlanner.Utilities
                             if (item.board == "revo-mini")
                             {
                                 log.Info("is a revo-mini");
-                                return boards.none;
+                                return boards.revomini;
                             }
                         }
                     }

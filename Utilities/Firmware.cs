@@ -62,6 +62,7 @@ namespace MissionPlanner.Utilities
             public string urlvrubrainv52;
             public string urlbebop2;
             public string urldisco;
+            public string urlrevomini;
             public string name;
             public string desc;
             public int k_format_version;
@@ -170,6 +171,7 @@ namespace MissionPlanner.Utilities
             string vrcorev10 = "";
             string vrubrainv51 = "";
             string vrubrainv52 = "";
+            string revomini = "";
             string bebop2 = "";
             string disco = "";
             string name = "";
@@ -255,6 +257,9 @@ namespace MissionPlanner.Utilities
                             case "urldisco":
                                 disco = xmlreader.ReadString();
                                 break;
+                            case "urlrevomini":
+                                revomini = xmlreader.ReadString();
+                                break;
                             case "name":
                                 name = xmlreader.ReadString();
                                 break;
@@ -286,6 +291,7 @@ namespace MissionPlanner.Utilities
                                     temp.urlvrcorev10 = vrcorev10;
                                     temp.urlvrubrainv51 = vrubrainv51;
                                     temp.urlvrubrainv52 = vrubrainv52;
+                                    temp.urlrevomini = revomini;
                                     temp.urlbebop2 = bebop2;
                                     temp.urldisco = disco;
                                     temp.k_format_version = k_format_version;
@@ -311,6 +317,7 @@ namespace MissionPlanner.Utilities
                                 vrubrainv52 = "";
                                 bebop2 = "";
                                 disco = "";
+                                revomini = "";
                                 name = "";
                                 desc = "";
                                 k_format_version = 0;
@@ -553,6 +560,10 @@ namespace MissionPlanner.Utilities
                 else if (board == BoardDetect.boards.disco)
                 {
                     baseurl = temp.urldisco.ToString();
+                }
+                else if (board == BoardDetect.boards.revomini)
+                {
+                    baseurl = temp.urlrevomini.ToString();
                 }
                 else
                 {

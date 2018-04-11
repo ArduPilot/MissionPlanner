@@ -35,7 +35,7 @@ namespace MissionPlanner.Utilities
             Paint += Temp_Paint;
             KeyPress += Temp_KeyPress;
             Resize += Temp_Resize;
-            FormClosing += Temp_OnClosing;
+            FormClosing += ProximityControl_FormClosing; ;
             
             timer1.Interval = 100;
             timer1.Tick += (s, e) => { Invalidate(); };
@@ -43,7 +43,7 @@ namespace MissionPlanner.Utilities
             timer1.Start();
         }
 
-        private void Temp_OnClosing(CancelEventArgs obj)
+        private void ProximityControl_FormClosing(object sender, FormClosingEventArgs e)
         {
             timer1.Stop();
         }
