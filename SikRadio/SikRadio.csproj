@@ -129,6 +129,7 @@
       <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\ExtLibs\Arduino\ArduinoSTK.cs">
@@ -195,6 +196,12 @@
     <Compile Include="Config.Designer.cs">
       <DependentUpon>Config.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmCommsLog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCommsLog.Designer.cs">
+      <DependentUpon>frmCommsLog.cs</DependentUpon>
+    </Compile>
     <Compile Include="MAVLinkSerialPort.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -260,6 +267,9 @@
     <EmbeddedResource Include="Config.zh-TW.resx">
       <DependentUpon>Config.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCommsLog.resx">
+      <DependentUpon>frmCommsLog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

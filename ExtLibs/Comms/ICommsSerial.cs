@@ -55,5 +55,8 @@ namespace MissionPlanner.Comms
         StopBits StopBits { get; set; }
         int WriteBufferSize { get; set; }
         int WriteTimeout { get; set; }
+
+        event Action<byte> ByteWritten;
+        event Action<byte> ByteRead;
     }
 }

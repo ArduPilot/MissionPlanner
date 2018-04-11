@@ -80,16 +80,12 @@ S15: MAX_WINDOW=131
             NETID.DataSource = Enumerable.Range(0, 500).ToArray();
             RNETID.DataSource = Enumerable.Range(0, 500).ToArray();
 
-            var dict = Enum.GetValues(typeof (mavlink_option))
-                .Cast<mavlink_option>()
-                .ToDictionary(t => (int) t, t => t.ToString());
-
             MAVLINK.DisplayMember = "Value";
             MAVLINK.ValueMember = "Key";
-            MAVLINK.DataSource = dict.ToArray();
+            SetupComboForMavlink(MAVLINK, false);
             RMAVLINK.DisplayMember = "Value";
             RMAVLINK.ValueMember = "Key";
-            RMAVLINK.DataSource = dict.ToArray();
+            SetupComboForMavlink(RMAVLINK, false);
 
             MAX_WINDOW.DataSource = Enumerable.Range(33, 131 - 32).ToArray();
             RMAX_WINDOW.DataSource = Enumerable.Range(33, 131 - 32).ToArray();
@@ -605,7 +601,7 @@ S15: MAX_WINDOW=131
             if (Session.PutIntoATCommandMode() == RFD.RFD900.TSession.TMode.AT_COMMAND)
             {
                 // cleanup
-                doCommand(Session.Port, "AT&T");
+                doCommand(Session.Port, "AT&T", false, 1);
 
                 Session.Port.DiscardInBuffer();
 
@@ -650,7 +646,7 @@ S15: MAX_WINDOW=131
                                         if (value != values[2].Trim())
                                         {
                                             var cmdanswer = doCommand(Session.Port,
-                                                "RTS" + values[0].Trim().TrimStart('S') + "=" + value + "\r");
+                                                "RTS" + values[0].Trim().TrimStart('S') + "=" + value);
 
                                             if (cmdanswer.Contains("OK"))
                                             {
@@ -660,7 +656,7 @@ S15: MAX_WINDOW=131
                                                 if (values[1] == "ENCRYPTION_LEVEL")
                                                 {
                                                     // set this on the local radio as well.
-                                                    doCommand(Session.Port, "ATS" + values[0].Trim().TrimStart('S') + "=" + value + "\r");
+                                                    doCommand(Session.Port, "ATS" + values[0].Trim().TrimStart('S') + "=" + value);
                                                     // both radios should now be using the default key
                                                 }
                                                 else
@@ -670,12 +666,12 @@ S15: MAX_WINDOW=131
                                             }
                                         }
                                     }
-                                    else if (controls[0] is TextBox)
+                                    else if (!controls[0].Name.Contains("FORMAT") && controls[0] is TextBox)
                                     {
                                         if (controls[0].Text != values[2].Trim())
                                         {
                                             var cmdanswer = doCommand(Session.Port,
-                                                "ATS" + values[0].Trim().TrimStart('S') + "=" + controls[0].Text + "\r");
+                                                "RTS" + values[0].Trim().TrimStart('S') + "=" + controls[0].Text);
                                             
                                             if (cmdanswer.Contains("OK"))
                                             {
@@ -691,8 +687,7 @@ S15: MAX_WINDOW=131
                                         if (((ComboBox) controls[0]).SelectedValue.ToString() != values[2].Trim())
                                         {
                                             var cmdanswer = doCommand(Session.Port,
-                                                "RTS" + values[0].Trim().TrimStart('S') + "=" + ((ComboBox) controls[0]).SelectedValue +
-                                                "\r");
+                                                "RTS" + values[0].Trim().TrimStart('S') + "=" + ((ComboBox) controls[0]).SelectedValue);
 
                                             if (cmdanswer.Contains("OK"))
                                             {
@@ -709,7 +704,7 @@ S15: MAX_WINDOW=131
                                         if (CBValue != values[2].Trim())
                                         {
                                             var cmdanswer = doCommand(Session.Port,
-                                                "RTS" + values[0].Trim().TrimStart('S') + "=" + CBValue + "\r");
+                                                "RTS" + values[0].Trim().TrimStart('S') + "=" + CBValue);
 
                                             if (cmdanswer.Contains("OK"))
                                             {
@@ -858,8 +853,11 @@ S15: MAX_WINDOW=131
                     }
 
                     // write it
-                    doCommand(Session.Port, "AT&W");
-
+                    var cmdwriteanswer = doCommand(Session.Port, "AT&W");
+                    if (!cmdwriteanswer.Contains("OK"))
+                    {
+                        MsgBox.CustomMessageBox.Show("Failed to save parameters");
+                    }
 
                     // return to normal mode
                     doCommand(Session.Port, "ATZ");
@@ -1001,16 +999,23 @@ S15: MAX_WINDOW=131
             return CB.Text;
         }
 
-        void SetupLocalControlsForMultipointFirmware()
+        void SetupComboForMavlink(ComboBox CB,  bool Simple)
         {
-        }
+            Dictionary<int, string> dict;
+            if (Simple)
+            {
+                dict = Enum.GetValues(typeof(mavlink_option_simple))
+                    .Cast<mavlink_option>()
+                    .ToDictionary(t => (int)t, t => t.ToString());
+            }
+            else
+            {
+                dict = Enum.GetValues(typeof(mavlink_option))
+                    .Cast<mavlink_option>()
+                    .ToDictionary(t => (int)t, t => t.ToString());
+            }
 
-        void SetupLocalControlsFor2PointFirmware()
-        {
-        }
-
-        void SetupRemoteControlsForMultipointFirmware()
-        {
+            CB.DataSource = dict.ToArray();
         }
 
         /// <summary>
@@ -1030,7 +1035,6 @@ S15: MAX_WINDOW=131
 
             ResetAllControls(groupBoxLocal);
             ResetAllControls(groupBoxRemote);
-            
 
             EnableConfigControls(false);
             EnableProgrammingControls(false);
@@ -1042,7 +1046,7 @@ S15: MAX_WINDOW=131
                 {
                     bool SomeSettingsInvalid = false;
                     // cleanup
-                    doCommand(Session.Port, "AT&T");
+                    doCommand(Session.Port, "AT&T", false, 1);
 
                     Session.Port.DiscardInBuffer();
 
@@ -1183,7 +1187,18 @@ S15: MAX_WINDOW=131
                         RLBT_RSSI.DataSource = Range(0, 1, 1);
                     }
 
-                    txt_aeskey.Text = doCommand(Session.Port, "AT&E?").Trim();
+                    if (multipoint_fix == -1)
+                    {
+                        txt_aeskey.Text = doCommand(Session.Port, "AT&E?").Trim();
+                        txt_aeskey.Enabled = true;
+                        SetupComboForMavlink(MAVLINK, false);
+                    }
+                    else
+                    {
+                        txt_aeskey.Text = "";
+                        txt_aeskey.Enabled = false;
+                        SetupComboForMavlink(MAVLINK, true);
+                    }
 
                     RSSI.Text = doCommand(Session.Port, "ATI7").Trim();
 
@@ -1304,7 +1319,18 @@ S15: MAX_WINDOW=131
                     {
                     }
 
-                    txt_Raeskey.Text = doCommand(Session.Port, "RT&E?").Trim();
+                    if (multipoint_fix == -1)
+                    {
+                        txt_Raeskey.Text = doCommand(Session.Port, "RT&E?").Trim();
+                        txt_Raeskey.Enabled = true;
+                        SetupComboForMavlink(RMAVLINK, false);
+                    }
+                    else
+                    {
+                        txt_Raeskey.Text = "";
+                        txt_Raeskey.Enabled = false;
+                        SetupComboForMavlink(RMAVLINK, true);
+                    }
 
                     lbl_status.Text = "Doing Command RTI5";
 
@@ -1472,8 +1498,10 @@ S15: MAX_WINDOW=131
 
             lbl_status.Text = "Doing Command " + cmd;
             log.Info("Doing Command " + cmd);
+            comPort.ReadTimeout = 1000;
 
             comPort.Write("\r\n");
+            Serial_ReadLine(comPort);
             Thread.Sleep(50);
             comPort.Write(cmd + "\r\n");
 
@@ -1578,7 +1606,7 @@ S15: MAX_WINDOW=131
                     comPort.Write("\r\n");
                 }
 
-                doCommand(comPort, "AT&T");
+                doCommand(comPort, "AT&T", false, 1);
 
                 var version = doCommand(comPort, "ATI");
 
@@ -1622,8 +1650,18 @@ red LED flashing - transmitting data
 red LED solid - in firmware update mode");
         }
 
+        void DoCommandShowErrorIfNotOK(ICommsSerial Port, string cmd, string ErrorMsg)
+        {
+            string Result = doCommand(Port, cmd);
+            if (!Result.Contains("OK"))
+            {
+                MsgBox.CustomMessageBox.Show(ErrorMsg);
+            }
+        }
+
         private void BUT_resettodefault_Click(object sender, EventArgs e)
         {
+            EndSession();
             var Session = GetSession();
             if (Session == null)
             {
@@ -1654,20 +1692,21 @@ red LED solid - in firmware update mode");
                     doCommand(Session.Port, "RT&T");
                 }
 
-
-                doCommand(Session.Port, "AT&T");
+                doCommand(Session.Port, "AT&T", false, 1);
 
                 Session.Port.DiscardInBuffer();
 
                 lbl_status.Text = "Doing Command ATI & AT&F";
 
-                doCommand(Session.Port, "AT&F");
+                DoCommandShowErrorIfNotOK(Session.Port, "AT&F", "Failed to reset parameters to factory defaults");
 
-                doCommand(Session.Port, "AT&W");
+                DoCommandShowErrorIfNotOK(Session.Port, "AT&W", "Failed to write parameters to EEPROM");
 
                 lbl_status.Text = "Reset";
-
                 doCommand(Session.Port, "ATZ");
+
+                //Session must be ended because modem rebooted.
+                EndSession();
             }
             else
             {
@@ -1853,6 +1892,12 @@ red LED solid - in firmware update mode");
             LowLatency = 2
         }
 
+        private enum mavlink_option_simple
+        {
+            RawData = 0,
+            Mavlink = 1,
+        }
+
         private void txt_aeskey_TextChanged(object sender, EventArgs e)
         {
             var txt = (TextBox)sender;
@@ -1880,7 +1925,7 @@ red LED solid - in firmware update mode");
             if (Session.PutIntoATCommandMode() == RFD.RFD900.TSession.TMode.AT_COMMAND)
             {
                 // cleanup
-                doCommand(Session.Port, "AT&T");
+                doCommand(Session.Port, "AT&T", false, 1);
 
                 Session.Port.DiscardInBuffer();
 
@@ -2079,6 +2124,11 @@ red LED solid - in firmware update mode");
             //Key is 16 binary bytes (32 hex digits)
             txt_aeskey.Text = GetRandomKey();
             txt_Raeskey.Text = txt_aeskey.Text;
+        }
+
+        private void btnCommsLog_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }

@@ -23,6 +23,8 @@ namespace MissionPlanner.Comms
 
         byte[] rbuffer = new byte[0];
         int rbufferread = 0;
+        public event Action<byte> ByteWritten;
+        public event Action<byte> ByteRead;
 
         public int WriteBufferSize { get; set; }
         public int WriteTimeout { get; set; }

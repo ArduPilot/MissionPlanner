@@ -21,6 +21,8 @@ namespace MissionPlanner.Comms
 
         int step = 0;
         private long length = 0;
+        public event Action<byte> ByteWritten;
+        public event Action<byte> ByteRead;
 
         public CommsFile()
         {

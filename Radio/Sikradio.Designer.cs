@@ -168,6 +168,7 @@
             this.BUT_getcurrent = new MissionPlanner.Controls.MyButton();
             this.BUT_upload = new MissionPlanner.Controls.MyButton();
             this.BUT_Syncoptions = new MissionPlanner.Controls.MyButton();
+            this.btnCommsLog = new MissionPlanner.Controls.MyButton();
             this.groupBoxLocal.SuspendLayout();
             this.groupBoxRemote.SuspendLayout();
             this.SuspendLayout();
@@ -1173,8 +1174,8 @@
             // RRX_ENCAP_METHOD
             // 
             this.RRX_ENCAP_METHOD.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.RRX_ENCAP_METHOD, "RRX_ENCAP_METHOD");
             this.RRX_ENCAP_METHOD.FormattingEnabled = true;
+            resources.ApplyResources(this.RRX_ENCAP_METHOD, "RRX_ENCAP_METHOD");
             this.RRX_ENCAP_METHOD.Name = "RRX_ENCAP_METHOD";
             // 
             // lblRTX_ENCAP_METHOD
@@ -1185,8 +1186,8 @@
             // RTX_ENCAP_METHOD
             // 
             this.RTX_ENCAP_METHOD.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.RTX_ENCAP_METHOD, "RTX_ENCAP_METHOD");
             this.RTX_ENCAP_METHOD.FormattingEnabled = true;
+            resources.ApplyResources(this.RTX_ENCAP_METHOD, "RTX_ENCAP_METHOD");
             this.RTX_ENCAP_METHOD.Name = "RTX_ENCAP_METHOD";
             // 
             // lblRDESTID
@@ -1202,15 +1203,15 @@
             // RDESTID
             // 
             this.RDESTID.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.RDESTID, "RDESTID");
             this.RDESTID.FormattingEnabled = true;
+            resources.ApplyResources(this.RDESTID, "RDESTID");
             this.RDESTID.Name = "RDESTID";
             // 
             // RNODEID
             // 
             this.RNODEID.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.RNODEID, "RNODEID");
             this.RNODEID.FormattingEnabled = true;
+            resources.ApplyResources(this.RNODEID, "RNODEID");
             this.RNODEID.Name = "RNODEID";
             // 
             // label41
@@ -1277,8 +1278,8 @@
             // RANT_MODE
             // 
             this.RANT_MODE.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.RANT_MODE, "RANT_MODE");
             this.RANT_MODE.FormattingEnabled = true;
+            resources.ApplyResources(this.RANT_MODE, "RANT_MODE");
             this.RANT_MODE.Name = "RANT_MODE";
             // 
             // lblRSER_BRK_DETMS
@@ -1299,29 +1300,29 @@
             // RSER_BRK_DETMS
             // 
             this.RSER_BRK_DETMS.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.RSER_BRK_DETMS, "RSER_BRK_DETMS");
             this.RSER_BRK_DETMS.FormattingEnabled = true;
+            resources.ApplyResources(this.RSER_BRK_DETMS, "RSER_BRK_DETMS");
             this.RSER_BRK_DETMS.Name = "RSER_BRK_DETMS";
             // 
             // RGLOBAL_RETRIES
             // 
             this.RGLOBAL_RETRIES.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.RGLOBAL_RETRIES, "RGLOBAL_RETRIES");
             this.RGLOBAL_RETRIES.FormattingEnabled = true;
+            resources.ApplyResources(this.RGLOBAL_RETRIES, "RGLOBAL_RETRIES");
             this.RGLOBAL_RETRIES.Name = "RGLOBAL_RETRIES";
             // 
             // RMAX_RETRIES
             // 
             this.RMAX_RETRIES.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.RMAX_RETRIES, "RMAX_RETRIES");
             this.RMAX_RETRIES.FormattingEnabled = true;
+            resources.ApplyResources(this.RMAX_RETRIES, "RMAX_RETRIES");
             this.RMAX_RETRIES.Name = "RMAX_RETRIES";
             // 
             // RMAX_DATA
             // 
             this.RMAX_DATA.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.RMAX_DATA, "RMAX_DATA");
             this.RMAX_DATA.FormattingEnabled = true;
+            resources.ApplyResources(this.RMAX_DATA, "RMAX_DATA");
             this.RMAX_DATA.Name = "RMAX_DATA";
             // 
             // lblRMAX_DATA
@@ -1442,9 +1443,17 @@
             this.BUT_Syncoptions.UseVisualStyleBackColor = true;
             this.BUT_Syncoptions.Click += new System.EventHandler(this.BUT_Syncoptions_Click);
             // 
+            // btnCommsLog
+            // 
+            resources.ApplyResources(this.btnCommsLog, "btnCommsLog");
+            this.btnCommsLog.Name = "btnCommsLog";
+            this.btnCommsLog.UseVisualStyleBackColor = true;
+            this.btnCommsLog.Click += new System.EventHandler(this.btnCommsLog_Click);
+            // 
             // Sikradio
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.Controls.Add(this.btnCommsLog);
             this.Controls.Add(this.Progressbar);
             this.Controls.Add(this.BUT_SetPPMFailSafe);
             this.Controls.Add(this.BUT_loadcustom);
@@ -1609,5 +1618,6 @@
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Button btnRandom;
+        private Controls.MyButton btnCommsLog;
     }
 }
