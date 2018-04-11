@@ -243,7 +243,9 @@
     <Compile Include="Controls\PropagationSettings.cs">
       <SubType>Control</SubType>
     </Compile>
-    <Compile Include="Controls\ProximityControl.cs" />
+    <Compile Include="Controls\ProximityControl.cs">
+      <SubType>Control</SubType>
+    </Compile>
     <Compile Include="ElevationProfile.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="FollowMe.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Utilities\SSHTerminal.cs" />
@@ -306,6 +308,9 @@
 	<EmbeddedResource Include="Controls\PropagationSettings.resx">
 	  <DependentUpon>PropagationSettings.cs</DependentUpon>
 	</EmbeddedResource>
+	<EmbeddedResource Include="Controls\ProximityControl.resx">
+    <DependentUpon>ProximityControl.cs</DependentUpon>
+  </EmbeddedResource>
 	<EmbeddedResource Include="Log\LogStrings.resx"><DependentUpon>LogStrings.cs</DependentUpon> </EmbeddedResource>
     <Compile Include="Controls\MavlinkCheckBox.cs" />
     <Compile Include="Controls\MavlinkCheckBoxBitMask.cs" />
@@ -321,8 +326,6 @@
     <Compile Include="Controls\ToolStripConnectionControl.cs" />
     <Compile Include="Controls\Vibration.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Controls\Video.cs"> <SubType>Control</SubType> </Compile>
-    <Compile Include="Controls\Forms\MavlinkCheckBox.xaml.cs" />
-    <Compile Include="Controls\Forms\OpenGLPage.cs" />
     <Compile Include="Controls\Icon\Icon.cs" />
     <Compile Include="Controls\Icon\Polygon.cs" />
     <Compile Include="Controls\PreFlight\CheckListControl.cs"> <SubType>Control</SubType> </Compile>
@@ -1895,9 +1898,6 @@
     <None Include="block_plane_0.dae">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <EmbeddedResource Include="Controls\Forms\MavlinkCheckBox.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
     <None Include="DLLs\fftpack_lite.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -2098,6 +2098,14 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="**/*.Designer.cs">
+      <DependentUpon Condition="Exists($([System.String]::Copy('%(Filename)').ToLower().Replace('.designer','.cs')))">$([System.String]::Copy("%(Filename)").ToLower().Replace(".designer","")).cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="**/*.99resx">
+      <DependentUpon Condition="Exists($([System.Text.RegularExpressions.Regex]::Replace('%(FileName)', '\.[a-zA-Z\-]+', '.cs')))">$([System.Text.RegularExpressions.Regex]::Replace('%(FileName)', '\.[a-zA-Z\-]+', '')).cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="&quot;$(TargetDir)version.exe&quot; &quot;$(TargetPath)&quot; &gt; &quot;$(TargetDir)version.txt&quot;&#xD;&#xA;copy &quot;$(ProjectDir)ExtLibs\System.Speech.dll&quot; &quot;$(TargetDir)&quot;&#xD;&#xA;&#xD;&#xA;cd &quot;$(TargetDir)&quot;&#xD;&#xA;for /f %%f in ('dir /a-d /b plugins') do if exist .\%%f del .\plugins\%%f&#xD;&#xA;" />
@@ -2110,6 +2118,7 @@
 
 
   <ItemGroup>
+ 
     <None Update="C:\Users\hog\.nuget\packages\skiasharp\1.59.3\build\net45\..\..\runtimes\win7-x64\native\libSkiaSharp.dll">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
