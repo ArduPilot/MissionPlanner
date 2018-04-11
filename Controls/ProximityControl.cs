@@ -30,6 +30,12 @@ namespace MissionPlanner.Utilities
             Paint += Temp_Paint;
             KeyPress += Temp_KeyPress;
             Resize += Temp_Resize;
+
+            Timer timer = new Timer(this.Container);
+            timer.Interval = 100;
+            timer.Tick += (s, e) => { Invalidate(); };
+
+            timer.Start();
         }
 
         private void Temp_Resize(object sender, EventArgs e)
