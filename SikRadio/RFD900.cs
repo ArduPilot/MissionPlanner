@@ -566,7 +566,8 @@ namespace RFD.RFD900
         }
 
         /// <summary>
-        /// Parse an ATI5 query response, into a list of settings.
+        /// Parse an ATI5 query response, into a list of settings.  Settings may contain the options
+        /// available.
         /// </summary>
         /// <param name="ATI5Response">The full ATI5 query response.  Must not be null.</param>
         /// <returns>A dictionary of settings found, with name as key.  Never null.</returns>

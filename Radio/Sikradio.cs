@@ -66,13 +66,15 @@ S15: MAX_WINDOW=131
 
             _LocalExtraParams = new ExtraParamControlsSet(lblNODEID, NODEID,
                 lblDESTID, DESTID, lblTX_ENCAP_METHOD, TX_ENCAP_METHOD, lblRX_ENCAP_METHOD, RX_ENCAP_METHOD,
-                new Control[] { lblMAX_DATA, MAX_DATA, lblMAX_RETRIES, MAX_RETRIES,
+                lblMAX_DATA, MAX_DATA,
+                new Control[] {lblMAX_RETRIES, MAX_RETRIES,
                 lblGLOBAL_RETRIES, GLOBAL_RETRIES, lblSER_BRK_DETMS, SER_BRK_DETMS,
                 lblANT_MODE, ANT_MODE}, false);
 
             _RemoteExtraParams = new ExtraParamControlsSet(lblRNODEID, RNODEID,
                 lblRDESTID, RDESTID, lblRTX_ENCAP_METHOD, RTX_ENCAP_METHOD, lblRRX_ENCAP_METHOD, RRX_ENCAP_METHOD,
-                new Control[] { lblRMAX_DATA, RMAX_DATA, lblRMAX_RETRIES, RMAX_RETRIES,
+                lblRMAX_DATA, RMAX_DATA,
+                new Control[] {lblRMAX_RETRIES, RMAX_RETRIES,
                 lblRGLOBAL_RETRIES, RGLOBAL_RETRIES, lblRSER_BRK_DETMS, RSER_BRK_DETMS,
                 lblRANT_MODE, RANT_MODE}, true);
 
@@ -1063,6 +1065,10 @@ S15: MAX_WINDOW=131
                             //This is multipoint firmware.
                             _LocalExtraParams.SetModel(Model.MULTIPOINT);
                         }
+                        else if (ATI.Text.Contains("MP on") && (Session.Board == Uploader.Board.DEVICE_ID_RFD900X))
+                        {
+                            _LocalExtraParams.SetModel(Model.MULTIPOINT_X);
+                        }
                         else
                         {
                             //This is p2p firmware.
@@ -1190,6 +1196,10 @@ S15: MAX_WINDOW=131
                         {
                             //This is multipoint firmware.
                             _RemoteExtraParams.SetModel(Model.MULTIPOINT);
+                        }
+                        else if (RTI.Text.Contains("MP on") && (Session.Board == Uploader.Board.DEVICE_ID_RFD900X))
+                        {
+                            _RemoteExtraParams.SetModel(Model.MULTIPOINT_X);
                         }
                         else
                         {
@@ -1658,7 +1668,14 @@ red LED solid - in firmware update mode");
                 }
                 else
                 {
-                    UpdateStatus("Asking user for firmware file");
+                    if (Custom)
+                    {
+                        UpdateStatus("Asking user for firmware file");
+                    }
+                    else
+                    {
+                        UpdateStatus("Getting firmware from internet");
+                    }
                     if (getFirmware(RFD900.Board, Custom))
                     {
                         UpdateStatus("Programming firmware into device");
