@@ -20,8 +20,6 @@ namespace MissionPlanner.Comms
         public TcpClient client = new TcpClient();
         IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
         private Uri remoteUri;
-        public event Action<byte> ByteWritten;
-        public event Action<byte> ByteRead;
 
         public double lat = 0;
         public double lng = 0;

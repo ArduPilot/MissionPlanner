@@ -26,8 +26,6 @@ namespace MissionPlanner.Comms
         public int WriteTimeout { get; set; }
         public bool RtsEnable { get; set; }
         public Stream BaseStream { get { return Stream.Null; } }
-        public event Action<byte> ByteWritten;
-        public event Action<byte> ByteRead;
 
         public UdpSerialConnect()
         {

@@ -18,8 +18,6 @@ namespace MissionPlanner.Comms
         private static readonly ILog log = LogManager.GetLogger(typeof(SerialPort));
 
         static object locker = new object();
-        public event Action<byte> ByteWritten;
-        public event Action<byte> ByteRead;
 
         public new bool DtrEnable { get { return base.DtrEnable; } set { log.Info(base.PortName + " DtrEnable " + value); if (base.DtrEnable == value) return; if (ispx4(base.PortName)) return; base.DtrEnable = value; } }
         public new bool RtsEnable { get { return base.RtsEnable; } set { log.Info(base.PortName + " RtsEnable " + value); if (base.RtsEnable == value) return; if (ispx4(base.PortName)) return; base.RtsEnable = value; } }

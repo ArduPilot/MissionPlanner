@@ -168,7 +168,6 @@
             this.BUT_getcurrent = new MissionPlanner.Controls.MyButton();
             this.BUT_upload = new MissionPlanner.Controls.MyButton();
             this.BUT_Syncoptions = new MissionPlanner.Controls.MyButton();
-            this.btnCommsLog = new MissionPlanner.Controls.MyButton();
             this.groupBoxLocal.SuspendLayout();
             this.groupBoxRemote.SuspendLayout();
             this.SuspendLayout();
@@ -1443,17 +1442,9 @@
             this.BUT_Syncoptions.UseVisualStyleBackColor = true;
             this.BUT_Syncoptions.Click += new System.EventHandler(this.BUT_Syncoptions_Click);
             // 
-            // btnCommsLog
-            // 
-            resources.ApplyResources(this.btnCommsLog, "btnCommsLog");
-            this.btnCommsLog.Name = "btnCommsLog";
-            this.btnCommsLog.UseVisualStyleBackColor = true;
-            this.btnCommsLog.Click += new System.EventHandler(this.btnCommsLog_Click);
-            // 
             // Sikradio
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.Controls.Add(this.btnCommsLog);
             this.Controls.Add(this.Progressbar);
             this.Controls.Add(this.BUT_SetPPMFailSafe);
             this.Controls.Add(this.BUT_loadcustom);
@@ -1618,6 +1609,5 @@
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Button btnRandom;
-        private Controls.MyButton btnCommsLog;
     }
 }

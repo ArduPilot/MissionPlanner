@@ -17,8 +17,6 @@ namespace MissionPlanner.Comms
         private static readonly object locker = new object();
         private COMMTIMEOUTS commTimeouts = default(COMMTIMEOUTS);
         private SafeFileHandle safeFileHandle;
-        public event Action<byte> ByteWritten;
-        public event Action<byte> ByteRead;
 
         public void DiscardInBuffer()
         {
