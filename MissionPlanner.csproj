@@ -247,7 +247,9 @@
       <SubType>Control</SubType>
     </Compile>
     <Compile Include="ElevationProfile.cs"> <SubType>Control</SubType> </Compile>
+    <Compile Include="ExtLibs\Controls\MyButton.cs" />
     <Compile Include="FollowMe.cs"> <SubType>Control</SubType> </Compile>
+    <Compile Include="Radio\Models.cs" />
     <Compile Include="Utilities\SSHTerminal.cs" />
     <Compile Include="Utilities\XTermRBGColors.cs" />
     <Compile Include="GenOTP.cs"> <SubType>Control</SubType> </Compile>
@@ -410,6 +412,9 @@
     <Compile Include="Log\MavlinkLog.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Log\Scan.cs" />
     <Compile Include="Log\test\MotorFailure.cs" />
+    <Compile Include="SikRadio\RFD900.cs" />
+    <Compile Include="SikRadio\RFDLib\Array.cs" />
+    <Compile Include="SikRadio\RFDLib\Text.cs" />
     <Compile Include="Models\DelegateCommand.cs" />
     <Compile Include="Models\ICommand.cs" />
     <Compile Include="NoFly\NoFly.cs" />
@@ -2124,6 +2129,10 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Plugins\" />
+    <Folder Include="RFD\" />
+  </ItemGroup>
 
   <ItemGroup>
     <Reference Update="System.IO.Compression.FileSystem">

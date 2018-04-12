@@ -21,7 +21,7 @@ namespace uploader
 
             DEVICE_ID_RFD900U = 0X80 | 0x01,
             DEVICE_ID_RFD900P = 0x80 | 0x02,
-            DEVICE_ID_RFD900Plus = 0x80 | 0x03,
+            DEVICE_ID_RFD900X = 0x80 | 0x03,
 
             FAILED = 0x11
         }
@@ -385,7 +385,7 @@ namespace uploader
 
             // XXX should be getting valid board/frequency data from firmware file
             if ((id != Board.DEVICE_ID_HM_TRP) && (id != Board.DEVICE_ID_RF50) && (id != Board.DEVICE_ID_RFD900) &&
-                (id != Board.DEVICE_ID_RFD900A))
+                (id != Board.DEVICE_ID_RFD900A) && (id != Board.DEVICE_ID_RFD900P) && (id != Board.DEVICE_ID_RFD900U))
                 throw new Exception("bootloader device ID mismatch - device:" + id);
 
             getSync();
@@ -393,6 +393,10 @@ namespace uploader
 
         public void getDevice(ref Board device, ref Frequency freq)
         {
+            send(Code.EOC);
+            Thread.Sleep(100);
+            port.DiscardInBuffer();
+            cmdSync();
             send(Code.GET_DEVICE);
             send(Code.EOC);
 

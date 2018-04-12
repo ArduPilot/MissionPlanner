@@ -70,7 +70,10 @@
             resources.GetString("CMB_Baudrate.Items4"),
             resources.GetString("CMB_Baudrate.Items5"),
             resources.GetString("CMB_Baudrate.Items6"),
-            resources.GetString("CMB_Baudrate.Items7")});
+            resources.GetString("CMB_Baudrate.Items7"),
+            resources.GetString("CMB_Baudrate.Items8"),
+            resources.GetString("CMB_Baudrate.Items9"),
+            resources.GetString("CMB_Baudrate.Items10")});
             resources.ApplyResources(this.CMB_Baudrate, "CMB_Baudrate");
             this.CMB_Baudrate.Name = "CMB_Baudrate";
             this.CMB_Baudrate.SelectedIndexChanged += new System.EventHandler(this.CMB_Baudrate_SelectedIndexChanged);
@@ -169,8 +172,8 @@
             // 
             // Config
             // 
-            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            resources.ApplyResources(this, "$this");
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label3);

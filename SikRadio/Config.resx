@@ -122,7 +122,7 @@
     <value>47, 14</value>
   </data>
   <data name="CMB_SerialPort.Size" type="System.Drawing.Size, System.Drawing">
-    <value>109, 21</value>
+    <value>109, 24</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="CMB_SerialPort.TabIndex" type="System.Int32, mscorlib">
@@ -141,34 +141,43 @@
     <value>0</value>
   </data>
   <data name="CMB_Baudrate.Items" xml:space="preserve">
-    <value>4800</value>
+    <value>2400</value>
   </data>
   <data name="CMB_Baudrate.Items1" xml:space="preserve">
-    <value>9600</value>
+    <value>4800</value>
   </data>
   <data name="CMB_Baudrate.Items2" xml:space="preserve">
-    <value>14400</value>
+    <value>9600</value>
   </data>
   <data name="CMB_Baudrate.Items3" xml:space="preserve">
-    <value>19200</value>
+    <value>14400</value>
   </data>
   <data name="CMB_Baudrate.Items4" xml:space="preserve">
-    <value>28800</value>
+    <value>19200</value>
   </data>
   <data name="CMB_Baudrate.Items5" xml:space="preserve">
-    <value>38400</value>
+    <value>28800</value>
   </data>
   <data name="CMB_Baudrate.Items6" xml:space="preserve">
-    <value>57600</value>
+    <value>38400</value>
   </data>
   <data name="CMB_Baudrate.Items7" xml:space="preserve">
+    <value>57600</value>
+  </data>
+  <data name="CMB_Baudrate.Items8" xml:space="preserve">
     <value>115200</value>
+  </data>
+  <data name="CMB_Baudrate.Items9" xml:space="preserve">
+    <value>230400</value>
+  </data>
+  <data name="CMB_Baudrate.Items10" xml:space="preserve">
+    <value>460800</value>
   </data>
   <data name="CMB_Baudrate.Location" type="System.Drawing.Point, System.Drawing">
     <value>47, 41</value>
   </data>
   <data name="CMB_Baudrate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>109, 21</value>
+    <value>109, 24</value>
   </data>
   <data name="CMB_Baudrate.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -196,7 +205,7 @@
     <value>781, 433</value>
   </data>
   <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>781, 452</value>
+    <value>1127, 502</value>
   </data>
   <data name="panel1.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -223,7 +232,7 @@
     <value>6, 49</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>32, 13</value>
+    <value>41, 17</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -253,7 +262,7 @@
     <value>6, 22</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>26, 13</value>
+    <value>34, 17</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -283,7 +292,7 @@
     <value>184, 51</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 39</value>
+    <value>226, 51</value>
   </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -336,7 +345,7 @@
     <value>12, 108</value>
   </data>
   <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>786, 477</value>
+    <value>1132, 527</value>
   </data>
   <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -387,37 +396,37 @@
     <value>17, 17</value>
   </metadata>
   <data name="settingsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>61, 20</value>
+    <value>74, 24</value>
   </data>
   <data name="settingsToolStripMenuItem.Text" xml:space="preserve">
     <value>Settings</value>
   </data>
   <data name="terminalToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 20</value>
+    <value>78, 24</value>
   </data>
   <data name="terminalToolStripMenuItem.Text" xml:space="preserve">
     <value>Terminal</value>
   </data>
   <data name="rssiToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>41, 20</value>
+    <value>50, 24</value>
   </data>
   <data name="rssiToolStripMenuItem.Text" xml:space="preserve">
     <value>RSSI</value>
   </data>
   <data name="helpToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>140, 22</value>
+    <value>166, 26</value>
   </data>
   <data name="helpToolStripMenuItem.Text" xml:space="preserve">
     <value>Help</value>
   </data>
   <data name="projectPageToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>140, 22</value>
+    <value>166, 26</value>
   </data>
   <data name="projectPageToolStripMenuItem.Text" xml:space="preserve">
     <value>Project Page</value>
   </data>
   <data name="aboutToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>52, 20</value>
+    <value>62, 24</value>
   </data>
   <data name="aboutToolStripMenuItem.Text" xml:space="preserve">
     <value>About</value>
@@ -426,7 +435,7 @@
     <value>0, 0</value>
   </data>
   <data name="menuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>810, 24</value>
+    <value>1156, 28</value>
   </data>
   <data name="menuStrip1.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -452,11 +461,8 @@
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>42</value>
   </metadata>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>6, 13</value>
-  </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>810, 589</value>
+    <value>1156, 639</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

@@ -50,6 +50,14 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.VisualBasic.PowerPacks, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
@@ -65,9 +73,15 @@
     <Compile Include="..\ExtLibs\Arduino\IArduinoComms.cs">
       <Link>Linked\IArduinoComms.cs</Link>
     </Compile>
+    <Compile Include="..\ExtLibs\Comms\CommsBase.cs">
+      <Link>Linked\CommsBase.cs</Link>
+    </Compile>
     <Compile Include="..\ExtLibs\Comms\CommsSerialPort.cs">
       <Link>Linked\CommsSerialPort.cs</Link>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="..\ExtLibs\Comms\CommsTCPSerial.cs">
+      <Link>Linked\CommsTCPSerial.cs</Link>
     </Compile>
     <Compile Include="..\ExtLibs\Comms\ICommsSerial.cs">
       <Link>Linked\ICommsSerial.cs</Link>
@@ -87,6 +101,9 @@
     </Compile>
     <Compile Include="..\Radio\IHex.cs">
       <Link>Linked\IHex.cs</Link>
+    </Compile>
+    <Compile Include="..\Radio\Models.cs">
+      <Link>Linked\Models.cs</Link>
     </Compile>
     <Compile Include="..\Radio\Sikradio.cs">
       <Link>Linked\Sikradio.cs</Link>
@@ -115,6 +132,9 @@
     <Compile Include="MainV2.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RFD900.cs" />
+    <Compile Include="RFDLib\Array.cs" />
+    <Compile Include="RFDLib\Text.cs" />
     <Compile Include="Rssi.cs">
       <SubType>UserControl</SubType>
     </Compile>
