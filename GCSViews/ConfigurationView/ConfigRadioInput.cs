@@ -321,11 +321,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     if (rcmin[a] != rcmax[a])
                     {
-                        MainV2.comPort.setParam("RC" + (a + 1).ToString("0") + "_MIN", rcmin[a]);
-                        MainV2.comPort.setParam("RC" + (a + 1).ToString("0") + "_MAX", rcmax[a]);
+                        MainV2.comPort.setParam("RC" + (a + 1).ToString("0") + "_MIN", rcmin[a], true);
+                        MainV2.comPort.setParam("RC" + (a + 1).ToString("0") + "_MAX", rcmax[a], true);
                     }
                     if (rctrim[a] < 1195 || rctrim[a] > 1205)
-                        MainV2.comPort.setParam("RC" + (a + 1).ToString("0") + "_TRIM", rctrim[a]);
+                        MainV2.comPort.setParam("RC" + (a + 1).ToString("0") + "_TRIM", rctrim[a], true);
                 }
                 catch
                 {
