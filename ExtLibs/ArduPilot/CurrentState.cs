@@ -2207,7 +2207,8 @@ namespace MissionPlanner
                         satcount = gps.satellites_visible;
 
                         groundspeed = gps.vel*1.0e-2f;
-                        groundcourse = gps.cog*1.0e-2f;
+                        if (groundspeed > 0.5)
+                            groundcourse = gps.cog*1.0e-2f;
 
                         if (mavLinkMessage.ismavlink2)
                         {
