@@ -9,6 +9,7 @@
  * 2.7 - Resolved issues in which it asks for IP address and port multiple times when using a tx module.
  *          Also resolved issue in which mission planner's sik radio page doesn't load settings via
  *          tx module when the main part of mission planner had had a connection (but was disconnected).
+ * 2.8 - Added support for multipoint firmware in RFD900a, +, u and x.
  */
 
 using System;

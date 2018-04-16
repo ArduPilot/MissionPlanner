@@ -6,8 +6,8 @@
     <ProjectGuid>{B8943726-04B0-4477-BFDA-E156A0CD98A4}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SikRadio</RootNamespace>
-    <AssemblyName>SikRadio</AssemblyName>
+    <RootNamespace>RFD900Tools</RootNamespace>
+    <AssemblyName>RFD900Tools</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
