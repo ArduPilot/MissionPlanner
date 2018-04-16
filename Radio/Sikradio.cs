@@ -66,13 +66,15 @@ S15: MAX_WINDOW=131
 
             _LocalExtraParams = new ExtraParamControlsSet(lblNODEID, NODEID,
                 lblDESTID, DESTID, lblTX_ENCAP_METHOD, TX_ENCAP_METHOD, lblRX_ENCAP_METHOD, RX_ENCAP_METHOD,
-                new Control[] { lblMAX_DATA, MAX_DATA, lblMAX_RETRIES, MAX_RETRIES,
+                lblMAX_DATA, MAX_DATA,
+                new Control[] {lblMAX_RETRIES, MAX_RETRIES,
                 lblGLOBAL_RETRIES, GLOBAL_RETRIES, lblSER_BRK_DETMS, SER_BRK_DETMS,
                 lblANT_MODE, ANT_MODE}, false);
 
             _RemoteExtraParams = new ExtraParamControlsSet(lblRNODEID, RNODEID,
                 lblRDESTID, RDESTID, lblRTX_ENCAP_METHOD, RTX_ENCAP_METHOD, lblRRX_ENCAP_METHOD, RRX_ENCAP_METHOD,
-                new Control[] { lblRMAX_DATA, RMAX_DATA, lblRMAX_RETRIES, RMAX_RETRIES,
+                lblRMAX_DATA, RMAX_DATA,
+                new Control[] {lblRMAX_RETRIES, RMAX_RETRIES,
                 lblRGLOBAL_RETRIES, RGLOBAL_RETRIES, lblRSER_BRK_DETMS, RSER_BRK_DETMS,
                 lblRANT_MODE, RANT_MODE}, true);
 
@@ -164,7 +166,7 @@ S15: MAX_WINDOW=131
         {
             if (custom)
             {
-                return getFirmwareLocal(false);
+                return getFirmwareLocal(device == Uploader.Board.DEVICE_ID_RFD900X);
             }
 
             if (device == Uploader.Board.DEVICE_ID_HM_TRP)
@@ -208,6 +210,10 @@ S15: MAX_WINDOW=131
                     return Download.getFilefromNet("http://files.rfdesign.com.au/Files/firmware/MPSiK%20V2.6%20rfd900p.ihx", firmwarefile);
                 }
                 return Download.getFilefromNet("http://files.rfdesign.com.au/Files/firmware/RFDSiK%20V1.9%20rfd900p.ihx", firmwarefile);
+            }
+            if (device == Uploader.Board.DEVICE_ID_RFD900X)
+            {
+                return Download.getFilefromNet("http://files.rfdesign.com.au/Files/firmware/RFDSiK%20V2.60%20rfd900x.bin", firmwarefile);
             }
             return false;
         }
@@ -332,187 +338,7 @@ S15: MAX_WINDOW=131
 
         private void BUT_upload_Click(object sender, EventArgs e)
         {
-            UploadFW(false);
-        }
-
-        private void UploadFW(bool custom = false)
-        {
-            ICommsSerial comPort = new SerialPort();
-
-            var uploader = new Uploader();
-
-            if (MainV2.comPort.BaseStream.IsOpen)
-            {
-                try
-                {
-                    getTelemPortWithRadio(ref comPort);
-
-                    uploader.PROG_MULTI_MAX = 64;
-                }
-                catch (Exception ex)
-                {
-                    MsgBox.CustomMessageBox.Show("Error " + ex);
-                }
-            }
-
-            try
-            {
-                comPort.PortName = MainV2.comPortName;
-                comPort.BaudRate = 115200;
-
-                comPort.Open();
-            }
-            catch
-            {
-                MsgBox.CustomMessageBox.Show("Invalid ComPort or in use");
-                return;
-            }
-
-            // prep what we are going to upload
-            var iHex = new IHex();
-
-            iHex.LogEvent += iHex_LogEvent;
-
-            iHex.ProgressEvent += iHex_ProgressEvent;
-
-            var bootloadermode = false;
-
-            // attempt bootloader mode
-            try
-            {
-                if (upload_xmodem(comPort))
-                {
-                    comPort.Close();
-                    return;
-                }
-
-                comPort.BaudRate = 115200;
-
-                uploader_ProgressEvent(0);
-                uploader_LogEvent("Trying Bootloader Mode");
-
-                uploader.port = comPort;
-                uploader.connect_and_sync();
-
-                uploader.ProgressEvent += uploader_ProgressEvent;
-                uploader.LogEvent += uploader_LogEvent;
-
-                uploader_LogEvent("In Bootloader Mode");
-                bootloadermode = true;
-            }
-            catch (Exception ex1)
-            {
-                log.Error(ex1);
-
-                // cleanup bootloader mode fail, and try firmware mode
-                comPort.Close();
-                if (MainV2.comPort.BaseStream.IsOpen)
-                {
-                    // default baud... guess
-                    comPort.BaudRate = 57600;
-                }
-                else
-                {
-                    comPort.BaudRate = MainV2.comPort.BaseStream.BaudRate;
-                }
-                try
-                {
-                    comPort.Open();
-                }
-                catch
-                {
-                    MsgBox.CustomMessageBox.Show("Error opening port", "Error");
-                    return;
-                }
-
-                uploader.ProgressEvent += uploader_ProgressEvent;
-                uploader.LogEvent += uploader_LogEvent;
-
-                uploader_LogEvent("Trying Firmware Mode");
-                bootloadermode = false;
-            }
-
-            // check for either already bootloadermode, or if we can do a ATI to ID the firmware 
-            if (bootloadermode || doConnect(comPort))
-            {
-                // put into bootloader mode/update mode
-                if (!bootloadermode)
-                {
-                    try
-                    {
-                        comPort.Write("AT&UPDATE\r\n");
-                        var left = comPort.ReadExisting();
-                        log.Info(left);
-                        Sleep(700);
-                        comPort.BaudRate = 115200;
-                    }
-                    catch
-                    {
-                    }
-
-                    if (upload_xmodem(comPort))
-                    {
-                        comPort.Close();
-                        return;
-                    }
-
-                    comPort.BaudRate = 115200;
-                }
-
-                try
-                {
-                    // force sync after changing baudrate
-                    uploader.connect_and_sync();
-                }
-                catch
-                {
-                    MsgBox.CustomMessageBox.Show("Failed to sync with Radio");
-                    goto exit;
-                }
-
-                var device = Uploader.Board.FAILED;
-                var freq = Uploader.Frequency.FAILED;
-
-                // get the device type and frequency in the bootloader
-                uploader.getDevice(ref device, ref freq);
-
-                // get firmware for this device
-                if (getFirmware(device, custom))
-                {
-                    // load the hex
-                    try
-                    {
-                        iHex.load(firmwarefile);
-                    }
-                    catch
-                    {
-                        MsgBox.CustomMessageBox.Show("Bad Firmware File");
-                        goto exit;
-                    }
-
-                    // upload the hex and verify
-                    try
-                    {
-                        uploader.upload(comPort, iHex);
-                    }
-                    catch (Exception ex)
-                    {
-                        MsgBox.CustomMessageBox.Show("Upload Failed " + ex.Message);
-                    }
-                }
-                else
-                {
-                    MsgBox.CustomMessageBox.Show("Failed to download new firmware");
-                }
-            }
-            else
-            {
-                MsgBox.CustomMessageBox.Show("Failed to identify Radio");
-            }
-
-            exit:
-            if (comPort.IsOpen)
-                comPort.Close();
+            ProgramFirmware(false);
         }
 
         private void iHex_ProgressEvent(double completed)
@@ -1239,6 +1065,10 @@ S15: MAX_WINDOW=131
                             //This is multipoint firmware.
                             _LocalExtraParams.SetModel(Model.MULTIPOINT);
                         }
+                        else if (ATI.Text.Contains("MP on") && (Session.Board == Uploader.Board.DEVICE_ID_RFD900X))
+                        {
+                            _LocalExtraParams.SetModel(Model.MULTIPOINT_X);
+                        }
                         else
                         {
                             //This is p2p firmware.
@@ -1367,6 +1197,10 @@ S15: MAX_WINDOW=131
                             //This is multipoint firmware.
                             _RemoteExtraParams.SetModel(Model.MULTIPOINT);
                         }
+                        else if (RTI.Text.Contains("MP on") && (Session.Board == Uploader.Board.DEVICE_ID_RFD900X))
+                        {
+                            _RemoteExtraParams.SetModel(Model.MULTIPOINT_X);
+                        }
                         else
                         {
                             //This is 2-point firmware.
@@ -1469,12 +1303,6 @@ S15: MAX_WINDOW=131
             }
             catch (Exception ex)
             {
-                try
-                {
-                }
-                catch
-                {
-                }
                 lbl_status.Text = "Error";
                 MsgBox.CustomMessageBox.Show("Error during read " + ex);
             }
@@ -1802,9 +1630,14 @@ red LED solid - in firmware update mode");
 
         private void BUT_loadcustom_Click(object sender, EventArgs e)
         {
+            ProgramFirmware(true);
+        }
+
+        void ProgramFirmware(bool Custom)
+        {
             EnableProgrammingControls(false);
             EnableConfigControls(false);
-            
+
             try
             {
                 EndSession();
@@ -1835,8 +1668,15 @@ red LED solid - in firmware update mode");
                 }
                 else
                 {
-                    UpdateStatus("Asking user for firmware file");
-                    if (getFirmwareLocal(RFD900 is RFD.RFD900.RFD900x))
+                    if (Custom)
+                    {
+                        UpdateStatus("Asking user for firmware file");
+                    }
+                    else
+                    {
+                        UpdateStatus("Getting firmware from internet");
+                    }
+                    if (getFirmware(RFD900.Board, Custom))
                     {
                         UpdateStatus("Programming firmware into device");
                         if (RFD900.ProgramFirmware(firmwarefile, ProgressEvtHdlr))

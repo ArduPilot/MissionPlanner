@@ -565,7 +565,8 @@ namespace RFD.RFD900
         }
 
         /// <summary>
-        /// Parse an ATI5 query response, into a list of settings.
+        /// Parse an ATI5 query response, into a list of settings.  Settings may contain the options
+        /// available.
         /// </summary>
         /// <param name="ATI5Response">The full ATI5 query response.  Must not be null.</param>
         /// <returns>A dictionary of settings found, with name as key.  Never null.</returns>
@@ -765,6 +766,8 @@ namespace RFD.RFD900
             System.Windows.Forms.MessageBox.Show("File doesn't appear to be valid for this radio.  Could not find \"" +
                     GetFirmwareSearchToken() + "\" in file.");
         }
+
+        public abstract uploader.Uploader.Board Board { get; }
     }
 
     public abstract class RFD900APU : RFD900
@@ -840,6 +843,14 @@ namespace RFD.RFD900
         {
             return "RFD900A";
         }
+
+        public override Uploader.Board Board
+        {
+            get
+            {
+                return Uploader.Board.DEVICE_ID_RFD900A;
+            }
+        }
     }
 
     public class RFD900p : RFD900APU
@@ -854,6 +865,14 @@ namespace RFD.RFD900
         {
             return "RFD900P";
         }
+
+        public override Uploader.Board Board
+        {
+            get
+            {
+                return Uploader.Board.DEVICE_ID_RFD900P;
+            }
+        }
     }
 
     public class RFD900u : RFD900APU
@@ -867,6 +886,14 @@ namespace RFD.RFD900
         protected override string GetFirmwareSearchToken()
         {
             return "RFD900U";
+        }
+
+        public override Uploader.Board Board
+        {
+            get
+            {
+                return Uploader.Board.DEVICE_ID_RFD900U;
+            }
         }
     }
 
@@ -914,6 +941,14 @@ namespace RFD.RFD900
         protected override string GetFirmwareSearchToken()
         {
             return "RFD900x";
+        }
+
+        public override Uploader.Board Board
+        {
+            get
+            {
+                return Uploader.Board.DEVICE_ID_RFD900X;
+            }
         }
     }
 }

@@ -1434,6 +1434,7 @@
             resources.ApplyResources(this.BUT_upload, "BUT_upload");
             this.BUT_upload.Name = "BUT_upload";
             this.BUT_upload.UseVisualStyleBackColor = true;
+            this.BUT_upload.Click += new System.EventHandler(this.BUT_upload_Click);
             // 
             // BUT_Syncoptions
             // 
