@@ -610,8 +610,6 @@ namespace MissionPlanner
             var t = Type.GetType("Mono.Runtime");
             MONO = (t != null);
 
-            speechEngine = new Speech();
-
             Warnings.CustomWarning.defaultsrc = comPort.MAV.cs;
             Warnings.WarningEngine.Start();
 
@@ -3171,7 +3169,7 @@ namespace MissionPlanner
                     var fw = new Firmware();
                     var list = fw.getFWList();
                     if (list.Count > 1)
-                        Firmware.SaveSoftwares(list);
+                        Firmware.SaveSoftwares(new Firmware.optionsObject() { softwares = list });
 
                     Settings.Instance["fw_check"] = DateTime.Now.ToShortDateString();
                 }
