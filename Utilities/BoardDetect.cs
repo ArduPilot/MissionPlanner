@@ -39,7 +39,9 @@ namespace MissionPlanner.Utilities
             bebop2,
             disco,
             solo,
-            revomini
+            revomini,
+            mindpxv2,
+            minipix
         }
    
         /// <summary>
@@ -69,11 +71,52 @@ namespace MissionPlanner.Utilities
                                 log.Info("is a px4v4 pixracer");
                                 return boards.px4v4;
                             }
-                            /*if (item.board == "PX4 FMU v2.x")
+                            if (item.board == "PX4 FMU v2.x")
                             {
-                                log.Info("is a px4v2");
-                                return boards.px4v2;
+                                CustomMessageBox.Show(Strings.PleaseUnplugTheBoardAnd);
+
+                                DateTime DEADLINE = DateTime.Now.AddSeconds(30);
+
+                                while (DateTime.Now < DEADLINE)
+                                {
+                                    string[] allports = SerialPort.GetPortNames();
+
+                                    foreach (string port1 in allports)
+                                    {
+                                        log.Info(DateTime.Now.Millisecond + " Trying Port " + port1);
+                                        try
+                                        {
+                                            using (var up = new Uploader(port1, 115200))
+                                            {
+                                                up.identify();
+                                                Console.WriteLine(
+                                                    "Found board type {0} boardrev {1} bl rev {2} fwmax {3} on {4}",
+                                                    up.board_type,
+                                                    up.board_rev, up.bl_rev, up.fw_maxsize, port1);
+
+                                                if (up.fw_maxsize == 2080768 && up.board_type == 9 && up.bl_rev >= 5)
+                                                {
+                                                    log.Info("is a px4v3");
+                                                    return boards.px4v3;
+                                                }
+                                                else
+                                                {
+                                                    log.Info("is a px4v2");
+                                                    return boards.px4v2;
+                                                }
+                                            }
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            log.Error(ex);
+                                        }
+                                    }
+                                }
+
+                                log.Info("Failed to detect px4 board type");
+                                return boards.none;
                             }
+                            /*
                             if (item.board == "Arduino Mega 2560")
                             {
                                 log.Info("is a 2560v2");
@@ -83,6 +126,16 @@ namespace MissionPlanner.Utilities
                             {
                                 log.Info("is a revo-mini");
                                 return boards.revomini;
+                            }
+                            if (item.board == "mini-pix")
+                            {
+                                log.Info("is a mini-pix");
+                                return boards.minipix;
+                            }
+                            if (item.board == "mindpx-v2")
+                            {
+                                log.Info("is a mindpx-v2");
+                                return boards.mindpxv2;
                             }
                         }
                     }

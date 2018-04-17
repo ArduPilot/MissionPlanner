@@ -2,6 +2,7 @@
 using ManagedNativeWifi.Simple;
 using MissionPlanner.Arduino;
 using MissionPlanner.Comms;
+using Newtonsoft.Json;
 using px4uploader;
 using SharpAdbClient;
 using solo;
@@ -37,35 +38,80 @@ namespace MissionPlanner.Utilities
 
         public List<KeyValuePair<string, string>> niceNames = new List<KeyValuePair<string, string>>();
 
-        List<software> softwares = new List<software>();
+        private optionsObject options = new optionsObject();
 
         [Serializable]
-        [XmlType(TypeName = "software")]
-        public struct software
+        [XmlType(TypeName = "options")]
+        public class optionsObject
         {
-            public string url;
-            public string url2560;
-            public string url2560_2;
-            public string urlpx4v1;
-            public string urlpx4v2;
-            public string urlpx4v3;
-            public string urlpx4v4;
-            public string urlpx4v4pro;
-            public string urlvrbrainv40;
-            public string urlvrbrainv45;
-            public string urlvrbrainv50;
-            public string urlvrbrainv51;
-            public string urlvrbrainv52;
-            public string urlvrbrainv54;
-            public string urlvrcorev10;
-            public string urlvrubrainv51;
-            public string urlvrubrainv52;
-            public string urlbebop2;
-            public string urldisco;
-            public string urlrevomini;
-            public string name;
-            public string desc;
+            [XmlElement(ElementName = "Firmware")]
+            public List<software> softwares = new List<software>();
+        }
+
+        [Serializable]
+        [XmlType(TypeName = "Firmware")]
+        public class software
+        {
+            public string url = "";
+            public string url2560 = "";
+            public string url2560_2 = "";
+            public string urlpx4v1 = "";
+            public string urlpx4v2 = "";
+            public string urlpx4v3 = "";
+            public string urlpx4v4 = "";
+            public string urlpx4v4pro = "";
+            public string urlvrbrainv40 = "";
+            public string urlvrbrainv45 = "";
+            public string urlvrbrainv50 = "";
+            public string urlvrbrainv51 = "";
+            public string urlvrbrainv52 = "";
+            public string urlvrbrainv54 = "";
+            public string urlvrcorev10 = "";
+            public string urlvrubrainv51 = "";
+            public string urlvrubrainv52 = "";
+            public string urlbebop2 = "";
+            public string urldisco = "";
+            
+            // chibios - libraries\AP_HAL_ChibiOS\hwdef
+            public string urlfmuv2 = "";
+            public string urlfmuv3 = "";
+            public string urlfmuv4 = "";
+            public string urlrevomini = "";
+
+            public string name = "";
+            public string desc = "";
             public int k_format_version;
+        }
+
+        public class FirmwareInfo
+        {
+            [JsonProperty("mav-type")]
+            public string mav_type { get; set; }
+            [JsonProperty("mav-firmware-version-minor")]
+            public string mav_firmware_version_minor { get; set; }
+            public string format { get; set; }
+            public string url { get; set; }
+            [JsonProperty("mav-firmware-version-type")]
+            public string mav_firmware_version_type { get; set; }
+            [JsonProperty("mav-firmware-version-patch")]
+            public string mav_firmware_version_patch { get; set; }
+            [JsonProperty("mav-autopilot")]
+            public string mav_autopilot { get; set; }
+            public string platform { get; set; }
+            [JsonProperty("mav-firmware-version")]
+            public string mav_firmware_version { get; set; }
+            [JsonProperty("git-sha")]
+            public string git_sha { get; set; }
+            [JsonProperty("mav-firmware-version-major")]
+            public string mav_firmware_version_major { get; set; }
+            public int latest { get; set; }
+        }
+
+        public class RootObject
+        {
+            public List<FirmwareInfo> firmware { get; set; }
+            [JsonProperty("format-version")]
+            public string format_version { get; set; }
         }
 
         public string getUrl(string hash, string filename)
@@ -139,6 +185,8 @@ namespace MissionPlanner.Utilities
                 }
             }
 
+            //firmwares = JsonConvert.DeserializeObject<RootObject>(new WebClient().DownloadString("http://firmware.ardupilot.org/manifest.json"));
+
             System.Threading.Thread.CurrentThread.CurrentUICulture = L10N.ConfigLang;
         }
 
@@ -154,31 +202,7 @@ namespace MissionPlanner.Utilities
             // mirror support
             log.Info("getFWList");
 
-            string url = "";
-            string url2560 = "";
-            string url2560_2 = "";
-            string px4 = "";
-            string px4v2 = "";
-            string px4v3 = "";
-            string px4v4 = "";
-            string px4v4pro = "";
-            string vrbrainv40 = "";
-            string vrbrainv45 = "";
-            string vrbrainv50 = "";
-            string vrbrainv51 = "";
-            string vrbrainv52 = "";
-            string vrbrainv54 = "";
-            string vrcorev10 = "";
-            string vrubrainv51 = "";
-            string vrubrainv52 = "";
-            string revomini = "";
-            string bebop2 = "";
-            string disco = "";
-            string name = "";
-            string desc = "";
-            int k_format_version = 0;
-
-            softwares.Clear();
+            options.softwares.Clear();
 
             software temp = new software();
 
@@ -192,144 +216,15 @@ namespace MissionPlanner.Utilities
 
             try
             {
+                XmlSerializer xms = new XmlSerializer(typeof(optionsObject), new Type[] { typeof(software) });
+
                 log.Info("url: " + firmwareurl);
                 using (XmlTextReader xmlreader = new XmlTextReader(firmwareurl))
                 {
-                    while (xmlreader.Read())
-                    {
-                        xmlreader.MoveToElement();
-                        switch (xmlreader.Name)
-                        {
-                            case "url":
-                                url = xmlreader.ReadString();
-                                break;
-                            case "url2560":
-                                url2560 = xmlreader.ReadString();
-                                break;
-                            case "url2560-2":
-                                url2560_2 = xmlreader.ReadString();
-                                break;
-                            case "urlpx4":
-                                px4 = xmlreader.ReadString();
-                                break;
-                            case "urlpx4v2":
-                                px4v2 = xmlreader.ReadString();
-                                break;
-                            case "urlpx4v3":
-                                px4v3 = xmlreader.ReadString();
-                                break;
-                            case "urlpx4v4":
-                                px4v4 = xmlreader.ReadString();
-                                break;
-                            case "urlpx4v4pro":
-                                px4v4pro = xmlreader.ReadString();
-                                break;								
-                            case "urlvrbrainv40":
-                                vrbrainv40 = xmlreader.ReadString();
-                                break;
-                            case "urlvrbrainv45":
-                                vrbrainv45 = xmlreader.ReadString();
-                                break;
-                            case "urlvrbrainv50":
-                                vrbrainv50 = xmlreader.ReadString();
-                                break;
-                            case "urlvrbrainv51":
-                                vrbrainv51 = xmlreader.ReadString();
-                                break;
-                            case "urlvrbrainv52":
-                                vrbrainv52 = xmlreader.ReadString();
-                                break;
-                            case "urlvrbrainv54":
-                                vrbrainv54 = xmlreader.ReadString();
-                                break;
-                            case "urlvrcorev10":
-                                vrcorev10 = xmlreader.ReadString();
-                                break;
-                            case "urlvrubrainv51":
-                                vrubrainv51 = xmlreader.ReadString();
-                                break;
-                            case "urlvrubrainv52":
-                                vrubrainv52 = xmlreader.ReadString();
-                                break;
-                            case "urlbebop2":
-                                bebop2 = xmlreader.ReadString();
-                                break;
-                            case "urldisco":
-                                disco = xmlreader.ReadString();
-                                break;
-                            case "urlrevomini":
-                                revomini = xmlreader.ReadString();
-                                break;
-                            case "name":
-                                name = xmlreader.ReadString();
-                                break;
-                            case "format_version":
-                                k_format_version = int.Parse(xmlreader.ReadString());
-                                break;
-                            case "desc":
-                                desc = xmlreader.ReadString();
-                                break;
-                            case "Firmware":
-                                if (!name.Equals("") && !desc.Equals("Please Update"))
-                                {
-                                    temp.desc = desc.Trim();
-                                    temp.name = name;
-                                    temp.url = url;
-                                    temp.url2560 = url2560;
-                                    temp.url2560_2 = url2560_2;
-                                    temp.urlpx4v1 = px4;
-                                    temp.urlpx4v2 = px4v2;
-                                    temp.urlpx4v3 = px4v3;
-                                    temp.urlpx4v4 = px4v4;
-                                    temp.urlpx4v4pro = px4v4pro;
-                                    temp.urlvrbrainv40 = vrbrainv40;
-                                    temp.urlvrbrainv45 = vrbrainv45;
-                                    temp.urlvrbrainv50 = vrbrainv50;
-                                    temp.urlvrbrainv51 = vrbrainv51;
-                                    temp.urlvrbrainv52 = vrbrainv52;
-                                    temp.urlvrbrainv54 = vrbrainv54;
-                                    temp.urlvrcorev10 = vrcorev10;
-                                    temp.urlvrubrainv51 = vrubrainv51;
-                                    temp.urlvrubrainv52 = vrubrainv52;
-                                    temp.urlrevomini = revomini;
-                                    temp.urlbebop2 = bebop2;
-                                    temp.urldisco = disco;
-                                    temp.k_format_version = k_format_version;
-
-                                    softwares.Add(temp);
-                                }
-                                url = "";
-                                url2560 = "";
-                                url2560_2 = "";
-                                px4 = "";
-                                px4v2 = "";
-                                px4v3 = "";
-                                px4v4 = "";
-                                px4v4pro = "";
-                                vrbrainv40 = "";
-                                vrbrainv45 = "";
-                                vrbrainv50 = "";
-                                vrbrainv51 = "";
-                                vrbrainv52 = "";
-                                vrbrainv54 = "";
-                                vrcorev10 = "";
-                                vrubrainv51 = "";
-                                vrubrainv52 = "";
-                                bebop2 = "";
-                                disco = "";
-                                revomini = "";
-                                name = "";
-                                desc = "";
-                                k_format_version = 0;
-                                temp = new software();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
+                    options = (optionsObject)xms.Deserialize(xmlreader);
                 }
 
-                Parallel.ForEach(softwares, software =>
+                Parallel.ForEach(options.softwares, software =>
                 {
                     try
                     {
@@ -351,13 +246,13 @@ namespace MissionPlanner.Utilities
 
             updateProgress(-1, Strings.ReceivedList);
 
-            return softwares;
+            return options.softwares;
         }
 
-        public static void SaveSoftwares(List<software> list)
+        public static void SaveSoftwares(optionsObject list)
         {
             System.Xml.Serialization.XmlSerializer writer =
-                new System.Xml.Serialization.XmlSerializer(typeof (List<software>), new Type[] {typeof (software)});
+                new System.Xml.Serialization.XmlSerializer(typeof (optionsObject), new Type[] {typeof (software)});
 
             using (
                 StreamWriter sw =
@@ -372,13 +267,13 @@ namespace MissionPlanner.Utilities
             try
             {
                 System.Xml.Serialization.XmlSerializer reader =
-                    new System.Xml.Serialization.XmlSerializer(typeof (List<software>), new Type[] {typeof (software)});
+                    new System.Xml.Serialization.XmlSerializer(typeof (optionsObject), new Type[] {typeof (software)});
 
                 using (
                     StreamReader sr =
                         new StreamReader(Settings.GetUserDataDirectory() + "fwversions.xml"))
                 {
-                    return (List<software>) reader.Deserialize(sr);
+                    return ((optionsObject) reader.Deserialize(sr)).softwares;
                 }
             }
             catch (Exception ex)
@@ -432,15 +327,15 @@ namespace MissionPlanner.Utilities
                             log.Info(line);
 
                             // get index
-                            var index = softwares.IndexOf(temp);
+                            var index = options.softwares.IndexOf(temp);
                             // get item to modify
-                            var item = softwares[index];
+                            var item = options.softwares[index];
                             // move existing name
                             item.desc = item.name;
                             // change name
                             item.name = line.Substring(line.IndexOf(':') + 2);
                             // save back to list
-                            softwares[index] = item;
+                            options.softwares[index] = item;
 
                             return;
                         }
@@ -1267,6 +1162,7 @@ namespace MissionPlanner.Utilities
         }
 
         string _message = "";
+        private RootObject firmwares;
 
         void up_LogEvent(string message, int level = 0)
         {
