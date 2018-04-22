@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="pointCameraHereToolStripMenuItem.Text" xml:space="preserve">
     <value>定点カメラは、ここです。</value>
@@ -127,7 +127,7 @@
     <value>選択したスクリプトの編集</value>
   </data>
   <data name="BUT_abort_script.Text" xml:space="preserve">
-    <value>動作中のスクリプトをアボート</value>
+    <value>動作中のスクリプトを中断</value>
   </data>
   <data name="BUT_quickmanual.Text" xml:space="preserve">
     <value>ロイター</value>
@@ -136,13 +136,13 @@
     <value>サーボ</value>
   </data>
   <data name="BUT_playlog.Text" xml:space="preserve">
-    <value>再生/ポーズ</value>
+    <value>再生/一時停止</value>
   </data>
   <data name="BUT_setwp.ToolTip" xml:space="preserve">
     <value>現在のターゲット・ウェイポイントの変更</value>
   </data>
   <data name="BUT_quickauto.ToolTip" xml:space="preserve">
-    <value>モードをオートに変更</value>
+    <value>モードをAUTOに変更</value>
   </data>
   <data name="goHereToolStripMenuItem.Text" xml:space="preserve">
     <value>ここまで飛行</value>
@@ -172,7 +172,7 @@
     <value>マップ上に記録されたパスをクリアする</value>
   </data>
   <data name="BUT_resumemis.Text" xml:space="preserve">
-    <value>ミッションの再開</value>
+    <value>ミッション再開</value>
   </data>
   <data name="CB_tuning.ToolTip" xml:space="preserve">
     <value>チューニング・グラフの表示、ターゲットと実際の方位を示す</value>
@@ -193,13 +193,13 @@
     <value>現在のWPに直行</value>
   </data>
   <data name="BUT_log2kml.Text" xml:space="preserve">
-    <value>Tlog を Kml または Graph　に</value>
+    <value>TlogをKmlまたはGraphに変換</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>ズーム</value>
   </data>
   <data name="BUT_clear_track.Text" xml:space="preserve">
-    <value>軌跡のクリア</value>
+    <value>軌跡をクリア</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
     <value>GPS 軌跡 (黒)</value>
@@ -268,7 +268,7 @@
     <value>カメラを即トリガー</value>
   </data>
   <data name="BUT_run_script.Text" xml:space="preserve">
-    <value>スクリプトの実行</value>
+    <value>スクリプト実行</value>
   </data>
   <data name="dropOutToolStripMenuItem.Text" xml:space="preserve">
     <value>ドロップアウト</value>
@@ -352,7 +352,7 @@
     <value>Poi　の追加</value>
   </data>
   <data name="BUT_joystick.ToolTip" xml:space="preserve">
-    <value>ジョイスティックをセットアップして、イネーブルする。</value>
+    <value>ジョイスティックをセットアップして有効にする。</value>
   </data>
   <data name="BUT_Homealt.ToolTip" xml:space="preserve">
     <value>現在のaltをゼロにセットする。　例、ホームのaltがゼロと表示される。</value>
@@ -379,7 +379,7 @@
     <value>Auto</value>
   </data>
   <data name="BUT_select_script.Text" xml:space="preserve">
-    <value>スクリプトの選択</value>
+    <value>スクリプト選択</value>
   </data>
   <data name="tabTLogs.Text" xml:space="preserve">
     <value>テレメトリ ログ</value>
@@ -406,7 +406,7 @@
     <value>モードをAutoに変える</value>
   </data>
   <data name="BUT_setmode.Text" xml:space="preserve">
-    <value>モードのセット</value>
+    <value>モードをセット</value>
   </data>
   <data name="lbl_playbackspeed.Text" xml:space="preserve">
     <value>x 1.0</value>
@@ -428,5 +428,8 @@
   </data>
   <data name="lbl_hdop.ToolTip" xml:space="preserve">
     <value>GPS hdop</value>
+  </data>
+  <data name="BUT_abortland.Text" xml:space="preserve">
+    <value>着陸中断</value>
   </data>
 </root>
