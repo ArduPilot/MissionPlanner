@@ -130,7 +130,7 @@
     <value>動作中のスクリプトを中断</value>
   </data>
   <data name="BUT_quickmanual.Text" xml:space="preserve">
-    <value>ロイター</value>
+    <value>Loiter</value>
   </data>
   <data name="tabServo.Text" xml:space="preserve">
     <value>サーボ</value>
@@ -142,7 +142,7 @@
     <value>現在のターゲット・ウェイポイントの変更</value>
   </data>
   <data name="BUT_quickauto.ToolTip" xml:space="preserve">
-    <value>モードをAUTOに変更</value>
+    <value>モードをAutoに変更</value>
   </data>
   <data name="goHereToolStripMenuItem.Text" xml:space="preserve">
     <value>ここまで飛行</value>
@@ -187,7 +187,7 @@
     <value>スピード</value>
   </data>
   <data name="BUT_ARM.ToolTip" xml:space="preserve">
-    <value>MavをARMする。</value>
+    <value>アームまたはディスアーム</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>現在のWPに直行</value>
@@ -205,7 +205,7 @@
     <value>GPS 軌跡 (黒)</value>
   </data>
   <data name="BUT_ARM.Text" xml:space="preserve">
-    <value>Arm/ Disarm</value>
+    <value>Arm/Disarm</value>
   </data>
   <data name="dataGridViewImageColumn1.HeaderText" xml:space="preserve">
     <value>アップ</value>
@@ -289,7 +289,7 @@
     <value>ミッションのリスタート</value>
   </data>
   <data name="BUT_quickmanual.ToolTip" xml:space="preserve">
-    <value>モードをManual/Stabalizeに変更</value>
+    <value>モードをLoiterに変更</value>
   </data>
   <data name="BUT_speed1_2.Text" xml:space="preserve">
     <value>1/2</value>
@@ -355,7 +355,7 @@
     <value>ジョイスティックをセットアップして有効にする。</value>
   </data>
   <data name="BUT_Homealt.ToolTip" xml:space="preserve">
-    <value>現在のaltをゼロにセットする。　例、ホームのaltがゼロと表示される。</value>
+    <value>現在表示されているaltを0にセットする。例:ホームのaltが0と表示される。</value>
   </data>
   <data name="BUT_speed2.Text" xml:space="preserve">
     <value>2x</value>
