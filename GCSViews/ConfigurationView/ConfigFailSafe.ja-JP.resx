@@ -118,7 +118,8 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="mavlinkCheckBoxthr_fs_action.ToolTip" xml:space="preserve">
-    <value>Arducopter Auto: GPSが有効であれば, RTL, そうでなければ着陸</value>
+    <value>Arducopter Auto: OFF:アクションなし、ON:RTL
+Arducopter Other: GPS有:RTL, GPS無:LAND</value>
   </data>
   <data name="groupBox4.Text" xml:space="preserve">
     <value>電池</value>

@@ -124,6 +124,6 @@
     <value>OSD</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
-    <value>OSDの表示が変わらない問題があるときは選択してください。</value>
+    <value>OSDの表示が変わらない問題があるときはこれを選択してください。</value>
   </data>
 </root>
