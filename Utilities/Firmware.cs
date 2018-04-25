@@ -395,6 +395,7 @@ namespace MissionPlanner.Utilities
                 else if (board == BoardDetect.boards.px4v2)
                 {
                     baseurl = temp.urlpx4v2.ToString();
+                    baseurl = CheckChibiOS(baseurl, temp.urlfmuv2);
                 }
                 else if (board == BoardDetect.boards.px4v3)
                 {
@@ -403,10 +404,13 @@ namespace MissionPlanner.Utilities
                     {
                         baseurl = temp.urlpx4v2.ToString();
                     }
+
+                    baseurl = CheckChibiOS(baseurl, temp.urlfmuv3);
                 }
                 else if (board == BoardDetect.boards.px4v4)
                 {
                     baseurl = temp.urlpx4v4.ToString();
+                    baseurl = CheckChibiOS(baseurl, temp.urlfmuv4);
                 }
                 else if (board == BoardDetect.boards.px4v4pro)
                 {
@@ -559,6 +563,21 @@ namespace MissionPlanner.Utilities
             Tracking.AddTiming("Firmware Upload", board.ToString(), uploadtime, temp.name);
 
             return ans;
+        }
+
+        private string CheckChibiOS(string existingfw, string chibiosurl)
+        {
+            if (String.IsNullOrEmpty(chibiosurl) || !Download.CheckHTTPFileExists(chibiosurl))
+            {
+                return existingfw;
+            }
+
+            if (CustomMessageBox.Show("Upload ChibiOS", "ChibiOS", MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
+            {
+                return chibiosurl;
+            }
+
+            return existingfw;
         }
 
         /// <summary>
