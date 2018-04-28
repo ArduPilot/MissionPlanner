@@ -58,6 +58,7 @@ namespace MissionPlanner.Utilities
             {
                 try
                 {
+                    // check the device reported productname
                     var ports = Win32DeviceMgmt.GetAllCOMPorts();
 
                     foreach (var item in ports)
@@ -69,6 +70,21 @@ namespace MissionPlanner.Utilities
                             if (item.board == "PX4 FMU v4.x")
                             {
                                 log.Info("is a px4v4 pixracer");
+                                return boards.px4v4;
+                            }
+                            if (item.board == "fmuv2")
+                            {
+                                log.Info("is a fmuv2");
+                                return boards.px4v2;
+                            }
+                            if (item.board == "fmuv3")
+                            {
+                                log.Info("is a fmuv3");
+                                return boards.px4v3;
+                            }
+                            if (item.board == "fmuv4")
+                            {
+                                log.Info("is a fmuv4");
                                 return boards.px4v4;
                             }
                             if (item.board == "PX4 FMU v2.x")
@@ -176,7 +192,8 @@ namespace MissionPlanner.Utilities
                         }
                     }
 
-                    if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0011"))
+                    // chibios or normal px4
+                    if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_0483&PID_5740") || obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0011"))
                     {
                         CustomMessageBox.Show(Strings.PleaseUnplugTheBoardAnd);
 
