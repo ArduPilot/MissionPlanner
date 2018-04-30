@@ -11,6 +11,12 @@ namespace SikRadio
 {
     public partial class Config : Form
     {
+        bool _Connected = false;
+        Sikradio _Settings;
+        Terminal _Terminal;
+        Rssi _RSSI;
+        static ICommsSerial _comPort;
+
         public Config()
         {
             InitializeComponent();
@@ -20,6 +26,8 @@ namespace SikRadio
             Text = "RFD900 Tools " + Version.Minor.ToString() + "." + Version.Build.ToString() + " - RFDesign";
 
             loadSettings();
+            loadTerminal();
+            loadRssi();
 
             CMB_SerialPort.Items.AddRange(SerialPort.GetPortNames());
             CMB_SerialPort.Items.Add("TCP");
@@ -47,13 +55,23 @@ namespace SikRadio
             return inputboxreturn.OK;
         }
 
+        public static ICommsSerial comPort
+        {
+            get
+            {
+                return _comPort;
+            }
+        }
+
         private void loadSettings()
         {
-            Terminal.threadrun = false;
+            //Terminal.threadrun = false;
 
-            panel1.Controls.Clear();
+            //panel1.Controls.Clear();
 
             var form = new Sikradio();
+            _Settings = form;
+            _Settings.Enabled = false;
 
             panel1.Controls.Add(form);
 
@@ -64,13 +82,13 @@ namespace SikRadio
 
         private void loadTerminal()
         {
-            panel1.Controls.Clear();
+            //panel1.Controls.Clear();
 
-            var form = new Terminal();
+            _Terminal = new Terminal();
 
-            form.Dock = DockStyle.Fill;
+            _Terminal.Dock = DockStyle.Fill;
 
-            panel1.Controls.Add(form);
+            panel1.Controls.Add(_Terminal);
 
             ThemeManager.SetTheme(ThemeManager.Themes.None);
 
@@ -79,15 +97,15 @@ namespace SikRadio
 
         private void loadRssi()
         {
-            Terminal.threadrun = false;
+            //Terminal.threadrun = false;
 
-            panel1.Controls.Clear();
+            //panel1.Controls.Clear();
 
-            var form = new Rssi();
+            _RSSI = new Rssi();
 
-            form.Dock = DockStyle.Fill;
+            _RSSI.Dock = DockStyle.Fill;
 
-            panel1.Controls.Add(form);
+            panel1.Controls.Add(_RSSI);
 
             ThemeManager.SetTheme(ThemeManager.Themes.None);
 
@@ -126,17 +144,119 @@ namespace SikRadio
 
         private void terminalToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            loadTerminal();
+            _Settings.Hide();
+            _Settings.Disconnect();
+            _RSSI.Hide();
+            _Terminal.Connect();
+            _Terminal.Show();
         }
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            loadSettings();
+            _RSSI.Hide();
+            _Terminal.Hide();
+            _Terminal.Disconnect();
+            _Settings.Show();
+            _Settings.Connect();
         }
 
         private void rssiToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            loadRssi();
+            _Terminal.Hide();
+            _Terminal.Disconnect();
+            _Settings.Hide();
+            _Settings.Disconnect();
+            _RSSI.Show();
+        }
+
+        void getTelemPortWithRadio(ref ICommsSerial comPort)
+        {
+            // try telem1
+
+            comPort = new MAVLinkSerialPort(MainV2.comPort, (int)MAVLink.SERIAL_CONTROL_DEV.TELEM1);
+
+            comPort.ReadTimeout = 4000;
+
+            comPort.Open();
+        }
+
+        bool Connect()
+        {
+            try
+            {
+                if (MainV2.comPort.BaseStream.PortName.Contains("TCP"))
+                {
+                    _comPort = new TcpSerial();
+                    _comPort.BaudRate = MainV2.comPort.BaseStream.BaudRate;
+                    _comPort.ReadTimeout = 4000;
+                    _comPort.Open();
+                }
+                else
+                {
+                    _comPort = new SerialPort();
+
+                    if (MainV2.comPort.BaseStream.IsOpen)
+                    {
+                        getTelemPortWithRadio(ref _comPort);
+                    }
+                    else
+                    {
+                        _comPort.PortName = MainV2.comPort.BaseStream.PortName;
+                        _comPort.BaudRate = MainV2.comPort.BaseStream.BaudRate;
+                    }
+
+                    _comPort.ReadTimeout = 4000;
+
+                    _comPort.Open();
+                }
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        bool Disconnect()
+        {
+            _comPort.Close();
+            _comPort = null;
+            return true;
+        }
+
+        private void btnConnect_Click(object sender, EventArgs e)
+        {
+            if (_Connected)
+            {
+                Disconnect();
+                _Connected = false;
+                btnConnect.Text = "Connect";
+                _Settings.Enabled = false;
+                _RSSI.Enabled = false;
+                _Terminal.Enabled = false;
+                CMB_Baudrate.Enabled = true;
+                CMB_SerialPort.Enabled = true;
+            }
+            else
+            {
+                if (Connect())
+                {
+                    _Connected = true;
+                    btnConnect.Text = "Disconnect";
+                    _Settings.Enabled = true;
+                    _RSSI.Enabled = true;
+                    _Terminal.Enabled = true;
+                    CMB_Baudrate.Enabled = false;
+                    CMB_SerialPort.Enabled = false;
+                }
+            }
+        }
+
+        private void Config_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _Terminal.Disconnect();
+            _Settings.Disconnect();
         }
     }
 }
