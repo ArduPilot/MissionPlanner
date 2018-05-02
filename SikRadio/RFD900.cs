@@ -128,8 +128,8 @@ namespace RFD.RFD900
             _Port.DiscardInBuffer();
             //Console.WriteLine("Sending +++");
             _Port.Write("+++");
-            //Console.WriteLine("Waiting up to 3s for OK");
-            if (WaitForToken("OK\r\n", 3000))
+            //Console.WriteLine("Waiting up to 1.5s for OK");
+            if (WaitForToken("OK\r\n", 1500))
             {
                 return TMode.AT_COMMAND;
             }
@@ -239,6 +239,7 @@ namespace RFD.RFD900
             //Console.WriteLine("Waiting up to 3s for OK");
             if (WaitForToken("OK\r\n", 3000))
             {
+                _Mode = TMode.AT_COMMAND;
                 return TMode.AT_COMMAND;
             }
 
@@ -254,6 +255,7 @@ namespace RFD.RFD900
         {
             if (GetMode() == TMode.TRANSPARENT)
             {
+                System.Diagnostics.Debug.WriteLine("Already in transparent mode");
                 return TMode.TRANSPARENT;
             }
             else
@@ -264,12 +266,20 @@ namespace RFD.RFD900
                     Thread.Sleep(100);
                     _Port.Write("ATO\r\n");
                     Thread.Sleep(100);
-                    WaitForToken("ATO\r\n", 100);
+                    if (WaitForToken("ATO\r\n", 100))
+                    {
+                        System.Diagnostics.Debug.WriteLine("Put into transparent mode OK");
+                    }
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine("Failed to put into transparent mode");
+                    }
                     _Mode = TMode.TRANSPARENT;
                     return TMode.TRANSPARENT;
                 }
                 else
                 {
+                    System.Diagnostics.Debug.WriteLine("Failed to put into AT cmd mode");
                     return TMode.UNKNOWN;
                 }
             }
