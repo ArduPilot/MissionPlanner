@@ -275,6 +275,11 @@ namespace RFD.RFD900
             }
         }
 
+        public void AssumeMode(TMode Mode)
+        {
+            _Mode = Mode;
+        }
+
         /// <summary>
         /// Parse the setting designator from the given Line and character positon.
         /// </summary>

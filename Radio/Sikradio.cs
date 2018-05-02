@@ -19,7 +19,7 @@ using Microsoft.VisualBasic;
 
 namespace MissionPlanner.Radio
 {
-    public partial class Sikradio : UserControl
+    public partial class Sikradio : UserControl, SikRadio.ISikRadioForm
     {
         public delegate void LogEventHandler(string message, int level = 0);
 
@@ -119,13 +119,12 @@ S15: MAX_WINDOW=131
             this.Disposed += DisposedEvtHdlr;
         }
 
-        public bool Connect()
+        public void Connect()
         {
             var S = GetSession();
-            return S != null;
         }
 
-        public bool Disconnect()
+        public void Disconnect()
         {
             var S = _Session;
             if (S != null)
@@ -133,7 +132,6 @@ S15: MAX_WINDOW=131
                 S.PutIntoTransparentMode();
             }
             EndSession();
-            return true;
         }
 
         void DisposedEvtHdlr(object sender, EventArgs e)

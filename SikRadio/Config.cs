@@ -15,6 +15,8 @@ namespace SikRadio
         Sikradio _Settings;
         Terminal _Terminal;
         Rssi _RSSI;
+        ISikRadioForm _CurrentForm;
+        ISikRadioForm[] _Forms;
         static ICommsSerial _comPort;
 
         public Config()
@@ -29,6 +31,8 @@ namespace SikRadio
             loadTerminal();
             loadRssi();
 
+            _Forms = new ISikRadioForm[] { _RSSI, _Settings, _Terminal };
+
             CMB_SerialPort.Items.AddRange(SerialPort.GetPortNames());
             CMB_SerialPort.Items.Add("TCP");
 
@@ -39,6 +43,8 @@ namespace SikRadio
             CMB_Baudrate.SelectedIndex = CMB_Baudrate.Items.IndexOf("57600");
 
             MissionPlanner.Comms.CommsBase.InputBoxShow += CommsBaseOnInputBoxShow;
+
+            settingsToolStripMenuItem_Click(null, null);
         }
 
         /// <summary>
@@ -142,31 +148,37 @@ namespace SikRadio
             Process.Start("https://github.com/tridge/SiK");
         }
 
+        void ShowForm(ISikRadioForm Form)
+        {
+            foreach (var F in _Forms)
+            {
+                if (F != Form)
+                {
+                    F.Disconnect();
+                    F.Hide();
+                }
+            }
+            Form.Show();
+            if (_Connected)
+            {
+                Form.Connect();
+            }
+            _CurrentForm = Form;
+        }
+
         private void terminalToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _Settings.Hide();
-            _Settings.Disconnect();
-            _RSSI.Hide();
-            _Terminal.Connect();
-            _Terminal.Show();
+            ShowForm(_Terminal);
         }
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _RSSI.Hide();
-            _Terminal.Hide();
-            _Terminal.Disconnect();
-            _Settings.Show();
-            _Settings.Connect();
+            ShowForm(_Settings);
         }
 
         private void rssiToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _Terminal.Hide();
-            _Terminal.Disconnect();
-            _Settings.Hide();
-            _Settings.Disconnect();
-            _RSSI.Show();
+            ShowForm(_RSSI);
         }
 
         void getTelemPortWithRadio(ref ICommsSerial comPort)
@@ -229,6 +241,9 @@ namespace SikRadio
         {
             if (_Connected)
             {
+                _RSSI.Disconnect();
+                _Settings.Disconnect();
+                _Terminal.Disconnect();
                 Disconnect();
                 _Connected = false;
                 btnConnect.Text = "Connect";
@@ -242,6 +257,7 @@ namespace SikRadio
             {
                 if (Connect())
                 {
+                    _CurrentForm.Connect();
                     _Connected = true;
                     btnConnect.Text = "Disconnect";
                     _Settings.Enabled = true;
@@ -258,5 +274,13 @@ namespace SikRadio
             _Terminal.Disconnect();
             _Settings.Disconnect();
         }
+    }
+
+    public interface ISikRadioForm
+    {
+        void Connect();
+        void Disconnect();
+        void Show();
+        void Hide();
     }
 }

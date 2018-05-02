@@ -10,7 +10,7 @@ using MissionPlanner.MsgBox;
 
 namespace SikRadio
 {
-    public partial class Terminal : UserControl
+    public partial class Terminal : UserControl, ISikRadioForm
     {
         internal static StreamWriter sw;
         private StringBuilder cmd = new StringBuilder();
@@ -60,7 +60,7 @@ namespace SikRadio
 
         private void addText(string data)
         {
-            Invoke((MethodInvoker) delegate
+            BeginInvoke((MethodInvoker) delegate
             {
                 TXT_terminal.SelectionStart = TXT_terminal.Text.Length;
 
