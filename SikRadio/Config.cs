@@ -12,11 +12,7 @@ namespace SikRadio
     public partial class Config : Form
     {
         bool _Connected = false;
-        Sikradio _Settings;
-        Terminal _Terminal;
-        Rssi _RSSI;
         ISikRadioForm _CurrentForm;
-        ISikRadioForm[] _Forms;
         static ICommsSerial _comPort;
 
         public Config()
@@ -26,12 +22,6 @@ namespace SikRadio
             var Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
 
             Text = "RFD900 Tools " + Version.Minor.ToString() + "." + Version.Build.ToString() + " - RFDesign";
-
-            loadSettings();
-            loadTerminal();
-            loadRssi();
-
-            _Forms = new ISikRadioForm[] { _RSSI, _Settings, _Terminal };
 
             CMB_SerialPort.Items.AddRange(SerialPort.GetPortNames());
             CMB_SerialPort.Items.Add("TCP");
@@ -69,53 +59,60 @@ namespace SikRadio
             }
         }
 
-        private void loadSettings()
+        private ISikRadioForm loadSettings()
         {
             //Terminal.threadrun = false;
 
             //panel1.Controls.Clear();
 
             var form = new Sikradio();
-            _Settings = form;
-            _Settings.Enabled = false;
+            form.Enabled = false;
 
             panel1.Controls.Add(form);
 
             ThemeManager.SetTheme(ThemeManager.Themes.None);
 
             ThemeManager.ApplyThemeTo(this);
+
+            return form;
         }
 
-        private void loadTerminal()
+        private ISikRadioForm loadTerminal()
         {
             //panel1.Controls.Clear();
 
-            _Terminal = new Terminal();
+            var form = new Terminal();
+            form.Enabled = false;
 
-            _Terminal.Dock = DockStyle.Fill;
+            form.Dock = DockStyle.Fill;
 
-            panel1.Controls.Add(_Terminal);
+            panel1.Controls.Add(form);
 
             ThemeManager.SetTheme(ThemeManager.Themes.None);
 
             ThemeManager.ApplyThemeTo(this);
+
+            return form;
         }
 
-        private void loadRssi()
+        private ISikRadioForm loadRssi()
         {
             //Terminal.threadrun = false;
 
             //panel1.Controls.Clear();
 
-            _RSSI = new Rssi();
+            var form = new Rssi();
+            form.Enabled = false;
 
-            _RSSI.Dock = DockStyle.Fill;
+            form.Dock = DockStyle.Fill;
 
-            panel1.Controls.Add(_RSSI);
+            panel1.Controls.Add(form);
 
             ThemeManager.SetTheme(ThemeManager.Themes.None);
 
             ThemeManager.ApplyThemeTo(this);
+
+            return form;
         }
 
         private void CMB_SerialPort_SelectedIndexChanged(object sender, EventArgs e)
@@ -148,37 +145,32 @@ namespace SikRadio
             Process.Start("https://github.com/tridge/SiK");
         }
 
-        void ShowForm(ISikRadioForm Form)
+        void ShowForm(Func<ISikRadioForm> Constructor)
         {
-            foreach (var F in _Forms)
+            if (_CurrentForm != null)
             {
-                if (F != Form)
-                {
-                    F.Disconnect();
-                    F.Hide();
-                }
+                _CurrentForm.Disconnect();
+                _CurrentForm.Dispose();
             }
-            Form.Show();
-            if (_Connected)
-            {
-                Form.Connect();
-            }
-            _CurrentForm = Form;
+            _CurrentForm = Constructor();
+            _CurrentForm.Enabled = _Connected;
+            _CurrentForm.Show();
+            _CurrentForm.Connect();
         }
 
         private void terminalToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowForm(_Terminal);
+            ShowForm(loadTerminal);
         }
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowForm(_Settings);
+            ShowForm(loadSettings);
         }
 
         private void rssiToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowForm(_RSSI);
+            ShowForm(loadRssi);
         }
 
         void getTelemPortWithRadio(ref ICommsSerial comPort)
@@ -241,15 +233,17 @@ namespace SikRadio
         {
             if (_Connected)
             {
-                _RSSI.Disconnect();
-                _Settings.Disconnect();
-                _Terminal.Disconnect();
+                if (_CurrentForm != null)
+                {
+                    _CurrentForm.Disconnect();
+                }
                 Disconnect();
                 _Connected = false;
                 btnConnect.Text = "Connect";
-                _Settings.Enabled = false;
-                _RSSI.Enabled = false;
-                _Terminal.Enabled = false;
+                if (_CurrentForm != null)
+                {
+                    _CurrentForm.Enabled = false;
+                }
                 CMB_Baudrate.Enabled = true;
                 CMB_SerialPort.Enabled = true;
             }
@@ -257,12 +251,16 @@ namespace SikRadio
             {
                 if (Connect())
                 {
-                    _CurrentForm.Connect();
+                    if (_CurrentForm != null)
+                    {
+                        _CurrentForm.Connect();
+                    }
                     _Connected = true;
                     btnConnect.Text = "Disconnect";
-                    _Settings.Enabled = true;
-                    _RSSI.Enabled = true;
-                    _Terminal.Enabled = true;
+                    if (_CurrentForm != null)
+                    {
+                        _CurrentForm.Enabled = true;
+                    }
                     CMB_Baudrate.Enabled = false;
                     CMB_SerialPort.Enabled = false;
                 }
@@ -271,16 +269,18 @@ namespace SikRadio
 
         private void Config_FormClosing(object sender, FormClosingEventArgs e)
         {
-            _Terminal.Disconnect();
-            _Settings.Disconnect();
+            if (_CurrentForm != null)
+            {
+                _CurrentForm.Disconnect();
+            }
         }
     }
 
-    public interface ISikRadioForm
+    public interface ISikRadioForm : IDisposable
     {
         void Connect();
         void Disconnect();
         void Show();
-        void Hide();
+        bool Enabled { get; set; }
     }
 }
