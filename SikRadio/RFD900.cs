@@ -32,7 +32,7 @@ namespace RFD.RFD900
 
         public void Dispose()
         {
-            _Port.Close();
+            //_Port.Close();
         }
 
         public bool WaitForToken(string Token, int MaxWait)
@@ -128,8 +128,8 @@ namespace RFD.RFD900
             _Port.DiscardInBuffer();
             //Console.WriteLine("Sending +++");
             _Port.Write("+++");
-            //Console.WriteLine("Waiting up to 3s for OK");
-            if (WaitForToken("OK\r\n", 3000))
+            //Console.WriteLine("Waiting up to 1.5s for OK");
+            if (WaitForToken("OK\r\n", 1500))
             {
                 return TMode.AT_COMMAND;
             }
@@ -202,6 +202,8 @@ namespace RFD.RFD900
             TMode Current = GetMode();
             switch (Current)
             {
+                case TMode.TRANSPARENT:
+                    return PutIntoATCommandModeAssumingInTransparentMode();
                 case TMode.BOOTLOADER:
                     int PrevBaud = _Port.BaudRate;
                     _Port.BaudRate = BOOTLOADER_BAUD;
@@ -220,6 +222,72 @@ namespace RFD.RFD900
                     break;
             }
             return GetMode();
+        }
+
+        /// <summary>
+        /// Assuming in transparent mode, try to put it into AT command mode.
+        /// If fails, determine mode and then try again.
+        /// </summary>
+        public TMode PutIntoATCommandModeAssumingInTransparentMode()
+        {
+            _Port.ReadTimeout = 2000;
+            //Console.WriteLine("Waiting 1500ms");
+            Thread.Sleep(1500);
+            _Port.DiscardInBuffer();
+            //Console.WriteLine("Sending +++");
+            _Port.Write("+++");
+            //Console.WriteLine("Waiting up to 3s for OK");
+            if (WaitForToken("OK\r\n", 3000))
+            {
+                _Mode = TMode.AT_COMMAND;
+                return TMode.AT_COMMAND;
+            }
+
+            _Mode = TMode.INIT;
+            return PutIntoATCommandMode();
+        }
+
+        /// <summary>
+        /// Put into transparent mode.
+        /// </summary>
+        /// <returns></returns>
+        public TMode PutIntoTransparentMode()
+        {
+            if (GetMode() == TMode.TRANSPARENT)
+            {
+                System.Diagnostics.Debug.WriteLine("Already in transparent mode");
+                return TMode.TRANSPARENT;
+            }
+            else
+            {
+                if (PutIntoATCommandMode() == TMode.AT_COMMAND)
+                {
+                    _Port.Write("\r\n");
+                    Thread.Sleep(100);
+                    _Port.Write("ATO\r\n");
+                    Thread.Sleep(100);
+                    if (WaitForToken("ATO\r\n", 100))
+                    {
+                        System.Diagnostics.Debug.WriteLine("Put into transparent mode OK");
+                    }
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine("Failed to put into transparent mode");
+                    }
+                    _Mode = TMode.TRANSPARENT;
+                    return TMode.TRANSPARENT;
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine("Failed to put into AT cmd mode");
+                    return TMode.UNKNOWN;
+                }
+            }
+        }
+
+        public void AssumeMode(TMode Mode)
+        {
+            _Mode = Mode;
         }
 
         /// <summary>

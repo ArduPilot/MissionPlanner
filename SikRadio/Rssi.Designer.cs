@@ -32,8 +32,8 @@ namespace SikRadio
             this.components = new System.ComponentModel.Container();
             this.zedGraphControl1 = new ZedGraph.ZedGraphControl();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.BUT_disconnect = new MyButton();
-            this.BUT_connect = new MyButton();
+            this.BUT_disconnect = new MissionPlanner.Controls.MyButton();
+            this.BUT_connect = new MissionPlanner.Controls.MyButton();
             this.SuspendLayout();
             // 
             // zedGraphControl1
@@ -67,6 +67,7 @@ namespace SikRadio
             this.BUT_disconnect.TabIndex = 2;
             this.BUT_disconnect.Text = "Disconnect";
             this.BUT_disconnect.UseVisualStyleBackColor = true;
+            this.BUT_disconnect.Visible = false;
             this.BUT_disconnect.Click += new System.EventHandler(this.BUT_disconnect_Click);
             // 
             // BUT_connect
@@ -78,11 +79,11 @@ namespace SikRadio
             this.BUT_connect.TabIndex = 1;
             this.BUT_connect.Text = "Connect";
             this.BUT_connect.UseVisualStyleBackColor = true;
+            this.BUT_connect.Visible = false;
             this.BUT_connect.Click += new System.EventHandler(this.BUT_connect_Click);
             // 
             // Rssi
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.BUT_disconnect);
             this.Controls.Add(this.BUT_connect);

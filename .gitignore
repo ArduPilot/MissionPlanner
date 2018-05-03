@@ -45,6 +45,7 @@ obj/
 /ExtLibs/netcore
 /.vs
 /ExtLibs/Zeroconf
+RFD900ToolsSetup/Debug/RFD900ModelToolsSetup.msi
 /ExtLibs/GMap.NET.Core/GMap.NET.Core2.csproj
 /ExtLibs/GDAL/GDAL2.csproj
 /ExtLibs/Core/Core2.csproj

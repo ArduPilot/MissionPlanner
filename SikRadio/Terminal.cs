@@ -10,26 +10,31 @@ using MissionPlanner.MsgBox;
 
 namespace SikRadio
 {
-    public partial class Terminal : UserControl
+    public partial class Terminal : UserControl, ISikRadioForm
     {
-        public static bool threadrun;
         internal static StreamWriter sw;
         private StringBuilder cmd = new StringBuilder();
-        private readonly ICommsSerial comPort = MainV2.comPort.BaseStream;
         private readonly object thisLock = new object();
+        bool _RunRxThread = false;
+        Thread _RxThread;
 
         public Terminal()
         {
             InitializeComponent();
 
             if (sw == null)
-                sw = new StreamWriter("Terminal-" + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".txt");
+                sw = new StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Terminal-" + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".txt");
         }
 
         private void comPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            if (!comPort.IsOpen)
+            var comPort = SikRadio.Config.comPort;
+
+            if ((comPort == null) || !comPort.IsOpen)
+            {
                 return;
+            }
+
             try
             {
                 lock (thisLock)
@@ -48,14 +53,14 @@ namespace SikRadio
             }
             catch (Exception)
             {
-                if (!threadrun) return;
-                TXT_terminal.AppendText("Error reading com port\r\n");
+                //if (!threadrun) return;
+                //TXT_terminal.AppendText("Error reading com port\r\n");
             }
         }
 
         private void addText(string data)
         {
-            Invoke((MethodInvoker) delegate
+            BeginInvoke((MethodInvoker) delegate
             {
                 TXT_terminal.SelectionStart = TXT_terminal.Text.Length;
 
@@ -70,8 +75,51 @@ namespace SikRadio
             });
         }
 
+        public void Connect()
+        {
+            if (!_RunRxThread)
+            {
+                _RunRxThread = true;
+                _RxThread = new Thread(RxWorker);
+                _RxThread.Start();
+            }
+        }
+
+        public void Disconnect()
+        {
+            if (_RunRxThread)
+            {
+                _RunRxThread = false;
+                _RxThread.Join();
+                _RxThread = null;
+            }
+        }
+
+        void RxWorker()
+        {
+            while (_RunRxThread)
+            {
+                //while (threadrun)
+                {
+                    try
+                    {
+                        Thread.Sleep(10);
+                        if (SikRadio.Config.comPort.BytesToRead > 0)
+                        {
+                            comPort_DataReceived(null, null);
+                        }
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
+        }
+
         private void Terminal_Load(object sender, EventArgs e)
         {
+            return;
+            /*
             try
             {
                 if (comPort.IsOpen)
@@ -145,7 +193,7 @@ namespace SikRadio
                     {
                         comPort.Close();
                     }
-                    Console.WriteLine("Comport thread close");
+                    //Console.WriteLine("Comport thread close");
                 });
                 t11.IsBackground = true;
                 t11.Name = "Terminal serial thread";
@@ -162,7 +210,7 @@ namespace SikRadio
                 return;
             }
 
-            TXT_terminal.Focus();
+            TXT_terminal.Focus();*/
         }
 
         private void TXT_terminal_Click(object sender, EventArgs e)
@@ -185,12 +233,13 @@ namespace SikRadio
 
         private void Terminal_FormClosing(object sender, FormClosingEventArgs e)
         {
-            threadrun = false;
+            //threadrun = false;
+            _RunRxThread = false;
 
-            if (comPort.IsOpen)
+            /*if (comPort.IsOpen)
             {
                 comPort.Close();
-            }
+            }*/
             Thread.Sleep(400);
         }
 
@@ -198,7 +247,9 @@ namespace SikRadio
         {
             if (e.KeyChar == '\r')
             {
-                if (comPort.IsOpen)
+                var comPort = SikRadio.Config.comPort;
+
+                if ((comPort != null) && comPort.IsOpen)
                 {
                     try
                     {
