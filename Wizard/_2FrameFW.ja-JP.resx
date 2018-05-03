@@ -112,18 +112,18 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="label2.Text" xml:space="preserve">
-    <value>以下に示すフレーム形式からセレクトしてください。　適切なオートパイロットのファームウェアがアップロードされます。</value>
+    <value>以下に示すフレーム形式から選択してください。適切なファームウェアがアップロードされます。</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>UAV選択：コプター</value>
   </data>
   <data name="radialGradientBG1.Label.Text" xml:space="preserve">
-    <value>フレーム形式を選択します</value>
+    <value>フレーム形式の選択</value>
   </data>
 </root>
