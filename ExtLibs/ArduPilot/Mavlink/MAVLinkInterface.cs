@@ -57,6 +57,8 @@ namespace MissionPlanner
 
         public event EventHandler<MAVLinkMessage> OnPacketReceived;
 
+        public static event EventHandler<adsb.PointLatLngAltHdg> UpdateADSBPlanePosition;
+
         public ICommsSerial MirrorStream { get; set; }
         public bool MirrorStreamWrite { get; set; }
 
@@ -3666,30 +3668,17 @@ Please check the following
                         }
 
                         // adsb packets are forwarded and can be from any sysid/compid
-                        if (msgid == (byte)MAVLINK_MSG_ID.ADSB_VEHICLE)
+                        if (msgid == (byte) MAVLINK_MSG_ID.ADSB_VEHICLE)
                         {
                             var adsb = message.ToStructure<mavlink_adsb_vehicle_t>();
 
                             var id = adsb.ICAO_address.ToString("X5");
-                            /*
-                            if (MainV2.instance.adsbPlanes.ContainsKey(id))
-                            {
-                                // update existing
-                                ((adsb.PointLatLngAltHdg) MainV2.instance.adsbPlanes[id]).Lat = adsb.lat/1e7;
-                                ((adsb.PointLatLngAltHdg) MainV2.instance.adsbPlanes[id]).Lng = adsb.lon/1e7;
-                                ((adsb.PointLatLngAltHdg) MainV2.instance.adsbPlanes[id]).Alt = adsb.altitude/1000.0;
-                                ((adsb.PointLatLngAltHdg) MainV2.instance.adsbPlanes[id]).Heading = adsb.heading*0.01f;
-                                ((adsb.PointLatLngAltHdg) MainV2.instance.adsbPlanes[id]).Time = DateTime.Now;
-                                ((adsb.PointLatLngAltHdg)MainV2.instance.adsbPlanes[id]).CallSign = ASCIIEncoding.ASCII.GetString(adsb.callsign);
-                            }
-                            else
-                            {
-                                // create new plane
-                                MainV2.instance.adsbPlanes[id] =
-                                    new adsb.PointLatLngAltHdg(adsb.lat/1e7, adsb.lon/1e7,
-                                        adsb.altitude/1000.0, adsb.heading*0.01f, id,
-                                        DateTime.Now) {CallSign = ASCIIEncoding.ASCII.GetString(adsb.callsign)};
-                            }*/
+
+                            if (UpdateADSBPlanePosition != null)
+                                UpdateADSBPlanePosition(this, new adsb.PointLatLngAltHdg(adsb.lat / 1e7, adsb.lon / 1e7,
+                                        adsb.altitude / 1000.0, adsb.heading * 0.01f, id,
+                                        DateTime.Now) {CallSign = ASCIIEncoding.ASCII.GetString(adsb.callsign)}
+                                );
                         }
 
                         if (msgid == (byte) MAVLINK_MSG_ID.COLLISION)

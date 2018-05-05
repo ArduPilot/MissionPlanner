@@ -561,6 +561,8 @@ namespace MissionPlanner
             // setup adsb
             Utilities.adsb.UpdatePlanePosition += adsb_UpdatePlanePosition;
 
+            MAVLinkInterface.UpdateADSBPlanePosition += adsb_UpdatePlanePosition;
+
             Form splash = Program.Splash;
 
             splash?.Refresh();
@@ -1172,6 +1174,10 @@ namespace MissionPlanner
 
                 try
                 {
+                    // dont rebroadcast something that came from the drone
+                    if (sender != null && sender is MAVLinkInterface)
+                        return;
+
                     MAVLink.mavlink_adsb_vehicle_t packet = new MAVLink.mavlink_adsb_vehicle_t();
 
                     packet.altitude = (int)(MainV2.instance.adsbPlanes[id].Alt * 1000);
