@@ -142,7 +142,7 @@
     <value>ラリーをファイルからロード</value>
   </data>
   <data name="lbl_prevdist.Text" xml:space="preserve">
-    <value>直前</value>
+    <value>直前からの距離</value>
   </data>
   <data name="loadAndAppendToolStripMenuItem.Text" xml:space="preserve">
     <value>ロードして追加する</value>
