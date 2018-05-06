@@ -121,7 +121,7 @@
     <value>スクリプトコンソール</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>print表示がこのダイアローグボックスに表示されます。</value>
+    <value>print出力がこのダイアローグボックスに表示されます。</value>
   </data>
   <data name="BUT_clear.Text" xml:space="preserve">
     <value>クリア</value>
