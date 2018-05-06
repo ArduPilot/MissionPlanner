@@ -74,11 +74,13 @@ namespace MissionPlanner.Utilities
         {
             using (var stream = File.Open(outputfn, FileMode.Create))
             {
-                using (BinaryReader br = new BinaryReader(File.OpenRead(inputfn)))
+                using (BinaryReader br = new BinaryReader(new BufferedStream(File.OpenRead(inputfn), 1024*1024)))
                 {
                     DateTime displaytimer = DateTime.MinValue;
 
-                    while (br.BaseStream.Position < br.BaseStream.Length)
+                    var length = br.BaseStream.Length;
+
+                    while (br.BaseStream.Position < length)
                     {
                         if (displaytimer.Second != DateTime.Now.Second)
                         {

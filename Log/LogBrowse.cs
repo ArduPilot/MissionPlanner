@@ -1734,13 +1734,17 @@ namespace MissionPlanner.Log
                 List<PointLatLng> routelistpos = new List<PointLatLng>();
                 List<int> samplelistpos = new List<int>();
 
+                List<PointLatLng> routelistcmd = new List<PointLatLng>();
+                List<int> samplelistcmd = new List<int>();
+
                 int i = 0;
                 int firstpoint = 0;
                 int firstpointpos = 0;
                 int firstpointgps2 = 0;
                 int firstpointgpsb = 0;
+                int firstpointcmd = 0;
 
-                foreach (var item in logdata.GetEnumeratorType(new string[] {"GPS", "POS", "GPS2", "GPSB"}))
+                foreach (var item in logdata.GetEnumeratorType(new string[] {"GPS", "POS", "GPS2", "GPSB", "CMD"}))
                 {
                     i = item.lineno;
 
@@ -1883,6 +1887,46 @@ namespace MissionPlanner.Log
                             }
                         }
                     }
+                    else if (item.msgtype == "CMD")
+                    {
+                        var ans = getPointLatLng(item);
+
+                        if (ans != null && ans.Lat != 0 && ans.Lng != 0)
+                        {
+                            routelistcmd.Add(ans);
+                            samplelistcmd.Add(i);
+
+                            mapoverlay.Markers.Add(new GMarkerGoogle(ans, GMarkerGoogleType.lightblue_dot));
+
+                            //FMT, 146, 45, CMD, QHHHfffffff, TimeUS,CTot,CNum,CId,Prm1,Prm2,Prm3,Prm4,Lat,Lng,Alt
+                            //CMD, 43368479, 19, 18, 85, 0, 0, 0, 0, -27.27409, 151.2901, 0
+
+                            if (item["CTot"] != null && item["CNum"] != null && (int.Parse(item["CTot"])-1) == int.Parse(item["CNum"]))
+                            {
+                                //split the route in several small parts (due to memory errors)
+                                GMapRoute route_part = new GMapRoute(routelistcmd, "routecmd_" + rtcnt);
+                                route_part.Stroke = new Pen(Color.FromArgb(127, Color.Indigo), 2);
+
+                                LogRouteInfo lri = new LogRouteInfo();
+                                lri.firstpoint = firstpointpos;
+                                lri.lastpoint = i;
+                                lri.samples.AddRange(samplelistcmd);
+
+                                route_part.Tag = lri;
+                                route_part.IsHitTestVisible = false;
+                                mapoverlay.Routes.Add(route_part);    
+
+                                rtcnt++;
+
+                                //clear the list and set the last point as first point for the next route
+                                routelistcmd.Clear();
+                                samplelistcmd.Clear();
+                                firstpointcmd = i;
+                                samplelistcmd.Add(firstpointcmd);
+                                routelistcmd.Add(ans);
+                            }
+                        }
+                    }
                     i++;
                 }
 
@@ -1929,7 +1973,7 @@ namespace MissionPlanner.Log
                 mapoverlay.Routes.Add(routeb);
 
                 // pos
-                GMapRoute route3 = new GMapRoute(routelistpos, "route2_" + rtcnt);
+                GMapRoute route3 = new GMapRoute(routelistpos, "routepos_" + rtcnt);
                 route3.Stroke = new Pen(Color.FromArgb(127, Color.Red), 2);
                 route3.IsHitTestVisible = false;
 
@@ -1940,6 +1984,20 @@ namespace MissionPlanner.Log
                 route3.Tag = lri4;
                 route3.IsHitTestVisible = false;
                 mapoverlay.Routes.Add(route3);
+
+                // cmd
+                GMapRoute route4 = new GMapRoute(routelistcmd, "routecmd_" + rtcnt);
+                route4.Stroke = new Pen(Color.FromArgb(127, Color.Indigo), 2);
+                route4.IsHitTestVisible = false;
+
+                LogRouteInfo lri5 = new LogRouteInfo();
+                lri5.firstpoint = firstpointcmd;
+                lri5.lastpoint = i;
+                lri5.samples.AddRange(samplelistcmd);
+                route4.Tag = lri5;
+                route4.IsHitTestVisible = false;
+                mapoverlay.Routes.Add(route4);
+
 
                 rtcnt++;
                 myGMAP1.ZoomAndCenterRoutes(mapoverlay.Id);
@@ -2098,6 +2156,42 @@ namespace MissionPlanner.Log
                 }
 
                 int index2 = dflog.FindMessageOffset("POS", "Lng");
+                if (index2 == -1)
+                {
+                    return null;
+                }
+
+                try
+                {
+                    string lat = item.items[index].ToString();
+                    string lng = item.items[index2].ToString();
+
+                    PointLatLngAlt pnt = new PointLatLngAlt() { };
+                    pnt.Lat = double.Parse(lat, System.Globalization.CultureInfo.InvariantCulture);
+                    pnt.Lng = double.Parse(lng, System.Globalization.CultureInfo.InvariantCulture);
+                    pnt.Tag = item.lineno.ToString();
+                    if (Math.Abs(pnt.Lat) > 90 || Math.Abs(pnt.Lng) > 180)
+                        return null;
+
+                    return pnt;
+                }
+                catch
+                {
+                }
+            }
+            else if (item.msgtype == "CMD")
+            {
+                //FMT, 146, 45, CMD, QHHHfffffff, TimeUS,CTot,CNum,CId,Prm1,Prm2,Prm3,Prm4,Lat,Lng,Alt
+                if (!dflog.logformat.ContainsKey("CMD"))
+                    return null;
+
+                int index = dflog.FindMessageOffset("CMD", "Lat");
+                if (index == -1)
+                {
+                    return null;
+                }
+
+                int index2 = dflog.FindMessageOffset("CMD", "Lng");
                 if (index2 == -1)
                 {
                     return null;

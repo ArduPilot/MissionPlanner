@@ -97,7 +97,8 @@ namespace MissionPlanner.Utilities
                 // first line starts at 0
                 linestartoffset.Add(0);
 
-                while (basestream.Position < basestream.Length)
+                long length = basestream.Length;
+                while (basestream.Position < length)
                 {
                     offset = 0;
 
