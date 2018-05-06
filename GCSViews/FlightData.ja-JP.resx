@@ -316,7 +316,7 @@
     <value>ダブル・クリックして最大値を変更</value>
   </data>
   <data name="labelScriptStatus.Text" xml:space="preserve">
-    <value>スクリプトのステータス: どのスクリプトも実行されていません。</value>
+    <value>スクリプトのステータス: 実行しているスクリプトはありません。</value>
   </data>
   <data name="but_dflogtokml.Text" xml:space="preserve">
     <value>KML + gpx の生成</value>
@@ -337,7 +337,7 @@
     <value>ホームをここにセット</value>
   </data>
   <data name="labelSelectedScript.Text" xml:space="preserve">
-    <value>スクリプトのセレクト：　無し</value>
+    <value>スクリプトの選択：選択されていません。</value>
   </data>
   <data name="tabQuick.Text" xml:space="preserve">
     <value>クイック</value>
