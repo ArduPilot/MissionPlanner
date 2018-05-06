@@ -124,9 +124,9 @@
     <value>検索</value>
   </data>
   <data name="BUT_writePIDS.Text" xml:space="preserve">
-    <value>パラメータ　書込み</value>
+    <value>パラメータ書込</value>
   </data>
   <data name="BUT_rerequestparams.Text" xml:space="preserve">
-    <value>パラメータ　リフレッシュ</value>
+    <value>パラメータリフレッシュ</value>
   </data>
 </root>
