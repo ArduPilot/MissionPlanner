@@ -54,6 +54,7 @@ namespace MissionPlanner.Utilities
         {
             public string url = "";
             public string url2560 = "";
+            [XmlElement(ElementName = "url2560-2")]
             public string url2560_2 = "";
             public string urlpx4v1 = "";
             public string urlpx4v2 = "";
