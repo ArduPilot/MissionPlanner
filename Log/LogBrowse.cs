@@ -2275,14 +2275,16 @@ namespace MissionPlanner.Log
 
             int b = 0;
 
-            foreach (var item2 in logdata.dflog.logformat)
+            foreach (string item2 in seenmessagetypes.Keys)
             {
-                string celldata = item2.Key.Trim();
+                string celldata = item2.Trim();
                 if (!options.Contains(celldata))
                 {
                     options.Add(celldata);
                 }
             }
+
+            options.Sort();
 
             Controls.OptionForm opt = new Controls.OptionForm();
 
