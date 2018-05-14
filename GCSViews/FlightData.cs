@@ -109,7 +109,7 @@ namespace MissionPlanner.GCSViews
         public static FlightData instance;
 
         //The file path of the selected script
-        string selectedscript = "";
+        internal string selectedscript = "";
         //the thread the script is running on
         Thread scriptthread;
         //whether or not a script is running
@@ -3680,7 +3680,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
-        private void BUT_run_script_Click(object sender, EventArgs e)
+        internal void BUT_run_script_Click(object sender, EventArgs e)
         {
             if (File.Exists(selectedscript))
             {

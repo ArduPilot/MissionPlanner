@@ -3063,6 +3063,24 @@ namespace MissionPlanner
                     logbrowse.BringToFront();
                 }
 
+                if (cmds.ContainsKey("script") && File.Exists(cmds["script"]))
+                {
+                    // invoke for after onload finished
+                    this.BeginInvoke((Action) delegate()
+                    {
+                        try
+                        {
+                            FlightData.selectedscript = cmds["script"];
+
+                            FlightData.BUT_run_script_Click(null, null);
+                        }
+                        catch (Exception ex)
+                        {
+                            CustomMessageBox.Show("Start script failed: "+ex.ToString(), Strings.ERROR);
+                        }
+                    });
+                }
+
                 if (cmds.ContainsKey("joy") && cmds.ContainsKey("type"))
                 {
                     if (cmds["type"].ToLower() == "plane")
