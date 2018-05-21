@@ -2118,6 +2118,15 @@
 
 
   <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+
+  <ItemGroup>
  
     <None Update="C:\Users\hog\.nuget\packages\skiasharp\1.59.3\build\net45\..\..\runtimes\win7-x64\native\libSkiaSharp.dll">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
