@@ -3585,12 +3585,18 @@ namespace MissionPlanner.GCSViews
                 {
                     CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, "WP_SPEED_MAX"), Strings.ERROR);
                 }
-            } // plane with airspeed
-            else if (MainV2.comPort.MAV.param.ContainsKey("TRIM_ARSPD_CM") &&
+            } // plane 3.7 and below with airspeed, uses ARSPD_ENABLE:
+            else if ((MainV2.comPort.MAV.param.ContainsKey("TRIM_ARSPD_CM") &&
                      MainV2.comPort.MAV.param.ContainsKey("ARSPD_ENABLE")
                      && MainV2.comPort.MAV.param.ContainsKey("ARSPD_USE") &&
-                     (float) MainV2.comPort.MAV.param["ARSPD_ENABLE"] == 1
-                     && (float) MainV2.comPort.MAV.param["ARSPD_USE"] == 1)
+                     (float)MainV2.comPort.MAV.param["ARSPD_ENABLE"] == 1
+                     && (float)MainV2.comPort.MAV.param["ARSPD_USE"] == 1) ||
+              // plane 3.8 and above with airspeed as per plane 3.7 to plane 3.8 migration wiki page, no longer uses ARSPD_ENABLE, uses ARSPD_TYPE instead:
+                     (MainV2.comPort.MAV.param.ContainsKey("TRIM_ARSPD_CM") &&
+                     MainV2.comPort.MAV.param.ContainsKey("ARSPD_TYPE")
+                     && MainV2.comPort.MAV.param.ContainsKey("ARSPD_USE") &&
+                     (float)MainV2.comPort.MAV.param["ARSPD_TYPE"] > 0
+                     && (float)MainV2.comPort.MAV.param["ARSPD_USE"] == 1))
             {
                 try
                 {
