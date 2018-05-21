@@ -11,13 +11,21 @@ namespace MissionPlanner.Maps
     {
         private readonly Bitmap icon = global::MissionPlanner.Maps.Resources.planeicon;
 
+        private readonly Bitmap icon1 = global::MissionPlanner.Maps.Resources.planeicon1;
+        private readonly Bitmap icon2 = global::MissionPlanner.Maps.Resources.planeicon2;
+        private readonly Bitmap icon3 = global::MissionPlanner.Maps.Resources.planeicon3;
+        private readonly Bitmap icon4 = global::MissionPlanner.Maps.Resources.planeicon4;
+        private readonly Bitmap icon5 = global::MissionPlanner.Maps.Resources.planeicon5;
+        private readonly Bitmap icon6 = global::MissionPlanner.Maps.Resources.planeicon6;
+
         float heading = 0;
         float cog = -1;
         float target = -1;
         float nav_bearing = -1;
         float radius = -1;
+        int which = 0;
 
-        public GMapMarkerPlane(PointLatLng p, float heading, float cog, float nav_bearing, float target, float radius)
+        public GMapMarkerPlane(int which, PointLatLng p, float heading, float cog, float nav_bearing, float target, float radius)
             : base(p)
         {
             this.heading = heading;
@@ -25,6 +33,7 @@ namespace MissionPlanner.Maps
             this.target = target;
             this.nav_bearing = nav_bearing;
             this.radius = radius;
+            this.which = which;
             Size = icon.Size;
         }
 
@@ -98,7 +107,23 @@ namespace MissionPlanner.Maps
             catch
             {
             }
-            g.DrawImageUnscaled(icon, icon.Width/-2, icon.Height/-2);
+            // 'which' variable simply selects different coloured plane icon/s from the resource library
+            if (which == 0)
+                g.DrawImageUnscaled(icon, icon.Width / -2, icon.Height / -2);
+            if (which == 1)
+                g.DrawImageUnscaled(icon1, icon1.Width / -2, icon1.Height / -2);
+            if (which == 2)
+                g.DrawImageUnscaled(icon2, icon2.Width / -2, icon2.Height / -2);
+            if (which == 3)
+                g.DrawImageUnscaled(icon3, icon3.Width / -2, icon3.Height / -2);
+            if (which == 4)
+                g.DrawImageUnscaled(icon4, icon4.Width / -2, icon4.Height / -2);
+            if (which == 5)
+                g.DrawImageUnscaled(icon5, icon5.Width / -2, icon5.Height / -2);
+            if (which == 6)
+                g.DrawImageUnscaled(icon6, icon6.Width / -2, icon6.Height / -2);
+
+            
 
             g.Transform = temp;
         }
