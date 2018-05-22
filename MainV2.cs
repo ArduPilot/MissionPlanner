@@ -2638,6 +2638,10 @@ namespace MissionPlanner
                             {
                                 try
                                 {
+                                    // poll for version if we dont have it - every mav every port
+                                    if (!MAV.cs.armed && (DateTime.Now.Second % 20) == 0 && MAV.cs.version < new Version(0, 1))
+                                        port.getVersion(MAV.sysid, MAV.compid, false);
+
                                     // are we talking to a mavlink2 device
                                     if (MAV.mavlinkv2)
                                     {
