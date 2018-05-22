@@ -4274,18 +4274,20 @@ namespace MissionPlanner.GCSViews
         {
             if (MainV2.MONO)
                 return;
-
-            try
+            if (MainV2.cam == null)
             {
-                MainV2.cam = new Capture(Settings.Instance.GetInt32("video_device"), new AMMediaType());
+                try
+                {
+                    MainV2.cam = new Capture(Settings.Instance.GetInt32("video_device"), new AMMediaType());
 
-                MainV2.cam.Start();
+                    MainV2.cam.Start();
 
-                MainV2.cam.camimage += new CamImage(cam_camimage);
-            }
-            catch (Exception ex)
-            {
-                CustomMessageBox.Show("Camera Fail: " + ex.ToString(), Strings.ERROR);
+                    MainV2.cam.camimage += new CamImage(cam_camimage);
+                }
+                catch (Exception ex)
+                {
+                    CustomMessageBox.Show("Camera Fail: " + ex.ToString(), Strings.ERROR);
+                }
             }
         }
 
