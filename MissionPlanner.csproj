@@ -248,6 +248,9 @@
     </Compile>
     <Compile Include="ElevationProfile.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="FollowMe.cs"> <SubType>Control</SubType> </Compile>
+    <Compile Include="Swarm\TD\UI.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Utilities\SSHTerminal.cs" />
     <Compile Include="Utilities\XTermRBGColors.cs" />
     <Compile Include="GenOTP.cs"> <SubType>Control</SubType> </Compile>
@@ -776,6 +779,7 @@
     <EmbeddedResource Include="Strings.ru-KZ.resx"><DependentUpon>Strings.cs</DependentUpon> </EmbeddedResource>
     <EmbeddedResource Include="Strings.tr.resx"><DependentUpon>Strings.cs</DependentUpon> </EmbeddedResource>
     <EmbeddedResource Include="Strings.zh-Hans.resx"><DependentUpon>Strings.cs</DependentUpon> </EmbeddedResource>
+    <EmbeddedResource Include="Swarm\TD\UI.resx" />
     <EmbeddedResource Include="temp.resx"><DependentUpon>temp.cs</DependentUpon> </EmbeddedResource>
     <EmbeddedResource Include="Antenna\Tracker.resx"><DependentUpon>Tracker.cs</DependentUpon> </EmbeddedResource>
     <EmbeddedResource Include="Antenna\Tracker.ar.resx"><DependentUpon>Tracker.cs</DependentUpon> </EmbeddedResource>
