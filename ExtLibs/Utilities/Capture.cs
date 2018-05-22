@@ -554,12 +554,12 @@ namespace WebCamService
                 pSample.GetPointer(out pBuffer);
                 int iBufferLen = pSample.GetSize();
 
-                if (pSample.GetSize() > m_stride * m_videoHeight)
+                if (iBufferLen > m_stride * m_videoHeight)
                 {
                     throw new Exception("Buffer is wrong size");
                 }
 
-                NativeMethods.CopyMemory(m_handle, pBuffer, m_stride * m_videoHeight);
+                NativeMethods.CopyMemory(m_handle, pBuffer, iBufferLen);
 
                 // Picture is ready.
                 m_PictureReady.Set();
@@ -578,7 +578,7 @@ namespace WebCamService
                 if(BufferLen <= m_stride * m_videoHeight)
                 {
                     // Copy the frame to the buffer
-                    NativeMethods.CopyMemory(m_handle, pBuffer, m_stride * m_videoHeight);
+                    NativeMethods.CopyMemory(m_handle, pBuffer, BufferLen);
                 }
                 else
                 {
