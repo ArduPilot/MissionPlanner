@@ -4125,15 +4125,23 @@ Please check the following
             }
         }
 
-        public bool getVersion()
+        public bool getVersion(bool responcerequired = true)
+        {
+            return getVersion(MAV.sysid, MAV.compid, responcerequired);
+        }
+
+        public bool getVersion(byte sysid, byte compid, bool responcerequired = true)
         {
             mavlink_autopilot_version_request_t req = new mavlink_autopilot_version_request_t();
 
-            req.target_component = MAV.compid;
-            req.target_system = MAV.sysid;
+            req.target_component = compid;
+            req.target_system = sysid;
 
             // request point
             generatePacket((byte) MAVLINK_MSG_ID.AUTOPILOT_VERSION_REQUEST, req);
+
+            if (!responcerequired)
+                return true;
 
             DateTime start = DateTime.Now;
             int retrys = 3;
