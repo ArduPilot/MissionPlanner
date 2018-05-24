@@ -184,7 +184,7 @@ namespace MissionPlanner.Swarm.TD
                     var heightpx = (float)map(drone.Location.Alt, 0, controller.DG.FenceMaxAlt, 0, drawin.Height);
                     e.Graphics.FillRectangle(Brushes.Yellow, 10 + drone.MavState.sysid * 10, drawin.Height - heightpx, 10, heightpx);
 
-                    e.Graphics.DrawString(drone.MavState.sysid.ToString() + "\n" + drone.Location.Alt.ToString("0.0"), SystemFonts.DefaultFont, Brushes.White, 10 + drone.MavState.sysid * 10, drawin.Height - heightpx);
+                    e.Graphics.DrawString(drone.MavState.sysid.ToString() + "\n" + drone.Location.Alt.ToString("0.0"), SystemFonts.DefaultFont, Brushes.White, 10 + drone.MavState.sysid * 10, drawin.Height - heightpx - 30);
                 }
             }
         }
