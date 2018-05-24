@@ -37,6 +37,19 @@ namespace RFD.RFD900
 
         public bool WaitForToken(string Token, int MaxWait)
         {
+            return WaitForAnyOfTheseTokens(new string[] { Token }, MaxWait) >= 0;
+        }
+
+        /// <summary>
+        /// Wait for any of these tokens to be received on the port.  
+        /// Wait up to MaxWait milliseconds.  If a token was received, return the array index of
+        /// the token.  If no tokens received, return -1.
+        /// </summary>
+        /// <param name="Tokens">The tokens to wait for.  Must not be null.</param>
+        /// <param name="MaxWait">The max wait time in milliseconds.</param>
+        /// <returns>The token array index of the token received, or -1 is none of the tokens received.</returns>
+        public int WaitForAnyOfTheseTokens(string[] Tokens, int MaxWait)
+        {
             System.Diagnostics.Stopwatch SW = new System.Diagnostics.Stopwatch();
             string Temp = "";
             int Timeout = _Port.ReadTimeout;
@@ -48,16 +61,19 @@ namespace RFD.RFD900
                 string x = _Port.ReadExisting();
                 Temp += x;
 
-                if (Temp.Contains(Token))
+                for (int n = 0; n < Tokens.Length; n++)
                 {
-                    _Port.ReadTimeout = Timeout;
-                    return true;
+                    if (Temp.Contains(Tokens[n]))
+                    {
+                        _Port.ReadTimeout = Timeout;
+                        return n;
+                    }
                 }
 
                 Thread.Sleep(50);
             }
             _Port.ReadTimeout = Timeout;
-            return false;
+            return -1;
         }
 
         void WriteBootloaderCode(uploader.Uploader.Code Code)
@@ -186,14 +202,24 @@ namespace RFD.RFD900
         public TMode PutIntoBootloaderMode()
         {
             var CurrentMode = GetMode();
-            if (CurrentMode == TMode.AT_COMMAND)
+            switch (CurrentMode)
             {
-                _Port.Write("\r\n");
-                Thread.Sleep(100);
-                _Port.Write("AT&UPDATE\r\n");
-                Thread.Sleep(100);
-                CheckIfInBootloaderMode();
+                case TMode.BOOTLOADER:
+                case TMode.BOOTLOADER_X:
+                    break;
+                default:
+                    CurrentMode = PutIntoATCommandMode();
+                    if (CurrentMode == TMode.AT_COMMAND)
+                    {
+                        _Port.Write("\r\n");
+                        Thread.Sleep(100);
+                        _Port.Write("AT&UPDATE\r\n");
+                        Thread.Sleep(100);
+                        CheckIfInBootloaderMode();
+                    }
+                    break;
             }
+
             return GetMode();
         }
 
@@ -778,24 +804,27 @@ namespace RFD.RFD900
         }
 
         /// <summary>
-        /// Search the given binary file for the given token
+        /// Search the given binary file for the given tokens
         /// </summary>
         /// <param name="BinFilePath">The binary file path.  Must not be null.</param>
-        /// <param name="Token">The token.  Must not be null.</param>
-        /// <returns>true if found, false if not.</returns>
-        protected static bool SearchBinary(string BinFilePath, string Token)
+        /// <param name="Tokens">The tokens.  Must not be null.</param>
+        /// <returns>true if at least one token found, false if not.</returns>
+        protected static bool SearchBinary(string BinFilePath, string[] Tokens)
         {
-            byte[] BinToken = System.Text.ASCIIEncoding.ASCII.GetBytes(Token);
-
-            using (System.IO.FileStream FS = new System.IO.FileStream(BinFilePath, System.IO.FileMode.Open))
+            foreach (var Token in Tokens)
             {
-                int Byte;
-                int TokenIndex = 0;
-                while ((Byte = FS.ReadByte()) != -1)
+                byte[] BinToken = System.Text.ASCIIEncoding.ASCII.GetBytes(Token);
+
+                using (System.IO.FileStream FS = new System.IO.FileStream(BinFilePath, System.IO.FileMode.Open))
                 {
-                    if (SearchTokenUpdate(BinToken, ref TokenIndex, (byte)Byte))
+                    int Byte;
+                    int TokenIndex = 0;
+                    while ((Byte = FS.ReadByte()) != -1)
                     {
-                        return true;
+                        if (SearchTokenUpdate(BinToken, ref TokenIndex, (byte)Byte))
+                        {
+                            return true;
+                        }
                     }
                 }
             }
@@ -804,36 +833,57 @@ namespace RFD.RFD900
         }
 
         /// <summary>
-        /// Search the given hex file for the given token.
+        /// Search the given hex file for the given tokens.
         /// </summary>
         /// <param name="File">The file to search.  Must not be null.</param>
-        /// <param name="Token">The token to search for.  Must not be null.</param>
-        /// <returns>true if found, false if not found.</returns>
-        protected static bool SearchHex(uploader.IHex File, string Token)
+        /// <param name="Tokens">The tokens to search for.  Must not be null.</param>
+        /// <returns>true if at least one found, false if not found.</returns>
+        protected static bool SearchHex(uploader.IHex File, string[] Tokens)
         {
-            int TokenIndex = 0;
-            byte[] BinToken = System.Text.ASCIIEncoding.ASCII.GetBytes(Token);
-
-            foreach (var Part in File.Values)
+            foreach (var Token in Tokens)
             {
-                foreach (byte b in Part)
+                int TokenIndex = 0;
+                byte[] BinToken = System.Text.ASCIIEncoding.ASCII.GetBytes(Token);
+
+                foreach (var Part in File.Values)
                 {
-                    if (SearchTokenUpdate(BinToken, ref TokenIndex, b))
+                    foreach (byte b in Part)
                     {
-                        return true;
+                        if (SearchTokenUpdate(BinToken, ref TokenIndex, b))
+                        {
+                            return true;
+                        }
                     }
                 }
             }
-
             return false;
         }
 
-        protected abstract string GetFirmwareSearchToken();
+        protected abstract string[] GetFirmwareSearchTokens();
 
         protected void ShowWrongFirmwareMessageBox()
         {
-            System.Windows.Forms.MessageBox.Show("File doesn't appear to be valid for this radio.  Could not find \"" +
-                    GetFirmwareSearchToken() + "\" in file.");
+            string S = "File doesn't appear to be valid for this radio.  Could not find ";
+            var Tokens = GetFirmwareSearchTokens();
+            for (int n = 0; n < Tokens.Length; n++)
+            {
+                if (n != 0)
+                {
+                    if (n >= (Tokens.Length - 1))
+                    {
+                        S += " or ";
+                    }
+                    else
+                    {
+                        S += ", ";
+                    }
+                }
+                S += "\"" + Tokens[n] + "\"";
+            }
+
+            S += " in File.";
+
+            System.Windows.Forms.MessageBox.Show(S);
         }
 
         public abstract uploader.Uploader.Board Board { get; }
@@ -854,7 +904,7 @@ namespace RFD.RFD900
                 uploader.IHex Hex = new uploader.IHex();
                 Hex.load(FilePath);
 
-                if (SearchHex(Hex, GetFirmwareSearchToken()))
+                if (SearchHex(Hex, GetFirmwareSearchTokens()))
                 {
                     uploader.Uploader UL = new uploader.Uploader();
                     UL.ProgressEvent += (d) => Progress(d);
@@ -908,9 +958,9 @@ namespace RFD.RFD900
 
         }
 
-        protected override string GetFirmwareSearchToken()
+        protected override string[] GetFirmwareSearchTokens()
         {
-            return "RFD900A";
+            return new string[] { "RFD900A" };
         }
 
         public override Uploader.Board Board
@@ -930,9 +980,9 @@ namespace RFD.RFD900
 
         }
 
-        protected override string GetFirmwareSearchToken()
+        protected override string[] GetFirmwareSearchTokens()
         {
-            return "RFD900P";
+            return new string[] { "RFD900P" };
         }
 
         public override Uploader.Board Board
@@ -952,9 +1002,9 @@ namespace RFD.RFD900
 
         }
 
-        protected override string GetFirmwareSearchToken()
+        protected override string[] GetFirmwareSearchTokens()
         {
-            return "RFD900U";
+            return new string[] { "RFD900U" };
         }
 
         public override Uploader.Board Board
@@ -966,17 +1016,40 @@ namespace RFD.RFD900
         }
     }
 
-    public class RFD900x : RFD900
+    public abstract class RFD900xux : RFD900
     {
-        public RFD900x(TSession Session)
+        public RFD900xux(TSession Session)
             : base(Session)
         {
 
         }
 
+        /// <summary>
+        /// Get the correct object for the modem which is in bootloader mode.
+        /// </summary>
+        /// <param name="Session">The session.  Must not be null.</param>
+        /// <returns>null if could not generate modem object</returns>
+        public static RFD900xux GetObjectForModem(TSession Session)
+        {
+            Session.Port.Write("\r\n");
+            Thread.Sleep(200);
+            Session.Port.DiscardInBuffer();
+            Session.Port.Write("CHIPID\r\n");
+            int TokenIndex = Session.WaitForAnyOfTheseTokens(new string[] { "RFD900x", "RFD900ux" }, 200);
+            switch (TokenIndex)
+            {
+                case 0:
+                    return new RFD900x(Session);
+                case 1:
+                    return new RFD900ux(Session);
+                default:
+                    return null;
+            }
+        }
+
         public override bool ProgramFirmware(string FilePath, Action<double> Progress)
         {
-            if (SearchBinary(FilePath, GetFirmwareSearchToken()))
+            if (SearchBinary(FilePath, GetFirmwareSearchTokens()))
             {
                 _Session.Port.Write("\r");
                 Thread.Sleep(100);
@@ -1006,10 +1079,19 @@ namespace RFD.RFD900
                 return false;
             }
         }
+    }
 
-        protected override string GetFirmwareSearchToken()
+    public class RFD900x : RFD900xux
+    {
+        public RFD900x(TSession Session)
+            : base(Session)
         {
-            return "RFD900x";
+
+        }
+
+        protected override string[] GetFirmwareSearchTokens()
+        {
+            return new string[] { "RFD900x", "RFD900X" };
         }
 
         public override Uploader.Board Board
@@ -1018,6 +1100,28 @@ namespace RFD.RFD900
             {
                 return Uploader.Board.DEVICE_ID_RFD900X;
             }
+        }
+    }
+
+    public class RFD900ux : RFD900xux
+    {
+        public RFD900ux(TSession Session)
+            : base(Session)
+        {
+
+        }
+
+        public override Uploader.Board Board
+        {
+            get
+            {
+                return Uploader.Board.DEVICE_ID_RFD900UX;
+            }
+        }
+
+        protected override string[] GetFirmwareSearchTokens()
+        {
+            return new string[] { "RFD900ux", "RFD900UX" };
         }
     }
 }
