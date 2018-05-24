@@ -16,8 +16,10 @@ using System.Security;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
+using System.Xml.Serialization;
 using DotSpatial.Data;
 using DotSpatial.Projections;
 using GMap.NET;
@@ -36,6 +38,7 @@ using MissionPlanner.Swarm;
 using MissionPlanner.Utilities;
 using MissionPlanner.Warnings;
 using resedit;
+using static MissionPlanner.Utilities.Firmware;
 using ILog = log4net.ILog;
 using LogAnalyzer = MissionPlanner.Utilities.LogAnalyzer;
 
@@ -266,174 +269,47 @@ namespace MissionPlanner
 
             var list = fw.getFWList();
 
-            using (
-                var xmlwriter = new XmlTextWriter(basedir + Path.DirectorySeparatorChar + @"firmware2.xml",
-                    Encoding.ASCII))
+            var options = new optionsObject();
+            options.softwares = list;
+
+            var members = typeof(software).GetFields();
+
+            XmlWriterSettings settings = new XmlWriterSettings();
+            settings.IndentChars = "    ";
+            settings.Indent = true;
+            settings.Encoding = Encoding.ASCII;
+
+            using (var xmlwriter = XmlWriter.Create(basedir + Path.DirectorySeparatorChar + @"firmware2.xml", settings))
             {
-                xmlwriter.Formatting = Formatting.Indented;
-
-                xmlwriter.WriteStartDocument();
-
-                xmlwriter.WriteStartElement("options");
-
-                int a = 0;
-
-                foreach (var software in list)
+                for (int a=0; a < options.softwares.Count; a++)
                 {
-                    a++;
-                    Loading.ShowLoading(((a-1)/(float)list.Count)*100.0+"% "+software.name, this);
+                    Loading.ShowLoading(((a - 1) / (float)list.Count) * 100.0 + "% " + options.softwares[a].name, this);
 
-                    //if (!software.name.Contains("Copter"))
-                    //  continue;
+                    List<Task<bool>> tasklist = new List<Task<bool>>();
 
-                    xmlwriter.WriteStartElement("Firmware");
+                    foreach (var field in members)
+                    {
+                        if (field.Name.ToLower().Contains("url"))
+                        {
+                            var url = field.GetValue(options.softwares[a]).ToString();
 
-                    if (software.url != "")
-                        xmlwriter.WriteElementString("url", new Uri(software.url).LocalPath.TrimStart('/', '\\'));
-                    if (software.url2560 != "")
-                        xmlwriter.WriteElementString("url2560", new Uri(software.url2560).LocalPath.TrimStart('/', '\\'));
-                    if (software.url2560_2 != "")
-                        xmlwriter.WriteElementString("url2560-2",
-                            new Uri(software.url2560_2).LocalPath.TrimStart('/', '\\'));
-                    if (software.urlpx4v1 != "")
-                        xmlwriter.WriteElementString("urlpx4", new Uri(software.urlpx4v1).LocalPath.TrimStart('/', '\\'));
-                    if (software.urlpx4v2 != "")
-                        xmlwriter.WriteElementString("urlpx4v2",
-                            new Uri(software.urlpx4v2).LocalPath.TrimStart('/', '\\'));
-                    if (software.urlpx4v4 != "")
-                        xmlwriter.WriteElementString("urlpx4v4",
-                            new Uri(software.urlpx4v4).LocalPath.TrimStart('/', '\\'));
-                    if (software.urlpx4v4pro != "")
-                        xmlwriter.WriteElementString("urlpx4v4pro",
-                            new Uri(software.urlpx4v4pro).LocalPath.TrimStart('/', '\\'));
-                    if (software.urlvrbrainv40 != "")
-                        xmlwriter.WriteElementString("urlvrbrainv40",
-                            new Uri(software.urlvrbrainv40).LocalPath.TrimStart('/', '\\'));
-                    if (software.urlvrbrainv45 != "")
-                        xmlwriter.WriteElementString("urlvrbrainv45",
-                            new Uri(software.urlvrbrainv45).LocalPath.TrimStart('/', '\\'));
-                    if (software.urlvrbrainv50 != "")
-                        xmlwriter.WriteElementString("urlvrbrainv50",
-                            new Uri(software.urlvrbrainv50).LocalPath.TrimStart('/', '\\'));
-                    if (software.urlvrbrainv51 != "")
-                        xmlwriter.WriteElementString("urlvrbrainv51",
-                            new Uri(software.urlvrbrainv51).LocalPath.TrimStart('/', '\\'));
-                    if (software.urlvrbrainv52 != "")
-                        xmlwriter.WriteElementString("urlvrbrainv52",
-                            new Uri(software.urlvrbrainv52).LocalPath.TrimStart('/', '\\'));
-                    if (software.urlvrbrainv54 != "")
-                        xmlwriter.WriteElementString("urlvrbrainv54",
-                            new Uri(software.urlvrbrainv54).LocalPath.TrimStart('/', '\\'));
-                    if (software.urlvrcorev10 != "")
-                        xmlwriter.WriteElementString("urlvrcorev10",
-                            new Uri(software.urlvrcorev10).LocalPath.TrimStart('/', '\\'));
-                    if (software.urlvrubrainv51 != "")
-                        xmlwriter.WriteElementString("urlvrubrainv51",
-                            new Uri(software.urlvrubrainv51).LocalPath.TrimStart('/', '\\'));
-                    if (software.urlvrubrainv52 != "")
-                        xmlwriter.WriteElementString("urlvrubrainv52",
-                            new Uri(software.urlvrubrainv52).LocalPath.TrimStart('/', '\\'));
-                    if (software.urlbebop2 != "")
-                        xmlwriter.WriteElementString("urlbebop2",
-                            new Uri(software.urlbebop2).LocalPath.TrimStart('/', '\\'));
-                    if (software.urldisco != "")
-                        xmlwriter.WriteElementString("urldisco",
-                            new Uri(software.urldisco).LocalPath.TrimStart('/', '\\'));
-                    xmlwriter.WriteElementString("name", software.name);
-                    xmlwriter.WriteElementString("desc", software.desc);
-                    xmlwriter.WriteElementString("format_version", software.k_format_version.ToString());
+                            if (String.IsNullOrEmpty(url))
+                                continue;
 
-                    xmlwriter.WriteEndElement();
+                            field.SetValue(options.softwares[a], new Uri(url).LocalPath.TrimStart('/', '\\'));
 
-                    if (software.url != "")
-                    {
-                        Download.getFilefromNet(software.url, basedir + new Uri(software.url).LocalPath);
-                    }
-                    if (software.url2560 != "")
-                    {
-                        Download.getFilefromNet(software.url2560, basedir + new Uri(software.url2560).LocalPath);
-                    }
-                    if (software.url2560_2 != "")
-                    {
-                        Download.getFilefromNet(software.url2560_2, basedir + new Uri(software.url2560_2).LocalPath);
-                    }
-                    if (software.urlpx4v1 != "")
-                    {
-                        Download.getFilefromNet(software.urlpx4v1, basedir + new Uri(software.urlpx4v1).LocalPath);
-                    }
-                    if (software.urlpx4v2 != "")
-                    {
-                        Download.getFilefromNet(software.urlpx4v2, basedir + new Uri(software.urlpx4v2).LocalPath);
-                    }
-                    if (software.urlpx4v4 != "")
-                    {
-                        Download.getFilefromNet(software.urlpx4v4, basedir + new Uri(software.urlpx4v4).LocalPath);
-                    }
-                    if (software.urlpx4v4pro != "")
-                    {
-                        Download.getFilefromNet(software.urlpx4v4pro, basedir + new Uri(software.urlpx4v4pro).LocalPath);
+                            var task = Download.getFilefromNetAsync(url, basedir + new Uri(url).LocalPath);
+                            tasklist.Add(task);
+                        }
                     }
 
-                    if (software.urlvrbrainv40 != "")
-                    {
-                        Download.getFilefromNet(software.urlvrbrainv40,
-                            basedir + new Uri(software.urlvrbrainv40).LocalPath);
-                    }
-                    if (software.urlvrbrainv45 != "")
-                    {
-                        Download.getFilefromNet(software.urlvrbrainv45,
-                            basedir + new Uri(software.urlvrbrainv45).LocalPath);
-                    }
-                    if (software.urlvrbrainv50 != "")
-                    {
-                        Download.getFilefromNet(software.urlvrbrainv50,
-                            basedir + new Uri(software.urlvrbrainv50).LocalPath);
-                    }
-                    if (software.urlvrbrainv51 != "")
-                    {
-                        Download.getFilefromNet(software.urlvrbrainv51,
-                            basedir + new Uri(software.urlvrbrainv51).LocalPath);
-                    }
-                    if (software.urlvrbrainv52 != "")
-                    {
-                        Download.getFilefromNet(software.urlvrbrainv52,
-                            basedir + new Uri(software.urlvrbrainv52).LocalPath);
-                    }
-                    if (software.urlvrbrainv54 != "")
-                    {
-                        Download.getFilefromNet(software.urlvrbrainv54,
-                            basedir + new Uri(software.urlvrbrainv54).LocalPath);
-                    }
-                    if (software.urlvrcorev10 != "")
-                    {
-                        Download.getFilefromNet(software.urlvrcorev10, basedir + new Uri(software.urlvrcorev10).LocalPath);
-                    }
-                    if (software.urlvrubrainv51 != "")
-                    {
-                        Download.getFilefromNet(software.urlvrubrainv51,
-                            basedir + new Uri(software.urlvrubrainv51).LocalPath);
-                    }
-                    if (software.urlvrubrainv52 != "")
-                    {
-                        Download.getFilefromNet(software.urlvrubrainv52,
-                            basedir + new Uri(software.urlvrubrainv52).LocalPath);
-                    }
-                    if (software.urlbebop2 != "")
-                    {
-                        Download.getFilefromNet(software.urlbebop2,
-                            basedir + new Uri(software.urlbebop2).LocalPath);
-                    }
-                    if (software.urldisco != "")
-                    {
-                        Download.getFilefromNet(software.urldisco,
-                            basedir + new Uri(software.urldisco).LocalPath);
-                    }
+                    //Task.WaitAll(tasklist.ToArray());
                 }
 
-                xmlwriter.WriteEndElement();
-                xmlwriter.WriteEndDocument();
-            }
+                XmlSerializer xms = new XmlSerializer(typeof(optionsObject), new Type[] { typeof(software) });
 
+                xms.Serialize(xmlwriter, options);
+            }
             Loading.Close();
         }
 

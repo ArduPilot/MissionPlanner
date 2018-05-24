@@ -78,6 +78,7 @@ namespace MissionPlanner.Utilities
             public string urlfmuv3 = "";
             public string urlfmuv4 = "";
             public string urlrevomini = "";
+            public string urlmindpxv2 = "";
 
             public string name = "";
             public string desc = "";
@@ -464,6 +465,10 @@ namespace MissionPlanner.Utilities
                 else if (board == BoardDetect.boards.revomini)
                 {
                     baseurl = temp.urlrevomini.ToString();
+                }
+                else if (board == BoardDetect.boards.mindpxv2)
+                {
+                    baseurl = temp.urlmindpxv2.ToString();
                 }
                 else
                 {
