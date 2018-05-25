@@ -581,15 +581,15 @@ namespace MissionPlanner.Log
 
                 stream = File.Open(FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
 
-                log.Info("before read " + (GC.GetTotalMemory(false)/1024.0/1024.0));
+                log.Info("before read " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
 
                 logdata = new CollectionBuffer(stream);
 
                 dflog = logdata.dflog;
 
-                log.Info("got log lines " + (GC.GetTotalMemory(false)/1024.0/1024.0));
+                log.Info("got log lines " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
 
-                log.Info("process to datagrid " + (GC.GetTotalMemory(false)/1024.0/1024.0));
+                log.Info("process to datagrid " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
 
                 Loading.ShowLoading("Scanning coloum widths", this);
 
@@ -597,24 +597,15 @@ namespace MissionPlanner.Log
 
                 int colcount = 0;
 
-                foreach (var item2 in logdata)
+                foreach (var msgid in logdata.FMT)
                 {
-                    b++;
-                    var item = dflog.GetDFItemFromLine(item2, b);
-
-                    if (item.items != null)
-                    {
-                        colcount = Math.Max(colcount, (item.items.Length + typecoloum));
-
-                        // check first 1000000 lines for max coloums needed
-                        if (b > 1000000)
-                            break;
-                    }
+                    colcount = Math.Max(colcount, (msgid.Value.Item4.Length + typecoloum));
                 }
 
-                    log.Info("Done " + (GC.GetTotalMemory(false)/1024.0/1024.0));
+                log.Info("Done " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
 
-                this.BeginInvoke((Action) delegate {
+                this.BeginInvoke((Action)delegate
+                {
                     LoadLog2(FileName, logdata, colcount);
                 });
             }

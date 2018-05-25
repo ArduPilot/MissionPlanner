@@ -194,12 +194,11 @@ namespace MissionPlanner.Utilities
         }
 
 
-        public Tuple<byte, long> ReadMessageTypeOffset(Stream br)
+        public Tuple<byte, long> ReadMessageTypeOffset(Stream br, long length)
         {
             lock (locker)
             {
                 int log_step = 0;
-                long length = br.Length;
 
                 while (br.Position < length)
                 {
@@ -324,7 +323,8 @@ namespace MissionPlanner.Utilities
                         if (size == 0)
                             return;
 
-                        br.Seek(size - 3, SeekOrigin.Current);
+                        byte[] buf = new byte[size - 3];
+                        br.Read(buf, 0, buf.Length);
                         break;
                 }
             }
