@@ -266,7 +266,7 @@ namespace MissionPlanner.Utilities
 
                     if (binary)
                     {
-                        var answer = binlog.ReadMessage(basestream);
+                        var answer = binlog.ReadMessage(basestream, basestream.Length);
 
                         currentindexcache = answer;
                         indexcachelineno = index;
