@@ -782,7 +782,7 @@
         <param index="7">Y offset from target (m)</param>
       </entry>
       <entry value="80" name="MAV_CMD_NAV_ROI">
-        <description>Sets the region of interest (ROI) for a sensor set or the vehicle itself. This can then be used by the vehicles control system to control the vehicle attitude and the attitude of various sensors such as cameras.</description>
+        <description>THIS INTERFACE IS DEPRECATED AS OF JANUARY 2018. Please use MAV_CMD_DO_SET_ROI_* messages instead. Sets the region of interest (ROI) for a sensor set or the vehicle itself. This can then be used by the vehicles control system to control the vehicle attitude and the attitude of various sensors such as cameras.</description>
         <param index="1">Region of intereset mode. (see MAV_ROI enum)</param>
         <param index="2">Waypoint index/ target ID. (see MAV_ROI enum)</param>
         <param index="3">ROI index (allows a vehicle to manage multiple ROI's)</param>
@@ -1095,6 +1095,36 @@
         <param index="6">Empty</param>
         <param index="7">Empty</param>
       </entry>
+      <entry value="195" name="MAV_CMD_DO_SET_ROI_LOCATION">
+        <description>Sets the region of interest (ROI) to a location. This can then be used by the vehicles control system to control the vehicle attitude and the attitude of various sensors such as cameras.</description>
+        <param index="1">Empty</param>
+        <param index="2">Empty</param>
+        <param index="3">Empty</param>
+        <param index="4">Empty</param>
+        <param index="5">Latitude</param>
+        <param index="6">Longitude</param>
+        <param index="7">Altitude</param>
+      </entry>
+      <entry value="196" name="MAV_CMD_DO_SET_ROI_WPNEXT_OFFSET">
+        <description>Sets the region of interest (ROI) to be toward next waypoint, with optional pitch/roll/yaw offset. This can then be used by the vehicles control system to control the vehicle attitude and the attitude of various sensors such as cameras.</description>
+        <param index="1">Empty</param>
+        <param index="2">Empty</param>
+        <param index="3">Empty</param>
+        <param index="4">Empty</param>
+        <param index="5">pitch offset from next waypoint</param>
+        <param index="6">roll offset from next waypoint</param>
+        <param index="7">yaw offset from next waypoint</param>
+      </entry>
+      <entry value="197" name="MAV_CMD_DO_SET_ROI_NONE">
+        <description>Cancels any previous ROI command returning the vehicle/sensors to default flight characteristics. This can then be used by the vehicles control system to control the vehicle attitude and the attitude of various sensors such as cameras.</description>
+        <param index="1">Empty</param>
+        <param index="2">Empty</param>
+        <param index="3">Empty</param>
+        <param index="4">Empty</param>
+        <param index="5">Empty</param>
+        <param index="6">Empty</param>
+        <param index="7">Empty</param>
+      </entry>
       <entry value="200" name="MAV_CMD_DO_CONTROL_VIDEO">
         <description>Control onboard camera system.</description>
         <param index="1">Camera ID (-1 for all)</param>
@@ -1106,7 +1136,7 @@
         <param index="7">Empty</param>
       </entry>
       <entry value="201" name="MAV_CMD_DO_SET_ROI">
-        <description>Sets the region of interest (ROI) for a sensor set or the vehicle itself. This can then be used by the vehicles control system to control the vehicle attitude and the attitude of various sensors such as cameras.</description>
+        <description>THIS INTERFACE IS DEPRECATED AS OF JANUARY 2018. Please use MAV_CMD_DO_SET_ROI_* messages instead. Sets the region of interest (ROI) for a sensor set or the vehicle itself. This can then be used by the vehicles control system to control the vehicle attitude and the attitude of various sensors such as cameras.</description>
         <param index="1">Region of intereset mode. (see MAV_ROI enum)</param>
         <param index="2">Waypoint index/ target ID. (see MAV_ROI enum)</param>
         <param index="3">ROI index (allows a vehicle to manage multiple ROI's)</param>
@@ -1821,7 +1851,7 @@
       </entry>
     </enum>
     <enum name="MAV_ROI">
-      <description> The ROI (region of interest) for the vehicle. This can be
+      <description>THIS INTERFACE IS DEPRECATED AS OF JANUARY 2018. Please use MAV_CMD_DO_SET_ROI_* messages instead. The ROI (region of interest) for the vehicle. This can be
                 be used by the vehicle for camera/vehicle attitude alignment (see
                 MAV_CMD_NAV_ROI).</description>
       <entry value="0" name="MAV_ROI_NONE">
@@ -3150,6 +3180,15 @@
       <field type="uint16_t" name="chan6_raw" units="us">RC channel 6 value, in microseconds. A value of UINT16_MAX means to ignore this field.</field>
       <field type="uint16_t" name="chan7_raw" units="us">RC channel 7 value, in microseconds. A value of UINT16_MAX means to ignore this field.</field>
       <field type="uint16_t" name="chan8_raw" units="us">RC channel 8 value, in microseconds. A value of UINT16_MAX means to ignore this field.</field>
+      <extensions/>
+      <field type="uint16_t" name="chan9_raw" units="us">RC channel 9 value, in microseconds. A value of UINT16_MAX means to ignore this field.</field>
+      <field type="uint16_t" name="chan10_raw" units="us">RC channel 10 value, in microseconds. A value of UINT16_MAX means to ignore this field.</field>
+      <field type="uint16_t" name="chan11_raw" units="us">RC channel 11 value, in microseconds. A value of UINT16_MAX means to ignore this field.</field>
+      <field type="uint16_t" name="chan12_raw" units="us">RC channel 12 value, in microseconds. A value of UINT16_MAX means to ignore this field.</field>
+      <field type="uint16_t" name="chan13_raw" units="us">RC channel 13 value, in microseconds. A value of UINT16_MAX means to ignore this field.</field>
+      <field type="uint16_t" name="chan14_raw" units="us">RC channel 14 value, in microseconds. A value of UINT16_MAX means to ignore this field.</field>
+      <field type="uint16_t" name="chan15_raw" units="us">RC channel 15 value, in microseconds. A value of UINT16_MAX means to ignore this field.</field>
+      <field type="uint16_t" name="chan16_raw" units="us">RC channel 16 value, in microseconds. A value of UINT16_MAX means to ignore this field.</field>
     </message>
     <message id="73" name="MISSION_ITEM_INT">
       <description>Message encoding a mission item. This message is emitted to announce
@@ -4271,41 +4310,6 @@
       <field type="uint8_t" name="increment" units="deg">Angular width in degrees of each array element.</field>
       <field type="uint16_t" name="min_distance" units="cm">Minimum distance the sensor can measure in centimeters</field>
       <field type="uint16_t" name="max_distance" units="cm">Maximum distance the sensor can measure in centimeters</field>
-    </message>
-    <message id="320" name="PARAM_EXT_REQUEST_READ">
-      <description>Request to read the value of a parameter with the either the param_id string id or param_index.</description>
-      <field type="uint8_t" name="target_system">System ID</field>
-      <field type="uint8_t" name="target_component">Component ID</field>
-      <field type="char[16]" name="param_id">Parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string</field>
-      <field type="int16_t" name="param_index">Parameter index. Set to -1 to use the Parameter ID field as identifier (else param_id will be ignored)</field>
-    </message>
-    <message id="321" name="PARAM_EXT_REQUEST_LIST">
-      <description>Request all parameters of this component. After this request, all parameters are emitted.</description>
-      <field type="uint8_t" name="target_system">System ID</field>
-      <field type="uint8_t" name="target_component">Component ID</field>
-    </message>
-    <message id="322" name="PARAM_EXT_VALUE">
-      <description>Emit the value of a parameter. The inclusion of param_count and param_index in the message allows the recipient to keep track of received parameters and allows them to re-request missing parameters after a loss or timeout.</description>
-      <field type="char[16]" name="param_id">Parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string</field>
-      <field type="char[128]" name="param_value">Parameter value</field>
-      <field type="uint8_t" name="param_type" enum="MAV_PARAM_TYPE">Parameter type: see the MAV_PARAM_TYPE enum for supported data types.</field>
-      <field type="uint16_t" name="param_count">Total number of parameters</field>
-      <field type="uint16_t" name="param_index">Index of this parameter</field>
-    </message>
-    <message id="323" name="PARAM_EXT_SET">
-      <description>Set a parameter value. In order to deal with message loss (and retransmission of PARAM_EXT_SET), when setting a parameter value and the new value is the same as the current value, you will immediately get a PARAM_ACK_ACCEPTED response. If the current state is PARAM_ACK_IN_PROGRESS, you will accordingly receive a PARAM_ACK_IN_PROGRESS in response.</description>
-      <field type="uint8_t" name="target_system">System ID</field>
-      <field type="uint8_t" name="target_component">Component ID</field>
-      <field type="char[16]" name="param_id">Parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string</field>
-      <field type="char[128]" name="param_value">Parameter value</field>
-      <field type="uint8_t" name="param_type" enum="MAV_PARAM_TYPE">Parameter type: see the MAV_PARAM_TYPE enum for supported data types.</field>
-    </message>
-    <message id="324" name="PARAM_EXT_ACK">
-      <description>Response from a PARAM_EXT_SET message.</description>
-      <field type="char[16]" name="param_id">Parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string</field>
-      <field type="char[128]" name="param_value">Parameter value (new value if PARAM_ACK_ACCEPTED, current value otherwise)</field>
-      <field type="uint8_t" name="param_type" enum="MAV_PARAM_TYPE">Parameter type: see the MAV_PARAM_TYPE enum for supported data types.</field>
-      <field type="uint8_t" name="param_result" enum="PARAM_ACK">Result code: see the PARAM_ACK enum for possible codes.</field>
     </message>
   </messages>
 </mavlink>

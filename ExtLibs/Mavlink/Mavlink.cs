@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Thu Feb 08 2018";
+    public const string MAVLINK_BUILD_DATE = "Fri May 25 2018";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -87,7 +87,7 @@ public partial class MAVLink
 		new message_info(66, "REQUEST_DATA_STREAM", 148, 6, 6, typeof( mavlink_request_data_stream_t )),
 		new message_info(67, "DATA_STREAM", 21, 4, 4, typeof( mavlink_data_stream_t )),
 		new message_info(69, "MANUAL_CONTROL", 243, 11, 11, typeof( mavlink_manual_control_t )),
-		new message_info(70, "RC_CHANNELS_OVERRIDE", 124, 18, 18, typeof( mavlink_rc_channels_override_t )),
+		new message_info(70, "RC_CHANNELS_OVERRIDE", 124, 18, 34, typeof( mavlink_rc_channels_override_t )),
 		new message_info(73, "MISSION_ITEM_INT", 38, 37, 38, typeof( mavlink_mission_item_int_t )),
 		new message_info(74, "VFR_HUD", 20, 20, 20, typeof( mavlink_vfr_hud_t )),
 		new message_info(75, "COMMAND_INT", 158, 35, 35, typeof( mavlink_command_int_t )),
@@ -183,7 +183,7 @@ public partial class MAVLink
 		new message_info(177, "COMPASSMOT_STATUS", 240, 20, 20, typeof( mavlink_compassmot_status_t )),
 		new message_info(178, "AHRS2", 47, 24, 24, typeof( mavlink_ahrs2_t )),
 		new message_info(179, "CAMERA_STATUS", 189, 29, 29, typeof( mavlink_camera_status_t )),
-		new message_info(180, "CAMERA_FEEDBACK", 52, 45, 45, typeof( mavlink_camera_feedback_t )),
+		new message_info(180, "CAMERA_FEEDBACK", 52, 45, 47, typeof( mavlink_camera_feedback_t )),
 		new message_info(181, "BATTERY2", 174, 4, 4, typeof( mavlink_battery2_t )),
 		new message_info(182, "AHRS3", 229, 40, 40, typeof( mavlink_ahrs3_t )),
 		new message_info(183, "AUTOPILOT_VERSION_REQUEST", 85, 2, 2, typeof( mavlink_autopilot_version_request_t )),
@@ -192,7 +192,7 @@ public partial class MAVLink
 		new message_info(186, "LED_CONTROL", 72, 29, 29, typeof( mavlink_led_control_t )),
 		new message_info(191, "MAG_CAL_PROGRESS", 92, 27, 27, typeof( mavlink_mag_cal_progress_t )),
 		new message_info(192, "MAG_CAL_REPORT", 36, 44, 44, typeof( mavlink_mag_cal_report_t )),
-		new message_info(193, "EKF_STATUS_REPORT", 71, 22, 22, typeof( mavlink_ekf_status_report_t )),
+		new message_info(193, "EKF_STATUS_REPORT", 71, 22, 26, typeof( mavlink_ekf_status_report_t )),
 		new message_info(194, "PID_TUNING", 98, 25, 25, typeof( mavlink_pid_tuning_t )),
 		new message_info(195, "DEEPSTALL", 120, 37, 37, typeof( mavlink_deepstall_t )),
 		new message_info(200, "GIMBAL_REPORT", 134, 42, 42, typeof( mavlink_gimbal_report_t )),
@@ -239,11 +239,6 @@ public partial class MAVLink
 		new message_info(299, "WIFI_CONFIG_AP", 19, 96, 96, typeof( mavlink_wifi_config_ap_t )),
 		new message_info(310, "UAVCAN_NODE_STATUS", 28, 17, 17, typeof( mavlink_uavcan_node_status_t )),
 		new message_info(311, "UAVCAN_NODE_INFO", 95, 116, 116, typeof( mavlink_uavcan_node_info_t )),
-		new message_info(320, "PARAM_EXT_REQUEST_READ", 243, 20, 20, typeof( mavlink_param_ext_request_read_t )),
-		new message_info(321, "PARAM_EXT_REQUEST_LIST", 88, 2, 2, typeof( mavlink_param_ext_request_list_t )),
-		new message_info(322, "PARAM_EXT_VALUE", 243, 149, 149, typeof( mavlink_param_ext_value_t )),
-		new message_info(323, "PARAM_EXT_SET", 78, 147, 147, typeof( mavlink_param_ext_set_t )),
-		new message_info(324, "PARAM_EXT_ACK", 132, 146, 146, typeof( mavlink_param_ext_ack_t )),
 		new message_info(330, "OBSTACLE_DISTANCE", 23, 158, 158, typeof( mavlink_obstacle_distance_t )),
 		new message_info(10001, "UAVIONIX_ADSB_OUT_CFG", 209, 20, 20, typeof( mavlink_uavionix_adsb_out_cfg_t )),
 		new message_info(10002, "UAVIONIX_ADSB_OUT_DYNAMIC", 186, 41, 41, typeof( mavlink_uavionix_adsb_out_dynamic_t )),
@@ -494,11 +489,6 @@ LOGGING_ACK = 268,
 WIFI_CONFIG_AP = 299,
 UAVCAN_NODE_STATUS = 310,
 UAVCAN_NODE_INFO = 311,
-PARAM_EXT_REQUEST_READ = 320,
-PARAM_EXT_REQUEST_LIST = 321,
-PARAM_EXT_VALUE = 322,
-PARAM_EXT_SET = 323,
-PARAM_EXT_ACK = 324,
 OBSTACLE_DISTANCE = 330,
 UAVIONIX_ADSB_OUT_CFG = 10001,
 UAVIONIX_ADSB_OUT_DYNAMIC = 10002,
@@ -569,7 +559,7 @@ ICAROUS_KINEMATIC_BANDS = 42001,
         DO_FOLLOW=32, 
     	///<summary> Reposition the MAV after a follow target command has been sent |Camera q1 (where 0 is on the ray from the camera to the tracking device)| Camera q2| Camera q3| Camera q4| altitude offset from target (m)| X offset from target (m)| Y offset from target (m)|  </summary>
         DO_FOLLOW_REPOSITION=33, 
-    	///<summary> Sets the region of interest (ROI) for a sensor set or the vehicle itself. This can then be used by the vehicles control system to control the vehicle attitude and the attitude of various sensors such as cameras. |Region of intereset mode. (see MAV_ROI enum)| Waypoint index/ target ID. (see MAV_ROI enum)| ROI index (allows a vehicle to manage multiple ROI's)| Empty| x the location of the fixed ROI (see MAV_FRAME)| y| z|  </summary>
+    	///<summary> THIS INTERFACE IS DEPRECATED AS OF JANUARY 2018. Please use MAV_CMD_DO_SET_ROI_* messages instead. Sets the region of interest (ROI) for a sensor set or the vehicle itself. This can then be used by the vehicles control system to control the vehicle attitude and the attitude of various sensors such as cameras. |Region of intereset mode. (see MAV_ROI enum)| Waypoint index/ target ID. (see MAV_ROI enum)| ROI index (allows a vehicle to manage multiple ROI's)| Empty| x the location of the fixed ROI (see MAV_FRAME)| y| z|  </summary>
         ROI=80, 
     	///<summary> Control autonomous path planning on the MAV. |0: Disable local obstacle avoidance / local path planning (without resetting map), 1: Enable local path planning, 2: Enable and reset local path planning| 0: Disable full path planning (without resetting map), 1: Enable, 2: Enable and reset map/occupancy grid, 3: Enable and reset planned route, but not occupancy grid| Empty| Yaw angle at goal, in compass degrees, [0..360]| Latitude/X of goal| Longitude/Y of goal| Altitude/Z of goal|  </summary>
         PATHPLANNING=81, 
@@ -633,9 +623,15 @@ ICAROUS_KINEMATIC_BANDS = 42001,
         DO_PAUSE_CONTINUE=193, 
     	///<summary> Set moving direction to forward or reverse. |Direction (0=Forward, 1=Reverse)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
         DO_SET_REVERSE=194, 
+    	///<summary> Sets the region of interest (ROI) to a location. This can then be used by the vehicles control system to control the vehicle attitude and the attitude of various sensors such as cameras. |Empty| Empty| Empty| Empty| Latitude| Longitude| Altitude|  </summary>
+        DO_SET_ROI_LOCATION=195, 
+    	///<summary> Sets the region of interest (ROI) to be toward next waypoint, with optional pitch/roll/yaw offset. This can then be used by the vehicles control system to control the vehicle attitude and the attitude of various sensors such as cameras. |Empty| Empty| Empty| Empty| pitch offset from next waypoint| roll offset from next waypoint| yaw offset from next waypoint|  </summary>
+        DO_SET_ROI_WPNEXT_OFFSET=196, 
+    	///<summary> Cancels any previous ROI command returning the vehicle/sensors to default flight characteristics. This can then be used by the vehicles control system to control the vehicle attitude and the attitude of various sensors such as cameras. |Empty| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
+        DO_SET_ROI_NONE=197, 
     	///<summary> Control onboard camera system. |Camera ID (-1 for all)| Transmission: 0: disabled, 1: enabled compressed, 2: enabled raw| Transmission mode: 0: video stream, >0: single images every n seconds (decimal)| Recording: 0: disabled, 1: enabled compressed, 2: enabled raw| Empty| Empty| Empty|  </summary>
         DO_CONTROL_VIDEO=200, 
-    	///<summary> Sets the region of interest (ROI) for a sensor set or the vehicle itself. This can then be used by the vehicles control system to control the vehicle attitude and the attitude of various sensors such as cameras. |Region of intereset mode. (see MAV_ROI enum)| Waypoint index/ target ID. (see MAV_ROI enum)| ROI index (allows a vehicle to manage multiple ROI's)| Empty| x the location of the fixed ROI (see MAV_FRAME)| y| z|  </summary>
+    	///<summary> THIS INTERFACE IS DEPRECATED AS OF JANUARY 2018. Please use MAV_CMD_DO_SET_ROI_* messages instead. Sets the region of interest (ROI) for a sensor set or the vehicle itself. This can then be used by the vehicles control system to control the vehicle attitude and the attitude of various sensors such as cameras. |Region of intereset mode. (see MAV_ROI enum)| Waypoint index/ target ID. (see MAV_ROI enum)| ROI index (allows a vehicle to manage multiple ROI's)| Empty| x the location of the fixed ROI (see MAV_FRAME)| y| z|  </summary>
         DO_SET_ROI=201, 
     	///<summary> Mission command to configure an on-board camera controller system. |Modes: P, TV, AV, M, Etc| Shutter speed: Divisor number for one second| Aperture: F stop number| ISO number e.g. 80, 100, 200, Etc| Exposure type enumerator| Command Identity| Main engine cut-off time before camera trigger in seconds/10 (0 means no cut-off)|  </summary>
         DO_DIGICAM_CONFIGURE=202, 
@@ -1468,6 +1464,164 @@ ICAROUS_KINEMATIC_BANDS = 42001,
     
     };
     
+    ///<summary> A mapping of plane flight modes for custom_mode field of heartbeat </summary>
+    public enum PLANE_MODE: int /*default*/
+    {
+			///<summary>  | </summary>
+        MANUAL=0, 
+    	///<summary>  | </summary>
+        CIRCLE=1, 
+    	///<summary>  | </summary>
+        STABILIZE=2, 
+    	///<summary>  | </summary>
+        TRAINING=3, 
+    	///<summary>  | </summary>
+        ACRO=4, 
+    	///<summary>  | </summary>
+        FLY_BY_WIRE_A=5, 
+    	///<summary>  | </summary>
+        FLY_BY_WIRE_B=6, 
+    	///<summary>  | </summary>
+        CRUISE=7, 
+    	///<summary>  | </summary>
+        AUTOTUNE=8, 
+    	///<summary>  | </summary>
+        AUTO=10, 
+    	///<summary>  | </summary>
+        RTL=11, 
+    	///<summary>  | </summary>
+        LOITER=12, 
+    	///<summary>  | </summary>
+        AVOID_ADSB=14, 
+    	///<summary>  | </summary>
+        GUIDED=15, 
+    	///<summary>  | </summary>
+        INITIALIZING=16, 
+    	///<summary>  | </summary>
+        QSTABILIZE=17, 
+    	///<summary>  | </summary>
+        QHOVER=18, 
+    	///<summary>  | </summary>
+        QLOITER=19, 
+    	///<summary>  | </summary>
+        QLAND=20, 
+    	///<summary>  | </summary>
+        QRTL=21, 
+    
+    };
+    
+    ///<summary> A mapping of copter flight modes for custom_mode field of heartbeat </summary>
+    public enum COPTER_MODE: int /*default*/
+    {
+			///<summary>  | </summary>
+        STABILIZE=0, 
+    	///<summary>  | </summary>
+        ACRO=1, 
+    	///<summary>  | </summary>
+        ALT_HOLD=2, 
+    	///<summary>  | </summary>
+        AUTO=3, 
+    	///<summary>  | </summary>
+        GUIDED=4, 
+    	///<summary>  | </summary>
+        LOITER=5, 
+    	///<summary>  | </summary>
+        RTL=6, 
+    	///<summary>  | </summary>
+        CIRCLE=7, 
+    	///<summary>  | </summary>
+        LAND=9, 
+    	///<summary>  | </summary>
+        DRIFT=11, 
+    	///<summary>  | </summary>
+        SPORT=13, 
+    	///<summary>  | </summary>
+        FLIP=14, 
+    	///<summary>  | </summary>
+        AUTOTUNE=15, 
+    	///<summary>  | </summary>
+        POSHOLD=16, 
+    	///<summary>  | </summary>
+        BRAKE=17, 
+    	///<summary>  | </summary>
+        THROW=18, 
+    	///<summary>  | </summary>
+        AVOID_ADSB=19, 
+    	///<summary>  | </summary>
+        GUIDED_NOGPS=20, 
+    	///<summary>  | </summary>
+        SMART_RTL=21, 
+    
+    };
+    
+    ///<summary> A mapping of sub flight modes for custom_mode field of heartbeat </summary>
+    public enum SUB_MODE: int /*default*/
+    {
+			///<summary>  | </summary>
+        STABILIZE=0, 
+    	///<summary>  | </summary>
+        ACRO=1, 
+    	///<summary>  | </summary>
+        ALT_HOLD=2, 
+    	///<summary>  | </summary>
+        AUTO=3, 
+    	///<summary>  | </summary>
+        GUIDED=4, 
+    	///<summary>  | </summary>
+        CIRCLE=7, 
+    	///<summary>  | </summary>
+        SURFACE=9, 
+    	///<summary>  | </summary>
+        POSHOLD=16, 
+    	///<summary>  | </summary>
+        MANUAL=19, 
+    
+    };
+    
+    ///<summary> A mapping of rover flight modes for custom_mode field of heartbeat </summary>
+    public enum ROVER_MODE: int /*default*/
+    {
+			///<summary>  | </summary>
+        MANUAL=0, 
+    	///<summary>  | </summary>
+        ACRO=1, 
+    	///<summary>  | </summary>
+        STEERING=3, 
+    	///<summary>  | </summary>
+        HOLD=4, 
+    	///<summary>  | </summary>
+        LOITER=5, 
+    	///<summary>  | </summary>
+        AUTO=10, 
+    	///<summary>  | </summary>
+        RTL=11, 
+    	///<summary>  | </summary>
+        SMART_RTL=12, 
+    	///<summary>  | </summary>
+        GUIDED=15, 
+    	///<summary>  | </summary>
+        INITIALIZING=16, 
+    
+    };
+    
+    ///<summary> A mapping of antenna tracker flight modes for custom_mode field of heartbeat </summary>
+    public enum TRACKER_MODE: int /*default*/
+    {
+			///<summary>  | </summary>
+        MANUAL=0, 
+    	///<summary>  | </summary>
+        STOP=1, 
+    	///<summary>  | </summary>
+        SCAN=2, 
+    	///<summary>  | </summary>
+        SERVO_TEST=3, 
+    	///<summary>  | </summary>
+        AUTO=10, 
+    	///<summary>  | </summary>
+        INITIALIZING=16, 
+    
+    };
+    
     
     ///<summary> Micro air vehicle / autopilot classes. This identifies the individual model. </summary>
     public enum MAV_AUTOPILOT: byte
@@ -1985,7 +2139,7 @@ ICAROUS_KINEMATIC_BANDS = 42001,
     
     };
     
-    ///<summary>  The ROI (region of interest) for the vehicle. This can be                 be used by the vehicle for camera/vehicle attitude alignment (see                 MAV_CMD_NAV_ROI). </summary>
+    ///<summary> THIS INTERFACE IS DEPRECATED AS OF JANUARY 2018. Please use MAV_CMD_DO_SET_ROI_* messages instead. The ROI (region of interest) for the vehicle. This can be                 be used by the vehicle for camera/vehicle attitude alignment (see                 MAV_CMD_NAV_ROI). </summary>
     public enum MAV_ROI: int /*default*/
     {
 			///<summary> No region of interest. | </summary>
@@ -3478,7 +3632,7 @@ ICAROUS_KINEMATIC_BANDS = 42001,
     };
 
 
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=45)]
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=47)]
     ///<summary> Camera Capture Feedback </summary>
     public struct mavlink_camera_feedback_t
     {
@@ -3508,6 +3662,8 @@ ICAROUS_KINEMATIC_BANDS = 42001,
         public  byte cam_idx;
             /// <summary> See CAMERA_FEEDBACK_FLAGS enum for definition of the bitmask CAMERA_FEEDBACK_FLAGS</summary>
         public  /*CAMERA_FEEDBACK_FLAGS*/byte flags;
+            /// <summary> Completed image captures </summary>
+        public  ushort completed_captures;
     
     };
 
@@ -3681,7 +3837,7 @@ ICAROUS_KINEMATIC_BANDS = 42001,
     };
 
 
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=22)]
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=26)]
     ///<summary> EKF Status message including flags and variances </summary>
     public struct mavlink_ekf_status_report_t
     {
@@ -3697,6 +3853,8 @@ ICAROUS_KINEMATIC_BANDS = 42001,
         public  float terrain_alt_variance;
             /// <summary> Flags EKF_STATUS_FLAGS</summary>
         public  /*EKF_STATUS_FLAGS*/ushort flags;
+            /// <summary> Airspeed variance </summary>
+        public  float airspeed_variance;
     
     };
 
@@ -5134,7 +5292,7 @@ ICAROUS_KINEMATIC_BANDS = 42001,
     };
 
 
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=18)]
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=34)]
     ///<summary> The RAW values of the RC channels sent to the MAV to override info received from the RC radio. A value of UINT16_MAX means no change to that channel. A value of 0 means control of that channel should be released back to the RC radio. The standard PPM modulation is as follows: 1000 microseconds: 0%, 2000 microseconds: 100%. Individual receivers/transmitters might violate this specification. </summary>
     public struct mavlink_rc_channels_override_t
     {
@@ -5158,6 +5316,22 @@ ICAROUS_KINEMATIC_BANDS = 42001,
         public  byte target_system;
             /// <summary> Component ID </summary>
         public  byte target_component;
+            /// <summary> RC channel 9 value, in microseconds. A value of UINT16_MAX means to ignore this field. </summary>
+        public  ushort chan9_raw;
+            /// <summary> RC channel 10 value, in microseconds. A value of UINT16_MAX means to ignore this field. </summary>
+        public  ushort chan10_raw;
+            /// <summary> RC channel 11 value, in microseconds. A value of UINT16_MAX means to ignore this field. </summary>
+        public  ushort chan11_raw;
+            /// <summary> RC channel 12 value, in microseconds. A value of UINT16_MAX means to ignore this field. </summary>
+        public  ushort chan12_raw;
+            /// <summary> RC channel 13 value, in microseconds. A value of UINT16_MAX means to ignore this field. </summary>
+        public  ushort chan13_raw;
+            /// <summary> RC channel 14 value, in microseconds. A value of UINT16_MAX means to ignore this field. </summary>
+        public  ushort chan14_raw;
+            /// <summary> RC channel 15 value, in microseconds. A value of UINT16_MAX means to ignore this field. </summary>
+        public  ushort chan15_raw;
+            /// <summary> RC channel 16 value, in microseconds. A value of UINT16_MAX means to ignore this field. </summary>
+        public  ushort chan16_raw;
     
     };
 
@@ -7652,93 +7826,6 @@ ICAROUS_KINEMATIC_BANDS = 42001,
         public  /*MAV_DISTANCE_SENSOR*/byte sensor_type;
             /// <summary> Angular width in degrees of each array element. </summary>
         public  byte increment;
-    
-    };
-
-
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=20)]
-    ///<summary> Request to read the value of a parameter with the either the param_id string id or param_index. </summary>
-    public struct mavlink_param_ext_request_read_t
-    {
-        /// <summary> Parameter index. Set to -1 to use the Parameter ID field as identifier (else param_id will be ignored) </summary>
-        public  short param_index;
-            /// <summary> System ID </summary>
-        public  byte target_system;
-            /// <summary> Component ID </summary>
-        public  byte target_component;
-            /// <summary> Parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string </summary>
-        [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
-		public byte[] param_id;
-    
-    };
-
-
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=2)]
-    ///<summary> Request all parameters of this component. After this request, all parameters are emitted. </summary>
-    public struct mavlink_param_ext_request_list_t
-    {
-        /// <summary> System ID </summary>
-        public  byte target_system;
-            /// <summary> Component ID </summary>
-        public  byte target_component;
-    
-    };
-
-
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=149)]
-    ///<summary> Emit the value of a parameter. The inclusion of param_count and param_index in the message allows the recipient to keep track of received parameters and allows them to re-request missing parameters after a loss or timeout. </summary>
-    public struct mavlink_param_ext_value_t
-    {
-        /// <summary> Total number of parameters </summary>
-        public  ushort param_count;
-            /// <summary> Index of this parameter </summary>
-        public  ushort param_index;
-            /// <summary> Parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string </summary>
-        [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
-		public byte[] param_id;
-            /// <summary> Parameter value </summary>
-        [MarshalAs(UnmanagedType.ByValArray,SizeConst=128)]
-		public byte[] param_value;
-            /// <summary> Parameter type: see the MAV_PARAM_TYPE enum for supported data types. MAV_PARAM_TYPE</summary>
-        public  /*MAV_PARAM_TYPE*/byte param_type;
-    
-    };
-
-
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=147)]
-    ///<summary> Set a parameter value. In order to deal with message loss (and retransmission of PARAM_EXT_SET), when setting a parameter value and the new value is the same as the current value, you will immediately get a PARAM_ACK_ACCEPTED response. If the current state is PARAM_ACK_IN_PROGRESS, you will accordingly receive a PARAM_ACK_IN_PROGRESS in response. </summary>
-    public struct mavlink_param_ext_set_t
-    {
-        /// <summary> System ID </summary>
-        public  byte target_system;
-            /// <summary> Component ID </summary>
-        public  byte target_component;
-            /// <summary> Parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string </summary>
-        [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
-		public byte[] param_id;
-            /// <summary> Parameter value </summary>
-        [MarshalAs(UnmanagedType.ByValArray,SizeConst=128)]
-		public byte[] param_value;
-            /// <summary> Parameter type: see the MAV_PARAM_TYPE enum for supported data types. MAV_PARAM_TYPE</summary>
-        public  /*MAV_PARAM_TYPE*/byte param_type;
-    
-    };
-
-
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=146)]
-    ///<summary> Response from a PARAM_EXT_SET message. </summary>
-    public struct mavlink_param_ext_ack_t
-    {
-        /// <summary> Parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string </summary>
-        [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
-		public byte[] param_id;
-            /// <summary> Parameter value (new value if PARAM_ACK_ACCEPTED, current value otherwise) </summary>
-        [MarshalAs(UnmanagedType.ByValArray,SizeConst=128)]
-		public byte[] param_value;
-            /// <summary> Parameter type: see the MAV_PARAM_TYPE enum for supported data types. MAV_PARAM_TYPE</summary>
-        public  /*MAV_PARAM_TYPE*/byte param_type;
-            /// <summary> Result code: see the PARAM_ACK enum for possible codes. PARAM_ACK</summary>
-        public  /*PARAM_ACK*/byte param_result;
     
     };
 
