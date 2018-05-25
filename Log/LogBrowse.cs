@@ -31,7 +31,6 @@ namespace MissionPlanner.Log
 
         CollectionBuffer logdata;
         Hashtable logdatafilter = new Hashtable();
-        Hashtable seenmessagetypes = new Hashtable();
 
         List<TextObj> ModeCache = new List<TextObj>();
         List<TextObj> ModePolyCache = new List<TextObj>();
@@ -47,8 +46,7 @@ namespace MissionPlanner.Log
         LineObj m_cursorLine = null;
         Hashtable dataModifierHash = new Hashtable();
 
-        DFLog dflog = new DFLog();
-
+        DFLog dflog;
         public string logfilename;
 
         private bool readmavgraphsxml_runonce = false;
@@ -515,8 +513,6 @@ namespace MissionPlanner.Log
             TimeCache = new List<TextObj>();
             MSGCache = new List<TextObj>();
 
-            seenmessagetypes = new Hashtable();
-
             if (!File.Exists(logfilename))
             {
                 using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
@@ -589,6 +585,8 @@ namespace MissionPlanner.Log
 
                 logdata = new CollectionBuffer(stream);
 
+                dflog = logdata.dflog;
+
                 log.Info("got log lines " + (GC.GetTotalMemory(false)/1024.0/1024.0));
 
                 log.Info("process to datagrid " + (GC.GetTotalMemory(false)/1024.0/1024.0));
@@ -608,15 +606,13 @@ namespace MissionPlanner.Log
                     {
                         colcount = Math.Max(colcount, (item.items.Length + typecoloum));
 
-                        seenmessagetypes[item.msgtype] = "";
-
                         // check first 1000000 lines for max coloums needed
                         if (b > 1000000)
                             break;
                     }
                 }
 
-                log.Info("Done " + (GC.GetTotalMemory(false)/1024.0/1024.0));
+                    log.Info("Done " + (GC.GetTotalMemory(false)/1024.0/1024.0));
 
                 this.BeginInvoke((Action) delegate {
                     LoadLog2(FileName, logdata, colcount);
@@ -717,7 +713,7 @@ namespace MissionPlanner.Log
 
             CreateChart(zg1);
 
-            ResetTreeView(seenmessagetypes);
+            ResetTreeView(logdata.SeenMessageTypes);
 
             Loading.ShowLoading("Generating Map", this);
 
@@ -792,7 +788,7 @@ namespace MissionPlanner.Log
             }
         }
 
-        private void ResetTreeView(Hashtable seenmessagetypes)
+        private void ResetTreeView(List<string> seenmessagetypes)
         {
             treeView1.Nodes.Clear();
             dataModifierHash = new Hashtable();
@@ -803,7 +799,7 @@ namespace MissionPlanner.Log
             {
                 TreeNode tn = new TreeNode(item.Name);
 
-                if (seenmessagetypes.ContainsKey(item.Name))
+                if (seenmessagetypes.Contains(item.Name))
                 {
                     treeView1.Nodes.Add(tn);
                     foreach (var item1 in item.FieldNames)
@@ -2275,7 +2271,7 @@ namespace MissionPlanner.Log
 
             int b = 0;
 
-            foreach (string item2 in seenmessagetypes.Keys)
+            foreach (string item2 in logdata.SeenMessageTypes)
             {
                 string celldata = item2.Trim();
                 if (!options.Contains(celldata))

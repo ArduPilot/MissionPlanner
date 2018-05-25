@@ -146,6 +146,8 @@ namespace MissionPlanner.Utilities
                         item["Name"].Trim(),
                         item["Format"].Trim(),
                         item.items.Skip(dflog.FindMessageOffset("FMT", "Columns")).ToArray());
+
+                    dflog.FMTLine(this[item.lineno]);
                 }
                 catch { }
             }
@@ -368,6 +370,20 @@ namespace MissionPlanner.Utilities
             get
             {
                 return (indexcachelineno >= (linestartoffset.Count-1)); 
+            }
+        }
+
+        public List<string> SeenMessageTypes
+        {
+            get
+            {
+                List<string> messagetypes = new List<string>();
+
+                messageindex.ForEach(a => {
+                    if (a.Value.Count > 0) messagetypes.Add(FMT[a.Key].Item2);
+                });
+
+                return messagetypes;
             }
         }
 
