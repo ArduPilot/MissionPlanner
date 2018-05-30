@@ -2362,7 +2362,7 @@ namespace MissionPlanner.GCSViews
 
             writeKML();
 
-            MainMap.ZoomAndCenterMarkers("objects");
+            MainMap.ZoomAndCenterMarkers("WPOverlay");
 
             MainMap_OnMapZoomChanged();
         }
@@ -2653,7 +2653,7 @@ namespace MissionPlanner.GCSViews
 
                             writeKML();
 
-                            MainMap.ZoomAndCenterMarkers("objects");
+                            MainMap.ZoomAndCenterMarkers("WPOverlay");
                         }
                         else
                         {
@@ -2751,7 +2751,7 @@ namespace MissionPlanner.GCSViews
 
                 writeKML();
 
-                MainMap.ZoomAndCenterMarkers("objects");
+                MainMap.ZoomAndCenterMarkers("WPOverlay");
             }
             catch (Exception ex)
             {
@@ -2983,7 +2983,7 @@ namespace MissionPlanner.GCSViews
         {
             comboBoxMapType.SelectedItem = MainMap.MapProvider;
 
-            MainMap.ZoomAndCenterMarkers("objects");
+            MainMap.ZoomAndCenterMarkers("WPOverlay");
 
             if (type == WMSProvider.Instance)
             {
@@ -6471,7 +6471,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                 writeKML();
 
-                MainMap.ZoomAndCenterMarkers("objects");
+                MainMap.ZoomAndCenterMarkers("WPOverlay");
             }
         }
 
