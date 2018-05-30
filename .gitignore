@@ -59,3 +59,5 @@ obj/
 /Plugins/Shortcuts
 /test
 /ExtLibs/GDAL/Native/gdal
+/ExtLibs/SimpleExample/packages
+/ExtLibs/SimpleExample/.vs
