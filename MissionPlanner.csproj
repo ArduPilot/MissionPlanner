@@ -190,7 +190,7 @@
     <PackageReference Include="BitMiracle.LibTiff.NET" Version="2.4.560" />
     <PackageReference Include="BouncyCastle" version="1.8.1" targetFramework="net40" />
     <PackageReference Include="Community.CsharpSqlite.SQLiteClient" version="3.7.7.3" targetFramework="net462" />
-    <PackageReference Include="CSMatIO" version="1.0.2" targetFramework="net40" requireReinstallation="true" />
+    <PackageReference Include="CSMatIO" version="1.0.20" targetFramework="net40" requireReinstallation="true" />
     <PackageReference Include="DirectShowLib" Version="1.0.0" />
     <PackageReference Include="DotNetZip" version="1.10.1" targetFramework="net40" />
     <PackageReference Include="DotSpatial.Data" version="1.9" targetFramework="net462" />
@@ -222,7 +222,9 @@
     <PackageReference Include="SharpDX" version="4.0.1" targetFramework="net462" />
     <PackageReference Include="SharpDX.DirectInput" version="4.0.1" targetFramework="net462" />
     <PackageReference Include="SharpZipLib" version="0.86.0" targetFramework="net40" />
-    <PackageReference Include="SkiaSharp" Version="1.60.0" />
+    <PackageReference Include="SkiaSharp" Version="1.60.1" />
+    <PackageReference Include="SkiaSharp.Views" Version="1.60.1" />
+    <PackageReference Include="SkiaSharp.Views.Forms" Version="1.60.0" />
     <PackageReference Include="SSH.NET" version="2016.1.0" targetFramework="net40" />
     <PackageReference Include="System.Drawing.Common" Version="4.5.0-rc1" />
     <PackageReference Include="System.IO.Ports" Version="4.4.0" />
@@ -232,7 +234,7 @@
     <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
 
     <PackageReference Include="Unofficial.ObjectListView" version="2.6.0" targetFramework="net40" />
-    <PackageReference Include="Xamarin.Forms" version="3.0.0.446417" targetFramework="net462" />
+    <PackageReference Include="Xamarin.Forms" version="3.0.0.482510" targetFramework="net462" />
     <PackageReference Include="zlib.net" version="1.0.4.0" targetFramework="net40" />
   </ItemGroup>
 
