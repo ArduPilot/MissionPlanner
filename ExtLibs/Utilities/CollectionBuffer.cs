@@ -126,7 +126,12 @@ namespace MissionPlanner.Utilities
                 int b = 0;
                 foreach (var item in this)
                 {
-                    var msgtype = item.Substring(0, item.IndexOf(','));
+					var idx = item.IndexOf(',');
+					
+					if (idx <= 0)
+						continue;
+					
+                    var msgtype = item.Substring(0, idx);
 
                     if(msgtype == "FMT")
                         dflog.FMTLine(item);
