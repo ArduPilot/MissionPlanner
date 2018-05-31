@@ -95,6 +95,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissionPlanner.ArduPilot", "ExtLibs\ArduPilot\MissionPlanner.ArduPilot.csproj", "{CA6345D3-7A6D-478B-A0ED-A58E50DCAA83}"
 EndProject
 Global
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64

@@ -619,6 +619,9 @@ namespace MissionPlanner
         public float distTraveled { get; set; }
 
         [DisplayText("Time in Air (sec)")]
+        public float timeSinceArmInAir { get; set; }
+
+        [DisplayText("Time in Air (sec)")]
         public float timeInAir { get; set; }
 
         //Time in Air converted to min.sec format for easier reading
@@ -1529,13 +1532,15 @@ namespace MissionPlanner
                         }
 
                         // throttle is up, or groundspeed is > 3 m/s
-                        if ((ch3percent > 12  || _groundspeed > 3.0) && armed)
+                        if ((ch3percent > 12 || _groundspeed > 3.0) && armed)
+                        {
                             timeInAir++;
-
+                            timeSinceArmInAir++;
+                        }
 
                         // to maintain total timeinair for this session not just based on arming
-                        //if (!armed)
-                            //timeInAir = 0;
+                        if (!armed)
+                            timeSinceArmInAir = 0;
 
                         if (!gotwind)
                             dowindcalc();
