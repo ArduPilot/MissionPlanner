@@ -1532,8 +1532,10 @@ namespace MissionPlanner
                         if ((ch3percent > 12  || _groundspeed > 3.0) && armed)
                             timeInAir++;
 
-                        if (!armed)
-                            timeInAir = 0;
+
+                        // to maintain total timeinair for this session not just based on arming
+                        //if (!armed)
+                            //timeInAir = 0;
 
                         if (!gotwind)
                             dowindcalc();
