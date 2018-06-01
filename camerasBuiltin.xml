@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Cameras>
+  <Camera>
+    <name>Nikon aw100</name>
+    <flen>5</flen>
+    <imgh>3456</imgh>
+    <imgw>4608</imgw>
+    <senh>4.62</senh>
+    <senw>6.16</senw>
+  </Camera>
+  <Camera>
+    <name>Canon SX230 HS</name>
+    <flen>5</flen>
+    <imgh>3000</imgh>
+    <imgw>4000</imgw>
+    <senh>4.62</senh>
+    <senw>6.16</senw>
+  </Camera>
+  <Camera>
+    <name>Samsung s860</name>
+    <flen>6.3</flen>
+    <imgh>2448</imgh>
+    <imgw>3264</imgw>
+    <senh>4.29</senh>
+    <senw>5.76</senw>
+  </Camera>
+  <Camera>
+    <name>Canon SX260-SX280</name>
+    <flen>4.5</flen>
+    <imgh>3000</imgh>
+    <imgw>4000</imgw>
+    <senh>4.55</senh>
+    <senw>6.17</senw>
+  </Camera>
+  <Camera>
+    <name>Nex5 25mm</name>
+    <flen>25</flen>
+    <imgh>3056</imgh>
+    <imgw>4592</imgw>
+    <senh>15.6</senh>
+    <senw>23.4</senw>
+  </Camera>
+  <Camera>
+    <name>Nex5 16mm</name>
+    <flen>16</flen>
+    <imgh>3056</imgh>
+    <imgw>4592</imgw>
+    <senh>15.6</senh>
+    <senw>23.4</senw>
+  </Camera>
+  <Camera>
+    <name>Nex7 16mm</name>
+    <flen>16</flen>
+    <imgh>4000</imgh>
+    <imgw>6000</imgw>
+    <senh>15.6</senh>
+    <senw>23.5</senw>
+  </Camera>
+  <Camera>
+    <name>Canon S110-S120</name>
+    <flen>5.2</flen>
+    <imgh>3000</imgh>
+    <imgw>4000</imgw>
+    <senh>5.7</senh>
+    <senw>7.6</senw>
+  </Camera>
+  <Camera>
+    <name>Canon ELPH 520HS</name>
+    <flen>4</flen>
+    <imgh>2736</imgh>
+    <imgw>3648</imgw>
+    <senh>4.55</senh>
+    <senw>6.17</senw>
+  </Camera>
+  <Camera>
+    <name>Canon ELPH 330HS</name>
+    <flen>4.3</flen>
+    <imgh>2736</imgh>
+    <imgw>3648</imgw>
+    <senh>4.55</senh>
+    <senw>6.17</senw>
+  </Camera>
+  <Camera>
+    <name>Canon ELPH 115-130 IS</name>
+    <flen>5</flen>
+    <imgh>3072</imgh>
+    <imgw>4608</imgw>
+    <senh>4.55</senh>
+    <senw>6.17</senw>
+  </Camera>
+  <Camera>
+    <name>Canon A2300-A2400</name>
+    <flen>5</flen>
+    <imgh>3456</imgh>
+    <imgw>4608</imgw>
+    <senh>4.55</senh>
+    <senw>6.17</senw>
+  </Camera>
+  <Camera>
+    <name>Canon 5D Mk2</name>
+    <flen>5</flen>
+    <imgh>3744</imgh>
+    <imgw>5616</imgw>
+    <senh>24</senh>
+    <senw>36</senw>
+  </Camera>
+  <Camera>
+    <name>NX1000</name>
+    <flen>20</flen>
+    <imgh>3648</imgh>
+    <imgw>5472</imgw>
+    <senh>15.7</senh>
+    <senw>23.5</senw>
+  </Camera>
+  <Camera>
+    <name>FIREFLY 6S</name>
+    <flen>3</flen>
+    <imgh>3000</imgh>
+    <imgw>4000</imgw>
+    <senh>4.7058</senh>
+    <senw>6.2372</senw>
+  </Camera>
+  <Camera>
+    <name>Sony A6000</name>
+    <flen>20</flen>
+    <imgh>4000</imgh>
+    <imgw>6000</imgw>
+    <senh>15.6</senh>
+    <senw>23.5</senw>
+  </Camera>
+  <Camera>
+    <name>Sony A7R</name>
+    <flen>28</flen>
+    <imgh>4912</imgh>
+    <imgw>7360</imgw>
+    <senh>24.0</senh>
+    <senw>35.9</senw>
+  </Camera>
+  <Camera>
+    <name>Parrot Sequoia Monochrome</name>
+    <flen>3.98</flen>
+    <imgh>960</imgh>
+    <imgw>1280</imgw>
+    <senh>3.6</senh>
+    <senw>4.8</senw>
+  </Camera>
+  <Camera>
+    <name>Parrot Sequoia RGB</name>
+    <flen>4.88</flen>
+    <imgh>3456</imgh>
+    <imgw>4608</imgw>
+    <senh>4.63</senh>
+    <senw>6.17</senw>
+  </Camera>
+  <Camera>
+    <name>Canon S120</name>
+    <flen>5.2</flen>
+    <imgh>3000</imgh>
+    <imgw>4000</imgw>
+    <senh>5.7</senh>
+    <senw>7.6</senw>
+  </Camera>
+  <Camera>
+    <name>WX 500</name>
+    <flen>4.1</flen>
+    <imgh>3264</imgh>
+    <imgw>4896</imgw>
+    <senh>4.55</senh>
+    <senw>6.17</senw>
+  </Camera>
+  <Camera>
+    <name>RedEdge</name>
+    <flen>5.5</flen>
+    <imgh>960</imgh>
+    <imgw>1280</imgw>
+    <senh>3.6</senh>
+    <senw>4.8</senw>
+  </Camera>
+  <Camera>
+    <name>FLIR Vue 336 6,8mm</name>
+    <flen>6.8</flen>
+    <imgh>256</imgh>
+    <imgw>336</imgw>
+    <senh>4.352</senh>
+    <senw>5.712</senw>
+  </Camera>
+  <Camera>
+    <name>FLIR Vue 336 9mm</name>
+    <flen>9</flen>
+    <imgh>256</imgh>
+    <imgw>336</imgw>
+    <senh>4.352</senh>
+    <senw>5.712</senw>
+  </Camera>
+  <Camera>
+    <name>FLIR Vue 336 13mm</name>
+    <flen>13</flen>
+    <imgh>256</imgh>
+    <imgw>336</imgw>
+    <senh>4.352</senh>
+    <senw>5.712</senw>
+  </Camera>
+  <Camera>
+    <name>FLIR Vue 640 9mm</name>
+    <flen>9</flen>
+    <imgh>512</imgh>
+    <imgw>640</imgw>
+    <senh>8.704</senh>
+    <senw>10.88</senw>
+  </Camera>
+  <Camera>
+    <name>FLIR Vue 640 13mm</name>
+    <flen>13</flen>
+    <imgh>512</imgh>
+    <imgw>640</imgw>
+    <senh>8.704</senh>
+    <senw>10.88</senw>
+  </Camera>
+  <Camera>
+    <name>FLIR Vue 640 19mm</name>
+    <flen>19</flen>
+    <imgh>512</imgh>
+    <imgw>640</imgw>
+    <senh>8.704</senh>
+    <senw>10.88</senw>
+  </Camera>
+  <Camera>
+    <name>GoPro Hero 4 Black Wide</name>
+    <flen>2.46</flen>
+    <imgh>3000</imgh>
+    <imgw>4000</imgw>
+    <senh>4.56</senh>
+    <senw>6.17</senw>
+  </Camera>
+  <Camera>
+    <name>Sony a7R2</name>
+    <flen>5</flen>
+    <imgh>3456</imgh>
+    <imgw>4608</imgw>
+    <senh>4.62</senh>
+    <senw>6.16</senw>
+  </Camera>
+ <Camera>
+    <name>AeroHawk_8MP</name>
+    <flen>3.039</flen>
+    <imgh>2464</imgh>
+    <imgw>3280</imgw>
+    <senh>2.76</senh>
+    <senw>3.674</senw>
+  </Camera>
+</Cameras>

@@ -1,0 +1,559 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="THR_SLEWRATE.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>旋转速率</value>
+  </data>
+  <data name="label5.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="THR_MAX.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>33, 17</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>最大</value>
+  </data>
+  <data name="label6.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="THR_MIN.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>33, 15</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>最小</value>
+  </data>
+  <data name="label7.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TRIM_THROTTLE.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>巡航</value>
+  </data>
+  <data name="label8.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>油门 0-100%</value>
+  </data>
+  <data name="groupBox3.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ARSPD_RATIO.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>比例</value>
+  </data>
+  <data name="label1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ARSPD_FBW_MAX.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>FBW最大</value>
+  </data>
+  <data name="label2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ARSPD_FBW_MIN.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>FBW最小</value>
+  </data>
+  <data name="label3.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TRIM_ARSPD_CM.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>巡航</value>
+  </data>
+  <data name="label4.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>空速 m/s</value>
+  </data>
+  <data name="groupBox1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LIM_PITCH_MIN.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label39.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 12</value>
+  </data>
+  <data name="label39.Text" xml:space="preserve">
+    <value>最小Pitch</value>
+  </data>
+  <data name="label39.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LIM_PITCH_MAX.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label38.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 12</value>
+  </data>
+  <data name="label38.Text" xml:space="preserve">
+    <value>最大Pitch</value>
+  </data>
+  <data name="label38.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LIM_ROLL_CD.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label37.Text" xml:space="preserve">
+    <value>转向最大</value>
+  </data>
+  <data name="label37.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>导航角度</value>
+  </data>
+  <data name="groupBox2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="KFF_PTCH2THR.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label83.Text" xml:space="preserve">
+    <value>P 至 T</value>
+  </data>
+  <data name="label83.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="KFF_RDDRMIX.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label78.Text" xml:space="preserve">
+    <value>舵混合</value>
+  </data>
+  <data name="label78.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="groupBox16.Text" xml:space="preserve">
+    <value>其它混合</value>
+  </data>
+  <data name="groupBox16.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ENRGY2THR_IMAX.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label73.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ENRGY2THR_D.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label74.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ENRGY2THR_I.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label75.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ENRGY2THR_P.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label76.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="groupBox14.Text" xml:space="preserve">
+    <value>能量/高度 Pid</value>
+  </data>
+  <data name="groupBox14.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ALT2PTCH_IMAX.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label69.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ALT2PTCH_D.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label70.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ALT2PTCH_I.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label71.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ALT2PTCH_P.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label72.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="groupBox13.Text" xml:space="preserve">
+    <value>导航 Pitch 高度 Pid</value>
+  </data>
+  <data name="groupBox13.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ARSP2PTCH_IMAX.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label65.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ARSP2PTCH_D.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label66.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ARSP2PTCH_I.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label67.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ARSP2PTCH_P.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label68.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="groupBox12.Text" xml:space="preserve">
+    <value>导航Pitch AS Pid</value>
+  </data>
+  <data name="groupBox12.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="YAW2SRV_IMAX.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label57.Text" xml:space="preserve">
+    <value>积分器最大</value>
+  </data>
+  <data name="label57.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="YAW2SRV_DAMP.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label58.Text" xml:space="preserve">
+    <value>抑制</value>
+  </data>
+  <data name="label58.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="YAW2SRV_INT.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label59.Text" xml:space="preserve">
+    <value>积分</value>
+  </data>
+  <data name="label59.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="YAW2SRV_RLL.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label60.Text" xml:space="preserve">
+    <value>Yaw 至 roll</value>
+  </data>
+  <data name="label60.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="groupBox10.Text" xml:space="preserve">
+    <value>舵机 Yaw</value>
+  </data>
+  <data name="groupBox10.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PTCH2SRV_IMAX.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label53.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PTCH2SRV_D.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label54.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PTCH2SRV_I.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label55.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PTCH2SRV_P.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label56.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="groupBox9.Text" xml:space="preserve">
+    <value>舵机Pitch Pid</value>
+  </data>
+  <data name="groupBox9.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RLL2SRV_IMAX.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label49.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RLL2SRV_D.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label50.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RLL2SRV_I.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label51.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RLL2SRV_P.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label52.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="groupBox8.Text" xml:space="preserve">
+    <value>舵机Roll Pid</value>
+  </data>
+  <data name="groupBox8.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_writePIDS.Text" xml:space="preserve">
+    <value>写入参数</value>
+  </data>
+  <data name="BUT_writePIDS.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_rerequestparams.Text" xml:space="preserve">
+    <value>刷新参数</value>
+  </data>
+  <data name="BUT_rerequestparams.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NAVL1_DAMPING.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>阻尼</value>
+  </data>
+  <data name="label9.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NAVL1_PERIOD.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>周期</value>
+  </data>
+  <data name="label10.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>L1 控制 - 转向控制</value>
+  </data>
+  <data name="groupBox4.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TECS_SINK_MAX.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>最大下降(m/s)</value>
+  </data>
+  <data name="label15.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TECS_TIME_CONST.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>时间常数</value>
+  </data>
+  <data name="label14.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TECS_PTCH_DAMP.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>Pitch抑制</value>
+  </data>
+  <data name="label13.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TECS_SINK_MIN.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>最小下降(m/s)</value>
+  </data>
+  <data name="label11.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TECS_CLMB_MAX.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>最大爬升(m/s)</value>
+  </data>
+  <data name="label12.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="groupBox5.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_refreshpart.Text" xml:space="preserve">
+    <value>刷新屏幕</value>
+  </data>
+  <data name="BUT_refreshpart.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="$this.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+</root>

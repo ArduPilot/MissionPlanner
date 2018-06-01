@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension" xmlns:difx="http://schemas.microsoft.com/wix/DifxAppExtension" xmlns:iis='http://schemas.microsoft.com/wix/IIsExtension' >
+
+
+	<Product Id="*" Name="px4 driver" Language="1033" Version="1.3.7" Manufacturer="Michael Oborne" UpgradeCode="{625389D7-EB3C-4d77-A5F6-A285CF994370}">
+
+		<Package Description="px4 driver Installer" Comments="px4 driver Installer" Manufacturer="Michael Oborne" InstallerVersion="200" Compressed="yes" />
+
+		<InstallExecuteSequence>
+			<RemoveExistingProducts After="InstallInitialize" />
+		</InstallExecuteSequence>
+
+		<Media Id="1" Cabinet="product.cab" EmbedCab="yes" />
+
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder" Name="PFiles">
+				<Directory Id="px4driver" Name="px4 driver">
+					<Component Id="Release_1067" Guid="f9607a1b-ff25-4fd8-a3c1-c9c158a4a097">
+						<File Id="_placeholder_1067" Source="..\aircraft/placeholder.txt" />
+					</Component>
+					<Directory Id="Drivers" Name="Drivers">
+						<Component Id="drivercert" Guid="625389D7-EB3C-4d77-A5F6-A285CF994371">
+							<RegistryValue Root="HKCU" Key="Software\MichaelOborne\px4driver" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+
+							<iis:Certificate Id="rootcert" StoreLocation="localMachine" StoreName="root" Overwrite='yes' BinaryKey='signedcer' Request="no" Name='Michael Oborne' />
+						</Component>
+						
+<Component Id="Drivers_205" Guid="4e3a6f25-a40f-4de4-b7c3-a4793b631450">
+<File Id="_arduinomega2560_cat_206" Source="..\Drivers\arduinomega2560.cat" />
+<File Id="_ArduinoMEGA2560_inf_207" Source="..\Drivers\ArduinoMEGA2560.inf" />
+<File Id="_dpinst_xml_208" Source="..\Drivers\dpinst.xml" />
+<File Id="_DPInstx64_exe_209" Source="..\Drivers\DPInstx64.exe" />
+<File Id="_DPInstx86_exe_210" Source="..\Drivers\DPInstx86.exe" />
+<File Id="_ftd2xx_h_211" Source="..\Drivers\ftd2xx.h" />
+<File Id="_ftdibus_cat_212" Source="..\Drivers\ftdibus.cat" />
+<File Id="_ftdibus_inf_213" Source="..\Drivers\ftdibus.inf" />
+<File Id="_ftdiport_cat_214" Source="..\Drivers\ftdiport.cat" />
+<File Id="_ftdiport_inf_215" Source="..\Drivers\ftdiport.inf" />
+<File Id="_px4flow_cat_216" Source="..\Drivers\px4flow.cat" />
+<File Id="_px4flow_inf_217" Source="..\Drivers\px4flow.inf" />
+<File Id="_px4fmu_cat_218" Source="..\Drivers\px4fmu.cat" />
+<File Id="_px4fmu_inf_219" Source="..\Drivers\px4fmu.inf" />
+<File Id="_px4mav_cat_218" Source="..\Drivers\px4mav.cat" />
+<File Id="_px4mav_inf_219" Source="..\Drivers\px4mav.inf" />
+<File Id="_signed_cer_220" Source="..\Drivers\signed.cer" />
+</Component>
+<Directory Id="amd64" Name="amd64">
+<Component Id="amd64_221" Guid="5b57d145-5572-4dcb-bbf8-468b179ee3ff">
+<File Id="_ftbusui_dll_222" Source="..\Drivers\amd64\ftbusui.dll" />
+<File Id="_ftcserco_dll_223" Source="..\Drivers\amd64\ftcserco.dll" />
+<File Id="_ftd2xx_lib_224" Source="..\Drivers\amd64\ftd2xx.lib" />
+<File Id="_ftd2xx64_dll_225" Source="..\Drivers\amd64\ftd2xx64.dll" />
+<File Id="_ftdibus_sys_226" Source="..\Drivers\amd64\ftdibus.sys" />
+<File Id="_ftlang_dll_227" Source="..\Drivers\amd64\ftlang.dll" />
+<File Id="_ftser2k_sys_228" Source="..\Drivers\amd64\ftser2k.sys" />
+<File Id="_ftserui2_dll_229" Source="..\Drivers\amd64\ftserui2.dll" />
+</Component>
+</Directory>
+<Directory Id="i386" Name="i386">
+<Component Id="i386_230" Guid="73fa675b-fb28-4f9c-9b93-e674c5749768">
+<File Id="_ftbusui_dll_231" Source="..\Drivers\i386\ftbusui.dll" />
+<File Id="_ftcserco_dll_232" Source="..\Drivers\i386\ftcserco.dll" />
+<File Id="_ftd2xx_dll_233" Source="..\Drivers\i386\ftd2xx.dll" />
+<File Id="_ftd2xx_lib_234" Source="..\Drivers\i386\ftd2xx.lib" />
+<File Id="_ftdibus_sys_235" Source="..\Drivers\i386\ftdibus.sys" />
+<File Id="_ftlang_dll_236" Source="..\Drivers\i386\ftlang.dll" />
+<File Id="_ftser2k_sys_237" Source="..\Drivers\i386\ftser2k.sys" />
+<File Id="_ftserui2_dll_238" Source="..\Drivers\i386\ftserui2.dll" />
+</Component>
+</Directory>
+			</Directory>
+				</Directory>
+			</Directory>
+		</Directory>
+
+
+
+		<Binary Id="signedcer"  SourceFile="..\Drivers\signed.cer" />
+
+		<CustomAction  Id='Install_signed_Driver86' Execute='deferred' 
+  Directory='Drivers'  ExeCommand='[Drivers]DPInstx86.exe' Return='ignore' Impersonate='no'/>
+		<CustomAction  Id='Install_signed_Driver64' Execute='deferred' 
+  Directory='Drivers'  ExeCommand='[Drivers]DPInstx64.exe' Return='ignore' Impersonate='no'/>
+
+		<InstallExecuteSequence>
+			<Custom Action="Install_signed_Driver86"  After="CreateShortcuts">NOT 	Installed AND NOT VersionNT64</Custom>
+			<Custom Action="Install_signed_Driver64"  After="CreateShortcuts">NOT 	Installed AND VersionNT64</Custom>
+		</InstallExecuteSequence>
+
+
+
+
+
+		<Feature Id="Complete" Title="px4 driver" Level="1">
+		<ComponentRef Id="Release_1067"/>
+		<ComponentRef Id="drivercert" />
+			<ComponentRef Id="Drivers_205" />
+			<ComponentRef Id="amd64_221" />
+			<ComponentRef Id="i386_230" />
+			
+		</Feature>
+
+		<!-- Step 2: Add UI to your installer / Step 4: Trigger the custom action -->
+		<Property Id="WIXUI_INSTALLDIR" Value="px4driver" />
+
+		<Property Id="ApplicationFolderName" Value="px4driver" /> 
+
+		<WixVariable Id="WixUILicenseRtf" Value="licence.rtf" />
+
+		<UI>
+			<UIRef Id="WixUI_InstallDir" />
+		</UI>
+	</Product>
+</Wix>

@@ -1,0 +1,1044 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!--
+Sample file:
+MetadataExtractor c:\temp\a.jpg c:\temp\b.jpg c:\temp\c.jpg asXml noUnknown > sampleFile.xml
+-->
+<!DOCTYPE metadataExtractor [
+	<!-- This DTD represent the XML output of MetadataExtractor -->
+
+	<!-- metadataExtractor have zero to n file -->
+	<!ELEMENT metadataExtractor (file*)>
+	<!ATTLIST metadataExtractor nbFile CDATA #REQUIRED>
+
+	<!-- file have zero to n directory -->
+	<!ELEMENT file (directory*)>
+	<!ATTLIST file name CDATA #REQUIRED>
+
+	<!-- directory have zero to n tag -->
+	<!ELEMENT directory (tag*)>
+	<!ATTLIST directory name CDATA #REQUIRED>
+
+	<!-- directory have only one tagLabel and tagDescription, but zero or one tagError -->
+	<!ELEMENT tag (tagLabel,tagDescription,tagError?)>
+	<!ATTLIST tag type CDATA #REQUIRED>
+
+	<!ELEMENT tagLabel (#PCDATA)>
+	<!ELEMENT tagDescription (#PCDATA)>
+	<!ELEMENT tagError (#PCDATA)>
+]>
+<metadataExtractor nbFile="3">
+	<file name="c:\temp\a.jpg">
+		<directory name="Exif Makernote">
+			<tag type="0x010F">
+				<tagLabel>Make</tagLabel>
+				<tagDescription>Canon</tagDescription>
+			</tag>
+			<tag type="0x0110">
+				<tagLabel>Model</tagLabel>
+				<tagDescription>Canon EOS 10D</tagDescription>
+			</tag>
+			<tag type="0x0112">
+				<tagLabel>Orientation</tagLabel>
+				<tagDescription>Top, left side (Horizontal / normal)</tagDescription>
+			</tag>
+			<tag type="0x011A">
+				<tagLabel>X Resolution</tagLabel>
+				<tagDescription>180 dots per inches</tagDescription>
+			</tag>
+			<tag type="0x011B">
+				<tagLabel>Y Resolution</tagLabel>
+				<tagDescription>180 dots per inches</tagDescription>
+			</tag>
+			<tag type="0x0128">
+				<tagLabel>Resolution Unit</tagLabel>
+				<tagDescription>Inches</tagDescription>
+			</tag>
+			<tag type="0x0132">
+				<tagLabel>Date/Time</tagLabel>
+				<tagDescription>2003:06:21 12:38:51</tagDescription>
+			</tag>
+			<tag type="0x0213">
+				<tagLabel>YCbCr Positioning</tagLabel>
+				<tagDescription>Center of pixel array</tagDescription>
+			</tag>
+			<tag type="0x829A">
+				<tagLabel>Exposure Time</tagLabel>
+				<tagDescription>1/180 sec</tagDescription>
+			</tag>
+			<tag type="0x829D">
+				<tagLabel>F-Number</tagLabel>
+				<tagDescription>F 6,7</tagDescription>
+			</tag>
+			<tag type="0x8827">
+				<tagLabel>ISO Speed Ratings</tagLabel>
+				<tagDescription>100</tagDescription>
+			</tag>
+			<tag type="0x9000">
+				<tagLabel>Exif Version</tagLabel>
+				<tagDescription>2.20</tagDescription>
+			</tag>
+			<tag type="0x9003">
+				<tagLabel>Date/Time Original</tagLabel>
+				<tagDescription>2003:06:21 12:38:51</tagDescription>
+			</tag>
+			<tag type="0x9004">
+				<tagLabel>Date/Time Digitized</tagLabel>
+				<tagDescription>2003:06:21 12:38:51</tagDescription>
+			</tag>
+			<tag type="0x9101">
+				<tagLabel>Components Configuration</tagLabel>
+				<tagDescription>YCbCr</tagDescription>
+			</tag>
+			<tag type="0x9102">
+				<tagLabel>Compressed Bits Per Pixel</tagLabel>
+				<tagDescription>3 bits/pixel</tagDescription>
+			</tag>
+			<tag type="0x9201">
+				<tagLabel>Shutter Speed Value</tagLabel>
+				<tagDescription>1/179 sec</tagDescription>
+			</tag>
+			<tag type="0x9202">
+				<tagLabel>Aperture Value</tagLabel>
+				<tagDescription>F 6,7</tagDescription>
+			</tag>
+			<tag type="0x9204">
+				<tagLabel>Exposure Bias Value</tagLabel>
+				<tagDescription>0</tagDescription>
+			</tag>
+			<tag type="0x9205">
+				<tagLabel>Max Aperture Value</tagLabel>
+				<tagDescription>F 4</tagDescription>
+			</tag>
+			<tag type="0x9207">
+				<tagLabel>Metering Mode</tagLabel>
+				<tagDescription>Multi-segment</tagDescription>
+			</tag>
+			<tag type="0x9209">
+				<tagLabel>Flash</tagLabel>
+				<tagDescription>Flash did not fire, Auto</tagDescription>
+			</tag>
+			<tag type="0x920A">
+				<tagLabel>Focal Length</tagLabel>
+				<tagDescription>70,0 mm</tagDescription>
+			</tag>
+			<tag type="0x9286">
+				<tagLabel>User Comment</tagLabel>
+				<tagDescription></tagDescription>
+			</tag>
+			<tag type="0xA000">
+				<tagLabel>FlashPix Version</tagLabel>
+				<tagDescription>1.00</tagDescription>
+			</tag>
+			<tag type="0xA001">
+				<tagLabel>Color Space</tagLabel>
+				<tagDescription>sRGB</tagDescription>
+			</tag>
+			<tag type="0xA002">
+				<tagLabel>Exif Image Width</tagLabel>
+				<tagDescription>3072 pixels</tagDescription>
+			</tag>
+			<tag type="0xA003">
+				<tagLabel>Exif Image Height</tagLabel>
+				<tagDescription>2048 pixels</tagDescription>
+			</tag>
+			<tag type="0xA20E">
+				<tagLabel>Focal Plane X Resolution</tagLabel>
+				<tagDescription>446/1536000 inches</tagDescription>
+			</tag>
+			<tag type="0xA20F">
+				<tagLabel>Focal Plane Y Resolution</tagLabel>
+				<tagDescription>119/409600 inches</tagDescription>
+			</tag>
+			<tag type="0xA210">
+				<tagLabel>Focal Plane Resolution Unit</tagLabel>
+				<tagDescription>Inches</tagDescription>
+			</tag>
+			<tag type="0xA217">
+				<tagLabel>Sensing Method</tagLabel>
+				<tagDescription>One-chip color area sensor</tagDescription>
+			</tag>
+			<tag type="0xA300">
+				<tagLabel>File Source</tagLabel>
+				<tagDescription>Digital Still Camera (DSC)</tagDescription>
+			</tag>
+			<tag type="0xA401">
+				<tagLabel>Custom Rendered</tagLabel>
+				<tagDescription>0</tagDescription>
+			</tag>
+			<tag type="0xA402">
+				<tagLabel>Exposure Mode</tagLabel>
+				<tagDescription>Auto exposure</tagDescription>
+			</tag>
+			<tag type="0xA403">
+				<tagLabel>White balance mode</tagLabel>
+				<tagDescription>Auto white balance</tagDescription>
+			</tag>
+			<tag type="0xA406">
+				<tagLabel>Scene Capture Type</tagLabel>
+				<tagDescription>Standard</tagDescription>
+			</tag>
+			<tag type="0x0103">
+				<tagLabel>Compression</tagLabel>
+				<tagDescription>JPEG (old-style)</tagDescription>
+			</tag>
+			<tag type="0x0201">
+				<tagLabel>Thumbnail Offset</tagLabel>
+				<tagDescription>2548 bytes</tagDescription>
+			</tag>
+			<tag type="0x0202">
+				<tagLabel>Thumbnail Length</tagLabel>
+				<tagDescription>10752 bytes</tagDescription>
+			</tag>
+			<tag type="0xF001">
+				<tagLabel>Thumbnail Data</tagLabel>
+				<tagDescription>[10752 bytes of thumbnail data]</tagDescription>
+			</tag>
+		</directory>
+		<directory name="Canon Makernote">
+			<tag type="0xC101">
+				<tagLabel>Macro mode</tagLabel>
+				<tagDescription>Off</tagDescription>
+			</tag>
+			<tag type="0xC102">
+				<tagLabel>Self timer delay</tagLabel>
+				<tagDescription>Self timer not used</tagDescription>
+			</tag>
+			<tag type="0xC103">
+				<tagLabel>Quality</tagLabel>
+				<tagDescription>Fine</tagDescription>
+			</tag>
+			<tag type="0xC104">
+				<tagLabel>Flash mode</tagLabel>
+				<tagDescription>Auto</tagDescription>
+			</tag>
+			<tag type="0xC105">
+				<tagLabel>Continuous drive mode</tagLabel>
+				<tagDescription>Single shot</tagDescription>
+			</tag>
+			<tag type="0xC107">
+				<tagLabel>Focus mode 1</tagLabel>
+				<tagDescription>AI Focus</tagDescription>
+			</tag>
+			<tag type="0xC10A">
+				<tagLabel>Image size</tagLabel>
+				<tagDescription>Large</tagDescription>
+			</tag>
+			<tag type="0xC10B">
+				<tagLabel>Easy shooting mode</tagLabel>
+				<tagDescription>Full auto</tagDescription>
+			</tag>
+			<tag type="0xC10C">
+				<tagLabel>Digital zoom</tagLabel>
+				<tagDescription>No digital zoom</tagDescription>
+			</tag>
+			<tag type="0xC10D">
+				<tagLabel>Contrast</tagLabel>
+				<tagDescription>Normal</tagDescription>
+			</tag>
+			<tag type="0xC10E">
+				<tagLabel>Saturation</tagLabel>
+				<tagDescription>Normal</tagDescription>
+			</tag>
+			<tag type="0xC10F">
+				<tagLabel>Sharpness</tagLabel>
+				<tagDescription>Normal</tagDescription>
+			</tag>
+			<tag type="0xC110">
+				<tagLabel>ISO</tagLabel>
+				<tagDescription>Not specified (see ISOSpeedRatings tag)</tagDescription>
+			</tag>
+			<tag type="0xC111">
+				<tagLabel>Metering methode</tagLabel>
+				<tagDescription>Evaluative</tagDescription>
+			</tag>
+			<tag type="0xC112">
+				<tagLabel>Focus type</tagLabel>
+				<tagDescription>Auto</tagDescription>
+			</tag>
+			<tag type="0xC114">
+				<tagLabel>Exposure mode</tagLabel>
+				<tagDescription>Easy shooting</tagDescription>
+			</tag>
+			<tag type="0xC117">
+				<tagLabel>Long focal length</tagLabel>
+				<tagDescription>200 1</tagDescription>
+			</tag>
+			<tag type="0xC118">
+				<tagLabel>Short focal length</tagLabel>
+				<tagDescription>70 1</tagDescription>
+			</tag>
+			<tag type="0xC119">
+				<tagLabel>Focal units per mm</tagLabel>
+				<tagDescription>1</tagDescription>
+			</tag>
+			<tag type="0xC11C">
+				<tagLabel>Flash activity</tagLabel>
+				<tagDescription>Flash did not fire</tagDescription>
+			</tag>
+			<tag type="0x0001">
+				<tagLabel>Camera State 1</tagLabel>
+				<tagDescription>92 0 0 3 1 0 0 2 0 1 0 0 0 0 0 0 0 3 2 16385 0 32767 65535 200 70 1 128 320 0 0 0 0 65535 65535 65535 0 3072 3072 0 65535 65535 0 0 32767 65535 65535</tagDescription>
+			</tag>
+			<tag type="0xC207">
+				<tagLabel>White balance</tagLabel>
+				<tagDescription>Auto</tagDescription>
+			</tag>
+			<tag type="0xC209">
+				<tagLabel>Sequence number</tagLabel>
+				<tagDescription>0</tagDescription>
+			</tag>
+			<tag type="0xC20E">
+				<tagLabel>AF point used</tagLabel>
+				<tagDescription>Right</tagDescription>
+			</tag>
+			<tag type="0xC20F">
+				<tagLabel>Flash bias</tagLabel>
+				<tagDescription> 0 EV</tagDescription>
+			</tag>
+			<tag type="0xC210">
+				<tagLabel>Auto exposure bracketing</tagLabel>
+				<tagDescription>0</tagDescription>
+			</tag>
+			<tag type="0xC211">
+				<tagLabel>AEB bracket value</tagLabel>
+				<tagDescription>0</tagDescription>
+			</tag>
+			<tag type="0xC213">
+				<tagLabel>Subject distance</tagLabel>
+				<tagDescription>233</tagDescription>
+			</tag>
+			<tag type="0x0004">
+				<tagLabel>Camera State 2</tagLabel>
+				<tagDescription>66 0 160 248 176 240 0 0 3 0 8 8 0 0 0 0 0 0 1 233 194 172 236 150 0 0 252 0 65535 0 0 0 0</tagDescription>
+			</tag>
+			<tag type="0x0006">
+				<tagLabel>Image type</tagLabel>
+				<tagDescription>IMG:EOS 10D JPEG</tagDescription>
+			</tag>
+			<tag type="0x0007">
+				<tagLabel>Firware version</tagLabel>
+				<tagDescription>Firmware Version 1.0.0</tagDescription>
+			</tag>
+			<tag type="0x000C">
+				<tagLabel>Serial number</tagLabel>
+				<tagDescription>430205259</tagDescription>
+			</tag>
+			<tag type="0x0008">
+				<tagLabel>Image number</tagLabel>
+				<tagDescription>1080891</tagDescription>
+			</tag>
+			<tag type="0x0009">
+				<tagLabel>Owner name</tagLabel>
+				<tagDescription>FERRET</tagDescription>
+			</tag>
+			<tag type="0xC302">
+				<tagLabel>Custom functions shutter auto exposure</tagLabel>
+				<tagDescription>AF/AE lock</tagDescription>
+			</tag>
+			<tag type="0xC303">
+				<tagLabel>Custom functions mirror lockup</tagLabel>
+				<tagDescription>Disabled</tagDescription>
+			</tag>
+			<tag type="0xC304">
+				<tagLabel>Custom functions TV AV and exposure level</tagLabel>
+				<tagDescription>1/2 stop</tagDescription>
+			</tag>
+			<tag type="0xC305">
+				<tagLabel>Custom functions AF assist light</tagLabel>
+				<tagDescription>On (auto)</tagDescription>
+			</tag>
+			<tag type="0xC306">
+				<tagLabel>Custom functions speed in AV mode</tagLabel>
+				<tagDescription>Automatic</tagDescription>
+			</tag>
+			<tag type="0xC307">
+				<tagLabel>Custom functions bracketting</tagLabel>
+				<tagDescription>0,-,+ / Enabled</tagDescription>
+			</tag>
+			<tag type="0xC308">
+				<tagLabel>Custom functions shutter curtain sync</tagLabel>
+				<tagDescription>1st Curtain Sync</tagDescription>
+			</tag>
+			<tag type="0xC309">
+				<tagLabel>Custom functions AF stop</tagLabel>
+				<tagDescription>AF stop</tagDescription>
+			</tag>
+			<tag type="0xC30A">
+				<tagLabel>Custom functions fill flash reduction</tagLabel>
+				<tagDescription>Enabled</tagDescription>
+			</tag>
+			<tag type="0xC30B">
+				<tagLabel>Custom functions menu button return</tagLabel>
+				<tagDescription>Top</tagDescription>
+			</tag>
+			<tag type="0xC30C">
+				<tagLabel>Custom functions set button function</tagLabel>
+				<tagDescription>Not Assigned</tagDescription>
+			</tag>
+			<tag type="0xC30D">
+				<tagLabel>Custom functions sensor cleaning</tagLabel>
+				<tagDescription>Disabled</tagDescription>
+			</tag>
+		</directory>
+		<directory name="Exif Interoperability Makernote">
+			<tag type="0x0001">
+				<tagLabel>Interoperability Index</tagLabel>
+				<tagDescription>Recommended Exif Interoperability Rules (ExifR98)</tagDescription>
+			</tag>
+			<tag type="0x0002">
+				<tagLabel>Interoperability Version</tagLabel>
+				<tagDescription>1.00</tagDescription>
+			</tag>
+			<tag type="0x1001">
+				<tagLabel>Related Image Width</tagLabel>
+				<tagDescription>3072</tagDescription>
+			</tag>
+			<tag type="0x1002">
+				<tagLabel>Related Image Length</tagLabel>
+				<tagDescription>2048</tagDescription>
+			</tag>
+		</directory>
+		<directory name="Iptc Makernote">
+			<tag type="0x0278">
+				<tagLabel>Caption/Abstract</tagLabel>
+				<tagDescription>Iptc caption</tagDescription>
+			</tag>
+			<tag type="0x027A">
+				<tagLabel>Writer/Editor</tagLabel>
+				<tagDescription>Iptc caption writer</tagDescription>
+			</tag>
+			<tag type="0x0269">
+				<tagLabel>Headline</tagLabel>
+				<tagDescription>Iptc Headline</tagDescription>
+			</tag>
+			<tag type="0x0228">
+				<tagLabel>Special Instructions</tagLabel>
+				<tagDescription>Iptc special instruction</tagDescription>
+			</tag>
+			<tag type="0x0250">
+				<tagLabel>By-line</tagLabel>
+				<tagDescription>Iptc credits</tagDescription>
+			</tag>
+			<tag type="0x0255">
+				<tagLabel>By-line Title</tagLabel>
+				<tagDescription>Iptc byline title</tagDescription>
+			</tag>
+			<tag type="0x026E">
+				<tagLabel>Credit</tagLabel>
+				<tagDescription>Iptc credits</tagDescription>
+			</tag>
+			<tag type="0x0273">
+				<tagLabel>Source</tagLabel>
+				<tagDescription>Iptc source</tagDescription>
+			</tag>
+			<tag type="0x0205">
+				<tagLabel>Object Name</tagLabel>
+				<tagDescription>Iptc obj name</tagDescription>
+			</tag>
+			<tag type="0x0237">
+				<tagLabel>Date Created</tagLabel>
+				<tagDescription>04/03/2006 00:00:00</tagDescription>
+			</tag>
+			<tag type="0x025A">
+				<tagLabel>City</tagLabel>
+				<tagDescription>iptc city</tagDescription>
+			</tag>
+			<tag type="0x025F">
+				<tagLabel>Province/State</tagLabel>
+				<tagDescription>iptc province</tagDescription>
+			</tag>
+			<tag type="0x0265">
+				<tagLabel>Country/Primary Location</tagLabel>
+				<tagDescription>iptc country</tagDescription>
+			</tag>
+			<tag type="0x0267">
+				<tagLabel>Original Transmission Reference</tagLabel>
+				<tagDescription>iptc org tr ref</tagDescription>
+			</tag>
+			<tag type="0x020F">
+				<tagLabel>Category</tagLabel>
+				<tagDescription>Iptc categ</tagDescription>
+			</tag>
+			<tag type="0x0214">
+				<tagLabel>Supplemental Category(s)</tagLabel>
+				<tagDescription>Iptc sup categ</tagDescription>
+			</tag>
+			<tag type="0x020A">
+				<tagLabel>Urgency</tagLabel>
+				<tagDescription>High</tagDescription>
+			</tag>
+			<tag type="0x0219">
+				<tagLabel>Keywords</tagLabel>
+				<tagDescription>keyone, keytwo, keyTree,</tagDescription>
+			</tag>
+			<tag type="0x0274">
+				<tagLabel>Copyright Notice</tagLabel>
+				<tagDescription>Iptc copyright</tagDescription>
+			</tag>
+		</directory>
+		<directory name="Jpeg Makernote">
+			<tag type="0x0000">
+				<tagLabel>Data Precision</tagLabel>
+				<tagDescription>8 bits</tagDescription>
+			</tag>
+			<tag type="0x0001">
+				<tagLabel>Image Height</tagLabel>
+				<tagDescription>2048 pixels</tagDescription>
+			</tag>
+			<tag type="0x0003">
+				<tagLabel>Image Width</tagLabel>
+				<tagDescription>3072 pixels</tagDescription>
+			</tag>
+			<tag type="0x0005">
+				<tagLabel>Number of Components</tagLabel>
+				<tagDescription>3</tagDescription>
+			</tag>
+			<tag type="0x0006">
+				<tagLabel>Component 1</tagLabel>
+				<tagDescription>Y component: Quantization table 0, Sampling factors 1 horiz/2 vert</tagDescription>
+			</tag>
+			<tag type="0x0007">
+				<tagLabel>Component 2</tagLabel>
+				<tagDescription>Cb component: Quantization table 1, Sampling factors 1 horiz/1 vert</tagDescription>
+			</tag>
+			<tag type="0x0008">
+				<tagLabel>Component 3</tagLabel>
+				<tagDescription>Cr component: Quantization table 1, Sampling factors 1 horiz/1 vert</tagDescription>
+			</tag>
+		</directory>
+		<directory name="Jpeg Makernote">
+			<tag type="0x0000">
+				<tagLabel>Jpeg Comment</tagLabel>
+				<tagDescription>I like to see a dog in action. Relay I like that</tagDescription>
+			</tag>
+		</directory>
+	</file>
+
+	<file name="c:\temp\b.jpg">
+		<directory name="Exif Makernote">
+			<tag type="0x010E">
+				<tagLabel>Image Description</tagLabel>
+				<tagDescription>OLYMPUS DIGITAL CAMERA         </tagDescription>
+			</tag>
+			<tag type="0x010F">
+				<tagLabel>Make</tagLabel>
+				<tagDescription>OLYMPUS OPTICAL CO.,LTD</tagDescription>
+			</tag>
+			<tag type="0x0110">
+				<tagLabel>Model</tagLabel>
+				<tagDescription>C3000Z</tagDescription>
+			</tag>
+			<tag type="0x0112">
+				<tagLabel>Orientation</tagLabel>
+				<tagDescription>Top, left side (Horizontal / normal)</tagDescription>
+			</tag>
+			<tag type="0x011A">
+				<tagLabel>X Resolution</tagLabel>
+				<tagDescription>72 dots per inches</tagDescription>
+			</tag>
+			<tag type="0x011B">
+				<tagLabel>Y Resolution</tagLabel>
+				<tagDescription>72 dots per inches</tagDescription>
+			</tag>
+			<tag type="0x0128">
+				<tagLabel>Resolution Unit</tagLabel>
+				<tagDescription>Inches</tagDescription>
+			</tag>
+			<tag type="0x0131">
+				<tagLabel>Software</tagLabel>
+				<tagDescription>v353p-73</tagDescription>
+			</tag>
+			<tag type="0x0132">
+				<tagLabel>Date/Time</tagLabel>
+				<tagDescription>2002:07:12 16:27:42</tagDescription>
+			</tag>
+			<tag type="0x0213">
+				<tagLabel>YCbCr Positioning</tagLabel>
+				<tagDescription>Datum point</tagDescription>
+			</tag>
+			<tag type="0x829A">
+				<tagLabel>Exposure Time</tagLabel>
+				<tagDescription>1/30 sec</tagDescription>
+			</tag>
+			<tag type="0x829D">
+				<tagLabel>F-Number</tagLabel>
+				<tagDescription>F 2,8</tagDescription>
+			</tag>
+			<tag type="0x8822">
+				<tagLabel>Exposure Program</tagLabel>
+				<tagDescription>Program normal</tagDescription>
+			</tag>
+			<tag type="0x8827">
+				<tagLabel>ISO Speed Ratings</tagLabel>
+				<tagDescription>200</tagDescription>
+			</tag>
+			<tag type="0x9000">
+				<tagLabel>Exif Version</tagLabel>
+				<tagDescription>2.10</tagDescription>
+			</tag>
+			<tag type="0x9003">
+				<tagLabel>Date/Time Original</tagLabel>
+				<tagDescription>2002:07:12 16:27:42</tagDescription>
+			</tag>
+			<tag type="0x9004">
+				<tagLabel>Date/Time Digitized</tagLabel>
+				<tagDescription>2002:07:12 16:27:42</tagDescription>
+			</tag>
+			<tag type="0x9101">
+				<tagLabel>Components Configuration</tagLabel>
+				<tagDescription>YCbCr</tagDescription>
+			</tag>
+			<tag type="0x9102">
+				<tagLabel>Compressed Bits Per Pixel</tagLabel>
+				<tagDescription>1 bit/pixel</tagDescription>
+			</tag>
+			<tag type="0x9204">
+				<tagLabel>Exposure Bias Value</tagLabel>
+				<tagDescription>0</tagDescription>
+			</tag>
+			<tag type="0x9205">
+				<tagLabel>Max Aperture Value</tagLabel>
+				<tagDescription>F 2,8</tagDescription>
+			</tag>
+			<tag type="0x9207">
+				<tagLabel>Metering Mode</tagLabel>
+				<tagDescription>Multi-segment</tagDescription>
+			</tag>
+			<tag type="0x9209">
+				<tagLabel>Flash</tagLabel>
+				<tagDescription>Flash did not fire</tagDescription>
+			</tag>
+			<tag type="0x920A">
+				<tagLabel>Focal Length</tagLabel>
+				<tagDescription>8,8 mm</tagDescription>
+			</tag>
+			<tag type="0x9286">
+				<tagLabel>User Comment</tagLabel>
+				<tagDescription></tagDescription>
+			</tag>
+			<tag type="0xA000">
+				<tagLabel>FlashPix Version</tagLabel>
+				<tagDescription>1.00</tagDescription>
+			</tag>
+			<tag type="0xA001">
+				<tagLabel>Color Space</tagLabel>
+				<tagDescription>sRGB</tagDescription>
+			</tag>
+			<tag type="0xA002">
+				<tagLabel>Exif Image Width</tagLabel>
+				<tagDescription>2048 pixels</tagDescription>
+			</tag>
+			<tag type="0xA003">
+				<tagLabel>Exif Image Height</tagLabel>
+				<tagDescription>1536 pixels</tagDescription>
+			</tag>
+			<tag type="0xA300">
+				<tagLabel>File Source</tagLabel>
+				<tagDescription>Digital Still Camera (DSC)</tagDescription>
+			</tag>
+			<tag type="0xA301">
+				<tagLabel>Scene Type</tagLabel>
+				<tagDescription>Directly photographed image</tagDescription>
+			</tag>
+			<tag type="0x0103">
+				<tagLabel>Compression</tagLabel>
+				<tagDescription>JPEG (old-style)</tagDescription>
+			</tag>
+			<tag type="0x0201">
+				<tagLabel>Thumbnail Offset</tagLabel>
+				<tagDescription>4084 bytes</tagDescription>
+			</tag>
+			<tag type="0x0202">
+				<tagLabel>Thumbnail Length</tagLabel>
+				<tagDescription>4539 bytes</tagDescription>
+			</tag>
+			<tag type="0xF001">
+				<tagLabel>Thumbnail Data</tagLabel>
+				<tagDescription>[4539 bytes of thumbnail data]</tagDescription>
+			</tag>
+		</directory>
+		<directory name="Olympus Makernote">
+			<tag type="0x0200">
+				<tagLabel>Special Mode</tagLabel>
+				<tagDescription>Normal picture taking mode - Unknown sequence number</tagDescription>
+			</tag>
+			<tag type="0x0201">
+				<tagLabel>Jpeg Quality</tagLabel>
+				<tagDescription>SQ</tagDescription>
+			</tag>
+			<tag type="0x0202">
+				<tagLabel>Macro</tagLabel>
+				<tagDescription>Normal (no macro)</tagDescription>
+			</tag>
+			<tag type="0x0204">
+				<tagLabel>Digital Zoom Ratio</tagLabel>
+				<tagDescription>1x digital zoom</tagDescription>
+			</tag>
+			<tag type="0x0207">
+				<tagLabel>Firmware Version</tagLabel>
+				<tagDescription>SX351</tagDescription>
+			</tag>
+			<tag type="0x0208">
+				<tagLabel>Pict Info</tagLabel>
+				<tagDescription>[pictureInfo] Resolution=1 [Camera Info] Type=SX351</tagDescription>
+			</tag>
+			<tag type="0x0209">
+				<tagLabel>Camera Id</tagLabel>
+				<tagDescription></tagDescription>
+			</tag>
+			<tag type="0x0F00">
+				<tagLabel>Data Dump</tagLabel>
+				<tagDescription></tagDescription>
+			</tag>
+		</directory>
+		<directory name="Exif Interoperability Makernote">
+			<tag type="0x0001">
+				<tagLabel>Interoperability Index</tagLabel>
+				<tagDescription>Recommended Exif Interoperability Rules (ExifR98)</tagDescription>
+			</tag>
+			<tag type="0x0002">
+				<tagLabel>Interoperability Version</tagLabel>
+				<tagDescription>1.00</tagDescription>
+			</tag>
+		</directory>
+		<directory name="Jpeg Makernote">
+			<tag type="0x0000">
+				<tagLabel>Data Precision</tagLabel>
+				<tagDescription>8 bits</tagDescription>
+			</tag>
+			<tag type="0x0001">
+				<tagLabel>Image Height</tagLabel>
+				<tagDescription>1536 pixels</tagDescription>
+			</tag>
+			<tag type="0x0003">
+				<tagLabel>Image Width</tagLabel>
+				<tagDescription>2048 pixels</tagDescription>
+			</tag>
+			<tag type="0x0005">
+				<tagLabel>Number of Components</tagLabel>
+				<tagDescription>3</tagDescription>
+			</tag>
+			<tag type="0x0006">
+				<tagLabel>Component 1</tagLabel>
+				<tagDescription>Y component: Quantization table 0, Sampling factors 1 horiz/2 vert</tagDescription>
+			</tag>
+			<tag type="0x0007">
+				<tagLabel>Component 2</tagLabel>
+				<tagDescription>Cb component: Quantization table 1, Sampling factors 1 horiz/1 vert</tagDescription>
+			</tag>
+			<tag type="0x0008">
+				<tagLabel>Component 3</tagLabel>
+				<tagDescription>Cr component: Quantization table 1, Sampling factors 1 horiz/1 vert</tagDescription>
+			</tag>
+		</directory>
+	</file>
+
+	<file name="c:\temp\c.jpg">
+		<directory name="Exif Makernote">
+			<tag type="0x010F">
+				<tagLabel>Make</tagLabel>
+				<tagDescription>NIKON CORPORATION</tagDescription>
+			</tag>
+			<tag type="0x0110">
+				<tagLabel>Model</tagLabel>
+				<tagDescription>NIKON D70</tagDescription>
+			</tag>
+			<tag type="0x0112">
+				<tagLabel>Orientation</tagLabel>
+				<tagDescription>Top, left side (Horizontal / normal)</tagDescription>
+			</tag>
+			<tag type="0x011A">
+				<tagLabel>X Resolution</tagLabel>
+				<tagDescription>300 dots per inches</tagDescription>
+			</tag>
+			<tag type="0x011B">
+				<tagLabel>Y Resolution</tagLabel>
+				<tagDescription>300 dots per inches</tagDescription>
+			</tag>
+			<tag type="0x0128">
+				<tagLabel>Resolution Unit</tagLabel>
+				<tagDescription>Inches</tagDescription>
+			</tag>
+			<tag type="0x0131">
+				<tagLabel>Software</tagLabel>
+				<tagDescription>Ver.1.03 </tagDescription>
+			</tag>
+			<tag type="0x0132">
+				<tagLabel>Date/Time</tagLabel>
+				<tagDescription>2005:06:08 20:17:06</tagDescription>
+			</tag>
+			<tag type="0x0213">
+				<tagLabel>YCbCr Positioning</tagLabel>
+				<tagDescription>Datum point</tagDescription>
+			</tag>
+			<tag type="0x829A">
+				<tagLabel>Exposure Time</tagLabel>
+				<tagDescription>1/1000 sec</tagDescription>
+			</tag>
+			<tag type="0x829D">
+				<tagLabel>F-Number</tagLabel>
+				<tagDescription>F 4,5</tagDescription>
+			</tag>
+			<tag type="0x8822">
+				<tagLabel>Exposure Program</tagLabel>
+				<tagDescription>Aperture priority</tagDescription>
+			</tag>
+			<tag type="0x9000">
+				<tagLabel>Exif Version</tagLabel>
+				<tagDescription>2.21</tagDescription>
+			</tag>
+			<tag type="0x9003">
+				<tagLabel>Date/Time Original</tagLabel>
+				<tagDescription>2005:06:08 20:17:06</tagDescription>
+			</tag>
+			<tag type="0x9004">
+				<tagLabel>Date/Time Digitized</tagLabel>
+				<tagDescription>2005:06:08 20:17:06</tagDescription>
+			</tag>
+			<tag type="0x9101">
+				<tagLabel>Components Configuration</tagLabel>
+				<tagDescription>YCbCr</tagDescription>
+			</tag>
+			<tag type="0x9102">
+				<tagLabel>Compressed Bits Per Pixel</tagLabel>
+				<tagDescription>1 bit/pixel</tagDescription>
+			</tag>
+			<tag type="0x9204">
+				<tagLabel>Exposure Bias Value</tagLabel>
+				<tagDescription>0</tagDescription>
+			</tag>
+			<tag type="0x9205">
+				<tagLabel>Max Aperture Value</tagLabel>
+				<tagDescription>F 3,5</tagDescription>
+			</tag>
+			<tag type="0x9207">
+				<tagLabel>Metering Mode</tagLabel>
+				<tagDescription>Multi-segment</tagDescription>
+			</tag>
+			<tag type="0x9209">
+				<tagLabel>Flash</tagLabel>
+				<tagDescription>Flash did not fire</tagDescription>
+			</tag>
+			<tag type="0x920A">
+				<tagLabel>Focal Length</tagLabel>
+				<tagDescription>18,0 mm</tagDescription>
+			</tag>
+			<tag type="0x9286">
+				<tagLabel>User Comment</tagLabel>
+				<tagDescription></tagDescription>
+			</tag>
+			<tag type="0x9290">
+				<tagLabel>Sub-Sec Time</tagLabel>
+				<tagDescription>80</tagDescription>
+			</tag>
+			<tag type="0x9291">
+				<tagLabel>Sub-Sec Time Original</tagLabel>
+				<tagDescription>80</tagDescription>
+			</tag>
+			<tag type="0x9292">
+				<tagLabel>Sub-Sec Time Digitized</tagLabel>
+				<tagDescription>80</tagDescription>
+			</tag>
+			<tag type="0xA000">
+				<tagLabel>FlashPix Version</tagLabel>
+				<tagDescription>1.00</tagDescription>
+			</tag>
+			<tag type="0xA001">
+				<tagLabel>Color Space</tagLabel>
+				<tagDescription>sRGB</tagDescription>
+			</tag>
+			<tag type="0xA002">
+				<tagLabel>Exif Image Width</tagLabel>
+				<tagDescription>3008 pixels</tagDescription>
+			</tag>
+			<tag type="0xA003">
+				<tagLabel>Exif Image Height</tagLabel>
+				<tagDescription>2000 pixels</tagDescription>
+			</tag>
+			<tag type="0xA217">
+				<tagLabel>Sensing Method</tagLabel>
+				<tagDescription>One-chip color area sensor</tagDescription>
+			</tag>
+			<tag type="0xA300">
+				<tagLabel>File Source</tagLabel>
+				<tagDescription>Digital Still Camera (DSC)</tagDescription>
+			</tag>
+			<tag type="0xA301">
+				<tagLabel>Scene Type</tagLabel>
+				<tagDescription>Directly photographed image</tagDescription>
+			</tag>
+			<tag type="0xA302">
+				<tagLabel>CFA Pattern</tagLabel>
+				<tagDescription></tagDescription>
+			</tag>
+			<tag type="0xA401">
+				<tagLabel>Custom Rendered</tagLabel>
+				<tagDescription>0</tagDescription>
+			</tag>
+			<tag type="0xA402">
+				<tagLabel>Exposure Mode</tagLabel>
+				<tagDescription>Auto exposure</tagDescription>
+			</tag>
+			<tag type="0xA403">
+				<tagLabel>White balance mode</tagLabel>
+				<tagDescription>Auto white balance</tagDescription>
+			</tag>
+			<tag type="0xA404">
+				<tagLabel>Digital Zoom Ratio</tagLabel>
+				<tagDescription>1</tagDescription>
+			</tag>
+			<tag type="0xA405">
+				<tagLabel>Focal Length in 35mm Film</tagLabel>
+				<tagDescription>27 mm</tagDescription>
+			</tag>
+			<tag type="0xA406">
+				<tagLabel>Scene Capture Type</tagLabel>
+				<tagDescription>Standard</tagDescription>
+			</tag>
+			<tag type="0xA407">
+				<tagLabel>Gain Control</tagLabel>
+				<tagDescription>None</tagDescription>
+			</tag>
+			<tag type="0xA408">
+				<tagLabel>Contrast</tagLabel>
+				<tagDescription>Soft</tagDescription>
+			</tag>
+			<tag type="0xA409">
+				<tagLabel>Saturation</tagLabel>
+				<tagDescription>None</tagDescription>
+			</tag>
+			<tag type="0xA40A">
+				<tagLabel>Sharpness</tagLabel>
+				<tagDescription>None</tagDescription>
+			</tag>
+			<tag type="0x0103">
+				<tagLabel>Compression</tagLabel>
+				<tagDescription>JPEG (old-style)</tagDescription>
+			</tag>
+			<tag type="0x0201">
+				<tagLabel>Thumbnail Offset</tagLabel>
+				<tagDescription>28612 bytes</tagDescription>
+			</tag>
+			<tag type="0x0202">
+				<tagLabel>Thumbnail Length</tagLabel>
+				<tagDescription>8412 bytes</tagDescription>
+			</tag>
+			<tag type="0xF001">
+				<tagLabel>Thumbnail Data</tagLabel>
+				<tagDescription>[8412 bytes of thumbnail data]</tagDescription>
+			</tag>
+		</directory>
+		<directory name="Nikon Makernote">
+			<tag type="0x0001">
+				<tagLabel>Firmware Version</tagLabel>
+				<tagDescription>2.10</tagDescription>
+			</tag>
+			<tag type="0x0002">
+				<tagLabel>ISO</tagLabel>
+				<tagDescription>ISO 400</tagDescription>
+			</tag>
+			<tag type="0x0004">
+				<tagLabel>Quality &amp; File Format</tagLabel>
+				<tagDescription>BASIC  </tagDescription>
+			</tag>
+			<tag type="0x0005">
+				<tagLabel>White Balance</tagLabel>
+				<tagDescription>AUTO        </tagDescription>
+			</tag>
+			<tag type="0x0006">
+				<tagLabel>Sharpening</tagLabel>
+				<tagDescription>AUTO  </tagDescription>
+			</tag>
+			<tag type="0x0007">
+				<tagLabel>AF Type</tagLabel>
+				<tagDescription>AF-S  </tagDescription>
+			</tag>
+			<tag type="0x0008">
+				<tagLabel>Flash Sync Mode</tagLabel>
+				<tagDescription>NORMAL      </tagDescription>
+			</tag>
+			<tag type="0x0009">
+				<tagLabel>Auto Flash Mode</tagLabel>
+				<tagDescription>            </tagDescription>
+			</tag>
+			<tag type="0x000B">
+				<tagLabel>White Balance Fine</tagLabel>
+				<tagDescription>0</tagDescription>
+			</tag>
+			<tag type="0x0013">
+				<tagLabel>ISO</tagLabel>
+				<tagDescription>0 400</tagDescription>
+			</tag>
+			<tag type="0x0081">
+				<tagLabel>Tone Compensation</tagLabel>
+				<tagDescription>AUTO    </tagDescription>
+			</tag>
+			<tag type="0x0084">
+				<tagLabel>Lens</tagLabel>
+				<tagDescription>18-70mm f/3-4</tagDescription>
+			</tag>
+			<tag type="0x008D">
+				<tagLabel>Colour Mode</tagLabel>
+				<tagDescription>Mode I (sRGB)</tagDescription>
+			</tag>
+			<tag type="0x0090">
+				<tagLabel>Light source</tagLabel>
+				<tagDescription>NATURAL    </tagDescription>
+			</tag>
+			<tag type="0x0092">
+				<tagLabel>Camera Hue Adjustment</tagLabel>
+				<tagDescription>0 degrees</tagDescription>
+			</tag>
+			<tag type="0x0095">
+				<tagLabel>Noise Reduction</tagLabel>
+				<tagDescription>OFF </tagDescription>
+			</tag>
+			<tag type="0x00A7">
+				<tagLabel>Exposure Sequence Number</tagLabel>
+				<tagDescription>25</tagDescription>
+			</tag>
+		</directory>
+		<directory name="Exif Interoperability Makernote">
+			<tag type="0x0001">
+				<tagLabel>Interoperability Index</tagLabel>
+				<tagDescription>Recommended Exif Interoperability Rules (ExifR98)</tagDescription>
+			</tag>
+			<tag type="0x0002">
+				<tagLabel>Interoperability Version</tagLabel>
+				<tagDescription>1.00</tagDescription>
+			</tag>
+		</directory>
+		<directory name="Jpeg Makernote">
+			<tag type="0x0000">
+				<tagLabel>Data Precision</tagLabel>
+				<tagDescription>8 bits</tagDescription>
+			</tag>
+			<tag type="0x0001">
+				<tagLabel>Image Height</tagLabel>
+				<tagDescription>2000 pixels</tagDescription>
+			</tag>
+			<tag type="0x0003">
+				<tagLabel>Image Width</tagLabel>
+				<tagDescription>3008 pixels</tagDescription>
+			</tag>
+			<tag type="0x0005">
+				<tagLabel>Number of Components</tagLabel>
+				<tagDescription>3</tagDescription>
+			</tag>
+			<tag type="0x0006">
+				<tagLabel>Component 1</tagLabel>
+				<tagDescription>Y component: Quantization table 0, Sampling factors 1 horiz/2 vert</tagDescription>
+			</tag>
+			<tag type="0x0007">
+				<tagLabel>Component 2</tagLabel>
+				<tagDescription>Cb component: Quantization table 1, Sampling factors 1 horiz/1 vert</tagDescription>
+			</tag>
+			<tag type="0x0008">
+				<tagLabel>Component 3</tagLabel>
+				<tagDescription>Cr component: Quantization table 1, Sampling factors 1 horiz/1 vert</tagDescription>
+			</tag>
+		</directory>
+	</file>
+
+</metadataExtractor>
+

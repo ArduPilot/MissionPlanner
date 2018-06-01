@@ -1,0 +1,83 @@
+version: 1.0.{build}
+image: Visual Studio 2017
+configuration: Release
+clone_depth: 1
+clone_folder: c:\MP\
+init:
+- cmd: 
+cache:
+    - packages -> appveyor.yml
+environment:
+  email:
+    secure: dkWdmOxf3t/x2H0gEo1GurKM8Due1idnog5VJtUlSEA=
+  token:
+    secure: FfCpqsH/V1r7PoXHkMcJpW7kWiQ6rQaedlH2L8smyeY=
+build_script:
+- cmd: >-
+    dotnet --info
+
+    rem c:\mp\.nuget\nuget.exe update -self
+
+    c:\mp\.nuget\nuget.exe sources Add -Name "myget" -Source https://dotnet.myget.org/F/dotnet-core/api/v3/index.json
+    
+    c:\mp\.nuget\nuget.exe restore
+    
+    "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\MSBuild.exe" MissionPlanner.sln /m /p:Configuration=Release /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+    
+    dir c:\mp\bin\Release\net461
+
+    cd bin\Release\net461
+
+    for /f %%f in ('dir /a-d /b plugins') do if exist .\%%f del .\plugins\%%f
+
+    copy version.txt c:\mp\
+
+    7z a -tzip ..\..\..\MissionPlannerBeta.zip *  
+
+    cd ..
+
+    md5sum.exe net461 > checksums.txt
+
+    copy checksums.txt c:\mp\
+
+    cd c:\mp\
+
+    cd msi 
+
+    wix.exe ..\bin\release\net461\ 
+
+    "%wix%\bin\candle" installer.wxs -ext WiXNetFxExtension -ext WixDifxAppExtension -ext WixUIExtension.dll -ext WixUtilExtension -ext WixIisExtension 
+  
+    "%wix%\bin\light" installer.wixobj "%wix%\bin\difxapp_x86.wixlib" -sval -o MissionPlanner-latest.msi -ext WiXNetFxExtension -ext WixDifxAppExtension -ext WixUIExtension.dll -ext WixUtilExtension -ext WixIisExtension 
+
+    rem if exist date.txt set /p datecheck=<date.txt
+
+    rem echo %date% > datenow.txt
+
+    rem if exist datenow.txt set /p datenow=<datenow.txt
+
+    rem if not "%datecheck%"=="%datenow%" echo %date% > date.txt
+
+    rem if not "%datecheck%"=="%datenow%" cov-build.exe --dir cov-int msbuild.exe MissionPlanner.sln /m /p:Configuration=Debug /l:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+
+    rem if not "%datecheck%"=="%datenow%" 7z a -tzip MissionPlannerCov-int.zip c:\mp\cov-int 
+
+    rem curl --form %token% --form %email% --form file=@MissionPlannerCov-int.zip --form version="%APPVEYOR_BUILD_VERSION%" --form project="ArduPilot\MissionPlanner" --form description="" https://scan.coverity.com/builds
+   
+
+test: off
+artifacts:
+- path: MissionPlannerCov-int.zip
+- path: MissionPlannerBeta.zip
+- path: 'msi\*.msi' 
+- path: checksums.txt
+- path: version.txt
+- path: ChangeLog.txt
+deploy: off
+notifications:
+- provider: Webhook
+  url: https://webhooks.gitter.im/e/c7f1e74edef028cfa905
+  method: POST
+  on_build_success: true
+  on_build_failure: false
+  on_build_status_changed: false

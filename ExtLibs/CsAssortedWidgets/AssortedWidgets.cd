@@ -1,0 +1,496 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<ClassDiagram Zoom="0.75" MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Enum Name="AssortedWidgets.Widgets.ETypeOrientation" Collapsed="False">
+    <Position X="0.5" Y="0.5" Width="2.2" />
+    <Compartments />
+  </Enum>
+  <Enum Name="AssortedWidgets.Events.EKeyEventTypes" Collapsed="False">
+    <Position X="0.5" Y="1.6" Width="2.5" />
+    <Compartments />
+  </Enum>
+  <Enum Name="AssortedWidgets.Layouts.EArea" Collapsed="False">
+    <Position X="3.2" Y="0.5" Width="1.4" />
+    <Compartments />
+  </Enum>
+  <Enum Name="AssortedWidgets.Widgets.ESpacerType" Collapsed="False">
+    <Position X="3.2" Y="2.1" Width="2" />
+    <Compartments />
+  </Enum>
+  <Enum Name="AssortedWidgets.Widgets.EStatus" Collapsed="False">
+    <Position X="0.5" Y="2.9" Width="1.6" />
+    <Compartments />
+  </Enum>
+  <Enum Name="AssortedWidgets.Widgets.EElementStyle" Collapsed="False">
+    <Position X="3.2" Y="3.4" Width="1.9" />
+    <Compartments />
+  </Enum>
+  <Enum Name="AssortedWidgets.Layouts.EFormat" Collapsed="False">
+    <Position X="0.5" Y="4.2" Width="1.7" />
+    <Compartments />
+  </Enum>
+  <Enum Name="AssortedWidgets.Widgets.EShowType" Collapsed="False">
+    <Position X="3.2" Y="4.7" Width="1.9" />
+    <Compartments />
+  </Enum>
+  <Enum Name="AssortedWidgets.Widgets.EStyle" Collapsed="False">
+    <Position X="0.5" Y="5.3" Width="1.5" />
+    <Compartments />
+  </Enum>
+  <Enum Name="AssortedWidgets.Events.EMouseEventTypes" Collapsed="False">
+    <Position X="0.5" Y="6.6" Width="2.9" />
+    <Compartments />
+  </Enum>
+  <Enum Name="AssortedWidgets.Layouts.EHorizontalAlignment" Collapsed="False">
+    <Position X="0.5" Y="8.5" Width="2.3" />
+    <Compartments />
+  </Enum>
+  <Enum Name="AssortedWidgets.Layouts.EHAlignment" Collapsed="False">
+    <Position X="3.6" Y="6" Width="1.9" />
+    <Compartments />
+  </Enum>
+  <Enum Name="AssortedWidgets.Widgets.EButtonStatus" Collapsed="False">
+    <Position X="3.6" Y="7.3" Width="1.9" />
+    <Compartments />
+  </Enum>
+  <Enum Name="AssortedWidgets.Layouts.EVAlignment" Collapsed="False">
+    <Position X="3.6" Y="8.6" Width="1.9" />
+    <Compartments />
+  </Enum>
+  <Delegate Name="AssortedWidgets.Widgets.MousePressedHandler" Collapsed="True">
+    <Position X="0.5" Y="9.8" Width="1.7" />
+    <Compartments />
+  </Delegate>
+  <Delegate Name="AssortedWidgets.Widgets.MouseEnteredHandler" Collapsed="True">
+    <Position X="2.3" Y="9.8" Width="1.7" />
+    <Compartments />
+  </Delegate>
+  <Delegate Name="AssortedWidgets.Widgets.MouseReleasedHandler" Collapsed="True">
+    <Position X="4.1" Y="9.8" Width="1.8" />
+    <Compartments />
+  </Delegate>
+  <Delegate Name="AssortedWidgets.Widgets.MouseMoveHandler" Collapsed="True">
+    <Position X="6" Y="9.8" Width="1.6" />
+    <Compartments />
+  </Delegate>
+  <Delegate Name="AssortedWidgets.Widgets.DragMovedHandler" Collapsed="True">
+    <Position X="0.5" Y="10.5" Width="1.6" />
+    <Compartments />
+  </Delegate>
+  <Delegate Name="AssortedWidgets.Widgets.DragReleasedHandler" Collapsed="True">
+    <Position X="2.3" Y="10.5" Width="1.7" />
+    <Compartments />
+  </Delegate>
+  <Delegate Name="AssortedWidgets.Widgets.MouseExitedHandler" Collapsed="True">
+    <Position X="4.1" Y="10.5" Width="1.6" />
+    <Compartments />
+  </Delegate>
+  <Class Name="AssortedWidgets.Graphics.Glyph" Collapsed="True">
+    <Position X="5.4" Y="1.2" Width="1.4" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Managers.DialogManager" Collapsed="True">
+    <Position X="5.4" Y="1.9" Width="2.1" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Struct Name="AssortedWidgets.Graphics.PrimitiveGroup" Collapsed="True">
+    <Position X="5.4" Y="0.5" Width="2.1" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Struct>
+  <Class Name="AssortedWidgets.Themes.ThemeEngine" Collapsed="True">
+    <Position X="5.4" Y="2.6" Width="2.1" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Managers.DragManager" Collapsed="True">
+    <Position X="5.4" Y="3.3" Width="2.2" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Graphics.IndexStream" Collapsed="True">
+    <Position X="5.4" Y="4" Width="1.9" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Enum Name="AssortedWidgets.Layouts.EVerticalAlignment" Collapsed="False">
+    <Position X="5.8" Y="8.6" Width="2.2" />
+    <Compartments />
+  </Enum>
+  <Class Name="AssortedWidgets.Util.Size" Collapsed="True">
+    <Position X="5.4" Y="4.7" Width="1.6" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Graphics.SubImage" Collapsed="True">
+    <Position X="5.7" Y="5.4" Width="1.6" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Util.Position" Collapsed="True">
+    <Position X="5.7" Y="6.1" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Graphics.TextureManager" Collapsed="True">
+    <Position X="5.7" Y="6.8" Width="2.2" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Graphics.VectorStream" Collapsed="True">
+    <Position X="5.7" Y="7.5" Width="2.2" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Graphics.TColor" Collapsed="True">
+    <Position X="7.7" Y="0.5" Width="2.1" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Widgets.RadioGroup" Collapsed="True">
+    <Position X="7.7" Y="1.2" Width="1.7" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Graphics.TextFontTexture" Collapsed="True">
+    <Position X="7.7" Y="1.9" Width="2.2" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.UI" Collapsed="True">
+    <Position X="7.7" Y="2.6" Width="3.4" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Graphics.Mesh" Collapsed="True">
+    <Position X="8" Y="5.1" Width="2.7" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.GLFont.Text" Collapsed="True">
+    <Position X="8.2" Y="6.3" Width="2.3" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Events.Event" Collapsed="True">
+    <Position X="8.7" Y="3.3" Width="1.6" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Events.MouseEvent" Collapsed="True">
+    <Position X="8.5" Y="4.4" Width="2" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Graphics.Texture" Collapsed="True">
+    <Position X="8.5" Y="7.2" Width="2.1" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Graphics.Texture2D" Collapsed="True">
+    <Position X="8.6" Y="8.2" Width="1.9" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Themes.Theme" Collapsed="True">
+    <Position X="8.5" Y="9" Width="2.6" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Themes.DefaultTheme" Collapsed="True">
+    <Position X="8.5" Y="10" Width="2.6" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Util.BoundingBox" Collapsed="True">
+    <Position X="17.1" Y="0.5" Width="1.9" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Interface Name="AssortedWidgets.Widgets.IElement" Collapsed="True">
+    <Position X="14.6" Y="0.5" Width="2.1" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+    </Compartments>
+  </Interface>
+  <Class Name="AssortedWidgets.Layouts.Layout" Collapsed="True">
+    <Position X="12.8" Y="0.5" Width="1.6" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Layouts.BorderLayout" Collapsed="True">
+    <Position X="10.5" Y="1.2" Width="2.6" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Layouts.GirdLayout" Collapsed="True">
+    <Position X="11" Y="1.9" Width="2.1" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+      <Compartment Name="Nested Types" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Widgets.Component" Collapsed="True">
+    <Position X="16.6" Y="1.5" Width="2.9" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+      <Compartment Name="Events" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Widgets.Dialog" Collapsed="True">
+    <Position X="13.5" Y="2.5" Width="2.2" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Widgets.MenuItem" Collapsed="True">
+    <Position X="11.3" Y="5.4" Width="1.9" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Widgets.MenuItemSubMenu" Collapsed="True">
+    <Position X="12.4" Y="6.2" Width="2.6" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Widgets.MenuItemButton" Collapsed="True">
+    <Position X="12.4" Y="6.9" Width="2.2" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Widgets.MenuItemSeparator" Collapsed="True">
+    <Position X="12.4" Y="7.6" Width="2.6" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Test.CheckNRadioTestDialog" Collapsed="True">
+    <Position X="11.3" Y="3.2" Width="3.1" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Test.DialogTestDialog" Collapsed="True">
+    <Position X="11.8" Y="3.9" Width="2.6" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Test.ProgressNSliderTestDialog" Collapsed="True">
+    <Position X="11.1" Y="4.6" Width="3.3" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Widgets.MenuBar" Collapsed="True">
+    <Position X="20.5" Y="0.5" Width="1.8" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Widgets.Menu" Collapsed="True">
+    <Position X="20.5" Y="1.2" Width="1.8" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Widgets.MenuList" Collapsed="True">
+    <Position X="20.5" Y="1.9" Width="2.4" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Widgets.Container" Collapsed="True">
+    <Position X="16.9" Y="2.5" Width="1.9" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Widgets.DragAble" Collapsed="True">
+    <Position X="12.4" Y="8.4" Width="2.7" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Events" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Widgets.DialogTittleBar" Collapsed="True">
+    <Position X="13.9" Y="9.9" Width="2" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Widgets.DialogBorder" Collapsed="True">
+    <Position X="11.7" Y="9.2" Width="1.9" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Widgets.SlideBarSlider" Collapsed="True">
+    <Position X="11.6" Y="9.9" Width="2" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Widgets.ProgressBar" Collapsed="True">
+    <Position X="20.5" Y="2.9" Width="2.1" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Widgets.Spacer" Collapsed="True">
+    <Position X="20.5" Y="3.8" Width="2.1" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Widgets.Label" Collapsed="True">
+    <Position X="20.5" Y="4.7" Width="2.1" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Widgets.SlideBar" Collapsed="True">
+    <Position X="20.5" Y="5.6" Width="2.1" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Widgets.Panel" Collapsed="True">
+    <Position X="16.2" Y="3.7" Width="2.1" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Widgets.AbstractButton" Collapsed="True">
+    <Position X="18.9" Y="6.5" Width="2.2" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Widgets.CheckButton" Collapsed="True">
+    <Position X="21.5" Y="6.7" Width="1.9" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Widgets.Button" Collapsed="True">
+    <Position X="21.5" Y="7.4" Width="1.8" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="False" />
+    </Compartments>
+  </Class>
+  <Class Name="AssortedWidgets.Widgets.RadioButton" Collapsed="True">
+    <Position X="21.5" Y="8.1" Width="1.9" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="False" />
+      <Compartment Name="Methods" Collapsed="False" />
+      <Compartment Name="Fields" Collapsed="False" />
+    </Compartments>
+  </Class>
+</ClassDiagram>

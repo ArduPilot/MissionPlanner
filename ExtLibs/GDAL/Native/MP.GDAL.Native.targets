@@ -1,0 +1,40 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <ItemGroup>
+    <GdalNativeFiles Condition="'$(MSBuildThisFileDirectory)' != '' And
+                                   HasTrailingSlash('$(MSBuildThisFileDirectory)')"
+                        Include="$(MSBuildThisFileDirectory)..\..\gdal\**\*.*" />
+  </ItemGroup>
+
+  <Target Name="CopyGdalNativeFiles"
+          Condition="'$(CopyGdalNativeFiles)' != 'false' And
+                     '$(OutputPath)' != '' And
+                     HasTrailingSlash('$(OutputPath)') And
+                     Exists('$(OutputPath)')"
+          Inputs="@(GdalNativeFiles)"
+          Outputs="@(GdalNativeFiles -> '$(OutputPath)gdal\%(RecursiveDir)%(Filename)%(Extension)')">
+
+    <Copy SourceFiles="@(GdalNativeFiles)"
+          DestinationFiles="@(GdalNativeFiles -> '$(OutputPath)gdal\%(RecursiveDir)%(Filename)%(Extension)')" />
+  </Target>
+
+  <Target Name="CleanGdalNativeFiles"
+          Condition="'$(CleanSQLiteInteropFiles)' != 'false' And
+                     '$(OutputPath)' != '' And
+                     HasTrailingSlash('$(OutputPath)') And
+                     Exists('$(OutputPath)')">
+
+    <Delete Files="@(GdalNativeFiles -> '$(OutputPath)gdal\%(RecursiveDir)%(Filename)%(Extension)')" />
+  </Target>
+
+  <PropertyGroup>
+    <BuildDependsOn>
+      $(BuildDependsOn);
+      CopyGdalNativeFiles;
+    </BuildDependsOn>
+    <CleanDependsOn>
+      $(CleanDependsOn);
+      CleanGdalNativeFiles;
+    </CleanDependsOn>
+  </PropertyGroup>
+</Project>

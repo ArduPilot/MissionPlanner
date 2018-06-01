@@ -1,0 +1,561 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="S6.ToolTip" xml:space="preserve">
+    <value>AIR_SPEED是内部无线数据速率，以kbps为单位取整。所以128意味着128kbps。最大是192，最小为2。我不推荐把值设为低于16的。值太小的话会使地面通信设备对频同步的时间过长。</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 12</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>格式</value>
+  </data>
+  <data name="label2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="S1.ToolTip" xml:space="preserve">
+    <value>串行波特率 取整kbps。所以57的意思是57600。</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>41, 12</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>波特率</value>
+  </data>
+  <data name="label1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="S0.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="S2.ToolTip" xml:space="preserve">
+    <value>AIR_SPEED是内部无线数据速率，以kbps为单位取整。所以128意味着128kbps。最大是192，最小为2。我不推荐把值设为低于16的。值太小的话会使地面通信设备对频同步的时间过长。</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 12</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>空速</value>
+  </data>
+  <data name="label3.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="S3.ToolTip" xml:space="preserve">
+    <value>网络ID是一个16位的 'network ID'。用于播发频率期望序列来识别数据包是否来自正确的数传。确保你使用的网络ID和本区域的其他数传不同。</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 12</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>网络 ID</value>
+  </data>
+  <data name="label4.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="S4.ToolTip" xml:space="preserve">
+    <value>TXPOWER为发射功率，单位dBm。20dBm是100mW，在短距离测试的时候很有空，可以设低一点。</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>发射功率</value>
+  </data>
+  <data name="label5.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="S5.ToolTip" xml:space="preserve">
+    <value>ECC用来启用/禁用戈莱纠错码。默认为关。如果你启用了它，那么你的数据包就会以两倍的字节发送，这样你就失去了一半的空中波特宽度，但是它可以纠正每12位数据的3位错误。在长距离时用此项，通常结合较低的空中数据速率。戈莱解码每个传输字节花费20微妙 (每个用户数据字节40微妙)这意味着在空中高速率传播CPU有一点受限。所以使用个戈莱纠错时速率要在128kbps或更低。</value>
+  </data>
+  <data name="label6.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 12</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Op 发送</value>
+  </data>
+  <data name="label8.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="S7.ToolTip" xml:space="preserve">
+    <value>OPPRESEND 启用/禁用“条件性重发”。当启动时，当输入缓冲含有少于256字节时电台将两次发送同一个数据包。第二遍将标记为重发，接收电台在正确收到第一个包时会忽略重发的包。这对链路质量，特别是上行命令有很大的影响。</value>
+  </data>
+  <data name="label7.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SPLIT_local.Panel1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label19.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="linkLabel_mavlink.Size" type="System.Drawing.Size, System.Drawing">
+    <value>131, 12</value>
+  </data>
+  <data name="linkLabel_mavlink.Text" xml:space="preserve">
+    <value>用于标准Mavlink的设置</value>
+  </data>
+  <data name="linkLabel_mavlink.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="linkLabel_lowlatency.Size" type="System.Drawing.Size, System.Drawing">
+    <value>65, 12</value>
+  </data>
+  <data name="linkLabel_lowlatency.Text" xml:space="preserve">
+    <value>低延时设置</value>
+  </data>
+  <data name="linkLabel_lowlatency.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label18.Size" type="System.Drawing.Size, System.Drawing">
+    <value>83, 12</value>
+  </data>
+  <data name="label18.Text" xml:space="preserve">
+    <value>最大窗口 (ms)</value>
+  </data>
+  <data name="label18.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="S15.ToolTip" xml:space="preserve">
+    <value>节点ID。基本节点ID为0。一个节点必须基于一个多点环境工作。</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>最小频率</value>
+  </data>
+  <data name="label13.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="S9.ToolTip" xml:space="preserve">
+    <value>最大频率 单位kHz </value>
+  </data>
+  <data name="S10.ToolTip" xml:space="preserve">
+    <value>信道数量</value>
+  </data>
+  <data name="S11.ToolTip" xml:space="preserve">
+    <value>允许传输的时间百分比</value>
+  </data>
+  <data name="label17.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="S12.ToolTip" xml:space="preserve">
+    <value>达到通话阈值前仅收听</value>
+  </data>
+  <data name="label16.Size" type="System.Drawing.Size, System.Drawing">
+    <value>41, 12</value>
+  </data>
+  <data name="label16.Text" xml:space="preserve">
+    <value>占空比</value>
+  </data>
+  <data name="label16.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="S8.ToolTip" xml:space="preserve">
+    <value>最小频率 单位kHz </value>
+  </data>
+  <data name="label15.Size" type="System.Drawing.Size, System.Drawing">
+    <value>41, 12</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>通道 #</value>
+  </data>
+  <data name="label15.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>最大频率</value>
+  </data>
+  <data name="label14.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SPLIT_local.Panel2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SPLIT_local.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RS6.ToolTip" xml:space="preserve">
+    <value>AIR_SPEED是内部无线数据速率，以kbps为单位取整。所以128意味着128kbps。最大是192，最小为2。我不推荐把值设为低于16的。值太小的话会使地面通信设备对频同步的时间过长。</value>
+  </data>
+  <data name="RS0.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RS1.ToolTip" xml:space="preserve">
+    <value>串行波特率，以单位kbps取整。所以57意味着57600。 
+</value>
+  </data>
+  <data name="RS2.ToolTip" xml:space="preserve">
+    <value>AIR_SPEED是内部无线数据速率，以kbps为单位取整。所以128意味着128kbps。最大是192，最小为2。我不推荐把值设为低于16的。值太小的话会使地面通信设备对频同步的时间过长。</value>
+  </data>
+  <data name="RS3.ToolTip" xml:space="preserve">
+    <value>网络ID是一个16位的 'network ID'。用于播发频率期望序列来识别数据包是否来自正确的数传。确保你使用的网络ID和本区域的其他数传不同。</value>
+  </data>
+  <data name="label25.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 12</value>
+  </data>
+  <data name="label25.Text" xml:space="preserve">
+    <value>Op 发送</value>
+  </data>
+  <data name="label25.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RS4.ToolTip" xml:space="preserve">
+    <value>TXPOWER为发射功率，单位dBm。20dBm是100mW，在短距离测试的时候很有空，可以设低一点。
+</value>
+  </data>
+  <data name="label26.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RS5.ToolTip" xml:space="preserve">
+    <value>ECC用来启用/禁用戈莱纠错码。默认为关。如果你启用了它，那么你的数据包就会以两倍的字节发送，这样你就失去了一半的空中波特宽度，但是它可以纠正每12位数据的3位错误。在长距离时用此项，通常结合较低的空中数据速率。戈莱解码每个传输字节花费20微妙 (每个用户数据字节40微妙)这意味着在空中高速率传播CPU有一点受限。所以使用个戈莱纠错时速率要在128kbps或更低。</value>
+  </data>
+  <data name="label27.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label28.Text" xml:space="preserve">
+    <value>发射功率</value>
+  </data>
+  <data name="label28.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RS7.ToolTip" xml:space="preserve">
+    <value>OPPRESEND 启用/禁用“条件性重发”。当启动时，当输入缓冲含有少于256字节时电台将两次发送同一个数据包。第二遍将标记为重发，接收电台在正确收到第一个包时会忽略重发的包。这对链路质量，特别是上行命令有很大的影响。</value>
+  </data>
+  <data name="label29.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 12</value>
+  </data>
+  <data name="label29.Text" xml:space="preserve">
+    <value>网络 ID</value>
+  </data>
+  <data name="label29.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label32.Size" type="System.Drawing.Size, System.Drawing">
+    <value>41, 12</value>
+  </data>
+  <data name="label32.Text" xml:space="preserve">
+    <value>波特率</value>
+  </data>
+  <data name="label32.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label30.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 12</value>
+  </data>
+  <data name="label30.Text" xml:space="preserve">
+    <value>空速</value>
+  </data>
+  <data name="label30.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label31.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 12</value>
+  </data>
+  <data name="label31.Text" xml:space="preserve">
+    <value>格式</value>
+  </data>
+  <data name="label31.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SPLIT_remote.Panel1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label33.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label34.Size" type="System.Drawing.Size, System.Drawing">
+    <value>83, 12</value>
+  </data>
+  <data name="label34.Text" xml:space="preserve">
+    <value>最大窗口 (ms)</value>
+  </data>
+  <data name="label34.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RS15.ToolTip" xml:space="preserve">
+    <value>节点ID。基本节点ID为0。一个节点必须基于一个多点环境工作。</value>
+  </data>
+  <data name="label24.Text" xml:space="preserve">
+    <value>最小频率</value>
+  </data>
+  <data name="label24.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RS9.ToolTip" xml:space="preserve">
+    <value>最大频率 单位kHz </value>
+  </data>
+  <data name="RS10.ToolTip" xml:space="preserve">
+    <value>信道数量</value>
+  </data>
+  <data name="RS11.ToolTip" xml:space="preserve">
+    <value>允许发送的时间百分比</value>
+  </data>
+  <data name="RS12.ToolTip" xml:space="preserve">
+    <value>达到通话阈值前仅收听</value>
+  </data>
+  <data name="RS8.ToolTip" xml:space="preserve">
+    <value>最小频率 单位kHz </value>
+  </data>
+  <data name="label23.Text" xml:space="preserve">
+    <value>最大频率</value>
+  </data>
+  <data name="label23.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label22.Size" type="System.Drawing.Size, System.Drawing">
+    <value>41, 12</value>
+  </data>
+  <data name="label22.Text" xml:space="preserve">
+    <value>通道 #</value>
+  </data>
+  <data name="label22.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label21.Size" type="System.Drawing.Size, System.Drawing">
+    <value>41, 12</value>
+  </data>
+  <data name="label21.Text" xml:space="preserve">
+    <value>占空比</value>
+  </data>
+  <data name="label21.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label20.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SPLIT_remote.Panel2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SPLIT_remote.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Progressbar.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RSSI.ToolTip" xml:space="preserve">
+    <value>RSSI转换至dBm图像查看的说明。在尾部的数字是: txe: 发送错误的数量(如发送超时) rxe: 接收错误的数量（crc错误，框架错误等） stx: 串行发送溢出的数量 rrx: 串行接收溢出的数量 ecc: 成功被戈莱码纠正的结果有效的12位语句数据包CRC的数量</value>
+  </data>
+  <data name="linkLabel1.Text" xml:space="preserve">
+    <value>LED状态含义</value>
+  </data>
+  <data name="linkLabel1.ToolTip" xml:space="preserve">
+    <value>3DR 电台有2个状态指示灯，一个红色，另一个绿色
+绿色灯闪烁 - 搜索另一个电台
+绿色灯常亮 - 与另一电台的链路已经建立
+红色灯闪烁 - 传输数据
+红色灯常亮 - 固件更新模式
+</value>
+  </data>
+  <data name="RTI.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ATI.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 12</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>版本</value>
+  </data>
+  <data name="label11.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label12.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_savesettings.Text" xml:space="preserve">
+    <value>保存设置</value>
+  </data>
+  <data name="BUT_savesettings.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_getcurrent.Text" xml:space="preserve">
+    <value>加载设置</value>
+  </data>
+  <data name="BUT_getcurrent.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="lbl_status.Text" xml:space="preserve">
+    <value>注意：在修改后始终点击“复制所需项目至远端”
+将确保您不会丢失无线电链路</value>
+  </data>
+  <data name="lbl_status.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_upload.Text" xml:space="preserve">
+    <value>加载固件（本地）</value>
+  </data>
+  <data name="BUT_upload.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_Syncoptions.Text" xml:space="preserve">
+    <value>复制所需项目至远端</value>
+  </data>
+  <data name="BUT_Syncoptions.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ATI3.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ATI2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>本地</value>
+  </data>
+  <data name="groupBox1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RTI2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 12</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>版本</value>
+  </data>
+  <data name="label9.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>远程</value>
+  </data>
+  <data name="groupBox2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label10.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_resettodefault.Text" xml:space="preserve">
+    <value>重置为默认</value>
+  </data>
+  <data name="BUT_resettodefault.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_loadcustom.Text" xml:space="preserve">
+    <value>上传自定义固件</value>
+  </data>
+  <data name="BUT_loadcustom.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="$this.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+</root>

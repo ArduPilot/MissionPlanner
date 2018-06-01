@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:uap2="http://schemas.microsoft.com/appx/manifest/uap/windows10/2" xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10">
+  <Identity Name="36541MichaelOborne.MissionPlanner"
+            Version="0.0.49.0"
+            Publisher="CN=3B1842DF-8664-4A02-B840-61F61DA8A94E" />
+  <Properties>
+    <DisplayName>Mission Planner</DisplayName>
+    <PublisherDisplayName>Michael Oborne</PublisherDisplayName>
+    <Logo>mpdesktop150.png</Logo>
+  </Properties>
+  <Resources>
+    <Resource Language="en-us" />
+  </Resources>
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.14393.0" MaxVersionTested="10.0.14393.0" />
+  </Dependencies>
+  <Capabilities>
+    <rescap:Capability Name="runFullTrust" />
+  </Capabilities>
+  <Applications>
+		<Application Id="MissionPlanner" Executable="MissionPlanner.exe" EntryPoint="Windows.FullTrustApplication">
+      <uap:VisualElements DisplayName="Mission Planner" Description="ArduPilot ground control station"
+           Square150x150Logo="mpdesktop150.png" Square44x44Logo="mpdesktop44.png"  
+           BackgroundColor="#FFFFFF" />
+      <Extensions />
+    </Application>
+  </Applications>
+</Package>

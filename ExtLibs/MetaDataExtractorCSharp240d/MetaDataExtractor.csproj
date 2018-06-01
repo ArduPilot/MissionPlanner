@@ -1,0 +1,68 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <OutputTypeEx>library</OutputTypeEx>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="AssemblyInfo.cs" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <EmbeddedResource Include="resources\CanonMarkernote.txt" />
+    <EmbeddedResource Include="resources\CasioMarkernote.txt" />
+    <EmbeddedResource Include="resources\Commons.txt" />
+    <EmbeddedResource Include="resources\en\CanonMarkernote.txt" />
+    <EmbeddedResource Include="resources\en\CasioMarkernote.txt" />
+    <EmbeddedResource Include="resources\en\Commons.txt" />
+    <EmbeddedResource Include="resources\en\ExifInteropMarkernote.txt" />
+    <EmbeddedResource Include="resources\en\ExifMarkernote.txt" />
+    <EmbeddedResource Include="resources\en\FujiFilmMarkernote.txt" />
+    <EmbeddedResource Include="resources\en\GpsMarkernote.txt" />
+    <EmbeddedResource Include="resources\en\IptcMarkernote.txt" />
+    <EmbeddedResource Include="resources\en\JpegMarkernote.txt" />
+    <EmbeddedResource Include="resources\en\KodakMarkernote.txt" />
+    <EmbeddedResource Include="resources\en\KyoceraMarkernote.txt" />
+    <EmbeddedResource Include="resources\en\NikonTypeMarkernote.txt" />
+    <EmbeddedResource Include="resources\en\OlympusMarkernote.txt" />
+    <EmbeddedResource Include="resources\en\PanasonicMarkernote.txt" />
+    <EmbeddedResource Include="resources\en\PentaxMarkernote.txt" />
+    <EmbeddedResource Include="resources\en\SonyMarkernote.txt" />
+    <EmbeddedResource Include="resources\ExifInteropMarkernote.txt" />
+    <EmbeddedResource Include="resources\ExifMarkernote.txt" />
+    <EmbeddedResource Include="resources\FujiFilmMarkernote.txt" />
+    <EmbeddedResource Include="resources\GpsMarkernote.txt" />
+    <EmbeddedResource Include="resources\IptcMarkernote.txt" />
+    <EmbeddedResource Include="resources\JpegMarkernote.txt" />
+    <EmbeddedResource Include="resources\KodakMarkernote.txt" />
+    <EmbeddedResource Include="resources\KyoceraMarkernote.txt" />
+    <EmbeddedResource Include="resources\NikonTypeMarkernote.txt" />
+    <EmbeddedResource Include="resources\OlympusMarkernote.txt" />
+    <EmbeddedResource Include="resources\PanasonicMarkernote.txt" />
+    <EmbeddedResource Include="resources\PentaxMarkernote.txt" />
+    <EmbeddedResource Include="resources\SonyMarkernote.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="exif.xslt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="MetadataExtractor.dtd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="MetadataExtractorNew.dtd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

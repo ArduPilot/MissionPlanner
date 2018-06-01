@@ -1,0 +1,2 @@
+c:\cygwin\bin\rsync.exe -Pv -e '/usr/bin/ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /cygdrive/c/Users/michael/sitl' LogAnalyzer.zip michael@bios.ardupilot.org:MissionPlanner/LogAnalyzer/
+c:\cygwin\bin\rsync.exe -Pv -e '/usr/bin/ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /cygdrive/c/Users/michael/sitl' LogAnalyzer64.zip michael@bios.ardupilot.org:MissionPlanner/LogAnalyzer/

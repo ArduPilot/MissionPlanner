@@ -1,0 +1,672 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="backstageView.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="backstageView.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="backstageView.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="backstageViewPagefw.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>826, 134</value>
+  </data>
+  <data name="initialSetupBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>998, 134</value>
+  </data>
+  <data name="configFirmware1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="configFirmware1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="configFirmware1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1000, 450</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="configFirmware1.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="configFirmware1.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="backstageViewPagefw.Text" xml:space="preserve">
+    <value>Install Firmware</value>
+  </data>
+  <data name="backstageViewPagefwdisabled.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>608, 134</value>
+  </data>
+  <data name="configFirmwareDisabled1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="configFirmwareDisabled1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="configFirmwareDisabled1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>486, 256</value>
+  </data>
+  <data name="configFirmwareDisabled1.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="backstageViewPagefwdisabled.Text" xml:space="preserve">
+    <value>Install Firmware</value>
+  </data>
+  <data name="backstageViewPagewizard.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>576, 17</value>
+  </data>
+  <data name="configWizard1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="configWizard1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="configWizard1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>486, 256</value>
+  </data>
+  <data name="configWizard1.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="backstageViewPagewizard.Text" xml:space="preserve">
+    <value>Wizard</value>
+  </data>
+  <data name="backstageViewPagemand.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>771, 17</value>
+  </data>
+  <data name="configMandatory1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="configMandatory1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="configMandatory1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>323, 256</value>
+  </data>
+  <data name="configMandatory1.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="backstageViewPagemand.Text" xml:space="preserve">
+    <value>Mandatory Hardware</value>
+  </data>
+  <data name="backstageViewPagetradheli.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>17, 56</value>
+  </data>
+  <data name="configTradHeli1.AutoScroll" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="configTradHeli1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="configTradHeli1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="configTradHeli1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>859, 397</value>
+  </data>
+  <data name="configTradHeli1.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="backstageViewPagetradheli.Text" xml:space="preserve">
+    <value>Heli Setup</value>
+  </data>
+  <data name="backstageViewPageframetype.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>218, 56</value>
+  </data>
+  <data name="configFrameType1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="configFrameType1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="configFrameType1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>495, 453</value>
+  </data>
+  <data name="configFrameType1.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="backstageViewPageframetype.Text" xml:space="preserve">
+    <value>Frame Type</value>
+  </data>
+  <data name="backstageViewPageaccel.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>197, 17</value>
+  </data>
+  <data name="configAccelerometerCalibration.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="configAccelerometerCalibration.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="configAccelerometerCalibration.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1000, 919</value>
+  </data>
+  <data name="configAccelerometerCalibration.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="backstageViewPageaccel.Text" xml:space="preserve">
+    <value>Accel Calibration</value>
+  </data>
+  <data name="backstageViewPagecompass.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>433, 56</value>
+  </data>
+  <data name="configHWCompass1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="configHWCompass1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="configHWCompass1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>650, 450</value>
+  </data>
+  <data name="configHWCompass1.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="backstageViewPagecompass.Text" xml:space="preserve">
+    <value>Compass</value>
+  </data>
+  <data name="backstageViewPageradio.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>640, 56</value>
+  </data>
+  <data name="configRadioInput1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="configRadioInput1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="configRadioInput1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>628, 406</value>
+  </data>
+  <data name="configRadioInput1.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="backstageViewPageradio.Text" xml:space="preserve">
+    <value>Radio Calibration</value>
+  </data>
+  <data name="backstageViewPageESC.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>17, 17</value>
+  </data>
+  <data name="configESC1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="configESC1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="configESC1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>650, 459</value>
+  </data>
+  <data name="configESC1.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="backstageViewPageESC.Text" xml:space="preserve">
+    <value>ESC Calibration</value>
+  </data>
+  <data name="backstageViewPageflmode.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>827, 56</value>
+  </data>
+  <data name="configFlightModes1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="configFlightModes1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="configFlightModes1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>561, 248</value>
+  </data>
+  <data name="configFlightModes1.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="backstageViewPageflmode.Text" xml:space="preserve">
+    <value>Flight Modes</value>
+  </data>
+  <data name="backstageViewPagefs.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>1025, 56</value>
+  </data>
+  <data name="configFailSafe1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="configFailSafe1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="configFailSafe1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>688, 448</value>
+  </data>
+  <data name="configFailSafe1.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="backstageViewPagefs.Text" xml:space="preserve">
+    <value>FailSafe</value>
+  </data>
+  <data name="backstageViewPageopt.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>962, 17</value>
+  </data>
+  <data name="configOptional1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="configOptional1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="configOptional1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>350, 225</value>
+  </data>
+  <data name="configOptional1.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="backstageViewPageopt.Text" xml:space="preserve">
+    <value>Optional Hardware</value>
+  </data>
+  <data name="backstageViewPageSikradio.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>17, 95</value>
+  </data>
+  <data name="_3DRradio1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="_3DRradio1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="_3DRradio1.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>781, 433</value>
+  </data>
+  <data name="_3DRradio1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>781, 433</value>
+  </data>
+  <data name="_3DRradio1.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="backstageViewPageSikradio.Text" xml:space="preserve">
+    <value>Sik Radio</value>
+  </data>
+  <data name="backstageViewPagebatmon.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>220, 95</value>
+  </data>
+  <data name="configBatteryMonitoring1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="configBatteryMonitoring1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="configBatteryMonitoring1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>518, 322</value>
+  </data>
+  <data name="configBatteryMonitoring1.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="backstageViewPagebatmon.Text" xml:space="preserve">
+    <value>Battery Monitor</value>
+  </data>
+  <data name="backstageViewPageBatt2.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>676, 173</value>
+  </data>
+  <data name="configBatteryMonitoring21.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="configBatteryMonitoring21.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="configBatteryMonitoring21.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1000, 919</value>
+  </data>
+  <data name="configBatteryMonitoring21.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="backstageViewPageBatt2.Text" xml:space="preserve">
+    <value>Battery Monitor 2</value>
+  </data>
+  <data name="backstageViewPagecompassmot.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>17, 173</value>
+  </data>
+  <data name="configCompassMot1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="configCompassMot1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="configCompassMot1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>508, 260</value>
+  </data>
+  <data name="configCompassMot1.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="backstageViewPagecompassmot.Text" xml:space="preserve">
+    <value>Compass/Motor Calib</value>
+  </data>
+  <data name="backstageViewPagesonar.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>422, 95</value>
+  </data>
+  <data name="ConfigHWRangeFinder1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="ConfigHWRangeFinder1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="ConfigHWRangeFinder1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>650, 116</value>
+  </data>
+  <data name="ConfigHWRangeFinder1.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="backstageViewPagesonar.Text" xml:space="preserve">
+    <value>Range Finder</value>
+  </data>
+  <data name="backstageViewPageairspeed.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>611, 95</value>
+  </data>
+  <data name="configHWAirspeed1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="configHWAirspeed1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="configHWAirspeed1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>650, 120</value>
+  </data>
+  <data name="configHWAirspeed1.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="backstageViewPageairspeed.Text" xml:space="preserve">
+    <value>Airspeed</value>
+  </data>
+  <data name="backstageViewPagePX4Flow.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>1043, 173</value>
+  </data>
+  <data name="configHWPX4Flow1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>229, 25</value>
+  </data>
+  <data name="configHWPX4Flow1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>650, 435</value>
+  </data>
+  <data name="configHWPX4Flow1.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="backstageViewPagePX4Flow.Text" xml:space="preserve">
+    <value>PX4Flow</value>
+  </data>
+  <data name="backstageViewPageoptflow.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>817, 95</value>
+  </data>
+  <data name="configHWOptFlow1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="configHWOptFlow1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="configHWOptFlow1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>650, 119</value>
+  </data>
+  <data name="configHWOptFlow1.TabIndex" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
+  <data name="backstageViewPageoptflow.Text" xml:space="preserve">
+    <value>Optical Flow</value>
+  </data>
+  <data name="backstageViewPageosd.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>1018, 95</value>
+  </data>
+  <data name="configHWOSD1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="configHWOSD1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="configHWOSD1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>650, 119</value>
+  </data>
+  <data name="configHWOSD1.TabIndex" type="System.Int32, mscorlib">
+    <value>21</value>
+  </data>
+  <data name="backstageViewPageosd.Text" xml:space="preserve">
+    <value>OSD</value>
+  </data>
+  <data name="backstageViewPagegimbal.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>17, 134</value>
+  </data>
+  <data name="configMount1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="configMount1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="configMount1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>674, 567</value>
+  </data>
+  <data name="configMount1.TabIndex" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="backstageViewPagegimbal.Text" xml:space="preserve">
+    <value>Camera Gimbal</value>
+  </data>
+  <data name="backstageViewPageAntTrack.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>214, 134</value>
+  </data>
+  <data name="tracker1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="tracker1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="tracker1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>587, 265</value>
+  </data>
+  <data name="tracker1.TabIndex" type="System.Int32, mscorlib">
+    <value>23</value>
+  </data>
+  <data name="backstageViewPageAntTrack.Text" xml:space="preserve">
+    <value>Antenna tracker</value>
+  </data>
+  <data name="backstageViewPageMotorTest.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>246, 173</value>
+  </data>
+  <data name="configMotor1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="configMotor1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="configMotor1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>563, 264</value>
+  </data>
+  <data name="configMotor1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="backstageViewPageMotorTest.Text" xml:space="preserve">
+    <value>Motor Test</value>
+  </data>
+  <data name="backstageViewPagehwbt.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>421, 134</value>
+  </data>
+  <data name="configHWBT1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="configHWBT1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="configHWBT1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1000, 919</value>
+  </data>
+  <data name="configHWBT1.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="backstageViewPagehwbt.Text" xml:space="preserve">
+    <value>Bluetooth Setup</value>
+  </data>
+  <data name="backstageViewPageParachute.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>462, 173</value>
+  </data>
+  <data name="configHWPa1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="configHWPa1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="configHWPa1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>650, 487</value>
+  </data>
+  <data name="configHWPa1.TabIndex" type="System.Int32, mscorlib">
+    <value>24</value>
+  </data>
+  <data name="backstageViewPageParachute.Text" xml:space="preserve">
+    <value>Parachute</value>
+  </data>
+  <data name="backstageViewPageESP.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>864, 173</value>
+  </data>
+  <data name="configHWESP8266.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="configHWESP8266.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="configHWESP8266.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1000, 919</value>
+  </data>
+  <data name="configHWESP8266.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="backstageViewPageESP.Text" xml:space="preserve">
+    <value>ESP8266 Setup</value>
+  </data>
+  <data name="backstageView.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1000, 919</value>
+  </data>
+  <data name="backstageView.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="backstageViewPageinstfw.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>384, 17</value>
+  </data>
+  <data name="backstageViewPageinstfw.Text" xml:space="preserve">
+    <value>Install Firmware</value>
+  </data>
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="$this.TrayHeight" type="System.Int32, mscorlib">
+    <value>226</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1000, 919</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>InitialSetup</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.MyUserControl, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+</root>

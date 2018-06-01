@@ -1,0 +1,610 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="CannotGraphField" xml:space="preserve">
+    <value>Невозможно нарисовать это поле</value>
+  </data>
+  <data name="ReadingHex" xml:space="preserve">
+    <value>Чтение Hex</value>
+  </data>
+  <data name="SelectComport" xml:space="preserve">
+    <value>Выберите порт</value>
+  </data>
+  <data name="FullParameterTree" xml:space="preserve">
+    <value>Дерево параметров</value>
+  </data>
+  <data name="FullParameterList" xml:space="preserve">
+    <value>Список параметров</value>
+  </data>
+  <data name="TrackerHome" xml:space="preserve">
+    <value>Домашний Трекер</value>
+  </data>
+  <data name="NewFirmware" xml:space="preserve">
+    <value>Новая прошивка</value>
+  </data>
+  <data name="AreYouSureYouWantToUpload" xml:space="preserve">
+    <value>Вы уверены, что хотите загрузить</value>
+  </data>
+  <data name="BadAHRS" xml:space="preserve">
+    <value>Плохое AHRS</value>
+  </data>
+  <data name="BadAccelHealth" xml:space="preserve">
+    <value>Плохие показания Акселерометра</value>
+  </data>
+  <data name="Stillmoving" xml:space="preserve">
+    <value>Ваша модель все еще движется, вы уверены, что хотите отключиться?</value>
+  </data>
+  <data name="BetaWarning" xml:space="preserve">
+    <value>Это бета-версия прошивки, используемая на свой страх и риск !!!</value>
+  </data>
+  <data name="velocity_variance" xml:space="preserve">
+    <value>дисперсия скорости</value>
+  </data>
+  <data name="AutoWP" xml:space="preserve">
+    <value>Авто МТ</value>
+  </data>
+  <data name="Converting_bin_to_log" xml:space="preserve">
+    <value>Преобразование данных в журнал</value>
+  </data>
+  <data name="BasicTuning" xml:space="preserve">
+    <value>Базовые настройки</value>
+  </data>
+  <data name="ConnectingMavlink" xml:space="preserve">
+    <value>Подключение Mavlink</value>
+  </data>
+  <data name="InvalidUpdateRate" xml:space="preserve">
+    <value>Недопустимая скорость обновления</value>
+  </data>
+  <data name="pos_vert_variance" xml:space="preserve">
+    <value>дисперсия по вертикали</value>
+  </data>
+  <data name="SetHere" xml:space="preserve">
+    <value>Установить здесь</value>
+  </data>
+  <data name="CommandFailed" xml:space="preserve">
+    <value>НЕ удалось выполнить команду</value>
+  </data>
+  <data name="GettingFWList" xml:space="preserve">
+    <value>Получение списка FW</value>
+  </data>
+  <data name="Zoom_To" xml:space="preserve">
+    <value>Увеличить До</value>
+  </data>
+  <data name="BadLiDARHealth" xml:space="preserve">
+    <value>Плохие данные LiDARа</value>
+  </data>
+  <data name="ParamRefreshRequired" xml:space="preserve">
+    <value>Требуется обновление параметров - нажмите F5 было # {0} стало # {1}</value>
+  </data>
+  <data name="StandardParams" xml:space="preserve">
+    <value>Стандарт. параметры</value>
+  </data>
+  <data name="AdvancedParams" xml:space="preserve">
+    <value>Расшир. параметры</value>
+  </data>
+  <data name="BadGPSHealth" xml:space="preserve">
+    <value>Плохие данные GPS</value>
+  </data>
+  <data name="GettingParamsD" xml:space="preserve">
+    <value>Получение параметров...</value>
+  </data>
+  <data name="PleaseConnect" xml:space="preserve">
+    <value>Сначала подключитесь</value>
+  </data>
+  <data name="InvalidNumberEntered" xml:space="preserve">
+    <value>Введен неверный номер</value>
+  </data>
+  <data name="WarningLogBrowseFMTMissing" xml:space="preserve">
+    <value>Просмотр журнала не будет корректно работать без сообщений FMT в вашем журнале. Кажется, что они отсутствуют в вашем журнале.</value>
+  </data>
+  <data name="ProgrammedOK" xml:space="preserve">
+    <value>Успешно запрограммировано</value>
+  </data>
+  <data name="BadorNoTerrainData" xml:space="preserve">
+    <value>Плохие или нет данных ландшафта</value>
+  </data>
+  <data name="Getting" xml:space="preserve">
+    <value>Получение</value>
+  </data>
+  <data name="EppromChanged" xml:space="preserve">
+    <value>Epprom изменится, все ваши настройки будут потеряны во время обновления. Вы хотите продолжить?</value>
+  </data>
+  <data name="Only1HbD" xml:space="preserve">
+    <value>Только 1 Mavlink Heartbeat Packets был прочитан из этого порта. Проверьте правильность настройки вашего оборудования. Планировщик ожиданий 2 действительных пакета пульса перед подключением</value>
+  </data>
+  <data name="WarningUpdateParamList" xml:space="preserve">
+    <value>Обновить параметрыНЕ ДЕЛАЙТЕ ЭТО, ЕСЛИ ВЫ В ВОЗДУХЕ</value>
+  </data>
+  <data name="ErrorNoResponce" xml:space="preserve">
+    <value>Ошибка: нет ответа от MAV</value>
+  </data>
+  <data name="Trying" xml:space="preserve">
+    <value>Попытка подключиться. Таймаут в {0}</value>
+  </data>
+  <data name="EppromFormatChanged" xml:space="preserve">
+    <value>Формат Epprom изменен ({0) vs {1})</value>
+  </data>
+  <data name="NoFMTMessage" xml:space="preserve">
+    <value>Нет сообщения FMT для</value>
+  </data>
+  <data name="TrunkWarning" xml:space="preserve">
+    <value>Это новейшая прошивка, используемая на свой страх и риск !!!</value>
+  </data>
+  <data name="pos_horiz_variance" xml:space="preserve">
+    <value>дисперсия по горизонтали</value>
+  </data>
+  <data name="Saving" xml:space="preserve">
+    <value>Сохранение</value>
+  </data>
+  <data name="PleaseUnplugTheBoardAnd" xml:space="preserve">
+    <value>Пожалуйста, отключите плату от ПК, а затем нажмите OK и подключите ее обратно. Планировщик миссии будет искать 30 секунд, чтобы найти плату.</value>
+  </data>
+  <data name="Timeout" xml:space="preserve">
+    <value>Время автопоиска закончилось/mavlink устройство не подключено</value>
+  </data>
+  <data name="ReceivedList" xml:space="preserve">
+    <value>Получить список</value>
+  </data>
+  <data name="ErrorUploadingFirmware" xml:space="preserve">
+    <value>Ошибка при загрузке прошивки</value>
+  </data>
+  <data name="ChangeThrottle" xml:space="preserve">
+    <value>Изменить дроссель</value>
+  </data>
+  <data name="InvalidPortName" xml:space="preserve">
+    <value>Недопустимое имя порта</value>
+  </data>
+  <data name="ConnectFailed" xml:space="preserve">
+    <value>Сбой соединения</value>
+  </data>
+  <data name="ExtendedTuning" xml:space="preserve">
+    <value>Расширенная настройка</value>
+  </data>
+  <data name="InvalidFileName" xml:space="preserve">
+    <value>Неверное имя файла</value>
+  </data>
+  <data name="No_valid_heartbeats_read_from_port" xml:space="preserve">
+    <value>Из порта не получено корректных данных</value>
+  </data>
+  <data name="Failed_to_connect_to_SITL_instance" xml:space="preserve">
+    <value>Не удалось подключиться к экземпляру SITL</value>
+  </data>
+  <data name="FailedReadHEX" xml:space="preserve">
+    <value>Не удалось прочитать HEX</value>
+  </data>
+  <data name="Connect" xml:space="preserve">
+    <value>Соединить</value>
+  </data>
+  <data name="Click_when_Done" xml:space="preserve">
+    <value>Нажмите для завершения.</value>
+  </data>
+  <data name="InvalidTiltRange" xml:space="preserve">
+    <value>Недопустимый диапазон наклона</value>
+  </data>
+  <data name="InvalidCert" xml:space="preserve">
+    <value>Недопустимый сертификат</value>
+  </data>
+  <data name="terrain_alt_variance" xml:space="preserve">
+    <value>разность высоты ландшафта</value>
+  </data>
+  <data name="BadCoords" xml:space="preserve">
+    <value>Плохая Шир/Дол</value>
+  </data>
+  <data name="MagCalibMsg" xml:space="preserve">
+    <value>Нажмите ОК и переместите автопилот вокруг всех осей круговым движением</value>
+  </data>
+  <data name="Not_available_when_used_as_a_windows_store_app" xml:space="preserve">
+    <value>Недоступно при использовании в качестве приложения для магазина Windows</value>
+  </data>
+  <data name="CheckPortSettingsOr" xml:space="preserve">
+    <value>Проверить номер или настройки порта?</value>
+  </data>
+  <data name="BadLogging" xml:space="preserve">
+    <value>Плохая регистрация</value>
+  </data>
+  <data name="YouAreUsingUnsupportedHardware" xml:space="preserve">
+    <value>Вы используете неподдерживаемое оборудование. Эта плата не содержит действительного сертификата подлинности. Обратитесь к поставщику оборудования за информацией о подписи вашего оборудования.</value>
+  </data>
+  <data name="MavlinkConnecting" xml:space="preserve">
+    <value>Подключение Mavlink...</value>
+  </data>
+  <data name="GettingParams" xml:space="preserve">
+    <value>Получение Параметров</value>
+  </data>
+  <data name="FailedToReadHex" xml:space="preserve">
+    <value>Не удалось прочитать firmware.hex :</value>
+  </data>
+  <data name="Load_data" xml:space="preserve">
+    <value>Загрузить данные</value>
+  </data>
+  <data name="UpdateNow" xml:space="preserve">
+    <value>Обновить сейчас</value>
+  </data>
+  <data name="Gotparam" xml:space="preserve">
+    <value>Параметры получены</value>
+  </data>
+  <data name="Failclog" xml:space="preserve">
+    <value>Не удалось создать журнал, этот сеанс не записан</value>
+  </data>
+  <data name="DetectingBoardVersion" xml:space="preserve">
+    <value>Обнаружение версии платы</value>
+  </data>
+  <data name="GettingFWVersion" xml:space="preserve">
+    <value>Получение версии FW</value>
+  </data>
+  <data name="Error_binding" xml:space="preserve">
+    <value>Ошибка привязки</value>
+  </data>
+  <data name="NewFirmwareA" xml:space="preserve">
+    <value>Доступна новая версия прошивки</value>
+  </data>
+  <data name="BadCompassHealth" xml:space="preserve">
+    <value>Плохие данные компаса</value>
+  </data>
+  <data name="InvalidBaudRate" xml:space="preserve">
+    <value>Недопустимый BaudRate</value>
+  </data>
+  <data name="ErrorFirmwareFile" xml:space="preserve">
+    <value>Ошибка при загрузке файла прошивки</value>
+  </data>
+  <data name="ErrorLogList" xml:space="preserve">
+    <value>Ошибка при получении списка журналов</value>
+  </data>
+  <data name="Only1Hb" xml:space="preserve">
+    <value>Получено только 1 полученное Heatbeat</value>
+  </data>
+  <data name="compass_variance" xml:space="preserve">
+    <value>Дисперсия компаса</value>
+  </data>
+  <data name="BadGyroHealth" xml:space="preserve">
+    <value>Плохие данные гироскопа</value>
+  </data>
+  <data name="ErrorReceivingParams" xml:space="preserve">
+    <value>Список полученных ошибок</value>
+  </data>
+  <data name="BadOptFlowHealth" xml:space="preserve">
+    <value>Плохие OptFlow показания</value>
+  </data>
+  <data name="ERROR" xml:space="preserve">
+    <value>Ошибка</value>
+  </data>
+  <data name="RunAnyway" xml:space="preserve">
+    <value>старт в любом случае</value>
+  </data>
+  <data name="Disconnect" xml:space="preserve">
+    <value>Отключить</value>
+  </data>
+  <data name="CanNotConnectToComPortAnd" xml:space="preserve">
+    <value>Не удается подключиться к COM-порту и определить тип платы</value>
+  </data>
+  <data name="Trunk" xml:space="preserve">
+    <value>шина</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Старт</value>
+  </data>
+  <data name="PleaseSelectCell" xml:space="preserve">
+    <value>Сначала выберите ячейку</value>
+  </data>
+  <data name="FailedUpload" xml:space="preserve">
+    <value>Ошибка при загрузке</value>
+  </data>
+  <data name="ErrorRejectedByMAV" xml:space="preserve">
+    <value>Ошибка: команда, отклонена MAV</value>
+  </data>
+  <data name="RawParamWarning" xml:space="preserve">
+    <value>Предупреждение о необработанном параметре</value>
+  </data>
+  <data name="Bad_KML_File" xml:space="preserve">
+    <value>Плохой файл KML:</value>
+  </data>
+  <data name="DownloadingFromInternet" xml:space="preserve">
+    <value>Загрузка из Интернета</value>
+  </data>
+  <data name="ErrorConnecting" xml:space="preserve">
+    <value>Ошибка подключения</value>
+  </data>
+  <data name="Continue" xml:space="preserve">
+    <value>Продолжить</value>
+  </data>
+  <data name="PleaseLoadValidFile" xml:space="preserve">
+    <value>Загрузите правильный файл</value>
+  </data>
+  <data name="InvalidPanRange" xml:space="preserve">
+    <value>Недопустимый диапазон панорамирования</value>
+  </data>
+  <data name="DownloadedFromInternet" xml:space="preserve">
+    <value>Загружено из Интернета</value>
+  </data>
+  <data name="ErrorCommunicating" xml:space="preserve">
+    <value>Ошибка связи с автопилотом</value>
+  </data>
+  <data name="LinkStats" xml:space="preserve">
+    <value>Статистика соединения</value>
+  </data>
+  <data name="Do_you_want_to_load_this_into_the_flight_data_screen" xml:space="preserve">
+    <value>Вы хотите загрузить это на экран данных полета?</value>
+  </data>
+  <data name="ErrorClosingLogFile" xml:space="preserve">
+    <value>Ошибка при закрытии файлов журнала</value>
+  </data>
+  <data name="RawParamWarningi" xml:space="preserve">
+    <value>Все значения на этом экране не проверяются мин / макс. Пожалуйста, дважды проверьте свой ввод. Пожалуйста, используйте стандартные / расширенные параметры для безопасных настроек</value>
+  </data>
+  <data name="GeoFence" xml:space="preserve">
+    <value>GeoЗабор</value>
+  </data>
+  <data name="VerifyFirmware" xml:space="preserve">
+    <value>Проверка прошивки</value>
+  </data>
+  <data name="CONNECTc" xml:space="preserve">
+    <value>ПОДКЛЮЧИТЬ</value>
+  </data>
+  <data name="PleaseConnectAndBackupConfig" xml:space="preserve">
+    <value>Подключите и создайте резервную копию своей конфигурации на вкладке конфигурации.</value>
+  </data>
+  <data name="ErrorRenameFile" xml:space="preserve">
+    <value>Ошибка переименования файла</value>
+  </data>
+  <data name="FailedDownload" xml:space="preserve">
+    <value>Не удалось скачать</value>
+  </data>
+  <data name="NoNeedToUpload" xml:space="preserve">
+    <value>Не нужно загружать. уже на плате</value>
+  </data>
+  <data name="GettingUpdatedParams" xml:space="preserve">
+    <value>Получение обновленных параметров</value>
+  </data>
+  <data name="Put_the_transmitter_in_bind_mode__Receiver_is_waiting" xml:space="preserve">
+    <value>Поместите передатчик в режим привязки. Приемник ждет.</value>
+  </data>
+  <data name="ErrorFeatureNotEnabled" xml:space="preserve">
+    <value>Эта функция не включена в вашей прошивке.</value>
+  </data>
+  <data name="Pleaseup" xml:space="preserve">
+    <value>
+Обновите пожалуйста</value>
+  </data>
+  <data name="GeofenceBreach" xml:space="preserve">
+    <value>GeoЗабор нарушен</value>
+  </data>
+  <data name="PleaseWaitForTheMusicalTones" xml:space="preserve">
+    <value>Подождите, пока музыкальные мелодии не закончатся, прежде чем нажать OK.</value>
+  </data>
+  <data name="InvalidAlt" xml:space="preserve">
+    <value>Недопустимая Высота</value>
+  </data>
+  <data name="InvalidField" xml:space="preserve">
+    <value>Недопустимая область</value>
+  </data>
+  <data name="ThisBoardHasBeenRetired" xml:space="preserve">
+    <value>Эта плата не поддерживается, Планировщик миссии будет загружать последнюю доступную версию на ваш выбор (AC 3.2.1 / AP 3.4.0)</value>
+  </data>
+  <data name="Warningrallypointdistance" xml:space="preserve">
+    <value>Резервные точки ралли расположены дальше, чем RALLY_LIMIT_KM</value>
+  </data>
+  <data name="UploadSucceededButVerifyFailed" xml:space="preserve">
+    <value>Загрузка выполнена успешно, но проверка не выполнена: exp {0} получил {1} в</value>
+  </data>
+  <data name="DetectedA" xml:space="preserve">
+    <value>Обнаружен</value>
+  </data>
+  <data name="CommunicationErrorNoConnection" xml:space="preserve">
+    <value>Ошибка связи - нет соединения</value>
+  </data>
+  <data name="UploadComplete" xml:space="preserve">
+    <value>Отправка завершена</value>
+  </data>
+  <data name="Failed_to_download_the_SITL_image" xml:space="preserve">
+    <value>Не удалось загрузить изображение SITL.</value>
+  </data>
+  <data name="MissingDataPoints" xml:space="preserve">
+    <value>Вам не хватает данных. вы все равно хотите запустить калибровку?</value>
+  </data>
+  <data name="Checking" xml:space="preserve">
+    <value>Проверка</value>
+  </data>
+  <data name="ObtainFromModule" xml:space="preserve">
+    <value>Получить из модуля</value>
+  </data>
+  <data name="EnsurePropsNotOn" xml:space="preserve">
+    <value>Убедитесь, что ваш винт(ы) НЕ находится на моторе(ах)</value>
+  </data>
+  <data name="NORCReceiver" xml:space="preserve">
+    <value>НЕТ RC-приемника</value>
+  </data>
+  <data name="Bad_Vision_Position" xml:space="preserve">
+    <value>Плохо определена позиция</value>
+  </data>
+  <data name="BadBaroHealth" xml:space="preserve">
+    <value>Плохие данные Барометра</value>
+  </data>
+  <data name="UpdateNotFound" xml:space="preserve">
+    <value>Нет доступного обновления.</value>
+  </data>
+  <data name="InvalidBoardType" xml:space="preserve">
+    <value>Недопустимый тип платы</value>
+  </data>
+  <data name="DISCONNECTc" xml:space="preserve">
+    <value>ОТКЛЮЧИТЬ</value>
+  </data>
+  <data name="Scanning_File" xml:space="preserve">
+    <value>Сканирование файла</value>
+  </data>
+  <data name="ErrorNotConnected" xml:space="preserve">
+    <value>Вы не подключены.</value>
+  </data>
+  <data name="ReadingHexFile" xml:space="preserve">
+    <value>Чтение Hex файла</value>
+  </data>
+  <data name="FlightModes" xml:space="preserve">
+    <value>Режимы полета</value>
+  </data>
+  <data name="Invalid_home_location" xml:space="preserve">
+    <value>Недопустимое исходное местоположение</value>
+  </data>
+  <data name="VerifyComplete" xml:space="preserve">
+    <value>Проверка завершена</value>
+  </data>
+  <data name="WarningAC32" xml:space="preserve">
+    <value>Предупреждение. Если вы устанавливаете AC 3.2 в первый раз, вы ДОЛЖНЫ повторить калибровку компаса.</value>
+  </data>
+  <data name="WarningAC31" xml:space="preserve">
+    <value>Предупреждение, двигатели переменного тока будут вращаться, когда они "armed", с помощью параметра MOT_SPIN_ARMED</value>
+  </data>
+  <data name="ShowMeAgain" xml:space="preserve">
+    <value>Показывать еще раз?</value>
+  </data>
+  <data name="Completed" xml:space="preserve">
+    <value>Завершено</value>
+  </data>
+  <data name="UpdateFound" xml:space="preserve">
+    <value>Найдено обновление. Вы хотите обновить сейчас?</value>
+  </data>
+  <data name="UploadingBytesToBoard" xml:space="preserve">
+    <value>Загрузка {0} байт в Контроллер:</value>
+  </data>
+  <data name="ErrorSettingParameter" xml:space="preserve">
+    <value>Ошибка установки параметра</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Предупреждение</value>
+  </data>
+  <data name="Zoom_to_the_center_or_the_loaded_file" xml:space="preserve">
+    <value>Увеличить до центра или до загруженного файла?</value>
+  </data>
+  <data name="Desc" xml:space="preserve">
+    <value>Описание:</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Готово</value>
+  </data>
+  <data name="Beta" xml:space="preserve">
+    <value>Бета</value>
+  </data>
+  <data name="Note" xml:space="preserve">
+    <value>Заметка</value>
+  </data>
+  <data name="Stop" xml:space="preserve">
+    <value>Стоп</value>
+  </data>
+  <data name="CantDetectBoardVersion" xml:space="preserve">
+    <value>Невозможно определить версию контроллера. Проверьте соединение!</value>
+  </data>
+</root>

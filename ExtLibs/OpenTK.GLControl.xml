@@ -1,0 +1,173 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OpenTK.GLControl</name>
+    </assembly>
+    <members>
+        <member name="T:OpenTK.GLControl">
+            <summary>
+            OpenGL-aware WinForms control.
+            The WinForms designer will always call the default constructor.
+            Inherit from this class and call one of its specialized constructors
+            to enable antialiasing or custom <see cref="P:OpenTK.GLControl.GraphicsMode"/>s.
+            </summary>
+        </member>
+        <member name="F:OpenTK.GLControl.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:OpenTK.GLControl.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:OpenTK.GLControl.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:OpenTK.GLControl.#ctor">
+            <summary>
+            Constructs a new instance.
+            </summary>
+        </member>
+        <member name="M:OpenTK.GLControl.#ctor(OpenTK.Graphics.GraphicsMode)">
+            <summary>
+            Constructs a new instance with the specified GraphicsMode.
+            </summary>
+            <param name="mode">The OpenTK.Graphics.GraphicsMode of the control.</param>
+        </member>
+        <member name="M:OpenTK.GLControl.#ctor(OpenTK.Graphics.GraphicsMode,System.Int32,System.Int32,OpenTK.Graphics.GraphicsContextFlags)">
+            <summary>
+            Constructs a new instance with the specified GraphicsMode.
+            </summary>
+            <param name="mode">The OpenTK.Graphics.GraphicsMode of the control.</param>
+            <param name="major">The major version for the OpenGL GraphicsContext.</param>
+            <param name="minor">The minor version for the OpenGL GraphicsContext.</param>
+            <param name="flags">The GraphicsContextFlags for the OpenGL GraphicsContext.</param>
+        </member>
+        <member name="M:OpenTK.GLControl.OnHandleCreated(System.EventArgs)">
+            <summary>Raises the HandleCreated event.</summary>
+            <param name="e">Not used.</param>
+        </member>
+        <member name="M:OpenTK.GLControl.OnHandleDestroyed(System.EventArgs)">
+            <summary>Raises the HandleDestroyed event.</summary>
+            <param name="e">Not used.</param>
+        </member>
+        <member name="M:OpenTK.GLControl.OnPaint(System.Windows.Forms.PaintEventArgs)">
+            <summary>
+            Raises the System.Windows.Forms.Control.Paint event.
+            </summary>
+            <param name="e">A System.Windows.Forms.PaintEventArgs that contains the event data.</param>
+        </member>
+        <member name="M:OpenTK.GLControl.OnResize(System.EventArgs)">
+            <summary>
+            Raises the Resize event.
+            Note: this method may be called before the OpenGL context is ready.
+            Check that IsHandleCreated is true before using any OpenGL methods.
+            </summary>
+            <param name="e">A System.EventArgs that contains the event data.</param>
+        </member>
+        <member name="M:OpenTK.GLControl.PerformContextUpdate">
+            <summary>
+            Execute the delayed context update
+            </summary>
+        </member>
+        <member name="M:OpenTK.GLControl.OnParentChanged(System.EventArgs)">
+            <summary>
+            Raises the ParentChanged event.
+            </summary>
+            <param name="e">A System.EventArgs that contains the event data.</param>
+        </member>
+        <member name="M:OpenTK.GLControl.SwapBuffers">
+            <summary>
+            Swaps the front and back buffers, presenting the rendered scene to the screen.
+            This method will have no effect on a single-buffered <c>GraphicsMode</c>.
+            </summary>
+        </member>
+        <member name="M:OpenTK.GLControl.MakeCurrent">
+            <summary>
+            <para>
+            Makes <see cref="P:OpenTK.GLControl.Context"/> current in the calling thread.
+            All OpenGL commands issued are hereafter interpreted by this context.
+            </para>
+            <para>
+            When using multiple <c>GLControl</c>s, calling <c>MakeCurrent</c> on
+            one control will make all other controls non-current in the calling thread.
+            </para>
+            <seealso cref="P:OpenTK.GLControl.Context"/>
+            <para>
+            A <c>GLControl</c> can only be current in one thread at a time.
+            To make a control non-current, call <c>GLControl.Context.MakeCurrent(null)</c>.
+            </para>
+            </summary>
+        </member>
+        <member name="M:OpenTK.GLControl.GrabScreenshot">
+            <summary>
+            Grabs a screenshot of the frontbuffer contents.
+            When using multiple <c>GLControl</c>s, ensure that  <see cref="P:OpenTK.GLControl.Context"/>
+            is current before accessing this property.
+            <seealso cref="P:OpenTK.GLControl.Context"/>
+            <seealso cref="M:OpenTK.GLControl.MakeCurrent"/>
+            </summary>
+            <returns>A System.Drawing.Bitmap, containing the contents of the frontbuffer.</returns>
+            <exception cref="T:OpenTK.Graphics.GraphicsContextException">
+            Occurs when no OpenTK.Graphics.GraphicsContext is current in the calling thread.
+            </exception>
+        </member>
+        <member name="P:OpenTK.GLControl.CreateParams">
+            <summary>
+            Gets the <c>CreateParams</c> instance for this <c>GLControl</c>
+            </summary>
+        </member>
+        <member name="P:OpenTK.GLControl.IsIdle">
+            <summary>
+            Gets a value indicating whether the current thread contains pending system messages.
+            </summary>
+        </member>
+        <member name="P:OpenTK.GLControl.Context">
+            <summary>
+            Gets the <c>IGraphicsContext</c> instance that is associated with the <c>GLControl</c>.
+            The associated <c>IGraphicsContext</c> is updated whenever the <c>GLControl</c>
+            handle is created or recreated.
+            When using multiple <c>GLControl</c>s, ensure that <c>Context</c>
+            is current before performing any OpenGL operations.
+            <seealso cref="M:OpenTK.GLControl.MakeCurrent"/>
+            </summary>
+        </member>
+        <member name="P:OpenTK.GLControl.AspectRatio">
+            <summary>
+            Gets the aspect ratio of this GLControl.
+            </summary>
+        </member>
+        <member name="P:OpenTK.GLControl.VSync">
+            <summary>
+            Gets or sets a value indicating whether vsync is active for this <c>GLControl</c>.
+            When using multiple <c>GLControl</c>s, ensure that <see cref="P:OpenTK.GLControl.Context"/>
+            is current before accessing this property.
+            <seealso cref="P:OpenTK.GLControl.Context"/>
+            <seealso cref="M:OpenTK.GLControl.MakeCurrent"/>
+            </summary>
+        </member>
+        <member name="P:OpenTK.GLControl.GraphicsMode">
+            <summary>
+            Gets the <c>GraphicsMode</c> of the <c>IGraphicsContext</c> associated with
+            this <c>GLControl</c>. If you wish to change <c>GraphicsMode</c>, you must
+            destroy and recreate the <c>GLControl</c>.
+            </summary>
+        </member>
+        <member name="P:OpenTK.GLControl.WindowInfo">
+            <summary>
+            Gets the <see cref="T:OpenTK.Platform.IWindowInfo"/> for this instance.
+            </summary>
+        </member>
+        <member name="T:OpenTK.GLControl.DelayUpdate">
+            <summary>
+            Needed to delay the invoke on OS X. Also needed because OpenTK is .NET 2, otherwise I'd use an inline Action.
+            </summary>
+        </member>
+    </members>
+</doc>
