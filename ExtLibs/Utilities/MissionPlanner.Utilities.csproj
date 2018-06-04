@@ -16,12 +16,12 @@
     <PackageReference Include="CSMatIO" Version="1.0.20" />
     <PackageReference Include="DirectShowLib" Version="1.0.0" />
     <PackageReference Include="log4net" Version="2.0.8" />
-    <PackageReference Include="Microsoft.CSharp" Version="4.4.1" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
     <PackageReference Include="netDXF" Version="2.0.2" />
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="ProjNet" Version="1.2.0" />
     <PackageReference Include="SharpZipLib" Version="0.86.0" />
-    <PackageReference Include="System.Drawing.Common" Version="4.5.0-rc1" />
+    <PackageReference Include="System.Drawing.Common" Version="4.5.0" />
     <PackageReference Include="System.Reactive.Linq" Version="3.1.1" />
   </ItemGroup>
 

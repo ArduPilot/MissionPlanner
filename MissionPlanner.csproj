@@ -188,11 +188,11 @@
   <ItemGroup>
     <PackageReference Include="alglibnet2" version="0.0.0" targetFramework="net40" />
     <PackageReference Include="BitMiracle.LibTiff.NET" Version="2.4.560" />
-    <PackageReference Include="BouncyCastle" version="1.8.1" targetFramework="net40" />
+    <PackageReference Include="BouncyCastle" version="1.8.2" targetFramework="net40" />
     <PackageReference Include="Community.CsharpSqlite.SQLiteClient" version="3.7.7.3" targetFramework="net462" />
     <PackageReference Include="CSMatIO" version="1.0.20" targetFramework="net40" requireReinstallation="true" />
     <PackageReference Include="DirectShowLib" Version="1.0.0" />
-    <PackageReference Include="DotNetZip" version="1.10.1" targetFramework="net40" />
+    <PackageReference Include="DotNetZip" version="1.11.0" targetFramework="net40" />
     <PackageReference Include="DotSpatial.Data" version="1.9" targetFramework="net462" />
     <PackageReference Include="DotSpatial.Data.Forms" version="1.9" targetFramework="net462" />
     <PackageReference Include="DotSpatial.Extensions" version="1.9" targetFramework="net462" />
@@ -205,18 +205,18 @@
     <PackageReference Include="DotSpatial.Symbology.Forms" version="1.9" targetFramework="net462" />
     <PackageReference Include="DotSpatial.Topology" version="1.9" targetFramework="net462" />
 
-    <PackageReference Include="Flurl" version="2.5.0" targetFramework="net462" />
-    <PackageReference Include="Flurl.Http" version="2.0.1" targetFramework="net462" />
+    <PackageReference Include="Flurl" version="2.7.1" targetFramework="net462" />
+    <PackageReference Include="Flurl.Http" version="2.3.1" targetFramework="net462" />
     <PackageReference Include="GDAL" Version="1.11.1" />
     <PackageReference Include="GeoJSON.Net" version="1.1.64" targetFramework="net462" />
     <PackageReference Include="IronPython" version="2.7.7" targetFramework="net462" />
     <PackageReference Include="IronPython.StdLib" version="2.7.7" targetFramework="net462" />
     <PackageReference Include="log4net" version="2.0.8" targetFramework="net462" />
-    <PackageReference Include="Microsoft.Win32.Registry" Version="4.4.0" />
+    <PackageReference Include="Microsoft.Win32.Registry" Version="4.5.0" />
     <PackageReference Include="MP.GDAL.Native" Version="2.2.3" />
 
     <PackageReference Include="netDXF" version="2.0.2" targetFramework="net462" />
-    <PackageReference Include="Newtonsoft.Json" version="10.0.3" targetFramework="net462" />
+    <PackageReference Include="Newtonsoft.Json" version="11.0.2" targetFramework="net462" />
     <PackageReference Include="ProjNet" version="1.2" targetFramework="net40" />
     <PackageReference Include="protobuf-net" version="2.1.0" targetFramework="net40" requireReinstallation="true" />
     <PackageReference Include="SharpDX" version="4.0.1" targetFramework="net462" />
@@ -226,8 +226,8 @@
     <PackageReference Include="SkiaSharp.Views" Version="1.60.1" />
     <PackageReference Include="SkiaSharp.Views.Forms" Version="1.60.0" />
     <PackageReference Include="SSH.NET" version="2016.1.0" targetFramework="net40" />
-    <PackageReference Include="System.Drawing.Common" Version="4.5.0-rc1" />
-    <PackageReference Include="System.IO.Ports" Version="4.4.0" />
+    <PackageReference Include="System.Drawing.Common" Version="4.5.0" />
+    <PackageReference Include="System.IO.Ports" Version="4.5.0" />
     <PackageReference Include="System.Reactive" Version="3.1.1" />
     <PackageReference Include="System.Reactive.Core" Version="3.1.1" />
     <PackageReference Include="System.Reactive.Linq" Version="3.1.1" />
