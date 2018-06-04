@@ -2045,26 +2045,15 @@ Please check the following
             {
                 return false;
             }
+            // 0 request
             else if (hzrate == 0 && pps == 0)
             {
                 return true;
             }
-            else if (hzrate == 1 && pps >= 0.5 && pps <= 2)
-            {
+
+            // range check pps, include packetloss
+            if (pps > hzrate - 1 && pps < hzrate + 0.1)
                 return true;
-            }
-            else if (hzrate == 3 && pps >= 2 && hzrate < 5)
-            {
-                return true;
-            }
-            else if (hzrate == 10 && pps > 5 && hzrate < 15)
-            {
-                return true;
-            }
-            else if (hzrate > 15 && pps > 15)
-            {
-                return true;
-            }
 
             return false;
         }
