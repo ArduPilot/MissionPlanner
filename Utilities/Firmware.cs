@@ -77,6 +77,7 @@ namespace MissionPlanner.Utilities
             public string urlfmuv2 = "";
             public string urlfmuv3 = "";
             public string urlfmuv4 = "";
+            public string urlfmuv5 = "";
             public string urlrevomini = "";
             public string urlmindpxv2 = "";
 
@@ -413,6 +414,10 @@ namespace MissionPlanner.Utilities
                 {
                     baseurl = temp.urlpx4v4.ToString();
                     baseurl = CheckChibiOS(baseurl, temp.urlfmuv4);
+                }
+                else if (board == BoardDetect.boards.fmuv5)
+                {
+                    baseurl = temp.urlfmuv5;
                 }
                 else if (board == BoardDetect.boards.px4v4pro)
                 {
@@ -1213,7 +1218,9 @@ namespace MissionPlanner.Utilities
         {
             if (board == BoardDetect.boards.px4 || board == BoardDetect.boards.px4v2 ||
                 board == BoardDetect.boards.px4v3 || board == BoardDetect.boards.px4v4 ||
-                board == BoardDetect.boards.px4v4pro)
+                board == BoardDetect.boards.px4v4pro || board == BoardDetect.boards.fmuv5 ||
+                board == BoardDetect.boards.revomini || board == BoardDetect.boards.mindpxv2 ||
+                board == BoardDetect.boards.minipix)
             {
                 try
                 {

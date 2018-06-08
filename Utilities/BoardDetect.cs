@@ -27,6 +27,7 @@ namespace MissionPlanner.Utilities
             px4v3, // cube/pixhawk with 2mb flash
             px4v4, // pixracer
             px4v4pro, // Pixhawk 3 Pro
+            fmuv5, // PixHackV5 and Pixhawk4
             vrbrainv40,
             vrbrainv45,
             vrbrainv50,
@@ -86,6 +87,11 @@ namespace MissionPlanner.Utilities
                             {
                                 log.Info("is a fmuv4");
                                 return boards.px4v4;
+                            }
+                            if (item.board == "fmuv5")
+                            {
+                                log.Info("is a fmuv5");
+                                return boards.fmuv5;
                             }
                             if (item.board == "PX4 FMU v2.x")
                             {
