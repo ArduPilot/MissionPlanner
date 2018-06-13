@@ -198,6 +198,16 @@ namespace MissionPlanner.Utilities
                         }
                     }
 
+                    if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0032"))
+                    {
+                        // check port name as well
+                        //if (obj2.Properties["Name"].Value.ToString().ToUpper().Contains(serialPort.PortName.ToUpper()))
+                        {
+                            log.Info("is a fmuv5");
+                            return boards.fmuv5;
+                        }
+                    }
+
                     // chibios or normal px4
                     if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_0483&PID_5740") || obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0011"))
                     {
@@ -226,6 +236,11 @@ namespace MissionPlanner.Utilities
                                         {
                                             log.Info("is a px4v3");
                                             return boards.px4v3;
+                                        }
+                                        else if (up.fw_maxsize == 2080768 && up.board_type == 50 && up.bl_rev >= 5)
+                                        {
+                                            log.Info("is a fmuv5");
+                                            return boards.fmuv5;
                                         }
                                         else
                                         {
