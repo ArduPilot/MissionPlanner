@@ -61,7 +61,10 @@ namespace MissionPlanner.Log
 
             Loading.ShowLoading("Populating Data", this);
 
-            objectListView1.AddObjects(logs);
+            this.BeginInvokeIfRequired(a =>
+            {
+                objectListView1.AddObjects(logs);
+            });
 
             Loading.Close();
         }
@@ -100,7 +103,7 @@ namespace MissionPlanner.Log
 
             if (File.Exists(file + ".jpg"))
             {
-                loginfo.img = new Bitmap(file + ".jpg");
+                loginfo.imgfile = file + ".jpg";
             }
 
             if (file.ToLower().EndsWith(".tlog"))
@@ -260,7 +263,9 @@ namespace MissionPlanner.Log
                 get { return Path.GetDirectoryName(fullname); }
             }
 
-            public Image img { get; set; }
+            internal string imgfile { get; set; }
+            private Bitmap image = null;
+            public Image img { get { lock (this) { if (image == null && !String.IsNullOrEmpty(imgfile)) image = new Bitmap(imgfile); return image; } } }
             public string Duration { get; set; }
             public DateTime Date { get; set; }
             public int Aircraft { get; set; }
@@ -295,12 +300,6 @@ namespace MissionPlanner.Log
             decoration.AdornmentCorner = ContentAlignment.TopCenter;
             decoration.ReferenceCorner = ContentAlignment.TopCenter;
             e.SubItem.Decoration = decoration;
-
-            // TextDecoration td = new TextDecoration("test", ContentAlignment.BottomCenter);
-
-            // e.SubItem.Decorations.Add(td);
-
-            Application.DoEvents();
         }
 
         /// <summary>

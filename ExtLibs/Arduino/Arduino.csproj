@@ -15,7 +15,7 @@
     <None Remove="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="System.IO.Ports" Version="4.4.0" />
+    <PackageReference Include="System.IO.Ports" Version="4.5.0" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="ArduinoSTK.cs">
