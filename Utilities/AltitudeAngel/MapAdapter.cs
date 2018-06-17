@@ -185,7 +185,7 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             {
                 _context.Send(_ => pointLatLng = _mapControl.Position, null);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
 
@@ -199,7 +199,7 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             {
                 _context.Send(_ => rectLatLng = _mapControl.ViewArea, null);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
             if (rectLatLng.WidthLng < 0.03)
@@ -256,7 +256,7 @@ namespace MissionPlanner.Utilities.AltitudeAngel
                     result = new OverlayAdapter(overlay);
                 }, null);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
 

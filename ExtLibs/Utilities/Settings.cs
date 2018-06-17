@@ -343,7 +343,7 @@ namespace MissionPlanner.Utilities
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 File.Copy(GetConfigFullPath(), GetConfigFullPath() + DateTime.Now.toUnixTime() + ".failed", true);
                 throw;
