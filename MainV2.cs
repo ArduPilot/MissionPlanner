@@ -21,6 +21,7 @@ using System.Collections.Concurrent;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
 using MissionPlanner.ArduPilot;
+using MissionPlanner.Utilities.AltitudeAngel;
 
 namespace MissionPlanner
 {
@@ -1850,6 +1851,8 @@ namespace MissionPlanner
             Settings.Instance["MainLocY"] = this.Location.Y.ToString();
 
             log.Info("close logs");
+            AltitudeAngel.Dispose();
+
             // close bases connection
             try
             {
@@ -2990,21 +2993,8 @@ namespace MissionPlanner
             try
             {
                 log.Info("Load AltitudeAngel");
-                new Utilities.AltitudeAngel.AltitudeAngel();
-
-                // setup as a prompt once dialog
-                if (!Settings.Instance.GetBoolean("AACheck2"))
-                {
-                    if (CustomMessageBox.Show(
-                            "Do you wish to enable Altitude Angel airspace management data?\nFor more information visit [link;http://www.altitudeangel.com;www.altitudeangel.com]",
-                            "Altitude Angel - Enable", MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
-                    {
-                        Utilities.AltitudeAngel.AltitudeAngel.service.SignInAsync();
-                    }
-
-                    Settings.Instance["AACheck2"] = true.ToString();
-                }
-                
+                AltitudeAngel.Configure();
+                AltitudeAngel.Initialize();
                 log.Info("Load AltitudeAngel... Done");
             }
             catch (TypeInitializationException) // windows xp lacking patch level
