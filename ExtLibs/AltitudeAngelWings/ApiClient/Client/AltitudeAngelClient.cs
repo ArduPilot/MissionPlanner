@@ -68,7 +68,9 @@ namespace AltitudeAngelWings.ApiClient.Client
                     n = latLongBounds.Top,
                     e = latLongBounds.Right,
                     s = latLongBounds.Bottom,
-                    w = latLongBounds.Left
+                    w = latLongBounds.Left,
+                    isCompact = false,
+                    include = "flight_report"
                 })
                 .WithClient(_client)
                 .GetJsonAsync<AAFeatureCollection>();
