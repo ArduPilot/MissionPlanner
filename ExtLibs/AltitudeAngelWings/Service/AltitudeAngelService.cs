@@ -219,6 +219,9 @@ namespace AltitudeAngelWings.Service
             groundOverlay.IsVisible = GroundDataDisplay;
             airOverlay.IsVisible = AirDataDisplay;
 
+            var polygons = new List<string>();
+            var lines = new List<string>();
+
             foreach (Feature feature in features)
             {
                 IOverlay overlay = string.Equals((string) feature.Properties.Get("category"), "airspace")
@@ -247,42 +250,38 @@ namespace AltitudeAngelWings.Service
                 {
                     case GeoJSONObjectType.Point:
                     {
-                        if (!overlay.PolygonExists(feature.Id))
+                        var pnt = (Point) feature.Geometry;
+
+                        List<PointLatLng> coordinates = new List<PointLatLng>();
+
+                        if (feature.Properties.ContainsKey("radius"))
                         {
-                            var pnt = (Point) feature.Geometry;
+                            var rad = double.Parse(feature.Properties["radius"].ToString());
 
-                            List<PointLatLng> coordinates = new List<PointLatLng>();
-
-                            if (feature.Properties.ContainsKey("radius"))
+                            for (int i = 0; i <= 360; i+=10)
                             {
-                                var rad = double.Parse(feature.Properties["radius"].ToString());
-
-                                for (int i = 0; i <= 360; i+=10)
-                                {
-                                    coordinates.Add(
-                                        newpos(new PointLatLng(((Position) pnt.Coordinates).Latitude,
-                                            ((Position) pnt.Coordinates).Longitude), i, rad));
-                                }
+                                coordinates.Add(
+                                    newpos(new PointLatLng(((Position) pnt.Coordinates).Latitude,
+                                        ((Position) pnt.Coordinates).Longitude), i, rad));
                             }
-
-                            ColorInfo colorInfo = feature.ToColorInfo();
-                            colorInfo.StrokeColor = 0xFFFF0000;
-                            overlay.AddPolygon(feature.Id, coordinates, colorInfo, feature);
                         }
+
+                        ColorInfo colorInfo = feature.ToColorInfo();
+                        colorInfo.StrokeColor = 0xFFFF0000;
+                        overlay.AddOrUpdatePolygon(feature.Id, coordinates, colorInfo, feature);
+                        polygons.Add(feature.Id);
                     }
                         break;
                     case GeoJSONObjectType.MultiPoint:
                         break;
                     case GeoJSONObjectType.LineString:
                     {
-                        if (!overlay.LineExists(feature.Id))
-                        {
-                            var line = (LineString) feature.Geometry;
-                            List<PointLatLng> coordinates = line.Coordinates.OfType<Position>()
-                                .Select(c => new PointLatLng(c.Latitude, c.Longitude))
-                                .ToList();
-                            overlay.AddLine(feature.Id, coordinates, new ColorInfo {StrokeColor = 0xFFFF0000}, feature);
-                        }
+                        var line = (LineString) feature.Geometry;
+                        List<PointLatLng> coordinates = line.Coordinates.OfType<Position>()
+                            .Select(c => new PointLatLng(c.Latitude, c.Longitude))
+                            .ToList();
+                        overlay.AddOrUpdateLine(feature.Id, coordinates, new ColorInfo {StrokeColor = 0xFFFF0000}, feature);
+                        lines.Add(feature.Id);
                     }
                         break;
 
@@ -290,9 +289,21 @@ namespace AltitudeAngelWings.Service
                         break;
                     case GeoJSONObjectType.Polygon:
                     {
-                        if (!overlay.PolygonExists(feature.Id))
+                        var poly = (Polygon) feature.Geometry;
+                        List<PointLatLng> coordinates =
+                            poly.Coordinates[0].Coordinates.OfType<Position>()
+                                .Select(c => new PointLatLng(c.Latitude, c.Longitude))
+                                .ToList();
+
+                        ColorInfo colorInfo = feature.ToColorInfo();
+                        colorInfo.StrokeColor = 0xFFFF0000;
+                        overlay.AddOrUpdatePolygon(feature.Id, coordinates, colorInfo, feature);
+                        polygons.Add(feature.Id);
+                    }
+                        break;
+                    case GeoJSONObjectType.MultiPolygon:
+                        foreach (var poly in ((MultiPolygon) feature.Geometry).Coordinates)
                         {
-                            var poly = (Polygon) feature.Geometry;
                             List<PointLatLng> coordinates =
                                 poly.Coordinates[0].Coordinates.OfType<Position>()
                                     .Select(c => new PointLatLng(c.Latitude, c.Longitude))
@@ -300,24 +311,8 @@ namespace AltitudeAngelWings.Service
 
                             ColorInfo colorInfo = feature.ToColorInfo();
                             colorInfo.StrokeColor = 0xFFFF0000;
-                            overlay.AddPolygon(feature.Id, coordinates, colorInfo, feature);
-                        }
-                    }
-                        break;
-                    case GeoJSONObjectType.MultiPolygon:
-                        if (!overlay.PolygonExists(feature.Id))
-                        {
-                            foreach (var poly in ((MultiPolygon) feature.Geometry).Coordinates)
-                            {
-                                List<PointLatLng> coordinates =
-                                    poly.Coordinates[0].Coordinates.OfType<Position>()
-                                        .Select(c => new PointLatLng(c.Latitude, c.Longitude))
-                                        .ToList();
-
-                                ColorInfo colorInfo = feature.ToColorInfo();
-                                colorInfo.StrokeColor = 0xFFFF0000;
-                                overlay.AddPolygon(feature.Id, coordinates, colorInfo, feature);
-                            }
+                            overlay.AddOrUpdatePolygon(feature.Id, coordinates, colorInfo, feature);
+                            polygons.Add(feature.Id);
                         }
                         break;
                     case GeoJSONObjectType.GeometryCollection:
@@ -330,8 +325,12 @@ namespace AltitudeAngelWings.Service
                         throw new ArgumentOutOfRangeException();
                 }
             }
-        }
 
+            airOverlay.RemovePolygonsExcept(polygons);
+            groundOverlay.RemovePolygonsExcept(polygons);
+            airOverlay.RemoveLinesExcept(lines);
+            groundOverlay.RemoveLinesExcept(lines);
+        }
 
         public PointLatLng newpos(PointLatLng input, double bearing, double distance)
         {
