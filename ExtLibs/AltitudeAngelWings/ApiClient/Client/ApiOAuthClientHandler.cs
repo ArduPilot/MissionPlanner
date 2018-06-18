@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
@@ -88,7 +89,12 @@ namespace AltitudeAngelWings.ApiClient.Client
                 state = state ?? client.GetClientAccessToken(scopes);
             }
 
-            return new ClientHandlerInfo(new BearerTokenHttpMessageHandler(client, state, new HttpClientHandler()), state);
+            return new ClientHandlerInfo(
+                new BearerTokenHttpMessageHandler(
+                    client,
+                    state,
+                    new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate }),
+                state);
         }
 
         internal class BearerTokenHttpMessageHandler : DelegatingHandler
