@@ -5,19 +5,16 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using AltitudeAngel.IsolatedPlugin.Common.Maps;
-using AltitudeAngelWings;
+using AltitudeAngelWings.Extra;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using MissionPlanner.Maps;
-using SharpKml.Dom;
 using Feature = GeoJSON.Net.Feature.Feature;
-using Timer = System.Windows.Forms.Timer;
 using Unit = System.Reactive.Unit;
 
 namespace MissionPlanner.Utilities.AltitudeAngel
 {
-    class MapAdapter : IMap, IDisposable
+    internal class MapAdapter : IMap, IDisposable
     {
         public MapAdapter(GMapControl mapControl)
         {

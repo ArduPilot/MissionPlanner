@@ -200,6 +200,7 @@
     <PackageReference Include="DotSpatial.Extensions" version="1.9" targetFramework="net462" />
     <PackageReference Include="DotSpatial.Modeling.Forms" version="1.9" targetFramework="net462" />
     <PackageReference Include="DotSpatial.Mono" version="1.9" targetFramework="net462" />
+    <PackageReference Include="DotSpatial.Positioning" Version="1.9.0" />
     <PackageReference Include="DotSpatial.Projections" version="1.9" targetFramework="net462" />
     <PackageReference Include="DotSpatial.Projections.Forms" version="1.9" targetFramework="net462" />
     <PackageReference Include="DotSpatial.Serialization" version="1.9" targetFramework="net462" />
@@ -259,6 +260,7 @@
     <Compile Include="Swarm\TD\UI.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Utilities\AltitudeAngel\MissionPlannerStateAdapter.cs" />
     <Compile Include="Utilities\SSHTerminal.cs" />
     <Compile Include="Utilities\XTermRBGColors.cs" />
     <Compile Include="GenOTP.cs"> <SubType>Control</SubType> </Compile>

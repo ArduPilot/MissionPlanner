@@ -1,5 +1,3 @@
-using System.Windows.Markup;
-
 namespace AltitudeAngelWings.Models
 {
     public class Message
