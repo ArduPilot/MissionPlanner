@@ -87,6 +87,7 @@ namespace AltitudeAngelWings.Service
                 _disposer.Add(_missionPlanner.FlightDataMap
                     .MapChanged
                     .Throttle(TimeSpan.FromSeconds(1))
+                    .RepeatLastValue(TimeSpan.FromSeconds(60))
                     .Subscribe(async i => await UpdateMapData(_missionPlanner.FlightDataMap)));
             }
             catch
@@ -98,6 +99,7 @@ namespace AltitudeAngelWings.Service
                 _disposer.Add(_missionPlanner.FlightPlanningMap
                     .MapChanged
                     .Throttle(TimeSpan.FromSeconds(1))
+                    .RepeatLastValue(TimeSpan.FromSeconds(60))
                     .Subscribe(async i => await UpdateMapData(_missionPlanner.FlightPlanningMap)));
             }
             catch
