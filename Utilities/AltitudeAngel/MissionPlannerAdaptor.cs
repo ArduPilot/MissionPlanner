@@ -43,9 +43,12 @@ namespace MissionPlanner.Utilities.AltitudeAngel
 
         public FlightPlan GetFlightPlan()
         {
-            var waypoints = _getFlightPlan();
+            var waypoints = _getFlightPlan().Where(IsValidWaypoint).ToList();
+            if (waypoints.Count == 0)
+            {
+                return null;
+            }
             var envelope = GeometryFactory.Default.CreateMultiPoint(waypoints
-                .Where(IsValidWaypoint)
                 .Select(l => new Coordinate(l.lng, l.lat))).Envelope;
             var center = envelope.Center();
             var boundingRadius = (int)Math.Ceiling(Math.Max(envelope.Width, envelope.Height));
@@ -65,6 +68,7 @@ namespace MissionPlanner.Utilities.AltitudeAngel
 
         private static bool IsValidWaypoint(Locationwp location)
         {
+            // TODO: There are other waypoint markers that are valid
             return location.id == (ushort)MAVLink.MAV_CMD.WAYPOINT;
         }
     }

@@ -140,10 +140,10 @@ namespace AltitudeAngelWings.Service
             {
                 return;
             }
-            var flightPlan = _missionPlanner.GetFlightPlan();
             try
             {
-                var bufferedBoundingRadius = Math.Max(flightPlan.BoundingRadius + 50, 500);
+                var flightPlan = _missionPlanner.GetFlightPlan();
+                var bufferedBoundingRadius = flightPlan == null ? 500 : Math.Max(flightPlan.BoundingRadius + 50, 500);
                 var flightId = await _aaClient.CreateFlightReport(
                     "MissionPlanner Flight",
                     false,
@@ -151,8 +151,8 @@ namespace AltitudeAngelWings.Service
                     DateTime.Now.AddHours(1),
                     new PointLatLng
                     {
-                        Lat = flightPlan.CenterLatitude,
-                        Lng = flightPlan.CenterLongitude
+                        Lat = flightPlan?.CenterLatitude ?? flightData.CurrentPosition.Latitude,
+                        Lng = flightPlan?.CenterLongitude ?? flightData.CurrentPosition.Latitude
                     },
                     bufferedBoundingRadius);
                 _currentFlightPlanId = flightId;
