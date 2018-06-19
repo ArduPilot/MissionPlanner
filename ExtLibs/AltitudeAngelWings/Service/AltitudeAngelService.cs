@@ -142,16 +142,23 @@ namespace AltitudeAngelWings.Service
             }
             try
             {
-                var flightId = await _aaClient.CreateFlightReport(new PointLatLng
-                {
-                    Lat = flightData.CurrentPosition.Latitude,
-                    Lng = flightData.CurrentPosition.Longitude
-                });
+                var flightId = await _aaClient.CreateFlightReport(
+                    "MissionPlanner Flight",
+                    false,
+                    DateTime.Now,
+                    DateTime.Now.AddHours(1),
+                    new PointLatLng
+                    {
+                        Lat = flightData.CurrentPosition.Latitude,
+                        Lng = flightData.CurrentPosition.Longitude
+                    },
+                    500);
                 _currentFlightPlanId = flightId;
                 await _messagesService.AddMessageAsync(new Message($"Flight plan {_currentFlightPlanId} created"));
             }
-            catch
+            catch (Exception ex)
             {
+                await _messagesService.AddMessageAsync(new Message($"Creating flight plan failed. {ex}"));
             }
         }
 
@@ -166,10 +173,14 @@ namespace AltitudeAngelWings.Service
             {
                 await _aaClient.CompleteFlightReport(_currentFlightPlanId);
                 await _messagesService.AddMessageAsync(new Message($"Flight plan {_currentFlightPlanId} marked as complete"));
-                _currentFlightPlanId = null;
             }
-            catch
+            catch (Exception ex)
             {
+                await _messagesService.AddMessageAsync(new Message($"Marking flight plan {_currentFlightPlanId} as complete failed. {ex}"));
+            }
+            finally
+            {
+                _currentFlightPlanId = null;
             }
         }
 

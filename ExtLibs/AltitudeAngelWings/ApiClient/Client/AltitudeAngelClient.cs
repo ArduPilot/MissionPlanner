@@ -7,6 +7,7 @@ using Flurl;
 using Flurl.Http;
 using GMap.NET;
 using Newtonsoft.Json.Linq;
+using TimeZoneConverter;
 
 namespace AltitudeAngelWings.ApiClient.Client
 {
@@ -119,19 +120,19 @@ namespace AltitudeAngelWings.ApiClient.Client
                 .GetJsonAsync<UserProfileInfo>();
         }
 
-        public async Task<string> CreateFlightReport(PointLatLng location)
+        public async Task<string> CreateFlightReport(string flightPlanName, bool isCommerial, DateTime localStartTime, DateTime localEndTime, PointLatLng location, int radius)
         {
             var response = await _apiUrl
                 .AppendPathSegments("flightReport")
                 .WithClient(_client)
                 .PutJsonAsync(new
                 {
-                    name = "Test",
-                    flight_type = "rec",
-                    timezone = "Europe/London",
-                    start = DateTime.UtcNow,
-                    end = DateTime.UtcNow.AddHours(1),
-                    radius_meters = 500,
+                    name = flightPlanName,
+                    flight_type = isCommerial ? "com" : "rec",
+                    timezone = TZConvert.WindowsToIana(TimeZoneInfo.Local.Id),
+                    start = localStartTime,
+                    end = localEndTime,
+                    radius_meters = radius,
                     loc = new
                     {
                         lat = location.Lat,
