@@ -143,6 +143,8 @@
     <Compile Include="Extra\IOverlay.cs" />
     <Compile Include="Models\FlightData.cs" />
     <Compile Include="Models\FlightDataPosition.cs" />
+    <Compile Include="Models\FlightPlan.cs" />
+    <Compile Include="Models\FlightPlanWaypoint.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="ObservableProperty.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

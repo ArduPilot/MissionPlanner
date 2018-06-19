@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using AltitudeAngel.IsolatedPlugin.Common.Maps;
+using AltitudeAngelWings.Models;
 
 namespace AltitudeAngel.IsolatedPlugin.Common
 {
@@ -9,5 +11,6 @@ namespace AltitudeAngel.IsolatedPlugin.Common
         void SaveSetting(string key, string data);
         string LoadSetting(string key);
         void ClearSetting(string key);
+        FlightPlan GetFlightPlan();
     }
 }

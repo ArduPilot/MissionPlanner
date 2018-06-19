@@ -3,12 +3,14 @@ using AltitudeAngelWings.Service;
 using AltitudeAngelWings.Service.FlightData;
 using AltitudeAngelWings.Service.FlightData.Providers;
 using AltitudeAngelWings.Service.Messaging;
+using MissionPlanner.GCSViews;
 
 namespace MissionPlanner.Utilities.AltitudeAngel
 {
     public class AltitudeAngel : IDisposable
     {
-        public static MissionPlannerAdaptor MP = new MissionPlannerAdaptor();
+        public static MissionPlannerAdaptor MP = new MissionPlannerAdaptor(
+            () => FlightPlanner.instance.GetFlightPlanLocations());
         private static MessagesService Message = new MessagesService();
 
         public static AltitudeAngelService service = null;
