@@ -119,6 +119,37 @@ namespace AltitudeAngelWings.ApiClient.Client
                 .GetJsonAsync<UserProfileInfo>();
         }
 
+        public async Task<string> CreateFlightReport(PointLatLng location)
+        {
+            var response = await _apiUrl
+                .AppendPathSegments("flightReport")
+                .WithClient(_client)
+                .PutJsonAsync(new
+                {
+                    name = "Test",
+                    flight_type = "rec",
+                    timezone = "Europe/London",
+                    start = DateTime.UtcNow,
+                    end = DateTime.UtcNow.AddHours(1),
+                    radius_meters = 500,
+                    loc = new
+                    {
+                        lat = location.Lat,
+                        lng = location.Lng
+                    }
+                })
+                .ReceiveJson<JObject>();
+            return response.SelectToken("flightId").ToString();
+        }
+
+        public Task CompleteFlightReport(string flightId)
+        {
+            return _apiUrl
+                .AppendPathSegments("flightReport", flightId)
+                .WithClient(_client)
+                .DeleteAsync();
+        }
+
         private readonly string _apiUrl;
         private readonly string _authUrl;
         private readonly FlurlClient _client;

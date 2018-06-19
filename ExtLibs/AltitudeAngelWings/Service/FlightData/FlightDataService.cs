@@ -14,13 +14,13 @@ namespace AltitudeAngelWings.Service.FlightData
         public IObservable<Models.FlightData> RawFlightData => _rawFlightData;
 
         public FlightDataService(
-            IObservable<long> pollInterval,
+            TimeSpan pollInterval,
             IFlightDataProvider flightDataProvider)
         {
             _flightDataProvider = flightDataProvider;
 
-            _rawFlightData = pollInterval
-                .Select(i => _flightDataProvider.GetCurrentFlightData())
+            _rawFlightData = Observable.Interval(pollInterval)
+                .Select(_ => _flightDataProvider.GetCurrentFlightData())
                 .Publish();
 
             FlightArmed = _rawFlightData
@@ -35,6 +35,8 @@ namespace AltitudeAngelWings.Service.FlightData
             ArmedFlightData = _rawFlightData
                 .Where(i => i.Armed)
                 .Select(flightData => new Models.FlightData(flightData) {HomePosition = _homePosition});
+
+            Initialize();
         }
 
         public void Dispose()

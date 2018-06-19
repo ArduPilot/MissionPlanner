@@ -1,4 +1,3 @@
-using System;
 using System.Configuration;
 using System.Net.Http;
 using AltitudeAngelWings.ApiClient.CodeProvider;
@@ -39,7 +38,7 @@ namespace AltitudeAngelWings.ApiClient.Client
         {
             _handlerInfo = ApiOAuthClientHandler.Create(
                 _authUrl, ConfigurationManager.AppSettings["ClientId"], ConfigurationManager.AppSettings["ClientSecret"],
-                new[] { "query_mapdata", "query_mapairdata", "talk_tower", "query_userinfo" }, _existingState, true, "https://aawings.com/", 
+                new[] { "query_mapdata", "query_mapairdata", "talk_tower", "query_userinfo", "manage_flightreports" }, _existingState, true, "https://aawings.com/", 
 				new WpfAuthorizeDisplay());
                 
             return _handlerInfo.ClientHandler;

@@ -10,7 +10,7 @@ using AltitudeAngel.IsolatedPlugin.Common;
 using AltitudeAngel.IsolatedPlugin.Common.Maps;
 using AltitudeAngelWings.ApiClient.Client;
 using AltitudeAngelWings.ApiClient.Models;
-using AltitudeAngelWings.Properties;
+using AltitudeAngelWings.Models;
 using AltitudeAngelWings.Service.FlightData;
 using AltitudeAngelWings.Service.Messaging;
 using DotNetOpenAuth.OAuth2;
@@ -108,6 +108,17 @@ namespace AltitudeAngelWings.Service
 
             try
             {
+                _disposer.Add(_flightDataService.FlightArmed
+                    .Subscribe(async i => await SubmitFlightPlan(i)));
+                _disposer.Add(_flightDataService.FlightDisarmed
+                    .Subscribe(async i => await CompleteFlightPlan(i)));
+            }
+            catch
+            {
+            }
+
+            try
+            {
                 var list = JsonConvert.DeserializeObject<List<string>>(_missionPlanner.LoadSetting("AAWings.Filters"));
 
                 FilteredOut.AddRange(list.Distinct());
@@ -118,6 +129,48 @@ namespace AltitudeAngelWings.Service
             }
 
             TryConnect();
+        }
+
+        private string _currentFlightPlanId;
+
+        public async Task SubmitFlightPlan(Models.FlightData flightData)
+        {
+            await _messagesService.AddMessageAsync(new Message($"ARMED: {flightData.CurrentPosition.Latitude},{flightData.CurrentPosition.Longitude}"));
+            if (_currentFlightPlanId != null)
+            {
+                return;
+            }
+            try
+            {
+                var flightId = await _aaClient.CreateFlightReport(new PointLatLng
+                {
+                    Lat = flightData.CurrentPosition.Latitude,
+                    Lng = flightData.CurrentPosition.Longitude
+                });
+                _currentFlightPlanId = flightId;
+                await _messagesService.AddMessageAsync(new Message($"Flight plan {_currentFlightPlanId} created"));
+            }
+            catch
+            {
+            }
+        }
+
+        public async Task CompleteFlightPlan(Models.FlightData flightData)
+        {
+            await _messagesService.AddMessageAsync(new Message($"DISARMED: {flightData.CurrentPosition.Latitude},{flightData.CurrentPosition.Longitude}"));
+            if (_currentFlightPlanId == null)
+            {
+                return;
+            }
+            try
+            {
+                await _aaClient.CompleteFlightReport(_currentFlightPlanId);
+                await _messagesService.AddMessageAsync(new Message($"Flight plan {_currentFlightPlanId} marked as complete"));
+                _currentFlightPlanId = null;
+            }
+            catch
+            {
+            }
         }
 
         public void Dispose()

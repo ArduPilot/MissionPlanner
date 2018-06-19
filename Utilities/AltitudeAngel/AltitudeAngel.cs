@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Text;
-using System.Windows.Forms;
-using AltitudeAngelWings;
-using AltitudeAngelWings.ApiClient.Client;
 using AltitudeAngelWings.Service;
 using AltitudeAngelWings.Service.FlightData;
 using AltitudeAngelWings.Service.FlightData.Providers;
 using AltitudeAngelWings.Service.Messaging;
-using MissionPlanner.Controls;
 
 namespace MissionPlanner.Utilities.AltitudeAngel
 {
@@ -20,8 +15,13 @@ namespace MissionPlanner.Utilities.AltitudeAngel
 
         static AltitudeAngel()
         {
-            service = new AltitudeAngelService(Message, MP,
-                new FlightDataService(new ObservableProperty<long>(3), new MissionPlannerFlightDataProvider(null)));
+            service = new AltitudeAngelService(
+                Message,
+                MP,
+                new FlightDataService(
+                    TimeSpan.FromMilliseconds(500),
+                    new MissionPlannerFlightDataProvider(
+                        new MissionPlannerStateAdapter(() => MainV2.comPort.MAV.cs))));
         }
 
         public void Dispose()
