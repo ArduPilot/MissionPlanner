@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Threading;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Warnings
 {
@@ -11,7 +12,7 @@ namespace MissionPlanner.Warnings
     {
         public static List<CustomWarning> warnings = new List<CustomWarning>();
 
-        public static string warningconfigfile = "warnings.xml";
+        public static string warningconfigfile = Settings.GetUserDataDirectory() + "warnings.xml";
 
         static bool run = false;
 
@@ -23,7 +24,7 @@ namespace MissionPlanner.Warnings
             }
             catch
             {
-                Console.WriteLine("Failed to read WArning config file " + warningconfigfile);
+                Console.WriteLine("Failed to read Warning config file " + warningconfigfile);
             }
         }
 
