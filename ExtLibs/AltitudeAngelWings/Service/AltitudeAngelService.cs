@@ -99,6 +99,23 @@ namespace AltitudeAngelWings.Service
             }
         }
 
+        private bool _flightPlanCommercial;
+        public bool FlightPlanCommercial
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(_missionPlanner.LoadSetting("AA.FlightPlanCommercial")))
+                    return _flightPlanCommercial;
+                _flightPlanCommercial = bool.Parse(_missionPlanner.LoadSetting("AA.FlightPlanCommercial"));
+                return _flightPlanCommercial;
+            }
+            set
+            {
+                _flightPlanCommercial = value;
+                _missionPlanner.SaveSetting("AA.FlightPlanCommercial", _flightPlanCommercial.ToString());
+            }
+        }
+
         private TimeSpan _flightPlanTimeSpan = TimeSpan.FromMinutes(60);
         public TimeSpan FlightPlanTimeSpan
         {
@@ -205,7 +222,7 @@ namespace AltitudeAngelWings.Service
 
                 CurrentFlightPlanId = await _aaClient.CreateFlightReport(
                     FlightPlanName,
-                    false,
+                    FlightPlanCommercial,
                     DateTime.Now,
                     DateTime.Now.Add(FlightPlanTimeSpan),
                     centerPoint,

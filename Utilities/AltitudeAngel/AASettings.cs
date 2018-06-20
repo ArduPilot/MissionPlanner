@@ -15,6 +15,7 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             chk_grounddata.Checked = AltitudeAngel.service.GroundDataDisplay;
             chk_airdata.Checked = AltitudeAngel.service.AirDataDisplay;
             txt_FlightPlanName.Text = AltitudeAngel.service.FlightPlanName;
+            chk_FlightPlanCommercial.Checked = AltitudeAngel.service.FlightPlanCommercial;
             txt_FlightPlanDuration.Text =
                 ((int) AltitudeAngel.service.FlightPlanTimeSpan.TotalMinutes).ToString();
 
@@ -92,7 +93,15 @@ namespace MissionPlanner.Utilities.AltitudeAngel
 
         private void txt_FlightPlanDuration_TextChanged(object sender, EventArgs e)
         {
-            AltitudeAngel.service.FlightPlanTimeSpan = TimeSpan.FromMinutes(int.Parse(txt_FlightPlanDuration.Text));
+            if (int.TryParse(txt_FlightPlanDuration.Text, out var minutes))
+            {
+                AltitudeAngel.service.FlightPlanTimeSpan = TimeSpan.FromMinutes(minutes);
+            }
+        }
+
+        private void chk_FlightPlanCommercial_CheckedChanged(object sender, EventArgs e)
+        {
+            AltitudeAngel.service.FlightPlanCommercial = chk_FlightPlanCommercial.Checked;
         }
     }
 }
