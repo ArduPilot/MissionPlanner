@@ -13,6 +13,8 @@ namespace AltitudeAngelWings.ApiClient.Client
 {
     public class AltitudeAngelClient
     {
+        private const string DateTimeFormat = "yyyy-MM-ddTHH:mm:ss.fffffff";
+
         public delegate AltitudeAngelClient Create(string authUrl, string apiUrl, AuthorizationState existingState);
 
         public IAuthorizationState AuthorizationState => _handlerFactory.AuthorizationState;
@@ -130,8 +132,8 @@ namespace AltitudeAngelWings.ApiClient.Client
                     name = flightPlanName,
                     flight_type = isCommerial ? "com" : "rec",
                     timezone = TZConvert.WindowsToIana(TimeZoneInfo.Local.Id),
-                    start = localStartTime,
-                    end = localEndTime,
+                    start = localStartTime.ToString(DateTimeFormat),
+                    end = localEndTime.ToString(DateTimeFormat),
                     radius_meters = radius,
                     loc = new
                     {
