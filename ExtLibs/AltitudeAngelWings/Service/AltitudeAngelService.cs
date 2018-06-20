@@ -65,6 +65,40 @@ namespace AltitudeAngelWings.Service
             }
         }
 
+        private string _flightPlanName = "MissionPlanner Flight";
+        public string FlightPlanName
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(_missionPlanner.LoadSetting("AA.FlightPlanName")))
+                    return _flightPlanName;
+                _flightPlanName = _missionPlanner.LoadSetting("AA.FlightPlanName");
+                return _flightPlanName;
+            }
+            set
+            {
+                _flightPlanName = value;
+                _missionPlanner.SaveSetting("AA.FlightPlanName", _flightPlanName);
+            }
+        }
+
+        private TimeSpan _flightPlanTimeSpan = TimeSpan.FromMinutes(60);
+        public TimeSpan FlightPlanTimeSpan
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(_missionPlanner.LoadSetting("AA.FlightPlanTimeSpan")))
+                    return _flightPlanTimeSpan;
+                _flightPlanTimeSpan = TimeSpan.Parse(_missionPlanner.LoadSetting("AA.FlightPlanTimeSpan"));
+                return _flightPlanTimeSpan;
+            }
+            set
+            {
+                _flightPlanTimeSpan = value;
+                _missionPlanner.SaveSetting("AA.FlightPlanTimeSpan", _flightPlanTimeSpan.ToString());
+            }
+        }
+
         public AltitudeAngelService(
             IMessagesService messagesService,
             IMissionPlanner missionPlanner,
@@ -145,10 +179,10 @@ namespace AltitudeAngelWings.Service
                 var flightPlan = _missionPlanner.GetFlightPlan();
                 var bufferedBoundingRadius = flightPlan == null ? 500 : Math.Max(flightPlan.BoundingRadius + 50, 500);
                 var flightId = await _aaClient.CreateFlightReport(
-                    "MissionPlanner Flight",
+                    FlightPlanName,
                     false,
                     DateTime.Now,
-                    DateTime.Now.AddHours(1),
+                    DateTime.Now.Add(FlightPlanTimeSpan),
                     new PointLatLng
                     {
                         Lat = flightPlan?.CenterLatitude ?? flightData.CurrentPosition.Latitude,

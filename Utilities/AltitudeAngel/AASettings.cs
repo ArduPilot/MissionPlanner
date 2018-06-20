@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Web.Configuration;
 using System.Windows.Forms;
 
 namespace MissionPlanner.Utilities.AltitudeAngel
@@ -19,11 +12,14 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             ThemeManager.ApplyThemeTo(this);
 
             // load settings
-            chk_grounddata.Checked = Utilities.AltitudeAngel.AltitudeAngel.service.GroundDataDisplay;
-            chk_airdata.Checked = Utilities.AltitudeAngel.AltitudeAngel.service.AirDataDisplay;
+            chk_grounddata.Checked = AltitudeAngel.service.GroundDataDisplay;
+            chk_airdata.Checked = AltitudeAngel.service.AirDataDisplay;
+            txt_FlightPlanName.Text = AltitudeAngel.service.FlightPlanName;
+            txt_FlightPlanDuration.Text =
+                ((int) AltitudeAngel.service.FlightPlanTimeSpan.TotalMinutes).ToString();
 
-            but_enable.Enabled = !Utilities.AltitudeAngel.AltitudeAngel.service.IsSignedIn;
-            but_disable.Enabled = Utilities.AltitudeAngel.AltitudeAngel.service.IsSignedIn;
+            but_enable.Enabled = !AltitudeAngel.service.IsSignedIn;
+            but_disable.Enabled = AltitudeAngel.service.IsSignedIn;
 
             foreach (var item in AltitudeAngelWings.ApiClient.Client.Extensions.FiltersSeen)
             {
@@ -38,13 +34,13 @@ namespace MissionPlanner.Utilities.AltitudeAngel
         {
             try
             {
-                if (Utilities.AltitudeAngel.AltitudeAngel.service.IsSignedIn)
+                if (AltitudeAngel.service.IsSignedIn)
                 {
                     CustomMessageBox.Show("You are already signed in", "AltitudeAngel");
                     return;
                 }
 
-                Utilities.AltitudeAngel.AltitudeAngel.service.SignInAsync();
+                AltitudeAngel.service.SignInAsync();
             }
             catch (TypeInitializationException)
             {
@@ -54,21 +50,21 @@ namespace MissionPlanner.Utilities.AltitudeAngel
 
         private void but_disable_Click(object sender, EventArgs e)
         {
-            Utilities.AltitudeAngel.AltitudeAngel.service.DisconnectAsync();
+            AltitudeAngel.service.DisconnectAsync();
 
             AltitudeAngel.service.ProcessAllFromCache(AltitudeAngel.MP.FlightDataMap);
         }
 
         private void chk_airdata_CheckedChanged(object sender, EventArgs e)
         {
-            Utilities.AltitudeAngel.AltitudeAngel.service.AirDataDisplay = chk_airdata.Checked;
+            AltitudeAngel.service.AirDataDisplay = chk_airdata.Checked;
 
             AltitudeAngel.service.ProcessAllFromCache(AltitudeAngel.MP.FlightDataMap);
         }
 
         private void chk_grounddata_CheckedChanged(object sender, EventArgs e)
         {
-            Utilities.AltitudeAngel.AltitudeAngel.service.GroundDataDisplay = chk_grounddata.Checked;
+            AltitudeAngel.service.GroundDataDisplay = chk_grounddata.Checked;
 
             AltitudeAngel.service.ProcessAllFromCache(AltitudeAngel.MP.FlightDataMap);
         }
@@ -87,6 +83,16 @@ namespace MissionPlanner.Utilities.AltitudeAngel
 
             // reset state on change
             AltitudeAngel.service.ProcessAllFromCache(AltitudeAngel.MP.FlightDataMap);
+        }
+
+        private void txt_FlightPlanName_TextChanged(object sender, EventArgs e)
+        {
+            AltitudeAngel.service.FlightPlanName = txt_FlightPlanName.Text;
+        }
+
+        private void txt_FlightPlanDuration_TextChanged(object sender, EventArgs e)
+        {
+            AltitudeAngel.service.FlightPlanTimeSpan = TimeSpan.FromMinutes(int.Parse(txt_FlightPlanDuration.Text));
         }
     }
 }
