@@ -65,6 +65,23 @@ namespace AltitudeAngelWings.Service
             }
         }
 
+        private string _currentFlightPlanId;
+        public string CurrentFlightPlanId
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(_missionPlanner.LoadSetting("AA.CurrentFlightPlanId")))
+                    return _currentFlightPlanId;
+                _currentFlightPlanId = _missionPlanner.LoadSetting("AA.CurrentFlightPlanId");
+                return _currentFlightPlanId;
+            }
+            set
+            {
+                _currentFlightPlanId = value;
+                _missionPlanner.SaveSetting("AA.CurrentFlightPlanId", _currentFlightPlanId);
+            }
+        }
+
         private string _flightPlanName = "MissionPlanner Flight";
         public string FlightPlanName
         {
@@ -165,32 +182,36 @@ namespace AltitudeAngelWings.Service
             TryConnect();
         }
 
-        private string _currentFlightPlanId;
-
         public async Task SubmitFlightPlan(Models.FlightData flightData)
         {
             await _messagesService.AddMessageAsync(new Message($"ARMED: {flightData.CurrentPosition.Latitude},{flightData.CurrentPosition.Longitude}"));
-            if (_currentFlightPlanId != null)
+            if (CurrentFlightPlanId != null)
             {
                 return;
             }
+
             try
             {
+                var centerPoint = new PointLatLng(flightData.CurrentPosition.Latitude,
+                    flightData.CurrentPosition.Longitude);
+                var bufferedBoundingRadius = 500;
                 var flightPlan = _missionPlanner.GetFlightPlan();
-                var bufferedBoundingRadius = flightPlan == null ? 500 : Math.Max(flightPlan.BoundingRadius + 50, 500);
-                var flightId = await _aaClient.CreateFlightReport(
+                if (flightPlan != null)
+                {
+                    centerPoint.Lat = flightPlan.CenterLatitude;
+                    centerPoint.Lng = flightPlan.CenterLongitude;
+                    bufferedBoundingRadius = Math.Max(flightPlan.BoundingRadius + 50, bufferedBoundingRadius);
+                }
+
+                CurrentFlightPlanId = await _aaClient.CreateFlightReport(
                     FlightPlanName,
                     false,
                     DateTime.Now,
                     DateTime.Now.Add(FlightPlanTimeSpan),
-                    new PointLatLng
-                    {
-                        Lat = flightPlan?.CenterLatitude ?? flightData.CurrentPosition.Latitude,
-                        Lng = flightPlan?.CenterLongitude ?? flightData.CurrentPosition.Latitude
-                    },
+                    centerPoint,
                     bufferedBoundingRadius);
-                _currentFlightPlanId = flightId;
-                await _messagesService.AddMessageAsync(new Message($"Flight plan {_currentFlightPlanId} created"));
+                await _messagesService.AddMessageAsync(new Message($"Flight plan {CurrentFlightPlanId} created"));
+                await UpdateMapData(_missionPlanner.FlightDataMap);
             }
             catch (Exception ex)
             {
@@ -201,22 +222,20 @@ namespace AltitudeAngelWings.Service
         public async Task CompleteFlightPlan(Models.FlightData flightData)
         {
             await _messagesService.AddMessageAsync(new Message($"DISARMED: {flightData.CurrentPosition.Latitude},{flightData.CurrentPosition.Longitude}"));
-            if (_currentFlightPlanId == null)
+            if (CurrentFlightPlanId == null)
             {
                 return;
             }
             try
             {
-                await _aaClient.CompleteFlightReport(_currentFlightPlanId);
-                await _messagesService.AddMessageAsync(new Message($"Flight plan {_currentFlightPlanId} marked as complete"));
+                await _aaClient.CompleteFlightReport(CurrentFlightPlanId);
+                CurrentFlightPlanId = null;
+                await _messagesService.AddMessageAsync(new Message($"Flight plan {CurrentFlightPlanId} marked as complete"));
+                await UpdateMapData(_missionPlanner.FlightDataMap);
             }
             catch (Exception ex)
             {
-                await _messagesService.AddMessageAsync(new Message($"Marking flight plan {_currentFlightPlanId} as complete failed. {ex}"));
-            }
-            finally
-            {
-                _currentFlightPlanId = null;
+                await _messagesService.AddMessageAsync(new Message($"Marking flight plan {CurrentFlightPlanId} as complete failed. {ex}"));
             }
         }
 
