@@ -198,6 +198,7 @@
     <PackageReference Include="DotSpatial.Extensions" version="1.9" targetFramework="net462" />
     <PackageReference Include="DotSpatial.Modeling.Forms" version="1.9" targetFramework="net462" />
     <PackageReference Include="DotSpatial.Mono" version="1.9" targetFramework="net462" />
+    <PackageReference Include="DotSpatial.Positioning" Version="1.9.0" />
     <PackageReference Include="DotSpatial.Projections" version="1.9" targetFramework="net462" />
     <PackageReference Include="DotSpatial.Projections.Forms" version="1.9" targetFramework="net462" />
     <PackageReference Include="DotSpatial.Serialization" version="1.9" targetFramework="net462" />

@@ -4,6 +4,7 @@ using System.Linq;
 using AltitudeAngel.IsolatedPlugin.Common;
 using AltitudeAngel.IsolatedPlugin.Common.Maps;
 using AltitudeAngelWings.Models;
+using DotSpatial.Positioning;
 using DotSpatial.Topology;
 using MissionPlanner.GCSViews;
 using FlightData = MissionPlanner.GCSViews.FlightData;
@@ -51,8 +52,9 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             var envelope = GeometryFactory.Default.CreateMultiPoint(waypoints
                 .Select(l => new Coordinate(l.lng, l.lat))).Envelope;
             var center = envelope.Center();
-            var boundingRadius = (int)Math.Ceiling(Math.Max(envelope.Width, envelope.Height));
-
+            var minPos = new Position(new Latitude(envelope.Minimum.Y), new Longitude(envelope.Minimum.X));
+            var maxPos = new Position(new Latitude(envelope.Maximum.Y), new Longitude(envelope.Maximum.X));
+            var boundingRadius = (int)Math.Ceiling(minPos.DistanceTo(maxPos).ToMeters().Value);
             return new FlightPlan(waypoints.Select(f => new FlightPlanWaypoint
             {
                 Latitude = f.lat,
