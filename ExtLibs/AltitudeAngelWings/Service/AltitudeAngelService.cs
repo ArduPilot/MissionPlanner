@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Disposables;
@@ -13,12 +12,10 @@ using AltitudeAngelWings.ApiClient.Models;
 using AltitudeAngelWings.Models;
 using AltitudeAngelWings.Service.FlightData;
 using AltitudeAngelWings.Service.Messaging;
-using DotNetOpenAuth.OAuth2;
 using GeoJSON.Net;
 using GeoJSON.Net.Feature;
 using GeoJSON.Net.Geometry;
 using GMap.NET;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace AltitudeAngelWings.Service
@@ -30,142 +27,25 @@ namespace AltitudeAngelWings.Service
         public ObservableProperty<Unit> SentTelemetry { get; }
         public UserProfileInfo CurrentUser { get; private set; }
         public readonly List<string> FilteredOut = new List<string>();
-
-        private bool _grounddata = true;
-        public bool GroundDataDisplay
-        {
-            get
-            {
-                if (String.IsNullOrEmpty(_missionPlanner.LoadSetting("AA.Ground")))
-                    return _grounddata;
-                _grounddata = bool.Parse(_missionPlanner.LoadSetting("AA.Ground"));
-                return _grounddata;
-            }
-            set
-            {
-                _grounddata = value;
-                _missionPlanner.SaveSetting("AA.Ground", _grounddata.ToString());
-            }
-        }
-
-        private bool _airdata = true;
-        public bool AirDataDisplay
-        {
-            get
-            {
-                if (String.IsNullOrEmpty(_missionPlanner.LoadSetting("AA.Air")))
-                    return _airdata;
-                _airdata = bool.Parse(_missionPlanner.LoadSetting("AA.Air"));
-                return _airdata;
-            }
-            set
-            {
-                _airdata = value;
-                _missionPlanner.SaveSetting("AA.Air", _airdata.ToString());
-            }
-        }
-
-        private bool _flightReportEnable = true;
-        public bool FlightReportEnable
-        {
-            get
-            {
-                if (String.IsNullOrEmpty(_missionPlanner.LoadSetting("AA.FlightReportEnable")))
-                    return _flightReportEnable;
-                _flightReportEnable = bool.Parse(_missionPlanner.LoadSetting("AA.FlightReportEnable"));
-                return _flightReportEnable;
-            }
-            set
-            {
-                _flightReportEnable = value;
-                _missionPlanner.SaveSetting("AA.FlightReportEnable", _flightReportEnable.ToString());
-            }
-        }
-
-        private string _currentFlightReportId;
-        public string CurrentFlightReportId
-        {
-            get
-            {
-                if (String.IsNullOrEmpty(_missionPlanner.LoadSetting("AA.CurrentFlightReportId")))
-                    return _currentFlightReportId;
-                _currentFlightReportId = _missionPlanner.LoadSetting("AA.CurrentFlightReportId");
-                return _currentFlightReportId;
-            }
-            set
-            {
-                _currentFlightReportId = value;
-                _missionPlanner.SaveSetting("AA.CurrentFlightReportId", _currentFlightReportId);
-            }
-        }
-
-        private string _flightReportName = "MissionPlanner Flight";
-        public string FlightReportName
-        {
-            get
-            {
-                if (String.IsNullOrEmpty(_missionPlanner.LoadSetting("AA.FlightReportName")))
-                    return _flightReportName;
-                _flightReportName = _missionPlanner.LoadSetting("AA.FlightReportName");
-                return _flightReportName;
-            }
-            set
-            {
-                _flightReportName = value;
-                _missionPlanner.SaveSetting("AA.FlightReportName", _flightReportName);
-            }
-        }
-
-        private bool _flightReportCommercial;
-        public bool FlightReportCommercial
-        {
-            get
-            {
-                if (String.IsNullOrEmpty(_missionPlanner.LoadSetting("AA.FlightReportCommercial")))
-                    return _flightReportCommercial;
-                _flightReportCommercial = bool.Parse(_missionPlanner.LoadSetting("AA.FlightReportCommercial"));
-                return _flightReportCommercial;
-            }
-            set
-            {
-                _flightReportCommercial = value;
-                _missionPlanner.SaveSetting("AA.FlightReportCommercial", _flightReportCommercial.ToString());
-            }
-        }
-
-        private TimeSpan _flightReportTimeSpan = TimeSpan.FromMinutes(60);
-        public TimeSpan FlightReportTimeSpan
-        {
-            get
-            {
-                if (String.IsNullOrEmpty(_missionPlanner.LoadSetting("AA.FlightReportTimeSpan")))
-                    return _flightReportTimeSpan;
-                _flightReportTimeSpan = TimeSpan.Parse(_missionPlanner.LoadSetting("AA.FlightReportTimeSpan"));
-                return _flightReportTimeSpan;
-            }
-            set
-            {
-                _flightReportTimeSpan = value;
-                _missionPlanner.SaveSetting("AA.FlightReportTimeSpan", _flightReportTimeSpan.ToString());
-            }
-        }
+        public ISettings Settings { get; }
 
         public AltitudeAngelService(
             IMessagesService messagesService,
             IMissionPlanner missionPlanner,
-            FlightDataService flightDataService
-        )
+            FlightDataService flightDataService)
         {
             _messagesService = messagesService;
             _missionPlanner = missionPlanner;
-            _flightDataService = flightDataService;
+            Settings = new Settings(missionPlanner);
+            _client = new AltitudeAngelClient(
+                Settings.AuthenticationUrl,
+                Settings.ApiUrl,
+                Settings.AuthToken,
+                (a, s) => new AltitudeAngelHttpHandlerFactory(a, s, Settings.ClientId, Settings.ClientSecret));
+
             IsSignedIn = new ObservableProperty<bool>(false);
             WeatherReport = new ObservableProperty<WeatherInfo>();
             SentTelemetry = new ObservableProperty<Unit>();
-
-            CreateClient((url, apiUrl, state) =>
-                new AltitudeAngelClient(url, apiUrl, state,
-                    (authUrl, existingState) => new AltitudeAngelHttpHandlerFactory(authUrl, existingState)));
 
             try
             {
@@ -193,9 +73,9 @@ namespace AltitudeAngelWings.Service
 
             try
             {
-                _disposer.Add(_flightDataService.FlightArmed
+                _disposer.Add(flightDataService.FlightArmed
                     .Subscribe(async i => await SubmitFlightReport(i)));
-                _disposer.Add(_flightDataService.FlightDisarmed
+                _disposer.Add(flightDataService.FlightDisarmed
                     .Subscribe(async i => await CompleteFlightReport(i)));
             }
             catch
@@ -204,9 +84,7 @@ namespace AltitudeAngelWings.Service
 
             try
             {
-                var list = JsonConvert.DeserializeObject<List<string>>(_missionPlanner.LoadSetting("AAWings.Filters"));
-
-                FilteredOut.AddRange(list.Distinct());
+                FilteredOut.AddRange(Settings.MapFilters.Distinct());
             }
             catch
             {
@@ -219,7 +97,7 @@ namespace AltitudeAngelWings.Service
         public async Task SubmitFlightReport(Models.FlightData flightData)
         {
             await _messagesService.AddMessageAsync(new Message($"ARMED: {flightData.CurrentPosition.Latitude},{flightData.CurrentPosition.Longitude}"));
-            if (!FlightReportEnable || CurrentFlightReportId != null)
+            if (!Settings.FlightReportEnable || Settings.CurrentFlightReportId != null)
             {
                 return;
             }
@@ -237,14 +115,14 @@ namespace AltitudeAngelWings.Service
                     bufferedBoundingRadius = Math.Max(flightPlan.BoundingRadius + 50, bufferedBoundingRadius);
                 }
 
-                CurrentFlightReportId = await _aaClient.CreateFlightReport(
-                    FlightReportName,
-                    FlightReportCommercial,
+                Settings.CurrentFlightReportId = await _client.CreateFlightReport(
+                    Settings.FlightReportName,
+                    Settings.FlightReportCommercial,
                     DateTime.Now,
-                    DateTime.Now.Add(FlightReportTimeSpan),
+                    DateTime.Now.Add(Settings.FlightReportTimeSpan),
                     centerPoint,
                     bufferedBoundingRadius);
-                await _messagesService.AddMessageAsync(new Message($"Flight plan {CurrentFlightReportId} created"));
+                await _messagesService.AddMessageAsync(new Message($"Flight plan {Settings.CurrentFlightReportId} created"));
                 await UpdateMapData(_missionPlanner.FlightDataMap);
             }
             catch (Exception ex)
@@ -256,20 +134,20 @@ namespace AltitudeAngelWings.Service
         public async Task CompleteFlightReport(Models.FlightData flightData)
         {
             await _messagesService.AddMessageAsync(new Message($"DISARMED: {flightData.CurrentPosition.Latitude},{flightData.CurrentPosition.Longitude}"));
-            if (CurrentFlightReportId == null)
+            if (Settings.CurrentFlightReportId == null)
             {
                 return;
             }
             try
             {
-                await _aaClient.CompleteFlightReport(CurrentFlightReportId);
-                CurrentFlightReportId = null;
-                await _messagesService.AddMessageAsync(new Message($"Flight plan {CurrentFlightReportId} marked as complete"));
+                await _client.CompleteFlightReport(Settings.CurrentFlightReportId);
+                Settings.CurrentFlightReportId = null;
+                await _messagesService.AddMessageAsync(new Message($"Flight plan {Settings.CurrentFlightReportId} marked as complete"));
                 await UpdateMapData(_missionPlanner.FlightDataMap);
             }
             catch (Exception ex)
             {
-                await _messagesService.AddMessageAsync(new Message($"Marking flight plan {CurrentFlightReportId} as complete failed. {ex}"));
+                await _messagesService.AddMessageAsync(new Message($"Marking flight plan {Settings.CurrentFlightReportId} as complete failed. {ex}"));
             }
         }
 
@@ -287,7 +165,7 @@ namespace AltitudeAngelWings.Service
                 await LoadUserProfile();
 
                 // Save the token from the auth process
-                _missionPlanner.SaveSetting("AAWings.Token", JsonConvert.SerializeObject(_aaClient.AuthorizationState));
+                Settings.AuthToken = _client.AuthorizationState;
 
                 SignedIn(true);
             }
@@ -299,20 +177,10 @@ namespace AltitudeAngelWings.Service
 
         public Task DisconnectAsync()
         {
-            _missionPlanner.ClearSetting("AAWings.Token");
-            _aaClient.Disconnect();
+            Settings.AuthToken = null;
+            _client.Disconnect();
             SignedOut();
-
             return null;
-        }
-
-        public void RemoveOverlays()
-        {
-            _missionPlanner.FlightDataMap.DeleteOverlay("AAMapData.Air");
-            _missionPlanner.FlightDataMap.DeleteOverlay("AAMapData.Ground");
-
-            _missionPlanner.FlightPlanningMap.DeleteOverlay("AAMapData.Air");
-            _missionPlanner.FlightPlanningMap.DeleteOverlay("AAMapData.Ground");
         }
 
         /// <summary>
@@ -330,13 +198,13 @@ namespace AltitudeAngelWings.Service
                 RectLatLng area = map.GetViewArea();
                 await _messagesService.AddMessageAsync($"Map area {area.Top}, {area.Bottom}, {area.Left}, {area.Right}");
 
-                AAFeatureCollection mapData = await _aaClient.GetMapData(area);
+                AAFeatureCollection mapData = await _client.GetMapData(area);
 
                 // build the filter list
                 mapData.GetFilters();
 
                 // this ensures the user sees the results before its saved
-                _missionPlanner.SaveSetting("AAWings.Filters", JsonConvert.SerializeObject(FilteredOut));
+                Settings.MapFilters = FilteredOut;
 
                 await _messagesService.AddMessageAsync($"Map area Loaded {area.Top}, {area.Bottom}, {area.Left}, {area.Right}");
 
@@ -370,23 +238,23 @@ namespace AltitudeAngelWings.Service
             IOverlay airOverlay = map.GetOverlay("AAMapData.Air", true);
             IOverlay groundOverlay = map.GetOverlay("AAMapData.Ground", true);
 
-            groundOverlay.IsVisible = GroundDataDisplay;
-            airOverlay.IsVisible = AirDataDisplay;
+            groundOverlay.IsVisible = Settings.GroundDataDisplay;
+            airOverlay.IsVisible = Settings.AirDataDisplay;
 
             var polygons = new List<string>();
             var lines = new List<string>();
 
             foreach (Feature feature in features)
             {
-                IOverlay overlay = string.Equals((string) feature.Properties.Get("category"), "airspace")
+                IOverlay overlay = string.Equals((string)feature.Properties.Get("category"), "airspace")
                     ? airOverlay
                     : groundOverlay;
 
-                var altitude = ((JObject) feature.Properties.Get("altitudeFloor"))?.ToObject<Altitude>();
+                var altitude = ((JObject)feature.Properties.Get("altitudeFloor"))?.ToObject<Altitude>();
 
                 if (altitude == null || altitude.Meters <= 152)
                 {
-                    if (!GroundDataDisplay)
+                    if (!Settings.GroundDataDisplay)
                     {
                         if (overlay.PolygonExists(feature.Id))
                             continue;
@@ -394,7 +262,7 @@ namespace AltitudeAngelWings.Service
                 }
                 else
                 {
-                    if (!AirDataDisplay)
+                    if (!Settings.AirDataDisplay)
                     {
                         continue;
                     }
@@ -403,60 +271,60 @@ namespace AltitudeAngelWings.Service
                 switch (feature.Geometry.Type)
                 {
                     case GeoJSONObjectType.Point:
-                    {
-                        var pnt = (Point) feature.Geometry;
-
-                        List<PointLatLng> coordinates = new List<PointLatLng>();
-
-                        if (feature.Properties.ContainsKey("radius"))
                         {
-                            var rad = double.Parse(feature.Properties["radius"].ToString());
+                            var pnt = (Point)feature.Geometry;
 
-                            for (int i = 0; i <= 360; i+=10)
+                            List<PointLatLng> coordinates = new List<PointLatLng>();
+
+                            if (feature.Properties.ContainsKey("radius"))
                             {
-                                coordinates.Add(
-                                    newpos(new PointLatLng(((Position) pnt.Coordinates).Latitude,
-                                        ((Position) pnt.Coordinates).Longitude), i, rad));
-                            }
-                        }
+                                var rad = double.Parse(feature.Properties["radius"].ToString());
 
-                        ColorInfo colorInfo = feature.ToColorInfo();
-                        colorInfo.StrokeColor = 0xFFFF0000;
-                        overlay.AddOrUpdatePolygon(feature.Id, coordinates, colorInfo, feature);
-                        polygons.Add(feature.Id);
-                    }
+                                for (int i = 0; i <= 360; i += 10)
+                                {
+                                    coordinates.Add(
+                                        newpos(new PointLatLng(((Position)pnt.Coordinates).Latitude,
+                                            ((Position)pnt.Coordinates).Longitude), i, rad));
+                                }
+                            }
+
+                            ColorInfo colorInfo = feature.ToColorInfo();
+                            colorInfo.StrokeColor = 0xFFFF0000;
+                            overlay.AddOrUpdatePolygon(feature.Id, coordinates, colorInfo, feature);
+                            polygons.Add(feature.Id);
+                        }
                         break;
                     case GeoJSONObjectType.MultiPoint:
                         break;
                     case GeoJSONObjectType.LineString:
-                    {
-                        var line = (LineString) feature.Geometry;
-                        List<PointLatLng> coordinates = line.Coordinates.OfType<Position>()
-                            .Select(c => new PointLatLng(c.Latitude, c.Longitude))
-                            .ToList();
-                        overlay.AddOrUpdateLine(feature.Id, coordinates, new ColorInfo {StrokeColor = 0xFFFF0000}, feature);
-                        lines.Add(feature.Id);
-                    }
+                        {
+                            var line = (LineString)feature.Geometry;
+                            List<PointLatLng> coordinates = line.Coordinates.OfType<Position>()
+                                .Select(c => new PointLatLng(c.Latitude, c.Longitude))
+                                .ToList();
+                            overlay.AddOrUpdateLine(feature.Id, coordinates, new ColorInfo { StrokeColor = 0xFFFF0000 }, feature);
+                            lines.Add(feature.Id);
+                        }
                         break;
 
                     case GeoJSONObjectType.MultiLineString:
                         break;
                     case GeoJSONObjectType.Polygon:
-                    {
-                        var poly = (Polygon) feature.Geometry;
-                        List<PointLatLng> coordinates =
-                            poly.Coordinates[0].Coordinates.OfType<Position>()
-                                .Select(c => new PointLatLng(c.Latitude, c.Longitude))
-                                .ToList();
+                        {
+                            var poly = (Polygon)feature.Geometry;
+                            List<PointLatLng> coordinates =
+                                poly.Coordinates[0].Coordinates.OfType<Position>()
+                                    .Select(c => new PointLatLng(c.Latitude, c.Longitude))
+                                    .ToList();
 
-                        ColorInfo colorInfo = feature.ToColorInfo();
-                        colorInfo.StrokeColor = 0xFFFF0000;
-                        overlay.AddOrUpdatePolygon(feature.Id, coordinates, colorInfo, feature);
-                        polygons.Add(feature.Id);
-                    }
+                            ColorInfo colorInfo = feature.ToColorInfo();
+                            colorInfo.StrokeColor = 0xFFFF0000;
+                            overlay.AddOrUpdatePolygon(feature.Id, coordinates, colorInfo, feature);
+                            polygons.Add(feature.Id);
+                        }
                         break;
                     case GeoJSONObjectType.MultiPolygon:
-                        foreach (var poly in ((MultiPolygon) feature.Geometry).Coordinates)
+                        foreach (var poly in ((MultiPolygon)feature.Geometry).Coordinates)
                         {
                             List<PointLatLng> coordinates =
                                 poly.Coordinates[0].Coordinates.OfType<Position>()
@@ -521,25 +389,12 @@ namespace AltitudeAngelWings.Service
         /// <returns></returns>
         public async Task UpdateWeatherData(PointLatLng center)
         {
-            WeatherReport.Value = await _aaClient.GetWeather(center);
-        }
-
-        private void CreateClient(AltitudeAngelClient.Create aaClientFactory)
-        {
-            string stateString = _missionPlanner.LoadSetting("AAWings.Token");
-            AuthorizationState existingState = null;
-            if (stateString != null)
-            {
-                existingState = JsonConvert.DeserializeObject<AuthorizationState>(stateString);
-            }
-
-            _aaClient = aaClientFactory(ConfigurationManager.AppSettings["AuthURL"],
-                ConfigurationManager.AppSettings["APIURL"], existingState);
+            WeatherReport.Value = await _client.GetWeather(center);
         }
 
         private async void TryConnect()
         {
-            if (_missionPlanner.LoadSetting("AAWings.Token") != null)
+            if (Settings.AuthToken != null)
             {
                 await SignInAsync();
             }
@@ -547,7 +402,7 @@ namespace AltitudeAngelWings.Service
 
         private async Task LoadUserProfile()
         {
-            CurrentUser = await _aaClient.GetUserProfile();
+            CurrentUser = await _client.GetUserProfile();
         }
 
         private void SignedIn(bool isSignedIn)
@@ -595,22 +450,14 @@ namespace AltitudeAngelWings.Service
 
         private void Dispose(bool isDisposing)
         {
-            if (isDisposing)
-            {
-                _disposer?.Dispose();
-                _disposer = null;
-            }
+            if (!isDisposing) return;
+            _disposer?.Dispose();
+            _disposer = null;
         }
 
-        private readonly FlightDataService _flightDataService;
         private readonly IMessagesService _messagesService;
         private readonly IMissionPlanner _missionPlanner;
-        private AltitudeAngelClient _aaClient;
         private CompositeDisposable _disposer = new CompositeDisposable();
-
-        public AltitudeAngelClient Client
-        {
-            get { return _aaClient; }
-        }
+        private readonly AltitudeAngelClient _client;
     }
 }

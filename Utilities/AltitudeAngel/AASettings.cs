@@ -13,13 +13,13 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             ThemeManager.ApplyThemeTo(this);
 
             // load settings
-            chk_grounddata.Checked = AltitudeAngel.service.GroundDataDisplay;
-            chk_airdata.Checked = AltitudeAngel.service.AirDataDisplay;
-            chk_FlightReportEnable.Checked = AltitudeAngel.service.FlightReportEnable;
-            txt_FlightReportName.Text = AltitudeAngel.service.FlightReportName;
-            chk_FlightReportCommercial.Checked = AltitudeAngel.service.FlightReportCommercial;
+            chk_grounddata.Checked = AltitudeAngel.service.Settings.GroundDataDisplay;
+            chk_airdata.Checked = AltitudeAngel.service.Settings.AirDataDisplay;
+            chk_FlightReportEnable.Checked = AltitudeAngel.service.Settings.FlightReportEnable;
+            txt_FlightReportName.Text = AltitudeAngel.service.Settings.FlightReportName;
+            chk_FlightReportCommercial.Checked = AltitudeAngel.service.Settings.FlightReportCommercial;
             txt_FlightReportDuration.Text =
-                ((int) AltitudeAngel.service.FlightReportTimeSpan.TotalMinutes).ToString();
+                ((int) AltitudeAngel.service.Settings.FlightReportTimeSpan.TotalMinutes).ToString();
 
             but_enable.Enabled = !AltitudeAngel.service.IsSignedIn;
             but_disable.Enabled = AltitudeAngel.service.IsSignedIn;
@@ -62,14 +62,14 @@ namespace MissionPlanner.Utilities.AltitudeAngel
 
         private void chk_airdata_CheckedChanged(object sender, EventArgs e)
         {
-            AltitudeAngel.service.AirDataDisplay = chk_airdata.Checked;
+            AltitudeAngel.service.Settings.AirDataDisplay = chk_airdata.Checked;
 
             AltitudeAngel.service.ProcessAllFromCache(AltitudeAngel.MP.FlightDataMap);
         }
 
         private void chk_grounddata_CheckedChanged(object sender, EventArgs e)
         {
-            AltitudeAngel.service.GroundDataDisplay = chk_grounddata.Checked;
+            AltitudeAngel.service.Settings.GroundDataDisplay = chk_grounddata.Checked;
 
             AltitudeAngel.service.ProcessAllFromCache(AltitudeAngel.MP.FlightDataMap);
         }
@@ -92,25 +92,25 @@ namespace MissionPlanner.Utilities.AltitudeAngel
 
         private void txt_FlightReportName_TextChanged(object sender, EventArgs e)
         {
-            AltitudeAngel.service.FlightReportName = txt_FlightReportName.Text;
+            AltitudeAngel.service.Settings.FlightReportName = txt_FlightReportName.Text;
         }
 
         private void txt_FlightReportDuration_TextChanged(object sender, EventArgs e)
         {
             if (int.TryParse(txt_FlightReportDuration.Text, out var minutes))
             {
-                AltitudeAngel.service.FlightReportTimeSpan = TimeSpan.FromMinutes(minutes);
+                AltitudeAngel.service.Settings.FlightReportTimeSpan = TimeSpan.FromMinutes(minutes);
             }
         }
 
         private void chk_FlightReportCommercial_CheckedChanged(object sender, EventArgs e)
         {
-            AltitudeAngel.service.FlightReportCommercial = chk_FlightReportCommercial.Checked;
+            AltitudeAngel.service.Settings.FlightReportCommercial = chk_FlightReportCommercial.Checked;
         }
 
         private void chk_FlightReportEnable_CheckedChanged(object sender, EventArgs e)
         {
-            AltitudeAngel.service.FlightReportEnable = chk_FlightReportEnable.Checked;
+            AltitudeAngel.service.Settings.FlightReportEnable = chk_FlightReportEnable.Checked;
             RefreshControlStates();
         }
 

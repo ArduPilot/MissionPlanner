@@ -15,7 +15,7 @@ namespace AltitudeAngelWings.ApiClient.Client
     {
         private const string DateTimeFormat = "yyyy-MM-ddTHH:mm:ss.fffffff";
 
-        public delegate AltitudeAngelClient Create(string authUrl, string apiUrl, AuthorizationState existingState);
+        public delegate AltitudeAngelClient Create(string authUrl, string apiUrl, IAuthorizationState existingState);
 
         public IAuthorizationState AuthorizationState => _handlerFactory.AuthorizationState;
 
@@ -29,7 +29,7 @@ namespace AltitudeAngelWings.ApiClient.Client
         public AltitudeAngelClient(
             string authUrl,
             string apiUrl,
-            AuthorizationState existingState,
+            IAuthorizationState existingState,
             AltitudeAngelHttpHandlerFactory.Create handlerFactory
             )
         {

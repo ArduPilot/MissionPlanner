@@ -153,10 +153,12 @@
     <Compile Include="Service\FlightData\FlightDataService.cs" />
     <Compile Include="Service\FlightData\Providers\IFlightDataProvider.cs" />
     <Compile Include="Service\FlightData\Providers\MissionPlannerFlightDataProvider.cs" />
+    <Compile Include="Service\ISettings.cs" />
     <Compile Include="Service\Logging\ILogger.cs" />
     <Compile Include="Service\Logging\Logger.cs" />
     <Compile Include="Service\Messaging\IMessagesService.cs" />
     <Compile Include="Service\Messaging\MessagesService.cs" />
+    <Compile Include="Service\Settings.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

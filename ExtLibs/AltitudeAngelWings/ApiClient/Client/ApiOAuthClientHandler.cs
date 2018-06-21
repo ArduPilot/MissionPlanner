@@ -25,7 +25,7 @@ namespace AltitudeAngelWings.ApiClient.Client
         string clientId,
             string clientSecret,
             IEnumerable<string> scopes,
-            AuthorizationState existingState = null
+            IAuthorizationState existingState = null
             )
         {
             return Create(authBaseUri, clientId, clientSecret, scopes, existingState, false, null, null);
@@ -51,7 +51,7 @@ namespace AltitudeAngelWings.ApiClient.Client
             string clientId,
             string clientSecret,
             IEnumerable<string> scopes,
-            AuthorizationState existingState,
+            IAuthorizationState existingState,
             bool requireUserToken,
             string redirectUri,
             IAuthorizeCodeProvider codeProvider)
