@@ -65,6 +65,23 @@ namespace AltitudeAngelWings.Service
             }
         }
 
+        private bool _flightPlanEnable = true;
+        public bool FlightPlanEnable
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(_missionPlanner.LoadSetting("AA.FlightPlanEnable")))
+                    return _flightPlanEnable;
+                _flightPlanEnable = bool.Parse(_missionPlanner.LoadSetting("AA.FlightPlanEnable"));
+                return _flightPlanEnable;
+            }
+            set
+            {
+                _flightPlanEnable = value;
+                _missionPlanner.SaveSetting("AA.FlightPlanEnable", _flightPlanEnable.ToString());
+            }
+        }
+
         private string _currentFlightPlanId;
         public string CurrentFlightPlanId
         {
@@ -202,7 +219,7 @@ namespace AltitudeAngelWings.Service
         public async Task SubmitFlightPlan(Models.FlightData flightData)
         {
             await _messagesService.AddMessageAsync(new Message($"ARMED: {flightData.CurrentPosition.Latitude},{flightData.CurrentPosition.Longitude}"));
-            if (CurrentFlightPlanId != null)
+            if (!FlightPlanEnable || CurrentFlightPlanId != null)
             {
                 return;
             }
@@ -324,6 +341,7 @@ namespace AltitudeAngelWings.Service
                 await _messagesService.AddMessageAsync($"Map area Loaded {area.Top}, {area.Bottom}, {area.Left}, {area.Right}");
 
                 // add all items to cache
+                cache.Clear();
                 mapData.Features.ForEach(feature => cache[feature.Id] = feature);
 
                 // Only get the features that are enabled by default, and have not been filtered out

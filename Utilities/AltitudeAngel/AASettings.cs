@@ -14,6 +14,7 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             // load settings
             chk_grounddata.Checked = AltitudeAngel.service.GroundDataDisplay;
             chk_airdata.Checked = AltitudeAngel.service.AirDataDisplay;
+            chk_FlightPlanEnable.Checked = AltitudeAngel.service.FlightPlanEnable;
             txt_FlightPlanName.Text = AltitudeAngel.service.FlightPlanName;
             chk_FlightPlanCommercial.Checked = AltitudeAngel.service.FlightPlanCommercial;
             txt_FlightPlanDuration.Text =
@@ -29,6 +30,8 @@ namespace MissionPlanner.Utilities.AltitudeAngel
                 else
                     chklb_layers.Items.Add(item, true);
             }
+
+            RefreshControlStates();
         }
 
         private void but_enable_Click(object sender, EventArgs e)
@@ -37,7 +40,7 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             {
                 if (AltitudeAngel.service.IsSignedIn)
                 {
-                    CustomMessageBox.Show("You are already signed in", "AltitudeAngel");
+                    CustomMessageBox.Show("You are already signed in", "Altitude Angel");
                     return;
                 }
 
@@ -102,6 +105,21 @@ namespace MissionPlanner.Utilities.AltitudeAngel
         private void chk_FlightPlanCommercial_CheckedChanged(object sender, EventArgs e)
         {
             AltitudeAngel.service.FlightPlanCommercial = chk_FlightPlanCommercial.Checked;
+        }
+
+        private void chk_FlightPlanEnable_CheckedChanged(object sender, EventArgs e)
+        {
+            AltitudeAngel.service.FlightPlanEnable = chk_FlightPlanEnable.Checked;
+            RefreshControlStates();
+        }
+
+        private void RefreshControlStates()
+        {
+            lbl_FlightPlanName.Enabled = chk_FlightPlanEnable.Checked;
+            txt_FlightPlanName.Enabled = chk_FlightPlanEnable.Checked;
+            lbl_FlightPlanDuration.Enabled = chk_FlightPlanEnable.Checked;
+            txt_FlightPlanDuration.Enabled = chk_FlightPlanEnable.Checked;
+            chk_FlightPlanCommercial.Enabled = chk_FlightPlanEnable.Checked;
         }
     }
 }

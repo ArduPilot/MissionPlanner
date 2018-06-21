@@ -42,6 +42,7 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             this.txt_FlightPlanDuration = new System.Windows.Forms.TextBox();
             this.lbl_FlightPlanDuration = new System.Windows.Forms.Label();
             this.chk_FlightPlanCommercial = new System.Windows.Forms.CheckBox();
+            this.chk_FlightPlanEnable = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // but_enable
@@ -67,7 +68,7 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             // chk_airdata
             // 
             this.chk_airdata.AutoSize = true;
-            this.chk_airdata.Location = new System.Drawing.Point(13, 129);
+            this.chk_airdata.Location = new System.Drawing.Point(13, 148);
             this.chk_airdata.Name = "chk_airdata";
             this.chk_airdata.Size = new System.Drawing.Size(121, 29);
             this.chk_airdata.TabIndex = 5;
@@ -78,7 +79,7 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             // chk_grounddata
             // 
             this.chk_grounddata.AutoSize = true;
-            this.chk_grounddata.Location = new System.Drawing.Point(94, 129);
+            this.chk_grounddata.Location = new System.Drawing.Point(94, 148);
             this.chk_grounddata.Name = "chk_grounddata";
             this.chk_grounddata.Size = new System.Drawing.Size(166, 29);
             this.chk_grounddata.TabIndex = 6;
@@ -90,7 +91,7 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             // 
             this.chklb_layers.CheckOnClick = true;
             this.chklb_layers.FormattingEnabled = true;
-            this.chklb_layers.Location = new System.Drawing.Point(13, 153);
+            this.chklb_layers.Location = new System.Drawing.Point(13, 172);
             this.chklb_layers.Name = "chklb_layers";
             this.chklb_layers.Size = new System.Drawing.Size(172, 186);
             this.chklb_layers.TabIndex = 7;
@@ -98,16 +99,16 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             // 
             // txt_FlightPlanName
             // 
-            this.txt_FlightPlanName.Location = new System.Drawing.Point(13, 56);
+            this.txt_FlightPlanName.Location = new System.Drawing.Point(13, 75);
             this.txt_FlightPlanName.Name = "txt_FlightPlanName";
             this.txt_FlightPlanName.Size = new System.Drawing.Size(172, 31);
-            this.txt_FlightPlanName.TabIndex = 2;
+            this.txt_FlightPlanName.TabIndex = 3;
             this.txt_FlightPlanName.TextChanged += new System.EventHandler(this.txt_FlightPlanName_TextChanged);
             // 
             // lbl_FlightPlanName
             // 
             this.lbl_FlightPlanName.AutoSize = true;
-            this.lbl_FlightPlanName.Location = new System.Drawing.Point(8, 40);
+            this.lbl_FlightPlanName.Location = new System.Drawing.Point(8, 59);
             this.lbl_FlightPlanName.Name = "lbl_FlightPlanName";
             this.lbl_FlightPlanName.Size = new System.Drawing.Size(176, 25);
             this.lbl_FlightPlanName.TabIndex = 8;
@@ -115,7 +116,7 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             // 
             // txt_FlightPlanDuration
             // 
-            this.txt_FlightPlanDuration.Location = new System.Drawing.Point(13, 107);
+            this.txt_FlightPlanDuration.Location = new System.Drawing.Point(13, 126);
             this.txt_FlightPlanDuration.Name = "txt_FlightPlanDuration";
             this.txt_FlightPlanDuration.Size = new System.Drawing.Size(172, 31);
             this.txt_FlightPlanDuration.TabIndex = 4;
@@ -124,7 +125,7 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             // lbl_FlightPlanDuration
             // 
             this.lbl_FlightPlanDuration.AutoSize = true;
-            this.lbl_FlightPlanDuration.Location = new System.Drawing.Point(8, 91);
+            this.lbl_FlightPlanDuration.Location = new System.Drawing.Point(8, 110);
             this.lbl_FlightPlanDuration.Name = "lbl_FlightPlanDuration";
             this.lbl_FlightPlanDuration.Size = new System.Drawing.Size(266, 25);
             this.lbl_FlightPlanDuration.TabIndex = 9;
@@ -133,7 +134,7 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             // chk_FlightPlanCommercial
             // 
             this.chk_FlightPlanCommercial.AutoSize = true;
-            this.chk_FlightPlanCommercial.Location = new System.Drawing.Point(12, 73);
+            this.chk_FlightPlanCommercial.Location = new System.Drawing.Point(12, 92);
             this.chk_FlightPlanCommercial.Name = "chk_FlightPlanCommercial";
             this.chk_FlightPlanCommercial.Size = new System.Drawing.Size(216, 29);
             this.chk_FlightPlanCommercial.TabIndex = 3;
@@ -141,10 +142,22 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             this.chk_FlightPlanCommercial.UseVisualStyleBackColor = true;
             this.chk_FlightPlanCommercial.CheckedChanged += new System.EventHandler(this.chk_FlightPlanCommercial_CheckedChanged);
             // 
+            // chk_FlightPlanEnable
+            // 
+            this.chk_FlightPlanEnable.AutoSize = true;
+            this.chk_FlightPlanEnable.Location = new System.Drawing.Point(12, 39);
+            this.chk_FlightPlanEnable.Name = "chk_FlightPlanEnable";
+            this.chk_FlightPlanEnable.Size = new System.Drawing.Size(219, 29);
+            this.chk_FlightPlanEnable.TabIndex = 2;
+            this.chk_FlightPlanEnable.Text = "Enable Flight Plan";
+            this.chk_FlightPlanEnable.UseVisualStyleBackColor = true;
+            this.chk_FlightPlanEnable.CheckedChanged += new System.EventHandler(this.chk_FlightPlanEnable_CheckedChanged);
+            // 
             // AASettings
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(198, 345);
+            this.ClientSize = new System.Drawing.Size(198, 365);
+            this.Controls.Add(this.chk_FlightPlanEnable);
             this.Controls.Add(this.chk_FlightPlanCommercial);
             this.Controls.Add(this.lbl_FlightPlanDuration);
             this.Controls.Add(this.txt_FlightPlanDuration);
@@ -175,5 +188,6 @@ namespace MissionPlanner.Utilities.AltitudeAngel
         private System.Windows.Forms.TextBox txt_FlightPlanDuration;
         private System.Windows.Forms.Label lbl_FlightPlanDuration;
         private System.Windows.Forms.CheckBox chk_FlightPlanCommercial;
+        private System.Windows.Forms.CheckBox chk_FlightPlanEnable;
     }
 }
