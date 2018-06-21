@@ -1,32 +1,47 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows.Forms;
+using AltitudeAngelWings;
+using AltitudeAngelWings.Extra;
+using AltitudeAngelWings.Service;
 
 namespace MissionPlanner.Utilities.AltitudeAngel
 {
     internal partial class AASettings : Form
     {
+        private readonly ISettings _settings;
+        private readonly IAltitudeAngelService _altitudeAngelService;
+        private readonly IMissionPlanner _missionPlanner;
+
         public AASettings()
+            : this(ServiceLocator.GetService<ISettings>(), ServiceLocator.GetService<IAltitudeAngelService>(), ServiceLocator.GetService<IMissionPlanner>())
         {
+        }
+
+        public AASettings(ISettings settings, IAltitudeAngelService altitudeAngelService, IMissionPlanner missionPlanner)
+        {
+            _settings = settings;
+            _altitudeAngelService = altitudeAngelService;
+            _missionPlanner = missionPlanner;
             InitializeComponent();
 
             ThemeManager.ApplyThemeTo(this);
 
             // load settings
-            chk_grounddata.Checked = AltitudeAngel.service.Settings.GroundDataDisplay;
-            chk_airdata.Checked = AltitudeAngel.service.Settings.AirDataDisplay;
-            chk_FlightReportEnable.Checked = AltitudeAngel.service.Settings.FlightReportEnable;
-            txt_FlightReportName.Text = AltitudeAngel.service.Settings.FlightReportName;
-            chk_FlightReportCommercial.Checked = AltitudeAngel.service.Settings.FlightReportCommercial;
+            chk_grounddata.Checked = _settings.GroundDataDisplay;
+            chk_airdata.Checked = _settings.AirDataDisplay;
+            chk_FlightReportEnable.Checked = _settings.FlightReportEnable;
+            txt_FlightReportName.Text = _settings.FlightReportName;
+            chk_FlightReportCommercial.Checked = _settings.FlightReportCommercial;
             txt_FlightReportDuration.Text =
-                ((int) AltitudeAngel.service.Settings.FlightReportTimeSpan.TotalMinutes).ToString();
+                ((int) _settings.FlightReportTimeSpan.TotalMinutes).ToString();
 
-            but_enable.Enabled = !AltitudeAngel.service.IsSignedIn;
-            but_disable.Enabled = AltitudeAngel.service.IsSignedIn;
+            but_enable.Enabled = !_altitudeAngelService.IsSignedIn;
+            but_disable.Enabled = _altitudeAngelService.IsSignedIn;
 
             foreach (var item in AltitudeAngelWings.ApiClient.Client.Extensions.FiltersSeen)
             {
-                if (AltitudeAngel.service.FilteredOut.Contains(item))
+                if (_altitudeAngelService.FilteredOut.Contains(item))
                     chklb_layers.Items.Add(item, false);
                 else
                     chklb_layers.Items.Add(item, true);
@@ -39,13 +54,13 @@ namespace MissionPlanner.Utilities.AltitudeAngel
         {
             try
             {
-                if (AltitudeAngel.service.IsSignedIn)
+                if (_altitudeAngelService.IsSignedIn)
                 {
                     CustomMessageBox.Show("You are already signed in", "Altitude Angel");
                     return;
                 }
 
-                AltitudeAngel.service.SignInAsync();
+                _altitudeAngelService.SignInAsync();
             }
             catch (TypeInitializationException)
             {
@@ -55,62 +70,62 @@ namespace MissionPlanner.Utilities.AltitudeAngel
 
         private void but_disable_Click(object sender, EventArgs e)
         {
-            AltitudeAngel.service.DisconnectAsync();
+            _altitudeAngelService.DisconnectAsync();
 
-            AltitudeAngel.service.ProcessAllFromCache(AltitudeAngel.MP.FlightDataMap);
+            _altitudeAngelService.ProcessAllFromCache(_missionPlanner.FlightDataMap);
         }
 
         private void chk_airdata_CheckedChanged(object sender, EventArgs e)
         {
-            AltitudeAngel.service.Settings.AirDataDisplay = chk_airdata.Checked;
+            _settings.AirDataDisplay = chk_airdata.Checked;
 
-            AltitudeAngel.service.ProcessAllFromCache(AltitudeAngel.MP.FlightDataMap);
+            _altitudeAngelService.ProcessAllFromCache(_missionPlanner.FlightDataMap);
         }
 
         private void chk_grounddata_CheckedChanged(object sender, EventArgs e)
         {
-            AltitudeAngel.service.Settings.GroundDataDisplay = chk_grounddata.Checked;
+            _settings.GroundDataDisplay = chk_grounddata.Checked;
 
-            AltitudeAngel.service.ProcessAllFromCache(AltitudeAngel.MP.FlightDataMap);
+            _altitudeAngelService.ProcessAllFromCache(_missionPlanner.FlightDataMap);
         }
 
         private void chklb_layers_SelectedIndexChanged(object sender, EventArgs e)
         {
-            AltitudeAngel.service.FilteredOut.Clear();
+            _altitudeAngelService.FilteredOut.Clear();
 
             foreach (string item in chklb_layers.Items)
             {
                 if (!chklb_layers.CheckedItems.Contains(item))
                 {
-                    AltitudeAngel.service.FilteredOut.Add(item);
+                    _altitudeAngelService.FilteredOut.Add(item);
                 }
             }
 
             // reset state on change
-            AltitudeAngel.service.ProcessAllFromCache(AltitudeAngel.MP.FlightDataMap);
+            _altitudeAngelService.ProcessAllFromCache(_missionPlanner.FlightDataMap);
         }
 
         private void txt_FlightReportName_TextChanged(object sender, EventArgs e)
         {
-            AltitudeAngel.service.Settings.FlightReportName = txt_FlightReportName.Text;
+            _settings.FlightReportName = txt_FlightReportName.Text;
         }
 
         private void txt_FlightReportDuration_TextChanged(object sender, EventArgs e)
         {
             if (int.TryParse(txt_FlightReportDuration.Text, out var minutes))
             {
-                AltitudeAngel.service.Settings.FlightReportTimeSpan = TimeSpan.FromMinutes(minutes);
+                _settings.FlightReportTimeSpan = TimeSpan.FromMinutes(minutes);
             }
         }
 
         private void chk_FlightReportCommercial_CheckedChanged(object sender, EventArgs e)
         {
-            AltitudeAngel.service.Settings.FlightReportCommercial = chk_FlightReportCommercial.Checked;
+            _settings.FlightReportCommercial = chk_FlightReportCommercial.Checked;
         }
 
         private void chk_FlightReportEnable_CheckedChanged(object sender, EventArgs e)
         {
-            AltitudeAngel.service.Settings.FlightReportEnable = chk_FlightReportEnable.Checked;
+            _settings.FlightReportEnable = chk_FlightReportEnable.Checked;
             RefreshControlStates();
         }
 

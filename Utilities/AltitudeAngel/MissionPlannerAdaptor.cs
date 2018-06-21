@@ -5,22 +5,20 @@ using AltitudeAngelWings.Extra;
 using AltitudeAngelWings.Models;
 using DotSpatial.Positioning;
 using DotSpatial.Topology;
-using MissionPlanner.GCSViews;
-using FlightData = MissionPlanner.GCSViews.FlightData;
 
 namespace MissionPlanner.Utilities.AltitudeAngel
 {
     internal class MissionPlannerAdaptor : IMissionPlanner
     {
         private readonly Func<IList<Locationwp>> _getFlightPlan;
-        public IMap FlightPlanningMap { get; set; }
-        public IMap FlightDataMap { get; set; }
+        public IMap FlightPlanningMap { get; }
+        public IMap FlightDataMap { get; }
 
-        public MissionPlannerAdaptor(Func<IList<Locationwp>> getFlightPlan)
+        public MissionPlannerAdaptor(IMap flightDataMap, IMap flightPlanningMap, Func<IList<Locationwp>> getFlightPlan)
         {
+            FlightDataMap = flightDataMap;
+            FlightPlanningMap = flightPlanningMap;
             _getFlightPlan = getFlightPlan;
-            FlightDataMap = new MapAdapter(FlightData.instance.gMapControl1);
-            FlightPlanningMap = new MapAdapter(FlightPlanner.instance.MainMap);
         }
 
         public void SaveSetting(string key, string data)
@@ -30,10 +28,7 @@ namespace MissionPlanner.Utilities.AltitudeAngel
 
         public string LoadSetting(string key)
         {
-            if (Settings.Instance.ContainsKey(key))
-                return Settings.Instance[key];
-
-            return null;
+            return Settings.Instance.ContainsKey(key) ? Settings.Instance[key] : null;
         }
 
         public void ClearSetting(string key)

@@ -11,7 +11,7 @@ using TimeZoneConverter;
 
 namespace AltitudeAngelWings.ApiClient.Client
 {
-    public class AltitudeAngelClient
+    public class AltitudeAngelClient : IAltitudeAngelClient
     {
         private const string DateTimeFormat = "yyyy-MM-ddTHH:mm:ss.fffffff";
 

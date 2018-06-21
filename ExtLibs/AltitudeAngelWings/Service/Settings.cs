@@ -16,7 +16,7 @@ namespace AltitudeAngelWings.Service
             _missionPlanner = missionPlanner;
         }
 
-        public bool EnableAltitudeAngel
+        public bool CheckEnableAltitudeAngel
         {
             get => Get("AACheck2", false, bool.Parse);
             set => Set("AACheck2", value);

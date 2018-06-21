@@ -19,28 +19,25 @@ using Newtonsoft.Json.Linq;
 
 namespace AltitudeAngelWings.Service
 {
-    public class AltitudeAngelService : IDisposable
+    public class AltitudeAngelService : IAltitudeAngelService
     {
         public ObservableProperty<bool> IsSignedIn { get; }
         public ObservableProperty<WeatherInfo> WeatherReport { get; }
         public ObservableProperty<Unit> SentTelemetry { get; }
         public UserProfileInfo CurrentUser { get; private set; }
-        public readonly List<string> FilteredOut = new List<string>();
-        public ISettings Settings { get; }
+        public IList<string> FilteredOut { get; } = new List<string>();
 
         public AltitudeAngelService(
             IMessagesService messagesService,
             IMissionPlanner missionPlanner,
-            FlightDataService flightDataService)
+            ISettings settings,
+            IFlightDataService flightDataService,
+            IAltitudeAngelClient client)
         {
             _messagesService = messagesService;
             _missionPlanner = missionPlanner;
-            Settings = new Settings(missionPlanner);
-            _client = new AltitudeAngelClient(
-                Settings.AuthenticationUrl,
-                Settings.ApiUrl,
-                Settings.AuthToken,
-                (a, s) => new AltitudeAngelHttpHandlerFactory(a, s, Settings.ClientId, Settings.ClientSecret));
+            _settings = settings;
+            _client = client;
 
             IsSignedIn = new ObservableProperty<bool>(false);
             WeatherReport = new ObservableProperty<WeatherInfo>();
@@ -83,20 +80,18 @@ namespace AltitudeAngelWings.Service
 
             try
             {
-                FilteredOut.AddRange(Settings.MapFilters.Distinct());
+                FilteredOut = _settings.MapFilters;
             }
             catch
             {
 
             }
-
-            TryConnect();
         }
 
-        public async Task SubmitFlightReport(Models.FlightData flightData)
+        private async Task SubmitFlightReport(Models.FlightData flightData)
         {
             await _messagesService.AddMessageAsync(new Message($"ARMED: {flightData.CurrentPosition.Latitude},{flightData.CurrentPosition.Longitude}"));
-            if (!Settings.FlightReportEnable || Settings.CurrentFlightReportId != null)
+            if (!_settings.FlightReportEnable || _settings.CurrentFlightReportId != null)
             {
                 return;
             }
@@ -114,14 +109,14 @@ namespace AltitudeAngelWings.Service
                     bufferedBoundingRadius = Math.Max(flightPlan.BoundingRadius + 50, bufferedBoundingRadius);
                 }
 
-                Settings.CurrentFlightReportId = await _client.CreateFlightReport(
-                    Settings.FlightReportName,
-                    Settings.FlightReportCommercial,
+                _settings.CurrentFlightReportId = await _client.CreateFlightReport(
+                    _settings.FlightReportName,
+                    _settings.FlightReportCommercial,
                     DateTime.Now,
-                    DateTime.Now.Add(Settings.FlightReportTimeSpan),
+                    DateTime.Now.Add(_settings.FlightReportTimeSpan),
                     centerPoint,
                     bufferedBoundingRadius);
-                await _messagesService.AddMessageAsync(new Message($"Flight plan {Settings.CurrentFlightReportId} created"));
+                await _messagesService.AddMessageAsync(new Message($"Flight plan {_settings.CurrentFlightReportId} created"));
                 await UpdateMapData(_missionPlanner.FlightDataMap);
             }
             catch (Exception ex)
@@ -130,23 +125,23 @@ namespace AltitudeAngelWings.Service
             }
         }
 
-        public async Task CompleteFlightReport(Models.FlightData flightData)
+        private async Task CompleteFlightReport(Models.FlightData flightData)
         {
             await _messagesService.AddMessageAsync(new Message($"DISARMED: {flightData.CurrentPosition.Latitude},{flightData.CurrentPosition.Longitude}"));
-            if (Settings.CurrentFlightReportId == null)
+            if (_settings.CurrentFlightReportId == null)
             {
                 return;
             }
             try
             {
-                await _client.CompleteFlightReport(Settings.CurrentFlightReportId);
-                Settings.CurrentFlightReportId = null;
-                await _messagesService.AddMessageAsync(new Message($"Flight plan {Settings.CurrentFlightReportId} marked as complete"));
+                await _client.CompleteFlightReport(_settings.CurrentFlightReportId);
+                _settings.CurrentFlightReportId = null;
+                await _messagesService.AddMessageAsync(new Message($"Flight plan {_settings.CurrentFlightReportId} marked as complete"));
                 await UpdateMapData(_missionPlanner.FlightDataMap);
             }
             catch (Exception ex)
             {
-                await _messagesService.AddMessageAsync(new Message($"Marking flight plan {Settings.CurrentFlightReportId} as complete failed. {ex}"));
+                await _messagesService.AddMessageAsync(new Message($"Marking flight plan {_settings.CurrentFlightReportId} as complete failed. {ex}"));
             }
         }
 
@@ -164,7 +159,7 @@ namespace AltitudeAngelWings.Service
                 await LoadUserProfile();
 
                 // Save the token from the auth process
-                Settings.AuthToken = _client.AuthorizationState;
+                _settings.AuthToken = _client.AuthorizationState;
 
                 SignedIn(true);
             }
@@ -176,7 +171,7 @@ namespace AltitudeAngelWings.Service
 
         public Task DisconnectAsync()
         {
-            Settings.AuthToken = null;
+            _settings.AuthToken = null;
             _client.Disconnect();
             SignedOut();
             return null;
@@ -187,7 +182,7 @@ namespace AltitudeAngelWings.Service
         /// </summary>
         /// <param name="map">The map to update</param>
         /// <returns></returns>
-        public async Task UpdateMapData(IMap map)
+        private async Task UpdateMapData(IMap map)
         {
             if (!IsSignedIn)
                 return;
@@ -203,13 +198,13 @@ namespace AltitudeAngelWings.Service
                 mapData.GetFilters();
 
                 // this ensures the user sees the results before its saved
-                Settings.MapFilters = FilteredOut;
+                _settings.MapFilters = FilteredOut;
 
                 await _messagesService.AddMessageAsync($"Map area Loaded {area.Top}, {area.Bottom}, {area.Left}, {area.Right}");
 
                 // add all items to cache
-                cache.Clear();
-                mapData.Features.ForEach(feature => cache[feature.Id] = feature);
+                MapFeatureCache.Clear();
+                mapData.Features.ForEach(feature => MapFeatureCache[feature.Id] = feature);
 
                 // Only get the features that are enabled by default, and have not been filtered out
                 IEnumerable<Feature> features = mapData.Features.Where(feature => feature.IsEnabledByDefault() && feature.IsFilterOutItem(FilteredOut)).ToList();
@@ -222,23 +217,23 @@ namespace AltitudeAngelWings.Service
             }
         }
 
-        static Dictionary<string, Feature> cache = new Dictionary<string, Feature>();
+        private static readonly Dictionary<string, Feature> MapFeatureCache = new Dictionary<string, Feature>();
 
         public void ProcessAllFromCache(IMap map)
         {
             map.DeleteOverlay("AAMapData.Air");
             map.DeleteOverlay("AAMapData.Ground");
-            ProcessFeatures(map, cache.Values.Where(feature => feature.IsEnabledByDefault() && feature.IsFilterOutItem(FilteredOut)).ToList());
+            ProcessFeatures(map, MapFeatureCache.Values.Where(feature => feature.IsEnabledByDefault() && feature.IsFilterOutItem(FilteredOut)).ToList());
             map.Invalidate();
         }
 
-        public void ProcessFeatures(IMap map, IEnumerable<Feature> features)
+        private void ProcessFeatures(IMap map, IEnumerable<Feature> features)
         {
             IOverlay airOverlay = map.GetOverlay("AAMapData.Air", true);
             IOverlay groundOverlay = map.GetOverlay("AAMapData.Ground", true);
 
-            groundOverlay.IsVisible = Settings.GroundDataDisplay;
-            airOverlay.IsVisible = Settings.AirDataDisplay;
+            groundOverlay.IsVisible = _settings.GroundDataDisplay;
+            airOverlay.IsVisible = _settings.AirDataDisplay;
 
             var polygons = new List<string>();
             var lines = new List<string>();
@@ -253,7 +248,7 @@ namespace AltitudeAngelWings.Service
 
                 if (altitude == null || altitude.Meters <= 152)
                 {
-                    if (!Settings.GroundDataDisplay)
+                    if (!_settings.GroundDataDisplay)
                     {
                         if (overlay.PolygonExists(feature.Id))
                             continue;
@@ -261,7 +256,7 @@ namespace AltitudeAngelWings.Service
                 }
                 else
                 {
-                    if (!Settings.AirDataDisplay)
+                    if (!_settings.AirDataDisplay)
                     {
                         continue;
                     }
@@ -353,7 +348,7 @@ namespace AltitudeAngelWings.Service
             groundOverlay.RemoveLinesExcept(lines);
         }
 
-        public PointLatLng newpos(PointLatLng input, double bearing, double distance)
+        private PointLatLng newpos(PointLatLng input, double bearing, double distance)
         {
             const double rad2deg = (180 / Math.PI);
             const double deg2rad = (1.0 / rad2deg);
@@ -386,14 +381,14 @@ namespace AltitudeAngelWings.Service
         /// </summary>
         /// <param name="center">The point to get weather for</param>
         /// <returns></returns>
-        public async Task UpdateWeatherData(PointLatLng center)
+        private async Task UpdateWeatherData(PointLatLng center)
         {
             WeatherReport.Value = await _client.GetWeather(center);
         }
 
-        private async void TryConnect()
+        public async Task SignInIfAuthenticated()
         {
-            if (Settings.AuthToken != null)
+            if (_settings.AuthToken != null)
             {
                 await SignInAsync();
             }
@@ -457,6 +452,7 @@ namespace AltitudeAngelWings.Service
         private readonly IMessagesService _messagesService;
         private readonly IMissionPlanner _missionPlanner;
         private CompositeDisposable _disposer = new CompositeDisposable();
-        private readonly AltitudeAngelClient _client;
+        private readonly IAltitudeAngelClient _client;
+        private readonly ISettings _settings;
     }
 }

@@ -1,34 +1,46 @@
 ﻿using System;
+using System.Threading.Tasks;
+using AltitudeAngelWings;
+using AltitudeAngelWings.Extra;
 using AltitudeAngelWings.Service;
-using AltitudeAngelWings.Service.FlightData;
-using AltitudeAngelWings.Service.FlightData.Providers;
-using AltitudeAngelWings.Service.Messaging;
 using MissionPlanner.GCSViews;
 
 namespace MissionPlanner.Utilities.AltitudeAngel
 {
-    internal class AltitudeAngel : IDisposable
+    internal static class AltitudeAngel
     {
-        public static MissionPlannerAdaptor MP = new MissionPlannerAdaptor(
-            () => FlightPlanner.instance.GetFlightPlanLocations());
-        private static MessagesService Message = new MessagesService();
-
-        public static AltitudeAngelService service = null;
-
-        static AltitudeAngel()
+        internal static void Configure()
         {
-            service = new AltitudeAngelService(
-                Message,
-                MP,
-                new FlightDataService(
-                    TimeSpan.FromMilliseconds(500),
-                    new MissionPlannerFlightDataProvider(
-                        new MissionPlannerStateAdapter(() => MainV2.comPort.MAV.cs))));
+            AltitudeAngelPlugin.Configure();
+            ServiceLocator.Register<IMissionPlanner>(l => new MissionPlannerAdaptor(
+                new MapAdapter(FlightData.instance.gMapControl1),
+                new MapAdapter(FlightPlanner.instance.MainMap),
+                () => FlightPlanner.instance.GetFlightPlanLocations()));
+            ServiceLocator.Register<IMissionPlannerState>(l => new MissionPlannerStateAdapter(
+                () => MainV2.comPort.MAV.cs));
         }
 
-        public void Dispose()
+        internal static async Task Initialize()
         {
-            service.Dispose();
+            var settings = ServiceLocator.GetService<ISettings>();
+            var service = ServiceLocator.GetService<IAltitudeAngelService>();
+            if (settings.CheckEnableAltitudeAngel)
+            {
+                await service.SignInIfAuthenticated();
+                return;
+            }
+            if (CustomMessageBox.Show(
+                    "Do you wish to enable Altitude Angel airspace management data?\nFor more information visit [link;http://www.altitudeangel.com;www.altitudeangel.com]",
+                    "Altitude Angel - Enable", CustomMessageBox.MessageBoxButtons.YesNo) == (int)CustomMessageBox.DialogResult.Yes)
+            {
+                await service.SignInAsync();
+            }
+            settings.CheckEnableAltitudeAngel = true;
+        }
+
+        internal static void Dispose()
+        {
+            ServiceLocator.Clear();
         }
     }
 }

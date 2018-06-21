@@ -6,7 +6,7 @@ namespace AltitudeAngelWings.Service
 {
     public interface ISettings
     {
-        bool EnableAltitudeAngel { get; set; }
+        bool CheckEnableAltitudeAngel { get; set; }
         string AuthenticationUrl { get; }
         string ApiUrl { get; }
         string ClientId { get; }
