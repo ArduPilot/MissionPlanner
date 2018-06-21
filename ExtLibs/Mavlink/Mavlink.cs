@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Fri May 25 2018";
+    public const string MAVLINK_BUILD_DATE = "Thu Jun 21 2018";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -87,7 +87,7 @@ public partial class MAVLink
 		new message_info(66, "REQUEST_DATA_STREAM", 148, 6, 6, typeof( mavlink_request_data_stream_t )),
 		new message_info(67, "DATA_STREAM", 21, 4, 4, typeof( mavlink_data_stream_t )),
 		new message_info(69, "MANUAL_CONTROL", 243, 11, 11, typeof( mavlink_manual_control_t )),
-		new message_info(70, "RC_CHANNELS_OVERRIDE", 124, 18, 34, typeof( mavlink_rc_channels_override_t )),
+		new message_info(70, "RC_CHANNELS_OVERRIDE", 124, 18, 38, typeof( mavlink_rc_channels_override_t )),
 		new message_info(73, "MISSION_ITEM_INT", 38, 37, 38, typeof( mavlink_mission_item_int_t )),
 		new message_info(74, "VFR_HUD", 20, 20, 20, typeof( mavlink_vfr_hud_t )),
 		new message_info(75, "COMMAND_INT", 158, 35, 35, typeof( mavlink_command_int_t )),
@@ -106,10 +106,10 @@ public partial class MAVLink
 		new message_info(92, "HIL_RC_INPUTS_RAW", 54, 33, 33, typeof( mavlink_hil_rc_inputs_raw_t )),
 		new message_info(93, "HIL_ACTUATOR_CONTROLS", 47, 81, 81, typeof( mavlink_hil_actuator_controls_t )),
 		new message_info(100, "OPTICAL_FLOW", 175, 26, 34, typeof( mavlink_optical_flow_t )),
-		new message_info(101, "GLOBAL_VISION_POSITION_ESTIMATE", 102, 32, 32, typeof( mavlink_global_vision_position_estimate_t )),
-		new message_info(102, "VISION_POSITION_ESTIMATE", 158, 32, 32, typeof( mavlink_vision_position_estimate_t )),
-		new message_info(103, "VISION_SPEED_ESTIMATE", 208, 20, 20, typeof( mavlink_vision_speed_estimate_t )),
-		new message_info(104, "VICON_POSITION_ESTIMATE", 56, 32, 32, typeof( mavlink_vicon_position_estimate_t )),
+		new message_info(101, "GLOBAL_VISION_POSITION_ESTIMATE", 102, 32, 116, typeof( mavlink_global_vision_position_estimate_t )),
+		new message_info(102, "VISION_POSITION_ESTIMATE", 158, 32, 116, typeof( mavlink_vision_position_estimate_t )),
+		new message_info(103, "VISION_SPEED_ESTIMATE", 208, 20, 56, typeof( mavlink_vision_speed_estimate_t )),
+		new message_info(104, "VICON_POSITION_ESTIMATE", 56, 32, 116, typeof( mavlink_vicon_position_estimate_t )),
 		new message_info(105, "HIGHRES_IMU", 93, 62, 62, typeof( mavlink_highres_imu_t )),
 		new message_info(106, "OPTICAL_FLOW_RAD", 138, 44, 44, typeof( mavlink_optical_flow_rad_t )),
 		new message_info(107, "HIL_SENSOR", 108, 64, 64, typeof( mavlink_hil_sensor_t )),
@@ -143,7 +143,7 @@ public partial class MAVLink
 		new message_info(135, "TERRAIN_CHECK", 203, 8, 8, typeof( mavlink_terrain_check_t )),
 		new message_info(136, "TERRAIN_REPORT", 1, 22, 22, typeof( mavlink_terrain_report_t )),
 		new message_info(137, "SCALED_PRESSURE2", 195, 14, 14, typeof( mavlink_scaled_pressure2_t )),
-		new message_info(138, "ATT_POS_MOCAP", 109, 36, 36, typeof( mavlink_att_pos_mocap_t )),
+		new message_info(138, "ATT_POS_MOCAP", 109, 36, 120, typeof( mavlink_att_pos_mocap_t )),
 		new message_info(139, "SET_ACTUATOR_CONTROL_TARGET", 168, 43, 43, typeof( mavlink_set_actuator_control_target_t )),
 		new message_info(140, "ACTUATOR_CONTROL_TARGET", 181, 41, 41, typeof( mavlink_actuator_control_target_t )),
 		new message_info(141, "ALTITUDE", 47, 32, 32, typeof( mavlink_altitude_t )),
@@ -151,7 +151,7 @@ public partial class MAVLink
 		new message_info(143, "SCALED_PRESSURE3", 131, 14, 14, typeof( mavlink_scaled_pressure3_t )),
 		new message_info(144, "FOLLOW_TARGET", 127, 93, 93, typeof( mavlink_follow_target_t )),
 		new message_info(146, "CONTROL_SYSTEM_STATE", 103, 100, 100, typeof( mavlink_control_system_state_t )),
-		new message_info(147, "BATTERY_STATUS", 154, 36, 36, typeof( mavlink_battery_status_t )),
+		new message_info(147, "BATTERY_STATUS", 154, 36, 41, typeof( mavlink_battery_status_t )),
 		new message_info(148, "AUTOPILOT_VERSION", 178, 60, 78, typeof( mavlink_autopilot_version_t )),
 		new message_info(149, "LANDING_TARGET", 200, 30, 60, typeof( mavlink_landing_target_t )),
 		new message_info(150, "SENSOR_OFFSETS", 134, 42, 42, typeof( mavlink_sensor_offsets_t )),
@@ -232,7 +232,7 @@ public partial class MAVLink
 		new message_info(262, "CAMERA_CAPTURE_STATUS", 69, 31, 31, typeof( mavlink_camera_capture_status_t )),
 		new message_info(263, "CAMERA_IMAGE_CAPTURED", 133, 255, 255, typeof( mavlink_camera_image_captured_t )),
 		new message_info(264, "FLIGHT_INFORMATION", 49, 28, 28, typeof( mavlink_flight_information_t )),
-		new message_info(265, "MOUNT_ORIENTATION", 26, 16, 16, typeof( mavlink_mount_orientation_t )),
+		new message_info(265, "MOUNT_ORIENTATION", 26, 16, 20, typeof( mavlink_mount_orientation_t )),
 		new message_info(266, "LOGGING_DATA", 193, 255, 255, typeof( mavlink_logging_data_t )),
 		new message_info(267, "LOGGING_DATA_ACKED", 35, 255, 255, typeof( mavlink_logging_data_acked_t )),
 		new message_info(268, "LOGGING_ACK", 14, 4, 4, typeof( mavlink_logging_ack_t )),
@@ -240,6 +240,7 @@ public partial class MAVLink
 		new message_info(310, "UAVCAN_NODE_STATUS", 28, 17, 17, typeof( mavlink_uavcan_node_status_t )),
 		new message_info(311, "UAVCAN_NODE_INFO", 95, 116, 116, typeof( mavlink_uavcan_node_info_t )),
 		new message_info(330, "OBSTACLE_DISTANCE", 23, 158, 158, typeof( mavlink_obstacle_distance_t )),
+		new message_info(331, "ODOMETRY", 58, 230, 230, typeof( mavlink_odometry_t )),
 		new message_info(10001, "UAVIONIX_ADSB_OUT_CFG", 209, 20, 20, typeof( mavlink_uavionix_adsb_out_cfg_t )),
 		new message_info(10002, "UAVIONIX_ADSB_OUT_DYNAMIC", 186, 41, 41, typeof( mavlink_uavionix_adsb_out_dynamic_t )),
 		new message_info(10003, "UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT", 4, 1, 1, typeof( mavlink_uavionix_adsb_transceiver_health_report_t )),
@@ -250,6 +251,9 @@ public partial class MAVLink
 		new message_info(11010, "ADAP_TUNING", 46, 49, 49, typeof( mavlink_adap_tuning_t )),
 		new message_info(11011, "VISION_POSITION_DELTA", 106, 44, 44, typeof( mavlink_vision_position_delta_t )),
 		new message_info(11020, "AOA_SSA", 205, 16, 16, typeof( mavlink_aoa_ssa_t )),
+		new message_info(11030, "ESC_TELEMETRY_1_TO_4", 144, 44, 44, typeof( mavlink_esc_telemetry_1_to_4_t )),
+		new message_info(11031, "ESC_TELEMETRY_5_TO_8", 133, 44, 44, typeof( mavlink_esc_telemetry_5_to_8_t )),
+		new message_info(11032, "ESC_TELEMETRY_9_TO_12", 85, 44, 44, typeof( mavlink_esc_telemetry_9_to_12_t )),
 		new message_info(42000, "ICAROUS_HEARTBEAT", 227, 1, 1, typeof( mavlink_icarous_heartbeat_t )),
 		new message_info(42001, "ICAROUS_KINEMATIC_BANDS", 239, 46, 46, typeof( mavlink_icarous_kinematic_bands_t )),
 
@@ -490,6 +494,7 @@ WIFI_CONFIG_AP = 299,
 UAVCAN_NODE_STATUS = 310,
 UAVCAN_NODE_INFO = 311,
 OBSTACLE_DISTANCE = 330,
+ODOMETRY = 331,
 UAVIONIX_ADSB_OUT_CFG = 10001,
 UAVIONIX_ADSB_OUT_DYNAMIC = 10002,
 UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
@@ -500,6 +505,9 @@ DEVICE_OP_WRITE_REPLY = 11003,
 ADAP_TUNING = 11010,
 VISION_POSITION_DELTA = 11011,
 AOA_SSA = 11020,
+ESC_TELEMETRY_1_TO_4 = 11030,
+ESC_TELEMETRY_5_TO_8 = 11031,
+ESC_TELEMETRY_9_TO_12 = 11032,
 ICAROUS_HEARTBEAT = 42000,
 ICAROUS_KINEMATIC_BANDS = 42001,
 
@@ -687,7 +695,7 @@ ICAROUS_KINEMATIC_BANDS = 42001,
         COMPONENT_ARM_DISARM=400, 
     	///<summary> Request the home position from the vehicle. |Reserved| Reserved| Reserved| Reserved| Reserved| Reserved| Reserved|  </summary>
         GET_HOME_POSITION=410, 
-    	///<summary> Starts receiver pairing |0:Spektrum| 0:Spektrum DSM2, 1:Spektrum DSMX|  </summary>
+    	///<summary> Starts receiver pairing |0:Spektrum| RC type (see RC_TYPE enum)|  </summary>
         START_RX_PAIR=500, 
     	///<summary> Request the interval between messages for a particular MAVLink message ID |The MAVLink message ID|  </summary>
         GET_MESSAGE_INTERVAL=510, 
@@ -713,7 +721,7 @@ ICAROUS_KINEMATIC_BANDS = 42001,
         REQUEST_FLIGHT_INFORMATION=528, 
     	///<summary> Set camera running mode. Use NAN for reserved values. |Reserved (Set to 0)| Camera mode (see CAMERA_MODE enum)| Reserved (all remaining params)|  </summary>
         SET_CAMERA_MODE=530, 
-    	///<summary> Start image capture sequence. Sends CAMERA_IMAGE_CAPTURED after each capture. |Duration between two consecutive pictures (in seconds)| Number of images to capture total - 0 for unlimited capture| Resolution in megapixels (0.3 for 640x480, 1.3 for 1280x720, etc), set to 0 if param 4/5 are used, set to -1 for highest resolution possible.| WIP: Resolution horizontal in pixels| WIP: Resolution horizontal in pixels| WIP: Camera ID|  </summary>
+    	///<summary> Start image capture sequence. Sends CAMERA_IMAGE_CAPTURED after each capture. Use NAN for reserved values. |Reserved (Set to 0)| Duration between two consecutive pictures (in seconds)| Number of images to capture total - 0 for unlimited capture| Capture sequence (ID to prevent double captures when a command is retransmitted, 0: unused, >= 1: used)| Reserved (all remaining params)|  </summary>
         IMAGE_START_CAPTURE=2000, 
     	///<summary> Stop image capture sequence |Camera ID| Reserved|  </summary>
         IMAGE_STOP_CAPTURE=2001, 
@@ -729,6 +737,8 @@ ICAROUS_KINEMATIC_BANDS = 42001,
         LOGGING_STOP=2511, 
     	///<summary>  |Landing gear ID (default: 0, -1 for all)| Landing gear position (Down: 0, Up: 1, NAN for no change)| Reserved, set to NAN| Reserved, set to NAN| Reserved, set to NAN| Reserved, set to NAN| Reserved, set to NAN|  </summary>
         AIRFRAME_CONFIGURATION=2520, 
+    	///<summary> Request to start/stop transmitting over the high latency telemetry |Control transmittion over high latency telemetry (0: stop, 1: start)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
+        CONTROL_HIGH_LATENCY=2600, 
     	///<summary> Create a panorama at the current position |Viewing angle horizontal of the panorama (in degrees, +- 0.5 the total angle)| Viewing angle vertical of panorama (in degrees)| Speed of the horizontal rotation (in degrees per second)| Speed of the vertical rotation (in degrees per second)|  </summary>
         PANORAMA_CREATE=2800, 
     	///<summary> Request VTOL transition |The target VTOL state, as defined by ENUM MAV_VTOL_STATE. Only MAV_VTOL_STATE_MC and MAV_VTOL_STATE_FW can be used.|  </summary>
@@ -1664,6 +1674,8 @@ ICAROUS_KINEMATIC_BANDS = 42001,
         ASLUAV=17, 
     	///<summary> SmartAP Autopilot - http://sky-drones.com | </summary>
         SMARTAP=18, 
+    	///<summary> AirRails - http://uaventure.com | </summary>
+        AIRRAILS=19, 
     
     };
     
@@ -1730,6 +1742,12 @@ ICAROUS_KINEMATIC_BANDS = 42001,
         PARAFOIL=28, 
     	///<summary> Dodecarotor | </summary>
         DODECAROTOR=29, 
+    	///<summary> Camera | </summary>
+        CAMERA=30, 
+    	///<summary> Charging station | </summary>
+        CHARGING_STATION=31, 
+    	///<summary> Onboard FLARM collision avoidance system | </summary>
+        FLARM=32, 
     
     };
     
@@ -1909,6 +1927,8 @@ ICAROUS_KINEMATIC_BANDS = 42001,
     	///<summary>  | </summary>
         MAV_COMP_ID_QX1_GIMBAL=159, 
     	///<summary>  | </summary>
+        MAV_COMP_ID_FLARM=160, 
+    	///<summary>  | </summary>
         MAV_COMP_ID_MAPPER=180, 
     	///<summary>  | </summary>
         MAV_COMP_ID_MISSIONPLANNER=190, 
@@ -1988,23 +2008,25 @@ ICAROUS_KINEMATIC_BANDS = 42001,
         MAV_SYS_STATUS_LOGGING=16777216, 
     	///<summary> 0x2000000 Battery | </summary>
         BATTERY=33554432, 
+    	///<summary> 0x4000000 Proximity | </summary>
+        PROXIMITY=67108864, 
     
     };
     
     ///<summary>  </summary>
     public enum MAV_FRAME: byte
     {
-			///<summary> Global coordinate frame, WGS84 coordinate system. First value / x: latitude, second value / y: longitude, third value / z: positive altitude over mean sea level (MSL) | </summary>
+			///<summary> Global coordinate frame, WGS84 coordinate system. First value / x: latitude, second value / y: longitude, third value / z: positive altitude over mean sea level (MSL). | </summary>
         GLOBAL=0, 
-    	///<summary> Local coordinate frame, Z-up (x: north, y: east, z: down). | </summary>
+    	///<summary> Local coordinate frame, Z-down (x: north, y: east, z: down). | </summary>
         LOCAL_NED=1, 
     	///<summary> NOT a coordinate frame, indicates a mission command. | </summary>
         MISSION=2, 
     	///<summary> Global coordinate frame, WGS84 coordinate system, relative altitude over ground with respect to the home position. First value / x: latitude, second value / y: longitude, third value / z: positive altitude with 0 being at the altitude of the home location. | </summary>
         GLOBAL_RELATIVE_ALT=3, 
-    	///<summary> Local coordinate frame, Z-down (x: east, y: north, z: up) | </summary>
+    	///<summary> Local coordinate frame, Z-up (x: east, y: north, z: up). | </summary>
         LOCAL_ENU=4, 
-    	///<summary> Global coordinate frame, WGS84 coordinate system. First value / x: latitude in degrees*1.0e-7, second value / y: longitude in degrees*1.0e-7, third value / z: positive altitude over mean sea level (MSL) | </summary>
+    	///<summary> Global coordinate frame, WGS84 coordinate system. First value / x: latitude in degrees*1.0e-7, second value / y: longitude in degrees*1.0e-7, third value / z: positive altitude over mean sea level (MSL). | </summary>
         GLOBAL_INT=5, 
     	///<summary> Global coordinate frame, WGS84 coordinate system, relative altitude over ground with respect to the home position. First value / x: latitude in degrees*10e-7, second value / y: longitude in degrees*10e-7, third value / z: positive altitude with 0 being at the altitude of the home location. | </summary>
         GLOBAL_RELATIVE_ALT_INT=6, 
@@ -2018,6 +2040,22 @@ ICAROUS_KINEMATIC_BANDS = 42001,
         GLOBAL_TERRAIN_ALT=10, 
     	///<summary> Global coordinate frame with above terrain level altitude. WGS84 coordinate system, relative altitude over terrain with respect to the waypoint coordinate. First value / x: latitude in degrees*10e-7, second value / y: longitude in degrees*10e-7, third value / z: positive altitude in meters with 0 being at ground level in terrain model. | </summary>
         GLOBAL_TERRAIN_ALT_INT=11, 
+    	///<summary> Body fixed frame of reference, Z-down (x: forward, y: right, z: down). | </summary>
+        BODY_FRD=12, 
+    	///<summary> Body fixed frame of reference, Z-up (x: forward, y: left, z: up). | </summary>
+        BODY_FLU=13, 
+    	///<summary> Odometry local coordinate frame of data given by a motion capture system, Z-down (x: north, y: east, z: down). | </summary>
+        MOCAP_NED=14, 
+    	///<summary> Odometry local coordinate frame of data given by a motion capture system, Z-up (x: east, y: north, z: up). | </summary>
+        MOCAP_ENU=15, 
+    	///<summary> Odometry local coordinate frame of data given by a vision estimation system, Z-down (x: north, y: east, z: down). | </summary>
+        VISION_NED=16, 
+    	///<summary> Odometry local coordinate frame of data given by a vision estimation system, Z-up (x: east, y: north, z: up). | </summary>
+        VISION_ENU=17, 
+    	///<summary> Odometry local coordinate frame of data given by an estimator running onboard the vehicle, Z-down (x: north, y: east, z: down). | </summary>
+        ESTIM_NED=18, 
+    	///<summary> Odometry local coordinate frame of data given by an estimator running onboard the vehicle, Z-up (x: east, y: noth, z: up). | </summary>
+        ESTIM_ENU=19, 
     
     };
     
@@ -2531,6 +2569,26 @@ ICAROUS_KINEMATIC_BANDS = 42001,
     
     };
     
+    ///<summary> Enumeration for low battery states. </summary>
+    public enum MAV_BATTERY_CHARGE_STATE: byte
+    {
+			///<summary> Low battery state is not provided | </summary>
+        UNDEFINED=0, 
+    	///<summary> Battery is not in low state. Normal operation. | </summary>
+        OK=1, 
+    	///<summary> Battery state is low, warn and monitor close. | </summary>
+        LOW=2, 
+    	///<summary> Battery state is critical, return or abort immediately. | </summary>
+        CRITICAL=3, 
+    	///<summary> Battery state is too low for ordinary abort sequence. Perform fastest possible emergency stop to prevent damage. | </summary>
+        EMERGENCY=4, 
+    	///<summary> Battery failed, damage unavoidable. | </summary>
+        FAILED=5, 
+    	///<summary> Battery is diagnosed to be defective or an error occurred, usage is discouraged / prohibited. | </summary>
+        UNHEALTHY=6, 
+    
+    };
+    
     ///<summary> Enumeration of VTOL states </summary>
     public enum MAV_VTOL_STATE: byte
     {
@@ -2672,6 +2730,8 @@ ICAROUS_KINEMATIC_BANDS = 42001,
         ESTIMATOR_PRED_POS_HORIZ_ABS=512, 
     	///<summary> True if the EKF has detected a GPS glitch | </summary>
         ESTIMATOR_GPS_GLITCH=1024, 
+    	///<summary> True if the EKF has detected bad accelerometer data | </summary>
+        ESTIMATOR_ACCEL_ERROR=2048, 
     
     };
     
@@ -2856,6 +2916,16 @@ ICAROUS_KINEMATIC_BANDS = 42001,
         AIRSPACE_IN_USE=4, 
     	///<summary> Weather is not good to fly | </summary>
         BAD_WEATHER=5, 
+    
+    };
+    
+    ///<summary> RC type </summary>
+    public enum RC_TYPE: int /*default*/
+    {
+			///<summary> Spektrum DSM2 | </summary>
+        SPEKTRUM_DSM2=0, 
+    	///<summary> Spektrum DSMX | </summary>
+        SPEKTRUM_DSMX=1, 
     
     };
     
@@ -4217,19 +4287,97 @@ ICAROUS_KINEMATIC_BANDS = 42001,
     };
 
 
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=44)]
+    ///<summary> ESC Telemetry Data for ESCs 1 to 4, matching data sent by BLHeli ESCs </summary>
+    public struct mavlink_esc_telemetry_1_to_4_t
+    {
+        /// <summary> Voltage </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public UInt16[] voltage;
+            /// <summary> Current </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public UInt16[] current;
+            /// <summary> Total current </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public UInt16[] totalcurrent;
+            /// <summary> RPM (eRPM) </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public UInt16[] rpm;
+            /// <summary> count of telemetry packets received (wraps at 65535) </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public UInt16[] count;
+            /// <summary> Temperature </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public byte[] temperature;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=44)]
+    ///<summary> ESC Telemetry Data for ESCs 5 to 8, matching data sent by BLHeli ESCs </summary>
+    public struct mavlink_esc_telemetry_5_to_8_t
+    {
+        /// <summary> Voltage </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public UInt16[] voltage;
+            /// <summary> Current </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public UInt16[] current;
+            /// <summary> Total current </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public UInt16[] totalcurrent;
+            /// <summary> RPM (eRPM) </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public UInt16[] rpm;
+            /// <summary> count of telemetry packets received (wraps at 65535) </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public UInt16[] count;
+            /// <summary> Temperature </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public byte[] temperature;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=44)]
+    ///<summary> ESC Telemetry Data for ESCs 9 to 12, matching data sent by BLHeli ESCs </summary>
+    public struct mavlink_esc_telemetry_9_to_12_t
+    {
+        /// <summary> Voltage </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public UInt16[] voltage;
+            /// <summary> Current </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public UInt16[] current;
+            /// <summary> Total current </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public UInt16[] totalcurrent;
+            /// <summary> RPM (eRPM) </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public UInt16[] rpm;
+            /// <summary> count of telemetry packets received (wraps at 65535) </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public UInt16[] count;
+            /// <summary> Temperature </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public byte[] temperature;
+    
+    };
+
+
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=9)]
     ///<summary> The heartbeat message shows that a system is present and responding. The type of the MAV and Autopilot hardware allow the receiving system to treat further messages from this system appropriate (e.g. by laying out the user interface based on the autopilot). </summary>
     public struct mavlink_heartbeat_t
     {
-        /// <summary> A bitfield for use for autopilot-specific flags. </summary>
+        /// <summary> A bitfield for use for autopilot-specific flags </summary>
         public  uint custom_mode;
             /// <summary> Type of the MAV (quadrotor, helicopter, etc., up to 15 types, defined in MAV_TYPE ENUM) MAV_TYPE</summary>
         public  /*MAV_TYPE*/byte type;
             /// <summary> Autopilot type / class. defined in MAV_AUTOPILOT ENUM MAV_AUTOPILOT</summary>
         public  /*MAV_AUTOPILOT*/byte autopilot;
-            /// <summary> System mode bitfield, see MAV_MODE_FLAG ENUM in mavlink/include/mavlink_types.h MAV_MODE_FLAG</summary>
+            /// <summary> System mode bitfield, as defined by MAV_MODE_FLAG enum MAV_MODE_FLAG</summary>
         public  /*MAV_MODE_FLAG*/byte base_mode;
-            /// <summary> System status flag, see MAV_STATE ENUM MAV_STATE</summary>
+            /// <summary> System status flag, as defined by MAV_STATE enum MAV_STATE</summary>
         public  /*MAV_STATE*/byte system_status;
             /// <summary> MAVLink version, not writable by user, gets added by protocol because of magic data type: uint8_t_mavlink_version </summary>
         public  byte mavlink_version;
@@ -4356,7 +4504,7 @@ ICAROUS_KINEMATIC_BANDS = 42001,
 
 
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=20)]
-    ///<summary> Request to read the onboard parameter with the param_id string id. Onboard parameters are stored as key[const char*] -> value[float]. This allows to send a parameter to any other component (such as the GCS) without the need of previous knowledge of possible parameter names. Thus the same GCS can store different parameters for different autopilots. See also http://qgroundcontrol.org/parameter_interface for a full documentation of QGroundControl and IMU code. </summary>
+    ///<summary> Request to read the onboard parameter with the param_id string id. Onboard parameters are stored as key[const char*] -> value[float]. This allows to send a parameter to any other component (such as the GCS) without the need of previous knowledge of possible parameter names. Thus the same GCS can store different parameters for different autopilots. See also https://mavlink.io/en/protocol/parameter.html for a full documentation of QGroundControl and IMU code. </summary>
     public struct mavlink_param_request_read_t
     {
         /// <summary> Parameter index. Send -1 to use the param ID field as identifier (else the param id will be ignored) </summary>
@@ -4423,7 +4571,7 @@ ICAROUS_KINEMATIC_BANDS = 42001,
 
 
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=50)]
-    ///<summary> The global position, as returned by the Global Positioning System (GPS). This is                 NOT the global position estimate of the system, but rather a RAW sensor value. See message GLOBAL_POSITION for the global position estimate. Coordinate frame is right-handed, Z-axis up (GPS frame). </summary>
+    ///<summary> The global position, as returned by the Global Positioning System (GPS). This is                 NOT the global position estimate of the system, but rather a RAW sensor value. See message GLOBAL_POSITION for the global position estimate. </summary>
     public struct mavlink_gps_raw_int_t
     {
         /// <summary> Timestamp (microseconds since UNIX epoch or microseconds since system boot) </summary>
@@ -4774,7 +4922,7 @@ ICAROUS_KINEMATIC_BANDS = 42001,
 
 
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=7)]
-    ///<summary> Request a partial list of mission items from the system/component. http://qgroundcontrol.org/mavlink/waypoint_protocol. If start and end index are the same, just send one waypoint. </summary>
+    ///<summary> Request a partial list of mission items from the system/component. https://mavlink.io/en/protocol/mission.html. If start and end index are the same, just send one waypoint. </summary>
     public struct mavlink_mission_request_partial_list_t
     {
         /// <summary> Start index, 0 by default </summary>
@@ -4810,7 +4958,7 @@ ICAROUS_KINEMATIC_BANDS = 42001,
 
 
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=38)]
-    ///<summary> Message encoding a mission item. This message is emitted to announce                 the presence of a mission item and to set a mission item on the system. The mission item can be either in x, y, z meters (type: LOCAL) or x:lat, y:lon, z:altitude. Local frame is Z-down, right handed (NED), global frame is Z-up, right handed (ENU). See also http://qgroundcontrol.org/mavlink/waypoint_protocol. </summary>
+    ///<summary> Message encoding a mission item. This message is emitted to announce                 the presence of a mission item and to set a mission item on the system. The mission item can be either in x, y, z meters (type: LOCAL) or x:lat, y:lon, z:altitude. Local frame is Z-down, right handed (NED), global frame is Z-up, right handed (ENU). See also https://mavlink.io/en/protocol/mission.html. </summary>
     public struct mavlink_mission_item_t
     {
         /// <summary> PARAM1, see MAV_CMD enum </summary>
@@ -4829,13 +4977,13 @@ ICAROUS_KINEMATIC_BANDS = 42001,
         public  float z;
             /// <summary> Sequence </summary>
         public  ushort seq;
-            /// <summary> The scheduled action for the waypoint. see MAV_CMD in common.xml MAVLink specs MAV_CMD</summary>
+            /// <summary> The scheduled action for the waypoint, as defined by MAV_CMD enum MAV_CMD</summary>
         public  /*MAV_CMD*/ushort command;
             /// <summary> System ID </summary>
         public  byte target_system;
             /// <summary> Component ID </summary>
         public  byte target_component;
-            /// <summary> The coordinate system of the waypoint. see MAV_FRAME in mavlink_types.h MAV_FRAME</summary>
+            /// <summary> The coordinate system of the waypoint, as defined by MAV_FRAME enum MAV_FRAME</summary>
         public  /*MAV_FRAME*/byte frame;
             /// <summary> false:0, true:1 </summary>
         public  byte current;
@@ -4848,7 +4996,7 @@ ICAROUS_KINEMATIC_BANDS = 42001,
 
 
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=5)]
-    ///<summary> Request the information of the mission item with the sequence number seq. The response of the system to this message should be a MISSION_ITEM message. http://qgroundcontrol.org/mavlink/waypoint_protocol </summary>
+    ///<summary> Request the information of the mission item with the sequence number seq. The response of the system to this message should be a MISSION_ITEM message. https://mavlink.io/en/protocol/mission.html </summary>
     public struct mavlink_mission_request_t
     {
         /// <summary> Sequence </summary>
@@ -5019,7 +5167,7 @@ ICAROUS_KINEMATIC_BANDS = 42001,
 
 
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=5)]
-    ///<summary> Request the information of the mission item with the sequence number seq. The response of the system to this message should be a MISSION_ITEM_INT message. http://qgroundcontrol.org/mavlink/waypoint_protocol </summary>
+    ///<summary> Request the information of the mission item with the sequence number seq. The response of the system to this message should be a MISSION_ITEM_INT message. https://mavlink.io/en/protocol/mission.html </summary>
     public struct mavlink_mission_request_int_t
     {
         /// <summary> Sequence </summary>
@@ -5054,7 +5202,7 @@ ICAROUS_KINEMATIC_BANDS = 42001,
         public  byte target_system;
             /// <summary> Component ID </summary>
         public  byte target_component;
-            /// <summary> Coordinate frame, as defined by MAV_FRAME enum in mavlink_types.h. Can be either global, GPS, right-handed with Z axis up or local, right handed, Z axis down. MAV_FRAME</summary>
+            /// <summary> Coordinate frame, as defined by MAV_FRAME enum. Can be either global, GPS, right-handed with Z axis up or local, right handed, Z axis down. MAV_FRAME</summary>
         public  /*MAV_FRAME*/byte frame;
     
     };
@@ -5076,7 +5224,7 @@ ICAROUS_KINEMATIC_BANDS = 42001,
         public  float p2y;
             /// <summary> z position 2 / Altitude 2 </summary>
         public  float p2z;
-            /// <summary> Coordinate frame, as defined by MAV_FRAME enum in mavlink_types.h. Can be either global, GPS, right-handed with Z axis up or local, right handed, Z axis down. MAV_FRAME</summary>
+            /// <summary> Coordinate frame, as defined by MAV_FRAME enum. Can be either global, GPS, right-handed with Z axis up or local, right handed, Z axis down. MAV_FRAME</summary>
         public  /*MAV_FRAME*/byte frame;
     
     };
@@ -5292,7 +5440,7 @@ ICAROUS_KINEMATIC_BANDS = 42001,
     };
 
 
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=34)]
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=38)]
     ///<summary> The RAW values of the RC channels sent to the MAV to override info received from the RC radio. A value of UINT16_MAX means no change to that channel. A value of 0 means control of that channel should be released back to the RC radio. The standard PPM modulation is as follows: 1000 microseconds: 0%, 2000 microseconds: 100%. Individual receivers/transmitters might violate this specification. </summary>
     public struct mavlink_rc_channels_override_t
     {
@@ -5316,28 +5464,32 @@ ICAROUS_KINEMATIC_BANDS = 42001,
         public  byte target_system;
             /// <summary> Component ID </summary>
         public  byte target_component;
-            /// <summary> RC channel 9 value, in microseconds. A value of UINT16_MAX means to ignore this field. </summary>
+            /// <summary> RC channel 9 value, in microseconds. A value of 0 means to ignore this field. </summary>
         public  ushort chan9_raw;
-            /// <summary> RC channel 10 value, in microseconds. A value of UINT16_MAX means to ignore this field. </summary>
+            /// <summary> RC channel 10 value, in microseconds. A value of 0 or UINT16_MAX means to ignore this field. </summary>
         public  ushort chan10_raw;
-            /// <summary> RC channel 11 value, in microseconds. A value of UINT16_MAX means to ignore this field. </summary>
+            /// <summary> RC channel 11 value, in microseconds. A value of 0 or UINT16_MAX means to ignore this field. </summary>
         public  ushort chan11_raw;
-            /// <summary> RC channel 12 value, in microseconds. A value of UINT16_MAX means to ignore this field. </summary>
+            /// <summary> RC channel 12 value, in microseconds. A value of 0 or UINT16_MAX means to ignore this field. </summary>
         public  ushort chan12_raw;
-            /// <summary> RC channel 13 value, in microseconds. A value of UINT16_MAX means to ignore this field. </summary>
+            /// <summary> RC channel 13 value, in microseconds. A value of 0 or UINT16_MAX means to ignore this field. </summary>
         public  ushort chan13_raw;
-            /// <summary> RC channel 14 value, in microseconds. A value of UINT16_MAX means to ignore this field. </summary>
+            /// <summary> RC channel 14 value, in microseconds. A value of 0 or UINT16_MAX means to ignore this field. </summary>
         public  ushort chan14_raw;
-            /// <summary> RC channel 15 value, in microseconds. A value of UINT16_MAX means to ignore this field. </summary>
+            /// <summary> RC channel 15 value, in microseconds. A value of 0 or UINT16_MAX means to ignore this field. </summary>
         public  ushort chan15_raw;
-            /// <summary> RC channel 16 value, in microseconds. A value of UINT16_MAX means to ignore this field. </summary>
+            /// <summary> RC channel 16 value, in microseconds. A value of 0 or UINT16_MAX means to ignore this field. </summary>
         public  ushort chan16_raw;
+            /// <summary> RC channel 17 value, in microseconds. A value of 0 or UINT16_MAX means to ignore this field. </summary>
+        public  ushort chan17_raw;
+            /// <summary> RC channel 18 value, in microseconds. A value of 0 or UINT16_MAX means to ignore this field. </summary>
+        public  ushort chan18_raw;
     
     };
 
 
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=38)]
-    ///<summary> Message encoding a mission item. This message is emitted to announce                 the presence of a mission item and to set a mission item on the system. The mission item can be either in x, y, z meters (type: LOCAL) or x:lat, y:lon, z:altitude. Local frame is Z-down, right handed (NED), global frame is Z-up, right handed (ENU). See alsohttp://qgroundcontrol.org/mavlink/waypoint_protocol. </summary>
+    ///<summary> Message encoding a mission item. This message is emitted to announce                 the presence of a mission item and to set a mission item on the system. The mission item can be either in x, y, z meters (type: LOCAL) or x:lat, y:lon, z:altitude. Local frame is Z-down, right handed (NED), global frame is Z-up, right handed (ENU). See also https://mavlink.io/en/protocol/mission.html. </summary>
     public struct mavlink_mission_item_int_t
     {
         /// <summary> PARAM1, see MAV_CMD enum </summary>
@@ -5356,13 +5508,13 @@ ICAROUS_KINEMATIC_BANDS = 42001,
         public  float z;
             /// <summary> Waypoint ID (sequence number). Starts at zero. Increases monotonically for each waypoint, no gaps in the sequence (0,1,2,3,4). </summary>
         public  ushort seq;
-            /// <summary> The scheduled action for the waypoint. see MAV_CMD in common.xml MAVLink specs MAV_CMD</summary>
+            /// <summary> The scheduled action for the waypoint, as defined by MAV_CMD enum MAV_CMD</summary>
         public  /*MAV_CMD*/ushort command;
             /// <summary> System ID </summary>
         public  byte target_system;
             /// <summary> Component ID </summary>
         public  byte target_component;
-            /// <summary> The coordinate system of the waypoint. see MAV_FRAME in mavlink_types.h MAV_FRAME</summary>
+            /// <summary> The coordinate system of the waypoint, as defined by MAV_FRAME enum MAV_FRAME</summary>
         public  /*MAV_FRAME*/byte frame;
             /// <summary> false:0, true:1 </summary>
         public  byte current;
@@ -5412,13 +5564,13 @@ ICAROUS_KINEMATIC_BANDS = 42001,
         public  int y;
             /// <summary> PARAM7 / z position: global: altitude in meters (relative or absolute, depending on frame. </summary>
         public  float z;
-            /// <summary> The scheduled action for the mission item. see MAV_CMD in common.xml MAVLink specs MAV_CMD</summary>
+            /// <summary> The scheduled action for the mission item, as defined by MAV_CMD enum MAV_CMD</summary>
         public  /*MAV_CMD*/ushort command;
             /// <summary> System ID </summary>
         public  byte target_system;
             /// <summary> Component ID </summary>
         public  byte target_component;
-            /// <summary> The coordinate system of the COMMAND. see MAV_FRAME in mavlink_types.h MAV_FRAME</summary>
+            /// <summary> The coordinate system of the COMMAND, as defined by MAV_FRAME enum MAV_FRAME</summary>
         public  /*MAV_FRAME*/byte frame;
             /// <summary> false:0, true:1 </summary>
         public  byte current;
@@ -5867,7 +6019,7 @@ ICAROUS_KINEMATIC_BANDS = 42001,
     };
 
 
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=32)]
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=116)]
     ///<summary>  </summary>
     public struct mavlink_global_vision_position_estimate_t
     {
@@ -5885,11 +6037,14 @@ ICAROUS_KINEMATIC_BANDS = 42001,
         public  float pitch;
             /// <summary> Yaw angle in rad </summary>
         public  float yaw;
+            /// <summary> Pose covariance matrix upper right triangular (first six entries are the first ROW, next five entries are the second ROW, etc.) </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=21)]
+		public float[] covariance;
     
     };
 
 
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=32)]
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=116)]
     ///<summary>  </summary>
     public struct mavlink_vision_position_estimate_t
     {
@@ -5907,11 +6062,14 @@ ICAROUS_KINEMATIC_BANDS = 42001,
         public  float pitch;
             /// <summary> Yaw angle in rad </summary>
         public  float yaw;
+            /// <summary> Pose covariance matrix upper right triangular (first six entries are the first ROW, next five entries are the second ROW, etc.) </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=21)]
+		public float[] covariance;
     
     };
 
 
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=20)]
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=56)]
     ///<summary>  </summary>
     public struct mavlink_vision_speed_estimate_t
     {
@@ -5923,11 +6081,14 @@ ICAROUS_KINEMATIC_BANDS = 42001,
         public  float y;
             /// <summary> Global Z speed </summary>
         public  float z;
+            /// <summary> Linear velocity covariance matrix (1st three entries - 1st row, etc.) </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=9)]
+		public float[] covariance;
     
     };
 
 
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=32)]
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=116)]
     ///<summary>  </summary>
     public struct mavlink_vicon_position_estimate_t
     {
@@ -5945,6 +6106,9 @@ ICAROUS_KINEMATIC_BANDS = 42001,
         public  float pitch;
             /// <summary> Yaw angle in rad </summary>
         public  float yaw;
+            /// <summary> Pose covariance matrix upper right triangular (first six entries are the first ROW, next five entries are the second ROW, etc.) </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=21)]
+		public float[] covariance;
     
     };
 
@@ -6171,7 +6335,7 @@ ICAROUS_KINEMATIC_BANDS = 42001,
 
 
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=36)]
-    ///<summary> The global position, as returned by the Global Positioning System (GPS). This is                  NOT the global position estimate of the sytem, but rather a RAW sensor value. See message GLOBAL_POSITION for the global position estimate. Coordinate frame is right-handed, Z-axis up (GPS frame). </summary>
+    ///<summary> The global position, as returned by the Global Positioning System (GPS). This is                  NOT the global position estimate of the sytem, but rather a RAW sensor value. See message GLOBAL_POSITION for the global position estimate. </summary>
     public struct mavlink_hil_gps_t
     {
         /// <summary> Timestamp (microseconds since UNIX epoch or microseconds since system boot) </summary>
@@ -6416,7 +6580,7 @@ ICAROUS_KINEMATIC_BANDS = 42001,
 
 
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=35)]
-    ///<summary> Second GPS data. Coordinate frame is right-handed, Z-axis up (GPS frame). </summary>
+    ///<summary> Second GPS data. </summary>
     public struct mavlink_gps2_raw_t
     {
         /// <summary> Timestamp (microseconds since UNIX epoch or microseconds since system boot) </summary>
@@ -6722,7 +6886,7 @@ ICAROUS_KINEMATIC_BANDS = 42001,
     };
 
 
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=36)]
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=120)]
     ///<summary> Motion capture attitude and position </summary>
     public struct mavlink_att_pos_mocap_t
     {
@@ -6737,6 +6901,9 @@ ICAROUS_KINEMATIC_BANDS = 42001,
         public  float y;
             /// <summary> Z position in meters (NED) </summary>
         public  float z;
+            /// <summary> Pose covariance matrix upper right triangular (first six entries are the first ROW, next five entries are the second ROW, etc.) </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=21)]
+		public float[] covariance;
     
     };
 
@@ -6913,7 +7080,7 @@ ICAROUS_KINEMATIC_BANDS = 42001,
     };
 
 
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=36)]
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=41)]
     ///<summary> Battery information </summary>
     public struct mavlink_battery_status_t
     {
@@ -6936,6 +7103,10 @@ ICAROUS_KINEMATIC_BANDS = 42001,
         public  /*MAV_BATTERY_TYPE*/byte type;
             /// <summary> Remaining battery energy: (0%: 0, 100%: 100), -1: autopilot does not estimate the remaining battery </summary>
         public  byte battery_remaining;
+            /// <summary> Remaining battery time, in seconds (1 = 1s = 0% energy left), 0: autopilot does not provide remaining battery time estimate </summary>
+        public  int time_remaining;
+            /// <summary> State for extent of discharge, provided by autopilot for warning or external reactions MAV_BATTERY_CHARGE_STATE</summary>
+        public  /*MAV_BATTERY_CHARGE_STATE*/byte charge_state;
     
     };
 
@@ -7150,7 +7321,7 @@ ICAROUS_KINEMATIC_BANDS = 42001,
         public  short altitude_sp;
             /// <summary> distance to target (meters) </summary>
         public  ushort wp_distance;
-            /// <summary> System mode bitfield, see MAV_MODE_FLAG ENUM in mavlink/include/mavlink_types.h MAV_MODE_FLAG</summary>
+            /// <summary> System mode bitfield, as defined by MAV_MODE_FLAG enum. MAV_MODE_FLAG</summary>
         public  /*MAV_MODE_FLAG*/byte base_mode;
             /// <summary> The landed state. Is set to MAV_LANDED_STATE_UNDEFINED if landed state is unknown. MAV_LANDED_STATE</summary>
         public  /*MAV_LANDED_STATE*/byte landed_state;
@@ -7675,18 +7846,20 @@ ICAROUS_KINEMATIC_BANDS = 42001,
     };
 
 
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=16)]
-    ///<summary> WIP: Orientation of a mount </summary>
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=20)]
+    ///<summary> Orientation of a mount </summary>
     public struct mavlink_mount_orientation_t
     {
         /// <summary> Timestamp (milliseconds since system boot) </summary>
         public  uint time_boot_ms;
-            /// <summary> Roll in degrees </summary>
+            /// <summary> Roll in global frame in degrees (set to NaN for invalid). </summary>
         public  float roll;
-            /// <summary> Pitch in degrees </summary>
+            /// <summary> Pitch in global frame in degrees (set to NaN for invalid). </summary>
         public  float pitch;
-            /// <summary> Yaw in degrees </summary>
+            /// <summary> Yaw relative to vehicle in degrees (set to NaN for invalid). </summary>
         public  float yaw;
+            /// <summary> Yaw in absolute frame in degrees, North is 0 (set to NaN for invalid). </summary>
+        public  float yaw_absolute;
     
     };
 
@@ -7813,19 +7986,60 @@ ICAROUS_KINEMATIC_BANDS = 42001,
     ///<summary> Obstacle distances in front of the sensor, starting from the left in increment degrees to the right </summary>
     public struct mavlink_obstacle_distance_t
     {
-        /// <summary> Timestamp (microseconds since system boot or since UNIX epoch) </summary>
+        /// <summary> Timestamp (microseconds since system boot or since UNIX epoch). </summary>
         public  ulong time_usec;
-            /// <summary> Distance of obstacles in front of the sensor starting on the left side. A value of 0 means that the obstacle is right in front of the sensor. A value of max_distance +1 means no obstace is present. A value of UINT16_MAX for unknown/not used. In a array element, each unit corresponds to 1cm. </summary>
+            /// <summary> Distance of obstacles around the UAV with index 0 corresponding to local North. A value of 0 means that the obstacle is right in front of the sensor. A value of max_distance +1 means no obstacle is present. A value of UINT16_MAX for unknown/not used. In a array element, one unit corresponds to 1cm. </summary>
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=72)]
 		public UInt16[] distances;
-            /// <summary> Minimum distance the sensor can measure in centimeters </summary>
+            /// <summary> Minimum distance the sensor can measure in centimeters. </summary>
         public  ushort min_distance;
-            /// <summary> Maximum distance the sensor can measure in centimeters </summary>
+            /// <summary> Maximum distance the sensor can measure in centimeters. </summary>
         public  ushort max_distance;
             /// <summary> Class id of the distance sensor type. MAV_DISTANCE_SENSOR</summary>
         public  /*MAV_DISTANCE_SENSOR*/byte sensor_type;
             /// <summary> Angular width in degrees of each array element. </summary>
         public  byte increment;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=230)]
+    ///<summary> Odometry message to communicate odometry information with an external interface. Fits ROS REP 147 standard for aerial vehicles (http://www.ros.org/reps/rep-0147.html). </summary>
+    public struct mavlink_odometry_t
+    {
+        /// <summary> Timestamp (microseconds since system boot or since UNIX epoch). </summary>
+        public  ulong time_usec;
+            /// <summary> X Position </summary>
+        public  float x;
+            /// <summary> Y Position </summary>
+        public  float y;
+            /// <summary> Z Position </summary>
+        public  float z;
+            /// <summary> Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation) </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public float[] q;
+            /// <summary> X linear speed </summary>
+        public  float vx;
+            /// <summary> Y linear speed </summary>
+        public  float vy;
+            /// <summary> Z linear speed </summary>
+        public  float vz;
+            /// <summary> Roll angular speed </summary>
+        public  float rollspeed;
+            /// <summary> Pitch angular speed </summary>
+        public  float pitchspeed;
+            /// <summary> Yaw angular speed </summary>
+        public  float yawspeed;
+            /// <summary> Pose (states: x, y, z, roll, pitch, yaw) covariance matrix upper right triangle (first six entries are the first ROW, next five entries are the second ROW, etc.) </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=21)]
+		public float[] pose_covariance;
+            /// <summary> Twist (states: vx, vy, vz, rollspeed, pitchspeed, yawspeed) covariance matrix upper right triangle (first six entries are the first ROW, next five entries are the second ROW, etc.) </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=21)]
+		public float[] twist_covariance;
+            /// <summary> Coordinate frame of reference for the pose data, as defined by MAV_FRAME enum. MAV_FRAME</summary>
+        public  /*MAV_FRAME*/byte frame_id;
+            /// <summary> Coordinate frame of reference for the velocity in free space (twist) data, as defined by MAV_FRAME enum. MAV_FRAME</summary>
+        public  /*MAV_FRAME*/byte child_frame_id;
     
     };
 
