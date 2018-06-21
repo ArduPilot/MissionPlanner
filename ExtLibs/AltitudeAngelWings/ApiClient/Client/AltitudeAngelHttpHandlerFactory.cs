@@ -1,4 +1,3 @@
-using System.Configuration;
 using System.Net.Http;
 using AltitudeAngelWings.ApiClient.CodeProvider;
 using DotNetOpenAuth.OAuth2;

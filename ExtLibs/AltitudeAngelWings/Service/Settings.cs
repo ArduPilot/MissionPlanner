@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using AltitudeAngel.IsolatedPlugin.Common;
+using AltitudeAngelWings.Extra;
 using DotNetOpenAuth.OAuth2;
 using Newtonsoft.Json;
 

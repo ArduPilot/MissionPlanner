@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using GeoJSON.Net.Feature;
 using GMap.NET;
 
-namespace AltitudeAngel.IsolatedPlugin.Common.Maps
+namespace AltitudeAngelWings.Extra
 {
     public interface IOverlay
     {

@@ -1,6 +1,6 @@
 using System;
 using System.Globalization;
-using AltitudeAngel.IsolatedPlugin.Common.Maps;
+using AltitudeAngelWings.Extra;
 using GeoJSON.Net.Feature;
 
 namespace AltitudeAngelWings

@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using AltitudeAngel.IsolatedPlugin.Common;
-using AltitudeAngel.IsolatedPlugin.Common.Maps;
+using AltitudeAngelWings.Extra;
 using AltitudeAngelWings.Models;
 using DotSpatial.Positioning;
 using DotSpatial.Topology;
@@ -11,7 +10,7 @@ using FlightData = MissionPlanner.GCSViews.FlightData;
 
 namespace MissionPlanner.Utilities.AltitudeAngel
 {
-    public class MissionPlannerAdaptor : IMissionPlanner
+    internal class MissionPlannerAdaptor : IMissionPlanner
     {
         private readonly Func<IList<Locationwp>> _getFlightPlan;
         public IMap FlightPlanningMap { get; set; }

@@ -1,9 +1,9 @@
 ﻿using System;
-using AltitudeAngel.IsolatedPlugin.Common;
+using AltitudeAngelWings.Extra;
 
 namespace MissionPlanner.Utilities.AltitudeAngel
 {
-    public class MissionPlannerStateAdapter : IMissionPlannerState
+    internal class MissionPlannerStateAdapter : IMissionPlannerState
     {
         private readonly Func<CurrentState> _getCurrentState;
 

@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace MissionPlanner.Utilities.AltitudeAngel
 {
-    public partial class AASettings : Form
+    internal partial class AASettings : Form
     {
         public AASettings()
         {

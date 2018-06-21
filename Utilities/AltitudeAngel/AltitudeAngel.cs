@@ -7,7 +7,7 @@ using MissionPlanner.GCSViews;
 
 namespace MissionPlanner.Utilities.AltitudeAngel
 {
-    public class AltitudeAngel : IDisposable
+    internal class AltitudeAngel : IDisposable
     {
         public static MissionPlannerAdaptor MP = new MissionPlannerAdaptor(
             () => FlightPlanner.instance.GetFlightPlanLocations());

@@ -1,5 +1,3 @@
-using System;
-
 namespace AltitudeAngelWings.ApiClient.Models
 {
     public class AircraftInfo

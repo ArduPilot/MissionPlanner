@@ -2,9 +2,7 @@
 
 namespace MissionPlanner.Utilities.AltitudeAngel
 {
-
-
-    partial class AASettings
+    internal partial class AASettings
     {
         /// <summary>
         /// Required designer variable.

@@ -1,8 +1,6 @@
-using System.Collections.Generic;
-using AltitudeAngel.IsolatedPlugin.Common.Maps;
 using AltitudeAngelWings.Models;
 
-namespace AltitudeAngel.IsolatedPlugin.Common
+namespace AltitudeAngelWings.Extra
 {
     public interface IMissionPlanner
     {

@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using AltitudeAngel.IsolatedPlugin.Common.Maps;
+using AltitudeAngelWings.Extra;
 using GeoJSON.Net.Feature;
 using GMap.NET;
 using GMap.NET.WindowsForms;
