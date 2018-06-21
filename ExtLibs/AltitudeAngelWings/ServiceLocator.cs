@@ -13,6 +13,7 @@ namespace AltitudeAngelWings
             }
         }
 
+        private static readonly object Lock = new object();
         private static readonly IDictionary<Type, object> ServiceInstances = new Dictionary<Type, object>();
         private static readonly IDictionary<Type, Func<IServiceLocator, object>> ServiceRegistry = new Dictionary<Type, Func<IServiceLocator, object>>();
 
@@ -22,35 +23,44 @@ namespace AltitudeAngelWings
             {
                 return (T)ServiceInstances[typeof(T)];
             }
-            if (!ServiceRegistry.ContainsKey(typeof(T)))
+            lock (Lock)
             {
-                throw new InvalidOperationException($"The type {typeof(T)} is not registered.");
+                if (!ServiceRegistry.ContainsKey(typeof(T)))
+                {
+                    throw new InvalidOperationException($"The type {typeof(T)} is not registered.");
+                }
+                var resolve = ServiceRegistry[typeof(T)](new Resolver());
+                ServiceInstances[typeof(T)] = resolve;
+                return (T) resolve;
             }
-            var resolve = ServiceRegistry[typeof(T)](new Resolver());
-            ServiceInstances[typeof(T)] = resolve;
-            return (T)resolve;
         }
 
         public static void Register<T>(Func<IServiceLocator, T> constructor)
         {
-            if (ServiceRegistry.ContainsKey(typeof(T)))
+            lock (Lock)
             {
-                throw new InvalidOperationException($"The type {typeof(T)} is already registered.");
+                if (ServiceRegistry.ContainsKey(typeof(T)))
+                {
+                    throw new InvalidOperationException($"The type {typeof(T)} is already registered.");
+                }
+                ServiceRegistry.Add(typeof(T), l => constructor(l));
             }
-            ServiceRegistry.Add(typeof(T), l => constructor(l));
         }
 
         public static void Clear()
         {
-            ServiceRegistry.Clear();
-            foreach (var instance in ServiceInstances.Values)
+            lock (Lock)
             {
-                if (instance is IDisposable dispose)
+                ServiceRegistry.Clear();
+                foreach (var instance in ServiceInstances.Values)
                 {
-                    dispose.Dispose();
+                    if (instance is IDisposable dispose)
+                    {
+                        dispose.Dispose();
+                    }
                 }
+                ServiceInstances.Clear();
             }
-            ServiceInstances.Clear();
         }
     }
 }
