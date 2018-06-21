@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace MissionPlanner.Utilities.AltitudeAngel
@@ -14,11 +15,11 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             // load settings
             chk_grounddata.Checked = AltitudeAngel.service.GroundDataDisplay;
             chk_airdata.Checked = AltitudeAngel.service.AirDataDisplay;
-            chk_FlightPlanEnable.Checked = AltitudeAngel.service.FlightPlanEnable;
-            txt_FlightPlanName.Text = AltitudeAngel.service.FlightPlanName;
-            chk_FlightPlanCommercial.Checked = AltitudeAngel.service.FlightPlanCommercial;
-            txt_FlightPlanDuration.Text =
-                ((int) AltitudeAngel.service.FlightPlanTimeSpan.TotalMinutes).ToString();
+            chk_FlightReportEnable.Checked = AltitudeAngel.service.FlightReportEnable;
+            txt_FlightReportName.Text = AltitudeAngel.service.FlightReportName;
+            chk_FlightReportCommercial.Checked = AltitudeAngel.service.FlightReportCommercial;
+            txt_FlightReportDuration.Text =
+                ((int) AltitudeAngel.service.FlightReportTimeSpan.TotalMinutes).ToString();
 
             but_enable.Enabled = !AltitudeAngel.service.IsSignedIn;
             but_disable.Enabled = AltitudeAngel.service.IsSignedIn;
@@ -89,37 +90,42 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             AltitudeAngel.service.ProcessAllFromCache(AltitudeAngel.MP.FlightDataMap);
         }
 
-        private void txt_FlightPlanName_TextChanged(object sender, EventArgs e)
+        private void txt_FlightReportName_TextChanged(object sender, EventArgs e)
         {
-            AltitudeAngel.service.FlightPlanName = txt_FlightPlanName.Text;
+            AltitudeAngel.service.FlightReportName = txt_FlightReportName.Text;
         }
 
-        private void txt_FlightPlanDuration_TextChanged(object sender, EventArgs e)
+        private void txt_FlightReportDuration_TextChanged(object sender, EventArgs e)
         {
-            if (int.TryParse(txt_FlightPlanDuration.Text, out var minutes))
+            if (int.TryParse(txt_FlightReportDuration.Text, out var minutes))
             {
-                AltitudeAngel.service.FlightPlanTimeSpan = TimeSpan.FromMinutes(minutes);
+                AltitudeAngel.service.FlightReportTimeSpan = TimeSpan.FromMinutes(minutes);
             }
         }
 
-        private void chk_FlightPlanCommercial_CheckedChanged(object sender, EventArgs e)
+        private void chk_FlightReportCommercial_CheckedChanged(object sender, EventArgs e)
         {
-            AltitudeAngel.service.FlightPlanCommercial = chk_FlightPlanCommercial.Checked;
+            AltitudeAngel.service.FlightReportCommercial = chk_FlightReportCommercial.Checked;
         }
 
-        private void chk_FlightPlanEnable_CheckedChanged(object sender, EventArgs e)
+        private void chk_FlightReportEnable_CheckedChanged(object sender, EventArgs e)
         {
-            AltitudeAngel.service.FlightPlanEnable = chk_FlightPlanEnable.Checked;
+            AltitudeAngel.service.FlightReportEnable = chk_FlightReportEnable.Checked;
             RefreshControlStates();
         }
 
         private void RefreshControlStates()
         {
-            lbl_FlightPlanName.Enabled = chk_FlightPlanEnable.Checked;
-            txt_FlightPlanName.Enabled = chk_FlightPlanEnable.Checked;
-            lbl_FlightPlanDuration.Enabled = chk_FlightPlanEnable.Checked;
-            txt_FlightPlanDuration.Enabled = chk_FlightPlanEnable.Checked;
-            chk_FlightPlanCommercial.Enabled = chk_FlightPlanEnable.Checked;
+            lbl_FlightReportName.Enabled = chk_FlightReportEnable.Checked;
+            txt_FlightReportName.Enabled = chk_FlightReportEnable.Checked;
+            lbl_FlightReportDuration.Enabled = chk_FlightReportEnable.Checked;
+            txt_FlightReportDuration.Enabled = chk_FlightReportEnable.Checked;
+            chk_FlightReportCommercial.Enabled = chk_FlightReportEnable.Checked;
+        }
+
+        private void lbl_FlightReportWhat_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://www.altitudeangel.com/");
         }
     }
 }

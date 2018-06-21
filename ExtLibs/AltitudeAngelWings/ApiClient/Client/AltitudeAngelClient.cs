@@ -122,14 +122,14 @@ namespace AltitudeAngelWings.ApiClient.Client
                 .GetJsonAsync<UserProfileInfo>();
         }
 
-        public async Task<string> CreateFlightReport(string flightPlanName, bool isCommerial, DateTime localStartTime, DateTime localEndTime, PointLatLng location, int radius)
+        public async Task<string> CreateFlightReport(string flightReportName, bool isCommerial, DateTime localStartTime, DateTime localEndTime, PointLatLng location, int radius)
         {
             var response = await _apiUrl
                 .AppendPathSegments("flightReport")
                 .WithClient(_client)
                 .PutJsonAsync(new
                 {
-                    name = flightPlanName,
+                    name = flightReportName,
                     flight_type = isCommerial ? "com" : "rec",
                     timezone = TZConvert.WindowsToIana(TimeZoneInfo.Local.Id),
                     start = localStartTime.ToString(DateTimeFormat),

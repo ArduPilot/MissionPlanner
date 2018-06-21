@@ -65,88 +65,88 @@ namespace AltitudeAngelWings.Service
             }
         }
 
-        private bool _flightPlanEnable = true;
-        public bool FlightPlanEnable
+        private bool _flightReportEnable = true;
+        public bool FlightReportEnable
         {
             get
             {
-                if (String.IsNullOrEmpty(_missionPlanner.LoadSetting("AA.FlightPlanEnable")))
-                    return _flightPlanEnable;
-                _flightPlanEnable = bool.Parse(_missionPlanner.LoadSetting("AA.FlightPlanEnable"));
-                return _flightPlanEnable;
+                if (String.IsNullOrEmpty(_missionPlanner.LoadSetting("AA.FlightReportEnable")))
+                    return _flightReportEnable;
+                _flightReportEnable = bool.Parse(_missionPlanner.LoadSetting("AA.FlightReportEnable"));
+                return _flightReportEnable;
             }
             set
             {
-                _flightPlanEnable = value;
-                _missionPlanner.SaveSetting("AA.FlightPlanEnable", _flightPlanEnable.ToString());
+                _flightReportEnable = value;
+                _missionPlanner.SaveSetting("AA.FlightReportEnable", _flightReportEnable.ToString());
             }
         }
 
-        private string _currentFlightPlanId;
-        public string CurrentFlightPlanId
+        private string _currentFlightReportId;
+        public string CurrentFlightReportId
         {
             get
             {
-                if (String.IsNullOrEmpty(_missionPlanner.LoadSetting("AA.CurrentFlightPlanId")))
-                    return _currentFlightPlanId;
-                _currentFlightPlanId = _missionPlanner.LoadSetting("AA.CurrentFlightPlanId");
-                return _currentFlightPlanId;
+                if (String.IsNullOrEmpty(_missionPlanner.LoadSetting("AA.CurrentFlightReportId")))
+                    return _currentFlightReportId;
+                _currentFlightReportId = _missionPlanner.LoadSetting("AA.CurrentFlightReportId");
+                return _currentFlightReportId;
             }
             set
             {
-                _currentFlightPlanId = value;
-                _missionPlanner.SaveSetting("AA.CurrentFlightPlanId", _currentFlightPlanId);
+                _currentFlightReportId = value;
+                _missionPlanner.SaveSetting("AA.CurrentFlightReportId", _currentFlightReportId);
             }
         }
 
-        private string _flightPlanName = "MissionPlanner Flight";
-        public string FlightPlanName
+        private string _flightReportName = "MissionPlanner Flight";
+        public string FlightReportName
         {
             get
             {
-                if (String.IsNullOrEmpty(_missionPlanner.LoadSetting("AA.FlightPlanName")))
-                    return _flightPlanName;
-                _flightPlanName = _missionPlanner.LoadSetting("AA.FlightPlanName");
-                return _flightPlanName;
+                if (String.IsNullOrEmpty(_missionPlanner.LoadSetting("AA.FlightReportName")))
+                    return _flightReportName;
+                _flightReportName = _missionPlanner.LoadSetting("AA.FlightReportName");
+                return _flightReportName;
             }
             set
             {
-                _flightPlanName = value;
-                _missionPlanner.SaveSetting("AA.FlightPlanName", _flightPlanName);
+                _flightReportName = value;
+                _missionPlanner.SaveSetting("AA.FlightReportName", _flightReportName);
             }
         }
 
-        private bool _flightPlanCommercial;
-        public bool FlightPlanCommercial
+        private bool _flightReportCommercial;
+        public bool FlightReportCommercial
         {
             get
             {
-                if (String.IsNullOrEmpty(_missionPlanner.LoadSetting("AA.FlightPlanCommercial")))
-                    return _flightPlanCommercial;
-                _flightPlanCommercial = bool.Parse(_missionPlanner.LoadSetting("AA.FlightPlanCommercial"));
-                return _flightPlanCommercial;
+                if (String.IsNullOrEmpty(_missionPlanner.LoadSetting("AA.FlightReportCommercial")))
+                    return _flightReportCommercial;
+                _flightReportCommercial = bool.Parse(_missionPlanner.LoadSetting("AA.FlightReportCommercial"));
+                return _flightReportCommercial;
             }
             set
             {
-                _flightPlanCommercial = value;
-                _missionPlanner.SaveSetting("AA.FlightPlanCommercial", _flightPlanCommercial.ToString());
+                _flightReportCommercial = value;
+                _missionPlanner.SaveSetting("AA.FlightReportCommercial", _flightReportCommercial.ToString());
             }
         }
 
-        private TimeSpan _flightPlanTimeSpan = TimeSpan.FromMinutes(60);
-        public TimeSpan FlightPlanTimeSpan
+        private TimeSpan _flightReportTimeSpan = TimeSpan.FromMinutes(60);
+        public TimeSpan FlightReportTimeSpan
         {
             get
             {
-                if (String.IsNullOrEmpty(_missionPlanner.LoadSetting("AA.FlightPlanTimeSpan")))
-                    return _flightPlanTimeSpan;
-                _flightPlanTimeSpan = TimeSpan.Parse(_missionPlanner.LoadSetting("AA.FlightPlanTimeSpan"));
-                return _flightPlanTimeSpan;
+                if (String.IsNullOrEmpty(_missionPlanner.LoadSetting("AA.FlightReportTimeSpan")))
+                    return _flightReportTimeSpan;
+                _flightReportTimeSpan = TimeSpan.Parse(_missionPlanner.LoadSetting("AA.FlightReportTimeSpan"));
+                return _flightReportTimeSpan;
             }
             set
             {
-                _flightPlanTimeSpan = value;
-                _missionPlanner.SaveSetting("AA.FlightPlanTimeSpan", _flightPlanTimeSpan.ToString());
+                _flightReportTimeSpan = value;
+                _missionPlanner.SaveSetting("AA.FlightReportTimeSpan", _flightReportTimeSpan.ToString());
             }
         }
 
@@ -194,9 +194,9 @@ namespace AltitudeAngelWings.Service
             try
             {
                 _disposer.Add(_flightDataService.FlightArmed
-                    .Subscribe(async i => await SubmitFlightPlan(i)));
+                    .Subscribe(async i => await SubmitFlightReport(i)));
                 _disposer.Add(_flightDataService.FlightDisarmed
-                    .Subscribe(async i => await CompleteFlightPlan(i)));
+                    .Subscribe(async i => await CompleteFlightReport(i)));
             }
             catch
             {
@@ -216,10 +216,10 @@ namespace AltitudeAngelWings.Service
             TryConnect();
         }
 
-        public async Task SubmitFlightPlan(Models.FlightData flightData)
+        public async Task SubmitFlightReport(Models.FlightData flightData)
         {
             await _messagesService.AddMessageAsync(new Message($"ARMED: {flightData.CurrentPosition.Latitude},{flightData.CurrentPosition.Longitude}"));
-            if (!FlightPlanEnable || CurrentFlightPlanId != null)
+            if (!FlightReportEnable || CurrentFlightReportId != null)
             {
                 return;
             }
@@ -237,14 +237,14 @@ namespace AltitudeAngelWings.Service
                     bufferedBoundingRadius = Math.Max(flightPlan.BoundingRadius + 50, bufferedBoundingRadius);
                 }
 
-                CurrentFlightPlanId = await _aaClient.CreateFlightReport(
-                    FlightPlanName,
-                    FlightPlanCommercial,
+                CurrentFlightReportId = await _aaClient.CreateFlightReport(
+                    FlightReportName,
+                    FlightReportCommercial,
                     DateTime.Now,
-                    DateTime.Now.Add(FlightPlanTimeSpan),
+                    DateTime.Now.Add(FlightReportTimeSpan),
                     centerPoint,
                     bufferedBoundingRadius);
-                await _messagesService.AddMessageAsync(new Message($"Flight plan {CurrentFlightPlanId} created"));
+                await _messagesService.AddMessageAsync(new Message($"Flight plan {CurrentFlightReportId} created"));
                 await UpdateMapData(_missionPlanner.FlightDataMap);
             }
             catch (Exception ex)
@@ -253,23 +253,23 @@ namespace AltitudeAngelWings.Service
             }
         }
 
-        public async Task CompleteFlightPlan(Models.FlightData flightData)
+        public async Task CompleteFlightReport(Models.FlightData flightData)
         {
             await _messagesService.AddMessageAsync(new Message($"DISARMED: {flightData.CurrentPosition.Latitude},{flightData.CurrentPosition.Longitude}"));
-            if (CurrentFlightPlanId == null)
+            if (CurrentFlightReportId == null)
             {
                 return;
             }
             try
             {
-                await _aaClient.CompleteFlightReport(CurrentFlightPlanId);
-                CurrentFlightPlanId = null;
-                await _messagesService.AddMessageAsync(new Message($"Flight plan {CurrentFlightPlanId} marked as complete"));
+                await _aaClient.CompleteFlightReport(CurrentFlightReportId);
+                CurrentFlightReportId = null;
+                await _messagesService.AddMessageAsync(new Message($"Flight plan {CurrentFlightReportId} marked as complete"));
                 await UpdateMapData(_missionPlanner.FlightDataMap);
             }
             catch (Exception ex)
             {
-                await _messagesService.AddMessageAsync(new Message($"Marking flight plan {CurrentFlightPlanId} as complete failed. {ex}"));
+                await _messagesService.AddMessageAsync(new Message($"Marking flight plan {CurrentFlightReportId} as complete failed. {ex}"));
             }
         }
 
