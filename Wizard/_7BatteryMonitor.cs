@@ -240,6 +240,8 @@ namespace MissionPlanner.Wizard
             {
                 if (sensorselected.Name != "None")
                 {
+                    MainV2.comPort.setParam("BATT_AMP_PERVLT", sensorselected.ampspervolt);
+
                     MainV2.comPort.setParam("BATT_AMP_PERVOLT", sensorselected.ampspervolt);
 
                     MainV2.comPort.setParam("BATT_VOLT_MULT", sensorselected.voltspervolt);
