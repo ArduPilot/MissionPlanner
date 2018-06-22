@@ -231,8 +231,6 @@ namespace MissionPlanner
             resources.ApplyResources(this.MenuArduPilot, "MenuArduPilot");
             this.MenuArduPilot.ForeColor = System.Drawing.Color.White;
             this.MenuArduPilot.Image = global::MissionPlanner.Properties.Resources._0d92fed790a3a70170e61a86db103f399a595c70;
-            String custom = MissionPlanner.Utilities.Settings.GetRunningDirectory() + "logo_custom.png";
-            if (File.Exists(custom)) this.MenuArduPilot.Image = new System.Drawing.Bitmap(custom);
             this.MenuArduPilot.Margin = new System.Windows.Forms.Padding(0);
             this.MenuArduPilot.Name = "MenuArduPilot";
             this.MenuArduPilot.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;

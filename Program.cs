@@ -27,6 +27,7 @@ namespace MissionPlanner
         public static bool WindowsStoreApp { get { return Application.ExecutablePath.Contains("WindowsApps"); } }
 
         public static Image Logo = null;
+        public static Image Logo2 = null;
         public static Image IconFile = null;
 
         public static Splash Splash;
@@ -99,6 +100,9 @@ namespace MissionPlanner
 
             if (File.Exists(Settings.GetRunningDirectory() + "logo.png"))
                 Logo = new Bitmap(Settings.GetRunningDirectory() + "logo.png");
+
+            if (File.Exists(Settings.GetRunningDirectory() + "logo2.png"))
+                Logo2 = new Bitmap(Settings.GetRunningDirectory() + "logo2.png");
 
             if (File.Exists(Settings.GetRunningDirectory() + "icon.png"))
             {

@@ -971,6 +971,9 @@ namespace MissionPlanner
                 this.Icon = Icon.FromHandle(((Bitmap)Program.IconFile).GetHicon());
             }
 
+            if (Program.Logo2 != null)
+                MenuArduPilot.Image = Program.Logo;
+
             if (Program.Logo != null && Program.name == "VVVVZ")
             {
                 MenuDonate.Click -= this.toolStripMenuItem1_Click;
