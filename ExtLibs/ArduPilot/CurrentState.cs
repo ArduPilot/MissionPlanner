@@ -437,6 +437,46 @@ namespace MissionPlanner
         public float ch15out { get; set; }
         public float ch16out { get; set; }
 
+        public float esc1_volt { get; set; }
+        public float esc1_curr { get; set; }
+        public float esc1_rpm { get; set; }
+        public float esc1_temp { get; set; }
+
+        public float esc2_volt { get; set; }
+        public float esc2_curr { get; set; }
+        public float esc2_rpm { get; set; }
+        public float esc2_temp { get; set; }
+
+        public float esc3_volt { get; set; }
+        public float esc3_curr { get; set; }
+        public float esc3_rpm { get; set; }
+        public float esc3_temp { get; set; }
+
+        public float esc4_volt { get; set; }
+        public float esc4_curr { get; set; }
+        public float esc4_rpm { get; set; }
+        public float esc4_temp { get; set; }
+
+        public float esc5_volt { get; set; }
+        public float esc5_curr { get; set; }
+        public float esc5_rpm { get; set; }
+        public float esc5_temp { get; set; }
+
+        public float esc6_volt { get; set; }
+        public float esc6_curr { get; set; }
+        public float esc6_rpm { get; set; }
+        public float esc6_temp { get; set; }
+
+        public float esc7_volt { get; set; }
+        public float esc7_curr { get; set; }
+        public float esc7_rpm { get; set; }
+        public float esc7_temp { get; set; }
+
+        public float esc8_volt { get; set; }
+        public float esc8_curr { get; set; }
+        public float esc8_rpm { get; set; }
+        public float esc8_temp { get; set; }
+
         public float ch3percent
         {
             get
@@ -2386,6 +2426,56 @@ namespace MissionPlanner
                         rxrssi = (int) ((rcin.rssi/255.0)*100.0);
 
                         //MAVLink.packets[(byte)MAVLink.MSG_NAMES.RC_CHANNELS_RAW);
+                    }
+
+                    mavLinkMessage = MAV.getPacket((uint)MAVLink.MAVLINK_MSG_ID.ESC_TELEMETRY_1_TO_4);
+                    if (mavLinkMessage != null)
+                    {
+                        var esc = mavLinkMessage.ToStructure<MAVLink.mavlink_esc_telemetry_1_to_4_t>();
+                        esc1_volt = esc.voltage[0];
+                        esc1_curr = esc.current[0];
+                        esc1_rpm = esc.rpm[0];
+                        esc1_temp = esc.temperature[0];
+
+                        esc2_volt = esc.voltage[1];
+                        esc2_curr = esc.current[1];
+                        esc2_rpm = esc.rpm[1];
+                        esc2_temp = esc.temperature[1];
+
+                        esc3_volt = esc.voltage[2];
+                        esc3_curr = esc.current[2];
+                        esc3_rpm = esc.rpm[2];
+                        esc3_temp = esc.temperature[2];
+
+                        esc4_volt = esc.voltage[3];
+                        esc4_curr = esc.current[3];
+                        esc4_rpm = esc.rpm[3];
+                        esc4_temp = esc.temperature[3];
+                    }
+
+                    mavLinkMessage = MAV.getPacket((uint)MAVLink.MAVLINK_MSG_ID.ESC_TELEMETRY_5_TO_8);
+                    if (mavLinkMessage != null)
+                    {
+                        var esc = mavLinkMessage.ToStructure<MAVLink.mavlink_esc_telemetry_5_to_8_t>();
+                        esc5_volt = esc.voltage[0];
+                        esc5_curr = esc.current[0];
+                        esc5_rpm = esc.rpm[0];
+                        esc5_temp = esc.temperature[0];
+
+                        esc6_volt = esc.voltage[1];
+                        esc6_curr = esc.current[1];
+                        esc6_rpm = esc.rpm[1];
+                        esc6_temp = esc.temperature[1];
+
+                        esc7_volt = esc.voltage[2];
+                        esc7_curr = esc.current[2];
+                        esc7_rpm = esc.rpm[2];
+                        esc7_temp = esc.temperature[2];
+
+                        esc8_volt = esc.voltage[3];
+                        esc8_curr = esc.current[3];
+                        esc8_rpm = esc.rpm[3];
+                        esc8_temp = esc.temperature[3];
                     }
 
                     mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.SERVO_OUTPUT_RAW);
