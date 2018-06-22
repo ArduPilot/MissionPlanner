@@ -242,10 +242,6 @@
   <ItemGroup>
     <Compile Include="CodeGen.cs" />
     <Compile Include="Common.cs" />
-    <Compile Include="ConnectForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ConnectForm.Designer.cs" />
     <Compile Include="ConnectionOptions.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Controls\PropagationSettings.cs">
       <SubType>Control</SubType>

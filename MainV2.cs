@@ -1713,12 +1713,12 @@ namespace MissionPlanner
         private bool isConnectionCancelled = false;
         private bool isConnecting = false;
         private Thread connectionCycleThread;
-        private Form connectForm;
+        //private Form connectForm;
         private void MenuConnect_Click(object sender, EventArgs e)
         {
-            //Connect();
-            connectForm = new ConnectForm();
-            connectForm.Show();
+            Connect();
+            //connectForm = new ConnectForm();
+            //connectForm.Show();
            //if (connectionCycleThread == null) connectionCycleThread = new Thread(new ThreadStart(ConnectionCycleThread));
             //if (!connectionCycleThread.IsAlive) connectionCycleThread.Start();
         }
