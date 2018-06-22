@@ -242,6 +242,10 @@
   <ItemGroup>
     <Compile Include="CodeGen.cs" />
     <Compile Include="Common.cs" />
+    <Compile Include="ConnectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConnectForm.Designer.cs" />
     <Compile Include="ConnectionOptions.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Controls\PropagationSettings.cs">
       <SubType>Control</SubType>
@@ -311,6 +315,7 @@
     <Compile Include="Controls\LogAnalyzer.cs"> <SubType>Control</SubType> </Compile>
 	<Compile Include="Log\LogStrings.cs"> <SubType>Control</SubType> </Compile>
 	<Compile Include="Log\LogStrings.Designer.cs"><DependentUpon>LogStrings.cs</DependentUpon> </Compile>
+	<EmbeddedResource Include="ConnectForm.resx" />
 	<EmbeddedResource Include="Controls\PropagationSettings.resx">
 	  <DependentUpon>PropagationSettings.cs</DependentUpon>
 	</EmbeddedResource>

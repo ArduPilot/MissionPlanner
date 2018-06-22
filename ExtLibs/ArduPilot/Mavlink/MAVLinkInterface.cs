@@ -335,8 +335,9 @@ namespace MissionPlanner
             {
                 frmProgressReporter.DoWork += FrmProgressReporterDoWorkNOParams;
             }
-            frmProgressReporter.UpdateProgressAndStatus(-1, Strings.MavlinkConnecting);
 
+            frmProgressReporter.UpdateProgressAndStatus(-1, Strings.MavlinkConnecting);
+            
             frmProgressReporter.RunBackgroundOperationAsync();
 
             frmProgressReporter.Dispose();

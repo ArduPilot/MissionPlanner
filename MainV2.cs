@@ -1471,7 +1471,7 @@ namespace MissionPlanner
                 }
 
                 comPort.giveComport = false;
-
+                
                 // setup to record new logs
                 try
                 {
@@ -1497,7 +1497,7 @@ namespace MissionPlanner
                             rlog = Settings.Instance.LogDir + Path.DirectorySeparatorChar +
                                    dt + ".rlog";
                         }
-
+                        
                         //open the logs for writing
                         comPort.logfile =
                             new BufferedStream(File.Open(tlog, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.None));
@@ -1514,7 +1514,7 @@ namespace MissionPlanner
 
                 // reset connect time - for timeout functions
                 connecttime = DateTime.Now;
-
+                
                 // do the connect
                 comPort.Open(false, skipconnectcheck);
 
@@ -1710,13 +1710,36 @@ namespace MissionPlanner
             }
         }
 
+        private bool isConnectionCancelled = false;
+        private bool isConnecting = false;
+        private Thread connectionCycleThread;
+        private Form connectForm;
         private void MenuConnect_Click(object sender, EventArgs e)
         {
-            Connect();
+            //Connect();
+            connectForm = new ConnectForm();
+            connectForm.Show();
+           //if (connectionCycleThread == null) connectionCycleThread = new Thread(new ThreadStart(ConnectionCycleThread));
+            //if (!connectionCycleThread.IsAlive) connectionCycleThread.Start();
+        }
+
+        private void ConnectionCycleThread()
+        {
+            while (true)
+            {
+                while (isConnecting) { }
+                if (!comPort.BaseStream.IsOpen)
+                {
+                    MessageBox.Show("reconnecting...");
+                    //Connect();
+                }
+                System.Threading.Thread.Sleep(1000);
+            }
         }
 
         private void Connect()
         {
+            isConnecting = true;
             comPort.giveComport = false;
 
             log.Info("MenuConnect Start");
@@ -1762,6 +1785,7 @@ namespace MissionPlanner
             _connectionControl.UpdateSysIDS();
 
             loadph_serial();
+            isConnecting = false;
         }
 
         void loadph_serial()
