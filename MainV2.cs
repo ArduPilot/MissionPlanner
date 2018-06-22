@@ -972,7 +972,7 @@ namespace MissionPlanner
             }
 
             if (Program.Logo2 != null)
-                MenuArduPilot.Image = Program.Logo;
+                MenuArduPilot.Image = Program.Logo2;
 
             if (Program.Logo != null && Program.name == "VVVVZ")
             {
