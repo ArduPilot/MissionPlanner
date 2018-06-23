@@ -599,7 +599,10 @@ namespace MissionPlanner
             //startup console
             TCPConsole.Write((byte) 'S');
 
-            _connectionControl = toolStripConnectionControl.ConnectionControl;
+            connectionConfigForm = new ConnectionConfigForm();
+            
+
+            _connectionControl = connectionConfigForm.ConnectionControl;
             _connectionControl.CMB_baudrate.TextChanged += this.CMB_baudrate_TextChanged;
             _connectionControl.CMB_serialport.SelectedIndexChanged += this.CMB_serialport_SelectedIndexChanged;
             _connectionControl.CMB_serialport.Click += this.CMB_serialport_Click;
@@ -1713,13 +1716,12 @@ namespace MissionPlanner
         private bool isConnectionCancelled = false;
         private bool isConnecting = false;
         private Thread connectionCycleThread;
-        //private Form connectForm;
+        private ConnectionConfigForm connectionConfigForm;
         private void MenuConnect_Click(object sender, EventArgs e)
         {
+            connectionConfigForm.Show();
             Connect();
-            //connectForm = new ConnectForm();
-            //connectForm.Show();
-           //if (connectionCycleThread == null) connectionCycleThread = new Thread(new ThreadStart(ConnectionCycleThread));
+            //if (connectionCycleThread == null) connectionCycleThread = new Thread(new ThreadStart(ConnectionCycleThread));
             //if (!connectionCycleThread.IsAlive) connectionCycleThread.Start();
         }
 
@@ -3694,7 +3696,7 @@ namespace MissionPlanner
                 menu.Visible = false;
                 MainMenu.MouseLeave -= MainMenu_MouseLeave;
                 panel1.MouseLeave -= MainMenu_MouseLeave;
-                toolStripConnectionControl.MouseLeave -= MainMenu_MouseLeave;
+                connectionConfigForm.ConnectionControl.MouseLeave -= MainMenu_MouseLeave;
                 this.ResumeLayout();
             }
             else
@@ -3704,7 +3706,7 @@ namespace MissionPlanner
                 panel1.Visible = false;
                 MainMenu.MouseLeave += MainMenu_MouseLeave;
                 panel1.MouseLeave += MainMenu_MouseLeave;
-                toolStripConnectionControl.MouseLeave += MainMenu_MouseLeave;
+                connectionConfigForm.ConnectionControl.MouseLeave += MainMenu_MouseLeave;
                 menu.Visible = true;
                 menu.SendToBack();
                 this.ResumeLayout();
