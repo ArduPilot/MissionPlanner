@@ -1924,6 +1924,8 @@
     </None>
     <None Include="Drivers\arduinomega2560.cat" />
     <None Include="Drivers\ArduinoMEGA2560.inf" />
+    <None Include="Drivers\chibios.cat" />
+    <None Include="Drivers\ChibiOS.inf" />
     <None Include="Drivers\cube.cat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

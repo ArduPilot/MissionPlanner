@@ -49,6 +49,7 @@
     <Reference Include="System.Speech">
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Speech.dll</HintPath>
       <SpecificVersion>false</SpecificVersion>
+      <Private>true</Private>
     </Reference>
   </ItemGroup>
 

@@ -473,11 +473,13 @@ namespace MissionPlanner.Utilities
                         {
                             foreach (var point in GCSViews.FlightPlanner.instance.pointlist)
                             {
+                                if (point == null)
+                                    continue;
+
                                 if (point.Tag.ToLower().Contains("home"))
                                     home = point;
 
-                                if (point != null)
-                                    coords.Add(new SharpKml.Base.Vector(point.Lat, point.Lng, point.Alt));
+                                coords.Add(new SharpKml.Base.Vector(point.Lat, point.Lng, point.Alt));
                             }
                         }
                         catch
