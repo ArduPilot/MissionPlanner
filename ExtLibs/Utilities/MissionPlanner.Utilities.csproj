@@ -17,12 +17,12 @@
     <PackageReference Include="DirectShowLib" Version="1.0.0" />
     <PackageReference Include="log4net" Version="2.0.8" />
     <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
-    <PackageReference Include="netDXF" Version="2.0.2" />
+    <PackageReference Include="netDXF" Version="2.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="ProjNet" Version="1.2.0" />
     <PackageReference Include="SharpZipLib" Version="0.86.0" />
     <PackageReference Include="System.Drawing.Common" Version="4.5.0" />
-    <PackageReference Include="System.Reactive.Linq" Version="3.1.1" />
+    <PackageReference Include="System.Reactive.Linq" Version="4.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,8 +47,9 @@
       <HintPath>..\OpenTK.GLControl.dll</HintPath>
     </Reference>
     <Reference Include="System.Speech">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Speech.dll</HintPath>
+      <HintPath>c:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Speech.dll</HintPath>
       <SpecificVersion>false</SpecificVersion>
+      <Private>true</Private>
     </Reference>
   </ItemGroup>
 
