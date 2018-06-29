@@ -1143,7 +1143,7 @@ namespace MissionPlanner.GCSViews
                             updateClearMissionRouteMarkers();
                             
                             var wps = MainV2.comPort.MAV.wps.Values.ToList();
-                            if (wps.Count > 1)
+                            if (wps.Count >= 1)
                             {
                                 var homeplla = new PointLatLngAlt(MainV2.comPort.MAV.cs.HomeLocation.Lat,
                                     MainV2.comPort.MAV.cs.HomeLocation.Lng,
@@ -1151,9 +1151,25 @@ namespace MissionPlanner.GCSViews
 
                                 var overlay = new WPOverlay();
 
-                                overlay.CreateOverlay((MAVLink.MAV_FRAME) wps[1].frame, homeplla,
-                                    MainV2.comPort.MAV.wps.Values.Select(a => (Locationwp) a).ToList(),
-                                    0 / CurrentState.multiplieralt, 0 / CurrentState.multiplieralt);
+                                {
+                                    List<Locationwp> mission_items;
+                                    mission_items = MainV2.comPort.MAV.wps.Values.Select(a => (Locationwp)a).ToList();
+                                    mission_items.RemoveAt(0);
+
+                                    if (wps.Count == 1)
+                                    {
+                                        overlay.CreateOverlay((MAVLink.MAV_FRAME)wps[0].frame, homeplla,
+                                            mission_items,
+                                            0 / CurrentState.multiplieralt, 0 / CurrentState.multiplieralt);
+                                    }
+                                    else
+                                    {
+                                        overlay.CreateOverlay((MAVLink.MAV_FRAME)wps[1].frame, homeplla,
+                                            mission_items,
+                                            0 / CurrentState.multiplieralt, 0 / CurrentState.multiplieralt);
+
+                                    }
+                                }
 
                                 var existing = gMapControl1.Overlays.Where(a => a.Id == overlay.overlay.Id).ToList();
                                 foreach (var b in existing)
