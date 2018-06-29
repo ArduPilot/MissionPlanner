@@ -73,27 +73,48 @@ namespace MissionPlanner.Utilities
                                 log.Info("is a px4v4 pixracer");
                                 return boards.px4v4;
                             }
-                            if (item.board == "fmuv2")
+                            if (item.board == "fmuv2" || item.board == "fmuv2-bl")
                             {
                                 log.Info("is a fmuv2");
                                 return boards.px4v2;
                             }
-                            if (item.board == "fmuv3")
+                            if (item.board == "fmuv3"|| item.board == "fmuv3-bl")
                             {
                                 log.Info("is a fmuv3");
                                 return boards.px4v3;
                             }
-                            if (item.board == "fmuv4")
+                            if (item.board == "fmuv4"|| item.board == "fmuv4-bl")
                             {
                                 log.Info("is a fmuv4");
                                 return boards.px4v4;
                             }
-                            if (item.board == "fmuv5")
+                            if (item.board == "fmuv5"|| item.board == "fmuv5-bl")
                             {
                                 log.Info("is a fmuv5");
                                 return boards.fmuv5;
                             }
-                            if (item.board == "PX4 FMU v2.x")
+                            /*
+                            if (item.board == "Arduino Mega 2560")
+                            {
+                                log.Info("is a 2560v2");
+                                return boards.b2560v2;
+                            }*/
+                            if (item.board == "revo-mini"|| item.board == "revo-mini-bl")
+                            {
+                                log.Info("is a revo-mini");
+                                return boards.revomini;
+                            }
+                            if (item.board == "mini-pix"|| item.board == "mini-pix-bl")
+                            {
+                                log.Info("is a mini-pix");
+                                return boards.minipix;
+                            }
+                            if (item.board == "mindpx-v2"|| item.board == "mindpx-v2-bl")
+                            {
+                                log.Info("is a mindpx-v2");
+                                return boards.mindpxv2;
+                            }
+                            if (item.board == "PX4 FMU v2.x") // || item.hardwareid.StartsWith(@"USB\VID_0483&PID_5740")) //USB\VID_0483&PID_5740&REV_0200
                             {
                                 CustomMessageBox.Show(Strings.PleaseUnplugTheBoardAnd);
 
@@ -137,27 +158,6 @@ namespace MissionPlanner.Utilities
 
                                 log.Info("Failed to detect px4 board type");
                                 return boards.none;
-                            }
-                            /*
-                            if (item.board == "Arduino Mega 2560")
-                            {
-                                log.Info("is a 2560v2");
-                                return boards.b2560v2;
-                            }*/
-                            if (item.board == "revo-mini")
-                            {
-                                log.Info("is a revo-mini");
-                                return boards.revomini;
-                            }
-                            if (item.board == "mini-pix")
-                            {
-                                log.Info("is a mini-pix");
-                                return boards.minipix;
-                            }
-                            if (item.board == "mindpx-v2")
-                            {
-                                log.Info("is a mindpx-v2");
-                                return boards.mindpxv2;
                             }
                         }
                     }
