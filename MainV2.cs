@@ -1688,6 +1688,8 @@ namespace MissionPlanner
                 {
                     FlightPlanner.GeoFencedownloadToolStripMenuItem_Click(null, null);
                 }
+                //Add HUD custom items source 
+                HUD.Custom.src = MainV2.comPort.MAV.cs;
 
                 // set connected icon
                 this.MenuConnect.Image = displayicons.disconnect;
