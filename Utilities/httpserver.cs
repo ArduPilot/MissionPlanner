@@ -349,58 +349,65 @@ namespace MissionPlanner.Utilities
                     {
                         SharpKml.Dom.Document kml = new SharpKml.Dom.Document();
 
-                        SharpKml.Dom.Placemark pmplane = new SharpKml.Dom.Placemark();
-                        pmplane.Name = "P/Q " + MainV2.comPort.MAV.cs.altasl;
+                        foreach (var mavLinkInterface in MainV2.Comports)
+                        {
+                            foreach (var MAV in mavLinkInterface.MAVlist)
+                            {
+                                SharpKml.Dom.Placemark pmplane = new SharpKml.Dom.Placemark();
+                                pmplane.Name = "P/Q " + MAV.cs.altasl;
 
-                        pmplane.Visibility = true;
+                                pmplane.Visibility = true;
 
-                        SharpKml.Dom.Location loc = new SharpKml.Dom.Location();
-                        loc.Latitude = MainV2.comPort.MAV.cs.lat;
-                        loc.Longitude = MainV2.comPort.MAV.cs.lng;
-                        loc.Altitude = MainV2.comPort.MAV.cs.altasl;
+                                SharpKml.Dom.Location loc = new SharpKml.Dom.Location();
+                                loc.Latitude = MAV.cs.lat;
+                                loc.Longitude = MAV.cs.lng;
+                                loc.Altitude = MAV.cs.altasl;
 
-                        if (loc.Altitude < 0)
-                            loc.Altitude = 0.01;
+                                if (loc.Altitude < 0)
+                                    loc.Altitude = 0.01;
 
-                        SharpKml.Dom.Orientation ori = new SharpKml.Dom.Orientation();
-                        ori.Heading = MainV2.comPort.MAV.cs.yaw;
-                        ori.Roll = -MainV2.comPort.MAV.cs.roll;
-                        ori.Tilt = -MainV2.comPort.MAV.cs.pitch;
+                                SharpKml.Dom.Orientation ori = new SharpKml.Dom.Orientation();
+                                ori.Heading = MAV.cs.yaw;
+                                ori.Roll = -MAV.cs.roll;
+                                ori.Tilt = -MAV.cs.pitch;
 
-                        SharpKml.Dom.Scale sca = new SharpKml.Dom.Scale();
+                                SharpKml.Dom.Scale sca = new SharpKml.Dom.Scale();
 
-                        sca.X = 2;
-                        sca.Y = 2;
-                        sca.Z = 2;
+                                sca.X = 2;
+                                sca.Y = 2;
+                                sca.Z = 2;
 
-                        SharpKml.Dom.Model model = new SharpKml.Dom.Model();
-                        model.Location = loc;
-                        model.Orientation = ori;
-                        model.AltitudeMode = SharpKml.Dom.AltitudeMode.Absolute;
-                        model.Scale = sca;
+                                SharpKml.Dom.Model model = new SharpKml.Dom.Model();
+                                model.Location = loc;
+                                model.Orientation = ori;
+                                model.AltitudeMode = SharpKml.Dom.AltitudeMode.Absolute;
+                                model.Scale = sca;
 
-                        SharpKml.Dom.Link link = new SharpKml.Dom.Link();
-                        link.Href = new Uri("block_plane_0.dae", UriKind.Relative);
+                                SharpKml.Dom.Link link = new SharpKml.Dom.Link();
+                                link.Href = new Uri("block_plane_0.dae", UriKind.Relative);
 
-                        model.Link = link;
+                                model.Link = link;
 
-                        pmplane.Geometry = model;
+                                pmplane.Geometry = model;
+
+                                kml.AddFeature(pmplane);
+                            }
+                        }
 
                         SharpKml.Dom.LookAt la = new SharpKml.Dom.LookAt()
                         {
-                            Altitude = loc.Altitude.Value,
-                            Latitude = loc.Latitude.Value,
-                            Longitude = loc.Longitude.Value,
+                            Altitude = MainV2.comPort.MAV.cs.altasl,
+                            Latitude = MainV2.comPort.MAV.cs.lat,
+                            Longitude = MainV2.comPort.MAV.cs.lng,
                             Tilt = 80,
                             Heading = MainV2.comPort.MAV.cs.yaw,
                             AltitudeMode = SharpKml.Dom.AltitudeMode.Absolute,
                             Range = 50
                         };
 
-                        if (loc.Latitude.Value != 0 && loc.Longitude.Value != 0)
+                        if (la.Latitude.Value != 0 && la.Longitude.Value != 0)
                         {
                             kml.Viewpoint = la;
-                            kml.AddFeature(pmplane);
                         }
 
                         SharpKml.Base.Serializer serializer = new SharpKml.Base.Serializer();
@@ -473,11 +480,13 @@ namespace MissionPlanner.Utilities
                         {
                             foreach (var point in GCSViews.FlightPlanner.instance.pointlist)
                             {
+                                if (point == null)
+                                    continue;
+
                                 if (point.Tag.ToLower().Contains("home"))
                                     home = point;
 
-                                if (point != null)
-                                    coords.Add(new SharpKml.Base.Vector(point.Lat, point.Lng, point.Alt));
+                                coords.Add(new SharpKml.Base.Vector(point.Lat, point.Lng, point.Alt));
                             }
                         }
                         catch

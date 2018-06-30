@@ -1,4 +1,16 @@
-﻿*Mission Planner 1.3.55 - 27-3-2018
+﻿*Mission Planner 1.3.56 - 9-4-2018
+GeoRefImageBase: fix tlog cam message
+Update: fix changelog url
+appveyor: add changelog to build
+FlightPlanner: fix for no home location
+UDPMavlinkShim: prevent exception
+Spelling fix
+MatLab: support ISBD
+temp: add proximity button back
+FlightPlanner: fix overlay pen
+Updater: fix net version
+Extensions: fix Aggregate bug
+*Mission Planner 1.3.55 - 27-3-2018
 wix: msi
 FlightPlanner: old savewp
 FlightPlanner: fix total distance scale

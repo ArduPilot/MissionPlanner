@@ -30,6 +30,30 @@ namespace MissionPlanner.Utilities
             };
         }
 
+        public static int GetPercent(this Control ctl, int current, bool height = false)
+        {
+            if (height)
+            {
+                return (int) ((current / (double) ctl.Height) * 100.0);
+            }
+            else
+            {
+                return (int) ((current / (double) ctl.Width) * 100.0);
+            }
+        }
+
+        public static int GetPixel(this Control ctl, int current, bool height = false)
+        {
+            if (height)
+            {
+                return (int)((current/100.0 * (double)ctl.Height));
+            }
+            else
+            {
+                return (int)((current/100.0 * (double)ctl.Width) );
+            }
+        }
+
         public static void LogInfoFormat(this Control ctl, string format, params object[] args)
         {
             ILog log = LogManager.GetLogger(ctl.GetType().FullName);

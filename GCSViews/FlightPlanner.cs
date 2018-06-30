@@ -1292,10 +1292,21 @@ namespace MissionPlanner.GCSViews
 
             updateRowNumbers();
 
-            var home = new PointLatLngAlt(
-                    double.Parse(TXT_homelat.Text), double.Parse(TXT_homelng.Text),
-                    double.Parse(TXT_homealt.Text) / CurrentState.multiplieralt, "H")
-                {Tag2 = CMB_altmode.SelectedValue.ToString()};
+            PointLatLngAlt home = new PointLatLngAlt();
+            if (TXT_homealt.Text != "" && TXT_homelat.Text != "" && TXT_homelng.Text != "")
+            {
+                try
+                {
+                    home = new PointLatLngAlt(
+                        double.Parse(TXT_homelat.Text), double.Parse(TXT_homelng.Text),
+                        double.Parse(TXT_homealt.Text) / CurrentState.multiplieralt, "H")
+                    { Tag2 = CMB_altmode.SelectedValue.ToString() };
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                }
+            }
 
             var overlay = new WPOverlay();
 
@@ -2351,7 +2362,7 @@ namespace MissionPlanner.GCSViews
 
             writeKML();
 
-            MainMap.ZoomAndCenterMarkers("objects");
+            MainMap.ZoomAndCenterMarkers("WPOverlay");
 
             MainMap_OnMapZoomChanged();
         }
@@ -2642,7 +2653,7 @@ namespace MissionPlanner.GCSViews
 
                             writeKML();
 
-                            MainMap.ZoomAndCenterMarkers("objects");
+                            MainMap.ZoomAndCenterMarkers("WPOverlay");
                         }
                         else
                         {
@@ -2740,7 +2751,7 @@ namespace MissionPlanner.GCSViews
 
                 writeKML();
 
-                MainMap.ZoomAndCenterMarkers("objects");
+                MainMap.ZoomAndCenterMarkers("WPOverlay");
             }
             catch (Exception ex)
             {
@@ -2972,7 +2983,7 @@ namespace MissionPlanner.GCSViews
         {
             comboBoxMapType.SelectedItem = MainMap.MapProvider;
 
-            MainMap.ZoomAndCenterMarkers("objects");
+            MainMap.ZoomAndCenterMarkers("WPOverlay");
 
             if (type == WMSProvider.Instance)
             {
@@ -6460,7 +6471,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                 writeKML();
 
-                MainMap.ZoomAndCenterMarkers("objects");
+                MainMap.ZoomAndCenterMarkers("WPOverlay");
             }
         }
 

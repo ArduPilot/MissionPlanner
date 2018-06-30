@@ -112,13 +112,13 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="BUT_betaupdate.Text" xml:space="preserve">
-    <value>ベータ版のアップデート確認</value>
+    <value>ベータアップデート確認</value>
   </data>
   <data name="richTextBox1.Text" xml:space="preserve">
     <value />
@@ -127,7 +127,7 @@
     <value>コンソール･ウィンドウの表示(再起動)</value>
   </data>
   <data name="linkLabel1.Text" xml:space="preserve">
-    <value>ログの変更</value>
+    <value>リリースノート</value>
   </data>
   <data name="BUT_updatecheck.Text" xml:space="preserve">
     <value>アップデートの確認</value>

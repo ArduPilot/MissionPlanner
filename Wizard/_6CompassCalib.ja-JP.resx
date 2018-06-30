@@ -112,19 +112,19 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="label2.Text" xml:space="preserve">
-    <value>オートパイロットが機体の向いている方向を知るために、コンパスのキャリブレーションは重要です。
+    <value>フライトコントローラーが機体の向いている方向を知るために、コンパスのキャリブレーションは重要です。
 機体の各軸(左、右、前、後、上、下)のを北に向けてキャリブレーションします。
-右を向いて360度回転、左を向いて360度。。と全6軸について実施します。</value>
+右を向いて360度回転、左を向いて360度...と全6軸について実施します。</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>ハードウェアによっては、コンパスの取付方向が異なります。以下の指示にしたがってください。
-位置合わせをするときは、オートパイロットを水平に維持してください。
+位置合わせをするときは、フライトコントローラーを水平に維持してください。
 
 
 
@@ -152,6 +152,6 @@
     <value>開始</value>
   </data>
   <data name="radialGradientBG1.Label.Text" xml:space="preserve">
-    <value>あなたのコンパスをキャリブレーションします</value>
+    <value>コンパスのキャリブレーション</value>
   </data>
 </root>

@@ -43,6 +43,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             TXT_voltage.Text = MainV2.comPort.MAV.cs.battery_voltage.ToString();
             TXT_measuredvoltage.Text = TXT_voltage.Text;
 
+            if (MainV2.comPort.MAV.param["BATT_AMP_PERVLT"] != null)
+                TXT_ampspervolt.Text = MainV2.comPort.MAV.param["BATT_AMP_PERVLT"].ToString();
             // new
             if (MainV2.comPort.MAV.param["BATT_VOLT_MULT"] != null)
                 TXT_divider.Text = MainV2.comPort.MAV.param["BATT_VOLT_MULT"].ToString();
@@ -324,7 +326,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             try
             {
-                MainV2.comPort.setParam(new[] {"AMP_PER_VOLT", "BATT_AMP_PERVOLT"}, float.Parse(TXT_ampspervolt.Text));
+                MainV2.comPort.setParam(new[] {"AMP_PER_VOLT", "BATT_AMP_PERVOLT", "BATT_AMP_PERVLT" }, float.Parse(TXT_ampspervolt.Text));
             }
             catch
             {
@@ -599,7 +601,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             try
             {
-                MainV2.comPort.setParam(new[] {"AMP_PER_VOLT", "BATT_AMP_PERVOLT"}, float.Parse(TXT_ampspervolt.Text));
+                MainV2.comPort.setParam(new[] {"AMP_PER_VOLT", "BATT_AMP_PERVOLT", "BATT_AMP_PERVLT" }, float.Parse(TXT_ampspervolt.Text));
             }
             catch
             {

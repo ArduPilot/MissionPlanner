@@ -330,8 +330,8 @@ namespace MissionPlanner.GeoRef
                             var msg = (MAVLink.mavlink_camera_feedback_t)packet.data;
 
                             location.Time = FromUTCTimeMilliseconds((long)(msg.time_usec / 1000));
-                            location.Lat = msg.lat;
-                            location.Lon = msg.lng;
+                            location.Lat = msg.lat / 1e7;
+                            location.Lon = msg.lng / 1e7;
                             location.RelAlt = msg.alt_rel;
                             location.AltAMSL = msg.alt_msl;
 

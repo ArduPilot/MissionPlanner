@@ -196,7 +196,7 @@ namespace MissionPlanner.Utilities
                         extra = "BETA ";
 
                     var dr = CustomMessageBox.Show(
-                        extra + Strings.UpdateFound + " [link;" + baseurl + "/ChangeLog.txt;ChangeLog]",
+                        extra + Strings.UpdateFound + " [link;" + baseurl.Replace("version.txt", "ChangeLog.txt") + ";ChangeLog]",
                         Strings.UpdateNow, MessageBoxButtons.YesNo);
 
                     if (dr == (int)DialogResult.Yes)

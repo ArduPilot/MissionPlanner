@@ -39,6 +39,14 @@ namespace MissionPlanner.Log
                     continue;
                 }
 
+                if (items[i].TrimStart().StartsWith("[") && items[i].TrimEnd().EndsWith("]"))
+                {
+                    cell[i] = CreateCellArrayCustom("",
+                        items[i].Split(new[] { ' ', '[', ']' }, StringSplitOptions.RemoveEmptyEntries));
+                    i++;
+                    continue;
+                }
+
                 cell[i] = new MLChar(null, (string)items[i].Trim());
 
                 i++;
@@ -136,6 +144,17 @@ namespace MissionPlanner.Log
                             dataCell[items[0]].Add(cells);
                         }
 
+                        if (items[0].ToUpper().Equals("ISBD"))
+                        {
+                            //ISBD
+                            var cells = CreateCellArrayCustom(items[0], items);
+
+                            if (!dataCell.ContainsKey(items[0]))
+                                dataCell[items[0]] = new List<MLCell>();
+
+                            dataCell[items[0]].Add(cells);
+                        }
+
                         double[] dbarray = new double[items.Length];
 
                         // set line no
@@ -191,7 +210,7 @@ namespace MissionPlanner.Log
             foreach (var item in dataCell)
             {
                 // create msg table
-                MLCell temp1 = new MLCell("MSG1", new int[] {1, item.Value.Count});
+                MLCell temp1 = new MLCell(item.Key+"1", new int[] {1, item.Value.Count});
                 int a = 0;
                 // add rows to msg table
                 foreach (var mlCell in item.Value)

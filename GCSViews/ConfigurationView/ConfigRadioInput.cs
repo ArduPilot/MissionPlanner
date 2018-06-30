@@ -293,23 +293,23 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             MainV2.comPort.MAV.cs.UpdateCurrentSettings(currentStateBindingSource.UpdateDataSource(MainV2.comPort.MAV.cs), true, MainV2.comPort);
 
-            rctrim[0] = MainV2.comPort.MAV.cs.ch1in;
-            rctrim[1] = MainV2.comPort.MAV.cs.ch2in;
-            rctrim[2] = MainV2.comPort.MAV.cs.ch3in;
-            rctrim[3] = MainV2.comPort.MAV.cs.ch4in;
-            rctrim[4] = MainV2.comPort.MAV.cs.ch5in;
-            rctrim[5] = MainV2.comPort.MAV.cs.ch6in;
-            rctrim[6] = MainV2.comPort.MAV.cs.ch7in;
-            rctrim[7] = MainV2.comPort.MAV.cs.ch8in;
+            rctrim[0] = Constrain(MainV2.comPort.MAV.cs.ch1in, 0);
+            rctrim[1] = Constrain(MainV2.comPort.MAV.cs.ch2in, 1);
+            rctrim[2] = Constrain(MainV2.comPort.MAV.cs.ch3in, 2);
+            rctrim[3] = Constrain(MainV2.comPort.MAV.cs.ch4in, 3);
+            rctrim[4] = Constrain(MainV2.comPort.MAV.cs.ch5in, 4);
+            rctrim[5] = Constrain(MainV2.comPort.MAV.cs.ch6in, 5);
+            rctrim[6] = Constrain(MainV2.comPort.MAV.cs.ch7in, 6);
+            rctrim[7] = Constrain(MainV2.comPort.MAV.cs.ch8in, 7);
 
-            rctrim[8] = MainV2.comPort.MAV.cs.ch9in;
-            rctrim[9] = MainV2.comPort.MAV.cs.ch10in;
-            rctrim[10] = MainV2.comPort.MAV.cs.ch11in;
-            rctrim[11] = MainV2.comPort.MAV.cs.ch12in;
-            rctrim[12] = MainV2.comPort.MAV.cs.ch13in;
-            rctrim[13] = MainV2.comPort.MAV.cs.ch14in;
-            rctrim[14] = MainV2.comPort.MAV.cs.ch15in;
-            rctrim[15] = MainV2.comPort.MAV.cs.ch16in;
+            rctrim[8] = Constrain(MainV2.comPort.MAV.cs.ch9in, 8);
+            rctrim[9] = Constrain(MainV2.comPort.MAV.cs.ch10in, 9);
+            rctrim[10] = Constrain(MainV2.comPort.MAV.cs.ch11in, 10);
+            rctrim[11] = Constrain(MainV2.comPort.MAV.cs.ch12in, 11);
+            rctrim[12] = Constrain(MainV2.comPort.MAV.cs.ch13in, 12);
+            rctrim[13] = Constrain(MainV2.comPort.MAV.cs.ch14in, 13);
+            rctrim[14] = Constrain(MainV2.comPort.MAV.cs.ch15in, 14);
+            rctrim[15] = Constrain(MainV2.comPort.MAV.cs.ch16in, 15);
 
             var data = "---------------\n";
 
@@ -321,11 +321,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     if (rcmin[a] != rcmax[a])
                     {
-                        MainV2.comPort.setParam("RC" + (a + 1).ToString("0") + "_MIN", rcmin[a]);
-                        MainV2.comPort.setParam("RC" + (a + 1).ToString("0") + "_MAX", rcmax[a]);
+                        MainV2.comPort.setParam("RC" + (a + 1).ToString("0") + "_MIN", rcmin[a], true);
+                        MainV2.comPort.setParam("RC" + (a + 1).ToString("0") + "_MAX", rcmax[a], true);
                     }
                     if (rctrim[a] < 1195 || rctrim[a] > 1205)
-                        MainV2.comPort.setParam("RC" + (a + 1).ToString("0") + "_TRIM", rctrim[a]);
+                        MainV2.comPort.setParam("RC" + (a + 1).ToString("0") + "_TRIM", rctrim[a], true);
                 }
                 catch
                 {
@@ -354,6 +354,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 data, "Radio");
 
             BUT_Calibrateradio.Text = Strings.Completed;
+        }
+
+        private float Constrain(float chin, int v)
+        {
+            return Math.Min(Math.Max(chin, rcmin[v]), rcmax[v]);
         }
 
         private void setBARStatus(HorizontalProgressBar2 bar, float min, float max)

@@ -36,36 +36,35 @@ namespace MissionPlanner.Utilities
         private static void clientdata(IAsyncResult ar)
         {
             timer = null;
-            var client = ((UdpClient) ar.AsyncState);
+            var client = ((UdpClient)ar.AsyncState);
 
             if (client == null || client.Client == null)
                 return;
-
-            var port = ((IPEndPoint) client.Client.LocalEndPoint).Port;
-
-            //if (client != null)
-            //client.Close();
-
             try
             {
+                var port = ((IPEndPoint)client.Client.LocalEndPoint).Port;
+
+                //if (client != null)
+                //client.Close();
+
                 var udpclient = new Comms.UdpSerial(client);
 
-                MainV2.instance.BeginInvoke((Action) delegate
-                {
-                    if (MainV2.comPort.BaseStream.IsOpen)
-                    {
-                        var mav = new MAVLinkInterface();
-                        mav.BaseStream = udpclient;
-                        MainV2.instance.doConnect(mav, "preset", port.ToString());
+                MainV2.instance.BeginInvoke((Action)delegate
+               {
+                   if (MainV2.comPort.BaseStream.IsOpen)
+                   {
+                       var mav = new MAVLinkInterface();
+                       mav.BaseStream = udpclient;
+                       MainV2.instance.doConnect(mav, "preset", port.ToString());
 
-                        MainV2.Comports.Add(mav);
-                    }
-                    else
-                    {
-                        MainV2.comPort.BaseStream = udpclient;
-                        MainV2.instance.doConnect(MainV2.comPort, "preset", port.ToString());
-                    }
-                });
+                       MainV2.Comports.Add(mav);
+                   }
+                   else
+                   {
+                       MainV2.comPort.BaseStream = udpclient;
+                       MainV2.instance.doConnect(MainV2.comPort, "preset", port.ToString());
+                   }
+               });
             }
             catch (Exception ex)
             {

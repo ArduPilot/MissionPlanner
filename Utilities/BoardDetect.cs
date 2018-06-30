@@ -27,6 +27,7 @@ namespace MissionPlanner.Utilities
             px4v3, // cube/pixhawk with 2mb flash
             px4v4, // pixracer
             px4v4pro, // Pixhawk 3 Pro
+            fmuv5, // PixHackV5 and Pixhawk4
             vrbrainv40,
             vrbrainv45,
             vrbrainv50,
@@ -38,7 +39,10 @@ namespace MissionPlanner.Utilities
             vrubrainv52,
             bebop2,
             disco,
-            solo
+            solo,
+            revomini,
+            mindpxv2,
+            minipix
         }
    
         /// <summary>
@@ -55,6 +59,7 @@ namespace MissionPlanner.Utilities
             {
                 try
                 {
+                    // check the device reported productname
                     var ports = Win32DeviceMgmt.GetAllCOMPorts();
 
                     foreach (var item in ports)
@@ -68,19 +73,90 @@ namespace MissionPlanner.Utilities
                                 log.Info("is a px4v4 pixracer");
                                 return boards.px4v4;
                             }
-                            /*if (item.board == "PX4 FMU v2.x")
+                            if (item.board == "fmuv2" || item.board == "fmuv2-bl")
                             {
-                                log.Info("is a px4v2");
+                                log.Info("is a fmuv2");
                                 return boards.px4v2;
                             }
+                            if (item.board == "fmuv3"|| item.board == "fmuv3-bl")
+                            {
+                                log.Info("is a fmuv3");
+                                return boards.px4v3;
+                            }
+                            if (item.board == "fmuv4"|| item.board == "fmuv4-bl")
+                            {
+                                log.Info("is a fmuv4");
+                                return boards.px4v4;
+                            }
+                            if (item.board == "fmuv5"|| item.board == "fmuv5-bl")
+                            {
+                                log.Info("is a fmuv5");
+                                return boards.fmuv5;
+                            }
+                            /*
                             if (item.board == "Arduino Mega 2560")
                             {
                                 log.Info("is a 2560v2");
                                 return boards.b2560v2;
                             }*/
-                            if (item.board == "revo-mini")
+                            if (item.board == "revo-mini"|| item.board == "revo-mini-bl")
                             {
                                 log.Info("is a revo-mini");
+                                return boards.revomini;
+                            }
+                            if (item.board == "mini-pix"|| item.board == "mini-pix-bl")
+                            {
+                                log.Info("is a mini-pix");
+                                return boards.minipix;
+                            }
+                            if (item.board == "mindpx-v2"|| item.board == "mindpx-v2-bl")
+                            {
+                                log.Info("is a mindpx-v2");
+                                return boards.mindpxv2;
+                            }
+                            if (item.board == "PX4 FMU v2.x") // || item.hardwareid.StartsWith(@"USB\VID_0483&PID_5740")) //USB\VID_0483&PID_5740&REV_0200
+                            {
+                                CustomMessageBox.Show(Strings.PleaseUnplugTheBoardAnd);
+
+                                DateTime DEADLINE = DateTime.Now.AddSeconds(30);
+
+                                while (DateTime.Now < DEADLINE)
+                                {
+                                    string[] allports = SerialPort.GetPortNames();
+
+                                    foreach (string port1 in allports)
+                                    {
+                                        log.Info(DateTime.Now.Millisecond + " Trying Port " + port1);
+                                        try
+                                        {
+                                            using (var up = new Uploader(port1, 115200))
+                                            {
+                                                up.identify();
+                                                Console.WriteLine(
+                                                    "Found board type {0} boardrev {1} bl rev {2} fwmax {3} on {4}",
+                                                    up.board_type,
+                                                    up.board_rev, up.bl_rev, up.fw_maxsize, port1);
+
+                                                if (up.fw_maxsize == 2080768 && up.board_type == 9 && up.bl_rev >= 5)
+                                                {
+                                                    log.Info("is a px4v3");
+                                                    return boards.px4v3;
+                                                }
+                                                else
+                                                {
+                                                    log.Info("is a px4v2");
+                                                    return boards.px4v2;
+                                                }
+                                            }
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            log.Error(ex);
+                                        }
+                                    }
+                                }
+
+                                log.Info("Failed to detect px4 board type");
                                 return boards.none;
                             }
                         }
@@ -122,7 +198,18 @@ namespace MissionPlanner.Utilities
                         }
                     }
 
-                    if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0011"))
+                    if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0032"))
+                    {
+                        // check port name as well
+                        //if (obj2.Properties["Name"].Value.ToString().ToUpper().Contains(serialPort.PortName.ToUpper()))
+                        {
+                            log.Info("is a fmuv5");
+                            return boards.fmuv5;
+                        }
+                    }
+
+                    // chibios or normal px4
+                    if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_0483&PID_5740") || obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0011"))
                     {
                         CustomMessageBox.Show(Strings.PleaseUnplugTheBoardAnd);
 
@@ -149,6 +236,11 @@ namespace MissionPlanner.Utilities
                                         {
                                             log.Info("is a px4v3");
                                             return boards.px4v3;
+                                        }
+                                        else if (up.fw_maxsize == 2080768 && up.board_type == 50 && up.bl_rev >= 5)
+                                        {
+                                            log.Info("is a fmuv5");
+                                            return boards.fmuv5;
                                         }
                                         else
                                         {

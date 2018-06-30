@@ -572,6 +572,8 @@ namespace MissionPlanner
             // setup adsb
             Utilities.adsb.UpdatePlanePosition += adsb_UpdatePlanePosition;
 
+            MAVLinkInterface.UpdateADSBPlanePosition += adsb_UpdatePlanePosition;
+
             Form splash = Program.Splash;
 
             splash?.Refresh();
@@ -620,8 +622,6 @@ namespace MissionPlanner
 
             var t = Type.GetType("Mono.Runtime");
             MONO = (t != null);
-
-            speechEngine = new Speech();
 
             Warnings.CustomWarning.defaultsrc = comPort.MAV.cs;
             Warnings.WarningEngine.Start();
@@ -982,6 +982,9 @@ namespace MissionPlanner
                 this.Icon = Icon.FromHandle(((Bitmap)Program.IconFile).GetHicon());
             }
 
+            if (Program.Logo2 != null)
+                MenuArduPilot.Image = Program.Logo2;
+
             if (Program.Logo != null && Program.name == "VVVVZ")
             {
                 MenuDonate.Click -= this.toolStripMenuItem1_Click;
@@ -1198,6 +1201,10 @@ namespace MissionPlanner
 
                 try
                 {
+                    // dont rebroadcast something that came from the drone
+                    if (sender != null && sender is MAVLinkInterface)
+                        return;
+
                     MAVLink.mavlink_adsb_vehicle_t packet = new MAVLink.mavlink_adsb_vehicle_t();
 
                     packet.altitude = (int)(MainV2.instance.adsbPlanes[id].Alt * 1000);
@@ -1708,6 +1715,8 @@ namespace MissionPlanner
                 {
                     FlightPlanner.GeoFencedownloadToolStripMenuItem_Click(null, null);
                 }
+                //Add HUD custom items source 
+                HUD.Custom.src = MainV2.comPort.MAV.cs;
 
                 // set connected icon
                 this.MenuConnect.Image = displayicons.disconnect;
@@ -2658,6 +2667,10 @@ namespace MissionPlanner
                             {
                                 try
                                 {
+                                    // poll for version if we dont have it - every mav every port
+                                    if (!MAV.cs.armed && (DateTime.Now.Second % 20) == 0 && MAV.cs.version < new Version(0, 1))
+                                        port.getVersion(MAV.sysid, MAV.compid, false);
+
                                     // are we talking to a mavlink2 device
                                     if (MAV.mavlinkv2)
                                     {
@@ -3083,6 +3096,24 @@ namespace MissionPlanner
                     logbrowse.BringToFront();
                 }
 
+                if (cmds.ContainsKey("script") && File.Exists(cmds["script"]))
+                {
+                    // invoke for after onload finished
+                    this.BeginInvoke((Action) delegate()
+                    {
+                        try
+                        {
+                            FlightData.selectedscript = cmds["script"];
+
+                            FlightData.BUT_run_script_Click(null, null);
+                        }
+                        catch (Exception ex)
+                        {
+                            CustomMessageBox.Show("Start script failed: "+ex.ToString(), Strings.ERROR);
+                        }
+                    });
+                }
+
                 if (cmds.ContainsKey("joy") && cmds.ContainsKey("type"))
                 {
                     if (cmds["type"].ToLower() == "plane")
@@ -3195,7 +3226,7 @@ namespace MissionPlanner
                     var fw = new Firmware();
                     var list = fw.getFWList();
                     if (list.Count > 1)
-                        Firmware.SaveSoftwares(list);
+                        Firmware.SaveSoftwares(new Firmware.optionsObject() { softwares = list });
 
                     Settings.Instance["fw_check"] = DateTime.Now.ToShortDateString();
                 }

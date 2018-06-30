@@ -74,11 +74,13 @@ namespace MissionPlanner.Utilities
         {
             using (var stream = File.Open(outputfn, FileMode.Create))
             {
-                using (BinaryReader br = new BinaryReader(File.OpenRead(inputfn)))
+                using (BinaryReader br = new BinaryReader(new BufferedStream(File.OpenRead(inputfn), 1024*1024)))
                 {
                     DateTime displaytimer = DateTime.MinValue;
 
-                    while (br.BaseStream.Position < br.BaseStream.Length)
+                    var length = br.BaseStream.Length;
+
+                    while (br.BaseStream.Position < length)
                     {
                         if (displaytimer.Second != DateTime.Now.Second)
                         {
@@ -88,7 +90,7 @@ namespace MissionPlanner.Utilities
                             Console.WriteLine("ConvertBin " + (br.BaseStream.Position/(float) br.BaseStream.Length)*100);
                             displaytimer = DateTime.Now;
                         }
-                        byte[] data = ASCIIEncoding.ASCII.GetBytes(ReadMessage(br.BaseStream));
+                        byte[] data = ASCIIEncoding.ASCII.GetBytes(ReadMessage(br.BaseStream, length));
                         stream.Write(data, 0, data.Length);
                     }
                 }
@@ -97,13 +99,11 @@ namespace MissionPlanner.Utilities
 
         private string _firmware = "";
 
-        public string ReadMessage(Stream br)
+        public string ReadMessage(Stream br, long length)
         {
             lock (locker)
             {
                 int log_step = 0;
-
-                long length = br.Length;
 
                 while (br.Position < length)
                 {
@@ -133,24 +133,13 @@ namespace MissionPlanner.Utilities
                             log_step = 0;
                             try
                             {
-                                string line = logEntryObjects(data, br).Aggregate((a, b) =>
+                                string line = String.Join(", ", logEntryObjects(data, br).Select((a) =>
                                               {
-                                                  StringBuilder sb = new StringBuilder();
                                                   if (a.IsNumber())
-                                                      sb.Append(((IConvertible) a).ToString(CultureInfo.InvariantCulture));
+                                                      return (((IConvertible)a).ToString(CultureInfo.InvariantCulture));
                                                   else
-                                                      sb.Append(a);
-
-                                                  sb.Append(", ");
-
-                                                  if (b.IsNumber())
-                                                      sb.Append(((IConvertible) b).ToString(CultureInfo.InvariantCulture));
-                                                  else
-                                                      sb.Append(b);
-
-                                                  return sb.ToString();
-                                              }) as string +
-                                              "\r\n";
+                                                      return a.ToString();
+                                              })) + "\r\n";
 
                                 // we need to know the mav type to use the correct mode list.
                                 if (line.Contains("PARM, RATE_RLL_P") || line.Contains("ArduCopter") ||
@@ -192,12 +181,11 @@ namespace MissionPlanner.Utilities
         }
 
 
-        public Tuple<byte, long> ReadMessageTypeOffset(Stream br)
+        public Tuple<byte, long> ReadMessageTypeOffset(Stream br, long length)
         {
             lock (locker)
             {
                 int log_step = 0;
-                long length = br.Length;
 
                 while (br.Position < length)
                 {
@@ -322,7 +310,8 @@ namespace MissionPlanner.Utilities
                         if (size == 0)
                             return;
 
-                        br.Seek(size - 3, SeekOrigin.Current);
+                        byte[] buf = new byte[size - 3];
+                        br.Read(buf, 0, buf.Length);
                         break;
                 }
             }

@@ -11,5 +11,7 @@ namespace MissionPlanner.Swarm.TD
         public double speed = 2.0;
 
         public bool takeoffdone = false;
+
+        public bool commandsent = false;
     }
 }

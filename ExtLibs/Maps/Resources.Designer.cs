@@ -1310,6 +1310,66 @@ namespace MissionPlanner.Maps {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static System.Drawing.Bitmap planeicon1 {
+            get {
+                object obj = ResourceManager.GetObject("planeicon1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static System.Drawing.Bitmap planeicon2 {
+            get {
+                object obj = ResourceManager.GetObject("planeicon2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static System.Drawing.Bitmap planeicon3 {
+            get {
+                object obj = ResourceManager.GetObject("planeicon3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static System.Drawing.Bitmap planeicon4 {
+            get {
+                object obj = ResourceManager.GetObject("planeicon4", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static System.Drawing.Bitmap planeicon5 {
+            get {
+                object obj = ResourceManager.GetObject("planeicon5", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static System.Drawing.Bitmap planeicon6 {
+            get {
+                object obj = ResourceManager.GetObject("planeicon6", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap PlusFrames_02 {

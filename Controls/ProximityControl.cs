@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using MissionPlanner.ArduPilot;
 using static MAVLink;
 using MissionPlanner.Properties;
+using System.ComponentModel;
 
 namespace MissionPlanner.Utilities
 {
@@ -20,16 +21,31 @@ namespace MissionPlanner.Utilities
         private Proximity.directionState _dS => _parent.Proximity.DirectionState;
 
         KeyValuePair<MAVLINK_MSG_ID, Func<MAVLinkMessage, bool>> sub;
+        private Timer timer1;
+        private IContainer components;
 
         public bool DataAvailable { get; set; } = false;
 
         public ProximityControl(MAVState state)
         {
+            InitializeComponent();
+
             _parent = state;
 
             Paint += Temp_Paint;
             KeyPress += Temp_KeyPress;
             Resize += Temp_Resize;
+            FormClosing += ProximityControl_FormClosing; ;
+            
+            timer1.Interval = 100;
+            timer1.Tick += (s, e) => { Invalidate(); };
+
+            timer1.Start();
+        }
+
+        private void ProximityControl_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            timer1.Stop();
         }
 
         private void Temp_Resize(object sender, EventArgs e)
@@ -177,7 +193,22 @@ namespace MissionPlanner.Utilities
         {
             if (_parent != null)
                 _parent.parent.UnSubscribeToPacketType(sub);
+
+            timer1.Stop();
         }
 
-   }
+        private void InitializeComponent()
+        {
+            this.components = new System.ComponentModel.Container();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.SuspendLayout();
+            // 
+            // ProximityControl
+            // 
+            this.ClientSize = new System.Drawing.Size(430, 391);
+            this.Name = "ProximityControl";
+            this.ResumeLayout(false);
+
+        }
+    }
 }

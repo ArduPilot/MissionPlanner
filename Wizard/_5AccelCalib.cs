@@ -45,6 +45,7 @@ namespace MissionPlanner.Wizard
                 MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 0, 0, 0, 0, 1, 0, 0);
 
                 MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.STATUSTEXT, receivedPacket);
+                MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.COMMAND_LONG, receivedPacket);
             }
             catch
             {
@@ -78,10 +79,22 @@ namespace MissionPlanner.Wizard
 
                         busy = false;
                         MainV2.comPort.UnSubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.STATUSTEXT, receivedPacket);
+                        MainV2.comPort.UnSubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.COMMAND_LONG, receivedPacket);
                     }
                     catch
                     {
                     }
+                }
+            }
+
+            if (arg.msgid == (uint)MAVLink.MAVLINK_MSG_ID.COMMAND_LONG)
+            {
+                var message = arg.ToStructure<MAVLink.mavlink_command_long_t>();
+                if (message.command == (ushort)MAVLink.MAV_CMD.ACCELCAL_VEHICLE_POS)
+                {
+                    MAVLink.ACCELCAL_VEHICLE_POS pos = (MAVLink.ACCELCAL_VEHICLE_POS)message.param1;
+
+                    UpdateUserMessage("Please place vehicle " + pos.ToString());
                 }
             }
 

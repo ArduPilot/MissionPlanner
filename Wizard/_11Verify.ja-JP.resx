@@ -112,49 +112,49 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="lbl_gps.Text" xml:space="preserve">
     <value>オートパイロットのGPSは、ロック(衛星を捕まえて自分の位置を認識)していますか？</value>
   </data>
   <data name="label10.Text" xml:space="preserve">
-    <value>Pre-Arm テストのベリファイ</value>
+    <value>Pre-Arm テストの確認</value>
   </data>
   <data name="lbl_rc.Text" xml:space="preserve">
     <value>ラジコン送信機の設定は、完了していますか？</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>GPSのベリファイ</value>
+    <value>GPSの確認</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>この画面では、Armしてオートパイロットで飛行するために必要な条件を満たしているかどうかを診断します。
+    <value>この画面では、Armして飛行するために必要な条件を満たしているかどうかを診断します。
 
-注意: このテストでは、オートパイロットをArmしようとするので、プロペラが回転するかも知れません。全てのプロペラを外してください。
+注意: このテストでは、フライトコントローラーをArmしようとするので、プロペラが回転するかも知れません。全てのプロペラを外してください。
 </value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>現在の進行状況のベリファイ</value>
+    <value>現在の進行状況の確認</value>
   </data>
   <data name="chk_compass.Text" xml:space="preserve">
     <value>チェックボックス3</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>加速度センサーのベリファイ</value>
+    <value>加速度センサーの確認</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>コンパスのベリファイ</value>
+    <value>コンパスの確認</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
-    <value>RCのベリファイ</value>
+    <value>送受信機の確認</value>
   </data>
   <data name="chk_gps.Text" xml:space="preserve">
     <value>チェックボックス1</value>
   </data>
   <data name="lbl_accel.Text" xml:space="preserve">
-    <value>加速度センサのキャリブレーションは完了していますか</value>
+    <value>加速度センサのキャリブレーションは完了していますか？</value>
   </data>
   <data name="chk_accel.Text" xml:space="preserve">
     <value>チェックボックス2</value>
@@ -172,9 +172,12 @@
     <value>チェックボックス4</value>
   </data>
   <data name="radialGradientBG1.Label.Text" xml:space="preserve">
-    <value>ベリファイ</value>
+    <value>確認</value>
   </data>
   <data name="lbl_compass.Text" xml:space="preserve">
     <value>コンパスのキャリブレーションは、完了していますか？</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value />
   </data>
 </root>

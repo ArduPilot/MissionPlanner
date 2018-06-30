@@ -10,9 +10,8 @@ using MissionPlanner.Utilities;
 
 namespace MissionPlanner
 {
-    class Common
+    public class Common
     {
-
         public static Form LoadingBox(string title, string promptText)
         {
             Form form = new Form();
