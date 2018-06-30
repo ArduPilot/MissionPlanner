@@ -424,7 +424,7 @@ namespace MissionPlanner.Swarm.TD
                 var y = short.MaxValue;
                 var z = 0;
                 var yaw = 0;*/
-                
+
                 // matrix with our current copter yaw
                 var Matrix = new Matrix3();
 
