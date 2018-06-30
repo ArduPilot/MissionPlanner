@@ -4540,7 +4540,8 @@ namespace MissionPlanner.GCSViews
 
         Color GetColor()
         {
-            Color mix = Color.White;
+            //The mix color is set to the inverse of background color, so white background will get dark colors
+            Color mix = Color.FromArgb(ThemeManager.BGColor.ToArgb() ^ 0xffffff); 
             
             int red = random.Next(256);
             int green = random.Next(256);
