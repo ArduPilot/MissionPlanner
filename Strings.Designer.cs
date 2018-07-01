@@ -19,10 +19,10 @@ namespace MissionPlanner {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal partial class Strings {
+    public class Strings {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -151,7 +151,7 @@ namespace MissionPlanner {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bad GPS Health.
+        ///   Looks up a localized string similar to Bad GPS Signal Health.
         /// </summary>
         public static string BadGPSHealth {
             get {
@@ -999,6 +999,15 @@ namespace MissionPlanner {
         public static string NewFirmwareA {
             get {
                 return ResourceManager.GetString("NewFirmwareA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No firmware available for this board!.
+        /// </summary>
+        public static string No_firmware_available_for_this_board {
+            get {
+                return ResourceManager.GetString("No_firmware_available_for_this_board", resourceCulture);
             }
         }
         

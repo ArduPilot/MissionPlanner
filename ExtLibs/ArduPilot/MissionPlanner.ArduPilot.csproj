@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
@@ -18,22 +18,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\..\Strings.cs" Link="Strings.cs" />
-    <Compile Include="..\..\Strings.Designer.cs" Link="Strings.Designer.cs"><DependentUpon>Strings.cs</DependentUpon>
+    <Compile Include="..\..\Strings.Designer.cs" Link="Strings.Designer.cs">
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="..\..\Strings.az-Latn-AZ.resx" Link="Strings.az-Latn-AZ.resx"><DependentUpon>Strings.cs</DependentUpon></EmbeddedResource>
-    <EmbeddedResource Include="..\..\Strings.de-DE.resx" Link="Strings.de-DE.resx"><DependentUpon>Strings.cs</DependentUpon></EmbeddedResource>
-    <EmbeddedResource Include="..\..\Strings.id-ID.resx" Link="Strings.id-ID.resx"><DependentUpon>Strings.cs</DependentUpon></EmbeddedResource>
-    <EmbeddedResource Include="..\..\Strings.ja-JP.resx" Link="Strings.ja-JP.resx"><DependentUpon>Strings.cs</DependentUpon></EmbeddedResource>
-    <EmbeddedResource Include="..\..\Strings.ko-KR.resx" Link="Strings.ko-KR.resx"><DependentUpon>Strings.cs</DependentUpon></EmbeddedResource>
-    <EmbeddedResource Include="..\..\Strings.pt.resx" Link="Strings.pt.resx"><DependentUpon>Strings.cs</DependentUpon></EmbeddedResource>
-    <EmbeddedResource Include="..\..\Strings.resx" Link="Strings.resx"><DependentUpon>Strings.cs</DependentUpon></EmbeddedResource>
-    <EmbeddedResource Include="..\..\Strings.ru-KZ.resx" Link="Strings.ru-KZ.resx"><DependentUpon>Strings.cs</DependentUpon></EmbeddedResource>
-    <EmbeddedResource Include="..\..\Strings.tr.resx" Link="Strings.tr.resx"><DependentUpon>Strings.cs</DependentUpon></EmbeddedResource>
-    <EmbeddedResource Include="..\..\Strings.zh-Hans.resx" Link="Strings.zh-Hans.resx"><DependentUpon>Strings.cs</DependentUpon></EmbeddedResource>
+    <EmbeddedResource Include="..\..\Strings.az-Latn-AZ.resx" Link="Strings.az-Latn-AZ.resx"></EmbeddedResource>
+    <EmbeddedResource Include="..\..\Strings.de-DE.resx" Link="Strings.de-DE.resx"></EmbeddedResource>
+    <EmbeddedResource Include="..\..\Strings.id-ID.resx" Link="Strings.id-ID.resx"></EmbeddedResource>
+    <EmbeddedResource Include="..\..\Strings.ja-JP.resx" Link="Strings.ja-JP.resx"></EmbeddedResource>
+    <EmbeddedResource Include="..\..\Strings.ko-KR.resx" Link="Strings.ko-KR.resx"></EmbeddedResource>
+    <EmbeddedResource Include="..\..\Strings.pt.resx" Link="Strings.pt.resx"></EmbeddedResource>
+    <EmbeddedResource Include="..\..\Strings.resx" Link="Strings.resx"><Generator>ResXFileCodeGenerator</Generator></EmbeddedResource>
+    <EmbeddedResource Include="..\..\Strings.ru-KZ.resx" Link="Strings.ru-KZ.resx"></EmbeddedResource>
+    <EmbeddedResource Include="..\..\Strings.tr.resx" Link="Strings.tr.resx"></EmbeddedResource>
+    <EmbeddedResource Include="..\..\Strings.zh-Hans.resx" Link="Strings.zh-Hans.resx"></EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>

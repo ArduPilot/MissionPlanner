@@ -640,4 +640,7 @@ old #{0}  new #{1}</value>
   <data name="Not_available_when_used_as_a_windows_store_app" xml:space="preserve">
     <value>Not available when used as a windows store app</value>
   </data>
+  <data name="No_firmware_available_for_this_board" xml:space="preserve">
+    <value>No firmware available for this board!</value>
+  </data>
 </root>
