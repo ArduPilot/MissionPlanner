@@ -71,6 +71,8 @@ namespace MissionPlanner.Utilities
 
                         if (port.ToLower() == item.name.ToLower())
                         {
+                            //USB\VID_0483&PID_DF11   -- stm32 bootloader
+
                             // new style bootloader
                             if (item.hardwareid.StartsWith(@"USB\VID_0483&PID_5740")) //USB\VID_0483&PID_5740&REV_0200)
                             {

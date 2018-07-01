@@ -22,7 +22,7 @@ namespace MissionPlanner {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Strings {
+    internal partial class Strings {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace MissionPlanner {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MissionPlanner.Strings", typeof(Strings).Assembly);
@@ -51,7 +51,7 @@ namespace MissionPlanner {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Advanced Params.
         /// </summary>
-        public static string AdvancedParams {
+        internal static string AdvancedParams {
             get {
                 return ResourceManager.GetString("AdvancedParams", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to upload .
         /// </summary>
-        public static string AreYouSureYouWantToUpload {
+        internal static string AreYouSureYouWantToUpload {
             get {
                 return ResourceManager.GetString("AreYouSureYouWantToUpload", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Auto WP.
         /// </summary>
-        public static string AutoWP {
+        internal static string AutoWP {
             get {
                 return ResourceManager.GetString("AutoWP", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Bad KML File :.
         /// </summary>
-        public static string Bad_KML_File {
+        internal static string Bad_KML_File {
             get {
                 return ResourceManager.GetString("Bad_KML_File", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Bad Vision Position.
         /// </summary>
-        public static string Bad_Vision_Position {
+        internal static string Bad_Vision_Position {
             get {
                 return ResourceManager.GetString("Bad_Vision_Position", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Bad Accel Health.
         /// </summary>
-        public static string BadAccelHealth {
+        internal static string BadAccelHealth {
             get {
                 return ResourceManager.GetString("BadAccelHealth", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Bad AHRS.
         /// </summary>
-        public static string BadAHRS {
+        internal static string BadAHRS {
             get {
                 return ResourceManager.GetString("BadAHRS", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Bad Baro Health.
         /// </summary>
-        public static string BadBaroHealth {
+        internal static string BadBaroHealth {
             get {
                 return ResourceManager.GetString("BadBaroHealth", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Bad Compass Health.
         /// </summary>
-        public static string BadCompassHealth {
+        internal static string BadCompassHealth {
             get {
                 return ResourceManager.GetString("BadCompassHealth", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Bad Lat/Lng.
         /// </summary>
-        public static string BadCoords {
+        internal static string BadCoords {
             get {
                 return ResourceManager.GetString("BadCoords", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Bad GPS Signal Health.
         /// </summary>
-        public static string BadGPSHealth {
+        internal static string BadGPSHealth {
             get {
                 return ResourceManager.GetString("BadGPSHealth", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Bad Gyro Health.
         /// </summary>
-        public static string BadGyroHealth {
+        internal static string BadGyroHealth {
             get {
                 return ResourceManager.GetString("BadGyroHealth", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Bad LiDAR Health.
         /// </summary>
-        public static string BadLiDARHealth {
+        internal static string BadLiDARHealth {
             get {
                 return ResourceManager.GetString("BadLiDARHealth", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Bad Logging.
         /// </summary>
-        public static string BadLogging {
+        internal static string BadLogging {
             get {
                 return ResourceManager.GetString("BadLogging", resourceCulture);
             }
@@ -189,7 +189,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Bad OptFlow Health.
         /// </summary>
-        public static string BadOptFlowHealth {
+        internal static string BadOptFlowHealth {
             get {
                 return ResourceManager.GetString("BadOptFlowHealth", resourceCulture);
             }
@@ -198,7 +198,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Bad or No Terrain Data.
         /// </summary>
-        public static string BadorNoTerrainData {
+        internal static string BadorNoTerrainData {
             get {
                 return ResourceManager.GetString("BadorNoTerrainData", resourceCulture);
             }
@@ -207,7 +207,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Basic Tuning.
         /// </summary>
-        public static string BasicTuning {
+        internal static string BasicTuning {
             get {
                 return ResourceManager.GetString("BasicTuning", resourceCulture);
             }
@@ -216,7 +216,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Beta.
         /// </summary>
-        public static string Beta {
+        internal static string Beta {
             get {
                 return ResourceManager.GetString("Beta", resourceCulture);
             }
@@ -225,7 +225,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to These are beta firmware, use at your own risk!!!.
         /// </summary>
-        public static string BetaWarning {
+        internal static string BetaWarning {
             get {
                 return ResourceManager.GetString("BetaWarning", resourceCulture);
             }
@@ -234,7 +234,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Can not connect to com port and detect board type.
         /// </summary>
-        public static string CanNotConnectToComPortAnd {
+        internal static string CanNotConnectToComPortAnd {
             get {
                 return ResourceManager.GetString("CanNotConnectToComPortAnd", resourceCulture);
             }
@@ -243,7 +243,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Cannot graph this field.
         /// </summary>
-        public static string CannotGraphField {
+        internal static string CannotGraphField {
             get {
                 return ResourceManager.GetString("CannotGraphField", resourceCulture);
             }
@@ -252,7 +252,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Cant detect your Board version. Please check your cabling.
         /// </summary>
-        public static string CantDetectBoardVersion {
+        internal static string CantDetectBoardVersion {
             get {
                 return ResourceManager.GetString("CantDetectBoardVersion", resourceCulture);
             }
@@ -261,7 +261,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Change Throttle.
         /// </summary>
-        public static string ChangeThrottle {
+        internal static string ChangeThrottle {
             get {
                 return ResourceManager.GetString("ChangeThrottle", resourceCulture);
             }
@@ -270,7 +270,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Checking .
         /// </summary>
-        public static string Checking {
+        internal static string Checking {
             get {
                 return ResourceManager.GetString("Checking", resourceCulture);
             }
@@ -279,7 +279,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Check port settings or Port in use?.
         /// </summary>
-        public static string CheckPortSettingsOr {
+        internal static string CheckPortSettingsOr {
             get {
                 return ResourceManager.GetString("CheckPortSettingsOr", resourceCulture);
             }
@@ -288,7 +288,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Click when Done.
         /// </summary>
-        public static string Click_when_Done {
+        internal static string Click_when_Done {
             get {
                 return ResourceManager.GetString("Click_when_Done", resourceCulture);
             }
@@ -298,7 +298,7 @@ namespace MissionPlanner {
         ///   Looks up a localized string similar to The Command failed to execute
         ///.
         /// </summary>
-        public static string CommandFailed {
+        internal static string CommandFailed {
             get {
                 return ResourceManager.GetString("CommandFailed", resourceCulture);
             }
@@ -307,7 +307,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Communication Error - no connection.
         /// </summary>
-        public static string CommunicationErrorNoConnection {
+        internal static string CommunicationErrorNoConnection {
             get {
                 return ResourceManager.GetString("CommunicationErrorNoConnection", resourceCulture);
             }
@@ -316,7 +316,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to compass variance.
         /// </summary>
-        public static string compass_variance {
+        internal static string compass_variance {
             get {
                 return ResourceManager.GetString("compass_variance", resourceCulture);
             }
@@ -325,7 +325,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Completed.
         /// </summary>
-        public static string Completed {
+        internal static string Completed {
             get {
                 return ResourceManager.GetString("Completed", resourceCulture);
             }
@@ -334,7 +334,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Connect.
         /// </summary>
-        public static string Connect {
+        internal static string Connect {
             get {
                 return ResourceManager.GetString("Connect", resourceCulture);
             }
@@ -343,7 +343,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to CONNECT.
         /// </summary>
-        public static string CONNECTc {
+        internal static string CONNECTc {
             get {
                 return ResourceManager.GetString("CONNECTc", resourceCulture);
             }
@@ -352,7 +352,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Connect Failed.
         /// </summary>
-        public static string ConnectFailed {
+        internal static string ConnectFailed {
             get {
                 return ResourceManager.GetString("ConnectFailed", resourceCulture);
             }
@@ -361,7 +361,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Connecting Mavlink.
         /// </summary>
-        public static string ConnectingMavlink {
+        internal static string ConnectingMavlink {
             get {
                 return ResourceManager.GetString("ConnectingMavlink", resourceCulture);
             }
@@ -370,7 +370,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Continue.
         /// </summary>
-        public static string Continue {
+        internal static string Continue {
             get {
                 return ResourceManager.GetString("Continue", resourceCulture);
             }
@@ -379,7 +379,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Converting bin to log.
         /// </summary>
-        public static string Converting_bin_to_log {
+        internal static string Converting_bin_to_log {
             get {
                 return ResourceManager.GetString("Converting_bin_to_log", resourceCulture);
             }
@@ -388,7 +388,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Description: .
         /// </summary>
-        public static string Desc {
+        internal static string Desc {
             get {
                 return ResourceManager.GetString("Desc", resourceCulture);
             }
@@ -397,7 +397,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Detected a .
         /// </summary>
-        public static string DetectedA {
+        internal static string DetectedA {
             get {
                 return ResourceManager.GetString("DetectedA", resourceCulture);
             }
@@ -406,7 +406,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Detecting Board Version.
         /// </summary>
-        public static string DetectingBoardVersion {
+        internal static string DetectingBoardVersion {
             get {
                 return ResourceManager.GetString("DetectingBoardVersion", resourceCulture);
             }
@@ -415,7 +415,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Disconnect.
         /// </summary>
-        public static string Disconnect {
+        internal static string Disconnect {
             get {
                 return ResourceManager.GetString("Disconnect", resourceCulture);
             }
@@ -424,7 +424,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to DISCONNECT.
         /// </summary>
-        public static string DISCONNECTc {
+        internal static string DISCONNECTc {
             get {
                 return ResourceManager.GetString("DISCONNECTc", resourceCulture);
             }
@@ -433,7 +433,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Do you want to load this into the flight data screen?.
         /// </summary>
-        public static string Do_you_want_to_load_this_into_the_flight_data_screen {
+        internal static string Do_you_want_to_load_this_into_the_flight_data_screen {
             get {
                 return ResourceManager.GetString("Do_you_want_to_load_this_into_the_flight_data_screen", resourceCulture);
             }
@@ -442,7 +442,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Done.
         /// </summary>
-        public static string Done {
+        internal static string Done {
             get {
                 return ResourceManager.GetString("Done", resourceCulture);
             }
@@ -451,7 +451,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Downloaded from internet.
         /// </summary>
-        public static string DownloadedFromInternet {
+        internal static string DownloadedFromInternet {
             get {
                 return ResourceManager.GetString("DownloadedFromInternet", resourceCulture);
             }
@@ -460,7 +460,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Downloading from Internet.
         /// </summary>
-        public static string DownloadingFromInternet {
+        internal static string DownloadingFromInternet {
             get {
                 return ResourceManager.GetString("DownloadingFromInternet", resourceCulture);
             }
@@ -469,7 +469,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Ensure your props are not on the Plane/Quad.
         /// </summary>
-        public static string EnsurePropsNotOn {
+        internal static string EnsurePropsNotOn {
             get {
                 return ResourceManager.GetString("EnsurePropsNotOn", resourceCulture);
             }
@@ -479,7 +479,7 @@ namespace MissionPlanner {
         ///   Looks up a localized string similar to Epprom changed, all your setting will be lost during the update,
         ///Do you wish to continue?.
         /// </summary>
-        public static string EppromChanged {
+        internal static string EppromChanged {
             get {
                 return ResourceManager.GetString("EppromChanged", resourceCulture);
             }
@@ -488,7 +488,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Epprom format changed ({0) vs {1}).
         /// </summary>
-        public static string EppromFormatChanged {
+        internal static string EppromFormatChanged {
             get {
                 return ResourceManager.GetString("EppromFormatChanged", resourceCulture);
             }
@@ -497,7 +497,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
-        public static string ERROR {
+        internal static string ERROR {
             get {
                 return ResourceManager.GetString("ERROR", resourceCulture);
             }
@@ -506,7 +506,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Error binding.
         /// </summary>
-        public static string Error_binding {
+        internal static string Error_binding {
             get {
                 return ResourceManager.GetString("Error_binding", resourceCulture);
             }
@@ -515,7 +515,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Error closing log files.
         /// </summary>
-        public static string ErrorClosingLogFile {
+        internal static string ErrorClosingLogFile {
             get {
                 return ResourceManager.GetString("ErrorClosingLogFile", resourceCulture);
             }
@@ -524,7 +524,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Error communicating with the autopilot.
         /// </summary>
-        public static string ErrorCommunicating {
+        internal static string ErrorCommunicating {
             get {
                 return ResourceManager.GetString("ErrorCommunicating", resourceCulture);
             }
@@ -534,7 +534,7 @@ namespace MissionPlanner {
         ///   Looks up a localized string similar to Error Connecting
         ///.
         /// </summary>
-        public static string ErrorConnecting {
+        internal static string ErrorConnecting {
             get {
                 return ResourceManager.GetString("ErrorConnecting", resourceCulture);
             }
@@ -543,7 +543,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to This feature is not enabled in your firmware..
         /// </summary>
-        public static string ErrorFeatureNotEnabled {
+        internal static string ErrorFeatureNotEnabled {
             get {
                 return ResourceManager.GetString("ErrorFeatureNotEnabled", resourceCulture);
             }
@@ -552,7 +552,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Error loading firmware file.
         /// </summary>
-        public static string ErrorFirmwareFile {
+        internal static string ErrorFirmwareFile {
             get {
                 return ResourceManager.GetString("ErrorFirmwareFile", resourceCulture);
             }
@@ -561,7 +561,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Error receiving log list.
         /// </summary>
-        public static string ErrorLogList {
+        internal static string ErrorLogList {
             get {
                 return ResourceManager.GetString("ErrorLogList", resourceCulture);
             }
@@ -570,7 +570,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Error: no responce from MAV.
         /// </summary>
-        public static string ErrorNoResponce {
+        internal static string ErrorNoResponce {
             get {
                 return ResourceManager.GetString("ErrorNoResponce", resourceCulture);
             }
@@ -579,7 +579,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to You are not connected..
         /// </summary>
-        public static string ErrorNotConnected {
+        internal static string ErrorNotConnected {
             get {
                 return ResourceManager.GetString("ErrorNotConnected", resourceCulture);
             }
@@ -589,7 +589,7 @@ namespace MissionPlanner {
         ///   Looks up a localized string similar to Error receiving list
         ///.
         /// </summary>
-        public static string ErrorReceivingParams {
+        internal static string ErrorReceivingParams {
             get {
                 return ResourceManager.GetString("ErrorReceivingParams", resourceCulture);
             }
@@ -598,7 +598,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Error: command rejected by MAV.
         /// </summary>
-        public static string ErrorRejectedByMAV {
+        internal static string ErrorRejectedByMAV {
             get {
                 return ResourceManager.GetString("ErrorRejectedByMAV", resourceCulture);
             }
@@ -607,7 +607,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Error renaming file.
         /// </summary>
-        public static string ErrorRenameFile {
+        internal static string ErrorRenameFile {
             get {
                 return ResourceManager.GetString("ErrorRenameFile", resourceCulture);
             }
@@ -616,7 +616,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Error setting parameter .
         /// </summary>
-        public static string ErrorSettingParameter {
+        internal static string ErrorSettingParameter {
             get {
                 return ResourceManager.GetString("ErrorSettingParameter", resourceCulture);
             }
@@ -625,7 +625,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Set {0} Failed.
         /// </summary>
-        public static string ErrorSetValueFailed {
+        internal static string ErrorSetValueFailed {
             get {
                 return ResourceManager.GetString("ErrorSetValueFailed", resourceCulture);
             }
@@ -634,7 +634,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Error uploading firmware.
         /// </summary>
-        public static string ErrorUploadingFirmware {
+        internal static string ErrorUploadingFirmware {
             get {
                 return ResourceManager.GetString("ErrorUploadingFirmware", resourceCulture);
             }
@@ -643,7 +643,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Extended Tuning.
         /// </summary>
-        public static string ExtendedTuning {
+        internal static string ExtendedTuning {
             get {
                 return ResourceManager.GetString("ExtendedTuning", resourceCulture);
             }
@@ -652,7 +652,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Failed to create log - wont log this session.
         /// </summary>
-        public static string Failclog {
+        internal static string Failclog {
             get {
                 return ResourceManager.GetString("Failclog", resourceCulture);
             }
@@ -661,7 +661,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Failed to connect to SITL instance.
         /// </summary>
-        public static string Failed_to_connect_to_SITL_instance {
+        internal static string Failed_to_connect_to_SITL_instance {
             get {
                 return ResourceManager.GetString("Failed_to_connect_to_SITL_instance", resourceCulture);
             }
@@ -670,7 +670,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Failed to download the SITL image..
         /// </summary>
-        public static string Failed_to_download_the_SITL_image {
+        internal static string Failed_to_download_the_SITL_image {
             get {
                 return ResourceManager.GetString("Failed_to_download_the_SITL_image", resourceCulture);
             }
@@ -679,7 +679,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Failed download.
         /// </summary>
-        public static string FailedDownload {
+        internal static string FailedDownload {
             get {
                 return ResourceManager.GetString("FailedDownload", resourceCulture);
             }
@@ -688,7 +688,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Failed read HEX.
         /// </summary>
-        public static string FailedReadHEX {
+        internal static string FailedReadHEX {
             get {
                 return ResourceManager.GetString("FailedReadHEX", resourceCulture);
             }
@@ -697,7 +697,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Failed to read firmware.hex :.
         /// </summary>
-        public static string FailedToReadHex {
+        internal static string FailedToReadHex {
             get {
                 return ResourceManager.GetString("FailedToReadHex", resourceCulture);
             }
@@ -706,7 +706,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Failed upload.
         /// </summary>
-        public static string FailedUpload {
+        internal static string FailedUpload {
             get {
                 return ResourceManager.GetString("FailedUpload", resourceCulture);
             }
@@ -715,7 +715,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to FailSafe.
         /// </summary>
-        public static string FailSafe {
+        internal static string FailSafe {
             get {
                 return ResourceManager.GetString("FailSafe", resourceCulture);
             }
@@ -724,7 +724,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Flight Modes.
         /// </summary>
-        public static string FlightModes {
+        internal static string FlightModes {
             get {
                 return ResourceManager.GetString("FlightModes", resourceCulture);
             }
@@ -733,7 +733,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Full Parameter List.
         /// </summary>
-        public static string FullParameterList {
+        internal static string FullParameterList {
             get {
                 return ResourceManager.GetString("FullParameterList", resourceCulture);
             }
@@ -742,7 +742,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Full Parameter Tree.
         /// </summary>
-        public static string FullParameterTree {
+        internal static string FullParameterTree {
             get {
                 return ResourceManager.GetString("FullParameterTree", resourceCulture);
             }
@@ -751,7 +751,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to GeoFence.
         /// </summary>
-        public static string GeoFence {
+        internal static string GeoFence {
             get {
                 return ResourceManager.GetString("GeoFence", resourceCulture);
             }
@@ -760,7 +760,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Geofence Breach.
         /// </summary>
-        public static string GeofenceBreach {
+        internal static string GeofenceBreach {
             get {
                 return ResourceManager.GetString("GeofenceBreach", resourceCulture);
             }
@@ -769,7 +769,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Getting .
         /// </summary>
-        public static string Getting {
+        internal static string Getting {
             get {
                 return ResourceManager.GetString("Getting", resourceCulture);
             }
@@ -778,7 +778,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Getting FW List.
         /// </summary>
-        public static string GettingFWList {
+        internal static string GettingFWList {
             get {
                 return ResourceManager.GetString("GettingFWList", resourceCulture);
             }
@@ -787,7 +787,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Getting FW Version.
         /// </summary>
-        public static string GettingFWVersion {
+        internal static string GettingFWVersion {
             get {
                 return ResourceManager.GetString("GettingFWVersion", resourceCulture);
             }
@@ -796,7 +796,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Getting Params.
         /// </summary>
-        public static string GettingParams {
+        internal static string GettingParams {
             get {
                 return ResourceManager.GetString("GettingParams", resourceCulture);
             }
@@ -805,7 +805,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Getting Params....
         /// </summary>
-        public static string GettingParamsD {
+        internal static string GettingParamsD {
             get {
                 return ResourceManager.GetString("GettingParamsD", resourceCulture);
             }
@@ -814,7 +814,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Getting updated parameters.
         /// </summary>
-        public static string GettingUpdatedParams {
+        internal static string GettingUpdatedParams {
             get {
                 return ResourceManager.GetString("GettingUpdatedParams", resourceCulture);
             }
@@ -823,7 +823,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Got param .
         /// </summary>
-        public static string Gotparam {
+        internal static string Gotparam {
             get {
                 return ResourceManager.GetString("Gotparam", resourceCulture);
             }
@@ -832,7 +832,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Invalid home location.
         /// </summary>
-        public static string Invalid_home_location {
+        internal static string Invalid_home_location {
             get {
                 return ResourceManager.GetString("Invalid_home_location", resourceCulture);
             }
@@ -841,7 +841,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Invalid Alt.
         /// </summary>
-        public static string InvalidAlt {
+        internal static string InvalidAlt {
             get {
                 return ResourceManager.GetString("InvalidAlt", resourceCulture);
             }
@@ -850,7 +850,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Invalid BaudRate.
         /// </summary>
-        public static string InvalidBaudRate {
+        internal static string InvalidBaudRate {
             get {
                 return ResourceManager.GetString("InvalidBaudRate", resourceCulture);
             }
@@ -859,7 +859,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Invalid Board Type.
         /// </summary>
-        public static string InvalidBoardType {
+        internal static string InvalidBoardType {
             get {
                 return ResourceManager.GetString("InvalidBoardType", resourceCulture);
             }
@@ -868,7 +868,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Invalid Cert.
         /// </summary>
-        public static string InvalidCert {
+        internal static string InvalidCert {
             get {
                 return ResourceManager.GetString("InvalidCert", resourceCulture);
             }
@@ -877,7 +877,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Invalid Field.
         /// </summary>
-        public static string InvalidField {
+        internal static string InvalidField {
             get {
                 return ResourceManager.GetString("InvalidField", resourceCulture);
             }
@@ -886,7 +886,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Invalid FileName.
         /// </summary>
-        public static string InvalidFileName {
+        internal static string InvalidFileName {
             get {
                 return ResourceManager.GetString("InvalidFileName", resourceCulture);
             }
@@ -896,7 +896,7 @@ namespace MissionPlanner {
         ///   Looks up a localized string similar to Invalid number entered
         ///.
         /// </summary>
-        public static string InvalidNumberEntered {
+        internal static string InvalidNumberEntered {
             get {
                 return ResourceManager.GetString("InvalidNumberEntered", resourceCulture);
             }
@@ -905,7 +905,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Invalid Pan Range.
         /// </summary>
-        public static string InvalidPanRange {
+        internal static string InvalidPanRange {
             get {
                 return ResourceManager.GetString("InvalidPanRange", resourceCulture);
             }
@@ -914,7 +914,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Invalid PortName.
         /// </summary>
-        public static string InvalidPortName {
+        internal static string InvalidPortName {
             get {
                 return ResourceManager.GetString("InvalidPortName", resourceCulture);
             }
@@ -923,7 +923,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Invalid Tilt Range.
         /// </summary>
-        public static string InvalidTiltRange {
+        internal static string InvalidTiltRange {
             get {
                 return ResourceManager.GetString("InvalidTiltRange", resourceCulture);
             }
@@ -932,7 +932,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Invalid Update Rate.
         /// </summary>
-        public static string InvalidUpdateRate {
+        internal static string InvalidUpdateRate {
             get {
                 return ResourceManager.GetString("InvalidUpdateRate", resourceCulture);
             }
@@ -941,7 +941,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Link Stats.
         /// </summary>
-        public static string LinkStats {
+        internal static string LinkStats {
             get {
                 return ResourceManager.GetString("LinkStats", resourceCulture);
             }
@@ -950,7 +950,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Load data.
         /// </summary>
-        public static string Load_data {
+        internal static string Load_data {
             get {
                 return ResourceManager.GetString("Load_data", resourceCulture);
             }
@@ -959,7 +959,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Please click ok and move the autopilot around all axises in a circular motion.
         /// </summary>
-        public static string MagCalibMsg {
+        internal static string MagCalibMsg {
             get {
                 return ResourceManager.GetString("MagCalibMsg", resourceCulture);
             }
@@ -968,7 +968,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Mavlink Connecting....
         /// </summary>
-        public static string MavlinkConnecting {
+        internal static string MavlinkConnecting {
             get {
                 return ResourceManager.GetString("MavlinkConnecting", resourceCulture);
             }
@@ -977,7 +977,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to You are missing data points. do you want to run the calibration anyway?.
         /// </summary>
-        public static string MissingDataPoints {
+        internal static string MissingDataPoints {
             get {
                 return ResourceManager.GetString("MissingDataPoints", resourceCulture);
             }
@@ -986,7 +986,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to New Firmware.
         /// </summary>
-        public static string NewFirmware {
+        internal static string NewFirmware {
             get {
                 return ResourceManager.GetString("NewFirmware", resourceCulture);
             }
@@ -996,7 +996,7 @@ namespace MissionPlanner {
         ///   Looks up a localized string similar to New firmware available
         ///.
         /// </summary>
-        public static string NewFirmwareA {
+        internal static string NewFirmwareA {
             get {
                 return ResourceManager.GetString("NewFirmwareA", resourceCulture);
             }
@@ -1005,7 +1005,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to No firmware available for this board!.
         /// </summary>
-        public static string No_firmware_available_for_this_board {
+        internal static string No_firmware_available_for_this_board {
             get {
                 return ResourceManager.GetString("No_firmware_available_for_this_board", resourceCulture);
             }
@@ -1014,7 +1014,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to No valid heartbeats read from port.
         /// </summary>
-        public static string No_valid_heartbeats_read_from_port {
+        internal static string No_valid_heartbeats_read_from_port {
             get {
                 return ResourceManager.GetString("No_valid_heartbeats_read_from_port", resourceCulture);
             }
@@ -1023,7 +1023,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to No FMT message for .
         /// </summary>
-        public static string NoFMTMessage {
+        internal static string NoFMTMessage {
             get {
                 return ResourceManager.GetString("NoFMTMessage", resourceCulture);
             }
@@ -1032,7 +1032,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to No need to upload. already on the board.
         /// </summary>
-        public static string NoNeedToUpload {
+        internal static string NoNeedToUpload {
             get {
                 return ResourceManager.GetString("NoNeedToUpload", resourceCulture);
             }
@@ -1041,7 +1041,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to NO RC Receiver.
         /// </summary>
-        public static string NORCReceiver {
+        internal static string NORCReceiver {
             get {
                 return ResourceManager.GetString("NORCReceiver", resourceCulture);
             }
@@ -1050,7 +1050,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Not available when used as a windows store app.
         /// </summary>
-        public static string Not_available_when_used_as_a_windows_store_app {
+        internal static string Not_available_when_used_as_a_windows_store_app {
             get {
                 return ResourceManager.GetString("Not_available_when_used_as_a_windows_store_app", resourceCulture);
             }
@@ -1059,7 +1059,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Note.
         /// </summary>
-        public static string Note {
+        internal static string Note {
             get {
                 return ResourceManager.GetString("Note", resourceCulture);
             }
@@ -1068,7 +1068,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Obtain From Module.
         /// </summary>
-        public static string ObtainFromModule {
+        internal static string ObtainFromModule {
             get {
                 return ResourceManager.GetString("ObtainFromModule", resourceCulture);
             }
@@ -1077,7 +1077,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to OK.
         /// </summary>
-        public static string OK {
+        internal static string OK {
             get {
                 return ResourceManager.GetString("OK", resourceCulture);
             }
@@ -1086,7 +1086,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Only 1 Heatbeat Received.
         /// </summary>
-        public static string Only1Hb {
+        internal static string Only1Hb {
             get {
                 return ResourceManager.GetString("Only1Hb", resourceCulture);
             }
@@ -1096,7 +1096,7 @@ namespace MissionPlanner {
         ///   Looks up a localized string similar to Only 1 Mavlink Heartbeat Packets was read from this port - Verify your hardware is setup correctly
         ///Mission Planner waits for 2 valid heartbeat packets before connecting.
         /// </summary>
-        public static string Only1HbD {
+        internal static string Only1HbD {
             get {
                 return ResourceManager.GetString("Only1HbD", resourceCulture);
             }
@@ -1106,7 +1106,7 @@ namespace MissionPlanner {
         ///   Looks up a localized string similar to A Param refresh is required - Please press F5
         ///old #{0}  new #{1}.
         /// </summary>
-        public static string ParamRefreshRequired {
+        internal static string ParamRefreshRequired {
             get {
                 return ResourceManager.GetString("ParamRefreshRequired", resourceCulture);
             }
@@ -1115,7 +1115,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Please connect first.
         /// </summary>
-        public static string PleaseConnect {
+        internal static string PleaseConnect {
             get {
                 return ResourceManager.GetString("PleaseConnect", resourceCulture);
             }
@@ -1124,7 +1124,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Please connect and backup your config in the configuration tab..
         /// </summary>
-        public static string PleaseConnectAndBackupConfig {
+        internal static string PleaseConnectAndBackupConfig {
             get {
                 return ResourceManager.GetString("PleaseConnectAndBackupConfig", resourceCulture);
             }
@@ -1133,7 +1133,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Please load a valid file.
         /// </summary>
-        public static string PleaseLoadValidFile {
+        internal static string PleaseLoadValidFile {
             get {
                 return ResourceManager.GetString("PleaseLoadValidFile", resourceCulture);
             }
@@ -1142,7 +1142,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Please select a cell first.
         /// </summary>
-        public static string PleaseSelectCell {
+        internal static string PleaseSelectCell {
             get {
                 return ResourceManager.GetString("PleaseSelectCell", resourceCulture);
             }
@@ -1152,7 +1152,7 @@ namespace MissionPlanner {
         ///   Looks up a localized string similar to Please unplug the board, and then press OK and plug back in.
         ///Mission Planner will look for 30 seconds to find the board.
         /// </summary>
-        public static string PleaseUnplugTheBoardAnd {
+        internal static string PleaseUnplugTheBoardAnd {
             get {
                 return ResourceManager.GetString("PleaseUnplugTheBoardAnd", resourceCulture);
             }
@@ -1162,7 +1162,7 @@ namespace MissionPlanner {
         ///   Looks up a localized string similar to 
         ///Please upgrade.
         /// </summary>
-        public static string Pleaseup {
+        internal static string Pleaseup {
             get {
                 return ResourceManager.GetString("Pleaseup", resourceCulture);
             }
@@ -1171,7 +1171,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Please wait for the musical tones to finish before clicking OK.
         /// </summary>
-        public static string PleaseWaitForTheMusicalTones {
+        internal static string PleaseWaitForTheMusicalTones {
             get {
                 return ResourceManager.GetString("PleaseWaitForTheMusicalTones", resourceCulture);
             }
@@ -1180,7 +1180,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to pos horiz variance.
         /// </summary>
-        public static string pos_horiz_variance {
+        internal static string pos_horiz_variance {
             get {
                 return ResourceManager.GetString("pos_horiz_variance", resourceCulture);
             }
@@ -1189,7 +1189,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to pos vert variance.
         /// </summary>
-        public static string pos_vert_variance {
+        internal static string pos_vert_variance {
             get {
                 return ResourceManager.GetString("pos_vert_variance", resourceCulture);
             }
@@ -1198,7 +1198,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Sucessfully programmed.
         /// </summary>
-        public static string ProgrammedOK {
+        internal static string ProgrammedOK {
             get {
                 return ResourceManager.GetString("ProgrammedOK", resourceCulture);
             }
@@ -1207,7 +1207,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Put the transmitter in bind mode. Receiver is waiting..
         /// </summary>
-        public static string Put_the_transmitter_in_bind_mode__Receiver_is_waiting {
+        internal static string Put_the_transmitter_in_bind_mode__Receiver_is_waiting {
             get {
                 return ResourceManager.GetString("Put_the_transmitter_in_bind_mode__Receiver_is_waiting", resourceCulture);
             }
@@ -1216,7 +1216,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to ?.
         /// </summary>
-        public static string QuestionMark {
+        internal static string QuestionMark {
             get {
                 return ResourceManager.GetString("QuestionMark", resourceCulture);
             }
@@ -1225,7 +1225,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Raw Param Warning.
         /// </summary>
-        public static string RawParamWarning {
+        internal static string RawParamWarning {
             get {
                 return ResourceManager.GetString("RawParamWarning", resourceCulture);
             }
@@ -1235,7 +1235,7 @@ namespace MissionPlanner {
         ///   Looks up a localized string similar to All values on this screen are not min/max checked. Please double check your input.
         ///Please use Standard/Advanced Params for the safe settings.
         /// </summary>
-        public static string RawParamWarningi {
+        internal static string RawParamWarningi {
             get {
                 return ResourceManager.GetString("RawParamWarningi", resourceCulture);
             }
@@ -1244,7 +1244,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Reading Hex.
         /// </summary>
-        public static string ReadingHex {
+        internal static string ReadingHex {
             get {
                 return ResourceManager.GetString("ReadingHex", resourceCulture);
             }
@@ -1253,7 +1253,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Reading Hex File.
         /// </summary>
-        public static string ReadingHexFile {
+        internal static string ReadingHexFile {
             get {
                 return ResourceManager.GetString("ReadingHexFile", resourceCulture);
             }
@@ -1262,7 +1262,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Received List.
         /// </summary>
-        public static string ReceivedList {
+        internal static string ReceivedList {
             get {
                 return ResourceManager.GetString("ReceivedList", resourceCulture);
             }
@@ -1271,7 +1271,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to run anyway.
         /// </summary>
-        public static string RunAnyway {
+        internal static string RunAnyway {
             get {
                 return ResourceManager.GetString("RunAnyway", resourceCulture);
             }
@@ -1280,7 +1280,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Saving.
         /// </summary>
-        public static string Saving {
+        internal static string Saving {
             get {
                 return ResourceManager.GetString("Saving", resourceCulture);
             }
@@ -1289,7 +1289,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Scanning File.
         /// </summary>
-        public static string Scanning_File {
+        internal static string Scanning_File {
             get {
                 return ResourceManager.GetString("Scanning_File", resourceCulture);
             }
@@ -1298,7 +1298,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Please select a comport.
         /// </summary>
-        public static string SelectComport {
+        internal static string SelectComport {
             get {
                 return ResourceManager.GetString("SelectComport", resourceCulture);
             }
@@ -1307,7 +1307,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Set Here.
         /// </summary>
-        public static string SetHere {
+        internal static string SetHere {
             get {
                 return ResourceManager.GetString("SetHere", resourceCulture);
             }
@@ -1316,7 +1316,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Show me again?.
         /// </summary>
-        public static string ShowMeAgain {
+        internal static string ShowMeAgain {
             get {
                 return ResourceManager.GetString("ShowMeAgain", resourceCulture);
             }
@@ -1325,7 +1325,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Standard Params.
         /// </summary>
-        public static string StandardParams {
+        internal static string StandardParams {
             get {
                 return ResourceManager.GetString("StandardParams", resourceCulture);
             }
@@ -1334,7 +1334,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Start.
         /// </summary>
-        public static string Start {
+        internal static string Start {
             get {
                 return ResourceManager.GetString("Start", resourceCulture);
             }
@@ -1343,7 +1343,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Your model is still moving are you sure you want to disconnect?.
         /// </summary>
-        public static string Stillmoving {
+        internal static string Stillmoving {
             get {
                 return ResourceManager.GetString("Stillmoving", resourceCulture);
             }
@@ -1352,7 +1352,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Stop.
         /// </summary>
-        public static string Stop {
+        internal static string Stop {
             get {
                 return ResourceManager.GetString("Stop", resourceCulture);
             }
@@ -1361,7 +1361,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to terrain alt variance.
         /// </summary>
-        public static string terrain_alt_variance {
+        internal static string terrain_alt_variance {
             get {
                 return ResourceManager.GetString("terrain_alt_variance", resourceCulture);
             }
@@ -1370,7 +1370,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to This board has been retired, Mission Planner this will upload the last available version to your board (AC 3.2.1/AP 3.4.0).
         /// </summary>
-        public static string ThisBoardHasBeenRetired {
+        internal static string ThisBoardHasBeenRetired {
             get {
                 return ResourceManager.GetString("ThisBoardHasBeenRetired", resourceCulture);
             }
@@ -1379,7 +1379,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Timeout waiting for autoscan/no mavlink device connected.
         /// </summary>
-        public static string Timeout {
+        internal static string Timeout {
             get {
                 return ResourceManager.GetString("Timeout", resourceCulture);
             }
@@ -1388,7 +1388,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Tracker Home.
         /// </summary>
-        public static string TrackerHome {
+        internal static string TrackerHome {
             get {
                 return ResourceManager.GetString("TrackerHome", resourceCulture);
             }
@@ -1397,7 +1397,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to trunk.
         /// </summary>
-        public static string Trunk {
+        internal static string Trunk {
             get {
                 return ResourceManager.GetString("Trunk", resourceCulture);
             }
@@ -1406,7 +1406,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to These are the latest trunk firmware, use at your own risk!!!.
         /// </summary>
-        public static string TrunkWarning {
+        internal static string TrunkWarning {
             get {
                 return ResourceManager.GetString("TrunkWarning", resourceCulture);
             }
@@ -1416,7 +1416,7 @@ namespace MissionPlanner {
         ///   Looks up a localized string similar to Trying to connect.
         ///Timeout in {0}.
         /// </summary>
-        public static string Trying {
+        internal static string Trying {
             get {
                 return ResourceManager.GetString("Trying", resourceCulture);
             }
@@ -1425,7 +1425,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Units: {0}{1}.
         /// </summary>
-        public static string Units {
+        internal static string Units {
             get {
                 return ResourceManager.GetString("Units", resourceCulture);
             }
@@ -1436,7 +1436,7 @@ namespace MissionPlanner {
         ///
         ///Do you wish to update now? .
         /// </summary>
-        public static string UpdateFound {
+        internal static string UpdateFound {
             get {
                 return ResourceManager.GetString("UpdateFound", resourceCulture);
             }
@@ -1445,7 +1445,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to No update available..
         /// </summary>
-        public static string UpdateNotFound {
+        internal static string UpdateNotFound {
             get {
                 return ResourceManager.GetString("UpdateNotFound", resourceCulture);
             }
@@ -1454,7 +1454,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Update Now.
         /// </summary>
-        public static string UpdateNow {
+        internal static string UpdateNow {
             get {
                 return ResourceManager.GetString("UpdateNow", resourceCulture);
             }
@@ -1463,7 +1463,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Upload Complete.
         /// </summary>
-        public static string UploadComplete {
+        internal static string UploadComplete {
             get {
                 return ResourceManager.GetString("UploadComplete", resourceCulture);
             }
@@ -1472,7 +1472,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Uploading {0} bytes to Board:.
         /// </summary>
-        public static string UploadingBytesToBoard {
+        internal static string UploadingBytesToBoard {
             get {
                 return ResourceManager.GetString("UploadingBytesToBoard", resourceCulture);
             }
@@ -1481,7 +1481,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Upload succeeded, but verify failed: exp {0} got {1} at .
         /// </summary>
-        public static string UploadSucceededButVerifyFailed {
+        internal static string UploadSucceededButVerifyFailed {
             get {
                 return ResourceManager.GetString("UploadSucceededButVerifyFailed", resourceCulture);
             }
@@ -1490,7 +1490,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to velocity variance.
         /// </summary>
-        public static string velocity_variance {
+        internal static string velocity_variance {
             get {
                 return ResourceManager.GetString("velocity_variance", resourceCulture);
             }
@@ -1499,7 +1499,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Verify Complete.
         /// </summary>
-        public static string VerifyComplete {
+        internal static string VerifyComplete {
             get {
                 return ResourceManager.GetString("VerifyComplete", resourceCulture);
             }
@@ -1508,7 +1508,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Verify Firmware.
         /// </summary>
-        public static string VerifyFirmware {
+        internal static string VerifyFirmware {
             get {
                 return ResourceManager.GetString("VerifyFirmware", resourceCulture);
             }
@@ -1517,7 +1517,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Warning.
         /// </summary>
-        public static string Warning {
+        internal static string Warning {
             get {
                 return ResourceManager.GetString("Warning", resourceCulture);
             }
@@ -1526,7 +1526,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Warning, as of AC 3.1 motors will spin when armed, configurable through the MOT_SPIN_ARMED parameter.
         /// </summary>
-        public static string WarningAC31 {
+        internal static string WarningAC31 {
             get {
                 return ResourceManager.GetString("WarningAC31", resourceCulture);
             }
@@ -1535,7 +1535,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Warning, if you are installing AC 3.2 for the first time you MUST redo a Compass calibration..
         /// </summary>
-        public static string WarningAC32 {
+        internal static string WarningAC32 {
             get {
                 return ResourceManager.GetString("WarningAC32", resourceCulture);
             }
@@ -1545,7 +1545,7 @@ namespace MissionPlanner {
         ///   Looks up a localized string similar to Log Browse will not function correctly without FMT messages in your log.
         ///These appear to be missing from your log..
         /// </summary>
-        public static string WarningLogBrowseFMTMissing {
+        internal static string WarningLogBrowseFMTMissing {
             get {
                 return ResourceManager.GetString("WarningLogBrowseFMTMissing", resourceCulture);
             }
@@ -1554,7 +1554,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Warning rally points are located greater than RALLY_LIMIT_KM.
         /// </summary>
-        public static string Warningrallypointdistance {
+        internal static string Warningrallypointdistance {
             get {
                 return ResourceManager.GetString("Warningrallypointdistance", resourceCulture);
             }
@@ -1565,7 +1565,7 @@ namespace MissionPlanner {
         ///DON&apos;T DO THIS IF YOU ARE IN THE AIR
         ///.
         /// </summary>
-        public static string WarningUpdateParamList {
+        internal static string WarningUpdateParamList {
             get {
                 return ResourceManager.GetString("WarningUpdateParamList", resourceCulture);
             }
@@ -1576,7 +1576,7 @@ namespace MissionPlanner {
         ///This board does not contain a valid certificate of authenticity.
         ///Please contact your hardware vendor about signing your hardware..
         /// </summary>
-        public static string YouAreUsingUnsupportedHardware {
+        internal static string YouAreUsingUnsupportedHardware {
             get {
                 return ResourceManager.GetString("YouAreUsingUnsupportedHardware", resourceCulture);
             }
@@ -1585,7 +1585,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Zoom To.
         /// </summary>
-        public static string Zoom_To {
+        internal static string Zoom_To {
             get {
                 return ResourceManager.GetString("Zoom_To", resourceCulture);
             }
@@ -1594,7 +1594,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Zoom to the center or the loaded file?.
         /// </summary>
-        public static string Zoom_to_the_center_or_the_loaded_file {
+        internal static string Zoom_to_the_center_or_the_loaded_file {
             get {
                 return ResourceManager.GetString("Zoom_to_the_center_or_the_loaded_file", resourceCulture);
             }
