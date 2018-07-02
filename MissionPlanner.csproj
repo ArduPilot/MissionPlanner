@@ -251,6 +251,7 @@
     </Compile>
     <Compile Include="ElevationProfile.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="FollowMe.cs"> <SubType>Control</SubType> </Compile>
+    <Compile Include="Strings.Designer.cs" />
     <Compile Include="Swarm\TD\UI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -521,7 +522,6 @@
     <Compile Include="SerialOutputNMEA.Designer.cs"><DependentUpon>SerialOutputNMEA.cs</DependentUpon> </Compile>
     <Compile Include="SerialOutputPass.Designer.cs"><DependentUpon>SerialOutputPass.cs</DependentUpon> </Compile>
     <Compile Include="Splash.Designer.cs"><DependentUpon>Splash.cs</DependentUpon> </Compile>
-    <Compile Include="Strings.Designer.cs"><DependentUpon>Strings.cs</DependentUpon> </Compile>
     <Compile Include="temp.Designer.cs"><DependentUpon>temp.cs</DependentUpon> </Compile>
     <Compile Include="Antenna\Tracker.Designer.cs"><DependentUpon>Tracker.cs</DependentUpon> </Compile>
     <Compile Include="Controls\AuthKeys.Designer.cs"><DependentUpon>AuthKeys.cs</DependentUpon> </Compile>
@@ -773,7 +773,7 @@
     <EmbeddedResource Include="SerialOutputPass.tr.resx"><DependentUpon>SerialOutputPass.cs</DependentUpon> </EmbeddedResource>
     <EmbeddedResource Include="SerialOutputPass.zh-Hans.resx"><DependentUpon>SerialOutputPass.cs</DependentUpon> </EmbeddedResource>
     <EmbeddedResource Include="Splash.resx"><DependentUpon>Splash.cs</DependentUpon> </EmbeddedResource>
-    <EmbeddedResource Include="Strings.resx"><DependentUpon>Strings.cs</DependentUpon> </EmbeddedResource>
+    <EmbeddedResource Include="Strings.resx"><DependentUpon>Strings.cs</DependentUpon><Generator>ResXFileCodeGenerator</Generator><LastGenOutput>Strings.Designer.cs</LastGenOutput> </EmbeddedResource>
     <EmbeddedResource Include="Strings.az-Latn-AZ.resx"><DependentUpon>Strings.cs</DependentUpon> </EmbeddedResource>
     <EmbeddedResource Include="Strings.de-DE.resx"><DependentUpon>Strings.cs</DependentUpon> </EmbeddedResource>
     <EmbeddedResource Include="Strings.id-ID.resx"><DependentUpon>Strings.cs</DependentUpon> </EmbeddedResource>
@@ -2125,6 +2125,20 @@
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec Command="echo $(TargetDir)" />
   </Target>
+
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Strings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
 
 
   <ItemGroup>

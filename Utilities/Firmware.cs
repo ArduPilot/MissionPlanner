@@ -475,6 +475,16 @@ namespace MissionPlanner.Utilities
                 {
                     baseurl = temp.urlmindpxv2.ToString();
                 }
+                else if (board == BoardDetect.boards.chbootloader)
+                {
+                    baseurl = temp.urlfmuv2.Replace("fmuv2", BoardDetect.chbootloader);
+
+                    if (String.IsNullOrEmpty(baseurl) || !Download.CheckHTTPFileExists(baseurl))
+                    {
+                        CustomMessageBox.Show(Strings.No_firmware_available_for_this_board);
+                        return false;
+                    }
+                }
                 else
                 {
                     CustomMessageBox.Show(Strings.InvalidBoardType);
@@ -1220,7 +1230,7 @@ namespace MissionPlanner.Utilities
                 board == BoardDetect.boards.px4v3 || board == BoardDetect.boards.px4v4 ||
                 board == BoardDetect.boards.px4v4pro || board == BoardDetect.boards.fmuv5 ||
                 board == BoardDetect.boards.revomini || board == BoardDetect.boards.mindpxv2 ||
-                board == BoardDetect.boards.minipix)
+                board == BoardDetect.boards.minipix || board == BoardDetect.boards.chbootloader)
             {
                 try
                 {

@@ -42,8 +42,11 @@ namespace MissionPlanner.Utilities
             solo,
             revomini,
             mindpxv2,
-            minipix
+            minipix,
+            chbootloader
         }
+
+        public static string chbootloader = "";
    
         /// <summary>
         /// Detect board version
@@ -68,53 +71,60 @@ namespace MissionPlanner.Utilities
 
                         if (port.ToLower() == item.name.ToLower())
                         {
+                            //USB\VID_0483&PID_DF11   -- stm32 bootloader
+
+                            // new style bootloader
+                            if (item.hardwareid.StartsWith(@"USB\VID_0483&PID_5740")) //USB\VID_0483&PID_5740&REV_0200)
+                            {
+                                if (item.board == "fmuv2" || item.board == "fmuv2-bl")
+                                {
+                                    log.Info("is a fmuv2");
+                                    //return boards.px4v2;
+                                }
+                                if (item.board == "fmuv3" || item.board == "fmuv3-bl")
+                                {
+                                    log.Info("is a fmuv3");
+                                    //return boards.px4v3;
+                                }
+                                if (item.board == "fmuv4" || item.board == "fmuv4-bl")
+                                {
+                                    log.Info("is a fmuv4");
+                                    //return boards.px4v4;
+                                }
+                                if (item.board == "fmuv5" || item.board == "fmuv5-bl")
+                                {
+                                    log.Info("is a fmuv5");
+                                    //return boards.fmuv5;
+                                }
+                                if (item.board == "revo-mini" || item.board == "revo-mini-bl")
+                                {
+                                    log.Info("is a revo-mini");
+                                    //return boards.revomini;
+                                }
+                                if (item.board == "mini-pix" || item.board == "mini-pix-bl")
+                                {
+                                    log.Info("is a mini-pix");
+                                    //return boards.minipix;
+                                }
+                                if (item.board == "mindpx-v2" || item.board == "mindpx-v2-bl")
+                                {
+                                    log.Info("is a mindpx-v2");
+                                    //return boards.mindpxv2;
+                                }
+
+                                chbootloader = item.board.Replace("-bl","");
+                                return boards.chbootloader;
+                            }
+
+                            // old style bootloader
+
                             if (item.board == "PX4 FMU v4.x")
                             {
                                 log.Info("is a px4v4 pixracer");
                                 return boards.px4v4;
                             }
-                            if (item.board == "fmuv2" || item.board == "fmuv2-bl")
-                            {
-                                log.Info("is a fmuv2");
-                                return boards.px4v2;
-                            }
-                            if (item.board == "fmuv3"|| item.board == "fmuv3-bl")
-                            {
-                                log.Info("is a fmuv3");
-                                return boards.px4v3;
-                            }
-                            if (item.board == "fmuv4"|| item.board == "fmuv4-bl")
-                            {
-                                log.Info("is a fmuv4");
-                                return boards.px4v4;
-                            }
-                            if (item.board == "fmuv5"|| item.board == "fmuv5-bl")
-                            {
-                                log.Info("is a fmuv5");
-                                return boards.fmuv5;
-                            }
-                            /*
-                            if (item.board == "Arduino Mega 2560")
-                            {
-                                log.Info("is a 2560v2");
-                                return boards.b2560v2;
-                            }*/
-                            if (item.board == "revo-mini"|| item.board == "revo-mini-bl")
-                            {
-                                log.Info("is a revo-mini");
-                                return boards.revomini;
-                            }
-                            if (item.board == "mini-pix"|| item.board == "mini-pix-bl")
-                            {
-                                log.Info("is a mini-pix");
-                                return boards.minipix;
-                            }
-                            if (item.board == "mindpx-v2"|| item.board == "mindpx-v2-bl")
-                            {
-                                log.Info("is a mindpx-v2");
-                                return boards.mindpxv2;
-                            }
-                            if (item.board == "PX4 FMU v2.x") // || item.hardwareid.StartsWith(@"USB\VID_0483&PID_5740")) //USB\VID_0483&PID_5740&REV_0200
+
+                            if (item.board == "PX4 FMU v2.x")
                             {
                                 CustomMessageBox.Show(Strings.PleaseUnplugTheBoardAnd);
 

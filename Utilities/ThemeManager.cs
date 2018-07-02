@@ -6,6 +6,8 @@ using log4net;
 using MissionPlanner.Controls;
 using System.IO;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using BrightIdeasSoftware;
 
 namespace MissionPlanner.Utilities
@@ -127,106 +129,66 @@ namespace MissionPlanner.Utilities
 
         public static void doxamlgen()
         {
-            List<Control> temp = new List<Control>();
+            var asm = Assembly.GetExecutingAssembly();
 
-            temp.Add(new GCSViews.FlightData());
-            temp.Add(new GCSViews.FlightPlanner());
-            temp.Add(new GCSViews.Help());
-            temp.Add(new GCSViews.InitialSetup());
-            temp.Add(new GCSViews.SoftwareConfig());
-            temp.Add(new GCSViews.Terminal());
+            var temp = asm.GetTypes().Select(a =>
+            {
+                if (a.IsSubclassOf(typeof(Control)))
+                {
+                    try
+                    {
+                        return (Control) Activator.CreateInstance(a);
+                    }
+                    catch { }
+                }
 
-            temp.Add(new ConnectionControl());
-            temp.Add(new ConnectionStats());
-            temp.Add(new MavlinkCheckBox());
-            temp.Add(new MavlinkComboBox());
-            //temp.Add(new MavlinkNumericUpDown());
-            temp.Add(new ModifyandSet());
-            temp.Add(new ServoOptions());
-            temp.Add(new ThemeColors());
-
-            temp.Add(new MissionPlanner.Controls.BackstageView.BackstageView());
-            temp.Add(new MissionPlanner.Controls.BackstageView.BackstageViewButton());
-            temp.Add(new MissionPlanner.Controls.BackstageView.BackStageViewMenuPanel());
-            temp.Add(new MissionPlanner.Controls.ConnectionControl());
-            temp.Add(new MissionPlanner.Controls.ConnectionStats());
-            temp.Add(new MissionPlanner.Controls.Coords());
-            temp.Add(new MissionPlanner.Controls.FileBrowse());
-            temp.Add(new MissionPlanner.Controls.FlashMessage());
-            temp.Add(new MissionPlanner.Controls.GradientBG());
-            temp.Add(new MissionPlanner.Controls.HorizontalProgressBar());
-            temp.Add(new MissionPlanner.Controls.HorizontalProgressBar2());
-            temp.Add(new MissionPlanner.Controls.HSI());
-            temp.Add(new MissionPlanner.Controls.HUD());
-            temp.Add(new MissionPlanner.Controls.ImageLabel());
-            temp.Add(new MissionPlanner.Controls.LabelWithPseudoOpacity());
-            temp.Add(new MissionPlanner.Controls.LineSeparator());
-
-            temp.Add(new MissionPlanner.Controls.MyButton());
-            temp.Add(new MissionPlanner.Controls.myGMAP());
-            temp.Add(new MissionPlanner.Controls.MyLabel());
-            temp.Add(new MissionPlanner.Controls.MyProgressBar());
-            temp.Add(new MissionPlanner.Controls.MyTrackBar());
-            temp.Add(new MissionPlanner.Controls.OpenGLtest());
-            temp.Add(new MissionPlanner.Controls.OptionForm());
-            temp.Add(new MissionPlanner.Controls.PictureBoxMouseOver());
-            temp.Add(new MissionPlanner.Controls.PictureBoxWithPseudoOpacity());
-            temp.Add(new MissionPlanner.Controls.ProgressReporterDialogue());
-            temp.Add(new MissionPlanner.Controls.ProgressStep());
-            temp.Add(new MissionPlanner.Controls.QuickView());
-            temp.Add(new MissionPlanner.Controls.RadialGradientBG());
-            temp.Add(new MissionPlanner.Controls.RangeControl());
-            temp.Add(new MissionPlanner.Controls.ServoOptions());
-            temp.Add(new MissionPlanner.Controls.ValuesControl());
-            temp.Add(new MissionPlanner.Controls.VerticalProgressBar());
-            temp.Add(new MissionPlanner.Controls.VerticalProgressBar2());
-
-
-            temp.Add(new Wizard._1Intro());
-            temp.Add(new Wizard._2FrameFW());
-            temp.Add(new Wizard._3ConnectAP());
-            temp.Add(new Wizard._4FrameType());
-            temp.Add(new Wizard._5AccelCalib());
-            temp.Add(new Wizard._6CompassCalib());
-            temp.Add(new Wizard._7BatteryMonitor());
-            temp.Add(new Wizard._8OptionalItemsAC());
-            temp.Add(new Wizard._9RadioCalibration());
-            temp.Add(new Wizard._10FlightModes());
-            temp.Add(new Wizard._11Verify());
-            temp.Add(new Wizard._12FailSafe());
-            temp.Add(new Wizard._13GeoFence());
-            temp.Add(new Wizard._98DontForget());
-
-            temp.Add(new GCSViews.ConfigurationView.ConfigAC_Fence());
-            temp.Add(new GCSViews.ConfigurationView.ConfigArducopter());
-            temp.Add(new GCSViews.ConfigurationView.ConfigArduplane());
-            temp.Add(new GCSViews.ConfigurationView.ConfigArdurover());
-            temp.Add(new GCSViews.ConfigurationView.ConfigAteryx());
-            temp.Add(new GCSViews.ConfigurationView.ConfigAteryxSensors());
-            temp.Add(new GCSViews.ConfigurationView.ConfigBatteryMonitoring());
-            temp.Add(new GCSViews.ConfigurationView.ConfigFailSafe());
-            temp.Add(new GCSViews.ConfigurationView.ConfigFirmwareDisabled());
-            temp.Add(new GCSViews.ConfigurationView.ConfigFlightModes());
-            temp.Add(new GCSViews.ConfigurationView.ConfigFrameType());
-            temp.Add(new GCSViews.ConfigurationView.ConfigFriendlyParams());
-            temp.Add(new GCSViews.ConfigurationView.ConfigHWAirspeed());
-            temp.Add(new GCSViews.ConfigurationView.ConfigHWCompass());
-            temp.Add(new GCSViews.ConfigurationView.ConfigHWOptFlow());
-            temp.Add(new GCSViews.ConfigurationView.ConfigHWOSD());
-            temp.Add(new GCSViews.ConfigurationView.ConfigHWRangeFinder());
-            temp.Add(new GCSViews.ConfigurationView.ConfigMandatory());
-            temp.Add(new GCSViews.ConfigurationView.ConfigMount());
-            temp.Add(new GCSViews.ConfigurationView.ConfigOptional());
-            temp.Add(new GCSViews.ConfigurationView.ConfigPlanner());
-            temp.Add(new GCSViews.ConfigurationView.ConfigPlannerAdv());
-            temp.Add(new GCSViews.ConfigurationView.ConfigRadioInput());
-            temp.Add(new GCSViews.ConfigurationView.ConfigRawParams());
-            temp.Add(new GCSViews.ConfigurationView.ConfigSimplePids());
-            temp.Add(new GCSViews.ConfigurationView.ConfigTradHeli());
+                return null;
+            }).ToList();
 
             foreach (var ctl in temp)
             {
+                if(ctl == null)
+                    continue;
+
                 xaml(ctl);
+
+                html(ctl);
+            }
+        }
+
+        public static void html(Control control)
+        {
+            Type ty = control.GetType();
+
+            StreamWriter st = new StreamWriter(File.Open(ty.FullName + ".html", FileMode.Create));
+
+            dohtmlctls(control, st);
+
+            st.Close();
+        }
+
+        private static void dohtmlctls(Control control, StreamWriter st, int x=0, int y=0)
+        {
+            foreach (Control ctl in control.Controls)
+            {
+                var font = "font-family:" + ctl.Font.FontFamily + ";";
+                var fontsize = "font-size:" + ctl.Font.SizeInPoints + "pt;";
+                var fontcol = "color:" + System.Drawing.ColorTranslator.ToHtml(ctl.ForeColor) + ";";
+                var bgcol = "background-color:" + System.Drawing.ColorTranslator.ToHtml(ctl.BackColor) + ";";
+
+
+                st.WriteLine(@"<div class='" + ctl.GetType() + " " + ctl.Name + @"' " +
+                             "style='" + font + fontsize + fontcol + bgcol +
+                             "overflow:hidden;position: absolute; top: " + (y + ctl.Location.Y) + "; left: " +
+                             (x + ctl.Location.X) + ";width:" + ctl.Width + ";height:" + ctl.Height + ";' >" +
+                             ctl.Text);
+
+                if (ctl.Controls.Count > 0)
+                {
+                    dohtmlctls(ctl, st, 0, 0);
+                }
+
+                st.WriteLine(@"</div>");
             }
         }
 
