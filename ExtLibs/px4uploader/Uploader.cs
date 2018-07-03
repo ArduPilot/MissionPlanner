@@ -373,7 +373,7 @@ namespace px4uploader
                 __send(new byte[] { (byte)Code.EOC });
                 byte[] ans = __recv(4);
                 __getSync();
-                Array.Reverse(ans);
+                ans = ans.Reverse().ToArray();
                 Array.Copy(ans, 0, sn, a, 4);
             }
 
@@ -413,7 +413,6 @@ namespace px4uploader
         public int __recv_int()
         {
             byte[] raw = __recv(4);
-            //raw.Reverse();
             int val = BitConverter.ToInt32(raw, 0);
             return val;
         }
@@ -464,7 +463,6 @@ namespace px4uploader
             __send(new byte[] { (byte)Code.GET_DEVICE, (byte)param, (byte)Code.EOC });
             int info = __recv_int();
             __getSync();
-            //Array.Reverse(raw);
             return info;
         }
 
