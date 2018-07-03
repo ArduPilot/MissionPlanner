@@ -847,9 +847,9 @@ namespace MissionPlanner
 
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.FileName = "output.dat";
-            sfd.ShowDialog();
+            var result = sfd.ShowDialog();
 
-            if (ofd.CheckFileExists)
+            if (ofd.CheckFileExists && result == DialogResult.OK)
             {
                 using (var st = sfd.OpenFile())
                 {

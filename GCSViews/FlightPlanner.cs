@@ -1400,7 +1400,7 @@ namespace MissionPlanner.GCSViews
                 fd.FileName = wpfilename;
                 DialogResult result = fd.ShowDialog();
                 string file = fd.FileName;
-                if (file != "")
+                if (file != "" && result == DialogResult.OK)
                 {
                     try
                     {
@@ -4746,8 +4746,8 @@ namespace MissionPlanner.GCSViews
             using (SaveFileDialog sf = new SaveFileDialog())
             {
                 sf.Filter = "Fence (*.fen)|*.fen";
-                sf.ShowDialog();
-                if (sf.FileName != "")
+                var result = sf.ShowDialog();
+                if (sf.FileName != "" && result == DialogResult.OK)
                 {
                     try
                     {
@@ -5699,8 +5699,8 @@ namespace MissionPlanner.GCSViews
             using (SaveFileDialog sf = new SaveFileDialog())
             {
                 sf.Filter = "Polygon (*.poly)|*.poly";
-                sf.ShowDialog();
-                if (sf.FileName != "")
+                var result = sf.ShowDialog();
+                if (sf.FileName != "" && result == DialogResult.OK)
                 {
                     try
                     {
@@ -6221,8 +6221,8 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             using (SaveFileDialog sf = new SaveFileDialog())
             {
                 sf.Filter = "Rally (*.ral)|*.ral";
-                sf.ShowDialog();
-                if (sf.FileName != "")
+                var result = sf.ShowDialog();
+                if (sf.FileName != "" && result == DialogResult.OK)
                 {
                     try
                     {
