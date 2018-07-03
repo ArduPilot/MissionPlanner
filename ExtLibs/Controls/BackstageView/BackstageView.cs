@@ -15,7 +15,7 @@ namespace MissionPlanner.Controls.BackstageView
     /// <remarks>
     /// 'Tabs' are added as a control in a <see cref="BackstageViewPage"/>
     /// </remarks>
-    public partial class BackstageView : UserControl, IContainerControl
+    public partial class BackstageView : MyUserControl, IContainerControl
     {
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 

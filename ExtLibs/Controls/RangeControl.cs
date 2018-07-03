@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace MissionPlanner.Controls
 {
-    public partial class RangeControl : UserControl, IDynamicParameterControl
+    public partial class RangeControl : MyUserControl, IDynamicParameterControl
     {
         #region Properties
 

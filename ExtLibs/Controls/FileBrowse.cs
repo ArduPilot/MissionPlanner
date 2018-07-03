@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace MissionPlanner.Controls
 {
-    public partial class FileBrowse : UserControl
+    public partial class FileBrowse : MyUserControl
     {
         public string filename { get; set; }
         public string Filter { get; set; }
