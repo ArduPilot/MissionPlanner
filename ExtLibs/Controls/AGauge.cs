@@ -32,7 +32,7 @@ namespace AGaugeApp
     [ToolboxBitmapAttribute(typeof(AGauge), "AGauge.bmp"), 
     DefaultEvent("ValueInRangeChanged"), 
     Description("Displays a value on an analog gauge. Raises an event if the value enters one of the definable ranges.")]
-    public partial class AGauge : UserControl
+    public partial class AGauge : MyUserControl
     {
 #region enum, var, delegate, event
         public enum NeedleColorEnum

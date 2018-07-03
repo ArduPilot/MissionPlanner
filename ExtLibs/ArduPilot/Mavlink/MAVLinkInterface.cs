@@ -3650,10 +3650,17 @@ Please check the following
                         MAVlist[sysid, compid].addPacket(message);
 
                         // 3dr radio status packet are injected into the current mav
-                        if (msgid == (byte)MAVLINK_MSG_ID.RADIO_STATUS ||
-                            msgid == (byte)MAVLINK_MSG_ID.RADIO)
+                        // most radios have a fixed sysid AND componentid ...
+                        if ((msgid == (byte)MAVLINK_MSG_ID.RADIO_STATUS ||  msgid == (byte)MAVLINK_MSG_ID.RADIO) 
+                            && (message.compid == 68) && ( message.sysid == 63) ) // ascii 63="3" ascii 68="D" => "3D" branding
                         {
                             MAVlist[sysidcurrent, compidcurrent].addPacket(message);
+                        }
+                        // RFD900X radios with MultiPoint firmware present themselves with the same sysid as the aircraft that they are connected to, and with a fixed component id of 68
+                        if ((msgid == (byte)MAVLINK_MSG_ID.RADIO_STATUS ||  msgid == (byte)MAVLINK_MSG_ID.RADIO) 
+                            && (message.compid == 68) && (message.sysid != 63) )
+                        {
+                            MAVlist[message.sysid, compidcurrent].addPacket(message);
                         }
 
                         // adsb packets are forwarded and can be from any sysid/compid
@@ -3711,7 +3718,7 @@ Please check the following
                         }
                     }
 
-                    // set seens sysid's based on hb packet - this will hide 3dr radio packets
+                    // set seens sysid's based on hb packet - this will hide 3dr radio packets ( which send a RADIO_STATUS, but not a HEARTBEAT )
                     if (msgid == (byte)MAVLINK_MSG_ID.HEARTBEAT)
                     {
                         mavlink_heartbeat_t hb = message.ToStructure<mavlink_heartbeat_t>();

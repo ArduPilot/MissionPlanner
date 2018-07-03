@@ -65,7 +65,7 @@ namespace System
         }
     }
 
-    public class SkiaGraphics: IGraphics, IDisposable
+    public class Graphics: IDisposable
     {
         private SKSurface _surface = null;
 
