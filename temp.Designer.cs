@@ -107,6 +107,7 @@
             this.but_gsttest = new MissionPlanner.Controls.MyButton();
             this.but_proximity = new MissionPlanner.Controls.MyButton();
             this.but_mavinspector = new MissionPlanner.Controls.MyButton();
+            this.but_blupdate = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -650,10 +651,18 @@
             this.but_mavinspector.UseVisualStyleBackColor = true;
             this.but_mavinspector.Click += new System.EventHandler(this.but_mavinspector_Click);
             // 
+            // but_blupdate
+            // 
+            resources.ApplyResources(this.but_blupdate, "but_blupdate");
+            this.but_blupdate.Name = "but_blupdate";
+            this.but_blupdate.UseVisualStyleBackColor = true;
+            this.but_blupdate.Click += new System.EventHandler(this.but_blupdate_Click);
+            // 
             // temp
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.but_blupdate);
             this.Controls.Add(this.but_mavinspector);
             this.Controls.Add(this.but_proximity);
             this.Controls.Add(this.but_gsttest);
@@ -770,5 +779,6 @@
         private Controls.MyButton but_proximity;
         private Controls.MyButton but_dashware;
         private Controls.MyButton but_mavinspector;
+        private Controls.MyButton but_blupdate;
     }
 }

@@ -1007,5 +1007,14 @@ namespace MissionPlanner
         {
             CleanDrivers.Clean();
         }
+
+        private void but_blupdate_Click(object sender, EventArgs e)
+        {
+            if (CustomMessageBox.Show("Are you sure you want o upgrade the bootloader? This can brick your board",
+                    "BL Update", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == (int)DialogResult.Yes)
+                if (CustomMessageBox.Show("Are you sure you want o upgrade the bootloader? This can brick your board",
+                        "BL Update", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == (int) DialogResult.Yes)
+                    MainV2.comPort.doCommand(MAVLink.MAV_CMD.FLASH_BOOTLOADER, 0, 0, 0, 0, 290876, 0, 0);
+        }
     }
 }

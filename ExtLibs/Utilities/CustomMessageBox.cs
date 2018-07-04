@@ -11,15 +11,15 @@ namespace System
 
         public static event ShowDelegate ShowEvent;
 
-        public static int Show(string text, string caption = "", object buttons = null, object icon = null)
+        public static int Show(string text, string caption = "", object MessageBoxButtons = null, object MessageBoxIcon = null)
         {
-            if (buttons == null)
-                buttons = MessageBoxButtons.OK;
-            if (icon == null)
-                icon = MessageBoxIcon.None;
+            if (MessageBoxButtons == null)
+                MessageBoxButtons = CustomMessageBox.MessageBoxButtons.OK;
+            if (MessageBoxIcon == null)
+                MessageBoxIcon = CustomMessageBox.MessageBoxIcon.None;
 
             if (ShowEvent != null)
-                return (int)ShowEvent.Invoke(text, caption, (MessageBoxButtons) (int) buttons, (MessageBoxIcon) (int) icon);
+                return (int)ShowEvent.Invoke(text, caption, (MessageBoxButtons) (int) MessageBoxButtons, (MessageBoxIcon) (int) MessageBoxIcon);
 
             throw new Exception("ShowEvent Not Set");
         }
