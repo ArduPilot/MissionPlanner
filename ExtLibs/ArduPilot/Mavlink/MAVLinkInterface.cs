@@ -1728,6 +1728,11 @@ Please check the following
                 retrys = 1;
                 timeout = 25000;
             }
+            else if (actionid == MAV_CMD.FLASH_BOOTLOADER)
+            {
+                retrys = 1;
+                timeout = 25000;
+            }
             else if (actionid == MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN)
             {
                 generatePacket((byte) MAVLINK_MSG_ID.COMMAND_LONG, req, sysid, compid);
