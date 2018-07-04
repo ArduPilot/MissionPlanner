@@ -292,9 +292,11 @@ union px4_custom_mode {
                 if ((MAV.sysid >= 101) && (MAV.sysid <= 106)) { which = MAV.sysid-100; }  //1=black, 2=blue, 3=green,4=yellow,5=orange,6=red
 
                 return (new GMapMarkerPlane(which, portlocation, MAV.cs.yaw,
-                    MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing, MAV.cs.radius * CurrentState.multiplierdist)
+                    MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing,
+                    MAV.cs.radius * CurrentState.multiplierdist)
                 {
-                    ToolTipText = MAV.cs.alt.ToString("0") + "m | " + (int)MAV.cs.airspeed + "m/s | id:" + (int)MAV.sysid,
+                    ToolTipText = MAV.cs.alt.ToString("0") + CurrentState.AltUnit + " | " + (int) MAV.cs.airspeed +
+                                  CurrentState.SpeedUnit + " | id:" + (int) MAV.sysid,
                     ToolTipMode = MarkerTooltipMode.Always
                 });
             }
