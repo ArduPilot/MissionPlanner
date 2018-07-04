@@ -69,7 +69,7 @@ namespace MissionPlanner.Utilities
                     {
                         log.InfoFormat("{0}: {1} - {2}", item.name, item.description, item.board);
 
-                        if (port.ToLower() == item.name.ToLower())
+                        //if (port.ToLower() == item.name.ToLower())
                         {
                             //USB\VID_0483&PID_DF11   -- stm32 bootloader
 
@@ -117,6 +117,12 @@ namespace MissionPlanner.Utilities
                             }
 
                             // old style bootloader
+
+                            if (item.board == "PX4 FMU v5.x")
+                            {//USB\VID_26AC&PID_0032\0
+                                log.Info("is a PX4 FMU v5.x (fmuv5)");
+                                return boards.fmuv5;
+                            }
 
                             if (item.board == "PX4 FMU v4.x")
                             {

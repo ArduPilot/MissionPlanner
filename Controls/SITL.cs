@@ -516,7 +516,7 @@ namespace MissionPlanner.Controls
                     var config = GetDefaultConfig(model);
 
                     if (!string.IsNullOrEmpty(config))
-                        extra += @" --defaults """ + config + @"""";
+                        extra += @" --defaults """ + config + @""" -P SERIAL0_PROTOCOL=2 -P SERIAL1_PROTOCOL=2 ";
 
                     var home = new PointLatLngAlt(markeroverlay.Markers[0].Position).newpos((double)NUM_heading.Value, a * 4);
 

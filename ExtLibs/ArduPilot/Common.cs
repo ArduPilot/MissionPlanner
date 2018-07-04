@@ -287,14 +287,16 @@ union px4_custom_mode {
                 // colorise map marker/s based on their sysid, for common sysid/s used 1-6, 11-16, and 101-106
                 // its rare for ArduPilot to be used to fly more than 6 planes at a time from one console.
                 int which = 0; // default 0=red for other sysids
-                if ((MAV.sysid >= 1) && (MAV.sysid <= 6)) { which = MAV.sysid; }  //1=black, 2=blue, 3=green,4=yellow,5=orange,6=red
-                if ((MAV.sysid >= 11) && (MAV.sysid <= 16)) { which = MAV.sysid-10; }  //1=black, 2=blue, 3=green,4=yellow,5=orange,6=red
-                if ((MAV.sysid >= 101) && (MAV.sysid <= 106)) { which = MAV.sysid-100; }  //1=black, 2=blue, 3=green,4=yellow,5=orange,6=red
+                if ((MAV.sysid >= 1) && (MAV.sysid <= 6)) { which = MAV.sysid-1; }  //1=black, 2=blue, 3=green,4=yellow,5=orange,6=red
+                if ((MAV.sysid >= 11) && (MAV.sysid <= 16)) { which = MAV.sysid-11; }  //1=black, 2=blue, 3=green,4=yellow,5=orange,6=red
+                if ((MAV.sysid >= 101) && (MAV.sysid <= 106)) { which = MAV.sysid-101; }  //1=black, 2=blue, 3=green,4=yellow,5=orange,6=red
 
                 return (new GMapMarkerPlane(which, portlocation, MAV.cs.yaw,
-                    MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing, MAV.cs.radius * CurrentState.multiplierdist)
+                    MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing,
+                    MAV.cs.radius * CurrentState.multiplierdist)
                 {
-                    ToolTipText = MAV.cs.alt.ToString("0") + "m | " + (int)MAV.cs.airspeed + "m/s | id:" + (int)MAV.sysid,
+                    ToolTipText = MAV.cs.alt.ToString("0") + CurrentState.AltUnit + " | " + (int) MAV.cs.airspeed +
+                                  CurrentState.SpeedUnit + " | id:" + (int) MAV.sysid,
                     ToolTipMode = MarkerTooltipMode.Always
                 });
             }

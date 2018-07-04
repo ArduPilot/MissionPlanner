@@ -1698,21 +1698,21 @@ Control-S - save grid file\par
     <value>..\..\Resources\0d92fed790a3a70170e61a86db103f399a595c70.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="planeicon1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\Resources\planetracker1.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\..\Resources\planetracker1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="planeicon2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\Resources\planetracker2.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\..\Resources\planetracker2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="planeicon3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\Resources\planetracker3.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\..\Resources\planetracker3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="planeicon4" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\Resources\planetracker4.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\..\Resources\planetracker4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="planeicon5" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\Resources\planetracker5.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\..\Resources\planetracker5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="planeicon6" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\Resources\planetracker6.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\..\Resources\planetracker6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

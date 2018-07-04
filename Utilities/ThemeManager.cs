@@ -1072,34 +1072,37 @@ mc:Ignorable=""d""
                     ((MyProgressBar)ctl).Outline = ProgressBarOutlineColor;        //sets the colour of the progress bar box
                 } else if (ctl.GetType() == typeof (QuickView))
                 {
+                    //set default QuickView item color to mix with background
+                    Color mix = Color.FromArgb(ThemeManager.BGColor.ToArgb() ^ 0xffffff);
+
                     Controls.QuickView but = (QuickView) ctl;
-                    if (but.desc == "DistToMAV")
+                    if (but.Name == "quickView6")
                     {
-                        but.numberColor = Color.FromArgb(0, 255, 252);
+                        but.numberColor = Color.FromArgb((0 + mix.R) / 2, (255 + mix.G) / 2, (252 + mix.B) / 2);
                     }
-                    else if (but.desc == "Vertical Speed (m/s)")
+                    else if (but.Name == "quickView5")
                     {
-                        but.numberColor = Color.FromArgb(254, 254, 86);
+                        but.numberColor = Color.FromArgb((254 + mix.R) / 2, (254 + mix.G) / 2, (86 + mix.B) / 2);
                     }
-                    else if (but.desc == "Yaw (deg)")
+                    else if (but.Name == "quickView4")
                     {
-                        but.numberColor = Color.FromArgb(0, 255, 83);
+                        but.numberColor = Color.FromArgb((0 + mix.R) / 2, (255 + mix.G) / 2, (83 + mix.B) / 2);
                     }
-                    else if (but.desc == "Dist to WP (m)")
+                    else if (but.Name == "quickView3")
                     {
-                        but.numberColor = Color.FromArgb(255, 96, 91);
+                        but.numberColor = Color.FromArgb((255 + mix.R) / 2, (96 + mix.G) / 2, (91 + mix.B) / 2);
                     }
-                    else if (but.desc == "GroundSpeed (m/s)")
+                    else if (but.Name == "quickView2")
                     {
-                        but.numberColor = Color.FromArgb(254, 132, 46);
+                        but.numberColor = Color.FromArgb((254 + mix.R) / 2, (132 + mix.G) / 2, (46 + mix.B) / 2);
                     }
-                    else if (but.desc == "Altitude (m)")
+                    else if (but.Name == "quickView1")
                     {
-                        but.numberColor = Color.FromArgb(209, 151, 248);
+                        but.numberColor = Color.FromArgb((209 + mix.R) / 2, (151 + mix.G) / 2, (248 + mix.B) / 2);
                     }
-                    return;
+                    //return;  //return removed to process all quickView controls
                 }
-                if (ctl.Controls.Count > 0)
+                if ( (ctl.Controls.Count > 0) && (ctl.GetType() != typeof(QuickView)))      //Do not iterate into quickView type leave labels as they are
                     ApplyTheme(ctl, 1);
 
             }
