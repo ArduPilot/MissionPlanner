@@ -554,7 +554,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (searchfor.Length >= 2 || searchfor.Length == 0)
             {
-                Regex filter = new Regex(searchfor,RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Singleline);
+                Regex filter = new Regex(searchfor.Replace("*",".*").Replace("..*",".*"),RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Singleline);
 
                 foreach (DataGridViewRow row in Params.Rows)
                 {
