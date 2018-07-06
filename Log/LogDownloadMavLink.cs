@@ -64,6 +64,9 @@ namespace MissionPlanner.Log
         private void Log_Load(object sender, EventArgs e)
         {
             LoadLogList();
+
+            if (MainV2.comPort.MAV.cs.armed)
+                CustomMessageBox.Show("Please disarm the drone before downloading logs!", Strings.ERROR);
         }
 
         void LoadLogList()
