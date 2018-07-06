@@ -28,10 +28,15 @@
 
   <ItemGroup>
     <PackageReference Include="BouncyCastle" Version="1.8.2" />
-    <PackageReference Include="DotNetZip" Version="1.11.0" />
 
     <PackageReference Include="System.IO.Ports" Version="4.5.0" />
     <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Ionic.Zip.NetStandard">
+      <HintPath>..\Ionic.Zip.NetStandard.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>
