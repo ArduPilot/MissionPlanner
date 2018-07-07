@@ -68,82 +68,70 @@ namespace MissionPlanner.Utilities
                         //typeof(MAVLink.mavlink_local_position_ned_t),
                         typeof(MAVLink.mavlink_command_long_t),
                         typeof(MAVLink.mavlink_mission_item_t),
-                        typeof(MAVLink.mavlink_mission_item_t)
+                        typeof(MAVLink.mavlink_mission_item_int_t)
                     };
 
                     while (stream.Position < stream.Length)
                     {
                         var packet = parse.ReadPacket(stream);
 
-                        if(packet == null)
+                        if (packet == null)
                             continue;
 
                         var msginfo = MAVLink.MAVLINK_MESSAGE_INFOS.GetMessageInfo(packet.msgid);
 
-                        if (packet.msgid == (uint) MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT)
+                        if (block.Contains(msginfo.type))
                         {
-                            var pkt = packet.ToStructure<MAVLink.mavlink_global_position_int_t>();
-
-                            if (pkt.lat != 0)
-                                pkt.lat += (int) (latrandom * 1e7);
-
+                            var checks = new string[]
+                                {"lat", "latitude", "lat_int", "landing_lat", "path_lat", "arc_entry_lat", "gpsLat"};
+                            bool valid = false;
                             var oldrxtime = packet.rxtime;
-                            packet = new MAVLink.MAVLinkMessage(
-                                parse.GenerateMAVLinkPacket20(MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT, pkt, false, packet.sysid, packet.compid, packet.seq));
-                            packet.rxtime = oldrxtime;
-                        }
-                        else
-                        {
-                            if (block.Contains(msginfo.type))
+                            foreach (var check in checks)
                             {
-                                var checks = new string[] {"lat", "latitude", "lat_int"};
-                                bool valid = false;
-                                var oldrxtime = packet.rxtime;
-                                foreach (var check in checks)
+                                var field = msginfo.type.GetField(check);
+
+                                if (field != null)
                                 {
-                                    var field = msginfo.type.GetField(check);
-
-                                    if (field != null)
+                                    var pkt = packet.data;
+                                    var value = field.GetValue(pkt);
+                                    if (value is Int32)
                                     {
-                                        var pkt = packet.data;
-                                        var value = field.GetValue(pkt);
-                                        if (value is Int32)
-                                        {
-                                            if ((int) value != 0)
-                                                field.SetValue(pkt, (int) ((int) value + latrandom * 1e7));
+                                        if ((int) value != 0)
+                                            field.SetValue(pkt, (int) ((int) value + latrandom * 1e7));
 
-                                            packet = new MAVLink.MAVLinkMessage(
-                                                parse.GenerateMAVLinkPacket20((MAVLink.MAVLINK_MSG_ID) msginfo.msgid,
-                                                    pkt, false, packet.sysid, packet.compid, packet.seq));
-                                            valid = true;
-                                        }
-                                        else if (value is Single)
-                                        {
-                                            if ((Single) value != 0)
-                                                field.SetValue(pkt, (Single) value + latrandom);
+                                        packet = new MAVLink.MAVLinkMessage(
+                                            parse.GenerateMAVLinkPacket20((MAVLink.MAVLINK_MSG_ID) msginfo.msgid,
+                                                pkt, false, packet.sysid, packet.compid, packet.seq));
+                                        valid = true;
+                                    }
+                                    else if (value is Single)
+                                    {
+                                        if ((Single) value != 0)
+                                            field.SetValue(pkt, (Single) value + latrandom);
 
-                                            packet = new MAVLink.MAVLinkMessage(
-                                                parse.GenerateMAVLinkPacket20((MAVLink.MAVLINK_MSG_ID) msginfo.msgid,
-                                                    pkt, false, packet.sysid, packet.compid, packet.seq));
-                                            valid = true;
-                                        }
-                                        else
-                                        {
-                                            continue;
-                                        }
+                                        packet = new MAVLink.MAVLinkMessage(
+                                            parse.GenerateMAVLinkPacket20((MAVLink.MAVLINK_MSG_ID) msginfo.msgid,
+                                                pkt, false, packet.sysid, packet.compid, packet.seq));
+                                        valid = true;
+                                    }
+                                    else
+                                    {
+                                        continue;
                                     }
                                 }
-
-                                if(!valid)
-                                    continue;
-                                else
-                                    packet.rxtime = oldrxtime;
                             }
+
+                            if (!valid)
+                                continue;
+                            else
+                                packet.rxtime = oldrxtime;
                         }
+
 
                         byte[] datearray =
                             BitConverter.GetBytes(
-                                (UInt64) ((packet.rxtime.ToUniversalTime() - new DateTime(1970, 1, 1)).TotalMilliseconds * 1000));
+                                (UInt64) ((packet.rxtime.ToUniversalTime() - new DateTime(1970, 1, 1))
+                                          .TotalMilliseconds * 1000));
                         Array.Reverse(datearray);
                         outfilestream.Write(datearray, 0, datearray.Length);
                         outfilestream.Write(packet.buffer, 0, packet.Length);
