@@ -66,6 +66,9 @@
     <None Remove="packages\**" />
   </ItemGroup> 
   <ItemGroup>
+    <Reference Include="Ionic.Zip.NetStandard">
+      <HintPath>ExtLibs\Ionic.Zip.NetStandard.dll</HintPath>
+    </Reference>
     <Reference Include="OpenTK">
       <HintPath>ExtLibs\OpenTK.dll</HintPath>
     </Reference>
@@ -192,7 +195,6 @@
     <PackageReference Include="Community.CsharpSqlite.SQLiteClient" version="3.7.7.3" targetFramework="net462" />
     <PackageReference Include="CSMatIO" version="1.0.20" targetFramework="net40" requireReinstallation="true" />
     <PackageReference Include="DirectShowLib" Version="1.0.0" />
-    <PackageReference Include="DotNetZip" version="1.11.0" targetFramework="net40" />
     <PackageReference Include="DotSpatial.Data" version="1.9" targetFramework="net462" />
     <PackageReference Include="DotSpatial.Data.Forms" version="1.9" targetFramework="net462" />
     <PackageReference Include="DotSpatial.Extensions" version="1.9" targetFramework="net462" />

@@ -6,6 +6,7 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System.Drawing.Imaging;
 using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Threading;
 using GMap.NET;
 using GMap.NET.WindowsForms;
@@ -41,6 +42,7 @@ namespace MissionPlanner.Controls
         RectLatLng area = new RectLatLng(-35.04286, 117.84262, 0.1, 0.1);
         PointLatLngAlt center = new PointLatLngAlt(-35.04286, 117.84262,40);
 
+        PointLatLngAlt oldcenter = PointLatLngAlt.Zero;
         public PointLatLngAlt LocationCenter
         {
             get { return center; }
@@ -261,7 +263,7 @@ namespace MissionPlanner.Controls
        
             float screenscale = 1;//this.Width/(float) this.Height*1f;
 
-            //if(!Context.IsCurrent)
+            if(!Context.IsCurrent)
                 MakeCurrent();
 
             GL.MatrixMode(MatrixMode.Projection);
@@ -305,55 +307,11 @@ namespace MissionPlanner.Controls
             GL.Disable(EnableCap.DepthTest);
             GL.DepthFunc(DepthFunction.Always);
 
-            /*
-            GL.Begin(BeginMode.LineStrip);
-
-            GL.Color3(Color.White);
-            GL.Vertex3(0, 0, 0);
-
-            GL.Color3(Color.Red);
-            GL.Vertex3(area.Bottom, 0, area.Left);
-
-            GL.Color3(Color.Yellow);
-            GL.Vertex3(lookX, lookY, lookZ);
-
-            GL.Color3(Color.Green);
-            GL.Vertex3(cameraX, cameraY, cameraZ);
-
-            GL.End();
-            */
-            /*
-            GL.PointSize(10);
-            GL.Color4(Color.Yellow);
-            GL.LineWidth(5);
-           
-
-            GL.Begin(PrimitiveType.LineStrip);
-
-            GL.Vertex3(area.LocationTopLeft.Lng, area.LocationTopLeft.Lat, (float)cameraZ);
-            GL.Vertex3(area.LocationTopLeft.Lng, area.LocationRightBottom.Lat, (float)cameraZ);
-            GL.Vertex3(area.LocationRightBottom.Lng, area.LocationRightBottom.Lat, (float)cameraZ);
-            GL.Vertex3(area.LocationRightBottom.Lng, area.LocationTopLeft.Lat, (float)cameraZ);
-            GL.Vertex3(area.LocationTopLeft.Lng, area.LocationTopLeft.Lat, (float)cameraZ);
-
-            GL.End();
-
-            GL.PointSize((float) (step*1));
-            GL.Color3(Color.Blue);
-            GL.Begin(PrimitiveType.Points);
-            GL.Vertex3(new Vector3((float) center.Lng, (float) center.Lat, (float) cameraZ));
-            GL.End();
-            */
-
-            //GL.ClampColor(ClampColorTarget.ClampReadColor, ClampColorMode.True);
-            /*
-            GL.Enable(EnableCap.Blend);
-            GL.DepthMask(false);
-            GL.BlendFunc(BlendingFactorSrc.Zero, BlendingFactorDest.Src1Color);
-            GL.DepthMask(true);
-            GL.Disable(EnableCap.Blend);
-            */
-            // textureid.Clear();
+          
+            if (center.GetDistance(oldcenter) > 500)
+            {
+                oldcenter = center;
+            }
 
             core.fillEmptyTiles = true;
 
@@ -400,6 +358,7 @@ namespace MissionPlanner.Controls
                 GL.DeleteTexture(textureid[first]);
                 textureid.Remove(first);
             }
+
 
             // get tiles & combine into one
             foreach (var tilearea in tileArea)
@@ -579,6 +538,8 @@ namespace MissionPlanner.Controls
                 }
             }
 
+            mesh.RenderVBO();
+
             GL.Flush();
 
             try
@@ -597,6 +558,8 @@ namespace MissionPlanner.Controls
             var delta = DateTime.Now - start;
             Console.WriteLine("OpenGLTest2 {0}", delta.TotalMilliseconds);
         }
+
+        private Mesh mesh;
 
         private void InitializeComponent()
         {
@@ -625,6 +588,8 @@ namespace MissionPlanner.Controls
             GL.ShadeModel(ShadingModel.Smooth);
             GL.Enable(EnableCap.CullFace);
             GL.Enable(EnableCap.Texture2D);
+
+            mesh = new Mesh();
         }
 
         private void test_Resize(object sender, EventArgs e)
@@ -643,6 +608,147 @@ namespace MissionPlanner.Controls
             public List<GPoint> points;
             public int zoom;
             public RectLatLng area { get; set; }
+        }
+
+        public class Mesh
+        {
+            public Mesh()
+            {
+                InitializeVBO();
+            }
+
+            //A simple 3D vertex
+            [StructLayout(LayoutKind.Sequential)]
+            public struct Vertex
+            {
+                public float X, Y, Z;
+                public Vertex(float x, float y, float z)
+                {
+                    X = x; Y = y; Z = z;
+                }
+
+                //The stride of this vertex
+                //3 floats 4 bytes each
+                //if you dont like counting bytes you can get this value a few different ways
+                //System.Runtime.InteropServices.Marshal.SizeOf(new Vertex());
+                //OpenTK.BlittableValueType.StrideOf(new Vertex());
+                public static readonly int Stride = System.Runtime.InteropServices.Marshal.SizeOf(new Vertex());
+            }
+
+            //ID of the vertex buffer we will use
+            private int ID_VBO;
+            //ID of the element buffer
+            private int ID_EBO;
+
+            //You are not limited to using a struct
+            //you can use (float[], byte[], int[]) really anything that can hold data
+            //then you could stride the array with
+            //Vertices.Length * sizeof(float)
+            private Vertex[] Vertices;
+            //I use ushort, for the simple reasons of
+            //i know im never going to index a negative value
+            //and 65,535 is a good vertex limit
+            //but you can use whatever just remember the max_value is your limit
+            private ushort[] Indices;
+
+            //Keep in mind that you are using memory for everything
+            //the best way to think about any GL buffer is as if its byte[] or ByteArray/ByteBuffer
+
+            //Only need to call this once, place it in your programs initialize/load method
+            private void InitializeVBO()
+            {
+                //Initialize vertex data and index data
+
+                //Simple triangle in CW winding
+                Vertices = new Vertex[3]
+                {
+        new Vertex(  0.0f,   0.0f, 0.0f),
+        new Vertex(100.0f,   0.0f, 0.0f),
+        //gl y coords are reversed depending on what direction you consider is down
+        new Vertex(  0.0f, -100.0f, 0.0f)
+                };
+
+                //Index data for what order to draw vertices
+                Indices = new ushort[3]
+                {
+        //This is also something to keep in mind
+        //reversing your winding has no performance advantage, 
+        //dont let someone tell you otherwise, all data gets read the same way
+        //its always easier to change a few indices than edit vertices
+        //since you are most likely in CCW winding since that is GL's default
+        //i reversed it since the vertices are in CW :D
+        //you can change GL's default winding by GL.FrontFace
+        0, 1, 2
+                };
+
+                //Setting up the vertex buffer
+                //data has to be initialize before this part.
+
+                //Generate a single buffer
+                GL.GenBuffers(1, out ID_VBO);
+                //Tell gl we are going to be using this buffer as an Array_Buffer for vertex data
+                GL.BindBuffer(BufferTarget.ArrayBuffer, ID_VBO);
+                //Add our vertex data to it, essentially the same thing as Array.Copy if it were a byte[]
+                //1: targeting the Array_Buffer
+                //2: for this we will need the full length in bytes of our vertex data
+                //3: the data we want in this new buffer
+                //4: we are only going to set this once so our usage will be static and draw/write
+                //basically in full we're are telling gl that we want a write-only buffer that is locked :P
+                GL.BufferData<Vertex>(BufferTarget.ArrayBuffer, (IntPtr)(Vertices.Length * Vertex.Stride), Vertices, BufferUsageHint.StaticDraw);
+                //This is just good practice
+                GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+
+                //Generate another single buffer - for indices
+                GL.GenBuffers(1, out ID_EBO);
+                //Tell gl we are going to be using this buffer as an Element_Buffer for indexing data already bound to an Array_Buffer
+                GL.BindBuffer(BufferTarget.ElementArrayBuffer, ID_EBO);
+                //the same as above only changing the data
+                GL.BufferData(BufferTarget.ElementArrayBuffer, (IntPtr)(Indices.Length * sizeof(ushort)), Indices, BufferUsageHint.StaticDraw);
+                GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
+            }
+
+            //This will need to be called everyframe you want to see the buffer data so use in OnRenderFrame
+            //or any method with a GL render context.
+            public void RenderVBO()
+            {
+                GL.PushMatrix();
+
+                //So you can see it onscreen :P
+                GL.Translate(-50, 50, -100);
+
+                //We dont have color data so it will resort to the last use GL_Color
+                GL.Color3(1.0f, 1.0f, 1.0f);
+
+                //since we only have position data thats all that needs to be writen to gl
+                //if you enable another as in ArrayCap.ColorArray and have no color data
+                //you will get an outofbounds/outofmemory exception because there is not data to read
+                //so good practice to enable/disable so you dont run into that problem when using
+                //different types of vertices :D
+                //Although if you know what type you are going to use throughout the whole process
+                //you can remove enable/disable from this method and add enable to your init function
+                GL.EnableClientState(ArrayCap.VertexArray);
+
+                GL.EnableClientState(ArrayCap.TextureCoordArray);
+
+                //Bind our vertex data
+                GL.BindBuffer(BufferTarget.ArrayBuffer, ID_VBO);
+                //Tell gl where to start reading our position data in the length of out Vertex.Stride
+                //so we will begin reading 3 floats with a length of 12 starting at 0
+                GL.VertexPointer(3, VertexPointerType.Float, Vertex.Stride, 0);
+
+                GL.BindBuffer(BufferTarget.ElementArrayBuffer, ID_EBO);
+                //tell gl to draw from the bound Array_Buffer in the form of triangles with a length of indices of type ushort starting at 0
+                GL.DrawElements(PrimitiveType.Triangles, Indices.Length, DrawElementsType.UnsignedShort, IntPtr.Zero);
+
+                //unlike above you will have to unbind after the data is indexed else the Element_Buffer would have nothing to index
+                GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+                GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
+
+                //Remember to disable
+                GL.DisableClientState(ArrayCap.VertexArray);
+
+                GL.PopMatrix();
+            }
         }
     }
 }
