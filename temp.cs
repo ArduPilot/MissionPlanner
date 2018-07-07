@@ -59,27 +59,6 @@ namespace MissionPlanner
         {
             InitializeComponent();
 
-            //if (System.Diagnostics.Debugger.IsAttached) 
-            {
-                try
-                {
-                    var ogl = new OpenGLtest2();
-
-                    //Controls.Add(ogl);
-
-                    ogl.Dock = DockStyle.Fill;
-
-                    ogl.Click += delegate(object sender, EventArgs args)
-                    {
-                        tableLayoutPanel1.Visible = !tableLayoutPanel1.Visible;
-                        controlSensorsStatus1.Visible = !controlSensorsStatus1.Visible;
-                    };
-                }
-                catch
-                {
-                }
-            }
-
             Tracking.AddPage(
                 MethodBase.GetCurrentMethod().DeclaringType.ToString(),
                 MethodBase.GetCurrentMethod().Name);
@@ -1022,6 +1001,37 @@ namespace MissionPlanner
                     {
                         CustomMessageBox.Show("Failed to upgrade bootloader");
                     }
+        }
+
+        private void but_3dmap_Click(object sender, EventArgs e)
+        {
+            var ogl = new OpenGLtest2();
+
+            ogl.ShowUserControl();
+        }
+
+        private void but_anonlog_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog ofd = new OpenFileDialog())
+            {
+                ofd.Filter = "tlog or bin/log|*.tlog;*.bin;*.log";
+
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    var ext = Path.GetExtension(ofd.FileName).ToLower();
+                    if (ext == ".bin")
+                        ext = ".log";
+                    using (SaveFileDialog sfd = new SaveFileDialog())
+                    {
+                        sfd.DefaultExt = ext;
+                        sfd.FileName = Path.GetFileNameWithoutExtension(ofd.FileName) + "-anon" + ext;
+                        if (sfd.ShowDialog() == DialogResult.OK)
+                        {
+                            Privacy.anonymise(ofd.FileName, sfd.FileName);
+                        }
+                    }
+                }
+            }
         }
     }
 }

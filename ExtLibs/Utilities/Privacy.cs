@@ -15,7 +15,9 @@ namespace MissionPlanner.Utilities
             if (!File.Exists(logfile))
                 return;
 
-            var latrandom = new Random().NextDouble() * (new Random().NextDouble() * 3);
+            var rand = new Random();
+
+            var latrandom = rand.NextDouble() * (rand.NextDouble() * 3);
             
             // TLOG
             if (logfile.ToLower().EndsWith(".tlog"))
