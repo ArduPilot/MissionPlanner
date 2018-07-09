@@ -1835,11 +1835,12 @@ namespace MissionPlanner
         {
             base.OnClosing(e);
 
+            log.Info("MainV2_FormClosing");
+
+            log.Info("GMaps write cache");
             // speed up tile saving on exit
             GMap.NET.GMaps.Instance.CacheOnIdleRead = false;
             GMap.NET.GMaps.Instance.BoostCacheEngine = true;
-
-            log.Info("MainV2_FormClosing");
 
             Settings.Instance["MainHeight"] = this.Height.ToString();
             Settings.Instance["MainWidth"] = this.Width.ToString();
@@ -1848,6 +1849,7 @@ namespace MissionPlanner
             Settings.Instance["MainLocX"] = this.Location.X.ToString();
             Settings.Instance["MainLocY"] = this.Location.Y.ToString();
 
+            log.Info("close logs");
             // close bases connection
             try
             {
@@ -1865,6 +1867,7 @@ namespace MissionPlanner
             {
             }
 
+            log.Info("close ports");
             // close all connections
             foreach (var port in Comports)
             {
@@ -1885,12 +1888,16 @@ namespace MissionPlanner
                 }
             }
 
+            log.Info("stop adsb");
             Utilities.adsb.Stop();
 
+            log.Info("stop WarningEngine");
             Warnings.WarningEngine.Stop();
 
+            log.Info("stop UDPVideoShim");
             UDPVideoShim.Stop();
 
+            log.Info("stop GStreamer");
             GStreamer.StopAll();
 
             log.Info("closing vlcrender");
@@ -1933,16 +1940,16 @@ namespace MissionPlanner
             try
             {
                 System.Threading.ThreadPool.QueueUserWorkItem((WaitCallback) delegate
-                {
-                    try
                     {
-                        MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(Settings.Instance.LogDir, "*.tlog"));
+                        try
+                        {
+                            MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(Settings.Instance.LogDir, "*.tlog"));
+                        }
+                        catch
+                        {
+                        }
                     }
-                    catch
-                    {
-                    }
-                }
-                    );
+                );
             }
             catch
             {
