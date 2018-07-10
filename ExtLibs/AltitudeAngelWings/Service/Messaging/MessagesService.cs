@@ -5,7 +5,7 @@ using AltitudeAngelWings.Models;
 
 namespace AltitudeAngelWings.Service.Messaging
 {
-    public class MessagesService : IMessagesService
+    public class MessagesService : IMessagesService, IDisposable
     {
         public MessagesService()
         {
@@ -21,6 +21,20 @@ namespace AltitudeAngelWings.Service.Messaging
             Debug.WriteLine(message.Content);
 #endif
             return Task.Factory.StartNew(() => Messages.Value = message);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                Messages?.Dispose();
+            }
         }
     }
 }

@@ -40,8 +40,11 @@ namespace AltitudeAngelWings.Service
             _client = client;
 
             IsSignedIn = new ObservableProperty<bool>(false);
+            _disposer.Add(IsSignedIn);
             WeatherReport = new ObservableProperty<WeatherInfo>();
+            _disposer.Add(WeatherReport);
             SentTelemetry = new ObservableProperty<Unit>();
+            _disposer.Add(SentTelemetry);
 
             try
             {
@@ -143,12 +146,6 @@ namespace AltitudeAngelWings.Service
             {
                 await _messagesService.AddMessageAsync(new Message($"Marking flight plan {_settings.CurrentFlightReportId} as complete failed. {ex}"));
             }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
         }
 
         public async Task SignInAsync()
@@ -442,16 +439,23 @@ namespace AltitudeAngelWings.Service
             IsSignedIn.Value = false;
         }
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
         private void Dispose(bool isDisposing)
         {
-            if (!isDisposing) return;
-            _disposer?.Dispose();
-            _disposer = null;
+            if (isDisposing)
+            {
+                _disposer?.Dispose();
+            }
         }
 
         private readonly IMessagesService _messagesService;
         private readonly IMissionPlanner _missionPlanner;
-        private CompositeDisposable _disposer = new CompositeDisposable();
+        private readonly CompositeDisposable _disposer = new CompositeDisposable();
         private readonly IAltitudeAngelClient _client;
         private readonly ISettings _settings;
     }

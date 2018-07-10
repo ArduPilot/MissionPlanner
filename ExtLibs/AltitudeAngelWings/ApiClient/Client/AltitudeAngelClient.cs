@@ -1,5 +1,4 @@
 using System;
-using System.Reactive.Disposables;
 using System.Threading.Tasks;
 using AltitudeAngelWings.ApiClient.Models;
 using DotNetOpenAuth.OAuth2;
@@ -15,7 +14,10 @@ namespace AltitudeAngelWings.ApiClient.Client
     {
         private const string DateTimeFormat = "yyyy-MM-ddTHH:mm:ss.fffffff";
 
-        public delegate AltitudeAngelClient Create(string authUrl, string apiUrl, IAuthorizationState existingState);
+        private readonly string _apiUrl;
+        private readonly string _authUrl;
+        private readonly FlurlClient _client;
+        private readonly AltitudeAngelHttpHandlerFactory _handlerFactory;
 
         public IAuthorizationState AuthorizationState => _handlerFactory.AuthorizationState;
 
@@ -30,8 +32,7 @@ namespace AltitudeAngelWings.ApiClient.Client
             string authUrl,
             string apiUrl,
             IAuthorizationState existingState,
-            AltitudeAngelHttpHandlerFactory.Create handlerFactory
-            )
+            Func<string, IAuthorizationState, AltitudeAngelHttpHandlerFactory> handlerFactory)
         {
             _authUrl = authUrl;
             _apiUrl = apiUrl;
@@ -43,8 +44,6 @@ namespace AltitudeAngelWings.ApiClient.Client
                     HttpClientFactory = _handlerFactory
                 }
             };
-
-            _disposer.Add(_client);
         }
 
         /// <summary>
@@ -153,10 +152,18 @@ namespace AltitudeAngelWings.ApiClient.Client
                 .DeleteAsync();
         }
 
-        private readonly string _apiUrl;
-        private readonly string _authUrl;
-        private readonly FlurlClient _client;
-        private readonly AltitudeAngelHttpHandlerFactory _handlerFactory;
-        private readonly CompositeDisposable _disposer = new CompositeDisposable();
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _client?.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
     }
 }

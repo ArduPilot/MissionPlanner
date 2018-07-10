@@ -56,9 +56,9 @@ namespace AltitudeAngelWings.ApiClient.Client
             string redirectUri,
             IAuthorizeCodeProvider codeProvider)
         {
-            AuthorizationServerDescription serverDescription = GetServerDescription(authBaseUri);
+            var serverDescription = GetServerDescription(authBaseUri);
             ClientBase client;
-            IAuthorizationState state = existingState;
+            var state = existingState;
 
             if (requireUserToken)
             {
@@ -73,8 +73,8 @@ namespace AltitudeAngelWings.ApiClient.Client
                 {
                     // Open browser here
                     var returnTo = new Uri(redirectUri);
-                    Uri uri = userClient.RequestUserAuthorization(scopes, returnTo: returnTo);
-                    Uri result = codeProvider.GetCodeUri(uri, returnTo).Result;
+                    var uri = userClient.RequestUserAuthorization(scopes, returnTo: returnTo);
+                    var result = codeProvider.GetCodeUri(uri, returnTo).Result;
 
                     state = new AuthorizationState {Callback = returnTo};
                     state.Scope.AddRange(scopes);
@@ -97,50 +97,6 @@ namespace AltitudeAngelWings.ApiClient.Client
                 state);
         }
 
-        internal class BearerTokenHttpMessageHandler : DelegatingHandler
-        {
-            internal string BearerToken
-            {
-                get;
-                private set;
-            }
-            internal IAuthorizationState Authorization
-            {
-                get;
-                private set;
-            }
-            internal ClientBase Client
-            {
-                get;
-                private set;
-            }
-            public BearerTokenHttpMessageHandler(string bearerToken, HttpMessageHandler innerHandler) : base(innerHandler)
-            {
-                this.BearerToken = bearerToken;
-            }
-            public BearerTokenHttpMessageHandler(ClientBase client, IAuthorizationState authorization, HttpMessageHandler innerHandler) : base(innerHandler)
-            {
-                this.Client = client;
-                this.Authorization = authorization;
-            }
-            protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
-            {
-                string text = this.BearerToken;
-                if (text == null)
-                {
-                    //ErrorUtilities.VerifyProtocol(!this.Authorization.AccessTokenExpirationUtc.HasValue || this.Authorization.AccessTokenExpirationUtc >= DateTime.UtcNow || this.Authorization.RefreshToken != null, ClientStrings.AuthorizationExpired, new object[0]);
-                    if (this.Authorization.AccessTokenExpirationUtc.HasValue && this.Authorization.AccessTokenExpirationUtc.Value < DateTime.UtcNow)
-                    {
-                        //ErrorUtilities.VerifyProtocol(this.Authorization.RefreshToken != null, ClientStrings.AccessTokenRefreshFailed, new object[0]);
-                        this.Client.RefreshAuthorization(this.Authorization, null);
-                    }
-                    text = this.Authorization.AccessToken;
-                }
-                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", text);
-                return base.SendAsync(request, cancellationToken);
-            }
-        }
-
         private static AuthorizationServerDescription GetServerDescription(string authBaseUri)
         {
             authBaseUri = authBaseUri.TrimEnd('/');
@@ -150,6 +106,50 @@ namespace AltitudeAngelWings.ApiClient.Client
                 AuthorizationEndpoint = new Uri($"{authBaseUri}/oauth/v2/authorize"),
                 TokenEndpoint = new Uri($"{authBaseUri}/oauth/v2/token")
             };
+        }
+
+        internal class BearerTokenHttpMessageHandler : DelegatingHandler
+        {
+            internal string BearerToken
+            {
+                get;
+            }
+
+            internal IAuthorizationState Authorization
+            {
+                get;
+            }
+
+            internal ClientBase Client
+            {
+                get;
+            }
+
+            public BearerTokenHttpMessageHandler(string bearerToken, HttpMessageHandler innerHandler) : base(innerHandler)
+            {
+                BearerToken = bearerToken;
+            }
+
+            public BearerTokenHttpMessageHandler(ClientBase client, IAuthorizationState authorization, HttpMessageHandler innerHandler) : base(innerHandler)
+            {
+                Client = client;
+                Authorization = authorization;
+            }
+
+            protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+            {
+                var text = BearerToken;
+                if (text == null)
+                {
+                    if (Authorization.AccessTokenExpirationUtc.HasValue && Authorization.AccessTokenExpirationUtc.Value < DateTime.UtcNow)
+                    {
+                        Client.RefreshAuthorization(Authorization, null);
+                    }
+                    text = Authorization.AccessToken;
+                }
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", text);
+                return base.SendAsync(request, cancellationToken);
+            }
         }
     }
 }

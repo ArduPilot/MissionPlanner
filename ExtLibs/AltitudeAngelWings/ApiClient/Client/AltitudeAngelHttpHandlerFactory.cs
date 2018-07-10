@@ -1,4 +1,6 @@
+using System;
 using System.Net.Http;
+using System.Security;
 using AltitudeAngelWings.ApiClient.CodeProvider;
 using DotNetOpenAuth.OAuth2;
 using Flurl.Http.Configuration;
@@ -8,10 +10,8 @@ namespace AltitudeAngelWings.ApiClient.Client
     /// <summary>
     ///     Used to create an OAuth aware HTTP client.
     /// </summary>
-    public class AltitudeAngelHttpHandlerFactory : DefaultHttpClientFactory
+    public class AltitudeAngelHttpHandlerFactory : DefaultHttpClientFactory, IDisposable
     {
-        public delegate AltitudeAngelHttpHandlerFactory Create(string authUrl, IAuthorizationState existingState);
-
         /// <summary>
         ///     The current authorization state containing the permitted scopes, the access and refresh tokens.
         ///     May be persisted for session continuation across app termination.
@@ -58,5 +58,19 @@ namespace AltitudeAngelWings.ApiClient.Client
         private readonly string _clientId;
         private readonly string _clientSecret;
         private ClientHandlerInfo _handlerInfo;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _handlerInfo?.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
     }
 }

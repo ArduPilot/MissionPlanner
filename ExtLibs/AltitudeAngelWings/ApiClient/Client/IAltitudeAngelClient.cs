@@ -6,7 +6,7 @@ using GMap.NET;
 
 namespace AltitudeAngelWings.ApiClient.Client
 {
-    public interface IAltitudeAngelClient
+    public interface IAltitudeAngelClient : IDisposable
     {
         IAuthorizationState AuthorizationState { get; }
         void Disconnect();
