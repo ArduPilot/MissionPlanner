@@ -140,7 +140,7 @@ namespace MissionPlanner.Utilities.AltitudeAngel
 
         private void lbl_FlightReportWhat_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("https://www.altitudeangel.com/");
+            Process.Start("http://bit.ly/aamissionplanner1");
         }
     }
 }
