@@ -234,6 +234,7 @@
     <PackageReference Include="System.Reactive" Version="4.0.0" />
     <PackageReference Include="System.Reactive.Core" Version="4.0.0" />
     <PackageReference Include="System.Reactive.Linq" Version="4.0.0" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.5.0" />
     <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
 
     <PackageReference Include="Unofficial.ObjectListView" version="2.6.0" targetFramework="net40" />
@@ -785,6 +786,7 @@
     <EmbeddedResource Include="Strings.ru-KZ.resx"><DependentUpon>Strings.cs</DependentUpon> </EmbeddedResource>
     <EmbeddedResource Include="Strings.tr.resx"><DependentUpon>Strings.cs</DependentUpon> </EmbeddedResource>
     <EmbeddedResource Include="Strings.zh-Hans.resx"><DependentUpon>Strings.cs</DependentUpon> </EmbeddedResource>
+    <EmbeddedResource Include="Swarm\Sequence\LayoutEditor.resx" />
     <EmbeddedResource Include="Swarm\TD\UI.resx" />
     <EmbeddedResource Include="temp.resx"><DependentUpon>temp.cs</DependentUpon> </EmbeddedResource>
     <EmbeddedResource Include="Antenna\Tracker.resx"><DependentUpon>Tracker.cs</DependentUpon> </EmbeddedResource>

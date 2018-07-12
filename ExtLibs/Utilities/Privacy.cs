@@ -65,10 +65,17 @@ namespace MissionPlanner.Utilities
                         typeof(MAVLink.mavlink_set_home_position_t),
                         typeof(MAVLink.mavlink_home_position_t),
                         typeof(MAVLink.mavlink_set_position_target_global_int_t),
-                        //typeof(MAVLink.mavlink_local_position_ned_t),
+                        typeof(MAVLink.mavlink_local_position_ned_t),
                         typeof(MAVLink.mavlink_command_long_t),
                         typeof(MAVLink.mavlink_mission_item_t),
-                        typeof(MAVLink.mavlink_mission_item_int_t)
+                        typeof(MAVLink.mavlink_mission_item_int_t),
+                        typeof(MAVLink.mavlink_uavionix_adsb_out_cfg_t)
+                    };
+
+                    var checks = new string[]
+                    {
+                        "lat", "latitude", "lat_int", "landing_lat",
+                        "path_lat", "arc_entry_lat", "gpsLat", "gpsOffsetLat"
                     };
 
                     while (stream.Position < stream.Length)
@@ -82,8 +89,6 @@ namespace MissionPlanner.Utilities
 
                         if (block.Contains(msginfo.type))
                         {
-                            var checks = new string[]
-                                {"lat", "latitude", "lat_int", "landing_lat", "path_lat", "arc_entry_lat", "gpsLat"};
                             bool valid = false;
                             var oldrxtime = packet.rxtime;
                             foreach (var check in checks)
@@ -121,10 +126,7 @@ namespace MissionPlanner.Utilities
                                 }
                             }
 
-                            if (!valid)
-                                continue;
-                            else
-                                packet.rxtime = oldrxtime;
+                            packet.rxtime = oldrxtime;
                         }
 
 
