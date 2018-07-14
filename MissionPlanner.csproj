@@ -246,6 +246,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ConnectionOptions.cs"> <SubType>Control</SubType> </Compile>
+    <Compile Include="Controls\ConnectionControlPreview.cs">
+      <SubType>Control</SubType>
+    </Compile>
     <Compile Include="Controls\COMConfig.cs">
       <SubType>Control</SubType>
     </Compile>
@@ -335,6 +338,7 @@
 	</EmbeddedResource>
 	<EmbeddedResource Include="Controls\AUTOConfig.resx" />
 	<EmbeddedResource Include="Controls\COMConfig.resx" />
+	<EmbeddedResource Include="Controls\ConnectionControlPreview.resx" />
 	<EmbeddedResource Include="Controls\PropagationSettings.resx">
 	  <DependentUpon>PropagationSettings.cs</DependentUpon>
 	</EmbeddedResource>

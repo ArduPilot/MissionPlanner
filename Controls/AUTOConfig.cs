@@ -41,7 +41,7 @@ namespace MissionPlanner.Controls
             this.Title.Size = new System.Drawing.Size(29, 13);
             this.Title.TabIndex = 2;
             this.Title.Tag = "AUTO";
-            this.Title.Text = "Auto";
+            this.Title.Text = "AUTO";
             // 
             // checkBoxAutoReconnect
             // 

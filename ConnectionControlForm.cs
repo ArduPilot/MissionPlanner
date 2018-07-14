@@ -27,7 +27,7 @@ namespace MissionPlanner
             TCP,
             UDP,
             UDPCl,
-            Auto,
+            AUTO,
             COM
         }
 
@@ -45,7 +45,7 @@ namespace MissionPlanner
             tcpConfig.Tag = ConnectionType.TCP;
             udpConfig.Tag = ConnectionType.UDP;
             udpclConfig.Tag = ConnectionType.UDPCl;
-            autoConfig.Tag = ConnectionType.Auto;
+            autoConfig.Tag = ConnectionType.AUTO;
             comConfig.Tag = ConnectionType.COM;
 
             tcpConfig.Dock = DockStyle.Fill;
@@ -184,7 +184,7 @@ namespace MissionPlanner
             if (connectionType.Equals("TCP"))           return ConnectionType.TCP;
             else if (connectionType.Equals("UDP"))      return ConnectionType.UDP;
             else if (connectionType.Equals("UDPCl"))    return ConnectionType.UDPCl;
-            else if (connectionType.Equals("AUTO"))     return ConnectionType.Auto;
+            else if (connectionType.Equals("AUTO"))     return ConnectionType.AUTO;
             else                                        return ConnectionType.COM;
         }
     }

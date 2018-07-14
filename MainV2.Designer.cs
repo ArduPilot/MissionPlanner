@@ -53,6 +53,7 @@ namespace MissionPlanner
             this.MenuArduPilot = new System.Windows.Forms.ToolStripButton();
             this.menu = new MissionPlanner.Controls.MyButton();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.connectionControlPreview1 = new MissionPlanner.Controls.ConnectionControlPreview();
             this.MainMenu.SuspendLayout();
             this.CTX_mainmenu.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -211,7 +212,6 @@ namespace MissionPlanner
             // 
             // MenuArduPilot
             // 
-            this.MenuArduPilot.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.MenuArduPilot.BackColor = System.Drawing.Color.Transparent;
             this.MenuArduPilot.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             resources.ApplyResources(this.MenuArduPilot, "MenuArduPilot");
@@ -232,10 +232,18 @@ namespace MissionPlanner
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.Controls.Add(this.connectionControlPreview1);
             this.panel1.Controls.Add(this.MainMenu);
             resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
             this.panel1.MouseLeave += new System.EventHandler(this.MainMenu_MouseLeave);
+            // 
+            // connectionControlPreview1
+            // 
+            resources.ApplyResources(this.connectionControlPreview1, "connectionControlPreview1");
+            this.connectionControlPreview1.ConnectionType = "Connection Type";
+            this.connectionControlPreview1.Device = "Device";
+            this.connectionControlPreview1.Name = "connectionControlPreview1";
             // 
             // MainV2
             // 
@@ -279,5 +287,6 @@ namespace MissionPlanner
         private System.Windows.Forms.ToolStripMenuItem connectionOptionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton MenuArduPilot;
         private System.Windows.Forms.ToolStripMenuItem connectionListToolStripMenuItem;
+        private Controls.ConnectionControlPreview connectionControlPreview1;
     }
 }
