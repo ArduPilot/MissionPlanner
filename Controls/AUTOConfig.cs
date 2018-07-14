@@ -11,52 +11,21 @@ using System.Threading;
 
 namespace MissionPlanner.Controls
 {
-    public partial class UDPConfig : UserControl
+    public partial class AUTOConfig : UserControl
     {
         public Label Title;
-        private TextBox textBoxPort;
         private CheckBox checkBoxAutoReconnect;
-        private Label label2;
 
-        public UDPConfig()
+        public AUTOConfig()
         {
             InitializeComponent();
         }
 
-        public string Port
-        {
-            get { return textBoxPort.Text; }
-            set { textBoxPort.Text = value; }
-        }
-
-        public CheckState AutoReconnect
-        {
-            get { return checkBoxAutoReconnect.CheckState; }
-            set { checkBoxAutoReconnect.CheckState = value; }
-        }
-
         private void InitializeComponent()
         {
-            this.label2 = new System.Windows.Forms.Label();
             this.Title = new System.Windows.Forms.Label();
-            this.textBoxPort = new System.Windows.Forms.TextBox();
             this.checkBoxAutoReconnect = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
-            // 
-            // label2
-            // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.Color.Transparent;
-            this.label2.ForeColor = System.Drawing.SystemColors.Control;
-            this.label2.Location = new System.Drawing.Point(10, 40);
-            this.label2.Margin = new System.Windows.Forms.Padding(10);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(78, 13);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Enter local port";
             // 
             // Title
             // 
@@ -67,22 +36,12 @@ namespace MissionPlanner.Controls
             this.Title.BackColor = System.Drawing.Color.Transparent;
             this.Title.ForeColor = System.Drawing.SystemColors.Control;
             this.Title.Location = new System.Drawing.Point(10, 10);
-            this.Title.Margin = new System.Windows.Forms.Padding(20);
+            this.Title.Margin = new System.Windows.Forms.Padding(10);
             this.Title.Name = "Title";
-            this.Title.Size = new System.Drawing.Size(30, 13);
+            this.Title.Size = new System.Drawing.Size(29, 13);
             this.Title.TabIndex = 2;
-            this.Title.Tag = "UDP";
-            this.Title.Text = "UDP";
-            // 
-            // textBoxPort
-            // 
-            this.textBoxPort.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxPort.Location = new System.Drawing.Point(13, 60);
-            this.textBoxPort.Name = "textBoxPort";
-            this.textBoxPort.Size = new System.Drawing.Size(277, 20);
-            this.textBoxPort.TabIndex = 4;
+            this.Title.Tag = "AUTO";
+            this.Title.Text = "Auto";
             // 
             // checkBoxAutoReconnect
             // 
@@ -96,22 +55,26 @@ namespace MissionPlanner.Controls
             this.checkBoxAutoReconnect.Location = new System.Drawing.Point(13, 170);
             this.checkBoxAutoReconnect.Name = "checkBoxAutoReconnect";
             this.checkBoxAutoReconnect.Size = new System.Drawing.Size(99, 17);
-            this.checkBoxAutoReconnect.TabIndex = 8;
+            this.checkBoxAutoReconnect.TabIndex = 9;
             this.checkBoxAutoReconnect.Text = "Auto reconnect";
             this.checkBoxAutoReconnect.UseVisualStyleBackColor = false;
             // 
-            // UDPConfig
+            // AUTOConfig
             // 
             this.BackgroundImage = global::MissionPlanner.Properties.Resources.bgdark;
             this.Controls.Add(this.checkBoxAutoReconnect);
-            this.Controls.Add(this.textBoxPort);
             this.Controls.Add(this.Title);
-            this.Controls.Add(this.label2);
             this.Margin = new System.Windows.Forms.Padding(10);
-            this.Name = "UDPConfig";
+            this.Name = "AUTOConfig";
             this.Size = new System.Drawing.Size(300, 200);
+            this.Load += new System.EventHandler(this.AUTOConfig_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
+
+        }
+
+        private void AUTOConfig_Load(object sender, EventArgs e)
+        {
 
         }
     }
