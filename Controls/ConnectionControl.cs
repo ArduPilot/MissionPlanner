@@ -16,6 +16,10 @@ namespace MissionPlanner.Controls
         public ConnectionControl()
         {
             InitializeComponent();
+
+            //fix for connectionType comboBox not visible
+            cmb_ConnectionType.Show();
+
             this.linkLabel1.Click += (sender, e) =>
             {
                 ShowLinkStats?.Invoke(this, EventArgs.Empty);

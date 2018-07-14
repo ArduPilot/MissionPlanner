@@ -242,12 +242,19 @@
   <ItemGroup>
     <Compile Include="CodeGen.cs" />
     <Compile Include="Common.cs" />
-    <Compile Include="ConnectForm.Designer.cs" />
-    <Compile Include="ConnectionConfigForm.cs">
+    <Compile Include="ConnectionControlForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ConnectionConfigForm.Designer.cs" />
     <Compile Include="ConnectionOptions.cs"> <SubType>Control</SubType> </Compile>
+    <Compile Include="Controls\UDPCIConfig.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Include="Controls\UDPConfig.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Include="Controls\TCPConfig.cs">
+      <SubType>Control</SubType>
+    </Compile>
     <Compile Include="Controls\PropagationSettings.cs">
       <SubType>Control</SubType>
     </Compile>
@@ -316,17 +323,16 @@
     <Compile Include="Controls\LogAnalyzer.cs"> <SubType>Control</SubType> </Compile>
 	<Compile Include="Log\LogStrings.cs"> <SubType>Control</SubType> </Compile>
 	<Compile Include="Log\LogStrings.Designer.cs"><DependentUpon>LogStrings.cs</DependentUpon> </Compile>
-	<EmbeddedResource Include="ConnectForm.resx">
-	  <Generator>ResXFileCodeGenerator</Generator>
-	  <LastGenOutput>ConnectForm.Designer.cs</LastGenOutput>
-	</EmbeddedResource>
-	<EmbeddedResource Include="ConnectionConfigForm.resx" />
+	<EmbeddedResource Include="ConnectionControlForm.resx" />
 	<EmbeddedResource Include="Controls\PropagationSettings.resx">
 	  <DependentUpon>PropagationSettings.cs</DependentUpon>
 	</EmbeddedResource>
 	<EmbeddedResource Include="Controls\ProximityControl.resx">
     <DependentUpon>ProximityControl.cs</DependentUpon>
   </EmbeddedResource>
+	<EmbeddedResource Include="Controls\TCPConfig.resx" />
+	<EmbeddedResource Include="Controls\UDPCIConfig.resx" />
+	<EmbeddedResource Include="Controls\UDPConfig.resx" />
 	<EmbeddedResource Include="Log\LogStrings.resx"><DependentUpon>LogStrings.cs</DependentUpon> </EmbeddedResource>
     <Compile Include="Controls\MavlinkCheckBox.cs" />
     <Compile Include="Controls\MavlinkCheckBoxBitMask.cs" />
@@ -2132,15 +2138,6 @@
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec Command="echo $(TargetDir)" />
   </Target>
-
-
-  <ItemGroup>
-    <Compile Update="ConnectForm.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ConnectForm.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
 
 
   <ItemGroup>
