@@ -81,7 +81,7 @@ namespace MissionPlanner.Controls
                 this.Invalidate();
             }
         }
-
+        public List<Locationwp> WPs { get; set; }
         public OpenGLtest2()
         {
             instance = this;
@@ -438,7 +438,7 @@ namespace MissionPlanner.Controls
                     }
                     else
                     {
-                        continue;
+                        //continue;
                     }
                 }
 
@@ -523,24 +523,32 @@ namespace MissionPlanner.Controls
                 if (tidict.Value.texture.Count != 0)
                     tidict.Value.Draw();
 
-                //GL.End();
                 GL.Disable(EnableCap.Texture2D);
 
-                GL.Color3(Color.Red);
+                {
+                    // render wps
+                    GL.Begin(PrimitiveType.LineStrip);
 
-                GL.LineWidth(3);
+                    GL.Color3(Color.Red);
 
-                GL.Begin(PrimitiveType.Lines);
+                    GL.LineWidth(3);
 
-                GL.Vertex3(lookX, lookY, lookZ);
+                    foreach (var point in GCSViews.FlightPlanner.instance.pointlist)
+                    {
+                        if(point == null)
+                            continue;
+                        var co = convertCoords(point);
+                        GL.Vertex3(co[0], co[1], co[2]);
+                    }
+                    /*
+                    WPs.ForEach(a =>
+                    {
+                        var co = convertCoords(new PointLatLngAlt(a.lat, a.lng, a.alt));
+                        GL.Vertex3(co[0], co[1], co[2]);
+                    });*/
 
-                GL.Color3(Color.Green);
-                GL.Vertex3(0, 0, 0);
-
-                //GL.Vertex3(utmcenter[0], utmcenter[1], 0);
-
-                GL.End();
-
+                    GL.End();
+                }
             }
 
             try
@@ -564,7 +572,7 @@ namespace MissionPlanner.Controls
         {
             core.fillEmptyTiles = false;
 
-            core.LevelsKeepInMemmory = 20;
+            //core.LevelsKeepInMemmory = 5;
 
             core.Provider = type;
 
@@ -608,16 +616,17 @@ namespace MissionPlanner.Controls
 
             var totaltiles = tileArea.Sum(a => a.points.Count);
 
-            Console.WriteLine("Total tiles " + totaltiles);
+            Console.WriteLine(DateTime.Now.Millisecond + " Total tiles " + totaltiles);
 
             textureid.Where(a=> !tileArea.Any(b => b.points.Contains(a.Key))).ForEach(c=>
             {
-                Console.WriteLine("tile cleanup");
+                Console.WriteLine(DateTime.Now.Millisecond + " tile cleanup");
                 c.Value.Cleanup();
                 tileInfo temp;
                 textureid.TryRemove(c.Key, out temp);
             });
 
+            Console.WriteLine(DateTime.Now.Millisecond + " cleanup tiles done ");
 
             var pxstep = 2;
 
@@ -797,7 +806,7 @@ namespace MissionPlanner.Controls
             public RectLatLng area { get; set; }
         }
 
-        public class tileInfo
+        public class tileInfo: IDisposable
         {
             public Image img { get; set;}
             public int zoom { get; set; }
@@ -816,7 +825,7 @@ namespace MissionPlanner.Controls
                     {
                         try
                         {
-                            _textid = generateTexture(point, (Bitmap) img);
+                            _textid = generateTexture(point, (Bitmap)img);
                         }
                         catch
                         {
@@ -851,7 +860,7 @@ namespace MissionPlanner.Controls
                         return ID_VBO;
                     GL.BindBuffer(BufferTarget.ArrayBuffer, ID_VBO);
                     GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr) (vertex.Count * Vertex.Stride), vertex.ToArray(),
-                        BufferUsageHint.DynamicDraw);
+                        BufferUsageHint.StaticDraw);
                     long bufferSize;
                     // Validate that the buffer is the correct size
                     GL.GetBufferParameter(BufferTarget.ArrayBuffer, BufferParameterName.BufferSize, out bufferSize);
@@ -927,6 +936,11 @@ namespace MissionPlanner.Controls
                 get { return Enumerable.Range(0, vertex.Count).ToList(); }
             }
 
+            public override string ToString()
+            {
+                return String.Format("{1}-{0} {2}",point, zoom, textureReady);
+            }
+
             public void Draw()
             {
                 if (idVBO == 0 || idTBO == 0)
@@ -973,6 +987,16 @@ namespace MissionPlanner.Controls
                 GL.DeleteBuffer(ID_VBO);
                 GL.DeleteBuffer(ID_EBO);
                 GL.DeleteBuffer(ID_TBO);
+
+                try
+                {
+                    img.Dispose();
+                } catch { }
+            }
+
+            public void Dispose()
+            {
+                Cleanup();
             }
 
             [StructLayout(LayoutKind.Sequential)]
