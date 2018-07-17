@@ -71,6 +71,11 @@
             // NUM_duration
             // 
             resources.ApplyResources(this.NUM_duration, "NUM_duration");
+            this.NUM_duration.Maximum = new decimal(new int[] {
+            999,
+            0,
+            0,
+            0});
             this.NUM_duration.Name = "NUM_duration";
             this.NUM_duration.Value = new decimal(new int[] {
             2,

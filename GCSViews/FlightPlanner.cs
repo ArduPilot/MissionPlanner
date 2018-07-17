@@ -61,7 +61,7 @@ namespace MissionPlanner.GCSViews
 
         public static FlightPlanner instance;
 
-        public List<PointLatLngAlt> pointlist { get; set; }
+        public List<PointLatLngAlt> pointlist { get; set; } = new List<PointLatLngAlt>();
 
         static public Object thisLock = new Object();
         private ComponentResourceManager rm = new ComponentResourceManager(typeof (FlightPlanner));
