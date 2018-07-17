@@ -17,5 +17,14 @@ namespace AltitudeAngelWings
             return source.ObserveOnDispatcher()
                          .Subscribe(state => VisualStateManager.GoToElementState(stateElement, state.ToString(), true));
         }
+
+        public static IObservable<T> RepeatLastValue<T>(this IObservable<T> source, TimeSpan repeatInterval)
+        {
+            return source.Select(s => Observable
+                    .Interval(repeatInterval)
+                    .Select(_ => s)
+                    .StartWith(s))
+                .Switch();
+        }
     }
 }

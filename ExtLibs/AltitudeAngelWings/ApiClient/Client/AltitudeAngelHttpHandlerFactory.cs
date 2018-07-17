@@ -1,6 +1,6 @@
 using System;
-using System.Configuration;
 using System.Net.Http;
+using System.Security;
 using AltitudeAngelWings.ApiClient.CodeProvider;
 using DotNetOpenAuth.OAuth2;
 using Flurl.Http.Configuration;
@@ -10,10 +10,8 @@ namespace AltitudeAngelWings.ApiClient.Client
     /// <summary>
     ///     Used to create an OAuth aware HTTP client.
     /// </summary>
-    public class AltitudeAngelHttpHandlerFactory : DefaultHttpClientFactory
+    public class AltitudeAngelHttpHandlerFactory : DefaultHttpClientFactory, IDisposable
     {
-        public delegate AltitudeAngelHttpHandlerFactory Create(string authUrl, AuthorizationState existingState);
-
         /// <summary>
         ///     The current authorization state containing the permitted scopes, the access and refresh tokens.
         ///     May be persisted for session continuation across app termination.
@@ -25,10 +23,12 @@ namespace AltitudeAngelWings.ApiClient.Client
         /// </summary>
         /// <param name="authUrl">The base auth URL (scheme and host).</param>
         /// <param name="existingState">Any existing state from a previous session.</param>
-        public AltitudeAngelHttpHandlerFactory(string authUrl, AuthorizationState existingState)
+        public AltitudeAngelHttpHandlerFactory(string authUrl, IAuthorizationState existingState, string clientId, string clientSecret)
         {
             _authUrl = authUrl;
             _existingState = existingState;
+            _clientId = clientId;
+            _clientSecret = clientSecret;
         }
 
         /// <summary>
@@ -38,8 +38,8 @@ namespace AltitudeAngelWings.ApiClient.Client
         public override HttpMessageHandler CreateMessageHandler()
         {
             _handlerInfo = ApiOAuthClientHandler.Create(
-                _authUrl, ConfigurationManager.AppSettings["ClientId"], ConfigurationManager.AppSettings["ClientSecret"],
-                new[] { "query_mapdata", "query_mapairdata", "talk_tower", "query_userinfo" }, _existingState, true, "https://aawings.com/", 
+                _authUrl, _clientId, _clientSecret,
+                new[] { "query_mapdata", "query_mapairdata", "talk_tower", "query_userinfo", "manage_flightreports" }, _existingState, true, "https://aawings.com/", 
 				new WpfAuthorizeDisplay());
                 
             return _handlerInfo.ClientHandler;
@@ -54,7 +54,23 @@ namespace AltitudeAngelWings.ApiClient.Client
         }
 
         private readonly string _authUrl;
-        private AuthorizationState _existingState;
+        private IAuthorizationState _existingState;
+        private readonly string _clientId;
+        private readonly string _clientSecret;
         private ClientHandlerInfo _handlerInfo;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _handlerInfo?.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
     }
 }

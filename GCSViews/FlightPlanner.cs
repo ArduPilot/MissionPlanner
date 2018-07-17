@@ -1774,6 +1774,11 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        internal IList<Locationwp> GetFlightPlanLocations()
+        {
+            return GetCommandList().AsReadOnly();
+        }
+
         List<Locationwp> GetCommandList()
         {
             List<Locationwp> commands = new List<Locationwp>();
