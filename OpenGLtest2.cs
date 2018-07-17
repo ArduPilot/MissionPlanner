@@ -42,7 +42,7 @@ namespace MissionPlanner.Controls
         double step = 1 / 1200.0;
 
         // image zoom level
-        int zoom = 19;
+        int zoom = 20;
 
         RectLatLng area = new RectLatLng(-35.04286, 117.84262, 0.1, 0.1);
         PointLatLngAlt center = new PointLatLngAlt(-35.04286, 117.84262, 40);
@@ -271,12 +271,12 @@ namespace MissionPlanner.Controls
 
             while (!this.IsDisposed)
             {
-                System.Threading.Thread.Sleep(500);
+                System.Threading.Thread.Sleep(1000);
 
                 if (core.tileLoadQueue.Count > 0)
                     continue;
 
-                if (core.Zoom == zoom)
+                if (core.Zoom >= zoom)
                     core.Zoom = 12;
 
                 core.Zoom = core.Zoom + 1;
@@ -438,7 +438,7 @@ namespace MissionPlanner.Controls
                     }
                     else
                     {
-                        //continue;
+                        continue;
                     }
                 }
 
@@ -572,7 +572,7 @@ namespace MissionPlanner.Controls
         {
             core.fillEmptyTiles = false;
 
-            //core.LevelsKeepInMemmory = 5;
+            core.LevelsKeepInMemmory = 10;
 
             core.Provider = type;
 
@@ -589,7 +589,7 @@ namespace MissionPlanner.Controls
 
                     // 200m at max zoom
                     // step at 0 zoom
-                    var distm = MathHelper.map(a, 0, zoom, 3000, 50);
+                   var distm = MathHelper.map(a, 0, zoom, 3000, 50);
 
                     //Console.WriteLine("tiles z {0} max {1} dist {2}", a, zoom, distm);
 
@@ -630,28 +630,30 @@ namespace MissionPlanner.Controls
 
             var pxstep = 2;
 
-            if (zoom == 20)
-                pxstep = 256;
-            if (zoom == 19)
-                pxstep = 128;
-            if (zoom == 18)
-                pxstep = 64;
-            if (zoom == 17)
-                pxstep = 32;
-            if (zoom == 16)
-                pxstep = 16;
-            if (zoom == 15)
-                pxstep = 8;
-            if (zoom == 14)
-                pxstep = 4;
-            if (zoom == 13)
-                pxstep = 2;
-            if (zoom == 12)
-                pxstep = 1;
+     
 
             // get tiles & combine into one
             foreach (var tilearea in tileArea)
             {
+                if (tilearea.zoom == 20)
+                    pxstep = 256;
+                if (tilearea.zoom == 19)
+                    pxstep = 128;
+                if (tilearea.zoom == 18)
+                    pxstep = 64;
+                if (tilearea.zoom == 17)
+                    pxstep = 32;
+                if (tilearea.zoom == 16)
+                    pxstep = 16;
+                if (tilearea.zoom == 15)
+                    pxstep = 8;
+                if (tilearea.zoom == 14)
+                    pxstep = 4;
+                if (tilearea.zoom == 13)
+                    pxstep = 2;
+                if (tilearea.zoom == 12)
+                    pxstep = 1;
+
                 foreach (var p in tilearea.points)
                 {
                     core.tileDrawingListLock.AcquireReaderLock();
@@ -943,7 +945,7 @@ namespace MissionPlanner.Controls
 
             public void Draw()
             {
-                if (idVBO == 0 || idTBO == 0)
+                if (idVBO == 0 || idTBO == 0 || idEBO == 0)
                     return;
 
                 // Push current Array Buffer state so we can restore it later
