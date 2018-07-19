@@ -32,7 +32,7 @@ build_script:
 
     copy version.txt c:\mp\
 
-    7z a -tzip ..\..\..\MissionPlannerBeta.zip *  
+    7z a -tzip ..\..\..\MissionPlannerBeta.zip * -xr!gdal -xr!x64 -xr!x86 -xr!*SkiaSharp* -xr!dlls
 
     cd ..
 
@@ -69,7 +69,6 @@ test: off
 artifacts:
 - path: MissionPlannerCov-int.zip
 - path: MissionPlannerBeta.zip
-- path: 'msi\*.msi' 
 - path: checksums.txt
 - path: version.txt
 - path: ChangeLog.txt
