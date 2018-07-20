@@ -376,7 +376,7 @@ namespace MissionPlanner.Controls
 
             GL.Enable(EnableCap.Blend);
             GL.DepthMask(false);
-            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.One);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.One);
             GL.DepthMask(true);
             GL.Disable(EnableCap.Blend);
 
