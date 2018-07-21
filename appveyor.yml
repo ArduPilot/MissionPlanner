@@ -31,8 +31,10 @@ build_script:
     for /f %%f in ('dir /a-d /b plugins') do if exist .\%%f del .\plugins\%%f
 
     copy version.txt c:\mp\
+    
+    del gdal dlls /s /f /q
 
-    7z a -tzip ..\..\..\MissionPlannerBeta.zip * -xr!gdal -xr!x64 -xr!x86 -xr!*SkiaSharp* -xr!dlls
+    7z a -tzip ..\..\..\MissionPlannerBeta.zip *
 
     cd ..
 
