@@ -15,7 +15,8 @@ namespace MissionPlanner.Swarm.Sequence
     {
         public enum Mode
         {
-            idle
+            idle,
+            running
         }
 
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
@@ -82,6 +83,10 @@ namespace MissionPlanner.Swarm.Sequence
                         MAV.cs.rateposition = 10;
                         
                     }
+                    break;
+
+                case Mode.running:
+
                     break;
             }
         }

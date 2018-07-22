@@ -22,6 +22,7 @@ using System.Net.Sockets;
 using System.Text.RegularExpressions;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Utilities.AltitudeAngel;
+using System.Threading.Tasks;
 
 namespace MissionPlanner
 {
@@ -2621,7 +2622,7 @@ namespace MissionPlanner
                         };
 
                         // enumerate each link
-                        foreach (var port in Comports)
+                        foreach (var port in Comports.ToArray())
                         {
                             if (!port.BaseStream.IsOpen)
                                 continue;
@@ -3954,8 +3955,10 @@ namespace MissionPlanner
                 Regex udpcl = new Regex("udpcl://(.*):([0-9]+)");
                 Regex serial = new Regex("serial:(.*):([0-9]+)");
 
-                //Parallel.ForEach(lines, line =>
-                foreach (var line in lines)
+                ConcurrentBag<MAVLinkInterface> mavs = new ConcurrentBag<MAVLinkInterface>();
+
+                Parallel.ForEach(lines, line =>
+                //foreach (var line in lines)
                 {
                     try
                     {
@@ -3993,17 +3996,25 @@ namespace MissionPlanner
                         }
                         else
                         {
-                            continue;
+                            return;
                         }
 
-                        doConnect(mav, "preset", "0", false);
-                        Comports.Add(mav);
+                        mavs.Add(mav);
                     }
                     catch
                     {
                     }
                 }
-                //);
+                );
+
+                foreach (var mav in mavs)
+                {
+                    MainV2.instance.BeginInvoke((Action)delegate
+                    {
+                        doConnect(mav, "preset", "0", false);
+                        Comports.Add(mav);
+                    });
+                }
             }
         }
     }
