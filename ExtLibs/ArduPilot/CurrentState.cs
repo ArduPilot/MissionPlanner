@@ -1658,6 +1658,15 @@ namespace MissionPlanner
                             
                         }
 
+                        Serial.print("Flight SW Version: "); Serial.println(version.flight_sw_version);
+                        Serial.print("Middleware SW: "); Serial.println(version.middleware_sw_version);
+                        Serial.print("OS Custom: "); Serial.println(version.os_custom_version);
+                        Serial.print("OS SW: "); Serial.println(version.os_sw_version);
+                        Serial.print("board_version: "); Serial.println(version.board_version);                        
+                        Serial.print("Vendor ID: "); Serial.println(version.vendor_id);
+                        Serial.print("Product ID: "); Serial.println(version.product_id);
+                        Serial.print("Board Version: "); Serial.println(version.board_version);
+
                         MAV.clearPacket((uint)MAVLink.MAVLINK_MSG_ID.AUTOPILOT_VERSION);
                     }
 

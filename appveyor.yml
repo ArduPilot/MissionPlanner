@@ -31,8 +31,10 @@ build_script:
     for /f %%f in ('dir /a-d /b plugins') do if exist .\%%f del .\plugins\%%f
 
     copy version.txt c:\mp\
+    
+    del gdal dlls /s /f /q
 
-    7z a -tzip ..\..\..\MissionPlannerBeta.zip *  
+    7z a -tzip ..\..\..\MissionPlannerBeta.zip *
 
     cd ..
 
@@ -69,7 +71,6 @@ test: off
 artifacts:
 - path: MissionPlannerCov-int.zip
 - path: MissionPlannerBeta.zip
-- path: 'msi\*.msi' 
 - path: checksums.txt
 - path: version.txt
 - path: ChangeLog.txt

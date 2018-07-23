@@ -6,7 +6,7 @@
     <OutputType>Exe</OutputType>
     <StartupObject></StartupObject>
     <Authors>Michael Oborne</Authors>
-    <Version>1.3.56.4</Version>
+    <Version>1.3.57</Version>
     <DebugType>full</DebugType>
     <Company>Michael Oborne</Company>
     <Product>Mission Planner</Product>
@@ -220,6 +220,8 @@
 
     <PackageReference Include="netDXF" version="2.1.0" targetFramework="net462" />
     <PackageReference Include="Newtonsoft.Json" version="11.0.2" targetFramework="net462" />
+    <PackageReference Include="OpenTK" Version="3.0.1" />
+    <PackageReference Include="OpenTK.GLControl" Version="3.0.1" />
     <PackageReference Include="ProjNet" version="1.2" targetFramework="net40" />
     <PackageReference Include="protobuf-net" version="2.3.13" targetFramework="net40" requireReinstallation="true" />
     <PackageReference Include="SharpDX" version="4.1.0" targetFramework="net462" />

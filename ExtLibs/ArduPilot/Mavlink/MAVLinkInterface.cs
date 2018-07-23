@@ -488,7 +488,7 @@ Please check the following
                         bool exit = false;
                         // get most seen hbs
                         var mostseenlist = hbhistory.GroupBy(s => MAVList.GetID(s.sysid, s.compid))
-                            .OrderByDescending(s => s.Count()).Where(s => s.Key >= 2);
+                            .OrderByDescending(s => s.Count()).Where(s => s.Count() >= 2);
                         foreach (var mostseen in mostseenlist)
                         {
                             // get count on most seen

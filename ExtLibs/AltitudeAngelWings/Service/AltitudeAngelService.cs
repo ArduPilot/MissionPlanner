@@ -50,7 +50,7 @@ namespace AltitudeAngelWings.Service
             {
                 _disposer.Add(_missionPlanner.FlightDataMap
                     .MapChanged
-                    .Throttle(TimeSpan.FromSeconds(1))
+                    .Throttle(TimeSpan.FromSeconds(10))
                     .RepeatLastValue(TimeSpan.FromSeconds(60))
                     .Subscribe(async i => await UpdateMapData(_missionPlanner.FlightDataMap)));
             }
