@@ -1682,7 +1682,7 @@ red LED solid - in firmware update mode");
                         RFD900 = RFD.RFD900.RFD900APU.GetObjectForModem(Session);
                         break;
                     case RFD.RFD900.TSession.TMode.BOOTLOADER_X:
-                        RFD900 = new RFD.RFD900.RFD900x(Session);
+                        RFD900 = RFD.RFD900.RFD900xux.GetObjectForModem(Session);
                         break;
                     default:
                         break;

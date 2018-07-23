@@ -79,6 +79,10 @@ namespace SikRadio
         {
             if (!_RunRxThread)
             {
+                var Session = new RFD.RFD900.TSession(SikRadio.Config.comPort);
+                Session.PutIntoATCommandMode();
+                Session.Dispose();
+
                 _RunRxThread = true;
                 _RxThread = new Thread(RxWorker);
                 _RxThread.Start();

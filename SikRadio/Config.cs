@@ -152,7 +152,10 @@ namespace SikRadio
             _CurrentForm = Constructor();
             _CurrentForm.Enabled = _Connected;
             _CurrentForm.Show();
-            _CurrentForm.Connect();
+            if (_Connected)
+            {
+                _CurrentForm.Connect();
+            }
         }
 
         private void terminalToolStripMenuItem_Click(object sender, EventArgs e)

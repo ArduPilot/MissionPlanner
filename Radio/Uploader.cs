@@ -22,6 +22,7 @@ namespace uploader
             DEVICE_ID_RFD900U = 0X80 | 0x01,
             DEVICE_ID_RFD900P = 0x80 | 0x02,
             DEVICE_ID_RFD900X = 0x80 | 0x03,
+            DEVICE_ID_RFD900UX = 0x80 | 0x08,
 
             FAILED = 0x11
         }
