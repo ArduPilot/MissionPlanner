@@ -10,6 +10,11 @@
  *          Also resolved issue in which mission planner's sik radio page doesn't load settings via
  *          tx module when the main part of mission planner had had a connection (but was disconnected).
  * 2.8 - Added support for multipoint firmware in RFD900a, +, u and x.
+ * 2.9 - Fixed bugs in which it wouldn't switch between tabs properly.
+ * 2.10 - Added support for RFD900ux.
+ * 2.11 - Fixed bug in which switching straight to RSSI tab after program start caused exception.  Now when
+ *          switch to terminal tab, automatically puts modem into AT command mode so user doesn't need to
+ *          enter +++.
  */
 
 using System;
