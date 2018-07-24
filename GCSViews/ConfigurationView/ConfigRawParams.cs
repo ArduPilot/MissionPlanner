@@ -515,6 +515,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             var fav2 = fav2obj == null ? false : (bool) fav2obj;
 
+            if (args.CellValue1 == null)
+                return;
+
+            if (args.CellValue2 == null)
+                return;
+
             args.SortResult = args.CellValue1.ToString().CompareTo(args.CellValue2.ToString());
             args.Handled = true;
 
