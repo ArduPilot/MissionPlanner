@@ -16,7 +16,7 @@ namespace MissionPlanner.Utilities
     {
         private long _length;
         string _uri = "";
-        public int chunksize { get; set; } = 1000 * 50;
+        public int chunksize { get; set; } = 1000 * 250;
 
         private static object _lock = new object();
         /// <summary>
@@ -176,8 +176,11 @@ namespace MissionPlanner.Utilities
                     }
                     else
                     {
-                        // we dont have it and we need to get it
-                        gettingChunk.Add(key);
+                        lock (gettingChunkLock)
+                        {
+                            // we dont have it and we need to get it
+                            gettingChunk.Add(key);
+                        }
                     }
                 } while (test);
 
