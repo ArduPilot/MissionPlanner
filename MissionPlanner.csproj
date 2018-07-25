@@ -240,6 +240,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="AutoReconnectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="CodeGen.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="ConnectionControlForm.cs">
@@ -255,6 +258,7 @@
     <Compile Include="Controls\AUTOConfig.cs">
       <SubType>Control</SubType>
     </Compile>
+    <Compile Include="Controls\ToolStripConnectionControlPreview.cs" />
     <Compile Include="Controls\UDPClConfig.cs">
       <SubType>Control</SubType>
     </Compile>
@@ -332,6 +336,7 @@
     <Compile Include="Controls\LogAnalyzer.cs"> <SubType>Control</SubType> </Compile>
 	<Compile Include="Log\LogStrings.cs"> <SubType>Control</SubType> </Compile>
 	<Compile Include="Log\LogStrings.Designer.cs"><DependentUpon>LogStrings.cs</DependentUpon> </Compile>
+	<EmbeddedResource Include="AutoReconnectForm.resx" />
 	<EmbeddedResource Include="ConnectionControlForm.resx">
 	  <Generator>ResXFileCodeGenerator</Generator>
 	  <LastGenOutput>ConnectionControlForm.Designer.cs</LastGenOutput>
@@ -2153,6 +2158,15 @@
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec Command="echo $(TargetDir)" />
   </Target>
+
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
 
 
   <ItemGroup>

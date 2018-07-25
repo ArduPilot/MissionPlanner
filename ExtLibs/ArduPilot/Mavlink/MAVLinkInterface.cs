@@ -557,7 +557,7 @@ Please check the following
                 }
                 giveComport = false;
                 if (string.IsNullOrEmpty(PRsender.doWorkArgs.ErrorMessage))
-                    //PRsender.doWorkArgs.ErrorMessage = Strings.ConnectFailed;
+                    PRsender.doWorkArgs.ErrorMessage = "csc";
                 log.Error(e);
                 //throw;
             }

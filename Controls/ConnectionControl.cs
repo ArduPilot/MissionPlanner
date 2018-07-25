@@ -31,16 +31,19 @@ namespace MissionPlanner.Controls
         public ComboBox CMB_baudrate
         {
             get { return this.cmb_Baud; }
+            set { this.cmb_Baud = value; }
         }
 
         public ComboBox CMB_serialport
         {
             get { return this.cmb_Connection; }
+            set { this.cmb_Connection = value; }
         }
 
         public ComboBox TOOL_APMFirmware
         {
             get { return this.cmb_ConnectionType; }
+            set { this.cmb_ConnectionType = value; }
         }
 
         /// <summary>

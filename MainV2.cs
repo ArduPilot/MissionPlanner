@@ -1005,6 +1005,10 @@ namespace MissionPlanner
 
             MainV2.comPort.MavChanged += comPort_MavChanged;
 
+            //update connectionControlPreview
+            MenuConnectionControlPreview.ConnectionControlPreview.Device = connectionControlForm.ConnectionControl.TOOL_APMFirmware.Text;
+            MenuConnectionControlPreview.ConnectionControlPreview.ConnectionType = connectionControlForm.ConnectionControl.CMB_serialport.Text;
+
             // save config to test we have write access
             SaveConfig();
         }
@@ -1716,10 +1720,24 @@ namespace MissionPlanner
         private bool isConnecting = false;
         private Thread connectionCycleThread;
         private ConnectionControlForm connectionControlForm;
+
+        private void MenuConnectionConfig_Click(object sender, EventArgs e)
+        {
+            ConnectionControlForm temp = connectionControlForm.Copy();
+            DialogResult result = connectionControlForm.ShowDialog();
+            if (result == DialogResult.Cancel)
+            {
+                connectionControlForm = temp;
+            }
+            MenuConnectionControlPreview.ConnectionControlPreview.Device = connectionControlForm.ConnectionControl.TOOL_APMFirmware.Text;
+            MenuConnectionControlPreview.ConnectionControlPreview.ConnectionType = connectionControlForm.ConnectionControl.CMB_serialport.Text;
+        }
+
         private void MenuConnect_Click(object sender, EventArgs e)
         {
-            DialogResult result = connectionControlForm.ShowDialog();
-            if(result == DialogResult.OK) Connect();
+            //Connect();
+            AutoReconnectForm form = new AutoReconnectForm("title sample", "naai error", 3);
+            form.ShowDialog();
             //if (connectionCycleThread == null) connectionCycleThread = new Thread(new ThreadStart(ConnectionCycleThread));
             //if (!connectionCycleThread.IsAlive) connectionCycleThread.Start();
         }

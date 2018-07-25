@@ -151,12 +151,12 @@
         #endregion
 
         private System.Windows.Forms.ComboBox cmb_Baud;
-        private System.Windows.Forms.ComboBox cmb_ConnectionType;
-        private System.Windows.Forms.ComboBox cmb_Connection;
         private System.Windows.Forms.LinkLabel linkLabel1;
         public System.Windows.Forms.ComboBox cmb_sysid;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox cmb_ConnectionType;
+        private System.Windows.Forms.ComboBox cmb_Connection;
     }
 }

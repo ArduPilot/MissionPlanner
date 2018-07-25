@@ -13,7 +13,7 @@ namespace MissionPlanner
     public class ConnectionControlForm: Form
     {
         private Button buttonCancel;
-        private Button buttonConnect;
+        private Button buttonOk;
         private Panel panelConfig;
         private Controls.TCPConfig tcpConfig;
         private Controls.UDPConfig udpConfig;
@@ -21,6 +21,44 @@ namespace MissionPlanner
         private Controls.COMConfig comConfig;
         private Controls.AUTOConfig autoConfig;
         public Controls.ConnectionControl ConnectionControl;
+
+        public ConnectionControlForm Copy()
+        {
+            ConnectionControlForm form = new ConnectionControlForm();
+
+            foreach (object item in this.ConnectionControl.cmb_sysid.Items)
+            {
+                form.ConnectionControl.cmb_sysid.Items.Add(item);
+            }
+            foreach (object item in this.ConnectionControl.CMB_serialport.Items)
+            {
+                form.ConnectionControl.CMB_serialport.Items.Add(item);
+            }
+            foreach (object item in this.ConnectionControl.TOOL_APMFirmware.Items)
+            {
+                form.ConnectionControl.TOOL_APMFirmware.Items.Add(item);
+            }
+
+            form.ConnectionControl.cmb_sysid.SelectedIndex = this.ConnectionControl.cmb_sysid.SelectedIndex;
+            form.ConnectionControl.CMB_baudrate.SelectedIndex = this.ConnectionControl.CMB_baudrate.SelectedIndex;
+            form.ConnectionControl.CMB_serialport.SelectedIndex = this.ConnectionControl.CMB_serialport.SelectedIndex;
+            form.ConnectionControl.TOOL_APMFirmware.SelectedIndex = this.ConnectionControl.TOOL_APMFirmware.SelectedIndex;
+
+            form.tcpConfig.IPAddress = this.tcpConfig.IPAddress;
+            form.tcpConfig.Port = this.tcpConfig.Port;
+            form.tcpConfig.AutoReconnect = this.tcpConfig.AutoReconnect;
+
+            form.udpclConfig.IPAddress = this.udpclConfig.IPAddress;
+            form.udpclConfig.Port = this.udpclConfig.Port;
+            form.udpclConfig.AutoReconnect = this.udpclConfig.AutoReconnect;
+
+            form.udpConfig.Port = this.udpConfig.Port;
+            form.udpConfig.AutoReconnect = this.udpConfig.AutoReconnect;
+
+            form.comConfig.AutoReconnect = this.comConfig.AutoReconnect;
+
+            return form;
+        }
 
         private enum ConnectionType
         {
@@ -71,85 +109,85 @@ namespace MissionPlanner
 
         private void InitializeComponent()
         {
-            ComponentResourceManager resources = new ComponentResourceManager(typeof(ConnectionControlForm));
-            buttonCancel = new System.Windows.Forms.Button();
-            buttonConnect = new System.Windows.Forms.Button();
-            ConnectionControl = new Controls.ConnectionControl();
-            panelConfig = new System.Windows.Forms.Panel();
-            SuspendLayout();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConnectionControlForm));
+            this.buttonCancel = new System.Windows.Forms.Button();
+            this.buttonOk = new System.Windows.Forms.Button();
+            this.ConnectionControl = new MissionPlanner.Controls.ConnectionControl();
+            this.panelConfig = new System.Windows.Forms.Panel();
+            this.SuspendLayout();
             // 
             // buttonCancel
             // 
-            buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            buttonCancel.Location = new System.Drawing.Point(12, 303);
-            buttonCancel.Name = "buttonCancel";
-            buttonCancel.Size = new System.Drawing.Size(75, 23);
-            buttonCancel.TabIndex = 1;
-            buttonCancel.Text = "Cancel";
-            buttonCancel.UseVisualStyleBackColor = true;
+            this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.buttonCancel.Location = new System.Drawing.Point(12, 303);
+            this.buttonCancel.Name = "buttonCancel";
+            this.buttonCancel.Size = new System.Drawing.Size(75, 23);
+            this.buttonCancel.TabIndex = 1;
+            this.buttonCancel.Text = "Cancel";
+            this.buttonCancel.UseVisualStyleBackColor = true;
             // 
-            // buttonConnect
+            // buttonOk
             // 
-            buttonConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            buttonConnect.Location = new System.Drawing.Point(237, 303);
-            buttonConnect.Name = "buttonConnect";
-            buttonConnect.Size = new System.Drawing.Size(75, 23);
-            buttonConnect.TabIndex = 2;
-            buttonConnect.Text = "Connect";
-            buttonConnect.UseVisualStyleBackColor = true;
-            buttonConnect.Click += new System.EventHandler(buttonConnect_Click);
+            this.buttonOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonOk.Location = new System.Drawing.Point(237, 303);
+            this.buttonOk.Name = "buttonOk";
+            this.buttonOk.Size = new System.Drawing.Size(75, 23);
+            this.buttonOk.TabIndex = 2;
+            this.buttonOk.Text = "Ok";
+            this.buttonOk.UseVisualStyleBackColor = true;
+            this.buttonOk.Click += new System.EventHandler(this.buttonConnect_Click);
             // 
             // ConnectionControl
             // 
-            ConnectionControl.AutoSize = true;
-            ConnectionControl.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ConnectionControl.BackgroundImage")));
-            ConnectionControl.Dock = System.Windows.Forms.DockStyle.Top;
-            ConnectionControl.Location = new System.Drawing.Point(12, 12);
-            ConnectionControl.MaximumSize = new System.Drawing.Size(300, 85);
-            ConnectionControl.MinimumSize = new System.Drawing.Size(300, 85);
-            ConnectionControl.Name = "ConnectionControl";
-            ConnectionControl.Size = new System.Drawing.Size(300, 85);
-            ConnectionControl.TabIndex = 0;
-            ConnectionControl.Paint += new System.Windows.Forms.PaintEventHandler(ConnectionControl_Paint);
+            this.ConnectionControl.AutoSize = true;
+            this.ConnectionControl.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ConnectionControl.BackgroundImage")));
+            this.ConnectionControl.Dock = System.Windows.Forms.DockStyle.Top;
+            this.ConnectionControl.Location = new System.Drawing.Point(12, 12);
+            this.ConnectionControl.MaximumSize = new System.Drawing.Size(300, 85);
+            this.ConnectionControl.MinimumSize = new System.Drawing.Size(300, 85);
+            this.ConnectionControl.Name = "ConnectionControl";
+            this.ConnectionControl.Size = new System.Drawing.Size(300, 85);
+            this.ConnectionControl.TabIndex = 0;
+            this.ConnectionControl.Paint += new System.Windows.Forms.PaintEventHandler(this.ConnectionControl_Paint);
             // 
             // panelConfig
             // 
-            panelConfig.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panelConfig.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            panelConfig.BackColor = System.Drawing.Color.Transparent;
-            panelConfig.Location = new System.Drawing.Point(12, 97);
-            panelConfig.Margin = new System.Windows.Forms.Padding(0);
-            panelConfig.Name = "panelConfig";
-            panelConfig.Size = new System.Drawing.Size(300, 200);
-            panelConfig.TabIndex = 3;
+            this.panelConfig.BackColor = System.Drawing.Color.Transparent;
+            this.panelConfig.Location = new System.Drawing.Point(12, 97);
+            this.panelConfig.Margin = new System.Windows.Forms.Padding(0);
+            this.panelConfig.Name = "panelConfig";
+            this.panelConfig.Size = new System.Drawing.Size(300, 200);
+            this.panelConfig.TabIndex = 3;
             // 
             // ConnectionControlForm
             // 
-            AcceptButton = buttonConnect;
-            AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            BackgroundImage = global::MissionPlanner.Properties.Resources.bgdark;
-            CancelButton = buttonCancel;
-            ClientSize = new System.Drawing.Size(324, 341);
-            Controls.Add(buttonCancel);
-            Controls.Add(buttonConnect);
-            Controls.Add(panelConfig);
-            Controls.Add(ConnectionControl);
-            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            KeyPreview = true;
-            MaximizeBox = false;
-            MinimizeBox = false;
-            Name = "ConnectionControlForm";
-            Padding = new System.Windows.Forms.Padding(12);
-            ShowIcon = false;
-            SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            Text = "Connection Control";
-            TopMost = true;
-            ResumeLayout(false);
-            PerformLayout();
+            this.AcceptButton = this.buttonOk;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = global::MissionPlanner.Properties.Resources.bgdark;
+            this.CancelButton = this.buttonCancel;
+            this.ClientSize = new System.Drawing.Size(324, 341);
+            this.Controls.Add(this.buttonCancel);
+            this.Controls.Add(this.buttonOk);
+            this.Controls.Add(this.panelConfig);
+            this.Controls.Add(this.ConnectionControl);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.KeyPreview = true;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.Name = "ConnectionControlForm";
+            this.Padding = new System.Windows.Forms.Padding(12);
+            this.ShowIcon = false;
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "Connection Control";
+            this.TopMost = true;
+            this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

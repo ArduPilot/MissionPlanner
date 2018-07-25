@@ -21,6 +21,12 @@ namespace MissionPlanner.Controls
             InitializeComponent();
         }
 
+        public CheckState AutoReconnect
+        {
+            get { return checkBoxAutoReconnect.CheckState; }
+            set { checkBoxAutoReconnect.CheckState = value; }
+        }
+
         private void InitializeComponent()
         {
             this.Title = new System.Windows.Forms.Label();
