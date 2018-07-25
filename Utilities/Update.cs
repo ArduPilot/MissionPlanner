@@ -267,34 +267,52 @@ namespace MissionPlanner.Utilities
 
             if (regex.IsMatch(responseFromServer))
             {
-                // background md5
-                List<Tuple<string, string, Task<bool>>> tasklist = new List<Tuple<string, string, Task<bool>>>();
-
                 if (frmProgressReporter != null)
                     frmProgressReporter.UpdateProgressAndStatus(-1,"Hashing Files");
 
                 // cleanup dll's with the same exe name
-                var dlls = Directory.GetFiles(Settings.GetRunningDirectory(), "*.dll");
-                var exes = Directory.GetFiles(Settings.GetRunningDirectory(), "*.exe");
-
-                dlls.ForEach(dll =>
-                {
-                    exes.ForEach(exe =>
-                    {
-                        if (Path.GetFileNameWithoutExtension(dll.ToLower())
-                            .Equals(Path.GetFileNameWithoutExtension(exe.ToLower())))
-                        {
-                            try
-                            {
-                                File.Delete(dll);
-                            } catch { }
-                            return;
-                        }
-                    });
-                });
+                var dlls = Directory.GetFiles(Settings.GetRunningDirectory(), "*.dll", SearchOption.TopDirectoryOnly);
+                var exes = Directory.GetFiles(Settings.GetRunningDirectory(), "*.exe", SearchOption.TopDirectoryOnly);
+                List<string> files = new List<string>();
 
                 // hash everything
                 MatchCollection matchs = regex.Matches(responseFromServer);
+                for (int i = 0; i < matchs.Count; i++)
+                {
+                    string hash = matchs[i].Groups[1].Value.ToString();
+                    string file = matchs[i].Groups[2].Value.ToString();
+
+                    files.Add(file);
+                }
+
+                // cleanup unused dlls and exes
+                dlls.ForEach(dll =>
+                {
+                    try
+                    {
+                        var result = files.Any(task => Path.Combine(Settings.GetRunningDirectory(), task).ToLower().Equals(dll.ToLower()));
+
+                        if (result == false)
+                            File.Delete(dll);
+                    }
+                    catch { }
+                });
+
+                exes.ForEach(exe =>
+                {
+                    try
+                    {
+                        var result = files.Any(task => Path.Combine(Settings.GetRunningDirectory(), task).ToLower().Equals(exe.ToLower()));
+
+                        if (result == false)
+                            File.Delete(exe);
+                    }
+                    catch { }
+                });
+
+                // background md5
+                List<Tuple<string, string, Task<bool>>> tasklist = new List<Tuple<string, string, Task<bool>>>();
+
                 for (int i = 0; i < matchs.Count; i++)
                 {
                     string hash = matchs[i].Groups[1].Value.ToString();
@@ -304,7 +322,6 @@ namespace MissionPlanner.Utilities
 
                     tasklist.Add(new Tuple<string, string, Task<bool>>(file, hash, ismatch));
                 }
-
                 // get count and wait for all hashing to be done
                 int count = tasklist.Count(a =>
                 {
