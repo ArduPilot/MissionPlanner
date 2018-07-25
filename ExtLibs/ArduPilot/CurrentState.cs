@@ -2011,7 +2011,7 @@ namespace MissionPlanner
                                 }
                             }
 
-                            if (oldmode != mode && Speech.speechEnable && parent.parent.MAV.cs == this &&
+                            if (oldmode != mode && Speech.speechEnable && parent?.parent?.MAV?.cs == this &&
                                 Settings.Instance.GetBoolean("speechmodeenabled"))
                             {
                                 Speech.Instance.SpeakAsync(Common.speechConversion(parent, ""+ Settings.Instance["speechmode"]));
