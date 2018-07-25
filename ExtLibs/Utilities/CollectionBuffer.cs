@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MissionPlanner.Utilities
 {
@@ -40,7 +41,7 @@ namespace MissionPlanner.Utilities
                 messageindex[(byte) a] = new List<uint>();
             }
 
-            basestream = new BufferedStream(instream, 1024*256);
+            basestream = new BufferedStream(instream, 1024*1024*5);
 
             if (basestream.ReadByte() == BinaryLog.HEAD_BYTE1)
             {
@@ -71,7 +72,7 @@ namespace MissionPlanner.Utilities
                 long length = basestream.Length;
                 while (basestream.Position < length)
                 {
-                    var ans = binlog.ReadMessageTypeOffset(basestream);
+                    var ans = binlog.ReadMessageTypeOffset(basestream, length);
 
                     if (ans == null)
                         continue;
@@ -82,7 +83,7 @@ namespace MissionPlanner.Utilities
                     linestartoffset.Add((uint)(ans.Item2));
                     lineCount++;
                 }
-
+                
                 _count = lineCount;
 
                 // build fmt line database to pre seed the FMT message
@@ -97,7 +98,8 @@ namespace MissionPlanner.Utilities
                 // first line starts at 0
                 linestartoffset.Add(0);
 
-                while (basestream.Position < basestream.Length)
+                long length = basestream.Length;
+                while (basestream.Position < length)
                 {
                     offset = 0;
 
@@ -124,10 +126,19 @@ namespace MissionPlanner.Utilities
                 int b = 0;
                 foreach (var item in this)
                 {
-                    var dfitem = dflog.GetDFItemFromLine(item.ToString(), b);
-                    if (dfitem.msgtype != null && dflog.logformat.ContainsKey(dfitem.msgtype))
+					var idx = item.IndexOf(',');
+					
+					if (idx <= 0)
+						continue;
+					
+                    var msgtype = item.Substring(0, idx);
+
+                    if(msgtype == "FMT")
+                        dflog.FMTLine(item);
+
+                    if (dflog.logformat.ContainsKey(msgtype))
                     {
-                        var type = (byte)dflog.logformat[dfitem.msgtype].Id;
+                        var type = (byte)dflog.logformat[msgtype].Id;
 
                         messageindex[type].Add(linestartoffset[b]);
                     }
@@ -145,6 +156,8 @@ namespace MissionPlanner.Utilities
                         item["Name"].Trim(),
                         item["Format"].Trim(),
                         item.items.Skip(dflog.FindMessageOffset("FMT", "Columns")).ToArray());
+
+                    dflog.FMTLine(this[item.lineno]);
                 }
                 catch { }
             }
@@ -258,7 +271,7 @@ namespace MissionPlanner.Utilities
 
                     if (binary)
                     {
-                        var answer = binlog.ReadMessage(basestream);
+                        var answer = binlog.ReadMessage(basestream, basestream.Length);
 
                         currentindexcache = answer;
                         indexcachelineno = index;
@@ -367,6 +380,20 @@ namespace MissionPlanner.Utilities
             get
             {
                 return (indexcachelineno >= (linestartoffset.Count-1)); 
+            }
+        }
+
+        public List<string> SeenMessageTypes
+        {
+            get
+            {
+                List<string> messagetypes = new List<string>();
+
+                messageindex.ForEach(a => {
+                    if (a.Value.Count > 0) messagetypes.Add(FMT[a.Key].Item2);
+                });
+
+                return messagetypes;
             }
         }
 

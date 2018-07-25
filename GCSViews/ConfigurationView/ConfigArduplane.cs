@@ -48,10 +48,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             THR_MIN.setup(0, 0, 1, 0, "THR_MIN", MainV2.comPort.MAV.param);
             TRIM_THROTTLE.setup(0, 0, 1, 0, "TRIM_THROTTLE", MainV2.comPort.MAV.param);
 
-            ARSPD_RATIO.setup(0, 0, 1, 0, "ARSPD_RATIO", MainV2.comPort.MAV.param);
+            ARSPD_RATIO.setup(0, 2.5f, 1, 0.005f, "ARSPD_RATIO", MainV2.comPort.MAV.param);
             ARSPD_FBW_MAX.setup(0, 0, 1, 0, "ARSPD_FBW_MAX", MainV2.comPort.MAV.param);
             ARSPD_FBW_MIN.setup(0, 0, 1, 0, "ARSPD_FBW_MIN", MainV2.comPort.MAV.param);
-            TRIM_ARSPD_CM.setup(0, 0, 100, 0, "TRIM_ARSPD_CM", MainV2.comPort.MAV.param);
+            TRIM_ARSPD_CM.setup(0, 5000, 100, 0.1f, "TRIM_ARSPD_CM", MainV2.comPort.MAV.param);
 
             LIM_PITCH_MIN.setup(0, 0, 100, 0, "LIM_PITCH_MIN", MainV2.comPort.MAV.param);
             LIM_PITCH_MAX.setup(0, 0, 100, 0, "LIM_PITCH_MAX", MainV2.comPort.MAV.param);

@@ -1,4 +1,123 @@
-﻿*Mission Planner 1.3.56 - 9-4-2018
+﻿*Mission Planner 1.3.57 - 22-7-2018
+Add Altitude Angel flight reporting to Mission Planner
+OpenGLTest2: add wp marker
+OpenGLtest2: fix pxstep terrain
+ConfigMotorTest: increase max timeout to 999
+OpenGLtest2: add wps
+Clarify Log Creation Failure to GS, not board.
+OpenGLtest2: tweaks and guided mode
+MainV2: add more exit logging
+Privacy: allow more
+MP: add System.Text.Encoding.CodePages
+Privacy: add mission_item_int
+Privacy: add to test
+px4uploader: fix dotnetzip dll
+ConfigRawParams: autoconvert to .*
+LogDownload: armed check
+SITL: control-s swarm force mav2
+appveyor: github intergration
+MAVLinkInterface: prevent multiple bootloader trys
+temp: add FLASH_BOOTLOADER support
+Common: fix colour index
+Common: fix plane icons
+Make quickView items aware of background color, so they remain readable in HighContrast theme as well.  If we have more than the default six quickViews then change theme requires restart.
+BoardDetect: ignore port name
+SaveFileDialog: ensure exit on cancel
+Uploader: change reverse
+MyUserControl: use
+SharpKML: netstandard
+RFD900X-MP  MultiPoint radio support.
+Update: remove redundant dll's
+ThemeManager: add html
+Strings: fix
+Firmware: support new bootloader in a generic way
+minor typo.
+update other code block to match as suggested by Bill-B.
+rework of logo handling to remove it from the .Designer file as requested.
+colourise plane icons different colours depending on their mavlink sysid.    supports upto 6 different colours.
+allow logo in mission planner to be loaded at runtime instead of just embedded.
+BUGFIX:   airspeed comtrol does not work on ArduPlane 3.8.x without this fix.  previous code works up to  3.7.x only, as ARSPD_ENABLE has been replaced with ARSPD_TYPE.
+update power module and battery failsafe config
+Fix mission discrepancy between FlighData and FlightPlanner views.  CreateOverlay is used with both views, but FlightData adds WP0 as Home position and  it is displayed as WP1 so WP numbering are off on FlightData view. Also added workaround to display home position only when all WP-s are deleted
+Reconnect HUD custom items to the main state on connect, this solves freezed custom HUD items after disconnect/connect
+ConfigRawParamsTree: fix col size restore
+BoardDetect: detect new bl strings
+httpserver: multiple drones in location kml
+MP.Utilities: change hint path for System.Speech
+httpserver: fix wp list kml
+ChibiOS.inf: add
+NMEA: fix culture issues #1867
+CurrentState: add esc 4-8 and rename
+CurrentState: parse esc messages 4 esc
+Mavlink: upstream update
+WarningEngine: fix xml path
+FirmwareHistory: update
+ConfigRadioInput: trim min/max check
+BoardDetect: more fmuv5 checks
+Firmware: look for fmuv5
+MAVLinkInterface: fix rate checks for everything above 4hz #1847
+NuGet: update packages
+LogIndex: switch to virtualmode
+CurrentState: add timeSinceArmInAir
+MAVLinkInterface: remove debug console writes
+CurrentState: dont reset time in air based on arm state
+dflog: add null checks
+CollectionBuffer: fix exception on bad message
+SkiaSharp: update
+FlightPlanner: fix autozoom and centre on read/load
+SimpleExample: update to compile
+BinaryLog: bin to log speedup
+CollectionBuffer: improve performance
+MAVLink: update frm upstream
+LowBrowse: fix missing tree items
+TD: tweak
+Firmware: support mindpx v2
+fixes a crash when the camera is started from HUD, when already running
+Capture: fix posible bad read #1841
+TD: Update
+MAVLinkInterface: add version polling
+LogBrowse: filter options only show seen messages (#1833)
+Japanese improvement (#1832)
+fix Japanese for Help
+fix Japanese for write param button, remove space, add new translate for Search
+fix some Japanese for ConfigPlanner
+fix Japanese for InitialSetup
+System.Drawing update
+Gmap: fix compile dependancy
+Projects: remove net461
+MainV2: add startup script support
+ConfigFirmware: fix antenna tracker
+Improvement japanese (#1830)
+fix japanese expression for script console
+fix Japanese for Script tab
+fix Japanese for FlightData map context menu
+fix Japanese for FlightPlanner
+fix Japanese for Firmware install
+fix a small expression
+LogBrowse: add CMD's
+Japanese improvement for Wizard
+adsb: fix mavlink adsb
+BoardDetect: detect chibios vid/pid
+fix some wrong Japanese words.
+fix some wrong words. change button label "ロイター" to "Loiter" and its tooltip in FlightData action tab.
+Fixed a bit strange part of Japanese display.
+Firmware: ask for ChibiOS
+BoardDetect: add more boards
+MainV2: fix speech
+Statkart_topo2: use topo4 layer
+CurrentState: filter groundcourse
+ConfigRadioInput: always write min/max
+Firmware: initial revomini support
+ProximityControl: fix crash
+ProximityControl: refresh at interval
+ConfigAccelerometerCalibration: use new accel calib message to show current target
+CommsSerialPort: fix timeout
+georefimage: outputlog refresh
+ConfigFFT: fix exception on not supported
+wix: update servername
+CommsSerialPort: infinite timeout
+
+*Mission Planner 1.3.56 - 9-4-2018
 GeoRefImageBase: fix tlog cam message
 Update: fix changelog url
 appveyor: add changelog to build
@@ -10,6 +129,7 @@ temp: add proximity button back
 FlightPlanner: fix overlay pen
 Updater: fix net version
 Extensions: fix Aggregate bug
+
 *Mission Planner 1.3.55 - 27-3-2018
 wix: msi
 FlightPlanner: old savewp
@@ -36,6 +156,7 @@ FlightData: fix user hidden tabs
 downgrade System.Drawing.Common
 GDAL: use MP.GDAL.Native
 strings: make internal
+
 *Mission Planner 1.3.54 - 21-3-2018
 WPOverlay: extract path drawing code
 Strings: change to link

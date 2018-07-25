@@ -268,7 +268,8 @@ namespace MissionPlanner.Utilities
                     new System.Net.Security.RemoteCertificateValidationCallback(
                         (sender, certificate, chain, policyErrors) => { return true; });
 
-                log.Info(url);
+                lock (log)
+                    log.Info(url);
                 // Create a request using a URL that can receive a post. 
                 WebRequest request = WebRequest.Create(url);
                 request.Timeout = 10000;
@@ -277,7 +278,8 @@ namespace MissionPlanner.Utilities
                 // Get the response.
                 WebResponse response = request.GetResponse();
                 // Display the status.
-                log.Info(((HttpWebResponse)response).StatusDescription);
+                lock (log)
+                    log.Info(((HttpWebResponse)response).StatusDescription);
                 if (((HttpWebResponse)response).StatusCode != HttpStatusCode.OK)
                     return false;
 
@@ -290,7 +292,8 @@ namespace MissionPlanner.Utilities
                     {
                         if (((HttpWebResponse)response).ContentLength == new FileInfo(saveto).Length)
                         {
-                            log.Info("got LastModified " + saveto + " " + ((HttpWebResponse)response).LastModified +
+                            lock (log)
+                                log.Info("got LastModified " + saveto + " " + ((HttpWebResponse)response).LastModified +
                                      " vs " + new FileInfo(saveto).LastWriteTime);
                             response.Close();
                             return true;
@@ -315,7 +318,6 @@ namespace MissionPlanner.Utilities
 
                 while (dataStream.CanRead && bytes > 0)
                 {
-                    log.Debug(saveto + " " + bytes);
                     int len = dataStream.Read(buf1, 0, buf1.Length);
                     bytes -= len;
                     fs.Write(buf1, 0, len);
@@ -332,7 +334,8 @@ namespace MissionPlanner.Utilities
             }
             catch (Exception ex)
             {
-                log.Info("getFilefromNet(): " + ex.ToString());
+                lock (log)
+                    log.Info("getFilefromNet(): " + ex.ToString());
                 return false;
             }
         }

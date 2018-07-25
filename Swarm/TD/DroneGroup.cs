@@ -66,6 +66,9 @@ namespace MissionPlanner.Swarm.TD
                 if (!drone1.MavState.cs.armed)
                     continue;
 
+                // our base speed
+                drone1.speed = 5;
+
                 foreach (var drone2 in Drones)
                 {
                     if (drone1 == drone2)
@@ -74,60 +77,57 @@ namespace MissionPlanner.Swarm.TD
                     if (!drone2.MavState.cs.armed)
                         continue;
 
-                    // check how close they are based on current position
-                    if (drone1.Location.GetDistance(drone2.Location) < drone2.bubblerad * 2)
+                    if (CurrentMode <= Mode.takeoff)
+                        continue;
+
+                    var distanceseperation = drone2.bubblerad * 2;
+
+                    var distancecurrent = drone1.Location.GetDistance(drone2.Location);
+                    var distanceprojected = drone1.ProjectedLocation.GetDistance(drone2.ProjectedLocation);
+                    var distanceprojected2 = drone1.ProjectedLocation2.GetDistance(drone2.ProjectedLocation2);
+
+                    var altseperation = Math.Abs(drone1.MavState.cs.altasl - drone2.MavState.cs.altasl);
+
+                    var speed = map(distancecurrent, distanceseperation, 8, 0, 5);
+
+                    if (distanceprojected2 < distanceseperation)
                     {
-                        if (Math.Abs(drone1.Location.Alt - drone2.Location.Alt) < drone2.bubblerad * 2)
-                            if (drone1.Location.Alt > drone2.Location.Alt)
-                            {
-                                drone1.SendPositionVelocity(
-                                    new PointLatLngAlt(drone1.Location)
-                                    {
-                                        Alt = drone2.Location.Alt + drone2.bubblerad * 2
-                                    },
-                                    Vector3.Zero);
-                                continue;
-                            }
-                            else
-                            {
-                                drone2.SendPositionVelocity(
-                                    new PointLatLngAlt(drone2.Location)
-                                    {
-                                        Alt = drone1.Location.Alt + drone1.bubblerad * 2
-                                    },
-                                    Vector3.Zero);
-                                continue;
-                            }
+                        //slow down
+                        if (altseperation < distanceseperation)
+                        {
+                            drone1.speed = Math.Min(drone1.speed, speed);
+                        }
+                    }
+                    else
+                    {
+                        var bearing = drone1.Location.GetBearing(drone2.Location);
+                        var delta = wrap_180(drone1.MavState.cs.yaw - bearing);
+                        if (Math.Abs(delta) > 45)
+                        {
+
+                        }
+                        else
+                        {
+                            drone1.speed = Math.Min(drone1.speed, speed);
+                        }
                     }
 
-                    // check how close they are based on a 1 second projection
-                    if (drone1.ProjectedLocation.GetDistance(drone2.ProjectedLocation) < drone2.bubblerad * 2)
+                    if (distancecurrent < distanceseperation)
                     {
-                        // check if they are heading the same direction
-                        if ((Math.Abs(drone1.Heading - drone2.Heading) + 360) % 360 < 45)
-                            if (Math.Abs(drone1.Location.Alt - drone2.Location.Alt) < 1)
+                        if (altseperation < distanceseperation)
+                        {
+                            var bearing = drone1.Location.GetBearing(drone2.Location);
+                            var delta = wrap_180(drone1.MavState.cs.yaw - bearing);
+                            if (Math.Abs(delta) < 45)
                             {
-                                // they are heading within 45 degrees of each other
-                                // return here to let them settle themselfs, as the target position will be correct
-                                Console.WriteLine("1 drone, to close");
-                                drone1.SendPositionVelocity(drone1.Location, Vector3.Zero);
-                                continue;
+                                drone1.commandsent = true;
+                                drone1.speed = 0.1;
                             }
-
-                        // check if the are heading are at each other
-                        if ((Math.Abs(drone1.Heading - drone2.Heading) + 360) % 360 > 135)
-                            if (Math.Abs(drone1.Location.Alt - drone2.Location.Alt) < 1)
+                            else if (Math.Abs(delta) > 90)
                             {
-                                // stop the drones
-                                drone1.SendPositionVelocity(
-                                    new PointLatLngAlt(drone1.Location)
-                                    {
-                                        Alt = drone1.Location.Alt + drone1.bubblerad * 2
-                                    }, Vector3.Zero);
-                                drone2.SendPositionVelocity(drone2.Location, Vector3.Zero);
-                                Console.WriteLine("2 stopping drone, to close and heading towards each other");
-                                continue;
+                                drone1.speed = 1;
                             }
+                        }
                     }
                 }
             }
@@ -170,19 +170,15 @@ namespace MissionPlanner.Swarm.TD
                     }
                     break;
                 case Mode.takeoff:
-                    var takeoffalt = (float)4;
+                    var takeoffalt = (float)FenceMinAlt;
+                    // change mode
                     foreach (var drone in Drones)
                     {
-                        var MAV = drone.MavState;
                         try
                         {
                             // guided mode
-                            if (!MAV.cs.mode.ToLower().Equals("guided"))
-                                MAV.parent.setMode(MAV.sysid, MAV.compid, "GUIDED");
-                            // arm
-                            if (!MAV.cs.armed)
-                                if (!MAV.parent.doARM(MAV.sysid, MAV.compid, true))
-                                    return;
+                            if (!drone.MavState.cs.mode.ToLower().Equals("guided"))
+                                drone.MavState.parent.setMode(drone.MavState.sysid, drone.MavState.compid, "GUIDED");
                         }
                         catch (Exception ex)
                         {
@@ -191,6 +187,31 @@ namespace MissionPlanner.Swarm.TD
 
                             return;
                         }
+                    }
+                    // arm
+                    foreach (var drone in Drones)
+                    {
+                        try
+                        {
+                            // arm
+                            if (!drone.MavState.cs.armed)
+                            {
+                                drone.takeoffdone = false;
+                                if (!drone.MavState.parent.doARM(drone.MavState.sysid, drone.MavState.compid, true))
+                                    return;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            log.Error(ex);
+                            Loading.ShowLoading("Communication with one of the drones is failing\n" + ex);
+
+                            return;
+                        }
+                    }
+
+                    foreach (var drone in Drones)
+                    {
                         // set drone target position
                         drone.TargetLocation = drone.Location;
                         drone.TargetLocation.Alt = takeoffalt;
@@ -198,8 +219,8 @@ namespace MissionPlanner.Swarm.TD
                         try
                         {
                             // takeoff
-                            if (MAV.cs.alt < takeoffalt - 0.5 && !drone.takeoffdone)
-                                if (MAV.parent.doCommand(MAV.sysid, MAV.compid, MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0,
+                            if (drone.MavState.cs.alt < (takeoffalt - 0.5) && !drone.takeoffdone)
+                                if (drone.MavState.parent.doCommand(drone.MavState.sysid, drone.MavState.compid, MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0,
                                     0, takeoffalt))
                                     drone.takeoffdone = true;
                         }
@@ -213,15 +234,18 @@ namespace MissionPlanner.Swarm.TD
 
                         drone.MavState.GuidedMode.x = 0;
                         drone.MavState.GuidedMode.y = 0;
-                        drone.MavState.GuidedMode.z = (float) drone.TargetLocation.Alt;
+                        drone.MavState.GuidedMode.z = (float)drone.TargetLocation.Alt;
 
                         // wait for takeoff
-                        if (MAV.cs.alt < takeoffalt - 0.5)
+                        if (drone.MavState.cs.alt < (takeoffalt - 0.5))
                         {
                             Thread.Sleep(100);
                             // check we are still armed
-                            if (!MAV.cs.armed)
+                            if (!drone.MavState.cs.armed)
+                            {
+                                drone.takeoffdone = false;
                                 return;
+                            }
 
                             // move on to next drone
                             continue;
@@ -232,9 +256,9 @@ namespace MissionPlanner.Swarm.TD
                         // position control
                         drone.SendPositionVelocity(drone.TargetLocation, Vector3.Zero);
 
-                        drone.MavState.GuidedMode.x = (float) drone.TargetLocation.Lat;
-                        drone.MavState.GuidedMode.y = (float) drone.TargetLocation.Lng;
-                        drone.MavState.GuidedMode.z = (float) drone.TargetLocation.Alt;
+                        drone.MavState.GuidedMode.x = (float)drone.TargetLocation.Lat;
+                        drone.MavState.GuidedMode.y = (float)drone.TargetLocation.Lng;
+                        drone.MavState.GuidedMode.z = (float)drone.TargetLocation.Alt;
                     }
                     // wait for all to get within seperation distance
                     foreach (var drone in Drones)
@@ -251,7 +275,7 @@ namespace MissionPlanner.Swarm.TD
                         }
 
                         // wait for takeoff
-                        if (MAV.cs.alt < takeoffalt - 0.5)
+                        if (MAV.cs.alt < (takeoffalt - 0.5))
                         {
                             Thread.Sleep(100);
                             // check we are still armed
@@ -259,6 +283,7 @@ namespace MissionPlanner.Swarm.TD
                                 return;
 
                             // reloop to force takeoff 
+                            drone.takeoffdone = false;
                             return;
                         }
                     }
@@ -276,6 +301,13 @@ namespace MissionPlanner.Swarm.TD
 
                         // set the new pos
                         drone.TargetLocation = newpos;
+
+                        if (drone.commandsent)
+                        {
+                            //drone.SendYaw(drone.MavState.cs.yaw + 5);
+                            drone.commandsent = false;
+                            continue;
+                        }
 
                         // position control
                         drone.SendPositionVelocityYaw(drone.TargetLocation, drone.TargetVelocity,
@@ -342,6 +374,27 @@ namespace MissionPlanner.Swarm.TD
             }
         }
 
+        static double wrap_180(double angle)
+        {
+            var res = wrap_360(angle);
+            if (res > 180.0)
+            {
+                res -= 360.0;
+            }
+            return res;
+        }
+
+        static double wrap_360(double angle)
+        {
+            double ang_360 = 360.0;
+            double res = angle % ang_360;
+            if (res < 0)
+            {
+                res += ang_360;
+            }
+            return res;
+        }
+
         static double map(double x, double in_min, double in_max, double out_min, double out_max)
         {
             return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
@@ -354,6 +407,7 @@ namespace MissionPlanner.Swarm.TD
 
             var idx = Drones.IndexOf(drone);
 
+            //if(true)
             if (idx < Controller.Joysticks.Count && Controller.Joysticks[idx] != null)
             {
                 Controller.Joysticks[idx].Poll();
@@ -362,8 +416,14 @@ namespace MissionPlanner.Swarm.TD
 
                 var x = map(state.X, ushort.MinValue, ushort.MaxValue, short.MinValue, short.MaxValue);
                 var y = map(state.Y, ushort.MinValue, ushort.MaxValue, short.MinValue, short.MaxValue);
-                var z = map(state.Z, ushort.MinValue, ushort.MaxValue, -1, 1);
+                var z = map(state.Z, ushort.MinValue, ushort.MaxValue, 1, -1);
                 var yaw = map(state.Rz, ushort.MinValue, ushort.MaxValue, short.MinValue, short.MaxValue);
+                /*
+                // forwards
+                var x = 0;
+                var y = short.MaxValue;
+                var z = 0;
+                var yaw = 0;*/
 
                 // matrix with our current copter yaw
                 var Matrix = new Matrix3();
@@ -382,7 +442,7 @@ namespace MissionPlanner.Swarm.TD
 
                 var lengthscale = vector.length() / vectorbase.length();
 
-                var newvector = vector.normalized() * drone.speed;
+                var newvector = vector.normalized() * (drone.speed * vector.length());
 
                var direction = Math.Atan2(newvector.x, -newvector.y) * (180 / Math.PI);
 
@@ -426,7 +486,7 @@ namespace MissionPlanner.Swarm.TD
             if (!PointInPolygon(newpos, Fence))
             {
                 var bear = drone.Location.GetBearing(Centroid(Fence));
-                newpos = drone.Location.newpos(bear, 0.2);
+                newpos = drone.Location.newpos(bear, 1);
                 drone.TargetVelocity = Vector3.Zero;
             }
 

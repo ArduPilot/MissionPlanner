@@ -437,6 +437,46 @@ namespace MissionPlanner
         public float ch15out { get; set; }
         public float ch16out { get; set; }
 
+        public float esc1_volt { get; set; }
+        public float esc1_curr { get; set; }
+        public float esc1_rpm { get; set; }
+        public float esc1_temp { get; set; }
+
+        public float esc2_volt { get; set; }
+        public float esc2_curr { get; set; }
+        public float esc2_rpm { get; set; }
+        public float esc2_temp { get; set; }
+
+        public float esc3_volt { get; set; }
+        public float esc3_curr { get; set; }
+        public float esc3_rpm { get; set; }
+        public float esc3_temp { get; set; }
+
+        public float esc4_volt { get; set; }
+        public float esc4_curr { get; set; }
+        public float esc4_rpm { get; set; }
+        public float esc4_temp { get; set; }
+
+        public float esc5_volt { get; set; }
+        public float esc5_curr { get; set; }
+        public float esc5_rpm { get; set; }
+        public float esc5_temp { get; set; }
+
+        public float esc6_volt { get; set; }
+        public float esc6_curr { get; set; }
+        public float esc6_rpm { get; set; }
+        public float esc6_temp { get; set; }
+
+        public float esc7_volt { get; set; }
+        public float esc7_curr { get; set; }
+        public float esc7_rpm { get; set; }
+        public float esc7_temp { get; set; }
+
+        public float esc8_volt { get; set; }
+        public float esc8_curr { get; set; }
+        public float esc8_rpm { get; set; }
+        public float esc8_temp { get; set; }
+
         public float ch3percent
         {
             get
@@ -617,6 +657,9 @@ namespace MissionPlanner
 
         [DisplayText("Dist Traveled (dist)")]
         public float distTraveled { get; set; }
+
+        [DisplayText("Time in Air (sec)")]
+        public float timeSinceArmInAir { get; set; }
 
         [DisplayText("Time in Air (sec)")]
         public float timeInAir { get; set; }
@@ -1529,11 +1572,15 @@ namespace MissionPlanner
                         }
 
                         // throttle is up, or groundspeed is > 3 m/s
-                        if ((ch3percent > 12  || _groundspeed > 3.0) && armed)
+                        if ((ch3percent > 12 || _groundspeed > 3.0) && armed)
+                        {
                             timeInAir++;
+                            timeSinceArmInAir++;
+                        }
 
+                        // to maintain total timeinair for this session not just based on arming
                         if (!armed)
-                            timeInAir = 0;
+                            timeSinceArmInAir = 0;
 
                         if (!gotwind)
                             dowindcalc();
@@ -1610,6 +1657,15 @@ namespace MissionPlanner
                         {
                             
                         }
+
+                        Serial.print("Flight SW Version: "); Serial.println(version.flight_sw_version);
+                        Serial.print("Middleware SW: "); Serial.println(version.middleware_sw_version);
+                        Serial.print("OS Custom: "); Serial.println(version.os_custom_version);
+                        Serial.print("OS SW: "); Serial.println(version.os_sw_version);
+                        Serial.print("board_version: "); Serial.println(version.board_version);                        
+                        Serial.print("Vendor ID: "); Serial.println(version.vendor_id);
+                        Serial.print("Product ID: "); Serial.println(version.product_id);
+                        Serial.print("Board Version: "); Serial.println(version.board_version);
 
                         MAV.clearPacket((uint)MAVLink.MAVLINK_MSG_ID.AUTOPILOT_VERSION);
                     }
@@ -2207,7 +2263,8 @@ namespace MissionPlanner
                         satcount = gps.satellites_visible;
 
                         groundspeed = gps.vel*1.0e-2f;
-                        groundcourse = gps.cog*1.0e-2f;
+                        if (groundspeed > 0.5)
+                            groundcourse = gps.cog*1.0e-2f;
 
                         if (mavLinkMessage.ismavlink2)
                         {
@@ -2378,6 +2435,56 @@ namespace MissionPlanner
                         rxrssi = (int) ((rcin.rssi/255.0)*100.0);
 
                         //MAVLink.packets[(byte)MAVLink.MSG_NAMES.RC_CHANNELS_RAW);
+                    }
+
+                    mavLinkMessage = MAV.getPacket((uint)MAVLink.MAVLINK_MSG_ID.ESC_TELEMETRY_1_TO_4);
+                    if (mavLinkMessage != null)
+                    {
+                        var esc = mavLinkMessage.ToStructure<MAVLink.mavlink_esc_telemetry_1_to_4_t>();
+                        esc1_volt = esc.voltage[0];
+                        esc1_curr = esc.current[0];
+                        esc1_rpm = esc.rpm[0];
+                        esc1_temp = esc.temperature[0];
+
+                        esc2_volt = esc.voltage[1];
+                        esc2_curr = esc.current[1];
+                        esc2_rpm = esc.rpm[1];
+                        esc2_temp = esc.temperature[1];
+
+                        esc3_volt = esc.voltage[2];
+                        esc3_curr = esc.current[2];
+                        esc3_rpm = esc.rpm[2];
+                        esc3_temp = esc.temperature[2];
+
+                        esc4_volt = esc.voltage[3];
+                        esc4_curr = esc.current[3];
+                        esc4_rpm = esc.rpm[3];
+                        esc4_temp = esc.temperature[3];
+                    }
+
+                    mavLinkMessage = MAV.getPacket((uint)MAVLink.MAVLINK_MSG_ID.ESC_TELEMETRY_5_TO_8);
+                    if (mavLinkMessage != null)
+                    {
+                        var esc = mavLinkMessage.ToStructure<MAVLink.mavlink_esc_telemetry_5_to_8_t>();
+                        esc5_volt = esc.voltage[0];
+                        esc5_curr = esc.current[0];
+                        esc5_rpm = esc.rpm[0];
+                        esc5_temp = esc.temperature[0];
+
+                        esc6_volt = esc.voltage[1];
+                        esc6_curr = esc.current[1];
+                        esc6_rpm = esc.rpm[1];
+                        esc6_temp = esc.temperature[1];
+
+                        esc7_volt = esc.voltage[2];
+                        esc7_curr = esc.current[2];
+                        esc7_rpm = esc.rpm[2];
+                        esc7_temp = esc.temperature[2];
+
+                        esc8_volt = esc.voltage[3];
+                        esc8_curr = esc.current[3];
+                        esc8_rpm = esc.rpm[3];
+                        esc8_temp = esc.temperature[3];
                     }
 
                     mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.SERVO_OUTPUT_RAW);

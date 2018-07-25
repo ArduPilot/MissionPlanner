@@ -80,7 +80,7 @@ namespace SimpleExample
                         compid = packet.compid;
 
                         // request streams at 2 hz
-                        mavlink.GenerateMAVLinkPacket10(MAVLink.MAVLINK_MSG_ID.REQUEST_DATA_STREAM,
+                        var buffer = mavlink.GenerateMAVLinkPacket10(MAVLink.MAVLINK_MSG_ID.REQUEST_DATA_STREAM,
                             new MAVLink.mavlink_request_data_stream_t()
                             {
                                 req_message_rate = 2,
@@ -89,11 +89,19 @@ namespace SimpleExample
                                 target_component = compid,
                                 target_system = sysid
                             });
+
+                        serialPort1.Write(buffer, 0, buffer.Length);
+
+                        buffer = mavlink.GenerateMAVLinkPacket10(MAVLink.MAVLINK_MSG_ID.HEARTBEAT, hb);
+
+                        serialPort1.Write(buffer, 0, buffer.Length);
                     }
 
                     // from here we should check the the message is addressed to us
                     if (sysid != packet.sysid || compid != packet.compid)
                         continue;
+
+                    Console.WriteLine(packet.msgtypename);
                     
                     if (packet.msgid == (byte)MAVLink.MAVLINK_MSG_ID.ATTITUDE)
                     //or

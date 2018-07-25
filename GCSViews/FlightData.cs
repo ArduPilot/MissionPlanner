@@ -109,7 +109,7 @@ namespace MissionPlanner.GCSViews
         public static FlightData instance;
 
         //The file path of the selected script
-        string selectedscript = "";
+        internal string selectedscript = "";
         //the thread the script is running on
         Thread scriptthread;
         //whether or not a script is running
@@ -1052,6 +1052,7 @@ namespace MissionPlanner.GCSViews
                             MainV2.comPort.MAV.cs.yaw);
                         OpenGLtest2.instance.LocationCenter = new PointLatLngAlt(MainV2.comPort.MAV.cs.lat,
                             MainV2.comPort.MAV.cs.lng, MainV2.comPort.MAV.cs.altasl / CurrentState.multiplieralt, "here");
+                        OpenGLtest2.instance.WPs = MainV2.comPort.MAV.wps.Values.Select(a => (Locationwp)a).ToList();
                     }
 
                     // update vario info
@@ -1143,7 +1144,7 @@ namespace MissionPlanner.GCSViews
                             updateClearMissionRouteMarkers();
                             
                             var wps = MainV2.comPort.MAV.wps.Values.ToList();
-                            if (wps.Count > 1)
+                            if (wps.Count >= 1)
                             {
                                 var homeplla = new PointLatLngAlt(MainV2.comPort.MAV.cs.HomeLocation.Lat,
                                     MainV2.comPort.MAV.cs.HomeLocation.Lng,
@@ -1151,9 +1152,25 @@ namespace MissionPlanner.GCSViews
 
                                 var overlay = new WPOverlay();
 
-                                overlay.CreateOverlay((MAVLink.MAV_FRAME) wps[1].frame, homeplla,
-                                    MainV2.comPort.MAV.wps.Values.Select(a => (Locationwp) a).ToList(),
-                                    0 / CurrentState.multiplieralt, 0 / CurrentState.multiplieralt);
+                                {
+                                    List<Locationwp> mission_items;
+                                    mission_items = MainV2.comPort.MAV.wps.Values.Select(a => (Locationwp)a).ToList();
+                                    mission_items.RemoveAt(0);
+
+                                    if (wps.Count == 1)
+                                    {
+                                        overlay.CreateOverlay((MAVLink.MAV_FRAME)wps[0].frame, homeplla,
+                                            mission_items,
+                                            0 / CurrentState.multiplieralt, 0 / CurrentState.multiplieralt);
+                                    }
+                                    else
+                                    {
+                                        overlay.CreateOverlay((MAVLink.MAV_FRAME)wps[1].frame, homeplla,
+                                            mission_items,
+                                            0 / CurrentState.multiplieralt, 0 / CurrentState.multiplieralt);
+
+                                    }
+                                }
 
                                 var existing = gMapControl1.Overlays.Where(a => a.Id == overlay.overlay.Id).ToList();
                                 foreach (var b in existing)
@@ -2213,12 +2230,19 @@ namespace MissionPlanner.GCSViews
                 {
                     modifyandSetSpeed.Enabled = false;
                 }
-            } // plane with airspeed
-            else if (MainV2.comPort.MAV.param.ContainsKey("TRIM_ARSPD_CM") &&
+            }
+            // plane 3.7 and below with airspeed, uses ARSPD_ENABLE:
+            else if ((MainV2.comPort.MAV.param.ContainsKey("TRIM_ARSPD_CM") &&
                      MainV2.comPort.MAV.param.ContainsKey("ARSPD_ENABLE")
                      && MainV2.comPort.MAV.param.ContainsKey("ARSPD_USE") &&
                      (float) MainV2.comPort.MAV.param["ARSPD_ENABLE"] == 1
-                     && (float) MainV2.comPort.MAV.param["ARSPD_USE"] == 1)
+                     && (float) MainV2.comPort.MAV.param["ARSPD_USE"] == 1) ||
+              // plane 3.8 and above with airspeed as per plane 3.7 to plane 3.8 migration wiki page, no longer uses ARSPD_ENABLE, uses ARSPD_TYPE instead:
+                     (MainV2.comPort.MAV.param.ContainsKey("TRIM_ARSPD_CM") &&
+                     MainV2.comPort.MAV.param.ContainsKey("ARSPD_TYPE")
+                     && MainV2.comPort.MAV.param.ContainsKey("ARSPD_USE") &&
+                     (float) MainV2.comPort.MAV.param["ARSPD_TYPE"] > 0
+                     && (float) MainV2.comPort.MAV.param["ARSPD_USE"] == 1))
             {
                 try
                 {
@@ -3585,12 +3609,18 @@ namespace MissionPlanner.GCSViews
                 {
                     CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, "WP_SPEED_MAX"), Strings.ERROR);
                 }
-            } // plane with airspeed
-            else if (MainV2.comPort.MAV.param.ContainsKey("TRIM_ARSPD_CM") &&
+            } // plane 3.7 and below with airspeed, uses ARSPD_ENABLE:
+            else if ((MainV2.comPort.MAV.param.ContainsKey("TRIM_ARSPD_CM") &&
                      MainV2.comPort.MAV.param.ContainsKey("ARSPD_ENABLE")
                      && MainV2.comPort.MAV.param.ContainsKey("ARSPD_USE") &&
-                     (float) MainV2.comPort.MAV.param["ARSPD_ENABLE"] == 1
-                     && (float) MainV2.comPort.MAV.param["ARSPD_USE"] == 1)
+                     (float)MainV2.comPort.MAV.param["ARSPD_ENABLE"] == 1
+                     && (float)MainV2.comPort.MAV.param["ARSPD_USE"] == 1) ||
+              // plane 3.8 and above with airspeed as per plane 3.7 to plane 3.8 migration wiki page, no longer uses ARSPD_ENABLE, uses ARSPD_TYPE instead:
+                     (MainV2.comPort.MAV.param.ContainsKey("TRIM_ARSPD_CM") &&
+                     MainV2.comPort.MAV.param.ContainsKey("ARSPD_TYPE")
+                     && MainV2.comPort.MAV.param.ContainsKey("ARSPD_USE") &&
+                     (float)MainV2.comPort.MAV.param["ARSPD_TYPE"] > 0
+                     && (float)MainV2.comPort.MAV.param["ARSPD_USE"] == 1))
             {
                 try
                 {
@@ -3680,7 +3710,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
-        private void BUT_run_script_Click(object sender, EventArgs e)
+        internal void BUT_run_script_Click(object sender, EventArgs e)
         {
             if (File.Exists(selectedscript))
             {
@@ -4274,18 +4304,20 @@ namespace MissionPlanner.GCSViews
         {
             if (MainV2.MONO)
                 return;
-
-            try
+            if (MainV2.cam == null)
             {
-                MainV2.cam = new Capture(Settings.Instance.GetInt32("video_device"), new AMMediaType());
+                try
+                {
+                    MainV2.cam = new Capture(Settings.Instance.GetInt32("video_device"), new AMMediaType());
 
-                MainV2.cam.Start();
+                    MainV2.cam.Start();
 
-                MainV2.cam.camimage += new CamImage(cam_camimage);
-            }
-            catch (Exception ex)
-            {
-                CustomMessageBox.Show("Camera Fail: " + ex.ToString(), Strings.ERROR);
+                    MainV2.cam.camimage += new CamImage(cam_camimage);
+                }
+                catch (Exception ex)
+                {
+                    CustomMessageBox.Show("Camera Fail: " + ex.ToString(), Strings.ERROR);
+                }
             }
         }
 
@@ -4509,7 +4541,8 @@ namespace MissionPlanner.GCSViews
 
         Color GetColor()
         {
-            Color mix = Color.White;
+            //The mix color is set to the inverse of background color, so white background will get dark colors
+            Color mix = Color.FromArgb(ThemeManager.BGColor.ToArgb() ^ 0xffffff); 
             
             int red = random.Next(256);
             int green = random.Next(256);

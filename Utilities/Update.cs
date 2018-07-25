@@ -273,6 +273,26 @@ namespace MissionPlanner.Utilities
                 if (frmProgressReporter != null)
                     frmProgressReporter.UpdateProgressAndStatus(-1,"Hashing Files");
 
+                // cleanup dll's with the same exe name
+                var dlls = Directory.GetFiles(Settings.GetRunningDirectory(), "*.dll");
+                var exes = Directory.GetFiles(Settings.GetRunningDirectory(), "*.exe");
+
+                dlls.ForEach(dll =>
+                {
+                    exes.ForEach(exe =>
+                    {
+                        if (Path.GetFileNameWithoutExtension(dll.ToLower())
+                            .Equals(Path.GetFileNameWithoutExtension(exe.ToLower())))
+                        {
+                            try
+                            {
+                                File.Delete(dll);
+                            } catch { }
+                            return;
+                        }
+                    });
+                });
+
                 // hash everything
                 MatchCollection matchs = regex.Matches(responseFromServer);
                 for (int i = 0; i < matchs.Count; i++)

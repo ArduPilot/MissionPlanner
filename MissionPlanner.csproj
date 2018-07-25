@@ -6,7 +6,7 @@
     <OutputType>Exe</OutputType>
     <StartupObject></StartupObject>
     <Authors>Michael Oborne</Authors>
-    <Version>1.3.56</Version>
+    <Version>1.3.57</Version>
     <DebugType>full</DebugType>
     <Company>Michael Oborne</Company>
     <Product>Mission Planner</Product>
@@ -66,6 +66,9 @@
     <None Remove="packages\**" />
   </ItemGroup> 
   <ItemGroup>
+    <Reference Include="Ionic.Zip.NetStandard">
+      <HintPath>ExtLibs\Ionic.Zip.NetStandard.dll</HintPath>
+    </Reference>
     <Reference Include="OpenTK">
       <HintPath>ExtLibs\OpenTK.dll</HintPath>
     </Reference>
@@ -188,16 +191,16 @@
   <ItemGroup>
     <PackageReference Include="alglibnet2" version="0.0.0" targetFramework="net40" />
     <PackageReference Include="BitMiracle.LibTiff.NET" Version="2.4.560" />
-    <PackageReference Include="BouncyCastle" version="1.8.1" targetFramework="net40" />
+    <PackageReference Include="BouncyCastle" version="1.8.2" targetFramework="net40" />
     <PackageReference Include="Community.CsharpSqlite.SQLiteClient" version="3.7.7.3" targetFramework="net462" />
-    <PackageReference Include="CSMatIO" version="1.0.2" targetFramework="net40" requireReinstallation="true" />
+    <PackageReference Include="CSMatIO" version="1.0.20" targetFramework="net40" requireReinstallation="true" />
     <PackageReference Include="DirectShowLib" Version="1.0.0" />
-    <PackageReference Include="DotNetZip" version="1.10.1" targetFramework="net40" />
     <PackageReference Include="DotSpatial.Data" version="1.9" targetFramework="net462" />
     <PackageReference Include="DotSpatial.Data.Forms" version="1.9" targetFramework="net462" />
     <PackageReference Include="DotSpatial.Extensions" version="1.9" targetFramework="net462" />
     <PackageReference Include="DotSpatial.Modeling.Forms" version="1.9" targetFramework="net462" />
     <PackageReference Include="DotSpatial.Mono" version="1.9" targetFramework="net462" />
+    <PackageReference Include="DotSpatial.Positioning" Version="1.9.0" />
     <PackageReference Include="DotSpatial.Projections" version="1.9" targetFramework="net462" />
     <PackageReference Include="DotSpatial.Projections.Forms" version="1.9" targetFramework="net462" />
     <PackageReference Include="DotSpatial.Serialization" version="1.9" targetFramework="net462" />
@@ -205,34 +208,39 @@
     <PackageReference Include="DotSpatial.Symbology.Forms" version="1.9" targetFramework="net462" />
     <PackageReference Include="DotSpatial.Topology" version="1.9" targetFramework="net462" />
 
-    <PackageReference Include="Flurl" version="2.5.0" targetFramework="net462" />
-    <PackageReference Include="Flurl.Http" version="2.0.1" targetFramework="net462" />
+    <PackageReference Include="Flurl" version="2.7.1" targetFramework="net462" />
+    <PackageReference Include="Flurl.Http" version="2.3.1" targetFramework="net462" />
     <PackageReference Include="GDAL" Version="1.11.1" />
     <PackageReference Include="GeoJSON.Net" version="1.1.64" targetFramework="net462" />
     <PackageReference Include="IronPython" version="2.7.7" targetFramework="net462" />
     <PackageReference Include="IronPython.StdLib" version="2.7.7" targetFramework="net462" />
     <PackageReference Include="log4net" version="2.0.8" targetFramework="net462" />
-    <PackageReference Include="Microsoft.Win32.Registry" Version="4.4.0" />
+    <PackageReference Include="Microsoft.Win32.Registry" Version="4.5.0" />
     <PackageReference Include="MP.GDAL.Native" Version="2.2.3" />
 
-    <PackageReference Include="netDXF" version="2.0.2" targetFramework="net462" />
-    <PackageReference Include="Newtonsoft.Json" version="10.0.3" targetFramework="net462" />
+    <PackageReference Include="netDXF" version="2.1.0" targetFramework="net462" />
+    <PackageReference Include="Newtonsoft.Json" version="11.0.2" targetFramework="net462" />
+    <PackageReference Include="OpenTK" Version="3.0.1" />
+    <PackageReference Include="OpenTK.GLControl" Version="3.0.1" />
     <PackageReference Include="ProjNet" version="1.2" targetFramework="net40" />
-    <PackageReference Include="protobuf-net" version="2.1.0" targetFramework="net40" requireReinstallation="true" />
-    <PackageReference Include="SharpDX" version="4.0.1" targetFramework="net462" />
-    <PackageReference Include="SharpDX.DirectInput" version="4.0.1" targetFramework="net462" />
+    <PackageReference Include="protobuf-net" version="2.3.13" targetFramework="net40" requireReinstallation="true" />
+    <PackageReference Include="SharpDX" version="4.1.0" targetFramework="net462" />
+    <PackageReference Include="SharpDX.DirectInput" version="4.1.0" targetFramework="net462" />
     <PackageReference Include="SharpZipLib" version="0.86.0" targetFramework="net40" />
-    <PackageReference Include="SkiaSharp" Version="1.60.0" />
+    <PackageReference Include="SkiaSharp" Version="1.60.1" />
+    <PackageReference Include="SkiaSharp.Views" Version="1.60.1" />
+    <PackageReference Include="SkiaSharp.Views.Forms" Version="1.60.1" />
     <PackageReference Include="SSH.NET" version="2016.1.0" targetFramework="net40" />
-    <PackageReference Include="System.Drawing.Common" Version="4.5.0-preview1-26216-02" />
-    <PackageReference Include="System.IO.Ports" Version="4.4.0" />
-    <PackageReference Include="System.Reactive" Version="3.1.1" />
-    <PackageReference Include="System.Reactive.Core" Version="3.1.1" />
-    <PackageReference Include="System.Reactive.Linq" Version="3.1.1" />
+    <PackageReference Include="System.Drawing.Common" Version="4.5.0" />
+    <PackageReference Include="System.IO.Ports" Version="4.5.0" />
+    <PackageReference Include="System.Reactive" Version="4.0.0" />
+    <PackageReference Include="System.Reactive.Core" Version="4.0.0" />
+    <PackageReference Include="System.Reactive.Linq" Version="4.0.0" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.5.0" />
     <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
 
     <PackageReference Include="Unofficial.ObjectListView" version="2.6.0" targetFramework="net40" />
-    <PackageReference Include="Xamarin.Forms" version="2.5.0.91635" targetFramework="net462" />
+    <PackageReference Include="Xamarin.Forms" version="3.1.0.583944" targetFramework="net462" />
     <PackageReference Include="zlib.net" version="1.0.4.0" targetFramework="net40" />
   </ItemGroup>
 
@@ -247,9 +255,12 @@
       <SubType>Control</SubType>
     </Compile>
     <Compile Include="ElevationProfile.cs"> <SubType>Control</SubType> </Compile>
-    <Compile Include="ExtLibs\Controls\MyButton.cs" />
     <Compile Include="FollowMe.cs"> <SubType>Control</SubType> </Compile>
-    <Compile Include="Radio\Models.cs" />
+    <Compile Include="Strings.Designer.cs" />
+    <Compile Include="Swarm\TD\UI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utilities\AltitudeAngel\MissionPlannerStateAdapter.cs" />
     <Compile Include="Utilities\SSHTerminal.cs" />
     <Compile Include="Utilities\XTermRBGColors.cs" />
     <Compile Include="GenOTP.cs"> <SubType>Control</SubType> </Compile>
@@ -412,9 +423,6 @@
     <Compile Include="Log\MavlinkLog.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Log\Scan.cs" />
     <Compile Include="Log\test\MotorFailure.cs" />
-    <Compile Include="SikRadio\RFD900.cs" />
-    <Compile Include="SikRadio\RFDLib\Array.cs" />
-    <Compile Include="SikRadio\RFDLib\Text.cs" />
     <Compile Include="Models\DelegateCommand.cs" />
     <Compile Include="Models\ICommand.cs" />
     <Compile Include="NoFly\NoFly.cs" />
@@ -519,7 +527,6 @@
     <Compile Include="SerialOutputNMEA.Designer.cs"><DependentUpon>SerialOutputNMEA.cs</DependentUpon> </Compile>
     <Compile Include="SerialOutputPass.Designer.cs"><DependentUpon>SerialOutputPass.cs</DependentUpon> </Compile>
     <Compile Include="Splash.Designer.cs"><DependentUpon>Splash.cs</DependentUpon> </Compile>
-    <Compile Include="Strings.Designer.cs"><DependentUpon>Strings.cs</DependentUpon> </Compile>
     <Compile Include="temp.Designer.cs"><DependentUpon>temp.cs</DependentUpon> </Compile>
     <Compile Include="Antenna\Tracker.Designer.cs"><DependentUpon>Tracker.cs</DependentUpon> </Compile>
     <Compile Include="Controls\AuthKeys.Designer.cs"><DependentUpon>AuthKeys.cs</DependentUpon> </Compile>
@@ -771,7 +778,7 @@
     <EmbeddedResource Include="SerialOutputPass.tr.resx"><DependentUpon>SerialOutputPass.cs</DependentUpon> </EmbeddedResource>
     <EmbeddedResource Include="SerialOutputPass.zh-Hans.resx"><DependentUpon>SerialOutputPass.cs</DependentUpon> </EmbeddedResource>
     <EmbeddedResource Include="Splash.resx"><DependentUpon>Splash.cs</DependentUpon> </EmbeddedResource>
-    <EmbeddedResource Include="Strings.resx"><DependentUpon>Strings.cs</DependentUpon> </EmbeddedResource>
+    <EmbeddedResource Include="Strings.resx"><DependentUpon>Strings.cs</DependentUpon><Generator>ResXFileCodeGenerator</Generator><LastGenOutput>Strings.Designer.cs</LastGenOutput> </EmbeddedResource>
     <EmbeddedResource Include="Strings.az-Latn-AZ.resx"><DependentUpon>Strings.cs</DependentUpon> </EmbeddedResource>
     <EmbeddedResource Include="Strings.de-DE.resx"><DependentUpon>Strings.cs</DependentUpon> </EmbeddedResource>
     <EmbeddedResource Include="Strings.id-ID.resx"><DependentUpon>Strings.cs</DependentUpon> </EmbeddedResource>
@@ -781,6 +788,8 @@
     <EmbeddedResource Include="Strings.ru-KZ.resx"><DependentUpon>Strings.cs</DependentUpon> </EmbeddedResource>
     <EmbeddedResource Include="Strings.tr.resx"><DependentUpon>Strings.cs</DependentUpon> </EmbeddedResource>
     <EmbeddedResource Include="Strings.zh-Hans.resx"><DependentUpon>Strings.cs</DependentUpon> </EmbeddedResource>
+    <EmbeddedResource Include="Swarm\Sequence\LayoutEditor.resx" />
+    <EmbeddedResource Include="Swarm\TD\UI.resx" />
     <EmbeddedResource Include="temp.resx"><DependentUpon>temp.cs</DependentUpon> </EmbeddedResource>
     <EmbeddedResource Include="Antenna\Tracker.resx"><DependentUpon>Tracker.cs</DependentUpon> </EmbeddedResource>
     <EmbeddedResource Include="Antenna\Tracker.ar.resx"><DependentUpon>Tracker.cs</DependentUpon> </EmbeddedResource>
@@ -1923,6 +1932,8 @@
     </None>
     <None Include="Drivers\arduinomega2560.cat" />
     <None Include="Drivers\ArduinoMEGA2560.inf" />
+    <None Include="Drivers\chibios.cat" />
+    <None Include="Drivers\ChibiOS.inf" />
     <None Include="Drivers\cube.cat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -2123,16 +2134,26 @@
 
 
   <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Strings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+
+  <ItemGroup>
  
     <None Update="C:\Users\hog\.nuget\packages\skiasharp\1.59.3\build\net45\..\..\runtimes\win7-x64\native\libSkiaSharp.dll">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Plugins\" />
-    <Folder Include="RFD\" />
-  </ItemGroup>
 
   <ItemGroup>
     <Reference Update="System.IO.Compression.FileSystem">

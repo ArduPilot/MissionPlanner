@@ -406,9 +406,12 @@ namespace MissionPlanner.Swarm.Sequence
             {
                 controller.DG.Drones.All(a =>
                 {
-                    a.MavState.parent.setMode(a.MavState.sysid, a.MavState.compid, "GUIDED");
-                    a.MavState.parent.doARM(a.MavState.sysid, a.MavState.compid, true);
-                    a.MavState.parent.doCommand(a.MavState.sysid, a.MavState.compid, MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 2);
+                    if (!a.MavState.cs.mode.ToLower().Equals("guided"))
+                        a.MavState.parent.setMode(a.MavState.sysid, a.MavState.compid, "GUIDED");
+                    if (a.MavState.cs.armed != true)
+                        a.MavState.parent.doARM(a.MavState.sysid, a.MavState.compid, true);
+
+                    a.MavState.parent.doCommand(a.MavState.sysid, a.MavState.compid, MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 2, false);
                     return true;
                 });
                 Thread.Sleep(3000);
@@ -424,7 +427,8 @@ namespace MissionPlanner.Swarm.Sequence
                 var drone = controller.DG.Drones.Find(a => a.MavState.sysid == vector3.Key);
                 var newpos = startpos.gps_offset(vector3.Value.x, vector3.Value.y);
                 newpos.Alt = vector3.Value.z;
-                drone.SendPositionVelocity(newpos, Vector3.Zero);
+                if(drone != null)
+                    drone.SendPositionVelocity(newpos, Vector3.Zero);
             }
 
             step++;

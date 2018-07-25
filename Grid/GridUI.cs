@@ -180,9 +180,9 @@ namespace MissionPlanner.Grid
             using (SaveFileDialog sfd = new SaveFileDialog())
             {
                 sfd.Filter = "*.grid|*.grid";
-                sfd.ShowDialog();
+                var result = sfd.ShowDialog();
 
-                if (sfd.FileName != "")
+                if (sfd.FileName != "" && result == DialogResult.OK)
                 {
                     using (StreamWriter sw = new StreamWriter(sfd.FileName))
                     {

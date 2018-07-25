@@ -21,6 +21,8 @@ using System.Collections.Concurrent;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
 using MissionPlanner.ArduPilot;
+using MissionPlanner.Utilities.AltitudeAngel;
+using System.Threading.Tasks;
 
 namespace MissionPlanner
 {
@@ -561,6 +563,8 @@ namespace MissionPlanner
             // setup adsb
             Utilities.adsb.UpdatePlanePosition += adsb_UpdatePlanePosition;
 
+            MAVLinkInterface.UpdateADSBPlanePosition += adsb_UpdatePlanePosition;
+
             Form splash = Program.Splash;
 
             splash?.Refresh();
@@ -609,8 +613,6 @@ namespace MissionPlanner
 
             var t = Type.GetType("Mono.Runtime");
             MONO = (t != null);
-
-            speechEngine = new Speech();
 
             Warnings.CustomWarning.defaultsrc = comPort.MAV.cs;
             Warnings.WarningEngine.Start();
@@ -971,6 +973,9 @@ namespace MissionPlanner
                 this.Icon = Icon.FromHandle(((Bitmap)Program.IconFile).GetHicon());
             }
 
+            if (Program.Logo2 != null)
+                MenuArduPilot.Image = Program.Logo2;
+
             if (Program.Logo != null && Program.name == "VVVVZ")
             {
                 MenuDonate.Click -= this.toolStripMenuItem1_Click;
@@ -1174,6 +1179,10 @@ namespace MissionPlanner
 
                 try
                 {
+                    // dont rebroadcast something that came from the drone
+                    if (sender != null && sender is MAVLinkInterface)
+                        return;
+
                     MAVLink.mavlink_adsb_vehicle_t packet = new MAVLink.mavlink_adsb_vehicle_t();
 
                     packet.altitude = (int)(MainV2.instance.adsbPlanes[id].Alt * 1000);
@@ -1684,6 +1693,8 @@ namespace MissionPlanner
                 {
                     FlightPlanner.GeoFencedownloadToolStripMenuItem_Click(null, null);
                 }
+                //Add HUD custom items source 
+                HUD.Custom.src = MainV2.comPort.MAV.cs;
 
                 // set connected icon
                 this.MenuConnect.Image = displayicons.disconnect;
@@ -1826,11 +1837,12 @@ namespace MissionPlanner
         {
             base.OnClosing(e);
 
+            log.Info("MainV2_FormClosing");
+
+            log.Info("GMaps write cache");
             // speed up tile saving on exit
             GMap.NET.GMaps.Instance.CacheOnIdleRead = false;
             GMap.NET.GMaps.Instance.BoostCacheEngine = true;
-
-            log.Info("MainV2_FormClosing");
 
             Settings.Instance["MainHeight"] = this.Height.ToString();
             Settings.Instance["MainWidth"] = this.Width.ToString();
@@ -1838,6 +1850,9 @@ namespace MissionPlanner
 
             Settings.Instance["MainLocX"] = this.Location.X.ToString();
             Settings.Instance["MainLocY"] = this.Location.Y.ToString();
+
+            log.Info("close logs");
+            AltitudeAngel.Dispose();
 
             // close bases connection
             try
@@ -1856,6 +1871,7 @@ namespace MissionPlanner
             {
             }
 
+            log.Info("close ports");
             // close all connections
             foreach (var port in Comports)
             {
@@ -1876,12 +1892,16 @@ namespace MissionPlanner
                 }
             }
 
+            log.Info("stop adsb");
             Utilities.adsb.Stop();
 
+            log.Info("stop WarningEngine");
             Warnings.WarningEngine.Stop();
 
+            log.Info("stop UDPVideoShim");
             UDPVideoShim.Stop();
 
+            log.Info("stop GStreamer");
             GStreamer.StopAll();
 
             log.Info("closing vlcrender");
@@ -1924,16 +1944,16 @@ namespace MissionPlanner
             try
             {
                 System.Threading.ThreadPool.QueueUserWorkItem((WaitCallback) delegate
-                {
-                    try
                     {
-                        MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(Settings.Instance.LogDir, "*.tlog"));
+                        try
+                        {
+                            MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(Settings.Instance.LogDir, "*.tlog"));
+                        }
+                        catch
+                        {
+                        }
                     }
-                    catch
-                    {
-                    }
-                }
-                    );
+                );
             }
             catch
             {
@@ -2602,7 +2622,7 @@ namespace MissionPlanner
                         };
 
                         // enumerate each link
-                        foreach (var port in Comports)
+                        foreach (var port in Comports.ToArray())
                         {
                             if (!port.BaseStream.IsOpen)
                                 continue;
@@ -2634,6 +2654,10 @@ namespace MissionPlanner
                             {
                                 try
                                 {
+                                    // poll for version if we dont have it - every mav every port
+                                    if (!MAV.cs.armed && (DateTime.Now.Second % 20) == 0 && MAV.cs.version < new Version(0, 1))
+                                        port.getVersion(MAV.sysid, MAV.compid, false);
+
                                     // are we talking to a mavlink2 device
                                     if (MAV.mavlinkv2)
                                     {
@@ -2970,21 +2994,8 @@ namespace MissionPlanner
             try
             {
                 log.Info("Load AltitudeAngel");
-                new Utilities.AltitudeAngel.AltitudeAngel();
-
-                // setup as a prompt once dialog
-                if (!Settings.Instance.GetBoolean("AACheck2"))
-                {
-                    if (CustomMessageBox.Show(
-                            "Do you wish to enable Altitude Angel airspace management data?\nFor more information visit [link;http://www.altitudeangel.com;www.altitudeangel.com]",
-                            "Altitude Angel - Enable", MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
-                    {
-                        Utilities.AltitudeAngel.AltitudeAngel.service.SignInAsync();
-                    }
-
-                    Settings.Instance["AACheck2"] = true.ToString();
-                }
-                
+                AltitudeAngel.Configure();
+                AltitudeAngel.Initialize();
                 log.Info("Load AltitudeAngel... Done");
             }
             catch (TypeInitializationException) // windows xp lacking patch level
@@ -3057,6 +3068,24 @@ namespace MissionPlanner
                     logbrowse.logfilename = Program.args[0];
                     logbrowse.Show(this);
                     logbrowse.BringToFront();
+                }
+
+                if (cmds.ContainsKey("script") && File.Exists(cmds["script"]))
+                {
+                    // invoke for after onload finished
+                    this.BeginInvoke((Action) delegate()
+                    {
+                        try
+                        {
+                            FlightData.selectedscript = cmds["script"];
+
+                            FlightData.BUT_run_script_Click(null, null);
+                        }
+                        catch (Exception ex)
+                        {
+                            CustomMessageBox.Show("Start script failed: "+ex.ToString(), Strings.ERROR);
+                        }
+                    });
                 }
 
                 if (cmds.ContainsKey("joy") && cmds.ContainsKey("type"))
@@ -3171,7 +3200,7 @@ namespace MissionPlanner
                     var fw = new Firmware();
                     var list = fw.getFWList();
                     if (list.Count > 1)
-                        Firmware.SaveSoftwares(list);
+                        Firmware.SaveSoftwares(new Firmware.optionsObject() { softwares = list });
 
                     Settings.Instance["fw_check"] = DateTime.Now.ToShortDateString();
                 }
@@ -3926,8 +3955,10 @@ namespace MissionPlanner
                 Regex udpcl = new Regex("udpcl://(.*):([0-9]+)");
                 Regex serial = new Regex("serial:(.*):([0-9]+)");
 
-                //Parallel.ForEach(lines, line =>
-                foreach (var line in lines)
+                ConcurrentBag<MAVLinkInterface> mavs = new ConcurrentBag<MAVLinkInterface>();
+
+                Parallel.ForEach(lines, line =>
+                //foreach (var line in lines)
                 {
                     try
                     {
@@ -3965,17 +3996,25 @@ namespace MissionPlanner
                         }
                         else
                         {
-                            continue;
+                            return;
                         }
 
-                        doConnect(mav, "preset", "0", false);
-                        Comports.Add(mav);
+                        mavs.Add(mav);
                     }
                     catch
                     {
                     }
                 }
-                //);
+                );
+
+                foreach (var mav in mavs)
+                {
+                    MainV2.instance.BeginInvoke((Action)delegate
+                    {
+                        doConnect(mav, "preset", "0", false);
+                        Comports.Add(mav);
+                    });
+                }
             }
         }
     }

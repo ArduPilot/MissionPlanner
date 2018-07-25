@@ -107,6 +107,9 @@
             this.but_gsttest = new MissionPlanner.Controls.MyButton();
             this.but_proximity = new MissionPlanner.Controls.MyButton();
             this.but_mavinspector = new MissionPlanner.Controls.MyButton();
+            this.but_blupdate = new MissionPlanner.Controls.MyButton();
+            this.but_3dmap = new MissionPlanner.Controls.MyButton();
+            this.but_anonlog = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -650,10 +653,34 @@
             this.but_mavinspector.UseVisualStyleBackColor = true;
             this.but_mavinspector.Click += new System.EventHandler(this.but_mavinspector_Click);
             // 
+            // but_blupdate
+            // 
+            resources.ApplyResources(this.but_blupdate, "but_blupdate");
+            this.but_blupdate.Name = "but_blupdate";
+            this.but_blupdate.UseVisualStyleBackColor = true;
+            this.but_blupdate.Click += new System.EventHandler(this.but_blupdate_Click);
+            // 
+            // but_3dmap
+            // 
+            resources.ApplyResources(this.but_3dmap, "but_3dmap");
+            this.but_3dmap.Name = "but_3dmap";
+            this.but_3dmap.UseVisualStyleBackColor = true;
+            this.but_3dmap.Click += new System.EventHandler(this.but_3dmap_Click);
+            // 
+            // but_anonlog
+            // 
+            resources.ApplyResources(this.but_anonlog, "but_anonlog");
+            this.but_anonlog.Name = "but_anonlog";
+            this.but_anonlog.UseVisualStyleBackColor = true;
+            this.but_anonlog.Click += new System.EventHandler(this.but_anonlog_Click);
+            // 
             // temp
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.but_anonlog);
+            this.Controls.Add(this.but_3dmap);
+            this.Controls.Add(this.but_blupdate);
             this.Controls.Add(this.but_mavinspector);
             this.Controls.Add(this.but_proximity);
             this.Controls.Add(this.but_gsttest);
@@ -770,5 +797,8 @@
         private Controls.MyButton but_proximity;
         private Controls.MyButton but_dashware;
         private Controls.MyButton but_mavinspector;
+        private Controls.MyButton but_blupdate;
+        private Controls.MyButton but_3dmap;
+        private Controls.MyButton but_anonlog;
     }
 }

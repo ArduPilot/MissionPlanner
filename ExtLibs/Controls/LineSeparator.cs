@@ -13,7 +13,7 @@ namespace MissionPlanner.Controls
     /// points, and the color blended between. That way the seperator can be made to 
     /// fade out to the left or right or both, and more subtle UI effects made etc
     /// </summary>
-    public partial class LineSeparator : UserControl
+    public partial class LineSeparator : MyUserControl
     {
         [Description("Primary Color of the secondary line"), Category("Appearance")]
         [DefaultValue(typeof(Color), "DarkGray")]

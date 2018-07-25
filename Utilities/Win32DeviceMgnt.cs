@@ -261,6 +261,7 @@ public class Win32DeviceMgmt
         public string name;
         public string description;
         public string board;
+        public string hardwareid;
     }
 
     public static List<DeviceInfo> GetAllCOMPorts()
@@ -291,13 +292,13 @@ public class Win32DeviceMgmt
                 DeviceInfo deviceInfo = new DeviceInfo();
                 deviceInfo.name = GetDeviceName(hDeviceInfoSet, deviceInfoData);
                 deviceInfo.description = GetDeviceDescription(hDeviceInfoSet, deviceInfoData, SPDRP.SPDRP_DEVICEDESC);
+                deviceInfo.hardwareid = GetDeviceDescription(hDeviceInfoSet, deviceInfoData, SPDRP.SPDRP_HARDWAREID);
 
                 foreach (SPDRP prop in Enum.GetValues(typeof(SPDRP)))
                 {
                     try
                     {
                         Console.WriteLine((SPDRP)prop + ": " +GetDeviceDescription(hDeviceInfoSet, deviceInfoData, (SPDRP)prop));
-                        
                     } catch { }
                 }
 

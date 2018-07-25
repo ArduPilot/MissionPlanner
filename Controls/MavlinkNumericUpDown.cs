@@ -5,11 +5,15 @@ using System.Text;
 using System.Windows.Forms;
 using System.Collections;
 using MissionPlanner.Utilities;
+using log4net;
+using System.Reflection;
 
 namespace MissionPlanner.Controls
 {
     public class MavlinkNumericUpDown : NumericUpDown
     {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         [System.ComponentModel.Browsable(true)]
         public float Min { get; set; }
 
@@ -73,6 +77,8 @@ namespace MissionPlanner.Controls
                     MainV2.comPort.MAV.cs.firmware.ToString());
                 Min = (float) mint;
                 Max = (float) maxt;
+                if (Min == Max)
+                    log.InfoFormat("{0} {1} = {2}", ParamName, Min, Max);
             }
 
             if (Increment == 0)

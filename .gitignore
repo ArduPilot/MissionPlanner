@@ -60,3 +60,5 @@ RFD900ToolsSetup/Debug/RFD900ModelToolsSetup.msi
 /Plugins/Shortcuts
 /test
 /ExtLibs/GDAL/Native/gdal
+/ExtLibs/SimpleExample/packages
+/ExtLibs/SimpleExample/.vs

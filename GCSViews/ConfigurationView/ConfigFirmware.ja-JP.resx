@@ -112,19 +112,19 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="lbl_licence.Text" xml:space="preserve">
-    <value>Ardupilotは、フリーソフトです。 ここをクリックしてオープン・ソース・ファームウェアー･ライセンスを、お読みください。</value>
+    <value>ArduPilotはフリーソフトです。 ここをクリックしてオープン・ソース・ファームウェア･ライセンスをお読みください。</value>
   </data>
   <data name="lbl_devfw.Text" xml:space="preserve">
-    <value>ベータ　ファームウェア</value>
+    <value>ベータ版表示</value>
   </data>
   <data name="linkLabel1.Text" xml:space="preserve">
-    <value>Copter モーターセットアップ</value>
+    <value>コプターモーターセットアップ</value>
   </data>
   <data name="lbl_dlfw.Text" xml:space="preserve">
     <value>ファームウェアのダウンロード</value>
@@ -133,16 +133,16 @@
     <value>PX4 ブートローダの強制導入</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Max Levineによるイメージ</value>
+    <value>画像製作：Max Levine</value>
   </data>
   <data name="lbl_Custom_firmware_label.Text" xml:space="preserve">
-    <value>カスタム・ファームウェアのロード</value>
+    <value>カスタム・ファームウェア選択</value>
   </data>
   <data name="CMB_history_label.Text" xml:space="preserve">
-    <value>以前のファームウェアーの選択</value>
+    <value>前のバージョンを選択</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>"Flight versions"を決めるために、上のイメージをクリックしてください。</value>
+    <value>上の画像をクリックしてファームウェアのバージョンを決めてください。</value>
   </data>
   <data name="lbl_status.Text" xml:space="preserve">
     <value>ステータス</value>

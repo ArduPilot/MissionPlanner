@@ -112,18 +112,18 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="BUT_osdrates.Text" xml:space="preserve">
-    <value>テレメトリのイネーブル</value>
+    <value>テレメトリ有効</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
     <value>OSD</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
-    <value>OSDの表示が変わらない問題があるときは、これを使ってください。</value>
+    <value>OSDの表示が変わらない問題があるときはこれを選択してください。</value>
   </data>
 </root>

@@ -92,6 +92,6 @@ namespace MissionPlanner.Maps
         //http://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=topo2&zoom=%1&x=%2&y=%3              
 
         public static string CustomURL =
-            "http://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=topo2&zoom={0}&x={1}&y={2}";
+            "http://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=topo4&zoom={0}&x={1}&y={2}";
     }
 }

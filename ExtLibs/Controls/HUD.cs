@@ -879,7 +879,7 @@ namespace MissionPlanner.Controls
                     log.Debug("Disable");
                     GL.Disable(EnableCap.DepthTest);
                     log.Debug("BlendFunc");
-                    GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+                    GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
                     log.Debug("Enable");
                     GL.Enable(EnableCap.Blend);
 
@@ -2899,7 +2899,7 @@ namespace MissionPlanner.Controls
                     TranslateTransform(-x, -y);
                     */
                     //GL.Enable(EnableCap.Blend);
-                    GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+                    GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
                     GL.Enable(EnableCap.Texture2D);
                     GL.BindTexture(TextureTarget.Texture2D, charDict[charid].gltextureid);

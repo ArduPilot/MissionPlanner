@@ -18,6 +18,8 @@ namespace MissionPlanner.Swarm
         /// </summary>
         public PointLatLngAlt ProjectedLocation => Location.newpos(Heading, Velocity.length());
 
+        public PointLatLngAlt ProjectedLocation2 => Location.newpos(Heading, Velocity.length() * 2);
+
         public void SendPositionVelocityYaw(PointLatLngAlt pos, Vector3 vel, double yaw, double yawrate=100)
         {
             if (pos == null || vel == null)

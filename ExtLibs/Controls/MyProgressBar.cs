@@ -10,7 +10,7 @@ using System.Drawing.Drawing2D;
 
 namespace MissionPlanner.Controls
 {
-    public partial class MyProgressBar : UserControl
+    public partial class MyProgressBar : MyUserControl
     {
         //
         // Summary:

@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace MissionPlanner.Controls
 {
-    public partial class WindDir : UserControl
+    public partial class WindDir : MyUserControl
     {
         public WindDir()
         {

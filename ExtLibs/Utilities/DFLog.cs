@@ -501,6 +501,9 @@ namespace MissionPlanner.Utilities
 
         public int FindMessageOffset(string linetype, string find)
         {
+            if (linetype == null || find == null)
+                return -1;
+
             if (logformat.ContainsKey(linetype.ToUpper()))
                 return FindInArray(logformat[linetype].FieldNames, find);
 

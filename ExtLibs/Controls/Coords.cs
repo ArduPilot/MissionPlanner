@@ -10,7 +10,7 @@ using GeoUtility.GeoSystem;
 
 namespace MissionPlanner.Controls
 {
-    public partial class Coords : UserControl
+    public partial class Coords : MyUserControl
     {
         [System.ComponentModel.Browsable(true), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public string System

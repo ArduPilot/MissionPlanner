@@ -318,7 +318,6 @@ namespace MissionPlanner.GeoRef
             resources.ApplyResources(this.myGMAP1, "myGMAP1");
             this.myGMAP1.Bearing = 0F;
             this.myGMAP1.CanDragMap = true;
-            this.myGMAP1.EmptyTileColor = System.Drawing.Color.Navy;
             this.myGMAP1.GrayScaleMode = false;
             this.myGMAP1.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
             this.myGMAP1.LevelsKeepInMemmory = 5;
@@ -332,7 +331,6 @@ namespace MissionPlanner.GeoRef
             this.myGMAP1.RetryLoadTile = 0;
             this.myGMAP1.RoutesEnabled = true;
             this.myGMAP1.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
-            this.myGMAP1.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.myGMAP1.ShowTileGridLines = false;
             this.myGMAP1.Zoom = 2D;
             // 

@@ -112,13 +112,13 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="label2.Text" xml:space="preserve">
-    <value>ここでは加速度センサーの最小･最大値を校正します。スタートをクリックした後、図の指示にしたがって続けてください。
+    <value>ここでは加速度センサーの最小･最大値をキャリブレーションします。スタートをクリックした後、図の指示にしたがって続けてください。
 </value>
   </data>
   <data name="label1.Text" xml:space="preserve">
@@ -128,7 +128,7 @@
     <value>スタート</value>
   </data>
   <data name="radialGradientBG1.Label.Text" xml:space="preserve">
-    <value>加速度センサをキャリブレーションします</value>
+    <value>加速度センサのキャリブレーション</value>
   </data>
   <data name="BUT_continue.Text" xml:space="preserve">
     <value>続ける</value>

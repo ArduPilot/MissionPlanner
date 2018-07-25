@@ -57,6 +57,8 @@ namespace MissionPlanner
 
         public event EventHandler<MAVLinkMessage> OnPacketReceived;
 
+        public static event EventHandler<adsb.PointLatLngAltHdg> UpdateADSBPlanePosition;
+
         public ICommsSerial MirrorStream { get; set; }
         public bool MirrorStreamWrite { get; set; }
 
@@ -486,7 +488,7 @@ Please check the following
                         bool exit = false;
                         // get most seen hbs
                         var mostseenlist = hbhistory.GroupBy(s => MAVList.GetID(s.sysid, s.compid))
-                            .OrderByDescending(s => s.Count()).Where(s => s.Key >= 2);
+                            .OrderByDescending(s => s.Count()).Where(s => s.Count() >= 2);
                         foreach (var mostseen in mostseenlist)
                         {
                             // get count on most seen
@@ -1726,6 +1728,11 @@ Please check the following
                 retrys = 1;
                 timeout = 25000;
             }
+            else if (actionid == MAV_CMD.FLASH_BOOTLOADER)
+            {
+                retrys = 1;
+                timeout = 25000;
+            }
             else if (actionid == MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN)
             {
                 generatePacket((byte) MAVLINK_MSG_ID.COMMAND_LONG, req, sysid, compid);
@@ -2043,26 +2050,15 @@ Please check the following
             {
                 return false;
             }
+            // 0 request
             else if (hzrate == 0 && pps == 0)
             {
                 return true;
             }
-            else if (hzrate == 1 && pps >= 0.5 && pps <= 2)
-            {
+
+            // range check pps, include packetloss
+            if (pps > hzrate - 1 && pps < hzrate + 0.1)
                 return true;
-            }
-            else if (hzrate == 3 && pps >= 2 && hzrate < 5)
-            {
-                return true;
-            }
-            else if (hzrate == 10 && pps > 5 && hzrate < 15)
-            {
-                return true;
-            }
-            else if (hzrate > 15 && pps > 15)
-            {
-                return true;
-            }
 
             return false;
         }
@@ -3659,37 +3655,31 @@ Please check the following
                         MAVlist[sysid, compid].addPacket(message);
 
                         // 3dr radio status packet are injected into the current mav
-                        if (msgid == (byte)MAVLINK_MSG_ID.RADIO_STATUS ||
-                            msgid == (byte)MAVLINK_MSG_ID.RADIO)
+                        // most radios have a fixed sysid AND componentid ...
+                        if ((msgid == (byte)MAVLINK_MSG_ID.RADIO_STATUS ||  msgid == (byte)MAVLINK_MSG_ID.RADIO) 
+                            && (message.compid == 68) && ( message.sysid == 63) ) // ascii 63="3" ascii 68="D" => "3D" branding
                         {
                             MAVlist[sysidcurrent, compidcurrent].addPacket(message);
                         }
+                        // RFD900X radios with MultiPoint firmware present themselves with the same sysid as the aircraft that they are connected to, and with a fixed component id of 68
+                        if ((msgid == (byte)MAVLINK_MSG_ID.RADIO_STATUS ||  msgid == (byte)MAVLINK_MSG_ID.RADIO) 
+                            && (message.compid == 68) && (message.sysid != 63) )
+                        {
+                            MAVlist[message.sysid, compidcurrent].addPacket(message);
+                        }
 
                         // adsb packets are forwarded and can be from any sysid/compid
-                        if (msgid == (byte)MAVLINK_MSG_ID.ADSB_VEHICLE)
+                        if (msgid == (byte) MAVLINK_MSG_ID.ADSB_VEHICLE)
                         {
                             var adsb = message.ToStructure<mavlink_adsb_vehicle_t>();
 
                             var id = adsb.ICAO_address.ToString("X5");
-                            /*
-                            if (MainV2.instance.adsbPlanes.ContainsKey(id))
-                            {
-                                // update existing
-                                ((adsb.PointLatLngAltHdg) MainV2.instance.adsbPlanes[id]).Lat = adsb.lat/1e7;
-                                ((adsb.PointLatLngAltHdg) MainV2.instance.adsbPlanes[id]).Lng = adsb.lon/1e7;
-                                ((adsb.PointLatLngAltHdg) MainV2.instance.adsbPlanes[id]).Alt = adsb.altitude/1000.0;
-                                ((adsb.PointLatLngAltHdg) MainV2.instance.adsbPlanes[id]).Heading = adsb.heading*0.01f;
-                                ((adsb.PointLatLngAltHdg) MainV2.instance.adsbPlanes[id]).Time = DateTime.Now;
-                                ((adsb.PointLatLngAltHdg)MainV2.instance.adsbPlanes[id]).CallSign = ASCIIEncoding.ASCII.GetString(adsb.callsign);
-                            }
-                            else
-                            {
-                                // create new plane
-                                MainV2.instance.adsbPlanes[id] =
-                                    new adsb.PointLatLngAltHdg(adsb.lat/1e7, adsb.lon/1e7,
-                                        adsb.altitude/1000.0, adsb.heading*0.01f, id,
-                                        DateTime.Now) {CallSign = ASCIIEncoding.ASCII.GetString(adsb.callsign)};
-                            }*/
+
+                            if (UpdateADSBPlanePosition != null)
+                                UpdateADSBPlanePosition(this, new adsb.PointLatLngAltHdg(adsb.lat / 1e7, adsb.lon / 1e7,
+                                        adsb.altitude / 1000.0, adsb.heading * 0.01f, id,
+                                        DateTime.Now) {CallSign = ASCIIEncoding.ASCII.GetString(adsb.callsign)}
+                                );
                         }
 
                         if (msgid == (byte) MAVLINK_MSG_ID.COLLISION)
@@ -3733,7 +3723,7 @@ Please check the following
                         }
                     }
 
-                    // set seens sysid's based on hb packet - this will hide 3dr radio packets
+                    // set seens sysid's based on hb packet - this will hide 3dr radio packets ( which send a RADIO_STATUS, but not a HEARTBEAT )
                     if (msgid == (byte)MAVLINK_MSG_ID.HEARTBEAT)
                     {
                         mavlink_heartbeat_t hb = message.ToStructure<mavlink_heartbeat_t>();
@@ -4011,7 +4001,7 @@ Please check the following
                     MAVlist[wp.target_system, wp.target_component].wps[wp.seq] = wp;
                 }
 
-                Console.WriteLine("WP # {7} cmd {8} p1 {0} p2 {1} p3 {2} p4 {3} x {4} y {5} z {6}", wp.param1, wp.param2, wp.param3, wp.param4, wp.x, wp.y, wp.z, wp.seq, wp.command);
+                //Console.WriteLine("WP # {7} cmd {8} p1 {0} p2 {1} p3 {2} p4 {3} x {4} y {5} z {6}", wp.param1, wp.param2, wp.param3, wp.param4, wp.x, wp.y, wp.z, wp.seq, wp.command);
             }
             else if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_ITEM_INT)
             {
@@ -4034,7 +4024,7 @@ Please check the following
                         (mavlink_mission_item_t) (Locationwp) wp;
                 }
 
-                Console.WriteLine("WP INT # {7} cmd {8} p1 {0} p2 {1} p3 {2} p4 {3} x {4} y {5} z {6}", wp.param1, wp.param2, wp.param3, wp.param4, wp.x, wp.y, wp.z, wp.seq, wp.command);
+                //Console.WriteLine("WP INT # {7} cmd {8} p1 {0} p2 {1} p3 {2} p4 {3} x {4} y {5} z {6}", wp.param1, wp.param2, wp.param3, wp.param4, wp.x, wp.y, wp.z, wp.seq, wp.command);
             }
             else if (buffer.msgid == (byte)MAVLINK_MSG_ID.SET_POSITION_TARGET_GLOBAL_INT)
             {
@@ -4042,7 +4032,7 @@ Please check the following
 
                 MAVlist[setpos.target_system, setpos.target_component].GuidedMode = (mavlink_mission_item_t)(Locationwp)setpos;
 
-                Console.WriteLine("SET_POSITION_TARGET_GLOBAL_INT x {0} y {1} z {2} frame {3}", setpos.lat_int/1e7, setpos.lon_int/1e7, setpos.alt, setpos.coordinate_frame);
+                //Console.WriteLine("SET_POSITION_TARGET_GLOBAL_INT x {0} y {1} z {2} frame {3}", setpos.lat_int/1e7, setpos.lon_int/1e7, setpos.alt, setpos.coordinate_frame);
             }
             else if (buffer.msgid == (byte) MAVLINK_MSG_ID.RALLY_POINT)
             {
@@ -4056,7 +4046,7 @@ Please check the following
 
                 MAVlist[rallypt.target_system, rallypt.target_component].rallypoints[rallypt.idx] = rallypt;
 
-                Console.WriteLine("RP # {0} {1} {2} {3} {4}", rallypt.idx, rallypt.lat, rallypt.lng, rallypt.alt, rallypt.break_alt);
+                //Console.WriteLine("RP # {0} {1} {2} {3} {4}", rallypt.idx, rallypt.lat, rallypt.lng, rallypt.alt, rallypt.break_alt);
             }
             else if (buffer.msgid == (byte) MAVLINK_MSG_ID.CAMERA_FEEDBACK)
             {
@@ -4146,15 +4136,23 @@ Please check the following
             }
         }
 
-        public bool getVersion()
+        public bool getVersion(bool responcerequired = true)
+        {
+            return getVersion(MAV.sysid, MAV.compid, responcerequired);
+        }
+
+        public bool getVersion(byte sysid, byte compid, bool responcerequired = true)
         {
             mavlink_autopilot_version_request_t req = new mavlink_autopilot_version_request_t();
 
-            req.target_component = MAV.compid;
-            req.target_system = MAV.sysid;
+            req.target_component = compid;
+            req.target_system = sysid;
 
             // request point
             generatePacket((byte) MAVLINK_MSG_ID.AUTOPILOT_VERSION_REQUEST, req);
+
+            if (!responcerequired)
+                return true;
 
             DateTime start = DateTime.Now;
             int retrys = 3;

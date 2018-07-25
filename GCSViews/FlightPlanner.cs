@@ -61,7 +61,7 @@ namespace MissionPlanner.GCSViews
 
         public static FlightPlanner instance;
 
-        public List<PointLatLngAlt> pointlist { get; set; }
+        public List<PointLatLngAlt> pointlist { get; set; } = new List<PointLatLngAlt>();
 
         static public Object thisLock = new Object();
         private ComponentResourceManager rm = new ComponentResourceManager(typeof (FlightPlanner));
@@ -1400,7 +1400,7 @@ namespace MissionPlanner.GCSViews
                 fd.FileName = wpfilename;
                 DialogResult result = fd.ShowDialog();
                 string file = fd.FileName;
-                if (file != "")
+                if (file != "" && result == DialogResult.OK)
                 {
                     try
                     {
@@ -1772,6 +1772,11 @@ namespace MissionPlanner.GCSViews
             {
                 throw new FormatException("Invalid number on row " + (a + 1).ToString(), ex);
             }
+        }
+
+        internal IList<Locationwp> GetFlightPlanLocations()
+        {
+            return GetCommandList().AsReadOnly();
         }
 
         List<Locationwp> GetCommandList()
@@ -2362,7 +2367,7 @@ namespace MissionPlanner.GCSViews
 
             writeKML();
 
-            MainMap.ZoomAndCenterMarkers("objects");
+            MainMap.ZoomAndCenterMarkers("WPOverlay");
 
             MainMap_OnMapZoomChanged();
         }
@@ -2653,7 +2658,7 @@ namespace MissionPlanner.GCSViews
 
                             writeKML();
 
-                            MainMap.ZoomAndCenterMarkers("objects");
+                            MainMap.ZoomAndCenterMarkers("WPOverlay");
                         }
                         else
                         {
@@ -2751,7 +2756,7 @@ namespace MissionPlanner.GCSViews
 
                 writeKML();
 
-                MainMap.ZoomAndCenterMarkers("objects");
+                MainMap.ZoomAndCenterMarkers("WPOverlay");
             }
             catch (Exception ex)
             {
@@ -2983,7 +2988,7 @@ namespace MissionPlanner.GCSViews
         {
             comboBoxMapType.SelectedItem = MainMap.MapProvider;
 
-            MainMap.ZoomAndCenterMarkers("objects");
+            MainMap.ZoomAndCenterMarkers("WPOverlay");
 
             if (type == WMSProvider.Instance)
             {
@@ -4746,8 +4751,8 @@ namespace MissionPlanner.GCSViews
             using (SaveFileDialog sf = new SaveFileDialog())
             {
                 sf.Filter = "Fence (*.fen)|*.fen";
-                sf.ShowDialog();
-                if (sf.FileName != "")
+                var result = sf.ShowDialog();
+                if (sf.FileName != "" && result == DialogResult.OK)
                 {
                     try
                     {
@@ -5699,8 +5704,8 @@ namespace MissionPlanner.GCSViews
             using (SaveFileDialog sf = new SaveFileDialog())
             {
                 sf.Filter = "Polygon (*.poly)|*.poly";
-                sf.ShowDialog();
-                if (sf.FileName != "")
+                var result = sf.ShowDialog();
+                if (sf.FileName != "" && result == DialogResult.OK)
                 {
                     try
                     {
@@ -6221,8 +6226,8 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             using (SaveFileDialog sf = new SaveFileDialog())
             {
                 sf.Filter = "Rally (*.ral)|*.ral";
-                sf.ShowDialog();
-                if (sf.FileName != "")
+                var result = sf.ShowDialog();
+                if (sf.FileName != "" && result == DialogResult.OK)
                 {
                     try
                     {
@@ -6471,7 +6476,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                 writeKML();
 
-                MainMap.ZoomAndCenterMarkers("objects");
+                MainMap.ZoomAndCenterMarkers("WPOverlay");
             }
         }
 
