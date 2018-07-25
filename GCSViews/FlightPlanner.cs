@@ -2988,8 +2988,6 @@ namespace MissionPlanner.GCSViews
         {
             comboBoxMapType.SelectedItem = MainMap.MapProvider;
 
-            MainMap.ZoomAndCenterMarkers("WPOverlay");
-
             if (type == WMSProvider.Instance)
             {
                 string url = "";
