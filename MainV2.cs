@@ -1719,6 +1719,17 @@ namespace MissionPlanner
 
         private ConnectionControlForm connectionControlForm;
         private int AutoReconnectTimeout = -1;
+        private ConnectionState CurrentConnectionState = ConnectionState.Disconnected;
+
+        public enum ConnectionState
+        {
+            Connected, Disconnected, Failed
+        }
+
+        public static class ConnectionHandler
+        {
+
+        }
 
         private void MenuConnectionConfig_Click(object sender, EventArgs e)
         {
@@ -1744,13 +1755,15 @@ namespace MissionPlanner
 
         private void MenuConnect_Click(object sender, EventArgs e)
         {
-            while (Connect() == DialogResult.OK) { }
+            CurrentConnectionState = Connect();
+            while(CurrentConnectionState == ConnectionState.Failed)
+            {
+                CurrentConnectionState = AutoReconnectForm.Show();
+            }
         }
 
-        private DialogResult Connect()
+        private ConnectionState Connect()
         {
-            DialogResult state = DialogResult.Cancel;
-
             comPort.giveComport = false;
 
             log.Info("MenuConnect Start");
