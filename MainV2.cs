@@ -1378,11 +1378,10 @@ namespace MissionPlanner
             this.MenuConnect.Image = global::MissionPlanner.Properties.Resources.light_connect_icon;
         }
 
-        public DialogResult doConnect(MAVLinkInterface comPort, string portname, string baud, bool getparams = true)
+        public void doConnect(MAVLinkInterface comPort, string portname, string baud, bool getparams = true)
         {
-            DialogResult state = DialogResult.Cancel;
             bool skipconnectcheck = false;
-            log.Info("We are connecting to " + portname + " " + baud );
+            log.Info("We are connecting to " + portname + " " + baud);
             switch (portname)
             {
                 case "preset":
@@ -1421,11 +1420,12 @@ namespace MissionPlanner
 
                         if (DateTime.Now > deadline)
                         {
+                            CustomMessageBox.Show(Strings.Timeout);
                             _connectionControl.IsConnected(false);
-                            return AutoReconnectForm.Show(Strings.Timeout, Strings.Timeout, AutoReconnectTimeout); // nani??
+                            return;
                         }
                     }
-                    return AutoReconnectForm.Show(Strings.Timeout, Strings.Timeout, AutoReconnectTimeout); // huh??
+                    return;
                 default:
                     comPort.BaseStream = new SerialPort();
                     break;
@@ -1449,13 +1449,13 @@ namespace MissionPlanner
             {
                 log.Info("Set Portname");
                 // set port, then options
-                if(portname.ToLower() != "preset")
+                if (portname.ToLower() != "preset")
                     comPort.BaseStream.PortName = portname;
 
                 log.Info("Set Baudrate");
                 try
                 {
-                    if(baud != "" && baud != "0")
+                    if (baud != "" && baud != "0")
                         comPort.BaseStream.BaudRate = int.Parse(baud);
                 }
                 catch (Exception exp)
@@ -1478,7 +1478,7 @@ namespace MissionPlanner
                 }
 
                 comPort.giveComport = false;
-                
+
                 // setup to record new logs
                 try
                 {
@@ -1504,7 +1504,7 @@ namespace MissionPlanner
                             rlog = Settings.Instance.LogDir + Path.DirectorySeparatorChar +
                                    dt + ".rlog";
                         }
-                        
+
                         //open the logs for writing
                         comPort.logfile =
                             new BufferedStream(File.Open(tlog, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.None));
@@ -1516,23 +1516,14 @@ namespace MissionPlanner
                 catch (Exception exp2)
                 {
                     log.Error(exp2);
-                    state = AutoReconnectForm.Show(Strings.Failclog, exp2.ToString(), AutoReconnectTimeout);
+                    CustomMessageBox.Show(Strings.Failclog);
                 } // soft fail
 
                 // reset connect time - for timeout functions
                 connecttime = DateTime.Now;
 
                 // do the connect
-                //AutoReconnectWire wire = 
                 comPort.Open(false, skipconnectcheck);
-                //if (wire.Reconnect)
-                //{
-                //    state = AutoReconnectForm.Show(wire.Title, wire.Message, AutoReconnectTimeout);
-                //}
-                //else
-                //{
-                //    state = DialogResult.Cancel;
-                //}
 
                 if (!comPort.BaseStream.IsOpen)
                 {
@@ -1546,7 +1537,7 @@ namespace MissionPlanner
                     catch
                     {
                     }
-                    return DialogResult.Cancel;
+                    return;
                 }
 
                 if (getparams)
@@ -1627,8 +1618,8 @@ namespace MissionPlanner
 
                 MissionPlanner.Utilities.Tracking.AddEvent("Connect", "Baud", comPort.BaseStream.BaudRate.ToString(), "");
 
-                if(comPort.MAV.param.ContainsKey("SPRAY_ENABLE"))
-                    MissionPlanner.Utilities.Tracking.AddEvent("Param", "Value", "SPRAY_ENABLE",comPort.MAV.param["SPRAY_ENABLE"].ToString());
+                if (comPort.MAV.param.ContainsKey("SPRAY_ENABLE"))
+                    MissionPlanner.Utilities.Tracking.AddEvent("Param", "Value", "SPRAY_ENABLE", comPort.MAV.param["SPRAY_ENABLE"].ToString());
 
                 if (comPort.MAV.param.ContainsKey("CHUTE_ENABLE"))
                     MissionPlanner.Utilities.Tracking.AddEvent("Param", "Value", "CHUTE_ENABLE", comPort.MAV.param["CHUTE_ENABLE"].ToString());
@@ -1679,8 +1670,8 @@ namespace MissionPlanner
                     {
                         foreach (var rally1 in comPort.MAV.rallypoints)
                         {
-                            var pnt1 = new PointLatLngAlt(rally.Value.lat/10000000.0f, rally.Value.lng/10000000.0f);
-                            var pnt2 = new PointLatLngAlt(rally1.Value.lat/10000000.0f, rally1.Value.lng/10000000.0f);
+                            var pnt1 = new PointLatLngAlt(rally.Value.lat / 10000000.0f, rally.Value.lng / 10000000.0f);
+                            var pnt2 = new PointLatLngAlt(rally1.Value.lat / 10000000.0f, rally1.Value.lng / 10000000.0f);
 
                             var dist = pnt1.GetDistance(pnt2);
 
@@ -1689,18 +1680,18 @@ namespace MissionPlanner
                     }
 
                     if (comPort.MAV.param.ContainsKey("RALLY_LIMIT_KM") &&
-                        (maxdist/1000.0) > (float) comPort.MAV.param["RALLY_LIMIT_KM"])
+                        (maxdist / 1000.0) > (float)comPort.MAV.param["RALLY_LIMIT_KM"])
                     {
                         CustomMessageBox.Show(Strings.Warningrallypointdistance + " " +
-                                              (maxdist/1000.0).ToString("0.00") + " > " +
-                                              (float) comPort.MAV.param["RALLY_LIMIT_KM"]);
+                                              (maxdist / 1000.0).ToString("0.00") + " > " +
+                                              (float)comPort.MAV.param["RALLY_LIMIT_KM"]);
                     }
                 }
 
                 // get any fences
                 if (MainV2.comPort.MAV.param.ContainsKey("FENCE_TOTAL") &&
                     int.Parse(MainV2.comPort.MAV.param["FENCE_TOTAL"].ToString()) > 1 &&
-                    MainV2.comPort.MAV.param.ContainsKey("FENCE_ACTION") )
+                    MainV2.comPort.MAV.param.ContainsKey("FENCE_ACTION"))
                 {
                     FlightPlanner.GeoFencedownloadToolStripMenuItem_Click(null, null);
                 }
@@ -1721,9 +1712,9 @@ namespace MissionPlanner
                 {
                     log.Warn(ex2);
                 }
-                return AutoReconnectForm.Show("Error", "Can not establish a connection\n\n" + ex.Message, AutoReconnectTimeout);
+                CustomMessageBox.Show("Can not establish a connection\n\n" + ex.Message);
+                return;
             }
-            return state;
         }
 
         private ConnectionControlForm connectionControlForm;
