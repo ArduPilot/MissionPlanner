@@ -240,6 +240,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="AutoReconnectDetailsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="AutoReconnectForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -337,7 +340,11 @@
     <Compile Include="Controls\LogAnalyzer.cs"> <SubType>Control</SubType> </Compile>
 	<Compile Include="Log\LogStrings.cs"> <SubType>Control</SubType> </Compile>
 	<Compile Include="Log\LogStrings.Designer.cs"><DependentUpon>LogStrings.cs</DependentUpon> </Compile>
-	<EmbeddedResource Include="AutoReconnectForm.resx" />
+	<EmbeddedResource Include="AutoReconnectDetailsForm.resx" />
+	<EmbeddedResource Include="AutoReconnectForm.resx">
+	  <Generator>ResXFileCodeGenerator</Generator>
+	  <LastGenOutput>AutoReconnectForm.Designer.cs</LastGenOutput>
+	</EmbeddedResource>
 	<EmbeddedResource Include="ConnectionControlForm.resx">
 	  <Generator>ResXFileCodeGenerator</Generator>
 	  <LastGenOutput>ConnectionControlForm.Designer.cs</LastGenOutput>

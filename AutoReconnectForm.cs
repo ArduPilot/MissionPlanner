@@ -16,7 +16,14 @@ namespace MissionPlanner
         private Button buttonCancel;
         private Button buttonReconnect;
         private Label labelMessage;
+        private LinkLabel linkLabelDetails;
         private PictureBox pictureBoxIconError;
+
+        public static DialogResult Show(string title, string message, string details, int timeout)
+        {
+            AutoReconnectForm form = new AutoReconnectForm(title, message, details, timeout);
+            return form.ShowDialog();
+        }
 
         public static DialogResult Show(string title, string message, int timeout)
         {
@@ -24,10 +31,17 @@ namespace MissionPlanner
             return form.ShowDialog();
         }
 
-        public static DialogResult Show(string title, string message)
+        public AutoReconnectForm(string title, string message, string details, int timeout)
         {
-            AutoReconnectForm form = new AutoReconnectForm(title, message);
-            return form.ShowDialog();
+            InitializeComponent();
+            this.BackgroundImage = global::MissionPlanner.Properties.Resources.bgdark;
+            this.labelMessage.BackgroundImage = global::MissionPlanner.Properties.Resources.bgdark;
+            this.pictureBoxIconError.BackgroundImage = global::MissionPlanner.Properties.Resources.bgdark;
+            this.buttonReconnect.Select();
+            Title = title;
+            Message = message;
+            linkLabelDetails.Text = details;
+            Timeout = -1;
         }
 
         public AutoReconnectForm(string title, string message, int timeout)
@@ -39,22 +53,12 @@ namespace MissionPlanner
             this.buttonReconnect.Select();
             Title = title;
             Message = message;
+            linkLabelDetails.Hide();
             Timeout = timeout;
         }
 
-        public AutoReconnectForm(string title, string message)
-        {
-            InitializeComponent();
-            this.BackgroundImage = global::MissionPlanner.Properties.Resources.bgdark;
-            this.labelMessage.BackgroundImage = global::MissionPlanner.Properties.Resources.bgdark;
-            this.pictureBoxIconError.BackgroundImage = global::MissionPlanner.Properties.Resources.bgdark;
-            this.buttonReconnect.Select();
-            Title = title;
-            Message = message;
-            Timeout = -1;
-        }
-
         public int Timeout { get; set; }
+        public string Details { get; set; }
 
         public string Title
         {
@@ -98,22 +102,13 @@ namespace MissionPlanner
             DialogResult = DialogResult.OK;
         }
 
-        private void buttonReconnect_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.OK;
-        }
-
-        private void buttonCancel_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
-        }
-
         private void InitializeComponent()
         {
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonReconnect = new System.Windows.Forms.Button();
             this.labelMessage = new System.Windows.Forms.Label();
             this.pictureBoxIconError = new System.Windows.Forms.PictureBox();
+            this.linkLabelDetails = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIconError)).BeginInit();
             this.SuspendLayout();
             // 
@@ -134,7 +129,7 @@ namespace MissionPlanner
             // 
             this.buttonReconnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonReconnect.AutoSize = true;
-            this.buttonReconnect.Location = new System.Drawing.Point(297, 126);
+            this.buttonReconnect.Location = new System.Drawing.Point(197, 126);
             this.buttonReconnect.Name = "buttonReconnect";
             this.buttonReconnect.Size = new System.Drawing.Size(75, 23);
             this.buttonReconnect.TabIndex = 1;
@@ -148,7 +143,7 @@ namespace MissionPlanner
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelMessage.AutoSize = true;
-            this.labelMessage.Location = new System.Drawing.Point(192, 61);
+            this.labelMessage.Location = new System.Drawing.Point(147, 59);
             this.labelMessage.Name = "labelMessage";
             this.labelMessage.Size = new System.Drawing.Size(35, 13);
             this.labelMessage.TabIndex = 2;
@@ -157,11 +152,23 @@ namespace MissionPlanner
             // pictureBoxIconError
             // 
             this.pictureBoxIconError.Image = global::MissionPlanner.Properties.Resources.iconWarning32;
-            this.pictureBoxIconError.Location = new System.Drawing.Point(156, 52);
+            this.pictureBoxIconError.Location = new System.Drawing.Point(111, 50);
             this.pictureBoxIconError.Name = "pictureBoxIconError";
             this.pictureBoxIconError.Size = new System.Drawing.Size(30, 30);
             this.pictureBoxIconError.TabIndex = 4;
             this.pictureBoxIconError.TabStop = false;
+            // 
+            // linkLabelDetails
+            // 
+            this.linkLabelDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.linkLabelDetails.AutoSize = true;
+            this.linkLabelDetails.Location = new System.Drawing.Point(233, 110);
+            this.linkLabelDetails.Name = "linkLabelDetails";
+            this.linkLabelDetails.Size = new System.Drawing.Size(39, 13);
+            this.linkLabelDetails.TabIndex = 5;
+            this.linkLabelDetails.TabStop = true;
+            this.linkLabelDetails.Text = "Details";
+            this.linkLabelDetails.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelDetails_LinkClicked);
             // 
             // AutoReconnectForm
             // 
@@ -169,7 +176,8 @@ namespace MissionPlanner
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(384, 161);
+            this.ClientSize = new System.Drawing.Size(284, 161);
+            this.Controls.Add(this.linkLabelDetails);
             this.Controls.Add(this.pictureBoxIconError);
             this.Controls.Add(this.labelMessage);
             this.Controls.Add(this.buttonReconnect);
@@ -188,6 +196,21 @@ namespace MissionPlanner
             this.ResumeLayout(false);
             this.PerformLayout();
 
+        }
+
+        private void buttonReconnect_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.OK;
+        }
+
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+        }
+
+        private void linkLabelDetails_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            AutoReconnectDetailsForm.Show(Title, Details);
         }
     }
 }

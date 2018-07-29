@@ -1523,15 +1523,16 @@ namespace MissionPlanner
                 connecttime = DateTime.Now;
 
                 // do the connect
-                AutoReconnectWire wire = comPort.Open(false, skipconnectcheck);
-                if (wire.Reconnect)
-                {
-                    state = AutoReconnectForm.Show(wire.Title, wire.Message, AutoReconnectTimeout);
-                }
-                else
-                {
-                    state = DialogResult.Cancel;
-                }
+                //AutoReconnectWire wire = 
+                comPort.Open(false, skipconnectcheck);
+                //if (wire.Reconnect)
+                //{
+                //    state = AutoReconnectForm.Show(wire.Title, wire.Message, AutoReconnectTimeout);
+                //}
+                //else
+                //{
+                //    state = DialogResult.Cancel;
+                //}
 
                 if (!comPort.BaseStream.IsOpen)
                 {
