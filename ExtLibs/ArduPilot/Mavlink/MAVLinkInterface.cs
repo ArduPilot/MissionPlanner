@@ -19,6 +19,24 @@ using Timer = System.Timers.Timer;
 
 namespace MissionPlanner
 {
+    public class AutoReconnectWire
+    {
+        /// <summary>
+        /// Wired Connection to main MissionPlanner.AutoReconnectForm
+        /// </summary>
+
+        public string Title { get; }
+        public string Message { get; }
+        public bool Reconnect { get; }
+        
+        public AutoReconnectWire(string title, string message, bool reconnect)
+        {
+            Title = title;
+            Message = message;
+            Reconnect = reconnect;
+        }
+    }
+
     public class MAVLinkInterface : MAVLink, IDisposable, IMAVLinkInterface, IMAVLinkInterfaceLogRead
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
@@ -318,10 +336,11 @@ namespace MissionPlanner
             Open(false);
         }
 
-        public void Open(bool getparams,  bool skipconnectedcheck = false)
+        AutoReconnectWire autoReconnectWire = new AutoReconnectWire("Error", "Something went wrong.", false);
+        public AutoReconnectWire Open(bool getparams,  bool skipconnectedcheck = false)
         {
             if (BaseStream.IsOpen && !skipconnectedcheck)
-                return;
+                return autoReconnectWire;                      //if already connected
 
             MAVlist.Clear();
 
@@ -346,6 +365,7 @@ namespace MissionPlanner
             {
                 ParamListChanged(this, null);
             }
+            return autoReconnectWire;
         }
 
         void FrmProgressReporterDoWorkAndParams(IProgressReporterDialogue sender)
@@ -443,20 +463,19 @@ namespace MissionPlanner
 
                         if (hbseen)
                         {
-                            PRsender.doWorkArgs.ErrorMessage = Strings.Only1Hb;
-                            throw new Exception(Strings.Only1HbD);
+                            autoReconnectWire = new AutoReconnectWire(Strings.Only1Hb, Strings.Only1Hb, true);
                         }
                         else
                         {
-                            PRsender.doWorkArgs.ErrorMessage = "No Heartbeat Packets Received";
-                            throw new Exception(@"Can not establish a connection\n
+                            autoReconnectWire = new AutoReconnectWire("No Heartbeat Packets Received", "No Heartbeat Packets Received" + "+++" + @"Can not establish a connection\n
 Please check the following
 1. You have firmware loaded
 2. You have the correct serial port selected
 3. PX4 - You have the microsd card installed
-4. Try a diffrent usb port\n\n" +
-                                                "No Mavlink Heartbeat Packets where read from this port - Verify Baud Rate and setup\nMission Planner waits for 2 valid heartbeat packets before connecting");
+4. Try a diffrent usb port\n\n" + "No Mavlink Heartbeat Packets where read from this port - Verify Baud Rate and setup\nMission Planner waits for 2 valid heartbeat packets before connecting"
+                        , true);
                         }
+                        return;
                     }
 
                     Thread.Sleep(1);
@@ -557,9 +576,8 @@ Please check the following
                 }
                 giveComport = false;
                 if (string.IsNullOrEmpty(PRsender.doWorkArgs.ErrorMessage))
-                    PRsender.doWorkArgs.ErrorMessage = "csc";
+                    autoReconnectWire = new AutoReconnectWire("Error", "Something went wrong.", true);
                 log.Error(e);
-                //throw;
             }
             //frmProgressReporter.Close();
             giveComport = false;

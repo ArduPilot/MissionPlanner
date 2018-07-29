@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MissionPlanner.Controls;
 
 namespace MissionPlanner
 {
@@ -47,26 +48,21 @@ namespace MissionPlanner
             form.tcpConfig.IPAddress = this.tcpConfig.IPAddress;
             form.tcpConfig.Port = this.tcpConfig.Port;
             form.tcpConfig.AutoReconnect = this.tcpConfig.AutoReconnect;
+            form.tcpConfig.AutoReconnectTimeout = this.tcpConfig.AutoReconnectTimeout;
 
             form.udpclConfig.IPAddress = this.udpclConfig.IPAddress;
             form.udpclConfig.Port = this.udpclConfig.Port;
             form.udpclConfig.AutoReconnect = this.udpclConfig.AutoReconnect;
+            form.udpclConfig.AutoReconnectTimeout = this.udpclConfig.AutoReconnectTimeout;
 
             form.udpConfig.Port = this.udpConfig.Port;
             form.udpConfig.AutoReconnect = this.udpConfig.AutoReconnect;
+            form.udpConfig.AutoReconnectTimeout = this.udpConfig.AutoReconnectTimeout;
 
             form.comConfig.AutoReconnect = this.comConfig.AutoReconnect;
+            form.comConfig.AutoReconnectTimeout = this.comConfig.AutoReconnectTimeout;
 
             return form;
-        }
-
-        private enum ConnectionType
-        {
-            TCP,
-            UDP,
-            UDPCl,
-            AUTO,
-            COM
         }
 
         public ConnectionControlForm()
@@ -80,11 +76,11 @@ namespace MissionPlanner
             autoConfig = new Controls.AUTOConfig();
             comConfig = new Controls.COMConfig();
 
-            tcpConfig.Tag = ConnectionType.TCP;
-            udpConfig.Tag = ConnectionType.UDP;
-            udpclConfig.Tag = ConnectionType.UDPCl;
-            autoConfig.Tag = ConnectionType.AUTO;
-            comConfig.Tag = ConnectionType.COM;
+            tcpConfig.Tag = ConnectionTypes.TCP;
+            udpConfig.Tag = ConnectionTypes.UDP;
+            udpclConfig.Tag = ConnectionTypes.UDPCl;
+            autoConfig.Tag = ConnectionTypes.AUTO;
+            comConfig.Tag = ConnectionTypes.COM;
 
             tcpConfig.Dock = DockStyle.Fill;
             udpConfig.Dock = DockStyle.Fill;
@@ -134,7 +130,7 @@ namespace MissionPlanner
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(75, 23);
             this.buttonOk.TabIndex = 2;
-            this.buttonOk.Text = "Ok";
+            this.buttonOk.Text = "Save";
             this.buttonOk.UseVisualStyleBackColor = true;
             this.buttonOk.Click += new System.EventHandler(this.buttonConnect_Click);
             // 
@@ -196,7 +192,7 @@ namespace MissionPlanner
             DialogResult = DialogResult.OK;
         }
 
-        private ConnectionType currentPort;
+        private ConnectionTypes currentPort;
         private void ConnectionControl_Paint(object sender, PaintEventArgs e)
         {
             if (!currentPort.Equals(ConnectionControl.CMB_serialport.Text))
@@ -205,7 +201,7 @@ namespace MissionPlanner
 
                 foreach (Control control in panelConfig.Controls)
                 {
-                    if (control.Tag.Equals(ConnectionType.COM))
+                    if (control.Tag.Equals(ConnectionTypes.COM))
                     {
                         Controls.COMConfig comControl = (Controls.COMConfig)control;
                         comControl.Title.Text = ConnectionControl.CMB_serialport.Text;
@@ -217,13 +213,28 @@ namespace MissionPlanner
             }
         }
 
-        private ConnectionType GetConnectionType(string connectionType)
+        public IConnectionConfig ConnectionType
         {
-            if (connectionType.Equals("TCP"))           return ConnectionType.TCP;
-            else if (connectionType.Equals("UDP"))      return ConnectionType.UDP;
-            else if (connectionType.Equals("UDPCl"))    return ConnectionType.UDPCl;
-            else if (connectionType.Equals("AUTO"))     return ConnectionType.AUTO;
-            else                                        return ConnectionType.COM;
+            get
+            {
+                switch (currentPort)
+                {
+                    case ConnectionTypes.COM:   return comConfig;
+                    case ConnectionTypes.TCP:   return tcpConfig;
+                    case ConnectionTypes.UDP:   return udpConfig;
+                    case ConnectionTypes.UDPCl: return udpclConfig;
+                    default:                    return autoConfig;
+                }
+            }
+        }
+
+        private ConnectionTypes GetConnectionType(string connectionType)
+        {
+            if (connectionType.Equals("TCP"))           return ConnectionTypes.TCP;
+            else if (connectionType.Equals("UDP"))      return ConnectionTypes.UDP;
+            else if (connectionType.Equals("UDPCl"))    return ConnectionTypes.UDPCl;
+            else if (connectionType.Equals("AUTO"))     return ConnectionTypes.AUTO;
+            else                                        return ConnectionTypes.COM;
         }
     }
 }

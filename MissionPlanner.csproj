@@ -258,6 +258,7 @@
     <Compile Include="Controls\AUTOConfig.cs">
       <SubType>Control</SubType>
     </Compile>
+    <Compile Include="Controls\IConnectionConfig.cs" />
     <Compile Include="Controls\ToolStripConnectionControlPreview.cs" />
     <Compile Include="Controls\UDPClConfig.cs">
       <SubType>Control</SubType>

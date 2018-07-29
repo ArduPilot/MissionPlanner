@@ -11,16 +11,31 @@ using System.Threading;
 
 namespace MissionPlanner.Controls
 {
-    public partial class UDPConfig : UserControl
+    public partial class UDPConfig : UserControl, IConnectionConfig
     {
         public Label Title;
         private TextBox textBoxPort;
         private CheckBox checkBoxAutoReconnect;
+        private Label label1;
+        private NumericUpDown upDownConnectionTimeout;
         private Label label2;
 
         public UDPConfig()
         {
             InitializeComponent();
+        }
+
+        public ConnectionTypes ConnectionType { get { return ConnectionTypes.UDP; } }
+        public CheckState AutoReconnect
+        {
+            get { return checkBoxAutoReconnect.CheckState; }
+            set { checkBoxAutoReconnect.CheckState = value; }
+        }
+
+        public decimal AutoReconnectTimeout
+        {
+            get { return upDownConnectionTimeout.Value; }
+            set { upDownConnectionTimeout.Value = value; }
         }
 
         public string Port
@@ -29,18 +44,15 @@ namespace MissionPlanner.Controls
             set { textBoxPort.Text = value; }
         }
 
-        public CheckState AutoReconnect
-        {
-            get { return checkBoxAutoReconnect.CheckState; }
-            set { checkBoxAutoReconnect.CheckState = value; }
-        }
-
         private void InitializeComponent()
         {
             this.label2 = new System.Windows.Forms.Label();
             this.Title = new System.Windows.Forms.Label();
             this.textBoxPort = new System.Windows.Forms.TextBox();
             this.checkBoxAutoReconnect = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.upDownConnectionTimeout = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)(this.upDownConnectionTimeout)).BeginInit();
             this.SuspendLayout();
             // 
             // label2
@@ -93,16 +105,53 @@ namespace MissionPlanner.Controls
             this.checkBoxAutoReconnect.Checked = true;
             this.checkBoxAutoReconnect.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxAutoReconnect.ForeColor = System.Drawing.SystemColors.Control;
-            this.checkBoxAutoReconnect.Location = new System.Drawing.Point(13, 170);
+            this.checkBoxAutoReconnect.Location = new System.Drawing.Point(13, 154);
             this.checkBoxAutoReconnect.Name = "checkBoxAutoReconnect";
             this.checkBoxAutoReconnect.Size = new System.Drawing.Size(99, 17);
             this.checkBoxAutoReconnect.TabIndex = 8;
             this.checkBoxAutoReconnect.Text = "Auto reconnect";
             this.checkBoxAutoReconnect.UseVisualStyleBackColor = false;
+            this.checkBoxAutoReconnect.CheckStateChanged += new System.EventHandler(this.checkBoxAutoReconnect_CheckStateChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.ForeColor = System.Drawing.SystemColors.Control;
+            this.label1.Location = new System.Drawing.Point(10, 179);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(48, 13);
+            this.label1.TabIndex = 13;
+            this.label1.Text = "Timeout:";
+            // 
+            // upDownConnectionTimeout
+            // 
+            this.upDownConnectionTimeout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.upDownConnectionTimeout.Location = new System.Drawing.Point(64, 177);
+            this.upDownConnectionTimeout.Maximum = new decimal(new int[] {
+            3600,
+            0,
+            0,
+            0});
+            this.upDownConnectionTimeout.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.upDownConnectionTimeout.Name = "upDownConnectionTimeout";
+            this.upDownConnectionTimeout.Size = new System.Drawing.Size(60, 20);
+            this.upDownConnectionTimeout.TabIndex = 12;
+            this.upDownConnectionTimeout.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
             // 
             // UDPConfig
             // 
             this.BackgroundImage = global::MissionPlanner.Properties.Resources.bgdark;
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.upDownConnectionTimeout);
             this.Controls.Add(this.checkBoxAutoReconnect);
             this.Controls.Add(this.textBoxPort);
             this.Controls.Add(this.Title);
@@ -110,9 +159,22 @@ namespace MissionPlanner.Controls
             this.Margin = new System.Windows.Forms.Padding(10);
             this.Name = "UDPConfig";
             this.Size = new System.Drawing.Size(300, 200);
+            ((System.ComponentModel.ISupportInitialize)(this.upDownConnectionTimeout)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
+        }
+
+        private void checkBoxAutoReconnect_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (AutoReconnect == CheckState.Checked)
+            {
+                upDownConnectionTimeout.Enabled = true;
+            }
+            else
+            {
+                upDownConnectionTimeout.Enabled = false;
+            }
         }
     }
 }

@@ -1378,8 +1378,9 @@ namespace MissionPlanner
             this.MenuConnect.Image = global::MissionPlanner.Properties.Resources.light_connect_icon;
         }
 
-        public void doConnect(MAVLinkInterface comPort, string portname, string baud, bool getparams = true)
+        public DialogResult doConnect(MAVLinkInterface comPort, string portname, string baud, bool getparams = true)
         {
+            DialogResult state = DialogResult.Cancel;
             bool skipconnectcheck = false;
             log.Info("We are connecting to " + portname + " " + baud );
             switch (portname)
@@ -1420,12 +1421,11 @@ namespace MissionPlanner
 
                         if (DateTime.Now > deadline)
                         {
-                            CustomMessageBox.Show(Strings.Timeout);
                             _connectionControl.IsConnected(false);
-                            return;
+                            return AutoReconnectForm.Show(Strings.Timeout, Strings.Timeout, AutoReconnectTimeout); // nani??
                         }
                     }
-                    return;
+                    return AutoReconnectForm.Show(Strings.Timeout, Strings.Timeout, AutoReconnectTimeout); // huh??
                 default:
                     comPort.BaseStream = new SerialPort();
                     break;
@@ -1516,14 +1516,22 @@ namespace MissionPlanner
                 catch (Exception exp2)
                 {
                     log.Error(exp2);
-                    CustomMessageBox.Show(Strings.Failclog);
+                    state = AutoReconnectForm.Show(Strings.Failclog, exp2.ToString(), AutoReconnectTimeout);
                 } // soft fail
 
                 // reset connect time - for timeout functions
                 connecttime = DateTime.Now;
-                
+
                 // do the connect
-                comPort.Open(false, skipconnectcheck);
+                AutoReconnectWire wire = comPort.Open(false, skipconnectcheck);
+                if (wire.Reconnect)
+                {
+                    state = AutoReconnectForm.Show(wire.Title, wire.Message, AutoReconnectTimeout);
+                }
+                else
+                {
+                    state = DialogResult.Cancel;
+                }
 
                 if (!comPort.BaseStream.IsOpen)
                 {
@@ -1537,7 +1545,7 @@ namespace MissionPlanner
                     catch
                     {
                     }
-                    return;
+                    return DialogResult.Cancel;
                 }
 
                 if (getparams)
@@ -1712,14 +1720,13 @@ namespace MissionPlanner
                 {
                     log.Warn(ex2);
                 }
-                CustomMessageBox.Show("Can not establish a connection\n\n" + ex.Message);
-                return;
+                return AutoReconnectForm.Show("Error", "Can not establish a connection\n\n" + ex.Message, AutoReconnectTimeout);
             }
+            return state;
         }
-        
-        private bool isConnecting = false;
-        private Thread connectionCycleThread;
+
         private ConnectionControlForm connectionControlForm;
+        private int AutoReconnectTimeout = -1;
 
         private void MenuConnectionConfig_Click(object sender, EventArgs e)
         {
@@ -1729,36 +1736,29 @@ namespace MissionPlanner
             {
                 connectionControlForm = temp;
             }
+
             MenuConnectionControlPreview.ConnectionControlPreview.Device = connectionControlForm.ConnectionControl.TOOL_APMFirmware.Text;
             MenuConnectionControlPreview.ConnectionControlPreview.ConnectionType = connectionControlForm.ConnectionControl.CMB_serialport.Text;
+
+            if (connectionControlForm.ConnectionType.AutoReconnect == CheckState.Checked)
+            {
+                AutoReconnectTimeout = Convert.ToInt32(connectionControlForm.ConnectionType.AutoReconnectTimeout);
+            }
+            else
+            {
+                AutoReconnectTimeout = -1;
+            }
         }
 
         private void MenuConnect_Click(object sender, EventArgs e)
         {
-            //Connect();
-            AutoReconnectForm form = new AutoReconnectForm("title sample", "naai error", 3);
-            form.ShowDialog();
-            //if (connectionCycleThread == null) connectionCycleThread = new Thread(new ThreadStart(ConnectionCycleThread));
-            //if (!connectionCycleThread.IsAlive) connectionCycleThread.Start();
+            while (Connect() == DialogResult.OK) { }
         }
 
-        private void ConnectionCycleThread()
+        private DialogResult Connect()
         {
-            while (true)
-            {
-                while (isConnecting) { }
-                if (!comPort.BaseStream.IsOpen)
-                {
-                    MessageBox.Show("reconnecting...");
-                    //Connect();
-                }
-                System.Threading.Thread.Sleep(1000);
-            }
-        }
+            DialogResult state = DialogResult.Cancel;
 
-        private void Connect()
-        {
-            isConnecting = true;
             comPort.giveComport = false;
 
             log.Info("MenuConnect Start");
@@ -1766,11 +1766,7 @@ namespace MissionPlanner
             // sanity check
             if (comPort.BaseStream.IsOpen && comPort.MAV.cs.groundspeed > 4)
             {
-                if ((int) DialogResult.No ==
-                    CustomMessageBox.Show(Strings.Stillmoving, Strings.Disconnect, MessageBoxButtons.YesNo))
-                {
-                    return;
-                }
+                return AutoReconnectForm.Show(Strings.Disconnect, Strings.Stillmoving, AutoReconnectTimeout);
             }
 
             try
@@ -1785,7 +1781,7 @@ namespace MissionPlanner
             }
             catch (Exception ex)
             {
-                CustomMessageBox.Show(Strings.ErrorClosingLogFile + ex.Message, Strings.ERROR);
+                return AutoReconnectForm.Show(Strings.ERROR, Strings.ErrorClosingLogFile + ex.Message, AutoReconnectTimeout);
             }
 
             comPort.logfile = null;
@@ -1795,16 +1791,18 @@ namespace MissionPlanner
             if (comPort.BaseStream.IsOpen)
             {
                 doDisconnect(comPort);
+                state = DialogResult.Cancel;
             }
             else
             {
-                doConnect(comPort, _connectionControl.CMB_serialport.Text, _connectionControl.CMB_baudrate.Text);
+                state = doConnect(comPort, _connectionControl.CMB_serialport.Text, _connectionControl.CMB_baudrate.Text);
             }
 
             _connectionControl.UpdateSysIDS();
 
             loadph_serial();
-            isConnecting = false;
+
+            return state;
         }
 
         void loadph_serial()
