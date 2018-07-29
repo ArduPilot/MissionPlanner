@@ -15,7 +15,7 @@ namespace MissionPlanner.Controls
     {
         private Label label1;
         public Label Title;
-        private TextBox textBoxIP;
+        private TextBox textBoxHost;
         private TextBox textBoxPort;
         private CheckBox checkBoxAutoReconnect;
         private Label label3;
@@ -40,10 +40,10 @@ namespace MissionPlanner.Controls
             set { upDownConnectionTimeout.Value = value; }
         }
 
-        public string IPAddress
+        public string Host
         {
-            get { return textBoxIP.Text; }
-            set { textBoxIP.Text = value; }
+            get { return textBoxHost.Text; }
+            set { textBoxHost.Text = value; }
         }
 
         public string Port
@@ -57,7 +57,7 @@ namespace MissionPlanner.Controls
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.Title = new System.Windows.Forms.Label();
-            this.textBoxIP = new System.Windows.Forms.TextBox();
+            this.textBoxHost = new System.Windows.Forms.TextBox();
             this.textBoxPort = new System.Windows.Forms.TextBox();
             this.checkBoxAutoReconnect = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -111,15 +111,15 @@ namespace MissionPlanner.Controls
             this.Title.Tag = "UDPCl";
             this.Title.Text = "UDPCl";
             // 
-            // textBoxIP
+            // textBoxHost
             // 
-            this.textBoxIP.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.textBoxHost.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxIP.Location = new System.Drawing.Point(13, 60);
-            this.textBoxIP.Name = "textBoxIP";
-            this.textBoxIP.Size = new System.Drawing.Size(277, 20);
-            this.textBoxIP.TabIndex = 3;
+            this.textBoxHost.Location = new System.Drawing.Point(13, 60);
+            this.textBoxHost.Name = "textBoxHost";
+            this.textBoxHost.Size = new System.Drawing.Size(277, 20);
+            this.textBoxHost.TabIndex = 3;
             // 
             // textBoxPort
             // 
@@ -188,7 +188,7 @@ namespace MissionPlanner.Controls
             this.Controls.Add(this.upDownConnectionTimeout);
             this.Controls.Add(this.checkBoxAutoReconnect);
             this.Controls.Add(this.textBoxPort);
-            this.Controls.Add(this.textBoxIP);
+            this.Controls.Add(this.textBoxHost);
             this.Controls.Add(this.Title);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);

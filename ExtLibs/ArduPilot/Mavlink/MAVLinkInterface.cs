@@ -320,10 +320,17 @@ namespace MissionPlanner
             Open(false);
         }
 
-        public void Open(bool getparams, bool skipconnectedcheck = false)
+        public enum ConnectionState
+        {
+            Connected, Disconnected, Failed
+        }
+
+        ConnectionState CurrentConnectionState = ConnectionState.Disconnected;
+
+        public ConnectionState Open(bool getparams, bool skipconnectedcheck = false)
         {
             if (BaseStream.IsOpen && !skipconnectedcheck)
-                return;
+                return CurrentConnectionState;
 
             MAVlist.Clear();
 
@@ -348,6 +355,8 @@ namespace MissionPlanner
             {
                 ParamListChanged(this, null);
             }
+
+            return CurrentConnectionState;
         }
 
         void FrmProgressReporterDoWorkAndParams(IProgressReporterDialogue sender)

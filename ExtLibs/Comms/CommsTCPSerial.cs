@@ -30,12 +30,19 @@ namespace MissionPlanner.Comms
         public bool RtsEnable { get; set; }
         public Stream BaseStream { get { return client.GetStream(); } }
 
+        public static string StaticHost { get; set; }
+        public static string StaticPort { get; set; }
+
         public TcpSerial()
         {
             //System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US");
             //System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
 
-            Port = "5760";
+            //if(StaticHost == null) StaticHost = "127.0.0.1";
+            //if(StaticPort == null) StaticPort = "5760";
+
+            Host = StaticHost;
+            Port = StaticPort;
             ReadTimeout = 500;
         }
 
@@ -43,6 +50,7 @@ namespace MissionPlanner.Comms
         {
         }
 
+        public string Host { get; set; }
         public string Port { get; set; }
 
         public int ReadTimeout
@@ -116,7 +124,7 @@ namespace MissionPlanner.Comms
                 }
 
                 string dest = Port;
-                string host = "127.0.0.1";
+                string host = Host;
 
                 dest = OnSettings("TCP_port", dest);
 
@@ -124,15 +132,18 @@ namespace MissionPlanner.Comms
 
                 if (!reconnectnoprompt)
                 {
-                    if (inputboxreturn.Cancel == OnInputBoxShow("remote host",
-                            "Enter host name/ip (ensure remote end is already started)", ref host))
-                    {
-                        throw new Exception("Canceled by request");
-                    }
-                    if (inputboxreturn.Cancel == OnInputBoxShow("remote Port", "Enter remote port", ref dest))
-                    {
-                        throw new Exception("Canceled by request");
-                    }
+                    //if (inputboxreturn.Cancel == OnInputBoxShow("remote host",
+                    //        "Enter host name/ip (ensure remote end is already started)", ref host))
+                    //{
+                    //    throw new Exception("Canceled by request");
+                    //}
+                    //if (inputboxreturn.Cancel == OnInputBoxShow("remote Port", "Enter remote port", ref dest))
+                    //{
+                    //    throw new Exception("Canceled by request");
+                    //}
+                    
+                    host = StaticHost;
+                    dest = StaticPort;
                 }
 
                 Port = dest;

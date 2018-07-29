@@ -29,12 +29,16 @@ namespace MissionPlanner.Comms
         public bool RtsEnable { get; set; }
         public Stream BaseStream { get { return Stream.Null; } }
 
+        public static string StaticPort { get; set; }
+
         public UdpSerial()
         {
             //System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US");
             //System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
 
-            Port = "14550";
+            //if (StaticPort == null) StaticPort = "14550";
+
+            Port = StaticPort;
             ReadTimeout = 500;
         }
 
@@ -101,10 +105,12 @@ namespace MissionPlanner.Comms
 
             dest = OnSettings("UDP_port", dest);
 
-            if (inputboxreturn.Cancel == OnInputBoxShow("Listern Port", "Enter Local port (ensure remote end is already sending)", ref dest))
-            {
-                return;
-            }
+            //if (inputboxreturn.Cancel == OnInputBoxShow("Listern Port", "Enter Local port (ensure remote end is already sending)", ref dest))
+            //{
+            //    return;
+            //}
+            dest = StaticPort;
+
             Port = dest;
 
             OnSettings("UDP_port", Port, true);

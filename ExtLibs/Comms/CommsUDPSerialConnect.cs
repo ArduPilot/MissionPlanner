@@ -27,9 +27,16 @@ namespace MissionPlanner.Comms
         public bool RtsEnable { get; set; }
         public Stream BaseStream { get { return Stream.Null; } }
 
+        public static string StaticHost { get; set; }
+        public static string StaticPort { get; set; }
+
         public UdpSerialConnect()
         {
-            Port = "14550";
+            //if (StaticHost == null) StaticHost = "127.0.0.1";
+            //if (StaticPort == null) StaticPort = "14550";
+
+            Host = StaticHost;
+            Port = StaticPort;
             ReadTimeout = 500;
         }
 
@@ -37,6 +44,7 @@ namespace MissionPlanner.Comms
         {
         }
 
+        public string Host { get; set; }
         public string Port { get; set; }
 
         public int ReadTimeout
@@ -82,23 +90,25 @@ namespace MissionPlanner.Comms
 
             log.Info("UDP Open");
 
+            string host = Host;
             string dest = Port;
-            string host = "127.0.0.1";
-
-            dest = OnSettings("UDP_port", dest);
 
             host = OnSettings("UDP_host", host);
 
+            dest = OnSettings("UDP_port", dest);
+
             //if (!MainV2.MONO)
             {
-                if (inputboxreturn.Cancel == OnInputBoxShow("remote host", "Enter host name/ip (ensure remote end is already started)", ref host))
-                {
-                    throw new Exception("Canceled by request");
-                }
-                if (inputboxreturn.Cancel == OnInputBoxShow("remote Port", "Enter remote port", ref dest))
-                {
-                    throw new Exception("Canceled by request");
-                }
+                //if (inputboxreturn.Cancel == OnInputBoxShow("remote host", "Enter host name/ip (ensure remote end is already started)", ref host))
+                //{
+                //    throw new Exception("Canceled by request");
+                //}
+                //if (inputboxreturn.Cancel == OnInputBoxShow("remote Port", "Enter remote port", ref dest))
+                //{
+                //    throw new Exception("Canceled by request");
+                //}
+                host = StaticHost;
+                dest = StaticPort;
             }
 
             Port = dest;

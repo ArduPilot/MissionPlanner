@@ -14,7 +14,7 @@ namespace MissionPlanner
     public class ConnectionControlForm: Form
     {
         private Button buttonCancel;
-        private Button buttonOk;
+        private Button buttonSave;
         private Panel panelConfig;
         private Controls.TCPConfig tcpConfig;
         private Controls.UDPConfig udpConfig;
@@ -45,12 +45,12 @@ namespace MissionPlanner
             form.ConnectionControl.CMB_serialport.SelectedIndex = this.ConnectionControl.CMB_serialport.SelectedIndex;
             form.ConnectionControl.TOOL_APMFirmware.SelectedIndex = this.ConnectionControl.TOOL_APMFirmware.SelectedIndex;
 
-            form.tcpConfig.IPAddress = this.tcpConfig.IPAddress;
+            form.tcpConfig.Host = this.tcpConfig.Host;
             form.tcpConfig.Port = this.tcpConfig.Port;
             form.tcpConfig.AutoReconnect = this.tcpConfig.AutoReconnect;
             form.tcpConfig.AutoReconnectTimeout = this.tcpConfig.AutoReconnectTimeout;
 
-            form.udpclConfig.IPAddress = this.udpclConfig.IPAddress;
+            form.udpclConfig.Host = this.udpclConfig.Host;
             form.udpclConfig.Port = this.udpclConfig.Port;
             form.udpclConfig.AutoReconnect = this.udpclConfig.AutoReconnect;
             form.udpclConfig.AutoReconnectTimeout = this.udpclConfig.AutoReconnectTimeout;
@@ -100,6 +100,20 @@ namespace MissionPlanner
             autoConfig.Hide();
             comConfig.Hide();
 
+            Comms.TcpSerial.StaticHost = "127.0.0.1";
+            Comms.UdpSerialConnect.StaticHost = "127.0.0.1";
+
+            Comms.TcpSerial.StaticPort = "5760";
+            Comms.UdpSerial.StaticPort = "14550";
+            Comms.UdpSerialConnect.StaticPort = "14550";
+
+            tcpConfig.Host = Comms.TcpSerial.StaticHost;
+            udpclConfig.Host = Comms.UdpSerialConnect.StaticHost;
+
+            tcpConfig.Port = Comms.TcpSerial.StaticPort;
+            udpConfig.Port = Comms.UdpSerial.StaticPort;
+            udpclConfig.Port = Comms.UdpSerialConnect.StaticPort;
+
             currentPort = GetConnectionType(ConnectionControl.CMB_serialport.Text);
         }
 
@@ -107,7 +121,7 @@ namespace MissionPlanner
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConnectionControlForm));
             this.buttonCancel = new System.Windows.Forms.Button();
-            this.buttonOk = new System.Windows.Forms.Button();
+            this.buttonSave = new System.Windows.Forms.Button();
             this.ConnectionControl = new MissionPlanner.Controls.ConnectionControl();
             this.panelConfig = new System.Windows.Forms.Panel();
             this.SuspendLayout();
@@ -123,16 +137,16 @@ namespace MissionPlanner
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
             // 
-            // buttonOk
+            // buttonSave
             // 
-            this.buttonOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonOk.Location = new System.Drawing.Point(237, 303);
-            this.buttonOk.Name = "buttonOk";
-            this.buttonOk.Size = new System.Drawing.Size(75, 23);
-            this.buttonOk.TabIndex = 2;
-            this.buttonOk.Text = "Save";
-            this.buttonOk.UseVisualStyleBackColor = true;
-            this.buttonOk.Click += new System.EventHandler(this.buttonConnect_Click);
+            this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonSave.Location = new System.Drawing.Point(237, 303);
+            this.buttonSave.Name = "buttonSave";
+            this.buttonSave.Size = new System.Drawing.Size(75, 23);
+            this.buttonSave.TabIndex = 2;
+            this.buttonSave.Text = "Save";
+            this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // ConnectionControl
             // 
@@ -161,14 +175,14 @@ namespace MissionPlanner
             // 
             // ConnectionControlForm
             // 
-            this.AcceptButton = this.buttonOk;
+            this.AcceptButton = this.buttonSave;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::MissionPlanner.Properties.Resources.bgdark;
             this.CancelButton = this.buttonCancel;
             this.ClientSize = new System.Drawing.Size(324, 341);
             this.Controls.Add(this.buttonCancel);
-            this.Controls.Add(this.buttonOk);
+            this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.panelConfig);
             this.Controls.Add(this.ConnectionControl);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -187,8 +201,15 @@ namespace MissionPlanner
 
         }
 
-        private void buttonConnect_Click(object sender, EventArgs e)
+        private void buttonSave_Click(object sender, EventArgs e)
         {
+            Comms.TcpSerial.StaticHost = tcpConfig.Host;
+            Comms.UdpSerialConnect.StaticHost = udpclConfig.Host;
+
+            Comms.TcpSerial.StaticPort = tcpConfig.Port;
+            Comms.UdpSerial.StaticPort = udpConfig.Port;
+            Comms.UdpSerialConnect.StaticPort = udpclConfig.Port;
+
             DialogResult = DialogResult.OK;
         }
 

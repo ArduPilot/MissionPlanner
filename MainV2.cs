@@ -1376,6 +1376,8 @@ namespace MissionPlanner
             }
 
             this.MenuConnect.Image = global::MissionPlanner.Properties.Resources.light_connect_icon;
+
+            CurrentConnectionState = ConnectionState.Disconnected;
         }
 
         public void doConnect(MAVLinkInterface comPort, string portname, string baud, bool getparams = true)
@@ -1523,7 +1525,7 @@ namespace MissionPlanner
                 connecttime = DateTime.Now;
 
                 // do the connect
-                comPort.Open(false, skipconnectcheck);
+                CurrentConnectionState = (ConnectionState)comPort.Open(false, skipconnectcheck);
 
                 if (!comPort.BaseStream.IsOpen)
                 {
@@ -1712,7 +1714,7 @@ namespace MissionPlanner
                 {
                     log.Warn(ex2);
                 }
-                CustomMessageBox.Show("Can not establish a connection\n\n" + ex.Message);
+                CurrentConnectionState = ConnectionErrorHandler("Error", "Can not establish a connection", ex.Message);
                 return;
             }
         }
@@ -1726,9 +1728,19 @@ namespace MissionPlanner
             Connected, Disconnected, Failed
         }
 
-        public static class ConnectionHandler
+        public ConnectionState ConnectionErrorHandler(string title, string message, string details)
         {
+            DialogResult result;
+            if (details.Equals("")) { result = AutoReconnectForm.Show(title, message, AutoReconnectTimeout); }
+            else { result = AutoReconnectForm.Show(title, message, details, AutoReconnectTimeout); }
 
+            if (result == DialogResult.OK) { return ConnectionState.Failed; }
+            else { return ConnectionState.Disconnected; }
+        }
+
+        public DialogResult ConnectionErrorHandler(string title, string message, MessageBoxButtons buttons)
+        {
+            return (DialogResult)CustomMessageBox.Show(message, title, buttons);
         }
 
         private void MenuConnectionConfig_Click(object sender, EventArgs e)
@@ -1755,23 +1767,25 @@ namespace MissionPlanner
 
         private void MenuConnect_Click(object sender, EventArgs e)
         {
-            CurrentConnectionState = Connect();
-            while(CurrentConnectionState == ConnectionState.Failed)
-            {
-                CurrentConnectionState = AutoReconnectForm.Show();
-            }
+            do { Connect(); }
+            while (CurrentConnectionState == ConnectionState.Failed);
         }
 
-        private ConnectionState Connect()
+        private void Connect()
         {
             comPort.giveComport = false;
-
+            
             log.Info("MenuConnect Start");
 
             // sanity check
             if (comPort.BaseStream.IsOpen && comPort.MAV.cs.groundspeed > 4)
             {
-                return AutoReconnectForm.Show(Strings.Disconnect, Strings.Stillmoving, AutoReconnectTimeout);
+                DialogResult result = ConnectionErrorHandler(Strings.Disconnect, Strings.Stillmoving, MessageBoxButtons.YesNo);
+                if (DialogResult.No == result)
+                {
+                    CurrentConnectionState = ConnectionState.Connected;
+                    return;
+                }
             }
 
             try
@@ -1786,28 +1800,25 @@ namespace MissionPlanner
             }
             catch (Exception ex)
             {
-                return AutoReconnectForm.Show(Strings.ERROR, Strings.ErrorClosingLogFile + ex.Message, AutoReconnectTimeout);
+                CustomMessageBox.Show(Strings.ErrorClosingLogFile + ex.Message, Strings.ERROR); //markedStopper
             }
 
             comPort.logfile = null;
             comPort.rawlogfile = null;
-
+            
             // decide if this is a connect or disconnect
             if (comPort.BaseStream.IsOpen)
             {
                 doDisconnect(comPort);
-                state = DialogResult.Cancel;
             }
             else
             {
-                state = doConnect(comPort, _connectionControl.CMB_serialport.Text, _connectionControl.CMB_baudrate.Text);
+                doConnect(comPort, _connectionControl.CMB_serialport.Text, _connectionControl.CMB_baudrate.Text);
             }
 
             _connectionControl.UpdateSysIDS();
 
             loadph_serial();
-
-            return state;
         }
 
         void loadph_serial()
