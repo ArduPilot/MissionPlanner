@@ -315,7 +315,7 @@ public class Win32DeviceMgmt
                 {
                     try
                     {
-                        Console.WriteLine((SPDRP)prop + ": " +GetDeviceDescription(hDeviceInfoSet, deviceInfoData, (SPDRP)prop));
+                        log.Info((SPDRP)prop + ": " +GetDeviceDescription(hDeviceInfoSet, deviceInfoData, (SPDRP)prop));
                     } catch { }
                 }
 
@@ -365,7 +365,7 @@ public class Win32DeviceMgmt
                         buffer, 1024, out requiredSize, 0);
 
                     var out11 = Marshal.PtrToStringAuto(buffer);
-                    Console.WriteLine(list[i].name + " " + out11);
+                    log.Info(list[i].name + " " + out11);
 
                     if (list[i].name == "DEVPKEY_Device_BusReportedDeviceDesc")
                         deviceInfo.board = out11;
