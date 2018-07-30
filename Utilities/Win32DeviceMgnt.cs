@@ -281,7 +281,7 @@ public class Win32DeviceMgmt
 
         try
         {
-            List < DeviceInfo > devices = new List< DeviceInfo > ();
+            List<DeviceInfo> devices = new List<DeviceInfo>();
             Int32 iMemberIndex = 0;
             while (true)
             {
@@ -299,24 +299,47 @@ public class Win32DeviceMgmt
                 {
                     deviceInfo.name = GetDeviceName(hDeviceInfoSet, deviceInfoData);
                 }
-                catch (Exception e) { log.Error(e); continue; }
+                catch (Exception e)
+                {
+                    log.Error(e);
+                    iMemberIndex++;
+                    continue;
+                }
+
                 try
                 {
-                    deviceInfo.description = GetDeviceDescription(hDeviceInfoSet, deviceInfoData, SPDRP.SPDRP_DEVICEDESC);
+                    deviceInfo.description =
+                        GetDeviceDescription(hDeviceInfoSet, deviceInfoData, SPDRP.SPDRP_DEVICEDESC);
                 }
-                catch (Exception e) { log.Error(e); continue; }
+                catch (Exception e)
+                {
+                    log.Error(e);
+                    iMemberIndex++;
+                    continue;
+                }
+
                 try
-                    {
-                        deviceInfo.hardwareid = GetDeviceDescription(hDeviceInfoSet, deviceInfoData, SPDRP.SPDRP_HARDWAREID);
+                {
+                    deviceInfo.hardwareid =
+                        GetDeviceDescription(hDeviceInfoSet, deviceInfoData, SPDRP.SPDRP_HARDWAREID);
                 }
-                catch (Exception e) { log.Error(e); continue; }
+                catch (Exception e)
+                {
+                    log.Error(e);
+                    iMemberIndex++;
+                    continue;
+                }
 
                 foreach (SPDRP prop in Enum.GetValues(typeof(SPDRP)))
                 {
                     try
                     {
-                        log.Info((SPDRP)prop + ": " +GetDeviceDescription(hDeviceInfoSet, deviceInfoData, (SPDRP)prop));
-                    } catch { }
+                        log.Info((SPDRP) prop + ": " +
+                                 GetDeviceDescription(hDeviceInfoSet, deviceInfoData, (SPDRP) prop));
+                    }
+                    catch
+                    {
+                    }
                 }
 
                 //https://github.com/tpn/winsdk-10/blob/master/Include/10.0.10240.0/shared/devpkey.h
@@ -358,7 +381,7 @@ public class Win32DeviceMgmt
 
                 ulong propertyType = 0;
                 int requiredSize = 0;
-                for (int i=0; i < list.Length;i++)
+                for (int i = 0; i < list.Length; i++)
                 {
                     IntPtr buffer = Marshal.AllocHGlobal(1024);
                     SetupDiGetDevicePropertyW(hDeviceInfoSet, ref deviceInfoData, ref list[i], out propertyType,
@@ -377,6 +400,7 @@ public class Win32DeviceMgmt
 
                 iMemberIndex++;
             }
+
             return devices;
         }
         finally
@@ -384,7 +408,6 @@ public class Win32DeviceMgmt
             SetupDiDestroyDeviceInfoList(hDeviceInfoSet);
         }
     }
-
     private static DEVPROPKEY DEFINE_DEVPROPKEY(string dEVPKEY_Device_Manufacturer, uint v1, int v2, int v3, byte v4, byte v5, byte v6, byte v7, byte v8, byte v9, byte v10, byte v11, uint v12)
     {
         DEVPROPKEY key = new DEVPROPKEY();
