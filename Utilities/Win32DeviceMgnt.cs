@@ -3,9 +3,14 @@ using System.Text;
 using ComTypes = System.Runtime.InteropServices.ComTypes;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
+using log4net;
+using System.Reflection;
 //http://www.nakov.com/blog/2009/05/10/enumerate-all-com-ports-and-find-their-name-and-description-in-c/
 public class Win32DeviceMgmt
 {
+    private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+
     private const UInt32 DIGCF_PRESENT = 0x00000002;
     private const UInt32 DIGCF_DEVICEINTERFACE = 0x00000010;
     private const UInt32 SPDRP_DEVICEDESC = 0x00000000;
@@ -290,9 +295,21 @@ public class Win32DeviceMgmt
                 }
 
                 DeviceInfo deviceInfo = new DeviceInfo();
-                deviceInfo.name = GetDeviceName(hDeviceInfoSet, deviceInfoData);
-                deviceInfo.description = GetDeviceDescription(hDeviceInfoSet, deviceInfoData, SPDRP.SPDRP_DEVICEDESC);
-                deviceInfo.hardwareid = GetDeviceDescription(hDeviceInfoSet, deviceInfoData, SPDRP.SPDRP_HARDWAREID);
+                try
+                {
+                    deviceInfo.name = GetDeviceName(hDeviceInfoSet, deviceInfoData);
+                }
+                catch (Exception e) { log.Error(e); continue; }
+                try
+                {
+                    deviceInfo.description = GetDeviceDescription(hDeviceInfoSet, deviceInfoData, SPDRP.SPDRP_DEVICEDESC);
+                }
+                catch (Exception e) { log.Error(e); continue; }
+                try
+                    {
+                        deviceInfo.hardwareid = GetDeviceDescription(hDeviceInfoSet, deviceInfoData, SPDRP.SPDRP_HARDWAREID);
+                }
+                catch (Exception e) { log.Error(e); continue; }
 
                 foreach (SPDRP prop in Enum.GetValues(typeof(SPDRP)))
                 {
