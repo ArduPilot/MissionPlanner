@@ -7,6 +7,8 @@ using System.IO;
 using System.Windows.Forms;
 using MissionPlanner;
 using MissionPlanner.Utilities;
+using Microsoft.Scripting.Hosting;
+using System.Reflection;
 
 namespace MissionPlanner
 {
@@ -32,12 +34,17 @@ namespace MissionPlanner
 
             var paths = engine.GetSearchPaths();
             paths.Add(Settings.GetRunningDirectory() + "Lib.zip");
+            paths.Add(Settings.GetRunningDirectory() + "lib");
+            paths.Add(Settings.GetRunningDirectory());
             engine.SetSearchPaths(paths);
 
             scope = engine.CreateScope();
 
             var all = System.Reflection.Assembly.GetExecutingAssembly();
-            engine.Runtime.LoadAssembly(all);
+            var asss = AppDomain.CurrentDomain.GetAssemblies();
+            foreach (var ass in asss) {
+                engine.Runtime.LoadAssembly(ass);
+            }
             scope.SetVariable("Ports", MainV2.Comports);
             scope.SetVariable("MAV", MainV2.comPort);
             scope.SetVariable("cs", MainV2.comPort.MAV.cs);
@@ -108,7 +115,9 @@ namespace MissionPlanner
             }
             catch (Exception e)
             {
-                CustomMessageBox.Show("Error running script " + e.Message);
+                if (OutputWriter != null)
+                    OutputWriter.Write(engine.GetService<ExceptionOperations>().FormatException(e));
+                CustomMessageBox.Show("Error running script " + engine.GetService<ExceptionOperations>().FormatException(e));
             }
         }
 
