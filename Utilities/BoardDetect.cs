@@ -79,22 +79,22 @@ namespace MissionPlanner.Utilities
                                 if (item.board == "fmuv2" || item.board == "fmuv2-bl")
                                 {
                                     log.Info("is a fmuv2");
-                                    //return boards.px4v2;
+                                    return boards.px4v2;
                                 }
                                 if (item.board == "fmuv3" || item.board == "fmuv3-bl")
                                 {
                                     log.Info("is a fmuv3");
-                                    //return boards.px4v3;
+                                    return boards.px4v3;
                                 }
                                 if (item.board == "fmuv4" || item.board == "fmuv4-bl")
                                 {
                                     log.Info("is a fmuv4");
-                                    //return boards.px4v4;
+                                    return boards.px4v4;
                                 }
                                 if (item.board == "fmuv5" || item.board == "fmuv5-bl")
                                 {
                                     log.Info("is a fmuv5");
-                                    //return boards.fmuv5;
+                                    return boards.fmuv5;
                                 }
                                 if (item.board == "revo-mini" || item.board == "revo-mini-bl")
                                 {
