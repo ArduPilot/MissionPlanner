@@ -140,6 +140,7 @@ namespace px4uploader
         {
             try
             {
+                port.BaseStream.Flush();
                 port.Close();
             }
             catch { }
