@@ -506,7 +506,7 @@ namespace MissionPlanner.Controls
             if (keyData == (Keys.Control | Keys.S))
             {
                 var exepath = CheckandGetSITLImage("ArduCopter.elf");
-                var max = 5;
+                var max = 10;
 
                 for (int a = max; a >= 0 ; a--)
                 {
