@@ -240,9 +240,38 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="AutoReconnectDetailsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AutoReconnectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="CodeGen.cs" />
     <Compile Include="Common.cs" />
+    <Compile Include="ConnectionControlForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ConnectionOptions.cs"> <SubType>Control</SubType> </Compile>
+    <Compile Include="Controls\ConnectionControlPreview.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Include="Controls\COMConfig.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Include="Controls\AUTOConfig.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Include="Controls\IConnectionConfig.cs" />
+    <Compile Include="Controls\ToolStripConnectionControlPreview.cs" />
+    <Compile Include="Controls\UDPClConfig.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Include="Controls\UDPConfig.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Include="Controls\TCPConfig.cs">
+      <SubType>Control</SubType>
+    </Compile>
     <Compile Include="Controls\PropagationSettings.cs">
       <SubType>Control</SubType>
     </Compile>
@@ -311,13 +340,30 @@
     <Compile Include="Controls\LogAnalyzer.cs"> <SubType>Control</SubType> </Compile>
 	<Compile Include="Log\LogStrings.cs"> <SubType>Control</SubType> </Compile>
 	<Compile Include="Log\LogStrings.Designer.cs"><DependentUpon>LogStrings.cs</DependentUpon> </Compile>
-	<EmbeddedResource Include="ConnectForm.resx" />
+	<EmbeddedResource Include="AutoReconnectDetailsForm.resx">
+	  <Generator>ResXFileCodeGenerator</Generator>
+	  <LastGenOutput>AutoReconnectDetailsForm.Designer.cs</LastGenOutput>
+	</EmbeddedResource>
+	<EmbeddedResource Include="AutoReconnectForm.resx">
+	  <Generator>ResXFileCodeGenerator</Generator>
+	  <LastGenOutput>AutoReconnectForm.Designer.cs</LastGenOutput>
+	</EmbeddedResource>
+	<EmbeddedResource Include="ConnectionControlForm.resx">
+	  <Generator>ResXFileCodeGenerator</Generator>
+	  <LastGenOutput>ConnectionControlForm.Designer.cs</LastGenOutput>
+	</EmbeddedResource>
+	<EmbeddedResource Include="Controls\AUTOConfig.resx" />
+	<EmbeddedResource Include="Controls\COMConfig.resx" />
+	<EmbeddedResource Include="Controls\ConnectionControlPreview.resx" />
 	<EmbeddedResource Include="Controls\PropagationSettings.resx">
 	  <DependentUpon>PropagationSettings.cs</DependentUpon>
 	</EmbeddedResource>
 	<EmbeddedResource Include="Controls\ProximityControl.resx">
     <DependentUpon>ProximityControl.cs</DependentUpon>
   </EmbeddedResource>
+	<EmbeddedResource Include="Controls\TCPConfig.resx" />
+	<EmbeddedResource Include="Controls\UDPClConfig.resx" />
+	<EmbeddedResource Include="Controls\UDPConfig.resx" />
 	<EmbeddedResource Include="Log\LogStrings.resx"><DependentUpon>LogStrings.cs</DependentUpon> </EmbeddedResource>
     <Compile Include="Controls\MavlinkCheckBox.cs" />
     <Compile Include="Controls\MavlinkCheckBoxBitMask.cs" />
@@ -2123,6 +2169,15 @@
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec Command="echo $(TargetDir)" />
   </Target>
+
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
 
 
   <ItemGroup>

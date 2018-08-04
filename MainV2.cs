@@ -599,7 +599,10 @@ namespace MissionPlanner
             //startup console
             TCPConsole.Write((byte) 'S');
 
-            _connectionControl = toolStripConnectionControl.ConnectionControl;
+            //create connection control form
+            connectionControlForm = new ConnectionControlForm();
+
+            _connectionControl = connectionControlForm.ConnectionControl;
             _connectionControl.CMB_baudrate.TextChanged += this.CMB_baudrate_TextChanged;
             _connectionControl.CMB_serialport.SelectedIndexChanged += this.CMB_serialport_SelectedIndexChanged;
             _connectionControl.CMB_serialport.Click += this.CMB_serialport_Click;
@@ -1002,6 +1005,10 @@ namespace MissionPlanner
 
             MainV2.comPort.MavChanged += comPort_MavChanged;
 
+            //update connectionControlPreview
+            MenuConnectionControlPreview.ConnectionControlPreview.Device = connectionControlForm.ConnectionControl.TOOL_APMFirmware.Text;
+            MenuConnectionControlPreview.ConnectionControlPreview.ConnectionType = connectionControlForm.ConnectionControl.CMB_serialport.Text;
+
             // save config to test we have write access
             SaveConfig();
         }
@@ -1369,12 +1376,14 @@ namespace MissionPlanner
             }
 
             this.MenuConnect.Image = global::MissionPlanner.Properties.Resources.light_connect_icon;
+
+            CurrentConnectionState = ConnectionState.Disconnected;
         }
 
         public void doConnect(MAVLinkInterface comPort, string portname, string baud, bool getparams = true)
         {
             bool skipconnectcheck = false;
-            log.Info("We are connecting to " + portname + " " + baud );
+            log.Info("We are connecting to " + portname + " " + baud);
             switch (portname)
             {
                 case "preset":
@@ -1442,17 +1451,18 @@ namespace MissionPlanner
             {
                 log.Info("Set Portname");
                 // set port, then options
-                if(portname.ToLower() != "preset")
+                if (portname.ToLower() != "preset")
                     comPort.BaseStream.PortName = portname;
 
                 log.Info("Set Baudrate");
                 try
                 {
-                    if(baud != "" && baud != "0")
+                    if (baud != "" && baud != "0")
                         comPort.BaseStream.BaudRate = int.Parse(baud);
                 }
                 catch (Exception exp)
                 {
+                    CurrentConnectionState = ConnectionState.Failed;
                     log.Error(exp);
                 }
 
@@ -1471,7 +1481,7 @@ namespace MissionPlanner
                 }
 
                 comPort.giveComport = false;
-                
+
                 // setup to record new logs
                 try
                 {
@@ -1497,7 +1507,7 @@ namespace MissionPlanner
                             rlog = Settings.Instance.LogDir + Path.DirectorySeparatorChar +
                                    dt + ".rlog";
                         }
-                        
+
                         //open the logs for writing
                         comPort.logfile =
                             new BufferedStream(File.Open(tlog, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.None));
@@ -1508,15 +1518,16 @@ namespace MissionPlanner
                 }
                 catch (Exception exp2)
                 {
+                    CurrentConnectionState = ConnectionState.Failed;
                     log.Error(exp2);
                     CustomMessageBox.Show(Strings.Failclog);
                 } // soft fail
 
                 // reset connect time - for timeout functions
                 connecttime = DateTime.Now;
-                
+
                 // do the connect
-                comPort.Open(false, skipconnectcheck);
+                CurrentConnectionState = (ConnectionState)comPort.Open(false, skipconnectcheck);
 
                 if (!comPort.BaseStream.IsOpen)
                 {
@@ -1530,6 +1541,7 @@ namespace MissionPlanner
                     catch
                     {
                     }
+                    CurrentConnectionState = ConnectionState.Disconnected;
                     return;
                 }
 
@@ -1598,6 +1610,7 @@ namespace MissionPlanner
                     }
                     catch (Exception ex)
                     {
+                        CurrentConnectionState = ConnectionState.Failed;
                         log.Error(ex);
                     }
                 }
@@ -1611,8 +1624,8 @@ namespace MissionPlanner
 
                 MissionPlanner.Utilities.Tracking.AddEvent("Connect", "Baud", comPort.BaseStream.BaudRate.ToString(), "");
 
-                if(comPort.MAV.param.ContainsKey("SPRAY_ENABLE"))
-                    MissionPlanner.Utilities.Tracking.AddEvent("Param", "Value", "SPRAY_ENABLE",comPort.MAV.param["SPRAY_ENABLE"].ToString());
+                if (comPort.MAV.param.ContainsKey("SPRAY_ENABLE"))
+                    MissionPlanner.Utilities.Tracking.AddEvent("Param", "Value", "SPRAY_ENABLE", comPort.MAV.param["SPRAY_ENABLE"].ToString());
 
                 if (comPort.MAV.param.ContainsKey("CHUTE_ENABLE"))
                     MissionPlanner.Utilities.Tracking.AddEvent("Param", "Value", "CHUTE_ENABLE", comPort.MAV.param["CHUTE_ENABLE"].ToString());
@@ -1663,8 +1676,8 @@ namespace MissionPlanner
                     {
                         foreach (var rally1 in comPort.MAV.rallypoints)
                         {
-                            var pnt1 = new PointLatLngAlt(rally.Value.lat/10000000.0f, rally.Value.lng/10000000.0f);
-                            var pnt2 = new PointLatLngAlt(rally1.Value.lat/10000000.0f, rally1.Value.lng/10000000.0f);
+                            var pnt1 = new PointLatLngAlt(rally.Value.lat / 10000000.0f, rally.Value.lng / 10000000.0f);
+                            var pnt2 = new PointLatLngAlt(rally1.Value.lat / 10000000.0f, rally1.Value.lng / 10000000.0f);
 
                             var dist = pnt1.GetDistance(pnt2);
 
@@ -1673,18 +1686,18 @@ namespace MissionPlanner
                     }
 
                     if (comPort.MAV.param.ContainsKey("RALLY_LIMIT_KM") &&
-                        (maxdist/1000.0) > (float) comPort.MAV.param["RALLY_LIMIT_KM"])
+                        (maxdist / 1000.0) > (float)comPort.MAV.param["RALLY_LIMIT_KM"])
                     {
                         CustomMessageBox.Show(Strings.Warningrallypointdistance + " " +
-                                              (maxdist/1000.0).ToString("0.00") + " > " +
-                                              (float) comPort.MAV.param["RALLY_LIMIT_KM"]);
+                                              (maxdist / 1000.0).ToString("0.00") + " > " +
+                                              (float)comPort.MAV.param["RALLY_LIMIT_KM"]);
                     }
                 }
 
                 // get any fences
                 if (MainV2.comPort.MAV.param.ContainsKey("FENCE_TOTAL") &&
                     int.Parse(MainV2.comPort.MAV.param["FENCE_TOTAL"].ToString()) > 1 &&
-                    MainV2.comPort.MAV.param.ContainsKey("FENCE_ACTION") )
+                    MainV2.comPort.MAV.param.ContainsKey("FENCE_ACTION"))
                 {
                     FlightPlanner.GeoFencedownloadToolStripMenuItem_Click(null, null);
                 }
@@ -1694,6 +1707,7 @@ namespace MissionPlanner
             }
             catch (Exception ex)
             {
+                CurrentConnectionState = ConnectionState.Failed;
                 log.Warn(ex);
                 try
                 {
@@ -1703,53 +1717,228 @@ namespace MissionPlanner
                 }
                 catch (Exception ex2)
                 {
+                    CurrentConnectionState = ConnectionState.Failed;
                     log.Warn(ex2);
                 }
-                CustomMessageBox.Show("Can not establish a connection\n\n" + ex.Message);
+
+                MAVLinkInterface.ConnectionWire.Title = "Error";
+                MAVLinkInterface.ConnectionWire.Message = "Can not establish a connection";
+                MAVLinkInterface.ConnectionWire.Details = ex.Message;
                 return;
             }
         }
 
-        private bool isConnectionCancelled = false;
-        private bool isConnecting = false;
-        private Thread connectionCycleThread;
-        //private Form connectForm;
-        private void MenuConnect_Click(object sender, EventArgs e)
+        public ConnectionControlForm connectionControlForm;
+        private int AutoReconnectTimeout = -1;
+        private ConnectionState CurrentConnectionState = ConnectionState.Disconnected;
+
+        public enum ConnectionState
         {
-            Connect();
-            //connectForm = new ConnectForm();
-            //connectForm.Show();
-           //if (connectionCycleThread == null) connectionCycleThread = new Thread(new ThreadStart(ConnectionCycleThread));
-            //if (!connectionCycleThread.IsAlive) connectionCycleThread.Start();
+            Connected, Disconnected, Failed
         }
 
-        private void ConnectionCycleThread()
+        public ConnectionState ConnectionErrorHandler(string title, string message, string details)
         {
+            DialogResult result;
+            if (details.Equals("")) { result = AutoReconnectForm.Show(title, message, AutoReconnectTimeout); }
+            else { result = AutoReconnectForm.Show(title, message, details, AutoReconnectTimeout); }
+
+            if (result == DialogResult.OK) { return ConnectionState.Failed; }
+            else
+            {
+                MAVLinkInterface.ConnectionWire.ConnectionCancelled = true;
+                return ConnectionState.Disconnected;
+            }
+        }
+
+        public DialogResult ConnectionErrorHandler(string title, string message, MessageBoxButtons buttons)
+        {
+            return (DialogResult)CustomMessageBox.Show(message, title, buttons);
+        }
+
+        public ConnectionState ConnectionErrorHandler()
+        {
+            string title = MAVLinkInterface.ConnectionWire.Title;
+            if (connectionControlForm.ConnectionConfig.ConnectionType == ConnectionType.AUTO)
+            {
+                AUTOConfig autoConfig = (AUTOConfig)connectionControlForm.ConnectionConfig;
+                title = MAVLinkInterface.ConnectionWire.Title + "(reconnect to " + autoConfig.NextConnectionQueue + ")";
+            }
+            string message = MAVLinkInterface.ConnectionWire.Message;
+            string details = MAVLinkInterface.ConnectionWire.Details;
+            MAVLinkInterface.ConnectionWire.Reset();
+            DialogResult result;
+            if (details.Equals("")) { result = AutoReconnectForm.Show(title, message, AutoReconnectTimeout); }
+            else { result = AutoReconnectForm.Show(title, message, details, AutoReconnectTimeout); }
+
+            if (result == DialogResult.OK) { return ConnectionState.Failed; }
+            else
+            {
+                MAVLinkInterface.ConnectionWire.ConnectionCancelled = true;
+                return ConnectionState.Disconnected;
+            }
+        }
+
+        private class DeviceTimeStamp
+        {
+            public double Altitude { get; }
+            public double GroundSpeed { get; }
+            public double DistToWp { get; }
+            public double Yaw { get; }
+            public double VerticalSpeed { get; }
+            public double DistToMav { get; }
+
+            public DeviceTimeStamp(double altitude, double groundSpeed, double distToWp, double yaw, double verticalSpeed, double distToMav)
+            {
+                Altitude = altitude;
+                GroundSpeed = groundSpeed;
+                DistToWp = distToWp;
+                Yaw = yaw;
+                VerticalSpeed = verticalSpeed;
+                DistToMav = distToMav;
+            }
+        }
+
+        private bool CompareStamp(DeviceTimeStamp stamp1, DeviceTimeStamp stamp2)
+        {
+            if (stamp1.Altitude == stamp2.Altitude &&
+                stamp1.GroundSpeed == stamp2.GroundSpeed &&
+                stamp1.DistToWp == stamp2.DistToWp &&
+                stamp1.Yaw == stamp2.Yaw &&
+                stamp1.VerticalSpeed == stamp2.VerticalSpeed &&
+                stamp1.DistToMav == stamp2.DistToMav)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private void connectionCheckerThread()
+        {
+            double Altitude = 0;
+            double GroundSpeed = 0;
+            double DistToWp = 0;
+            double Yaw = 0;
+            double VerticalSpeed = 0;
+            double DistToMav = 0;
             while (true)
             {
-                while (isConnecting) { }
-                if (!comPort.BaseStream.IsOpen)
+                Altitude = 0;
+                GroundSpeed = 0;
+                DistToWp = 0;
+                Yaw = 0;
+                VerticalSpeed = 0;
+                DistToMav = 0;
+                DeviceTimeStamp currentStamp1 = new DeviceTimeStamp(Altitude, GroundSpeed, DistToWp, Yaw, VerticalSpeed, DistToMav);
+
+                Thread.Sleep(2000);
+
+                Altitude = 0;
+                GroundSpeed = 0;
+                DistToWp = 0;
+                Yaw = 0;
+                VerticalSpeed = 0;
+                DistToMav = 0;
+                DeviceTimeStamp currentStamp2 = new DeviceTimeStamp(Altitude, GroundSpeed, DistToWp, Yaw, VerticalSpeed, DistToMav);
+
+                if (CompareStamp(currentStamp1, currentStamp2))
                 {
-                    MessageBox.Show("reconnecting...");
-                    //Connect();
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        CurrentConnectionState = ConnectionState.Disconnected;
+                    });
+                    return;
                 }
-                System.Threading.Thread.Sleep(1000);
+                else
+                {
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        CurrentConnectionState = ConnectionState.Connected;
+                    });
+                }
+            }
+        }
+
+        private void MenuConnectionConfig_Click(object sender, EventArgs e)
+        {
+            ConnectionControlForm temp = connectionControlForm.Copy();
+            DialogResult result = connectionControlForm.ShowDialog();
+            if (result == DialogResult.Cancel)
+            {
+                connectionControlForm = temp;
+            }
+
+            MenuConnectionControlPreview.ConnectionControlPreview.Device = connectionControlForm.ConnectionControl.TOOL_APMFirmware.Text;
+            MenuConnectionControlPreview.ConnectionControlPreview.ConnectionType = connectionControlForm.ConnectionControl.CMB_serialport.Text;
+
+            if (connectionControlForm.ConnectionConfig.AutoReconnect == CheckState.Checked)
+            {
+                AutoReconnectTimeout = Convert.ToInt32(connectionControlForm.ConnectionConfig.AutoReconnectTimeout);
+            }
+            else
+            {
+                AutoReconnectTimeout = -1;
+            }
+        }
+
+        private void MenuConnect_Click(object sender, EventArgs e)
+        {
+            if (connectionControlForm.ConnectionConfig.ConnectionType == ConnectionType.AUTO)
+            {
+                AUTOConfig autoConfig = (AUTOConfig)connectionControlForm.ConnectionConfig;
+                foreach (object item in _connectionControl.CMB_serialport.Items)
+                {
+                    string strItem = (string)item;
+                    if (autoConfig.ListBoxCommsTypes.Items.Contains(item)) continue;
+                    if (strItem.ToLower().Equals("auto")) continue;
+                    autoConfig.ListBoxCommsTypes.Items.Add(item);
+                }
+                autoConfig.ConnectionQueueReset();
+                while (true)
+                {
+                    Connect();
+                    if (MAVLinkInterface.ConnectionWire.ConnectionCancelled) break;
+
+                    if (ConnectionErrorHandler() == ConnectionState.Failed) continue;
+                    else if (CurrentConnectionState == ConnectionState.Connected)
+                    {
+                        Thread thread = new Thread(new ThreadStart(connectionCheckerThread));
+                        thread.Start();
+                    }
+                    else { break; }
+                }
+                _connectionControl.CMB_serialport.SelectedItem = "AUTO";
+                return;
+            }
+            else
+            {
+                Connect();
+                if (MAVLinkInterface.ConnectionWire.ConnectionCancelled) return;
+                while (ConnectionErrorHandler() == ConnectionState.Failed) { Connect(); }
+                if (CurrentConnectionState == ConnectionState.Connected)
+                {
+                    Thread thread = new Thread(new ThreadStart(connectionCheckerThread));
+                    thread.Start();
+                }
             }
         }
 
         private void Connect()
         {
-            isConnecting = true;
             comPort.giveComport = false;
-
+            
             log.Info("MenuConnect Start");
 
             // sanity check
             if (comPort.BaseStream.IsOpen && comPort.MAV.cs.groundspeed > 4)
             {
-                if ((int) DialogResult.No ==
-                    CustomMessageBox.Show(Strings.Stillmoving, Strings.Disconnect, MessageBoxButtons.YesNo))
+                DialogResult result = ConnectionErrorHandler(Strings.Disconnect, Strings.Stillmoving, MessageBoxButtons.YesNo);
+                if (DialogResult.No == result)
                 {
+                    CurrentConnectionState = ConnectionState.Connected;
                     return;
                 }
             }
@@ -1766,12 +1955,12 @@ namespace MissionPlanner
             }
             catch (Exception ex)
             {
-                CustomMessageBox.Show(Strings.ErrorClosingLogFile + ex.Message, Strings.ERROR);
+                CustomMessageBox.Show(Strings.ErrorClosingLogFile + ex.Message, Strings.ERROR); //markedStopper
             }
 
             comPort.logfile = null;
             comPort.rawlogfile = null;
-
+            
             // decide if this is a connect or disconnect
             if (comPort.BaseStream.IsOpen)
             {
@@ -1779,13 +1968,40 @@ namespace MissionPlanner
             }
             else
             {
-                doConnect(comPort, _connectionControl.CMB_serialport.Text, _connectionControl.CMB_baudrate.Text);
+                string portname = _connectionControl.CMB_serialport.Text;
+                if (connectionControlForm.ConnectionConfig.ConnectionType == ConnectionType.AUTO)
+                {
+                    AUTOConfig autoConfig = (AUTOConfig)connectionControlForm.ConnectionConfig;
+                    ConnectionType commsQueue = autoConfig.ConnectionQueue;
+                    switch (commsQueue)
+                    {
+                        case ConnectionType.COM:
+                            COMConfig com = (COMConfig)connectionControlForm.GetConnectionConfig(ConnectionType.COM);
+                            string comPortName = "COM";
+                            foreach (string port in _connectionControl.CMB_serialport.Items)
+                            {
+                                if (port.Contains("COM")) comPortName = port;
+                            }
+                            com.PortName = comPortName;
+                            portname = com.PortName;
+                            break;
+                        case ConnectionType.TCP:
+                            portname = "TCP";
+                            break;
+                        case ConnectionType.UDP:
+                            portname = "UDP";
+                            break;
+                        case ConnectionType.UDPCl:
+                            portname = "UDPCl";
+                            break;
+                    }
+                }
+                doConnect(comPort, portname, _connectionControl.CMB_baudrate.Text);
             }
 
             _connectionControl.UpdateSysIDS();
 
             loadph_serial();
-            isConnecting = false;
         }
 
         void loadph_serial()
@@ -2662,10 +2878,6 @@ namespace MissionPlanner
                             {
                                 try
                                 {
-                                    // poll for version if we dont have it - every mav every port
-                                    if (!MAV.cs.armed && (DateTime.Now.Second % 20) == 0 && MAV.cs.version < new Version(0, 1))
-                                        port.getVersion(MAV.sysid, MAV.compid, false);
-
                                     // are we talking to a mavlink2 device
                                     if (MAV.mavlinkv2)
                                     {
@@ -3694,7 +3906,7 @@ namespace MissionPlanner
                 menu.Visible = false;
                 MainMenu.MouseLeave -= MainMenu_MouseLeave;
                 panel1.MouseLeave -= MainMenu_MouseLeave;
-                toolStripConnectionControl.MouseLeave -= MainMenu_MouseLeave;
+                connectionControlForm.ConnectionControl.MouseLeave -= MainMenu_MouseLeave;
                 this.ResumeLayout();
             }
             else
@@ -3704,7 +3916,7 @@ namespace MissionPlanner
                 panel1.Visible = false;
                 MainMenu.MouseLeave += MainMenu_MouseLeave;
                 panel1.MouseLeave += MainMenu_MouseLeave;
-                toolStripConnectionControl.MouseLeave += MainMenu_MouseLeave;
+                connectionControlForm.ConnectionControl.MouseLeave += MainMenu_MouseLeave;
                 menu.Visible = true;
                 menu.SendToBack();
                 this.ResumeLayout();

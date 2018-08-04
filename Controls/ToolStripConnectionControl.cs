@@ -5,9 +5,9 @@ namespace MissionPlanner.Controls
     public class ToolStripConnectionControl : ToolStripControlHost
     {
         // Call the base constructor passing in a MonthCalendar instance.     
-        public ToolStripConnectionControl()
-            : base(new ConnectionControl())
+        public ToolStripConnectionControl() : base(new ConnectionControl())
         {
+
         }
 
         public ConnectionControl ConnectionControl
