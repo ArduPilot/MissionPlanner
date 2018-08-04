@@ -329,6 +329,8 @@ namespace MissionPlanner
 
         public ConnectionState Open(bool getparams, bool skipconnectedcheck = false)
         {
+            ConnectionWire.Reset();
+
             if (BaseStream.IsOpen && !skipconnectedcheck)
                 return CurrentConnectionState;
 
@@ -367,6 +369,21 @@ namespace MissionPlanner
         void FrmProgressReporterDoWorkNOParams(IProgressReporterDialogue sender)
         {
             OpenBg(sender, false);
+        }
+
+        public static class ConnectionWire
+        {
+            public static string Title = "Error";
+            public static string Message = "Something went wrong.";
+            public static string Details = "Something went wrong.";
+            public static bool ConnectionCancelled = false;
+            public static void Reset()
+            {
+                Title = "Error";
+                Message = "Something went wrong.";
+                Details = "Something went wrong.";
+                ConnectionCancelled = false;
+            }
         }
 
         private void OpenBg(IProgressReporterDialogue PRsender, bool getparams)
@@ -441,6 +458,7 @@ namespace MissionPlanner
                         if (BaseStream.IsOpen)
                             BaseStream.Close();
                         giveComport = false;
+                        ConnectionWire.ConnectionCancelled = true;
                         return;
                     }
 
@@ -455,20 +473,22 @@ namespace MissionPlanner
 
                         if (hbseen)
                         {
-                            PRsender.doWorkArgs.ErrorMessage = Strings.Only1Hb;
-                            throw new Exception(Strings.Only1HbD);
+                            ConnectionWire.Message = Strings.Only1Hb;
+                            ConnectionWire.ConnectionCancelled = false;
                         }
                         else
                         {
-                            PRsender.doWorkArgs.ErrorMessage = "No Heartbeat Packets Received";
-                            throw new Exception(@"Can not establish a connection\n
+                            ConnectionWire.Message = "No Heartbeat Packets Received";
+                            ConnectionWire.Details = @"Can not establish a connection
 Please check the following
 1. You have firmware loaded
 2. You have the correct serial port selected
 3. PX4 - You have the microsd card installed
 4. Try a diffrent usb port\n\n" +
-                                                "No Mavlink Heartbeat Packets where read from this port - Verify Baud Rate and setup\nMission Planner waits for 2 valid heartbeat packets before connecting");
+                                                "No Mavlink Heartbeat Packets where read from this port - Verify Baud Rate and setup\nMission Planner waits for 2 valid heartbeat packets before connecting";
+                            ConnectionWire.ConnectionCancelled = false;
                         }
+                        return;
                     }
 
                     Thread.Sleep(1);
@@ -555,6 +575,7 @@ Please check the following
                     giveComport = false;
                     if (BaseStream.IsOpen)
                         BaseStream.Close();
+                    ConnectionWire.ConnectionCancelled = true;
                     return;
                 }
             }
@@ -568,10 +589,13 @@ Please check the following
                 {
                 }
                 giveComport = false;
-                if (string.IsNullOrEmpty(PRsender.doWorkArgs.ErrorMessage))
-                    PRsender.doWorkArgs.ErrorMessage = Strings.ConnectFailed;
+                //if (string.IsNullOrEmpty(PRsender.doWorkArgs.ErrorMessage))
+                //    PRsender.doWorkArgs.ErrorMessage = Strings.ConnectFailed;
                 log.Error(e);
-                throw;
+                //throw;
+                ConnectionWire.ConnectionCancelled = false;
+                ConnectionWire.Message = Strings.ConnectFailed;
+                ConnectionWire.Details = e.ToString();
             }
             //frmProgressReporter.Close();
             giveComport = false;

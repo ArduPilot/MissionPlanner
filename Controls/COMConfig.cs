@@ -23,7 +23,7 @@ namespace MissionPlanner.Controls
             InitializeComponent();
         }
 
-        public ConnectionTypes ConnectionType { get { return ConnectionTypes.COM; } }
+        public ConnectionType ConnectionType { get { return ConnectionType.COM; } }
         public CheckState AutoReconnect
         {
             get { return checkBoxAutoReconnect.CheckState; }
@@ -35,6 +35,8 @@ namespace MissionPlanner.Controls
             get { return upDownConnectionTimeout.Value; }
             set { upDownConnectionTimeout.Value = value; }
         }
+
+        public string PortName { get;set; }
 
         private void InitializeComponent()
         {

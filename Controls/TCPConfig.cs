@@ -27,7 +27,7 @@ namespace MissionPlanner.Controls
             InitializeComponent();
         }
 
-        public ConnectionTypes ConnectionType { get { return ConnectionTypes.TCP; } }
+        public ConnectionType ConnectionType { get { return ConnectionType.TCP; } }
         public CheckState AutoReconnect
         {
             get { return checkBoxAutoReconnect.CheckState; }

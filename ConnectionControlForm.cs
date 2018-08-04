@@ -40,6 +40,12 @@ namespace MissionPlanner
                 form.ConnectionControl.TOOL_APMFirmware.Items.Add(item);
             }
 
+            foreach (object item in this.autoConfig.ListBoxCommsTypes.Items)
+            {
+                form.autoConfig.ListBoxCommsTypes.Items.Add(item);
+            }
+            form.autoConfig.ListBoxCommsTypes.SelectedIndex = this.autoConfig.ListBoxCommsTypes.SelectedIndex;
+
             form.ConnectionControl.cmb_sysid.SelectedIndex = this.ConnectionControl.cmb_sysid.SelectedIndex;
             form.ConnectionControl.CMB_baudrate.SelectedIndex = this.ConnectionControl.CMB_baudrate.SelectedIndex;
             form.ConnectionControl.CMB_serialport.SelectedIndex = this.ConnectionControl.CMB_serialport.SelectedIndex;
@@ -62,6 +68,8 @@ namespace MissionPlanner
             form.comConfig.AutoReconnect = this.comConfig.AutoReconnect;
             form.comConfig.AutoReconnectTimeout = this.comConfig.AutoReconnectTimeout;
 
+            form.currentPort = this.currentPort;
+
             return form;
         }
 
@@ -76,11 +84,11 @@ namespace MissionPlanner
             autoConfig = new Controls.AUTOConfig();
             comConfig = new Controls.COMConfig();
 
-            tcpConfig.Tag = ConnectionTypes.TCP;
-            udpConfig.Tag = ConnectionTypes.UDP;
-            udpclConfig.Tag = ConnectionTypes.UDPCl;
-            autoConfig.Tag = ConnectionTypes.AUTO;
-            comConfig.Tag = ConnectionTypes.COM;
+            tcpConfig.Tag = ConnectionType.TCP;
+            udpConfig.Tag = ConnectionType.UDP;
+            udpclConfig.Tag = ConnectionType.UDPCl;
+            autoConfig.Tag = ConnectionType.AUTO;
+            comConfig.Tag = ConnectionType.COM;
 
             tcpConfig.Dock = DockStyle.Fill;
             udpConfig.Dock = DockStyle.Fill;
@@ -114,7 +122,7 @@ namespace MissionPlanner
             udpConfig.Port = Comms.UdpSerial.StaticPort;
             udpclConfig.Port = Comms.UdpSerialConnect.StaticPort;
 
-            currentPort = GetConnectionType(ConnectionControl.CMB_serialport.Text);
+            currentPort = ConnectionMethods.GetConnectionType(ConnectionControl.CMB_serialport.Text);
         }
 
         private void InitializeComponent()
@@ -213,16 +221,16 @@ namespace MissionPlanner
             DialogResult = DialogResult.OK;
         }
 
-        private ConnectionTypes currentPort;
+        private ConnectionType currentPort;
         private void ConnectionControl_Paint(object sender, PaintEventArgs e)
         {
             if (!currentPort.Equals(ConnectionControl.CMB_serialport.Text))
             {
-                currentPort = GetConnectionType(ConnectionControl.CMB_serialport.Text);
+                currentPort = ConnectionMethods.GetConnectionType(ConnectionControl.CMB_serialport.Text);
 
                 foreach (Control control in panelConfig.Controls)
                 {
-                    if (control.Tag.Equals(ConnectionTypes.COM))
+                    if (control.Tag.Equals(ConnectionType.COM))
                     {
                         Controls.COMConfig comControl = (Controls.COMConfig)control;
                         comControl.Title.Text = ConnectionControl.CMB_serialport.Text;
@@ -232,30 +240,45 @@ namespace MissionPlanner
                     else                                            control.Hide();
                 }
             }
+            if (currentPort == ConnectionType.AUTO)
+            {
+                int index = autoConfig.ListBoxCommsTypes.SelectedIndex;
+                foreach (object item in ConnectionControl.CMB_serialport.Items)
+                {
+                    string strItem = (string)item;
+                    if (autoConfig.ListBoxCommsTypes.Items.Contains(item)) continue;
+                    if (strItem.ToLower().Equals("auto")) continue;
+                    autoConfig.ListBoxCommsTypes.Items.Add(item);
+                }
+                autoConfig.ListBoxCommsTypes.SelectedIndex = index;
+            }
         }
 
-        public IConnectionConfig ConnectionType
+        public IConnectionConfig ConnectionConfig
         {
             get
             {
                 switch (currentPort)
                 {
-                    case ConnectionTypes.COM:   return comConfig;
-                    case ConnectionTypes.TCP:   return tcpConfig;
-                    case ConnectionTypes.UDP:   return udpConfig;
-                    case ConnectionTypes.UDPCl: return udpclConfig;
-                    default:                    return autoConfig;
+                    case ConnectionType.COM: return comConfig;
+                    case ConnectionType.TCP: return tcpConfig;
+                    case ConnectionType.UDP: return udpConfig;
+                    case ConnectionType.UDPCl: return udpclConfig;
+                    default: return autoConfig;
                 }
             }
         }
 
-        private ConnectionTypes GetConnectionType(string connectionType)
+        public IConnectionConfig GetConnectionConfig(ConnectionType port)
         {
-            if (connectionType.Equals("TCP"))           return ConnectionTypes.TCP;
-            else if (connectionType.Equals("UDP"))      return ConnectionTypes.UDP;
-            else if (connectionType.Equals("UDPCl"))    return ConnectionTypes.UDPCl;
-            else if (connectionType.Equals("AUTO"))     return ConnectionTypes.AUTO;
-            else                                        return ConnectionTypes.COM;
+            switch (port)
+            {
+                case ConnectionType.COM: return comConfig;
+                case ConnectionType.TCP: return tcpConfig;
+                case ConnectionType.UDP: return udpConfig;
+                case ConnectionType.UDPCl: return udpclConfig;
+                default: return autoConfig;
+            }
         }
     }
 }
