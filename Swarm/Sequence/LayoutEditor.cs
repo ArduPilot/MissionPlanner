@@ -31,6 +31,7 @@ namespace MissionPlanner.Swarm.Sequence
         private Button BUT_runstep;
         private Label label1;
         private Button BUT_resetstep;
+        private NumericUpDown num_drones;
         private Grid grid;
 
         public LayoutEditor()
@@ -66,9 +67,11 @@ namespace MissionPlanner.Swarm.Sequence
             this.BUT_runstep = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.BUT_resetstep = new System.Windows.Forms.Button();
+            this.num_drones = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.layoutsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.stepsBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_drones)).BeginInit();
             this.SuspendLayout();
             // 
             // grid
@@ -127,12 +130,13 @@ namespace MissionPlanner.Swarm.Sequence
             // 
             // BUT_newdrone
             // 
-            this.BUT_newdrone.Location = new System.Drawing.Point(301, 12);
+            this.BUT_newdrone.Location = new System.Drawing.Point(694, -7);
             this.BUT_newdrone.Name = "BUT_newdrone";
             this.BUT_newdrone.Size = new System.Drawing.Size(75, 23);
             this.BUT_newdrone.TabIndex = 4;
             this.BUT_newdrone.Text = "New Drone";
             this.BUT_newdrone.UseVisualStyleBackColor = true;
+            this.BUT_newdrone.Visible = false;
             this.BUT_newdrone.Click += new System.EventHandler(this.BUT_newdrone_Click);
             // 
             // BUT_save
@@ -208,9 +212,33 @@ namespace MissionPlanner.Swarm.Sequence
             this.BUT_resetstep.UseVisualStyleBackColor = true;
             this.BUT_resetstep.Click += new System.EventHandler(this.BUT_resetstep_Click);
             // 
+            // num_drones
+            // 
+            this.num_drones.Location = new System.Drawing.Point(301, 13);
+            this.num_drones.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.num_drones.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.num_drones.Name = "num_drones";
+            this.num_drones.Size = new System.Drawing.Size(75, 20);
+            this.num_drones.TabIndex = 11;
+            this.num_drones.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.num_drones.ValueChanged += new System.EventHandler(this.num_drones_ValueChanged);
+            // 
             // LayoutEditor
             // 
             this.ClientSize = new System.Drawing.Size(899, 494);
+            this.Controls.Add(this.num_drones);
             this.Controls.Add(this.BUT_resetstep);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.BUT_runstep);
@@ -227,6 +255,7 @@ namespace MissionPlanner.Swarm.Sequence
             ((System.ComponentModel.ISupportInitialize)(this.layoutsBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.stepsBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_drones)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -246,9 +275,12 @@ namespace MissionPlanner.Swarm.Sequence
 
             workingSequence.Layouts.Add(newworkingLayout);
 
-            foreach (var item in workingLayout.Offset)
+            if (workingLayout != null)
             {
-                newworkingLayout.AddOffset(item.Key, item.Value);
+                foreach (var item in workingLayout.Offset)
+                {
+                    newworkingLayout.AddOffset(item.Key, item.Value);
+                }
             }
 
             workingLayout = newworkingLayout;
@@ -276,6 +308,8 @@ namespace MissionPlanner.Swarm.Sequence
 
             if (load.Layouts.Count ==0)
                 return;
+
+            num_drones.Value = load.Layouts.First().Offset.Keys.Count();
 
             foreach (var sysid in load.Layouts.First().Offset.Keys)
             {
@@ -312,6 +346,9 @@ namespace MissionPlanner.Swarm.Sequence
         {
             if (workingLayout == null)
                 return;
+
+            grid.Clear();
+
             foreach (var vector3 in workingLayout.Offset)
             {
                 grid.UpdateIcon(mavs[vector3.Key], (float)vector3.Value.x, (float)vector3.Value.y,
@@ -404,15 +441,23 @@ namespace MissionPlanner.Swarm.Sequence
 
             if (step == 0)
             {
-                controller.DG.Drones.All(a =>
+                Parallel.ForEach(controller.DG.Drones, a =>
                 {
                     if (!a.MavState.cs.mode.ToLower().Equals("guided"))
                         a.MavState.parent.setMode(a.MavState.sysid, a.MavState.compid, "GUIDED");
+                });
+
+                controller.DG.Drones.All(a =>
+                {
                     if (a.MavState.cs.armed != true)
                         a.MavState.parent.doARM(a.MavState.sysid, a.MavState.compid, true);
-
-                    a.MavState.parent.doCommand(a.MavState.sysid, a.MavState.compid, MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 2, false);
                     return true;
+                });
+
+                Parallel.ForEach(controller.DG.Drones, a =>
+                {
+                    a.MavState.parent.doCommand(a.MavState.sysid, a.MavState.compid, MAVLink.MAV_CMD.TAKEOFF, 0, 0,
+                        0, 0, 0, 0, 2, false);
                 });
                 Thread.Sleep(3000);
             }
@@ -437,6 +482,49 @@ namespace MissionPlanner.Swarm.Sequence
         private void BUT_resetstep_Click(object sender, EventArgs e)
         {
             step = 0;
+        }
+
+        private void num_drones_ValueChanged(object sender, EventArgs e)
+        {
+            var count = workingSequence.Layouts.Count > 0 ? workingSequence.Layouts.First().Offset.Keys.Count() : 0;
+
+            if (num_drones.Value == count)
+                return;
+
+            if (num_drones.Value < count)
+            {
+                // add the drone to all layouts
+                foreach (var workingSequenceLayout in workingSequence.Layouts)
+                {
+                    workingSequenceLayout.Offset.Remove(count);
+                }
+
+                bindingSource1.DataSource = workingSequence;
+            }
+            else
+            {
+
+                int sysid = 1;
+                try
+                {
+                    sysid = workingSequence.Layouts.First().Offset.Keys.Max() + 1;
+                }
+                catch
+                {
+                }
+
+                // add the drone to all layouts
+                foreach (var workingSequenceLayout in workingSequence.Layouts)
+                {
+                    workingSequenceLayout.AddOffset(sysid, new Vector3(sysid, 0, 0));
+                }
+
+                mavs[sysid] = new MAVState(mavint, (byte) sysid, 0);
+
+                bindingSource1.DataSource = workingSequence;
+            }
+
+            UpdateDisplay();
         }
     }
 }

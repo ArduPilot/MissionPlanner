@@ -5,15 +5,17 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using log4net;
 using MissionPlanner.Arduino;
+using MissionPlanner.Comms;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    partial class ConfigFirmware : MyUserControl, IActivate
+    partial class ConfigFirmware : MyUserControl, IActivate, IDeactivate
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private static List<Firmware.software> softwares = new List<Firmware.software>();
@@ -34,6 +36,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 UpdateFWList();
                 firstrun = false;
+                MainV2.instance.DeviceChanged += Instance_DeviceChanged;
             }
 
             if (Program.WindowsStoreApp)
@@ -58,6 +61,44 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 lbl_dlfw.Visible = false;
                 CMB_history_label.Visible = false;
             }
+        }
+
+        private void Instance_DeviceChanged(MainV2.WM_DEVICECHANGE_enum cause)
+        {
+            if (cause != MainV2.WM_DEVICECHANGE_enum.DBT_DEVICEARRIVAL)
+                return;
+
+            Parallel.ForEach(SerialPort.GetPortNames(), port =>
+            //Task.Run(delegate
+            {
+                px4uploader.Uploader up;
+
+                try
+                {
+                    up = new px4uploader.Uploader(port, 115200);
+                }
+                catch (Exception ex)
+                {
+                    //System.Threading.Thread.Sleep(50);
+                    Console.WriteLine(ex.Message);
+                    return;
+                }
+
+                try
+                {
+                    up.identify();
+                    log.InfoFormat("Found board type {0} boardrev {1} bl rev {2} fwmax {3} on {4}", up.board_type,
+                        up.board_rev, up.bl_rev, up.fw_maxsize, port);
+
+                    up.close();
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Not There..");
+                    //Console.WriteLine(ex.Message);
+                    up.close();
+                }
+            });
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -448,6 +489,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 CustomMessageBox.Show("http://www.proficnc.com/?utm_source=missionplanner&utm_medium=click&utm_campaign=mission", Strings.ERROR);
             }
+        }
+
+        public void Deactivate()
+        {
+            MainV2.instance.DeviceChanged -= Instance_DeviceChanged;
         }
     }
 }

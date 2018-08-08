@@ -848,6 +848,7 @@ namespace MissionPlanner
             get { return _current2; }
             set
             {
+                if (_lastcurrent2 == DateTime.MinValue) _lastcurrent2 = datetime;
                 if (value < 0) return;              
                 battery_usedmah2 += ((value * 1000.0) * (datetime - _lastcurrent2).TotalHours);
                 _current2 = value;
@@ -2011,7 +2012,7 @@ namespace MissionPlanner
                                 }
                             }
 
-                            if (oldmode != mode && Speech.speechEnable && parent.parent.MAV.cs == this &&
+                            if (oldmode != mode && Speech.speechEnable && parent?.parent?.MAV?.cs == this &&
                                 Settings.Instance.GetBoolean("speechmodeenabled"))
                             {
                                 Speech.Instance.SpeakAsync(Common.speechConversion(parent, ""+ Settings.Instance["speechmode"]));

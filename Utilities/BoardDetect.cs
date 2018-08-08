@@ -76,43 +76,42 @@ namespace MissionPlanner.Utilities
                             // new style bootloader
                             if (item.hardwareid.StartsWith(@"USB\VID_0483&PID_5740")) //USB\VID_0483&PID_5740&REV_0200)
                             {
-                                if (item.board == "fmuv2" || item.board == "fmuv2-bl")
+                                if (item.board == "fmuv2" || item.board.ToLower() == "fmuv2-bl")
                                 {
                                     log.Info("is a fmuv2");
-                                    //return boards.px4v2;
+                                    return boards.px4v2;
                                 }
-                                if (item.board == "fmuv3" || item.board == "fmuv3-bl")
+                                if (item.board == "fmuv3" || item.board.ToLower() == "fmuv3-bl")
                                 {
                                     log.Info("is a fmuv3");
-                                    //return boards.px4v3;
+                                    return boards.px4v3;
                                 }
-                                if (item.board == "fmuv4" || item.board == "fmuv4-bl")
+                                if (item.board == "fmuv4" || item.board.ToLower() == "fmuv4-bl")
                                 {
                                     log.Info("is a fmuv4");
-                                    //return boards.px4v4;
+                                    return boards.px4v4;
                                 }
-                                if (item.board == "fmuv5" || item.board == "fmuv5-bl")
+                                if (item.board == "fmuv5" || item.board.ToLower() == "fmuv5-bl")
                                 {
                                     log.Info("is a fmuv5");
-                                    //return boards.fmuv5;
                                 }
-                                if (item.board == "revo-mini" || item.board == "revo-mini-bl")
+                                if (item.board == "revo-mini" || item.board.ToLower() == "revo-mini-bl")
                                 {
                                     log.Info("is a revo-mini");
                                     //return boards.revomini;
                                 }
-                                if (item.board == "mini-pix" || item.board == "mini-pix-bl")
+                                if (item.board == "mini-pix" || item.board.ToLower() == "mini-pix-bl")
                                 {
                                     log.Info("is a mini-pix");
                                     //return boards.minipix;
                                 }
-                                if (item.board == "mindpx-v2" || item.board == "mindpx-v2-bl")
+                                if (item.board == "mindpx-v2" || item.board.ToLower() == "mindpx-v2-bl")
                                 {
                                     log.Info("is a mindpx-v2");
                                     //return boards.mindpxv2;
                                 }
 
-                                chbootloader = item.board.Replace("-bl","");
+                                chbootloader = item.board.ToLower().Replace("-bl","");
                                 return boards.chbootloader;
                             }
 

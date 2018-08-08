@@ -173,6 +173,7 @@ namespace MissionPlanner.Swarm
 
             Console.WriteLine("ADD MAV {0} {1} {2}", x, y, z);
             icons.Add(new icon() {interf = mav, y = y, z = z, x = x, Movable = movable, Name = mav.ToString()});
+            this.Invalidate();
         }
 
         protected override void OnMouseMove(MouseEventArgs e)

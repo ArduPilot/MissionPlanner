@@ -83,6 +83,8 @@ namespace MissionPlanner.Swarm.Sequence
                         MAV.cs.rateposition = 10;
                         
                     }
+
+                    CurrentMode = Mode.running;
                     break;
 
                 case Mode.running:
