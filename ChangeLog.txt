@@ -1,4 +1,38 @@
-﻿*Mission Planner 1.3.57 - 22-7-2018
+﻿*Mission Planner 1.3.58 - 8-8-2018
+Program: remove exe
+Projects: system.io.ports update
+SITL: get defaults once
+Sequence: parallel
+Grid: invalidate on add icon
+SITL: start 11 drone (control-s)
+FirmwareHistory: update
+BoardDetect: convert boardid to lower
+Uploader: flush on close
+BoardDetect: support old firmware on new bootloader/fw
+ConfigFirmware: force bootloader on plugin
+Script: add backtrace to python error
+Win32DeviceMgmt: fix increment
+Win32DeviceMgmt: log all output
+Win32DeviceMgmt: handle exceptions better
+ConfigHWAirspeed: add ARSPD_TYPE to config #1725
+FlightData: Add additioanl Set Home Here #1901
+ConfigFirmware: rename force bootloader #1902
+FlightPlanner: remove zoom and centre on map type change #1904
+CurrentState: fix start battery_usedmah2 #1905
+ConfigArducopter: update param names #1903
+Update: cleanup old dll/exe
+DownloadStream: increase chunk size
+ParamaterMetaDataBackup: sort
+CurrentState: null check
+ParameterMetaDataParser: order xml output
+ParameterMetaDataBackup: update
+ConfigArduplane: fix airspeed cruise range
+ConfigRawParams: fix sort with nulls
+Sequence: faster multi connect
+CurrentState: console write mavlink_autopilot_version_t
+MAVLinkInterface: fix hb check when sysid = 0
+
+*Mission Planner 1.3.57 - 22-7-2018
 Add Altitude Angel flight reporting to Mission Planner
 OpenGLTest2: add wp marker
 OpenGLtest2: fix pxstep terrain
