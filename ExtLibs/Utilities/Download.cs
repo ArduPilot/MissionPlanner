@@ -113,12 +113,10 @@ namespace MissionPlanner.Utilities
         {
             _lastread = DateTime.Now;
             var start = getAlignedChunk(Position);
+            var end = start + count;
 
-            // check the cache
-            if (!_chunks.ContainsKey(start))
-            {
-                GetChunk(start);
-            }
+            // get the first chunk
+            GetChunk(start);
 
             // return data
             // check to see if this spans a chunk
@@ -158,7 +156,7 @@ namespace MissionPlanner.Utilities
 
         private void GetChunk(long start)
         {
-            var key = _uri + "-" + start;
+            var key = _uri.ToLower() + "-" + start;
             try
             {
                 var test = false;
@@ -455,16 +453,22 @@ namespace MissionPlanner.Utilities
             return timeleft.Seconds + " Seconds";
         }
 
+        static Dictionary<string,long> fileSizeCache = new Dictionary<string, long>();
+
         public static long GetFileSize(string uri)
         {
             if (uri == null)
                 throw new ArgumentNullException("uri");
+
+            if (fileSizeCache.ContainsKey(uri) && fileSizeCache[uri] > 0)
+                return fileSizeCache[uri];
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
             request.Method = "GET";
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
             var len = response.ContentLength;
             response.Close();
+            fileSizeCache[uri] = len;
             return len;
         }
 
