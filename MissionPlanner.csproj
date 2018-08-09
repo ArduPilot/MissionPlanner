@@ -254,6 +254,11 @@
     </Compile>
     <Compile Include="ElevationProfile.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="FollowMe.cs"> <SubType>Control</SubType> </Compile>
+    <Compile Include="Radio\Models.cs" />
+    <Compile Include="SikRadio\ISikRadioForm.cs" />
+    <Compile Include="SikRadio\RFD900.cs" />
+    <Compile Include="SikRadio\RFDLib\Array.cs" />
+    <Compile Include="SikRadio\RFDLib\Text.cs" />
     <Compile Include="Strings.Designer.cs" />
     <Compile Include="Swarm\TD\UI.cs">
       <SubType>Form</SubType>

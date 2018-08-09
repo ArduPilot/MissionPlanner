@@ -64,6 +64,7 @@ namespace SikRadio
 
             var form = new Sikradio();
             form.Enabled = false;
+            form.GetCommsSerialAlt = () => SikRadio.Config.comPort;
 
             panel1.Controls.Add(form);
 
@@ -274,13 +275,5 @@ namespace SikRadio
                 _CurrentForm.Disconnect();
             }
         }
-    }
-
-    public interface ISikRadioForm : IDisposable
-    {
-        void Connect();
-        void Disconnect();
-        void Show();
-        bool Enabled { get; set; }
     }
 }

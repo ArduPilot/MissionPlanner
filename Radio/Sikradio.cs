@@ -25,6 +25,12 @@ namespace MissionPlanner.Radio
 
         public delegate void ProgressEventHandler(double completed);
 
+        /// <summary>
+        /// An alternative function for getting the serial port.  Can be left as null
+        /// if no alternative.
+        /// </summary>
+        public Func<ICommsSerial> GetCommsSerialAlt;
+
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         private bool beta;
@@ -720,6 +726,11 @@ S15: MAX_WINDOW=131
 
             EnableConfigControls(true);
             EnableProgrammingControls(true);
+
+            if (GetCommsSerialAlt == null)
+            {
+                EndSessionClosePort();
+            }
         }
 
         /// <summary>
@@ -1332,6 +1343,11 @@ S15: MAX_WINDOW=131
                 lbl_status.Text = "Error";
                 MsgBox.CustomMessageBox.Show("Error during read " + ex);
             }
+
+            if (GetCommsSerialAlt == null)
+            {
+                EndSessionClosePort();
+            }
         }
 
         private string Serial_ReadLine(ICommsSerial comPort)
@@ -1588,6 +1604,10 @@ red LED solid - in firmware update mode");
                 lbl_status.Text = "Fail";
                 MsgBox.CustomMessageBox.Show("Failed to enter command mode");
             }
+            if (GetCommsSerialAlt == null)
+            {
+                EndSessionClosePort();
+            }
         }
 
         void UpdateStatus(string Status)
@@ -1727,6 +1747,10 @@ red LED solid - in firmware update mode");
             EnableProgrammingControls(true);
             EnableConfigControls(true);
             //UploadFW(true);
+            if (GetCommsSerialAlt == null)
+            {
+                EndSessionClosePort();
+            }
         }
 
         void ProgressEvtHdlr(double Completed)
@@ -1837,6 +1861,73 @@ red LED solid - in firmware update mode");
                 lbl_status.Text = "Fail";
                 MsgBox.CustomMessageBox.Show("Failed to enter command mode");
             }
+
+            if (GetCommsSerialAlt == null)
+            {
+                EndSessionClosePort();
+            }
+        }
+
+        void getTelemPortWithRadio(ref ICommsSerial comPort)
+        {
+            // try telem1
+
+            comPort = new MAVLinkSerialPort(MainV2.comPort, (int)MAVLink.SERIAL_CONTROL_DEV.TELEM1);
+
+            comPort.ReadTimeout = 4000;
+
+            comPort.Open();
+        }
+
+        /// <summary>
+        /// returns null if failed
+        /// </summary>
+        /// <returns></returns>
+        ICommsSerial GetComPort()
+        {
+            if (GetCommsSerialAlt == null)
+            {
+                ICommsSerial comPort;
+
+                try
+                {
+                    if (MainV2.comPort.BaseStream.PortName.Contains("TCP"))
+                    {
+                        comPort = new TcpSerial();
+                        comPort.BaudRate = MainV2.comPort.BaseStream.BaudRate;
+                        comPort.ReadTimeout = 4000;
+                        comPort.Open();
+                    }
+                    else
+                    {
+                        comPort = new SerialPort();
+                        if (MainV2.comPort.BaseStream.IsOpen)
+                        {
+                            getTelemPortWithRadio(ref comPort);
+                        }
+                        else
+                        {
+                            comPort.PortName = MainV2.comPortName;
+                            comPort.BaudRate = MainV2.comPortBaud;
+                        }
+
+                        comPort.ReadTimeout = 4000;
+
+                        comPort.Open();
+                    }
+
+                    return comPort;
+                }
+                catch
+                {
+                    MsgBox.CustomMessageBox.Show("Invalid ComPort or in use");
+                    return null;
+                }
+            }
+            else
+            {
+                return GetCommsSerialAlt();
+            }
         }
 
         RFD.RFD900.TSession GetSession()
@@ -1845,9 +1936,10 @@ red LED solid - in firmware update mode");
             {
                 try
                 {
-                    if (SikRadio.Config.comPort != null)
+                    var p = GetComPort();
+                    if (p != null)
                     {
-                        _Session = new RFD.RFD900.TSession(SikRadio.Config.comPort);
+                        _Session = new RFD.RFD900.TSession(p);
                     }
                 }
                 catch
@@ -1864,6 +1956,20 @@ red LED solid - in firmware update mode");
                 GetSession();
             }
             return _Session;
+        }
+
+        /// <summary>
+        /// Put the modem into transparent mode and close the comms port.
+        /// </summary>
+        private void EndSessionClosePort()
+        {
+            if (_Session != null)
+            {
+                _Session.PutIntoTransparentMode();
+                _Session.Dispose();
+                _Session.Port.Close();
+                _Session = null;
+            }
         }
 
         private void EndSession()
