@@ -1803,7 +1803,11 @@ namespace MissionPlanner.GCSViews
             var sub1 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.MISSION_ACK,
                 message =>
                 {
-                    var ans = (MAVLink.MAV_MISSION_RESULT)((MAVLink.mavlink_mission_ack_t) message.data).type;
+                    var data = ((MAVLink.mavlink_mission_ack_t) message.data);
+                    var ans = (MAVLink.MAV_MISSION_RESULT) data.type;
+                    if (MainV2.comPort.MAV.sysid != data.target_system &&
+                        MainV2.comPort.MAV.compid != data.target_component)
+                        return true;
                     result = ans;
                     Console.WriteLine("MISSION_ACK " + ans);
                     return true;
@@ -1812,7 +1816,11 @@ namespace MissionPlanner.GCSViews
             var sub2 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.MISSION_REQUEST,
                 message =>
                 {
-                    reqno = ((MAVLink.mavlink_mission_request_t) message.data).seq;
+                    var data = ((MAVLink.mavlink_mission_request_t)message.data);
+                    if (MainV2.comPort.MAV.sysid != data.target_system &&
+                        MainV2.comPort.MAV.compid != data.target_component)
+                        return true;
+                    reqno = data.seq;
                     Console.WriteLine("MISSION_REQUEST " + reqno);
                     return true;
                 });
