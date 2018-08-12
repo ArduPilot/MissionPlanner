@@ -103,7 +103,7 @@
             // 
             // RangeControl
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.Controls.Add(this.LBL_max);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.LBL_min);

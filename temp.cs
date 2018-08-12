@@ -59,27 +59,6 @@ namespace MissionPlanner
         {
             InitializeComponent();
 
-            //if (System.Diagnostics.Debugger.IsAttached) 
-            {
-                try
-                {
-                    var ogl = new OpenGLtest2();
-
-                    //Controls.Add(ogl);
-
-                    ogl.Dock = DockStyle.Fill;
-
-                    ogl.Click += delegate(object sender, EventArgs args)
-                    {
-                        tableLayoutPanel1.Visible = !tableLayoutPanel1.Visible;
-                        controlSensorsStatus1.Visible = !controlSensorsStatus1.Visible;
-                    };
-                }
-                catch
-                {
-                }
-            }
-
             Tracking.AddPage(
                 MethodBase.GetCurrentMethod().DeclaringType.ToString(),
                 MethodBase.GetCurrentMethod().Name);
@@ -847,9 +826,9 @@ namespace MissionPlanner
 
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.FileName = "output.dat";
-            sfd.ShowDialog();
+            var result = sfd.ShowDialog();
 
-            if (ofd.CheckFileExists)
+            if (ofd.CheckFileExists && result == DialogResult.OK)
             {
                 using (var st = sfd.OpenFile())
                 {
@@ -1006,6 +985,53 @@ namespace MissionPlanner
         private void BUT_driverclean_Click(object sender, EventArgs e)
         {
             CleanDrivers.Clean();
+        }
+
+        private void but_blupdate_Click(object sender, EventArgs e)
+        {
+            if (CustomMessageBox.Show("Are you sure you want to upgrade the bootloader? This can brick your board",
+                    "BL Update", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == (int)DialogResult.Yes)
+                if (CustomMessageBox.Show("Are you sure you want to upgrade the bootloader? This can brick your board",
+                        "BL Update", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == (int) DialogResult.Yes)
+                    if (MainV2.comPort.doCommand(MAVLink.MAV_CMD.FLASH_BOOTLOADER, 0, 0, 0, 0, 290876, 0, 0))
+                    {
+                        CustomMessageBox.Show("Upgraded bootloader");
+                    }
+                    else
+                    {
+                        CustomMessageBox.Show("Failed to upgrade bootloader");
+                    }
+        }
+
+        private void but_3dmap_Click(object sender, EventArgs e)
+        {
+            var ogl = new OpenGLtest2();
+
+            ogl.ShowUserControl();
+        }
+
+        private void but_anonlog_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog ofd = new OpenFileDialog())
+            {
+                ofd.Filter = "tlog or bin/log|*.tlog;*.bin;*.log";
+
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    var ext = Path.GetExtension(ofd.FileName).ToLower();
+                    if (ext == ".bin")
+                        ext = ".log";
+                    using (SaveFileDialog sfd = new SaveFileDialog())
+                    {
+                        sfd.DefaultExt = ext;
+                        sfd.FileName = Path.GetFileNameWithoutExtension(ofd.FileName) + "-anon" + ext;
+                        if (sfd.ShowDialog() == DialogResult.OK)
+                        {
+                            Privacy.anonymise(ofd.FileName, sfd.FileName);
+                        }
+                    }
+                }
+            }
         }
     }
 }

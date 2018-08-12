@@ -506,17 +506,17 @@ namespace MissionPlanner.Controls
             if (keyData == (Keys.Control | Keys.S))
             {
                 var exepath = CheckandGetSITLImage("ArduCopter.elf");
-                var max = 5;
+                var model = "+";
+
+                var config = GetDefaultConfig(model);
+                var max = 10;
 
                 for (int a = max; a >= 0 ; a--)
                 {
                     var extra = "";
-                    var model = "+";
-
-                    var config = GetDefaultConfig(model);
 
                     if (!string.IsNullOrEmpty(config))
-                        extra += @" --defaults """ + config + @"""";
+                        extra += @" --defaults """ + config + @""" -P SERIAL0_PROTOCOL=2 -P SERIAL1_PROTOCOL=2 ";
 
                     var home = new PointLatLngAlt(markeroverlay.Markers[0].Position).newpos((double)NUM_heading.Value, a * 4);
 

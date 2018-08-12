@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using MissionPlanner.Utilities;
 using log4net;
+using System.Xml.Linq;
 
 namespace MissionPlanner.Utilities
 {
@@ -125,6 +126,18 @@ namespace MissionPlanner.Utilities
                     objXmlTextWriter.Flush();
                     objXmlTextWriter.Close();
                 }
+
+                XElement root = XElement.Load(XMLFileName);
+                foreach (var vech in root.Elements())
+                {
+                    var paramlist = vech.Elements().OrderBy(xt => xt.Name.ToString()).ToArray();
+
+                    vech.RemoveAll();
+
+                    foreach (var item in paramlist)
+                        vech.Add(item);
+                }
+                root.Save(XMLFileName);
             }
         }
 

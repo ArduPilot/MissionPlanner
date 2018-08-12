@@ -278,7 +278,7 @@ DON'T DO THIS IF YOU ARE IN THE AIR
     <value>DISCONNECT</value>
   </data>
   <data name="Failclog" xml:space="preserve">
-    <value>Failed to create log - wont log this session</value>
+    <value>Failed to create ground station log - wont log this session</value>
   </data>
   <data name="NewFirmware" xml:space="preserve">
     <value>New Firmware</value>
@@ -639,5 +639,8 @@ old #{0}  new #{1}</value>
   </data>
   <data name="Not_available_when_used_as_a_windows_store_app" xml:space="preserve">
     <value>Not available when used as a windows store app</value>
+  </data>
+  <data name="No_firmware_available_for_this_board" xml:space="preserve">
+    <value>No firmware available for this board!</value>
   </data>
 </root>

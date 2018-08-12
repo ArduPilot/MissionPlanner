@@ -1,5 +1,3 @@
-using System;
-
 namespace AltitudeAngelWings.Models
 {
     public class FlightDataPosition

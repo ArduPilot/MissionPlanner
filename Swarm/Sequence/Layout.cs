@@ -33,6 +33,10 @@ namespace MissionPlanner.Swarm.Sequence
     {
         public string Id { get; set; }
 
+        public int DelayStart { get; set; }
+
+        public int DelayEnd { get; set; }
+
         public Dictionary<int, Vector3> Offset = new Dictionary<int, Vector3>();
 
         public void AddOffset(int sysid, Vector3 offset)

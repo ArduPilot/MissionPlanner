@@ -558,7 +558,7 @@ namespace MissionPlanner.Joystick
             // 
             // JoystickSetup
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             resources.ApplyResources(this, "$this");
             this.Controls.Add(this.chk_manualcontrol);
             this.Controls.Add(this.label14);

@@ -33,6 +33,9 @@ namespace MissionPlanner.Swarm
                 }
             }
 
+            if (mavStates.Count == 0)
+                return;
+
             bindingSource1.DataSource = mavStates;
 
             CMB_mavs.DataSource = bindingSource1;

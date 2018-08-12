@@ -288,8 +288,8 @@ namespace MissionPlanner
             {
                 ofd.AddExtension = true;
                 ofd.DefaultExt = ".csv";
-                ofd.ShowDialog();
-                if (ofd.FileName != "")
+                var result = ofd.ShowDialog();
+                if (ofd.FileName != "" && result == DialogResult.OK)
                 {
                     try
                     {

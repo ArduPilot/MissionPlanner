@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace MissionPlanner.Controls
 {
-    public partial class HSI : UserControl
+    public partial class HSI : MyUserControl
     {
         Bitmap _headingimage;
         bool drawnheading = false;

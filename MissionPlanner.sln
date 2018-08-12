@@ -86,18 +86,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Installer", "ExtLibs\Instal
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "md5sum", "ExtLibs\md5sum\md5sum.csproj", "{624AFC60-565F-4F01-BD51-BCCE7AA09BE9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibTessDotNet", "ExtLibs\LibTessDotNet\LibTessDotNet.csproj", "{5EE39029-873A-45A0-9259-2198BF8729F4}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SvgNet", "ExtLibs\SvgNet\SvgNet.csproj", "{BB4C8021-B5E1-4DE2-82CB-14BDFB9837E4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissionPlanner.Maps", "ExtLibs\Maps\MissionPlanner.Maps.csproj", "{6C4FF9C3-7AFF-4274-B8FC-4A93A1FAADEA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissionPlanner.ArduPilot", "ExtLibs\ArduPilot\MissionPlanner.ArduPilot.csproj", "{CA6345D3-7A6D-478B-A0ED-A58E50DCAA83}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissionPlanner.Strings", "ExtLibs\Strings\MissionPlanner.Strings.csproj", "{A0DE147B-144C-4A34-8D46-9394570AD7E8}"
+EndProject
 Global
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
@@ -539,18 +536,6 @@ Global
 		{624AFC60-565F-4F01-BD51-BCCE7AA09BE9}.Release|x64.Build.0 = Release|Any CPU
 		{624AFC60-565F-4F01-BD51-BCCE7AA09BE9}.Release|x86.ActiveCfg = Release|Any CPU
 		{624AFC60-565F-4F01-BD51-BCCE7AA09BE9}.Release|x86.Build.0 = Release|Any CPU
-		{5EE39029-873A-45A0-9259-2198BF8729F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5EE39029-873A-45A0-9259-2198BF8729F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5EE39029-873A-45A0-9259-2198BF8729F4}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{5EE39029-873A-45A0-9259-2198BF8729F4}.Debug|x64.Build.0 = Debug|Any CPU
-		{5EE39029-873A-45A0-9259-2198BF8729F4}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{5EE39029-873A-45A0-9259-2198BF8729F4}.Debug|x86.Build.0 = Debug|Any CPU
-		{5EE39029-873A-45A0-9259-2198BF8729F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5EE39029-873A-45A0-9259-2198BF8729F4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5EE39029-873A-45A0-9259-2198BF8729F4}.Release|x64.ActiveCfg = Release|Any CPU
-		{5EE39029-873A-45A0-9259-2198BF8729F4}.Release|x64.Build.0 = Release|Any CPU
-		{5EE39029-873A-45A0-9259-2198BF8729F4}.Release|x86.ActiveCfg = Release|Any CPU
-		{5EE39029-873A-45A0-9259-2198BF8729F4}.Release|x86.Build.0 = Release|Any CPU
 		{BB4C8021-B5E1-4DE2-82CB-14BDFB9837E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BB4C8021-B5E1-4DE2-82CB-14BDFB9837E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB4C8021-B5E1-4DE2-82CB-14BDFB9837E4}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -587,6 +572,18 @@ Global
 		{CA6345D3-7A6D-478B-A0ED-A58E50DCAA83}.Release|x64.Build.0 = Release|Any CPU
 		{CA6345D3-7A6D-478B-A0ED-A58E50DCAA83}.Release|x86.ActiveCfg = Release|Any CPU
 		{CA6345D3-7A6D-478B-A0ED-A58E50DCAA83}.Release|x86.Build.0 = Release|Any CPU
+		{A0DE147B-144C-4A34-8D46-9394570AD7E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0DE147B-144C-4A34-8D46-9394570AD7E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0DE147B-144C-4A34-8D46-9394570AD7E8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A0DE147B-144C-4A34-8D46-9394570AD7E8}.Debug|x64.Build.0 = Debug|Any CPU
+		{A0DE147B-144C-4A34-8D46-9394570AD7E8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A0DE147B-144C-4A34-8D46-9394570AD7E8}.Debug|x86.Build.0 = Debug|Any CPU
+		{A0DE147B-144C-4A34-8D46-9394570AD7E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0DE147B-144C-4A34-8D46-9394570AD7E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0DE147B-144C-4A34-8D46-9394570AD7E8}.Release|x64.ActiveCfg = Release|Any CPU
+		{A0DE147B-144C-4A34-8D46-9394570AD7E8}.Release|x64.Build.0 = Release|Any CPU
+		{A0DE147B-144C-4A34-8D46-9394570AD7E8}.Release|x86.ActiveCfg = Release|Any CPU
+		{A0DE147B-144C-4A34-8D46-9394570AD7E8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -624,13 +621,25 @@ Global
 		{F4B60F03-F4C8-42CD-A46D-712838DC184B} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
 		{FF6AA762-7AD3-4F38-94B1-EA75D7B1F217} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
 		{624AFC60-565F-4F01-BD51-BCCE7AA09BE9} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
-		{5EE39029-873A-45A0-9259-2198BF8729F4} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
 		{BB4C8021-B5E1-4DE2-82CB-14BDFB9837E4} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
 		{6C4FF9C3-7AFF-4274-B8FC-4A93A1FAADEA} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
 		{CA6345D3-7A6D-478B-A0ED-A58E50DCAA83} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
+		{A0DE147B-144C-4A34-8D46-9394570AD7E8} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F7AF94B5-83B0-46CD-B258-67F2404F82FC}
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 	GlobalSection(Performance) = preSolution
 		HasPerformanceSessions = true

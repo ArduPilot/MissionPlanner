@@ -1464,7 +1464,7 @@ namespace MissionPlanner.Log
 
                                 MAVLink.MAVLinkMessage packet = mine.readPacket();
                                 string text = "";
-                                mine.DebugPacket(packet, ref text, true, ",");
+                                mine.DebugPacket(packet, ref text, false, ",");
 
                                 if (!String.IsNullOrEmpty(text))
                                     sw.Write(mine.lastlogread.ToString("yyyy-MM-ddTHH:mm:ss.fff") + "," + text);

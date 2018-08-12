@@ -54,7 +54,7 @@
             // 
             // BackstageView
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.Controls.Add(this.pnlPages);
             this.Controls.Add(this.pnlMenu);
             this.Margin = new System.Windows.Forms.Padding(4);

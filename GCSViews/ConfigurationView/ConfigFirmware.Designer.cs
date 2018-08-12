@@ -275,7 +275,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             // ConfigFirmware
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.Controls.Add(this.imageLabel1);
             this.Controls.Add(this.pictureBoxSub);
             this.Controls.Add(this.linkLabel1);

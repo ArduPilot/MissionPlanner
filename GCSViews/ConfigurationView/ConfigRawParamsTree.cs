@@ -481,7 +481,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 Params.Visible = false;
                 Params.UseFiltering = false;
                 Params.ExpandAll();
-                Params.ModelFilter = TextMatchFilter.Regex(Params, searchfor.ToLower());
+                Params.ModelFilter = TextMatchFilter.Regex(Params, searchfor.Replace("*", ".*").Replace("..*", ".*").ToLower());
                 Params.DefaultRenderer = new HighlightTextRenderer((TextMatchFilter) Params.ModelFilter);
                 Params.UseFiltering = true;
 

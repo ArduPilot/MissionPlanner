@@ -848,6 +848,7 @@ namespace MissionPlanner
             get { return _current2; }
             set
             {
+                if (_lastcurrent2 == DateTime.MinValue) _lastcurrent2 = datetime;
                 if (value < 0) return;              
                 battery_usedmah2 += ((value * 1000.0) * (datetime - _lastcurrent2).TotalHours);
                 _current2 = value;
@@ -1658,6 +1659,15 @@ namespace MissionPlanner
                             
                         }
 
+                        Serial.print("Flight SW Version: "); Serial.println(version.flight_sw_version);
+                        Serial.print("Middleware SW: "); Serial.println(version.middleware_sw_version);
+                        Serial.print("OS Custom: "); Serial.println(version.os_custom_version);
+                        Serial.print("OS SW: "); Serial.println(version.os_sw_version);
+                        Serial.print("board_version: "); Serial.println(version.board_version);                        
+                        Serial.print("Vendor ID: "); Serial.println(version.vendor_id);
+                        Serial.print("Product ID: "); Serial.println(version.product_id);
+                        Serial.print("Board Version: "); Serial.println(version.board_version);
+
                         MAV.clearPacket((uint)MAVLink.MAVLINK_MSG_ID.AUTOPILOT_VERSION);
                     }
 
@@ -2002,7 +2012,7 @@ namespace MissionPlanner
                                 }
                             }
 
-                            if (oldmode != mode && Speech.speechEnable && parent.parent.MAV.cs == this &&
+                            if (oldmode != mode && Speech.speechEnable && parent?.parent?.MAV?.cs == this &&
                                 Settings.Instance.GetBoolean("speechmodeenabled"))
                             {
                                 Speech.Instance.SpeakAsync(Common.speechConversion(parent, ""+ Settings.Instance["speechmode"]));

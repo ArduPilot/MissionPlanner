@@ -61,7 +61,7 @@ namespace MissionPlanner.GCSViews
 
         public static FlightPlanner instance;
 
-        public List<PointLatLngAlt> pointlist { get; set; }
+        public List<PointLatLngAlt> pointlist { get; set; } = new List<PointLatLngAlt>();
 
         static public Object thisLock = new Object();
         private ComponentResourceManager rm = new ComponentResourceManager(typeof (FlightPlanner));
@@ -1400,7 +1400,7 @@ namespace MissionPlanner.GCSViews
                 fd.FileName = wpfilename;
                 DialogResult result = fd.ShowDialog();
                 string file = fd.FileName;
-                if (file != "")
+                if (file != "" && result == DialogResult.OK)
                 {
                     try
                     {
@@ -1724,6 +1724,7 @@ namespace MissionPlanner.GCSViews
             };
 
             frmProgressReporter.DoWork += saveWPs;
+
             frmProgressReporter.UpdateProgressAndStatus(-1, "Sending WP's");
 
             ThemeManager.ApplyThemeTo(frmProgressReporter);
@@ -1774,6 +1775,11 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        internal IList<Locationwp> GetFlightPlanLocations()
+        {
+            return GetCommandList().AsReadOnly();
+        }
+
         List<Locationwp> GetCommandList()
         {
             List<Locationwp> commands = new List<Locationwp>();
@@ -1797,7 +1803,11 @@ namespace MissionPlanner.GCSViews
             var sub1 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.MISSION_ACK,
                 message =>
                 {
-                    var ans = (MAVLink.MAV_MISSION_RESULT)((MAVLink.mavlink_mission_ack_t) message.data).type;
+                    var data = ((MAVLink.mavlink_mission_ack_t) message.data);
+                    var ans = (MAVLink.MAV_MISSION_RESULT) data.type;
+                    if (MainV2.comPort.MAV.sysid != data.target_system &&
+                        MainV2.comPort.MAV.compid != data.target_component)
+                        return true;
                     result = ans;
                     Console.WriteLine("MISSION_ACK " + ans);
                     return true;
@@ -1806,7 +1816,11 @@ namespace MissionPlanner.GCSViews
             var sub2 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.MISSION_REQUEST,
                 message =>
                 {
-                    reqno = ((MAVLink.mavlink_mission_request_t) message.data).seq;
+                    var data = ((MAVLink.mavlink_mission_request_t)message.data);
+                    if (MainV2.comPort.MAV.sysid != data.target_system &&
+                        MainV2.comPort.MAV.compid != data.target_component)
+                        return true;
+                    reqno = data.seq;
                     Console.WriteLine("MISSION_REQUEST " + reqno);
                     return true;
                 });
@@ -2982,8 +2996,6 @@ namespace MissionPlanner.GCSViews
         void MainMap_OnMapTypeChanged(GMapProvider type)
         {
             comboBoxMapType.SelectedItem = MainMap.MapProvider;
-
-            MainMap.ZoomAndCenterMarkers("WPOverlay");
 
             if (type == WMSProvider.Instance)
             {
@@ -4746,8 +4758,8 @@ namespace MissionPlanner.GCSViews
             using (SaveFileDialog sf = new SaveFileDialog())
             {
                 sf.Filter = "Fence (*.fen)|*.fen";
-                sf.ShowDialog();
-                if (sf.FileName != "")
+                var result = sf.ShowDialog();
+                if (sf.FileName != "" && result == DialogResult.OK)
                 {
                     try
                     {
@@ -5699,8 +5711,8 @@ namespace MissionPlanner.GCSViews
             using (SaveFileDialog sf = new SaveFileDialog())
             {
                 sf.Filter = "Polygon (*.poly)|*.poly";
-                sf.ShowDialog();
-                if (sf.FileName != "")
+                var result = sf.ShowDialog();
+                if (sf.FileName != "" && result == DialogResult.OK)
                 {
                     try
                     {
@@ -6221,8 +6233,8 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             using (SaveFileDialog sf = new SaveFileDialog())
             {
                 sf.Filter = "Rally (*.ral)|*.ral";
-                sf.ShowDialog();
-                if (sf.FileName != "")
+                var result = sf.ShowDialog();
+                if (sf.FileName != "" && result == DialogResult.OK)
                 {
                     try
                     {
@@ -6875,6 +6887,92 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
         private void Commands_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
         {
             writeKML();
+        }
+
+        private void but_writewpfast_Click(object sender, EventArgs e)
+        {
+            if ((altmode)CMB_altmode.SelectedValue == altmode.Absolute)
+            {
+                if ((int)DialogResult.No ==
+                    CustomMessageBox.Show("Absolute Alt is selected are you sure?", "Alt Mode", MessageBoxButtons.YesNo))
+                {
+                    CMB_altmode.SelectedValue = (int)altmode.Relative;
+                }
+            }
+
+            // check home
+            Locationwp home = new Locationwp();
+            try
+            {
+                home.id = (ushort)MAVLink.MAV_CMD.WAYPOINT;
+                home.lat = (double.Parse(TXT_homelat.Text));
+                home.lng = (double.Parse(TXT_homelng.Text));
+                home.alt = (float.Parse(TXT_homealt.Text) / CurrentState.multiplierdist); // use saved home
+            }
+            catch
+            {
+                CustomMessageBox.Show("Your home location is invalid", Strings.ERROR);
+                return;
+            }
+
+            // check for invalid grid data
+            for (int a = 0; a < Commands.Rows.Count - 0; a++)
+            {
+                for (int b = 0; b < Commands.ColumnCount - 0; b++)
+                {
+                    double answer;
+                    if (b >= 1 && b <= 7)
+                    {
+                        if (!double.TryParse(Commands[b, a].Value.ToString(), out answer))
+                        {
+                            CustomMessageBox.Show("There are errors in your mission");
+                            return;
+                        }
+                    }
+
+                    if (TXT_altwarn.Text == "")
+                        TXT_altwarn.Text = (0).ToString();
+
+                    if (Commands.Rows[a].Cells[Command.Index].Value.ToString().Contains("UNKNOWN"))
+                        continue;
+
+                    ushort cmd =
+                        (ushort)
+                                Enum.Parse(typeof(MAVLink.MAV_CMD),
+                                    Commands.Rows[a].Cells[Command.Index].Value.ToString(), false);
+
+                    if (cmd < (ushort)MAVLink.MAV_CMD.LAST &&
+                        double.Parse(Commands[Alt.Index, a].Value.ToString()) < double.Parse(TXT_altwarn.Text))
+                    {
+                        if (cmd != (ushort)MAVLink.MAV_CMD.TAKEOFF &&
+                            cmd != (ushort)MAVLink.MAV_CMD.LAND &&
+                            cmd != (ushort)MAVLink.MAV_CMD.RETURN_TO_LAUNCH)
+                        {
+                            CustomMessageBox.Show("Low alt on WP#" + (a + 1) +
+                                                  "\nPlease reduce the alt warning, or increase the altitude");
+                            return;
+                        }
+                    }
+                }
+            }
+
+            IProgressReporterDialogue frmProgressReporter = new ProgressReporterDialogue
+            {
+                StartPosition = FormStartPosition.CenterScreen,
+                Text = "Sending WP's"
+            };
+
+            frmProgressReporter.DoWork += saveWPsFast;
+
+            frmProgressReporter.UpdateProgressAndStatus(-1, "Sending WP's");
+
+            ThemeManager.ApplyThemeTo(frmProgressReporter);
+
+            frmProgressReporter.RunBackgroundOperationAsync();
+
+            frmProgressReporter.Dispose();
+
+            MainMap.Focus();
         }
     }
 }

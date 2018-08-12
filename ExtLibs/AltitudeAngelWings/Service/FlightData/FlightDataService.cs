@@ -6,7 +6,7 @@ using AltitudeAngelWings.Service.FlightData.Providers;
 
 namespace AltitudeAngelWings.Service.FlightData
 {
-    public class FlightDataService : IDisposable
+    public class FlightDataService : IFlightDataService
     {
         public IObservable<Models.FlightData> FlightArmed { get; }
         public IObservable<Models.FlightData> FlightDisarmed { get; }
@@ -14,13 +14,11 @@ namespace AltitudeAngelWings.Service.FlightData
         public IObservable<Models.FlightData> RawFlightData => _rawFlightData;
 
         public FlightDataService(
-            IObservable<long> pollInterval,
+            TimeSpan pollInterval,
             IFlightDataProvider flightDataProvider)
         {
-            _flightDataProvider = flightDataProvider;
-
-            _rawFlightData = pollInterval
-                .Select(i => _flightDataProvider.GetCurrentFlightData())
+            _rawFlightData = Observable.Interval(pollInterval)
+                .Select(_ => flightDataProvider.GetCurrentFlightData())
                 .Publish();
 
             FlightArmed = _rawFlightData
@@ -35,15 +33,7 @@ namespace AltitudeAngelWings.Service.FlightData
             ArmedFlightData = _rawFlightData
                 .Where(i => i.Armed)
                 .Select(flightData => new Models.FlightData(flightData) {HomePosition = _homePosition});
-        }
 
-        public void Dispose()
-        {
-            Dispose(true);
-        }
-
-        public void Initialize()
-        {
             FlightArmed
                 .Subscribe(i => _homePosition = i.CurrentPosition);
 
@@ -53,16 +43,18 @@ namespace AltitudeAngelWings.Service.FlightData
             _rawFlightDataSubscription = _rawFlightData.Connect();
         }
 
-        protected virtual void Dispose(bool isDisposing)
+        public void Dispose()
         {
-            if (isDisposing)
-            {
-                _rawFlightDataSubscription?.Dispose();
-                _rawFlightDataSubscription = null;
-            }
+            Dispose(true);
         }
 
-        private readonly IFlightDataProvider _flightDataProvider;
+        protected virtual void Dispose(bool isDisposing)
+        {
+            if (!isDisposing) return;
+            _rawFlightDataSubscription?.Dispose();
+            _rawFlightDataSubscription = null;
+        }
+
         private readonly IConnectableObservable<Models.FlightData> _rawFlightData;
         private FlightDataPosition _homePosition;
         private IDisposable _rawFlightDataSubscription;

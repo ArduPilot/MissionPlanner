@@ -32,7 +32,10 @@ namespace MissionPlanner.Swarm
         {
             if (dist > 6)
             {
-                ydist = xdist = dist;
+                ydist = (int)(dist * (this.Height/(double)this.Width));
+                xdist = dist;
+                if (ydist % 2 == 1)
+                    ydist++;
             }
             this.Invalidate();
         }
@@ -45,8 +48,13 @@ namespace MissionPlanner.Swarm
         public Grid()
         {
             InitializeComponent();
-        }
 
+            this.Resize += Grid_Resize;
+        }
+        private void Grid_Resize(object sender, EventArgs e)
+        {
+            setScale(getScale());
+        }
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
@@ -55,16 +63,23 @@ namespace MissionPlanner.Swarm
 
             yline = (this.Height - 1)/(float) ydist;
 
+            var pen = new Pen(Color.Silver);
+            pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+
             //lines
             for (float x = 0; x <= xdist; x++)
-            {
+            { 
                 // middle
                 if (x == xdist/2)
                 {
                 }
+                else if (x % 2 == 0)
+                {
+                    e.Graphics.DrawLine(Pens.Silver, x * xline, 0, x * xline, this.Height);
+                }
                 else
                 {
-                    e.Graphics.DrawLine(Pens.Silver, x*xline, 0, x*xline, this.Height);
+                    e.Graphics.DrawLine(pen, x * xline, 0, x * xline, this.Height);
                 }
             }
 
@@ -74,9 +89,13 @@ namespace MissionPlanner.Swarm
                 if (y == ydist/2.0f)
                 {
                 }
+                else if (y % 2 == 0)
+                {
+                    e.Graphics.DrawLine(Pens.Silver, 0, y * yline, this.Width, y * yline);
+                }
                 else
                 {
-                    e.Graphics.DrawLine(Pens.Silver, 0, y*yline, this.Width, y*yline);
+                    e.Graphics.DrawLine(pen, 0, y * yline, this.Width, y * yline);
                 }
             }
 
@@ -154,6 +173,7 @@ namespace MissionPlanner.Swarm
 
             Console.WriteLine("ADD MAV {0} {1} {2}", x, y, z);
             icons.Add(new icon() {interf = mav, y = y, z = z, x = x, Movable = movable, Name = mav.ToString()});
+            this.Invalidate();
         }
 
         protected override void OnMouseMove(MouseEventArgs e)

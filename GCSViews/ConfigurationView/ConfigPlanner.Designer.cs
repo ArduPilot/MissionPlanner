@@ -683,7 +683,7 @@
             // 
             // ConfigPlanner
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.Controls.Add(this.label6);
             this.Controls.Add(this.CMB_altunits);
             this.Controls.Add(this.chk_shownofly);

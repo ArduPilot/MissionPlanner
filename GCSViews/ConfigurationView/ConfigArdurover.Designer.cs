@@ -620,7 +620,7 @@
             // 
             // ConfigArdurover
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.Controls.Add(this.label21);
             this.Controls.Add(this.CH7_OPTION);
             this.Controls.Add(this.BUT_refreshpart);

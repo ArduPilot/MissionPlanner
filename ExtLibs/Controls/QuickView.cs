@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace MissionPlanner.Controls
 {
-    public partial class QuickView : UserControl
+    public partial class QuickView : MyUserControl
     {
         //http://stackoverflow.com/questions/3816362/winforms-label-flickering
 

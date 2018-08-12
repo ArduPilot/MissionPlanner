@@ -488,7 +488,7 @@ Please check the following
                         bool exit = false;
                         // get most seen hbs
                         var mostseenlist = hbhistory.GroupBy(s => MAVList.GetID(s.sysid, s.compid))
-                            .OrderByDescending(s => s.Count()).Where(s => s.Key >= 2);
+                            .OrderByDescending(s => s.Count()).Where(s => s.Count() >= 2);
                         foreach (var mostseen in mostseenlist)
                         {
                             // get count on most seen
@@ -1045,7 +1045,7 @@ Please check the following
                 MAVLinkMessage buffer = readPacket();
                 if (buffer.Length > 5)
                 {
-                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.PARAM_VALUE)
+                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.PARAM_VALUE && buffer.sysid == req.target_system && buffer.compid == req.target_component)
                     {
                         mavlink_param_value_t par = buffer.ToStructure<mavlink_param_value_t>();
 
@@ -1579,7 +1579,7 @@ Please check the following
                 buffer = readPacket();
                 if (buffer.Length > 5)
                 {
-                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_CURRENT)
+                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_CURRENT && buffer.sysid == req.target_system && buffer.compid == req.target_component)
                     {
                         giveComport = false;
                         return true;
@@ -1728,6 +1728,11 @@ Please check the following
                 retrys = 1;
                 timeout = 25000;
             }
+            else if (actionid == MAV_CMD.FLASH_BOOTLOADER)
+            {
+                retrys = 1;
+                timeout = 25000;
+            }
             else if (actionid == MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN)
             {
                 generatePacket((byte) MAVLINK_MSG_ID.COMMAND_LONG, req, sysid, compid);
@@ -1771,8 +1776,7 @@ Please check the following
                 buffer = readPacket();
                 if (buffer.Length > 5)
                 {
-                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.COMMAND_ACK && buffer.sysid == sysid &&
-                        buffer.compid == compid)
+                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.COMMAND_ACK && buffer.sysid == req.target_system && buffer.compid == req.target_component)
                     {
                         var ack = buffer.ToStructure<mavlink_command_ack_t>();
 
@@ -2117,7 +2121,7 @@ Please check the following
                 buffer = readPacket();
                 if (buffer.Length > 5)
                 {
-                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_COUNT)
+                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_COUNT && buffer.sysid == req.target_system && buffer.compid == req.target_component)
                     {
                         var count = buffer.ToStructure<mavlink_mission_count_t>();
 
@@ -2363,7 +2367,6 @@ Please check the following
 
                     Type test = data.GetType();
 
-                    if (PrintToConsole)
                     {
                         textoutput = textoutput + test.Name + delimeter;
 
@@ -2505,7 +2508,7 @@ Please check the following
                 MAVLinkMessage buffer = readPacket();
                 if (buffer.Length > 9)
                 {
-                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_REQUEST)
+                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_REQUEST && buffer.sysid == req.target_system && buffer.compid == req.target_component)
                     {
                         var request = buffer.ToStructure<mavlink_mission_request_t>();
 
@@ -2729,7 +2732,7 @@ Please check the following
                 MAVLinkMessage buffer = readPacket();
                 if (buffer.Length > 5)
                 {
-                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_ACK)
+                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_ACK && buffer.sysid == req.target_system && buffer.compid == req.target_component)
                     {
                         var ans = buffer.ToStructure<mavlink_mission_ack_t>();
                         log.Info("set wp " + index + " ACK 47 : " + buffer.msgid + " ans " +
@@ -2754,7 +2757,7 @@ Please check the following
                             return (MAV_MISSION_RESULT) ans.type;
                         }
                     }
-                    else if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_REQUEST)
+                    else if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_REQUEST && buffer.sysid == req.target_system && buffer.compid == req.target_component)
                     {
                         var ans = buffer.ToStructure<mavlink_mission_request_t>();
                         if (ans.seq == (index + 1))
@@ -2833,7 +2836,7 @@ Please check the following
                 MAVLinkMessage buffer = readPacket();
                 if (buffer.Length > 5)
                 {
-                    if (buffer.msgid == (byte)MAVLINK_MSG_ID.MISSION_ACK)
+                    if (buffer.msgid == (byte)MAVLINK_MSG_ID.MISSION_ACK && buffer.sysid == req.target_system && buffer.compid == req.target_component)
                     {
                         var ans = buffer.ToStructure<mavlink_mission_ack_t>();
                         log.Info("set wp " + index + " ACK 47 : " + buffer.msgid + " ans " +
@@ -2858,7 +2861,7 @@ Please check the following
                             return (MAV_MISSION_RESULT) ans.type;
                         }
                     }
-                    else if (buffer.msgid == (byte)MAVLINK_MSG_ID.MISSION_REQUEST)
+                    else if (buffer.msgid == (byte)MAVLINK_MSG_ID.MISSION_REQUEST && buffer.sysid == req.target_system && buffer.compid == req.target_component)
                     {
                         var ans = buffer.ToStructure<mavlink_mission_request_t>();
                         if (ans.seq == (index + 1))
@@ -3650,10 +3653,17 @@ Please check the following
                         MAVlist[sysid, compid].addPacket(message);
 
                         // 3dr radio status packet are injected into the current mav
-                        if (msgid == (byte)MAVLINK_MSG_ID.RADIO_STATUS ||
-                            msgid == (byte)MAVLINK_MSG_ID.RADIO)
+                        // most radios have a fixed sysid AND componentid ...
+                        if ((msgid == (byte)MAVLINK_MSG_ID.RADIO_STATUS ||  msgid == (byte)MAVLINK_MSG_ID.RADIO) 
+                            && (message.compid == 68) && ( message.sysid == 63) ) // ascii 63="3" ascii 68="D" => "3D" branding
                         {
                             MAVlist[sysidcurrent, compidcurrent].addPacket(message);
+                        }
+                        // RFD900X radios with MultiPoint firmware present themselves with the same sysid as the aircraft that they are connected to, and with a fixed component id of 68
+                        if ((msgid == (byte)MAVLINK_MSG_ID.RADIO_STATUS ||  msgid == (byte)MAVLINK_MSG_ID.RADIO) 
+                            && (message.compid == 68) && (message.sysid != 63) )
+                        {
+                            MAVlist[message.sysid, compidcurrent].addPacket(message);
                         }
 
                         // adsb packets are forwarded and can be from any sysid/compid
@@ -3711,7 +3721,7 @@ Please check the following
                         }
                     }
 
-                    // set seens sysid's based on hb packet - this will hide 3dr radio packets
+                    // set seens sysid's based on hb packet - this will hide 3dr radio packets ( which send a RADIO_STATUS, but not a HEARTBEAT )
                     if (msgid == (byte)MAVLINK_MSG_ID.HEARTBEAT)
                     {
                         mavlink_heartbeat_t hb = message.ToStructure<mavlink_heartbeat_t>();
@@ -4164,7 +4174,7 @@ Please check the following
                 MAVLinkMessage buffer = readPacket();
                 if (buffer.Length > 5)
                 {
-                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.AUTOPILOT_VERSION)
+                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.AUTOPILOT_VERSION && buffer.sysid == req.target_system && buffer.compid == req.target_component)
                     {
                         giveComport = false;
 
@@ -4212,7 +4222,7 @@ Please check the following
                 buffer = readPacket();
                 if (buffer.Length > 5)
                 {
-                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.FENCE_POINT)
+                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.FENCE_POINT && buffer.sysid == req.target_system && buffer.compid == req.target_component)
                     {
                         giveComport = false;
 
@@ -4282,7 +4292,7 @@ Please check the following
                 buffer = readPacket();
                 if (buffer.Length > 5)
                 {
-                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.LOG_DATA)
+                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.LOG_DATA && buffer.sysid == req.target_system && buffer.compid == req.target_component)
                     {
                         var data = buffer.ToStructure<mavlink_log_data_t>();
 
@@ -4370,7 +4380,7 @@ Please check the following
                 buffer = readPacket();
                 if (buffer.Length > 5)
                 {
-                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.LOG_DATA)
+                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.LOG_DATA && buffer.sysid == req.target_system && buffer.compid == req.target_component)
                     {
                         var data = buffer.ToStructure<mavlink_log_data_t>();
 
@@ -4489,7 +4499,7 @@ Please check the following
                 buffer = readPacket();
                 if (buffer.Length > 5)
                 {
-                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.LOG_ENTRY)
+                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.LOG_ENTRY && buffer.sysid == req.target_system && buffer.compid == req.target_component)
                     {
                         var ans = buffer.ToStructure<mavlink_log_entry_t>();
 
@@ -4500,7 +4510,7 @@ Please check the following
                         }
                     }
 
-                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.LOG_DATA)
+                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.LOG_DATA && buffer.sysid == req.target_system && buffer.compid == req.target_component)
                     {
                         throw new Exception("Existing log download already in progress.");
                     }
@@ -4583,7 +4593,7 @@ Please check the following
                 buffer = readPacket();
                 if (buffer.Length > 5)
                 {
-                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.RALLY_POINT)
+                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.RALLY_POINT && buffer.sysid == req.target_system && buffer.compid == req.target_component)
                     {
                         mavlink_rally_point_t fp = buffer.ToStructure<mavlink_rally_point_t>();
 
