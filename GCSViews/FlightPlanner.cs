@@ -1805,8 +1805,8 @@ namespace MissionPlanner.GCSViews
                 {
                     var data = ((MAVLink.mavlink_mission_ack_t) message.data);
                     var ans = (MAVLink.MAV_MISSION_RESULT) data.type;
-                    if (MainV2.comPort.MAV.sysid != data.target_system &&
-                        MainV2.comPort.MAV.compid != data.target_component)
+                    if (MainV2.comPort.MAV.sysid != message.sysid &&
+                        MainV2.comPort.MAV.compid != message.compid)
                         return true;
                     result = ans;
                     Console.WriteLine("MISSION_ACK " + ans);
@@ -1817,8 +1817,8 @@ namespace MissionPlanner.GCSViews
                 message =>
                 {
                     var data = ((MAVLink.mavlink_mission_request_t)message.data);
-                    if (MainV2.comPort.MAV.sysid != data.target_system &&
-                        MainV2.comPort.MAV.compid != data.target_component)
+                    if (MainV2.comPort.MAV.sysid != message.sysid &&
+                        MainV2.comPort.MAV.compid != message.compid)
                         return true;
                     reqno = data.seq;
                     Console.WriteLine("MISSION_REQUEST " + reqno);
