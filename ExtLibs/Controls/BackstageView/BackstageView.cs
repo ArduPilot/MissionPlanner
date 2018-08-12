@@ -76,7 +76,7 @@ namespace MissionPlanner.Controls.BackstageView
             pnlMenu.PencilBorderColor = _buttonsAreaPencilColor;
             pnlMenu.GradColor = this.BackColor;
 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
         }
 
         public void UpdateDisplay()

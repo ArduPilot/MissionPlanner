@@ -183,7 +183,7 @@ namespace MissionPlanner.Wizard
             // _7BatteryMonitor
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
             this.BackgroundImage = global::MissionPlanner.Properties.Resources.planebackground;
             this.Controls.Add(this.panel2);

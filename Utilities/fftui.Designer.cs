@@ -296,7 +296,7 @@
             // 
             // fftui
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.ClientSize = new System.Drawing.Size(809, 542);
             this.Controls.Add(this.but_ISBH);
             this.Controls.Add(this.but_fftimu);

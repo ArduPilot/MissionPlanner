@@ -342,7 +342,7 @@
             // 
             // ConfigFlightModes
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.LBL_flightmodepwm);

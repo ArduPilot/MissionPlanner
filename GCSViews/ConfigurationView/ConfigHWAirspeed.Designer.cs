@@ -110,7 +110,7 @@
             // 
             // ConfigHWAirspeed
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.Controls.Add(this.label1);
             this.Controls.Add(this.mavlinkComboBoxARSPD_TYPE);
             this.Controls.Add(this.lbl_airspeed_pin);

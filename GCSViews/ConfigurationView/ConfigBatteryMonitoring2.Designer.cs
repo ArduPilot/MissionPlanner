@@ -229,7 +229,7 @@
             // ConfigBatteryMonitoring2
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.Controls.Add(this.mavlinkComboBox3);
             this.Controls.Add(this.mavlinkComboBox2);
             this.Controls.Add(this.mavlinkComboBox1);

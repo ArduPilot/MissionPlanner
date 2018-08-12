@@ -83,7 +83,7 @@
             // 
             // Help
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.Controls.Add(this.BUT_betaupdate);
             this.Controls.Add(this.PIC_wizard);
             this.Controls.Add(this.linkLabel1);

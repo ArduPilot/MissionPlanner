@@ -1315,7 +1315,7 @@
             // 
             // GridUI
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             resources.ApplyResources(this, "$this");
             this.Controls.Add(this.TRK_zoom);
             this.Controls.Add(this.map);

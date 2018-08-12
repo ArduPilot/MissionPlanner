@@ -46,7 +46,7 @@
             // ConfigSimplePids
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.TXT_info);
             this.Name = "ConfigSimplePids";

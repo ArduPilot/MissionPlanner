@@ -5,7 +5,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <DebugType>full</DebugType>
-    <DebugSymbols>true</DebugSymbols>  <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <DebugSymbols>true</DebugSymbols>  <EnableDefaultCompileItems>true</EnableDefaultCompileItems>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
   <PropertyGroup>

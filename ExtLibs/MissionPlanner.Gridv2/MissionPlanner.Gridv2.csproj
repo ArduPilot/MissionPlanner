@@ -5,7 +5,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <DebugType>full</DebugType>
-    <DebugSymbols>true</DebugSymbols>  <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <DebugSymbols>true</DebugSymbols>  <EnableDefaultCompileItems>true</EnableDefaultCompileItems>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
   <PropertyGroup>
@@ -180,6 +180,7 @@
       <Name>MAVLink</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\Strings\MissionPlanner.Strings.csproj" />
     <ProjectReference Include="..\Utilities\MissionPlanner.Utilities.csproj">
       <Project>{1378A66C-38E4-46F5-A05F-DC04EF7D4D16}</Project>
       <Name>MissionPlanner.Utilities</Name>

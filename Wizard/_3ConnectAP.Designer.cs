@@ -140,7 +140,7 @@ namespace MissionPlanner.Wizard
             // 
             // _3ConnectAP
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
             this.BackgroundImage = global::MissionPlanner.Properties.Resources.planebackground;
             this.Controls.Add(this.panel4);

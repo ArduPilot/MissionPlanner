@@ -102,7 +102,7 @@
             // 
             // ConfigMotorTest
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.Controls.Add(this.groupBox1);
             this.Name = "ConfigMotorTest";
             resources.ApplyResources(this, "$this");

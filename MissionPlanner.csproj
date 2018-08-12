@@ -19,6 +19,7 @@
     <EnableDefaultItems>false</EnableDefaultItems>
     <EnableDefaultNoneItems>false</EnableDefaultNoneItems>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)'=='Debug' ">
     <BumpRevision>false</BumpRevision>
@@ -171,6 +172,7 @@
       <Project>{cf402948-a3f4-4962-8a57-e40b46759d25}</Project>
       <Name>solo</Name>
     </ProjectReference>
+    <ProjectReference Include="ExtLibs\Strings\MissionPlanner.Strings.csproj" />
     <ProjectReference Include="ExtLibs\tlogThumbnailHandler\tlogThumbnailHandler.csproj">
       <Project>{aba78b2e-77c3-4377-8568-9542ac227971}</Project>
       <Name>tlogThumbnailHandler</Name>
@@ -254,7 +256,6 @@
     </Compile>
     <Compile Include="ElevationProfile.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="FollowMe.cs"> <SubType>Control</SubType> </Compile>
-    <Compile Include="Strings.Designer.cs" />
     <Compile Include="Swarm\TD\UI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -290,7 +291,6 @@
     <Compile Include="SerialOutputNMEA.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="SerialOutputPass.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Splash.cs"> <SubType>Control</SubType> </Compile>
-    <Compile Include="Strings.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Swarm\Sequence\Controller.cs" />
     <Compile Include="Swarm\Sequence\Drone.cs" />
     <Compile Include="Swarm\Sequence\DroneGroup.cs" />
@@ -776,16 +776,6 @@
     <EmbeddedResource Include="SerialOutputPass.tr.resx"><DependentUpon>SerialOutputPass.cs</DependentUpon> </EmbeddedResource>
     <EmbeddedResource Include="SerialOutputPass.zh-Hans.resx"><DependentUpon>SerialOutputPass.cs</DependentUpon> </EmbeddedResource>
     <EmbeddedResource Include="Splash.resx"><DependentUpon>Splash.cs</DependentUpon> </EmbeddedResource>
-    <EmbeddedResource Include="Strings.resx"><DependentUpon>Strings.cs</DependentUpon><Generator>ResXFileCodeGenerator</Generator><LastGenOutput>Strings.Designer.cs</LastGenOutput> </EmbeddedResource>
-    <EmbeddedResource Include="Strings.az-Latn-AZ.resx"><DependentUpon>Strings.cs</DependentUpon> </EmbeddedResource>
-    <EmbeddedResource Include="Strings.de-DE.resx"><DependentUpon>Strings.cs</DependentUpon> </EmbeddedResource>
-    <EmbeddedResource Include="Strings.id-ID.resx"><DependentUpon>Strings.cs</DependentUpon> </EmbeddedResource>
-    <EmbeddedResource Include="Strings.ja-JP.resx"><DependentUpon>Strings.cs</DependentUpon> </EmbeddedResource>
-    <EmbeddedResource Include="Strings.ko-KR.resx"><DependentUpon>Strings.cs</DependentUpon> </EmbeddedResource>
-    <EmbeddedResource Include="Strings.pt.resx"><DependentUpon>Strings.cs</DependentUpon> </EmbeddedResource>
-    <EmbeddedResource Include="Strings.ru-KZ.resx"><DependentUpon>Strings.cs</DependentUpon> </EmbeddedResource>
-    <EmbeddedResource Include="Strings.tr.resx"><DependentUpon>Strings.cs</DependentUpon> </EmbeddedResource>
-    <EmbeddedResource Include="Strings.zh-Hans.resx"><DependentUpon>Strings.cs</DependentUpon> </EmbeddedResource>
     <EmbeddedResource Include="Swarm\Sequence\LayoutEditor.resx" />
     <EmbeddedResource Include="Swarm\TD\UI.resx" />
     <EmbeddedResource Include="temp.resx"><DependentUpon>temp.cs</DependentUpon> </EmbeddedResource>
@@ -2133,11 +2123,6 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Strings.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 

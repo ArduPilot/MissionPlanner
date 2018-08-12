@@ -1373,7 +1373,7 @@ namespace MissionPlanner.GCSViews
             // 
             // FlightPlanner
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.BackColor = System.Drawing.SystemColors.Control;
             this.Controls.Add(this.panelBASE);
             resources.ApplyResources(this, "$this");

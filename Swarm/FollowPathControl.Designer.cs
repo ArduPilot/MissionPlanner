@@ -139,7 +139,7 @@
             // FollowPathControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.ClientSize = new System.Drawing.Size(551, 171);
             this.Controls.Add(this.PNL_status);
             this.Controls.Add(this.BUT_connect);

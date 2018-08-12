@@ -230,7 +230,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             // ConfigRawParams
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.Controls.Add(this.BUT_commitToFlash);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txt_search);

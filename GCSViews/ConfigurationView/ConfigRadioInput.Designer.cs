@@ -410,7 +410,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             // ConfigRadioInput
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.Controls.Add(this.BAR14);
             this.Controls.Add(this.BAR13);
             this.Controls.Add(this.BAR12);

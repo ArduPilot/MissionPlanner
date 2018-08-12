@@ -45,7 +45,7 @@
             // 
             // InitialSetup
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.Controls.Add(this.backstageView);
             this.MinimumSize = new System.Drawing.Size(1000, 450);
             this.Name = "InitialSetup";

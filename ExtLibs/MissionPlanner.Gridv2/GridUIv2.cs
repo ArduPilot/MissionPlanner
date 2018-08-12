@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
@@ -13,6 +10,7 @@ using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using log4net;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.Utilities;
 using ProjNet.CoordinateSystems;
 using ProjNet.CoordinateSystems.Transformations;
@@ -293,7 +291,9 @@ namespace MissionPlanner
 
             boxpoly.Points.ForEach(x => { newlist.Add(x); });
 
-            grid = Grid.CreateGrid(newlist, (double)NUM_altitude.Value, (double)NUM_Distance, (double)NUM_spacing, (double)NUM_angle.Value, 0, 0, Grid.StartPosition.Home, false, 0);
+            grid = Utilities.Grid.CreateGrid(newlist, (double) NUM_altitude.Value, (double) NUM_Distance,
+                (double) NUM_spacing, (double) NUM_angle.Value, 0, 0, Utilities.Grid.StartPosition.Home, false, 0, 0,
+                plugin.Host.cs.HomeLocation);
 
             List<PointLatLng> list2 = new List<PointLatLng>();
 
@@ -501,7 +501,7 @@ namespace MissionPlanner
 
                 if (CHK_includetakeoff.Checked)
                 {
-                    if (plugin.Host.cs.firmware == MainV2.Firmwares.ArduCopter2)
+                    if (plugin.Host.cs.firmware == Firmwares.ArduCopter2)
                     {
                         plugin.Host.AddWPtoList(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 30);
                     }
@@ -1053,11 +1053,6 @@ namespace MissionPlanner
         private void map_OnPolygonLeave(GMapPolygon item)
         {
             mouseinsidepoly = false;
-        }
-
-        private void map_OnPolygonClick(GMapPolygon item, MouseEventArgs e)
-        {
-
         }
 
         private void toolStripButtonpan_Click(object sender, EventArgs e)

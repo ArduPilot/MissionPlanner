@@ -177,7 +177,7 @@
             // 
             // LogIndex
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.ClientSize = new System.Drawing.Size(1177, 514);
             this.Controls.Add(this.BUT_changedir);
             this.Controls.Add(this.objectListView1);

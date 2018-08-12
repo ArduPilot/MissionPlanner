@@ -506,7 +506,7 @@
             // 
             // ConfigHWCompass
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.Controls.Add(this.buttonAPMExternal);
             this.Controls.Add(this.QuickAPM25);
             this.Controls.Add(this.buttonQuickPixhawk);

@@ -88,7 +88,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // ConfigAccelerometerCalibration
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.Controls.Add(this.label1);
             this.Controls.Add(this.BUT_level);
             this.Controls.Add(this.lbl_Accel_user);

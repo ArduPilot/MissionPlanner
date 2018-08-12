@@ -165,7 +165,7 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             // 
             // AASettings
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.ClientSize = new System.Drawing.Size(198, 379);
             this.Controls.Add(this.lbl_FlightReportWhat);
             this.Controls.Add(this.chk_FlightReportEnable);

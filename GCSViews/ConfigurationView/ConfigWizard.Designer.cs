@@ -44,7 +44,7 @@
             // ConfigWizard
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.Controls.Add(this.PIC_wizard);
             this.Name = "ConfigWizard";
             ((System.ComponentModel.ISupportInitialize)(this.PIC_wizard)).EndInit();
