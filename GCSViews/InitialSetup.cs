@@ -164,9 +164,9 @@ namespace MissionPlanner.GCSViews
                 AddBackstageViewPage(typeof(ConfigBatteryMonitoring), rm.GetString("backstageViewPagebatmon.Text"), isConnected, opt);
                 AddBackstageViewPage(typeof(ConfigBatteryMonitoring2), rm.GetString("backstageViewPageBatt2.Text"), isConnected, opt);
             }
-            if (MainV2.DisplayConfiguration.displayUAVCAN)
+            if (MainV2.DisplayConfiguration.displayCAN)
             {
-                AddBackstageViewPage(typeof(ConfigHWUAVCAN), "UAVCAN", isConnected, opt);
+                AddBackstageViewPage(typeof(ConfigHWCAN), "CAN", isConnected, opt);
             }
             if (MainV2.DisplayConfiguration.displayCompassMotorCalib)
             {
