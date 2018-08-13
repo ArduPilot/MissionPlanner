@@ -118,24 +118,24 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="but_factoryreset.Text" xml:space="preserve">
-    <value>Reset config.</value>
+    <value>Konfiguration zurücksetzen</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>NOTA: Reinicialização necessária depois desse ajuste</value>
+    <value>HINWEIS: Nach Änderung dieser Option ist ein Neustart nötig.</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Habilitar UAV CAN</value>
+    <value>CAN aktivieren</value>
   </data>
   <data name="but_stopenum.Text" xml:space="preserve">
-    <value>Parar enumeração</value>
+    <value>Stop Datenerfassung</value>
   </data>
   <data name="checkBox1.Text" xml:space="preserve">
-    <value>Reset de Fábrica</value>
+    <value>Werkseinstellung</value>
   </data>
   <data name="but_startenum.Text" xml:space="preserve">
-    <value>Inicia enumeração</value>
+    <value>Start Datenerfassung</value>
   </data>
   <data name="but_saveconfig.Text" xml:space="preserve">
-    <value>Salvar toda configuração</value>
+    <value>Alle Konfigurationen speichern</value>
   </data>
 </root>

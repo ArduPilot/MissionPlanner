@@ -5,9 +5,9 @@ using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigHWUAVCAN : UserControl, IActivate
+    public partial class ConfigHWCAN : UserControl, IActivate
     {
-        public ConfigHWUAVCAN()
+        public ConfigHWCAN()
         {
             InitializeComponent();
         }
@@ -20,7 +20,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             Enabled = true;
 
-            mavlinkComboBox_uavcan.setup(ParameterMetaDataRepository.GetParameterOptionsInt("BRD_CAN_ENABLE",
+            mavlinkComboBox_can.setup(ParameterMetaDataRepository.GetParameterOptionsInt("BRD_CAN_ENABLE",
                 MainV2.comPort.MAV.cs.firmware.ToString()), "BRD_CAN_ENABLE", MainV2.comPort.MAV.param);
         }
 
@@ -50,7 +50,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_STORAGE, 2, 0, 0, 0, 0, 0, 0, false);
         }
 
-        private void mavlinkComboBox_uavcan_SelectedIndexChanged(object sender, EventArgs e)
+        private void mavlinkComboBox_can_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
