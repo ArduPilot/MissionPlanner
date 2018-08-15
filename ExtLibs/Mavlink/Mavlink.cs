@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Wed Jul 04 2018";
+    public const string MAVLINK_BUILD_DATE = "Wed Aug 15 2018";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -191,7 +191,7 @@ public partial class MAVLink
 		new message_info(185, "REMOTE_LOG_BLOCK_STATUS", 186, 7, 7, typeof( mavlink_remote_log_block_status_t )),
 		new message_info(186, "LED_CONTROL", 72, 29, 29, typeof( mavlink_led_control_t )),
 		new message_info(191, "MAG_CAL_PROGRESS", 92, 27, 27, typeof( mavlink_mag_cal_progress_t )),
-		new message_info(192, "MAG_CAL_REPORT", 36, 44, 44, typeof( mavlink_mag_cal_report_t )),
+		new message_info(192, "MAG_CAL_REPORT", 36, 44, 50, typeof( mavlink_mag_cal_report_t )),
 		new message_info(193, "EKF_STATUS_REPORT", 71, 22, 26, typeof( mavlink_ekf_status_report_t )),
 		new message_info(194, "PID_TUNING", 98, 25, 25, typeof( mavlink_pid_tuning_t )),
 		new message_info(195, "DEEPSTALL", 120, 37, 37, typeof( mavlink_deepstall_t )),
@@ -225,10 +225,10 @@ public partial class MAVLink
 		new message_info(254, "DEBUG", 46, 9, 9, typeof( mavlink_debug_t )),
 		new message_info(256, "SETUP_SIGNING", 71, 42, 42, typeof( mavlink_setup_signing_t )),
 		new message_info(257, "BUTTON_CHANGE", 131, 9, 9, typeof( mavlink_button_change_t )),
-		new message_info(258, "PLAY_TUNE", 187, 32, 32, typeof( mavlink_play_tune_t )),
+		new message_info(258, "PLAY_TUNE", 187, 32, 232, typeof( mavlink_play_tune_t )),
 		new message_info(259, "CAMERA_INFORMATION", 122, 86, 86, typeof( mavlink_camera_information_t )),
 		new message_info(260, "CAMERA_SETTINGS", 8, 28, 28, typeof( mavlink_camera_settings_t )),
-		new message_info(261, "STORAGE_INFORMATION", 244, 26, 26, typeof( mavlink_storage_information_t )),
+		new message_info(261, "STORAGE_INFORMATION", 179, 27, 27, typeof( mavlink_storage_information_t )),
 		new message_info(262, "CAMERA_CAPTURE_STATUS", 69, 31, 31, typeof( mavlink_camera_capture_status_t )),
 		new message_info(263, "CAMERA_IMAGE_CAPTURED", 133, 255, 255, typeof( mavlink_camera_image_captured_t )),
 		new message_info(264, "FLIGHT_INFORMATION", 49, 28, 28, typeof( mavlink_flight_information_t )),
@@ -711,13 +711,13 @@ ICAROUS_KINEMATIC_BANDS = 42001,
         SET_CAMERA_SETTINGS_1=523, 
     	///<summary> WIP: Set the camera settings part 2 (CAMERA_SETTINGS) |Camera ID| White balance locked (0: auto, 1: locked)| White balance (color temperature in K)| Reserved for camera mode ID| Reserved for color mode ID| Reserved for image format ID| Reserved|  </summary>
         SET_CAMERA_SETTINGS_2=524, 
-    	///<summary> WIP: Request storage information (STORAGE_INFORMATION) |1: Request storage information| Storage ID| Reserved (all remaining params)|  </summary>
+    	///<summary> Request storage information (STORAGE_INFORMATION) |1: Request storage information| Storage ID| Reserved (all remaining params)|  </summary>
         REQUEST_STORAGE_INFORMATION=525, 
-    	///<summary> WIP: Format a storage medium |1: Format storage| Storage ID| Reserved (all remaining params)|  </summary>
+    	///<summary> Format a storage medium |1: Format storage| Storage ID| Reserved (all remaining params)|  </summary>
         STORAGE_FORMAT=526, 
-    	///<summary> WIP: Request camera capture status (CAMERA_CAPTURE_STATUS) |1: Request camera capture status| Camera ID| Reserved (all remaining params)|  </summary>
+    	///<summary> Request camera capture status (CAMERA_CAPTURE_STATUS) |1: Request camera capture status| Camera ID| Reserved (all remaining params)|  </summary>
         REQUEST_CAMERA_CAPTURE_STATUS=527, 
-    	///<summary> WIP: Request flight information (FLIGHT_INFORMATION) |1: Request flight information| Reserved (all remaining params)|  </summary>
+    	///<summary> Request flight information (FLIGHT_INFORMATION) |1: Request flight information| Reserved (all remaining params)|  </summary>
         REQUEST_FLIGHT_INFORMATION=528, 
     	///<summary> Set camera running mode. Use NAN for reserved values. |Reserved (Set to 0)| Camera mode (see CAMERA_MODE enum)| Reserved (all remaining params)|  </summary>
         SET_CAMERA_MODE=530, 
@@ -1423,6 +1423,8 @@ ICAROUS_KINEMATIC_BANDS = 42001,
         MAG_CAL_SUCCESS=4, 
     	///<summary>  | </summary>
         MAG_CAL_FAILED=5, 
+    	///<summary>  | </summary>
+        MAG_CAL_BAD_ORIENTATION=6, 
     
     };
     
@@ -3873,7 +3875,7 @@ ICAROUS_KINEMATIC_BANDS = 42001,
     };
 
 
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=44)]
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=50)]
     ///<summary> Reports results of completed compass calibration. Sent until MAG_CAL_ACK received. </summary>
     public struct mavlink_mag_cal_report_t
     {
@@ -3905,6 +3907,12 @@ ICAROUS_KINEMATIC_BANDS = 42001,
         public  /*MAG_CAL_STATUS*/byte cal_status;
             /// <summary> 0=requires a MAV_CMD_DO_ACCEPT_MAG_CAL, 1=saved to parameters </summary>
         public  byte autosaved;
+            /// <summary> Confidence in orientation (higher is better) </summary>
+        public  float orientation_confidence;
+            /// <summary> orientation before calibration  </summary>
+        public  byte old_orientation;
+            /// <summary> orientation before calibration </summary>
+        public  byte new_orientation;
     
     };
 
@@ -5999,23 +6007,23 @@ ICAROUS_KINEMATIC_BANDS = 42001,
     {
         /// <summary> Timestamp (UNIX) </summary>
         public  ulong time_usec;
-            /// <summary> Flow in meters in x-sensor direction, angular-speed compensated </summary>
+            /// <summary> Flow in x-sensor direction, angular-speed compensated </summary>
         public  float flow_comp_m_x;
-            /// <summary> Flow in meters in y-sensor direction, angular-speed compensated </summary>
+            /// <summary> Flow in y-sensor direction, angular-speed compensated </summary>
         public  float flow_comp_m_y;
-            /// <summary> Ground distance in meters. Positive value: distance known. Negative value: Unknown distance </summary>
+            /// <summary> Ground distance. Positive value: distance known. Negative value: Unknown distance </summary>
         public  float ground_distance;
-            /// <summary> Flow in pixels * 10 in x-sensor direction (dezi-pixels) </summary>
+            /// <summary> Flow in x-sensor direction </summary>
         public  short flow_x;
-            /// <summary> Flow in pixels * 10 in y-sensor direction (dezi-pixels) </summary>
+            /// <summary> Flow in y-sensor direction </summary>
         public  short flow_y;
             /// <summary> Sensor ID </summary>
         public  byte sensor_id;
             /// <summary> Optical flow quality / confidence. 0: bad, 255: maximum quality </summary>
         public  byte quality;
-            /// <summary> Flow rate in radians/second about X axis </summary>
+            /// <summary> Flow rate about X axis </summary>
         public  float flow_rate_x;
-            /// <summary> Flow rate in radians/second about Y axis </summary>
+            /// <summary> Flow rate about Y axis </summary>
         public  float flow_rate_y;
     
     };
@@ -7321,7 +7329,7 @@ ICAROUS_KINEMATIC_BANDS = 42001,
         public  short altitude_amsl;
             /// <summary> Altitude setpoint relative to the home position (meters) </summary>
         public  short altitude_sp;
-            /// <summary> distance to target (meters) </summary>
+            /// <summary> distance to target </summary>
         public  ushort wp_distance;
             /// <summary> System mode bitfield, as defined by MAV_MODE_FLAG enum. MAV_MODE_FLAG</summary>
         public  /*MAV_MODE_FLAG*/byte base_mode;
@@ -7665,7 +7673,7 @@ ICAROUS_KINEMATIC_BANDS = 42001,
     };
 
 
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=32)]
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=232)]
     ///<summary> Control vehicle tone generation (buzzer) </summary>
     public struct mavlink_play_tune_t
     {
@@ -7676,12 +7684,15 @@ ICAROUS_KINEMATIC_BANDS = 42001,
             /// <summary> tune in board specific format </summary>
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=30)]
 		public byte[] tune;
+            /// <summary> tune extension (appended to tune) </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=200)]
+		public byte[] tune2;
     
     };
 
 
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=86)]
-    ///<summary> WIP: Information about a camera </summary>
+    ///<summary> Information about a camera </summary>
     public struct mavlink_camera_information_t
     {
         /// <summary> Timestamp (milliseconds since system boot) </summary>
@@ -7711,7 +7722,7 @@ ICAROUS_KINEMATIC_BANDS = 42001,
 
 
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=28)]
-    ///<summary> WIP: Settings of a camera, can be requested using MAV_CMD_REQUEST_CAMERA_SETTINGS and written using MAV_CMD_SET_CAMERA_SETTINGS </summary>
+    ///<summary> Settings of a camera, can be requested using MAV_CMD_REQUEST_CAMERA_SETTINGS and written using MAV_CMD_SET_CAMERA_SETTINGS </summary>
     public struct mavlink_camera_settings_t
     {
         /// <summary> Timestamp (milliseconds since system boot) </summary>
@@ -7744,24 +7755,26 @@ ICAROUS_KINEMATIC_BANDS = 42001,
     };
 
 
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=26)]
-    ///<summary> WIP: Information about a storage medium </summary>
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=27)]
+    ///<summary> Information about a storage medium. </summary>
     public struct mavlink_storage_information_t
     {
-        /// <summary> Timestamp (milliseconds since system boot) </summary>
+        /// <summary> Timestamp (time since system boot). </summary>
         public  uint time_boot_ms;
-            /// <summary> Total capacity in MiB </summary>
+            /// <summary> Total capacity </summary>
         public  float total_capacity;
-            /// <summary> Used capacity in MiB </summary>
+            /// <summary> Used capacity </summary>
         public  float used_capacity;
-            /// <summary> Available capacity in MiB </summary>
+            /// <summary> Available capacity </summary>
         public  float available_capacity;
-            /// <summary> Read speed in MiB/s </summary>
+            /// <summary> Read speed </summary>
         public  float read_speed;
-            /// <summary> Write speed in MiB/s </summary>
+            /// <summary> Write speed </summary>
         public  float write_speed;
-            /// <summary> Storage ID if there are multiple </summary>
+            /// <summary> Storage ID (1 for first, 2 for second, etc.) </summary>
         public  byte storage_id;
+            /// <summary> Number of storage devices </summary>
+        public  byte storage_count;
             /// <summary> Status of storage (0 not available, 1 unformatted, 2 formatted) </summary>
         public  byte status;
     
@@ -7769,7 +7782,7 @@ ICAROUS_KINEMATIC_BANDS = 42001,
 
 
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=31)]
-    ///<summary> WIP: Information about the status of a capture </summary>
+    ///<summary> Information about the status of a capture </summary>
     public struct mavlink_camera_capture_status_t
     {
         /// <summary> Timestamp (milliseconds since system boot) </summary>
@@ -7780,7 +7793,7 @@ ICAROUS_KINEMATIC_BANDS = 42001,
         public  float video_framerate;
             /// <summary> Time in milliseconds since recording started </summary>
         public  uint recording_time_ms;
-            /// <summary> Available storage capacity in MiB </summary>
+            /// <summary> Available storage capacity </summary>
         public  float available_capacity;
             /// <summary> Image resolution in pixels horizontal </summary>
         public  ushort image_resolution_h;
@@ -7833,16 +7846,16 @@ ICAROUS_KINEMATIC_BANDS = 42001,
 
 
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=28)]
-    ///<summary> WIP: Information about flight since last arming </summary>
+    ///<summary> Information about flight since last arming. </summary>
     public struct mavlink_flight_information_t
     {
-        /// <summary> Timestamp at arming (microseconds since UNIX epoch) in UTC, 0 for unknown </summary>
+        /// <summary> Timestamp at arming (time since UNIX epoch) in UTC, 0 for unknown </summary>
         public  ulong arming_time_utc;
-            /// <summary> Timestamp at takeoff (microseconds since UNIX epoch) in UTC, 0 for unknown </summary>
+            /// <summary> Timestamp at takeoff (time since UNIX epoch) in UTC, 0 for unknown </summary>
         public  ulong takeoff_time_utc;
-            /// <summary> Universally unique identifier (UUID) of flight, should correspond to name of logfiles </summary>
+            /// <summary> Universally unique identifier (UUID) of flight, should correspond to name of log files </summary>
         public  ulong flight_uuid;
-            /// <summary> Timestamp (milliseconds since system boot) </summary>
+            /// <summary> Timestamp (time since system boot). </summary>
         public  uint time_boot_ms;
     
     };

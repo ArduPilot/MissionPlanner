@@ -16,7 +16,7 @@
 <xs:attribute name="print_format" type="xs:string"/> <!-- field -->
 <xs:attribute name="enum" type="xs:string"/>
 <xs:attribute name="display" type="xs:string"/>
-<xs:attribute name="units" type="xs:string"/>
+<xs:attribute name="units" type="SI_Unit"/> <!-- this will get changed on the fly to xs:string if no strict-units command line option is used -->
 <xs:attribute name="value"> <!-- entry -->
   <xs:simpleType>
     <xs:restriction base="xs:string">
@@ -54,11 +54,109 @@
     </xs:restriction>
   </xs:simpleType>
 </xs:attribute>
+<xs:attribute name="since">
+  <xs:simpleType>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="(20)\d{2}-(0[1-9]|1[012])"/>  <!-- restrict dates to 20YY-MM format -->
+    </xs:restriction>
+  </xs:simpleType>
+</xs:attribute>
+<xs:attribute name="replaced_by" type="xs:string"/>
+
+<xs:simpleType name="SI_Unit">
+  <xs:restriction base="xs:string">
+    <!-- time -->
+    <xs:enumeration value="s"/>        <!-- seconds -->
+    <xs:enumeration value="ds"/>       <!-- deciseconds -->
+    <xs:enumeration value="ms"/>       <!-- milliseconds -->
+    <xs:enumeration value="us"/>       <!-- microseconds -->
+    <xs:enumeration value="Hz"/>       <!-- Herz -->
+    <!-- distance -->
+    <xs:enumeration value="km"/>       <!-- kilometres -->
+    <xs:enumeration value="dam"/>      <!-- decametres -->
+    <xs:enumeration value="m"/>        <!-- metres -->
+    <xs:enumeration value="m/s"/>      <!-- metres per second -->
+    <xs:enumeration value="m/s/s"/>    <!-- metres per second per second -->
+    <xs:enumeration value="m/s*5"/>    <!-- metres per second * 5 required from dagar for HIGH_LATENCY2 message -->
+    <xs:enumeration value="dm"/>       <!-- decimetres -->
+    <xs:enumeration value="dm/s"/>     <!-- decimetres per second -->
+    <xs:enumeration value="cm"/>       <!-- centimetres -->
+    <xs:enumeration value="cm/s"/>     <!-- centimetres per second -->
+    <xs:enumeration value="mm"/>       <!-- millimetres -->
+    <xs:enumeration value="mm/s"/>     <!-- millimetres per second -->
+    <!-- temperature -->
+    <xs:enumeration value="K"/>        <!-- Kelvin -->
+    <xs:enumeration value="degC"/>     <!-- degrees Celsius -->
+    <xs:enumeration value="cdegC"/>    <!-- centi degrees Celsius -->
+    <!-- angle -->
+    <xs:enumeration value="rad"/>      <!-- radians -->
+    <xs:enumeration value="rad/s"/>    <!-- radians per second -->
+    <xs:enumeration value="mrad/s"/>   <!-- milli-radians per second -->
+    <xs:enumeration value="deg"/>      <!-- degrees -->
+    <xs:enumeration value="deg/2"/>    <!-- degrees/2 required from dagar for HIGH_LATENCY2 message-->
+    <xs:enumeration value="deg/s"/>    <!-- degrees per second -->
+    <xs:enumeration value="cdeg"/>     <!-- centidegrees -->
+    <xs:enumeration value="degE5"/>    <!-- degrees * 10E5 -->
+    <xs:enumeration value="degE7"/>    <!-- degrees * 10E7 -->
+    <xs:enumeration value="rpm"/>      <!-- rotations per second -->
+    <!-- electricity -->
+    <xs:enumeration value="V"/>        <!-- Volt -->
+    <xs:enumeration value="cV"/>       <!-- centi-Volt -->
+    <xs:enumeration value="mV"/>       <!-- milli-Volt -->
+    <xs:enumeration value="A"/>        <!-- Ampere -->
+    <xs:enumeration value="cA"/>       <!-- centi-Ampere -->
+    <xs:enumeration value="mAh"/>      <!-- milli-Ampere hour -->
+    <!-- magnetism -->
+    <xs:enumeration value="mT"/>       <!-- milli-Tesla -->
+    <xs:enumeration value="gauss"/>    <!-- Gauss -->
+    <xs:enumeration value="mgauss"/>   <!-- milli-Gauss -->
+    <!-- energy -->
+    <xs:enumeration value="hJ"/>       <!-- hecto-Joule -->
+    <!-- force -->
+    <xs:enumeration value="mG"/>       <!-- milli-G -->
+    <!-- pressure -->
+    <xs:enumeration value="Pa"/>       <!-- Pascal -->
+    <xs:enumeration value="hPa"/>      <!-- hecto-Pascal -->
+    <xs:enumeration value="mbar"/>     <!-- millibar -->
+    <!-- ratio -->
+    <xs:enumeration value="%"/>        <!-- percent -->
+    <xs:enumeration value="d%"/>       <!-- decipercent -->
+    <xs:enumeration value="c%"/>       <!-- centipercent -->
+    <xs:enumeration value="dB"/>       <!-- Deci-Bell -->
+    <!-- digital -->
+    <xs:enumeration value="KiB"/>      <!-- Kibibyte (1024 bytes) -->
+    <xs:enumeration value="KiB/s"/>    <!-- Kibibyte (1024 bytes) per second -->
+    <xs:enumeration value="MiB"/>      <!-- Mebibyte (1024*1024 bytes) -->
+    <xs:enumeration value="MiB/s"/>    <!-- Mebibyte (1024*1024 bytes) per second -->
+    <xs:enumeration value="bytes"/>    <!-- bytes -->
+    <xs:enumeration value="bits/s"/>   <!-- bits per second -->
+    <xs:enumeration value="pix"/>      <!-- pixels -->
+    <xs:enumeration value="dpix"/>     <!-- decipixels -->
+  </xs:restriction>
+</xs:simpleType>
 
 <!-- definition of complex elements -->
 <xs:element name="param">
     <xs:complexType mixed="true">
         <xs:attribute ref="index" use="required"/>
+    </xs:complexType>
+</xs:element>
+
+<xs:element name="deprecated">
+    <xs:complexType mixed="true">
+        <xs:sequence>
+            <xs:element ref="description" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute ref="since" use="required"/>
+        <xs:attribute ref="replaced_by" use="required"/>
+    </xs:complexType>
+</xs:element>
+
+<xs:element name="wip">
+    <xs:complexType mixed="true">
+        <xs:sequence>
+            <xs:element ref="description" minOccurs="0"/>
+        </xs:sequence>
     </xs:complexType>
 </xs:element>
 
@@ -83,6 +181,10 @@
 <xs:element name="entry">
     <xs:complexType>
         <xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="1">
+                <xs:element ref="deprecated"/>
+                <xs:element ref="wip"/>
+            </xs:choice>
             <xs:element ref="description" minOccurs="0"/>
             <xs:element ref="param" minOccurs="0" maxOccurs="unbounded" />
         </xs:sequence>
@@ -94,6 +196,7 @@
 <xs:element name="enum">
     <xs:complexType>
         <xs:sequence>
+            <xs:element ref="deprecated" minOccurs="0" maxOccurs="1"/>
             <xs:element ref="description" minOccurs="0"/>
             <xs:element ref="entry" maxOccurs="unbounded"/>
         </xs:sequence>
@@ -104,17 +207,19 @@
 <xs:element name="message">
     <xs:complexType>
         <xs:sequence>
-            <xs:choice minOccurs="0" maxOccurs="2">
-                    <xs:sequence>
-                        <xs:element ref="description" minOccurs="0"/>
-                        <xs:element ref="field" minOccurs="0" maxOccurs="unbounded"/>
-                    </xs:sequence>
-                    <xs:element ref="extensions" minOccurs="0" maxOccurs="1"/>
-
-            </xs:choice>
-                    <xs:sequence>
-                        <xs:element ref="field" minOccurs="0" maxOccurs="unbounded"/>
-                    </xs:sequence>
+            <xs:sequence minOccurs="1" maxOccurs="1">
+                <xs:choice minOccurs="0" maxOccurs="1">
+                    <xs:element ref="deprecated"/>
+                    <xs:element ref="wip"/>
+                </xs:choice>
+                <xs:element ref="description" minOccurs="0" maxOccurs="1"/>
+                <xs:element ref="field" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+            <!-- MavLink 2.0 extensions are optional hence minOccurs="0" -->
+            <xs:sequence minOccurs="0" maxOccurs="1">
+                <xs:element ref="extensions" minOccurs="1" maxOccurs="1"/>
+                <xs:element ref="field" minOccurs="1" maxOccurs="unbounded"/>
+            </xs:sequence>
         </xs:sequence>
         <xs:attribute ref="id" use="required"/>
         <xs:attribute ref="name" use="required"/>
@@ -146,6 +251,7 @@
             <xs:element ref="enums" minOccurs="0"/>
             <xs:element ref="messages"/>
         </xs:sequence>
+        <xs:attribute name="file" type="xs:anyURI"/>
     </xs:complexType>
 </xs:element>
 
