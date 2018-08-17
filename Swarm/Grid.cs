@@ -22,6 +22,13 @@ namespace MissionPlanner.Swarm
         icon mouseover = null;
         bool ismousedown = false;
 
+        public float BGImagex = 0;
+        public float BGImagey = 0;
+        public float BGImagew = 1;
+        public float BGImageh = 1;
+        public float BGImageStepSize = 1;
+        public Image BGImage;
+
         public delegate void UpdateOffsetsEvent(MAVState mav, float x, float y, float z, icon ico);
 
         public event UpdateOffsetsEvent UpdateOffsets;
@@ -65,6 +72,11 @@ namespace MissionPlanner.Swarm
 
             var pen = new Pen(Color.Silver);
             pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+
+            if (BGImage != null)
+            {
+                e.Graphics.DrawImage(BGImage, BGImagex * xline, BGImagey * yline, BGImagew * xline, BGImageh * yline);
+            }
 
             //lines
             for (float x = 0; x <= xdist; x++)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -33,6 +34,7 @@ namespace MissionPlanner.Swarm.Sequence
         private NumericUpDown num_drones;
         private Button but_takeoff;
         private Button but_mission;
+        private Button but_setimage;
         private Grid grid;
 
         public LayoutEditor()
@@ -70,6 +72,7 @@ namespace MissionPlanner.Swarm.Sequence
             this.num_drones = new System.Windows.Forms.NumericUpDown();
             this.but_takeoff = new System.Windows.Forms.Button();
             this.but_mission = new System.Windows.Forms.Button();
+            this.but_setimage = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.layoutsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.stepsBindingSource)).BeginInit();
@@ -246,9 +249,20 @@ namespace MissionPlanner.Swarm.Sequence
             this.but_mission.UseVisualStyleBackColor = true;
             this.but_mission.Click += new System.EventHandler(this.but_mission_Click);
             // 
+            // but_setimage
+            // 
+            this.but_setimage.Location = new System.Drawing.Point(690, 26);
+            this.but_setimage.Name = "but_setimage";
+            this.but_setimage.Size = new System.Drawing.Size(75, 23);
+            this.but_setimage.TabIndex = 14;
+            this.but_setimage.Text = "set image";
+            this.but_setimage.UseVisualStyleBackColor = true;
+            this.but_setimage.Click += new System.EventHandler(this.but_setimage_Click);
+            // 
             // LayoutEditor
             // 
             this.ClientSize = new System.Drawing.Size(899, 494);
+            this.Controls.Add(this.but_setimage);
             this.Controls.Add(this.but_mission);
             this.Controls.Add(this.but_takeoff);
             this.Controls.Add(this.num_drones);
@@ -580,6 +594,149 @@ namespace MissionPlanner.Swarm.Sequence
 
                             });
                     }
+                }
+            }
+        }
+
+        private void but_setimage_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                grid.BGImage = Bitmap.FromFile(ofd.FileName);
+
+                grid.Invalidate();
+
+                ButtonList list = new ButtonList()
+                {
+                    {
+                        "Up", () =>
+                        {
+                            grid.BGImagey -= grid.BGImageStepSize;
+                            grid.Invalidate();
+                        }
+                    },
+                    {
+                        "Down", () =>
+                        {
+                            grid.BGImagey += grid.BGImageStepSize;
+                            grid.Invalidate();
+                        }
+                    },
+                    {
+                        "Left", () =>
+                        {
+                            grid.BGImagex -= grid.BGImageStepSize;
+                            grid.Invalidate();
+                        }
+                    },
+                    {
+                        "Right", () =>
+                        {
+                            grid.BGImagex += grid.BGImageStepSize;
+                            grid.Invalidate();
+                        }
+                    },
+
+                    {
+                        "X+", () =>
+                        {
+                            grid.BGImagew += grid.BGImageStepSize;
+                            grid.Invalidate();
+                        }
+                    },
+                    {
+                        "X-", () =>
+                        {
+                            grid.BGImagew -= grid.BGImageStepSize;
+                            grid.Invalidate();
+                        }
+                    },
+                    {
+                        "Y+", () =>
+                        {
+                            grid.BGImageh += grid.BGImageStepSize;
+                            grid.Invalidate();
+                        }
+                    },
+                    {
+                        "Y-", () =>
+                        {
+                            grid.BGImageh -= grid.BGImageStepSize;
+                            grid.Invalidate();
+                        }
+                    },
+
+                    {
+                        "Scale 0.1", () =>
+                        {
+                            grid.BGImageStepSize = 0.1f;
+                            grid.Invalidate();
+                        }
+                    },
+
+                    {
+                        "Scale 1", () =>
+                        {
+                            grid.BGImageStepSize = 1f;
+                            grid.Invalidate();
+                        }
+                    },
+                };
+
+                ButtonList.CreateForm("Move Image", list);
+            }
+            else
+            {
+                grid.BGImage = null;
+            }
+        }
+
+        public class ButtonList : IEnumerable
+        {
+            private List<mButton> list = new List<mButton>();
+
+            public void Add(string button, Action action)
+            {
+                list.Add(new mButton(button, action));
+            }
+
+            public IEnumerator GetEnumerator()
+            {
+                yield return null;
+            }
+
+            public static void CreateForm(string title, ButtonList list)
+            {
+                Form frm = new Form();
+
+                frm.Text = title;
+
+                var x = 0;
+                var y = 0;
+
+                foreach (var item in list.list)
+                {
+                    var but = new Button() {Text = item.button, AutoSize = true, Location = new Point(x, y)};
+                    y += but.Height + 3;
+                    but.Click += (sender, args) => item.action.Invoke();
+                    frm.Controls.Add(but);
+
+                    frm.Size = new Size(frm.Size.Width, y);
+                }
+
+                frm.Show();
+            }
+
+            private class mButton
+            {
+                internal string button;
+                internal Action action;
+
+                public mButton(string button, Action action)
+                {
+                    this.button = button;
+                    this.action = action;
                 }
             }
         }
