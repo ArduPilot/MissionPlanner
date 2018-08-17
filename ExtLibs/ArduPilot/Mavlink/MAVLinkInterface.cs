@@ -3663,6 +3663,9 @@ Please check the following
                         if ((msgid == (byte)MAVLINK_MSG_ID.RADIO_STATUS ||  msgid == (byte)MAVLINK_MSG_ID.RADIO) 
                             && (message.compid == 68) && (message.sysid != 63) )
                         {
+                            // update the current mav - this will make the rssi jump around if using a newer firmware with multiple rssi packets
+                            MAVlist[sysidcurrent, compidcurrent].addPacket(message);
+                            // update the target mav
                             MAVlist[message.sysid, compidcurrent].addPacket(message);
                         }
 
