@@ -5,8 +5,16 @@ mavlink python parse functions
 Copyright Andrew Tridgell 2011
 Released under GNU GPL version 3 or later
 '''
+from __future__ import print_function
+from builtins import range
+from builtins import object
 
-import xml.parsers.expat, os, errno, time, sys, operator, struct
+import errno
+import operator
+import os
+import sys
+import time
+import xml.parsers.expat
 
 PROTOCOL_0_9 = "0.9"
 PROTOCOL_1_0 = "1.0"
@@ -25,12 +33,14 @@ class MAVParseError(Exception):
         return self.message
 
 class MAVField(object):
-    def __init__(self, name, type, print_format, xml, description='', enum=''):
+    def __init__(self, name, type, print_format, xml, description='', enum='', display='', units=''):
         self.name = name
         self.name_upper = name.upper()
         self.description = description
         self.array_length = 0
         self.enum = enum
+        self.display = display
+        self.units = units
         self.omit_arg = False
         self.const_value = None
         self.print_format = print_format
@@ -94,7 +104,7 @@ class MAVField(object):
         elif self.type in ['int64_t', 'uint64_t']:
             return 93372036854775807 + self.wire_offset*63 + i
         else:
-            raise MAVError('unknown type %s' % self.type)
+            raise MAVParseError('unknown type %s' % self.type)
 
     def set_test_value(self):
         '''set a testsuite value for a MAVField'''
@@ -204,7 +214,7 @@ class MAVXML(object):
 
         def check_attrs(attrs, check, where):
             for c in check:
-                if not c in attrs:
+                if c not in attrs:
                     raise MAVParseError('expected missing %s "%s" attribute at %s:%u' % (
                         where, c, filename, p.CurrentLineNumber))
 
@@ -219,15 +229,13 @@ class MAVXML(object):
                 self.message[-1].extensions_start = len(self.message[-1].fields)
             elif in_element == "mavlink.messages.message.field":
                 check_attrs(attrs, ['name', 'type'], 'field')
-                if 'print_format' in attrs:
-                    print_format = attrs['print_format']
-                else:
-                    print_format = None
-                if 'enum' in attrs:
-                    enum = attrs['enum']
-                else:
-                    enum = ''
-                new_field = MAVField(attrs['name'], attrs['type'], print_format, self, enum=enum)
+                print_format = attrs.get('print_format', None)
+                enum = attrs.get('enum', '')
+                display = attrs.get('display', '')
+                units = attrs.get('units', '')
+                if units:
+                    units = '[' + units + ']'
+                new_field = MAVField(attrs['name'], attrs['type'], print_format, self, enum=enum, display=display, units=units)
                 if self.message[-1].extensions_start is None or self.allow_extensions:
                     self.message[-1].fields.append(new_field)
             elif in_element == "mavlink.enums.enum":
@@ -243,7 +251,7 @@ class MAVXML(object):
                     value = self.enum[-1].highest_value + 1
                     autovalue = True
                 # check lowest value
-                if (self.enum[-1].start_value == None or value < self.enum[-1].start_value):
+                if (self.enum[-1].start_value is None or value < self.enum[-1].start_value):
                     self.enum[-1].start_value = value
                 # check highest value
                 if (value > self.enum[-1].highest_value):
@@ -405,7 +413,7 @@ def merge_enums(xml):
                 if (emapitem.start_value <= enum.highest_value and emapitem.highest_value >= enum.start_value):
                     for entry in emapitem.entry:
                         # correct the value if necessary, but only if it was auto-assigned to begin with
-                        if entry.value <= enum.highest_value and entry.autovalue == True:
+                        if entry.value <= enum.highest_value and entry.autovalue is True:
                             entry.value = enum.highest_value + 1
                             enum.highest_value = entry.value
                 # merge the entries
@@ -422,6 +430,9 @@ def merge_enums(xml):
         emap[e].entry = sorted(emap[e].entry,
                                key=operator.attrgetter('value'),
                                reverse=False)
+        # add a ENUM_END
+        #emap[e].entry.append(MAVEnumEntry("%s_ENUM_END" % emap[e].name,
+        #                                    emap[e].entry[-1].value+1, end_marker=True))
 
 def check_duplicates(xml):
     '''check for duplicate message IDs'''
@@ -451,7 +462,7 @@ def check_duplicates(xml):
             msgmap[key] = '%s (%s:%u)' % (m.name, x.filename, m.linenumber)
         for enum in x.enum:
             for entry in enum.entry:
-                if entry.autovalue == True and "common.xml" not in entry.origin_file:
+                if entry.autovalue is True and "common.xml" not in entry.origin_file:
                     print("Note: An enum value was auto-generated: %s = %u" % (entry.name, entry.value))
                 s1 = "%s.%s" % (enum.name, entry.name)
                 s2 = "%s.%s" % (enum.name, entry.value)
@@ -478,9 +489,8 @@ def mkdir_p(dir):
     try:
         os.makedirs(dir)
     except OSError as exc:
-        if exc.errno == errno.EEXIST:
-            pass
-        else: raise
+        if exc.errno != errno.EEXIST:
+            raise
 
 # check version consistent
 # add test.xml

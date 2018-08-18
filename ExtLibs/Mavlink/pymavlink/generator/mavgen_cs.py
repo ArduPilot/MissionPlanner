@@ -2,7 +2,7 @@
 '''
 parse a MAVLink protocol XML file and generate a C# implementation
 
-Copyright Michael Oborne 2016
+Copyright Michael Oborne 2018
 Released under GNU GPL version 3 or later
 '''
 
@@ -199,7 +199,7 @@ def generate_message_enums(f, xml):
     print "generate_message_enums: " + xml.filename
     # add some extra field attributes for convenience with arrays
     for m in xml.enum:
-        m.description = m.description.replace("\n"," ")
+        m.description = m.description.replace("\n","    \n///")
         m.description = m.description.replace("\r"," ")
         m.enumtype = enumtypes.get(m.name,"int /*default*/")
         for fe in m.entry:
@@ -238,7 +238,7 @@ def generate_message_h(f, directory, m):
     ///<summary> ${description} </summary>
     public struct mavlink_${name_lower}_t
     {
-${{ordered_fields:        /// <summary> ${description} ${enum}</summary>
+${{ordered_fields:        /// <summary>${description} ${enum} ${units} ${display}</summary>
         ${array_prefix} ${type} ${name}${array_suffix};
     }}
     };
@@ -266,10 +266,10 @@ def generate_one(fh, basename, xml):
         else:
             m.crc_extra_arg = ""
         m.msg_nameid = "MAVLINK_MSG_ID_${name} = ${id}"
-        m.description = m.description.replace("\n"," ")
+        m.description = m.description.replace("\n","    \n///")
         m.description = m.description.replace("\r","")
         for f in m.fields:
-            f.description = f.description.replace("\n"," ")
+            f.description = f.description.replace("\n","    \n///")
             f.description = f.description.replace("\r","")
             if f.array_length != 0:
                 f.array_suffix = ''
@@ -341,6 +341,7 @@ def generate_one(fh, basename, xml):
                     f.c_test_value = f.test_value
                 if f.enum != "":
                     f.type = "/*" +f.enum + "*/" + f.type;
+                    #f.type = "/*" +f.type + "*/" + f.enum;
                 f.array_suffix = ''
                 f.array_prefix = 'public '
                 f.array_tag = 'BitConverter.To%s' % f.type
