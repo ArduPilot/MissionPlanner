@@ -2442,23 +2442,23 @@ namespace MissionPlanner
                     if (mavLinkMessage != null)
                     {
                         var esc = mavLinkMessage.ToStructure<MAVLink.mavlink_esc_telemetry_1_to_4_t>();
-                        esc1_volt = esc.voltage[0];
-                        esc1_curr = esc.current[0];
+                        esc1_volt = esc.voltage[0] / 100.0f;
+                        esc1_curr = esc.current[0] / 100.0f;
                         esc1_rpm = esc.rpm[0];
                         esc1_temp = esc.temperature[0];
 
-                        esc2_volt = esc.voltage[1];
-                        esc2_curr = esc.current[1];
+                        esc2_volt = esc.voltage[1] / 100.0f;
+                        esc2_curr = esc.current[1] / 100.0f;
                         esc2_rpm = esc.rpm[1];
                         esc2_temp = esc.temperature[1];
 
-                        esc3_volt = esc.voltage[2];
-                        esc3_curr = esc.current[2];
+                        esc3_volt = esc.voltage[2] / 100.0f;
+                        esc3_curr = esc.current[2] / 100.0f;
                         esc3_rpm = esc.rpm[2];
                         esc3_temp = esc.temperature[2];
 
-                        esc4_volt = esc.voltage[3];
-                        esc4_curr = esc.current[3];
+                        esc4_volt = esc.voltage[3] / 100.0f;
+                        esc4_curr = esc.current[3] / 100.0f;
                         esc4_rpm = esc.rpm[3];
                         esc4_temp = esc.temperature[3];
                     }
@@ -2467,23 +2467,23 @@ namespace MissionPlanner
                     if (mavLinkMessage != null)
                     {
                         var esc = mavLinkMessage.ToStructure<MAVLink.mavlink_esc_telemetry_5_to_8_t>();
-                        esc5_volt = esc.voltage[0];
-                        esc5_curr = esc.current[0];
+                        esc5_volt = esc.voltage[0] / 100.0f;
+                        esc5_curr = esc.current[0] / 100.0f;
                         esc5_rpm = esc.rpm[0];
                         esc5_temp = esc.temperature[0];
 
-                        esc6_volt = esc.voltage[1];
-                        esc6_curr = esc.current[1];
+                        esc6_volt = esc.voltage[1] / 100.0f;
+                        esc6_curr = esc.current[1] / 100.0f;
                         esc6_rpm = esc.rpm[1];
                         esc6_temp = esc.temperature[1];
 
-                        esc7_volt = esc.voltage[2];
-                        esc7_curr = esc.current[2];
+                        esc7_volt = esc.voltage[2] / 100.0f;
+                        esc7_curr = esc.current[2] / 100.0f;
                         esc7_rpm = esc.rpm[2];
                         esc7_temp = esc.temperature[2];
 
-                        esc8_volt = esc.voltage[3];
-                        esc8_curr = esc.current[3];
+                        esc8_volt = esc.voltage[3] / 100.0f;
+                        esc8_curr = esc.current[3] / 100.0f;
                         esc8_rpm = esc.rpm[3];
                         esc8_temp = esc.temperature[3];
                     }
