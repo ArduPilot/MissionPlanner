@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using GMap.NET;
 using GMap.NET.WindowsForms.Markers;
+using SvgNet.SvgGdi;
 
 namespace MissionPlanner.Maps
 {
@@ -36,7 +37,7 @@ namespace MissionPlanner.Maps
             }
         }
 
-        public override void OnRender(Graphics g)
+        public override void OnRender(IGraphics g)
         {
             if (selected)
             {

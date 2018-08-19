@@ -6,6 +6,7 @@ using System.Text;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using MissionPlanner.Utilities;
+using SvgNet.SvgGdi;
 
 namespace MissionPlanner.Maps
 {
@@ -62,7 +63,7 @@ namespace MissionPlanner.Maps
             footprintpoly.Stroke = Pens.Crimson;
         }
 
-        public override void OnRender(Graphics g)
+        public override void OnRender(IGraphics g)
         {
             if (shotBellowMinInterval)
                 g.DrawImageUnscaled(localcache2, LocalPosition.X, LocalPosition.Y);

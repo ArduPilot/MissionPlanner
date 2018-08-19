@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using GMap.NET;
 using GMap.NET.WindowsForms;
+using SvgNet.SvgGdi;
 
 namespace MissionPlanner.Maps
 {
@@ -49,7 +50,7 @@ namespace MissionPlanner.Maps
             Offset = new System.Drawing.Point(-Size.Width/2, -Size.Height/2 - 20);
         }
 
-        public override void OnRender(Graphics g)
+        public override void OnRender(IGraphics g)
         {
             base.OnRender(g);
 

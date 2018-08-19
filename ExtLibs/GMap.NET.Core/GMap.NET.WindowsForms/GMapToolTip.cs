@@ -1,4 +1,6 @@
 ﻿
+using SvgNet.SvgGdi;
+
 namespace GMap.NET.WindowsForms
 {
    using System;
@@ -111,7 +113,7 @@ using System.Collections;
          this.Offset = new Point(14, -44);
       }
 
-      public virtual void OnRender(Graphics g)
+      public virtual void OnRender(IGraphics g)
       {
          System.Drawing.Size st = g.MeasureString(Marker.ToolTipText, Font).ToSize();
          System.Drawing.Rectangle rect = new System.Drawing.Rectangle(Marker.ToolTipPosition.X, Marker.ToolTipPosition.Y - st.Height, st.Width + TextPadding.Width, st.Height + TextPadding.Height);

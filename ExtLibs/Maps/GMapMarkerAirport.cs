@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
+using SvgNet.SvgGdi;
 
 namespace MissionPlanner.Maps
 {
@@ -58,7 +59,7 @@ namespace MissionPlanner.Maps
             Offset = new System.Drawing.Point(-Size.Width/2, -Size.Height/2);
         }
 
-        public override void OnRender(Graphics g)
+        public override void OnRender(IGraphics g)
         {
             base.OnRender(g);
 

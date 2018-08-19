@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using SvgNet.SvgGdi;
 
 namespace MissionPlanner.Maps
 {
@@ -78,7 +79,7 @@ namespace MissionPlanner.Maps
             return pal.Entries[incol].ToArgb();
         }
 
-        public override void OnRender(Graphics g)
+        public override void OnRender(IGraphics g)
         {
             base.OnRender(g);
 

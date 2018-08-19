@@ -6,6 +6,7 @@ using System.Text;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using MissionPlanner.Utilities;
+using SvgNet.SvgGdi;
 
 namespace MissionPlanner.Maps
 {
@@ -49,7 +50,7 @@ namespace MissionPlanner.Maps
 
         static SolidBrush[] colorbrushs;
 
-        public override void OnRender(Graphics g)
+        public override void OnRender(IGraphics g)
         {
             DateTime start = DateTime.Now;
             var pos = Overlay.Control.FromLatLngToLocal(Position);
@@ -133,7 +134,7 @@ namespace MissionPlanner.Maps
             Console.WriteLine("Add "+(DateTime.Now - start));
         }
 
-        public void drawLegend(Graphics g)
+        public void drawLegend(IGraphics g)
         {
             // top left corner
             var tl = Overlay.Control.FromLocalToLatLng(0, 0);

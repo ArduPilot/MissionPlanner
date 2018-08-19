@@ -1,4 +1,6 @@
 ﻿
+using SvgNet.SvgGdi;
+
 namespace GMap.NET.WindowsForms.ToolTips
 {
    using System.Drawing;
@@ -34,7 +36,7 @@ namespace GMap.NET.WindowsForms.ToolTips
          Fill = Brushes.Yellow;   
       }
 
-      public override void OnRender(Graphics g)
+      public override void OnRender(IGraphics g)
       {
          System.Drawing.Size st = g.MeasureString(Marker.ToolTipText, Font).ToSize();
          System.Drawing.Rectangle rect = new System.Drawing.Rectangle(Marker.ToolTipPosition.X, Marker.ToolTipPosition.Y - st.Height, st.Width + TextPadding.Width, st.Height + TextPadding.Height);

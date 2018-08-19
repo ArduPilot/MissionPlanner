@@ -1,4 +1,6 @@
 ﻿
+using SvgNet.SvgGdi;
+
 namespace GMap.NET.WindowsForms.Markers
 {
    using System.Drawing;
@@ -27,7 +29,7 @@ namespace GMap.NET.WindowsForms.Markers
          IsHitTestVisible = false;
       }
 
-      public override void OnRender(Graphics g)
+      public override void OnRender(IGraphics g)
       {
          System.Drawing.Point p1 = new System.Drawing.Point(LocalPosition.X, LocalPosition.Y);
          p1.Offset(0, -10);

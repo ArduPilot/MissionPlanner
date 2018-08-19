@@ -20,14 +20,15 @@ namespace GMap.NET.WindowsForms
    using System.Runtime.Serialization.Formatters.Binary;
    using System.Collections.Generic;
    using GMap.NET.Projections;
+    using SvgNet.SvgGdi;
 #else
    using OpenNETCF.ComponentModel;
 #endif
 
-   /// <summary>
-   /// GMap.NET control for Windows Forms
-   /// </summary>   
-   public partial class GMapControl : UserControl, Interface, IControl
+    /// <summary>
+    /// GMap.NET control for Windows Forms
+    /// </summary>   
+    public partial class GMapControl : UserControl, Interface, IControl
    {
 #if !PocketPC
       /// <summary>
@@ -632,7 +633,7 @@ namespace GMap.NET.WindowsForms
       /// render map in GDI+
       /// </summary>
       /// <param name="g"></param>
-      void DrawMap(Graphics g)
+      void DrawMap(IGraphics g)
       {
          if(Core.updatingBounds || MapProvider == EmptyProvider.Instance || MapProvider == null)
          {
@@ -1410,62 +1411,17 @@ namespace GMap.NET.WindowsForms
       public Color EmptyMapBackground = Color.WhiteSmoke;
 
 #if !DESIGN
-      protected override void OnPaint(PaintEventArgs e)
-      {
-         if(ForceDoubleBuffer)
+       protected override void OnPaint(PaintEventArgs e)
+       {
+           var f = new GdiGraphics(e.Graphics);
+           doPaint(f);
+           base.OnPaint(e);
+        }
+
+       public void doPaint(IGraphics e)
+       {
          {
-            #region -- manual buffer --
-            if(gxOff != null && backBuffer != null)
-            {
-               // render white background
-               gxOff.Clear(EmptyMapBackground);
-
-#if !PocketPC
-               if(MapRenderTransform.HasValue)
-               {
-                  if(!MobileMode)
-                  {
-                     var center = new GPoint(Width / 2, Height / 2);
-                     var delta = center;
-                     delta.OffsetNegative(Core.renderOffset);
-                     var pos = center;
-                     pos.OffsetNegative(delta);
-
-                     gxOff.ScaleTransform(MapRenderTransform.Value, MapRenderTransform.Value, MatrixOrder.Append);
-                     gxOff.TranslateTransform(pos.X, pos.Y, MatrixOrder.Append);
-
-                     DrawMap(gxOff);
-                     gxOff.ResetTransform();
-
-                     gxOff.TranslateTransform(pos.X, pos.Y, MatrixOrder.Append);
-                  }
-                  else
-                  {
-                     DrawMap(gxOff);
-                     gxOff.ResetTransform();
-                  }
-                  OnPaintOverlays(gxOff);
-               }
-               else
-#endif
-               {
-#if !PocketPC
-                  if(!MobileMode)
-                  {
-                     gxOff.TranslateTransform(Core.renderOffset.X, Core.renderOffset.Y);
-                  }
-#endif
-                  DrawMap(gxOff);
-                  OnPaintOverlays(gxOff);
-               }
-
-               e.Graphics.DrawImage(backBuffer, 0, 0);
-            }
-            #endregion
-         }
-         else
-         {
-            e.Graphics.Clear(EmptyMapBackground);
+            e.Clear(EmptyMapBackground);
 
 #if !PocketPC
             if(MapRenderTransform.HasValue)
@@ -1478,22 +1434,22 @@ namespace GMap.NET.WindowsForms
                   var pos = center;
                   pos.OffsetNegative(delta);
 
-                  e.Graphics.RotateTransform(-Bearing);
+                  e.RotateTransform(-Bearing);
 
-                  e.Graphics.ScaleTransform(MapRenderTransform.Value, MapRenderTransform.Value, MatrixOrder.Append);
-                  e.Graphics.TranslateTransform(pos.X, pos.Y, MatrixOrder.Append);
+                  e.ScaleTransform(MapRenderTransform.Value, MapRenderTransform.Value, MatrixOrder.Append);
+                  e.TranslateTransform(pos.X, pos.Y, MatrixOrder.Append);
 
-                  DrawMap(e.Graphics);
-                  e.Graphics.ResetTransform();
+                  DrawMap(e);
+                  e.ResetTransform();
 
-                  e.Graphics.TranslateTransform(pos.X, pos.Y, MatrixOrder.Append);
+                  e.TranslateTransform(pos.X, pos.Y, MatrixOrder.Append);
                }
                else
                {
-                  DrawMap(e.Graphics);
-                  e.Graphics.ResetTransform();
+                  DrawMap(e);
+                  e.ResetTransform();
                }
-               OnPaintOverlays(e.Graphics);
+               OnPaintOverlays(e);
             }
             else
 #endif
@@ -1503,8 +1459,8 @@ namespace GMap.NET.WindowsForms
                {
                   #region -- rotation --
 
-                  e.Graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
-                  e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                  e.TextRenderingHint = TextRenderingHint.AntiAlias;
+                  e.SmoothingMode = SmoothingMode.AntiAlias;
 
                   var center = new GPoint(Width / 2, Height / 2);
                   var delta = center;
@@ -1512,14 +1468,14 @@ namespace GMap.NET.WindowsForms
                   var pos = center;
                   pos.OffsetNegative(delta);
 
-                  e.Graphics.RotateTransform(-Bearing);
+                  e.RotateTransform(-Bearing);
 
-                  e.Graphics.TranslateTransform(pos.X, pos.Y, MatrixOrder.Append);
+                  e.TranslateTransform(pos.X, pos.Y, MatrixOrder.Append);
 
-                  DrawMap(e.Graphics);
-                  e.Graphics.ResetTransform();
+                  DrawMap(e);
+                  e.ResetTransform();
 
-                  e.Graphics.TranslateTransform(pos.X, pos.Y, MatrixOrder.Append);
+                  e.TranslateTransform(pos.X, pos.Y, MatrixOrder.Append);
 
                   #endregion
                }
@@ -1529,16 +1485,16 @@ namespace GMap.NET.WindowsForms
 #if !PocketPC
                   if(!MobileMode)
                   {
-                     e.Graphics.TranslateTransform(Core.renderOffset.X, Core.renderOffset.Y);
+                     e.TranslateTransform(Core.renderOffset.X, Core.renderOffset.Y);
                   }
 #endif
-                  DrawMap(e.Graphics);
-                  OnPaintOverlays(e.Graphics);
+                  DrawMap(e);
+                  OnPaintOverlays(e);
                }
             }
          }
 
-         base.OnPaint(e);
+         
       }
 #endif
 
@@ -1632,7 +1588,7 @@ namespace GMap.NET.WindowsForms
       /// override, to render something more
       /// </summary>
       /// <param name="g"></param>
-      protected virtual void OnPaintOverlays(Graphics g)
+      protected virtual void OnPaintOverlays(IGraphics g)
       {
 #if !PocketPC
          g.SmoothingMode = SmoothingMode.Default;

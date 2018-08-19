@@ -6,11 +6,12 @@ namespace GMap.NET.WindowsForms
    using System.Runtime.Serialization;
    //using System.Windows.Forms;
    using GMap.NET.ObjectModel;
+    using SvgNet.SvgGdi;
 
-   /// <summary>
-   /// GMap.NET overlay
-   /// </summary>
-   [Serializable]
+    /// <summary>
+    /// GMap.NET overlay
+    /// </summary>
+    [Serializable]
 #if !PocketPC
    public class GMapOverlay : ISerializable, IDeserializationCallback, IDisposable
 #else
@@ -287,7 +288,7 @@ namespace GMap.NET.WindowsForms
       /// renders objects/routes/polygons
       /// </summary>
       /// <param name="g"></param>
-      public virtual void OnRender(Graphics g)
+      public virtual void OnRender(IGraphics g)
       {
          if(Control != null)
          {

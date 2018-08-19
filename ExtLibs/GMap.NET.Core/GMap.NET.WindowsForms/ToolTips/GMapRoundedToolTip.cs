@@ -1,4 +1,6 @@
 ﻿
+using SvgNet.SvgGdi;
+
 namespace GMap.NET.WindowsForms.ToolTips
 {
    using System.Drawing;
@@ -21,7 +23,7 @@ namespace GMap.NET.WindowsForms.ToolTips
          TextPadding = new Size((int)Radius, (int)Radius);
       }
 
-      public void DrawRoundRectangle(Graphics g, Pen pen, float h, float v, float width, float height, float radius)
+      public void DrawRoundRectangle(IGraphics g, Pen pen, float h, float v, float width, float height, float radius)
       {
          using(GraphicsPath gp = new GraphicsPath())
          {
@@ -41,7 +43,7 @@ namespace GMap.NET.WindowsForms.ToolTips
          }
       }
 
-      public override void OnRender(Graphics g)
+      public override void OnRender(IGraphics g)
       {
          System.Drawing.Size st = g.MeasureString(Marker.ToolTipText, Font).ToSize();
 

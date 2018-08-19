@@ -194,6 +194,8 @@ namespace MissionPlanner
 
             CleanupFiles();
 
+            LoadDlls();
+
             log.InfoFormat("64bit os {0}, 64bit process {1}", System.Environment.Is64BitOperatingSystem,
                 System.Environment.Is64BitProcess);
 
@@ -259,6 +261,24 @@ namespace MissionPlanner
             }
             catch
             {
+            }
+        }
+
+        private static void LoadDlls()
+        {
+            var dlls = Directory.GetFiles(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "*.dll");
+
+            foreach (var dll in dlls)
+            {
+                try
+                {
+                    log.Debug("Load: "+dll);
+                    Assembly.LoadFile(dll);
+                }
+                catch (Exception ex)
+                {
+                    log.Debug(ex);
+                }
             }
         }
 

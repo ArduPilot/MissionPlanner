@@ -1,5 +1,6 @@
 ﻿
 using System.ComponentModel;
+using SvgNet.SvgGdi;
 
 namespace GMap.NET.WindowsForms.Markers
 {
@@ -213,7 +214,7 @@ namespace GMap.NET.WindowsForms.Markers
 
       static readonly Point[] Arrow = new Point[] { new Point(-7, 7), new Point(0, -22), new Point(7, 7), new Point(0, 2) };
 
-      public override void OnRender(Graphics g)
+      public override void OnRender(IGraphics g)
       {
           if (Math.Abs(LocalPosition.X) > 100000 || Math.Abs(LocalPosition.Y) > 100000)
                 return;

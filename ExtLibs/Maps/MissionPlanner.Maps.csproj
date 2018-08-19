@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GMap.NET.Core\GMap.NET.Core.csproj" />
+    <ProjectReference Include="..\SvgNet\SvgNet.csproj" />
     <ProjectReference Include="..\Utilities\MissionPlanner.Utilities.csproj" />
   </ItemGroup>
 

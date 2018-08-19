@@ -2,6 +2,7 @@
 using System.Drawing;
 using GMap.NET;
 using GMap.NET.WindowsForms;
+using SvgNet.SvgGdi;
 
 namespace MissionPlanner.Maps
 {
@@ -30,7 +31,7 @@ namespace MissionPlanner.Maps
             Size = icong.Size;
         }
 
-        public override void OnRender(Graphics g)
+        public override void OnRender(IGraphics g)
         {
             var temp = g.Transform;
             g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
