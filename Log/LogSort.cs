@@ -86,6 +86,27 @@ namespace MissionPlanner.Log
                         MAVLink.MAVLinkMessage hbpacket2 = mine.getHeartBeat();
                         MAVLink.MAVLinkMessage hbpacket3 = mine.getHeartBeat();
 
+                        if (hbpacket.Length == 0)
+                        {
+                            // back to start
+                            mine.logplaybackfile.BaseStream.Seek(0, SeekOrigin.Begin);
+
+                            var len = mine.logplaybackfile.BaseStream.Length;
+                            // make sure we see all mavs
+                            while (mine.logplaybackfile.BaseStream.Position < len)
+                            {
+                                // read up to 100kb of file
+                                if (mine.logplaybackfile.BaseStream.Position > (1024 * 100))
+                                    break;
+
+                                hbpacket = mine.getHeartBeat();
+
+                                // break if we just got a valid packet
+                                if (hbpacket.Length != 0)
+                                    break;
+                            }
+                        }
+
                         if (hbpacket.Length == 0 && hbpacket1.Length == 0 && hbpacket2.Length == 0 &&
                             hbpacket3.Length == 0)
                         {
@@ -136,7 +157,7 @@ namespace MissionPlanner.Log
                                 if (mav.aptype == MAVLink.MAV_TYPE.GCS)
                                     continue;
 
-                                mine.sysidcurrent = mav.sysid;
+                                mine.sysidcurrent = Math.Min(mav.sysid, mine.sysidcurrent);
                                 mine.compidcurrent = mav.compid;
                             }
                         }
