@@ -644,6 +644,15 @@ namespace MissionPlanner.Controls
 
                         MainV2.instance.doConnect(mav, "preset", "5760");
 
+                        try
+                        {
+                            mav.GetParam("SYSID_THISMAV");
+                            mav.setParam("SYSID_THISMAV", a + 1, true);
+
+                            mav.GetParam("FRAME_CLASS");
+                            mav.setParam("FRAME_CLASS", 1, true);
+                        } catch { }
+
                         MainV2.Comports.Add(mav);
                     }
 
