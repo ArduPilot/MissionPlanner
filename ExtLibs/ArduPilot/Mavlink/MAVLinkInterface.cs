@@ -1642,14 +1642,33 @@ Please check the following
             return true;
         }
 
-        public bool doARM(bool armit)
+        public bool doARM(bool armit, bool force = false)
         {
-            return doARM(MAV.sysid, MAV.compid, armit);
+            return doARM(MAV.sysid, MAV.compid, armit, force);
         }
 
-        public bool doARM(byte sysid,byte compid,bool armit)
+        public bool doARM(byte sysid,byte compid,bool armit, bool force = false)
         {
-            return doCommand(sysid, compid, MAV_CMD.COMPONENT_ARM_DISARM, armit ? 1 : 0, 21196, 0, 0, 0, 0, 0);
+            const float magic_force_arm_value = 2989.0f;
+            const float magic_force_disarm_value = 21196.0f;
+
+            if (force)
+            {
+                if (armit)
+                    return doCommand(sysid, compid, MAV_CMD.COMPONENT_ARM_DISARM, 1, magic_force_arm_value, 0, 0, 0, 0,
+                        0);
+                else
+                    return doCommand(sysid, compid, MAV_CMD.COMPONENT_ARM_DISARM, 0, magic_force_disarm_value, 0, 0, 0,
+                        0, 0);
+            }
+            else
+            {
+                if (armit)
+                    return doCommand(sysid, compid, MAV_CMD.COMPONENT_ARM_DISARM, 1, 0, 0, 0, 0, 0, 0);
+                else
+                    return doCommand(sysid, compid, MAV_CMD.COMPONENT_ARM_DISARM, 0, magic_force_disarm_value, 0, 0, 0,
+                        0, 0);
+            }
         }
 
         public bool doAbortLand()

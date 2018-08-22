@@ -197,7 +197,7 @@ namespace MissionPlanner.Swarm.TD
                             if (!drone.MavState.cs.armed)
                             {
                                 drone.takeoffdone = false;
-                                if (!drone.MavState.parent.doARM(drone.MavState.sysid, drone.MavState.compid, true))
+                                if (!drone.MavState.parent.doARM(drone.MavState.sysid, drone.MavState.compid, true, true))
                                     return;
                             }
                         }
