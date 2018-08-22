@@ -19,7 +19,7 @@ namespace MissionPlanner.Mavlink
 
         Dictionary<uint, Dictionary<uint, List<irate>>> _rate = new Dictionary<uint, Dictionary<uint, List<irate>>>();
 
-        public int RateHistory { get; set; } = 50;
+        public int RateHistory { get; set; } = 175;
 
         object _lock = new object();
 
