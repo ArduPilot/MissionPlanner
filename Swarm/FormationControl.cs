@@ -6,6 +6,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using GeoAPI.CoordinateSystems;
+using GeoAPI.CoordinateSystems.Transformations;
 using ProjNet.CoordinateSystems.Transformations;
 using ProjNet.CoordinateSystems;
 using ProjNet.Converters;
@@ -227,7 +229,7 @@ namespace MissionPlanner.Swarm
             //convert Wgs84ConversionInfo to utm
             CoordinateTransformationFactory ctfac = new CoordinateTransformationFactory();
 
-            GeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
+            IGeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
 
             int utmzone = (int) ((leader.cs.lng - -186.0)/6.0);
 

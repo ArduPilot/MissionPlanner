@@ -593,8 +593,6 @@ namespace MissionPlanner.Log
 
                 Loading.ShowLoading("Scanning coloum widths", this);
 
-                int b = 0;
-
                 int colcount = 0;
 
                 foreach (var msgid in logdata.FMT)

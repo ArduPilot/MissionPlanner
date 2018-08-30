@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using GeoAPI.CoordinateSystems;
+using GeoAPI.CoordinateSystems.Transformations;
 using ProjNet.CoordinateSystems.Transformations;
 using ProjNet.CoordinateSystems;
 using MissionPlanner.Utilities;
@@ -60,7 +61,7 @@ namespace MissionPlanner.Swarm
         //convert Wgs84ConversionInfo to utm
         CoordinateTransformationFactory ctfac = new CoordinateTransformationFactory();
 
-        GeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
+        IGeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
 
         public override void SendCommand()
         {

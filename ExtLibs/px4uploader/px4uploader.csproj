@@ -28,10 +28,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="BouncyCastle" Version="1.8.2" />
     <PackageReference Include="System.IO.Ports" Version="4.5.0" />
     <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.3.0" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BouncyCastle\BouncyCastle.csproj" />
   </ItemGroup>
 
   <ItemGroup>

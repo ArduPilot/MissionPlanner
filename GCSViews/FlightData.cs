@@ -4537,7 +4537,6 @@ namespace MissionPlanner.GCSViews
         }
 
         Random random = new Random();
-        private Process gst;
 
         Color GetColor()
         {

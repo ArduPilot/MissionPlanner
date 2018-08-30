@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GeoAPI.CoordinateSystems;
+using GeoAPI.CoordinateSystems.Transformations;
 using ProjNet.CoordinateSystems;
 using ProjNet.CoordinateSystems.Transformations;
 
@@ -16,7 +18,7 @@ namespace MissionPlanner.Utilities
         public object Tag;
 
         static CoordinateTransformationFactory ctfac = new CoordinateTransformationFactory();
-        static GeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
+        static IGeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
 
         public utmpos(double x, double y, int zone)
         {

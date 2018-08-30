@@ -304,9 +304,15 @@ namespace MissionPlanner.Swarm.TD
 
                         if (drone.commandsent)
                         {
+                            drone.TargetLocation = drone.Location;
+                            drone.TargetVelocity.X = -0.1;
                             //drone.SendYaw(drone.MavState.cs.yaw + 5);
                             drone.commandsent = false;
-                            continue;
+                            //continue;
+                        }
+                        else
+                        {
+                            drone.TargetVelocity.X = 0;
                         }
 
                         // position control

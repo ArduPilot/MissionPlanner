@@ -12,6 +12,8 @@ using System.Xml;
 using com.drew.imaging.jpg;
 using com.drew.metadata;
 using com.drew.metadata.exif;
+using GeoAPI.CoordinateSystems;
+using GeoAPI.CoordinateSystems.Transformations;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
@@ -897,7 +899,7 @@ namespace MissionPlanner.Grid
 
             CoordinateTransformationFactory ctfac = new CoordinateTransformationFactory();
 
-            GeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
+            IGeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
 
             int utmzone = (int)((polygon[0].Lng - -186.0) / 6.0);
 

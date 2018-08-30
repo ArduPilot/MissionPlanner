@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using GeoAPI.CoordinateSystems;
+using GeoAPI.CoordinateSystems.Transformations;
 using GMap.NET;
 using ProjNet.CoordinateSystems;
 using ProjNet.CoordinateSystems.Transformations;
@@ -23,7 +25,7 @@ namespace MissionPlanner.Utilities
         public Color color = Color.White;
 
         static CoordinateTransformationFactory ctfac = new CoordinateTransformationFactory();
-        static GeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
+        static IGeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
 
         public PointLatLngAlt(double lat, double lng, double alt, string tag)
         {
@@ -206,7 +208,7 @@ namespace MissionPlanner.Utilities
 
             list.ForEach(x => { data.Add((double[])x); });
 
-            return trans.MathTransform.TransformList(data);
+            return trans.MathTransform.TransformList(data).ToList();
         }
 
 

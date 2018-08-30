@@ -1,20 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using System.IO.Ports;
 using System.IO;
-using System.Text.RegularExpressions;
 //using KMLib;
 //using KMLib.Feature;
 //using KMLib.Geometry;
 //using Core.Geometry;
 using ICSharpCode.SharpZipLib.Zip;
-using ICSharpCode.SharpZipLib.Checksums;
 using ICSharpCode.SharpZipLib.Core;
 using SharpKml.Base;
 using SharpKml.Dom;
@@ -25,7 +20,6 @@ using log4net;
 using ZedGraph; // Graphs
 using MissionPlanner.Utilities;
 using System.CodeDom.Compiler;
-using MissionPlanner;
 using MissionPlanner.Controls;
 
 namespace MissionPlanner.Log

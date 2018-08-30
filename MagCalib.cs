@@ -1174,7 +1174,7 @@ namespace MissionPlanner
             alglib.minlmreport rep;
 
             alglib.minlmcreatev(data.Count, x, 0.1, out state);
-            alglib.minlmsetcond(state, epsg, epsf, epsx, maxits);
+            alglib.minlmsetcond(state, epsx, maxits);
 
             var t1 = new alglib.ndimensional_fvec(fitalgo);
 

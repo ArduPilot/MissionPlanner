@@ -40,6 +40,8 @@ using Placemark = SharpKml.Dom.Placemark;
 using Point = System.Drawing.Point;
 using System.Text.RegularExpressions;
 using GDAL;
+using GeoAPI.CoordinateSystems;
+using GeoAPI.CoordinateSystems.Transformations;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Grid;
 using MissionPlanner.Plugin;
@@ -51,7 +53,6 @@ namespace MissionPlanner.GCSViews
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         int selectedrow;
         public bool quickadd;
-        bool isonline = true;
         bool sethome;
         bool polygongridmode;
         bool splinemode;
@@ -893,17 +894,6 @@ namespace MissionPlanner.GCSViews
                 WMSProvider.CustomWMSURL = Settings.Instance["WMSserver"];
 
             trackBar1.Value = (int) MainMap.Zoom;
-
-            // check for net and set offline if needed
-            try
-            {
-                IPAddress[] addresslist = Dns.GetHostAddresses("www.google.com");
-            }
-            catch (Exception)
-            {
-                // here if dns failed
-                isonline = false;
-            }
 
             updateCMDParams();
 
@@ -2806,7 +2796,7 @@ namespace MissionPlanner.GCSViews
 
             CoordinateTransformationFactory ctfac = new CoordinateTransformationFactory();
 
-            GeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
+            IGeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
 
             int utmzone = (int) ((polygon[0].Lng - -186.0)/6.0);
 

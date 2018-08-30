@@ -50,10 +50,6 @@
       <HintPath>..\..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
       <Private>false</Private>
     </Reference>
-    <Reference Include="ProjNet">
-      <HintPath>..\..\packages\ProjNet.1.2\lib\net20\ProjNet.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="System">
       <Private>false</Private>
     </Reference>
@@ -180,6 +176,7 @@
       <Name>MAVLink</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\ProjNet\ProjNET.csproj" />
     <ProjectReference Include="..\Strings\MissionPlanner.Strings.csproj" />
     <ProjectReference Include="..\Utilities\MissionPlanner.Utilities.csproj">
       <Project>{1378A66C-38E4-46F5-A05F-DC04EF7D4D16}</Project>
@@ -198,11 +195,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="ProjNet">
-      <Version>1.2.0</Version>
-    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Reference Update="System.Runtime.Serialization">

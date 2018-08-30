@@ -20,7 +20,6 @@ namespace MissionPlanner.Utilities
         MAVState _parent;
         private Proximity.directionState _dS => _parent.Proximity.DirectionState;
 
-        KeyValuePair<MAVLINK_MSG_ID, Func<MAVLinkMessage, bool>> sub;
         private Timer timer1;
         private IContainer components;
 
@@ -191,9 +190,6 @@ namespace MissionPlanner.Utilities
 
         public void Dispose()
         {
-            if (_parent != null)
-                _parent.parent.UnSubscribeToPacketType(sub);
-
             timer1.Stop();
         }
 

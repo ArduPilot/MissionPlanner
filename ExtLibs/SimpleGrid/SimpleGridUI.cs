@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
+using GeoAPI.CoordinateSystems;
+using GeoAPI.CoordinateSystems.Transformations;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
@@ -372,7 +374,7 @@ namespace MissionPlanner.SimpleGrid
 
             CoordinateTransformationFactory ctfac = new CoordinateTransformationFactory();
 
-            GeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
+            IGeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
 
             int utmzone = (int)((polygon[0].Lng - -186.0) / 6.0);
 
