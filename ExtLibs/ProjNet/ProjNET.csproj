@@ -67,7 +67,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GeoAPI.CoordinateSystems" Version="$(GeoAPIPackageReferenceVersion)" />
+    <PackageReference Include="GeoAPI.CoordinateSystems" Version="1.7.5" />
   </ItemGroup>
 
   <ItemGroup>

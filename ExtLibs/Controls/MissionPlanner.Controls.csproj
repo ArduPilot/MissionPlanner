@@ -320,9 +320,6 @@
     <PackageReference Include="OpenTK.GLControl">
       <Version>3.0.1</Version>
     </PackageReference>
-    <PackageReference Include="SkiaSharp">
-      <Version>1.60.2</Version>
-    </PackageReference>
     <PackageReference Include="System.Data.Common">
       <Version>4.3.0</Version>
     </PackageReference>

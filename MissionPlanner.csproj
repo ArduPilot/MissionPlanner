@@ -193,7 +193,6 @@
 
   <ItemGroup>
     <PackageReference Include="BitMiracle.LibTiff.NET" Version="2.4.560" />
-    <PackageReference Include="Community.CsharpSqlite.SQLiteClient" version="3.7.7.3" targetFramework="net462" />
     <PackageReference Include="CSMatIO" version="1.0.20" targetFramework="net40" requireReinstallation="true" />
     <PackageReference Include="DirectShowLib" Version="1.0.0" />
     <PackageReference Include="DotSpatial.Data" version="1.9" targetFramework="net462" />
@@ -209,7 +208,7 @@
     <PackageReference Include="DotSpatial.Symbology.Forms" version="1.9" targetFramework="net462" />
     <PackageReference Include="DotSpatial.Topology" version="1.9" targetFramework="net462" />
 
-    <PackageReference Include="Flurl" version="2.7.1" targetFramework="net462" />
+    <PackageReference Include="Flurl" version="2.8.0" targetFramework="net462" />
     <PackageReference Include="Flurl.Http" version="2.3.2" targetFramework="net462" />
     <PackageReference Include="GDAL" Version="1.11.1" />
     <PackageReference Include="GeoJSON.Net" version="1.1.64" targetFramework="net462" />
@@ -221,18 +220,16 @@
     <PackageReference Include="Newtonsoft.Json" version="11.0.2" targetFramework="net462" />
     <PackageReference Include="OpenTK" Version="3.0.1" />
     <PackageReference Include="OpenTK.GLControl" Version="3.0.1" />
-    <PackageReference Include="protobuf-net" version="2.3.13" targetFramework="net40" requireReinstallation="true" />
     <PackageReference Include="SharpDX" version="4.1.0" targetFramework="net462" />
     <PackageReference Include="SharpDX.DirectInput" version="4.1.0" targetFramework="net462" />
-    <PackageReference Include="SharpZipLib" version="0.86.0" targetFramework="net40" />
-    <PackageReference Include="SkiaSharp" Version="1.60.2" />
-    <PackageReference Include="SkiaSharp.Views" Version="1.60.2" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0005" />
+    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta0005" />
     <PackageReference Include="SSH.NET" version="2016.1.0" targetFramework="net40" />
     <PackageReference Include="System.Drawing.Common" Version="4.5.0" />
     <PackageReference Include="System.IO.Ports" Version="4.5.0" />
-    <PackageReference Include="System.Reactive" Version="4.0.0" />
-    <PackageReference Include="System.Reactive.Core" Version="4.0.0" />
-    <PackageReference Include="System.Reactive.Linq" Version="4.0.0" />
+    <PackageReference Include="System.Reactive" Version="4.1.0" />
+    <PackageReference Include="System.Reactive.Core" Version="4.1.0" />
+    <PackageReference Include="System.Reactive.Linq" Version="4.1.0" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.5.0" />
     <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
 

@@ -32,7 +32,7 @@ build_script:
 
     copy version.txt c:\mp\
     
-    del gdal dlls /s /f /q
+    rem del gdal dlls /s /f /q
 
     7z a -tzip ..\..\..\MissionPlannerBeta.zip *
 

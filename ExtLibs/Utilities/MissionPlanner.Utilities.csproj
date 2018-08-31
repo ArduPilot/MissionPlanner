@@ -21,7 +21,7 @@
     <PackageReference Include="OpenTK.GLControl" Version="3.0.1" />
     <PackageReference Include="System.Drawing.Common" Version="4.5.0" />
     <PackageReference Include="System.IO.Ports" Version="4.5.0" />
-    <PackageReference Include="System.Reactive.Linq" Version="4.0.0" />
+    <PackageReference Include="System.Reactive.Linq" Version="4.1.0" />
   </ItemGroup>
 
   <ItemGroup>

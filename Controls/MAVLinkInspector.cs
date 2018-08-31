@@ -13,7 +13,6 @@ using System.Windows.Forms;
 using Microsoft.Scripting.Utils;
 using MissionPlanner.Mavlink;
 using MissionPlanner.Utilities;
-using ProtoBuf.Meta;
 
 namespace MissionPlanner.Controls
 {

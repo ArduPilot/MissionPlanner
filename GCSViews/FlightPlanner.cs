@@ -6029,6 +6029,8 @@ namespace MissionPlanner.GCSViews
             {
                 CustomMessageBox.Show(Strings.InvalidAlt, Strings.ERROR);
             }
+
+            isMouseClickOffMenu = false;
         }
 
         private void clearRallyPointsToolStripMenuItem_Click(object sender, EventArgs e)
