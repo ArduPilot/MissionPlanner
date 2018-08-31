@@ -386,9 +386,9 @@ namespace MissionPlanner.Log
         public static double GetMatLabSerialDate(DateTime dt)
         {
             // in c# i cant represent year 0000, so we add one year and the leap year
-            DateTime timebase = new DateTime(1, 1, 1); // = 1
+            DateTime timebase = DateTime.MinValue; // = 1
 
-            double answer = (dt.AddYears(1).AddDays(1) - timebase).TotalDays;
+            double answer = (dt.AddYears(1).AddDays(2) - timebase).TotalDays;
 
             return answer;
         }
