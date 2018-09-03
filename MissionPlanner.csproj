@@ -89,11 +89,6 @@
 
     <Reference Include="System.Windows.Forms" />
 
-    <Reference Include="Transitions">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>ExtLibs\Transitions.dll</HintPath>
-    </Reference>
-
   </ItemGroup>
   
   <ItemGroup>
@@ -181,6 +176,7 @@
       <Project>{aba78b2e-77c3-4377-8568-9542ac227971}</Project>
       <Name>tlogThumbnailHandler</Name>
     </ProjectReference>
+    <ProjectReference Include="ExtLibs\Transitions\Transitions.csproj" />
     <ProjectReference Include="ExtLibs\Utilities\MissionPlanner.Utilities.csproj">
       <Project>{1378A66C-38E4-46F5-A05F-DC04EF7D4D16}</Project>
       <Name>MissionPlanner.Utilities</Name>
