@@ -41,8 +41,6 @@ namespace MissionPlanner.Controls
         double cameraX, cameraY, cameraZ; // camera coordinates
         double lookX, lookY, lookZ; // camera look-at coordinates
 
-        double step = 1 / 1200.0;
-
         // image zoom level
         int zoom = 20;
 
@@ -373,8 +371,6 @@ namespace MissionPlanner.Controls
             double minlng = Math.Min(left.Lng, Math.Min(right.Lng, Math.Min(front.Lng, behind.Lng)));
 
             area = RectLatLng.FromLTRB(minlng, maxlat, maxlng, minlat);
-
-            float screenscale = 1; //this.Width/(float) this.Height*1f;
 
             if (!Context.IsCurrent)
                 MakeCurrent();

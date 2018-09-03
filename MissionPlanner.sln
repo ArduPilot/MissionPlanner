@@ -94,7 +94,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissionPlanner.ArduPilot", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissionPlanner.Strings", "ExtLibs\Strings\MissionPlanner.Strings.csproj", "{A0DE147B-144C-4A34-8D46-9394570AD7E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "netDxf", "ExtLibs\netDxf\netDxf.csproj", "{785380E0-CEB9-4C34-82E5-60D0E33E848E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "netDxf", "ExtLibs\netDxf\netDxf.csproj", "{785380E0-CEB9-4C34-82E5-60D0E33E848E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "alglibnet", "ExtLibs\alglibnet\alglibnet.csproj", "{B994D8D2-C052-4616-9D20-386640C7387F}"
 EndProject
@@ -103,6 +103,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ICSharpCode.SharpZipLib", "ExtLibs\ICSharpCode.SharpZipLib\ICSharpCode.SharpZipLib.csproj", "{6D4F97A1-D0A0-44EC-B2A3-F5C954209444}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjNET", "ExtLibs\ProjNet\ProjNET.csproj", "{993DB853-EC9F-45D5-AD2C-BA008B72995B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebCamService", "ExtLibs\WebCamService\WebCamService.csproj", "{78AC6375-28AF-4175-9F20-B5099C92EA2B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -654,6 +656,18 @@ Global
 		{993DB853-EC9F-45D5-AD2C-BA008B72995B}.Release|x64.Build.0 = Release|Any CPU
 		{993DB853-EC9F-45D5-AD2C-BA008B72995B}.Release|x86.ActiveCfg = Release|Any CPU
 		{993DB853-EC9F-45D5-AD2C-BA008B72995B}.Release|x86.Build.0 = Release|Any CPU
+		{78AC6375-28AF-4175-9F20-B5099C92EA2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78AC6375-28AF-4175-9F20-B5099C92EA2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78AC6375-28AF-4175-9F20-B5099C92EA2B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{78AC6375-28AF-4175-9F20-B5099C92EA2B}.Debug|x64.Build.0 = Debug|Any CPU
+		{78AC6375-28AF-4175-9F20-B5099C92EA2B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{78AC6375-28AF-4175-9F20-B5099C92EA2B}.Debug|x86.Build.0 = Debug|Any CPU
+		{78AC6375-28AF-4175-9F20-B5099C92EA2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78AC6375-28AF-4175-9F20-B5099C92EA2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78AC6375-28AF-4175-9F20-B5099C92EA2B}.Release|x64.ActiveCfg = Release|Any CPU
+		{78AC6375-28AF-4175-9F20-B5099C92EA2B}.Release|x64.Build.0 = Release|Any CPU
+		{78AC6375-28AF-4175-9F20-B5099C92EA2B}.Release|x86.ActiveCfg = Release|Any CPU
+		{78AC6375-28AF-4175-9F20-B5099C92EA2B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -700,6 +714,7 @@ Global
 		{BA876930-F966-4DD3-8F60-966D6FE93B76} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
 		{6D4F97A1-D0A0-44EC-B2A3-F5C954209444} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
 		{993DB853-EC9F-45D5-AD2C-BA008B72995B} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
+		{78AC6375-28AF-4175-9F20-B5099C92EA2B} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F7AF94B5-83B0-46CD-B258-67F2404F82FC}

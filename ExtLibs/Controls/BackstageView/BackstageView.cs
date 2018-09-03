@@ -527,7 +527,7 @@ namespace MissionPlanner.Controls.BackstageView
             base.OnPaint(e);
         }
 
-        public void Close()
+        public new void Close()
         {
             foreach (var page in _items)
             {

@@ -171,7 +171,7 @@ namespace MissionPlanner.Utilities
             }
         }
 
-        public void Show()
+        public new void Show()
         {
             if (!IsDisposed)
             {
@@ -188,7 +188,7 @@ namespace MissionPlanner.Utilities
             }
         }
 
-        public void Dispose()
+        public new void Dispose()
         {
             timer1.Stop();
         }

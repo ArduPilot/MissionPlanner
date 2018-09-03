@@ -67,6 +67,9 @@
     <None Remove="packages\**" />
   </ItemGroup> 
   <ItemGroup>
+    <Reference Include="BitMiracle.LibTiff.NetStandard">
+      <HintPath>..\..\..\.nuget\packages\bitmiracle.libtiff.net\2.4.584.1\lib\netstandard1.3\BitMiracle.LibTiff.NetStandard.dll</HintPath>
+    </Reference>
     <Reference Include="Ionic.Zip.NetStandard">
       <HintPath>ExtLibs\Ionic.Zip.NetStandard.dll</HintPath>
     </Reference>
@@ -182,6 +185,7 @@
       <Project>{1378A66C-38E4-46F5-A05F-DC04EF7D4D16}</Project>
       <Name>MissionPlanner.Utilities</Name>
     </ProjectReference>
+    <ProjectReference Include="ExtLibs\WebCamService\WebCamService.csproj" />
     <ProjectReference Include="ExtLibs\ZedGraph\ZedGraph.csproj">
       <Project>{2541686B-1673-43BF-AF89-3163945DB009}</Project>
       <Name>ZedGraph</Name>
@@ -192,8 +196,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="BitMiracle.LibTiff.NET" Version="2.4.560" />
-    <PackageReference Include="CSMatIO" version="1.0.20" targetFramework="net40" requireReinstallation="true" />
+    <PackageReference Include="CSMatIO" version="1.0.20" targetFramework="netstandard2.0" requireReinstallation="true" />
     <PackageReference Include="DirectShowLib" Version="1.0.0" />
     <PackageReference Include="DotSpatial.Data" version="1.9" targetFramework="net462" />
     <PackageReference Include="DotSpatial.Data.Forms" version="1.9" targetFramework="net462" />

@@ -227,12 +227,12 @@ namespace MissionPlanner
         int _bps2 = 0;
         DateTime _bpstime { get; set; }
 
+        public static ISpeech Speech;
 
         public MAVLinkInterface()
         {
             // init fields
             MAVlist = new MAVList(this);
-            this.BaseStream = new SerialPort();
             this.packetcount = 0;
             this._bytesReceivedSubj = new Subject<int>();
             this._bytesSentSubj = new Subject<int>();
@@ -320,7 +320,7 @@ namespace MissionPlanner
 
         public void Open(bool getparams,  bool skipconnectedcheck = false)
         {
-            if (BaseStream.IsOpen && !skipconnectedcheck)
+            if (BaseStream == null || BaseStream.IsOpen && !skipconnectedcheck)
                 return;
 
             MAVlist.Clear();
@@ -3826,13 +3826,13 @@ Please check the following
                             MAVlist[sysid, compid].cs.messageHigh = logdata;
                             MAVlist[sysid, compid].cs.messageHighTime = DateTime.Now;
 
-                            if (Speech.Instance != null &&
-                                Speech.Instance.IsReady &&
+                            if (Speech != null &&
+                                Speech.IsReady &&
                                 Settings.Instance["speechenable"] != null &&
                                 Settings.Instance["speechenable"].ToString() == "True")
                             {
                                 if (speechenabled)
-                                    Speech.Instance.SpeakAsync(logdata);
+                                    Speech.SpeakAsync(logdata);
                             }
                         }
                     }
@@ -4974,7 +4974,7 @@ Please check the following
 
         public override string ToString()
         {
-            if (BaseStream.IsOpen)
+            if (BaseStream != null && BaseStream.IsOpen)
                 return "MAV " + MAV.sysid + " on " + BaseStream.PortName;
 
             if (logreadmode)

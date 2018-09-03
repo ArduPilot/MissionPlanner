@@ -1202,7 +1202,6 @@ namespace MissionPlanner.Utilities
         }
 
         string _message = "";
-        private RootObject firmwares;
 
         void up_LogEvent(string message, int level = 0)
         {

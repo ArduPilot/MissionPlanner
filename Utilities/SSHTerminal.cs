@@ -25,9 +25,7 @@ namespace MissionPlanner.Utilities
         public static bool SSHTerm = false;
         private ShellStream shellStream;
         private int SelectStartIndex = 0;
-        private bool inlogview;
         private int inputStartPos;
-        private bool Connected = false;
         DateTime lastsend = DateTime.MinValue;
         private int ScreenWidth = 0;
         private int ScreenHeight = 0;

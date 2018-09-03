@@ -10,7 +10,6 @@ using MissionPlanner;
 using System.Collections;
 using System.Linq;
 using System.Runtime.Serialization;
-using DirectShowLib;
 using MissionPlanner.ArduPilot;
 using Newtonsoft.Json;
 
@@ -25,6 +24,10 @@ namespace MissionPlanner
         [JsonIgnore]
         [IgnoreDataMember]
         public MAVState parent;
+
+        [JsonIgnore]
+        [IgnoreDataMember]
+        public static ISpeech Speech;
 
         public int lastautowp = -1;
 
@@ -2014,10 +2017,12 @@ namespace MissionPlanner
                                 }
                             }
 
-                            if (oldmode != mode && Speech.speechEnable && parent?.parent?.MAV?.cs == this &&
+                            if (oldmode != mode && Speech != null && Speech.speechEnable &&
+                                parent?.parent?.MAV?.cs == this &&
                                 Settings.Instance.GetBoolean("speechmodeenabled"))
                             {
-                                Speech.Instance.SpeakAsync(Common.speechConversion(parent, ""+ Settings.Instance["speechmode"]));
+                                Speech.SpeakAsync(Common.speechConversion(parent,
+                                    "" + Settings.Instance["speechmode"]));
                             }
                         }
                     }
@@ -2355,7 +2360,7 @@ namespace MissionPlanner
                         if (oldwp != wpno && Speech.speechEnable && parent.parent.MAV.cs == this &&
                             Settings.Instance.GetBoolean("speechwaypointenabled"))
                         {
-                            Speech.Instance.SpeakAsync(Common.speechConversion(parent, "" + Settings.Instance["speechwaypoint"]));
+                            Speech.SpeakAsync(Common.speechConversion(parent, "" + Settings.Instance["speechwaypoint"]));
                         }
 
                         //MAVLink.packets[(byte)MAVLink.MSG_NAMES.WAYPOINT_CURRENT);

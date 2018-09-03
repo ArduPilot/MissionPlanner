@@ -1165,8 +1165,6 @@ namespace MissionPlanner
         static double[] doLSQ(List<Tuple<float, float, float>> data, Action<double[], double[], object> fitalgo,
             double[] x)
         {
-            double epsg = 0.0001;
-            double epsf = 0;
             double epsx = 0;
             int maxits = 100;
 

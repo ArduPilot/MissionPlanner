@@ -323,14 +323,17 @@ namespace MissionPlanner
         /// </summary>
         public static bool speechEnable
         {
-            get { return Speech.speechEnable; }
-            set { Speech.speechEnable = value; }
+            get { return speechEngine == null ? false : speechEngine.speechEnable; }
+            set
+            {
+                if (speechEngine != null) speechEngine.speechEnable = value;
+            }
         }
 
         /// <summary>
         /// spech engine static class
         /// </summary>
-        public static ISpeech speechEngine { get; set; } = Speech.Instance;
+        public static ISpeech speechEngine { get; set; }
 
         /// <summary>
         /// joystick static class
@@ -601,6 +604,10 @@ namespace MissionPlanner
             //startup console
             TCPConsole.Write((byte) 'S');
 
+            // define default basestream
+            comPort.BaseStream = new SerialPort();
+            comPort.BaseStream.BaudRate = 115200;
+
             _connectionControl = toolStripConnectionControl.ConnectionControl;
             _connectionControl.CMB_baudrate.TextChanged += this.CMB_baudrate_TextChanged;
             _connectionControl.CMB_serialport.SelectedIndexChanged += this.CMB_serialport_SelectedIndexChanged;
@@ -613,6 +620,13 @@ namespace MissionPlanner
 
             var t = Type.GetType("Mono.Runtime");
             MONO = (t != null);
+
+            try
+            {
+                speechEngine = new Speech();
+                MAVLinkInterface.Speech = speechEngine;
+                CurrentState.Speech = speechEngine;
+            } catch { }
 
             Warnings.CustomWarning.defaultsrc = comPort.MAV.cs;
             Warnings.WarningEngine.Start();
@@ -627,8 +641,6 @@ namespace MissionPlanner
 
             if (_connectionControl.TOOL_APMFirmware.Items.Count > 0)
                 _connectionControl.TOOL_APMFirmware.SelectedIndex = 0;
-
-            comPort.BaseStream.BaudRate = 115200;
 
             PopulateSerialportList();
             if (_connectionControl.CMB_serialport.Items.Count > 0)

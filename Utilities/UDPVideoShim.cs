@@ -26,7 +26,6 @@ namespace MissionPlanner.Utilities
         private static UdpClient client2;
         private static UdpClient client3;
         private static TcpClient tcpclient;
-        private static Process gst;
 
         static UDPVideoShim()
         {
@@ -82,15 +81,6 @@ namespace MissionPlanner.Utilities
                 if (tcpclient != null)
                     tcpclient.Close();
                 tcpclient = null;
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
-
-            try
-            {
-                GStreamer.Stop(gst);
             }
             catch (Exception ex)
             {

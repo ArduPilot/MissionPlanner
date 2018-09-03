@@ -2740,7 +2740,7 @@ namespace MissionPlanner.Controls
         }
 
         // Returns a System.Drawing.Bitmap with the contents of the current framebuffer
-        public new Bitmap GrabScreenshot()
+        public Bitmap GrabScreenshot()
         {
             if (OpenTK.Graphics.GraphicsContext.CurrentContext == null)
                 throw new OpenTK.Graphics.GraphicsContextMissingException();
