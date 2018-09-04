@@ -44,7 +44,10 @@ namespace MissionPlanner
 
             camerapoints.Clear();
 
-            GMapMarkerOverlapCount.Clear();
+            try
+            {
+                GMapMarkerOverlapCount = new GMapMarkerOverlapCount(PointLatLng.Empty);
+            } catch { }
 
             this.packetslost = 0f;
             this.packetsnotlost = 0f;
@@ -214,7 +217,7 @@ namespace MissionPlanner
 
         public List<mavlink_camera_feedback_t> camerapoints = new List<mavlink_camera_feedback_t>();
 
-        public GMapMarkerOverlapCount GMapMarkerOverlapCount = new GMapMarkerOverlapCount(PointLatLng.Empty);
+        public GMapMarkerOverlapCount GMapMarkerOverlapCount;
 
         /// <summary>
         /// Store the guided mode wp location
