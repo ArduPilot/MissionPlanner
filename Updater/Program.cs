@@ -90,9 +90,10 @@ namespace Updater
                                 File.Delete(file);
                                 Console.WriteLine(" Done.");
                             }
-                            catch
+                            catch (Exception ex)
                             {
                                 Console.WriteLine(file + " Failed.");
+                                Console.WriteLine(ex);
                                 System.Threading.Thread.Sleep(500);
                                 // normally in use by explorer.exe
                                 if (file.ToLower().Contains("tlogthumbnailhandler"))
