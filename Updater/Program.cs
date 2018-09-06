@@ -41,6 +41,10 @@ namespace Updater
             {
                 try
                 {
+                    Directory.GetFiles(path, "*.old").ForEach(a => {
+                        File.Delete(a);
+                    });
+
                     System.Diagnostics.Process P = new System.Diagnostics.Process();
                     if (MAC)
                     {
@@ -84,10 +88,19 @@ namespace Updater
                             }
                             try
                             {
-                                Console.Write("Move: " + file + " TO " + file.Remove(file.Length - 4));
-                                File.Copy(file, file.Remove(file.Length - 4), true);
+                                var oldfile = file.Remove(file.Length - 4) + ".old";
+                                var newfile = file.Remove(file.Length - 4);
+
+                                if (File.Exists(oldfile))
+                                    File.Delete(oldfile);
+
+                                Console.Write("Move: " + file + " TO " + newfile);
+                                // move existing to .old
+                                if (File.Exists(newfile))
+                                    File.Move(newfile, oldfile);
+                                // move .new to existing
+                                File.Move(file, newfile);
                                 done = true;
-                                File.Delete(file);
                                 Console.WriteLine(" Done.");
                             }
                             catch (Exception ex)
@@ -112,6 +125,12 @@ namespace Updater
 
             return all_done;
             //P.StartInfo.RedirectStandardOutput = true;
+        }
+
+        public static void ForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
+        {
+            foreach (T obj in enumerable)
+                action(obj);
         }
     }
 }
