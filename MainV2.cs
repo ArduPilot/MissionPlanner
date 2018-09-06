@@ -2772,7 +2772,7 @@ namespace MissionPlanner
                         {
                             try
                             {
-                               port.readPacket();
+                                port.readPacket();
                             }
                             catch (Exception ex)
                             {
