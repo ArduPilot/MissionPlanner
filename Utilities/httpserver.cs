@@ -295,8 +295,8 @@ namespace MissionPlanner.Utilities
                                         packet[i++] = (byte) ch;
                                     }
 
-                                    stream.Write(packet, 0, i);
-                                    stream.Flush();
+                                    stream.WriteAsync(packet, 0, i);
+                                    stream.FlushAsync();
                                 }
                                 catch
                                 {
