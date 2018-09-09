@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width">
+    <title>wasm</title>
+    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/site.css" rel="stylesheet" />
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+    <app>Loading...</app>
+
+<script src="_framework/blazor.webassembly.js"></script>
+   
+
+<script>
+    function initWebSocket() {
+        if (window["WebSocket"]) {
+            var host = "ws://" + window.location.hostname + ":56781/websocket/raw";
+            //if (window.location.hostname == "")
+            host = "ws://localhost:56781/websocket/raw";
+            try {
+                try {
+                    if (!(socket === null))
+                            socket.close();
+                } catch (exception) {
+                    if (window.console) console.log(exception);
+                }
+
+                socket = new WebSocket(host);
+
+                window.onbeforeunload = function() {
+                    socket.close();
+                };
+                console.log('WebSocket - status ' + socket.readyState);
+                socket.onopen = function(msg) {
+
+                };
+                socket.onmessage = function(msg) {
+                    //console.log(JSON.stringify(msg.data));
+                    try {
+                        dotNetDispatcherInvokeMethodHandle = Blazor.platform.findMethod(
+                            'wasm',
+                            'wasm.Pages',
+                            'websocket',
+                            'ProcessPacketStatic');
+                    } catch (err) {
+                        return;
+                    }
+
+                    //Blazor.platform.findMethod(l, s, c, "ReceiveResponse"),
+                    //u.platform.callMethod(a, null, [u.platform.toDotNetString(e.toString()), t, n, r])
+
+                    var blobToBase64 = function(blob, cb) {
+                        var reader = new FileReader();
+                        reader.onload = function() {
+                            var dataUrl = reader.result;
+                            var base64 = dataUrl.split(',')[1];
+                            cb(base64);
+                        };
+                        reader.readAsDataURL(blob);
+                    };
+
+
+                    blobToBase64(msg.data,
+                        function(base64data) {
+                            thingo = Blazor.platform.toDotNetString(base64data);
+
+
+
+                            result = Blazor.platform.callMethod(dotNetDispatcherInvokeMethodHandle,
+                                null,
+                                [thingo]);
+
+
+                            //console.log(Blazor.platform.toJavaScriptString(result));
+                        });
+
+                };
+            } catch (exception) {
+                if (window.console) console.log(exception);
+            }
+        }
+    }
+
+</script>
+
+
+<script>
+    var map;
+    var markers = [];
+
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'),
+            {
+                center: { lat: -35, lng: 117.89 },
+                zoom: 1,
+                mapTypeId: 'satellite',
+                maxZoom: 21
+            });
+
+        //map.setMapTypeId('satellite');
+
+        //map.setOptions({maxZoom: 21});
+
+        markers = [];
+    }
+
+    function setPosition(mavno, lat, lng) {
+        var myLatLng = { lat: lat, lng: lng };
+        if (markers.length >= (mavno + 1)) {
+            markers[mavno].setPosition(myLatLng);
+            if (map != markers[mavno].map)
+                markers[mavno].setMap(map);
+        } else {
+            var marker = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                title: 'ArduPilot ' + mavno
+            });
+            markers.push(marker);
+        }
+        if (mavno === 0) {
+            map.setCenter({ lat: lat, lng: lng });
+            //map.setZoom(16);
+        }
+    }
+
+    function test(mavlist) {
+        console.log(mavlist);
+    }
+  
+
+
+  
+
+    //map.setCenter({lat: cs.lat, lng: cs.lng});
+
+    //&callback=initMap
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDW05vWXeNIfZAN4Ter8gf4YLg8rPHZToc" async defer></script>
+
+
+
+
+</body>
+</html>

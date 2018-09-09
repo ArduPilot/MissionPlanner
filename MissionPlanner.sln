@@ -108,6 +108,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebCamService", "ExtLibs\We
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Transitions", "ExtLibs\Transitions\Transitions.csproj", "{B6054E5B-362C-4298-8F20-6BA5BF1A859E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wasm", "ExtLibs\wasm\wasm.csproj", "{E2CE55F4-53FB-48C3-A8BE-34161961FD2A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -682,6 +684,15 @@ Global
 		{B6054E5B-362C-4298-8F20-6BA5BF1A859E}.Release|x64.Build.0 = Release|Any CPU
 		{B6054E5B-362C-4298-8F20-6BA5BF1A859E}.Release|x86.ActiveCfg = Release|Any CPU
 		{B6054E5B-362C-4298-8F20-6BA5BF1A859E}.Release|x86.Build.0 = Release|Any CPU
+		{E2CE55F4-53FB-48C3-A8BE-34161961FD2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2CE55F4-53FB-48C3-A8BE-34161961FD2A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E2CE55F4-53FB-48C3-A8BE-34161961FD2A}.Debug|x64.Build.0 = Debug|Any CPU
+		{E2CE55F4-53FB-48C3-A8BE-34161961FD2A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E2CE55F4-53FB-48C3-A8BE-34161961FD2A}.Debug|x86.Build.0 = Debug|Any CPU
+		{E2CE55F4-53FB-48C3-A8BE-34161961FD2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2CE55F4-53FB-48C3-A8BE-34161961FD2A}.Release|x64.ActiveCfg = Release|Any CPU
+		{E2CE55F4-53FB-48C3-A8BE-34161961FD2A}.Release|x86.ActiveCfg = Release|Any CPU
+		{E2CE55F4-53FB-48C3-A8BE-34161961FD2A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -730,6 +741,7 @@ Global
 		{993DB853-EC9F-45D5-AD2C-BA008B72995B} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
 		{78AC6375-28AF-4175-9F20-B5099C92EA2B} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
 		{B6054E5B-362C-4298-8F20-6BA5BF1A859E} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
+		{E2CE55F4-53FB-48C3-A8BE-34161961FD2A} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F7AF94B5-83B0-46CD-B258-67F2404F82FC}
