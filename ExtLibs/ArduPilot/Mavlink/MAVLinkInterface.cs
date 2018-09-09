@@ -367,7 +367,7 @@ namespace MissionPlanner
             if (BaseStream is SerialPort)
             {
                 // allow settings to settle - previous dtr 
-                Thread.Sleep(1000);
+                Task.Delay(1000);
             }
 
             Terrain = new TerrainFollow(this);
@@ -397,7 +397,7 @@ namespace MissionPlanner
                     // other boards seem to have issues if there is no delay? posible bootloader timeout issue
                     if (BaseStream is SerialPort)
                     {
-                        Thread.Sleep(1000);
+                        Task.Delay(1000);
                     }
                 }
 
@@ -459,7 +459,7 @@ Please check the following
                         }
                     }
 
-                    Thread.Sleep(1);
+                    Task.Delay(1);
 
                     var buffer = getHeartBeat();
                     if (buffer.Length > 0)
@@ -3233,7 +3233,14 @@ Please check the following
 
         public async Task<MAVLinkMessage> readPacketAsync()
         {
-            return await Task.Run(() => readPacket());
+            return await Task.Run(() =>
+            {
+                DateTime start = DateTime.Now;
+                var ans =  readPacket();
+                //Console.WriteLine("readPacketAsync " + (DateTime.Now - start));
+                return ans;
+            });
+
         }
 
         /// <summary>
@@ -3299,7 +3306,7 @@ Please check the following
                                     throw new TimeoutException("Timeout");
                                 }
 
-                                Thread.Sleep(1);
+                                Task.Delay(1);
                                 if (debug)
                                     Console.WriteLine(DateTime.Now.Millisecond + " SR0b " + BaseStream?.BytesToRead);
                             }
@@ -3379,7 +3386,7 @@ Please check the following
                                     throw new TimeoutException("Timeout");
                                 }
 
-                                Thread.Sleep(1);
+                                Task.Delay(1);
                             }
 
                             int read = BaseStream.Read(buffer, 1, headerlength);
@@ -3424,7 +3431,7 @@ Please check the following
                                             break;
                                         }
 
-                                        Thread.Sleep(1);
+                                        Task.Delay(1);
                                     }
 
                                     if (BaseStream.IsOpen)
