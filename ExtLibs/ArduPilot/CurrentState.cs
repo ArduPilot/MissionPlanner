@@ -1563,7 +1563,7 @@ namespace MissionPlanner
 
                         if (lastpos.Lat != 0 && lastpos.Lng != 0 && armed)
                         {
-                            if (!mavinterface.BaseStream.IsOpen && !mavinterface.logreadmode)
+                            if ((mavinterface.BaseStream != null && !mavinterface.BaseStream.IsOpen) && !mavinterface.logreadmode)
                                 distTraveled = 0;
 
                             distTraveled += (float) lastpos.GetDistance(new PointLatLngAlt(lat, lng, 0, ""))*
@@ -1591,7 +1591,7 @@ namespace MissionPlanner
                     }
 
                     // re-request streams
-                    if (!(lastdata.AddSeconds(8) > DateTime.Now) && mavinterface.BaseStream.IsOpen)
+                    if (!(lastdata.AddSeconds(8) > DateTime.Now) && mavinterface.BaseStream != null && mavinterface.BaseStream.IsOpen)
                     {
                         try
                         {
