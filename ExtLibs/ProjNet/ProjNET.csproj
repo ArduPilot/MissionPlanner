@@ -33,7 +33,7 @@
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net35-client' Or '$(TargetFramework)' == 'net40-client' Or '$(TargetFramework)' == 'net403-client' Or '$(TargetFramework)' == 'net45' ">
     <RequiresFrameworkAssemblyReferences>true</RequiresFrameworkAssemblyReferences>
-    <DebugType>full</DebugType>
+    <DebugType>portable</DebugType>
 
     <DefineConstants>$(DefineConstants);FEATURE_DESERIALIZATION_CONSTRUCTOR</DefineConstants>
     <DefineConstants>$(DefineConstants);HAS_SYSTEM_RUNTIME_INTEROPSERVICES_COMVISIBLEATTRIBUTE</DefineConstants>

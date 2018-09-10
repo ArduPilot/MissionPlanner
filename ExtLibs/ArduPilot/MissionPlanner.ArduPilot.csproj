@@ -4,11 +4,11 @@
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <AssemblyName>MissionPlanner.ArduPilot</AssemblyName>
     <RootNamespace>MissionPlanner.ArduPilot</RootNamespace>
-    <DebugType>full</DebugType>
+    <DebugType>portable</DebugType>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
-    <DebugType>full</DebugType>
+    <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 

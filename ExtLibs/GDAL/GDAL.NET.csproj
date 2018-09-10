@@ -10,7 +10,7 @@
     <Company>Michael Oborne</Company>
     <AssemblyName>GDAL.NET</AssemblyName>
     <RootNamespace>GDAL</RootNamespace>
-    <DebugType>full</DebugType>
+    <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>

@@ -5,7 +5,7 @@
     <OutputTypeEx>library</OutputTypeEx>
     <StartupObject />
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
-    <DebugType>full</DebugType>
+    <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Authors>Michael Oborne</Authors>

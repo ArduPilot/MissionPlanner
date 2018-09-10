@@ -6,7 +6,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     
-    <DebugType>full</DebugType>
+    <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
     <Description />
   </PropertyGroup>

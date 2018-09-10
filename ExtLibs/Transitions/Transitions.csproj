@@ -6,7 +6,7 @@
     <OutputTypeEx>library</OutputTypeEx>
     <StartupObject />
 
-    <DebugType>full</DebugType>
+    <DebugType>portable</DebugType>
     <DebugSymbols>True</DebugSymbols>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
 
