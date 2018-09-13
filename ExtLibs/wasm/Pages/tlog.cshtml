@@ -24,6 +24,7 @@
 
 <input type="file" ref="inputTypeFileElement" />
 <button onclick="@ReadFile">Read file</button>
+<button onclick="@ReadFileTest">Read Test file</button>
 <br />
 
 <p>@gpstime @lat @lng @alt @hdg - @percent %</p>
@@ -98,6 +99,12 @@
 
     DateTime nextUpdate = DateTime.Now.AddMilliseconds(100);
 
+    public async Task ReadFileTest()
+    {
+        var stream = await Http.GetStreamAsync("2018-09-09 18-15-17.txt");
+
+        await ProcessTlogStream(stream);
+    }
 
     public async Task ReadFile()
     {
@@ -127,52 +134,7 @@
                 {
                     Console.WriteLine("canread " + memoryStream.CanRead + " pos " + memoryStream.Position + "<" + memoryStream.Length);
 
-                    mav = new MAVLinkInterface(memoryStream);
-
-                    // just to prevent null exceptions
-                    var cf = new CommsFile();
-                    mav.BaseStream = cf;
-
-                    mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT, packetReceived);
-                    mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.GPS_RAW_INT, packetReceived);
-                    mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.HEARTBEAT, packetReceived);
-                    mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.PARAM_VALUE, packetReceived);
-
-                    Console.WriteLine(mav.getHeartBeat());
-
-                    long length = memoryStream.Length;
-                    while (memoryStream.Position < length)
-                    {
-                        //Console.WriteLine("open "+cf.IsOpen + " canread "+ cf.BaseStream.CanRead + " btr " + cf.BytesToRead + " pos " + cf.BaseStream.Position +"<"+ length);
-
-                        var packet = await mav.readPacketAsync();
-
-                        percent = (int) ((memoryStream.Position / (double) length) * 100.0);
-
-                        if (DateTime.Now > nextUpdate)
-                        {
-                            gpstime = packet.rxtime;
-
-                            StateHasChanged();
-                            int a = 0;
-
-                            foreach (var mavd in mav.MAVlist)
-                            {
-                                mavd.cs.UpdateCurrentSettings(null, false, mav, mavd);
-                                JSRuntime.Current.InvokeAsync<object>("setPosition", new object[] {a, mavd.cs.lat, mavd.cs.lng });
-                                a++;
-                            }
-
-                            try
-                            {
-                                //JSRuntime.Current.InvokeAsync<object>("test", new object[] {JsonConvert.SerializeObject(mav.MAV.cs)});
-                            } catch { }
-
-                            nextUpdate = DateTime.Now.AddMilliseconds(100);
-
-                            await Task.Delay(1);
-                        }
-                    }
+                    await ProcessTlogStream(memoryStream);
                 }
             }
             else
@@ -193,6 +155,59 @@
                         Console.Write(line);
                     }
                 }
+            }
+        }
+    }
+
+    private async Task ProcessTlogStream(Stream stream)
+    {
+        mav = new MAVLinkInterface(stream);
+
+        // just to prevent null exceptions
+        var cf = new CommsFile();
+        mav.BaseStream = cf;
+
+        mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT, packetReceived);
+        mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.GPS_RAW_INT, packetReceived);
+        mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.HEARTBEAT, packetReceived);
+        mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.PARAM_VALUE, packetReceived);
+
+        Console.WriteLine(mav.getHeartBeat());
+
+        long length = stream.Length;
+        while (stream.Position < length)
+        {
+            //Console.WriteLine("open "+cf.IsOpen + " canread "+ cf.BaseStream.CanRead + " btr " + cf.BytesToRead + " pos " + cf.BaseStream.Position +"<"+ length);
+
+            var packet = await mav.readPacketAsync();
+
+            percent = (int) ((stream.Position / (double) length) * 100.0);
+
+            if (DateTime.Now > nextUpdate)
+            {
+                gpstime = packet.rxtime;
+
+                StateHasChanged();
+                int a = 0;
+
+                foreach (var mavd in mav.MAVlist)
+                {
+                    mavd.cs.UpdateCurrentSettings(null, false, mav, mavd);
+                    JSRuntime.Current.InvokeAsync<object>("setPosition", new object[] {a, mavd.cs.lat, mavd.cs.lng});
+                    a++;
+                }
+
+                try
+                {
+                    //JSRuntime.Current.InvokeAsync<object>("test", new object[] {JsonConvert.SerializeObject(mav.MAV.cs)});
+                }
+                catch
+                {
+                }
+
+                nextUpdate = DateTime.Now.AddMilliseconds(100);
+
+                await Task.Delay(1);
             }
         }
     }

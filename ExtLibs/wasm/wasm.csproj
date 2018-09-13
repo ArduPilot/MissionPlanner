@@ -52,6 +52,9 @@
     <Content Update="Pages\websocket.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="wwwroot\2018-09-09 18-15-17.txt">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
