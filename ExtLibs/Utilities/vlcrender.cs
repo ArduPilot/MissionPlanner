@@ -138,7 +138,7 @@ namespace MissionPlanner.Utilities
 
         private void vlc_picture(IntPtr opaque, IntPtr picture)
         {
-            var image = new Bitmap(Width, Height, 4 * Width, System.Drawing.Imaging.PixelFormat.Format24bppRgb, picture);
+            var image = (Bitmap)new Bitmap(Width, Height, 4 * Width, System.Drawing.Imaging.PixelFormat.Format24bppRgb, picture).Clone();
 
             _onNewImage?.Invoke(this, image);
         }
