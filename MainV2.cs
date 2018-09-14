@@ -582,6 +582,7 @@ namespace MissionPlanner
                 //Chinese displayed normally when scaling. But would be too small or large using this line of code.
                 using (var g = CreateGraphics())
                 {
+                    log.Info("DPI " + g.DpiX);
                     Font = new Font(Font.Name, 8.25f*96f/g.DpiX, Font.Style, Font.Unit, Font.GdiCharSet,
                         Font.GdiVerticalFont);
                 }
@@ -3986,14 +3987,15 @@ namespace MissionPlanner
                         else if (udp.IsMatch(line))
                         {
                             var matches = udp.Match(line);
-                            var uc = new UdpSerial();
-                            uc.client = new UdpClient(int.Parse(matches.Groups[2].Value));
+                            var uc = new UdpSerial(new UdpClient(int.Parse(matches.Groups[2].Value)));
+                            uc.Port = matches.Groups[2].Value;
                             mav.BaseStream = uc;
                         }
                         else if (udpcl.IsMatch(line))
                         {
                             var matches = udpcl.Match(line);
                             var udc = new UdpSerialConnect();
+                            udc.Port = matches.Groups[2].Value;
                             udc.client = new UdpClient(matches.Groups[1].Value, int.Parse(matches.Groups[2].Value));
                             mav.BaseStream = udc;
                         }
