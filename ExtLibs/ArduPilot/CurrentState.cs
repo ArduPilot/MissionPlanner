@@ -1192,6 +1192,8 @@ namespace MissionPlanner
         // pressure
         public float press_abs { get; set; }
         public int press_temp { get; set; }
+        public float press_abs2 { get; set; }
+        public int press_temp2 { get; set; }
 
         // sensor offsets
         public int mag_ofs_x { get; set; }
@@ -2172,6 +2174,14 @@ namespace MissionPlanner
                         var pres = mavLinkMessage.ToStructure<MAVLink.mavlink_scaled_pressure_t>();
                         press_abs = pres.press_abs;
                         press_temp = pres.temperature;
+                    }
+
+                    mavLinkMessage = MAV.getPacket((uint)MAVLink.MAVLINK_MSG_ID.SCALED_PRESSURE2);
+                    if (mavLinkMessage != null)
+                    {
+                        var pres = mavLinkMessage.ToStructure<MAVLink.mavlink_scaled_pressure2_t>();
+                        press_abs2 = pres.press_abs;
+                        press_temp2 = pres.temperature;
                     }
 
                     mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.TERRAIN_REPORT);
