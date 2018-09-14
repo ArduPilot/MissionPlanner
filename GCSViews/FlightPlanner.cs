@@ -3270,7 +3270,7 @@ namespace MissionPlanner.GCSViews
                     poly.Points.Add(MouseDownEnd);
                     poly.Points.Add(new PointLatLng(MouseDownEnd.Lat, MouseDownStart.Lng));
 
-                    foreach (var marker in objectsoverlay.Markers)
+                    foreach (var marker in MainMap.Overlays.First(a => a.Id == "WPOverlay").Markers)
                     {
                         if (poly.IsInside(marker.Position))
                         {
@@ -3308,11 +3308,13 @@ namespace MissionPlanner.GCSViews
                     {
                         Dictionary<string, PointLatLng> dest = new Dictionary<string, PointLatLng>();
 
-                        foreach (var markerid in groupmarkers)
+                        var markers = MainMap.Overlays.First(a => a.Id == "WPOverlay");
+                        
+                        foreach (var markerid in groupmarkers.Distinct())
                         {
-                            for (int a = 0; a < objectsoverlay.Markers.Count; a++)
+                            for (int a = 0; a < markers.Markers.Count; a++)
                             {
-                                var marker = objectsoverlay.Markers[a];
+                                var marker = markers.Markers[a];
 
                                 if (marker.Tag != null && marker.Tag.ToString() == markerid.ToString())
                                 {
@@ -3435,17 +3437,19 @@ namespace MissionPlanner.GCSViews
 
                     MouseDownStart = point;
 
+                    var markers = MainMap.Overlays.First(a => a.Id == "WPOverlay");
+
                     Hashtable seen = new Hashtable();
 
                     foreach (var markerid in groupmarkers)
                     {
                         if (seen.ContainsKey(markerid))
                             continue;
-
+                      
                         seen[markerid] = 1;
-                        for (int a = 0; a < objectsoverlay.Markers.Count; a++)
+                        for (int a = 0; a < markers.Markers.Count; a++)
                         {
-                            var marker = objectsoverlay.Markers[a];
+                            var marker = markers.Markers[a];
 
                             if (marker.Tag != null && marker.Tag.ToString() == markerid.ToString())
                             {
