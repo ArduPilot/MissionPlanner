@@ -33,7 +33,24 @@
                     } catch (exception) {
                         if (window.console) console.log(exception);
                     }
-
+                    var blobToBase64 = function (blob, cb) {
+                        var reader = new FileReader();
+                        reader.onload = function () {
+                            var dataUrl = reader.result;
+                            var base64 = dataUrl.split(',')[1];
+                            cb(base64);
+                        };
+                        reader.readAsDataURL(blob);
+                    };
+                    try {
+                        dotNetDispatcherInvokeMethodHandle = Blazor.platform.findMethod(
+                            'wasm',
+                            'wasm.Pages',
+                            'websocket',
+                            'ProcessPacketStatic');
+                    } catch (err) {
+                        return;
+                    }
                     socket = new WebSocket(host);
 
                     window.onbeforeunload = function () {
@@ -44,36 +61,9 @@
 
                     };
                     socket.onmessage = function (msg) {
-                        //console.log(JSON.stringify(msg.data));
-                        try {
-                            dotNetDispatcherInvokeMethodHandle = Blazor.platform.findMethod(
-                                'wasm',
-                                'wasm.Pages',
-                                'websocket',
-                                'ProcessPacketStatic');
-                        } catch (err) {
-                            return;
-                        }
-
-                        //Blazor.platform.findMethod(l, s, c, "ReceiveResponse"),
-                        //u.platform.callMethod(a, null, [u.platform.toDotNetString(e.toString()), t, n, r])
-
-                        var blobToBase64 = function (blob, cb) {
-                            var reader = new FileReader();
-                            reader.onload = function () {
-                                var dataUrl = reader.result;
-                                var base64 = dataUrl.split(',')[1];
-                                cb(base64);
-                            };
-                            reader.readAsDataURL(blob);
-                        };
-
-
                         blobToBase64(msg.data,
                             function (base64data) {
                                 thingo = Blazor.platform.toDotNetString(base64data);
-
-
 
                                 result = Blazor.platform.callMethod(dotNetDispatcherInvokeMethodHandle,
                                     null,
@@ -82,13 +72,25 @@
 
                                 //console.log(Blazor.platform.toJavaScriptString(result));
                             });
-
                     };
                 } catch (exception) {
                     if (window.console) console.log(exception);
                 }
             }
         }
+
+        function websocketsend(data)
+        {
+            socket.send(data);
+        }
+
+        $(document).ready(function () {
+            setTimeout(function() {
+                //var test = SOCKFS.createSocket(2, 1, 6);
+
+                //test.sock_ops.connect(test, "127.0.0.1/websocket/raw", 56781);
+            },2000);
+        });
 
     </script>
 
@@ -146,27 +148,30 @@
                 }
             }
 
-            var pinBuilder = new Cesium.PinBuilder();
+            if (viewer) {
+                var pinBuilder = new Cesium.PinBuilder();
 
-            if (viewer.entities.values.length >= (mavno + 1)) {
-                viewer.entities.values[mavno].position =
-                    Cesium.Cartesian3.fromDegrees(myLatLng.lng, myLatLng.lat, altasl);
-            } else {
-                // add a new one
-                var entity = viewer.entities.add({
-                    name: 'ArduPilot ' + viewer.entities.values.length,
-                    position: Cesium.Cartesian3.fromDegrees(myLatLng.lng, myLatLng.lat, altasl),
-                    billboard: {
-                        image: pinBuilder.fromText(viewer.entities.values.length, Cesium.Color.BLACK, 48).toDataURL(),
-                        verticalOrigin: Cesium.VerticalOrigin.BOTTOM
-                    }
-                });
+                if (viewer.entities.values.length >= (mavno + 1)) {
+                    viewer.entities.values[mavno].position =
+                        Cesium.Cartesian3.fromDegrees(myLatLng.lng, myLatLng.lat, altasl);
+                } else {
+                    // add a new one
+                    var entity = viewer.entities.add({
+                        name: 'ArduPilot ' + viewer.entities.values.length,
+                        position: Cesium.Cartesian3.fromDegrees(myLatLng.lng, myLatLng.lat, altasl),
+                        billboard: {
+                            image: pinBuilder.fromText(viewer.entities.values.length, Cesium.Color.BLACK, 48)
+                                .toDataURL(),
+                            verticalOrigin: Cesium.VerticalOrigin.BOTTOM
+                        }
+                    });
 
-                viewer.trackedEntity = entity;
+                    viewer.trackedEntity = entity;
+                }
             }
         }
 
-        function test(mavlist) {
+        function testlog(mavlist) {
             console.log(mavlist);
         }
 
