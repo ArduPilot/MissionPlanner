@@ -8,6 +8,11 @@
     <link href="css/site.css" rel="stylesheet" />
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    <script src="Cesium/Cesium.js"></script>
+    <style>
+        @import url(Cesium/Widgets/widgets.css);
+    </style>
 </head>
 <body>
     <app>Loading...</app>
@@ -90,6 +95,7 @@
 
     <script>
         var map;
+        var viewer;
         var markers = [];
 
         function initMap() {
@@ -105,10 +111,19 @@
 
             //map.setOptions({maxZoom: 21});
 
+            viewer = new Cesium.Viewer('cesiumContainer');
+
+            var terrainProvider = Cesium.createWorldTerrain({
+                requestWaterMask: true
+            });
+            viewer.terrainProvider = terrainProvider;
+
             markers = [];
         }
 
-        function setPosition(mavno, lat, lng) {
+        function setPosition(mavno, lat, lng, altasl) {
+            if (lat == 0 || lng == 0)
+                return;
             var myLatLng = { lat: lat, lng: lng };
             if (markers.length >= (mavno + 1)) {
                 markers[mavno].setPosition(myLatLng);
@@ -123,8 +138,31 @@
                 markers.push(marker);
             }
             if (mavno === 0) {
-                map.setCenter({ lat: lat, lng: lng });
-                //map.setZoom(16);
+                if (map.zoom < 2)
+                {
+                    map.setCenter({ lat: lat, lng: lng });
+                    map.setZoom(16);
+                    //viewer.camera.zoomTo(Cesium.Cartesian3.fromDegrees(lng, lat, altasl));
+                }
+            }
+
+            var pinBuilder = new Cesium.PinBuilder();
+
+            if (viewer.entities.values.length >= (mavno + 1)) {
+                viewer.entities.values[mavno].position =
+                    Cesium.Cartesian3.fromDegrees(myLatLng.lng, myLatLng.lat, altasl);
+            } else {
+                // add a new one
+                var entity = viewer.entities.add({
+                    name: 'ArduPilot ' + viewer.entities.values.length,
+                    position: Cesium.Cartesian3.fromDegrees(myLatLng.lng, myLatLng.lat, altasl),
+                    billboard: {
+                        image: pinBuilder.fromText(viewer.entities.values.length, Cesium.Color.BLACK, 48).toDataURL(),
+                        verticalOrigin: Cesium.VerticalOrigin.BOTTOM
+                    }
+                });
+
+                viewer.trackedEntity = entity;
             }
         }
 
@@ -144,5 +182,7 @@
 
     <script src="http://smoothiecharts.org/smoothie.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+
 </body>
 </html>
