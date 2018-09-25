@@ -25,7 +25,7 @@
 
 <p>@gpstime @lat @lng @alt @hdg</p>
 
-    <div id="map" style="width: 100%; height: 70vh;"></div>
+<div id="map" style="width: 100%; height: 70vh;"></div>
 
 <BECanvas ref="@_canvasReference" Width="400" Height="100"></BECanvas>
 
@@ -105,6 +105,14 @@
     {
         if (instance != null)
             instance.ProcessPacket(json);
+
+        if (instance == null)
+        {
+            instance = new websocket();
+            init = true;
+        }
+
+        //Console.WriteLine("ProcessPacketStatic " + instance);
     }
 
     //[JSInvokable]
@@ -128,51 +136,102 @@
         if (mav == null)
         {
             Console.WriteLine("set mav");
-            mav = new MAVLinkInterface(new MemoryStream());
+            mav = new MAVLinkInterface();
 
             // just to prevent null exceptions
-            var cf = new CommsFile();
-            cf.BaseStream = new MemoryStream();
+            var cf = new CommsInjection();
             mav.BaseStream = cf;
 
             mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT, packetReceived);
             mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.GPS_RAW_INT, packetReceived);
             mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.HEARTBEAT, packetReceived);
             mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.PARAM_VALUE, packetReceived);
-
         }
 
         //Console.WriteLine("decode json");
 
         var data = Base64.Decode(json);
 
-        var pos = mav.logplaybackfile.BaseStream.Position;
+        mav.BaseStream.Write(data, 0, data.Length);
 
-        mav.logplaybackfile.BaseStream.Seek(0, SeekOrigin.End);
+        /*
+                var pos = mav.logplaybackfile.BaseStream.Position;
 
-        byte[] datearray =
-            BitConverter.GetBytes(
-                (UInt64)((DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds * 1000));
-        Array.Reverse(datearray);
-        mav.logplaybackfile.BaseStream.Write(datearray, 0, datearray.Length);
+                mav.logplaybackfile.BaseStream.Seek(0, SeekOrigin.End);
 
-        mav.logplaybackfile.BaseStream.Write(data, 0, data.Length);
+                byte[] datearray =
+                    BitConverter.GetBytes(
+                        (UInt64)((DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds * 1000));
+                Array.Reverse(datearray);
+                mav.logplaybackfile.BaseStream.Write(datearray, 0, datearray.Length);
 
-        mav.logplaybackfile.BaseStream.Seek(pos, SeekOrigin.Begin);
+                mav.logplaybackfile.BaseStream.Write(data, 0, data.Length);
 
-        mav.logreadmode = true;
+                mav.logplaybackfile.BaseStream.Seek(pos, SeekOrigin.Begin);
 
-        //Console.WriteLine("open {0} btr {1} {2} {3}", mav.BaseStream.IsOpen, mav.BaseStream.BytesToRead, mav.BaseStream.GetType(), mav.BaseStream.BaseStream.GetType());
+                mav.logreadmode = true;
+                */
+        //Console.WriteLine("open {0} btr {1} {2} {3}", mav.BaseStream.IsOpen, mav.BaseStream.BytesToRead, mav.BaseStream.GetType(), mav.BaseStream.BaseStream?.GetType());
 
         var check1 = DateTime.Now;
 
         //var packet = await
-        mav.readPacket();
 
-        ((MemoryStream)mav.logplaybackfile.BaseStream).SetLength(0);
+        //((MemoryStream)mav.logplaybackfile.BaseStream).SetLength(0);
 
         //Console.WriteLine("convert packet to bytes {0} everything {1}",check1-start, DateTime.Now - start);
         //mav.DebugPacket(packet, true);
+    }
+
+    public static void ProcessPackets()
+    {
+        if (instance != null)
+            instance.ProcessPacketsint();
+    }
+
+    bool running = false;
+
+    public void ProcessPacketsint()
+    {
+        if (running)
+            return;
+
+        if (!init)
+            return;
+
+        if (this == null)
+        {
+            Console.WriteLine("this is null");
+            return;
+        }
+
+        if
+            (mav == null || mav.BaseStream == null)
+        {
+            Console.WriteLine("ProcessPackets mav is null");
+            return;
+        }
+
+        Console.WriteLine("ProcessPacketsint btr:" + mav.BaseStream.BytesToRead);
+
+        //var th = new Thread(() =>
+        {
+            //while (mav != null)
+            {
+   
+                //running = true;
+                DateTime end = DateTime.Now.AddMilliseconds(100);
+            while (DateTime.Now < end && mav.BaseStream.BytesToRead > 15)
+                {
+                    mav.readPacket();
+                }
+
+                if(mav.BaseStream.BytesToRead > 200)
+                    mav.BaseStream.DiscardInBuffer();
+                //Thread.Sleep(20);
+                //Task.Delay(20);
+            }
+        }//);
     }
 
 

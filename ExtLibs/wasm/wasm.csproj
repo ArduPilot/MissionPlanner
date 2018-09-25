@@ -8,6 +8,10 @@
     <UserSecretsId>f15fb383-7d45-4f9a-85b3-9bcadc4c397e</UserSecretsId>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE;ASSERTIONS</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Blazor.Extensions.Canvas" Version="0.1.6" />
     <PackageReference Include="Blazor.Extensions.SignalR" Version="0.1.5" />

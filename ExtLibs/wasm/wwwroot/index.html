@@ -15,12 +15,29 @@
     </style>
 </head>
 <body>
-    <app>Loading...</app>
+    <app></app>
 
     <script src="_framework/blazor.webassembly.js"></script>
 
+    <!--
+    <div id="map" style="width: 100%; height: 50vh;"></div>
 
+
+    <div id="cesiumContainer" style="width: 100%; height: 50vh;"></div>
+    -->
     <script>
+        /*
+        var worker = new Worker("websocketworker.js");
+
+        worker.onmessage = function (e) {
+            try {
+                eval(e.data);
+            } catch (err) {
+                console.log(err);
+            }
+            //console.log('Message received from worker');
+        }
+        */
         function initWebSocket() {
             if (window["WebSocket"]) {
                 var host = "ws://" + window.location.hostname + ":56781/websocket/raw";
@@ -48,6 +65,12 @@
                             'wasm.Pages',
                             'websocket',
                             'ProcessPacketStatic');
+                        dotNetDispatcherInvokeMethodHandle2 = Blazor.platform.findMethod(
+                            'wasm',
+                            'wasm.Pages',
+                            'websocket',
+                            'ProcessPackets'
+                        );
                     } catch (err) {
                         return;
                     }
@@ -79,17 +102,30 @@
             }
         }
 
-        function websocketsend(data)
-        {
+        function websocketsend(data) {
             socket.send(data);
         }
 
         $(document).ready(function () {
-            setTimeout(function() {
-                //var test = SOCKFS.createSocket(2, 1, 6);
+            setTimeout(function () {
 
+                
+                setInterval(function () {
+                    Blazor.platform.callMethod(dotNetDispatcherInvokeMethodHandle2, null, {});
+                }, 100);
+
+                /*
+                initMap();
+
+                //var test = SOCKFS.createSocket(2, 1, 6);
+                worker.postMessage({'cmd': 'init', 'data': window.location.hostname,
+                    //'test1': Blazor.platform.toDotNetString,
+                    //'test2': Blazor.platform.callMethod,
+                    //'test3': Blazor.platform.findMethod
+                });
+                */
                 //test.sock_ops.connect(test, "127.0.0.1/websocket/raw", 56781);
-            },2000);
+            }, 2000);
         });
 
     </script>
@@ -140,8 +176,7 @@
                 markers.push(marker);
             }
             if (mavno === 0) {
-                if (map.zoom < 2)
-                {
+                if (map.zoom < 2) {
                     map.setCenter({ lat: lat, lng: lng });
                     map.setZoom(16);
                     //viewer.camera.zoomTo(Cesium.Cartesian3.fromDegrees(lng, lat, altasl));
@@ -179,9 +214,9 @@
 
 
 
-        //map.setCenter({lat: cs.lat, lng: cs.lng});
+            //map.setCenter({lat: cs.lat, lng: cs.lng});
 
-        //&callback=initMap
+            //&callback=initMap
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDW05vWXeNIfZAN4Ter8gf4YLg8rPHZToc" async defer></script>
 
