@@ -33,7 +33,6 @@ namespace MissionPlanner.Swarm.Sequence
         private Button BUT_resetstep;
         private NumericUpDown num_drones;
         private Button but_takeoff;
-        private Button but_mission;
         private Button but_setimage;
         private Grid grid;
 
@@ -71,7 +70,6 @@ namespace MissionPlanner.Swarm.Sequence
             this.BUT_resetstep = new System.Windows.Forms.Button();
             this.num_drones = new System.Windows.Forms.NumericUpDown();
             this.but_takeoff = new System.Windows.Forms.Button();
-            this.but_mission = new System.Windows.Forms.Button();
             this.but_setimage = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.layoutsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
@@ -239,16 +237,6 @@ namespace MissionPlanner.Swarm.Sequence
             this.but_takeoff.UseVisualStyleBackColor = true;
             this.but_takeoff.Click += new System.EventHandler(this.but_takeoff_Click);
             // 
-            // but_mission
-            // 
-            this.but_mission.Location = new System.Drawing.Point(609, 26);
-            this.but_mission.Name = "but_mission";
-            this.but_mission.Size = new System.Drawing.Size(75, 23);
-            this.but_mission.TabIndex = 13;
-            this.but_mission.Text = "mission";
-            this.but_mission.UseVisualStyleBackColor = true;
-            this.but_mission.Click += new System.EventHandler(this.but_mission_Click);
-            // 
             // but_setimage
             // 
             this.but_setimage.Location = new System.Drawing.Point(690, 26);
@@ -263,7 +251,6 @@ namespace MissionPlanner.Swarm.Sequence
             // 
             this.ClientSize = new System.Drawing.Size(899, 494);
             this.Controls.Add(this.but_setimage);
-            this.Controls.Add(this.but_mission);
             this.Controls.Add(this.but_takeoff);
             this.Controls.Add(this.num_drones);
             this.Controls.Add(this.BUT_resetstep);
@@ -562,40 +549,11 @@ namespace MissionPlanner.Swarm.Sequence
 
         private void but_mission_Click(object sender, EventArgs e)
         {
-            Dictionary<int, List<Locationwp>> list = new Dictionary<int, List<Locationwp>>();
-
-            // get the layout
-            foreach (var layout in workingSequence.Layouts)
-            {
-                foreach (var vector3 in layout.Offset)
+            Parallel.ForEach(controller.DG.Drones, a =>
                 {
-                    var drone = controller.DG.Drones.Find(a => a.MavState.sysid == vector3.Key);
-                    var newpos = startpos.gps_offset(vector3.Value.x, vector3.Value.y);
-                    newpos.Alt = vector3.Value.z;
-                    if (drone != null)
-                    {
-                        //WP
-                        list[drone.MavState.sysid].Add(
-                            new Locationwp()
-                            {
-                                alt = (float) newpos.Alt, id = (ushort) MAVLink.MAV_CMD.WAYPOINT, lat = newpos.Lat,
-                                lng = newpos.Lng, p1 = layout.DelayEnd
-                            });
-
-                        // delay
-                        list[drone.MavState.sysid].Add(
-                            new Locationwp()
-                            {
-                                id = (ushort)MAVLink.MAV_CMD.DELAY,
-                                p1 = -1,
-                                p2=-1, // hour
-                                p3 = -1, // min
-                                p4 = 10, // second
-
-                            });
-                    }
-                }
-            }
+                    a.MavState.parent.doCommand(a.MavState.sysid, a.MavState.compid, MAVLink.MAV_CMD.MISSION_START, 0,
+                        0, 0, 0, 0, 0, 0);
+                });
         }
 
         private void but_setimage_Click(object sender, EventArgs e)

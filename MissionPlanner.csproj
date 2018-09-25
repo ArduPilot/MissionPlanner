@@ -249,6 +249,8 @@
     </Compile>
     <Compile Include="ElevationProfile.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="FollowMe.cs"> <SubType>Control</SubType> </Compile>
+    <Compile Include="Swarm\GL2.cs" />
+    <Compile Include="Swarm\PaintEventArgsI.cs" />
     <Compile Include="Swarm\TD\UI.cs">
       <SubType>Form</SubType>
     </Compile>

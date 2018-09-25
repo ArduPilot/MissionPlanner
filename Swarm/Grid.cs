@@ -8,10 +8,11 @@ using System.Text;
 using System.Windows.Forms;
 using MissionPlanner.Controls;
 using MissionPlanner;
+using OpenTK;
 
 namespace MissionPlanner.Swarm
 {
-    public partial class Grid : UserControl
+    public partial class Grid : GLControl
     {
         int xdist = 40;
         int ydist = 40;
@@ -28,6 +29,10 @@ namespace MissionPlanner.Swarm
         public float BGImageh = 1;
         public float BGImageStepSize = 1;
         public Image BGImage;
+
+        public float centerx = 0;
+        public float centery = 0;
+        private MouseEventArgs mousedownlocation;
 
         public delegate void UpdateOffsetsEvent(MAVState mav, float x, float y, float z, icon ico);
 
@@ -62,10 +67,17 @@ namespace MissionPlanner.Swarm
         {
             setScale(getScale());
         }
+
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
+            MakeCurrent();
+            OnPaint(new PaintEventArgsI(new GL2(), e.ClipRectangle));
+            this.SwapBuffers();
+        }
 
+        void OnPaint(PaintEventArgsI e)
+        { 
             xline = (this.Width - 1)/(float) xdist;
 
             yline = (this.Height - 1)/(float) ydist;
@@ -119,14 +131,14 @@ namespace MissionPlanner.Swarm
             for (float x = 1; x <= xdist; x++)
             {
                 if (x%2 == 0)
-                    e.Graphics.DrawString(((xdist/-2) + x).ToString(), SystemFonts.DefaultFont, Brushes.Red, x*xline,
+                    e.Graphics.DrawString(((xdist/-2) + x + centerx).ToString("0.0"), SystemFonts.DefaultFont, Brushes.Red, x*xline,
                         0.0f, StringFormat.GenericDefault);
             }
 
             for (float y = 0; y <= ydist; y++)
             {
                 if (y%2 == 0)
-                    e.Graphics.DrawString((((ydist/-2) + y)*-1).ToString(), SystemFonts.DefaultFont, Brushes.Red, 0.0f,
+                    e.Graphics.DrawString((((ydist/-2) + y - centery) *-1).ToString("0.0"), SystemFonts.DefaultFont, Brushes.Red, 0.0f,
                         y*yline, StringFormat.GenericDefault);
             }
 
@@ -137,11 +149,11 @@ namespace MissionPlanner.Swarm
                 {
                     if (Vertical)
                     {
-                        ico.OnPaintVertical(e, xdist, ydist, this.Width, this.Height);
+                        ico.OnPaintVertical(e, xdist, ydist, this.Width, this.Height, centerx, centery);
                     }
                     else
                     {
-                        ico.OnPaint(e, xdist, ydist, this.Width, this.Height);
+                        ico.OnPaint(e, xdist, ydist, this.Width, this.Height, centerx, centery);
                     }
                 }
             }
@@ -199,13 +211,16 @@ namespace MissionPlanner.Swarm
                     if (Vertical)
                     {
                         mouseover.z = (ydist/-2 + e.Y/yline)*-1;
+                        mouseover.z += centery;
                     }
                     else
                     {
                         mouseover.x = xdist/-2 + e.X/xline;
                         mouseover.y = (ydist/-2 + e.Y/yline)*-1;
+                        mouseover.x += centerx;
+                        mouseover.y += centery;
                     }
-
+                    /*
                     if (mouseover.x < xdist/-2.0f)
                     {
                         mouseover.x = xdist/-2.0f;
@@ -222,24 +237,44 @@ namespace MissionPlanner.Swarm
                     {
                         mouseover.y = ydist/2.0f;
                     }
-
+                    */
                     if (UpdateOffsets != null)
-                        UpdateOffsets(mouseover.interf, mouseover.x, mouseover.y, mouseover.z, mouseover);
+                    {
+                            UpdateOffsets(mouseover.interf, mouseover.x, mouseover.y, mouseover.z ,
+                                mouseover);
+                    }
 
                     this.Invalidate();
                 }
+                
 
                 return;
+            }
+            else if (e.Button == System.Windows.Forms.MouseButtons.Left && ismousedown == true && mouseover == null)
+            {
+                // drag
+                var deltax = e.X - mousedownlocation.X;
+                var deltay = e.Y - mousedownlocation.Y;
+
+                centerx -= (deltax / (float)xline);
+                centery += (deltay / (float)yline);
+
+                mousedownlocation = e;
+
+                this.Invalidate();
             }
 
             mouseover = null;
 
-            foreach (icon ico in icons)
+            if (e.Button == System.Windows.Forms.MouseButtons.None)
             {
-                if (e.X > ico.bounds.Left && e.X < ico.bounds.Right
-                    && e.Y > ico.bounds.Top && e.Y < ico.bounds.Bottom)
+                foreach (icon ico in icons)
                 {
-                    mouseover = ico;
+                    if (e.X > ico.bounds.Left && e.X < ico.bounds.Right
+                                              && e.Y > ico.bounds.Top && e.Y < ico.bounds.Bottom)
+                    {
+                        mouseover = ico;
+                    }
                 }
             }
         }
@@ -251,6 +286,8 @@ namespace MissionPlanner.Swarm
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
             {
                 ismousedown = true;
+
+                mousedownlocation = e;
 
                 foreach (icon ico in icons)
                 {
@@ -285,10 +322,10 @@ namespace MissionPlanner.Swarm
             public MAVState interf = null;
             public bool Movable = true;
 
-            public void OnPaint(PaintEventArgs e, int xdist, int ydist, int width, int height)
+            public void OnPaint(PaintEventArgsI e, int xdist, int ydist, int width, int height, float centerx, float centery)
             {
-                bounds.X = width/2 + width/xdist*x - icosize/2;
-                bounds.Y = height/2 - height/ydist*y - icosize/2;
+                bounds.X = width / 2 + width / xdist * (x - centerx) - icosize / 2;
+                bounds.Y = height / 2 - height / ydist * (y - centery) - icosize / 2;
                 bounds.Width = icosize;
                 bounds.Height = icosize;
 
@@ -307,10 +344,10 @@ namespace MissionPlanner.Swarm
                 return false;
             }
 
-            public void OnPaintVertical(PaintEventArgs e, int xdist, int ydist, int width, int height)
+            public void OnPaintVertical(PaintEventArgsI e, int xdist, int ydist, int width, int height, float centerx, float centery)
             {
-                bounds.X = width/2 + width/xdist*x - icosize/2;
-                bounds.Y = height/2 - height/ydist*z - icosize/2;
+                bounds.X = width / 2 + width / xdist * (x - centerx) - icosize / 2;
+                bounds.Y = height / 2 - height / ydist * (z - centery) - icosize / 2;
                 bounds.Width = icosize;
                 bounds.Height = icosize;
 
@@ -323,7 +360,7 @@ namespace MissionPlanner.Swarm
                 // e.ClipRectangle.Width / 2 + e.ClipRectangle.Width / xdist * x - icosize / 2, e.ClipRectangle.Height / 2 + e.ClipRectangle.Height / ydist * y - icosize / 2, icosize, icosize                
             }
 
-            public void MouseOver(PaintEventArgs e)
+            public void MouseOver(PaintEventArgsI e)
             {
             }
         }
@@ -338,13 +375,15 @@ namespace MissionPlanner.Swarm
             if (mouseover == null)
                 return;
 
+            var mouseoverlocal = mouseover;
+
             string output = mouseover.z.ToString();
             if (DialogResult.OK == InputBox.Show("Alt", "Enter New Alt", ref output))
             {
-                mouseover.z = float.Parse(output);
+                mouseoverlocal.z = float.Parse(output);
 
                 if (UpdateOffsets != null)
-                    UpdateOffsets(mouseover.interf, mouseover.x, mouseover.y, mouseover.z, mouseover);
+                    UpdateOffsets(mouseoverlocal.interf, mouseoverlocal.x, mouseoverlocal.y, mouseoverlocal.z, mouseoverlocal);
 
                 this.Invalidate();
             }

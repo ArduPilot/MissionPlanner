@@ -3243,6 +3243,8 @@ Please check the following
 
         }
 
+        bool debug = false;
+
         /// <summary>
         /// Serial Reader to read mavlink packets. POLL method
         /// </summary>
@@ -3257,7 +3259,7 @@ Please check the following
 
             DateTime start = DateTime.Now;
 
-            var debug = false;
+          
 
             if (debug)
                 Console.WriteLine(DateTime.Now.Millisecond + " SR0 " + BaseStream?.BytesToRead);
