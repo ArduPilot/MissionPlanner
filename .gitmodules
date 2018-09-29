@@ -1,0 +1,4 @@
+[submodule "ExtLibs/mono"]
+	path = ExtLibs/mono
+	url = https://github.com/meee1/mono.git
+	branch = master2

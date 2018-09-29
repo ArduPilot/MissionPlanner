@@ -23,7 +23,7 @@ namespace MissionPlanner.Swarm.Sequence
 
         public void Save(string filename)
         {
-            var json = JsonConvert.SerializeObject(this);
+            var json = JsonConvert.SerializeObject(this, Formatting.Indented);
 
             File.WriteAllText(filename, json);
         }
