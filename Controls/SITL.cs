@@ -509,9 +509,14 @@ namespace MissionPlanner.Controls
                 var model = "+";
 
                 var config = GetDefaultConfig(model);
-                var max = 10;
+                var max = 10.0;
 
-                for (int a = max; a >= 0 ; a--)
+                if (InputBox.Show("how many?", "how many?", ref max) != DialogResult.OK)
+                    return true;
+
+                max--;
+
+                for (int a = (int)max; a >= 0 ; a--)
                 {
                     var extra = "";
 
@@ -582,9 +587,14 @@ namespace MissionPlanner.Controls
                 var model = "+";
 
                 var config = GetDefaultConfig(model);
-                var max = 10;
+                var max = 10.0;
 
-                for (int a = max; a >= 0; a--)
+                if (InputBox.Show("how many?", "how many?", ref max) != DialogResult.OK)
+                    return true;
+
+                max--;
+
+                for (int a = (int)max; a >= 0; a--)
                 {
                     var extra = "";
 
@@ -628,7 +638,7 @@ namespace MissionPlanner.Controls
 
                 try
                 {
-                    for (int a = max; a >= 0; a--)
+                    for (int a = (int)max; a >= 0; a--)
                     {
                         var mav = new MAVLinkInterface();
 
