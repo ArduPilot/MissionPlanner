@@ -72,9 +72,11 @@ namespace MissionPlanner.Utilities
                         //if (port.ToLower() == item.name.ToLower())
                         {
                             //USB\VID_0483&PID_DF11   -- stm32 bootloader
+                            //USB\VID_1209&PID_5740   -- ardupilot chibios
 
                             // new style bootloader
-                            if (item.hardwareid.StartsWith(@"USB\VID_0483&PID_5740")) //USB\VID_0483&PID_5740&REV_0200)
+                            if (item.hardwareid.StartsWith(@"USB\VID_0483&PID_5740") ||
+                                item.hardwareid.StartsWith(@"USB\VID_1209&PID_5740")) //USB\VID_0483&PID_5740&REV_0200)
                             {
                                 if (item.board == "fmuv2" || item.board.ToLower() == "fmuv2-bl")
                                 {
@@ -224,7 +226,9 @@ namespace MissionPlanner.Utilities
                     }
 
                     // chibios or normal px4
-                    if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_0483&PID_5740") || obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0011"))
+                    if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_0483&PID_5740") || 
+                        obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0011") ||
+                        obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_1209&PID_5740"))
                     {
                         CustomMessageBox.Show(Strings.PleaseUnplugTheBoardAnd);
 
