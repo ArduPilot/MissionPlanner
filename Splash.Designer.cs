@@ -75,11 +75,11 @@
             // 
             this.lblNARInfo.AutoSize = true;
             this.lblNARInfo.BackColor = System.Drawing.Color.Transparent;
-            this.lblNARInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNARInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNARInfo.ForeColor = System.Drawing.Color.Red;
-            this.lblNARInfo.Location = new System.Drawing.Point(411, 301);
+            this.lblNARInfo.Location = new System.Drawing.Point(226, 280);
             this.lblNARInfo.Name = "lblNARInfo";
-            this.lblNARInfo.Size = new System.Drawing.Size(155, 18);
+            this.lblNARInfo.Size = new System.Drawing.Size(334, 37);
             this.lblNARInfo.TabIndex = 3;
             this.lblNARInfo.Text = " customized by NAR...";
             this.lblNARInfo.Click += new System.EventHandler(this.lblNARInfo_Click);
