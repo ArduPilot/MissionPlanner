@@ -32,6 +32,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.TXT_version = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.lblNARInfo = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -41,7 +42,7 @@
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.OliveDrab;
-            this.label1.Location = new System.Drawing.Point(447, 132);
+            this.label1.Location = new System.Drawing.Point(447, 141);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(113, 13);
             this.label1.TabIndex = 0;
@@ -53,7 +54,7 @@
             // 
             this.TXT_version.BackColor = System.Drawing.Color.Transparent;
             this.TXT_version.ForeColor = System.Drawing.Color.White;
-            this.TXT_version.Location = new System.Drawing.Point(403, 107);
+            this.TXT_version.Location = new System.Drawing.Point(403, 115);
             this.TXT_version.Name = "TXT_version";
             this.TXT_version.Size = new System.Drawing.Size(155, 25);
             this.TXT_version.TabIndex = 1;
@@ -70,6 +71,19 @@
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Visible = false;
             // 
+            // lblNARInfo
+            // 
+            this.lblNARInfo.AutoSize = true;
+            this.lblNARInfo.BackColor = System.Drawing.Color.Transparent;
+            this.lblNARInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNARInfo.ForeColor = System.Drawing.Color.Red;
+            this.lblNARInfo.Location = new System.Drawing.Point(226, 280);
+            this.lblNARInfo.Name = "lblNARInfo";
+            this.lblNARInfo.Size = new System.Drawing.Size(334, 37);
+            this.lblNARInfo.TabIndex = 3;
+            this.lblNARInfo.Text = " customized by NAR...";
+            this.lblNARInfo.Click += new System.EventHandler(this.lblNARInfo_Click);
+            // 
             // Splash
             // 
 
@@ -77,6 +91,7 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(584, 336);
             this.ControlBox = false;
+            this.Controls.Add(this.lblNARInfo);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.TXT_version);
             this.Controls.Add(this.label1);
@@ -101,5 +116,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label TXT_version;
         public System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label lblNARInfo;
     }
 }

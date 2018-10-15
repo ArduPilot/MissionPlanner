@@ -25,5 +25,10 @@ namespace MissionPlanner
                 pictureBox1.Visible = true;
             }
         }
+
+        private void lblNARInfo_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
