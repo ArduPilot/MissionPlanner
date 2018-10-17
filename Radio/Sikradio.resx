@@ -708,8 +708,7 @@ red LED solid - in firmware update mode</value>
     <value>119</value>
   </data>
   <data name="RGPO1_1R_COUT.ToolTip" xml:space="preserve">
-    <value>OPPRESEND enables/disables "opportunistic resend". When enabled the radio will send a packet twice if the serial input buffer has less than 256 bytes in it. The 2nd send is marked as a resend and discarded by the receiving radio if it got the first packet OK. This makes a big difference to the link quality, especially for uplink commands. 
-</value>
+    <value>GPI1_1R/COUT Sets GPIO 1.1 as R/C(PPM) output</value>
   </data>
   <data name="&gt;&gt;RGPO1_1R_COUT.Name" xml:space="preserve">
     <value>RGPO1_1R_COUT</value>
@@ -739,8 +738,7 @@ red LED solid - in firmware update mode</value>
     <value>115</value>
   </data>
   <data name="RGPI1_1R_CIN.ToolTip" xml:space="preserve">
-    <value>OPPRESEND enables/disables "opportunistic resend". When enabled the radio will send a packet twice if the serial input buffer has less than 256 bytes in it. The 2nd send is marked as a resend and discarded by the receiving radio if it got the first packet OK. This makes a big difference to the link quality, especially for uplink commands. 
-</value>
+    <value>GPI1_1R/CIN Sets GPIO 1.1 as R/C(PPM) input</value>
   </data>
   <data name="&gt;&gt;RGPI1_1R_CIN.Name" xml:space="preserve">
     <value>RGPI1_1R_CIN</value>
@@ -1578,8 +1576,7 @@ red LED solid - in firmware update mode</value>
     <value>129</value>
   </data>
   <data name="GPO1_1R_COUT.ToolTip" xml:space="preserve">
-    <value>OPPRESEND enables/disables "opportunistic resend". When enabled the radio will send a packet twice if the serial input buffer has less than 256 bytes in it. The 2nd send is marked as a resend and discarded by the receiving radio if it got the first packet OK. This makes a big difference to the link quality, especially for uplink commands. 
-</value>
+    <value>GPI1_1R/COUT Sets GPIO 1.1 as R/C(PPM) output</value>
   </data>
   <data name="&gt;&gt;GPO1_1R_COUT.Name" xml:space="preserve">
     <value>GPO1_1R_COUT</value>
@@ -1609,8 +1606,7 @@ red LED solid - in firmware update mode</value>
     <value>127</value>
   </data>
   <data name="GPI1_1R_CIN.ToolTip" xml:space="preserve">
-    <value>OPPRESEND enables/disables "opportunistic resend". When enabled the radio will send a packet twice if the serial input buffer has less than 256 bytes in it. The 2nd send is marked as a resend and discarded by the receiving radio if it got the first packet OK. This makes a big difference to the link quality, especially for uplink commands. 
-</value>
+    <value>GPI1_1R/CIN Sets GPIO 1.1 as R/C(PPM) input</value>
   </data>
   <data name="&gt;&gt;GPI1_1R_CIN.Name" xml:space="preserve">
     <value>GPI1_1R_CIN</value>
