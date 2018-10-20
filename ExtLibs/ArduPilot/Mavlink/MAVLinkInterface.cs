@@ -3524,9 +3524,8 @@ Please check the following
                 crc = MavlinkCRC.crc_accumulate(msginfo.crc, crc);
             }
 
-            // check message length size vs table (mavlink1 explicit size check | mavlink2 oversize check, no undersize because of 0 trimming)
-            if ((!message.ismavlink2 && message.payloadlength != msginfo.minlength) ||
-                (message.ismavlink2 && message.payloadlength > msginfo.length))
+            // check message length size vs table (mavlink1 explicit size check | mavlink2 allow all, undersize 0 trimmed, and oversize unknown extension)
+            if (!message.ismavlink2 && message.payloadlength != msginfo.minlength)
             {
                 if (msginfo.length == 0) // pass for unknown packets
                 {
