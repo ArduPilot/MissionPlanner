@@ -166,6 +166,16 @@ namespace MissionPlanner
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Eniro_Topo.Instance);
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.MapBox.Instance);
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.MapboxNoFly.Instance);
+            GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Japan.Instance);
+            GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Japan_Lake.Instance);
+            GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Japan_1974.Instance);
+            GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Japan_1979.Instance);
+            GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Japan_1984.Instance);
+            GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Japan_1988.Instance);
+            GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Japan_Relief.Instance);
+            GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Japan_Slopezone.Instance);
+            GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Japan_Sea.Instance);
+
             // optionally add gdal support
             if (Directory.Exists(Application.StartupPath + Path.DirectorySeparatorChar + "gdal"))
                 GMap.NET.MapProviders.GMapProviders.List.Add(GDAL.GDALProvider.Instance);
@@ -208,7 +218,7 @@ namespace MissionPlanner
             Device.DeviceStructure test5 = new Device.DeviceStructure(466441);
             Device.DeviceStructure test6 = new Device.DeviceStructure(131874);
             Device.DeviceStructure test7 = new Device.DeviceStructure(263178);
-            // 
+            //
             Device.DeviceStructure test8 = new Device.DeviceStructure(1442082);
             Device.DeviceStructure test9 = new Device.DeviceStructure(1114914);
             Device.DeviceStructure test10 = new Device.DeviceStructure(1442826);
@@ -334,7 +344,7 @@ namespace MissionPlanner
             }
             catch
             {
-                
+
             }
 
             try
@@ -520,7 +530,7 @@ namespace MissionPlanner
                     {
                     }
 
-                    // Create a request using a URL that can receive a post. 
+                    // Create a request using a URL that can receive a post.
                     WebRequest request = WebRequest.Create("http://vps.oborne.me/mail.php");
                     request.Timeout = 10000; // 10 sec
                     // Set the Method property of the request to POST.
