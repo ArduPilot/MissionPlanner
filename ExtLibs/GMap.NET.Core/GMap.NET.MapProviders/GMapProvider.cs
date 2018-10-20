@@ -125,6 +125,16 @@ namespace GMap.NET.MapProviders
 
         public static readonly SpainMapProvider SpainMap = SpainMapProvider.Instance;
 
+        public static readonly JapanMapProvider JapanMap = JapanMapProvider.Instance;
+        public static readonly JapanLakeMapProvider JapanLakeMap = JapanLakeMapProvider.Instance;
+        public static readonly JapanSeaMapProvider JapanSeaMap = JapanSeaMapProvider.Instance;
+        public static readonly JapanMap1974Provider JapanMap1974 = JapanMap1974Provider.Instance;
+        public static readonly JapanMap1979Provider JapanMap1979 = JapanMap1979Provider.Instance;
+        public static readonly JapanMap1984Provider JapanMap1984 = JapanMap1984Provider.Instance;
+        public static readonly JapanMap1988Provider JapanMap1988 = JapanMap1988Provider.Instance;
+        public static readonly JapanMapReliefProvider JapanMapRelief = JapanMapReliefProvider.Instance;
+        public static readonly JapanMapSlopezoneProvider JapanMapSlopezone = JapanMapSlopezoneProvider.Instance;
+
         public static readonly CzechMapProvider CzechMap = CzechMapProvider.Instance;
         public static readonly CzechSatelliteMapProvider CzechSatelliteMap = CzechSatelliteMapProvider.Instance;
         public static readonly CzechHybridMapProvider CzechHybridMap = CzechHybridMapProvider.Instance;
