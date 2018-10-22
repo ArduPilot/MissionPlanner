@@ -43,8 +43,8 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -114,7 +114,7 @@
             this.tableLayoutPanel1.Controls.Add(this.label4, 3, 5);
             this.tableLayoutPanel1.Controls.Add(this.label5, 4, 5);
             this.tableLayoutPanel1.Controls.Add(this.label6, 5, 5);
-            this.tableLayoutPanel1.Controls.Add(this.label7, 6, 2);
+            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 6, 2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
             // 
@@ -189,20 +189,19 @@
             resources.ApplyResources(this.label6, "label6");
             this.label6.Name = "label6";
             // 
-            // label7
-            // 
-            resources.ApplyResources(this.label7, "label7");
-            this.tableLayoutPanel1.SetColumnSpan(this.label7, 2);
-            this.label7.Name = "label7";
-            this.tableLayoutPanel1.SetRowSpan(this.label7, 3);
-            // 
             // timer1
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // flowLayoutPanel1
+            // 
+            resources.ApplyResources(this.flowLayoutPanel1, "flowLayoutPanel1");
+            this.tableLayoutPanel1.SetColumnSpan(this.flowLayoutPanel1, 2);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.tableLayoutPanel1.SetRowSpan(this.flowLayoutPanel1, 3);
+            // 
             // EKFStatus
             // 
-            
             resources.ApplyResources(this, "$this");
             this.Controls.Add(this.tableLayoutPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -230,6 +229,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
     }
 }

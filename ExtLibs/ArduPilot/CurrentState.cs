@@ -1899,7 +1899,8 @@ namespace MissionPlanner
                                 {
                                     case MAVLink.EKF_STATUS_FLAGS.EKF_ATTITUDE: // step 1
                                     case MAVLink.EKF_STATUS_FLAGS.EKF_VELOCITY_HORIZ: // with pos
-                                        ekfstatus = 1;
+                                        if (gpsstatus > 0) // we have gps and dont have vel_hoz
+                                            ekfstatus = 1;
                                         break;
                                     case MAVLink.EKF_STATUS_FLAGS.EKF_VELOCITY_VERT: // with pos
                                     //case MAVLink.EKF_STATUS_FLAGS.EKF_POS_HORIZ_REL: // optical flow
