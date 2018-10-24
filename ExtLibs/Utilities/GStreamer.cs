@@ -329,7 +329,7 @@ namespace MissionPlanner.Utilities
             public string message;
         }
 
-        public static void StartA(string stringpipeline)
+        public static Thread StartA(string stringpipeline)
         {
             int argc = 1;
             string[] argv = new string[] {"-vvv"};
@@ -348,7 +348,7 @@ namespace MissionPlanner.Utilities
             {
                 var er = Marshal.PtrToStructure<GError>(error);
                 log.Error("gst_init_check: " + er.message);
-                return;
+                return null;
             }
 
             /* Set up the pipeline */
@@ -364,7 +364,7 @@ namespace MissionPlanner.Utilities
             {
                 var er = Marshal.PtrToStructure<GError>(error);
                 log.Error("gst_parse_launch: " + er.message);
-                return;
+                return null;
             }
 
             // appsink is part of the parse launch
@@ -397,7 +397,7 @@ namespace MissionPlanner.Utilities
             int Height = 0;
             int trys = 0;
 
-            new Thread(delegate()
+            var th = new Thread(delegate()
             {
                 while (!NativeMethods.gst_app_sink_is_eos(appsink))
                 {
@@ -460,7 +460,11 @@ namespace MissionPlanner.Utilities
 
                 log.Info("Gstreamer Exit");
 
-            }) {IsBackground = true, Name = "gstreamer"}.Start();
+            }) {IsBackground = true, Name = "gstreamer"};
+
+            th.Start();
+
+            return th;
         }
 
         ~GStreamer()

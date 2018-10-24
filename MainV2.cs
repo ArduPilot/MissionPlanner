@@ -3147,6 +3147,50 @@ namespace MissionPlanner
                     }
                 }
 
+                if (cmds.ContainsKey("gstream"))
+                {
+                    GStreamer.gstlaunch = GStreamer.LookForGstreamer();
+
+                    if (!File.Exists(GStreamer.gstlaunch))
+                    {
+                        if (CustomMessageBox.Show(
+                                "A video stream has been detected, but gstreamer has not been configured/installed.\nDo you want to install/config it now?",
+                                "GStreamer", System.Windows.Forms.MessageBoxButtons.YesNo) ==
+                            (int)System.Windows.Forms.DialogResult.Yes)
+                        {
+                            GStreamer.DownloadGStreamer();
+                        }
+                    }
+
+                    try
+                    {
+                        new Thread(delegate()
+                        {
+                            // 36 retrys
+                            for (int i = 0; i < 36; i++)
+                            {
+                                var st = GStreamer.StartA(cmds["gstream"]);
+                                if (st == null)
+                                {
+                                    // prevent spam
+                                    Thread.Sleep(5000);
+                                }
+                                else
+                                {
+                                    while (st.IsAlive)
+                                    {
+                                        Thread.Sleep(1000);
+                                    }
+                                }
+                            }
+                        }) {IsBackground = true}.Start();
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error(ex);
+                    }
+                }
+
                 if (cmds.ContainsKey("port") && cmds.ContainsKey("baud"))
                 {
                     _connectionControl.CMB_serialport.Text = cmds["port"];
