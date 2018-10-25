@@ -1621,7 +1621,7 @@ namespace MissionPlanner
                 }
 
                 FlightData.CheckBatteryShow();
-
+                /*
                 MissionPlanner.Utilities.Tracking.AddEvent("Connect", "Connect", comPort.MAV.cs.firmware.ToString(),
                     comPort.MAV.param.Count.ToString());
                 MissionPlanner.Utilities.Tracking.AddTiming("Connect", "Connect Time",
@@ -1643,7 +1643,7 @@ namespace MissionPlanner
 
                 if (comPort.MAV.param.ContainsKey("AVD_ENABLE"))
                     MissionPlanner.Utilities.Tracking.AddEvent("Param", "Value", "AVD_ENABLE", comPort.MAV.param["AVD_ENABLE"].ToString());
-
+                */
                 // save the baudrate for this port
                 Settings.Instance[_connectionControl.CMB_serialport.Text + "_BAUD"] = _connectionControl.CMB_baudrate.Text;
 

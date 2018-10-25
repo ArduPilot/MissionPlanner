@@ -1639,6 +1639,19 @@ namespace MissionPlanner
                         MAV.clearPacket((uint) MAVLink.MAVLINK_MSG_ID.RC_CHANNELS_SCALED);
                     }
 
+                    mavLinkMessage = MAV.getPacket((uint)MAVLink.MAVLINK_MSG_ID.LOCAL_POSITION_NED);
+
+                    if (mavLinkMessage != null) 
+                    {
+                        var lpned = mavLinkMessage.ToStructure<MAVLink.mavlink_local_position_ned_t>();
+
+                        var loc = HomeLocation.gps_offset(lpned.y, lpned.x);
+
+                        //lat = loc.Lat;
+                        //lng = loc.Lng;
+                        //alt = (float)(loc.Alt + lpned.z);
+                    }
+
                     mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.AUTOPILOT_VERSION);
 
                     if (mavLinkMessage != null)
