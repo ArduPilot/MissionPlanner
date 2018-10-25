@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Joystick
 {
@@ -21,8 +22,16 @@ namespace MissionPlanner.Joystick
 
             comboBox1.ValueMember = "Key";
             comboBox1.DisplayMember = "Value";
-            comboBox1.DataSource = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("MNT_MODE",
+
+            var item1 = ParameterMetaDataRepository.GetParameterOptionsInt("MNT_MODE",
                 MainV2.comPort.MAV.cs.firmware.ToString());
+            var item2 = ParameterMetaDataRepository.GetParameterOptionsInt("MNT_DEFLT_MODE",
+                MainV2.comPort.MAV.cs.firmware.ToString());
+            if (item1.Count > 0)
+                comboBox1.DataSource = item1;
+
+            if (item2.Count > 0)
+                comboBox1.DataSource = item2;
 
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
 
