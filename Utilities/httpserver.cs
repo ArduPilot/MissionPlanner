@@ -178,7 +178,7 @@ namespace MissionPlanner.Utilities
                     //url = url.Replace(" HTTP/1.0", "");
                     //url = url.Replace(" HTTP/1.1", "");
 
-                    Tracking.AddEvent("HTTPServer", "Get", url, "");
+                    //Tracking.AddEvent("HTTPServer", "Get", url, "");
 /////////////////////////////////////////////////////////////////
                     if (url.Contains(" /websocket/server"))
                     {
