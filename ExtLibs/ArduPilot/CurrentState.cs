@@ -688,6 +688,13 @@ namespace MissionPlanner
             }
         }
 
+        //https://en.wikipedia.org/wiki/Load_factor_(aeronautics)
+        [DisplayText("Turn Gs (load)")]
+        public float turng
+        {
+            get { return (float)(1 / Math.Cos(MathHelper.deg2rad * roll)); }
+        }
+
         // turn radius
         [DisplayText("Turn Radius (dist)")]
         public float radius

@@ -2090,18 +2090,21 @@ Please check the following
             return false;
         }
 
-        private void getDatastream(MAV_DATA_STREAM id, byte hzrate)
+        private void getDatastream(MAV_DATA_STREAM id, int hzrate)
         {
             getDatastream(MAV.sysid, MAV.compid, id, hzrate);
         }
 
-        private void getDatastream(byte sysid, byte compid, MAV_DATA_STREAM id, byte hzrate)
+        private void getDatastream(byte sysid, byte compid, MAV_DATA_STREAM id, int hzrate)
         {
+            if (hzrate == -1)
+                return;
+
             mavlink_request_data_stream_t req = new mavlink_request_data_stream_t();
             req.target_system = sysid;
             req.target_component = compid;
 
-            req.req_message_rate = hzrate;
+            req.req_message_rate = (byte)hzrate;
             req.start_stop = 1; // start
             req.req_stream_id = (byte) id; // id
 
