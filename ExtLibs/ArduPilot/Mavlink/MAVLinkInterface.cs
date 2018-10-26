@@ -1924,11 +1924,19 @@ Please check the following
 
         public void requestDatastream(MAV_DATA_STREAM id, byte hzrate, int sysid = -1, int compid = -1)
         {
+            requestDatastream(id, (int) hzrate, sysid, compid);
+        }
+
+        public void requestDatastream(MAV_DATA_STREAM id, int hzrate, int sysid = -1, int compid = -1)
+        {
             if (sysid == -1)
                 sysid = sysidcurrent;
 
             if (compid == -1)
                 compid = compidcurrent;
+
+            if (hzrate == -1)
+                return;
 
             double pps = 0;
 

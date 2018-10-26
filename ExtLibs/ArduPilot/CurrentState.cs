@@ -1210,17 +1210,17 @@ namespace MissionPlanner
         public float accel_cal_z { get; set; }
 
         // requested stream rates
-        public byte rateattitude { get; set; }
-        public byte rateposition { get; set; }
-        public byte ratestatus { get; set; }
-        public byte ratesensors { get; set; }
-        public byte raterc { get; set; }
+        public int rateattitude { get; set; }
+        public int rateposition { get; set; }
+        public int ratestatus { get; set; }
+        public int ratesensors { get; set; }
+        public int raterc { get; set; }
 
-        public static byte rateattitudebackup;
-        public static byte ratepositionbackup;
-        public static byte ratestatusbackup;
-        public static byte ratesensorsbackup;
-        public static byte ratercbackup;
+        public static int rateattitudebackup;
+        public static int ratepositionbackup;
+        public static int ratestatusbackup;
+        public static int ratesensorsbackup;
+        public static int ratercbackup;
 
         // reference
         public DateTime datetime { get; set; }

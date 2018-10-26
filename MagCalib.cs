@@ -431,10 +431,10 @@ namespace MissionPlanner
             float maxz = 0;
 
             // backup current rate and set
-            byte backupratesens = MainV2.comPort.MAV.cs.ratesensors;
+            var backupratesens = MainV2.comPort.MAV.cs.ratesensors;
 
-            byte backuprateatt = MainV2.comPort.MAV.cs.rateattitude;
-            byte backupratepos = MainV2.comPort.MAV.cs.rateposition;
+            var backuprateatt = MainV2.comPort.MAV.cs.rateattitude;
+            var backupratepos = MainV2.comPort.MAV.cs.rateposition;
 
             MainV2.comPort.MAV.cs.ratesensors = 2;
             MainV2.comPort.MAV.cs.rateattitude = 0;

@@ -899,16 +899,17 @@ namespace MissionPlanner
                 if (Settings.Instance["MainWidth"] != null)
                     this.Width = Settings.Instance.GetInt32("MainWidth");
 
+                // set presaved default telem rates
                 if (Settings.Instance["CMB_rateattitude"] != null)
-                    CurrentState.rateattitudebackup = Settings.Instance.GetByte("CMB_rateattitude");
+                    CurrentState.rateattitudebackup = Settings.Instance.GetInt32("CMB_rateattitude");
                 if (Settings.Instance["CMB_rateposition"] != null)
-                    CurrentState.ratepositionbackup = Settings.Instance.GetByte("CMB_rateposition");
+                    CurrentState.ratepositionbackup = Settings.Instance.GetInt32("CMB_rateposition");
                 if (Settings.Instance["CMB_ratestatus"] != null)
-                    CurrentState.ratestatusbackup = Settings.Instance.GetByte("CMB_ratestatus");
+                    CurrentState.ratestatusbackup = Settings.Instance.GetInt32("CMB_ratestatus");
                 if (Settings.Instance["CMB_raterc"] != null)
-                    CurrentState.ratercbackup = Settings.Instance.GetByte("CMB_raterc");
+                    CurrentState.ratercbackup = Settings.Instance.GetInt32("CMB_raterc");
                 if (Settings.Instance["CMB_ratesensors"] != null)
-                    CurrentState.ratesensorsbackup = Settings.Instance.GetByte("CMB_ratesensors");
+                    CurrentState.ratesensorsbackup = Settings.Instance.GetInt32("CMB_ratesensors");
 
                 // make sure rates propogate
                 MainV2.comPort.MAV.cs.ResetInternals();
