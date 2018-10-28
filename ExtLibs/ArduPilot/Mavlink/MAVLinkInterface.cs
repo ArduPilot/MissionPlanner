@@ -480,7 +480,10 @@ Please check the following
                     // if we get no data, try enableing rts/cts
                     if (buffer.Length == 0 && BaseStream is SerialPort)
                     {
-                        BaseStream.RtsEnable = !BaseStream.RtsEnable;
+                        try
+                        {
+                            BaseStream.RtsEnable = !BaseStream.RtsEnable;
+                        } catch { }
                     }
 
                     // check we have hb's
