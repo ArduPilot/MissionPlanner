@@ -64,7 +64,7 @@
     <Compile Include="ZedGraph\ColorSymbolRotator.cs" />
     <Compile Include="ZedGraph\CurveItem.cs" />
     <Compile Include="ZedGraph\CurveList.cs" />
-    <Compile Include="ZedGraph\DataSourcePointList.cs" />
+    <None Include="ZedGraph\DataSourcePointList.cs" />
     <Compile Include="ZedGraph\DateAsOrdinalScale.cs" />
     <Compile Include="ZedGraph\DateScale.cs" />
     <Compile Include="ZedGraph\EllipseObj.cs" />
