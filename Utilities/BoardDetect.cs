@@ -113,7 +113,7 @@ namespace MissionPlanner.Utilities
                                     //return boards.mindpxv2;
                                 }
 
-                                chbootloader = item.board.ToLower().Replace("-bl","");
+                                chbootloader = item.board.Replace("-bl", "").Replace("-Bl", "").Replace("-BL", "");
                                 return boards.chbootloader;
                             }
 

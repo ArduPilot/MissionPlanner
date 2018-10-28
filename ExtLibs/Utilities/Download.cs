@@ -369,6 +369,7 @@ namespace MissionPlanner.Utilities
             }
             finally
             {
+                log.InfoFormat("CheckHTTPFileExists: {0} - {1}", url, result);
                 if (response != null)
                 {
                     response.Close();
