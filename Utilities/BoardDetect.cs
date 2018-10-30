@@ -76,6 +76,8 @@ namespace MissionPlanner.Utilities
 
                             // new style bootloader
                             if (item.hardwareid.StartsWith(@"USB\VID_0483&PID_5740") ||
+                                item.hardwareid.StartsWith(@"USB\VID_2DAE&PID_1001") ||
+                                item.hardwareid.StartsWith(@"USB\VID_2DAE&PID_1011") ||
                                 item.hardwareid.StartsWith(@"USB\VID_1209&PID_5740")) //USB\VID_0483&PID_5740&REV_0200)
                             {
                                 if (item.board == "fmuv2" || item.board.ToLower() == "fmuv2-bl")
