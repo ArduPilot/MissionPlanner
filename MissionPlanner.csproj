@@ -6,7 +6,7 @@
     <OutputType>Exe</OutputType>
     <StartupObject></StartupObject>
     <Authors>Michael Oborne</Authors>
-    <Version>1.3.59.2</Version>
+    <Version>1.3.59.3</Version>
     <DebugType>portable</DebugType>
     <Company>Michael Oborne</Company>
     <Product>Mission Planner</Product>
@@ -249,7 +249,6 @@
     </Compile>
     <Compile Include="ElevationProfile.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="FollowMe.cs"> <SubType>Control</SubType> </Compile>
-    <Compile Include="Swarm\GL2.cs" />
     <Compile Include="Swarm\PaintEventArgsI.cs" />
     <Compile Include="Swarm\TD\UI.cs">
       <SubType>Form</SubType>
