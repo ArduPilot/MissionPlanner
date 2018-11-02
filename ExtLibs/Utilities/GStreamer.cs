@@ -329,11 +329,11 @@ namespace MissionPlanner.Utilities
             public string message;
         }
 
-        public static void StartA(string stringpipeline)
+        public static Thread StartA(string stringpipeline)
         {
             int argc = 1;
             string[] argv = new string[] {"-vvv"};
- 
+
             NativeMethods.gst_init(ref argc, argv);
 
             uint v1 = 0, v2 = 0, v3 = 0, v4 = 0;
@@ -348,9 +348,9 @@ namespace MissionPlanner.Utilities
             {
                 var er = Marshal.PtrToStructure<GError>(error);
                 log.Error("gst_init_check: " + er.message);
-                return;
+                return null;
             }
-            
+
             /* Set up the pipeline */
 
             var pipeline = NativeMethods.gst_parse_launch(
@@ -364,7 +364,7 @@ namespace MissionPlanner.Utilities
             {
                 var er = Marshal.PtrToStructure<GError>(error);
                 log.Error("gst_parse_launch: " + er.message);
-                return;
+                return null;
             }
 
             // appsink is part of the parse launch
@@ -376,7 +376,7 @@ namespace MissionPlanner.Utilities
             GstAppSinkCallbacks callbacks = new GstAppSinkCallbacks();
             callbacks.new_buffer += (sink, data) => { return GstFlowReturn.GST_FLOW_OK; };
             //callbacks.new_preroll += (sink, data) => { return GstFlowReturn.GST_FLOW_OK; };
-            callbacks.eos += (sink, data) => {  };
+            callbacks.eos += (sink, data) => { };
 
             NativeMethods.gst_app_sink_set_drop(appsink, true);
             NativeMethods.gst_app_sink_set_max_buffers(appsink, 1);
@@ -388,7 +388,8 @@ namespace MissionPlanner.Utilities
             /* Wait until error or EOS */
             var bus = NativeMethods.gst_element_get_bus(pipeline);
 
-            NativeMethods.gst_debug_bin_to_dot_file(pipeline, GstDebugGraphDetails.GST_DEBUG_GRAPH_SHOW_ALL, "pipeline");
+            NativeMethods.gst_debug_bin_to_dot_file(pipeline, GstDebugGraphDetails.GST_DEBUG_GRAPH_SHOW_ALL,
+                "pipeline");
 
             //var msg = GStreamer.gst_bus_timed_pop_filtered(bus, GStreamer.GST_CLOCK_TIME_NONE, GStreamer.GstMessageType.GST_MESSAGE_ERROR | GStreamer.GstMessageType.GST_MESSAGE_EOS);
 
@@ -396,64 +397,74 @@ namespace MissionPlanner.Utilities
             int Height = 0;
             int trys = 0;
 
-            while (!NativeMethods.gst_app_sink_is_eos(appsink))
+            var th = new Thread(delegate()
             {
-                try
+                while (!NativeMethods.gst_app_sink_is_eos(appsink))
                 {
-                    var sample = NativeMethods.gst_app_sink_try_pull_sample(appsink, GST_SECOND);
-                    if (sample != IntPtr.Zero)
+                    try
                     {
-                        trys = 0;
-                        //var caps = gst_app_sink_get_caps(appsink);
-                        var caps = NativeMethods.gst_sample_get_caps(sample);
-                        var caps_s = NativeMethods.gst_caps_get_structure(caps, 0);
-                        NativeMethods.gst_structure_get_int(caps_s, "width", out Width);
-                        NativeMethods.gst_structure_get_int(caps_s, "height", out Height);
-
-                        //var capsstring = gst_caps_to_string(caps_s);
-                        //var structure = gst_sample_get_info(sample);
-                        //var structstring = gst_structure_to_string(structure);
-                        var buffer = NativeMethods.gst_sample_get_buffer(sample);
-                        if (buffer != IntPtr.Zero)
+                        var sample = NativeMethods.gst_app_sink_try_pull_sample(appsink, GST_SECOND);
+                        if (sample != IntPtr.Zero)
                         {
-                            var info = new GstMapInfo();
-                            if (NativeMethods.gst_buffer_map(buffer, out info, GstMapFlags.GST_MAP_READ))
+                            trys = 0;
+                            //var caps = gst_app_sink_get_caps(appsink);
+                            var caps = NativeMethods.gst_sample_get_caps(sample);
+                            var caps_s = NativeMethods.gst_caps_get_structure(caps, 0);
+                            NativeMethods.gst_structure_get_int(caps_s, "width", out Width);
+                            NativeMethods.gst_structure_get_int(caps_s, "height", out Height);
+
+                            //var capsstring = gst_caps_to_string(caps_s);
+                            //var structure = gst_sample_get_info(sample);
+                            //var structstring = gst_structure_to_string(structure);
+                            var buffer = NativeMethods.gst_sample_get_buffer(sample);
+                            if (buffer != IntPtr.Zero)
                             {
-                                var image = new Bitmap(Width, Height, 4 * Width,
-                                    System.Drawing.Imaging.PixelFormat.Format32bppArgb, info.data);
+                                var info = new GstMapInfo();
+                                if (NativeMethods.gst_buffer_map(buffer, out info, GstMapFlags.GST_MAP_READ))
+                                {
+                                    var image = new Bitmap(Width, Height, 4 * Width,
+                                        System.Drawing.Imaging.PixelFormat.Format32bppArgb, info.data);
 
-                                _onNewImage?.Invoke(null, image);
+                                    _onNewImage?.Invoke(null, image);
 
-                                NativeMethods.gst_buffer_unmap(buffer, out info);
+                                    NativeMethods.gst_buffer_unmap(buffer, out info);
+                                }
                             }
-                        }
 
-                        NativeMethods.gst_sample_unref(sample);
+                            NativeMethods.gst_sample_unref(sample);
+                        }
+                        else
+                        {
+                            log.Info("failed gst_app_sink_try_pull_sample");
+                            trys++;
+                            if (trys > 60)
+                                break;
+                        }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        log.Info("failed gst_app_sink_try_pull_sample");
+                        log.Error(ex);
                         trys++;
                         if (trys > 60)
                             break;
                     }
                 }
-                catch (Exception ex)
-                {
-                    log.Error(ex);
-                    trys++;
-                    if (trys > 60)
-                        break;
-                }
-            }
 
-            // cleanup
-            _onNewImage?.Invoke(null, null);
 
-            NativeMethods.gst_element_set_state(pipeline, GstState.GST_STATE_NULL);
-            NativeMethods.gst_buffer_unref(bus);
 
-            log.Info("Gstreamer Exit");
+                // cleanup
+                _onNewImage?.Invoke(null, null);
+
+                NativeMethods.gst_element_set_state(pipeline, GstState.GST_STATE_NULL);
+                NativeMethods.gst_buffer_unref(bus);
+
+                log.Info("Gstreamer Exit");
+
+            }) {IsBackground = true, Name = "gstreamer"};
+
+            th.Start();
+
+            return th;
         }
 
         ~GStreamer()

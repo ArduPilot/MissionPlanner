@@ -676,7 +676,6 @@
             // 
             // temp
             // 
-            
             resources.ApplyResources(this, "$this");
             this.Controls.Add(this.but_anonlog);
             this.Controls.Add(this.but_3dmap);

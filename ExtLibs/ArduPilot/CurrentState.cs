@@ -688,6 +688,13 @@ namespace MissionPlanner
             }
         }
 
+        //https://en.wikipedia.org/wiki/Load_factor_(aeronautics)
+        [DisplayText("Turn Gs (load)")]
+        public float turng
+        {
+            get { return (float)(1 / Math.Cos(MathHelper.deg2rad * roll)); }
+        }
+
         // turn radius
         [DisplayText("Turn Radius (dist)")]
         public float radius
@@ -1210,17 +1217,17 @@ namespace MissionPlanner
         public float accel_cal_z { get; set; }
 
         // requested stream rates
-        public byte rateattitude { get; set; }
-        public byte rateposition { get; set; }
-        public byte ratestatus { get; set; }
-        public byte ratesensors { get; set; }
-        public byte raterc { get; set; }
+        public int rateattitude { get; set; }
+        public int rateposition { get; set; }
+        public int ratestatus { get; set; }
+        public int ratesensors { get; set; }
+        public int raterc { get; set; }
 
-        public static byte rateattitudebackup;
-        public static byte ratepositionbackup;
-        public static byte ratestatusbackup;
-        public static byte ratesensorsbackup;
-        public static byte ratercbackup;
+        public static int rateattitudebackup;
+        public static int ratepositionbackup;
+        public static int ratestatusbackup;
+        public static int ratesensorsbackup;
+        public static int ratercbackup;
 
         // reference
         public DateTime datetime { get; set; }
@@ -1639,6 +1646,19 @@ namespace MissionPlanner
                         MAV.clearPacket((uint) MAVLink.MAVLINK_MSG_ID.RC_CHANNELS_SCALED);
                     }
 
+                    mavLinkMessage = MAV.getPacket((uint)MAVLink.MAVLINK_MSG_ID.LOCAL_POSITION_NED);
+
+                    if (mavLinkMessage != null) 
+                    {
+                        var lpned = mavLinkMessage.ToStructure<MAVLink.mavlink_local_position_ned_t>();
+
+                        var loc = HomeLocation.gps_offset(lpned.y, lpned.x);
+
+                        //lat = loc.Lat;
+                        //lng = loc.Lng;
+                        //alt = (float)(loc.Alt + lpned.z);
+                    }
+
                     mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.AUTOPILOT_VERSION);
 
                     if (mavLinkMessage != null)
@@ -1899,7 +1919,8 @@ namespace MissionPlanner
                                 {
                                     case MAVLink.EKF_STATUS_FLAGS.EKF_ATTITUDE: // step 1
                                     case MAVLink.EKF_STATUS_FLAGS.EKF_VELOCITY_HORIZ: // with pos
-                                        ekfstatus = 1;
+                                        if (gpsstatus > 0) // we have gps and dont have vel_hoz
+                                            ekfstatus = 1;
                                         break;
                                     case MAVLink.EKF_STATUS_FLAGS.EKF_VELOCITY_VERT: // with pos
                                     //case MAVLink.EKF_STATUS_FLAGS.EKF_POS_HORIZ_REL: // optical flow

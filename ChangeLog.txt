@@ -1,4 +1,75 @@
-﻿*Mission Planner 1.3.58 - 8-8-2018
+﻿*Mission Planner 1.3.59 - 23-10-2018
+temp: add reboot are you sure
+EKFStatus: add red text for error reason #1965
+GStreamer: fix blocking ui thread
+OpenGLtest2: imageload
+ZeroConf: remove unused library
+wasm: package update
+MAVLinkInterface: mavlink2 dont len check
+ChibiOS: update driver cat
+MAVLink: upstream changes #1963
+sitl: tweak, lower framerate
+Exposing sky and ground color values to support upcoming "Night MODE" plugin.
+BoardDetect: add new vid/pid
+SITL: add how many
+Swarm: Layout save formatting
+swarm: change to opengl
+wasm: update
+Comms: add lossy queue
+httpserver: fix websocket raw
+wasm: cesium
+CurrentState: add SCALED_PRESSURE2 #1939
+FlightPlanner: fix multiple wp drag
+vlcrender: clone image
+MainV2: udp port connection list
+Grid: increase max focal length #1944
+wasm: update
+csproj: change all to portable debug
+Mavlog: output kml for all mavs in log
+CurrentState: add null check
+wasm: first
+httpserver: make streamwrite async
+CommsFile: allow length override
+CurrentState: add null check
+Updater: keep old
+Updater: add exception output
+BitMiracle.LibTiff.NetStandard: use local
+SerialOutputNMEA: add more messages
+MAVLinkInterface: limit external dependancys
+Transitions: netstandard
+Dependancys: clean
+MatLab: fix matlab datetime
+Nuget: update libs
+MissionPlanner: use local libs
+ProjNet
+netDxf
+SharpZipLib
+BouncyCastle
+alglib
+MAVLinkInspector: convert usec to datetime
+MAVLinkInterface: add force arm
+SITL: set sysid and frame_class as part of startup
+MAVInspector: allow rate greater than 16.7hz #1929
+SITL: add multi link vs multi router
+CurrentState: ekfsatus = 1 if has not init Vel Horiz
+LogSort: multi drone logs use min sysid
+GMaps: convert to graphics interface
+CurrentState: update esc message scaling
+Mavlink: update generator
+MAVLinkInterface: fix rfd900 radio status #1913
+Sequence: add bg image
+Mavlink: update
+FlightPlanner: fix fastupload mav check
+GStreamer: fix crash on exit, add debug, 60 second timeout
+AutoScaleMode: remove globally
+Strings: move to project
+app: use more rollover logs
+FlightPlanner: fast wp check target sysid
+FlightPlanner: add fast wp upload button
+MAVLinkInterface: check responce sysid if there is a target_sysid
+Download: fix GetFileSize, add cache
+
+*Mission Planner 1.3.58 - 8-8-2018
 Program: remove exe
 Projects: system.io.ports update
 SITL: get defaults once

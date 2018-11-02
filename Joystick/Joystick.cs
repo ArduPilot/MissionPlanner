@@ -639,6 +639,15 @@ namespace MissionPlanner.Joystick
             rc.chan7_raw = 0;
             rc.chan8_raw = 0;
 
+            MainV2.comPort.MAV.cs.rcoverridech1 = 0;
+            MainV2.comPort.MAV.cs.rcoverridech2 = 0;
+            MainV2.comPort.MAV.cs.rcoverridech3 = 0;
+            MainV2.comPort.MAV.cs.rcoverridech4 = 0;
+            MainV2.comPort.MAV.cs.rcoverridech5 = 0;
+            MainV2.comPort.MAV.cs.rcoverridech6 = 0;
+            MainV2.comPort.MAV.cs.rcoverridech7 = 0;
+            MainV2.comPort.MAV.cs.rcoverridech8 = 0;
+
             try
             {
                 MainV2.comPort.sendPacket(rc, rc.target_system, rc.target_component);

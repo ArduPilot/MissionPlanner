@@ -899,16 +899,17 @@ namespace MissionPlanner
                 if (Settings.Instance["MainWidth"] != null)
                     this.Width = Settings.Instance.GetInt32("MainWidth");
 
+                // set presaved default telem rates
                 if (Settings.Instance["CMB_rateattitude"] != null)
-                    CurrentState.rateattitudebackup = Settings.Instance.GetByte("CMB_rateattitude");
+                    CurrentState.rateattitudebackup = Settings.Instance.GetInt32("CMB_rateattitude");
                 if (Settings.Instance["CMB_rateposition"] != null)
-                    CurrentState.ratepositionbackup = Settings.Instance.GetByte("CMB_rateposition");
+                    CurrentState.ratepositionbackup = Settings.Instance.GetInt32("CMB_rateposition");
                 if (Settings.Instance["CMB_ratestatus"] != null)
-                    CurrentState.ratestatusbackup = Settings.Instance.GetByte("CMB_ratestatus");
+                    CurrentState.ratestatusbackup = Settings.Instance.GetInt32("CMB_ratestatus");
                 if (Settings.Instance["CMB_raterc"] != null)
-                    CurrentState.ratercbackup = Settings.Instance.GetByte("CMB_raterc");
+                    CurrentState.ratercbackup = Settings.Instance.GetInt32("CMB_raterc");
                 if (Settings.Instance["CMB_ratesensors"] != null)
-                    CurrentState.ratesensorsbackup = Settings.Instance.GetByte("CMB_ratesensors");
+                    CurrentState.ratesensorsbackup = Settings.Instance.GetInt32("CMB_ratesensors");
 
                 // make sure rates propogate
                 MainV2.comPort.MAV.cs.ResetInternals();
@@ -1621,7 +1622,7 @@ namespace MissionPlanner
                 }
 
                 FlightData.CheckBatteryShow();
-
+                /*
                 MissionPlanner.Utilities.Tracking.AddEvent("Connect", "Connect", comPort.MAV.cs.firmware.ToString(),
                     comPort.MAV.param.Count.ToString());
                 MissionPlanner.Utilities.Tracking.AddTiming("Connect", "Connect Time",
@@ -1643,7 +1644,7 @@ namespace MissionPlanner
 
                 if (comPort.MAV.param.ContainsKey("AVD_ENABLE"))
                     MissionPlanner.Utilities.Tracking.AddEvent("Param", "Value", "AVD_ENABLE", comPort.MAV.param["AVD_ENABLE"].ToString());
-
+                */
                 // save the baudrate for this port
                 Settings.Instance[_connectionControl.CMB_serialport.Text + "_BAUD"] = _connectionControl.CMB_baudrate.Text;
 
@@ -3144,6 +3145,50 @@ namespace MissionPlanner
                     catch (Exception ex)
                     {
                         CustomMessageBox.Show(ex.ToString());
+                    }
+                }
+
+                if (cmds.ContainsKey("gstream"))
+                {
+                    GStreamer.gstlaunch = GStreamer.LookForGstreamer();
+
+                    if (!File.Exists(GStreamer.gstlaunch))
+                    {
+                        if (CustomMessageBox.Show(
+                                "A video stream has been detected, but gstreamer has not been configured/installed.\nDo you want to install/config it now?",
+                                "GStreamer", System.Windows.Forms.MessageBoxButtons.YesNo) ==
+                            (int)System.Windows.Forms.DialogResult.Yes)
+                        {
+                            GStreamer.DownloadGStreamer();
+                        }
+                    }
+
+                    try
+                    {
+                        new Thread(delegate()
+                        {
+                            // 36 retrys
+                            for (int i = 0; i < 36; i++)
+                            {
+                                var st = GStreamer.StartA(cmds["gstream"]);
+                                if (st == null)
+                                {
+                                    // prevent spam
+                                    Thread.Sleep(5000);
+                                }
+                                else
+                                {
+                                    while (st.IsAlive)
+                                    {
+                                        Thread.Sleep(1000);
+                                    }
+                                }
+                            }
+                        }) {IsBackground = true}.Start();
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error(ex);
                     }
                 }
 

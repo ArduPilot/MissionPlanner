@@ -118,24 +118,24 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="but_factoryreset.Text" xml:space="preserve">
-    <value>Konfiguration zurücksetzen</value>
+    <value>Tənzimləmələri sıfırla</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>HINWEIS: Nach Änderung dieser Option ist ein Neustart nötig.</value>
+    <value>Qeyd: bu seçimi dəyişdikdən sonra yenidən başlatmaq tələb olunur</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>UAV CAN aktivieren</value>
+    <value>Aktiv et CAN</value>
   </data>
   <data name="but_stopenum.Text" xml:space="preserve">
-    <value>Stop Datenerfassung</value>
+    <value>Nömrələməni dayandır</value>
   </data>
   <data name="checkBox1.Text" xml:space="preserve">
-    <value>Werkseinstellung</value>
+    <value>Fabrika sıfırlama</value>
   </data>
   <data name="but_startenum.Text" xml:space="preserve">
-    <value>Start Datenerfassung</value>
+    <value>Nömrələməyə başlayın</value>
   </data>
   <data name="but_saveconfig.Text" xml:space="preserve">
-    <value>Alle Konfigurationen speichern</value>
+    <value>Bütün dəyişiklikləri yaddaşa ver</value>
   </data>
 </root>

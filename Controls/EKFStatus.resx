@@ -462,31 +462,28 @@
   <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
     <value>11</value>
   </data>
-  <data name="label7.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="flowLayoutPanel1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
   </data>
-  <data name="label7.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
+  <data name="flowLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>353, 93</value>
   </data>
-  <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>353, 90</value>
+  <data name="flowLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>142, 129</value>
   </data>
-  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>142, 135</value>
-  </data>
-  <data name="label7.TabIndex" type="System.Int32, mscorlib">
+  <data name="flowLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
     <value>24</value>
   </data>
-  <data name="&gt;&gt;label7.Name" xml:space="preserve">
-    <value>label7</value>
+  <data name="&gt;&gt;flowLayoutPanel1.Name" xml:space="preserve">
+    <value>flowLayoutPanel1</value>
   </data>
-  <data name="&gt;&gt;label7.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;flowLayoutPanel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label7.Parent" xml:space="preserve">
+  <data name="&gt;&gt;flowLayoutPanel1.Parent" xml:space="preserve">
     <value>tableLayoutPanel1</value>
   </data>
-  <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;flowLayoutPanel1.ZOrder" xml:space="preserve">
     <value>12</value>
   </data>
   <data name="tableLayoutPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
@@ -517,7 +514,7 @@
     <value>0</value>
   </data>
   <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="ekfposv" Row="1" RowSpan="4" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="ekfposh" Row="1" RowSpan="4" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="ekfvel" Row="1" RowSpan="4" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label1" Row="0" RowSpan="1" Column="1" ColumnSpan="5" /&gt;&lt;Control Name="label8" Row="1" RowSpan="1" Column="6" ColumnSpan="2" /&gt;&lt;Control Name="ekfcompass" Row="1" RowSpan="4" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="ekfterrain" Row="1" RowSpan="4" Column="5" ColumnSpan="1" /&gt;&lt;Control Name="label2" Row="5" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label3" Row="5" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="label4" Row="5" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="label5" Row="5" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="label6" Row="5" RowSpan="1" Column="5" ColumnSpan="1" /&gt;&lt;Control Name="label7" Row="2" RowSpan="3" Column="6" ColumnSpan="2" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,30,Percent,13.81215,Percent,13.81215,Percent,13.81215,Percent,13.81215,Percent,13.81215,Percent,15.46962,Percent,15.46962" /&gt;&lt;Rows Styles="Percent,16.66667,Percent,16.66667,Percent,16.66667,Percent,16.66667,Percent,16.66667,Percent,16.66667" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="ekfposv" Row="1" RowSpan="4" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="ekfposh" Row="1" RowSpan="4" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="ekfvel" Row="1" RowSpan="4" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label1" Row="0" RowSpan="1" Column="1" ColumnSpan="5" /&gt;&lt;Control Name="label8" Row="1" RowSpan="1" Column="6" ColumnSpan="2" /&gt;&lt;Control Name="ekfcompass" Row="1" RowSpan="4" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="ekfterrain" Row="1" RowSpan="4" Column="5" ColumnSpan="1" /&gt;&lt;Control Name="label2" Row="5" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label3" Row="5" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="label4" Row="5" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="label5" Row="5" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="label6" Row="5" RowSpan="1" Column="5" ColumnSpan="1" /&gt;&lt;Control Name="flowLayoutPanel1" Row="2" RowSpan="3" Column="6" ColumnSpan="2" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,30,Percent,13.81215,Percent,13.81215,Percent,13.81215,Percent,13.81215,Percent,13.81215,Percent,15.46962,Percent,15.46962" /&gt;&lt;Rows Styles="Percent,16.66667,Percent,16.66667,Percent,16.66667,Percent,16.66667,Percent,16.66667,Percent,16.66667,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="ekfvel.Size" type="System.Drawing.Size, System.Drawing">
     <value>58, 174</value>

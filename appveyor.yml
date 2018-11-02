@@ -1,27 +1,14 @@
 version: 1.0.{build}
 image: Visual Studio 2017
 configuration: Release
-clone_script:
-  - cmd: >-
-      git clone -q --branch=%APPVEYOR_REPO_BRANCH% https://github.com/%APPVEYOR_REPO_NAME%.git %APPVEYOR_BUILD_FOLDER%
-      && cd %APPVEYOR_BUILD_FOLDER%
-      && git checkout -qf %APPVEYOR_REPO_COMMIT%
-      && git submodule update --init --recursive
 clone_folder: c:\MP\
-init:
-- cmd: 
 cache:
     - packages -> appveyor.yml
-environment:
-  email:
-    secure: dkWdmOxf3t/x2H0gEo1GurKM8Due1idnog5VJtUlSEA=
-  token:
-    secure: FfCpqsH/V1r7PoXHkMcJpW7kWiQ6rQaedlH2L8smyeY=
 build_script:
 - cmd: >-
-    dotnet --info
+    git submodule update --init --recursive
 
-    rem c:\mp\.nuget\nuget.exe update -self
+    dotnet --info
 
     c:\mp\.nuget\nuget.exe sources Add -Name "myget" -Source https://dotnet.myget.org/F/dotnet-core/api/v3/index.json
     
@@ -56,21 +43,6 @@ build_script:
     "%wix%\bin\candle" installer.wxs -ext WiXNetFxExtension -ext WixDifxAppExtension -ext WixUIExtension.dll -ext WixUtilExtension -ext WixIisExtension 
   
     "%wix%\bin\light" installer.wixobj "%wix%\bin\difxapp_x86.wixlib" -sval -o MissionPlanner-latest.msi -ext WiXNetFxExtension -ext WixDifxAppExtension -ext WixUIExtension.dll -ext WixUtilExtension -ext WixIisExtension 
-
-    rem if exist date.txt set /p datecheck=<date.txt
-
-    rem echo %date% > datenow.txt
-
-    rem if exist datenow.txt set /p datenow=<datenow.txt
-
-    rem if not "%datecheck%"=="%datenow%" echo %date% > date.txt
-
-    rem if not "%datecheck%"=="%datenow%" cov-build.exe --dir cov-int msbuild.exe MissionPlanner.sln /m /p:Configuration=Debug /l:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
-
-    rem if not "%datecheck%"=="%datenow%" 7z a -tzip MissionPlannerCov-int.zip c:\mp\cov-int 
-
-    rem curl --form %token% --form %email% --form file=@MissionPlannerCov-int.zip --form version="%APPVEYOR_BUILD_VERSION%" --form project="ArduPilot\MissionPlanner" --form description="" https://scan.coverity.com/builds
-   
 
 test: off
 artifacts:

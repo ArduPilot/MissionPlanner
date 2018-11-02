@@ -1,6 +1,6 @@
 ﻿namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    partial class ConfigHWUAVCAN
+    partial class ConfigHWCAN
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigHWUAVCAN));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigHWCAN));
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
@@ -37,7 +37,7 @@
             this.but_saveconfig = new MissionPlanner.Controls.MyButton();
             this.but_factoryreset = new MissionPlanner.Controls.MyButton();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.mavlinkComboBox_uavcan = new MissionPlanner.Controls.MavlinkComboBox();
+            this.mavlinkComboBox_can = new MissionPlanner.Controls.MavlinkComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -100,15 +100,15 @@
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
-            // mavlinkComboBox_uavcan
+            // mavlinkComboBox_can
             // 
-            this.mavlinkComboBox_uavcan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.mavlinkComboBox_uavcan, "mavlinkComboBox_uavcan");
-            this.mavlinkComboBox_uavcan.FormattingEnabled = true;
-            this.mavlinkComboBox_uavcan.Name = "mavlinkComboBox_uavcan";
-            this.mavlinkComboBox_uavcan.ParamName = null;
-            this.mavlinkComboBox_uavcan.SubControl = null;
-            this.mavlinkComboBox_uavcan.SelectedIndexChanged += new System.EventHandler(this.mavlinkComboBox_uavcan_SelectedIndexChanged);
+            this.mavlinkComboBox_can.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.mavlinkComboBox_can, "mavlinkComboBox_can");
+            this.mavlinkComboBox_can.FormattingEnabled = true;
+            this.mavlinkComboBox_can.Name = "mavlinkComboBox_can";
+            this.mavlinkComboBox_can.ParamName = null;
+            this.mavlinkComboBox_can.SubControl = null;
+            this.mavlinkComboBox_can.SelectedIndexChanged += new System.EventHandler(this.mavlinkComboBox_can_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -131,17 +131,17 @@
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
-            // ConfigHWUAVCAN
+            // ConfigHWCAN
             // 
             
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.mavlinkComboBox_uavcan);
+            this.Controls.Add(this.mavlinkComboBox_can);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.pictureBox5);
-            this.Name = "ConfigHWUAVCAN";
+            this.Name = "ConfigHWCAN";
             resources.ApplyResources(this, "$this");
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             this.groupBox1.ResumeLayout(false);
@@ -161,7 +161,7 @@
         private Controls.MyButton but_saveconfig;
         private Controls.MyButton but_factoryreset;
         private System.Windows.Forms.CheckBox checkBox1;
-        private Controls.MavlinkComboBox mavlinkComboBox_uavcan;
+        private Controls.MavlinkComboBox mavlinkComboBox_can;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox1;

@@ -136,7 +136,7 @@
     <value>78</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
-    <value>UAVCAN</value>
+    <value>CAN</value>
   </data>
   <data name="&gt;&gt;label6.Name" xml:space="preserve">
     <value>label6</value>
@@ -339,28 +339,28 @@
   <data name="&gt;&gt;checkBox1.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="mavlinkComboBox_uavcan.Enabled" type="System.Boolean, mscorlib">
+  <data name="mavlinkComboBox_can.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="mavlinkComboBox_uavcan.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="mavlinkComboBox_can.Location" type="System.Drawing.Point, System.Drawing">
     <value>257, 36</value>
   </data>
-  <data name="mavlinkComboBox_uavcan.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="mavlinkComboBox_can.Size" type="System.Drawing.Size, System.Drawing">
     <value>121, 21</value>
   </data>
-  <data name="mavlinkComboBox_uavcan.TabIndex" type="System.Int32, mscorlib">
+  <data name="mavlinkComboBox_can.TabIndex" type="System.Int32, mscorlib">
     <value>84</value>
   </data>
-  <data name="&gt;&gt;mavlinkComboBox_uavcan.Name" xml:space="preserve">
-    <value>mavlinkComboBox_uavcan</value>
+  <data name="&gt;&gt;mavlinkComboBox_can.Name" xml:space="preserve">
+    <value>mavlinkComboBox_can</value>
   </data>
-  <data name="&gt;&gt;mavlinkComboBox_uavcan.Type" xml:space="preserve">
+  <data name="&gt;&gt;mavlinkComboBox_can.Type" xml:space="preserve">
     <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.6147.13619, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;mavlinkComboBox_uavcan.Parent" xml:space="preserve">
+  <data name="&gt;&gt;mavlinkComboBox_can.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;mavlinkComboBox_uavcan.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;mavlinkComboBox_can.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
   <data name="label1.AutoSize" type="System.Boolean, mscorlib">
@@ -376,7 +376,7 @@
     <value>85</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Enable UAV CAN</value>
+    <value>Enable CAN</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
@@ -420,9 +420,6 @@
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="groupBox1.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
   <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
     <value>135, 63</value>
   </data>
@@ -451,7 +448,7 @@
     <value>650, 308</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>ConfigHWUAVCAN</value>
+    <value>ConfigHWCAN</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

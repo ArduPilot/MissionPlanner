@@ -5,19 +5,72 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
+using System.Linq;
+using LibTessDotNet;
+using OpenTK;
+using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using OpenTK.Platform;
 using SvgNet.SvgGdi;
 
-namespace MissionPlanner.Swarm
+namespace SvgNet.SvgGdi
 {
-    public class GL2 : IGraphics
+    public class GL2 : IGraphics, IDisposable
     {
-        public GL2()
+        private static Dictionary<IntPtr, IGraphicsContext>
+            control2ContextList = new Dictionary<IntPtr, IGraphicsContext>();
+
+        private static Dictionary<IntPtr, IWindowInfo>
+            IWindowInfoList = new Dictionary<IntPtr, IWindowInfo>();
+
+        IGraphicsContext control2Context;
+
+        public GL2(IntPtr handle, int width, int height)
         {
-            string versionString = GL.GetString(StringName.Version);
-            string majorString = versionString.Split(' ')[0];
-            var v = new Version(majorString);
-            npotSupported = v.Major >= 2;
+            //Console.WriteLine(handle);
+
+            IWindowInfo window_info;
+
+            if (!IWindowInfoList.ContainsKey(handle))
+            {
+                window_info = Utilities.CreateWindowsWindowInfo(handle);
+                IWindowInfoList.Add(handle, window_info);
+            }
+
+            window_info = IWindowInfoList[handle];
+
+            if (!control2ContextList.ContainsKey(handle))
+            {
+                control2ContextList.Add(handle, new GraphicsContext(GraphicsMode.Default, window_info));
+
+                string versionString = GL.GetString(StringName.Version);
+                if (versionString == "")
+                    return;
+                string majorString = versionString.Split(' ')[0];
+                var v = new Version(majorString);
+                npotSupported = v.Major >= 2;
+
+
+                GL.MatrixMode(MatrixMode.Projection);
+                GL.LoadIdentity();
+                GL.Ortho(0, width, height, 0, -1, 1);
+                GL.MatrixMode(MatrixMode.Modelview);
+                GL.LoadIdentity();
+
+                GL.Viewport(0, 0, width, height);
+            }
+
+            control2Context = control2ContextList[handle];
+
+            //var implementation = new GLControlFactory().CreateGLControl(format, this);
+
+            //context = implementation.CreateContext(major, minor, flags);
+
+            control2Context.MakeCurrent(window_info);
+
+            GL.Viewport(0, 0, width, height);
+
+            //GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
         }
 
         public Region Clip { get; set; }
@@ -62,6 +115,7 @@ namespace MissionPlanner.Swarm
         public void Clear(Color color)
         {
             GL.ClearColor(color);
+            GL.Clear(ClearBufferMask.ColorBufferBit);
         }
 
         public void DrawArc(Pen pen, float x, float y, float width, float height, float startAngle, float sweepAngle)
@@ -102,7 +156,7 @@ namespace MissionPlanner.Swarm
 
         public void DrawArc(Pen pen, Rectangle rect, float startAngle, float sweepAngle)
         {
-            throw new NotImplementedException();
+            DrawArc(pen, (RectangleF)rect, startAngle, sweepAngle);
         }
 
         public void DrawBezier(Pen pen, float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4)
@@ -304,7 +358,7 @@ namespace MissionPlanner.Swarm
             public int size;
         }
 
-        [Browsable(false)] public bool npotSupported { get; private set; }
+        [Browsable(false)] public static bool npotSupported { get; private set; }
         private character[] _texture = new character[2];
 
         public void DrawImage(Image image, int x, int y, int width, int height)
@@ -321,12 +375,14 @@ namespace MissionPlanner.Swarm
             if (npotSupported && img is Bitmap)
             {
                 _texture[textureno].bitmap = (Bitmap)img;
+                _texture[textureno].bitmap.MakeTransparent(Color.Transparent);
             }
             else
             {
                 // Otherwise we have to resize img to be POT.
                 _texture[textureno].bitmap = ResizeImage(img, 512, 512);
             }
+            
 
             // generate the texture
             if (_texture[textureno].gltextureid == 0)
@@ -361,10 +417,13 @@ namespace MissionPlanner.Swarm
             if (polySmoothEnabled)
                 GL.Disable(EnableCap.PolygonSmooth);
 
+            GL.Enable(EnableCap.Blend);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+
             GL.Enable(EnableCap.Texture2D);
 
             GL.BindTexture(TextureTarget.Texture2D, _texture[textureno].gltextureid);
-
+            
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter,
                 (int)TextureMinFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
@@ -373,7 +432,7 @@ namespace MissionPlanner.Swarm
                 (int)TextureWrapMode.ClampToEdge);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT,
                 (int)TextureWrapMode.ClampToEdge);
-
+                
             GL.Begin(PrimitiveType.TriangleStrip);
 
             GL.TexCoord2(0.0f, 0.0f);
@@ -388,6 +447,7 @@ namespace MissionPlanner.Swarm
             GL.End();
 
             GL.Disable(EnableCap.Texture2D);
+            GL.Disable(EnableCap.Blend);
         }
 
         public void DrawImage(Image image, PointF[] destPoints)
@@ -455,7 +515,9 @@ namespace MissionPlanner.Swarm
         public void DrawImage(Image image, Rectangle destRect, float srcX, float srcY, float srcWidth, float srcHeight,
             GraphicsUnit srcUnit, ImageAttributes imageAttrs)
         {
-            throw new NotImplementedException();
+            DrawImage(ResizeImage(image, destRect.Width, destRect.Height), destRect.X, destRect.Y, destRect.Width,
+                destRect.Height);
+            //throw new NotImplementedException();
         }
 
         public void DrawImage(Image image, Rectangle destRect, int srcX, int srcY, int srcWidth, int srcHeight, GraphicsUnit srcUnit)
@@ -476,7 +538,7 @@ namespace MissionPlanner.Swarm
 
         public void DrawImageUnscaled(Image image, int x, int y)
         {
-            throw new NotImplementedException();
+            DrawImage(image, x, y, image.Width, image.Height);
         }
 
         public void DrawImageUnscaled(Image image, Rectangle rect)
@@ -514,7 +576,7 @@ namespace MissionPlanner.Swarm
 
         public void DrawLine(Pen pen, int x1, int y1, int x2, int y2)
         {
-            throw new NotImplementedException();
+            DrawLine(pen, (float)x1, y1, x2, y2);
         }
 
         public void DrawLine(Pen pen, Point pt1, Point pt2)
@@ -524,7 +586,13 @@ namespace MissionPlanner.Swarm
 
         public void DrawLines(Pen pen, PointF[] points)
         {
-            throw new NotImplementedException();
+            PointF last = new PointF(99999,0);
+            foreach (var pointF in points)
+            {
+                if (last.X!=99999)
+                    DrawLine(pen, last.X, last.Y, pointF.X, pointF.Y);
+                last = pointF;
+            }
         }
 
         public void DrawLines(Pen pen, Point[] points)
@@ -535,30 +603,51 @@ namespace MissionPlanner.Swarm
         public void DrawPath(Pen pen, GraphicsPath path)
         {
             List<PointF> list = new List<PointF>();
+            PointF lastpnt = PointF.Empty;
             for (int i = 0; i < path.PointCount; i++)
             {
                 var pnt = path.PathPoints[i];
                 var type = path.PathTypes[i];
 
+                //start
                 if (type == 0)
                 {
                     if (list.Count != 0)
                         DrawPolygon(pen, list.ToArray());
                     list.Clear();
                     list.Add(pnt);
+                    continue;
                 }
 
-                if (type <= 3)
-                    list.Add(pnt);
-
+                // last point in a closed subpath
                 if ((type & 0x80) > 0)
                 {
                     list.Add(pnt);
                     list.Add(list[0]);
                     DrawPolygon(pen, list.ToArray());
                     list.Clear();
+                    continue;
+                }
+
+                // one of 2 endpoints of a line
+                if (type == 1)
+                {
+                    list.Add(pnt);
+
+                    continue;
+                }
+
+                // is an endpoint 
+                if (type == 3)
+                {
+                    list.Add(pnt);
+                    DrawPolygon(pen, list.ToArray());
+                    list.Clear();
                 }
             }
+
+            if (list.Count >= 2)
+                DrawLines(pen, list.ToArray());
         }
 
         public void DrawPie(Pen pen, RectangleF rect, float startAngle, float sweepAngle)
@@ -620,7 +709,7 @@ namespace MissionPlanner.Swarm
 
         public void DrawRectangle(Pen pen, int x, int y, int width, int height)
         {
-            throw new NotImplementedException();
+            DrawRectangle(pen, (float)x, y, width, height);
         }
 
         public void DrawRectangles(Pen pen, RectangleF[] rects)
@@ -633,7 +722,7 @@ namespace MissionPlanner.Swarm
             throw new NotImplementedException();
         }
 
-        private Dictionary<int, character> charDict = new Dictionary<int, character>();
+        static private Dictionary<int, character> charDict = new Dictionary<int, character>();
 
         public void DrawString(string text, Font font, Brush brush1, float x, float y)
         {
@@ -673,14 +762,14 @@ namespace MissionPlanner.Swarm
                         var pth = new GraphicsPath();
 
                         if (text != null)
-                            pth.AddString(cha + "", font.FontFamily, 0, fontsize + 5, new Point((int)0, (int)0),
+                            pth.AddString(cha + "", font.FontFamily, 0, fontsize + 2, new Point((int)0, (int)0),
                                 StringFormat.GenericTypographic);
 
                         charDict[charid].pth = pth;
 
                         gfx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
-                        gfx.DrawPath(_p, pth);
+                        //gfx.DrawPath(_p, pth);
 
                         //Draw the face
 
@@ -749,7 +838,7 @@ namespace MissionPlanner.Swarm
 
                     TranslateTransform(-x, -y);
                     */
-                    //GL.Enable(EnableCap.Blend);
+                    GL.Enable(EnableCap.Blend);
                     GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
                     GL.Enable(EnableCap.Texture2D);
@@ -792,12 +881,12 @@ namespace MissionPlanner.Swarm
 
         public void DrawString(string s, Font font, Brush brush, RectangleF layoutRectangle)
         {
-            throw new NotImplementedException();
+            DrawString(s, font, brush, layoutRectangle.X, layoutRectangle.Y);
         }
 
         public void DrawString(string s, Font font, Brush brush, RectangleF layoutRectangle, StringFormat format)
         {
-            throw new NotImplementedException();
+            DrawString(s, font, brush, layoutRectangle.X, layoutRectangle.Y);
         }
 
         public void EndContainer(GraphicsContainer container)
@@ -850,14 +939,26 @@ namespace MissionPlanner.Swarm
             throw new NotImplementedException();
         }
 
-        public void FillEllipse(Brush brush, float x, float y, float width, float height)
+        public void FillEllipse(Brush brush, float xi, float yi, float width, float height)
         {
-            throw new NotImplementedException();
+            GL.Color4(((SolidBrush)brush).Color);
+            float x, y;
+            GL.Begin(PrimitiveType.LineLoop);
+            for (float i = 0; i < 360; i += 1)
+            {
+                x = (float)Math.Sin(i * deg2rad) * width / 2;
+                y = (float)Math.Cos(i * deg2rad) * height / 2;
+                x = x + xi + width / 2;
+                y = y + yi + height / 2;
+                GL.Vertex2(x, y);
+            }
+
+            GL.End();
         }
 
         public void FillEllipse(Brush brush, Rectangle rect)
         {
-            throw new NotImplementedException();
+            FillEllipse(brush, (float)rect.X, rect.Y, rect.Width, rect.Height);
         }
 
         public void FillEllipse(Brush brush, int x, int y, int width, int height)
@@ -867,84 +968,41 @@ namespace MissionPlanner.Swarm
 
         public void FillPath(Brush brush, GraphicsPath path)
         {
-            var bounds = path.GetBounds();
+            Tess tess = new Tess();
 
-            var list = path.PathPoints;
-
-            GL.Enable(EnableCap.StencilTest);
-            GL.Disable(EnableCap.CullFace);
-            GL.ClearStencil(0);
-
-            GL.ColorMask(false, false, false, false);
-            GL.Clear(ClearBufferMask.StencilBufferBit);
-            GL.DepthMask(false);
-            GL.StencilFunc(StencilFunction.Always, 0, 0xff);
-            GL.StencilOp(StencilOp.Invert, StencilOp.Invert, StencilOp.Invert);
-
-
-            //DrawPath(new Pen(Color.Black), gp);
-
-            GL.Begin(PrimitiveType.TriangleFan);
-            GL.Color4(((SolidBrush)brush).Color);
-            GL.Vertex2(0, 0);
-            foreach (var pnt in list)
+            var contour = path.PathPoints.Select(a =>
             {
-                GL.Vertex2(pnt.X, pnt.Y);
+                return new ContourVertex() {Position = new Vec3() {X = a.X, Y = a.Y}};
+            }).ToArray();
+
+            // Add the contour with a specific orientation, use "Original" if you want to keep the input orientation.
+            tess.AddContour(contour, LibTessDotNet.ContourOrientation.Clockwise);
+            tess.Tessellate(LibTessDotNet.WindingRule.EvenOdd, LibTessDotNet.ElementType.Polygons, 3);
+
+            //Console.WriteLine("Output triangles:");
+            int numTriangles = tess.ElementCount;
+
+            GL.Color4(((SolidBrush)brush).Color.R / 255f, ((SolidBrush)brush).Color.G / 255f,
+                ((SolidBrush)brush).Color.B / 255f, ((SolidBrush)brush).Color.A / 255f);
+
+            GL.Enable(EnableCap.Blend);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+
+            for (int i = 0; i < numTriangles; i++)
+            {
+                var v0 = tess.Vertices[tess.Elements[i * 3]].Position;
+                var v1 = tess.Vertices[tess.Elements[i * 3 + 1]].Position;
+                var v2 = tess.Vertices[tess.Elements[i * 3 + 2]].Position;
+                //Console.WriteLine("#{0} ({1:F1},{2:F1}) ({3:F1},{4:F1}) ({5:F1},{6:F1})", i, v0.X, v0.Y, v1.X, v1.Y, v2.X, v2.Y);
+
+                GL.LineWidth(0);
+                GL.Begin(PrimitiveType.TriangleFan);
+                GL.Vertex2(v0.X, v0.Y);
+                GL.Vertex2(v1.X, v1.Y);
+                GL.Vertex2(v2.X, v2.Y);
+                GL.End();
             }
 
-            GL.End();
-            //GL.Vertex2(list[list.Length - 1].X, list[list.Length - 1].Y);
-
-            GL.ColorMask(true, true, true, true);
-            GL.DepthMask(true);
-
-            GL.StencilFunc(StencilFunction.Equal, 1, 1);
-            GL.StencilOp(StencilOp.Keep, StencilOp.Keep, StencilOp.Keep);
-            /*
-            IntPtr data = Marshal.AllocHGlobal((int)(bounds.Right * bounds.Bottom));
-            GL.ReadPixels(0,0, (int)bounds.Right, (int)bounds.Bottom, PixelFormat.StencilIndex, PixelType.UnsignedByte, data);
-
-            var bmp = new Bitmap((int)bounds.Right, (int)bounds.Bottom, (int)bounds.Bottom,
-                System.Drawing.Imaging.PixelFormat.Format1bppIndexed
-                , data);
-            bmp.Save("test.bmp");
-            Marshal.FreeHGlobal(data);
-            */
-
-            GL.Begin(PrimitiveType.TriangleFan);
-            GL.Color4(((SolidBrush)brush).Color);
-            GL.Vertex2(0, 0);
-            foreach (var pnt in list)
-            {
-                GL.Vertex2(pnt.X, pnt.Y);
-            }
-
-            GL.End();
-            /*
-            var bounds = gp.GetBounds();
-            bounds.Inflate(1, 1);
-            GL.Color4(((SolidBrush)brushh).Color);
-
-            GL.Begin(PrimitiveType.Quads); // Draw big box over polygon area 
-            GL.Vertex2(bounds.Left, bounds.Bottom);
-            GL.Vertex2(bounds.Left, bounds.Top);
-            GL.Vertex2(bounds.Right, bounds.Top);
-            GL.Vertex2(bounds.Right, bounds.Bottom);
-            GL.End();
-           */
-            GL.Disable(EnableCap.StencilTest);
-            /*
-            GL.Begin(PrimitiveType.Quads); // Draw big box over polygon area 
-            GL.Color4(((SolidBrush)brushh).Color);
-            GL.Vertex2(bounds.Left, bounds.Bottom);
-            GL.Vertex2(bounds.Left, bounds.Top);
-            GL.Vertex2(bounds.Right, bounds.Top);
-            GL.Vertex2(bounds.Right, bounds.Bottom);
-            GL.End();
-            */
-            //GL.Enable(EnableCap.CullFace);
-            //GL.ClearStencil(0);
-            //FillPolygon(brushh, gp.PathPoints);
         }
 
         public void FillPie(Brush brush, Rectangle rect, float startAngle, float sweepAngle)
@@ -952,27 +1010,66 @@ namespace MissionPlanner.Swarm
             throw new NotImplementedException();
         }
 
-        public void FillPie(Brush brush, float x, float y, float width, float height, float startAngle, float sweepAngle)
+        public void FillPie(Brush brush, float xi, float yi, float width, float height, float startAngle, float sweepAngle)
         {
-            throw new NotImplementedException();
+            GL.Color4(((SolidBrush)brush).Color.R / 255f, ((SolidBrush)brush).Color.G / 255f,
+                ((SolidBrush)brush).Color.B / 255f, ((SolidBrush)brush).Color.A / 255f);
+
+            float x, y;
+            GL.Begin(PrimitiveType.LineLoop);
+            for (float i = startAngle; i < (startAngle+sweepAngle); i += 1)
+            {
+                x = (float)Math.Sin(i * deg2rad) * width / 2;
+                y = (float)Math.Cos(i * deg2rad) * height / 2;
+                x = x + xi + width / 2;
+                y = y + yi + height / 2;
+                GL.Vertex2(x, y);
+            }
+
+            GL.End();
         }
 
         public void FillPie(Brush brush, int x, int y, int width, int height, int startAngle, int sweepAngle)
         {
-            throw new NotImplementedException();
+            FillPie(brush, (float)x, y, width, height, startAngle, sweepAngle);
         }
 
         public void FillPolygon(Brush brush, PointF[] points)
         {
-            GL.Begin(PrimitiveType.TriangleFan);
-            GL.Color4(((SolidBrush)brush).Color);
-            foreach (PointF pnt in points)
-            {
-                GL.Vertex2(pnt.X, pnt.Y);
-            }
+            Tess tess = new Tess();
 
-            GL.Vertex2(points[points.Length - 1].X, points[points.Length - 1].Y);
-            GL.End();
+            var contour = points.Select(a =>
+            {
+                return new ContourVertex() { Position = new Vec3() { X = a.X, Y = a.Y } };
+            }).ToArray();
+
+            // Add the contour with a specific orientation, use "Original" if you want to keep the input orientation.
+            tess.AddContour(contour, LibTessDotNet.ContourOrientation.Clockwise);
+            tess.Tessellate(LibTessDotNet.WindingRule.EvenOdd, LibTessDotNet.ElementType.Polygons, 3);
+
+            //Console.WriteLine("Output triangles:");
+            int numTriangles = tess.ElementCount;
+
+            GL.Color4(((SolidBrush)brush).Color.R / 255f, ((SolidBrush)brush).Color.G / 255f,
+                ((SolidBrush)brush).Color.B / 255f, ((SolidBrush)brush).Color.A / 255f);
+
+            GL.Enable(EnableCap.Blend);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+
+            for (int i = 0; i < numTriangles; i++)
+            {
+                var v0 = tess.Vertices[tess.Elements[i * 3]].Position;
+                var v1 = tess.Vertices[tess.Elements[i * 3 + 1]].Position;
+                var v2 = tess.Vertices[tess.Elements[i * 3 + 2]].Position;
+                //Console.WriteLine("#{0} ({1:F1},{2:F1}) ({3:F1},{4:F1}) ({5:F1},{6:F1})", i, v0.X, v0.Y, v1.X, v1.Y, v2.X, v2.Y);
+
+                //GL.LineWidth(0);
+                GL.Begin(PrimitiveType.TriangleFan);
+                GL.Vertex2(v0.X, v0.Y);
+                GL.Vertex2(v1.X, v1.Y);
+                GL.Vertex2(v2.X, v2.Y);
+                GL.End();
+            }
         }
 
         public void FillPolygon(Brush brush, PointF[] points, FillMode fillMode)
@@ -1039,7 +1136,7 @@ namespace MissionPlanner.Swarm
 
         public void FillRectangle(Brush brush, Rectangle rect)
         {
-            throw new NotImplementedException();
+            FillRectangle(brush, (RectangleF) rect);
         }
 
         public void FillRectangle(Brush brush, int x, int y, int width, int height)
@@ -1160,7 +1257,7 @@ namespace MissionPlanner.Swarm
 
         public SizeF MeasureString(string text, Font font)
         {
-            throw new NotImplementedException();
+            return Graphics.FromImage(new Bitmap(1, 1)).MeasureString(text, font);
         }
 
         public SizeF MeasureString(string text, Font font, int width)
@@ -1220,7 +1317,9 @@ namespace MissionPlanner.Swarm
 
         public void ScaleTransform(float sx, float sy, MatrixOrder order)
         {
-            throw new NotImplementedException();
+                GL.Scale(sx, sy, 1);
+
+            //throw new NotImplementedException();
         }
 
         public void SetClip(Graphics g)
@@ -1295,7 +1394,51 @@ namespace MissionPlanner.Swarm
 
         public void TranslateTransform(float dx, float dy, MatrixOrder order)
         {
-            throw new NotImplementedException();
+            if (MatrixOrder.Append == order)
+            {
+                float[] model = new float[16];
+                GL.GetFloat(GetPName.ModelviewMatrix, model);
+
+                var current = new Matrix4(model[0], model[1], model[2], model[3],
+                    model[4], model[5], model[6], model[7],
+                    model[8], model[9], model[10], model[11],
+                    model[12], model[13], model[14], model[15]);
+
+                var matrix = current * Matrix4.CreateTranslation(dx, dy, 0);
+                GL.LoadIdentity();
+                GL.LoadMatrix(ref matrix);
+                //GL.GetFloat(GetPName.ModelviewMatrix, model);
+            }
+            else
+            {
+                GL.Translate(dx, dy, 0);
+            }
+        }
+
+        public void SwapBuffer()
+        {
+            control2Context.SwapBuffers();
+            GL.DeleteTexture(_texture[0].gltextureid);
+        }
+
+        public void Dispose()
+        {
+            control2Context.Dispose();
+        }
+    }
+
+    public class WHandle : IWindowInfo
+    {
+        public WHandle(IntPtr handle)
+        {
+            Handle = handle;
+        }
+
+        public IntPtr Handle { get; set; }
+
+        public void Dispose()
+        {
+            
         }
     }
 }

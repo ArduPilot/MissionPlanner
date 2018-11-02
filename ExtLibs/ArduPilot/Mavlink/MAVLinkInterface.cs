@@ -480,7 +480,10 @@ Please check the following
                     // if we get no data, try enableing rts/cts
                     if (buffer.Length == 0 && BaseStream is SerialPort)
                     {
-                        BaseStream.RtsEnable = !BaseStream.RtsEnable;
+                        try
+                        {
+                            BaseStream.RtsEnable = !BaseStream.RtsEnable;
+                        } catch { }
                     }
 
                     // check we have hb's
@@ -1924,11 +1927,19 @@ Please check the following
 
         public void requestDatastream(MAV_DATA_STREAM id, byte hzrate, int sysid = -1, int compid = -1)
         {
+            requestDatastream(id, (int) hzrate, sysid, compid);
+        }
+
+        public void requestDatastream(MAV_DATA_STREAM id, int hzrate, int sysid = -1, int compid = -1)
+        {
             if (sysid == -1)
                 sysid = sysidcurrent;
 
             if (compid == -1)
                 compid = compidcurrent;
+
+            if (hzrate == -1)
+                return;
 
             double pps = 0;
 
@@ -2082,18 +2093,21 @@ Please check the following
             return false;
         }
 
-        private void getDatastream(MAV_DATA_STREAM id, byte hzrate)
+        private void getDatastream(MAV_DATA_STREAM id, int hzrate)
         {
             getDatastream(MAV.sysid, MAV.compid, id, hzrate);
         }
 
-        private void getDatastream(byte sysid, byte compid, MAV_DATA_STREAM id, byte hzrate)
+        private void getDatastream(byte sysid, byte compid, MAV_DATA_STREAM id, int hzrate)
         {
+            if (hzrate == -1)
+                return;
+
             mavlink_request_data_stream_t req = new mavlink_request_data_stream_t();
             req.target_system = sysid;
             req.target_component = compid;
 
-            req.req_message_rate = hzrate;
+            req.req_message_rate = (byte)hzrate;
             req.start_stop = 1; // start
             req.req_stream_id = (byte) id; // id
 
@@ -3524,9 +3538,8 @@ Please check the following
                 crc = MavlinkCRC.crc_accumulate(msginfo.crc, crc);
             }
 
-            // check message length size vs table (mavlink1 explicit size check | mavlink2 oversize check, no undersize because of 0 trimming)
-            if ((!message.ismavlink2 && message.payloadlength != msginfo.minlength) ||
-                (message.ismavlink2 && message.payloadlength > msginfo.length))
+            // check message length size vs table (mavlink1 explicit size check | mavlink2 allow all, undersize 0 trimmed, and oversize unknown extension)
+            if (!message.ismavlink2 && message.payloadlength != msginfo.minlength)
             {
                 if (msginfo.length == 0) // pass for unknown packets
                 {

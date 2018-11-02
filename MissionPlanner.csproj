@@ -6,7 +6,7 @@
     <OutputType>Exe</OutputType>
     <StartupObject></StartupObject>
     <Authors>Michael Oborne</Authors>
-    <Version>1.3.58.1</Version>
+    <Version>1.3.59.3</Version>
     <DebugType>portable</DebugType>
     <Company>Michael Oborne</Company>
     <Product>Mission Planner</Product>
@@ -249,7 +249,6 @@
     </Compile>
     <Compile Include="ElevationProfile.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="FollowMe.cs"> <SubType>Control</SubType> </Compile>
-    <Compile Include="Swarm\GL2.cs" />
     <Compile Include="Swarm\PaintEventArgsI.cs" />
     <Compile Include="Swarm\TD\UI.cs">
       <SubType>Form</SubType>
@@ -375,7 +374,7 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigHWParachute.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigHWPX4Flow.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigHWRangeFinder.cs"> <SubType>Control</SubType> </Compile>
-    <Compile Include="GCSViews\ConfigurationView\ConfigHWUAVCAN.cs"> <SubType>Control</SubType> </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigHWCAN.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigMandatory.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigMotorTest.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigMount.cs"> <SubType>Control</SubType> </Compile>
@@ -575,7 +574,7 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigHWParachute.Designer.cs"><DependentUpon>ConfigHWParachute.cs</DependentUpon> </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigHWPX4Flow.Designer.cs"><DependentUpon>ConfigHWPX4Flow.cs</DependentUpon> </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigHWRangeFinder.Designer.cs"><DependentUpon>ConfigHWRangeFinder.cs</DependentUpon> </Compile>
-    <Compile Include="GCSViews\ConfigurationView\ConfigHWUAVCAN.Designer.cs"><DependentUpon>ConfigHWUAVCAN.cs</DependentUpon> </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigHWCAN.Designer.cs"><DependentUpon>ConfigHWCAN.cs</DependentUpon> </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigMandatory.Designer.cs"><DependentUpon>ConfigMandatory.cs</DependentUpon> </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigMotorTest.Designer.cs"><DependentUpon>ConfigMotorTest.cs</DependentUpon> </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigMount.Designer.cs"><DependentUpon>ConfigMount.cs</DependentUpon> </Compile>
@@ -1333,13 +1332,13 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWRangeFinder.zh-Hans.resx"><DependentUpon>ConfigHWRangeFinder.cs</DependentUpon> </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWRangeFinder.zh-Hant.resx"><DependentUpon>ConfigHWRangeFinder.cs</DependentUpon> </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWRangeFinder.zh-TW.resx"><DependentUpon>ConfigHWRangeFinder.cs</DependentUpon> </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWUAVCAN.resx"><DependentUpon>ConfigHWUAVCAN.cs</DependentUpon> </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWUAVCAN.ar.resx"><DependentUpon>ConfigHWUAVCAN.cs</DependentUpon> </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWUAVCAN.az-Latn-AZ.resx"><DependentUpon>ConfigHWUAVCAN.cs</DependentUpon> </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWUAVCAN.de-DE.resx"><DependentUpon>ConfigHWUAVCAN.cs</DependentUpon> </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWUAVCAN.pt.resx"><DependentUpon>ConfigHWUAVCAN.cs</DependentUpon> </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWUAVCAN.ru-KZ.resx"><DependentUpon>ConfigHWUAVCAN.cs</DependentUpon> </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWUAVCAN.tr.resx"><DependentUpon>ConfigHWUAVCAN.cs</DependentUpon> </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWCAN.resx"><DependentUpon>ConfigHWCAN.cs</DependentUpon> </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWCAN.ar.resx"><DependentUpon>ConfigHWCAN.cs</DependentUpon> </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWCAN.az-Latn-AZ.resx"><DependentUpon>ConfigHWCAN.cs</DependentUpon> </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWCAN.de-DE.resx"><DependentUpon>ConfigHWCAN.cs</DependentUpon> </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWCAN.pt.resx"><DependentUpon>ConfigHWCAN.cs</DependentUpon> </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWCAN.ru-KZ.resx"><DependentUpon>ConfigHWCAN.cs</DependentUpon> </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWCAN.tr.resx"><DependentUpon>ConfigHWCAN.cs</DependentUpon> </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMandatory.resx"><DependentUpon>ConfigMandatory.cs</DependentUpon> </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMandatory.ar.resx"><DependentUpon>ConfigMandatory.cs</DependentUpon> </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMandatory.az-Latn-AZ.resx"><DependentUpon>ConfigMandatory.cs</DependentUpon> </EmbeddedResource>

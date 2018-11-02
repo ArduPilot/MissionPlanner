@@ -603,7 +603,8 @@ namespace MissionPlanner
 
         private void but_reboot_Click(object sender, EventArgs e)
         {
-            MainV2.comPort.doReboot(false, true);
+            if (CustomMessageBox.Show("Are you sure?","",MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
+                MainV2.comPort.doReboot(false, true);
         }
 
         private void BUT_QNH_Click(object sender, EventArgs e)
