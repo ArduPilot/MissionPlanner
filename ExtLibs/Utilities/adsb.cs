@@ -757,6 +757,7 @@ namespace MissionPlanner.Utilities
                         {
                             PointLatLngAltHdg plla = new PointLatLngAltHdg(plane.plla());
                             plla.Heading = (float)plane.heading;
+                            plla.CallSign = plane.CallSign;
                             if (plla.Lat == 0 && plla.Lng == 0)
                                 continue;
                             if (UpdatePlanePosition != null && plla != null)
@@ -1132,6 +1133,20 @@ namespace MissionPlanner.Utilities
             return HexAsBytes;
         }
 
+        public enum ADSBSpecies
+        {
+            None = 0,
+            LandPlane = 1,
+            SeaPlane = 2,
+            Amphibian = 3,
+            Helicopter = 4,
+            Gyrocopter = 5,
+            Tiltwing = 6,
+            GroundVehicle = 7,
+            Tower = 8,
+            Other = 9
+        }
+
         public class PointLatLngAltHdg : PointLatLngAlt
         {
             public PointLatLngAltHdg(PointLatLngAlt plla)
@@ -1154,6 +1169,9 @@ namespace MissionPlanner.Utilities
             }
 
             public float Heading { get; set; }
+            public int Vsi { get; set; }
+            public ADSBSpecies Species { get; set; }
+            public string type { get; set; }
 
             public MAVLink.MAV_COLLISION_THREAT_LEVEL ThreatLevel { get; set; }
 

@@ -120,6 +120,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             SetCheckboxFromConfig("showtfr", chk_tfr);
             SetCheckboxFromConfig("autoParamCommit", CHK_AutoParamCommit);
             SetCheckboxFromConfig("ShowNoFly", chk_shownofly);
+            SetCheckboxFromConfig("adsbexchange", chkAdsbExchange);
 
             // this can't fail because it set at startup
             NUM_tracklength.Value = Settings.Instance.GetInt32("NUM_tracklength");
@@ -930,9 +931,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             Settings.Instance["autoParamCommit"] = CHK_AutoParamCommit.Checked.ToString();
         }
 
+
         private void chk_shownofly_CheckedChanged(object sender, EventArgs e)
         {
             Settings.Instance["ShowNoFly"] = chk_shownofly.Checked.ToString();
+		}
+		
+		private void chkAdsbExchange_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Instance["adsbexchange"] = chkAdsbExchange.Checked.ToString();
+            MainV2.instance.EnableADSBExchange = chkAdsbExchange.Checked;
         }
 
         private void CMB_altunits_SelectedIndexChanged(object sender, EventArgs e)

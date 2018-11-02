@@ -811,6 +811,36 @@ namespace MissionPlanner.Maps {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Helicopter_Selected {
+            get {
+                object obj = ResourceManager.GetObject("Helicopter_Selected", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Helicopter_Selectedo {
+            get {
+                object obj = ResourceManager.GetObject("Helicopter_Selectedo", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Helicopter_Selectedr {
+            get {
+                object obj = ResourceManager.GetObject("Helicopter_Selectedr", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {\rtf1\ansi\ansicpg1252\deff0\deflang3081\deflangfe3081{\fonttbl{\f0\fswiss\fprq2\fcharset0 Calibri;}}
         ///{\colortbl ;\red0\green0\blue255;}
         ///{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\nowidctlpar\sa200\sl276\slmult1\f0\fs22\par
@@ -1726,6 +1756,46 @@ namespace MissionPlanner.Maps {
             get {
                 object obj = ResourceManager.GetObject("wizardicon1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] WTC_Light_1_Prop {
+            get {
+                object obj = ResourceManager.GetObject("WTC_Light_1_Prop", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] WTC_Light_1_Prop_Selected {
+            get {
+                object obj = ResourceManager.GetObject("WTC_Light_1_Prop_Selected", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] WTC_Light_1_Prop_Selectedo {
+            get {
+                object obj = ResourceManager.GetObject("WTC_Light_1_Prop_Selectedo", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] WTC_Light_1_Prop_Selectedr {
+            get {
+                object obj = ResourceManager.GetObject("WTC_Light_1_Prop_Selectedr", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         

@@ -265,6 +265,17 @@ namespace MissionPlanner
             }
         }
 
+        public bool EnableADSBExchange
+        {
+            set
+            {
+                if (value == true)
+                    ADSBExchange.StartTimer();
+                else
+                    ADSBExchange.Stop();
+            }
+        }
+
         //public static event EventHandler LayoutChanged;
 
         /// <summary>
@@ -302,7 +313,7 @@ namespace MissionPlanner
         /// </summary>
         public object adsblock = new object();
 
-        public ConcurrentDictionary<string,adsb.PointLatLngAltHdg> adsbPlanes = new ConcurrentDictionary<string, adsb.PointLatLngAltHdg>();
+        public ConcurrentDictionary<string, adsb.PointLatLngAltHdg> adsbPlanes = new ConcurrentDictionary<string, adsb.PointLatLngAltHdg>();
 
         string titlebar;
 
@@ -1023,6 +1034,9 @@ namespace MissionPlanner
 
             // save config to test we have write access
             SaveConfig();
+
+            if (Settings.Instance.GetBoolean("adsbexchange") == true)
+                ADSBExchange.StartTimer();
         }
 
         void cmb_sysid_Click(object sender, EventArgs e)
@@ -1175,21 +1189,31 @@ namespace MissionPlanner
                 if (MainV2.instance.adsbPlanes.ContainsKey(id))
                 {
                     // update existing
-                    ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).Lat = adsb.Lat;
-                    ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).Lng = adsb.Lng;
-                    ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).Alt = adsb.Alt;
-                    ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).Heading = adsb.Heading;
-                    ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).Time = DateTime.Now;
-                    ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).CallSign = adsb.CallSign;
+                    instance.adsbPlanes[id].Lat = adsb.Lat;
+                    instance.adsbPlanes[id].Lng = adsb.Lng;
+                    instance.adsbPlanes[id].Alt = adsb.Alt;
+                    instance.adsbPlanes[id].Heading = adsb.Heading;
+                    instance.adsbPlanes[id].Time = DateTime.Now;
+                    instance.adsbPlanes[id].CallSign = adsb.CallSign;
                 }
                 else
                 {
                     // create new plane
-                    MainV2.instance.adsbPlanes[id] =
+                    instance.adsbPlanes[id] =
                         new adsb.PointLatLngAltHdg(adsb.Lat, adsb.Lng,
                             adsb.Alt, adsb.Heading, id,
                             DateTime.Now) {CallSign = adsb.CallSign};
                 }
+
+                double distance = MainV2.comPort.MAV.cs.Location.GetDistance(adsb) * 0.000539957;
+                double altsep = adsb.Alt - (MainV2.comPort.MAV.cs.altasl * CurrentState.multiplierdist);
+
+                if (distance <= 2 && altsep <= 152.4 && altsep >= -152.4) //closer than 2NM and verticle seperation <= 500 feet
+                    MainV2.instance.adsbPlanes[id].ThreatLevel = MAVLink.MAV_COLLISION_THREAT_LEVEL.HIGH;
+                else if (distance <= 5 && altsep <= 457.2 && altsep >= -457.2) //greater than 2NM but less than 5NM and verticle seperation <= 1500 feet
+                    MainV2.instance.adsbPlanes[id].ThreatLevel = MAVLink.MAV_COLLISION_THREAT_LEVEL.LOW;
+                else
+                    MainV2.instance.adsbPlanes[id].ThreatLevel = MAVLink.MAV_COLLISION_THREAT_LEVEL.NONE;
 
                 try
                 {
@@ -1201,7 +1225,7 @@ namespace MissionPlanner
 
                     packet.altitude = (int)(MainV2.instance.adsbPlanes[id].Alt * 1000);
                     packet.altitude_type = (byte)MAVLink.ADSB_ALTITUDE_TYPE.GEOMETRIC;
-                    packet.callsign = ASCIIEncoding.ASCII.GetBytes(adsb.CallSign);
+                    packet.callsign = ASCIIEncoding.ASCII.GetBytes(adsb.CallSign == null ? adsb.Tag : adsb.CallSign);
                     packet.emitter_type = (byte)MAVLink.ADSB_EMITTER_TYPE.NO_INFO;
                     packet.heading = (ushort)(MainV2.instance.adsbPlanes[id].Heading * 100);
                     packet.lat = (int)(MainV2.instance.adsbPlanes[id].Lat * 1e7);
