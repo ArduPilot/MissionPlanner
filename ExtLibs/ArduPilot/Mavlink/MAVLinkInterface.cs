@@ -293,7 +293,7 @@ namespace MissionPlanner
 
             try
             {
-                if (BaseStream.IsOpen)
+                if (BaseStream != null && BaseStream.IsOpen)
                     BaseStream.Close();
             }
             catch

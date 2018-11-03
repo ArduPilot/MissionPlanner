@@ -206,6 +206,11 @@ namespace MissionPlanner.Log
             if (hbpacket != null)
                 log.Info("Got hbpacket length: " + hbpacket.Length);
 
+            if (hbpacket == null || hbpacket == MAVLink.MAVLinkMessage.Invalid)
+            {
+                hbpacket = MainV2.comPort.MAV.getPacket((int)MAVLink.MAVLINK_MSG_ID.HEARTBEAT);
+            }
+
             // get df log from mav
             using (var ms = MainV2.comPort.GetLog(no))
             {
@@ -215,8 +220,6 @@ namespace MissionPlanner.Log
                 ms.Seek(0, SeekOrigin.Begin);
 
                 status = SerialStatus.Done;
-
-                MAVLink.mavlink_heartbeat_t hb = (MAVLink.mavlink_heartbeat_t)MainV2.comPort.DebugPacket(hbpacket);
 
                 logfile = Settings.Instance.LogDir + Path.DirectorySeparatorChar
                           + MainV2.comPort.MAV.aptype.ToString() + Path.DirectorySeparatorChar

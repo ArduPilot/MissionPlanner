@@ -224,6 +224,8 @@
     <PackageReference Include="SharpDX.DirectInput" version="4.1.0" targetFramework="net462" />
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0005" />
     <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta0005" />
+    <PackageReference Include="SkiaSharp" Version="1.60.3" />
+    <PackageReference Include="SkiaSharp.Views" Version="1.60.3" />
     <PackageReference Include="SSH.NET" version="2016.1.0" targetFramework="net40" />
     <PackageReference Include="System.Drawing.Common" Version="4.5.0" />
     <PackageReference Include="System.IO.Ports" Version="4.5.0" />
@@ -1894,24 +1896,6 @@
     <None Include="block_plane_0.dae">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="DLLs\fftpack_lite.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="DLLs\lapack_lite.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="DLLs\mtrand.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="DLLs\ndarray.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="DLLs\NpyAccessLib.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="DLLs\NumpyDotNet.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="Drivers\arduinomega2560.cat" />
     <None Include="Drivers\ArduinoMEGA2560.inf" />
     <None Include="Drivers\chibios.cat" />
@@ -2108,7 +2092,7 @@
 
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="echo $(TargetDir)" />
+    <Exec Command="echo $(TargetDir)&#xD;&#xA;" />
   </Target>
 
 
