@@ -12,7 +12,7 @@ using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigRadioOutput : UserControl, IActivate, IDeactivate
+    public partial class ConfigRadioOutput : MyUserControl, IActivate, IDeactivate
     {
         public ConfigRadioOutput()
         {

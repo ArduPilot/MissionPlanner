@@ -7,7 +7,7 @@ using MissionPlanner.HIL;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigMotorTest : UserControl, IActivate
+    public partial class ConfigMotorTest : MyUserControl, IActivate
     {
         public ConfigMotorTest()
         {

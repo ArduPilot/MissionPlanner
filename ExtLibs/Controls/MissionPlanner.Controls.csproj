@@ -33,12 +33,6 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="OpenTK">
-      <HintPath>..\OpenTK.dll</HintPath>
-    </Reference>
-    <Reference Include="OpenTK.GLControl">
-      <HintPath>..\OpenTK.GLControl.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
@@ -132,7 +126,6 @@
     <Compile Include="RangeControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <None Include="SkiaGraphics.cs" />
     <Compile Include="Sphere.cs">
       <SubType>UserControl</SubType>
     </Compile>

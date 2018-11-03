@@ -9,7 +9,7 @@ using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigFlightModes : UserControl, IActivate, IDeactivate
+    public partial class ConfigFlightModes : MyUserControl, IActivate, IDeactivate
     {
         [Flags]
         public enum SimpleMode

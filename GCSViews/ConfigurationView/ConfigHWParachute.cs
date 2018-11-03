@@ -11,7 +11,7 @@ using System.Collections;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigHWParachute : UserControl, IActivate
+    public partial class ConfigHWParachute : MyUserControl, IActivate
     {
         private bool startup = true;
 

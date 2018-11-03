@@ -12,7 +12,7 @@ using Timer = System.Threading.Timer;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigHWESP8266 : UserControl, IActivate
+    public partial class ConfigHWESP8266 : MyUserControl, IActivate
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 

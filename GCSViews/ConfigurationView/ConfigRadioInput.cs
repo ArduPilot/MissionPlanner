@@ -9,7 +9,7 @@ using Timer = System.Windows.Forms.Timer;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigRadioInput : UserControl, IActivate, IDeactivate
+    public partial class ConfigRadioInput : MyUserControl, IActivate, IDeactivate
     {
         private readonly float[] rcmax = new float[16];
         private readonly float[] rcmin = new float[16];

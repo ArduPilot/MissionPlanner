@@ -3,7 +3,7 @@ using MissionPlanner.Controls;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigOptional : UserControl, IActivate
+    public partial class ConfigOptional : MyUserControl, IActivate
     {
         public ConfigOptional()
         {

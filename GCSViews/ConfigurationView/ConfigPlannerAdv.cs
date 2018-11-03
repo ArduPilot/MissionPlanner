@@ -5,7 +5,7 @@ using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigPlannerAdv : UserControl, IActivate
+    public partial class ConfigPlannerAdv : MyUserControl, IActivate
     {
         public ConfigPlannerAdv()
         {

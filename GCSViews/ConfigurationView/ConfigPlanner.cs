@@ -15,7 +15,7 @@ using WebCamService;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigPlanner : UserControl, IActivate
+    public partial class ConfigPlanner : MyUserControl, IActivate
     {
         private List<CultureInfo> _languages;
         private bool startup;

@@ -10,7 +10,7 @@ using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigHWCompass : UserControl, IActivate
+    public partial class ConfigHWCompass : MyUserControl, IActivate
     {
         private const int THRESHOLD_OFS_RED = 600;
         private const int THRESHOLD_OFS_YELLOW = 400;

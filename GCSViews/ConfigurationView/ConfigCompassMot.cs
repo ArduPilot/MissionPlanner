@@ -7,7 +7,7 @@ using ZedGraph;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigCompassMot : UserControl, IActivate, IDeactivate
+    public partial class ConfigCompassMot : MyUserControl, IActivate, IDeactivate
     {
         private readonly LineItem current = new LineItem("Current");
         private readonly PointPairList currentlist = new PointPairList();

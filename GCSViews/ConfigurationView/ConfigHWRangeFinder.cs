@@ -5,7 +5,7 @@ using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigHWRangeFinder : UserControl, IActivate, IDeactivate
+    public partial class ConfigHWRangeFinder : MyUserControl, IActivate, IDeactivate
     {
         bool startup = true;
 

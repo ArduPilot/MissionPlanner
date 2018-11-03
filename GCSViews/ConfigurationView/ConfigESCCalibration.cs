@@ -12,7 +12,7 @@ using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigESCCalibration : UserControl, IActivate
+    public partial class ConfigESCCalibration : MyUserControl, IActivate
     {
         public ConfigESCCalibration()
         {

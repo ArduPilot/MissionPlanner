@@ -10,7 +10,7 @@ using MissionPlanner.Controls;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigGPSInject : UserControl, IActivate, IDeactivate
+    public partial class ConfigGPSInject : MyUserControl, IActivate, IDeactivate
     {
         public ConfigGPSInject()
         {

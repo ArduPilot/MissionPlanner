@@ -13,7 +13,7 @@ using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigFriendlyParams : UserControl, IActivate
+    public partial class ConfigFriendlyParams : MyUserControl, IActivate
     {
         string searchfor = "";
 
