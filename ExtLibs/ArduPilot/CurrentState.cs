@@ -759,7 +759,7 @@ namespace MissionPlanner
             set { _messagehigh = value; }
         }
 
-        private string _messagehigh;
+        private string _messagehigh = "";
         public DateTime messageHighTime { get; set; }
 
         //battery

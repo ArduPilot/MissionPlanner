@@ -1280,6 +1280,9 @@ namespace MissionPlanner.GCSViews
             if (quickadd)
                 return;
 
+            if (Disposing)
+                return;
+
             updateRowNumbers();
 
             PointLatLngAlt home = new PointLatLngAlt();
