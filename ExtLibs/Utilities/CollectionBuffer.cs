@@ -25,7 +25,7 @@ namespace MissionPlanner.Utilities
         private int _count;
         List<uint> linestartoffset = new List<uint>();
 
-        Dictionary<byte, List<uint>> messageindex = new Dictionary<byte, List<uint>>();
+        List<uint>[] messageindex = new List<uint>[256];
 
         bool binary = false;
 
@@ -36,9 +36,9 @@ namespace MissionPlanner.Utilities
 
         public CollectionBuffer(Stream instream)
         {
-            for (int a = 0; a <= byte.MaxValue; a++)
+            for (int a = 0; a < messageindex.Length; a++)
             {
-                messageindex[(byte) a] = new List<uint>();
+                messageindex[a] = new List<uint>();
             }
 
             basestream = new BufferedStream(instream, 1024*1024*50);
@@ -328,7 +328,7 @@ namespace MissionPlanner.Utilities
         {
             // get the ids for the passed in types
             SortedSet<long> slist = new SortedSet<long>();
-            foreach (var type in types)
+            foreach (var type in types.Distinct())
             {
                 if (dflog.logformat.ContainsKey(type))
                 {
@@ -389,12 +389,11 @@ namespace MissionPlanner.Utilities
             {
                 List<string> messagetypes = new List<string>();
 
-                if (messageindex.Count == 0)
-                    return messagetypes;
-
-                messageindex.ForEach(a => {
-                    if (a.Value.Count > 0) messagetypes.Add(FMT[a.Key].Item2);
-                });
+                for (int a = 0; a < messageindex.Length; a++)
+                {
+                    if (messageindex[a].Count > 0)
+                        messagetypes.Add(FMT[a].Item2);
+                }
 
                 return messagetypes;
             }
