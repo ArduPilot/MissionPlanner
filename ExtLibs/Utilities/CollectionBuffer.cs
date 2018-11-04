@@ -41,7 +41,7 @@ namespace MissionPlanner.Utilities
                 messageindex[(byte) a] = new List<uint>();
             }
 
-            basestream = new BufferedStream(instream, 1024*1024*5);
+            basestream = new BufferedStream(instream, 1024*1024*50);
 
             if (basestream.ReadByte() == BinaryLog.HEAD_BYTE1)
             {
@@ -52,11 +52,11 @@ namespace MissionPlanner.Utilities
             }
 
             // back to start
-            basestream.Seek(0, SeekOrigin.Begin);
+            basestream.Position = 0;
 
             setlinecount();
 
-            basestream.Seek(0, SeekOrigin.Begin);
+            basestream.Position = 0;
         }
 
         void setlinecount()
@@ -388,6 +388,9 @@ namespace MissionPlanner.Utilities
             get
             {
                 List<string> messagetypes = new List<string>();
+
+                if (messageindex.Count == 0)
+                    return messagetypes;
 
                 messageindex.ForEach(a => {
                     if (a.Value.Count > 0) messagetypes.Add(FMT[a.Key].Item2);

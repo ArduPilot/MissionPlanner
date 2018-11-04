@@ -45,7 +45,6 @@
     <ProjectReference Include="..\SharpKml\SharpKml.csproj" />
     <ProjectReference Include="..\solo\solo.csproj" />
     <ProjectReference Include="..\Strings\MissionPlanner.Strings.csproj" />
-    <ProjectReference Include="..\SvgNet\SvgNet.csproj" />
     <ProjectReference Include="..\Utilities\MissionPlanner.Utilities.csproj" />
   </ItemGroup>
 

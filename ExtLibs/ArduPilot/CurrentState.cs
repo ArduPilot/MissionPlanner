@@ -889,6 +889,9 @@ namespace MissionPlanner
             get { return _movingbase; }
             set
             {
+                if(value == null)
+                    _movingbase = new PointLatLngAlt();
+
                 if (_movingbase.Lat != value.Lat || _movingbase.Lng != value.Lng || _movingbase.Alt
                     != value.Alt)
                     _movingbase = value;

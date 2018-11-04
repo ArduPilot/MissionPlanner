@@ -4113,7 +4113,10 @@ namespace MissionPlanner.GCSViews
             quickadd = true;
 
             // mono fix
-            Commands.CurrentCell = null;
+            try
+            {
+                Commands.CurrentCell = null;
+            } catch { }
 
             Commands.Rows.Clear();
 

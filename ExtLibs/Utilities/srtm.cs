@@ -103,15 +103,37 @@ namespace MissionPlanner.Utilities
         {
             short alt = 0;
 
-            var trytiff = Utilities.GeoTiff.getAltitude(lat, lng);
+            try
+            {
+                var trytiff = Utilities.GeoTiff.getAltitude(lat, lng);
 
-            if (trytiff.currenttype == tiletype.valid)
-                return trytiff;
+                if (trytiff.currenttype == tiletype.valid)
+                    return trytiff;
+            }
+            catch (FileNotFoundException)
+            {
 
-            var trydted = Utilities.DTED.getAltitude(lat, lng);
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
 
-            if (trydted.currenttype == tiletype.valid)
-                return trydted;
+            try
+            {
+                var trydted = Utilities.DTED.getAltitude(lat, lng);
+
+                if (trydted.currenttype == tiletype.valid)
+                    return trydted;
+            }
+            catch (FileNotFoundException)
+            {
+
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
 
             //lat += 1 / 1199.0;
             //lng -= 1 / 1201f;

@@ -1194,7 +1194,17 @@ namespace MissionPlanner.Log
 
                 Loading.ShowLoading("Graphing " + type + " - " + fieldname, this);
 
-                ThreadPool.QueueUserWorkItem(o => GraphItem_GetList(fieldname, type, dflog, dataModifier, left));
+                ThreadPool.QueueUserWorkItem(o =>
+                {
+                    try
+                    {
+                        GraphItem_GetList(fieldname, type, dflog, dataModifier, left);
+                    }
+                    catch (Exception ex)
+                    {
+                        CustomMessageBox.Show("Failed to graph item: " + ex.Message, Strings.ERROR);
+                    }
+                });
             }
             else
             {

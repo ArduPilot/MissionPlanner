@@ -3985,7 +3985,15 @@ namespace MissionPlanner.GCSViews
                     {
                         newlogfile = Path.GetTempFileName() + ".log";
 
-                        BinaryLog.ConvertBin(ofd.FileName, newlogfile);
+                        try
+                        {
+                            BinaryLog.ConvertBin(ofd.FileName, newlogfile);
+                        }
+                        catch (IOException ex)
+                        {
+                            CustomMessageBox.Show("File access issue: " + ex.Message, Strings.ERROR);
+                            return;
+                        }
 
                         ofd.FileName = newlogfile;
                     }

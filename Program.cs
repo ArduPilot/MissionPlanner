@@ -69,7 +69,6 @@ namespace MissionPlanner
             System.Windows.Forms.Application.EnableVisualStyles();
             XmlConfigurator.Configure();
             log.Info("******************* Logging Configured *******************");
-            System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
 
             ServicePointManager.DefaultConnectionLimit = 10;
 
@@ -204,7 +203,7 @@ namespace MissionPlanner
 
             CleanupFiles();
 
-            LoadDlls();
+            //LoadDlls();
 
             log.InfoFormat("64bit os {0}, 64bit process {1}", System.Environment.Is64BitOperatingSystem,
                 System.Environment.Is64BitProcess);

@@ -216,6 +216,7 @@ namespace MissionPlanner.Utilities
                             try
                             {
                                 long pos = br.Position - 3;
+                                // read fmt or seek length of packet
                                 logEntryFMT(data, br);
 
                                 return new Tuple<byte, long>(data, pos);
@@ -265,23 +266,23 @@ namespace MissionPlanner.Utilities
                         logfmt = (log_Format) obj;
 
                         string lgname = ASCIIEncoding.ASCII.GetString(logfmt.name).Trim(new char[] {'\0'});
-                        string lgformat = ASCIIEncoding.ASCII.GetString(logfmt.format).Trim(new char[] {'\0'});
-                        string lglabels = ASCIIEncoding.ASCII.GetString(logfmt.labels).Trim(new char[] {'\0'});
+                        //string lgformat = ASCIIEncoding.ASCII.GetString(logfmt.format).Trim(new char[] {'\0'});
+                        //string lglabels = ASCIIEncoding.ASCII.GetString(logfmt.labels).Trim(new char[] {'\0'});
 
                         logformat[lgname] = logfmt;
 
                         return;
 
                     default:
-                        string format = "";
-                        string name = "";
+                        //string format = "";
+                        //string name = "";
                         int size = 0;
 
-                        if (packettypecache.ContainsKey(packettype))
+                        if (packettypecache[packettype].length != 0)
                         {
                             var fmt = packettypecache[packettype];
-                            name = fmt.name;
-                            format = fmt.format;
+                            //name = fmt.name;
+                            //format = fmt.format;
                             size = fmt.length;
                         }
                         else
@@ -298,8 +299,8 @@ namespace MissionPlanner.Utilities
 
                                 if (fmt.type == packettype)
                                 {
-                                    name = packettypecache[fmt.type].name;
-                                    format = packettypecache[fmt.type].format;
+                                    //name = packettypecache[fmt.type].name;
+                                    //format = packettypecache[fmt.type].format;
                                     size = fmt.length;
                                     //break;
                                 }
@@ -412,7 +413,7 @@ namespace MissionPlanner.Utilities
                         string name = "";
                         int size = 0;
 
-                        if (packettypecache.ContainsKey(packettype))
+                        if (packettypecache[packettype].length != 0)
                         {
                             var fmt = packettypecache[packettype];
                             name = fmt.name;
@@ -559,7 +560,7 @@ namespace MissionPlanner.Utilities
             return answer.ToArray();
         }
 
-        Dictionary<int, log_format_cache> packettypecache = new Dictionary<int, log_format_cache>();
+        private log_format_cache[] packettypecache = new log_format_cache[256];
 
         /*  
     105    +Format characters in the format string for binary log messages  
