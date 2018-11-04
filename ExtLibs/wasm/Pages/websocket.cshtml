@@ -123,7 +123,10 @@
         DateTime start = DateTime.Now;
 
         if (!init)
+        {
+            Console.WriteLine("need to init first");
             return;
+        }
 
         if (this == null)
         {
@@ -175,6 +178,8 @@
 
         var check1 = DateTime.Now;
 
+        ProcessPackets();
+
         //var packet = await
 
         //((MemoryStream)mav.logplaybackfile.BaseStream).SetLength(0);
@@ -212,16 +217,16 @@
             return;
         }
 
-        Console.WriteLine("ProcessPacketsint btr:" + mav.BaseStream.BytesToRead);
+        //Console.WriteLine("ProcessPacketsint btr:" + mav.BaseStream.BytesToRead);
 
         //var th = new Thread(() =>
         {
             //while (mav != null)
             {
-   
+
                 //running = true;
                 DateTime end = DateTime.Now.AddMilliseconds(100);
-            while (DateTime.Now < end && mav.BaseStream.BytesToRead > 15)
+                while (DateTime.Now < end && mav.BaseStream.BytesToRead > 15)
                 {
                     mav.readPacket();
                 }
@@ -287,7 +292,7 @@
             foreach (var mavd in mav.MAVlist)
             {
                 mavd.cs.UpdateCurrentSettings(null, false, mav, mavd);
-                JSRuntime.Current.InvokeAsync<object>("setPosition", new object[] { a, mavd.cs.lat, mavd.cs.lng });
+                JSRuntime.Current.InvokeAsync<object>("setPosition", new object[] { a, mavd.cs.lat, mavd.cs.lng, mavd.cs.altasl, mavd.cs.roll, mavd.cs.pitch, mavd.cs.yaw });
                 a++;
             }
 

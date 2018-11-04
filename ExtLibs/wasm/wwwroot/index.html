@@ -17,14 +17,8 @@
 <body>
     <app></app>
 
-    <script src="_framework/blazor.webassembly.js"></script>
+<script src="_framework/blazor.webassembly.js"></script>
 
-    <!--
-    <div id="map" style="width: 100%; height: 50vh;"></div>
-
-
-    <div id="cesiumContainer" style="width: 100%; height: 50vh;"></div>
-    -->
     <script>
         /*
         var worker = new Worker("websocketworker.js");
@@ -105,16 +99,16 @@
         function websocketsend(data) {
             socket.send(data);
         }
-
+        /*
         $(document).ready(function () {
             setTimeout(function () {
 
                 
                 setInterval(function () {
-                    Blazor.platform.callMethod(dotNetDispatcherInvokeMethodHandle2, null, {});
+                    //Blazor.platform.callMethod(dotNetDispatcherInvokeMethodHandle2, null, {});
                 }, 100);
 
-                /*
+                
                 initMap();
 
                 //var test = SOCKFS.createSocket(2, 1, 6);
@@ -123,10 +117,10 @@
                     //'test2': Blazor.platform.callMethod,
                     //'test3': Blazor.platform.findMethod
                 });
-                */
+                
                 //test.sock_ops.connect(test, "127.0.0.1/websocket/raw", 56781);
             }, 2000);
-        });
+        });*/
 
     </script>
 
@@ -135,6 +129,9 @@
         var map;
         var viewer;
         var markers = [];
+        var default_model_scale = 1.5;
+        var model_scale_factor = 0.06;
+        var takeoff_altitude = 0;
 
         function initMap() {
             map = new google.maps.Map(document.getElementById('map'),
@@ -149,19 +146,58 @@
 
             //map.setOptions({maxZoom: 21});
 
-            viewer = new Cesium.Viewer('cesiumContainer');
+            Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjODdmODk4Yy0xZDhlLTQxNjAtOTkzNS02ZjNmOGRhM2I1MDgiLCJpZCI6NDYzOCwic2NvcGVzIjpbImFzciIsImdjIl0sImlhdCI6MTU0MTMyMDQ4Nn0.GnXyBbMj8o8TZ2LeCxFB_SrdUiQodGmjT1AbNCvmezA';
+
+
+            viewer = new Cesium.Viewer('cesiumContainer', {
+                infoBox : false, //Disable InfoBox widget
+                selectionIndicator : true, //Disable selection indicator
+                navigationInstructionsInitiallyVisible: false,
+                shadows : false,
+                shouldAnimate : true
+            });
 
             var terrainProvider = Cesium.createWorldTerrain({
-                requestWaterMask: true
+                requestWaterMask: true,
+                requestVertexNormals: true
             });
             viewer.terrainProvider = terrainProvider;
+
+            viewer.scene.globe.depthTestAgainstTerrain = true;
 
             markers = [];
         }
 
-        function setPosition(mavno, lat, lng, altasl) {
-            if (lat == 0 || lng == 0)
+        var first = 0;
+        var ground_offset = 0;
+        var takeoff_altitude = 0;
+
+        function setPosition(mavno, lat, lng, altasl, roll, pitch, yaw) {
+            if (lat == 0 || lng == 0 || altasl == 0)
                 return;
+
+            if (first == 0 && altasl != 0) {
+                var takeoff_position = Cesium.Cartographic.fromDegrees(
+                     lng ,
+                    lat);
+
+                takeoff_altitude = altasl;
+
+                if (viewer) {
+                    var promise = Cesium.sampleTerrainMostDetailed(viewer.terrainProvider, takeoff_position);
+                    Cesium.when(promise,
+                        function(updatedPositions) {
+                            ground_offset = takeoff_position.height - takeoff_altitude;
+                            console.log('Ground Offset in meters: ' + ground_offset);
+                            // re-compute the positions taking the ground offset into account.
+                            // add 2 meters more to allow for inaccuracies
+                            //var positionProperty = computePositionProperty(ground_offset + 2);
+                            //entity.position = positionProperty;
+                        });
+                    first++;
+                }
+            }
+
             var myLatLng = { lat: lat, lng: lng };
             if (markers.length >= (mavno + 1)) {
                 markers[mavno].setPosition(myLatLng);
@@ -186,31 +222,52 @@
             if (viewer) {
                 var pinBuilder = new Cesium.PinBuilder();
 
+
+                var position = Cesium.Cartesian3.fromDegrees(myLatLng.lng, myLatLng.lat, altasl + 20);
+                var hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(yaw),
+                    Cesium.Math.toRadians(pitch),
+                    Cesium.Math.toRadians(roll));
+                var orientation = Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
+
                 if (viewer.entities.values.length >= (mavno + 1)) {
-                    viewer.entities.values[mavno].position =
-                        Cesium.Cartesian3.fromDegrees(myLatLng.lng, myLatLng.lat, altasl);
+                    viewer.entities.values[mavno].position = position;
+                    viewer.entities.values[mavno].orientation = orientation;
                 } else {
                     // add a new one
                     var entity = viewer.entities.add({
                         name: 'ArduPilot ' + viewer.entities.values.length,
-                        position: Cesium.Cartesian3.fromDegrees(myLatLng.lng, myLatLng.lat, altasl),
+                        position: position,
+                        orientation: orientation,
                         billboard: {
-                            image: pinBuilder.fromText(viewer.entities.values.length, Cesium.Color.BLACK, 48)
+                            image: pinBuilder.fromText(mavno, Cesium.Color.BLACK, 48)
                                 .toDataURL(),
                             verticalOrigin: Cesium.VerticalOrigin.BOTTOM
+                        },
+                        model : {
+                            uri: 'Cesium_Air.txt',
+                            minimumPixelSize : 64,
+                            scale: default_model_scale * model_scale_factor
+                        },
+                        path : {
+                            resolution : 1,
+                            material : new Cesium.PolylineGlowMaterialProperty({
+                                glowPower : 0.1,
+                                color : Cesium.Color.YELLOW
+                            }),
+                            width : 10
                         }
                     });
 
-                    viewer.trackedEntity = entity;
+                    
                 }
+
+                viewer.trackedEntity = viewer.entities.values[0];
             }
         }
 
         function testlog(mavlist) {
             console.log(mavlist);
         }
-
-
 
 
 

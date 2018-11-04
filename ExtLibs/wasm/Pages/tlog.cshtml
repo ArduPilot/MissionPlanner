@@ -20,21 +20,22 @@
 @implements IDisposable
 @inject IFileReaderService fileReaderService;
 @inject HttpClient Http
+<div style="height: 90vh; width: 100%; overflow: visible;">
+    <h1>Tlog</h1>
 
-<h1>Tlog</h1>
+    <input type="file" ref="inputTypeFileElement" />
+    <button onclick="@ReadFile">Read file</button>
+    <button onclick="@ReadFileTest">Read Test file</button>
+    <br />
 
-<input type="file" ref="inputTypeFileElement" />
-<button onclick="@ReadFile">Read file</button>
-<button onclick="@ReadFileTest">Read Test file</button>
-<br />
+    <p>@gpstime @lat @lng @alt @hdg - @percent %</p>
 
-<p>@gpstime @lat @lng @alt @hdg - @percent %</p>
+    <div style="height: 100%; width: 100%">
+        <div id="map" style="width: 100%; height: 25%;"></div>
+        <div id="cesiumContainer" style="width: 100%; height: 75%;"></div>
+    </div>
+</div>
 
-
-<div id="map" style="width: 100%; height: 40vh;"></div>
-
-
-<div id="cesiumContainer" style="width: 100%; height: 40vh;"></div>
 
 @functions {
     double lat = 0, lng = 0, alt = 0, hdg = 0;
@@ -69,6 +70,7 @@
 
     protected override async Task OnAfterRenderAsync()
     {
+        /*
         var files = Directory.GetFiles(".", "*.*", SearchOption.AllDirectories);
 
         foreach (var file in files)
@@ -78,7 +80,7 @@
 
         AddressFamily t1 = AddressFamily.InterNetwork;
         SocketType t2 = SocketType.Stream;
-        ProtocolType t3 = ProtocolType.Tcp;
+        ProtocolType t3 = ProtocolType.Tcp;*/
 
         if (init)
             return;
@@ -205,7 +207,7 @@
                 foreach (var mavd in mav.MAVlist)
                 {
                     mavd.cs.UpdateCurrentSettings(null, false, mav, mavd);
-                    JSRuntime.Current.InvokeAsync<object>("setPosition", new object[] { a, mavd.cs.lat, mavd.cs.lng, mavd.cs.altasl });
+                    JSRuntime.Current.InvokeAsync<object>("setPosition", new object[] {a, mavd.cs.lat, mavd.cs.lng, mavd.cs.altasl, mavd.cs.roll, mavd.cs.pitch, mavd.cs.yaw});
                     a++;
                 }
 
@@ -262,7 +264,7 @@
                 foreach (var mavd in mav.MAVlist)
                 {
                     mavd.cs.UpdateCurrentSettings(null, false, mav, mavd);
-                    JSRuntime.Current.InvokeAsync<object>("setPosition", new object[] { a, mavd.cs.lat, mavd.cs.lng, mavd.cs.altasl });
+                    //JSRuntime.Current.InvokeAsync<object>("setPosition", new object[] { a, mavd.cs.lat, mavd.cs.lng, mavd.cs.altasl, mavd.cs.roll, mavd.cs.pitch, mavd.cs.yaw });
                     a++;
                 }
 
@@ -279,7 +281,7 @@
         {
             var param = (MAVLink.mavlink_param_value_t)packet.data;
 
-            //Console.WriteLine("{0} {1}", ASCIIEncoding.ASCII.GetString(param.param_id), param.param_value);
+            Console.WriteLine("{0} {1}", ASCIIEncoding.ASCII.GetString(param.param_id), param.param_value);
         }
 
         return true;
@@ -293,4 +295,4 @@
         mav?.Dispose();
     }
 
-}
+    }
