@@ -86,7 +86,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             var motormax = 8;
 
-            if (MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.GROUND_ROVER)
+            if (MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.GROUND_ROVER || MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.SURFACE_BOAT)
             {
                 return 4;
             }
