@@ -200,17 +200,6 @@ namespace MissionPlanner.Log
 
             status = SerialStatus.Reading;
 
-            // used for log fn
-            MAVLink.MAVLinkMessage hbpacket = MainV2.comPort.getHeartBeat();
-
-            if (hbpacket != null)
-                log.Info("Got hbpacket length: " + hbpacket.Length);
-
-            if (hbpacket == null || hbpacket == MAVLink.MAVLinkMessage.Invalid)
-            {
-                hbpacket = MainV2.comPort.MAV.getPacket((int)MAVLink.MAVLINK_MSG_ID.HEARTBEAT);
-            }
-
             // get df log from mav
             using (var ms = MainV2.comPort.GetLog(no))
             {
@@ -223,7 +212,7 @@ namespace MissionPlanner.Log
 
                 logfile = Settings.Instance.LogDir + Path.DirectorySeparatorChar
                           + MainV2.comPort.MAV.aptype.ToString() + Path.DirectorySeparatorChar
-                          + hbpacket.sysid + Path.DirectorySeparatorChar + no + " " + MakeValidFileName(fileName) + ".bin";
+                          + MainV2.comPort.MAV.sysid + Path.DirectorySeparatorChar + no + " " + MakeValidFileName(fileName) + ".bin";
 
                 // make log dir
                 Directory.CreateDirectory(Path.GetDirectoryName(logfile));
@@ -259,7 +248,7 @@ namespace MissionPlanner.Log
             {
                 string newlogfilename = Settings.Instance.LogDir + Path.DirectorySeparatorChar
                                         + MainV2.comPort.MAV.aptype.ToString() + Path.DirectorySeparatorChar
-                                        + hbpacket.sysid + Path.DirectorySeparatorChar +
+                                        + MainV2.comPort.MAV.sysid + Path.DirectorySeparatorChar +
                                         logtime.ToString("yyyy-MM-dd HH-mm-ss") + ".log";
                 try
                 {

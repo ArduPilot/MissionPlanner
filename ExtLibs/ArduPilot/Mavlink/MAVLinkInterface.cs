@@ -4433,7 +4433,7 @@ Please check the following
             log.Info("totallength " + totallength);
             log.Info("current length " + ms.Length);
 
-            while (true && (BaseStream != null && BaseStream.IsOpen || logreadmode))
+            while (true && ((BaseStream != null && BaseStream.IsOpen) || logreadmode))
             {
                 if (totallength == ms.Length && set.Count >= ((totallength) / 90 + 1))
                 {
