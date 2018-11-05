@@ -588,9 +588,16 @@ namespace MissionPlanner.Utilities
 
         private string CheckChibiOS(string existingfw, string chibiosurl)
         {
-            if (String.IsNullOrEmpty(chibiosurl) || !Download.CheckHTTPFileExists(chibiosurl))
+            try
             {
-                return existingfw;
+                if (String.IsNullOrEmpty(chibiosurl) || !Download.CheckHTTPFileExists(chibiosurl))
+                {
+                    return existingfw;
+                }
+            }
+            catch
+            {
+
             }
 
             if (CustomMessageBox.Show("Upload ChibiOS", "ChibiOS", MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
