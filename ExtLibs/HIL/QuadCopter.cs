@@ -7,7 +7,6 @@ using System.Text;
 using log4net;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.HIL;
-using MissionPlanner.GCSViews;
 using MissionPlanner.Utilities;
 
 

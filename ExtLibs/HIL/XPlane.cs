@@ -8,6 +8,8 @@ using MissionPlanner.Utilities;
 
 namespace MissionPlanner.HIL
 {
+    public delegate void sendPacketHandler(object packet, int sysid, int compid);
+
     public class XPlane : Hil, IDisposable
     {
         Socket SimulatorRECV;
@@ -16,6 +18,13 @@ namespace MissionPlanner.HIL
 
         // place to store the xplane packet data
         float[][] DATA = new float[113][];
+
+        public float hilch1 { get;  set; }
+        public float hilch2 { get;  set; }
+        public float hilch3 { get;  set; }
+        public float hilch4 { get;  set; }
+        public int sysid { get;  set; }
+        public int compid { get;  set; }
 
         public override void SetupSockets(int recvPort, int SendPort, string simIP)
         {
@@ -175,10 +184,10 @@ namespace MissionPlanner.HIL
 
         public override void SendToSim()
         {
-            roll_out = (float) MainV2.comPort.MAV.cs.hilch1/rollgain;
-            pitch_out = (float) MainV2.comPort.MAV.cs.hilch2/pitchgain;
-            throttle_out = ((float) MainV2.comPort.MAV.cs.hilch3)/throttlegain;
-            rudder_out = (float) MainV2.comPort.MAV.cs.hilch4/ruddergain;
+            roll_out = (float) hilch1/rollgain;
+            pitch_out = (float) hilch2/pitchgain;
+            throttle_out = ((float) hilch3)/throttlegain;
+            rudder_out = (float) hilch4/ruddergain;
 
             // Limit min and max
             roll_out = Constrain(roll_out, -1, 1);
@@ -309,13 +318,16 @@ namespace MissionPlanner.HIL
             hilstate.yacc = (short) (sitldata.yAccel*1000); // (mg)
             hilstate.zacc = (short) (sitldata.zAccel*1000); // (mg)
 
-            MainV2.comPort.sendPacket(hilstate, MainV2.comPort.sysidcurrent, MainV2.comPort.compidcurrent);
+            sendPacket(hilstate, sysid, compid);
 
-            MainV2.comPort.sendPacket(new MAVLink.mavlink_vfr_hud_t()
+            sendPacket(new MAVLink.mavlink_vfr_hud_t()
             {
                 airspeed = (float) sitldata.airspeed
-            }, MainV2.comPort.sysidcurrent, MainV2.comPort.compidcurrent);
+            }, sysid, compid);
         }
+
+        
+        public event sendPacketHandler sendPacket;
 
         public override void GetFromAP()
         {
