@@ -6,7 +6,7 @@ using MissionPlanner.Comms;
 
 namespace MissionPlanner.Antenna
 {
-    interface ITrackerOutput
+    public interface ITrackerOutput
     {
         SerialPort ComPort { get; set; }
 

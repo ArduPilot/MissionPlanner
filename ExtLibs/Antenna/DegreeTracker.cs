@@ -6,7 +6,7 @@ using MissionPlanner.Comms;
 
 namespace MissionPlanner.Antenna
 {
-    class DegreeTracker : ITrackerOutput
+    public class DegreeTracker : ITrackerOutput
     {
         public SerialPort ComPort { get; set; }
 

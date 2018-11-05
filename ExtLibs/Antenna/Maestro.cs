@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Windows.Forms;
 using MissionPlanner.Comms;
 
 namespace MissionPlanner.Antenna
 {
-    class Maestro : ITrackerOutput
+    public class Maestro : ITrackerOutput
     {
         public SerialPort ComPort { get; set; }
 

@@ -6,7 +6,7 @@ using MissionPlanner.Comms;
 
 namespace MissionPlanner.Antenna
 {
-    class ArduTracker : ITrackerOutput
+    public class ArduTracker : ITrackerOutput
     {
         public SerialPort ComPort { get; set; }
 
