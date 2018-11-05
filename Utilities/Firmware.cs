@@ -595,7 +595,7 @@ namespace MissionPlanner.Utilities
                     return existingfw;
                 }
             }
-            catch
+            catch (UriFormatException)
             {
 
             }

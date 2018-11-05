@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Speech.Synthesis;
 using System.Text.RegularExpressions;
@@ -103,8 +104,15 @@ namespace MissionPlanner.Utilities
             }
             else
             {
-                if (_speechwindows != null)
-                    _speechwindows.SpeakAsync(text);
+                try
+                {
+                    if (_speechwindows != null)
+                        _speechwindows.SpeakAsync(text);
+                }
+                catch (COMException)
+                {
+
+                }
             }
 
             log.Info("TTS: say " + text);
