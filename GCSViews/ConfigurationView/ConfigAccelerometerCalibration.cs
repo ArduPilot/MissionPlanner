@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using System.Threading;
 using System.Windows.Forms;
 using log4net;
 using MissionPlanner.Controls;

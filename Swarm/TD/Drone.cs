@@ -1,8 +1,4 @@
-﻿using System;
-using MissionPlanner.HIL;
-using MissionPlanner.Utilities;
-
-namespace MissionPlanner.Swarm.TD
+﻿namespace MissionPlanner.Swarm.TD
 {
     public class Drone : DroneBase
     {

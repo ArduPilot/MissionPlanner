@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using ZedGraph;
-using GMap.NET;
 using System.Xml;
 using MissionPlanner.GCSViews;
 using MissionPlanner.Utilities; // GE xml alt reader

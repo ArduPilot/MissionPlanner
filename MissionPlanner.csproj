@@ -97,6 +97,7 @@
       <Project>{098f542c-7c70-4b9c-b2e2-ac5dc5e0294b}</Project>
       <Name>AltitudeAngelWings</Name>
     </ProjectReference>
+    <ProjectReference Include="ExtLibs\Antenna\MissionPlanner.Antenna.csproj" />
     <ProjectReference Include="ExtLibs\Arduino\Arduino.csproj">
       <Project>{DFA3C3B7-F098-4567-A780-A37DC52CA577}</Project>
       <Name>Arduino</Name>
@@ -134,6 +135,7 @@
       <Project>{e06def77-f933-42fb-afd7-db2d0d8d6a98}</Project>
       <Name>GMap.NET.WindowsForms</Name>
     </ProjectReference>
+    <ProjectReference Include="ExtLibs\HIL\MissionPlanner.HIL.csproj" />
     <ProjectReference Include="ExtLibs\ICSharpCode.SharpZipLib\ICSharpCode.SharpZipLib.csproj" />
     <ProjectReference Include="ExtLibs\KMLib\KMLib.csproj">
       <Project>{29976BA4-A04D-4A80-A866-098C879C2FDE}</Project>
@@ -295,10 +297,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="temp.cs"> <SubType>Control</SubType> </Compile>
-    <Compile Include="Antenna\ArduTracker.cs" />
-    <Compile Include="Antenna\DegreeTracker.cs" />
-    <Compile Include="Antenna\ITrackerOutput.cs" />
-    <Compile Include="Antenna\Maestro.cs" />
     <Compile Include="Antenna\Tracker.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Controls\AuthKeys.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Controls\ConnectionControl.cs"> <SubType>Control</SubType> </Compile>
@@ -393,11 +391,6 @@
     <Compile Include="GeoRef\georefimage.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Grid\GridPlugin.cs" />
     <Compile Include="Grid\GridUI.cs"> <SubType>Control</SubType> </Compile>
-    <Compile Include="HIL\Aircraft.cs" />
-    <Compile Include="HIL\Hil.cs" />
-    <Compile Include="HIL\QuadCopter.cs" />
-    <Compile Include="HIL\Wind.cs" />
-    <Compile Include="HIL\XPlane.cs" />
     <Compile Include="Joystick\Joystick.cs" />
     <Compile Include="Joystick\JoystickSetup.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Joystick\Joy_Button_axis.cs"> <SubType>Control</SubType> </Compile>
@@ -1857,9 +1850,6 @@
     <Content Include="mavcmd.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="mavelous_web\index.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="mavgraphs.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -2013,9 +2003,6 @@
     </None>
     <None Include="m3u\networklink.kml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="mavelous_web\bundle.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="NoFly\Areas-Lisboa.kmz">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

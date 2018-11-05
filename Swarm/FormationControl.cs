@@ -1,17 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using GeoAPI.CoordinateSystems;
 using GeoAPI.CoordinateSystems.Transformations;
 using ProjNet.CoordinateSystems.Transformations;
 using ProjNet.CoordinateSystems;
-using ProjNet.Converters;
-using MissionPlanner;
 using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Swarm

@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO.Ports;
 using System.Net;
 using System.Reflection;
 using System.Text;
-using System.Threading;
 using System.Windows.Forms;
 using log4net;
 using MissionPlanner.Controls;
-using Timer = System.Threading.Timer;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {

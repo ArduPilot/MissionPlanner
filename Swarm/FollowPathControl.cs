@@ -1,14 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using ProjNet.CoordinateSystems.Transformations;
-using ProjNet.CoordinateSystems;
-using ProjNet.Converters;
 
 namespace MissionPlanner.Swarm
 {

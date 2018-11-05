@@ -7,7 +7,6 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using DirectShowLib;
-using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
 using MissionPlanner.Joystick;
 using MissionPlanner.Utilities;

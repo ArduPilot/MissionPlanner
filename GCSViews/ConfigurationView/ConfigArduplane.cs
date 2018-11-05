@@ -2,7 +2,6 @@
 using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
-using System.Globalization;
 using System.Text;
 using System.Windows.Forms;
 using MissionPlanner.ArduPilot;

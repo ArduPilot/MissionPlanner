@@ -1,20 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.IO.Compression;
-using System.IO.Pipes;
-using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Reflection;
 using System.Text;
 using System.Threading;
-using System.Windows.Forms;
 using log4net;
 using MissionPlanner.Controls;
-using MissionPlanner.GCSViews;
 
 namespace MissionPlanner.Utilities
 {

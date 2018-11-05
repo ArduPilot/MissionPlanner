@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using ZedGraph;
-using AGaugeApp;
-using System.IO.Ports;
-using System.Threading;
 using MissionPlanner.Utilities;
 
 namespace MissionPlanner

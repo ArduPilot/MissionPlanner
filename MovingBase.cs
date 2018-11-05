@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using MissionPlanner.Comms;
 using System.Globalization;
-using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 using System.IO;
 using System.Net.Sockets;

@@ -6,13 +6,10 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
-using System.IO.Ports;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Security;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -26,12 +23,10 @@ using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
 using log4net;
-using MissionPlanner.Arduino;
 using MissionPlanner.Comms;
 using MissionPlanner.Controls;
 using MissionPlanner.GCSViews;
 using MissionPlanner.GeoRef;
-using MissionPlanner.HIL;
 using MissionPlanner.Log;
 using MissionPlanner.Maps;
 using MissionPlanner.Swarm;
@@ -40,7 +35,6 @@ using MissionPlanner.Warnings;
 using resedit;
 using static MissionPlanner.Utilities.Firmware;
 using ILog = log4net.ILog;
-using LogAnalyzer = MissionPlanner.Utilities.LogAnalyzer;
 
 namespace MissionPlanner
 {

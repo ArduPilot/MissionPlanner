@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Threading;
 using log4net;
 using MissionPlanner.Controls;
-using MissionPlanner.HIL;
 using MissionPlanner.Joystick;
 using MissionPlanner.Utilities;
 

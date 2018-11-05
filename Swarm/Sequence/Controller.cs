@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SharpDX.DirectInput;
-
-namespace MissionPlanner.Swarm.Sequence
+﻿namespace MissionPlanner.Swarm.Sequence
 {
     public class Controller
     {

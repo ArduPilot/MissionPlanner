@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Threading;
 using log4net;
-using MissionPlanner.Controls;
-using MissionPlanner.HIL;
-using MissionPlanner.Joystick;
 using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Swarm.Sequence

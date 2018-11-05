@@ -4,10 +4,7 @@ using System.Management;
 using System.Windows.Forms;
 using System.Threading;
 using log4net;
-using System.Globalization;
-using System.Runtime.InteropServices;
 using MissionPlanner.Comms;
-using MissionPlanner.Utilities;
 using px4uploader;
 
 namespace MissionPlanner.Utilities

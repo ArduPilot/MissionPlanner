@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -21,7 +19,6 @@ using log4net;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.GCSViews;
 using MissionPlanner.Maps;
-using MissionPlanner.Properties;
 using MissionPlanner.Utilities;
 using ProjNet.CoordinateSystems;
 using ProjNet.CoordinateSystems.Transformations;

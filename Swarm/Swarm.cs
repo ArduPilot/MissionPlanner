@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using log4net;
+﻿using log4net;
 using System.Reflection;
-using MissionPlanner.Utilities;
-using MissionPlanner;
 
 namespace MissionPlanner.Swarm
 {

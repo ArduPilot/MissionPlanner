@@ -10,8 +10,6 @@ using System.Threading;
 using System.Windows.Forms;
 using log4net;
 using MissionPlanner.Comms;
-using MissionPlanner.MsgBox;
-using MissionPlanner.Radio;
 using MissionPlanner.Utilities;
 using uploader;
 
