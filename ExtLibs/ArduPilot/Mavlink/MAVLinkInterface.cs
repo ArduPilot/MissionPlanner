@@ -681,7 +681,7 @@ Please check the following
         /// <param name="indata">struct of data</param>
         internal void generatePacket(int messageType, object indata, int sysid, int compid, bool forcemavlink2 = false, bool forcesigning = false)
         {
-            if (!BaseStream.IsOpen)
+            if (BaseStream == null || !BaseStream.IsOpen)
             {
                 return;
             }
