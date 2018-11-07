@@ -151,6 +151,7 @@
             this.flightPlannerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setHomeHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setEKFHomeHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.setHomeHereToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.takeOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.onOffCameraOverlapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.altitudeAngelSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -180,7 +181,6 @@
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.Messagetabtimer = new System.Windows.Forms.Timer(this.components);
             this.bindingSourceStatusTab = new System.Windows.Forms.BindingSource(this.components);
-            this.setHomeHereToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.MainH)).BeginInit();
             this.MainH.Panel1.SuspendLayout();
             this.MainH.Panel2.SuspendLayout();
@@ -328,6 +328,8 @@
             this.hud1.gpshdop = 0F;
             this.hud1.gpshdop2 = 0F;
             this.hud1.groundalt = 0F;
+            this.hud1.groundColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(155)))), ((int)(((byte)(184)))), ((int)(((byte)(36)))));
+            this.hud1.groundColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(79)))), ((int)(((byte)(7)))));
             this.hud1.groundcourse = 0F;
             this.hud1.groundspeed = 0F;
             this.hud1.heading = 0F;
@@ -345,6 +347,8 @@
             this.hud1.pitch = 0F;
             this.hud1.roll = 0F;
             this.hud1.Russian = false;
+            this.hud1.skyColor1 = System.Drawing.Color.Blue;
+            this.hud1.skyColor2 = System.Drawing.Color.LightBlue;
             this.hud1.speedunit = null;
             this.hud1.SSA = 0F;
             this.hud1.status = false;
@@ -2052,6 +2056,12 @@
             resources.ApplyResources(this.setEKFHomeHereToolStripMenuItem, "setEKFHomeHereToolStripMenuItem");
             this.setEKFHomeHereToolStripMenuItem.Click += new System.EventHandler(this.setEKFHomeHereToolStripMenuItem_Click);
             // 
+            // setHomeHereToolStripMenuItem1
+            // 
+            this.setHomeHereToolStripMenuItem1.Name = "setHomeHereToolStripMenuItem1";
+            resources.ApplyResources(this.setHomeHereToolStripMenuItem1, "setHomeHereToolStripMenuItem1");
+            this.setHomeHereToolStripMenuItem1.Click += new System.EventHandler(this.setHomeHereToolStripMenuItem_Click);
+            // 
             // takeOffToolStripMenuItem
             // 
             this.takeOffToolStripMenuItem.Name = "takeOffToolStripMenuItem";
@@ -2084,7 +2094,7 @@
             // distanceBar1
             // 
             resources.ApplyResources(this.distanceBar1, "distanceBar1");
-            this.distanceBar1.BackColor = System.Drawing.Color.Black;
+            this.distanceBar1.BackColor = System.Drawing.Color.Transparent;
             this.distanceBar1.Name = "distanceBar1";
             this.distanceBar1.totaldist = 100F;
             this.distanceBar1.traveleddist = 0F;
@@ -2094,7 +2104,7 @@
             this.windDir1.BackColor = System.Drawing.Color.Transparent;
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Direction", this.bindingSource1, "wind_dir", true, System.Windows.Forms.DataSourceUpdateMode.Never));
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Speed", this.bindingSource1, "wind_vel", true, System.Windows.Forms.DataSourceUpdateMode.Never));
-            this.windDir1.Direction = 360D;
+            this.windDir1.Direction = 180D;
             resources.ApplyResources(this.windDir1, "windDir1");
             this.windDir1.Name = "windDir1";
             this.windDir1.Speed = 0D;
@@ -2311,15 +2321,8 @@
             // 
             this.bindingSourceStatusTab.DataSource = typeof(MissionPlanner.CurrentState);
             // 
-            // setHomeHereToolStripMenuItem1
-            // 
-            this.setHomeHereToolStripMenuItem1.Name = "setHomeHereToolStripMenuItem1";
-            resources.ApplyResources(this.setHomeHereToolStripMenuItem1, "setHomeHereToolStripMenuItem1");
-            this.setHomeHereToolStripMenuItem1.Click += new System.EventHandler(this.setHomeHereToolStripMenuItem_Click);
-            // 
             // FlightData
             // 
-            
             this.Controls.Add(this.MainH);
             resources.ApplyResources(this, "$this");
             this.Name = "FlightData";
