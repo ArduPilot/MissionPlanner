@@ -6,7 +6,7 @@ cache:
     - packages -> appveyor.yml
 build_script:
 - cmd: >-
-    git submodule update --init --recursive
+    rem git submodule update --init --recursive
 
     dotnet --info
 
