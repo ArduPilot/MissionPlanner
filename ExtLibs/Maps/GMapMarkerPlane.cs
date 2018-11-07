@@ -8,17 +8,8 @@ using SvgNet.SvgGdi;
 namespace MissionPlanner.Maps
 {
     [Serializable]
-    public class GMapMarkerPlane : GMapMarker
+    public class GMapMarkerPlane : GMapMarker_IconSelectable
     {
-        private readonly Bitmap icon = global::MissionPlanner.Maps.Resources.planeicon;
-
-        private readonly Bitmap icon1 = global::MissionPlanner.Maps.Resources.planeicon1;
-        private readonly Bitmap icon2 = global::MissionPlanner.Maps.Resources.planeicon2;
-        private readonly Bitmap icon3 = global::MissionPlanner.Maps.Resources.planeicon3;
-        private readonly Bitmap icon4 = global::MissionPlanner.Maps.Resources.planeicon4;
-        private readonly Bitmap icon5 = global::MissionPlanner.Maps.Resources.planeicon5;
-        private readonly Bitmap icon6 = global::MissionPlanner.Maps.Resources.planeicon6;
-
         float heading = 0;
         float cog = -1;
         float target = -1;
@@ -35,7 +26,7 @@ namespace MissionPlanner.Maps
             this.nav_bearing = nav_bearing;
             this.radius = radius;
             this.which = which;
-            Size = icon.Size;
+            Size = FrameIcon().Size;
         }
 
         public override void OnRender(IGraphics g)
@@ -108,25 +99,41 @@ namespace MissionPlanner.Maps
             catch
             {
             }
-            // 'which' variable simply selects different coloured plane icon/s from the resource library
-            if (which == 0)
-                g.DrawImageUnscaled(icon, icon.Width / -2, icon.Height / -2);
-            if (which == 1)
-                g.DrawImageUnscaled(icon1, icon1.Width / -2, icon1.Height / -2);
-            if (which == 2)
-                g.DrawImageUnscaled(icon2, icon2.Width / -2, icon2.Height / -2);
-            if (which == 3)
-                g.DrawImageUnscaled(icon3, icon3.Width / -2, icon3.Height / -2);
-            if (which == 4)
-                g.DrawImageUnscaled(icon4, icon4.Width / -2, icon4.Height / -2);
-            if (which == 5)
-                g.DrawImageUnscaled(icon5, icon5.Width / -2, icon5.Height / -2);
-            if (which == 6)
-                g.DrawImageUnscaled(icon6, icon6.Width / -2, icon6.Height / -2);
 
-            
+            Bitmap icon = FrameIcon(which);
+            g.DrawImage(icon, icon.Width / -2, icon.Height / -2, icon.Width, icon.Height );
 
             g.Transform = temp;
+        }
+
+
+        /// <summary>
+        /// Defile default icon of Plane.
+        /// </summary>
+        /// <param name="icon_index">Not used in Plane.</param>
+        /// <returns>default icon of Plane.</returns>
+        protected override Bitmap DefaultIcon(int icon_index)
+        {
+            switch (icon_index)
+            {
+                case 0:
+                    return global::MissionPlanner.Maps.Resources.planeicon;
+                case 1:
+                    return global::MissionPlanner.Maps.Resources.planeicon1;
+                case 2:
+                    return global::MissionPlanner.Maps.Resources.planeicon2;
+                case 3:
+                    return global::MissionPlanner.Maps.Resources.planeicon3;
+                case 4:
+                    return global::MissionPlanner.Maps.Resources.planeicon4;
+                case 5:
+                    return global::MissionPlanner.Maps.Resources.planeicon5;
+                case 6:
+                    return global::MissionPlanner.Maps.Resources.planeicon6;
+                default:
+                    return global::MissionPlanner.Maps.Resources.planeicon;
+            }
+
         }
     }
 }

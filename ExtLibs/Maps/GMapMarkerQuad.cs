@@ -8,9 +8,10 @@ using SvgNet.SvgGdi;
 namespace MissionPlanner.Maps
 {
     [Serializable]
-    public class GMapMarkerQuad : GMapMarker
+    public class GMapMarkerQuad : GMapMarker_IconSelectable
     {
-        private readonly Bitmap icon = global::MissionPlanner.Maps.Resources.quadicon;
+        //private readonly Bitmap icon = global::MissionPlanner.Maps.Resources.quadicon;
+        private Bitmap icon = null;
 
         float heading = 0;
         float cog = -1;
@@ -27,8 +28,11 @@ namespace MissionPlanner.Maps
             this.cog = cog;
             this.target = target;
             this.sysid = sysid;
+
+            icon = FrameIcon();
             Size = icon.Size;
         }
+
 
         public override void OnRender(IGraphics g)
         {
@@ -59,10 +63,10 @@ namespace MissionPlanner.Maps
             {
             }
 
-            g.DrawImageUnscaled(icon, icon.Width/-2 + 2, icon.Height/-2);
+          //g.DrawImageUnscaled(icon, icon.Width / -2 + 2, icon.Height / -2);
+            g.DrawImage(icon, icon.Width / -2, icon.Height / -2, icon.Width, icon.Height );
 
-            g.DrawString(sysid.ToString(), new Font(FontFamily.GenericMonospace, 15, FontStyle.Bold), Brushes.Red, -8,
-                -8);
+            g.DrawString(sysid.ToString(), new Font(FontFamily.GenericMonospace, 15, FontStyle.Bold), Brushes.Red, -8, -8);
 
             g.Transform = temp;
 
@@ -91,6 +95,16 @@ namespace MissionPlanner.Maps
                             (int)Math.Abs(loc.X - LocalPosition.X), (int)Math.Abs(loc.X - LocalPosition.X)), 0, 360);   
 
             }
+        }
+
+        /// <summary>
+        /// Defile default icon of QuadCopter.
+        /// </summary>
+        /// <param name="icon_index">Not used in Quad Copter.</param>
+        /// <returns>default icon of QuadCopter.</returns>
+        protected override Bitmap DefaultIcon(int icon_index)
+        {
+            return global::MissionPlanner.Maps.Resources.quadicon;
         }
     }
 }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigPlanner));
             this.label33 = new System.Windows.Forms.Label();
             this.CMB_ratesensors = new System.Windows.Forms.ComboBox();
@@ -102,6 +103,10 @@
             this.chk_shownofly = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
             this.CMB_altunits = new System.Windows.Forms.ComboBox();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.LabelFrameShape = new System.Windows.Forms.Label();
+            this.txt_frame_shape_file = new System.Windows.Forms.TextBox();
+            this.BUT_frameshapebrowse = new MissionPlanner.Controls.MyButton();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_tracklength)).BeginInit();
             this.SuspendLayout();
             // 
@@ -679,6 +684,29 @@
             this.CMB_altunits.Name = "CMB_altunits";
             this.CMB_altunits.SelectedIndexChanged += new System.EventHandler(this.CMB_altunits_SelectedIndexChanged);
             // 
+            // imageList1
+            // 
+            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            resources.ApplyResources(this.imageList1, "imageList1");
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            // 
+            // LabelFrameShape
+            // 
+            resources.ApplyResources(this.LabelFrameShape, "LabelFrameShape");
+            this.LabelFrameShape.Name = "LabelFrameShape";
+            // 
+            // txt_frame_shape_file
+            // 
+            resources.ApplyResources(this.txt_frame_shape_file, "txt_frame_shape_file");
+            this.txt_frame_shape_file.Name = "txt_frame_shape_file";
+            // 
+            // BUT_frameshapebrowse
+            // 
+            resources.ApplyResources(this.BUT_frameshapebrowse, "BUT_frameshapebrowse");
+            this.BUT_frameshapebrowse.Name = "BUT_frameshapebrowse";
+            this.BUT_frameshapebrowse.UseVisualStyleBackColor = true;
+            this.BUT_frameshapebrowse.Click += new System.EventHandler(this.BUT_frameshapebrowse_Click);
+            // 
             // ConfigPlanner
             // 
             this.Controls.Add(this.label6);
@@ -702,7 +730,10 @@
             this.Controls.Add(this.BUT_themecustom);
             this.Controls.Add(this.CMB_theme);
             this.Controls.Add(this.label4);
+            this.Controls.Add(this.BUT_frameshapebrowse);
             this.Controls.Add(this.BUT_logdirbrowse);
+            this.Controls.Add(this.txt_frame_shape_file);
+            this.Controls.Add(this.LabelFrameShape);
             this.Controls.Add(this.txt_log_dir);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -838,5 +869,9 @@
         private System.Windows.Forms.CheckBox chk_shownofly;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox CMB_altunits;
+        private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.Label LabelFrameShape;
+        private System.Windows.Forms.TextBox txt_frame_shape_file;
+        private Controls.MyButton BUT_frameshapebrowse;
     }
 }

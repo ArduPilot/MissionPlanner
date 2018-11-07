@@ -28,6 +28,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             txt_log_dir.TextChanged += OnLogDirTextChanged;
 
+            txt_frame_shape_file.TextChanged += OnFrameShapeFileTextChanged;
+
         }
 
 
@@ -185,6 +187,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
 
             txt_log_dir.Text = Settings.Instance.LogDir;
+            txt_frame_shape_file.Text = Settings.Instance.FrameShapeFiles;
 
             startup = false;
         }
@@ -940,6 +943,40 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             Settings.Instance["altunits"] = CMB_altunits.Text;
             MainV2.instance.ChangeUnits();
+        }
+
+
+        private void BUT_frameshapebrowse_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog fd = new OpenFileDialog())
+            {
+                fd.AddExtension = true;
+                fd.Filter = "Image Files (PNG,BMP,JPEG)|*.png;*.bmp;*.jpg";
+                try
+                {
+                    fd.InitialDirectory = System.IO.Path.GetDirectoryName(Settings.Instance.FrameShapeFiles.Split(';')[0]);
+                }
+                catch { }
+                fd.DefaultExt = ".png";
+                fd.Multiselect = true;
+                if (fd.ShowDialog() == DialogResult.OK)
+                {
+                    String tmp = "";
+                    for ( int i = 0; i < fd.FileNames.Length; i++ )
+                    {
+                        if (i > 0) tmp += ";";
+                        tmp += fd.FileNames[i];
+                    }
+
+                    txt_frame_shape_file.Text = tmp;
+                }
+            }
+        }
+
+
+        private void OnFrameShapeFileTextChanged(object sender, EventArgs e)
+        {
+            Settings.Instance.FrameShapeFiles = txt_frame_shape_file.Text;
         }
     }
 }

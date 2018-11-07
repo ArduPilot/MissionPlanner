@@ -8,11 +8,8 @@ using SvgNet.SvgGdi;
 namespace MissionPlanner.Maps
 {
     [Serializable]
-    public class GMapMarkerBoat : GMapMarker
+    public class GMapMarkerBoat : GMapMarker_IconSelectable
     {
-        static readonly System.Drawing.Size SizeSt =
-            new System.Drawing.Size(global::MissionPlanner.Maps.Resources.boat.Width,
-                global::MissionPlanner.Maps.Resources.boat.Height);
 
         float heading = 0;
         float cog = -1;
@@ -26,7 +23,7 @@ namespace MissionPlanner.Maps
             this.cog = cog;
             this.target = target;
             this.nav_bearing = nav_bearing;
-            Size = SizeSt;
+            Size = FrameIcon().Size;
         }
 
         public override void OnRender(IGraphics g)
@@ -61,11 +58,20 @@ namespace MissionPlanner.Maps
             catch
             {
             }
-            g.DrawImageUnscaled(global::MissionPlanner.Maps.Resources.boat,
-                global::MissionPlanner.Maps.Resources.boat.Width / -2,
-                global::MissionPlanner.Maps.Resources.boat.Height / -2);
+            Bitmap icon = FrameIcon();
+            g.DrawImage(icon, icon.Width / -2, icon.Height / -2, icon.Width, icon.Height);
 
             g.Transform = temp;
+        }
+
+        /// <summary>
+        /// Defile default icon of Boat.
+        /// </summary>
+        /// <param name="icon_index">Not used in Boat.</param>
+        /// <returns>default icon of Boat.</returns>
+        protected override Bitmap DefaultIcon(int icon_index)
+        {
+            return global::MissionPlanner.Maps.Resources.boat;
         }
     }
 }

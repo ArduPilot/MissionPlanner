@@ -110,6 +110,26 @@ namespace MissionPlanner.Utilities
             }
         }
 
+
+       public string FrameShapeFiles
+       {
+            get
+            {
+                string fname = this["frameshapefile"];
+                if (string.IsNullOrEmpty(fname))
+                {
+                    fname = "";
+                }
+                return fname;
+            }
+            set
+            {
+                this["frameshapefile"] = value;
+            }
+       }
+
+
+
         public int Count { get { return config.Count; } }
 
         public static string GetDefaultLogDir()

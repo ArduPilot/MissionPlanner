@@ -8,9 +8,9 @@ using SvgNet.SvgGdi;
 namespace MissionPlanner.Maps
 {
     [Serializable]
-    public class GMapMarkerSingle : GMapMarker
+    public class GMapMarkerSingle : GMapMarker_IconSelectable
     {
-        private readonly Bitmap icon = global::MissionPlanner.Maps.Resources.redsinglecopter2;
+        private readonly Bitmap icon;
 
         float heading = 0;
         float cog = -1;
@@ -24,6 +24,7 @@ namespace MissionPlanner.Maps
             this.cog = cog;
             this.target = target;
             this.sysid = sysid;
+            icon = FrameIcon();
             Size = icon.Size;
         }
 
@@ -62,6 +63,17 @@ namespace MissionPlanner.Maps
                 -8);
 
             g.Transform = temp;
+        }
+
+
+        /// <summary>
+        /// Defile default icon of Single(Coaxial).
+        /// </summary>
+        /// <param name="icon_index">Not used in Single(Coaxial).</param>
+        /// <returns>default icon of Single(Coaxial).</returns>
+        protected override Bitmap DefaultIcon(int icon_index)
+        {
+            return global::MissionPlanner.Maps.Resources.redsinglecopter2;
         }
     }
 }

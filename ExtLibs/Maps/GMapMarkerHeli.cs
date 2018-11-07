@@ -8,9 +8,9 @@ using SvgNet.SvgGdi;
 namespace MissionPlanner.Maps
 {
     [Serializable]
-    public class GMapMarkerHeli : GMapMarker
+    public class GMapMarkerHeli : GMapMarker_IconSelectable
     {
-        private readonly Bitmap icon = global::MissionPlanner.Maps.Resources.heli;
+        private Bitmap icon;
 
         float heading = 0;
         float cog = -1;
@@ -22,6 +22,7 @@ namespace MissionPlanner.Maps
             this.heading = heading;
             this.cog = cog;
             this.target = target;
+            icon = FrameIcon();// global::MissionPlanner.Maps.Resources.heli;
             Size = icon.Size;
         }
 
@@ -53,9 +54,19 @@ namespace MissionPlanner.Maps
             catch
             {
             }
-            g.DrawImageUnscaled(icon, icon.Width/-2 + 2, icon.Height/-2);
+            g.DrawImage(icon, icon.Width/-2 + 2, icon.Height/-2, icon.Width, icon.Height );
 
             g.Transform = temp;
+        }
+
+        /// <summary>
+        /// Defile default icon of Heli.
+        /// </summary>
+        /// <param name="icon_index">Not used in Heli.</param>
+        /// <returns>default icon of Heli.</returns>
+        protected override Bitmap DefaultIcon(int icon_index)
+        {
+            return global::MissionPlanner.Maps.Resources.heli;
         }
     }
 }

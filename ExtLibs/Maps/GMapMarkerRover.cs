@@ -8,11 +8,8 @@ using SvgNet.SvgGdi;
 namespace MissionPlanner.Maps
 {
     [Serializable]
-    public class GMapMarkerRover : GMapMarker
+    public class GMapMarkerRover : GMapMarker_IconSelectable
     {
-        static readonly System.Drawing.Size SizeSt =
-            new System.Drawing.Size(global::MissionPlanner.Maps.Resources.rover.Width,
-                global::MissionPlanner.Maps.Resources.rover.Height);
 
         float heading = 0;
         float cog = -1;
@@ -26,7 +23,17 @@ namespace MissionPlanner.Maps
             this.cog = cog;
             this.target = target;
             this.nav_bearing = nav_bearing;
-            Size = SizeSt;
+            Size = FrameIcon().Size;
+        }
+
+        /// <summary>
+        /// Defile default icon of Rover.
+        /// </summary>
+        /// <param name="icon_index">Not used in Rover.</param>
+        /// <returns>default icon of Rover.</returns>
+        protected override Bitmap DefaultIcon(int icon_index)
+        {
+            return global::MissionPlanner.Maps.Resources.rover;
         }
 
         public override void OnRender(IGraphics g)
@@ -61,9 +68,8 @@ namespace MissionPlanner.Maps
             catch
             {
             }
-            g.DrawImageUnscaled(global::MissionPlanner.Maps.Resources.rover,
-                global::MissionPlanner.Maps.Resources.rover.Width/-2,
-                global::MissionPlanner.Maps.Resources.rover.Height/-2);
+            Bitmap icon = FrameIcon();
+            g.DrawImage(icon, icon.Width / -2, icon.Height / -2, icon.Width, icon.Height);
 
             g.Transform = temp;
         }

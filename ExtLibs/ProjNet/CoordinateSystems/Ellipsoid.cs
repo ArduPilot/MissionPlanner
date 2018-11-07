@@ -1,4 +1,4 @@
-// Copyright 2005 - 2009 - Morten Nielsen (www.sharpgis.net)
+ï»¿// Copyright 2005 - 2009 - Morten Nielsen (www.sharpgis.net)
 //
 // This file is part of ProjNet.
 // ProjNet is free software; you can redistribute it and/or modify
@@ -142,7 +142,7 @@ namespace ProjNet.CoordinateSystems
 			get
 			{
 				return new Ellipsoid(20926202, 0, 297, true, LinearUnit.ClarkesFoot, "Clarke 1880", "EPSG", 7034, "Clarke 1880", String.Empty,
-					"Clarke gave a and b and also 1/f=293.465 (to 3 decimal places).  1/f derived from a and b = 293.4663077…");
+					"Clarke gave a and b and also 1/f=293.465 (to 3 decimal places).  1/f derived from a and b = 293.4663077.");
 			}
 		}
 
