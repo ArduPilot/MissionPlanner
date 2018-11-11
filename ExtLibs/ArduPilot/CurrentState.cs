@@ -488,7 +488,7 @@ namespace MissionPlanner
                     return _ch3percent;
                 try
                 {
-                    if (parent.parent.MAV.param.ContainsKey("RC3_MIN") &&
+                    if (parent != null && parent.parent.MAV.param.ContainsKey("RC3_MIN") &&
                         parent.parent.MAV.param.ContainsKey("RC3_MAX"))
                     {
                         return
@@ -914,6 +914,8 @@ namespace MissionPlanner
         {
             get { return new PointLatLngAlt(lat, lng, altasl); }
         }
+
+        public PointLatLngAlt TargetLocation { get; set; } = PointLatLngAlt.Zero;
 
         public float GeoFenceDist
         {
@@ -1660,6 +1662,21 @@ namespace MissionPlanner
                         //lat = loc.Lat;
                         //lng = loc.Lng;
                         //alt = (float)(loc.Alt + lpned.z);
+                    }
+
+                    mavLinkMessage = MAV.getPacket((uint)MAVLink.MAVLINK_MSG_ID.POSITION_TARGET_GLOBAL_INT);
+
+                    if (mavLinkMessage != null)
+                    {
+                        var postraget = mavLinkMessage.ToStructure<MAVLink.mavlink_position_target_global_int_t>();
+
+                        if(postraget.coordinate_frame == (byte)MAVLink.MAV_FRAME.GLOBAL_INT)
+                            TargetLocation = new PointLatLngAlt(postraget.lat_int / 1e7, postraget.lon_int / 1e7, postraget.alt,
+                                postraget.type_mask.ToString());
+
+                        if (postraget.coordinate_frame == (byte)MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT)
+                            TargetLocation = new PointLatLngAlt(postraget.lat_int / 1e7, postraget.lon_int / 1e7, postraget.alt + HomeAlt,
+                                postraget.type_mask.ToString());
                     }
 
                     mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.AUTOPILOT_VERSION);
