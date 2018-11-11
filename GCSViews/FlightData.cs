@@ -410,28 +410,33 @@ namespace MissionPlanner.GCSViews
 
 
                 if (lbl1 == null)
+                {
                     lbl1 = new MyLabel();
-
-                lbl1.Location = new Point(x, y);
-                lbl1.Size = new Size(90, 13);
-                lbl1.Text = field;
-                lbl1.Name = field;
-                lbl1.Visible = true;
+                    lbl1.Location = new Point(x, y);
+                    lbl1.Size = new Size(90, 13);
+                    lbl1.Text = field;
+                    lbl1.Name = field;
+                    lbl1.Visible = true;
+                }
 
                 if (lbl2 == null)
+                {
                     lbl2 = new MyLabel();
 
-                lbl2.AutoSize = false;
+                    lbl2.AutoSize = false;
 
-                lbl2.Location = new Point(lbl1.Right + 5, y);
-                lbl2.Size = new Size(50, 13);
+                    lbl2.Location = new Point(lbl1.Right + 5, y);
+                    lbl2.Size = new Size(50, 13);
+
+                    lbl2.Name = field + "value";
+                    lbl2.Visible = true;
+                }
+
                 if (lbl2.DataBindings.Count == 0)
                 {
                     lbl2.DataBindings.Add(new Binding("Text", bindingSourceStatusTab, field, false,
                         DataSourceUpdateMode.Never, "0"));
                 }
-                lbl2.Name = field + "value";
-                lbl2.Visible = true;
                 //lbl2.Text = fieldValue.ToString();
 
                 if (!tabStatus.Controls.Contains(lbl1))
