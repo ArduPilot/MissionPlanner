@@ -1144,6 +1144,7 @@ namespace MissionPlanner.Log
         void GraphItem(string type, string fieldname, bool left = true, bool displayerror = true,
             bool isexpression = false)
         {
+            log.InfoFormat("GraphItem: {0} {1}", type, fieldname);
             DataModifer dataModifier = new DataModifer();
             string nodeName = DataModifer.GetNodeName(type, fieldname);
 

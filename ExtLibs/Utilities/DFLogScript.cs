@@ -252,8 +252,13 @@ namespace MissionPlanner.Log
                             var offset = dflog.FindMessageOffset(key, value);
                             if (offset == -1)
                                 continue;
-                            work[a] = double.Parse(item.items[offset]);
+                            var ans = logdata.GetUnit(key, value);
+                            string unit = ans.Item1;
+                            double multiplier = ans.Item2;
+                            work[a] = double.Parse(item.items[offset]) * multiplier;
                         }
+
+
 
                         double workanswer = 0;
                         foreach (var value in work.Values)
