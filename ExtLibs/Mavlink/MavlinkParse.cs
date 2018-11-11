@@ -7,6 +7,26 @@ using System.Text;
 
 public partial class MAVLink
 {
+    public class Units : Attribute
+    {
+        public Units(string unit)
+        {
+            Unit = unit;
+        }
+
+        public string Unit { get; set; }
+    }
+
+    public class Description : Attribute
+    {
+        public Description(string desc)
+        {
+            Text = desc;
+        }
+
+        public string Text { get; set; }
+    }
+
     public class MavlinkParse
     {
         public int packetcount = 0;
