@@ -88,6 +88,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 CMB_batmonsensortype.SelectedIndex = 5;
             }
+            else if (TXT_ampspervolt.Text == (24).ToString() && TXT_divider.Text == (18).ToString())
+            {
+                CMB_batmonsensortype.SelectedIndex = 8;
+            }
             else
             {
                 CMB_batmonsensortype.SelectedIndex = 0;
@@ -406,6 +410,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 TXT_divider.Text = (12.02).ToString();
                 TXT_ampspervolt.Text = (39.877).ToString();
+            }
+            else if (selection == 8) // pixhack
+            {
+                TXT_divider.Text = (18).ToString();
+                TXT_ampspervolt.Text = (24).ToString();
             }
 
             // enable to update
