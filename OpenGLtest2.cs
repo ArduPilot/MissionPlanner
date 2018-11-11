@@ -501,7 +501,10 @@ namespace MissionPlanner.Controls
                     GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
                     GL.Enable(EnableCap.Texture2D);
                     GL.BindTexture(TextureTarget.Texture2D, green);
-                    foreach (var point in GCSViews.FlightPlanner.instance.pointlist)
+                    var list = GCSViews.FlightPlanner.instance.pointlist.ToList();
+                    if (MainV2.comPort.MAV.cs.TargetLocation != PointLatLngAlt.Zero)
+                        list.Add(MainV2.comPort.MAV.cs.TargetLocation);
+                    foreach (var point in list)
                     {
                         if (point == null)
                             continue;
@@ -510,10 +513,10 @@ namespace MissionPlanner.Controls
 
                         GL.Color3(Color.Red); //tr
                         GL.TexCoord2(0, 0);
-                        GL.Vertex3(Math.Sin(MathHelper.Radians(rpy.Z+90)) * 2 + co[0], Math.Cos(MathHelper.Radians(rpy.Z + 90)) * 2 + co[1] , co[2] + 1);
+                        GL.Vertex3(Math.Sin(MathHelper.Radians(rpy.Z+90)) * 2 + co[0], Math.Cos(MathHelper.Radians(rpy.Z + 90)) * 2 + co[1] , co[2] + 10);
                         GL.Color3(Color.Green); //tl
                         GL.TexCoord2(1, 0);
-                        GL.Vertex3( co[0] - Math.Sin(MathHelper.Radians(rpy.Z + 90))*2,  co[1] - Math.Cos(MathHelper.Radians(rpy.Z + 90)) * 2, co[2] + 1);
+                        GL.Vertex3( co[0] - Math.Sin(MathHelper.Radians(rpy.Z + 90))*2,  co[1] - Math.Cos(MathHelper.Radians(rpy.Z + 90)) * 2, co[2] + 10);
                         GL.Color3(Color.Blue); // br
                         GL.TexCoord2(0, 1);
                         GL.Vertex3(co[0] + Math.Sin(MathHelper.Radians(rpy.Z + 90)) * 2, co[1] + Math.Cos(MathHelper.Radians(rpy.Z + 90)) * 2, co[2] - 1);
@@ -551,7 +554,7 @@ namespace MissionPlanner.Controls
             //this.Invalidate();
 
             var delta = DateTime.Now - start;
-            Console.WriteLine("OpenGLTest2 {0}", delta.TotalMilliseconds);
+            Console.Write("OpenGLTest2 {0}\r", delta.TotalMilliseconds);
         }
 
         private void generateTextures()
@@ -568,6 +571,7 @@ namespace MissionPlanner.Controls
             //if (center.GetDistance(oldcenter) > 30)
             {
                 oldcenter = new PointLatLngAlt(center);
+                zoom = 18;
 
                 for (int a = 12; a <= zoom; a++)
                 {
