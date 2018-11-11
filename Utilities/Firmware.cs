@@ -31,12 +31,12 @@ namespace MissionPlanner.Utilities
 
         string firmwareurl = "https://raw.github.com/diydrones/binary/master/Firmware/firmware2.xml";
 
-        readonly string gholdurl = ("https://github.com/diydrones/binary/raw/!Hash!/Firmware/firmware2.xml");
-        readonly string gholdfirmwareurl = ("https://github.com/diydrones/binary/raw/!Hash!/Firmware/!Firmware!");
+        static readonly string gholdurl = ("https://github.com/diydrones/binary/raw/!Hash!/Firmware/firmware2.xml");
+        static readonly string gholdfirmwareurl = ("https://github.com/diydrones/binary/raw/!Hash!/Firmware/!Firmware!");
 
-        string[] gholdurls = new string[] {};
+        static string[] gholdurls = new string[] {};
 
-        public List<KeyValuePair<string, string>> niceNames = new List<KeyValuePair<string, string>>();
+        public static List<KeyValuePair<string, string>> niceNames = new List<KeyValuePair<string, string>>();
 
         private optionsObject options = new optionsObject();
 
@@ -117,7 +117,7 @@ namespace MissionPlanner.Utilities
             public string format_version { get; set; }
         }
 
-        public string getUrl(string hash, string filename)
+        public static string getUrl(string hash, string filename)
         {
             if (hash.ToLower().StartsWith("http"))
             {
@@ -143,11 +143,7 @@ namespace MissionPlanner.Utilities
             return "";
         }
 
-
-        /// <summary>
-        /// Load firmware history from file
-        /// </summary>
-        public Firmware()
+        static Firmware()
         {
             string file = Path.GetDirectoryName(Path.GetFullPath(Assembly.GetExecutingAssembly().Location)) + Path.DirectorySeparatorChar +
                           "FirmwareHistory.txt";
@@ -187,10 +183,32 @@ namespace MissionPlanner.Utilities
                     a++;
                 }
             }
+        }
 
-            //firmwares = JsonConvert.DeserializeObject<RootObject>(new WebClient().DownloadString("http://firmware.ardupilot.org/manifest.json"));
+        /// <summary>
+        /// Load firmware history from file
+        /// </summary>
+        public Firmware()
+        {
+            /*
+            var firmwares = JsonConvert.DeserializeObject<RootObject>(new WebClient().DownloadString("http://firmware.ardupilot.org/manifest.json"));
 
-            System.Threading.Thread.CurrentThread.CurrentUICulture = L10N.ConfigLang;
+            var allnonDEV = firmwares.firmware.Where(a => a.mav_firmware_version_type == "OFFICIAL");
+
+            var distinctplatforms = allnonDEV.GroupBy(a => a.platform).Select(group => group.First());
+
+            allnonDEV.OrderBy((info => info.mav_type+"-"+info.platform)).Select(a =>
+            {
+                File.AppendAllText("fwlist.txt",
+                    String.Format("{0},{1},{2},{3},{4},{5}\r\n", a.mav_type, a.url, a.platform, a.mav_firmware_version, a.git_sha, a.latest));
+
+                File.AppendAllText("fwlist1.txt",
+                    String.Format("    <url{0}>{1}</url{0}>\r\n", a.platform, a.url));
+                return false;
+            }).ToArray();
+
+            //var type = allnonDEV.GroupBy(a=> a.)
+            */
         }
 
         /// <summary>
@@ -403,6 +421,7 @@ namespace MissionPlanner.Utilities
                 else if (board == BoardDetect.boards.px4v3)
                 {
                     baseurl = temp.urlpx4v3.ToString();
+
                     if (String.IsNullOrEmpty(baseurl) || !Download.CheckHTTPFileExists(baseurl))
                     {
                         baseurl = temp.urlpx4v2.ToString();

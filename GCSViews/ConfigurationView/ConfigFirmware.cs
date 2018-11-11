@@ -296,6 +296,26 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 var history = (CMB_history.SelectedValue == null) ? "" : CMB_history.SelectedValue.ToString();
 
+                if (history != "")
+                {
+                    foreach (var propertyInfo in fwtoupload.GetType().GetFields())
+                    {
+                        try
+                        {
+                            if (propertyInfo.Name.Contains("url"))
+                            {
+                                var oldurl = propertyInfo.GetValue(fwtoupload).ToString();
+                                if(oldurl == "")
+                                    continue;
+                                var newurl = Firmware.getUrl(history, oldurl);
+                                propertyInfo.SetValue(fwtoupload, newurl);
+                            }
+                        } catch { }
+                    }
+
+                    history = "";
+                }
+
                 var updated = fw.update(MainV2.comPortName, fwtoupload, history);
 
                 if (updated)
@@ -347,7 +367,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void CMB_history_SelectedIndexChanged(object sender, EventArgs e)
         {
-            firmwareurl = fw.getUrl(CMB_history.SelectedValue.ToString(), "");
+            firmwareurl = Firmware.getUrl(CMB_history.SelectedValue.ToString(), "");
 
             softwares.Clear();
             UpdateFWList();
@@ -363,7 +383,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             //CMB_history.Items.AddRange(fw.gcoldurls);
             CMB_history.DisplayMember = "Value";
             CMB_history.ValueMember = "Key";
-            CMB_history.DataSource = fw.niceNames;
+            CMB_history.DataSource = Firmware.niceNames;
 
             CMB_history.Enabled = true;
             CMB_history.Visible = true;
