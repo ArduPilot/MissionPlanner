@@ -855,7 +855,7 @@ namespace MissionPlanner.GCSViews
 
                 try
                 {
-                    if (aviwriter != null && vidrec.AddMilliseconds(100) <= DateTime.Now)
+                    if (aviwriter != null && vidrec.AddMilliseconds(1000/25.0) <= DateTime.Now)
                     {
                         vidrec = DateTime.Now;
 
@@ -865,7 +865,7 @@ namespace MissionPlanner.GCSViews
                         // add a frame
                         aviwriter.avi_add(hud1.streamjpg.ToArray(), (uint) hud1.streamjpg.Length);
                         // write header - so even partial files will play
-                        aviwriter.avi_end(hud1.Width, hud1.Height, 10);
+                        aviwriter.avi_end(hud1.Width, hud1.Height, 25);
                     }
                 }
                 catch
