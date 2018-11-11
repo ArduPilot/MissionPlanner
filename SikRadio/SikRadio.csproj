@@ -46,6 +46,7 @@
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <WarningLevel>4</WarningLevel>
     <Optimize>false</Optimize>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
