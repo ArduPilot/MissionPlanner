@@ -69,7 +69,7 @@ namespace MissionPlanner
 
         public event EventHandler CommsClose;
 
-        const int gcssysid = 255;
+        public byte gcssysid { get; set; } = 255;
 
         /// <summary>
         /// used to prevent comport access for exclusive use
