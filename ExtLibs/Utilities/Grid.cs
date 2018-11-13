@@ -177,8 +177,8 @@ namespace MissionPlanner.Utilities
         {
             //DoDebug();
 
-            if (spacing < 4 && spacing != 0)
-                spacing = 4;
+            if (spacing < 0.1 && spacing != 0)
+                spacing = 0.1;
 
             if (distance < 0.1)
                 distance = 0.1;
@@ -443,9 +443,9 @@ namespace MissionPlanner.Utilities
 
                     if (spacing > 0)
                     {
-                        for (int d = (int)(spacing - ((closest.basepnt.GetDistance(closest.p1)) % spacing));
+                        for (double d = (spacing - ((closest.basepnt.GetDistance(closest.p1)) % spacing));
                             d < (closest.p1.GetDistance(closest.p2));
-                            d += (int)spacing)
+                            d += spacing)
                         {
                             double ax = closest.p1.x;
                             double ay = closest.p1.y;
@@ -487,9 +487,9 @@ namespace MissionPlanner.Utilities
 
                     if (spacing > 0)
                     {
-                        for (int d = (int)((closest.basepnt.GetDistance(closest.p2)) % spacing);
+                        for (double d = ((closest.basepnt.GetDistance(closest.p2)) % spacing);
                             d < (closest.p1.GetDistance(closest.p2));
-                            d += (int)spacing)
+                            d += spacing)
                         {
                             double ax = closest.p2.x;
                             double ay = closest.p2.y;

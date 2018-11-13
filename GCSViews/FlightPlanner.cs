@@ -161,10 +161,13 @@ namespace MissionPlanner.GCSViews
 
             try
             {
-                // get current command list
-                var currentlist = GetCommandList();
-                // add history
-                history.Add(currentlist);
+                if (!quickadd)
+                {
+                    // get current command list
+                    var currentlist = GetCommandList();
+                    // add history
+                    history.Add(currentlist);
+                }
             }
             catch (Exception ex)
             {
