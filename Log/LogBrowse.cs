@@ -35,6 +35,7 @@ namespace MissionPlanner.Log
         List<TextObj> MSGCache = new List<TextObj>();
         List<TextObj> ErrorCache = new List<TextObj>();
         List<TextObj> TimeCache = new List<TextObj>();
+        DFLog.DFItem[] gpscache = new DFLog.DFItem[0];
 
         const int typecoloum = 2;
 
@@ -510,6 +511,7 @@ namespace MissionPlanner.Log
             ModePolyCache = new List<TextObj>();
             TimeCache = new List<TextObj>();
             MSGCache = new List<TextObj>();
+            gpscache = new DFLog.DFItem[0];
 
             if (!File.Exists(logfilename))
             {
@@ -595,7 +597,8 @@ namespace MissionPlanner.Log
 
                 foreach (var msgid in logdata.FMT)
                 {
-                    colcount = Math.Max(colcount, (msgid.Value.Item4.Length + typecoloum));
+                    var colsplit = msgid.Value.Item4.First().ToString().Split(',').Length;
+                    colcount = Math.Max(colcount, (msgid.Value.Item4.Length + typecoloum + colsplit));
                 }
 
                 log.Info("Done " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
@@ -1713,6 +1716,8 @@ namespace MissionPlanner.Log
             try
             {
                 mapoverlay.Routes.Clear();
+                if(gpscache.Length == 0)
+                    gpscache = logdata.GetEnumeratorType(new string[] {"GPS", "POS", "GPS2", "GPSB", "CMD"}).ToArray();
 
                 DateTime starttime = DateTime.MinValue;
                 DateTime workingtime = starttime;
@@ -1741,7 +1746,7 @@ namespace MissionPlanner.Log
                 int firstpointgpsb = 0;
                 int firstpointcmd = 0;
 
-                foreach (var item in logdata.GetEnumeratorType(new string[] {"GPS", "POS", "GPS2", "GPSB", "CMD"}))
+                foreach (var item in gpscache)
                 {
                     i = item.lineno;
 
@@ -2387,10 +2392,10 @@ namespace MissionPlanner.Log
                 if (chk_msg.Checked)
                     DrawMSG();
 
-                if (!chk_time.Checked)
+                if (!chk_time.Checked && CHK_map.Checked)
                     DrawMap((long)sender.GraphPane.XAxis.Scale.Min, (long)sender.GraphPane.XAxis.Scale.Max);
 
-                if (chk_time.Checked)
+                if (chk_time.Checked && CHK_map.Checked)
                     DrawMap(dflog.GetLineNoFromTime(logdata, new XDate(sender.GraphPane.XAxis.Scale.Min).DateTime),
                         dflog.GetLineNoFromTime(logdata, new XDate(sender.GraphPane.XAxis.Scale.Max).DateTime));
 
@@ -2411,7 +2416,7 @@ namespace MissionPlanner.Log
 
                 myGMAP1.MapProvider = GCSViews.FlightData.mymap.MapProvider;
 
-                // DrawMap();
+                zg1_ZoomEvent(zg1, null, null);
 
                 log.Info("map done");
             }

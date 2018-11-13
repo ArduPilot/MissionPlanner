@@ -51,15 +51,16 @@ namespace MissionPlanner.Utilities
             }
 
             return value is sbyte
+                   || value is double
+                   || value is float
+                   || value is uint
                    || value is byte
                    || value is short
                    || value is ushort
                    || value is int
-                   || value is uint
                    || value is long
                    || value is ulong
-                   || value is float
-                   || value is double
+                   
                    || value is decimal;
         }
 

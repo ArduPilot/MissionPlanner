@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -34,6 +35,69 @@ namespace MissionPlanner.Utilities
             public int lineno;
 
             public DFLog parent;
+
+            public DFItem(DFLog _parent, object[] _answer, int lineno) : this()
+            {
+                 this.parent = _parent;
+
+                this.lineno = lineno;
+
+                if (_answer.Length > 0)
+                {
+                    msgtype = _answer[0].ToString();
+                    items = _answer.Select((a) =>
+                    {
+                        if (a.IsNumber())
+                            return (((IConvertible) a).ToString(CultureInfo.InvariantCulture));
+                        else
+                            return a.ToString();
+                    }).ToArray();
+                    bool timeus = false;
+
+                    if (_parent.logformat.ContainsKey(msgtype))
+                    {
+                        int indextimems = _parent.FindMessageOffset(msgtype, "TimeMS");
+
+                        if (msgtype.StartsWith("GPS"))
+                        {
+                            indextimems = _parent.FindMessageOffset(msgtype, "T");
+                        }
+
+                        if (indextimems == -1)
+                        {
+                            indextimems = _parent.FindMessageOffset(msgtype, "TimeUS");
+                            timeus = true;
+                        }
+
+                        if (indextimems != -1)
+                        {
+                            long ntime = 0;
+
+                            if (long.TryParse(items[indextimems], out ntime))
+                            {
+                                if (timeus)
+                                    ntime /= 1000;
+
+                                timems = (int)ntime;
+
+                                if (_parent.gpsstarttime != DateTime.MinValue)
+                                {
+                                    time = _parent.gpsstarttime.AddMilliseconds(timems - _parent.msoffset);
+                                    _parent.lasttime = time;
+                                }
+                            }
+                            else
+                            {
+                                time = _parent.lasttime;
+                            }
+                        }
+                        else
+                        {
+                            time = _parent.lasttime;
+                        }
+                    }
+                }
+            }
 
             public string this[string item]
             {

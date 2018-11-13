@@ -241,30 +241,80 @@ namespace MissionPlanner.Utilities
         public Dictionary<char, string> Unit { get; set; } = new Dictionary<char, string>();
         public Dictionary<char, string> Mult { get; set; } = new Dictionary<char, string>();
 
+        public DFLog.DFItem this[long indexin]
+        {
+            get
+            {
+                int index = (int) indexin;
+
+                long startoffset = linestartoffset[index];
+                long endoffset = startoffset;
+
+                if ((index + 1) >= linestartoffset.Count)
+                {
+                    endoffset = basestream.Length;
+                }
+                else
+                {
+                    endoffset = linestartoffset[index + 1];
+                }
+
+                int length = (int)(endoffset - startoffset);
+
+                // prevent multi io to file
+                lock (locker)
+                {
+                    if (linestartoffset[index] != basestream.Position)
+                        basestream.Seek(linestartoffset[index], SeekOrigin.Begin);
+
+                    if (binary)
+                    {
+                        var items = binlog.ReadMessageObjects(basestream, basestream.Length);
+
+                        //var test = dflog.GetDFItemFromLine(this[index], index);
+
+                        var answer =  new DFLog.DFItem(dflog, items, (int)indexin);
+
+                        return answer;
+                    }
+                    else
+                    {
+                        byte[] data = new byte[length];
+
+                        basestream.Read(data, 0, length);
+
+                        return dflog.GetDFItemFromLine(ASCIIEncoding.ASCII.GetString(data), (int)indexin);
+                    }
+
+                    
+                }
+            }
+        }
+
         public String this[int index]
         {
             get
             {
+                long startoffset = linestartoffset[index];
+                long endoffset = startoffset;
+
+                if ((index + 1) >= linestartoffset.Count)
+                {
+                    endoffset = basestream.Length;
+                }
+                else
+                {
+                    endoffset = linestartoffset[index + 1];
+                }
+
+                int length = (int) (endoffset - startoffset);
+
                 // prevent multi io to file
                 lock (locker)
                 {
                     // return cached value is same index
                     if (indexcachelineno == index)
                         return currentindexcache;
-
-                    long startoffset = linestartoffset[index];
-                    long endoffset = startoffset;
-
-                    if ((index + 1) >= linestartoffset.Count)
-                    {
-                        endoffset = basestream.Length;
-                    }
-                    else
-                    {
-                        endoffset = linestartoffset[index + 1];
-                    }
-
-                    int length = (int) (endoffset - startoffset);
 
                     if (linestartoffset[index] != basestream.Position)
                         basestream.Seek(linestartoffset[index], SeekOrigin.Begin);
@@ -315,7 +365,7 @@ namespace MissionPlanner.Utilities
             while (position < Count)
             {
                 position++;
-                yield return dflog.GetDFItemFromLine(this[position - 1], position - 1);
+                yield return this[(long)position - 1];
             }
         }
 
@@ -348,7 +398,7 @@ namespace MissionPlanner.Utilities
 
                 if (slist.Contains(linestartoffset[position - 1]))
                 {
-                    yield return dflog.GetDFItemFromLine(this[position - 1].ToString(), position - 1);
+                    yield return this[(long)position - 1];
                 }
             }
         }

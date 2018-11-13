@@ -318,13 +318,13 @@ namespace MissionPlanner.Utilities
             }
         }
 
-        public object[] ReadMessageObjects(Stream br)
+        public object[] ReadMessageObjects(Stream br, long length)
         {
             lock (locker)
             {
                 int log_step = 0;
 
-                while (br.Position < br.Length)
+                while (br.Position < length)
                 {
                     byte data = (byte) br.ReadByte();
 
