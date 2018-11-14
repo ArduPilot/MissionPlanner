@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Utilities
@@ -40,6 +41,15 @@ namespace MissionPlanner.Utilities
         static void addtomap(utmpos pos, string tag)
         {
 
+        }
+
+        public static async Task<List<PointLatLngAlt>> CreateCorridorAsync(List<PointLatLngAlt> polygon, double altitude,
+            double distance,
+            double spacing, double angle, double overshoot1, double overshoot2, StartPosition startpos, bool shutter,
+            float minLaneSeparation, double width, float leadin = 0)
+        {
+            return await Task.Run(() => CreateCorridor(polygon, altitude, distance, spacing, angle, overshoot1, overshoot2,
+                startpos, shutter, minLaneSeparation, width, leadin));
         }
 
         public static List<PointLatLngAlt> CreateCorridor(List<PointLatLngAlt> polygon, double altitude, double distance,
@@ -171,6 +181,14 @@ namespace MissionPlanner.Utilities
             }
 
             return ans;
+        }
+
+        public static async Task<List<PointLatLngAlt>> CreateGridAsync(List<PointLatLngAlt> polygon, double altitude,
+            double distance, double spacing, double angle, double overshoot1, double overshoot2, StartPosition startpos,
+            bool shutter, float minLaneSeparation, float leadin, PointLatLngAlt HomeLocation)
+        {
+            return await Task.Run((() => CreateGrid(polygon, altitude, distance, spacing, angle, overshoot1, overshoot2,
+                startpos, shutter, minLaneSeparation, leadin, HomeLocation)));
         }
 
         public static List<PointLatLngAlt> CreateGrid(List<PointLatLngAlt> polygon, double altitude, double distance, double spacing, double angle, double overshoot1,double overshoot2, StartPosition startpos, bool shutter, float minLaneSeparation, float leadin, PointLatLngAlt HomeLocation)

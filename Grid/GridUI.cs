@@ -535,7 +535,7 @@ namespace MissionPlanner.Grid
         }
 
         // Do Work
-        private void domainUpDown1_ValueChanged(object sender, EventArgs e)
+        private async void domainUpDown1_ValueChanged(object sender, EventArgs e)
         {
             if (loading)
                 return;
@@ -557,7 +557,7 @@ namespace MissionPlanner.Grid
             }
             else
             {
-                grid = Utilities.Grid.CreateGrid(list, CurrentState.fromDistDisplayUnit((double) NUM_altitude.Value),
+                grid = await Utilities.Grid.CreateGridAsync(list, CurrentState.fromDistDisplayUnit((double) NUM_altitude.Value),
                     (double) NUM_Distance.Value, (double) NUM_spacing.Value, (double) NUM_angle.Value,
                     (double) NUM_overshoot.Value, (double) NUM_overshoot2.Value,
                     (Utilities.Grid.StartPosition) Enum.Parse(typeof(Utilities.Grid.StartPosition), CMB_startfrom.Text), false,
