@@ -1390,6 +1390,17 @@ namespace MissionPlanner
         public short rcoverridech7;// { get; set; }
         public short rcoverridech8;// { get; set; }
 
+        public short rcoverridech9;//{ get; set; }
+        public short rcoverridech10;// { get; set; }
+        public short rcoverridech11;//{ get; set; }
+        public short rcoverridech12;//{ get; set; }
+        public short rcoverridech13;// { get; set; }
+        public short rcoverridech14;// { get; set; }
+        public short rcoverridech15;// { get; set; }
+        public short rcoverridech16;// { get; set; }
+        public short rcoverridech17;// { get; set; }
+        public short rcoverridech18;// { get; set; }
+
         public Mavlink_Sensors sensors_enabled = new Mavlink_Sensors();
         public Mavlink_Sensors sensors_health = new Mavlink_Sensors();
         public Mavlink_Sensors sensors_present = new Mavlink_Sensors();
