@@ -132,7 +132,7 @@ namespace MissionPlanner.Controls
 
             float newSize = this.Font.Size * ratio;
 
-            if (newSize < 8)
+            if (newSize < 8 || newSize > 999999)
                 newSize = 8;
 
             labelWithPseudoOpacity2.Font = new Font(labelWithPseudoOpacity2.Font.FontFamily, newSize - 2, labelWithPseudoOpacity2.Font.Style);

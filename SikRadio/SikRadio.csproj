@@ -255,7 +255,7 @@
       <Version>2.0.8</Version>
     </PackageReference>
     <PackageReference Include="System.Drawing.Common">
-      <Version>4.5.0</Version>
+      <Version>4.5.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
