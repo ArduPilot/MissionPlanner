@@ -12,6 +12,7 @@ using System.Collections;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using MissionPlanner.Controls;
 using GMap.NET;
 using GMap.NET.WindowsForms;
@@ -513,6 +514,8 @@ namespace MissionPlanner.Log
             MSGCache = new List<TextObj>();
             gpscache = new DFLog.DFItem[0];
 
+            chk_time_CheckedChanged(null, null);
+
             if (!File.Exists(logfilename))
             {
                 using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
@@ -597,13 +600,13 @@ namespace MissionPlanner.Log
 
                 foreach (var msgid in logdata.FMT)
                 {
-                    var colsplit = msgid.Value.Item4.First().ToString().Split(',').Length;
+                    var colsplit = msgid.Value.Item4.FirstOrDefault().ToString().Split(',').Length;
                     colcount = Math.Max(colcount, (msgid.Value.Item4.Length + typecoloum + colsplit));
                 }
 
                 log.Info("Done " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
 
-                this.BeginInvoke((Action)delegate
+                this.BeginInvokeIfRequired(()=>
                 {
                     LoadLog2(FileName, logdata, colcount);
                 });
@@ -619,32 +622,15 @@ namespace MissionPlanner.Log
 
         void LoadLog2(String FileName, CollectionBuffer logdata, int colcount)
         {
-          
-                this.Text = "Log Browser - " + Path.GetFileName(FileName);
 
-            Loading.ShowLoading("Generating Time", this);
-
-            try
-            {
-                DrawTime();
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
-
-            log.Info("Done time " + (GC.GetTotalMemory(false)/1024.0/1024.0));
+            this.Text = "Log Browser - " + Path.GetFileName(FileName);
 
             CreateChart(zg1);
 
             ResetTreeView(logdata.SeenMessageTypes);
 
-            Loading.ShowLoading("Generating Map", this);
-
-            DrawMap();
-
-            log.Info("Done map " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
-
+            zg1_ZoomEvent(zg1, null, null);
+            
             Loading.Close();
 
             if (dflog.logformat.Count == 0)
@@ -1067,7 +1053,7 @@ namespace MissionPlanner.Log
                 return;
             }
 
-            if (dflog.logformat[type].FieldNames.Length <= (col - typecoloum - 1))
+            if (dflog.logformat[type].FieldNames.Count <= (col - typecoloum - 1))
             {
                 CustomMessageBox.Show(Strings.InvalidField, Strings.ERROR);
                 return;
@@ -1222,10 +1208,7 @@ namespace MissionPlanner.Log
 
                         if (chk_time.Checked)
                         {
-                            var e = new DataGridViewCellValueEventArgs(1, (int) b);
-                            dataGridView1_CellValueNeeded(dataGridView1, e);
-
-                            XDate time = new XDate(DateTime.Parse(e.Value.ToString()));
+                            XDate time = new XDate(item.time);
 
                             list1.Add(time, value);
                         }
@@ -1319,321 +1302,353 @@ namespace MissionPlanner.Log
             Loading.Close();
         }
 
-        void DrawErrors()
+        async Task DrawErrors()
         {
-            bool top = false;
-            double a = 0;
-
-            if (ErrorCache.Count > 0)
+            await Task.Run(() =>
             {
-                foreach (var item in ErrorCache)
+                log.Info("Start DrawErrors");
+                bool top = false;
+                double a = 0;
+
+                if (ErrorCache.Count > 0)
                 {
-                    item.Location.Y = zg1.GraphPane.YAxis.Scale.Max;
-                    zg1.GraphPane.GraphObjList.Add(item);
+                    foreach (var item in ErrorCache)
+                    {
+                        item.Location.Y = zg1.GraphPane.YAxis.Scale.Max;
+                        zg1.GraphPane.GraphObjList.Add(item);
+                    }
+                    return;
                 }
-                return;
-            }
 
-            ErrorCache.Clear();
+                ErrorCache.Clear();
 
-            double b = 0;
+                double b = 0;
 
-            //ErrorCache.Add(new TextObj("", -500, 0));
+                //ErrorCache.Add(new TextObj("", -500, 0));
 
-            if (!dflog.logformat.ContainsKey("ERR"))
-                return;
+                if (!dflog.logformat.ContainsKey("ERR"))
+                    return;
 
-            foreach (var item in logdata.GetEnumeratorType("ERR"))
-            {
-                b = item.lineno;
-
-                if (item.msgtype == "ERR")
+                foreach (var item in logdata.GetEnumeratorType("ERR"))
                 {
-                    if (!dflog.logformat.ContainsKey("ERR"))
-                        return;
+                    b = item.lineno;
 
-                    int index = dflog.FindMessageOffset("ERR", "Subsys");
-                    if (index == -1)
+                    if (item.msgtype == "ERR")
                     {
-                        continue;
-                    }
+                        if (!dflog.logformat.ContainsKey("ERR"))
+                            return;
 
-                    int index2 = dflog.FindMessageOffset("ERR", "ECode");
-                    if (index2 == -1)
-                    {
-                        continue;
-                    }
-
-                    if (chk_time.Checked)
-                    {
-                        XDate date = new XDate(item.time);
-                        b = date.XLDate;
-                    }
-
-                    string mode = "Err: " + ((DFLog.error_subsystem) int.Parse(item.items[index].ToString())) + "-" +
-                                  item.items[index2].ToString().Trim();
-                    if (top)
-                    {
-                        var temp = new TextObj(mode, b, zg1.GraphPane.YAxis.Scale.Max, CoordType.AxisXYScale,
-                            AlignH.Left, AlignV.Top);
-                        temp.FontSpec.Fill.Color = Color.Red;
-                        ErrorCache.Add(temp);
-                        zg1.GraphPane.GraphObjList.Add(temp);
-                    }
-                    else
-                    {
-                        var temp = new TextObj(mode, b, zg1.GraphPane.YAxis.Scale.Max, CoordType.AxisXYScale,
-                            AlignH.Left, AlignV.Bottom);
-                        temp.FontSpec.Fill.Color = Color.Red;
-                        ErrorCache.Add(temp);
-                        zg1.GraphPane.GraphObjList.Add(temp);
-                    }
-                    top = !top;
-                }
-                a++;
-            }
-        }
-
-        void DrawModes()
-        {
-            bool top = false;
-
-            zg1.GraphPane.GraphObjList.Clear();
-
-            var prevx = zg1.GraphPane.XAxis.Scale.Min;
-            int prevmodeno = 0;
-            // 2% of total
-            var modeheighty = zg1.GraphPane.YAxis.Scale.Min +
-                              (zg1.GraphPane.YAxis.Scale.Max - zg1.GraphPane.YAxis.Scale.Min) * 0.02;
-
-            ModePolyCache.Clear();
-            ModeCache.Clear();
-
-            int modenum = 0;
-
-            foreach (var item in logdata.GetEnumeratorType("MODE"))
-            {
-                double a = item.lineno;
-
-                if (item.msgtype == "MODE")
-                {
-                    if (!dflog.logformat.ContainsKey("MODE"))
-                        return;
-
-                    int index = dflog.FindMessageOffset("MODE", "Mode");
-                    if (index == -1)
-                    {
-                        continue;
-                    }
-
-                    int indexnum = dflog.FindMessageOffset("MODE", "ModeNum");
-                    if (indexnum == -1)
-                    {
-                        continue;
-                    }
-
-                    if (chk_time.Checked)
-                    {
-                        XDate date = new XDate(item.time);
-                        a = date.XLDate;
-                    }
-
-                    string mode = item.items[index].ToString().Trim();
-
-                    prevmodeno = modenum;
-
-                    modenum = int.Parse(item.items[indexnum].ToString().Trim());
-
-                    var poly = new PolyObj()
-                    {
-                        Points = new[]
+                        int index = dflog.FindMessageOffset("ERR", "Subsys");
+                        if (index == -1)
                         {
-                            new PointD(prevx, zg1.GraphPane.YAxis.Scale.Min), // bl
-                            new PointD(prevx, modeheighty), // tl
-                            new PointD(a, modeheighty),// tr
-                            new PointD(a, zg1.GraphPane.YAxis.Scale.Min), // br
-                        },
-                        Fill = new Fill(colourspastal[prevmodeno]),
-                        ZOrder = ZOrder.E_BehindCurves
-                    };
-
-                    zg1.GraphPane.GraphObjList.Add(poly);
-
-                    if (top)
-                    {
-                        var temp = new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXYScale,
-                            AlignH.Left, AlignV.Top);
-                        ModeCache.Add(temp);
-                        zg1.GraphPane.GraphObjList.Add(temp);
-                    }
-                    else
-                    {
-                        var temp = new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXYScale,
-                            AlignH.Left, AlignV.Bottom);
-                        ModeCache.Add(temp);
-                        zg1.GraphPane.GraphObjList.Add(temp);
-                    }
-                    top = !top;
-                }
-                a++;
-            }
-
-            // put from last to end of graph as well
-            var poly2 = new PolyObj()
-            {
-                Points = new[]
-                {
-                    new PointD(prevx, zg1.GraphPane.YAxis.Scale.Min), // bl
-                    new PointD(prevx, modeheighty), // tl
-                    new PointD(zg1.GraphPane.XAxis.Scale.Max, modeheighty),// tr
-                    new PointD(zg1.GraphPane.XAxis.Scale.Max, zg1.GraphPane.YAxis.Scale.Min), // br
-                },
-                Fill = new Fill(colourspastal[modenum]),
-                ZOrder = ZOrder.E_BehindCurves
-            };
-
-            zg1.GraphPane.GraphObjList.Add(poly2);
-        }
-
-        void DrawMSG()
-        {
-            bool top = false;
-            double a = 0;
-
-            if (MSGCache.Count > 0)
-            {
-                foreach (var item in MSGCache)
-                {
-                    item.Location.Y = zg1.GraphPane.YAxis.Scale.Min;
-                    zg1.GraphPane.GraphObjList.Add(item);
-                }
-                return;
-            }
-
-            MSGCache.Clear();
-
-            foreach (var item in logdata.GetEnumeratorType("MSG"))
-            {
-                a = item.lineno;
-
-                if (item.msgtype == "MSG")
-                {
-                    if (!dflog.logformat.ContainsKey("MSG"))
-                        return;
-
-                    int index = dflog.FindMessageOffset("MSG", "Message");
-                    if (index == -1)
-                    {
-                        continue;
-                    }
-
-                    if (chk_time.Checked)
-                    {
-                        XDate date = new XDate(item.time);
-                        a = date.XLDate;
-                    }
-
-                    string mode = item.items[index].ToString().Trim();
-                    if (top)
-                    {
-                        var temp = new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXYScale,
-                            AlignH.Left, AlignV.Top);
-                        MSGCache.Add(temp);
-                        zg1.GraphPane.GraphObjList.Add(temp);
-                    }
-                    else
-                    {
-                        var temp = new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXYScale,
-                            AlignH.Left, AlignV.Bottom);
-                        MSGCache.Add(temp);
-                        zg1.GraphPane.GraphObjList.Add(temp);
-                    }
-                    top = !top;
-                }
-                a++;
-            }
-        }
-
-        void DrawTime()
-        {
-            if (chk_time.Checked)
-                return;
-
-            int a = 0;
-
-            DateTime starttime = DateTime.MinValue;
-            UInt64 startdelta = 0;
-            DateTime workingtime = starttime;
-
-            DateTime lastdrawn = DateTime.MinValue;
-
-
-            if (TimeCache.Count > 0)
-            {
-                foreach (var item in TimeCache)
-                {
-                    item.Location.Y = zg1.GraphPane.YAxis.Scale.Max;
-                    zg1.GraphPane.GraphObjList.Add(item);
-                }
-                return;
-            }
-
-            double b = 0;
-
-            foreach (var item in logdata.GetEnumeratorType("GPS"))
-            {
-                b = item.lineno;
-
-                if (item.msgtype == "GPS")
-                {
-                    if (!dflog.logformat.ContainsKey("GPS"))
-                        break;
-
-                    int index = dflog.FindMessageOffset("GPS", "TimeMS");
-                    int index2 = dflog.FindMessageOffset("GPS", "TimeUS");
-                    if (index == -1)
-                    {
-                        if (index2 == -1)
-                        {
-                            a++;
                             continue;
                         }
+
+                        int index2 = dflog.FindMessageOffset("ERR", "ECode");
+                        if (index2 == -1)
+                        {
+                            continue;
+                        }
+
+                        if (chk_time.Checked)
+                        {
+                            XDate date = new XDate(item.time);
+                            b = date.XLDate;
+                        }
+
+                        string mode = "Err: " + ((DFLog.error_subsystem) int.Parse(item.items[index].ToString())) +
+                                      "-" +
+                                      item.items[index2].ToString().Trim();
+                        if (top)
+                        {
+                            var temp = new TextObj(mode, b, zg1.GraphPane.YAxis.Scale.Max, CoordType.AxisXYScale,
+                                AlignH.Left, AlignV.Top);
+                            temp.FontSpec.Fill.Color = Color.Red;
+                            ErrorCache.Add(temp);
+                            this.BeginInvokeIfRequired(() => zg1.GraphPane.GraphObjList.Add(temp));
+                        }
                         else
                         {
-                            index = index2;
+                            var temp = new TextObj(mode, b, zg1.GraphPane.YAxis.Scale.Max, CoordType.AxisXYScale,
+                                AlignH.Left, AlignV.Bottom);
+                            temp.FontSpec.Fill.Color = Color.Red;
+                            ErrorCache.Add(temp);
+                            this.BeginInvokeIfRequired(() => zg1.GraphPane.GraphObjList.Add(temp));
                         }
+
+                        top = !top;
                     }
 
-                    string time = double.Parse(item.items[index]).ToString();
-                    UInt64 tempt;
-                    if (UInt64.TryParse(time, out tempt))
-                    {
-                        if (startdelta == 0)
-                            startdelta = tempt;
-
-                        if (index2 != -1)
-                        {
-                            workingtime = starttime.AddMilliseconds(((tempt) - startdelta)/1000.0);
-                        }
-                        else
-                        {
-                            workingtime = starttime.AddMilliseconds((double) (tempt - startdelta));
-                        }
-
-                        TimeSpan span = workingtime - starttime;
-
-                        if (workingtime.Minute != lastdrawn.Minute)
-                        {
-                            var temp = new TextObj(span.TotalMinutes.ToString("0") + " min", b,
-                                zg1.GraphPane.YAxis.Scale.Max, CoordType.AxisXYScale, AlignH.Left, AlignV.Top);
-                            TimeCache.Add(temp);
-                            zg1.GraphPane.GraphObjList.Add(temp);
-                            lastdrawn = workingtime;
-                        }
-                    }
+                    a++;
                 }
-                a++;
-            }
+                log.Info("End DrawErrors");
+            });
+        }
+
+        async Task DrawModes()
+        {
+            await Task.Run(() =>
+            {
+                log.Info("Start DrawModes");
+                bool top = false;
+
+                var prevx = zg1.GraphPane.XAxis.Scale.Min;
+                int prevmodeno = 0;
+                // 2% of total
+                var modeheighty = zg1.GraphPane.YAxis.Scale.Min +
+                                  (zg1.GraphPane.YAxis.Scale.Max - zg1.GraphPane.YAxis.Scale.Min) * 0.02;
+
+                ModePolyCache.Clear();
+                ModeCache.Clear();
+
+                int modenum = 0;
+
+                foreach (var item in logdata.GetEnumeratorType("MODE"))
+                {
+                    double a = item.lineno;
+
+                    if (item.msgtype == "MODE")
+                    {
+                        if (!dflog.logformat.ContainsKey("MODE"))
+                            return;
+
+                        int index = dflog.FindMessageOffset("MODE", "Mode");
+                        if (index == -1)
+                        {
+                            continue;
+                        }
+
+                        int indexnum = dflog.FindMessageOffset("MODE", "ModeNum");
+                        if (indexnum == -1)
+                        {
+                            continue;
+                        }
+
+                        if (chk_time.Checked)
+                        {
+                            XDate date = new XDate(item.time);
+                            a = date.XLDate;
+                        }
+
+                        string mode = item.items[index].ToString().Trim();
+
+                        prevmodeno = modenum;
+
+                        modenum = int.Parse(item.items[indexnum].ToString().Trim());
+
+                        var poly = new PolyObj()
+                        {
+                            Points = new[]
+                            {
+                                new PointD(prevx, zg1.GraphPane.YAxis.Scale.Min), // bl
+                                new PointD(prevx, modeheighty), // tl
+                                new PointD(a, modeheighty), // tr
+                                new PointD(a, zg1.GraphPane.YAxis.Scale.Min), // br
+                            },
+                            Fill = new Fill(colourspastal[prevmodeno]),
+                            ZOrder = ZOrder.E_BehindCurves
+                        };
+
+                        this.BeginInvokeIfRequired(() => zg1.GraphPane.GraphObjList.Add(poly));
+
+                        if (top)
+                        {
+                            var temp = new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXYScale,
+                                AlignH.Left, AlignV.Top);
+                            ModeCache.Add(temp);
+                            this.BeginInvokeIfRequired(() => zg1.GraphPane.GraphObjList.Add(temp));
+                        }
+                        else
+                        {
+                            var temp = new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXYScale,
+                                AlignH.Left, AlignV.Bottom);
+                            ModeCache.Add(temp);
+                            this.BeginInvokeIfRequired(() => zg1.GraphPane.GraphObjList.Add(temp));
+                        }
+
+                        top = !top;
+                    }
+
+                    a++;
+                }
+
+                // put from last to end of graph as well
+                var poly2 = new PolyObj()
+                {
+                    Points = new[]
+                    {
+                        new PointD(prevx, zg1.GraphPane.YAxis.Scale.Min), // bl
+                        new PointD(prevx, modeheighty), // tl
+                        new PointD(zg1.GraphPane.XAxis.Scale.Max, modeheighty), // tr
+                        new PointD(zg1.GraphPane.XAxis.Scale.Max, zg1.GraphPane.YAxis.Scale.Min), // br
+                    },
+                    Fill = new Fill(colourspastal[modenum]),
+                    ZOrder = ZOrder.E_BehindCurves
+                };
+
+                this.BeginInvokeIfRequired(() =>
+                {
+                    zg1.GraphPane.GraphObjList.Add(poly2);
+                    zg1.Invalidate();
+                });
+                log.Info("End DrawModes");
+            });
+        }
+
+        async Task DrawMSG()
+        {
+            await Task.Run(() =>
+            {
+                log.Info("Start DrawMSG");
+                bool top = false;
+                double a = 0;
+
+                if (MSGCache.Count > 0)
+                {
+                    foreach (var item in MSGCache)
+                    {
+                        item.Location.Y = zg1.GraphPane.YAxis.Scale.Min;
+                        this.BeginInvokeIfRequired(() => zg1.GraphPane.GraphObjList.Add(item));
+                    }
+
+                    return;
+                }
+
+                MSGCache.Clear();
+
+                foreach (var item in logdata.GetEnumeratorType("MSG"))
+                {
+                    a = item.lineno;
+
+                    if (item.msgtype == "MSG")
+                    {
+                        if (!dflog.logformat.ContainsKey("MSG"))
+                            return;
+
+                        int index = dflog.FindMessageOffset("MSG", "Message");
+                        if (index == -1)
+                        {
+                            continue;
+                        }
+
+                        if (chk_time.Checked)
+                        {
+                            XDate date = new XDate(item.time);
+                            a = date.XLDate;
+                        }
+
+                        string mode = item.items[index].ToString().Trim();
+                        if (top)
+                        {
+                            var temp = new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXYScale,
+                                AlignH.Left, AlignV.Top);
+                            MSGCache.Add(temp);
+                            this.BeginInvokeIfRequired(() => zg1.GraphPane.GraphObjList.Add(temp));
+                        }
+                        else
+                        {
+                            var temp = new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXYScale,
+                                AlignH.Left, AlignV.Bottom);
+                            MSGCache.Add(temp);
+                            this.BeginInvokeIfRequired(() => zg1.GraphPane.GraphObjList.Add(temp));
+                        }
+
+                        top = !top;
+                    }
+
+                    a++;
+                }
+                log.Info("End DrawMSG");
+            });
+        }
+
+        async Task DrawTime()
+        {
+            await Task.Run(() =>
+            {
+                log.Info("Start DrawTime");
+                if (chk_time.Checked)
+                    return;
+
+                int a = 0;
+
+                DateTime starttime = DateTime.MinValue;
+                UInt64 startdelta = 0;
+                DateTime workingtime = starttime;
+
+                DateTime lastdrawn = DateTime.MinValue;
+
+
+                if (TimeCache.Count > 0)
+                {
+                    foreach (var item in TimeCache)
+                    {
+                        item.Location.Y = zg1.GraphPane.YAxis.Scale.Max;
+                        this.BeginInvokeIfRequired(() => zg1.GraphPane.GraphObjList.Add(item));
+                    }
+
+                    return;
+                }
+
+                double b = 0;
+
+                foreach (var item in logdata.GetEnumeratorType("GPS"))
+                {
+                    b = item.lineno;
+
+                    if (item.msgtype == "GPS")
+                    {
+                        if (!dflog.logformat.ContainsKey("GPS"))
+                            break;
+
+                        int index = dflog.FindMessageOffset("GPS", "TimeMS");
+                        int index2 = dflog.FindMessageOffset("GPS", "TimeUS");
+                        if (index == -1)
+                        {
+                            if (index2 == -1)
+                            {
+                                a++;
+                                continue;
+                            }
+                            else
+                            {
+                                index = index2;
+                            }
+                        }
+
+                        string time = double.Parse(item.items[index]).ToString();
+                        UInt64 tempt;
+                        if (UInt64.TryParse(time, out tempt))
+                        {
+                            if (startdelta == 0)
+                                startdelta = tempt;
+
+                            if (index2 != -1)
+                            {
+                                workingtime = starttime.AddMilliseconds(((tempt) - startdelta) / 1000.0);
+                            }
+                            else
+                            {
+                                workingtime = starttime.AddMilliseconds((double) (tempt - startdelta));
+                            }
+
+                            TimeSpan span = workingtime - starttime;
+
+                            if (workingtime.Minute != lastdrawn.Minute)
+                            {
+                                var temp = new TextObj(span.TotalMinutes.ToString("0") + " min", b,
+                                    zg1.GraphPane.YAxis.Scale.Max, CoordType.AxisXYScale, AlignH.Left, AlignV.Top);
+                                TimeCache.Add(temp);
+                                this.BeginInvokeIfRequired(() => zg1.GraphPane.GraphObjList.Add(temp));
+                                lastdrawn = workingtime;
+                            }
+                        }
+                    }
+
+                    a++;
+                }
+                log.Info("End DrawTime");
+            });
         }
 
         class LogRouteInfo
@@ -1643,307 +1658,321 @@ namespace MissionPlanner.Log
             public List<int> samples = new List<int>();
         }
 
-        void DrawMap(long startline =0, long endline = long.MaxValue)
+        async Task DrawMap(long startline =0, long endline = long.MaxValue)
         {
-            int rtcnt = 0;
-
-            try
+            await Task.Run(() =>
             {
-                mapoverlay.Routes.Clear();
-                if(gpscache.Length == 0)
-                    gpscache = logdata.GetEnumeratorType(new string[] {"GPS", "POS", "GPS2", "GPSB", "CMD"}).ToArray();
+                log.Info("Start DrawMap");
+                int rtcnt = 0;
 
-                DateTime starttime = DateTime.MinValue;
-                DateTime workingtime = starttime;
-
-                DateTime lastdrawn = DateTime.MinValue;
-
-                List<PointLatLng> routelist = new List<PointLatLng>();
-                List<int> samplelist = new List<int>();
-
-                List<PointLatLng> routelistgps2 = new List<PointLatLng>();
-                List<int> samplelistgps2 = new List<int>();
-
-                List<PointLatLng> routelistgpsb = new List<PointLatLng>();
-                List<int> samplelistgpsb = new List<int>();
-
-                List<PointLatLng> routelistpos = new List<PointLatLng>();
-                List<int> samplelistpos = new List<int>();
-
-                List<PointLatLng> routelistcmd = new List<PointLatLng>();
-                List<int> samplelistcmd = new List<int>();
-
-                int i = 0;
-                int firstpoint = 0;
-                int firstpointpos = 0;
-                int firstpointgps2 = 0;
-                int firstpointgpsb = 0;
-                int firstpointcmd = 0;
-
-                foreach (var item in gpscache)
+                try
                 {
-                    i = item.lineno;
+                    var mapoverlay = new GMapOverlay("overlay");
+                    if (gpscache.Length == 0)
+                        gpscache = logdata.GetEnumeratorType(new string[] {"GPS", "POS", "GPS2", "GPSB", "CMD"})
+                            .ToArray();
 
-                    if(i < startline || i > endline)
-                        continue;
+                    DateTime starttime = DateTime.MinValue;
+                    DateTime workingtime = starttime;
 
-                    if (item.msgtype == "GPS")
+                    DateTime lastdrawn = DateTime.MinValue;
+
+                    List<PointLatLng> routelist = new List<PointLatLng>();
+                    List<int> samplelist = new List<int>();
+
+                    List<PointLatLng> routelistgps2 = new List<PointLatLng>();
+                    List<int> samplelistgps2 = new List<int>();
+
+                    List<PointLatLng> routelistgpsb = new List<PointLatLng>();
+                    List<int> samplelistgpsb = new List<int>();
+
+                    List<PointLatLng> routelistpos = new List<PointLatLng>();
+                    List<int> samplelistpos = new List<int>();
+
+                    List<PointLatLng> routelistcmd = new List<PointLatLng>();
+                    List<int> samplelistcmd = new List<int>();
+
+                    int i = 0;
+                    int firstpoint = 0;
+                    int firstpointpos = 0;
+                    int firstpointgps2 = 0;
+                    int firstpointgpsb = 0;
+                    int firstpointcmd = 0;
+
+                    foreach (var item in gpscache)
                     {
-                        var ans = getPointLatLng(item);
+                        i = item.lineno;
 
-                        if (ans != null)
+                        if (i < startline || i > endline)
+                            continue;
+
+                        if (item.msgtype == "GPS")
                         {
-                            routelist.Add(ans);
-                            samplelist.Add(i);
+                            var ans = getPointLatLng(item);
 
-                            if (routelist.Count > 1000)
+                            if (ans != null)
                             {
-                                //split the route in several small parts (due to memory errors)
-                                GMapRoute route_part = new GMapRoute(routelist, "route_" + rtcnt);
-                                route_part.Stroke = new Pen(Color.FromArgb(127, Color.Blue), 2);
-
-                                LogRouteInfo lri = new LogRouteInfo();
-                                lri.firstpoint = firstpoint;
-                                lri.lastpoint = i;
-                                lri.samples.AddRange(samplelist);
-
-                                route_part.Tag = lri;
-                                route_part.IsHitTestVisible = false;
-                                mapoverlay.Routes.Add(route_part);
-                                rtcnt++;
-
-                                //clear the list and set the last point as first point for the next route
-                                routelist.Clear();
-                                samplelist.Clear();
-                                firstpoint = i;
-                                samplelist.Add(firstpoint);
                                 routelist.Add(ans);
+                                samplelist.Add(i);
+
+                                if (routelist.Count > 1000)
+                                {
+                                    //split the route in several small parts (due to memory errors)
+                                    GMapRoute route_part = new GMapRoute(routelist, "route_" + rtcnt);
+                                    route_part.Stroke = new Pen(Color.FromArgb(127, Color.Blue), 2);
+
+                                    LogRouteInfo lri = new LogRouteInfo();
+                                    lri.firstpoint = firstpoint;
+                                    lri.lastpoint = i;
+                                    lri.samples.AddRange(samplelist);
+
+                                    route_part.Tag = lri;
+                                    route_part.IsHitTestVisible = false;
+                                    mapoverlay.Routes.Add(route_part);
+                                    rtcnt++;
+
+                                    //clear the list and set the last point as first point for the next route
+                                    routelist.Clear();
+                                    samplelist.Clear();
+                                    firstpoint = i;
+                                    samplelist.Add(firstpoint);
+                                    routelist.Add(ans);
+                                }
                             }
                         }
-                    }
-                    else if (item.msgtype == "GPS2")
-                    {
-                        var ans = getPointLatLng(item);
-
-                        if (ans != null)
+                        else if (item.msgtype == "GPS2")
                         {
-                            routelistgps2.Add(ans);
-                            samplelistgps2.Add(i);
+                            var ans = getPointLatLng(item);
 
-                            if (routelistgps2.Count > 1000)
+                            if (ans != null)
                             {
-                                //split the route in several small parts (due to memory errors)
-                                GMapRoute route_part = new GMapRoute(routelistgps2, "routegps2_" + rtcnt);
-                                route_part.Stroke = new Pen(Color.FromArgb(127, Color.Green), 2);
-
-                                LogRouteInfo lri = new LogRouteInfo();
-                                lri.firstpoint = firstpointgps2;
-                                lri.lastpoint = i;
-                                lri.samples.AddRange(samplelistgps2);
-
-                                route_part.Tag = lri;
-                                route_part.IsHitTestVisible = false;
-                                mapoverlay.Routes.Add(route_part);
-                                rtcnt++;
-
-                                //clear the list and set the last point as first point for the next route
-                                routelistgps2.Clear();
-                                samplelistgps2.Clear();
-                                firstpointgps2 = i;
-                                samplelistgps2.Add(firstpointgps2);
                                 routelistgps2.Add(ans);
+                                samplelistgps2.Add(i);
+
+                                if (routelistgps2.Count > 1000)
+                                {
+                                    //split the route in several small parts (due to memory errors)
+                                    GMapRoute route_part = new GMapRoute(routelistgps2, "routegps2_" + rtcnt);
+                                    route_part.Stroke = new Pen(Color.FromArgb(127, Color.Green), 2);
+
+                                    LogRouteInfo lri = new LogRouteInfo();
+                                    lri.firstpoint = firstpointgps2;
+                                    lri.lastpoint = i;
+                                    lri.samples.AddRange(samplelistgps2);
+
+                                    route_part.Tag = lri;
+                                    route_part.IsHitTestVisible = false;
+                                    mapoverlay.Routes.Add(route_part);
+                                    rtcnt++;
+
+                                    //clear the list and set the last point as first point for the next route
+                                    routelistgps2.Clear();
+                                    samplelistgps2.Clear();
+                                    firstpointgps2 = i;
+                                    samplelistgps2.Add(firstpointgps2);
+                                    routelistgps2.Add(ans);
+                                }
                             }
                         }
-                    }
-                    else if (item.msgtype == "GPSB")
-                    {
-                        var ans = getPointLatLng(item);
-
-                        if (ans != null)
+                        else if (item.msgtype == "GPSB")
                         {
-                            routelistgpsb.Add(ans);
-                            samplelistgpsb.Add(i);
+                            var ans = getPointLatLng(item);
 
-                            if (routelistgpsb.Count > 1000)
+                            if (ans != null)
                             {
-                                //split the route in several small parts (due to memory errors)
-                                GMapRoute route_part = new GMapRoute(routelistgpsb, "routegpsb_" + rtcnt);
-                                route_part.Stroke = new Pen(Color.FromArgb(127, Color.Yellow), 2);
-
-                                LogRouteInfo lri = new LogRouteInfo();
-                                lri.firstpoint = firstpointgpsb;
-                                lri.lastpoint = i;
-                                lri.samples.AddRange(samplelistgpsb);
-
-                                route_part.Tag = lri;
-                                route_part.IsHitTestVisible = false;
-                                mapoverlay.Routes.Add(route_part);
-                                rtcnt++;
-
-                                //clear the list and set the last point as first point for the next route
-                                routelistgpsb.Clear();
-                                samplelistgpsb.Clear();
-                                firstpointgpsb = i;
-                                samplelistgpsb.Add(firstpointgpsb);
                                 routelistgpsb.Add(ans);
+                                samplelistgpsb.Add(i);
+
+                                if (routelistgpsb.Count > 1000)
+                                {
+                                    //split the route in several small parts (due to memory errors)
+                                    GMapRoute route_part = new GMapRoute(routelistgpsb, "routegpsb_" + rtcnt);
+                                    route_part.Stroke = new Pen(Color.FromArgb(127, Color.Yellow), 2);
+
+                                    LogRouteInfo lri = new LogRouteInfo();
+                                    lri.firstpoint = firstpointgpsb;
+                                    lri.lastpoint = i;
+                                    lri.samples.AddRange(samplelistgpsb);
+
+                                    route_part.Tag = lri;
+                                    route_part.IsHitTestVisible = false;
+                                    mapoverlay.Routes.Add(route_part);
+                                    rtcnt++;
+
+                                    //clear the list and set the last point as first point for the next route
+                                    routelistgpsb.Clear();
+                                    samplelistgpsb.Clear();
+                                    firstpointgpsb = i;
+                                    samplelistgpsb.Add(firstpointgpsb);
+                                    routelistgpsb.Add(ans);
+                                }
                             }
                         }
-                    }
-                    else if (item.msgtype == "POS")
-                    {
-                        var ans = getPointLatLng(item);
-
-                        if (ans != null)
+                        else if (item.msgtype == "POS")
                         {
-                            routelistpos.Add(ans);
-                            samplelistpos.Add(i);
+                            var ans = getPointLatLng(item);
 
-                            if (routelistpos.Count > 1000)
+                            if (ans != null)
                             {
-                                //split the route in several small parts (due to memory errors)
-                                GMapRoute route_part = new GMapRoute(routelistpos, "routepos_" + rtcnt);
-                                route_part.Stroke = new Pen(Color.FromArgb(127, Color.Red), 2);
-
-                                LogRouteInfo lri = new LogRouteInfo();
-                                lri.firstpoint = firstpointpos;
-                                lri.lastpoint = i;
-                                lri.samples.AddRange(samplelistpos);
-
-                                route_part.Tag = lri;
-                                route_part.IsHitTestVisible = false;
-                                mapoverlay.Routes.Add(route_part);
-                                rtcnt++;
-
-                                //clear the list and set the last point as first point for the next route
-                                routelistpos.Clear();
-                                samplelistpos.Clear();
-                                firstpointpos = i;
-                                samplelistpos.Add(firstpointpos);
                                 routelistpos.Add(ans);
+                                samplelistpos.Add(i);
+
+                                if (routelistpos.Count > 1000)
+                                {
+                                    //split the route in several small parts (due to memory errors)
+                                    GMapRoute route_part = new GMapRoute(routelistpos, "routepos_" + rtcnt);
+                                    route_part.Stroke = new Pen(Color.FromArgb(127, Color.Red), 2);
+
+                                    LogRouteInfo lri = new LogRouteInfo();
+                                    lri.firstpoint = firstpointpos;
+                                    lri.lastpoint = i;
+                                    lri.samples.AddRange(samplelistpos);
+
+                                    route_part.Tag = lri;
+                                    route_part.IsHitTestVisible = false;
+                                    mapoverlay.Routes.Add(route_part);
+                                    rtcnt++;
+
+                                    //clear the list and set the last point as first point for the next route
+                                    routelistpos.Clear();
+                                    samplelistpos.Clear();
+                                    firstpointpos = i;
+                                    samplelistpos.Add(firstpointpos);
+                                    routelistpos.Add(ans);
+                                }
                             }
                         }
-                    }
-                    else if (item.msgtype == "CMD")
-                    {
-                        var ans = getPointLatLng(item);
-
-                        if (ans != null && ans.Lat != 0 && ans.Lng != 0)
+                        else if (item.msgtype == "CMD")
                         {
-                            routelistcmd.Add(ans);
-                            samplelistcmd.Add(i);
+                            var ans = getPointLatLng(item);
 
-                            mapoverlay.Markers.Add(new GMarkerGoogle(ans, GMarkerGoogleType.lightblue_dot));
-
-                            //FMT, 146, 45, CMD, QHHHfffffff, TimeUS,CTot,CNum,CId,Prm1,Prm2,Prm3,Prm4,Lat,Lng,Alt
-                            //CMD, 43368479, 19, 18, 85, 0, 0, 0, 0, -27.27409, 151.2901, 0
-
-                            if (item["CTot"] != null && item["CNum"] != null && (int.Parse(item["CTot"])-1) == int.Parse(item["CNum"]))
+                            if (ans != null && ans.Lat != 0 && ans.Lng != 0)
                             {
-                                //split the route in several small parts (due to memory errors)
-                                GMapRoute route_part = new GMapRoute(routelistcmd, "routecmd_" + rtcnt);
-                                route_part.Stroke = new Pen(Color.FromArgb(127, Color.Indigo), 2);
-
-                                LogRouteInfo lri = new LogRouteInfo();
-                                lri.firstpoint = firstpointpos;
-                                lri.lastpoint = i;
-                                lri.samples.AddRange(samplelistcmd);
-
-                                route_part.Tag = lri;
-                                route_part.IsHitTestVisible = false;
-                                mapoverlay.Routes.Add(route_part);    
-
-                                rtcnt++;
-
-                                //clear the list and set the last point as first point for the next route
-                                routelistcmd.Clear();
-                                samplelistcmd.Clear();
-                                firstpointcmd = i;
-                                samplelistcmd.Add(firstpointcmd);
                                 routelistcmd.Add(ans);
+                                samplelistcmd.Add(i);
+
+                                mapoverlay.Markers.Add(new GMarkerGoogle(ans, GMarkerGoogleType.lightblue_dot));
+
+                                //FMT, 146, 45, CMD, QHHHfffffff, TimeUS,CTot,CNum,CId,Prm1,Prm2,Prm3,Prm4,Lat,Lng,Alt
+                                //CMD, 43368479, 19, 18, 85, 0, 0, 0, 0, -27.27409, 151.2901, 0
+
+                                if (item["CTot"] != null && item["CNum"] != null &&
+                                    (int.Parse(item["CTot"]) - 1) == int.Parse(item["CNum"]))
+                                {
+                                    //split the route in several small parts (due to memory errors)
+                                    GMapRoute route_part = new GMapRoute(routelistcmd, "routecmd_" + rtcnt);
+                                    route_part.Stroke = new Pen(Color.FromArgb(127, Color.Indigo), 2);
+
+                                    LogRouteInfo lri = new LogRouteInfo();
+                                    lri.firstpoint = firstpointpos;
+                                    lri.lastpoint = i;
+                                    lri.samples.AddRange(samplelistcmd);
+
+                                    route_part.Tag = lri;
+                                    route_part.IsHitTestVisible = false;
+                                    mapoverlay.Routes.Add(route_part);
+
+                                    rtcnt++;
+
+                                    //clear the list and set the last point as first point for the next route
+                                    routelistcmd.Clear();
+                                    samplelistcmd.Clear();
+                                    firstpointcmd = i;
+                                    samplelistcmd.Add(firstpointcmd);
+                                    routelistcmd.Add(ans);
+                                }
                             }
                         }
+
+                        i++;
                     }
-                    i++;
+
+                    log.Info("done reading map points");
+
+                    // add last part of each
+                    // gps1
+                    GMapRoute route = new GMapRoute(routelist, "route_" + rtcnt);
+                    route.Stroke = new Pen(Color.FromArgb(127, Color.Blue), 2);
+                    route.IsHitTestVisible = false;
+
+                    LogRouteInfo lri2 = new LogRouteInfo();
+                    lri2.firstpoint = firstpoint;
+                    lri2.lastpoint = i;
+                    lri2.samples.AddRange(samplelist);
+                    route.Tag = lri2;
+                    route.IsHitTestVisible = false;
+                    mapoverlay.Routes.Add(route);
+
+                    // gps2
+                    GMapRoute route2 = new GMapRoute(routelistgps2, "routegps2_" + rtcnt);
+                    route2.Stroke = new Pen(Color.FromArgb(127, Color.Green), 2);
+                    route2.IsHitTestVisible = false;
+
+                    LogRouteInfo lri3 = new LogRouteInfo();
+                    lri3.firstpoint = firstpointgps2;
+                    lri3.lastpoint = i;
+                    lri3.samples.AddRange(samplelistgps2);
+                    route2.Tag = lri3;
+                    route2.IsHitTestVisible = false;
+                    mapoverlay.Routes.Add(route2);
+
+                    // gpsb
+                    GMapRoute routeb = new GMapRoute(routelistgpsb, "routegpsb_" + rtcnt);
+                    routeb.Stroke = new Pen(Color.FromArgb(127, Color.Yellow), 2);
+                    routeb.IsHitTestVisible = false;
+
+                    LogRouteInfo lrib = new LogRouteInfo();
+                    lrib.firstpoint = firstpointgpsb;
+                    lrib.lastpoint = i;
+                    lrib.samples.AddRange(samplelistgpsb);
+                    routeb.Tag = lrib;
+                    routeb.IsHitTestVisible = false;
+                    mapoverlay.Routes.Add(routeb);
+
+                    // pos
+                    GMapRoute route3 = new GMapRoute(routelistpos, "routepos_" + rtcnt);
+                    route3.Stroke = new Pen(Color.FromArgb(127, Color.Red), 2);
+                    route3.IsHitTestVisible = false;
+
+                    LogRouteInfo lri4 = new LogRouteInfo();
+                    lri4.firstpoint = firstpointpos;
+                    lri4.lastpoint = i;
+                    lri4.samples.AddRange(samplelistpos);
+                    route3.Tag = lri4;
+                    route3.IsHitTestVisible = false;
+                    mapoverlay.Routes.Add(route3);
+
+                    // cmd
+                    GMapRoute route4 = new GMapRoute(routelistcmd, "routecmd_" + rtcnt);
+                    route4.Stroke = new Pen(Color.FromArgb(127, Color.Indigo), 2);
+                    route4.IsHitTestVisible = false;
+
+                    LogRouteInfo lri5 = new LogRouteInfo();
+                    lri5.firstpoint = firstpointcmd;
+                    lri5.lastpoint = i;
+                    lri5.samples.AddRange(samplelistcmd);
+                    route4.Tag = lri5;
+                    route4.IsHitTestVisible = false;
+                    mapoverlay.Routes.Add(route4);
+
+
+                    rtcnt++;
+                    this.BeginInvokeIfRequired(() =>
+                    {
+                        if (rtcnt > 0)
+                            myGMAP1.RoutesEnabled = true;
+                        myGMAP1.Overlays.Remove(myGMAP1.Overlays.First(a => a.Id == mapoverlay.Id));
+                        myGMAP1.Overlays.Add(mapoverlay);
+                        myGMAP1.ZoomAndCenterRoutes(mapoverlay.Id);
+                        zg1.Invalidate();
+                    });
                 }
-
-                log.Info("done reading map points");
-
-                // add last part of each
-                // gps1
-                GMapRoute route = new GMapRoute(routelist, "route_" + rtcnt);
-                route.Stroke = new Pen(Color.FromArgb(127, Color.Blue), 2);
-                route.IsHitTestVisible = false;
-
-                LogRouteInfo lri2 = new LogRouteInfo();
-                lri2.firstpoint = firstpoint;
-                lri2.lastpoint = i;
-                lri2.samples.AddRange(samplelist);
-                route.Tag = lri2;
-                route.IsHitTestVisible = false;
-                mapoverlay.Routes.Add(route);
-
-                // gps2
-                GMapRoute route2 = new GMapRoute(routelistgps2, "routegps2_" + rtcnt);
-                route2.Stroke = new Pen(Color.FromArgb(127, Color.Green), 2);
-                route2.IsHitTestVisible = false;
-
-                LogRouteInfo lri3 = new LogRouteInfo();
-                lri3.firstpoint = firstpointgps2;
-                lri3.lastpoint = i;
-                lri3.samples.AddRange(samplelistgps2);
-                route2.Tag = lri3;
-                route2.IsHitTestVisible = false;
-                mapoverlay.Routes.Add(route2);
-
-                // gpsb
-                GMapRoute routeb = new GMapRoute(routelistgpsb, "routegpsb_" + rtcnt);
-                routeb.Stroke = new Pen(Color.FromArgb(127, Color.Yellow), 2);
-                routeb.IsHitTestVisible = false;
-
-                LogRouteInfo lrib = new LogRouteInfo();
-                lrib.firstpoint = firstpointgpsb;
-                lrib.lastpoint = i;
-                lrib.samples.AddRange(samplelistgpsb);
-                routeb.Tag = lrib;
-                routeb.IsHitTestVisible = false;
-                mapoverlay.Routes.Add(routeb);
-
-                // pos
-                GMapRoute route3 = new GMapRoute(routelistpos, "routepos_" + rtcnt);
-                route3.Stroke = new Pen(Color.FromArgb(127, Color.Red), 2);
-                route3.IsHitTestVisible = false;
-
-                LogRouteInfo lri4 = new LogRouteInfo();
-                lri4.firstpoint = firstpointpos;
-                lri4.lastpoint = i;
-                lri4.samples.AddRange(samplelistpos);
-                route3.Tag = lri4;
-                route3.IsHitTestVisible = false;
-                mapoverlay.Routes.Add(route3);
-
-                // cmd
-                GMapRoute route4 = new GMapRoute(routelistcmd, "routecmd_" + rtcnt);
-                route4.Stroke = new Pen(Color.FromArgb(127, Color.Indigo), 2);
-                route4.IsHitTestVisible = false;
-
-                LogRouteInfo lri5 = new LogRouteInfo();
-                lri5.firstpoint = firstpointcmd;
-                lri5.lastpoint = i;
-                lri5.samples.AddRange(samplelistcmd);
-                route4.Tag = lri5;
-                route4.IsHitTestVisible = false;
-                mapoverlay.Routes.Add(route4);
-
-
-                rtcnt++;
-                myGMAP1.ZoomAndCenterRoutes(mapoverlay.Id);
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
-            if (rtcnt > 0)
-                myGMAP1.RoutesEnabled = true;
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                }
+                log.Info("End DrawMap");
+            });
         }
 
         PointLatLngAlt getPointLatLng(DFLog.DFItem item)
@@ -2155,20 +2184,6 @@ namespace MissionPlanner.Log
             return null;
         }
 
-        int FindInArray(string[] array, string find)
-        {
-            int a = 0;
-            foreach (string item in array)
-            {
-                if (item == find)
-                {
-                    return a;
-                }
-                a++;
-            }
-            return -1;
-        }
-
         private void leftorrightaxis(bool left, CurveItem myCurve)
         {
             if (!left)
@@ -2310,28 +2325,41 @@ namespace MissionPlanner.Log
             graphit_clickprocess(false);
         }
 
-        private void zg1_ZoomEvent(ZedGraphControl sender, ZoomState oldState, ZoomState newState)
+        private async void zg1_ZoomEvent(ZedGraphControl sender, ZoomState oldState, ZoomState newState)
         {
             try
             {
                 sender.GraphPane.GraphObjList.Clear();
 
+                Task a = null, b = null, c = null, d = null, e = null;
+
                 if (chk_mode.Checked)
-                    DrawModes();
+                    a=DrawModes();
                 if (chk_errors.Checked)
-                    DrawErrors();
+                    b=DrawErrors();
                 if (!chk_time.Checked)
-                    DrawTime();
+                    c=DrawTime();
 
                 if (chk_msg.Checked)
-                    DrawMSG();
+                    d=DrawMSG();
 
                 if (!chk_time.Checked && CHK_map.Checked)
-                    DrawMap((long)sender.GraphPane.XAxis.Scale.Min, (long)sender.GraphPane.XAxis.Scale.Max);
+                    e=DrawMap((long)sender.GraphPane.XAxis.Scale.Min, (long)sender.GraphPane.XAxis.Scale.Max);
 
                 if (chk_time.Checked && CHK_map.Checked)
-                    DrawMap(dflog.GetLineNoFromTime(logdata, new XDate(sender.GraphPane.XAxis.Scale.Min).DateTime),
+                    e=DrawMap(dflog.GetLineNoFromTime(logdata, new XDate(sender.GraphPane.XAxis.Scale.Min).DateTime),
                         dflog.GetLineNoFromTime(logdata, new XDate(sender.GraphPane.XAxis.Scale.Max).DateTime));
+
+                if(a!= null)
+                    await a;
+                if (b != null)
+                    await b;
+                if (c != null)
+                    await c;
+                if (d != null)
+                    await d;
+                if (e != null)
+                    await e;
 
                 sender.Invalidate();
             }

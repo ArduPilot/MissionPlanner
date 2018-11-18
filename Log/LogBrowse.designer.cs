@@ -288,6 +288,7 @@ namespace MissionPlanner.Log
             // 
             // chk_time
             // 
+            this.chk_time.Checked = true;
             resources.ApplyResources(this.chk_time, "chk_time");
             this.chk_time.Name = "chk_time";
             this.chk_time.UseVisualStyleBackColor = true;

@@ -46,6 +46,7 @@ namespace MissionPlanner.Utilities
             basestream = new MemoryStream((int) instream.Length);
             instream.CopyTo(basestream);
             basestream.Position = 0;
+            instream.Close();
 
             if (basestream.ReadByte() == BinaryLog.HEAD_BYTE1)
             {
@@ -92,7 +93,7 @@ namespace MissionPlanner.Utilities
                 _count = lineCount;
 
                 // build fmt line database to pre seed the FMT message
-                int amax = Math.Min(100, _count - 1);
+                int amax = Math.Min(2000, _count - 1);
                 for (int a = 0; a < amax; a++)
                 {
                     dflog.GetDFItemFromLine(this[a].ToString(), a);
