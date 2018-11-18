@@ -21,11 +21,12 @@ namespace MissionPlanner.Utilities
 
         DFLog _dflog = new DFLog();
 
-        BufferedStream basestream;
+        Stream basestream;
         private int _count;
         List<uint> linestartoffset = new List<uint>();
 
         List<uint>[] messageindex = new List<uint>[256];
+        List<uint>[] messageindexline = new List<uint>[256];
 
         bool binary = false;
 
@@ -39,9 +40,12 @@ namespace MissionPlanner.Utilities
             for (int a = 0; a < messageindex.Length; a++)
             {
                 messageindex[a] = new List<uint>();
+                messageindexline[a] = new List<uint>();
             }
 
-            basestream = new BufferedStream(instream, 1024*1024*50);
+            basestream = new MemoryStream((int) instream.Length);
+            instream.CopyTo(basestream);
+            basestream.Position = 0;
 
             if (basestream.ReadByte() == BinaryLog.HEAD_BYTE1)
             {
@@ -53,9 +57,9 @@ namespace MissionPlanner.Utilities
 
             // back to start
             basestream.Position = 0;
-
+            DateTime start = DateTime.Now;
             setlinecount();
-
+            Console.WriteLine("CollectionBuffer-linecount: " + (DateTime.Now - start).TotalMilliseconds);
             basestream.Position = 0;
         }
 
@@ -74,11 +78,12 @@ namespace MissionPlanner.Utilities
                 {
                     var ans = binlog.ReadMessageTypeOffset(basestream, length);
 
-                    if (ans == null)
+                    if (ans.MsgType == 0)
                         continue;
 
                     byte type = ans.Item1;
                     messageindex[type].Add((uint)(ans.Item2));
+                    messageindexline[type].Add((uint) lineCount);
 
                     linestartoffset.Add((uint)(ans.Item2));
                     lineCount++;
@@ -87,7 +92,7 @@ namespace MissionPlanner.Utilities
                 _count = lineCount;
 
                 // build fmt line database to pre seed the FMT message
-                int amax = Math.Min(2000, _count - 1);
+                int amax = Math.Min(100, _count - 1);
                 for (int a = 0; a < amax; a++)
                 {
                     dflog.GetDFItemFromLine(this[a].ToString(), a);
@@ -245,7 +250,7 @@ namespace MissionPlanner.Utilities
         {
             get
             {
-                int index = (int) indexin;
+                var index = (int)indexin;
 
                 long startoffset = linestartoffset[index];
                 long endoffset = startoffset;
@@ -384,22 +389,17 @@ namespace MissionPlanner.Utilities
                 {
                     var typeid = (byte) dflog.logformat[type].Id;
 
-                    foreach (var item in messageindex[typeid])
+                    foreach (var item in messageindexline[typeid])
                     {
                         slist.Add(item);
                     }
                 }
             }
 
-            int position = 0; // state
-            while (position < Count)
+            // work through list of lines
+            foreach (var l in slist)
             {
-                position++;
-
-                if (slist.Contains(linestartoffset[position - 1]))
-                {
-                    yield return this[(long)position - 1];
-                }
+                yield return this[(long) l];
             }
         }
 
@@ -423,6 +423,8 @@ namespace MissionPlanner.Utilities
             basestream.Close();
             linestartoffset.Clear();
             linestartoffset = null;
+            messageindex = null;
+            GC.Collect();
         }
 
         public bool EndOfStream 
@@ -441,7 +443,7 @@ namespace MissionPlanner.Utilities
 
                 for (int a = 0; a < messageindex.Length; a++)
                 {
-                    if (messageindex[a].Count > 0)
+                    if (messageindex[a].Count > 0 && FMT.ContainsKey(a))
                         messagetypes.Add(FMT[a].Item2);
                 }
 
