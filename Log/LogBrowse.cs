@@ -593,7 +593,7 @@ namespace MissionPlanner.Log
 
                 Loading.ShowLoading("Scanning coloum widths", this);
 
-                int colcount = 0;
+                colcount = 0;
 
                 foreach (var msgid in logdata.FMT)
                 {
@@ -619,74 +619,8 @@ namespace MissionPlanner.Log
 
         void LoadLog2(String FileName, CollectionBuffer logdata, int colcount)
         {
-            try
-            {
+          
                 this.Text = "Log Browser - " + Path.GetFileName(FileName);
-
-                log.Info("set dgv datasourse " + (GC.GetTotalMemory(false)/1024.0/1024.0));
-
-                if (MainV2.MONO)
-                {
-                    int rowstartoffset = 0;
-
-                    dataGridView1.ScrollBars = ScrollBars.Horizontal;
-
-                    var VBar = new VScrollBar();
-                    VBar.Visible = true;
-                    VBar.Top = 0;
-                    VBar.Height = dataGridView1.Height;
-                    VBar.Dock = DockStyle.Right;
-                    VBar.Maximum = logdata.Count;
-
-                    dataGridView1.Controls.Add(VBar);
-
-                    dataGridView1.PerformLayout();
-
-                    dataGridView1.RowPrePaint += (sender, args) =>
-                    {
-                        VBar.Maximum = logdata.Count;
-                        populateRowData(rowstartoffset, args.RowIndex, args.RowIndex);
-                    };
-
-                    dataGridView1.ColumnCount = colcount;
-
-                    int a = 0;
-                    while (a++ < 1000)
-                        dataGridView1.Rows.Add();
-
-                    // populate first row
-                    populateRowData(0, 0, 0);
-
-                    VBar.ValueChanged += (sender, args) =>
-                    {
-                        rowstartoffset = VBar.Value;
-                        dataGridView1.Invalidate();
-                    };
-                }
-                else
-                {
-                    dataGridView1.VirtualMode = true;
-                    dataGridView1.RowCount = 0;
-                    dataGridView1.RowCount = logdata.Count;
-                    dataGridView1.ColumnCount = colcount;
-
-                    log.Info("datagrid size set " + (GC.GetTotalMemory(false)/1024.0/1024.0));
-                }
-
-                log.Info("datasource set " + (GC.GetTotalMemory(false)/1024.0/1024.0));
-            }
-            catch (Exception ex)
-            {
-                CustomMessageBox.Show("Failed to read File: " + ex.ToString());
-                return;
-            }
-
-            foreach (DataGridViewColumn column in dataGridView1.Columns)
-            {
-                column.SortMode = DataGridViewColumnSortMode.NotSortable;
-            }
-
-            log.Info("Done timetable " + (GC.GetTotalMemory(false)/1024.0/1024.0));
 
             Loading.ShowLoading("Generating Time", this);
 
@@ -2408,10 +2342,12 @@ namespace MissionPlanner.Log
 
         private void CHK_map_CheckedChanged(object sender, EventArgs e)
         {
-            splitContainer2.Panel2Collapsed = !splitContainer2.Panel2Collapsed;
+            splitContainerZgMap.Panel2Collapsed = !splitContainerZgMap.Panel2Collapsed;
 
             if (CHK_map.Checked)
             {
+                splitContainerZgMap.SplitterDistance = splitContainerZgMap.Width / 2;
+
                 log.Info("Get map");
 
                 myGMAP1.MapProvider = GCSViews.FlightData.mymap.MapProvider;
@@ -2612,7 +2548,7 @@ namespace MissionPlanner.Log
             {
                 if (e.RowIndex >= logdata.Count)
                     return;
-
+ 
                 var item2 = logdata[e.RowIndex];
 
                 var item = dflog.GetDFItemFromLine(item2, e.RowIndex);
@@ -2922,6 +2858,7 @@ namespace MissionPlanner.Log
 
         double prevMouseX = 0;
         double prevMouseY = 0;
+        private int colcount;
 
         private bool zg1_MouseMoveEvent(ZedGraphControl sender, MouseEventArgs e)
         {
@@ -2976,18 +2913,135 @@ namespace MissionPlanner.Log
 
         private void splitContainer2_Resize(object sender, EventArgs e)
         {
-            splitContainer2.Visible = false;
-            splitContainer2.Visible = true;
-            splitContainer2.Panel1.Invalidate();
-            splitContainer2.Panel2.Invalidate();
+            splitContainerZgMap.Visible = false;
+            splitContainerZgMap.Visible = true;
+            splitContainerZgMap.Panel1.Invalidate();
+            splitContainerZgMap.Panel2.Invalidate();
         }
 
         private void splitContainer1_Resize(object sender, EventArgs e)
         {
-            splitContainer1.Visible = false;
-            splitContainer1.Visible = true;
-            splitContainer1.Panel1.Invalidate();
-            splitContainer1.Panel2.Invalidate();
+            splitContainerZgGrid.Visible = false;
+            splitContainerZgGrid.Visible = true;
+            splitContainerZgGrid.Panel1.Invalidate();
+            splitContainerZgGrid.Panel2.Invalidate();
+        }
+
+        private void chk_datagrid_CheckedChanged(object sender1, EventArgs e)
+        {
+            splitContainerButGrid.Panel2Collapsed = !splitContainerButGrid.Panel2Collapsed;
+            
+
+            if (!splitContainerButGrid.Panel2Collapsed)
+            {
+                splitContainerZgGrid.SplitterDistance = splitContainerZgGrid.Height / 2;
+                try
+                {
+                    log.Info("set dgv datasourse " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
+
+                    if (MainV2.MONO)
+                    {
+                        int rowstartoffset = 0;
+
+                        dataGridView1.ScrollBars = ScrollBars.Horizontal;
+
+                        var VBar = new VScrollBar();
+                        VBar.Visible = true;
+                        VBar.Top = 0;
+                        VBar.Height = dataGridView1.Height;
+                        VBar.Dock = DockStyle.Right;
+                        VBar.Maximum = logdata.Count;
+
+                        dataGridView1.Controls.Add(VBar);
+
+                        dataGridView1.PerformLayout();
+
+                        dataGridView1.RowPrePaint += (sender, args) =>
+                        {
+                            VBar.Maximum = logdata.Count;
+                            populateRowData(rowstartoffset, args.RowIndex, args.RowIndex);
+                        };
+
+                        dataGridView1.ColumnCount = colcount;
+
+                        int a = 0;
+                        while (a++ < 1000)
+                            dataGridView1.Rows.Add();
+
+                        // populate first row
+                        populateRowData(0, 0, 0);
+
+                        VBar.ValueChanged += (sender, args) =>
+                        {
+                            rowstartoffset = VBar.Value;
+                            dataGridView1.Invalidate();
+                        };
+                    }
+                    else
+                    {
+                        dataGridView1.VirtualMode = true;
+                        dataGridView1.ColumnCount = colcount;
+                        dataGridView1.RowCount = logdata.Count;
+                        log.Info("datagrid size set " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
+                    }
+
+                    log.Info("datasource set " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
+                }
+                catch (Exception ex)
+                {
+                    CustomMessageBox.Show("Failed to read File: " + ex.ToString());
+                    return;
+                }
+
+                foreach (DataGridViewColumn column in dataGridView1.Columns)
+                {
+                    column.SortMode = DataGridViewColumnSortMode.NotSortable;
+                }
+
+                log.Info("Done timetable " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
+            }
+            else
+            {
+                splitContainerZgGrid.SplitterDistance = splitContainerZgGrid.Height - splitContainerButGrid.Panel1.MinimumSize.Height;
+            }
+        }
+
+        bool mousedown = false;
+        private PointLatLng MouseDownStart;
+
+        private void myGMAP1_MouseDown(object sender, MouseEventArgs e)
+        {
+            mousedown = true;
+            MouseDownStart = myGMAP1.FromLocalToLatLng(e.X, e.Y);
+        }
+
+        private void myGMAP1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (mousedown)
+            {
+                PointLatLng point = myGMAP1.FromLocalToLatLng(e.X, e.Y);
+
+                double latdif = MouseDownStart.Lat - point.Lat;
+                double lngdif = MouseDownStart.Lng - point.Lng;
+
+                try
+                {
+                    myGMAP1.Position = new PointLatLng(myGMAP1.Position.Lat + latdif, myGMAP1.Position.Lng + lngdif);
+                }
+                catch
+                {
+                }
+            }
+        }
+
+        private void myGMAP1_MouseUp(object sender, MouseEventArgs e)
+        {
+            mousedown = false;
+        }
+
+        private void LogBrowse_Resize(object sender, EventArgs e)
+        {
+            splitContainerZgGrid.SplitterDistance = splitContainerZgGrid.Height - splitContainerButGrid.Panel1.MinimumSize.Height - splitContainerButGrid.Panel2.Height;
         }
     }
 }

@@ -157,13 +157,13 @@
     <value>BUT_Graphit</value>
   </data>
   <data name="&gt;&gt;BUT_Graphit.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_Graphit.Parent" xml:space="preserve">
-    <value>splitContainer1.Panel2</value>
+    <value>splitContainerButGrid.Panel1</value>
   </data>
   <data name="&gt;&gt;BUT_Graphit.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>1</value>
   </data>
   <data name="BUT_cleargraph.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -184,13 +184,13 @@
     <value>BUT_cleargraph</value>
   </data>
   <data name="&gt;&gt;BUT_cleargraph.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_cleargraph.Parent" xml:space="preserve">
-    <value>splitContainer1.Panel2</value>
+    <value>splitContainerButGrid.Panel1</value>
   </data>
   <data name="&gt;&gt;BUT_cleargraph.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>3</value>
   </data>
   <data name="BUT_loadlog.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -211,27 +211,27 @@
     <value>BUT_loadlog</value>
   </data>
   <data name="&gt;&gt;BUT_loadlog.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_loadlog.Parent" xml:space="preserve">
-    <value>splitContainer1.Panel2</value>
+    <value>splitContainerButGrid.Panel1</value>
   </data>
   <data name="&gt;&gt;BUT_loadlog.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>5</value>
   </data>
-  <data name="splitContainer1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+  <data name="splitContainerZgGrid.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
-  <data name="splitContainer1.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="splitContainerZgGrid.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
-  <data name="splitContainer1.Orientation" type="System.Windows.Forms.Orientation, System.Windows.Forms">
+  <data name="splitContainerZgGrid.Orientation" type="System.Windows.Forms.Orientation, System.Windows.Forms">
     <value>Horizontal</value>
   </data>
-  <data name="splitContainer2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
+  <data name="splitContainerZgMap.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
-  <data name="splitContainer2.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="splitContainerZgMap.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
   <data name="zg1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
@@ -241,7 +241,7 @@
     <value>0, 0</value>
   </data>
   <data name="zg1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>961, 238</value>
+    <value>1068, 494</value>
   </data>
   <data name="zg1.TabIndex" type="System.Int32, mscorlib">
     <value>30</value>
@@ -250,31 +250,25 @@
     <value>zg1</value>
   </data>
   <data name="&gt;&gt;zg1.Type" xml:space="preserve">
-    <value>ZedGraph.ZedGraphControl, ZedGraph, Version=5.1.5.32763, Culture=neutral, PublicKeyToken=null</value>
+    <value>ZedGraph.ZedGraphControl, ZedGraph, Version=5.1.5.15207, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;zg1.Parent" xml:space="preserve">
-    <value>splitContainer2.Panel1</value>
+    <value>splitContainerZgMap.Panel1</value>
   </data>
   <data name="&gt;&gt;zg1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;splitContainer2.Panel1.Name" xml:space="preserve">
-    <value>splitContainer2.Panel1</value>
+  <data name="&gt;&gt;splitContainerZgMap.Panel1.Name" xml:space="preserve">
+    <value>splitContainerZgMap.Panel1</value>
   </data>
-  <data name="&gt;&gt;splitContainer2.Panel1.Type" xml:space="preserve">
+  <data name="&gt;&gt;splitContainerZgMap.Panel1.Type" xml:space="preserve">
     <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;splitContainer2.Panel1.Parent" xml:space="preserve">
-    <value>splitContainer2</value>
+  <data name="&gt;&gt;splitContainerZgMap.Panel1.Parent" xml:space="preserve">
+    <value>splitContainerZgMap</value>
   </data>
-  <data name="&gt;&gt;splitContainer2.Panel1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;splitContainerZgMap.Panel1.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="splitContainer2.Panel1MinSize" type="System.Int32, mscorlib">
-    <value>200</value>
-  </data>
-  <data name="label4.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Left</value>
   </data>
   <data name="label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -283,7 +277,7 @@
     <value>NoControl</value>
   </data>
   <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>115, 225</value>
+    <value>115, 9</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
     <value>36, 13</value>
@@ -301,13 +295,10 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label4.Parent" xml:space="preserve">
-    <value>splitContainer2.Panel2</value>
+    <value>splitContainerZgMap.Panel2</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="label3.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Left</value>
   </data>
   <data name="label3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -316,7 +307,7 @@
     <value>NoControl</value>
   </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>80, 224</value>
+    <value>80, 8</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
     <value>29, 13</value>
@@ -334,13 +325,10 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label3.Parent" xml:space="preserve">
-    <value>splitContainer2.Panel2</value>
+    <value>splitContainerZgMap.Panel2</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
     <value>1</value>
-  </data>
-  <data name="label2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Left</value>
   </data>
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -349,7 +337,7 @@
     <value>NoControl</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>39, 224</value>
+    <value>39, 8</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>35, 13</value>
@@ -367,13 +355,10 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label2.Parent" xml:space="preserve">
-    <value>splitContainer2.Panel2</value>
+    <value>splitContainerZgMap.Panel2</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
     <value>2</value>
-  </data>
-  <data name="label1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Left</value>
   </data>
   <data name="label1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -382,7 +367,7 @@
     <value>NoControl</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 224</value>
+    <value>4, 8</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>29, 13</value>
@@ -400,7 +385,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label1.Parent" xml:space="preserve">
-    <value>splitContainer2.Panel2</value>
+    <value>splitContainerZgMap.Panel2</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
     <value>3</value>
@@ -411,16 +396,8 @@
   <data name="myGMAP1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
-  <data name="myGMAP1.SelectedArea" mimetype="application/x-microsoft.net.object.binary.base64">
-    <value>
-        AAEAAAD/////AQAAAAAAAAAMAgAAAERHTWFwLk5FVC5Db3JlLCBWZXJzaW9uPTEuNy4wLjAsIEN1bHR1
-        cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49bnVsbAUBAAAAE0dNYXAuTkVULlJlY3RMYXRMbmcFAAAA
-        A2xuZwNsYXQId2lkdGhMbmcJaGVpZ2h0TGF0CE5vdEVtcHR5AAAAAAAGBgYGAQIAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL
-</value>
-  </data>
   <data name="myGMAP1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>562, 238</value>
+    <value>530, 494</value>
   </data>
   <data name="myGMAP1.TabIndex" type="System.Int32, mscorlib">
     <value>31</value>
@@ -429,61 +406,103 @@
     <value>myGMAP1</value>
   </data>
   <data name="&gt;&gt;myGMAP1.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.myGMAP, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.myGMAP, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;myGMAP1.Parent" xml:space="preserve">
-    <value>splitContainer2.Panel2</value>
+    <value>splitContainerZgMap.Panel2</value>
   </data>
   <data name="&gt;&gt;myGMAP1.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="&gt;&gt;splitContainer2.Panel2.Name" xml:space="preserve">
-    <value>splitContainer2.Panel2</value>
+  <data name="&gt;&gt;splitContainerZgMap.Panel2.Name" xml:space="preserve">
+    <value>splitContainerZgMap.Panel2</value>
   </data>
-  <data name="&gt;&gt;splitContainer2.Panel2.Type" xml:space="preserve">
+  <data name="&gt;&gt;splitContainerZgMap.Panel2.Type" xml:space="preserve">
     <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;splitContainer2.Panel2.Parent" xml:space="preserve">
-    <value>splitContainer2</value>
+  <data name="&gt;&gt;splitContainerZgMap.Panel2.Parent" xml:space="preserve">
+    <value>splitContainerZgMap</value>
   </data>
-  <data name="&gt;&gt;splitContainer2.Panel2.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;splitContainerZgMap.Panel2.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="splitContainer2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>961, 238</value>
+  <data name="splitContainerZgMap.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1068, 494</value>
   </data>
-  <data name="splitContainer2.SplitterDistance" type="System.Int32, mscorlib">
-    <value>395</value>
+  <data name="splitContainerZgMap.SplitterDistance" type="System.Int32, mscorlib">
+    <value>534</value>
   </data>
-  <data name="splitContainer2.TabIndex" type="System.Int32, mscorlib">
+  <data name="splitContainerZgMap.TabIndex" type="System.Int32, mscorlib">
     <value>32</value>
   </data>
-  <data name="&gt;&gt;splitContainer2.Name" xml:space="preserve">
-    <value>splitContainer2</value>
+  <data name="&gt;&gt;splitContainerZgMap.Name" xml:space="preserve">
+    <value>splitContainerZgMap</value>
   </data>
-  <data name="&gt;&gt;splitContainer2.Type" xml:space="preserve">
+  <data name="&gt;&gt;splitContainerZgMap.Type" xml:space="preserve">
     <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;splitContainer2.Parent" xml:space="preserve">
-    <value>splitContainer1.Panel1</value>
+  <data name="&gt;&gt;splitContainerZgMap.Parent" xml:space="preserve">
+    <value>splitContainerZgGrid.Panel1</value>
   </data>
-  <data name="&gt;&gt;splitContainer2.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;splitContainerZgMap.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;splitContainer1.Panel1.Name" xml:space="preserve">
-    <value>splitContainer1.Panel1</value>
+  <data name="&gt;&gt;splitContainerZgGrid.Panel1.Name" xml:space="preserve">
+    <value>splitContainerZgGrid.Panel1</value>
   </data>
-  <data name="&gt;&gt;splitContainer1.Panel1.Type" xml:space="preserve">
+  <data name="&gt;&gt;splitContainerZgGrid.Panel1.Type" xml:space="preserve">
     <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;splitContainer1.Panel1.Parent" xml:space="preserve">
-    <value>splitContainer1</value>
+  <data name="&gt;&gt;splitContainerZgGrid.Panel1.Parent" xml:space="preserve">
+    <value>splitContainerZgGrid</value>
   </data>
-  <data name="&gt;&gt;splitContainer1.Panel1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;splitContainerZgGrid.Panel1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="splitContainer1.Panel1MinSize" type="System.Int32, mscorlib">
+  <data name="splitContainerZgGrid.Panel1MinSize" type="System.Int32, mscorlib">
     <value>200</value>
+  </data>
+  <data name="splitContainerButGrid.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="splitContainerButGrid.IsSplitterFixed" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="splitContainerButGrid.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="splitContainerButGrid.Orientation" type="System.Windows.Forms.Orientation, System.Windows.Forms">
+    <value>Horizontal</value>
+  </data>
+  <data name="chk_datagrid.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chk_datagrid.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chk_datagrid.Location" type="System.Drawing.Point, System.Drawing">
+    <value>561, 7</value>
+  </data>
+  <data name="chk_datagrid.Size" type="System.Drawing.Size, System.Drawing">
+    <value>79, 17</value>
+  </data>
+  <data name="chk_datagrid.TabIndex" type="System.Int32, mscorlib">
+    <value>43</value>
+  </data>
+  <data name="chk_datagrid.Text" xml:space="preserve">
+    <value>Data Table</value>
+  </data>
+  <data name="&gt;&gt;chk_datagrid.Name" xml:space="preserve">
+    <value>chk_datagrid</value>
+  </data>
+  <data name="&gt;&gt;chk_datagrid.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chk_datagrid.Parent" xml:space="preserve">
+    <value>splitContainerButGrid.Panel1</value>
+  </data>
+  <data name="&gt;&gt;chk_datagrid.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="chk_msg.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -510,10 +529,10 @@
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;chk_msg.Parent" xml:space="preserve">
-    <value>splitContainer1.Panel2</value>
+    <value>splitContainerButGrid.Panel1</value>
   </data>
   <data name="&gt;&gt;chk_msg.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>2</value>
   </data>
   <data name="chk_errors.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -540,10 +559,10 @@
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;chk_errors.Parent" xml:space="preserve">
-    <value>splitContainer1.Panel2</value>
+    <value>splitContainerButGrid.Panel1</value>
   </data>
   <data name="&gt;&gt;chk_errors.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>4</value>
   </data>
   <data name="chk_mode.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -570,10 +589,37 @@
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;chk_mode.Parent" xml:space="preserve">
-    <value>splitContainer1.Panel2</value>
+    <value>splitContainerButGrid.Panel1</value>
   </data>
   <data name="&gt;&gt;chk_mode.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>6</value>
+  </data>
+  <data name="BUT_Graphit_R.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_Graphit_R.Location" type="System.Drawing.Point, System.Drawing">
+    <value>80, 3</value>
+  </data>
+  <data name="BUT_Graphit_R.Size" type="System.Drawing.Size, System.Drawing">
+    <value>72, 23</value>
+  </data>
+  <data name="BUT_Graphit_R.TabIndex" type="System.Int32, mscorlib">
+    <value>34</value>
+  </data>
+  <data name="BUT_Graphit_R.Text" xml:space="preserve">
+    <value>Graph Right</value>
+  </data>
+  <data name="&gt;&gt;BUT_Graphit_R.Name" xml:space="preserve">
+    <value>BUT_Graphit_R</value>
+  </data>
+  <data name="&gt;&gt;BUT_Graphit_R.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_Graphit_R.Parent" xml:space="preserve">
+    <value>splitContainerButGrid.Panel1</value>
+  </data>
+  <data name="&gt;&gt;BUT_Graphit_R.ZOrder" xml:space="preserve">
+    <value>7</value>
   </data>
   <data name="chk_time.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -600,16 +646,205 @@
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;chk_time.Parent" xml:space="preserve">
-    <value>splitContainer1.Panel2</value>
+    <value>splitContainerButGrid.Panel1</value>
   </data>
   <data name="&gt;&gt;chk_time.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>8</value>
   </data>
-  <data name="treeView1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Right</value>
+  <data name="CHK_map.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CHK_map.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CHK_map.Location" type="System.Drawing.Point, System.Drawing">
+    <value>401, 7</value>
+  </data>
+  <data name="CHK_map.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 17</value>
+  </data>
+  <data name="CHK_map.TabIndex" type="System.Int32, mscorlib">
+    <value>35</value>
+  </data>
+  <data name="CHK_map.Text" xml:space="preserve">
+    <value>Show Map</value>
+  </data>
+  <data name="&gt;&gt;CHK_map.Name" xml:space="preserve">
+    <value>CHK_map</value>
+  </data>
+  <data name="&gt;&gt;CHK_map.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CHK_map.Parent" xml:space="preserve">
+    <value>splitContainerButGrid.Panel1</value>
+  </data>
+  <data name="&gt;&gt;CHK_map.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="CMB_preselect.Location" type="System.Drawing.Point, System.Drawing">
+    <value>681, 5</value>
+  </data>
+  <data name="CMB_preselect.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 21</value>
+  </data>
+  <data name="CMB_preselect.TabIndex" type="System.Int32, mscorlib">
+    <value>37</value>
+  </data>
+  <data name="&gt;&gt;CMB_preselect.Name" xml:space="preserve">
+    <value>CMB_preselect</value>
+  </data>
+  <data name="&gt;&gt;CMB_preselect.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CMB_preselect.Parent" xml:space="preserve">
+    <value>splitContainerButGrid.Panel1</value>
+  </data>
+  <data name="&gt;&gt;CMB_preselect.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="BUT_removeitem.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_removeitem.Location" type="System.Drawing.Point, System.Drawing">
+    <value>320, 3</value>
+  </data>
+  <data name="BUT_removeitem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="BUT_removeitem.TabIndex" type="System.Int32, mscorlib">
+    <value>36</value>
+  </data>
+  <data name="BUT_removeitem.Text" xml:space="preserve">
+    <value>Remove Item</value>
+  </data>
+  <data name="BUT_removeitem.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;BUT_removeitem.Name" xml:space="preserve">
+    <value>BUT_removeitem</value>
+  </data>
+  <data name="&gt;&gt;BUT_removeitem.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_removeitem.Parent" xml:space="preserve">
+    <value>splitContainerButGrid.Panel1</value>
+  </data>
+  <data name="&gt;&gt;BUT_removeitem.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;splitContainerButGrid.Panel1.Name" xml:space="preserve">
+    <value>splitContainerButGrid.Panel1</value>
+  </data>
+  <data name="&gt;&gt;splitContainerButGrid.Panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitContainerButGrid.Panel1.Parent" xml:space="preserve">
+    <value>splitContainerButGrid</value>
+  </data>
+  <data name="&gt;&gt;splitContainerButGrid.Panel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="dataGridView1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="dataGridView1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="dataGridView1.RowHeadersWidth" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="dataGridView1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1035, 8</value>
+  </data>
+  <data name="dataGridView1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;dataGridView1.Name" xml:space="preserve">
+    <value>dataGridView1</value>
+  </data>
+  <data name="&gt;&gt;dataGridView1.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.59.3, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;dataGridView1.Parent" xml:space="preserve">
+    <value>splitContainerButGrid.Panel2</value>
+  </data>
+  <data name="&gt;&gt;dataGridView1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;splitContainerButGrid.Panel2.Name" xml:space="preserve">
+    <value>splitContainerButGrid.Panel2</value>
+  </data>
+  <data name="&gt;&gt;splitContainerButGrid.Panel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitContainerButGrid.Panel2.Parent" xml:space="preserve">
+    <value>splitContainerButGrid</value>
+  </data>
+  <data name="&gt;&gt;splitContainerButGrid.Panel2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="splitContainerButGrid.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1068, 37</value>
+  </data>
+  <data name="splitContainerButGrid.SplitterDistance" type="System.Int32, mscorlib">
+    <value>25</value>
+  </data>
+  <data name="splitContainerButGrid.TabIndex" type="System.Int32, mscorlib">
+    <value>43</value>
+  </data>
+  <data name="&gt;&gt;splitContainerButGrid.Name" xml:space="preserve">
+    <value>splitContainerButGrid</value>
+  </data>
+  <data name="&gt;&gt;splitContainerButGrid.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitContainerButGrid.Parent" xml:space="preserve">
+    <value>splitContainerZgGrid.Panel2</value>
+  </data>
+  <data name="&gt;&gt;splitContainerButGrid.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;splitContainerZgGrid.Panel2.Name" xml:space="preserve">
+    <value>splitContainerZgGrid.Panel2</value>
+  </data>
+  <data name="&gt;&gt;splitContainerZgGrid.Panel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitContainerZgGrid.Panel2.Parent" xml:space="preserve">
+    <value>splitContainerZgGrid</value>
+  </data>
+  <data name="&gt;&gt;splitContainerZgGrid.Panel2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="splitContainerZgGrid.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1068, 536</value>
+  </data>
+  <data name="splitContainerZgGrid.SplitterDistance" type="System.Int32, mscorlib">
+    <value>494</value>
+  </data>
+  <data name="splitContainerZgGrid.SplitterWidth" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="splitContainerZgGrid.TabIndex" type="System.Int32, mscorlib">
+    <value>34</value>
+  </data>
+  <data name="&gt;&gt;splitContainerZgGrid.Name" xml:space="preserve">
+    <value>splitContainerZgGrid</value>
+  </data>
+  <data name="&gt;&gt;splitContainerZgGrid.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitContainerZgGrid.Parent" xml:space="preserve">
+    <value>splitContainerAllTree.Panel1</value>
+  </data>
+  <data name="&gt;&gt;splitContainerZgGrid.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="treeView1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
   <data name="treeView1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>827, 33</value>
+    <value>0, 0</value>
   </data>
   <data name="treeView1.Nodes" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -648,7 +883,7 @@
 </value>
   </data>
   <data name="treeView1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>131, 229</value>
+    <value>130, 536</value>
   </data>
   <data name="treeView1.TabIndex" type="System.Int32, mscorlib">
     <value>38</value>
@@ -660,180 +895,60 @@
     <value>System.Windows.Forms.TreeView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;treeView1.Parent" xml:space="preserve">
-    <value>splitContainer1.Panel2</value>
+    <value>splitContainerAllTree.Panel2</value>
   </data>
   <data name="&gt;&gt;treeView1.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="CMB_preselect.Location" type="System.Drawing.Point, System.Drawing">
-    <value>561, 5</value>
-  </data>
-  <data name="CMB_preselect.Size" type="System.Drawing.Size, System.Drawing">
-    <value>220, 21</value>
-  </data>
-  <data name="CMB_preselect.TabIndex" type="System.Int32, mscorlib">
-    <value>37</value>
-  </data>
-  <data name="&gt;&gt;CMB_preselect.Name" xml:space="preserve">
-    <value>CMB_preselect</value>
-  </data>
-  <data name="&gt;&gt;CMB_preselect.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CMB_preselect.Parent" xml:space="preserve">
-    <value>splitContainer1.Panel2</value>
-  </data>
-  <data name="&gt;&gt;CMB_preselect.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="BUT_removeitem.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="BUT_removeitem.Location" type="System.Drawing.Point, System.Drawing">
-    <value>320, 3</value>
-  </data>
-  <data name="BUT_removeitem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
-  </data>
-  <data name="BUT_removeitem.TabIndex" type="System.Int32, mscorlib">
-    <value>36</value>
-  </data>
-  <data name="BUT_removeitem.Text" xml:space="preserve">
-    <value>Remove Item</value>
-  </data>
-  <data name="BUT_removeitem.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;BUT_removeitem.Name" xml:space="preserve">
-    <value>BUT_removeitem</value>
-  </data>
-  <data name="&gt;&gt;BUT_removeitem.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;BUT_removeitem.Parent" xml:space="preserve">
-    <value>splitContainer1.Panel2</value>
-  </data>
-  <data name="&gt;&gt;BUT_removeitem.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="CHK_map.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CHK_map.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="CHK_map.Location" type="System.Drawing.Point, System.Drawing">
-    <value>401, 7</value>
-  </data>
-  <data name="CHK_map.Size" type="System.Drawing.Size, System.Drawing">
-    <value>77, 17</value>
-  </data>
-  <data name="CHK_map.TabIndex" type="System.Int32, mscorlib">
-    <value>35</value>
-  </data>
-  <data name="CHK_map.Text" xml:space="preserve">
-    <value>Show Map</value>
-  </data>
-  <data name="&gt;&gt;CHK_map.Name" xml:space="preserve">
-    <value>CHK_map</value>
-  </data>
-  <data name="&gt;&gt;CHK_map.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CHK_map.Parent" xml:space="preserve">
-    <value>splitContainer1.Panel2</value>
-  </data>
-  <data name="&gt;&gt;CHK_map.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="BUT_Graphit_R.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="BUT_Graphit_R.Location" type="System.Drawing.Point, System.Drawing">
-    <value>80, 3</value>
-  </data>
-  <data name="BUT_Graphit_R.Size" type="System.Drawing.Size, System.Drawing">
-    <value>72, 23</value>
-  </data>
-  <data name="BUT_Graphit_R.TabIndex" type="System.Int32, mscorlib">
-    <value>34</value>
-  </data>
-  <data name="BUT_Graphit_R.Text" xml:space="preserve">
-    <value>Graph Right</value>
-  </data>
-  <data name="&gt;&gt;BUT_Graphit_R.Name" xml:space="preserve">
-    <value>BUT_Graphit_R</value>
-  </data>
-  <data name="&gt;&gt;BUT_Graphit_R.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;BUT_Graphit_R.Parent" xml:space="preserve">
-    <value>splitContainer1.Panel2</value>
-  </data>
-  <data name="&gt;&gt;BUT_Graphit_R.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="dataGridView1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
-  <data name="dataGridView1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 32</value>
-  </data>
-  <data name="dataGridView1.RowHeadersWidth" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="dataGridView1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>818, 230</value>
-  </data>
-  <data name="dataGridView1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;dataGridView1.Name" xml:space="preserve">
-    <value>dataGridView1</value>
+  <data name="splitContainerAllTree.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
-  <data name="&gt;&gt;dataGridView1.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.1.6404.12743, Culture=neutral, PublicKeyToken=null</value>
+  <data name="splitContainerAllTree.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
   </data>
-  <data name="&gt;&gt;dataGridView1.Parent" xml:space="preserve">
-    <value>splitContainer1.Panel2</value>
+  <data name="&gt;&gt;splitContainerAllTree.Panel1.Name" xml:space="preserve">
+    <value>splitContainerAllTree.Panel1</value>
   </data>
-  <data name="&gt;&gt;dataGridView1.ZOrder" xml:space="preserve">
-    <value>11</value>
-  </data>
-  <data name="&gt;&gt;splitContainer1.Panel2.Name" xml:space="preserve">
-    <value>splitContainer1.Panel2</value>
-  </data>
-  <data name="&gt;&gt;splitContainer1.Panel2.Type" xml:space="preserve">
+  <data name="&gt;&gt;splitContainerAllTree.Panel1.Type" xml:space="preserve">
     <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;splitContainer1.Panel2.Parent" xml:space="preserve">
-    <value>splitContainer1</value>
+  <data name="&gt;&gt;splitContainerAllTree.Panel1.Parent" xml:space="preserve">
+    <value>splitContainerAllTree</value>
   </data>
-  <data name="&gt;&gt;splitContainer1.Panel2.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;splitContainerAllTree.Panel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;splitContainerAllTree.Panel2.Name" xml:space="preserve">
+    <value>splitContainerAllTree.Panel2</value>
+  </data>
+  <data name="&gt;&gt;splitContainerAllTree.Panel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitContainerAllTree.Panel2.Parent" xml:space="preserve">
+    <value>splitContainerAllTree</value>
+  </data>
+  <data name="&gt;&gt;splitContainerAllTree.Panel2.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="splitContainer1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>961, 536</value>
+  <data name="splitContainerAllTree.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1202, 536</value>
   </data>
-  <data name="splitContainer1.SplitterDistance" type="System.Int32, mscorlib">
-    <value>238</value>
+  <data name="splitContainerAllTree.SplitterDistance" type="System.Int32, mscorlib">
+    <value>1068</value>
   </data>
-  <data name="splitContainer1.SplitterWidth" type="System.Int32, mscorlib">
-    <value>5</value>
+  <data name="splitContainerAllTree.TabIndex" type="System.Int32, mscorlib">
+    <value>35</value>
   </data>
-  <data name="splitContainer1.TabIndex" type="System.Int32, mscorlib">
-    <value>34</value>
+  <data name="&gt;&gt;splitContainerAllTree.Name" xml:space="preserve">
+    <value>splitContainerAllTree</value>
   </data>
-  <data name="&gt;&gt;splitContainer1.Name" xml:space="preserve">
-    <value>splitContainer1</value>
-  </data>
-  <data name="&gt;&gt;splitContainer1.Type" xml:space="preserve">
+  <data name="&gt;&gt;splitContainerAllTree.Type" xml:space="preserve">
     <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;splitContainer1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;splitContainerAllTree.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;splitContainer1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;splitContainerAllTree.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -843,7 +958,7 @@
     <value>25</value>
   </metadata>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>961, 536</value>
+    <value>1202, 536</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
