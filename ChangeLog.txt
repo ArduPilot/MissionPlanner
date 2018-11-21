@@ -1,4 +1,74 @@
-﻿*Mission Planner 1.3.59 - 23-10-2018
+﻿*Mission Planner 1.3.60 - 21-11-2018
+CustomMessageBox: add overrides
+LogBrowse: tweaks
+LogBrowse: change layout
+CollectionBuffer: improve performance
+Nuget: update System.Drawing.Common
+Joystick: add extra channels
+Grid: async grid
+MyUserControl: fix typos
+AviFile: change default handler
+Grid: change min spacing to 0.1m (new mins are 0.1 for spacing and lane spacing)
+LogBrowse: improve performance for large logs (500mb bin)
+MAVLinkInterface: make gcssysid public
+FlightData: change video rate to 25hz
+SikRadio: fix unsafe
+ConfigBatteryMonitoring: update divider info
+OpenGLtest2: add targetlocation
+OSDVideo: remove ffdshow for decode
+SikRadio: fix dependancys
+DFLogScript: add scaling to sqrt
+FlightData: reduce changes on status tab
+ConfigFirmware: fix history
+Mavlink: add attributes
+CurrentState: add TargetLocation
+MissionPlanner: remove packages from release build
+MAVLinkInterface: null check basestream #1983
+Settings: change mono default user data dir #1982
+Manifest: dpiaware
+MainV2: fonts
+FlightData: change arming button fontsize
+BackstageView: scale text based on screen dpi
+using: cleanup
+mavelous: remove
+HIL: make external
+Antenna: make external
+LogDownloadMavlink: dont use HB #1971
+Speech: handle comexception
+Firmware: fix firmware check on old fw upload #1977
+add SURFACE_BOAT to if statement
+SimpleExample: very basic mission upload
+GL2: move
+wasm: update
+LogBrowse: fix map in time mode
+Exception handling
+MP: tweaks
+ConfigRawParams: bitmask editor
+MyUserControl: convert to
+MAVLinkInterface: null check basestream
+FlightPlanner: fix exception on exit
+GL2: update
+Joystick: clear last state
+BoardDetect: add hex bootloader
+Fix plane basic tuning throttle slewrate field DE
+MAVLinkInterface: RtsEnable exception handle
+ZedGraph: remove datasource
+BoardDetect: dont lowercase bootloader id
+CurrentState: add turng's
+ConfigPlanner: add rate of -1 to disable request
+FirmwareHistory: add AP
+ParameterMetaData: update backup source
+Joy_Mount_Mode: update param name
+CAN config screen: enable enumeration
+Rename UAVCAN config screen to CAN
+Map: Added Japan Maps
+Map: Add Japan Maps
+Map: Reflected review comments
+httpserver: remove tracking
+MainV2: remove tracking params
+GStreamer: open gstreamer feed on startup from cmdline
+
+*Mission Planner 1.3.59 - 23-10-2018
 temp: add reboot are you sure
 EKFStatus: add red text for error reason #1965
 GStreamer: fix blocking ui thread
