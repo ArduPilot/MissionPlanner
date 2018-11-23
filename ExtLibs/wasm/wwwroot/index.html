@@ -165,6 +165,10 @@
 
             viewer.scene.globe.depthTestAgainstTerrain = true;
 
+            var scene = viewer.scene;
+            var ellipsoid = scene.globe.ellipsoid;  
+            pickCartographicPosition(scene, ellipsoid);
+
             markers = [];
         }
 
@@ -177,9 +181,10 @@
                 return;
 
             if (first == 0 && altasl != 0) {
-                var takeoff_position = Cesium.Cartographic.fromDegrees(
-                     lng ,
-                    lat);
+                var takeoff_position = [Cesium.Cartographic.fromDegrees(
+                    lng ,
+                    lat
+                )];
 
                 takeoff_altitude = altasl;
 
@@ -187,7 +192,7 @@
                     var promise = Cesium.sampleTerrainMostDetailed(viewer.terrainProvider, takeoff_position);
                     Cesium.when(promise,
                         function(updatedPositions) {
-                            ground_offset = takeoff_position.height - takeoff_altitude;
+                            ground_offset = takeoff_position[0].height - takeoff_altitude;
                             console.log('Ground Offset in meters: ' + ground_offset);
                             // re-compute the positions taking the ground offset into account.
                             // add 2 meters more to allow for inaccuracies
@@ -223,7 +228,7 @@
                 var pinBuilder = new Cesium.PinBuilder();
 
 
-                var position = Cesium.Cartesian3.fromDegrees(myLatLng.lng, myLatLng.lat, altasl + 20);
+                var position = Cesium.Cartesian3.fromDegrees(myLatLng.lng, myLatLng.lat, altasl + ground_offset+1);
                 var hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(yaw),
                     Cesium.Math.toRadians(pitch),
                     Cesium.Math.toRadians(roll));
@@ -265,21 +270,68 @@
             }
         }
 
+        function pickCartographicPosition(scene, ellipsoid) {
+            // Mouse over the globe to see the cartographic position
+            handler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
+            handler.setInputAction(function(movement) {
+                var cartesian = scene.camera.pickEllipsoid(movement.endPosition, ellipsoid);
+                if (cartesian) {
+                    var ray = viewer.camera.getPickRay(movement.endPosition);
+                    var cartesian = viewer.scene.globe.pick(ray, viewer.scene);
+
+                    var cartographic = ellipsoid.cartesianToCartographic(cartesian);
+                    var position = new Cesium.Cartographic(cartographic.longitude, cartographic.latitude);
+                    var coords = Cesium.Math.toDegrees(cartographic.longitude).toFixed(6) + ', ' + Cesium.Math.toDegrees(cartographic.latitude).toFixed(6) + ';<br/> Cartesian Z: ' + cartesian.z.toFixed(2); 
+
+                    var ray = viewer.camera.getPickRay(movement.endPosition);
+                    var position = viewer.scene.globe.pick(ray, viewer.scene);
+                    if (Cesium.defined(position)) {
+                        // convert position to cartographic and display altitude
+                    }
+
+                    //or try to get the height value, result is very low value or zero
+                    var coords =  Cesium.Math.toDegrees(cartographic.longitude).toFixed(6) + ', ' + Cesium.Math.toDegrees(cartographic.latitude).toFixed(6) + ';<br/> Height: '+ cartographic.height ; 
+                    document.getElementById('coords').innerHTML = '<p style="display: block;position: absolute;top: 30px;right: 6px" />'+ coords +'<br/><p/>';    
+                } 
+            }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);  
+        }
+
         function testlog(mavlist) {
             console.log(mavlist);
         }
 
 
 
-            //map.setCenter({lat: cs.lat, lng: cs.lng});
+        //map.setCenter({lat: cs.lat, lng: cs.lng});
 
-            //&callback=initMap
+        //&callback=initMap
+
+        function plotData(div = "", line1="",line2="",line3="") {
+
+            var data = [];
+
+            if (line1 != "")
+                data.push(JSON.parse(line1));
+            if (line2 != "")
+                data.push(JSON.parse(line2));
+            if (line3 != "")
+                data.push(JSON.parse(line3));
+            
+            var layout = {};
+            Plotly.newPlot(div, data, layout);
+        }
+
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDW05vWXeNIfZAN4Ter8gf4YLg8rPHZToc" async defer></script>
 
     <script src="http://smoothiecharts.org/smoothie.js"></script>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    
+<input type="range"  min="0" max="100" />
+<div id="coords"></div>
 
 </body>
 </html>

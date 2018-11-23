@@ -24,16 +24,6 @@ namespace MissionPlanner.Maps
         {
             area = new RectLatLng(p, SizeLatLng.Empty);
 
-            if (colorbrushs == null)
-            {
-                colorbrushs = new SolidBrush[color.Length];
-                int a = 0;
-                foreach (var color1 in color)
-                {
-                    colorbrushs[a] = new SolidBrush(Color.FromArgb(140, color1.R, color1.G, color1.B));
-                    a++;
-                }
-            }
         }
 
         static Color[] color = new[]
@@ -48,10 +38,21 @@ namespace MissionPlanner.Maps
             Color.DarkRed
         };
 
-        static SolidBrush[] colorbrushs;
+        static object[] colorbrushs;
 
         public override void OnRender(IGraphics g)
         {
+            if (colorbrushs == null)
+            {
+                colorbrushs = new SolidBrush[color.Length];
+                int a = 0;
+                foreach (var color1 in color)
+                {
+                    colorbrushs[a] = new SolidBrush(Color.FromArgb(140, color1.R, color1.G, color1.B));
+                    a++;
+                }
+            }
+
             DateTime start = DateTime.Now;
             var pos = Overlay.Control.FromLatLngToLocal(Position);
 
@@ -82,7 +83,7 @@ namespace MissionPlanner.Maps
 
                 var col = Math.Min(pg.Value - 1, 7);
 
-                var coloruse = colorbrushs[col];
+                var coloruse = colorbrushs[col] as SolidBrush;
 
                 var widthc = 5*m2pixelwidth;
 
@@ -159,7 +160,7 @@ namespace MissionPlanner.Maps
                 stringFormat.LineAlignment = StringAlignment.Center;
 
                 int a = 0;
-                foreach (var brush in colorbrushs)
+                foreach (Brush brush in colorbrushs)
                 {
                     GPoint p = new GPoint(20, (long) (100 + a*(widthc + 5)));
 
