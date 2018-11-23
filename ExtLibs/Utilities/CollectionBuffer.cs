@@ -147,6 +147,7 @@ namespace MissionPlanner.Utilities
                         var type = (byte)dflog.logformat[msgtype].Id;
 
                         messageindex[type].Add(linestartoffset[b]);
+                        messageindexline[type].Add((uint)b);
                     }
                     b++;
                 }

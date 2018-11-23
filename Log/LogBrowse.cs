@@ -600,6 +600,8 @@ namespace MissionPlanner.Log
 
                 foreach (var msgid in logdata.FMT)
                 {
+                    if (msgid.Value.Item4 == null)
+                        continue;
                     var colsplit = msgid.Value.Item4.FirstOrDefault().ToString().Split(',').Length;
                     colcount = Math.Max(colcount, (msgid.Value.Item4.Length + typecoloum + colsplit));
                 }
@@ -1356,6 +1358,9 @@ namespace MissionPlanner.Log
                             b = date.XLDate;
                         }
 
+                        if (item.items.Length >= index)
+                            continue;
+
                         string mode = "Err: " + ((DFLog.error_subsystem) int.Parse(item.items[index].ToString())) +
                                       "-" +
                                       item.items[index2].ToString().Trim();
@@ -1429,6 +1434,9 @@ namespace MissionPlanner.Log
                             XDate date = new XDate(item.time);
                             a = date.XLDate;
                         }
+
+                        if (item.items.Length >= index)
+                            continue;
 
                         string mode = item.items[index].ToString().Trim();
 
@@ -1537,6 +1545,9 @@ namespace MissionPlanner.Log
                             a = date.XLDate;
                         }
 
+                        if(item.items.Length >= index)
+                            continue;
+
                         string mode = item.items[index].ToString().Trim();
                         if (top)
                         {
@@ -1615,6 +1626,9 @@ namespace MissionPlanner.Log
                                 index = index2;
                             }
                         }
+
+                        if (item.items.Length >= index)
+                            continue;
 
                         string time = double.Parse(item.items[index]).ToString();
                         UInt64 tempt;
