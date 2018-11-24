@@ -51,7 +51,7 @@
                             var base64 = dataUrl.split(',')[1];
                             cb(base64);
                         };
-                        reader.readAsDataURL(blob);
+                        reader.readAsArrayBuffer(blob);
                     };
                     try {
                         dotNetDispatcherInvokeMethodHandle = Blazor.platform.findMethod(
@@ -63,7 +63,7 @@
                             'wasm',
                             'wasm.Pages',
                             'websocket',
-                            'ProcessPackets'
+                            'ProcessPacketStaticBytes'
                         );
                     } catch (err) {
                         return;
@@ -78,22 +78,40 @@
 
                     };
                     socket.onmessage = function (msg) {
-                        blobToBase64(msg.data,
-                            function (base64data) {
-                                thingo = Blazor.platform.toDotNetString(base64data);
+                        var arrayBuffer;
+                        var fileReader = new FileReader();
+                        fileReader.onload = function(r) {
+                            arrayBuffer = r.target.result;
 
-                                result = Blazor.platform.callMethod(dotNetDispatcherInvokeMethodHandle,
-                                    null,
-                                    [thingo]);
+                            // dont want to overflow buffer
+                            if (arrayBuffer.byteLength >= 1024)
+                                return;
+                            
+                            var dotNetBuffer = { toUint8Array: function () { return Blazor.platform.toUint8Array(dotNetArrayPtr); } };
+                            var dotNetBufferView = dotNetBuffer.toUint8Array();
+                            dotNetBufferView.set(new Uint8Array(arrayBuffer));
 
+                            result = Blazor.platform.callMethod(dotNetDispatcherInvokeMethodHandle2,
+                                null,
+                                [Blazor.platform.toDotNetString(''+arrayBuffer.byteLength)]);
 
-                                //console.log(Blazor.platform.toJavaScriptString(result));
-                            });
+                            //thingo = Blazor.platform.toDotNetString(msg.data);
+
+                            //result = Blazor.platform.callMethod(dotNetDispatcherInvokeMethodHandle,null,[thingo]);
+                        };
+                        fileReader.readAsArrayBuffer(msg.data);
+
                     };
                 } catch (exception) {
                     if (window.console) console.log(exception);
                 }
             }
+        }
+
+        var dotNetArrayPtr = 0;
+
+        function setNetBuffer1024(dotNetArrayPtrI) {
+            dotNetArrayPtr = dotNetArrayPtrI;
         }
 
         function websocketsend(data) {
