@@ -22,17 +22,65 @@
 @inject IFileReaderService fileReaderService;
 @inject HttpClient Http
 
-<input type="file" ref="inputTypeFileElement" accept=".bin, .log" />
-<button onclick="@ReadFile">Read file</button>
+<div id="container">
+    <div id="right" style="float:right; width: 150px;">
+        @if (cb != null)
+        {
+            @foreach (var item in cb.SeenMessageTypes)
+             {
+                 <ul style="margin: 0;">
+                     <input type="checkbox" value="@item" onclick="if ($(this).is(':checked')) {$(this).siblings().css('display', 'block');} else {$(this).siblings().css('display', 'none');}"/>
+                     @item
+                     @foreach (var subitem in cb.FMT.First(a=>a.Value.Item2 == item).Value.Item4[0].Split(','))
+                     {
+                         <div style="display: none">
+                             <li><input type="checkbox" ref="checkElementRef" onclick=@(() => PlotItem(@item,@subitem)) value="@item.@subitem"/>@subitem</li>
+                         </div>
+                     }
+                 </ul>
+             }
+        }
 
-<div id="div1" style="width: 100%; height: 50vh"></div>
-<div id="div2" style="width: 100%; height: 50vh"></div>
-<div id="div3" style="width: 100%; height: 50vh"></div>
+    </div>
+    <div id="left" style="margin-right: 150px;">
+        <input type="file" ref="inputTypeFileElement" accept=".bin, .log" />
+        <button onclick="@ReadFile">Read file</button>
+
+        <div id="div1" style="width: 100%; height: 50vh"></div>
+        <div id="div2" style="width: 100%; height: 50vh"></div>
+        <div id="div3" style="width: 100%; height: 50vh"></div>
+
+    </div>
+</div>
+
+
+
 
 @functions {
     ElementRef inputTypeFileElement;
 
+    ElementRef checkElementRef;
+
     CollectionBuffer cb;
+
+    public async void PlotItem(string type, string item)
+    {
+        plotly line = new plotly(type + "." + item);
+        foreach (var msg in cb.GetEnumeratorType(type))
+        {
+            var itemdata = msg[item];
+            if (itemdata == null)
+                continue;
+
+            var itemvalue = double.Parse(itemdata, CultureInfo.InvariantCulture);
+
+            line.AddXY(msg.time.ToString("yyyy-MM-dd hh:mm:ss.fff"), itemvalue);
+
+            await Task.Yield();
+        }
+
+        JSRuntime.Current.InvokeAsync<object>("plotData", new object[] { "div1", line.getJSON() });
+    }
 
     public async Task ReadFile()
     {
@@ -40,7 +88,7 @@
         {
             var info = await file.ReadFileInfoAsync();
 
-            using (MemoryStream memoryStream = await file.CreateMemoryStreamAsync(1024*1024*5))
+            using (MemoryStream memoryStream = await file.CreateMemoryStreamAsync(1024 * 1024 * 5))
             {
                 cb = new CollectionBuffer(memoryStream);
 
@@ -86,9 +134,9 @@
                     scatter3d.AddXYZ(lat2, lng2, alt2);
                 }
 
-                JSRuntime.Current.InvokeAsync<object>("plotData", new object[] {"div1", linealt.getJSON()});
-                JSRuntime.Current.InvokeAsync<object>("plotData", new object[] {"div2", linemap.getJSON()});
-                JSRuntime.Current.InvokeAsync<object>("plotData", new object[] {"div3", scatter3d.getJSON()});
+                JSRuntime.Current.InvokeAsync<object>("plotData", new object[] { "div1", linealt.getJSON() });
+                JSRuntime.Current.InvokeAsync<object>("plotData", new object[] { "div2", linemap.getJSON() });
+                JSRuntime.Current.InvokeAsync<object>("plotData", new object[] { "div3", scatter3d.getJSON() });
             }
         }
 

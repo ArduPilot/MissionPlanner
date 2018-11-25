@@ -336,7 +336,9 @@
                 data.push(JSON.parse(line3));
             
             var layout = {};
-            Plotly.newPlot(div, data, layout);
+
+            //Plotly.newPlot
+            Plotly.plot(div, data, layout, { responsive: true });
         }
 
     </script>
