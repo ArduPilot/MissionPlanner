@@ -1,4 +1,13 @@
-﻿*Mission Planner 1.3.60 - 21-11-2018
+﻿*Mission Planner 1.3.61 - 26-11-2018
+wasm: custom dflog graph
+manifest: dpiawareness to system
+wasm: change to array buffer
+LogBrowse: fix log files
+wasm: update
+Fix garbled characters in HORIZONTAL ELLIPSIS
+ConfigParam: drop from send loop on error #1998
+
+*Mission Planner 1.3.60 - 21-11-2018
 CustomMessageBox: add overrides
 LogBrowse: tweaks
 LogBrowse: change layout
