@@ -4043,7 +4043,9 @@ namespace MissionPlanner.GCSViews
         {
             threadrun = false;
 
-            while (thisthread.IsAlive)
+            DateTime end = DateTime.Now.AddSeconds(5);
+
+            while (thisthread.IsAlive && DateTime.Now < end)
             {
                 Application.DoEvents();
             }
