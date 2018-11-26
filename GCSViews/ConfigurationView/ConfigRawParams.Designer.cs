@@ -187,6 +187,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Params.RowHeadersDefaultCellStyle = dataGridViewCellStyle5;
             this.Params.RowHeadersVisible = false;
             this.Params.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
+            this.Params.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Params_CellClick);
             this.Params.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Params_CellContentClick);
             this.Params.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.Params_CellValueChanged);
             // 
@@ -230,7 +231,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             // ConfigRawParams
             // 
-            
             this.Controls.Add(this.BUT_commitToFlash);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txt_search);
