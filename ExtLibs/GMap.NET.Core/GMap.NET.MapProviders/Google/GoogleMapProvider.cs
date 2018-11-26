@@ -24,6 +24,8 @@ namespace GMap.NET.MapProviders
             Copyright = string.Format("©{0} Google - Map data ©{0} Tele Atlas, Imagery ©{0} TerraMetrics", DateTime.Today.Year);
         }
 
+        public static string APIKey = "";
+
         public readonly string ServerAPIs /* ;}~~ */ = Stuff.GString(/*{^_^}*/"9gERyvblybF8iMuCt/LD6w=="/*d{'_'}b*/);
         public readonly string Server /* ;}~~~~ */ = Stuff.GString(/*{^_^}*/"gosr2U13BoS+bXaIxt6XWg=="/*d{'_'}b*/);
         public readonly string ServerChina /* ;}~ */ = Stuff.GString(/*{^_^}*/"gosr2U13BoTEJoJJuO25gQ=="/*d{'_'}b*/);
@@ -535,12 +537,12 @@ namespace GMap.NET.MapProviders
 
         string MakeGeocoderUrl(string keywords, string language)
         {
-            return string.Format(CultureInfo.InvariantCulture, GeocoderUrlFormat, ServerAPIs, keywords.Replace(' ', '+'), language);
+            return string.Format(CultureInfo.InvariantCulture, GeocoderUrlFormat + "&key=" + APIKey, ServerAPIs, keywords.Replace(' ', '+'), language);
         }
 
         string MakeReverseGeocoderUrl(PointLatLng pt, string language)
         {
-            return string.Format(CultureInfo.InvariantCulture, ReverseGeocoderUrlFormat, ServerAPIs, pt.Lat, pt.Lng, language);
+            return string.Format(CultureInfo.InvariantCulture, ReverseGeocoderUrlFormat + "&key=" + APIKey, ServerAPIs, pt.Lat, pt.Lng, language);
         }
 
         GeoCoderStatusCode GetLatLngFromGeocoderUrl(string url, out List<PointLatLng> pointList)
@@ -1351,8 +1353,8 @@ namespace GMap.NET.MapProviders
             return status;
         }
 
-        static readonly string ReverseGeocoderUrlFormat = "http://maps.{0}/maps/api/geocode/xml?latlng={1},{2}&language={3}&sensor=false";
-        static readonly string GeocoderUrlFormat = "http://maps.{0}/maps/api/geocode/xml?address={1}&language={2}&sensor=false";
+        static readonly string ReverseGeocoderUrlFormat = "https://maps.{0}/maps/api/geocode/xml?latlng={1},{2}&language={3}&sensor=false";
+        static readonly string GeocoderUrlFormat = "https://maps.{0}/maps/api/geocode/xml?address={1}&language={2}&sensor=false";
 
         #endregion
 

@@ -9,6 +9,7 @@ using log4net.Config;
 using System.Diagnostics;
 using System.Drawing;
 using System.Reflection;
+using GMap.NET.MapProviders;
 using MissionPlanner.Comms;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
@@ -178,6 +179,8 @@ namespace MissionPlanner
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Japan_Relief.Instance);
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Japan_Slopezone.Instance);
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Japan_Sea.Instance);
+
+            GoogleMapProvider.APIKey = "AIzaSyA5nFp39fEHruCezXnG3r8rGyZtuAkmCug";
 
             // optionally add gdal support
             if (Directory.Exists(Application.StartupPath + Path.DirectorySeparatorChar + "gdal"))
