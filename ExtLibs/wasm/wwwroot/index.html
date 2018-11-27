@@ -20,7 +20,7 @@
 <script src="_framework/blazor.webassembly.js"></script>
 
     <script>
-        /*
+        
         var worker = new Worker("websocketworker.js");
 
         worker.onmessage = function (e) {
@@ -31,7 +31,7 @@
             }
             //console.log('Message received from worker');
         }
-        */
+        
         function initWebSocket() {
             if (window["WebSocket"]) {
                 var host = "ws://" + window.location.hostname + ":56781/websocket/raw";
