@@ -1358,7 +1358,7 @@ namespace MissionPlanner.Log
                             b = date.XLDate;
                         }
 
-                        if (item.items.Length >= index)
+                        if (item.items.Length <= index)
                             continue;
 
                         string mode = "Err: " + ((DFLog.error_subsystem) int.Parse(item.items[index].ToString())) +
@@ -1435,7 +1435,7 @@ namespace MissionPlanner.Log
                             a = date.XLDate;
                         }
 
-                        if (item.items.Length >= index)
+                        if (item.items.Length <= index)
                             continue;
 
                         string mode = item.items[index].ToString().Trim();
@@ -1545,7 +1545,7 @@ namespace MissionPlanner.Log
                             a = date.XLDate;
                         }
 
-                        if(item.items.Length >= index)
+                        if(item.items.Length <= index)
                             continue;
 
                         string mode = item.items[index].ToString().Trim();
@@ -1627,7 +1627,7 @@ namespace MissionPlanner.Log
                             }
                         }
 
-                        if (item.items.Length >= index)
+                        if (item.items.Length <= index)
                             continue;
 
                         string time = double.Parse(item.items[index]).ToString();
