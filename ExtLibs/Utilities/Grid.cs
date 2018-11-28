@@ -451,13 +451,21 @@ namespace MissionPlanner.Utilities
                 {
                     utmpos newstart = newpos(closest.p1, angle, -leadin);
                     newstart.Tag = "S";
-
                     addtomap(newstart, "S");
                     ans.Add(newstart);
 
-                    closest.p1.Tag = "SM";
-                    addtomap(closest.p1, "SM");
-                    ans.Add(closest.p1);
+                    if (leadin < 0)
+                    {
+                        var p2 = new utmpos(newstart) { Tag = "SM" };
+                        addtomap(p2, "SM");
+                        ans.Add(p2);
+                    }
+                    else
+                    {
+                        closest.p1.Tag = "SM";
+                        addtomap(closest.p1, "SM");
+                        ans.Add(closest.p1);
+                    }
 
                     if (spacing > 0)
                     {
@@ -475,11 +483,21 @@ namespace MissionPlanner.Utilities
                         }
                     }
 
-                    closest.p2.Tag = "ME";
-                    addtomap(closest.p2, "ME");
-                    ans.Add(closest.p2);
-
                     utmpos newend = newpos(closest.p2, angle, overshoot1);
+
+                    if (overshoot1 < 0)
+                    {
+                        var p2 = new utmpos(newend) {Tag = "ME"};
+                        addtomap(p2, "ME");
+                        ans.Add(p2);
+                    }
+                    else
+                    {
+                        closest.p2.Tag = "ME";
+                        addtomap(closest.p2, "ME");
+                        ans.Add(closest.p2);
+                    }
+
                     newend.Tag = "E";
                     addtomap(newend, "E");
                     ans.Add(newend);
@@ -499,9 +517,18 @@ namespace MissionPlanner.Utilities
                     addtomap(newstart, "S");
                     ans.Add(newstart);
 
-                    closest.p2.Tag = "SM";
-                    addtomap(closest.p2, "SM");
-                    ans.Add(closest.p2);
+                    if (leadin < 0)
+                    {
+                        var p2 = new utmpos(newstart) {Tag = "SM"};
+                        addtomap(p2, "SM");
+                        ans.Add(p2);
+                    }
+                    else
+                    {
+                        closest.p2.Tag = "SM";
+                        addtomap(closest.p2, "SM");
+                        ans.Add(closest.p2);
+                    }
 
                     if (spacing > 0)
                     {
@@ -519,11 +546,21 @@ namespace MissionPlanner.Utilities
                         }
                     }
 
-                    closest.p1.Tag = "ME";
-                    addtomap(closest.p1, "ME");
-                    ans.Add(closest.p1);
-
                     utmpos newend = newpos(closest.p1, angle, -overshoot2);
+
+                    if (overshoot2 < 0)
+                    {
+                        var p2 = new utmpos(newend) { Tag = "ME" };
+                        addtomap(p2, "ME");
+                        ans.Add(p2);
+                    }
+                    else
+                    {
+                        closest.p1.Tag = "ME";
+                        addtomap(closest.p1, "ME");
+                        ans.Add(closest.p1);
+                    }
+            
                     newend.Tag = "E";
                     addtomap(newend, "E");
                     ans.Add(newend);

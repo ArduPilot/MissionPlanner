@@ -14,7 +14,7 @@ using Extensions = MissionPlanner.Utilities.Extensions;
 
 namespace MissionPlanner.Maps
 {
-    public class Propagation
+    public class Propagation: IDisposable
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private double[,] alts;
@@ -202,7 +202,8 @@ namespace MissionPlanner.Maps
                                                 return;
                                             var lnglat = gMapControl1.FromLocalToLatLng(x - extend / 2, y - extend / 2);
                                             var altresponce = srtm.getAltitude(lnglat.Lat, lnglat.Lng, zoom);
-                                            if (altresponce != srtm.altresponce.Invalid && altresponce != srtm.altresponce.Ocean)
+                                            if (altresponce != srtm.altresponce.Invalid &&
+                                                altresponce != srtm.altresponce.Ocean)
                                             {
                                                 alts[x, y] = altresponce.alt;
 
@@ -233,6 +234,10 @@ namespace MissionPlanner.Maps
                                 Extensions.SteppedRange(res / 2, height + extend + 1 - res, res), y =>
                                 {
                                     for (var x = res / 2; x < width + extend - res; x += res)
+                                    {
+                                        if (!ele_enabled)
+                                            return;
+
                                         if (ele_run)
                                         {
                                             var rel = altasl - alts[x, y];
@@ -278,6 +283,7 @@ namespace MissionPlanner.Maps
                                             for (var j = -res / 2; j <= res / 2; j++)
                                                 imageData[x + i, y + j] = gradcolor;
                                         }
+                                    }
                                 });
 
                             start2 = DateTime.Now;
@@ -285,6 +291,9 @@ namespace MissionPlanner.Maps
                             var gMapMarkerElevation = new GMapMarkerElevation(imageData,
                                 new RectLatLng(imageDataRect.LocationTopLeft, imageDataRect.Size),
                                 new PointLatLngAlt(imageDataCenter));
+
+                            if (!ele_enabled)
+                                return;
 
                             gMapControl1.Invoke((Action) delegate
                             {
@@ -384,6 +393,15 @@ namespace MissionPlanner.Maps
             else if (normvalue > 1) normvalue = 1;
 
             return normvalue;
+        }
+
+        public void Dispose()
+        {
+            Stop();
+
+            distance?.Dispose();
+            elevationoverlay?.Dispose();
+            LineOfSight?.Dispose();
         }
     }
 }
