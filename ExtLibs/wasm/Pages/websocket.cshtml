@@ -23,15 +23,34 @@
 @inject IFileReaderService fileReaderService;
 @inject HttpClient Http
 
-<h1>WebSocket</h1>
+<div id="message" style="position:absolute;">@gpstime @lat @lng @alt @hdg</div>
 
-<p>@gpstime @lat @lng @alt @hdg</p>
+<div style="height: 100%; display: flex; flex-direction: column; float: left; resize: horizontal; overflow: auto;">
+    <div style="float: left;">
+        <canvas id="canvas" width="500" height="375">
+            <p>
+                This example requires a browser that supports the
+                <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+                &lt;canvas&gt; feature.
+            </p>
+        </canvas><br>
+        Lat: <input id="latbox" name="lat" val="40.713956" />Long: <input id="lngbox" name="long" val="74.006653" /> <br />
+        <canvas id="graphcanvas" width="500" height="80"></canvas><br />
+        <div id="curve_chart" style="width: 500px; height: 200px;"></div>
+    </div>
+    <div id="serverStatus" style="width: 500px; overflow-y: auto; flex-grow: 0;"></div>
+</div>
+<div style="height: 100%; display: flex; flex-direction: column; resize: horizontal; overflow: auto;">
 
-<div id="map" style="width: 100%; height: 70vh;"></div>
+    <div id="cesiumContainer" style="height: 50%; display: none;"></div>
+    <div id="map" style="width: 100%; height: 100%;"></div>
+</div>
 
-<BECanvas ref="@_canvasReference" Width="400" Height="100"></BECanvas>
+
+
 
 @functions {
+    //<BECanvas ref="@_canvasReference" Width="400" Height="100"></BECanvas>
     double lat = 0, lng = 0, alt = 0, hdg = 0;
     int currentCount = 0;
     MAVLinkInterface mav;
@@ -69,6 +88,7 @@
 
     protected override async Task OnAfterRenderAsync()
     {
+        /*
         this._context = this._canvasReference.CreateCanvas2d();
 
         this._context.FillStyle = "green";
@@ -77,7 +97,7 @@
 
         this._context.Font = "48px serif";
         this._context.StrokeText("Hello Blazor!!!", 10, 100);
-
+        */
         if (init)
             return;
 
@@ -93,6 +113,8 @@
         JSRuntime.Current.InvokeAsync<object>("initMap", null);
 
         JSRuntime.Current.InvokeAsync<object>("initWebSocket", null);
+
+        JSRuntime.Current.InvokeAsync<object>("draw", null);
     }
 
     protected override void OnParametersSet()
@@ -133,10 +155,10 @@
         //Console.WriteLine("ProcessPacketStaticBytes");
         if (instance != null)
         {
-            if(instance.buffer == null)
+            if (instance.buffer == null)
                 Console.WriteLine("buffer is null");
 
-            if(length == null)
+            if (length == null)
                 Console.WriteLine("buffer is null");
 
             //Console.WriteLine(length + " " + BitConverter.ToString(instance.buffer.Take(length).ToArray()));
@@ -194,7 +216,7 @@
 
         //Console.WriteLine("decode json");
 
-        if(json != "")
+        if (json != "")
             data = Base64.Decode(json);
 
         mav.BaseStream.Write(data, 0, data.Length);
@@ -349,6 +371,14 @@
 
         return true;
         //mav.DebugPacket(packet, true);
+    }
+
+    public string getCS()
+    {
+        var cs = JsonConvert.SerializeObject(mav.MAV.cs);
+        //var wps = JsonConvert.SerializeObject(MainV2.comPort.MAV.wps);
+
+        return cs;
     }
 
     public void Dispose()
