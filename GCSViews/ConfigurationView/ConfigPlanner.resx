@@ -186,6 +186,9 @@
   <data name="CMB_ratesensors.Items12" xml:space="preserve">
     <value>50</value>
   </data>
+  <data name="CMB_ratesensors.Items13" xml:space="preserve">
+    <value>100</value>
+  </data>
   <data name="CMB_ratesensors.Location" type="System.Drawing.Point, System.Drawing">
     <value>545, 224</value>
   </data>
@@ -831,6 +834,15 @@
   <data name="CMB_rateposition.Items11" xml:space="preserve">
     <value>10</value>
   </data>
+  <data name="CMB_rateposition.Items12" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="CMB_rateposition.Items13" xml:space="preserve">
+    <value>50</value>
+  </data>
+  <data name="CMB_rateposition.Items14" xml:space="preserve">
+    <value>100</value>
+  </data>
   <data name="CMB_rateposition.Location" type="System.Drawing.Point, System.Drawing">
     <value>255, 224</value>
   </data>
@@ -887,6 +899,12 @@
   </data>
   <data name="CMB_rateattitude.Items11" xml:space="preserve">
     <value>10</value>
+  </data>
+  <data name="CMB_rateattitude.Items12" xml:space="preserve">
+    <value>50</value>
+  </data>
+  <data name="CMB_rateattitude.Items13" xml:space="preserve">
+    <value>100</value>
   </data>
   <data name="CMB_rateattitude.Location" type="System.Drawing.Point, System.Drawing">
     <value>153, 224</value>
@@ -2318,6 +2336,6 @@
     <value>ConfigPlanner</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.MyUserControl, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>
