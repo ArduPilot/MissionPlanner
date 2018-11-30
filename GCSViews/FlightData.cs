@@ -2817,31 +2817,19 @@ namespace MissionPlanner.GCSViews
 
             foreach (var field in test.GetProperties())
             {
-                // field.Name has the field's name.
-                object fieldValue;
-                TypeCode typeCode;
-                try
-                {
-                    fieldValue = field.GetValue(thisBoxed, null); // Get value
+                var fieldValue = field.GetValue(thisBoxed, null); // Get value
 
-                    if (fieldValue == null)
-                        continue;
-
-                    // Get the TypeCode enumeration. Multiple types get mapped to a common typecode.
-                    typeCode = Type.GetTypeCode(fieldValue.GetType());
-                }
-                catch
-                {
+                if (fieldValue == null)
                     continue;
-                }
 
-                if (!(typeCode == TypeCode.Single || typeCode == TypeCode.Double || 
-                    typeCode == TypeCode.Int32 || typeCode == TypeCode.UInt16))
+
+                if (!fieldValue.IsNumber())
                     continue;
 
                 max_length = Math.Max(max_length, TextRenderer.MeasureText(field.Name, selectform.Font).Width);
                 fields.Add(field.Name);
             }
+
             max_length += 15;
             fields.Sort();          
 
@@ -2906,7 +2894,7 @@ namespace MissionPlanner.GCSViews
                 chk_box.Name = field;
                 chk_box.Tag = "custom";
                 chk_box.Location = new Point(x, y);
-                chk_box.Size = new Size(100, 20);
+                chk_box.Size = new Size(120, 20);
                 chk_box.CheckedChanged += chk_box_CheckedChanged;
 
                 selectform.Controls.Add(chk_box);
@@ -2916,10 +2904,10 @@ namespace MissionPlanner.GCSViews
 
                 if (y > selectform.Height - 50)
                 {
-                    x += 100;
+                    x += 120;
                     y = 10;
 
-                    selectform.Width = x + 100;
+                    selectform.Width = x + 120;
                 }
             }
 
@@ -2966,9 +2954,7 @@ namespace MissionPlanner.GCSViews
                 // Get the TypeCode enumeration. Multiple types get mapped to a common typecode.
                 TypeCode typeCode = Type.GetTypeCode(fieldValue.GetType());
 
-                if (
-                    !(typeCode == TypeCode.Single || typeCode == TypeCode.Double || typeCode == TypeCode.Int32 ||
-                      typeCode == TypeCode.UInt16))
+                if (!fieldValue.IsNumber())
                     continue;
 
                 max_length = Math.Max(max_length, TextRenderer.MeasureText(field.Name, selectform.Font).Width);
@@ -3348,15 +3334,12 @@ namespace MissionPlanner.GCSViews
 
             foreach (var field in test.GetProperties())
             {
-                TypeCode typeCode = Type.GetTypeCode(field.PropertyType);
-
-                if (!(typeCode == TypeCode.Single || typeCode == TypeCode.Double || typeCode == TypeCode.Int32 ||
-                      typeCode == TypeCode.UInt16))
-                    continue;
-                
                 // field.Name has the field's name.
                 object fieldValue = field.GetValue(thisBoxed, null); // Get value
                 if (fieldValue == null)
+                    continue;
+
+                if (!fieldValue.IsNumber())
                     continue;
 
                 max_length = Math.Max(max_length, TextRenderer.MeasureText(field.Name, selectform.Font).Width);
