@@ -24,19 +24,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
             startup = true;
-            if (MainV2.comPort.MAV.param["BATT_MONITOR"] != null)
-            {
-                if ((float) MainV2.comPort.MAV.param["BATT_MONITOR"] != 0)
-                {
-                    CMB_batmontype.SelectedIndex = getIndex(CMB_batmontype,
-                        (int) float.Parse(MainV2.comPort.MAV.param["BATT_MONITOR"].ToString()));
-                }
-                else
-                {
-                    CMB_batmontype.SelectedIndex = 0;
-                }
-            }
 
+            CMB_batmontype.setup(
+                ParameterMetaDataRepository.GetParameterOptionsInt("BATT_MONITOR",
+                    MainV2.comPort.MAV.cs.firmware.ToString()), "BATT_MONITOR", MainV2.comPort.MAV.param);
+            
             if (MainV2.comPort.MAV.param["BATT_CAPACITY"] != null)
                 TXT_battcapacity.Text = MainV2.comPort.MAV.param["BATT_CAPACITY"].ToString();
 
@@ -67,6 +59,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CHK_speechbattery.Checked = false;
             }
 
+            //http://plane.ardupilot.com/wiki/common-pixhawk-overview/#pixhawk_analog_input_pins_virtual_pin_firmware_mapped_pin_id
             // determine the sensor type
             if (TXT_ampspervolt.Text == (13.6612).ToString() && TXT_divider.Text == (4.127115).ToString())
             {
@@ -160,35 +153,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             timer1.Stop();
             startup = true;
         }
-
-        private void CHK_enablebattmon_CheckedChanged(object sender, EventArgs e)
-        {
-            if (startup)
-                return;
-            try
-            {
-                if (((CheckBox) sender).Checked == false)
-                {
-                    CMB_batmontype.SelectedIndex = 0;
-                }
-                else
-                {
-                    if (CMB_batmontype.SelectedIndex <= 0)
-                        CMB_batmontype.SelectedIndex = 1;
-                }
-            }
-            catch
-            {
-                CustomMessageBox.Show("Set BATT_MONITOR Failed", Strings.ERROR);
-            }
-        }
-
-        private void TXT_battcapacity_Validating(object sender, CancelEventArgs e)
-        {
-            float ans = 0;
-            e.Cancel = !float.TryParse(TXT_battcapacity.Text, out ans);
-        }
-
+        
         private void TXT_battcapacity_Validated(object sender, EventArgs e)
         {
             if (startup || ((TextBox) sender).Enabled == false)
@@ -222,7 +187,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 else
                 {
-                    var selection = int.Parse(CMB_batmontype.Text.Substring(0, 1));
+                    var selection = (int)CMB_batmontype.SelectedValue;
 
                     CMB_batmonsensortype.Enabled = true;
 
