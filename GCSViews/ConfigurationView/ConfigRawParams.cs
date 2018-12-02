@@ -286,6 +286,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     CustomMessageBox.Show("Set " + value + " Failed");
                 }
             }
+
+            CustomMessageBox.Show("Parameters successfully saved.", "Saved");
         }
 
         private void BUT_compare_Click(object sender, EventArgs e)

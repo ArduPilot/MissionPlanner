@@ -11,6 +11,7 @@ using System.Threading;
 using System.Timers;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
+using Flurl.Util;
 using log4net;
 using Microsoft.Scripting.Utils;
 using MissionPlanner.Controls;
@@ -41,6 +42,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public void Activate()
         {
             startup = true;
+
+            _changes.Clear();
 
             BUT_writePIDS.Enabled = MainV2.comPort.BaseStream.IsOpen;
             BUT_rerequestparams.Enabled = MainV2.comPort.BaseStream.IsOpen;
@@ -235,6 +238,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
             Params.Refresh();
+            CustomMessageBox.Show("Parameters successfully saved.", "Saved");
         }
 
         private void BUT_compare_Click(object sender, EventArgs e)
@@ -503,6 +507,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     }
                 }
                 Params.Visible = true;
+            }
+
+            if (chk_modified.Checked)
+            {
+                var filter = String.Format("({0})", String.Join("|", _changes.Keys.Select(a => a.ToString())));
+
+                Params.ModelFilter = TextMatchFilter.Regex(Params, filter);
+                Params.DefaultRenderer = new HighlightTextRenderer((TextMatchFilter)Params.ModelFilter);
+                Params.UseFiltering = true;
             }
         }
 
@@ -791,5 +804,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
            //     toolTip1.Show(e.HitTest.Item.Text, this.Parent, 3000);
             }
             }
+
+        private void chk_modified_CheckedChanged(object sender, EventArgs e)
+        {
+            FilterTimerOnElapsed(null, null);
+        }
     }
 }
