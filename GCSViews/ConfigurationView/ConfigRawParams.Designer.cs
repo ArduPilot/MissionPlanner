@@ -50,6 +50,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.txt_search = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.BUT_commitToFlash = new MissionPlanner.Controls.MyButton();
+            this.chk_modified = new System.Windows.Forms.CheckBox();
             this.Params = new MissionPlanner.Controls.MyDataGridView();
             this.Command = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -145,6 +146,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.BUT_commitToFlash.UseVisualStyleBackColor = true;
             this.BUT_commitToFlash.Click += new System.EventHandler(this.BUT_commitToFlash_Click);
             // 
+            // chk_modified
+            // 
+            resources.ApplyResources(this.chk_modified, "chk_modified");
+            this.chk_modified.Name = "chk_modified";
+            this.chk_modified.UseVisualStyleBackColor = true;
+            this.chk_modified.CheckedChanged += new System.EventHandler(this.chk_modified_CheckedChanged);
+            // 
             // Params
             // 
             this.Params.AllowUserToAddRows = false;
@@ -231,6 +239,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             // ConfigRawParams
             // 
+            this.Controls.Add(this.chk_modified);
             this.Controls.Add(this.BUT_commitToFlash);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txt_search);
@@ -274,5 +283,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private System.Windows.Forms.DataGridViewTextBoxColumn Options;
         private System.Windows.Forms.DataGridViewTextBoxColumn Desc;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Fav;
+        private System.Windows.Forms.CheckBox chk_modified;
     }
 }
