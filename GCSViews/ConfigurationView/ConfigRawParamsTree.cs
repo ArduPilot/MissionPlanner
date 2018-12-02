@@ -657,6 +657,23 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 else
                     e.Item.BackColor = BackColor;
             }
+
+            var item = e.Model as data;
+            if (item != null)
+            {
+                //olvColumn4.WordWrap = true;
+                //olvColumn5.WordWrap = true;
+                //Params.RowHeight = 26;
+                return;
+
+               var size = TextRenderer.MeasureText(item.desc, Params.Font, new Size(olvColumn5.Width, 26), TextFormatFlags.WordBreak);
+                if(size.Height >= Params.RowHeight)
+                    Params.RowHeight = Math.Min(size.Height, 50);
+
+                size = TextRenderer.MeasureText(item.range, Params.Font, new Size(olvColumn4.Width, 26), TextFormatFlags.WordBreak);
+                if (size.Height >= Params.RowHeight)
+                    Params.RowHeight = Math.Min(size.Height,50);
+            }
         }
 
         public struct paramsettings // hk's
@@ -760,5 +777,19 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             CustomMessageBox.Show("Parameters committed to non-volatile memory");
             return;
         }
+
+        private void Params_CellToolTipShowing(object sender, ToolTipShowingEventArgs e)
+        {
+
+            
+        }
+
+        private void Params_CellOver(object sender, CellOverEventArgs e)
+        {
+            if(e.ColumnIndex == 4 || e.ColumnIndex == 5)
+            {
+           //     toolTip1.Show(e.HitTest.Item.Text, this.Parent, 3000);
+            }
+            }
     }
 }

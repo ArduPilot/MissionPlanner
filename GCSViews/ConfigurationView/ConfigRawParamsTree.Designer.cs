@@ -85,17 +85,21 @@
             this.olvColumn5});
             this.Params.DataSource = null;
             this.Params.ForeColor = System.Drawing.Color.White;
+            this.Params.HideSelection = false;
             this.Params.Name = "Params";
             this.Params.OwnerDraw = true;
             this.Params.RootKeyValueString = "";
             this.Params.RowHeight = 26;
             this.Params.ShowGroups = false;
+            this.Params.ShowItemToolTips = true;
             this.Params.UseAlternatingBackColors = true;
             this.Params.UseCompatibleStateImageBehavior = false;
             this.Params.View = System.Windows.Forms.View.Details;
             this.Params.VirtualMode = true;
             this.Params.CellEditFinishing += new BrightIdeasSoftware.CellEditEventHandler(this.Params_CellEditFinishing);
             this.Params.CellClick += new System.EventHandler<BrightIdeasSoftware.CellClickEventArgs>(this.Params_CellClick);
+            this.Params.CellOver += new System.EventHandler<BrightIdeasSoftware.CellOverEventArgs>(this.Params_CellOver);
+            this.Params.CellToolTipShowing += new System.EventHandler<BrightIdeasSoftware.ToolTipShowingEventArgs>(this.Params_CellToolTipShowing);
             this.Params.FormatRow += new System.EventHandler<BrightIdeasSoftware.FormatRowEventArgs>(this.Params_FormatRow);
             // 
             // olvColumn1
@@ -206,7 +210,6 @@
             // 
             // ConfigRawParamsTree
             // 
-            
             this.Controls.Add(this.BUT_commitToFlash);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txt_search);
