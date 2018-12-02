@@ -572,11 +572,6 @@ namespace MissionPlanner.Grid
 
             GMapMarkerOverlap.Clear();
 
-            if (grid.Count == 0)
-            {
-                return;
-            }
-
             if (chk_crossgrid.Checked)
             {
                 // add crossover
@@ -591,6 +586,12 @@ namespace MissionPlanner.Grid
 
             if (CHK_boundary.Checked)
                 AddDrawPolygon();
+
+            if (grid.Count == 0)
+            {
+                map.ZoomAndCenterMarkers("routes");
+                return;
+            }
 
             int strips = 0;
             int images = 0;
