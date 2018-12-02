@@ -613,7 +613,7 @@ namespace MissionPlanner.Joystick
                         Interface.MAV.cs.rcoverridech8 = pickchannel(8, JoyChannels[8].axis, JoyChannels[8].reverse,
                             JoyChannels[8].expo);
 
-                    if (getJoystickAxis(9) != Joystick.joystickaxis.None) Interface.MAV.cs.rcoverridech8 = pickchannel(9, JoyChannels[9].axis, JoyChannels[9].reverse, JoyChannels[9].expo);
+                    if (getJoystickAxis(9) != Joystick.joystickaxis.None) Interface.MAV.cs.rcoverridech9 = pickchannel(9, JoyChannels[9].axis, JoyChannels[9].reverse, JoyChannels[9].expo);
                     if (getJoystickAxis(10) != Joystick.joystickaxis.None) Interface.MAV.cs.rcoverridech10 = pickchannel(10, JoyChannels[10].axis, JoyChannels[10].reverse, JoyChannels[10].expo);
                     if (getJoystickAxis(11) != Joystick.joystickaxis.None) Interface.MAV.cs.rcoverridech11 = pickchannel(11, JoyChannels[11].axis, JoyChannels[11].reverse, JoyChannels[11].expo);
                     if (getJoystickAxis(12) != Joystick.joystickaxis.None) Interface.MAV.cs.rcoverridech12 = pickchannel(12, JoyChannels[12].axis, JoyChannels[12].reverse, JoyChannels[12].expo);
