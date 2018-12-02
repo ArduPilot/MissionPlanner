@@ -1457,7 +1457,7 @@ namespace MissionPlanner
             }
         }
 
-        public List<string> GetItemList()
+        public List<string> GetItemList(bool alpha = false)
         {
             List<string> ans = new List<string>();
 
@@ -1471,25 +1471,11 @@ namespace MissionPlanner
 
             foreach (var field in props)
             {
-                // field.Name has the field's name.
-                object fieldValue;
-                TypeCode typeCode;
-                try
-                {
-                    fieldValue = field.GetValue(thisBoxed, null); // Get value
-
-                    if (fieldValue == null)
-                        continue;
-                    // Get the TypeCode enumeration. Multiple types get mapped to a common typecode.
-                    typeCode = Type.GetTypeCode(fieldValue.GetType());
-                }
-                catch
-                {
-                    continue;
-                }
-
                 ans.Add(field.Name);
             }
+
+            if (alpha)
+                ans.Sort();
 
             return ans;
         }
