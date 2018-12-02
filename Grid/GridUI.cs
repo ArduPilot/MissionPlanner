@@ -71,6 +71,8 @@ namespace MissionPlanner.Grid
             loading = true;
 
             map.MapProvider = plugin.Host.FDMapType;
+            map.MaxZoom = plugin.Host.FDGMapControl.MaxZoom;
+            TRK_zoom.Maximum = map.MaxZoom;
 
             kmlpolygonsoverlay = new GMapOverlay("kmlpolygons");
             map.Overlays.Add(kmlpolygonsoverlay);

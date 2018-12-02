@@ -1279,7 +1279,7 @@
             // 
             resources.ApplyResources(this.TRK_zoom, "TRK_zoom");
             this.TRK_zoom.LargeChange = 0.005F;
-            this.TRK_zoom.Maximum = 19F;
+            this.TRK_zoom.Maximum = 22F;
             this.TRK_zoom.Minimum = 2F;
             this.TRK_zoom.Name = "TRK_zoom";
             this.TRK_zoom.SmallChange = 0.001F;
