@@ -3345,7 +3345,7 @@ namespace MissionPlanner.GCSViews
                 max_length = Math.Max(max_length, TextRenderer.MeasureText(field.Name, selectform.Font).Width);
                 fields.Add(field.Name);
             }
-            max_length += 15;
+            max_length += 25;
             fields.Sort();
 
             int col_count = (int) (Screen.FromControl(this).Bounds.Width*0.8f)/max_length;
@@ -3362,8 +3362,9 @@ namespace MissionPlanner.GCSViews
                     Text = fields[i],
                     Name = fields[i],
                     Tag = qv,
-                    Location = new Point(5 + (i/row_count)*(max_length + 5), 2 + (i%row_count)*row_height),
-                    Size = new Size(max_length, row_height)
+                    Location = new Point(5 + (i/row_count)*(max_length + 5 ), 2 + (i%row_count)*row_height),
+                    Size = new Size(max_length, row_height),
+                    AutoSize = true
                 };
                 chk_box.CheckedChanged += chk_box_quickview_CheckedChanged;
                 if (chk_box.Checked)
