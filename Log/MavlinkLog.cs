@@ -1691,6 +1691,16 @@ namespace MissionPlanner.Log
 
                 if (e.Node.Checked)
                 {
+                    // has it already been graphed?
+                    foreach (var item in zg1.GraphPane.CurveList)
+                    {
+                        if (item.Label.Text.StartsWith(e.Node.Text) &&
+                            item.Label.Text.Contains(e.Node.Parent.Text.ToLower()))
+                        {
+                            return;
+                        }
+                    }
+
                     if (e.Button == System.Windows.Forms.MouseButtons.Right)
                     {
                         GraphItem(e.Node.Parent.Text, e.Node.Text, false);
