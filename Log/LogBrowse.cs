@@ -9,6 +9,7 @@ using log4net;
 using ZedGraph; // Graphs
 using System.Xml;
 using System.Collections;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -2929,7 +2930,7 @@ namespace MissionPlanner.Log
                         StringBuilder sb = new StringBuilder();
                         foreach (DataGridViewCell cell in row.Cells)
                         {
-                            sb.Append(cell.FormattedValue);
+                            sb.Append(cell.FormattedValue.ToString(CultureInfo.InvariantCulture));
                             sb.Append(',');
                         }
                         sw.WriteLine(sb.ToString());
