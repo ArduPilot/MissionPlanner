@@ -159,7 +159,7 @@ namespace MissionPlanner.Joystick
             for (int a = 0; a < JoyButtons.Length; a++)
                 JoyButtons[a].buttonno = -1;
 
-            if (currentInterface == null)
+            if (currentInterface() == null)
                 return;
 
             if (Interface.MAV.cs.firmware == Firmwares.ArduPlane)
