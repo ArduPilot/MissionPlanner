@@ -3149,7 +3149,7 @@ namespace MissionPlanner
                                 "GStreamer", System.Windows.Forms.MessageBoxButtons.YesNo) ==
                             (int)System.Windows.Forms.DialogResult.Yes)
                         {
-                            GStreamer.DownloadGStreamer();
+                            UDPVideoShim.DownloadGStreamer();
                         }
                     }
 
