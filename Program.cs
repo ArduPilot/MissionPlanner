@@ -9,6 +9,7 @@ using log4net.Config;
 using System.Diagnostics;
 using System.Drawing;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using GMap.NET.MapProviders;
 using MissionPlanner.Comms;
 using MissionPlanner.Controls;
@@ -49,13 +50,22 @@ namespace MissionPlanner
             AppDomain.CurrentDomain.TypeResolve += CurrentDomain_TypeResolve;
 
             AppDomain.CurrentDomain.FirstChanceException += CurrentDomain_FirstChanceException;
+
+            //AppDomain.CurrentDomain.AssemblyResolve += Resolver;
         }
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
         public static void Main(string[] args)
         {
+            Start();
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static void Start()
+        { 
             Program.args = args;
             Console.WriteLine(
                 "If your error is about Microsoft.DirectX.DirectInput, please install the latest directx redist from here http://www.microsoft.com/en-us/download/details.aspx?id=35 \n\n");
@@ -232,6 +242,10 @@ namespace MissionPlanner
             Device.DeviceStructure test11 = new Device.DeviceStructure(2359586);
             Device.DeviceStructure test12 = new Device.DeviceStructure(2229282);
             Device.DeviceStructure test13 = new Device.DeviceStructure(2360330);
+
+            Device.DeviceStructure test21 = new Device.DeviceStructure(592905);
+            Device.DeviceStructure test22 = new Device.DeviceStructure(131874);
+            Device.DeviceStructure test23 = new Device.DeviceStructure(263178);
 
             MAVLink.MavlinkParse tmp = new MAVLink.MavlinkParse();
             MAVLink.mavlink_heartbeat_t hb = new MAVLink.mavlink_heartbeat_t()
