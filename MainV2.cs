@@ -3160,18 +3160,25 @@ namespace MissionPlanner
                             // 36 retrys
                             for (int i = 0; i < 36; i++)
                             {
-                                var st = GStreamer.StartA(cmds["gstream"]);
-                                if (st == null)
+                                try
                                 {
-                                    // prevent spam
-                                    Thread.Sleep(5000);
-                                }
-                                else
-                                {
-                                    while (st.IsAlive)
+                                    var st = GStreamer.StartA(cmds["gstream"]);
+                                    if (st == null)
                                     {
-                                        Thread.Sleep(1000);
+                                        // prevent spam
+                                        Thread.Sleep(5000);
                                     }
+                                    else
+                                    {
+                                        while (st.IsAlive)
+                                        {
+                                            Thread.Sleep(1000);
+                                        }
+                                    }
+                                }
+                                catch (DllNotFoundException)
+                                {
+                                    return;
                                 }
                             }
                         }) {IsBackground = true}.Start();
