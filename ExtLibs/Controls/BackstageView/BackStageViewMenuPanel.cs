@@ -22,6 +22,10 @@ namespace MissionPlanner.Controls.BackstageView
 
             var rc = new Rectangle(ClientSize.Width - GradientWidth, 0, GradientWidth, this.ClientSize.Height);
 
+            // prevent LinearGradientBrush exception on 0 height
+            if (rc.Height == 0 || rc.Width == 0)
+                return;
+
             using (var brush = new LinearGradientBrush(rc, BackColor, GradColor, LinearGradientMode.Horizontal))
             {
                 pevent.Graphics.FillRectangle(brush, rc);
