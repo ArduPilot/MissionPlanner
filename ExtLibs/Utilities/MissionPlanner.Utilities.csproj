@@ -43,6 +43,10 @@
 
   <ItemGroup>
 
+    <Reference Include="Ionic.Zip.NetStandard">
+      <HintPath>..\Ionic.Zip.NetStandard.dll</HintPath>
+    </Reference>
+
     <Reference Include="OpenTK">
       <HintPath>..\OpenTK.dll</HintPath>
     </Reference>
