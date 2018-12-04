@@ -2633,7 +2633,10 @@ namespace MissionPlanner.Log
             double x, y;
             zg1.GraphPane.ReverseTransform(ptClick, out x, out y);
 
-            GoToSample((int) x, true, false, true);
+            try
+            {
+                GoToSample((int) x, true, false, true);
+            } catch { }
         }
 
         private void scrollGrid(DataGridView dataGridView, int index)
@@ -2930,7 +2933,7 @@ namespace MissionPlanner.Log
                         StringBuilder sb = new StringBuilder();
                         foreach (DataGridViewCell cell in row.Cells)
                         {
-                            sb.Append(cell.FormattedValue.ToString(CultureInfo.InvariantCulture));
+                            sb.Append(cell.FormattedValue);
                             sb.Append(',');
                         }
                         sw.WriteLine(sb.ToString());
@@ -3085,6 +3088,7 @@ namespace MissionPlanner.Log
         private void LogBrowse_Resize(object sender, EventArgs e)
         {
             splitContainerZgGrid.SplitterDistance = splitContainerZgGrid.Height - splitContainerButGrid.Panel1.MinimumSize.Height - splitContainerButGrid.Panel2.Height;
+
         }
     }
 }
