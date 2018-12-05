@@ -38,7 +38,7 @@
             this.pnlPages.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlPages.Location = new System.Drawing.Point(203, 0);
             this.pnlPages.Margin = new System.Windows.Forms.Padding(4);
-            this.pnlPages.MinimumSize = new System.Drawing.Size(133, 0);
+            this.pnlPages.MinimumSize = new System.Drawing.Size(133, 20);
             this.pnlPages.Name = "pnlPages";
             this.pnlPages.Size = new System.Drawing.Size(454, 422);
             this.pnlPages.TabIndex = 0;
