@@ -2216,17 +2216,22 @@ Please check the following
             }
         }
 
+        public Locationwp getWP(ushort index)
+        {
+            return getWP(MAV.sysid, MAV.compid, index);
+        }
+
         /// <summary>
         /// Gets specfied WP
         /// </summary>
         /// <param name="index"></param>
         /// <returns>WP</returns>
-        public Locationwp getWP(ushort index)
+        public Locationwp getWP(byte sysid, byte compid, ushort index)
         {
             while (giveComport)
                 Thread.Sleep(100);
 
-            bool use_int = (MAV.cs.capabilities & (uint)MAV_PROTOCOL_CAPABILITY.MISSION_INT) > 0;
+            bool use_int = (MAVlist[sysid,compid].cs.capabilities & (uint)MAV_PROTOCOL_CAPABILITY.MISSION_INT) > 0;
 
             object req;
 
@@ -2234,8 +2239,8 @@ Please check the following
             {
                 mavlink_mission_request_int_t reqi = new mavlink_mission_request_int_t();
 
-                reqi.target_system = MAV.sysid;
-                reqi.target_component = MAV.compid;
+                reqi.target_system = sysid;
+                reqi.target_component = compid;
 
                 reqi.seq = index;
                 
@@ -2248,8 +2253,8 @@ Please check the following
             {
                 mavlink_mission_request_t reqf = new mavlink_mission_request_t();
 
-                reqf.target_system = MAV.sysid;
-                reqf.target_component = MAV.compid;
+                reqf.target_system = sysid;
+                reqf.target_component = compid;
 
                 reqf.seq = index;
 
@@ -2267,7 +2272,7 @@ Please check the following
 
             while (true)
             {
-                if (!(start.AddMilliseconds(3500) > DateTime.Now)) // apm times out after 5000ms
+                if (!(start.AddMilliseconds(2500) > DateTime.Now)) // apm times out after 5000ms
                 {
                     if (retrys > 0)
                     {
@@ -2288,7 +2293,7 @@ Please check the following
                 //Console.WriteLine("getwp readend " + DateTime.Now.Millisecond);
                 if (buffer.Length > 5)
                 {
-                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_ITEM)
+                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_ITEM && buffer.sysid == sysid && buffer.compid == compid)
                     {
                         //Console.WriteLine("getwp ans " + DateTime.Now.Millisecond);
 
@@ -2297,7 +2302,6 @@ Please check the following
                         // received a packet, but not what we requested
                         if (index != wp.seq)
                         {
-                            generatePacket((byte) MAVLINK_MSG_ID.MISSION_REQUEST, req);
                             continue;
                         }
 
@@ -2317,7 +2321,7 @@ Please check the following
 
                         break;
                     }
-                    else if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_ITEM_INT)
+                    else if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_ITEM_INT && buffer.sysid == sysid && buffer.compid == compid)
                     {
                         //Console.WriteLine("getwp ans " + DateTime.Now.Millisecond);
 
@@ -2326,7 +2330,6 @@ Please check the following
                         // received a packet, but not what we requested
                         if (index != wp.seq)
                         {
-                            generatePacket((byte)MAVLINK_MSG_ID.MISSION_REQUEST_INT, req);
                             continue;
                         }
 
