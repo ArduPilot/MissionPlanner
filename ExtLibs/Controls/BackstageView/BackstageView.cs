@@ -517,6 +517,9 @@ namespace MissionPlanner.Controls.BackstageView
 
         protected override void OnPaint(PaintEventArgs e)
         {
+            if (pnlMenu.Controls.Count == 0)
+                DrawMenu(null, false);
+
             base.OnPaint(e);
         }
 
