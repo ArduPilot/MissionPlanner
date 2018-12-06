@@ -3663,7 +3663,11 @@ namespace MissionPlanner
 
         private void CMB_baudrate_TextChanged(object sender, EventArgs e)
         {
-            comPortBaud = int.Parse(_connectionControl.CMB_baudrate.Text);
+            if (!int.TryParse(_connectionControl.CMB_baudrate.Text, out comPortBaud))
+            {
+                CustomMessageBox.Show(Strings.ERROR, Strings.InvalidBaudRate);
+                return;
+            }
             var sb = new StringBuilder();
             int baud = 0;
             for (int i = 0; i < _connectionControl.CMB_baudrate.Text.Length; i++)
