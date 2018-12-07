@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Net.Sockets;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -1292,7 +1293,15 @@ namespace MissionPlanner.Utilities
 
         private bool UploadSolo(string filename, BoardDetect.boards board)
         {
-            Solo.flash_px4(filename);
+            try
+            {
+                Solo.flash_px4(filename);
+            }
+            catch (SocketException)
+            {
+                CustomMessageBox.Show(Strings.ERROR, Strings.ErrorUploadingFirmware + " for SOLO");
+                return false;
+            }
 
             return true;
         }
