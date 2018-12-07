@@ -2635,6 +2635,11 @@ namespace MissionPlanner.Log
 
             try
             {
+                if (chk_time.Checked)
+                {
+                    x = dflog.GetLineNoFromTime(logdata, XDate.XLDateToDateTime(x));
+                }
+                //TODO - time fails
                 GoToSample((int) x, true, false, true);
             } catch { }
         }
@@ -3087,8 +3092,10 @@ namespace MissionPlanner.Log
 
         private void LogBrowse_Resize(object sender, EventArgs e)
         {
-            splitContainerZgGrid.SplitterDistance = splitContainerZgGrid.Height - splitContainerButGrid.Panel1.MinimumSize.Height - splitContainerButGrid.Panel2.Height;
-
+            if(chk_datagrid.Checked)
+                splitContainerZgGrid.SplitterDistance = this.Height / 2;
+            if (!chk_datagrid.Checked)
+                splitContainerZgGrid.SplitterDistance = this.Height - splitContainerButGrid.Panel2.Height;
         }
     }
 }
