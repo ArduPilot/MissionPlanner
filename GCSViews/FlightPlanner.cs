@@ -1298,50 +1298,69 @@ namespace MissionPlanner.GCSViews
                 }
                 catch (Exception ex)
                 {
+                    CustomMessageBox.Show(Strings.ERROR, Strings.Invalid_home_location);
                     log.Error(ex);
                 }
             }
 
-            var overlay = new WPOverlay();
-
-            overlay.CreateOverlay((MAVLink.MAV_FRAME) (altmode) CMB_altmode.SelectedValue, home, GetCommandList(), double.Parse(TXT_WPRad.Text) / CurrentState.multiplieralt,
-                double.Parse(TXT_loiterrad.Text) / CurrentState.multiplieralt);
-
-            MainMap.HoldInvalidation = true;
-
-            var existing = MainMap.Overlays.Where(a => a.Id == overlay.overlay.Id).ToList();
-            foreach (var b in existing)
+            try
             {
-                MainMap.Overlays.Remove(b);
-            }
+                var commandlist = GetCommandList();
 
-            MainMap.Overlays.Insert(1, overlay.overlay);
+                var overlay = new WPOverlay();
 
-            overlay.overlay.ForceUpdate();
-
-            lbl_distance.Text = rm.GetString("lbl_distance.Text") + ": " +
-                                FormatDistance((
-                                    overlay.route.Points.Select(a => (PointLatLngAlt) a)
-                                        .Aggregate(0.0, (d, p1, p2) => d + p1.GetDistance(p2)) + 
-                                    overlay.homeroute.Points.Select(a => (PointLatLngAlt) a)
-                                        .Aggregate(0.0, (d, p1, p2) => d + p1.GetDistance(p2)))/1000.0, false);
-
-            setgradanddistandaz(overlay.pointlist, home);
-
-            if (overlay.pointlist.Count <= 1)
-            {
-                RectLatLng? rect = MainMap.GetRectOfAllMarkers(overlay.overlay.Id);
-                if (rect.HasValue)
+                try
                 {
-                    MainMap.Position = rect.Value.LocationMiddle;
+                    overlay.CreateOverlay((MAVLink.MAV_FRAME) (altmode) CMB_altmode.SelectedValue, home, commandlist,
+                        double.Parse(TXT_WPRad.Text) / CurrentState.multiplieralt,
+                        double.Parse(TXT_loiterrad.Text) / CurrentState.multiplieralt);
+                }
+                catch (FormatException ex)
+                {
+                    CustomMessageBox.Show(Strings.ERROR, Strings.InvalidNumberEntered + "\n" +"WP Radius or Loiter Radius");
                 }
 
-                MainMap_OnMapZoomChanged();
+                MainMap.HoldInvalidation = true;
+
+                var existing = MainMap.Overlays.Where(a => a.Id == overlay.overlay.Id).ToList();
+                foreach (var b in existing)
+                {
+                    MainMap.Overlays.Remove(b);
+                }
+
+                MainMap.Overlays.Insert(1, overlay.overlay);
+
+                overlay.overlay.ForceUpdate();
+
+                lbl_distance.Text = rm.GetString("lbl_distance.Text") + ": " +
+                                    FormatDistance((
+                                                       overlay.route.Points.Select(a => (PointLatLngAlt) a)
+                                                           .Aggregate(0.0, (d, p1, p2) => d + p1.GetDistance(p2)) +
+                                                       overlay.homeroute.Points.Select(a => (PointLatLngAlt) a)
+                                                           .Aggregate(0.0, (d, p1, p2) => d + p1.GetDistance(p2))) /
+                                                   1000.0, false);
+
+                setgradanddistandaz(overlay.pointlist, home);
+
+                if (overlay.pointlist.Count <= 1)
+                {
+                    RectLatLng? rect = MainMap.GetRectOfAllMarkers(overlay.overlay.Id);
+                    if (rect.HasValue)
+                    {
+                        MainMap.Position = rect.Value.LocationMiddle;
+                    }
+
+                    MainMap_OnMapZoomChanged();
+                }
+
+                pointlist = overlay.pointlist;
+
+                MainMap.Refresh();
             }
-
-            pointlist = overlay.pointlist;
-
-            MainMap.Refresh();
+            catch (FormatException ex)
+            {
+                CustomMessageBox.Show(Strings.ERROR, Strings.InvalidNumberEntered + "\n" + ex.Message);
+            }
         }
 
         void setgradanddistandaz(List<PointLatLngAlt> pointlist, PointLatLngAlt HomeLocation)
@@ -3861,7 +3880,14 @@ namespace MissionPlanner.GCSViews
             Commands_RowEnter(null,
                 new DataGridViewCellEventArgs(Commands.CurrentCell.ColumnIndex, Commands.CurrentCell.RowIndex));
 
-            writeKML();
+            try
+            {
+                writeKML();
+            }
+            catch (FormatException)
+            {
+                CustomMessageBox.Show(Strings.ERROR, Strings.InvalidNumberEntered);
+            }
         }
 
         private void MainMap_Resize(object sender, EventArgs e)
