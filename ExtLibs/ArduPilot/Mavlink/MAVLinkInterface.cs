@@ -2768,7 +2768,7 @@ Please check the following
 
             while (true)
             {
-                if (!(start.AddMilliseconds(400) > DateTime.Now))
+                if (!(start.AddMilliseconds(450) > DateTime.Now))
                 {
                     if (retrys > 0)
                     {
@@ -2880,7 +2880,7 @@ Please check the following
 
             while (true)
             {
-                if (!(start.AddMilliseconds(400) > DateTime.Now))
+                if (!(start.AddMilliseconds(450) > DateTime.Now))
                 {
                     if (retrys > 0)
                     {
@@ -4283,7 +4283,7 @@ Please check the following
 
             while (true)
             {
-                if (!(start.AddMilliseconds(200) > DateTime.Now))
+                if (!(start.AddMilliseconds(500) > DateTime.Now))
                 {
                     if (retrys > 0)
                     {
@@ -4482,7 +4482,7 @@ Please check the following
                     return ms;
                 }
 
-                if (!(start.AddMilliseconds(200) > DateTime.Now))
+                if (!(start.AddMilliseconds(500) > DateTime.Now))
                 {
                     for (int a = 0; a < ((totallength)/90 + 1); a++)
                     {
