@@ -3176,8 +3176,16 @@ namespace MissionPlanner
                                         }
                                     }
                                 }
-                                catch (DllNotFoundException)
+                                catch (BadImageFormatException ex)
                                 {
+                                    // not running on x64
+                                    log.Error(ex);
+                                    return;
+                                }
+                                catch (DllNotFoundException ex)
+                                {
+                                    // missing or failed download
+                                    log.Error(ex);
                                     return;
                                 }
                             }
