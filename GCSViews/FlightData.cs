@@ -4253,7 +4253,15 @@ namespace MissionPlanner.GCSViews
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
                 return;
-            MainV2.comPort.doAbortLand();
+
+            try
+            {
+                MainV2.comPort.doAbortLand();
+            }
+            catch
+            {
+                CustomMessageBox.Show(Strings.ERROR, Strings.CommandFailed);
+            }
         }
 
         GMapMarker center = new GMarkerGoogle(new PointLatLng(0.0, 0.0), GMarkerGoogleType.none);
