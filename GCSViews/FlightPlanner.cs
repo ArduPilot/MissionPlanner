@@ -1830,8 +1830,13 @@ namespace MissionPlanner.GCSViews
                 message =>
                 {
                     var data = ((MAVLink.mavlink_mission_request_t)message.data);
+                    // check what we sent is what the message is.
                     if (MainV2.comPort.MAV.sysid != message.sysid &&
                         MainV2.comPort.MAV.compid != message.compid)
+                        return true;
+                    // check this gcs sent it
+                    if (data.target_system != MAVLinkInterface.gcssysid ||
+                        data.target_component != (byte) MAVLink.MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER)
                         return true;
                     reqno = data.seq;
                     Console.WriteLine("MISSION_REQUEST " + reqno);

@@ -60,6 +60,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             CMB_theme.Text = ThemeManager.CurrentTheme.ToString();
 
+            num_gcsid.Value = MAVLinkInterface.gcssysid;
+
             // setup language selection
             var cultureCodes = new[]
             {
@@ -950,6 +952,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             Settings.Instance["altunits"] = CMB_altunits.Text;
             MainV2.instance.ChangeUnits();
+        }
+
+        private void num_gcsid_ValueChanged(object sender, EventArgs e)
+        {
+            MAVLinkInterface.gcssysid = (byte) num_gcsid.Value;
+            Settings.Instance["gcsid"] = num_gcsid.Value.ToString();
         }
     }
 }

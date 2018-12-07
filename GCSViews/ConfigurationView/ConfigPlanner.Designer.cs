@@ -102,7 +102,10 @@
             this.chk_shownofly = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
             this.CMB_altunits = new System.Windows.Forms.ComboBox();
+            this.num_gcsid = new System.Windows.Forms.NumericUpDown();
+            this.label7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_tracklength)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_gcsid)).BeginInit();
             this.SuspendLayout();
             // 
             // label33
@@ -685,8 +688,37 @@
             this.CMB_altunits.Name = "CMB_altunits";
             this.CMB_altunits.SelectedIndexChanged += new System.EventHandler(this.CMB_altunits_SelectedIndexChanged);
             // 
+            // num_gcsid
+            // 
+            resources.ApplyResources(this.num_gcsid, "num_gcsid");
+            this.num_gcsid.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.num_gcsid.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.num_gcsid.Name = "num_gcsid";
+            this.num_gcsid.Value = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.num_gcsid.ValueChanged += new System.EventHandler(this.num_gcsid_ValueChanged);
+            // 
+            // label7
+            // 
+            resources.ApplyResources(this.label7, "label7");
+            this.label7.Name = "label7";
+            // 
             // ConfigPlanner
             // 
+            resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.num_gcsid);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.CMB_altunits);
             this.Controls.Add(this.chk_shownofly);
@@ -761,9 +793,9 @@
             this.Controls.Add(this.BUT_videostop);
             this.Controls.Add(this.BUT_videostart);
             this.Name = "ConfigPlanner";
-            resources.ApplyResources(this, "$this");
             this.Load += new System.EventHandler(this.ConfigPlanner_Load);
             ((System.ComponentModel.ISupportInitialize)(this.NUM_tracklength)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_gcsid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -844,5 +876,7 @@
         private System.Windows.Forms.CheckBox chk_shownofly;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox CMB_altunits;
+        private System.Windows.Forms.NumericUpDown num_gcsid;
+        private System.Windows.Forms.Label label7;
     }
 }
