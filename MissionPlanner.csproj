@@ -6,7 +6,7 @@
     <OutputType>Exe</OutputType>
     <StartupObject></StartupObject>
     <Authors>Michael Oborne</Authors>
-    <Version>1.3.61.2</Version>
+    <Version>1.3.62</Version>
     <DebugType>portable</DebugType>
     <Company>Michael Oborne</Company>
     <Product>Mission Planner</Product>
