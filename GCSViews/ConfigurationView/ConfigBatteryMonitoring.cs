@@ -85,6 +85,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 CMB_batmonsensortype.SelectedIndex = 8;
             }
+            else if (TXT_ampspervolt.Text == (36.364).ToString() && TXT_divider.Text == (18.182).ToString())
+            {
+                CMB_batmonsensortype.SelectedIndex = 9;
+            }
             else
             {
                 CMB_batmonsensortype.SelectedIndex = 0;
@@ -380,6 +384,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 TXT_divider.Text = (18).ToString();
                 TXT_ampspervolt.Text = (24).ToString();
+            }
+            else if (selection == 9) // Holybro Pixhawk4
+            {
+                TXT_divider.Text = (18.182).ToString();
+                TXT_ampspervolt.Text = (36.364).ToString();
             }
 
             // enable to update
