@@ -80,7 +80,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             resources.GetString("CMB_batmonsensortype.Items5"),
             resources.GetString("CMB_batmonsensortype.Items6"),
             resources.GetString("CMB_batmonsensortype.Items7"),
-            resources.GetString("CMB_batmonsensortype.Items8")});
+            resources.GetString("CMB_batmonsensortype.Items8"),
+            resources.GetString("CMB_batmonsensortype.Items9")});
             resources.ApplyResources(this.CMB_batmonsensortype, "CMB_batmonsensortype");
             this.CMB_batmonsensortype.Name = "CMB_batmonsensortype";
             this.CMB_batmonsensortype.SelectedIndexChanged += new System.EventHandler(this.CMB_batmonsensortype_SelectedIndexChanged);
