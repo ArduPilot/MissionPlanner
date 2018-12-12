@@ -435,6 +435,22 @@ S15: MAX_WINDOW=131
                 return;
             }
 
+            List<Control> EnabledControls = new List<Control>();
+            foreach (Control C in groupBoxLocal.Controls)
+            {
+                if (C.Enabled)
+                {
+                    EnabledControls.Add(C);
+                }
+            }
+            foreach (Control C in groupBoxRemote.Controls)
+            {
+                if (C.Enabled)
+                {
+                    EnabledControls.Add(C);
+                }
+            }
+
             EnableConfigControls(false);
             EnableProgrammingControls(false);
             lbl_status.Text = "Connecting";
@@ -478,7 +494,7 @@ S15: MAX_WINDOW=131
 
                                 var controls = groupBoxRemote.Controls.Find("R" + values[1].Trim(), true);
 
-                                if (controls.Length > 0)
+                                if ((controls.Length > 0) && EnabledControls.Contains(controls[0]))
                                 {
                                     if (controls[0].GetType() == typeof (CheckBox))
                                     {
@@ -591,7 +607,7 @@ S15: MAX_WINDOW=131
 
                                 var controls = groupBoxLocal.Controls.Find(values[1].Trim(), true);
 
-                                if (controls.Length > 0)
+                                if ((controls.Length > 0) && EnabledControls.Contains(controls[0]))
                                 {
                                     if (controls[0].GetType() == typeof (CheckBox))
                                     {

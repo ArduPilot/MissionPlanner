@@ -16,6 +16,7 @@
  *          switch to terminal tab, automatically puts modem into AT command mode so user doesn't need to
  *          enter +++.
  * 2.12 - Fixed tooltip text for GPI1_1R/CIN and GPI1_1R/COUT
+ * 2.13 - Now if a parameter fails to load, that same parameter is not saved back to the modem.
  */
 
 using System;
