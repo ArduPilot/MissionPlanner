@@ -155,12 +155,6 @@ union px4_custom_mode {
                     firmware.ToString());
                 flightModes.Add(new KeyValuePair<int, string>(16, "INITIALISING"));
 
-                flightModes.Add(new KeyValuePair<int, string>(17, "QStabilize"));
-                flightModes.Add(new KeyValuePair<int, string>(18, "QHover"));
-                flightModes.Add(new KeyValuePair<int, string>(19, "QLoiter"));
-                flightModes.Add(new KeyValuePair<int, string>(20, "QLand"));
-                flightModes.Add(new KeyValuePair<int, string>(21, "QRTL"));
-
                 return flightModes;
             }
             else if (firmware == Firmwares.Ateryx)
