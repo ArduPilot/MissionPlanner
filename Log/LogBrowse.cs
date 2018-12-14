@@ -2362,8 +2362,18 @@ namespace MissionPlanner.Log
                     e=DrawMap((long)sender.GraphPane.XAxis.Scale.Min, (long)sender.GraphPane.XAxis.Scale.Max);
 
                 if (chk_time.Checked && CHK_map.Checked)
-                    e=DrawMap(dflog.GetLineNoFromTime(logdata, new XDate(sender.GraphPane.XAxis.Scale.Min).DateTime),
-                        dflog.GetLineNoFromTime(logdata, new XDate(sender.GraphPane.XAxis.Scale.Max).DateTime));
+                {
+                    if (sender.GraphPane.CurveList.Count == 0)
+                    {
+                        e = DrawMap();
+                    }
+                    else
+                    {
+                        e = DrawMap(
+                            dflog.GetLineNoFromTime(logdata, new XDate(sender.GraphPane.XAxis.Scale.Min).DateTime),
+                            dflog.GetLineNoFromTime(logdata, new XDate(sender.GraphPane.XAxis.Scale.Max).DateTime));
+                    }
+                }
 
                 if(a!= null)
                     await a;
@@ -2516,6 +2526,7 @@ namespace MissionPlanner.Log
                         zg1.GraphPane.CurveList.Remove(item);
                 }
 
+                zg1.AxisChange();
                 zg1.Invalidate();
             }
         }
@@ -2886,12 +2897,12 @@ namespace MissionPlanner.Log
 
             if (chk_time.Checked)
             {
-                zg1.GraphPane.XAxis.Title.Text = "Time (sec)";
-
                 zg1.GraphPane.XAxis.Type = AxisType.Date;
                 zg1.GraphPane.XAxis.Scale.Format = "HH:mm:ss.fff";
+                zg1.GraphPane.XAxis.Title.Text = "Time (sec)";
                 zg1.GraphPane.XAxis.Scale.MajorUnit = DateUnit.Minute;
                 zg1.GraphPane.XAxis.Scale.MinorUnit = DateUnit.Second;
+                zg1.GraphPane.YAxis.Title.Text = "Output";
             }
             else
             {
