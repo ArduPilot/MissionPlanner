@@ -2359,7 +2359,16 @@ namespace MissionPlanner.Log
                     d=DrawMSG();
 
                 if (!chk_time.Checked && CHK_map.Checked)
-                    e=DrawMap((long)sender.GraphPane.XAxis.Scale.Min, (long)sender.GraphPane.XAxis.Scale.Max);
+                {
+                    if (sender.GraphPane.CurveList.Count == 0)
+                    {
+                        e = DrawMap();
+                    }
+                    else
+                    {
+                        e = DrawMap((long) sender.GraphPane.XAxis.Scale.Min, (long) sender.GraphPane.XAxis.Scale.Max);
+                    }
+                }
 
                 if (chk_time.Checked && CHK_map.Checked)
                 {
