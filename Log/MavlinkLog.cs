@@ -16,6 +16,8 @@ using log4net;
 using ZedGraph; // Graphs
 using MissionPlanner.Utilities;
 using System.CodeDom.Compiler;
+using System.Linq;
+using System.Text.RegularExpressions;
 using MissionPlanner.Controls;
 
 namespace MissionPlanner.Log
@@ -40,6 +42,7 @@ namespace MissionPlanner.Log
             InitializeComponent();
 
             zg1.GraphPane.YAxis.Title.IsVisible = false;
+            zg1.GraphPane.Y2Axis.Title.Text = "";
             zg1.GraphPane.Title.IsVisible = true;
             zg1.GraphPane.Title.Text = "Mavlink Log Graph";
             zg1.GraphPane.XAxis.Title.Text = "Time (sec)";
@@ -1280,6 +1283,42 @@ namespace MissionPlanner.Log
                     (PointPairList) datappl[((CheckBox) sender).Name],
                     Color.FromArgb(unchecked(colorvalue + (int) 0xff000000)), SymbolType.None);
 
+                var split = ((CheckBox) sender).Name.Split(' ');
+
+                if (split.Length == 2)
+                {
+                    var unit = MAVLink.GetUnit(split[0],
+                        name: split[1].Replace("mavlink_", "").RemoveFromEnd("_t").ToUpper());
+
+                    var index = zg1.GraphPane.YAxisList.IndexOf(unit);
+
+                    var index2 = zg1.GraphPane.Y2AxisList.IndexOf(unit);
+
+                    if (index != -1)
+                    {
+                        myCurve.YAxisIndex = index;
+                    }
+                    else if (index2 != -1)
+                    {
+                        myCurve.YAxisIndex = index;
+                    }
+                    else
+                    {
+                        if (rightclick)
+                        {
+                            index = zg1.GraphPane.AddY2Axis(unit);
+                            myCurve.YAxisIndex = index;
+                        }
+                        else
+                        {
+                            index = zg1.GraphPane.AddYAxis(unit);
+                            myCurve.YAxisIndex = index;
+                        }
+                    }
+
+                    
+                }
+
                 myCurve.Tag = ((CheckBox) sender).Name;
 
                 if (myCurve.Tag.ToString() == "roll mavlink_attitude_t" ||
@@ -1299,10 +1338,9 @@ namespace MissionPlanner.Log
 
                 myCurve.GetRange(out xMin, out xMax, out yMin, out yMax, true, false, zg1.GraphPane);
 
-                if (rightclick || (yMin > 850 && yMax < 2100 && yMin < 2100))
+                if (rightclick)
                 {
                     myCurve.IsY2Axis = true;
-                    myCurve.YAxisIndex = 0;
                     zg1.GraphPane.Y2Axis.IsVisible = true;
 
                     myCurve.Label.Text = myCurve.Label.Text + "-R";
