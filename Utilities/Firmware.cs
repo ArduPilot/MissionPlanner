@@ -58,6 +58,7 @@ namespace MissionPlanner.Utilities
             [XmlElement(ElementName = "url2560-2")]
             public string url2560_2 = "";
             public string urlpx4v1 = "";
+            public string urlpx4rl = "";
             public string urlpx4v2 = "";
             public string urlpx4v3 = "";
             public string urlpx4v4 = "";
@@ -413,6 +414,10 @@ namespace MissionPlanner.Utilities
                 else if (board == BoardDetect.boards.px4)
                 {
                     baseurl = temp.urlpx4v1.ToString();
+                }
+                else if (board == BoardDetect.boards.px4rl)
+                {
+                    baseurl = temp.urlpx4rl.ToString();
                 }
                 else if (board == BoardDetect.boards.px4v2)
                 {

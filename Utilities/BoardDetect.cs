@@ -21,6 +21,7 @@ namespace MissionPlanner.Utilities
             b2560, // apm1
             b2560v2, // apm 2+
             px4, // px3
+            px4rl,
             px4v2, // pixhawk
             px4v3, // cube/pixhawk with 2mb flash
             px4v4, // pixracer
@@ -302,6 +303,11 @@ namespace MissionPlanner.Utilities
                     {
                         log.Info("is a px4v2 bootloader");
                         return boards.px4v2;
+                    }
+
+                    if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0016"))
+                    {
+                        return boards.px4rl;
                     }
 
                     if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0016"))
