@@ -13,6 +13,18 @@ namespace MissionPlanner.Utilities
 {
     public static class Extensions
     {
+        public static string RemoveFromEnd(this string s, string suffix)
+        {
+            if (s.EndsWith(suffix))
+            {
+                return s.Substring(0, s.Length - suffix.Length);
+            }
+            else
+            {
+                return s;
+            }
+        }
+
         public static string TrimUnPrintable(this string input)
         {
             return Regex.Replace(input, @"[^\u0020-\u007E]", String.Empty);
