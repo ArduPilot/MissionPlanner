@@ -1294,13 +1294,15 @@ namespace MissionPlanner.Log
 
                     var index2 = zg1.GraphPane.Y2AxisList.IndexOf(unit);
 
-                    if (index != -1)
+                    if (index != -1 && !rightclick)
                     {
                         myCurve.YAxisIndex = index;
+                        myCurve.GetYAxis(zg1.GraphPane).IsVisible = true;
                     }
-                    else if (index2 != -1)
+                    else if (index2 != -1 && rightclick)
                     {
-                        myCurve.YAxisIndex = index;
+                        myCurve.YAxisIndex = index2;
+                        myCurve.GetYAxis(zg1.GraphPane).IsVisible = true;
                     }
                     else
                     {
@@ -1316,7 +1318,10 @@ namespace MissionPlanner.Log
                         }
                     }
 
-                    
+                }
+                else
+                {
+                    myCurve.YAxisIndex = 0;
                 }
 
                 myCurve.Tag = ((CheckBox) sender).Name;
@@ -1751,7 +1756,8 @@ namespace MissionPlanner.Log
                 else
                 {
                     List<CurveItem> removeitems = new List<CurveItem>();
-
+                    List<Axis> visibleAxises = new List<Axis>();
+                    // tag line for removal
                     foreach (var item in zg1.GraphPane.CurveList)
                     {
                         if (item.Label.Text.StartsWith(e.Node.Text) &&
@@ -1760,10 +1766,27 @@ namespace MissionPlanner.Log
                             removeitems.Add(item);
                             //break;
                         }
+                        else
+                        {
+                            visibleAxises.Add(item.GetYAxis(zg1.GraphPane));
+                        }
                     }
-
+                    // remove lines
                     foreach (var item in removeitems)
+                    {
                         zg1.GraphPane.CurveList.Remove(item);
+                    }
+                    // hide unused yaxis
+                    foreach (var item in zg1.GraphPane.YAxisList)
+                    {
+                        if (!visibleAxises.Contains(item))
+                            item.IsVisible = false;
+                    }
+                    foreach (var item in zg1.GraphPane.Y2AxisList)
+                    {
+                        if (!visibleAxises.Contains(item))
+                            item.IsVisible = false;
+                    }
                 }
 
                 zg1.Invalidate();
