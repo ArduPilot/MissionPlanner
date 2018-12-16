@@ -85,6 +85,10 @@ namespace MissionPlanner.Utilities
 
         public static void AddPage(string page, string title)
         {
+            // check if we are already here
+            if (currentscreen == page)
+                return;
+
             currentscreen = page;
 
             List<KeyValuePair<string, string>> param = new List<KeyValuePair<string, string>>();
