@@ -379,8 +379,6 @@ namespace MissionPlanner.Log
             myGMAP1.Overlays.Add(mapoverlay);
             myGMAP1.Overlays.Add(markeroverlay);
 
-            //chk_time.Checked = true;
-
             dataGridView1.RowUnshared += dataGridView1_RowUnshared;
 
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
@@ -625,7 +623,6 @@ namespace MissionPlanner.Log
 
         void LoadLog2(String FileName, CollectionBuffer logdata, int colcount)
         {
-
             this.Text = "Log Browser - " + Path.GetFileName(FileName);
 
             CreateChart(zg1);
@@ -633,7 +630,21 @@ namespace MissionPlanner.Log
             ResetTreeView(logdata.SeenMessageTypes);
 
             zg1_ZoomEvent(zg1, null, null);
-            
+
+            chk_datagrid.Checked = Settings.Instance.GetBoolean("LB_Grid", false);
+            chk_time.Checked = Settings.Instance.GetBoolean("LB_Time", true);
+            CHK_map.Checked = Settings.Instance.GetBoolean("LB_Map", false);
+            chk_errors.Checked = Settings.Instance.GetBoolean("LB_Error", true);
+            chk_mode.Checked = Settings.Instance.GetBoolean("LB_Mode", true);
+            chk_msg.Checked = Settings.Instance.GetBoolean("LB_MSG", true);
+
+            chk_datagrid.CheckedChanged += (e, a) => { Settings.Instance["LB_Grid"] = chk_datagrid.Checked.ToString(); };
+            chk_time.CheckedChanged += (e, a) => { Settings.Instance["LB_Time"] = chk_time.Checked.ToString(); };
+            CHK_map.CheckedChanged += (e, a) => { Settings.Instance["LB_Map"] = CHK_map.Checked.ToString(); };
+            chk_errors.CheckedChanged += (e, a) => { Settings.Instance["LB_Error"] = chk_errors.Checked.ToString(); };
+            chk_mode.CheckedChanged += (e, a) => { Settings.Instance["LB_Mode"] = chk_mode.Checked.ToString(); };
+            chk_msg.CheckedChanged += (e, a) => { Settings.Instance["LB_MSG"] = chk_msg.Checked.ToString(); };
+
             Loading.Close();
 
             if (dflog.logformat.Count == 0)
@@ -1000,6 +1011,8 @@ namespace MissionPlanner.Log
             // Manually set the axis range
             //myPane.YAxis.Scale.Min = -1;
             //myPane.YAxis.Scale.Max = 1;
+
+            zg1.IsShowCursorValues = true;
 
             // Fill the axis background with a gradient
             //myPane.Chart.Fill = new Fill(Color.White, Color.LightGray, 45.0f);
