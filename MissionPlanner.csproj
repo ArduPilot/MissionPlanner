@@ -253,6 +253,9 @@
     </Compile>
     <Compile Include="ElevationProfile.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="FollowMe.cs"> <SubType>Control</SubType> </Compile>
+    <Compile Include="Joystick\JoystickAxis.cs">
+      <SubType>Control</SubType>
+    </Compile>
     <Compile Include="Swarm\PaintEventArgsI.cs" />
     <Compile Include="Swarm\TD\UI.cs">
       <SubType>Form</SubType>
@@ -316,6 +319,7 @@
 	<EmbeddedResource Include="Controls\ProximityControl.resx">
     <DependentUpon>ProximityControl.cs</DependentUpon>
   </EmbeddedResource>
+	<EmbeddedResource Include="Joystick\JoystickAxis.resx" />
 	<EmbeddedResource Include="Log\LogStrings.resx"><DependentUpon>LogStrings.cs</DependentUpon> </EmbeddedResource>
     <Compile Include="Controls\MavlinkCheckBox.cs" />
     <Compile Include="Controls\MavlinkCheckBoxBitMask.cs" />
@@ -391,7 +395,7 @@
     <Compile Include="GeoRef\georefimage.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Grid\GridPlugin.cs" />
     <Compile Include="Grid\GridUI.cs"> <SubType>Control</SubType> </Compile>
-    <Compile Include="Joystick\Joystick.cs" />
+    <Compile Include="Joystick\Joystick.cs"><SubType>Control</SubType> </Compile>
     <Compile Include="Joystick\JoystickSetup.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Joystick\Joy_Button_axis.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="Joystick\Joy_ChangeMode.cs"> <SubType>Control</SubType> </Compile>
