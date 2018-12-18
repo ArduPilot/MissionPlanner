@@ -8,11 +8,17 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using MissionPlanner.Comms;
+using Newtonsoft.Json;
 
 namespace MissionPlanner.Utilities
 {
     public static class Extensions
     {
+        public static string ToJSON(this object msg)
+        {
+            return JsonConvert.SerializeObject(msg);
+        }
+
         public static string RemoveFromEnd(this string s, string suffix)
         {
             if (s.EndsWith(suffix))

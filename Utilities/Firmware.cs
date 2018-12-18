@@ -86,6 +86,11 @@ namespace MissionPlanner.Utilities
             public string name = "";
             public string desc = "";
             public int k_format_version;
+
+            public override string ToString()
+            {
+                return this.ToJSON();
+            }
         }
 
         public class FirmwareInfo
