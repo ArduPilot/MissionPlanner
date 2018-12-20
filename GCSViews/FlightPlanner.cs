@@ -6826,7 +6826,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
         private void setHomeHereToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TXT_homealt.Text = srtm.getAltitude(MouseDownStart.Lat, MouseDownStart.Lng).alt.ToString("0");
+            TXT_homealt.Text = (srtm.getAltitude(MouseDownStart.Lat, MouseDownStart.Lng).alt * CurrentState.multiplieralt).ToString("0");
             TXT_homelat.Text = MouseDownStart.Lat.ToString();
             TXT_homelng.Text = MouseDownStart.Lng.ToString();
         }
