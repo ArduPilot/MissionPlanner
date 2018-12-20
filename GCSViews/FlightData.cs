@@ -2773,26 +2773,22 @@ namespace MissionPlanner.GCSViews
 
         private void zg1_DoubleClick(object sender, EventArgs e)
         {
-            string formname = "select";
-            Form selectform = Application.OpenForms[formname];
-            if(selectform != null)
-            {
-                selectform.WindowState = FormWindowState.Minimized;
-                selectform.Show();
-                selectform.WindowState = FormWindowState.Normal;
-                return;
-            }
 
-            selectform = new Form
+            var selectform = new Form
             {
-                Name = formname,
+                Name = "select",
                 Width = 50,
-                Height = 550,
-                Text = "Graph This"
+                Height = 50,
+                Text = "Display This",
+                AutoSize = true,
+                StartPosition = FormStartPosition.CenterParent,
+                MaximizeBox = false,
+                MinimizeBox = false,
+                AutoScroll = true
             };
 
-            int x = 10;
-            int y = 10;
+            int x = 5;
+            int y = 2;
 
             {
                 CheckBox chk_box = new CheckBox();
@@ -2817,11 +2813,10 @@ namespace MissionPlanner.GCSViews
 
             foreach (var field in test.GetProperties())
             {
-                var fieldValue = field.GetValue(thisBoxed, null); // Get value
-
+                // field.Name has the field's name.
+                object fieldValue = field.GetValue(thisBoxed, null); // Get value
                 if (fieldValue == null)
                     continue;
-
 
                 if (!fieldValue.IsNumber())
                     continue;
@@ -2829,10 +2824,14 @@ namespace MissionPlanner.GCSViews
                 max_length = Math.Max(max_length, TextRenderer.MeasureText(field.Name, selectform.Font).Width);
                 fields.Add(field.Name);
             }
+            max_length += 25;
+            fields.Sort();
 
-            max_length += 15;
-            fields.Sort();          
+            int col_count = (int)(Screen.FromControl(this).Bounds.Width * 0.8f) / max_length;
+            int row_count = fields.Count / col_count + ((fields.Count % col_count == 0) ? 0 : 1);
+            int row_height = 20;
 
+            int i = 1;
             foreach (var field in fields)
             {
                 CheckBox chk_box = new CheckBox();
@@ -2893,14 +2892,16 @@ namespace MissionPlanner.GCSViews
                 chk_box.Text = field;
                 chk_box.Name = field;
                 chk_box.Tag = "custom";
-                chk_box.Location = new Point(x, y);
+                chk_box.Location = new Point(5 + (i / row_count) * (max_length + 5), 2 + (i % row_count) * row_height);
                 chk_box.Size = new Size(120, 20);
                 chk_box.CheckedChanged += chk_box_CheckedChanged;
+                chk_box.AutoSize = true;
 
                 selectform.Controls.Add(chk_box);
 
                 x += 0;
                 y += 20;
+                i++;
 
                 if (y > selectform.Height - 50)
                 {
@@ -2935,6 +2936,7 @@ namespace MissionPlanner.GCSViews
                 MaximizeBox = false,
                 MinimizeBox = false,
                 AutoScroll = true
+
             };
             ThemeManager.ApplyThemeTo(selectform);
 
@@ -2977,7 +2979,8 @@ namespace MissionPlanner.GCSViews
                     Tag = "custom",
                     Location = new Point(5 + (i/row_count)*(max_length + 5), 2 + (i%row_count)*row_height),
                     Size = new Size(max_length, row_height),
-                    Checked = hud1.CustomItems.ContainsKey(fields[i])
+                    Checked = hud1.CustomItems.ContainsKey(fields[i]),
+                    AutoSize = true
                 };
                 chk_box.CheckedChanged += chk_box_hud_UserItem_CheckedChanged;
                 if (chk_box.Checked)
@@ -3323,6 +3326,7 @@ namespace MissionPlanner.GCSViews
                 MaximizeBox = false,
                 MinimizeBox = false,
                 AutoScroll = true
+
             };
             ThemeManager.ApplyThemeTo(selectform);
 
