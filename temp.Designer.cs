@@ -111,6 +111,7 @@
             this.but_3dmap = new MissionPlanner.Controls.MyButton();
             this.but_anonlog = new MissionPlanner.Controls.MyButton();
             this.but_cmdlong = new MissionPlanner.Controls.MyButton();
+            this.but_messageinterval = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -682,9 +683,17 @@
             this.but_cmdlong.UseVisualStyleBackColor = true;
             this.but_cmdlong.Click += new System.EventHandler(this.but_cmdlong_Click);
             // 
+            // but_messageinterval
+            // 
+            resources.ApplyResources(this.but_messageinterval, "but_messageinterval");
+            this.but_messageinterval.Name = "but_messageinterval";
+            this.but_messageinterval.UseVisualStyleBackColor = true;
+            this.but_messageinterval.Click += new System.EventHandler(this.but_messageinterval_Click);
+            // 
             // temp
             // 
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.but_messageinterval);
             this.Controls.Add(this.but_cmdlong);
             this.Controls.Add(this.but_anonlog);
             this.Controls.Add(this.but_3dmap);
@@ -809,5 +818,6 @@
         private Controls.MyButton but_3dmap;
         private Controls.MyButton but_anonlog;
         private Controls.MyButton but_cmdlong;
+        private Controls.MyButton but_messageinterval;
     }
 }

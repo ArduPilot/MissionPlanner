@@ -19,10 +19,12 @@ using System.Xml;
 using System.Xml.Serialization;
 using DotSpatial.Data;
 using DotSpatial.Projections;
+using DotSpatial.Symbology;
 using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
 using log4net;
+using Microsoft.Scripting.Utils;
 using MissionPlanner.Comms;
 using MissionPlanner.Controls;
 using MissionPlanner.GCSViews;
@@ -1034,6 +1036,38 @@ namespace MissionPlanner
             var rate = 35;
             MainV2.comPort.doCommand(MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL, (float) MAVLink.MAVLINK_MSG_ID.VFR_HUD,
                 1 / (float) rate * 1000000.0f, 0, 0, 0, 0, 0);
+        }
+
+        private void but_messageinterval_Click(object sender, EventArgs e)
+        {
+            var form = new Form();
+            FlowLayoutPanel flp = new FlowLayoutPanel();
+            flp.Dock = DockStyle.Fill;
+            flp.AutoSize = true;
+            ComboBox cmb = new ComboBox();
+            cmb.DataSource = Enum.GetNames(typeof(MAVLink.MAVLINK_MSG_ID)).ToSortedList((s, s1) => s.CompareTo(s1));
+            Button but = new Button();
+            but.Text = "Set";
+            ComboBox cmbrate = new ComboBox();
+            cmbrate.DataSource = Enumerable.Range(0, 100).ToList();
+
+            but.Click += (o, args) =>
+            {
+                var rate = int.Parse(cmbrate.Text.ToString());
+                var value = Enum.Parse(typeof(MAVLink.MAVLINK_MSG_ID), cmb.Text.ToString());
+                MainV2.comPort.doCommand(MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL, (float)(int)value,
+                    1 / (float)rate * 1000000.0f, 0, 0, 0, 0, 0);
+            };
+
+            //cmb.SelectedIndexChanged += (o, args) => { MAVLink.MAVLINK_MSG_ID.GET_MESSAGE_INTERVAL };
+
+            form.Controls.Add(flp);
+
+            flp.Controls.Add(cmb);
+            flp.Controls.Add(cmbrate);
+            flp.Controls.Add(but);
+
+            form.Show(this);
         }
     }
 }
