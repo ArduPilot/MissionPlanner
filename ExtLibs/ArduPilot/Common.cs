@@ -155,6 +155,8 @@ union px4_custom_mode {
                     firmware.ToString());
                 flightModes.Add(new KeyValuePair<int, string>(16, "INITIALISING"));
 
+                flightModes.Add(new KeyValuePair<int, string>(22, "QAUTOTUNE"));
+
                 return flightModes;
             }
             else if (firmware == Firmwares.Ateryx)
