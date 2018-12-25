@@ -2833,7 +2833,7 @@
     <value>13</value>
   </data>
   <data name="myLabel2.Text" xml:space="preserve">
-    <value>Ch6 Opt</value>
+    <value>RC6 Opt</value>
   </data>
   <data name="&gt;&gt;myLabel2.Name" xml:space="preserve">
     <value>myLabel2</value>
@@ -2857,7 +2857,7 @@
     <value>18</value>
   </data>
   <data name="myLabel1.Text" xml:space="preserve">
-    <value>Ch7 Opt</value>
+    <value>RC7 Opt</value>
   </data>
   <data name="&gt;&gt;myLabel1.Name" xml:space="preserve">
     <value>myLabel1</value>
@@ -3235,7 +3235,7 @@
     <value>20</value>
   </data>
   <data name="myLabel4.Text" xml:space="preserve">
-    <value>Ch8 Opt</value>
+    <value>RC8 Opt</value>
   </data>
   <data name="&gt;&gt;myLabel4.Name" xml:space="preserve">
     <value>myLabel4</value>
