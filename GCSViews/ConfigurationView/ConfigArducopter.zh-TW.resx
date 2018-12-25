@@ -259,15 +259,15 @@
     <value>P</value>
   </data>
   <data name="myLabel1.Text" xml:space="preserve">
-    <value>Ch7 Opt</value>
+    <value>RC7 Opt</value>
   </data>
   <data name="myLabel2.Text" xml:space="preserve">
-    <value>Ch6 Opt</value>
+    <value>RC6 Opt</value>
   </data>
   <data name="myLabel3.Text" xml:space="preserve">
     <value>Min</value>
   </data>
   <data name="myLabel4.Text" xml:space="preserve">
-    <value>Ch8 Opt</value>
+    <value>RC8 Opt</value>
   </data>
 </root>
