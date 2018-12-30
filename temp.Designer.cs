@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(temp));
-            this.BUT_xplane = new MissionPlanner.Controls.MyButton();
             this.but_osdvideo = new MissionPlanner.Controls.MyButton();
             this.BUT_outputMD = new MissionPlanner.Controls.MyButton();
             this.BUT_paramgen = new MissionPlanner.Controls.MyButton();
@@ -42,7 +41,6 @@
             this.BUT_outputnmea = new MissionPlanner.Controls.MyButton();
             this.BUT_outputMavlink = new MissionPlanner.Controls.MyButton();
             this.BUT_followleader = new MissionPlanner.Controls.MyButton();
-            this.BUT_driverclean = new MissionPlanner.Controls.MyButton();
             this.BUT_sorttlogs = new MissionPlanner.Controls.MyButton();
             this.BUT_movingbase = new MissionPlanner.Controls.MyButton();
             this.but_getfw = new MissionPlanner.Controls.MyButton();
@@ -65,11 +63,9 @@
             this.label19 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
@@ -104,21 +100,16 @@
             this.but_logdlscp = new MissionPlanner.Controls.MyButton();
             this.but_td = new MissionPlanner.Controls.MyButton();
             this.but_dem = new MissionPlanner.Controls.MyButton();
-            this.but_gsttest = new MissionPlanner.Controls.MyButton();
             this.but_proximity = new MissionPlanner.Controls.MyButton();
             this.but_mavinspector = new MissionPlanner.Controls.MyButton();
             this.but_blupdate = new MissionPlanner.Controls.MyButton();
             this.but_3dmap = new MissionPlanner.Controls.MyButton();
             this.but_anonlog = new MissionPlanner.Controls.MyButton();
-            this.but_cmdlong = new MissionPlanner.Controls.MyButton();
             this.but_messageinterval = new MissionPlanner.Controls.MyButton();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // BUT_xplane
-            // 
-            resources.ApplyResources(this.BUT_xplane, "BUT_xplane");
-            this.BUT_xplane.Name = "BUT_xplane";
             // 
             // but_osdvideo
             // 
@@ -203,12 +194,6 @@
             this.BUT_followleader.UseVisualStyleBackColor = true;
             this.BUT_followleader.Click += new System.EventHandler(this.BUT_followleader_Click);
             // 
-            // BUT_driverclean
-            // 
-            resources.ApplyResources(this.BUT_driverclean, "BUT_driverclean");
-            this.BUT_driverclean.Name = "BUT_driverclean";
-            this.BUT_driverclean.Click += new System.EventHandler(this.BUT_driverclean_Click);
-            // 
             // BUT_sorttlogs
             // 
             resources.ApplyResources(this.BUT_sorttlogs, "BUT_sorttlogs");
@@ -289,6 +274,9 @@
             // 
             this.tableLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
+            this.tableLayoutPanel1.Controls.Add(this.label12, 1, 11);
+            this.tableLayoutPanel1.Controls.Add(this.label22, 1, 21);
+            this.tableLayoutPanel1.Controls.Add(this.but_anonlog, 0, 11);
             this.tableLayoutPanel1.Controls.Add(this.but_dashware, 0, 21);
             this.tableLayoutPanel1.Controls.Add(this.label26, 1, 25);
             this.tableLayoutPanel1.Controls.Add(this.label25, 1, 24);
@@ -303,12 +291,10 @@
             this.tableLayoutPanel1.Controls.Add(this.but_maplogs, 0, 24);
             this.tableLayoutPanel1.Controls.Add(this.label17, 1, 16);
             this.tableLayoutPanel1.Controls.Add(this.but_gimbaltest, 0, 23);
-            this.tableLayoutPanel1.Controls.Add(this.label16, 1, 15);
             this.tableLayoutPanel1.Controls.Add(this.but_structtest, 0, 20);
             this.tableLayoutPanel1.Controls.Add(this.label15, 1, 14);
             this.tableLayoutPanel1.Controls.Add(this.label14, 1, 13);
             this.tableLayoutPanel1.Controls.Add(this.label13, 1, 12);
-            this.tableLayoutPanel1.Controls.Add(this.label12, 1, 11);
             this.tableLayoutPanel1.Controls.Add(this.label11, 1, 10);
             this.tableLayoutPanel1.Controls.Add(this.label10, 1, 9);
             this.tableLayoutPanel1.Controls.Add(this.label9, 1, 8);
@@ -319,7 +305,6 @@
             this.tableLayoutPanel1.Controls.Add(this.label7, 1, 6);
             this.tableLayoutPanel1.Controls.Add(this.BUT_sorttlogs, 0, 16);
             this.tableLayoutPanel1.Controls.Add(this.label6, 1, 5);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_driverclean, 0, 15);
             this.tableLayoutPanel1.Controls.Add(this.label5, 1, 4);
             this.tableLayoutPanel1.Controls.Add(this.label4, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.label3, 1, 2);
@@ -335,7 +320,6 @@
             this.tableLayoutPanel1.Controls.Add(this.but_osdvideo, 0, 8);
             this.tableLayoutPanel1.Controls.Add(this.BUT_movingbase, 0, 9);
             this.tableLayoutPanel1.Controls.Add(this.BUT_shptopoly, 0, 10);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_xplane, 0, 11);
             this.tableLayoutPanel1.Controls.Add(this.BUT_swarm, 0, 12);
             this.tableLayoutPanel1.Controls.Add(this.BUT_followleader, 0, 13);
             this.tableLayoutPanel1.Controls.Add(this.label1, 1, 0);
@@ -394,11 +378,6 @@
             resources.ApplyResources(this.label17, "label17");
             this.label17.Name = "label17";
             // 
-            // label16
-            // 
-            resources.ApplyResources(this.label16, "label16");
-            this.label16.Name = "label16";
-            // 
             // label15
             // 
             resources.ApplyResources(this.label15, "label15");
@@ -413,11 +392,6 @@
             // 
             resources.ApplyResources(this.label13, "label13");
             this.label13.Name = "label13";
-            // 
-            // label12
-            // 
-            resources.ApplyResources(this.label12, "label12");
-            this.label12.Name = "label12";
             // 
             // label11
             // 
@@ -634,13 +608,6 @@
             this.but_dem.UseVisualStyleBackColor = true;
             this.but_dem.Click += new System.EventHandler(this.but_dem_Click);
             // 
-            // but_gsttest
-            // 
-            resources.ApplyResources(this.but_gsttest, "but_gsttest");
-            this.but_gsttest.Name = "but_gsttest";
-            this.but_gsttest.UseVisualStyleBackColor = true;
-            this.but_gsttest.Click += new System.EventHandler(this.but_gsttest_Click);
-            // 
             // but_proximity
             // 
             resources.ApplyResources(this.but_proximity, "but_proximity");
@@ -676,13 +643,6 @@
             this.but_anonlog.UseVisualStyleBackColor = true;
             this.but_anonlog.Click += new System.EventHandler(this.but_anonlog_Click);
             // 
-            // but_cmdlong
-            // 
-            resources.ApplyResources(this.but_cmdlong, "but_cmdlong");
-            this.but_cmdlong.Name = "but_cmdlong";
-            this.but_cmdlong.UseVisualStyleBackColor = true;
-            this.but_cmdlong.Click += new System.EventHandler(this.but_cmdlong_Click);
-            // 
             // but_messageinterval
             // 
             resources.ApplyResources(this.but_messageinterval, "but_messageinterval");
@@ -690,17 +650,24 @@
             this.but_messageinterval.UseVisualStyleBackColor = true;
             this.but_messageinterval.Click += new System.EventHandler(this.but_messageinterval_Click);
             // 
+            // label22
+            // 
+            resources.ApplyResources(this.label22, "label22");
+            this.label22.Name = "label22";
+            // 
+            // label12
+            // 
+            resources.ApplyResources(this.label12, "label12");
+            this.label12.Name = "label12";
+            // 
             // temp
             // 
             resources.ApplyResources(this, "$this");
             this.Controls.Add(this.but_messageinterval);
-            this.Controls.Add(this.but_cmdlong);
-            this.Controls.Add(this.but_anonlog);
             this.Controls.Add(this.but_3dmap);
             this.Controls.Add(this.but_blupdate);
             this.Controls.Add(this.but_mavinspector);
             this.Controls.Add(this.but_proximity);
-            this.Controls.Add(this.but_gsttest);
             this.Controls.Add(this.but_dem);
             this.Controls.Add(this.but_td);
             this.Controls.Add(this.but_logdlscp);
@@ -743,12 +710,10 @@
         private Controls.MyButton BUT_paramgen;
         private Controls.MyButton BUT_outputMD;
         private Controls.MyButton but_osdvideo;
-        private Controls.MyButton BUT_xplane;
         private Controls.MyButton BUT_swarm;
         private Controls.MyButton BUT_outputnmea;
         private Controls.MyButton BUT_outputMavlink;
         private Controls.MyButton BUT_followleader;
-        private Controls.MyButton BUT_driverclean;
         private Controls.MyButton BUT_sorttlogs;
         
         private Controls.MyButton BUT_movingbase;
@@ -763,11 +728,9 @@
         private Controls.MyButton but_armandtakeoff;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label9;
@@ -810,14 +773,14 @@
         private Controls.MyButton but_logdlscp;
         private Controls.MyButton but_td;
         private Controls.MyButton but_dem;
-        private Controls.MyButton but_gsttest;
         private Controls.MyButton but_proximity;
         private Controls.MyButton but_dashware;
         private Controls.MyButton but_mavinspector;
         private Controls.MyButton but_blupdate;
         private Controls.MyButton but_3dmap;
         private Controls.MyButton but_anonlog;
-        private Controls.MyButton but_cmdlong;
         private Controls.MyButton but_messageinterval;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label label12;
     }
 }
