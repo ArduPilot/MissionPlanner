@@ -587,7 +587,7 @@ format with no scaling</value>
     <value>Params</value>
   </data>
   <data name="&gt;&gt;Params.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.61.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.62.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Params.Parent" xml:space="preserve">
     <value>$this</value>

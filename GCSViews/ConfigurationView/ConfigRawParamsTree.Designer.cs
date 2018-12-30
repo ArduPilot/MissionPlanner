@@ -85,7 +85,6 @@
             this.olvColumn4,
             this.olvColumn5});
             this.Params.DataSource = null;
-            this.Params.ForeColor = System.Drawing.Color.White;
             this.Params.HideSelection = false;
             this.Params.Name = "Params";
             this.Params.OwnerDraw = true;
