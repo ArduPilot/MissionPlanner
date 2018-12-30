@@ -1085,5 +1085,13 @@ namespace MissionPlanner
         {
 
         }
+
+        private void but_disablearmswitch_Click(object sender, EventArgs e)
+        {
+            if (CustomMessageBox.Show("Are you sure?", "", MessageBoxButtons.YesNo) == (int) DialogResult.Yes)
+                MainV2.comPort.setMode(
+                    new MAVLink.mavlink_set_mode_t() {custom_mode = MainV2.comPort.MAV.cs.armed ? 0u : 1u},
+                    MAVLink.MAV_MODE_FLAG.SAFETY_ARMED);
+        }
     }
 }

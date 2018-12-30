@@ -53,6 +53,9 @@
             this.but_structtest = new MissionPlanner.Controls.MyButton();
             this.but_armandtakeoff = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.but_anonlog = new MissionPlanner.Controls.MyButton();
             this.but_dashware = new MissionPlanner.Controls.MyButton();
             this.label26 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
@@ -104,10 +107,8 @@
             this.but_mavinspector = new MissionPlanner.Controls.MyButton();
             this.but_blupdate = new MissionPlanner.Controls.MyButton();
             this.but_3dmap = new MissionPlanner.Controls.MyButton();
-            this.but_anonlog = new MissionPlanner.Controls.MyButton();
             this.but_messageinterval = new MissionPlanner.Controls.MyButton();
-            this.label22 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
+            this.but_disablearmswitch = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -325,6 +326,23 @@
             this.tableLayoutPanel1.Controls.Add(this.label1, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.but_mavserialport, 0, 14);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            // 
+            // label12
+            // 
+            resources.ApplyResources(this.label12, "label12");
+            this.label12.Name = "label12";
+            // 
+            // label22
+            // 
+            resources.ApplyResources(this.label22, "label22");
+            this.label22.Name = "label22";
+            // 
+            // but_anonlog
+            // 
+            resources.ApplyResources(this.but_anonlog, "but_anonlog");
+            this.but_anonlog.Name = "but_anonlog";
+            this.but_anonlog.UseVisualStyleBackColor = true;
+            this.but_anonlog.Click += new System.EventHandler(this.but_anonlog_Click);
             // 
             // but_dashware
             // 
@@ -636,13 +654,6 @@
             this.but_3dmap.UseVisualStyleBackColor = true;
             this.but_3dmap.Click += new System.EventHandler(this.but_3dmap_Click);
             // 
-            // but_anonlog
-            // 
-            resources.ApplyResources(this.but_anonlog, "but_anonlog");
-            this.but_anonlog.Name = "but_anonlog";
-            this.but_anonlog.UseVisualStyleBackColor = true;
-            this.but_anonlog.Click += new System.EventHandler(this.but_anonlog_Click);
-            // 
             // but_messageinterval
             // 
             resources.ApplyResources(this.but_messageinterval, "but_messageinterval");
@@ -650,19 +661,17 @@
             this.but_messageinterval.UseVisualStyleBackColor = true;
             this.but_messageinterval.Click += new System.EventHandler(this.but_messageinterval_Click);
             // 
-            // label22
+            // but_disablearmswitch
             // 
-            resources.ApplyResources(this.label22, "label22");
-            this.label22.Name = "label22";
-            // 
-            // label12
-            // 
-            resources.ApplyResources(this.label12, "label12");
-            this.label12.Name = "label12";
+            resources.ApplyResources(this.but_disablearmswitch, "but_disablearmswitch");
+            this.but_disablearmswitch.Name = "but_disablearmswitch";
+            this.but_disablearmswitch.UseVisualStyleBackColor = true;
+            this.but_disablearmswitch.Click += new System.EventHandler(this.but_disablearmswitch_Click);
             // 
             // temp
             // 
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.but_disablearmswitch);
             this.Controls.Add(this.but_messageinterval);
             this.Controls.Add(this.but_3dmap);
             this.Controls.Add(this.but_blupdate);
@@ -782,5 +791,6 @@
         private Controls.MyButton but_messageinterval;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label12;
+        private Controls.MyButton but_disablearmswitch;
     }
 }
