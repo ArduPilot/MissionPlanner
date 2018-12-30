@@ -2576,7 +2576,9 @@ namespace MissionPlanner
                     {
                         armedstatus = MainV2.comPort.MAV.cs.armed;
                         // status just changed to armed
-                        if (MainV2.comPort.MAV.cs.armed == true && MainV2.comPort.MAV.aptype != MAVLink.MAV_TYPE.GIMBAL)
+                        if (MainV2.comPort.MAV.cs.armed == true && 
+                            MainV2.comPort.MAV.apname != MAVLink.MAV_AUTOPILOT.INVALID &&
+                            MainV2.comPort.MAV.aptype != MAVLink.MAV_TYPE.GIMBAL)
                         {
                             System.Threading.ThreadPool.QueueUserWorkItem(state =>
                             {
