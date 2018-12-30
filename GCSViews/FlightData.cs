@@ -473,7 +473,7 @@ namespace MissionPlanner.GCSViews
             if (CB_tuning.Checked)
                 ZedGraphTimer.Start();
 
-            hud1.altunit = CurrentState.DistanceUnit;
+            hud1.altunit = CurrentState.AltUnit;
             hud1.speedunit = CurrentState.SpeedUnit;
             hud1.distunit = CurrentState.DistanceUnit;
 
