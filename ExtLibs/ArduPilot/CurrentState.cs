@@ -2187,11 +2187,11 @@ namespace MissionPlanner
                             if (bats.voltages[0] != ushort.MaxValue)
                             {
                                 battery_cell1 = bats.voltages[0] / 1000.0;
-                                battery_cell2 = bats.voltages[1] / 1000.0;
-                                battery_cell3 = bats.voltages[2] / 1000.0;
-                                battery_cell4 = bats.voltages[3] / 1000.0;
-                                battery_cell5 = bats.voltages[4] / 1000.0;
-                                battery_cell6 = bats.voltages[5] / 1000.0;
+                                if (bats.voltages[1] != ushort.MaxValue) battery_cell2 = bats.voltages[1] / 1000.0; else battery_cell2 = 0.0;
+                                if (bats.voltages[2] != ushort.MaxValue) battery_cell3 = bats.voltages[2] / 1000.0; else battery_cell3 = 0.0;
+                                if (bats.voltages[3] != ushort.MaxValue) battery_cell4 = bats.voltages[3] / 1000.0; else battery_cell4 = 0.0;
+                                if (bats.voltages[4] != ushort.MaxValue) battery_cell5 = bats.voltages[4] / 1000.0; else battery_cell5 = 0.0;
+                                if (bats.voltages[5] != ushort.MaxValue) battery_cell6 = bats.voltages[5] / 1000.0; else battery_cell6 = 0.0;
                             }
 
                             battery_usedmah = bats.current_consumed;
