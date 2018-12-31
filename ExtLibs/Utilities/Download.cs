@@ -352,15 +352,17 @@ namespace MissionPlanner.Utilities
         public static bool CheckHTTPFileExists(string url)
         {
             bool result = false;
-
-            WebRequest webRequest = WebRequest.Create(url);
-            webRequest.Timeout = 1200; // miliseconds
-            webRequest.Method = "HEAD";
-
             HttpWebResponse response = null;
+
+            if (String.IsNullOrEmpty(url))
+                return result;
 
             try
             {
+                WebRequest webRequest = WebRequest.Create(url);
+                webRequest.Timeout = 1200; // miliseconds
+                webRequest.Method = "HEAD";
+         
                 response = (HttpWebResponse)webRequest.GetResponse();
                 result = true;
             }
