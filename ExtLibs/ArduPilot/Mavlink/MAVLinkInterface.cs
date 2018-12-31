@@ -4191,6 +4191,8 @@ Please check the following
                 if (MAVlist[sysid, compid].camerapoints.Count == 0 ||
                     MAVlist[sysid, compid].camerapoints.Last().time_usec != camerapt.time_usec)
                 {
+                    MAVlist[sysid, compid].camerapoints.RemoveAll(a =>
+                        a.cam_idx * 256 + a.img_idx == camerapt.cam_idx * 256 + camerapt.img_idx);
                     MAVlist[sysid, compid].camerapoints.Add(camerapt);
                 }
             }
