@@ -3838,8 +3838,21 @@ Please check the following
                             MAVlist.Create(sysid, compid);
                             MAVlist[sysid, compid].aptype = MAV_TYPE.ONBOARD_CONTROLLER;
                             MAVlist[sysid, compid].apname = MAV_AUTOPILOT.INVALID;
+                            MAVlist[sysid, compid].CANNode = true;
                             setAPType(sysid, compid);
                         }
+                    }
+
+                    if (msgid == (uint) MAVLINK_MSG_ID.UAVCAN_NODE_INFO)
+                    {
+                        var cannode = message.ToStructure<mavlink_uavcan_node_info_t>();
+
+                        var name = ASCIIEncoding.ASCII.GetString(cannode.name);
+
+                        MAVlist[sysid, compid].VersionString = name;
+
+                        MAVlist[sysid, compid].SoftwareVersions =
+                            cannode.sw_version_major + "." + cannode.sw_version_minor;
                     }
 
                     // set seens sysid's based on hb packet - this will hide 3dr radio packets ( which send a RADIO_STATUS, but not a HEARTBEAT )

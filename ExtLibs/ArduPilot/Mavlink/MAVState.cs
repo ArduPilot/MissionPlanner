@@ -197,6 +197,8 @@ namespace MissionPlanner
 
         public MAV_AUTOPILOT apname { get; set; }
 
+        public bool CANNode { get; set; } = false;
+
         public ap_product Product_ID
         {
             get
