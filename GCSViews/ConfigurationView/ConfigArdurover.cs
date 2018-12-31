@@ -42,9 +42,45 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             startup = true;
 
-            CH7_OPTION.setup(
-                ParameterMetaDataRepository.GetParameterOptionsInt("CH7_OPTION", MainV2.comPort.MAV.cs.firmware.ToString())
-                    .ToList(), "CH7_OPTION", MainV2.comPort.MAV.param);
+            if (MainV2.comPort.MAV.param.ContainsKey("CH7_OPTION"))
+            {
+                CH7_OPTION.setup(
+                    ParameterMetaDataRepository
+                        .GetParameterOptionsInt("CH7_OPTION", MainV2.comPort.MAV.cs.firmware.ToString())
+                        .ToList(), "CH7_OPTION", MainV2.comPort.MAV.param);
+                CH8_OPTION.setup(
+                    ParameterMetaDataRepository
+                        .GetParameterOptionsInt("CH8_OPTION", MainV2.comPort.MAV.cs.firmware.ToString())
+                        .ToList(), "CH8_OPTION", MainV2.comPort.MAV.param);
+                CH9_OPTION.setup(
+                    ParameterMetaDataRepository
+                        .GetParameterOptionsInt("CH9_OPTION", MainV2.comPort.MAV.cs.firmware.ToString())
+                        .ToList(), "CH9_OPTION", MainV2.comPort.MAV.param);
+                CH10_OPTION.setup(
+                    ParameterMetaDataRepository
+                        .GetParameterOptionsInt("CH10_OPTION", MainV2.comPort.MAV.cs.firmware.ToString())
+                        .ToList(), "CH10_OPTION", MainV2.comPort.MAV.param);
+            }
+            else
+            {
+                CH7_OPTION.setup(
+                    ParameterMetaDataRepository
+                        .GetParameterOptionsInt("RC7_OPTION", MainV2.comPort.MAV.cs.firmware.ToString())
+                        .ToList(), "RC7_OPTION", MainV2.comPort.MAV.param);
+                CH8_OPTION.setup(
+                    ParameterMetaDataRepository
+                        .GetParameterOptionsInt("RC8_OPTION", MainV2.comPort.MAV.cs.firmware.ToString())
+                        .ToList(), "RC8_OPTION", MainV2.comPort.MAV.param);
+                CH9_OPTION.setup(
+                    ParameterMetaDataRepository
+                        .GetParameterOptionsInt("RC9_OPTION", MainV2.comPort.MAV.cs.firmware.ToString())
+                        .ToList(), "RC9_OPTION", MainV2.comPort.MAV.param);
+                CH10_OPTION.setup(
+                    ParameterMetaDataRepository
+                        .GetParameterOptionsInt("RC10_OPTION", MainV2.comPort.MAV.cs.firmware.ToString())
+                        .ToList(), "RC10_OPTION", MainV2.comPort.MAV.param);
+            }
+
             ATC_BRAKE.setup(
                 ParameterMetaDataRepository.GetParameterOptionsInt("ATC_BRAKE", MainV2.comPort.MAV.cs.firmware.ToString())
                     .ToList(), "ATC_BRAKE", MainV2.comPort.MAV.param);
