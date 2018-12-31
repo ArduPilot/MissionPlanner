@@ -331,7 +331,13 @@ namespace MissionPlanner.Utilities
             {
                 software temp = (software) tempin;
 
-                string baseurl = temp.urlpx4v2;
+                string baseurl = temp.urlfmuv3;
+                string baseurl2 = temp.urlpx4v2;
+
+                if (!Download.CheckHTTPFileExists(baseurl))
+                {
+                    baseurl = baseurl2;
+                }
 
                 if (baseurl == "" || !baseurl.ToLower().StartsWith("http")) return;
 
