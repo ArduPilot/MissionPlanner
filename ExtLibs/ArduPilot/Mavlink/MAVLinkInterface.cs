@@ -3840,6 +3840,9 @@ Please check the following
                             MAVlist[sysid, compid].apname = MAV_AUTOPILOT.INVALID;
                             MAVlist[sysid, compid].CANNode = true;
                             setAPType(sysid, compid);
+
+                            // new device, so request node info
+                            doCommand(sysid, compid, MAV_CMD.UAVCAN_GET_NODE_INFO, 0, 0, 0, 0, 0, 0, 0, false);
                         }
                     }
 
