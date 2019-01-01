@@ -31,7 +31,7 @@ namespace MissionPlanner
             sendlinkid = (byte)(new Random().Next(256));
             signing = false;
             this.param = new MAVLinkParamList();
-            this.packets = new Dictionary<uint, MAVLinkMessage>();
+            this.packets = new Dictionary<uint, Queue<MAVLinkMessage>>();
             this.aptype = 0;
             this.apname = 0;
             this.recvpacketcount = 0;
@@ -128,7 +128,7 @@ namespace MissionPlanner
         /// <summary>
         /// storage of a previous packet recevied of a specific type
         /// </summary>
-        Dictionary<uint, MAVLinkMessage> packets { get; set; }
+        Dictionary<uint, Queue<MAVLinkMessage>> packets { get; set; }
 
         object packetslock = new object();
 
@@ -139,7 +139,8 @@ namespace MissionPlanner
             {
                 if (packets.ContainsKey(mavlinkid))
                 {
-                    return packets[mavlinkid];
+                    if(packets[mavlinkid].Count > 0)
+                        return packets[mavlinkid].Dequeue();
                 }
             }
 
@@ -150,7 +151,18 @@ namespace MissionPlanner
         {
             lock (packetslock)
             {
-                packets[msg.msgid] = msg;
+                // create queue if it does not exist
+                if (!packets.ContainsKey(msg.msgid))
+                {
+                    packets[msg.msgid] = new Queue<MAVLinkMessage>();
+                }
+                // cleanup queue if not polling this message
+                while (packets[msg.msgid].Count > 5)
+                {
+                    packets[msg.msgid].Dequeue();
+                }
+
+                packets[msg.msgid].Enqueue(msg);
             }
         }
 
@@ -160,7 +172,7 @@ namespace MissionPlanner
             {
                 if (packets.ContainsKey(mavlinkid))
                 {
-                    packets[mavlinkid] = null;
+                    packets[mavlinkid].Clear();;
                 }
             }
         }
