@@ -303,6 +303,7 @@ namespace MissionPlanner.Utilities
             public string type;
             public double timedelta;
             public double lasttime;
+            public double sample_rate;
             public List<double> datax = new List<double>();
             public List<double> datay = new List<double>();
             public List<double> dataz = new List<double>();
@@ -760,11 +761,13 @@ namespace MissionPlanner.Utilities
                             CultureInfo.InvariantCulture);
                         instance = int.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "instance")],
                             CultureInfo.InvariantCulture);
-                        smp_rate = double.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "smp_rate")],
-                            CultureInfo.InvariantCulture);
-
+                    
                         sensorno = type * 3 + instance;
-                        if(type == 0)
+
+                        alldata[sensorno].sample_rate = double.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "smp_rate")],
+                        CultureInfo.InvariantCulture);
+
+                        if (type == 0)
                             alldata[sensorno].type = "ACC"+ instance.ToString();
                         if (type == 1)
                             alldata[sensorno].type = "GYR"+ instance.ToString();
@@ -813,7 +816,7 @@ namespace MissionPlanner.Utilities
 
                     double samplerate = 0;
 
-                    samplerate = smp_rate;// Math.Round(1000 / sensordata.timedelta, 1);
+                    samplerate = sensordata.sample_rate;// Math.Round(1000 / sensordata.timedelta, 1);
 
                     double[] freqt = fft.FreqTable(N, (int)samplerate);
 
