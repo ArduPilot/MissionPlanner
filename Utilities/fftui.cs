@@ -441,9 +441,9 @@ namespace MissionPlanner.Utilities
                             if (freqt[b] < (double) NUM_startfreq.Value)
                                 continue;
 
-                            avgx[b] += fftanswerx[b]/(N/2);
-                            avgy[b] += fftanswery[b]/(N/2);
-                            avgz[b] += fftanswerz[b]/(N/2);
+                            avgx[b] += fftanswerx[b]/ (done + count);
+                            avgy[b] += fftanswery[b]/ (done + count);
+                            avgz[b] += fftanswerz[b]/ (done + count);
                         }
 
                         count--;
@@ -645,9 +645,9 @@ namespace MissionPlanner.Utilities
                             if (freqt[b] < (double)NUM_startfreq.Value)
                                 continue;
 
-                            avgx[b] += fftanswerx[b] / (N / 2);
-                            avgy[b] += fftanswery[b] / (N / 2);
-                            avgz[b] += fftanswerz[b] / (N / 2);
+                            avgx[b] += fftanswerx[b] / (done + count);
+                            avgy[b] += fftanswery[b] / (done + count);
+                            avgz[b] += fftanswerz[b] / (done + count);
                         }
 
                         count--;
@@ -838,9 +838,9 @@ namespace MissionPlanner.Utilities
                             if (freqt[b] < (double)NUM_startfreq.Value)
                                 continue;
 
-                            avgx[b] += fftanswerx[b] / (N / 2);
-                            avgy[b] += fftanswery[b] / (N / 2);
-                            avgz[b] += fftanswerz[b] / (N / 2);
+                            avgx[b] += fftanswerx[b] / (done + count);
+                            avgy[b] += fftanswery[b] / (done + count);
+                            avgz[b] += fftanswerz[b] / (done + count);
                         }
 
                         count--;
