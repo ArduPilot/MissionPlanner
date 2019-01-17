@@ -158,6 +158,7 @@
       <Project>{B46F6C6C-9184-41AF-8F8B-E0084752CA7C}</Project>
       <Name>MetaDataExtractor</Name>
     </ProjectReference>
+    <ProjectReference Include="ExtLibs\OSDConfigurator\OSDConfigurator.csproj" />
     <ProjectReference Include="ExtLibs\px4uploader\px4uploader.csproj">
       <Project>{664FC484-2A94-4B0D-808F-A71F88E06B11}</Project>
       <Name>px4uploader</Name>
@@ -252,7 +253,7 @@
       <SubType>Control</SubType>
     </Compile>
     <Compile Include="ElevationProfile.cs"> <SubType>Control</SubType> </Compile>
-    <Compile Include="FollowMe.cs"> <SubType>Control</SubType> </Compile>
+    <Compile Include="FollowMe.cs"> <SubType>Control</SubType> </Compile>    
     <Compile Include="Joystick\JoystickAxis.cs">
       <SubType>Control</SubType>
     </Compile>
@@ -319,6 +320,7 @@
 	<EmbeddedResource Include="Controls\ProximityControl.resx">
     <DependentUpon>ProximityControl.cs</DependentUpon>
   </EmbeddedResource>
+	<EmbeddedResource Include="GCSViews\ConfigurationView\ConfigOSD.resx"><DependentUpon>ConfigOSD.cs</DependentUpon></EmbeddedResource>
 	<EmbeddedResource Include="Joystick\JoystickAxis.resx" />
 	<EmbeddedResource Include="Log\LogStrings.resx"><DependentUpon>LogStrings.cs</DependentUpon> </EmbeddedResource>
     <Compile Include="Controls\MavlinkCheckBox.cs" />
@@ -383,6 +385,7 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigMotorTest.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigMount.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigOptional.cs"> <SubType>Control</SubType> </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigOSD.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigPlanner.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigPlannerAdv.cs"> <SubType>Control</SubType> </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigRadioInput.cs"> <SubType>Control</SubType> </Compile>
@@ -578,6 +581,7 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigMotorTest.Designer.cs"><DependentUpon>ConfigMotorTest.cs</DependentUpon> </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigMount.Designer.cs"><DependentUpon>ConfigMount.cs</DependentUpon> </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigOptional.Designer.cs"><DependentUpon>ConfigOptional.cs</DependentUpon> </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigOSD.Designer.cs"><DependentUpon>ConfigOSD.cs</DependentUpon> </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigPlanner.Designer.cs"><DependentUpon>ConfigPlanner.cs</DependentUpon> </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigPlannerAdv.Designer.cs"><DependentUpon>ConfigPlannerAdv.cs</DependentUpon> </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigRadioInput.Designer.cs"><DependentUpon>ConfigRadioInput.cs</DependentUpon> </Compile>
