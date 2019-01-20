@@ -32,23 +32,24 @@ namespace OSDConfigurator.GUI
             return new Point(screenPoint.X / charSizePix.Width, screenPoint.Y / charSizePix.Height);
         }
 
-        public Point ToScreenPoint(OSDItem item)
+        public Point ToScreenPoint(OSDItem item, int xOffset)
         {
-            return new Point((int)item.X.Value * charSizePix.Width, (int)item.Y.Value * charSizePix.Height);
+            return new Point(((int)item.X.Value - xOffset) * charSizePix.Width, (int)item.Y.Value * charSizePix.Height);
         }
 
         private Rectangle ToScreenRectangle(OSDItem item)
         {
-            var loc = ToScreenPoint(item);
-            var size = new Size(ItemCaptions.GetCaption(item).Length * charSizePix.Width, charSizePix.Height);
+            var size = new Size(ItemCaptions.GetCaption(item, out int xOffset).Length * charSizePix.Width, charSizePix.Height);
+            var loc = ToScreenPoint(item, xOffset);
             return new Rectangle(loc, size);
         }
 
         public void Draw(OSDItem item, Graphics graphics)
         {
-            Point loc = ToScreenPoint(item);
+            var caption = ItemCaptions.GetCaption(item, out int xOffset);
+            Point loc = ToScreenPoint(item, xOffset);
             
-            foreach (var c in ItemCaptions.GetCaption(item))
+            foreach (var c in caption)
             {
                 graphics.DrawImage(font[c], loc.X, loc.Y, charSizePix.Width, charSizePix.Height);
                 loc.X += charSizePix.Width;

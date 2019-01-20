@@ -78,7 +78,7 @@ namespace OSDConfigurator.GUI
                 screenControl.ItemSelected(hitItem);
                 itemMoving = true;
 
-                var currentLoc = visualizer.ToScreenPoint(hitItem);
+                var currentLoc = visualizer.ToScreenPoint(hitItem, 0);
                 moveShift.X = currentLoc.X - e.X;
                 moveShift.Y = currentLoc.Y - e.Y;
 
