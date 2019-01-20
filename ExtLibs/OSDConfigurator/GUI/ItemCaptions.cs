@@ -86,10 +86,10 @@ namespace OSDConfigurator.GUI
                     return $"{Symbols.SYM_GSPD}{Symbols.SYM_ARROW_START} 17{Symbols.SYM_KMH}";
 
                 case "PITCH":
-                    return $"{Symbols.SYM_PTCHDWN}10{Symbols.SYM_DEGR}";
+                    return $"{Symbols.SYM_PTCHDWN} 10{Symbols.SYM_DEGR}";
 
                 case "ROLL":
-                    return $"{Symbols.SYM_ROLLL}3{Symbols.SYM_DEGR}";
+                    return $"{Symbols.SYM_ROLLL}  3{Symbols.SYM_DEGR}";
 
                 case "VSPEED":
                     return $"{Symbols.SYM_UP} 0{Symbols.SYM_MS}";
