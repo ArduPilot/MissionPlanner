@@ -17,6 +17,7 @@
  *          enter +++.
  * 2.12 - Fixed tooltip text for GPI1_1R/CIN and GPI1_1R/COUT
  * 2.13 - Now if a parameter fails to load, that same parameter is not saved back to the modem.
+ * 2.14 - Resolved issue in which modem firmware could not be reprogrammed immediately after programming.
  */
 
 using System;

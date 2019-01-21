@@ -909,6 +909,7 @@ namespace RFD.RFD900
                     uploader.Uploader UL = new uploader.Uploader();
                     UL.ProgressEvent += (d) => Progress(d);
                     UL.upload(_Session.Port, Hex);
+                    _Session.AssumeMode(TSession.TMode.INIT);
                     return true;
                 }
                 else
@@ -1061,6 +1062,7 @@ namespace RFD.RFD900
                     {
                         MissionPlanner.Radio.XModem.ProgressEvent += (d) => Progress(d);
                         MissionPlanner.Radio.XModem.Upload(FilePath, _Session.Port);
+                        _Session.AssumeMode(TSession.TMode.INIT);
                         return true;
                     }
                     catch
