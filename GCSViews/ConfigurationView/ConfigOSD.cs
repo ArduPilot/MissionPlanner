@@ -69,13 +69,22 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             btnWrite.Click += (s, e) => WriteParameters(silent: false);
             btnDiscardChanges.Click += (s, e) => DiscardChanges();
         }
-        
-        public void Activate()
+
+        private static IEnumerable<OSDSetting> GetOSDSettings()
         {
-            parameters = MainV2.comPort.MAV.param
-                         .Where(o => o.Name.StartsWith("OSD", StringComparison.OrdinalIgnoreCase))
-                         .Select(o => new OSDSetting(o.Name, o.Value))
-                         .ToArray();
+            return MainV2.comPort.MAV.param
+                   .Where(o => o.Name.StartsWith("OSD", StringComparison.OrdinalIgnoreCase))
+                   .Select(o => new OSDSetting(o.Name, o.Value));
+        }
+
+        public static bool IsApplicable()
+        {
+            return GetOSDSettings().Any();
+        }
+        
+        public void Activate()   
+        {
+            parameters = GetOSDSettings().ToArray();
 
             osdUserControl.ApplySettings(parameters);
 
