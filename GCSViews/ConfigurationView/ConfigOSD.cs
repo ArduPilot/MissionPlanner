@@ -68,6 +68,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             btnWrite.Click += (s, e) => WriteParameters(silent: false);
             btnDiscardChanges.Click += (s, e) => DiscardChanges();
+            btnRefreshParameters.Click += (s, e) => RefreshParameters();
         }
 
         private static IEnumerable<OSDSetting> GetOSDSettings()
@@ -157,6 +158,35 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             else if (!silent)
             {
                 CustomMessageBox.Show("Parameters successfully saved.", "Saved");
+            }
+        }
+
+        private void RefreshParameters()
+        {
+            if (parameters.Any(o => o.Changed)
+                && (int)DialogResult.No == CustomMessageBox.Show("This will reset your changes. Continue?", MessageBoxButtons: MessageBoxButtons.YesNo))
+                return;
+
+            if (!MainV2.comPort.BaseStream.IsOpen)
+                return;
+
+            if (!MainV2.comPort.MAV.cs.armed || (int)DialogResult.OK ==
+                CustomMessageBox.Show(Strings.WarningUpdateParamList, Strings.ERROR, MessageBoxButtons.OKCancel))
+            {
+                this.Enabled = false;
+
+                try
+                {
+                    MainV2.comPort.getParamList();
+                }
+                catch (Exception ex)
+                {
+                    CustomMessageBox.Show(Strings.ErrorReceivingParams, Strings.ERROR);
+                }
+
+                Activate();
+
+                this.Enabled = true;
             }
         }
     }

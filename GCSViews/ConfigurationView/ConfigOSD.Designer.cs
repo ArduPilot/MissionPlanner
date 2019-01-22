@@ -33,6 +33,7 @@
             this.btnWrite = new System.Windows.Forms.Button();
             this.cbAutoWriteOnLeave = new System.Windows.Forms.CheckBox();
             this.btnDiscardChanges = new System.Windows.Forms.Button();
+            this.btnRefreshParameters = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -46,6 +47,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnRefreshParameters);
             this.panel1.Controls.Add(this.btnDiscardChanges);
             this.panel1.Controls.Add(this.cbAutoWriteOnLeave);
             this.panel1.Controls.Add(this.btnWrite);
@@ -59,7 +61,7 @@
             // 
             this.btnWrite.Location = new System.Drawing.Point(20, 23);
             this.btnWrite.Name = "btnWrite";
-            this.btnWrite.Size = new System.Drawing.Size(145, 23);
+            this.btnWrite.Size = new System.Drawing.Size(145, 32);
             this.btnWrite.TabIndex = 0;
             this.btnWrite.Text = "Write customization";
             this.btnWrite.UseVisualStyleBackColor = true;
@@ -69,7 +71,7 @@
             this.cbAutoWriteOnLeave.AutoSize = true;
             this.cbAutoWriteOnLeave.Checked = true;
             this.cbAutoWriteOnLeave.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbAutoWriteOnLeave.Location = new System.Drawing.Point(24, 56);
+            this.cbAutoWriteOnLeave.Location = new System.Drawing.Point(24, 63);
             this.cbAutoWriteOnLeave.Name = "cbAutoWriteOnLeave";
             this.cbAutoWriteOnLeave.Size = new System.Drawing.Size(125, 17);
             this.cbAutoWriteOnLeave.TabIndex = 1;
@@ -78,12 +80,21 @@
             // 
             // btnDiscardChanges
             // 
-            this.btnDiscardChanges.Location = new System.Drawing.Point(20, 108);
+            this.btnDiscardChanges.Location = new System.Drawing.Point(20, 162);
             this.btnDiscardChanges.Name = "btnDiscardChanges";
-            this.btnDiscardChanges.Size = new System.Drawing.Size(145, 23);
+            this.btnDiscardChanges.Size = new System.Drawing.Size(145, 32);
             this.btnDiscardChanges.TabIndex = 2;
             this.btnDiscardChanges.Text = "Discard all changes";
             this.btnDiscardChanges.UseVisualStyleBackColor = true;
+            // 
+            // btnRefreshParameters
+            // 
+            this.btnRefreshParameters.Location = new System.Drawing.Point(20, 124);
+            this.btnRefreshParameters.Name = "btnRefreshParameters";
+            this.btnRefreshParameters.Size = new System.Drawing.Size(145, 32);
+            this.btnRefreshParameters.TabIndex = 3;
+            this.btnRefreshParameters.Text = "Refresh";
+            this.btnRefreshParameters.UseVisualStyleBackColor = true;
             // 
             // ConfigOSD
             // 
@@ -107,5 +118,6 @@
         private System.Windows.Forms.Button btnWrite;
         private System.Windows.Forms.CheckBox cbAutoWriteOnLeave;
         private System.Windows.Forms.Button btnDiscardChanges;
+        private System.Windows.Forms.Button btnRefreshParameters;
     }
 }
