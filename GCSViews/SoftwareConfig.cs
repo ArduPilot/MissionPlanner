@@ -91,7 +91,7 @@ namespace MissionPlanner.GCSViews
                         AddBackstageViewPage(typeof(ConfigFriendlyParamsAdv), Strings.AdvancedParams, null, true);
                     }
 
-                    if (!Program.MONO)
+                    if (!Program.MONO && ConfigOSD.IsApplicable())
                     {
                         AddBackstageViewPage(typeof(ConfigOSD), Strings.OnboardOSD);
                     }
