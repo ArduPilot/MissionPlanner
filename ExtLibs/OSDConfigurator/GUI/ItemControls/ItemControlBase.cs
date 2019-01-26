@@ -44,7 +44,7 @@ namespace OSDConfigurator.GUI.ItemControls
 
         protected void DoSelect()
         {
-            screenControl.ItemSelected(item);
+            screenControl.SelectedItem = item;
         }
     }
 }

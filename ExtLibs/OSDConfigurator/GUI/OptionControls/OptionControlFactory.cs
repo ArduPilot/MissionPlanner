@@ -59,6 +59,9 @@ namespace OSDConfigurator.GUI
                 case "OSD_SW_METHOD":
                     return new DropdownSettingControl(setting, new[] { "0: RC change", "1: PWM", "2: Low-to-High" }, Weight.MEDIUM);
 
+                case "OSD_OPTIONS":
+                    return new BitwiseSettingControl(setting, new[] { "Decimal Pack", "Inverted Wind", "Inverted AH Roll" }, Weight.MEDIUM);
+
                 case "OSD_H_OFFSET":
                 case "OSD_V_OFFSET":
                     return new IntSpinSettingControl(setting, Weight.MEDIUM);

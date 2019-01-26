@@ -14,26 +14,63 @@ namespace OSDConfigurator.GUI
 {
     public partial class ScreenControl : UserControl
     {
+        public static OSDScreen ScreenToCopy { get; set; }
+
         private readonly OSDScreen screen;
+        private OSDItem selectedItem;
 
-        private LayoutControl layoutControl;
+        public OSDItem SelectedItem
+        {
+            get
+            {
+                return selectedItem;
+            }
+            set
+            {
+                if (selectedItem == value)
+                    return;
+                
+                selectedItem = value;
 
-        public OSDItem SelectedItem { get; private set; }
+                if (groupOptions.Text == selectedItem.Name)
+                    return;
+                
+                groupOptions.Text = selectedItem.Name;
+                groupOptions.Controls.Clear();
+
+                foreach (var ctr in OptionControlFactory.Create(selectedItem.Options))
+                {
+                    ctr.Dock = DockStyle.Top;
+                    groupOptions.Controls.Add(ctr);
+                }
+                
+                layoutControl.ReDraw();
+            }
+        }
 
         public ScreenControl(OSDScreen screen)
         {
             this.screen = screen ?? throw new ArgumentNullException(nameof(screen));
 
             InitializeComponent();
-            
-            layoutControl = new LayoutControl(this, screen.Items, new Visualizer());
-            layoutControl.Margin = new Padding(8);
 
-            tableLeft.Controls.Add(layoutControl, 0, 0);
+            layoutControl.ScreenControl = this;
+            layoutControl.Items = screen.Items;
+           
+            cbReducedView.CheckedChanged += (s, e) => SetViewSize();
 
-            //layoutControl.Location = new Point(10, 10);
-            //panelLayout.Controls.Add(layoutControl);
-            //panelLayout.Size = new Size(layoutControl.Width + 20, layoutControl.Height + 20);
+            btnClearAll.Click += (s, e) => { foreach (var i in screen.Items) i.Enabled.Value = 0; };
+
+            btnCopy.Click += (s, e) => { if (screen.Items.Any()) ScreenToCopy = screen; };
+
+            btnPaste.Click += (s, e) => { if (screen.Items.Any()) ScreenToCopy.CopyTo(screen); };                                        
+
+            SetViewSize();
+        }
+        
+        private void SetViewSize()
+        {
+            layoutControl.CharSize = cbReducedView.Checked ? new Size(12, 18) : new Size(24, 36);
         }
 
         protected override void OnLoad(EventArgs e)
@@ -42,13 +79,20 @@ namespace OSDConfigurator.GUI
 
             FillScreenOptions();
 
-            var items = new List<UserControl>();
-            
-            foreach(var item in screen.Items)
-                items.Add(new CommonItemControl(this, item));            
+            if (screen.Items.Any())
+            {
+                var items = new List<UserControl>();
 
-            items.Reverse();
-            items.ForEach(AddItem);
+                foreach (var item in screen.Items)
+                    items.Add(new CommonItemControl(this, item));
+
+                items.Reverse();
+                items.ForEach(AddItem);
+            }
+            else
+            {
+                grEditorOptions.Enabled = false;
+            }
         }
 
         private void FillScreenOptions()
@@ -62,29 +106,7 @@ namespace OSDConfigurator.GUI
 
         private void AddItem(UserControl control)
         {
-            //control.Dock = DockStyle.Top;
-            // panelItems.Controls.Add(control);
-
             panelItemList.Controls.Add(control);
-        }
-
-        public void ItemSelected(OSDItem osdItem)
-        {
-            if (groupOptions.Text == osdItem.Name)
-                return;
-
-            SelectedItem = osdItem;
-
-            groupOptions.Text = osdItem.Name;
-            groupOptions.Controls.Clear();
-
-            foreach (var ctr in OptionControlFactory.Create(osdItem.Options))
-            {
-                ctr.Dock = DockStyle.Top;
-                groupOptions.Controls.Add(ctr);
-            }
-            
-            layoutControl.ReDraw();
-        }
+        }        
     }
 }

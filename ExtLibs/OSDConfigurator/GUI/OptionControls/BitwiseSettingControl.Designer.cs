@@ -1,6 +1,6 @@
 ﻿namespace OSDConfigurator.GUI
 {
-    partial class BoolSettingControl
+    partial class BitwiseSettingControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -30,7 +30,8 @@
         {
             this.labelName = new System.Windows.Forms.Label();
             this.labelDescription = new System.Windows.Forms.Label();
-            this.checkBox = new System.Windows.Forms.CheckBox();
+            this.listBox = new System.Windows.Forms.CheckedListBox();
+            this.tbValue = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // labelName
@@ -53,26 +54,33 @@
             this.labelDescription.Size = new System.Drawing.Size(400, 20);
             this.labelDescription.TabIndex = 4;
             // 
-            // checkBox
+            // listBox
             // 
-            this.checkBox.AutoSize = true;
-            this.checkBox.Location = new System.Drawing.Point(155, 15);
-            this.checkBox.Name = "checkBox";
-            this.checkBox.Size = new System.Drawing.Size(15, 14);
-            this.checkBox.TabIndex = 5;
-            this.checkBox.UseVisualStyleBackColor = true;
+            this.listBox.FormattingEnabled = true;
+            this.listBox.Location = new System.Drawing.Point(152, 35);
+            this.listBox.Name = "listBox";
+            this.listBox.Size = new System.Drawing.Size(152, 79);
+            this.listBox.TabIndex = 6;
             // 
-            // BoolSettingControl
+            // tbValue
+            // 
+            this.tbValue.Location = new System.Drawing.Point(152, 12);
+            this.tbValue.Name = "tbValue";
+            this.tbValue.Size = new System.Drawing.Size(152, 20);
+            this.tbValue.TabIndex = 7;
+            // 
+            // BitwiseSettingControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.Controls.Add(this.checkBox);
+            this.Controls.Add(this.tbValue);
+            this.Controls.Add(this.listBox);
             this.Controls.Add(this.labelDescription);
             this.Controls.Add(this.labelName);
-            this.Name = "BoolSettingControl";
+            this.Name = "BitwiseSettingControl";
             this.Padding = new System.Windows.Forms.Padding(3, 3, 3, 0);
-            this.Size = new System.Drawing.Size(769, 42);
+            this.Size = new System.Drawing.Size(769, 125);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -82,6 +90,7 @@
 
         private System.Windows.Forms.Label labelName;
         private System.Windows.Forms.Label labelDescription;
-        private System.Windows.Forms.CheckBox checkBox;
+        private System.Windows.Forms.CheckedListBox listBox;
+        private System.Windows.Forms.TextBox tbValue;
     }
 }

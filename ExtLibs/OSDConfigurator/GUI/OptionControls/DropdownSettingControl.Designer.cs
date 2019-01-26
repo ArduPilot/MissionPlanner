@@ -45,14 +45,13 @@
             // labelDescription
             // 
             this.labelDescription.AutoSize = true;
-            this.labelDescription.Location = new System.Drawing.Point(333, 14);
+            this.labelDescription.Location = new System.Drawing.Point(333, 12);
             this.labelDescription.MaximumSize = new System.Drawing.Size(400, 200);
             this.labelDescription.MinimumSize = new System.Drawing.Size(400, 20);
             this.labelDescription.Name = "labelDescription";
             this.labelDescription.Padding = new System.Windows.Forms.Padding(3);
             this.labelDescription.Size = new System.Drawing.Size(400, 20);
             this.labelDescription.TabIndex = 4;
-            this.labelDescription.Text = "No description";
             // 
             // comboValue
             // 

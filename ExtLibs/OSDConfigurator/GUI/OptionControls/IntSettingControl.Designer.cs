@@ -60,7 +60,6 @@
             this.labelDescription.Padding = new System.Windows.Forms.Padding(3);
             this.labelDescription.Size = new System.Drawing.Size(400, 20);
             this.labelDescription.TabIndex = 4;
-            this.labelDescription.Text = "No description";
             // 
             // IntSettingControl
             // 

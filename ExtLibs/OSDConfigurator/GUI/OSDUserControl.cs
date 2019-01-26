@@ -25,6 +25,8 @@ namespace OSDConfigurator.GUI
             ClearOptions();
             ClearScreens();
 
+            ScreenControl.ScreenToCopy = null;
+
             config = ConfigFactory.Create(settings);
 
             FillGlobalOptions();
