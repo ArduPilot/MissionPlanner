@@ -7,8 +7,8 @@ namespace OSDConfigurator.GUI
 {
     public class Visualizer
     {
+        private Size charSizePix= new Size(24, 36);
         private readonly Size fontCharSizePix = new Size(12, 18); 
-        private readonly Size charSizePix = new Size(24, 36); 
         private readonly Size screenSizeChar = new Size(30, 16); 
         private readonly int NtscRows = 13; 
 
@@ -22,8 +22,9 @@ namespace OSDConfigurator.GUI
                 font = MakeFont(Resources.clarity, 16, 16, 1);
         }
         
-        public Size GetCanvasSize()
+        public Size GetCanvasSize(Size charSizePix)
         {
+            this.charSizePix = charSizePix;
             return new Size(charSizePix.Width * screenSizeChar.Width, charSizePix.Height * screenSizeChar.Height);
         }
 

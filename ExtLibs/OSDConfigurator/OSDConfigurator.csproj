@@ -60,6 +60,12 @@
     <Compile Include="GUI\LayoutControl.Designer.cs">
       <DependentUpon>LayoutControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\OptionControls\BitwiseSettingControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\OptionControls\BitwiseSettingControl.Designer.cs">
+      <DependentUpon>BitwiseSettingControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\OptionControls\DropdownSettingControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -121,6 +127,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\LayoutControl.resx">
       <DependentUpon>LayoutControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\OptionControls\BitwiseSettingControl.resx">
+      <DependentUpon>BitwiseSettingControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\OptionControls\DropdownSettingControl.resx">
       <DependentUpon>DropdownSettingControl.cs</DependentUpon>

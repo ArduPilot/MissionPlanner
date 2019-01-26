@@ -53,5 +53,27 @@ namespace OSDConfigurator.Models
             Items = items;
             Name = name;
         }
+
+        internal void CopyTo(OSDScreen screen)
+        {
+            if (screen != this)
+            {
+                foreach (var srcItem in this.Items)
+                {
+                    var targetItem = screen.Items.FirstOrDefault(i => i.Name.Equals(srcItem.Name, StringComparison.OrdinalIgnoreCase));
+
+                    if (null != targetItem)
+                    {
+                        foreach (var srcOption in srcItem.Options)
+                        {
+                            var targetOption = targetItem.Options.FirstOrDefault(o => o.Name.Substring(4).Equals(srcOption.Name.Substring(4), StringComparison.OrdinalIgnoreCase));
+
+                            if (null != targetOption)
+                                targetOption.Value = srcOption.Value;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
