@@ -361,6 +361,9 @@ namespace MissionPlanner.Utilities
                 //@"rtspsrc location=rtsp://192.168.1.252/video1 ! application/x-rtp ! rtph264depay ! avdec_h264 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink",
                 out error);
 
+            //rtspsrc location=rtsp://192.168.1.21/live ! application/x-rtp ! rtph265depay ! avdec_h265 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink
+     
+
             if (error != IntPtr.Zero)
             {
                 var er = Marshal.PtrToStructure<GError>(error);
