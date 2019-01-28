@@ -190,6 +190,23 @@ namespace MissionPlanner.Utilities
             yield return new Tuple<T, T, T>(now, next, InvalidValue);
         }
 
+        public static IEnumerable<Tuple<T, T>> NowNextBy2<T>(this IEnumerable<T> list)
+        {
+            T now = default(T);
+            T next = default(T);
+
+            int a = -1;
+            foreach (var item in list)
+            {
+                a++;
+                now = next;
+                next = item;
+                if(a % 2 == 0)
+                    continue;
+                yield return new Tuple<T, T>(now, next);
+            }
+        }
+
         public static object GetPropertyOrField(this object obj, string name)
         {
             var type = obj.GetType();
