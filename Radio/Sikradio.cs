@@ -127,7 +127,7 @@ S15: MAX_WINDOW=131
         public void Disconnect()
         {
             var S = _Session;
-            if (S != null)
+            if ((S != null) && S.Port.IsOpen)
             {
                 S.PutIntoTransparentMode();
             }
@@ -507,6 +507,24 @@ S15: MAX_WINDOW=131
 
                                             if (cmdanswer.Contains("OK"))
                                             {
+                                                if (Controls[0].Name.Contains("GPO1_1R_COUT") ||
+                                                    Controls[0].Name.Contains("GPO1_3SBUSOUT"))
+                                                {
+                                                    //Also need to set RTPO.
+                                                    cmdanswer = doCommand(Session.Port,
+                                                        "RTPO=1");
+                                                }
+                                                else if (Controls[0].Name.Contains("GPI1_1R_CIN") ||
+                                                    Controls[0].Name.Contains("GPO1_3SBUSIN"))
+                                                {
+                                                    //Also need to set RTPI.
+                                                    cmdanswer = doCommand(Session.Port,
+                                                        "RTPI=1");
+                                                }
+                                                if (!cmdanswer.Contains("OK"))
+                                                {
+                                                    MsgBox.CustomMessageBox.Show("Set Command error");
+                                                }
                                             }
                                             else
                                             {
@@ -620,6 +638,25 @@ S15: MAX_WINDOW=131
 
                                             if (cmdanswer.Contains("OK"))
                                             {
+                                                if (Controls[0].Name.Contains("GPO1_1R_COUT") ||
+                                                    Controls[0].Name.Contains("GPO1_3SBUSOUT"))
+                                                {
+                                                    //Also need to set RTPO.
+                                                    cmdanswer = doCommand(Session.Port,
+                                                        "ATPO=1");
+                                                }
+                                                else if (Controls[0].Name.Contains("GPI1_1R_CIN") ||
+                                                    Controls[0].Name.Contains("GPO1_3SBUSIN"))
+                                                {
+                                                    //Also need to set RTPI.
+                                                    cmdanswer = doCommand(Session.Port,
+                                                        "ATPI=1");
+                                                }
+                                                if (!cmdanswer.Contains("OK"))
+                                                {
+                                                    MsgBox.CustomMessageBox.Show("Set Command error");
+                                                }
+
                                             }
                                             else
                                             {
@@ -813,32 +850,38 @@ S15: MAX_WINDOW=131
             {
                 SettingName = CB.Name;
             }
-            if (Settings.ContainsKey(SettingName))
+
+            foreach (var kvp in Settings)
             {
-                var Setting = Settings[SettingName];
-                if (Setting.Options != null)
+                string CBName = kvp.Value.Name.Replace('/', '_');
+
+                if (CBName == CB.Name)
                 {
-                    //Use options.
-                    string[] OptionNames = Setting.GetOptionNames();
-                    string OptionName = Setting.GetOptionNameForValue(Value);
-                    if (OptionName == null)
+                    var Setting = kvp.Value;
+                    if (Setting.Options != null)
                     {
-                        Array.Resize(ref OptionNames, OptionNames.Length + 1);
-                        OptionNames[OptionNames.Length - 1] = Value;
-                        OptionName = Value;
+                        //Use options.
+                        string[] OptionNames = Setting.GetOptionNames();
+                        string OptionName = Setting.GetOptionNameForValue(Value);
+                        if (OptionName == null)
+                        {
+                            Array.Resize(ref OptionNames, OptionNames.Length + 1);
+                            OptionNames[OptionNames.Length - 1] = Value;
+                            OptionName = Value;
+                        }
+
+                        CB.DataSource = OptionNames;
+                        CB.Text = OptionName;
+                        CB.Tag = Setting;
+                        return true;
                     }
-                    
-                    CB.DataSource = OptionNames;
-                    CB.Text = OptionName;
-                    CB.Tag = Setting;
-                    return true;
-                }
-                if (Setting.Range != null)
-                {
-                    CB.DataSource = Range(Setting.Range.Min, Setting.Increment, Setting.Range.Max);
-                    CB.Text = Value;
-                    CB.Tag = null;
-                    return true;
+                    if (Setting.Range != null)
+                    {
+                        CB.DataSource = Range(Setting.Range.Min, Setting.Increment, Setting.Range.Max);
+                        CB.Text = Value;
+                        CB.Tag = null;
+                        return true;
+                    }
                 }
             }
             
@@ -1613,6 +1656,18 @@ red LED solid - in firmware update mode");
             Application.DoEvents();
         }
 
+        void UpdateStatusCallback(string Status, double Progress)
+        {
+            if (Status != null)
+            {
+                UpdateStatus(Status);
+            }
+            if (!double.IsNaN(Progress))
+            {
+                ProgressEvtHdlr(Progress);
+            }
+        }
+
         void EnableConfigControls(bool Enable)
         {
             groupBoxLocal.Enabled = Enable;
@@ -1690,23 +1745,11 @@ red LED solid - in firmware update mode");
                 //Console.WriteLine("Mode is " + Mode.ToString());
                 //port.Close();
 
-                RFD.RFD900.RFD900 RFD900 = null;
-                UpdateStatus("Putting in to bootloader mode");
-                switch (Session.PutIntoBootloaderMode())
-                {
-                    case RFD.RFD900.TSession.TMode.BOOTLOADER:
-                        RFD900 = RFD.RFD900.RFD900APU.GetObjectForModem(Session);
-                        break;
-                    case RFD.RFD900.TSession.TMode.BOOTLOADER_X:
-                        RFD900 = RFD.RFD900.RFD900xux.GetObjectForModem(Session);
-                        break;
-                    default:
-                        break;
-                }
+                RFD.RFD900.RFD900 RFD900 = _Session.GetModemObject();
 
                 if (RFD900 == null)
                 {
-                    UpdateStatus("Could not put in to bootloader mode");
+                    UpdateStatus("Unknown modem");
                 }
                 else
                 {
@@ -1721,7 +1764,7 @@ red LED solid - in firmware update mode");
                     if (getFirmware(RFD900.Board, Custom))
                     {
                         UpdateStatus("Programming firmware into device");
-                        if (RFD900.ProgramFirmware(firmwarefile, ProgressEvtHdlr))
+                        if (RFD900.ProgramFirmware(firmwarefile, UpdateStatusCallback))
                         {
                             UpdateStatus("Programmed firmware into device");
                         }

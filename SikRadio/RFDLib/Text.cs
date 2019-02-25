@@ -5,6 +5,17 @@ namespace RFDLib
     public static class Text
     {
         /// <summary>
+        /// Case-insensitive contains.
+        /// </summary>
+        /// <param name="Haystack"></param>
+        /// <param name="Needle"></param>
+        /// <returns></returns>
+        public static bool Contains(string Haystack, string Needle)
+        {
+            return Haystack.IndexOf(Needle, StringComparison.OrdinalIgnoreCase) >= 0;
+        }
+
+        /// <summary>
         /// Returns whether the given character is an upper or lower case letter of the alphabet.
         /// </summary>
         /// <param name="c"></param>

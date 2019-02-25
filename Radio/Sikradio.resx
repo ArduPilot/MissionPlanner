@@ -123,7 +123,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="Progressbar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 447</value>
+    <value>16, 501</value>
   </data>
   <data name="Progressbar.Size" type="System.Drawing.Size, System.Drawing">
     <value>1072, 36</value>
@@ -179,7 +179,7 @@ which result in a valid packet CRC
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;RSSI.ZOrder" xml:space="preserve">
-    <value>63</value>
+    <value>69</value>
   </data>
   <data name="linkLabel1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -246,7 +246,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;RRTSCTS.ZOrder" xml:space="preserve">
-    <value>42</value>
+    <value>48</value>
   </data>
   <data name="RMAX_WINDOW.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -366,7 +366,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;RMAX_WINDOW.ZOrder" xml:space="preserve">
-    <value>45</value>
+    <value>51</value>
   </data>
   <data name="RMAX_FREQ.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -420,7 +420,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;RMAX_FREQ.ZOrder" xml:space="preserve">
-    <value>47</value>
+    <value>53</value>
   </data>
   <data name="RNUM_CHANNELS.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -504,7 +504,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;RNUM_CHANNELS.ZOrder" xml:space="preserve">
-    <value>48</value>
+    <value>54</value>
   </data>
   <data name="RDUTY_CYCLE.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -561,7 +561,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;RDUTY_CYCLE.ZOrder" xml:space="preserve">
-    <value>49</value>
+    <value>55</value>
   </data>
   <data name="RLBT_RSSI.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -609,7 +609,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;RLBT_RSSI.ZOrder" xml:space="preserve">
-    <value>50</value>
+    <value>56</value>
   </data>
   <data name="RMIN_FREQ.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -663,7 +663,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;RMIN_FREQ.ZOrder" xml:space="preserve">
-    <value>51</value>
+    <value>57</value>
   </data>
   <data name="RMAVLINK.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -690,7 +690,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;RMAVLINK.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>15</value>
   </data>
   <data name="RGPO1_1R_COUT.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -699,10 +699,10 @@ red LED solid - in firmware update mode</value>
     <value>NoControl</value>
   </data>
   <data name="RGPO1_1R_COUT.Location" type="System.Drawing.Point, System.Drawing">
-    <value>102, 323</value>
+    <value>148, 323</value>
   </data>
   <data name="RGPO1_1R_COUT.Size" type="System.Drawing.Size, System.Drawing">
-    <value>66, 20</value>
+    <value>20, 20</value>
   </data>
   <data name="RGPO1_1R_COUT.TabIndex" type="System.Int32, mscorlib">
     <value>119</value>
@@ -720,7 +720,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;RGPO1_1R_COUT.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>16</value>
   </data>
   <data name="RGPI1_1R_CIN.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -729,10 +729,10 @@ red LED solid - in firmware update mode</value>
     <value>NoControl</value>
   </data>
   <data name="RGPI1_1R_CIN.Location" type="System.Drawing.Point, System.Drawing">
-    <value>88, 297</value>
+    <value>148, 300</value>
   </data>
   <data name="RGPI1_1R_CIN.Size" type="System.Drawing.Size, System.Drawing">
-    <value>80, 20</value>
+    <value>20, 20</value>
   </data>
   <data name="RGPI1_1R_CIN.TabIndex" type="System.Int32, mscorlib">
     <value>115</value>
@@ -750,7 +750,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;RGPI1_1R_CIN.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>19</value>
   </data>
   <data name="RSERIAL_SPEED.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -805,7 +805,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;RSERIAL_SPEED.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>20</value>
   </data>
   <data name="RAIR_SPEED.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -871,7 +871,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;RAIR_SPEED.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>21</value>
   </data>
   <data name="RNETID.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -988,7 +988,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;RNETID.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>22</value>
   </data>
   <data name="RTXPOWER.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1040,7 +1040,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;RTXPOWER.ZOrder" xml:space="preserve">
-    <value>18</value>
+    <value>24</value>
   </data>
   <data name="RECC.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1071,7 +1071,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;RECC.ZOrder" xml:space="preserve">
-    <value>20</value>
+    <value>26</value>
   </data>
   <data name="ROPPRESEND.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1080,10 +1080,10 @@ red LED solid - in firmware update mode</value>
     <value>NoControl</value>
   </data>
   <data name="ROPPRESEND.Location" type="System.Drawing.Point, System.Drawing">
-    <value>88, 271</value>
+    <value>148, 272</value>
   </data>
   <data name="ROPPRESEND.Size" type="System.Drawing.Size, System.Drawing">
-    <value>80, 20</value>
+    <value>20, 21</value>
   </data>
   <data name="ROPPRESEND.TabIndex" type="System.Int32, mscorlib">
     <value>120</value>
@@ -1102,7 +1102,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;ROPPRESEND.ZOrder" xml:space="preserve">
-    <value>23</value>
+    <value>29</value>
   </data>
   <data name="RTSCTS.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1132,7 +1132,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;RTSCTS.ZOrder" xml:space="preserve">
-    <value>43</value>
+    <value>49</value>
   </data>
   <data name="MAX_WINDOW.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1252,7 +1252,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;MAX_WINDOW.ZOrder" xml:space="preserve">
-    <value>48</value>
+    <value>54</value>
   </data>
   <data name="MAX_FREQ.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1306,7 +1306,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;MAX_FREQ.ZOrder" xml:space="preserve">
-    <value>50</value>
+    <value>56</value>
   </data>
   <data name="NUM_CHANNELS.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1390,7 +1390,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;NUM_CHANNELS.ZOrder" xml:space="preserve">
-    <value>51</value>
+    <value>57</value>
   </data>
   <data name="LBT_RSSI.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1438,7 +1438,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;LBT_RSSI.ZOrder" xml:space="preserve">
-    <value>53</value>
+    <value>59</value>
   </data>
   <data name="MIN_FREQ.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1501,7 +1501,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;MIN_FREQ.ZOrder" xml:space="preserve">
-    <value>55</value>
+    <value>61</value>
   </data>
   <data name="DUTY_CYCLE.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1558,7 +1558,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;DUTY_CYCLE.ZOrder" xml:space="preserve">
-    <value>58</value>
+    <value>64</value>
   </data>
   <data name="GPO1_1R_COUT.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1567,10 +1567,10 @@ red LED solid - in firmware update mode</value>
     <value>NoControl</value>
   </data>
   <data name="GPO1_1R_COUT.Location" type="System.Drawing.Point, System.Drawing">
-    <value>110, 323</value>
+    <value>154, 323</value>
   </data>
   <data name="GPO1_1R_COUT.Size" type="System.Drawing.Size, System.Drawing">
-    <value>66, 20</value>
+    <value>23, 20</value>
   </data>
   <data name="GPO1_1R_COUT.TabIndex" type="System.Int32, mscorlib">
     <value>129</value>
@@ -1588,7 +1588,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;GPO1_1R_COUT.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>16</value>
   </data>
   <data name="GPI1_1R_CIN.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1597,10 +1597,10 @@ red LED solid - in firmware update mode</value>
     <value>NoControl</value>
   </data>
   <data name="GPI1_1R_CIN.Location" type="System.Drawing.Point, System.Drawing">
-    <value>96, 297</value>
+    <value>154, 297</value>
   </data>
   <data name="GPI1_1R_CIN.Size" type="System.Drawing.Size, System.Drawing">
-    <value>80, 20</value>
+    <value>23, 26</value>
   </data>
   <data name="GPI1_1R_CIN.TabIndex" type="System.Int32, mscorlib">
     <value>127</value>
@@ -1618,7 +1618,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;GPI1_1R_CIN.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>18</value>
   </data>
   <data name="MAVLINK.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1645,7 +1645,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;MAVLINK.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>19</value>
   </data>
   <data name="SERIAL_SPEED.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1700,7 +1700,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;SERIAL_SPEED.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>21</value>
   </data>
   <data name="AIR_SPEED.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1766,7 +1766,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;AIR_SPEED.ZOrder" xml:space="preserve">
-    <value>18</value>
+    <value>24</value>
   </data>
   <data name="NETID.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1883,7 +1883,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;NETID.ZOrder" xml:space="preserve">
-    <value>20</value>
+    <value>26</value>
   </data>
   <data name="TXPOWER.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1935,7 +1935,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;TXPOWER.ZOrder" xml:space="preserve">
-    <value>22</value>
+    <value>28</value>
   </data>
   <data name="ECC.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1966,7 +1966,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;ECC.ZOrder" xml:space="preserve">
-    <value>24</value>
+    <value>30</value>
   </data>
   <data name="OPPRESEND.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1975,10 +1975,10 @@ red LED solid - in firmware update mode</value>
     <value>NoControl</value>
   </data>
   <data name="OPPRESEND.Location" type="System.Drawing.Point, System.Drawing">
-    <value>96, 271</value>
+    <value>154, 274</value>
   </data>
   <data name="OPPRESEND.Size" type="System.Drawing.Size, System.Drawing">
-    <value>80, 20</value>
+    <value>23, 19</value>
   </data>
   <data name="OPPRESEND.TabIndex" type="System.Int32, mscorlib">
     <value>124</value>
@@ -1997,7 +1997,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;OPPRESEND.ZOrder" xml:space="preserve">
-    <value>27</value>
+    <value>33</value>
   </data>
   <data name="BUT_SetPPMFailSafe.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -2006,7 +2006,7 @@ red LED solid - in firmware update mode</value>
     <value>NoControl</value>
   </data>
   <data name="BUT_SetPPMFailSafe.Location" type="System.Drawing.Point, System.Drawing">
-    <value>571, 412</value>
+    <value>575, 466</value>
   </data>
   <data name="BUT_SetPPMFailSafe.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 29</value>
@@ -2024,13 +2024,133 @@ red LED solid - in firmware update mode</value>
     <value>BUT_SetPPMFailSafe</value>
   </data>
   <data name="&gt;&gt;BUT_SetPPMFailSafe.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.14.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_SetPPMFailSafe.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_SetPPMFailSafe.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="GPO1_3SBUSIN.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="GPO1_3SBUSIN.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="GPO1_3SBUSIN.Location" type="System.Drawing.Point, System.Drawing">
+    <value>154, 346</value>
+  </data>
+  <data name="GPO1_3SBUSIN.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 23</value>
+  </data>
+  <data name="GPO1_3SBUSIN.TabIndex" type="System.Int32, mscorlib">
+    <value>141</value>
+  </data>
+  <data name="GPO1_3SBUSIN.ToolTip" xml:space="preserve">
+    <value>GPI1_1R/COUT Sets GPIO 1.1 as R/C(PPM) output</value>
+  </data>
+  <data name="&gt;&gt;GPO1_3SBUSIN.Name" xml:space="preserve">
+    <value>GPO1_3SBUSIN</value>
+  </data>
+  <data name="&gt;&gt;GPO1_3SBUSIN.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GPO1_3SBUSIN.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;GPO1_3SBUSIN.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="GPO1_3SBUSOUT.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="GPO1_3SBUSOUT.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="GPO1_3SBUSOUT.Location" type="System.Drawing.Point, System.Drawing">
+    <value>154, 375</value>
+  </data>
+  <data name="GPO1_3SBUSOUT.Size" type="System.Drawing.Size, System.Drawing">
+    <value>36, 20</value>
+  </data>
+  <data name="GPO1_3SBUSOUT.TabIndex" type="System.Int32, mscorlib">
+    <value>143</value>
+  </data>
+  <data name="GPO1_3SBUSOUT.ToolTip" xml:space="preserve">
+    <value>GPI1_1R/COUT Sets GPIO 1.1 as R/C(PPM) output</value>
+  </data>
+  <data name="&gt;&gt;GPO1_3SBUSOUT.Name" xml:space="preserve">
+    <value>GPO1_3SBUSOUT</value>
+  </data>
+  <data name="&gt;&gt;GPO1_3SBUSOUT.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GPO1_3SBUSOUT.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;GPO1_3SBUSOUT.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="RGPO1_3SBUSOUT.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RGPO1_3SBUSOUT.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="RGPO1_3SBUSOUT.Location" type="System.Drawing.Point, System.Drawing">
+    <value>148, 372</value>
+  </data>
+  <data name="RGPO1_3SBUSOUT.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="RGPO1_3SBUSOUT.TabIndex" type="System.Int32, mscorlib">
+    <value>151</value>
+  </data>
+  <data name="RGPO1_3SBUSOUT.ToolTip" xml:space="preserve">
+    <value>GPI1_1R/COUT Sets GPIO 1.1 as R/C(PPM) output</value>
+  </data>
+  <data name="&gt;&gt;RGPO1_3SBUSOUT.Name" xml:space="preserve">
+    <value>RGPO1_3SBUSOUT</value>
+  </data>
+  <data name="&gt;&gt;RGPO1_3SBUSOUT.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RGPO1_3SBUSOUT.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;RGPO1_3SBUSOUT.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="RGPO1_3SBUSIN.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RGPO1_3SBUSIN.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="RGPO1_3SBUSIN.Location" type="System.Drawing.Point, System.Drawing">
+    <value>148, 345</value>
+  </data>
+  <data name="RGPO1_3SBUSIN.Size" type="System.Drawing.Size, System.Drawing">
+    <value>36, 20</value>
+  </data>
+  <data name="RGPO1_3SBUSIN.TabIndex" type="System.Int32, mscorlib">
+    <value>149</value>
+  </data>
+  <data name="RGPO1_3SBUSIN.ToolTip" xml:space="preserve">
+    <value>GPI1_1R/COUT Sets GPIO 1.1 as R/C(PPM) output</value>
+  </data>
+  <data name="&gt;&gt;RGPO1_3SBUSIN.Name" xml:space="preserve">
+    <value>RGPO1_3SBUSIN</value>
+  </data>
+  <data name="&gt;&gt;RGPO1_3SBUSIN.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RGPO1_3SBUSIN.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;RGPO1_3SBUSIN.ZOrder" xml:space="preserve">
+    <value>3</value>
   </data>
   <data name="RTI.Location" type="System.Drawing.Point, System.Drawing">
     <value>60, 12</value>
@@ -2051,7 +2171,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;RTI.ZOrder" xml:space="preserve">
-    <value>58</value>
+    <value>64</value>
   </data>
   <data name="ATI.Location" type="System.Drawing.Point, System.Drawing">
     <value>59, 12</value>
@@ -2072,7 +2192,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;ATI.ZOrder" xml:space="preserve">
-    <value>62</value>
+    <value>68</value>
   </data>
   <data name="label11.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2102,7 +2222,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;label11.ZOrder" xml:space="preserve">
-    <value>61</value>
+    <value>67</value>
   </data>
   <data name="label12.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2132,13 +2252,13 @@ red LED solid - in firmware update mode</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;label12.ZOrder" xml:space="preserve">
-    <value>64</value>
+    <value>70</value>
   </data>
   <data name="lbl_status.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="lbl_status.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 412</value>
+    <value>13, 466</value>
   </data>
   <data name="lbl_status.Size" type="System.Drawing.Size, System.Drawing">
     <value>442, 28</value>
@@ -2181,7 +2301,121 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;ATI3.ZOrder" xml:space="preserve">
-    <value>60</value>
+    <value>66</value>
+  </data>
+  <data name="label45.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label45.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label45.Location" type="System.Drawing.Point, System.Drawing">
+    <value>181, 378</value>
+  </data>
+  <data name="label45.Size" type="System.Drawing.Size, System.Drawing">
+    <value>104, 17</value>
+  </data>
+  <data name="label45.TabIndex" type="System.Int32, mscorlib">
+    <value>146</value>
+  </data>
+  <data name="label45.Text" xml:space="preserve">
+    <value>Rate/FreqBand</value>
+  </data>
+  <data name="&gt;&gt;label45.Name" xml:space="preserve">
+    <value>label45</value>
+  </data>
+  <data name="&gt;&gt;label45.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label45.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;label45.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="RATE_FREQBAND.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RATE_FREQBAND.Location" type="System.Drawing.Point, System.Drawing">
+    <value>274, 372</value>
+  </data>
+  <data name="RATE_FREQBAND.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 24</value>
+  </data>
+  <data name="RATE_FREQBAND.TabIndex" type="System.Int32, mscorlib">
+    <value>145</value>
+  </data>
+  <data name="&gt;&gt;RATE_FREQBAND.Name" xml:space="preserve">
+    <value>RATE_FREQBAND</value>
+  </data>
+  <data name="&gt;&gt;RATE_FREQBAND.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RATE_FREQBAND.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;RATE_FREQBAND.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label44.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label44.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label44.Location" type="System.Drawing.Point, System.Drawing">
+    <value>18, 378</value>
+  </data>
+  <data name="label44.Size" type="System.Drawing.Size, System.Drawing">
+    <value>130, 17</value>
+  </data>
+  <data name="label44.TabIndex" type="System.Int32, mscorlib">
+    <value>144</value>
+  </data>
+  <data name="label44.Text" xml:space="preserve">
+    <value>GPO1_3SBUSOUT</value>
+  </data>
+  <data name="&gt;&gt;label44.Name" xml:space="preserve">
+    <value>label44</value>
+  </data>
+  <data name="&gt;&gt;label44.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label44.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;label44.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="label43.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label43.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label43.Location" type="System.Drawing.Point, System.Drawing">
+    <value>18, 352</value>
+  </data>
+  <data name="label43.Size" type="System.Drawing.Size, System.Drawing">
+    <value>113, 17</value>
+  </data>
+  <data name="label43.TabIndex" type="System.Int32, mscorlib">
+    <value>142</value>
+  </data>
+  <data name="label43.Text" xml:space="preserve">
+    <value>GPO1_3SBUSIN</value>
+  </data>
+  <data name="&gt;&gt;label43.Name" xml:space="preserve">
+    <value>label43</value>
+  </data>
+  <data name="&gt;&gt;label43.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label43.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;label43.ZOrder" xml:space="preserve">
+    <value>4</value>
   </data>
   <data name="btnRandom.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -2208,7 +2442,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;btnRandom.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>6</value>
   </data>
   <data name="lblRX_ENCAP_METHOD.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2241,7 +2475,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;lblRX_ENCAP_METHOD.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>7</value>
   </data>
   <data name="RX_ENCAP_METHOD.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -2268,7 +2502,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;RX_ENCAP_METHOD.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>8</value>
   </data>
   <data name="lblTX_ENCAP_METHOD.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2301,7 +2535,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;lblTX_ENCAP_METHOD.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>9</value>
   </data>
   <data name="TX_ENCAP_METHOD.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -2328,7 +2562,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;TX_ENCAP_METHOD.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>10</value>
   </data>
   <data name="lblDESTID.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2361,7 +2595,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;lblDESTID.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>11</value>
   </data>
   <data name="lblNODEID.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2394,7 +2628,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;lblNODEID.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>12</value>
   </data>
   <data name="DESTID.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -2421,7 +2655,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;DESTID.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>13</value>
   </data>
   <data name="NODEID.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -2448,7 +2682,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;NODEID.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>14</value>
   </data>
   <data name="label40.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2460,13 +2694,13 @@ this ensures you wont lose radio link</value>
     <value>18, 326</value>
   </data>
   <data name="label40.Size" type="System.Drawing.Size, System.Drawing">
-    <value>108, 17</value>
+    <value>116, 17</value>
   </data>
   <data name="label40.TabIndex" type="System.Int32, mscorlib">
     <value>130</value>
   </data>
   <data name="label40.Text" xml:space="preserve">
-    <value>GPI1_1R/COUT</value>
+    <value>GPO1_1R/COUT</value>
   </data>
   <data name="&gt;&gt;label40.Name" xml:space="preserve">
     <value>label40</value>
@@ -2478,7 +2712,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;label40.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>15</value>
   </data>
   <data name="label39.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2508,7 +2742,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;label39.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>17</value>
   </data>
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2538,7 +2772,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>20</value>
   </data>
   <data name="label1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2568,7 +2802,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>22</value>
   </data>
   <data name="FORMAT.Location" type="System.Drawing.Point, System.Drawing">
     <value>96, 83</value>
@@ -2589,7 +2823,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;FORMAT.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>23</value>
   </data>
   <data name="label3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2619,7 +2853,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>19</value>
+    <value>25</value>
   </data>
   <data name="label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2649,7 +2883,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>21</value>
+    <value>27</value>
   </data>
   <data name="label5.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2679,7 +2913,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>23</value>
+    <value>29</value>
   </data>
   <data name="label6.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2709,7 +2943,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
-    <value>25</value>
+    <value>31</value>
   </data>
   <data name="label8.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2739,7 +2973,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
-    <value>26</value>
+    <value>32</value>
   </data>
   <data name="label7.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2769,7 +3003,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
-    <value>28</value>
+    <value>34</value>
   </data>
   <data name="lblANT_MODE.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2778,7 +3012,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="lblANT_MODE.Location" type="System.Drawing.Point, System.Drawing">
-    <value>362, 335</value>
+    <value>361, 335</value>
   </data>
   <data name="lblANT_MODE.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 17</value>
@@ -2802,7 +3036,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;lblANT_MODE.ZOrder" xml:space="preserve">
-    <value>29</value>
+    <value>35</value>
   </data>
   <data name="ANT_MODE.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -2829,7 +3063,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;ANT_MODE.ZOrder" xml:space="preserve">
-    <value>30</value>
+    <value>36</value>
   </data>
   <data name="lblSER_BRK_DETMS.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2862,7 +3096,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;lblSER_BRK_DETMS.ZOrder" xml:space="preserve">
-    <value>31</value>
+    <value>37</value>
   </data>
   <data name="lblGLOBAL_RETRIES.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2895,7 +3129,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;lblGLOBAL_RETRIES.ZOrder" xml:space="preserve">
-    <value>32</value>
+    <value>38</value>
   </data>
   <data name="lblMAX_RETRIES.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2928,7 +3162,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;lblMAX_RETRIES.ZOrder" xml:space="preserve">
-    <value>33</value>
+    <value>39</value>
   </data>
   <data name="SER_BRK_DETMS.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -2955,7 +3189,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;SER_BRK_DETMS.ZOrder" xml:space="preserve">
-    <value>34</value>
+    <value>40</value>
   </data>
   <data name="GLOBAL_RETRIES.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -2982,7 +3216,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;GLOBAL_RETRIES.ZOrder" xml:space="preserve">
-    <value>35</value>
+    <value>41</value>
   </data>
   <data name="MAX_RETRIES.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -3009,7 +3243,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;MAX_RETRIES.ZOrder" xml:space="preserve">
-    <value>36</value>
+    <value>42</value>
   </data>
   <data name="MAX_DATA.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -3036,7 +3270,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;MAX_DATA.ZOrder" xml:space="preserve">
-    <value>37</value>
+    <value>43</value>
   </data>
   <data name="lblMAX_DATA.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3069,7 +3303,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;lblMAX_DATA.ZOrder" xml:space="preserve">
-    <value>38</value>
+    <value>44</value>
   </data>
   <data name="ENCRYPTION_LEVEL.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -3096,7 +3330,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;ENCRYPTION_LEVEL.ZOrder" xml:space="preserve">
-    <value>39</value>
+    <value>45</value>
   </data>
   <data name="label36.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3126,7 +3360,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;label36.ZOrder" xml:space="preserve">
-    <value>40</value>
+    <value>46</value>
   </data>
   <data name="label35.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3156,7 +3390,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;label35.ZOrder" xml:space="preserve">
-    <value>41</value>
+    <value>47</value>
   </data>
   <data name="txt_aeskey.Location" type="System.Drawing.Point, System.Drawing">
     <value>180, 316</value>
@@ -3180,7 +3414,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;txt_aeskey.ZOrder" xml:space="preserve">
-    <value>42</value>
+    <value>48</value>
   </data>
   <data name="label19.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3210,7 +3444,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;label19.ZOrder" xml:space="preserve">
-    <value>44</value>
+    <value>50</value>
   </data>
   <data name="linkLabel_mavlink.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3240,7 +3474,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;linkLabel_mavlink.ZOrder" xml:space="preserve">
-    <value>45</value>
+    <value>51</value>
   </data>
   <data name="linkLabel_lowlatency.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3270,7 +3504,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;linkLabel_lowlatency.ZOrder" xml:space="preserve">
-    <value>46</value>
+    <value>52</value>
   </data>
   <data name="label18.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3300,7 +3534,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;label18.ZOrder" xml:space="preserve">
-    <value>47</value>
+    <value>53</value>
   </data>
   <data name="label13.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3330,7 +3564,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;label13.ZOrder" xml:space="preserve">
-    <value>49</value>
+    <value>55</value>
   </data>
   <data name="label17.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3360,7 +3594,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;label17.ZOrder" xml:space="preserve">
-    <value>52</value>
+    <value>58</value>
   </data>
   <data name="label16.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3390,7 +3624,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;label16.ZOrder" xml:space="preserve">
-    <value>54</value>
+    <value>60</value>
   </data>
   <data name="label15.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3420,7 +3654,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;label15.ZOrder" xml:space="preserve">
-    <value>56</value>
+    <value>62</value>
   </data>
   <data name="label14.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3450,7 +3684,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;label14.ZOrder" xml:space="preserve">
-    <value>57</value>
+    <value>63</value>
   </data>
   <data name="ATI2.Location" type="System.Drawing.Point, System.Drawing">
     <value>315, 12</value>
@@ -3474,13 +3708,13 @@ this ensures you wont lose radio link</value>
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;ATI2.ZOrder" xml:space="preserve">
-    <value>59</value>
+    <value>65</value>
   </data>
   <data name="groupBoxLocal.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 48</value>
   </data>
   <data name="groupBoxLocal.Size" type="System.Drawing.Size, System.Drawing">
-    <value>533, 361</value>
+    <value>533, 402</value>
   </data>
   <data name="groupBoxLocal.TabIndex" type="System.Int32, mscorlib">
     <value>80</value>
@@ -3500,6 +3734,120 @@ this ensures you wont lose radio link</value>
   <data name="&gt;&gt;groupBoxLocal.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
+  <data name="label47.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label47.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label47.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 375</value>
+  </data>
+  <data name="label47.Size" type="System.Drawing.Size, System.Drawing">
+    <value>130, 17</value>
+  </data>
+  <data name="label47.TabIndex" type="System.Int32, mscorlib">
+    <value>152</value>
+  </data>
+  <data name="label47.Text" xml:space="preserve">
+    <value>GPO1_3SBUSOUT</value>
+  </data>
+  <data name="&gt;&gt;label47.Name" xml:space="preserve">
+    <value>label47</value>
+  </data>
+  <data name="&gt;&gt;label47.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label47.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;label47.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="label48.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label48.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label48.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 349</value>
+  </data>
+  <data name="label48.Size" type="System.Drawing.Size, System.Drawing">
+    <value>113, 17</value>
+  </data>
+  <data name="label48.TabIndex" type="System.Int32, mscorlib">
+    <value>150</value>
+  </data>
+  <data name="label48.Text" xml:space="preserve">
+    <value>GPO1_3SBUSIN</value>
+  </data>
+  <data name="&gt;&gt;label48.Name" xml:space="preserve">
+    <value>label48</value>
+  </data>
+  <data name="&gt;&gt;label48.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label48.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;label48.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="label46.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label46.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label46.Location" type="System.Drawing.Point, System.Drawing">
+    <value>173, 376</value>
+  </data>
+  <data name="label46.Size" type="System.Drawing.Size, System.Drawing">
+    <value>104, 17</value>
+  </data>
+  <data name="label46.TabIndex" type="System.Int32, mscorlib">
+    <value>148</value>
+  </data>
+  <data name="label46.Text" xml:space="preserve">
+    <value>Rate/FreqBand</value>
+  </data>
+  <data name="&gt;&gt;label46.Name" xml:space="preserve">
+    <value>label46</value>
+  </data>
+  <data name="&gt;&gt;label46.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label46.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;label46.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="RRATE_FREQBAND.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RRATE_FREQBAND.Location" type="System.Drawing.Point, System.Drawing">
+    <value>266, 373</value>
+  </data>
+  <data name="RRATE_FREQBAND.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 24</value>
+  </data>
+  <data name="RRATE_FREQBAND.TabIndex" type="System.Int32, mscorlib">
+    <value>147</value>
+  </data>
+  <data name="&gt;&gt;RRATE_FREQBAND.Name" xml:space="preserve">
+    <value>RRATE_FREQBAND</value>
+  </data>
+  <data name="&gt;&gt;RRATE_FREQBAND.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RRATE_FREQBAND.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;RRATE_FREQBAND.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
   <data name="lblRRX_ENCAP_METHOD.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -3507,7 +3855,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="lblRRX_ENCAP_METHOD.Location" type="System.Drawing.Point, System.Drawing">
-    <value>352, 195</value>
+    <value>357, 200</value>
   </data>
   <data name="lblRRX_ENCAP_METHOD.Size" type="System.Drawing.Size, System.Drawing">
     <value>73, 17</value>
@@ -3531,10 +3879,10 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;lblRRX_ENCAP_METHOD.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>6</value>
   </data>
   <data name="RRX_ENCAP_METHOD.Location" type="System.Drawing.Point, System.Drawing">
-    <value>442, 188</value>
+    <value>447, 193</value>
   </data>
   <data name="RRX_ENCAP_METHOD.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 24</value>
@@ -3555,7 +3903,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;RRX_ENCAP_METHOD.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>7</value>
   </data>
   <data name="lblRTX_ENCAP_METHOD.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3564,7 +3912,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="lblRTX_ENCAP_METHOD.Location" type="System.Drawing.Point, System.Drawing">
-    <value>352, 167</value>
+    <value>357, 172</value>
   </data>
   <data name="lblRTX_ENCAP_METHOD.Size" type="System.Drawing.Size, System.Drawing">
     <value>72, 17</value>
@@ -3588,10 +3936,10 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;lblRTX_ENCAP_METHOD.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>8</value>
   </data>
   <data name="RTX_ENCAP_METHOD.Location" type="System.Drawing.Point, System.Drawing">
-    <value>442, 160</value>
+    <value>447, 165</value>
   </data>
   <data name="RTX_ENCAP_METHOD.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 24</value>
@@ -3612,7 +3960,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;RTX_ENCAP_METHOD.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>9</value>
   </data>
   <data name="lblRDESTID.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3621,7 +3969,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="lblRDESTID.Location" type="System.Drawing.Point, System.Drawing">
-    <value>352, 139</value>
+    <value>357, 144</value>
   </data>
   <data name="lblRDESTID.Size" type="System.Drawing.Size, System.Drawing">
     <value>54, 17</value>
@@ -3645,7 +3993,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;lblRDESTID.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>10</value>
   </data>
   <data name="lblRNODEID.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3654,7 +4002,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="lblRNODEID.Location" type="System.Drawing.Point, System.Drawing">
-    <value>352, 111</value>
+    <value>357, 116</value>
   </data>
   <data name="lblRNODEID.Size" type="System.Drawing.Size, System.Drawing">
     <value>59, 17</value>
@@ -3678,10 +4026,10 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;lblRNODEID.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>11</value>
   </data>
   <data name="RDESTID.Location" type="System.Drawing.Point, System.Drawing">
-    <value>442, 132</value>
+    <value>447, 137</value>
   </data>
   <data name="RDESTID.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 24</value>
@@ -3702,10 +4050,10 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;RDESTID.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>12</value>
   </data>
   <data name="RNODEID.Location" type="System.Drawing.Point, System.Drawing">
-    <value>442, 104</value>
+    <value>447, 109</value>
   </data>
   <data name="RNODEID.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 24</value>
@@ -3726,7 +4074,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;RNODEID.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>13</value>
   </data>
   <data name="label41.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3738,13 +4086,13 @@ this ensures you wont lose radio link</value>
     <value>10, 326</value>
   </data>
   <data name="label41.Size" type="System.Drawing.Size, System.Drawing">
-    <value>108, 17</value>
+    <value>116, 17</value>
   </data>
   <data name="label41.TabIndex" type="System.Int32, mscorlib">
     <value>121</value>
   </data>
   <data name="label41.Text" xml:space="preserve">
-    <value>GPI1_1R/COUT</value>
+    <value>GPO1_1R/COUT</value>
   </data>
   <data name="&gt;&gt;label41.Name" xml:space="preserve">
     <value>label41</value>
@@ -3756,7 +4104,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;label41.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>14</value>
   </data>
   <data name="RFORMAT.Location" type="System.Drawing.Point, System.Drawing">
     <value>88, 83</value>
@@ -3777,7 +4125,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;RFORMAT.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>17</value>
   </data>
   <data name="label42.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3807,7 +4155,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;label42.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>18</value>
   </data>
   <data name="label25.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3837,7 +4185,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;label25.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>23</value>
   </data>
   <data name="label26.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3867,7 +4215,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;label26.ZOrder" xml:space="preserve">
-    <value>19</value>
+    <value>25</value>
   </data>
   <data name="label27.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3897,7 +4245,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;label27.ZOrder" xml:space="preserve">
-    <value>21</value>
+    <value>27</value>
   </data>
   <data name="label28.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3927,7 +4275,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;label28.ZOrder" xml:space="preserve">
-    <value>22</value>
+    <value>28</value>
   </data>
   <data name="label29.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3957,7 +4305,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;label29.ZOrder" xml:space="preserve">
-    <value>24</value>
+    <value>30</value>
   </data>
   <data name="label32.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3987,7 +4335,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;label32.ZOrder" xml:space="preserve">
-    <value>25</value>
+    <value>31</value>
   </data>
   <data name="label30.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4017,7 +4365,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;label30.ZOrder" xml:space="preserve">
-    <value>26</value>
+    <value>32</value>
   </data>
   <data name="label31.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4047,7 +4395,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;label31.ZOrder" xml:space="preserve">
-    <value>27</value>
+    <value>33</value>
   </data>
   <data name="lblRANT_MODE.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4056,7 +4404,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="lblRANT_MODE.Location" type="System.Drawing.Point, System.Drawing">
-    <value>354, 332</value>
+    <value>359, 337</value>
   </data>
   <data name="lblRANT_MODE.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 17</value>
@@ -4080,10 +4428,10 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;lblRANT_MODE.ZOrder" xml:space="preserve">
-    <value>28</value>
+    <value>34</value>
   </data>
   <data name="RANT_MODE.Location" type="System.Drawing.Point, System.Drawing">
-    <value>442, 328</value>
+    <value>447, 333</value>
   </data>
   <data name="RANT_MODE.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 24</value>
@@ -4104,7 +4452,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;RANT_MODE.ZOrder" xml:space="preserve">
-    <value>29</value>
+    <value>35</value>
   </data>
   <data name="lblRSER_BRK_DETMS.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4113,7 +4461,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="lblRSER_BRK_DETMS.Location" type="System.Drawing.Point, System.Drawing">
-    <value>352, 307</value>
+    <value>357, 312</value>
   </data>
   <data name="lblRSER_BRK_DETMS.Size" type="System.Drawing.Size, System.Drawing">
     <value>109, 17</value>
@@ -4137,7 +4485,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;lblRSER_BRK_DETMS.ZOrder" xml:space="preserve">
-    <value>30</value>
+    <value>36</value>
   </data>
   <data name="lblRGLOBAL_RETRIES.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4146,7 +4494,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="lblRGLOBAL_RETRIES.Location" type="System.Drawing.Point, System.Drawing">
-    <value>352, 279</value>
+    <value>357, 284</value>
   </data>
   <data name="lblRGLOBAL_RETRIES.Size" type="System.Drawing.Size, System.Drawing">
     <value>98, 17</value>
@@ -4170,7 +4518,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;lblRGLOBAL_RETRIES.ZOrder" xml:space="preserve">
-    <value>31</value>
+    <value>37</value>
   </data>
   <data name="lblRMAX_RETRIES.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4179,7 +4527,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="lblRMAX_RETRIES.Location" type="System.Drawing.Point, System.Drawing">
-    <value>352, 251</value>
+    <value>357, 256</value>
   </data>
   <data name="lblRMAX_RETRIES.Size" type="System.Drawing.Size, System.Drawing">
     <value>82, 17</value>
@@ -4203,10 +4551,10 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;lblRMAX_RETRIES.ZOrder" xml:space="preserve">
-    <value>32</value>
+    <value>38</value>
   </data>
   <data name="RSER_BRK_DETMS.Location" type="System.Drawing.Point, System.Drawing">
-    <value>442, 300</value>
+    <value>447, 305</value>
   </data>
   <data name="RSER_BRK_DETMS.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 24</value>
@@ -4227,10 +4575,10 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;RSER_BRK_DETMS.ZOrder" xml:space="preserve">
-    <value>33</value>
+    <value>39</value>
   </data>
   <data name="RGLOBAL_RETRIES.Location" type="System.Drawing.Point, System.Drawing">
-    <value>442, 272</value>
+    <value>447, 277</value>
   </data>
   <data name="RGLOBAL_RETRIES.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 24</value>
@@ -4251,10 +4599,10 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;RGLOBAL_RETRIES.ZOrder" xml:space="preserve">
-    <value>34</value>
+    <value>40</value>
   </data>
   <data name="RMAX_RETRIES.Location" type="System.Drawing.Point, System.Drawing">
-    <value>442, 244</value>
+    <value>447, 249</value>
   </data>
   <data name="RMAX_RETRIES.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 24</value>
@@ -4275,10 +4623,10 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;RMAX_RETRIES.ZOrder" xml:space="preserve">
-    <value>35</value>
+    <value>41</value>
   </data>
   <data name="RMAX_DATA.Location" type="System.Drawing.Point, System.Drawing">
-    <value>442, 216</value>
+    <value>447, 221</value>
   </data>
   <data name="RMAX_DATA.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 24</value>
@@ -4299,7 +4647,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;RMAX_DATA.ZOrder" xml:space="preserve">
-    <value>36</value>
+    <value>42</value>
   </data>
   <data name="lblRMAX_DATA.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4308,7 +4656,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="lblRMAX_DATA.Location" type="System.Drawing.Point, System.Drawing">
-    <value>352, 223</value>
+    <value>357, 228</value>
   </data>
   <data name="lblRMAX_DATA.Size" type="System.Drawing.Size, System.Drawing">
     <value>67, 17</value>
@@ -4332,7 +4680,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;lblRMAX_DATA.ZOrder" xml:space="preserve">
-    <value>37</value>
+    <value>43</value>
   </data>
   <data name="label38.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4362,7 +4710,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;label38.ZOrder" xml:space="preserve">
-    <value>38</value>
+    <value>44</value>
   </data>
   <data name="RENCRYPTION_LEVEL.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -4389,7 +4737,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;RENCRYPTION_LEVEL.ZOrder" xml:space="preserve">
-    <value>39</value>
+    <value>45</value>
   </data>
   <data name="txt_Raeskey.Location" type="System.Drawing.Point, System.Drawing">
     <value>168, 316</value>
@@ -4413,7 +4761,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;txt_Raeskey.ZOrder" xml:space="preserve">
-    <value>40</value>
+    <value>46</value>
   </data>
   <data name="label37.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4443,7 +4791,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;label37.ZOrder" xml:space="preserve">
-    <value>41</value>
+    <value>47</value>
   </data>
   <data name="label33.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4473,7 +4821,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;label33.ZOrder" xml:space="preserve">
-    <value>43</value>
+    <value>49</value>
   </data>
   <data name="label34.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4503,7 +4851,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;label34.ZOrder" xml:space="preserve">
-    <value>44</value>
+    <value>50</value>
   </data>
   <data name="label24.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4533,7 +4881,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;label24.ZOrder" xml:space="preserve">
-    <value>46</value>
+    <value>52</value>
   </data>
   <data name="label23.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4563,7 +4911,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;label23.ZOrder" xml:space="preserve">
-    <value>52</value>
+    <value>58</value>
   </data>
   <data name="label22.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4593,7 +4941,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;label22.ZOrder" xml:space="preserve">
-    <value>53</value>
+    <value>59</value>
   </data>
   <data name="label21.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4623,7 +4971,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;label21.ZOrder" xml:space="preserve">
-    <value>54</value>
+    <value>60</value>
   </data>
   <data name="label20.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4653,7 +5001,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;label20.ZOrder" xml:space="preserve">
-    <value>55</value>
+    <value>61</value>
   </data>
   <data name="RTI2.Location" type="System.Drawing.Point, System.Drawing">
     <value>300, 12</value>
@@ -4677,7 +5025,7 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;RTI2.ZOrder" xml:space="preserve">
-    <value>56</value>
+    <value>62</value>
   </data>
   <data name="label9.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4707,13 +5055,13 @@ this ensures you wont lose radio link</value>
     <value>groupBoxRemote</value>
   </data>
   <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
-    <value>57</value>
+    <value>63</value>
   </data>
   <data name="groupBoxRemote.Location" type="System.Drawing.Point, System.Drawing">
     <value>551, 48</value>
   </data>
   <data name="groupBoxRemote.Size" type="System.Drawing.Size, System.Drawing">
-    <value>533, 361</value>
+    <value>533, 402</value>
   </data>
   <data name="groupBoxRemote.TabIndex" type="System.Int32, mscorlib">
     <value>81</value>
@@ -4779,7 +5127,7 @@ this ensures you wont lose radio link</value>
     <value>BUT_loadcustom</value>
   </data>
   <data name="&gt;&gt;BUT_loadcustom.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.14.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_loadcustom.Parent" xml:space="preserve">
     <value>$this</value>
@@ -4806,7 +5154,7 @@ this ensures you wont lose radio link</value>
     <value>BUT_resettodefault</value>
   </data>
   <data name="&gt;&gt;BUT_resettodefault.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.14.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_resettodefault.Parent" xml:space="preserve">
     <value>$this</value>
@@ -4836,7 +5184,7 @@ this ensures you wont lose radio link</value>
     <value>BUT_savesettings</value>
   </data>
   <data name="&gt;&gt;BUT_savesettings.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.14.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_savesettings.Parent" xml:space="preserve">
     <value>$this</value>
@@ -4863,7 +5211,7 @@ this ensures you wont lose radio link</value>
     <value>BUT_getcurrent</value>
   </data>
   <data name="&gt;&gt;BUT_getcurrent.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.14.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_getcurrent.Parent" xml:space="preserve">
     <value>$this</value>
@@ -4893,7 +5241,7 @@ this ensures you wont lose radio link</value>
     <value>BUT_upload</value>
   </data>
   <data name="&gt;&gt;BUT_upload.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.14.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_upload.Parent" xml:space="preserve">
     <value>$this</value>
@@ -4908,7 +5256,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="BUT_Syncoptions.Location" type="System.Drawing.Point, System.Drawing">
-    <value>457, 412</value>
+    <value>461, 466</value>
   </data>
   <data name="BUT_Syncoptions.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 29</value>
@@ -4923,7 +5271,7 @@ this ensures you wont lose radio link</value>
     <value>BUT_Syncoptions</value>
   </data>
   <data name="&gt;&gt;BUT_Syncoptions.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.14.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_Syncoptions.Parent" xml:space="preserve">
     <value>$this</value>
@@ -4941,7 +5289,7 @@ this ensures you wont lose radio link</value>
     <value>781, 492</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1096, 492</value>
+    <value>1096, 554</value>
   </data>
   <data name="&gt;&gt;toolTip1.Name" xml:space="preserve">
     <value>toolTip1</value>
