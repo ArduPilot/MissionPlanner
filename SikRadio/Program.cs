@@ -18,6 +18,8 @@
  * 2.12 - Fixed tooltip text for GPI1_1R/CIN and GPI1_1R/COUT
  * 2.13 - Now if a parameter fails to load, that same parameter is not saved back to the modem.
  * 2.14 - Resolved issue in which modem firmware could not be reprogrammed immediately after programming.
+ * 2.15 - Added firmware programming certified check for RFD900X/UX.  Added SBUS, freq/band and antenna parameters
+ *          for RFD900x.  
  */
 
 using System;
