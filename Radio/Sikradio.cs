@@ -68,15 +68,13 @@ S15: MAX_WINDOW=131
                 lblDESTID, DESTID, lblTX_ENCAP_METHOD, TX_ENCAP_METHOD, lblRX_ENCAP_METHOD, RX_ENCAP_METHOD,
                 lblMAX_DATA, MAX_DATA,
                 new Control[] {lblMAX_RETRIES, MAX_RETRIES,
-                lblGLOBAL_RETRIES, GLOBAL_RETRIES, lblSER_BRK_DETMS, SER_BRK_DETMS,
-                lblANT_MODE, ANT_MODE}, false);
+                lblGLOBAL_RETRIES, GLOBAL_RETRIES, lblSER_BRK_DETMS, SER_BRK_DETMS}, false);
 
             _RemoteExtraParams = new ExtraParamControlsSet(lblRNODEID, RNODEID,
                 lblRDESTID, RDESTID, lblRTX_ENCAP_METHOD, RTX_ENCAP_METHOD, lblRRX_ENCAP_METHOD, RRX_ENCAP_METHOD,
                 lblRMAX_DATA, RMAX_DATA,
                 new Control[] {lblRMAX_RETRIES, RMAX_RETRIES,
-                lblRGLOBAL_RETRIES, RGLOBAL_RETRIES, lblRSER_BRK_DETMS, RSER_BRK_DETMS,
-                lblRANT_MODE, RANT_MODE}, true);
+                lblRGLOBAL_RETRIES, RGLOBAL_RETRIES, lblRSER_BRK_DETMS, RSER_BRK_DETMS}, true);
 
             // setup netid
             NETID.DataSource = Enumerable.Range(0, 500).ToArray();

@@ -603,6 +603,45 @@ namespace RFD.RFD900
             return 1;
         }
 
+        bool IsCapitalLetter(char Letter)
+        {
+            return (Letter >= 'A') && (Letter <= 'Z');
+        }
+
+        /*
+         * A new word starts when it goes from a lower case to upper case,
+         * or the character before the transition from upper case to lower.
+         */
+        string[] SplitOptionName(string OptionName)
+        {
+            int LastStart = 0;
+            List<string> Result = new List<string>();
+
+            for (int n = 1; n < OptionName.Length; n++)
+            {
+                if (IsCapitalLetter(OptionName[n]) && !IsCapitalLetter(OptionName[n-1]))
+                {
+                    Result.Add(OptionName.Substring(LastStart, n - LastStart));
+                    LastStart = n;
+                }
+                else if (IsCapitalLetter(OptionName[n-1]) && !IsCapitalLetter(OptionName[n]))
+                {
+                    if (LastStart != (n-1))
+                    {
+                        Result.Add(OptionName.Substring(LastStart, n - LastStart-1));
+                        LastStart = n-1;
+                    }
+                }
+            }
+
+            if (LastStart < OptionName.Length)
+            {
+                Result.Add(OptionName.Substring(LastStart, OptionName.Length - LastStart));
+            }
+
+            return Result.ToArray();
+        }
+
         TSetting.TOption[] CreateOptions(TSetting.TRange Range, string[] Options,
             string Name)
         {
@@ -623,11 +662,6 @@ namespace RFD.RFD900
                 return Result;
             }
 
-            //Not all integers.
-            if (Range == null)
-            {
-                return null;
-            }
             if (Options.Length == 2)
             {
                 //Match up with min and max.
@@ -635,6 +669,74 @@ namespace RFD.RFD900
                 Result[0] = new TSetting.TOption(Range.Min, Options[0]);
                 Result[1] = new TSetting.TOption(Range.Max, Options[1]);
                 return Result;
+            }
+            else if ((Range.Max - Range.Min + 1) == Options.Length)
+            {
+                TSetting.TOption[] Result = new TSetting.TOption[Range.Max - Range.Min + 1];
+                for (int n = 0; n < (Range.Max - Range.Min + 1); n++)
+                {
+                    Result[n] = new TSetting.TOption(Range.Min + n, Options[n]);
+                }
+                return Result;
+            }
+            else if ((Range.Max - Range.Min + 1) < Options.Length)
+            {
+                //Account for the freq/band setting.
+                string[] ResultOptionStrings = new string[Range.Max - Range.Min + 1];
+                string CountryCode = null;
+                int OptionIndex = 0;
+                bool GotToMax = false;
+                
+                //For each option...
+                foreach (var O in Options)
+                {
+                    string[] Temp = SplitOptionName(O);
+                    if (Temp.Length != 0)
+                    {
+                        //Extract country code from option name
+                        string CCTemp = Temp[Temp.Length - 1];
+                        //If we're still on the same contry code...
+                        if (CCTemp == CountryCode)
+                        {
+                            OptionIndex++;
+                            if (OptionIndex >= (ResultOptionStrings.Length - 1))
+                            {
+                                GotToMax = true;
+                            }
+                        }
+                        else
+                        {
+                            OptionIndex = 0;
+                            CountryCode = CCTemp;
+                        }
+                        if (ResultOptionStrings[OptionIndex] == null)
+                        {
+                            ResultOptionStrings[OptionIndex] = "";
+                        }
+                        if (OptionIndex < ResultOptionStrings.Length)
+                        {
+                            if (ResultOptionStrings[OptionIndex].Length != 0)
+                            {
+                                ResultOptionStrings[OptionIndex] += "/";
+                            }
+                            ResultOptionStrings[OptionIndex] += O;
+                        }
+                    }
+                }
+
+                if (GotToMax)
+                {
+                    TSetting.TOption[] Result = new TSetting.TOption[Range.Max - Range.Min + 1];
+                    for (int n = 0; n < (Range.Max - Range.Min + 1); n++)
+                    {
+                        Result[n] = new TSetting.TOption(Range.Min + n, ResultOptionStrings[n]);
+                    }
+                    return Result;
+                }
+                else
+                {
+                    return null;
+                }
             }
             else
             {

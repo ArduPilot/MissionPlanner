@@ -1369,8 +1369,8 @@
             // RANT_MODE
             // 
             this.RANT_MODE.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.RANT_MODE.FormattingEnabled = true;
             resources.ApplyResources(this.RANT_MODE, "RANT_MODE");
+            this.RANT_MODE.FormattingEnabled = true;
             this.RANT_MODE.Name = "RANT_MODE";
             // 
             // lblRSER_BRK_DETMS

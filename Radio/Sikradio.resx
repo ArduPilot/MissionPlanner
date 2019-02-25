@@ -2069,10 +2069,10 @@ red LED solid - in firmware update mode</value>
     <value>NoControl</value>
   </data>
   <data name="GPO1_3SBUSOUT.Location" type="System.Drawing.Point, System.Drawing">
-    <value>154, 375</value>
+    <value>507, 345</value>
   </data>
   <data name="GPO1_3SBUSOUT.Size" type="System.Drawing.Size, System.Drawing">
-    <value>36, 20</value>
+    <value>20, 21</value>
   </data>
   <data name="GPO1_3SBUSOUT.TabIndex" type="System.Int32, mscorlib">
     <value>143</value>
@@ -2099,7 +2099,7 @@ red LED solid - in firmware update mode</value>
     <value>NoControl</value>
   </data>
   <data name="RGPO1_3SBUSOUT.Location" type="System.Drawing.Point, System.Drawing">
-    <value>148, 372</value>
+    <value>507, 349</value>
   </data>
   <data name="RGPO1_3SBUSOUT.Size" type="System.Drawing.Size, System.Drawing">
     <value>20, 20</value>
@@ -2310,7 +2310,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label45.Location" type="System.Drawing.Point, System.Drawing">
-    <value>181, 378</value>
+    <value>18, 376</value>
   </data>
   <data name="label45.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 17</value>
@@ -2337,10 +2337,10 @@ this ensures you wont lose radio link</value>
     <value>False</value>
   </data>
   <data name="RATE_FREQBAND.Location" type="System.Drawing.Point, System.Drawing">
-    <value>274, 372</value>
+    <value>128, 372</value>
   </data>
   <data name="RATE_FREQBAND.Size" type="System.Drawing.Size, System.Drawing">
-    <value>80, 24</value>
+    <value>399, 24</value>
   </data>
   <data name="RATE_FREQBAND.TabIndex" type="System.Int32, mscorlib">
     <value>145</value>
@@ -2364,7 +2364,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label44.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 378</value>
+    <value>360, 347</value>
   </data>
   <data name="label44.Size" type="System.Drawing.Size, System.Drawing">
     <value>130, 17</value>
@@ -3012,7 +3012,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="lblANT_MODE.Location" type="System.Drawing.Point, System.Drawing">
-    <value>361, 335</value>
+    <value>360, 87</value>
   </data>
   <data name="lblANT_MODE.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 17</value>
@@ -3022,9 +3022,6 @@ this ensures you wont lose radio link</value>
   </data>
   <data name="lblANT_MODE.Text" xml:space="preserve">
     <value>Antenna Mode</value>
-  </data>
-  <data name="lblANT_MODE.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
   </data>
   <data name="&gt;&gt;lblANT_MODE.Name" xml:space="preserve">
     <value>lblANT_MODE</value>
@@ -3042,16 +3039,13 @@ this ensures you wont lose radio link</value>
     <value>False</value>
   </data>
   <data name="ANT_MODE.Location" type="System.Drawing.Point, System.Drawing">
-    <value>447, 335</value>
+    <value>447, 83</value>
   </data>
   <data name="ANT_MODE.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 24</value>
   </data>
   <data name="ANT_MODE.TabIndex" type="System.Int32, mscorlib">
     <value>109</value>
-  </data>
-  <data name="ANT_MODE.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
   </data>
   <data name="&gt;&gt;ANT_MODE.Name" xml:space="preserve">
     <value>ANT_MODE</value>
@@ -3741,7 +3735,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label47.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 375</value>
+    <value>357, 349</value>
   </data>
   <data name="label47.Size" type="System.Drawing.Size, System.Drawing">
     <value>130, 17</value>
@@ -3801,7 +3795,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label46.Location" type="System.Drawing.Point, System.Drawing">
-    <value>173, 376</value>
+    <value>11, 375</value>
   </data>
   <data name="label46.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 17</value>
@@ -3828,10 +3822,10 @@ this ensures you wont lose radio link</value>
     <value>False</value>
   </data>
   <data name="RRATE_FREQBAND.Location" type="System.Drawing.Point, System.Drawing">
-    <value>266, 373</value>
+    <value>121, 373</value>
   </data>
   <data name="RRATE_FREQBAND.Size" type="System.Drawing.Size, System.Drawing">
-    <value>80, 24</value>
+    <value>406, 24</value>
   </data>
   <data name="RRATE_FREQBAND.TabIndex" type="System.Int32, mscorlib">
     <value>147</value>
@@ -4404,7 +4398,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="lblRANT_MODE.Location" type="System.Drawing.Point, System.Drawing">
-    <value>359, 337</value>
+    <value>357, 87</value>
   </data>
   <data name="lblRANT_MODE.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 17</value>
@@ -4414,9 +4408,6 @@ this ensures you wont lose radio link</value>
   </data>
   <data name="lblRANT_MODE.Text" xml:space="preserve">
     <value>Antenna Mode</value>
-  </data>
-  <data name="lblRANT_MODE.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
   </data>
   <data name="&gt;&gt;lblRANT_MODE.Name" xml:space="preserve">
     <value>lblRANT_MODE</value>
@@ -4430,17 +4421,17 @@ this ensures you wont lose radio link</value>
   <data name="&gt;&gt;lblRANT_MODE.ZOrder" xml:space="preserve">
     <value>34</value>
   </data>
+  <data name="RANT_MODE.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="RANT_MODE.Location" type="System.Drawing.Point, System.Drawing">
-    <value>447, 333</value>
+    <value>447, 83</value>
   </data>
   <data name="RANT_MODE.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 24</value>
   </data>
   <data name="RANT_MODE.TabIndex" type="System.Int32, mscorlib">
     <value>108</value>
-  </data>
-  <data name="RANT_MODE.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
   </data>
   <data name="&gt;&gt;RANT_MODE.Name" xml:space="preserve">
     <value>RANT_MODE</value>
