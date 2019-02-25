@@ -79,7 +79,7 @@ namespace SikRadio
         {
             if (!_RunRxThread)
             {
-                var Session = new RFD.RFD900.TSession(SikRadio.Config.comPort);
+                var Session = new RFD.RFD900.TSession(SikRadio.Config.comPort, MainV2.comPort.BaseStream.BaudRate);
                 Session.PutIntoATCommandMode();
                 Session.Dispose();
 

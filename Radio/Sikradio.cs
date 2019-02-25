@@ -1906,7 +1906,7 @@ red LED solid - in firmware update mode");
                 {
                     if (SikRadio.Config.comPort != null)
                     {
-                        _Session = new RFD.RFD900.TSession(SikRadio.Config.comPort);
+                        _Session = new RFD.RFD900.TSession(SikRadio.Config.comPort, MainV2.comPort.BaseStream.BaudRate);
                     }
                 }
                 catch

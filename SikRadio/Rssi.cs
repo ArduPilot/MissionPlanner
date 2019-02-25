@@ -40,7 +40,7 @@ namespace SikRadio
         {
             if (_Session == null)
             {
-                _Session = new RFD.RFD900.TSession(SikRadio.Config.comPort);
+                _Session = new RFD.RFD900.TSession(SikRadio.Config.comPort, MainV2.comPort.BaseStream.BaudRate);
                 if (_Session.PutIntoATCommandMode() == RFD.RFD900.TSession.TMode.AT_COMMAND)
                 {
                     inter.doCommand(Config.comPort, "AT&T=RSSI");

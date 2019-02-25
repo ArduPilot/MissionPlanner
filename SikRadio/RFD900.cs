@@ -17,15 +17,17 @@ namespace RFD.RFD900
         RFDLib.IO.ATCommand.TClient _ATCClient;
         RFD900 _ModemObject;
         public uploader.Uploader.Board Board = uploader.Uploader.Board.FAILED;
+        int _MainFirmwareBaud;
         const int BOOTLOADER_BAUD = 115200;
 
-        public TSession(MissionPlanner.Comms.ICommsSerial Port)
+        public TSession(MissionPlanner.Comms.ICommsSerial Port, int MainFirmwareBaud)
         {
             _Port = Port;
             _ATCClient = new RFDLib.IO.ATCommand.TClient(new TMissionPlannerSerialPort(Port));
             _ATCClient.Echoes = true;
             _ATCClient.Terminator = "\r\n";
             _ATCClient.Timeout = 1000;
+            _MainFirmwareBaud = MainFirmwareBaud;
         }
 
         public enum TMode
@@ -106,7 +108,6 @@ namespace RFD.RFD900
 
         bool IsInBootloaderMode()
         {
-            int PrevBaud = _Port.BaudRate;
             _Port.BaudRate = BOOTLOADER_BAUD;
             Thread.Sleep(100);
             WriteBootloaderCode(uploader.Uploader.Code.EOC);
@@ -125,7 +126,7 @@ namespace RFD.RFD900
             }
             if (!Result)
             {
-                _Port.BaudRate = PrevBaud;
+                _Port.BaudRate = _MainFirmwareBaud;
             }
             return Result;
         }
@@ -319,10 +320,9 @@ namespace RFD.RFD900
                 case TMode.TRANSPARENT:
                     return PutIntoATCommandModeAssumingInTransparentMode();
                 case TMode.BOOTLOADER:
-                    int PrevBaud = _Port.BaudRate;
                     _Port.BaudRate = BOOTLOADER_BAUD;
                     WriteBootloaderCode(uploader.Uploader.Code.REBOOT);
-                    _Port.BaudRate = PrevBaud;
+                    _Port.BaudRate = _MainFirmwareBaud;
                     _Mode = TMode.INIT;
                     break;
                 case TMode.BOOTLOADER_X:
@@ -401,6 +401,14 @@ namespace RFD.RFD900
 
         public void AssumeMode(TMode Mode)
         {
+            if (Mode == TMode.BOOTLOADER_X)
+            {
+                _Port.BaudRate = BOOTLOADER_BAUD;
+            }
+            else
+            {
+                _Port.BaudRate = _MainFirmwareBaud;
+            }
             _Mode = Mode;
         }
 
@@ -1066,7 +1074,7 @@ namespace RFD.RFD900
                 uploader.Uploader UL = new uploader.Uploader();
                 UL.ProgressEvent += (d) => Progress(null, d);
                 UL.upload(_Session.Port, Hex);
-                _Session.AssumeMode(TSession.TMode.INIT);
+                _Session.AssumeMode(TSession.TMode.TRANSPARENT);
                 return true;
             }
             catch
