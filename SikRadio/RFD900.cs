@@ -1347,6 +1347,11 @@ namespace RFD.RFD900
             return Temp;
         }
 
+        bool GetIsLetter(char x)
+        {
+            return (((x >= 'a') && (x <= 'z')) || ((x >= 'A') && (x <= 'Z')));
+        }
+
         /// <summary>
         /// Assumes in AT command mode.
         /// </summary>
@@ -1354,13 +1359,21 @@ namespace RFD.RFD900
         bool GetIsThisLockedToCountry()
         {
             string Reply = _Session.ATCClient.DoQuery("ATI", true);
-            foreach (var ST in this.GetFirmwareSearchTokens())
+
+            //It's locked to a country if the string has a dash and letters tacked onto the end of it.
+            if (Reply.Contains("-"))
             {
-                if (Reply.Contains(ST+"-"))
+                string[] ByDash = Reply.Split('-');
+                string CountryCode = ByDash[ByDash.Length - 1];
+                if (CountryCode.Length >= 2)
                 {
-                    return true;
+                    if (GetIsLetter(CountryCode[0]) && GetIsLetter(CountryCode[1]))
+                    {
+                        return true;
+                    }
                 }
             }
+            
             return false;
         }
 
