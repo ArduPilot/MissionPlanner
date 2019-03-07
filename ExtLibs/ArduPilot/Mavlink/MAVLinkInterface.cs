@@ -367,7 +367,7 @@ namespace MissionPlanner
             if (BaseStream is SerialPort)
             {
                 // allow settings to settle - previous dtr 
-                Task.Delay(1000);
+                Thread.Sleep(1000);
             }
 
             Terrain = new TerrainFollow(this);
@@ -397,7 +397,7 @@ namespace MissionPlanner
                     // other boards seem to have issues if there is no delay? posible bootloader timeout issue
                     if (BaseStream is SerialPort)
                     {
-                        Task.Delay(1000);
+                        Thread.Sleep(1000);
                     }
                 }
 
@@ -459,7 +459,7 @@ Please check the following
                         }
                     }
 
-                    Task.Delay(1);
+                    Thread.Sleep(1);
 
                     var buffer = getHeartBeat();
                     if (buffer.Length > 0)
@@ -3405,7 +3405,7 @@ Please check the following
                                     throw new TimeoutException("Timeout");
                                 }
 
-                                Task.Delay(1);
+                                Thread.Sleep(1);
                                 if (debug)
                                     Console.WriteLine(DateTime.Now.Millisecond + " SR0b " + BaseStream?.BytesToRead);
                             }
@@ -3485,7 +3485,7 @@ Please check the following
                                     throw new TimeoutException("Timeout");
                                 }
 
-                                Task.Delay(1);
+                                Thread.Sleep(1);
                             }
 
                             int read = BaseStream.Read(buffer, 1, headerlength);
@@ -3530,7 +3530,7 @@ Please check the following
                                             break;
                                         }
 
-                                        Task.Delay(1);
+                                        Thread.Sleep(1);
                                     }
 
                                     if (BaseStream.IsOpen)
