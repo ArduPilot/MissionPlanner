@@ -21,6 +21,7 @@
  * 2.15 - Added firmware programming certified check for RFD900X/UX.  Added SBUS, freq/band and antenna parameters
  *          for RFD900x.  
  * 2.16 - Resolved issue in which it was looking for the country string in the wrong part of the ATI command response.
+ * 2.17 - Resolved issue in which pin wasn't being set to output/input when RC out / SBUS out checked / unchecked.
  */
 
 using System;

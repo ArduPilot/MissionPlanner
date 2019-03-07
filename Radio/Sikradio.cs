@@ -505,15 +505,23 @@ S15: MAX_WINDOW=131
 
                                             if (cmdanswer.Contains("OK"))
                                             {
-                                                if (Controls[0].Name.Contains("GPO1_1R_COUT") ||
-                                                    Controls[0].Name.Contains("GPO1_3SBUSOUT"))
+                                                if (controls[0].Name.Contains("GPO1_1R_COUT") ||
+                                                    controls[0].Name.Contains("GPO1_3SBUSOUT"))
                                                 {
-                                                    //Also need to set RTPO.
-                                                    cmdanswer = doCommand(Session.Port,
-                                                        "RTPO=1");
+                                                    if (((CheckBox)controls[0]).Checked)
+                                                    {
+                                                        //Also need to set RTPO.
+                                                        cmdanswer = doCommand(Session.Port,
+                                                            "RTPO=1");
+                                                    }
+                                                    else
+                                                    {
+                                                        cmdanswer = doCommand(Session.Port,
+                                                            "RTPI=1");
+                                                    }
                                                 }
-                                                else if (Controls[0].Name.Contains("GPI1_1R_CIN") ||
-                                                    Controls[0].Name.Contains("GPO1_3SBUSIN"))
+                                                else if (controls[0].Name.Contains("GPI1_1R_CIN") ||
+                                                    controls[0].Name.Contains("GPO1_3SBUSIN"))
                                                 {
                                                     //Also need to set RTPI.
                                                     cmdanswer = doCommand(Session.Port,
@@ -636,15 +644,23 @@ S15: MAX_WINDOW=131
 
                                             if (cmdanswer.Contains("OK"))
                                             {
-                                                if (Controls[0].Name.Contains("GPO1_1R_COUT") ||
-                                                    Controls[0].Name.Contains("GPO1_3SBUSOUT"))
+                                                if (controls[0].Name.Contains("GPO1_1R_COUT") ||
+                                                    controls[0].Name.Contains("GPO1_3SBUSOUT"))
                                                 {
-                                                    //Also need to set RTPO.
-                                                    cmdanswer = doCommand(Session.Port,
-                                                        "ATPO=1");
+                                                    if (((CheckBox)controls[0]).Checked)
+                                                    {
+                                                        //Also need to set RTPO.
+                                                        cmdanswer = doCommand(Session.Port,
+                                                            "ATPO=1");
+                                                    }
+                                                    else
+                                                    {
+                                                        cmdanswer = doCommand(Session.Port,
+                                                            "ATPI=1");
+                                                    }
                                                 }
-                                                else if (Controls[0].Name.Contains("GPI1_1R_CIN") ||
-                                                    Controls[0].Name.Contains("GPO1_3SBUSIN"))
+                                                else if (controls[0].Name.Contains("GPI1_1R_CIN") ||
+                                                    controls[0].Name.Contains("GPO1_3SBUSIN"))
                                                 {
                                                     //Also need to set RTPI.
                                                     cmdanswer = doCommand(Session.Port,
