@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Xamarin"
+             x:Class="Xamarin.MainPage_old">
+
+ 
+        <Grid  >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button Text="1" Grid.Row="0" Grid.Column="0" x:Name="Button1" Pressed="Button1_Pressed"></Button>
+        <Button Text="2" Grid.Row="0" Grid.Column="1" x:Name="Button2" Pressed="Button2_Pressed"></Button>
+        <Button Text="3" Grid.Row="0" Grid.Column="2" x:Name="Button3" Pressed="Button3_Pressed"></Button>
+        <WebView x:Name="WebView" Grid.Row="1" Grid.Column="0"  Grid.ColumnSpan="3" Source="http://localhost:56781/hud.html" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" ></WebView>
+
+        </Grid>
+
+</ContentPage>

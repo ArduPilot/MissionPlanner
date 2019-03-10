@@ -1,0 +1,65 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\..\Utilities\httpserver.cs" Link="Linked\httpserver.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\..\hud.html" Link="hud.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.9.1" />
+    <PackageReference Include="SkiaSharp.Views.Forms" Version="1.68.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ArduPilot\MissionPlanner.ArduPilot.csproj" />
+    <ProjectReference Include="..\..\Comms\MissionPlanner.Comms.csproj" />
+    <ProjectReference Include="..\..\Mavlink\MAVLink.csproj" />
+    <ProjectReference Include="..\..\UAVCAN\UAVCAN.csproj" />
+    <ProjectReference Include="..\..\Utilities\MissionPlanner.Utilities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="MainPage_old.xaml.cs">
+      <DependentUpon>MainPage_old.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="MainPage.xaml.cs">
+      <DependentUpon>MainPage</DependentUpon>
+    </Compile>
+    <Compile Update="MasterDetailPage1MenuItem.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="MasterDetailPage1Detail.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MasterDetailPage1Master.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>
