@@ -4,11 +4,22 @@
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <ApplicationIcon />
     <OutputTypeEx>library</OutputTypeEx>
-    <StartupObject />
+    <StartupObject></StartupObject>
     <DebugType>portable</DebugType>
     <DebugSymbols>True</DebugSymbols>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <OutputType>Library</OutputType>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="UAVCAN\**" />
+    <EmbeddedResource Remove="UAVCAN\**" />
+    <None Remove="UAVCAN\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="Capture.cs" />
@@ -52,11 +63,6 @@
     </Reference>
     <Reference Include="OpenTK.GLControl">
       <HintPath>..\OpenTK.GLControl.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Speech">
-      <HintPath>c:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Speech.dll</HintPath>
-      <SpecificVersion>false</SpecificVersion>
-      <Private>true</Private>
     </Reference>
   </ItemGroup>
 

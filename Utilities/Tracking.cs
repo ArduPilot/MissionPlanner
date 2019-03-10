@@ -51,21 +51,22 @@ namespace MissionPlanner.Utilities
 
         public static void AddEvent(string cat, string action, string label, string value)
         {
-            List<KeyValuePair<string, string>> param = new List<KeyValuePair<string, string>>();
+            List<KeyValuePair<string, string>> param = new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("v", version),
+                new KeyValuePair<string, string>("tid", tid),
+                new KeyValuePair<string, string>("cid", cid.ToString()),
+                new KeyValuePair<string, string>("t", "event"),
+                new KeyValuePair<string, string>("an", Application.ProductName),
+                new KeyValuePair<string, string>("av", Application.ProductVersion),
 
-            param.Add(new KeyValuePair<string, string>("v", version));
-            param.Add(new KeyValuePair<string, string>("tid", tid));
-            param.Add(new KeyValuePair<string, string>("cid", cid.ToString()));
-            param.Add(new KeyValuePair<string, string>("t", "event"));
-            param.Add(new KeyValuePair<string, string>("an", Application.ProductName));
-            param.Add(new KeyValuePair<string, string>("av", Application.ProductVersion));
+                new KeyValuePair<string, string>("cd", currentscreen),
+                new KeyValuePair<string, string>("dp", currentscreen),
 
-            param.Add(new KeyValuePair<string, string>("cd", currentscreen));
-            param.Add(new KeyValuePair<string, string>("dp", currentscreen));
-
-            param.Add(new KeyValuePair<string, string>("ec", cat));
-            param.Add(new KeyValuePair<string, string>("ea", action));
-            param.Add(new KeyValuePair<string, string>("el", label));
+                new KeyValuePair<string, string>("ec", cat),
+                new KeyValuePair<string, string>("ea", action),
+                new KeyValuePair<string, string>("el", label)
+            };
             if (value != "")
                 param.Add(new KeyValuePair<string, string>("ev", value));
 
@@ -91,18 +92,19 @@ namespace MissionPlanner.Utilities
 
             currentscreen = page;
 
-            List<KeyValuePair<string, string>> param = new List<KeyValuePair<string, string>>();
+            List<KeyValuePair<string, string>> param = new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("v", version),
+                new KeyValuePair<string, string>("tid", tid),
+                new KeyValuePair<string, string>("cid", cid.ToString()),
+                new KeyValuePair<string, string>("t", "appview"),
+                new KeyValuePair<string, string>("an", Application.ProductName),
+                new KeyValuePair<string, string>("av", Application.ProductVersion),
 
-            param.Add(new KeyValuePair<string, string>("v", version));
-            param.Add(new KeyValuePair<string, string>("tid", tid));
-            param.Add(new KeyValuePair<string, string>("cid", cid.ToString()));
-            param.Add(new KeyValuePair<string, string>("t", "appview"));
-            param.Add(new KeyValuePair<string, string>("an", Application.ProductName));
-            param.Add(new KeyValuePair<string, string>("av", Application.ProductVersion));
-
-            param.Add(new KeyValuePair<string, string>("cd", page));
-            param.Add(new KeyValuePair<string, string>("dp", page));
-            param.Add(new KeyValuePair<string, string>("dt", title));
+                new KeyValuePair<string, string>("cd", page),
+                new KeyValuePair<string, string>("dp", page),
+                new KeyValuePair<string, string>("dt", title)
+            };
 
             if (sessionstart == false)
             {
@@ -121,14 +123,15 @@ namespace MissionPlanner.Utilities
 
         public static void AddException(Exception ex)
         {
-            List<KeyValuePair<string, string>> param = new List<KeyValuePair<string, string>>();
-
-            param.Add(new KeyValuePair<string, string>("v", version));
-            param.Add(new KeyValuePair<string, string>("tid", tid));
-            param.Add(new KeyValuePair<string, string>("cid", cid.ToString()));
-            param.Add(new KeyValuePair<string, string>("t", "exception"));
-            param.Add(new KeyValuePair<string, string>("an", Application.ProductName));
-            param.Add(new KeyValuePair<string, string>("av", Application.ProductVersion));
+            List<KeyValuePair<string, string>> param = new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("v", version),
+                new KeyValuePair<string, string>("tid", tid),
+                new KeyValuePair<string, string>("cid", cid.ToString()),
+                new KeyValuePair<string, string>("t", "exception"),
+                new KeyValuePair<string, string>("an", Application.ProductName),
+                new KeyValuePair<string, string>("av", Application.ProductVersion)
+            };
 
             if (sessionstart == false)
             {
@@ -185,24 +188,25 @@ namespace MissionPlanner.Utilities
 
         public static void AddFW(string name, string board)
         {
-            List<KeyValuePair<string, string>> param = new List<KeyValuePair<string, string>>();
+            List<KeyValuePair<string, string>> param = new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("v", version),
+                new KeyValuePair<string, string>("tid", tid),
+                new KeyValuePair<string, string>("cid", cid.ToString()),
+                new KeyValuePair<string, string>("t", "event"),
+                new KeyValuePair<string, string>("an", Application.ProductName),
+                new KeyValuePair<string, string>("av", Application.ProductVersion),
 
-            param.Add(new KeyValuePair<string, string>("v", version));
-            param.Add(new KeyValuePair<string, string>("tid", tid));
-            param.Add(new KeyValuePair<string, string>("cid", cid.ToString()));
-            param.Add(new KeyValuePair<string, string>("t", "event"));
-            param.Add(new KeyValuePair<string, string>("an", Application.ProductName));
-            param.Add(new KeyValuePair<string, string>("av", Application.ProductVersion));
+                new KeyValuePair<string, string>("cd", currentscreen),
+                new KeyValuePair<string, string>("dp", currentscreen),
 
-            param.Add(new KeyValuePair<string, string>("cd", currentscreen));
-            param.Add(new KeyValuePair<string, string>("dp", currentscreen));
+                new KeyValuePair<string, string>("ec", "Firmware Upload"),
+                new KeyValuePair<string, string>("ea", board),
+                new KeyValuePair<string, string>("el", name),
 
-            param.Add(new KeyValuePair<string, string>("ec", "Firmware Upload"));
-            param.Add(new KeyValuePair<string, string>("ea", board));
-            param.Add(new KeyValuePair<string, string>("el", name));
-
-            param.Add(new KeyValuePair<string, string>("cd2", name));
-            param.Add(new KeyValuePair<string, string>("cd3", board));
+                new KeyValuePair<string, string>("cd2", name),
+                new KeyValuePair<string, string>("cd3", board)
+            };
 
             if (sessionstart == false)
             {
@@ -219,22 +223,23 @@ namespace MissionPlanner.Utilities
 
         public static void AddTiming(string cat, string name, double timeinms, string label)
         {
-            List<KeyValuePair<string, string>> param = new List<KeyValuePair<string, string>>();
+            List<KeyValuePair<string, string>> param = new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("v", version),
+                new KeyValuePair<string, string>("tid", tid),
+                new KeyValuePair<string, string>("cid", cid.ToString()),
+                new KeyValuePair<string, string>("t", "timing"),
+                new KeyValuePair<string, string>("an", Application.ProductName),
+                new KeyValuePair<string, string>("av", Application.ProductVersion),
 
-            param.Add(new KeyValuePair<string, string>("v", version));
-            param.Add(new KeyValuePair<string, string>("tid", tid));
-            param.Add(new KeyValuePair<string, string>("cid", cid.ToString()));
-            param.Add(new KeyValuePair<string, string>("t", "timing"));
-            param.Add(new KeyValuePair<string, string>("an", Application.ProductName));
-            param.Add(new KeyValuePair<string, string>("av", Application.ProductVersion));
+                new KeyValuePair<string, string>("cd", currentscreen),
+                new KeyValuePair<string, string>("dp", currentscreen),
 
-            param.Add(new KeyValuePair<string, string>("cd", currentscreen));
-            param.Add(new KeyValuePair<string, string>("dp", currentscreen));
-
-            param.Add(new KeyValuePair<string, string>("utc", cat));
-            param.Add(new KeyValuePair<string, string>("utv", name));
-            param.Add(new KeyValuePair<string, string>("utt", ((int)timeinms).ToString()));
-            param.Add(new KeyValuePair<string, string>("utl", label));
+                new KeyValuePair<string, string>("utc", cat),
+                new KeyValuePair<string, string>("utv", name),
+                new KeyValuePair<string, string>("utt", ((int)timeinms).ToString()),
+                new KeyValuePair<string, string>("utl", label)
+            };
 
             if (sessionstart == false)
             {

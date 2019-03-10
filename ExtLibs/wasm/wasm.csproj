@@ -14,8 +14,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Blazor.Extensions.Canvas" Version="0.1.7" />
-    <PackageReference Include="Blazor.Extensions.SignalR" Version="0.1.7" />
+    <PackageReference Include="Blazor.Extensions.Canvas" Version="0.1.8" />
+    <PackageReference Include="Blazor.Extensions.SignalR" Version="0.1.8" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Browser" Version="0.7.0" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="0.7.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />

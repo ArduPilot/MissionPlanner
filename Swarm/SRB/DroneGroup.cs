@@ -338,7 +338,7 @@ namespace MissionPlanner.Swarm.SRB
                 return null;
 
             return new adsb.PointLatLngAltHdg(SerialInjectGPS.ubxpvt.lat / 1e7, SerialInjectGPS.ubxpvt.lon / 1e7,
-                SerialInjectGPS.ubxpvt.h_msl/1000.0, (float)(SerialInjectGPS.ubxpvt.head_mot / 1e5), "", DateTime.Now);
+                SerialInjectGPS.ubxpvt.h_msl / 1000.0, (float)(SerialInjectGPS.ubxpvt.head_mot / 1e5), -1, "", DateTime.Now);
         }
 
         public Vector3 GetBaseVelocity()

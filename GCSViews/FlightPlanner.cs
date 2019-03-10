@@ -4042,9 +4042,11 @@ namespace MissionPlanner.GCSViews
             }
             else
             {
-                List<PointLatLng> polygonPoints = new List<PointLatLng>();
-                polygonPoints.Add(startmeasure);
-                polygonPoints.Add(MouseDownStart);
+                List<PointLatLng> polygonPoints = new List<PointLatLng>
+                {
+                    startmeasure,
+                    MouseDownStart
+                };
 
                 GMapPolygon line = new GMapPolygon(polygonPoints, "measure dist");
                 line.Stroke.Color = Color.Green;

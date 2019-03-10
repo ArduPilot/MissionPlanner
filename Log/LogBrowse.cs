@@ -3130,5 +3130,133 @@ namespace MissionPlanner.Log
             if (!chk_datagrid.Checked)
                 splitContainerZgGrid.SplitterDistance = this.Height - splitContainerButGrid.Panel2.Height;
         }
+
+        public IEnumerable<(double[],double[],double[])> fft(int bins = 10, int startfreq = 5)
+        {
+            Utilities.FFT2 fft = new FFT2();
+
+            var file = logdata;
+
+            int N = 1 << bins;
+
+            // 3 imus * 2 sets of measurements(gyr/acc)
+            FFT2.datastate[] alldata = new FFT2.datastate[3 * 2];
+            for (int a = 0; a < alldata.Length; a++)
+                alldata[a] = new FFT2.datastate();
+
+            // state cache
+            int Ns = 0;
+            int type = 0;
+            int instance = 0;
+            int sensorno = 0;
+
+            foreach (var item in file.GetEnumeratorType(new string[] { "ISBH", "ISBD" }))
+            {
+                if (item.msgtype == null)
+                {
+                    continue;
+                }
+
+                if (item.msgtype.StartsWith("ISBH"))
+                {
+                    Ns = int.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "N")],
+                        CultureInfo.InvariantCulture);
+                    type = int.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "type")],
+                        CultureInfo.InvariantCulture);
+                    instance = int.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "instance")],
+                        CultureInfo.InvariantCulture);
+
+                    sensorno = type * 3 + instance;
+
+                    alldata[sensorno].sample_rate = double.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "smp_rate")],
+                    CultureInfo.InvariantCulture);
+
+                    if (type == 0)
+                        alldata[sensorno].type = "ACC" + instance.ToString();
+                    if (type == 1)
+                        alldata[sensorno].type = "GYR" + instance.ToString();
+
+                }
+                else if (item.msgtype.StartsWith("ISBD"))
+                {
+                    var Nsdata = int.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "N")],
+                        CultureInfo.InvariantCulture);
+
+                    if (Ns != Nsdata)
+                        continue;
+
+                    int offsetX = file.dflog.FindMessageOffset(item.msgtype, "x");
+                    int offsetY = file.dflog.FindMessageOffset(item.msgtype, "y");
+                    int offsetZ = file.dflog.FindMessageOffset(item.msgtype, "z");
+                    int offsetTime = file.dflog.FindMessageOffset(item.msgtype, "TimeUS");
+
+                    double time = double.Parse(item.items[offsetTime],
+                                      CultureInfo.InvariantCulture) / 1000.0;
+
+                    if (time < alldata[sensorno].lasttime)
+                        continue;
+
+                    if (time != alldata[sensorno].lasttime)
+                        alldata[sensorno].timedelta = alldata[sensorno].timedelta * 0.99 +
+                                                      (time - alldata[sensorno].lasttime) * 0.01;
+
+                    alldata[sensorno].lasttime = time;
+
+                    item.items[offsetX].Split(new[] { ' ', '[', ']' }, StringSplitOptions.RemoveEmptyEntries).ForEach(aa => {
+                        alldata[sensorno].datax.Add(double.Parse(aa,
+CultureInfo.InvariantCulture));
+                    });
+                    item.items[offsetY].Split(new[] { ' ', '[', ']' }, StringSplitOptions.RemoveEmptyEntries).ForEach(aa => {
+                        alldata[sensorno].datay.Add(double.Parse(aa,
+CultureInfo.InvariantCulture));
+                    });
+                    item.items[offsetZ].Split(new[] { ' ', '[', ']' }, StringSplitOptions.RemoveEmptyEntries).ForEach(aa => {
+                        alldata[sensorno].dataz.Add(double.Parse(aa,
+CultureInfo.InvariantCulture));
+                    });
+                }
+            }
+
+            foreach (var sensordata in alldata)
+            {
+                if (sensordata.datax.Count <= N)
+                    continue;
+
+                double samplerate = 0;
+
+                samplerate = sensordata.sample_rate; // Math.Round(1000 / sensordata.timedelta, 1);
+
+                double[] freqt =  fft.FreqTable(N, (int) samplerate);
+
+                double[] avgx = new double[N / 2];
+                double[] avgy = new double[N / 2];
+                double[] avgz = new double[N / 2];
+
+                int totalsamples = sensordata.datax.Count;
+                int count = totalsamples / N;
+                int done = 0;
+                while (count > 1) // skip last part
+                {
+                    var fftanswerx = fft.rin(sensordata.datax.Skip(N * done).Take(N).ToArray(), (uint) bins);
+                    var fftanswery = fft.rin(sensordata.datay.Skip(N * done).Take(N).ToArray(), (uint) bins);
+                    var fftanswerz = fft.rin(sensordata.dataz.Skip(N * done).Take(N).ToArray(), (uint) bins);
+
+                    for (int b = 0; b < N / 2; b++)
+                    {
+                        if (freqt[b] < (double) startfreq)
+                            continue;
+
+                        avgx[b] += fftanswerx[b] / (done + count);
+                        avgy[b] += fftanswery[b] / (done + count);
+                        avgz[b] += fftanswerz[b] / (done + count);
+                    }
+
+                    count--;
+                    done++;
+                }
+
+                yield return (avgx, avgy, avgz);
+            }
+        }
     }
 }

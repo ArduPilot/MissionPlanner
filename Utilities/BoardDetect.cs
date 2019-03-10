@@ -222,8 +222,9 @@ namespace MissionPlanner.Utilities
                         // check port name as well
                         //if (obj2.Properties["Name"].Value.ToString().ToUpper().Contains(serialPort.PortName.ToUpper()))
                         {
-                            log.Info("is a fmuv5");
-                            return boards.fmuv5;
+                            log.Info("is a CUAVv5");
+							chbootloader = "CUAVv5";
+                            return boards.chbootloader;
                         }
                     }
 

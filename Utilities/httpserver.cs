@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 
 namespace MissionPlanner.Utilities
 {
-    class httpserver
+    public class httpserver
     {
         /// <summary>
         /// used for mini http server for websockets/mjpeg video stream, and network link kmls
@@ -1128,12 +1128,12 @@ namespace MissionPlanner.Utilities
 
         public Image GetControlJpeg(Control ctl)
         {
-            var g = ctl.CreateGraphics();
+            //var g = ctl.CreateGraphics();
 
             Bitmap bmp = new Bitmap(ctl.Width, ctl.Height);
 
             MainV2.instance.Invoke(
-                (MethodInvoker) delegate() { ctl.DrawToBitmap(bmp, new Rectangle(0, 0, ctl.Width, ctl.Height)); });
+                (Action) delegate() { ctl.DrawToBitmap(bmp, new Rectangle(0, 0, ctl.Width, ctl.Height)); });
 
             return bmp;
         }
@@ -1202,7 +1202,7 @@ namespace MissionPlanner.Utilities
 
         void refreshmap()
         {
-            MethodInvoker m = delegate() { GCSViews.FlightData.mymap.Refresh(); };
+            Action m = delegate() { GCSViews.FlightData.mymap.Refresh(); };
             MainV2.instance.Invoke(m);
         }
 

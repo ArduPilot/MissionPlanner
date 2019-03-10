@@ -33,6 +33,21 @@ namespace MissionPlanner.Utilities
 
     public class FFT2
     {
+        public class datastate
+        {
+            public string type;
+            public double timedelta;
+            public double lasttime;
+            public double sample_rate;
+            public List<double> datax = new List<double>();
+            public List<double> datay = new List<double>();
+            public List<double> dataz = new List<double>();
+
+            public double[] avgx;
+            public double[] avgy;
+            public double[] avgz;
+        }
+
         // Element for linked list in which we store the
         // input/output data. We use a linked list because
         // for sequential access it's faster than array index.
