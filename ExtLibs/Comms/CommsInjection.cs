@@ -131,6 +131,11 @@ namespace MissionPlanner.Comms
             
         }
 
+        public void Dispose()
+        {
+            Close();
+        }
+
         public Stream BaseStream { get; }
         public int BaudRate { get; set; }
         public int BytesToRead

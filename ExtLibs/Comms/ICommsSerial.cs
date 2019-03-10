@@ -8,7 +8,7 @@ using System.Reflection;
 namespace MissionPlanner.Comms
 {
 
-    public interface ICommsSerial
+    public interface ICommsSerial: IDisposable
     {
         // from serialport class
         // Methods
