@@ -86,6 +86,7 @@ namespace MissionPlanner.Utilities
                 DEVTYPE_MAG3110 = 0x0E,
                 DEVTYPE_SITL = 0x0F,
                 DEVTYPE_IST8308 = 0x10,
+                DEVTYPE_RM3100 = 0x11,
             }
 
             //AP_InertialSensor_Backend.h
@@ -108,6 +109,10 @@ namespace MissionPlanner.Utilities
                 DEVTYPE_INS_ICM20689 = 0x28,
                 DEVTYPE_INS_BMI055 = 0x29,
                 DEVTYPE_SITL = 0x2A,
+                DEVTYPE_INS_BMI088 = 0x2B,
+                DEVTYPE_INS_ICM20948 = 0x2C,
+                DEVTYPE_INS_ICM20648 = 0x2D,
+                DEVTYPE_INS_ICM20649 = 0x2E
             };
 
         public enum px4_i2c_bus
