@@ -1374,7 +1374,11 @@ namespace MissionPlanner.GCSViews
                                 {
                                     var adsbplane = new GMapMarkerADSBPlane(plla, plla.Heading)
                                     {
-                                        ToolTipText = "ICAO: " + plla.Tag + " " + plla.Alt.ToString("0"),
+                                        ToolTipText = "ICAO: " + plla.Tag + "\n" +
+                                        "Alt: " + plla.Alt.ToString("0") + "\n" +
+                                        "Speed: " + plla.Speed.ToString("0") + "\n" +
+                                        "Heading: " + plla.Heading.ToString("0")
+                                        ,
                                         ToolTipMode = MarkerTooltipMode.OnMouseOver,
                                         Tag = plla
                                     };

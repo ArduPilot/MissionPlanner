@@ -232,8 +232,7 @@ namespace MissionPlanner
             {
                 _displayConfiguration = value;
                 Settings.Instance["displayview"] = _displayConfiguration.ConvertToString();
-                if (LayoutChanged != null)
-                    LayoutChanged(null, EventArgs.Empty);
+                LayoutChanged?.Invoke(null, EventArgs.Empty);
             }
         }
 
@@ -1177,7 +1176,7 @@ namespace MissionPlanner
                     // create new plane
                     MainV2.instance.adsbPlanes[id] =
                         new adsb.PointLatLngAltHdg(adsb.Lat, adsb.Lng,
-                            adsb.Alt, adsb.Heading, id,
+                            adsb.Alt, adsb.Heading, adsb.Speed , id,
                             DateTime.Now) {CallSign = adsb.CallSign};
                 }
 
@@ -3476,6 +3475,8 @@ namespace MissionPlanner
             }
             if (keyData == (Keys.Control | Keys.L)) // limits
             {
+                new GCSViews.ConfigurationView.ConfigUAVCAN().ShowUserControl();
+
                 return true;
             }
             if (keyData == (Keys.Control | Keys.W)) // test ac config
