@@ -451,9 +451,6 @@
     <Compile Include="Controls\ControlSensorsStatus.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\ControlTest.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Controls\DefaultSettings.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -964,9 +961,6 @@
     </Compile>
     <Compile Include="Controls\ControlSensorsStatus.Designer.cs">
       <DependentUpon>ControlSensorsStatus.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ControlTest.Designer.cs">
-      <DependentUpon>ControlTest.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\DefaultSettings.Designer.cs">
       <DependentUpon>DefaultSettings.cs</DependentUpon>
@@ -1800,9 +1794,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ControlSensorsStatus.resx">
       <DependentUpon>ControlSensorsStatus.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ControlTest.resx">
-      <DependentUpon>ControlTest.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\DefaultSettings.resx">
       <DependentUpon>DefaultSettings.cs</DependentUpon>
