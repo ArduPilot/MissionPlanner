@@ -692,6 +692,8 @@ namespace MissionPlanner.GCSViews
                 hud1.Russian = Settings.Instance.GetBoolean("russian_hud");
             }
 
+            groundColorToolStripMenuItem.Checked = Settings.Instance.GetBoolean("groundColorToolStripMenuItem");
+
             hud1.doResize();
 
             prop = new Propagation(gMapControl1);
@@ -4659,6 +4661,23 @@ namespace MissionPlanner.GCSViews
             MainV2.comPort.setMountConfigure(MAVLink.MAV_MOUNT_MODE.MAVLINK_TARGETING, false, false, false);
             MainV2.comPort.setMountControl((float)trackBarPitch.Value * 100.0f, (float)trackBarRoll.Value * 100.0f, (float)trackBarYaw.Value * 100.0f, false);
         }
+
+        private void groundColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (groundColorToolStripMenuItem.Checked)
+            {
+                // brown
+                hud1.groundColor1 = Color.FromArgb(147, 78, 1);
+                hud1.groundColor2 = Color.FromArgb(60, 33, 4);
+            }
+            else
+            {
+                // green
+                hud1.groundColor1 = Color.FromArgb(0x9b, 0xb8, 0x24);
+                hud1.groundColor2 = Color.FromArgb(0x41, 0x4f, 0x07);
+            }
+
+            Settings.config["groundColorToolStripMenuItem"] = groundColorToolStripMenuItem.Checked.ToString();
+        }
     }
 }
- 
