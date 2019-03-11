@@ -4937,11 +4937,15 @@
     <Content Include="Drivers\px4mav.inf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Drivers\cube.cat" />
-    <None Include="Drivers\holybro.cat" />
-    <None Include="Drivers\signed.cer">
+    <Content Include="Drivers\cube.cat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
+    <Content Include="Drivers\holybro.cat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Drivers\signed.cer">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Drivers\stmcdc.cat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -4966,7 +4970,9 @@
     <Content Include="Drivers\vrbrain.inf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Drivers\vrcore.cat" />
+    <Content Include="Drivers\vrcore.cat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Drivers\vrcore.inf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -4976,7 +4982,9 @@
     <Content Include="Drivers\vrflightstop.inf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Drivers\vrgimbal.cat" />
+    <Content Include="Drivers\vrgimbal.cat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Drivers\vrgimbal.inf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -4986,11 +4994,15 @@
     <Content Include="Drivers\vrhero.inf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Drivers\vrmapper.cat" />
+    <Content Include="Drivers\vrmapper.cat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Drivers\vrmapper.inf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Drivers\vrspark.cat" />
+    <Content Include="Drivers\vrspark.cat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Drivers\vrspark.inf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

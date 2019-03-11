@@ -11,16 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\..\..\Utilities\httpserver.cs" Link="Linked\httpserver.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="..\..\..\hud.html" Link="hud.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Autofac" Version="4.9.1" />
     <PackageReference Include="SkiaSharp.Views.Forms" Version="1.68.0" />
   </ItemGroup>

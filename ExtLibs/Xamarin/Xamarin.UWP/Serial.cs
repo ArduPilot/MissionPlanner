@@ -5,13 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Devices.SerialCommunication;
 using Windows.Devices.Enumeration;
-using MissionPlanner.Comms;
 using System.IO;
 using System.IO.Ports;
 
 namespace Xamarin.UWP
 {
-    public class Serial : ICommsSerial
+    public class Serial
     {
 
         public Serial()

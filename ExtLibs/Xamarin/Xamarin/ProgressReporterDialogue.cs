@@ -28,6 +28,7 @@ namespace Xamarin
 
         public void RunBackgroundOperationAsync()
         {
+            DoWork?.Invoke(this);
             //throw new NotImplementedException();
         }
 

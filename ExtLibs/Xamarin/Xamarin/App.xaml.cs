@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
@@ -49,7 +50,7 @@ namespace Xamarin
                 }
                 catch (Exception ex)
                 {
-                    log.Error(ex);
+                    Log.Warning("", ex.ToString());
                 }
             });
 
@@ -76,28 +77,7 @@ namespace Xamarin
             Container = builder.Build();
 
             var scope = Container.BeginLifetimeScope();
-
-            MainV2.comPort = new MAVLinkInterface();
-            MainV2.comPort.BaseStream = scope.Resolve<ICommsSerial>();
-
-            MainV2.comPort.BaseStream.Open();
-
-            MainV2.comPort.Open();
-
-            Task.Run(async () =>
-            {
-                while (true)
-                {
-                    try { 
-                        MainV2.comPort.readPacket();
-                    }
-                    catch (Exception ex)
-                    {
-                        log.Error(ex);
-                        Thread.Sleep(10);
-                    }
-                }
-            });
+            
         }
 
         private CustomMessageBox.DialogResult CustomMessageBox_ShowEvent(string text, string caption = "", CustomMessageBox.MessageBoxButtons buttons = CustomMessageBox.MessageBoxButtons.OK, CustomMessageBox.MessageBoxIcon icon = CustomMessageBox.MessageBoxIcon.None)
@@ -133,25 +113,47 @@ namespace Xamarin
             {
                 var port = ((IPEndPoint)client.Client.LocalEndPoint).Port;
 
-                //if (client != null)
-                //client.Close();
-
                 var udpclient = new UdpSerial(client);
-
 
                 var mav = new MAVLinkInterface();
                 mav.BaseStream = udpclient;
+
+                MainV2.comPort = mav;
+
                 //MainV2.instance.doConnect(mav, "preset", port.ToString());
-                //mav.getHeartBeat();
+                Log.Warning("", "mav init " + mav.ToString());
+                var hb = mav.getHeartBeat();
+                Log.Warning("", "getHeartBeat " + hb.ToString());
+                mav.setAPType(mav.MAV.sysid, mav.MAV.compid);
+                Log.Warning("", "setAPType " + mav.MAV.ToJSON());
+
 
                 Forms.Device.BeginInvokeOnMainThread(() =>
                 {
-                    
+                   
+                });
+
+                Task.Run(async () =>
+                {
+                    while (true)
+                    {
+                        try
+                        {
+                            var packet = mav.readPacket();
+
+                            mav.MAV.cs.UpdateCurrentSettings(null);
+                        }
+                        catch (Exception ex)
+                        {
+                            Log.Warning("", ex.ToString());
+                            Thread.Sleep(10);
+                        }
+                    }
                 });
             }
             catch (Exception ex)
             {
-                log.Error(ex);
+                Log.Warning("", ex.ToString());
             }
         }
     }

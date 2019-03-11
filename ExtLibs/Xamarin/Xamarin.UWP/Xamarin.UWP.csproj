@@ -148,10 +148,6 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.1.9" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Comms\MissionPlanner.Comms.csproj">
-      <Project>{825E7A10-390C-4A2B-B3A8-491D14966912}</Project>
-      <Name>MissionPlanner.Comms</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Xamarin\Xamarin.csproj" NoWarn="NU1201">
       <Project>{046987C6-A43A-45E6-AD0B-45F1A43005D0}</Project>
       <Name>Xamarin</Name>

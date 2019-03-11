@@ -12,7 +12,7 @@ using Xamarin.Forms.Xaml;
 
 namespace Xamarin
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
+    [XamlCompilation(XamlCompilationOptions.Skip)]
     public partial class MasterDetailPage1Master : ContentPage
     {
         public ListView ListView;

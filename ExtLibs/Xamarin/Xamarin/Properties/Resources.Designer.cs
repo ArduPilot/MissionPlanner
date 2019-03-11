@@ -59,5 +59,30 @@ namespace Xamarin.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML&gt;
+        ///&lt;html&gt;
+        ///&lt;head&gt;
+        ///&lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
+        ///&lt;meta name=&quot;format-detection&quot; content=&quot;telephone=no&quot;&gt;
+        ///&lt;title&gt;Hud&lt;/title&gt;
+        ///&lt;script src=&quot;http://smoothiecharts.org/smoothie.js&quot;&gt;&lt;/script&gt;
+        ///&lt;script type=&quot;text/javascript&quot; src=&quot;https://www.gstatic.com/charts/loader.js&quot;&gt;&lt;/script&gt;
+        ///&lt;script src=&quot;/mav/Cesium/Cesium.js&quot;&gt;&lt;/script&gt;
+        ///
+        ///&lt;script src=&quot;/mav/bundle.js&quot;&gt;&lt;/script&gt;
+        ///
+        ///&lt;style&gt;
+        ///    @import url(/mav/Cesium/Widgets/widgets.css);
+        ///&lt;/style&gt;
+        ///
+        ///&lt;script type=&quot;application/x-javasc [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string hud {
+            get {
+                return ResourceManager.GetString("hud", resourceCulture);
+            }
+        }
     }
 }
