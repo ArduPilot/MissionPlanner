@@ -4937,6 +4937,8 @@
     <Content Include="Drivers\px4mav.inf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Drivers\cube.cat" />
+    <None Include="Drivers\holybro.cat" />
     <None Include="Drivers\signed.cer">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
