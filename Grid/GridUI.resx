@@ -2334,35 +2334,65 @@
   <data name="groupBox1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Right</value>
   </data>
-  <data name="chk_test.AutoSize" type="System.Boolean, mscorlib">
+  <data name="chk_spiral.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="chk_test.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="chk_spiral.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="chk_test.Location" type="System.Drawing.Point, System.Drawing">
-    <value>120, 197</value>
+  <data name="chk_spiral.Location" type="System.Drawing.Point, System.Drawing">
+    <value>171, 197</value>
   </data>
-  <data name="chk_test.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 17</value>
+  <data name="chk_spiral.Size" type="System.Drawing.Size, System.Drawing">
+    <value>52, 17</value>
   </data>
-  <data name="chk_test.TabIndex" type="System.Int32, mscorlib">
-    <value>65</value>
+  <data name="chk_spiral.TabIndex" type="System.Int32, mscorlib">
+    <value>66</value>
   </data>
-  <data name="chk_test.Text" xml:space="preserve">
-    <value>Corridor</value>
+  <data name="chk_spiral.Text" xml:space="preserve">
+    <value>Spiral</value>
   </data>
-  <data name="&gt;&gt;chk_test.Name" xml:space="preserve">
-    <value>chk_test</value>
+  <data name="&gt;&gt;chk_spiral.Name" xml:space="preserve">
+    <value>chk_spiral</value>
   </data>
-  <data name="&gt;&gt;chk_test.Type" xml:space="preserve">
+  <data name="&gt;&gt;chk_spiral.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;chk_test.Parent" xml:space="preserve">
+  <data name="&gt;&gt;chk_spiral.Parent" xml:space="preserve">
     <value>groupBox1</value>
   </data>
-  <data name="&gt;&gt;chk_test.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;chk_spiral.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="chk_Corridor.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chk_Corridor.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chk_Corridor.Location" type="System.Drawing.Point, System.Drawing">
+    <value>90, 197</value>
+  </data>
+  <data name="chk_Corridor.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 17</value>
+  </data>
+  <data name="chk_Corridor.TabIndex" type="System.Int32, mscorlib">
+    <value>65</value>
+  </data>
+  <data name="chk_Corridor.Text" xml:space="preserve">
+    <value>Corridor</value>
+  </data>
+  <data name="&gt;&gt;chk_Corridor.Name" xml:space="preserve">
+    <value>chk_Corridor</value>
+  </data>
+  <data name="&gt;&gt;chk_Corridor.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chk_Corridor.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;chk_Corridor.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="label43.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2392,7 +2422,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label43.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="num_corridorwidth.Location" type="System.Drawing.Point, System.Drawing">
     <value>143, 221</value>
@@ -2413,7 +2443,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;num_corridorwidth.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="chk_crossgrid.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2443,7 +2473,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;chk_crossgrid.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="label32.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2473,7 +2503,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label32.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="NUM_leadin.Location" type="System.Drawing.Point, System.Drawing">
     <value>143, 92</value>
@@ -2494,7 +2524,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;NUM_leadin.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="label7.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2524,7 +2554,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="NUM_overshoot2.Location" type="System.Drawing.Point, System.Drawing">
     <value>143, 66</value>
@@ -2545,7 +2575,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;NUM_overshoot2.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="label8.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2575,7 +2605,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="label6.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2605,7 +2635,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="label15.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2635,7 +2665,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label15.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <data name="CMB_startfrom.Location" type="System.Drawing.Point, System.Drawing">
     <value>103, 118</value>
@@ -2656,7 +2686,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;CMB_startfrom.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>12</value>
   </data>
   <data name="num_overlap.Location" type="System.Drawing.Point, System.Drawing">
     <value>143, 145</value>
@@ -2677,7 +2707,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;num_overlap.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>13</value>
   </data>
   <data name="num_sidelap.Location" type="System.Drawing.Point, System.Drawing">
     <value>143, 171</value>
@@ -2698,7 +2728,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;num_sidelap.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>14</value>
   </data>
   <data name="label5.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2728,7 +2758,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>15</value>
   </data>
   <data name="NUM_overshoot.Location" type="System.Drawing.Point, System.Drawing">
     <value>143, 40</value>
@@ -2749,7 +2779,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;NUM_overshoot.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>16</value>
   </data>
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2779,7 +2809,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>17</value>
   </data>
   <data name="NUM_Distance.Location" type="System.Drawing.Point, System.Drawing">
     <value>143, 14</value>
@@ -2800,7 +2830,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;NUM_Distance.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>18</value>
   </data>
   <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 6</value>

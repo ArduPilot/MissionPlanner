@@ -110,7 +110,8 @@
             this.LBL_copter_delay = new System.Windows.Forms.Label();
             this.NUM_copter_delay = new System.Windows.Forms.NumericUpDown();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.chk_test = new System.Windows.Forms.CheckBox();
+            this.chk_spiral = new System.Windows.Forms.CheckBox();
+            this.chk_Corridor = new System.Windows.Forms.CheckBox();
             this.label43 = new System.Windows.Forms.Label();
             this.num_corridorwidth = new System.Windows.Forms.NumericUpDown();
             this.chk_crossgrid = new System.Windows.Forms.CheckBox();
@@ -828,7 +829,8 @@
             // groupBox1
             // 
             resources.ApplyResources(this.groupBox1, "groupBox1");
-            this.groupBox1.Controls.Add(this.chk_test);
+            this.groupBox1.Controls.Add(this.chk_spiral);
+            this.groupBox1.Controls.Add(this.chk_Corridor);
             this.groupBox1.Controls.Add(this.label43);
             this.groupBox1.Controls.Add(this.num_corridorwidth);
             this.groupBox1.Controls.Add(this.chk_crossgrid);
@@ -849,12 +851,19 @@
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
-            // chk_test
+            // chk_spiral
             // 
-            resources.ApplyResources(this.chk_test, "chk_test");
-            this.chk_test.Name = "chk_test";
-            this.chk_test.UseVisualStyleBackColor = true;
-            this.chk_test.Click += new System.EventHandler(this.domainUpDown1_ValueChanged);
+            resources.ApplyResources(this.chk_spiral, "chk_spiral");
+            this.chk_spiral.Name = "chk_spiral";
+            this.chk_spiral.UseVisualStyleBackColor = true;
+            this.chk_spiral.Click += new System.EventHandler(this.domainUpDown1_ValueChanged);
+            // 
+            // chk_Corridor
+            // 
+            resources.ApplyResources(this.chk_Corridor, "chk_Corridor");
+            this.chk_Corridor.Name = "chk_Corridor";
+            this.chk_Corridor.UseVisualStyleBackColor = true;
+            this.chk_Corridor.Click += new System.EventHandler(this.domainUpDown1_ValueChanged);
             // 
             // label43
             // 
@@ -1501,8 +1510,9 @@
         private System.Windows.Forms.NumericUpDown num_setservono;
         private System.Windows.Forms.Label lbl_minshutter;
         private System.Windows.Forms.Label label44;
-        private System.Windows.Forms.CheckBox chk_test;
+        private System.Windows.Forms.CheckBox chk_Corridor;
         private System.Windows.Forms.Label label43;
         private System.Windows.Forms.NumericUpDown num_corridorwidth;
+        private System.Windows.Forms.CheckBox chk_spiral;
     }
 }
