@@ -693,6 +693,7 @@ namespace MissionPlanner.GCSViews
             }
 
             groundColorToolStripMenuItem.Checked = Settings.Instance.GetBoolean("groundColorToolStripMenuItem");
+            groundColorToolStripMenuItem_Click(null, null);
 
             hud1.doResize();
 
