@@ -1,5 +1,4 @@
 
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -20,38 +19,19 @@ namespace UAVCAN
 public partial class uavcan {
 
 
-
-
 public const int UAVCAN_EQUIPMENT_GNSS_RTCMSTREAM_MAX_PACK_SIZE = 130;
 public const ulong UAVCAN_EQUIPMENT_GNSS_RTCMSTREAM_DT_SIG = 0x1F56030ECB171501;
-
 public const int UAVCAN_EQUIPMENT_GNSS_RTCMSTREAM_DT_ID = 1062;
 
 
 
-
-
 public const double UAVCAN_EQUIPMENT_GNSS_RTCMSTREAM_PROTOCOL_ID_UNKNOWN = 0; // saturated uint8
-
 public const double UAVCAN_EQUIPMENT_GNSS_RTCMSTREAM_PROTOCOL_ID_RTCM2 = 2; // saturated uint8
-
 public const double UAVCAN_EQUIPMENT_GNSS_RTCMSTREAM_PROTOCOL_ID_RTCM3 = 3; // saturated uint8
 
-
-
-
 public class uavcan_equipment_gnss_RTCMStream: IUAVCANSerialize {
-
-
-
     public uint8_t protocol_id = new uint8_t();
-
-
-
     public uint8_t data_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=128)] public uint8_t[] data = new uint8_t[128];
-
-
-
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

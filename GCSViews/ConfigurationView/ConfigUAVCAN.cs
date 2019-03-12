@@ -32,11 +32,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             try
             {
                 MainV2.comPort.setParam("CAN_SLCAN_SERNUM", 0, true);
-            } catch
+            }
+            catch
             {
 
             }
-                    {
+            {
                 // fail is good
 
                 var port = MainV2.comPort.BaseStream;
@@ -60,7 +61,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     });
                 };
 
-                if(!port.IsOpen)
+                if (!port.IsOpen)
                     port.Open();
 
                 can.StartSLCAN(port.BaseStream);
@@ -90,8 +91,39 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                         foreach (var item in nodes)
                         {
-                            item.Health = ns.health.ToString();
-                            item.Mode = ns.mode.ToString();
+                            switch (ns.health)
+                            {
+                                case (byte)UAVCAN.uavcan.UAVCAN_PROTOCOL_NODESTATUS_HEALTH_OK:
+                                    item.Health = "OK";
+                                    break;
+                                case (byte)UAVCAN.uavcan.UAVCAN_PROTOCOL_NODESTATUS_HEALTH_WARNING:
+                                    item.Health = "WARNING";
+                                    break;
+                                case (byte)UAVCAN.uavcan.UAVCAN_PROTOCOL_NODESTATUS_HEALTH_ERROR:
+                                    item.Health = "ERROR";
+                                    break;
+                                case (byte)UAVCAN.uavcan.UAVCAN_PROTOCOL_NODESTATUS_HEALTH_CRITICAL:
+                                    item.Health = "CRITICAL";
+                                    break;
+                            }
+                            switch (ns.mode)
+                            {
+                                case (byte)UAVCAN.uavcan.UAVCAN_PROTOCOL_NODESTATUS_MODE_OPERATIONAL:
+                                    item.Mode = "OPERATIONAL";
+                                    break;
+                                case (byte)UAVCAN.uavcan.UAVCAN_PROTOCOL_NODESTATUS_MODE_INITIALIZATION:
+                                    item.Mode = "INITIALIZATION";
+                                    break;
+                                case (byte)UAVCAN.uavcan.UAVCAN_PROTOCOL_NODESTATUS_MODE_MAINTENANCE:
+                                    item.Mode = "MAINTENANCE";
+                                    break;
+                                case (byte)UAVCAN.uavcan.UAVCAN_PROTOCOL_NODESTATUS_MODE_SOFTWARE_UPDATE:
+                                    item.Mode = "SOFTWARE_UPDATE";
+                                    break;
+                                case (byte)UAVCAN.uavcan.UAVCAN_PROTOCOL_NODESTATUS_MODE_OFFLINE:
+                                    item.Mode = "OFFLINE";
+                                    break;
+                            }
                             item.Uptime = TimeSpan.FromSeconds(ns.uptime_sec);
                         }
 
@@ -118,7 +150,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         });
                     }
                 };
-            }            
+            }
         }
 
         UAVCAN.UAVCAN can = new UAVCAN.UAVCAN();

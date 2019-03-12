@@ -1,5 +1,4 @@
 
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -20,58 +19,22 @@ namespace UAVCAN
 public partial class uavcan {
 
 
-
-
 public const int UAVCAN_EQUIPMENT_GNSS_AUXILIARY_MAX_PACK_SIZE = 16;
 public const ulong UAVCAN_EQUIPMENT_GNSS_AUXILIARY_DT_SIG = 0x9BE8BDC4C3DBBFD2;
-
 public const int UAVCAN_EQUIPMENT_GNSS_AUXILIARY_DT_ID = 1061;
 
 
 
-
-
-
 public class uavcan_equipment_gnss_Auxiliary: IUAVCANSerialize {
-
-
-
     public Single gdop = new Single();
-
-
-
     public Single pdop = new Single();
-
-
-
     public Single hdop = new Single();
-
-
-
     public Single vdop = new Single();
-
-
-
     public Single tdop = new Single();
-
-
-
     public Single ndop = new Single();
-
-
-
     public Single edop = new Single();
-
-
-
     public uint8_t sats_visible = new uint8_t();
-
-
-
     public uint8_t sats_used = new uint8_t();
-
-
-
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

@@ -1,5 +1,4 @@
 
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -19,29 +18,16 @@ namespace UAVCAN
 {
 public partial class uavcan {
 
-
-
 //using uavcan.protocol.file.Error.cs
-
 
 public const int UAVCAN_PROTOCOL_FILE_WRITE_RES_MAX_PACK_SIZE = 2;
 public const ulong UAVCAN_PROTOCOL_FILE_WRITE_RES_DT_SIG = 0x515AA1DC77E58429;
-
 public const int UAVCAN_PROTOCOL_FILE_WRITE_RES_DT_ID = 49;
 
 
 
-
-
-
 public class uavcan_protocol_file_Write_res: IUAVCANSerialize {
-
-
-
     public uavcan_protocol_file_Error error = new uavcan_protocol_file_Error();
-
-
-
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

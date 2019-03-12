@@ -1,5 +1,4 @@
 
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -20,30 +19,15 @@ namespace UAVCAN
 public partial class uavcan {
 
 
-
-
 public const int UAVCAN_PROTOCOL_PARAM_EXECUTEOPCODE_RES_MAX_PACK_SIZE = 7;
 public const ulong UAVCAN_PROTOCOL_PARAM_EXECUTEOPCODE_RES_DT_SIG = 0x3B131AC5EB69D2CD;
-
 public const int UAVCAN_PROTOCOL_PARAM_EXECUTEOPCODE_RES_DT_ID = 10;
 
 
 
-
-
-
 public class uavcan_protocol_param_ExecuteOpcode_res: IUAVCANSerialize {
-
-
-
     public int64_t argument = new int64_t();
-
-
-
     public bool ok = new bool();
-
-
-
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

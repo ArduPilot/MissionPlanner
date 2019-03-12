@@ -1,5 +1,4 @@
 
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -20,30 +19,15 @@ namespace UAVCAN
 public partial class uavcan {
 
 
-
-
 public const int UAVCAN_PROTOCOL_DYNAMIC_NODE_ID_SERVER_APPENDENTRIES_RES_MAX_PACK_SIZE = 5;
 public const ulong UAVCAN_PROTOCOL_DYNAMIC_NODE_ID_SERVER_APPENDENTRIES_RES_DT_SIG = 0x8032C7097B48A3CC;
-
 public const int UAVCAN_PROTOCOL_DYNAMIC_NODE_ID_SERVER_APPENDENTRIES_RES_DT_ID = 30;
 
 
 
-
-
-
 public class uavcan_protocol_dynamic_node_id_server_AppendEntries_res: IUAVCANSerialize {
-
-
-
     public uint32_t term = new uint32_t();
-
-
-
     public bool success = new bool();
-
-
-
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

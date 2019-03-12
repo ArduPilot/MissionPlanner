@@ -1,5 +1,4 @@
 
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -19,37 +18,18 @@ namespace UAVCAN
 {
 public partial class uavcan {
 
-
-
 //using uavcan.protocol.debug.LogLevel.cs
-
 
 public const int UAVCAN_PROTOCOL_DEBUG_LOGMESSAGE_MAX_PACK_SIZE = 123;
 public const ulong UAVCAN_PROTOCOL_DEBUG_LOGMESSAGE_DT_SIG = 0xD654A48E0C049D75;
-
 public const int UAVCAN_PROTOCOL_DEBUG_LOGMESSAGE_DT_ID = 16383;
 
 
 
-
-
-
 public class uavcan_protocol_debug_LogMessage: IUAVCANSerialize {
-
-
-
     public uavcan_protocol_debug_LogLevel level = new uavcan_protocol_debug_LogLevel();
-
-
-
     public uint8_t source_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=31)] public uint8_t[] source = new uint8_t[31];
-
-
-
     public uint8_t text_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=90)] public uint8_t[] text = new uint8_t[90];
-
-
-
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {
