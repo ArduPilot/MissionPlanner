@@ -178,7 +178,7 @@ namespace UAVCAN
 
         public void Stop(bool closestream = true)
         {
-            if(closestream)
+            if(sr != null && closestream)
                 sr.Close();
         }
 
