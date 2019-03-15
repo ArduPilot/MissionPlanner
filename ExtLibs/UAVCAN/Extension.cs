@@ -32,5 +32,47 @@ namespace UAVCAN
                 yield return new Tuple<T, T>(now, next);
             }
         }
+
+        public static object GetValue(this uavcan.uavcan_protocol_param_Value value)
+        {
+            switch (value.uavcan_protocol_param_Value_type)
+            {
+                case uavcan.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_BOOLEAN_VALUE:
+                    return value.union.boolean_value;
+                    break;
+                case uavcan.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_EMPTY:
+                    return value.union.empty;
+                    break;
+                case uavcan.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_INTEGER_VALUE:
+                    return value.union.integer_value;
+                    break;
+                case uavcan.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_REAL_VALUE:
+                    return value.union.real_value;
+                    break;
+                case uavcan.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_STRING_VALUE:
+                    return ASCIIEncoding.ASCII.GetString(value.union.string_value, 0, value.union.string_value_len);
+                    break;
+            }
+
+            return null;
+        }
+
+        public static object GetValue(this uavcan.uavcan_protocol_param_NumericValue value)
+        {
+            switch (value.uavcan_protocol_param_NumericValue_type)
+            {
+                case uavcan.uavcan_protocol_param_NumericValue_type_t.UAVCAN_PROTOCOL_PARAM_NUMERICVALUE_TYPE_EMPTY:
+                    return value.union.empty;
+                    break;
+                case uavcan.uavcan_protocol_param_NumericValue_type_t.UAVCAN_PROTOCOL_PARAM_NUMERICVALUE_TYPE_INTEGER_VALUE:
+                    return value.union.integer_value;
+                    break;
+                case uavcan.uavcan_protocol_param_NumericValue_type_t.UAVCAN_PROTOCOL_PARAM_NUMERICVALUE_TYPE_REAL_VALUE:
+                    return value.union.real_value;
+                    break;
+            }
+
+            return null;
+        }
     }
 }

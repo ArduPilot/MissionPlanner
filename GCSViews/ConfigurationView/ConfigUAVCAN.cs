@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
 using UAVCAN;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
@@ -80,10 +82,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                         if (nodes.Count() > 0 && nodes.First().Name == "?")
                         {
-                            var statetracking = new UAVCAN.UAVCAN.statetracking();
+                            var statetracking = new UAVCAN.uavcan.statetracking();
                             // get node info
                             UAVCAN.uavcan.uavcan_protocol_GetNodeInfo_req gnireq = new UAVCAN.uavcan.uavcan_protocol_GetNodeInfo_req() { };
-                            gnireq.encode(UAVCAN.UAVCAN.chunk_cb, statetracking);
+                            gnireq.encode(UAVCAN.uavcan.uavcan_transmit_chunk_handler, statetracking);
 
                             var slcan = can.PackageMessage(frame.SourceNode, 30, 0, gnireq);
                             can.WriteToStream(slcan);
@@ -153,22 +155,34 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
-        UAVCAN.UAVCAN can = new UAVCAN.UAVCAN();
+        UAVCAN.uavcan can = new UAVCAN.uavcan();
 
         private void myDataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             // Ignore clicks that are not on button cells. 
             if (e.RowIndex < 0 || e.ColumnIndex !=
-                myDataGridView1.Columns["updateDataGridViewTextBoxColumn"].Index) return;
+                myDataGridView1.Columns["updateDataGridViewTextBoxColumn"].Index &&
+                e.ColumnIndex != myDataGridView1.Columns["Parameter"].Index) return;
 
             byte nodeID = (byte)myDataGridView1[iDDataGridViewTextBoxColumn.Index, e.RowIndex].Value;
-            FileDialog fd = new OpenFileDialog();
-            fd.RestoreDirectory = true;
-            fd.Filter = "*-crc.bin|*-crc.bin";
-            var dia = fd.ShowDialog();
 
-            if(fd.CheckFileExists && dia == DialogResult.OK)
-                can.Update(myDataGridView1[nameDataGridViewTextBoxColumn.Index, e.RowIndex].Value.ToString(), 0, fd.FileName);
+            if (e.ColumnIndex == myDataGridView1.Columns["Parameter"].Index)
+            {
+                var paramlist = can.GetParameters(nodeID);
+
+                new UAVCANParams(can, nodeID, paramlist).ShowUserControl();
+            }
+            else if (e.ColumnIndex == myDataGridView1.Columns["updateDataGridViewTextBoxColumn"].Index)
+            {
+                FileDialog fd = new OpenFileDialog();
+                fd.RestoreDirectory = true;
+                fd.Filter = "*-crc.bin|*-crc.bin";
+                var dia = fd.ShowDialog();
+
+                if (fd.CheckFileExists && dia == DialogResult.OK)
+                    can.Update(myDataGridView1[nameDataGridViewTextBoxColumn.Index, e.RowIndex].Value.ToString(), 0,
+                        fd.FileName);
+            }
         }
 
         public void Deactivate()

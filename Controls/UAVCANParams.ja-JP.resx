@@ -117,10 +117,51 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="Parameter.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="uAVCANModelBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
+  <data name="BUT_find.Text" xml:space="preserve">
+    <value>検索</value>
+  </data>
+  <data name="Value.HeaderText" xml:space="preserve">
+    <value>値</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>全ての単位は生データ
+スケーリング無しのフォーマット
+</value>
+  </data>
+  <data name="BUT_load.Text" xml:space="preserve">
+    <value>ファイルから読込</value>
+  </data>
+  <data name="Units.HeaderText" xml:space="preserve">
+    <value>単位</value>
+  </data>
+  <data name="Command.HeaderText" xml:space="preserve">
+    <value>コマンド</value>
+  </data>
+  <data name="Desc.HeaderText" xml:space="preserve">
+    <value>説明</value>
+  </data>
+  <data name="BUT_save.Text" xml:space="preserve">
+    <value>ファイルに保存</value>
+  </data>
+  <data name="Options.HeaderText" xml:space="preserve">
+    <value>オプション</value>
+  </data>
+  <data name="BUT_writePIDS.Text" xml:space="preserve">
+    <value>パラメータ書込</value>
+  </data>
+  <data name="BUT_reset_params.Text" xml:space="preserve">
+    <value>デフォルト値にリセット</value>
+  </data>
+  <data name="BUT_compare.Text" xml:space="preserve">
+    <value>パラメータ比較</value>
+  </data>
+  <data name="BUT_paramfileload.Text" xml:space="preserve">
+    <value>保存済みデータ読込</value>
+  </data>
+  <data name="BUT_rerequestparams.Text" xml:space="preserve">
+    <value>パラメータ再読込</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>絞込み検索</value>
+  </data>
 </root>

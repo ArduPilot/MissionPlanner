@@ -42,6 +42,7 @@
             this.uptimeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.hardwareVersionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.updateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.Parameter = new System.Windows.Forms.DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.uAVCANModelBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -93,7 +94,8 @@
             this.healthDataGridViewTextBoxColumn,
             this.uptimeDataGridViewTextBoxColumn,
             this.hardwareVersionDataGridViewTextBoxColumn,
-            this.updateDataGridViewTextBoxColumn});
+            this.updateDataGridViewTextBoxColumn,
+            this.Parameter});
             this.myDataGridView1.DataSource = this.uAVCANModelBindingSource;
             this.myDataGridView1.Location = new System.Drawing.Point(7, 58);
             this.myDataGridView1.Name = "myDataGridView1";
@@ -174,6 +176,13 @@
             this.updateDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.updateDataGridViewTextBoxColumn.Text = "Update Firmware";
             // 
+            // Parameter
+            // 
+            this.Parameter.HeaderText = "Parameter";
+            this.Parameter.Name = "Parameter";
+            this.Parameter.ReadOnly = true;
+            this.Parameter.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
             // ConfigUAVCAN
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -207,5 +216,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn uptimeDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn hardwareVersionDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewButtonColumn updateDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewButtonColumn Parameter;
     }
 }

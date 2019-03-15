@@ -117,10 +117,43 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="Parameter.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="uAVCANModelBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
+  <data name="Value.HeaderText" xml:space="preserve">
+    <value>Valor</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Buscar</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Todas as unidades estão em formato bruto sem escala</value>
+  </data>
+  <data name="BUT_load.Text" xml:space="preserve">
+    <value>Ler do arquivo</value>
+  </data>
+  <data name="Units.HeaderText" xml:space="preserve">
+    <value>Unidades</value>
+  </data>
+  <data name="Command.HeaderText" xml:space="preserve">
+    <value>Comando</value>
+  </data>
+  <data name="BUT_save.Text" xml:space="preserve">
+    <value>Salvar no arquivo</value>
+  </data>
+  <data name="Options.HeaderText" xml:space="preserve">
+    <value>Opções</value>
+  </data>
+  <data name="BUT_writePIDS.Text" xml:space="preserve">
+    <value>Gravar parametro</value>
+  </data>
+  <data name="BUT_reset_params.Text" xml:space="preserve">
+    <value>Ajustar no padrão</value>
+  </data>
+  <data name="BUT_compare.Text" xml:space="preserve">
+    <value>Comparar parametros</value>
+  </data>
+  <data name="BUT_paramfileload.Text" xml:space="preserve">
+    <value>Ler o preservado</value>
+  </data>
+  <data name="BUT_rerequestparams.Text" xml:space="preserve">
+    <value>Atualisar param</value>
+  </data>
 </root>

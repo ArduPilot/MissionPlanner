@@ -117,10 +117,43 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="Parameter.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="uAVCANModelBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
+  <data name="Value.HeaderText" xml:space="preserve">
+    <value>القيمة</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>كل الوحدات في الصيغة الخام بدون قياس</value>
+  </data>
+  <data name="BUT_load.Text" xml:space="preserve">
+    <value>استيراد من ملف</value>
+  </data>
+  <data name="Units.HeaderText" xml:space="preserve">
+    <value>الوحدات</value>
+  </data>
+  <data name="Command.HeaderText" xml:space="preserve">
+    <value>الأوامر</value>
+  </data>
+  <data name="Desc.HeaderText" xml:space="preserve">
+    <value>الوصف</value>
+  </data>
+  <data name="BUT_save.Text" xml:space="preserve">
+    <value>حفظ الى ملف</value>
+  </data>
+  <data name="Options.HeaderText" xml:space="preserve">
+    <value>الخيارات</value>
+  </data>
+  <data name="BUT_writePIDS.Text" xml:space="preserve">
+    <value>ارسال المعاملات</value>
+  </data>
+  <data name="BUT_reset_params.Text" xml:space="preserve">
+    <value>استعادة الإفتراضي</value>
+  </data>
+  <data name="BUT_compare.Text" xml:space="preserve">
+    <value>مقارنة المعاملات</value>
+  </data>
+  <data name="BUT_paramfileload.Text" xml:space="preserve">
+    <value>تحميل المحفوظ سابقاً</value>
+  </data>
+  <data name="BUT_rerequestparams.Text" xml:space="preserve">
+    <value>تحديث المعاملات</value>
+  </data>
 </root>

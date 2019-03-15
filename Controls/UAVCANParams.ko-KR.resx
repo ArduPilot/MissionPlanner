@@ -117,10 +117,85 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="Parameter.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="uAVCANModelBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
+  <data name="$this.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Value.HeaderText" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="label1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>탐색</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>모든 단위는 비율 변화 시키지 않은 원래 형식임.</value>
+  </data>
+  <data name="BUT_load.Text" xml:space="preserve">
+    <value>파일에서 로딩</value>
+  </data>
+  <data name="Units.HeaderText" xml:space="preserve">
+    <value>단위</value>
+  </data>
+  <data name="Command.HeaderText" xml:space="preserve">
+    <value>명령</value>
+  </data>
+  <data name="BUT_rerequestparams.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_reset_params.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_compare.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_load.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CMB_paramfiles.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="txt_search.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Desc.HeaderText" xml:space="preserve">
+    <value>설명</value>
+  </data>
+  <data name="BUT_save.Text" xml:space="preserve">
+    <value>파일로 저장</value>
+  </data>
+  <data name="BUT_writePIDS.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Options.HeaderText" xml:space="preserve">
+    <value>옵션</value>
+  </data>
+  <data name="BUT_writePIDS.Text" xml:space="preserve">
+    <value>매개 변수 쓰기</value>
+  </data>
+  <data name="BUT_paramfileload.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_reset_params.Text" xml:space="preserve">
+    <value>디폴트로 재설정</value>
+  </data>
+  <data name="label2.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_compare.Text" xml:space="preserve">
+    <value>매개 변수 비교하기</value>
+  </data>
+  <data name="BUT_save.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Params.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BUT_paramfileload.Text" xml:space="preserve">
+    <value>저장된 값 로딩</value>
+  </data>
+  <data name="BUT_rerequestparams.Text" xml:space="preserve">
+    <value>매개 변수 새로 고침</value>
+  </data>
 </root>

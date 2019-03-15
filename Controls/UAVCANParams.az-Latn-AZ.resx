@@ -117,10 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="Parameter.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="uAVCANModelBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
+  <data name="Value.HeaderText" xml:space="preserve">
+    <value>Dəyər</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Danışıq</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Bütün dəyərlər dəqiq deyil, heç bir miqyaslı format yoxdur</value>
+  </data>
+  <data name="BUT_load.Text" xml:space="preserve">
+    <value>Filedan yüklə</value>
+  </data>
+  <data name="Units.HeaderText" xml:space="preserve">
+    <value>Hissə</value>
+  </data>
+  <data name="Command.HeaderText" xml:space="preserve">
+    <value>Əmr</value>
+  </data>
+  <data name="BUT_save.Text" xml:space="preserve">
+    <value>Filea yaz</value>
+  </data>
+  <data name="Options.HeaderText" xml:space="preserve">
+    <value>Tənzimləmələr</value>
+  </data>
+  <data name="BUT_reset_params.Text" xml:space="preserve">
+    <value>Varsayılana sıfırla</value>
+  </data>
+  <data name="BUT_compare.Text" xml:space="preserve">
+    <value>Parametrləri müqayısə et</value>
+  </data>
+  <data name="BUT_paramfileload.Text" xml:space="preserve">
+    <value>Yükləndi</value>
+  </data>
 </root>

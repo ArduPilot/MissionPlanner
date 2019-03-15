@@ -163,17 +163,19 @@ namespace UAVCAN
         private static void copyBitArray(
 
 
-            byte[] src, UInt32 src_offset, UInt32 src_len, byte[] dst, UInt32 dst_offset)
+            byte[] src, UInt32 src_offset, UInt32 src_len, byte[] dstin, UInt32 dst_offset)
         {
             CANARD_ASSERT(src_len > 0U);
+
+            var dst = dstin;
 
             // Normalizing inputs
             //src += src_offset / 8;
             //dst += dst_offset / 8;
             if (src_offset >= 8)
-                src = src.Skip((int)src_offset / 8).ToArray();
-            if ( dst_offset >= 8)
-                dst = dst.Skip((int)dst_offset / 8).ToArray();
+                src = src.Skip((int) src_offset / 8).ToArray();
+            if (dst_offset >= 8)
+                dst = dst.Skip((int) dst_offset / 8).ToArray();
 
             src_offset %= 8;
             dst_offset %= 8;
@@ -187,16 +189,53 @@ namespace UAVCAN
                 Byte max_offset = (Byte) Math.Max(src_bit_offset, dst_bit_offset);
                 UInt32 copy_bits = (UInt32) Math.Min(last_bit - src_offset, 8U - max_offset);
 
-                //Byte write_mask = (Byte) ((Byte) (0xFFU >> (int) (8u - copy_bits)) >> dst_bit_offset);
-                //Byte src_data = (Byte) ((src[src_offset / 8U] << src_bit_offset) >> dst_bit_offset);
-                Byte write_mask = (Byte)((Byte)(0xFF00U >> (int)copy_bits) >> dst_bit_offset);
-                Byte src_data = (Byte)((src[src_offset / 8U] << src_bit_offset) >> dst_bit_offset);
+                Byte write_mask = (Byte) ((Byte) (0xFF00U >> (int) copy_bits) >> dst_bit_offset);
+                Byte src_data = (Byte) ((src[src_offset / 8U] << src_bit_offset) >> dst_bit_offset);
 
                 dst[dst_offset / 8U] = (Byte) ((dst[dst_offset / 8U] & ~write_mask) | (src_data & write_mask));
 
                 src_offset += copy_bits;
                 dst_offset += copy_bits;
             }
+
+            if(dst != dstin)
+                Array.ConstrainedCopy(dst, 0, dstin, dstin.Length - dst.Length, dst.Length);
+        }
+
+        public static void uavcan_transmit_chunk_handler(byte[] buffer, int bitlen, object ctx)
+        {
+            if (buffer == null)
+            {
+                ((uavcan.statetracking)ctx).bit += bitlen;
+                return;
+            }
+
+            byte[] output = new byte[8];
+            var frame_bit_ofs = ((uavcan.statetracking)ctx).bit;
+            int chunk_bit_ofs = 0;
+
+            while (chunk_bit_ofs<bitlen) {
+                int frame_copy_bits = Math.Min(bitlen - chunk_bit_ofs, (7 * 8 - frame_bit_ofs));
+                if (frame_copy_bits <= 0) {
+                    frame_bit_ofs = 0;
+                    continue;
+                }
+                copyBitArray(buffer, (uint)chunk_bit_ofs, (uint)frame_copy_bits, output, (uint)frame_bit_ofs);
+                chunk_bit_ofs += frame_copy_bits;
+                frame_bit_ofs += frame_copy_bits;
+            }
+
+            BigInteger input = new BigInteger(output.Reverse().ToArray());
+
+            for (uint a = 0; a < (bitlen + (8-(bitlen%8))); a++)
+            {
+                if ((input & (1L << (int)a)) > 0)
+                {
+                    ((uavcan.statetracking)ctx).bi.setBit((uint)((uavcan.statetracking)ctx).bit + a);
+                }
+            }
+
+            ((uavcan.statetracking) ctx).bit += chunk_bit_ofs;
         }
 
         public static void memset(byte[] buffer, int chartocopy, int size)

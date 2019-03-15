@@ -117,10 +117,46 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="Parameter.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="uAVCANModelBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
+  <data name="Value.HeaderText" xml:space="preserve">
+    <value>Значение</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Поиск</value>
+  </data>
+  <data name="BUT_load.Text" xml:space="preserve">
+    <value>Загрузить файл</value>
+  </data>
+  <data name="Units.HeaderText" xml:space="preserve">
+    <value>Единицы</value>
+  </data>
+  <data name="Command.HeaderText" xml:space="preserve">
+    <value>Команда</value>
+  </data>
+  <data name="BUT_commitToFlash.Text" xml:space="preserve">
+    <value>Фиксировать Параметры</value>
+  </data>
+  <data name="Desc.HeaderText" xml:space="preserve">
+    <value>Описание</value>
+  </data>
+  <data name="BUT_save.Text" xml:space="preserve">
+    <value>Сохранить в файл</value>
+  </data>
+  <data name="Options.HeaderText" xml:space="preserve">
+    <value>Опции</value>
+  </data>
+  <data name="BUT_writePIDS.Text" xml:space="preserve">
+    <value>Записать</value>
+  </data>
+  <data name="BUT_reset_params.Text" xml:space="preserve">
+    <value>Восст.по умолч.</value>
+  </data>
+  <data name="BUT_compare.Text" xml:space="preserve">
+    <value>Сравнить</value>
+  </data>
+  <data name="BUT_paramfileload.Text" xml:space="preserve">
+    <value>Загр.сохраненые</value>
+  </data>
+  <data name="BUT_rerequestparams.Text" xml:space="preserve">
+    <value>Обновить</value>
+  </data>
 </root>
