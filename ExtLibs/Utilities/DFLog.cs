@@ -182,6 +182,7 @@ namespace MissionPlanner.Utilities
             EKF_PRIMARY = 24,
         }
 
+        //the list can be found here in AP_Logger.h 
         public enum events
         {
             DATA_MAVLINK_FLOAT = 1,
@@ -241,6 +242,14 @@ namespace MissionPlanner.Utilities
             DATA_EKF_YAW_RESET = 62,
             DATA_AVOIDANCE_ADSB_ENABLE = 63,
             DATA_AVOIDANCE_ADSB_DISABLE = 64,
+            DATA_GPS_PRIMARY_CHANGED = 67,
+            DATA_WINCH_RELAXED = 68,
+            DATA_WINCH_LENGTH_CONTROL = 69,
+            DATA_WINCH_RATE_CONTROL = 70,
+            DATA_ZIGZAG_STORE_A = 71,
+            DATA_ZIGZAG_STORE_B = 72,
+            DATA_LAND_REPO_ACTIVE = 73,
+
         }
 
         public Dictionary<string, Label> logformat = new Dictionary<string, Label>();
