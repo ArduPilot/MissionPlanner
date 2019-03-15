@@ -242,6 +242,8 @@ namespace MissionPlanner.Utilities
             DATA_EKF_YAW_RESET = 62,
             DATA_AVOIDANCE_ADSB_ENABLE = 63,
             DATA_AVOIDANCE_ADSB_DISABLE = 64,
+            DATA_AVOIDANCE_PROXIMITY_ENABLE = 65,
+            DATA_AVOIDANCE_PROXIMITY_DISABLE = 66,
             DATA_GPS_PRIMARY_CHANGED = 67,
             DATA_WINCH_RELAXED = 68,
             DATA_WINCH_LENGTH_CONTROL = 69,
@@ -250,6 +252,10 @@ namespace MissionPlanner.Utilities
             DATA_ZIGZAG_STORE_B = 72,
             DATA_LAND_REPO_ACTIVE = 73,
 
+            DATA_SURFACED = 163,
+            DATA_NOT_SURFACED = 164,
+            DATA_BOTTOMED = 165,
+            DATA_NOT_BOTTOMED = 166,
         }
 
         public Dictionary<string, Label> logformat = new Dictionary<string, Label>();
