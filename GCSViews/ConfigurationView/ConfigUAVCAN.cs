@@ -31,8 +31,21 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void but_slcanmode_Click(object sender, EventArgs e)
         {
+            startslcan(1);
+        }
+
+        private void but_slcanmode2_Click(object sender, EventArgs e)
+        {
+            startslcan(2);
+        }
+
+        public void startslcan(byte canport)
+        {
+            but_slcanmode1.Enabled = false;
+            but_slcanmode2.Enabled = false;
             try
             {
+                MainV2.comPort.setParam("CAN_SLCAN_CPORT", canport, true);
                 MainV2.comPort.setParam("CAN_SLCAN_SERNUM", 0, true);
             }
             catch
@@ -194,7 +207,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void myDataGridView1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
             myDataGridView1[updateDataGridViewTextBoxColumn.Index, e.RowIndex].Value = "Update";
+            myDataGridView1[Parameter.Index, e.RowIndex].Value = "Parameters";
         }
+
+
     }
 
     public class UAVCANModel

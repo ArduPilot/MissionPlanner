@@ -191,7 +191,8 @@ namespace MissionPlanner.Controls
         {
             try
             {
-                MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_STORAGE, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+                if (!_can.SaveConfig(_node))
+                    CustomMessageBox.Show("Failed to save");
             }
             catch
             {
@@ -259,7 +260,8 @@ namespace MissionPlanner.Controls
 
                 try
                 {
-                    MainV2.comPort.getParamList();
+
+                    _paramlist = _can.GetParameters(_node);
                 }
                 catch (Exception ex)
                 {

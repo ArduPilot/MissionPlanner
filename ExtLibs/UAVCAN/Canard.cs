@@ -210,30 +210,31 @@ namespace UAVCAN
                 return;
             }
 
-            byte[] output = new byte[8];
-            var frame_bit_ofs = ((uavcan.statetracking)ctx).bit;
+            byte[] output = ((uavcan.statetracking)ctx).data;
+            // check this
+            var frame_bit_startofs = (((uavcan.statetracking)ctx).bit / (7 * 8)) * (7 * 8); // bits in a frame 
+            var frame_bit_ofs = ((uavcan.statetracking)ctx).bit % (7 * 8);
             int chunk_bit_ofs = 0;
 
             while (chunk_bit_ofs<bitlen) {
                 int frame_copy_bits = Math.Min(bitlen - chunk_bit_ofs, (7 * 8 - frame_bit_ofs));
                 if (frame_copy_bits <= 0) {
+                    Array.Resize(ref output, output.Length + 7);
+                    frame_bit_startofs += 7 * 8;
+
                     frame_bit_ofs = 0;
                     continue;
                 }
-                copyBitArray(buffer, (uint)chunk_bit_ofs, (uint)frame_copy_bits, output, (uint)frame_bit_ofs);
+                copyBitArray(buffer, (uint)chunk_bit_ofs, (uint)frame_copy_bits, output, (uint)frame_bit_ofs + (uint)frame_bit_startofs);
                 chunk_bit_ofs += frame_copy_bits;
                 frame_bit_ofs += frame_copy_bits;
             }
 
-            BigInteger input = new BigInteger(output.Reverse().ToArray());
+            ((uavcan.statetracking)ctx).data = output;
 
-            for (uint a = 0; a < (bitlen + (8-(bitlen%8))); a++)
-            {
-                if ((input & (1L << (int)a)) > 0)
-                {
-                    ((uavcan.statetracking)ctx).bi.setBit((uint)((uavcan.statetracking)ctx).bit + a);
-                }
-            }
+            //var bits = Convert.ToString(BitConverter.ToInt64(buffer,0), 2).PadLeft(8, '0');
+
+            //var bits2 = Convert.ToString(BitConverter.ToInt64(output,0), 2).PadLeft(8, '0');
 
             ((uavcan.statetracking) ctx).bit += chunk_bit_ofs;
         }

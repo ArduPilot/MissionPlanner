@@ -171,9 +171,6 @@
   <data name="BUT_rerequestparams.Text" xml:space="preserve">
     <value>Refresh Params</value>
   </data>
-  <data name="BUT_rerequestparams.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
   <data name="&gt;&gt;BUT_rerequestparams.Name" xml:space="preserve">
     <value>BUT_rerequestparams</value>
   </data>
@@ -542,7 +539,7 @@ format with no scaling</value>
     <value>Params</value>
   </data>
   <data name="&gt;&gt;Params.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.7012.37876, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.7014.27359, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Params.Parent" xml:space="preserve">
     <value>$this</value>
