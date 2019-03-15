@@ -5956,6 +5956,8 @@ namespace MissionPlanner.GCSViews
 
             polyicon.Location = new Point(10,100);
             polyicon.Paint(e.Graphics);
+
+            e.Graphics.ResetTransform();
         }
 
         MissionPlanner.Controls.Icon.Polygon polyicon = new MissionPlanner.Controls.Icon.Polygon();
