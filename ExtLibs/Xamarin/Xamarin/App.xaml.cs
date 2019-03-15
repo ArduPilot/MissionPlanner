@@ -45,7 +45,7 @@ namespace Xamarin
             {
                 try
                 {
-                    client = new UdpClient(14550, AddressFamily.InterNetwork);
+                    client = new UdpClient(14551, AddressFamily.InterNetwork);
                     client.BeginReceive(clientdata, client);
                 }
                 catch (Exception ex)
@@ -139,6 +139,9 @@ namespace Xamarin
                     {
                         try
                         {
+                            while (mav.BaseStream.BytesToRead < 10)
+                                Thread.Sleep(20);
+
                             var packet = mav.readPacket();
 
                             mav.MAV.cs.UpdateCurrentSettings(null);
