@@ -309,8 +309,8 @@
     <PackageReference Include="Newtonsoft.Json" version="11.0.2" targetFramework="net462" />
     <PackageReference Include="SharpDX" version="4.1.0" targetFramework="net462" />
     <PackageReference Include="SharpDX.DirectInput" version="4.1.0" targetFramework="net462" />
-    <PackageReference Include="SkiaSharp" Version="1.60.3" />
-    <PackageReference Include="SkiaSharp.Views" Version="1.60.3" />
+    <PackageReference Include="SkiaSharp" Version="1.68.0" />
+    <PackageReference Include="SkiaSharp.Views" Version="1.68.0" />
     <PackageReference Include="SSH.NET" version="2016.1.0" targetFramework="net40" />
     <PackageReference Include="System.Drawing.Common" Version="4.5.1" />
     <PackageReference Include="System.IO.Ports" Version="4.5.0" />
@@ -350,6 +350,12 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigOSD.Designer.cs">
       <DependentUpon>ConfigOSD.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\UAVCANParams.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\UAVCANParams.Designer.cs">
+      <DependentUpon>UAVCANParams.cs</DependentUpon>
+    </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigUAVCAN.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -361,9 +367,6 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Swarm\PaintEventArgsI.cs" />
-    <Compile Include="Swarm\TD\UI.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Utilities\AltitudeAngel\MissionPlannerStateAdapter.cs" />
     <Compile Include="Utilities\Speech.cs" />
     <Compile Include="Utilities\SSHTerminal.cs" />
@@ -484,6 +487,51 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigOSD.resx">
       <DependentUpon>ConfigOSD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\UAVCANParams.ar.resx">
+      <DependentUpon>UAVCANParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\UAVCANParams.az-Latn-AZ.resx">
+      <DependentUpon>UAVCANParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\UAVCANParams.de-DE.resx">
+      <DependentUpon>UAVCANParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\UAVCANParams.fr.resx">
+      <DependentUpon>UAVCANParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\UAVCANParams.id-ID.resx">
+      <DependentUpon>UAVCANParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\UAVCANParams.it-IT.resx">
+      <DependentUpon>UAVCANParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\UAVCANParams.ja-JP.resx">
+      <DependentUpon>UAVCANParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\UAVCANParams.ko-KR.resx">
+      <DependentUpon>UAVCANParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\UAVCANParams.pt.resx">
+      <DependentUpon>UAVCANParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\UAVCANParams.resx">
+      <DependentUpon>UAVCANParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\UAVCANParams.ru-KZ.resx">
+      <DependentUpon>UAVCANParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\UAVCANParams.tr.resx">
+      <DependentUpon>UAVCANParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\UAVCANParams.zh-Hans.resx">
+      <DependentUpon>UAVCANParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\UAVCANParams.zh-Hant.resx">
+      <DependentUpon>UAVCANParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\UAVCANParams.zh-TW.resx">
+      <DependentUpon>UAVCANParams.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigUAVCAN.resx">
       <DependentUpon>ConfigUAVCAN.cs</DependentUpon>
@@ -792,9 +840,6 @@
     <Compile Include="Swarm\SRB\Controller.cs" />
     <Compile Include="Swarm\SRB\Drone.cs" />
     <Compile Include="Swarm\SRB\DroneGroup.cs" />
-    <Compile Include="Swarm\TD\Controller.cs" />
-    <Compile Include="Swarm\TD\Drone.cs" />
-    <Compile Include="Swarm\TD\DroneGroup.cs" />
     <Compile Include="Swarm\WaypointLeader\Drone.cs" />
     <Compile Include="Swarm\WaypointLeader\DroneGroup.cs" />
     <Compile Include="Swarm\WaypointLeader\Path.cs" />
@@ -1684,7 +1729,6 @@
       <DependentUpon>Splash.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Swarm\Sequence\LayoutEditor.resx" />
-    <EmbeddedResource Include="Swarm\TD\UI.resx" />
     <EmbeddedResource Include="temp.resx">
       <DependentUpon>temp.cs</DependentUpon>
     </EmbeddedResource>
