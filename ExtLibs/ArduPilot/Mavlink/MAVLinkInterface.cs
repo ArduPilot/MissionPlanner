@@ -415,9 +415,6 @@ namespace MissionPlanner
                 };
                 countDown.Start();
 
-                // px4 native
-                BaseStream.WriteLine("sh /etc/init.d/rc.usb");
-
                 int count = 0;
 
                 while (true)
