@@ -3678,7 +3678,7 @@ namespace MissionPlanner
         {
             if (!int.TryParse(_connectionControl.CMB_baudrate.Text, out comPortBaud))
             {
-                CustomMessageBox.Show(Strings.ERROR, Strings.InvalidBaudRate);
+                CustomMessageBox.Show(Strings.InvalidBaudRate, Strings.ERROR);
                 return;
             }
             var sb = new StringBuilder();

@@ -1315,7 +1315,7 @@ namespace MissionPlanner.Utilities
             }
             catch (SocketException)
             {
-                CustomMessageBox.Show(Strings.ERROR, Strings.ErrorUploadingFirmware + " for SOLO");
+                CustomMessageBox.Show(Strings.ErrorUploadingFirmware + " for SOLO", Strings.ERROR);
                 return false;
             }
 

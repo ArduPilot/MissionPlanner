@@ -4159,7 +4159,7 @@ namespace MissionPlanner.GCSViews
 
                                 if (timeout > 30)
                                 {
-                                    CustomMessageBox.Show(Strings.ERROR, Strings.ErrorNoResponce);
+                                    CustomMessageBox.Show(Strings.ErrorNoResponce, Strings.ERROR);
                                     return;
                                 }
                             }
@@ -4174,7 +4174,7 @@ namespace MissionPlanner.GCSViews
 
                                 if (timeout > 30)
                                 {
-                                    CustomMessageBox.Show(Strings.ERROR, Strings.ErrorNoResponce);
+                                    CustomMessageBox.Show(Strings.ErrorNoResponce, Strings.ERROR);
                                     return;
                                 }
                             }
@@ -4189,7 +4189,7 @@ namespace MissionPlanner.GCSViews
 
                                 if (timeout > 40)
                                 {
-                                    CustomMessageBox.Show(Strings.ERROR, Strings.ErrorNoResponce);
+                                    CustomMessageBox.Show(Strings.ErrorNoResponce, Strings.ERROR);
                                     return;
                                 }
                             }
@@ -4205,7 +4205,7 @@ namespace MissionPlanner.GCSViews
 
                             if (timeout > 30)
                             {
-                                CustomMessageBox.Show(Strings.ERROR, Strings.ErrorNoResponce);
+                                CustomMessageBox.Show(Strings.ErrorNoResponce, Strings.ERROR);
                                 return;
                             }
                         }
@@ -4271,7 +4271,7 @@ namespace MissionPlanner.GCSViews
             }
             catch
             {
-                CustomMessageBox.Show(Strings.ERROR, Strings.CommandFailed);
+                CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
             }
         }
 

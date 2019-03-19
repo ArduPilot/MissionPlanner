@@ -1298,7 +1298,7 @@ namespace MissionPlanner.GCSViews
                 }
                 catch (Exception ex)
                 {
-                    CustomMessageBox.Show(Strings.ERROR, Strings.Invalid_home_location);
+                    CustomMessageBox.Show(Strings.Invalid_home_location, Strings.ERROR);
                     log.Error(ex);
                 }
             }
@@ -1317,7 +1317,7 @@ namespace MissionPlanner.GCSViews
                 }
                 catch (FormatException ex)
                 {
-                    CustomMessageBox.Show(Strings.ERROR, Strings.InvalidNumberEntered + "\n" +"WP Radius or Loiter Radius");
+                    CustomMessageBox.Show(Strings.InvalidNumberEntered + "\n" +"WP Radius or Loiter Radius", Strings.ERROR);
                 }
 
                 MainMap.HoldInvalidation = true;
@@ -1359,7 +1359,7 @@ namespace MissionPlanner.GCSViews
             }
             catch (FormatException ex)
             {
-                CustomMessageBox.Show(Strings.ERROR, Strings.InvalidNumberEntered + "\n" + ex.Message);
+                CustomMessageBox.Show(Strings.InvalidNumberEntered + "\n" + ex.Message, Strings.ERROR);
             }
         }
 
@@ -3891,7 +3891,7 @@ namespace MissionPlanner.GCSViews
             }
             catch (FormatException)
             {
-                CustomMessageBox.Show(Strings.ERROR, Strings.InvalidNumberEntered);
+                CustomMessageBox.Show(Strings.InvalidNumberEntered, Strings.ERROR);
             }
         }
 
