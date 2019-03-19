@@ -5,6 +5,7 @@
 
 trigger:
 - master
+- beta
 
 pool:
   vmImage: 'VS2017-Win2016'
@@ -17,17 +18,14 @@ variables:
 steps:
 - task: NuGetToolInstaller@0
 
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
+- script: .nuget\nuget.exe update -self
+  workingDirectory: $(Agent.BuildDirectory)
+
+- script: .nuget\nuget.exe restore
+  workingDirectory: $(Agent.BuildDirectory)
 
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-
-- task: VSTest@2
-  inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
