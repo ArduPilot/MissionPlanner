@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
-using System.IO.Ports;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
@@ -44,11 +42,7 @@ namespace MissionPlanner.Comms
                 safeFileHandle = CreateFile("\\\\.\\" + PortName,
                     -1073741824, 0, IntPtr.Zero, 3, dwFlagsAndAttributes, IntPtr.Zero);
 
-
-                if (safeFileHandle.IsInvalid)
-                {
-                    throw new Exception("Invalid Port");
-                }
+                if (safeFileHandle.IsInvalid) throw new Exception("Invalid Port");
 
                 var num1 = 0;
                 var commProp = default(COMMPROP);
@@ -59,6 +53,7 @@ namespace MissionPlanner.Comms
                     {
                         //throw new ArgumentException(SR.GetString("Arg_InvalidSerialPortExtended"), "portName");
                     }
+
                     //WinIOError(lastWin32Error, string.Empty);
                 }
 
@@ -74,19 +69,19 @@ namespace MissionPlanner.Comms
                 dcb.StopBits = 0;
                 dcb.Parity = 0;
                 //https://msdn.microsoft.com/en-us/library/windows/desktop/aa363214(v=vs.85).aspx
-                SetDcbFlag(dcb, 0, 1); //fBinary  
-                SetDcbFlag(dcb, 1, 0); //fParity  
-                SetDcbFlag(dcb, 2, 1); //fOutxCtsFlow  
-                SetDcbFlag(dcb, 3, 0); // fOutxDsrFlow  
-                SetDcbFlag(dcb, 4, 0); //fDtrControl  
-                SetDcbFlag(dcb, 5, 0); //fDsrSensitivity  
-                SetDcbFlag(dcb, 6, 0); //fTXContinueOnXoff  
-                SetDcbFlag(dcb, 7, 0); //fOutX  
-                SetDcbFlag(dcb, 8, 0); //fInX  
-                SetDcbFlag(dcb, 9, 0); //fErrorChar  
-                SetDcbFlag(dcb, 10, 0); //fNull  
-                SetDcbFlag(dcb, 11, 1); //fRtsControl  
-                SetDcbFlag(dcb, 14, 0); //fAbortOnError  
+                SetDcbFlag(dcb, 0, 1); //fBinary
+                SetDcbFlag(dcb, 1, 0); //fParity
+                SetDcbFlag(dcb, 2, 1); //fOutxCtsFlow
+                SetDcbFlag(dcb, 3, 0); // fOutxDsrFlow
+                SetDcbFlag(dcb, 4, 0); //fDtrControl
+                SetDcbFlag(dcb, 5, 0); //fDsrSensitivity
+                SetDcbFlag(dcb, 6, 0); //fTXContinueOnXoff
+                SetDcbFlag(dcb, 7, 0); //fOutX
+                SetDcbFlag(dcb, 8, 0); //fInX
+                SetDcbFlag(dcb, 9, 0); //fErrorChar
+                SetDcbFlag(dcb, 10, 0); //fNull
+                SetDcbFlag(dcb, 11, 1); //fRtsControl
+                SetDcbFlag(dcb, 14, 0); //fAbortOnError
 
                 if (!SetCommState(safeFileHandle, ref dcb))
                 {
@@ -105,7 +100,6 @@ namespace MissionPlanner.Comms
                 //
 
                 SetCommMask(safeFileHandle, 507);
-
 
                 IsOpen = true;
 
@@ -130,7 +124,6 @@ namespace MissionPlanner.Comms
 
                             BaseStream.Seek(pos, SeekOrigin.Begin);
                         }
-
                     }
 
                     safeFileHandle.Dispose();
@@ -149,6 +142,7 @@ namespace MissionPlanner.Comms
                 catch
                 {
                 }
+
                 throw;
             }
         }
@@ -170,6 +164,7 @@ namespace MissionPlanner.Comms
                     throw new Exception("CommsSerialPipe Timeout on read");
                 count++;
             }
+
             var buffer = new byte[1];
             Read(buffer, 0, 1);
             return buffer[0];
@@ -188,10 +183,7 @@ namespace MissionPlanner.Comms
 
             while (timeout <= 100)
             {
-                if (!IsOpen)
-                {
-                    break;
-                }
+                if (!IsOpen) break;
                 if (BytesToRead > 0)
                 {
                     var letter = (byte) ReadByte();
@@ -199,10 +191,7 @@ namespace MissionPlanner.Comms
                     temp[count] = letter;
 
                     if (letter == '\n') // normal line
-                    {
                         break;
-                    }
-
 
                     count++;
                     if (count == temp.Length)
@@ -248,13 +237,9 @@ namespace MissionPlanner.Comms
         {
             var result = 0;
             if (offset != 0)
-            {
                 WriteFile(safeFileHandle, buffer.Skip(offset).ToArray(), count, out result, IntPtr.Zero);
-            }
             else
-            {
                 WriteFile(safeFileHandle, buffer, count, out result, IntPtr.Zero);
-            }
         }
 
         public void Close()
@@ -291,7 +276,7 @@ namespace MissionPlanner.Comms
                     if (!BaseStream.CanRead)
                         return 0;
 
-                    var left = (BaseStream.Length - BaseStream.Position);
+                    var left = BaseStream.Length - BaseStream.Position;
 
                     if (left == 0)
                         BaseStream.SetLength(0);
@@ -305,14 +290,20 @@ namespace MissionPlanner.Comms
         public int DataBits { get; set; }
         public bool DtrEnable { get; set; }
         public bool IsOpen { get; internal set; }
-        public Parity Parity { get; set; }
+
         public string PortName { get; set; }
         public int ReadBufferSize { get; set; }
         public int ReadTimeout { get; set; }
         public bool RtsEnable { get; set; }
-        public StopBits StopBits { get; set; }
+
         public int WriteBufferSize { get; set; }
         public int WriteTimeout { get; set; }
+
+        public void Dispose()
+        {
+            Close();
+        }
+
         // Microsoft.Win32.UnsafeNativeMethods
         [DllImport("kernel32.dll", BestFitMapping = false, CharSet = CharSet.Auto, SetLastError = true)]
         internal static extern SafeFileHandle CreateFile(string lpFileName, int dwDesiredAccess, int dwShareMode,
@@ -321,12 +312,12 @@ namespace MissionPlanner.Comms
         [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         public static extern bool DeviceIoControl(SafeHandle hDevice, uint dwIoControlCode, IntPtr lpInBuffer,
             uint nInBufferSize, IntPtr lpOutBuffer, uint nOutBufferSize, ref uint lpBytesReturned,
-           [In] NativeOverlapped lpOverlapped);
+            [In] NativeOverlapped lpOverlapped);
 
         // Microsoft.Win32.UnsafeNativeMethods
         [DllImport("kernel32.dll", SetLastError = true)]
         internal static extern bool WaitCommEvent(SafeFileHandle hFile, [In] int lpEvtMask,
-           [In] NativeOverlapped lpOverlapped);
+            [In] NativeOverlapped lpOverlapped);
 
         // Microsoft.Win32.UnsafeNativeMethods
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
@@ -334,7 +325,7 @@ namespace MissionPlanner.Comms
 
         // Microsoft.Win32.UnsafeNativeMethods
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        internal static extern  bool GetOverlappedResult(SafeFileHandle hFile, [In] NativeOverlapped lpOverlapped,
+        internal static extern bool GetOverlappedResult(SafeFileHandle hFile, [In] NativeOverlapped lpOverlapped,
             ref int lpNumberOfBytesTransferred, bool bWait);
 
         // Microsoft.Win32.UnsafeNativeMethods
@@ -358,12 +349,12 @@ namespace MissionPlanner.Comms
         internal static extern bool ClearCommError(SafeFileHandle hFile, ref int lpErrors, ref COMSTAT lpStat);
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        static extern bool ReadFile(SafeFileHandle hFile, [Out] byte[] lpBuffer,uint nNumberOfBytesToRead, 
+        private static extern bool ReadFile(SafeFileHandle hFile, [Out] byte[] lpBuffer, uint nNumberOfBytesToRead,
             out uint lpNumberOfBytesRead, IntPtr lpOverlapped);
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        static extern bool ReadFile(SafeFileHandle hFile, [Out] byte[] lpBuffer, uint nNumberOfBytesToRead,
-            out uint lpNumberOfBytesRead, [In] ref System.Threading.NativeOverlapped lpOverlapped);
+        private static extern bool ReadFile(SafeFileHandle hFile, [Out] byte[] lpBuffer, uint nNumberOfBytesToRead,
+            out uint lpNumberOfBytesRead, [In] ref NativeOverlapped lpOverlapped);
 
         // Microsoft.Win32.UnsafeNativeMethods
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
@@ -374,29 +365,18 @@ namespace MissionPlanner.Comms
             setting <<= whichFlag;
             uint num;
             if (whichFlag == 4 || whichFlag == 12)
-            {
                 num = 3u;
-            }
             else if (whichFlag == 15)
-            {
                 num = 131071u;
-            }
             else
-            {
                 num = 1u;
-            }
-            dcb.Flags = (dcb.Flags & ~(num << whichFlag));
-            dcb.Flags = (dcb.Flags | (uint) setting);
+            dcb.Flags = dcb.Flags & ~(num << whichFlag);
+            dcb.Flags = dcb.Flags | (uint) setting;
         }
 
         [DllImport("kernel32.dll", SetLastError = true)]
         internal static extern int WriteFile(SafeFileHandle handle, byte[] bytes, int numBytesToWrite,
-    out int numBytesWritten, IntPtr lpOverlapped);
-
-        public void Dispose()
-        {
-            Close();
-        }
+            out int numBytesWritten, IntPtr lpOverlapped);
 
         internal struct COMMTIMEOUTS
         {
