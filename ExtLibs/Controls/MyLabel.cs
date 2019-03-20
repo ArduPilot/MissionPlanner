@@ -77,7 +77,13 @@ namespace MissionPlanner.Controls
 
         protected override void OnVisibleChanged(EventArgs e)
         {
-            base.OnVisibleChanged(e);
+            try
+            {
+                base.OnVisibleChanged(e);
+            }
+            catch (Exception)
+            {
+            }
         }
 
         public override Color BackColor

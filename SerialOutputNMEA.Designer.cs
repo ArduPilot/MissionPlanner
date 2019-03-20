@@ -82,7 +82,7 @@
             // 
             // SerialOutputNMEA
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             resources.ApplyResources(this, "$this");
             this.Controls.Add(this.CMB_updaterate);
             this.Controls.Add(this.CMB_baudrate);

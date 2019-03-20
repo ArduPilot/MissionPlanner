@@ -7,10 +7,8 @@ using netDxf.Entities;
 using netDxf.Tables;
 using System.Reflection;
 using log4net;
-using MissionPlanner.Log;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
-using MissionPlanner.HIL;
 
 namespace MissionPlanner
 {
@@ -359,7 +357,7 @@ namespace MissionPlanner
             }
         }
 
-        static void prd_DoWork(object sender, ProgressWorkerEventArgs e, object passdata = null)
+        static void prd_DoWork(IProgressReporterDialogue sender)
         {
             var prsphere = sender as ProgressReporterSphere;
 
@@ -431,10 +429,10 @@ namespace MissionPlanner
             float maxz = 0;
 
             // backup current rate and set
-            byte backupratesens = MainV2.comPort.MAV.cs.ratesensors;
+            var backupratesens = MainV2.comPort.MAV.cs.ratesensors;
 
-            byte backuprateatt = MainV2.comPort.MAV.cs.rateattitude;
-            byte backupratepos = MainV2.comPort.MAV.cs.rateposition;
+            var backuprateatt = MainV2.comPort.MAV.cs.rateattitude;
+            var backupratepos = MainV2.comPort.MAV.cs.rateposition;
 
             MainV2.comPort.MAV.cs.ratesensors = 2;
             MainV2.comPort.MAV.cs.rateattitude = 0;
@@ -480,10 +478,10 @@ namespace MissionPlanner
 
                 prsphere.UpdateProgressAndStatus(-1, str);
 
-                if (e.CancelRequested)
+                if (sender.doWorkArgs.CancelRequested)
                 {
-                    e.CancelAcknowledged = false;
-                    e.CancelRequested = false;
+                    sender.doWorkArgs.CancelAcknowledged = false;
+                    sender.doWorkArgs.CancelRequested = false;
                     break;
                 }
 
@@ -703,7 +701,7 @@ namespace MissionPlanner
             if (minx > 0 && maxx > 0 || minx < 0 && maxx < 0 || miny > 0 && maxy > 0 || miny < 0 && maxy < 0 ||
                 minz > 0 && maxz > 0 || minz < 0 && maxz < 0)
             {
-                e.ErrorMessage = "Bad compass raw values. Check for magnetic interferance.";
+                sender.doWorkArgs.ErrorMessage = "Bad compass raw values. Check for magnetic interferance.";
                 ans = null;
                 ans2 = null;
                 return;
@@ -712,10 +710,10 @@ namespace MissionPlanner
             if (extramsg != "")
             {
                 if (CustomMessageBox.Show(Strings.MissingDataPoints, Strings.RunAnyway, MessageBoxButtons.YesNo) ==
-                    DialogResult.No)
+                    (int)DialogResult.No)
                 {
-                    e.CancelAcknowledged = true;
-                    e.CancelRequested = true;
+                    sender.doWorkArgs.CancelAcknowledged = true;
+                    sender.doWorkArgs.CancelRequested = true;
                     ans = null;
                     ans2 = null;
                     ans3 = null;
@@ -736,7 +734,7 @@ namespace MissionPlanner
 
             if (datacompass1.Count < 10)
             {
-                e.ErrorMessage = "Log does not contain enough data";
+                sender.doWorkArgs.ErrorMessage = "Log does not contain enough data";
                 ans = null;
                 ans2 = null;
                 return;
@@ -1165,8 +1163,6 @@ namespace MissionPlanner
         static double[] doLSQ(List<Tuple<float, float, float>> data, Action<double[], double[], object> fitalgo,
             double[] x)
         {
-            double epsg = 0.0001;
-            double epsf = 0;
             double epsx = 0;
             int maxits = 100;
 
@@ -1174,7 +1170,7 @@ namespace MissionPlanner
             alglib.minlmreport rep;
 
             alglib.minlmcreatev(data.Count, x, 0.1, out state);
-            alglib.minlmsetcond(state, epsg, epsf, epsx, maxits);
+            alglib.minlmsetcond(state, epsx, maxits);
 
             var t1 = new alglib.ndimensional_fvec(fitalgo);
 

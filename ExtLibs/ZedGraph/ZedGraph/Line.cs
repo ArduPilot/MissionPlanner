@@ -837,7 +837,7 @@ namespace ZedGraph
             if (n > 0)
             {
                 string label = curve.Label.Text;
-                int idx = curve.Label.Text.IndexOf(" (");
+                int idx = curve.Label.Text.IndexOf(" (Min: ");
                 if (idx > 0)
                     label = label.Substring(0, idx);
                 curve.Label.Text = label + " (Min: " + curveMin.ToString("0") + " Max: " + curveMax.ToString("0") + " Mean: " + curveMean.ToString("0") + ")";
@@ -1100,7 +1100,12 @@ namespace ZedGraph
                 if (float.IsInfinity(tmpX) || float.IsInfinity(tmpY) || float.IsInfinity(lastX) || float.IsInfinity(lastY))
                     return;
 
-				/*
+                if(lastX > 5000000 || lastX < -5000000 ||
+                     lastY > 5000000 || lastY < -5000000 ||
+                     tmpX > 5000000 || tmpX < -5000000 ||
+                     tmpY > 5000000 || tmpY < -5000000)
+                    return;
+                /*
 				if ( this.StepType == StepType.ForwardStep )
 				{
 					g.DrawLine( pen, lastX, lastY, tmpX, lastY );
@@ -1114,7 +1119,7 @@ namespace ZedGraph
 				else 		// non-step
 					g.DrawLine( pen, lastX, lastY, tmpX, tmpY );
 				*/
-				if ( !curve.IsSelected && this._gradientFill.IsGradientValueType )
+                if ( !curve.IsSelected && this._gradientFill.IsGradientValueType )
 				{
 					using ( Pen tPen = GetPen( pane, scaleFactor, lastPt ) )
 					{

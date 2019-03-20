@@ -35,8 +35,6 @@
             this.CRUISE_SPEED = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.MOT_PWM_TYPE = new MissionPlanner.Controls.MavlinkComboBox();
             this.label12 = new System.Windows.Forms.Label();
-            this.MOT_SKID_FRIC = new MissionPlanner.Controls.MavlinkNumericUpDown();
-            this.label5 = new System.Windows.Forms.Label();
             this.THR_MAX = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
             this.THR_MIN = new MissionPlanner.Controls.MavlinkNumericUpDown();
@@ -94,9 +92,12 @@
             this.BUT_refreshpart = new MissionPlanner.Controls.MyButton();
             this.CH7_OPTION = new MissionPlanner.Controls.MavlinkComboBox();
             this.label21 = new System.Windows.Forms.Label();
+            this.ATC_STR_RAT_FF = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.label24 = new System.Windows.Forms.Label();
+            this.WP_SPEED = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.label5 = new System.Windows.Forms.Label();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CRUISE_SPEED)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.MOT_SKID_FRIC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.THR_MAX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.THR_MIN)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CRUISE_THROTTLE)).BeginInit();
@@ -124,6 +125,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.SONAR_TRIGGER_CM)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TURN_RADIUS)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ATC_STR_RAT_FF)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.WP_SPEED)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox3
@@ -132,8 +135,6 @@
             this.groupBox3.Controls.Add(this.CRUISE_SPEED);
             this.groupBox3.Controls.Add(this.MOT_PWM_TYPE);
             this.groupBox3.Controls.Add(this.label12);
-            this.groupBox3.Controls.Add(this.MOT_SKID_FRIC);
-            this.groupBox3.Controls.Add(this.label5);
             this.groupBox3.Controls.Add(this.THR_MAX);
             this.groupBox3.Controls.Add(this.label6);
             this.groupBox3.Controls.Add(this.THR_MIN);
@@ -170,19 +171,6 @@
             // 
             resources.ApplyResources(this.label12, "label12");
             this.label12.Name = "label12";
-            // 
-            // MOT_SKID_FRIC
-            // 
-            resources.ApplyResources(this.MOT_SKID_FRIC, "MOT_SKID_FRIC");
-            this.MOT_SKID_FRIC.Max = 1F;
-            this.MOT_SKID_FRIC.Min = 0F;
-            this.MOT_SKID_FRIC.Name = "MOT_SKID_FRIC";
-            this.MOT_SKID_FRIC.ParamName = null;
-            // 
-            // label5
-            // 
-            resources.ApplyResources(this.label5, "label5");
-            this.label5.Name = "label5";
             // 
             // THR_MAX
             // 
@@ -342,6 +330,8 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.WP_SPEED);
+            this.groupBox4.Controls.Add(this.label5);
             this.groupBox4.Controls.Add(this.NAVL1_DAMPING);
             this.groupBox4.Controls.Add(this.label13);
             this.groupBox4.Controls.Add(this.NAVL1_PERIOD);
@@ -428,6 +418,8 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.ATC_STR_RAT_FF);
+            this.groupBox5.Controls.Add(this.label24);
             this.groupBox5.Controls.Add(this.STEER2SRV_IMAX);
             this.groupBox5.Controls.Add(this.label14);
             this.groupBox5.Controls.Add(this.STEER2SRV_D);
@@ -600,9 +592,35 @@
             resources.ApplyResources(this.label21, "label21");
             this.label21.Name = "label21";
             // 
+            // ATC_STR_RAT_FF
+            // 
+            resources.ApplyResources(this.ATC_STR_RAT_FF, "ATC_STR_RAT_FF");
+            this.ATC_STR_RAT_FF.Max = 1F;
+            this.ATC_STR_RAT_FF.Min = 0F;
+            this.ATC_STR_RAT_FF.Name = "ATC_STR_RAT_FF";
+            this.ATC_STR_RAT_FF.ParamName = null;
+            // 
+            // label24
+            // 
+            resources.ApplyResources(this.label24, "label24");
+            this.label24.Name = "label24";
+            // 
+            // WP_SPEED
+            // 
+            resources.ApplyResources(this.WP_SPEED, "WP_SPEED");
+            this.WP_SPEED.Max = 1F;
+            this.WP_SPEED.Min = 0F;
+            this.WP_SPEED.Name = "WP_SPEED";
+            this.WP_SPEED.ParamName = null;
+            // 
+            // label5
+            // 
+            resources.ApplyResources(this.label5, "label5");
+            this.label5.Name = "label5";
+            // 
             // ConfigArdurover
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.Controls.Add(this.label21);
             this.Controls.Add(this.CH7_OPTION);
             this.Controls.Add(this.BUT_refreshpart);
@@ -618,7 +636,6 @@
             resources.ApplyResources(this, "$this");
             this.groupBox3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.CRUISE_SPEED)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.MOT_SKID_FRIC)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.THR_MAX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.THR_MIN)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.CRUISE_THROTTLE)).EndInit();
@@ -646,6 +663,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.SONAR_TRIGGER_CM)).EndInit();
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.TURN_RADIUS)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ATC_STR_RAT_FF)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.WP_SPEED)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -653,8 +672,6 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox3;
-        private Controls.MavlinkNumericUpDown MOT_SKID_FRIC;
-        private System.Windows.Forms.Label label5;
         private Controls.MavlinkNumericUpDown THR_MAX;
         private System.Windows.Forms.Label label6;
         private Controls.MavlinkNumericUpDown THR_MIN;
@@ -716,5 +733,9 @@
         private Controls.MavlinkComboBox ATC_BRAKE;
         private Controls.MavlinkComboBox MOT_PWM_TYPE;
         private System.Windows.Forms.Label label22;
+        private Controls.MavlinkNumericUpDown ATC_STR_RAT_FF;
+        private System.Windows.Forms.Label label24;
+        private Controls.MavlinkNumericUpDown WP_SPEED;
+        private System.Windows.Forms.Label label5;
     }
 }

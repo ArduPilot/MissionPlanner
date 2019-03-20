@@ -37,7 +37,7 @@ namespace MissionPlanner.Utilities
                         }
                     }
                 }
-                catch (Exception ex)
+                catch
                 {
                     
                 }
@@ -48,7 +48,6 @@ namespace MissionPlanner.Utilities
 
         public static async Task EnumerateAllServicesFromAllHosts()
         {
-            return;
             ILookup<string, string> domains = await ZeroconfResolver.BrowseDomainsAsync();
             var responses = await ZeroconfResolver.ResolveAsync(domains.Select(g => g.Key));
             foreach (var resp in responses)

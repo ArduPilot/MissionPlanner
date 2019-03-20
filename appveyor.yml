@@ -1,21 +1,16 @@
 version: 1.0.{build}
 image: Visual Studio 2017
 configuration: Release
-clone_depth: 1
 clone_folder: c:\MP\
-init:
-- cmd: 
-cache: packages
-environment:
-  email:
-    secure: dkWdmOxf3t/x2H0gEo1GurKM8Due1idnog5VJtUlSEA=
-  token:
-    secure: FfCpqsH/V1r7PoXHkMcJpW7kWiQ6rQaedlH2L8smyeY=
+cache:
+    - packages -> appveyor.yml
 build_script:
 - cmd: >-
+    rem git submodule update --init --recursive
+
     dotnet --info
 
-    c:\mp\.nuget\nuget.exe update -self
+    c:\mp\.nuget\nuget.exe sources Add -Name "myget" -Source https://dotnet.myget.org/F/dotnet-core/api/v3/index.json
     
     c:\mp\.nuget\nuget.exe restore
     
@@ -27,32 +22,35 @@ build_script:
 
     for /f %%f in ('dir /a-d /b plugins') do if exist .\%%f del .\plugins\%%f
 
-    set PATH=c:\cygwin\bin;%PATH%
+    copy version.txt c:\mp\
+    
+    rem del gdal dlls /s /f /q
 
-    7z a -tzip ..\..\..\MissionPlannerBeta.zip *  
+    7z a -tzip ..\..\..\MissionPlannerBeta.zip *
 
     cd ..
 
-    c:\cygwin\bin\find.exe net461 -type f -print0 | xargs.exe -i -0 md5sum.exe '{}' > checksums.txt
+    md5sum.exe net461 > checksums.txt
 
     copy checksums.txt c:\mp\
 
     cd c:\mp\
 
-    cov-build.exe --dir cov-int msbuild.exe MissionPlanner.sln /m /p:Configuration=Debug /l:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+    cd msi 
 
-    7z a -tzip MissionPlannerCov-int.zip c:\mp\cov-int 
+    wix.exe ..\bin\release\net461\ 
 
-    rem curl --form %token% --form %email% --form file=@MissionPlannerCov-int.zip --form version="%APPVEYOR_BUILD_VERSION%" --form description="" https://scan.coverity.com/builds?project=ArduPilot%2FMissionPlanner
+    "%wix%\bin\candle" installer.wxs -ext WiXNetFxExtension -ext WixDifxAppExtension -ext WixUIExtension.dll -ext WixUtilExtension -ext WixIisExtension 
+  
+    "%wix%\bin\light" installer.wixobj "%wix%\bin\difxapp_x86.wixlib" -sval -o MissionPlanner-latest.msi -ext WiXNetFxExtension -ext WixDifxAppExtension -ext WixUIExtension.dll -ext WixUtilExtension -ext WixIisExtension 
 
 test: off
 artifacts:
 - path: MissionPlannerCov-int.zip
-  name: MissionPlannerCov-int
 - path: MissionPlannerBeta.zip
-  name: MissionPlannerBeta
 - path: checksums.txt
-  name: checksums
+- path: version.txt
+- path: ChangeLog.txt
 deploy: off
 notifications:
 - provider: Webhook
@@ -60,4 +58,8 @@ notifications:
   method: POST
   on_build_success: true
   on_build_failure: false
+  on_build_status_changed: false
+- provider: GitHubPullRequest
+  on_build_success: true
+  on_build_failure: true
   on_build_status_changed: false

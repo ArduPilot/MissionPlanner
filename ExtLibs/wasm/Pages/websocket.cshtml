@@ -1,0 +1,363 @@
+﻿@page "/websocket"
+@using System.IO
+@using System.Net
+@using System.Net.WebSockets
+@using System.Threading
+@using MissionPlanner
+@using MissionPlanner.Comms
+@using MissionPlanner.Utilities
+@using MissionPlanner.Log
+@using System.IO;
+
+@using System.Text;
+
+@using System.Security.Cryptography;
+@using Blazor.FileReader;
+@using System.IO;
+@using System.Runtime.InteropServices
+@using Blazor.Extensions
+@using Mono.WebAssembly.Interop
+@using Newtonsoft.Json
+@using Org.BouncyCastle.Utilities.Encoders
+@implements IDisposable
+@inject IFileReaderService fileReaderService;
+@inject HttpClient Http
+
+<h1>WebSocket</h1>
+
+<p>@gpstime @lat @lng @alt @hdg</p>
+
+<div id="map" style="width: 100%; height: 70vh;"></div>
+
+<BECanvas ref="@_canvasReference" Width="400" Height="100"></BECanvas>
+
+@functions {
+    double lat = 0, lng = 0, alt = 0, hdg = 0;
+    int currentCount = 0;
+    MAVLinkInterface mav;
+    DateTime gpstime;
+    static bool init = false;
+
+    private Canvas2dContext _context;
+
+    protected BECanvasComponent _canvasReference;
+
+    static websocket instance;
+
+    [JSInvokable]
+    public string SayHello() => $"Hello, {currentCount}!";
+
+    private void Log(string message) => Console.WriteLine($"{DateTime.UtcNow.ToString("O")} - {message}");
+
+    protected override void OnInit()
+    {
+        Log("OnInit");
+        base.OnInit();
+
+        instance = this;
+
+        init = false;
+
+        Console.WriteLine("OnInit Done");
+    }
+
+    protected override async Task OnInitAsync() => Log("OnInitAsync");
+
+    //protected override void OnAfterRender() => Log("OnAfterRender");
+
+    byte[] buffer = new byte[1024];
+
+    protected override async Task OnAfterRenderAsync()
+    {
+        this._context = this._canvasReference.CreateCanvas2d();
+
+        this._context.FillStyle = "green";
+
+        this._context.FillRect(10, 100, 100, 100);
+
+        this._context.Font = "48px serif";
+        this._context.StrokeText("Hello Blazor!!!", 10, 100);
+
+        if (init)
+            return;
+
+        Log("OnAfterRenderAsync");
+
+        init = true;
+
+        var js = JSRuntime.Current as MonoWebAssemblyJSRuntime;
+        js.InvokeUnmarshalled<byte[], bool>("setNetBuffer1024", buffer);
+
+        var handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+
+        JSRuntime.Current.InvokeAsync<object>("initMap", null);
+
+        JSRuntime.Current.InvokeAsync<object>("initWebSocket", null);
+    }
+
+    protected override void OnParametersSet()
+    {
+        Log("OnParametersSet");
+
+
+
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        Log("OnParametersSetAsync");
+
+
+    }
+
+    public static void ProcessPacketStatic(string json)
+    {
+        //Console.WriteLine("ProcessPacketStatic");
+
+        if (instance != null)
+            instance.ProcessPacket(json);
+
+        if (instance == null)
+        {
+            instance = new websocket();
+            init = true;
+        }
+
+        //Console.WriteLine("ProcessPacketStatic " + instance);
+    }
+
+
+    public static void ProcessPacketStaticBytes(string lengths)
+    {
+        var length = int.Parse(lengths);
+        //Console.WriteLine("ProcessPacketStaticBytes");
+        if (instance != null)
+        {
+            if(instance.buffer == null)
+                Console.WriteLine("buffer is null");
+
+            if(length == null)
+                Console.WriteLine("buffer is null");
+
+            //Console.WriteLine(length + " " + BitConverter.ToString(instance.buffer.Take(length).ToArray()));
+
+            //var js = JSRuntime.Current as MonoWebAssemblyJSRuntime;
+            //js.InvokeUnmarshalled<byte[], bool>("setNetBuffer1024", instance.buffer);
+
+            instance.ProcessPacket("", instance.buffer.Take(length).ToArray());
+        }
+
+        if (instance == null)
+        {
+            instance = new websocket();
+            init = true;
+        }
+
+        //Console.WriteLine("ProcessPacketStaticBytes " + instance);
+    }
+
+    //[JSInvokable]
+    public async void ProcessPacket(string json, byte[] data = null)
+    {
+        //Console.WriteLine(DateTime.Now + " JS to C# " + json.ToArray().Length);
+
+        DateTime start = DateTime.Now;
+
+        if (!init)
+        {
+            Console.WriteLine("need to init first");
+            return;
+        }
+
+        if (this == null)
+        {
+            Console.WriteLine("this is null");
+            return;
+        }
+
+        //StateHasChanged();
+        //Console.WriteLine("mav null?");
+        if (mav == null)
+        {
+            Console.WriteLine("set mav");
+            mav = new MAVLinkInterface();
+
+            // just to prevent null exceptions
+            var cf = new CommsInjection();
+            mav.BaseStream = cf;
+
+            mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT, packetReceived);
+            mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.GPS_RAW_INT, packetReceived);
+            mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.HEARTBEAT, packetReceived);
+            mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.PARAM_VALUE, packetReceived);
+        }
+
+        //Console.WriteLine("decode json");
+
+        if(json != "")
+            data = Base64.Decode(json);
+
+        mav.BaseStream.Write(data, 0, data.Length);
+
+
+        /*
+                var pos = mav.logplaybackfile.BaseStream.Position;
+
+                mav.logplaybackfile.BaseStream.Seek(0, SeekOrigin.End);
+
+                byte[] datearray =
+                    BitConverter.GetBytes(
+                        (UInt64)((DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds * 1000));
+                Array.Reverse(datearray);
+                mav.logplaybackfile.BaseStream.Write(datearray, 0, datearray.Length);
+
+                mav.logplaybackfile.BaseStream.Write(data, 0, data.Length);
+
+                mav.logplaybackfile.BaseStream.Seek(pos, SeekOrigin.Begin);
+
+                mav.logreadmode = true;
+                */
+        //Console.WriteLine("open {0} btr {1} {2} {3}", mav.BaseStream.IsOpen, mav.BaseStream.BytesToRead, mav.BaseStream.GetType(), mav.BaseStream.BaseStream?.GetType());
+
+        var check1 = DateTime.Now;
+
+        ProcessPackets();
+
+        //var packet = await
+
+        //((MemoryStream)mav.logplaybackfile.BaseStream).SetLength(0);
+
+        //Console.WriteLine("convert packet to bytes {0} everything {1}",check1-start, DateTime.Now - start);
+        //mav.DebugPacket(packet, true);
+    }
+
+    public static void ProcessPackets()
+    {
+        if (instance != null)
+            instance.ProcessPacketsint();
+    }
+
+    bool running = false;
+
+    public void ProcessPacketsint()
+    {
+        if (running)
+            return;
+
+        if (!init)
+            return;
+
+        if (this == null)
+        {
+            Console.WriteLine("this is null");
+            return;
+        }
+
+        if
+            (mav == null || mav.BaseStream == null)
+        {
+            Console.WriteLine("ProcessPackets mav is null");
+            return;
+        }
+
+        //Console.WriteLine("ProcessPacketsint btr:" + mav.BaseStream.BytesToRead);
+
+        //var th = new Thread(() =>
+        {
+            //while (mav != null)
+            {
+
+                //running = true;
+                DateTime end = DateTime.Now.AddMilliseconds(10);
+                while (DateTime.Now < end && mav.BaseStream.BytesToRead > 15)
+                {
+                    mav.readPacket();
+                }
+
+                if (mav.BaseStream.BytesToRead > 200)
+                {
+                    Console.WriteLine("Clearing data as behind " + mav.BaseStream.BytesToRead);
+                    mav.BaseStream.DiscardInBuffer();
+                }
+                //Thread.Sleep(20);
+                //Task.Delay(20);
+            }
+        }//);
+    }
+
+
+    DateTime nextUpdate = DateTime.Now.AddMilliseconds(100);
+
+    private bool packetReceived(MAVLink.MAVLinkMessage packet)
+    {
+        if (packet.data is MAVLink.mavlink_global_position_int_t)
+        {
+            var pos = (MAVLink.mavlink_global_position_int_t)packet.data;
+
+            lat = pos.lat / 1e7;
+            lng = pos.lon / 1e7;
+            alt = pos.alt / 1e3;
+            hdg = pos.hdg / 1e2;
+
+            //Console.WriteLine("Update mavlink_global_position_int_t ##############################");
+        }
+        else if (packet.data is MAVLink.mavlink_gps_raw_int_t)
+        {
+            var pos = (MAVLink.mavlink_gps_raw_int_t)packet.data;
+
+            lat = pos.lat / 1e7;
+            lng = pos.lon / 1e7;
+            alt = pos.alt / 1e3;
+            hdg = (ushort)(pos.cog / 1e2);
+
+            //StateHasChanged();
+
+
+
+            //Console.WriteLine("Update mavlink_gps_raw_int_t ##############################");
+        }
+        else if (packet.data is MAVLink.mavlink_heartbeat_t)
+        {
+            var hb = (MAVLink.mavlink_heartbeat_t)packet.data;
+
+            //mav.DebugPacket(packet, true);
+        }
+        else if (packet.data is MAVLink.mavlink_param_value_t)
+        {
+            var param = (MAVLink.mavlink_param_value_t)packet.data;
+
+            Console.WriteLine("{0} {1}", ASCIIEncoding.ASCII.GetString(param.param_id), param.param_value);
+        }
+
+        // update gui if neede
+        if (DateTime.Now > nextUpdate)
+        {
+            nextUpdate = DateTime.Now.AddMilliseconds(200);
+
+            int a = 0;
+            foreach (var mavd in mav.MAVlist)
+            {
+                mavd.cs.UpdateCurrentSettings(null, false, mav, mavd);
+                JSRuntime.Current.InvokeAsync<object>("setPosition", new object[] { a, mavd.cs.lat, mavd.cs.lng, mavd.cs.altasl, mavd.cs.roll, mavd.cs.pitch, mavd.cs.yaw });
+                a++;
+            }
+
+            gpstime = DateTime.Now;
+
+            StateHasChanged();
+        }
+
+        return true;
+        //mav.DebugPacket(packet, true);
+    }
+
+    public void Dispose()
+    {
+        Http?.Dispose();
+
+        mav?.Dispose();
+
+        instance = null;
+    }
+
+}

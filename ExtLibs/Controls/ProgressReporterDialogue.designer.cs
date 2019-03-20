@@ -98,7 +98,7 @@ namespace MissionPlanner.Controls
             // ProgressReporterDialogue
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.ControlBox = false;
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.imgWarning);

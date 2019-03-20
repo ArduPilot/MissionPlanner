@@ -4,12 +4,13 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Drawing;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigHWCompass : UserControl, IActivate
+    public partial class ConfigHWCompass : MyUserControl, IActivate
     {
         private const int THRESHOLD_OFS_RED = 600;
         private const int THRESHOLD_OFS_YELLOW = 400;
@@ -39,7 +40,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             startup = true;
 
             if (MainV2.comPort.MAV.cs.version > Version.Parse("3.2.1") &&
-                MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+                MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
             {
                 QuickAPM25.Visible = false;
                 buttonAPMExternal.Visible = false;
@@ -48,7 +49,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
             if (MainV2.comPort.MAV.cs.version >= Version.Parse("3.7.1") &&
-                MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane 
+                MainV2.comPort.MAV.cs.firmware == Firmwares.ArduPlane 
                 || Control.ModifierKeys == Keys.Control)
             {
                 groupBoxonboardcalib.Visible = true;
@@ -634,7 +635,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 if (
                     CustomMessageBox.Show("is the FW version greater than APM:copter 3.01 or APM:Plane 2.74?", "",
-                        MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
                 {
                     CMB_compass1_orient.SelectedIndex = (int) Rotation.ROTATION_NONE;
                 }

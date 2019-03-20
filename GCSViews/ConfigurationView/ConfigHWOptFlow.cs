@@ -4,7 +4,7 @@ using MissionPlanner.Controls;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigHWOptFlow : UserControl, IActivate
+    public partial class ConfigHWOptFlow : MyUserControl, IActivate
     {
         private bool startup;
 

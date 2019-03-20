@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace MissionPlanner.Utilities
     {
         private long _length;
         string _uri = "";
-        public int chunksize { get; set; } = 1000 * 50;
+        public int chunksize { get; set; } = 1000 * 250;
 
         private static object _lock = new object();
         /// <summary>
@@ -112,10 +113,79 @@ namespace MissionPlanner.Utilities
         {
             _lastread = DateTime.Now;
             var start = getAlignedChunk(Position);
+            var end = start + count;
 
-            // check the cache
-            if (!_chunks.ContainsKey(start))
+            // get the first chunk
+            GetChunk(start);
+
+            // return data
+            // check to see if this spans a chunk
+            if (getChunkNo(Position) != getChunkNo(Position + count-1))
             {
+                var bytestoget = count;
+                var bytesgot = 0;
+                var startchunk = getChunkNo(Position);
+                var endchunk = getChunkNo(Position + count - 1);
+
+                // download all chunks required
+                Parallel.For(startchunk + 1, endchunk + 1, new ParallelOptions() {MaxDegreeOfParallelism = 3},
+                    (l) =>
+                    {
+                        Console.WriteLine("Parallel download {0}: {1}", _uri, l * chunksize);
+                        GetChunk(l * chunksize);
+                    });
+
+                for (long chunkno = startchunk; chunkno <= endchunk; chunkno++)
+                {
+                    var leftinchunk = Position % chunksize == 0 ? chunksize : chunksize - (Position % chunksize);
+                    bytesgot += Read(buffer, offset + bytesgot, (int)Math.Min(bytestoget - bytesgot, leftinchunk));
+                }
+            }
+            else
+            {
+                Array.Copy(_chunks[start].ToArray(), Position - start, buffer, offset, count);
+
+                Position += count;
+            }
+
+            return count;
+        }
+
+        private static List<string> gettingChunk = new List<string>();
+        private static object gettingChunkLock = new object();
+
+        private void GetChunk(long start)
+        {
+            var key = _uri.ToLower() + "-" + start;
+            try
+            {
+                var test = false;
+                do
+                {
+                    lock (gettingChunkLock)
+                    {
+                        // see if we are already getting it
+                        test = gettingChunk.Contains(key);
+                    }
+
+                    if (test)
+                    {
+                        Thread.Sleep(50);
+                    }
+                    else
+                    {
+                        lock (gettingChunkLock)
+                        {
+                            // we dont have it and we need to get it
+                            gettingChunk.Add(key);
+                        }
+                    }
+                } while (test);
+
+                // we have it already
+                if (_chunks.ContainsKey(start))
+                    return;
+
                 var end = Math.Min(Length, start + chunksize);
 
                 // cache it
@@ -133,29 +203,13 @@ namespace MissionPlanner.Utilities
                     _chunks[start] = ms;
                 }
             }
-
-            // return data
-            // check to see if this spans a chunk
-            if (getChunkNo(Position) != getChunkNo(Position + count-1))
+            finally
             {
-                var bytestoget = count;
-                var bytesgot = 0;
-                var startchunk = getChunkNo(Position);
-                var endchunk = getChunkNo(Position + count - 1);
-                for (long chunkno = startchunk; chunkno <= endchunk; chunkno++)
+                lock (gettingChunkLock)
                 {
-                    var leftinchunk = Position % chunksize == 0 ? chunksize : chunksize - (Position % chunksize);
-                    bytesgot += Read(buffer, offset + bytesgot, (int)Math.Min(bytestoget - bytesgot, leftinchunk));
+                    gettingChunk.Remove(key);
                 }
             }
-            else
-            {
-                Array.Copy(_chunks[start].ToArray(), Position - start, buffer, offset, count);
-
-                Position += count;
-            }
-
-            return count;
         }
 
         public override long Seek(long offset, SeekOrigin origin)
@@ -215,7 +269,8 @@ namespace MissionPlanner.Utilities
                     new System.Net.Security.RemoteCertificateValidationCallback(
                         (sender, certificate, chain, policyErrors) => { return true; });
 
-                log.Info(url);
+                lock (log)
+                    log.Info(url);
                 // Create a request using a URL that can receive a post. 
                 WebRequest request = WebRequest.Create(url);
                 request.Timeout = 10000;
@@ -224,7 +279,8 @@ namespace MissionPlanner.Utilities
                 // Get the response.
                 WebResponse response = request.GetResponse();
                 // Display the status.
-                log.Info(((HttpWebResponse)response).StatusDescription);
+                lock (log)
+                    log.Info(((HttpWebResponse)response).StatusDescription);
                 if (((HttpWebResponse)response).StatusCode != HttpStatusCode.OK)
                     return false;
 
@@ -237,7 +293,8 @@ namespace MissionPlanner.Utilities
                     {
                         if (((HttpWebResponse)response).ContentLength == new FileInfo(saveto).Length)
                         {
-                            log.Info("got LastModified " + saveto + " " + ((HttpWebResponse)response).LastModified +
+                            lock (log)
+                                log.Info("got LastModified " + saveto + " " + ((HttpWebResponse)response).LastModified +
                                      " vs " + new FileInfo(saveto).LastWriteTime);
                             response.Close();
                             return true;
@@ -262,7 +319,6 @@ namespace MissionPlanner.Utilities
 
                 while (dataStream.CanRead && bytes > 0)
                 {
-                    log.Debug(saveto + " " + bytes);
                     int len = dataStream.Read(buf1, 0, buf1.Length);
                     bytes -= len;
                     fs.Write(buf1, 0, len);
@@ -279,7 +335,8 @@ namespace MissionPlanner.Utilities
             }
             catch (Exception ex)
             {
-                log.Info("getFilefromNet(): " + ex.ToString());
+                lock (log)
+                    log.Info("getFilefromNet(): " + ex.ToString());
                 return false;
             }
         }
@@ -307,11 +364,12 @@ namespace MissionPlanner.Utilities
                 response = (HttpWebResponse)webRequest.GetResponse();
                 result = true;
             }
-            catch (WebException webException)
+            catch
             {
             }
             finally
             {
+                log.Info(String.Format("CheckHTTPFileExists: {0} - {1}", url, result));
                 if (response != null)
                 {
                     response.Close();
@@ -322,7 +380,7 @@ namespace MissionPlanner.Utilities
         }
 
         //https://stackoverflow.com/questions/13606523/retrieving-partial-content-using-multiple-http-requsets-to-fetch-data-via-parlle
-        public static void ParallelDownloadFile(string uri, string filePath, int chunkSize)
+        public static void ParallelDownloadFile(string uri, string filePath, int chunkSize = 0, Action<int,string> status = null)
         {
             if (uri == null)
                 throw new ArgumentNullException("uri");
@@ -330,39 +388,88 @@ namespace MissionPlanner.Utilities
             // determine file size first
             long size = GetFileSize(uri);
 
+            if (chunkSize == 0)
+                chunkSize = (int)(size / 20);
+
             using (FileStream file = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.Write))
             {
                 file.SetLength(size); // set the length first
 
+                var starttime = DateTime.Now;
+                var got = 0L;
+                DateTime lastupdate = DateTime.MinValue;
+
                 object syncObject = new object(); // synchronize file writes
-                Parallel.ForEach(LongRange(0, 1 + size / chunkSize), (start) =>
+                Parallel.ForEach(LongRange(0, 1 + size / chunkSize), new ParallelOptions { MaxDegreeOfParallelism = 3 }, (start) =>
                 {
                     HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
                     request.AddRange(start * chunkSize, start * chunkSize + chunkSize - 1);
+                    Console.WriteLine("{0} {1}-{2}", uri, start * chunkSize, start * chunkSize + chunkSize - 1);
                     HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
-                    lock (syncObject)
+                    using (Stream stream = response.GetResponseStream())
                     {
-                        using (Stream stream = response.GetResponseStream())
+                        var seek = start * chunkSize;
+
+                        byte[] array = new byte[1024 * 80];
+                        int count;
+                        while ((count = stream.Read(array, 0, array.Length)) != 0)
                         {
-                            file.Seek(start * chunkSize, SeekOrigin.Begin);
-                            stream.CopyTo(file);
+                            lock (syncObject)
+                            {
+                                file.Seek(seek, SeekOrigin.Begin);
+                                file.Write(array, 0, count);
+                                got += count;
+                                seek += count;
+                                var elapsed = (DateTime.Now - starttime).TotalSeconds;
+                                var percent = ((got / (float) size) * 100.0f);
+                                if (lastupdate.Second != DateTime.Now.Second)
+                                {
+                                    lastupdate = DateTime.Now;
+                                    Console.WriteLine("{0} bps {1} {2}s {3}% of {4}     \r", got / elapsed, got, elapsed,
+                                        percent, size);
+                                    var timeleft = TimeSpan.FromSeconds(((elapsed / percent) * (100 - percent)));
+                                    status?.Invoke((int) percent,
+                                        "Downloading.. ETA: " +
+                                       //DateTime.Now.AddSeconds(((elapsed / percent) * (100 - percent))).ToShortTimeString()
+                                        formatTimeSpan(timeleft)
+                                        );
+                                }
+                            }
                         }
                     }
                 });
+
+                status?.Invoke(100, "Complete");
             }
         }
+
+        private static string formatTimeSpan(TimeSpan timeleft)
+        {
+            if (timeleft.TotalHours >= 1)
+                return timeleft.TotalHours.ToString("0.0") + " Hours";
+            if (timeleft.TotalSeconds >= 60)
+                return timeleft.Minutes + ":" + timeleft.Seconds.ToString("00") + " Minutes";
+
+            return timeleft.Seconds + " Seconds";
+        }
+
+        static Dictionary<string,long> fileSizeCache = new Dictionary<string, long>();
 
         public static long GetFileSize(string uri)
         {
             if (uri == null)
                 throw new ArgumentNullException("uri");
 
+            if (fileSizeCache.ContainsKey(uri) && fileSizeCache[uri] > 0)
+                return fileSizeCache[uri];
+
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
             request.Method = "GET";
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
             var len = response.ContentLength;
             response.Close();
+            fileSizeCache[uri] = len;
             return len;
         }
 

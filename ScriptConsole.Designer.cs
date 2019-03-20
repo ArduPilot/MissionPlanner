@@ -75,7 +75,7 @@
             // ScriptConsole
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.Controls.Add(this.BUT_clear);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.autoscrollCheckbox);

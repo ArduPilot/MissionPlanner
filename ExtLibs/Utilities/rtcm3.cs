@@ -5,6 +5,8 @@ using u16 = System.UInt16;
 using s32 = System.Int32;
 using u32 = System.UInt32;
 using gps_time_t = System.UInt64;
+using System.Runtime.InteropServices;
+using RTCM3 = MissionPlanner.Utilities.rtcm3;
 
 namespace MissionPlanner.Utilities
 {
@@ -48,10 +50,17 @@ namespace MissionPlanner.Utilities
         private const double PI = Math.PI; /* pi */
         public const double D2R = (PI/180.0); /* deg to rad */
         public const double R2D = (180.0/PI); /* rad to deg */
+
+        public u32 sync;
+
+        private static double lasttow = 0;
+
+        public static int weekGuess = 0;
+
         private int msglencount;
         private uint payloadlen;
         private rtcmpreamble pre;
-        private int step;
+        public int step;
 
         public event EventHandler ObsMessage;
         public event EventHandler BasePosMessage;
@@ -128,6 +137,8 @@ namespace MissionPlanner.Utilities
                     {
                         var head = new rtcmheader();
                         head.Read(packet);
+
+                        sync = head.sync;
 
                         step = 0;
 
@@ -230,16 +241,31 @@ namespace MissionPlanner.Utilities
                             if (BasePosMessage != null)
                                 BasePosMessage(tp, null);
                         }
-                        /*
                         else if (head.messageno == 1019)
                         {
                             var tp = new type1019();
 
                             tp.Read(packet);
 
+                            var week = (int)tp.week + 1024;
+
+                            // both at start of a week
+                            if (tp.toes < (60 * 60 * 24) && lasttow < (60 * 60 * 24))
+                            {
+                                RTCM3.weekGuess = week;
+                            } // eph at end of week and tow at start of week
+                            else if (tp.toes > 500000 && lasttow < (60 * 60 * 24))
+                            {
+                                RTCM3.weekGuess = week + 1;
+                            } // everything else
+                            else
+                            {
+                                RTCM3.weekGuess = week;
+                            }
+
                             if (EphMessage != null)
                                 EphMessage(tp, null);
-                        }*/
+                        }
 
                         return head.messageno;
                     }
@@ -257,6 +283,11 @@ namespace MissionPlanner.Utilities
             for (i = pos; i < pos + len; i++)
                 bits = (uint) ((bits << 1) + ((buff[i/8] >> (int) (7 - i%8)) & 1u));
             return bits;
+        }
+
+        private static void setbitu(byte[] buff, uint pos, uint len, double data)
+        {
+            setbitu(buff, pos, len, (uint)data);
         }
 
         private static void setbitu(byte[] buff, uint pos, uint len, uint data)
@@ -309,6 +340,11 @@ namespace MissionPlanner.Utilities
             var word_l = (uint) (value - word_h*64.0);
             setbits(buff, pos, 32, word_h);
             setbitu(buff, pos + 32, 6, word_l);
+        }
+
+        private static void setbits(byte[] buff, uint pos, uint len, double data)
+        {
+            setbits(buff, pos, len, (int)data);
         }
 
         private static void setbits(byte[] buff, uint pos, uint len, int data)
@@ -534,17 +570,11 @@ namespace MissionPlanner.Utilities
 
                 i = 24 + 64;
 
-                var week = 0;
-                double seconds = 0;
-
-                // asumes current week
-                StaticUtils.GetFromTime(DateTime.Now, ref week, ref seconds);
-
-                // if tow is larger than the calced curretn time, go back one week
-                if (tow > seconds)
-                    week--;
+                var week = RTCM3.weekGuess;
 
                 var gpstime = StaticUtils.GetFromGps(week, tow);
+
+                lasttow = tow;
 
                 //Console.WriteLine("> {0,4} {1,2} {2,2} {3,2} {4,2} {5,10} {6,2} {7,2}", gpstime.Year, gpstime.Month,gpstime.Day, gpstime.Hour, gpstime.Minute, gpstime.Second + gpstime.Millisecond/1000.0, 0, nsat);
 
@@ -642,6 +672,28 @@ namespace MissionPlanner.Utilities
                 return time;
             }
 
+            public static int LeapSecondsGPS(int year, int month)
+            {
+                return LeapSecondsTAI(year, month) - 19;
+            }
+
+            public static int LeapSecondsTAI(int year, int month)
+            {
+                //http://maia.usno.navy.mil/ser7/tai-utc.dat
+
+                var yyyymm = year * 100 + month;
+                if (yyyymm >= 201701) return 37;
+                if (yyyymm >= 201507) return 36;
+                if (yyyymm >= 201207) return 35;
+                if (yyyymm >= 200901) return 34;
+                if (yyyymm >= 200601) return 33;
+                if (yyyymm >= 199901) return 32;
+                if (yyyymm >= 199707) return 31;
+                if (yyyymm >= 199601) return 30;
+
+                return 0;
+            }
+
             public static void GetFromTime(DateTime time, ref int week, ref double seconds)
             {
                 var datum = new DateTime(1980, 1, 6, 0, 0, 0, DateTimeKind.Utc);
@@ -681,17 +733,11 @@ namespace MissionPlanner.Utilities
 
                 i = 24 + 64;
 
-                var week = 0;
-                double seconds = 0;
-
-                // asumes current week
-                StaticUtils.GetFromTime(DateTime.Now, ref week, ref seconds);
-
-                // if tow is larger than the calced curretn time, go back one week
-                if (tow > seconds)
-                    week--;
+                var week = RTCM3.weekGuess;
 
                 var gpstime = StaticUtils.GetFromGps(week, tow);
+
+                lasttow = tow;
 
                 //Console.WriteLine("> {0} {1} {2} {3,2} {4} {5} {6} {7}", gpstime.Year, gpstime.Month, gpstime.Day,gpstime.Hour, gpstime.Minute, gpstime.Second + gpstime.Millisecond/1000.0, 0, nsat);
 
@@ -829,23 +875,13 @@ namespace MissionPlanner.Utilities
                 var smoothint = getbitu(buffer, i, 3);
                 i += 3;
 
-                // WIP
-                int WIP;
+                var week = RTCM3.weekGuess;
 
-                var week = 0;
-                double seconds = 0;
+                var gpstime = StaticUtils.GetFromGps(week, tow - 10800 - (60*60*24));
 
-                // asumes current week
-                StaticUtils.GetFromTime(DateTime.Now, ref week, ref seconds);
+                gpstime = gpstime.AddSeconds(StaticUtils.LeapSecondsGPS(gpstime.Year, gpstime.Month));
 
-                // if tow is larger than the calced curretn time, go back one week
-                if (tow > seconds)
-                    week--;
-
-                // 3hrs
-                tow += 10800;
-
-                var gpstime = StaticUtils.GetFromGps(week, tow);
+                lasttow = tow;
 
                 Console.WriteLine("> {0} {1} {2} {3,2} {4} {5} {6} {7}", gpstime.Year, gpstime.Month, gpstime.Day,gpstime.Hour, gpstime.Minute, gpstime.Second + gpstime.Millisecond/1000.0, 0, nsat);
 
@@ -940,6 +976,7 @@ namespace MissionPlanner.Utilities
             public double cp2;
             public double pr;
             public double pr2;
+			
             public byte prn;
             public rawrtcm raw = new rawrtcm();
             public byte snr;
@@ -1028,20 +1065,13 @@ namespace MissionPlanner.Utilities
 
                 // end of header  i=202
 
-                var week = 0;
-                double seconds = 0;
-
-                // asumes current week
-                StaticUtils.GetFromTime(DateTime.Now, ref week, ref seconds);
-
-                // if tow is larger than the calced curretn time, go back one week
-                if (tow > seconds)
-                    week--;
+                var week = RTCM3.weekGuess;
 
                 var gpstime = StaticUtils.GetFromGps(week, tow);
 
-                //Console.WriteLine("> {0,4} {1,2} {2,2} {3,2} {4,2} {5,10} {6,2} {7,2}", gpstime.Year, gpstime.Month,gpstime.Day, gpstime.Hour, gpstime.Minute, gpstime.Second + gpstime.Millisecond/1000.0, 0, nsat);
+                lasttow = tow;
 
+                //Console.WriteLine("> {0,4} {1,2} {2,2} {3,2} {4,2} {5,10} {6,2} {7,2}", gpstime.Year, gpstime.Month,gpstime.Day, gpstime.Hour, gpstime.Minute, gpstime.Second + gpstime.Millisecond/1000.0, 0, nsat);
 
                 var r = new double[64];
                 var rr = new double[64];
@@ -1109,6 +1139,9 @@ namespace MissionPlanner.Utilities
                 }
 
                 var lam1 = CLIGHT / FREQ1;
+                var lam2 = CLIGHT / FREQ2;
+
+                var sig = 0;
 
                 for (j = 0; j < nsat; j++)
                 {
@@ -1119,14 +1152,18 @@ namespace MissionPlanner.Utilities
 
                     ob.prn = (byte)sats[j];
 
-                    ob.pr = r[j] + pr[j];
-                    ob.cp = (r[j] + cp[j]) / lam1;
-                    ob.snr = (byte)(cnr[j]);
+                    ob.pr = r[j] + pr[sig];
+                    ob.cp = (r[j] + cp[sig]) / lam1;
+                    ob.snr = (byte)(cnr[sig]);
 
-                    if (nsig > 1)
+                    for (int k = 0; k < nsig; k++)
                     {
-                        ob.pr2 = r[j] + pr[j + sats.Count * 1];
-                        ob.cp2 = (r[j] + cp[j + sats.Count * 1]); // / lam2;
+                        if (k == 1)
+                        {
+                            ob.pr2 = r[j] + pr[sig];
+                            ob.cp2 = (r[j] + cp[sig]);
+                        }
+                        sig++;
                     }
 
                     obs.Add(ob);
@@ -1159,206 +1196,6 @@ namespace MissionPlanner.Utilities
 
                 var staid = getbitu(buffer, i, 12);
                 i += 12;
-                var tow = getbitu(buffer, i, 30)*0.001;
-                i += 30;
-                var sync = getbitu(buffer, i, 1);
-                i += 1;
-                var iod = getbitu(buffer, i, 3);
-                i += 3;
-
-                var time_s = getbitu(buffer, i, 7);
-                i += 7;
-                var clk_str = getbitu(buffer, i, 2);
-                i += 2;
-                var clk_ext = getbitu(buffer, i, 2);
-                i += 2;
-                var smooth = getbitu(buffer, i, 1);
-                i += 1;
-                var tint_s = getbitu(buffer, i, 3);
-                i += 3;
-
-                var nsat = 0;
-                var nsig = 0;
-                var ncell = 0;
-                var j = 0;
-
-                var sats = new Dictionary<int, double>();
-                var sigs = new Dictionary<int, double>();
-                var cellmask = new byte[64];
-
-                for (j = 1; j <= 64; j++)
-                {
-                    var mask = getbitu(buffer, i, 1);
-                    i += 1;
-                    if (mask > 0) sats[nsat++] = j;
-                }
-                for (j = 1; j <= 32; j++)
-                {
-                    var mask = getbitu(buffer, i, 1);
-                    i += 1;
-                    if (mask > 0) sigs[nsig++] = j;
-                }
-
-                for (j = 0; j < nsat*nsig; j++)
-                {
-                    cellmask[j] = (byte) getbitu(buffer, i, 1);
-                    i += 1;
-                    if (cellmask[j] > 0) ncell++;
-                }
-
-                // end of header  i=202
-
-                var week = 0;
-                double seconds = 0;
-
-                // asumes current week
-                StaticUtils.GetFromTime(DateTime.Now, ref week, ref seconds);
-
-                // if tow is larger than the calced curretn time, go back one week
-                if (tow > seconds)
-                    week--;
-
-                var gpstime = StaticUtils.GetFromGps(week, tow);
-
-                //Console.WriteLine("> {0,4} {1,2} {2,2} {3,2} {4,2} {5,10} {6,2} {7,2}", gpstime.Year, gpstime.Month,gpstime.Day, gpstime.Hour, gpstime.Minute, gpstime.Second + gpstime.Millisecond/1000.0, 0, nsat);
-
-
-                var r = new double[64];
-                var rr = new double[64];
-                var pr = new double[64];
-                var cp = new double[64];
-                var rrf = new double[64];
-                var cnr = new double[64];
-                var ex = new uint[64];
-                var half = new uint[64];
-                var @lock = new uint[64];
-
-                for (j = 0; j < nsat; j++)
-                {
-                    r[j] = rr[j] = 0.0;
-                    ex[j] = 15;
-                }
-                for (j = 0; j < ncell; j++) pr[j] = cp[j] = rrf[j] = -1E16;
-
-                /* decode satellite data */
-                for (j = 0; j < nsat; j++)
-                {
-                    /* range */
-                    var rng = getbitu(buffer, i, 8);
-                    i += 8;
-                    if (rng != 255) r[j] = rng*RANGE_MS;
-                }
-                for (j = 0; j < nsat; j++)
-                {
-                    /* extended info */
-                    ex[j] = getbitu(buffer, i, 4);
-                    i += 4;
-                }
-                for (j = 0; j < nsat; j++)
-                {
-                    var rng_m = getbitu(buffer, i, 10);
-                    i += 10;
-                    if (r[j] != 0.0) r[j] += rng_m*P2_10*RANGE_MS;
-                }
-                for (j = 0; j < nsat; j++)
-                {
-                    /* phaserangerate */
-                    var rate = getbits(buffer, i, 14);
-                    i += 14;
-                    if (rate != -8192) rr[j] = rate*1.0;
-                }
-                /* decode signal data */
-                for (j = 0; j < ncell; j++)
-                {
-                    /* pseudorange */
-                    var prv = getbits(buffer, i, 20);
-                    i += 20;
-                    if (prv != -524288) pr[j] = prv*P2_29*RANGE_MS;
-                }
-                for (j = 0; j < ncell; j++)
-                {
-                    /* phaserange */
-                    var cpv = getbits(buffer, i, 24);
-                    i += 24;
-                    if (cpv != -8388608) cp[j] = cpv*P2_31*RANGE_MS;
-                }
-                for (j = 0; j < ncell; j++)
-                {
-                    /* lock time */
-                    @lock[j] = getbitu(buffer, i, 10);
-                    i += 10;
-                }
-                for (j = 0; j < ncell; j++)
-                {
-                    /* half-cycle amiguity */
-                    half[j] = getbitu(buffer, i, 1);
-                    i += 1;
-                }
-                for (j = 0; j < ncell; j++)
-                {
-                    /* cnr */
-                    cnr[j] = getbitu(buffer, i, 10)*0.0625;
-                    i += 10;
-                }
-                for (j = 0; j < ncell; j++)
-                {
-                    /* phaserangerate */
-                    var rrv = getbits(buffer, i, 15);
-                    i += 15;
-                    if (rrv != -16384) rrf[j] = rrv*0.0001;
-                }
-
-                var lam1 = CLIGHT/FREQ1;
-
-                for (j = 0; j < nsat; j++)
-                {
-                    var ob = new ob();
-                    ob.sys = 'G';
-                    ob.tow = tow;
-                    ob.week = week;
-
-                    ob.prn = (byte) sats[j];
-
-                    ob.pr = r[j] + pr[j];
-                    ob.cp = (r[j] + cp[j])/lam1;
-                    ob.snr = (byte) (cnr[j]);
-
-                    if (nsig > 1)
-                    {
-                        ob.pr2 = r[j] + pr[j + sats.Count*1];
-                        ob.cp2 = (r[j] + cp[j + sats.Count*1]); // / lam2;
-                    }
-
-                    obs.Add(ob);
-                }
-
-                obs.Sort(delegate(ob a1, ob b) { return a1.prn.CompareTo(b.prn); });
-
-                nbits = i;
-            }
-
-            public
-                uint Write(byte[] buffer)
-            {
-                return 0;
-            }
-        }
-
-        public class type1084
-        {
-            public uint nbits;
-            public List<ob> obs = new List<ob>();
-
-            public void Read(byte[] buffer)
-            {
-                uint i = 24;
-
-                var type = getbitu(buffer, i, 12);
-                i += 12;
-
-                var staid = getbitu(buffer, i, 12);
-                i += 12;
-                // wrong
                 var tow = getbitu(buffer, i, 30) * 0.001;
                 i += 30;
                 var sync = getbitu(buffer, i, 1);
@@ -1408,17 +1245,212 @@ namespace MissionPlanner.Utilities
 
                 // end of header  i=202
 
-                var week = 0;
-                double seconds = 0;
-
-                // asumes current week
-                StaticUtils.GetFromTime(DateTime.Now, ref week, ref seconds);
-
-                // if tow is larger than the calced curretn time, go back one week
-                if (tow > seconds)
-                    week--;
+                var week = RTCM3.weekGuess;
 
                 var gpstime = StaticUtils.GetFromGps(week, tow);
+
+                lasttow = tow;
+
+                //Console.WriteLine("> {0,4} {1,2} {2,2} {3,2} {4,2} {5,10} {6,2} {7,2}", gpstime.Year, gpstime.Month,gpstime.Day, gpstime.Hour, gpstime.Minute, gpstime.Second + gpstime.Millisecond/1000.0, 0, nsat);
+
+
+                var r = new double[64];
+                var rr = new double[64];
+                var pr = new double[64];
+                var cp = new double[64];
+                var rrf = new double[64];
+                var cnr = new double[64];
+                var ex = new uint[64];
+                var half = new uint[64];
+                var @lock = new uint[64];
+
+                for (j = 0; j < nsat; j++)
+                {
+                    r[j] = rr[j] = 0.0;
+                    ex[j] = 15;
+                }
+                for (j = 0; j < ncell; j++) pr[j] = cp[j] = rrf[j] = -1E16;
+
+                /* decode satellite data */
+                for (j = 0; j < nsat; j++)
+                {
+                    /* range */
+                    var rng = getbitu(buffer, i, 8);
+                    i += 8;
+                    if (rng != 255) r[j] = rng * RANGE_MS;
+                }
+                for (j = 0; j < nsat; j++)
+                {
+                    /* extended info */
+                    ex[j] = getbitu(buffer, i, 4);
+                    i += 4;
+                }
+                for (j = 0; j < nsat; j++)
+                {
+                    var rng_m = getbitu(buffer, i, 10);
+                    i += 10;
+                    if (r[j] != 0.0) r[j] += rng_m * P2_10 * RANGE_MS;
+                }
+                for (j = 0; j < nsat; j++)
+                {
+                    /* phaserangerate */
+                    var rate = getbits(buffer, i, 14);
+                    i += 14;
+                    if (rate != -8192) rr[j] = rate * 1.0;
+                }
+                /* decode signal data */
+                for (j = 0; j < ncell; j++)
+                {
+                    /* pseudorange */
+                    var prv = getbits(buffer, i, 20);
+                    i += 20;
+                    if (prv != -524288) pr[j] = prv * P2_29 * RANGE_MS;
+                }
+                for (j = 0; j < ncell; j++)
+                {
+                    /* phaserange */
+                    var cpv = getbits(buffer, i, 24);
+                    i += 24;
+                    if (cpv != -8388608) cp[j] = cpv * P2_31 * RANGE_MS;
+                }
+                for (j = 0; j < ncell; j++)
+                {
+                    /* lock time */
+                    @lock[j] = getbitu(buffer, i, 10);
+                    i += 10;
+                }
+                for (j = 0; j < ncell; j++)
+                {
+                    /* half-cycle amiguity */
+                    half[j] = getbitu(buffer, i, 1);
+                    i += 1;
+                }
+                for (j = 0; j < ncell; j++)
+                {
+                    /* cnr */
+                    cnr[j] = getbitu(buffer, i, 10) * 0.0625;
+                    i += 10;
+                }
+                for (j = 0; j < ncell; j++)
+                {
+                    /* phaserangerate */
+                    var rrv = getbits(buffer, i, 15);
+                    i += 15;
+                    if (rrv != -16384) rrf[j] = rrv * 0.0001;
+                }
+
+                var lam1 = CLIGHT / FREQ1;
+
+                for (j = 0; j < nsat; j++)
+                {
+                    var ob = new ob();
+                    ob.sys = 'G';
+                    ob.tow = tow;
+                    ob.week = week;
+
+                    ob.prn = (byte)sats[j];
+
+                    ob.pr = r[j] + pr[j];
+                    ob.cp = (r[j] + cp[j])/lam1;
+                    ob.snr = (byte) (cnr[j]);
+
+                    if (nsig > 1)
+                    {
+                        ob.pr2 = r[j] + pr[j + sats.Count * 1];
+                        ob.cp2 = (r[j] + cp[j + sats.Count * 1]); // / lam2;
+                    }
+
+                    obs.Add(ob);
+                }
+
+                obs.Sort(delegate(ob a1, ob b) { return a1.prn.CompareTo(b.prn); });
+
+                nbits = i;
+            }
+
+            public
+                uint Write(byte[] buffer)
+            {
+                return 0;
+            }
+        }
+
+        public class type1084
+        {
+            public uint nbits;
+            public List<ob> obs = new List<ob>();
+
+            public void Read(byte[] buffer)
+            {
+                uint i = 24;
+
+                var type = getbitu(buffer, i, 12);
+                i += 12;
+
+                var staid = getbitu(buffer, i, 12);
+                i += 12;
+                var dow = getbitu(buffer, i, 3);
+                i += 3;
+                var tod = getbitu(buffer, i, 27) * 0.001;
+                i += 27;
+                var sync = getbitu(buffer, i, 1);
+                i += 1;
+                var iod = getbitu(buffer, i, 3);
+                i += 3;
+
+                var time_s = getbitu(buffer, i, 7);
+                i += 7;
+                var clk_str = getbitu(buffer, i, 2);
+                i += 2;
+                var clk_ext = getbitu(buffer, i, 2);
+                i += 2;
+                var smooth = getbitu(buffer, i, 1);
+                i += 1;
+                var tint_s = getbitu(buffer, i, 3);
+                i += 3;
+
+                var nsat = 0;
+                var nsig = 0;
+                var ncell = 0;
+                var j = 0;
+
+                var sats = new Dictionary<int, double>();
+                var sigs = new Dictionary<int, double>();
+                var cellmask = new byte[64];
+
+                for (j = 1; j <= 64; j++)
+                {
+                    var mask = getbitu(buffer, i, 1);
+                    i += 1;
+                    if (mask > 0) sats[nsat++] = j;
+                }
+                for (j = 1; j <= 32; j++)
+                {
+                    var mask = getbitu(buffer, i, 1);
+                    i += 1;
+                    if (mask > 0) sigs[nsig++] = j;
+                }
+
+                for (j = 0; j < nsat * nsig; j++)
+                {
+                    cellmask[j] = (byte)getbitu(buffer, i, 1);
+                    i += 1;
+                    if (cellmask[j] > 0) ncell++;
+                }
+
+                // end of header  i=202
+
+                var tow = 0.0;
+
+                var week = RTCM3.weekGuess;
+
+                var gpstime = StaticUtils.GetFromGps(week , tod - 10800);
+
+                gpstime = gpstime.AddSeconds(StaticUtils.LeapSecondsGPS(gpstime.Year, gpstime.Month));
+
+                StaticUtils.GetFromTime(gpstime, ref week, ref tow);
+
+                lasttow = tow;
 
                 //Console.WriteLine("> {0,4} {1,2} {2,2} {3,2} {4,2} {5,10} {6,2} {7,2}", gpstime.Year, gpstime.Month,gpstime.Day, gpstime.Hour, gpstime.Minute, gpstime.Second + gpstime.Millisecond/1000.0, 0, nsat);
 
@@ -1490,6 +1522,8 @@ namespace MissionPlanner.Utilities
 
                 var lam1 = CLIGHT / FREQ1;
 
+                var sig = 0;
+
                 for (j = 0; j < nsat; j++)
                 {
                     var ob = new ob();
@@ -1497,16 +1531,20 @@ namespace MissionPlanner.Utilities
                     ob.tow = tow;
                     ob.week = week;
 
-                    ob.prn = (byte)sats[j];
+                    ob.prn = (byte)(sats[j]);
 
-                    ob.pr = r[j] + pr[j];
-                    ob.cp = (r[j] + cp[j]) / lam1;
-                    ob.snr = (byte)(cnr[j]);
+                    ob.pr = r[j] + pr[sig];
+                    ob.cp = (r[j] + cp[sig]) / lam1;
+                    ob.snr = (byte)(cnr[sig]);
 
-                    if (nsig > 1)
+                    for (int k = 0; k < nsig; k++)
                     {
-                        ob.pr2 = r[j] + pr[j + sats.Count * 1];
-                        ob.cp2 = (r[j] + cp[j + sats.Count * 1]); // / lam2;
+                        if (k == 1)
+                        {
+                            ob.pr2 = r[j] + pr[sig];
+                            ob.cp2 = (r[j] + cp[sig]);
+                        }
+                        sig++;
                     }
 
                     obs.Add(ob);
@@ -1539,9 +1577,11 @@ namespace MissionPlanner.Utilities
 
                 var staid = getbitu(buffer, i, 12);
                 i += 12;
-                // wrong
-                var tow = getbitu(buffer, i, 30) * 0.001;
-                i += 30;
+                var dow = getbitu(buffer, i, 3);
+                i += 3;
+                var tod = getbitu(buffer, i, 27) * 0.001;
+                i += 27;
+                var tow = tod;
                 var sync = getbitu(buffer, i, 1);
                 i += 1;
                 var iod = getbitu(buffer, i, 3);
@@ -1589,17 +1629,11 @@ namespace MissionPlanner.Utilities
 
                 // end of header  i=202
 
-                var week = 0;
-                double seconds = 0;
-
-                // asumes current week
-                StaticUtils.GetFromTime(DateTime.Now, ref week, ref seconds);
-
-                // if tow is larger than the calced curretn time, go back one week
-                if (tow > seconds)
-                    week--;
+                var week = RTCM3.weekGuess;
 
                 var gpstime = StaticUtils.GetFromGps(week, tow);
+
+                lasttow = tow;
 
                 //Console.WriteLine("> {0,4} {1,2} {2,2} {3,2} {4,2} {5,10} {6,2} {7,2}", gpstime.Year, gpstime.Month,gpstime.Day, gpstime.Hour, gpstime.Minute, gpstime.Second + gpstime.Millisecond/1000.0, 0, nsat);
 
@@ -1788,17 +1822,11 @@ namespace MissionPlanner.Utilities
 
                 // end of header  i=202
 
-                var week = 0;
-                double seconds = 0;
-
-                // asumes current week
-                StaticUtils.GetFromTime(DateTime.Now, ref week, ref seconds);
-
-                // if tow is larger than the calced curretn time, go back one week
-                if (tow > seconds)
-                    week--;
+                var week = RTCM3.weekGuess;
 
                 var gpstime = StaticUtils.GetFromGps(week, tow);
+
+                lasttow = tow;
 
                 //Console.WriteLine("> {0,4} {1,2} {2,2} {3,2} {4,2} {5,10} {6,2} {7,2}", gpstime.Year, gpstime.Month,gpstime.Day, gpstime.Hour, gpstime.Minute, gpstime.Second + gpstime.Millisecond/1000.0, 0, nsat);
 
@@ -1870,6 +1898,8 @@ namespace MissionPlanner.Utilities
 
                 var lam1 = CLIGHT / FREQ1;
 
+                var sig = 0;
+
                 for (j = 0; j < nsat; j++)
                 {
                     var ob = new ob();
@@ -1877,16 +1907,20 @@ namespace MissionPlanner.Utilities
                     ob.tow = tow;
                     ob.week = week;
 
-                    ob.prn = (byte)sats[j];
+                    ob.prn = (byte)(sats[j]);
 
-                    ob.pr = r[j] + pr[j];
-                    ob.cp = (r[j] + cp[j]) / lam1;
-                    ob.snr = (byte)(cnr[j]);
+                    ob.pr = r[j] + pr[sig];
+                    ob.cp = (r[j] + cp[sig]) / lam1;
+                    ob.snr = (byte)(cnr[sig]);
 
-                    if (nsig > 1)
+                    for (int k = 0; k < nsig; k++)
                     {
-                        ob.pr2 = r[j] + pr[j + sats.Count * 1];
-                        ob.cp2 = (r[j] + cp[j + sats.Count * 1]); // / lam2;
+                        if (k == 1)
+                        {
+                            ob.pr2 = r[j] + pr[sig];
+                            ob.cp2 = (r[j] + cp[sig]);
+                        }
+                        sig++;
                     }
 
                     obs.Add(ob);
@@ -1968,17 +2002,11 @@ namespace MissionPlanner.Utilities
 
                 // end of header  i=202
 
-                var week = 0;
-                double seconds = 0;
-
-                // asumes current week
-                StaticUtils.GetFromTime(DateTime.Now, ref week, ref seconds);
-
-                // if tow is larger than the calced curretn time, go back one week
-                if (tow > seconds)
-                    week--;
+                var week = RTCM3.weekGuess;
 
                 var gpstime = StaticUtils.GetFromGps(week, tow);
+
+                lasttow = tow;
 
                 //Console.WriteLine("> {0,4} {1,2} {2,2} {3,2} {4,2} {5,10} {6,2} {7,2}", gpstime.Year, gpstime.Month,gpstime.Day, gpstime.Hour, gpstime.Minute, gpstime.Second + gpstime.Millisecond/1000.0, 0, nsat);
 
@@ -2277,6 +2305,367 @@ namespace MissionPlanner.Utilities
                 i += 16; /* antenna height */
 
                 return i;
+            }
+        }
+
+        public class type1019
+        {
+            public double A;
+            public double af0;
+            public double af1;
+            public double af2;
+            public double cic;
+            public double cis;
+            public double code;
+            public double crc;
+            public double crs;
+            public double cuc;
+            public double cus;
+            public double deln;
+            public double e;
+            public bool fit;
+            public uint flag;
+            public double i0;
+            public double idot;
+            public uint iodc;
+            public uint iode;
+            public double M0;
+            public double omg;
+            public double OMG0;
+            public double OMGd;
+            public double prn;
+            public double sqrtA;
+            public double sva;
+            public uint svh;
+            public double tgd;
+            public double toc;
+            public double toes;
+            public double week;
+
+
+            public void Read(byte[] buffer)
+            {
+                uint i = 24 + 12;
+
+                prn = getbitu(buffer, i, 6);
+                i += 6;
+                week = getbitu(buffer, i, 10);
+                i += 10;
+                sva = getbitu(buffer, i, 4);
+                i += 4;
+                code = getbitu(buffer, i, 2);
+                i += 2;
+                idot = getbits(buffer, i, 14)*P2_43*SC2RAD;
+                i += 14;
+                iode = getbitu(buffer, i, 8);
+                i += 8;
+                toc = getbitu(buffer, i, 16)*16.0;
+                i += 16;
+                af2 = getbits(buffer, i, 8)*P2_55;
+                i += 8;
+                af1 = getbits(buffer, i, 16)*P2_43;
+                i += 16;
+                af0 = getbits(buffer, i, 22)*P2_31;
+                i += 22;
+                iodc = getbitu(buffer, i, 10);
+                i += 10;
+                crs = getbits(buffer, i, 16)*P2_5;
+                i += 16;
+                deln = getbits(buffer, i, 16)*P2_43*SC2RAD;
+                i += 16;
+                M0 = getbits(buffer, i, 32)*P2_31*SC2RAD;
+                i += 32;
+                cuc = getbits(buffer, i, 16)*P2_29;
+                i += 16;
+                e = getbitu(buffer, i, 32)*P2_33;
+                i += 32;
+                cus = getbits(buffer, i, 16)*P2_29;
+                i += 16;
+                sqrtA = getbitu(buffer, i, 32)*P2_19;
+                i += 32;
+                toes = getbitu(buffer, i, 16)*16.0;
+                i += 16;
+                cic = getbits(buffer, i, 16)*P2_29;
+                i += 16;
+                OMG0 = getbits(buffer, i, 32)*P2_31*SC2RAD;
+                i += 32;
+                cis = getbits(buffer, i, 16)*P2_29;
+                i += 16;
+                i0 = getbits(buffer, i, 32)*P2_31*SC2RAD;
+                i += 32;
+                crc = getbits(buffer, i, 16)*P2_5;
+                i += 16;
+                omg = getbits(buffer, i, 32)*P2_31*SC2RAD;
+                i += 32;
+                OMGd = getbits(buffer, i, 24)*P2_43*SC2RAD;
+                i += 24;
+                tgd = getbits(buffer, i, 8)*P2_31;
+                i += 8;
+                svh = getbitu(buffer, i, 6);
+                i += 6;
+                flag = getbitu(buffer, i, 1);
+                i += 1;
+                fit = getbitu(buffer, i, 1) > 0 ? true : false; /* 0:4hr,1:>4hr */
+
+                A = sqrtA*sqrtA;
+            }
+
+            public uint Write(byte[] buffer)
+            {
+                uint i = 24;
+
+                var toe = (uint) (toes/16.0);
+
+                setbitu(buffer, i, 12, 1019);
+                i += 12;
+                setbitu(buffer, i, 6, prn);
+                i += 6;
+                setbitu(buffer, i, 10, week%1024);
+                i += 10;
+                setbitu(buffer, i, 4, sva);
+                i += 4;
+                setbitu(buffer, i, 2, code);
+                i += 2;
+                setbits(buffer, i, 14, idot/P2_43/SC2RAD);
+                i += 14;
+                setbitu(buffer, i, 8, iode);
+                i += 8;
+                setbitu(buffer, i, 16, toc/16.0);
+                i += 16;
+                setbits(buffer, i, 8, af2/P2_55);
+                i += 8;
+                setbits(buffer, i, 16, af1/P2_43);
+                i += 16;
+                setbits(buffer, i, 22, af0/P2_31);
+                i += 22;
+                setbitu(buffer, i, 10, iodc);
+                i += 10;
+                setbits(buffer, i, 16, crs/P2_5);
+                i += 16;
+                setbits(buffer, i, 16, deln/P2_43/SC2RAD);
+                i += 16;
+                setbits(buffer, i, 32, M0/P2_31/SC2RAD);
+                i += 32;
+                setbits(buffer, i, 16, cuc/P2_29);
+                i += 16;
+                setbitu(buffer, i, 32, e/P2_33);
+                i += 32;
+                setbits(buffer, i, 16, cus/P2_29);
+                i += 16;
+                setbitu(buffer, i, 32, sqrtA/P2_19);
+                i += 32;
+                setbitu(buffer, i, 16, toe);
+                i += 16;
+                setbits(buffer, i, 16, cic/P2_29);
+                i += 16;
+                setbits(buffer, i, 32, OMG0/P2_31/SC2RAD);
+                i += 32;
+                setbits(buffer, i, 16, cis/P2_29);
+                i += 16;
+                setbits(buffer, i, 32, i0/P2_31/SC2RAD);
+                i += 32;
+                setbits(buffer, i, 16, crc/P2_5);
+                i += 16;
+                setbits(buffer, i, 32, omg/P2_31/SC2RAD);
+                i += 32;
+                setbits(buffer, i, 24, OMGd/P2_43/SC2RAD);
+                i += 24;
+                setbits(buffer, i, 8, tgd/P2_31);
+                i += 8;
+                setbitu(buffer, i, 6, svh);
+                i += 6;
+                setbitu(buffer, i, 1, flag);
+                i += 1;
+                setbitu(buffer, i, 1, fit ? 1 : 0);
+                i += 1;
+
+                return i;
+            }
+
+            [StructLayout(LayoutKind.Sequential, Pack = 1)]
+            public struct gps_time_t
+            {
+                public double tow; /**< Seconds since the GPS start of week. */
+                public u16 wn;     /**< GPS week number. */
+
+                public gps_time_t(double tow, u16 wn)
+                {
+                    this.tow = tow;
+                    this.wn = wn;
+                }
+
+                public override string ToString()
+                {
+                    return String.Format("{0}:{1}", wn,tow);
+                }
+
+                public static bool operator ==(gps_time_t ob1, gps_time_t ob2)
+                {
+                    return ob1.wn == ob2.wn && ob1.tow == ob2.tow;
+                }
+
+                public static bool operator !=(gps_time_t ob1, gps_time_t ob2)
+                {
+                    return !(ob1 == ob2);
+                }
+            }
+
+            private double gpsdifftime(gps_time_t end, gps_time_t beginning)
+            {
+                return (end.wn - beginning.wn) * 7 * 24 * 3600 +
+                       end.tow - beginning.tow;
+            }
+
+            public double[] pos = new double[3];
+            public double[] vel = new double[3];
+            public double clock_err;
+            public double clock_rate_err;
+            public gps_time_t tot;
+
+
+            public int calc_sat_pos(double[] pos, double[] vel,
+                ref double clock_err, ref double clock_rate_err,
+                gps_time_t tot)
+            {
+                if (tot == this.tot)
+                {
+                    Array.Copy(this.pos, pos, 3);
+                    Array.Copy(this.vel, vel, 3);
+                    clock_err = this.clock_err;
+                    clock_rate_err = this.clock_rate_err;
+
+                    return 0;
+                }
+
+                double tempd1 = 0, tempd2, tempd3;
+                double tdiff;
+                double a; // semi major axis
+                double ma, ma_dot; // mean anomoly and first derivative (mean motion)
+                double ea, ea_dot, ea_old; // eccentric anomoly, first deriv, iteration var
+                double einstein; // relativistic correction
+                double al, al_dot; // argument of lattitude and first derivative
+                double cal, cal_dot; // corrected argument of lattitude and first deriv
+                double r, r_dot; // radius and first derivative
+                double inc, inc_dot; // inclination and first derivative
+                double x, x_dot, y, y_dot; // position in orbital plan and first derivatives
+                double om, om_dot; // omega and first derivatives
+
+                const double NAV_OMEGAE_DOT = 7.2921151467e-005;
+                const double NAV_GM = 3.986005e14;
+
+                var toc = new gps_time_t(this.toc, (u16)(week+1024 ));
+                var toe = new gps_time_t(toes, (u16)(week+1024));
+
+                // Satellite clock terms
+                // Seconds from clock data reference time (toc)
+                tdiff = gpsdifftime(tot, toc);
+
+                if (tdiff > 4 * 3600)
+                    tdiff = gpsdifftime(tot, toe);
+
+                clock_err = this.af0 + tdiff * (this.af1 + tdiff * this.af2) - this.tgd;
+                clock_rate_err = this.af1 + 2.0 * tdiff * this.af2;
+
+                // Seconds from the time from ephemeris reference epoch (toe)
+                tdiff = gpsdifftime(tot, toe);
+
+                // If tdiff is too large our ephemeris isn't valid, maybe we want to wait until we get a
+                // new one? At least let's warn the user.
+                // TODO: this doesn't exclude ephemerides older than a week so could be made better.
+                if (Math.Abs(tdiff) > 4 * 3600)
+                {
+                    Console.Write(" WARNING: using ephemeris older (or newer!) than 4 hours. {0} {1} hrs       \r", prn,
+                        tdiff / 3600);
+                    return -1;
+                }
+
+                // Calculate position per IS-GPS-200D p 97 Table 20-IV
+                a = sqrtA * sqrtA; // [m] Semi-major axis
+                ma_dot = Math.Sqrt(NAV_GM / (a * a * a)) + deln; // [rad/sec] Corrected mean motion
+                ma = M0 + ma_dot * tdiff; // [rad] Corrected mean anomaly
+
+                // Iteratively solve for the Eccentric Anomaly (from Keith Alter and David Johnston)
+                ea = ma; // Starting value for E
+                double ecc = e;
+                u32 count = 0;
+
+                /* TODO: Implement convergence test uSing integer difference of doubles,
+   * http://www.cygnus-software.com/papers/comparingfloats/comparingfloats.htm */
+                do
+                {
+                    ea_old = ea;
+                    tempd1 = 1.0 - ecc * Math.Cos(ea_old);
+                    ea = ea + (ma - ea_old + ecc * Math.Sin(ea_old)) / tempd1;
+                    count++;
+                    if (count > 5)
+                        break;
+                } while (Math.Abs(ea - ea_old) > 1.0E-14);
+                ea_dot = ma_dot / tempd1;
+
+                // Relativistic correction term
+                einstein = -4.442807633E-10 * ecc * sqrtA * Math.Sin(ea);
+
+                // Begin calc for True Anomaly and Argument of Latitude
+                tempd2 = Math.Sqrt(1.0 - ecc * ecc);
+                al = Math.Atan2(tempd2 * Math.Sin(ea), Math.Cos(ea) - ecc) + this.omg;
+                // [rad] Argument of Latitude = True Anomaly + Argument of Perigee
+                al_dot = tempd2 * ea_dot / tempd1;
+
+                // Calculate corrected argument of latitude based on position
+                cal = al + this.cus * Math.Sin(2.0 * al) + this.cuc * Math.Cos(2.0 * al);
+                cal_dot =
+                    al_dot * (1.0 +
+                            2.0 * (this.cus * Math.Cos(2.0 * al) -
+                                 this.cuc * Math.Sin(2.0 * al)));
+
+                // Calculate corrected radius based on argument of latitude
+                r =
+                    a * tempd1 + this.crc * Math.Cos(2.0 * al) +
+                    this.crs * Math.Sin(2.0 * al);
+                r_dot =
+                    a * ecc * Math.Sin(ea) * ea_dot +
+                    2.0 * al_dot * (this.crs * Math.Cos(2.0 * al) -
+                                this.crc * Math.Sin(2.0 * al));
+
+                // Calculate inclination based on argument of latitude
+                inc =
+                    i0 + idot * tdiff +
+                    this.cic * Math.Cos(2.0 * al) + this.cis * Math.Sin(2.0 * al);
+                inc_dot =
+                    idot + 2.0 * al_dot * (this.cis * Math.Cos(2.0 * al) -
+                                               this.cic * Math.Sin(2.0 * al));
+
+                // Calculate position and velocity in orbital plane
+                x = r * Math.Cos(cal);
+                y = r * Math.Sin(cal);
+                x_dot = r_dot * Math.Cos(cal) - y * cal_dot;
+                y_dot = r_dot * Math.Sin(cal) + x * cal_dot;
+
+                // Corrected longitude of ascenting node
+                om_dot = OMGd - NAV_OMEGAE_DOT;
+                om = OMG0 + tdiff * om_dot - NAV_OMEGAE_DOT * toe.tow;
+
+                // Compute the satellite's position in Earth-Centered Earth-Fixed coordiates
+                pos[0] = x * Math.Cos(om) - y * Math.Cos(inc) * Math.Sin(om);
+                pos[1] = x * Math.Sin(om) + y * Math.Cos(inc) * Math.Cos(om);
+                pos[2] = y * Math.Sin(inc);
+
+                tempd3 = y_dot * Math.Cos(inc) - y * Math.Sin(inc) * inc_dot;
+
+                // Compute the satellite's velocity in Earth-Centered Earth-Fixed coordiates
+                vel[0] = -om_dot * pos[1] + x_dot * Math.Cos(om) - tempd3 * Math.Sin(om);
+                vel[1] = om_dot * pos[0] + x_dot * Math.Sin(om) + tempd3 * Math.Cos(om);
+                vel[2] = y * Math.Cos(inc) * inc_dot + y_dot * Math.Sin(inc);
+
+                clock_err += einstein;
+
+                this.pos = pos;
+                this.vel = vel;
+                this.clock_err = clock_err;
+                this.clock_rate_err = clock_rate_err;
+                this.tot = tot;
+
+                return 0;
             }
         }
     }

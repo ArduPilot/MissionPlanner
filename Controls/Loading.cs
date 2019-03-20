@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using IronPython.Runtime;
 using MissionPlanner.Utilities;
 using log4net;
 
@@ -32,38 +25,7 @@ namespace MissionPlanner.Controls
             Instance = null;
         }
 
-        public new string Text 
-        {
-            get { return label1.Text; }
-            set
-            {
-                try
-                {
-                    if (this.IsHandleCreated && !IsDisposed)
-                    {
-                        if (this.InvokeRequired)
-                        {
-                            this.Invoke((MethodInvoker) delegate
-                            {
-                                label1.Text = value;
-                                this.Focus();
-                                this.Refresh();
-                            });
-                        }
-                        else
-                        {
-                            label1.Text = value;
-                            this.Focus();
-                            this.Refresh();
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex);
-                }
-            }
-        }
+        public new string Text { get; set; }
 
         public new static void Close()
         {
@@ -132,10 +94,12 @@ namespace MissionPlanner.Controls
 
         private static void Frm_Closing(object sender, CancelEventArgs e)
         {
-            lock (locker)
-            {
-                Instance = null;
-            }
+            Instance = null;
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            label1.Text = Text;
         }
     }
 }

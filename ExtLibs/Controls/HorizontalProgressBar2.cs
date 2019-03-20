@@ -37,7 +37,6 @@ namespace MissionPlanner.Controls
         int _value = 0;
         public bool reverse = false;
         int displayvalue = 0;
-        bool ctladded = false;
         bool _drawlabel = true;
 
         //BSE.Windows.Forms.ProgressBar basepb = new BSE.Windows.Forms.ProgressBar();
@@ -243,30 +242,6 @@ System.ComponentModel.Description("values scaled for display")]
 
         public int minline { get; set; }
         public int maxline { get; set; }
-
-        public Color BackgroundColor
-        {
-            get { return base.BackgroundColor; }
-            set { base.BackgroundColor = value; }
-        }
-
-        public Color ValueColor
-        {
-            get { return base.ValueColor; }
-            set { base.ValueColor = value; }
-        }
-
-        public Color BorderColor
-        {
-            get { return base.BorderColor; }
-            set { base.BorderColor = value; }
-        }
-
-        public string Text
-        {
-            get { return base.Text; }
-            set { base.Text = value; }
-        }
 
         protected override void OnPaint(PaintEventArgs e)
         {

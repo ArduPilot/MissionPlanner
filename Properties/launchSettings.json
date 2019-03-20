@@ -2,7 +2,7 @@
   "profiles": {
     "MissionPlanner": {
       "commandName": "Project",
-      "commandLineArgs": "",
+      "commandLineArgs": "/gstream \"videotestsrc ! video/x-raw, width=1280, height=720,framerate=25/1 ! clockoverlay ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink\" ",
       "workingDirectory": "$(TargetDir)"
     }
   }

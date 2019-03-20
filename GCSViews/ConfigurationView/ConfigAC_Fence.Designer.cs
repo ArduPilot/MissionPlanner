@@ -176,7 +176,7 @@
             // 
             // ConfigAC_Fence
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.label1gftitle);
             this.Controls.Add(this.lineSeparator2);

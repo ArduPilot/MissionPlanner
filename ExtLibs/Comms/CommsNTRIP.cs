@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Reflection;
 using System.Text;
 using System.IO.Ports;
@@ -207,9 +208,9 @@ namespace MissionPlanner.Comms
 
                     var line = string.Format(System.Globalization.CultureInfo.InvariantCulture,
                         "$GP{0},{1:HHmmss.ff},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14}", "GGA",
-                        DateTime.Now.ToUniversalTime(), Math.Abs(latdms * 100).ToString("0000.00"), lat < 0 ? "S" : "N",
-                        Math.Abs(lngdms * 100).ToString("00000.00"), lng < 0 ? "W" : "E", 1, 10,
-                        1,  alt.ToString("0.00"), "M", 0, "M", "0.0", "0");
+                        DateTime.Now.ToUniversalTime(), Math.Abs(latdms * 100).ToString("0000.00", CultureInfo.InvariantCulture), lat < 0 ? "S" : "N",
+                        Math.Abs(lngdms * 100).ToString("00000.00", CultureInfo.InvariantCulture), lng < 0 ? "W" : "E", 1, 10,
+                        1,  alt.ToString("0.00", CultureInfo.InvariantCulture), "M", 0, "M", "0.0", "0");
 
                     string checksum = GetChecksum(line);
                     WriteLine(line + "*" + checksum);

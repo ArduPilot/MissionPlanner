@@ -7,11 +7,12 @@ using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using log4net;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigAteryx : UserControl, IActivate
+    public partial class ConfigAteryx : MyUserControl, IActivate
     {
         // from http://stackoverflow.com/questions/2512781/winforms-big-paragraph-tooltip/2512895#2512895
         private const int maximumSingleLineTooltipLength = 50;
@@ -35,7 +36,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 Enabled = false;
                 return;
             }
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
+            if (MainV2.comPort.MAV.cs.firmware == Firmwares.Ateryx)
             {
                 Enabled = true;
             }
@@ -294,7 +295,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 if ((MainV2.comPort.MAV.cs.airspeed > 7.0) || (MainV2.comPort.MAV.cs.groundspeed > 10.0))
                 {
-                    MessageBox.Show("Unable - UAV airborne");
+                    CustomMessageBox.Show("Unable - UAV airborne");
                     ((Button) sender).Enabled = true;
                     return;
                 }
@@ -304,7 +305,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             catch
             {
-                MessageBox.Show("The Command failed to execute");
+                CustomMessageBox.Show("The Command failed to execute");
             }
             ((Button) sender).Enabled = true;
         }
@@ -313,8 +314,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                var dr = MessageBox.Show("Reset Flash to Factory Defaults?", "Continue", MessageBoxButtons.YesNo);
-                if (dr == DialogResult.Yes)
+                var dr = CustomMessageBox.Show("Reset Flash to Factory Defaults?", "Continue", MessageBoxButtons.YesNo);
+                if (dr == (int)DialogResult.Yes)
                 {
                     if ((MainV2.comPort.MAV.cs.airspeed > 7.0) || (MainV2.comPort.MAV.cs.groundspeed > 7.0))
                     {
@@ -328,7 +329,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             catch
             {
-                MessageBox.Show("The Command failed to execute");
+                CustomMessageBox.Show("The Command failed to execute");
             }
             ((Button) sender).Enabled = true;
         }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using uint32_t = System.UInt32;
 using uint16_t = System.UInt16;
 using uint8_t = System.Byte;
@@ -11,7 +10,6 @@ using int8_t = System.SByte;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using MissionPlanner.Comms;
-using SerialPort = System.IO.Ports.SerialPort;
 
 namespace MissionPlanner.Utilities
 {

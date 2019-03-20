@@ -4,12 +4,13 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigArducopter : UserControl, IActivate
+    public partial class ConfigArducopter : MyUserControl, IActivate
     {
         // from http://stackoverflow.com/questions/2512781/winforms-big-paragraph-tooltip/2512895#2512895
         private const int maximumSingleLineTooltipLength = 50;
@@ -29,7 +30,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 Enabled = false;
                 return;
             }
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+            if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
             {
                 Enabled = true;
             }
@@ -57,11 +58,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             TUNE_LOW.setup(0, 10000, 1000, 0.01f, "TUNE_LOW", MainV2.comPort.MAV.param);
             TUNE_HIGH.setup(0, 10000, 1000, 0.01f, "TUNE_HIGH", MainV2.comPort.MAV.param);
 
-            HLD_LAT_P.setup(0, 0, 1, 0.001f, new[] {"HLD_LAT_P", "POS_XY_P"}, MainV2.comPort.MAV.param);
-            LOITER_LAT_D.setup(0, 0, 1, 0.001f, "LOITER_LAT_D", MainV2.comPort.MAV.param);
-            LOITER_LAT_I.setup(0, 0, 1, 0.001f, new[] {"LOITER_LAT_I", "VEL_XY_I"}, MainV2.comPort.MAV.param);
-            LOITER_LAT_IMAX.setup(0, 0, 10, 1f, new[] {"LOITER_LAT_IMAX", "VEL_XY_IMAX"}, MainV2.comPort.MAV.param);
-            LOITER_LAT_P.setup(0, 0, 1, 0.001f, new[] {"LOITER_LAT_P", "VEL_XY_P"}, MainV2.comPort.MAV.param);
+            HLD_LAT_P.setup(0, 0, 1, 0.001f, new[] { "HLD_LAT_P", "POS_XY_P", "PSC_POSXY_P"}, MainV2.comPort.MAV.param);
+            LOITER_LAT_D.setup(0, 0, 1, 0.001f, new[] { "LOITER_LAT_D", "PSC_VELXY_D" }, MainV2.comPort.MAV.param);
+            LOITER_LAT_I.setup(0, 0, 1, 0.001f, new[] {"LOITER_LAT_I", "VEL_XY_I", "PSC_VELXY_I" }, MainV2.comPort.MAV.param);
+            LOITER_LAT_IMAX.setup(0, 0, 10, 1f, new[] {"LOITER_LAT_IMAX", "VEL_XY_IMAX", "PSC_VELXY_IMAX" }, MainV2.comPort.MAV.param);
+            LOITER_LAT_P.setup(0, 0, 1, 0.001f, new[] {"LOITER_LAT_P", "VEL_XY_P", "PSC_VELXY_P" }, MainV2.comPort.MAV.param);
 
             RATE_PIT_D.setup(0, 0, 1, 0.001f, new[] {"RATE_PIT_D", "ATC_RAT_PIT_D"}, MainV2.comPort.MAV.param);
             RATE_PIT_I.setup(0, 0, 1, 0.001f, new[] {"RATE_PIT_I", "ATC_RAT_PIT_I"}, MainV2.comPort.MAV.param);
@@ -94,13 +95,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             STB_RLL_P.setup(0, 0, 1, 0.001f, new[] {"STB_RLL_P", "ATC_ANG_RLL_P"}, MainV2.comPort.MAV.param);
             STB_YAW_P.setup(0, 0, 1, 0.001f, new[] {"STB_YAW_P", "ATC_ANG_YAW_P"}, MainV2.comPort.MAV.param);
 
-            THR_ACCEL_D.setup(0, 0, 1, 0.001f, new[] {"THR_ACCEL_D", "ACCEL_Z_D"}, MainV2.comPort.MAV.param);
-            THR_ACCEL_I.setup(0, 0, 1, 0.001f, new[] {"THR_ACCEL_I", "ACCEL_Z_I"}, MainV2.comPort.MAV.param);
-            THR_ACCEL_IMAX.setup(0, 0, 10, 1f, new[] {"THR_ACCEL_IMAX", "ACCEL_Z_IMAX"}, MainV2.comPort.MAV.param);
-            THR_ACCEL_P.setup(0, 0, 1, 0.001f, new[] {"THR_ACCEL_P", "ACCEL_Z_P"}, MainV2.comPort.MAV.param);
-            THR_ALT_P.setup(0, 0, 1, 0.001f, new[] {"THR_ALT_P", "POS_Z_P"}, MainV2.comPort.MAV.param);
-            THR_RATE_P.setup(0, 0, 1, 0.001f, new[] {"THR_RATE_P", "VEL_Z_P"}, MainV2.comPort.MAV.param);
-            WPNAV_LOIT_SPEED.setup(0, 0, 1, 0.001f, "WPNAV_LOIT_SPEED", MainV2.comPort.MAV.param);
+            THR_ACCEL_D.setup(0, 0, 1, 0.001f, new[] {"THR_ACCEL_D", "ACCEL_Z_D", "PSC_ACCZ_D" }, MainV2.comPort.MAV.param);
+            THR_ACCEL_I.setup(0, 0, 1, 0.001f, new[] {"THR_ACCEL_I", "ACCEL_Z_I", "PSC_ACCZ_I" }, MainV2.comPort.MAV.param);
+            THR_ACCEL_IMAX.setup(0, 0, 10, 1f, new[] {"THR_ACCEL_IMAX", "ACCEL_Z_IMAX", "PSC_ACCZ_IMAX" }, MainV2.comPort.MAV.param);
+            THR_ACCEL_P.setup(0, 0, 1, 0.001f, new[] {"THR_ACCEL_P", "ACCEL_Z_P", "PSC_ACCZ_P" }, MainV2.comPort.MAV.param);
+            THR_ALT_P.setup(0, 0, 1, 0.001f, new[] {"THR_ALT_P", "POS_Z_P", "PSC_POSZ_P" }, MainV2.comPort.MAV.param);
+            THR_RATE_P.setup(0, 0, 1, 0.001f, new[] {"THR_RATE_P", "VEL_Z_P", "PSC_VELZ_P" }, MainV2.comPort.MAV.param);
+
+            WPNAV_LOIT_SPEED.setup(0, 0, 1, 0.001f, new[] { "WPNAV_LOIT_SPEED", "LOIT_SPEED" }, MainV2.comPort.MAV.param);
             WPNAV_RADIUS.setup(0, 0, 1, 0.001f, "WPNAV_RADIUS", MainV2.comPort.MAV.param);
             WPNAV_SPEED.setup(0, 0, 1, 0.001f, "WPNAV_SPEED", MainV2.comPort.MAV.param);
             WPNAV_SPEED_DN.setup(0, 0, 1, 0.001f, "WPNAV_SPEED_DN", MainV2.comPort.MAV.param);
@@ -301,7 +303,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     if ((float) changes[value] > (float) MainV2.comPort.MAV.param[value]*2.0f)
                         if (
                             CustomMessageBox.Show(value + " has more than doubled the last input. Are you sure?",
-                                "Large Value", MessageBoxButtons.YesNo) == DialogResult.No)
+                                "Large Value", MessageBoxButtons.YesNo) == (int)DialogResult.No)
                         {
                             try
                             {
@@ -319,6 +321,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             }
                             return;
                         }
+
+                    if (MainV2.comPort.BaseStream == null || !MainV2.comPort.BaseStream.IsOpen)
+                    {
+                        CustomMessageBox.Show("Your are not connected", Strings.ERROR);
+                        return;
+                    }
 
                     MainV2.comPort.setParam(value, (float) changes[value]);
 

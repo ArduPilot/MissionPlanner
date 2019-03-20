@@ -10,7 +10,7 @@ using Timer = System.Windows.Forms.Timer;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigTradHeli : UserControl, IActivate, IDeactivate
+    public partial class ConfigTradHeli : MyUserControl, IActivate, IDeactivate
     {
         private readonly Timer timer = new Timer();
         private bool inpwmdetect;
@@ -446,7 +446,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                MainV2.comPort.MAV.cs.UpdateCurrentSettings(currentStateBindingSource);
+                MainV2.comPort.MAV.cs.UpdateCurrentSettings(currentStateBindingSource.UpdateDataSource(MainV2.comPort.MAV.cs));
 
                 GenerateGraphData();
             }

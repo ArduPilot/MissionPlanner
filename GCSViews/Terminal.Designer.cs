@@ -107,13 +107,14 @@
             resources.GetString("CMB_boardtype.Items"),
             resources.GetString("CMB_boardtype.Items1"),
             resources.GetString("CMB_boardtype.Items2"),
-            resources.GetString("CMB_boardtype.Items3")});
+            resources.GetString("CMB_boardtype.Items3"),
+            resources.GetString("CMB_boardtype.Items4")});
             resources.ApplyResources(this.CMB_boardtype, "CMB_boardtype");
             this.CMB_boardtype.Name = "CMB_boardtype";
             // 
             // Terminal
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.Controls.Add(this.CMB_boardtype);
             this.Controls.Add(this.BUT_disconnect);
             this.Controls.Add(this.BUT_ConnectAPM);

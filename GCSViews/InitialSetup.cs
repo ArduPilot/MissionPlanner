@@ -7,6 +7,8 @@ using MissionPlanner.Controls.BackstageView;
 using MissionPlanner.GCSViews.ConfigurationView;
 using MissionPlanner.Utilities;
 using System.Resources;
+using MissionPlanner.ArduPilot;
+using MissionPlanner.Radio;
 
 namespace MissionPlanner.GCSViews
 {
@@ -32,12 +34,12 @@ namespace MissionPlanner.GCSViews
 
         public bool isTracker
         {
-            get { return isConnected && MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduTracker; }
+            get { return isConnected && MainV2.comPort.MAV.cs.firmware == Firmwares.ArduTracker; }
         }
 
         public bool isCopter
         {
-            get { return isConnected && MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2; }
+            get { return isConnected && MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2; }
         }
 
         public bool isCopter35plus
@@ -65,14 +67,14 @@ namespace MissionPlanner.GCSViews
             get
             {
                 return isConnected &&
-                       (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane ||
-                        MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx);
+                       (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduPlane ||
+                        MainV2.comPort.MAV.cs.firmware == Firmwares.Ateryx);
             }
         }
 
         public bool isRover
         {
-            get { return isConnected && MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover; }
+            get { return isConnected && MainV2.comPort.MAV.cs.firmware == Firmwares.ArduRover; }
         }
 
         private BackstageViewPage AddBackstageViewPage(Type userControl, string headerText, bool enabled = true,
@@ -162,9 +164,9 @@ namespace MissionPlanner.GCSViews
                 AddBackstageViewPage(typeof(ConfigBatteryMonitoring), rm.GetString("backstageViewPagebatmon.Text"), isConnected, opt);
                 AddBackstageViewPage(typeof(ConfigBatteryMonitoring2), rm.GetString("backstageViewPageBatt2.Text"), isConnected, opt);
             }
-            if (MainV2.DisplayConfiguration.displayUAVCAN)
+            if (MainV2.DisplayConfiguration.displayCAN)
             {
-                AddBackstageViewPage(typeof(ConfigHWUAVCAN), "UAVCAN", isConnected, opt);
+                AddBackstageViewPage(typeof(ConfigHWCAN), "CAN", isConnected, opt);
             }
             if (MainV2.DisplayConfiguration.displayCompassMotorCalib)
             {
@@ -218,7 +220,8 @@ namespace MissionPlanner.GCSViews
             {
                 AddBackstageViewPage(typeof(Antenna.Tracker), "Antenna Tracker", true, opt);
             }
-            
+
+            AddBackstageViewPage(typeof(ConfigFFT), "FFT Setup", isConnected, opt);
 
             // remeber last page accessed
             foreach (BackstageViewPage page in backstageView.Pages)

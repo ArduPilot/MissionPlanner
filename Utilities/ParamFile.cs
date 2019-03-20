@@ -3,9 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
 using log4net;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
 
 namespace MissionPlanner.Utilities
@@ -88,7 +87,7 @@ namespace MissionPlanner.Utilities
             using (StreamWriter sw = new StreamWriter(File.Open(fn, FileMode.Create)))
             {
                 string input = DateTime.Now + " Frame : ";
-                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
+                if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduPlane)
                 {
                     input = DateTime.Now + " Plane: Skywalker";
                 }

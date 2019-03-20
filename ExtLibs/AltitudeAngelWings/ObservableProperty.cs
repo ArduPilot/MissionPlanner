@@ -5,17 +5,10 @@ using System.Runtime.CompilerServices;
 
 namespace AltitudeAngelWings
 {
-    public class ObservableProperty<T> : INotifyPropertyChanged, IObservable<T>
+    public class ObservableProperty<T> : INotifyPropertyChanged, IObservable<T>, IDisposable
     {
-        public T Value
-        {
-            get { return _value; }
-            set
-            {
-                _value = value;
-                SendChangeNotifications();
-            }
-        }
+        private readonly ISubject<T> _subject;
+        private T _value;
 
         public ObservableProperty()
             : this(1)
@@ -38,6 +31,16 @@ namespace AltitudeAngelWings
             Value = initialValue;
         }
 
+        public T Value
+        {
+            get => _value;
+            set
+            {
+                _value = value;
+                SendChangeNotifications();
+            }
+        }
+
         public IDisposable Subscribe(IObserver<T> observer)
         {
             return _subject.Subscribe(observer);
@@ -48,34 +51,31 @@ namespace AltitudeAngelWings
             return obj.Value;
         }
 
-        private bool HasChanged(T oldValue, T newValue)
-        {
-            return !(((oldValue != null) && oldValue.Equals(newValue)) ||
-                     (oldValue == null) && (newValue == null));
-        }
-
         private void SendChangeNotifications()
         {
             OnPropertyChanged(string.Empty);
             _subject.OnNext(_value);
         }
 
-
-        private readonly ISubject<T> _subject;
-        private T _value;
-
-        #region INotifyPropertyChanged/Changing
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            if (PropertyChanged != null)
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
             {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+                ((IDisposable)_subject)?.Dispose();
             }
         }
 
-        #endregion
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
     }
 }

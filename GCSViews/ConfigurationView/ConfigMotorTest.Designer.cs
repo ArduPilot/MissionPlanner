@@ -71,6 +71,11 @@
             // NUM_duration
             // 
             resources.ApplyResources(this.NUM_duration, "NUM_duration");
+            this.NUM_duration.Maximum = new decimal(new int[] {
+            999,
+            0,
+            0,
+            0});
             this.NUM_duration.Name = "NUM_duration";
             this.NUM_duration.Value = new decimal(new int[] {
             2,
@@ -97,7 +102,7 @@
             // 
             // ConfigMotorTest
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.Controls.Add(this.groupBox1);
             this.Name = "ConfigMotorTest";
             resources.ApplyResources(this, "$this");

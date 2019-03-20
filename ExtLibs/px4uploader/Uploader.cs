@@ -140,6 +140,7 @@ namespace px4uploader
         {
             try
             {
+                port.BaseStream.Flush();
                 port.Close();
             }
             catch { }
@@ -373,7 +374,7 @@ namespace px4uploader
                 __send(new byte[] { (byte)Code.EOC });
                 byte[] ans = __recv(4);
                 __getSync();
-                Array.Reverse(ans);
+                ans = ans.Reverse().ToArray();
                 Array.Copy(ans, 0, sn, a, 4);
             }
 
@@ -413,7 +414,6 @@ namespace px4uploader
         public int __recv_int()
         {
             byte[] raw = __recv(4);
-            //raw.Reverse();
             int val = BitConverter.ToInt32(raw, 0);
             return val;
         }
@@ -464,7 +464,6 @@ namespace px4uploader
             __send(new byte[] { (byte)Code.GET_DEVICE, (byte)param, (byte)Code.EOC });
             int info = __recv_int();
             __getSync();
-            //Array.Reverse(raw);
             return info;
         }
 
@@ -681,7 +680,11 @@ namespace px4uploader
 
             //Make sure we are doing the right thing
             if (self.board_type != fw.board_id)
-                throw new Exception("Firmware not suitable for this board");
+            {
+                if (!(self.board_type == 33 && fw.board_id == 9))
+                    throw new Exception("Firmware not suitable for this board");
+            }
+
             if (self.fw_maxsize < fw.image_size)
                 throw new Exception("Firmware image is too large for this board");
 

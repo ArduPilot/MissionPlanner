@@ -1,14 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using ProjNet.CoordinateSystems.Transformations;
-using ProjNet.CoordinateSystems;
-using ProjNet.Converters;
 
 namespace MissionPlanner.Swarm
 {
@@ -32,6 +24,9 @@ namespace MissionPlanner.Swarm
                     mavStates.Add(port.BaseStream.PortName + " " + mav.sysid + " " + mav.compid, mav);
                 }
             }
+
+            if (mavStates.Count == 0)
+                return;
 
             bindingSource1.DataSource = mavStates;
 
@@ -75,7 +70,7 @@ namespace MissionPlanner.Swarm
         {
             threadrun = true;
 
-            while (threadrun)
+            while (threadrun && !this.IsDisposed)
             {
                 // update leader pos
                 SwarmInterface.Update();

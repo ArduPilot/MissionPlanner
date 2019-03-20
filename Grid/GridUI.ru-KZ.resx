@@ -1,0 +1,321 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="tabGrid.Text" xml:space="preserve">
+    <value>Параметры сетки</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>см/пиксель</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>Ширина сенсора [мм]</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>Ширина изображения [пикселей]</value>
+  </data>
+  <data name="label16.Text" xml:space="preserve">
+    <value>Серво</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>Фокусное расстояние [мм]</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>Высота изображения [пикселей]</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Обзор (сетка)</value>
+  </data>
+  <data name="label17.Text" xml:space="preserve">
+    <value>Время цикла [с]</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>Боковые [%]</value>
+  </data>
+  <data name="CHK_copter_headinghold.Text" xml:space="preserve">
+    <value>Удержание курса</value>
+  </data>
+  <data name="tabCamera.Text" xml:space="preserve">
+    <value>Конфигурация камеры</value>
+  </data>
+  <data name="label19.Text" xml:space="preserve">
+    <value>Поле обзора по Верт. [м]</value>
+  </data>
+  <data name="label20.Text" xml:space="preserve">
+    <value>Поле обзорапо Гориз. [m]</value>
+  </data>
+  <data name="groupBox_copter.Text" xml:space="preserve">
+    <value>Опции Copter</value>
+  </data>
+  <data name="label21.Text" xml:space="preserve">
+    <value>Расчетные значения</value>
+  </data>
+  <data name="label22.Text" xml:space="preserve">
+    <value>Площадь:</value>
+  </data>
+  <data name="label23.Text" xml:space="preserve">
+    <value>Расстояние:</value>
+  </data>
+  <data name="label24.Text" xml:space="preserve">
+    <value>Скорость полета (est)</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Расстояние между линиями [м]</value>
+  </data>
+  <data name="label25.Text" xml:space="preserve">
+    <value>Расст. между линиями:</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Делать снимок каждые [м]</value>
+  </data>
+  <data name="label26.Text" xml:space="preserve">
+    <value>Камера</value>
+  </data>
+  <data name="label27.Text" xml:space="preserve">
+    <value>Расстояние между изображениями:</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Высота</value>
+  </data>
+  <data name="groupBox6.Text" xml:space="preserve">
+    <value>Простые настройки</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Начать с</value>
+  </data>
+  <data name="label29.Text" xml:space="preserve">
+    <value>Наземное разрешение:</value>
+  </data>
+  <data name="groupBox7.Text" xml:space="preserve">
+    <value>Параметры БПЛА</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Над съемкой [м]</value>
+  </data>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>Дисплей</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Угол наклона</value>
+  </data>
+  <data name="groupBox5.Text" xml:space="preserve">
+    <value>Статистика</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Над съемкой [м]</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Параметры камеры</value>
+  </data>
+  <data name="CHK_boundary.Text" xml:space="preserve">
+    <value>Крайний</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>Метод триггера</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Перекрытие [%]</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Параметры сетки</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Высота датчика [мм]</value>
+  </data>
+  <data name="BUT_Accept.Text" xml:space="preserve">
+    <value>Принять</value>
+  </data>
+  <data name="CHK_grid.Text" xml:space="preserve">
+    <value>Сетка</value>
+  </data>
+  <data name="CHK_advanced.Text" xml:space="preserve">
+    <value>Расширенные опции</value>
+  </data>
+  <data name="BUT_samplephoto.Text" xml:space="preserve">
+    <value>Загрузить образец фото</value>
+  </data>
+  <data name="tabSimple.Text" xml:space="preserve">
+    <value>Простой</value>
+  </data>
+  <data name="CHK_copter_headingholdlock.Text" xml:space="preserve">
+    <value>Разблокировать сетку</value>
+  </data>
+  <data name="label31.Text" xml:space="preserve">
+    <value>Время полета (est):</value>
+  </data>
+  <data name="label34.Text" xml:space="preserve">
+    <value>Картинки:</value>
+  </data>
+  <data name="LBL_Alternating_lanes.Text" xml:space="preserve">
+    <value>Альтернативные линии</value>
+  </data>
+  <data name="label33.Text" xml:space="preserve">
+    <value>Нет полосок:</value>
+  </data>
+  <data name="label35.Text" xml:space="preserve">
+    <value>Фотография каждые (est):</value>
+  </data>
+  <data name="label38.Text" xml:space="preserve">
+    <value>Control-S для сохранения в файл Control-O для загрузки из файла</value>
+  </data>
+  <data name="label37.Text" xml:space="preserve">
+    <value>Разделить на х сегментов</value>
+  </data>
+  <data name="CHK_usespeed.Text" xml:space="preserve">
+    <value>Используйте скорость для этой миссии</value>
+  </data>
+  <data name="BUT_save.Text" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
+  <data name="CHK_toandland_RTL.Text" xml:space="preserve">
+    <value>Использовать ВОЗВРАТ</value>
+  </data>
+  <data name="CHK_toandland.Text" xml:space="preserve">
+    <value>Добавить точки ВЗЛЕТА и ПОСАДКИ</value>
+  </data>
+  <data name="CHK_camdirection.Text" xml:space="preserve">
+    <value>Верх камеры вверх</value>
+  </data>
+  <data name="chk_test.Text" xml:space="preserve">
+    <value>Коридор</value>
+  </data>
+  <data name="CHK_markers.Text" xml:space="preserve">
+    <value>Маркеры</value>
+  </data>
+  <data name="CHK_internals.Text" xml:space="preserve">
+    <value>Внутреннее</value>
+  </data>
+  <data name="chk_crossgrid.Text" xml:space="preserve">
+    <value>Кросс-сетка</value>
+  </data>
+  <data name="LBL_copter_delay.Text" xml:space="preserve">
+    <value>Задержка в МТ (сек)</value>
+  </data>
+  <data name="label44.Text" xml:space="preserve">
+    <value>Мин. Скорость затвора:</value>
+  </data>
+  <data name="label42.Text" xml:space="preserve">
+    <value>Серво</value>
+  </data>
+  <data name="label43.Text" xml:space="preserve">
+    <value>Ширина коридора [м]</value>
+  </data>
+  <data name="label40.Text" xml:space="preserve">
+    <value>Высота над уровнем моря:</value>
+  </data>
+</root>

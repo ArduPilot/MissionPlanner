@@ -1,0 +1,298 @@
+﻿@page "/tlog"
+@using System.IO
+@using System.Net
+@using System.Net.WebSockets
+@using System.Threading
+@using MissionPlanner
+@using MissionPlanner.Comms
+@using MissionPlanner.Utilities
+@using MissionPlanner.Log
+@using System.IO;
+
+@using System.Text;
+
+@using System.Security.Cryptography;
+@using Blazor.FileReader;
+@using System.IO;
+@using System.Net.Sockets
+@using Newtonsoft.Json
+@using Org.BouncyCastle.Utilities.Encoders
+@implements IDisposable
+@inject IFileReaderService fileReaderService;
+@inject HttpClient Http
+<div style="height: 90vh; width: 100%; overflow: visible;">
+    <h1>Tlog</h1>
+
+    <input type="file" ref="inputTypeFileElement" accept=".tlog"/>
+    <button onclick="@ReadFile">Read file</button>
+    <button onclick="@ReadFileTest">Read Test file</button>
+    <br />
+
+    <p>@gpstime @lat @lng @alt @hdg - @percent %</p>
+
+    <div style="height: 100%; width: 100%">
+        <div id="map" style="width: 100%; height: 25%;"></div>
+        <div id="cesiumContainer" style="width: 100%; height: 75%;"></div>
+    </div>
+</div>
+
+
+@functions {
+    double lat = 0, lng = 0, alt = 0, hdg = 0;
+    int currentCount = 0;
+    MAVLinkInterface mav;
+    DateTime gpstime;
+    static bool init = false;
+    int percent = 0;
+
+    static tlog instance;
+
+    [JSInvokable]
+    public string SayHello() => $"Hello, {currentCount}!";
+
+    private void Log(string message) => Console.WriteLine($"{DateTime.UtcNow.ToString("O")} - {message}");
+
+    protected override void OnInit()
+    {
+        Log("OnInit");
+        base.OnInit();
+
+        instance = this;
+
+        init = false;
+
+        Console.WriteLine("OnInit Done");
+    }
+
+    protected override async Task OnInitAsync() => Log("OnInitAsync");
+
+    //protected override void OnAfterRender() => Log("OnAfterRender");
+
+    protected override async Task OnAfterRenderAsync()
+    {
+        /*
+        var files = Directory.GetFiles(".", "*.*", SearchOption.AllDirectories);
+
+        foreach (var file in files)
+        {
+            Console.WriteLine(file);
+        }
+
+        AddressFamily t1 = AddressFamily.InterNetwork;
+        SocketType t2 = SocketType.Stream;
+        ProtocolType t3 = ProtocolType.Tcp;*/
+
+        if (init)
+            return;
+
+        Log("OnAfterRenderAsync");
+
+        init = true;
+
+        JSRuntime.Current.InvokeAsync<object>("initMap", null);
+
+    }
+
+    protected override void OnParametersSet()
+    {
+        Log("OnParametersSet");
+
+
+
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        Log("OnParametersSetAsync");
+
+
+    }
+
+
+    ElementRef inputTypeFileElement;
+
+    DateTime nextUpdate = DateTime.Now.AddMilliseconds(100);
+
+    public async Task ReadFileTest()
+    {
+        var stream = await Http.GetStreamAsync("2018-09-09 18-15-17.txt");
+
+        await ProcessTlogStream(stream);
+    }
+
+    public async Task ReadFile()
+    {
+        foreach (var file in await fileReaderService.CreateReference(inputTypeFileElement).EnumerateFilesAsync())
+        {
+            /*
+                // Read into buffer and act (uses less memory)
+                using (Stream stream = await file.OpenReadAsync())
+                {
+                    // Do stuff with stream...
+                    //await stream.ReadAsync(buffer, ...);
+                    // This following will fail. Only async read is allowed.
+                    //stream.Read(buffer, ...)
+
+                }
+                */
+            var info = await file.ReadFileInfoAsync();
+
+            Console.WriteLine(info.Name);
+
+            if (info.Name.ToLower().EndsWith("tlog"))
+            {
+
+
+                Console.WriteLine("about to read into memory");
+                using (MemoryStream memoryStream = await file.CreateMemoryStreamAsync(4096))
+                {
+                    Console.WriteLine("canread " + memoryStream.CanRead + " pos " + memoryStream.Position + "<" + memoryStream.Length);
+
+                    await ProcessTlogStream(memoryStream);
+                }
+            }
+            else
+            {
+                Console.WriteLine("about to read into memory");
+                // Read into memory and act
+                using (MemoryStream memoryStream = await file.CreateMemoryStreamAsync(4096))
+                {
+                    // Sync calls are ok once file is in memory
+                    //memoryStream.Read(buffer, ...)
+
+                    Console.WriteLine("CollectionBuffer init");
+                    CollectionBuffer collectionBuffer = new CollectionBuffer(memoryStream);
+
+                    Console.WriteLine("CollectionBuffer loop line");
+                    foreach (var line in collectionBuffer)
+                    {
+                        Console.Write(line);
+                    }
+                }
+            }
+        }
+    }
+
+    private async Task ProcessTlogStream(Stream stream)
+    {
+        mav = new MAVLinkInterface(stream);
+
+        // just to prevent null exceptions
+        var cf = new CommsFile();
+        mav.BaseStream = cf;
+
+        mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT, packetReceived);
+        mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.GPS_RAW_INT, packetReceived);
+        mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.HEARTBEAT, packetReceived);
+        mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.PARAM_VALUE, packetReceived);
+
+        Console.WriteLine(mav.getHeartBeat());
+
+        long length = stream.Length;
+        while (stream.Position < length)
+        {
+            //Console.WriteLine("open "+cf.IsOpen + " canread "+ cf.BaseStream.CanRead + " btr " + cf.BytesToRead + " pos " + cf.BaseStream.Position +"<"+ length);
+
+            var packet = await mav.readPacketAsync();
+
+            percent = (int)((stream.Position / (double)length) * 100.0);
+
+            if (DateTime.Now > nextUpdate)
+            {
+                gpstime = packet.rxtime;
+
+                StateHasChanged();
+                int a = 0;
+
+                foreach (var mavd in mav.MAVlist)
+                {
+                    mavd.cs.UpdateCurrentSettings(null, false, mav, mavd);
+                    JSRuntime.Current.InvokeAsync<object>("setPosition", new object[] {a, mavd.cs.lat, mavd.cs.lng, mavd.cs.altasl, mavd.cs.roll, mavd.cs.pitch, mavd.cs.yaw});
+                    a++;
+                }
+
+                try
+                {
+                    //JSRuntime.Current.InvokeAsync<object>("test", new object[] {JsonConvert.SerializeObject(mav.MAV.cs)});
+                }
+                catch
+                {
+                }
+
+                nextUpdate = DateTime.Now.AddMilliseconds(100);
+
+                await Task.Delay(1);
+            }
+        }
+    }
+
+    private bool packetReceived(MAVLink.MAVLinkMessage packet)
+    {
+        if (packet.data is MAVLink.mavlink_global_position_int_t)
+        {
+            var pos = (MAVLink.mavlink_global_position_int_t)packet.data;
+
+            lat = pos.lat / 1e7;
+            lng = pos.lon / 1e7;
+            alt = pos.alt / 1e3;
+            hdg = pos.hdg / 1e2;
+
+            //Console.WriteLine("Update mavlink_global_position_int_t ##############################");
+        }
+        else if (packet.data is MAVLink.mavlink_gps_raw_int_t)
+        {
+            var pos = (MAVLink.mavlink_gps_raw_int_t)packet.data;
+
+            lat = pos.lat / 1e7;
+            lng = pos.lon / 1e7;
+            alt = pos.alt / 1e3;
+            hdg = (ushort)(pos.cog / 1e2);
+
+            //StateHasChanged();
+
+            //await Task.Delay(1);
+
+            //Console.WriteLine("Update mavlink_gps_raw_int_t ##############################");
+        }
+        else if (packet.data is MAVLink.mavlink_heartbeat_t)
+        {
+            var hb = (MAVLink.mavlink_heartbeat_t)packet.data;
+
+            if (DateTime.Now > nextUpdate)
+            {
+                int a = 0;
+                foreach (var mavd in mav.MAVlist)
+                {
+                    mavd.cs.UpdateCurrentSettings(null, false, mav, mavd);
+                    //JSRuntime.Current.InvokeAsync<object>("setPosition", new object[] { a, mavd.cs.lat, mavd.cs.lng, mavd.cs.altasl, mavd.cs.roll, mavd.cs.pitch, mavd.cs.yaw });
+                    a++;
+                }
+
+                gpstime = DateTime.Now;
+
+                StateHasChanged();
+
+                nextUpdate = DateTime.Now.AddMilliseconds(100);
+            }
+
+            //mav.DebugPacket(packet, true);
+        }
+        else if (packet.data is MAVLink.mavlink_param_value_t)
+        {
+            var param = (MAVLink.mavlink_param_value_t)packet.data;
+
+            Console.WriteLine("{0} {1}", ASCIIEncoding.ASCII.GetString(param.param_id), param.param_value);
+        }
+
+        return true;
+        //mav.DebugPacket(packet, true);
+    }
+
+    public void Dispose()
+    {
+        Http?.Dispose();
+
+        mav?.Dispose();
+    }
+
+    }

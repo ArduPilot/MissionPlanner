@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System.Drawing.Imaging;
@@ -10,7 +8,6 @@ using GMap.NET;
 using GMap.NET.WindowsForms;
 using MissionPlanner.Utilities;
 using GMap.NET.MapProviders;
-using GMap.NET.Projections;
 using MathHelper = MissionPlanner.Utilities.MathHelper;
 using Vector3 = OpenTK.Vector3;
 
@@ -376,7 +373,7 @@ namespace MissionPlanner.Controls
 
             GL.Enable(EnableCap.Blend);
             GL.DepthMask(false);
-            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.One);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.One);
             GL.DepthMask(true);
             GL.Disable(EnableCap.Blend);
 

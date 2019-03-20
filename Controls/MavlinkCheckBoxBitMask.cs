@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using System.Collections;
 using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Controls
@@ -81,6 +78,13 @@ namespace MissionPlanner.Controls
             if (paramlist.ContainsKey(paramname))
             {
                 this.Enabled = true;
+
+                Name = paramname;
+
+                myLabel1.Text = ParameterMetaDataRepository.GetParameterMetaData(paramname,
+                    ParameterMetaDataConstants.DisplayName, MainV2.comPort.MAV.cs.firmware.ToString());
+                label1.Text = ParameterMetaDataRepository.GetParameterMetaData(paramname,
+                    ParameterMetaDataConstants.Description, MainV2.comPort.MAV.cs.firmware.ToString());
 
                 list = ParameterMetaDataRepository.GetParameterBitMaskInt(ParamName,
                     MainV2.comPort.MAV.cs.firmware.ToString());

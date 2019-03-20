@@ -1,27 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Reflection;
-using System.Text;
 using System.Windows.Forms;
-using System.IO.Ports;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
-using KMLib;
-using KMLib.Feature;
-using KMLib.Geometry;
-using Core.Geometry;
-using ICSharpCode.SharpZipLib.Zip;
-using ICSharpCode.SharpZipLib.Checksums;
-using ICSharpCode.SharpZipLib.Core;
 using log4net;
-using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
 using System.Diagnostics;
-using System.Threading;
 using MissionPlanner.Controls;
 using Renci.SshNet;
 using Renci.SshNet.Sftp;
@@ -308,7 +294,7 @@ namespace MissionPlanner.Log
             if (status == SerialStatus.Reading)
             {
                 if (CustomMessageBox.Show(LogStrings.CancelDownload, "Cancel Download", MessageBoxButtons.YesNo) ==
-                    System.Windows.Forms.DialogResult.No)
+                    (int)System.Windows.Forms.DialogResult.No)
                 {
                     e.Cancel = true;
                     return;
@@ -465,7 +451,7 @@ namespace MissionPlanner.Log
         private void BUT_clearlogs_Click(object sender, EventArgs e)
         {
             if (CustomMessageBox.Show(LogStrings.Confirmation, "sure", MessageBoxButtons.YesNo) ==
-                System.Windows.Forms.DialogResult.Yes)
+                (int)System.Windows.Forms.DialogResult.Yes)
             {
                 try
                 {

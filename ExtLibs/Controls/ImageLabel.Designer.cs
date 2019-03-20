@@ -52,7 +52,7 @@
             this.Label.Name = "Label";
             this.Label.Size = new System.Drawing.Size(170, 13);
             this.Label.TabIndex = 1;
-            this.Label.Text = "None";
+            this.Label.Text = "";
             this.Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // ImageLabel

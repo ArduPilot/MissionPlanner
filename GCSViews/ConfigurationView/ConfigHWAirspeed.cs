@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigHWAirspeed : UserControl, IActivate
+    public partial class ConfigHWAirspeed : MyUserControl, IActivate
     {
         private bool startup;
 
@@ -25,9 +26,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             startup = true;
 
+            if (!MainV2.comPort.MAV.param.ContainsKey("ARSPD_USE"))
+                CHK_airspeeduse.Visible = false;
+
+            if (!MainV2.comPort.MAV.param.ContainsKey("ARSPD_ENABLE"))
+                CHK_enableairspeed.Visible = false;
 
             CHK_airspeeduse.setup(1, 0, "ARSPD_USE", MainV2.comPort.MAV.param);
             CHK_enableairspeed.setup(1, 0, "ARSPD_ENABLE", MainV2.comPort.MAV.param);
+
+            mavlinkComboBoxARSPD_TYPE.setup(ParameterMetaDataRepository.GetParameterOptionsInt("ARSPD_TYPE",
+                MainV2.comPort.MAV.cs.firmware.ToString()), "ARSPD_TYPE", MainV2.comPort.MAV.param);
 
             var options = new List<KeyValuePair<int, string>>();
             options.Add(new KeyValuePair<int, string>(0, "APM 2 analog pin 0"));

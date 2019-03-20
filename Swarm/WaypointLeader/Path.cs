@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Core.ExtendedObjects;
-using MissionPlanner.HIL;
+﻿using System.Collections.Generic;
 using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Swarm.WaypointLeader

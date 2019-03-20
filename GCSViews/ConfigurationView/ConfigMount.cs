@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
 using MissionPlanner.Models;
 using MissionPlanner.Utilities;
@@ -13,7 +13,7 @@ using Transitions;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigMount : UserControl, IActivate
+    public partial class ConfigMount : MyUserControl, IActivate
     {
         private readonly Transition _NoErrorTransition;
         private Transition[] _ErrorTransition;
@@ -40,7 +40,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             SetErrorMessageOpacity();
 
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
+            if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduPlane)
             {
                 mavlinkComboBoxTilt.Items.AddRange(Enum.GetNames(typeof (Channelap)));
                 mavlinkComboBoxRoll.Items.AddRange(Enum.GetNames(typeof (Channelap)));

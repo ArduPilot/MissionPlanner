@@ -25,11 +25,6 @@ namespace MissionPlanner.Utilities
             this.c = c;
         }
 
-        public Matrix3((float,float,float) a, (float, float, float) b, (float, float, float) c) : this(new Vector3(a.Item1,a.Item2,a.Item3), new Vector3(b.Item1, b.Item2, b.Item3), new Vector3(c.Item1, c.Item2, c.Item3))
-        {
-
-        }
-
         public Matrix3(float a, float b, float c, float d, float e, float f, float g, float h, float i) : this(new Vector3(a,b,c), new Vector3(d,e,f), new Vector3(g,h,i))
         {
 

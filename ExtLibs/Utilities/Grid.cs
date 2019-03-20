@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Utilities
@@ -40,6 +41,15 @@ namespace MissionPlanner.Utilities
         static void addtomap(utmpos pos, string tag)
         {
 
+        }
+
+        public static async Task<List<PointLatLngAlt>> CreateCorridorAsync(List<PointLatLngAlt> polygon, double altitude,
+            double distance,
+            double spacing, double angle, double overshoot1, double overshoot2, StartPosition startpos, bool shutter,
+            float minLaneSeparation, double width, float leadin = 0)
+        {
+            return await Task.Run(() => CreateCorridor(polygon, altitude, distance, spacing, angle, overshoot1, overshoot2,
+                startpos, shutter, minLaneSeparation, width, leadin));
         }
 
         public static List<PointLatLngAlt> CreateCorridor(List<PointLatLngAlt> polygon, double altitude, double distance,
@@ -173,12 +183,20 @@ namespace MissionPlanner.Utilities
             return ans;
         }
 
+        public static async Task<List<PointLatLngAlt>> CreateGridAsync(List<PointLatLngAlt> polygon, double altitude,
+            double distance, double spacing, double angle, double overshoot1, double overshoot2, StartPosition startpos,
+            bool shutter, float minLaneSeparation, float leadin, PointLatLngAlt HomeLocation)
+        {
+            return await Task.Run((() => CreateGrid(polygon, altitude, distance, spacing, angle, overshoot1, overshoot2,
+                startpos, shutter, minLaneSeparation, leadin, HomeLocation)));
+        }
+
         public static List<PointLatLngAlt> CreateGrid(List<PointLatLngAlt> polygon, double altitude, double distance, double spacing, double angle, double overshoot1,double overshoot2, StartPosition startpos, bool shutter, float minLaneSeparation, float leadin, PointLatLngAlt HomeLocation)
         {
             //DoDebug();
 
-            if (spacing < 4 && spacing != 0)
-                spacing = 4;
+            if (spacing < 0.1 && spacing != 0)
+                spacing = 0.1;
 
             if (distance < 0.1)
                 distance = 0.1;
@@ -443,9 +461,9 @@ namespace MissionPlanner.Utilities
 
                     if (spacing > 0)
                     {
-                        for (int d = (int)(spacing - ((closest.basepnt.GetDistance(closest.p1)) % spacing));
+                        for (double d = (spacing - ((closest.basepnt.GetDistance(closest.p1)) % spacing));
                             d < (closest.p1.GetDistance(closest.p2));
-                            d += (int)spacing)
+                            d += spacing)
                         {
                             double ax = closest.p1.x;
                             double ay = closest.p1.y;
@@ -487,9 +505,9 @@ namespace MissionPlanner.Utilities
 
                     if (spacing > 0)
                     {
-                        for (int d = (int)((closest.basepnt.GetDistance(closest.p2)) % spacing);
+                        for (double d = ((closest.basepnt.GetDistance(closest.p2)) % spacing);
                             d < (closest.p1.GetDistance(closest.p2));
-                            d += (int)spacing)
+                            d += spacing)
                         {
                             double ax = closest.p2.x;
                             double ay = closest.p2.y;

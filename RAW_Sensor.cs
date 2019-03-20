@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using ZedGraph;
-using AGaugeApp;
-using System.IO.Ports;
-using System.Threading;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner
 {
@@ -147,7 +141,7 @@ namespace MissionPlanner
             //Console.WriteLine(DateTime.Now.Millisecond + " timer2 serial");
             try
             {
-                MainV2.comPort.MAV.cs.UpdateCurrentSettings(currentStateBindingSource);
+                MainV2.comPort.MAV.cs.UpdateCurrentSettings(currentStateBindingSource.UpdateDataSource(MainV2.comPort.MAV.cs));
             }
             catch
             {
@@ -274,9 +268,9 @@ namespace MissionPlanner
 
         private void CMB_rawupdaterate_SelectedIndexChanged(object sender, EventArgs e)
         {
-            MainV2.comPort.MAV.cs.ratesensors = (byte) int.Parse(CMB_rawupdaterate.Text);
+            MainV2.comPort.MAV.cs.ratesensors = int.Parse(CMB_rawupdaterate.Text);
             MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS,
-                (byte) int.Parse(CMB_rawupdaterate.Text)); // request raw sensor
+                int.Parse(CMB_rawupdaterate.Text)); // request raw sensor
         }
 
         System.IO.StreamWriter sw = null;
@@ -287,8 +281,8 @@ namespace MissionPlanner
             {
                 ofd.AddExtension = true;
                 ofd.DefaultExt = ".csv";
-                ofd.ShowDialog();
-                if (ofd.FileName != "")
+                var result = ofd.ShowDialog();
+                if (ofd.FileName != "" && result == DialogResult.OK)
                 {
                     try
                     {

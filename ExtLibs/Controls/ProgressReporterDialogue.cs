@@ -4,6 +4,8 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Reflection;
 using log4net;
+using MissionPlanner.MsgBox;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Controls
 {
@@ -29,13 +31,13 @@ namespace MissionPlanner.Controls
 
   
         // This is the event that will be raised on the BG thread
-        public event DoWorkEventHandler DoWork;
+        public event Utilities.DoWorkEventHandler DoWork;
 
         public ProgressReporterDialogue()
         {
             InitializeComponent();
             doWorkArgs = new ProgressWorkerEventArgs();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.btnClose.Visible = false;
 
         }
@@ -102,7 +104,7 @@ namespace MissionPlanner.Controls
             try
             {
                 log.Info("DoWork");
-                if (this.DoWork != null) this.DoWork(this, doWorkArgs);
+                if (this.DoWork != null) this.DoWork(this);
                 log.Info("DoWork Done");
             }
             catch(Exception e)
@@ -285,7 +287,7 @@ namespace MissionPlanner.Controls
                           + Environment.NewLine + Environment.NewLine
                           + this.workerException.StackTrace;
 
-            CustomMessageBox.Show(message,"Exception Details",MessageBoxButtons.OK,MessageBoxIcon.Information);
+            MsgBox.CustomMessageBox.Show(message,"Exception Details",MessageBoxButtons.OK,MessageBoxIcon.Information);
         }
 
         /// <summary>

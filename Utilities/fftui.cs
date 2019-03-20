@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using MissionPlanner.Log;
 using ZedGraph;
 
 namespace MissionPlanner.Utilities
@@ -181,7 +178,8 @@ namespace MissionPlanner.Utilities
                         int offsetAZ = file.dflog.FindMessageOffset("ACC1", "AccZ");
                         int offsetTime = file.dflog.FindMessageOffset("ACC1", "TimeUS");
 
-                        double time = double.Parse(item.items[offsetTime])/1000.0;
+                        double time = double.Parse(item.items[offsetTime],
+                                          CultureInfo.InvariantCulture) /1000.0;
 
                         timedelta = timedelta*0.99 + (time - lasttime)*0.01;
 
@@ -189,9 +187,12 @@ namespace MissionPlanner.Utilities
                         if (samplecounta >= N)
                             continue;
 
-                        datainAX[samplecounta] = double.Parse(item.items[offsetAX]);
-                        datainAY[samplecounta] = double.Parse(item.items[offsetAY]);
-                        datainAZ[samplecounta] = double.Parse(item.items[offsetAZ]);
+                        datainAX[samplecounta] = double.Parse(item.items[offsetAX],
+                            CultureInfo.InvariantCulture);
+                        datainAY[samplecounta] = double.Parse(item.items[offsetAY],
+                            CultureInfo.InvariantCulture);
+                        datainAZ[samplecounta] = double.Parse(item.items[offsetAZ],
+                            CultureInfo.InvariantCulture);
 
                         samplecounta++;
 
@@ -204,15 +205,19 @@ namespace MissionPlanner.Utilities
                         int offsetGZ = file.dflog.FindMessageOffset("GYR1", "GyrZ");
                         int offsetTime = file.dflog.FindMessageOffset("ACC1", "TimeUS");
 
-                        double time = double.Parse(item.items[offsetTime])/1000.0;
+                        double time = double.Parse(item.items[offsetTime],
+                                          CultureInfo.InvariantCulture) /1000.0;
 
                         // we missed accel data
                         if (samplecountg >= N)
                             continue;
 
-                        datainGX[samplecountg] = double.Parse(item.items[offsetGX]);
-                        datainGY[samplecountg] = double.Parse(item.items[offsetGY]);
-                        datainGZ[samplecountg] = double.Parse(item.items[offsetGZ]);
+                        datainGX[samplecountg] = double.Parse(item.items[offsetGX],
+                            CultureInfo.InvariantCulture);
+                        datainGY[samplecountg] = double.Parse(item.items[offsetGY],
+                            CultureInfo.InvariantCulture);
+                        datainGZ[samplecountg] = double.Parse(item.items[offsetGZ],
+                            CultureInfo.InvariantCulture);
 
                         samplecountg++;
                     }
@@ -344,7 +349,8 @@ namespace MissionPlanner.Utilities
 
                     if (item.msgtype.StartsWith("ACC"))
                     {
-                        int sensorno = int.Parse(item.msgtype.Substring(3)) - 1 + 3;
+                        int sensorno = int.Parse(item.msgtype.Substring(3),
+                                           CultureInfo.InvariantCulture) - 1 + 3;
                         alldata[sensorno].type = item.msgtype;
 
                         int offsetAX = file.dflog.FindMessageOffset(item.msgtype, "AccX");
@@ -352,7 +358,8 @@ namespace MissionPlanner.Utilities
                         int offsetAZ = file.dflog.FindMessageOffset(item.msgtype, "AccZ");
                         int offsetTime = file.dflog.FindMessageOffset(item.msgtype, "TimeUS");
 
-                        double time = double.Parse(item.items[offsetTime])/1000.0;
+                        double time = double.Parse(item.items[offsetTime],
+                                          CultureInfo.InvariantCulture) /1000.0;
 
                         if (time < alldata[sensorno].lasttime)
                             continue;
@@ -363,13 +370,17 @@ namespace MissionPlanner.Utilities
 
                         alldata[sensorno].lasttime = time;
 
-                        alldata[sensorno].datax.Add(double.Parse(item.items[offsetAX]));
-                        alldata[sensorno].datay.Add(double.Parse(item.items[offsetAY]));
-                        alldata[sensorno].dataz.Add(double.Parse(item.items[offsetAZ]));
+                        alldata[sensorno].datax.Add(double.Parse(item.items[offsetAX],
+                            CultureInfo.InvariantCulture));
+                        alldata[sensorno].datay.Add(double.Parse(item.items[offsetAY],
+                            CultureInfo.InvariantCulture));
+                        alldata[sensorno].dataz.Add(double.Parse(item.items[offsetAZ],
+                            CultureInfo.InvariantCulture));
                     }
                     else if (item.msgtype.StartsWith("GYR"))
                     {
-                        int sensorno = int.Parse(item.msgtype.Substring(3)) - 1;
+                        int sensorno = int.Parse(item.msgtype.Substring(3),
+                                           CultureInfo.InvariantCulture) - 1;
                         alldata[sensorno].type = item.msgtype;
 
                         int offsetGX = file.dflog.FindMessageOffset(item.msgtype, "GyrX");
@@ -377,7 +388,8 @@ namespace MissionPlanner.Utilities
                         int offsetGZ = file.dflog.FindMessageOffset(item.msgtype, "GyrZ");
                         int offsetTime = file.dflog.FindMessageOffset(item.msgtype, "TimeUS");
 
-                        double time = double.Parse(item.items[offsetTime])/1000.0;
+                        double time = double.Parse(item.items[offsetTime],
+                                          CultureInfo.InvariantCulture) /1000.0;
 
                         if(time < alldata[sensorno].lasttime)
                             continue;
@@ -388,9 +400,12 @@ namespace MissionPlanner.Utilities
 
                         alldata[sensorno].lasttime = time;
 
-                        alldata[sensorno].datax.Add(double.Parse(item.items[offsetGX]));
-                        alldata[sensorno].datay.Add(double.Parse(item.items[offsetGY]));
-                        alldata[sensorno].dataz.Add(double.Parse(item.items[offsetGZ]));
+                        alldata[sensorno].datax.Add(double.Parse(item.items[offsetGX],
+                            CultureInfo.InvariantCulture));
+                        alldata[sensorno].datay.Add(double.Parse(item.items[offsetGY],
+                            CultureInfo.InvariantCulture));
+                        alldata[sensorno].dataz.Add(double.Parse(item.items[offsetGZ],
+                            CultureInfo.InvariantCulture));
                     }
                 }
 
@@ -560,7 +575,8 @@ namespace MissionPlanner.Utilities
                         int offsetAZ = file.dflog.FindMessageOffset(item.msgtype, "AccZ");
                         int offsetTime = file.dflog.FindMessageOffset(item.msgtype, "TimeUS");
 
-                        double time = double.Parse(item.items[offsetTime]) / 1000.0;
+                        double time = double.Parse(item.items[offsetTime],
+                                          CultureInfo.InvariantCulture) / 1000.0;
 
                         if (time != alldata[sensorno + 3].lasttime)
                             alldata[sensorno + 3].timedelta = alldata[sensorno + 3].timedelta * 0.99 +
@@ -568,9 +584,12 @@ namespace MissionPlanner.Utilities
 
                         alldata[sensorno + 3].lasttime = time;
 
-                        alldata[sensorno + 3].datax.Add(double.Parse(item.items[offsetAX]));
-                        alldata[sensorno + 3].datay.Add(double.Parse(item.items[offsetAY]));
-                        alldata[sensorno + 3].dataz.Add(double.Parse(item.items[offsetAZ]));
+                        alldata[sensorno + 3].datax.Add(double.Parse(item.items[offsetAX],
+                            CultureInfo.InvariantCulture));
+                        alldata[sensorno + 3].datay.Add(double.Parse(item.items[offsetAY],
+                            CultureInfo.InvariantCulture));
+                        alldata[sensorno + 3].dataz.Add(double.Parse(item.items[offsetAZ],
+                            CultureInfo.InvariantCulture));
 
                         //gyro
                         alldata[sensorno].type = item.msgtype + " GYR";
@@ -585,9 +604,12 @@ namespace MissionPlanner.Utilities
 
                         alldata[sensorno].lasttime = time;
 
-                        alldata[sensorno].datax.Add(double.Parse(item.items[offsetGX]));
-                        alldata[sensorno].datay.Add(double.Parse(item.items[offsetGY]));
-                        alldata[sensorno].dataz.Add(double.Parse(item.items[offsetGZ]));
+                        alldata[sensorno].datax.Add(double.Parse(item.items[offsetGX],
+                            CultureInfo.InvariantCulture));
+                        alldata[sensorno].datay.Add(double.Parse(item.items[offsetGY],
+                            CultureInfo.InvariantCulture));
+                        alldata[sensorno].dataz.Add(double.Parse(item.items[offsetGZ],
+                            CultureInfo.InvariantCulture));
                     }
                 }
 
@@ -732,10 +754,14 @@ namespace MissionPlanner.Utilities
 
                     if (item.msgtype.StartsWith("ISBH"))
                     {
-                        Ns = int.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "N")]);
-                        type = int.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "type")]);
-                        instance = int.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "instance")]);
-                        smp_rate = double.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "smp_rate")]);
+                        Ns = int.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "N")],
+                            CultureInfo.InvariantCulture);
+                        type = int.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "type")],
+                            CultureInfo.InvariantCulture);
+                        instance = int.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "instance")],
+                            CultureInfo.InvariantCulture);
+                        smp_rate = double.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "smp_rate")],
+                            CultureInfo.InvariantCulture);
 
                         sensorno = type * 3 + instance;
                         if(type == 0)
@@ -746,7 +772,8 @@ namespace MissionPlanner.Utilities
                     }
                     else if (item.msgtype.StartsWith("ISBD"))
                     {
-                        var Nsdata = int.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "N")]);
+                        var Nsdata = int.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "N")],
+                            CultureInfo.InvariantCulture);
 
                         if (Ns != Nsdata)
                             continue;
@@ -756,7 +783,8 @@ namespace MissionPlanner.Utilities
                         int offsetZ = file.dflog.FindMessageOffset(item.msgtype, "z");
                         int offsetTime = file.dflog.FindMessageOffset(item.msgtype, "TimeUS");
 
-                        double time = double.Parse(item.items[offsetTime]) / 1000.0;
+                        double time = double.Parse(item.items[offsetTime],
+                                          CultureInfo.InvariantCulture) / 1000.0;
 
                         if (time < alldata[sensorno].lasttime)
                             continue;
@@ -767,9 +795,12 @@ namespace MissionPlanner.Utilities
 
                         alldata[sensorno].lasttime = time;
 
-                        item.items[offsetX].Split(new[] { ' ', '[', ']' }, StringSplitOptions.RemoveEmptyEntries).ForEach(aa => { alldata[sensorno].datax.Add(double.Parse(aa)); });
-                        item.items[offsetY].Split(new[] { ' ', '[', ']' }, StringSplitOptions.RemoveEmptyEntries).ForEach(aa => { alldata[sensorno].datay.Add(double.Parse(aa)); });
-                        item.items[offsetZ].Split(new[] { ' ', '[', ']' }, StringSplitOptions.RemoveEmptyEntries).ForEach(aa => { alldata[sensorno].dataz.Add(double.Parse(aa)); });
+                        item.items[offsetX].Split(new[] { ' ', '[', ']' }, StringSplitOptions.RemoveEmptyEntries).ForEach(aa => { alldata[sensorno].datax.Add(double.Parse(aa,
+                            CultureInfo.InvariantCulture)); });
+                        item.items[offsetY].Split(new[] { ' ', '[', ']' }, StringSplitOptions.RemoveEmptyEntries).ForEach(aa => { alldata[sensorno].datay.Add(double.Parse(aa,
+                            CultureInfo.InvariantCulture)); });
+                        item.items[offsetZ].Split(new[] { ' ', '[', ']' }, StringSplitOptions.RemoveEmptyEntries).ForEach(aa => { alldata[sensorno].dataz.Add(double.Parse(aa,
+                            CultureInfo.InvariantCulture)); });
                     }
                 }
 

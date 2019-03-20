@@ -1,8 +1,4 @@
-﻿using System;
-using MissionPlanner.HIL;
-using MissionPlanner.Utilities;
-
-namespace MissionPlanner.Swarm.TD
+﻿namespace MissionPlanner.Swarm.TD
 {
     public class Drone : DroneBase
     {
@@ -11,5 +7,7 @@ namespace MissionPlanner.Swarm.TD
         public double speed = 2.0;
 
         public bool takeoffdone = false;
+
+        public bool commandsent = false;
     }
 }

@@ -5,14 +5,12 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
-using System.Xml;
 using System.Collections;
 using System.Runtime.InteropServices;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
 using MissionPlanner.Utilities;
-using IronPython.Hosting;
 using log4net;
 using MissionPlanner.Controls;
 using MissionPlanner.Comms;
@@ -20,10 +18,10 @@ using MissionPlanner.Log;
 using Transitions;
 using MissionPlanner.Warnings;
 using System.Collections.Concurrent;
-using MissionPlanner.GCSViews.ConfigurationView;
-using WebCamService;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
+using MissionPlanner.ArduPilot;
+using MissionPlanner.Utilities.AltitudeAngel;
 using System.Threading.Tasks;
 
 namespace MissionPlanner
@@ -58,6 +56,25 @@ namespace MissionPlanner
 
             static public int SW_SHOWNORMAL = 1;
             static public int SW_HIDE = 0;
+
+            [DllImport("kernel32.dll", SetLastError = true)]
+            public static extern IntPtr LoadLibraryEx(string lpFileName, IntPtr hReservedNull, LoadLibraryFlags dwFlags);
+
+            [System.Flags]
+            public enum LoadLibraryFlags : uint
+            {
+                DONT_RESOLVE_DLL_REFERENCES = 0x00000001,
+                LOAD_IGNORE_CODE_AUTHZ_LEVEL = 0x00000010,
+                LOAD_LIBRARY_AS_DATAFILE = 0x00000002,
+                LOAD_LIBRARY_AS_DATAFILE_EXCLUSIVE = 0x00000040,
+                LOAD_LIBRARY_AS_IMAGE_RESOURCE = 0x00000020,
+                LOAD_LIBRARY_SEARCH_APPLICATION_DIR = 0x00000200,
+                LOAD_LIBRARY_SEARCH_DEFAULT_DIRS = 0x00001000,
+                LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR = 0x00000100,
+                LOAD_LIBRARY_SEARCH_SYSTEM32 = 0x00000800,
+                LOAD_LIBRARY_SEARCH_USER_DIRS = 0x00000400,
+                LOAD_WITH_ALTERED_SEARCH_PATH = 0x00000008
+            }
         }
 
         public static menuicons displayicons = new burntkermitmenuicons();
@@ -304,12 +321,19 @@ namespace MissionPlanner
         /// <summary>
         /// speech engine enable
         /// </summary>
-        public static bool speechEnable = false;
+        public static bool speechEnable
+        {
+            get { return speechEngine == null ? false : speechEngine.speechEnable; }
+            set
+            {
+                if (speechEngine != null) speechEngine.speechEnable = value;
+            }
+        }
 
         /// <summary>
         /// spech engine static class
         /// </summary>
-        public static Speech speechEngine { get; set; }
+        public static ISpeech speechEngine { get; set; }
 
         /// <summary>
         /// joystick static class
@@ -374,20 +398,6 @@ namespace MissionPlanner
         DateTime nodatawarning = DateTime.Now;
         DateTime OpenTime = DateTime.Now;
 
-        /// <summary>
-        /// enum of firmwares
-        /// </summary>
-        public enum Firmwares
-        {
-            ArduPlane,
-            ArduCopter2,
-            ArduRover,
-            ArduSub,
-            Ateryx,
-            ArduTracker,
-            Gymbal,
-            PX4
-        }
 
         DateTime connectButtonUpdate = DateTime.Now;
 
@@ -521,6 +531,8 @@ namespace MissionPlanner
                     t.TabPages.Remove(FlightData.tabPagemessages);
                 }
                 t.SelectedIndex = 0;
+
+                MainV2.instance.FlightData.loadTabControlActions();
             }
 
             if (MainV2.instance.FlightPlanner != null)
@@ -554,24 +566,15 @@ namespace MissionPlanner
             // setup adsb
             Utilities.adsb.UpdatePlanePosition += adsb_UpdatePlanePosition;
 
+            MAVLinkInterface.UpdateADSBPlanePosition += adsb_UpdatePlanePosition;
+
             Form splash = Program.Splash;
 
-            splash.Refresh();
+            splash?.Refresh();
 
             Application.DoEvents();
 
             instance = this;
-
-            //disable dpi scaling
-            if (Font.Name != "宋体")
-            {
-                //Chinese displayed normally when scaling. But would be too small or large using this line of code.
-                using (var g = CreateGraphics())
-                {
-                    Font = new Font(Font.Name, 8.25f*96f/g.DpiX, Font.Style, Font.Unit, Font.GdiCharSet,
-                        Font.GdiVerticalFont);
-                }
-            }
 
             InitializeComponent();
             try
@@ -590,6 +593,10 @@ namespace MissionPlanner
             //startup console
             TCPConsole.Write((byte) 'S');
 
+            // define default basestream
+            comPort.BaseStream = new SerialPort();
+            comPort.BaseStream.BaudRate = 115200;
+
             _connectionControl = toolStripConnectionControl.ConnectionControl;
             _connectionControl.CMB_baudrate.TextChanged += this.CMB_baudrate_TextChanged;
             _connectionControl.CMB_serialport.SelectedIndexChanged += this.CMB_serialport_SelectedIndexChanged;
@@ -603,7 +610,12 @@ namespace MissionPlanner
             var t = Type.GetType("Mono.Runtime");
             MONO = (t != null);
 
-            speechEngine = new Speech();
+            try
+            {
+                speechEngine = new Speech();
+                MAVLinkInterface.Speech = speechEngine;
+                CurrentState.Speech = speechEngine;
+            } catch { }
 
             Warnings.CustomWarning.defaultsrc = comPort.MAV.cs;
             Warnings.WarningEngine.Start();
@@ -619,8 +631,6 @@ namespace MissionPlanner
             if (_connectionControl.TOOL_APMFirmware.Items.Count > 0)
                 _connectionControl.TOOL_APMFirmware.SelectedIndex = 0;
 
-            comPort.BaseStream.BaudRate = 115200;
-
             PopulateSerialportList();
             if (_connectionControl.CMB_serialport.Items.Count > 0)
             {
@@ -629,7 +639,7 @@ namespace MissionPlanner
             }
             // ** Done
 
-            splash.Refresh();
+            splash?.Refresh();
             Application.DoEvents();
 
             // load last saved connection settings
@@ -667,7 +677,7 @@ namespace MissionPlanner
                 if (_connectionControl.TOOL_APMFirmware.SelectedIndex == -1)
                     _connectionControl.TOOL_APMFirmware.SelectedIndex = 0;
                 MainV2.comPort.MAV.cs.firmware =
-                    (MainV2.Firmwares) Enum.Parse(typeof (MainV2.Firmwares), _connectionControl.TOOL_APMFirmware.Text);
+                    (Firmwares) Enum.Parse(typeof (Firmwares), _connectionControl.TOOL_APMFirmware.Text);
             }
 
             MissionPlanner.Utilities.Tracking.cid = new Guid(Settings.Instance["guid"].ToString());
@@ -687,8 +697,11 @@ namespace MissionPlanner
                 changelanguage(CultureInfoEx.GetCultureInfo(Settings.Instance["language"]));
             }
 
-            this.Text = splash.Text;
-            titlebar = splash.Text;
+            if (splash != null)
+            {
+                this.Text = splash?.Text;
+                titlebar = splash?.Text;
+            }
 
             if (!MONO) // windows only
             {
@@ -874,16 +887,17 @@ namespace MissionPlanner
                 if (Settings.Instance["MainWidth"] != null)
                     this.Width = Settings.Instance.GetInt32("MainWidth");
 
+                // set presaved default telem rates
                 if (Settings.Instance["CMB_rateattitude"] != null)
-                    CurrentState.rateattitudebackup = Settings.Instance.GetByte("CMB_rateattitude");
+                    CurrentState.rateattitudebackup = Settings.Instance.GetInt32("CMB_rateattitude");
                 if (Settings.Instance["CMB_rateposition"] != null)
-                    CurrentState.ratepositionbackup = Settings.Instance.GetByte("CMB_rateposition");
+                    CurrentState.ratepositionbackup = Settings.Instance.GetInt32("CMB_rateposition");
                 if (Settings.Instance["CMB_ratestatus"] != null)
-                    CurrentState.ratestatusbackup = Settings.Instance.GetByte("CMB_ratestatus");
+                    CurrentState.ratestatusbackup = Settings.Instance.GetInt32("CMB_ratestatus");
                 if (Settings.Instance["CMB_raterc"] != null)
-                    CurrentState.ratercbackup = Settings.Instance.GetByte("CMB_raterc");
+                    CurrentState.ratercbackup = Settings.Instance.GetInt32("CMB_raterc");
                 if (Settings.Instance["CMB_ratesensors"] != null)
-                    CurrentState.ratesensorsbackup = Settings.Instance.GetByte("CMB_ratesensors");
+                    CurrentState.ratesensorsbackup = Settings.Instance.GetInt32("CMB_ratesensors");
 
                 // make sure rates propogate
                 MainV2.comPort.MAV.cs.ResetInternals();
@@ -931,8 +945,11 @@ namespace MissionPlanner
                     Directory.CreateDirectory(Settings.Instance.LogDir);
             }
             catch (Exception ex) { log.Error(ex); }
-
+#if !NETSTANDARD2_0
+#if !NETCOREAPP2_0
             Microsoft.Win32.SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
+#endif
+#endif
 
             // make sure new enough .net framework is installed
             if (!MONO)
@@ -958,6 +975,9 @@ namespace MissionPlanner
                 this.Icon = Icon.FromHandle(((Bitmap)Program.IconFile).GetHicon());
             }
 
+            if (Program.Logo2 != null)
+                MenuArduPilot.Image = Program.Logo2;
+
             if (Program.Logo != null && Program.name == "VVVVZ")
             {
                 MenuDonate.Click -= this.toolStripMenuItem1_Click;
@@ -980,6 +1000,8 @@ namespace MissionPlanner
                 MenuDonate.Text = "";
                 MenuDonate.Image = Program.Logo;
             }
+
+
 
             Application.DoEvents();
 
@@ -1040,7 +1062,8 @@ namespace MissionPlanner
                 instance.MyView.Reload();
             }
         }
-
+#if !NETSTANDARD2_0
+#if !NETCOREAPP2_0
         void SystemEvents_PowerModeChanged(object sender, Microsoft.Win32.PowerModeChangedEventArgs e)
         {
             // try prevent crash on resume
@@ -1049,7 +1072,8 @@ namespace MissionPlanner
                 doDisconnect(MainV2.comPort);
             }
         }
-
+#endif
+#endif
         private void BGLoadAirports(object nothing)
         {
             // read airport list
@@ -1130,12 +1154,10 @@ namespace MissionPlanner
             }
         }
 
-        void adsb_UpdatePlanePosition(object sender, EventArgs e)
+        void adsb_UpdatePlanePosition(object sender, MissionPlanner.Utilities.adsb.PointLatLngAltHdg adsb)
         {
             lock (adsblock)
             {
-                var adsb = ((MissionPlanner.Utilities.adsb.PointLatLngAltHdg)sender);
-
                 var id = adsb.Tag;
 
                 if (MainV2.instance.adsbPlanes.ContainsKey(id))
@@ -1159,6 +1181,10 @@ namespace MissionPlanner
 
                 try
                 {
+                    // dont rebroadcast something that came from the drone
+                    if (sender != null && sender is MAVLinkInterface)
+                        return;
+
                     MAVLink.mavlink_adsb_vehicle_t packet = new MAVLink.mavlink_adsb_vehicle_t();
 
                     packet.altitude = (int)(MainV2.instance.adsbPlanes[id].Alt * 1000);
@@ -1352,7 +1378,7 @@ namespace MissionPlanner
             this.MenuConnect.Image = global::MissionPlanner.Properties.Resources.light_connect_icon;
         }
 
-        public void doConnect(MAVLinkInterface comPort, string portname, string baud)
+        public void doConnect(MAVLinkInterface comPort, string portname, string baud, bool getparams = true)
         {
             bool skipconnectcheck = false;
             log.Info("We are connecting to " + portname + " " + baud );
@@ -1388,11 +1414,11 @@ namespace MissionPlanner
                     // do autoscan
                     Comms.CommsSerialScan.Scan(true);
                     DateTime deadline = DateTime.Now.AddSeconds(50);
-                    while (Comms.CommsSerialScan.foundport == false)
+                    while (Comms.CommsSerialScan.foundport == false || Comms.CommsSerialScan.run == 1)
                     {
                         System.Threading.Thread.Sleep(100);
 
-                        if (DateTime.Now > deadline || Comms.CommsSerialScan.run == 0)
+                        if (DateTime.Now > deadline)
                         {
                             CustomMessageBox.Show(Strings.Timeout);
                             _connectionControl.IsConnected(false);
@@ -1514,7 +1540,8 @@ namespace MissionPlanner
                     return;
                 }
 
-                comPort.getParamList();
+                if (getparams)
+                    comPort.getParamList();
 
                 _connectionControl.UpdateSysIDS();
 
@@ -1583,7 +1610,7 @@ namespace MissionPlanner
                 }
 
                 FlightData.CheckBatteryShow();
-
+                /*
                 MissionPlanner.Utilities.Tracking.AddEvent("Connect", "Connect", comPort.MAV.cs.firmware.ToString(),
                     comPort.MAV.param.Count.ToString());
                 MissionPlanner.Utilities.Tracking.AddTiming("Connect", "Connect Time",
@@ -1605,7 +1632,7 @@ namespace MissionPlanner
 
                 if (comPort.MAV.param.ContainsKey("AVD_ENABLE"))
                     MissionPlanner.Utilities.Tracking.AddEvent("Param", "Value", "AVD_ENABLE", comPort.MAV.param["AVD_ENABLE"].ToString());
-
+                */
                 // save the baudrate for this port
                 Settings.Instance[_connectionControl.CMB_serialport.Text + "_BAUD"] = _connectionControl.CMB_baudrate.Text;
 
@@ -1668,6 +1695,8 @@ namespace MissionPlanner
                 {
                     FlightPlanner.GeoFencedownloadToolStripMenuItem_Click(null, null);
                 }
+                //Add HUD custom items source 
+                HUD.Custom.src = MainV2.comPort.MAV.cs;
 
                 // set connected icon
                 this.MenuConnect.Image = displayicons.disconnect;
@@ -1692,14 +1721,19 @@ namespace MissionPlanner
 
         private void MenuConnect_Click(object sender, EventArgs e)
         {
+            Connect();
+        }
+
+        private void Connect()
+        {
             comPort.giveComport = false;
 
             log.Info("MenuConnect Start");
 
             // sanity check
-            if (comPort.BaseStream.IsOpen && MainV2.comPort.MAV.cs.groundspeed > 4)
+            if (comPort.BaseStream.IsOpen && comPort.MAV.cs.groundspeed > 4)
             {
-                if (DialogResult.No ==
+                if ((int) DialogResult.No ==
                     CustomMessageBox.Show(Strings.Stillmoving, Strings.Disconnect, MessageBoxButtons.YesNo))
                 {
                     return;
@@ -1734,7 +1768,7 @@ namespace MissionPlanner
                 doConnect(comPort, _connectionControl.CMB_serialport.Text, _connectionControl.CMB_baudrate.Text);
             }
 
-            MainV2._connectionControl.UpdateSysIDS();
+            _connectionControl.UpdateSysIDS();
 
             loadph_serial();
         }
@@ -1805,11 +1839,12 @@ namespace MissionPlanner
         {
             base.OnClosing(e);
 
+            log.Info("MainV2_FormClosing");
+
+            log.Info("GMaps write cache");
             // speed up tile saving on exit
             GMap.NET.GMaps.Instance.CacheOnIdleRead = false;
             GMap.NET.GMaps.Instance.BoostCacheEngine = true;
-
-            log.Info("MainV2_FormClosing");
 
             Settings.Instance["MainHeight"] = this.Height.ToString();
             Settings.Instance["MainWidth"] = this.Width.ToString();
@@ -1817,6 +1852,9 @@ namespace MissionPlanner
 
             Settings.Instance["MainLocX"] = this.Location.X.ToString();
             Settings.Instance["MainLocY"] = this.Location.Y.ToString();
+
+            log.Info("close logs");
+            AltitudeAngel.Dispose();
 
             // close bases connection
             try
@@ -1835,6 +1873,7 @@ namespace MissionPlanner
             {
             }
 
+            log.Info("close ports");
             // close all connections
             foreach (var port in Comports)
             {
@@ -1855,12 +1894,16 @@ namespace MissionPlanner
                 }
             }
 
+            log.Info("stop adsb");
             Utilities.adsb.Stop();
 
+            log.Info("stop WarningEngine");
             Warnings.WarningEngine.Stop();
 
+            log.Info("stop UDPVideoShim");
             UDPVideoShim.Stop();
 
+            log.Info("stop GStreamer");
             GStreamer.StopAll();
 
             log.Info("closing vlcrender");
@@ -1903,16 +1946,16 @@ namespace MissionPlanner
             try
             {
                 System.Threading.ThreadPool.QueueUserWorkItem((WaitCallback) delegate
-                {
-                    try
                     {
-                        MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(Settings.Instance.LogDir, "*.tlog"));
+                        try
+                        {
+                            MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(Settings.Instance.LogDir, "*.tlog"));
+                        }
+                        catch
+                        {
+                        }
                     }
-                    catch
-                    {
-                    }
-                }
-                    );
+                );
             }
             catch
             {
@@ -2070,22 +2113,24 @@ namespace MissionPlanner
                                 rc.target_component = comPort.MAV.compid;
                                 rc.target_system = comPort.MAV.sysid;
 
-                                if (joystick.getJoystickAxis(1) != Joystick.Joystick.joystickaxis.None)
-                                    rc.chan1_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech1;
-                                if (joystick.getJoystickAxis(2) != Joystick.Joystick.joystickaxis.None)
-                                    rc.chan2_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech2;
-                                if (joystick.getJoystickAxis(3) != Joystick.Joystick.joystickaxis.None)
-                                    rc.chan3_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech3;
-                                if (joystick.getJoystickAxis(4) != Joystick.Joystick.joystickaxis.None)
-                                    rc.chan4_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech4;
-                                if (joystick.getJoystickAxis(5) != Joystick.Joystick.joystickaxis.None)
-                                    rc.chan5_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech5;
-                                if (joystick.getJoystickAxis(6) != Joystick.Joystick.joystickaxis.None)
-                                    rc.chan6_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech6;
-                                if (joystick.getJoystickAxis(7) != Joystick.Joystick.joystickaxis.None)
-                                    rc.chan7_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech7;
-                                if (joystick.getJoystickAxis(8) != Joystick.Joystick.joystickaxis.None)
-                                    rc.chan8_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech8;
+                                if (joystick.getJoystickAxis(1) != Joystick.Joystick.joystickaxis.None)rc.chan1_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech1;
+                                if (joystick.getJoystickAxis(2) != Joystick.Joystick.joystickaxis.None)rc.chan2_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech2;
+                                if (joystick.getJoystickAxis(3) != Joystick.Joystick.joystickaxis.None)rc.chan3_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech3;
+                                if (joystick.getJoystickAxis(4) != Joystick.Joystick.joystickaxis.None)rc.chan4_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech4;
+                                if (joystick.getJoystickAxis(5) != Joystick.Joystick.joystickaxis.None)rc.chan5_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech5;
+                                if (joystick.getJoystickAxis(6) != Joystick.Joystick.joystickaxis.None)rc.chan6_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech6;
+                                if (joystick.getJoystickAxis(7) != Joystick.Joystick.joystickaxis.None)rc.chan7_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech7;
+                                if (joystick.getJoystickAxis(8) != Joystick.Joystick.joystickaxis.None)rc.chan8_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech8;
+                                if (joystick.getJoystickAxis(9) != Joystick.Joystick.joystickaxis.None) rc.chan9_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech9;
+                                if (joystick.getJoystickAxis(10) != Joystick.Joystick.joystickaxis.None) rc.chan10_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech10;
+                                if (joystick.getJoystickAxis(11) != Joystick.Joystick.joystickaxis.None) rc.chan11_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech11;
+                                if (joystick.getJoystickAxis(12) != Joystick.Joystick.joystickaxis.None) rc.chan12_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech12;
+                                if (joystick.getJoystickAxis(13) != Joystick.Joystick.joystickaxis.None) rc.chan13_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech13;
+                                if (joystick.getJoystickAxis(14) != Joystick.Joystick.joystickaxis.None) rc.chan14_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech14;
+                                if (joystick.getJoystickAxis(15) != Joystick.Joystick.joystickaxis.None) rc.chan15_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech15;
+                                if (joystick.getJoystickAxis(16) != Joystick.Joystick.joystickaxis.None) rc.chan16_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech16;
+                                if (joystick.getJoystickAxis(17) != Joystick.Joystick.joystickaxis.None) rc.chan17_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech17;
+                                if (joystick.getJoystickAxis(18) != Joystick.Joystick.joystickaxis.None) rc.chan18_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech18;
 
                                 if (lastjoystick.AddMilliseconds(rate) < DateTime.Now)
                                 {
@@ -2371,7 +2416,7 @@ namespace MissionPlanner
                         {
                             if (Settings.Instance.GetBoolean("speechcustomenabled"))
                             {
-                                MainV2.speechEngine.SpeakAsync(Common.speechConversion(""+ Settings.Instance["speechcustom"]));
+                                MainV2.speechEngine.SpeakAsync(ArduPilot.Common.speechConversion(comPort.MAV, ""+ Settings.Instance["speechcustom"]));
                             }
 
                             speechcustomtime = DateTime.Now;
@@ -2388,7 +2433,7 @@ namespace MissionPlanner
                         {
                             if (MainV2.speechEngine.IsReady)
                             {
-                                MainV2.speechEngine.SpeakAsync(Common.speechConversion(""+ Settings.Instance["speechbattery"]));
+                                MainV2.speechEngine.SpeakAsync(ArduPilot.Common.speechConversion(comPort.MAV, "" + Settings.Instance["speechbattery"]));
                             }
                         }
                         else if (Settings.Instance.GetBoolean("speechbatteryenabled") == true &&
@@ -2399,7 +2444,7 @@ namespace MissionPlanner
                             if (MainV2.speechEngine.IsReady)
                             {
                                 MainV2.speechEngine.SpeakAsync(
-                                    Common.speechConversion("" + Settings.Instance["speechbattery"]));
+                                    ArduPilot.Common.speechConversion(comPort.MAV, "" + Settings.Instance["speechbattery"]));
                             }
                         }
                     }
@@ -2418,7 +2463,7 @@ namespace MissionPlanner
                                 if (MainV2.speechEngine.IsReady)
                                 {
                                     MainV2.speechEngine.SpeakAsync(
-                                        Common.speechConversion(""+ Settings.Instance["speechlowairspeed"]));
+                                        ArduPilot.Common.speechConversion(comPort.MAV, "" + Settings.Instance["speechlowairspeed"]));
                                     speechlowspeedtime = DateTime.Now;
                                 }
                             }
@@ -2427,7 +2472,7 @@ namespace MissionPlanner
                                 if (MainV2.speechEngine.IsReady)
                                 {
                                     MainV2.speechEngine.SpeakAsync(
-                                        Common.speechConversion(""+ Settings.Instance["speechlowgroundspeed"]));
+                                        ArduPilot.Common.speechConversion(comPort.MAV, "" + Settings.Instance["speechlowgroundspeed"]));
                                     speechlowspeedtime = DateTime.Now;
                                 }
                             }
@@ -2458,7 +2503,7 @@ namespace MissionPlanner
                                 {
                                     if (MainV2.speechEngine.IsReady)
                                         MainV2.speechEngine.SpeakAsync(
-                                            Common.speechConversion(""+Settings.Instance["speechalt"]));
+                                            ArduPilot.Common.speechConversion(comPort.MAV, "" +Settings.Instance["speechalt"]));
                                 }
                             }
                         }
@@ -2535,12 +2580,11 @@ namespace MissionPlanner
                             {
                                 try
                                 {
-                                    //MainV2.comPort.getHomePosition();
                                     MainV2.comPort.MAV.cs.HomeLocation = new PointLatLngAlt(MainV2.comPort.getWP(0));
                                     if (MyView.current != null && MyView.current.Name == "FlightPlanner")
                                     {
                                         // update home if we are on flight data tab
-                                        FlightPlanner.updateHome();
+                                        this.BeginInvoke((Action) delegate { FlightPlanner.updateHome(); });
                                     }
 
                                 }
@@ -2548,7 +2592,7 @@ namespace MissionPlanner
                                 {
                                     // dont hang this loop
                                     this.BeginInvoke(
-                                        (MethodInvoker)
+                                        (Action)
                                             delegate
                                             {
                                                 CustomMessageBox.Show("Failed to update home location (" +
@@ -2565,7 +2609,7 @@ namespace MissionPlanner
                                 string speech = armedstatus ? Settings.Instance["speecharm"] : Settings.Instance["speechdisarm"];
                                 if (!string.IsNullOrEmpty(speech))
                                 {
-                                    MainV2.speechEngine.SpeakAsync(Common.speechConversion(speech));
+                                    MainV2.speechEngine.SpeakAsync(ArduPilot.Common.speechConversion(comPort.MAV, speech));
                                 }
                             }
                         }
@@ -2582,7 +2626,7 @@ namespace MissionPlanner
                         };
 
                         // enumerate each link
-                        foreach (var port in Comports)
+                        foreach (var port in Comports.ToArray())
                         {
                             if (!port.BaseStream.IsOpen)
                                 continue;
@@ -2614,6 +2658,10 @@ namespace MissionPlanner
                             {
                                 try
                                 {
+                                    // poll for version if we dont have it - every mav every port
+                                    if (!MAV.cs.armed && (DateTime.Now.Second % 20) == 0 && MAV.cs.version < new Version(0, 1))
+                                        port.getVersion(MAV.sysid, MAV.compid, false);
+
                                     // are we talking to a mavlink2 device
                                     if (MAV.mavlinkv2)
                                     {
@@ -2716,7 +2764,7 @@ namespace MissionPlanner
                         {
                             try
                             {
-                               port.readPacket();
+                                port.readPacket();
                             }
                             catch (Exception ex)
                             {
@@ -2883,14 +2931,14 @@ namespace MissionPlanner
             // start listener
             UDPVideoShim.Start();
 
-            //log.Info("start udpmavlinkshim");
-            //UDPMavlinkShim.Start();
+            log.Info("start udpmavlinkshim");
+            UDPMavlinkShim.Start();
 
             BinaryLog.onFlightMode += (firmware, modeno) =>
             {
                 try
                 {
-                    var modes = Common.getModesList((MainV2.Firmwares) Enum.Parse(typeof(MainV2.Firmwares), firmware));
+                    var modes = Common.getModesList((Firmwares) Enum.Parse(typeof(Firmwares), firmware));
                     string currentmode = null;
 
                     foreach (var mode in modes)
@@ -2921,28 +2969,37 @@ namespace MissionPlanner
                         ;
             };
 
-            ZeroConf.EnumerateAllServicesFromAllHosts();
+            //ZeroConf.EnumerateAllServicesFromAllHosts();
 
-            ZeroConf.ProbeForRTSP();
+            //ZeroConf.ProbeForRTSP();
+
+            CommsSerialScan.doConnect += port =>
+            {
+                if (MainV2.instance.InvokeRequired)
+                {
+                    MainV2.instance.BeginInvoke(
+                        (Action) delegate()
+                        {
+                            MAVLinkInterface mav = new MAVLinkInterface();
+                            mav.BaseStream = port;
+                            MainV2.instance.doConnect(mav, "preset", "0");
+                            MainV2.Comports.Add(mav);
+                        });
+                }
+                else
+                {
+                    MAVLinkInterface mav = new MAVLinkInterface();
+                    mav.BaseStream = port;
+                    MainV2.instance.doConnect(mav, "preset", "0");
+                    MainV2.Comports.Add(mav);
+                }
+            };
 
             try
             {
                 log.Info("Load AltitudeAngel");
-                new Utilities.AltitudeAngel.AltitudeAngel();
-
-                // setup as a prompt once dialog
-                if (!Settings.Instance.GetBoolean("AACheck2"))
-                {
-                    if (CustomMessageBox.Show(
-                            "Do you wish to enable Altitude Angel airspace management data?\nFor more information visit [link;http://www.altitudeangel.com;www.altitudeangel.com]",
-                            "Altitude Angel - Enable", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    {
-                        Utilities.AltitudeAngel.AltitudeAngel.service.SignInAsync();
-                    }
-
-                    Settings.Instance["AACheck2"] = true.ToString();
-                }
-                
+                AltitudeAngel.Configure();
+                AltitudeAngel.Initialize();
                 log.Info("Load AltitudeAngel... Done");
             }
             catch (TypeInitializationException) // windows xp lacking patch level
@@ -2956,7 +3013,7 @@ namespace MissionPlanner
 
             this.ResumeLayout();
 
-            Program.Splash.Close();
+            Program.Splash?.Close();
 
             log.Info("appload time");
             MissionPlanner.Utilities.Tracking.AddTiming("AppLoad", "Load Time",
@@ -3017,6 +3074,24 @@ namespace MissionPlanner
                     logbrowse.BringToFront();
                 }
 
+                if (cmds.ContainsKey("script") && File.Exists(cmds["script"]))
+                {
+                    // invoke for after onload finished
+                    this.BeginInvoke((Action) delegate()
+                    {
+                        try
+                        {
+                            FlightData.selectedscript = cmds["script"];
+
+                            FlightData.BUT_run_script_Click(null, null);
+                        }
+                        catch (Exception ex)
+                        {
+                            CustomMessageBox.Show("Start script failed: "+ex.ToString(), Strings.ERROR);
+                        }
+                    });
+                }
+
                 if (cmds.ContainsKey("joy") && cmds.ContainsKey("type"))
                 {
                     if (cmds["type"].ToLower() == "plane")
@@ -3036,7 +3111,7 @@ namespace MissionPlanner
                         MainV2.comPort.MAV.cs.firmware = Firmwares.ArduSub;
                     }
 
-                    var joy = new Joystick.Joystick();
+                    var joy = new Joystick.Joystick(() => MainV2.comPort);
 
                     if (joy.start(cmds["joy"]))
                     {
@@ -3063,6 +3138,50 @@ namespace MissionPlanner
                     }
                 }
 
+                if (cmds.ContainsKey("gstream"))
+                {
+                    GStreamer.gstlaunch = GStreamer.LookForGstreamer();
+
+                    if (!File.Exists(GStreamer.gstlaunch))
+                    {
+                        if (CustomMessageBox.Show(
+                                "A video stream has been detected, but gstreamer has not been configured/installed.\nDo you want to install/config it now?",
+                                "GStreamer", System.Windows.Forms.MessageBoxButtons.YesNo) ==
+                            (int)System.Windows.Forms.DialogResult.Yes)
+                        {
+                            GStreamer.DownloadGStreamer();
+                        }
+                    }
+
+                    try
+                    {
+                        new Thread(delegate()
+                        {
+                            // 36 retrys
+                            for (int i = 0; i < 36; i++)
+                            {
+                                var st = GStreamer.StartA(cmds["gstream"]);
+                                if (st == null)
+                                {
+                                    // prevent spam
+                                    Thread.Sleep(5000);
+                                }
+                                else
+                                {
+                                    while (st.IsAlive)
+                                    {
+                                        Thread.Sleep(1000);
+                                    }
+                                }
+                            }
+                        }) {IsBackground = true}.Start();
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error(ex);
+                    }
+                }
+
                 if (cmds.ContainsKey("port") && cmds.ContainsKey("baud"))
                 {
                     _connectionControl.CMB_serialport.Text = cmds["port"];
@@ -3075,7 +3194,7 @@ namespace MissionPlanner
             // show wizard on first use
             if (Settings.Instance["newuser"] == null)
             {
-                if (CustomMessageBox.Show("This is your first run, Do you wish to use the setup wizard?\nRecomended for new users.", "Wizard", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                if (CustomMessageBox.Show("This is your first run, Do you wish to use the setup wizard?\nRecomended for new users.", "Wizard", MessageBoxButtons.YesNo) == (int)System.Windows.Forms.DialogResult.Yes)
                 {
                     Wizard.Wizard wiz = new Wizard.Wizard();
 
@@ -3129,7 +3248,7 @@ namespace MissionPlanner
                     var fw = new Firmware();
                     var list = fw.getFWList();
                     if (list.Count > 1)
-                        Firmware.SaveSoftwares(list);
+                        Firmware.SaveSoftwares(new Firmware.optionsObject() { softwares = list });
 
                     Settings.Instance["fw_check"] = DateTime.Now.ToShortDateString();
                 }
@@ -3282,6 +3401,7 @@ namespace MissionPlanner
         /// <returns></returns>
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
+            if (GCSViews.Terminal.SSHTerminal) { return false; }
             if (keyData == Keys.F12)
             {
                 MenuConnect_Click(null, null);
@@ -3341,7 +3461,7 @@ namespace MissionPlanner
             }
             if (keyData == (Keys.Control | Keys.W)) // test ac config
             {
-                new Swarm.SRB.Control().Show();
+                new PropagationSettings().Show();
 
                 return true;
             }
@@ -3456,13 +3576,13 @@ namespace MissionPlanner
                 if (Settings.Instance["distunits"] != null)
                 {
                     switch (
-                        (Common.distances) Enum.Parse(typeof (Common.distances), Settings.Instance["distunits"].ToString()))
+                        (distances) Enum.Parse(typeof (distances), Settings.Instance["distunits"].ToString()))
                     {
-                        case Common.distances.Meters:
+                        case distances.Meters:
                             CurrentState.multiplierdist = 1;
                             CurrentState.DistanceUnit = "m";
                             break;
-                        case Common.distances.Feet:
+                        case distances.Feet:
                             CurrentState.multiplierdist = 3.2808399f;
                             CurrentState.DistanceUnit = "ft";
                             break;
@@ -3474,30 +3594,52 @@ namespace MissionPlanner
                     CurrentState.DistanceUnit = "m";
                 }
 
+                // alt
+                if (Settings.Instance["altunits"] != null)
+                {
+                    switch (
+                        (distances)Enum.Parse(typeof(altitudes), Settings.Instance["altunits"].ToString()))
+                    {
+                        case distances.Meters:
+                            CurrentState.multiplieralt = 1;
+                            CurrentState.AltUnit = "m";
+                            break;
+                        case distances.Feet:
+                            CurrentState.multiplieralt = 3.2808399f;
+                            CurrentState.AltUnit = "ft";
+                            break;
+                    }
+                }
+                else
+                {
+                    CurrentState.multiplieralt = 1;
+                    CurrentState.AltUnit = "m";
+                }
+
                 // speed
                 if (Settings.Instance["speedunits"] != null)
                 {
-                    switch ((Common.speeds) Enum.Parse(typeof (Common.speeds), Settings.Instance["speedunits"].ToString()))
+                    switch ((speeds) Enum.Parse(typeof (speeds), Settings.Instance["speedunits"].ToString()))
                     {
-                        case Common.speeds.meters_per_second:
+                        case speeds.meters_per_second:
                             CurrentState.multiplierspeed = 1;
                             CurrentState.SpeedUnit = "m/s";
                             break;
-                        case Common.speeds.fps:
+                        case speeds.fps:
                             CurrentState.multiplierdist = 3.2808399f;
                             CurrentState.SpeedUnit = "fps";
                             break;
-                        case Common.speeds.kph:
+                        case speeds.kph:
                             CurrentState.multiplierspeed = 3.6f;
                             CurrentState.SpeedUnit = "kph";
                             break;
-                        case Common.speeds.mph:
+                        case speeds.mph:
                             CurrentState.multiplierspeed = 2.23693629f;
                             CurrentState.SpeedUnit = "mph";
                             break;
-                        case Common.speeds.knots:
+                        case speeds.knots:
                             CurrentState.multiplierspeed = 1.94384449f;
-                            CurrentState.SpeedUnit = "knots";
+                            CurrentState.SpeedUnit = "kts";
                             break;
                     }
                 }
@@ -3861,8 +4003,10 @@ namespace MissionPlanner
                 Regex udpcl = new Regex("udpcl://(.*):([0-9]+)");
                 Regex serial = new Regex("serial:(.*):([0-9]+)");
 
-                //Parallel.ForEach(lines, line =>
-                foreach (var line in lines)
+                ConcurrentBag<MAVLinkInterface> mavs = new ConcurrentBag<MAVLinkInterface>();
+
+                Parallel.ForEach(lines, line =>
+                //foreach (var line in lines)
                 {
                     try
                     {
@@ -3878,14 +4022,15 @@ namespace MissionPlanner
                         else if (udp.IsMatch(line))
                         {
                             var matches = udp.Match(line);
-                            var uc = new UdpSerial();
-                            uc.client = new UdpClient(int.Parse(matches.Groups[2].Value));
+                            var uc = new UdpSerial(new UdpClient(int.Parse(matches.Groups[2].Value)));
+                            uc.Port = matches.Groups[2].Value;
                             mav.BaseStream = uc;
                         }
                         else if (udpcl.IsMatch(line))
                         {
                             var matches = udpcl.Match(line);
                             var udc = new UdpSerialConnect();
+                            udc.Port = matches.Groups[2].Value;
                             udc.client = new UdpClient(matches.Groups[1].Value, int.Parse(matches.Groups[2].Value));
                             mav.BaseStream = udc;
                         }
@@ -3900,17 +4045,25 @@ namespace MissionPlanner
                         }
                         else
                         {
-                            continue;
+                            return;
                         }
 
-                        doConnect(mav, "preset", "0");
-                        Comports.Add(mav);
+                        mavs.Add(mav);
                     }
                     catch
                     {
                     }
                 }
-                //);
+                );
+
+                foreach (var mav in mavs)
+                {
+                    MainV2.instance.BeginInvoke((Action)delegate
+                    {
+                        doConnect(mav, "preset", "0", false);
+                        Comports.Add(mav);
+                    });
+                }
             }
         }
     }

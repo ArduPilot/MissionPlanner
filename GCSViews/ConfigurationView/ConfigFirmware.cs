@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using log4net;
-using MissionPlanner.Arduino;
+using MissionPlanner.Comms;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    partial class ConfigFirmware : MyUserControl, IActivate
+    partial class ConfigFirmware : MyUserControl, IActivate, IDeactivate
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private static List<Firmware.software> softwares = new List<Firmware.software>();
@@ -34,6 +34,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 UpdateFWList();
                 firstrun = false;
+                MainV2.instance.DeviceChanged += Instance_DeviceChanged;
+            }
+
+            if (Program.WindowsStoreApp)
+            {
+
+                CustomMessageBox.Show("Not Available", "Unfortunately the windows store version of this app does not support uploading.", MessageBoxButtons.OK);
+                this.Enabled = false;
+                return;
             }
 
             if (MainV2.DisplayConfiguration.isAdvancedMode)
@@ -50,6 +59,44 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 lbl_dlfw.Visible = false;
                 CMB_history_label.Visible = false;
             }
+        }
+
+        private void Instance_DeviceChanged(MainV2.WM_DEVICECHANGE_enum cause)
+        {
+            if (cause != MainV2.WM_DEVICECHANGE_enum.DBT_DEVICEARRIVAL)
+                return;
+
+            Parallel.ForEach(SerialPort.GetPortNames(), port =>
+            //Task.Run(delegate
+            {
+                px4uploader.Uploader up;
+
+                try
+                {
+                    up = new px4uploader.Uploader(port, 115200);
+                }
+                catch (Exception ex)
+                {
+                    //System.Threading.Thread.Sleep(50);
+                    Console.WriteLine(ex.Message);
+                    return;
+                }
+
+                try
+                {
+                    up.identify();
+                    log.InfoFormat("Found board type {0} boardrev {1} bl rev {2} fwmax {3} on {4}", up.board_type,
+                        up.board_rev, up.bl_rev, up.fw_maxsize, port);
+
+                    up.close();
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Not There..");
+                    //Console.WriteLine(ex.Message);
+                    up.close();
+                }
+            });
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -89,7 +136,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             pdr.Dispose();
         }
 
-        private void pdr_DoWork(object sender, ProgressWorkerEventArgs e, object passdata = null)
+        private void pdr_DoWork(IProgressReporterDialogue sender)
         {
             var fw = new Firmware();
             fw.Progress -= fw_Progress1;
@@ -220,6 +267,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 pictureAntennaTracker.Text = temp.name;
                 pictureAntennaTracker.Tag = temp;
             }
+            else if (temp.urlpx4v2.ToLower().Contains("ardusub"))
+            {
+                pictureBoxSub.Text = temp.name;
+                pictureBoxSub.Tag = temp;
+            }
             else
             {
                 log.Info("No Home " + temp.name + " " + temp.url2560);
@@ -230,7 +282,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             var dr = CustomMessageBox.Show(Strings.AreYouSureYouWantToUpload + fwtoupload.name + Strings.QuestionMark,
                 Strings.Continue, MessageBoxButtons.YesNo);
-            if (dr == DialogResult.Yes)
+            if (dr == (int)DialogResult.Yes)
             {
                 try
                 {
@@ -243,6 +295,26 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 fw.Progress += fw_Progress1;
 
                 var history = (CMB_history.SelectedValue == null) ? "" : CMB_history.SelectedValue.ToString();
+
+                if (history != "")
+                {
+                    foreach (var propertyInfo in fwtoupload.GetType().GetFields())
+                    {
+                        try
+                        {
+                            if (propertyInfo.Name.Contains("url"))
+                            {
+                                var oldurl = propertyInfo.GetValue(fwtoupload).ToString();
+                                if(oldurl == "")
+                                    continue;
+                                var newurl = Firmware.getUrl(history, oldurl);
+                                propertyInfo.SetValue(fwtoupload, newurl);
+                            }
+                        } catch { }
+                    }
+
+                    history = "";
+                }
 
                 var updated = fw.update(MainV2.comPortName, fwtoupload, history);
 
@@ -295,7 +367,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void CMB_history_SelectedIndexChanged(object sender, EventArgs e)
         {
-            firmwareurl = fw.getUrl(CMB_history.SelectedValue.ToString(), "");
+            firmwareurl = Firmware.getUrl(CMB_history.SelectedValue.ToString(), "");
 
             softwares.Clear();
             UpdateFWList();
@@ -311,7 +383,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             //CMB_history.Items.AddRange(fw.gcoldurls);
             CMB_history.DisplayMember = "Value";
             CMB_history.ValueMember = "Key";
-            CMB_history.DataSource = fw.niceNames;
+            CMB_history.DataSource = Firmware.niceNames;
 
             CMB_history.Enabled = true;
             CMB_history.Visible = true;
@@ -321,7 +393,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         //Load custom firmware (old CTRL+C shortcut)
         private void Custom_firmware_label_Click(object sender, EventArgs e)
         {
-            using (var fd = new OpenFileDialog {Filter = "Firmware (*.hex;*.px4;*.vrx)|*.hex;*.px4;*.vrx|All files (*.*)|*.*" })
+            using (var fd = new OpenFileDialog {Filter = "Firmware (*.hex;*.px4;*.vrx;*.apj)|*.hex;*.px4;*.vrx;*.apj|All files (*.*)|*.*" })
             {
                 if (Directory.Exists(custom_fw_dir))
                     fd.InitialDirectory = custom_fw_dir;
@@ -336,7 +408,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     var boardtype = BoardDetect.boards.none;
                     try
                     {
-                        if (fd.FileName.ToLower().EndsWith(".px4"))
+                        if (fd.FileName.ToLower().EndsWith(".px4") || fd.FileName.ToLower().EndsWith(".apj"))
                         {
                             if (solo.Solo.is_solo_alive)
                             {
@@ -435,6 +507,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 CustomMessageBox.Show("http://www.proficnc.com/?utm_source=missionplanner&utm_medium=click&utm_campaign=mission", Strings.ERROR);
             }
+        }
+
+        public void Deactivate()
+        {
+            MainV2.instance.DeviceChanged -= Instance_DeviceChanged;
         }
     }
 }

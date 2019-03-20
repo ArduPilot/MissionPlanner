@@ -10,7 +10,7 @@ using System.Drawing.Drawing2D;
 
 namespace MissionPlanner.Controls
 {
-    public partial class RadialGradientBG : UserControl
+    public partial class RadialGradientBG : MyUserControl
     {
          [           Browsable(true)]
         public Color CenterColor  {get;set;}

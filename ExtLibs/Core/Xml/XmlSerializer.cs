@@ -112,7 +112,7 @@ namespace Core.Xml
                 m_Deserializing = true;
                 return xs.Deserialize(stream);
             }
-            catch (Exception e) {
+            catch {
                 return null;
             }
             finally {

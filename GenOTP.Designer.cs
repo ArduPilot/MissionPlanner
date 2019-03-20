@@ -178,7 +178,7 @@
             // GenOTP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.ClientSize = new System.Drawing.Size(574, 315);
             this.Controls.Add(this.BUT_sn);
             this.Controls.Add(this.myLabel6);

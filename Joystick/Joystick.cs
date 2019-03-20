@@ -4,164 +4,12 @@ using System.Collections;
 using log4net;
 using System.Reflection;
 using System.IO;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.Utilities;
 using SharpDX.DirectInput;
 
 namespace MissionPlanner.Joystick
 {
-    public static class Extensions
-    {
-        public static MyJoystickState CurrentJoystickState(this SharpDX.DirectInput.Joystick joystick)
-        {
-            return new MyJoystickState(joystick.GetCurrentState());
-        }
-    }
-
-    public class MyJoystickState
-    {
-        internal JoystickState baseJoystickState;
-
-        public MyJoystickState(JoystickState state)
-        {
-            baseJoystickState = state;
-        }
-
-        public int[] GetSlider()
-        {
-            return baseJoystickState.Sliders;
-        }
-
-        public int[] GetPointOfView()
-        {
-            return baseJoystickState.PointOfViewControllers;
-        }
-
-        public bool[] GetButtons()
-        {
-            return baseJoystickState.Buttons;
-        }
-
-        public int AZ
-        {
-            get { return baseJoystickState.AccelerationZ; }
-        }
-
-        public int AY
-        {
-            get { return baseJoystickState.AccelerationY; }
-        }
-
-        public int AX
-        {
-            get { return baseJoystickState.AccelerationX; }
-        }
-
-        public int ARz
-        {
-            get { return baseJoystickState.AngularAccelerationZ; }
-        }
-
-        public int ARy
-        {
-            get { return baseJoystickState.AngularAccelerationY; }
-        }
-
-        public int ARx
-        {
-            get { return baseJoystickState.AngularAccelerationX; }
-        }
-
-        public int FRx
-        {
-            get { return baseJoystickState.TorqueX; }
-        }
-
-        public int FRy
-        {
-            get { return baseJoystickState.TorqueY; }
-        }
-
-        public int FRz
-        {
-            get { return baseJoystickState.TorqueZ; }
-        }
-
-        public int FX
-        {
-            get { return baseJoystickState.ForceX; }
-        }
-
-        public int FY
-        {
-            get { return baseJoystickState.ForceY; }
-        }
-
-        public int FZ
-        {
-            get { return baseJoystickState.ForceZ; }
-        }
-
-        public int Rx
-        {
-            get { return baseJoystickState.RotationX; }
-        }
-
-        public int Ry
-        {
-            get { return baseJoystickState.RotationY; }
-        }
-
-        public int Rz
-        {
-            get { return baseJoystickState.RotationZ; }
-        }
-
-        public int VRx
-        {
-            get { return baseJoystickState.AngularVelocityX; }
-        }
-
-        public int VRy
-        {
-            get { return baseJoystickState.AngularVelocityY; }
-        }
-
-        public int VRz
-        {
-            get { return baseJoystickState.AngularVelocityZ; }
-        }
-
-        public int VX
-        {
-            get { return baseJoystickState.VelocityX; }
-        }
-
-        public int VY
-        {
-            get { return baseJoystickState.VelocityY; }
-        }
-
-        public int VZ
-        {
-            get { return baseJoystickState.VelocityZ; }
-        }
-
-        public int X
-        {
-            get { return baseJoystickState.X; }
-        }
-
-        public int Y
-        {
-            get { return baseJoystickState.Y; }
-        }
-
-        public int Z
-        {
-            get { return baseJoystickState.Z; }
-        }
-    }
-
     public class Joystick : IDisposable
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
@@ -297,25 +145,37 @@ namespace MissionPlanner.Joystick
         //    Dispose(false);
         //}
 
-        public Joystick()
+        private Func<MAVLinkInterface> _Interface;
+
+        private MAVLinkInterface Interface
         {
+            get { return _Interface(); }
+        }
+
+        public Joystick(Func<MAVLinkInterface> currentInterface)
+        {
+            this._Interface = currentInterface;
+
             for (int a = 0; a < JoyButtons.Length; a++)
                 JoyButtons[a].buttonno = -1;
 
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
+            if (currentInterface == null)
+                return;
+
+            if (Interface.MAV.cs.firmware == Firmwares.ArduPlane)
             {
-                loadconfig("joystickbuttons" + MainV2.comPort.MAV.cs.firmware + ".xml",
-                    "joystickaxis" + MainV2.comPort.MAV.cs.firmware + ".xml");
+                loadconfig("joystickbuttons" + Interface.MAV.cs.firmware + ".xml",
+                    "joystickaxis" + Interface.MAV.cs.firmware + ".xml");
             }
-            else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+            else if (Interface.MAV.cs.firmware == Firmwares.ArduCopter2)
             {
-                loadconfig("joystickbuttons" + MainV2.comPort.MAV.cs.firmware + ".xml",
-                    "joystickaxis" + MainV2.comPort.MAV.cs.firmware + ".xml");
+                loadconfig("joystickbuttons" + Interface.MAV.cs.firmware + ".xml",
+                    "joystickaxis" + Interface.MAV.cs.firmware + ".xml");
             }
-            else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover)
+            else if (Interface.MAV.cs.firmware == Firmwares.ArduRover)
             {
-                loadconfig("joystickbuttons" + MainV2.comPort.MAV.cs.firmware + ".xml",
-                    "joystickaxis" + MainV2.comPort.MAV.cs.firmware + ".xml");
+                loadconfig("joystickbuttons" + Interface.MAV.cs.firmware + ".xml",
+                    "joystickaxis" + Interface.MAV.cs.firmware + ".xml");
             }
             else
             {
@@ -359,6 +219,8 @@ namespace MissionPlanner.Joystick
                     {
                         JoyChannels = (JoyChannel[]) reader.Deserialize(sr);
                     }
+
+                    Array.Resize(ref JoyChannels, 20);
                 }
                 catch
                 {
@@ -387,7 +249,7 @@ namespace MissionPlanner.Joystick
             }
         }
 
-        JoyChannel[] JoyChannels = new JoyChannel[9]; // we are base 1
+        JoyChannel[] JoyChannels = new JoyChannel[20]; // we are base 1
         JoyButton[] JoyButtons = new JoyButton[128]; // base 0
 
         public static IList<DeviceInstance> getDevices()
@@ -448,7 +310,7 @@ namespace MissionPlanner.Joystick
 
         public static joystickaxis getMovingAxis(string name, int threshold)
         {
-            var joystick = new Joystick().AcquireJoystick(name);
+            var joystick = new Joystick(() => null).AcquireJoystick(name);
 
             if (joystick == null)
                 return joystickaxis.ARx;
@@ -710,12 +572,12 @@ namespace MissionPlanner.Joystick
                         short pitch = pickchannel(2, JoyChannels[2].axis, false, JoyChannels[2].expo);
 
                         if (getJoystickAxis(1) != Joystick.joystickaxis.None)
-                            MainV2.comPort.MAV.cs.rcoverridech1 =
+                            Interface.MAV.cs.rcoverridech1 =
                                 (short)
                                     (BOOL_TO_SIGN(JoyChannels[1].reverse)*((int) (pitch - 1500) - (int) (roll - 1500))/2 +
                                      1500);
                         if (getJoystickAxis(2) != Joystick.joystickaxis.None)
-                            MainV2.comPort.MAV.cs.rcoverridech2 =
+                            Interface.MAV.cs.rcoverridech2 =
                                 (short)
                                     (BOOL_TO_SIGN(JoyChannels[2].reverse)*((int) (pitch - 1500) + (int) (roll - 1500))/2 +
                                      1500);
@@ -723,39 +585,51 @@ namespace MissionPlanner.Joystick
                     else
                     {
                         if (getJoystickAxis(1) != Joystick.joystickaxis.None)
-                            MainV2.comPort.MAV.cs.rcoverridech1 = pickchannel(1, JoyChannels[1].axis,
+                            Interface.MAV.cs.rcoverridech1 = pickchannel(1, JoyChannels[1].axis,
                                 JoyChannels[1].reverse, JoyChannels[1].expo);
                                 //(ushort)(((int)state.Rz / 65.535) + 1000);
                         if (getJoystickAxis(2) != Joystick.joystickaxis.None)
-                            MainV2.comPort.MAV.cs.rcoverridech2 = pickchannel(2, JoyChannels[2].axis,
+                            Interface.MAV.cs.rcoverridech2 = pickchannel(2, JoyChannels[2].axis,
                                 JoyChannels[2].reverse, JoyChannels[2].expo);
                                 //(ushort)(((int)state.Y / 65.535) + 1000);
                     }
                     if (getJoystickAxis(3) != Joystick.joystickaxis.None)
-                        MainV2.comPort.MAV.cs.rcoverridech3 = pickchannel(3, JoyChannels[3].axis, JoyChannels[3].reverse,
+                        Interface.MAV.cs.rcoverridech3 = pickchannel(3, JoyChannels[3].axis, JoyChannels[3].reverse,
                             JoyChannels[3].expo); //(ushort)(1000 - ((int)slider[0] / 65.535) + 1000);
                     if (getJoystickAxis(4) != Joystick.joystickaxis.None)
-                        MainV2.comPort.MAV.cs.rcoverridech4 = pickchannel(4, JoyChannels[4].axis, JoyChannels[4].reverse,
+                        Interface.MAV.cs.rcoverridech4 = pickchannel(4, JoyChannels[4].axis, JoyChannels[4].reverse,
                             JoyChannels[4].expo); //(ushort)(((int)state.X / 65.535) + 1000);
 
                     if (getJoystickAxis(5) != Joystick.joystickaxis.None)
-                        MainV2.comPort.MAV.cs.rcoverridech5 = pickchannel(5, JoyChannels[5].axis, JoyChannels[5].reverse,
+                        Interface.MAV.cs.rcoverridech5 = pickchannel(5, JoyChannels[5].axis, JoyChannels[5].reverse,
                             JoyChannels[5].expo);
                     if (getJoystickAxis(6) != Joystick.joystickaxis.None)
-                        MainV2.comPort.MAV.cs.rcoverridech6 = pickchannel(6, JoyChannels[6].axis, JoyChannels[6].reverse,
+                        Interface.MAV.cs.rcoverridech6 = pickchannel(6, JoyChannels[6].axis, JoyChannels[6].reverse,
                             JoyChannels[6].expo);
                     if (getJoystickAxis(7) != Joystick.joystickaxis.None)
-                        MainV2.comPort.MAV.cs.rcoverridech7 = pickchannel(7, JoyChannels[7].axis, JoyChannels[7].reverse,
+                        Interface.MAV.cs.rcoverridech7 = pickchannel(7, JoyChannels[7].axis, JoyChannels[7].reverse,
                             JoyChannels[7].expo);
                     if (getJoystickAxis(8) != Joystick.joystickaxis.None)
-                        MainV2.comPort.MAV.cs.rcoverridech8 = pickchannel(8, JoyChannels[8].axis, JoyChannels[8].reverse,
+                        Interface.MAV.cs.rcoverridech8 = pickchannel(8, JoyChannels[8].axis, JoyChannels[8].reverse,
                             JoyChannels[8].expo);
 
+                    if (getJoystickAxis(9) != Joystick.joystickaxis.None) Interface.MAV.cs.rcoverridech8 = pickchannel(9, JoyChannels[9].axis, JoyChannels[9].reverse, JoyChannels[9].expo);
+                    if (getJoystickAxis(10) != Joystick.joystickaxis.None) Interface.MAV.cs.rcoverridech10 = pickchannel(10, JoyChannels[10].axis, JoyChannels[10].reverse, JoyChannels[10].expo);
+                    if (getJoystickAxis(11) != Joystick.joystickaxis.None) Interface.MAV.cs.rcoverridech11 = pickchannel(11, JoyChannels[11].axis, JoyChannels[11].reverse, JoyChannels[11].expo);
+                    if (getJoystickAxis(12) != Joystick.joystickaxis.None) Interface.MAV.cs.rcoverridech12 = pickchannel(12, JoyChannels[12].axis, JoyChannels[12].reverse, JoyChannels[12].expo);
+                    if (getJoystickAxis(13) != Joystick.joystickaxis.None) Interface.MAV.cs.rcoverridech13 = pickchannel(13, JoyChannels[13].axis, JoyChannels[13].reverse, JoyChannels[13].expo);
+                    if (getJoystickAxis(14) != Joystick.joystickaxis.None) Interface.MAV.cs.rcoverridech14 = pickchannel(14, JoyChannels[14].axis, JoyChannels[14].reverse, JoyChannels[14].expo);
+                    if (getJoystickAxis(15) != Joystick.joystickaxis.None) Interface.MAV.cs.rcoverridech15 = pickchannel(15, JoyChannels[15].axis, JoyChannels[15].reverse, JoyChannels[15].expo);
+                    if (getJoystickAxis(16) != Joystick.joystickaxis.None) Interface.MAV.cs.rcoverridech16 = pickchannel(16, JoyChannels[16].axis, JoyChannels[16].reverse, JoyChannels[16].expo);
+                    if (getJoystickAxis(17) != Joystick.joystickaxis.None) Interface.MAV.cs.rcoverridech17 = pickchannel(17, JoyChannels[17].axis, JoyChannels[17].reverse, JoyChannels[17].expo);
+                    if (getJoystickAxis(18) != Joystick.joystickaxis.None) Interface.MAV.cs.rcoverridech18 = pickchannel(18, JoyChannels[18].axis, JoyChannels[18].reverse, JoyChannels[18].expo);
+
+
                     // disable button actions when not connected.
-                    if (MainV2.comPort.BaseStream.IsOpen)
+                    if (Interface.BaseStream.IsOpen)
                         DoJoystickButtonFunction();
 
-                    //Console.WriteLine("{0} {1} {2} {3}", MainV2.comPort.MAV.cs.rcoverridech1, MainV2.comPort.MAV.cs.rcoverridech2, MainV2.comPort.MAV.cs.rcoverridech3, MainV2.comPort.MAV.cs.rcoverridech4);
+                    //Console.WriteLine("{0} {1} {2} {3}", Interface.MAV.cs.rcoverridech1, Interface.MAV.cs.rcoverridech2, Interface.MAV.cs.rcoverridech3, Interface.MAV.cs.rcoverridech4);
                 }
                 catch (SharpDX.SharpDXException ex)
                 {
@@ -779,8 +653,8 @@ namespace MissionPlanner.Joystick
 
             MAVLink.mavlink_rc_channels_override_t rc = new MAVLink.mavlink_rc_channels_override_t();
 
-            rc.target_component = MainV2.comPort.MAV.compid;
-            rc.target_system = MainV2.comPort.MAV.sysid;
+            rc.target_component = Interface.MAV.compid;
+            rc.target_system = Interface.MAV.sysid;
 
             rc.chan1_raw = 0;
             rc.chan2_raw = 0;
@@ -790,24 +664,53 @@ namespace MissionPlanner.Joystick
             rc.chan6_raw = 0;
             rc.chan7_raw = 0;
             rc.chan8_raw = 0;
+            rc.chan9_raw = 0;
+            rc.chan10_raw = 0;
+            rc.chan11_raw = 0;
+            rc.chan12_raw = 0;
+            rc.chan13_raw = 0;
+            rc.chan14_raw = 0;
+            rc.chan15_raw = 0;
+            rc.chan16_raw = 0;
+            rc.chan17_raw = 0;
+            rc.chan18_raw = 0;
+
+            Interface.MAV.cs.rcoverridech1 = 0;
+            Interface.MAV.cs.rcoverridech2 = 0;
+            Interface.MAV.cs.rcoverridech3 = 0;
+            Interface.MAV.cs.rcoverridech4 = 0;
+            Interface.MAV.cs.rcoverridech5 = 0;
+            Interface.MAV.cs.rcoverridech6 = 0;
+            Interface.MAV.cs.rcoverridech7 = 0;
+            Interface.MAV.cs.rcoverridech8 = 0;
+            Interface.MAV.cs.rcoverridech9 = 0;
+            Interface.MAV.cs.rcoverridech10 = 0;
+            Interface.MAV.cs.rcoverridech11 = 0;
+            Interface.MAV.cs.rcoverridech12 = 0;
+            Interface.MAV.cs.rcoverridech13 = 0;
+            Interface.MAV.cs.rcoverridech14 = 0;
+            Interface.MAV.cs.rcoverridech15 = 0;
+            Interface.MAV.cs.rcoverridech16 = 0;
+            Interface.MAV.cs.rcoverridech17 = 0;
+            Interface.MAV.cs.rcoverridech18 = 0;
 
             try
             {
-                MainV2.comPort.sendPacket(rc, rc.target_system, rc.target_component);
+                Interface.sendPacket(rc, rc.target_system, rc.target_component);
                 System.Threading.Thread.Sleep(20);
-                MainV2.comPort.sendPacket(rc, rc.target_system, rc.target_component);
+                Interface.sendPacket(rc, rc.target_system, rc.target_component);
                 System.Threading.Thread.Sleep(20);
-                MainV2.comPort.sendPacket(rc, rc.target_system, rc.target_component);
+                Interface.sendPacket(rc, rc.target_system, rc.target_component);
                 System.Threading.Thread.Sleep(20);
-                MainV2.comPort.sendPacket(rc, rc.target_system, rc.target_component);
+                Interface.sendPacket(rc, rc.target_system, rc.target_component);
                 System.Threading.Thread.Sleep(20);
-                MainV2.comPort.sendPacket(rc, rc.target_system, rc.target_component);
+                Interface.sendPacket(rc, rc.target_system, rc.target_component);
                 System.Threading.Thread.Sleep(20);
-                MainV2.comPort.sendPacket(rc, rc.target_system, rc.target_component);
+                Interface.sendPacket(rc, rc.target_system, rc.target_component);
 
-                MainV2.comPort.sendPacket(rc, rc.target_system, rc.target_component);
-                MainV2.comPort.sendPacket(rc, rc.target_system, rc.target_component);
-                MainV2.comPort.sendPacket(rc, rc.target_system, rc.target_component);
+                Interface.sendPacket(rc, rc.target_system, rc.target_component);
+                Interface.sendPacket(rc, rc.target_system, rc.target_component);
+                Interface.sendPacket(rc, rc.target_system, rc.target_component);
             }
             catch (Exception ex)
             {
@@ -847,11 +750,11 @@ namespace MissionPlanner.Joystick
                         string mode = but.mode;
                         if (mode != null)
                         {
-                            MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker) delegate()
+                            MainV2.instance.BeginInvoke((System.Action) delegate()
                             {
                                 try
                                 {
-                                    MainV2.comPort.setMode(mode);
+                                    Interface.setMode(mode);
                                 }
                                 catch
                                 {
@@ -862,11 +765,11 @@ namespace MissionPlanner.Joystick
                         break;
                     case buttonfunction.Mount_Mode:
 
-                        MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker) delegate()
+                        MainV2.instance.BeginInvoke((System.Action) delegate()
                         {
                             try
                             {
-                                MainV2.comPort.setParam("MNT_MODE", but.p1);
+                                Interface.setParam("MNT_MODE", but.p1);
                             }
                             catch
                             {
@@ -877,11 +780,11 @@ namespace MissionPlanner.Joystick
                         break;
 
                     case buttonfunction.Arm:
-                        MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker) delegate()
+                        MainV2.instance.BeginInvoke((System.Action) delegate()
                         {
                             try
                             {
-                                MainV2.comPort.doARM(true);
+                                Interface.doARM(true);
                             }
                             catch
                             {
@@ -890,18 +793,18 @@ namespace MissionPlanner.Joystick
                         });
                         break;
                     case buttonfunction.TakeOff:
-                        MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker) delegate()
+                        MainV2.instance.BeginInvoke((System.Action) delegate()
                         {
                             try
                             {
-                                MainV2.comPort.setMode("Guided");
-                                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+                                Interface.setMode("Guided");
+                                if (Interface.MAV.cs.firmware == Firmwares.ArduCopter2)
                                 {
-                                    MainV2.comPort.doCommand(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 2);
+                                    Interface.doCommand(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 2);
                                 }
                                 else
                                 {
-                                    MainV2.comPort.doCommand(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 20);
+                                    Interface.doCommand(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 20);
                                 }
                             }
                             catch
@@ -911,11 +814,11 @@ namespace MissionPlanner.Joystick
                         });
                         break;
                     case buttonfunction.Disarm:
-                        MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker) delegate()
+                        MainV2.instance.BeginInvoke((System.Action) delegate()
                         {
                             try
                             {
-                                MainV2.comPort.doARM(false);
+                                Interface.doARM(false);
                             }
                             catch
                             {
@@ -924,13 +827,13 @@ namespace MissionPlanner.Joystick
                         });
                         break;
                     case buttonfunction.Do_Set_Relay:
-                        MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker) delegate()
+                        MainV2.instance.BeginInvoke((System.Action) delegate()
                         {
                             try
                             {
                                 int number = (int) but.p1;
                                 int state = buttondown == true ? 1 : 0;
-                                MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_RELAY, number, state, 0, 0, 0, 0, 0);
+                                Interface.doCommand(MAVLink.MAV_CMD.DO_SET_RELAY, number, state, 0, 0, 0, 0, 0);
                             }
                             catch
                             {
@@ -939,17 +842,17 @@ namespace MissionPlanner.Joystick
                         });
                         break;
                     case buttonfunction.Digicam_Control:
-                        MainV2.comPort.setDigicamControl(true);
+                        Interface.setDigicamControl(true);
                         break;
                     case buttonfunction.Do_Repeat_Relay:
-                        MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker) delegate()
+                        MainV2.instance.BeginInvoke((System.Action) delegate()
                         {
                             try
                             {
                                 int relaynumber = (int) but.p1;
                                 int repeat = (int) but.p2;
                                 int time = (int) but.p3;
-                                MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_REPEAT_RELAY, relaynumber, repeat, time, 0,
+                                Interface.doCommand(MAVLink.MAV_CMD.DO_REPEAT_RELAY, relaynumber, repeat, time, 0,
                                     0, 0, 0);
                             }
                             catch
@@ -959,13 +862,13 @@ namespace MissionPlanner.Joystick
                         });
                         break;
                     case buttonfunction.Do_Set_Servo:
-                        MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker) delegate()
+                        MainV2.instance.BeginInvoke((System.Action) delegate()
                         {
                             try
                             {
                                 int channel = (int) but.p1;
                                 int pwm = (int) but.p2;
-                                MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, channel, pwm, 0, 0, 0, 0, 0);
+                                Interface.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, channel, pwm, 0, 0, 0, 0, 0);
                             }
                             catch
                             {
@@ -974,7 +877,7 @@ namespace MissionPlanner.Joystick
                         });
                         break;
                     case buttonfunction.Do_Repeat_Servo:
-                        MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker) delegate()
+                        MainV2.instance.BeginInvoke((System.Action) delegate()
                         {
                             try
                             {
@@ -982,7 +885,7 @@ namespace MissionPlanner.Joystick
                                 int pwmvalue = (int) but.p2;
                                 int repeattime = (int) but.p3;
                                 int delay_ms = (int) but.p4;
-                                MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_REPEAT_SERVO, channelno, pwmvalue,
+                                Interface.doCommand(MAVLink.MAV_CMD.DO_REPEAT_SERVO, channelno, pwmvalue,
                                     repeattime, delay_ms, 0, 0, 0);
                             }
                             catch
@@ -992,13 +895,13 @@ namespace MissionPlanner.Joystick
                         });
                         break;
                     case buttonfunction.Toggle_Pan_Stab:
-                        MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker) delegate()
+                        MainV2.instance.BeginInvoke((System.Action) delegate()
                         {
                             try
                             {
-                                float current = (float) MainV2.comPort.MAV.param["MNT_STAB_PAN"];
+                                float current = (float) Interface.MAV.param["MNT_STAB_PAN"];
                                 float newvalue = (current > 0) ? 0 : 1;
-                                MainV2.comPort.setParam("MNT_STAB_PAN", newvalue);
+                                Interface.setParam("MNT_STAB_PAN", newvalue);
                             }
                             catch
                             {
@@ -1007,13 +910,13 @@ namespace MissionPlanner.Joystick
                         });
                         break;
                     case buttonfunction.Gimbal_pnt_track:
-                        MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker) delegate()
+                        MainV2.instance.BeginInvoke((System.Action) delegate()
                         {
                             try
                             {
-                                MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0,
-                                    MainV2.comPort.MAV.cs.gimballat, MainV2.comPort.MAV.cs.gimballng,
-                                    (float) MainV2.comPort.MAV.cs.GimbalPoint.Alt);
+                                Interface.doCommand(MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0,
+                                    Interface.MAV.cs.gimballat, Interface.MAV.cs.gimballng,
+                                    (float) Interface.MAV.cs.GimbalPoint.Alt);
                             }
                             catch
                             {
@@ -1022,11 +925,11 @@ namespace MissionPlanner.Joystick
                         });
                         break;
                     case buttonfunction.Mount_Control_0:
-                        MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker) delegate()
+                        MainV2.instance.BeginInvoke((System.Action) delegate()
                         {
                             try
                             {
-                                MainV2.comPort.setMountControl(0, 0, 0, false);
+                                Interface.setMountControl(0, 0, 0, false);
                             }
                             catch
                             {
@@ -1035,7 +938,7 @@ namespace MissionPlanner.Joystick
                         });
                         break;
                     case buttonfunction.Button_axis0:
-                        MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker) delegate()
+                        MainV2.instance.BeginInvoke((System.Action) delegate()
                         {
                             try
                             {
@@ -1054,7 +957,7 @@ namespace MissionPlanner.Joystick
                         });
                         break;
                     case buttonfunction.Button_axis1:
-                        MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker) delegate()
+                        MainV2.instance.BeginInvoke((System.Action) delegate()
                         {
                             try
                             {
@@ -1255,15 +1158,15 @@ namespace MissionPlanner.Joystick
         {
             int min, max, trim = 0;
 
-            if (MainV2.comPort.MAV.param.Count > 0)
+            if (Interface.MAV.param.Count > 0)
             {
                 try
                 {
-                    if (MainV2.comPort.MAV.param.ContainsKey("RC" + chan + "_MIN"))
+                    if (Interface.MAV.param.ContainsKey("RC" + chan + "_MIN"))
                     {
-                        min = (int) (float) (MainV2.comPort.MAV.param["RC" + chan + "_MIN"]);
-                        max = (int) (float) (MainV2.comPort.MAV.param["RC" + chan + "_MAX"]);
-                        trim = (int) (float) (MainV2.comPort.MAV.param["RC" + chan + "_TRIM"]);
+                        min = (int) (float) (Interface.MAV.param["RC" + chan + "_MIN"]);
+                        max = (int) (float) (Interface.MAV.param["RC" + chan + "_MAX"]);
+                        trim = (int) (float) (Interface.MAV.param["RC" + chan + "_TRIM"]);
                     }
                     else
                     {

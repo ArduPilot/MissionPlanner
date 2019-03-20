@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -19,7 +21,7 @@ namespace MissionPlanner.Utilities
         {
             public int Id;
             public string Format;
-            public string[] FieldNames;
+            public List<string> FieldNames;
 
             public int Length;
             public string Name;
@@ -34,6 +36,111 @@ namespace MissionPlanner.Utilities
             public int lineno;
 
             public DFLog parent;
+
+            public DFItem(DFLog _parent, object[] _answer, int lineno) : this()
+            {
+                 this.parent = _parent;
+
+                this.lineno = lineno;
+
+                if (_answer.Length > 0)
+                {
+                    msgtype = _answer[0].ToString();
+                    items = _answer.Select((a) =>
+                    {
+                        if (a.IsNumber())
+                            return (((IConvertible) a).ToString(CultureInfo.InvariantCulture));
+                        else
+                            return a.ToString();
+                    }).ToArray();
+                    bool timeus = false;
+
+                    if (_parent.logformat.ContainsKey(msgtype))
+                    {
+                        int indextimems = _parent.FindMessageOffset(msgtype, "TimeMS");
+
+                        if (msgtype.StartsWith("GPS"))
+                        {
+                            indextimems = _parent.FindMessageOffset(msgtype, "T");
+
+                            if (parent.gpsstarttime == DateTime.MinValue)
+                            {
+                                var time = parent.GetTimeGPS(msgtype + "," + String.Join(",", items));
+
+                                if (time != DateTime.MinValue)
+                                {
+                                    parent.gpsstarttime = time;
+
+                                    _parent.lasttime = parent.gpsstarttime;
+
+                                    indextimems = _parent.FindMessageOffset(items[0], "T");
+
+                                    if (indextimems != -1)
+                                    {
+                                        try
+                                        {
+                                            _parent.msoffset = int.Parse(items[indextimems]);
+                                        }
+                                        catch
+                                        {
+                                            _parent.gpsstarttime = DateTime.MinValue;
+                                        }
+                                    }
+
+                                    int indextimeus = _parent.FindMessageOffset(items[0], "TimeUS");
+
+                                    if (indextimeus != -1)
+                                    {
+                                        try
+                                        {
+                                            _parent.msoffset = long.Parse(items[indextimeus]) / 1000;
+                                        }
+                                        catch
+                                        {
+                                            _parent.gpsstarttime = DateTime.MinValue;
+                                        }
+                                    }
+                                }
+                            }
+
+
+                        }
+
+                        if (indextimems == -1)
+                        {
+                            indextimems = _parent.FindMessageOffset(msgtype, "TimeUS");
+                            timeus = true;
+                        }
+
+                        if (indextimems != -1)
+                        {
+                            long ntime = 0;
+
+                            if (long.TryParse(items[indextimems], out ntime))
+                            {
+                                if (timeus)
+                                    ntime /= 1000;
+
+                                timems = (int)ntime;
+
+                                if (_parent.gpsstarttime != DateTime.MinValue)
+                                {
+                                    time = _parent.gpsstarttime.AddMilliseconds(timems - _parent.msoffset);
+                                    _parent.lasttime = time;
+                                }
+                            }
+                            else
+                            {
+                                time = _parent.lasttime;
+                            }
+                        }
+                        else
+                        {
+                            time = _parent.lasttime;
+                        }
+                    }
+                }
+            }
 
             public string this[string item]
             {
@@ -425,7 +532,7 @@ namespace MissionPlanner.Utilities
                         Id = int.Parse(items[1]),
                         Format = items[4],
                         Length = int.Parse(items[2]),
-                        FieldNames = names
+                        FieldNames = names.ToList()
                     };
 
                     logformat[lbl.Name] = lbl;
@@ -490,9 +597,8 @@ namespace MissionPlanner.Utilities
 
         public static DateTime gpsTimeToTime(int week, double sec)
         {
-            int leap = 17;
+            int leap = rtcm3.StaticUtils.LeapSecondsGPS(DateTime.Now.Year, DateTime.Now.Month);
 
-            // not correct for leap seconds                   day   days  weeks  seconds
             var basetime = new DateTime(1980, 1, 6, 0, 0, 0, DateTimeKind.Utc);
             basetime = basetime.AddDays(week*7);
             basetime = basetime.AddSeconds((sec - leap));
@@ -502,24 +608,38 @@ namespace MissionPlanner.Utilities
 
         public int FindMessageOffset(string linetype, string find)
         {
+            if (linetype == null || find == null)
+                return -1;
+
             if (logformat.ContainsKey(linetype.ToUpper()))
-                return FindInArray(logformat[linetype].FieldNames, find);
+            {
+                var ans = logformat[linetype].FieldNames.IndexOf(find);
+                if (ans == -1)
+                    return -1;
+                // + type
+                return ans + 1;
+            }
 
             return -1;
         }
 
-        public static int FindInArray(string[] array, string find)
+        public long GetLineNoFromTime(CollectionBuffer logdata, DateTime p1)
         {
-            int a = 1;
-            foreach (string item in array)
+            DateTime last = DateTime.MaxValue;
+
+            foreach (var dfItem in logdata.GetEnumeratorType("GPS"))
             {
-                if (item.ToUpper() == find.ToUpper())
-                {
-                    return a;
-                }
-                a++;
+                // always forwards
+                if (dfItem.time >= p1)
+                    return dfItem.lineno;
+
+                last = dfItem.time;
             }
-            return -1;
+
+            if (last != DateTime.MaxValue)
+                return long.MaxValue;
+
+            return 0;
         }
     }
 }

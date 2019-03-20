@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using GMap.NET.WindowsForms;
 
-namespace MissionPlanner
+namespace MissionPlanner.Grid
 {
     public class GridPlugin : MissionPlanner.Plugin.Plugin
     {
@@ -75,7 +71,7 @@ namespace MissionPlanner
                 {
                     if (
                         CustomMessageBox.Show("No polygon defined. Load a file?", "Load File", MessageBoxButtons.YesNo) ==
-                        DialogResult.Yes)
+                        (int)DialogResult.Yes)
                     {
                         gridui.LoadGrid();
                         gridui.ShowDialog();

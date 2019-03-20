@@ -7,7 +7,7 @@ using System.IO;
 
 namespace MissionPlanner.Comms
 {
-    public class CommsFile : CommsBase, ICommsSerial
+    public class CommsFile : CommsBase, ICommsSerial, IDisposable
     {
         // Methods
         public void Close() { BaseStream.Dispose(); }
@@ -21,6 +21,16 @@ namespace MissionPlanner.Comms
 
         int step = 0;
         private long length = 0;
+
+        public CommsFile()
+        {
+
+        }
+
+        public CommsFile(string filename)
+        {
+            Open(filename);
+        }
 
         //void DiscardOutBuffer();
         public void Open(string filename)
@@ -106,8 +116,32 @@ namespace MissionPlanner.Comms
 
         public void toggleDTR() { }
 
+        public void Dispose()
+        {
+            try
+            {
+                if (BaseStream != null)
+                    Close();
+            } catch { }
+        }
+
         // Properties
-        public Stream BaseStream { get; private set; }
+        private Stream _stream;
+        public Stream BaseStream
+        {
+            get { return _stream; }
+            set
+            {
+                _stream = value;
+                length = _stream.Length;
+            }
+        }
+
+        public void SetLength(long length)
+        {
+            this.length = length;
+        }
+
         public int BaudRate { get; set; }
         public int BytesToRead { get { if (!BaseStream.CanRead) return 0; return (int)(BaseStream.Length - BaseStream.Position); } }
         public int BytesToWrite { get; set; }

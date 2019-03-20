@@ -56,6 +56,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Units = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Options = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Desc = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Fav = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.Params)).BeginInit();
             this.SuspendLayout();
             // 
@@ -165,7 +166,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Value,
             this.Units,
             this.Options,
-            this.Desc});
+            this.Desc,
+            this.Fav});
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -220,9 +222,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Desc.Name = "Desc";
             this.Desc.ReadOnly = true;
             // 
+            // Fav
+            // 
+            this.Fav.FillWeight = 1F;
+            resources.ApplyResources(this.Fav, "Fav");
+            this.Fav.Name = "Fav";
+            // 
             // ConfigRawParams
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.Controls.Add(this.BUT_commitToFlash);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txt_search);
@@ -259,11 +267,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private Controls.MyButton BUT_reset_params;
         private System.Windows.Forms.TextBox txt_search;
         private System.Windows.Forms.Label label2;
+        private MyButton BUT_commitToFlash;
         private System.Windows.Forms.DataGridViewTextBoxColumn Command;
         private System.Windows.Forms.DataGridViewTextBoxColumn Value;
         private System.Windows.Forms.DataGridViewTextBoxColumn Units;
         private System.Windows.Forms.DataGridViewTextBoxColumn Options;
         private System.Windows.Forms.DataGridViewTextBoxColumn Desc;
-        private MyButton BUT_commitToFlash;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Fav;
     }
 }

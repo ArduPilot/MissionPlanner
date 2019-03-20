@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <ApplicationIcon />
+    <OutputTypeEx>library</OutputTypeEx>
+    <StartupObject />
+    <DebugType>portable</DebugType>
+    <DebugSymbols>True</DebugSymbols>
+
+  </PropertyGroup>
+  <ItemGroup>
+   <PackageReference Include="DirectShowLib" Version="1.0.0" />
+   <PackageReference Include="System.Drawing.Common" Version="4.5.1" />
+    </ItemGroup>
+</Project>

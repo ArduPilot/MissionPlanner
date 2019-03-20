@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace MissionPlanner.Controls
@@ -44,16 +39,31 @@ namespace MissionPlanner.Controls
                     item.ValueColor = Color.Red;
             }
 
-            label7.Text = "";
-
-            for (int a = 1; a <= (int) MAVLink.EKF_STATUS_FLAGS.EKF_PRED_POS_HORIZ_ABS; a = a << 1)
+            int idx = 0;
+            for (int bitvalue = 1; bitvalue <= (int) MAVLink.EKF_STATUS_FLAGS.EKF_PRED_POS_HORIZ_ABS; bitvalue = bitvalue << 1)
             {
-                int currentbit = (MainV2.comPort.MAV.cs.ekfflags & a);
+                int currentbit = (MainV2.comPort.MAV.cs.ekfflags & bitvalue);
 
-                var currentflag = (MAVLink.EKF_STATUS_FLAGS) Enum.Parse(typeof (MAVLink.EKF_STATUS_FLAGS), a.ToString());
+                var currentflag = (MAVLink.EKF_STATUS_FLAGS) Enum.Parse(typeof (MAVLink.EKF_STATUS_FLAGS), bitvalue.ToString());
 
-                label7.Text += currentflag.ToString().Replace("EKF_", "").ToLower() + " " +
-                               (currentbit > 0 ? "On " : "Off") + "\r\n";
+                if (flowLayoutPanel1.Controls.Count <= idx)
+                {
+                    flowLayoutPanel1.Controls.Add(new Label() {Height = 13, Width = flowLayoutPanel1.Width});
+                }
+                
+                flowLayoutPanel1.Controls[idx].Text = currentflag.ToString().Replace("EKF_", "").ToLower() + " " +
+                                                         (currentbit > 0 ? "On " : "Off") + "\r\n";
+
+                flowLayoutPanel1.Controls[idx].ForeColor = ForeColor;
+
+                if ((currentflag == MAVLink.EKF_STATUS_FLAGS.EKF_VELOCITY_HORIZ ||
+                     currentflag == MAVLink.EKF_STATUS_FLAGS.EKF_POS_HORIZ_ABS ||
+                     currentflag == MAVLink.EKF_STATUS_FLAGS.EKF_POS_VERT_ABS) && currentbit == 0)
+                {
+                    flowLayoutPanel1.Controls[idx].ForeColor = Color.Red;
+                }
+
+                idx++;
             }
         }
     }

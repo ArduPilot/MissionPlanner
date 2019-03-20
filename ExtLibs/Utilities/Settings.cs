@@ -123,9 +123,28 @@ namespace MissionPlanner.Utilities
             return directory;
         }
 
-        public int GetInt32(string key)
+        public IEnumerable<string> GetList(string key)
         {
-            int result = 0;
+            if(config.ContainsKey(key))
+                return config[key].Split(';');
+            return new string[0];
+        }
+
+        public void SetList(string key, IEnumerable<string> list)
+        {
+            config[key] = list.Aggregate((s, s1) => s + ';' + s1);
+        }
+
+        public void AppendList(string key, string item)
+        {
+            var list = GetList(key).ToList();
+            list.Add(item);
+            SetList(key, list);
+        }
+
+        public int GetInt32(string key, int defaulti = 0)
+        {
+            int result = defaulti;
             string value = null;
             if (config.TryGetValue(key, out value))
             {
@@ -145,9 +164,9 @@ namespace MissionPlanner.Utilities
             return result;
         }
 
-        public bool GetBoolean(string key)
+        public bool GetBoolean(string key, bool defaultb = false)
         {
-            bool result = false;
+            bool result = defaultb;
             string value = null;
             if (config.TryGetValue(key, out value))
             {
@@ -156,9 +175,9 @@ namespace MissionPlanner.Utilities
             return result;
         }
 
-        public float GetFloat(string key)
+        public float GetFloat(string key, float defaultv = 0)
         {
-            float result = 0f;
+            float result = defaultv;
             string value = null;
             if (config.TryGetValue(key, out value))
             {
@@ -167,9 +186,9 @@ namespace MissionPlanner.Utilities
             return result;
         }
 
-        public double GetDouble(string key)
+        public double GetDouble(string key, double defaultd = 0)
         {
-            double result = 0D;
+            double result = defaultd;
             string value = null;
             if (config.TryGetValue(key, out value))
             {
@@ -178,9 +197,9 @@ namespace MissionPlanner.Utilities
             return result;
         }
 
-        public byte GetByte(string key)
+        public byte GetByte(string key, byte defaultb = 0)
         {
-            byte result = 0;
+            byte result = defaultb;
             string value = null;
             if (config.TryGetValue(key, out value))
             {
@@ -222,7 +241,7 @@ namespace MissionPlanner.Utilities
         {
             if (isMono())
             {
-                return GetRunningDirectory();
+                return GetUserDataDirectory();
             }
 
             var path = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + Path.DirectorySeparatorChar + "Mission Planner" +
@@ -295,31 +314,39 @@ namespace MissionPlanner.Utilities
             if (!File.Exists(GetConfigFullPath()))
                 return;
 
-            using (XmlTextReader xmlreader = new XmlTextReader(GetConfigFullPath()))
+            try
             {
-                while (xmlreader.Read())
+                using (XmlTextReader xmlreader = new XmlTextReader(GetConfigFullPath()))
                 {
-                    if (xmlreader.NodeType == XmlNodeType.Element)
+                    while (xmlreader.Read())
                     {
-                        try
+                        if (xmlreader.NodeType == XmlNodeType.Element)
                         {
-                            switch (xmlreader.Name)
+                            try
                             {
-                                case "Config":
-                                    break;
-                                case "xml":
-                                    break;
-                                default:
-                                    config[xmlreader.Name] = xmlreader.ReadString();
-                                    break;
+                                switch (xmlreader.Name)
+                                {
+                                    case "Config":
+                                        break;
+                                    case "xml":
+                                        break;
+                                    default:
+                                        config[xmlreader.Name] = xmlreader.ReadString();
+                                        break;
+                                }
                             }
-                        }
-                        // silent fail on bad entry
-                        catch (Exception)
-                        {
+                            // silent fail on bad entry
+                            catch (Exception)
+                            {
+                            }
                         }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                File.Copy(GetConfigFullPath(), GetConfigFullPath() + DateTime.Now.toUnixTime() + ".failed", true);
+                throw;
             }
         }
 

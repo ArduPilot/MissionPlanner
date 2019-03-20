@@ -58,3 +58,6 @@ obj/
 /ExtLibs/Utilities/MissionPlanner.Utilities2.csproj
 /Plugins/Shortcuts
 /test
+/ExtLibs/GDAL/Native/gdal
+/ExtLibs/SimpleExample/packages
+/ExtLibs/SimpleExample/.vs

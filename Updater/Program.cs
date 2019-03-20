@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using System.IO;
+using System.Reflection;
 
 namespace Updater
 {
@@ -24,7 +24,7 @@ namespace Updater
                 MAC = true;
             }
 
-            string path = Path.GetDirectoryName(Application.ExecutablePath);
+            string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
             // give 4 seconds grace
             System.Threading.Thread.Sleep(5000);
@@ -41,15 +41,19 @@ namespace Updater
             {
                 try
                 {
+                    Directory.GetFiles(path, "*.old").ForEach(a => {
+                        File.Delete(a);
+                    });
+
                     System.Diagnostics.Process P = new System.Diagnostics.Process();
                     if (MAC)
                     {
                         P.StartInfo.FileName = "mono";
-                        P.StartInfo.Arguments = " \"" + Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + "MissionPlanner.exe\"";
+                        P.StartInfo.Arguments = " \"" + Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + Path.DirectorySeparatorChar + "MissionPlanner.exe\"";
                     }
                     else
                     {
-                        P.StartInfo.FileName = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + "MissionPlanner.exe";
+                        P.StartInfo.FileName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + Path.DirectorySeparatorChar + "MissionPlanner.exe";
                         P.StartInfo.Arguments = "";
                     }
                     Console.WriteLine("Start " + P.StartInfo.FileName + " with " + P.StartInfo.Arguments);
@@ -84,15 +88,25 @@ namespace Updater
                             }
                             try
                             {
-                                Console.Write("Move: " + file + " TO " + file.Remove(file.Length - 4));
-                                File.Copy(file, file.Remove(file.Length - 4), true);
+                                var oldfile = file.Remove(file.Length - 4) + ".old";
+                                var newfile = file.Remove(file.Length - 4);
+
+                                if (File.Exists(oldfile))
+                                    File.Delete(oldfile);
+
+                                Console.Write("Move: " + file + " TO " + newfile);
+                                // move existing to .old
+                                if (File.Exists(newfile))
+                                    File.Move(newfile, oldfile);
+                                // move .new to existing
+                                File.Move(file, newfile);
                                 done = true;
-                                File.Delete(file);
                                 Console.WriteLine(" Done.");
                             }
-                            catch
+                            catch (Exception ex)
                             {
                                 Console.WriteLine(file + " Failed.");
+                                Console.WriteLine(ex);
                                 System.Threading.Thread.Sleep(500);
                                 // normally in use by explorer.exe
                                 if (file.ToLower().Contains("tlogthumbnailhandler"))
@@ -111,6 +125,12 @@ namespace Updater
 
             return all_done;
             //P.StartInfo.RedirectStandardOutput = true;
+        }
+
+        public static void ForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
+        {
+            foreach (T obj in enumerable)
+                action(obj);
         }
     }
 }

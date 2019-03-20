@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Reflection;
 using System.Windows.Forms;
-using log4net;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 using Transitions;
@@ -16,88 +14,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private motor_frame_class work_frame_class;
         private motor_frame_type work_frame_type;
 
-        // from https://github.com/ArduPilot/ardupilot/blob/master/libraries/AP_Motors/AP_Motors_Class.h
-        public enum motor_frame_class
-        {
-            MOTOR_FRAME_UNDEFINED = 0,
-            MOTOR_FRAME_QUAD = 1,
-            MOTOR_FRAME_HEXA = 2,
-            MOTOR_FRAME_OCTA = 3,
-            MOTOR_FRAME_OCTAQUAD = 4,
-            MOTOR_FRAME_Y6 = 5,
-            MOTOR_FRAME_HELI = 6,
-            MOTOR_FRAME_TRI = 7,
-            MOTOR_FRAME_SINGLE = 8,
-            MOTOR_FRAME_COAX = 9
-        };
-
-        public enum motor_frame_type
-        {
-            MOTOR_FRAME_TYPE_PLUS = 0,
-            MOTOR_FRAME_TYPE_X = 1,
-            MOTOR_FRAME_TYPE_V = 2,
-            MOTOR_FRAME_TYPE_H = 3,
-            MOTOR_FRAME_TYPE_VTAIL = 4,
-            MOTOR_FRAME_TYPE_ATAIL = 5,
-            MOTOR_FRAME_TYPE_Y6B = 10
-
-        };
-
-        // list of valid options enterd from https://github.com/ArduPilot/ardupilot/blob/master/libraries/AP_Motors/AP_MotorsMatrix.cpp#L378
-        public List<Tuple<motor_frame_class, motor_frame_type?>> ValidList =
-            new List<Tuple<motor_frame_class, motor_frame_type?>>()
-            {
-                new Tuple<motor_frame_class, motor_frame_type?>(motor_frame_class.MOTOR_FRAME_QUAD,
-                    motor_frame_type.MOTOR_FRAME_TYPE_PLUS),
-                new Tuple<motor_frame_class, motor_frame_type?>(motor_frame_class.MOTOR_FRAME_QUAD,
-                    motor_frame_type.MOTOR_FRAME_TYPE_X),
-                new Tuple<motor_frame_class, motor_frame_type?>(motor_frame_class.MOTOR_FRAME_QUAD,
-                    motor_frame_type.MOTOR_FRAME_TYPE_V),
-                new Tuple<motor_frame_class, motor_frame_type?>(motor_frame_class.MOTOR_FRAME_QUAD,
-                    motor_frame_type.MOTOR_FRAME_TYPE_H),
-                new Tuple<motor_frame_class, motor_frame_type?>(motor_frame_class.MOTOR_FRAME_QUAD,
-                    motor_frame_type.MOTOR_FRAME_TYPE_VTAIL),
-                new Tuple<motor_frame_class, motor_frame_type?>(motor_frame_class.MOTOR_FRAME_QUAD,
-                    motor_frame_type.MOTOR_FRAME_TYPE_ATAIL),
-
-                new Tuple<motor_frame_class, motor_frame_type?>(motor_frame_class.MOTOR_FRAME_HEXA,
-                    motor_frame_type.MOTOR_FRAME_TYPE_PLUS),
-                new Tuple<motor_frame_class, motor_frame_type?>(motor_frame_class.MOTOR_FRAME_HEXA,
-                    motor_frame_type.MOTOR_FRAME_TYPE_X),
-
-                new Tuple<motor_frame_class, motor_frame_type?>(motor_frame_class.MOTOR_FRAME_OCTA,
-                    motor_frame_type.MOTOR_FRAME_TYPE_PLUS),
-                new Tuple<motor_frame_class, motor_frame_type?>(motor_frame_class.MOTOR_FRAME_OCTA,
-                    motor_frame_type.MOTOR_FRAME_TYPE_X),
-                new Tuple<motor_frame_class, motor_frame_type?>(motor_frame_class.MOTOR_FRAME_OCTA,
-                    motor_frame_type.MOTOR_FRAME_TYPE_V),
-
-                new Tuple<motor_frame_class, motor_frame_type?>(motor_frame_class.MOTOR_FRAME_OCTAQUAD,
-                    motor_frame_type.MOTOR_FRAME_TYPE_PLUS),
-                new Tuple<motor_frame_class, motor_frame_type?>(motor_frame_class.MOTOR_FRAME_OCTAQUAD,
-                    motor_frame_type.MOTOR_FRAME_TYPE_X),
-                new Tuple<motor_frame_class, motor_frame_type?>(motor_frame_class.MOTOR_FRAME_OCTAQUAD,
-                    motor_frame_type.MOTOR_FRAME_TYPE_V),
-                new Tuple<motor_frame_class, motor_frame_type?>(motor_frame_class.MOTOR_FRAME_OCTAQUAD,
-                    motor_frame_type.MOTOR_FRAME_TYPE_H),
-
-                new Tuple<motor_frame_class, motor_frame_type?>(motor_frame_class.MOTOR_FRAME_Y6,
-                    motor_frame_type.MOTOR_FRAME_TYPE_Y6B),
-                new Tuple<motor_frame_class, motor_frame_type?>(motor_frame_class.MOTOR_FRAME_Y6,
-                    motor_frame_type.MOTOR_FRAME_TYPE_X),
-
-                new Tuple<motor_frame_class, motor_frame_type?>(motor_frame_class.MOTOR_FRAME_HELI,
-                    null),
-                new Tuple<motor_frame_class, motor_frame_type?>(motor_frame_class.MOTOR_FRAME_TRI,
-                    null),
-                new Tuple<motor_frame_class, motor_frame_type?>(motor_frame_class.MOTOR_FRAME_SINGLE,
-                    null),
-                new Tuple<motor_frame_class, motor_frame_type?>(motor_frame_class.MOTOR_FRAME_COAX,
-                    null),
-
-                new Tuple<motor_frame_class, motor_frame_type?>(motor_frame_class.MOTOR_FRAME_UNDEFINED,
-                    null),
-            };
 
         private const float DisabledOpacity = 0.2F;
         private const float EnabledOpacity = 1.0F;
@@ -153,7 +69,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             work_frame_class = frame_class;
 
             // get list of valid types
-            var validtypes = ValidList.Where(a => { return a.Item1 == work_frame_class; });
+            var validtypes = ArduPilot.Common.ValidList.Where(a => { return a.Item1 == work_frame_class; });
 
             if (validtypes.Count() == 0 || validtypes.Count() == 1 && validtypes.First().Item2 == null)
             {

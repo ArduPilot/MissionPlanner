@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using System.Threading;
 using System.Windows.Forms;
 using log4net;
 using MissionPlanner.Controls;
@@ -8,7 +7,7 @@ using System.Text;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigAccelerometerCalibration : UserControl, IActivate, IDeactivate
+    public partial class ConfigAccelerometerCalibration : MyUserControl, IActivate, IDeactivate
     {
         private const float DisabledOpacity = 0.2F;
         private const float EnabledOpacity = 1.0F;
@@ -64,6 +63,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 _incalibrate = true;
 
                 MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.STATUSTEXT, receivedPacket);
+                MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.COMMAND_LONG, receivedPacket);
 
                 BUT_calib_accell.Text = Strings.Click_when_Done;
             }
@@ -96,10 +96,22 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                         _incalibrate = false;
                         MainV2.comPort.UnSubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.STATUSTEXT, receivedPacket);
+                        MainV2.comPort.UnSubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.COMMAND_LONG, receivedPacket);
                     }
                     catch
                     {
                     }
+                }
+            }
+
+            if (arg.msgid == (uint)MAVLink.MAVLINK_MSG_ID.COMMAND_LONG)
+            {
+                var message = arg.ToStructure<MAVLink.mavlink_command_long_t>();
+                if (message.command == (ushort)MAVLink.MAV_CMD.ACCELCAL_VEHICLE_POS)
+                {
+                    MAVLink.ACCELCAL_VEHICLE_POS pos = (MAVLink.ACCELCAL_VEHICLE_POS)message.param1;
+
+                    UpdateUserMessage("Please place vehicle " + pos.ToString());
                 }
             }
 

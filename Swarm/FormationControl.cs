@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
+using GeoAPI.CoordinateSystems;
+using GeoAPI.CoordinateSystems.Transformations;
 using ProjNet.CoordinateSystems.Transformations;
 using ProjNet.CoordinateSystems;
-using ProjNet.Converters;
-using MissionPlanner;
 using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Swarm
@@ -36,6 +32,9 @@ namespace MissionPlanner.Swarm
                     mavStates.Add(port.BaseStream.PortName + " " + mav.sysid + " " + mav.compid, mav);
                 }
             }
+
+            if(mavStates.Count == 0)
+                return;
 
             bindingSource1.DataSource = mavStates;
 
@@ -125,10 +124,11 @@ namespace MissionPlanner.Swarm
             threadrun = true;
 
             // make sure leader is high freq updates
-            SwarmInterface.Leader.parent.requestDatastream(MAVLink.MAV_DATA_STREAM.POSITION, 5, SwarmInterface.Leader.sysid, SwarmInterface.Leader.compid);
-            SwarmInterface.Leader.cs.rateposition = 5;
+            SwarmInterface.Leader.parent.requestDatastream(MAVLink.MAV_DATA_STREAM.POSITION, 10, SwarmInterface.Leader.sysid, SwarmInterface.Leader.compid);
+            SwarmInterface.Leader.cs.rateposition = 10;
+            SwarmInterface.Leader.cs.rateattitude = 10;
 
-            while (threadrun)
+            while (threadrun && !this.IsDisposed)
             {
                 // update leader pos
                 SwarmInterface.Update();
@@ -223,7 +223,7 @@ namespace MissionPlanner.Swarm
             //convert Wgs84ConversionInfo to utm
             CoordinateTransformationFactory ctfac = new CoordinateTransformationFactory();
 
-            GeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
+            IGeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
 
             int utmzone = (int) ((leader.cs.lng - -186.0)/6.0);
 

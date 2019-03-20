@@ -1,9 +1,20 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Reflection;
+using System.Windows.Forms;
+using com.drew.imaging.jpg;
+using com.drew.imaging.tiff;
+using com.drew.metadata;
+using log4net;
+using MissionPlanner.Utilities;
+
 namespace MissionPlanner.GeoRef
 {
     partial class Georefimage
     {
-
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Georefimage));
@@ -43,6 +54,8 @@ namespace MissionPlanner.GeoRef
             this.RDIO_trigmsg = new System.Windows.Forms.RadioButton();
             this.myGMAP1 = new MissionPlanner.Controls.myGMAP();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.chk_camusegpsalt = new System.Windows.Forms.CheckBox();
+            this.chk_trigusergpsalt = new System.Windows.Forms.CheckBox();
             this.PANEL_TIME_OFFSET.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_camerarotation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_hfov)).BeginInit();
@@ -305,7 +318,6 @@ namespace MissionPlanner.GeoRef
             resources.ApplyResources(this.myGMAP1, "myGMAP1");
             this.myGMAP1.Bearing = 0F;
             this.myGMAP1.CanDragMap = true;
-            this.myGMAP1.EmptyTileColor = System.Drawing.Color.Navy;
             this.myGMAP1.GrayScaleMode = false;
             this.myGMAP1.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
             this.myGMAP1.LevelsKeepInMemmory = 5;
@@ -319,8 +331,6 @@ namespace MissionPlanner.GeoRef
             this.myGMAP1.RetryLoadTile = 0;
             this.myGMAP1.RoutesEnabled = true;
             this.myGMAP1.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
-            
-            this.myGMAP1.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.myGMAP1.ShowTileGridLines = false;
             this.myGMAP1.Zoom = 2D;
             // 
@@ -330,9 +340,23 @@ namespace MissionPlanner.GeoRef
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.TabStop = false;
             // 
+            // chk_camusegpsalt
+            // 
+            resources.ApplyResources(this.chk_camusegpsalt, "chk_camusegpsalt");
+            this.chk_camusegpsalt.Name = "chk_camusegpsalt";
+            this.chk_camusegpsalt.UseVisualStyleBackColor = true;
+            // 
+            // chk_trigusergpsalt
+            // 
+            resources.ApplyResources(this.chk_trigusergpsalt, "chk_trigusergpsalt");
+            this.chk_trigusergpsalt.Name = "chk_trigusergpsalt";
+            this.chk_trigusergpsalt.UseVisualStyleBackColor = true;
+            // 
             // Georefimage
             // 
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.chk_trigusergpsalt);
+            this.Controls.Add(this.chk_camusegpsalt);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.myGMAP1);
             this.Controls.Add(this.RDIO_trigmsg);
@@ -401,5 +425,7 @@ namespace MissionPlanner.GeoRef
         private RadioButton RDIO_trigmsg;
         private Controls.myGMAP myGMAP1;
         private PictureBox pictureBox1;
+        private CheckBox chk_camusegpsalt;
+        private CheckBox chk_trigusergpsalt;
     }
 }

@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace MissionPlanner.Controls
 {
-    public partial class QuickView : UserControl
+    public partial class QuickView : MyUserControl
     {
         //http://stackoverflow.com/questions/3816362/winforms-label-flickering
 
@@ -132,7 +132,7 @@ namespace MissionPlanner.Controls
 
             float newSize = this.Font.Size * ratio;
 
-            if (newSize < 8)
+            if (newSize < 8 || newSize > 999999)
                 newSize = 8;
 
             labelWithPseudoOpacity2.Font = new Font(labelWithPseudoOpacity2.Font.FontFamily, newSize - 2, labelWithPseudoOpacity2.Font.Style);

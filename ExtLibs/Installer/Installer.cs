@@ -42,17 +42,18 @@ namespace Installer
         {
             this.Enabled = false;
 
-            await Task.Run((Action) start_dowork);
+            await Task.Run(delegate
+            {
+                this.Invoke((Action) delegate() { but_Start.Enabled = false; });
+                start_dowork(UpdateText);
+                this.Invoke((Action) delegate() { but_Start.Enabled = true; });
+            });
 
             this.Enabled = true;
         }
 
-        async void start_dowork()
+        async void start_dowork(Action<string> UpdateText)
         {
-            this.Invoke((Action) delegate() { 
-                but_Start.Enabled = false;
-            });
-
             Directory.CreateDirectory(installlocation);
 
             var tmp = installlocation + Path.DirectorySeparatorChar;
@@ -102,10 +103,13 @@ namespace Installer
                         var entry = zip.GetEntry(file);
                         UpdateText(String.Format("Getting {0}\nFile {1} of {2}\nCompressed size {3}\nSize {4}", file, got, filestoget.Count,
                             entry?.CompressedLength, entry?.Length));
-                        var output = tmp + file.Replace('/', '\\');
+                        var output = tmp + file.Replace('/', Path.DirectorySeparatorChar);
                         var dir = Path.GetDirectoryName(output);
                         if (!Directory.Exists(dir))
                             Directory.CreateDirectory(dir);
+
+                        if(Application.ExecutablePath.ToLower() == output.ToLower())
+                            continue;
 
                         await Task.Run(() => { entry.ExtractToFile(output, true); });
                         got++;
@@ -113,12 +117,6 @@ namespace Installer
                 }
 
                 UpdateText("Done");
-
-                //certutil -addstore "Root" signed.cer
-                this.Invoke((Action) delegate()
-                {
-                    but_Start.Enabled = true;
-                });
             }
             else
             {

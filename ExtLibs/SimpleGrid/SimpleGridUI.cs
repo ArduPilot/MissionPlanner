@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Windows.Forms;
-using System.Xml;
+using GeoAPI.CoordinateSystems;
+using GeoAPI.CoordinateSystems.Transformations;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
@@ -43,7 +39,7 @@ namespace MissionPlanner.SimpleGrid
             layerpolygons = new GMapOverlay( "polygons");
             map.Overlays.Add(layerpolygons);
 
-            CMB_startfrom.DataSource = Enum.GetNames(typeof(Grid.StartPosition));
+            CMB_startfrom.DataSource = Enum.GetNames(typeof(Utilities.Grid.StartPosition));
             CMB_startfrom.SelectedIndex = 0;
 
             // set and angle that is good
@@ -281,11 +277,12 @@ namespace MissionPlanner.SimpleGrid
         private void domainUpDown1_ValueChanged(object sender, EventArgs e)
         {
             Host2 = plugin.Host;
-            
-            grid = Grid.CreateGrid(list, (double) NUM_altitude.Value, (double) NUM_Distance.Value,
+
+            grid = Utilities.Grid.CreateGrid(list, (double) NUM_altitude.Value, (double) NUM_Distance.Value,
                 (double) NUM_spacing.Value, (double) NUM_angle.Value, (double) NUM_overshoot.Value,
                 (double) NUM_overshoot2.Value,
-                (Grid.StartPosition) Enum.Parse(typeof (Grid.StartPosition), CMB_startfrom.Text), false, 0);
+                (Utilities.Grid.StartPosition) Enum.Parse(typeof(Utilities.Grid.StartPosition), CMB_startfrom.Text),
+                false, 0, 0, plugin.Host.cs.HomeLocation);
 
             List<PointLatLng> list2 = new List<PointLatLng>();
 
@@ -377,7 +374,7 @@ namespace MissionPlanner.SimpleGrid
 
             CoordinateTransformationFactory ctfac = new CoordinateTransformationFactory();
 
-            GeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
+            IGeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
 
             int utmzone = (int)((polygon[0].Lng - -186.0) / 6.0);
 

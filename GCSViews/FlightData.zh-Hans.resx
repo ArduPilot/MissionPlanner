@@ -160,20 +160,8 @@
   <data name="contextMenuStripHud.Size" type="System.Drawing.Size, System.Drawing">
     <value>169, 158</value>
   </data>
-  <data name="contextMenuStripHud.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="hud1.Size" type="System.Drawing.Size, System.Drawing">
     <value>358, 265</value>
-  </data>
-  <data name="hud1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="SubMainLeft.Panel1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="contextMenuStripactionstab.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="quickView6.Location" type="System.Drawing.Point, System.Drawing">
     <value>175, 107</value>
@@ -181,17 +169,11 @@
   <data name="quickView6.Size" type="System.Drawing.Size, System.Drawing">
     <value>166, 47</value>
   </data>
-  <data name="quickView6.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="quickView5.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 107</value>
   </data>
   <data name="quickView5.Size" type="System.Drawing.Size, System.Drawing">
     <value>166, 47</value>
-  </data>
-  <data name="quickView5.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="quickView4.Location" type="System.Drawing.Point, System.Drawing">
     <value>175, 55</value>
@@ -199,23 +181,14 @@
   <data name="quickView4.Size" type="System.Drawing.Size, System.Drawing">
     <value>166, 46</value>
   </data>
-  <data name="quickView4.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="quickView3.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 55</value>
   </data>
   <data name="quickView3.Size" type="System.Drawing.Size, System.Drawing">
     <value>166, 46</value>
   </data>
-  <data name="quickView3.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="quickView2.Size" type="System.Drawing.Size, System.Drawing">
     <value>166, 46</value>
-  </data>
-  <data name="quickView2.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="quickView1.Size" type="System.Drawing.Size, System.Drawing">
     <value>166, 46</value>
@@ -226,38 +199,20 @@
   <data name="tableLayoutPanelQuick.Size" type="System.Drawing.Size, System.Drawing">
     <value>344, 157</value>
   </data>
-  <data name="tableLayoutPanelQuick.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="tabQuick.Size" type="System.Drawing.Size, System.Drawing">
     <value>350, 163</value>
   </data>
   <data name="tabQuick.Text" xml:space="preserve">
     <value>快速</value>
   </data>
-  <data name="tabQuick.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="BUT_resumemis.Text" xml:space="preserve">
     <value>恢复任务</value>
-  </data>
-  <data name="BUT_resumemis.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="CMB_mountmode.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="BUT_mountmode.Text" xml:space="preserve">
     <value>设置挂载</value>
   </data>
   <data name="BUT_mountmode.ToolTip" xml:space="preserve">
     <value>改变为左侧的模式</value>
-  </data>
-  <data name="modifyandSetSpeed.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="modifyandSetAlt.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="BUT_ARM.Text" xml:space="preserve">
     <value>解锁/锁定</value>
@@ -290,17 +245,11 @@
   <data name="BUT_quickauto.ToolTip" xml:space="preserve">
     <value>更改为自动模式</value>
   </data>
-  <data name="CMB_setwp.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="BUT_setwp.Text" xml:space="preserve">
     <value>设定航点</value>
   </data>
   <data name="BUT_setwp.ToolTip" xml:space="preserve">
     <value>更改当前目标航点</value>
-  </data>
-  <data name="CMB_modes.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="BUT_setmode.Text" xml:space="preserve">
     <value>设置模式</value>
@@ -313,9 +262,6 @@
   </data>
   <data name="BUT_clear_track.ToolTip" xml:space="preserve">
     <value>在地图上清除记录路径</value>
-  </data>
-  <data name="CMB_action.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="BUT_Homealt.Text" xml:space="preserve">
     <value>设置
@@ -349,9 +295,6 @@
   <data name="tabActions.Text" xml:space="preserve">
     <value>动作</value>
   </data>
-  <data name="tabActions.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="myButton1.Text" xml:space="preserve">
     <value>留待</value>
   </data>
@@ -367,32 +310,14 @@
   <data name="tabActionsSimple.Text" xml:space="preserve">
     <value>简单动作</value>
   </data>
-  <data name="tabActionsSimple.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="checkListControl1.Size" type="System.Drawing.Size, System.Drawing">
     <value>344, 157</value>
-  </data>
-  <data name="checkListControl1.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="tabPagePreFlight.Size" type="System.Drawing.Size, System.Drawing">
     <value>350, 163</value>
   </data>
   <data name="tabPagePreFlight.Text" xml:space="preserve">
     <value>起飞前检查</value>
-  </data>
-  <data name="tabPagePreFlight.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Gvspeed.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Gheading.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Galt.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="Gspeed.ToolTip" xml:space="preserve">
     <value>双击我改变最大值</value>
@@ -403,44 +328,14 @@
   <data name="tabGauges.Text" xml:space="preserve">
     <value>仪表</value>
   </data>
-  <data name="tabGauges.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="tabStatus.Size" type="System.Drawing.Size, System.Drawing">
     <value>350, 163</value>
   </data>
   <data name="tabStatus.Text" xml:space="preserve">
     <value>状态</value>
   </data>
-  <data name="tabStatus.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="servoOptions1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="servoOptions2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="servoOptions3.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="servoOptions4.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="servoOptions5.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="servoOptions6.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="servoOptions7.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="flowLayoutPanelServos.Size" type="System.Drawing.Size, System.Drawing">
     <value>344, 157</value>
-  </data>
-  <data name="flowLayoutPanelServos.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="tabServo.Size" type="System.Drawing.Size, System.Drawing">
     <value>350, 163</value>
@@ -448,50 +343,26 @@
   <data name="tabServo.Text" xml:space="preserve">
     <value>舵机</value>
   </data>
-  <data name="tabServo.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="BUT_loadtelem.Text" xml:space="preserve">
     <value>加载日志</value>
-  </data>
-  <data name="BUT_loadtelem.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="lbl_playbackspeed.Location" type="System.Drawing.Point, System.Drawing">
     <value>384, 63</value>
   </data>
-  <data name="lbl_playbackspeed.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="lbl_logpercent.Location" type="System.Drawing.Point, System.Drawing">
     <value>384, 33</value>
-  </data>
-  <data name="lbl_logpercent.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="tracklog.Size" type="System.Drawing.Size, System.Drawing">
     <value>289, 24</value>
   </data>
-  <data name="tracklog.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="LBL_logfn.Size" type="System.Drawing.Size, System.Drawing">
     <value>330, 24</value>
-  </data>
-  <data name="LBL_logfn.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="BUT_log2kml.Text" xml:space="preserve">
     <value>Tlog &gt; Kml 或图像</value>
   </data>
-  <data name="BUT_log2kml.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="BUT_playlog.Text" xml:space="preserve">
     <value>播放/暂停</value>
-  </data>
-  <data name="BUT_playlog.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>29, 12</value>
@@ -499,41 +370,11 @@
   <data name="label2.Text" xml:space="preserve">
     <value>速度</value>
   </data>
-  <data name="label2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="BUT_speed10.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="BUT_speed5.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="BUT_speed2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="BUT_speed1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="BUT_speed1_2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="BUT_speed1_4.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="BUT_speed1_10.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="panel2.Size" type="System.Drawing.Size, System.Drawing">
     <value>289, 97</value>
   </data>
-  <data name="panel2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="tableLayoutPaneltlogs.Size" type="System.Drawing.Size, System.Drawing">
     <value>350, 163</value>
-  </data>
-  <data name="tableLayoutPaneltlogs.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="tabTLogs.Size" type="System.Drawing.Size, System.Drawing">
     <value>350, 163</value>
@@ -541,45 +382,24 @@
   <data name="tabTLogs.Text" xml:space="preserve">
     <value>遥测日志</value>
   </data>
-  <data name="tabTLogs.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="BUT_loganalysis.Text" xml:space="preserve">
     <value>自动分析</value>
-  </data>
-  <data name="BUT_loganalysis.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="BUT_DFMavlink.Text" xml:space="preserve">
     <value>通过Mavlink
 下载闪存日志</value>
   </data>
-  <data name="BUT_DFMavlink.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="but_dflogtokml.Text" xml:space="preserve">
     <value>创建KML + gpx</value>
-  </data>
-  <data name="but_dflogtokml.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="but_bintolog.Text" xml:space="preserve">
     <value>PX4 .Bin 转 .Log</value>
   </data>
-  <data name="but_bintolog.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="BUT_matlab.Text" xml:space="preserve">
     <value>创建Matlab文件</value>
   </data>
-  <data name="BUT_matlab.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="BUT_logbrowse.Text" xml:space="preserve">
     <value>回顾日志</value>
-  </data>
-  <data name="BUT_logbrowse.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="tablogbrowse.Size" type="System.Drawing.Size, System.Drawing">
     <value>350, 163</value>
@@ -587,23 +407,14 @@
   <data name="tablogbrowse.Text" xml:space="preserve">
     <value>数据闪存日志</value>
   </data>
-  <data name="tablogbrowse.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="checkBoxRedirectOutput.Size" type="System.Drawing.Size, System.Drawing">
     <value>108, 16</value>
   </data>
   <data name="checkBoxRedirectOutput.Text" xml:space="preserve">
     <value>重定向程序输出</value>
   </data>
-  <data name="checkBoxRedirectOutput.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="BUT_edit_selected.Text" xml:space="preserve">
     <value>编辑所选脚本</value>
-  </data>
-  <data name="BUT_edit_selected.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="labelSelectedScript.Size" type="System.Drawing.Size, System.Drawing">
     <value>77, 12</value>
@@ -611,20 +422,11 @@
   <data name="labelSelectedScript.Text" xml:space="preserve">
     <value>所选脚本：无</value>
   </data>
-  <data name="labelSelectedScript.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="BUT_run_script.Text" xml:space="preserve">
     <value>运行脚本</value>
   </data>
-  <data name="BUT_run_script.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="BUT_abort_script.Text" xml:space="preserve">
     <value>忽略运行中的脚本</value>
-  </data>
-  <data name="BUT_abort_script.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="labelScriptStatus.Size" type="System.Drawing.Size, System.Drawing">
     <value>161, 12</value>
@@ -632,14 +434,8 @@
   <data name="labelScriptStatus.Text" xml:space="preserve">
     <value>脚本状态：没有脚本正在运行</value>
   </data>
-  <data name="labelScriptStatus.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="BUT_select_script.Text" xml:space="preserve">
     <value>选择脚本</value>
-  </data>
-  <data name="BUT_select_script.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="tabScripts.Size" type="System.Drawing.Size, System.Drawing">
     <value>350, 163</value>
@@ -647,14 +443,8 @@
   <data name="tabScripts.Text" xml:space="preserve">
     <value>脚本</value>
   </data>
-  <data name="tabScripts.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="txt_messagebox.Size" type="System.Drawing.Size, System.Drawing">
     <value>344, 157</value>
-  </data>
-  <data name="txt_messagebox.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="tabPagemessages.Size" type="System.Drawing.Size, System.Drawing">
     <value>350, 163</value>
@@ -662,17 +452,8 @@
   <data name="tabPagemessages.Text" xml:space="preserve">
     <value>消息</value>
   </data>
-  <data name="tabPagemessages.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="tabControlactions.Size" type="System.Drawing.Size, System.Drawing">
     <value>358, 189</value>
-  </data>
-  <data name="tabControlactions.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="SubMainLeft.Panel2.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="SubMainLeft.Size" type="System.Drawing.Size, System.Drawing">
     <value>360, 462</value>
@@ -681,20 +462,8 @@
   <data name="SubMainLeft.SplitterDistance" type="System.Int32, mscorlib">
     <value>267</value>
   </data>
-  <data name="SubMainLeft.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="MainH.Panel1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="zg1.Size" type="System.Drawing.Size, System.Drawing">
     <value>634, 210</value>
-  </data>
-  <data name="zg1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="splitContainer1.Panel1.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="goHereToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>172, 22</value>
@@ -741,15 +510,6 @@
   <data name="contextMenuStripMap.Size" type="System.Drawing.Size, System.Drawing">
     <value>173, 180</value>
   </data>
-  <data name="contextMenuStripMap.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="distanceBar1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="windDir1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
     <value>283, 393</value>
   </data>
@@ -758,9 +518,6 @@
   </data>
   <data name="label6.Text" xml:space="preserve">
     <value>GPS追踪（黑）</value>
-  </data>
-  <data name="label6.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
     <value>225, 393</value>
@@ -771,9 +528,6 @@
   <data name="label5.Text" xml:space="preserve">
     <value>目标指向</value>
   </data>
-  <data name="label5.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
     <value>142, 393</value>
   </data>
@@ -783,9 +537,6 @@
   <data name="label3.Text" xml:space="preserve">
     <value>直达当前航点</value>
   </data>
-  <data name="label3.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
     <value>83, 393</value>
   </data>
@@ -794,9 +545,6 @@
   </data>
   <data name="label4.Text" xml:space="preserve">
     <value>当前指向</value>
-  </data>
-  <data name="label4.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="lbl_hdop.Location" type="System.Drawing.Point, System.Drawing">
     <value>-1, 377</value>
@@ -816,26 +564,11 @@
   <data name="gMapControl1.Size" type="System.Drawing.Size, System.Drawing">
     <value>589, 421</value>
   </data>
-  <data name="gMapControl1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="TRK_zoom.Size" type="System.Drawing.Size, System.Drawing">
     <value>45, 421</value>
   </data>
-  <data name="TRK_zoom.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="splitContainer1.Panel2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="splitContainer1.Size" type="System.Drawing.Size, System.Drawing">
     <value>634, 421</value>
-  </data>
-  <data name="splitContainer1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="coords1.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="Zoomlevel.Location" type="System.Drawing.Point, System.Drawing">
     <value>438, 9</value>
@@ -848,9 +581,6 @@
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>缩放</value>
-  </data>
-  <data name="label1.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="CHK_autopan.Location" type="System.Drawing.Point, System.Drawing">
     <value>325, 12</value>
@@ -876,23 +606,11 @@
   <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
     <value>1, 429</value>
   </data>
-  <data name="panel1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="tableMap.Size" type="System.Drawing.Size, System.Drawing">
     <value>642, 460</value>
   </data>
-  <data name="tableMap.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="MainH.Panel2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="MainH.Size" type="System.Drawing.Size, System.Drawing">
     <value>1008, 462</value>
-  </data>
-  <data name="MainH.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="dataGridViewImageColumn1.HeaderText" xml:space="preserve">
     <value>上</value>
@@ -902,8 +620,5 @@
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
     <value>1008, 462</value>
-  </data>
-  <data name="$this.ToolTip" xml:space="preserve">
-    <value />
   </data>
 </root>

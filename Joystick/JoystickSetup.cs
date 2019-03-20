@@ -69,7 +69,7 @@ namespace MissionPlanner.Joystick
             {
             } // IF 1 DOESNT EXIST NONE WILL
 
-            var tempjoystick = new Joystick();
+            var tempjoystick = new Joystick(() => MainV2.comPort);
 
             label14.Text += " " + MainV2.comPort.MAV.cs.firmware.ToString();
 
@@ -130,7 +130,7 @@ namespace MissionPlanner.Joystick
                 }
 
                 // all config is loaded from the xmls
-                Joystick joy = new Joystick();
+                Joystick joy = new Joystick(() => MainV2.comPort);
 
                 joy.elevons = CHK_elevons.Checked;
 
@@ -188,7 +188,7 @@ namespace MissionPlanner.Joystick
                     Joystick joy = MainV2.joystick;
                     if (joy == null)
                     {
-                        joy = new Joystick();
+                        joy = new Joystick(() => MainV2.comPort);
                         if (CMB_CH1.Text != "")
                             joy.setChannel(1,
                                 (Joystick.joystickaxis) Enum.Parse(typeof (Joystick.joystickaxis), CMB_CH1.Text),
@@ -221,6 +221,17 @@ namespace MissionPlanner.Joystick
                             joy.setChannel(8,
                                 (Joystick.joystickaxis) Enum.Parse(typeof (Joystick.joystickaxis), CMB_CH8.Text),
                                 revCH8.Checked, int.Parse(expo_ch8.Text));
+
+                        joy.setChannel(9,  (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), "None"), false, 0);
+                        joy.setChannel(10, (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), "None"), false, 0);
+                        joy.setChannel(11, (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), "None"), false, 0);
+                        joy.setChannel(12, (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), "None"), false, 0);
+                        joy.setChannel(13, (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), "None"), false, 0);
+                        joy.setChannel(14, (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), "None"), false, 0);
+                        joy.setChannel(15, (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), "None"), false, 0);
+                        joy.setChannel(16, (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), "None"), false, 0);
+                        joy.setChannel(17, (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), "None"), false, 0);
+                        joy.setChannel(18, (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), "None"), false, 0);
 
                         joy.elevons = CHK_elevons.Checked;
 
@@ -264,6 +275,16 @@ namespace MissionPlanner.Joystick
                     MainV2.comPort.MAV.cs.rcoverridech6 = joy.getValueForChannel(6, CMB_joysticks.Text);
                     MainV2.comPort.MAV.cs.rcoverridech7 = joy.getValueForChannel(7, CMB_joysticks.Text);
                     MainV2.comPort.MAV.cs.rcoverridech8 = joy.getValueForChannel(8, CMB_joysticks.Text);
+                    MainV2.comPort.MAV.cs.rcoverridech9 = joy.getValueForChannel(9, CMB_joysticks.Text);
+                    MainV2.comPort.MAV.cs.rcoverridech10 = joy.getValueForChannel(10, CMB_joysticks.Text);
+                    MainV2.comPort.MAV.cs.rcoverridech11 = joy.getValueForChannel(11, CMB_joysticks.Text);
+                    MainV2.comPort.MAV.cs.rcoverridech12 = joy.getValueForChannel(12, CMB_joysticks.Text);
+                    MainV2.comPort.MAV.cs.rcoverridech13 = joy.getValueForChannel(13, CMB_joysticks.Text);
+                    MainV2.comPort.MAV.cs.rcoverridech14 = joy.getValueForChannel(14, CMB_joysticks.Text);
+                    MainV2.comPort.MAV.cs.rcoverridech15 = joy.getValueForChannel(15, CMB_joysticks.Text);
+                    MainV2.comPort.MAV.cs.rcoverridech16 = joy.getValueForChannel(16, CMB_joysticks.Text);
+                    MainV2.comPort.MAV.cs.rcoverridech17 = joy.getValueForChannel(17, CMB_joysticks.Text);
+                    MainV2.comPort.MAV.cs.rcoverridech18 = joy.getValueForChannel(18, CMB_joysticks.Text);
 
                     //Console.WriteLine(DateTime.Now.Millisecond + " end ");
                 }

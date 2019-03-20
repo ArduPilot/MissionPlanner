@@ -15,7 +15,7 @@ namespace MissionPlanner.Controls.BackstageView
     /// <remarks>
     /// 'Tabs' are added as a control in a <see cref="BackstageViewPage"/>
     /// </remarks>
-    public partial class BackstageView : UserControl, IContainerControl
+    public partial class BackstageView : MyUserControl, IContainerControl
     {
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -76,7 +76,7 @@ namespace MissionPlanner.Controls.BackstageView
             pnlMenu.PencilBorderColor = _buttonsAreaPencilColor;
             pnlMenu.GradColor = this.BackColor;
 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
         }
 
         public void UpdateDisplay()
@@ -450,6 +450,8 @@ namespace MissionPlanner.Controls.BackstageView
 
             Tracking?.Invoke(associatedPage.Page.GetType().ToString(), associatedPage.LinkText);
 
+            var start = DateTime.Now;
+
             this.SuspendLayout();
             associatedPage.Page.SuspendLayout();
 
@@ -512,6 +514,11 @@ namespace MissionPlanner.Controls.BackstageView
                 log.Error(ex);
             }
 
+            var end = DateTime.Now;
+
+            log.DebugFormat("{0} {1} {2}", associatedPage.Page.GetType().ToString(), associatedPage.LinkText,
+                (end - start).TotalMilliseconds);
+
             _activePage = associatedPage;
         }
 
@@ -520,7 +527,7 @@ namespace MissionPlanner.Controls.BackstageView
             base.OnPaint(e);
         }
 
-        public void Close()
+        public new void Close()
         {
             foreach (var page in _items)
             {

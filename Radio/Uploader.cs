@@ -1,12 +1,15 @@
 using System;
 using System.Threading;
-using MissionPlanner;
 using MissionPlanner.Comms;
 
 namespace uploader
 {
     public class Uploader
     {
+        public delegate void LogEventHandler(string message, int level = 0);
+
+        public delegate void ProgressEventHandler(double completed);
+
         public enum Board : byte
         {
             // device IDs XXX should come with the firmware image...
@@ -68,8 +71,8 @@ namespace uploader
         public int READ_MULTI_MAX = 255; // largest read that can be requested
 
 
-        public event Sikradio.LogEventHandler LogEvent;
-        public event Sikradio.ProgressEventHandler ProgressEvent;
+        public event LogEventHandler LogEvent;
+        public event ProgressEventHandler ProgressEvent;
 
 
         /// <summary>

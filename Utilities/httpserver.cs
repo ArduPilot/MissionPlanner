@@ -1,18 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Web;
-using System.Web.Script.Serialization;
 using System.Windows.Forms;
 using log4net;
-using MissionPlanner.Utilities;
 using SharpKml.Base;
 using SharpKml.Dom;
 using Newtonsoft.Json;
@@ -125,6 +120,7 @@ namespace MissionPlanner.Utilities
         public void ProcessClient(object clientobj)
         {
             var client = clientobj as TcpClient;
+            using(client)
             {
                 try
                 {
@@ -178,7 +174,7 @@ namespace MissionPlanner.Utilities
                     //url = url.Replace(" HTTP/1.0", "");
                     //url = url.Replace(" HTTP/1.1", "");
 
-                    Tracking.AddEvent("HTTPServer", "Get", url, "");
+                    //Tracking.AddEvent("HTTPServer", "Get", url, "");
 /////////////////////////////////////////////////////////////////
                     if (url.Contains(" /websocket/server"))
                     {
@@ -263,6 +259,8 @@ namespace MissionPlanner.Utilities
                             string accept = ComputeWebSocketHandshakeSecurityHash09(head.Substring(start, end - start));
 
                             writer.WriteLine("Sec-WebSocket-Accept: " + accept);
+                            if(head.Contains("Sec-WebSocket-Protocol:"))
+                                writer.WriteLine("Sec-WebSocket-Protocol: binary");
                             writer.WriteLine("Server: Mission Planner");
                             writer.WriteLine("");
                             writer.Flush();
@@ -295,8 +293,8 @@ namespace MissionPlanner.Utilities
                                         packet[i++] = (byte) ch;
                                     }
 
-                                    stream.Write(packet, 0, i);
-                                    stream.Flush();
+                                    stream.WriteAsync(packet, 0, i);
+                                    stream.FlushAsync();
                                 }
                                 catch
                                 {
@@ -349,58 +347,65 @@ namespace MissionPlanner.Utilities
                     {
                         SharpKml.Dom.Document kml = new SharpKml.Dom.Document();
 
-                        SharpKml.Dom.Placemark pmplane = new SharpKml.Dom.Placemark();
-                        pmplane.Name = "P/Q " + MainV2.comPort.MAV.cs.altasl;
+                        foreach (var mavLinkInterface in MainV2.Comports)
+                        {
+                            foreach (var MAV in mavLinkInterface.MAVlist)
+                            {
+                                SharpKml.Dom.Placemark pmplane = new SharpKml.Dom.Placemark();
+                                pmplane.Name = "P/Q " + MAV.cs.altasl;
 
-                        pmplane.Visibility = true;
+                                pmplane.Visibility = true;
 
-                        SharpKml.Dom.Location loc = new SharpKml.Dom.Location();
-                        loc.Latitude = MainV2.comPort.MAV.cs.lat;
-                        loc.Longitude = MainV2.comPort.MAV.cs.lng;
-                        loc.Altitude = MainV2.comPort.MAV.cs.altasl;
+                                SharpKml.Dom.Location loc = new SharpKml.Dom.Location();
+                                loc.Latitude = MAV.cs.lat;
+                                loc.Longitude = MAV.cs.lng;
+                                loc.Altitude = MAV.cs.altasl;
 
-                        if (loc.Altitude < 0)
-                            loc.Altitude = 0.01;
+                                if (loc.Altitude < 0)
+                                    loc.Altitude = 0.01;
 
-                        SharpKml.Dom.Orientation ori = new SharpKml.Dom.Orientation();
-                        ori.Heading = MainV2.comPort.MAV.cs.yaw;
-                        ori.Roll = -MainV2.comPort.MAV.cs.roll;
-                        ori.Tilt = -MainV2.comPort.MAV.cs.pitch;
+                                SharpKml.Dom.Orientation ori = new SharpKml.Dom.Orientation();
+                                ori.Heading = MAV.cs.yaw;
+                                ori.Roll = -MAV.cs.roll;
+                                ori.Tilt = -MAV.cs.pitch;
 
-                        SharpKml.Dom.Scale sca = new SharpKml.Dom.Scale();
+                                SharpKml.Dom.Scale sca = new SharpKml.Dom.Scale();
 
-                        sca.X = 2;
-                        sca.Y = 2;
-                        sca.Z = 2;
+                                sca.X = 2;
+                                sca.Y = 2;
+                                sca.Z = 2;
 
-                        SharpKml.Dom.Model model = new SharpKml.Dom.Model();
-                        model.Location = loc;
-                        model.Orientation = ori;
-                        model.AltitudeMode = SharpKml.Dom.AltitudeMode.Absolute;
-                        model.Scale = sca;
+                                SharpKml.Dom.Model model = new SharpKml.Dom.Model();
+                                model.Location = loc;
+                                model.Orientation = ori;
+                                model.AltitudeMode = SharpKml.Dom.AltitudeMode.Absolute;
+                                model.Scale = sca;
 
-                        SharpKml.Dom.Link link = new SharpKml.Dom.Link();
-                        link.Href = new Uri("block_plane_0.dae", UriKind.Relative);
+                                SharpKml.Dom.Link link = new SharpKml.Dom.Link();
+                                link.Href = new Uri("block_plane_0.dae", UriKind.Relative);
 
-                        model.Link = link;
+                                model.Link = link;
 
-                        pmplane.Geometry = model;
+                                pmplane.Geometry = model;
+
+                                kml.AddFeature(pmplane);
+                            }
+                        }
 
                         SharpKml.Dom.LookAt la = new SharpKml.Dom.LookAt()
                         {
-                            Altitude = loc.Altitude.Value,
-                            Latitude = loc.Latitude.Value,
-                            Longitude = loc.Longitude.Value,
+                            Altitude = MainV2.comPort.MAV.cs.altasl,
+                            Latitude = MainV2.comPort.MAV.cs.lat,
+                            Longitude = MainV2.comPort.MAV.cs.lng,
                             Tilt = 80,
                             Heading = MainV2.comPort.MAV.cs.yaw,
                             AltitudeMode = SharpKml.Dom.AltitudeMode.Absolute,
                             Range = 50
                         };
 
-                        if (loc.Latitude.Value != 0 && loc.Longitude.Value != 0)
+                        if (la.Latitude.Value != 0 && la.Longitude.Value != 0)
                         {
                             kml.Viewpoint = la;
-                            kml.AddFeature(pmplane);
                         }
 
                         SharpKml.Base.Serializer serializer = new SharpKml.Base.Serializer();
@@ -471,13 +476,15 @@ namespace MissionPlanner.Utilities
                         // draw track
                         try
                         {
-                            foreach (var point in GCSViews.FlightPlanner.instance.fullpointlist)
+                            foreach (var point in GCSViews.FlightPlanner.instance.pointlist)
                             {
+                                if (point == null)
+                                    continue;
+
                                 if (point.Tag.ToLower().Contains("home"))
                                     home = point;
 
-                                if (point != null)
-                                    coords.Add(new SharpKml.Base.Vector(point.Lat, point.Lng, point.Alt));
+                                coords.Add(new SharpKml.Base.Vector(point.Lat, point.Lng, point.Alt));
                             }
                         }
                         catch
@@ -486,7 +493,7 @@ namespace MissionPlanner.Utilities
 
                         var altmode = SharpKml.Dom.AltitudeMode.Absolute;
 
-                        foreach (var point in GCSViews.FlightPlanner.instance.fullpointlist)
+                        foreach (var point in GCSViews.FlightPlanner.instance.pointlist)
                         {
                             if (point == null)
                                 continue;
@@ -587,7 +594,8 @@ namespace MissionPlanner.Utilities
                     /////////////////////////////////////////////////////////////////
                     else if (url.Contains(" /hud.html"))
                     {
-                        string header = "HTTP/1.1 200 OK\r\nConnection: close\r\nContent-Type: text/html\r\n\r\n";
+                        var fi = new FileInfo("hud.html");
+                        string header = "HTTP/1.1 200 OK\r\nConnection: close\r\nContent-Type: text/html\r\nContent-Length: " + fi.Length + "\r\n\r\n";
                         byte[] temp = asciiEncoding.GetBytes(header);
                         stream.Write(temp, 0, temp.Length);
 
@@ -793,8 +801,6 @@ namespace MissionPlanner.Utilities
         "NAV_CONTROLLER_OUTPUT": {"msg": {"wp_dist": 0, "nav_pitch": 0.0, "target_bearing": 0, "nav_roll": 0.0, "aspd_error": 0.0, "alt_error": 0.0, "mavpackettype": "NAV_CONTROLLER_OUTPUT", "xtrack_error": 0.0, "nav_bearing": 0}, "index": 687, "time_usec": 0}}
                       */
 
-                        JavaScriptSerializer serializer = new JavaScriptSerializer();
-
                         object[] data = new object[20];
 
                         if (MainV2.comPort.MAV.getPacket((byte) MAVLink.MAVLINK_MSG_ID.ATTITUDE) != null)
@@ -895,7 +901,7 @@ namespace MissionPlanner.Utilities
 
                         packetindex++;
 
-                        string output = serializer.Serialize(message);
+                        string output = JsonConvert.SerializeObject(message);
 
                         string header = "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: " +
                                         output.Length + "\r\n\r\n";
@@ -923,7 +929,7 @@ namespace MissionPlanner.Utilities
 
                         if (match.Success)
                         {
-                            string fileurl = HttpUtility.UrlDecode(match.Groups[2].Value);
+                            string fileurl = WebUtility.UrlDecode(match.Groups[2].Value);
 
                             fileurl = fileurl.Replace("/mav/", "");
 

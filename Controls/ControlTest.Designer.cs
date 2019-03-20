@@ -41,7 +41,7 @@
             // ControlTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.ClientSize = new System.Drawing.Size(696, 432);
             this.Name = "ControlTest";
             this.Text = "ControlTest";
