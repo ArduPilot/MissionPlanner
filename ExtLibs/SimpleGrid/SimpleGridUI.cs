@@ -293,13 +293,15 @@ namespace MissionPlanner.SimpleGrid
             layerpolygons.Polygons.Clear();
             layerpolygons.Markers.Clear();
 
-            if (grid.Count == 0)
-            {
-                return;
-            }
 
             if (chk_boundary.Checked)
                 AddDrawPolygon();
+
+            if (grid.Count == 0)
+            {
+                map.ZoomAndCenterMarkers("polygons");
+                return;
+            }
 
             int strips = 0;
             int a = 1;

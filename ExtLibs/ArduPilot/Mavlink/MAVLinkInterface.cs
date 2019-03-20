@@ -69,7 +69,7 @@ namespace MissionPlanner
 
         public event EventHandler CommsClose;
 
-        public byte gcssysid { get; set; } = 255;
+        public static byte gcssysid { get; set; } = 255;
 
         /// <summary>
         /// used to prevent comport access for exclusive use
@@ -2158,7 +2158,10 @@ Please check the following
                     if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_COUNT && buffer.sysid == req.target_system && buffer.compid == req.target_component)
                     {
                         var count = buffer.ToStructure<mavlink_mission_count_t>();
-
+                        // check this gcs sent it
+                        if (count.target_system != gcssysid ||
+                           count.target_component != (byte)MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER)
+                            continue;
 
                         log.Info("wpcount: " + count.count);
                         giveComport = false;
@@ -2216,17 +2219,22 @@ Please check the following
             }
         }
 
+        public Locationwp getWP(ushort index)
+        {
+            return getWP(MAV.sysid, MAV.compid, index);
+        }
+
         /// <summary>
         /// Gets specfied WP
         /// </summary>
         /// <param name="index"></param>
         /// <returns>WP</returns>
-        public Locationwp getWP(ushort index)
+        public Locationwp getWP(byte sysid, byte compid, ushort index)
         {
             while (giveComport)
                 Thread.Sleep(100);
 
-            bool use_int = (MAV.cs.capabilities & (uint)MAV_PROTOCOL_CAPABILITY.MISSION_INT) > 0;
+            bool use_int = (MAVlist[sysid,compid].cs.capabilities & (uint)MAV_PROTOCOL_CAPABILITY.MISSION_INT) > 0;
 
             object req;
 
@@ -2234,8 +2242,8 @@ Please check the following
             {
                 mavlink_mission_request_int_t reqi = new mavlink_mission_request_int_t();
 
-                reqi.target_system = MAV.sysid;
-                reqi.target_component = MAV.compid;
+                reqi.target_system = sysid;
+                reqi.target_component = compid;
 
                 reqi.seq = index;
                 
@@ -2248,8 +2256,8 @@ Please check the following
             {
                 mavlink_mission_request_t reqf = new mavlink_mission_request_t();
 
-                reqf.target_system = MAV.sysid;
-                reqf.target_component = MAV.compid;
+                reqf.target_system = sysid;
+                reqf.target_component = compid;
 
                 reqf.seq = index;
 
@@ -2267,7 +2275,7 @@ Please check the following
 
             while (true)
             {
-                if (!(start.AddMilliseconds(3500) > DateTime.Now)) // apm times out after 5000ms
+                if (!(start.AddMilliseconds(2500) > DateTime.Now)) // apm times out after 5000ms
                 {
                     if (retrys > 0)
                     {
@@ -2288,16 +2296,19 @@ Please check the following
                 //Console.WriteLine("getwp readend " + DateTime.Now.Millisecond);
                 if (buffer.Length > 5)
                 {
-                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_ITEM)
+                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_ITEM && buffer.sysid == sysid && buffer.compid == compid)
                     {
                         //Console.WriteLine("getwp ans " + DateTime.Now.Millisecond);
 
                         var wp = buffer.ToStructure<mavlink_mission_item_t>();
+                        if (wp.target_system != gcssysid ||
+                            wp.target_component != (byte)MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER)
+                            continue;
 
                         // received a packet, but not what we requested
                         if (index != wp.seq)
                         {
-                            generatePacket((byte) MAVLINK_MSG_ID.MISSION_REQUEST, req);
+                            generatePacket((byte)MAVLINK_MSG_ID.MISSION_REQUEST, req);
                             continue;
                         }
 
@@ -2317,16 +2328,20 @@ Please check the following
 
                         break;
                     }
-                    else if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_ITEM_INT)
+                    else if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_ITEM_INT && buffer.sysid == sysid && buffer.compid == compid)
                     {
                         //Console.WriteLine("getwp ans " + DateTime.Now.Millisecond);
 
                         var wp = buffer.ToStructure<mavlink_mission_item_int_t>();
+                        // check this gcs sent it
+                        if (wp.target_system != gcssysid ||
+                            wp.target_component != (byte)MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER)
+                            continue;
 
                         // received a packet, but not what we requested
                         if (index != wp.seq)
                         {
-                            generatePacket((byte)MAVLINK_MSG_ID.MISSION_REQUEST_INT, req);
+                            generatePacket((byte)MAVLINK_MSG_ID.MISSION_REQUEST, req);
                             continue;
                         }
 
@@ -2545,6 +2560,10 @@ Please check the following
                     if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_REQUEST && buffer.sysid == req.target_system && buffer.compid == req.target_component)
                     {
                         var request = buffer.ToStructure<mavlink_mission_request_t>();
+                        // check this gcs sent it
+                        if (request.target_system != gcssysid ||
+                            request.target_component != (byte)MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER)
+                            continue;
 
                         if (request.seq == 0)
                         {
@@ -2749,7 +2768,7 @@ Please check the following
 
             while (true)
             {
-                if (!(start.AddMilliseconds(400) > DateTime.Now))
+                if (!(start.AddMilliseconds(450) > DateTime.Now))
                 {
                     if (retrys > 0)
                     {
@@ -2771,7 +2790,10 @@ Please check the following
                         var ans = buffer.ToStructure<mavlink_mission_ack_t>();
                         log.Info("set wp " + index + " ACK 47 : " + buffer.msgid + " ans " +
                                  Enum.Parse(typeof (MAV_MISSION_RESULT), ans.type.ToString()));
-
+                        // check this gcs sent it
+                        if (ans.target_system != gcssysid ||
+                            ans.target_component != (byte)MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER)
+                            continue;
 
                         if (req.current == 2)
                         {
@@ -2794,6 +2816,11 @@ Please check the following
                     else if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_REQUEST && buffer.sysid == req.target_system && buffer.compid == req.target_component)
                     {
                         var ans = buffer.ToStructure<mavlink_mission_request_t>();
+
+                        if (ans.target_system != gcssysid ||
+                            ans.target_component != (byte)MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER)
+                            continue;
+
                         if (ans.seq == (index + 1))
                         {
                             log.Info("set wp doing " + index + " req " + ans.seq + " REQ 40 : " + buffer.msgid);
@@ -2853,7 +2880,7 @@ Please check the following
 
             while (true)
             {
-                if (!(start.AddMilliseconds(400) > DateTime.Now))
+                if (!(start.AddMilliseconds(450) > DateTime.Now))
                 {
                     if (retrys > 0)
                     {
@@ -2875,6 +2902,11 @@ Please check the following
                         var ans = buffer.ToStructure<mavlink_mission_ack_t>();
                         log.Info("set wp " + index + " ACK 47 : " + buffer.msgid + " ans " +
                                  Enum.Parse(typeof(MAV_MISSION_RESULT), ans.type.ToString()));
+                        // check this gcs sent it
+                        if (ans.target_system != gcssysid ||
+                            ans.target_component != (byte)MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER)
+                            continue;
+
                         giveComport = false;
 
                         if (req.current == 2)
@@ -2898,6 +2930,10 @@ Please check the following
                     else if (buffer.msgid == (byte)MAVLINK_MSG_ID.MISSION_REQUEST && buffer.sysid == req.target_system && buffer.compid == req.target_component)
                     {
                         var ans = buffer.ToStructure<mavlink_mission_request_t>();
+                        if (ans.target_system != gcssysid ||
+                            ans.target_component != (byte)MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER)
+                            continue;
+
                         if (ans.seq == (index + 1))
                         {
                             log.Info("set wp doing " + index + " req " + ans.seq + " REQ 40 : " + buffer.msgid);
@@ -3648,7 +3684,7 @@ Please check the following
             }
 
             // if its a gcs packet - dont process further
-            if (buffer.Length >= 5 && (sysid == 255 || sysid == 253) && logreadmode) // gcs packet
+            if (buffer.Length >= 5 && (sysid == gcssysid || sysid == 253) && logreadmode) // gcs packet
             {
                 return message;
             }
@@ -4247,7 +4283,7 @@ Please check the following
 
             while (true)
             {
-                if (!(start.AddMilliseconds(200) > DateTime.Now))
+                if (!(start.AddMilliseconds(500) > DateTime.Now))
                 {
                     if (retrys > 0)
                     {
@@ -4314,9 +4350,14 @@ Please check the following
                 {
                     if (buffer.msgid == (byte) MAVLINK_MSG_ID.FENCE_POINT && buffer.sysid == req.target_system && buffer.compid == req.target_component)
                     {
-                        giveComport = false;
-
                         mavlink_fence_point_t fp = buffer.ToStructure<mavlink_fence_point_t>();
+
+                        // check this gcs sent it
+                        if (fp.target_system != gcssysid ||
+                            fp.target_component != (byte)MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER)
+                            continue;
+
+                        giveComport = false;
 
                         plla.Lat = fp.lat;
                         plla.Lng = fp.lng;
@@ -4441,7 +4482,7 @@ Please check the following
                     return ms;
                 }
 
-                if (!(start.AddMilliseconds(200) > DateTime.Now))
+                if (!(start.AddMilliseconds(500) > DateTime.Now))
                 {
                     for (int a = 0; a < ((totallength)/90 + 1); a++)
                     {
@@ -4686,6 +4727,11 @@ Please check the following
                     if (buffer.msgid == (byte) MAVLINK_MSG_ID.RALLY_POINT && buffer.sysid == req.target_system && buffer.compid == req.target_component)
                     {
                         mavlink_rally_point_t fp = buffer.ToStructure<mavlink_rally_point_t>();
+
+                        // check this gcs sent it
+                        if (fp.target_system != gcssysid ||
+                            fp.target_component != (byte)MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER)
+                            continue;
 
                         if (req.idx != fp.idx)
                         {

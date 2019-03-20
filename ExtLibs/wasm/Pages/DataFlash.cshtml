@@ -34,7 +34,7 @@
                      @foreach (var subitem in cb.FMT.First(a=>a.Value.Item2 == item).Value.Item4[0].Split(','))
                      {
                          <div style="display: none">
-                             <li><input type="checkbox" ref="checkElementRef" onclick=@(() => PlotItem(@item,@subitem)) value="@item.@subitem"/>@subitem</li>
+                             <li><input type="checkbox" ref="checkElementRef" onclick=@(async () => PlotItem(@item,@subitem)) value="@item.@subitem"/>@subitem</li>
                          </div>
                      }
                  </ul>
@@ -75,8 +75,6 @@
             var itemvalue = double.Parse(itemdata, CultureInfo.InvariantCulture);
 
             line.AddXY(msg.time.ToString("yyyy-MM-dd hh:mm:ss.fff"), itemvalue);
-
-            await Task.Yield();
         }
 
         JSRuntime.Current.InvokeAsync<object>("plotData", new object[] { "div1", line.getJSON() });

@@ -19,7 +19,7 @@ namespace MissionPlanner.Mavlink
 
         Dictionary<uint, Dictionary<uint, List<irate>>> _rate = new Dictionary<uint, Dictionary<uint, List<irate>>>();
 
-        public int RateHistory { get; set; } = 175;
+        public int RateHistory { get; set; } = 200;
 
         object _lock = new object();
 
@@ -65,9 +65,20 @@ namespace MissionPlanner.Mavlink
             var end = DateTime.Now;
             var start = end.AddSeconds(-3);
             var data = toArray(_rate[id][msgid]);
-            var msgrate = data.Where(a => a.dateTime > start && a.dateTime < end).Sum(a => a.value / 3.0);
-
-            return msgrate;
+            try
+            {
+                var starttime = data.First().dateTime;
+                starttime = starttime < start ? start : starttime;
+                var msgrate = data.Where(a =>
+                {
+                    return (a.dateTime > start && a.dateTime < end);
+                }).Sum(a => a.value / (end - starttime).TotalSeconds);
+                return msgrate;
+            }
+            catch
+            {
+                return 0;
+            }
         }
 
         public void Add(MAVLink.MAVLinkMessage message)

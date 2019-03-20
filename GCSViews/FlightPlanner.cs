@@ -1298,50 +1298,69 @@ namespace MissionPlanner.GCSViews
                 }
                 catch (Exception ex)
                 {
+                    CustomMessageBox.Show(Strings.ERROR, Strings.Invalid_home_location);
                     log.Error(ex);
                 }
             }
 
-            var overlay = new WPOverlay();
-
-            overlay.CreateOverlay((MAVLink.MAV_FRAME) (altmode) CMB_altmode.SelectedValue, home, GetCommandList(), double.Parse(TXT_WPRad.Text) / CurrentState.multiplieralt,
-                double.Parse(TXT_loiterrad.Text) / CurrentState.multiplieralt);
-
-            MainMap.HoldInvalidation = true;
-
-            var existing = MainMap.Overlays.Where(a => a.Id == overlay.overlay.Id).ToList();
-            foreach (var b in existing)
+            try
             {
-                MainMap.Overlays.Remove(b);
-            }
+                var commandlist = GetCommandList();
 
-            MainMap.Overlays.Insert(1, overlay.overlay);
+                var overlay = new WPOverlay();
 
-            overlay.overlay.ForceUpdate();
-
-            lbl_distance.Text = rm.GetString("lbl_distance.Text") + ": " +
-                                FormatDistance((
-                                    overlay.route.Points.Select(a => (PointLatLngAlt) a)
-                                        .Aggregate(0.0, (d, p1, p2) => d + p1.GetDistance(p2)) + 
-                                    overlay.homeroute.Points.Select(a => (PointLatLngAlt) a)
-                                        .Aggregate(0.0, (d, p1, p2) => d + p1.GetDistance(p2)))/1000.0, false);
-
-            setgradanddistandaz(overlay.pointlist, home);
-
-            if (overlay.pointlist.Count <= 1)
-            {
-                RectLatLng? rect = MainMap.GetRectOfAllMarkers(overlay.overlay.Id);
-                if (rect.HasValue)
+                try
                 {
-                    MainMap.Position = rect.Value.LocationMiddle;
+                    overlay.CreateOverlay((MAVLink.MAV_FRAME) (altmode) CMB_altmode.SelectedValue, home, commandlist,
+                        double.Parse(TXT_WPRad.Text) / CurrentState.multiplieralt,
+                        double.Parse(TXT_loiterrad.Text) / CurrentState.multiplieralt);
+                }
+                catch (FormatException ex)
+                {
+                    CustomMessageBox.Show(Strings.ERROR, Strings.InvalidNumberEntered + "\n" +"WP Radius or Loiter Radius");
                 }
 
-                MainMap_OnMapZoomChanged();
+                MainMap.HoldInvalidation = true;
+
+                var existing = MainMap.Overlays.Where(a => a.Id == overlay.overlay.Id).ToList();
+                foreach (var b in existing)
+                {
+                    MainMap.Overlays.Remove(b);
+                }
+
+                MainMap.Overlays.Insert(1, overlay.overlay);
+
+                overlay.overlay.ForceUpdate();
+
+                lbl_distance.Text = rm.GetString("lbl_distance.Text") + ": " +
+                                    FormatDistance((
+                                                       overlay.route.Points.Select(a => (PointLatLngAlt) a)
+                                                           .Aggregate(0.0, (d, p1, p2) => d + p1.GetDistance(p2)) +
+                                                       overlay.homeroute.Points.Select(a => (PointLatLngAlt) a)
+                                                           .Aggregate(0.0, (d, p1, p2) => d + p1.GetDistance(p2))) /
+                                                   1000.0, false);
+
+                setgradanddistandaz(overlay.pointlist, home);
+
+                if (overlay.pointlist.Count <= 1)
+                {
+                    RectLatLng? rect = MainMap.GetRectOfAllMarkers(overlay.overlay.Id);
+                    if (rect.HasValue)
+                    {
+                        MainMap.Position = rect.Value.LocationMiddle;
+                    }
+
+                    MainMap_OnMapZoomChanged();
+                }
+
+                pointlist = overlay.pointlist;
+
+                MainMap.Refresh();
             }
-
-            pointlist = overlay.pointlist;
-
-            MainMap.Refresh();
+            catch (FormatException ex)
+            {
+                CustomMessageBox.Show(Strings.ERROR, Strings.InvalidNumberEntered + "\n" + ex.Message);
+            }
         }
 
         void setgradanddistandaz(List<PointLatLngAlt> pointlist, PointLatLngAlt HomeLocation)
@@ -1811,8 +1830,13 @@ namespace MissionPlanner.GCSViews
                 message =>
                 {
                     var data = ((MAVLink.mavlink_mission_request_t)message.data);
+                    // check what we sent is what the message is.
                     if (MainV2.comPort.MAV.sysid != message.sysid &&
                         MainV2.comPort.MAV.compid != message.compid)
+                        return true;
+                    // check this gcs sent it
+                    if (data.target_system != MAVLinkInterface.gcssysid ||
+                        data.target_component != (byte) MAVLink.MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER)
                         return true;
                     reqno = data.seq;
                     Console.WriteLine("MISSION_REQUEST " + reqno);
@@ -3861,7 +3885,14 @@ namespace MissionPlanner.GCSViews
             Commands_RowEnter(null,
                 new DataGridViewCellEventArgs(Commands.CurrentCell.ColumnIndex, Commands.CurrentCell.RowIndex));
 
-            writeKML();
+            try
+            {
+                writeKML();
+            }
+            catch (FormatException)
+            {
+                CustomMessageBox.Show(Strings.ERROR, Strings.InvalidNumberEntered);
+            }
         }
 
         private void MainMap_Resize(object sender, EventArgs e)
@@ -4713,7 +4744,7 @@ namespace MissionPlanner.GCSViews
                             {
                                 geofenceoverlay.Markers.Clear();
                                 geofenceoverlay.Markers.Add(
-                                    new GMarkerGoogle(new PointLatLng(double.Parse(items[0]), double.Parse(items[1])),
+                                    new GMarkerGoogle(new PointLatLng(double.Parse(items[0], CultureInfo.InvariantCulture), double.Parse(items[1], CultureInfo.InvariantCulture)),
                                         GMarkerGoogleType.red)
                                     {
                                         ToolTipMode = MarkerTooltipMode.OnMouseOver,
@@ -4723,9 +4754,12 @@ namespace MissionPlanner.GCSViews
                             }
                             else
                             {
-                                drawnpolygon.Points.Add(new PointLatLng(double.Parse(items[0]), double.Parse(items[1])));
-                                addpolygonmarkergrid(drawnpolygon.Points.Count.ToString(), double.Parse(items[1]),
-                                    double.Parse(items[0]), 0);
+                                drawnpolygon.Points.Add(new PointLatLng(
+                                    double.Parse(items[0], CultureInfo.InvariantCulture),
+                                    double.Parse(items[1], CultureInfo.InvariantCulture)));
+                                addpolygonmarkergrid(drawnpolygon.Points.Count.ToString(),
+                                    double.Parse(items[1], CultureInfo.InvariantCulture),
+                                    double.Parse(items[0], CultureInfo.InvariantCulture), 0);
                             }
                             a++;
                         }
@@ -4768,29 +4802,29 @@ namespace MissionPlanner.GCSViews
 
                         sw.WriteLine("#saved by APM Planner " + Application.ProductVersion);
 
-                        sw.WriteLine(geofenceoverlay.Markers[0].Position.Lat + " " +
-                                     geofenceoverlay.Markers[0].Position.Lng);
+                        sw.WriteLine(geofenceoverlay.Markers[0].Position.Lat.ToString(CultureInfo.InvariantCulture) + " " +
+                                     geofenceoverlay.Markers[0].Position.Lng.ToString(CultureInfo.InvariantCulture));
                         if (drawnpolygon.Points.Count > 0)
                         {
                             foreach (var pll in drawnpolygon.Points)
                             {
-                                sw.WriteLine(pll.Lat + " " + pll.Lng);
+                                sw.WriteLine(pll.Lat.ToString(CultureInfo.InvariantCulture) + " " + pll.Lng.ToString(CultureInfo.InvariantCulture));
                             }
 
                             PointLatLng pll2 = drawnpolygon.Points[0];
 
-                            sw.WriteLine(pll2.Lat + " " + pll2.Lng);
+                            sw.WriteLine(pll2.Lat.ToString(CultureInfo.InvariantCulture) + " " + pll2.Lng.ToString(CultureInfo.InvariantCulture));
                         }
                         else
                         {
                             foreach (var pll in geofencepolygon.Points)
                             {
-                                sw.WriteLine(pll.Lat + " " + pll.Lng);
+                                sw.WriteLine(pll.Lat.ToString(CultureInfo.InvariantCulture) + " " + pll.Lng.ToString(CultureInfo.InvariantCulture));
                             }
 
                             PointLatLng pll2 = geofencepolygon.Points[0];
 
-                            sw.WriteLine(pll2.Lat + " " + pll2.Lng);
+                            sw.WriteLine(pll2.Lat.ToString(CultureInfo.InvariantCulture) + " " + pll2.Lng.ToString(CultureInfo.InvariantCulture));
                         }
 
                         sw.Close();
@@ -5725,12 +5759,12 @@ namespace MissionPlanner.GCSViews
                         {
                             foreach (var pll in drawnpolygon.Points)
                             {
-                                sw.WriteLine(pll.Lat + " " + pll.Lng);
+                                sw.WriteLine(pll.Lat.ToString(CultureInfo.InvariantCulture) + " " + pll.Lng.ToString(CultureInfo.InvariantCulture));
                             }
 
                             PointLatLng pll2 = drawnpolygon.Points[0];
 
-                            sw.WriteLine(pll2.Lat + " " + pll2.Lng);
+                            sw.WriteLine(pll2.Lat.ToString(CultureInfo.InvariantCulture) + " " + pll2.Lng.ToString(CultureInfo.InvariantCulture));
                         }
 
                         sw.Close();
@@ -5771,10 +5805,13 @@ namespace MissionPlanner.GCSViews
 
                             if (items.Length < 2)
                                 continue;
-                            
-                            drawnpolygon.Points.Add(new PointLatLng(double.Parse(items[0]), double.Parse(items[1])));
-                            addpolygonmarkergrid(drawnpolygon.Points.Count.ToString(), double.Parse(items[1]),
-                                double.Parse(items[0]), 0);
+
+                            drawnpolygon.Points.Add(new PointLatLng(
+                                double.Parse(items[0], CultureInfo.InvariantCulture),
+                                double.Parse(items[1], CultureInfo.InvariantCulture)));
+                            addpolygonmarkergrid(drawnpolygon.Points.Count.ToString(),
+                                double.Parse(items[1], CultureInfo.InvariantCulture),
+                                double.Parse(items[0], CultureInfo.InvariantCulture), 0);
 
                             a++;
                         }
@@ -6248,8 +6285,8 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                             foreach (GMapMarkerRallyPt mark in rallypointoverlay.Markers)
                             {
-                                sw.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}", "RALLY", mark.Position.Lat,
-                                    mark.Position.Lng, mark.Alt, 0, 0, 0);
+                                sw.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}", "RALLY", mark.Position.Lat.ToString(CultureInfo.InvariantCulture),
+                                    mark.Position.Lng.ToString(CultureInfo.InvariantCulture), mark.Alt.ToString(CultureInfo.InvariantCulture), 0, 0, 0);
                             }
                         }
                     }
@@ -6285,12 +6322,12 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                             MAVLink.mavlink_rally_point_t rally = new MAVLink.mavlink_rally_point_t();
 
-                            rally.lat = (int) (float.Parse(items[1])*1e7);
-                            rally.lng = (int) (float.Parse(items[2])*1e7);
-                            rally.alt = (short) float.Parse(items[3]);
-                            rally.break_alt = (short) float.Parse(items[4]);
-                            rally.land_dir = (ushort) float.Parse(items[5]);
-                            rally.flags = byte.Parse(items[6]);
+                            rally.lat = (int) (float.Parse(items[1],CultureInfo.InvariantCulture)*1e7);
+                            rally.lng = (int) (float.Parse(items[2], CultureInfo.InvariantCulture) *1e7);
+                            rally.alt = (short) float.Parse(items[3], CultureInfo.InvariantCulture);
+                            rally.break_alt = (short) float.Parse(items[4], CultureInfo.InvariantCulture);
+                            rally.land_dir = (ushort) float.Parse(items[5], CultureInfo.InvariantCulture);
+                            rally.flags = byte.Parse(items[6], CultureInfo.InvariantCulture);
 
                             if (a == 0)
                             {

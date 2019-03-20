@@ -1028,5 +1028,12 @@ namespace MissionPlanner
                 }
             }
         }
+
+        private void but_cmdlong_Click(object sender, EventArgs e)
+        {
+            var rate = 35;
+            MainV2.comPort.doCommand(MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL, (float) MAVLink.MAVLINK_MSG_ID.VFR_HUD,
+                1 / (float) rate * 1000000.0f, 0, 0, 0, 0, 0);
+        }
     }
 }

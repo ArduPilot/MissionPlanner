@@ -8,18 +8,14 @@ namespace MissionPlanner.Utilities
 {
     public class Device
     {
-//ph2
-//COMPASS_DEV_ID	73225
-//COMPASS_DEV_ID2	262434
-//COMPASS_DEV_ID3	131874
-
         // from ap_hal\device.h
         public enum BusType
         {
             BUS_TYPE_UNKNOWN = 0,
             BUS_TYPE_I2C = 1,
             BUS_TYPE_SPI = 2,
-            BUS_TYPE_UAVCAN = 3
+            BUS_TYPE_UAVCAN = 3,
+            BUS_TYPE_SITL = 4
         }
 
         public enum Speed
@@ -68,8 +64,8 @@ namespace MissionPlanner.Utilities
 
             public override string ToString()
             {
-                return string.Format("bus type {0} bus {1} address (i2c addr or spi CS) {2} devtype {3} or {4} ", bus_type,
-                    bus, address, devtype, devtypeimu);
+                return string.Format("devid {5} bus type {0} bus {1} address {2} devtype {3} or {4} ", bus_type,
+                    bus, address, devtype, devtypeimu, devid);
             }
 
             // from AP_Compass_Backend.h
@@ -86,9 +82,13 @@ namespace MissionPlanner.Utilities
                 DEVTYPE_IST8310 = 0x0A,
                 DEVTYPE_ICM20948 = 0x0B,
                 DEVTYPE_MMC3416 = 0x0C,
-                DEVTYPE_QMC5883L = 0x0D
+                DEVTYPE_QMC5883L = 0x0D,
+                DEVTYPE_MAG3110 = 0x0E,
+                DEVTYPE_SITL = 0x0F,
+                DEVTYPE_IST8308 = 0x10,
             }
 
+            //AP_InertialSensor_Backend.h
             public enum imu_types
             {
                 DEVTYPE_BMI160 = 0x09,
@@ -97,9 +97,17 @@ namespace MissionPlanner.Utilities
                 DEVTYPE_ACC_BMA180 = 0x12,
                 DEVTYPE_ACC_MPU6000 = 0x13,
                 DEVTYPE_ACC_MPU9250 = 0x16,
+                DEVTYPE_ACC_IIS328DQ = 0x17,
+                DEVTYPE_ACC_LSM9DS1 = 0x18,
                 DEVTYPE_GYR_MPU6000 = 0x21,
                 DEVTYPE_GYR_L3GD20 = 0x22,
-                DEVTYPE_GYR_MPU9250 = 0x24
+                DEVTYPE_GYR_MPU9250 = 0x24,
+                DEVTYPE_GYR_I3G4250D = 0x25,
+                DEVTYPE_GYR_LSM9DS1 = 0x26,
+                DEVTYPE_INS_ICM20789 = 0x27,
+                DEVTYPE_INS_ICM20689 = 0x28,
+                DEVTYPE_INS_BMI055 = 0x29,
+                DEVTYPE_SITL = 0x2A,
             };
 
         public enum px4_i2c_bus

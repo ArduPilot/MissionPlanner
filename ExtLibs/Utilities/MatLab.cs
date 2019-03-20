@@ -267,6 +267,9 @@ namespace MissionPlanner.Log
                 {
                     MAVLink.MAVLinkMessage packet = parse.ReadPacket(cs);
 
+                    if(packet == null)
+                        continue;
+
                     object data = packet.data;
 
                     if (data == null)

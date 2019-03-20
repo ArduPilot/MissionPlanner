@@ -1,4 +1,6 @@
-﻿namespace MissionPlanner.GCSViews.ConfigurationView
+﻿using MissionPlanner.Controls;
+
+namespace MissionPlanner.GCSViews.ConfigurationView
 {
     partial class ConfigBatteryMonitoring
     {
@@ -36,7 +38,7 @@
             this.label29 = new System.Windows.Forms.Label();
             this.label30 = new System.Windows.Forms.Label();
             this.TXT_battcapacity = new System.Windows.Forms.TextBox();
-            this.CMB_batmontype = new System.Windows.Forms.ComboBox();
+            this.CMB_batmontype = new MavlinkComboBox();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.CMB_apmversion = new System.Windows.Forms.ComboBox();
@@ -78,7 +80,8 @@
             resources.GetString("CMB_batmonsensortype.Items5"),
             resources.GetString("CMB_batmonsensortype.Items6"),
             resources.GetString("CMB_batmonsensortype.Items7"),
-            resources.GetString("CMB_batmonsensortype.Items8")});
+            resources.GetString("CMB_batmonsensortype.Items8"),
+            resources.GetString("CMB_batmonsensortype.Items9")});
             resources.ApplyResources(this.CMB_batmonsensortype, "CMB_batmonsensortype");
             this.CMB_batmonsensortype.Name = "CMB_batmonsensortype";
             this.CMB_batmonsensortype.SelectedIndexChanged += new System.EventHandler(this.CMB_batmonsensortype_SelectedIndexChanged);
@@ -277,7 +280,7 @@
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.TextBox TXT_battcapacity;
-        private System.Windows.Forms.ComboBox CMB_batmontype;
+        private MavlinkComboBox CMB_batmontype;
         private System.Windows.Forms.PictureBox pictureBox5;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.ComboBox CMB_apmversion;

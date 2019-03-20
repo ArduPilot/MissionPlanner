@@ -5,10 +5,6 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
-//using KMLib;
-//using KMLib.Feature;
-//using KMLib.Geometry;
-//using Core.Geometry;
 using ICSharpCode.SharpZipLib.Zip;
 using ICSharpCode.SharpZipLib.Core;
 using SharpKml.Base;
@@ -376,14 +372,7 @@ namespace MissionPlanner.Log
 
         private void Log_FormClosing(object sender, FormClosingEventArgs e)
         {
-            try
-            {
-                //   if (selectform != null)
-                //      selectform.Close();
-            }
-            catch
-            {
-            }
+
         }
 
         private void BUT_redokml_Click(object sender, EventArgs e)
@@ -1272,53 +1261,6 @@ namespace MissionPlanner.Log
             }
         }
 
-        private void AddDataOption(Form selectform, string Name)
-        {
-            CheckBox chk_box = new CheckBox();
-
-            log.Info("Add Option " + Name);
-
-            chk_box.Text = Name;
-            chk_box.Name = Name;
-            chk_box.Location = new System.Drawing.Point(x, y);
-            chk_box.Size = new System.Drawing.Size(100, 20);
-            chk_box.CheckedChanged += new EventHandler(chk_box_CheckedChanged);
-            chk_box.MouseUp += new MouseEventHandler(chk_box_MouseUp);
-
-            selectform.Controls.Add(chk_box);
-
-            Application.DoEvents();
-
-            x += 0;
-            y += 20;
-
-            if (y > selectform.Height - 60)
-            {
-                x += 100;
-                y = 10;
-
-                selectform.Width = x + 100;
-            }
-        }
-
-        void chk_box_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (e.Button == System.Windows.Forms.MouseButtons.Right)
-            {
-                // dont action a already draw item
-                if (!((CheckBox) sender).Checked)
-                {
-                    rightclick = true;
-                    ((CheckBox) sender).Checked = true;
-                }
-                else
-                {
-                    ((CheckBox) sender).Checked = false;
-                }
-                rightclick = false;
-            }
-        }
-
         int colorStep = 0;
         bool rightclick = false;
 
@@ -1749,6 +1691,16 @@ namespace MissionPlanner.Log
 
                 if (e.Node.Checked)
                 {
+                    // has it already been graphed?
+                    foreach (var item in zg1.GraphPane.CurveList)
+                    {
+                        if (item.Label.Text.StartsWith(e.Node.Text) &&
+                            item.Label.Text.Contains(e.Node.Parent.Text.ToLower()))
+                        {
+                            return;
+                        }
+                    }
+
                     if (e.Button == System.Windows.Forms.MouseButtons.Right)
                     {
                         GraphItem(e.Node.Parent.Text, e.Node.Text, false);

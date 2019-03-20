@@ -11,6 +11,7 @@ using System.Threading;
 using System.Timers;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
+using Flurl.Util;
 using log4net;
 using Microsoft.Scripting.Utils;
 using MissionPlanner.Controls;
@@ -41,6 +42,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public void Activate()
         {
             startup = true;
+
+            _changes.Clear();
 
             BUT_writePIDS.Enabled = MainV2.comPort.BaseStream.IsOpen;
             BUT_rerequestparams.Enabled = MainV2.comPort.BaseStream.IsOpen;
@@ -235,6 +238,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
             Params.Refresh();
+            CustomMessageBox.Show("Parameters successfully saved.", "Saved");
         }
 
         private void BUT_compare_Click(object sender, EventArgs e)
@@ -504,6 +508,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 Params.Visible = true;
             }
+
+            if (chk_modified.Checked)
+            {
+                var filter = String.Format("({0})", String.Join("|", _changes.Keys.Select(a => a.ToString())));
+
+                Params.ModelFilter = TextMatchFilter.Regex(Params, filter);
+                Params.DefaultRenderer = new HighlightTextRenderer((TextMatchFilter)Params.ModelFilter);
+                Params.UseFiltering = true;
+            }
         }
 
         private void BUT_paramfileload_Click(object sender, EventArgs e)
@@ -657,6 +670,23 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 else
                     e.Item.BackColor = BackColor;
             }
+
+            var item = e.Model as data;
+            if (item != null)
+            {
+                //olvColumn4.WordWrap = true;
+                //olvColumn5.WordWrap = true;
+                //Params.RowHeight = 26;
+                return;
+
+               var size = TextRenderer.MeasureText(item.desc, Params.Font, new Size(olvColumn5.Width, 26), TextFormatFlags.WordBreak);
+                if(size.Height >= Params.RowHeight)
+                    Params.RowHeight = Math.Min(size.Height, 50);
+
+                size = TextRenderer.MeasureText(item.range, Params.Font, new Size(olvColumn4.Width, 26), TextFormatFlags.WordBreak);
+                if (size.Height >= Params.RowHeight)
+                    Params.RowHeight = Math.Min(size.Height,50);
+            }
         }
 
         public struct paramsettings // hk's
@@ -759,6 +789,25 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             CustomMessageBox.Show("Parameters committed to non-volatile memory");
             return;
+        }
+
+        private void Params_CellToolTipShowing(object sender, ToolTipShowingEventArgs e)
+        {
+
+            
+        }
+
+        private void Params_CellOver(object sender, CellOverEventArgs e)
+        {
+            if(e.ColumnIndex == 4 || e.ColumnIndex == 5)
+            {
+           //     toolTip1.Show(e.HitTest.Item.Text, this.Parent, 3000);
+            }
+            }
+
+        private void chk_modified_CheckedChanged(object sender, EventArgs e)
+        {
+            FilterTimerOnElapsed(null, null);
         }
     }
 }

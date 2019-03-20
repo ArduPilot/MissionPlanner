@@ -25,7 +25,6 @@ namespace MissionPlanner.Log
         string[] ntunlast = new string[] {"", "", "", "", "", "", "", "", "", "", "", "", "", ""};
 
         // wp list
-        List<PointLatLngAlt> cmd = new List<PointLatLngAlt>();
         List<string> cmdraw = new List<string>();
 
         Point3D oldlastpos = new Point3D();
@@ -89,22 +88,6 @@ namespace MissionPlanner.Log
                 else if (items[0].Contains("CMD")) // "CMD", "QHHHfffffff","TimeUS,CTot,CNum,CId,Prm1,Prm2,Prm3,Prm4,Lat,Lng,Alt" }, \
                 {
                     cmdraw.Add(line);
-
-                    int cidindex = dflog.FindMessageOffset("CMD", "CId");
-
-                    if (int.Parse(items[cidindex]) <= (int) MAVLink.MAV_CMD.LAST) // wps
-                    {
-                        int cmdflatindex = dflog.FindMessageOffset("CMD", "Lat");
-                        int cmdlngindex = dflog.FindMessageOffset("CMD", "Lng");
-                        int cmdaltindex = dflog.FindMessageOffset("CMD", "Alt");
-
-                        int cmdnumindex = dflog.FindMessageOffset("CMD", "CNum");
-
-                        cmd.Add(new PointLatLngAlt(
-                            double.Parse(items[cmdflatindex], CultureInfo.InvariantCulture),
-                            double.Parse(items[cmdlngindex], CultureInfo.InvariantCulture),
-                            double.Parse(items[cmdaltindex], CultureInfo.InvariantCulture), items[cmdnumindex]));
-                    }
                 }
                 else if (items[0].Contains("MOD"))
                 {
@@ -375,7 +358,6 @@ namespace MissionPlanner.Log
             modelist.Clear();
             flightdata.Clear();
             position = new List<Core.Geometry.Point3D>[200];
-            cmd.Clear();
             cmdraw.Clear();
         }
 
@@ -926,25 +908,60 @@ gnssId GNSS Type
             lswp.Extrude = true;
 
             Coordinates coordswp = new Coordinates();
-
-            foreach (PointLatLngAlt p1 in cmd)
+            int lastwp = 0;
+            foreach (var line in cmdraw)
             {
-                if (p1.Lng == 0 && p1.Lat == 0)
-                    continue;
+                var item = dflog.GetDFItemFromLine(line, 0);
 
-                coordswp.Add(new Point3D(p1.Lng, p1.Lat, p1.Alt));
+                if (int.Parse(item["CId"]) <= (int)MAVLink.MAV_CMD.LAST) // wps
+                {
+                    var wpno = int.Parse(item["CNum"]);
+
+                    if (wpno < lastwp)
+                    {
+                        lswp.coordinates = coordswp;
+
+                        Placemark pmwp = new Placemark();
+
+                        pmwp.name = "Waypoints ";
+                        //pm.styleUrl = "#yellowLineGreenPoly";
+                        pmwp.LineString = lswp;
+
+                        if (coordswp.Count > 0)
+                            waypoints.Add(pmwp);
+
+                        lswp = new LineString();
+                        lswp.AltitudeMode = AltitudeMode.relativeToGround;
+                        lswp.Extrude = true;
+
+                        coordswp = new Coordinates();
+                    }
+
+                    lastwp = wpno;
+
+                    var lng = double.Parse(item["Lng"], CultureInfo.InvariantCulture);
+                    var lat = double.Parse(item["Lat"], CultureInfo.InvariantCulture);
+                    var alt = double.Parse(item["Alt"], CultureInfo.InvariantCulture);
+                    if (wpno == 0)
+                        alt = 0;
+
+                    if (lat == 0 && lng == 0)
+                        continue;
+
+                    coordswp.Add(new Point3D(lng, lat, alt));
+                }
             }
 
             lswp.coordinates = coordswp;
 
-            Placemark pmwp = new Placemark();
+            Placemark pmwp2 = new Placemark();
 
-            pmwp.name = "Waypoints";
+            pmwp2.name = "Waypoints";
             //pm.styleUrl = "#yellowLineGreenPoly";
-            pmwp.LineString = lswp;
+            pmwp2.LineString = lswp;
 
             if (coordswp.Count > 0)
-                waypoints.Add(pmwp);
+                waypoints.Add(pmwp2);
 
             int a = 0;
             int l = -1;
@@ -1076,7 +1093,6 @@ gnssId GNSS Type
             modelist.Clear();
             flightdata.Clear();
             position = new List<Core.Geometry.Point3D>[200];
-            cmd.Clear();
             cmdraw.Clear();
         }
 

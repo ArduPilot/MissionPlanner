@@ -57,6 +57,8 @@ namespace MissionPlanner.Swarm
         {
             InitializeComponent();
 
+            this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+
             this.Resize += Grid_Resize;
         }
         private void Grid_Resize(object sender, EventArgs e)
@@ -69,7 +71,7 @@ namespace MissionPlanner.Swarm
             base.OnPaint(e);
             MakeCurrent();
             OnPaint(new PaintEventArgsI(new GL2(this.Handle, Width, Height), e.ClipRectangle));
-            this.SwapBuffers();
+            this.SwapBuffers();          
         }
 
         void OnPaint(PaintEventArgsI e)

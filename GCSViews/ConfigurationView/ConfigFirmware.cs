@@ -410,7 +410,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     {
                         if (fd.FileName.ToLower().EndsWith(".px4") || fd.FileName.ToLower().EndsWith(".apj"))
                         {
-                            if (solo.Solo.is_solo_alive)
+                            if (solo.Solo.is_solo_alive && 
+                                CustomMessageBox.Show("Solo","Is this a Solo?",CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
                             {
                                 boardtype = BoardDetect.boards.solo;
                             }

@@ -451,13 +451,21 @@ namespace MissionPlanner.Utilities
                 {
                     utmpos newstart = newpos(closest.p1, angle, -leadin);
                     newstart.Tag = "S";
-
                     addtomap(newstart, "S");
                     ans.Add(newstart);
 
-                    closest.p1.Tag = "SM";
-                    addtomap(closest.p1, "SM");
-                    ans.Add(closest.p1);
+                    if (leadin < 0)
+                    {
+                        var p2 = new utmpos(newstart) { Tag = "SM" };
+                        addtomap(p2, "SM");
+                        ans.Add(p2);
+                    }
+                    else
+                    {
+                        closest.p1.Tag = "SM";
+                        addtomap(closest.p1, "SM");
+                        ans.Add(closest.p1);
+                    }
 
                     if (spacing > 0)
                     {
@@ -475,11 +483,21 @@ namespace MissionPlanner.Utilities
                         }
                     }
 
-                    closest.p2.Tag = "ME";
-                    addtomap(closest.p2, "ME");
-                    ans.Add(closest.p2);
-
                     utmpos newend = newpos(closest.p2, angle, overshoot1);
+
+                    if (overshoot1 < 0)
+                    {
+                        var p2 = new utmpos(newend) {Tag = "ME"};
+                        addtomap(p2, "ME");
+                        ans.Add(p2);
+                    }
+                    else
+                    {
+                        closest.p2.Tag = "ME";
+                        addtomap(closest.p2, "ME");
+                        ans.Add(closest.p2);
+                    }
+
                     newend.Tag = "E";
                     addtomap(newend, "E");
                     ans.Add(newend);
@@ -499,9 +517,18 @@ namespace MissionPlanner.Utilities
                     addtomap(newstart, "S");
                     ans.Add(newstart);
 
-                    closest.p2.Tag = "SM";
-                    addtomap(closest.p2, "SM");
-                    ans.Add(closest.p2);
+                    if (leadin < 0)
+                    {
+                        var p2 = new utmpos(newstart) {Tag = "SM"};
+                        addtomap(p2, "SM");
+                        ans.Add(p2);
+                    }
+                    else
+                    {
+                        closest.p2.Tag = "SM";
+                        addtomap(closest.p2, "SM");
+                        ans.Add(closest.p2);
+                    }
 
                     if (spacing > 0)
                     {
@@ -519,11 +546,21 @@ namespace MissionPlanner.Utilities
                         }
                     }
 
-                    closest.p1.Tag = "ME";
-                    addtomap(closest.p1, "ME");
-                    ans.Add(closest.p1);
-
                     utmpos newend = newpos(closest.p1, angle, -overshoot2);
+
+                    if (overshoot2 < 0)
+                    {
+                        var p2 = new utmpos(newend) { Tag = "ME" };
+                        addtomap(p2, "ME");
+                        ans.Add(p2);
+                    }
+                    else
+                    {
+                        closest.p1.Tag = "ME";
+                        addtomap(closest.p1, "ME");
+                        ans.Add(closest.p1);
+                    }
+            
                     newend.Tag = "E";
                     addtomap(newend, "E");
                     ans.Add(newend);
@@ -682,8 +719,30 @@ namespace MissionPlanner.Utilities
 
         static linelatlng findClosestLine(utmpos start, List<linelatlng> list, double minDistance, double angle)
         {
+            if (minDistance == 0)
+            {
+                linelatlng answer = list[0];
+                double shortest = double.MaxValue;
+
+                foreach (linelatlng line in list)
+                {
+                    double ans1 = start.GetDistance(line.p1);
+                    double ans2 = start.GetDistance(line.p2);
+                    utmpos shorterpnt = ans1 < ans2 ? line.p1 : line.p2;
+
+                    if (shortest > start.GetDistance(shorterpnt))
+                    {
+                        answer = line;
+                        shortest = start.GetDistance(shorterpnt);
+                    }
+                }
+
+                return answer;
+            }
+
+
             // By now, just add 5.000 km to our lines so they are long enough to allow intersection
-            double METERS_TO_EXTEND = 5000000;
+            double METERS_TO_EXTEND = 5000;
 
             double perperndicularOrientation = AddAngle(angle, 90);
 
@@ -708,17 +767,15 @@ namespace MissionPlanner.Utilities
 
             foreach (linelatlng line in list)
             {
-                // Extend line at both ends so it intersecs for sure with our perpendicular line
-                utmpos extended_line_start = newpos(line.p1, angle, -METERS_TO_EXTEND);
-                utmpos extended_line_stop = newpos(line.p2, angle, METERS_TO_EXTEND);
                 // Calculate intersection point
-                utmpos p = FindLineIntersection(extended_line_start, extended_line_stop, start_perpendicular_line, stop_perpendicular_line);
+                utmpos p = FindLineIntersectionExtension(line.p1, line.p2, start_perpendicular_line, stop_perpendicular_line);
                 
                 // Store it
                 intersectedPoints[p] = line;
 
                 // Calculate distances between interesected point and "start" (i.e. line and start)
                 double distance_p = start.GetDistance(p);
+
                 if (!ordered_min_to_max.ContainsKey(distance_p))
                     ordered_min_to_max.Add(distance_p, p);
             }
@@ -742,9 +799,9 @@ namespace MissionPlanner.Utilities
             if (key == double.MaxValue)
                 key = ordered_keys[ordered_keys.Count-1];
 
-            // return line
-            return intersectedPoints[ordered_min_to_max[key]];
+            var filteredlist = intersectedPoints.Where(a => a.Key.GetDistance(start) >= key);
 
+            return findClosestLine(start, filteredlist.Select(a => a.Value).ToList(), 0, angle);
         }
 
         static bool PointInPolygon(utmpos p, List<utmpos> poly)

@@ -243,6 +243,9 @@ namespace MissionPlanner.Controls
                     JsonSerializer serializer = new JsonSerializer();
                     var obj = (JObject) serializer.Deserialize(reader);
 
+                    if (obj == null)
+                        return "";
+
                     foreach (var fwtype in obj)
                     {
                         var frames = fwtype.Value["frames"];

@@ -202,8 +202,6 @@ namespace MissionPlanner.Controls.BackstageView
 
             _items.Add(page);
 
-            DrawMenu(_activePage, false);
-
             return page;
         }
 
@@ -274,9 +272,6 @@ namespace MissionPlanner.Controls.BackstageView
                 }
             }
 
-            pnlMenu.Visible = false;
-            pnlMenu.SuspendLayout();
-
             pnlMenu.Controls.Clear();
 
             // reset back to 0
@@ -344,9 +339,7 @@ namespace MissionPlanner.Controls.BackstageView
                 }
             }
 
-            pnlMenu.ResumeLayout(false);
-            pnlMenu.PerformLayout();
-            pnlMenu.Visible = true;
+            pnlMenu.Invalidate();
         }
 
         private bool PageHasChildren(BackstageViewPage parent)
@@ -524,6 +517,9 @@ namespace MissionPlanner.Controls.BackstageView
 
         protected override void OnPaint(PaintEventArgs e)
         {
+            if (pnlMenu.Controls.Count == 0)
+                DrawMenu(null, false);
+
             base.OnPaint(e);
         }
 

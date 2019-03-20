@@ -9,6 +9,7 @@ using log4net;
 using ZedGraph; // Graphs
 using System.Xml;
 using System.Collections;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -1358,7 +1359,7 @@ namespace MissionPlanner.Log
                             b = date.XLDate;
                         }
 
-                        if (item.items.Length >= index)
+                        if (item.items.Length <= index)
                             continue;
 
                         string mode = "Err: " + ((DFLog.error_subsystem) int.Parse(item.items[index].ToString())) +
@@ -1435,7 +1436,7 @@ namespace MissionPlanner.Log
                             a = date.XLDate;
                         }
 
-                        if (item.items.Length >= index)
+                        if (item.items.Length <= index)
                             continue;
 
                         string mode = item.items[index].ToString().Trim();
@@ -1545,7 +1546,7 @@ namespace MissionPlanner.Log
                             a = date.XLDate;
                         }
 
-                        if(item.items.Length >= index)
+                        if(item.items.Length <= index)
                             continue;
 
                         string mode = item.items[index].ToString().Trim();
@@ -1627,7 +1628,7 @@ namespace MissionPlanner.Log
                             }
                         }
 
-                        if (item.items.Length >= index)
+                        if (item.items.Length <= index)
                             continue;
 
                         string time = double.Parse(item.items[index]).ToString();
@@ -2632,7 +2633,15 @@ namespace MissionPlanner.Log
             double x, y;
             zg1.GraphPane.ReverseTransform(ptClick, out x, out y);
 
-            GoToSample((int) x, true, false, true);
+            try
+            {
+                if (chk_time.Checked)
+                {
+                    x = dflog.GetLineNoFromTime(logdata, XDate.XLDateToDateTime(x));
+                }
+                //TODO - time fails
+                GoToSample((int) x, true, false, true);
+            } catch { }
         }
 
         private void scrollGrid(DataGridView dataGridView, int index)
@@ -3083,7 +3092,10 @@ namespace MissionPlanner.Log
 
         private void LogBrowse_Resize(object sender, EventArgs e)
         {
-            splitContainerZgGrid.SplitterDistance = splitContainerZgGrid.Height - splitContainerButGrid.Panel1.MinimumSize.Height - splitContainerButGrid.Panel2.Height;
+            if(chk_datagrid.Checked)
+                splitContainerZgGrid.SplitterDistance = this.Height / 2;
+            if (!chk_datagrid.Checked)
+                splitContainerZgGrid.SplitterDistance = this.Height - splitContainerButGrid.Panel2.Height;
         }
     }
 }

@@ -8,7 +8,7 @@
     <link href="css/site.css" rel="stylesheet" />
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    
+
     <script src="Cesium/Cesium.js"></script>
     <style>
         @import url(Cesium/Widgets/widgets.css);
@@ -19,8 +19,15 @@
 
 <script src="_framework/blazor.webassembly.js"></script>
 
-    <script>
-        /*
+<script src="hud.js"></script>
+
+<script src="http://smoothiecharts.org/smoothie.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+<script>
+
         var worker = new Worker("websocketworker.js");
 
         worker.onmessage = function (e) {
@@ -31,7 +38,7 @@
             }
             //console.log('Message received from worker');
         }
-        */
+        
         function initWebSocket() {
             if (window["WebSocket"]) {
                 var host = "ws://" + window.location.hostname + ":56781/websocket/raw";
@@ -106,8 +113,28 @@
                     if (window.console) console.log(exception);
                 }
             }
+
+            
+            var smoothie = new SmoothieChart();
+
+            smoothie.streamTo(document.getElementById("graphcanvas"),250);
+
+            // Data
+            line1 = new TimeSeries();
+            line2 = new TimeSeries();
+
+            // Add to SmoothieChart
+            smoothie.addTimeSeries(line1);
+            smoothie.addTimeSeries(line2);
+
+            drawChart();
         }
 
+        var line1item = "roll";
+    var line2item = "pitch";
+
+        var line1;
+        var line2;
         var dotNetArrayPtr = 0;
 
         function setNetBuffer1024(dotNetArrayPtrI) {
@@ -141,9 +168,61 @@
         });*/
 
     </script>
+    
+  
+<script>
+    google.charts.load('current', { 'packages': ['corechart'] });
+    //google.charts.setOnLoadCallback(drawChart);
+    var options;
+    var data;
+    var chart;
+
+    function drawChart() {
+        data = new google.visualization.DataTable();
+        data.addColumn('date', 'Time');
+        data.addColumn('number', line1item);
+        data.addColumn('number', line2item);
+	
+        data.addRows([]);
+
+        options = {
+            title: 'Graph',
+            curveType: 'function',
+            legend: { position: 'top' },
+            hAxis: {
+                format: 'hh:mm:ss',
+                gridlines: {count: 15}			
+            },
+            chartArea: {left: '5%', top: '15%', width: '90%', height: '80%'}
+        };
+
+        var id = document.getElementById('curve_chart');
+        chart = new google.visualization.LineChart(id);
+
+        chart.draw(data, options);
+
+        setTimeout("redrawchart()", 1000);
+    }
+	
+    function addData() {
+        if(data.getNumberOfRows() > 200)
+            data.removeRow(0);
+		
+        data.addRows([
+            [new Date(), eval(line1item), eval(line2item)]
+        ]);
+    }
+
+    function redrawchart()
+    {
+        setTimeout("redrawchart()", 1000);
+
+        chart.draw(data, options);
+    }
+</script>
 
 
-    <script>
+<script>
         var map;
         var viewer;
         var markers = [];
@@ -197,6 +276,15 @@
         function setPosition(mavno, lat, lng, altasl, roll, pitch, yaw) {
             if (lat == 0 || lng == 0 || altasl == 0)
                 return;
+
+            self.roll = roll;
+            self.pitch = pitch;
+            self.yaw = yaw;
+
+            line1.append(new Date().getTime(), roll);
+            line2.append(new Date().getTime(), pitch);
+
+            addData();
 
             if (first == 0 && altasl != 0) {
                 var takeoff_position = [Cesium.Cartographic.fromDegrees(
@@ -344,13 +432,9 @@
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDW05vWXeNIfZAN4Ter8gf4YLg8rPHZToc" async defer></script>
 
-    <script src="http://smoothiecharts.org/smoothie.js"></script>
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
-<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
     
-<input type="range"  min="0" max="100" />
+<!--<input type="range"  min="0" max="100" />-->
 <div id="coords"></div>
 
 </body>

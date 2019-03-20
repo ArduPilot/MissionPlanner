@@ -253,8 +253,8 @@ namespace MissionPlanner
             // 
             // MainV2
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             resources.ApplyResources(this, "$this");
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menu);
             this.KeyPreview = true;

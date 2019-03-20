@@ -9,6 +9,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.IO.Compression;
 using System.IO.Pipes;
+using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -1098,13 +1099,25 @@ namespace MissionPlanner.Utilities
 
             status?.Invoke(0, "Downloading..");
 
-            Download.ParallelDownloadFile(
-                "http://firmware.ardupilot.org/MissionPlanner/gstreamer/gstreamer-1.0-x86_64-1.12.4.zip",
-                output, status: status);
+            try
+            {
+                Download.ParallelDownloadFile(
+                    "http://firmware.ardupilot.org/MissionPlanner/gstreamer/gstreamer-1.0-x86_64-1.12.4.zip",
+                    output, status: status);
 
-            status?.Invoke(50, "Extracting..");
-            ZipFile.ExtractToDirectory(output, Settings.GetDataDirectory());
-            status?.Invoke(100, "Done.");
+                status?.Invoke(50, "Extracting..");
+                ZipFile.ExtractToDirectory(output, Settings.GetDataDirectory());
+                status?.Invoke(100, "Done.");
+            }
+            catch (WebException ex)
+            {
+                status?.Invoke(-1, "Error downloading file " + ex.ToString());
+                try
+                {
+                    if (File.Exists(output))
+                        File.Delete(output);
+                } catch { }
+            }
         }
     }
 }

@@ -172,7 +172,10 @@
     <value>7: ProfiCNC HV Power Module PX4</value>
   </data>
   <data name="CMB_batmonsensortype.Items8" xml:space="preserve">
-    <value>8: Pixhack v5</value>
+    <value>8: CUAV HV PM</value>
+  </data>
+  <data name="CMB_batmonsensortype.Items9" xml:space="preserve">
+    <value>9: Holybro Pixhawk4 PM</value>
   </data>
   <data name="CMB_batmonsensortype.Location" type="System.Drawing.Point, System.Drawing">
     <value>160, 68</value>
@@ -337,7 +340,7 @@
     <value>17, 17</value>
   </metadata>
   <data name="CMB_apmversion.Items" xml:space="preserve">
-    <value>0: APM1</value>
+    <value>0: CUAV V5 or APM1</value>
   </data>
   <data name="CMB_apmversion.Items1" xml:space="preserve">
     <value>1: APM2 - 2.5 non 3DR</value>

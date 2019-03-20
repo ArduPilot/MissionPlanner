@@ -110,6 +110,7 @@
             this.but_blupdate = new MissionPlanner.Controls.MyButton();
             this.but_3dmap = new MissionPlanner.Controls.MyButton();
             this.but_anonlog = new MissionPlanner.Controls.MyButton();
+            this.but_cmdlong = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -674,9 +675,17 @@
             this.but_anonlog.UseVisualStyleBackColor = true;
             this.but_anonlog.Click += new System.EventHandler(this.but_anonlog_Click);
             // 
+            // but_cmdlong
+            // 
+            resources.ApplyResources(this.but_cmdlong, "but_cmdlong");
+            this.but_cmdlong.Name = "but_cmdlong";
+            this.but_cmdlong.UseVisualStyleBackColor = true;
+            this.but_cmdlong.Click += new System.EventHandler(this.but_cmdlong_Click);
+            // 
             // temp
             // 
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.but_cmdlong);
             this.Controls.Add(this.but_anonlog);
             this.Controls.Add(this.but_3dmap);
             this.Controls.Add(this.but_blupdate);
@@ -799,5 +808,6 @@
         private Controls.MyButton but_blupdate;
         private Controls.MyButton but_3dmap;
         private Controls.MyButton but_anonlog;
+        private Controls.MyButton but_cmdlong;
     }
 }

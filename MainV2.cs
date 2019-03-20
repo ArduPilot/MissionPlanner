@@ -568,6 +568,8 @@ namespace MissionPlanner
 
             MAVLinkInterface.UpdateADSBPlanePosition += adsb_UpdatePlanePosition;
 
+            MAVLinkInterface.gcssysid = (byte) Settings.Instance.GetByte("gcsid", MAVLinkInterface.gcssysid);
+
             Form splash = Program.Splash;
 
             splash?.Refresh();
@@ -3149,7 +3151,7 @@ namespace MissionPlanner
                                 "GStreamer", System.Windows.Forms.MessageBoxButtons.YesNo) ==
                             (int)System.Windows.Forms.DialogResult.Yes)
                         {
-                            GStreamer.DownloadGStreamer();
+                            UDPVideoShim.DownloadGStreamer();
                         }
                     }
 
@@ -3160,18 +3162,33 @@ namespace MissionPlanner
                             // 36 retrys
                             for (int i = 0; i < 36; i++)
                             {
-                                var st = GStreamer.StartA(cmds["gstream"]);
-                                if (st == null)
+                                try
                                 {
-                                    // prevent spam
-                                    Thread.Sleep(5000);
-                                }
-                                else
-                                {
-                                    while (st.IsAlive)
+                                    var st = GStreamer.StartA(cmds["gstream"]);
+                                    if (st == null)
                                     {
-                                        Thread.Sleep(1000);
+                                        // prevent spam
+                                        Thread.Sleep(5000);
                                     }
+                                    else
+                                    {
+                                        while (st.IsAlive)
+                                        {
+                                            Thread.Sleep(1000);
+                                        }
+                                    }
+                                }
+                                catch (BadImageFormatException ex)
+                                {
+                                    // not running on x64
+                                    log.Error(ex);
+                                    return;
+                                }
+                                catch (DllNotFoundException ex)
+                                {
+                                    // missing or failed download
+                                    log.Error(ex);
+                                    return;
                                 }
                             }
                         }) {IsBackground = true}.Start();
@@ -3656,7 +3673,11 @@ namespace MissionPlanner
 
         private void CMB_baudrate_TextChanged(object sender, EventArgs e)
         {
-            comPortBaud = int.Parse(_connectionControl.CMB_baudrate.Text);
+            if (!int.TryParse(_connectionControl.CMB_baudrate.Text, out comPortBaud))
+            {
+                CustomMessageBox.Show(Strings.ERROR, Strings.InvalidBaudRate);
+                return;
+            }
             var sb = new StringBuilder();
             int baud = 0;
             for (int i = 0; i < _connectionControl.CMB_baudrate.Text.Length; i++)
