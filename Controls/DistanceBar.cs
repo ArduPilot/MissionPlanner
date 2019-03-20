@@ -81,6 +81,7 @@ namespace MissionPlanner.Controls
             matrix.Translate(this.Left, this.Top);
             e.Graphics.Transform = matrix;
             OnPaint(e);
+            e.Graphics.ResetTransform();
         }
 
         protected override void OnPaint(PaintEventArgs e)

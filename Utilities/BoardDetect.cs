@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Management;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Threading;
 using log4net;
@@ -20,6 +21,7 @@ namespace MissionPlanner.Utilities
             b2560, // apm1
             b2560v2, // apm 2+
             px4, // px3
+            px4rl,
             px4v2, // pixhawk
             px4v3, // cube/pixhawk with 2mb flash
             px4v4, // pixracer
@@ -75,6 +77,7 @@ namespace MissionPlanner.Utilities
                             if (item.hardwareid.StartsWith(@"USB\VID_0483&PID_5740") ||
                                 item.hardwareid.StartsWith(@"USB\VID_2DAE&PID_1001") ||
                                 item.hardwareid.StartsWith(@"USB\VID_2DAE&PID_1011") ||
+								Regex.IsMatch(item.hardwareid,"VID_2DAE&PID_10[0-1][0-9]") ||
                                 item.hardwareid.StartsWith(@"USB\VID_1209&PID_5740")) //USB\VID_0483&PID_5740&REV_0200)
                             {
                                 if (item.board == "fmuv2" || item.board.ToLower() == "fmuv2-bl")
@@ -219,8 +222,9 @@ namespace MissionPlanner.Utilities
                         // check port name as well
                         //if (obj2.Properties["Name"].Value.ToString().ToUpper().Contains(serialPort.PortName.ToUpper()))
                         {
-                            log.Info("is a fmuv5");
-                            return boards.fmuv5;
+                            log.Info("is a CUAVv5");
+							chbootloader = "CUAVv5";
+                            return boards.chbootloader;
                         }
                     }
 
@@ -300,6 +304,11 @@ namespace MissionPlanner.Utilities
                     {
                         log.Info("is a px4v2 bootloader");
                         return boards.px4v2;
+                    }
+
+                    if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0016"))
+                    {
+                        return boards.px4rl;
                     }
 
                     if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0016"))

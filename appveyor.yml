@@ -11,8 +11,10 @@ build_script:
     dotnet --info
 
     c:\mp\.nuget\nuget.exe sources Add -Name "myget" -Source https://dotnet.myget.org/F/dotnet-core/api/v3/index.json
+
+    appveyor-retry c:\mp\.nuget\nuget.exe update -self
     
-    c:\mp\.nuget\nuget.exe restore
+    appveyor-retry c:\mp\.nuget\nuget.exe restore
     
     "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\MSBuild.exe" MissionPlanner.sln /m /p:Configuration=Release /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
     

@@ -60,11 +60,11 @@ namespace MissionPlanner
         [STAThread]
         public static void Main(string[] args)
         {
-            Start();
+            Start(args);
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void Start()
+        public static void Start(string[] args)
         { 
             Program.args = args;
             Console.WriteLine(

@@ -8,7 +8,7 @@ using SvgNet.SvgGdi;
 
 namespace MissionPlanner.Swarm
 {
-    public partial class Grid : GLControl
+    public partial class Grid: MyUserControl
     {
         int xdist = 40;
         int ydist = 40;
@@ -69,9 +69,7 @@ namespace MissionPlanner.Swarm
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-            MakeCurrent();
-            OnPaint(new PaintEventArgsI(new GL2(this.Handle, Width, Height), e.ClipRectangle));
-            this.SwapBuffers();          
+            OnPaint(new PaintEventArgsI(new GdiGraphics(e.Graphics), e.ClipRectangle));
         }
 
         void OnPaint(PaintEventArgsI e)

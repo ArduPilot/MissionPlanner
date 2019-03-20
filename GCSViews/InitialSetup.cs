@@ -168,6 +168,9 @@ namespace MissionPlanner.GCSViews
             {
                 AddBackstageViewPage(typeof(ConfigHWCAN), "CAN", isConnected, opt);
             }
+
+            AddBackstageViewPage(typeof(ConfigHWIDs), "HW ID", isConnected, mand);
+
             if (MainV2.DisplayConfiguration.displayCompassMotorCalib)
             {
                 AddBackstageViewPage(typeof(ConfigCompassMot), rm.GetString("backstageViewPagecompassmot.Text"), isConnected, opt);

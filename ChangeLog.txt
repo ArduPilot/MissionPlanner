@@ -1,4 +1,96 @@
-﻿*Mission Planner 1.3.62 - 9-12-2018
+﻿*Mission Planner 1.3.63 - 16-3-2019
+UAVCAN: test cases, encode fix
+DFLog: add more missing events #2099
+DFLOG: add missing events #2099
+Temp: cleanup unused code
+FlightPlanner: cleanup graphics after use
+UAVCAN: update
+Xamarin: change udp port
+SvgNet: skia update
+FirmwareHistory: update
+Quickview: smaller font to prevent wrap
+Solution: update system.drawing
+UAVCAN: nice health and mode
+FlightData: ensure hud ground color loads on startup
+UAVCan: exception check
+GridUI: add spiral
+CurrentState: add vtol_state and landed_state
+ControlTest: remove
+DefaultSettings: async
+FlightData: hud color options
+Improved ElevationProfile to take units into account.
+Change from option CH to option RC
+Change from option CH to option RC
+Replaced unawaited Task.Delays with Thread.Sleep. if not awaited Task.Delay returns inmediately and that is not its intended use. Thousands of Tasks/Timer objects could potentially be created with unexpected consecuences.
+Xamarin
+MissionPlanner: change build projects
+Refactoring
+Device: add sensor
+adsb: add speed
+ICommsSerial: add displosable
+MAVLinkInterface: add MISSION_REQUEST_INT
+AltitudeAngelWings: nuget
+ConfigHWIDs
+ConfigMotorTest
+ConfigUAVCAN
+Xamarin
+WindowsStore
+Drivers
+UAVCAN
+cube: fix cat for windows 7
+OnboardOsdTool: layout impr. for better support of small displays. Copy/Paste feature. Bitwise parameter control.
+OnboardOSDTool: Refresh btn added
+OnboardOSDTool: show tab only if OSD settings exists
+OnboardOSD: pitch&roll visualization fix
+OnboardOSD: Item location corrections
+OnboardOSD Config tool impl.
+FlightData: test ground colour change
+GStreamer: sample h265 gimbal source
+Extension: NowNextBy2
+Cube: new pid
+ac 3.6.4
+fftui: fix scale count
+fftui: fix sample rate on all sensors with different rates #2069
+Update: update label
+Download: change http timeout to 10 seconds
+MAVLinkInterface: add get_node_info request #2061
+MAVState: resolve display issue when packets received in close proximity #2054
+MAVLinkInterface: prevent duplicate camera feedback
+MAVLinkInterface: add UAVCAN_NODE_INFO name support #2061
+Firmware: get firmware version from fmuv3 then px4v2 #2062
+Download: protect against invalid url
+ConfigArdurover: add rc7-10 option #2023
+ConfigFirmware: try exit bootloader mode on deactivate
+ThemeManager: fix theme display issues #2050
+CurrentState: 0 unused battery cells #2054
+FlightData: fix hud alt units #2052
+MainV2: dont request home for invalid autopilot #2060
+temp: add saftey switch toggle
+temp: improve message_interval test
+Privacy: 0 check dflogs
+temp: test support for SET_MESSAGE_INTERVAL
+GMapRoute: handle large routes better
+FlightData: fix graph this size #2047
+Minor fix when setting home in flight planner with units other than meters.
+LogBrowse: remember last state
+Extensions: add generic ToJSON
+Joystick: add extra axis (mavlink2 only)
+MavlinkLog: add units
+MavlinkLog: add multiple yaxis
+Extensions: RemoveFromEnd
+MavlinkParse: get unit
+Tracking: prevent dups
+Firmware: add px4rl
+removed duplicate flight modes for plane
+LogBrowse: fix first map draw on line mode
+LogBrowse: fix time label and initial map
+CollectionBuffer: always get first gps
+BoardDetect: accept list of PIDs
+CsAssortedWidgets: netstandard
+AA: increase opacity
+FirmwareHistory: update
+
+*Mission Planner 1.3.62 - 9-12-2018
 MAVLinkInterface: adjust timeouts (min 450ms)
 MAVLinkInterface: add gcs id support and checking
 LogBrowse: fix resize logic

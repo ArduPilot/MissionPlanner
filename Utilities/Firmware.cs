@@ -58,6 +58,7 @@ namespace MissionPlanner.Utilities
             [XmlElement(ElementName = "url2560-2")]
             public string url2560_2 = "";
             public string urlpx4v1 = "";
+            public string urlpx4rl = "";
             public string urlpx4v2 = "";
             public string urlpx4v3 = "";
             public string urlpx4v4 = "";
@@ -85,6 +86,11 @@ namespace MissionPlanner.Utilities
             public string name = "";
             public string desc = "";
             public int k_format_version;
+
+            public override string ToString()
+            {
+                return this.ToJSON();
+            }
         }
 
         public class FirmwareInfo
@@ -325,7 +331,13 @@ namespace MissionPlanner.Utilities
             {
                 software temp = (software) tempin;
 
-                string baseurl = temp.urlpx4v2;
+                string baseurl = temp.urlfmuv3;
+                string baseurl2 = temp.urlpx4v2;
+
+                if (!Download.CheckHTTPFileExists(baseurl))
+                {
+                    baseurl = baseurl2;
+                }
 
                 if (baseurl == "" || !baseurl.ToLower().StartsWith("http")) return;
 
@@ -413,6 +425,10 @@ namespace MissionPlanner.Utilities
                 else if (board == BoardDetect.boards.px4)
                 {
                     baseurl = temp.urlpx4v1.ToString();
+                }
+                else if (board == BoardDetect.boards.px4rl)
+                {
+                    baseurl = temp.urlpx4rl.ToString();
                 }
                 else if (board == BoardDetect.boards.px4v2)
                 {

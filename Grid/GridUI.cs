@@ -217,6 +217,7 @@ namespace MissionPlanner.Grid
             num_sidelap.Value = griddata.sidelap;
             NUM_spacing.Value = griddata.spacing;
             chk_crossgrid.Checked = griddata.crossgrid;
+            chk_spiral.Checked = griddata.spiral;
             
             rad_trigdist.Checked = griddata.trigdist;
             rad_digicam.Checked = griddata.digicam;
@@ -276,7 +277,8 @@ namespace MissionPlanner.Grid
             griddata.sidelap = num_sidelap.Value;
             griddata.spacing = NUM_spacing.Value;
             griddata.crossgrid = chk_crossgrid.Checked;
-            
+            griddata.spiral = chk_spiral.Checked;
+
             // Copter Settings
             griddata.copter_delay = NUM_copter_delay.Value;
             griddata.copter_headinghold_chk = CHK_copter_headinghold.Checked;
@@ -322,6 +324,7 @@ namespace MissionPlanner.Grid
                 loadsetting("grid_sidelap", num_sidelap);
                 loadsetting("grid_spacing", NUM_spacing);
                 loadsetting("grid_crossgrid",chk_crossgrid);
+                loadsetting("grid_spiral", chk_spiral);
 
                 // Should probably be saved as one setting, and us logic
                 loadsetting("grid_trigdist", rad_trigdist);
@@ -394,6 +397,7 @@ namespace MissionPlanner.Grid
             plugin.Host.config["grid_sidelap"] = num_sidelap.Value.ToString();
             plugin.Host.config["grid_spacing"] = NUM_spacing.Value.ToString();
             plugin.Host.config["grid_crossgrid"] = chk_crossgrid.Checked.ToString();
+            plugin.Host.config["grid_spiral"] = chk_spiral.Checked.ToString();            
 
             plugin.Host.config["grid_startfrom"] = CMB_startfrom.Text;
 
@@ -549,7 +553,7 @@ namespace MissionPlanner.Grid
 
             // new grid system test
 
-            if (chk_test.Checked)
+            if (chk_Corridor.Checked)
             {
                 grid = Utilities.Grid.CreateCorridor(list, CurrentState.fromDistDisplayUnit((double)NUM_altitude.Value),
                     (double)NUM_Distance.Value, (double)NUM_spacing.Value, (double)NUM_angle.Value,
@@ -557,13 +561,21 @@ namespace MissionPlanner.Grid
                     (Utilities.Grid.StartPosition)Enum.Parse(typeof(Utilities.Grid.StartPosition), CMB_startfrom.Text), false,
                     (float)NUM_Lane_Dist.Value, (float)num_corridorwidth.Value, (float)NUM_leadin.Value);
             }
+            else if (chk_spiral.Checked)
+            {
+                grid = await Utilities.Grid.CreateRotaryAsync(list, CurrentState.fromDistDisplayUnit((double)NUM_altitude.Value),
+                    (double)NUM_Distance.Value, (double)NUM_spacing.Value, (double)NUM_angle.Value,
+                    (double)NUM_overshoot.Value, (double)NUM_overshoot2.Value,
+                    (Utilities.Grid.StartPosition)Enum.Parse(typeof(Utilities.Grid.StartPosition), CMB_startfrom.Text), false,
+                    (float)NUM_Lane_Dist.Value, (float)NUM_leadin.Value, MainV2.comPort.MAV.cs.HomeLocation);
+            }
             else
             {
-                grid = await Utilities.Grid.CreateGridAsync(list, CurrentState.fromDistDisplayUnit((double) NUM_altitude.Value),
-                    (double) NUM_Distance.Value, (double) NUM_spacing.Value, (double) NUM_angle.Value,
-                    (double) NUM_overshoot.Value, (double) NUM_overshoot2.Value,
-                    (Utilities.Grid.StartPosition) Enum.Parse(typeof(Utilities.Grid.StartPosition), CMB_startfrom.Text), false,
-                    (float) NUM_Lane_Dist.Value, (float) NUM_leadin.Value, MainV2.comPort.MAV.cs.HomeLocation);
+                grid = await Utilities.Grid.CreateGridAsync(list, CurrentState.fromDistDisplayUnit((double)NUM_altitude.Value),
+                    (double)NUM_Distance.Value, (double)NUM_spacing.Value, (double)NUM_angle.Value,
+                    (double)NUM_overshoot.Value, (double)NUM_overshoot2.Value,
+                    (Utilities.Grid.StartPosition)Enum.Parse(typeof(Utilities.Grid.StartPosition), CMB_startfrom.Text), false,
+                    (float)NUM_Lane_Dist.Value, (float)NUM_leadin.Value, MainV2.comPort.MAV.cs.HomeLocation);
             }
 
             map.HoldInvalidation = true;
@@ -657,7 +669,7 @@ namespace MissionPlanner.Grid
                                     bearing = Convert.ToInt32(TXT_headinghold.Text);
                                 }
 
-                                if (chk_test.Checked)
+                                if (chk_Corridor.Checked)
                                     bearing = prevprevpoint.GetBearing(item);
 
                                 double fovha = 0;
@@ -1819,5 +1831,6 @@ namespace MissionPlanner.Grid
             // doCalc
             domainUpDown1_ValueChanged(sender, e);
         }
+
     }
 }

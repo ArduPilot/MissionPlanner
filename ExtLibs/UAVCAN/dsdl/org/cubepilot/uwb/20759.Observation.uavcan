@@ -1,0 +1,4 @@
+uint56 timestamp_us
+Node tx_node
+uint40 tx_timestamp
+ReceiveTimestamp[<=10] rx_timestamps

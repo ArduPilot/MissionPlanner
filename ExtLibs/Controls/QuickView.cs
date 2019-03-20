@@ -130,7 +130,7 @@ namespace MissionPlanner.Controls
             float wRatio = this.Width / (float)extent.Width;
             float ratio = (hRatio < wRatio) ? hRatio : wRatio;
 
-            float newSize = this.Font.Size * ratio;
+            float newSize = (this.Font.Size * ratio) - 0.6f;
 
             if (newSize < 8 || newSize > 999999)
                 newSize = 8;

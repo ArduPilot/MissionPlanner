@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -19,10 +20,12 @@ using System.Xml;
 using System.Xml.Serialization;
 using DotSpatial.Data;
 using DotSpatial.Projections;
+using DotSpatial.Symbology;
 using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
 using log4net;
+using Microsoft.Scripting.Utils;
 using MissionPlanner.Comms;
 using MissionPlanner.Controls;
 using MissionPlanner.GCSViews;
@@ -914,7 +917,7 @@ namespace MissionPlanner
 
         private void but_td_Click(object sender, EventArgs e)
         {
-            new Swarm.TD.UI().Show();
+           
         }
 
         private void but_dem_Click(object sender, EventArgs e)
@@ -1007,6 +1010,7 @@ namespace MissionPlanner
 
         private void but_anonlog_Click(object sender, EventArgs e)
         {
+            CustomMessageBox.Show("This is beta, please confirm the output file");
             using (OpenFileDialog ofd = new OpenFileDialog())
             {
                 ofd.Filter = "tlog or bin/log|*.tlog;*.bin;*.log";
@@ -1029,11 +1033,65 @@ namespace MissionPlanner
             }
         }
 
-        private void but_cmdlong_Click(object sender, EventArgs e)
+        private void but_messageinterval_Click(object sender, EventArgs e)
         {
-            var rate = 35;
-            MainV2.comPort.doCommand(MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL, (float) MAVLink.MAVLINK_MSG_ID.VFR_HUD,
-                1 / (float) rate * 1000000.0f, 0, 0, 0, 0, 0);
+            var form = new Form();
+            FlowLayoutPanel flp = new FlowLayoutPanel();
+            flp.Dock = DockStyle.Fill;
+            flp.AutoSize = true;
+            ComboBox cmb = new ComboBox();
+            cmb.DataSource = Enum.GetNames(typeof(MAVLink.MAVLINK_MSG_ID)).ToSortedList((s, s1) => s.CompareTo(s1));
+            cmb.Width += 50;
+            Button but = new Button();
+            but.Text = "Set";
+            ComboBox cmbrate = new ComboBox();
+            cmbrate.DataSource = Enumerable.Range(1, 200).ToList();
+
+            but.Click += (o, args) =>
+            {
+                var rate = int.Parse(cmbrate.Text.ToString());
+                var value = Enum.Parse(typeof(MAVLink.MAVLINK_MSG_ID), cmb.Text.ToString());
+                MainV2.comPort.doCommand(MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL, (float) (int) value,
+                    1 / (float) rate * 1000000.0f, 0, 0, 0, 0, 0);
+            };
+
+            Button but2 = new Button();
+            but2.Text = "Set All";
+            but2.Click += (o, args) =>
+            {
+                var rate = int.Parse(cmbrate.Text.ToString());
+                ((IList) cmb.DataSource).ForEach(a =>
+                {
+                    var value = Enum.Parse(typeof(MAVLink.MAVLINK_MSG_ID), a.ToString());
+                    MainV2.comPort.doCommand(MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL, (float) (int) value,
+                        1 / (float) rate * 1000000.0f, 0, 0, 0, 0, 0, false);
+                });
+            };
+
+            //cmb.SelectedIndexChanged += (o, args) => { MAVLink.MAVLINK_MSG_ID.GET_MESSAGE_INTERVAL };
+
+            form.Controls.Add(flp);
+
+            flp.Controls.Add(cmb);
+            flp.Controls.Add(cmbrate);
+            flp.Controls.Add(but);
+
+            flp.Controls.Add(but2);
+
+            form.Show(this);
+        }
+
+        private void BUT_xplane_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void but_disablearmswitch_Click(object sender, EventArgs e)
+        {
+            if (CustomMessageBox.Show("Are you sure?", "", MessageBoxButtons.YesNo) == (int) DialogResult.Yes)
+                MainV2.comPort.setMode(
+                    new MAVLink.mavlink_set_mode_t() {custom_mode = MainV2.comPort.MAV.cs.armed ? 0u : 1u},
+                    MAVLink.MAV_MODE_FLAG.SAFETY_ARMED);
         }
     }
 }

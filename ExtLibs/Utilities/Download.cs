@@ -354,7 +354,7 @@ namespace MissionPlanner.Utilities
             bool result = false;
 
             WebRequest webRequest = WebRequest.Create(url);
-            webRequest.Timeout = 1200; // miliseconds
+            webRequest.Timeout = 10000; // miliseconds
             webRequest.Method = "HEAD";
 
             HttpWebResponse response = null;
@@ -369,7 +369,6 @@ namespace MissionPlanner.Utilities
             }
             finally
             {
-                log.Info(String.Format("CheckHTTPFileExists: {0} - {1}", url, result));
                 if (response != null)
                 {
                     response.Close();

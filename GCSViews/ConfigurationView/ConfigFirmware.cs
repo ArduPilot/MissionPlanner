@@ -22,6 +22,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private string firmwareurl = "";
         private bool firstrun = true;
         private IProgressReporterDialogue pdr;
+        private string detectedport;
 
         public ConfigFirmware()
         {
@@ -39,7 +40,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (Program.WindowsStoreApp)
             {
-
                 CustomMessageBox.Show("Not Available", "Unfortunately the windows store version of this app does not support uploading.", MessageBoxButtons.OK);
                 this.Enabled = false;
                 return;
@@ -87,6 +87,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     up.identify();
                     log.InfoFormat("Found board type {0} boardrev {1} bl rev {2} fwmax {3} on {4}", up.board_type,
                         up.board_rev, up.bl_rev, up.fw_maxsize, port);
+
+                    detectedport = port;
 
                     up.close();
                 }
@@ -513,6 +515,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public void Deactivate()
         {
             MainV2.instance.DeviceChanged -= Instance_DeviceChanged;
+
+            // try reboot device on screen close.
+            if (!String.IsNullOrEmpty(detectedport))
+            {
+                try
+                {
+                    px4uploader.Uploader up = new px4uploader.Uploader(detectedport, 115200);
+                    up.__reboot();
+                    up.close();
+                } catch { }
+            }
         }
     }
 }

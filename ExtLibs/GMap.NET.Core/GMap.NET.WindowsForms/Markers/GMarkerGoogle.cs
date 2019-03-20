@@ -89,7 +89,8 @@ namespace GMap.NET.WindowsForms.Markers
       void LoadBitmap()
       {
          Bitmap = GetIcon(Type.ToString());
-         Size = new System.Drawing.Size(Bitmap.Width, Bitmap.Height);
+        lock(Bitmap)
+            Size = new System.Drawing.Size(Bitmap.Width, Bitmap.Height);
 
          switch(Type)
          {

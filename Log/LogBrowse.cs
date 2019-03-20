@@ -379,8 +379,6 @@ namespace MissionPlanner.Log
             myGMAP1.Overlays.Add(mapoverlay);
             myGMAP1.Overlays.Add(markeroverlay);
 
-            //chk_time.Checked = true;
-
             dataGridView1.RowUnshared += dataGridView1_RowUnshared;
 
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
@@ -625,7 +623,6 @@ namespace MissionPlanner.Log
 
         void LoadLog2(String FileName, CollectionBuffer logdata, int colcount)
         {
-
             this.Text = "Log Browser - " + Path.GetFileName(FileName);
 
             CreateChart(zg1);
@@ -633,7 +630,21 @@ namespace MissionPlanner.Log
             ResetTreeView(logdata.SeenMessageTypes);
 
             zg1_ZoomEvent(zg1, null, null);
-            
+
+            chk_datagrid.Checked = Settings.Instance.GetBoolean("LB_Grid", false);
+            chk_time.Checked = Settings.Instance.GetBoolean("LB_Time", true);
+            CHK_map.Checked = Settings.Instance.GetBoolean("LB_Map", false);
+            chk_errors.Checked = Settings.Instance.GetBoolean("LB_Error", true);
+            chk_mode.Checked = Settings.Instance.GetBoolean("LB_Mode", true);
+            chk_msg.Checked = Settings.Instance.GetBoolean("LB_MSG", true);
+
+            chk_datagrid.CheckedChanged += (e, a) => { Settings.Instance["LB_Grid"] = chk_datagrid.Checked.ToString(); };
+            chk_time.CheckedChanged += (e, a) => { Settings.Instance["LB_Time"] = chk_time.Checked.ToString(); };
+            CHK_map.CheckedChanged += (e, a) => { Settings.Instance["LB_Map"] = CHK_map.Checked.ToString(); };
+            chk_errors.CheckedChanged += (e, a) => { Settings.Instance["LB_Error"] = chk_errors.Checked.ToString(); };
+            chk_mode.CheckedChanged += (e, a) => { Settings.Instance["LB_Mode"] = chk_mode.Checked.ToString(); };
+            chk_msg.CheckedChanged += (e, a) => { Settings.Instance["LB_MSG"] = chk_msg.Checked.ToString(); };
+
             Loading.Close();
 
             if (dflog.logformat.Count == 0)
@@ -1000,6 +1011,8 @@ namespace MissionPlanner.Log
             // Manually set the axis range
             //myPane.YAxis.Scale.Min = -1;
             //myPane.YAxis.Scale.Max = 1;
+
+            zg1.IsShowCursorValues = true;
 
             // Fill the axis background with a gradient
             //myPane.Chart.Fill = new Fill(Color.White, Color.LightGray, 45.0f);
@@ -2359,11 +2372,30 @@ namespace MissionPlanner.Log
                     d=DrawMSG();
 
                 if (!chk_time.Checked && CHK_map.Checked)
-                    e=DrawMap((long)sender.GraphPane.XAxis.Scale.Min, (long)sender.GraphPane.XAxis.Scale.Max);
+                {
+                    if (sender.GraphPane.CurveList.Count == 0)
+                    {
+                        e = DrawMap();
+                    }
+                    else
+                    {
+                        e = DrawMap((long) sender.GraphPane.XAxis.Scale.Min, (long) sender.GraphPane.XAxis.Scale.Max);
+                    }
+                }
 
                 if (chk_time.Checked && CHK_map.Checked)
-                    e=DrawMap(dflog.GetLineNoFromTime(logdata, new XDate(sender.GraphPane.XAxis.Scale.Min).DateTime),
-                        dflog.GetLineNoFromTime(logdata, new XDate(sender.GraphPane.XAxis.Scale.Max).DateTime));
+                {
+                    if (sender.GraphPane.CurveList.Count == 0)
+                    {
+                        e = DrawMap();
+                    }
+                    else
+                    {
+                        e = DrawMap(
+                            dflog.GetLineNoFromTime(logdata, new XDate(sender.GraphPane.XAxis.Scale.Min).DateTime),
+                            dflog.GetLineNoFromTime(logdata, new XDate(sender.GraphPane.XAxis.Scale.Max).DateTime));
+                    }
+                }
 
                 if(a!= null)
                     await a;
@@ -2516,6 +2548,7 @@ namespace MissionPlanner.Log
                         zg1.GraphPane.CurveList.Remove(item);
                 }
 
+                zg1.AxisChange();
                 zg1.Invalidate();
             }
         }
@@ -2886,12 +2919,12 @@ namespace MissionPlanner.Log
 
             if (chk_time.Checked)
             {
-                zg1.GraphPane.XAxis.Title.Text = "Time (sec)";
-
                 zg1.GraphPane.XAxis.Type = AxisType.Date;
                 zg1.GraphPane.XAxis.Scale.Format = "HH:mm:ss.fff";
+                zg1.GraphPane.XAxis.Title.Text = "Time (sec)";
                 zg1.GraphPane.XAxis.Scale.MajorUnit = DateUnit.Minute;
                 zg1.GraphPane.XAxis.Scale.MinorUnit = DateUnit.Second;
+                zg1.GraphPane.YAxis.Title.Text = "Output";
             }
             else
             {
@@ -3096,6 +3129,134 @@ namespace MissionPlanner.Log
                 splitContainerZgGrid.SplitterDistance = this.Height / 2;
             if (!chk_datagrid.Checked)
                 splitContainerZgGrid.SplitterDistance = this.Height - splitContainerButGrid.Panel2.Height;
+        }
+
+        public IEnumerable<(double[],double[],double[])> fft(int bins = 10, int startfreq = 5)
+        {
+            Utilities.FFT2 fft = new FFT2();
+
+            var file = logdata;
+
+            int N = 1 << bins;
+
+            // 3 imus * 2 sets of measurements(gyr/acc)
+            FFT2.datastate[] alldata = new FFT2.datastate[3 * 2];
+            for (int a = 0; a < alldata.Length; a++)
+                alldata[a] = new FFT2.datastate();
+
+            // state cache
+            int Ns = 0;
+            int type = 0;
+            int instance = 0;
+            int sensorno = 0;
+
+            foreach (var item in file.GetEnumeratorType(new string[] { "ISBH", "ISBD" }))
+            {
+                if (item.msgtype == null)
+                {
+                    continue;
+                }
+
+                if (item.msgtype.StartsWith("ISBH"))
+                {
+                    Ns = int.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "N")],
+                        CultureInfo.InvariantCulture);
+                    type = int.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "type")],
+                        CultureInfo.InvariantCulture);
+                    instance = int.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "instance")],
+                        CultureInfo.InvariantCulture);
+
+                    sensorno = type * 3 + instance;
+
+                    alldata[sensorno].sample_rate = double.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "smp_rate")],
+                    CultureInfo.InvariantCulture);
+
+                    if (type == 0)
+                        alldata[sensorno].type = "ACC" + instance.ToString();
+                    if (type == 1)
+                        alldata[sensorno].type = "GYR" + instance.ToString();
+
+                }
+                else if (item.msgtype.StartsWith("ISBD"))
+                {
+                    var Nsdata = int.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "N")],
+                        CultureInfo.InvariantCulture);
+
+                    if (Ns != Nsdata)
+                        continue;
+
+                    int offsetX = file.dflog.FindMessageOffset(item.msgtype, "x");
+                    int offsetY = file.dflog.FindMessageOffset(item.msgtype, "y");
+                    int offsetZ = file.dflog.FindMessageOffset(item.msgtype, "z");
+                    int offsetTime = file.dflog.FindMessageOffset(item.msgtype, "TimeUS");
+
+                    double time = double.Parse(item.items[offsetTime],
+                                      CultureInfo.InvariantCulture) / 1000.0;
+
+                    if (time < alldata[sensorno].lasttime)
+                        continue;
+
+                    if (time != alldata[sensorno].lasttime)
+                        alldata[sensorno].timedelta = alldata[sensorno].timedelta * 0.99 +
+                                                      (time - alldata[sensorno].lasttime) * 0.01;
+
+                    alldata[sensorno].lasttime = time;
+
+                    item.items[offsetX].Split(new[] { ' ', '[', ']' }, StringSplitOptions.RemoveEmptyEntries).ForEach(aa => {
+                        alldata[sensorno].datax.Add(double.Parse(aa,
+CultureInfo.InvariantCulture));
+                    });
+                    item.items[offsetY].Split(new[] { ' ', '[', ']' }, StringSplitOptions.RemoveEmptyEntries).ForEach(aa => {
+                        alldata[sensorno].datay.Add(double.Parse(aa,
+CultureInfo.InvariantCulture));
+                    });
+                    item.items[offsetZ].Split(new[] { ' ', '[', ']' }, StringSplitOptions.RemoveEmptyEntries).ForEach(aa => {
+                        alldata[sensorno].dataz.Add(double.Parse(aa,
+CultureInfo.InvariantCulture));
+                    });
+                }
+            }
+
+            foreach (var sensordata in alldata)
+            {
+                if (sensordata.datax.Count <= N)
+                    continue;
+
+                double samplerate = 0;
+
+                samplerate = sensordata.sample_rate; // Math.Round(1000 / sensordata.timedelta, 1);
+
+                double[] freqt =  fft.FreqTable(N, (int) samplerate);
+
+                double[] avgx = new double[N / 2];
+                double[] avgy = new double[N / 2];
+                double[] avgz = new double[N / 2];
+
+                int totalsamples = sensordata.datax.Count;
+                int count = totalsamples / N;
+                int done = 0;
+                while (count > 1) // skip last part
+                {
+                    var fftanswerx = fft.rin(sensordata.datax.Skip(N * done).Take(N).ToArray(), (uint) bins);
+                    var fftanswery = fft.rin(sensordata.datay.Skip(N * done).Take(N).ToArray(), (uint) bins);
+                    var fftanswerz = fft.rin(sensordata.dataz.Skip(N * done).Take(N).ToArray(), (uint) bins);
+
+                    for (int b = 0; b < N / 2; b++)
+                    {
+                        if (freqt[b] < (double) startfreq)
+                            continue;
+
+                        avgx[b] += fftanswerx[b] / (done + count);
+                        avgy[b] += fftanswery[b] / (done + count);
+                        avgz[b] += fftanswerz[b] / (done + count);
+                    }
+
+                    count--;
+                    done++;
+                }
+
+                yield return (avgx, avgy, avgz);
+            }
         }
     }
 }

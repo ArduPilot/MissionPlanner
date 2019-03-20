@@ -1084,6 +1084,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Onboard OSD.
+        /// </summary>
+        public static string OnboardOSD {
+            get {
+                return ResourceManager.GetString("OnboardOSD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Only 1 Heatbeat Received.
         /// </summary>
         public static string Only1Hb {

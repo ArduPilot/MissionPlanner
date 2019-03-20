@@ -393,6 +393,11 @@ namespace MissionPlanner.Comms
         internal static extern int WriteFile(SafeFileHandle handle, byte[] bytes, int numBytesToWrite,
     out int numBytesWritten, IntPtr lpOverlapped);
 
+        public void Dispose()
+        {
+            Close();
+        }
+
         internal struct COMMTIMEOUTS
         {
             public int ReadIntervalTimeout;

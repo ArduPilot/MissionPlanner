@@ -579,7 +579,7 @@ namespace MissionPlanner.Utilities
             #region Fetch Parameter Meta Data
 
             var progressReporterDialogue = ((IProgressReporterDialogue) sender);
-            progressReporterDialogue.UpdateProgressAndStatus(-1, "Getting Updated Parameters");
+            progressReporterDialogue.UpdateProgressAndStatus(-1, "Getting updated parameter documentation");
 
             try
             {

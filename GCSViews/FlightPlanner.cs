@@ -4042,9 +4042,11 @@ namespace MissionPlanner.GCSViews
             }
             else
             {
-                List<PointLatLng> polygonPoints = new List<PointLatLng>();
-                polygonPoints.Add(startmeasure);
-                polygonPoints.Add(MouseDownStart);
+                List<PointLatLng> polygonPoints = new List<PointLatLng>
+                {
+                    startmeasure,
+                    MouseDownStart
+                };
 
                 GMapPolygon line = new GMapPolygon(polygonPoints, "measure dist");
                 line.Stroke.Color = Color.Green;
@@ -5954,6 +5956,8 @@ namespace MissionPlanner.GCSViews
 
             polyicon.Location = new Point(10,100);
             polyicon.Paint(e.Graphics);
+
+            e.Graphics.ResetTransform();
         }
 
         MissionPlanner.Controls.Icon.Polygon polyicon = new MissionPlanner.Controls.Icon.Polygon();
@@ -6826,7 +6830,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
         private void setHomeHereToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TXT_homealt.Text = srtm.getAltitude(MouseDownStart.Lat, MouseDownStart.Lng).alt.ToString("0");
+            TXT_homealt.Text = (srtm.getAltitude(MouseDownStart.Lat, MouseDownStart.Lng).alt * CurrentState.multiplieralt).ToString("0");
             TXT_homelat.Text = MouseDownStart.Lat.ToString();
             TXT_homelng.Text = MouseDownStart.Lng.ToString();
         }

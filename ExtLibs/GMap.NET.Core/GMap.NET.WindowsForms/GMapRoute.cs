@@ -164,9 +164,17 @@ namespace GMap.NET.WindowsForms
             {
                 bool customarrows = false;
 
+                Pen Stroke = (Pen)this.Stroke.Clone();
+
                 if (Stroke.DashStyle == DashStyle.Custom)
                 {
                     customarrows = true;
+                    Stroke.DashStyle = DashStyle.Solid;
+                }
+
+                if (graphicsPath.PointCount > 400)
+                {
+                    Console.WriteLine("route OnRender Large Graphics Path " + graphicsPath.PointCount);
                 }
 
                g.DrawPath(Stroke, graphicsPath);

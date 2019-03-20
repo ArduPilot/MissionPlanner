@@ -121,13 +121,13 @@
     <value>Geschwindigkeit</value>
   </data>
   <data name="myLabel4.Text" xml:space="preserve">
-    <value>CH8 Opt</value>
+    <value>RC8 Opt</value>
   </data>
   <data name="myLabel2.Text" xml:space="preserve">
-    <value>CH6 Opt</value>
+    <value>RC6 Opt</value>
   </data>
   <data name="myLabel1.Text" xml:space="preserve">
-    <value>CH7 Opt</value>
+    <value>RC7 Opt</value>
   </data>
   <data name="groupBox7.Text" xml:space="preserve">
     <value>Höhe halten</value>

@@ -170,6 +170,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 motormax = 0;
             }
+            else if (type == MAVLink.MAV_TYPE.DODECAROTOR)
+            {
+                motormax = 12;
+            }
 
             return motormax;
         }

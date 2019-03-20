@@ -61,7 +61,6 @@
             this.pictureBox5.BackColor = System.Drawing.Color.White;
             resources.ApplyResources(this.pictureBox5, "pictureBox5");
             this.pictureBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox5.Image = global::MissionPlanner.Properties.Resources.uavcanesc;
             this.pictureBox5.Name = "pictureBox5";
             this.pictureBox5.TabStop = false;
             // 
@@ -133,7 +132,6 @@
             // 
             // ConfigHWCAN
             // 
-            
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);

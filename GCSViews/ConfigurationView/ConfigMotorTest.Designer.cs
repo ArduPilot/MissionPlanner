@@ -90,27 +90,27 @@
             // 
             // groupBox1
             // 
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.NUM_thr_percent);
             this.groupBox1.Controls.Add(this.NUM_duration);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.linkLabel1);
-            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
             // ConfigMotorTest
             // 
-            
+            resources.ApplyResources(this, "$this");
             this.Controls.Add(this.groupBox1);
             this.Name = "ConfigMotorTest";
-            resources.ApplyResources(this, "$this");
             ((System.ComponentModel.ISupportInitialize)(this.NUM_thr_percent)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_duration)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
