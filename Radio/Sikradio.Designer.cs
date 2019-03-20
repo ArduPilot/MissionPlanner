@@ -78,6 +78,7 @@
             this.lbl_status = new System.Windows.Forms.Label();
             this.ATI3 = new System.Windows.Forms.TextBox();
             this.groupBoxLocal = new System.Windows.Forms.GroupBox();
+            this.txtCountry = new System.Windows.Forms.TextBox();
             this.label45 = new System.Windows.Forms.Label();
             this.RATE_FREQBAND = new System.Windows.Forms.ComboBox();
             this.label44 = new System.Windows.Forms.Label();
@@ -180,6 +181,9 @@
             this.BUT_getcurrent = new MissionPlanner.Controls.MyButton();
             this.BUT_upload = new MissionPlanner.Controls.MyButton();
             this.BUT_Syncoptions = new MissionPlanner.Controls.MyButton();
+            this.label49 = new System.Windows.Forms.Label();
+            this.label50 = new System.Windows.Forms.Label();
+            this.txtRCountry = new System.Windows.Forms.TextBox();
             this.groupBoxLocal.SuspendLayout();
             this.groupBoxRemote.SuspendLayout();
             this.SuspendLayout();
@@ -822,6 +826,8 @@
             // 
             // groupBoxLocal
             // 
+            this.groupBoxLocal.Controls.Add(this.label49);
+            this.groupBoxLocal.Controls.Add(this.txtCountry);
             this.groupBoxLocal.Controls.Add(this.label45);
             this.groupBoxLocal.Controls.Add(this.RATE_FREQBAND);
             this.groupBoxLocal.Controls.Add(this.label44);
@@ -896,6 +902,12 @@
             resources.ApplyResources(this.groupBoxLocal, "groupBoxLocal");
             this.groupBoxLocal.Name = "groupBoxLocal";
             this.groupBoxLocal.TabStop = false;
+            // 
+            // txtCountry
+            // 
+            resources.ApplyResources(this.txtCountry, "txtCountry");
+            this.txtCountry.Name = "txtCountry";
+            this.txtCountry.ReadOnly = true;
             // 
             // label45
             // 
@@ -1166,6 +1178,8 @@
             // 
             // groupBoxRemote
             // 
+            this.groupBoxRemote.Controls.Add(this.label50);
+            this.groupBoxRemote.Controls.Add(this.txtRCountry);
             this.groupBoxRemote.Controls.Add(this.label47);
             this.groupBoxRemote.Controls.Add(this.RGPO1_3SBUSOUT);
             this.groupBoxRemote.Controls.Add(this.label48);
@@ -1535,6 +1549,22 @@
             this.BUT_Syncoptions.UseVisualStyleBackColor = true;
             this.BUT_Syncoptions.Click += new System.EventHandler(this.BUT_Syncoptions_Click);
             // 
+            // label49
+            // 
+            resources.ApplyResources(this.label49, "label49");
+            this.label49.Name = "label49";
+            // 
+            // label50
+            // 
+            resources.ApplyResources(this.label50, "label50");
+            this.label50.Name = "label50";
+            // 
+            // txtRCountry
+            // 
+            resources.ApplyResources(this.txtRCountry, "txtRCountry");
+            this.txtRCountry.Name = "txtRCountry";
+            this.txtRCountry.ReadOnly = true;
+            // 
             // Sikradio
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1714,5 +1744,9 @@
         private System.Windows.Forms.CheckBox RGPO1_3SBUSOUT;
         private System.Windows.Forms.Label label48;
         private System.Windows.Forms.CheckBox RGPO1_3SBUSIN;
+        private System.Windows.Forms.TextBox txtCountry;
+        private System.Windows.Forms.Label label49;
+        private System.Windows.Forms.Label label50;
+        private System.Windows.Forms.TextBox txtRCountry;
     }
 }

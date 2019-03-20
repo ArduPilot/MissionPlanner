@@ -1283,7 +1283,6 @@ namespace RFD.RFD900
         public RFD900xux(TSession Session)
             : base(Session)
         {
-
         }
 
         /// <summary>
@@ -1347,9 +1346,39 @@ namespace RFD.RFD900
             return Temp;
         }
 
-        bool GetIsLetter(char x)
+        static bool GetIsLetter(char x)
         {
             return (((x >= 'a') && (x <= 'z')) || ((x >= 'A') && (x <= 'Z')));
+        }
+
+        public static string GetCountryCodeFromATIResponse(string ATIResponse)
+        {
+            //It's locked to a country if the string has a dash and letters tacked onto the end of it.
+            if (ATIResponse.Contains("-"))
+            {
+                string[] ByDash = ATIResponse.Split('-');
+                string CountryCode = ByDash[ByDash.Length - 1];
+                if (CountryCode.Length >= 2)
+                {
+                    if (GetIsLetter(CountryCode[0]) && GetIsLetter(CountryCode[1]))
+                    {
+                        return CountryCode;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Assumes in AT command mode already.  Returns null if no country code detected.
+        /// </summary>
+        /// <returns></returns>
+        public string GetCountryCode()
+        {
+            string Reply = _Session.ATCClient.DoQuery("ATI", true);
+
+            return GetCountryCodeFromATIResponse(Reply);
         }
 
         /// <summary>
@@ -1358,23 +1387,7 @@ namespace RFD.RFD900
         /// <returns></returns>
         bool GetIsThisLockedToCountry()
         {
-            string Reply = _Session.ATCClient.DoQuery("ATI", true);
-
-            //It's locked to a country if the string has a dash and letters tacked onto the end of it.
-            if (Reply.Contains("-"))
-            {
-                string[] ByDash = Reply.Split('-');
-                string CountryCode = ByDash[ByDash.Length - 1];
-                if (CountryCode.Length >= 2)
-                {
-                    if (GetIsLetter(CountryCode[0]) && GetIsLetter(CountryCode[1]))
-                    {
-                        return true;
-                    }
-                }
-            }
-            
-            return false;
+            return GetCountryCode() != null;
         }
 
         /// <summary>

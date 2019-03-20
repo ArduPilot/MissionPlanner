@@ -1017,6 +1017,28 @@ S15: MAX_WINDOW=131
                             Enum.Parse(typeof (Uploader.Board),
                                 int.Parse(boardstring.ToLower().Replace("x", ""), style).ToString());
 
+                    switch (Session.Board)
+                    {
+                        case Uploader.Board.DEVICE_ID_RFD900UX:
+                        case Uploader.Board.DEVICE_ID_RFD900X:
+                            {
+                                string CC = RFD.RFD900.RFD900ux.GetCountryCodeFromATIResponse(ati_str);
+                                if (CC == null)
+                                {
+                                    txtCountry.Text = "--";
+                                }
+                                else
+                                {
+                                    txtCountry.Text = CC;
+                                }
+                            }
+                            break;
+                        default:
+                            txtCountry.Text = "--";
+                            break;
+                    }
+
+
                     ATI2.Text = Session.Board.ToString();
 
                     if (Session.Board == Uploader.Board.DEVICE_ID_RFD900X)
@@ -1241,6 +1263,23 @@ S15: MAX_WINDOW=131
                     Session.Port.DiscardInBuffer();
 
                     RTI.Text = doCommand(Session.Port, "RTI");
+
+                    if (RFDLib.Text.Contains(RTI.Text, "900X") || RFDLib.Text.Contains(RTI.Text, "900UX"))
+                    {
+                        string CC = RFD.RFD900.RFD900ux.GetCountryCodeFromATIResponse(RTI.Text);
+                        if (CC == null)
+                        {
+                            txtRCountry.Text = "--";
+                        }
+                        else
+                        {
+                            txtRCountry.Text = CC;
+                        }
+                    }
+                    else
+                    {
+                        txtRCountry.Text = "--";
+                    }
 
                     if (RTI.Text != "")
                     {

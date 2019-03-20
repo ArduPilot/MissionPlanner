@@ -22,6 +22,8 @@
  *          for RFD900x.  
  * 2.16 - Resolved issue in which it was looking for the country string in the wrong part of the ATI command response.
  * 2.17 - Resolved issue in which pin wasn't being set to output/input when RC out / SBUS out checked / unchecked.
+ * 2.18 - Added text boxes to settings view for local and remote modems to display country code if locked to a country,
+ *          as requested by Moreton.
  */
 
 using System;
