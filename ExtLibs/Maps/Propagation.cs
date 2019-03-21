@@ -53,7 +53,7 @@ namespace MissionPlanner.Maps
         private int prev_res;
         private int prev_width;
         private double prev_zoom;
-        public bool switched;
+        private bool need_rf_redraw;
 
         public Propagation(IControl gMapControl1)
         {
@@ -72,6 +72,8 @@ namespace MissionPlanner.Maps
             elevation.Name = "elevation";
             elevation.IsBackground = true;
             elevation.Start();
+
+            need_rf_redraw = true;
         }
 
         // based on current drone alt, shows where can fly without hitting the surface
@@ -126,13 +128,22 @@ namespace MissionPlanner.Maps
             this.HomeLocation = HomeLocation;
             DroneLocation = Location;
             distance.Markers.Clear();
+
             if (connected && home_kmleft)
-                distance.Markers.Add(new GMapMarkerDistance(HomeLocation, battery_kmleft,
-                    Settings.Instance.GetFloat("Propagation_Tolerance")));
+            {
+                GMapMarkerDistance home_kmleft_marker = new GMapMarkerDistance(HomeLocation, battery_kmleft, Settings.Instance.GetFloat("Propagation_Tolerance"));
+                home_kmleft_marker.Pen = new Pen(Brushes.Red, 1);
+                home_kmleft_marker.Pen2 = new Pen(Brushes.Orange, 1);
+                distance.Markers.Add(home_kmleft_marker);
+            }
 
             if (connected && drone_kmleft)
-                distance.Markers.Add(new GMapMarkerDistance(Location, battery_kmleft,
-                    Settings.Instance.GetFloat("Propagation_Tolerance")));
+            {
+                GMapMarkerDistance drone_kmleft_marker = new GMapMarkerDistance(Location, battery_kmleft, Settings.Instance.GetFloat("Propagation_Tolerance"));
+                drone_kmleft_marker.Pen = new Pen(Brushes.Red, 1);
+                drone_kmleft_marker.Pen2 = new Pen(Brushes.Orange, 1);
+                distance.Markers.Add(drone_kmleft_marker);
+            }
         }
 
         private void elevation_calc()
@@ -319,10 +330,10 @@ namespace MissionPlanner.Maps
                     {
                         start3 = DateTime.Now;
 
-                        if (prev_home != HomeLocation || switched ||
+                        if (prev_home != HomeLocation || need_rf_redraw ||
                             prev_range != Settings.Instance.GetFloat("Propagation_Range") || prev_alt2 != alt)
                         {
-                            switched = false;
+                            need_rf_redraw = false;
                             var pointslist = new List<PointLatLng>();
 
                             new SightGen(HomeLocation, pointslist, HomeLocation.Alt, DroneLocation, altasl);
@@ -343,6 +354,7 @@ namespace MissionPlanner.Maps
                             prev_alt2 = altasl;
                         }
                     }
+                    else need_rf_redraw = true;
 
                     /*Console.WriteLine("Propagation all {0} ms {1} ms  {2} ms {3} ms",
                         (DateTime.Now - start).TotalMilliseconds,
