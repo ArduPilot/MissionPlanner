@@ -1223,7 +1223,6 @@ Please check the following
 
                                     if (queued >= 10)
                                     {
-                                        lastonebyone = DateTime.Now;
                                         break;
                                     }
                                 }
@@ -1234,6 +1233,7 @@ Please check the following
                                 }
                             }
                         }
+                        lastonebyone = DateTime.Now;
                     }
                 }
 
