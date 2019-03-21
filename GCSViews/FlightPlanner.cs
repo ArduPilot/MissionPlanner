@@ -620,6 +620,8 @@ namespace MissionPlanner.GCSViews
 
             MainMap.Overlays.Add(poioverlay);
 
+            prop = new Propagation(MainMap);
+
             top = new GMapOverlay("top");
             //MainMap.Overlays.Add(top);
 
@@ -2878,6 +2880,8 @@ namespace MissionPlanner.GCSViews
         GMapOverlay geofenceoverlay;
         static GMapOverlay rallypointoverlay;
 
+        private static Propagation prop;
+
         // etc
         readonly Random rnd = new Random();
         string mobileGpsLog = string.Empty;
@@ -4345,6 +4349,12 @@ namespace MissionPlanner.GCSViews
             {
                 if (isMouseDown || CurentRectMarker != null)
                     return;
+
+                prop.alt = MainV2.comPort.MAV.cs.alt;
+                prop.altasl = MainV2.comPort.MAV.cs.altasl;
+                prop.center = MainMap.Position;
+                prop.Update(MainV2.comPort.MAV.cs.HomeLocation, MainV2.comPort.MAV.cs.Location,
+                            MainV2.comPort.MAV.cs.battery_kmleft);
 
                 routesoverlay.Markers.Clear();
 
