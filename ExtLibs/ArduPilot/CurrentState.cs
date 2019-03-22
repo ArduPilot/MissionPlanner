@@ -2433,7 +2433,7 @@ namespace MissionPlanner
                             lastautowp = (int) wpno;
                         }
 
-                        if (oldwp != wpno && Speech != null && Speech.speechEnable && parent.parent.MAV.cs == this &&
+                        if (oldwp != wpno && Speech != null && Speech.speechEnable && parent != null && parent.parent.MAV.cs == this &&
                             Settings.Instance.GetBoolean("speechwaypointenabled"))
                         {
                             Speech.SpeakAsync(Common.speechConversion(parent, "" + Settings.Instance["speechwaypoint"]));
