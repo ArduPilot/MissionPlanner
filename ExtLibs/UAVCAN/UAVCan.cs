@@ -175,8 +175,12 @@ namespace UAVCAN
 
         public void Stop(bool closestream = true)
         {
-            if(sr != null && closestream)
+            if (sr != null && closestream)
+            {
+                // close
+                sr.Write(new byte[] { (byte)'C', (byte)'\r' }, 0, 2);
                 sr.Close();
+            }
         }
 
         public void RequestFile(byte nodeID, string filename)
@@ -194,7 +198,7 @@ namespace UAVCAN
                 }
             };
 
-            MessageReceived += (frame, msg, transferID) =>
+            MessageRecievedDel reqfile = (frame, msg, transferID) =>
             {
                 if (frame.IsServiceMsg && frame.SvcDestinationNode != SourceNode)
                     return;
@@ -218,8 +222,7 @@ namespace UAVCAN
                     Console.WriteLine(ASCIIEncoding.ASCII.GetString(debug.text, 0, debug.text_len));
                 }
             };
-
-
+            MessageReceived += reqfile;
 
             var slcan = PackageMessage(nodeID, 20, transferID, req);
             lock (sr_lock)
@@ -233,6 +236,7 @@ namespace UAVCAN
                     lock (sr_lock)
                         WriteToStream(slcan);
             }
+            MessageReceived -= reqfile;
         }
 
 
@@ -243,7 +247,7 @@ namespace UAVCAN
 
             bool? ok = null;
 
-            MessageReceived += (frame, msg, transferID) =>
+            MessageRecievedDel configdelgate = (frame, msg, transferID) =>
             {
                 if (frame.IsServiceMsg && frame.SvcDestinationNode != SourceNode)
                     return;
@@ -258,6 +262,8 @@ namespace UAVCAN
                     ok = exopres.ok;
                 }
             };
+
+            MessageReceived += configdelgate;
 
             var req = new uavcan.uavcan_protocol_param_ExecuteOpcode_req() { opcode = (byte)uavcan.UAVCAN_PROTOCOL_PARAM_EXECUTEOPCODE_REQ_OPCODE_SAVE};
 
@@ -281,6 +287,8 @@ namespace UAVCAN
                 Thread.Sleep(20);
             }
 
+            MessageReceived -= configdelgate;
+
             return ok.Value;
         }
 
@@ -290,7 +298,7 @@ namespace UAVCAN
             ushort index = 0;
             var timeout = DateTime.Now.AddSeconds(2);
 
-            MessageReceived += (frame, msg, transferID) =>
+            MessageRecievedDel paramdelegate = (frame, msg, transferID) =>
             {
                 if (frame.IsServiceMsg && frame.SvcDestinationNode != SourceNode)
                     return;
@@ -317,6 +325,7 @@ namespace UAVCAN
                     index++;
                 }
             };
+            MessageReceived += paramdelegate;
 
             while (true)
             {
@@ -337,6 +346,8 @@ namespace UAVCAN
 
                 Thread.Sleep(333);
             }
+
+            MessageReceived -= paramdelegate;
 
             _paramlistcache = paramlist;
 
@@ -457,7 +468,7 @@ namespace UAVCAN
             var firmware_namebytes = ASCIIEncoding.ASCII.GetBytes(Path.GetFileName(firmware_name.ToLower()));
             ulong firmware_crc = ulong.MaxValue;
 
-            MessageReceived += (frame, msg, transferID) =>
+            MessageRecievedDel updatedelegate = (frame, msg, transferID) =>
             {
                 if (frame.IsServiceMsg && frame.SvcDestinationNode != SourceNode)
                     return;
@@ -502,6 +513,7 @@ namespace UAVCAN
                     }
                 }
             };
+            MessageReceived += updatedelegate;
 
             // getfile crc
             using (var stream = File.OpenRead(fileServerList[Path.GetFileName(firmware_name.ToLower())]))
@@ -569,6 +581,8 @@ namespace UAVCAN
                         break;
                 }
             }
+            
+            MessageReceived -= updatedelegate;
         }
 
         List<long> GetPatternPositions(Stream stream, byte[] pattern)

@@ -46,7 +46,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             try
             {
                 MainV2.comPort.setParam("CAN_SLCAN_CPORT", canport, true);
-                MainV2.comPort.setParam("CAN_SLCAN_SERNUM", 0, true);
+                MainV2.comPort.setParam("CAN_SLCAN_TIMOUT", 2, true);
+                MainV2.comPort.setParam("CAN_SLCAN_SERNUM", 0, true); // usb
             }
             catch
             {
