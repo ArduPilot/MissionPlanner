@@ -261,7 +261,7 @@ namespace MissionPlanner.Log
 
             internal string imgfile { get; set; }
             private Bitmap image = null;
-            public Image img { get { lock (this) { if (image == null && !String.IsNullOrEmpty(imgfile)) image = new Bitmap(imgfile); return image; } } }
+            public Image img { get { lock (this) { if (image == null && !String.IsNullOrEmpty(imgfile)) image = GetBitmap(imgfile); return image; } } }
             public string Duration { get; set; }
             public DateTime Date { get; set; }
             public int Aircraft { get; set; }
@@ -278,6 +278,14 @@ namespace MissionPlanner.Log
 
             public loginfo()
             {
+            }
+        }
+
+        private static Bitmap GetBitmap(string imgFile)
+        {
+            using (var file = File.Open(imgFile, FileMode.Open, FileAccess.Read))
+            {
+                return new Bitmap(file);
             }
         }
 
@@ -320,6 +328,74 @@ namespace MissionPlanner.Log
                 createFileList(fbd.SelectedPath);
                 System.Threading.ThreadPool.QueueUserWorkItem(queueRunner);
             }
+        }
+
+        private void btnDeleteLog_Click(object sender, EventArgs e)
+        {
+            if (CustomMessageBox.Show(string.Format("Do you really want to delete {0} logs?", objectListView1.SelectedIndices.Count), MessageBoxButtons: CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
+            {
+                foreach (int i in objectListView1.SelectedIndices)
+                {
+                    var item = (OLVListItem)objectListView1.Items[i];
+                    var log = (LogIndex.loginfo)item.RowObject;
+
+                    if (log.fullname == "--- DELETED ---")
+                        continue;
+
+                    var files = Directory.GetFiles(Path.GetDirectoryName(log.fullname), Path.GetFileName(log.fullname) + ".*").ToList();
+                    if (Path.GetExtension(log.fullname).Equals(".TLOG", StringComparison.InvariantCultureIgnoreCase))
+                        files.Add(Path.ChangeExtension(log.fullname, "rlog"));
+
+                    foreach (var file in files)
+                    {
+                        try
+                        {
+                            if (File.Exists(file))
+                                File.Delete(file);
+                        }
+                        catch (Exception ex)
+                        {
+                            CustomMessageBox.Show(string.Format("Error has been occured when trying to delete {0}\r\n{1}", log.fullname, ex.Message));
+                        }
+                    }
+
+                    log.fullname = "--- DELETED ---";
+                    log.imgfile = null;
+                    log.TimeInAir = 0;
+                    log.DistTraveled = 0;
+                    log.Duration = "";
+                }
+
+                objectListView1.Refresh();
+            }
+        }
+
+        private void objectListView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            btnDeleteLog.Enabled = objectListView1.SelectedIndices.Count > 0;
+
+            float timeInAir = 0;
+            float distTraveled = 0;
+            foreach (int i in objectListView1.SelectedIndices)
+            {
+                var item = (OLVListItem)objectListView1.Items[i];
+                var log = (LogIndex.loginfo)item.RowObject;
+
+                timeInAir += log.TimeInAir;
+                distTraveled += log.DistTraveled;
+
+            }
+
+            lbStats.Text = string.Format("Selected: {2}; TimeInAir: {0}; DistTraveled: {1}m", ToHours(timeInAir), (int)distTraveled, objectListView1.SelectedIndices.Count);
+        }
+
+        private static string ToHours(float seconds)
+        {
+            var hours = (int)Math.Floor(seconds / 3600);
+            var minutes = (int)Math.Floor((seconds % 3600) / 60);
+            var sec = (int)(seconds % 60);
+
+            return (hours < 10 ? "0" : "") + hours + ":" + minutes.ToString("D2") + ":" + sec.ToString("D2");
         }
     }
 }
