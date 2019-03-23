@@ -1414,7 +1414,7 @@ namespace MissionPlanner.Log
                 var prevx = zg1.GraphPane.XAxis.Scale.Min;
                 int prevmodeno = 0;
                 // 2% of total
-                var modeheighty = zg1.GraphPane.YAxis.Scale.Min +
+                var modeheighty = zg1.GraphPane.YAxis.Scale.Max -
                                   (zg1.GraphPane.YAxis.Scale.Max - zg1.GraphPane.YAxis.Scale.Min) * 0.02;
 
                 ModePolyCache.Clear();
@@ -1462,10 +1462,10 @@ namespace MissionPlanner.Log
                         {
                             Points = new[]
                             {
-                                new PointD(prevx, zg1.GraphPane.YAxis.Scale.Min), // bl
-                                new PointD(prevx, modeheighty), // tl
-                                new PointD(a, modeheighty), // tr
-                                new PointD(a, zg1.GraphPane.YAxis.Scale.Min), // br
+                                new PointD(prevx, modeheighty), // bl
+                                new PointD(prevx, zg1.GraphPane.YAxis.Scale.Max), // tl
+                                new PointD(a, zg1.GraphPane.YAxis.Scale.Max), // tr
+                                new PointD(a, modeheighty), // br                                
                             },
                             Fill = new Fill(colourspastal[prevmodeno]),
                             ZOrder = ZOrder.E_BehindCurves
@@ -1495,24 +1495,27 @@ namespace MissionPlanner.Log
                 }
 
                 // put from last to end of graph as well
-                var poly2 = new PolyObj()
                 {
-                    Points = new[]
+                    var a = zg1.GraphPane.XAxis.Scale.Max;
+                    var poly2 = new PolyObj()
                     {
-                        new PointD(prevx, zg1.GraphPane.YAxis.Scale.Min), // bl
-                        new PointD(prevx, modeheighty), // tl
-                        new PointD(zg1.GraphPane.XAxis.Scale.Max, modeheighty), // tr
-                        new PointD(zg1.GraphPane.XAxis.Scale.Max, zg1.GraphPane.YAxis.Scale.Min), // br
+                        Points = new[]
+                        {
+                             new PointD(prevx, modeheighty), // bl
+                                new PointD(prevx, zg1.GraphPane.YAxis.Scale.Max), // tl
+                                new PointD(a, zg1.GraphPane.YAxis.Scale.Max), // tr
+                                new PointD(a, modeheighty), // br   
                     },
-                    Fill = new Fill(colourspastal[modenum]),
-                    ZOrder = ZOrder.E_BehindCurves
-                };
+                        Fill = new Fill(colourspastal[modenum]),
+                        ZOrder = ZOrder.E_BehindCurves
+                    };
 
-                this.BeginInvokeIfRequired(() =>
-                {
-                    zg1.GraphPane.GraphObjList.Add(poly2);
-                    zg1.Invalidate();
-                });
+                    this.BeginInvokeIfRequired(() =>
+                    {
+                        zg1.GraphPane.GraphObjList.Add(poly2);
+                        zg1.Invalidate();
+                    });
+                }
                 log.Info("End DrawModes");
             });
         }

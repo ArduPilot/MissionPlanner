@@ -654,5 +654,11 @@ Velocity comparison x
       <expression>NKF4.PI NKF9.PI</expression>
       <expression>NKF4.PI</expression>
     </graph>
+
+  <graph name='Battery Watts'>
+    <description>Battery Watts</description>
+    <expression>BAT.Volt BAT.Curr BAT.Volt*BAT.Curr:2</expression>
+  </graph>
+  
 </graphs>
 
