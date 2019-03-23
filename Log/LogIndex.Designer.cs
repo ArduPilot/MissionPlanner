@@ -42,6 +42,8 @@
             this.olvColumnDistTraveled = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.BUT_changedir = new MissionPlanner.Controls.MyButton();
             this.olvColumnCamMSG = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.btnDeleteLog = new MissionPlanner.Controls.MyButton();
+            this.lbStats = new MissionPlanner.Controls.MyLabel();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -75,15 +77,20 @@
             this.olvColumnTimeInAir,
             this.olvColumnDistTraveled,
             this.olvColumnCamMSG});
+            this.objectListView1.FullRowSelect = true;
+            this.objectListView1.HideSelection = false;
             this.objectListView1.Location = new System.Drawing.Point(12, 42);
             this.objectListView1.Name = "objectListView1";
             this.objectListView1.RowHeight = 150;
+            this.objectListView1.ShowGroups = false;
             this.objectListView1.Size = new System.Drawing.Size(1153, 460);
             this.objectListView1.TabIndex = 0;
             this.objectListView1.UseCellFormatEvents = true;
             this.objectListView1.UseCompatibleStateImageBehavior = false;
             this.objectListView1.View = System.Windows.Forms.View.Details;
+            this.objectListView1.VirtualMode = true;
             this.objectListView1.FormatCell += new System.EventHandler<BrightIdeasSoftware.FormatCellEventArgs>(this.objectListView1_FormatCell);
+            this.objectListView1.SelectedIndexChanged += new System.EventHandler(this.objectListView1_SelectedIndexChanged);
             // 
             // olvColumnImage
             // 
@@ -150,13 +157,19 @@
             // 
             this.olvColumnTimeInAir.AspectName = "TimeInAir";
             this.olvColumnTimeInAir.CellPadding = null;
-            this.olvColumnTimeInAir.Text = "TimeInAir";
+            this.olvColumnTimeInAir.Text = "TimeInAir, sec";
             // 
             // olvColumnDistTraveled
             // 
             this.olvColumnDistTraveled.AspectName = "DistTraveled";
             this.olvColumnDistTraveled.CellPadding = null;
-            this.olvColumnDistTraveled.Text = "DistTraveled";
+            this.olvColumnDistTraveled.Text = "DistTraveled, m";
+            // 
+            // olvColumnCamMSG
+            // 
+            this.olvColumnCamMSG.AspectName = "CamMSG";
+            this.olvColumnCamMSG.CellPadding = null;
+            this.olvColumnCamMSG.Text = "CamMSG";
             // 
             // BUT_changedir
             // 
@@ -169,16 +182,31 @@
             this.BUT_changedir.UseVisualStyleBackColor = true;
             this.BUT_changedir.Click += new System.EventHandler(this.BUT_changedir_Click);
             // 
-            // olvColumnCamMSG
+            // btnDeleteLog
             // 
-            this.olvColumnCamMSG.AspectName = "CamMSG";
-            this.olvColumnCamMSG.CellPadding = null;
-            this.olvColumnCamMSG.Text = "CamMSG";
+            this.btnDeleteLog.Enabled = false;
+            this.btnDeleteLog.Location = new System.Drawing.Point(1061, 13);
+            this.btnDeleteLog.Name = "btnDeleteLog";
+            this.btnDeleteLog.Size = new System.Drawing.Size(104, 23);
+            this.btnDeleteLog.TabIndex = 2;
+            this.btnDeleteLog.Text = "Delete selected";
+            this.btnDeleteLog.UseVisualStyleBackColor = true;
+            this.btnDeleteLog.Click += new System.EventHandler(this.btnDeleteLog_Click);
+            // 
+            // lbStats
+            // 
+            this.lbStats.Location = new System.Drawing.Point(683, 12);
+            this.lbStats.Name = "lbStats";
+            this.lbStats.resize = false;
+            this.lbStats.Size = new System.Drawing.Size(372, 23);
+            this.lbStats.TabIndex = 3;
+            this.lbStats.Text = "Selected: 0";
             // 
             // LogIndex
             // 
-            
             this.ClientSize = new System.Drawing.Size(1177, 514);
+            this.Controls.Add(this.lbStats);
+            this.Controls.Add(this.btnDeleteLog);
             this.Controls.Add(this.BUT_changedir);
             this.Controls.Add(this.objectListView1);
             this.Name = "LogIndex";
@@ -206,5 +234,7 @@
         private BrightIdeasSoftware.OLVColumn olvColumnFrame;
         private BrightIdeasSoftware.OLVColumn olvColumnDistTraveled;
         private BrightIdeasSoftware.OLVColumn olvColumnCamMSG;
+        private Controls.MyButton btnDeleteLog;
+        private Controls.MyLabel lbStats;
     }
 }

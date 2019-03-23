@@ -1255,7 +1255,7 @@ namespace MissionPlanner
 
         public bool connected
         {
-            get { return (parent.parent.BaseStream.IsOpen || parent.parent.logreadmode); }
+            get { return ((parent.parent.BaseStream != null && parent.parent.BaseStream.IsOpen) || parent.parent.logreadmode); }
         }
 
 
