@@ -105,7 +105,7 @@ Velocity comparison x
       This shows the ground speed of the vehicle
     </description>
   </graph>
-
+  
   <graph name='Attitude/Roll and Pitch'>
     <description>Roll and Pitch</description>
     <expression>degrees(ATTITUDE.roll) degrees(ATTITUDE.pitch)</expression>
@@ -286,6 +286,9 @@ Velocity comparison x
       SERVO_OUTPUT_RAW.servo1_raw SERVO_OUTPUT_RAW.servo2_raw SERVO_OUTPUT_RAW.servo3_raw SERVO_OUTPUT_RAW.servo4_raw
     </expression>
     <expression>
+      RCOU.Ch1 RCOU.Ch2 RCOU.Ch3 RCOU.Ch4
+    </expression>
+    <expression>
       RCOU.C1 RCOU.C2 RCOU.C3 RCOU.C4
     </expression>
   </graph>
@@ -297,6 +300,10 @@ Velocity comparison x
       SERVO_OUTPUT_RAW.servo5_raw SERVO_OUTPUT_RAW.servo6_raw SERVO_OUTPUT_RAW.servo7_raw SERVO_OUTPUT_RAW.servo8_raw
     </expression>
     <expression>
+      RCOU.Ch1 RCOU.Ch2 RCOU.Ch3 RCOU.Ch4
+      RCOU.Ch5 RCOU.Ch6 RCOU.Ch7 RCOU.Ch8
+    </expression>
+    <expression>
       RCOU.C1 RCOU.C2 RCOU.C3 RCOU.C4
       RCOU.C5 RCOU.C6 RCOU.C7 RCOU.C8
     </expression>
@@ -304,6 +311,9 @@ Velocity comparison x
 
   <graph name='RC/RC Input 1-4'>
     <description>First 4 RC inputs</description>
+    <expression>
+      RC_CHANNELS.chan1_raw RC_CHANNELS.chan2_raw RC_CHANNELS.chan3_raw RC_CHANNELS.chan4_raw
+    </expression>
     <expression>
       RC_CHANNELS_RAW.chan1_raw RC_CHANNELS_RAW.chan2_raw RC_CHANNELS_RAW.chan3_raw RC_CHANNELS_RAW.chan4_raw
     </expression>
@@ -314,6 +324,10 @@ Velocity comparison x
 
   <graph name='RC/RC Input 1-8'>
     <description>First 8 RC inputs</description>
+    <expression>
+      RC_CHANNELS.chan1_raw RC_CHANNELS.chan2_raw RC_CHANNELS.chan3_raw RC_CHANNELS.chan4_raw
+      RC_CHANNELS.chan5_raw RC_CHANNELS.chan6_raw RC_CHANNELS.chan7_raw RC_CHANNELS.chan8_raw
+    </expression>
     <expression>
       RC_CHANNELS_RAW.chan1_raw RC_CHANNELS_RAW.chan2_raw RC_CHANNELS_RAW.chan3_raw RC_CHANNELS_RAW.chan4_raw
       RC_CHANNELS_RAW.chan5_raw RC_CHANNELS_RAW.chan6_raw RC_CHANNELS_RAW.chan7_raw RC_CHANNELS_RAW.chan8_raw
