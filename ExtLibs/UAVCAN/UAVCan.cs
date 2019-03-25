@@ -178,8 +178,11 @@ namespace UAVCAN
             if (sr != null && closestream)
             {
                 // close
-                sr.Write(new byte[] { (byte)'C', (byte)'\r' }, 0, 2);
-                sr.Close();
+                try
+                {
+                    sr.Write(new byte[] { (byte)'C', (byte)'\r' }, 0, 2);
+                    sr.Close();
+                } catch { }
             }
         }
 
@@ -483,7 +486,7 @@ namespace UAVCAN
                 {
                     var gnires = msg as uavcan.uavcan_protocol_GetNodeInfo_res;
                     Console.WriteLine("GetNodeInfo: seen '{0}' from {1}", ASCIIEncoding.ASCII.GetString(gnires.name).TrimEnd('\0'), frame.SourceNode);
-                    if (devicename == ASCIIEncoding.ASCII.GetString(gnires.name).TrimEnd('\0'))
+                    if (devicename == ASCIIEncoding.ASCII.GetString(gnires.name).TrimEnd('\0') || devicename == ASCIIEncoding.ASCII.GetString(gnires.name).TrimEnd('\0') + "-BL")
                     {
                         if (firmware_crc != gnires.software_version.image_crc)
                         {
@@ -504,12 +507,26 @@ namespace UAVCAN
                                     lock (sr_lock)
                                         WriteToStream(slcan);
                                 }
+                                else
+                                {
+                                    Console.WriteLine("already in update mode");
+
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("hwversion does not match");
+
                             }
                         }
                         else
                         {
                             throw new Exception(String.Format( "{0} - No need to upload, crc matchs", frame.SourceNode));
                         }
+                    }
+                    else
+                    {
+                        Console.WriteLine("device name does not match");
                     }
                 }
             };
