@@ -713,6 +713,22 @@ namespace MissionPlanner
         float _targetairspeed;
         float _climbrate;
 
+        public float QNH
+        {
+            get
+            {
+                var pressure = press_abs;
+                var alt_m = altasl;
+
+                var gndtemp = 15f;              
+                var C_TO_KELVIN = 273.15f;               
+                float temp = gndtemp + C_TO_KELVIN; // kelvin
+                float scaling = (float)Math.Exp(Math.Log(1.0 - (alt_m / (153.8462 * temp))) / 0.190259);
+                float base_pressure = pressure / scaling;
+                return base_pressure;
+            }
+        }
+
         [DisplayText("Wind Direction (Deg)")]
         public float wind_dir { get; set; }
 
