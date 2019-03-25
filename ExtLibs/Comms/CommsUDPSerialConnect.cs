@@ -21,6 +21,8 @@ namespace MissionPlanner.Comms
 
         private int retrys = 3;
 
+        public string ConfigRef { get; set; } = "";
+
         public UdpSerialConnect()
         {
             Port = "14550";
@@ -90,9 +92,9 @@ namespace MissionPlanner.Comms
             var dest = Port;
             var host = "127.0.0.1";
 
-            dest = OnSettings("UDP_port", dest);
+            dest = OnSettings("UDP_port" + ConfigRef, dest);
 
-            host = OnSettings("UDP_host", host);
+            host = OnSettings("UDP_host" + ConfigRef, host);
 
             //if (!MainV2.MONO)
             {
@@ -105,8 +107,8 @@ namespace MissionPlanner.Comms
 
             Port = dest;
 
-            OnSettings("UDP_port", Port, true);
-            OnSettings("UDP_host", host, true);
+            OnSettings("UDP_port" + ConfigRef, Port, true);
+            OnSettings("UDP_host" + ConfigRef, host, true);
 
             client = new UdpClient(host, int.Parse(Port));
 

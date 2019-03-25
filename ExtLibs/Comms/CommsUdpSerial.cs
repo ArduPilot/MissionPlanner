@@ -32,6 +32,8 @@ namespace MissionPlanner.Comms
         /// </summary>
         public IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
 
+        public string ConfigRef { get; set; } = "";
+
         public UdpSerial()
         {
             //System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US");
@@ -105,13 +107,13 @@ namespace MissionPlanner.Comms
 
             var dest = Port;
 
-            dest = OnSettings("UDP_port", dest);
+            dest = OnSettings("UDP_port" + ConfigRef, dest);
 
             if (inputboxreturn.Cancel == OnInputBoxShow("Listern Port",
                     "Enter Local port (ensure remote end is already sending)", ref dest)) return;
             Port = dest;
 
-            OnSettings("UDP_port", Port, true);
+            OnSettings("UDP_port" + ConfigRef, Port, true);
 
             //######################################
 
