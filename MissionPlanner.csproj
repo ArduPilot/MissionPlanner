@@ -4925,6 +4925,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="appveyor.yml" />
+    <None Include="azure-pipelines.yml" />
     <None Include="block_plane_0.dae">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

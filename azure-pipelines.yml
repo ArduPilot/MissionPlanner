@@ -16,13 +16,15 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- task: NuGetToolInstaller@0
-
+- script: date /t
+  displayName: Get the date
+- script: dir
+  workingDirectory: $(Agent.BuildDirectory)
+  displayName: List contents of a folder
 - script: .nuget\nuget.exe update -self
-  workingDirectory: $(Agent.BuildDirectory)
-
+  workingDirectory: $(Build.Repository.LocalPath)
 - script: .nuget\nuget.exe restore
-  workingDirectory: $(Agent.BuildDirectory)
+  workingDirectory: $(Build.Repository.LocalPath)
 
 - task: VSBuild@1
   inputs:
