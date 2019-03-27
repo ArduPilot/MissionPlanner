@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO.Ports;
+using MissionPlanner.Comms;
 
 namespace MissionPlanner.Arduino
 {
@@ -8,16 +9,9 @@ namespace MissionPlanner.Arduino
     /// <summary>
     ///     Arduino STK interface
     /// </summary>
-    public interface IArduinoComms
+    public interface IArduinoComms: ICommsSerial
     {
         // from serialport class
-        int BaudRate { get; set; }
-        bool DtrEnable { get; set; }
-        string PortName { get; set; }
-        StopBits StopBits { get; set; }
-        Parity Parity { get; set; }
-        bool IsOpen { get; }
-        int DataBits { get; set; }
         bool connectAP();
         bool keepalive();
         bool sync();
@@ -30,8 +24,6 @@ namespace MissionPlanner.Arduino
         Chip getChipType();
 
         event ProgressEventHandler Progress;
-        void Open();
-        void Close();
     }
 
     public class Chip

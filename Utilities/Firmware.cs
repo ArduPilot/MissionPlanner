@@ -1359,9 +1359,6 @@ namespace MissionPlanner.Utilities
                     BaudRate = 115200
                 };
             }
-            port.DataBits = 8;
-            port.StopBits = System.IO.Ports.StopBits.One;
-            port.Parity = System.IO.Ports.Parity.None;
             port.DtrEnable = true;
 
             try
