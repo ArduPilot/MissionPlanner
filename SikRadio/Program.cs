@@ -24,6 +24,7 @@
  * 2.17 - Resolved issue in which pin wasn't being set to output/input when RC out / SBUS out checked / unchecked.
  * 2.18 - Added text boxes to settings view for local and remote modems to display country code if locked to a country,
  *          as requested by Moreton.
+ * 2.19 - Fixed bug in which programming RFD900x firmware whose file size was a multiple of 128 bytes failed.  
  */
 
 using System;

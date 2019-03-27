@@ -57,27 +57,15 @@ namespace MissionPlanner.Radio
 
             var bytesRead = fs.Read(bits, 0, bits.Length);
 
-            if (bytesRead == bits.Length)
+            CRC = CRC_calc(bits, 128);
+            System.Buffer.BlockCopy(bits, 0, packet, 3, 128);
+            packet[131] = (byte)(CRC >> 8);
+            packet[132] = (byte)(CRC);
+            Serial.Write(packet, 0, packet.Length);
+
+            if (fs.Position >= fs.Length)
             {
-                CRC = CRC_calc(bits, 128);
-                System.Buffer.BlockCopy(bits, 0, packet, 3, 128);
-                packet[131] = (byte)(CRC >> 8);
-                packet[132] = (byte)(CRC);
-                Serial.Write(packet, 0, packet.Length);
-                //Console.WriteLine("CRC is " + CRC.ToString());
-            }
-            else if (bytesRead > 0)
-            {
-                CRC = CRC_calc(bits, 128);
-                System.Buffer.BlockCopy(bits, 0, packet, 3, 128);
-                packet[131] = (byte)(CRC >> 8);
-                packet[132] = (byte)(CRC);
-                Serial.Write(packet, 0, packet.Length);
-                Serial.Write(new byte[] { EOT }, 0, 1);
-                ProgressEvent?.Invoke(100);
-            }
-            else if (bytesRead == 0)
-            {
+                //End of file.
                 Serial.Write(new byte[] { EOT }, 0, 1);
                 ProgressEvent?.Invoke(100);
             }
