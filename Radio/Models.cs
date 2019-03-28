@@ -73,7 +73,7 @@ namespace MissionPlanner.Radio
                         RXENCAP.ComboBox.Name = Prefix + "NODECOUNT";
                         RXENCAP.Label.Text = "Node Count";
                         NodeID.ComboBox.DataSource = Sikradio.Range(0, 1, 29);
-                        var Temp = (List<int>)Sikradio.Range(0, 1, 29);
+                        var Temp = new List<int>(Sikradio.Range(0, 1, 29));
                         Temp.Add(65535);
                         DestID.ComboBox.DataSource = Temp;
                         TXENCAP.ComboBox.DataSource = Sikradio.Range(0, 1, 1);
@@ -110,7 +110,7 @@ namespace MissionPlanner.Radio
                         MAX_DATA.ComboBox.Name = "GPO1_3STATLED";
                         MAX_DATA.Label.Text = "GPO1_\n3STATLED";
                         NodeID.ComboBox.DataSource = Sikradio.Range(0, 1, 29);
-                        var Temp = (List<int>)Sikradio.Range(0, 1, 29);
+                        var Temp = new List<int>(Sikradio.Range(0, 1, 29));
                         Temp.Add(65535);
                         DestID.ComboBox.DataSource = Temp;
                         TXENCAP.ComboBox.DataSource = Sikradio.Range(0, 1, 1);

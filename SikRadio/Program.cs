@@ -25,6 +25,7 @@
  * 2.18 - Added text boxes to settings view for local and remote modems to display country code if locked to a country,
  *          as requested by Moreton.
  * 2.19 - Fixed bug in which programming RFD900x firmware whose file size was a multiple of 128 bytes failed.  
+ * 2.20 - Made changes so that it could update firmware and load settings from a modem with multipoint firmware.  
  */
 
 using System;

@@ -23,7 +23,7 @@ namespace RFD.RFD900
         public TSession(MissionPlanner.Comms.ICommsSerial Port, int MainFirmwareBaud)
         {
             _Port = Port;
-            _ATCClient = new RFDLib.IO.ATCommand.TClient(new TMissionPlannerSerialPort(Port));
+            _ATCClient = new TATCClient(new TMissionPlannerSerialPort(Port));
             _ATCClient.Echoes = true;
             _ATCClient.Terminator = "\r\n";
             _ATCClient.Timeout = 1000;
@@ -1611,6 +1611,30 @@ namespace RFD.RFD900
             {
                 _Port.ReadTimeout = value;
             }
+        }
+    }
+
+    public class TATCClient : RFDLib.IO.ATCommand.TClient
+    {
+        public TATCClient(RFDLib.IO.TSerialPort Port)
+            : base(Port)
+        {
+        }
+
+        public override string DoQuery(string Command, bool WaitForTerminator)
+        {
+            string Raw = base.DoQuery(Command, WaitForTerminator);
+
+            if (Raw.StartsWith("[") && Raw.Contains("]"))
+            {
+                string[] Parts = Raw.Split(']');
+                if (Parts.Length >= 2)
+                {
+                    return Parts[1];
+                }
+            }
+
+            return Raw;
         }
     }
 }

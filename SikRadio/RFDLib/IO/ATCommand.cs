@@ -119,7 +119,7 @@ namespace RFDLib.IO.ATCommand
         /// <param name="Command">The command.  Must not be null.</param>
         /// <param name="WaitForTerminator">true to wait for terminator.</param>
         /// <returns>The reply, except for the echo.</returns>
-        public string DoQuery(string Command, bool WaitForTerminator)
+        public virtual string DoQuery(string Command, bool WaitForTerminator)
         {
             string CompleteCommand = Command + GetTerminator();
             _Port.DiscardInBuffer();
