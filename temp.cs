@@ -77,7 +77,8 @@ namespace MissionPlanner
 
             MainMap.MapProvider = GoogleSatelliteMapProvider.Instance;
 
-            MainMap.CacheLocation = Path.GetDirectoryName(Application.ExecutablePath) + "/gmapcache/";
+            MainMap.CacheLocation = Settings.GetDataDirectory() +
+                                    "gmapcache" + Path.DirectorySeparatorChar;
 
             var fbd = new FolderBrowserDialog();
 
