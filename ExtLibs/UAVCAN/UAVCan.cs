@@ -464,12 +464,44 @@ namespace UAVCAN
             };
         }
 
-        public async void Update(string devicename, double hwversion, string firmware_name)
+        public string LookForUpdate(string devicename, double hwversion)
         {
+            string[] servers = new string[] { "http://firmware.cubepilot.org:81/UAVCAN/" };
+
+            foreach (var server in servers)
+            {
+                var url = String.Format("{0}{1}/{2}/{3}", server, devicename, hwversion.ToString("0.0##"), "firmware.bin");
+                Console.WriteLine("LookForUpdate at " + url);
+                var req = WebRequest.Create(url);
+                req.Timeout = 4000; // miliseconds
+                req.Method = "HEAD";
+
+                try
+                {
+                    var res = (HttpWebResponse)req.GetResponse();
+                    if (res.StatusCode == HttpStatusCode.OK)
+                    {
+                        Console.WriteLine("LookForUpdate valid url " + url);
+                        return url;
+                    }
+                }
+                catch
+                {
+                }
+            }
+
+            return String.Empty;
+        }
+
+        public void Update(string devicename, double hwversion, string firmware_name)
+        {
+            Console.WriteLine("Update {0} {1} {2}", devicename, hwversion, firmware_name);
+
             ServeFile(firmware_name);
 
             var firmware_namebytes = ASCIIEncoding.ASCII.GetBytes(Path.GetFileName(firmware_name.ToLower()));
             ulong firmware_crc = ulong.MaxValue;
+            Exception exception = null;
 
             MessageRecievedDel updatedelegate = (frame, msg, transferID) =>
             {
@@ -480,7 +512,7 @@ namespace UAVCAN
                 {
                     var bfures = msg as uavcan.uavcan_protocol_file_BeginFirmwareUpdate_res;
                     if (bfures.error != 0)
-                        throw new Exception("Begin Firmware Update returned an error");
+                        exception = new Exception("Begin Firmware Update returned an error");
                 }
                 else if (msg.GetType() == typeof(uavcan.uavcan_protocol_GetNodeInfo_res))
                 {
@@ -488,7 +520,7 @@ namespace UAVCAN
                     Console.WriteLine("GetNodeInfo: seen '{0}' from {1}", ASCIIEncoding.ASCII.GetString(gnires.name).TrimEnd('\0'), frame.SourceNode);
                     if (devicename == ASCIIEncoding.ASCII.GetString(gnires.name).TrimEnd('\0') || devicename == ASCIIEncoding.ASCII.GetString(gnires.name).TrimEnd('\0') + "-BL")
                     {
-                        if (firmware_crc != gnires.software_version.image_crc)
+                        if (firmware_crc != gnires.software_version.image_crc || firmware_crc == ulong.MaxValue)
                         {
                             if (hwversion == double.Parse(gnires.hardware_version.major + "." + gnires.hardware_version.minor, CultureInfo.InvariantCulture) || hwversion == 0)
                             {
@@ -509,24 +541,26 @@ namespace UAVCAN
                                 }
                                 else
                                 {
-                                    Console.WriteLine("already in update mode");
-
+                                    exception = new Exception("already in update mode");
+                                    return;
                                 }
                             }
                             else
                             {
-                                Console.WriteLine("hwversion does not match");
-
+                                exception = new Exception("hwversion does not match");
+                                return;
                             }
                         }
                         else
                         {
-                            throw new Exception(String.Format( "{0} - No need to upload, crc matchs", frame.SourceNode));
+                            exception = new Exception(String.Format( "{0} - No need to upload, crc matchs", frame.SourceNode));
+                            return;
                         }
                     }
                     else
                     {
-                        Console.WriteLine("device name does not match");
+                        Console.WriteLine("device name does not match {0} vs {1}", devicename, ASCIIEncoding.ASCII.GetString(gnires.name).TrimEnd('\0'));
+                        return;
                     }
                 }
             };
@@ -556,20 +590,6 @@ namespace UAVCAN
                 }
             }
 
-            
-
-            NodeAdded += (NodeID, msg) =>
-            {
-                var statetracking = new statetracking();
-                // get node info
-                uavcan.uavcan_protocol_GetNodeInfo_req gnireq = new uavcan.uavcan_protocol_GetNodeInfo_req() { };
-                gnireq.encode(uavcan_transmit_chunk_handler, statetracking);
-
-                var slcan = PackageMessage(NodeID, 30, transferID++, gnireq);
-                lock (sr_lock)
-                    WriteToStream(slcan);
-            };
-
             foreach (var i in nodeList.Keys.ToArray())
             {
                 var statetracking = new statetracking();
@@ -585,21 +605,33 @@ namespace UAVCAN
             int b = 0;
             while (true)
             {
-                await Task.Delay(1000);
+                Thread.Sleep(1000);
+
+                if (exception != null)
+                {
+                    break;
+                }
 
                 if (nodeList.Values.Any(a => a.mode == uavcan.UAVCAN_PROTOCOL_NODESTATUS_MODE_SOFTWARE_UPDATE))
                 {
-                   
+
                 }
                 else
                 {
                     b++;
-                    if(b > 100)
+                    if (b > 100)
                         break;
                 }
             }
-            
+
+            Console.WriteLine("Update EXIT");
+
             MessageReceived -= updatedelegate;
+
+            if (exception != null)
+            {
+                throw exception;
+            }
         }
 
         List<long> GetPatternPositions(Stream stream, byte[] pattern)
@@ -1023,8 +1055,9 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
 
                     MessageReceived?.Invoke(frame, ans, payload.TransferID);
                 }
-                catch
+                catch (Exception ex)
                 {
+                    Console.WriteLine(ex);
                 }
             }
         }

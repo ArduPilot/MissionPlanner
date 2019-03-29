@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 using UAVCAN;
+using System.Globalization;
+using System.IO;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -171,7 +173,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         UAVCAN.uavcan can = new UAVCAN.uavcan();
 
-        private void myDataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        private async void myDataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             // Ignore clicks that are not on button cells. 
             if (e.RowIndex < 0 || e.ColumnIndex !=
@@ -188,14 +190,59 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             else if (e.ColumnIndex == myDataGridView1.Columns["updateDataGridViewTextBoxColumn"].Index)
             {
-                FileDialog fd = new OpenFileDialog();
-                fd.RestoreDirectory = true;
-                fd.Filter = "*-crc.bin|*-crc.bin";
-                var dia = fd.ShowDialog();
+                if (CustomMessageBox.Show("Do you want to search the internet for an update?", "Update", CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
+                {
+                    var devicename = myDataGridView1[nameDataGridViewTextBoxColumn.Index, e.RowIndex].Value.ToString();
+                    var hwversion = double.Parse(myDataGridView1[hardwareVersionDataGridViewTextBoxColumn.Index, e.RowIndex].Value.ToString(), CultureInfo.InvariantCulture);
 
-                if (fd.CheckFileExists && dia == DialogResult.OK)
-                    can.Update(myDataGridView1[nameDataGridViewTextBoxColumn.Index, e.RowIndex].Value.ToString(), 0,
-                        fd.FileName);
+                    var url = can.LookForUpdate(devicename, hwversion);
+
+                    if (url != string.Empty)
+                    {
+                        try
+                        {
+                            await Task.Run(() =>
+                            {
+                                var tempfile = Path.GetTempFileName();
+                                Download.getFilefromNet(url, tempfile);
+
+                                can.Update(devicename, hwversion, tempfile);
+                            });
+                        }
+                        catch (Exception ex)
+                        {
+                            CustomMessageBox.Show(ex.Message, Strings.ERROR);
+                        }
+                    }
+                    else
+                    {
+                        CustomMessageBox.Show(Strings.UpdateNotFound, Strings.UpdateNotFound);
+                    }
+                }
+                else
+                {
+
+                    FileDialog fd = new OpenFileDialog();
+                    fd.RestoreDirectory = true;
+                    fd.Filter = "*-crc.bin|*-crc.bin";
+                    var dia = fd.ShowDialog();
+
+                    if (fd.CheckFileExists && dia == DialogResult.OK)
+                    {
+                        try
+                        {
+                            await Task.Run(() =>
+                            {
+                                can.Update(myDataGridView1[nameDataGridViewTextBoxColumn.Index, e.RowIndex].Value.ToString(), 0,
+                                fd.FileName);
+                            });
+                        }
+                        catch (Exception ex)
+                        {
+                            CustomMessageBox.Show(ex.Message, Strings.ERROR);
+                        }
+                    }
+                }
             }
         }
 
