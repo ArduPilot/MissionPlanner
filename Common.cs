@@ -106,7 +106,7 @@ namespace MissionPlanner
 
         public static List<KeyValuePair<int, string>> getModesList(Firmwares csFirmware)
         {
-            return ArduPilot.Common.getModesList(MainV2.comPort.MAV.cs.firmware);
+            return ArduPilot.Common.getModesList(csFirmware);
         }
     }
 }
