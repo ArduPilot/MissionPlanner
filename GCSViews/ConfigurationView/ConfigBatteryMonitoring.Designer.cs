@@ -38,7 +38,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.label29 = new System.Windows.Forms.Label();
             this.label30 = new System.Windows.Forms.Label();
             this.TXT_battcapacity = new System.Windows.Forms.TextBox();
-            this.CMB_batmontype = new MavlinkComboBox();
+            this.CMB_batmontype = new MissionPlanner.Controls.MavlinkComboBox();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.CMB_apmversion = new System.Windows.Forms.ComboBox();
@@ -104,14 +104,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             // CMB_batmontype
             // 
+            this.CMB_batmontype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CMB_batmontype.DropDownWidth = 200;
+            resources.ApplyResources(this.CMB_batmontype, "CMB_batmontype");
             this.CMB_batmontype.FormattingEnabled = true;
             this.CMB_batmontype.Items.AddRange(new object[] {
             resources.GetString("CMB_batmontype.Items"),
             resources.GetString("CMB_batmontype.Items1"),
             resources.GetString("CMB_batmontype.Items2")});
-            resources.ApplyResources(this.CMB_batmontype, "CMB_batmontype");
             this.CMB_batmontype.Name = "CMB_batmontype";
+            this.CMB_batmontype.ParamName = null;
+            this.CMB_batmontype.SubControl = null;
             this.CMB_batmontype.SelectedIndexChanged += new System.EventHandler(this.CMB_batmontype_SelectedIndexChanged);
             // 
             // pictureBox5
