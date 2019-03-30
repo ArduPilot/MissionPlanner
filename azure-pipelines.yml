@@ -16,18 +16,9 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- script: date /t
-  displayName: Get the date
-- script: dir
-  workingDirectory: $(Agent.BuildDirectory)
-  displayName: List contents of a folder
-- script: .nuget\nuget.exe update -self
-  workingDirectory: $(Build.Repository.LocalPath)
-- script: .nuget\nuget.exe restore
-  workingDirectory: $(Build.Repository.LocalPath)
-
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+    restoreNugetPackages: true
