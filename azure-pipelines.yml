@@ -16,6 +16,11 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+- task: RestoreCache@0
+  inputs:
+    key: |
+       azure-pipelines.yml
+    path: C:\Users\VssAdministrator\.nuget\packages
 - script: date /t
   displayName: Get the date
 - script: dir
@@ -25,9 +30,21 @@ steps:
   workingDirectory: $(Build.Repository.LocalPath)
 - script: .nuget\nuget.exe restore
   workingDirectory: $(Build.Repository.LocalPath)
-
+- task: SaveCache@0
+  inputs:
+    key: |
+       azure-pipelines.yml
+    path: C:\Users\VssAdministrator\.nuget\packages
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+- task: ArchiveFiles@2
+  displayName: 'Archive $(Build.BinariesDirectory)'
+  inputs:
+    includeRootFolder: false
+- task: PublishBuildArtifacts@3
+  displayName: 'Publish Artifact: MissionPlanner'
+  inputs:
+    ArtifactName: MissionPlanner
