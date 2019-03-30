@@ -1667,7 +1667,7 @@ Please check the following
                 if (armit)
                     return doCommand(sysid, compid, MAV_CMD.COMPONENT_ARM_DISARM, 1, 0, 0, 0, 0, 0, 0);
                 else
-                    return doCommand(sysid, compid, MAV_CMD.COMPONENT_ARM_DISARM, 0, magic_force_disarm_value, 0, 0, 0,
+                    return doCommand(sysid, compid, MAV_CMD.COMPONENT_ARM_DISARM, 0, 0, 0, 0, 0,
                         0, 0);
             }
         }
