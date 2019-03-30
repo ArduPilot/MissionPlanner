@@ -16,11 +16,6 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- task: RestoreCache@0
-  inputs:
-    keyfile: '**/azure-pipelines.yml'
-    targetfolder: 'C:\Users\VssAdministrator\.nuget\packages'
-    vstsFeed: '$(ArtifactFeed)'
 - script: date /t
   displayName: Get the date
 - script: dir
@@ -30,11 +25,6 @@ steps:
   workingDirectory: $(Build.Repository.LocalPath)
 - script: .nuget\nuget.exe restore
   workingDirectory: $(Build.Repository.LocalPath)
-- task: SaveCache@1
-  inputs:
-    keyfile: '**/azure-pipelines.yml'
-    targetfolder: 'C:\Users\VssAdministrator\.nuget\packages'
-    vstsFeed: '$(ArtifactFeed)'
 - task: VSBuild@2
   inputs:
     solution: '$(solution)'
