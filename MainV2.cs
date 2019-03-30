@@ -3487,11 +3487,7 @@ namespace MissionPlanner
             }
             if (keyData == (Keys.Control | Keys.Z))
             {
-                MissionPlanner.GenOTP otp = new MissionPlanner.GenOTP();
-
-                otp.ShowDialog(this);
-
-                otp.Dispose();
+                MainV2.comPort.device_op((byte)MainV2.comPort.sysidcurrent,(byte)MainV2.comPort.compidcurrent, MAVLink.DEVICE_OP_BUSTYPE.SPI, "mpu6000", 0, 0, 0xf5, 1);
 
                 return true;
             }

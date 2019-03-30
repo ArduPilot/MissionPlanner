@@ -446,13 +446,16 @@ namespace MissionPlanner
                         else
                         {
                             PRsender.doWorkArgs.ErrorMessage = "No Heartbeat Packets Received";
-                            throw new Exception(@"Can not establish a connection\n
+                            throw new Exception(@"Can not establish a connection
+
 Please check the following
 1. You have firmware loaded
 2. You have the correct serial port selected
 3. PX4 - You have the microsd card installed
-4. Try a diffrent usb port\n\n" +
-                                                "No Mavlink Heartbeat Packets where read from this port - Verify Baud Rate and setup\nMission Planner waits for 2 valid heartbeat packets before connecting");
+4. Try a diffrent usb port
+
+No Mavlink Heartbeat Packets where read from this port - Verify Baud Rate and setup
+Mission Planner waits for 2 valid heartbeat packets before connecting");
                         }
                     }
 
@@ -587,6 +590,88 @@ Please check the following
             } catch { }
 
             return "0.0";
+        }
+
+        uint request_id = 0;
+
+        /// <summary>
+        /// devop read spi mpu6000 0 0 0xf5 1
+        ///STABILIZE> Operation 1 OK: 1 bytes
+        ///0  1  2  3  4  5  6  7  8  9  a b  c d  e f
+        ///f0: -- -- -- -- -- 71 -- -- -- -- -- -- -- -- -- --
+        /// </summary>
+        /// <param name="bustype"></param>
+        /// <param name="name"></param>
+        /// <param name="bus"></param>
+        /// <param name="address"></param>
+        /// <param name="regstart"></param>
+        /// <param name="count"></param>
+        /// <param name="writebytes"></param>
+        public void device_op(byte sysid, byte compid, MAVLink.DEVICE_OP_BUSTYPE bustype, string name, byte bus, byte address, byte regstart, byte count, byte[] writebytes = null)
+        {
+            var sub = SubscribeToPacketType(MAVLINK_MSG_ID.DEVICE_OP_READ_REPLY, (m) =>
+            {
+                var mtype = (MAVLINK_MSG_ID)m.msgid;
+                if (mtype == MAVLINK_MSG_ID.DEVICE_OP_READ_REPLY)
+                {
+                    var msg = (mavlink_device_op_read_reply_t)m.data;
+                    if (msg.result != 0)
+                        Console.WriteLine("Operation {0} failed: {1}", msg.request_id, msg.result);
+                    else
+                        Console.WriteLine("Operation {0} OK: {1} bytes", msg.request_id, msg.count);
+                    for (var i = 0; i < msg.count; i++)
+                    {
+                        var reg = i + msg.regstart;
+                        Console.Write("{0,2:X}:{1,2:X} ", reg, msg.data[i]);
+                        if ((i + 1) % 16 == 0)
+                            Console.WriteLine();
+                        if (msg.count % 16 != 0)
+                            Console.WriteLine();
+                    }
+                }
+                else if (mtype == MAVLINK_MSG_ID.DEVICE_OP_WRITE_REPLY)
+                {
+                    var msg = (mavlink_device_op_write_reply_t)m.data;
+                    if (msg.result != 0)
+                        Console.WriteLine("Operation {0} failed: {1}", msg.request_id, msg.result);
+                    else
+                        Console.WriteLine("Operation {0} OK", msg.request_id);
+                }
+                return true;
+
+            });
+
+            var read = new MAVLink.mavlink_device_op_read_t() {
+                target_system = (byte)sysid,
+                target_component = (byte)compid,
+                request_id = request_id++,
+                bustype = (byte)bustype,
+                bus = bus,
+                busname = name.MakeBytesSize(40),
+                address = address,
+                regstart = regstart,
+                count = count
+            };
+
+            var write = new mavlink_device_op_write_t() {
+                target_system = (byte)sysid,
+                target_component = (byte)compid,
+                request_id = request_id++,
+                bustype = (byte)bustype,
+                bus = bus,
+                busname = name.MakeBytesSize(40),
+                address = address,
+                regstart = regstart,
+                count = count,
+                data = writebytes
+            };
+
+            generatePacket(MAVLINK_MSG_ID.DEVICE_OP_READ, read);
+
+            // 1 second delay for responce
+            Thread.Sleep(1000);
+
+            UnSubscribeToPacketType(sub);
         }
 
         private void ProgressWorkerEventArgs_CancelRequestChanged(object sender, PropertyChangedEventArgs e)
