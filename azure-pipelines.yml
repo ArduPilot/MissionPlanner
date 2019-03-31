@@ -18,7 +18,7 @@ variables:
 steps:
 - script: date /t
   displayName: Get the date
-- script: dir
+- script: dir /s
   workingDirectory: $(Agent.BuildDirectory)
   displayName: List contents of a folder
 - script: .nuget\nuget.exe update -self
@@ -31,3 +31,19 @@ steps:
     solution: '$(solution)'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+
+- script: dir
+  workingDirectory: '$(Build.BinariesDirectory)' 
+  displayName: List contents of a folder
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.Repository.LocalPath)/bin/Release/net461' 
+    includeRootFolder: false
+    archiveFile: '$(Build.ArtifactStagingDirectory)/MissionPlanner.zip' 
+
+- task: PublishPipelineArtifact@0
+  inputs:
+    artifactName: 'MissionPlanner' 
+    targetPath: '$(Build.ArtifactStagingDirectory)/MissionPlanner.zip'
+    
