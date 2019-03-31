@@ -158,11 +158,11 @@ namespace MissionPlanner.Utilities
             {
                 try
                 {
-                    FMT[int.Parse(item["Type"])] = new Tuple<int, string, string, string[]>(
+                    FMT[int.Parse(item["Type"])] = new Tuple<int, string, string, string>(
                         int.Parse(item["Length"].Trim()),
                         item["Name"].Trim(),
                         item["Format"].Trim(),
-                        item.items.Skip(dflog.FindMessageOffset("FMT", "Columns")).ToArray());
+                        item.items.Skip(dflog.FindMessageOffset("FMT", "Columns")).FirstOrDefault());
 
                     dflog.FMTLine(this[item.lineno]);
                 }
@@ -225,9 +225,9 @@ namespace MissionPlanner.Utilities
                 var multipliers = fmtu.Value.Item2.ToCharArray().Select(a => Mult.FirstOrDefault(b => b.Key == a));
                 var binfmts = msgtype.Value.Item3.ToCharArray();
 
-                for (var i = 0; i < msgtype.Value.Item4.Length; i++)
+                for (var i = 0; i < msgtype.Value.Item4.Split(',').Length; i++)
                 {
-                    var field = msgtype.Value.Item4[i].Trim();
+                    var field = msgtype.Value.Item4.Split(',')[i].Trim();
                     var unit = units.Skip(i).First().Value;
                     var binfmt = binfmts[i];
                     var multi = 1.0;
@@ -251,7 +251,7 @@ namespace MissionPlanner.Utilities
 
         public List<Tuple<string,string,string,double>> UnitMultiList = new List<Tuple<string, string, string, double>>();
 
-        public Dictionary<int, Tuple<int, string, string, string[]>> FMT { get; set; } = new Dictionary<int, Tuple<int, string, string, string[]>>();
+        public Dictionary<int, Tuple<int, string, string, string>> FMT { get; set; } = new Dictionary<int, Tuple<int, string, string, string>>();
         public Dictionary<int, Tuple<string, string>> FMTU { get; set; } = new Dictionary<int, Tuple<string, string>>();
 
         public Dictionary<char, string> Unit { get; set; } = new Dictionary<char, string>();
