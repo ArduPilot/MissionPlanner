@@ -478,10 +478,11 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     count++;
 
                     // if we get no data, try enableing rts/cts
-                    if (buffer.Length == 0 && BaseStream is SerialPort)
+                    if (buffer.Length == 0 && BaseStream is SerialPort && start.AddSeconds(20) < DateTime.Now)
                     {
                         try
                         {
+                            log.Debug("about to set RTS to " + !BaseStream.RtsEnable);
                             BaseStream.RtsEnable = !BaseStream.RtsEnable;
                         } catch { }
                     }
