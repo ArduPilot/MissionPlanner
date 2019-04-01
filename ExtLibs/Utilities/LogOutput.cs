@@ -477,7 +477,11 @@ namespace MissionPlanner.Log
                 var Lng = double.Parse(items[dflog.FindMessageOffset("CMD", "Lng")], CultureInfo.InvariantCulture);
                 var Alt = double.Parse(items[dflog.FindMessageOffset("CMD", "Alt")], CultureInfo.InvariantCulture);
 
-                sw.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}", CNum, 0, 3/*relative*/, CId, Prm1, Prm2, Prm3, Prm4, Lat, Lng, Alt, 1);
+                var Frame = 3.0;
+                if (dflog.FindMessageOffset("CMD", "Frame") > 0)
+                    Frame = double.Parse(items[dflog.FindMessageOffset("CMD", "Frame")], CultureInfo.InvariantCulture);
+
+                sw.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}", CNum, 0, Frame, CId, Prm1, Prm2, Prm3, Prm4, Lat, Lng, Alt, 1);
             }
 
             if (sw != null)
