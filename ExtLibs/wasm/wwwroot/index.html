@@ -27,7 +27,7 @@
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
 <script>
-
+    /*
         var worker = new Worker("websocketworker.js");
 
         worker.onmessage = function (e) {
@@ -38,7 +38,7 @@
             }
             //console.log('Message received from worker');
         }
-        
+      */  
         function initWebSocket() {
             if (window["WebSocket"]) {
                 var host = "ws://" + window.location.hostname + ":56781/websocket/raw";
@@ -131,10 +131,10 @@
         }
 
         var line1item = "roll";
-    var line2item = "pitch";
+        var line2item = "pitch";
 
-        var line1;
-        var line2;
+        var line1 = new TimeSeries();
+        var line2 = new TimeSeries();
         var dotNetArrayPtr = 0;
 
         function setNetBuffer1024(dotNetArrayPtrI) {
@@ -172,7 +172,7 @@
   
 <script>
     google.charts.load('current', { 'packages': ['corechart'] });
-    //google.charts.setOnLoadCallback(drawChart);
+    google.charts.setOnLoadCallback(drawChart);
     var options;
     var data;
     var chart;

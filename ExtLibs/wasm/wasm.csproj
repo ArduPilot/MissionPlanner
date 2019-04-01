@@ -15,13 +15,14 @@
 
   <ItemGroup>
     <PackageReference Include="Blazor.Extensions.Canvas" Version="0.1.8" />
+    <PackageReference Include="Blazor.Extensions.Notifications" Version="0.1.2" />
     <PackageReference Include="Blazor.Extensions.SignalR" Version="0.1.8" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Browser" Version="0.7.0" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="0.7.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="System.Drawing.Common" Version="4.5.1" />
     <PackageReference Include="System.Threading" Version="4.3.0" />
-    <PackageReference Include="Tewr.Blazor.FileReader" Version="0.7.0" />
+    <PackageReference Include="Tewr.Blazor.FileReader" Version="0.7.1" />
     <DotNetCliToolReference Include="Microsoft.AspNetCore.Blazor.Cli" Version="0.5.1" />
   </ItemGroup>
 
@@ -58,7 +59,7 @@
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="wwwroot\2018-09-09 18-15-17.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 

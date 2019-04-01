@@ -31,7 +31,7 @@
                  <ul style="margin: 0;">
                      <input type="checkbox" value="@item" onclick="if ($(this).is(':checked')) {$(this).siblings().css('display', 'block');} else {$(this).siblings().css('display', 'none');}"/>
                      @item
-                     @foreach (var subitem in cb.FMT.First(a=>a.Value.Item2 == item).Value.Item4[0].Split(','))
+                     @foreach (var subitem in cb.FMT.First(a=>a.Value.Item2 == item).Value.Item4.Split(','))
                      {
                          <div style="display: none">
                              <li><input type="checkbox" ref="checkElementRef" onclick=@(async () => PlotItem(@item,@subitem)) value="@item.@subitem"/>@subitem</li>
