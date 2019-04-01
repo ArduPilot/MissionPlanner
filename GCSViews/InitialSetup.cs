@@ -153,6 +153,8 @@ namespace MissionPlanner.GCSViews
                 AddBackstageViewPage(typeof(ConfigFailSafe), rm.GetString("backstageViewPagefs.Text"), isConnected, mand);
             }
 
+            AddBackstageViewPage(typeof(ConfigHWIDs), "HW ID", isConnected, mand);
+
             var opt = AddBackstageViewPage(typeof(ConfigOptional), rm.GetString("backstageViewPageopt.Text"));
             AddBackstageViewPage(typeof(ConfigGPSInject), "RTK/GPS Inject", true, opt);
             if (MainV2.DisplayConfiguration.displaySikRadio)
@@ -168,8 +170,10 @@ namespace MissionPlanner.GCSViews
             {
                 AddBackstageViewPage(typeof(ConfigHWCAN), "CAN", isConnected, opt);
             }
+           
+            AddBackstageViewPage(typeof(ConfigGPSInject), "RTK/GPS Inject", true, opt);
 
-            AddBackstageViewPage(typeof(ConfigHWIDs), "HW ID", isConnected, mand);
+            AddBackstageViewPage(typeof(ConfigUAVCAN), "UAVCAN", isConnected, opt);
 
             if (MainV2.DisplayConfiguration.displayCompassMotorCalib)
             {
