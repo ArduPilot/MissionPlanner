@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 
 namespace MissionPlanner
 {
-    static class CodeGen
+    public static class CodeGen
     {
         public static object runCode(string code)
         {
@@ -66,17 +66,20 @@ namespace MissionPlanner
             compilerParams.GenerateInMemory = true;
             compilerParams.IncludeDebugInformation = false;
             compilerParams.ReferencedAssemblies.Add("netstandard.dll");
-            
+
             foreach (var assembly in Assembly.GetExecutingAssembly().GetReferencedAssemblies())
-            {
-                var ass = Assembly.ReflectionOnlyLoad(assembly.FullName);
+            { try
+                {
+                    var ass = Assembly.ReflectionOnlyLoad(assembly.FullName);
 
-                var loc = ass.Location;
+                    var loc = ass.Location;
 
-                var file = Path.GetFileName(loc);
+                    var file = Path.GetFileName(loc);
 
-                if(!compilerParams.ReferencedAssemblies.Contains(file))
-                    compilerParams.ReferencedAssemblies.Add(file);
+                    if (!compilerParams.ReferencedAssemblies.Contains(file))
+                        compilerParams.ReferencedAssemblies.Add(file);
+                }
+                catch { }
             }
 
             compilerParams.ReferencedAssemblies.Add("");
@@ -306,9 +309,9 @@ namespace MissionPlanner
 
             CodeNamespace myNamespace = new CodeNamespace("ExpressionEvaluator");
             myNamespace.Imports.Add(new CodeNamespaceImport("System"));
-            myNamespace.Imports.Add(new CodeNamespaceImport("System.Windows.Forms"));
-            myNamespace.Imports.Add(new CodeNamespaceImport("MissionPlanner.Utilities"));
-            myNamespace.Imports.Add(new CodeNamespaceImport("MissionPlanner"));
+            //myNamespace.Imports.Add(new CodeNamespaceImport("System.Windows.Forms"));
+            //myNamespace.Imports.Add(new CodeNamespaceImport("MissionPlanner.Utilities"));
+            //myNamespace.Imports.Add(new CodeNamespaceImport("MissionPlanner"));
 
             //Build the class declaration and member variables			
             CodeTypeDeclaration classDeclaration = new CodeTypeDeclaration();

@@ -1,4 +1,45 @@
-﻿*Mission Planner 1.3.63 - 16-3-2019
+﻿*Mission Planner 1.3.64 - 3-4-2019
+Drivers: fix cube driver
+Sequence: fix multiple start bug
+NoFly: add kmz
+MAVLinkInterface: tweak rts change after 20 seconds
+LogOutput: create wpfile with correct frame from dflog
+InitialSetup: add UAVCAN
+wasm: update
+CollectionBuffer: fix units
+Fixed issue which caused RF propagation calcs to not be rerun as expected.
+Improved formatting of range markers to be more usable.
+Added propagation functionality to the flight planning screen, since that is when taking terrain elevation into consideration is probably most of interest.
+Possibility to delete logs in logindex and get statistics on selected logs
+Update azure-pipelines.yml for Azure Pipelines [skip ci]
+Fix: "Tlog > Kml or Graph" fails to load with Null reference exception
+MAVLinkInterface: update device_op
+MAVLinkInterface: add device_op
+rtcm3: update for week rollover
+FlightData: add force arm
+ConfigBatteryMonitoring: update labels
+ConfigUAVCAN: add internet update check
+temp: update GE Injection cache location
+Common: fix modelist firmware type
+DFLog: use both gps and gps2 to resolve time
+SvgNet: update skia
+IArduinoComms: change interface
+CurrentState: add QNH
+mavgraph: add param renames for RC
+SerialOutputPass: use Configref
+UAVCAN: support BL tag
+CommsUDP: configref support
+UAVCan: add timeout to drop back to mavlink, cleanup events
+LogBrowse: add Battery Watts
+MAVLinkInterface: fix one by one when less than 10 left
+MAVLink: upstream update
+MainV2: fix error dialog message swap
+Comms: cleanup
+Update azure-pipelines.yml for Azure Pipelines
+Set up CI with Azure Pipelines
+MAVLinkInterface: remove legacy px4 usb console start
+
+*Mission Planner 1.3.63 - 16-3-2019
 UAVCAN: test cases, encode fix
 DFLog: add more missing events #2099
 DFLOG: add missing events #2099
