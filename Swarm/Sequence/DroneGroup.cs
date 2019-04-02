@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Reflection;
 using log4net;
@@ -28,7 +29,7 @@ namespace MissionPlanner.Swarm.Sequence
             }
         }
 
-        public List<Drone> Drones = new List<Drone>();
+        public ConcurrentBag<Drone> Drones = new ConcurrentBag<Drone>();
         
         public void UpdatePositions()
         {
