@@ -4542,7 +4542,7 @@ namespace MissionPlanner.GCSViews
                 QV.number = 0;
 
                 tableLayoutPanelQuick.Controls.Add(QV);
-                QV.GetFontSize();
+                QV.Invalidate();
             }
 
             for (int i = 0; i < tableLayoutPanelQuick.ColumnCount; i++)
