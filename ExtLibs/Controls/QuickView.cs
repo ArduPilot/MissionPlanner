@@ -79,7 +79,7 @@ namespace MissionPlanner.Controls
             }
             //
             {
-                var numb = String.Format(numberformat, number);
+                var numb = number.ToString(numberformat);
 
                 Size extent = e.Graphics.MeasureString(numb, new Font(this.Font.FontFamily, (float)newSize, this.Font.Style)).ToSize();
 
@@ -94,7 +94,7 @@ namespace MissionPlanner.Controls
 
                 extent = e.Graphics.MeasureString(numb, new Font(this.Font.FontFamily, (float)newSize, this.Font.Style)).ToSize();
 
-                e.Graphics.DrawString(String.Format(numberformat, number), new Font(this.Font.FontFamily, (float)newSize, this.Font.Style), new SolidBrush(this.numberColor), this.Width / 2 - extent.Width/2, y + ((this.Height-y) /2 - extent.Height/2));
+                e.Graphics.DrawString(numb, new Font(this.Font.FontFamily, (float)newSize, this.Font.Style), new SolidBrush(this.numberColor), this.Width / 2 - extent.Width/2, y + ((this.Height-y) /2 - extent.Height/2));
             }
         }
 
