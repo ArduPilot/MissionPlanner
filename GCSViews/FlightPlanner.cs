@@ -1313,6 +1313,11 @@ namespace MissionPlanner.GCSViews
 
                 try
                 {
+                    if (TXT_WPRad.Text == "")
+                        TXT_WPRad.Text = "5";
+                    if (TXT_loiterrad.Text == "")
+                        TXT_loiterrad.Text = "30";
+
                     overlay.CreateOverlay((MAVLink.MAV_FRAME) (altmode) CMB_altmode.SelectedValue, home, commandlist,
                         double.Parse(TXT_WPRad.Text) / CurrentState.multiplieralt,
                         double.Parse(TXT_loiterrad.Text) / CurrentState.multiplieralt);
