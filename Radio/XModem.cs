@@ -62,13 +62,12 @@ namespace MissionPlanner.Radio
             packet[131] = (byte)(CRC >> 8);
             packet[132] = (byte)(CRC);
             Serial.Write(packet, 0, packet.Length);
+        }
 
-            if (fs.Position >= fs.Length)
-            {
-                //End of file.
-                Serial.Write(new byte[] { EOT }, 0, 1);
-                ProgressEvent?.Invoke(100);
-            }
+        static void SendEOT(ICommsSerial Serial)
+        {
+            Serial.Write(new byte[] { EOT }, 0, 1);
+            ProgressEvent?.Invoke(100);
         }
 
         public static void Upload(string firmwarebin, ICommsSerial comPort)
@@ -116,6 +115,39 @@ namespace MissionPlanner.Radio
                         if (NoAckCount >= 10)
                         {
                             //Console.WriteLine("Something is wrong");
+                        }
+                    }
+                }
+
+                NoAckCount = 0;
+
+                while (true)
+                {
+                    SendEOT(comPort);
+
+                    var ack = comPort.ReadByte();
+                    while (ack == 'C')
+                        ack = comPort.ReadByte();
+
+                    if (ack == ACK)
+                    {
+                        break;
+                    }
+                    else if (ack == NAK)
+                    {
+                        MsgBox.CustomMessageBox.Show("Corrupted packet. Please power cycle and try again.\r\n", "Warning",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        len = 0;
+                    }
+                    else
+                    {
+                        NoAckCount++;
+
+                        if (NoAckCount >= 10)
+                        {
+                            MsgBox.CustomMessageBox.Show("Corrupted packet. Please power cycle and try again.\r\n", "Warning",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            break;
                         }
                     }
                 }

@@ -1329,7 +1329,8 @@ namespace RFD.RFD900
             string Temp = System.IO.Path.GetTempFileName();
             var assembly = Assembly.GetExecutingAssembly();
             //var resourceName = "RFD900Tools.Properties.Resources.resources.RFDSiK_V3.00_rfd900x.bin";
-            var resourceName = "RFD900Tools.Resources.RFDSiK V3.00 rfd900x.bin";
+            //var resourceName = "RFD900Tools.Resources.RFDSiK V3.00 rfd900x.bin";
+            var resourceName = "RFD900Tools.Resources.RFDSiK V3.01 rfd900x.bin";
 
             var Names = assembly.GetManifestResourceNames();
             Console.WriteLine(Names.ToString());
