@@ -1462,14 +1462,16 @@ namespace MissionPlanner.Log
                             {
                                 new PointD(prevx, modeheighty), // bl
                                 new PointD(prevx, zg1.GraphPane.YAxis.Scale.Max), // tl
-                                new PointD(a, zg1.GraphPane.YAxis.Scale.Max), // tr
-                                new PointD(a, modeheighty), // br                                
+                                new PointD(Math.Min( Math.Max(a,prevx),zg1.GraphPane.XAxis.Scale.Max), zg1.GraphPane.YAxis.Scale.Max), // tr
+                                new PointD(Math.Min( Math.Max(a,prevx),zg1.GraphPane.XAxis.Scale.Max), modeheighty), // br                                
                             },
                             Fill = new Fill(colourspastal[prevmodeno]),
                             ZOrder = ZOrder.E_BehindCurves
                         };
 
-                        this.BeginInvokeIfRequired(() => zg1.GraphPane.GraphObjList.Add(poly));
+                        // only draw if our start position is less than the graph max and our end position is > our start (dont draw offscreen elements)
+                        if (prevx < zg1.GraphPane.XAxis.Scale.Max && a > zg1.GraphPane.XAxis.Scale.Min)
+                            this.BeginInvokeIfRequired(() => zg1.GraphPane.GraphObjList.Add(poly));
 
                         if (top)
                         {
@@ -1499,8 +1501,8 @@ namespace MissionPlanner.Log
                     {
                         Points = new[]
                         {
-                             new PointD(prevx, modeheighty), // bl
-                                new PointD(prevx, zg1.GraphPane.YAxis.Scale.Max), // tl
+                             new PointD(Math.Min(prevx,a), modeheighty), // bl
+                                new PointD(Math.Min(prevx,a), zg1.GraphPane.YAxis.Scale.Max), // tl
                                 new PointD(a, zg1.GraphPane.YAxis.Scale.Max), // tr
                                 new PointD(a, modeheighty), // br   
                     },
