@@ -288,8 +288,9 @@ namespace MissionPlanner.Log
             // 
             // chk_time
             // 
-            this.chk_time.Checked = true;
             resources.ApplyResources(this.chk_time, "chk_time");
+            this.chk_time.Checked = true;
+            this.chk_time.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chk_time.Name = "chk_time";
             this.chk_time.UseVisualStyleBackColor = true;
             this.chk_time.CheckedChanged += new System.EventHandler(this.chk_time_CheckedChanged);

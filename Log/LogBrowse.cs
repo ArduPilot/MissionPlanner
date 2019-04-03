@@ -1012,8 +1012,6 @@ namespace MissionPlanner.Log
             //myPane.YAxis.Scale.Min = -1;
             //myPane.YAxis.Scale.Max = 1;
 
-            zg1.IsShowCursorValues = true;
-
             // Fill the axis background with a gradient
             //myPane.Chart.Fill = new Fill(Color.White, Color.LightGray, 45.0f);
 
