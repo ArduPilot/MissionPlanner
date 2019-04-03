@@ -14,6 +14,12 @@ namespace MissionPlanner.Controls.BackstageView
         public BackStageViewMenuPanel()
         {
             this.SetStyle(ControlStyles.UserPaint, true);
+
+            HorizontalScroll.Enabled = false;
+            HorizontalScroll.Visible = false;
+            HorizontalScroll.Maximum = 0;
+            HScroll = false;
+            AutoScroll = true;
         }
 
         protected override void OnPaintBackground(PaintEventArgs pevent)
