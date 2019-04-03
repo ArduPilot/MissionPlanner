@@ -41,7 +41,7 @@ namespace UAVCAN
                     return value.union.boolean_value;
                     break;
                 case uavcan.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_EMPTY:
-                    return value.union.empty;
+                    return "Empty";
                     break;
                 case uavcan.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_INTEGER_VALUE:
                     return value.union.integer_value;
