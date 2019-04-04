@@ -787,6 +787,8 @@ S15: MAX_WINDOW=131
 
             EnableConfigControls(true);
             EnableProgrammingControls(true);
+
+            UpdateSetPPMFailSafeButtons();
         }
 
         /// <summary>
@@ -1254,7 +1256,7 @@ S15: MAX_WINDOW=131
                     // remote
                     foreach (Control ctl in groupBoxRemote.Controls)
                     {
-                        if ((ctl.Name != "RSSI")&& (!(ctl is Label)))
+                        if ((ctl.Name != "RSSI")&& (!(ctl is Label)) && !(ctl is Button))
                         {
                             ctl.ResetText();
                         }
@@ -1444,6 +1446,14 @@ S15: MAX_WINDOW=131
                 lbl_status.Text = "Error";
                 MsgBox.CustomMessageBox.Show("Error during read " + ex);
             }
+
+            UpdateSetPPMFailSafeButtons();
+        }
+
+        void UpdateSetPPMFailSafeButtons()
+        {
+            BUT_SetPPMFailSafe.Enabled = GPO1_1R_COUT.Enabled && GPO1_1R_COUT.Checked;
+            BUT_SetPPMFailSafeRemote.Enabled = RGPO1_1R_COUT.Enabled && RGPO1_1R_COUT.Checked;
         }
 
         private string Serial_ReadLine(ICommsSerial comPort)
@@ -1907,9 +1917,8 @@ red LED solid - in firmware update mode");
             }
         }
 
-        private void BUT_SetPPMFailSafe_Click(object sender, EventArgs e)
+        private void SetPPMFailSafe(string SetCmd, string SaveCmd)
         {
-
             lbl_status.Text = "Connecting";
             RFD.RFD900.TSession Session = GetSession();
 
@@ -1921,18 +1930,21 @@ red LED solid - in firmware update mode");
             if (Session.PutIntoATCommandMode() == RFD.RFD900.TSession.TMode.AT_COMMAND)
             {
                 // cleanup
-                doCommand(Session.Port, "AT&T", false, 1);
-
-                Session.Port.DiscardInBuffer();
+                //Session.Port.DiscardInBuffer();
+                //doCommand(Session.Port, "AT&T", false, 1);
 
                 lbl_status.Text = "Doing Command";
 
-                string Result = doCommand(Session.Port, "RT&R");
+                Session.Port.DiscardInBuffer();
+                bool Result = Session.ATCClient.DoCommand(SetCmd);
+
+                Session.Port.DiscardInBuffer();
+                Session.ATCClient.DoCommand(SaveCmd);
 
                 // off hook
                 //doCommand(Session.Port, "ATO");
 
-                if (Result.Contains("OK"))
+                if (Result)
                 {
                     lbl_status.Text = "Done";
                 }
@@ -1949,6 +1961,12 @@ red LED solid - in firmware update mode");
                 lbl_status.Text = "Fail";
                 MsgBox.CustomMessageBox.Show("Failed to enter command mode");
             }
+        }
+
+
+        private void BUT_SetPPMFailSafe_Click(object sender, EventArgs e)
+        {
+            SetPPMFailSafe("AT&R", "AT&W");
         }
 
         RFD.RFD900.TSession GetSession()
@@ -2101,6 +2119,11 @@ red LED solid - in firmware update mode");
         private void btnCommsLog_Click(object sender, EventArgs e)
         {
             
+        }
+
+        private void BUT_SetPPMFailSafeRemote_Click(object sender, EventArgs e)
+        {
+            SetPPMFailSafe("RT&R", "RT&W");
         }
     }
 }
