@@ -224,14 +224,18 @@ namespace MissionPlanner.Utilities
                 var units = fmtu.Value.Item1.ToCharArray().Select(a => Unit.FirstOrDefault(b => b.Key == a));
                 var multipliers = fmtu.Value.Item2.ToCharArray().Select(a => Mult.FirstOrDefault(b => b.Key == a));
                 var binfmts = msgtype.Value.Item3.ToCharArray();
+                var itemcount = msgtype.Value.Item4.Split(',').Length;
 
-                for (var i = 0; i < msgtype.Value.Item4.Split(',').Length; i++)
+                if (binfmts.Length != itemcount)
+                    continue;
+
+                for (var i = 0; i < itemcount; i++)
                 {
                     var field = msgtype.Value.Item4.Split(',')[i].Trim();
-                    var unit = units.Skip(i).First().Value;
+                    var unit = units.Skip(i).FirstOrDefault().Value;
                     var binfmt = binfmts[i];
                     var multi = 1.0;
-                    double.TryParse(multipliers.Skip(i).First().Value, out multi);
+                    double.TryParse(multipliers.Skip(i).FirstOrDefault().Value, out multi);
 
                     if (binfmt == 'c' || binfmt == 'C' ||
                         binfmt == 'e' || binfmt == 'E' ||
