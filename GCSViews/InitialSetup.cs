@@ -170,8 +170,6 @@ namespace MissionPlanner.GCSViews
             {
                 AddBackstageViewPage(typeof(ConfigHWCAN), "CAN", isConnected, opt);
             }
-           
-            AddBackstageViewPage(typeof(ConfigGPSInject), "RTK/GPS Inject", true, opt);
 
             AddBackstageViewPage(typeof(ConfigUAVCAN), "UAVCAN", isConnected, opt);
 
