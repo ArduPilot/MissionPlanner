@@ -5,7 +5,7 @@
 
 trigger:
 - master
-- beta
+- refs/tags/beta
 
 pool:
   vmImage: 'VS2017-Win2016'
