@@ -29,11 +29,8 @@
     <PackageReference Include="BitMiracle.LibTiff.NET" Version="2.4.584.1" />
     <PackageReference Include="CSMatIO" Version="1.0.20" />
     <PackageReference Include="log4net" Version="2.0.8" />
-    <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="System.CodeDom" Version="4.5.0" />
-    <PackageReference Include="System.Drawing.Common" Version="4.5.1" />
-    <PackageReference Include="System.IO.Ports" Version="4.5.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -57,13 +54,6 @@
 
     <Reference Include="Ionic.Zip.NetStandard">
       <HintPath>..\Ionic.Zip.NetStandard.dll</HintPath>
-    </Reference>
-
-    <Reference Include="OpenTK">
-      <HintPath>..\OpenTK.dll</HintPath>
-    </Reference>
-    <Reference Include="OpenTK.GLControl">
-      <HintPath>..\OpenTK.GLControl.dll</HintPath>
     </Reference>
   </ItemGroup>
 
