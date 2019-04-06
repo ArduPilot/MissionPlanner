@@ -3000,10 +3000,13 @@ namespace MissionPlanner
 
             try
             {
-                log.Info("Load AltitudeAngel");
-                AltitudeAngel.Configure();
-                AltitudeAngel.Initialize();
-                log.Info("Load AltitudeAngel... Done");
+                if (!MONO)
+                {
+                    log.Info("Load AltitudeAngel");
+                    AltitudeAngel.Configure();
+                    AltitudeAngel.Initialize();
+                    log.Info("Load AltitudeAngel... Done");
+                }
             }
             catch (TypeInitializationException) // windows xp lacking patch level
             {
