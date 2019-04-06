@@ -1,0 +1,65 @@
+﻿<!--
+//
+// Copyright 2014 LusoVU. All rights reserved.
+//
+// This library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+// USA.
+//
+// Project home page: https://bitbucket.com/lusovu/xamarinusbserial
+//
+-->
+
+<metadata>
+	<!--
+  This sample removes the class: android.support.v4.content.AsyncTaskLoader.LoadTask:
+  <remove-node path="/api/package[@name='android.support.v4.content']/class[@name='AsyncTaskLoader.LoadTask']" />
+
+  This sample removes the method: android.support.v4.content.CursorLoader.loadInBackground:
+  <remove-node path="/api/package[@name='android.support.v4.content']/class[@name='CursorLoader']/method[@name='loadInBackground']" />
+  -->
+	<!-- Rename namespaces to remove initial "com" -->
+  	<attr path="/api/package[@name='com.hoho.android.usbserial']" name="managedName">Hoho.Android.UsbSerial</attr>
+  	<attr path="/api/package[@name='com.hoho.android.usbserial.driver']" name="managedName">Hoho.Android.UsbSerial.Driver</attr>
+  	<attr path="/api/package[@name='com.hoho.android.usbserial.util']" name="managedName">Hoho.Android.UsbSerial.Util</attr>
+
+  	<!-- Remove troubling classes -->
+
+	<remove-node path="/api/package[@name='com.hoho.android.usbserial.util']/class[@name='SerialInputOutputManager']" />
+	<remove-node path="/api/package[@name='com.hoho.android.usbserial.util']/interface[@name='SerialInputOutputManager.Listener']" />
+	<remove-node path="/api/package[@name='com.hoho.android.usbserial.util']/class[@name='SerialInputOutputManager.State']" />
+
+	<!-- Rename method parameters -->
+
+	<!-- UsbSerialDriver -->
+	<!---
+  	<attr path="/api/package[@name='com.hoho.android.usbserial.driver']/class[@name='UsbSerialDriver']/constructor[count(parameter)=2 and parameter[1][@type='android.hardware.usb.UsbDevice'] and parameter[2][@type='android.hardware.usb.UsbDeviceConnection']]/parameter[@name='p0']" name="name">device</attr>
+  	<attr path="/api/package[@name='com.hoho.android.usbserial.driver']/class[@name='UsbSerialDriver']/constructor[count(parameter)=2 and parameter[1][@type='android.hardware.usb.UsbDevice'] and parameter[2][@type='android.hardware.usb.UsbDeviceConnection']]/parameter[@name='p1']" name="name">connection</attr>
+  	<attr path="/api/package[@name='com.hoho.android.usbserial.driver']/class[@name='UsbSerialDriver']/method[@name='read']/parameter[@name='p0']" name="name">buffer</attr>
+  	<attr path="/api/package[@name='com.hoho.android.usbserial.driver']/class[@name='UsbSerialDriver']/method[@name='read']/parameter[@name='p1']" name="name">size</attr>
+  	<attr path="/api/package[@name='com.hoho.android.usbserial.driver']/class[@name='UsbSerialDriver']/method[@name='setBaudRate']/parameter[@name='p0']" name="name">rate</attr>
+  	<attr path="/api/package[@name='com.hoho.android.usbserial.driver']/class[@name='UsbSerialDriver']/method[@name='setReadBufferSize']/parameter[@name='p0']" name="name">size</attr>
+  	<attr path="/api/package[@name='com.hoho.android.usbserial.driver']/class[@name='UsbSerialDriver']/method[@name='setWriteBufferSize']/parameter[@name='p0']" name="name">size</attr>
+  	<attr path="/api/package[@name='com.hoho.android.usbserial.driver']/class[@name='UsbSerialDriver']/method[@name='write']/parameter[@name='p0']" name="name">buffer</attr>
+  	<attr path="/api/package[@name='com.hoho.android.usbserial.driver']/class[@name='UsbSerialDriver']/method[@name='write']/parameter[@name='p1']" name="name">size</attr>
+  	-->
+
+	<!-- UsbSerialProber -->
+	<!---
+  	<attr path="/api/package[@name='com.hoho.android.usbserial.driver']/class[@name='UsbSerialProber']/method[@name='acquire']/parameter[@name='p0']" name="name">manager</attr>
+  	<attr path="/api/package[@name='com.hoho.android.usbserial.driver']/class[@name='UsbSerialProber']/method[@name='acquire']/parameter[@name='p1']" name="name">device</attr>
+  	<attr path="/api/package[@name='com.hoho.android.usbserial.driver']/class[@name='UsbSerialProber']/method[@name='getDevice']/parameter[@name='p0']" name="name">manager</attr>
+  	<attr path="/api/package[@name='com.hoho.android.usbserial.driver']/class[@name='UsbSerialProber']/method[@name='getDevice']/parameter[@name='p1']" name="name">device</attr>
+  	-->
+</metadata>

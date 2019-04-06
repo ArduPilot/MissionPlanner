@@ -16,6 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\UsbSerialForAndroid\UsbSerialForAndroid.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="CommsSerialPort.cs">
       <SubType>Component</SubType>
     </Compile>
