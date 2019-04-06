@@ -183,12 +183,12 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
             var data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite,
                 PixelFormat.Format32bppArgb);
-            var bm =
+           /* var bm =
                 new SKBitmap(new SKImageInfo(bmp.Width, bmp.Height, SKColorType.Bgra8888, SKAlphaType.Premul),
                     bmp.Width * 4);
             bm.SetPixels(data.Scan0);
-
-            ans._surface = SKSurface.Create(bm.Info, data.Scan0, bmp.Width * 4);
+            */
+            ans._surface = SKSurface.Create(new SKImageInfo(bmp.Width, bmp.Height, SKColorType.Bgra8888, SKAlphaType.Premul), data.Scan0, bmp.Width * 4);
 
             bmp.UnlockBits(data);
 
@@ -575,7 +575,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void DrawImage(Image img, long i, long i1, long width, long height)
         {
-            DrawImage(img, new Rectangle((int) i, (int) i, (int) width, (int) height), 0.0f, 0, width, height,
+            DrawImage(img, new Rectangle((int) i, (int) i1, (int) width, (int) height), 0.0f, 0, width, height,
                 GraphicsUnit.Pixel,
                 new ImageAttributes());
         }
