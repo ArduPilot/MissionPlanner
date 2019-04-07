@@ -26,9 +26,6 @@
     <EmbeddedResource Remove="Resources\Resource1.resx" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="System.Drawing.Common" Version="4.5.1" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\SvgNet\SvgNet.csproj" />
   </ItemGroup>
   <ItemGroup>
