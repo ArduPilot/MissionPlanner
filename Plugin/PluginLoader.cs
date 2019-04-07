@@ -50,6 +50,8 @@ namespace MissionPlanner.Plugin
                 } catch { }
             }
 
+            log.Info("LoadFromSameFolder " + args.RequestingAssembly + "-> "+ args.Name);
+
             return null;
         }
 
