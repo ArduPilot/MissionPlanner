@@ -1,4 +1,10 @@
 ﻿
+using System.Threading.Tasks;
+using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
+using OpenTK.Platform;
+using SkiaSharp;
+
 namespace GMap.NET.WindowsForms
 {
    using System;
@@ -564,7 +570,7 @@ namespace GMap.NET.WindowsForms
               }
 
               Overlays.CollectionChanged += new NotifyCollectionChangedEventHandler(Overlays_CollectionChanged);
-          }
+            }
       }
 
 #endif
@@ -1413,10 +1419,80 @@ namespace GMap.NET.WindowsForms
 #if !DESIGN
        protected override void OnPaint(PaintEventArgs e)
        {
-           var f = new GdiGraphics(e.Graphics);
-           doPaint(f);
-           base.OnPaint(e);
-        }
+           if (GDI)
+           {
+               var start = DateTime.Now;
+                var f = new GdiGraphics(e.Graphics);
+               doPaint(f);
+               var ts = (DateTime.Now - start);
+
+               Console.WriteLine("map render {0}", ts.TotalSeconds);
+                base.OnPaint(e);
+                return;
+           }
+
+           {
+               if (_windowInfoinfo == null)
+               {
+                   _windowInfoinfo = Utilities.CreateWindowsWindowInfo(Handle);
+                   _graphicsContextGraphicsContext = new GraphicsContext(GraphicsMode.Default, _windowInfoinfo);
+
+                   SetStyle(ControlStyles.Opaque, true);
+                   SetStyle(ControlStyles.UserPaint, true);
+                   SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+                   DoubleBuffered = false;
+               }
+
+               _graphicsContextGraphicsContext.MakeCurrent(_windowInfoinfo);
+
+               var canvasSize = new SKSize(Width, Height);
+
+               // check if we need to recreate the off-screen surface
+               if (_screenCanvasSize != canvasSize)
+               {
+                   _skSurface?.Dispose();
+                   _grContext?.Dispose();
+                   // offscreen
+                   //_grContext = GRContext.Create(GRBackend.OpenGL);
+                   //_skSurface = SKSurface.Create(_grContext, true, new SKImageInfo(Width, Height));
+
+                   {
+                       _grContext = GRContext.Create(GRBackend.OpenGL); //, GRGlInterface.CreateNativeGlInterface());
+                       var glInfo = new GRGlFramebufferInfo(
+                           fboId: 0,
+                           format: SKColorType.Rgba8888.ToGlSizedFormat());
+                       var _renderTarget = new GRBackendRenderTarget(
+                           width: Width,
+                           height: Height,
+                           sampleCount: 0,
+                           stencilBits: 0,
+                           glInfo: glInfo);
+                       _skSurface = SKSurface.Create(
+                           _grContext, _renderTarget, GRSurfaceOrigin.BottomLeft, SKColorType.Rgba8888);
+                   }
+
+
+                   _screenCanvasSize = canvasSize;
+               }
+
+               var sk = new SkiaGraphics(_skSurface);
+               var start = DateTime.Now;
+
+               doPaint(sk);
+
+               _skSurface.Canvas.Flush();
+
+               var ts = (DateTime.Now - start);
+
+               Console.WriteLine("map render {0}", ts.TotalSeconds);
+
+               _graphicsContextGraphicsContext.SwapBuffers();
+
+               base.OnPaint(e);
+           }
+       }
+
+       public static bool GDI { get; set; } = true;
 
        public void doPaint(IGraphics e)
        {
@@ -3097,6 +3173,11 @@ namespace GMap.NET.WindowsForms
       #region Serialization
 
       static readonly BinaryFormatter BinaryFormatter = new BinaryFormatter();
+      private IWindowInfo _windowInfoinfo;
+      private GraphicsContext _graphicsContextGraphicsContext;
+      private SKSurface _skSurface;
+      private SKSize _screenCanvasSize;
+      private GRContext _grContext;
 
       /// <summary>
       /// Serializes the overlays.
