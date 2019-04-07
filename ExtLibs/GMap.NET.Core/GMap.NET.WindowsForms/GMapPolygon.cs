@@ -1,5 +1,4 @@
-﻿
-using SvgNet.SvgGdi;
+﻿using SvgNet.SvgGdi;
 
 namespace GMap.NET.WindowsForms
 {
@@ -131,20 +130,29 @@ namespace GMap.NET.WindowsForms
           }
 
           {
-              Point[] pnts = new Point[LocalPoints.Count];
+              List<Point> pnts = new List<Point>();
+              var last = Point.Empty;
               for (int i = 0; i < LocalPoints.Count; i++)
               {
                   Point p2 = new Point((int)LocalPoints[i].X, (int)LocalPoints[i].Y);
-                  pnts[pnts.Length - 1 - i] = p2;
+                  if(p2 == last)
+                      continue;
+                  
+                  pnts.Add(p2);
+                  last = p2;
               }
 
-              if (pnts.Length > 2)
+              //close it
+              pnts.Add(new Point((int) LocalPoints[LocalPoints.Count - 1].X,
+                  (int) LocalPoints[LocalPoints.Count - 1].Y));
+
+              if (pnts.Count > 2)
               {
-                  graphicsPath.AddPolygon(pnts);
+                  graphicsPath.AddPolygon(pnts.ToArray());
               }
-              else if (pnts.Length == 2)
+              else if (pnts.Count == 2)
               {
-                  graphicsPath.AddLines(pnts);
+                  graphicsPath.AddLines(pnts.ToArray());
               }
           }
       }
@@ -169,6 +177,9 @@ namespace GMap.NET.WindowsForms
                      // max graphics size
                      if (maxx > ((1 << 16) - 1) || maxy > ((1 << 16) - 1))
                          return;
+
+                     if(graphicsPath.PointCount > 1000)
+                         Console.WriteLine("Large GP");
 
                      g.FillPath(Fill, graphicsPath);
                      g.DrawPath(Stroke, graphicsPath);
