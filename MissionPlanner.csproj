@@ -5137,7 +5137,6 @@
     <None Include="Scripts\TAKEOFF.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Compile Include="Swarm\GL2.cs" />
     <None Include="version.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

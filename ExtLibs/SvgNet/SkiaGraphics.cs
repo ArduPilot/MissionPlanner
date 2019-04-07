@@ -9,6 +9,7 @@ using System.Drawing.Text;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using SvgNet;
 
 namespace System
@@ -24,7 +25,7 @@ namespace System
 
         public static SKPaint SKPaint(this Pen pen)
         {
-            return new SKPaint
+            var paint = new SKPaint
             {
                 Color = pen.Color.SKColor(),
                 StrokeWidth = pen.Width,
@@ -33,6 +34,10 @@ namespace System
                 BlendMode = SKBlendMode.SrcOver,
                 FilterQuality = SKFilterQuality.High
             };
+
+            if (pen.DashStyle != DashStyle.Solid)
+                paint.PathEffect = SKPathEffect.CreateDash(pen.DashPattern, 0);
+            return paint;
         }
 
         public static SKPaint SKPaint(this Font font)
@@ -229,6 +234,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         public void Clear(Color color)
         {
             _image.Clear(color.SKColor());
+            CompositingMode = CompositingMode.SourceOver;
         }
 
    
@@ -524,39 +530,52 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         public void DrawImage(Image img, Rectangle rectangle, float srcX, float srcY, float srcWidth, float srcHeight,
             GraphicsUnit graphicsUnit, ImageAttributes tileFlipXYAttributes)
         {
-            if (img.PixelFormat != PixelFormat.Format32bppArgb)
-            {
-                var clone = new Bitmap(img.Width, img.Height, PixelFormat.Format32bppArgb);
-                using (Graphics gr = Graphics.FromImage(clone))
-                {
-                    gr.DrawImage(img, new Rectangle(0, 0, clone.Width, clone.Height));
-                }
-
-                img = clone;
-            }
-
+            var coltype = SKColorType.Bgra8888;
+            ((Bitmap)img).MakeTransparent(Color.Transparent);
             var data = ((Bitmap) img).LockBits(new Rectangle(0, 0, img.Width, img.Height),
                 ImageLockMode.ReadOnly,
-                img.PixelFormat);
+                PixelFormat.Format32bppArgb);
+
+            if(CompositingMode == CompositingMode.SourceOver)
+                _paint.BlendMode = SKBlendMode.SrcOver;
+            if (CompositingMode == CompositingMode.SourceCopy)
+                _paint.BlendMode = SKBlendMode.Src;
+            //if(img.PixelFormat == PixelFormat.Format32bppArgb)
+               _paint.Color = SKColors.Black;
+
+               
+
+
+            var imginfo = new SKImageInfo(img.Width, img.Height, coltype, SKAlphaType.Premul);
+
+            var pxmap = new SKPixmap(imginfo, data.Scan0, data.Stride);
+
+            _image.DrawImage(SKImage.FromPixels(pxmap), new SKRect(srcX, srcY, srcX + srcWidth, srcY + srcHeight),
+                new SKRect(rectangle.X, rectangle.Y, rectangle.Right, rectangle.Bottom), _paint);
+            ((Bitmap)img).UnlockBits(data);
+            data = null;
+
+            return;
+
             try
             {
                 using (var skbmp =
-                    new SKBitmap(new SKImageInfo(img.Width, img.Height, SKColorType.Bgra8888, SKAlphaType.Unpremul)))
+                    new SKBitmap(new SKImageInfo(img.Width, img.Height, coltype, SKAlphaType.Unpremul)))
                 {
                     skbmp.SetPixels(data.Scan0);
 
-                    //skbmp.InstallPixels(new SKPixmap(skbmp.Info, data.Scan0));
+         
 
-                    _paint.BlendMode = SKBlendMode.SrcOver;
-                    //_paint.ColorFilter = SKColorFilter.CreateBlendMode(SKColors.Transparent, SKBlendMode.SrcOver);
-                    // DrawBitmap(SKBitmap bitmap, SKRect source, SKRect dest, SKPaint paint = null);
+              
                     _image.DrawBitmap(skbmp, new SKRect(srcX, srcY, srcX + srcWidth, srcY + srcHeight),
                         new SKRect(rectangle.X, rectangle.Y, rectangle.Right, rectangle.Bottom), _paint);
                 }
-            } catch { }
+            }
+            catch
+            {
+            }
 
             ((Bitmap) img).UnlockBits(data);
-
             data = null;
         }
 
@@ -682,51 +701,56 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
                 bool isClosed;
                 if (subpaths.NextSubpath(subpath, out isClosed) == 0)
                     continue; //go to next subpath if this one has zero points.
+                var PathPoints = subpath.PathPoints;
                 var start = new PointF(0, 0);
-                var origin = subpath.PathPoints[0];
-                var last = subpath.PathPoints[subpath.PathPoints.Length - 1];
+                var origin = PathPoints[0];
                 var bezierCurvePointsIndex = 0;
-                var bezierCurvePoints = new PointF[4];
-                for (var i = 0; i < subpath.PathPoints.Length; i++)
+                var bezierCurvePoints = new PointF[4];                
+
+                for (var i = 0; i < PathPoints.Length; i++)
+                {
                     /* Each subpath point has a corresponding path point type which can be:
                          *The point starts the subpath
                          *The point is a line point
                          *The point is Bezier curve point
                          * Another point type like dash-mode
                          */
-                    switch ((PathPointType)subpath.PathTypes[i] & PathPointType.PathTypeMask
+                    if (start == PathPoints[i])
+                        continue;
+
+                    switch ((PathPointType) subpath.PathTypes[i] & PathPointType.PathTypeMask
                     ) //Mask off non path-type types
                     {
                         case PathPointType.Start:
-                            start = subpath.PathPoints[i];
-                            bezierCurvePoints[0] = subpath.PathPoints[i];
+                            start = PathPoints[i];
+                            bezierCurvePoints[0] = PathPoints[i];
                             bezierCurvePointsIndex = 1;
                             pen.DashStyle =
                                 originalPenDashStyle; //Reset pen dash mode to original when starting subpath
                             continue;
                         case PathPointType.Line:
-                            DrawLine(pen, start, subpath.PathPoints[i]); //Draw a line segment ftom start point
-                            start = subpath.PathPoints[i]; //Move start point to line end
+                            DrawLine(pen, start, PathPoints[i]); //Draw a line segment ftom start point
+                            start = PathPoints[i]; //Move start point to line end
                             bezierCurvePoints[0] =
-                                subpath.PathPoints[i]; //A line point can also be the start of a Bezier curve
+                                PathPoints[i]; //A line point can also be the start of a Bezier curve
                             bezierCurvePointsIndex = 1;
                             continue;
                         case PathPointType.Bezier3:
-                            bezierCurvePoints[bezierCurvePointsIndex++] = subpath.PathPoints[i];
+                            bezierCurvePoints[bezierCurvePointsIndex++] = PathPoints[i];
                             if (bezierCurvePointsIndex == 4
                             ) //If 4 points including start have been found then draw the Bezier curve
                             {
                                 DrawBezier(pen, bezierCurvePoints[0], bezierCurvePoints[1], bezierCurvePoints[2],
                                     bezierCurvePoints[3]);
                                 bezierCurvePoints = new PointF[4];
-                                bezierCurvePoints[0] = subpath.PathPoints[i];
+                                bezierCurvePoints[0] = PathPoints[i];
                                 bezierCurvePointsIndex = 1;
-                                start = subpath.PathPoints[i]; //Move start point to curve end
+                                start = PathPoints[i]; //Move start point to curve end
                             }
 
                             continue;
                         default:
-                            switch ((PathPointType)subpath.PathTypes[i])
+                            switch ((PathPointType) subpath.PathTypes[i])
                             {
                                 case PathPointType.DashMode:
                                     pen.DashStyle = DashStyle.Dash;
@@ -735,9 +759,12 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
                                     throw new SvgException("Unknown path type value: " + subpath.PathTypes[i]);
                             }
                     }
+                }
+
                 if (isClosed
                 ) //If the subpath is closed and it is a linear figure then draw the last connecting line segment
                 {
+                    var last = PathPoints[PathPoints.Length - 1];
                     var originType = (PathPointType)subpath.PathTypes[0];
                     var lastType = (PathPointType)subpath.PathTypes[subpath.PathPoints.Length - 1];
 
@@ -779,6 +806,8 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         {
             var path = new SKPath();
             path.AddPoly(points.Select(a => new SKPoint(a.X, a.Y)).ToArray());
+            if (path.Bounds.Width == 0 || path.Bounds.Height == 0)
+                return;
             _image.DrawPath(path, pen.SKPaint());
         }
 
@@ -786,6 +815,8 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         {
             var path = new SKPath();
             path.AddPoly(points.Select(a => new SKPoint(a.X, a.Y)).ToArray());
+            if (path.Bounds.Width == 0 || path.Bounds.Height == 0)
+                return;
             _image.DrawPath(path, pen.SKPaint());
         }
 
@@ -974,12 +1005,14 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
                     //subpath.CloseAllFigures();
                 }
 
-                var lastType = (PathPointType)subpath.PathTypes[subpath.PathPoints.Length - 1];
+                var PathPoints = subpath.PathPoints;
+
+                var lastType = (PathPointType)subpath.PathTypes[PathPoints.Length - 1];
                 if (subpath.PathTypes.Any(pt =>
                     ((PathPointType)pt & PathPointType.PathTypeMask) == PathPointType.Line))
-                    FillPolygon(brush, subpath.PathPoints, path.FillMode);
+                    FillPolygon(brush, PathPoints, path.FillMode);
                 else
-                    FillBeziers(brush, subpath.PathPoints, path.FillMode);
+                    FillBeziers(brush, PathPoints, path.FillMode);
             }
 
             subpath.Dispose();
@@ -1015,6 +1048,8 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         {
             var path = new SKPath();
             path.AddPoly(points.Select(a => new SKPoint(a.X, a.Y)).ToArray());
+            if (path.Bounds.Width == 0 || path.Bounds.Height == 0)
+                return;
             _image.DrawPath(path, brush.SKPaint());
         }
 
@@ -1022,6 +1057,8 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         {
             var path = new SKPath();
             path.AddPoly(list.Select(a => new SKPoint(a.X, a.Y)).ToArray());
+            if (path.Bounds.Width == 0 || path.Bounds.Height == 0)
+                return;
             _image.DrawPath(path, brushh.SKPaint());
         }
 

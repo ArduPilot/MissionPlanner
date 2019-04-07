@@ -30,4 +30,9 @@
   <ItemGroup>
     <ProjectReference Include="..\LibTessDotNet\LibTessDotNet.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="OpenTK">
+      <HintPath>..\OpenTK.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>
