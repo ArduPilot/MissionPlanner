@@ -404,6 +404,9 @@ namespace MissionPlanner.Maps
 
             else if (normvalue > 1) normvalue = 1;
 
+            if (normvalue == Double.NaN)
+                normvalue = 0;
+
             return normvalue;
         }
 
