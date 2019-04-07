@@ -1403,7 +1403,10 @@ namespace GMap.NET.WindowsForms
                gxOff.Dispose();
                gxOff = null;
             }
-         }
+
+            _skSurface?.Dispose();
+            _grContext?.Dispose();
+            }
          base.Dispose(disposing);
       }
 

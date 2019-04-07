@@ -23,6 +23,7 @@ using System.Text.RegularExpressions;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Utilities.AltitudeAngel;
 using System.Threading.Tasks;
+using GMap.NET.WindowsForms;
 
 namespace MissionPlanner
 {
@@ -3564,22 +3565,8 @@ namespace MissionPlanner
             }
             if (keyData == (Keys.Control | Keys.J))
             {
-                /*
-                var test = MainV2.comPort.GetLogList();
+                GMapControl.GDI = !GMapControl.GDI;
 
-                foreach (var item in test)
-                {
-                    var ms = comPort.GetLog(item.id);
-
-                    using (BinaryWriter bw = new BinaryWriter(File.OpenWrite("test" + item.id + ".bin")))
-                    {
-                        bw.Write(ms.ToArray());
-                    }
-
-                    var temp1 = Log.BinaryLog.ReadLog("test" + item.id + ".bin");
-
-                    File.WriteAllLines("test" + item.id + ".log", temp1);
-                }*/
                 return true;
             }
 
