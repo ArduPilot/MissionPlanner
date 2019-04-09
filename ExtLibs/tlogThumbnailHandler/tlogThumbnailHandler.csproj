@@ -31,9 +31,6 @@
     <None Include="GMapImage.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="System.Drawing.Common" Version="4.5.1" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Maps\MissionPlanner.Maps.csproj" />
     <ProjectReference Include="..\Utilities\MissionPlanner.Utilities.csproj" />
   </ItemGroup>

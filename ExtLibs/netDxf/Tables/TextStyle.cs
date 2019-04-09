@@ -23,7 +23,6 @@
 using System;
 using System.IO;
 using netDxf.Collections;
-using System.Drawing.Text;
 
 namespace netDxf.Tables
 {
@@ -376,9 +375,8 @@ namespace netDxf.Tables
                 if (!File.Exists(fontFile)) return string.Empty;
             }
 
-            PrivateFontCollection fontCollection = new PrivateFontCollection();
-            fontCollection.AddFontFile(fontFile);
-            return fontCollection.Families[0].Name;
+            var font = System.Geometry.Text.Font.FromStream(File.OpenRead(ttfFont));
+            return font.Family;
         }
 
         #endregion

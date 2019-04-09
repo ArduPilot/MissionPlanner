@@ -20,7 +20,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Browser" Version="0.7.0" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="0.7.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="System.Drawing.Common" Version="4.5.1" />
     <PackageReference Include="System.Threading" Version="4.3.0" />
     <PackageReference Include="Tewr.Blazor.FileReader" Version="0.7.1" />
     <DotNetCliToolReference Include="Microsoft.AspNetCore.Blazor.Cli" Version="0.5.1" />

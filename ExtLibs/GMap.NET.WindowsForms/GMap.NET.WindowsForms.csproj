@@ -82,6 +82,7 @@
       <Project>{D0C39D9D-BED0-418B-9A5E-713176CAF40C}</Project>
       <Name>GMap.NET.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GMap.NET.Drawing\GMap.NET.Drawing.csproj" />
     <ProjectReference Include="..\SvgNet\SvgNet.csproj">
       <Project>{bb4c8021-b5e1-4de2-82cb-14bdfb9837e4}</Project>
       <Name>SvgNet</Name>

@@ -5,7 +5,7 @@ using GMap.NET;
 using GMap.NET.WindowsForms;
 using SvgNet.SvgGdi;
 
-namespace MissionPlanner.Maps
+namespace GMap.NET.WindowsForms
 {
     /// <summary>
     /// used to override the drawing of the waypoint box bounding

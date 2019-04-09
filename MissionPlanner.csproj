@@ -169,6 +169,10 @@
       <Project>{d0c39d9d-bed0-418b-9a5e-713176caf40c}</Project>
       <Name>GMap.NET.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="ExtLibs\GMap.NET.Drawing\GMap.NET.Drawing.csproj">
+      <Project>{d773accd-9c2d-4e94-a967-faa7ea2d21cb}</Project>
+      <Name>GMap.NET.Drawing</Name>
+    </ProjectReference>
     <ProjectReference Include="ExtLibs\GMap.NET.WindowsForms\GMap.NET.WindowsForms.csproj">
       <Project>{e06def77-f933-42fb-afd7-db2d0d8d6a98}</Project>
       <Name>GMap.NET.WindowsForms</Name>

@@ -1,5 +1,6 @@
 ﻿
 using System.ComponentModel;
+using System.IO;
 using SvgNet.SvgGdi;
 
 namespace GMap.NET.WindowsForms.Markers
@@ -8,7 +9,7 @@ namespace GMap.NET.WindowsForms.Markers
    using System.Collections.Generic;
 
 #if !PocketPC
-       using GMap.NET.Core.Properties;
+    using GMap.NET.Drawing.Properties;
    using System;
    using System.Runtime.Serialization;
 #else
@@ -65,13 +66,13 @@ namespace GMap.NET.WindowsForms.Markers
 #endif
    {
       public float? Bearing;
-      Bitmap Bitmap;
-      Bitmap BitmapShadow;
+      Image Bitmap;
+      Image BitmapShadow;
 
-      static Bitmap arrowshadow;
-      static Bitmap msmarker_shadow;
-      static Bitmap shadow_small;
-      static Bitmap pushpin_shadow;
+      static Image arrowshadow;
+      static Image msmarker_shadow;
+      static Image shadow_small;
+      static Image pushpin_shadow;
 
       public readonly GMarkerGoogleType Type;
 
@@ -200,11 +201,11 @@ namespace GMap.NET.WindowsForms.Markers
          Offset = new Point(-Size.Width / 2, -Size.Height);
       }
 
-      static readonly Dictionary<string, Bitmap> iconCache = new Dictionary<string, Bitmap>();
+      static readonly Dictionary<string, Image> iconCache = new Dictionary<string, Image>();
 
-      internal static Bitmap GetIcon(string name)
+      internal static Image GetIcon(string name)
       {
-         Bitmap ret;
+          Image ret;
          if(!iconCache.TryGetValue(name, out ret))
          {
             ret = Resources.ResourceManager.GetObject(name, Resources.Culture) as Bitmap;

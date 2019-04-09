@@ -417,7 +417,7 @@ namespace SvgNet.SvgGdi
                 GL.Disable(EnableCap.PolygonSmooth);
 
             GL.Enable(EnableCap.Blend);
-            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
             GL.Enable(EnableCap.Texture2D);
 
@@ -838,7 +838,7 @@ namespace SvgNet.SvgGdi
                     TranslateTransform(-x, -y);
                     */
                     GL.Enable(EnableCap.Blend);
-                    GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+                    GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
                     GL.Enable(EnableCap.Texture2D);
                     GL.BindTexture(TextureTarget.Texture2D, charDict[charid].gltextureid);
@@ -985,7 +985,7 @@ namespace SvgNet.SvgGdi
                 ((SolidBrush)brush).Color.B / 255f, ((SolidBrush)brush).Color.A / 255f);
 
             GL.Enable(EnableCap.Blend);
-            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
             for (int i = 0; i < numTriangles; i++)
             {
@@ -1053,7 +1053,7 @@ namespace SvgNet.SvgGdi
                 ((SolidBrush)brush).Color.B / 255f, ((SolidBrush)brush).Color.A / 255f);
 
             GL.Enable(EnableCap.Blend);
-            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
             for (int i = 0; i < numTriangles; i++)
             {

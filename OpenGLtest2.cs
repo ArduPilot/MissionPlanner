@@ -16,6 +16,7 @@ using GMap.NET.MapProviders;
 using Microsoft.Scripting.Utils;
 using MathHelper = MissionPlanner.Utilities.MathHelper;
 using Vector3 = OpenTK.Vector3;
+using System.IO;
 
 namespace MissionPlanner.Controls
 {
@@ -223,6 +224,8 @@ namespace MissionPlanner.Controls
 
         static int generateTexture(Bitmap image)
         {
+            image.MakeTransparent();
+
             BitmapData data = image.LockBits(new System.Drawing.Rectangle(0, 0, image.Width, image.Height),
                 ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
@@ -491,8 +494,7 @@ namespace MissionPlanner.Controls
 
                     if (green == 0)
                     {
-                        GMap.NET.Core.Properties.Resources.green.MakeTransparent();
-                        green = generateTexture(GMap.NET.Core.Properties.Resources.green);
+                        green = generateTexture(GMap.NET.Drawing.Properties.Resources.green);
                     }
 
                     GL.Enable(EnableCap.DepthTest);

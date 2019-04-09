@@ -160,6 +160,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         {
                             item.Name = ASCIIEncoding.ASCII.GetString(gnires.name, 0, gnires.name_len);
                             item.HardwareVersion = gnires.hardware_version.major + "." + gnires.hardware_version.minor;
+                            item.SoftwareVersion  = gnires.software_version.major + "." + gnires.software_version.minor + "."+gnires.software_version.vcs_commit;
+                            item.SoftwareCRC = gnires.software_version.image_crc;
                         }
 
                         this.BeginInvoke((Action)delegate
@@ -269,5 +271,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public string Health { get; set; }
         public TimeSpan Uptime { get; set; }
         public string HardwareVersion { get; set; }
+        public string SoftwareVersion { get; set; }
+        public ulong SoftwareCRC { get; set; }
     }
 }

@@ -26,9 +26,6 @@
     <EmbeddedResource Remove="Resources\Resource1.resx" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SvgNet\SvgNet.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Update="GMap.NET.ObjectModel\ObservableCollection.cs">
       <SubType>Code</SubType>
     </Compile>

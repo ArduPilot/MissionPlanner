@@ -193,7 +193,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
                     bmp.Width * 4);
             bm.SetPixels(data.Scan0);
             */
-            ans._surface = SKSurface.Create(new SKImageInfo(bmp.Width, bmp.Height, SKColorType.Bgra8888, SKAlphaType.Premul), data.Scan0, bmp.Width * 4);
+            ans._surface = SKSurface.Create(new SKImageInfo(bmp.Width, bmp.Height, SKColorType.Bgra8888, SKAlphaType.Premul), data.Scan0, data.Stride);
 
             bmp.UnlockBits(data);
 
