@@ -40,16 +40,36 @@ namespace SikRadio
         {
             if (_Session == null)
             {
-                _Session = new RFD.RFD900.TSession(SikRadio.Config.comPort, MainV2.comPort.BaseStream.BaudRate);
-                if (_Session.PutIntoATCommandMode() == RFD.RFD900.TSession.TMode.AT_COMMAND)
+                var Session = new RFD.RFD900.TSession(SikRadio.Config.comPort, MainV2.comPort.BaseStream.BaudRate);
+                if (Session.PutIntoATCommandMode() == RFD.RFD900.TSession.TMode.AT_COMMAND)
                 {
-                    inter.doCommand(Config.comPort, "AT&T=RSSI");
+                    var Reply = Session.ATCClient.DoQuery("AT&T=RSSI", true);
+                    if (Reply.Contains("RSSI"))
+                    {
+                        Session.AssumeMode(RFD.RFD900.TSession.TMode.TRANSPARENT);
 
-                    _Session.AssumeMode(RFD.RFD900.TSession.TMode.TRANSPARENT);
+                        tickStart = Environment.TickCount;
 
-                    tickStart = Environment.TickCount;
+                        timer1.Start();
 
-                    timer1.Start();
+                        _Session = Session;
+                    }
+                    else
+                    {
+                        var ATIReply = Session.ATCClient.DoQuery("ATI", true);
+                        if (RFDLib.Text.Contains(ATIReply, "async"))
+                        {
+                            MissionPlanner.MsgBox.CustomMessageBox.Show("Firmware doesn't support RSSI reporting");
+                        }
+                        else
+                        {
+                            MissionPlanner.MsgBox.CustomMessageBox.Show("Failed to enter RSSI reporting mode.");
+                        }
+                    }
+                }
+                else
+                {
+                    MissionPlanner.MsgBox.CustomMessageBox.Show("Failed to put modem into AT command mode.");
                 }
             }
         }
@@ -70,59 +90,7 @@ namespace SikRadio
 
                     _Session.Dispose();
                     _Session = null;
-
-                    BUT_disconnect.Enabled = false;
-                    BUT_connect.Enabled = true;
                 }
-            }
-        }
-
-        private void BUT_connect_Click(object sender, EventArgs e)
-        {
-            CustomMessageBox.Show("Ensure you disconnect properly, to leave the radio in a good state");
-
-            try
-            {
-                MainV2.comPort.BaseStream.Open();
-
-                inter.doConnect(MainV2.comPort.BaseStream);
-
-                inter.doCommand(MainV2.comPort.BaseStream, "AT&T=RSSI");
-
-                inter.doCommand(MainV2.comPort.BaseStream, "ATO");
-
-                tickStart = Environment.TickCount;
-
-                timer1.Start();
-
-                BUT_disconnect.Enabled = true;
-                BUT_connect.Enabled = false;
-            }
-            catch
-            {
-                CustomMessageBox.Show("Bad Port Setting");
-            }
-        }
-
-        private void BUT_disconnect_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                timer1.Stop();
-
-                inter.doConnect(MainV2.comPort.BaseStream);
-
-                inter.doCommand(MainV2.comPort.BaseStream, "AT&T");
-
-                inter.doCommand(MainV2.comPort.BaseStream, "ATO");
-
-                MainV2.comPort.BaseStream.Close();
-
-                BUT_disconnect.Enabled = false;
-                BUT_connect.Enabled = true;
-            }
-            catch
-            {
             }
         }
 
