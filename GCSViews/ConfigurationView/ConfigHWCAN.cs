@@ -5,7 +5,7 @@ using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigHWCAN : UserControl, IActivate
+    public partial class ConfigHWCAN : MyUserControl, IActivate
     {
         public ConfigHWCAN()
         {

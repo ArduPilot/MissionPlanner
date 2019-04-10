@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Utilities
@@ -42,6 +43,15 @@ namespace MissionPlanner.Utilities
 
         }
 
+        public static async Task<List<PointLatLngAlt>> CreateCorridorAsync(List<PointLatLngAlt> polygon, double altitude,
+            double distance,
+            double spacing, double angle, double overshoot1, double overshoot2, StartPosition startpos, bool shutter,
+            float minLaneSeparation, double width, float leadin = 0)
+        {
+            return await Task.Run(() => CreateCorridor(polygon, altitude, distance, spacing, angle, overshoot1, overshoot2,
+                startpos, shutter, minLaneSeparation, width, leadin));
+        }
+
         public static List<PointLatLngAlt> CreateCorridor(List<PointLatLngAlt> polygon, double altitude, double distance,
             double spacing, double angle, double overshoot1, double overshoot2, StartPosition startpos, bool shutter,
             float minLaneSeparation, double width, float leadin = 0)
@@ -64,7 +74,7 @@ namespace MissionPlanner.Utilities
             List<utmpos> utmpositions = utmpos.ToList(PointLatLngAlt.ToUTM(utmzone, polygon), utmzone);
 
             var lanes = (width / distance);
-            var start = (int) ((lanes / 2) * -1);
+            var start = (int)((lanes / 2) * -1);
             var end = start * -1;
 
             for (int lane = start; lane <= end; lane++)
@@ -92,11 +102,11 @@ namespace MissionPlanner.Utilities
 
             utmpos oldpos = utmpos.Zero;
 
-            for (int a=0;a<utmpositions.Count-2;a++)
+            for (int a = 0; a < utmpositions.Count - 2; a++)
             {
                 var prevCenter = utmpositions[a];
-                var currCenter = utmpositions[a+1];
-                var nextCenter = utmpositions[a+2];
+                var currCenter = utmpositions[a + 1];
+                var nextCenter = utmpositions[a + 2];
 
                 var l1bearing = prevCenter.GetBearing(currCenter);
                 var l2bearing = currCenter.GetBearing(nextCenter);
@@ -173,12 +183,15 @@ namespace MissionPlanner.Utilities
             return ans;
         }
 
-        public static List<PointLatLngAlt> CreateGrid(List<PointLatLngAlt> polygon, double altitude, double distance, double spacing, double angle, double overshoot1,double overshoot2, StartPosition startpos, bool shutter, float minLaneSeparation, float leadin, PointLatLngAlt HomeLocation)
+        public static async Task<List<PointLatLngAlt>> CreateRotaryAsync(List<PointLatLngAlt> polygon, double altitude, double distance, double spacing, double angle, double overshoot1, double overshoot2, StartPosition startpos, bool shutter, float minLaneSeparation, float leadin, PointLatLngAlt HomeLocation)
         {
-            //DoDebug();
+            return await Task.Run((() => CreateRotary(polygon, altitude, distance, spacing, angle, overshoot1, overshoot2,
+                startpos, shutter, minLaneSeparation, leadin, HomeLocation)));
+        }
 
-            if (spacing < 4 && spacing != 0)
-                spacing = 4;
+        public static List<PointLatLngAlt> CreateRotary(List<PointLatLngAlt> polygon, double altitude, double distance, double spacing, double angle, double overshoot1, double overshoot2, StartPosition startpos, bool shutter, float minLaneSeparation, float leadin, PointLatLngAlt HomeLocation)
+        {
+            spacing = 0;
 
             if (distance < 0.1)
                 distance = 0.1;
@@ -186,7 +199,96 @@ namespace MissionPlanner.Utilities
             if (polygon.Count == 0)
                 return new List<PointLatLngAlt>();
 
-            
+            List<utmpos> ans = new List<utmpos>();
+
+            // utm zone distance calcs will be done in
+            int utmzone = polygon[0].GetUTMZone();
+
+            // utm position list
+            List<utmpos> utmpositions = utmpos.ToList(PointLatLngAlt.ToUTM(utmzone, polygon), utmzone);
+
+            // close the loop if its not already
+            if (utmpositions[0] != utmpositions[utmpositions.Count - 1])
+                utmpositions.Add(utmpositions[0]); // make a full loop
+
+            var maxlane = 200;// (Centroid(utmpositions).GetDistance(utmpositions[0]) / distance);
+
+            ClipperLib.ClipperOffset clipperOffset = new ClipperLib.ClipperOffset();
+
+            clipperOffset.AddPath(utmpositions.Select(a => { return new ClipperLib.IntPoint(a.x * 1000.0, a.y * 1000.0); }).ToList(), ClipperLib.JoinType.jtMiter, ClipperLib.EndType.etClosedPolygon);
+
+            for (int lane = 0; lane < maxlane; lane++)
+            {
+                List<utmpos> ans1 = new List<utmpos>();
+
+                ClipperLib.PolyTree tree = new ClipperLib.PolyTree();
+                clipperOffset.Execute(ref tree, (Int64)(distance * 1000.0 * -lane));
+
+                if (tree.ChildCount == 0)
+                    break;
+
+                ans1 = tree.GetFirst().Contour.Select(a => new utmpos(a.X / 1000.0, a.Y / 1000.0, utmzone)).ToList();
+
+                if (ans.Count() > 2)
+                {
+                    var start1 = ans[ans.Count() - 1];
+                    var end1 = ans[ans.Count() - 2];
+
+                    var start2 = ans1[0];
+                    var end2 = ans1[ans1.Count() - 1];
+
+                    var intersection = FindLineIntersectionExtension(start1, end1, start2, end2);
+
+                    if (intersection != utmpos.Zero)
+                    {
+                        //ans.Add(intersection);
+                    }
+                }
+
+                ans.AddRange(ans1);
+            }
+
+            // set the altitude on all points
+            return ans.Select(plla => { var a = plla.ToLLA(); a.Alt = altitude; a.Tag = "S"; return a; }).ToList();
+        }
+
+        static utmpos Centroid(List<utmpos> poly)
+        {
+            double x = 0;
+            double y = 0;
+            double parts = poly.Count;
+
+            poly.ForEach(a =>
+            {
+                x += (a.x / parts);
+                y += (a.y / parts);
+            });
+
+            return new utmpos(x, y, poly[0].zone);
+        }
+
+        public static async Task<List<PointLatLngAlt>> CreateGridAsync(List<PointLatLngAlt> polygon, double altitude,
+            double distance, double spacing, double angle, double overshoot1, double overshoot2, StartPosition startpos,
+            bool shutter, float minLaneSeparation, float leadin, PointLatLngAlt HomeLocation)
+        {
+            return await Task.Run((() => CreateGrid(polygon, altitude, distance, spacing, angle, overshoot1, overshoot2,
+                startpos, shutter, minLaneSeparation, leadin, HomeLocation)));
+        }
+
+        public static List<PointLatLngAlt> CreateGrid(List<PointLatLngAlt> polygon, double altitude, double distance, double spacing, double angle, double overshoot1, double overshoot2, StartPosition startpos, bool shutter, float minLaneSeparation, float leadin, PointLatLngAlt HomeLocation)
+        {
+            //DoDebug();
+
+            if (spacing < 0.1 && spacing != 0)
+                spacing = 0.1;
+
+            if (distance < 0.1)
+                distance = 0.1;
+
+            if (polygon.Count == 0)
+                return new List<PointLatLngAlt>();
+
+
             // Make a non round number in case of corner cases
             if (minLaneSeparation != 0)
                 minLaneSeparation += 0.5F;
@@ -222,7 +324,7 @@ namespace MissionPlanner.Utilities
             double x = area.MidWidth;
             double y = area.MidHeight;
 
-            addtomap(new utmpos(x, y, utmzone),"Base");
+            addtomap(new utmpos(x, y, utmzone), "Base");
 
             // get left extent
             double xb1 = x;
@@ -246,7 +348,7 @@ namespace MissionPlanner.Utilities
 
             utmpos right = new utmpos(xb2, yb2, utmzone);
 
-            addtomap(right,"right");
+            addtomap(right, "right");
 
             // set start point to left hand side
             x = xb1;
@@ -258,7 +360,7 @@ namespace MissionPlanner.Utilities
                 // copy the start point to generate the end point
                 double nx = x;
                 double ny = y;
-                newpos(ref nx, ref ny, angle, diagdist + distance*2);
+                newpos(ref nx, ref ny, angle, diagdist + distance * 2);
 
                 linelatlng line = new linelatlng();
                 line.p1 = new utmpos(x, y, utmzone);
@@ -266,7 +368,7 @@ namespace MissionPlanner.Utilities
                 line.basepnt = new utmpos(x, y, utmzone);
                 grid.Add(line);
 
-               // addtomap(line);
+                // addtomap(line);
 
                 newpos(ref x, ref y, angle + 90, distance);
                 lines++;
@@ -433,35 +535,53 @@ namespace MissionPlanner.Utilities
                 {
                     utmpos newstart = newpos(closest.p1, angle, -leadin);
                     newstart.Tag = "S";
-
                     addtomap(newstart, "S");
                     ans.Add(newstart);
 
-                    closest.p1.Tag = "SM";
-                    addtomap(closest.p1, "SM");
-                    ans.Add(closest.p1);
+                    if (leadin < 0)
+                    {
+                        var p2 = new utmpos(newstart) { Tag = "SM" };
+                        addtomap(p2, "SM");
+                        ans.Add(p2);
+                    }
+                    else
+                    {
+                        closest.p1.Tag = "SM";
+                        addtomap(closest.p1, "SM");
+                        ans.Add(closest.p1);
+                    }
 
                     if (spacing > 0)
                     {
-                        for (int d = (int)(spacing - ((closest.basepnt.GetDistance(closest.p1)) % spacing));
+                        for (double d = (spacing - ((closest.basepnt.GetDistance(closest.p1)) % spacing));
                             d < (closest.p1.GetDistance(closest.p2));
-                            d += (int)spacing)
+                            d += spacing)
                         {
                             double ax = closest.p1.x;
                             double ay = closest.p1.y;
 
                             newpos(ref ax, ref ay, angle, d);
-                            var utmpos1 = new utmpos(ax, ay, utmzone) {Tag = "M"};
+                            var utmpos1 = new utmpos(ax, ay, utmzone) { Tag = "M" };
                             addtomap(utmpos1, "M");
                             ans.Add(utmpos1);
                         }
                     }
 
-                    closest.p2.Tag = "ME";
-                    addtomap(closest.p2, "ME");
-                    ans.Add(closest.p2);
-
                     utmpos newend = newpos(closest.p2, angle, overshoot1);
+
+                    if (overshoot1 < 0)
+                    {
+                        var p2 = new utmpos(newend) { Tag = "ME" };
+                        addtomap(p2, "ME");
+                        ans.Add(p2);
+                    }
+                    else
+                    {
+                        closest.p2.Tag = "ME";
+                        addtomap(closest.p2, "ME");
+                        ans.Add(closest.p2);
+                    }
+
                     newend.Tag = "E";
                     addtomap(newend, "E");
                     ans.Add(newend);
@@ -481,31 +601,50 @@ namespace MissionPlanner.Utilities
                     addtomap(newstart, "S");
                     ans.Add(newstart);
 
-                    closest.p2.Tag = "SM";
-                    addtomap(closest.p2, "SM");
-                    ans.Add(closest.p2);
+                    if (leadin < 0)
+                    {
+                        var p2 = new utmpos(newstart) { Tag = "SM" };
+                        addtomap(p2, "SM");
+                        ans.Add(p2);
+                    }
+                    else
+                    {
+                        closest.p2.Tag = "SM";
+                        addtomap(closest.p2, "SM");
+                        ans.Add(closest.p2);
+                    }
 
                     if (spacing > 0)
                     {
-                        for (int d = (int)((closest.basepnt.GetDistance(closest.p2)) % spacing);
+                        for (double d = ((closest.basepnt.GetDistance(closest.p2)) % spacing);
                             d < (closest.p1.GetDistance(closest.p2));
-                            d += (int)spacing)
+                            d += spacing)
                         {
                             double ax = closest.p2.x;
                             double ay = closest.p2.y;
 
                             newpos(ref ax, ref ay, angle, -d);
-                            var utmpos2 = new utmpos(ax, ay, utmzone) {Tag = "M"};
+                            var utmpos2 = new utmpos(ax, ay, utmzone) { Tag = "M" };
                             addtomap(utmpos2, "M");
                             ans.Add(utmpos2);
                         }
                     }
 
-                    closest.p1.Tag = "ME";
-                    addtomap(closest.p1, "ME");
-                    ans.Add(closest.p1);
-
                     utmpos newend = newpos(closest.p1, angle, -overshoot2);
+
+                    if (overshoot2 < 0)
+                    {
+                        var p2 = new utmpos(newend) { Tag = "ME" };
+                        addtomap(p2, "ME");
+                        ans.Add(p2);
+                    }
+                    else
+                    {
+                        closest.p1.Tag = "ME";
+                        addtomap(closest.p1, "ME");
+                        ans.Add(closest.p1);
+                    }
+
                     newend.Tag = "E";
                     addtomap(newend, "E");
                     ans.Add(newend);
@@ -544,7 +683,7 @@ namespace MissionPlanner.Utilities
                 maxy = Math.Max(maxy, pnt.y);
             }
 
-            return new Rect(minx, maxy, maxx - minx,miny - maxy);
+            return new Rect(minx, maxy, maxx - minx, miny - maxy);
         }
 
         // polar to rectangular
@@ -664,8 +803,30 @@ namespace MissionPlanner.Utilities
 
         static linelatlng findClosestLine(utmpos start, List<linelatlng> list, double minDistance, double angle)
         {
+            if (minDistance == 0)
+            {
+                linelatlng answer = list[0];
+                double shortest = double.MaxValue;
+
+                foreach (linelatlng line in list)
+                {
+                    double ans1 = start.GetDistance(line.p1);
+                    double ans2 = start.GetDistance(line.p2);
+                    utmpos shorterpnt = ans1 < ans2 ? line.p1 : line.p2;
+
+                    if (shortest > start.GetDistance(shorterpnt))
+                    {
+                        answer = line;
+                        shortest = start.GetDistance(shorterpnt);
+                    }
+                }
+
+                return answer;
+            }
+
+
             // By now, just add 5.000 km to our lines so they are long enough to allow intersection
-            double METERS_TO_EXTEND = 5000000;
+            double METERS_TO_EXTEND = 5000;
 
             double perperndicularOrientation = AddAngle(angle, 90);
 
@@ -690,21 +851,19 @@ namespace MissionPlanner.Utilities
 
             foreach (linelatlng line in list)
             {
-                // Extend line at both ends so it intersecs for sure with our perpendicular line
-                utmpos extended_line_start = newpos(line.p1, angle, -METERS_TO_EXTEND);
-                utmpos extended_line_stop = newpos(line.p2, angle, METERS_TO_EXTEND);
                 // Calculate intersection point
-                utmpos p = FindLineIntersection(extended_line_start, extended_line_stop, start_perpendicular_line, stop_perpendicular_line);
-                
+                utmpos p = FindLineIntersectionExtension(line.p1, line.p2, start_perpendicular_line, stop_perpendicular_line);
+
                 // Store it
                 intersectedPoints[p] = line;
 
                 // Calculate distances between interesected point and "start" (i.e. line and start)
                 double distance_p = start.GetDistance(p);
+
                 if (!ordered_min_to_max.ContainsKey(distance_p))
                     ordered_min_to_max.Add(distance_p, p);
             }
-     
+
             // Acquire keys and sort them.
             List<double> ordered_keys = ordered_min_to_max.Keys.ToList();
             ordered_keys.Sort();
@@ -722,11 +881,11 @@ namespace MissionPlanner.Utilities
 
             // If no line is selected (because all of them are closer than minDistance, then get the farest one
             if (key == double.MaxValue)
-                key = ordered_keys[ordered_keys.Count-1];
+                key = ordered_keys[ordered_keys.Count - 1];
 
-            // return line
-            return intersectedPoints[ordered_min_to_max[key]];
+            var filteredlist = intersectedPoints.Where(a => a.Key.GetDistance(start) >= key);
 
+            return findClosestLine(start, filteredlist.Select(a => a.Value).ToList(), 0, angle);
         }
 
         static bool PointInPolygon(utmpos p, List<utmpos> poly)

@@ -7,6 +7,56 @@ using System.Text;
 
 public partial class MAVLink
 {
+    public static string GetUnit(string fieldname, Type packetype = null, string name="", uint msgid = UInt32.MaxValue)
+    {
+        try
+        {
+            message_info msginfo = new message_info();
+            if(packetype != null)
+                msginfo = MAVLink.MAVLINK_MESSAGE_INFOS.First(a => a.type == packetype);
+            if (msgid != UInt32.MaxValue)
+                msginfo = MAVLink.MAVLINK_MESSAGE_INFOS.First(a => a.msgid == msgid);
+            if (!string.IsNullOrEmpty(name))
+                msginfo = MAVLink.MAVLINK_MESSAGE_INFOS.First(a => a.name == name);
+
+            if (msginfo.name == "")
+                return "";
+            
+            var typeofthing = msginfo.type.GetField(fieldname);
+            if (typeofthing != null)
+            {
+                var attrib = typeofthing.GetCustomAttributes(false);
+                if (attrib.Length > 0)
+                    return attrib.OfType<MAVLink.Units>().First().Unit;
+            }
+        }
+        catch
+        {
+        }
+
+        return "";
+    }
+
+    public class Units : Attribute
+    {
+        public Units(string unit)
+        {
+            Unit = unit;
+        }
+
+        public string Unit { get; set; }
+    }
+
+    public class Description : Attribute
+    {
+        public Description(string desc)
+        {
+            Text = desc;
+        }
+
+        public string Text { get; set; }
+    }
+
     public class MavlinkParse
     {
         public int packetcount = 0;

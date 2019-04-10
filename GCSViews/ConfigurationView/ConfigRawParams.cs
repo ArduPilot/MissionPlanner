@@ -14,13 +14,12 @@ using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
 using log4net;
-using Microsoft.Scripting.Utils;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigRawParams : UserControl, IActivate, IDeactivate
+    public partial class ConfigRawParams : MyUserControl, IActivate, IDeactivate
     {
         // from http://stackoverflow.com/questions/2512781/winforms-big-paragraph-tooltip/2512895#2512895
         private const int maximumSingleLineTooltipLength = 50;
@@ -43,6 +42,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public void Activate()
         {
             startup = true;
+
+            _changes.Clear();
 
             BUT_writePIDS.Enabled = MainV2.comPort.BaseStream.IsOpen;
             BUT_rerequestparams.Enabled = MainV2.comPort.BaseStream.IsOpen;
@@ -242,6 +243,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 try
                 {
+                    if (MainV2.comPort.BaseStream == null || !MainV2.comPort.BaseStream.IsOpen)
+                    {
+                        CustomMessageBox.Show("Your are not connected", Strings.ERROR);
+                        return;
+                    }
+
                     MainV2.comPort.setParam(value, (float) _changes[value]);
 
                     try
@@ -279,6 +286,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     CustomMessageBox.Show("Set " + value + " Failed");
                 }
             }
+
+            CustomMessageBox.Show("Parameters successfully saved.", "Saved");
         }
 
         private void BUT_compare_Click(object sender, EventArgs e)
@@ -368,9 +377,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     {
                         CustomMessageBox.Show(
                             Params[Command.Index, e.RowIndex].Value +
-                            " is marked as ReadOnly, and should not be changed", "ReadOnly",
+                            " is marked as ReadOnly, and will not be changed", "ReadOnly",
                             MessageBoxButtons.OK);
-
+                        return;
                     }
                 }
 
@@ -558,6 +567,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         void filterList(string searchfor)
         {
+            DateTime start = DateTime.Now;
+            Params.SuspendLayout();
+            Params.Enabled = false;
             if (searchfor.Length >= 2 || searchfor.Length == 0)
             {
                 Regex filter = new Regex(searchfor.Replace("*",".*").Replace("..*",".*"),RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Singleline);
@@ -574,9 +586,27 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         row.Visible = false;
                     }
                 }
-
-                Params.Refresh();
             }
+
+            if (chk_modified.Checked)
+            {
+                foreach (DataGridViewRow row in Params.Rows)
+                {
+                    // is it modified? - always show
+                    if (_changes.ContainsKey(row.Cells[Command.Index].Value))
+                    {
+                        row.Visible = true;
+                    }
+                    else
+                    {
+                        row.Visible = false;
+                    }
+                }
+            }
+            Params.Enabled = true;
+            Params.ResumeLayout();
+
+            log.InfoFormat("Filter: {0}ms", (DateTime.Now - start).TotalMilliseconds);
         }
 
         private void BUT_paramfileload_Click(object sender, EventArgs e)
@@ -748,6 +778,39 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             CustomMessageBox.Show("Parameters committed to non-volatile memory");
             return;
+        }
+
+        private void Params_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == Value.Index)
+            {
+                var check = Params[e.ColumnIndex, e.RowIndex].EditedFormattedValue;
+                var name = Params[Command.Index, e.RowIndex].Value.ToString();
+
+                var availableBitMask =
+                    ParameterMetaDataRepository.GetParameterBitMaskInt(name, MainV2.comPort.MAV.cs.firmware.ToString());
+                if (availableBitMask.Count > 0)
+                {
+                    var mcb = new MavlinkCheckBoxBitMask();
+                    var list = new MAVLink.MAVLinkParamList();
+                    list.Add(new MAVLink.MAVLinkParam(name, double.Parse(check.ToString(), CultureInfo.InvariantCulture),
+                        MAVLink.MAV_PARAM_TYPE.INT32));
+                    mcb.setup(name, list);
+                    mcb.ValueChanged += (o, s, value) =>
+                    {
+                        Params[e.ColumnIndex, e.RowIndex].Value = value;
+                        Params.Invalidate();
+                        mcb.Focus();
+                    };
+                    var frm = mcb.ShowUserControl();
+                    frm.TopMost = true;
+                }
+            }
+        }
+
+        private void chk_modified_CheckedChanged(object sender, EventArgs e)
+        {
+            FilterTimerOnElapsed(null, null);
         }
     }
 }

@@ -6,7 +6,6 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading;
 using System.Windows.Forms;
-using MissionPlanner;
 
 namespace MissionPlanner.Controls
 {

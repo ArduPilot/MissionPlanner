@@ -5,7 +5,7 @@ using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigBatteryMonitoring2 : UserControl, IActivate, IDeactivate
+    public partial class ConfigBatteryMonitoring2 : MyUserControl, IActivate, IDeactivate
     {
         private bool _startup;
 

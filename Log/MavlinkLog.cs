@@ -5,10 +5,6 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
-//using KMLib;
-//using KMLib.Feature;
-//using KMLib.Geometry;
-//using Core.Geometry;
 using ICSharpCode.SharpZipLib.Zip;
 using ICSharpCode.SharpZipLib.Core;
 using SharpKml.Base;
@@ -20,6 +16,8 @@ using log4net;
 using ZedGraph; // Graphs
 using MissionPlanner.Utilities;
 using System.CodeDom.Compiler;
+using System.Linq;
+using System.Text.RegularExpressions;
 using MissionPlanner.Controls;
 
 namespace MissionPlanner.Log
@@ -44,6 +42,7 @@ namespace MissionPlanner.Log
             InitializeComponent();
 
             zg1.GraphPane.YAxis.Title.IsVisible = false;
+            zg1.GraphPane.Y2Axis.Title.Text = "";
             zg1.GraphPane.Title.IsVisible = true;
             zg1.GraphPane.Title.Text = "Mavlink Log Graph";
             zg1.GraphPane.XAxis.Title.Text = "Time (sec)";
@@ -376,14 +375,7 @@ namespace MissionPlanner.Log
 
         private void Log_FormClosing(object sender, FormClosingEventArgs e)
         {
-            try
-            {
-                //   if (selectform != null)
-                //      selectform.Close();
-            }
-            catch
-            {
-            }
+
         }
 
         private void BUT_redokml_Click(object sender, EventArgs e)
@@ -1272,53 +1264,6 @@ namespace MissionPlanner.Log
             }
         }
 
-        private void AddDataOption(Form selectform, string Name)
-        {
-            CheckBox chk_box = new CheckBox();
-
-            log.Info("Add Option " + Name);
-
-            chk_box.Text = Name;
-            chk_box.Name = Name;
-            chk_box.Location = new System.Drawing.Point(x, y);
-            chk_box.Size = new System.Drawing.Size(100, 20);
-            chk_box.CheckedChanged += new EventHandler(chk_box_CheckedChanged);
-            chk_box.MouseUp += new MouseEventHandler(chk_box_MouseUp);
-
-            selectform.Controls.Add(chk_box);
-
-            Application.DoEvents();
-
-            x += 0;
-            y += 20;
-
-            if (y > selectform.Height - 60)
-            {
-                x += 100;
-                y = 10;
-
-                selectform.Width = x + 100;
-            }
-        }
-
-        void chk_box_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (e.Button == System.Windows.Forms.MouseButtons.Right)
-            {
-                // dont action a already draw item
-                if (!((CheckBox) sender).Checked)
-                {
-                    rightclick = true;
-                    ((CheckBox) sender).Checked = true;
-                }
-                else
-                {
-                    ((CheckBox) sender).Checked = false;
-                }
-                rightclick = false;
-            }
-        }
-
         int colorStep = 0;
         bool rightclick = false;
 
@@ -1337,6 +1282,47 @@ namespace MissionPlanner.Log
                 myCurve = zg1.GraphPane.AddCurve(((CheckBox) sender).Name.Replace("mavlink_", ""),
                     (PointPairList) datappl[((CheckBox) sender).Name],
                     Color.FromArgb(unchecked(colorvalue + (int) 0xff000000)), SymbolType.None);
+
+                var split = ((CheckBox) sender).Name.Split(' ');
+
+                if (split.Length == 2)
+                {
+                    var unit = MAVLink.GetUnit(split[0],
+                        name: split[1].Replace("mavlink_", "").RemoveFromEnd("_t").ToUpper());
+
+                    var index = zg1.GraphPane.YAxisList.IndexOf(unit);
+
+                    var index2 = zg1.GraphPane.Y2AxisList.IndexOf(unit);
+
+                    if (index != -1 && !rightclick)
+                    {
+                        myCurve.YAxisIndex = index;
+                        myCurve.GetYAxis(zg1.GraphPane).IsVisible = true;
+                    }
+                    else if (index2 != -1 && rightclick)
+                    {
+                        myCurve.YAxisIndex = index2;
+                        myCurve.GetYAxis(zg1.GraphPane).IsVisible = true;
+                    }
+                    else
+                    {
+                        if (rightclick)
+                        {
+                            index = zg1.GraphPane.AddY2Axis(unit);
+                            myCurve.YAxisIndex = index;
+                        }
+                        else
+                        {
+                            index = zg1.GraphPane.AddYAxis(unit);
+                            myCurve.YAxisIndex = index;
+                        }
+                    }
+
+                }
+                else
+                {
+                    myCurve.YAxisIndex = 0;
+                }
 
                 myCurve.Tag = ((CheckBox) sender).Name;
 
@@ -1357,10 +1343,9 @@ namespace MissionPlanner.Log
 
                 myCurve.GetRange(out xMin, out xMax, out yMin, out yMax, true, false, zg1.GraphPane);
 
-                if (rightclick || (yMin > 850 && yMax < 2100 && yMin < 2100))
+                if (rightclick)
                 {
                     myCurve.IsY2Axis = true;
-                    myCurve.YAxisIndex = 0;
                     zg1.GraphPane.Y2Axis.IsVisible = true;
 
                     myCurve.Label.Text = myCurve.Label.Text + "-R";
@@ -1749,6 +1734,16 @@ namespace MissionPlanner.Log
 
                 if (e.Node.Checked)
                 {
+                    // has it already been graphed?
+                    foreach (var item in zg1.GraphPane.CurveList)
+                    {
+                        if (item.Label.Text.StartsWith(e.Node.Text) &&
+                            item.Label.Text.Contains(e.Node.Parent.Text.ToLower()))
+                        {
+                            return;
+                        }
+                    }
+
                     if (e.Button == System.Windows.Forms.MouseButtons.Right)
                     {
                         GraphItem(e.Node.Parent.Text, e.Node.Text, false);
@@ -1761,7 +1756,8 @@ namespace MissionPlanner.Log
                 else
                 {
                     List<CurveItem> removeitems = new List<CurveItem>();
-
+                    List<Axis> visibleAxises = new List<Axis>();
+                    // tag line for removal
                     foreach (var item in zg1.GraphPane.CurveList)
                     {
                         if (item.Label.Text.StartsWith(e.Node.Text) &&
@@ -1770,10 +1766,27 @@ namespace MissionPlanner.Log
                             removeitems.Add(item);
                             //break;
                         }
+                        else
+                        {
+                            visibleAxises.Add(item.GetYAxis(zg1.GraphPane));
+                        }
                     }
-
+                    // remove lines
                     foreach (var item in removeitems)
+                    {
                         zg1.GraphPane.CurveList.Remove(item);
+                    }
+                    // hide unused yaxis
+                    foreach (var item in zg1.GraphPane.YAxisList)
+                    {
+                        if (!visibleAxises.Contains(item))
+                            item.IsVisible = false;
+                    }
+                    foreach (var item in zg1.GraphPane.Y2AxisList)
+                    {
+                        if (!visibleAxises.Contains(item))
+                            item.IsVisible = false;
+                    }
                 }
 
                 zg1.Invalidate();

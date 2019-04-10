@@ -4,6 +4,7 @@ using System.Text;
 using System.Drawing;
 using System.Xml.Serialization;
 using System.ComponentModel;
+using Core.Utils;
 
 namespace Core.CommonObjects
 {
@@ -140,11 +141,11 @@ namespace Core.CommonObjects
         {
             get
             {
-                return ColorTranslator.ToHtml(m_Color);
+                return ColorUtils.ColorTranslator.ToHtml(m_Color);
             }
             set
             {
-                Color = ColorTranslator.FromHtml(value);
+                Color = ColorUtils.ColorTranslator.FromHtml(value);
             }
         }
         

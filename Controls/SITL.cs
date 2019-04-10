@@ -1,17 +1,10 @@
 ﻿using GMap.NET;
-using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Net.Sockets;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
@@ -249,6 +242,9 @@ namespace MissionPlanner.Controls
                 {
                     JsonSerializer serializer = new JsonSerializer();
                     var obj = (JObject) serializer.Deserialize(reader);
+
+                    if (obj == null)
+                        return "";
 
                     foreach (var fwtype in obj)
                     {

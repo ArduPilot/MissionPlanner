@@ -58,6 +58,8 @@
             this.BUT_writePIDS = new MissionPlanner.Controls.MyButton();
             this.BUT_rerequestparams = new MissionPlanner.Controls.MyButton();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.WP_SPEED = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.label5 = new System.Windows.Forms.Label();
             this.NAVL1_DAMPING = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label13 = new System.Windows.Forms.Label();
             this.NAVL1_PERIOD = new MissionPlanner.Controls.MavlinkNumericUpDown();
@@ -69,6 +71,8 @@
             this.TURN_G_MAX = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label10 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.ATC_STR_RAT_FF = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.label24 = new System.Windows.Forms.Label();
             this.STEER2SRV_IMAX = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label14 = new System.Windows.Forms.Label();
             this.STEER2SRV_D = new MissionPlanner.Controls.MavlinkNumericUpDown();
@@ -92,10 +96,12 @@
             this.BUT_refreshpart = new MissionPlanner.Controls.MyButton();
             this.CH7_OPTION = new MissionPlanner.Controls.MavlinkComboBox();
             this.label21 = new System.Windows.Forms.Label();
-            this.ATC_STR_RAT_FF = new MissionPlanner.Controls.MavlinkNumericUpDown();
-            this.label24 = new System.Windows.Forms.Label();
-            this.WP_SPEED = new MissionPlanner.Controls.MavlinkNumericUpDown();
-            this.label5 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.CH8_OPTION = new MissionPlanner.Controls.MavlinkComboBox();
+            this.label26 = new System.Windows.Forms.Label();
+            this.CH9_OPTION = new MissionPlanner.Controls.MavlinkComboBox();
+            this.label27 = new System.Windows.Forms.Label();
+            this.CH10_OPTION = new MissionPlanner.Controls.MavlinkComboBox();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CRUISE_SPEED)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.THR_MAX)).BeginInit();
@@ -108,12 +114,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.SPEED2THR_I)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SPEED2THR_P)).BeginInit();
             this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.WP_SPEED)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NAVL1_DAMPING)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NAVL1_PERIOD)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.WP_OVERSHOOT)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.WP_RADIUS)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TURN_G_MAX)).BeginInit();
             this.groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ATC_STR_RAT_FF)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.STEER2SRV_IMAX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.STEER2SRV_D)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.STEER2SRV_I)).BeginInit();
@@ -125,8 +133,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.SONAR_TRIGGER_CM)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TURN_RADIUS)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ATC_STR_RAT_FF)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.WP_SPEED)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox3
@@ -346,6 +352,19 @@
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.TabStop = false;
             // 
+            // WP_SPEED
+            // 
+            resources.ApplyResources(this.WP_SPEED, "WP_SPEED");
+            this.WP_SPEED.Max = 1F;
+            this.WP_SPEED.Min = 0F;
+            this.WP_SPEED.Name = "WP_SPEED";
+            this.WP_SPEED.ParamName = null;
+            // 
+            // label5
+            // 
+            resources.ApplyResources(this.label5, "label5");
+            this.label5.Name = "label5";
+            // 
             // NAVL1_DAMPING
             // 
             resources.ApplyResources(this.NAVL1_DAMPING, "NAVL1_DAMPING");
@@ -431,6 +450,19 @@
             resources.ApplyResources(this.groupBox5, "groupBox5");
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.TabStop = false;
+            // 
+            // ATC_STR_RAT_FF
+            // 
+            resources.ApplyResources(this.ATC_STR_RAT_FF, "ATC_STR_RAT_FF");
+            this.ATC_STR_RAT_FF.Max = 1F;
+            this.ATC_STR_RAT_FF.Min = 0F;
+            this.ATC_STR_RAT_FF.Name = "ATC_STR_RAT_FF";
+            this.ATC_STR_RAT_FF.ParamName = null;
+            // 
+            // label24
+            // 
+            resources.ApplyResources(this.label24, "label24");
+            this.label24.Name = "label24";
             // 
             // STEER2SRV_IMAX
             // 
@@ -592,35 +624,56 @@
             resources.ApplyResources(this.label21, "label21");
             this.label21.Name = "label21";
             // 
-            // ATC_STR_RAT_FF
+            // label25
             // 
-            resources.ApplyResources(this.ATC_STR_RAT_FF, "ATC_STR_RAT_FF");
-            this.ATC_STR_RAT_FF.Max = 1F;
-            this.ATC_STR_RAT_FF.Min = 0F;
-            this.ATC_STR_RAT_FF.Name = "ATC_STR_RAT_FF";
-            this.ATC_STR_RAT_FF.ParamName = null;
+            resources.ApplyResources(this.label25, "label25");
+            this.label25.Name = "label25";
             // 
-            // label24
+            // CH8_OPTION
             // 
-            resources.ApplyResources(this.label24, "label24");
-            this.label24.Name = "label24";
+            this.CH8_OPTION.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.CH8_OPTION, "CH8_OPTION");
+            this.CH8_OPTION.FormattingEnabled = true;
+            this.CH8_OPTION.Name = "CH8_OPTION";
+            this.CH8_OPTION.ParamName = null;
+            this.CH8_OPTION.SubControl = null;
             // 
-            // WP_SPEED
+            // label26
             // 
-            resources.ApplyResources(this.WP_SPEED, "WP_SPEED");
-            this.WP_SPEED.Max = 1F;
-            this.WP_SPEED.Min = 0F;
-            this.WP_SPEED.Name = "WP_SPEED";
-            this.WP_SPEED.ParamName = null;
+            resources.ApplyResources(this.label26, "label26");
+            this.label26.Name = "label26";
             // 
-            // label5
+            // CH9_OPTION
             // 
-            resources.ApplyResources(this.label5, "label5");
-            this.label5.Name = "label5";
+            this.CH9_OPTION.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.CH9_OPTION, "CH9_OPTION");
+            this.CH9_OPTION.FormattingEnabled = true;
+            this.CH9_OPTION.Name = "CH9_OPTION";
+            this.CH9_OPTION.ParamName = null;
+            this.CH9_OPTION.SubControl = null;
+            // 
+            // label27
+            // 
+            resources.ApplyResources(this.label27, "label27");
+            this.label27.Name = "label27";
+            // 
+            // CH10_OPTION
+            // 
+            this.CH10_OPTION.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.CH10_OPTION, "CH10_OPTION");
+            this.CH10_OPTION.FormattingEnabled = true;
+            this.CH10_OPTION.Name = "CH10_OPTION";
+            this.CH10_OPTION.ParamName = null;
+            this.CH10_OPTION.SubControl = null;
             // 
             // ConfigArdurover
             // 
-            
+            this.Controls.Add(this.label27);
+            this.Controls.Add(this.CH10_OPTION);
+            this.Controls.Add(this.label26);
+            this.Controls.Add(this.CH9_OPTION);
+            this.Controls.Add(this.label25);
+            this.Controls.Add(this.CH8_OPTION);
             this.Controls.Add(this.label21);
             this.Controls.Add(this.CH7_OPTION);
             this.Controls.Add(this.BUT_refreshpart);
@@ -646,12 +699,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.SPEED2THR_I)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SPEED2THR_P)).EndInit();
             this.groupBox4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.WP_SPEED)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NAVL1_DAMPING)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NAVL1_PERIOD)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.WP_OVERSHOOT)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.WP_RADIUS)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TURN_G_MAX)).EndInit();
             this.groupBox5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.ATC_STR_RAT_FF)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.STEER2SRV_IMAX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.STEER2SRV_D)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.STEER2SRV_I)).EndInit();
@@ -663,8 +718,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.SONAR_TRIGGER_CM)).EndInit();
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.TURN_RADIUS)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ATC_STR_RAT_FF)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.WP_SPEED)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -737,5 +790,11 @@
         private System.Windows.Forms.Label label24;
         private Controls.MavlinkNumericUpDown WP_SPEED;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label25;
+        private Controls.MavlinkComboBox CH8_OPTION;
+        private System.Windows.Forms.Label label26;
+        private Controls.MavlinkComboBox CH9_OPTION;
+        private System.Windows.Forms.Label label27;
+        private Controls.MavlinkComboBox CH10_OPTION;
     }
 }

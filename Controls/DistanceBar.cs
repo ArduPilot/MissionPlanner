@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace MissionPlanner.Controls
@@ -84,6 +81,7 @@ namespace MissionPlanner.Controls
             matrix.Translate(this.Left, this.Top);
             e.Graphics.Transform = matrix;
             OnPaint(e);
+            e.Graphics.ResetTransform();
         }
 
         protected override void OnPaint(PaintEventArgs e)

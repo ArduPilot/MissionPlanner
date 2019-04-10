@@ -1,16 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using MissionPlanner.Controls;
 using MissionPlanner.Comms;
-using System.Collections;
 using MissionPlanner.Utilities;
-using MissionPlanner.Controls.BackstageView;
 
 namespace MissionPlanner.Wizard
 {

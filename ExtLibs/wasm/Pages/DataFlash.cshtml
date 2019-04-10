@@ -1,0 +1,149 @@
+﻿@page "/DataFlash"
+@using System.Globalization
+@using System.IO
+@using System.Net
+@using System.Net.WebSockets
+@using System.Threading
+@using MissionPlanner
+@using MissionPlanner.Comms
+@using MissionPlanner.Utilities
+@using MissionPlanner.Log
+@using System.IO;
+
+@using System.Text;
+
+@using System.Security.Cryptography;
+@using Blazor.FileReader;
+@using System.IO;
+@using Blazor.Extensions
+@using Newtonsoft.Json
+@using Org.BouncyCastle.Utilities.Encoders
+@implements IDisposable
+@inject IFileReaderService fileReaderService;
+@inject HttpClient Http
+
+<div id="container">
+    <div id="right" style="float:right; width: 150px;">
+        @if (cb != null)
+        {
+            @foreach (var item in cb.SeenMessageTypes)
+             {
+                 <ul style="margin: 0;">
+                     <input type="checkbox" value="@item" onclick="if ($(this).is(':checked')) {$(this).siblings().css('display', 'block');} else {$(this).siblings().css('display', 'none');}"/>
+                     @item
+                     @foreach (var subitem in cb.FMT.First(a=>a.Value.Item2 == item).Value.Item4.Split(','))
+                     {
+                         <div style="display: none">
+                             <li><input type="checkbox" ref="checkElementRef" onclick=@(async () => PlotItem(@item,@subitem)) value="@item.@subitem"/>@subitem</li>
+                         </div>
+                     }
+                 </ul>
+             }
+        }
+
+    </div>
+    <div id="left" style="margin-right: 150px;">
+        <input type="file" ref="inputTypeFileElement" accept=".bin, .log" />
+        <button onclick="@ReadFile">Read file</button>
+
+        <div id="div1" style="width: 100%; height: 50vh"></div>
+        <div id="div2" style="width: 100%; height: 50vh"></div>
+        <div id="div3" style="width: 100%; height: 50vh"></div>
+
+    </div>
+</div>
+
+
+
+
+@functions {
+    ElementRef inputTypeFileElement;
+
+    ElementRef checkElementRef;
+
+    CollectionBuffer cb;
+
+    public async void PlotItem(string type, string item)
+    {
+        plotly line = new plotly(type + "." + item);
+        foreach (var msg in cb.GetEnumeratorType(type))
+        {
+            var itemdata = msg[item];
+            if (itemdata == null)
+                continue;
+
+            var itemvalue = double.Parse(itemdata, CultureInfo.InvariantCulture);
+
+            line.AddXY(msg.time.ToString("yyyy-MM-dd hh:mm:ss.fff"), itemvalue);
+        }
+
+        JSRuntime.Current.InvokeAsync<object>("plotData", new object[] { "div1", line.getJSON() });
+    }
+
+    public async Task ReadFile()
+    {
+        foreach (var file in await fileReaderService.CreateReference(inputTypeFileElement).EnumerateFilesAsync())
+        {
+            var info = await file.ReadFileInfoAsync();
+
+            using (MemoryStream memoryStream = await file.CreateMemoryStreamAsync(1024 * 1024 * 5))
+            {
+                cb = new CollectionBuffer(memoryStream);
+
+                foreach (var msg in cb.GetEnumeratorType("MSG"))
+                {
+                    Console.WriteLine(msg.msgtype + " " + cb[msg.lineno]);
+                }
+
+                plotly linelat = new plotly("Lat");
+                plotly linelng = new plotly("Lng");
+                plotly linealt = new plotly("Alt");
+
+                plotly linemap = new plotly("Map");
+                linemap.root.mode = "linesa";
+                linemap.root.type = "scattergeo";
+
+                plotly scatter3d = new plotly("map3d");
+                scatter3d.root.type = "scatter3d";
+                scatter3d.root.mode = "lines";
+
+
+                foreach (var msg in cb.GetEnumeratorType("GPS"))
+                {
+                    var lat = msg["Lat"];
+                    var lng = msg["Lng"];
+                    var alt = msg["Alt"];
+                    if (lat == null)
+                        continue;
+
+                    var lat2 = double.Parse(lat, CultureInfo.InvariantCulture);
+                    var lng2 = double.Parse(lng, CultureInfo.InvariantCulture);
+                    var alt2 = double.Parse(alt, CultureInfo.InvariantCulture);
+
+                    if (lat2 == 0)
+                        continue;
+
+                    linelat.AddXY(msg.time.ToString("yyyy-MM-dd hh:mm:ss.fff"), lat2);
+                    linelng.AddXY(msg.time.ToString("yyyy-MM-dd hh:mm:ss.fff"), lng2);
+                    linealt.AddXY(msg.time.ToString("yyyy-MM-dd hh:mm:ss.fff"), alt2);
+
+                    linemap.AddLatLng(lat2, lng2);
+
+                    scatter3d.AddXYZ(lat2, lng2, alt2);
+                }
+
+                JSRuntime.Current.InvokeAsync<object>("plotData", new object[] { "div1", linealt.getJSON() });
+                JSRuntime.Current.InvokeAsync<object>("plotData", new object[] { "div2", linemap.getJSON() });
+                JSRuntime.Current.InvokeAsync<object>("plotData", new object[] { "div3", scatter3d.getJSON() });
+            }
+        }
+
+    }
+
+    public void Dispose()
+    {
+        Http?.Dispose();
+    }
+
+}
+

@@ -61,3 +61,6 @@ obj/
 /ExtLibs/GDAL/Native/gdal
 /ExtLibs/SimpleExample/packages
 /ExtLibs/SimpleExample/.vs
+/ExtLibs/wasm/wwwroot/2018-09-09 18-15-17.txt
+/ExtLibs/Mobile
+/ExtLibs/Test

@@ -4,7 +4,7 @@ using MissionPlanner.Controls;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigWizard : UserControl, IActivate
+    public partial class ConfigWizard : MyUserControl, IActivate
     {
         public ConfigWizard()
         {

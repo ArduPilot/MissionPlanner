@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Drawing.Imaging;
-using System.Collections;
 using System.IO;
 using DirectShowLib;
 using AviFile;
@@ -216,27 +211,8 @@ namespace MissionPlanner
                 IBaseFilter pAVIDecompressor = (IBaseFilter) new AVIDec();
                 hr = m_FilterGraph.AddFilter(pAVIDecompressor, "AVI Decompressor");
                 DsError.ThrowExceptionForHR(hr);
-
-                IBaseFilter ffdshow;
-                try
-                {
-                    // Create Decoder filter COM object (ffdshow video decoder)
-                    Type comtype = Type.GetTypeFromCLSID(new Guid("{04FE9017-F873-410E-871E-AB91661A4EF7}"));
-                    if (comtype == null)
-                        throw new NotSupportedException("Creating ffdshow video decoder COM object fails.");
-                    object comobj = Activator.CreateInstance(comtype);
-                    ffdshow = (IBaseFilter) comobj; // error ocurrs! raised exception
-                    comobj = null;
-                }
-                catch
-                {
-                    CustomMessageBox.Show("Please install/reinstall ffdshow");
-                    return;
-                }
-
-                hr = m_FilterGraph.AddFilter(ffdshow, "ffdshow");
-                DsError.ThrowExceptionForHR(hr);
-
+ 
+                
                 //
                 IBaseFilter baseGrabFlt = (IBaseFilter) sampGrabber;
                 ConfigureSampleGrabber(sampGrabber);
@@ -250,18 +226,11 @@ namespace MissionPlanner
                 hr = m_FilterGraph.AddFilter(vidrender, "Render");
                 DsError.ThrowExceptionForHR(hr);
 
-
                 IPin captpin = DsFindPin.ByDirection(capFilter, PinDirection.Output, 0);
-
-                IPin ffdpinin = DsFindPin.ByName(ffdshow, "In");
-
-                IPin ffdpinout = DsFindPin.ByName(ffdshow, "Out");
 
                 IPin samppin = DsFindPin.ByName(baseGrabFlt, "Input");
 
-                hr = m_FilterGraph.Connect(captpin, ffdpinin);
-                DsError.ThrowExceptionForHR(hr);
-                hr = m_FilterGraph.Connect(ffdpinout, samppin);
+                hr = m_FilterGraph.Connect(captpin, samppin);
                 DsError.ThrowExceptionForHR(hr);
 
                 FileWriter filewritter = new FileWriter();

@@ -4,8 +4,8 @@ namespace MissionPlanner.Comms
 {
     public class CircularBuffer<T>
     {
-        Queue<T> _queue;
-        int _size;
+        private readonly Queue<T> _queue;
+        private readonly int _size;
 
         public CircularBuffer(int size)
         {
@@ -21,8 +21,11 @@ namespace MissionPlanner.Comms
                 _queue.Enqueue(obj);
             }
             else
+            {
                 _queue.Enqueue(obj);
+            }
         }
+
         public T Read()
         {
             return _queue.Dequeue();

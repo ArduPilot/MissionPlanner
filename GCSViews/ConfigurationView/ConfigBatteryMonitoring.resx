@@ -171,6 +171,12 @@
   <data name="CMB_batmonsensortype.Items7" xml:space="preserve">
     <value>7: ProfiCNC HV Power Module PX4</value>
   </data>
+  <data name="CMB_batmonsensortype.Items8" xml:space="preserve">
+    <value>8: CUAV HV PM</value>
+  </data>
+  <data name="CMB_batmonsensortype.Items9" xml:space="preserve">
+    <value>9: Holybro Pixhawk4 PM</value>
+  </data>
   <data name="CMB_batmonsensortype.Location" type="System.Drawing.Point, System.Drawing">
     <value>160, 68</value>
   </data>
@@ -273,6 +279,9 @@
   <data name="&gt;&gt;TXT_battcapacity.ZOrder" xml:space="preserve">
     <value>9</value>
   </data>
+  <data name="CMB_batmontype.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="CMB_batmontype.Items" xml:space="preserve">
     <value>0: Disabled</value>
   </data>
@@ -295,7 +304,7 @@
     <value>CMB_batmontype</value>
   </data>
   <data name="&gt;&gt;CMB_batmontype.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.3.7027.29714, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CMB_batmontype.Parent" xml:space="preserve">
     <value>$this</value>
@@ -334,7 +343,7 @@
     <value>17, 17</value>
   </metadata>
   <data name="CMB_apmversion.Items" xml:space="preserve">
-    <value>0: APM1</value>
+    <value>0: CUAV V5/Pixhawk4 or APM1</value>
   </data>
   <data name="CMB_apmversion.Items1" xml:space="preserve">
     <value>1: APM2 - 2.5 non 3DR</value>
@@ -847,6 +856,6 @@
     <value>ConfigBatteryMonitoring</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.MyUserControl, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

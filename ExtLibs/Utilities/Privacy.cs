@@ -151,9 +151,9 @@ namespace MissionPlanner.Utilities
 
                         if (index != -1)
                         {
-                            dfItem.items[index] =
-                                (Double.Parse(dfItem.items[index], CultureInfo.InvariantCulture) + latrandom).ToString(
-                                    CultureInfo.InvariantCulture);
+                            var lat = Double.Parse(dfItem.items[index], CultureInfo.InvariantCulture);
+                            if (lat != 0)
+                                dfItem.items[index] =(lat + latrandom).ToString(CultureInfo.InvariantCulture);
                         }
 
                         var str = String.Join(",", dfItem.items) + "\r\n";

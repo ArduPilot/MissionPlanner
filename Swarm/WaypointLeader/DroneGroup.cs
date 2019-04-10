@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using Core.ExtendedObjects;
 using log4net;
 using MissionPlanner.Controls;
-using MissionPlanner.HIL;
 using MissionPlanner.Utilities;
 using ZedGraph;
 

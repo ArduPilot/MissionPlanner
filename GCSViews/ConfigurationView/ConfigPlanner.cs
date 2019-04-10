@@ -7,7 +7,6 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using DirectShowLib;
-using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
 using MissionPlanner.Joystick;
 using MissionPlanner.Utilities;
@@ -15,7 +14,7 @@ using WebCamService;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigPlanner : UserControl, IActivate
+    public partial class ConfigPlanner : MyUserControl, IActivate
     {
         private List<CultureInfo> _languages;
         private bool startup;
@@ -60,6 +59,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             CMB_theme.DataSource = Enum.GetNames(typeof (ThemeManager.Themes));
 
             CMB_theme.Text = ThemeManager.CurrentTheme.ToString();
+
+            num_gcsid.Value = MAVLinkInterface.gcssysid;
 
             // setup language selection
             var cultureCodes = new[]
@@ -505,6 +506,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             Settings.Instance[((ComboBox) sender).Name] = ((ComboBox) sender).Text;
             MainV2.comPort.MAV.cs.rateattitude = int.Parse(((ComboBox) sender).Text);
 
+            CurrentState.rateattitudebackup = MainV2.comPort.MAV.cs.rateattitude;
+
             MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA1, MainV2.comPort.MAV.cs.rateattitude);
             // request attitude
             MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA2, MainV2.comPort.MAV.cs.rateattitude);
@@ -518,6 +521,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             Settings.Instance[((ComboBox) sender).Name] = ((ComboBox) sender).Text;
             MainV2.comPort.MAV.cs.rateposition = int.Parse(((ComboBox) sender).Text);
 
+            CurrentState.ratepositionbackup = MainV2.comPort.MAV.cs.rateposition;
+
             MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.POSITION, MainV2.comPort.MAV.cs.rateposition);
             // request gps
         }
@@ -528,6 +533,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             Settings.Instance[((ComboBox) sender).Name] = ((ComboBox) sender).Text;
             MainV2.comPort.MAV.cs.ratestatus = int.Parse(((ComboBox) sender).Text);
+
+            CurrentState.ratestatusbackup = MainV2.comPort.MAV.cs.ratestatus;
 
             MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTENDED_STATUS, MainV2.comPort.MAV.cs.ratestatus);
             // mode
@@ -540,6 +547,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             Settings.Instance[((ComboBox) sender).Name] = ((ComboBox) sender).Text;
             MainV2.comPort.MAV.cs.raterc = int.Parse(((ComboBox) sender).Text);
 
+            CurrentState.ratercbackup = MainV2.comPort.MAV.cs.raterc;
+
             MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RC_CHANNELS, MainV2.comPort.MAV.cs.raterc);
             // request rc info 
         }
@@ -550,6 +559,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             Settings.Instance[((ComboBox) sender).Name] = ((ComboBox) sender).Text;
             MainV2.comPort.MAV.cs.ratesensors = int.Parse(((ComboBox) sender).Text);
+
+            CurrentState.ratesensorsbackup = MainV2.comPort.MAV.cs.ratesensors;
 
             MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA3, MainV2.comPort.MAV.cs.ratesensors);
             // request extra stuff - tridge
@@ -941,6 +952,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             Settings.Instance["altunits"] = CMB_altunits.Text;
             MainV2.instance.ChangeUnits();
+        }
+
+        private void num_gcsid_ValueChanged(object sender, EventArgs e)
+        {
+            MAVLinkInterface.gcssysid = (byte) num_gcsid.Value;
+            Settings.Instance["gcsid"] = num_gcsid.Value.ToString();
         }
     }
 }

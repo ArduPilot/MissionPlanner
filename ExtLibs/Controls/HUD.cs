@@ -759,13 +759,13 @@ namespace MissionPlanner.Controls
             get { return _skyColor2; }
             set { _skyColor2 = value; }
         }
-        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values"), DefaultValue(typeof(Color), "0x9bb824")]
         public Color groundColor1
         {
             get { return _groundColor1; }
             set { _groundColor1 = value; }
         }
-        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values"), DefaultValue(typeof(Color), "0x414f07")]
         public Color groundColor2
         {
             get { return _groundColor2; }

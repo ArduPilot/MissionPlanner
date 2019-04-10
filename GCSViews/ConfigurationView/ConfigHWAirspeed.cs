@@ -6,7 +6,7 @@ using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigHWAirspeed : UserControl, IActivate
+    public partial class ConfigHWAirspeed : MyUserControl, IActivate
     {
         private bool startup;
 

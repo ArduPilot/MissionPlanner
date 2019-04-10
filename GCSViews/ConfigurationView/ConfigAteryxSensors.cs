@@ -6,7 +6,7 @@ using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigAteryxSensors : UserControl, IActivate, IDeactivate
+    public partial class ConfigAteryxSensors : MyUserControl, IActivate, IDeactivate
     {
         public ConfigAteryxSensors()
         {

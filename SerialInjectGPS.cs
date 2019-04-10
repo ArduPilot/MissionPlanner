@@ -1,23 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using MissionPlanner.Comms;
-using System.Net.Sockets;
-using System.Reflection;
 using System.Threading;
 using log4net;
 using System.Collections;
-using System.Runtime.InteropServices;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 using System.Globalization;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using Flurl.Util;
 

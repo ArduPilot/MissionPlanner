@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using MissionPlanner.Log;
 using ZedGraph;
 
 namespace MissionPlanner.Utilities
@@ -144,15 +140,17 @@ namespace MissionPlanner.Utilities
                 double[] datainAY = new double[N];
                 double[] datainAZ = new double[N];
 
-                List<double[]> avg = new List<double[]>();
+                List<double[]> avg = new List<double[]>
+                {
 
-                // 6
-                avg.Add(new double[N/2]);
-                avg.Add(new double[N/2]);
-                avg.Add(new double[N/2]);
-                avg.Add(new double[N/2]);
-                avg.Add(new double[N/2]);
-                avg.Add(new double[N/2]);
+                    // 6
+                    new double[N / 2],
+                    new double[N / 2],
+                    new double[N / 2],
+                    new double[N / 2],
+                    new double[N / 2],
+                    new double[N / 2]
+                };
 
                 object[] datas = new object[] {datainGX, datainGY, datainGZ, datainAX, datainAY, datainAZ};
                 string[] datashead = new string[]
@@ -302,15 +300,7 @@ namespace MissionPlanner.Utilities
             }
         }
 
-        class datastate
-        {
-            public string type;
-            public double timedelta;
-            public double lasttime;
-            public List<double> datax = new List<double>();
-            public List<double> datay = new List<double>();
-            public List<double> dataz = new List<double>();
-        }
+
 
         private void BUT_log2_Click(object sender, EventArgs e)
         {
@@ -340,9 +330,9 @@ namespace MissionPlanner.Utilities
                 };
 
                 // 3 imus * 2 sets of measurements(gyr/acc)
-                datastate[] alldata = new datastate[3*2];
+                FFT2.datastate[] alldata = new FFT2.datastate[3*2];
                 for (int a = 0; a < alldata.Length; a++)
-                    alldata[a] = new datastate();
+                    alldata[a] = new FFT2.datastate();
 
                 foreach (var item in file.GetEnumeratorType(new string[] { "ACC1", "GYR1", "ACC2", "GYR2", "ACC3", "GYR3", "ACC4", "GYR4" }))
                 {
@@ -444,9 +434,9 @@ namespace MissionPlanner.Utilities
                             if (freqt[b] < (double) NUM_startfreq.Value)
                                 continue;
 
-                            avgx[b] += fftanswerx[b]/(N/2);
-                            avgy[b] += fftanswery[b]/(N/2);
-                            avgz[b] += fftanswerz[b]/(N/2);
+                            avgx[b] += fftanswerx[b]/ (done + count);
+                            avgy[b] += fftanswery[b]/ (done + count);
+                            avgz[b] += fftanswerz[b]/ (done + count);
                         }
 
                         count--;
@@ -551,9 +541,9 @@ namespace MissionPlanner.Utilities
                 };
 
                 // 3 imus * 2 sets of measurements(gyr/acc)
-                datastate[] alldata = new datastate[3 * 2];
+                FFT2.datastate[] alldata = new FFT2.datastate[3 * 2];
                 for (int a = 0; a < alldata.Length; a++)
-                    alldata[a] = new datastate();
+                    alldata[a] = new FFT2.datastate();
 
                 foreach (var item in file.GetEnumeratorType(new string[] {"IMU","IMU2","IMU3"}))
                 {
@@ -648,9 +638,9 @@ namespace MissionPlanner.Utilities
                             if (freqt[b] < (double)NUM_startfreq.Value)
                                 continue;
 
-                            avgx[b] += fftanswerx[b] / (N / 2);
-                            avgy[b] += fftanswery[b] / (N / 2);
-                            avgz[b] += fftanswerz[b] / (N / 2);
+                            avgx[b] += fftanswerx[b] / (done + count);
+                            avgy[b] += fftanswery[b] / (done + count);
+                            avgz[b] += fftanswerz[b] / (done + count);
                         }
 
                         count--;
@@ -738,16 +728,15 @@ namespace MissionPlanner.Utilities
                 };
 
                 // 3 imus * 2 sets of measurements(gyr/acc)
-                datastate[] alldata = new datastate[3 * 2];
+                FFT2.datastate[] alldata = new FFT2.datastate[3 * 2];
                 for (int a = 0; a < alldata.Length; a++)
-                    alldata[a] = new datastate();
+                    alldata[a] = new FFT2.datastate();
 
                 // state cache
                 int Ns = 0;
                 int type = 0;
                 int instance = 0;
                 int sensorno = 0;
-                double smp_rate = 0;
 
                 foreach (var item in file.GetEnumeratorType(new string[] { "ISBH", "ISBD" }))
                 {
@@ -764,11 +753,13 @@ namespace MissionPlanner.Utilities
                             CultureInfo.InvariantCulture);
                         instance = int.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "instance")],
                             CultureInfo.InvariantCulture);
-                        smp_rate = double.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "smp_rate")],
-                            CultureInfo.InvariantCulture);
-
+                    
                         sensorno = type * 3 + instance;
-                        if(type == 0)
+
+                        alldata[sensorno].sample_rate = double.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "smp_rate")],
+                        CultureInfo.InvariantCulture);
+
+                        if (type == 0)
                             alldata[sensorno].type = "ACC"+ instance.ToString();
                         if (type == 1)
                             alldata[sensorno].type = "GYR"+ instance.ToString();
@@ -817,7 +808,7 @@ namespace MissionPlanner.Utilities
 
                     double samplerate = 0;
 
-                    samplerate = smp_rate;// Math.Round(1000 / sensordata.timedelta, 1);
+                    samplerate = sensordata.sample_rate;// Math.Round(1000 / sensordata.timedelta, 1);
 
                     double[] freqt = fft.FreqTable(N, (int)samplerate);
 
@@ -839,9 +830,9 @@ namespace MissionPlanner.Utilities
                             if (freqt[b] < (double)NUM_startfreq.Value)
                                 continue;
 
-                            avgx[b] += fftanswerx[b] / (N / 2);
-                            avgy[b] += fftanswery[b] / (N / 2);
-                            avgz[b] += fftanswerz[b] / (N / 2);
+                            avgx[b] += fftanswerx[b] / (done + count);
+                            avgy[b] += fftanswery[b] / (done + count);
+                            avgz[b] += fftanswerz[b] / (done + count);
                         }
 
                         count--;

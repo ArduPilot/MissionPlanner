@@ -94,9 +94,9 @@ namespace MissionPlanner.Log
             return ret;
         }
 
-        public static List<Tuple<double, double>> ProcessExpression(ref DFLog dflog, ref CollectionBuffer logdata, string expression)
+        public static List<Tuple<DFLog.DFItem, double>> ProcessExpression(ref DFLog dflog, ref CollectionBuffer logdata, string expression)
         {
-            List<Tuple<double, double>> answer = new List<Tuple<double, double>>();
+            List<Tuple<DFLog.DFItem, double>> answer = new List<Tuple<DFLog.DFItem, double>>();
 
             //earth_accel_df(IMU2,ATT).x
             if (expression.Contains("earth_accel_df"))
@@ -139,15 +139,15 @@ namespace MissionPlanner.Log
 
                     if (expression.Contains(".x"))
                     {
-                        answer.Add(item.lineno, earth_accel_df(IMU, ATT).x);
+                        answer.Add(item, earth_accel_df(IMU, ATT).x);
                     }
                     if (expression.Contains(".y"))
                     {
-                        answer.Add(item.lineno, earth_accel_df(IMU, ATT).y);
+                        answer.Add(item, earth_accel_df(IMU, ATT).y);
                     }
                     if (expression.Contains(".z"))
                     {
-                        answer.Add(item.lineno, earth_accel_df(IMU, ATT).z);
+                        answer.Add(item, earth_accel_df(IMU, ATT).z);
                     }
                 }
             } // delta(gps_velocity_df(GPS).x,'x',GPS.TimeUS)
@@ -166,15 +166,15 @@ namespace MissionPlanner.Log
 
                     if (expression.Contains(".x"))
                     {
-                        answer.Add(item.lineno, delta(gps_velocity_df(GPS).x, "x", item.timems*1000));
+                        answer.Add(item, delta(gps_velocity_df(GPS).x, "x", item.timems*1000));
                     }
                     else if (expression.Contains(".y"))
                     {
-                        answer.Add(item.lineno, delta(gps_velocity_df(GPS).y, "y", item.timems*1000));
+                        answer.Add(item, delta(gps_velocity_df(GPS).y, "y", item.timems*1000));
                     }
                     else if (expression.Contains(".z"))
                     {
-                        answer.Add(item.lineno, delta(gps_velocity_df(GPS).z, "z", item.timems*1000) - 9.8);
+                        answer.Add(item, delta(gps_velocity_df(GPS).z, "z", item.timems*1000) - 9.8);
                     }
                 }
             }
@@ -193,15 +193,15 @@ namespace MissionPlanner.Log
 
                     if (expression.Contains(".x"))
                     {
-                        answer.Add(item.lineno, delta(gps_velocity_df(GPS).x, "x", item.timems*1000));
+                        answer.Add(item, delta(gps_velocity_df(GPS).x, "x", item.timems*1000));
                     }
                     else if (expression.Contains(".y"))
                     {
-                        answer.Add(item.lineno, delta(gps_velocity_df(GPS).y, "y", item.timems*1000));
+                        answer.Add(item, delta(gps_velocity_df(GPS).y, "y", item.timems*1000));
                     }
                     else if (expression.Contains(".z"))
                     {
-                        answer.Add(item.lineno, delta(gps_velocity_df(GPS).z, "z", item.timems*1000) - 9.8);
+                        answer.Add(item, delta(gps_velocity_df(GPS).z, "z", item.timems*1000) - 9.8);
                     }
                 }
             }
@@ -216,7 +216,7 @@ namespace MissionPlanner.Log
 
                     foreach (var item in logdata.GetEnumeratorType(type))
                     {
-                        answer.Add(item.lineno, degrees(double.Parse(item.items[dflog.FindMessageOffset(type, field)])));
+                        answer.Add(item, degrees(double.Parse(item.items[dflog.FindMessageOffset(type, field)])));
                     }
                 }
             }
@@ -252,15 +252,47 @@ namespace MissionPlanner.Log
                             var offset = dflog.FindMessageOffset(key, value);
                             if (offset == -1)
                                 continue;
-                            work[a] = double.Parse(item.items[offset]);
+                            var ans = logdata.GetUnit(key, value);
+                            string unit = ans.Item1;
+                            double multiplier = ans.Item2;
+                            work[a] = double.Parse(item.items[offset]) * multiplier;
                         }
+
+
 
                         double workanswer = 0;
                         foreach (var value in work.Values)
                         {
                             workanswer += Math.Pow(value, 2);
                         }
-                        answer.Add(item.lineno, Math.Sqrt(workanswer));
+                        answer.Add(item, Math.Sqrt(workanswer));
+                    }
+                }
+            }
+            else if (expression.Contains("*")) // ATT.DesRoll*ATT.Roll
+            {
+                var matchs = Regex.Matches(expression, @"([A-z0-9_]+)\.([A-z0-9_]+)\*([A-z0-9_]+)\.([A-z0-9_]+)");
+
+                if (matchs.Count > 0)
+                {
+                    var type = matchs[0].Groups[1].Value.ToString();
+                    var field = matchs[0].Groups[2].Value.ToString();
+
+                    var type2 = matchs[0].Groups[3].Value.ToString();
+                    var field2 = matchs[0].Groups[4].Value.ToString();
+
+                    foreach (var item in logdata.GetEnumeratorType(new[] { type, type2 }))
+                    {
+                        if (type == type2)
+                        {
+                            var idx1 = dflog.FindMessageOffset(type, field);
+                            var idx2 = dflog.FindMessageOffset(type2, field2);
+                            if (idx1 == -1 || idx2 == -1)
+                                break;
+                            answer.Add(item,
+                                double.Parse(item.items[idx1]) *
+                                double.Parse(item.items[idx2]));
+                        }
                     }
                 }
             }
@@ -279,9 +311,15 @@ namespace MissionPlanner.Log
                     foreach (var item in logdata.GetEnumeratorType(new[] {type, type2}))
                     {
                         if (type == type2)
-                            answer.Add(item.lineno,
-                                double.Parse(item.items[dflog.FindMessageOffset(type, field)]) -
-                                double.Parse(item.items[dflog.FindMessageOffset(type2, field2)]));
+                        {
+                            var idx1 = dflog.FindMessageOffset(type, field);
+                            var idx2 = dflog.FindMessageOffset(type2, field2);
+                            if(idx1 == -1 || idx2 == -1)
+                                break;
+                            answer.Add(item,
+                                double.Parse(item.items[idx1]) -
+                                double.Parse(item.items[idx2]));
+                        }
                     }
                 }
             }
@@ -320,7 +358,7 @@ namespace MissionPlanner.Log
                         ATT.Yaw = double.Parse(item.items[dflog.FindMessageOffset("ATT", "Yaw")]);
                     }
 
-                    answer.Add(item.lineno, mag_heading_df(MAG, ATT));
+                    answer.Add(item, mag_heading_df(MAG, ATT));
                 }
             }
 

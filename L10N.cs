@@ -1,11 +1,4 @@
-﻿using MissionPlanner.Properties;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Text.RegularExpressions;
+﻿using System.Globalization;
 using log4net;
 using MissionPlanner.Utilities;
 

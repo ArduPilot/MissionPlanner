@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -9,8 +8,6 @@ using uint8_t = System.Byte;
 using int32_t = System.Int32;
 using int8_t = System.SByte;
 using System.Runtime.InteropServices;
-using System.ComponentModel;
-using netDxf;
 using System.IO.Ports;
 using System.Reflection;
 

@@ -47,7 +47,7 @@ namespace AltitudeAngelWings
                     opacityAmount = 1F;
                 }
 
-                opacityByte = (byte)(opacityAmount * 100);
+                opacityByte = (byte)(opacityAmount * 25);
             }
             else if (color.Length == 8)
             {

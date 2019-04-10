@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using MissionPlanner.Comms;
 using System.Net.Sockets;
@@ -65,11 +59,11 @@ namespace MissionPlanner
                             CMB_baudrate.SelectedIndex = 0;
                             break;
                         case "UDP Host - 14550":
-                            MainV2.comPort.MirrorStream = new UdpSerial();
+                            MainV2.comPort.MirrorStream = new UdpSerial() { ConfigRef = "SerialOutputPassUDP" };
                             CMB_baudrate.SelectedIndex = 0;
                             break;
                         case "UDP Client":
-                            MainV2.comPort.MirrorStream = new UdpSerialConnect();
+                            MainV2.comPort.MirrorStream = new UdpSerialConnect() { ConfigRef = "SerialOutputPassUDPCL" };
                             CMB_baudrate.SelectedIndex = 0;
                             break;
                         default:

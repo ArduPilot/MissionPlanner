@@ -5,7 +5,6 @@ using MissionPlanner.Controls.BackstageView;
 using log4net;
 using MissionPlanner.Controls;
 using System.IO;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using BrightIdeasSoftware;
@@ -633,6 +632,8 @@ mc:Ignorable=""d""
 
                     dgv.ColumnHeadersDefaultCellStyle = hs;
                     dgv.RowHeadersDefaultCellStyle = hs;
+
+                    dgv.AlternatingRowsDefaultCellStyle.BackColor = BGColor;
                 }
                 else if (ctl.GetType() == typeof (CheckBox) || ctl.GetType() == typeof (MavlinkCheckBox))
                 {
@@ -837,6 +838,38 @@ mc:Ignorable=""d""
                     {
                         ctl.ForeColor = TextColor;
                     }
+                }
+                else if (ctl.GetType() == typeof(QuickView))
+                {
+                    //set default QuickView item color to mix with background
+                    Color mix = Color.FromArgb(ThemeManager.BGColor.ToArgb() ^ 0xffffff);
+
+                    Controls.QuickView but = (QuickView)ctl;
+                    if (but.Name == "quickView6")
+                    {
+                        but.numberColor = Color.FromArgb((0 + mix.R) / 2, (255 + mix.G) / 2, (252 + mix.B) / 2);
+                    }
+                    else if (but.Name == "quickView5")
+                    {
+                        but.numberColor = Color.FromArgb((254 + mix.R) / 2, (254 + mix.G) / 2, (86 + mix.B) / 2);
+                    }
+                    else if (but.Name == "quickView4")
+                    {
+                        but.numberColor = Color.FromArgb((0 + mix.R) / 2, (255 + mix.G) / 2, (83 + mix.B) / 2);
+                    }
+                    else if (but.Name == "quickView3")
+                    {
+                        but.numberColor = Color.FromArgb((255 + mix.R) / 2, (96 + mix.G) / 2, (91 + mix.B) / 2);
+                    }
+                    else if (but.Name == "quickView2")
+                    {
+                        but.numberColor = Color.FromArgb((254 + mix.R) / 2, (132 + mix.G) / 2, (46 + mix.B) / 2);
+                    }
+                    else if (but.Name == "quickView1")
+                    {
+                        but.numberColor = Color.FromArgb((209 + mix.R) / 2, (151 + mix.G) / 2, (248 + mix.B) / 2);
+                    }
+                    //return;  //return removed to process all quickView controls
                 }
                 else if (ctl.GetType() == typeof(TreeView))
                 {
@@ -1070,38 +1103,7 @@ mc:Ignorable=""d""
                     ((MyProgressBar)ctl).BGGradTop = ProgressBarColorTop;
                     ((MyProgressBar)ctl).BGGradBot = ProgressBarColorBot;
                     ((MyProgressBar)ctl).Outline = ProgressBarOutlineColor;        //sets the colour of the progress bar box
-                } else if (ctl.GetType() == typeof (QuickView))
-                {
-                    //set default QuickView item color to mix with background
-                    Color mix = Color.FromArgb(ThemeManager.BGColor.ToArgb() ^ 0xffffff);
-
-                    Controls.QuickView but = (QuickView) ctl;
-                    if (but.Name == "quickView6")
-                    {
-                        but.numberColor = Color.FromArgb((0 + mix.R) / 2, (255 + mix.G) / 2, (252 + mix.B) / 2);
-                    }
-                    else if (but.Name == "quickView5")
-                    {
-                        but.numberColor = Color.FromArgb((254 + mix.R) / 2, (254 + mix.G) / 2, (86 + mix.B) / 2);
-                    }
-                    else if (but.Name == "quickView4")
-                    {
-                        but.numberColor = Color.FromArgb((0 + mix.R) / 2, (255 + mix.G) / 2, (83 + mix.B) / 2);
-                    }
-                    else if (but.Name == "quickView3")
-                    {
-                        but.numberColor = Color.FromArgb((255 + mix.R) / 2, (96 + mix.G) / 2, (91 + mix.B) / 2);
-                    }
-                    else if (but.Name == "quickView2")
-                    {
-                        but.numberColor = Color.FromArgb((254 + mix.R) / 2, (132 + mix.G) / 2, (46 + mix.B) / 2);
-                    }
-                    else if (but.Name == "quickView1")
-                    {
-                        but.numberColor = Color.FromArgb((209 + mix.R) / 2, (151 + mix.G) / 2, (248 + mix.B) / 2);
-                    }
-                    //return;  //return removed to process all quickView controls
-                }
+                } 
                 if ( (ctl.Controls.Count > 0) && (ctl.GetType() != typeof(QuickView)))      //Do not iterate into quickView type leave labels as they are
                     ApplyTheme(ctl, 1);
 

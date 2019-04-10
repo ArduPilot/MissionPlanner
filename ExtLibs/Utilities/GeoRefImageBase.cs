@@ -1162,10 +1162,6 @@ namespace MissionPlanner.GeoRef
                         if (File.Exists(outputfilename))
                             File.Delete(outputfilename);
 
-                        ImageCodecInfo ici = GetImageCodec("image/jpeg");
-                        EncoderParameters eps = new EncoderParameters(1);
-                        eps.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 100L);
-
                         Pic.Save(outputfilename);
                     }
                 }
@@ -1174,15 +1170,6 @@ namespace MissionPlanner.GeoRef
                     AppendText("There was a problem with image " + Filename);
                 }
             }
-        }
-
-        public static ImageCodecInfo GetImageCodec(string mimetype)
-        {
-            foreach (ImageCodecInfo ici in ImageCodecInfo.GetImageEncoders())
-            {
-                if (ici.MimeType == mimetype) return ici;
-            }
-            return null;
         }
 
         public void CreateReportFiles(Dictionary<string, PictureInformation> listPhotosWithInfo, string dirWithImages,

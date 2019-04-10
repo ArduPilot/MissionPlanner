@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
@@ -9,7 +7,7 @@ using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigFlightModes : UserControl, IActivate, IDeactivate
+    public partial class ConfigFlightModes : MyUserControl, IActivate, IDeactivate
     {
         [Flags]
         public enum SimpleMode

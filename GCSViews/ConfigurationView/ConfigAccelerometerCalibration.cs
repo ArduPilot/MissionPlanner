@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using System.Threading;
 using System.Windows.Forms;
 using log4net;
 using MissionPlanner.Controls;
@@ -8,7 +7,7 @@ using System.Text;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigAccelerometerCalibration : UserControl, IActivate, IDeactivate
+    public partial class ConfigAccelerometerCalibration : MyUserControl, IActivate, IDeactivate
     {
         private const float DisabledOpacity = 0.2F;
         private const float EnabledOpacity = 1.0F;

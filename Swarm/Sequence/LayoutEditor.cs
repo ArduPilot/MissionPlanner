@@ -2,15 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MissionPlanner.Comms;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 
@@ -440,7 +436,7 @@ namespace MissionPlanner.Swarm.Sequence
             // get first homepos
             if (startpos == PointLatLngAlt.Zero)
             {
-                startpos = controller.DG.Drones[0].MavState.cs.Location;
+                startpos = controller.DG.Drones.First().MavState.cs.Location;
             }
 
           
@@ -452,7 +448,7 @@ namespace MissionPlanner.Swarm.Sequence
 
             foreach (var vector3 in layout.Offset)
             {
-                var drone = controller.DG.Drones.Find(a => a.MavState.sysid == vector3.Key);
+                var drone = controller.DG.Drones.FirstOrDefault(a => a.MavState.sysid == vector3.Key);
                 var newpos = startpos.gps_offset(vector3.Value.x, vector3.Value.y);
                 newpos.Alt = vector3.Value.z;
                 if(drone != null)
@@ -512,6 +508,7 @@ namespace MissionPlanner.Swarm.Sequence
 
         private void but_takeoff_Click(object sender, EventArgs e)
         {
+            controller.Stop();
             controller.Start();
 
             Parallel.ForEach(controller.DG.Drones, a =>

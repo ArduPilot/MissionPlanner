@@ -201,10 +201,12 @@ def generate_message_enums(f, xml):
     for m in xml.enum:
         m.description = m.description.replace("\n","    \n///")
         m.description = m.description.replace("\r"," ")
+        m.description = m.description.replace("\"","'")
         m.enumtype = enumtypes.get(m.name,"int /*default*/")
         for fe in m.entry:
             fe.description = fe.description.replace("\n"," ")
             fe.description = fe.description.replace("\r"," ")
+            fe.description = fe.description.replace("\"","'")
             fe.name = fe.name.replace(m.name + "_","")
             firstchar = re.search('^([0-9])', fe.name )
             if firstchar != None and firstchar.group():
@@ -216,6 +218,7 @@ def generate_message_enums(f, xml):
     public enum ${name}: ${enumtype}
     {
 		${{entry:	///<summary> ${description} |${{param:${description}| }} </summary>
+        [Description("${description}")]
         ${name}=${value}, 
     }}
     };
@@ -239,6 +242,8 @@ def generate_message_h(f, directory, m):
     public struct mavlink_${name_lower}_t
     {
 ${{ordered_fields:        /// <summary>${description} ${enum} ${units} ${display}</summary>
+        [Units("${units}")]
+        [Description("${description}")]
         ${array_prefix} ${type} ${name}${array_suffix};
     }}
     };
@@ -268,9 +273,11 @@ def generate_one(fh, basename, xml):
         m.msg_nameid = "MAVLINK_MSG_ID_${name} = ${id}"
         m.description = m.description.replace("\n","    \n///")
         m.description = m.description.replace("\r","")
+        m.description = m.description.replace("\"","'")
         for f in m.fields:
             f.description = f.description.replace("\n","    \n///")
             f.description = f.description.replace("\r","")
+            f.description = f.description.replace("\"","'")
             if f.array_length != 0:
                 f.array_suffix = ''
                 f.array_prefix = '[MarshalAs(UnmanagedType.ByValArray,SizeConst=%u)]\n\t\tpublic' % f.array_length

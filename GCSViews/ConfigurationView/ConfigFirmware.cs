@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using log4net;
-using MissionPlanner.Arduino;
 using MissionPlanner.Comms;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
@@ -24,6 +22,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private string firmwareurl = "";
         private bool firstrun = true;
         private IProgressReporterDialogue pdr;
+        private string detectedport;
 
         public ConfigFirmware()
         {
@@ -41,7 +40,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (Program.WindowsStoreApp)
             {
-
                 CustomMessageBox.Show("Not Available", "Unfortunately the windows store version of this app does not support uploading.", MessageBoxButtons.OK);
                 this.Enabled = false;
                 return;
@@ -89,6 +87,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     up.identify();
                     log.InfoFormat("Found board type {0} boardrev {1} bl rev {2} fwmax {3} on {4}", up.board_type,
                         up.board_rev, up.bl_rev, up.fw_maxsize, port);
+
+                    detectedport = port;
 
                     up.close();
                 }
@@ -298,6 +298,26 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 var history = (CMB_history.SelectedValue == null) ? "" : CMB_history.SelectedValue.ToString();
 
+                if (history != "")
+                {
+                    foreach (var propertyInfo in fwtoupload.GetType().GetFields())
+                    {
+                        try
+                        {
+                            if (propertyInfo.Name.Contains("url"))
+                            {
+                                var oldurl = propertyInfo.GetValue(fwtoupload).ToString();
+                                if(oldurl == "")
+                                    continue;
+                                var newurl = Firmware.getUrl(history, oldurl);
+                                propertyInfo.SetValue(fwtoupload, newurl);
+                            }
+                        } catch { }
+                    }
+
+                    history = "";
+                }
+
                 var updated = fw.update(MainV2.comPortName, fwtoupload, history);
 
                 if (updated)
@@ -349,7 +369,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void CMB_history_SelectedIndexChanged(object sender, EventArgs e)
         {
-            firmwareurl = fw.getUrl(CMB_history.SelectedValue.ToString(), "");
+            firmwareurl = Firmware.getUrl(CMB_history.SelectedValue.ToString(), "");
 
             softwares.Clear();
             UpdateFWList();
@@ -365,7 +385,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             //CMB_history.Items.AddRange(fw.gcoldurls);
             CMB_history.DisplayMember = "Value";
             CMB_history.ValueMember = "Key";
-            CMB_history.DataSource = fw.niceNames;
+            CMB_history.DataSource = Firmware.niceNames;
 
             CMB_history.Enabled = true;
             CMB_history.Visible = true;
@@ -392,7 +412,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     {
                         if (fd.FileName.ToLower().EndsWith(".px4") || fd.FileName.ToLower().EndsWith(".apj"))
                         {
-                            if (solo.Solo.is_solo_alive)
+                            if (solo.Solo.is_solo_alive && 
+                                CustomMessageBox.Show("Solo","Is this a Solo?",CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
                             {
                                 boardtype = BoardDetect.boards.solo;
                             }
@@ -494,6 +515,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public void Deactivate()
         {
             MainV2.instance.DeviceChanged -= Instance_DeviceChanged;
+
+            // try reboot device on screen close.
+            if (!String.IsNullOrEmpty(detectedport))
+            {
+                try
+                {
+                    px4uploader.Uploader up = new px4uploader.Uploader(detectedport, 115200);
+                    up.__reboot();
+                    up.close();
+                } catch { }
+            }
         }
     }
 }

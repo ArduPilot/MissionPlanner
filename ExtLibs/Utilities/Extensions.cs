@@ -8,11 +8,29 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using MissionPlanner.Comms;
+using Newtonsoft.Json;
 
 namespace MissionPlanner.Utilities
 {
     public static class Extensions
     {
+        public static string ToJSON(this object msg)
+        {
+            return JsonConvert.SerializeObject(msg);
+        }
+
+        public static string RemoveFromEnd(this string s, string suffix)
+        {
+            if (s.EndsWith(suffix))
+            {
+                return s.Substring(0, s.Length - suffix.Length);
+            }
+            else
+            {
+                return s;
+            }
+        }
+
         public static string TrimUnPrintable(this string input)
         {
             return Regex.Replace(input, @"[^\u0020-\u007E]", String.Empty);
@@ -51,15 +69,16 @@ namespace MissionPlanner.Utilities
             }
 
             return value is sbyte
+                   || value is double
+                   || value is float
+                   || value is uint
                    || value is byte
                    || value is short
                    || value is ushort
                    || value is int
-                   || value is uint
                    || value is long
                    || value is ulong
-                   || value is float
-                   || value is double
+                   
                    || value is decimal;
         }
 
@@ -171,6 +190,23 @@ namespace MissionPlanner.Utilities
             yield return new Tuple<T, T, T>(now, next, InvalidValue);
         }
 
+        public static IEnumerable<Tuple<T, T>> NowNextBy2<T>(this IEnumerable<T> list)
+        {
+            T now = default(T);
+            T next = default(T);
+
+            int a = -1;
+            foreach (var item in list)
+            {
+                a++;
+                now = next;
+                next = item;
+                if(a % 2 == 0)
+                    continue;
+                yield return new Tuple<T, T>(now, next);
+            }
+        }
+
         public static object GetPropertyOrField(this object obj, string name)
         {
             var type = obj.GetType();
@@ -216,6 +252,43 @@ namespace MissionPlanner.Utilities
         public static DateTime fromUnixTime(this int time)
         {
             return new DateTime(1970, 1, 1).AddSeconds(time);
+        }
+
+        public static double EvaluateMath(this String input)
+        {
+            String expr = "(" + input + ")";
+            Stack<String> ops = new Stack<String>();
+            Stack<Double> vals = new Stack<Double>();
+
+            for (int i = 0; i < expr.Length; i++)
+            {
+                String s = expr.Substring(i, 1);
+                if (s.Equals("(")) { }
+                else if (s.Equals("+")) ops.Push(s);
+                else if (s.Equals("-")) ops.Push(s);
+                else if (s.Equals("*")) ops.Push(s);
+                else if (s.Equals("/")) ops.Push(s);
+                else if (s.Equals("sqrt")) ops.Push(s);
+                else if (s.Equals(")"))
+                {
+                    int count = ops.Count;
+                    while (count > 0)
+                    {
+                        String op = ops.Pop();
+                        double v = vals.Pop();
+                        if (op.Equals("+")) v = vals.Pop() + v;
+                        else if (op.Equals("-")) v = vals.Pop() - v;
+                        else if (op.Equals("*")) v = vals.Pop() * v;
+                        else if (op.Equals("/")) v = vals.Pop() / v;
+                        else if (op.Equals("sqrt")) v = Math.Sqrt(v);
+                        vals.Push(v);
+
+                        count--;
+                    }
+                }
+                else vals.Push(Double.Parse(s));
+            }
+            return vals.Pop();
         }
     }
 }

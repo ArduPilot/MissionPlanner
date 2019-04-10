@@ -14,22 +14,43 @@
 @using System.Security.Cryptography;
 @using Blazor.FileReader;
 @using System.IO;
+@using System.Runtime.InteropServices
 @using Blazor.Extensions
+@using Mono.WebAssembly.Interop
 @using Newtonsoft.Json
 @using Org.BouncyCastle.Utilities.Encoders
 @implements IDisposable
 @inject IFileReaderService fileReaderService;
 @inject HttpClient Http
 
-<h1>WebSocket</h1>
+<div id="message" style="position:absolute;">@gpstime @lat @lng @alt @hdg</div>
 
-<p>@gpstime @lat @lng @alt @hdg</p>
+<div style="height: 100%; display: flex; flex-direction: column; float: left; resize: horizontal; overflow: auto;">
+    <div style="float: left;">
+        <canvas id="canvas" width="500" height="375">
+            <p>
+                This example requires a browser that supports the
+                <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+                &lt;canvas&gt; feature.
+            </p>
+        </canvas><br>
+        Lat: <input id="latbox" name="lat" val="40.713956" />Long: <input id="lngbox" name="long" val="74.006653" /> <br />
+        <canvas id="graphcanvas" width="500" height="80"></canvas><br />
+        <div id="curve_chart" style="width: 500px; height: 200px;"></div>
+    </div>
+    <div id="serverStatus" style="width: 500px; overflow-y: auto; flex-grow: 0;"></div>
+</div>
+<div style="height: 100%; display: flex; flex-direction: column; resize: horizontal; overflow: auto;">
 
-<div id="map" style="width: 100%; height: 70vh;"></div>
+    <div id="cesiumContainer" style="height: 50%; display: none;"></div>
+    <div id="map" style="width: 100%; height: 100%;"></div>
+</div>
 
-<BECanvas ref="@_canvasReference" Width="400" Height="100"></BECanvas>
+
+
 
 @functions {
+    //<BECanvas ref="@_canvasReference" Width="400" Height="100"></BECanvas>
     double lat = 0, lng = 0, alt = 0, hdg = 0;
     int currentCount = 0;
     MAVLinkInterface mav;
@@ -63,8 +84,11 @@
 
     //protected override void OnAfterRender() => Log("OnAfterRender");
 
+    byte[] buffer = new byte[1024];
+
     protected override async Task OnAfterRenderAsync()
     {
+        /*
         this._context = this._canvasReference.CreateCanvas2d();
 
         this._context.FillStyle = "green";
@@ -73,7 +97,7 @@
 
         this._context.Font = "48px serif";
         this._context.StrokeText("Hello Blazor!!!", 10, 100);
-
+        */
         if (init)
             return;
 
@@ -81,9 +105,16 @@
 
         init = true;
 
+        var js = JSRuntime.Current as MonoWebAssemblyJSRuntime;
+        js.InvokeUnmarshalled<byte[], bool>("setNetBuffer1024", buffer);
+
+        var handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+
         JSRuntime.Current.InvokeAsync<object>("initMap", null);
 
         JSRuntime.Current.InvokeAsync<object>("initWebSocket", null);
+
+        JSRuntime.Current.InvokeAsync<object>("draw", null);
     }
 
     protected override void OnParametersSet()
@@ -103,6 +134,8 @@
 
     public static void ProcessPacketStatic(string json)
     {
+        //Console.WriteLine("ProcessPacketStatic");
+
         if (instance != null)
             instance.ProcessPacket(json);
 
@@ -115,15 +148,48 @@
         //Console.WriteLine("ProcessPacketStatic " + instance);
     }
 
+
+    public static void ProcessPacketStaticBytes(string lengths)
+    {
+        var length = int.Parse(lengths);
+        //Console.WriteLine("ProcessPacketStaticBytes");
+        if (instance != null)
+        {
+            if (instance.buffer == null)
+                Console.WriteLine("buffer is null");
+
+            if (length == null)
+                Console.WriteLine("buffer is null");
+
+            //Console.WriteLine(length + " " + BitConverter.ToString(instance.buffer.Take(length).ToArray()));
+
+            //var js = JSRuntime.Current as MonoWebAssemblyJSRuntime;
+            //js.InvokeUnmarshalled<byte[], bool>("setNetBuffer1024", instance.buffer);
+
+            instance.ProcessPacket("", instance.buffer.Take(length).ToArray());
+        }
+
+        if (instance == null)
+        {
+            instance = new websocket();
+            init = true;
+        }
+
+        //Console.WriteLine("ProcessPacketStaticBytes " + instance);
+    }
+
     //[JSInvokable]
-    public async void ProcessPacket(string json)
+    public async void ProcessPacket(string json, byte[] data = null)
     {
         //Console.WriteLine(DateTime.Now + " JS to C# " + json.ToArray().Length);
 
         DateTime start = DateTime.Now;
 
         if (!init)
+        {
+            Console.WriteLine("need to init first");
             return;
+        }
 
         if (this == null)
         {
@@ -150,9 +216,11 @@
 
         //Console.WriteLine("decode json");
 
-        var data = Base64.Decode(json);
+        if (json != "")
+            data = Base64.Decode(json);
 
         mav.BaseStream.Write(data, 0, data.Length);
+
 
         /*
                 var pos = mav.logplaybackfile.BaseStream.Position;
@@ -174,6 +242,8 @@
         //Console.WriteLine("open {0} btr {1} {2} {3}", mav.BaseStream.IsOpen, mav.BaseStream.BytesToRead, mav.BaseStream.GetType(), mav.BaseStream.BaseStream?.GetType());
 
         var check1 = DateTime.Now;
+
+        ProcessPackets();
 
         //var packet = await
 
@@ -212,22 +282,25 @@
             return;
         }
 
-        Console.WriteLine("ProcessPacketsint btr:" + mav.BaseStream.BytesToRead);
+        //Console.WriteLine("ProcessPacketsint btr:" + mav.BaseStream.BytesToRead);
 
         //var th = new Thread(() =>
         {
             //while (mav != null)
             {
-   
+
                 //running = true;
-                DateTime end = DateTime.Now.AddMilliseconds(100);
-            while (DateTime.Now < end && mav.BaseStream.BytesToRead > 15)
+                DateTime end = DateTime.Now.AddMilliseconds(10);
+                while (DateTime.Now < end && mav.BaseStream.BytesToRead > 15)
                 {
                     mav.readPacket();
                 }
 
-                if(mav.BaseStream.BytesToRead > 200)
+                if (mav.BaseStream.BytesToRead > 200)
+                {
+                    Console.WriteLine("Clearing data as behind " + mav.BaseStream.BytesToRead);
                     mav.BaseStream.DiscardInBuffer();
+                }
                 //Thread.Sleep(20);
                 //Task.Delay(20);
             }
@@ -281,13 +354,13 @@
         // update gui if neede
         if (DateTime.Now > nextUpdate)
         {
-            nextUpdate = DateTime.Now.AddMilliseconds(100);
+            nextUpdate = DateTime.Now.AddMilliseconds(200);
 
             int a = 0;
             foreach (var mavd in mav.MAVlist)
             {
                 mavd.cs.UpdateCurrentSettings(null, false, mav, mavd);
-                JSRuntime.Current.InvokeAsync<object>("setPosition", new object[] { a, mavd.cs.lat, mavd.cs.lng });
+                JSRuntime.Current.InvokeAsync<object>("setPosition", new object[] { a, mavd.cs.lat, mavd.cs.lng, mavd.cs.altasl, mavd.cs.roll, mavd.cs.pitch, mavd.cs.yaw });
                 a++;
             }
 
@@ -298,6 +371,14 @@
 
         return true;
         //mav.DebugPacket(packet, true);
+    }
+
+    public string getCS()
+    {
+        var cs = JsonConvert.SerializeObject(mav.MAV.cs);
+        //var wps = JsonConvert.SerializeObject(MainV2.comPort.MAV.wps);
+
+        return cs;
     }
 
     public void Dispose()

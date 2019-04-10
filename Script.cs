@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using IronPython.Hosting;
 using System.IO;
-using System.Windows.Forms;
-using MissionPlanner;
 using MissionPlanner.Utilities;
 using Microsoft.Scripting.Hosting;
-using System.Reflection;
 
 namespace MissionPlanner
 {

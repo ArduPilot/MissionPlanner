@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text;
-using ComTypes = System.Runtime.InteropServices.ComTypes;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using log4net;

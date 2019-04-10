@@ -1,35 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SharpDX.DirectInput;
+﻿using log4net;
+using System.Threading;
 
 namespace MissionPlanner.Swarm.Sequence
 {
     public class Controller
     {
-        public DroneGroup DG = new DroneGroup();
+        private static readonly ILog log =    LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+        public DroneGroup DG;
 
         bool threadrun;
+        private Thread thread;
 
         public void Start()
         {
             if (threadrun == true)
             {
-                threadrun = false;
                 return;
             }
+
+            DG = new DroneGroup();
 
             foreach (var port in MainV2.Comports)
             {
                 foreach (var MAV in port.MAVlist)
                 {
+                    log.Debug("Add Drone " + MAV);
                     DG.Drones.Add(new Drone() { MavState = MAV });
                 }
             }
             
-            new System.Threading.Thread(mainloop) {IsBackground = true}.Start();
+            thread = new Thread(mainloop) {IsBackground = true};
+            thread.Start();
 
             DG.CurrentMode = DroneGroup.Mode.idle;
         }
@@ -37,6 +39,9 @@ namespace MissionPlanner.Swarm.Sequence
         public void Stop()
         {
             threadrun = false;
+            if(thread != null)
+                thread.Join();
+            thread = null;
         }
 
         private void mainloop()

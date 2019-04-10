@@ -3,7 +3,7 @@ using MissionPlanner.Controls;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigFirmwareDisabled : UserControl, IActivate
+    public partial class ConfigFirmwareDisabled : MyUserControl, IActivate
     {
         public ConfigFirmwareDisabled()
         {

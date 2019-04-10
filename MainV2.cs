@@ -23,6 +23,7 @@ using System.Text.RegularExpressions;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Utilities.AltitudeAngel;
 using System.Threading.Tasks;
+using GMap.NET.WindowsForms;
 
 namespace MissionPlanner
 {
@@ -232,8 +233,7 @@ namespace MissionPlanner
             {
                 _displayConfiguration = value;
                 Settings.Instance["displayview"] = _displayConfiguration.ConvertToString();
-                if (LayoutChanged != null)
-                    LayoutChanged(null, EventArgs.Empty);
+                LayoutChanged?.Invoke(null, EventArgs.Empty);
             }
         }
 
@@ -568,6 +568,8 @@ namespace MissionPlanner
 
             MAVLinkInterface.UpdateADSBPlanePosition += adsb_UpdatePlanePosition;
 
+            MAVLinkInterface.gcssysid = (byte) Settings.Instance.GetByte("gcsid", MAVLinkInterface.gcssysid);
+
             Form splash = Program.Splash;
 
             splash?.Refresh();
@@ -575,18 +577,6 @@ namespace MissionPlanner
             Application.DoEvents();
 
             instance = this;
-
-            //disable dpi scaling
-            if (Font.Name != "宋体")
-            {
-                //Chinese displayed normally when scaling. But would be too small or large using this line of code.
-                using (var g = CreateGraphics())
-                {
-                    log.Info("DPI " + g.DpiX);
-                    Font = new Font(Font.Name, 8.25f*96f/g.DpiX, Font.Style, Font.Unit, Font.GdiCharSet,
-                        Font.GdiVerticalFont);
-                }
-            }
 
             InitializeComponent();
             try
@@ -1187,7 +1177,7 @@ namespace MissionPlanner
                     // create new plane
                     MainV2.instance.adsbPlanes[id] =
                         new adsb.PointLatLngAltHdg(adsb.Lat, adsb.Lng,
-                            adsb.Alt, adsb.Heading, id,
+                            adsb.Alt, adsb.Heading, adsb.Speed , id,
                             DateTime.Now) {CallSign = adsb.CallSign};
                 }
 
@@ -2125,22 +2115,24 @@ namespace MissionPlanner
                                 rc.target_component = comPort.MAV.compid;
                                 rc.target_system = comPort.MAV.sysid;
 
-                                if (joystick.getJoystickAxis(1) != Joystick.Joystick.joystickaxis.None)
-                                    rc.chan1_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech1;
-                                if (joystick.getJoystickAxis(2) != Joystick.Joystick.joystickaxis.None)
-                                    rc.chan2_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech2;
-                                if (joystick.getJoystickAxis(3) != Joystick.Joystick.joystickaxis.None)
-                                    rc.chan3_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech3;
-                                if (joystick.getJoystickAxis(4) != Joystick.Joystick.joystickaxis.None)
-                                    rc.chan4_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech4;
-                                if (joystick.getJoystickAxis(5) != Joystick.Joystick.joystickaxis.None)
-                                    rc.chan5_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech5;
-                                if (joystick.getJoystickAxis(6) != Joystick.Joystick.joystickaxis.None)
-                                    rc.chan6_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech6;
-                                if (joystick.getJoystickAxis(7) != Joystick.Joystick.joystickaxis.None)
-                                    rc.chan7_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech7;
-                                if (joystick.getJoystickAxis(8) != Joystick.Joystick.joystickaxis.None)
-                                    rc.chan8_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech8;
+                                if (joystick.getJoystickAxis(1) != Joystick.Joystick.joystickaxis.None)rc.chan1_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech1;
+                                if (joystick.getJoystickAxis(2) != Joystick.Joystick.joystickaxis.None)rc.chan2_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech2;
+                                if (joystick.getJoystickAxis(3) != Joystick.Joystick.joystickaxis.None)rc.chan3_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech3;
+                                if (joystick.getJoystickAxis(4) != Joystick.Joystick.joystickaxis.None)rc.chan4_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech4;
+                                if (joystick.getJoystickAxis(5) != Joystick.Joystick.joystickaxis.None)rc.chan5_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech5;
+                                if (joystick.getJoystickAxis(6) != Joystick.Joystick.joystickaxis.None)rc.chan6_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech6;
+                                if (joystick.getJoystickAxis(7) != Joystick.Joystick.joystickaxis.None)rc.chan7_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech7;
+                                if (joystick.getJoystickAxis(8) != Joystick.Joystick.joystickaxis.None)rc.chan8_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech8;
+                                if (joystick.getJoystickAxis(9) != Joystick.Joystick.joystickaxis.None) rc.chan9_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech9;
+                                if (joystick.getJoystickAxis(10) != Joystick.Joystick.joystickaxis.None) rc.chan10_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech10;
+                                if (joystick.getJoystickAxis(11) != Joystick.Joystick.joystickaxis.None) rc.chan11_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech11;
+                                if (joystick.getJoystickAxis(12) != Joystick.Joystick.joystickaxis.None) rc.chan12_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech12;
+                                if (joystick.getJoystickAxis(13) != Joystick.Joystick.joystickaxis.None) rc.chan13_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech13;
+                                if (joystick.getJoystickAxis(14) != Joystick.Joystick.joystickaxis.None) rc.chan14_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech14;
+                                if (joystick.getJoystickAxis(15) != Joystick.Joystick.joystickaxis.None) rc.chan15_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech15;
+                                if (joystick.getJoystickAxis(16) != Joystick.Joystick.joystickaxis.None) rc.chan16_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech16;
+                                if (joystick.getJoystickAxis(17) != Joystick.Joystick.joystickaxis.None) rc.chan17_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech17;
+                                if (joystick.getJoystickAxis(18) != Joystick.Joystick.joystickaxis.None) rc.chan18_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech18;
 
                                 if (lastjoystick.AddMilliseconds(rate) < DateTime.Now)
                                 {
@@ -2584,7 +2576,9 @@ namespace MissionPlanner
                     {
                         armedstatus = MainV2.comPort.MAV.cs.armed;
                         // status just changed to armed
-                        if (MainV2.comPort.MAV.cs.armed == true && MainV2.comPort.MAV.aptype != MAVLink.MAV_TYPE.GIMBAL)
+                        if (MainV2.comPort.MAV.cs.armed == true && 
+                            MainV2.comPort.MAV.apname != MAVLink.MAV_AUTOPILOT.INVALID &&
+                            MainV2.comPort.MAV.aptype != MAVLink.MAV_TYPE.GIMBAL)
                         {
                             System.Threading.ThreadPool.QueueUserWorkItem(state =>
                             {
@@ -3007,10 +3001,13 @@ namespace MissionPlanner
 
             try
             {
-                log.Info("Load AltitudeAngel");
-                AltitudeAngel.Configure();
-                AltitudeAngel.Initialize();
-                log.Info("Load AltitudeAngel... Done");
+                if (!MONO)
+                {
+                    log.Info("Load AltitudeAngel");
+                    AltitudeAngel.Configure();
+                    AltitudeAngel.Initialize();
+                    log.Info("Load AltitudeAngel... Done");
+                }
             }
             catch (TypeInitializationException) // windows xp lacking patch level
             {
@@ -3121,7 +3118,7 @@ namespace MissionPlanner
                         MainV2.comPort.MAV.cs.firmware = Firmwares.ArduSub;
                     }
 
-                    var joy = new Joystick.Joystick();
+                    var joy = new Joystick.Joystick(() => MainV2.comPort);
 
                     if (joy.start(cmds["joy"]))
                     {
@@ -3159,7 +3156,7 @@ namespace MissionPlanner
                                 "GStreamer", System.Windows.Forms.MessageBoxButtons.YesNo) ==
                             (int)System.Windows.Forms.DialogResult.Yes)
                         {
-                            GStreamer.DownloadGStreamer();
+                            UDPVideoShim.DownloadGStreamer();
                         }
                     }
 
@@ -3170,18 +3167,33 @@ namespace MissionPlanner
                             // 36 retrys
                             for (int i = 0; i < 36; i++)
                             {
-                                var st = GStreamer.StartA(cmds["gstream"]);
-                                if (st == null)
+                                try
                                 {
-                                    // prevent spam
-                                    Thread.Sleep(5000);
-                                }
-                                else
-                                {
-                                    while (st.IsAlive)
+                                    var st = GStreamer.StartA(cmds["gstream"]);
+                                    if (st == null)
                                     {
-                                        Thread.Sleep(1000);
+                                        // prevent spam
+                                        Thread.Sleep(5000);
                                     }
+                                    else
+                                    {
+                                        while (st.IsAlive)
+                                        {
+                                            Thread.Sleep(1000);
+                                        }
+                                    }
+                                }
+                                catch (BadImageFormatException ex)
+                                {
+                                    // not running on x64
+                                    log.Error(ex);
+                                    return;
+                                }
+                                catch (DllNotFoundException ex)
+                                {
+                                    // missing or failed download
+                                    log.Error(ex);
+                                    return;
                                 }
                             }
                         }) {IsBackground = true}.Start();
@@ -3467,6 +3479,8 @@ namespace MissionPlanner
             }
             if (keyData == (Keys.Control | Keys.L)) // limits
             {
+                new GCSViews.ConfigurationView.ConfigUAVCAN().ShowUserControl();
+
                 return true;
             }
             if (keyData == (Keys.Control | Keys.W)) // test ac config
@@ -3477,11 +3491,46 @@ namespace MissionPlanner
             }
             if (keyData == (Keys.Control | Keys.Z))
             {
-                MissionPlanner.GenOTP otp = new MissionPlanner.GenOTP();
+                //WHOAMI
+//#define MPUREG_WHOAMI                               0x75
+                //INV2REG_WHO_AM_I               INV2REG(REG_BANK0,0x00U)
 
-                otp.ShowDialog(this);
+                foreach (var item in Enum.GetNames(typeof(hal_ins_spi)))
+                {
+                    log.Info(item);
+                    MainV2.comPort.device_op((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.DEVICE_OP_BUSTYPE.SPI, item, 0, 0, 0x00, 1);
+                }
 
-                otp.Dispose();
+                foreach (var item in Enum.GetNames(typeof(hal_ins_i2c)))
+                {
+                    log.Info(item);
+                    var test = (byte)(int)Enum.Parse(typeof(hal_ins_i2c), item);                  
+                    MainV2.comPort.device_op((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.DEVICE_OP_BUSTYPE.I2C, "", 0, (byte)test, 0, 1);
+                    MainV2.comPort.device_op((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.DEVICE_OP_BUSTYPE.I2C, "", 1, (byte)test, 0, 1);
+                    MainV2.comPort.device_op((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.DEVICE_OP_BUSTYPE.I2C, "", 2, (byte)test, 0, 1);
+                    MainV2.comPort.device_op((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.DEVICE_OP_BUSTYPE.I2C, "", 3, (byte)test, 0, 1);
+                }
+
+                // enable led
+                MainV2.comPort.device_op((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.DEVICE_OP_BUSTYPE.I2C, "", 1, (byte)hal_ins_i2c.TOSHIBA_LED_I2C_ADDR, 4, 1, new byte[] { 3 });
+                // get register 1 
+                MainV2.comPort.device_op((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.DEVICE_OP_BUSTYPE.I2C, "", 1, (byte)hal_ins_i2c.TOSHIBA_LED_I2C_ADDR, 1, 4);
+                // write pwm0 reg 1
+                byte r = 0 ;
+                byte g =0;
+                byte b =0;
+                for (r = 0; r <= 16; r++)
+                {
+                    for (g = 0; g <= 16; g++)
+                    {
+                        for (b = 0; b <= 16; b++)
+                        {
+                            MainV2.comPort.device_op((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.DEVICE_OP_BUSTYPE.I2C, "", 1, (byte)hal_ins_i2c.TOSHIBA_LED_I2C_ADDR, 1, 3, new byte[] { b, g, r }); // b g r 
+                        }
+                    }
+                }
+                // get register 1 
+                MainV2.comPort.device_op((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.DEVICE_OP_BUSTYPE.I2C, "", 1, (byte)hal_ins_i2c.TOSHIBA_LED_I2C_ADDR, 1, 4);
 
                 return true;
             }
@@ -3516,22 +3565,8 @@ namespace MissionPlanner
             }
             if (keyData == (Keys.Control | Keys.J))
             {
-                /*
-                var test = MainV2.comPort.GetLogList();
+                GMapControl.GDI = !GMapControl.GDI;
 
-                foreach (var item in test)
-                {
-                    var ms = comPort.GetLog(item.id);
-
-                    using (BinaryWriter bw = new BinaryWriter(File.OpenWrite("test" + item.id + ".bin")))
-                    {
-                        bw.Write(ms.ToArray());
-                    }
-
-                    var temp1 = Log.BinaryLog.ReadLog("test" + item.id + ".bin");
-
-                    File.WriteAllLines("test" + item.id + ".log", temp1);
-                }*/
                 return true;
             }
 
@@ -3666,7 +3701,11 @@ namespace MissionPlanner
 
         private void CMB_baudrate_TextChanged(object sender, EventArgs e)
         {
-            comPortBaud = int.Parse(_connectionControl.CMB_baudrate.Text);
+            if (!int.TryParse(_connectionControl.CMB_baudrate.Text, out comPortBaud))
+            {
+                CustomMessageBox.Show(Strings.InvalidBaudRate, Strings.ERROR);
+                return;
+            }
             var sb = new StringBuilder();
             int baud = 0;
             for (int i = 0; i < _connectionControl.CMB_baudrate.Text.Length; i++)

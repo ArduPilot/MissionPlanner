@@ -50,6 +50,8 @@ namespace MissionPlanner.Maps
             //never forget to unlock the bitmap
             bmp.UnlockBits(bmData);
 
+            bmp.MakeTransparent();
+
             //display
             elevation = bmp;
         }

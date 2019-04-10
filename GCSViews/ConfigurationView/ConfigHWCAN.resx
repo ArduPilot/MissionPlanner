@@ -180,6 +180,9 @@
   <data name="pictureBox5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
+  <data name="pictureBox5.InitialImage" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
   <data name="pictureBox5.Location" type="System.Drawing.Point, System.Drawing">
     <value>11, 35</value>
   </data>
@@ -220,7 +223,7 @@
     <value>but_startenum</value>
   </data>
   <data name="&gt;&gt;but_startenum.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6146.21277, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;but_startenum.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -247,7 +250,7 @@
     <value>but_stopenum</value>
   </data>
   <data name="&gt;&gt;but_stopenum.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6146.21277, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;but_stopenum.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -274,7 +277,7 @@
     <value>but_saveconfig</value>
   </data>
   <data name="&gt;&gt;but_saveconfig.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6146.21277, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;but_saveconfig.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -304,7 +307,7 @@
     <value>but_factoryreset</value>
   </data>
   <data name="&gt;&gt;but_factoryreset.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6146.21277, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;but_factoryreset.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -355,7 +358,7 @@
     <value>mavlinkComboBox_can</value>
   </data>
   <data name="&gt;&gt;mavlinkComboBox_can.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.6147.13619, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.3.7005.20367, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkComboBox_can.Parent" xml:space="preserve">
     <value>$this</value>
@@ -370,7 +373,7 @@
     <value>161, 39</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 13</value>
+    <value>65, 13</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>85</value>
@@ -451,6 +454,6 @@
     <value>ConfigHWCAN</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.MyUserControl, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

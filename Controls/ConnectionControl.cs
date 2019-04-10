@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using MissionPlanner.Comms;
-using System.Threading;
 
 namespace MissionPlanner.Controls
 {
@@ -146,7 +140,7 @@ namespace MissionPlanner.Controls
                     MainV2.comPort = port;
                     MainV2.comPort.sysidcurrent = temp.sysid;
                     MainV2.comPort.compidcurrent = temp.compid;
-
+                        
                     if (MainV2.comPort.MAV.param.Count == 0 && !(Control.ModifierKeys == Keys.Control))
                         MainV2.comPort.getParamList();
 
@@ -180,6 +174,10 @@ namespace MissionPlanner.Controls
                             //remove "MAV_COMP_ID_" header
                             mavComponentString = mavComponentString.Remove(0, mavComponentHeader.Length);
                         }
+
+                        if (temp.port.MAVlist[temp.sysid, temp.compid].CANNode)
+                            mavComponentString =
+                                temp.compid + " " + temp.port.MAVlist[temp.sysid, temp.compid].VersionString;
                     }
                     e.Value = temp.port.BaseStream.PortName + "-" + ((int)temp.sysid) + "-" + mavComponentString.Replace("_"," ");
                 }

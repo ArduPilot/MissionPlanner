@@ -2,18 +2,15 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MissionPlanner.Controls;
-using MissionPlanner.Utilities;
 using log4net;
 
 namespace MissionPlanner.Utilities
@@ -582,7 +579,7 @@ namespace MissionPlanner.Utilities
             #region Fetch Parameter Meta Data
 
             var progressReporterDialogue = ((IProgressReporterDialogue) sender);
-            progressReporterDialogue.UpdateProgressAndStatus(-1, "Getting Updated Parameters");
+            progressReporterDialogue.UpdateProgressAndStatus(-1, "Getting updated parameter documentation");
 
             try
             {

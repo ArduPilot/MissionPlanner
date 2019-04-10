@@ -1,6 +1,5 @@
 using System;
 using System.Threading;
-using MissionPlanner;
 using MissionPlanner.Comms;
 
 namespace uploader

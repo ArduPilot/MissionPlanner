@@ -6,7 +6,7 @@ using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigHWPX4Flow : UserControl, IActivate, IDeactivate
+    public partial class ConfigHWPX4Flow : MyUserControl, IActivate, IDeactivate
     {
         bool focusmode = false;
 

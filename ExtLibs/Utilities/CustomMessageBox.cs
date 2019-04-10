@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace System
@@ -11,15 +12,31 @@ namespace System
 
         public static event ShowDelegate ShowEvent;
 
-        public static int Show(string text, string caption = "", object MessageBoxButtons = null, object MessageBoxIcon = null)
+        public static DialogResult Show(string text)
+        {
+            return Show(text, "", MessageBoxButtons.OK, MessageBoxIcon.None);
+        }
+
+        public static DialogResult Show(string text, string caption)
+        {
+            return Show(text, caption, MessageBoxButtons.OK, MessageBoxIcon.None);
+        }
+
+        public static int Show(string text, string caption = "", object MessageBoxButtons = null,
+            object MessageBoxIcon = null)
         {
             if (MessageBoxButtons == null)
                 MessageBoxButtons = CustomMessageBox.MessageBoxButtons.OK;
             if (MessageBoxIcon == null)
                 MessageBoxIcon = CustomMessageBox.MessageBoxIcon.None;
 
+            return (int)Show(text, caption, (MessageBoxButtons)(int)MessageBoxButtons, (MessageBoxIcon)(int)MessageBoxIcon);
+        }
+
+        public static DialogResult Show(string text, string caption = "", MessageBoxButtons MessageBoxButtons = MessageBoxButtons.OK, MessageBoxIcon MessageBoxIcon = MessageBoxIcon.None)
+        {
             if (ShowEvent != null)
-                return (int)ShowEvent.Invoke(text, caption, (MessageBoxButtons) (int) MessageBoxButtons, (MessageBoxIcon) (int) MessageBoxIcon);
+                return ShowEvent.Invoke(text, caption, MessageBoxButtons, MessageBoxIcon);
 
             throw new Exception("ShowEvent Not Set");
         }

@@ -192,7 +192,7 @@ namespace MissionPlanner.Utilities
                             {
                                 var plane = new MissionPlanner.Utilities.adsb.PointLatLngAltHdg(acList.Lat, acList.Long,
                                     acList.Alt * 0.3048,
-                                    (float) acList.Trak, acList.Icao, DateTime.Now);
+                                    (float) acList.Trak, acList.Spd, acList.Icao, DateTime.Now);
 
                                 UpdatePlanePosition(null, plane);
                             }
@@ -312,6 +312,7 @@ namespace MissionPlanner.Utilities
             double reflng = 117.8574;
 
             public double heading = 0;
+            internal int ground_speed;
 
             public Plane()
             {
@@ -816,7 +817,7 @@ namespace MissionPlanner.Utilities
                                 continue;
 
                             if (UpdatePlanePosition != null && plane != null)
-                                UpdatePlanePosition(null, new PointLatLngAltHdg(lat, lon, altitude / 3.048, (float)plane.heading, hex_ident, DateTime.Now));
+                                UpdatePlanePosition(null, new PointLatLngAltHdg(lat, lon, altitude / 3.048, (float)plane.heading, -1 , hex_ident, DateTime.Now));
                         }
                         else if (strArray[1] == "4")
                         {
@@ -835,6 +836,8 @@ namespace MissionPlanner.Utilities
                             try
                             {
                                 int ground_speed = (int)double.Parse(strArray[12], CultureInfo.InvariantCulture);// Integer. Speed over ground. 
+
+                                ((Plane)Planes[hex_ident]).ground_speed = ground_speed;//Integer. Ground track angle. 
                             }
                             catch { }
                             try
@@ -1143,7 +1146,7 @@ namespace MissionPlanner.Utilities
                 this.Tag = plla.Tag;
             }
 
-            public PointLatLngAltHdg(double lat, double lng, double alt, float heading, string tag, DateTime time)
+            public PointLatLngAltHdg(double lat, double lng, double alt, float heading, double speed, string tag, DateTime time)
             {
                 this.Lat = lat;
                 this.Lng = lng;
@@ -1151,6 +1154,7 @@ namespace MissionPlanner.Utilities
                 this.Heading = heading;
                 this.Tag = tag;
                 this.Time = time;
+                this.Speed = speed;
             }
 
             public float Heading { get; set; }
@@ -1162,6 +1166,7 @@ namespace MissionPlanner.Utilities
             public bool DisplayICAO { get; set; }
 
             public string CallSign { get; set; }
+            public double Speed { get; set; }
         }
     }
 }

@@ -255,6 +255,11 @@ namespace MissionPlanner.Comms
         {
         }
 
+        public void Dispose()
+        {
+            Close();
+        }
+
         public System.IO.Stream BaseStream
         {
             get { throw new NotImplementedException(); }

@@ -4,7 +4,7 @@ using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigAC_Fence : UserControl, IActivate
+    public partial class ConfigAC_Fence : MyUserControl, IActivate
     {
         public ConfigAC_Fence()
         {

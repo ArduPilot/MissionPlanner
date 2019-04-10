@@ -8,7 +8,7 @@ using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigFailSafe : UserControl, IActivate, IDeactivate
+    public partial class ConfigFailSafe : MyUserControl, IActivate, IDeactivate
     {
         private readonly Timer timer = new Timer();
         //

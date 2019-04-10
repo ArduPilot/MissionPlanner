@@ -192,7 +192,7 @@ namespace netDxf.Objects
             this.file = file;
 
             try
-            {
+            {/*
                 using (Image bitmap = Image.FromFile(file))
                 {
                     this.width = bitmap.Width;
@@ -201,7 +201,7 @@ namespace netDxf.Objects
                     this.verticalResolution = bitmap.VerticalResolution;
                     // the System.Drawing.Image stores the image resolution in inches
                     this.resolutionUnits = ImageResolutionUnits.Inches;
-                }
+                }*/
             }
             catch (Exception)
             {

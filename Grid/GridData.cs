@@ -32,6 +32,7 @@ namespace MissionPlanner.Grid
         public decimal sidelap;
         public decimal spacing;
         public bool crossgrid;
+        public bool spiral;
         // Copter Settings
         public decimal copter_delay;
         public bool copter_headinghold_chk;
