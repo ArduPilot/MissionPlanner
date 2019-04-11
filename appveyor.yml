@@ -4,7 +4,6 @@ configuration: Release
 clone_folder: c:\MP\
 cache:
     - packages -> appveyor.yml
-    - C:\Users\appveyor\.nuget\packages -> appveyor.yml
 build_script:
 - cmd: >-
     rem git submodule update --init --recursive
