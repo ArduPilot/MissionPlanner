@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Reflection;
 using System.Windows.Forms;
-using System.IO.Ports;
 using System.IO;
 using System.Text.RegularExpressions;
 using log4net;
 using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
-
+using System.IO.Ports;
 
 namespace MissionPlanner.Log
 {
@@ -76,7 +75,7 @@ namespace MissionPlanner.Log
                 {
                     if (comPort.BytesToRead > 0)
                     {
-                        comPort_DataReceived((object) null, (SerialDataReceivedEventArgs) null);
+                        comPort_DataReceived((object) null, null);
                     }
                 }
                 catch
@@ -158,7 +157,7 @@ namespace MissionPlanner.Log
                             break;
                         while (comPort.BytesToRead >= 4)
                         {
-                            comPort_DataReceived((object) null, (SerialDataReceivedEventArgs) null);
+                            comPort_DataReceived((object) null, null);
                         }
                     }
                     catch (Exception ex)
@@ -213,7 +212,7 @@ namespace MissionPlanner.Log
             }
         }
 
-        void comPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        void comPort_DataReceived(object sender, object e)
         {
             try
             {

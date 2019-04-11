@@ -62,7 +62,7 @@ namespace MissionPlanner.GCSViews
             MainV2.instance.MenuConnect.Visible = true;
         }
 
-        private void comPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        private void comPort_DataReceived(object sender, object e)
         {
             if (!comPort.IsOpen)
                 return;

@@ -20,6 +20,14 @@ namespace MissionPlanner.Comms
 
         private static string portnamenice = "";
 
+        public SerialPort(string comPortName, int key): base(comPortName,key)
+        {
+        }
+
+        public SerialPort()
+        {
+        }
+
         public new bool DtrEnable
         {
             get => base.DtrEnable;

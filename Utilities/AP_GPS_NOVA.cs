@@ -7,8 +7,8 @@ using uint8_t = System.Byte;
 using int32_t = System.Int32;
 using int8_t = System.SByte;
 using System.Runtime.InteropServices;
-using System.IO.Ports;
 using System.Reflection;
+using MissionPlanner.Comms;
 
 namespace MissionPlanner.Utilities
 {
