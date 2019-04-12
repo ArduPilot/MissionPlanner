@@ -1,4 +1,5 @@
 
+
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -19,19 +20,40 @@ namespace UAVCAN
 public partial class uavcan {
 
 
+
+
 public const int UAVCAN_EQUIPMENT_AIR_DATA_ANGLEOFATTACK_MAX_PACK_SIZE = 5;
 public const ulong UAVCAN_EQUIPMENT_AIR_DATA_ANGLEOFATTACK_DT_SIG = 0xD5513C3F7AFAC74E;
+
 public const int UAVCAN_EQUIPMENT_AIR_DATA_ANGLEOFATTACK_DT_ID = 1025;
 
 
 
+
+
 public const double UAVCAN_EQUIPMENT_AIR_DATA_ANGLEOFATTACK_SENSOR_ID_LEFT = 254; // saturated uint8
+
 public const double UAVCAN_EQUIPMENT_AIR_DATA_ANGLEOFATTACK_SENSOR_ID_RIGHT = 255; // saturated uint8
 
+
+
+
 public class uavcan_equipment_air_data_AngleOfAttack: IUAVCANSerialize {
+
+
+
     public uint8_t sensor_id = new uint8_t();
+
+
+
     public Single aoa = new Single();
+
+
+
     public Single aoa_variance = new Single();
+
+
+
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

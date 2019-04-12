@@ -1,4 +1,5 @@
 
+
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -19,20 +20,38 @@ namespace UAVCAN
 public partial class uavcan {
 
 
+
+
 public const int UAVCAN_PROTOCOL_ENUMERATION_BEGIN_RES_MAX_PACK_SIZE = 1;
 public const ulong UAVCAN_PROTOCOL_ENUMERATION_BEGIN_RES_DT_SIG = 0x196AE06426A3B5D8;
+
 public const int UAVCAN_PROTOCOL_ENUMERATION_BEGIN_RES_DT_ID = 15;
 
 
 
+
+
 public const double UAVCAN_PROTOCOL_ENUMERATION_BEGIN_RES_ERROR_OK = 0; // saturated uint8
+
 public const double UAVCAN_PROTOCOL_ENUMERATION_BEGIN_RES_ERROR_INVALID_MODE = 1; // saturated uint8
+
 public const double UAVCAN_PROTOCOL_ENUMERATION_BEGIN_RES_ERROR_INVALID_PARAMETER = 2; // saturated uint8
+
 public const double UAVCAN_PROTOCOL_ENUMERATION_BEGIN_RES_ERROR_UNSUPPORTED = 3; // saturated uint8
+
 public const double UAVCAN_PROTOCOL_ENUMERATION_BEGIN_RES_ERROR_UNKNOWN = 255; // saturated uint8
 
+
+
+
 public class uavcan_protocol_enumeration_Begin_res: IUAVCANSerialize {
+
+
+
     public uint8_t error = new uint8_t();
+
+
+
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

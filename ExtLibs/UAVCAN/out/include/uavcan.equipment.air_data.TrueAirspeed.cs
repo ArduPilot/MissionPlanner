@@ -1,4 +1,5 @@
 
+
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -19,15 +20,30 @@ namespace UAVCAN
 public partial class uavcan {
 
 
+
+
 public const int UAVCAN_EQUIPMENT_AIR_DATA_TRUEAIRSPEED_MAX_PACK_SIZE = 4;
 public const ulong UAVCAN_EQUIPMENT_AIR_DATA_TRUEAIRSPEED_DT_SIG = 0x306F69E0A591AFAA;
+
 public const int UAVCAN_EQUIPMENT_AIR_DATA_TRUEAIRSPEED_DT_ID = 1020;
 
 
 
+
+
+
 public class uavcan_equipment_air_data_TrueAirspeed: IUAVCANSerialize {
+
+
+
     public Single true_airspeed = new Single();
+
+
+
     public Single true_airspeed_variance = new Single();
+
+
+
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

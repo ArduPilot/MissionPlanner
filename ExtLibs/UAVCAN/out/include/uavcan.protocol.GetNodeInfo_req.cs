@@ -1,4 +1,5 @@
 
+
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -19,13 +20,22 @@ namespace UAVCAN
 public partial class uavcan {
 
 
+
+
 public const int UAVCAN_PROTOCOL_GETNODEINFO_REQ_MAX_PACK_SIZE = 0;
 public const ulong UAVCAN_PROTOCOL_GETNODEINFO_REQ_DT_SIG = 0xEE468A8121C46A9E;
+
 public const int UAVCAN_PROTOCOL_GETNODEINFO_REQ_DT_ID = 1;
 
 
 
+
+
+
 public class uavcan_protocol_GetNodeInfo_req: IUAVCANSerialize {
+
+
+
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

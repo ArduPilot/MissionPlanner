@@ -1,4 +1,5 @@
 
+
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -18,19 +19,41 @@ namespace UAVCAN
 {
 public partial class uavcan {
 
+
+
 //using uavcan.protocol.CANIfaceStats.cs
+
 
 public const int UAVCAN_PROTOCOL_GETTRANSPORTSTATS_RES_MAX_PACK_SIZE = 73;
 public const ulong UAVCAN_PROTOCOL_GETTRANSPORTSTATS_RES_DT_SIG = 0xBE6F76A7EC312B04;
+
 public const int UAVCAN_PROTOCOL_GETTRANSPORTSTATS_RES_DT_ID = 4;
 
 
 
+
+
+
 public class uavcan_protocol_GetTransportStats_res: IUAVCANSerialize {
+
+
+
     public uint64_t transfers_tx = new uint64_t();
+
+
+
     public uint64_t transfers_rx = new uint64_t();
+
+
+
     public uint64_t transfer_errors = new uint64_t();
+
+
+
     public uint8_t can_iface_stats_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)] public uavcan_protocol_CANIfaceStats[] can_iface_stats = new uavcan_protocol_CANIfaceStats[3];
+
+
+
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

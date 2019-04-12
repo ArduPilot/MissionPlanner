@@ -1,4 +1,5 @@
 
+
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -18,16 +19,29 @@ namespace UAVCAN
 {
 public partial class uavcan {
 
+
+
 //using uavcan.protocol.file.Path.cs
+
 
 public const int UAVCAN_PROTOCOL_FILE_DELETE_REQ_MAX_PACK_SIZE = 201;
 public const ulong UAVCAN_PROTOCOL_FILE_DELETE_REQ_DT_SIG = 0x78648C99170B47AA;
+
 public const int UAVCAN_PROTOCOL_FILE_DELETE_REQ_DT_ID = 47;
 
 
 
+
+
+
 public class uavcan_protocol_file_Delete_req: IUAVCANSerialize {
+
+
+
     public uavcan_protocol_file_Path path = new uavcan_protocol_file_Path();
+
+
+
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

@@ -1,4 +1,5 @@
 
+
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -19,12 +20,20 @@ namespace UAVCAN
 public partial class uavcan {
 
 
+
+
 public const int UAVCAN_PROTOCOL_PARAM_EMPTY_MAX_PACK_SIZE = 0;
 public const ulong UAVCAN_PROTOCOL_PARAM_EMPTY_DT_SIG = 0x6C4D0E8EF37361DF;
 
 
 
+
+
+
 public class uavcan_protocol_param_Empty: IUAVCANSerialize {
+
+
+
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

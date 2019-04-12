@@ -1,4 +1,5 @@
 
+
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -18,18 +19,37 @@ namespace UAVCAN
 {
 public partial class uavcan {
 
+
+
 //using uavcan.protocol.file.Path.cs
+
 
 public const int UAVCAN_PROTOCOL_FILE_WRITE_REQ_MAX_PACK_SIZE = 399;
 public const ulong UAVCAN_PROTOCOL_FILE_WRITE_REQ_DT_SIG = 0x515AA1DC77E58429;
+
 public const int UAVCAN_PROTOCOL_FILE_WRITE_REQ_DT_ID = 49;
 
 
 
+
+
+
 public class uavcan_protocol_file_Write_req: IUAVCANSerialize {
+
+
+
     public uint64_t offset = new uint64_t();
+
+
+
     public uavcan_protocol_file_Path path = new uavcan_protocol_file_Path();
+
+
+
     public uint8_t data_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=192)] public uint8_t[] data = new uint8_t[192];
+
+
+
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

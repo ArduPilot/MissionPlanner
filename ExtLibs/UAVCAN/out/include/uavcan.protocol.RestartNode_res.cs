@@ -1,4 +1,5 @@
 
+
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -19,14 +20,26 @@ namespace UAVCAN
 public partial class uavcan {
 
 
+
+
 public const int UAVCAN_PROTOCOL_RESTARTNODE_RES_MAX_PACK_SIZE = 1;
 public const ulong UAVCAN_PROTOCOL_RESTARTNODE_RES_DT_SIG = 0x569E05394A3017F0;
+
 public const int UAVCAN_PROTOCOL_RESTARTNODE_RES_DT_ID = 5;
 
 
 
+
+
+
 public class uavcan_protocol_RestartNode_res: IUAVCANSerialize {
+
+
+
     public bool ok = new bool();
+
+
+
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

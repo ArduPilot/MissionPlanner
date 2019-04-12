@@ -1,4 +1,5 @@
 
+
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -18,18 +19,37 @@ namespace UAVCAN
 {
 public partial class uavcan {
 
+
+
 //using uavcan.protocol.param.Value.cs
+
 
 public const int UAVCAN_PROTOCOL_PARAM_GETSET_REQ_MAX_PACK_SIZE = 224;
 public const ulong UAVCAN_PROTOCOL_PARAM_GETSET_REQ_DT_SIG = 0xA7B622F939D1A4D5;
+
 public const int UAVCAN_PROTOCOL_PARAM_GETSET_REQ_DT_ID = 11;
 
 
 
+
+
+
 public class uavcan_protocol_param_GetSet_req: IUAVCANSerialize {
+
+
+
     public uint16_t index = new uint16_t();
+
+
+
     public uavcan_protocol_param_Value value = new uavcan_protocol_param_Value();
+
+
+
     public uint8_t name_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=92)] public uint8_t[] name = new uint8_t[92];
+
+
+
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

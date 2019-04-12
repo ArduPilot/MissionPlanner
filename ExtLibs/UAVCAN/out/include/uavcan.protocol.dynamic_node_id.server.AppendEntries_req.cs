@@ -1,4 +1,5 @@
 
+
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -18,23 +19,51 @@ namespace UAVCAN
 {
 public partial class uavcan {
 
+
+
 //using uavcan.protocol.dynamic_node_id.server.Entry.cs
+
 
 public const int UAVCAN_PROTOCOL_DYNAMIC_NODE_ID_SERVER_APPENDENTRIES_REQ_MAX_PACK_SIZE = 32;
 public const ulong UAVCAN_PROTOCOL_DYNAMIC_NODE_ID_SERVER_APPENDENTRIES_REQ_DT_SIG = 0x8032C7097B48A3CC;
+
 public const int UAVCAN_PROTOCOL_DYNAMIC_NODE_ID_SERVER_APPENDENTRIES_REQ_DT_ID = 30;
 
 
 
+
+
 public const double UAVCAN_PROTOCOL_DYNAMIC_NODE_ID_SERVER_APPENDENTRIES_REQ_DEFAULT_MIN_ELECTION_TIMEOUT_MS = 2000; // saturated uint16
+
 public const double UAVCAN_PROTOCOL_DYNAMIC_NODE_ID_SERVER_APPENDENTRIES_REQ_DEFAULT_MAX_ELECTION_TIMEOUT_MS = 4000; // saturated uint16
 
+
+
+
 public class uavcan_protocol_dynamic_node_id_server_AppendEntries_req: IUAVCANSerialize {
+
+
+
     public uint32_t term = new uint32_t();
+
+
+
     public uint32_t prev_log_term = new uint32_t();
+
+
+
     public uint8_t prev_log_index = new uint8_t();
+
+
+
     public uint8_t leader_commit = new uint8_t();
+
+
+
     public uint8_t entries_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=1)] public uavcan_protocol_dynamic_node_id_server_Entry[] entries = new uavcan_protocol_dynamic_node_id_server_Entry[1];
+
+
+
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {
