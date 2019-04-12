@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using MissionPlanner;
 using UAVCAN;
 
 namespace UAVCANFlasher
@@ -38,6 +38,21 @@ namespace UAVCANFlasher
                 Console.ReadKey();
                 return;
             }
+
+            MAVLinkInterface mav = new MAVLinkInterface();
+            mav.BaseStream = port;
+            mav.getHeartBeat();
+
+            try
+            {
+                mav.GetParam("CAN_SLCAN_TIMOUT");
+                mav.GetParam("CAN_SLCAN_SERNUM");
+
+                mav.setParam("CAN_SLCAN_TIMOUT", 2, true);
+
+                mav.setParam("CAN_SLCAN_SERNUM", 0, true); // usb
+            }
+            catch { }
 
             UAVCAN.uavcan can = new UAVCAN.uavcan();
 

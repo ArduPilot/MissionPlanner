@@ -11,7 +11,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
+using System.Xml.Serialization;
 using size_t = System.Int32;
 
 namespace UAVCAN
@@ -903,13 +903,6 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
             var fixtest = new uavcan.uavcan_equipment_gnss_Fix();
             fixtest.decode(new uavcan.CanardRxTransfer(data));
 
-            var f1 = JsonConvert.SerializeObject(fix);
-            var f2 = JsonConvert.SerializeObject(fixtest);
-
-            if (f1 != f2)
-            {
-
-            }
 
             
         }

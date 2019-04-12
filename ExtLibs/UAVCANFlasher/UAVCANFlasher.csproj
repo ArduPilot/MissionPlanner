@@ -6,7 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ArduPilot\MissionPlanner.ArduPilot.csproj" />
     <ProjectReference Include="..\Comms\MissionPlanner.Comms.csproj" />
+    <ProjectReference Include="..\Mavlink\MAVLink.csproj" />
     <ProjectReference Include="..\UAVCAN\UAVCAN.csproj" />
   </ItemGroup>
 
