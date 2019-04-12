@@ -57,7 +57,6 @@ namespace MissionPlanner
                 threadrun = false;
                 comPort.Close();
                 BUT_connect.Text = Strings.Connect;
-                MainV2.comPort.MAV.cs.MovingBase = null;
             }
             else
             {
@@ -200,8 +199,7 @@ namespace MissionPlanner
                     }
 
 
-                    if (DateTime.Now > nextsend && gotolocation.Lat != 0 && gotolocation.Lng != 0 &&
-                        gotolocation.Alt != 0) // 200 * 10 = 2 sec /// lastgotolocation != gotolocation && 
+                    if (DateTime.Now > nextsend && gotolocation.Lat != 0 && gotolocation.Lng != 0) // 200 * 10 = 2 sec /// lastgotolocation != gotolocation && 
                     {
                         nextsend = DateTime.Now.AddMilliseconds(1000/updaterate);
                         Console.WriteLine("new home wp " + DateTime.Now.ToString("h:MM:ss") + " " + gotolocation.Lat +
