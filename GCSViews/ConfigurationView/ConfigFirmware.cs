@@ -519,12 +519,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // try reboot device on screen close.
             if (!String.IsNullOrEmpty(detectedport))
             {
-                try
-                {
-                    px4uploader.Uploader up = new px4uploader.Uploader(detectedport, 115200);
-                    up.__reboot();
-                    up.close();
-                } catch { }
             }
         }
     }
