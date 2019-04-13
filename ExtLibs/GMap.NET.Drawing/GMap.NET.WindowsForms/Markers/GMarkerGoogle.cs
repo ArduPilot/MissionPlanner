@@ -1,6 +1,7 @@
 ﻿
 using System.ComponentModel;
 using System.IO;
+using GMap.NET.Drawing;
 using SvgNet.SvgGdi;
 
 namespace GMap.NET.WindowsForms.Markers
@@ -101,7 +102,7 @@ namespace GMap.NET.WindowsForms.Markers
 
                if(arrowshadow == null)
                {
-                  arrowshadow = Resources.arrowshadow;
+                  arrowshadow = Resources.arrowshadow.ToBitmap();
                }
                BitmapShadow = arrowshadow;
             }
@@ -128,7 +129,7 @@ namespace GMap.NET.WindowsForms.Markers
 
                if(msmarker_shadow == null)
                {
-                  msmarker_shadow = Resources.msmarker_shadow;
+                  msmarker_shadow = Resources.msmarker_shadow.ToBitmap();
                }
                BitmapShadow = msmarker_shadow;
             }
@@ -149,7 +150,7 @@ namespace GMap.NET.WindowsForms.Markers
 
                if(shadow_small == null)
                {
-                  shadow_small = Resources.shadow_small;
+                  shadow_small = Resources.shadow_small.ToBitmap();
                }
                BitmapShadow = shadow_small;
             }
@@ -162,7 +163,7 @@ namespace GMap.NET.WindowsForms.Markers
                Offset = new Point(-Size.Width / 2, -Size.Height + 1);
                if(msmarker_shadow == null)
                {
-                  msmarker_shadow = Resources.msmarker_shadow;
+                  msmarker_shadow = Resources.msmarker_shadow.ToBitmap();
                }
                BitmapShadow = msmarker_shadow;
             }
@@ -180,7 +181,7 @@ namespace GMap.NET.WindowsForms.Markers
 
                if(pushpin_shadow == null)
                {
-                  pushpin_shadow = Resources.pushpin_shadow;
+                  pushpin_shadow = Resources.pushpin_shadow.ToBitmap();
                }
                BitmapShadow = pushpin_shadow;
             }
@@ -208,7 +209,7 @@ namespace GMap.NET.WindowsForms.Markers
           Image ret;
          if(!iconCache.TryGetValue(name, out ret))
          {
-            ret = Resources.ResourceManager.GetObject(name, Resources.Culture) as Bitmap;
+             ret = new Bitmap(new MemoryStream(Resources.ResourceManager.GetObject(name, Resources.Culture) as byte[]));
             iconCache.Add(name, ret);
          }
          return ret;

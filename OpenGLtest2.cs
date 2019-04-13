@@ -17,6 +17,7 @@ using Microsoft.Scripting.Utils;
 using MathHelper = MissionPlanner.Utilities.MathHelper;
 using Vector3 = OpenTK.Vector3;
 using System.IO;
+using GMap.NET.Drawing;
 
 namespace MissionPlanner.Controls
 {
@@ -494,7 +495,7 @@ namespace MissionPlanner.Controls
 
                     if (green == 0)
                     {
-                        green = generateTexture(GMap.NET.Drawing.Properties.Resources.green);
+                        green = generateTexture(GMap.NET.Drawing.Properties.Resources.green.ToBitmap());
                     }
 
                     GL.Enable(EnableCap.DepthTest);
