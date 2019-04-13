@@ -8,6 +8,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using MissionPlanner.Comms;
+using MissionPlanner.Utilities.Drawing;
+using SkiaSharp;
 
 namespace MissionPlanner.Log
 {
@@ -152,7 +154,7 @@ namespace MissionPlanner.Log
                             a++;
                         }
 
-                        map.Save(logfile + ".jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+                        map.Save(logfile + ".jpg", SKEncodedImageFormat.Jpeg);
 
                         File.SetLastWriteTime(logfile + ".jpg", new FileInfo(logfile).LastWriteTime);
                     }
@@ -179,7 +181,7 @@ namespace MissionPlanner.Log
 
             AddTextToMap(grap, text);
 
-            map.Save(jpgname, System.Drawing.Imaging.ImageFormat.Jpeg);
+            map.Save(jpgname, SKEncodedImageFormat.Jpeg);
 
             map.Dispose();
 
@@ -235,7 +237,7 @@ namespace MissionPlanner.Log
             {
                 using (Graphics gfx = Graphics.FromImage(bmpDestination))
                 {
-                    gfx.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceOver;
+                    gfx.CompositingMode = CompositingMode.SourceOver;
 
                     // get tiles & combine into one
                     foreach (var p in tileArea)

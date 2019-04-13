@@ -18,12 +18,14 @@ using MissionPlanner.Log;
 using Transitions;
 using MissionPlanner.Warnings;
 using System.Collections.Concurrent;
+using System.Drawing.Imaging;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Utilities.AltitudeAngel;
 using System.Threading.Tasks;
 using GMap.NET.WindowsForms;
+using SkiaSharp;
 
 namespace MissionPlanner
 {
@@ -2956,22 +2958,29 @@ namespace MissionPlanner
 
                     return currentmode;
                 }
-                catch
+               catch
                 {
                     return null;
                 }
             };
 
-            GStreamer.onNewImage += (sender, image) => { GCSViews.FlightData.myhud.bgimage = image; };
+            GStreamer.onNewImage += (sender, image) =>
+            {
+                var old = GCSViews.FlightData.myhud.bgimage;
+                GCSViews.FlightData.myhud.bgimage = new Bitmap(image.Width, image.Height, 4*image.Width, PixelFormat.Format32bppPArgb,
+                    (image as Utilities.Drawing.Bitmap).LockBits(Rectangle.Empty, null,SKColorType.Bgra8888).Scan0);
+                if (old != null)
+                    old.Dispose();
+            };
 
             vlcrender.onNewImage += (sender, image) =>
             {
                 var old = GCSViews.FlightData.myhud.bgimage;
-                GCSViews.FlightData.myhud.bgimage = image;
+                GCSViews.FlightData.myhud.bgimage = new Bitmap(image.Width, image.Height, 4 * image.Width, PixelFormat.Format32bppPArgb,
+                    (image as Utilities.Drawing.Bitmap).LockBits(Rectangle.Empty, null,SKColorType.Bgra8888).Scan0);
                 if (old != null)
-                    old.Dispose()
-                        ;
-            };
+                    old.Dispose();
+                };
 
             //ZeroConf.EnumerateAllServicesFromAllHosts();
 

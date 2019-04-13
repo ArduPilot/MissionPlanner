@@ -14,9 +14,11 @@ using System.Xml.Serialization;
 using com.drew.imaging.jpg;
 using com.drew.imaging.tiff;
 using com.drew.metadata;
+using ExifLibrary;
 using log4net;
 using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
+using MissionPlanner.Utilities.Drawing;
 using SharpKml.Base;
 using SharpKml.Dom;
 
@@ -1094,6 +1096,14 @@ namespace MissionPlanner.GeoRef
             return output;
         }
 
+        private string ByteArrayToString(byte[] data)
+        {
+            StringBuilder s = new StringBuilder();
+            foreach (byte b in data)
+                s.AppendFormat("0x{0:X2} ", b);
+            return s.ToString();
+        }
+
         public void WriteCoordinatesToImage(string Filename, double dLat, double dLong, double alt, string rootFolder, Action<string> AppendText)
         {
             using (MemoryStream ms = new MemoryStream(File.ReadAllBytes(Filename)))
@@ -1101,6 +1111,55 @@ namespace MissionPlanner.GeoRef
                 AppendText("GeoTagging " + Filename + "\n");
                 try
                 {
+                    var data = ImageFile.FromStream(ms);
+                    foreach (ExifProperty item in data.Properties.ToArray())
+                    {
+                        var test = Enum.GetName(typeof(IFD), ExifTagFactory.GetTagIFD(item.Tag));
+                        StringBuilder s = new StringBuilder();
+                        s.AppendFormat("Tag: {0}{1}", item.Tag, Environment.NewLine);
+                        string val = item.ToString();
+                        //if (val.Length > 50) val = val.Substring(0, 50) + " ...";
+                        s.AppendFormat("Value: {0}{1}", val, Environment.NewLine);
+                        s.AppendFormat("IFD: {0}{1}", item.IFD, Environment.NewLine);
+                        s.AppendFormat("Interop. TagID: {0} (0x{0:X2}){1}", item.Interoperability.TagID, Environment.NewLine);
+                        s.AppendFormat("Interop. Type: {0} ({1}){2}", (ushort)item.Interoperability.TypeID, item.Interoperability.TypeID, Environment.NewLine);
+                        s.AppendFormat("Interop. Count: {0} {1}", item.Interoperability.Count, Environment.NewLine);
+                        s.AppendFormat("Interop. Data Length: {0}{1}", item.Interoperability.Data.Length, Environment.NewLine);
+                        s.AppendFormat("Interop. Data: {0}", ByteArrayToString(item.Interoperability.Data), Environment.NewLine);
+
+                        Console.WriteLine(s);
+
+                        if (item.Tag == ExifTag.GPSLongitude || item.Tag == ExifTag.GPSLatitude ||
+                            item.Tag == ExifTag.GPSAltitude || item.Tag == ExifTag.GPSLatitudeRef ||
+                            item.Tag == ExifTag.GPSLongitudeRef)
+                            data.Properties.Remove(item);
+
+                    }
+                   
+
+                    var lon = dLong.toDMS();
+                    data.Properties.Add(ExifTag.GPSLongitude, Math.Abs(lon.degrees), Math.Abs(lon.minutes), Math.Abs(lon.seconds));
+                    var lat = dLat.toDMS();
+                    data.Properties.Add(ExifTag.GPSLatitude, Math.Abs(lat.degrees), Math.Abs(lat.minutes), Math.Abs(lat.seconds));
+
+                    data.Properties.Add(ExifTag.GPSAltitude, alt);
+
+                    data.Properties.Add(ExifTag.GPSLatitudeRef, dLat < 0 ? "S" : "N");
+                    data.Properties.Add(ExifTag.GPSLongitudeRef, dLong < 0 ? "W" : "E");
+
+                    // Save file into Geotag folder
+                    string geoTagFolder = rootFolder + Path.DirectorySeparatorChar + "geotagged";
+
+                    string outputfilename = geoTagFolder + Path.DirectorySeparatorChar +
+                                            Path.GetFileNameWithoutExtension(Filename) + "_geotag" +
+                                            Path.GetExtension(Filename);
+                    Directory.CreateDirectory(geoTagFolder);
+                    // Just in case
+                    if (File.Exists(outputfilename))
+                        File.Delete(outputfilename);
+
+                    data.Save(outputfilename);
+                    /*
                     using (Image Pic = Image.FromStream(ms))
                     {
                         PropertyItem[] pi = Pic.PropertyItems;
@@ -1164,6 +1223,7 @@ namespace MissionPlanner.GeoRef
 
                         Pic.Save(outputfilename);
                     }
+                   */
                 }
                 catch
                 {
@@ -1171,6 +1231,8 @@ namespace MissionPlanner.GeoRef
                 }
             }
         }
+
+
 
         public void CreateReportFiles(Dictionary<string, PictureInformation> listPhotosWithInfo, string dirWithImages,
             float offset, double num_camerarotation, double num_hfov, double num_vfov, Action<string> AppendText = null, Action<string> GeoRefKML = null, bool usegpsalt = false)

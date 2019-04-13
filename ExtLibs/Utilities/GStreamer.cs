@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Net.Sockets;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.IO.Compression;
 using System.IO.Pipes;
@@ -14,9 +13,12 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using log4net;
+using LibVLC.NET;
+using MissionPlanner.Utilities.Drawing;
 using guint = System.UInt32;
 using GstClockTime = System.UInt64;
 using gsize = System.UInt64;
+using SkiaSharp;
 
 namespace MissionPlanner.Utilities
 {
@@ -30,6 +32,7 @@ namespace MissionPlanner.Utilities
         static object _lock = new object();
 
         private static event EventHandler<Image> _onNewImage;
+
         public static event EventHandler<Image> onNewImage
         {
             add { _onNewImage += value; }
@@ -93,7 +96,8 @@ namespace MissionPlanner.Utilities
             public static extern IntPtr gst_element_get_bus(IntPtr pipeline);
 
             [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
-            public static extern void gst_debug_bin_to_dot_file(IntPtr pipeline, GstDebugGraphDetails details, string file_name);
+            public static extern void gst_debug_bin_to_dot_file(IntPtr pipeline, GstDebugGraphDetails details,
+                string file_name);
 
             [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
             public static extern void gst_message_set_stream_status_object(IntPtr raw, IntPtr value);
@@ -193,6 +197,7 @@ namespace MissionPlanner.Utilities
             public GstMapFlags flags;
             public IntPtr data;
             public gsize size;
+
             public gsize maxsize;
             //[MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)] public IntPtr[] user_data; //4
             //[MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)] public IntPtr[] _gst_reserved; //4
@@ -211,7 +216,9 @@ namespace MissionPlanner.Utilities
             public eos eos; //void (* eos) (GstAppSink* sink, gpointer user_data);
             public new_preroll new_preroll; //GstFlowReturn(*new_preroll)      (GstAppSink* sink, gpointer user_data);
             public new_buffer new_buffer; //GstFlowReturn(*new_buffer)       (GstAppSink* sink, gpointer user_data);
-            public new_buffer_list new_buffer_list; //GstFlowReturn(*new_buffer_list)  (GstAppSink* sink, gpointer user_data);
+
+            public new_buffer_list
+                new_buffer_list; //GstFlowReturn(*new_buffer_list)  (GstAppSink* sink, gpointer user_data);
         }
 
         public enum GstFlowReturn
@@ -224,9 +231,11 @@ namespace MissionPlanner.Utilities
             /* core predefined */
             GST_FLOW_RESEND = 1,
             GST_FLOW_OK = 0,
+
             /* expected failures */
             GST_FLOW_NOT_LINKED = -1,
             GST_FLOW_WRONG_STATE = -2,
+
             /* error cases */
             GST_FLOW_UNEXPECTED = -3,
             GST_FLOW_NOT_NEGOTIATED = -4,
@@ -238,10 +247,10 @@ namespace MissionPlanner.Utilities
             GST_FLOW_CUSTOM_ERROR_1 = -101,
             GST_FLOW_CUSTOM_ERROR_2 = -102
         }
-        
+
 
         public enum GstDebugGraphDetails
-         {
+        {
 
             GST_DEBUG_GRAPH_SHOW_MEDIA_TYPE = (1 << 0),
 
@@ -362,7 +371,7 @@ namespace MissionPlanner.Utilities
                 out error);
 
             //rtspsrc location=rtsp://192.168.1.21/live ! application/x-rtp ! rtph265depay ! avdec_h265 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink
-     
+
 
             if (error != IntPtr.Zero)
             {
@@ -427,7 +436,7 @@ namespace MissionPlanner.Utilities
                                 if (NativeMethods.gst_buffer_map(buffer, out info, GstMapFlags.GST_MAP_READ))
                                 {
                                     var image = new Bitmap(Width, Height, 4 * Width,
-                                        System.Drawing.Imaging.PixelFormat.Format32bppArgb, info.data);
+                                        SkiaSharp.SKColorType.Bgra8888, info.data);
 
                                     _onNewImage?.Invoke(null, image);
 
@@ -489,6 +498,10 @@ namespace MissionPlanner.Utilities
             var path = Environment.GetEnvironmentVariable("PATH");
             path = Path.Combine(gstdir, "bin") + ";" + Path.Combine(gstdir, "lib") + ";" + path;
             Environment.SetEnvironmentVariable("PATH", path);
+
+            Environment.SetEnvironmentVariable("GSTREAMER_ROOT", gstdir);
+
+            Environment.SetEnvironmentVariable("GSTREAMER_1_0_ROOT_X86_64", gstdir);
 
             Environment.SetEnvironmentVariable("GST_PLUGIN_PATH", Path.Combine(gstdir, "lib"));
 
@@ -560,17 +573,20 @@ namespace MissionPlanner.Utilities
 
         private static bool isrunning
         {
-            get { return processList != null && processList.Count > 0 && !processList.Any(a =>
+            get
             {
-                try
+                return processList != null && processList.Count > 0 && !processList.Any(a =>
                 {
-                    return a.HasExited;
-                }
-                catch
-                {
-                    return true;
-                }
-            }); }
+                    try
+                    {
+                        return a.HasExited;
+                    }
+                    catch
+                    {
+                        return true;
+                    }
+                });
+            }
         }
 
         public static Process Start(string custompipelinesrc = "", bool externalpipeline = false,
@@ -653,6 +669,7 @@ namespace MissionPlanner.Utilities
                     log.Info("No gstreamer found");
                 }
             }
+
             return null;
         }
 
@@ -720,6 +737,7 @@ namespace MissionPlanner.Utilities
                                     bytestoread -= readJPGData(stream, ms);
                                     lastdata = DateTime.Now;
                                 }
+
                                 // up to 100 fps or 50 with 10ms process time
                                 System.Threading.Thread.Sleep(10);
 
@@ -728,6 +746,7 @@ namespace MissionPlanner.Utilities
                                     client.Client.Send(new byte[0]);
                                 }
                             }
+
                             //cleanup on disconnect
                             _onNewImage?.Invoke(null, null);
                         }
@@ -900,6 +919,7 @@ namespace MissionPlanner.Utilities
                         if (fileoffset != ms.Position)
                         {
                         }
+
                         ms.Seek(fileoffset, SeekOrigin.Begin);
 
                         int neededbytes = header.length + header.length2;
@@ -917,7 +937,7 @@ namespace MissionPlanner.Utilities
                             try
                             {
                                 if (img == null || img.Width < width || img.Height < header.lineno + 1)
-                                    img = new Bitmap(width, header.lineno + 1, PixelFormat.Format32bppArgb);
+                                    img = new Bitmap(width, header.lineno + 1, SKColorType.Bgra8888);
 
                                 lock (img)
                                 {
@@ -1013,6 +1033,7 @@ namespace MissionPlanner.Utilities
                             if (datach == 0xd9)
                                 break;
                         }
+
                         last = datach;
                     } while (true);
 
@@ -1068,7 +1089,10 @@ namespace MissionPlanner.Utilities
                         log.Info("StandardInput close");
                         run.StandardInput.Write('\x3');
                         run.StandardInput.Close();
-                    } catch { }
+                    }
+                    catch
+                    {
+                    }
 
                     if (!run.CloseMainWindow())
                     {
@@ -1119,7 +1143,10 @@ namespace MissionPlanner.Utilities
                 {
                     if (File.Exists(output))
                         File.Delete(output);
-                } catch { }
+                }
+                catch
+                {
+                }
             }
         }
     }

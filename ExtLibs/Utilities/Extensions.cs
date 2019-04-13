@@ -254,6 +254,15 @@ namespace MissionPlanner.Utilities
             return new DateTime(1970, 1, 1).AddSeconds(time);
         }
 
+        public static (int degrees, int minutes, float seconds) toDMS(this double angle)
+        {
+            double degrees = angle;
+            double minutes = (degrees - (int) degrees) * 60;
+            double seconds = (minutes - (int) minutes) * 60;
+
+            return ((int) degrees, (int)minutes, (float)seconds);
+        }
+
         public static double EvaluateMath(this String input)
         {
             String expr = "(" + input + ")";

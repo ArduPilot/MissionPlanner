@@ -448,7 +448,7 @@ namespace MissionPlanner.Utilities
                 using (var response = request.GetResponse())
                 {
                     // Display the status.
-                    log.Info(((HttpWebResponse) response).StatusDescription);
+                    log.Info(address + " " + ((HttpWebResponse) response).StatusDescription);
 
                     // Get the stream containing content returned by the server.
                     using (var dataStream = response.GetResponseStream())

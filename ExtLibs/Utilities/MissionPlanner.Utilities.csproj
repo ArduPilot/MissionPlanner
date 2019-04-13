@@ -15,6 +15,10 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
+    <DefineConstants />
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="UAVCAN\**" />
     <EmbeddedResource Remove="UAVCAN\**" />
@@ -28,11 +32,11 @@
   <ItemGroup>
     <PackageReference Include="BitMiracle.LibTiff.NET" Version="2.4.584.1" />
     <PackageReference Include="csmatio" Version="1.0.20" />
+    <PackageReference Include="ExifLibNet" Version="1.2.21" />
     <PackageReference Include="log4net" Version="2.0.8" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta0006" />
+    <PackageReference Include="SkiaSharp" Version="1.68.0" />
     <PackageReference Include="System.CodeDom" Version="4.5.0" />
-    <PackageReference Include="System.Drawing.Common" Version="4.5.1" />
     <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
   </ItemGroup>
 
