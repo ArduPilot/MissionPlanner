@@ -33,17 +33,19 @@
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.but_slcanmode1 = new MissionPlanner.Controls.MyButton();
             this.myDataGridView1 = new MissionPlanner.Controls.MyDataGridView();
+            this.uAVCANModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.label1 = new System.Windows.Forms.Label();
+            this.but_slcanmode2 = new MissionPlanner.Controls.MyButton();
             this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.modeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.healthDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.uptimeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.hardwareVersionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SoftwareVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SoftwareCRC = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.updateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewButtonColumn();
             this.Parameter = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.uAVCANModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.label1 = new System.Windows.Forms.Label();
-            this.but_slcanmode2 = new MissionPlanner.Controls.MyButton();
             ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.uAVCANModelBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -96,6 +98,8 @@
             this.healthDataGridViewTextBoxColumn,
             this.uptimeDataGridViewTextBoxColumn,
             this.hardwareVersionDataGridViewTextBoxColumn,
+            this.SoftwareVersion,
+            this.SoftwareCRC,
             this.updateDataGridViewTextBoxColumn,
             this.Parameter});
             this.myDataGridView1.DataSource = this.uAVCANModelBindingSource;
@@ -106,6 +110,31 @@
             this.myDataGridView1.TabIndex = 1;
             this.myDataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.myDataGridView1_CellClick);
             this.myDataGridView1.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.myDataGridView1_RowsAdded);
+            // 
+            // uAVCANModelBindingSource
+            // 
+            this.uAVCANModelBindingSource.DataSource = typeof(MissionPlanner.GCSViews.ConfigurationView.UAVCANModel);
+            this.uAVCANModelBindingSource.CurrentChanged += new System.EventHandler(this.uAVCANModelBindingSource_CurrentChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(269, 29);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(359, 26);
+            this.label1.TabIndex = 83;
+            this.label1.Text = "After enabling SLCAN, you will no longer be able to connect via MAVLINK.\r\nYou mus" +
+    "t reboot the flight controller to return to a normal mode\r\n";
+            // 
+            // but_slcanmode2
+            // 
+            this.but_slcanmode2.Location = new System.Drawing.Point(138, 29);
+            this.but_slcanmode2.Name = "but_slcanmode2";
+            this.but_slcanmode2.Size = new System.Drawing.Size(125, 23);
+            this.but_slcanmode2.TabIndex = 84;
+            this.but_slcanmode2.Text = "SLCan Mode CAN2";
+            this.but_slcanmode2.UseVisualStyleBackColor = true;
+            this.but_slcanmode2.Click += new System.EventHandler(this.but_slcanmode2_Click);
             // 
             // iDDataGridViewTextBoxColumn
             // 
@@ -154,6 +183,23 @@
             this.hardwareVersionDataGridViewTextBoxColumn.HeaderText = "HardwareVersion";
             this.hardwareVersionDataGridViewTextBoxColumn.Name = "hardwareVersionDataGridViewTextBoxColumn";
             this.hardwareVersionDataGridViewTextBoxColumn.ReadOnly = true;
+            this.hardwareVersionDataGridViewTextBoxColumn.Width = 50;
+            // 
+            // SoftwareVersion
+            // 
+            this.SoftwareVersion.DataPropertyName = "SoftwareVersion";
+            this.SoftwareVersion.HeaderText = "SoftwareVersion";
+            this.SoftwareVersion.Name = "SoftwareVersion";
+            this.SoftwareVersion.ReadOnly = true;
+            this.SoftwareVersion.Width = 50;
+            // 
+            // SoftwareCRC
+            // 
+            this.SoftwareCRC.DataPropertyName = "SoftwareCRC";
+            this.SoftwareCRC.HeaderText = "SoftwareCRC";
+            this.SoftwareCRC.Name = "SoftwareCRC";
+            this.SoftwareCRC.ReadOnly = true;
+            this.SoftwareCRC.Width = 50;
             // 
             // updateDataGridViewTextBoxColumn
             // 
@@ -170,30 +216,7 @@
             this.Parameter.Name = "Parameter";
             this.Parameter.ReadOnly = true;
             this.Parameter.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // uAVCANModelBindingSource
-            // 
-            this.uAVCANModelBindingSource.DataSource = typeof(MissionPlanner.GCSViews.ConfigurationView.UAVCANModel);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(269, 29);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(359, 26);
-            this.label1.TabIndex = 83;
-            this.label1.Text = "After enabling SLCAN, you will no longer be able to connect via MAVLINK.\r\nYou mus" +
-    "t reboot the flight controller to return to a normal mode\r\n";
-            // 
-            // but_slcanmode2
-            // 
-            this.but_slcanmode2.Location = new System.Drawing.Point(138, 29);
-            this.but_slcanmode2.Name = "but_slcanmode2";
-            this.but_slcanmode2.Size = new System.Drawing.Size(125, 23);
-            this.but_slcanmode2.TabIndex = 84;
-            this.but_slcanmode2.Text = "SLCan Mode CAN2";
-            this.but_slcanmode2.UseVisualStyleBackColor = true;
-            this.but_slcanmode2.Click += new System.EventHandler(this.but_slcanmode2_Click);
+            this.Parameter.Text = "Parameter";
             // 
             // ConfigUAVCAN
             // 
@@ -219,17 +242,19 @@
         private Controls.MyDataGridView myDataGridView1;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.GroupBox groupBox5;
-        public System.Windows.Forms.BindingSource uAVCANModelBindingSource;
         private Controls.MyButton but_slcanmode1;
         private System.Windows.Forms.Label label1;
+        private Controls.MyButton but_slcanmode2;
+        public System.Windows.Forms.BindingSource uAVCANModelBindingSource;
         private System.Windows.Forms.DataGridViewTextBoxColumn iDDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn modeDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn healthDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn uptimeDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn hardwareVersionDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SoftwareVersion;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SoftwareCRC;
         private System.Windows.Forms.DataGridViewButtonColumn updateDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewButtonColumn Parameter;
-        private Controls.MyButton but_slcanmode2;
     }
 }

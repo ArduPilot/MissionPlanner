@@ -192,6 +192,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             else if (e.ColumnIndex == myDataGridView1.Columns["updateDataGridViewTextBoxColumn"].Index)
             {
+                ProgressReporterDialogue prd = new ProgressReporterDialogue();
+                uavcan.FileSendProgressArgs filesend = (id, file, percent) =>
+                {
+                    prd.UpdateProgressAndStatus((int) percent, id + " " + file);
+                };
+                can.FileSendProgress += filesend;
                 if (CustomMessageBox.Show("Do you want to search the internet for an update?", "Update", CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
                 {
                     var devicename = myDataGridView1[nameDataGridViewTextBoxColumn.Index, e.RowIndex].Value.ToString();
@@ -203,13 +209,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     {
                         try
                         {
-                            await Task.Run(() =>
+                            prd.DoWork += dialogue => 
                             {
                                 var tempfile = Path.GetTempFileName();
                                 Download.getFilefromNet(url, tempfile);
 
-                                can.Update(devicename, hwversion, tempfile);
-                            });
+                                can.Update(nodeID, devicename, hwversion, tempfile);
+
+                                return;
+                            };
+
+                            prd.RunBackgroundOperationAsync();
                         }
                         catch (Exception ex)
                         {
@@ -233,11 +243,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     {
                         try
                         {
-                            await Task.Run(() =>
+                            prd.DoWork += dialogue =>
                             {
-                                can.Update(myDataGridView1[nameDataGridViewTextBoxColumn.Index, e.RowIndex].Value.ToString(), 0,
+                                can.Update(nodeID, myDataGridView1[nameDataGridViewTextBoxColumn.Index, e.RowIndex].Value.ToString(), 0,
                                 fd.FileName);
-                            });
+
+                                return;
+                            };
+
+                            prd.RunBackgroundOperationAsync();
                         }
                         catch (Exception ex)
                         {
@@ -245,6 +259,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         }
                     }
                 }
+                can.FileSendProgress -= filesend;
+                prd.Dispose();
             }
         }
 
@@ -260,7 +276,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             myDataGridView1[Parameter.Index, e.RowIndex].Value = "Parameters";
         }
 
+        private void uAVCANModelBindingSource_CurrentChanged(object sender, EventArgs e)
+        {
 
+        }
     }
 
     public class UAVCANModel

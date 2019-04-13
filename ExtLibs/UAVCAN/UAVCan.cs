@@ -404,6 +404,9 @@ namespace UAVCAN
                             WriteToStream(slcan);
                         }
 
+                        FileSendProgress?.Invoke(frame.SourceNode, requestedfile,
+                            (((double) frreq.offset + read) / file.Length) * 100.0);
+
                         if (file.Length == ((long)frreq.offset + read))
                         {
                             FileSendComplete?.Invoke(frame.SourceNode, requestedfile);
@@ -499,9 +502,9 @@ namespace UAVCAN
             return String.Empty;
         }
 
-        public void Update(string devicename, double hwversion, string firmware_name)
+        public void Update(byte nodeid, string devicename, double hwversion, string firmware_name)
         {
-            Console.WriteLine("Update {0} {1} {2}", devicename, hwversion, firmware_name);
+            Console.WriteLine("Update {0} {1} {2} {3}", nodeid, devicename, hwversion, firmware_name);
 
             ServeFile(firmware_name);
 
@@ -596,20 +599,24 @@ namespace UAVCAN
                 }
             }
 
-            foreach (var i in NodeList.Keys.ToArray())
+
             {
-                var statetracking = new statetracking();
                 // get node info
                 uavcan.uavcan_protocol_GetNodeInfo_req gnireq = new uavcan.uavcan_protocol_GetNodeInfo_req() { };
-                gnireq.encode(uavcan_transmit_chunk_handler, statetracking);
 
-                var slcan = PackageMessage((byte)i, 30, transferID++, gnireq);
+
+                var slcan = PackageMessage((byte) nodeid, 30, transferID++, gnireq);
                 lock (sr_lock)
                     WriteToStream(slcan);
             }
 
-            int b = 0;
-            while (true)
+            var done = false;
+                FileSendCompleteArgs filecomplete = delegate(byte id, string file) { done = true;  };
+
+                FileSendComplete += filecomplete;
+
+        int b = 0;
+            while (!done)
             {
                 Thread.Sleep(1000);
 
@@ -633,6 +640,7 @@ namespace UAVCAN
             Console.WriteLine("Update EXIT");
 
             MessageReceived -= updatedelegate;
+            FileSendComplete -= filecomplete;
 
             if (exception != null)
             {
@@ -787,6 +795,10 @@ namespace UAVCAN
         public delegate void FileSendCompleteArgs(byte NodeID, string file);
 
         public event FileSendCompleteArgs FileSendComplete;
+
+        public delegate void FileSendProgressArgs(byte NodeID, string filename, double percent);
+
+        public event FileSendProgressArgs FileSendProgress;
 
         public Dictionary<int, uavcan_protocol_NodeStatus> NodeList = new Dictionary<int,uavcan_protocol_NodeStatus>();
 
