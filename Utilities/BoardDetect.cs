@@ -135,8 +135,6 @@ namespace MissionPlanner.Utilities
 
                             if (item.board == "PX4 FMU v2.x")
                             {
-                                CustomMessageBox.Show(Strings.PleaseUnplugTheBoardAnd);
-
                                 DateTime DEADLINE = DateTime.Now.AddSeconds(30);
 
                                 while (DateTime.Now < DEADLINE)
@@ -180,7 +178,7 @@ namespace MissionPlanner.Utilities
                             }
                         }
                     }
-                } catch { }
+                } catch (Exception ex) { log.Error(ex); }
 
                 ObjectQuery query = new ObjectQuery("SELECT * FROM Win32_SerialPort"); // Win32_USBControllerDevice
                 ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
@@ -311,14 +309,6 @@ namespace MissionPlanner.Utilities
                         return boards.px4rl;
                     }
 
-                    if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0016"))
-                    {
-                        log.Info("is a px4v2 bootloader");
-                        CustomMessageBox.Show(
-                            "You appear to have a bootloader with a bad PID value, please update your bootloader.");
-                        return boards.px4v2;
-                    }
-
                     //|| obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0012") || obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0013") || obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0014") || obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0015") || obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0016")
 
                     if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_27AC&PID_1140"))
@@ -386,7 +376,7 @@ namespace MissionPlanner.Utilities
                 else
                 {
                     if ((int)DialogResult.Yes ==
-                        CustomMessageBox.Show("Is this a PX4/PIXHAWK/PIXRACER?", "PX4/PIXHAWK", MessageBoxButtons.YesNo))
+                        CustomMessageBox.Show("Is this a CUBE/PX4/PIXHAWK/PIXRACER?", "PX4/PIXHAWK", MessageBoxButtons.YesNo))
                     {
                         if ((int)DialogResult.Yes ==
                             CustomMessageBox.Show("Is this a PIXRACER?", "PIXRACER", MessageBoxButtons.YesNo))

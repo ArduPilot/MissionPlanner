@@ -315,7 +315,9 @@ namespace MissionPlanner.Utilities
         void updateProgress(int percent, string status)
         {
             if (Progress != null)
+            {
                 Progress(percent, status);
+            }
         }
 
         /// <summary>
@@ -762,16 +764,41 @@ namespace MissionPlanner.Utilities
         private void AttemptRebootToBootloader()
         {
             string[] allports = SerialPort.GetPortNames();
-
+            
+            List<Task<bool>> tasklist = new List<Task<bool>>();
+            // check if its in BL mode already
             foreach (string port in allports)
             {
                 log.Info(DateTime.Now.Millisecond + " Trying Port " + port);
                 try
                 {
-                    using (var up = new Uploader(port, 115200))
-                    {
-                        up.identify();
+                    var task = Task.Run(() => {
+                        using (var up = new Uploader(port, 115200))
+                        {
+                            up.identify();
+                            return true;
+                        }
+
+                        return false;
+                    });
+
+                    tasklist.Add(task);
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                }
+            }
+
+            foreach (var task in tasklist)
+            {
+                try
+                {
+                    if (task.Wait(TimeSpan.FromSeconds(3)) && task.Result == true)
                         return;
+                    else
+                    {
+                        //not there
                     }
                 }
                 catch (Exception ex)
@@ -785,20 +812,29 @@ namespace MissionPlanner.Utilities
                 try
                 {
                     updateProgress(-1, "Look for HeartBeat");
-                    // check if we are seeing heartbeats
-                    MainV2.comPort.BaseStream.Open();
-                    MainV2.comPort.giveComport = true;
+                    var task = Task.Run(() =>
+                    {
+                        // check if we are seeing heartbeats
+                        MainV2.comPort.BaseStream.Open();
+                        MainV2.comPort.giveComport = true;
 
-                    if (MainV2.comPort.getHeartBeat().Length > 0)
+                        if (MainV2.comPort.getHeartBeat().Length > 0)
+                        {
+                            MainV2.comPort.doReboot(true, false);
+                            MainV2.comPort.Close();
+                        }
+                        else
+                        {
+                            MainV2.comPort.BaseStream.Close();
+                            throw new Exception("No HeartBeat found");
+                        }
+                    });
+                    if (task.Wait(TimeSpan.FromSeconds(3)))
                     {
                         updateProgress(-1, "Reboot to Bootloader");
-                        MainV2.comPort.doReboot(true, false);
-                        MainV2.comPort.Close();
                     }
                     else
                     {
-                        updateProgress(-1, "No HeartBeat found");
-                        MainV2.comPort.BaseStream.Close();
                         CustomMessageBox.Show(Strings.PleaseUnplugTheBoardAnd);
                     }
                 }
