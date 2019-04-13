@@ -6,14 +6,13 @@ or FITNESS FOR A PARTICULAR PURPOSE.
 *****************************************************************************/
 
 using System;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.Collections;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Diagnostics;
 using System.Collections.Generic;
-
+using System.Drawing;
+using System.Drawing.Imaging;
 using DirectShowLib;
 using System.Linq;
 
@@ -66,31 +65,6 @@ namespace WebCamService
         private event CamImage m_camimage = null;
 
         Thread timer1;
-
-        #endregion
-
-        #region API
-
-        private static class NativeMethods
-        {
-            [DllImport("Kernel32.dll", EntryPoint = "RtlMoveMemory")]
-            internal static extern void CopyMemory(IntPtr Destination, IntPtr Source, int Length);
-
-            [DllImport("oleaut32.dll", CharSet = CharSet.Unicode, ExactSpelling = true)]
-            public static extern int OleCreatePropertyFrame(
-                IntPtr hwndOwner,
-                int x,
-                int y,
-                [MarshalAs(UnmanagedType.LPWStr)] string lpszCaption,
-                int cObjects,
-                [MarshalAs(UnmanagedType.Interface, ArraySubType = UnmanagedType.IUnknown)] 
-            ref object ppUnk,
-                int cPages,
-                IntPtr lpPageClsID,
-                int lcid,
-                int dwReserved,
-                IntPtr lpvReserved);
-        }
 
         #endregion
 
@@ -559,7 +533,10 @@ namespace WebCamService
                     throw new Exception("Buffer is wrong size");
                 }
 
-                NativeMethods.CopyMemory(m_handle, pBuffer, iBufferLen);
+                unsafe
+                {
+                    Buffer.MemoryCopy(m_handle.ToPointer(), pBuffer.ToPointer(), iBufferLen, iBufferLen);
+                }
 
                 // Picture is ready.
                 m_PictureReady.Set();
@@ -578,7 +555,10 @@ namespace WebCamService
                 if(BufferLen <= m_stride * m_videoHeight)
                 {
                     // Copy the frame to the buffer
-                    NativeMethods.CopyMemory(m_handle, pBuffer, BufferLen);
+                    unsafe
+                    {
+                        Buffer.MemoryCopy(m_handle.ToPointer(), pBuffer.ToPointer(), BufferLen, BufferLen);
+                    }
                 }
                 else
                 {
