@@ -289,6 +289,7 @@ public class Win32DeviceMgmt
                 bool success = SetupDiEnumDeviceInfo(hDeviceInfoSet, iMemberIndex, ref deviceInfoData);
                 if (!success)
                 {
+                    log.Info("no more devices " + GetLastError());
                     // No more devices in the device information set
                     break;
                 }
@@ -383,14 +384,23 @@ public class Win32DeviceMgmt
                 for (int i = 0; i < list.Length; i++)
                 {
                     IntPtr buffer = Marshal.AllocHGlobal(1024);
-                    SetupDiGetDevicePropertyW(hDeviceInfoSet, ref deviceInfoData, ref list[i], out propertyType,
-                        buffer, 1024, out requiredSize, 0);
+                    try
+                    {
+                        if (SetupDiGetDevicePropertyW(hDeviceInfoSet, ref deviceInfoData, ref list[i], out propertyType,
+                            buffer, 1024, out requiredSize, 0))
+                        {
 
-                    var out11 = Marshal.PtrToStringAuto(buffer);
-                    log.Info(list[i].name + " " + out11);
+                            var out11 = Marshal.PtrToStringAuto(buffer);
+                            log.Info(list[i].name + " " + out11);
 
-                    if (list[i].name == "DEVPKEY_Device_BusReportedDeviceDesc")
-                        deviceInfo.board = out11;
+                            if (list[i].name == "DEVPKEY_Device_BusReportedDeviceDesc")
+                                deviceInfo.board = out11;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error(ex);
+                    }
 
                     Marshal.FreeHGlobal(buffer);
                 }
