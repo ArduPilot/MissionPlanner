@@ -135,7 +135,7 @@ namespace MissionPlanner
                     {
                         string[] items = line.Trim().Split(',', '*');
 
-                        if (items[15] != GetChecksum(line.Trim()))
+                        if (items[items.Length-1] != GetChecksum(line.Trim()))
                         {
                             Console.WriteLine("Bad Nmea line " + items[15] + " vs " + GetChecksum(line.Trim()));
                             continue;
