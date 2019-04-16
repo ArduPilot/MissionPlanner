@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using log4net;
@@ -1435,11 +1436,11 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         {
                             MAVlist[sysid, compid].VersionString = logdata;
                         }
-                        else if (logdata.ToLower().Contains("nuttx"))
+                        else if (logdata.ToLower().Contains("nuttx") || logdata.ToLower().Contains("chibios"))
                         {
                             MAVlist[sysid, compid].SoftwareVersions = logdata;
                         }
-                        else if (logdata.ToLower().Contains("px4v2"))
+                        else if (logdata.ToLower().Contains("px4v2") || Regex.IsMatch(logdata, @"\s[0-9A-F]+\s[0-9A-F]+\s[0-9A-F]+"))
                         {
                             MAVlist[sysid, compid].SerialString = logdata;
                         }
