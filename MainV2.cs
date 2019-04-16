@@ -1803,6 +1803,19 @@ namespace MissionPlanner
             {
                 
             }
+
+            try
+            {
+                if (comPort.MAV.SerialString == "")
+                    return;
+
+                if (comPort.MAV.SerialString.Contains("CubeBlack") && 
+                    comPort.MAV.param.ContainsKey("INS_ACC3_ID") && comPort.MAV.param["INS_ACC3_ID"].Value == 0 &&
+                    comPort.MAV.param.ContainsKey("INS_GYR3_ID") && comPort.MAV.param["INS_GYR3_ID"].Value == 0)
+                {
+                    CustomMessageBox.Show("Your board has a Critical service bulletin please see [link;https://discuss.cubepilot.org/t/sb-0000002-critical-service-bulletin-for-cubes-purchased-between-january-2019-to-present;Click here]",Strings.ERROR);
+                }
+            } catch { }
         }
 
         private void CMB_serialport_SelectedIndexChanged(object sender, EventArgs e)
