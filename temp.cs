@@ -1094,5 +1094,35 @@ namespace MissionPlanner
                     new MAVLink.mavlink_set_mode_t() {custom_mode = MainV2.comPort.MAV.cs.armed ? 0u : 1u},
                     MAVLink.MAV_MODE_FLAG.SAFETY_ARMED);
         }
+
+        private void but_hwids_Click(object sender, EventArgs e)
+        {
+            string value = "0";
+            if (InputBox.Show("hwid", "Enter the ID number", ref value, false, true) == DialogResult.OK)
+            {
+                StringBuilder sb = new StringBuilder(); 
+                var items = value.Split(new char[] { '\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (var item in items)
+                {
+                    var items2 = item.Split(new char[] {' ', '\t'});
+
+                    foreach (var item2 in items2)
+                    {
+                        uint uintvalue = 0;
+
+                        if (uint.TryParse(item2, out uintvalue))
+                        {
+                            Device.DeviceStructure test1 = new Device.DeviceStructure(uintvalue);
+
+                            sb.AppendLine(item.Replace('\t',' ') + " = " + test1.ToString());
+                           
+                        }
+                    }
+                }
+
+                CustomMessageBox.Show(sb.ToString());
+            }
+        }
     }
 }

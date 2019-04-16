@@ -33,7 +33,7 @@ namespace MissionPlanner.Controls
             return dialog;
         }
         //from http://www.csharp-examples.net/inputbox/
-        public static DialogResult Show(string title, string promptText, ref string value, bool password = false)
+        public static DialogResult Show(string title, string promptText, ref string value, bool password = false, bool multiline = false)
         {
             DialogResult answer = DialogResult.Cancel;
 
@@ -45,12 +45,12 @@ namespace MissionPlanner.Controls
             {
                 Application.OpenForms[0].Invoke((MethodInvoker)delegate
                 {
-                    answer = ShowUI(title, promptText, passin, password);
+                    answer = ShowUI(title, promptText, passin, password, multiline);
                 });
             }
             else
             {
-                answer = ShowUI(title, promptText, passin, password);
+                answer = ShowUI(title, promptText, passin, password, multiline);
             }
 
             value = InputBox.value;
@@ -58,13 +58,15 @@ namespace MissionPlanner.Controls
             return answer;
         }
 
-        static DialogResult ShowUI(string title, string promptText, string value, bool password = false)
+        static DialogResult ShowUI(string title, string promptText, string value, bool password = false, bool multiline = false)
         {
             Form form = new Form();
             Label label = new Label();
             TextBox textBox = new TextBox();
             if (password)
                 textBox.UseSystemPasswordChar = true;
+            if (multiline)
+                textBox.Multiline = true;
             MyButton buttonOk = new MyButton();
             MyButton buttonCancel = new MyButton();
             //System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainV2));

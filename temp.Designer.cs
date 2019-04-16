@@ -109,6 +109,7 @@
             this.but_3dmap = new MissionPlanner.Controls.MyButton();
             this.but_messageinterval = new MissionPlanner.Controls.MyButton();
             this.but_disablearmswitch = new MissionPlanner.Controls.MyButton();
+            this.but_hwids = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -668,9 +669,17 @@
             this.but_disablearmswitch.UseVisualStyleBackColor = true;
             this.but_disablearmswitch.Click += new System.EventHandler(this.but_disablearmswitch_Click);
             // 
+            // but_hwids
+            // 
+            resources.ApplyResources(this.but_hwids, "but_hwids");
+            this.but_hwids.Name = "but_hwids";
+            this.but_hwids.UseVisualStyleBackColor = true;
+            this.but_hwids.Click += new System.EventHandler(this.but_hwids_Click);
+            // 
             // temp
             // 
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.but_hwids);
             this.Controls.Add(this.but_disablearmswitch);
             this.Controls.Add(this.but_messageinterval);
             this.Controls.Add(this.but_3dmap);
@@ -792,5 +801,6 @@
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label12;
         private Controls.MyButton but_disablearmswitch;
+        private Controls.MyButton but_hwids;
     }
 }

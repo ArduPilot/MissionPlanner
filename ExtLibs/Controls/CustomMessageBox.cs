@@ -111,7 +111,7 @@ namespace MissionPlanner.MsgBox
                 Text = caption,
                 MaximizeBox = false,
                 MinimizeBox = false,
-                Width = textSize.Width + 50,
+                Width = textSize.Width + 20,
                 Height = textSize.Height + 120,
                 TopMost = true,
                 AutoScaleMode = AutoScaleMode.None,
