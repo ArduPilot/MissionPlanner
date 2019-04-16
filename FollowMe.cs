@@ -119,7 +119,7 @@ namespace MissionPlanner
         {
             DateTime nextsend = DateTime.Now;
 
-            StreamWriter sw = new StreamWriter(File.OpenWrite("followmeraw.txt"));
+            StreamWriter sw = new StreamWriter(File.OpenWrite( Settings.GetUserDataDirectory() + "followmeraw.txt"));
 
             threadrun = true;
             while (threadrun)
