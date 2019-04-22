@@ -2018,7 +2018,7 @@ namespace MissionPlanner.GCSViews
             {
                 try
                 {
-                    ((Button) sender).Enabled = false;
+                    ((Control) sender).Enabled = false;
 
                     int param1 = 0;
                     int param3 = 1;
@@ -2042,7 +2042,7 @@ namespace MissionPlanner.GCSViews
                 {
                     CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
                 }
-                ((Button) sender).Enabled = true;
+                ((Control) sender).Enabled = true;
             }
         }
 
@@ -2050,7 +2050,7 @@ namespace MissionPlanner.GCSViews
         {
             try
             {
-                ((Button) sender).Enabled = false;
+                ((Control) sender).Enabled = false;
 
                 MainV2.comPort.setWPCurrent(0); // set nav to
             }
@@ -2058,7 +2058,7 @@ namespace MissionPlanner.GCSViews
             {
                 CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
             }
-            ((Button) sender).Enabled = true;
+            ((Control) sender).Enabled = true;
         }
 
         private void FlightData_Resize(object sender, EventArgs e)
@@ -2511,14 +2511,14 @@ namespace MissionPlanner.GCSViews
         {
             try
             {
-                ((Button) sender).Enabled = false;
+                ((Control) sender).Enabled = false;
                 MainV2.comPort.setWPCurrent((ushort) CMB_setwp.SelectedIndex); // set nav to
             }
             catch
             {
                 CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
             }
-            ((Button) sender).Enabled = true;
+            ((Control) sender).Enabled = true;
         }
 
         private void CMB_setwp_Click(object sender, EventArgs e)
@@ -2572,35 +2572,35 @@ namespace MissionPlanner.GCSViews
         {
             try
             {
-                ((Button) sender).Enabled = false;
+                ((Control) sender).Enabled = false;
                 MainV2.comPort.setMode("Auto");
             }
             catch
             {
                 CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
             }
-            ((Button) sender).Enabled = true;
+            ((Control) sender).Enabled = true;
         }
 
         private void BUT_quickrtl_Click(object sender, EventArgs e)
         {
             try
             {
-                ((Button) sender).Enabled = false;
+                ((Control) sender).Enabled = false;
                 MainV2.comPort.setMode("RTL");
             }
             catch
             {
                 CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
             }
-            ((Button) sender).Enabled = true;
+            ((Control) sender).Enabled = true;
         }
 
         private void BUT_quickmanual_Click(object sender, EventArgs e)
         {
             try
             {
-                ((Button) sender).Enabled = false;
+                ((Control) sender).Enabled = false;
                 if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduPlane ||
                     MainV2.comPort.MAV.cs.firmware == Firmwares.Ateryx ||
                     MainV2.comPort.MAV.cs.firmware == Firmwares.ArduRover)
@@ -2612,7 +2612,7 @@ namespace MissionPlanner.GCSViews
             {
                 CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
             }
-            ((Button) sender).Enabled = true;
+            ((Control) sender).Enabled = true;
         }
 
         private void BUT_log2kml_Click(object sender, EventArgs e)
