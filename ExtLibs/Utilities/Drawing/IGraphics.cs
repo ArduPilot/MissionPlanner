@@ -26,7 +26,7 @@ namespace MissionPlanner.Utilities.Drawing
 
         float DpiY { get; }
 
-        //  InterpolationMode InterpolationMode { get; set; }
+          InterpolationMode InterpolationMode { get; set; }
 
         bool IsClipEmpty { get; }
 
@@ -40,11 +40,11 @@ namespace MissionPlanner.Utilities.Drawing
 
         Point RenderingOrigin { get; set; }
 
-        // SmoothingMode SmoothingMode { get; set; }
+         SmoothingMode SmoothingMode { get; set; }
 
         int TextContrast { get; set; }
 
-        //  TextRenderingHint TextRenderingHint { get; set; }
+          TextRenderingHint TextRenderingHint { get; set; }
 
         Matrix Transform { get; set; }
 
@@ -180,7 +180,7 @@ namespace MissionPlanner.Utilities.Drawing
 
         void DrawLines(Pen pen, Point[] points);
 
-        //   void DrawPath(Pen pen, GraphicsPath path);
+           void DrawPath(Pen pen, GraphicsPath path);
 
         void DrawPie(Pen pen, RectangleF rect, float startAngle, float sweepAngle);
 
@@ -242,7 +242,7 @@ namespace MissionPlanner.Utilities.Drawing
 
         void FillEllipse(Brush brush, int x, int y, int width, int height);
 
-        //    void FillPath(Brush brush, GraphicsPath path);
+            void FillPath(Brush brush, GraphicsPath path);
 
         void FillPie(Brush brush, Rectangle rect, float startAngle, float sweepAngle);
 

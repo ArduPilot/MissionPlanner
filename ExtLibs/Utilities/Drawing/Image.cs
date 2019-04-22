@@ -37,6 +37,11 @@ namespace MissionPlanner.Utilities.Drawing
         /// <returns>A <see cref="T:System.Drawing.Size" /> structure that represents the width and height, in pixels, of this image.</returns>
         public Size Size => new Size(nativeSkBitmap.Width, nativeSkBitmap.Height);
 
+        public static Image FromStream(Stream stream, bool useEmbeddedColorManagement, bool validateImageData)
+        {
+            return FromStream(stream);
+        }
+
         /// <summary>Gets or sets an object that provides additional data about the image.</summary>
         /// <returns>The <see cref="T:System.Object" /> that provides additional data about the image.</returns>
         [Localizable(false)]
@@ -92,14 +97,6 @@ namespace MissionPlanner.Utilities.Drawing
         {
             nativeSkBitmap?.Dispose();
         }
-    }
-
-    public class PropertyItem
-    {
-        public int Id { get; set; }
-        public int Len { get; set; }
-        public int Type { get; set; }
-        public byte[] Value { get; set; }
     }
 }
 

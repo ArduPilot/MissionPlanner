@@ -4,6 +4,20 @@ namespace MissionPlanner.Utilities.Drawing
 {
     public class Brushes
     {
+        public static Brush Transparent { get; } = new SolidBrush() { nativeBrush = new SKPaint() { Color = new SKColor(0x00FFFFFF) } };
+        public static Brush AliceBlue { get; } = new SolidBrush() { nativeBrush = new SKPaint() { Color = new SKColor(0xFFF0F8FF) } };
+        public static Brush AntiqueWhite { get; } = new SolidBrush() { nativeBrush = new SKPaint() { Color = new SKColor(0xFFFAEBD7) } };
+        public static Brush Aqua { get; } = new SolidBrush() { nativeBrush = new SKPaint() { Color = new SKColor(0xFF00FFFF) } };
+        public static Brush Aquamarine { get; } = new SolidBrush() { nativeBrush = new SKPaint() { Color = new SKColor(0xFF7FFFD4) } };
+        public static Brush Azure { get; } = new SolidBrush() { nativeBrush = new SKPaint() { Color = new SKColor(0xFFF0FFFF) } };
+        public static Brush Beige { get; } = new SolidBrush() { nativeBrush = new SKPaint() { Color = new SKColor(0xFFF5F5DC) } };
+        public static Brush Bisque { get; } = new SolidBrush() { nativeBrush = new SKPaint() { Color = new SKColor(0xFFFFE4C4) } };
+        public static Brush Black { get; } = new SolidBrush() { nativeBrush = new SKPaint() { Color = new SKColor(0xFF000000) } };
+        public static Brush BlanchedAlmond { get; } = new SolidBrush() { nativeBrush = new SKPaint() { Color = new SKColor(0xFFFFEBCD) } };
+        public static Brush Blue { get; } = new SolidBrush() { nativeBrush = new SKPaint() { Color = new SKColor(0xFF0000FF) } };
+        public static Brush BlueViolet { get; } = new SolidBrush() { nativeBrush = new SKPaint() { Color = new SKColor(0xFF8A2BE2) } };
+        public static Brush Brown { get; } = new SolidBrush() { nativeBrush = new SKPaint() { Color = new SKColor(0xFFA52A2A) } };
+        public static Brush BurlyWood { get; } = new SolidBrush() { nativeBrush = new SKPaint() { Color = new SKColor(0xFFDEB887) } };
         public static Brush CadetBlue { get; } = new SolidBrush() { nativeBrush = new SKPaint() { Color = new SKColor(0xFF5F9EA0) } };
         public static Brush Chartreuse { get; } = new SolidBrush() { nativeBrush = new SKPaint() { Color = new SKColor(0xFF7FFF00) } };
         public static Brush Chocolate { get; } = new SolidBrush() { nativeBrush = new SKPaint() { Color = new SKColor(0xFFD2691E) } };

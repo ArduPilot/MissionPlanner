@@ -4,19 +4,52 @@ using SkiaSharp;
 
 namespace MissionPlanner.Utilities.Drawing
 {
-    public class Pen
+    public class Pen: ICloneable, IDisposable
     {
         internal SKPaint nativePen;
 
-        public Pen(Color color)
+        public Pen(Color color): this(color.SKColor())
         {
-            nativePen = new SKPaint() {Color = new SKColor((uint)color.ToArgb()),
-                StrokeWidth = 1,
+        }
+
+        public Pen(SKColor color, int width = 1)
+        {
+            Width = width;
+
+            nativePen = new SKPaint()
+            {
+                Color = color,
+                StrokeWidth = Width,
                 IsAntialias = true,
                 Style = SKPaintStyle.Stroke,
                 BlendMode = SKBlendMode.SrcOver,
                 FilterQuality = SKFilterQuality.High
             };
+        }
+
+        public Pen(Color brush, int width) : this(brush.SKColor(), width)
+        {
+        }
+
+        public Pen(Brush brush, int width): this(brush.nativeBrush.Color,width)
+        {
+        }
+
+        public LineJoin LineJoin { get; set; }
+        public int Width { get; set; }
+        public LineCap StartCap { get; set; }
+        public DashStyle DashStyle { get; set; }
+        public Color Color { get; set; }
+        public Brush Brush { get; set; }
+
+        public object Clone()
+        {
+            return new Pen(nativePen.Color, Width);
+        }
+
+        public void Dispose()
+        {
+           nativePen?.Dispose();
         }
     }
 }

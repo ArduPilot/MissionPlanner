@@ -5,7 +5,7 @@ using SkiaSharp;
 
 namespace MissionPlanner.Utilities.Drawing
 {
-    public class Graphics: IDisposable
+    public class Graphics:  IDisposable
     {
         internal SKSurface nativeSurface;
 
@@ -48,6 +48,11 @@ namespace MissionPlanner.Utilities.Drawing
         public void DrawLine(Pen pen, PointF lastpoint, PointF newpoint)
         {
             nativeSurface.Canvas.DrawLine(lastpoint.ToSKPoint(), newpoint.ToSKPoint(), pen.nativePen);
+        }
+
+        public void DrawImage(Image original, Rectangle rectangle, int x, int y, int originalWidth, int originalHeight, GraphicsUnit pixel, ImageAttributes attributes)
+        {
+            DrawImage(original, x, y, originalWidth, originalHeight);
         }
     }
 }

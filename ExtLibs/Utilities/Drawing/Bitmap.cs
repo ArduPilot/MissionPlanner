@@ -47,9 +47,4 @@ namespace MissionPlanner.Utilities.Drawing
             bmpData = null;
         }
     }
-
-    public class BitmapData
-    {
-        public IntPtr Scan0 { get; set; }
-    }
 }

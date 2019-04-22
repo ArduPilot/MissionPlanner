@@ -16,7 +16,22 @@ using MissionPlanner.Utilities.Drawing;
 
 namespace MissionPlanner.Utilities.Drawing
 {
-    public class ImageAttributes
+    public class ImageAttributes : IDisposable
     {
+        private ColorMatrix matrix;
+        public void Dispose()
+        {
+           
+        }
+
+        public void SetColorMatrix(ColorMatrix matrix)
+        {
+            this.matrix = matrix;
+        }
+
+        public void SetWrapMode(WrapMode tileFlipXy)
+        {
+            
+        }
     }
 }
