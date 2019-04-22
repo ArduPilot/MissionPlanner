@@ -1812,9 +1812,18 @@ namespace MissionPlanner
 
                 if (comPort.MAV.SerialString.Contains("CubeBlack") && 
                     comPort.MAV.param.ContainsKey("INS_ACC3_ID") && comPort.MAV.param["INS_ACC3_ID"].Value == 0 &&
-                    comPort.MAV.param.ContainsKey("INS_GYR3_ID") && comPort.MAV.param["INS_GYR3_ID"].Value == 0)
+                    comPort.MAV.param.ContainsKey("INS_GYR3_ID") && comPort.MAV.param["INS_GYR3_ID"].Value == 0 &&
+                    comPort.MAV.param.ContainsKey("INS_ENABLE_MASK") && comPort.MAV.param["INS_ENABLE_MASK"].Value >= 7)
                 {
-                    CustomMessageBox.Show("Your board has a Critical service bulletin please see [link;https://discuss.cubepilot.org/t/sb-0000002-critical-service-bulletin-for-cubes-purchased-between-january-2019-to-present;Click here] via DEV_ID",Strings.ERROR);
+                    var url = String.Format(
+                        "http://sb.cubepilot.org:8080/CubeSB?BRD_TYPE={0}&SerialNo={1}&INS_ACC_ID={2}&INS_ACC2_ID={3}&INS_ACC3_ID={4}&INS_GYR_ID={5}&INS_GYR2_ID={6}&INS_GYR3_ID={7}&Baro1={8}&Baro2={9}",
+                        comPort.MAV.param["BRD_TYPE"], comPort.MAV.SerialString,
+                        comPort.MAV.param["INS_ACC_ID"], comPort.MAV.param["INS_ACC2_ID"],
+                        comPort.MAV.param["INS_ACC3_ID"],
+                        comPort.MAV.param["INS_GYR_ID"], comPort.MAV.param["INS_GYR2_ID"],
+                        comPort.MAV.param["INS_GYR3_ID"],
+                        comPort.MAV.cs.press_abs, comPort.MAV.cs.press_abs2);
+                    CustomMessageBox.Show("Your board has a Critical service bulletin please see [link;"+url+";Click here] via DEV_ID",Strings.ERROR);
                 }
             } catch { }
 
@@ -1822,6 +1831,10 @@ namespace MissionPlanner
             {
                 if (comPort.MAV.SerialString == "")
                     return;
+
+                // brd type should be 3
+                // devids show which sensor is not detected
+                // baro does not list a devid
 
                 //devop read spi lsm9ds0_ext_am 0 0 0x8f 1
                 if (comPort.MAV.SerialString.Contains("CubeBlack"))
@@ -1846,8 +1859,16 @@ namespace MissionPlanner
                             if (bad1 && bad2)
                                 this.BeginInvoke((Action) delegate
                                 {
+                                    var url = String.Format(
+                                        "http://sb.cubepilot.org:8080/CubeSB?BRD_TYPE={0}&SerialNo={1}&INS_ACC_ID={2}&INS_ACC2_ID={3}&INS_ACC3_ID={4}&INS_GYR_ID={5}&INS_GYR2_ID={6}&INS_GYR3_ID={7}&Baro1={8}&Baro2={9}",
+                                        comPort.MAV.param["BRD_TYPE"], comPort.MAV.SerialString,
+                                        comPort.MAV.param["INS_ACC_ID"], comPort.MAV.param["INS_ACC2_ID"],
+                                        comPort.MAV.param["INS_ACC3_ID"],
+                                        comPort.MAV.param["INS_GYR_ID"], comPort.MAV.param["INS_GYR2_ID"],
+                                        comPort.MAV.param["INS_GYR3_ID"],
+                                        comPort.MAV.cs.press_abs, comPort.MAV.cs.press_abs2);
                                     CustomMessageBox.Show(
-                                        "Your board has a Critical service bulletin please see [link;https://discuss.cubepilot.org/t/sb-0000002-critical-service-bulletin-for-cubes-purchased-between-january-2019-to-present;Click here] via SPI SCAN",
+                                        "Your board has a Critical service bulletin please see [link;" + url + ";Click here] via SPI SCAN",
                                         Strings.ERROR);
                                 });
                         });
