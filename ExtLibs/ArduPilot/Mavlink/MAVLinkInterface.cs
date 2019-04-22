@@ -609,9 +609,10 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         /// <param name="regstart"></param>
         /// <param name="count"></param>
         /// <param name="writebytes"></param>
-        public void device_op(byte sysid, byte compid, MAVLink.DEVICE_OP_BUSTYPE bustype, string name, byte bus, byte address, byte regstart, byte count, byte[] writebytes = null)
+        public byte[] device_op(byte sysid, byte compid, MAVLink.DEVICE_OP_BUSTYPE bustype, string name, byte bus, byte address, byte regstart, byte count, byte[] writebytes = null)
         {
             var responce = false;
+            var buffer = new byte[0];
 
             var sub = SubscribeToPacketType(MAVLINK_MSG_ID.DEVICE_OP_READ_REPLY, (m) =>
             {
@@ -632,6 +633,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         if (msg.count % 16 != 0)
                             Console.WriteLine();
                     }
+
+                    buffer = msg.data.Take(msg.count).ToArray();
                     responce = true;
                 }
                 return true;
@@ -648,6 +651,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     else
                         log.InfoFormat(name + " Operation {0} OK", msg.request_id);
 
+                    buffer = new byte[] {msg.result};
                     responce = true;
                 }
                 return true;
@@ -697,6 +701,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
             UnSubscribeToPacketType(sub);
             UnSubscribeToPacketType(sub2);
+
+            return buffer;
         }
 
         private void ProgressWorkerEventArgs_CancelRequestChanged(object sender, PropertyChangedEventArgs e)

@@ -1774,7 +1774,8 @@ namespace MissionPlanner
 
             _connectionControl.UpdateSysIDS();
 
-            loadph_serial();
+            if (comPort.BaseStream.IsOpen)
+                loadph_serial();
         }
 
         void loadph_serial()
@@ -1813,8 +1814,45 @@ namespace MissionPlanner
                     comPort.MAV.param.ContainsKey("INS_ACC3_ID") && comPort.MAV.param["INS_ACC3_ID"].Value == 0 &&
                     comPort.MAV.param.ContainsKey("INS_GYR3_ID") && comPort.MAV.param["INS_GYR3_ID"].Value == 0)
                 {
-                    CustomMessageBox.Show("Your board has a Critical service bulletin please see [link;https://discuss.cubepilot.org/t/sb-0000002-critical-service-bulletin-for-cubes-purchased-between-january-2019-to-present;Click here]",Strings.ERROR);
+                    CustomMessageBox.Show("Your board has a Critical service bulletin please see [link;https://discuss.cubepilot.org/t/sb-0000002-critical-service-bulletin-for-cubes-purchased-between-january-2019-to-present;Click here] via DEV_ID",Strings.ERROR);
                 }
+            } catch { }
+
+            try
+            {
+                if (comPort.MAV.SerialString == "")
+                    return;
+
+                //devop read spi lsm9ds0_ext_am 0 0 0x8f 1
+                if (comPort.MAV.SerialString.Contains("CubeBlack"))
+                {
+                    Task.Run(() =>
+                        {
+                            bool bad1 = false;
+                            bool bad2 = false;
+
+                            var data = comPort.device_op(comPort.MAV.sysid, comPort.MAV.compid,
+                                MAVLink.DEVICE_OP_BUSTYPE.SPI,
+                                "lsm9ds0_ext_g", 0, 0, 0x8f, 1);
+                            if (data.Length != 0 && (data[0] != 0xd4 && data[0] != 0xd7))
+                                bad1 = true;
+
+                            data = comPort.device_op(comPort.MAV.sysid, comPort.MAV.compid,
+                                MAVLink.DEVICE_OP_BUSTYPE.SPI,
+                                "lsm9ds0_ext_am", 0, 0, 0x8f, 1);
+                            if (data.Length != 0 && data[0] != 0x49)
+                                bad2 = true;
+
+                            if (bad1 && bad2)
+                                this.BeginInvoke((Action) delegate
+                                {
+                                    CustomMessageBox.Show(
+                                        "Your board has a Critical service bulletin please see [link;https://discuss.cubepilot.org/t/sb-0000002-critical-service-bulletin-for-cubes-purchased-between-january-2019-to-present;Click here] via SPI SCAN",
+                                        Strings.ERROR);
+                                });
+                        });
+                }
+
             } catch { }
         }
 
