@@ -10,6 +10,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
 using SvgNet;
 
 namespace System
@@ -45,7 +46,9 @@ namespace System
             return new SKPaint
             {
                 Typeface = SKTypeface.FromFamilyName(font.SystemFontName),
-                TextSize = font.Size * 1.5f
+                TextSize = font.Size * 1.4f,
+                StrokeWidth = 2
+
             };
         }
 
@@ -893,7 +896,85 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             pnt.Typeface = fnt.Typeface;
 
             pnt.StrokeWidth = 1;
+
+            if (textBounds.Width > layoutRectangle.Width-2 && layoutRectangle.Width != 0)
+            {
+                DrawText(_image, s,
+                    new SKRect(layoutRectangle.X, layoutRectangle.Y, layoutRectangle.Width, layoutRectangle.Height),
+                    pnt);
+                return;
+            }
+
+            if (format.Alignment == StringAlignment.Center)
+            {
+                layoutRectangle.X += layoutRectangle.Width / 2 - textBounds.MidX;
+            }
+            if (format.LineAlignment == StringAlignment.Center) // vertical
+            {
+                layoutRectangle.Y += layoutRectangle.Height / 2 -  textBounds.Height/2;
+            }
             _image.DrawText(s, layoutRectangle.X, layoutRectangle.Y + textBounds.Height, pnt);
+        }
+
+        private void DrawText(SKCanvas canvas, string text, SKRect area, SKPaint paint)
+        {
+            float lineHeight = paint.TextSize * 1.1f;
+            var lines = SplitLines(text, paint, area.Width);
+            var height = lines.Count() * lineHeight;
+
+            var y = area.MidY-2 - height / 2;
+
+            foreach (var line in lines)
+            {
+                y += lineHeight;
+                var x = area.MidX - line.Width / 2;
+                canvas.DrawText(line.Value, x, y, paint);
+            }
+        }
+
+        public class Line
+        {
+            public string Value { get; set; }
+
+            public float Width { get; set; }
+        }
+
+        private Line[] SplitLines(string text, SKPaint paint, float maxWidth)
+        {
+            var spaceWidth = paint.MeasureText(" ");
+            var lines = text.Split('\n');
+
+            return lines.SelectMany((line) =>
+            {
+                var result = new List<Line>();
+
+                var words = line.Split(new[] { " " }, StringSplitOptions.None);
+
+                var lineResult = new StringBuilder();
+                float width = 0;
+                foreach (var word in words)
+                {
+                    var wordWidth = paint.MeasureText(word);
+                    var wordWithSpaceWidth = wordWidth + spaceWidth;
+                    var wordWithSpace = word + " ";
+
+                    if (width + wordWidth > maxWidth)
+                    {
+                        result.Add(new Line() { Value = lineResult.ToString(), Width = width });
+                        lineResult = new StringBuilder(wordWithSpace);
+                        width = wordWithSpaceWidth;
+                    }
+                    else
+                    {
+                        lineResult.Append(wordWithSpace);
+                        width += wordWithSpaceWidth;
+                    }
+                }
+
+                result.Add(new Line() { Value = lineResult.ToString(), Width = width });
+
+                return result.ToArray();
+            }).ToArray();
         }
 
         public void EndContainer(GraphicsContainer container)
@@ -1186,7 +1267,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         {
             var bound = new SKRect();
             font.SKPaint().MeasureText(text, ref bound);
-            return new SizeF(bound.Width, bound.Height);
+            return new SizeF(bound.Width+5, bound.Height);
         }
 
         public SizeF MeasureString(string text, Font font)

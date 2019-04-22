@@ -7,10 +7,11 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using SkiaSharp.Views.Desktop;
 
 namespace MissionPlanner.Controls
 {
-    public partial class QuickView : MyUserControl
+    public partial class QuickView : SkiaSharp.Views.Desktop.SKControl
     {
         [System.ComponentModel.Browsable(true)]
         public string desc
@@ -48,7 +49,42 @@ namespace MissionPlanner.Controls
         {
             InitializeComponent();
 
-            DoubleBuffered = true;
+            PaintSurface+= OnPaintSurface;
+        }
+
+        private void OnPaintSurface(object sender, SKPaintSurfaceEventArgs e2)
+        {
+            var e = new SkiaGraphics(e2.Surface);
+            e2.Surface.Canvas.Clear();
+            int y = 0;
+            {
+                Size extent = e.MeasureString(desc, this.Font).ToSize();
+
+                var mid = extent.Width / 2;
+
+                e.DrawString(desc, this.Font, new SolidBrush(this.ForeColor), this.Width / 2 - mid, 0);
+
+                y = extent.Height;
+            }
+            //
+            {
+                var numb = number.ToString(numberformat);
+
+                Size extent = e.MeasureString(numb, new Font(this.Font.FontFamily, (float)newSize, this.Font.Style)).ToSize();
+
+                float hRatio = (this.Height - y) / (float)(extent.Height);
+                float wRatio = this.Width / (float)extent.Width;
+                float ratio = (hRatio < wRatio) ? hRatio : wRatio;
+
+                newSize = (int)(newSize * ratio);// * 0.75f; // pixel to points
+
+                if (newSize < 8 || newSize > 999999)
+                    newSize = 8;
+
+                extent = e.MeasureString(numb, new Font(this.Font.FontFamily, (float)newSize, this.Font.Style)).ToSize();
+
+                e.DrawString(numb, new Font(this.Font.FontFamily, (float)newSize, this.Font.Style), new SolidBrush(this.numberColor), this.Width / 2 - extent.Width / 2, y + ((this.Height - y) / 2 - extent.Height / 2));
+            }
         }
 
         public override void Refresh()
@@ -64,39 +100,6 @@ namespace MissionPlanner.Controls
         }
 
         float newSize = 8;
-
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            int y = 0;
-            {
-                Size extent = e.Graphics.MeasureString(desc, this.Font).ToSize();
-
-                var mid = extent.Width / 2;
-
-                e.Graphics.DrawString(desc, this.Font, new SolidBrush(this.ForeColor), this.Width / 2 - mid, 0);
-
-                y = extent.Height;
-            }
-            //
-            {
-                var numb = number.ToString(numberformat);
-
-                Size extent = e.Graphics.MeasureString(numb, new Font(this.Font.FontFamily, (float)newSize, this.Font.Style)).ToSize();
-
-                float hRatio = (this.Height - y) / (float)(extent.Height);
-                float wRatio = this.Width / (float)extent.Width;
-                float ratio = (hRatio < wRatio) ? hRatio : wRatio;
-
-                newSize = (int)(newSize * ratio);// * 0.75f; // pixel to points
-
-                if (newSize < 8 || newSize > 999999)
-                    newSize = 8;
-
-                extent = e.Graphics.MeasureString(numb, new Font(this.Font.FontFamily, (float)newSize, this.Font.Style)).ToSize();
-
-                e.Graphics.DrawString(numb, new Font(this.Font.FontFamily, (float)newSize, this.Font.Style), new SolidBrush(this.numberColor), this.Width / 2 - extent.Width/2, y + ((this.Height-y) /2 - extent.Height/2));
-            }
-        }
 
         protected override void OnResize(EventArgs e)
         {

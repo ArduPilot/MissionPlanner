@@ -6,13 +6,15 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using SkiaSharp;
+using SkiaSharp.Views.Desktop;
 
 namespace MissionPlanner.Controls
 {
     /// <summary>
     /// profiling showed that the built in Label function was using alot of call time.
     /// </summary>
-    public partial class MyLabel : Control //: Label
+    public  class MyLabel : SkiaSharp.Views.Desktop.SKControl
     {
         string label = "";
         int noofchars = 0;
@@ -30,6 +32,28 @@ namespace MissionPlanner.Controls
         {
             stringFormat.Alignment = StringAlignment.Near;
             stringFormat.LineAlignment = StringAlignment.Center;
+
+            PaintSurface += OnPaintSurface;
+        }
+
+        private void OnPaintSurface(object sender, SKPaintSurfaceEventArgs e)
+        {
+     
+
+            e.Surface.Canvas.DrawRect(ClientRectangle.X, ClientRectangle.Y, ClientRectangle.Width,
+                ClientRectangle.Height, new SKPaint() {Color = BackColor.SKColor(), Style = SKPaintStyle.Fill});
+                
+            var paint = Font.SKPaint();
+            paint.Color = ForeColor.SKColor();
+
+            if (noofchars <= label.Length && resize)
+            {
+                noofchars = label.Length;
+                float textSize = paint.MeasureText(label);
+                this.Width = (int)textSize;
+            }
+
+            e.Surface.Canvas.DrawText(label, 0, Height-2, paint);
         }
 
         public override string Text
@@ -49,40 +73,10 @@ namespace MissionPlanner.Controls
 
                 label = value;
 
-                if (noofchars <= label.Length && resize)
-                {
-                    noofchars = label.Length;
-                    using (Graphics g = Graphics.FromHwnd(this.Handle))
-                    {
-                        SizeF textSize = TextRenderer.MeasureText(g, value, this.Font);
-                        this.Width = (int)textSize.Width;
-                    }                    
-                }
+
 
                 if (this.Visible && this.ThisReallyVisible())
                     this.Invalidate();
-            }
-        }
-
-
-        public override void Refresh()
-        {
-            base.Refresh();
-        }
-
-        protected override void OnParentBindingContextChanged(EventArgs e)
-        {
-            base.OnParentBindingContextChanged(e);
-        }
-
-        protected override void OnVisibleChanged(EventArgs e)
-        {
-            try
-            {
-                base.OnVisibleChanged(e);
-            }
-            catch (Exception)
-            {
             }
         }
 
@@ -113,22 +107,6 @@ namespace MissionPlanner.Controls
                 s = new SolidBrush(value);
                 this.Invalidate();
             }
-        }
-
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-
-           // TextRenderer.DrawText(e.Graphics, label, this.Font, new Point(0, 0), ForeColor);
-
-            e.Graphics.DrawString(label, this.Font, s, new PointF(0, this.Height / 2.0f), stringFormat);
-        }
-
-        protected override void OnPaintBackground(PaintEventArgs pevent)
-        {
-            pevent.Graphics.FillRectangle(b, this.ClientRectangle);
-
-            base.OnPaintBackground(pevent);
         }
         
         protected override void WndProc(ref Message m) // seems to crash here on linux... so try ignore it

@@ -32,6 +32,9 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Windows.Forms" />
@@ -118,7 +121,7 @@
     </Compile>
     <Compile Include="PseudoOpacityHelper.cs" />
     <Compile Include="QuickView.cs">
-      <SubType>UserControl</SubType>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="RadialGradientBG.cs">
       <SubType>UserControl</SubType>
@@ -312,6 +315,9 @@
     </PackageReference>
     <PackageReference Include="OpenTK.GLControl">
       <Version>3.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="SkiaSharp.Views.Forms.WinForms">
+      <Version>1.60.1-alpha2</Version>
     </PackageReference>
     <PackageReference Include="System.Data.Common">
       <Version>4.3.0</Version>
