@@ -1,4 +1,62 @@
-﻿*Mission Planner 1.3.64 - 3-4-2019
+﻿*Mission Planner 1.3.65 - 23-4-2019
+MAVLinkInterface: do not duplicate digicamcontrol #2100
+MyButton: support dialog result
+MyButton: set default size
+MainV2: use new cube SB url
+MissionPlanner.Utilities.Drawing: update
+FlightData: change from button to control
+SkiaGraphics: convert 3 controls
+MainV2: add spi scan for cube
+MainV2: detect is imu3 is good
+MAVLinkInterface: scan for new strings on param load
+MP.Utilities.Drawing: add
+FollowMe: fix bad write path
+drivers: update msi
+temp: add hwid decoding
+Win32DeviceMgmt: handle GetDeviceProperty Fail
+WebCamService: remove native calls
+GMap.NET.FindowsForms: change resource to byte[]
+UAVCAN: add upload progress
+Utilities: remove system.drawing
+ConfigFirmware: remove reboot attempt
+Firmware: deal with hung usb device
+UAVCANFlasher: add mavlink to uavcan switch
+UAVCANFlasher: add
+MovingBase: fix null reference on close
+UAVCAN: Add FileComplete and debug
+UAVCAN: update
+FirmwareHistory: fix typo on AP/AC
+UAVCAN: add service to namespace
+px4uploader: use missionplanner.comms
+MissionPlanner.Comms: pull in mono system.io.ports
+MovingBase: update to support longer GGA messages
+General: remove use of system.drawing
+GMap.Net.Core: remove system.drawing
+Core: remove system.drawing
+MainV2: add switch to skia gl for map
+SkiaGraphics: DrawImage fix's
+GMapControl: skia opengl
+PluginLoader: log assembly load requests
+Propagation: Make Transparent and nan check
+GMapPolygon: performance gain on large polygons
+SkiaGraphics: fix drawimage
+MainV2: no altitude angel on mono
+Update azure-pipelines.yml for Azure Pipelines [skip ci]
+Vector3: remove use of dynamic
+Comms: add AndroidSerial
+InitialSetup: remove duplicate rtk inject #2123
+CollecitonBuffer: reject bad format packets
+Updater: change attributes and admin
+FlightPlanner: wprad and loiterrad check empty
+appveyor: cache packages
+QuickView: fix number formatting
+LogBrowse: fix mode indicator going being graph area
+LogBrowser: remove cursor value force
+UAVCAN: extension fix empty label
+QuickView: change render
+BackStageViewMenuPanel: enable autoscroll
+
+*Mission Planner 1.3.64 - 3-4-2019
 Drivers: fix cube driver
 Sequence: fix multiple start bug
 NoFly: add kmz
