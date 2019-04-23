@@ -132,6 +132,19 @@ namespace MissionPlanner
             if (File.Exists(Settings.GetRunningDirectory() + "splashbg.png")) // 600*375
                 SplashBG = new Bitmap(Settings.GetRunningDirectory() + "splashbg.png");
 
+            try
+            {
+                var file = NativeLibrary.GetLibraryPathname("libSkiaSharp");
+                var ptr = NativeLibrary.LoadLibrary(file);
+                if (ptr != IntPtr.Zero)
+                {
+                    log.Info("SkiaLoaded");
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
 
             Splash = new MissionPlanner.Splash();
             if (SplashBG != null)

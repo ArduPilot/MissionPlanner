@@ -374,6 +374,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Swarm\PaintEventArgsI.cs" />
     <Compile Include="Utilities\AltitudeAngel\MissionPlannerStateAdapter.cs" />
+    <Compile Include="Utilities\NativeLibrary.cs" />
     <Compile Include="Utilities\Speech.cs" />
     <Compile Include="Utilities\SSHTerminal.cs" />
     <Compile Include="Utilities\XTermRBGColors.cs" />
