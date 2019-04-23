@@ -3356,13 +3356,10 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             req.target_component = MAV.compid;
             req.shot = (shot == true) ? (byte) 1 : (byte) 0;
 
-            generatePacket((byte) MAVLINK_MSG_ID.DIGICAM_CONTROL, req);
-
-            doCommand(MAV_CMD.DO_DIGICAM_CONTROL, 0, 0, 0, 0, 1, 0, 0);
-
-            //MAVLINK_MSG_ID.CAMERA_FEEDBACK;
-
-            //mavlink_camera_feedback_t
+            if (!doCommand(MAV_CMD.DO_DIGICAM_CONTROL, 0, 0, 0, 0, 1, 0, 0))
+            {
+                generatePacket((byte)MAVLINK_MSG_ID.DIGICAM_CONTROL, req);
+            }
         }
 
         public void setMountConfigure(MAV_MOUNT_MODE mountmode, bool stabroll, bool stabpitch, bool stabyaw)
