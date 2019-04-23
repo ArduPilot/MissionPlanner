@@ -61,7 +61,7 @@ namespace MissionPlanner.Controls
              OnClick(new EventArgs());
          }
 
-         public DialogResult DialogResult { get; set; }
+         public DialogResult DialogResult { get; set; } = DialogResult.None;
         public bool UseVisualStyleBackColor { get; set; }
 
         public MyButton()
@@ -171,6 +171,12 @@ namespace MissionPlanner.Controls
 
         protected override void OnClick(EventArgs e)
         {
+            if (DialogResult != DialogResult.None)
+            {
+                var form = Parent.FindForm();
+                if(form != null)
+                    form.DialogResult = DialogResult;
+            }
             base.OnClick(e);
         }
 
