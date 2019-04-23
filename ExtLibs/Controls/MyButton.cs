@@ -74,6 +74,8 @@ namespace MissionPlanner.Controls
             _ColorMouseOver = Color.FromArgb(73, 0x2b, 0x3a, 0x03);
             _ColorMouseDown = Color.FromArgb(150, 0x2b, 0x3a, 0x03);
 
+            Size = new Size(75, 23);
+
             PaintSurface += OnPaintSurface;
         }
 
