@@ -46,5 +46,10 @@ namespace MissionPlanner.Utilities.Drawing
         {
             bmpData = null;
         }
+
+        public void MakeTransparent(Color transparent)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

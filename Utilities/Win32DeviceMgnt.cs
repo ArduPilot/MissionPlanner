@@ -16,7 +16,14 @@ public class Win32DeviceMgmt
     private const UInt32 DICS_FLAG_GLOBAL = 0x00000001;
     private const UInt32 DIREG_DEV = 0x00000001;
     private const UInt32 KEY_QUERY_VALUE = 0x0001;
+    /// <summary>
+    /// https://docs.microsoft.com/en-us/windows-hardware/drivers/install/guid-devinterface-comport
+    /// </summary>
     private const string GUID_DEVINTERFACE_COMPORT = "86E0D1E0-8089-11D0-9CE4-08003E301F73";
+    /// <summary>
+    /// https://docs.microsoft.com/en-us/windows-hardware/drivers/install/guid-devinterface-usb-device
+    /// </summary>
+    private const string GUID_DEVINTERFACE_USB_DEVICE = "A5DCBF10-6530-11D2-901F-00C04FB951ED";
 
     /// <summary>
     /// Device registry property codes

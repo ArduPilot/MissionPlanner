@@ -12,7 +12,7 @@ namespace MissionPlanner.Utilities.Drawing
         {
         }
 
-        public Pen(SKColor color, int width = 1)
+        public Pen(SKColor color, float width = 1)
         {
             Width = width;
 
@@ -27,16 +27,16 @@ namespace MissionPlanner.Utilities.Drawing
             };
         }
 
-        public Pen(Color brush, int width) : this(brush.SKColor(), width)
+        public Pen(Color brush, float width) : this(brush.SKColor(), width)
         {
         }
 
-        public Pen(Brush brush, int width): this(brush.nativeBrush.Color,width)
+        public Pen(Brush brush, float width): this(brush.nativeBrush.Color,width)
         {
         }
 
         public LineJoin LineJoin { get; set; }
-        public int Width { get; set; }
+        public float Width { get; set; }
         public LineCap StartCap { get; set; }
         public DashStyle DashStyle { get; set; }
         public Color Color { get; set; }

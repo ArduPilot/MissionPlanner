@@ -16,5 +16,13 @@ namespace MissionPlanner.Utilities.Drawing
         {
             nativeBrush = new SKPaint() {Color = color.SKColor()};
         }
+
+        public Color Color
+        {
+            get
+            {
+                throw new NotImplementedException();  }
+            set { nativeBrush.Color = value.SKColor(); }
+        }
     }
 }

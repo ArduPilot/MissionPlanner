@@ -63,21 +63,6 @@ namespace MissionPlanner
             Start(args);
         }
 
-        private static void getBrushs()
-        {
-            var brushes = typeof(Brushes).GetProperties();
-            var template = "public static Brush {0} {{get;}} = new SolidBrush() {{ nativeBrush = new SKPaint() {{ Color = new SKColor(0x{1})}} }};";
-            foreach (var brush in brushes)
-            {
-                Console.WriteLine(template, brush.Name, (brush.GetValue(null) as SolidBrush).Color.ToArgb().ToString("X8"));
-            }
-
-             brushes = typeof(SystemBrushes).GetProperties();
-            foreach (var brush in brushes)
-            {
-                Console.WriteLine(template, brush.Name, (brush.GetValue(null) as SolidBrush).Color.ToArgb().ToString("X8"));
-            }
-        }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void Start(string[] args)

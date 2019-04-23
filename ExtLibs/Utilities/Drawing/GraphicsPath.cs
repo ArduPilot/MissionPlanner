@@ -59,5 +59,10 @@ namespace MissionPlanner.Utilities.Drawing
         {
             throw new NotImplementedException();
         }
+
+        public void AddString(string s, object fontFontFamily, int i, float f, Point point, object genericTypographic)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

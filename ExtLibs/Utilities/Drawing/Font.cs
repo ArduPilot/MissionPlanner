@@ -20,6 +20,8 @@ namespace MissionPlanner.Utilities.Drawing
             set { nativeFont.TextSize = value; }
         }
 
+        public object FontFamily { get; set; }
+
         public void Dispose()
         {
             nativeFont?.Dispose();
