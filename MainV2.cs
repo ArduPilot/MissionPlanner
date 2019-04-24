@@ -1823,7 +1823,7 @@ namespace MissionPlanner
                         comPort.MAV.param["INS_GYR_ID"], comPort.MAV.param["INS_GYR2_ID"],
                         comPort.MAV.param["INS_GYR3_ID"],
                         comPort.MAV.cs.press_abs, comPort.MAV.cs.press_abs2);
-                    CustomMessageBox.Show("Your board has a Critical service bulletin please see [link;"+url+";Click here] via DEV_ID",Strings.ERROR);
+                    CustomMessageBox.Show("Your board has a Critical service bulletin please see [link;"+url+ ";Click here to send us a report about your board, and to find out about this safety issue.] via DEV_ID", Strings.ERROR);
                 }
             } catch { }
 
@@ -1842,7 +1842,6 @@ namespace MissionPlanner
                     Task.Run(() =>
                         {
                             bool bad1 = false;
-                            bool bad2 = false;
 
                             var data = comPort.device_op(comPort.MAV.sysid, comPort.MAV.compid,
                                 MAVLink.DEVICE_OP_BUSTYPE.SPI,
@@ -1854,9 +1853,9 @@ namespace MissionPlanner
                                 MAVLink.DEVICE_OP_BUSTYPE.SPI,
                                 "lsm9ds0_ext_am", 0, 0, 0x8f, 1);
                             if (data.Length != 0 && data[0] != 0x49)
-                                bad2 = true;
+                                bad1 = true;
 
-                            if (bad1 && bad2)
+                            if (bad1)
                                 this.BeginInvoke((Action) delegate
                                 {
                                     var url = String.Format(
@@ -1868,7 +1867,7 @@ namespace MissionPlanner
                                         comPort.MAV.param["INS_GYR3_ID"],
                                         comPort.MAV.cs.press_abs, comPort.MAV.cs.press_abs2);
                                     CustomMessageBox.Show(
-                                        "Your board has a Critical service bulletin please see [link;" + url + ";Click here] via SPI SCAN",
+                                        "Your board has a Critical service bulletin please see [link;" + url + ";Click here to send us a report about your board, and to find out about this safety issue.] via SPI SCAN",
                                         Strings.ERROR);
                                 });
                         });

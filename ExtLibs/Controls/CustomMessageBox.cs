@@ -127,7 +127,8 @@ namespace MissionPlanner.MsgBox
                     Top = 15,
                     Width = textSize.Width + 10,
                     Height = textSize.Height + 10,
-                    Text = text
+                    Text = text,
+                    AutoSize = true
                 };
 
                 msgBoxFrm.Controls.Add(lblMessage);
@@ -136,18 +137,23 @@ namespace MissionPlanner.MsgBox
 
                 if (link != "" && linktext != "")
                 {
+                    linktext = AddNewLinesToText(linktext);
+                    Size textSize2 = TextRenderer.MeasureText(linktext, SystemFonts.DefaultFont);
                     var linklbl = new LinkLabel
                     {
-                        Left = lblMessage.Left,
+                        Left = FORM_X_MARGIN,
                         Top = lblMessage.Bottom,
-                        Width = lblMessage.Width,
-                        Height = 15,
+                        Width = textSize2.Width,
+                        Height = textSize2.Height,
                         Text = linktext,
-                        Tag = link
+                        Tag = link,
+                        AutoSize = true
                     };
                     linklbl.Click += linklbl_Click;
 
                     msgBoxFrm.Controls.Add(linklbl);
+
+                    msgBoxFrm.Width = Math.Max(msgBoxFrm.Width, linklbl.Right + 16);
                 }
 
                 var actualIcon = getMessageBoxIcon(icon);

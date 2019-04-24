@@ -135,6 +135,8 @@ namespace MissionPlanner.Utilities
 
                             if (item.board == "PX4 FMU v2.x")
                             {
+                                CustomMessageBox.Show(Strings.PleaseUnplugTheBoardAnd);
+
                                 DateTime DEADLINE = DateTime.Now.AddSeconds(30);
 
                                 while (DateTime.Now < DEADLINE)
