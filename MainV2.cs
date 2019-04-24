@@ -1815,15 +1815,7 @@ namespace MissionPlanner
                     comPort.MAV.param.ContainsKey("INS_GYR3_ID") && comPort.MAV.param["INS_GYR3_ID"].Value == 0 &&
                     comPort.MAV.param.ContainsKey("INS_ENABLE_MASK") && comPort.MAV.param["INS_ENABLE_MASK"].Value >= 7)
                 {
-                    var url = String.Format(
-                        "http://sb.cubepilot.org:8080/CubeSB?BRD_TYPE={0}&SerialNo={1}&INS_ACC_ID={2}&INS_ACC2_ID={3}&INS_ACC3_ID={4}&INS_GYR_ID={5}&INS_GYR2_ID={6}&INS_GYR3_ID={7}&Baro1={8}&Baro2={9}",
-                        comPort.MAV.param["BRD_TYPE"], comPort.MAV.SerialString,
-                        comPort.MAV.param["INS_ACC_ID"], comPort.MAV.param["INS_ACC2_ID"],
-                        comPort.MAV.param["INS_ACC3_ID"],
-                        comPort.MAV.param["INS_GYR_ID"], comPort.MAV.param["INS_GYR2_ID"],
-                        comPort.MAV.param["INS_GYR3_ID"],
-                        comPort.MAV.cs.press_abs, comPort.MAV.cs.press_abs2);
-                    CustomMessageBox.Show("Your board has a Critical service bulletin please see [link;"+url+ ";Click here to send us a report about your board, and to find out about this safety issue.] via DEV_ID", Strings.ERROR);
+                    MissionPlanner.Controls.SB.Show();
                 }
             } catch { }
 
@@ -1858,17 +1850,7 @@ namespace MissionPlanner
                             if (bad1)
                                 this.BeginInvoke((Action) delegate
                                 {
-                                    var url = String.Format(
-                                        "http://sb.cubepilot.org:8080/CubeSB?BRD_TYPE={0}&SerialNo={1}&INS_ACC_ID={2}&INS_ACC2_ID={3}&INS_ACC3_ID={4}&INS_GYR_ID={5}&INS_GYR2_ID={6}&INS_GYR3_ID={7}&Baro1={8}&Baro2={9}",
-                                        comPort.MAV.param["BRD_TYPE"], comPort.MAV.SerialString,
-                                        comPort.MAV.param["INS_ACC_ID"], comPort.MAV.param["INS_ACC2_ID"],
-                                        comPort.MAV.param["INS_ACC3_ID"],
-                                        comPort.MAV.param["INS_GYR_ID"], comPort.MAV.param["INS_GYR2_ID"],
-                                        comPort.MAV.param["INS_GYR3_ID"],
-                                        comPort.MAV.cs.press_abs, comPort.MAV.cs.press_abs2);
-                                    CustomMessageBox.Show(
-                                        "Your board has a Critical service bulletin please see [link;" + url + ";Click here to send us a report about your board, and to find out about this safety issue.] via SPI SCAN",
-                                        Strings.ERROR);
+                                    MissionPlanner.Controls.SB.Show();
                                 });
                         });
                 }

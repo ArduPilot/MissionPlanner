@@ -338,6 +338,7 @@
     <Compile Include="Controls\ProximityControl.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Controls\SB.cs" />
     <Compile Include="ElevationProfile.cs">
       <SubType>Form</SubType>
     </Compile>
