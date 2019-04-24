@@ -330,7 +330,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         internal void processToScreen()
         {
             toolTip1.RemoveAll();
-            Params.Items.Clear();
+            Params.CancelCellEdit();
 
             Params.Objects.ForEach(x => { Params.RemoveObject(x); });
 
