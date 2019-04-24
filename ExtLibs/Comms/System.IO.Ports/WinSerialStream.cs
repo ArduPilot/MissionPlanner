@@ -76,6 +76,7 @@ namespace System.IO.Ports
 				bool dtr_enable, bool rts_enable, Handshake hs, int read_timeout, int write_timeout,
 				int read_buffer_size, int write_buffer_size)
 		{
+            Console.WriteLine("WinSerialStream: CreateFile");
 			handle = CreateFile (port_name != null && !port_name.StartsWith(@"\\.\")
 					? @"\\.\" + port_name : port_name,
 					GenericRead | GenericWrite, 0, 0, OpenExisting,
@@ -84,16 +85,19 @@ namespace System.IO.Ports
 			if (handle == -1)
 				ReportIOError (port_name);
 
-			// Set port low level attributes
-			SetAttributes (baud_rate, parity, data_bits, sb, hs);
+            Console.WriteLine("WinSerialStream: SetAttributes");
+            // Set port low level attributes
+            SetAttributes (baud_rate, parity, data_bits, sb, hs);
 
-			// Clean buffers and set sizes
-			if (!PurgeComm (handle, PurgeRxClear | PurgeTxClear) ||
+            Console.WriteLine("WinSerialStream: PurgeComm");
+            // Clean buffers and set sizes
+            if (!PurgeComm (handle, PurgeRxClear | PurgeTxClear) ||
 					!SetupComm (handle, read_buffer_size, write_buffer_size))
 				ReportIOError (null);
 
-			// Set timeouts
-			this.read_timeout = read_timeout;
+            Console.WriteLine("WinSerialStream: SetCommTimeouts");
+            // Set timeouts
+            this.read_timeout = read_timeout;
 			this.write_timeout = write_timeout;
 			timeouts = new Timeouts (read_timeout, write_timeout);
 			if (!SetCommTimeouts(handle, timeouts))
