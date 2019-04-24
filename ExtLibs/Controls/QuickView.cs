@@ -70,13 +70,15 @@ namespace MissionPlanner.Controls
             {
                 var numb = number.ToString(numberformat);
 
-                Size extent = e.MeasureString(numb, new Font(this.Font.FontFamily, (float)newSize, this.Font.Style)).ToSize();
+                Size extent = e.MeasureString("0".PadLeft(numb.Length,'0') + (numb.Contains('-') ? "" : "-"), new Font(this.Font.FontFamily, (float)newSize, this.Font.Style)).ToSize();
 
                 float hRatio = (this.Height - y) / (float)(extent.Height);
                 float wRatio = this.Width / (float)extent.Width;
                 float ratio = (hRatio < wRatio) ? hRatio : wRatio;
 
-                newSize = (int)(newSize * ratio);// * 0.75f; // pixel to points
+                newSize = (newSize * ratio);// * 0.75f; // pixel to points
+
+                newSize -= newSize % 5;
 
                 if (newSize < 8 || newSize > 999999)
                     newSize = 8;
