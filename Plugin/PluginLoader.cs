@@ -57,7 +57,13 @@ namespace MissionPlanner.Plugin
 
         public static void Load(String file)
         {
-            if (!File.Exists(file) || !file.EndsWith(".dll", true, null) || file.ToLower().Contains("microsoft.") || file.ToLower().Contains("system.") || file.ToLower().Contains("missionplanner.grid.dll"))
+            if (!File.Exists(file) || !file.EndsWith(".dll", true, null) ||
+                file.ToLower().Contains("microsoft.") ||
+                file.ToLower().Contains("system.") ||
+                file.ToLower().Contains("missionplanner.grid.dll") ||
+                file.ToLower().Contains("usbserialforandroid") 
+
+                )
                 return;
 
             AppDomain currentDomain = AppDomain.CurrentDomain;

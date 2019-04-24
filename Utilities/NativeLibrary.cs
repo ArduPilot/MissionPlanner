@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,7 +32,9 @@ namespace MissionPlanner.Utilities
                 prefix = "x64";
             }
 
-            var lib1 = prefix + @"\" + filename;
+            var dir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+            var lib1 = dir + Path.DirectorySeparatorChar + prefix + Path.DirectorySeparatorChar + filename;
 
             return lib1;
         }
