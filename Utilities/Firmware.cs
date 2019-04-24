@@ -411,6 +411,18 @@ namespace MissionPlanner.Utilities
 
                 updateProgress(-1, Strings.DetectedA + board);
 
+                // modify board to update to new bootloader
+                if (board == BoardDetect.boards.px4v3 && historyhash == "")
+                {
+                    //
+                    if ((int)DialogResult.Yes ==
+                        CustomMessageBox.Show("Is this a CubeBlack?", "CubeBlack", MessageBoxButtons.YesNo))
+                    {
+                        BoardDetect.chbootloader = "CubeBlack";
+                        board = BoardDetect.boards.chbootloader;
+                    }
+                }
+
                 string baseurl = "";
                 if (board == BoardDetect.boards.b2560)
                 {
