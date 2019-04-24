@@ -71,6 +71,8 @@ namespace MissionPlanner.Plugin
 
             Assembly asm = null;
 
+            DateTime startDateTime = DateTime.Now;
+            
             try
             {
                 asm = Assembly.LoadFile(file);
@@ -118,6 +120,8 @@ namespace MissionPlanner.Plugin
             {
                 log.Error("Failed to load plugin " + file, ex);
             }
+
+            log.InfoFormat("Plugin Load {0} time {1} s", file, (DateTime.Now - startDateTime).TotalSeconds);
         }
 
         public static void LoadAll()
