@@ -886,6 +886,8 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         public void DrawText(string s, Font font, Brush brush, RectangleF layoutRectangle,
             StringFormat format, bool duno)
         {
+            if (s == null)
+                s = "";
             var pnt = brush.SKPaint();
             // Find the text bounds
             var textBounds = SKRect.Empty;
@@ -1265,6 +1267,8 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public SizeF MeasureString(string text, Font font, SizeF layoutArea, StringFormat stringFormat)
         {
+            if (text == null)
+                text = "";
             var bound = new SKRect();
             font.SKPaint().MeasureText(text, ref bound);
             return new SizeF(bound.Width+5, bound.Height);
@@ -1294,6 +1298,8 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public SizeF MeasureString(string text, Font font, PointF origin, StringFormat stringFormat)
         {
+            if (text == null)
+                text = "";
             var bound = new SKRect();
             font.SKPaint().MeasureText(text, ref bound);
             return new SizeF(bound.Width /* + origin.X*/, bound.Height /* + origin.Y*/);

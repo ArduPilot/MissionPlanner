@@ -752,6 +752,8 @@ namespace System
         public void DrawText(string s, Font font, Brush brush, RectangleF layoutRectangle,
             StringFormat format, bool duno)
         {
+            if (s == null)
+                s = "";
             var pnt = brush.SKPaint();
             // Find the text bounds
             var textBounds = SKRect.Empty;
