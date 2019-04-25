@@ -26,8 +26,8 @@ namespace MissionPlanner.Utilities.Drawing
 
         public void DrawString(string text, SKPaint defaultFont, Brush red, int x, int y, StringFormat genericDefault)
         {
-            if (text == null)
-                text = "";
+            if (String.IsNullOrEmpty(text))
+                return;
             var paint = red.nativeBrush;
             paint.TextSize = defaultFont.TextSize;
             paint.Typeface = defaultFont.Typeface;
