@@ -60,11 +60,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (MainV2.comPort.MAV.param.ContainsKey("FS_BATT_MAH"))
             {
-                mavlinkNumericUpDownFS_BATT_MAH.setup(1000, 99999, 1, 1, "FS_BATT_MAH", MainV2.comPort.MAV.param, pnlmah);
+                mavlinkNumericUpDownFS_BATT_MAH.setup(0, 99999, 1, 1, "FS_BATT_MAH", MainV2.comPort.MAV.param, pnlmah);
             }
             else
             {
-                mavlinkNumericUpDownFS_BATT_MAH.setup(1000, 99999, 1, 1, "BATT_LOW_MAH", MainV2.comPort.MAV.param, pnlmah);
+                mavlinkNumericUpDownFS_BATT_MAH.setup(0, 99999, 1, 1, "BATT_LOW_MAH", MainV2.comPort.MAV.param, pnlmah);
             }
 
             // removed at randys request
