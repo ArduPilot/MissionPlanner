@@ -3534,10 +3534,21 @@ namespace MissionPlanner
                 frm.Show();
                 return true;
             }
-            if (keyData == (Keys.Control | Keys.X)) 
+            if (keyData == (Keys.Control | Keys.X))
             {
-                Video v = new Video();
-                v.Show();
+                var ftp = new MissionPlanner.ArduPilot.Mavlink.MAVFtp(MainV2.comPort, (byte) comPort.sysidcurrent, (byte) comPort.compidcurrent);
+                var dirlist = ftp.GetDirectory();
+                foreach (var ftpFileInfo in dirlist)
+                {
+                    if (ftpFileInfo.isDirectory)
+                    {
+                        var list2 = ftp.GetDirectory(ftpFileInfo.FullName);
+                    }
+                    else
+                    {
+                        ftp.GetFile(ftpFileInfo.FullName);
+                    }
+                }
             }
             if (keyData == (Keys.Control | Keys.L)) // limits
             {
