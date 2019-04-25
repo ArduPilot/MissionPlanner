@@ -331,6 +331,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             toolTip1.RemoveAll();
             Params.CancelCellEdit();
+            Params.Items.Clear();
 
             Params.Objects.ForEach(x => { Params.RemoveObject(x); });
 
