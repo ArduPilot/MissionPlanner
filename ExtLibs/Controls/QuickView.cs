@@ -25,7 +25,7 @@ namespace MissionPlanner.Controls
         public double number { get { return _number; } set { if (_number == value) return; _number = value; Invalidate(); } }
 
         string _numberformat = "0.00";
-        private string _desc;
+        private string _desc = "";
         private Color _numbercolor;
 
         [System.ComponentModel.Browsable(true)]
