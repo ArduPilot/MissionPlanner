@@ -256,10 +256,10 @@
     <value>False</value>
   </data>
   <data name="mavlinkNumericUpDownlow_voltage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>96, 0</value>
+    <value>111, 0</value>
   </data>
   <data name="mavlinkNumericUpDownlow_voltage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 20</value>
+    <value>85, 20</value>
   </data>
   <data name="mavlinkNumericUpDownlow_voltage.TabIndex" type="System.Int32, mscorlib">
     <value>153</value>
@@ -674,10 +674,10 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>False</value>
   </data>
   <data name="mavlinkNumericUpDownFS_BATT_MAH.Location" type="System.Drawing.Point, System.Drawing">
-    <value>96, 0</value>
+    <value>111, 0</value>
   </data>
   <data name="mavlinkNumericUpDownFS_BATT_MAH.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 20</value>
+    <value>85, 20</value>
   </data>
   <data name="mavlinkNumericUpDownFS_BATT_MAH.TabIndex" type="System.Int32, mscorlib">
     <value>153</value>
