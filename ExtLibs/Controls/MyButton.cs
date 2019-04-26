@@ -58,6 +58,7 @@ namespace MissionPlanner.Controls
 
          public void PerformClick()
          {
+             this.Focus();
              OnClick(new EventArgs());
          }
 
@@ -200,6 +201,7 @@ namespace MissionPlanner.Controls
 
         protected override void OnMouseDown(MouseEventArgs mevent)
         {
+            this.Focus();
             _mousedown = true;
             base.OnMouseDown(mevent); this.Invalidate();
         }
