@@ -75,10 +75,9 @@ namespace MissionPlanner.Utilities
 
                             // new style bootloader
                             if (item.hardwareid.StartsWith(@"USB\VID_0483&PID_5740") ||
-                                item.hardwareid.StartsWith(@"USB\VID_2DAE&PID_1001") ||
-                                item.hardwareid.StartsWith(@"USB\VID_2DAE&PID_1011") ||
-								Regex.IsMatch(item.hardwareid,"VID_2DAE&PID_10[0-1][0-9]") ||
-                                item.hardwareid.StartsWith(@"USB\VID_1209&PID_5740")) //USB\VID_0483&PID_5740&REV_0200)
+								Regex.IsMatch(item.hardwareid,"VID_2DAE") ||
+                                Regex.IsMatch(item.hardwareid, "VID_3162") ||
+                                item.hardwareid.StartsWith(@"USB\VID_1209&PID_5740"))
                             {
                                 if (item.board == "fmuv2" || item.board.ToLower() == "fmuv2-bl")
                                 {
