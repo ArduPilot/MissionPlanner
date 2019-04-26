@@ -535,7 +535,7 @@ namespace WebCamService
 
                 unsafe
                 {
-                    Buffer.MemoryCopy(m_handle.ToPointer(), pBuffer.ToPointer(), iBufferLen, iBufferLen);
+                    Buffer.MemoryCopy(pBuffer.ToPointer(), m_handle.ToPointer(), iBufferLen, iBufferLen);
                 }
 
                 // Picture is ready.
@@ -557,7 +557,7 @@ namespace WebCamService
                     // Copy the frame to the buffer
                     unsafe
                     {
-                        Buffer.MemoryCopy(m_handle.ToPointer(), pBuffer.ToPointer(), BufferLen, BufferLen);
+                        Buffer.MemoryCopy( pBuffer.ToPointer(), m_handle.ToPointer(), BufferLen, BufferLen);
                     }
                 }
                 else
