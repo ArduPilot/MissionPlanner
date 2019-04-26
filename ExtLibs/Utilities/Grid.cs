@@ -84,10 +84,14 @@ namespace MissionPlanner.Utilities
                 if ((lane - start) % 2 == 1)
                     multi = -1;
 
+                if (startpos != StartPosition.Home)
+                    utmpositions.Reverse();
+
                 GenerateOffsetPath(utmpositions, distance * multi * lane, spacing, utmzone)
                     .ForEach(pnt => { ans.Add(pnt); });
 
-                utmpositions.Reverse();
+                if (startpos == StartPosition.Home)
+                    utmpositions.Reverse();
             }
 
             // set the altitude on all points
