@@ -3542,11 +3542,19 @@ namespace MissionPlanner
                 {
                     if (ftpFileInfo.isDirectory)
                     {
-                        var list2 = ftp.GetDirectory(ftpFileInfo.FullName);
+                        if (ftpFileInfo.Name == ".." || ftpFileInfo.Name == ".")
+                            continue;
+                        Directory.CreateDirectory("." + ftpFileInfo.FullName);
+                        //var list2 = ftp.GetDirectory(ftpFileInfo.FullName);
                     }
                     else
                     {
-                        ftp.GetFile(ftpFileInfo.FullName);
+                        var stream = ftp.GetFile(ftpFileInfo.FullName);
+                        if (stream != null)
+                        {
+                            stream.CopyTo(File.OpenWrite("." + ftpFileInfo.FullName));
+                            stream.Dispose();
+                        }
                     }
                 }
             }
