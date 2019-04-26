@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Controls
 {
@@ -55,6 +56,7 @@ namespace MissionPlanner.Controls
                 System.Diagnostics.Process.Start(url);
             };
 
+            ThemeManager.ApplyThemeTo(frm);
 
             frm.Show();
 
