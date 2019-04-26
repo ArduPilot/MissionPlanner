@@ -8,7 +8,7 @@ namespace System
     public static class CustomMessageBox
     {
         public delegate DialogResult ShowDelegate(string text, string caption = "",
-            MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.None);
+            MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.None, string YesText = "Yes", string NoText = "No");
 
         public static event ShowDelegate ShowEvent;
 
@@ -33,10 +33,10 @@ namespace System
             return (int)Show(text, caption, (MessageBoxButtons)(int)MessageBoxButtons, (MessageBoxIcon)(int)MessageBoxIcon);
         }
 
-        public static DialogResult Show(string text, string caption = "", MessageBoxButtons MessageBoxButtons = MessageBoxButtons.OK, MessageBoxIcon MessageBoxIcon = MessageBoxIcon.None)
+        public static DialogResult Show(string text, string caption = "", MessageBoxButtons MessageBoxButtons = MessageBoxButtons.OK, MessageBoxIcon MessageBoxIcon = MessageBoxIcon.None, string YesText = "Yes", string NoText = "No")
         {
             if (ShowEvent != null)
-                return ShowEvent.Invoke(text, caption, MessageBoxButtons, MessageBoxIcon);
+                return ShowEvent.Invoke(text, caption, MessageBoxButtons, MessageBoxIcon, YesText, NoText);
 
             throw new Exception("ShowEvent Not Set");
         }

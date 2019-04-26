@@ -34,7 +34,7 @@ namespace MissionPlanner.MsgBox
             return Show(text, caption, buttons, MessageBoxIcon.None);
         }
 
-        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, string YesText = "Yes", string NoText = "No")
         {
             DialogResult answer = DialogResult.Cancel;
 
@@ -49,7 +49,7 @@ namespace MissionPlanner.MsgBox
                     {
                         Console.WriteLine("CustomMessageBox thread running invoke " +
                                           System.Threading.Thread.CurrentThread.Name);
-                        answer = ShowUI(text, caption, buttons, icon);
+                        answer = ShowUI(text, caption, buttons, icon, YesText, NoText);
                     });
                 }
                 catch (Exception ex)
@@ -57,19 +57,19 @@ namespace MissionPlanner.MsgBox
                     Console.WriteLine(ex);
                     // fall back
                     Console.WriteLine("CustomMessageBox thread running " + System.Threading.Thread.CurrentThread.Name);
-                    answer = ShowUI(text, caption, buttons, icon);
+                    answer = ShowUI(text, caption, buttons, icon, YesText, NoText);
                 }
             }
             else
             {
                 Console.WriteLine("CustomMessageBox thread running " + System.Threading.Thread.CurrentThread.Name);
-                answer =  ShowUI(text, caption, buttons, icon);
+                answer =  ShowUI(text, caption, buttons, icon, YesText, NoText);
             }
 
             return answer;
         }
 
-        static DialogResult ShowUI(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
+        static DialogResult ShowUI(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, string YesText = "Yes", string NoText = "No")
         {
             DialogResult answer = DialogResult.Abort;
 
@@ -173,7 +173,7 @@ namespace MissionPlanner.MsgBox
                 }
 
 
-                AddButtonsToForm(msgBoxFrm, buttons);
+                AddButtonsToForm(msgBoxFrm, buttons, YesText, NoText);
 
                 // display even if theme fails
                 try
@@ -235,7 +235,7 @@ namespace MissionPlanner.MsgBox
             return sb.ToString();
         }
 
-        private static void AddButtonsToForm(Form msgBoxFrm, MessageBoxButtons buttons)
+        private static void AddButtonsToForm(Form msgBoxFrm, MessageBoxButtons buttons, string YesText = "Yes", string NoText = "No")
         {
             Rectangle screenRectangle = msgBoxFrm.RectangleToScreen(msgBoxFrm.ClientRectangle);
             int titleHeight = screenRectangle.Top - msgBoxFrm.Top;
@@ -268,7 +268,7 @@ namespace MissionPlanner.MsgBox
                     var butyes = new MyButton
                     {
                         Size = new Size(75, 23),
-                        Text = "Yes",
+                        Text = YesText,
                         Left = msgBoxFrm.Width - 75 * 2 - FORM_X_MARGIN * 2,
                         Top = msgBoxFrm.Height - 23 - FORM_Y_MARGIN - titleHeight
                     };
@@ -280,7 +280,7 @@ namespace MissionPlanner.MsgBox
                     var butno = new MyButton
                     {
                         Size = new Size(75, 23),
-                        Text = "No",
+                        Text = NoText,
                         Left = msgBoxFrm.Width - 75 - FORM_X_MARGIN,
                         Top = msgBoxFrm.Height - 23 - FORM_Y_MARGIN - titleHeight
                     };

@@ -3555,11 +3555,17 @@ namespace MissionPlanner.GCSViews
                     if (CustomMessageBox.Show("Are you sure you want to " + action, action, CustomMessageBox.MessageBoxButtons.YesNo) !=
                         CustomMessageBox.DialogResult.Yes)
                         return;
-
+                StringBuilder sb = new StringBuilder();
+                var sub = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.STATUSTEXT, message =>
+                {
+                    sb.AppendLine(ASCIIEncoding.ASCII.GetString(((MAVLink.mavlink_statustext_t) message.data).text).TrimEnd('\0'));
+                    return true;
+                });
                 bool ans = MainV2.comPort.doARM(!MainV2.comPort.MAV.cs.armed);
+                MainV2.comPort.UnSubscribeToPacketType(sub);
                 if (ans == false)
                 {
-                    if (CustomMessageBox.Show(action + " failed. Force " + action, Strings.ERROR, CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
+                    if (CustomMessageBox.Show(action + " failed.\n"+sb.ToString()+ "\nForce " + action+ " can bypass safety checks,\nwhich can lead to the vehicle crashing\nand causing serious injuries.\n\nDo you wish to Force "+action+"?", Strings.ERROR, CustomMessageBox.MessageBoxButtons.YesNo, CustomMessageBox.MessageBoxIcon.Exclamation, "Force "+action, "Cancel") == CustomMessageBox.DialogResult.Yes)
                     {
                         ans = MainV2.comPort.doARM(!MainV2.comPort.MAV.cs.armed, true);
                         if (ans == false)
