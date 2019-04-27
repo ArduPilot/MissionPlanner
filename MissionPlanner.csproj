@@ -109,6 +109,10 @@
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="Updater, Version=1.0.7056.19890, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>Updater\bin\Release\Updater.exe</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="ExtLibs\alglibnet\alglibnet.csproj">
@@ -277,10 +281,6 @@
     <ProjectReference Include="ExtLibs\Zeroconf\Zeroconf\Zeroconf.csproj">
       <Project>{F4B60F03-F4C8-42CD-A46D-712838DC184B}</Project>
       <Name>Zeroconf</Name>
-    </ProjectReference>
-    <ProjectReference Include="Updater\Updater.csproj">
-      <Project>{E64A1A41-A5B0-458E-8284-BB63705354DA}</Project>
-      <Name>Updater</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
