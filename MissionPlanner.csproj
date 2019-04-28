@@ -328,6 +328,9 @@
     <PackageReference Include="System.Reactive.Core" Version="4.0.0" />
     <PackageReference Include="System.Reactive.Linq" Version="4.0.0" />
     <PackageReference Include="Unofficial.ObjectListView" version="2.6.0" targetFramework="net40" />
+    <PackageReference Include="Xamarin.Forms.Platform.WinForms">
+      <Version>3.4.0-alpha</Version>
+    </PackageReference>
     <PackageReference Include="zlib.net" version="1.0.4.0" targetFramework="net40" />
   </ItemGroup>
   <ItemGroup>

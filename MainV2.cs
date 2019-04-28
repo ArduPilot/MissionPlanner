@@ -3537,26 +3537,9 @@ namespace MissionPlanner
             if (keyData == (Keys.Control | Keys.X))
             {
                 var ftp = new MissionPlanner.ArduPilot.Mavlink.MAVFtp(MainV2.comPort, (byte) comPort.sysidcurrent, (byte) comPort.compidcurrent);
-                var dirlist = ftp.GetDirectory();
-                foreach (var ftpFileInfo in dirlist)
-                {
-                    if (ftpFileInfo.isDirectory)
-                    {
-                        if (ftpFileInfo.Name == ".." || ftpFileInfo.Name == ".")
-                            continue;
-                        Directory.CreateDirectory("." + ftpFileInfo.FullName);
-                        //var list2 = ftp.GetDirectory(ftpFileInfo.FullName);
-                    }
-                    else
-                    {
-                        var stream = ftp.GetFile(ftpFileInfo.FullName);
-                        if (stream != null)
-                        {
-                            stream.CopyTo(File.OpenWrite("." + ftpFileInfo.FullName));
-                            stream.Dispose();
-                        }
-                    }
-                }
+
+                ftp.test();
+
             }
             if (keyData == (Keys.Control | Keys.L)) // limits
             {
