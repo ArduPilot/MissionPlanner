@@ -1,8 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <ApplicationIcon />
+    <Win32Resource />
+    <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -12,6 +15,10 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.9.1" />
+    <PackageReference Include="Microsoft.DotNet.Analyzers.Compatibility" Version="0.2.12-alpha">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="SkiaSharp.Views.Forms" Version="1.68.0" />
   </ItemGroup>
 
@@ -24,6 +31,21 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="OpenTK">
+      <HintPath>..\..\..\..\..\..\.nuget\packages\opentk\3.0.1\lib\net20\OpenTK.dll</HintPath>
+      <SpecificVersion>false</SpecificVersion>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Controls\HUD.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Controls\HUDT.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>HUDT.resx</DependentUpon>
+    </Compile>
     <Compile Update="MainPage_old.xaml.cs">
       <DependentUpon>MainPage_old.xaml</DependentUpon>
     </Compile>
@@ -41,6 +63,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Controls\HUDT.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>HUDT.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\HUDT.zh-Hans.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="MasterDetailPage1Detail.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -48,7 +77,7 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>

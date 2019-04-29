@@ -22,7 +22,7 @@ namespace Xamarin.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Xamarin.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Xamarin.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace Xamarin.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -69,17 +69,15 @@ namespace Xamarin.Properties {
         ///&lt;title&gt;Hud&lt;/title&gt;
         ///&lt;script src=&quot;http://smoothiecharts.org/smoothie.js&quot;&gt;&lt;/script&gt;
         ///&lt;script type=&quot;text/javascript&quot; src=&quot;https://www.gstatic.com/charts/loader.js&quot;&gt;&lt;/script&gt;
-        ///&lt;script src=&quot;/mav/Cesium/Cesium.js&quot;&gt;&lt;/script&gt;
         ///
-        ///&lt;script src=&quot;/mav/bundle.js&quot;&gt;&lt;/script&gt;
+        ///&lt;script type=&quot;application/x-javascript&quot;&gt;
+        ///                &lt;!--
+        ///                    var deg2rad = Math.PI / 180;
+        ///                    var rad2deg = 180 / Math.PI;
         ///
-        ///&lt;style&gt;
-        ///    @import url(/mav/Cesium/Widgets/widgets.css);
-        ///&lt;/style&gt;
-        ///
-        ///&lt;script type=&quot;application/x-javasc [rest of string was truncated]&quot;;.
+        ///                    var pitch [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string hud {
+        public static string hud {
             get {
                 return ResourceManager.GetString("hud", resourceCulture);
             }

@@ -8,15 +8,18 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
+using System.Resources;
 using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
 
+
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Xamarin
 {
+   
     public partial class App : Application
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
@@ -80,9 +83,12 @@ namespace Xamarin
             
         }
 
-        private CustomMessageBox.DialogResult CustomMessageBox_ShowEvent(string text, string caption = "", CustomMessageBox.MessageBoxButtons buttons = CustomMessageBox.MessageBoxButtons.OK, CustomMessageBox.MessageBoxIcon icon = CustomMessageBox.MessageBoxIcon.None)
+        private CustomMessageBox.DialogResult CustomMessageBox_ShowEvent(string text, string caption = "",
+            CustomMessageBox.MessageBoxButtons buttons = CustomMessageBox.MessageBoxButtons.OK,
+            CustomMessageBox.MessageBoxIcon icon = CustomMessageBox.MessageBoxIcon.None, string YesText = "Yes",
+            string NoText = "No")
         {
-           var ans =  MainPage.DisplayAlert(caption,text,"OK", "Cancel");
+            var ans = MainPage.DisplayAlert(caption, text, "OK", "Cancel");
             return CustomMessageBox.DialogResult.OK;
         }
 
@@ -133,7 +139,7 @@ namespace Xamarin
                    
                 });
 
-                Task.Run(async () =>
+                Task.Run(() =>
                 {
                     while (true)
                     {
