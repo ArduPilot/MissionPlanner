@@ -1326,6 +1326,8 @@ namespace MissionPlanner.GCSViews
                                 oldtime = (mark.time_usec/1000.0)/1000.0;
                             }
                             
+                            var GMapMarkerOverlapCount = new GMapMarkerOverlapCount(PointLatLng.Empty);
+
                             // age current
                             int camcount = MainV2.comPort.MAV.camerapoints.Count;
                             int a = 0;
@@ -1339,7 +1341,7 @@ namespace MissionPlanner.GCSViews
                                         // abandon roll higher than 25 degrees
                                         if (Math.Abs(marker.Roll) < 25)
                                         {
-                                            MainV2.comPort.MAV.GMapMarkerOverlapCount.Add(
+                                            GMapMarkerOverlapCount.Add(
                                                 ((GMapMarkerPhoto) mark).footprintpoly);
                                         }
                                     }
@@ -1351,14 +1353,14 @@ namespace MissionPlanner.GCSViews
 
                             if (CameraOverlap)
                             {
-                                if (!kmlpolygons.Markers.Contains(MainV2.comPort.MAV.GMapMarkerOverlapCount) &&
+                                if (!kmlpolygons.Markers.Contains(GMapMarkerOverlapCount) &&
                                     camcount > 0)
                                 {
                                     kmlpolygons.Markers.Clear();
-                                    kmlpolygons.Markers.Add(MainV2.comPort.MAV.GMapMarkerOverlapCount);
+                                    kmlpolygons.Markers.Add(GMapMarkerOverlapCount);
                                 }
                             }
-                            else if (kmlpolygons.Markers.Contains(MainV2.comPort.MAV.GMapMarkerOverlapCount))
+                            else if (kmlpolygons.Markers.Contains(GMapMarkerOverlapCount))
                             {
                                 kmlpolygons.Markers.Clear();
                             }
@@ -1426,7 +1428,7 @@ namespace MissionPlanner.GCSViews
                                 // draw the mavs seen on this port
                                 foreach (var MAV in port.MAVlist)
                                 {
-                                    var marker = ArduPilot.Common.getMAVMarker(MAV);
+                                    var marker = Common.getMAVMarker(MAV);
 
                                     if(marker.Position.Lat == 0 && marker.Position.Lng == 0)
                                         continue;

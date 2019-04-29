@@ -1,14 +1,12 @@
-﻿using System;
+﻿using log4net;
+using MissionPlanner.ArduPilot;
+using MissionPlanner.Utilities;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.Serialization;
-using GMap.NET;
-using log4net;
-using MissionPlanner.ArduPilot;
-using MissionPlanner.Maps;
-using MissionPlanner.Utilities;
-using Newtonsoft.Json;
 
 namespace MissionPlanner
 {
@@ -43,11 +41,6 @@ namespace MissionPlanner
                 this.Proximity = new Proximity(this);
 
             camerapoints.Clear();
-
-            try
-            {
-                GMapMarkerOverlapCount = new GMapMarkerOverlapCount(PointLatLng.Empty);
-            } catch { }
 
             this.packetslost = 0f;
             this.packetsnotlost = 0f;
@@ -230,8 +223,6 @@ namespace MissionPlanner
         public ConcurrentDictionary<int, mavlink_fence_point_t> fencepoints = new ConcurrentDictionary<int, mavlink_fence_point_t>();
 
         public List<mavlink_camera_feedback_t> camerapoints = new List<mavlink_camera_feedback_t>();
-
-        public GMapMarkerOverlapCount GMapMarkerOverlapCount;
 
         /// <summary>
         /// Store the guided mode wp location
