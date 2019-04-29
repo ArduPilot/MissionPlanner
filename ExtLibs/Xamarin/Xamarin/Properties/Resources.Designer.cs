@@ -61,6 +61,16 @@ namespace Xamarin.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] guagebg {
+            get {
+                object obj = ResourceManager.GetObject("guagebg", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE HTML&gt;
         ///&lt;html&gt;
         ///&lt;head&gt;

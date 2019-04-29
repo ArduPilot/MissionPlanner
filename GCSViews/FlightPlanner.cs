@@ -4374,7 +4374,7 @@ namespace MissionPlanner.GCSViews
                 if (MainV2.comPort.MAV.cs.lat == 0 || MainV2.comPort.MAV.cs.lng == 0)
                     return;
 
-                var marker = ArduPilot.Common.getMAVMarker(MainV2.comPort.MAV);
+                var marker = Common.getMAVMarker(MainV2.comPort.MAV);
 
                 routesoverlay.Markers.Add(marker);
 

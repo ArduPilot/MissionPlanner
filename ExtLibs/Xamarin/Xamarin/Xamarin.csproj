@@ -25,6 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\ArduPilot\MissionPlanner.ArduPilot.csproj" />
     <ProjectReference Include="..\..\Comms\MissionPlanner.Comms.csproj" />
+    <ProjectReference Include="..\..\GMap.NET.Core\GMap.NET.Core.csproj" />
     <ProjectReference Include="..\..\Mavlink\MAVLink.csproj" />
     <ProjectReference Include="..\..\UAVCAN\UAVCAN.csproj" />
     <ProjectReference Include="..\..\Utilities\MissionPlanner.Utilities.csproj" />
@@ -38,6 +39,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Controls\AGauge.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Controls\GMapControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="Controls\HUD.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -63,6 +70,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Controls\AGauge.resx">
+      <DependentUpon>AGauge.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Update="Controls\HUDT.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>HUDT.Designer.cs</LastGenOutput>

@@ -4,10 +4,15 @@
              xmlns:local="clr-namespace:Xamarin"
              xmlns:forms="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
              xmlns:controls="clr-namespace:MissionPlanner.Controls;assembly=Xamarin"
+             xmlns:GMap="clr-namespace:GMap.NET.WindowsForms;assembly=Xamarin"
              x:Class="Xamarin.MainPage_old">
 <StackLayout>
         <WebView x:Name="WebView" Source="http://localhost:56781/hud.html" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" ></WebView>
-        <forms:SKGLView x:Name="SkglView" EnableTouchEvents="True" Touch="SkglView_OnTouch" PaintSurface="SKGLView_OnPaintSurface" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" ></forms:SKGLView>
-        <controls:HUD x:Name="Hud" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" MinimumWidthRequest="200" MinimumHeightRequest="200" ></controls:HUD>
+        <forms:SKGLView x:Name="SkglView" EnableTouchEvents="True" Touch="SkglView_OnTouch" PaintSurface="SKGLView_OnPaintSurface" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" HeightRequest="100" ></forms:SKGLView>
+        <StackLayout Orientation="Horizontal"  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            <controls:HUD x:Name="Hud" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" ></controls:HUD>
+            <controls:AGauge x:Name="AGauge" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"></controls:AGauge>
+            <GMap:GMapControl x:Name="GMapControl" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"></GMap:GMapControl>
+        </StackLayout>  
 </StackLayout>
 </ContentPage>

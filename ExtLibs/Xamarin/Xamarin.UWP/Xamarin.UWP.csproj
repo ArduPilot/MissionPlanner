@@ -148,6 +148,10 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.1.9" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\GMap.NET.Core\GMap.NET.Core.csproj">
+      <Project>{d0c39d9d-bed0-418b-9a5e-713176caf40c}</Project>
+      <Name>GMap.NET.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Xamarin\Xamarin.csproj" NoWarn="NU1201">
       <Project>{046987C6-A43A-45E6-AD0B-45F1A43005D0}</Project>
       <Name>Xamarin</Name>
