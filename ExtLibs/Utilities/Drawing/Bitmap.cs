@@ -39,7 +39,7 @@ namespace MissionPlanner.Utilities.Drawing
 
         public BitmapData LockBits(Rectangle rectangle, object writeOnly, SKColorType imgPixelFormat)
         {
-            return new BitmapData() {Scan0 = nativeSkBitmap.GetPixels()};
+            return new BitmapData() {Scan0 = nativeSkBitmap.GetPixels(), Stride = nativeSkBitmap.RowBytes};
         }
 
         public void UnlockBits(BitmapData bmpData)
@@ -49,7 +49,13 @@ namespace MissionPlanner.Utilities.Drawing
 
         public void MakeTransparent(Color transparent)
         {
-            throw new NotImplementedException();
+            if(nativeSkBitmap.IsEmpty)
+                nativeSkBitmap.Erase(SKColor.Empty);
+        }
+
+        public Color GetPixel(int c2, int c1)
+        {
+            return nativeSkBitmap.GetPixel(c2, c1).ToColor();
         }
     }
 }

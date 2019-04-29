@@ -14,13 +14,25 @@ namespace MissionPlanner.Utilities.Drawing
             nativeFont = new SKPaint() {Typeface = SKTypeface.Default, TextSize = size, TextAlign = SKTextAlign.Left};
         }
 
+        public Font(string genericSansSerif, int size)
+        {
+            nativeFont = new SKPaint() { Typeface = SKTypeface.Default, TextSize = size, TextAlign = SKTextAlign.Left };
+        }
+
         public float Height
         {
             get { return nativeFont.TextSize; }
             set { nativeFont.TextSize = value; }
         }
 
-        public object FontFamily { get; set; }
+        public String FontFamily { get; set; }
+        public float Size
+        {
+            get { return nativeFont.TextSize; }
+            set { nativeFont.TextSize = value; }
+        }
+
+        public string SystemFontName { get; set; } = "Arial";
 
         public void Dispose()
         {

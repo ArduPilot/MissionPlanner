@@ -5,6 +5,6 @@ namespace MissionPlanner.Utilities.Drawing
 {
     public class SystemFonts
     {
-        public static SKPaint DefaultFont { get; set; } = new SKPaint() {Typeface = SKTypeface.Default, TextSize = 12}; // points
+        public static Font DefaultFont { get; set; } = new Font("",12); // points
     }
 }

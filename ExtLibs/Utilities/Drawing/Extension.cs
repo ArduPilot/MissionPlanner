@@ -5,17 +5,29 @@ namespace MissionPlanner.Utilities.Drawing
 {
     public static class Extension
     {
-        public static SKColor SKColor(this Color color)
+        public static SKColor ToSKColor(this Color color)
         {
-            var skcol = new SkiaSharp.SKColor((uint)color.ToArgb());
+            var skcol = SkiaSharp.SKColor.Empty.WithAlpha(color.A).WithRed(color.R).WithGreen(color.G)
+                .WithBlue(color.B);
             return skcol;
         }
-        /*
-        public static SKPaint SKPaint(this Pen pen)
+
+        public static Color ToColor(this SKColor color)
         {
+            return Color.FromArgb(color.Alpha, color.Red, color.Green, color.Blue);
+        }
+
+        public static SKRect ToSKRect(this Rectangle rect)
+        {
+            return new SKRect(rect.Left, rect.Top, rect.Right, rect.Bottom);
+        }
+
+        public static SKPaint ToSKPaint(this Pen pen)
+        {
+            return pen.nativePen;
             var paint = new SKPaint
             {
-                Color = pen.Color.SKColor(),
+                Color = pen.Color.ToSKColor(),
                 StrokeWidth = pen.Width,
                 IsAntialias = true,
                 Style = SKPaintStyle.Stroke,
@@ -26,17 +38,19 @@ namespace MissionPlanner.Utilities.Drawing
             if (pen.DashStyle != DashStyle.Solid)
                 paint.PathEffect = SKPathEffect.CreateDash(pen.DashPattern, 0);
             return paint;
-        }*/
-        /*
-        public static SKPaint SKPaint(this Font font)
+        }
+
+        public static SKPaint ToSKPaint(this Font font)
         {
             return new SKPaint
             {
                 Typeface = SKTypeface.FromFamilyName(font.SystemFontName),
-                TextSize = font.Size * 1.5f
+                TextSize = font.Size * 1.4f,
+                StrokeWidth = 2
+
             };
         }
-        */
+
         public static SKPoint ToSKPoint(this PointF pnt)
         {
             return new SKPoint(pnt.X, pnt.Y);
@@ -46,12 +60,12 @@ namespace MissionPlanner.Utilities.Drawing
         {
             return new SKPoint(pnt.X, pnt.Y);
         }
-        /*
-        public static SKPaint SKPaint(this Brush brush)
+
+        public static SKPaint ToSKPaint(this Brush brush)
         {
             if (brush is SolidBrush)
                 return new SKPaint
-                    { Color = ((SolidBrush)brush).Color.SKColor(), IsAntialias = true, Style = SKPaintStyle.Fill };
+                    { Color = ((SolidBrush)brush).Color.ToSKColor(), IsAntialias = true, Style = SKPaintStyle.Fill };
 
             if (brush is LinearGradientBrush)
             {
@@ -64,14 +78,14 @@ namespace MissionPlanner.Utilities.Drawing
                         new SKPoint(lgb.Rectangle.X, lgb.Rectangle.Bottom),
                         new[]
                         {
-                            ((LinearGradientBrush) brush).LinearColors[0].SKColor(),
-                            ((LinearGradientBrush) brush).LinearColors[1].SKColor()
+                            ((LinearGradientBrush) brush).LinearColors[0].ToSKColor(),
+                            ((LinearGradientBrush) brush).LinearColors[1].ToSKColor()
                         }
                         , null, SKShaderTileMode.Clamp, SKMatrix.MakeIdentity())
                 };
             }
 
             return new SKPaint();
-        }*/
+        }
     }
 }

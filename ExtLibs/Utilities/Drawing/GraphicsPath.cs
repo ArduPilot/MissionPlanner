@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Text;
+using SkiaSharp;
 
 namespace MissionPlanner.Utilities.Drawing
 {
@@ -22,8 +24,9 @@ namespace MissionPlanner.Utilities.Drawing
             
         }
 
-        public int PointCount { get; set; }
-        public PointF[] PathPoints { get; set; }
+        public int PointCount {
+            get { return PathPoints.Length; } }
+        public PointF[] PathPoints { get; set; } = new PointF[0];
 
         public bool IsVisible(int i, int i1)
         {
@@ -32,7 +35,7 @@ namespace MissionPlanner.Utilities.Drawing
 
         public void Reset()
         {
-            throw new NotImplementedException();
+            PathPoints = new PointF[0];
         }
 
         public void AddLine(float p2X, float p2Y, float p2, float p3)
@@ -62,7 +65,24 @@ namespace MissionPlanner.Utilities.Drawing
 
         public void AddString(string s, object fontFontFamily, int i, float f, Point point, object genericTypographic)
         {
-            throw new NotImplementedException();
+            var path = new SKPaint().GetTextPath(s, point.X, point.Y);
+
+            PathPoints = path.Points.Select(a => new PointF(a.X, a.Y)).ToArray();
+        }
+
+        public void AddEllipse(Rectangle p0)
+        {
+           // throw new NotImplementedException();
+        }
+
+        public void AddPie(Rectangle p0, float rangeStartAngle, float rangeSweepAngle)
+        {
+          //  throw new NotImplementedException();
+        }
+
+        public void Reverse()
+        {
+            //throw new NotImplementedException();
         }
     }
 }

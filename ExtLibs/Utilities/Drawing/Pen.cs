@@ -8,13 +8,19 @@ namespace MissionPlanner.Utilities.Drawing
     {
         internal SKPaint nativePen;
 
-        public Pen(Color color): this(color.SKColor())
+        internal Pen()
+        {
+
+        }
+
+        public Pen(Color color): this(color.ToSKColor())
         {
         }
 
         public Pen(SKColor color, float width = 1)
         {
             Width = width;
+            Color = Color.FromArgb(color.Alpha, color.Red, color.Green, color.Blue);
 
             nativePen = new SKPaint()
             {
@@ -27,7 +33,7 @@ namespace MissionPlanner.Utilities.Drawing
             };
         }
 
-        public Pen(Color brush, float width) : this(brush.SKColor(), width)
+        public Pen(Color brush, float width) : this(brush.ToSKColor(), width)
         {
         }
 
@@ -41,6 +47,7 @@ namespace MissionPlanner.Utilities.Drawing
         public DashStyle DashStyle { get; set; }
         public Color Color { get; set; }
         public Brush Brush { get; set; }
+        public float[] DashPattern { get; internal set; }
 
         public object Clone()
         {

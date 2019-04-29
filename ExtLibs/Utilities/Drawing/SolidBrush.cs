@@ -14,15 +14,16 @@ namespace MissionPlanner.Utilities.Drawing
 
         public SolidBrush(Color color)
         {
-            nativeBrush = new SKPaint() {Color = color.SKColor()};
+            nativeBrush = new SKPaint() {Color = color.ToSKColor()};
         }
 
         public Color Color
         {
             get
             {
-                throw new NotImplementedException();  }
-            set { nativeBrush.Color = value.SKColor(); }
+                return Color.FromArgb(nativeBrush.Color.Alpha, nativeBrush.Color.Red, nativeBrush.Color.Green, nativeBrush.Color.Blue);
+            }
+            set { nativeBrush.Color = value.ToSKColor(); }
         }
     }
 }
