@@ -3274,21 +3274,6 @@ namespace MissionPlanner
                     doConnect(MainV2.comPort, cmds["port"], cmds["baud"]);
                 }
             }
-
-            // show wizard on first use
-            if (Settings.Instance["newuser"] == null)
-            {
-                if (CustomMessageBox.Show("This is your first run, Do you wish to use the setup wizard?\nRecomended for new users.", "Wizard", MessageBoxButtons.YesNo) == (int)System.Windows.Forms.DialogResult.Yes)
-                {
-                    Wizard.Wizard wiz = new Wizard.Wizard();
-
-                    wiz.ShowDialog(this);
-                }
-
-                CustomMessageBox.Show("To use the wizard please goto the initial setup screen, and click the wizard icon.", "Wizard");
-
-                Settings.Instance["newuser"] = DateTime.Now.ToShortDateString();
-            }
         }
 
         private Dictionary<string, string> ProcessCommandLine(string[] args)
