@@ -1815,7 +1815,7 @@ namespace MissionPlanner
                     comPort.MAV.param.ContainsKey("INS_GYR3_ID") && comPort.MAV.param["INS_GYR3_ID"].Value == 0 &&
                     comPort.MAV.param.ContainsKey("INS_ENABLE_MASK") && comPort.MAV.param["INS_ENABLE_MASK"].Value >= 7)
                 {
-                    MissionPlanner.Controls.SB.Show();
+                    MissionPlanner.Controls.SB.Show("Param Scan");
                 }
             } catch { }
 
@@ -1848,9 +1848,9 @@ namespace MissionPlanner
                                 bad1 = true;
 
                             if (bad1)
-                                this.BeginInvoke((Action) delegate
+                                this.BeginInvoke(method: (Action) delegate
                                 {
-                                    MissionPlanner.Controls.SB.Show();
+                                    MissionPlanner.Controls.SB.Show("SPI Scan");
                                 });
                         });
                 }
