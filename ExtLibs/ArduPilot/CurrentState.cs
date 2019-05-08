@@ -792,6 +792,13 @@ namespace MissionPlanner
 
         internal double _battery_voltage;
 
+        [DisplayText("Bat Voltage (V)")] public double battery_voltage3 { get; set; }
+        [DisplayText("Bat Voltage (V)")] public double battery_voltage4 { get; set; }
+        [DisplayText("Bat Voltage (V)")] public double battery_voltage5 { get; set; }
+        [DisplayText("Bat Voltage (V)")] public double battery_voltage6 { get; set; }
+        [DisplayText("Bat Voltage (V)")] public double battery_voltage7 { get; set; }
+        [DisplayText("Bat Voltage (V)")] public double battery_voltage8 { get; set; }
+
         [DisplayText("Bat Remaining (%)")]
         public int battery_remaining
         {
@@ -804,6 +811,14 @@ namespace MissionPlanner
         }
 
         private int _battery_remaining;
+
+        [DisplayText("Bat Remaining (%)")] public int battery_remaining2 { get; set; }
+        [DisplayText("Bat Remaining (%)")] public int battery_remaining3 { get; set; }
+        [DisplayText("Bat Remaining (%)")] public int battery_remaining4 { get; set; }
+        [DisplayText("Bat Remaining (%)")] public int battery_remaining5 { get; set; }
+        [DisplayText("Bat Remaining (%)")] public int battery_remaining6 { get; set; }
+        [DisplayText("Bat Remaining (%)")] public int battery_remaining7 { get; set; }
+        [DisplayText("Bat Remaining (%)")] public int battery_remaining8 { get; set; }
 
         [DisplayText("Bat Current (Amps)")]
         public double current
@@ -824,6 +839,32 @@ namespace MissionPlanner
             }
         } //current may to be below zero - recuperation in arduplane
         private double _current;
+
+
+        private DateTime _lastcurrent2 = DateTime.MinValue;
+
+        [DisplayText("Bat2 Current (Amps)")]
+        public double current2
+        {
+            get { return _current2; }
+            set
+            {
+                if (_lastcurrent2 == DateTime.MinValue) _lastcurrent2 = datetime;
+                if (value < 0) return;
+                battery_usedmah2 += ((value * 1000.0) * (datetime - _lastcurrent2).TotalHours);
+                _current2 = value;
+                _lastcurrent2 = datetime;
+            }
+        }
+
+        private double _current2;
+
+        [DisplayText("Bat2 Current (Amps)")] public double current3 { get; set; }
+        [DisplayText("Bat2 Current (Amps)")] public double current4 { get; set; }
+        [DisplayText("Bat2 Current (Amps)")] public double current5 { get; set; }
+        [DisplayText("Bat2 Current (Amps)")] public double current6 { get; set; }
+        [DisplayText("Bat2 Current (Amps)")] public double current7 { get; set; }
+        [DisplayText("Bat2 Current (Amps)")] public double current8 { get; set; }
 
         [DisplayText("Bat Watts")]
         public double watts
@@ -851,7 +892,14 @@ namespace MissionPlanner
 
         public double battery_temp { get; set; }
 
-        public double battery_usedmah2 { get; set; }
+        [DisplayText("Bat used EST (mah)")] public double battery_usedmah2 { get; set; }
+        [DisplayText("Bat used EST (mah)")] public double battery_usedmah3 { get; set; }
+        [DisplayText("Bat used EST (mah)")] public double battery_usedmah4 { get; set; }
+        [DisplayText("Bat used EST (mah)")] public double battery_usedmah5 { get; set; }
+        [DisplayText("Bat used EST (mah)")] public double battery_usedmah6 { get; set; }
+        [DisplayText("Bat used EST (mah)")] public double battery_usedmah7 { get; set; }
+        [DisplayText("Bat used EST (mah)")] public double battery_usedmah8 { get; set; }
+
 
         [DisplayText("Bat2 Voltage (V)")]
         public double battery_voltage2
@@ -866,23 +914,6 @@ namespace MissionPlanner
 
         internal double _battery_voltage2;
 
-        private DateTime _lastcurrent2 = DateTime.MinValue;
-
-        [DisplayText("Bat2 Current (Amps)")]
-        public double current2
-        {
-            get { return _current2; }
-            set
-            {
-                if (_lastcurrent2 == DateTime.MinValue) _lastcurrent2 = datetime;
-                if (value < 0) return;
-                battery_usedmah2 += ((value * 1000.0) * (datetime - _lastcurrent2).TotalHours);
-                _current2 = value;
-                _lastcurrent2 = datetime;
-            }
-        }
-
-        private double _current2;
 
         public double HomeAlt
         {
@@ -2230,7 +2261,51 @@ namespace MissionPlanner
                         }
                         else if (bats.id == 1)
                         {
+                            battery_usedmah2 = bats.current_consumed;
+                            battery_remaining2 = bats.battery_remaining;
                             _current2 = bats.current_battery / 100.0f;
+                        }
+                        else if (bats.id == 2)
+                        {
+                            battery_usedmah3 = bats.current_consumed;
+                            battery_remaining3 = bats.battery_remaining;
+                            battery_voltage3 = bats.voltages.Sum(a => a != ushort.MaxValue ? a/1000.0 : 0);
+                            current3 = bats.current_battery / 100.0f;
+                        }
+                        else if (bats.id == 3)
+                        {
+                            battery_usedmah4 = bats.current_consumed;
+                            battery_remaining4 = bats.battery_remaining;
+                            battery_voltage4 = bats.voltages.Sum(a => a != ushort.MaxValue ? a / 1000.0 : 0);
+                            current4 = bats.current_battery / 100.0f;
+                        }
+                        else if (bats.id == 4)
+                        {
+                            battery_usedmah5 = bats.current_consumed;
+                            battery_remaining5 = bats.battery_remaining;
+                            battery_voltage5 = bats.voltages.Sum(a => a != ushort.MaxValue ? a / 1000.0 : 0);
+                            current5 = bats.current_battery / 100.0f;
+                        }
+                        else if (bats.id == 5)
+                        {
+                            battery_usedmah6 = bats.current_consumed;
+                            battery_remaining6 = bats.battery_remaining;
+                            battery_voltage6 = bats.voltages.Sum(a => a != ushort.MaxValue ? a / 1000.0 : 0);
+                            current6 = bats.current_battery / 100.0f;
+                        }
+                        else if (bats.id == 6)
+                        {
+                            battery_usedmah7 = bats.current_consumed;
+                            battery_remaining7 = bats.battery_remaining;
+                            battery_voltage7 = bats.voltages.Sum(a => a != ushort.MaxValue ? a / 1000.0 : 0);
+                            current7 = bats.current_battery / 100.0f;
+                        }
+                        else if (bats.id == 7)
+                        {
+                            battery_usedmah8 = bats.current_consumed;
+                            battery_remaining8 = bats.battery_remaining;
+                            battery_voltage8 = bats.voltages.Sum(a => a != ushort.MaxValue ? a / 1000.0 : 0);
+                            current8 = bats.current_battery / 100.0f;
                         }
                     }
 
