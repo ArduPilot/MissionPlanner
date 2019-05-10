@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MissionPlanner.Utilities.Drawing
+﻿namespace MissionPlanner.Utilities.Drawing
 {
-
-    public enum Colors: uint
+    public enum KnownColor : uint
     {
         Transparent = 0x00FFFFFF,
         AliceBlue = 0xFFF0F8FF,

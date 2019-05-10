@@ -41,13 +41,18 @@ namespace MissionPlanner.Utilities.Drawing
         {
         }
 
+        public Pen(Brush brush): this(brush,1)
+        {
+        }
+
         public LineJoin LineJoin { get; set; }
         public float Width { get; set; }
         public LineCap StartCap { get; set; }
         public DashStyle DashStyle { get; set; }
         public Color Color { get; set; }
         public Brush Brush { get; set; }
-        public float[] DashPattern { get; internal set; }
+        public float[] DashPattern { get;  set; }
+        public PenAlignment Alignment { get; set; }
 
         public object Clone()
         {

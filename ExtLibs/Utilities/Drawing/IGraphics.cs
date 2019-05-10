@@ -173,7 +173,7 @@ namespace MissionPlanner.Utilities.Drawing
 
         void DrawImageUnscaled(Image image, int x, int y, int width, int height);
 
-       // void DrawImageUnscaledAndClipped(Image image, Rectangle rect);
+        void DrawImageUnscaledAndClipped(Image image, Rectangle rect);
 
         void DrawLine(Pen pen, int x1, int y1, int x2, int y2);
 

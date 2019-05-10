@@ -15,7 +15,7 @@ using SizeF = System.Drawing.SizeF;
 
 namespace MissionPlanner.Utilities.Drawing
 {
-    public class Graphics : IGraphics, IDisposable
+    public class Graphics : IGraphics, IDeviceContext, IDisposable
     {
         private readonly SKPaint _paint =
             new SKPaint
@@ -26,7 +26,7 @@ namespace MissionPlanner.Utilities.Drawing
                 BlendMode = SKBlendMode.SrcOver
             };
 
-        private SKSurface _surface;
+        internal SKSurface _surface;
 
         //SKPictureRecorder _rec = new SKPictureRecorder();
 
@@ -109,9 +109,9 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
                 */
             return _surface.Snapshot().Encode().ToArray();
         }
-        public static Graphics FromImage(Bitmap bmpDestination)
+        public static Graphics FromImage(Image bmpDestination)
         {
-            var bmpdata = bmpDestination.LockBits(new Rectangle(0, 0, bmpDestination.Width, bmpDestination.Height),
+            var bmpdata =((Bitmap) bmpDestination).LockBits(new Rectangle(0, 0, bmpDestination.Width, bmpDestination.Height),
                 null, SKColorType.Bgra8888);
             return new Graphics()
             {
@@ -513,6 +513,11 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         public void DrawImageUnscaled(Image image, int x, int y, int width, int height)
         {
             throw new NotImplementedException();
+        }
+
+        public void DrawImageUnscaledAndClipped(Image image, Rectangle rect)
+        {
+            _image.DrawImage(SKImage.FromBitmap(image.nativeSkBitmap), rect.X, rect.Y, null);
         }
 
         public void DrawImageUnscaled(Image image, Point point)
@@ -1413,5 +1418,27 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         {
             throw new NotImplementedException();
         }
+
+    }
+}
+
+namespace System.Drawing
+{
+    public class nothing
+    {
+    }
+}
+
+namespace System.Drawing.Drawing2D
+{
+    public class nothing
+    {
+    }
+}
+
+namespace System.Drawing.Imaging
+{
+    public class nothing
+    {
     }
 }

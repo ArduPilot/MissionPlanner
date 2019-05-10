@@ -12,6 +12,8 @@ namespace MissionPlanner.Utilities.Drawing
 {
     public abstract class Image : ISerializable, ICloneable, IDisposable
     {
+        public delegate bool GetThumbnailImageAbort();
+
         private object userData;
         internal SKBitmap nativeSkBitmap;
 
