@@ -7,12 +7,30 @@
              xmlns:GMap="clr-namespace:GMap.NET.WindowsForms;assembly=Xamarin"
              x:Class="Xamarin.MainPage_old">
 <StackLayout>
-        <WebView x:Name="WebView" Source="http://localhost:56781/hud.html" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" ></WebView>
+
+
+        <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="5*" />
+                    <RowDefinition Height="5*" />
+                </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"></ColumnDefinition>
+                <ColumnDefinition Width="7*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+       
+
+            <controls:HUD Grid.Column="0" Grid.Row="0" x:Name="Hud" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" ></controls:HUD>
+                <controls:AGauge Grid.Column="0" Grid.Row="1" x:Name="AGauge" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" ></controls:AGauge>
+
+            <GMap:GMapControl Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" x:Name="GMapControl" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"></GMap:GMapControl>
+            </Grid>
+
+           
+   
+    <StackLayout Orientation="Horizontal"  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            <WebView x:Name="WebView" Source="http://localhost:56781/hud.html" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" ></WebView>
         <forms:SKGLView x:Name="SkglView" EnableTouchEvents="True" Touch="SkglView_OnTouch" PaintSurface="SKGLView_OnPaintSurface" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" HeightRequest="100" ></forms:SKGLView>
-        <StackLayout Orientation="Horizontal"  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-            <controls:HUD x:Name="Hud" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" ></controls:HUD>
-            <controls:AGauge x:Name="AGauge" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"></controls:AGauge>
-            <GMap:GMapControl x:Name="GMapControl" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"></GMap:GMapControl>
-        </StackLayout>  
-</StackLayout>
+    </StackLayout>
+    </StackLayout>
 </ContentPage>

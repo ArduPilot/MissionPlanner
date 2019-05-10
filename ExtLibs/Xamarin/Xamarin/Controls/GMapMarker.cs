@@ -271,6 +271,7 @@ namespace GMap.NET.WindowsForms
       public virtual void OnRender(IGraphics g)
       {
          //
+         g.FillPie(Brushes.Red, -5, -5, 10, 10, 0, 360);
       }
 
 #if PocketPC

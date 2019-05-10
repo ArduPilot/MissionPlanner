@@ -577,8 +577,6 @@ namespace GMap.NET.WindowsForms
             }
       }
 
-      public bool ResizeRedraw { get; set; }
-
 #endif
 
       static GMapControl()
@@ -1218,6 +1216,49 @@ namespace GMap.NET.WindowsForms
          return ret;
       }
 
+#if !PocketPC
+      /// <summary>
+      /// gets image of the current view
+      /// </summary>
+      /// <returns></returns>
+      public Image ToImage()
+      {
+         Image ret = null;
+         try
+         {
+            using(Bitmap bitmap = new Bitmap(Width, Height))
+            {
+               using(Graphics g = Graphics.FromImage(bitmap))
+               {
+                  using(Graphics gg = this.CreateGraphics())
+                  {
+#if !PocketPC
+                 //    g.CopyFromScreen(PointToScreen(new System.Drawing.Point()).X, PointToScreen(new System.Drawing.Point()).Y, 0, 0, new System.Drawing.Size(Width, Height));
+#else
+                     throw new NotImplementedException("Not implemeted for PocketPC");
+#endif
+                  }
+               }
+
+               // Convert the Image to a png
+               using(MemoryStream ms = new MemoryStream())
+               {
+                  bitmap.Save(ms, SKEncodedImageFormat.Png);
+#if !PocketPC
+                  ret = Image.FromStream(ms);
+#else
+                  throw new NotImplementedException("Not implemeted for PocketPC");
+#endif
+               }
+            }
+         }
+         catch
+         {
+            ret = null;
+         }
+         return ret;
+      }
+#endif
 
       /// <summary>
       /// offset position in pixels
@@ -1592,10 +1633,10 @@ namespace GMap.NET.WindowsForms
 
          if(renderHelperLine)
          {
-        //    var p = PointToClient(Form.MousePosition);
+            var p = PointToClient(Form.MousePosition);
 
-        //    g.DrawLine(HelperLinePen, p.X, 0, p.X, Height);
-        //    g.DrawLine(HelperLinePen, 0, p.Y, Width, p.Y);
+            g.DrawLine(HelperLinePen, p.X, 0, p.X, Height);
+            g.DrawLine(HelperLinePen, 0, p.Y, Width, p.Y);
          }
 #endif
          if(ShowCenter)
@@ -1822,9 +1863,9 @@ namespace GMap.NET.WindowsForms
             {
                bool zoomtofit = false;
 
-            //   if(!SelectedArea.IsEmpty && Form.ModifierKeys == Keys.Shift)
+               if(!SelectedArea.IsEmpty && Form.ModifierKeys == Keys.Shift)
                {
-             //     zoomtofit = SetZoomToFitRect(SelectedArea);
+                  zoomtofit = SetZoomToFitRect(SelectedArea);
                }
 
                if(OnSelectionChange != null)
@@ -2034,7 +2075,7 @@ namespace GMap.NET.WindowsForms
          else
          {
 #if !PocketPC
-            if(isSelected && !selectionStart.IsEmpty)// && (Form.ModifierKeys == Keys.Alt || Form.ModifierKeys == Keys.Shift || DisableAltForSelection))
+            if(isSelected && !selectionStart.IsEmpty && (Form.ModifierKeys == Keys.Alt || Form.ModifierKeys == Keys.Shift || DisableAltForSelection))
             {
                selectionEnd = FromLocalToLatLng(e.X, e.Y);
                {
