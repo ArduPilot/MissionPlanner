@@ -40,9 +40,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (Program.WindowsStoreApp)
             {
-                CustomMessageBox.Show("Not Available", "Unfortunately the windows store version of this app does not support uploading.", MessageBoxButtons.OK);
-                this.Enabled = false;
-                return;
+              //  CustomMessageBox.Show("Not Available", "Unfortunately the windows store version of this app does not support uploading.", MessageBoxButtons.OK);
+              //  this.Enabled = false;
+              //  return;
             }
 
             if (MainV2.DisplayConfiguration.isAdvancedMode)

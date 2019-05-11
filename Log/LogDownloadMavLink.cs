@@ -569,7 +569,7 @@ namespace MissionPlanner.Log
         {
             using (OpenFileDialog ofd = new OpenFileDialog())
             {
-                ofd.Filter = "Binary Log|*.bin";
+                ofd.Filter = "Binary Log|*.bin;*.BIN";
 
                 ofd.ShowDialog();
 
@@ -577,7 +577,7 @@ namespace MissionPlanner.Log
                 {
                     using (SaveFileDialog sfd = new SaveFileDialog())
                     {
-                        sfd.Filter = "log|*.log";
+                        sfd.Filter = "log|*.log;*.LOG";
 
                         DialogResult res = sfd.ShowDialog();
 

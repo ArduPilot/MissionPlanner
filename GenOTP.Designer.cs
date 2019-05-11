@@ -64,7 +64,7 @@
             // fileBrowseOtpbin
             // 
             this.fileBrowseOtpbin.filename = "otp.bin";
-            this.fileBrowseOtpbin.Filter = "*.bin|*.bin";
+            this.fileBrowseOtpbin.Filter = "*.bin|*.bin;*.BIN";
             this.fileBrowseOtpbin.Location = new System.Drawing.Point(126, 109);
             this.fileBrowseOtpbin.Name = "fileBrowseOtpbin";
             this.fileBrowseOtpbin.OpenFile = false;

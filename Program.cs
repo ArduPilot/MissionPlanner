@@ -71,7 +71,8 @@ namespace MissionPlanner
             Console.WriteLine(
                 "If your error is about Microsoft.DirectX.DirectInput, please install the latest directx redist from here http://www.microsoft.com/en-us/download/details.aspx?id=35 \n\n");
             Console.WriteLine("Debug under mono    MONO_LOG_LEVEL=debug mono MissionPlanner.exe");
-
+            Console.WriteLine("To fix any filename case issues under mono use    export MONO_IOMAP=drive:case");
+                
             Console.WriteLine("Data Dir "+Settings.GetDataDirectory());
             Console.WriteLine("Log Dir "+Settings.GetDefaultLogDir());
             Console.WriteLine("Running Dir "+Settings.GetRunningDirectory());

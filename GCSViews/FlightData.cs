@@ -3887,7 +3887,7 @@ namespace MissionPlanner.GCSViews
         {
             using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
             {
-                openFileDialog1.Filter = "Log Files|*.log;*.bin";
+                openFileDialog1.Filter = "Log Files|*.log;*.bin;*.BIN;*.LOG";
                 openFileDialog1.FilterIndex = 2;
                 openFileDialog1.RestoreDirectory = true;
                 openFileDialog1.Multiselect = true;
@@ -3989,7 +3989,7 @@ namespace MissionPlanner.GCSViews
         {
             using (OpenFileDialog ofd = new OpenFileDialog())
             {
-                ofd.Filter = "*.log;*.bin|*.log;*.bin";
+                ofd.Filter = "*.log;*.bin|*.log;*.bin;*.BIN;*.LOG";
                 ofd.ShowDialog();
 
                 if (ofd.FileName != "")

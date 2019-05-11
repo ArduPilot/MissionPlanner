@@ -962,7 +962,7 @@ namespace MissionPlanner
         private void but_dashware_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "bin|*.bin";
+            ofd.Filter = "bin|*.bin;*.BIN";
             ofd.ShowDialog();
 
             if (ofd.CheckFileExists)
