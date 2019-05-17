@@ -181,6 +181,19 @@ namespace MissionPlanner.Controls
             base.OnClick(e);
         }
 
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            if (DesignMode)
+            {
+                e.Graphics.FillRectangle(new SolidBrush(Color.Red), ClientRectangle);
+                e.Graphics.DrawString(Text, Font, new SolidBrush(ForeColor), ClientRectangle);
+            }
+            else
+            {
+                base.OnPaint(e);
+            }
+        }
+
         protected override void OnPaintBackground(PaintEventArgs pevent)
         {
             //base.OnPaintBackground(pevent);
