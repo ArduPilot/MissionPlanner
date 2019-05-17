@@ -10,9 +10,25 @@ namespace MissionPlanner.Utilities.Drawing
         internal SKPaint nativeFont;
         public FontStyle Style { get; set; }
 
+        public Font(FontFamily family, float emSize, FontStyle style, GraphicsUnit unit, byte gdiCharSet)
+        {
+            nativeFont = new SKPaint() { Typeface = SKTypeface.Default, TextSize = emSize, TextAlign = SKTextAlign.Left };
+        }
+
+        public Font(string familyName, float emSize, FontStyle style, GraphicsUnit unit, byte gdiCharSet,
+            bool gdiVerticalFont = false)
+        {
+            nativeFont = new SKPaint() { Typeface = SKTypeface.Default, TextSize = emSize, TextAlign = SKTextAlign.Left };
+        }
+
         public Font(FontFamily genericSansSerif, float size, FontStyle bold, GraphicsUnit pixel = GraphicsUnit.Pixel)
         {
             nativeFont = new SKPaint() {Typeface = SKTypeface.Default, TextSize = size, TextAlign = SKTextAlign.Left};
+        }
+
+        public Font(FontFamily genericSansSerif, float size)
+        {
+            nativeFont = new SKPaint() { Typeface = SKTypeface.Default, TextSize = size, TextAlign = SKTextAlign.Left };
         }
 
         public Font(string genericSansSerif, float size)

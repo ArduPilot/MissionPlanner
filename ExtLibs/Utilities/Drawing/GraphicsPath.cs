@@ -9,14 +9,16 @@ namespace MissionPlanner.Utilities.Drawing
 {
     public class GraphicsPath: IDisposable
     {
+        private List<PointF> _pathPoints= new List<PointF>();
+
         public void AddLines(Point[] toArray)
         {
-            throw new NotImplementedException();
+            _pathPoints.AddRange(toArray.Select(a => (PointF) a));
         }
 
         public void AddPolygon(Point[] toArray)
         {
-            throw new NotImplementedException();
+            _pathPoints.AddRange(toArray.Select(a => (PointF)a));
         }
 
         public void Dispose()
@@ -26,21 +28,31 @@ namespace MissionPlanner.Utilities.Drawing
 
         public int PointCount {
             get { return PathPoints.Length; } }
-        public PointF[] PathPoints { get; set; } = new PointF[0];
+
+        public PointF[] PathPoints
+        {
+            get => _pathPoints.ToArray();
+        }
+
+        public int[] PathTypes {
+            get { return Enumerable.Repeat(1, PointCount).ToArray(); }
+            
+         }
 
         public bool IsVisible(int i, int i1)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public void Reset()
         {
-            PathPoints = new PointF[0];
+            _pathPoints.Clear();
         }
 
         public void AddLine(float p2X, float p2Y, float p2, float p3)
         {
-            throw new NotImplementedException();
+            _pathPoints.Add(new PointF(p2X, p2Y));
+            _pathPoints.Add(new PointF(p2, p3));
         }
 
         public void AddArc(float p0, float p1, float p2, float p3, int p4, int p5)
@@ -50,12 +62,12 @@ namespace MissionPlanner.Utilities.Drawing
 
         public void CloseFigure()
         {
-            throw new NotImplementedException();
+            _pathPoints.Add(_pathPoints[0]);
         }
 
         public PointF GetLastPoint()
         {
-            throw new NotImplementedException();
+            return _pathPoints.Last();
         }
 
         public bool IsOutlineVisible(int i, int i1, Pen stroke)
@@ -67,7 +79,7 @@ namespace MissionPlanner.Utilities.Drawing
         {
             var path = new SKPaint().GetTextPath(s, point.X, point.Y);
 
-            PathPoints = path.Points.Select(a => new PointF(a.X, a.Y)).ToArray();
+            path.Points.ForEach(a => _pathPoints.Add(new PointF(a.X, a.Y)));
         }
 
         public void AddEllipse(Rectangle p0)
@@ -82,6 +94,7 @@ namespace MissionPlanner.Utilities.Drawing
 
         public void Reverse()
         {
+            _pathPoints.Reverse();
             //throw new NotImplementedException();
         }
     }

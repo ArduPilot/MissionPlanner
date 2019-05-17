@@ -21,9 +21,14 @@ namespace MissionPlanner.Utilities.Drawing
         {
             return new SKRect(rect.Left, rect.Top, rect.Right, rect.Bottom);
         }
+        public static SKRectI ToSKRectI(this Rectangle rect)
+        {
+            return new SKRectI(rect.Left, rect.Top, rect.Right, rect.Bottom);
+        }
 
         public static SKPaint ToSKPaint(this Pen pen)
         {
+            pen.nativePen.Style = SKPaintStyle.Stroke;
             return pen.nativePen;
             var paint = new SKPaint
             {

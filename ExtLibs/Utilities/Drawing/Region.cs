@@ -13,27 +13,27 @@ namespace MissionPlanner.Utilities.Drawing
 
         public Region(Rectangle parentClientRectangle)
         {
-            throw new System.NotImplementedException();
+            base.SetRect(parentClientRectangle.ToSKRectI());
         }
 
         public RectangleF GetBounds(Graphics graphics)
         {
-            throw new System.NotImplementedException();
+            return new RectangleF(base.Bounds.Left, base.Bounds.Top, base.Bounds.Width, base.Bounds.Height);
         }
 
         public void Exclude(Rectangle peClipRectangle)
         {
-            throw new System.NotImplementedException();
+            base.Op(peClipRectangle.ToSKRectI(), SKRegionOperation.Difference);
         }
 
         public void MakeEmpty()
         {
-            throw new System.NotImplementedException();
+            base.SetRect(SKRectI.Empty);
         }
 
         public void Union(Rectangle clientRectangle)
         {
-            throw new System.NotImplementedException();
+            base.Op(clientRectangle.ToSKRectI(), SKRegionOperation.Union);
         }
 
         public void Intersect(Region clipRegion)
@@ -43,7 +43,14 @@ namespace MissionPlanner.Utilities.Drawing
 
         public bool IsVisible(Rectangle clipRectangle)
         {
-            throw new System.NotImplementedException();
+            return (base.Contains(clipRectangle.Location.X, clipRectangle.Location.Y) ||
+                    base.Contains(clipRectangle.Location.X + clipRectangle.Width / 2,
+                        clipRectangle.Location.Y + clipRectangle.Height / 2) ||
+                    base.Contains(clipRectangle.Location.X + clipRectangle.Width,
+                        clipRectangle.Location.Y + clipRectangle.Height) ||
+                    base.Contains(clipRectangle.Location.X + clipRectangle.Width / 2, clipRectangle.Location.Y) ||
+                    base.Contains(clipRectangle.Location.X, clipRectangle.Location.Y + clipRectangle.Height / 2));
+
         }
 
         public bool IsInfinite(Graphics graphics)
@@ -53,27 +60,28 @@ namespace MissionPlanner.Utilities.Drawing
 
         public void Intersect(Rectangle columnsArea)
         {
-            throw new NotImplementedException();
+            base.Op(columnsArea.ToSKRectI(), SKRegionOperation.Intersect);
         }
 
         public bool IsEmpty(Graphics dc)
         {
-            throw new NotImplementedException();
+            return base.Bounds.IsEmpty;
         }
 
         public bool IsVisible(Point point)
         {
-            throw new NotImplementedException();
+            return base.Contains(point.X, point.Y);
         }
 
-        public void Translate(int paddingLeft, int paddingTop)
+        public void Translate(float paddingLeft, float paddingTop)
         {
-            throw new NotImplementedException();
+            base.Op((int)paddingLeft, (int)paddingTop, base.Bounds.Right + (int)paddingLeft, base.Bounds.Bottom + (int)paddingTop,
+                SKRegionOperation.Replace);
         }
 
         public IEnumerable<RectangleF> GetRegionScans(Matrix dcTransform)
         {
-            throw new NotImplementedException();
+            return new RectangleF[0];
         }
 
         public void Union(Region clientRectangle)

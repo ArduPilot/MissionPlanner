@@ -30,6 +30,11 @@ namespace MissionPlanner.Utilities.Drawing
         {
         }
 
+        public static implicit operator SKImage(Bitmap input)
+        {
+            return SKImage.FromBitmap(input.nativeSkBitmap);
+        }
+
         public Bitmap(int clientSizeWidth, int clientSizeHeight, Graphics realDc)
         {
             nativeSkBitmap = new SKBitmap(new SKImageInfo(clientSizeWidth, clientSizeHeight, SKColorType.Bgra8888));
@@ -62,14 +67,18 @@ namespace MissionPlanner.Utilities.Drawing
             nativeSkBitmap = ans;
         }
 
-        public Bitmap(int clientSizeWidth, int clientSizeHeight, PixelFormat format4BppIndexed): this(clientSizeWidth,clientSizeHeight, SKColorType.Bgra8888)
+        public Bitmap(int width, int height, PixelFormat format4BppIndexed): this(width, height, SKColorType.Bgra8888)
         {
-            
         }
 
         public Bitmap(Type clientSizeWidth, string propertygridCategorizedPng)
         {
             // no idea
+        }
+
+        public Bitmap(Bitmap bmp, Size size): this(bmp, size.Width,size.Height)
+        {
+         
         }
 
         public SKColorType PixelFormat
@@ -79,7 +88,7 @@ namespace MissionPlanner.Utilities.Drawing
             set { }
         }
 
-        public ColorPalette Palette { get; set; }
+        public ColorPalette Palette { get; set; } = new ColorPalette(256);
 
         public BitmapData LockBits(Rectangle rectangle, object writeOnly, SKColorType imgPixelFormat)
         {

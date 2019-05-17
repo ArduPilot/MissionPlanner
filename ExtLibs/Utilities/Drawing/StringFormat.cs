@@ -4,6 +4,7 @@ namespace MissionPlanner.Utilities.Drawing
 {
     public class StringFormat:IDisposable,ICloneable
     {
+        public CharacterRange[] ranges;
         public StringFormat(){}
         public StringFormat(StringFormat genericTypographic)
         {
@@ -30,7 +31,7 @@ namespace MissionPlanner.Utilities.Drawing
 
         public void SetMeasurableCharacterRanges(CharacterRange[] ranges)
         {
-           
+            this.ranges = ranges;
         }
 
         public object Clone()

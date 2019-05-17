@@ -395,7 +395,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void DrawImage(Image image, Rectangle destRect, Rectangle srcRect, GraphicsUnit srcUnit)
         {
-            throw new NotImplementedException();
+            _image.DrawImage(SKImage.FromBitmap(image.nativeSkBitmap), srcRect.ToSKRect(), destRect.ToSKRect(), null);
         }
 
         public void DrawImage(Image image, PointF[] destPoints, RectangleF srcRect, GraphicsUnit srcUnit)
@@ -1001,12 +1001,12 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void Flush()
         {
-            throw new NotImplementedException();
+            _image.Flush();
         }
 
         public void Flush(FlushIntention intention)
         {
-            throw new NotImplementedException();
+            _image.Flush();
         }
 
         public Color GetNearestColor(Color color)
@@ -1016,7 +1016,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void IntersectClip(Rectangle rect)
         {
-            throw new NotImplementedException();
+            _image.ClipRect(rect.ToSKRect());
         }
 
         public void IntersectClip(RectangleF rect)
@@ -1071,7 +1071,15 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public Region[] MeasureCharacterRanges(string text, Font font, RectangleF layoutRect, StringFormat stringFormat)
         {
-            throw new NotImplementedException();
+            List<Region> ans = new List<Region>();
+            foreach (var stringFormatRange in stringFormat.ranges)
+            {
+                var size = MeasureString(new String(text.Skip(stringFormatRange.First).Take(stringFormatRange.Length).ToArray()),
+                    font, layoutRect.Size, stringFormat);
+                ans.Add(new Region(Rectangle.FromLTRB(0, 0, (int)size.Width, (int)size.Height)));
+            }
+
+            return ans.ToArray();
         }
 
         public SizeF MeasureString(string text, Font font, SizeF layoutArea)
@@ -1198,7 +1206,8 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void SetClip(Rectangle rect, CombineMode combineMode)
         {
-            throw new NotImplementedException();
+            _image.ClipRect(rect.ToSKRect(),
+                combineMode == CombineMode.Intersect ? SKClipOperation.Intersect : SKClipOperation.Difference);
         }
 
         public void SetClip(RectangleF rect)

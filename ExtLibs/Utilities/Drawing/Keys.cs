@@ -1,5 +1,8 @@
-﻿namespace MissionPlanner.Utilities.Drawing
+﻿using System;
+
+namespace MissionPlanner.Utilities.Drawing
 {
+    [Flags]
     public enum Keys
     {
         /// <summary>The bitmask to extract a key code from a key value.</summary>
