@@ -42,7 +42,8 @@ namespace MissionPlanner.Utilities
             revomini,
             mindpxv2,
             minipix,
-            chbootloader
+            chbootloader,
+            pass
         }
 
         public static string chbootloader = "";

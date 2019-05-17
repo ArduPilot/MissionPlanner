@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using log4net;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.Comms;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
@@ -111,6 +112,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 CustomMessageBox.Show(Strings.TrunkWarning, Strings.Trunk);
                 firmwareurl = "https://raw.github.com/diydrones/binary/master/dev/firmwarelatest.xml";
+
                 softwares.Clear();
                 UpdateFWList();
                 CMB_history.Visible = false;
@@ -142,13 +144,24 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             var fw = new Firmware();
             fw.Progress -= fw_Progress1;
-            fw.Progress += fw_Progress;
+            fw.Progress += fw_ProgressPDR;
             softwares = fw.getFWList(firmwareurl);
 
             foreach (var soft in softwares)
             {
+                if (sender.doWorkArgs.CancelRequested)
+                {
+                    sender.doWorkArgs.CancelAcknowledged = true;
+                    return;
+                }
                 updateDisplayNameInvoke(soft);
             }
+
+            try
+            {
+                APFirmware.GetList();
+            }
+            catch { }
         }
 
         /// <summary>
@@ -156,7 +169,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         /// </summary>
         /// <param name="progress"></param>
         /// <param name="status"></param>
-        private void fw_Progress(int progress, string status)
+        private void fw_ProgressPDR(int progress, string status)
         {
             pdr.UpdateProgressAndStatus(progress, status);
         }
@@ -293,7 +306,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 catch
                 {
                 }
-                fw.Progress -= fw_Progress;
+                fw.Progress -= fw_ProgressPDR;
                 fw.Progress += fw_Progress1;
 
                 var history = (CMB_history.SelectedValue == null) ? "" : CMB_history.SelectedValue.ToString();
@@ -404,7 +417,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     custom_fw_dir = Path.GetDirectoryName(fd.FileName);
 
-                    fw.Progress -= fw_Progress;
+                    fw.Progress -= fw_ProgressPDR;
                     fw.Progress += fw_Progress1;
 
                     var boardtype = BoardDetect.boards.none;
