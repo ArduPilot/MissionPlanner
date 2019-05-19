@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MissionPlanner.test.FirmwareSelection">
+    <ContentPage.Content>
+        <StackLayout>
+
+            <Label >Type</Label>
+            <Picker x:Name="mavtype" Title="Type" HorizontalOptions="FillAndExpand" Margin="10" SelectedIndexChanged="OnSelectedIndexChanged"></Picker>
+            <Label >Version Type</Label>
+            <Picker x:Name="versiontype" Title="Version type" HorizontalOptions="FillAndExpand" Margin="10" SelectedIndexChanged="OnSelectedIndexChanged"></Picker>
+
+            <Label >Platform</Label>
+            <Picker x:Name="platform" Title="Platform" HorizontalOptions="FillAndExpand" Margin="10" SelectedIndexChanged="OnSelectedIndexChanged"></Picker>
+            <Label >Version</Label>
+            <Picker x:Name="version" Title="Version" HorizontalOptions="FillAndExpand" Margin="10" SelectedIndexChanged="OnSelectedIndexChanged"></Picker>
+
+            <Label >Format</Label>
+            <Picker x:Name="format" Title="Format" HorizontalOptions="FillAndExpand" Margin="10" SelectedIndexChanged="OnSelectedIndexChanged"></Picker>
+            <Label >USB ID</Label>
+            <Picker x:Name="USBID" Title="USB ID" HorizontalOptions="FillAndExpand" Margin="10" SelectedIndexChanged="OnSelectedIndexChanged"></Picker>
+
+
+            <Label >Board ID</Label>
+            <Picker x:Name="board_id" Title="Board ID" HorizontalOptions="FillAndExpand" Margin="10" SelectedIndexChanged="OnSelectedIndexChanged"></Picker>
+            <Label >Bootloader ID</Label>
+            <Picker x:Name="bootloader_str" Title="Bootloader ID" HorizontalOptions="FillAndExpand" Margin="10" SelectedIndexChanged="OnSelectedIndexChanged"></Picker>
+            <Label >Latest</Label>
+            <Picker x:Name="latest" Title="Latest" HorizontalOptions="FillAndExpand" Margin="10" SelectedIndexChanged="OnSelectedIndexChanged"></Picker>
+
+
+            <Label >Firmwares</Label>
+            <Picker x:Name="Result" Title="Firmwares" HorizontalOptions="FillAndExpand" Margin="10" SelectedIndexChanged="Result_OnSelectedIndexChanged"></Picker>
+            <Button x:Name="Button" Clicked="Button_OnClicked" Text="Upload Firmware"></Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

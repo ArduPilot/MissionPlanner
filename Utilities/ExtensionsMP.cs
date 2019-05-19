@@ -1,7 +1,11 @@
 ﻿using log4net;
 using System;
+using System.ComponentModel;
 using System.Threading;
 using System.Windows.Forms;
+using MissionPlanner.test;
+using Xamarin.Forms;
+using Xamarin.Forms.Platform.WinForms;
 
 namespace MissionPlanner.Utilities
 {
@@ -77,6 +81,27 @@ namespace MissionPlanner.Utilities
 
             log.Error(ex);
         }
+
+        public static Form ShowXamarinControl(this ContentPage ctl, int Width, int Height)
+        {
+            var f = new Xamarin.Forms.Platform.WinForms.PlatformRenderer();
+            Xamarin.Forms.Platform.WinForms.Forms.Init(f);
+
+            f.Width = Width;
+            f.Height = Height;
+            var app = new Xamarin.Forms.Application() {MainPage = ctl};
+            f.LoadApplication(app);
+            ThemeManager.ApplyThemeTo(f);
+            if (ctl is IClose)
+            {
+                ((IClose)ctl).CloseAction = () => f.Close();
+            }
+
+            f.ShowDialog();
+
+            return f;
+        }
+
 
         public static Form ShowUserControl(this UserControl ctl)
         {
