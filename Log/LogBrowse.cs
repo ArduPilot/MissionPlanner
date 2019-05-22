@@ -36,6 +36,7 @@ namespace MissionPlanner.Log
         List<TextObj> ModePolyCache = new List<TextObj>();
         List<TextObj> MSGCache = new List<TextObj>();
         List<TextObj> ErrorCache = new List<TextObj>();
+        List<TextObj> EVCache = new List<TextObj>();
         List<TextObj> TimeCache = new List<TextObj>();
         DFLog.DFItem[] gpscache = new DFLog.DFItem[0];
 
@@ -507,6 +508,7 @@ namespace MissionPlanner.Log
             GC.Collect();
 
             ErrorCache = new List<TextObj>();
+            EVCache = new List<TextObj>();
             ModeCache = new List<TextObj>();
             ModePolyCache = new List<TextObj>();
             TimeCache = new List<TextObj>();
@@ -1401,6 +1403,85 @@ namespace MissionPlanner.Log
                 log.Info("End DrawErrors");
             });
         }
+
+        async Task DrawEV()
+        {
+            await Task.Run(() =>
+            {
+                log.Info("Start DrawEV");
+                bool top = false;
+                double a = 0;
+
+                if (EVCache.Count > 0)
+                {
+                    foreach (var item in EVCache)
+                    {
+                        item.Location.Y = zg1.GraphPane.YAxis.Scale.Max;
+                        zg1.GraphPane.GraphObjList.Add(item);
+                    }
+                    return;
+                }
+
+                EVCache.Clear();
+
+                double b = 0;
+
+                //ErrorCache.Add(new TextObj("", -500, 0));
+
+                if (!dflog.logformat.ContainsKey("EV"))
+                    return;
+
+                foreach (var item in logdata.GetEnumeratorType("EV"))
+                {
+                    b = item.lineno;
+
+                    if (item.msgtype == "EV")
+                    {
+                        if (!dflog.logformat.ContainsKey("EV"))
+                            return;
+
+                        int index = dflog.FindMessageOffset("EV", "Id");
+                        if (index == -1)
+                        {
+                            continue;
+                        }
+
+                        if (chk_time.Checked)
+                        {
+                            XDate date = new XDate(item.time);
+                            b = date.XLDate;
+                        }
+
+                        if (item.items.Length <= index)
+                            continue;
+
+                        string mode = "EV: " + ((DFLog.events) int.Parse(item.items[index].ToString()));
+                        if (top)
+                        {
+                            var temp = new TextObj(mode, b, zg1.GraphPane.YAxis.Scale.Max, CoordType.AxisXYScale,
+                                AlignH.Left, AlignV.Top);
+                            temp.FontSpec.Fill.Color = Color.Red;
+                            EVCache.Add(temp);
+                            this.BeginInvokeIfRequired(() => zg1.GraphPane.GraphObjList.Add(temp));
+                        }
+                        else
+                        {
+                            var temp = new TextObj(mode, b, zg1.GraphPane.YAxis.Scale.Max, CoordType.AxisXYScale,
+                                AlignH.Left, AlignV.Bottom);
+                            temp.FontSpec.Fill.Color = Color.Red;
+                            EVCache.Add(temp);
+                            this.BeginInvokeIfRequired(() => zg1.GraphPane.GraphObjList.Add(temp));
+                        }
+
+                        top = !top;
+                    }
+
+                    a++;
+                }
+                log.Info("End DrawEV");
+            });
+        }
+
 
         async Task DrawModes()
         {
@@ -2362,7 +2443,7 @@ namespace MissionPlanner.Log
             {
                 sender.GraphPane.GraphObjList.Clear();
 
-                Task a = null, b = null, c = null, d = null, e = null;
+                Task a = null, b = null, c = null, d = null, e = null, f = null;
 
                 if (chk_mode.Checked)
                     a=DrawModes();
@@ -2370,6 +2451,9 @@ namespace MissionPlanner.Log
                     b=DrawErrors();
                 if (!chk_time.Checked)
                     c=DrawTime();
+
+                if (chk_events.Checked)
+                    f = DrawEV();
 
                 if (chk_msg.Checked)
                     d=DrawMSG();
@@ -2410,6 +2494,8 @@ namespace MissionPlanner.Log
                     await d;
                 if (e != null)
                     await e;
+                if (f != null)
+                    await f;
 
                 sender.Invalidate();
             }
@@ -2914,6 +3000,7 @@ namespace MissionPlanner.Log
         private void chk_time_CheckedChanged(object sender, EventArgs e)
         {
             ModeCache.Clear();
+            EVCache.Clear();
             ErrorCache.Clear();
             TimeCache.Clear();
             MSGCache.Clear();
@@ -3260,6 +3347,11 @@ CultureInfo.InvariantCulture));
 
                 yield return (avgx, avgy, avgz);
             }
+        }
+
+        private void chk_events_CheckedChanged(object sender, EventArgs e)
+        {
+            zg1_ZoomEvent(zg1, null, null);
         }
     }
 }

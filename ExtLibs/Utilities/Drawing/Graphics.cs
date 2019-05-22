@@ -444,7 +444,6 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
                
 
-
             var imginfo = new SKImageInfo(img.Width, img.Height, coltype, SKAlphaType.Premul);
 
             var pxmap = new SKPixmap(imginfo, data.Scan0, data.Stride);
@@ -453,6 +452,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
             if (image == null)
                 return;
+
 
             _image.DrawImage(image, new SKRect(srcX, srcY, srcX + srcWidth, srcY + srcHeight),
                 new SKRect(rectangle.X, rectangle.Y, rectangle.Right, rectangle.Bottom), _paint);
