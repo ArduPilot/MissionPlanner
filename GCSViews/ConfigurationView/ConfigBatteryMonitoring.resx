@@ -169,7 +169,7 @@
     <value>6: 3DR HV Power Module APM</value>
   </data>
   <data name="CMB_batmonsensortype.Items7" xml:space="preserve">
-    <value>7: ProfiCNC HV Power Module PX4</value>
+    <value>7: Cube HV Power Module</value>
   </data>
   <data name="CMB_batmonsensortype.Items8" xml:space="preserve">
     <value>8: CUAV HV PM</value>
@@ -304,7 +304,7 @@
     <value>CMB_batmontype</value>
   </data>
   <data name="&gt;&gt;CMB_batmontype.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.3.7027.29714, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.3.7081.20031, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CMB_batmontype.Parent" xml:space="preserve">
     <value>$this</value>
@@ -400,7 +400,7 @@
     <value>52</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>APM Ver</value>
+    <value>HW Ver</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
@@ -555,28 +555,28 @@
   <data name="&gt;&gt;label35.ZOrder" xml:space="preserve">
     <value>9</value>
   </data>
-  <data name="TXT_divider.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="TXT_divider_VOLT_MULT.Location" type="System.Drawing.Point, System.Drawing">
     <value>183, 56</value>
   </data>
-  <data name="TXT_divider.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="TXT_divider_VOLT_MULT.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
   </data>
-  <data name="TXT_divider.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="TXT_divider_VOLT_MULT.Size" type="System.Drawing.Size, System.Drawing">
     <value>76, 20</value>
   </data>
-  <data name="TXT_divider.TabIndex" type="System.Int32, mscorlib">
+  <data name="TXT_divider_VOLT_MULT.TabIndex" type="System.Int32, mscorlib">
     <value>37</value>
   </data>
-  <data name="&gt;&gt;TXT_divider.Name" xml:space="preserve">
-    <value>TXT_divider</value>
+  <data name="&gt;&gt;TXT_divider_VOLT_MULT.Name" xml:space="preserve">
+    <value>TXT_divider_VOLT_MULT</value>
   </data>
-  <data name="&gt;&gt;TXT_divider.Type" xml:space="preserve">
+  <data name="&gt;&gt;TXT_divider_VOLT_MULT.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;TXT_divider.Parent" xml:space="preserve">
+  <data name="&gt;&gt;TXT_divider_VOLT_MULT.Parent" xml:space="preserve">
     <value>groupBox4</value>
   </data>
-  <data name="&gt;&gt;TXT_divider.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;TXT_divider_VOLT_MULT.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
   <data name="label34.AutoSize" type="System.Boolean, mscorlib">
@@ -612,28 +612,28 @@
   <data name="&gt;&gt;label34.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
-  <data name="TXT_ampspervolt.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="TXT_AMP_PERVLT.Location" type="System.Drawing.Point, System.Drawing">
     <value>183, 119</value>
   </data>
-  <data name="TXT_ampspervolt.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="TXT_AMP_PERVLT.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
   </data>
-  <data name="TXT_ampspervolt.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="TXT_AMP_PERVLT.Size" type="System.Drawing.Size, System.Drawing">
     <value>76, 20</value>
   </data>
-  <data name="TXT_ampspervolt.TabIndex" type="System.Int32, mscorlib">
+  <data name="TXT_AMP_PERVLT.TabIndex" type="System.Int32, mscorlib">
     <value>38</value>
   </data>
-  <data name="&gt;&gt;TXT_ampspervolt.Name" xml:space="preserve">
-    <value>TXT_ampspervolt</value>
+  <data name="&gt;&gt;TXT_AMP_PERVLT.Name" xml:space="preserve">
+    <value>TXT_AMP_PERVLT</value>
   </data>
-  <data name="&gt;&gt;TXT_ampspervolt.Type" xml:space="preserve">
+  <data name="&gt;&gt;TXT_AMP_PERVLT.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;TXT_ampspervolt.Parent" xml:space="preserve">
+  <data name="&gt;&gt;TXT_AMP_PERVLT.Parent" xml:space="preserve">
     <value>groupBox4</value>
   </data>
-  <data name="&gt;&gt;TXT_ampspervolt.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;TXT_AMP_PERVLT.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
   <data name="label33.AutoSize" type="System.Boolean, mscorlib">
@@ -700,6 +700,78 @@
     <value>groupBox4</value>
   </data>
   <data name="&gt;&gt;label32.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;txt_current.Name" xml:space="preserve">
+    <value>txt_current</value>
+  </data>
+  <data name="&gt;&gt;txt_current.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txt_current.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;txt_current.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;label4.Name" xml:space="preserve">
+    <value>label4</value>
+  </data>
+  <data name="&gt;&gt;label4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;txt_meascurrent.Name" xml:space="preserve">
+    <value>txt_meascurrent</value>
+  </data>
+  <data name="&gt;&gt;txt_meascurrent.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txt_meascurrent.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;txt_meascurrent.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;label3.Name" xml:space="preserve">
+    <value>label3</value>
+  </data>
+  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="groupBox4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>19, 142</value>
+  </data>
+  <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>276, 164</value>
+  </data>
+  <data name="groupBox4.TabIndex" type="System.Int32, mscorlib">
+    <value>50</value>
+  </data>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>Calibration</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Name" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
   <data name="txt_current.Location" type="System.Drawing.Point, System.Drawing">
@@ -815,30 +887,6 @@
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
     <value>3</value>
-  </data>
-  <data name="groupBox4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>19, 142</value>
-  </data>
-  <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>276, 164</value>
-  </data>
-  <data name="groupBox4.TabIndex" type="System.Int32, mscorlib">
-    <value>50</value>
-  </data>
-  <data name="groupBox4.Text" xml:space="preserve">
-    <value>Calibration</value>
-  </data>
-  <data name="&gt;&gt;groupBox4.Name" xml:space="preserve">
-    <value>groupBox4</value>
-  </data>
-  <data name="&gt;&gt;groupBox4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox4.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;groupBox4.ZOrder" xml:space="preserve">
-    <value>4</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
