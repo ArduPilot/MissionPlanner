@@ -1374,6 +1374,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         param_total = (par.param_count);
                         newparamlist.TotalReported = param_total;
 
+                        if (param_total == 0)
+                            break;
+
                         string paramID = ASCIIEncoding.ASCII.GetString(par.param_id);
 
                         int pos = paramID.IndexOf('\0');
