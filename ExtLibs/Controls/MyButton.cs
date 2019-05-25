@@ -25,45 +25,108 @@ namespace MissionPlanner.Controls
         internal Color _ColorMouseOver;
         internal Color _ColorMouseDown;
 
-       bool inOnPaint = false;
+        bool inOnPaint = false;
 
-       [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
-       [DefaultValue(typeof(Color), "0x94, 0xc1, 0x1f")]
-       public Color BGGradTop { get { return _BGGradTop; } set { _BGGradTop = value; this.Invalidate(); } }
-         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
-         [DefaultValue(typeof(Color), "0xcd, 0xe2, 0x96")]
-       public Color BGGradBot { get { return _BGGradBot; } set { _BGGradBot = value; this.Invalidate(); } }
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
+        [DefaultValue(typeof(Color), "0x94, 0xc1, 0x1f")]
+        public Color BGGradTop
+        {
+            get { return _BGGradTop; }
+            set
+            {
+                _BGGradTop = value;
+                this.Invalidate();
+            }
+        }
+
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
+        [DefaultValue(typeof(Color), "0xcd, 0xe2, 0x96")]
+        public Color BGGradBot
+        {
+            get { return _BGGradBot; }
+            set
+            {
+                _BGGradBot = value;
+                this.Invalidate();
+            }
+        }
+
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
         [DefaultValue(typeof(Color), "73, 0x2b, 0x3a, 0x03")]
-        public Color ColorNotEnabled { get { return _ColorNotEnabled; } set { _ColorNotEnabled = value; this.Invalidate(); } }
+        public Color ColorNotEnabled
+        {
+            get { return _ColorNotEnabled; }
+            set
+            {
+                _ColorNotEnabled = value;
+                this.Invalidate();
+            }
+        }
+
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
         [DefaultValue(typeof(Color), "73, 0x2b, 0x3a, 0x03")]
-        public Color ColorMouseOver { get { return _ColorMouseOver; } set { _ColorMouseOver = value; this.Invalidate(); } }
+        public Color ColorMouseOver
+        {
+            get { return _ColorMouseOver; }
+            set
+            {
+                _ColorMouseOver = value;
+                this.Invalidate();
+            }
+        }
+
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
         [DefaultValue(typeof(Color), "150, 0x2b, 0x3a, 0x03")]
-        public Color ColorMouseDown { get { return _ColorMouseDown; } set { _ColorMouseDown = value; this.Invalidate(); } }
+        public Color ColorMouseDown
+        {
+            get { return _ColorMouseDown; }
+            set
+            {
+                _ColorMouseDown = value;
+                this.Invalidate();
+            }
+        }
 
         // i want to ignore forecolor
-         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
-         [DefaultValue(typeof(Color), "0x40, 0x57, 0x04")]
-         public Color TextColor { get { return _TextColor; } set { _TextColor = value; this.Invalidate(); } }
-         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
-         [DefaultValue(typeof(Color), "0x79, 0x94, 0x29")]
-         public Color Outline { get { return _Outline; } set { _Outline = value; this.Invalidate(); } }
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
+        [DefaultValue(typeof(Color), "0x40, 0x57, 0x04")]
+        public Color TextColor
+        {
+            get { return _TextColor; }
+            set
+            {
+                _TextColor = value;
+                this.Invalidate();
+            }
+        }
 
-         public void NotifyDefault(bool value)
-         {
-            
-         }
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
+        [DefaultValue(typeof(Color), "0x79, 0x94, 0x29")]
+        public Color Outline
+        {
+            get { return _Outline; }
+            set
+            {
+                _Outline = value;
+                this.Invalidate();
+            }
+        }
 
-         public void PerformClick()
-         {
-             this.Focus();
-             OnClick(new EventArgs());
-         }
+        public void NotifyDefault(bool value)
+        {
 
-         public DialogResult DialogResult { get; set; } = DialogResult.None;
-        public bool UseVisualStyleBackColor { get; set; }
+        }
+
+        public void PerformClick()
+        {
+            this.Focus();
+            OnClick(new EventArgs());
+        }
+
+        [DefaultValue(System.Windows.Forms.DialogResult.None)]
+        public DialogResult DialogResult { get; set; } = DialogResult.None;
+
+        [DefaultValue(false)] public bool UseVisualStyleBackColor { get; set; }
 
         public MyButton()
         {
@@ -98,7 +161,8 @@ namespace MissionPlanner.Controls
 
                 Rectangle outside = new Rectangle(0, 0, this.Width, this.Height);
 
-                LinearGradientBrush linear = new LinearGradientBrush(outside, BGGradTop, BGGradBot, LinearGradientMode.Vertical);
+                LinearGradientBrush linear =
+                    new LinearGradientBrush(outside, BGGradTop, BGGradBot, LinearGradientMode.Vertical);
 
                 Pen mypen = new Pen(Outline, 1);
 
@@ -139,6 +203,7 @@ namespace MissionPlanner.Controls
 
                     gr.FillPath(brush, outline);
                 }
+
                 if (_mousedown)
                 {
                     SolidBrush brush = new SolidBrush(ColorMouseDown);
@@ -165,7 +230,9 @@ namespace MissionPlanner.Controls
 
                 gr.DrawString(display, this.Font, mybrush, outside, stringFormat);
             }
-            catch { }
+            catch
+            {
+            }
 
             inOnPaint = false;
         }
@@ -175,9 +242,10 @@ namespace MissionPlanner.Controls
             if (DialogResult != DialogResult.None)
             {
                 var form = Parent.FindForm();
-                if(form != null)
+                if (form != null)
                     form.DialogResult = DialogResult;
             }
+
             base.OnClick(e);
         }
 
@@ -209,20 +277,23 @@ namespace MissionPlanner.Controls
         protected override void OnMouseLeave(EventArgs e)
         {
             _mouseover = false;
-            base.OnMouseLeave(e); this.Invalidate();
+            base.OnMouseLeave(e);
+            this.Invalidate();
         }
 
         protected override void OnMouseDown(MouseEventArgs mevent)
         {
             this.Focus();
             _mousedown = true;
-            base.OnMouseDown(mevent); this.Invalidate();
+            base.OnMouseDown(mevent);
+            this.Invalidate();
         }
 
         protected override void OnMouseUp(MouseEventArgs mevent)
         {
             _mousedown = false;
-            base.OnMouseUp(mevent); this.Invalidate();
+            base.OnMouseUp(mevent);
+            this.Invalidate();
         }
     }
 }
