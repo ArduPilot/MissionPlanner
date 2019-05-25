@@ -220,6 +220,7 @@ namespace Xamarin
             e.Surface.Canvas.DrawText(SkglView.CanvasSize.ToString(), 80, 60,
                 new SKPaint() {TextSize = 16, StrokeWidth = 2});
 
+            e.Surface.Canvas.Flush();
 
             AGauge.Value++;
         }

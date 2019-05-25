@@ -42,7 +42,7 @@
     <Compile Update="Controls\AGauge.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Controls\GMapControl.cs">
+    <Compile Update="GMap.NET.WindowsForms\GMapControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Controls\HUD.cs">
