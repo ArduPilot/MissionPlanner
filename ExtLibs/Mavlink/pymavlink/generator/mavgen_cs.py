@@ -74,7 +74,10 @@ def generate_message_header(f, xml):
     for m in xml.enum:
         m.description = m.description.replace("\n"," ")
         m.description = m.description.replace("\r"," ")
-        for fe in m.entry:
+        for fe in m.entry[:]:
+            if fe.name.endswith('ENUM_END'):
+                m.entry.remove(fe)
+                continue
             fe.description = fe.description.replace("\n"," ")
             fe.description = fe.description.replace("\r"," ")
             fe.name = fe.name.replace(m.name + "_","")
@@ -122,7 +125,7 @@ public partial class MAVLink
     public const bool MAVLINK_NEED_BYTE_SWAP = (MAVLINK_ENDIAN == MAVLINK_LITTLE_ENDIAN);
         
     // msgid, name, crc, length, type
-    public static readonly message_info[] MAVLINK_MESSAGE_INFOS = new message_info[] {
+    public static message_info[] MAVLINK_MESSAGE_INFOS = new message_info[] {
 ${message_infos_array}
 	};
 
@@ -204,6 +207,9 @@ def generate_message_enums(f, xml):
         m.description = m.description.replace("\"","'")
         m.enumtype = enumtypes.get(m.name,"int /*default*/")
         for fe in m.entry:
+            if fe.name.endswith('ENUM_END'):
+                m.entry.remove(fe)
+                continue
             fe.description = fe.description.replace("\n"," ")
             fe.description = fe.description.replace("\r"," ")
             fe.description = fe.description.replace("\"","'")

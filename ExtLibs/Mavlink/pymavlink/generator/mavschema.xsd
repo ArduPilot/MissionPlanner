@@ -9,15 +9,14 @@
 
 
 <!-- definition of attributes -->
-<xs:attribute name="name"> <!-- enum,entry,message,field -->
+<xs:attribute name="name"> <!-- used in enum,entry,message,field elements -->
 </xs:attribute>
-<xs:attribute name="index" type="xs:unsignedByte"/> <!-- param -->
-<xs:attribute name="id" type="xs:unsignedShort"/> <!-- message -->
-<xs:attribute name="print_format" type="xs:string"/> <!-- field -->
-<xs:attribute name="enum" type="xs:string"/>
-<xs:attribute name="display" type="xs:string"/>
+<xs:attribute name="id" type="xs:unsignedShort"/> <!-- used in message elements -->
+<xs:attribute name="print_format" type="xs:string"/> <!-- used in field elements -->
+<xs:attribute name="enum" type="xs:string"/> <!-- used in field,param elements -->
+<xs:attribute name="display" type="xs:string"/> <!-- used in field elements -->
 <xs:attribute name="units" type="SI_Unit"/> <!-- this will get changed on the fly to xs:string if no strict-units command line option is used -->
-<xs:attribute name="value"> <!-- entry -->
+<xs:attribute name="value"> <!-- used in entry elements -->
   <xs:simpleType>
     <xs:restriction base="xs:string">
         <xs:pattern value="\d{1,10}"/> <!-- base 10 int -->
@@ -26,16 +25,17 @@
     </xs:restriction>
   </xs:simpleType>
 </xs:attribute>
-<xs:attribute name="default">
+<xs:attribute name="default"> <!-- used in field elements -->
   <xs:simpleType>
     <xs:restriction base="xs:string">
         <xs:pattern value="\d{1,10}"/> <!-- base 10 int -->
         <xs:pattern value="0[xX][0-9a-fA-F]{1,8}"/> <!-- base 16 -->
         <xs:pattern value="0[bB][0-1]{1,32}"/> <!-- base 1 -->
+        <xs:pattern value="NaN"/> <!-- Allow not-a-number as a default (for params) -->
     </xs:restriction>
   </xs:simpleType>
 </xs:attribute>
-<xs:attribute name="type">
+<xs:attribute name="type"> <!-- used in field elements -->
   <xs:simpleType>
     <xs:restriction base="xs:string">
         <xs:pattern value="float(\[([0-9])+\])?"/>
@@ -54,23 +54,25 @@
     </xs:restriction>
   </xs:simpleType>
 </xs:attribute>
-<xs:attribute name="since">
+<xs:attribute name="since"> <!-- used in deprecated elements -->
   <xs:simpleType>
     <xs:restriction base="xs:string">
       <xs:pattern value="(20)\d{2}-(0[1-9]|1[012])"/>  <!-- restrict dates to 20YY-MM format -->
     </xs:restriction>
   </xs:simpleType>
 </xs:attribute>
-<xs:attribute name="replaced_by" type="xs:string"/>
+<xs:attribute name="replaced_by" type="xs:string"/> <!-- used in deprecated elements -->
 
 <xs:simpleType name="SI_Unit">
   <xs:restriction base="xs:string">
     <!-- time -->
     <xs:enumeration value="s"/>        <!-- seconds -->
     <xs:enumeration value="ds"/>       <!-- deciseconds -->
+    <xs:enumeration value="cs"/>       <!-- centiseconds -->
     <xs:enumeration value="ms"/>       <!-- milliseconds -->
     <xs:enumeration value="us"/>       <!-- microseconds -->
     <xs:enumeration value="Hz"/>       <!-- Herz -->
+    <xs:enumeration value="MHz"/>      <!-- Mega-Herz -->
     <!-- distance -->
     <xs:enumeration value="km"/>       <!-- kilometres -->
     <xs:enumeration value="dam"/>      <!-- decametres -->
@@ -81,9 +83,11 @@
     <xs:enumeration value="dm"/>       <!-- decimetres -->
     <xs:enumeration value="dm/s"/>     <!-- decimetres per second -->
     <xs:enumeration value="cm"/>       <!-- centimetres -->
+    <xs:enumeration value="cm^2"/>     <!-- centimetres squared (typically used in variance) -->
     <xs:enumeration value="cm/s"/>     <!-- centimetres per second -->
     <xs:enumeration value="mm"/>       <!-- millimetres -->
     <xs:enumeration value="mm/s"/>     <!-- millimetres per second -->
+    <xs:enumeration value="mm/h"/>     <!-- millimetres per hour -->
     <!-- temperature -->
     <xs:enumeration value="K"/>        <!-- Kelvin -->
     <xs:enumeration value="degC"/>     <!-- degrees Celsius -->
@@ -105,6 +109,7 @@
     <xs:enumeration value="mV"/>       <!-- milli-Volt -->
     <xs:enumeration value="A"/>        <!-- Ampere -->
     <xs:enumeration value="cA"/>       <!-- centi-Ampere -->
+    <xs:enumeration value="mA"/>       <!-- milli-Ampere -->
     <xs:enumeration value="mAh"/>      <!-- milli-Ampere hour -->
     <!-- magnetism -->
     <xs:enumeration value="mT"/>       <!-- milli-Tesla -->
@@ -114,6 +119,8 @@
     <xs:enumeration value="hJ"/>       <!-- hecto-Joule -->
     <!-- force -->
     <xs:enumeration value="mG"/>       <!-- milli-G -->
+    <!-- mass -->
+    <xs:enumeration value="g"/>       <!-- grams -->
     <!-- pressure -->
     <xs:enumeration value="Pa"/>       <!-- Pascal -->
     <xs:enumeration value="hPa"/>      <!-- hecto-Pascal -->
@@ -123,22 +130,46 @@
     <xs:enumeration value="d%"/>       <!-- decipercent -->
     <xs:enumeration value="c%"/>       <!-- centipercent -->
     <xs:enumeration value="dB"/>       <!-- Deci-Bell -->
+    <xs:enumeration value="dBm"/>      <!-- Deci-Bell-milliwatts-->
     <!-- digital -->
     <xs:enumeration value="KiB"/>      <!-- Kibibyte (1024 bytes) -->
     <xs:enumeration value="KiB/s"/>    <!-- Kibibyte (1024 bytes) per second -->
     <xs:enumeration value="MiB"/>      <!-- Mebibyte (1024*1024 bytes) -->
     <xs:enumeration value="MiB/s"/>    <!-- Mebibyte (1024*1024 bytes) per second -->
     <xs:enumeration value="bytes"/>    <!-- bytes -->
+    <xs:enumeration value="bytes/s"/>  <!-- bytes per second-->
     <xs:enumeration value="bits/s"/>   <!-- bits per second -->
     <xs:enumeration value="pix"/>      <!-- pixels -->
     <xs:enumeration value="dpix"/>     <!-- decipixels -->
   </xs:restriction>
 </xs:simpleType>
 
+<!-- definition param elements attributes (like the ones used on MAV_CMD for example) -->
+<xs:attribute name="index" type="xs:unsignedByte"/>                    <!-- parameter index -->
+<xs:attribute name="label" type="xs:string"/>                          <!-- parameter label (name) -->
+<xs:attribute name="decimalPlaces" type="xs:unsignedByte"/>            <!-- parameter number of decimal places to be displayed in the GUI -->
+<xs:attribute name="increment" type="xs:float"/>                       <!-- parameter increment -->
+<xs:attribute name="minValue" type="xs:float"/>                        <!-- parameter minimum value -->
+<xs:attribute name="maxValue" type="xs:float"/>                        <!-- parameter maximum value -->
+<xs:attribute name="reserved" type="xs:boolean" default="false"/>      <!-- parameter is reserved -->
+
+<!-- definition entry elements attributes (like the ones used on MAV_CMD for example) -->
+<xs:attribute name="hasLocation" type="xs:boolean" default="true"/>    <!-- entry has lat/lon/alt location -->
+<xs:attribute name="isDestination" type="xs:boolean" default="true"/>  <!-- entry is a destination -->
+
 <!-- definition of complex elements -->
 <xs:element name="param">
     <xs:complexType mixed="true">
         <xs:attribute ref="index" use="required"/>
+        <xs:attribute ref="label"/>
+        <xs:attribute ref="units"/>
+        <xs:attribute ref="enum" />
+        <xs:attribute ref="decimalPlaces"/>
+        <xs:attribute ref="increment"/>
+        <xs:attribute ref="minValue"/>
+        <xs:attribute ref="maxValue"/>
+        <xs:attribute ref="reserved"/>
+        <xs:attribute ref="default"/>
     </xs:complexType>
 </xs:element>
 
@@ -190,6 +221,8 @@
         </xs:sequence>
         <xs:attribute ref="value" />
         <xs:attribute ref="name" use="required"/>
+        <xs:attribute ref="hasLocation"/>
+        <xs:attribute ref="isDestination"/>
     </xs:complexType>
 </xs:element>
 
@@ -212,7 +245,7 @@
                     <xs:element ref="deprecated"/>
                     <xs:element ref="wip"/>
                 </xs:choice>
-                <xs:element ref="description" minOccurs="0" maxOccurs="1"/>
+                <xs:element ref="description" minOccurs="1" maxOccurs="1"/>
                 <xs:element ref="field" minOccurs="0" maxOccurs="unbounded"/>
             </xs:sequence>
             <!-- MavLink 2.0 extensions are optional hence minOccurs="0" -->
