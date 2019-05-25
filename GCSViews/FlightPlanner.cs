@@ -3759,6 +3759,13 @@ namespace MissionPlanner.GCSViews
                         Commands.Rows[selectedrow].Cells[Alt.Index].Value = TXT_DefaultAlt.Text;
                 }
 
+                // default land to 0
+                if (((ComboBox)sender).Text == "LAND")
+                {
+                    if (Commands.Rows[selectedrow].Cells[Alt.Index].Value != null)
+                        Commands.Rows[selectedrow].Cells[Alt.Index].Value = "0";
+                }
+
                 // default to take shot
                 if (((ComboBox) sender).Text == "DO_DIGICAM_CONTROL")
                 {
