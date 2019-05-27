@@ -1124,5 +1124,22 @@ namespace MissionPlanner
                 CustomMessageBox.Show(sb.ToString());
             }
         }
+
+        private void but_packetbytes_Click(object sender, EventArgs e)
+        {
+            string input = "";
+            InputBox.Show("input", "enter the hex byte data", ref input, false, true);
+
+            var split = input.Replace("0x", ",").Split(new char[] {',', ' '}, StringSplitOptions.RemoveEmptyEntries);
+
+            var buffer = split.Select(a => Convert.ToByte(a, 16));
+
+            MAVLink.MavlinkParse parse = new MAVLink.MavlinkParse();
+
+            var packet = parse.ReadPacket(new MemoryStream(buffer.ToArray()));
+
+            CustomMessageBox.Show(packet?.ToString() +
+                                  "\n" + packet.ToJSON().WrapText(5, new[] {','}));
+        }
     }
 }

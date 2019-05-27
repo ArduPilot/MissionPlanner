@@ -1498,7 +1498,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;tableLayoutPanel1.ZOrder" xml:space="preserve">
-    <value>30</value>
+    <value>31</value>
   </data>
   <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
     <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label12" Row="11" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label22" Row="21" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="but_anonlog" Row="11" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="but_dashware" Row="21" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label26" Row="25" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label25" Row="24" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label24" Row="23" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label23" Row="22" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label21" Row="20" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label20" Row="19" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label19" Row="18" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label18" Row="17" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="butlogindex" Row="25" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="but_armandtakeoff" Row="22" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="but_maplogs" Row="24" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label17" Row="16" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="but_gimbaltest" Row="23" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="but_structtest" Row="20" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label15" Row="14" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label14" Row="13" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label13" Row="12" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label11" Row="10" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label10" Row="9" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label9" Row="8" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BUT_clearcustommaps" Row="19" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="but_getfw" Row="17" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BUT_geinjection" Row="18" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label8" Row="7" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label7" Row="6" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BUT_sorttlogs" Row="16" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label6" Row="5" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label5" Row="4" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label4" Row="3" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label3" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label2" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BUT_outputMavlink" Row="5" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BUT_outputMD" Row="4" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BUT_outputnmea" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BUT_georefimage" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="button3" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BUT_lang_edit" Row="7" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BUT_follow_me" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BUT_paramgen" Row="6" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="but_osdvideo" Row="8" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BUT_movingbase" Row="9" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BUT_shptopoly" Row="10" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BUT_swarm" Row="12" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BUT_followleader" Row="13" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label1" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="but_mavserialport" Row="14" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,29.46636,Percent,70.53365" /&gt;&lt;Rows Styles="Percent,3.846154,Percent,3.846154,Percent,3.846154,Percent,3.846154,Percent,3.846154,Percent,3.846154,Percent,3.846154,Percent,3.846154,Percent,3.846154,Percent,3.846154,Percent,3.846154,Percent,3.846154,Percent,3.846154,Percent,3.846154,Percent,3.846154,Percent,3.846154,Percent,3.846154,Percent,3.846154,Percent,3.846154,Percent,3.846154,Percent,3.846154,Percent,3.846154,Percent,3.846154,Percent,3.846154,Percent,3.846154,Percent,3.846154,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
@@ -1525,7 +1525,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;but_sitl_comb.ZOrder" xml:space="preserve">
-    <value>29</value>
+    <value>30</value>
   </data>
   <data name="but_injectgps.Location" type="System.Drawing.Point, System.Drawing">
     <value>537, 62</value>
@@ -1549,7 +1549,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;but_injectgps.ZOrder" xml:space="preserve">
-    <value>28</value>
+    <value>29</value>
   </data>
   <data name="BUT_fft.Location" type="System.Drawing.Point, System.Drawing">
     <value>537, 91</value>
@@ -1573,7 +1573,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_fft.ZOrder" xml:space="preserve">
-    <value>27</value>
+    <value>28</value>
   </data>
   <data name="but_reboot.Location" type="System.Drawing.Point, System.Drawing">
     <value>537, 149</value>
@@ -1597,7 +1597,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;but_reboot.ZOrder" xml:space="preserve">
-    <value>26</value>
+    <value>27</value>
   </data>
   <data name="BUT_QNH.Location" type="System.Drawing.Point, System.Drawing">
     <value>537, 178</value>
@@ -1621,7 +1621,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_QNH.ZOrder" xml:space="preserve">
-    <value>25</value>
+    <value>26</value>
   </data>
   <data name="but_trimble.Location" type="System.Drawing.Point, System.Drawing">
     <value>537, 207</value>
@@ -1645,7 +1645,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;but_trimble.ZOrder" xml:space="preserve">
-    <value>24</value>
+    <value>25</value>
   </data>
   <data name="myButton_vlc.Location" type="System.Drawing.Point, System.Drawing">
     <value>537, 236</value>
@@ -1669,7 +1669,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;myButton_vlc.ZOrder" xml:space="preserve">
-    <value>23</value>
+    <value>24</value>
   </data>
   <data name="but_gstream.Location" type="System.Drawing.Point, System.Drawing">
     <value>537, 265</value>
@@ -1693,7 +1693,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;but_gstream.ZOrder" xml:space="preserve">
-    <value>22</value>
+    <value>23</value>
   </data>
   <data name="but_agemapdata.Location" type="System.Drawing.Point, System.Drawing">
     <value>537, 294</value>
@@ -1717,7 +1717,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;but_agemapdata.ZOrder" xml:space="preserve">
-    <value>21</value>
+    <value>22</value>
   </data>
   <data name="myButton1.Location" type="System.Drawing.Point, System.Drawing">
     <value>537, 323</value>
@@ -1741,7 +1741,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;myButton1.ZOrder" xml:space="preserve">
-    <value>20</value>
+    <value>21</value>
   </data>
   <data name="but_signkey.Location" type="System.Drawing.Point, System.Drawing">
     <value>537, 352</value>
@@ -1765,7 +1765,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;but_signkey.ZOrder" xml:space="preserve">
-    <value>19</value>
+    <value>20</value>
   </data>
   <data name="but_optflowcalib.Location" type="System.Drawing.Point, System.Drawing">
     <value>537, 381</value>
@@ -1789,7 +1789,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;but_optflowcalib.ZOrder" xml:space="preserve">
-    <value>18</value>
+    <value>19</value>
   </data>
   <data name="myButton2.Location" type="System.Drawing.Point, System.Drawing">
     <value>537, 414</value>
@@ -1813,7 +1813,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;myButton2.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>18</value>
   </data>
   <data name="BUT_magfit2.Location" type="System.Drawing.Point, System.Drawing">
     <value>537, 443</value>
@@ -1837,7 +1837,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_magfit2.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>17</value>
   </data>
   <data name="but_gpsinj.Location" type="System.Drawing.Point, System.Drawing">
     <value>537, 472</value>
@@ -1861,7 +1861,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;but_gpsinj.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>15</value>
   </data>
   <data name="controlSensorsStatus1.Location" type="System.Drawing.Point, System.Drawing">
     <value>618, 12</value>
@@ -1876,13 +1876,13 @@
     <value>controlSensorsStatus1</value>
   </data>
   <data name="&gt;&gt;controlSensorsStatus1.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.ControlSensorsStatus, MissionPlanner, Version=1.3.7043.2462, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.ControlSensorsStatus, MissionPlanner, Version=1.3.7084.30298, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;controlSensorsStatus1.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;controlSensorsStatus1.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>16</value>
   </data>
   <data name="but_followswarm.Location" type="System.Drawing.Point, System.Drawing">
     <value>537, 530</value>
@@ -1906,7 +1906,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;but_followswarm.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>14</value>
   </data>
   <data name="myButton3.Location" type="System.Drawing.Point, System.Drawing">
     <value>537, 559</value>
@@ -1930,7 +1930,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;myButton3.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>13</value>
   </data>
   <data name="but_GDAL.Location" type="System.Drawing.Point, System.Drawing">
     <value>386, 566</value>
@@ -1954,7 +1954,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;but_GDAL.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>12</value>
   </data>
   <data name="but_sortlogs.Location" type="System.Drawing.Point, System.Drawing">
     <value>305, 566</value>
@@ -1978,7 +1978,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;but_sortlogs.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <data name="but_logdlscp.Location" type="System.Drawing.Point, System.Drawing">
     <value>224, 566</value>
@@ -2002,7 +2002,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;but_logdlscp.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="but_td.Location" type="System.Drawing.Point, System.Drawing">
     <value>537, 120</value>
@@ -2026,7 +2026,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;but_td.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="but_dem.Location" type="System.Drawing.Point, System.Drawing">
     <value>143, 566</value>
@@ -2050,7 +2050,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;but_dem.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="but_proximity.Location" type="System.Drawing.Point, System.Drawing">
     <value>537, 501</value>
@@ -2074,7 +2074,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;but_proximity.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="but_mavinspector.Location" type="System.Drawing.Point, System.Drawing">
     <value>424, 236</value>
@@ -2098,7 +2098,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;but_mavinspector.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="but_blupdate.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -2125,7 +2125,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;but_blupdate.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="but_3dmap.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -2152,7 +2152,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;but_3dmap.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="but_messageinterval.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -2179,7 +2179,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;but_messageinterval.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="but_disablearmswitch.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -2206,7 +2206,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;but_disablearmswitch.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="but_hwids.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -2233,6 +2233,33 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;but_hwids.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="but_packetbytes.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="but_packetbytes.Location" type="System.Drawing.Point, System.Drawing">
+    <value>424, 381</value>
+  </data>
+  <data name="but_packetbytes.Size" type="System.Drawing.Size, System.Drawing">
+    <value>55, 43</value>
+  </data>
+  <data name="but_packetbytes.TabIndex" type="System.Int32, mscorlib">
+    <value>100</value>
+  </data>
+  <data name="but_packetbytes.Text" xml:space="preserve">
+    <value>parse packet bytes</value>
+  </data>
+  <data name="&gt;&gt;but_packetbytes.Name" xml:space="preserve">
+    <value>but_packetbytes</value>
+  </data>
+  <data name="&gt;&gt;but_packetbytes.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;but_packetbytes.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;but_packetbytes.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
