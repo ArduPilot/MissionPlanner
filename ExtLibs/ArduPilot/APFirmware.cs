@@ -65,7 +65,7 @@ namespace MissionPlanner.ArduPilot
             [JsonProperty("latest")] public long Latest { get; set; }
         }
 
-        public class ApFirmware
+        public class ManifestRoot
         {
             [JsonProperty("firmware")] public FirmwareInfo[] Firmware { get; set; }
 
@@ -87,12 +87,12 @@ namespace MissionPlanner.ArduPilot
             msdest.Position = 0;
             var manifest = new StreamReader(msdest).ReadToEnd();
             
-            Manifest = JsonConvert.DeserializeObject<ApFirmware>(manifest);
+            Manifest = JsonConvert.DeserializeObject<ManifestRoot>(manifest);
 
             log.Info(Manifest.Firmware?.Length);
         }
 
-        public static ApFirmware Manifest { get; set; }
+        public static ManifestRoot Manifest { get; set; }
 
         public static List<FirmwareInfo> GetOptions(DeviceInfo device)
         {
