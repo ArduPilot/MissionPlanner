@@ -12,6 +12,7 @@ using SkiaSharp.Views.Desktop;
 
 namespace MissionPlanner.Controls
 {
+    [DefaultEvent("Click")]
     public class MyButton : SkiaSharp.Views.Desktop.SKControl, IButtonControl
     {
         bool _mouseover = false;
