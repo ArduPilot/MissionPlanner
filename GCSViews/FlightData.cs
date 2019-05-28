@@ -3551,9 +3551,10 @@ namespace MissionPlanner.GCSViews
             // arm the MAV
             try
             {
+                var isitarmed = MainV2.comPort.MAV.cs.armed;
                 var action = MainV2.comPort.MAV.cs.armed ? "Disarm" : "Arm";
 
-                if (MainV2.comPort.MAV.cs.armed)
+                if (isitarmed)
                     if (CustomMessageBox.Show("Are you sure you want to " + action, action, CustomMessageBox.MessageBoxButtons.YesNo) !=
                         CustomMessageBox.DialogResult.Yes)
                         return;
@@ -3563,13 +3564,13 @@ namespace MissionPlanner.GCSViews
                     sb.AppendLine(ASCIIEncoding.ASCII.GetString(((MAVLink.mavlink_statustext_t) message.data).text).TrimEnd('\0'));
                     return true;
                 });
-                bool ans = MainV2.comPort.doARM(!MainV2.comPort.MAV.cs.armed);
+                bool ans = MainV2.comPort.doARM(!isitarmed);
                 MainV2.comPort.UnSubscribeToPacketType(sub);
                 if (ans == false)
                 {
                     if (CustomMessageBox.Show(action + " failed.\n"+sb.ToString()+ "\nForce " + action+ " can bypass safety checks,\nwhich can lead to the vehicle crashing\nand causing serious injuries.\n\nDo you wish to Force "+action+"?", Strings.ERROR, CustomMessageBox.MessageBoxButtons.YesNo, CustomMessageBox.MessageBoxIcon.Exclamation, "Force "+action, "Cancel") == CustomMessageBox.DialogResult.Yes)
                     {
-                        ans = MainV2.comPort.doARM(!MainV2.comPort.MAV.cs.armed, true);
+                        ans = MainV2.comPort.doARM(!isitarmed, true);
                         if (ans == false)
                         {
                             CustomMessageBox.Show(Strings.ErrorRejectedByMAV, Strings.ERROR);
