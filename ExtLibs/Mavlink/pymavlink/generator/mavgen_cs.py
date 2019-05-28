@@ -12,6 +12,21 @@ from . import mavparse, mavtemplate
 t = mavtemplate.MAVTemplate()
 
 enumtypes = {}
+
+map = {
+        'float'    : 'float',
+        'double'   : 'double',
+        'char'     : 'byte',
+        'int8_t'   : 'sbyte',
+        'uint8_t'  : 'byte',
+        'uint8_t_mavlink_version'  : 'B',
+        'int16_t'  : 'short',
+        'uint16_t' : 'ushort',
+        'int32_t'  : 'int',
+        'uint32_t' : 'uint',
+        'int64_t'  : 'long',
+        'uint64_t' : 'ulong',
+    }
     
 def generate_message_header(f, xml):
 
@@ -49,42 +64,31 @@ def generate_message_header(f, xml):
         # we sort with primary key msgid, secondary key dialect
         for msgid in sorted(xml.message_names.keys()):
             name = xml.message_names[msgid]
-            xml.message_infos_array += '		new message_info(%u, "%s", %u, %u, %u, typeof( mavlink_%s_t )),\n' % (msgid,
+            xml.message_infos_array += '        new message_info(%u, "%s", %u, %u, %u, typeof( mavlink_%s_t )),\n' % (msgid,
                                                                 name,
                                                                 xml.message_crcs[msgid],
-																xml.message_min_lengths[msgid],
+                                                                xml.message_min_lengths[msgid],
                                                                 xml.message_lengths[msgid],
                                                                 name.lower())
-            xml.message_names_enum += '%s = %u,\n' % (name, msgid)
+            xml.message_names_enum += '\n        %s = %u,' % (name, msgid)
     else:
         for msgid in range(256):
             crc = xml.message_crcs.get(msgid, None)
             name = xml.message_names.get(msgid, None)
             length = xml.message_lengths.get(msgid, None)
             if name is not None:
-                xml.message_infos_array += '		new message_info(%u, "%s", %u, %u, %u, typeof( mavlink_%s_t )),\n' % (msgid, 
+                xml.message_infos_array += '        new message_info(%u, "%s", %u, %u, %u, typeof( mavlink_%s_t )),\n' % (msgid, 
                                                                     name,
                                                                     crc,
-																	length,
+                                                                    length,
                                                                     length,
                                                                     name.lower())
-                xml.message_names_enum += '%s = %u,\n' % (name, msgid)
-    
+                xml.message_names_enum += '\n        %s = %u,' % (name, msgid)
+
     # add some extra field attributes for convenience with arrays
     for m in xml.enum:
-        m.description = m.description.replace("\n"," ")
-        m.description = m.description.replace("\r"," ")
         for fe in m.entry[:]:
-            if fe.name.endswith('ENUM_END'):
-                m.entry.remove(fe)
-                continue
-            fe.description = fe.description.replace("\n"," ")
-            fe.description = fe.description.replace("\r"," ")
-            fe.name = fe.name.replace(m.name + "_","")
             fe.name = fe.name.replace("NAV_","")
-            firstchar = re.search('^([0-9])', fe.name )
-            if firstchar != None and firstchar.group():
-                fe.name = '_%s' % fe.name
            
     t.write(f, '''
 using System;
@@ -112,7 +116,7 @@ public partial class MAVLink
 
     public const byte MAVLINK_STX = ${protocol_marker};
 
-	public const byte MAVLINK_STX_MAVLINK1 = 0xFE;
+    public const byte MAVLINK_STX_MAVLINK1 = 0xFE;
 
     public const byte MAVLINK_ENDIAN = ${mavlink_endian};
 
@@ -127,12 +131,12 @@ public partial class MAVLink
     // msgid, name, crc, length, type
     public static message_info[] MAVLINK_MESSAGE_INFOS = new message_info[] {
 ${message_infos_array}
-	};
+    };
 
     public const byte MAVLINK_VERSION = ${version};
 
-	public const byte MAVLINK_IFLAG_SIGNED=  0x01;
-	public const byte MAVLINK_IFLAG_MASK   = 0x01;
+    public const byte MAVLINK_IFLAG_SIGNED=  0x01;
+    public const byte MAVLINK_IFLAG_MASK   = 0x01;
 
     public struct message_info
     {
@@ -148,7 +152,7 @@ ${message_infos_array}
             this.msgid = msgid;
             this.name = name;
             this.crc = crc;
-			this.minlength = minlength;
+            this.minlength = minlength;
             this.length = length;
             this.type = type;
         }
@@ -161,9 +165,9 @@ ${message_infos_array}
 
     public enum MAVLINK_MSG_ID 
     {
-        ${message_names_enum}
-    }  
-	    
+${message_names_enum}
+    }
+    
 ''', xml)
 
 
@@ -172,47 +176,27 @@ def generate_message_enum_types(xml):
     for m in xml.message:
         for fld in m.fields:
             if fld.array_length == 0:
-                if fld.type == 'char':
-                    fld.type = "byte";
-                elif fld.type == 'uint8_t':
-                    fld.type = "byte";
-                elif fld.type == 'int8_t':
-                    fld.type = "byte";
-                elif fld.type == 'int16_t': 
-                    fld.type = "short";
-                elif fld.type == 'uint16_t': 
-                    fld.type = "ushort";
-                elif fld.type == 'uint32_t':
-                    fld.type = "uint";
-                elif fld.type == 'int16_t': 
-                    fld.type = "short";
-                elif fld.type == 'int32_t':
-                    fld.type = "int";
-                elif fld.type == 'uint64_t':
-                    fld.type = "ulong";                  
-                elif fld.type == 'int64_t':     
-                    fld.type = "long";   
-                elif fld.type == 'float':     
-                    fld.type = "float"; 
+                fld.type = map[fld.type]
             if fld.enum != "":
                 enumtypes[fld.enum] = fld.type
                 print fld.enum + " is type " + fld.type
+
+def cleanText(text):
+    text = text.replace("\n"," ")
+    text = text.replace("\r"," ")
+    return text.replace("\"","'")
 
 def generate_message_enums(f, xml): 
     print "generate_message_enums: " + xml.filename
     # add some extra field attributes for convenience with arrays
     for m in xml.enum:
-        m.description = m.description.replace("\n","    \n///")
-        m.description = m.description.replace("\r"," ")
-        m.description = m.description.replace("\"","'")
+        m.description = cleanText(m.description)
         m.enumtype = enumtypes.get(m.name,"int /*default*/")
         for fe in m.entry:
             if fe.name.endswith('ENUM_END'):
                 m.entry.remove(fe)
                 continue
-            fe.description = fe.description.replace("\n"," ")
-            fe.description = fe.description.replace("\r"," ")
-            fe.description = fe.description.replace("\"","'")
+            fe.description = cleanText(fe.description)
             fe.name = fe.name.replace(m.name + "_","")
             firstchar = re.search('^([0-9])', fe.name )
             if firstchar != None and firstchar.group():
@@ -223,7 +207,7 @@ def generate_message_enums(f, xml):
     ///<summary> ${description} </summary>
     public enum ${name}: ${enumtype}
     {
-		${{entry:	///<summary> ${description} |${{param:${description}| }} </summary>
+        ${{entry:    ///<summary> ${description} |${{param:${description}| }} </summary>
         [Description("${description}")]
         ${name}=${value}, 
     }}
@@ -247,10 +231,15 @@ def generate_message_h(f, directory, m):
     ///<summary> ${description} </summary>
     public struct mavlink_${name_lower}_t
     {
+        public mavlink_${name_lower}_t(${{ordered_fields:${type} ${name},}}) 
+        {
+            ${{ordered_fields:  this.${name} = ${name};
+            }}
+        }
 ${{ordered_fields:        /// <summary>${description} ${enum} ${units} ${display}</summary>
         [Units("${units}")]
         [Description("${description}")]
-        ${array_prefix} ${type} ${name}${array_suffix};
+        ${array_prefix} ${type} ${name};
     }}
     };
 
@@ -277,15 +266,10 @@ def generate_one(fh, basename, xml):
         else:
             m.crc_extra_arg = ""
         m.msg_nameid = "MAVLINK_MSG_ID_${name} = ${id}"
-        m.description = m.description.replace("\n","    \n///")
-        m.description = m.description.replace("\r","")
-        m.description = m.description.replace("\"","'")
+        m.description = cleanText(m.description)
         for f in m.fields:
-            f.description = f.description.replace("\n","    \n///")
-            f.description = f.description.replace("\r","")
-            f.description = f.description.replace("\"","'")
+            f.description = cleanText(f.description)
             if f.array_length != 0:
-                f.array_suffix = ''
                 f.array_prefix = '[MarshalAs(UnmanagedType.ByValArray,SizeConst=%u)]\n\t\tpublic' % f.array_length
                 f.array_arg = ', %u' % f.array_length
                 f.array_return_arg = '%u, ' % (f.array_length)
@@ -295,63 +279,8 @@ def generate_one(fh, basename, xml):
                 f.decode_right = ''
                 f.return_type = 'void'
                 f.return_value = 'void'
-                if f.type == 'char': 
-                    f.type = "byte[]"
-                    f.array_tag = 'System.Text.ASCIIEncoding.ASCII.GetString(msg,%u,%u); //' % (f.wire_offset, f.array_length)
-                    f.return_type = 'byte[]'
-                    f.c_test_value = ".ToCharArray()";
-                elif f.type == 'uint8_t':
-                    f.type = "byte[]";
-                    f.array_tag = 'getBytes'
-                    f.return_type = 'byte[]'
-                elif f.type == 'int8_t':
-                    f.type = "byte[]";
-                    f.array_tag = 'getBytes'
-                    f.return_type = 'byte[]'
-                elif f.type == 'int16_t':
-                    f.type = "Int16[]";
-                    f.array_tag = 'getBytes'
-                    f.return_type = 'Int16[]'
-                elif f.type == 'uint16_t':
-                    f.type = "UInt16[]";
-                    f.array_tag = 'getBytes'
-                    f.return_type = 'UInt16[]'
-                elif f.type == 'float':
-                    f.type = "float[]";
-                    f.array_tag = 'getBytes'
-                    f.return_type = 'float[]'
-                else:
-                    test_strings = []
-                    for v in f.test_value:
-                        test_strings.append(str(v))
-                    f.c_test_value = '{ %s }' % ', '.join(test_strings)
-                    f.array_tag = '!!!%s' % f.type
-                f.get_arg = ', %s %s' % (f.type, f.name)
+                f.type = "%s%s" % (map[f.type], '[]')
             else:
-                if f.type == 'char':
-                    f.type = "byte";
-                elif f.type == 'uint8_t':
-                    f.type = "byte";
-                elif f.type == 'int8_t':
-                    f.type = "byte";
-                elif f.type == 'int16_t': 
-                    f.type = "short";
-                elif f.type == 'uint16_t': 
-                    f.type = "ushort";
-                elif f.type == 'uint32_t':
-                    f.type = "uint";
-                elif f.type == 'int16_t': 
-                    f.type = "short";
-                elif f.type == 'int32_t':
-                    f.type = "int";
-                elif f.type == 'uint64_t':
-                    f.type = "ulong";                  
-                elif f.type == 'int64_t':     
-                    f.type = "long";   
-                elif f.type == 'float':     
-                    f.type = "float"; 
-                else:
-                    f.c_test_value = f.test_value
                 if f.enum != "":
                     f.type = "/*" +f.enum + "*/" + f.type;
                     #f.type = "/*" +f.type + "*/" + f.enum;

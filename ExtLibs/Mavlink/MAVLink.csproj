@@ -1,17 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0; net35; net461</TargetFrameworks>
     <ApplicationIcon />
     <OutputTypeEx>library</OutputTypeEx>
     <StartupObject />
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <DebugType>portable</DebugType>
     <DebugSymbols>True</DebugSymbols>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Michael Oborne</Authors>
     <Company>Michael Oborne</Company>
     <Description>MAVLink for Ardupilot</Description>
+    <Version>1.0.2</Version>
+    <Copyright>Michael Oborne</Copyright>
+    <NeutralLanguage>en</NeutralLanguage>
+    <PackageLicenseUrl>GPLv3</PackageLicenseUrl>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>mykey.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>
