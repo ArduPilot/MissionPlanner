@@ -111,6 +111,7 @@
             this.but_disablearmswitch = new MissionPlanner.Controls.MyButton();
             this.but_hwids = new MissionPlanner.Controls.MyButton();
             this.but_packetbytes = new MissionPlanner.Controls.MyButton();
+            this.but_acbarohight = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -684,9 +685,17 @@
             this.but_packetbytes.UseVisualStyleBackColor = true;
             this.but_packetbytes.Click += new System.EventHandler(this.but_packetbytes_Click);
             // 
+            // but_acbarohight
+            // 
+            resources.ApplyResources(this.but_acbarohight, "but_acbarohight");
+            this.but_acbarohight.Name = "but_acbarohight";
+            this.but_acbarohight.UseVisualStyleBackColor = true;
+            this.but_acbarohight.Click += new System.EventHandler(this.but_acbarohight_Click);
+            // 
             // temp
             // 
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.but_acbarohight);
             this.Controls.Add(this.but_packetbytes);
             this.Controls.Add(this.but_hwids);
             this.Controls.Add(this.but_disablearmswitch);
@@ -812,5 +821,6 @@
         private Controls.MyButton but_disablearmswitch;
         private Controls.MyButton but_hwids;
         private Controls.MyButton but_packetbytes;
+        private Controls.MyButton but_acbarohight;
     }
 }

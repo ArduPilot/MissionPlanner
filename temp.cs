@@ -1141,5 +1141,24 @@ namespace MissionPlanner
             CustomMessageBox.Show(packet?.ToString() +
                                   "\n" + packet.ToJSON().WrapText(5, new[] {','}));
         }
+
+        private void but_acbarohight_Click(object sender, EventArgs e)
+        {
+            var currentQNH = MainV2.comPort.GetParam("GND_ABS_PRESS").ToString();
+            //338.6388 pa => 100' = 30.48m
+            CustomMessageBox.Show("use at your own risk!!!");
+
+            NumericUpDown mavlinkNumericUpDown = new NumericUpDown();
+            mavlinkNumericUpDown.Minimum = -100;
+            mavlinkNumericUpDown.Maximum = 100;
+         
+            mavlinkNumericUpDown.Padding = new Padding(20);
+        mavlinkNumericUpDown.ValueChanged += (o, args) =>
+            {
+                MainV2.comPort.setParam("GND_ABS_PRESS", (float)(double.Parse(currentQNH) + (double)mavlinkNumericUpDown.Value * 11.1));
+            };
+
+            mavlinkNumericUpDown.ShowUserControl();
+        }
     }
 }
