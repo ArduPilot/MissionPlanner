@@ -545,7 +545,7 @@ namespace MissionPlanner
             start = DateTime.Now;
             for (a = 0; a < 1000000; a++)
             {
-                var ans2 = MavlinkUtil.ReadUsingPointer<MAVLink.mavlink_heartbeat_t>(array, 6);
+                //var ans2 = MavlinkUtil.ReadUsingPointer<MAVLink.mavlink_heartbeat_t>(array, 6);
             }
             end = DateTime.Now;
             Console.WriteLine("ReadUsingPointer " + (end - start).TotalMilliseconds);
