@@ -758,6 +758,12 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             }
         }
 
+        /// <summary>
+        /// Send a mavlink packet
+        /// </summary>
+        /// <param name="indata">data</param>
+        /// <param name="sysid">target sysid</param>
+        /// <param name="compid">target compid</param>
         public void sendPacket(object indata, int sysid, int compid)
         {
             bool validPacket = false;

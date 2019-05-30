@@ -2407,23 +2407,27 @@ namespace MissionPlanner
 
                         if (!useLocation)
                         {
-                            lat = gps.lat*1.0e-7;
-                            lng = gps.lon*1.0e-7;
+                            lat = gps.lat * 1.0e-7;
+                            lng = gps.lon * 1.0e-7;
 
-                            altasl = gps.alt/1000.0f;
+                            altasl = gps.alt / 1000.0f;
                             // alt = gps.alt; // using vfr as includes baro calc
                         }
 
                         gpsstatus = gps.fix_type;
                         //                    Console.WriteLine("gpsfix {0}",gpsstatus);
 
-                        gpshdop = (float) Math.Round((double) gps.eph/100.0, 2);
+                        if (gps.eph != ushort.MaxValue)
+                            gpshdop = (float) Math.Round((double) gps.eph / 100.0, 2);
 
-                        satcount = gps.satellites_visible;
+                        if (gps.satellites_visible != byte.MaxValue)
+                            satcount = gps.satellites_visible;
 
-                        groundspeed = gps.vel*1.0e-2f;
-                        if (groundspeed > 0.5)
-                            groundcourse = gps.cog*1.0e-2f;
+                        if (gps.vel != ushort.MaxValue)
+                            groundspeed = gps.vel * 1.0e-2f;
+
+                        if (groundspeed > 0.5 && gps.cog != ushort.MaxValue)
+                            groundcourse = gps.cog * 1.0e-2f;
 
                         if (mavLinkMessage.ismavlink2)
                         {
