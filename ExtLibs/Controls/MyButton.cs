@@ -8,12 +8,10 @@ using System.Windows.Forms;
 
 
 using System.Drawing.Drawing2D;
-using SkiaSharp.Views.Desktop;
 
 namespace MissionPlanner.Controls
 {
-    [DefaultEvent("Click")]
-    public class MyButton : SkiaSharp.Views.Desktop.SKControl, IButtonControl
+    public class MyButton : Button
     {
         bool _mouseover = false;
         bool _mousedown = false;
@@ -30,104 +28,27 @@ namespace MissionPlanner.Controls
 
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
         [DefaultValue(typeof(Color), "0x94, 0xc1, 0x1f")]
-        public Color BGGradTop
-        {
-            get { return _BGGradTop; }
-            set
-            {
-                _BGGradTop = value;
-                this.Invalidate();
-            }
-        }
-
+        public Color BGGradTop { get { return _BGGradTop; } set { _BGGradTop = value; this.Invalidate(); } }
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
         [DefaultValue(typeof(Color), "0xcd, 0xe2, 0x96")]
-        public Color BGGradBot
-        {
-            get { return _BGGradBot; }
-            set
-            {
-                _BGGradBot = value;
-                this.Invalidate();
-            }
-        }
-
+        public Color BGGradBot { get { return _BGGradBot; } set { _BGGradBot = value; this.Invalidate(); } }
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
         [DefaultValue(typeof(Color), "73, 0x2b, 0x3a, 0x03")]
-        public Color ColorNotEnabled
-        {
-            get { return _ColorNotEnabled; }
-            set
-            {
-                _ColorNotEnabled = value;
-                this.Invalidate();
-            }
-        }
-
+        public Color ColorNotEnabled { get { return _ColorNotEnabled; } set { _ColorNotEnabled = value; this.Invalidate(); } }
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
         [DefaultValue(typeof(Color), "73, 0x2b, 0x3a, 0x03")]
-        public Color ColorMouseOver
-        {
-            get { return _ColorMouseOver; }
-            set
-            {
-                _ColorMouseOver = value;
-                this.Invalidate();
-            }
-        }
-
+        public Color ColorMouseOver { get { return _ColorMouseOver; } set { _ColorMouseOver = value; this.Invalidate(); } }
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
         [DefaultValue(typeof(Color), "150, 0x2b, 0x3a, 0x03")]
-        public Color ColorMouseDown
-        {
-            get { return _ColorMouseDown; }
-            set
-            {
-                _ColorMouseDown = value;
-                this.Invalidate();
-            }
-        }
+        public Color ColorMouseDown { get { return _ColorMouseDown; } set { _ColorMouseDown = value; this.Invalidate(); } }
 
         // i want to ignore forecolor
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
         [DefaultValue(typeof(Color), "0x40, 0x57, 0x04")]
-        public Color TextColor
-        {
-            get { return _TextColor; }
-            set
-            {
-                _TextColor = value;
-                this.Invalidate();
-            }
-        }
-
+        public Color TextColor { get { return _TextColor; } set { _TextColor = value; this.Invalidate(); } }
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
         [DefaultValue(typeof(Color), "0x79, 0x94, 0x29")]
-        public Color Outline
-        {
-            get { return _Outline; }
-            set
-            {
-                _Outline = value;
-                this.Invalidate();
-            }
-        }
-
-        public void NotifyDefault(bool value)
-        {
-
-        }
-
-        public void PerformClick()
-        {
-            this.Focus();
-            OnClick(new EventArgs());
-        }
-
-        [DefaultValue(System.Windows.Forms.DialogResult.None)]
-        public DialogResult DialogResult { get; set; } = DialogResult.None;
-
-        [DefaultValue(false)] public bool UseVisualStyleBackColor { get; set; }
+        public Color Outline { get { return _Outline; } set { _Outline = value; this.Invalidate(); } }
 
         public MyButton()
         {
@@ -138,23 +59,20 @@ namespace MissionPlanner.Controls
             _ColorNotEnabled = Color.FromArgb(73, 0x2b, 0x3a, 0x03);
             _ColorMouseOver = Color.FromArgb(73, 0x2b, 0x3a, 0x03);
             _ColorMouseDown = Color.FromArgb(150, 0x2b, 0x3a, 0x03);
-
-            Size = new Size(75, 23);
-
-            PaintSurface += OnPaintSurface;
         }
 
-        private void OnPaintSurface(object sender, SKPaintSurfaceEventArgs e)
+        protected override void OnPaint(PaintEventArgs pevent)
         {
+            //base.OnPaint(pevent);
 
-            if (inOnPaint || !IsHandleCreated)
+            if (inOnPaint)
                 return;
 
             inOnPaint = true;
 
             try
             {
-                var gr = new SkiaGraphics(e.Surface);
+                Graphics gr = pevent.Graphics;
 
                 gr.Clear(this.BackColor);
 
@@ -162,8 +80,7 @@ namespace MissionPlanner.Controls
 
                 Rectangle outside = new Rectangle(0, 0, this.Width, this.Height);
 
-                LinearGradientBrush linear =
-                    new LinearGradientBrush(outside, BGGradTop, BGGradBot, LinearGradientMode.Vertical);
+                LinearGradientBrush linear = new LinearGradientBrush(outside, BGGradTop, BGGradBot, LinearGradientMode.Vertical);
 
                 Pen mypen = new Pen(Outline, 1);
 
@@ -204,7 +121,6 @@ namespace MissionPlanner.Controls
 
                     gr.FillPath(brush, outline);
                 }
-
                 if (_mousedown)
                 {
                     SolidBrush brush = new SolidBrush(ColorMouseDown);
@@ -231,36 +147,14 @@ namespace MissionPlanner.Controls
 
                 gr.DrawString(display, this.Font, mybrush, outside, stringFormat);
             }
-            catch
-            {
-            }
+            catch { }
 
             inOnPaint = false;
         }
 
         protected override void OnClick(EventArgs e)
         {
-            if (DialogResult != DialogResult.None)
-            {
-                var form = Parent.FindForm();
-                if (form != null)
-                    form.DialogResult = DialogResult;
-            }
-
             base.OnClick(e);
-        }
-
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            if (DesignMode)
-            {
-                e.Graphics.FillRectangle(new SolidBrush(Color.Red), ClientRectangle);
-                e.Graphics.DrawString(Text, Font, new SolidBrush(ForeColor), ClientRectangle);
-            }
-            else
-            {
-                base.OnPaint(e);
-            }
         }
 
         protected override void OnPaintBackground(PaintEventArgs pevent)
@@ -272,29 +166,24 @@ namespace MissionPlanner.Controls
         {
             _mouseover = true;
             base.OnMouseEnter(e);
-            this.Invalidate();
         }
 
         protected override void OnMouseLeave(EventArgs e)
         {
             _mouseover = false;
             base.OnMouseLeave(e);
-            this.Invalidate();
         }
 
         protected override void OnMouseDown(MouseEventArgs mevent)
         {
-            this.Focus();
             _mousedown = true;
             base.OnMouseDown(mevent);
-            this.Invalidate();
         }
 
         protected override void OnMouseUp(MouseEventArgs mevent)
         {
             _mousedown = false;
             base.OnMouseUp(mevent);
-            this.Invalidate();
         }
     }
 }
