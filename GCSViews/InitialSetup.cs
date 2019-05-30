@@ -163,10 +163,9 @@ namespace MissionPlanner.GCSViews
             }
             if (MainV2.DisplayConfiguration.displayCAN)
             {
-                AddBackstageViewPage(typeof(ConfigHWCAN), "CAN", isConnected, opt);
+                //AddBackstageViewPage(typeof(ConfigHWCAN), "CAN", isConnected, opt);
+                AddBackstageViewPage(typeof(ConfigUAVCAN), "UAVCAN", isConnected, opt);
             }
-
-            AddBackstageViewPage(typeof(ConfigUAVCAN), "UAVCAN", isConnected, opt);
 
             if (MainV2.DisplayConfiguration.displayCompassMotorCalib)
             {
