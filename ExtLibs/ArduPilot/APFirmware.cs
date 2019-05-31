@@ -41,10 +41,11 @@ namespace MissionPlanner.ArduPilot
             public string MavFirmwareVersionType { get; set; }
 
             [JsonProperty("mav-firmware-version-patch", NullValueHandling = NullValueHandling.Ignore)]
-
             public long MavFirmwareVersionPatch { get; set; }
 
             [JsonProperty("mav-autopilot")] public string MavAutopilot { get; set; }
+
+            [JsonProperty("vehicletype")] public string VehicleType { get; set; }
 
             [JsonProperty("USBID", NullValueHandling = NullValueHandling.Ignore)]
             public string[] Usbid { get; set; } = new string[0];
@@ -72,6 +73,23 @@ namespace MissionPlanner.ArduPilot
             [JsonProperty("format-version")] public Version FormatVersion { get; set; }
         }
 
+        // from generate_manifest.py
+        public enum FIRMWARE_TYPES
+        {
+            AntennaTracker,
+            Copter,
+            Plane,
+            Rover,
+            Sub
+        }
+        // from generate_manifest.py - with map
+        public enum RELEASE_TYPES
+        {
+            BETA, // beta
+            DEV, // latest
+            OFFICIAL // stable
+        }
+
         public static void GetList(string url = "http://firmware.ardupilot.org/manifest.json.gz", bool force = false)
         {
             if (force == false && Manifest != null)
@@ -94,13 +112,19 @@ namespace MissionPlanner.ArduPilot
 
         public static ManifestRoot Manifest { get; set; }
 
-        public static List<FirmwareInfo> GetOptions(DeviceInfo device)
+        public static List<FirmwareInfo> GetOptions(DeviceInfo device, FIRMWARE_TYPES? fwtype = null, RELEASE_TYPES? reltype = null)
         {
             GetList();
 
             // match the board description
             var ans = Manifest.Firmware.Where(a =>
                 a.Platform == device.board || a.BootloaderStr.Any(b => b == device.board));
+
+            if (fwtype.HasValue)
+                ans = ans.Where(a => a.VehicleType == fwtype.Value.ToString());
+
+            if (reltype.HasValue)
+                ans = ans.Where(a => a.MavFirmwareVersionType == reltype.Value.ToString());
 
             // "0x26AC/0x0011"
             //USB\VID_2DAE&PID_1011&REV_0200
@@ -124,20 +148,16 @@ namespace MissionPlanner.ArduPilot
             return ans.ToList();
         }
 
-        public enum ReleaseType
-        {
-            OFFICIAL,
-            BETA,
-            DEV
-        }
-
-        public static List<FirmwareInfo> GetRelease(ReleaseType reltype, string format = "apj")
+        public static List<FirmwareInfo> GetRelease(RELEASE_TYPES reltype)
         {
             GetList();
 
-            // match the board description
-            var ans = Manifest.Firmware.Where(a => a.MavFirmwareVersionType == reltype.ToString())
-                .Where(a => a.Format == format);
+            var ans = Manifest.Firmware.Where(a => a.MavFirmwareVersionType == reltype.ToString());
+
+            ans = ans.GroupBy(b => b.MavType).Select(a =>
+                a.Where(b => a.Key == b.MavType && b.MavFirmwareVersion == a.Max(c => c.MavFirmwareVersion))
+                    .FirstOrDefault());
+            //ans = ans.Where(a => groupby.Any((c) => a.MavType == c.Key && a.MavFirmwareVersion == c.Max(d => d.MavFirmwareVersion)));
 
             return ans.ToList();
         }

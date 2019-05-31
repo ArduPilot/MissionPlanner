@@ -5,31 +5,28 @@
     <ContentPage.Content>
         <StackLayout>
 
-            <Label >Type</Label>
+            <Label TextColor="White" BackgroundColor="Transparent">Type</Label>
             <Picker x:Name="mavtype" Title="Type" HorizontalOptions="FillAndExpand" Margin="10" SelectedIndexChanged="OnSelectedIndexChanged"></Picker>
-            <Label >Version Type</Label>
+            <Label  TextColor="White" BackgroundColor="Transparent">Version Type</Label>
             <Picker x:Name="versiontype" Title="Version type" HorizontalOptions="FillAndExpand" Margin="10" SelectedIndexChanged="OnSelectedIndexChanged"></Picker>
 
-            <Label >Platform</Label>
+            <Label  TextColor="White" BackgroundColor="Transparent">Platform</Label>
             <Picker x:Name="platform" Title="Platform" HorizontalOptions="FillAndExpand" Margin="10" SelectedIndexChanged="OnSelectedIndexChanged"></Picker>
-            <Label >Version</Label>
+            <Label  TextColor="White" BackgroundColor="Transparent">Version</Label>
             <Picker x:Name="version" Title="Version" HorizontalOptions="FillAndExpand" Margin="10" SelectedIndexChanged="OnSelectedIndexChanged"></Picker>
 
-            <Label >Format</Label>
+            <Label  TextColor="White" BackgroundColor="Transparent">Format</Label>
             <Picker x:Name="format" Title="Format" HorizontalOptions="FillAndExpand" Margin="10" SelectedIndexChanged="OnSelectedIndexChanged"></Picker>
-            <Label >USB ID</Label>
+            <Label  TextColor="White" BackgroundColor="Transparent">USB ID</Label>
             <Picker x:Name="USBID" Title="USB ID" HorizontalOptions="FillAndExpand" Margin="10" SelectedIndexChanged="OnSelectedIndexChanged"></Picker>
 
 
-            <Label >Board ID</Label>
+            <Label  TextColor="White" BackgroundColor="Transparent">Board ID</Label>
             <Picker x:Name="board_id" Title="Board ID" HorizontalOptions="FillAndExpand" Margin="10" SelectedIndexChanged="OnSelectedIndexChanged"></Picker>
-            <Label >Bootloader ID</Label>
+            <Label  TextColor="White" BackgroundColor="Transparent">Bootloader ID</Label>
             <Picker x:Name="bootloader_str" Title="Bootloader ID" HorizontalOptions="FillAndExpand" Margin="10" SelectedIndexChanged="OnSelectedIndexChanged"></Picker>
-            <Label >Latest</Label>
-            <Picker x:Name="latest" Title="Latest" HorizontalOptions="FillAndExpand" Margin="10" SelectedIndexChanged="OnSelectedIndexChanged"></Picker>
 
-
-            <Label >Firmwares</Label>
+            <Label  TextColor="White" BackgroundColor="Transparent">Firmwares</Label>
             <Picker x:Name="Result" Title="Firmwares" HorizontalOptions="FillAndExpand" Margin="10" SelectedIndexChanged="Result_OnSelectedIndexChanged"></Picker>
             <Button x:Name="Button" Clicked="Button_OnClicked" Text="Upload Firmware"></Button>
         </StackLayout>

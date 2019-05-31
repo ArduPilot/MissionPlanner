@@ -21,6 +21,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private readonly Firmware fw = new Firmware();
         private string custom_fw_dir = "";
         private string firmwareurl = "";
+        private APFirmware.RELEASE_TYPES REL_Type = APFirmware.RELEASE_TYPES.OFFICIAL;
         private bool firstrun = true;
         private IProgressReporterDialogue pdr;
         private string detectedport;
@@ -111,6 +112,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (keyData == (Keys.Control | Keys.Q))
             {
                 CustomMessageBox.Show(Strings.TrunkWarning, Strings.Trunk);
+                REL_Type = APFirmware.RELEASE_TYPES.DEV;
                 firmwareurl = "https://raw.github.com/diydrones/binary/master/dev/firmwarelatest.xml";
 
                 softwares.Clear();
@@ -145,7 +147,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var fw = new Firmware();
             fw.Progress -= fw_Progress1;
             fw.Progress += fw_ProgressPDR;
-            softwares = fw.getFWList(firmwareurl);
+            softwares = fw.getFWList(firmwareurl, REL_Type);
 
             foreach (var soft in softwares)
             {
@@ -160,6 +162,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             try
             {
                 APFirmware.GetList();
+
+                var official = APFirmware.GetRelease(APFirmware.RELEASE_TYPES.OFFICIAL);
             }
             catch { }
         }
@@ -460,6 +464,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void lbl_devfw_Click(object sender, EventArgs e)
         {
             CustomMessageBox.Show(Strings.BetaWarning, Strings.Beta);
+            REL_Type = APFirmware.RELEASE_TYPES.BETA;
             firmwareurl = "https://raw.github.com/diydrones/binary/master/dev/firmware2.xml";
             softwares.Clear();
             UpdateFWList();

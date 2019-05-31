@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Scripting.Utils;
 using MissionPlanner.ArduPilot;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
 
 namespace MissionPlanner.test
@@ -24,6 +25,8 @@ namespace MissionPlanner.test
 
         private void OnSelectedIndexChanged(object sender, EventArgs e)
         {
+
+
             var FWList = this.FWList;//APFirmware.Manifest.Firmware.AsEnumerable();
 
             if (board_id.SelectedItem != null && board_id.SelectedItem != "Ignore")
@@ -49,11 +52,6 @@ namespace MissionPlanner.test
             if (platform.SelectedItem != null && platform.SelectedItem != "Ignore")
             {
                 FWList = FWList.Where(a => a.Platform == (string) platform.SelectedItem);
-            }
-
-            if (latest.SelectedItem != null && latest.SelectedItem != "Ignore")
-            {
-                FWList = FWList.Where(a => a.Latest.ToString() == (string) latest.SelectedItem);
             }
 
             if (version.SelectedItem != null && version.SelectedItem != "Ignore")
@@ -103,8 +101,6 @@ namespace MissionPlanner.test
             PopulatePicker(format, FWList.Select(a => a.Format.ToString()).Distinct().OrderBy(a => a));
 
             PopulatePicker(platform, FWList.Select(a => a.Platform.ToString()).Distinct().OrderBy(a => a));
-
-            PopulatePicker(latest, FWList.Select(a => a.Latest.ToString()).Distinct().OrderBy(a => a));
 
             PopulatePicker(version, FWList.Select(a => a.MavFirmwareVersion.ToString()).Distinct().OrderBy(a => a));
 

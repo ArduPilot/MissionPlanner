@@ -173,7 +173,7 @@ namespace MissionPlanner.Utilities
         /// Load xml from internet based on firmwareurl, and return softwarelist
         /// </summary>
         /// <returns></returns>
-        public List<software> getFWList(string firmwareurl = "")
+        public List<software> getFWList(string firmwareurl = "", APFirmware.RELEASE_TYPES rEL_Type = APFirmware.RELEASE_TYPES.OFFICIAL)
         {
             if (firmwareurl == "")
                 firmwareurl = this.firmwareurl;
@@ -340,8 +340,10 @@ namespace MissionPlanner.Utilities
         /// <summary>
         /// Do full update - get firmware from internet
         /// </summary>
+        /// <param name="comport"></param>
         /// <param name="temp"></param>
         /// <param name="historyhash"></param>
+        /// <param name="relType"></param>
         public bool update(string comport, software temp, string historyhash)
         {
             BoardDetect.boards board = BoardDetect.boards.none;
@@ -349,37 +351,47 @@ namespace MissionPlanner.Utilities
 
             try
             {
-                try
+                if (string.IsNullOrEmpty(historyhash))
                 {
-                    var ports = Win32DeviceMgmt.GetAllCOMPorts();
-
-                    foreach (var item in ports)
+                    try
                     {
-                        log.InfoFormat("{0}: {1} - {2}", item.name, item.description, item.board);
+                        var ports = Win32DeviceMgmt.GetAllCOMPorts();
 
-                        // get the options for this device
-                        var fwitems = APFirmware.GetOptions(item);
-                        
-                        if (fwitems?.Count > 0)
+                        foreach (var item in ports)
                         {
-                            FirmwareSelection fws = new FirmwareSelection(fwitems);
-                            fws.ShowXamarinControl(300, 800);
-                            board = BoardDetect.boards.pass;
-                            baseurl = fws.FinalResult;
-                            break;
+                            log.InfoFormat("{0}: {1} - {2}", item.name, item.description, item.board);
+
+
+
+                            // get the options for this device
+                            var fwitems = APFirmware.GetOptions(item, MapFWType(temp), MapRelType(temp));
+                            if (fwitems?.Count == 1)
+                            {
+                                board = BoardDetect.boards.pass;
+                                baseurl = fwitems[0].Url.ToString();
+                            }
+                            else if (fwitems?.Count > 0)
+                            {
+                                FirmwareSelection fws = new FirmwareSelection(fwitems);
+                                fws.ShowXamarinControl(300, 800);
+                                board = BoardDetect.boards.pass;
+                                baseurl = fws.FinalResult;
+                                break;
+                            }
+                        }
+
+                        if (baseurl == null || baseurl == string.Empty)
+                        {
+                            CustomMessageBox.Show(Strings.No_firmware_available_for_this_board);
+                            return false;
                         }
                     }
-
-                    if (baseurl == null || baseurl == string.Empty)
+                    catch
                     {
-                        CustomMessageBox.Show(Strings.No_firmware_available_for_this_board);
-                        return false;
+
                     }
                 }
-                catch
-                {
 
-                }
 
                 updateProgress(-1, Strings.DetectingBoardVersion);
 
@@ -622,6 +634,34 @@ namespace MissionPlanner.Utilities
             Tracking.AddTiming("Firmware Upload", board.ToString(), uploadtime, temp.name);
 
             return ans;
+        }
+
+        private APFirmware.FIRMWARE_TYPES? MapFWType(software temp)
+        {
+            if (temp.urlfmuv3.ToLower().Contains("AntennaTracker".ToLower()))
+                return APFirmware.FIRMWARE_TYPES.AntennaTracker;
+            if (temp.urlfmuv3.ToLower().Contains("Copter".ToLower()))
+                return APFirmware.FIRMWARE_TYPES.Copter;
+            if (temp.urlfmuv3.ToLower().Contains("Plane".ToLower()))
+                return APFirmware.FIRMWARE_TYPES.Plane;
+            if (temp.urlfmuv3.ToLower().Contains("Rover".ToLower()))
+                return APFirmware.FIRMWARE_TYPES.Rover;
+            if (temp.urlfmuv3.ToLower().Contains("Sub".ToLower()))
+                return APFirmware.FIRMWARE_TYPES.Sub;
+
+            return null;
+        }
+
+        private APFirmware.RELEASE_TYPES? MapRelType(software temp)
+        {
+            if (temp.urlfmuv3.ToLower().Contains("stable"))
+                return APFirmware.RELEASE_TYPES.OFFICIAL;
+            if (temp.urlfmuv3.ToLower().Contains("latest"))
+                return APFirmware.RELEASE_TYPES.DEV;
+            if (temp.urlfmuv3.ToLower().Contains("beta"))
+                return APFirmware.RELEASE_TYPES.BETA;
+
+            return null;
         }
 
         private string CheckChibiOS(string existingfw, string chibiosurl)
