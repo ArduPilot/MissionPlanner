@@ -595,7 +595,9 @@ namespace MissionPlanner.Utilities
         {
             try
             {
-                WebRequest req = HttpWebRequest.Create(url);
+                var req = (HttpWebRequest)HttpWebRequest.Create(url);
+                if (!String.IsNullOrEmpty(UserAgent))
+                    req.UserAgent = UserAgent;
 
                 log.Info("Get " + url);
 
@@ -671,7 +673,9 @@ namespace MissionPlanner.Utilities
             {
                 log.Info("srtm req " + url);
 
-                WebRequest req = HttpWebRequest.Create(url);
+                var req = (HttpWebRequest)HttpWebRequest.Create(url);
+                if(!String.IsNullOrEmpty(UserAgent))
+                    req.UserAgent = UserAgent;
 
                 using (WebResponse res = req.GetResponse())
                 using (StreamReader resstream = new StreamReader(res.GetResponseStream()))
@@ -718,6 +722,8 @@ namespace MissionPlanner.Utilities
 
             return list;
         }
+
+        public static string UserAgent { get; set; }
 
         public void Dispose()
         {
