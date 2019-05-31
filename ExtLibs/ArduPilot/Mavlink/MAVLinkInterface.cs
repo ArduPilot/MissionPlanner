@@ -4151,8 +4151,10 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                                 if (msgid == 0)
                                 {
 // flush on heartbeat - 1 seconds
-                                    logfile.Flush();
-                                    rawlogfile.Flush();
+                                    if (logfile != null)
+                                        logfile.Flush();
+                                    if (rawlogfile != null)
+                                        rawlogfile.Flush();
                                 }
                             }
                         }
