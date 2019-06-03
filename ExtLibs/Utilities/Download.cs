@@ -352,6 +352,11 @@ namespace MissionPlanner.Utilities
         public static bool CheckHTTPFileExists(string url)
         {
             bool result = false;
+            Uri uri;
+            Uri.TryCreate(url, UriKind.Absolute, out uri);
+
+            if (url == null || url == "" || uri == null)
+                return false;
 
             WebRequest webRequest = WebRequest.Create(url);
             webRequest.Timeout = 10000; // miliseconds
