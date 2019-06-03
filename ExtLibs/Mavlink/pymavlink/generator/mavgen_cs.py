@@ -255,8 +255,7 @@ def generate_one(fh, basename, xml):
     
     directory = os.path.join(basename, xml.basename)
 
-    print("Generating CSharp implementation in directory %s" % directory)
-    mavparse.mkdir_p(directory)
+    print("Generating CSharp implementation for %s" % xml.basename)
 
     # add some extra field attributes for convenience with arrays
     for m in xml.message:
@@ -319,14 +318,30 @@ def generate_one(fh, basename, xml):
     
     for m in xml.message:
         generate_message_h(fh, directory, m)
-		
 
+def copy_fixed_headers(directory, xml):
+    '''copy the fixed protocol headers to the target directory'''
+    import shutil, filecmp
+    hlist = {
+        "1.0": [ 'MavlinkCRC.cs', 'MAVLinkMessage.cs', 'MavlinkParse.cs', 'MavlinkUtil.cs', 'MAVLink.csproj' ],
+        "2.0": [ 'MavlinkCRC.cs', 'MAVLinkMessage.cs', 'MavlinkParse.cs', 'MavlinkUtil.cs', 'MAVLink.csproj' ]
+        }
+    basepath = os.path.dirname(os.path.realpath(__file__))
+    srcpath = os.path.join(basepath, 'CS')
+    print("Copying fixed headers for protocol %s to %s" % (xml.wire_protocol_version, directory))
+    for h in hlist[xml.wire_protocol_version]:
+        src = os.path.realpath(os.path.join(srcpath, h))
+        dest = os.path.realpath(os.path.join(directory, h))
+        if src == dest or (os.path.exists(dest) and filecmp.cmp(src, dest)):
+            continue
+        shutil.copy(src, dest)
 
 
 def generate(basename, xml_list):
-    '''generate complete MAVLink Csharp implemenation'''
+    '''generate complete MAVLink CSharp implemenation'''
+    print("generate for protocol %s to %s" % (xml_list[0].wire_protocol_version, basename))
     
-    directory = os.path.join(basename, xml_list[0].basename)
+    directory = basename
 
     if not os.path.exists(directory): 
         os.makedirs(directory) 
@@ -345,4 +360,5 @@ def generate(basename, xml_list):
         generate_one(f, basename, xml3)
     
     generate_message_footer(f,xml_list[0])
-    
+
+    copy_fixed_headers(basename, xml_list[0])

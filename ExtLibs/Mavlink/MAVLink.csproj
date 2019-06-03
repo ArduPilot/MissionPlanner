@@ -18,12 +18,16 @@
     <PackageLicenseUrl>GPLv3</PackageLicenseUrl>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>mykey.snk</AssemblyOriginatorKeyFile>
+    <Configurations>Debug;Release;Test</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="mavlink\**" />
+    <Compile Remove="pymavlink\**" />
     <EmbeddedResource Remove="mavlink\**" />
+    <EmbeddedResource Remove="pymavlink\**" />
     <None Remove="mavlink\**" />
+    <None Remove="pymavlink\**" />
   </ItemGroup>
 
   <ItemGroup>
