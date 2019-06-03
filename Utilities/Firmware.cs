@@ -380,7 +380,7 @@ namespace MissionPlanner.Utilities
                             }
                         }
 
-                        if (baseurl == null || baseurl == string.Empty)
+                        if (baseurl == null || baseurl == string.Empty && board == BoardDetect.boards.pass)
                         {
                             CustomMessageBox.Show(Strings.No_firmware_available_for_this_board);
                             return false;

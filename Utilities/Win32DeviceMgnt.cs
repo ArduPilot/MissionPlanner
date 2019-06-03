@@ -3,6 +3,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using log4net;
 using System.Reflection;
 using MissionPlanner.ArduPilot;
@@ -214,18 +215,36 @@ public class Win32DeviceMgmt
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    private struct SP_DEVINFO_DATA
+    public struct SP_DEVINFO_DATA
     {
         public Int32 cbSize;
         public Guid ClassGuid;
         public Int32 DevInst;
         public UIntPtr Reserved;
-    };
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct SP_DEVICE_INTERFACE_DATA
+    {
+        public Int32 cbSize;
+        public Guid interfaceClassGuid;
+        public Int32 flags;
+        private UIntPtr reserved;
+    }
+
+    [DllImport(@"setupapi.dll", CharSet = CharSet.Auto, SetLastError = true)]
+    public static extern Boolean SetupDiEnumDeviceInterfaces(
+        IntPtr hDevInfo,
+        ref SP_DEVINFO_DATA devInfo,
+        ref Guid interfaceClassGuid,
+        UInt32 memberIndex,
+        ref SP_DEVICE_INTERFACE_DATA deviceInterfaceData
+    );
 
     [DllImport("setupapi.dll")]
     private static extern Int32 SetupDiDestroyDeviceInfoList(IntPtr DeviceInfoSet);
 
-    [DllImport("setupapi.dll")]
+    [DllImport(@"setupapi.dll", CharSet = CharSet.Auto, SetLastError = true)]
     private static extern bool SetupDiEnumDeviceInfo(IntPtr DeviceInfoSet, Int32 MemberIndex, ref SP_DEVINFO_DATA DeviceInterfaceData);
 
     [DllImport("setupapi.dll", CharSet = CharSet.Auto, SetLastError = true)]
@@ -373,7 +392,18 @@ public class Win32DeviceMgmt
 
     public static List<DeviceInfo> GetAllCOMPorts()
     {
-        Guid guidComPorts = new Guid(GUID_DEVINTERFACE_COMPORT);
+        // windows 7 virtualcoms
+        var devices = GetClassDevs(GUID_DEVINTERFACE_USB_DEVICE).ToList();
+
+        // window 10
+        devices.AddRange(GetClassDevs(GUID_DEVINTERFACE_COMPORT));
+
+        return devices;
+    }
+
+    private static List<DeviceInfo> GetClassDevs(string guid)
+    {
+        Guid guidComPorts = new Guid(guid);
         IntPtr hDeviceInfoSet = SetupDiGetClassDevs(
             ref guidComPorts, 0, IntPtr.Zero, DIGCF_PRESENT | DIGCF_DEVICEINTERFACE);
         if (hDeviceInfoSet == IntPtr.Zero)
@@ -389,6 +419,9 @@ public class Win32DeviceMgmt
             {
                 SP_DEVINFO_DATA deviceInfoData = new SP_DEVINFO_DATA();
                 deviceInfoData.cbSize = Marshal.SizeOf(typeof(SP_DEVINFO_DATA));
+                SP_DEVICE_INTERFACE_DATA deviceInterfaceData = new SP_DEVICE_INTERFACE_DATA();
+                deviceInterfaceData.cbSize = Marshal.SizeOf(typeof(SP_DEVICE_INTERFACE_DATA));
+                //bool success = SetupDiEnumDeviceInterfaces(hDeviceInfoSet,ref deviceInfoData, ref guidComPorts, iMemberIndex, ref deviceInterfaceData);
                 bool success = SetupDiEnumDeviceInfo(hDeviceInfoSet, iMemberIndex, ref deviceInfoData);
                 if (!success)
                 {
@@ -398,7 +431,7 @@ public class Win32DeviceMgmt
                 }
 
                 // hDeviceInfoSet - needs to be the hub
-               // var manu = GetManufact(hDeviceInfoSet, new USB_DEVICE_DESCRIPTOR() {iManufacturer = 1}, pp);
+                // var manu = GetManufact(hDeviceInfoSet, new USB_DEVICE_DESCRIPTOR() {iManufacturer = 1}, pp);
 
                 DeviceInfo deviceInfo = new DeviceInfo();
                 try
@@ -495,7 +528,6 @@ public class Win32DeviceMgmt
                         if (SetupDiGetDevicePropertyW(hDeviceInfoSet, ref deviceInfoData, ref list[i], out propertyType,
                             buffer, 1024, out requiredSize, 0))
                         {
-
                             var out11 = Marshal.PtrToStringAuto(buffer);
                             log.Info(list[i].name + " " + out11);
 
@@ -523,6 +555,7 @@ public class Win32DeviceMgmt
             SetupDiDestroyDeviceInfoList(hDeviceInfoSet);
         }
     }
+
     private static DEVPROPKEY DEFINE_DEVPROPKEY(string dEVPKEY_Device_Manufacturer, uint v1, int v2, int v3, byte v4, byte v5, byte v6, byte v7, byte v8, byte v9, byte v10, byte v11, uint v12)
     {
         DEVPROPKEY key = new DEVPROPKEY();
