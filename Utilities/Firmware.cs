@@ -29,7 +29,7 @@ namespace MissionPlanner.Utilities
 
         public event ProgressEventHandler Progress;
 
-        string firmwareurl = "https://raw.github.com/diydrones/binary/master/Firmware/firmware2.xml";
+        string firmwareurl = "https://github.com/ArduPilot/binary/raw/master/Firmware/firmware2.xml;http://firmware.ardupilot.org/Tools/MissionPlanner/Firmware/firmware2.xml";
 
         static readonly string gholdurl = ("https://github.com/diydrones/binary/raw/!Hash!/Firmware/firmware2.xml");
         static readonly string gholdfirmwareurl = ("https://github.com/diydrones/binary/raw/!Hash!/Firmware/!Firmware!");
@@ -193,33 +193,56 @@ namespace MissionPlanner.Utilities
 
             updateProgress(-1, Strings.GettingFWList);
 
-            try
-            {
-                XmlSerializer xms = new XmlSerializer(typeof(optionsObject), new Type[] { typeof(software) });
+            var urls = firmwareurl.Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries);
+            var valid = false;
+            Exception invalidex = null;
 
-                log.Info("url: " + firmwareurl);
-                using (XmlTextReader xmlreader = new XmlTextReader(firmwareurl))
+            foreach (var url in urls)
+            {
+                try
                 {
-                    options = (optionsObject)xms.Deserialize(xmlreader);
+                    var dnsinfo = Dns.GetHostAddresses(new Uri(url).DnsSafeHost);
+
+                    if(dnsinfo.Length ==0)
+                        throw new Exception("Failed to resolve dns");
+
+                    XmlSerializer xms = new XmlSerializer(typeof(optionsObject), new Type[] {typeof(software)});
+
+                    log.Info("url: " + url);
+                    WebRequest request = WebRequest.Create(url);
+                    request.Timeout = 10000;
+
+                    using (WebResponse response = request.GetResponse())
+                    using (XmlReader xmlreader = XmlReader.Create(response.GetResponseStream()))
+                    {
+                        options = (optionsObject) xms.Deserialize(xmlreader);
+                    }
+
+                    valid = true;
+
+                    Parallel.ForEach(options.softwares, software =>
+                    {
+                        try
+                        {
+                            getAPMVersion(software);
+                        }
+                        catch
+                        {
+                        }
+                    });
+
+                    break;
                 }
-
-                Parallel.ForEach(options.softwares, software =>
+                catch (Exception ex)
                 {
-                    try
-                    {
-                        getAPMVersion(software);
-                    }
-                    catch
-                    {
-                    }
-                });
+                    log.Error(ex);
+                    //CustomMessageBox.Show("Failed to get Firmware List : " + ex.Message);
+                    invalidex = ex;
+                }
             }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-                //CustomMessageBox.Show("Failed to get Firmware List : " + ex.Message);
-                throw;
-            }
+
+            if (!valid)
+                throw invalidex;
 
             log.Info("load done");
 

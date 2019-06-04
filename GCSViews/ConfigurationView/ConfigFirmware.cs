@@ -113,7 +113,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 CustomMessageBox.Show(Strings.TrunkWarning, Strings.Trunk);
                 REL_Type = APFirmware.RELEASE_TYPES.DEV;
-                firmwareurl = "https://raw.github.com/diydrones/binary/master/dev/firmwarelatest.xml";
+                firmwareurl = "https://github.com/ArduPilot/binary/raw/master/dev/firmwarelatest.xml;http://firmware.ardupilot.org/Tools/MissionPlanner/dev/firmwarelatest.xml";
 
                 softwares.Clear();
                 UpdateFWList();
@@ -465,7 +465,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             CustomMessageBox.Show(Strings.BetaWarning, Strings.Beta);
             REL_Type = APFirmware.RELEASE_TYPES.BETA;
-            firmwareurl = "https://raw.github.com/diydrones/binary/master/dev/firmware2.xml";
+            firmwareurl = "https://github.com/ArduPilot/binary/raw/master/dev/firmware2.xml;http://firmware.ardupilot.org/Tools/MissionPlanner/dev/firmware2.xml";
             softwares.Clear();
             UpdateFWList();
             CMB_history.Visible = false;
