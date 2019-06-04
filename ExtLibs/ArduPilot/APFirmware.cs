@@ -154,10 +154,14 @@ namespace MissionPlanner.ArduPilot
 
             var ans = Manifest.Firmware.Where(a => a.MavFirmwareVersionType == reltype.ToString());
 
-            ans = ans.GroupBy(b => b.MavType).Select(a =>
+            ans = ans.GroupBy(b => b.MavType)
+                .SelectMany(a =>
+                    a.Where(b => a.Key == b.MavType && b.MavFirmwareVersion == a.Max(c => c.MavFirmwareVersion)).OrderBy(b=>b.Format));
+            /*
+                         ans = ans.GroupBy(b => b.MavType).Select(a =>
                 a.Where(b => a.Key == b.MavType && b.MavFirmwareVersion == a.Max(c => c.MavFirmwareVersion))
                     .FirstOrDefault());
-            //ans = ans.Where(a => groupby.Any((c) => a.MavType == c.Key && a.MavFirmwareVersion == c.Max(d => d.MavFirmwareVersion)));
+             */
 
             return ans.ToList();
         }

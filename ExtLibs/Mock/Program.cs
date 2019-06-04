@@ -92,4 +92,8 @@ namespace Mock
             }
         }
     }
+
+    internal struct mavlink_vfr_hud_EDIT_t
+    {
+    }
 }
