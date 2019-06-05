@@ -1136,6 +1136,15 @@ namespace MissionPlanner
         [DisplayText("Sonar Voltage (Volt)")]
         public float sonarvoltage { get; set; }
 
+        [DisplayText("RangeFinder1 (cm)")]
+        public uint rangefinder1 { get; set; }
+
+        [DisplayText("RangeFinder2 (cm)")]
+        public uint rangefinder2 { get; set; }
+
+        [DisplayText("RangeFinder3 (cm)")]
+        public uint rangefinder3 { get; set; }
+
         // current firmware
         public Firmwares firmware = Firmwares.ArduCopter2;
         public float freemem { get; set; }
@@ -2014,6 +2023,24 @@ namespace MissionPlanner
 
                         sonarrange = sonar.distance;
                         sonarvoltage = sonar.voltage;
+                    }
+
+                    mavLinkMessage = MAV.getPacket((uint)MAVLink.MAVLINK_MSG_ID.DISTANCE_SENSOR);
+                    if (mavLinkMessage != null)
+                    {
+                        var sonar = mavLinkMessage.ToStructure<MAVLink.mavlink_distance_sensor_t>();
+                        if (sonar.id == 0)
+                        {
+                            rangefinder1 = sonar.current_distance;
+                        }
+                        else if (sonar.id == 1)
+                        {
+                            rangefinder2 = sonar.current_distance;
+                        }
+                        else if (sonar.id == 2)
+                        {
+                            rangefinder3 = sonar.current_distance;
+                        }
                     }
 
                     mavLinkMessage = MAV.getPacket((uint)MAVLink.MAVLINK_MSG_ID.POWER_STATUS);
