@@ -31,7 +31,9 @@
  *          resolve the intermittent issue in which firmware update results in the modem staying in bootloader mode.
  *          Now programs version 3.01 as the reference firmware for RFD900x to check certified (instead of 3.00).
  * 2.22 - Changed "Set PPM Fail safe" feature so there is one button per local/remote modem.  Made it so it is enabled
- *          depending on GPO1_1R/COUT being set.  
+ *          depending on GPO1_1R/COUT being set. 
+ * 2.24 - Improved instructions to user in message boxes.  Improved handling of cases where it was unable to communicate
+ *          with modem.  
  */
 
 using System;

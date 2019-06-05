@@ -449,7 +449,7 @@ S15: MAX_WINDOW=131
                 }
             }
 
-            EnableConfigControls(false);
+            EnableConfigControls(false, false);
             EnableProgrammingControls(false);
             lbl_status.Text = "Connecting";
 
@@ -772,6 +772,7 @@ S15: MAX_WINDOW=131
                 }
 
                 lbl_status.Text = "Done";
+                EnableConfigControls(true, true);
             }
             else
             {
@@ -780,12 +781,12 @@ S15: MAX_WINDOW=131
 
                 lbl_status.Text = "Fail";
                 MsgBox.CustomMessageBox.Show("Failed to enter command mode");
+                EnableConfigControls(true, false);
             }
 
             //Need to do this because modem rebooted.
             Session.PutIntoATCommandModeAssumingInTransparentMode();
 
-            EnableConfigControls(true);
             EnableProgrammingControls(true);
 
             UpdateSetPPMFailSafeButtons();
@@ -959,7 +960,7 @@ S15: MAX_WINDOW=131
             ResetAllControls(groupBoxLocal);
             ResetAllControls(groupBoxRemote);
 
-            EnableConfigControls(false);
+            EnableConfigControls(false, false);
             EnableProgrammingControls(false);
             lbl_status.Text = "Connecting";
 
@@ -1421,6 +1422,7 @@ S15: MAX_WINDOW=131
                     {
                         lbl_status.Text = "Done";
                     }
+                    EnableConfigControls(true, true);
                 }
                 else
                 {
@@ -1428,7 +1430,8 @@ S15: MAX_WINDOW=131
                     Session.PutIntoTransparentMode();
 
                     lbl_status.Text = "Fail";
-                    MsgBox.CustomMessageBox.Show("Failed to enter command mode");
+                    MsgBox.CustomMessageBox.Show("Failed to enter command mode.  Try power-cycling modem.");
+                    EnableConfigControls(true, false);
                 }
 
                 //BUT_Syncoptions.Enabled = true;
@@ -1436,8 +1439,6 @@ S15: MAX_WINDOW=131
                 //BUT_savesettings.Enabled = true;
 
                 //BUT_SetPPMFailSafe.Enabled = true;
-
-                EnableConfigControls(true);
                 
                 EnableProgrammingControls(true);
             }
@@ -1708,7 +1709,7 @@ red LED solid - in firmware update mode");
                 Session.PutIntoTransparentMode();
 
                 lbl_status.Text = "Fail";
-                MsgBox.CustomMessageBox.Show("Failed to enter command mode");
+                MsgBox.CustomMessageBox.Show("Failed to enter command mode.  Try power-cycling modem.");
             }
         }
 
@@ -1731,14 +1732,14 @@ red LED solid - in firmware update mode");
             }
         }
 
-        void EnableConfigControls(bool Enable)
+        void EnableConfigControls(bool Enable, bool SaveSettingsEnable)
         {
-            groupBoxLocal.Enabled = Enable;
-            groupBoxRemote.Enabled = Enable;
+            groupBoxLocal.Enabled = SaveSettingsEnable;
+            groupBoxRemote.Enabled = SaveSettingsEnable;
             BUT_Syncoptions.Enabled = Enable;
             BUT_SetPPMFailSafe.Enabled = Enable;
             BUT_getcurrent.Enabled = Enable;
-            BUT_savesettings.Enabled = Enable;
+            BUT_savesettings.Enabled = SaveSettingsEnable;
             BUT_resettodefault.Enabled = Enable;
         }
         public static void ResetAllControls(Control form)
@@ -1796,7 +1797,7 @@ red LED solid - in firmware update mode");
         void ProgramFirmware(bool Custom)
         {
             EnableProgrammingControls(false);
-            EnableConfigControls(false);
+            EnableConfigControls(false, false);
 
             try
             {
@@ -1813,6 +1814,8 @@ red LED solid - in firmware update mode");
                 if (RFD900 == null)
                 {
                     UpdateStatus("Unknown modem");
+                    MsgBox.CustomMessageBox.Show("Couldn't communicate with modem.  Try power-cycling modem.");
+                    EndSession();
                 }
                 else
                 {
@@ -1834,6 +1837,8 @@ red LED solid - in firmware update mode");
                         else
                         {
                             UpdateStatus("Programming failed.  (Try again?)");
+                            //Force new session start next time.
+                            EndSession();
                         }
                     }
                     else
@@ -1844,10 +1849,16 @@ red LED solid - in firmware update mode");
             }
             catch
             {
-
+                try
+                {
+                    EndSession();
+                }
+                catch
+                {
+                }
             }
             EnableProgrammingControls(true);
-            EnableConfigControls(true);
+            EnableConfigControls(true, false);
             //UploadFW(true);
         }
 
