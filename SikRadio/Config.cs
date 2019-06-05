@@ -67,6 +67,7 @@ namespace SikRadio
 
             var form = new Sikradio();
             form.Enabled = false;
+            form.DoDisconnectReconnect += DoDisconnectReconnect;
 
             panel1.Controls.Add(form);
 
@@ -113,6 +114,15 @@ namespace SikRadio
             ThemeManager.ApplyThemeTo(this);
 
             return form;
+        }
+
+        void DoDisconnectReconnect()
+        {
+            if (_Connected)
+            {
+                Disconnect();
+                Connect();
+            }
         }
 
         private void CMB_SerialPort_SelectedIndexChanged(object sender, EventArgs e)

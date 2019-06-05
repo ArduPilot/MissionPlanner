@@ -36,6 +36,8 @@ namespace MissionPlanner.Radio
         ExtraParamControlsSet _LocalExtraParams;
         ExtraParamControlsSet _RemoteExtraParams;
 
+        public event Action DoDisconnectReconnect;
+
         /*
 ATI5
 S0: FORMAT=25
@@ -1837,9 +1839,8 @@ red LED solid - in firmware update mode");
                         else
                         {
                             UpdateStatus("Programming failed.  (Try again?)");
-                            //Force new session start next time.
-                            EndSession();
                         }
+                        EndSession();
                     }
                     else
                     {
@@ -2013,6 +2014,10 @@ red LED solid - in firmware update mode");
             {
                 _Session.Dispose();
                 _Session = null;
+            }
+            if (DoDisconnectReconnect != null)
+            {
+                DoDisconnectReconnect();
             }
         }
 

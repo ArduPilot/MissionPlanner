@@ -34,6 +34,8 @@
  *          depending on GPO1_1R/COUT being set. 
  * 2.24 - Improved instructions to user in message boxes.  Improved handling of cases where it was unable to communicate
  *          with modem.  
+ * 2.25 - Now does auto disconnect/reconnect of serial port after every firmware programming regardless of 
+ *          success or failure.
  */
 
 using System;
