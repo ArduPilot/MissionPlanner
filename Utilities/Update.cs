@@ -10,6 +10,7 @@ using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ICSharpCode.SharpZipLib.Checksum;
 using MissionPlanner.Controls;
 using log4net;
 
@@ -424,6 +425,41 @@ namespace MissionPlanner.Utilities
             return false;
         }
 
+        static bool CRC32File(string filename, string hash)
+        {
+            try
+            {
+                if (!File.Exists(filename))
+                    return false;
+
+                
+
+                var crc = new Crc32();
+                
+                {
+                    using (var stream = File.OpenRead(filename))
+                    {
+                        var buf = new byte[1024*1024];
+                        while (stream.Position < stream.Length)
+                        {
+                            var read = stream.Read(buf, 0, buf.Length);
+                            crc.Update(buf.Take(read).ToArray());
+                        }
+
+                        log.Debug(filename + "," + hash + "," + crc.Value.ToString("X"));
+
+                        return hash == crc.Value.ToString("X");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Info("crc32 fail " + ex.ToString());
+            }
+
+            return false;
+        }
+
         static void GetNewFileZip(IProgressReporterDialogue frmProgressReporter, string baseurl, string subdir, string file)
         {          
             // create dest dir
@@ -446,6 +482,8 @@ namespace MissionPlanner.Utilities
                 Console.WriteLine("{0} {1}", file, baseurl);
                 return;
             }
+
+            ds.chunksize = (int)entry.CompressedLength;
 
             log.InfoFormat("unzip {0}", file);
 

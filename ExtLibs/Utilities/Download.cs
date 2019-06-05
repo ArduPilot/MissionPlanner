@@ -98,57 +98,85 @@ namespace MissionPlanner.Utilities
         {
         }
 
-        long getChunkNo(long target)
-        {
-            var t = (long)((target) / chunksize);
-            return t;
-        }
-
-        long getAlignedChunk(long target)
-        {
-            return getChunkNo(target) * chunksize;
-        }
-
         public override int Read(byte[] buffer, int offset, int count)
         {
             _lastread = DateTime.Now;
-            var start = getAlignedChunk(Position);
+            var start = Position;
             var end = start + count;
 
-            // get the first chunk
-            GetChunk(start);
 
             // return data
             // check to see if this spans a chunk
-            if (getChunkNo(Position) != getChunkNo(Position + count-1))
+            getAllData(start, end);
+
+            var bytestoget = count;
+            var bytesgot = 0;
+
+
+                //var leftinchunk = Position % chunksize == 0 ? chunksize : chunksize - (Position % chunksize);
+                //bytesgot += Read(buffer, offset + bytesgot, (int)Math.Min(bytestoget - bytesgot, leftinchunk));
+            
+
+            //while (bytesgot < bytestoget)
             {
-                var bytestoget = count;
-                var bytesgot = 0;
-                var startchunk = getChunkNo(Position);
-                var endchunk = getChunkNo(Position + count - 1);
+                var chunk = ChunkThatHasOffset(Position);
 
-                // download all chunks required
-                Parallel.For(startchunk + 1, endchunk + 1, new ParallelOptions() {MaxDegreeOfParallelism = 3},
-                    (l) =>
-                    {
-                        Console.WriteLine("Parallel download {0}: {1}", _uri, l * chunksize);
-                        GetChunk(l * chunksize);
-                    });
+                var positioninchunk = Position - chunk.Key;
+                var chunkleft = chunk.Value.Length - positioninchunk;
 
-                for (long chunkno = startchunk; chunkno <= endchunk; chunkno++)
+                var maxcount = (int)Math.Min(chunkleft, count);
+
+                Array.Copy(chunk.Value.ToArray(), positioninchunk, buffer, offset, maxcount);
+
+                bytesgot += maxcount;
+                offset += maxcount;
+                Position += maxcount;
+            }
+
+            if (bytesgot < bytestoget)
+                bytesgot += Read(buffer, offset, bytestoget - bytesgot);
+            
+            return bytesgot;
+        }
+
+        private bool getAllData(long start, long end)
+        {
+            if (chunksize < 1024 * 2)
+                chunksize = 1024 * 2;
+
+            var chunkThatHasOurStart = ChunkThatHasOffset(start);
+
+            if (chunkThatHasOurStart.Value == null)
+            {
+                // get it all
+                GetChunk(start);
+                return true;
+            }
+
+            var targetpos = chunkThatHasOurStart.Key + chunkThatHasOurStart.Value.Length;
+            while (targetpos < end)
+            {
+                var chunk = ChunkThatHasOffset(targetpos);
+                if (chunk.Value == null)
                 {
-                    var leftinchunk = Position % chunksize == 0 ? chunksize : chunksize - (Position % chunksize);
-                    bytesgot += Read(buffer, offset + bytesgot, (int)Math.Min(bytestoget - bytesgot, leftinchunk));
+                    // get it all
+                    GetChunk(targetpos);
+
+                    chunk = ChunkThatHasOffset(targetpos);
                 }
+
+                targetpos += chunk.Value.Length;
             }
-            else
+
+            return true;
+        }
+
+        private KeyValuePair<long, MemoryStream> ChunkThatHasOffset(long offset)
+        {
+            lock (_lock)
             {
-                Array.Copy(_chunks[start].ToArray(), Position - start, buffer, offset, count);
-
-                Position += count;
+                return _chunks.FirstOrDefault(a => a.Key <= offset && a.Key + a.Value.Length > offset);
             }
-
-            return count;
         }
 
         private static List<string> gettingChunk = new List<string>();
@@ -166,20 +194,14 @@ namespace MissionPlanner.Utilities
                     {
                         // see if we are already getting it
                         test = gettingChunk.Contains(key);
-                    }
 
-                    if (test)
-                    {
-                        Thread.Sleep(50);
-                    }
-                    else
-                    {
-                        lock (gettingChunkLock)
+                        if (!test)
                         {
-                            // we dont have it and we need to get it
                             gettingChunk.Add(key);
+                            break;
                         }
                     }
+                    Thread.Sleep(50);
                 } while (test);
 
                 // we have it already
@@ -200,7 +222,10 @@ namespace MissionPlanner.Utilities
                 {
                     stream.CopyTo(ms);
 
-                    _chunks[start] = ms;
+                    lock (_lock)
+                    {
+                        _chunks[start] = ms;
+                    }
                 }
             }
             finally

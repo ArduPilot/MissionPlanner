@@ -284,6 +284,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Crc32.NET">
+      <Version>1.2.0</Version>
+    </PackageReference>
     <PackageReference Include="CSMatIO" version="1.0.20" targetFramework="netstandard2.0" requireReinstallation="true" />
     <PackageReference Include="DirectShowLib" Version="1.0.0" />
     <PackageReference Include="DotSpatial.Data" version="1.9" targetFramework="net462" />

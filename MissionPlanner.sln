@@ -142,7 +142,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "ExtLibs\test\test.c
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MavlinkMessagePlugin", "ExtLibs\MavlinkMessagePlugin\MavlinkMessagePlugin.csproj", "{DFCB0240-50CF-4F56-92C7-05941569231D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mock", "ExtLibs\Mock\Mock.csproj", "{183631BD-EC15-47AD-9ABE-CD8DB748C066}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mock", "ExtLibs\Mock\Mock.csproj", "{183631BD-EC15-47AD-9ABE-CD8DB748C066}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
