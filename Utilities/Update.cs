@@ -583,12 +583,18 @@ namespace MissionPlanner.Utilities
 
             try
             {
-                if (MissionPlanner.Utilities.Update.dobeta)
-                    ParameterMetaDataParser.GetParameterInformation(
-                        ConfigurationManager.AppSettings["ParameterLocationsBleeding"], "ParameterMetaData.xml");
-                else
-                    ParameterMetaDataParser.GetParameterInformation(
-                        ConfigurationManager.AppSettings["ParameterLocations"], "ParameterMetaData.xml");
+                var dns = Dns.GetHostAddresses("github.com");
+                var dns2 = Dns.GetHostAddresses("raw.githubusercontent.com");
+
+                if (dns.Length != 0)
+                {
+                    if (MissionPlanner.Utilities.Update.dobeta)
+                        ParameterMetaDataParser.GetParameterInformation(
+                            ConfigurationManager.AppSettings["ParameterLocationsBleeding"], "ParameterMetaData.xml");
+                    else
+                        ParameterMetaDataParser.GetParameterInformation(
+                            ConfigurationManager.AppSettings["ParameterLocations"], "ParameterMetaData.xml");
+                }
             }
             catch (Exception ex)
             {
