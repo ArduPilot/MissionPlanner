@@ -1852,6 +1852,7 @@ red LED solid - in firmware update mode");
             {
                 try
                 {
+                    UpdateStatus("Programming failed.  (Try again?)");
                     EndSession();
                 }
                 catch

@@ -36,6 +36,8 @@
  *          with modem.  
  * 2.25 - Now does auto disconnect/reconnect of serial port after every firmware programming regardless of 
  *          success or failure.
+ * 2.26 - Now sets status text to "Programming Failed.  (Try Again?)" if it fails to determine which mode the modem
+ *          is in when trying to program firmware.
  */
 
 using System;
