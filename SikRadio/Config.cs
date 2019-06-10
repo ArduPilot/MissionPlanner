@@ -35,6 +35,14 @@ namespace SikRadio
             MissionPlanner.Comms.CommsBase.InputBoxShow += CommsBaseOnInputBoxShow;
 
             settingsToolStripMenuItem_Click(null, null);
+
+            if (SikRadio.Program.Manufacturer)
+            {
+                ToolStripMenuItem ManItem = new ToolStripMenuItem("Manufacturing");
+                ManItem.Click += ManufacturerToolStripMenuItem_Click;
+
+                menuStrip1.Items.Add(ManItem);
+            }
         }
 
         /// <summary>
@@ -116,6 +124,25 @@ namespace SikRadio
             return form;
         }
 
+        private ISikRadioForm loadManufacturing()
+        {
+            //panel1.Controls.Clear();
+
+            var form = new RFD900Tools.Manufacturing();
+            form.Enabled = false;
+
+            form.Dock = DockStyle.Fill;
+
+            panel1.Controls.Add(form);
+
+            ThemeManager.SetTheme(ThemeManager.Themes.None);
+
+            ThemeManager.ApplyThemeTo(this);
+
+            return form;
+        }
+
+
         void DoDisconnectReconnect()
         {
             if (_Connected)
@@ -164,11 +191,17 @@ namespace SikRadio
             }
             _CurrentForm = Constructor();
             _CurrentForm.Enabled = _Connected;
+            GB.Text = _CurrentForm.Header;
             _CurrentForm.Show();
             if (_Connected)
             {
                 _CurrentForm.Connect();
             }
+        }
+
+        void ManufacturerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowForm(loadManufacturing);
         }
 
         private void terminalToolStripMenuItem_Click(object sender, EventArgs e)
@@ -295,5 +328,6 @@ namespace SikRadio
         void Disconnect();
         void Show();
         bool Enabled { get; set; }
+        string Header { get; }
     }
 }

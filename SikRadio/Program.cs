@@ -38,6 +38,7 @@
  *          success or failure.
  * 2.26 - Now sets status text to "Programming Failed.  (Try Again?)" if it fails to determine which mode the modem
  *          is in when trying to program firmware.
+ * 2.28 - Now has a manufacturing page/tab for locking down modems to a country.
  */
 
 using System;
@@ -50,6 +51,16 @@ namespace SikRadio
     internal static class Program
     {
         private static readonly ILog log = LogManager.GetLogger("Program");
+        private const string MANUFACTURER_PASSWORD = "--manufacturing";
+        private static bool _Manufacturer = false;
+
+        public static bool Manufacturer
+        {
+            get
+            {
+                return _Manufacturer;
+            }
+        }
 
         /// <summary>
         ///     The main entry point for the application.
@@ -57,6 +68,15 @@ namespace SikRadio
         [STAThread]
         private static void Main(string[] args)
         {
+            foreach (var arg in args)
+            {
+                if (RFDLib.Text.Contains(arg, MANUFACTURER_PASSWORD))
+                {
+                    _Manufacturer = true;
+                    break;
+                }
+            }
+
             log.Info("App Start");
 
             XmlConfigurator.Configure();

@@ -1352,6 +1352,11 @@ namespace RFD.RFD900
             return (((x >= 'a') && (x <= 'z')) || ((x >= 'A') && (x <= 'Z')));
         }
 
+        /// <summary>
+        /// Returns null if no country code detected.
+        /// </summary>
+        /// <param name="ATIResponse"></param>
+        /// <returns></returns>
         public static string GetCountryCodeFromATIResponse(string ATIResponse)
         {
             //It's locked to a country if the string has a dash and letters tacked onto the end of it.
@@ -1518,6 +1523,14 @@ namespace RFD.RFD900
                 ShowWrongFirmwareMessageBox();
                 return false;
             }
+        }
+
+        public enum TCountry
+        {
+            NONE = 0,
+            AU = 1,
+            NZ = 2,
+            US = 3,
         }
     }
 

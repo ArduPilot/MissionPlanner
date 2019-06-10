@@ -70,6 +70,8 @@
             this.GPO1_3SBUSOUT = new System.Windows.Forms.CheckBox();
             this.RGPO1_3SBUSOUT = new System.Windows.Forms.CheckBox();
             this.RGPO1_3SBUSIN = new System.Windows.Forms.CheckBox();
+            this.BUT_SetPPMFailSafeRemote = new MissionPlanner.Controls.MyButton();
+            this.BUT_SetPPMFailSafe = new MissionPlanner.Controls.MyButton();
             this.RTI = new System.Windows.Forms.TextBox();
             this.ATI = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
@@ -179,8 +181,6 @@
             this.label10 = new System.Windows.Forms.Label();
             this.BUT_loadcustom = new MissionPlanner.Controls.MyButton();
             this.BUT_resettodefault = new MissionPlanner.Controls.MyButton();
-            this.BUT_SetPPMFailSafeRemote = new MissionPlanner.Controls.MyButton();
-            this.BUT_SetPPMFailSafe = new MissionPlanner.Controls.MyButton();
             this.BUT_savesettings = new MissionPlanner.Controls.MyButton();
             this.BUT_getcurrent = new MissionPlanner.Controls.MyButton();
             this.BUT_upload = new MissionPlanner.Controls.MyButton();
@@ -782,6 +782,22 @@
             resources.ApplyResources(this.RGPO1_3SBUSIN, "RGPO1_3SBUSIN");
             this.RGPO1_3SBUSIN.Name = "RGPO1_3SBUSIN";
             this.toolTip1.SetToolTip(this.RGPO1_3SBUSIN, resources.GetString("RGPO1_3SBUSIN.ToolTip"));
+            // 
+            // BUT_SetPPMFailSafeRemote
+            // 
+            resources.ApplyResources(this.BUT_SetPPMFailSafeRemote, "BUT_SetPPMFailSafeRemote");
+            this.BUT_SetPPMFailSafeRemote.Name = "BUT_SetPPMFailSafeRemote";
+            this.toolTip1.SetToolTip(this.BUT_SetPPMFailSafeRemote, resources.GetString("BUT_SetPPMFailSafeRemote.ToolTip"));
+            this.BUT_SetPPMFailSafeRemote.UseVisualStyleBackColor = true;
+            this.BUT_SetPPMFailSafeRemote.Click += new System.EventHandler(this.BUT_SetPPMFailSafeRemote_Click);
+            // 
+            // BUT_SetPPMFailSafe
+            // 
+            resources.ApplyResources(this.BUT_SetPPMFailSafe, "BUT_SetPPMFailSafe");
+            this.BUT_SetPPMFailSafe.Name = "BUT_SetPPMFailSafe";
+            this.toolTip1.SetToolTip(this.BUT_SetPPMFailSafe, resources.GetString("BUT_SetPPMFailSafe.ToolTip"));
+            this.BUT_SetPPMFailSafe.UseVisualStyleBackColor = true;
+            this.BUT_SetPPMFailSafe.Click += new System.EventHandler(this.BUT_SetPPMFailSafe_Click);
             // 
             // RTI
             // 
@@ -1532,22 +1548,6 @@
             this.BUT_resettodefault.Name = "BUT_resettodefault";
             this.BUT_resettodefault.UseVisualStyleBackColor = true;
             this.BUT_resettodefault.Click += new System.EventHandler(this.BUT_resettodefault_Click);
-            // 
-            // BUT_SetPPMFailSafeRemote
-            // 
-            resources.ApplyResources(this.BUT_SetPPMFailSafeRemote, "BUT_SetPPMFailSafeRemote");
-            this.BUT_SetPPMFailSafeRemote.Name = "BUT_SetPPMFailSafeRemote";
-            this.toolTip1.SetToolTip(this.BUT_SetPPMFailSafeRemote, resources.GetString("BUT_SetPPMFailSafeRemote.ToolTip"));
-            this.BUT_SetPPMFailSafeRemote.UseVisualStyleBackColor = true;
-            this.BUT_SetPPMFailSafeRemote.Click += new System.EventHandler(this.BUT_SetPPMFailSafeRemote_Click);
-            // 
-            // BUT_SetPPMFailSafe
-            // 
-            resources.ApplyResources(this.BUT_SetPPMFailSafe, "BUT_SetPPMFailSafe");
-            this.BUT_SetPPMFailSafe.Name = "BUT_SetPPMFailSafe";
-            this.toolTip1.SetToolTip(this.BUT_SetPPMFailSafe, resources.GetString("BUT_SetPPMFailSafe.ToolTip"));
-            this.BUT_SetPPMFailSafe.UseVisualStyleBackColor = true;
-            this.BUT_SetPPMFailSafe.Click += new System.EventHandler(this.BUT_SetPPMFailSafe_Click);
             // 
             // BUT_savesettings
             // 

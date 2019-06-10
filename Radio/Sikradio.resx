@@ -2119,6 +2119,72 @@ red LED solid - in firmware update mode</value>
   <data name="&gt;&gt;RGPO1_3SBUSIN.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
+  <data name="BUT_SetPPMFailSafeRemote.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="BUT_SetPPMFailSafeRemote.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_SetPPMFailSafeRemote.Location" type="System.Drawing.Point, System.Drawing">
+    <value>425, 400</value>
+  </data>
+  <data name="BUT_SetPPMFailSafeRemote.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 29</value>
+  </data>
+  <data name="BUT_SetPPMFailSafeRemote.TabIndex" type="System.Int32, mscorlib">
+    <value>87</value>
+  </data>
+  <data name="BUT_SetPPMFailSafeRemote.Text" xml:space="preserve">
+    <value>Set PPM Fail Safe</value>
+  </data>
+  <data name="BUT_SetPPMFailSafeRemote.ToolTip" xml:space="preserve">
+    <value>Record default PPM stream for PPM output (vehicle side)</value>
+  </data>
+  <data name="&gt;&gt;BUT_SetPPMFailSafeRemote.Name" xml:space="preserve">
+    <value>BUT_SetPPMFailSafeRemote</value>
+  </data>
+  <data name="&gt;&gt;BUT_SetPPMFailSafeRemote.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.27.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_SetPPMFailSafeRemote.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;BUT_SetPPMFailSafeRemote.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="BUT_SetPPMFailSafe.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="BUT_SetPPMFailSafe.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_SetPPMFailSafe.Location" type="System.Drawing.Point, System.Drawing">
+    <value>425, 400</value>
+  </data>
+  <data name="BUT_SetPPMFailSafe.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 29</value>
+  </data>
+  <data name="BUT_SetPPMFailSafe.TabIndex" type="System.Int32, mscorlib">
+    <value>86</value>
+  </data>
+  <data name="BUT_SetPPMFailSafe.Text" xml:space="preserve">
+    <value>Set PPM Fail Safe</value>
+  </data>
+  <data name="BUT_SetPPMFailSafe.ToolTip" xml:space="preserve">
+    <value>Record default PPM stream for PPM output (vehicle side)</value>
+  </data>
+  <data name="&gt;&gt;BUT_SetPPMFailSafe.Name" xml:space="preserve">
+    <value>BUT_SetPPMFailSafe</value>
+  </data>
+  <data name="&gt;&gt;BUT_SetPPMFailSafe.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.27.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_SetPPMFailSafe.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;BUT_SetPPMFailSafe.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="RTI.Location" type="System.Drawing.Point, System.Drawing">
     <value>60, 12</value>
   </data>
@@ -2269,642 +2335,6 @@ this ensures you wont lose radio link</value>
   </data>
   <data name="&gt;&gt;ATI3.ZOrder" xml:space="preserve">
     <value>69</value>
-  </data>
-  <data name="&gt;&gt;label49.Name" xml:space="preserve">
-    <value>label49</value>
-  </data>
-  <data name="&gt;&gt;label49.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label49.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;label49.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;BUT_SetPPMFailSafe.Name" xml:space="preserve">
-    <value>BUT_SetPPMFailSafe</value>
-  </data>
-  <data name="&gt;&gt;BUT_SetPPMFailSafe.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.21.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;BUT_SetPPMFailSafe.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;BUT_SetPPMFailSafe.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;txtCountry.Name" xml:space="preserve">
-    <value>txtCountry</value>
-  </data>
-  <data name="&gt;&gt;txtCountry.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;txtCountry.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;txtCountry.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;label45.Name" xml:space="preserve">
-    <value>label45</value>
-  </data>
-  <data name="&gt;&gt;label45.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label45.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;label45.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;RATE_FREQBAND.Name" xml:space="preserve">
-    <value>RATE_FREQBAND</value>
-  </data>
-  <data name="&gt;&gt;RATE_FREQBAND.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;RATE_FREQBAND.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;RATE_FREQBAND.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;label44.Name" xml:space="preserve">
-    <value>label44</value>
-  </data>
-  <data name="&gt;&gt;label44.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label44.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;label44.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;label43.Name" xml:space="preserve">
-    <value>label43</value>
-  </data>
-  <data name="&gt;&gt;label43.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label43.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;label43.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;btnRandom.Name" xml:space="preserve">
-    <value>btnRandom</value>
-  </data>
-  <data name="&gt;&gt;btnRandom.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnRandom.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;btnRandom.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="&gt;&gt;lblRX_ENCAP_METHOD.Name" xml:space="preserve">
-    <value>lblRX_ENCAP_METHOD</value>
-  </data>
-  <data name="&gt;&gt;lblRX_ENCAP_METHOD.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblRX_ENCAP_METHOD.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;lblRX_ENCAP_METHOD.ZOrder" xml:space="preserve">
-    <value>10</value>
-  </data>
-  <data name="&gt;&gt;RX_ENCAP_METHOD.Name" xml:space="preserve">
-    <value>RX_ENCAP_METHOD</value>
-  </data>
-  <data name="&gt;&gt;RX_ENCAP_METHOD.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;RX_ENCAP_METHOD.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;RX_ENCAP_METHOD.ZOrder" xml:space="preserve">
-    <value>11</value>
-  </data>
-  <data name="&gt;&gt;lblTX_ENCAP_METHOD.Name" xml:space="preserve">
-    <value>lblTX_ENCAP_METHOD</value>
-  </data>
-  <data name="&gt;&gt;lblTX_ENCAP_METHOD.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblTX_ENCAP_METHOD.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;lblTX_ENCAP_METHOD.ZOrder" xml:space="preserve">
-    <value>12</value>
-  </data>
-  <data name="&gt;&gt;TX_ENCAP_METHOD.Name" xml:space="preserve">
-    <value>TX_ENCAP_METHOD</value>
-  </data>
-  <data name="&gt;&gt;TX_ENCAP_METHOD.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TX_ENCAP_METHOD.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;TX_ENCAP_METHOD.ZOrder" xml:space="preserve">
-    <value>13</value>
-  </data>
-  <data name="&gt;&gt;lblDESTID.Name" xml:space="preserve">
-    <value>lblDESTID</value>
-  </data>
-  <data name="&gt;&gt;lblDESTID.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblDESTID.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;lblDESTID.ZOrder" xml:space="preserve">
-    <value>14</value>
-  </data>
-  <data name="&gt;&gt;lblNODEID.Name" xml:space="preserve">
-    <value>lblNODEID</value>
-  </data>
-  <data name="&gt;&gt;lblNODEID.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblNODEID.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;lblNODEID.ZOrder" xml:space="preserve">
-    <value>15</value>
-  </data>
-  <data name="&gt;&gt;DESTID.Name" xml:space="preserve">
-    <value>DESTID</value>
-  </data>
-  <data name="&gt;&gt;DESTID.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;DESTID.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;DESTID.ZOrder" xml:space="preserve">
-    <value>16</value>
-  </data>
-  <data name="&gt;&gt;NODEID.Name" xml:space="preserve">
-    <value>NODEID</value>
-  </data>
-  <data name="&gt;&gt;NODEID.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;NODEID.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;NODEID.ZOrder" xml:space="preserve">
-    <value>17</value>
-  </data>
-  <data name="&gt;&gt;label40.Name" xml:space="preserve">
-    <value>label40</value>
-  </data>
-  <data name="&gt;&gt;label40.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label40.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;label40.ZOrder" xml:space="preserve">
-    <value>18</value>
-  </data>
-  <data name="&gt;&gt;label39.Name" xml:space="preserve">
-    <value>label39</value>
-  </data>
-  <data name="&gt;&gt;label39.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label39.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;label39.ZOrder" xml:space="preserve">
-    <value>20</value>
-  </data>
-  <data name="&gt;&gt;label2.Name" xml:space="preserve">
-    <value>label2</value>
-  </data>
-  <data name="&gt;&gt;label2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>23</value>
-  </data>
-  <data name="&gt;&gt;label1.Name" xml:space="preserve">
-    <value>label1</value>
-  </data>
-  <data name="&gt;&gt;label1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>25</value>
-  </data>
-  <data name="&gt;&gt;FORMAT.Name" xml:space="preserve">
-    <value>FORMAT</value>
-  </data>
-  <data name="&gt;&gt;FORMAT.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;FORMAT.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;FORMAT.ZOrder" xml:space="preserve">
-    <value>26</value>
-  </data>
-  <data name="&gt;&gt;label3.Name" xml:space="preserve">
-    <value>label3</value>
-  </data>
-  <data name="&gt;&gt;label3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>28</value>
-  </data>
-  <data name="&gt;&gt;label4.Name" xml:space="preserve">
-    <value>label4</value>
-  </data>
-  <data name="&gt;&gt;label4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>30</value>
-  </data>
-  <data name="&gt;&gt;label5.Name" xml:space="preserve">
-    <value>label5</value>
-  </data>
-  <data name="&gt;&gt;label5.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>32</value>
-  </data>
-  <data name="&gt;&gt;label6.Name" xml:space="preserve">
-    <value>label6</value>
-  </data>
-  <data name="&gt;&gt;label6.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
-    <value>34</value>
-  </data>
-  <data name="&gt;&gt;label8.Name" xml:space="preserve">
-    <value>label8</value>
-  </data>
-  <data name="&gt;&gt;label8.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label8.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
-    <value>35</value>
-  </data>
-  <data name="&gt;&gt;label7.Name" xml:space="preserve">
-    <value>label7</value>
-  </data>
-  <data name="&gt;&gt;label7.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label7.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
-    <value>37</value>
-  </data>
-  <data name="&gt;&gt;lblANT_MODE.Name" xml:space="preserve">
-    <value>lblANT_MODE</value>
-  </data>
-  <data name="&gt;&gt;lblANT_MODE.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblANT_MODE.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;lblANT_MODE.ZOrder" xml:space="preserve">
-    <value>38</value>
-  </data>
-  <data name="&gt;&gt;ANT_MODE.Name" xml:space="preserve">
-    <value>ANT_MODE</value>
-  </data>
-  <data name="&gt;&gt;ANT_MODE.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ANT_MODE.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;ANT_MODE.ZOrder" xml:space="preserve">
-    <value>39</value>
-  </data>
-  <data name="&gt;&gt;lblSER_BRK_DETMS.Name" xml:space="preserve">
-    <value>lblSER_BRK_DETMS</value>
-  </data>
-  <data name="&gt;&gt;lblSER_BRK_DETMS.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblSER_BRK_DETMS.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;lblSER_BRK_DETMS.ZOrder" xml:space="preserve">
-    <value>40</value>
-  </data>
-  <data name="&gt;&gt;lblGLOBAL_RETRIES.Name" xml:space="preserve">
-    <value>lblGLOBAL_RETRIES</value>
-  </data>
-  <data name="&gt;&gt;lblGLOBAL_RETRIES.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblGLOBAL_RETRIES.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;lblGLOBAL_RETRIES.ZOrder" xml:space="preserve">
-    <value>41</value>
-  </data>
-  <data name="&gt;&gt;lblMAX_RETRIES.Name" xml:space="preserve">
-    <value>lblMAX_RETRIES</value>
-  </data>
-  <data name="&gt;&gt;lblMAX_RETRIES.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblMAX_RETRIES.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;lblMAX_RETRIES.ZOrder" xml:space="preserve">
-    <value>42</value>
-  </data>
-  <data name="&gt;&gt;SER_BRK_DETMS.Name" xml:space="preserve">
-    <value>SER_BRK_DETMS</value>
-  </data>
-  <data name="&gt;&gt;SER_BRK_DETMS.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;SER_BRK_DETMS.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;SER_BRK_DETMS.ZOrder" xml:space="preserve">
-    <value>43</value>
-  </data>
-  <data name="&gt;&gt;GLOBAL_RETRIES.Name" xml:space="preserve">
-    <value>GLOBAL_RETRIES</value>
-  </data>
-  <data name="&gt;&gt;GLOBAL_RETRIES.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GLOBAL_RETRIES.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;GLOBAL_RETRIES.ZOrder" xml:space="preserve">
-    <value>44</value>
-  </data>
-  <data name="&gt;&gt;MAX_RETRIES.Name" xml:space="preserve">
-    <value>MAX_RETRIES</value>
-  </data>
-  <data name="&gt;&gt;MAX_RETRIES.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;MAX_RETRIES.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;MAX_RETRIES.ZOrder" xml:space="preserve">
-    <value>45</value>
-  </data>
-  <data name="&gt;&gt;MAX_DATA.Name" xml:space="preserve">
-    <value>MAX_DATA</value>
-  </data>
-  <data name="&gt;&gt;MAX_DATA.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;MAX_DATA.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;MAX_DATA.ZOrder" xml:space="preserve">
-    <value>46</value>
-  </data>
-  <data name="&gt;&gt;lblMAX_DATA.Name" xml:space="preserve">
-    <value>lblMAX_DATA</value>
-  </data>
-  <data name="&gt;&gt;lblMAX_DATA.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblMAX_DATA.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;lblMAX_DATA.ZOrder" xml:space="preserve">
-    <value>47</value>
-  </data>
-  <data name="&gt;&gt;ENCRYPTION_LEVEL.Name" xml:space="preserve">
-    <value>ENCRYPTION_LEVEL</value>
-  </data>
-  <data name="&gt;&gt;ENCRYPTION_LEVEL.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ENCRYPTION_LEVEL.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;ENCRYPTION_LEVEL.ZOrder" xml:space="preserve">
-    <value>48</value>
-  </data>
-  <data name="&gt;&gt;label36.Name" xml:space="preserve">
-    <value>label36</value>
-  </data>
-  <data name="&gt;&gt;label36.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label36.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;label36.ZOrder" xml:space="preserve">
-    <value>49</value>
-  </data>
-  <data name="&gt;&gt;label35.Name" xml:space="preserve">
-    <value>label35</value>
-  </data>
-  <data name="&gt;&gt;label35.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label35.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;label35.ZOrder" xml:space="preserve">
-    <value>50</value>
-  </data>
-  <data name="&gt;&gt;txt_aeskey.Name" xml:space="preserve">
-    <value>txt_aeskey</value>
-  </data>
-  <data name="&gt;&gt;txt_aeskey.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;txt_aeskey.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;txt_aeskey.ZOrder" xml:space="preserve">
-    <value>51</value>
-  </data>
-  <data name="&gt;&gt;label19.Name" xml:space="preserve">
-    <value>label19</value>
-  </data>
-  <data name="&gt;&gt;label19.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label19.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;label19.ZOrder" xml:space="preserve">
-    <value>53</value>
-  </data>
-  <data name="&gt;&gt;linkLabel_mavlink.Name" xml:space="preserve">
-    <value>linkLabel_mavlink</value>
-  </data>
-  <data name="&gt;&gt;linkLabel_mavlink.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;linkLabel_mavlink.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;linkLabel_mavlink.ZOrder" xml:space="preserve">
-    <value>54</value>
-  </data>
-  <data name="&gt;&gt;linkLabel_lowlatency.Name" xml:space="preserve">
-    <value>linkLabel_lowlatency</value>
-  </data>
-  <data name="&gt;&gt;linkLabel_lowlatency.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;linkLabel_lowlatency.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;linkLabel_lowlatency.ZOrder" xml:space="preserve">
-    <value>55</value>
-  </data>
-  <data name="&gt;&gt;label18.Name" xml:space="preserve">
-    <value>label18</value>
-  </data>
-  <data name="&gt;&gt;label18.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label18.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;label18.ZOrder" xml:space="preserve">
-    <value>56</value>
-  </data>
-  <data name="&gt;&gt;label13.Name" xml:space="preserve">
-    <value>label13</value>
-  </data>
-  <data name="&gt;&gt;label13.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label13.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;label13.ZOrder" xml:space="preserve">
-    <value>58</value>
-  </data>
-  <data name="&gt;&gt;label17.Name" xml:space="preserve">
-    <value>label17</value>
-  </data>
-  <data name="&gt;&gt;label17.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label17.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;label17.ZOrder" xml:space="preserve">
-    <value>61</value>
-  </data>
-  <data name="&gt;&gt;label16.Name" xml:space="preserve">
-    <value>label16</value>
-  </data>
-  <data name="&gt;&gt;label16.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label16.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;label16.ZOrder" xml:space="preserve">
-    <value>63</value>
-  </data>
-  <data name="&gt;&gt;label15.Name" xml:space="preserve">
-    <value>label15</value>
-  </data>
-  <data name="&gt;&gt;label15.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label15.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;label15.ZOrder" xml:space="preserve">
-    <value>65</value>
-  </data>
-  <data name="&gt;&gt;label14.Name" xml:space="preserve">
-    <value>label14</value>
-  </data>
-  <data name="&gt;&gt;label14.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label14.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;label14.ZOrder" xml:space="preserve">
-    <value>66</value>
-  </data>
-  <data name="&gt;&gt;ATI2.Name" xml:space="preserve">
-    <value>ATI2</value>
-  </data>
-  <data name="&gt;&gt;ATI2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ATI2.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;ATI2.ZOrder" xml:space="preserve">
-    <value>68</value>
-  </data>
-  <data name="groupBoxLocal.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 48</value>
-  </data>
-  <data name="groupBoxLocal.Size" type="System.Drawing.Size, System.Drawing">
-    <value>533, 435</value>
-  </data>
-  <data name="groupBoxLocal.TabIndex" type="System.Int32, mscorlib">
-    <value>80</value>
-  </data>
-  <data name="groupBoxLocal.Text" xml:space="preserve">
-    <value>Local</value>
-  </data>
-  <data name="&gt;&gt;groupBoxLocal.Name" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;groupBoxLocal.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBoxLocal.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;groupBoxLocal.ZOrder" xml:space="preserve">
-    <value>6</value>
   </data>
   <data name="label49.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4364,38 +3794,29 @@ this ensures you wont lose radio link</value>
   <data name="&gt;&gt;ATI2.ZOrder" xml:space="preserve">
     <value>68</value>
   </data>
-  <data name="BUT_SetPPMFailSafeRemote.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
+  <data name="groupBoxLocal.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 48</value>
   </data>
-  <data name="BUT_SetPPMFailSafeRemote.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="groupBoxLocal.Size" type="System.Drawing.Size, System.Drawing">
+    <value>533, 435</value>
   </data>
-  <data name="BUT_SetPPMFailSafeRemote.Location" type="System.Drawing.Point, System.Drawing">
-    <value>425, 400</value>
+  <data name="groupBoxLocal.TabIndex" type="System.Int32, mscorlib">
+    <value>80</value>
   </data>
-  <data name="BUT_SetPPMFailSafeRemote.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 29</value>
+  <data name="groupBoxLocal.Text" xml:space="preserve">
+    <value>Local</value>
   </data>
-  <data name="BUT_SetPPMFailSafeRemote.TabIndex" type="System.Int32, mscorlib">
-    <value>87</value>
+  <data name="&gt;&gt;groupBoxLocal.Name" xml:space="preserve">
+    <value>groupBoxLocal</value>
   </data>
-  <data name="BUT_SetPPMFailSafeRemote.Text" xml:space="preserve">
-    <value>Set PPM Fail Safe</value>
+  <data name="&gt;&gt;groupBoxLocal.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="BUT_SetPPMFailSafeRemote.ToolTip" xml:space="preserve">
-    <value>Record default PPM stream for PPM output (vehicle side)</value>
+  <data name="&gt;&gt;groupBoxLocal.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
-  <data name="&gt;&gt;BUT_SetPPMFailSafeRemote.Name" xml:space="preserve">
-    <value>BUT_SetPPMFailSafeRemote</value>
-  </data>
-  <data name="&gt;&gt;BUT_SetPPMFailSafeRemote.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.21.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;BUT_SetPPMFailSafeRemote.Parent" xml:space="preserve">
-    <value>groupBoxRemote</value>
-  </data>
-  <data name="&gt;&gt;BUT_SetPPMFailSafeRemote.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="&gt;&gt;groupBoxLocal.ZOrder" xml:space="preserve">
+    <value>6</value>
   </data>
   <data name="label50.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -5841,7 +5262,7 @@ this ensures you wont lose radio link</value>
     <value>BUT_loadcustom</value>
   </data>
   <data name="&gt;&gt;BUT_loadcustom.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.21.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.27.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_loadcustom.Parent" xml:space="preserve">
     <value>$this</value>
@@ -5868,46 +5289,13 @@ this ensures you wont lose radio link</value>
     <value>BUT_resettodefault</value>
   </data>
   <data name="&gt;&gt;BUT_resettodefault.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.21.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.27.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_resettodefault.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_resettodefault.ZOrder" xml:space="preserve">
     <value>2</value>
-  </data>
-  <data name="BUT_SetPPMFailSafe.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="BUT_SetPPMFailSafe.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="BUT_SetPPMFailSafe.Location" type="System.Drawing.Point, System.Drawing">
-    <value>425, 400</value>
-  </data>
-  <data name="BUT_SetPPMFailSafe.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 29</value>
-  </data>
-  <data name="BUT_SetPPMFailSafe.TabIndex" type="System.Int32, mscorlib">
-    <value>86</value>
-  </data>
-  <data name="BUT_SetPPMFailSafe.Text" xml:space="preserve">
-    <value>Set PPM Fail Safe</value>
-  </data>
-  <data name="BUT_SetPPMFailSafe.ToolTip" xml:space="preserve">
-    <value>Record default PPM stream for PPM output (vehicle side)</value>
-  </data>
-  <data name="&gt;&gt;BUT_SetPPMFailSafe.Name" xml:space="preserve">
-    <value>BUT_SetPPMFailSafe</value>
-  </data>
-  <data name="&gt;&gt;BUT_SetPPMFailSafe.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.21.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;BUT_SetPPMFailSafe.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;BUT_SetPPMFailSafe.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <data name="BUT_savesettings.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -5931,7 +5319,7 @@ this ensures you wont lose radio link</value>
     <value>BUT_savesettings</value>
   </data>
   <data name="&gt;&gt;BUT_savesettings.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.21.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.27.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_savesettings.Parent" xml:space="preserve">
     <value>$this</value>
@@ -5958,7 +5346,7 @@ this ensures you wont lose radio link</value>
     <value>BUT_getcurrent</value>
   </data>
   <data name="&gt;&gt;BUT_getcurrent.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.21.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.27.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_getcurrent.Parent" xml:space="preserve">
     <value>$this</value>
@@ -5988,7 +5376,7 @@ this ensures you wont lose radio link</value>
     <value>BUT_upload</value>
   </data>
   <data name="&gt;&gt;BUT_upload.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.21.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.27.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_upload.Parent" xml:space="preserve">
     <value>$this</value>
@@ -6018,7 +5406,7 @@ this ensures you wont lose radio link</value>
     <value>BUT_Syncoptions</value>
   </data>
   <data name="&gt;&gt;BUT_Syncoptions.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.21.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.27.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_Syncoptions.Parent" xml:space="preserve">
     <value>$this</value>

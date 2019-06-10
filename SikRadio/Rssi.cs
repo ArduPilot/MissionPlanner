@@ -141,5 +141,13 @@ L/R RSSI: 12/0  L/R noise: 16/0 pkts: 0  txe=0 rxe=0 stx=0 srx=0 ecc=0/0 temp=61
                 }
             }
         }
+
+        public string Header
+        {
+            get
+            {
+                return "RSSI";
+            }
+        }
     }
 }

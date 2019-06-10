@@ -2142,5 +2142,14 @@ red LED solid - in firmware update mode");
         {
             SetPPMFailSafe("RT&R", "RT&W");
         }
+
+        public string Header
+        {
+            get
+            {
+                return "Settings";
+            }
+        }
+
     }
 }

@@ -352,7 +352,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:RFD900Tools, Version=0.2.26.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:RFD900Tools, Version=0.2.28.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_187250387F8C41B79FF94F32E955C8A4"
@@ -920,6 +920,11 @@
             "AssemblyAsmDisplayName" = "8:ZedGraph, Version=5.1.5.24889, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_CF7A422D48E6B1E30B20FC8A5138D181"
+                    {
+                    "Name" = "8:ZedGraph.DLL"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:ZedGraph.DLL"
             "TargetName" = "8:"
@@ -977,6 +982,11 @@
             "AssemblyAsmDisplayName" = "8:log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_FA4FFDD4CE573CD8407A48A39AC8DE85"
+                    {
+                    "Name" = "8:log4net.DLL"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:log4net.DLL"
             "TargetName" = "8:"
@@ -1063,15 +1073,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:RFD900 Tools"
-        "ProductCode" = "8:{F6CFAB47-89C3-468B-8DFC-782AE09BD7CD}"
-        "PackageCode" = "8:{868C6611-91B9-4E85-9776-8E41EA1767DE}"
+        "ProductCode" = "8:{45621EF9-CE81-4D68-BF17-8622692A1335}"
+        "PackageCode" = "8:{A18AD0FE-6212-429D-A54D-C8B4C2769464}"
         "UpgradeCode" = "8:{5CF5324A-B273-4F09-80F8-04A7C58CA17F}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:FALSE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:2.26.0"
+        "ProductVersion" = "8:2.28.0"
         "Manufacturer" = "8:RFDesign"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"

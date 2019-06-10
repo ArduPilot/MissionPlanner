@@ -287,5 +287,13 @@ namespace SikRadio
                 cmd.Append(e.KeyChar);
             }
         }
+
+        public string Header
+        {
+            get
+            {
+                return "Terminal";
+            }
+        }
     }
 }
