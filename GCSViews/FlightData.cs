@@ -504,7 +504,8 @@ namespace MissionPlanner.GCSViews
 
                         // set description and unit
                         string desc = Settings.Instance["quickView" + f];
-                        QV.Tag = QV.desc;
+                        if(QV.Tag == null)
+                            QV.Tag = desc;
                         QV.desc = MainV2.comPort.MAV.cs.GetNameandUnit(desc);
 
                         // set databinding for value
@@ -530,8 +531,9 @@ namespace MissionPlanner.GCSViews
                         {
                             QuickView QV = (QuickView) ctls[0];
                             string desc = QV.desc;
-                            QV.Tag = desc;
-                            QV.desc = MainV2.comPort.MAV.cs.GetNameandUnit(desc);
+                            if (QV.Tag == null)
+                                QV.Tag = desc;
+                            QV.desc = MainV2.comPort.MAV.cs.GetNameandUnit(QV.Tag.ToString());
                         }
                     }
                     catch (Exception ex)
@@ -2840,6 +2842,8 @@ namespace MissionPlanner.GCSViews
             int row_count = fields.Count / col_count + ((fields.Count % col_count == 0) ? 0 : 1);
             int row_height = 20;
 
+            selectform.SuspendLayout();
+
             int i = 1;
             foreach (var field in fields)
             {
@@ -2921,6 +2925,8 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
+            selectform.ResumeLayout();
+
             selectform.Shown += (o, args) => {
                 selectform.Controls.ForEach(a =>
                 {
@@ -2978,7 +2984,7 @@ namespace MissionPlanner.GCSViews
             int row_count = fields.Count/col_count + ((fields.Count%col_count == 0) ? 0 : 1);
             int row_height = 20;
             //selectform.MinimumSize = new Size(col_count * max_length, row_count * row_height);
-
+            selectform.SuspendLayout();
             for (int i = 0; i < fields.Count; i++)
             {
                 CheckBox chk_box = new CheckBox
@@ -2996,7 +3002,7 @@ namespace MissionPlanner.GCSViews
                     chk_box.BackColor = Color.Green;
                 selectform.Controls.Add(chk_box);
             }
-
+            selectform.ResumeLayout();
             selectform.Shown += (o, args) => {
                 selectform.Controls.ForEach(a =>
                 {
@@ -3365,7 +3371,7 @@ namespace MissionPlanner.GCSViews
             int row_count = fields.Count/col_count + ((fields.Count%col_count == 0) ? 0 : 1);
             int row_height = 20;
             //selectform.MinimumSize = new Size(col_count * max_length, row_count * row_height);
-
+            selectform.SuspendLayout();
             for (int i = 0; i < fields.Count; i++)
             {
                 CheckBox chk_box = new CheckBox
@@ -3384,6 +3390,7 @@ namespace MissionPlanner.GCSViews
                     chk_box.BackColor = Color.Green;
                 selectform.Controls.Add(chk_box);
             }
+            selectform.ResumeLayout();
 
             selectform.Shown += (o, args) => { selectform.Controls.ForEach(a =>
             {
