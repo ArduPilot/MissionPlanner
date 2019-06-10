@@ -375,7 +375,7 @@ namespace netDxf.Tables
                 if (!File.Exists(fontFile)) return string.Empty;
             }
 
-            var font = System.Geometry.Text.Font.FromStream(File.OpenRead(ttfFont));
+            var font = System.Geometry.Text.Font.FromStream(File.OpenRead(fontFile));
             return font.Family;
         }
 
