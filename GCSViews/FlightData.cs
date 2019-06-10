@@ -3980,6 +3980,8 @@ namespace MissionPlanner.GCSViews
                 {
                 }
             }
+
+            coords1.AltUnit = CurrentState.AltUnit;
         }
 
         private void dropOutToolStripMenuItem_Click(object sender, EventArgs e)
