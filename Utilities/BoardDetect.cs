@@ -43,7 +43,8 @@ namespace MissionPlanner.Utilities
             mindpxv2,
             minipix,
             chbootloader,
-            pass
+            pass,
+            nxpfmuk66
         }
 
         public static string chbootloader = "";
@@ -365,6 +366,12 @@ namespace MissionPlanner.Utilities
                     {
                         log.Info("is a vrubrain 5.2 bootloader");
                         return boards.vrubrainv52;
+                    }
+
+                    if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_1FC9&PID_001C"))
+                    {
+                        log.Info("is a NXP RDDRONE-FMUK66");
+                        return boards.nxpfmuk66;
                     }
                 }
             }

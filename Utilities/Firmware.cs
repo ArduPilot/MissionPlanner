@@ -73,6 +73,7 @@ namespace MissionPlanner.Utilities
             public string urlvrubrainv52 = "";
             public string urlbebop2 = "";
             public string urldisco = "";
+            public string urlnxpfmuk66 = "";
             
             // chibios - libraries\AP_HAL_ChibiOS\hwdef
             public string urlfmuv2 = "";
@@ -543,6 +544,10 @@ namespace MissionPlanner.Utilities
                 else if (board == BoardDetect.boards.mindpxv2)
                 {
                     baseurl = temp.urlmindpxv2.ToString();
+                }
+                else if (board == BoardDetect.boards.nxpfmuk66)
+                {
+                    baseurl = temp.urlnxpfmuk66.ToString();
                 }
                 else if (board == BoardDetect.boards.chbootloader)
                 {
@@ -1372,7 +1377,7 @@ namespace MissionPlanner.Utilities
                 board == BoardDetect.boards.px4v4pro || board == BoardDetect.boards.fmuv5 ||
                 board == BoardDetect.boards.revomini || board == BoardDetect.boards.mindpxv2 ||
                 board == BoardDetect.boards.minipix || board == BoardDetect.boards.chbootloader ||
-                board == BoardDetect.boards.pass)
+                board == BoardDetect.boards.pass || board == BoardDetect.boards.nxpfmuk66)
             {
                 try
                 {
