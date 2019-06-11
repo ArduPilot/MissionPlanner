@@ -36,19 +36,19 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             TXT_measuredvoltage.Text = TXT_voltage.Text;
 
             if (MainV2.comPort.MAV.param["BATT_AMP_PERVLT"] != null)
-                TXT_ampspervolt.Text = MainV2.comPort.MAV.param["BATT_AMP_PERVLT"].ToString();
+                TXT_AMP_PERVLT.Text = MainV2.comPort.MAV.param["BATT_AMP_PERVLT"].ToString();
             // new
             if (MainV2.comPort.MAV.param["BATT_VOLT_MULT"] != null)
-                TXT_divider.Text = MainV2.comPort.MAV.param["BATT_VOLT_MULT"].ToString();
+                TXT_divider_VOLT_MULT.Text = MainV2.comPort.MAV.param["BATT_VOLT_MULT"].ToString();
 
             if (MainV2.comPort.MAV.param["BATT_AMP_PERVOLT"] != null)
-                TXT_ampspervolt.Text = MainV2.comPort.MAV.param["BATT_AMP_PERVOLT"].ToString();
+                TXT_AMP_PERVLT.Text = MainV2.comPort.MAV.param["BATT_AMP_PERVOLT"].ToString();
             // old
             if (MainV2.comPort.MAV.param["VOLT_DIVIDER"] != null)
-                TXT_divider.Text = MainV2.comPort.MAV.param["VOLT_DIVIDER"].ToString();
+                TXT_divider_VOLT_MULT.Text = MainV2.comPort.MAV.param["VOLT_DIVIDER"].ToString();
 
             if (MainV2.comPort.MAV.param["AMP_PER_VOLT"] != null)
-                TXT_ampspervolt.Text = MainV2.comPort.MAV.param["AMP_PER_VOLT"].ToString();
+                TXT_AMP_PERVLT.Text = MainV2.comPort.MAV.param["AMP_PER_VOLT"].ToString();
 
             if (Settings.Instance.GetBoolean("speechbatteryenabled") && Settings.Instance.GetBoolean("speechenable"))
             {
@@ -61,31 +61,31 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             //http://plane.ardupilot.com/wiki/common-pixhawk-overview/#pixhawk_analog_input_pins_virtual_pin_firmware_mapped_pin_id
             // determine the sensor type
-            if (TXT_ampspervolt.Text == (13.6612).ToString() && TXT_divider.Text == (4.127115).ToString())
+            if (TXT_AMP_PERVLT.Text == (13.6612).ToString() && TXT_divider_VOLT_MULT.Text == (4.127115).ToString())
             {
                 CMB_batmonsensortype.SelectedIndex = 1;
             }
-            else if (TXT_ampspervolt.Text == (27.3224).ToString() && TXT_divider.Text == (15.70105).ToString())
+            else if (TXT_AMP_PERVLT.Text == (27.3224).ToString() && TXT_divider_VOLT_MULT.Text == (15.70105).ToString())
             {
                 CMB_batmonsensortype.SelectedIndex = 2;
             }
-            else if (TXT_ampspervolt.Text == (54.64481).ToString() && TXT_divider.Text == (15.70105).ToString())
+            else if (TXT_AMP_PERVLT.Text == (54.64481).ToString() && TXT_divider_VOLT_MULT.Text == (15.70105).ToString())
             {
                 CMB_batmonsensortype.SelectedIndex = 3;
             }
-            else if (TXT_ampspervolt.Text == (18.0018).ToString() && TXT_divider.Text == (10.10101).ToString())
+            else if (TXT_AMP_PERVLT.Text == (18.0018).ToString() && TXT_divider_VOLT_MULT.Text == (10.10101).ToString())
             {
                 CMB_batmonsensortype.SelectedIndex = 4;
             }
-            else if (TXT_ampspervolt.Text == (17).ToString() && TXT_divider.Text == (12.02).ToString())
+            else if (TXT_AMP_PERVLT.Text == (17).ToString() && TXT_divider_VOLT_MULT.Text == (12.02).ToString())
             {
                 CMB_batmonsensortype.SelectedIndex = 5;
             }
-            else if (TXT_ampspervolt.Text == (24).ToString() && TXT_divider.Text == (18).ToString())
+            else if (TXT_AMP_PERVLT.Text == (24).ToString() && TXT_divider_VOLT_MULT.Text == (18).ToString())
             {
                 CMB_batmonsensortype.SelectedIndex = 8;
             }
-            else if (TXT_ampspervolt.Text == (36.364).ToString() && TXT_divider.Text == (18.182).ToString())
+            else if (TXT_AMP_PERVLT.Text == (36.364).ToString() && TXT_divider_VOLT_MULT.Text == (18.182).ToString())
             {
                 CMB_batmonsensortype.SelectedIndex = 9;
             }
@@ -210,16 +210,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         CMB_batmonsensortype.Enabled = true;
                         CMB_apmversion.Enabled = true;
                         groupBox4.Enabled = true;
-                        TXT_ampspervolt.Enabled = true;
+                        TXT_AMP_PERVLT.Enabled = true;
                     }
                     else if (selection == 3)
                     {
                         groupBox4.Enabled = true;
                         CMB_batmonsensortype.Enabled = false;
                         CMB_apmversion.Enabled = true;
-                        TXT_ampspervolt.Enabled = false;
+                        TXT_AMP_PERVLT.Enabled = false;
                         TXT_measuredvoltage.Enabled = true;
-                        TXT_divider.Enabled = true;
+                        TXT_divider_VOLT_MULT.Enabled = true;
                     }
 
                     MainV2.comPort.setParam("BATT_MONITOR", selection);
@@ -245,11 +245,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 var measuredvoltage = float.Parse(TXT_measuredvoltage.Text);
                 var voltage = float.Parse(TXT_voltage.Text);
-                var divider = float.Parse(TXT_divider.Text);
+                var divider = float.Parse(TXT_divider_VOLT_MULT.Text);
                 if (voltage == 0)
                     return;
                 var new_divider = (measuredvoltage*divider)/voltage;
-                TXT_divider.Text = new_divider.ToString();
+                TXT_divider_VOLT_MULT.Text = new_divider.ToString();
             }
             catch
             {
@@ -259,7 +259,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             try
             {
-                MainV2.comPort.setParam(new[] {"VOLT_DIVIDER", "BATT_VOLT_MULT"}, float.Parse(TXT_divider.Text));
+                MainV2.comPort.setParam(new[] {"VOLT_DIVIDER", "BATT_VOLT_MULT"}, float.Parse(TXT_divider_VOLT_MULT.Text));
             }
             catch
             {
@@ -270,7 +270,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void TXT_divider_Validating(object sender, CancelEventArgs e)
         {
             float ans = 0;
-            e.Cancel = !float.TryParse(TXT_divider.Text, out ans);
+            e.Cancel = !float.TryParse(TXT_divider_VOLT_MULT.Text, out ans);
         }
 
         private void TXT_divider_Validated(object sender, EventArgs e)
@@ -279,7 +279,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             try
             {
-                MainV2.comPort.setParam(new[] {"VOLT_DIVIDER", "BATT_VOLT_MULT"}, float.Parse(TXT_divider.Text));
+                MainV2.comPort.setParam(new[] {"VOLT_DIVIDER", "BATT_VOLT_MULT"}, float.Parse(TXT_divider_VOLT_MULT.Text));
             }
             catch
             {
@@ -290,7 +290,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void TXT_ampspervolt_Validating(object sender, CancelEventArgs e)
         {
             float ans = 0;
-            e.Cancel = !float.TryParse(TXT_ampspervolt.Text, out ans);
+            e.Cancel = !float.TryParse(TXT_AMP_PERVLT.Text, out ans);
         }
 
         private void TXT_ampspervolt_Validated(object sender, EventArgs e)
@@ -299,7 +299,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             try
             {
-                MainV2.comPort.setParam(new[] {"AMP_PER_VOLT", "BATT_AMP_PERVOLT", "BATT_AMP_PERVLT" }, float.Parse(TXT_ampspervolt.Text));
+                MainV2.comPort.setParam(new[] {"AMP_PER_VOLT", "BATT_AMP_PERVOLT", "BATT_AMP_PERVLT" }, float.Parse(TXT_AMP_PERVLT.Text));
             }
             catch
             {
@@ -323,8 +323,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 // ~ 3.294v
                 var topamps = (maxamps*mvperamp)/1000;
 
-                TXT_divider.Text = (maxvolt/topvolt).ToString();
-                TXT_ampspervolt.Text = (maxamps/topamps).ToString();
+                TXT_divider_VOLT_MULT.Text = (maxvolt/topvolt).ToString();
+                TXT_AMP_PERVLT.Text = (maxamps/topamps).ToString();
             }
             else if (selection == 2) // atto 90
             {
@@ -336,8 +336,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 var topvolt = (maxvolt*mvpervolt)/1000;
                 var topamps = (maxamps*mvperamp)/1000;
 
-                TXT_divider.Text = (maxvolt/topvolt).ToString();
-                TXT_ampspervolt.Text = (maxamps/topamps).ToString();
+                TXT_divider_VOLT_MULT.Text = (maxvolt/topvolt).ToString();
+                TXT_AMP_PERVLT.Text = (maxamps/topamps).ToString();
             }
             else if (selection == 3) // atto 180
             {
@@ -349,8 +349,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 var topvolt = (maxvolt*mvpervolt)/1000;
                 var topamps = (maxamps*mvperamp)/1000;
 
-                TXT_divider.Text = (maxvolt/topvolt).ToString();
-                TXT_ampspervolt.Text = (maxamps/topamps).ToString();
+                TXT_divider_VOLT_MULT.Text = (maxvolt/topvolt).ToString();
+                TXT_AMP_PERVLT.Text = (maxamps/topamps).ToString();
             }
             else if (selection == 4) // 3dr iv
             {
@@ -362,55 +362,55 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 var topvolt = (maxvolt*mvpervolt)/1000;
                 var topamps = (maxamps*mvperamp)/1000;
 
-                TXT_divider.Text = (maxvolt/topvolt).ToString();
-                TXT_ampspervolt.Text = (maxamps/topamps).ToString();
+                TXT_divider_VOLT_MULT.Text = (maxvolt/topvolt).ToString();
+                TXT_AMP_PERVLT.Text = (maxamps/topamps).ToString();
             }
             else if (selection == 5) // 3dr 4 in one esc
             {
-                TXT_divider.Text = (12.02).ToString();
-                TXT_ampspervolt.Text = (17).ToString();
+                TXT_divider_VOLT_MULT.Text = (12.02).ToString();
+                TXT_AMP_PERVLT.Text = (17).ToString();
             }
             else if (selection == 6) // hv 3dr apm - what i have
             {
-                TXT_divider.Text = (12.02).ToString();
-                TXT_ampspervolt.Text = (24).ToString();
+                TXT_divider_VOLT_MULT.Text = (12.02).ToString();
+                TXT_AMP_PERVLT.Text = (24).ToString();
             }
-            else if (selection == 7) // hv 3dr px4
+            else if (selection == 7) // hv 3dr px4 cube
             {
-                TXT_divider.Text = (12.02).ToString();
-                TXT_ampspervolt.Text = (39.877).ToString();
+                TXT_divider_VOLT_MULT.Text = (12.02).ToString();
+                TXT_AMP_PERVLT.Text = (39.877).ToString();
             }
             else if (selection == 8) // pixhack
             {
-                TXT_divider.Text = (18).ToString();
-                TXT_ampspervolt.Text = (24).ToString();
+                TXT_divider_VOLT_MULT.Text = (18).ToString();
+                TXT_AMP_PERVLT.Text = (24).ToString();
             }
             else if (selection == 9) // Holybro Pixhawk4
             {
-                TXT_divider.Text = (18.182).ToString();
-                TXT_ampspervolt.Text = (36.364).ToString();
+                TXT_divider_VOLT_MULT.Text = (18.182).ToString();
+                TXT_AMP_PERVLT.Text = (36.364).ToString();
             }
 
             // enable to update
-            TXT_divider.Enabled = true;
-            TXT_ampspervolt.Enabled = true;
+            TXT_divider_VOLT_MULT.Enabled = true;
+            TXT_AMP_PERVLT.Enabled = true;
             TXT_measuredvoltage.Enabled = true;
 
             // update
-            TXT_ampspervolt_Validated(TXT_ampspervolt, null);
+            TXT_ampspervolt_Validated(TXT_AMP_PERVLT, null);
 
-            TXT_divider_Validated(TXT_divider, null);
+            TXT_divider_Validated(TXT_divider_VOLT_MULT, null);
 
             // disable
-            TXT_divider.Enabled = false;
-            TXT_ampspervolt.Enabled = false;
+            TXT_divider_VOLT_MULT.Enabled = false;
+            TXT_AMP_PERVLT.Enabled = false;
             TXT_measuredvoltage.Enabled = false;
 
             //reenable if needed
             if (selection == 0)
             {
-                TXT_divider.Enabled = true;
-                TXT_ampspervolt.Enabled = true;
+                TXT_divider_VOLT_MULT.Enabled = true;
+                TXT_AMP_PERVLT.Enabled = true;
                 TXT_measuredvoltage.Enabled = true;
             }
         }
@@ -467,7 +467,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     MainV2.comPort.setParam("BATT_VOLT_PIN", 100);
                     MainV2.comPort.setParam("BATT_CURR_PIN", 101);
                     MainV2.comPort.setParam(new[] {"VOLT_DIVIDER", "BATT_VOLT_MULT"}, 1);
-                    TXT_divider.Text = "1";
+                    TXT_divider_VOLT_MULT.Text = "1";
                 }
                 else if (selection == 4)
                 {
@@ -481,7 +481,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     MainV2.comPort.setParam("BATT_VOLT_PIN", 10);
                     MainV2.comPort.setParam("BATT_CURR_PIN", 11);
                     MainV2.comPort.setParam(new[] {"VOLT_DIVIDER", "BATT_VOLT_MULT"}, 10);
-                    TXT_divider.Text = "10";
+                    TXT_divider_VOLT_MULT.Text = "10";
                 }
                 else if (selection == 6)
                 {
@@ -489,7 +489,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     MainV2.comPort.setParam("BATT_VOLT_PIN", 10);
                     MainV2.comPort.setParam("BATT_CURR_PIN", -1);
                     MainV2.comPort.setParam(new[] {"VOLT_DIVIDER", "BATT_VOLT_MULT"}, 10);
-                    TXT_divider.Text = "10";
+                    TXT_divider_VOLT_MULT.Text = "10";
                 }
                 else if (selection == 7)
                 {
@@ -497,7 +497,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     MainV2.comPort.setParam("BATT_VOLT_PIN", 6);
                     MainV2.comPort.setParam("BATT_CURR_PIN", 7);
                     MainV2.comPort.setParam(new[] {"VOLT_DIVIDER", "BATT_VOLT_MULT"}, 10);
-                    TXT_divider.Text = "10";
+                    TXT_divider_VOLT_MULT.Text = "10";
                 }
             }
             catch
@@ -570,11 +570,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 var measuredcurrent = float.Parse(txt_meascurrent.Text);
                 var current = float.Parse(txt_current.Text);
-                var divider = float.Parse(TXT_ampspervolt.Text);
+                var divider = float.Parse(TXT_AMP_PERVLT.Text);
                 if (current == 0)
                     return;
                 var new_divider = (measuredcurrent*divider)/current;
-                TXT_ampspervolt.Text = new_divider.ToString();
+                TXT_AMP_PERVLT.Text = new_divider.ToString();
             }
             catch
             {
@@ -584,7 +584,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             try
             {
-                MainV2.comPort.setParam(new[] {"AMP_PER_VOLT", "BATT_AMP_PERVOLT", "BATT_AMP_PERVLT" }, float.Parse(TXT_ampspervolt.Text));
+                MainV2.comPort.setParam(new[] {"AMP_PER_VOLT", "BATT_AMP_PERVOLT", "BATT_AMP_PERVLT" }, float.Parse(TXT_AMP_PERVLT.Text));
             }
             catch
             {

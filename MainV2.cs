@@ -1815,7 +1815,7 @@ namespace MissionPlanner
                     comPort.MAV.param.ContainsKey("INS_GYR3_ID") && comPort.MAV.param["INS_GYR3_ID"].Value == 0 &&
                     comPort.MAV.param.ContainsKey("INS_ENABLE_MASK") && comPort.MAV.param["INS_ENABLE_MASK"].Value >= 7)
                 {
-                    MissionPlanner.Controls.SB.Show();
+                    MissionPlanner.Controls.SB.Show("Param Scan");
                 }
             } catch { }
 
@@ -1848,9 +1848,9 @@ namespace MissionPlanner
                                 bad1 = true;
 
                             if (bad1)
-                                this.BeginInvoke((Action) delegate
+                                this.BeginInvoke(method: (Action) delegate
                                 {
-                                    MissionPlanner.Controls.SB.Show();
+                                    MissionPlanner.Controls.SB.Show("SPI Scan");
                                 });
                         });
                 }
@@ -3274,21 +3274,6 @@ namespace MissionPlanner
                     doConnect(MainV2.comPort, cmds["port"], cmds["baud"]);
                 }
             }
-
-            // show wizard on first use
-            if (Settings.Instance["newuser"] == null)
-            {
-                if (CustomMessageBox.Show("This is your first run, Do you wish to use the setup wizard?\nRecomended for new users.", "Wizard", MessageBoxButtons.YesNo) == (int)System.Windows.Forms.DialogResult.Yes)
-                {
-                    Wizard.Wizard wiz = new Wizard.Wizard();
-
-                    wiz.ShowDialog(this);
-                }
-
-                CustomMessageBox.Show("To use the wizard please goto the initial setup screen, and click the wizard icon.", "Wizard");
-
-                Settings.Instance["newuser"] = DateTime.Now.ToShortDateString();
-            }
         }
 
         private Dictionary<string, string> ProcessCommandLine(string[] args)
@@ -3537,18 +3522,9 @@ namespace MissionPlanner
             if (keyData == (Keys.Control | Keys.X))
             {
                 var ftp = new MissionPlanner.ArduPilot.Mavlink.MAVFtp(MainV2.comPort, (byte) comPort.sysidcurrent, (byte) comPort.compidcurrent);
-                var dirlist = ftp.GetDirectory();
-                foreach (var ftpFileInfo in dirlist)
-                {
-                    if (ftpFileInfo.isDirectory)
-                    {
-                        var list2 = ftp.GetDirectory(ftpFileInfo.FullName);
-                    }
-                    else
-                    {
-                        ftp.GetFile(ftpFileInfo.FullName);
-                    }
-                }
+
+                ftp.test();
+
             }
             if (keyData == (Keys.Control | Keys.L)) // limits
             {

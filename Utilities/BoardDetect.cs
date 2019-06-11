@@ -43,6 +43,7 @@ namespace MissionPlanner.Utilities
             mindpxv2,
             minipix,
             chbootloader,
+            pass,
             nxpfmuk66
         }
 

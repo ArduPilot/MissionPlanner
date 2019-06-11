@@ -37,7 +37,9 @@
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
-    <Reference Include="Mono.Android" />
+    <Reference Include="Mono.Android">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Mono.Android.Export" />
   </ItemGroup>
   <ItemGroup>

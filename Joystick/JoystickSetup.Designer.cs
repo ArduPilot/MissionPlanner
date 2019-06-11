@@ -92,6 +92,7 @@ namespace MissionPlanner.Joystick
             // 
             // BUT_enable
             // 
+            this.BUT_enable.DialogResult = System.Windows.Forms.DialogResult.None;
             resources.ApplyResources(this.BUT_enable, "BUT_enable");
             this.BUT_enable.Name = "BUT_enable";
             this.BUT_enable.UseVisualStyleBackColor = true;
@@ -99,6 +100,7 @@ namespace MissionPlanner.Joystick
             // 
             // BUT_save
             // 
+            this.BUT_save.DialogResult = System.Windows.Forms.DialogResult.None;
             resources.ApplyResources(this.BUT_save, "BUT_save");
             this.BUT_save.Name = "BUT_save";
             this.BUT_save.UseVisualStyleBackColor = true;

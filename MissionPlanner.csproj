@@ -109,6 +109,10 @@
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="Updater, Version=1.0.7056.19890, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>Updater\bin\Release\Updater.exe</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="ExtLibs\alglibnet\alglibnet.csproj">
@@ -278,12 +282,11 @@
       <Project>{F4B60F03-F4C8-42CD-A46D-712838DC184B}</Project>
       <Name>Zeroconf</Name>
     </ProjectReference>
-    <ProjectReference Include="Updater\Updater.csproj">
-      <Project>{E64A1A41-A5B0-458E-8284-BB63705354DA}</Project>
-      <Name>Updater</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Crc32.NET">
+      <Version>1.2.0</Version>
+    </PackageReference>
     <PackageReference Include="CSMatIO" version="1.0.20" targetFramework="netstandard2.0" requireReinstallation="true" />
     <PackageReference Include="DirectShowLib" Version="1.0.0" />
     <PackageReference Include="DotSpatial.Data" version="1.9" targetFramework="net462" />
@@ -328,6 +331,9 @@
     <PackageReference Include="System.Reactive.Core" Version="4.0.0" />
     <PackageReference Include="System.Reactive.Linq" Version="4.0.0" />
     <PackageReference Include="Unofficial.ObjectListView" version="2.6.0" targetFramework="net40" />
+    <PackageReference Include="Xamarin.Forms.Platform.WinForms">
+      <Version>3.4.0-alpha</Version>
+    </PackageReference>
     <PackageReference Include="zlib.net" version="1.0.4.0" targetFramework="net40" />
   </ItemGroup>
   <ItemGroup>
@@ -377,6 +383,9 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Swarm\PaintEventArgsI.cs" />
+    <Compile Include="test\FirmwareSelection.xaml.cs">
+      <DependentUpon>FirmwareSelection.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\AltitudeAngel\MissionPlannerStateAdapter.cs" />
     <Compile Include="Utilities\NativeLibrary.cs" />
     <Compile Include="Utilities\Speech.cs" />
@@ -753,9 +762,6 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigTradHeli.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GCSViews\ConfigurationView\ConfigWizard.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="GeoRef\georefimage.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -900,55 +906,6 @@
     </Compile>
     <Compile Include="Warnings\WarningEngine.cs" />
     <Compile Include="Warnings\WarningsManager.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Wizard\_10FlightModes.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Wizard\_11Verify.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Wizard\_12FailSafe.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Wizard\_13GeoFence.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Wizard\_1Intro.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Wizard\_2FrameFW.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Wizard\_3ConnectAP.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Wizard\_4FrameType.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Wizard\_5AccelCalib.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Wizard\_6CompassCalib.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Wizard\_7BatteryMonitor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Wizard\_8OptionalItemsAC.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Wizard\_8OptionalItemsAP.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Wizard\_98DontForget.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Wizard\_9RadioCalibration.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Wizard\IWizard.cs" />
-    <Compile Include="Wizard\Wizard.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
@@ -1202,9 +1159,6 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigTradHeli.Designer.cs">
       <DependentUpon>ConfigTradHeli.cs</DependentUpon>
     </Compile>
-    <Compile Include="GCSViews\ConfigurationView\ConfigWizard.Designer.cs">
-      <DependentUpon>ConfigWizard.cs</DependentUpon>
-    </Compile>
     <Compile Include="GeoRef\georefimage.Designer.cs">
       <DependentUpon>georefimage.cs</DependentUpon>
     </Compile>
@@ -1288,54 +1242,6 @@
     </Compile>
     <Compile Include="Warnings\WarningsManager.Designer.cs">
       <DependentUpon>WarningsManager.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Wizard\_10FlightModes.Designer.cs">
-      <DependentUpon>_10FlightModes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Wizard\_11Verify.Designer.cs">
-      <DependentUpon>_11Verify.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Wizard\_12FailSafe.Designer.cs">
-      <DependentUpon>_12FailSafe.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Wizard\_13GeoFence.Designer.cs">
-      <DependentUpon>_13GeoFence.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Wizard\_1Intro.Designer.cs">
-      <DependentUpon>_1Intro.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Wizard\_2FrameFW.Designer.cs">
-      <DependentUpon>_2FrameFW.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Wizard\_3ConnectAP.Designer.cs">
-      <DependentUpon>_3ConnectAP.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Wizard\_4FrameType.Designer.cs">
-      <DependentUpon>_4FrameType.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Wizard\_5AccelCalib.Designer.cs">
-      <DependentUpon>_5AccelCalib.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Wizard\_6CompassCalib.Designer.cs">
-      <DependentUpon>_6CompassCalib.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Wizard\_7BatteryMonitor.Designer.cs">
-      <DependentUpon>_7BatteryMonitor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Wizard\_8OptionalItemsAC.Designer.cs">
-      <DependentUpon>_8OptionalItemsAC.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Wizard\_8OptionalItemsAP.Designer.cs">
-      <DependentUpon>_8OptionalItemsAP.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Wizard\_98DontForget.Designer.cs">
-      <DependentUpon>_98DontForget.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Wizard\_9RadioCalibration.Designer.cs">
-      <DependentUpon>_9RadioCalibration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Wizard\Wizard.Designer.cs">
-      <DependentUpon>Wizard.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -3852,9 +3758,6 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTradHeli.zh-TW.resx">
       <DependentUpon>ConfigTradHeli.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigWizard.resx">
-      <DependentUpon>ConfigWizard.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="GeoRef\georefimage.resx">
       <DependentUpon>georefimage.cs</DependentUpon>
     </EmbeddedResource>
@@ -4290,579 +4193,6 @@
     <EmbeddedResource Include="Warnings\WarningsManager.resx">
       <DependentUpon>WarningsManager.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_10FlightModes.resx">
-      <DependentUpon>_10FlightModes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_10FlightModes.ar.resx">
-      <DependentUpon>_10FlightModes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_10FlightModes.az-Latn-AZ.resx">
-      <DependentUpon>_10FlightModes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_10FlightModes.id-ID.resx">
-      <DependentUpon>_10FlightModes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_10FlightModes.ja-JP.resx">
-      <DependentUpon>_10FlightModes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_10FlightModes.ko-KR.resx">
-      <DependentUpon>_10FlightModes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_10FlightModes.pt.resx">
-      <DependentUpon>_10FlightModes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_10FlightModes.ru-KZ.resx">
-      <DependentUpon>_10FlightModes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_10FlightModes.tr.resx">
-      <DependentUpon>_10FlightModes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_10FlightModes.zh-Hans.resx">
-      <DependentUpon>_10FlightModes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_10FlightModes.zh-Hant.resx">
-      <DependentUpon>_10FlightModes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_10FlightModes.zh-TW.resx">
-      <DependentUpon>_10FlightModes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_11Verify.resx">
-      <DependentUpon>_11Verify.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_11Verify.ar.resx">
-      <DependentUpon>_11Verify.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_11Verify.az-Latn-AZ.resx">
-      <DependentUpon>_11Verify.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_11Verify.id-ID.resx">
-      <DependentUpon>_11Verify.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_11Verify.ja-JP.resx">
-      <DependentUpon>_11Verify.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_11Verify.ko-KR.resx">
-      <DependentUpon>_11Verify.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_11Verify.pt.resx">
-      <DependentUpon>_11Verify.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_11Verify.ru-KZ.resx">
-      <DependentUpon>_11Verify.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_11Verify.tr.resx">
-      <DependentUpon>_11Verify.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_11Verify.zh-Hans.resx">
-      <DependentUpon>_11Verify.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_11Verify.zh-Hant.resx">
-      <DependentUpon>_11Verify.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_11Verify.zh-TW.resx">
-      <DependentUpon>_11Verify.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_12FailSafe.resx">
-      <DependentUpon>_12FailSafe.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_12FailSafe.ar.resx">
-      <DependentUpon>_12FailSafe.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_12FailSafe.az-Latn-AZ.resx">
-      <DependentUpon>_12FailSafe.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_12FailSafe.id-ID.resx">
-      <DependentUpon>_12FailSafe.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_12FailSafe.ja-JP.resx">
-      <DependentUpon>_12FailSafe.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_12FailSafe.ko-KR.resx">
-      <DependentUpon>_12FailSafe.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_12FailSafe.pt.resx">
-      <DependentUpon>_12FailSafe.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_12FailSafe.ru-KZ.resx">
-      <DependentUpon>_12FailSafe.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_12FailSafe.tr.resx">
-      <DependentUpon>_12FailSafe.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_12FailSafe.zh-Hans.resx">
-      <DependentUpon>_12FailSafe.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_12FailSafe.zh-Hant.resx">
-      <DependentUpon>_12FailSafe.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_12FailSafe.zh-TW.resx">
-      <DependentUpon>_12FailSafe.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_13GeoFence.resx">
-      <DependentUpon>_13GeoFence.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_13GeoFence.ar.resx">
-      <DependentUpon>_13GeoFence.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_13GeoFence.az-Latn-AZ.resx">
-      <DependentUpon>_13GeoFence.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_13GeoFence.id-ID.resx">
-      <DependentUpon>_13GeoFence.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_13GeoFence.ja-JP.resx">
-      <DependentUpon>_13GeoFence.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_13GeoFence.ko-KR.resx">
-      <DependentUpon>_13GeoFence.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_13GeoFence.pt.resx">
-      <DependentUpon>_13GeoFence.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_13GeoFence.ru-KZ.resx">
-      <DependentUpon>_13GeoFence.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_13GeoFence.tr.resx">
-      <DependentUpon>_13GeoFence.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_13GeoFence.zh-Hans.resx">
-      <DependentUpon>_13GeoFence.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_13GeoFence.zh-Hant.resx">
-      <DependentUpon>_13GeoFence.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_13GeoFence.zh-TW.resx">
-      <DependentUpon>_13GeoFence.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_1Intro.resx">
-      <DependentUpon>_1Intro.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_1Intro.ar.resx">
-      <DependentUpon>_1Intro.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_1Intro.az-Latn-AZ.resx">
-      <DependentUpon>_1Intro.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_1Intro.id-ID.resx">
-      <DependentUpon>_1Intro.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_1Intro.ja-JP.resx">
-      <DependentUpon>_1Intro.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_1Intro.ko-KR.resx">
-      <DependentUpon>_1Intro.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_1Intro.pt.resx">
-      <DependentUpon>_1Intro.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_1Intro.ru-KZ.resx">
-      <DependentUpon>_1Intro.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_1Intro.tr.resx">
-      <DependentUpon>_1Intro.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_1Intro.zh-Hans.resx">
-      <DependentUpon>_1Intro.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_1Intro.zh-Hant.resx">
-      <DependentUpon>_1Intro.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_1Intro.zh-TW.resx">
-      <DependentUpon>_1Intro.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_2FrameFW.resx">
-      <DependentUpon>_2FrameFW.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_2FrameFW.ar.resx">
-      <DependentUpon>_2FrameFW.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_2FrameFW.az-Latn-AZ.resx">
-      <DependentUpon>_2FrameFW.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_2FrameFW.id-ID.resx">
-      <DependentUpon>_2FrameFW.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_2FrameFW.ja-JP.resx">
-      <DependentUpon>_2FrameFW.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_2FrameFW.ko-KR.resx">
-      <DependentUpon>_2FrameFW.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_2FrameFW.pt.resx">
-      <DependentUpon>_2FrameFW.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_2FrameFW.ru-KZ.resx">
-      <DependentUpon>_2FrameFW.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_2FrameFW.tr.resx">
-      <DependentUpon>_2FrameFW.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_2FrameFW.zh-Hans.resx">
-      <DependentUpon>_2FrameFW.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_2FrameFW.zh-Hant.resx">
-      <DependentUpon>_2FrameFW.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_2FrameFW.zh-TW.resx">
-      <DependentUpon>_2FrameFW.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_3ConnectAP.resx">
-      <DependentUpon>_3ConnectAP.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_3ConnectAP.ar.resx">
-      <DependentUpon>_3ConnectAP.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_3ConnectAP.az-Latn-AZ.resx">
-      <DependentUpon>_3ConnectAP.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_3ConnectAP.id-ID.resx">
-      <DependentUpon>_3ConnectAP.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_3ConnectAP.ja-JP.resx">
-      <DependentUpon>_3ConnectAP.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_3ConnectAP.ko-KR.resx">
-      <DependentUpon>_3ConnectAP.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_3ConnectAP.pt.resx">
-      <DependentUpon>_3ConnectAP.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_3ConnectAP.ru-KZ.resx">
-      <DependentUpon>_3ConnectAP.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_3ConnectAP.tr.resx">
-      <DependentUpon>_3ConnectAP.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_3ConnectAP.zh-Hans.resx">
-      <DependentUpon>_3ConnectAP.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_3ConnectAP.zh-Hant.resx">
-      <DependentUpon>_3ConnectAP.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_3ConnectAP.zh-TW.resx">
-      <DependentUpon>_3ConnectAP.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_4FrameType.resx">
-      <DependentUpon>_4FrameType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_4FrameType.ar.resx">
-      <DependentUpon>_4FrameType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_4FrameType.az-Latn-AZ.resx">
-      <DependentUpon>_4FrameType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_4FrameType.id-ID.resx">
-      <DependentUpon>_4FrameType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_4FrameType.ja-JP.resx">
-      <DependentUpon>_4FrameType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_4FrameType.ko-KR.resx">
-      <DependentUpon>_4FrameType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_4FrameType.pt.resx">
-      <DependentUpon>_4FrameType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_4FrameType.ru-KZ.resx">
-      <DependentUpon>_4FrameType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_4FrameType.tr.resx">
-      <DependentUpon>_4FrameType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_4FrameType.zh-Hans.resx">
-      <DependentUpon>_4FrameType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_4FrameType.zh-Hant.resx">
-      <DependentUpon>_4FrameType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_4FrameType.zh-TW.resx">
-      <DependentUpon>_4FrameType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_5AccelCalib.resx">
-      <DependentUpon>_5AccelCalib.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_5AccelCalib.ar.resx">
-      <DependentUpon>_5AccelCalib.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_5AccelCalib.az-Latn-AZ.resx">
-      <DependentUpon>_5AccelCalib.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_5AccelCalib.id-ID.resx">
-      <DependentUpon>_5AccelCalib.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_5AccelCalib.ja-JP.resx">
-      <DependentUpon>_5AccelCalib.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_5AccelCalib.ko-KR.resx">
-      <DependentUpon>_5AccelCalib.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_5AccelCalib.pt.resx">
-      <DependentUpon>_5AccelCalib.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_5AccelCalib.ru-KZ.resx">
-      <DependentUpon>_5AccelCalib.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_5AccelCalib.tr.resx">
-      <DependentUpon>_5AccelCalib.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_5AccelCalib.zh-Hans.resx">
-      <DependentUpon>_5AccelCalib.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_5AccelCalib.zh-Hant.resx">
-      <DependentUpon>_5AccelCalib.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_5AccelCalib.zh-TW.resx">
-      <DependentUpon>_5AccelCalib.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_6CompassCalib.resx">
-      <DependentUpon>_6CompassCalib.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_6CompassCalib.ar.resx">
-      <DependentUpon>_6CompassCalib.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_6CompassCalib.az-Latn-AZ.resx">
-      <DependentUpon>_6CompassCalib.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_6CompassCalib.id-ID.resx">
-      <DependentUpon>_6CompassCalib.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_6CompassCalib.ja-JP.resx">
-      <DependentUpon>_6CompassCalib.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_6CompassCalib.ko-KR.resx">
-      <DependentUpon>_6CompassCalib.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_6CompassCalib.pt.resx">
-      <DependentUpon>_6CompassCalib.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_6CompassCalib.ru-KZ.resx">
-      <DependentUpon>_6CompassCalib.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_6CompassCalib.tr.resx">
-      <DependentUpon>_6CompassCalib.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_6CompassCalib.zh-Hans.resx">
-      <DependentUpon>_6CompassCalib.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_6CompassCalib.zh-Hant.resx">
-      <DependentUpon>_6CompassCalib.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_6CompassCalib.zh-TW.resx">
-      <DependentUpon>_6CompassCalib.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_7BatteryMonitor.resx">
-      <DependentUpon>_7BatteryMonitor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_7BatteryMonitor.ar.resx">
-      <DependentUpon>_7BatteryMonitor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_7BatteryMonitor.az-Latn-AZ.resx">
-      <DependentUpon>_7BatteryMonitor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_7BatteryMonitor.id-ID.resx">
-      <DependentUpon>_7BatteryMonitor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_7BatteryMonitor.ja-JP.resx">
-      <DependentUpon>_7BatteryMonitor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_7BatteryMonitor.ko-KR.resx">
-      <DependentUpon>_7BatteryMonitor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_7BatteryMonitor.pt.resx">
-      <DependentUpon>_7BatteryMonitor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_7BatteryMonitor.ru-KZ.resx">
-      <DependentUpon>_7BatteryMonitor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_7BatteryMonitor.tr.resx">
-      <DependentUpon>_7BatteryMonitor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_7BatteryMonitor.zh-Hans.resx">
-      <DependentUpon>_7BatteryMonitor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_7BatteryMonitor.zh-Hant.resx">
-      <DependentUpon>_7BatteryMonitor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_7BatteryMonitor.zh-TW.resx">
-      <DependentUpon>_7BatteryMonitor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_8OptionalItemsAC.resx">
-      <DependentUpon>_8OptionalItemsAC.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_8OptionalItemsAC.ar.resx">
-      <DependentUpon>_8OptionalItemsAC.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_8OptionalItemsAC.az-Latn-AZ.resx">
-      <DependentUpon>_8OptionalItemsAC.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_8OptionalItemsAC.id-ID.resx">
-      <DependentUpon>_8OptionalItemsAC.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_8OptionalItemsAC.ja-JP.resx">
-      <DependentUpon>_8OptionalItemsAC.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_8OptionalItemsAC.ko-KR.resx">
-      <DependentUpon>_8OptionalItemsAC.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_8OptionalItemsAC.pt.resx">
-      <DependentUpon>_8OptionalItemsAC.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_8OptionalItemsAC.ru-KZ.resx">
-      <DependentUpon>_8OptionalItemsAC.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_8OptionalItemsAC.tr.resx">
-      <DependentUpon>_8OptionalItemsAC.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_8OptionalItemsAC.zh-Hans.resx">
-      <DependentUpon>_8OptionalItemsAC.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_8OptionalItemsAC.zh-Hant.resx">
-      <DependentUpon>_8OptionalItemsAC.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_8OptionalItemsAC.zh-TW.resx">
-      <DependentUpon>_8OptionalItemsAC.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_8OptionalItemsAP.resx">
-      <DependentUpon>_8OptionalItemsAP.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_8OptionalItemsAP.ar.resx">
-      <DependentUpon>_8OptionalItemsAP.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_8OptionalItemsAP.az-Latn-AZ.resx">
-      <DependentUpon>_8OptionalItemsAP.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_8OptionalItemsAP.id-ID.resx">
-      <DependentUpon>_8OptionalItemsAP.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_8OptionalItemsAP.ja-JP.resx">
-      <DependentUpon>_8OptionalItemsAP.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_8OptionalItemsAP.ko-KR.resx">
-      <DependentUpon>_8OptionalItemsAP.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_8OptionalItemsAP.pt.resx">
-      <DependentUpon>_8OptionalItemsAP.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_8OptionalItemsAP.ru-KZ.resx">
-      <DependentUpon>_8OptionalItemsAP.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_8OptionalItemsAP.tr.resx">
-      <DependentUpon>_8OptionalItemsAP.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_8OptionalItemsAP.zh-Hans.resx">
-      <DependentUpon>_8OptionalItemsAP.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_8OptionalItemsAP.zh-Hant.resx">
-      <DependentUpon>_8OptionalItemsAP.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_8OptionalItemsAP.zh-TW.resx">
-      <DependentUpon>_8OptionalItemsAP.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_98DontForget.resx">
-      <DependentUpon>_98DontForget.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_98DontForget.ar.resx">
-      <DependentUpon>_98DontForget.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_98DontForget.az-Latn-AZ.resx">
-      <DependentUpon>_98DontForget.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_98DontForget.id-ID.resx">
-      <DependentUpon>_98DontForget.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_98DontForget.ja-JP.resx">
-      <DependentUpon>_98DontForget.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_98DontForget.ko-KR.resx">
-      <DependentUpon>_98DontForget.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_98DontForget.pt.resx">
-      <DependentUpon>_98DontForget.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_98DontForget.ru-KZ.resx">
-      <DependentUpon>_98DontForget.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_98DontForget.tr.resx">
-      <DependentUpon>_98DontForget.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_98DontForget.zh-Hans.resx">
-      <DependentUpon>_98DontForget.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_98DontForget.zh-Hant.resx">
-      <DependentUpon>_98DontForget.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_98DontForget.zh-TW.resx">
-      <DependentUpon>_98DontForget.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_9RadioCalibration.resx">
-      <DependentUpon>_9RadioCalibration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_9RadioCalibration.ar.resx">
-      <DependentUpon>_9RadioCalibration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_9RadioCalibration.az-Latn-AZ.resx">
-      <DependentUpon>_9RadioCalibration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_9RadioCalibration.id-ID.resx">
-      <DependentUpon>_9RadioCalibration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_9RadioCalibration.ja-JP.resx">
-      <DependentUpon>_9RadioCalibration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_9RadioCalibration.ko-KR.resx">
-      <DependentUpon>_9RadioCalibration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_9RadioCalibration.pt.resx">
-      <DependentUpon>_9RadioCalibration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_9RadioCalibration.ru-KZ.resx">
-      <DependentUpon>_9RadioCalibration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_9RadioCalibration.tr.resx">
-      <DependentUpon>_9RadioCalibration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_9RadioCalibration.zh-Hans.resx">
-      <DependentUpon>_9RadioCalibration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_9RadioCalibration.zh-Hant.resx">
-      <DependentUpon>_9RadioCalibration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\_9RadioCalibration.zh-TW.resx">
-      <DependentUpon>_9RadioCalibration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\Wizard.resx">
-      <DependentUpon>Wizard.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\Wizard.ar.resx">
-      <DependentUpon>Wizard.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\Wizard.az-Latn-AZ.resx">
-      <DependentUpon>Wizard.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\Wizard.ja-JP.resx">
-      <DependentUpon>Wizard.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\Wizard.ko-KR.resx">
-      <DependentUpon>Wizard.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\Wizard.pt.resx">
-      <DependentUpon>Wizard.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\Wizard.ru-KZ.resx">
-      <DependentUpon>Wizard.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\Wizard.tr.resx">
-      <DependentUpon>Wizard.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\Wizard.zh-Hans.resx">
-      <DependentUpon>Wizard.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\Wizard.zh-Hant.resx">
-      <DependentUpon>Wizard.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\Wizard.zh-TW.resx">
-      <DependentUpon>Wizard.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Content Include="acsimplepids.xml">
@@ -5195,6 +4525,11 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="test\FirmwareSelection.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

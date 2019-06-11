@@ -44,6 +44,11 @@
             // NUM_thr_percent
             // 
             resources.ApplyResources(this.NUM_thr_percent, "NUM_thr_percent");
+            this.NUM_thr_percent.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
             this.NUM_thr_percent.Name = "NUM_thr_percent";
             this.NUM_thr_percent.Value = new decimal(new int[] {
             5,

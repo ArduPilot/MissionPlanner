@@ -5,9 +5,23 @@ namespace MissionPlanner.Utilities.Drawing
 {
     public class LinearGradientBrush : Brush
     {
-        public LinearGradientBrush(RectangleF bg, Color skyColor1, Color skyColor2, object vertical)
+        private LinearGradientMode _gradMode;
+
+        public LinearGradientBrush(RectangleF bg, Color skyColor1, Color skyColor2, LinearGradientMode gradMode)
         {
-            throw new NotImplementedException();
+            _gradMode = gradMode;
+            Rectangle = bg;
+            LinearColors = new[] {skyColor1, skyColor2};
         }
+
+        public LinearGradientBrush(Point TL, Point BR, Color skyColor1, Color skyColor2)
+        {
+            _gradMode = LinearGradientMode.Vertical;
+            Rectangle = new RectangleF(TL, new SizeF(BR.X, BR.Y));
+            LinearColors = new[] { skyColor1, skyColor2 };
+        }
+
+        public RectangleF Rectangle { get; set; }
+        public Color[] LinearColors { get; set; }
     }
 }

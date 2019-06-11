@@ -46,6 +46,7 @@ namespace MissionPlanner.Log
             this.label1 = new System.Windows.Forms.Label();
             this.myGMAP1 = new MissionPlanner.Controls.myGMAP();
             this.splitContainerButGrid = new System.Windows.Forms.SplitContainer();
+            this.chk_events = new System.Windows.Forms.CheckBox();
             this.chk_datagrid = new System.Windows.Forms.CheckBox();
             this.chk_msg = new System.Windows.Forms.CheckBox();
             this.chk_errors = new System.Windows.Forms.CheckBox();
@@ -93,6 +94,7 @@ namespace MissionPlanner.Log
             // 
             // BUT_Graphit
             // 
+            this.BUT_Graphit.DialogResult = System.Windows.Forms.DialogResult.None;
             resources.ApplyResources(this.BUT_Graphit, "BUT_Graphit");
             this.BUT_Graphit.Name = "BUT_Graphit";
             this.BUT_Graphit.UseVisualStyleBackColor = true;
@@ -100,6 +102,7 @@ namespace MissionPlanner.Log
             // 
             // BUT_cleargraph
             // 
+            this.BUT_cleargraph.DialogResult = System.Windows.Forms.DialogResult.None;
             resources.ApplyResources(this.BUT_cleargraph, "BUT_cleargraph");
             this.BUT_cleargraph.Name = "BUT_cleargraph";
             this.BUT_cleargraph.UseVisualStyleBackColor = true;
@@ -107,6 +110,7 @@ namespace MissionPlanner.Log
             // 
             // BUT_loadlog
             // 
+            this.BUT_loadlog.DialogResult = System.Windows.Forms.DialogResult.None;
             resources.ApplyResources(this.BUT_loadlog, "BUT_loadlog");
             this.BUT_loadlog.Name = "BUT_loadlog";
             this.BUT_loadlog.UseVisualStyleBackColor = true;
@@ -227,6 +231,7 @@ namespace MissionPlanner.Log
             // 
             // splitContainerButGrid.Panel1
             // 
+            this.splitContainerButGrid.Panel1.Controls.Add(this.chk_events);
             this.splitContainerButGrid.Panel1.Controls.Add(this.chk_datagrid);
             this.splitContainerButGrid.Panel1.Controls.Add(this.BUT_Graphit);
             this.splitContainerButGrid.Panel1.Controls.Add(this.chk_msg);
@@ -244,6 +249,15 @@ namespace MissionPlanner.Log
             // 
             this.splitContainerButGrid.Panel2.Controls.Add(this.dataGridView1);
             this.splitContainerButGrid.Panel2Collapsed = true;
+            // 
+            // chk_events
+            // 
+            resources.ApplyResources(this.chk_events, "chk_events");
+            this.chk_events.Checked = true;
+            this.chk_events.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chk_events.Name = "chk_events";
+            this.chk_events.UseVisualStyleBackColor = true;
+            this.chk_events.CheckedChanged += new System.EventHandler(this.chk_events_CheckedChanged);
             // 
             // chk_datagrid
             // 
@@ -281,6 +295,7 @@ namespace MissionPlanner.Log
             // 
             // BUT_Graphit_R
             // 
+            this.BUT_Graphit_R.DialogResult = System.Windows.Forms.DialogResult.None;
             resources.ApplyResources(this.BUT_Graphit_R, "BUT_Graphit_R");
             this.BUT_Graphit_R.Name = "BUT_Graphit_R";
             this.BUT_Graphit_R.UseVisualStyleBackColor = true;
@@ -312,6 +327,7 @@ namespace MissionPlanner.Log
             // 
             // BUT_removeitem
             // 
+            this.BUT_removeitem.DialogResult = System.Windows.Forms.DialogResult.None;
             resources.ApplyResources(this.BUT_removeitem, "BUT_removeitem");
             this.BUT_removeitem.Name = "BUT_removeitem";
             this.BUT_removeitem.UseVisualStyleBackColor = true;
@@ -419,6 +435,7 @@ namespace MissionPlanner.Log
         private System.Windows.Forms.SplitContainer splitContainerAllTree;
         private System.Windows.Forms.SplitContainer splitContainerButGrid;
         private System.Windows.Forms.CheckBox chk_datagrid;
+        private System.Windows.Forms.CheckBox chk_events;
     }
 }
 

@@ -48,9 +48,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.TXT_measuredvoltage = new System.Windows.Forms.TextBox();
             this.TXT_voltage = new System.Windows.Forms.TextBox();
             this.label35 = new System.Windows.Forms.Label();
-            this.TXT_divider = new System.Windows.Forms.TextBox();
+            this.TXT_divider_VOLT_MULT = new System.Windows.Forms.TextBox();
             this.label34 = new System.Windows.Forms.Label();
-            this.TXT_ampspervolt = new System.Windows.Forms.TextBox();
+            this.TXT_AMP_PERVLT = new System.Windows.Forms.TextBox();
             this.label33 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -183,24 +183,24 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             resources.ApplyResources(this.label35, "label35");
             this.label35.Name = "label35";
             // 
-            // TXT_divider
+            // TXT_divider_VOLT_MULT
             // 
-            resources.ApplyResources(this.TXT_divider, "TXT_divider");
-            this.TXT_divider.Name = "TXT_divider";
-            this.TXT_divider.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.TXT_divider_PreviewKeyDown);
-            this.TXT_divider.Validated += new System.EventHandler(this.TXT_divider_Validated);
+            resources.ApplyResources(this.TXT_divider_VOLT_MULT, "TXT_divider_VOLT_MULT");
+            this.TXT_divider_VOLT_MULT.Name = "TXT_divider_VOLT_MULT";
+            this.TXT_divider_VOLT_MULT.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.TXT_divider_PreviewKeyDown);
+            this.TXT_divider_VOLT_MULT.Validated += new System.EventHandler(this.TXT_divider_Validated);
             // 
             // label34
             // 
             resources.ApplyResources(this.label34, "label34");
             this.label34.Name = "label34";
             // 
-            // TXT_ampspervolt
+            // TXT_AMP_PERVLT
             // 
-            resources.ApplyResources(this.TXT_ampspervolt, "TXT_ampspervolt");
-            this.TXT_ampspervolt.Name = "TXT_ampspervolt";
-            this.TXT_ampspervolt.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.TXT_ampspervolt_PreviewKeyDown);
-            this.TXT_ampspervolt.Validated += new System.EventHandler(this.TXT_ampspervolt_Validated);
+            resources.ApplyResources(this.TXT_AMP_PERVLT, "TXT_AMP_PERVLT");
+            this.TXT_AMP_PERVLT.Name = "TXT_AMP_PERVLT";
+            this.TXT_AMP_PERVLT.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.TXT_ampspervolt_PreviewKeyDown);
+            this.TXT_AMP_PERVLT.Validated += new System.EventHandler(this.TXT_ampspervolt_Validated);
             // 
             // label33
             // 
@@ -220,9 +220,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.groupBox4.Controls.Add(this.label3);
             this.groupBox4.Controls.Add(this.label32);
             this.groupBox4.Controls.Add(this.label33);
-            this.groupBox4.Controls.Add(this.TXT_ampspervolt);
+            this.groupBox4.Controls.Add(this.TXT_AMP_PERVLT);
             this.groupBox4.Controls.Add(this.label34);
-            this.groupBox4.Controls.Add(this.TXT_divider);
+            this.groupBox4.Controls.Add(this.TXT_divider_VOLT_MULT);
             this.groupBox4.Controls.Add(this.label35);
             this.groupBox4.Controls.Add(this.TXT_voltage);
             this.groupBox4.Controls.Add(this.TXT_measuredvoltage);
@@ -293,9 +293,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private System.Windows.Forms.TextBox TXT_measuredvoltage;
         private System.Windows.Forms.TextBox TXT_voltage;
         private System.Windows.Forms.Label label35;
-        private System.Windows.Forms.TextBox TXT_divider;
+        private System.Windows.Forms.TextBox TXT_divider_VOLT_MULT;
         private System.Windows.Forms.Label label34;
-        private System.Windows.Forms.TextBox TXT_ampspervolt;
+        private System.Windows.Forms.TextBox TXT_AMP_PERVLT;
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.GroupBox groupBox4;

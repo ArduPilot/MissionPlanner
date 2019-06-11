@@ -202,7 +202,6 @@ namespace MissionPlanner
             this.MenuDonate.Name = "MenuDonate";
             this.MenuDonate.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
             this.MenuDonate.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
-            this.MenuDonate.Visible = false;
             // 
             // MenuConnect
             // 
@@ -239,6 +238,7 @@ namespace MissionPlanner
             // 
             // menu
             // 
+            this.menu.DialogResult = System.Windows.Forms.DialogResult.None;
             resources.ApplyResources(this.menu, "menu");
             this.menu.Name = "menu";
             this.menu.UseVisualStyleBackColor = true;

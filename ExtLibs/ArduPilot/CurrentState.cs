@@ -792,6 +792,13 @@ namespace MissionPlanner
 
         internal double _battery_voltage;
 
+        [DisplayText("Bat Voltage (V)")] public double battery_voltage3 { get; set; }
+        [DisplayText("Bat Voltage (V)")] public double battery_voltage4 { get; set; }
+        [DisplayText("Bat Voltage (V)")] public double battery_voltage5 { get; set; }
+        [DisplayText("Bat Voltage (V)")] public double battery_voltage6 { get; set; }
+        [DisplayText("Bat Voltage (V)")] public double battery_voltage7 { get; set; }
+        [DisplayText("Bat Voltage (V)")] public double battery_voltage8 { get; set; }
+
         [DisplayText("Bat Remaining (%)")]
         public int battery_remaining
         {
@@ -804,6 +811,14 @@ namespace MissionPlanner
         }
 
         private int _battery_remaining;
+
+        [DisplayText("Bat Remaining (%)")] public int battery_remaining2 { get; set; }
+        [DisplayText("Bat Remaining (%)")] public int battery_remaining3 { get; set; }
+        [DisplayText("Bat Remaining (%)")] public int battery_remaining4 { get; set; }
+        [DisplayText("Bat Remaining (%)")] public int battery_remaining5 { get; set; }
+        [DisplayText("Bat Remaining (%)")] public int battery_remaining6 { get; set; }
+        [DisplayText("Bat Remaining (%)")] public int battery_remaining7 { get; set; }
+        [DisplayText("Bat Remaining (%)")] public int battery_remaining8 { get; set; }
 
         [DisplayText("Bat Current (Amps)")]
         public double current
@@ -824,6 +839,32 @@ namespace MissionPlanner
             }
         } //current may to be below zero - recuperation in arduplane
         private double _current;
+
+
+        private DateTime _lastcurrent2 = DateTime.MinValue;
+
+        [DisplayText("Bat2 Current (Amps)")]
+        public double current2
+        {
+            get { return _current2; }
+            set
+            {
+                if (_lastcurrent2 == DateTime.MinValue) _lastcurrent2 = datetime;
+                if (value < 0) return;
+                battery_usedmah2 += ((value * 1000.0) * (datetime - _lastcurrent2).TotalHours);
+                _current2 = value;
+                _lastcurrent2 = datetime;
+            }
+        }
+
+        private double _current2;
+
+        [DisplayText("Bat2 Current (Amps)")] public double current3 { get; set; }
+        [DisplayText("Bat2 Current (Amps)")] public double current4 { get; set; }
+        [DisplayText("Bat2 Current (Amps)")] public double current5 { get; set; }
+        [DisplayText("Bat2 Current (Amps)")] public double current6 { get; set; }
+        [DisplayText("Bat2 Current (Amps)")] public double current7 { get; set; }
+        [DisplayText("Bat2 Current (Amps)")] public double current8 { get; set; }
 
         [DisplayText("Bat Watts")]
         public double watts
@@ -851,7 +892,14 @@ namespace MissionPlanner
 
         public double battery_temp { get; set; }
 
-        public double battery_usedmah2 { get; set; }
+        [DisplayText("Bat used EST (mah)")] public double battery_usedmah2 { get; set; }
+        [DisplayText("Bat used EST (mah)")] public double battery_usedmah3 { get; set; }
+        [DisplayText("Bat used EST (mah)")] public double battery_usedmah4 { get; set; }
+        [DisplayText("Bat used EST (mah)")] public double battery_usedmah5 { get; set; }
+        [DisplayText("Bat used EST (mah)")] public double battery_usedmah6 { get; set; }
+        [DisplayText("Bat used EST (mah)")] public double battery_usedmah7 { get; set; }
+        [DisplayText("Bat used EST (mah)")] public double battery_usedmah8 { get; set; }
+
 
         [DisplayText("Bat2 Voltage (V)")]
         public double battery_voltage2
@@ -866,23 +914,6 @@ namespace MissionPlanner
 
         internal double _battery_voltage2;
 
-        private DateTime _lastcurrent2 = DateTime.MinValue;
-
-        [DisplayText("Bat2 Current (Amps)")]
-        public double current2
-        {
-            get { return _current2; }
-            set
-            {
-                if (_lastcurrent2 == DateTime.MinValue) _lastcurrent2 = datetime;
-                if (value < 0) return;
-                battery_usedmah2 += ((value * 1000.0) * (datetime - _lastcurrent2).TotalHours);
-                _current2 = value;
-                _lastcurrent2 = datetime;
-            }
-        }
-
-        private double _current2;
 
         public double HomeAlt
         {
@@ -1104,6 +1135,15 @@ namespace MissionPlanner
 
         [DisplayText("Sonar Voltage (Volt)")]
         public float sonarvoltage { get; set; }
+
+        [DisplayText("RangeFinder1 (cm)")]
+        public uint rangefinder1 { get; set; }
+
+        [DisplayText("RangeFinder2 (cm)")]
+        public uint rangefinder2 { get; set; }
+
+        [DisplayText("RangeFinder3 (cm)")]
+        public uint rangefinder3 { get; set; }
 
         // current firmware
         public Firmwares firmware = Firmwares.ArduCopter2;
@@ -1985,6 +2025,24 @@ namespace MissionPlanner
                         sonarvoltage = sonar.voltage;
                     }
 
+                    mavLinkMessage = MAV.getPacket((uint)MAVLink.MAVLINK_MSG_ID.DISTANCE_SENSOR);
+                    if (mavLinkMessage != null)
+                    {
+                        var sonar = mavLinkMessage.ToStructure<MAVLink.mavlink_distance_sensor_t>();
+                        if (sonar.id == 0)
+                        {
+                            rangefinder1 = sonar.current_distance;
+                        }
+                        else if (sonar.id == 1)
+                        {
+                            rangefinder2 = sonar.current_distance;
+                        }
+                        else if (sonar.id == 2)
+                        {
+                            rangefinder3 = sonar.current_distance;
+                        }
+                    }
+
                     mavLinkMessage = MAV.getPacket((uint)MAVLink.MAVLINK_MSG_ID.POWER_STATUS);
                     if (mavLinkMessage != null)
                     {
@@ -2230,7 +2288,51 @@ namespace MissionPlanner
                         }
                         else if (bats.id == 1)
                         {
+                            battery_usedmah2 = bats.current_consumed;
+                            battery_remaining2 = bats.battery_remaining;
                             _current2 = bats.current_battery / 100.0f;
+                        }
+                        else if (bats.id == 2)
+                        {
+                            battery_usedmah3 = bats.current_consumed;
+                            battery_remaining3 = bats.battery_remaining;
+                            battery_voltage3 = bats.voltages.Sum(a => a != ushort.MaxValue ? a/1000.0 : 0);
+                            current3 = bats.current_battery / 100.0f;
+                        }
+                        else if (bats.id == 3)
+                        {
+                            battery_usedmah4 = bats.current_consumed;
+                            battery_remaining4 = bats.battery_remaining;
+                            battery_voltage4 = bats.voltages.Sum(a => a != ushort.MaxValue ? a / 1000.0 : 0);
+                            current4 = bats.current_battery / 100.0f;
+                        }
+                        else if (bats.id == 4)
+                        {
+                            battery_usedmah5 = bats.current_consumed;
+                            battery_remaining5 = bats.battery_remaining;
+                            battery_voltage5 = bats.voltages.Sum(a => a != ushort.MaxValue ? a / 1000.0 : 0);
+                            current5 = bats.current_battery / 100.0f;
+                        }
+                        else if (bats.id == 5)
+                        {
+                            battery_usedmah6 = bats.current_consumed;
+                            battery_remaining6 = bats.battery_remaining;
+                            battery_voltage6 = bats.voltages.Sum(a => a != ushort.MaxValue ? a / 1000.0 : 0);
+                            current6 = bats.current_battery / 100.0f;
+                        }
+                        else if (bats.id == 6)
+                        {
+                            battery_usedmah7 = bats.current_consumed;
+                            battery_remaining7 = bats.battery_remaining;
+                            battery_voltage7 = bats.voltages.Sum(a => a != ushort.MaxValue ? a / 1000.0 : 0);
+                            current7 = bats.current_battery / 100.0f;
+                        }
+                        else if (bats.id == 7)
+                        {
+                            battery_usedmah8 = bats.current_consumed;
+                            battery_remaining8 = bats.battery_remaining;
+                            battery_voltage8 = bats.voltages.Sum(a => a != ushort.MaxValue ? a / 1000.0 : 0);
+                            current8 = bats.current_battery / 100.0f;
                         }
                     }
 
@@ -2332,23 +2434,27 @@ namespace MissionPlanner
 
                         if (!useLocation)
                         {
-                            lat = gps.lat*1.0e-7;
-                            lng = gps.lon*1.0e-7;
+                            lat = gps.lat * 1.0e-7;
+                            lng = gps.lon * 1.0e-7;
 
-                            altasl = gps.alt/1000.0f;
+                            altasl = gps.alt / 1000.0f;
                             // alt = gps.alt; // using vfr as includes baro calc
                         }
 
                         gpsstatus = gps.fix_type;
                         //                    Console.WriteLine("gpsfix {0}",gpsstatus);
 
-                        gpshdop = (float) Math.Round((double) gps.eph/100.0, 2);
+                        if (gps.eph != ushort.MaxValue)
+                            gpshdop = (float) Math.Round((double) gps.eph / 100.0, 2);
 
-                        satcount = gps.satellites_visible;
+                        if (gps.satellites_visible != byte.MaxValue)
+                            satcount = gps.satellites_visible;
 
-                        groundspeed = gps.vel*1.0e-2f;
-                        if (groundspeed > 0.5)
-                            groundcourse = gps.cog*1.0e-2f;
+                        if (gps.vel != ushort.MaxValue)
+                            groundspeed = gps.vel * 1.0e-2f;
+
+                        if (groundspeed > 0.5 && gps.cog != ushort.MaxValue)
+                            groundcourse = gps.cog * 1.0e-2f;
 
                         if (mavLinkMessage.ismavlink2)
                         {

@@ -420,8 +420,9 @@ namespace MissionPlanner.GCSViews
             coords1.Lat = mouseposdisplay.Lat;
             coords1.Lng = mouseposdisplay.Lng;
             var altdata = srtm.getAltitude(mouseposdisplay.Lat, mouseposdisplay.Lng, MainMap.Zoom);
-            coords1.Alt = altdata.alt;
+            coords1.Alt = altdata.alt * CurrentState.multiplieralt;
             coords1.AltSource = altdata.altsource;
+            coords1.AltUnit = CurrentState.AltUnit;
 
             try
             {
@@ -3759,6 +3760,13 @@ namespace MissionPlanner.GCSViews
                         Commands.Rows[selectedrow].Cells[Alt.Index].Value = TXT_DefaultAlt.Text;
                 }
 
+                // default land to 0
+                if (((ComboBox)sender).Text == "LAND")
+                {
+                    if (Commands.Rows[selectedrow].Cells[Alt.Index].Value != null)
+                        Commands.Rows[selectedrow].Cells[Alt.Index].Value = "0";
+                }
+
                 // default to take shot
                 if (((ComboBox) sender).Text == "DO_DIGICAM_CONTROL")
                 {
@@ -4374,7 +4382,7 @@ namespace MissionPlanner.GCSViews
                 if (MainV2.comPort.MAV.cs.lat == 0 || MainV2.comPort.MAV.cs.lng == 0)
                     return;
 
-                var marker = ArduPilot.Common.getMAVMarker(MainV2.comPort.MAV);
+                var marker = Common.getMAVMarker(MainV2.comPort.MAV);
 
                 routesoverlay.Markers.Add(marker);
 

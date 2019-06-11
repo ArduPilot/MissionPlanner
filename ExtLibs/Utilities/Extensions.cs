@@ -16,7 +16,11 @@ namespace MissionPlanner.Utilities
     {
         public static string ToJSON(this object msg)
         {
-            return JsonConvert.SerializeObject(msg);
+            return JsonConvert.SerializeObject(msg, Formatting.Indented, new JsonSerializerSettings()
+            {
+                Error =
+                    (sender, args) => { args.ErrorContext.Handled = true; }
+            });
         }
 
         public static string RemoveFromEnd(this string s, string suffix)

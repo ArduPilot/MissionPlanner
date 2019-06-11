@@ -2,7 +2,6 @@
 using ManagedNativeWifi.Simple;
 using MissionPlanner.Arduino;
 using MissionPlanner.Comms;
-using Newtonsoft.Json;
 using px4uploader;
 using SharpAdbClient;
 using solo;
@@ -19,6 +18,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
+using MissionPlanner.ArduPilot;
+using MissionPlanner.test;
 
 namespace MissionPlanner.Utilities
 {
@@ -28,9 +29,7 @@ namespace MissionPlanner.Utilities
 
         public event ProgressEventHandler Progress;
 
-        //http://firmware.ardupilot.org/manifest.json
-
-        string firmwareurl = "https://raw.github.com/diydrones/binary/master/Firmware/firmware2.xml";
+        string firmwareurl = "https://github.com/ArduPilot/binary/raw/master/Firmware/firmware2.xml;http://firmware.ardupilot.org/Tools/MissionPlanner/Firmware/firmware2.xml";
 
         static readonly string gholdurl = ("https://github.com/diydrones/binary/raw/!Hash!/Firmware/firmware2.xml");
         static readonly string gholdfirmwareurl = ("https://github.com/diydrones/binary/raw/!Hash!/Firmware/!Firmware!");
@@ -94,36 +93,7 @@ namespace MissionPlanner.Utilities
             }
         }
 
-        public class FirmwareInfo
-        {
-            [JsonProperty("mav-type")]
-            public string mav_type { get; set; }
-            [JsonProperty("mav-firmware-version-minor")]
-            public string mav_firmware_version_minor { get; set; }
-            public string format { get; set; }
-            public string url { get; set; }
-            [JsonProperty("mav-firmware-version-type")]
-            public string mav_firmware_version_type { get; set; }
-            [JsonProperty("mav-firmware-version-patch")]
-            public string mav_firmware_version_patch { get; set; }
-            [JsonProperty("mav-autopilot")]
-            public string mav_autopilot { get; set; }
-            public string platform { get; set; }
-            [JsonProperty("mav-firmware-version")]
-            public string mav_firmware_version { get; set; }
-            [JsonProperty("git-sha")]
-            public string git_sha { get; set; }
-            [JsonProperty("mav-firmware-version-major")]
-            public string mav_firmware_version_major { get; set; }
-            public int latest { get; set; }
-        }
 
-        public class RootObject
-        {
-            public List<FirmwareInfo> firmware { get; set; }
-            [JsonProperty("format-version")]
-            public string format_version { get; set; }
-        }
 
         public static string getUrl(string hash, string filename)
         {
@@ -198,32 +168,13 @@ namespace MissionPlanner.Utilities
         /// </summary>
         public Firmware()
         {
-            /*
-            var firmwares = JsonConvert.DeserializeObject<RootObject>(new WebClient().DownloadString("http://firmware.ardupilot.org/manifest.json"));
-
-            var allnonDEV = firmwares.firmware.Where(a => a.mav_firmware_version_type == "OFFICIAL");
-
-            var distinctplatforms = allnonDEV.GroupBy(a => a.platform).Select(group => group.First());
-
-            allnonDEV.OrderBy((info => info.mav_type+"-"+info.platform)).Select(a =>
-            {
-                File.AppendAllText("fwlist.txt",
-                    String.Format("{0},{1},{2},{3},{4},{5}\r\n", a.mav_type, a.url, a.platform, a.mav_firmware_version, a.git_sha, a.latest));
-
-                File.AppendAllText("fwlist1.txt",
-                    String.Format("    <url{0}>{1}</url{0}>\r\n", a.platform, a.url));
-                return false;
-            }).ToArray();
-
-            //var type = allnonDEV.GroupBy(a=> a.)
-            */
         }
 
         /// <summary>
         /// Load xml from internet based on firmwareurl, and return softwarelist
         /// </summary>
         /// <returns></returns>
-        public List<software> getFWList(string firmwareurl = "")
+        public List<software> getFWList(string firmwareurl = "", APFirmware.RELEASE_TYPES rEL_Type = APFirmware.RELEASE_TYPES.OFFICIAL)
         {
             if (firmwareurl == "")
                 firmwareurl = this.firmwareurl;
@@ -243,33 +194,56 @@ namespace MissionPlanner.Utilities
 
             updateProgress(-1, Strings.GettingFWList);
 
-            try
-            {
-                XmlSerializer xms = new XmlSerializer(typeof(optionsObject), new Type[] { typeof(software) });
+            var urls = firmwareurl.Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries);
+            var valid = false;
+            Exception invalidex = null;
 
-                log.Info("url: " + firmwareurl);
-                using (XmlTextReader xmlreader = new XmlTextReader(firmwareurl))
+            foreach (var url in urls)
+            {
+                try
                 {
-                    options = (optionsObject)xms.Deserialize(xmlreader);
+                    var dnsinfo = Dns.GetHostAddresses(new Uri(url).DnsSafeHost);
+
+                    if(dnsinfo.Length ==0)
+                        throw new Exception("Failed to resolve dns");
+
+                    XmlSerializer xms = new XmlSerializer(typeof(optionsObject), new Type[] {typeof(software)});
+
+                    log.Info("url: " + url);
+                    WebRequest request = WebRequest.Create(url);
+                    request.Timeout = 10000;
+
+                    using (WebResponse response = request.GetResponse())
+                    using (XmlReader xmlreader = XmlReader.Create(response.GetResponseStream()))
+                    {
+                        options = (optionsObject) xms.Deserialize(xmlreader);
+                    }
+
+                    valid = true;
+
+                    Parallel.ForEach(options.softwares, software =>
+                    {
+                        try
+                        {
+                            getAPMVersion(software);
+                        }
+                        catch
+                        {
+                        }
+                    });
+
+                    break;
                 }
-
-                Parallel.ForEach(options.softwares, software =>
+                catch (Exception ex)
                 {
-                    try
-                    {
-                        getAPMVersion(software);
-                    }
-                    catch
-                    {
-                    }
-                });
+                    log.Error(ex);
+                    //CustomMessageBox.Show("Failed to get Firmware List : " + ex.Message);
+                    invalidex = ex;
+                }
             }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-                //CustomMessageBox.Show("Failed to get Firmware List : " + ex.Message);
-                throw;
-            }
+
+            if (!valid)
+                throw invalidex;
 
             log.Info("load done");
 
@@ -390,17 +364,63 @@ namespace MissionPlanner.Utilities
         /// <summary>
         /// Do full update - get firmware from internet
         /// </summary>
+        /// <param name="comport"></param>
         /// <param name="temp"></param>
         /// <param name="historyhash"></param>
+        /// <param name="relType"></param>
         public bool update(string comport, software temp, string historyhash)
         {
             BoardDetect.boards board = BoardDetect.boards.none;
+            string baseurl = "";
 
             try
             {
+                if (string.IsNullOrEmpty(historyhash))
+                {
+                    try
+                    {
+                        var ports = Win32DeviceMgmt.GetAllCOMPorts();
+
+                        foreach (var item in ports)
+                        {
+                            log.InfoFormat("{0}: {1} - {2}", item.name, item.description, item.board);
+
+
+
+                            // get the options for this device
+                            var fwitems = APFirmware.GetOptions(item, MapFWType(temp), MapRelType(temp));
+                            if (fwitems?.Count == 1)
+                            {
+                                board = BoardDetect.boards.pass;
+                                baseurl = fwitems[0].Url.ToString();
+                            }
+                            else if (fwitems?.Count > 0)
+                            {
+                                FirmwareSelection fws = new FirmwareSelection(fwitems);
+                                fws.ShowXamarinControl(300, 800);
+                                board = BoardDetect.boards.pass;
+                                baseurl = fws.FinalResult;
+                                break;
+                            }
+                        }
+
+                        if (baseurl == null || baseurl == string.Empty && board == BoardDetect.boards.pass)
+                        {
+                            CustomMessageBox.Show(Strings.No_firmware_available_for_this_board);
+                            return false;
+                        }
+                    }
+                    catch
+                    {
+
+                    }
+                }
+
+
                 updateProgress(-1, Strings.DetectingBoardVersion);
 
-                board = BoardDetect.DetectBoard(comport);
+                if(board != BoardDetect.boards.pass)
+                    board = BoardDetect.DetectBoard(comport);
 
                 if (board == BoardDetect.boards.none)
                 {
@@ -423,8 +443,7 @@ namespace MissionPlanner.Utilities
                         board = BoardDetect.boards.chbootloader;
                     }
                 }
-
-                string baseurl = "";
+             
                 if (board == BoardDetect.boards.b2560)
                 {
                     baseurl = temp.url2560.ToString();
@@ -540,6 +559,10 @@ namespace MissionPlanner.Utilities
                         return false;
                     }
                 }
+                else if (board == BoardDetect.boards.pass)
+                {
+                    
+                }
                 else
                 {
                     CustomMessageBox.Show(Strings.InvalidBoardType);
@@ -639,6 +662,34 @@ namespace MissionPlanner.Utilities
             Tracking.AddTiming("Firmware Upload", board.ToString(), uploadtime, temp.name);
 
             return ans;
+        }
+
+        private APFirmware.FIRMWARE_TYPES? MapFWType(software temp)
+        {
+            if (temp.urlfmuv3.ToLower().Contains("AntennaTracker".ToLower()))
+                return APFirmware.FIRMWARE_TYPES.AntennaTracker;
+            if (temp.urlfmuv3.ToLower().Contains("Copter".ToLower()))
+                return APFirmware.FIRMWARE_TYPES.Copter;
+            if (temp.urlfmuv3.ToLower().Contains("Plane".ToLower()))
+                return APFirmware.FIRMWARE_TYPES.Plane;
+            if (temp.urlfmuv3.ToLower().Contains("Rover".ToLower()))
+                return APFirmware.FIRMWARE_TYPES.Rover;
+            if (temp.urlfmuv3.ToLower().Contains("Sub".ToLower()))
+                return APFirmware.FIRMWARE_TYPES.Sub;
+
+            return null;
+        }
+
+        private APFirmware.RELEASE_TYPES? MapRelType(software temp)
+        {
+            if (temp.urlfmuv3.ToLower().Contains("stable"))
+                return APFirmware.RELEASE_TYPES.OFFICIAL;
+            if (temp.urlfmuv3.ToLower().Contains("latest"))
+                return APFirmware.RELEASE_TYPES.DEV;
+            if (temp.urlfmuv3.ToLower().Contains("beta"))
+                return APFirmware.RELEASE_TYPES.BETA;
+
+            return null;
         }
 
         private string CheckChibiOS(string existingfw, string chibiosurl)
@@ -1325,8 +1376,8 @@ namespace MissionPlanner.Utilities
                 board == BoardDetect.boards.px4v3 || board == BoardDetect.boards.px4v4 ||
                 board == BoardDetect.boards.px4v4pro || board == BoardDetect.boards.fmuv5 ||
                 board == BoardDetect.boards.revomini || board == BoardDetect.boards.mindpxv2 ||
-                board == BoardDetect.boards.minipix || board == BoardDetect.boards.nxpfmuk66 ||
-                board == BoardDetect.boards.chbootloader)
+                board == BoardDetect.boards.minipix || board == BoardDetect.boards.chbootloader ||
+                board == BoardDetect.boards.pass || board == BoardDetect.boards.nxpfmuk66)
             {
                 try
                 {

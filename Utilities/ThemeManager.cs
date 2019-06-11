@@ -175,12 +175,89 @@ namespace MissionPlanner.Utilities
                 var fontcol = "color:" + System.Drawing.ColorTranslator.ToHtml(ctl.ForeColor) + ";";
                 var bgcol = "background-color:" + System.Drawing.ColorTranslator.ToHtml(ctl.BackColor) + ";";
 
+                if (ctl.Parent != null)
+                {
+                    if (ctl.Parent.Font == ctl.Font)
+                        font = "";
+                    if (ctl.Parent.ForeColor == ctl.ForeColor)
+                        font = "";
+                    if (ctl.Parent.BackColor == ctl.BackColor)
+                        font = "";
+                }
+
 
                 st.WriteLine(@"<div class='" + ctl.GetType() + " " + ctl.Name + @"' " +
                              "style='" + font + fontsize + fontcol + bgcol +
                              "overflow:hidden;position: absolute; top: " + (y + ctl.Location.Y) + "; left: " +
-                             (x + ctl.Location.X) + ";width:" + ctl.Width + ";height:" + ctl.Height + ";' >" +
-                             ctl.Text);
+                             (x + ctl.Location.X) + ";width:" + ctl.Width + ";height:" + ctl.Height + ";' >");
+
+                if (ctl.GetType() == typeof(ComboBox) || ctl.GetType() == typeof(MavlinkComboBox))
+                {
+                    st.WriteLine(@"<select name='{0}'>", ctl.Name);
+                    (ctl as ComboBox).Items.ForEach(a => st.WriteLine(@"<option value='{0}'>{1}</option>", a, a));
+                    st.WriteLine(@"</select>");
+                }
+                else if (ctl.GetType() == typeof(TextBox))
+                {
+                    st.WriteLine(@"<input name='{0}' value='{1}'>", ctl.Name, ctl.Text);
+                    st.WriteLine(@"</input>");
+                }
+                else if (ctl.GetType() == typeof(TrackBar))
+                {
+                    var tb = ctl as TrackBar;
+                    st.WriteLine(@"<input name='{0}' type='range' style=' width:100%; height:100%;' value='{1}' orient='{2}'>", ctl.Name, ctl.Text, tb.Orientation == Orientation.Vertical ? "vertical" : "horizontal");
+                    st.WriteLine(@"</input>");
+                }
+                else if (ctl.GetType()== typeof(NumericUpDown))
+                {
+                    st.WriteLine(@"<input name='{0}' type='number'>", ctl.Name);
+                    st.Write(ctl.Text);
+                    st.WriteLine(@"</input>");
+                }
+                else if (ctl.GetType()==typeof(DomainUpDown))
+                {
+                    st.WriteLine(@"<input name='{0}' type='number'>", ctl.Name);
+                    st.Write(ctl.Text);
+                    st.WriteLine(@"</input>");
+                }
+                else if (ctl.GetType() == typeof(RadioButton))
+                {
+                    st.WriteLine(@"<input name='{0}' type='radio'>", ctl.Name);
+                    st.Write(ctl.Text);
+                    st.WriteLine(@"</input>");
+                }
+                else if (ctl.GetType() == typeof(CheckBox))
+                {
+                    st.WriteLine(@"<input name='{0}' type='checkbox'>", ctl.Name);
+                    st.Write(ctl.Text);
+                    st.WriteLine(@"</input>");
+                }
+                else if (ctl.GetType() == typeof(MyButton) || ctl.GetType() == typeof(Button))
+                {
+                    st.WriteLine(@"<input name='{0}' type='button' value='{1}'>", ctl.Name,ctl.Text);
+                    
+                    st.WriteLine(@"</input>");
+                }
+                else if (ctl.GetType() == typeof(MyLabel) || ctl.GetType() == typeof(Label))
+                {
+                    st.Write(ctl.Text);
+                }
+                else if (ctl.GetType() == typeof(FlowLayoutPanel))
+                {
+                    var flow = ctl as FlowLayoutPanel;
+
+                    st.Write(ctl.Text);
+                }
+                else if (ctl.GetType() == typeof(VerticalProgressBar2))
+                {
+                    st.WriteLine(@"<progress name='{0}' type='button' value='{1}' style=' width:100%; height:100%;    margin-top: 100px;    margin-left: -50px;    transform: rotate(90deg);'>", ctl.Name, ctl.Text);
+
+                    st.WriteLine(@"</progress>");
+                }
+                else
+                {
+                    st.Write(ctl.Text);
+                }
 
                 if (ctl.Controls.Count > 0)
                 {

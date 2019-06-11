@@ -104,18 +104,13 @@ namespace MissionPlanner.GCSViews
 
             if (MainV2.DisplayConfiguration.displayInstallFirmware)
             {
-                if (!Program.WindowsStoreApp)
+               // if (!Program.WindowsStoreApp)
                 {
                     AddBackstageViewPage(typeof(ConfigFirmwareDisabled), rm.GetString("backstageViewPagefw.Text"),
                         isConnected);
                     AddBackstageViewPage(typeof(ConfigFirmware), rm.GetString("backstageViewPagefw.Text"),
                         isDisConnected);
                 }
-            }
-
-            if (MainV2.DisplayConfiguration.displayWizard)
-            {
-                AddBackstageViewPage(typeof(ConfigWizard), rm.GetString("backstageViewPagewizard.Text"));
             }
 
             var mand = AddBackstageViewPage(typeof(ConfigMandatory), rm.GetString("backstageViewPagemand.Text"), isConnected);
@@ -168,10 +163,9 @@ namespace MissionPlanner.GCSViews
             }
             if (MainV2.DisplayConfiguration.displayCAN)
             {
-                AddBackstageViewPage(typeof(ConfigHWCAN), "CAN", isConnected, opt);
+                //AddBackstageViewPage(typeof(ConfigHWCAN), "CAN", isConnected, opt);
+                AddBackstageViewPage(typeof(ConfigUAVCAN), "UAVCAN", isConnected, opt);
             }
-
-            AddBackstageViewPage(typeof(ConfigUAVCAN), "UAVCAN", isConnected, opt);
 
             if (MainV2.DisplayConfiguration.displayCompassMotorCalib)
             {

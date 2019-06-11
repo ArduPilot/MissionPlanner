@@ -3,13 +3,14 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>MissionPlanner.Strings</AssemblyName>
-    <RootNamespace>MissionPlanner.Strings</RootNamespace>
+    <RootNamespace>MissionPlanner</RootNamespace>
     <ApplicationIcon />
     <OutputType>Library</OutputType>
     <StartupObject />
     <SignAssembly>false</SignAssembly>
     <DelaySign>true</DelaySign>
     <AssemblyOriginatorKeyFile>mykey.snk</AssemblyOriginatorKeyFile>
+    <NeutralLanguage>en</NeutralLanguage>
   
  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -17,103 +18,29 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="Antenna\**" />
-    <Compile Remove="Controls\**" />
-    <Compile Remove="DLLs\**" />
-    <Compile Remove="Drivers\**" />
-    <Compile Remove="GCSViews\**" />
-    <Compile Remove="GeoRef\**" />
-    <Compile Remove="Grid\**" />
-    <Compile Remove="HIL\**" />
-    <Compile Remove="Joystick\**" />
-    <Compile Remove="Log\**" />
-    <Compile Remove="m3u\**" />
-    <Compile Remove="mavelous_web\**" />
-    <Compile Remove="Models\**" />
-    <Compile Remove="NoFly\**" />
-    <Compile Remove="Plugin\**" />
-    <Compile Remove="Radio\**" />
-    <Compile Remove="Scripts\**" />
-    <Compile Remove="Swarm\**" />
-    <Compile Remove="Utilities\**" />
-    <Compile Remove="Warnings\**" />
-    <Compile Remove="Wizard\**" />
-    <EmbeddedResource Remove="Antenna\**" />
-    <EmbeddedResource Remove="Controls\**" />
-    <EmbeddedResource Remove="DLLs\**" />
-    <EmbeddedResource Remove="Drivers\**" />
-    <EmbeddedResource Remove="GCSViews\**" />
-    <EmbeddedResource Remove="GeoRef\**" />
-    <EmbeddedResource Remove="Grid\**" />
-    <EmbeddedResource Remove="HIL\**" />
-    <EmbeddedResource Remove="Joystick\**" />
-    <EmbeddedResource Remove="Log\**" />
-    <EmbeddedResource Remove="m3u\**" />
-    <EmbeddedResource Remove="mavelous_web\**" />
-    <EmbeddedResource Remove="Models\**" />
-    <EmbeddedResource Remove="NoFly\**" />
-    <EmbeddedResource Remove="Plugin\**" />
-    <EmbeddedResource Remove="Radio\**" />
-    <EmbeddedResource Remove="Scripts\**" />
-    <EmbeddedResource Remove="Swarm\**" />
-    <EmbeddedResource Remove="Utilities\**" />
-    <EmbeddedResource Remove="Warnings\**" />
-    <EmbeddedResource Remove="Wizard\**" />
-    <None Remove="Antenna\**" />
-    <None Remove="Controls\**" />
-    <None Remove="DLLs\**" />
-    <None Remove="Drivers\**" />
-    <None Remove="GCSViews\**" />
-    <None Remove="GeoRef\**" />
-    <None Remove="Grid\**" />
-    <None Remove="HIL\**" />
-    <None Remove="Joystick\**" />
-    <None Remove="Log\**" />
-    <None Remove="m3u\**" />
-    <None Remove="mavelous_web\**" />
-    <None Remove="Models\**" />
-    <None Remove="NoFly\**" />
-    <None Remove="Plugin\**" />
-    <None Remove="Radio\**" />
-    <None Remove="Scripts\**" />
-    <None Remove="Swarm\**" />
-    <None Remove="Utilities\**" />
-    <None Remove="Warnings\**" />
-    <None Remove="Wizard\**" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Compile Update="Strings.Designer.cs" />
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Strings.cs"> <SubType>Control</SubType> </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings.resx"><DependentUpon>Strings.cs</DependentUpon><Generator>PublicResXFileCodeGenerator</Generator><LastGenOutput>Strings.Designer.cs</LastGenOutput> </EmbeddedResource>
-    <EmbeddedResource Update="Strings.az-Latn-AZ.resx"><DependentUpon>Strings.cs</DependentUpon> </EmbeddedResource>
-    <EmbeddedResource Update="Strings.de-DE.resx"><DependentUpon>Strings.cs</DependentUpon> </EmbeddedResource>
-    <EmbeddedResource Update="Strings.id-ID.resx"><DependentUpon>Strings.cs</DependentUpon> </EmbeddedResource>
-    <EmbeddedResource Update="Strings.ja-JP.resx"><DependentUpon>Strings.cs</DependentUpon> </EmbeddedResource>
-    <EmbeddedResource Update="Strings.ko-KR.resx"><DependentUpon>Strings.cs</DependentUpon> </EmbeddedResource>
-    <EmbeddedResource Update="Strings.pt.resx"><DependentUpon>Strings.cs</DependentUpon> </EmbeddedResource>
-    <EmbeddedResource Update="Strings.ru-KZ.resx"><DependentUpon>Strings.cs</DependentUpon> </EmbeddedResource>
-    <EmbeddedResource Update="Strings.tr.resx"><DependentUpon>Strings.cs</DependentUpon> </EmbeddedResource>
-    <EmbeddedResource Update="Strings.zh-Hans.resx"><DependentUpon>Strings.cs</DependentUpon> </EmbeddedResource>
- 
-
-
     <Compile Update="Strings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+ 
+    <EmbeddedResource Update="Strings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Strings.az-Latn-AZ.resx"> </EmbeddedResource>
+    <EmbeddedResource Update="Strings.de-DE.resx"></EmbeddedResource>
+    <EmbeddedResource Update="Strings.id-ID.resx"></EmbeddedResource>
+    <EmbeddedResource Update="Strings.ja-JP.resx"> </EmbeddedResource>
+    <EmbeddedResource Update="Strings.ko-KR.resx"> </EmbeddedResource>
+    <EmbeddedResource Update="Strings.pt.resx"> </EmbeddedResource>
+    <EmbeddedResource Update="Strings.ru-KZ.resx"></EmbeddedResource>
+    <EmbeddedResource Update="Strings.tr.resx"> </EmbeddedResource>
+    <EmbeddedResource Update="Strings.zh-Hans.resx"></EmbeddedResource>
+ 
+
   </ItemGroup>
 
 </Project>

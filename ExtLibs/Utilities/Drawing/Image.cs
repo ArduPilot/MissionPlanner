@@ -12,6 +12,8 @@ namespace MissionPlanner.Utilities.Drawing
 {
     public abstract class Image : ISerializable, ICloneable, IDisposable
     {
+        public delegate bool GetThumbnailImageAbort();
+
         private object userData;
         internal SKBitmap nativeSkBitmap;
 
@@ -63,7 +65,12 @@ namespace MissionPlanner.Utilities.Drawing
 
         public static Image FromStream(Stream ms)
         {
-            var ans = new Bitmap() { nativeSkBitmap = SKBitmap.FromImage(SKImage.FromEncodedData(ms)) };
+            MemoryStream ms2 = new MemoryStream();
+            ms.CopyTo(ms2);
+            ms2.Position = 0;
+            var skimage = SKImage.FromEncodedData(ms2);
+            var skbitmap = SKBitmap.FromImage(skimage);
+            var ans = new Bitmap() { nativeSkBitmap = skbitmap };
             return ans;
         }
 

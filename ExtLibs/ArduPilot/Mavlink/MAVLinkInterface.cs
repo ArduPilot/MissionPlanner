@@ -758,6 +758,12 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             }
         }
 
+        /// <summary>
+        /// Send a mavlink packet
+        /// </summary>
+        /// <param name="indata">data</param>
+        /// <param name="sysid">target sysid</param>
+        /// <param name="compid">target compid</param>
         public void sendPacket(object indata, int sysid, int compid)
         {
             bool validPacket = false;
@@ -1373,6 +1379,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         // set new target
                         param_total = (par.param_count);
                         newparamlist.TotalReported = param_total;
+
+                        if (param_total == 0)
+                            break;
 
                         string paramID = ASCIIEncoding.ASCII.GetString(par.param_id);
 
@@ -4142,8 +4151,10 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                                 if (msgid == 0)
                                 {
 // flush on heartbeat - 1 seconds
-                                    logfile.Flush();
-                                    rawlogfile.Flush();
+                                    if (logfile != null)
+                                        logfile.Flush();
+                                    if (rawlogfile != null)
+                                        rawlogfile.Flush();
                                 }
                             }
                         }

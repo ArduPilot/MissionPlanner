@@ -17,12 +17,12 @@ namespace MissionPlanner.Utilities
     public class PointLatLngAlt: IComparable
     {
         public static readonly PointLatLngAlt Zero = new PointLatLngAlt();
-        public double Lat = 0;
-        public double Lng = 0;
-        public double Alt = 0;
-        public string Tag = "";
-        public string Tag2 = "";
-        public Color color = Color.White;
+        public double Lat { get; set; } = 0;
+        public double Lng { get; set; } = 0;
+        public double Alt { get; set; } = 0;
+        public string Tag { get; set; } = "";
+        public string Tag2 { get; set; } = "";
+        public Color color { get; set; } = Color.White;
 
         static CoordinateTransformationFactory ctfac = new CoordinateTransformationFactory();
         static IGeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
@@ -138,7 +138,9 @@ namespace MissionPlanner.Utilities
 
         public override int GetHashCode()
         {
-            return (int)((Lat + (Lng * 100) + (Alt * 10000)) * 100);
+            return (int) (BitConverter.DoubleToInt64Bits(Lat) ^
+                          BitConverter.DoubleToInt64Bits(Lng) ^
+                          BitConverter.DoubleToInt64Bits(Alt));
         }
 
         public override string ToString()

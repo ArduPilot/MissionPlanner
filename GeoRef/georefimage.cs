@@ -76,7 +76,7 @@ namespace MissionPlanner.GeoRef
 
         private void BUT_browselog_Click(object sender, EventArgs e)
         {
-            openFileDialog1.Filter = "Logs|*.log;*.tlog;*.bin";
+            openFileDialog1.Filter = "Logs|*.log;*.tlog;*.bin;*.BIN";
             openFileDialog1.ShowDialog();
 
             if (File.Exists(openFileDialog1.FileName))

@@ -10,9 +10,9 @@ namespace MissionPlanner.Controls
 {
     public class SB
     {
-        public static void Show()
+        public static void Show(string detectedvia)
         {
-            var l1 = "Your board has a Critical service bulletin";
+            var l1 = "Your board has a Critical service bulletin - Via " + detectedvia;
             var l2 = "To send us a report about your board, and to find out about this safety issue. Click bellow";
 
             Form frm = new Form() {Width = 250, Height = 250, AutoSize = true};

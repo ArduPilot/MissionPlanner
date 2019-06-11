@@ -504,7 +504,8 @@ namespace MissionPlanner.GCSViews
 
                         // set description and unit
                         string desc = Settings.Instance["quickView" + f];
-                        QV.Tag = QV.desc;
+                        if(QV.Tag == null)
+                            QV.Tag = desc;
                         QV.desc = MainV2.comPort.MAV.cs.GetNameandUnit(desc);
 
                         // set databinding for value
@@ -530,8 +531,9 @@ namespace MissionPlanner.GCSViews
                         {
                             QuickView QV = (QuickView) ctls[0];
                             string desc = QV.desc;
-                            QV.Tag = desc;
-                            QV.desc = MainV2.comPort.MAV.cs.GetNameandUnit(desc);
+                            if (QV.Tag == null)
+                                QV.Tag = desc;
+                            QV.desc = MainV2.comPort.MAV.cs.GetNameandUnit(QV.Tag.ToString());
                         }
                     }
                     catch (Exception ex)
@@ -1326,6 +1328,8 @@ namespace MissionPlanner.GCSViews
                                 oldtime = (mark.time_usec/1000.0)/1000.0;
                             }
                             
+                            var GMapMarkerOverlapCount = new GMapMarkerOverlapCount(PointLatLng.Empty);
+
                             // age current
                             int camcount = MainV2.comPort.MAV.camerapoints.Count;
                             int a = 0;
@@ -1339,7 +1343,7 @@ namespace MissionPlanner.GCSViews
                                         // abandon roll higher than 25 degrees
                                         if (Math.Abs(marker.Roll) < 25)
                                         {
-                                            MainV2.comPort.MAV.GMapMarkerOverlapCount.Add(
+                                            GMapMarkerOverlapCount.Add(
                                                 ((GMapMarkerPhoto) mark).footprintpoly);
                                         }
                                     }
@@ -1351,14 +1355,14 @@ namespace MissionPlanner.GCSViews
 
                             if (CameraOverlap)
                             {
-                                if (!kmlpolygons.Markers.Contains(MainV2.comPort.MAV.GMapMarkerOverlapCount) &&
+                                if (!kmlpolygons.Markers.Contains(GMapMarkerOverlapCount) &&
                                     camcount > 0)
                                 {
                                     kmlpolygons.Markers.Clear();
-                                    kmlpolygons.Markers.Add(MainV2.comPort.MAV.GMapMarkerOverlapCount);
+                                    kmlpolygons.Markers.Add(GMapMarkerOverlapCount);
                                 }
                             }
-                            else if (kmlpolygons.Markers.Contains(MainV2.comPort.MAV.GMapMarkerOverlapCount))
+                            else if (kmlpolygons.Markers.Contains(GMapMarkerOverlapCount))
                             {
                                 kmlpolygons.Markers.Clear();
                             }
@@ -1426,7 +1430,7 @@ namespace MissionPlanner.GCSViews
                                 // draw the mavs seen on this port
                                 foreach (var MAV in port.MAVlist)
                                 {
-                                    var marker = ArduPilot.Common.getMAVMarker(MAV);
+                                    var marker = Common.getMAVMarker(MAV);
 
                                     if(marker.Position.Lat == 0 && marker.Position.Lng == 0)
                                         continue;
@@ -2838,6 +2842,8 @@ namespace MissionPlanner.GCSViews
             int row_count = fields.Count / col_count + ((fields.Count % col_count == 0) ? 0 : 1);
             int row_height = 20;
 
+            selectform.SuspendLayout();
+
             int i = 1;
             foreach (var field in fields)
             {
@@ -2919,6 +2925,8 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
+            selectform.ResumeLayout();
+
             selectform.Shown += (o, args) => {
                 selectform.Controls.ForEach(a =>
                 {
@@ -2976,7 +2984,7 @@ namespace MissionPlanner.GCSViews
             int row_count = fields.Count/col_count + ((fields.Count%col_count == 0) ? 0 : 1);
             int row_height = 20;
             //selectform.MinimumSize = new Size(col_count * max_length, row_count * row_height);
-
+            selectform.SuspendLayout();
             for (int i = 0; i < fields.Count; i++)
             {
                 CheckBox chk_box = new CheckBox
@@ -2994,7 +3002,7 @@ namespace MissionPlanner.GCSViews
                     chk_box.BackColor = Color.Green;
                 selectform.Controls.Add(chk_box);
             }
-
+            selectform.ResumeLayout();
             selectform.Shown += (o, args) => {
                 selectform.Controls.ForEach(a =>
                 {
@@ -3363,7 +3371,7 @@ namespace MissionPlanner.GCSViews
             int row_count = fields.Count/col_count + ((fields.Count%col_count == 0) ? 0 : 1);
             int row_height = 20;
             //selectform.MinimumSize = new Size(col_count * max_length, row_count * row_height);
-
+            selectform.SuspendLayout();
             for (int i = 0; i < fields.Count; i++)
             {
                 CheckBox chk_box = new CheckBox
@@ -3382,6 +3390,7 @@ namespace MissionPlanner.GCSViews
                     chk_box.BackColor = Color.Green;
                 selectform.Controls.Add(chk_box);
             }
+            selectform.ResumeLayout();
 
             selectform.Shown += (o, args) => { selectform.Controls.ForEach(a =>
             {
@@ -3549,9 +3558,10 @@ namespace MissionPlanner.GCSViews
             // arm the MAV
             try
             {
+                var isitarmed = MainV2.comPort.MAV.cs.armed;
                 var action = MainV2.comPort.MAV.cs.armed ? "Disarm" : "Arm";
 
-                if (MainV2.comPort.MAV.cs.armed)
+                if (isitarmed)
                     if (CustomMessageBox.Show("Are you sure you want to " + action, action, CustomMessageBox.MessageBoxButtons.YesNo) !=
                         CustomMessageBox.DialogResult.Yes)
                         return;
@@ -3561,13 +3571,13 @@ namespace MissionPlanner.GCSViews
                     sb.AppendLine(ASCIIEncoding.ASCII.GetString(((MAVLink.mavlink_statustext_t) message.data).text).TrimEnd('\0'));
                     return true;
                 });
-                bool ans = MainV2.comPort.doARM(!MainV2.comPort.MAV.cs.armed);
+                bool ans = MainV2.comPort.doARM(!isitarmed);
                 MainV2.comPort.UnSubscribeToPacketType(sub);
                 if (ans == false)
                 {
                     if (CustomMessageBox.Show(action + " failed.\n"+sb.ToString()+ "\nForce " + action+ " can bypass safety checks,\nwhich can lead to the vehicle crashing\nand causing serious injuries.\n\nDo you wish to Force "+action+"?", Strings.ERROR, CustomMessageBox.MessageBoxButtons.YesNo, CustomMessageBox.MessageBoxIcon.Exclamation, "Force "+action, "Cancel") == CustomMessageBox.DialogResult.Yes)
                     {
-                        ans = MainV2.comPort.doARM(!MainV2.comPort.MAV.cs.armed, true);
+                        ans = MainV2.comPort.doARM(!isitarmed, true);
                         if (ans == false)
                         {
                             CustomMessageBox.Show(Strings.ErrorRejectedByMAV, Strings.ERROR);
@@ -3885,7 +3895,7 @@ namespace MissionPlanner.GCSViews
         {
             using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
             {
-                openFileDialog1.Filter = "Log Files|*.log;*.bin";
+                openFileDialog1.Filter = "Log Files|*.log;*.bin;*.BIN;*.LOG";
                 openFileDialog1.FilterIndex = 2;
                 openFileDialog1.RestoreDirectory = true;
                 openFileDialog1.Multiselect = true;
@@ -3977,6 +3987,8 @@ namespace MissionPlanner.GCSViews
                 {
                 }
             }
+
+            coords1.AltUnit = CurrentState.AltUnit;
         }
 
         private void dropOutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3987,7 +3999,7 @@ namespace MissionPlanner.GCSViews
         {
             using (OpenFileDialog ofd = new OpenFileDialog())
             {
-                ofd.Filter = "*.log;*.bin|*.log;*.bin";
+                ofd.Filter = "*.log;*.bin|*.log;*.bin;*.BIN;*.LOG";
                 ofd.ShowDialog();
 
                 if (ofd.FileName != "")

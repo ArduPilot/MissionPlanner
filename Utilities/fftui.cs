@@ -120,7 +120,7 @@ namespace MissionPlanner.Utilities
 
             using (OpenFileDialog ofd = new OpenFileDialog())
             {
-                ofd.Filter = "*.log;*.bin|*.log;*.bin";
+                ofd.Filter = "*.log;*.bin|*.log;*.bin;*.BIN;*.LOG";
 
                 ofd.ShowDialog();
 
@@ -308,7 +308,7 @@ namespace MissionPlanner.Utilities
             using (
                 OpenFileDialog ofd = new OpenFileDialog())
             {
-                ofd.Filter = "*.log;*.bin|*.log;*.bin";
+                ofd.Filter = "*.log;*.bin|*.log;*.bin;*.BIN;*.LOG";
 
                 ofd.ShowDialog();
 
@@ -520,7 +520,7 @@ namespace MissionPlanner.Utilities
             using (
                 OpenFileDialog ofd = new OpenFileDialog())
             {
-                ofd.Filter = "*.log;*.bin|*.log;*.bin";
+                ofd.Filter = "*.log;*.bin|*.log;*.bin;*.BIN;*.LOG";
 
                 ofd.ShowDialog();
 
@@ -706,7 +706,7 @@ namespace MissionPlanner.Utilities
             using (
                 OpenFileDialog ofd = new OpenFileDialog())
             {
-                ofd.Filter = "*.log;*.bin|*.log;*.bin";
+                ofd.Filter = "*.log;*.bin|*.log;*.bin;*.BIN;*.LOG";
 
                 ofd.ShowDialog();
 

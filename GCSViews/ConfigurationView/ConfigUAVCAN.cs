@@ -22,6 +22,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             InitializeComponent();
 
             uAVCANModelBindingSource.DataSource = allnodes;
+
+            if (!MainV2.comPort.MAV.param.ContainsKey("CAN_SLCAN_TIMOUT"))
+                this.Enabled = false;
         }
 
         private void configUAVCANBindingSource_CurrentChanged(object sender, EventArgs e)

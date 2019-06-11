@@ -256,7 +256,11 @@ namespace MissionPlanner.Log
                                         long x = p.X*prj.TileSize.Width - topLeftPx.X + padding;
                                         long y = p.Y*prj.TileSize.Width - topLeftPx.Y + padding;
                                         {
-                                            gfx.DrawImage(Image.FromStream(tile.Data), x, y, prj.TileSize.Width, prj.TileSize.Height);
+                                            try
+                                            {
+                                                gfx.DrawImage(Image.FromStream(tile.Data), x, y, prj.TileSize.Width,
+                                                    prj.TileSize.Height);
+                                            } catch (Exception ex2) {  }
                                         }
                                     }
                                 }

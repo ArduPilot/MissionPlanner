@@ -7,6 +7,7 @@
 */
 
 using System;
+using System.Drawing;
 using MissionPlanner.Utilities;
 using MissionPlanner.Utilities.Drawing;
 
@@ -32,6 +33,11 @@ namespace MissionPlanner.Utilities.Drawing
         public void SetWrapMode(WrapMode tileFlipXy)
         {
             
+        }
+
+        public void SetColorKey(Color itemImageTransparentColor, Color imageTransparentColor)
+        {
+          
         }
     }
 }

@@ -545,7 +545,7 @@ namespace MissionPlanner
             start = DateTime.Now;
             for (a = 0; a < 1000000; a++)
             {
-                var ans2 = MavlinkUtil.ReadUsingPointer<MAVLink.mavlink_heartbeat_t>(array, 6);
+                //var ans2 = MavlinkUtil.ReadUsingPointer<MAVLink.mavlink_heartbeat_t>(array, 6);
             }
             end = DateTime.Now;
             Console.WriteLine("ReadUsingPointer " + (end - start).TotalMilliseconds);
@@ -962,7 +962,7 @@ namespace MissionPlanner
         private void but_dashware_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "bin|*.bin";
+            ofd.Filter = "bin|*.bin;*.BIN";
             ofd.ShowDialog();
 
             if (ofd.CheckFileExists)
@@ -1123,6 +1123,42 @@ namespace MissionPlanner
 
                 CustomMessageBox.Show(sb.ToString());
             }
+        }
+
+        private void but_packetbytes_Click(object sender, EventArgs e)
+        {
+            string input = "";
+            InputBox.Show("input", "enter the hex byte data", ref input, false, true);
+
+            var split = input.Replace("0x", ",").Split(new char[] {',', ' '}, StringSplitOptions.RemoveEmptyEntries);
+
+            var buffer = split.Select(a => Convert.ToByte(a, 16));
+
+            MAVLink.MavlinkParse parse = new MAVLink.MavlinkParse();
+
+            var packet = parse.ReadPacket(new MemoryStream(buffer.ToArray()));
+
+            CustomMessageBox.Show(packet?.ToString() +
+                                  "\n" + packet.ToJSON().WrapText(5, new[] {','}));
+        }
+
+        private void but_acbarohight_Click(object sender, EventArgs e)
+        {
+            var currentQNH = MainV2.comPort.GetParam("GND_ABS_PRESS").ToString();
+            //338.6388 pa => 100' = 30.48m
+            CustomMessageBox.Show("use at your own risk!!!");
+
+            NumericUpDown mavlinkNumericUpDown = new NumericUpDown();
+            mavlinkNumericUpDown.Minimum = -100;
+            mavlinkNumericUpDown.Maximum = 100;
+         
+            mavlinkNumericUpDown.Padding = new Padding(20);
+        mavlinkNumericUpDown.ValueChanged += (o, args) =>
+            {
+                MainV2.comPort.setParam("GND_ABS_PRESS", (float)(double.Parse(currentQNH) + (double)mavlinkNumericUpDown.Value * 11.1));
+            };
+
+            mavlinkNumericUpDown.ShowUserControl();
         }
     }
 }

@@ -1654,12 +1654,11 @@ namespace MissionPlanner.Log
                                     {
                                         Locationwp wp = mine.getWP(a);
                                         //sw.WriteLine(item + "\t" + mine.param[item]);
-                                        ushort mode = wp.id;
 
                                         sw.Write((a)); // seq
                                         sw.Write("\t" + 0); // current
-                                        sw.Write("\t" + (byte) MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT); //frame 
-                                        sw.Write("\t" + mode);
+                                        sw.Write("\t" + wp.options); //frame 
+                                        sw.Write("\t" + wp.id);
                                         sw.Write("\t" +
                                                  wp.p1.ToString("0.000000",
                                                      new System.Globalization.CultureInfo("en-US")));
