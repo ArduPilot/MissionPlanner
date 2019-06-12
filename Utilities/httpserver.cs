@@ -803,82 +803,70 @@ namespace MissionPlanner.Utilities
 
                         object[] data = new object[20];
 
-                        if (MainV2.comPort.MAV.getPacket((byte) MAVLink.MAVLINK_MSG_ID.ATTITUDE) != null)
-                        {
-                            var tmsg = MainV2.comPort.MAV.getPacket((uint)MAVLink.MAVLINK_MSG_ID.ATTITUDE)
-                                .ToStructure<MAVLink.mavlink_attitude_t>();
-
-                            var json = JsonConvert.SerializeObject(tmsg);
-
-                            var name = MAVLink.MAVLINK_MESSAGE_INFOS.GetMessageInfo((uint) MAVLink.MAVLINK_MSG_ID.ATTITUDE).name;
-
-
-                        }
-
                         Messagejson message = new Messagejson();
 
-                        if (MainV2.comPort.MAV.getPacket((byte) MAVLink.MAVLINK_MSG_ID.ATTITUDE) != null)
+                        if (MainV2.comPort.MAV.getPacketLast((byte) MAVLink.MAVLINK_MSG_ID.ATTITUDE) != null)
                             message.ATTITUDE = new Message2()
                             {
                                 index = 1,
                                 msg =
-                                    MainV2.comPort.MAV.getPacket((byte)MAVLink.MAVLINK_MSG_ID.ATTITUDE)
+                                    MainV2.comPort.MAV.getPacketLast((byte)MAVLink.MAVLINK_MSG_ID.ATTITUDE)
                                         .ToStructure<MAVLink.mavlink_attitude_t>()
                             };
-                        if (MainV2.comPort.MAV.getPacket((byte)MAVLink.MAVLINK_MSG_ID.VFR_HUD) != null)
+                        if (MainV2.comPort.MAV.getPacketLast((byte)MAVLink.MAVLINK_MSG_ID.VFR_HUD) != null)
                             message.VFR_HUD = new Message2()
                             {
                                 index = 1,
                                 msg =
-                                    MainV2.comPort.MAV.getPacket((byte)MAVLink.MAVLINK_MSG_ID.VFR_HUD)
+                                    MainV2.comPort.MAV.getPacketLast((byte)MAVLink.MAVLINK_MSG_ID.VFR_HUD)
                                         .ToStructure<MAVLink.mavlink_vfr_hud_t>()
                             };
-                        if (MainV2.comPort.MAV.getPacket((byte)MAVLink.MAVLINK_MSG_ID.NAV_CONTROLLER_OUTPUT) != null)
+                        if (MainV2.comPort.MAV.getPacketLast((byte)MAVLink.MAVLINK_MSG_ID.NAV_CONTROLLER_OUTPUT) != null)
                             message.NAV_CONTROLLER_OUTPUT = new Message2()
                             {
                                 index = 1,
                                 msg =
-                                    MainV2.comPort.MAV.getPacket((byte)MAVLink.MAVLINK_MSG_ID.NAV_CONTROLLER_OUTPUT)
+                                    MainV2.comPort.MAV.getPacketLast((byte)MAVLink.MAVLINK_MSG_ID.NAV_CONTROLLER_OUTPUT)
                                         .ToStructure<MAVLink.mavlink_nav_controller_output_t>()
                             };
-                        if (MainV2.comPort.MAV.getPacket((byte)MAVLink.MAVLINK_MSG_ID.GPS_RAW_INT) != null)
+                        if (MainV2.comPort.MAV.getPacketLast((byte)MAVLink.MAVLINK_MSG_ID.GPS_RAW_INT) != null)
                             message.GPS_RAW_INT = new Message2()
                             {
                                 index = 1,
                                 msg =
-                                    MainV2.comPort.MAV.getPacket((byte)MAVLink.MAVLINK_MSG_ID.GPS_RAW_INT)
+                                    MainV2.comPort.MAV.getPacketLast((byte)MAVLink.MAVLINK_MSG_ID.GPS_RAW_INT)
                                         .ToStructure<MAVLink.mavlink_gps_raw_int_t>()
                             };
-                        if (MainV2.comPort.MAV.getPacket((byte) MAVLink.MAVLINK_MSG_ID.HEARTBEAT) != null)
+                        if (MainV2.comPort.MAV.getPacketLast((byte) MAVLink.MAVLINK_MSG_ID.HEARTBEAT) != null)
                             message.HEARTBEAT = new Message2()
                             {
                                 index = 1,
                                 msg =
-                                    MainV2.comPort.MAV.getPacket((byte) MAVLink.MAVLINK_MSG_ID.HEARTBEAT)
+                                    MainV2.comPort.MAV.getPacketLast((byte) MAVLink.MAVLINK_MSG_ID.HEARTBEAT)
                                         .ToStructure<MAVLink.mavlink_heartbeat_t>()
                             };
-                        if (MainV2.comPort.MAV.getPacket((byte) MAVLink.MAVLINK_MSG_ID.GPS_STATUS) != null)
+                        if (MainV2.comPort.MAV.getPacketLast((byte) MAVLink.MAVLINK_MSG_ID.GPS_STATUS) != null)
                             message.GPS_STATUS = new Message2()
                             {
                                 index = 1,
                                 msg =
-                                    MainV2.comPort.MAV.getPacket((byte) MAVLink.MAVLINK_MSG_ID.GPS_STATUS)
+                                    MainV2.comPort.MAV.getPacketLast((byte) MAVLink.MAVLINK_MSG_ID.GPS_STATUS)
                                         .ToStructure<MAVLink.mavlink_gps_status_t>()
                             };
-                        if (MainV2.comPort.MAV.getPacket((byte) MAVLink.MAVLINK_MSG_ID.STATUSTEXT) != null)
+                        if (MainV2.comPort.MAV.getPacketLast((byte) MAVLink.MAVLINK_MSG_ID.STATUSTEXT) != null)
                             message.STATUSTEXT = new Message2()
                             {
                                 index = 1,
                                 msg =
-                                    MainV2.comPort.MAV.getPacket((byte) MAVLink.MAVLINK_MSG_ID.STATUSTEXT)
+                                    MainV2.comPort.MAV.getPacketLast((byte) MAVLink.MAVLINK_MSG_ID.STATUSTEXT)
                                         .ToStructure<MAVLink.mavlink_statustext_t>()
                             };
-                        if (MainV2.comPort.MAV.getPacket((byte) MAVLink.MAVLINK_MSG_ID.SYS_STATUS) != null)
+                        if (MainV2.comPort.MAV.getPacketLast((byte) MAVLink.MAVLINK_MSG_ID.SYS_STATUS) != null)
                             message.SYS_STATUS = new Message2()
                             {
                                 index = 1,
                                 msg =
-                                    MainV2.comPort.MAV.getPacket((byte)MAVLink.MAVLINK_MSG_ID.SYS_STATUS)
+                                    MainV2.comPort.MAV.getPacketLast((byte)MAVLink.MAVLINK_MSG_ID.SYS_STATUS)
                                         .ToStructure<MAVLink.mavlink_sys_status_t>()
                             };
 

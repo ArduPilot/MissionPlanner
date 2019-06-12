@@ -30,6 +30,7 @@ namespace MissionPlanner
             signing = false;
             this.param = new MAVLinkParamList();
             this.packets = new Dictionary<uint, Queue<MAVLinkMessage>>();
+            this.packetsLast = new Dictionary<uint, MAVLinkMessage>();
             this.aptype = 0;
             this.apname = 0;
             this.recvpacketcount = 0;
@@ -122,6 +123,10 @@ namespace MissionPlanner
         /// storage of a previous packet recevied of a specific type
         /// </summary>
         Dictionary<uint, Queue<MAVLinkMessage>> packets { get; set; }
+        /// <summary>
+        /// the last valid packet of this type.
+        /// </summary>
+        Dictionary<uint, MAVLinkMessage> packetsLast { get; set; }
 
         object packetslock = new object();
 
@@ -132,8 +137,23 @@ namespace MissionPlanner
             {
                 if (packets.ContainsKey(mavlinkid))
                 {
-                    if(packets[mavlinkid].Count > 0)
+                    if (packets[mavlinkid].Count > 0)
+                    {
                         return packets[mavlinkid].Dequeue();
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public MAVLinkMessage getPacketLast(uint mavlinkid)
+        {
+            lock (packetslock)
+            {
+                if (packetsLast.ContainsKey(mavlinkid))
+                {
+                    return packetsLast[mavlinkid];
                 }
             }
 
@@ -156,6 +176,7 @@ namespace MissionPlanner
                 }
 
                 packets[msg.msgid].Enqueue(msg);
+                packetsLast[msg.msgid] = msg;
             }
         }
 

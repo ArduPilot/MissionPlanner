@@ -476,6 +476,7 @@ namespace MissionPlanner.GCSViews
             hud1.altunit = CurrentState.AltUnit;
             hud1.speedunit = CurrentState.SpeedUnit;
             hud1.distunit = CurrentState.DistanceUnit;
+            coords1.AltUnit = CurrentState.AltUnit;
 
             if (MainV2.MONO)
             {
