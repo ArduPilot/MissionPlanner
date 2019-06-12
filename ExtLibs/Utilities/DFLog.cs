@@ -65,7 +65,7 @@ namespace MissionPlanner.Utilities
 
                             if (parent.gpsstarttime == DateTime.MinValue)
                             {
-                                var time = parent.GetTimeGPS(msgtype + "," + String.Join(",", items));
+                                var time = parent.GetTimeGPS(String.Join(",", items));
 
                                 if (time != DateTime.MinValue)
                                 {
@@ -599,7 +599,13 @@ namespace MissionPlanner.Utilities
 
                 try
                 {
-                    return gpsTimeToTime(int.Parse(items[indexweek]), long.Parse(items[indextimems]) / 1000.0);
+                    var week = int.Parse(items[indexweek]);
+                    var sec = long.Parse(items[indextimems]) / 1000.0;
+
+                    if(week > 5000 || week < 0 || sec > 60*60*24*7 || sec < 0)
+                        return DateTime.MinValue;
+
+                    return gpsTimeToTime(week, sec);
                 }
                 catch 
                 {

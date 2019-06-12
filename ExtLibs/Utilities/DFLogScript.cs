@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using MissionPlanner.Utilities;
+using org.mariuszgromada.math.mxparser;
+using org.mariuszgromada.math.mxparser.mathcollection;
 
 namespace MissionPlanner.Log
 {
@@ -94,12 +96,144 @@ namespace MissionPlanner.Log
             return ret;
         }
 
+        public class atan2 : FunctionExtension
+        {
+            private double x;
+            private double y;
+            public atan2()
+            {
+                x = Double.NaN;
+                y = Double.NaN;
+            }
+            public atan2(double x, double y)
+            {
+                this.x = x;
+                this.y = y;
+            }
+            public double calculate()
+            {
+                return Math.Atan2(y, x);
+            }
+
+            public FunctionExtension clone()
+            {
+                return new atan2(x, y);
+            }
+
+            public string getParameterName(int argumentIndex)
+            {
+                if (argumentIndex == 0) return "y";
+                if (argumentIndex == 1) return "x";
+                return "";
+            }
+
+            public int getParametersNumber()
+            {
+                return 2;
+            }
+
+            public void setParameterValue(int argumentIndex, double argumentValue)
+            {
+                if (argumentIndex == 0) x = argumentValue;
+                if (argumentIndex == 1) y = argumentValue;
+            }
+        }
+
         public static List<Tuple<DFLog.DFItem, double>> ProcessExpression(ref DFLog dflog, ref CollectionBuffer logdata, string expression)
         {
             List<Tuple<DFLog.DFItem, double>> answer = new List<Tuple<DFLog.DFItem, double>>();
 
+            Dictionary<string, List<string>> fieldsUsed = new Dictionary<string, List<string>>();
+
+            var fieldmatchs = Regex.Matches(expression, @"(([A-z0-9_]{2,5})\.([A-z0-9_]+))");
+
+            if (fieldmatchs.Count > 0)
+            {
+                foreach (Match match in fieldmatchs)
+                {
+                    var type = match.Groups[2].Value.ToString();
+                    var field = match.Groups[3].Value.ToString();
+
+                    if (!fieldsUsed.ContainsKey(type))
+                        fieldsUsed[type] = new List<string>();
+
+                    fieldsUsed[type].Add(field);
+                }
+            }
+
+            Function f = new Function("wrap_360(x) = (x+360) # 360");
+            Function f1 = new Function("degrees(x) = x*57.295779513");
+            Function f2 = new Function("atan2", new atan2());
+            Function f3 = new Function("lowpass", new lowpass());
+
+            var filter1 =
+                expression.Replace("%", "#").Replace("**", "^").Replace(":2", "");
+
+            var filter2 = Regex.Replace(filter1, @"(([A-z0-9_]{2,5})\.([A-z0-9_]+))",
+                match => match.Groups[2].ToString() + match.Groups[3]);
+
+            // convert strings to long
+            var filter3 = Regex.Replace(filter2, @"(""[^""]+"")",
+                match => BitConverter.ToUInt64(match.Groups[0].Value.MakeBytesSize(8), 0).ToString());
+
+            Expression e = new Expression(filter3);
+            
+            e.addFunctions(f);
+            e.addFunctions(f1);
+            e.addFunctions(f2);
+            e.addFunctions(f3);
+
+            foreach (var item in fieldsUsed)
+            {
+                foreach (var value in item.Value)
+                {
+                    Argument x = new Argument(item.Key + "" + value);
+                    e.addArguments(x);
+                }
+            }
+
+            try
+            {
+                
+                //mXparser.consolePrintln("\n\n" + e.getErrorMessage());
+
+                mXparser.consolePrintTokens(e.getCopyOfInitialTokens());
+
+                if (!e.checkSyntax())
+                {
+                    return answer;
+                }
+            }
+            catch
+            {
+                return answer;
+            }
+
+            foreach (var line in logdata.GetEnumeratorType(fieldsUsed.Keys.ToArray()))
+            {
+                foreach (var item in fieldsUsed)
+                {
+                    foreach (var value in item.Value.Distinct())
+                    {
+                        e.setArgumentValue(item.Key + "" + value,
+                            double.Parse(line.items[dflog.FindMessageOffset(item.Key, value)]));
+                    }
+                }
+                //e.checkSyntax();
+                //mXparser.consolePrintln("\n\n" + e.getErrorMessage());
+
+                //mXparser.consolePrintTokens(e.getCopyOfInitialTokens());
+
+                //mXparser.consolePrintln(e.getExpressionString() + " = " + e.calculate());
+
+                answer.Add(line, e.calculate());
+            }
+
+            if (answer.Count > 0)
+                return answer;
+
             //earth_accel_df(IMU2,ATT).x
-            if (expression.Contains("earth_accel_df"))
+                if (expression.Contains("earth_accel_df"))
             {
                 var matchs = Regex.Matches(expression, @"([A-z0-9_]+),([A-z0-9_]+)");
 
@@ -364,6 +498,55 @@ namespace MissionPlanner.Log
 
 
             return answer;
+        }
+
+        private class lowpass : FunctionExtension
+        {
+            private  double var;
+            private  string key;
+            private  double factor;
+            static Dictionary<string,double> lowpass_data = new Dictionary<string, double>();
+
+            public lowpass()
+            {
+            }
+            public lowpass(double var, double key, double factor)
+            {
+                this.var = var;
+                this.key = key.ToString();
+                this.factor = factor;
+            }
+            public double calculate()
+            {
+                if (!lowpass_data.ContainsKey(key))
+                    lowpass_data[key] = var;
+                return factor * lowpass_data[key] + (1.0 - factor) * var;
+            }
+
+            public FunctionExtension clone()
+            {
+                return new lowpass(var, double.Parse(key), factor);
+            }
+
+            public string getParameterName(int argumentIndex)
+            {
+                if (argumentIndex == 0) return "var";
+                if (argumentIndex == 1) return "key";
+                if (argumentIndex == 2) return "factor";
+                return "";
+            }
+
+            public int getParametersNumber()
+            {
+                return 3;
+            }
+
+            public void setParameterValue(int argumentIndex, double argumentValue)
+            {
+                if (argumentIndex == 0) var = argumentValue;
+                if (argumentIndex == 1) key = argumentValue.ToString();
+                if (argumentIndex == 2) factor = argumentValue;
+            }
         }
     }
 

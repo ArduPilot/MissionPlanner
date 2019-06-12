@@ -199,13 +199,16 @@ namespace MissionPlanner.Utilities
 
             BuildUnitMultiList();
 
+            int gpsa = 0;
             foreach (var item in GetEnumeratorType(new[]
             {
                 "GPS", "GPS2"
             }))
             {
+                gpsa++;
                 // get first gps time
-                break;
+                if(gpsa > 10)
+                    break;
             }
 
             indexcachelineno = -1;

@@ -45,20 +45,4 @@ public static class Extension
         return ans.ToString();
     }
 
-    public static byte[] MakeSize(this byte[] buffer, int length)
-    {
-        if (buffer.Length == length)
-            return buffer;
-        Array.Resize(ref buffer, length);
-        return buffer;
-    }
-
-    public static byte[] MakeBytesSize(this string item, int length)
-    {
-        var buffer = ASCIIEncoding.ASCII.GetBytes(item);
-        if (buffer.Length == length)
-            return buffer;
-        Array.Resize(ref buffer, length);
-        return buffer;
-    }
 }

@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.ArduPilot.Mavlink
 {

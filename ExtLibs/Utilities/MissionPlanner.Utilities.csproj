@@ -34,6 +34,7 @@
     <PackageReference Include="csmatio" Version="1.0.20" />
     <PackageReference Include="ExifLibNet" Version="1.2.21" />
     <PackageReference Include="log4net" Version="2.0.8" />
+    <PackageReference Include="MathParser.org-mXparser" Version="4.3.3" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="SkiaSharp" Version="1.68.0" />
     <PackageReference Include="System.CodeDom" Version="4.5.0" />
