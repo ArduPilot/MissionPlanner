@@ -20,6 +20,12 @@ using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Utilities;
+using IronPython.Hosting;
+using System.Runtime.CompilerServices;
+using Microsoft.Scripting.Runtime;
+using System.Collections.Specialized;
+using MissionPlanner.Log;
+[assembly: ExtensionType(typeof(Dictionary<string,object>), typeof(LogBrowse.ext))]
 
 namespace MissionPlanner.Log
 {
@@ -1161,7 +1167,18 @@ namespace MissionPlanner.Log
             }
             else
             {
-                var list1 = DFLogScript.ProcessExpression(ref dflog, ref logdata, type);
+                List<Tuple<DFLog.DFItem, double>> list1 = null;
+                try
+                {
+                    list1 = TestPython(ref dflog, ref logdata, type);
+                }
+                catch (Exception ex)
+                {
+                    //log.Error(ex);
+                }
+
+                if (list1 == null)
+                    list1 = DFLogScript.ProcessExpression(ref dflog, ref logdata, type);
                 var newlist = new PointPairList();
                 list1.ForEach(a =>
                 {
@@ -1171,6 +1188,102 @@ namespace MissionPlanner.Log
                         newlist.Add(new PointPair(a.Item1.lineno, a.Item2));
                 });
                 GraphItem_AddCurve(newlist, type, fieldname, left);
+            }
+        }
+
+        private List<Tuple<DFLog.DFItem, double>> TestPython(ref DFLog dflog, ref CollectionBuffer logdata, string expression)
+        {
+
+            var engine = Python.CreateEngine();
+
+            var paths = engine.GetSearchPaths();
+            paths.Add(Settings.GetRunningDirectory() + "Lib.zip");
+            paths.Add(Settings.GetRunningDirectory() + "lib");
+            paths.Add(Settings.GetRunningDirectory());
+            engine.SetSearchPaths(paths);
+
+            var scope = engine.CreateScope();
+
+            var all = System.Reflection.Assembly.GetExecutingAssembly();
+            var asss = AppDomain.CurrentDomain.GetAssemblies();
+            foreach (var ass in asss)
+            {
+                engine.Runtime.LoadAssembly(ass);
+            }
+
+            Dictionary<string, List<string>> fieldsUsed = new Dictionary<string, List<string>>();
+
+            var fieldmatchs = Regex.Matches(expression, @"(([A-z0-9_]{2,20})\.([A-z0-9_]+))");
+
+            if (fieldmatchs.Count > 0)
+            {
+                foreach (Match match in fieldmatchs)
+                {
+                    var type = match.Groups[2].Value.ToString();
+                    var field = match.Groups[3].Value.ToString();
+
+                    if (!fieldsUsed.ContainsKey(type))
+                        fieldsUsed[type] = new List<string>();
+
+                    fieldsUsed[type].Add(field);
+                }
+            }
+
+            foreach (var logformatKey in dflog.logformat.Keys)
+            {
+                var ans = new Dictionary<string, object>();
+                foreach (var fieldName in dflog.logformat[logformatKey].FieldNames)
+                {
+                    ans[fieldName] = 0;
+                }
+                scope.SetVariable(logformatKey, ans);
+            }
+
+            var script = engine.CreateScriptSourceFromString("from mavextra import *;\r\n" + expression);
+
+            List<Tuple<DFLog.DFItem, double>> answer = new List<Tuple<DFLog.DFItem, double>>();
+
+
+            foreach (var line in logdata.GetEnumeratorType(expression.Split(new char[]{'(',')',',',' ','.'}, StringSplitOptions.RemoveEmptyEntries)))
+            {
+                if (expression.Contains(line.msgtype))
+                {
+                    var dict = line.ToDictionary();
+                    scope.SetVariable(line.msgtype, dict);
+                    var result = script.Execute(scope);
+                    answer.Add(line, (double)result);
+                }
+            }
+
+            return answer;
+        }
+
+        public static class ext
+        {
+            [SpecialName]
+
+            public static object GetBoundMember(Dictionary<string, object> dict,string name)
+
+            {
+
+                if (dict.ContainsKey(name))
+
+                    return dict[name];
+
+                else
+
+                    return OperationFailed.Value;
+
+            }
+
+            [SpecialName]
+
+            public static void SetMemberAfter(Dictionary<string, object> dict, string methodName, object o)
+
+            {
+
+                dict.Add(methodName, o);
+
             }
         }
 
@@ -2679,8 +2792,10 @@ namespace MissionPlanner.Log
                         GraphItem(item.type, item.field, item.left, false);
                     }
                 }
-                catch
+                catch 
+                (Exception ex)
                 {
+                    log.Error(ex);
                 }
             }
 

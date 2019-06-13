@@ -34,7 +34,7 @@ namespace MissionPlanner.Utilities
             public string[] items;
             public int timems;
             public int lineno;
-
+            private object[] raw;
             public DFLog parent;
 
             public DFItem(DFLog _parent, object[] _answer, int lineno) : this()
@@ -42,6 +42,8 @@ namespace MissionPlanner.Utilities
                  this.parent = _parent;
 
                 this.lineno = lineno;
+
+                this.raw = _answer;
 
                 if (_answer.Length > 0)
                 {
@@ -151,6 +153,23 @@ namespace MissionPlanner.Utilities
                         return null;
                     return items[index];
                 }
+            }
+
+            public Dictionary<string, object> ToDictionary()
+            {
+                var ans = new Dictionary<string, object>();
+
+                int a = 1;
+                foreach (var fieldName in parent.logformat[msgtype].FieldNames)
+                {
+                    if (a.IsNumber())
+                        ans[fieldName] = (IConvertible) raw[a];
+                    else
+                        ans[fieldName] = items[a];
+                    a++;
+                }
+
+                return ans;
             }
         }
 

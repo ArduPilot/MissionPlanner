@@ -4246,6 +4246,9 @@
     <Content Include="mavcmd.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="mavextra.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="mpdesktop.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

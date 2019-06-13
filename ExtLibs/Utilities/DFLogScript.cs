@@ -79,7 +79,7 @@ namespace MissionPlanner.Log
             double tnow = 0;
             if (tusec != 0)
             {
-                tnow = tusec*1.0e-6;
+                tnow = tusec * 1.0e-6;
             }
             double ret = 0.0;
 
@@ -89,7 +89,7 @@ namespace MissionPlanner.Log
             }
             else
             {
-                ret = (vari - last_v)/(tnow - last_t);
+                ret = (vari - last_v) / (tnow - last_t);
             }
             last_v = vari;
             last_t = tnow;
@@ -145,7 +145,7 @@ namespace MissionPlanner.Log
 
             Dictionary<string, List<string>> fieldsUsed = new Dictionary<string, List<string>>();
 
-            var fieldmatchs = Regex.Matches(expression, @"(([A-z0-9_]{2,5})\.([A-z0-9_]+))");
+            var fieldmatchs = Regex.Matches(expression, @"(([A-z0-9_]{2,20})\.([A-z0-9_]+))");
 
             if (fieldmatchs.Count > 0)
             {
@@ -165,15 +165,18 @@ namespace MissionPlanner.Log
             Function f1 = new Function("degrees(x) = x*57.295779513");
             Function f2 = new Function("atan2", new atan2());
             Function f3 = new Function("lowpass", new lowpass());
+            Function f4 = new Function("delta", new deltaF());
 
+            // fix maths operators
             var filter1 =
                 expression.Replace("%", "#").Replace("**", "^").Replace(":2", "");
 
-            var filter2 = Regex.Replace(filter1, @"(([A-z0-9_]{2,5})\.([A-z0-9_]+))",
+            //convert paramnames to remove .
+            var filter2 = Regex.Replace(filter1, @"(([A-z0-9_]{2,20})\.([A-z0-9_]+))",
                 match => match.Groups[2].ToString() + match.Groups[3]);
 
             // convert strings to long
-            var filter3 = Regex.Replace(filter2, @"(""[^""]+"")",
+            var filter3 = Regex.Replace(filter2, @"([""']{1}[^""]+[""']{1})",
                 match => BitConverter.ToUInt64(match.Groups[0].Value.MakeBytesSize(8), 0).ToString());
 
             Expression e = new Expression(filter3);
@@ -182,6 +185,7 @@ namespace MissionPlanner.Log
             e.addFunctions(f1);
             e.addFunctions(f2);
             e.addFunctions(f3);
+            e.addFunctions(f4);
 
             foreach (var item in fieldsUsed)
             {
@@ -192,25 +196,26 @@ namespace MissionPlanner.Log
                 }
             }
 
+            bool bad = false;
+
             try
             {
-                
-                //mXparser.consolePrintln("\n\n" + e.getErrorMessage());
-
                 mXparser.consolePrintTokens(e.getCopyOfInitialTokens());
 
                 if (!e.checkSyntax())
                 {
-                    return answer;
+                    bad = true;
                 }
             }
             catch
             {
-                return answer;
+                bad = true;
             }
 
             foreach (var line in logdata.GetEnumeratorType(fieldsUsed.Keys.ToArray()))
             {
+                if (bad)
+                    break;
                 foreach (var item in fieldsUsed)
                 {
                     foreach (var value in item.Value.Distinct())
@@ -219,12 +224,6 @@ namespace MissionPlanner.Log
                             double.Parse(line.items[dflog.FindMessageOffset(item.Key, value)]));
                     }
                 }
-                //e.checkSyntax();
-                //mXparser.consolePrintln("\n\n" + e.getErrorMessage());
-
-                //mXparser.consolePrintTokens(e.getCopyOfInitialTokens());
-
-                //mXparser.consolePrintln(e.getExpressionString() + " = " + e.calculate());
 
                 answer.Add(line, e.calculate());
             }
@@ -546,6 +545,72 @@ namespace MissionPlanner.Log
                 if (argumentIndex == 0) var = argumentValue;
                 if (argumentIndex == 1) key = argumentValue.ToString();
                 if (argumentIndex == 2) factor = argumentValue;
+            }
+        }
+
+        private class deltaF : FunctionExtension
+        {
+            private double vari;
+            private string key;
+            private double tusec;
+            private double last_v;
+            private double last_t;
+
+            public deltaF()
+            {
+            }
+            public deltaF(double vari, double key, double tusec)
+            {
+                this.vari = vari;
+                this.key = key.ToString();
+                this.tusec = tusec;
+            }
+
+            public double calculate()
+            {
+                double tnow = 0;
+                if (tusec != 0)
+                {
+                    tnow = tusec * 1.0e-6;
+                }
+                double ret = 0.0;
+
+                if (tnow == last_t)
+                {
+                    ret = 0;
+                }
+                else
+                {
+                    ret = (vari - last_v) / (tnow - last_t);
+                }
+                last_v = vari;
+                last_t = tnow;
+                return ret;
+            }
+
+            public FunctionExtension clone()
+            {
+                return new deltaF(vari, double.Parse(key), tusec);
+            }
+
+            public string getParameterName(int argumentIndex)
+            {
+                if (argumentIndex == 0) return "vari";
+                if (argumentIndex == 1) return "key";
+                if (argumentIndex == 2) return "tusec";
+                return "";
+            }
+
+            public int getParametersNumber()
+            {
+                return 3;
+            }
+
+            public void setParameterValue(int argumentIndex, double argumentValue)
+            {
+                if (argumentIndex == 0) vari = argumentValue;
+                if (argumentIndex == 1) key = argumentValue.ToString();
+                if (argumentIndex == 2) tusec = argumentValue;
             }
         }
     }
