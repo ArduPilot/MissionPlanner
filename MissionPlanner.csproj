@@ -4222,6 +4222,9 @@
     <Content Include="Drivers\dpinst.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Drivers\nxp.inf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="FirmwareHistory.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -4417,6 +4420,9 @@
     <Content Include="Drivers\vrugimbal.inf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Drivers\nxp.cat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="libSkiaSharp.so">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
