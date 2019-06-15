@@ -33,9 +33,6 @@
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.but_slcanmode1 = new MissionPlanner.Controls.MyButton();
             this.myDataGridView1 = new MissionPlanner.Controls.MyDataGridView();
-            this.uAVCANModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.label1 = new System.Windows.Forms.Label();
-            this.but_slcanmode2 = new MissionPlanner.Controls.MyButton();
             this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.modeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -46,6 +43,9 @@
             this.SoftwareCRC = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.updateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewButtonColumn();
             this.Parameter = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.uAVCANModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.label1 = new System.Windows.Forms.Label();
+            this.but_slcanmode2 = new MissionPlanner.Controls.MyButton();
             ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.uAVCANModelBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -110,31 +110,6 @@
             this.myDataGridView1.TabIndex = 1;
             this.myDataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.myDataGridView1_CellClick);
             this.myDataGridView1.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.myDataGridView1_RowsAdded);
-            // 
-            // uAVCANModelBindingSource
-            // 
-            this.uAVCANModelBindingSource.DataSource = typeof(MissionPlanner.GCSViews.ConfigurationView.UAVCANModel);
-            this.uAVCANModelBindingSource.CurrentChanged += new System.EventHandler(this.uAVCANModelBindingSource_CurrentChanged);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(269, 29);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(359, 26);
-            this.label1.TabIndex = 83;
-            this.label1.Text = "After enabling SLCAN, you will no longer be able to connect via MAVLINK.\r\nYou mus" +
-    "t reboot the flight controller to return to a normal mode\r\n";
-            // 
-            // but_slcanmode2
-            // 
-            this.but_slcanmode2.Location = new System.Drawing.Point(138, 29);
-            this.but_slcanmode2.Name = "but_slcanmode2";
-            this.but_slcanmode2.Size = new System.Drawing.Size(125, 23);
-            this.but_slcanmode2.TabIndex = 84;
-            this.but_slcanmode2.Text = "SLCan Mode CAN2";
-            this.but_slcanmode2.UseVisualStyleBackColor = true;
-            this.but_slcanmode2.Click += new System.EventHandler(this.but_slcanmode2_Click);
             // 
             // iDDataGridViewTextBoxColumn
             // 
@@ -217,6 +192,31 @@
             this.Parameter.ReadOnly = true;
             this.Parameter.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.Parameter.Text = "Parameter";
+            // 
+            // uAVCANModelBindingSource
+            // 
+            this.uAVCANModelBindingSource.DataSource = typeof(MissionPlanner.GCSViews.ConfigurationView.UAVCANModel);
+            this.uAVCANModelBindingSource.CurrentChanged += new System.EventHandler(this.uAVCANModelBindingSource_CurrentChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(269, 29);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(359, 26);
+            this.label1.TabIndex = 83;
+            this.label1.Text = "After enabling SLCAN, you will no longer be able to connect via MAVLINK.\r\nYou mus" +
+    "t leave this screen and wait 2 seconds before connecting again\r\n";
+            // 
+            // but_slcanmode2
+            // 
+            this.but_slcanmode2.Location = new System.Drawing.Point(138, 29);
+            this.but_slcanmode2.Name = "but_slcanmode2";
+            this.but_slcanmode2.Size = new System.Drawing.Size(125, 23);
+            this.but_slcanmode2.TabIndex = 84;
+            this.but_slcanmode2.Text = "SLCan Mode CAN2";
+            this.but_slcanmode2.UseVisualStyleBackColor = true;
+            this.but_slcanmode2.Click += new System.EventHandler(this.but_slcanmode2_Click);
             // 
             // ConfigUAVCAN
             // 
