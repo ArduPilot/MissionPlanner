@@ -23,39 +23,49 @@
 @inject IFileReaderService fileReaderService;
 @inject HttpClient Http
 
-<div id="message" style="position:absolute;">@gpstime @lat @lng @alt @hdg</div>
-
-<div style="height: 100%; display: flex; flex-direction: column; float: left; resize: horizontal; overflow: auto;">
-    <div style="float: left;">
-        <canvas id="canvas" width="500" height="375">
-            <p>
-                This example requires a browser that supports the
-                <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
-                &lt;canvas&gt; feature.
-            </p>
-        </canvas><br>
-        Lat: <input id="latbox" name="lat" val="40.713956" />Long: <input id="lngbox" name="long" val="74.006653" /> <br />
-        <canvas id="graphcanvas" width="500" height="80"></canvas><br />
-        <div id="curve_chart" style="width: 500px; height: 200px;"></div>
+<div id="message" style="position:absolute; top:0px; left:0px;">@gpstime @lat @lng @alt @hdg</div>
+<div id="page" style=" width: 100%;height: 100%; ">
+    <div style="height: 100%; display: flex; flex-direction: column; float: left; resize: horizontal; overflow: auto;">
+        <div style="float: left;">
+            <canvas id="canvas" width="500" height="375">
+                <p>
+                    This example requires a browser that supports the
+                    <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+                    &lt;canvas&gt; feature.
+                </p>
+            </canvas><br>
+            Lat: <input id="latbox" name="lat" val="40.713956" />Long: <input id="lngbox" name="long" val="74.006653" /> <br />
+            <canvas id="graphcanvas" width="500" height="80"></canvas><br />
+            <div id="curve_chart" style="width: 500px; height: 200px;"></div>
+        </div>
+        <div id="serverStatus" style="width: 500px; overflow-y: auto; flex-grow: 0;"></div>
     </div>
-    <div id="serverStatus" style="width: 500px; overflow-y: auto; flex-grow: 0;"></div>
-</div>
-<div style="height: 100%; display: flex; flex-direction: column; resize: horizontal; overflow: auto;">
+    <div style="height: 100%; display: flex; flex-direction: column; resize: horizontal; overflow: auto;">
 
-    <div id="cesiumContainer" style="height: 50%; display: none;"></div>
-    <div id="map" style="width: 100%; height: 100%;"></div>
+        <div id="cesiumContainer" style="height: 50%; display: none;"></div>
+        <div id="map" style="width: 100%; height: 100%;"></div>
+    </div>
 </div>
-
+<div id="pageload" style="    bottom: 0;    right: 0; position:absolute; top:0px; left:0px;    overflow: hidden; background-color: #80808080;  @(pageloadvisible ? null : "display: none; ") ">
+    <div style="text-align: center;       margin-top: 25%;">
+        Raw MAVLink website url (wss:// for https)<br />
+        <input type="text" id="wsuri" ref="wsuri" value="ws://localhost:56781/websocket/raw" style="    width: 350px;" /><br />
+        <button onclick="@wsconnect">Connect</button>
+    </div>
+</div>
 
 
 
 @functions {
-    //<BECanvas ref="@_canvasReference" Width="400" Height="100"></BECanvas>
-    double lat = 0, lng = 0, alt = 0, hdg = 0;
-    int currentCount = 0;
-    MAVLinkInterface mav;
-    DateTime gpstime;
-    static bool init = false;
+        //<BECanvas ref="@_canvasReference" Width="400" Height="100"></BECanvas>
+        double lat = 0, lng = 0, alt = 0, hdg = 0;
+        int currentCount = 0;
+        MAVLinkInterface mav;
+        DateTime gpstime;
+        static bool init = false;
+
+        ElementRef wsuri;
+bool pageloadvisible = true;
 
     private Canvas2dContext _context;
 
@@ -84,6 +94,12 @@
 
     //protected override void OnAfterRender() => Log("OnAfterRender");
 
+    public async Task wsconnect()
+    {
+           JSRuntime.Current.InvokeAsync<object>("initWebSocket", wsuri);
+        pageloadvisible = false;
+    }
+
     byte[] buffer = new byte[1024];
 
     protected override async Task OnAfterRenderAsync()
@@ -111,8 +127,6 @@
         var handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
 
         JSRuntime.Current.InvokeAsync<object>("initMap", null);
-
-        JSRuntime.Current.InvokeAsync<object>("initWebSocket", null);
 
         JSRuntime.Current.InvokeAsync<object>("draw", null);
     }

@@ -7,7 +7,7 @@
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
     <link href="css/site.css" rel="stylesheet" />
     
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
     <script src="Cesium/Cesium.js"></script>
     <style>
@@ -15,35 +15,24 @@
     </style>
 </head>
 <body>
-    <app></app>
+    <app><div id="loading" style="position: absolute;   top: 50%; left: 50%; width: 100vw; height: 100vh; text-align: center;">LOADING...</div></app>
 
 <script src="_framework/blazor.webassembly.js"></script>
 
 <script src="hud.js"></script>
 
-<script src="http://smoothiecharts.org/smoothie.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/smoothie/1.34.0/smoothie.min.js"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
 <script>
-    /*
-        var worker = new Worker("websocketworker.js");
-
-        worker.onmessage = function (e) {
-            try {
-                eval(e.data);
-            } catch (err) {
-                console.log(err);
-            }
-            //console.log('Message received from worker');
-        }
-      */  
-        function initWebSocket() {
+        function initWebSocket(host) {
             if (window["WebSocket"]) {
-                var host = "ws://" + window.location.hostname + ":56781/websocket/raw";
-                //if (window.location.hostname == "")
-                host = "ws://localhost:56781/websocket/raw";
+                //var host = "ws://" + window.location.hostname + ":56781/websocket/raw";
+                host = host.value;
+                if (host == "")
+                    host = "ws://localhost:56781/websocket/raw";
                 try {
                     try {
                         if (!(socket === null))
@@ -172,7 +161,7 @@
   
 <script>
     google.charts.load('current', { 'packages': ['corechart'] });
-    google.charts.setOnLoadCallback(drawChart);
+    //google.charts.setOnLoadCallback(drawChart);
     var options;
     var data;
     var chart;
@@ -430,12 +419,13 @@
         }
 
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDW05vWXeNIfZAN4Ter8gf4YLg8rPHZToc" async defer></script>
-
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDW05vWXeNIfZAN4Ter8gf4YLg8rPHZToc" async defer></script>
+<script src="http://maps.google.cn/maps/api/js?key=AIzaSyDW05vWXeNIfZAN4Ter8gf4YLg8rPHZToc" async defer></script>
 
     
 <!--<input type="range"  min="0" max="100" />-->
 <div id="coords"></div>
+
 
 </body>
 </html>

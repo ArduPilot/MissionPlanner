@@ -17,6 +17,8 @@ function draw() {
     //roll = -180;
 
     var canvas = document.getElementById("canvas");
+    if (canvas == undefined)
+        return;
     if (canvas.getContext) {
         var ctx = canvas.getContext("2d");
 

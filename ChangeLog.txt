@@ -1,4 +1,13 @@
-﻿*Mission Planner 1.3.67 - 11-6-2019
+﻿*Mission Planner 1.3.68 - 15-6-2019
+ConfigFirmware: fix copter fw upload
+Drivers: add nxp
+LogBrowse: add ironpython graph processing with fallback
+LogBrowse: add more mavgraphs and parser
+mavcmd: add do_gripper for rover #2157
+7zip: add
+httpserver: fix mavlink
+
+*Mission Planner 1.3.67 - 11-6-2019
 ThemeManager: more html
 ConfigMotorTest: allow negative % #1911
 FlightData: fix units on QV and speedup prompt

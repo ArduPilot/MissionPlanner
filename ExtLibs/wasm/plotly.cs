@@ -13,7 +13,7 @@ namespace wasm
 
         public plotly()
         {
-            
+
         }
 
         public plotly(string name)

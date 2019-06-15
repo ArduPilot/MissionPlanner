@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <RunCommand>dotnet</RunCommand>
     <RunArguments>blazor serve</RunArguments>
-    <LangVersion>7.3</LangVersion>
+    <LangVersion>default</LangVersion>
     <UserSecretsId>f15fb383-7d45-4f9a-85b3-9bcadc4c397e</UserSecretsId>
     <BlazorLinkOnBuild>False</BlazorLinkOnBuild>
   </PropertyGroup>
@@ -14,11 +14,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="test\**" />
+    <Content Remove="test\**" />
+    <EmbeddedResource Remove="test\**" />
+    <None Remove="test\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Blazor.Extensions.Canvas" Version="0.1.8" />
     <PackageReference Include="Blazor.Extensions.Notifications" Version="0.1.2" />
     <PackageReference Include="Blazor.Extensions.SignalR" Version="0.1.8" />
+    <PackageReference Include="Blazor.Extensions.Storage" Version="0.1.7" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Browser" Version="0.7.0" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="0.7.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="2.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="System.Threading" Version="4.3.0" />
     <PackageReference Include="Tewr.Blazor.FileReader" Version="0.7.1" />

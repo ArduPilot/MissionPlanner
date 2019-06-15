@@ -323,10 +323,13 @@ namespace Xamarin.Controls
         {
             try
             {
-                OnSizeChanged(null);
+                if (GRContext == null)
+                    return;
 
                 if (CanvasSize != null)
                     OnResize(null);
+
+                OnSizeChanged(null); 
             }
             catch (Exception ex)
             {

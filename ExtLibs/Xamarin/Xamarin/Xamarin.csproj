@@ -39,15 +39,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Controls\AGauge.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GMap.NET.WindowsForms\GMapControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Controls\HUD.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Update="Controls\AGauge.cs" />
+    <Compile Update="GMap.NET.WindowsForms\GMapControl.cs" />
+    <Compile Update="Controls\HUD.cs" />
     <Compile Update="Controls\HUDT.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -59,9 +53,7 @@
     <Compile Update="MainPage.xaml.cs">
       <DependentUpon>MainPage</DependentUpon>
     </Compile>
-    <Compile Update="MasterDetailPage1MenuItem.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Update="MasterDetailPage1MenuItem.cs" />
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
