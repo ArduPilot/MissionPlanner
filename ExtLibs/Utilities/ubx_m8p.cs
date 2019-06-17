@@ -480,6 +480,11 @@ namespace MissionPlanner.Utilities
             // 1087 - 1s
             turnon_off(port, 0xf5, 0x57, rate1);
 
+            // 1094 - 1s
+            turnon_off(port, 0xf5, 0x5e, rate2);
+            // 1097 - 1s
+            turnon_off(port, 0xf5, 0x61, rate1);
+
             // 1124 - 1s
             turnon_off(port, 0xf5, 0x7c, rate2);
             // 1127 - 1s

@@ -154,7 +154,8 @@ namespace MissionPlanner
 
                 var tmp = ctls('G');
                 var tmp2 = ctls('R');
-                var tmp3 = ctls('C');
+                var tmp3 = ctls('B');
+                var tmp4 = ctls('E');
 
                 var start = 0;
 
@@ -162,8 +163,10 @@ namespace MissionPlanner
                     start = 0;
                 if (obs[0].sys == 'R')
                     start = tmp.Count;
-                if (obs[0].sys == 'C')
+                if (obs[0].sys == 'B')
                     start = tmp.Count + tmp2.Count;
+                if (obs[0].sys == 'E')
+                    start = tmp.Count + tmp2.Count + tmp3.Count;
 
                 // if G 0, if R = G.count (2 system support)
                 var a = start;
@@ -182,7 +185,7 @@ namespace MissionPlanner
                     vpb.Height = panel1.Height-30;
                     vpb.Minimum = 25;
                     vpb.Maximum = 55;
-                    vpb.minline = 30;
+                    vpb.minline = 40;
                     vpb.maxline = 99;
                     cnt++;
                 }

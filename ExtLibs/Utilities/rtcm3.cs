@@ -205,6 +205,24 @@ namespace MissionPlanner.Utilities
                             if (ObsMessage != null)
                                 ObsMessage(tp.obs, null);
                         }
+                        else if (head.messageno == 1094)
+                        {
+                            var tp = new type1094();
+
+                            tp.Read(packet);
+
+                            if (ObsMessage != null)
+                                ObsMessage(tp.obs, null);
+                        }
+                        else if (head.messageno == 1097)
+                        {
+                            var tp = new type1097();
+
+                            tp.Read(packet);
+
+                            if (ObsMessage != null)
+                                ObsMessage(tp.obs, null);
+                        }
                         else if (head.messageno == 1124)
                         {
                             var tp = new type1124();
@@ -1384,7 +1402,7 @@ namespace MissionPlanner.Utilities
             public uint nbits;
             public List<ob> obs = new List<ob>();
 
-            public void Read(byte[] buffer)
+            public virtual void Read(byte[] buffer)
             {
                 uint i = 24;
 
@@ -1572,7 +1590,7 @@ namespace MissionPlanner.Utilities
             public uint nbits;
             public List<ob> obs = new List<ob>();
 
-            public void Read(byte[] buffer)
+            public virtual void Read(byte[] buffer)
             {
                 uint i = 24;
 
@@ -1763,6 +1781,32 @@ namespace MissionPlanner.Utilities
             }
         }
 
+        public class type1094 : type1084
+        {
+             public override void Read(byte[] buffer)
+            {
+                base.Read(buffer);
+
+                foreach (var ob in obs)
+                {
+                    ob.sys = 'E';
+                }
+            }
+        }
+
+        public class type1097 : type1087
+        {
+             public override void Read(byte[] buffer)
+            {
+                base.Read(buffer);
+
+                foreach (var ob in obs)
+                {
+                    ob.sys = 'E';
+                }
+            }
+        }
+
         public class type1124
         {
             public uint nbits;
@@ -1907,7 +1951,7 @@ namespace MissionPlanner.Utilities
                 for (j = 0; j < nsat; j++)
                 {
                     var ob = new ob();
-                    ob.sys = 'C';
+                    ob.sys = 'B';
                     ob.tow = tow;
                     ob.week = week;
 
@@ -2105,7 +2149,7 @@ namespace MissionPlanner.Utilities
                 for (j = 0; j < nsat; j++)
                 {
                     var ob = new ob();
-                    ob.sys = 'C';
+                    ob.sys = 'B';
                     ob.tow = tow;
                     ob.week = week;
 
