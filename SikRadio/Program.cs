@@ -39,6 +39,9 @@
  * 2.26 - Now sets status text to "Programming Failed.  (Try Again?)" if it fails to determine which mode the modem
  *          is in when trying to program firmware.
  * 2.28 - Now has a manufacturing page/tab for locking down modems to a country.
+ * 2.29 - Resolved bug in which the value ranges available from the remote modem weren't being parsed and used in the
+ *          combo box e.g. for the min and max frequency ranges.  Also, added a work-around for an issue in the RFDSiK
+ *          RFD900x 3.07 firmware in which it didn't return the complete set of parameters in response to an RTI5? command.
  */
 
 using System;

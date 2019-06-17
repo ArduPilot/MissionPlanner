@@ -18,6 +18,11 @@ namespace RFD.RFD900
         RFD900 _ModemObject;
         public uploader.Uploader.Board Board = uploader.Uploader.Board.FAILED;
         int _MainFirmwareBaud;
+        /// <summary>
+        /// This is a work-around for radio firmware bugs in which not all settings
+        /// are described by an RTI5? command.
+        /// </summary>
+        Dictionary<string, TSetting> _DefaultSettings = new Dictionary<string, TSetting>();
         const int BOOTLOADER_BAUD = 115200;
 
         public TSession(MissionPlanner.Comms.ICommsSerial Port, int MainFirmwareBaud)
@@ -28,6 +33,25 @@ namespace RFD.RFD900
             _ATCClient.Terminator = "\r\n";
             _ATCClient.Timeout = 1000;
             _MainFirmwareBaud = MainFirmwareBaud;
+
+            // This is a work-around for radio firmware bugs in which not all settings
+            // are described by an RTI5? command.
+            AddDefaultSetting("S21:GPO1_3STATLED(N)[0..1]=0{Off,On,}\r\n");
+            AddDefaultSetting("S22:GPO1_0TXEN485(N)[0..1]=0{Off,On,}\r\n");
+            AddDefaultSetting("S23:RATE/FREQBAND(N)[0..3]=0{LoAus,HiAus,StdNZ,LoUSA,HiUSA,StdEU,LbtEU,StdPRC,StdINS,HiLbtJAP,HiStdJAP,LoLbtJAP,LoStdJAP,}\r\n");
+        }
+
+        /// <summary>
+        /// Add a setting to the _DefaultSettings which is enerated by parsing the given ATI5? query response line.
+        /// </summary>
+        /// <param name="ATI5QueryResponseLine">The ATI5? query response line</param>
+        void AddDefaultSetting(string ATI5QueryResponseLine)
+        {
+            var S = TSession.ParseATI5QueryResponseLine(ATI5QueryResponseLine);
+            if (S != null)
+            {
+                _DefaultSettings[S.Name] = S;
+            }
         }
 
         public enum TMode
@@ -418,7 +442,7 @@ namespace RFD.RFD900
         /// <param name="Line">The ATI5? line.  Must not be null.</param>
         /// <param name="n">The current character position.</param>
         /// <returns></returns>
-        string ParseDesignator(string Line, ref int n)
+        static string ParseDesignator(string Line, ref int n)
         {
             n = 0;
             string Designator = "";
@@ -450,7 +474,7 @@ namespace RFD.RFD900
             return Designator;
         }
 
-        string ParseName(string Line, ref int n)
+        static string ParseName(string Line, ref int n)
         {
             string Name = "";
             while (true)
@@ -467,7 +491,7 @@ namespace RFD.RFD900
             }
         }
 
-        bool ParseType(string Line, ref int n)
+        static bool ParseType(string Line, ref int n)
         {
             for (; Line[n] != ')'; n++)
             {
@@ -476,7 +500,7 @@ namespace RFD.RFD900
             return true;
         }
 
-        bool ParseIntUntil(string Line, ref int n, string Delimiter, out int Value)
+        static bool ParseIntUntil(string Line, ref int n, string Delimiter, out int Value)
         {
             string Temp = "";
             while ((n < Line.Length) && RFDLib.Text.CheckIsNumeral(Line[n]))
@@ -503,7 +527,7 @@ namespace RFD.RFD900
             }
         }
 
-        TSetting.TRange ParseRange(string Line, ref int n)
+        static TSetting.TRange ParseRange(string Line, ref int n)
         {
             if (Line[n] != '[')
             {
@@ -523,12 +547,12 @@ namespace RFD.RFD900
             return new TSetting.TRange(Min, Max);
         }
 
-        bool ParseValue(string Line, ref int n, out int Value)
+        static bool ParseValue(string Line, ref int n, out int Value)
         {
             return ParseIntUntil(Line, ref n, null, out Value);
         }
 
-        bool CharArrayContains(char[] Array, char x)
+        static bool CharArrayContains(char[] Array, char x)
         {
             foreach (var c in Array)
             {
@@ -540,7 +564,7 @@ namespace RFD.RFD900
             return false;
         }
 
-        string GetStringUntil(string Line, ref int n, char[] Tokens)
+        static string GetStringUntil(string Line, ref int n, char[] Tokens)
         {
             string Result = "";
             while (!CharArrayContains(Tokens, Line[n]))
@@ -551,7 +575,7 @@ namespace RFD.RFD900
             return Result;
         }
 
-        string[] ParseOptions(string Line, ref int n)
+        static string[] ParseOptions(string Line, ref int n)
         {
             if (Line[n] != '{')
             {
@@ -579,7 +603,7 @@ namespace RFD.RFD900
             return Options.ToArray();
         }
 
-        int[] CheckIfAllIntegers(string[] Options)
+        static int[] CheckIfAllIntegers(string[] Options)
         {
             int[] Result = new int[Options.Length];
 
@@ -593,7 +617,7 @@ namespace RFD.RFD900
             return Result;
         }
 
-        float GetScaleFactor(string Name)
+        static float GetScaleFactor(string Name)
         {
             switch (Name)
             {
@@ -603,7 +627,7 @@ namespace RFD.RFD900
             return 1;
         }
 
-        bool IsCapitalLetter(char Letter)
+        static bool IsCapitalLetter(char Letter)
         {
             return (Letter >= 'A') && (Letter <= 'Z');
         }
@@ -612,7 +636,7 @@ namespace RFD.RFD900
          * A new word starts when it goes from a lower case to upper case,
          * or the character before the transition from upper case to lower.
          */
-        string[] SplitOptionName(string OptionName)
+        static string[] SplitOptionName(string OptionName)
         {
             int LastStart = 0;
             List<string> Result = new List<string>();
@@ -642,7 +666,7 @@ namespace RFD.RFD900
             return Result.ToArray();
         }
 
-        TSetting.TOption[] CreateOptions(TSetting.TRange Range, string[] Options,
+        static TSetting.TOption[] CreateOptions(TSetting.TRange Range, string[] Options,
             string Name)
         {
             if (Range == null || Options == null)
@@ -744,7 +768,7 @@ namespace RFD.RFD900
             }
         }
 
-        int GetIncrement(string Name)
+        static int GetIncrement(string Name)
         {
             switch (Name)
             {
@@ -767,7 +791,7 @@ namespace RFD.RFD900
         /// </summary>
         /// <param name="Line">The line.  Must not be null.</param>
         /// <returns>The setting parsed, or null if could not parse setting.</returns>
-        TSetting ParseATI5QueryResponseLine(string Line)
+        public static TSetting ParseATI5QueryResponseLine(string Line)
         {
             try
             {
@@ -834,6 +858,47 @@ namespace RFD.RFD900
             }
         }
 
+        /// <summary>
+        /// Parse an ATI5 response line to a TShortSetting.
+        /// </summary>
+        /// <param name="Line"></param>
+        /// <returns></returns>
+        TShortSetting ParseATI5ResponseLine(string Line)
+        {
+            try
+            {
+                int n = 0;
+                string Designator = ParseDesignator(Line, ref n);
+                if (Designator == null)
+                {
+                    return null;
+                }
+
+                n++;
+                string Name = ParseName(Line, ref n);
+                if (Name == null || Name.Length == 0)
+                {
+                    return null;
+                }
+                if (Line[n] != '=')
+                {
+                    return null;
+                }
+                n++;
+
+                int Value;
+                if (!ParseValue(Line, ref n, out Value))
+                {
+                    return null;
+                }
+                return new TShortSetting(Designator, Name, Value);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         TSetting.TOption[] GetBaudRateOptionsGivenRawBaudRates(int[] Rates)
         {
             List<TSetting.TOption> Options = new List<TSetting.TOption>();
@@ -878,11 +943,33 @@ namespace RFD.RFD900
             return Dict;
         }
 
-        public Dictionary<string, TSetting> GetSettings(string ATI5Response,
-            uploader.Uploader.Board Board)
+        Dictionary<string, TShortSetting> ParseATI5Response(string ATI5Response,
+            Dictionary<string, TShortSetting> Dict)
+        {
+            foreach (var Line in ATI5Response.Split('\n', '\r'))
+            {
+                var S = ParseATI5ResponseLine(Line);
+                if (S != null)
+                {
+                    Dict[S.Name] = S;
+                }
+            }
+
+            return Dict;
+        }
+
+        /// <summary>
+        /// Parse the ATI5? and ATI5 responses to get a set of settings objects.
+        /// </summary>
+        /// <param name="ATI5QResponse">The ATI5? response</param>
+        /// <param name="Board">The board</param>
+        /// <param name="ATI5Response">The ATI5 response</param>
+        /// <returns>Never null</returns>
+        public Dictionary<string, TSetting> GetSettings(string ATI5QResponse,
+            uploader.Uploader.Board Board, string ATI5Response)
         {
             Dictionary<string, TSetting> Result = new Dictionary<string, TSetting>();
-            ParseATI5QueryResponse(ATI5Response, Result);
+            ParseATI5QueryResponse(ATI5QResponse, Result);
             string SerialName = "SERIAL_SPEED";
             if (Result.ContainsKey(SerialName))
             {
@@ -891,19 +978,43 @@ namespace RFD.RFD900
                     Result[SerialName].Options = GetDefaultBaudRateSettingForBoard(Board);
                 }
             }
+
+            //The code below is all done to work-around the case of SiK RFD900x 3.07 bug in 
+            //which are RTI5? commands response is cut-off for settings S21 through S23.  
+            Dictionary<string, TShortSetting> ShortSettings = new Dictionary<string, TShortSetting>();
+            ParseATI5Response(ATI5Response, ShortSettings);
+            foreach (var kvp in _DefaultSettings)
+            {
+                if (ShortSettings.ContainsKey(kvp.Key) && !Result.ContainsKey(kvp.Key))
+                {
+                    kvp.Value.Value = ShortSettings[kvp.Key].Value;
+                    Result[kvp.Key] = kvp.Value;
+                }
+            }
             return Result;
         }
     }
 
-    public class TSetting
+    public class TShortSetting
     {
         public string Designator;
         public string Name;
+        public int Value;
+
+        public TShortSetting(string Designator, string Name, int Value)
+        {
+            this.Designator = Designator;
+            this.Name = Name;
+            this.Value = Value;
+        }
+    }
+
+    public class TSetting : TShortSetting
+    {
         /// <summary>
         /// null if range unknown
         /// </summary>
         public TRange Range;
-        public int Value;
         /// <summary>
         /// null if options unknown
         /// </summary>
@@ -912,6 +1023,7 @@ namespace RFD.RFD900
 
         public TSetting(string Designator, string Name, TRange Range, int Value, TOption[] Options,
             int Increment)
+            : base(Designator, Name, Value)
         {
             this.Designator = Designator;
             this.Name = Name;

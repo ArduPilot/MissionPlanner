@@ -855,7 +855,16 @@ S15: MAX_WINDOW=131
             }
         }
 
-
+        /// <summary>
+        /// Set the given combo box to use the corresponding setting in the given dictionary of
+        /// settings.  If no corresponding setting exists in that dictionary, just set it to the 
+        /// given value.
+        /// </summary>
+        /// <param name="CB">The combo box.  Must not be null.</param>
+        /// <param name="Settings">The settings.  Must not be null.</param>
+        /// <param name="Value">The string value representation to set it to.  Must not be null.</param>
+        /// <param name="Remote">true if it is a remote modem setting, false if local.</param>
+        /// <returns></returns>
         private bool SetupCBWithSetting(ComboBox CB, Dictionary<string, RFD.RFD900.TSetting> Settings,
             string Value, bool Remote)
         {
@@ -874,7 +883,7 @@ S15: MAX_WINDOW=131
             {
                 string CBName = kvp.Value.Name.Replace('/', '_');
 
-                if (CBName == CB.Name)
+                if (CBName == SettingName)
                 {
                     var Setting = kvp.Value;
                     if (Setting.Options != null)
@@ -945,6 +954,109 @@ S15: MAX_WINDOW=131
         }
 
         /// <summary>
+        /// Given an array of lines returned from ATI5 command from a modem,
+        /// remove the "[n]" from the start of the lines.  The "[n]" is returned
+        /// from a modem at the start of the lines if it is running multipoint firmware.
+        /// </summary>
+        /// <param name="items">The raw lines returned from the modem.  Must not be null.</param>
+        /// <param name="multipoint_fix">The character index into the string immediately after
+        /// the initial "[n]", or -1 if not multipoint.</param>
+        /// <returns>The modified lines.  Never null.</returns>
+        string[] ModifyReturnedStringsForMultipoint(string[] items, int multipoint_fix)
+        {
+            string[] Result = new string[items.Length];
+
+            for (int n = 0; n < items.Length; n++)
+            {
+                Result[n] = items[n];
+                if (multipoint_fix > 0 && items[n].Length > multipoint_fix)
+                {
+                    Result[n] = items[n].Substring(multipoint_fix).Trim();
+                }
+            }
+
+            return Result;
+        }
+
+        /// <summary>
+        /// Given a groupbox containing a set of controls, load them with the given values and settings.
+        /// </summary>
+        /// <param name="GB">The groupbox.  Must not be null.</param>
+        /// <param name="Remote">true if it is the remote groupbox, false if it is the local groupbox.</param>
+        /// <param name="items">The lines returned by ATI5 command.  Must not be null.</param>
+        /// <param name="Settings">The settings parsed from the modem.  Must not be null.</param>
+        /// <returns>true if at least one setting had an invalid value, otherwise false.</returns>
+        bool SetUpControlsWithValues(GroupBox GB, bool Remote, string[] items, Dictionary<string, RFD.RFD900.TSetting> Settings)
+        {
+            bool SomeSettingsInvalid = false;
+
+            foreach (var item in items)
+            {
+                var values = item.Split(new char[] { ':', '=' }, StringSplitOptions.RemoveEmptyEntries);
+
+                if (values.Length == 3)
+                {
+                    values[1] = values[1].Replace("/", "_");
+
+                    var controls = GB.Controls.Find((Remote ? "R" : "") + values[1].Trim(), true);
+
+                    if (controls.Length > 0)
+                    {
+                        GB.Enabled = true;
+                        controls[0].Parent.Enabled = true;
+                        controls[0].Enabled = true;
+
+                        if (controls[0] is CheckBox)
+                        {
+                            ((CheckBox)controls[0]).Checked = values[2].Trim() == "1";
+                        }
+                        else if (controls[0] is TextBox)
+                        {
+                            ((TextBox)controls[0]).Text = values[2].Trim();
+                        }
+                        else if (controls[0].Name.Contains("MAVLINK")) //
+                        {
+                            var ans = Enum.Parse(typeof(mavlink_option), values[2].Trim());
+                            ((ComboBox)controls[0]).Text = ans.ToString();
+                        }
+                        else if (controls[0] is ComboBox)
+                        {
+                            if (!SetupCBWithSetting((ComboBox)controls[0], Settings,
+                                values[2].Trim(), Remote))
+                            {
+                                ((ComboBox)controls[0]).Text = values[2].Trim();
+                                if (((ComboBox)controls[0]).Text != values[2].Trim())
+                                {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    SomeSettingsInvalid = true;
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    log.Info("Odd config line :" + item);
+                }
+            }
+
+            return SomeSettingsInvalid;
+        }
+
+        /// <summary>
         /// Load settings button evt hdlr
         /// </summary>
         /// <param name="sender"></param>
@@ -979,7 +1091,7 @@ S15: MAX_WINDOW=131
                     lbl_status.Text = "Doing Command ATI & RTI";
 
                     //Set the text box to show the radio version
-                    int multipoint_fix = -1;
+                    int multipoint_fix = -1;    //If this radio has multipoint firmware, the index within returned strings to use for returned values, otherwise -1.
                     var ati_str = doCommand(Session.Port, "ATI").Trim();
                     if (ati_str.StartsWith("["))
                     {
@@ -1165,7 +1277,7 @@ S15: MAX_WINDOW=131
 
                     var Settings = Session.GetSettings(
                         doCommand(Session.Port, "ATI5?", true),
-                        Session.Board);
+                        Session.Board, answer);
 
                     DisableRFD900xControls();
 
@@ -1199,62 +1311,7 @@ S15: MAX_WINDOW=131
                     }
 
                     //For each of the settings returned by the radio...
-                    foreach (var item in items)
-                    {
-                        //if (item.StartsWith("S"))
-                        {
-                            var mod_item = item;
-                            if (multipoint_fix > 0 && item.Length > multipoint_fix)
-                            {
-                                mod_item = item.Substring(multipoint_fix).Trim();
-                            }
-                            var values = mod_item.Split(new char[] { ':', '=' }, StringSplitOptions.RemoveEmptyEntries);
-
-                            if (values.Length == 3)
-                            {
-                                values[1] = values[1].Replace("/", "_");
-
-                                var controls = groupBoxLocal.Controls.Find(values[1].Trim(), true);
-
-                                //If there's a control with the same name as the setting...
-                                if (controls.Length > 0)
-                                {
-                                    groupBoxLocal.Enabled = true;
-                                    controls[0].Parent.Enabled = true;
-                                    controls[0].Enabled = true;
-
-                                    if (controls[0] is CheckBox)
-                                    {
-                                        ((CheckBox) controls[0]).Checked = values[2].Trim() == "1";
-                                    }
-                                    else if (controls[0] is TextBox)
-                                    {
-                                        ((TextBox) controls[0]).Text = values[2].Trim();
-                                    }
-                                    else if (controls[0].Name.Contains("MAVLINK")) //
-                                    {
-                                        var ans = Enum.Parse(typeof (mavlink_option), values[2].Trim());
-                                        ((ComboBox) controls[0]).Text = ans.ToString();
-                                    }
-                                    else if (controls[0] is ComboBox)
-                                    {
-                                        if (!SetupCBWithSetting((ComboBox)controls[0], Settings, 
-                                            values[2].Trim(), false))
-                                        {
-                                            ((ComboBox)controls[0]).Text = values[2].Trim();
-                                            if (((ComboBox)controls[0]).Text != values[2].Trim())
-                                            {
-                                                SomeSettingsInvalid = true;
-                                                
-                                            }
-                                            
-                                        }
-                                     
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    SetUpControlsWithValues(groupBoxLocal, false, ModifyReturnedStringsForMultipoint(items, multipoint_fix), Settings);
 
                     // remote
                     foreach (Control ctl in groupBoxRemote.Controls)
@@ -1326,6 +1383,10 @@ S15: MAX_WINDOW=131
 
                         answer = doCommand(Session.Port, "RTI5", true);
 
+                        var RemoteSettings = Session.GetSettings(
+                            doCommand(Session.Port, "RTI5?", true),
+                            Session.Board, answer);
+
                         items = answer.Split('\n');
 
                         if (RTI.Text.Contains("ASYNC"))
@@ -1350,67 +1411,7 @@ S15: MAX_WINDOW=131
                             }
                         }
 
-                        foreach (var item in items)
-                        {
-                            //if (item.StartsWith("S"))
-                            {
-                                var values = item.Split(new char[] { ':', '=' }, StringSplitOptions.RemoveEmptyEntries);
-
-                                if (values.Length == 3)
-                                {
-                                    values[1] = values[1].Replace("/", "_");
-
-                                    var controls = groupBoxRemote.Controls.Find("R" + values[1].Trim(), true);
-
-                                    if (controls.Length == 0)
-                                        continue;
-
-                                    controls[0].Enabled = true;
-
-                                    if (controls[0] is CheckBox)
-                                    {
-                                        ((CheckBox)controls[0]).Checked = values[2].Trim() == "1";
-                                    }
-                                    else if (controls[0] is TextBox)
-                                    {
-                                        ((TextBox)controls[0]).Text = values[2].Trim();
-                                    }
-                                    else if (controls[0].Name.Contains("MAVLINK")) //
-                                    {
-                                        var ans = Enum.Parse(typeof(mavlink_option), values[2].Trim());
-                                        ((ComboBox)controls[0]).Text = ans.ToString();
-                                    }
-                                    else if (controls[0] is ComboBox)
-                                    {
-                                        if (!SetupCBWithSetting((ComboBox)controls[0], Settings,
-                                            values[2].Trim(), true))
-                                        {
-                                            ((ComboBox)controls[0]).Text = values[2].Trim();
-                                            if (((ComboBox)controls[0]).Text != values[2].Trim())
-                                            {
-                                                SomeSettingsInvalid = true;
-                                            }
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    /*
-                                    if (item.Contains("S15"))
-                                    {
-                                        answer = doCommand(comPort, "RTS15?");
-                                        int rts15 = 0;
-                                        if (int.TryParse(answer, out rts15))
-                                        {
-                                            RS15.Enabled = true;
-                                            RS15.Text = rts15.ToString();
-                                        }
-                                    }
-                                    */
-                                    log.Info("Odd config line :" + item);
-                                }
-                            }
-                        }
+                        SomeSettingsInvalid |= SetUpControlsWithValues(groupBoxRemote, true, items, RemoteSettings);
                     }
 
                     // off hook
@@ -2044,7 +2045,7 @@ red LED solid - in firmware update mode");
         /// <param name="e">ignored</param>
         private void ENCRYPTION_LEVEL_CheckedChanged(object sender, EventArgs e)
         {
-            EncryptionCheckChangedEvtHdlr(ENCRYPTION_LEVEL, "ATI5", "AT&E?", txt_aeskey, false);
+            EncryptionCheckChangedEvtHdlr(ENCRYPTION_LEVEL, "ATI5", "AT&E?", txt_aeskey, false, "ATI5");
             btnRandom.Enabled = ENCRYPTION_LEVEL.Checked;
         }
 
@@ -2055,7 +2056,7 @@ red LED solid - in firmware update mode");
         /// <param name="e">ignored</param>
         private void RENCRYPTION_LEVEL_CheckedChanged(object sender, EventArgs e)
         {
-            EncryptionCheckChangedEvtHdlr(RENCRYPTION_LEVEL, "RTI5", "RT&E?", txt_Raeskey, true);
+            EncryptionCheckChangedEvtHdlr(RENCRYPTION_LEVEL, "RTI5", "RT&E?", txt_Raeskey, true, "RTI5");
         }
 
         bool _AlreadyInEncCheckChangedEvtHdlr = false;
@@ -2067,7 +2068,7 @@ red LED solid - in firmware update mode");
         /// <param name="ATCommand">The AT command to use to get the settings
         /// from the relevant modem.  Must not be null.</param>
         void EncryptionCheckChangedEvtHdlr(CheckBox CB, string ATCommand, string EncKeyQuery,
-            TextBox EncKeyTextBox, bool Remote)
+            TextBox EncKeyTextBox, bool Remote, string ATI5Command)
         {
             if (_AlreadyInEncCheckChangedEvtHdlr)
             {
@@ -2085,7 +2086,8 @@ red LED solid - in firmware update mode");
                 }
                 Session.PutIntoATCommandMode();
                 var answer = doCommand(Session.Port, ATCommand, true);
-                var Settings = Session.GetSettings(answer, Session.Board);
+                var ATI5answer = doCommand(Session.Port, ATI5Command, true);
+                var Settings = Session.GetSettings(answer, Session.Board, ATI5answer);
                 if (Settings.ContainsKey("ENCRYPTION_LEVEL"))
                 {
                     var Setting = Settings["ENCRYPTION_LEVEL"];
