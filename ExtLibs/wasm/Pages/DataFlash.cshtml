@@ -50,7 +50,7 @@
             @foreach (var gra in graphs)
             {
                 <li>
-                    <div id="@gra" style="width: 100%; height: 50vh"></div>
+                    <div id="@gra" style="width: 100%; height: 50vh" onclick=""></div>
                 </li>
             }
             <li><button onclick="@addNewGraph">New Graph</button></li>
@@ -127,17 +127,22 @@
         if (checked1)
         {
             plotly line = new plotly(type + "." + item);
+            int last = DateTime.MinValue.Second;
             foreach (var msg in cb.GetEnumeratorType(type))
             {
-                var itemdata = msg[item];
-                if (itemdata == null)
+                var itemvalue = Convert.ToDouble(msg.GetRaw(item));
+                if (itemvalue == null)
                     continue;
 
-                var itemvalue = double.Parse(itemdata, CultureInfo.InvariantCulture);
+                if (last != DateTime.Now.Second)
+                {
+                    Console.WriteLine(msg.time.ToString("yyyy-MM-dd hh:mm:ss.fff") + " " + msg.lineno);
+                    last = DateTime.Now.Second;
+                }
 
                 line.AddXY(msg.time.ToString("yyyy-MM-dd hh:mm:ss.fff"), itemvalue);
             }
-
+            Console.WriteLine("got data about to plot");
             JSRuntime.Current.InvokeAsync<object>("plotData", new object[] {selectedchart, line.getJSON()});
         }
         else
@@ -235,6 +240,11 @@
             var filteredList = originalList.GroupBy(param => param["Name"]).OrderBy(a => a.Key).Select(group => group.First());
             return filteredList;
         }
+    }
+
+    private void setLastGraph(string gra)
+    {
+        selectedchart = gra;
     }
 
 }

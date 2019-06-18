@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width">
+    <meta name="google-signin-client_id" content="231071795566-ndne81l07vb5fqi6b5429ol75kk96nva.apps.googleusercontent.com">
     <title>wasm</title>
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
     <link href="css/site.css" rel="stylesheet" />
@@ -26,13 +27,33 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/1.48.3/plotly.min.js"></script>
 
-<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 
 <script>
 
     function evalline(line)
     {
         return eval(line);
+    }
+
+    function onSignIn(googleUser) {
+        var profile = googleUser.getBasicProfile();
+        console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+        console.log('Name: ' + profile.getName());
+        console.log('Image URL: ' + profile.getImageUrl());
+        console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+
+        if (auth2.isSignedIn.get()) {
+            var profile = auth2.currentUser.get().getBasicProfile();
+            console.log('ID: ' + profile.getId());
+            console.log('Full Name: ' + profile.getName());
+            console.log('Given Name: ' + profile.getGivenName());
+            console.log('Family Name: ' + profile.getFamilyName());
+            console.log('Image URL: ' + profile.getImageUrl());
+            console.log('Email: ' + profile.getEmail());
+        }
     }
 
     function initWebSocket(host) {
@@ -202,6 +223,8 @@
     }
 	
     function addData() {
+        if (data === undefined)
+            return;
         if(data.getNumberOfRows() > 200)
             data.removeRow(0);
 		
@@ -428,7 +451,9 @@
 
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDW05vWXeNIfZAN4Ter8gf4YLg8rPHZToc" async defer 
-        onerror="    document.write('<script src="https://maps.google.cn/maps/api/js?key=AIzaSyDW05vWXeNIfZAN4Ter8gf4YLg8rPHZToc" async><\/script>');"></script>
+        onerror="    document.write('<script src="https:\/\/maps.google.cn\/maps\/api\/js?key=AIzaSyDW05vWXeNIfZAN4Ter8gf4YLg8rPHZToc" async><\/script>');"></script>
+
+    
 
     
 <!--<input type="range"  min="0" max="100" />-->
