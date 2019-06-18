@@ -440,7 +440,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         } catch { }
                     }
 
-                    history = "";
+                    //history = "";
                 }
 
                 var updated = fw.update(MainV2.comPortName, fwtoupload, history);
