@@ -7,7 +7,7 @@
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
     <link href="css/site.css" rel="stylesheet" />
     
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     <script src="Cesium/Cesium.js"></script>
     <style>
@@ -24,139 +24,147 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/smoothie/1.34.0/smoothie.min.js"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
-<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/1.48.3/plotly.min.js"></script>
+
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 
 <script>
-        function initWebSocket(host) {
-            if (window["WebSocket"]) {
-                //var host = "ws://" + window.location.hostname + ":56781/websocket/raw";
-                host = host.value;
-                if (host == "")
-                    host = "ws://localhost:56781/websocket/raw";
+
+    function evalline(line)
+    {
+        return eval(line);
+    }
+
+    function initWebSocket(host) {
+        if (window["WebSocket"]) {
+            //var host = "ws://" + window.location.hostname + ":56781/websocket/raw";
+            host = host.value;
+            if (host == "")
+                host = "ws://localhost:56781/websocket/raw";
+            try {
                 try {
-                    try {
-                        if (!(socket === null))
-                            socket.close();
-                    } catch (exception) {
-                        if (window.console) console.log(exception);
-                    }
-                    var blobToBase64 = function (blob, cb) {
-                        var reader = new FileReader();
-                        reader.onload = function () {
-                            var dataUrl = reader.result;
-                            var base64 = dataUrl.split(',')[1];
-                            cb(base64);
-                        };
-                        reader.readAsArrayBuffer(blob);
-                    };
-                    try {
-                        dotNetDispatcherInvokeMethodHandle = Blazor.platform.findMethod(
-                            'wasm',
-                            'wasm.Pages',
-                            'websocket',
-                            'ProcessPacketStatic');
-                        dotNetDispatcherInvokeMethodHandle2 = Blazor.platform.findMethod(
-                            'wasm',
-                            'wasm.Pages',
-                            'websocket',
-                            'ProcessPacketStaticBytes'
-                        );
-                    } catch (err) {
-                        return;
-                    }
-                    socket = new WebSocket(host);
-
-                    window.onbeforeunload = function () {
+                    if (!(socket === null))
                         socket.close();
-                    };
-                    console.log('WebSocket - status ' + socket.readyState);
-                    socket.onopen = function (msg) {
-
-                    };
-                    socket.onmessage = function (msg) {
-                        var arrayBuffer;
-                        var fileReader = new FileReader();
-                        fileReader.onload = function(r) {
-                            arrayBuffer = r.target.result;
-
-                            // dont want to overflow buffer
-                            if (arrayBuffer.byteLength >= 1024)
-                                return;
-                            
-                            var dotNetBuffer = { toUint8Array: function () { return Blazor.platform.toUint8Array(dotNetArrayPtr); } };
-                            var dotNetBufferView = dotNetBuffer.toUint8Array();
-                            dotNetBufferView.set(new Uint8Array(arrayBuffer));
-
-                            result = Blazor.platform.callMethod(dotNetDispatcherInvokeMethodHandle2,
-                                null,
-                                [Blazor.platform.toDotNetString(''+arrayBuffer.byteLength)]);
-
-                            //thingo = Blazor.platform.toDotNetString(msg.data);
-
-                            //result = Blazor.platform.callMethod(dotNetDispatcherInvokeMethodHandle,null,[thingo]);
-                        };
-                        fileReader.readAsArrayBuffer(msg.data);
-
-                    };
                 } catch (exception) {
                     if (window.console) console.log(exception);
                 }
+                var blobToBase64 = function (blob, cb) {
+                    var reader = new FileReader();
+                    reader.onload = function () {
+                        var dataUrl = reader.result;
+                        var base64 = dataUrl.split(',')[1];
+                        cb(base64);
+                    };
+                    reader.readAsArrayBuffer(blob);
+                };
+                try {
+                    dotNetDispatcherInvokeMethodHandle = Blazor.platform.findMethod(
+                        'wasm',
+                        'wasm.Pages',
+                        'websocket',
+                        'ProcessPacketStatic');
+                    dotNetDispatcherInvokeMethodHandle2 = Blazor.platform.findMethod(
+                        'wasm',
+                        'wasm.Pages',
+                        'websocket',
+                        'ProcessPacketStaticBytes'
+                    );
+                } catch (err) {
+                    return;
+                }
+                socket = new WebSocket(host);
+
+                window.onbeforeunload = function () {
+                    socket.close();
+                };
+                console.log('WebSocket - status ' + socket.readyState);
+                socket.onopen = function (msg) {
+
+                };
+                socket.onmessage = function (msg) {
+                    var arrayBuffer;
+                    var fileReader = new FileReader();
+                    fileReader.onload = function(r) {
+                        arrayBuffer = r.target.result;
+
+                        // dont want to overflow buffer
+                        if (arrayBuffer.byteLength >= 1024)
+                            return;
+                            
+                        var dotNetBuffer = { toUint8Array: function () { return Blazor.platform.toUint8Array(dotNetArrayPtr); } };
+                        var dotNetBufferView = dotNetBuffer.toUint8Array();
+                        dotNetBufferView.set(new Uint8Array(arrayBuffer));
+
+                        result = Blazor.platform.callMethod(dotNetDispatcherInvokeMethodHandle2,
+                            null,
+                            [Blazor.platform.toDotNetString(''+arrayBuffer.byteLength)]);
+
+                        //thingo = Blazor.platform.toDotNetString(msg.data);
+
+                        //result = Blazor.platform.callMethod(dotNetDispatcherInvokeMethodHandle,null,[thingo]);
+                    };
+                    fileReader.readAsArrayBuffer(msg.data);
+
+                };
+            } catch (exception) {
+                if (window.console) console.log(exception);
             }
+        }
 
             
-            var smoothie = new SmoothieChart();
+        var smoothie = new SmoothieChart();
 
-            smoothie.streamTo(document.getElementById("graphcanvas"),250);
+        smoothie.streamTo(document.getElementById("graphcanvas"),250);
 
-            // Data
-            line1 = new TimeSeries();
-            line2 = new TimeSeries();
+        // Data
+        line1 = new TimeSeries();
+        line2 = new TimeSeries();
 
-            // Add to SmoothieChart
-            smoothie.addTimeSeries(line1);
-            smoothie.addTimeSeries(line2);
+        // Add to SmoothieChart
+        smoothie.addTimeSeries(line1);
+        smoothie.addTimeSeries(line2);
 
-            drawChart();
-        }
+        drawChart();
+    }
 
-        var line1item = "roll";
-        var line2item = "pitch";
+    var line1item = "roll";
+    var line2item = "pitch";
 
-        var line1 = new TimeSeries();
-        var line2 = new TimeSeries();
-        var dotNetArrayPtr = 0;
+    var line1 = new TimeSeries();
+    var line2 = new TimeSeries();
+    var dotNetArrayPtr = 0;
 
-        function setNetBuffer1024(dotNetArrayPtrI) {
-            dotNetArrayPtr = dotNetArrayPtrI;
-        }
+    function setNetBuffer1024(dotNetArrayPtrI) {
+        dotNetArrayPtr = dotNetArrayPtrI;
+    }
 
-        function websocketsend(data) {
-            socket.send(data);
-        }
-        /*
-        $(document).ready(function () {
-            setTimeout(function () {
+    function websocketsend(data) {
+        socket.send(data);
+    }
+    /*
+    $(document).ready(function () {
+        setTimeout(function () {
 
-                
-                setInterval(function () {
-                    //Blazor.platform.callMethod(dotNetDispatcherInvokeMethodHandle2, null, {});
-                }, 100);
+            
+            setInterval(function () {
+                //Blazor.platform.callMethod(dotNetDispatcherInvokeMethodHandle2, null, {});
+            }, 100);
 
-                
-                initMap();
+            
+            initMap();
 
-                //var test = SOCKFS.createSocket(2, 1, 6);
-                worker.postMessage({'cmd': 'init', 'data': window.location.hostname,
-                    //'test1': Blazor.platform.toDotNetString,
-                    //'test2': Blazor.platform.callMethod,
-                    //'test3': Blazor.platform.findMethod
-                });
-                
-                //test.sock_ops.connect(test, "127.0.0.1/websocket/raw", 56781);
-            }, 2000);
-        });*/
+            //var test = SOCKFS.createSocket(2, 1, 6);
+            worker.postMessage({'cmd': 'init', 'data': window.location.hostname,
+                //'test1': Blazor.platform.toDotNetString,
+                //'test2': Blazor.platform.callMethod,
+                //'test3': Blazor.platform.findMethod
+            });
+            
+            //test.sock_ops.connect(test, "127.0.0.1/websocket/raw", 56781);
+        }, 2000);
+    });*/
 
-    </script>
+</script>
     
   
 <script>
@@ -212,215 +220,215 @@
 
 
 <script>
-        var map;
-        var viewer;
-        var markers = [];
-        var default_model_scale = 1.5;
-        var model_scale_factor = 0.06;
-        var takeoff_altitude = 0;
+    var map;
+    var viewer;
+    var markers = [];
+    var default_model_scale = 1.5;
+    var model_scale_factor = 0.06;
+    var takeoff_altitude = 0;
 
-        function initMap() {
-            map = new google.maps.Map(document.getElementById('map'),
-                {
-                    center: { lat: -35, lng: 117.89 },
-                    zoom: 1,
-                    mapTypeId: 'satellite',
-                    maxZoom: 21
-                });
-
-            //map.setMapTypeId('satellite');
-
-            //map.setOptions({maxZoom: 21});
-
-            Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjODdmODk4Yy0xZDhlLTQxNjAtOTkzNS02ZjNmOGRhM2I1MDgiLCJpZCI6NDYzOCwic2NvcGVzIjpbImFzciIsImdjIl0sImlhdCI6MTU0MTMyMDQ4Nn0.GnXyBbMj8o8TZ2LeCxFB_SrdUiQodGmjT1AbNCvmezA';
-
-
-            viewer = new Cesium.Viewer('cesiumContainer', {
-                infoBox : false, //Disable InfoBox widget
-                selectionIndicator : true, //Disable selection indicator
-                navigationInstructionsInitiallyVisible: false,
-                shadows : false,
-                shouldAnimate : true
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'),
+            {
+                center: { lat: -35, lng: 117.89 },
+                zoom: 1,
+                mapTypeId: 'satellite',
+                maxZoom: 21
             });
 
-            var terrainProvider = Cesium.createWorldTerrain({
-                requestWaterMask: true,
-                requestVertexNormals: true
-            });
-            viewer.terrainProvider = terrainProvider;
+        //map.setMapTypeId('satellite');
 
-            viewer.scene.globe.depthTestAgainstTerrain = true;
+        //map.setOptions({maxZoom: 21});
 
-            var scene = viewer.scene;
-            var ellipsoid = scene.globe.ellipsoid;  
-            pickCartographicPosition(scene, ellipsoid);
+        Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjODdmODk4Yy0xZDhlLTQxNjAtOTkzNS02ZjNmOGRhM2I1MDgiLCJpZCI6NDYzOCwic2NvcGVzIjpbImFzciIsImdjIl0sImlhdCI6MTU0MTMyMDQ4Nn0.GnXyBbMj8o8TZ2LeCxFB_SrdUiQodGmjT1AbNCvmezA';
 
-            markers = [];
-        }
 
-        var first = 0;
-        var ground_offset = 0;
-        var takeoff_altitude = 0;
+        viewer = new Cesium.Viewer('cesiumContainer', {
+            infoBox : false, //Disable InfoBox widget
+            selectionIndicator : true, //Disable selection indicator
+            navigationInstructionsInitiallyVisible: false,
+            shadows : false,
+            shouldAnimate : true
+        });
 
-        function setPosition(mavno, lat, lng, altasl, roll, pitch, yaw) {
-            if (lat == 0 || lng == 0 || altasl == 0)
-                return;
+        var terrainProvider = Cesium.createWorldTerrain({
+            requestWaterMask: true,
+            requestVertexNormals: true
+        });
+        viewer.terrainProvider = terrainProvider;
 
-            self.roll = roll;
-            self.pitch = pitch;
-            self.yaw = yaw;
+        viewer.scene.globe.depthTestAgainstTerrain = true;
 
-            line1.append(new Date().getTime(), roll);
-            line2.append(new Date().getTime(), pitch);
+        var scene = viewer.scene;
+        var ellipsoid = scene.globe.ellipsoid;  
+        pickCartographicPosition(scene, ellipsoid);
 
-            addData();
+        markers = [];
+    }
 
-            if (first == 0 && altasl != 0) {
-                var takeoff_position = [Cesium.Cartographic.fromDegrees(
-                    lng ,
-                    lat
-                )];
+    var first = 0;
+    var ground_offset = 0;
+    var takeoff_altitude = 0;
 
-                takeoff_altitude = altasl;
+    function setPosition(mavno, lat, lng, altasl, roll, pitch, yaw) {
+        if (lat == 0 || lng == 0 || altasl == 0)
+            return;
 
-                if (viewer) {
-                    var promise = Cesium.sampleTerrainMostDetailed(viewer.terrainProvider, takeoff_position);
-                    Cesium.when(promise,
-                        function(updatedPositions) {
-                            ground_offset = takeoff_position[0].height - takeoff_altitude;
-                            console.log('Ground Offset in meters: ' + ground_offset);
-                            // re-compute the positions taking the ground offset into account.
-                            // add 2 meters more to allow for inaccuracies
-                            //var positionProperty = computePositionProperty(ground_offset + 2);
-                            //entity.position = positionProperty;
-                        });
-                    first++;
-                }
-            }
+        self.roll = roll;
+        self.pitch = pitch;
+        self.yaw = yaw;
 
-            var myLatLng = { lat: lat, lng: lng };
-            if (markers.length >= (mavno + 1)) {
-                markers[mavno].setPosition(myLatLng);
-                if (map != markers[mavno].map)
-                    markers[mavno].setMap(map);
-            } else {
-                var marker = new google.maps.Marker({
-                    position: myLatLng,
-                    map: map,
-                    title: 'ArduPilot ' + mavno
-                });
-                markers.push(marker);
-            }
-            if (mavno === 0) {
-                if (map.zoom < 2) {
-                    map.setCenter({ lat: lat, lng: lng });
-                    map.setZoom(16);
-                    //viewer.camera.zoomTo(Cesium.Cartesian3.fromDegrees(lng, lat, altasl));
-                }
-            }
+        line1.append(new Date().getTime(), roll);
+        line2.append(new Date().getTime(), pitch);
+
+        addData();
+
+        if (first == 0 && altasl != 0) {
+            var takeoff_position = [Cesium.Cartographic.fromDegrees(
+                lng ,
+                lat
+            )];
+
+            takeoff_altitude = altasl;
 
             if (viewer) {
-                var pinBuilder = new Cesium.PinBuilder();
-
-
-                var position = Cesium.Cartesian3.fromDegrees(myLatLng.lng, myLatLng.lat, altasl + ground_offset+1);
-                var hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(yaw),
-                    Cesium.Math.toRadians(pitch),
-                    Cesium.Math.toRadians(roll));
-                var orientation = Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
-
-                if (viewer.entities.values.length >= (mavno + 1)) {
-                    viewer.entities.values[mavno].position = position;
-                    viewer.entities.values[mavno].orientation = orientation;
-                } else {
-                    // add a new one
-                    var entity = viewer.entities.add({
-                        name: 'ArduPilot ' + viewer.entities.values.length,
-                        position: position,
-                        orientation: orientation,
-                        billboard: {
-                            image: pinBuilder.fromText(mavno, Cesium.Color.BLACK, 48)
-                                .toDataURL(),
-                            verticalOrigin: Cesium.VerticalOrigin.BOTTOM
-                        },
-                        model : {
-                            uri: 'Cesium_Air.txt',
-                            minimumPixelSize : 64,
-                            scale: default_model_scale * model_scale_factor
-                        },
-                        path : {
-                            resolution : 1,
-                            material : new Cesium.PolylineGlowMaterialProperty({
-                                glowPower : 0.1,
-                                color : Cesium.Color.YELLOW
-                            }),
-                            width : 10
-                        }
+                var promise = Cesium.sampleTerrainMostDetailed(viewer.terrainProvider, takeoff_position);
+                Cesium.when(promise,
+                    function(updatedPositions) {
+                        ground_offset = takeoff_position[0].height - takeoff_altitude;
+                        console.log('Ground Offset in meters: ' + ground_offset);
+                        // re-compute the positions taking the ground offset into account.
+                        // add 2 meters more to allow for inaccuracies
+                        //var positionProperty = computePositionProperty(ground_offset + 2);
+                        //entity.position = positionProperty;
                     });
-
-                    
-                }
-
-                viewer.trackedEntity = viewer.entities.values[0];
+                first++;
             }
         }
 
-        function pickCartographicPosition(scene, ellipsoid) {
-            // Mouse over the globe to see the cartographic position
-            handler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
-            handler.setInputAction(function(movement) {
-                var cartesian = scene.camera.pickEllipsoid(movement.endPosition, ellipsoid);
-                if (cartesian) {
-                    var ray = viewer.camera.getPickRay(movement.endPosition);
-                    var cartesian = viewer.scene.globe.pick(ray, viewer.scene);
+        var myLatLng = { lat: lat, lng: lng };
+        if (markers.length >= (mavno + 1)) {
+            markers[mavno].setPosition(myLatLng);
+            if (map != markers[mavno].map)
+                markers[mavno].setMap(map);
+        } else {
+            var marker = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                title: 'ArduPilot ' + mavno
+            });
+            markers.push(marker);
+        }
+        if (mavno === 0) {
+            if (map.zoom < 2) {
+                map.setCenter({ lat: lat, lng: lng });
+                map.setZoom(16);
+                //viewer.camera.zoomTo(Cesium.Cartesian3.fromDegrees(lng, lat, altasl));
+            }
+        }
 
-                    var cartographic = ellipsoid.cartesianToCartographic(cartesian);
-                    var position = new Cesium.Cartographic(cartographic.longitude, cartographic.latitude);
-                    var coords = Cesium.Math.toDegrees(cartographic.longitude).toFixed(6) + ', ' + Cesium.Math.toDegrees(cartographic.latitude).toFixed(6) + ';<br/> Cartesian Z: ' + cartesian.z.toFixed(2); 
+        if (viewer) {
+            var pinBuilder = new Cesium.PinBuilder();
 
-                    var ray = viewer.camera.getPickRay(movement.endPosition);
-                    var position = viewer.scene.globe.pick(ray, viewer.scene);
-                    if (Cesium.defined(position)) {
-                        // convert position to cartographic and display altitude
+
+            var position = Cesium.Cartesian3.fromDegrees(myLatLng.lng, myLatLng.lat, altasl + ground_offset+1);
+            var hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(yaw),
+                Cesium.Math.toRadians(pitch),
+                Cesium.Math.toRadians(roll));
+            var orientation = Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
+
+            if (viewer.entities.values.length >= (mavno + 1)) {
+                viewer.entities.values[mavno].position = position;
+                viewer.entities.values[mavno].orientation = orientation;
+            } else {
+                // add a new one
+                var entity = viewer.entities.add({
+                    name: 'ArduPilot ' + viewer.entities.values.length,
+                    position: position,
+                    orientation: orientation,
+                    billboard: {
+                        image: pinBuilder.fromText(mavno, Cesium.Color.BLACK, 48)
+                            .toDataURL(),
+                        verticalOrigin: Cesium.VerticalOrigin.BOTTOM
+                    },
+                    model : {
+                        uri: 'Cesium_Air.txt',
+                        minimumPixelSize : 64,
+                        scale: default_model_scale * model_scale_factor
+                    },
+                    path : {
+                        resolution : 1,
+                        material : new Cesium.PolylineGlowMaterialProperty({
+                            glowPower : 0.1,
+                            color : Cesium.Color.YELLOW
+                        }),
+                        width : 10
                     }
+                });
 
-                    //or try to get the height value, result is very low value or zero
-                    var coords =  Cesium.Math.toDegrees(cartographic.longitude).toFixed(6) + ', ' + Cesium.Math.toDegrees(cartographic.latitude).toFixed(6) + ';<br/> Height: '+ cartographic.height ; 
-                    document.getElementById('coords').innerHTML = '<p style="display: block;position: absolute;top: 30px;right: 6px" />'+ coords +'<br/><p/>';    
-                } 
-            }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);  
+                    
+            }
+
+            viewer.trackedEntity = viewer.entities.values[0];
         }
+    }
 
-        function testlog(mavlist) {
-            console.log(mavlist);
-        }
+    function pickCartographicPosition(scene, ellipsoid) {
+        // Mouse over the globe to see the cartographic position
+        handler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
+        handler.setInputAction(function(movement) {
+            var cartesian = scene.camera.pickEllipsoid(movement.endPosition, ellipsoid);
+            if (cartesian) {
+                var ray = viewer.camera.getPickRay(movement.endPosition);
+                var cartesian = viewer.scene.globe.pick(ray, viewer.scene);
+
+                var cartographic = ellipsoid.cartesianToCartographic(cartesian);
+                var position = new Cesium.Cartographic(cartographic.longitude, cartographic.latitude);
+                var coords = Cesium.Math.toDegrees(cartographic.longitude).toFixed(6) + ', ' + Cesium.Math.toDegrees(cartographic.latitude).toFixed(6) + ';<br/> Cartesian Z: ' + cartesian.z.toFixed(2); 
+
+                var ray = viewer.camera.getPickRay(movement.endPosition);
+                var position = viewer.scene.globe.pick(ray, viewer.scene);
+                if (Cesium.defined(position)) {
+                    // convert position to cartographic and display altitude
+                }
+
+                //or try to get the height value, result is very low value or zero
+                var coords =  Cesium.Math.toDegrees(cartographic.longitude).toFixed(6) + ', ' + Cesium.Math.toDegrees(cartographic.latitude).toFixed(6) + ';<br/> Height: '+ cartographic.height ; 
+                document.getElementById('coords').innerHTML = '<p style="display: block;position: absolute;top: 30px;right: 6px" />'+ coords +'<br/><p/>';    
+            } 
+        }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);  
+    }
+
+    function testlog(mavlist) {
+        console.log(mavlist);
+    }
 
 
 
-        //map.setCenter({lat: cs.lat, lng: cs.lng});
+    //map.setCenter({lat: cs.lat, lng: cs.lng});
 
-        //&callback=initMap
+    //&callback=initMap
 
-        function plotData(div = "", line1="",line2="",line3="") {
+    function plotData(div = "", line1="",line2="",line3="") {
 
-            var data = [];
+        var data = [];
 
-            if (line1 != "")
-                data.push(JSON.parse(line1));
-            if (line2 != "")
-                data.push(JSON.parse(line2));
-            if (line3 != "")
-                data.push(JSON.parse(line3));
+        if (line1 != "")
+            data.push(JSON.parse(line1));
+        if (line2 != "")
+            data.push(JSON.parse(line2));
+        if (line3 != "")
+            data.push(JSON.parse(line3));
             
-            var layout = {};
+        var layout = {};
 
-            //Plotly.newPlot
-            Plotly.plot(div, data, layout, { responsive: true });
-        }
+        //Plotly.newPlot
+        Plotly.plot(div, data, layout, { responsive: true });
+    }
 
-    </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDW05vWXeNIfZAN4Ter8gf4YLg8rPHZToc" async defer></script>
-<script src="http://maps.google.cn/maps/api/js?key=AIzaSyDW05vWXeNIfZAN4Ter8gf4YLg8rPHZToc" async defer></script>
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDW05vWXeNIfZAN4Ter8gf4YLg8rPHZToc" async defer 
+        onerror="    document.write('<script src="https://maps.google.cn/maps/api/js?key=AIzaSyDW05vWXeNIfZAN4Ter8gf4YLg8rPHZToc" async><\/script>');"></script>
 
     
 <!--<input type="range"  min="0" max="100" />-->

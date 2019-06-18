@@ -1,4 +1,5 @@
 ﻿@page "/DataFlash"
+@using System.Collections
 @using System.Globalization
 @using System.IO
 @using System.Net
@@ -9,13 +10,13 @@
 @using MissionPlanner.Utilities
 @using MissionPlanner.Log
 @using System.IO;
-
 @using System.Text;
 
 @using System.Security.Cryptography;
 @using Blazor.FileReader;
 @using System.IO;
 @using Blazor.Extensions
+@using MissionPlanner.ArduPilot
 @using Newtonsoft.Json
 @using Org.BouncyCastle.Utilities.Encoders
 @implements IDisposable
@@ -26,30 +27,57 @@
     <div id="right" style="float:right; width: 150px;">
         @if (cb != null)
         {
-            @foreach (var item in cb.SeenMessageTypes)
-             {
-                 <ul style="margin: 0;">
-                     <input type="checkbox" value="@item" onclick="if ($(this).is(':checked')) {$(this).siblings().css('display', 'block');} else {$(this).siblings().css('display', 'none');}"/>
-                     @item
-                     @foreach (var subitem in cb.FMT.First(a=>a.Value.Item2 == item).Value.Item4.Split(','))
-                     {
-                         <div style="display: none">
-                             <li><input type="checkbox" ref="checkElementRef" onclick=@(async () => PlotItem(@item,@subitem)) value="@item.@subitem"/>@subitem</li>
-                         </div>
-                     }
-                 </ul>
-             }
+            @foreach (var item in SeenMessageTypes)
+            {
+                <ul style="margin: 0;">
+                    <input type="checkbox" value="@item" onclick="if ($(this).is(':checked')) {$(this).siblings().css('display', 'block');} else {$(this).siblings().css('display', 'none');}" />
+                    @item
+                    @foreach (var subitem in cb.FMT.First(a => a.Value.Item2 == item).Value.Item4.Split(','))
+                    {
+                        <div style="display: none; margin-left: 20px;">
+                            <li><input type="checkbox" onchange=@(async (eventArgs) => PlotItem(@item,@subitem, (bool)eventArgs.Value)) value="@item.@subitem" @(AmIChecked(item + "." + subitem)) />@subitem</li>
+                        </div>
+                    }
+                </ul>
+            }
         }
 
     </div>
     <div id="left" style="margin-right: 150px;">
-        <input type="file" ref="inputTypeFileElement" accept=".bin, .log" />
-        <button onclick="@ReadFile">Read file</button>
+        <input type="file" ref="inputTypeFileElement" accept=".bin, .log" onchange="@ReadFile" />
 
-        <div id="div1" style="width: 100%; height: 50vh"></div>
+        <ul>
+            @foreach (var gra in graphs)
+            {
+                <li>
+                    <div id="@gra" style="width: 100%; height: 50vh"></div>
+                </li>
+            }
+            <li><button onclick="@addNewGraph">New Graph</button></li>
+        </ul>
         <div id="div2" style="width: 100%; height: 50vh"></div>
         <div id="div3" style="width: 100%; height: 50vh"></div>
-
+        <div>
+            <input id="searchstring" value="" onkeyup="  var value = $(this).val().toLowerCase(); $('#paramlist > li#paramrow').filter(function () { $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1) });"/>
+            <ul id="paramlist">
+                <li id="paramheader">
+                    <div>Name</div>
+                    <div>Value</div>
+                    <div>Desc</div>
+                </li>
+                @if (cb != null)
+                {
+                    @foreach (var item in CleanParamList)
+                     {
+                         <li id="paramrow">
+                             <div>@item["Name"]</div>
+                             <div>@item["Value"]</div>
+                             <div>@ParameterMetaDataRepository.GetParameterMetaData(item["Name"], ParameterMetaDataConstants.DisplayName, Firmwares.ArduCopter2.ToString()) <br/>@ParameterMetaDataRepository.GetParameterMetaData(item["Name"], ParameterMetaDataConstants.Description, Firmwares.ArduCopter2.ToString())</div>
+                         </li>
+                     }
+                }
+            </ul>
+        </div>
     </div>
 </div>
 
@@ -57,34 +85,76 @@
 
 
 @functions {
+    private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+    protected override async Task OnInitAsync()
+    {
+        var paramdata = "ParameterMetaDataBackup.xml";
+        var content = await Http.GetStringAsync((paramdata));
+        File.WriteAllText(paramdata, content);
+    }
+
+
+
+
     ElementRef inputTypeFileElement;
 
-    ElementRef checkElementRef;
+    CollectionBuffer cb = null;
 
-    CollectionBuffer cb;
+    List<string> graphs = new List<string>() {"div1"};
 
-    public async void PlotItem(string type, string item)
+    string selectedchart = "div1";
+
+    public string AmIChecked(string item)
     {
-        plotly line = new plotly(type + "." + item);
-        foreach (var msg in cb.GetEnumeratorType(type))
+        if (item == "GPS.Alt")
+            return "checked";
+
+        return "";
+    }
+
+    int a = 1;
+
+    public void addNewGraph()
+    {
+        graphs.Add("graph" + a++);
+
+
+    }
+
+    public async void PlotItem(string type, string item, bool checked1)
+    {
+        if (checked1)
         {
-            var itemdata = msg[item];
-            if (itemdata == null)
-                continue;
+            plotly line = new plotly(type + "." + item);
+            foreach (var msg in cb.GetEnumeratorType(type))
+            {
+                var itemdata = msg[item];
+                if (itemdata == null)
+                    continue;
 
-            var itemvalue = double.Parse(itemdata, CultureInfo.InvariantCulture);
+                var itemvalue = double.Parse(itemdata, CultureInfo.InvariantCulture);
 
-            line.AddXY(msg.time.ToString("yyyy-MM-dd hh:mm:ss.fff"), itemvalue);
+                line.AddXY(msg.time.ToString("yyyy-MM-dd hh:mm:ss.fff"), itemvalue);
+            }
+
+            JSRuntime.Current.InvokeAsync<object>("plotData", new object[] {selectedchart, line.getJSON()});
         }
-
-        JSRuntime.Current.InvokeAsync<object>("plotData", new object[] { "div1", line.getJSON() });
+        else
+        {
+            JSRuntime.Current.InvokeAsync<object>("evalline", new object[] {" index = " + selectedchart + ".data.findIndex(item => item.name === '" + type + "." + item + "'); if (index >= 0) Plotly.deleteTraces(" + selectedchart + ", index , 1 ); "});
+        }
     }
 
     public async Task ReadFile()
     {
         foreach (var file in await fileReaderService.CreateReference(inputTypeFileElement).EnumerateFilesAsync())
         {
+            log.Debug(file.ToJSON());
+
             var info = await file.ReadFileInfoAsync();
+
+            log.Debug(info.ToJSON());
 
             using (MemoryStream memoryStream = await file.CreateMemoryStreamAsync(1024 * 1024 * 5))
             {
@@ -92,12 +162,12 @@
 
                 foreach (var msg in cb.GetEnumeratorType("MSG"))
                 {
-                    Console.WriteLine(msg.msgtype + " " + cb[msg.lineno]);
+                    log.Debug(msg.msgtype + " " + cb[msg.lineno]);
                 }
 
-                plotly linelat = new plotly("Lat");
-                plotly linelng = new plotly("Lng");
-                plotly linealt = new plotly("Alt");
+                plotly linelat = new plotly("GPS.Lat");
+                plotly linelng = new plotly("GPS.Lng");
+                plotly linealt = new plotly("GPS.Alt");
 
                 plotly linemap = new plotly("Map");
                 linemap.root.mode = "linesa";
@@ -132,18 +202,39 @@
                     scatter3d.AddXYZ(lat2, lng2, alt2);
                 }
 
-                JSRuntime.Current.InvokeAsync<object>("plotData", new object[] { "div1", linealt.getJSON() });
-                JSRuntime.Current.InvokeAsync<object>("plotData", new object[] { "div2", linemap.getJSON() });
-                JSRuntime.Current.InvokeAsync<object>("plotData", new object[] { "div3", scatter3d.getJSON() });
+                log.Debug("About to PLOT");
+
+                JSRuntime.Current.InvokeAsync<object>("plotData", new object[] {"div1", linealt.getJSON()});
+                JSRuntime.Current.InvokeAsync<object>("plotData", new object[] {"div2", linemap.getJSON()});
+                JSRuntime.Current.InvokeAsync<object>("plotData", new object[] {"div3", scatter3d.getJSON()});
             }
         }
-
     }
 
     public void Dispose()
     {
-        Http?.Dispose();
+    // Http?.Dispose();
+    }
+
+    public IEnumerable<string> SeenMessageTypes
+    {
+        get
+        {
+            var sorted = cb.SeenMessageTypes;
+            sorted.Sort();
+            return sorted;
+        }
+
+    }
+
+    public IEnumerable<DFLog.DFItem> CleanParamList
+    {
+        get
+        {
+            var originalList = cb.GetEnumeratorType("PARM");
+            var filteredList = originalList.GroupBy(param => param["Name"]).OrderBy(a => a.Key).Select(group => group.First());
+            return filteredList;
+        }
     }
 
 }
-

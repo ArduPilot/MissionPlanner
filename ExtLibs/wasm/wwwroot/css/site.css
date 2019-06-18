@@ -130,3 +130,17 @@ navbar-toggler-icon
         display: block;
     }
 }
+
+
+#paramrow, #paramheader {
+    display: table-row;
+}
+
+    #paramrow div, #paramheader div {
+        display: table-cell;
+    }
+
+#paramlist {
+    width: 100%;
+    display: table;
+}
