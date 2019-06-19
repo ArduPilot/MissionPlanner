@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.but_slcanmode1 = new MissionPlanner.Controls.MyButton();
@@ -46,6 +47,7 @@
             this.uAVCANModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.but_slcanmode2 = new MissionPlanner.Controls.MyButton();
+            this.but_uavcaninspector = new MissionPlanner.Controls.MyButton();
             ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.uAVCANModelBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -171,6 +173,9 @@
             // SoftwareCRC
             // 
             this.SoftwareCRC.DataPropertyName = "SoftwareCRC";
+            dataGridViewCellStyle1.Format = "X";
+            dataGridViewCellStyle1.NullValue = null;
+            this.SoftwareCRC.DefaultCellStyle = dataGridViewCellStyle1;
             this.SoftwareCRC.HeaderText = "SoftwareCRC";
             this.SoftwareCRC.Name = "SoftwareCRC";
             this.SoftwareCRC.ReadOnly = true;
@@ -201,7 +206,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(269, 29);
+            this.label1.Location = new System.Drawing.Point(433, 29);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(359, 26);
             this.label1.TabIndex = 83;
@@ -218,10 +223,21 @@
             this.but_slcanmode2.UseVisualStyleBackColor = true;
             this.but_slcanmode2.Click += new System.EventHandler(this.but_slcanmode2_Click);
             // 
+            // but_uavcaninspector
+            // 
+            this.but_uavcaninspector.Location = new System.Drawing.Point(269, 29);
+            this.but_uavcaninspector.Name = "but_uavcaninspector";
+            this.but_uavcaninspector.Size = new System.Drawing.Size(125, 23);
+            this.but_uavcaninspector.TabIndex = 85;
+            this.but_uavcaninspector.Text = "Inspector";
+            this.but_uavcaninspector.UseVisualStyleBackColor = true;
+            this.but_uavcaninspector.Click += new System.EventHandler(this.But_uavcaninspector_Click);
+            // 
             // ConfigUAVCAN
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.but_uavcaninspector);
             this.Controls.Add(this.but_slcanmode2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.but_slcanmode1);
@@ -256,5 +272,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn SoftwareCRC;
         private System.Windows.Forms.DataGridViewButtonColumn updateDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewButtonColumn Parameter;
+        private Controls.MyButton but_uavcaninspector;
     }
 }

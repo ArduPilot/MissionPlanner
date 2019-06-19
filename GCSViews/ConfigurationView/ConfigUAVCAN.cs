@@ -163,7 +163,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         {
                             item.Name = ASCIIEncoding.ASCII.GetString(gnires.name, 0, gnires.name_len);
                             item.HardwareVersion = gnires.hardware_version.major + "." + gnires.hardware_version.minor;
-                            item.SoftwareVersion  = gnires.software_version.major + "." + gnires.software_version.minor + "."+gnires.software_version.vcs_commit;
+                            item.SoftwareVersion  = gnires.software_version.major + "." + gnires.software_version.minor + "."+gnires.software_version.vcs_commit.ToString("X");
                             item.SoftwareCRC = gnires.software_version.image_crc;
                         }
 
@@ -282,6 +282,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void uAVCANModelBindingSource_CurrentChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void But_uavcaninspector_Click(object sender, EventArgs e)
+        {
+            new UAVCANInspector(can).Show();
         }
     }
 

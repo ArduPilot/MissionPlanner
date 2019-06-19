@@ -18,7 +18,7 @@ namespace MissionPlanner.Controls
         private MyTreeView treeView1;
         private Timer timer1;
         private IContainer components;
-        MAVInspector mavi = new MAVInspector();
+        PacketInspector<MAVLink.MAVLinkMessage> mavi = new PacketInspector<MAVLink.MAVLinkMessage>();
         private MyButton but_graphit;
         private MAVLinkInterface mav;
 
@@ -48,7 +48,7 @@ namespace MissionPlanner.Controls
 
         private void MavOnOnPacketReceived(object o, MAVLink.MAVLinkMessage linkMessage)
         {
-            mavi.Add(linkMessage);
+            mavi.Add(linkMessage.sysid, linkMessage.compid, linkMessage.msgid, linkMessage);
         }
 
         public new void Update()
@@ -57,7 +57,7 @@ namespace MissionPlanner.Controls
 
             bool added = false;
 
-            foreach (var mavLinkMessage in mavi.GetMAVLinkMessages())
+            foreach (var mavLinkMessage in mavi.GetPacketMessages())
             {
                 TreeNode sysidnode;
                 TreeNode compidnode;
