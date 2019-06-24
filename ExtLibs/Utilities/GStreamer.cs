@@ -344,7 +344,15 @@ namespace MissionPlanner.Utilities
             int argc = 1;
             string[] argv = new string[] {"-vvv"};
 
-            NativeMethods.gst_init(ref argc, argv);
+            try
+            {
+                NativeMethods.gst_init(ref argc, argv);
+            }
+            catch (BadImageFormatException)
+            {
+                CustomMessageBox.Show("The incorrect exe architecture has been detected at " + gstlaunch + "\nPlease install gstreamer for the correct architecture");
+                return null;
+            }
 
             uint v1 = 0, v2 = 0, v3 = 0, v4 = 0;
             NativeMethods.gst_version(ref v1, ref v2, ref v3, ref v4);
@@ -535,9 +543,7 @@ namespace MissionPlanner.Utilities
             dirs.Add(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
 
             dirs.Add(Settings.GetDataDirectory());
-
-            // packaged version only
-            /*
+            
             DriveInfo[] allDrives = DriveInfo.GetDrives();
             foreach (DriveInfo d in allDrives)
             {
@@ -548,7 +554,7 @@ namespace MissionPlanner.Utilities
                     dirs.Add(d.RootDirectory.Name + "Program Files (x86)" + Path.DirectorySeparatorChar + "gstreamer");
                 }
             }
-            */
+            
             foreach (var dir in dirs)
             {
                 if (Directory.Exists(dir))
