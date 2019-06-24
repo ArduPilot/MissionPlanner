@@ -895,7 +895,10 @@ namespace MissionPlanner.GCSViews
             POI.POIModified += POI_POIModified;
 
             if (Settings.Instance["WMSserver"] != null)
+            {
                 WMSProvider.CustomWMSURL = Settings.Instance["WMSserver"];
+                WMSProvider.szWmsLayer = Settings.Instance["WMSLayer"];
+            }
 
             trackBar1.Value = (int) MainMap.Zoom;
 
@@ -3224,6 +3227,7 @@ namespace MissionPlanner.GCSViews
                 }
 
                 WMSProvider.szWmsLayer = szListLayerName[iUserSelection];
+                Settings.Instance["WMSLayer"] = WMSProvider.szWmsLayer;
             }
         }
 
