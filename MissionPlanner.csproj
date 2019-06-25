@@ -347,6 +347,12 @@
     <Compile Include="Controls\RelayOptions.Designer.cs">
       <DependentUpon>RelayOptions.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\MavFTPUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\MavFTPUI.Designer.cs">
+      <DependentUpon>MavFTPUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\UAVCANInspector.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -505,6 +511,7 @@
     <Compile Include="Log\LogStrings.Designer.cs">
       <DependentUpon>LogStrings.cs</DependentUpon>
     </Compile>
+
     <EmbeddedResource Include="Controls\RelayOptions.ar.resx">
       <DependentUpon>RelayOptions.cs</DependentUpon>
     </EmbeddedResource>
@@ -534,6 +541,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\RelayOptions.zh-Hans.resx">
       <DependentUpon>RelayOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\MavFTPUI.resx">
+      <DependentUpon>MavFTPUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\UAVCANInspector.resx">
       <DependentUpon>UAVCANInspector.cs</DependentUpon>

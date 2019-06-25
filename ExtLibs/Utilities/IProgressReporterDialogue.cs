@@ -30,6 +30,8 @@ namespace MissionPlanner.Utilities
 
     public class ProgressWorkerEventArgs : EventArgs
     {
+        public bool ForceExit { get; set; } = false;
+
         public string ErrorMessage;
         volatile bool _CancelRequested = false;
         public bool CancelRequested

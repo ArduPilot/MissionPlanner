@@ -28,8 +28,9 @@ namespace MissionPlanner.Controls
         internal string _status = "";
 
         public bool Running = false;
+        private Thread BGThread;
 
-  
+
         // This is the event that will be raised on the BG thread
         public event Utilities.DoWorkEventHandler DoWork;
 
@@ -60,6 +61,8 @@ namespace MissionPlanner.Controls
         {
             Running = true;
             log.Info("RunBackgroundOperation");
+
+            BGThread = Thread.CurrentThread;
 
             try
             {
@@ -318,6 +321,17 @@ namespace MissionPlanner.Controls
                     this.progressBar1.Value = pgv;
                 } // Exception System.ArgumentOutOfRangeException: Value of '-12959800' is not valid for 'Value'. 'Value' should be between 'minimum' and 'maximum'.
                 catch { } // clean fail. and ignore, chances are we will hit this again in the next 100 ms
+            }
+
+            if (doWorkArgs != null && doWorkArgs.CancelRequested && doWorkArgs.ForceExit)
+            {
+                if (BGThread != null && BGThread.IsAlive)
+                {
+                    try
+                    {
+                        BGThread.Abort();
+                    } catch { }
+                }
             }
         }
 

@@ -62,7 +62,7 @@ namespace UAVCAN
             switch (value.uavcan_protocol_param_NumericValue_type)
             {
                 case uavcan.uavcan_protocol_param_NumericValue_type_t.UAVCAN_PROTOCOL_PARAM_NUMERICVALUE_TYPE_EMPTY:
-                    return value.union.empty;
+                    return "";
                     break;
                 case uavcan.uavcan_protocol_param_NumericValue_type_t.UAVCAN_PROTOCOL_PARAM_NUMERICVALUE_TYPE_INTEGER_VALUE:
                     return value.union.integer_value;

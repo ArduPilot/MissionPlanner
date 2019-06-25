@@ -69,7 +69,7 @@ namespace MissionPlanner.Controls
                 var sysidnodes = treeView1.Nodes.Find(mavLinkMessage.frame.SourceNode.ToString(), false);
                 if (sysidnodes.Length == 0)
                 {
-                    sysidnode = new TreeNode("Vehicle " + mavLinkMessage.frame.SourceNode)
+                    sysidnode = new TreeNode("ID " + mavLinkMessage.frame.SourceNode)
                     {
                         Name = mavLinkMessage.frame.SourceNode.ToString()
                     };
@@ -105,7 +105,7 @@ namespace MissionPlanner.Controls
                 else
                     msgidnode = msgidnodes.First();
 
-                var msgidheader = mavLinkMessage.message.GetType() + " (" +
+                var msgidheader = mavLinkMessage.message.GetType().Name + " (" +
                                   (pktinspect.SeenRate(mavLinkMessage.frame.SourceNode, 0, mavLinkMessage.frame.MsgTypeID))
                                   .ToString("0.0 Hz") + ", #" + mavLinkMessage.frame.MsgTypeID + ") ";
 
@@ -333,8 +333,8 @@ namespace MissionPlanner.Controls
             zg1.GraphPane.Title.Text = "";
             try
             {
-                var msginfo = MAVLink.MAVLINK_MESSAGE_INFOS.First(a => a.msgid == msgid);
-                var typeofthing = msginfo.type.GetField(
+                var msginfo = uavcan.MSG_INFO.First(a=>a.Item2 == msgid);
+                var typeofthing = msginfo.Item1.GetField(
                     msgidfield);
                 if (typeofthing != null)
                 {

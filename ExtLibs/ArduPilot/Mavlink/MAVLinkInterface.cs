@@ -4243,7 +4243,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     }
                 }
 
-                log.Info("SubscribeToPacketType " + item.Key + " " + item.Value);
+                log.Debug("SubscribeToPacketType " + item.Key + " " + item.Value);
 
                 Subscriptions.Add(item);
             }
@@ -4255,7 +4255,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         {
             lock (Subscriptions)
             {
-                log.Info("UnSubscribeToPacketType " + item.Key + " " + item.Value);
+                log.Debug("UnSubscribeToPacketType " + item.Key + " " + item.Value);
                 Subscriptions.Remove(item);
             }
         }
@@ -4264,7 +4264,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         {
             lock (Subscriptions)
             {
-                log.Info("UnSubscribeToPacketType " + msgtype + " " + item);
+                log.Debug("UnSubscribeToPacketType " + msgtype + " " + item);
                 var ans = Subscriptions.Where(a => { return a.Key == msgtype && a.Value == item; });
                 Subscriptions.Remove(ans.First());
             }
