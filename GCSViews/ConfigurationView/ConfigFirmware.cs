@@ -370,7 +370,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 pictureBoxSub.Text = temp.name;
                 pictureBoxSub.Tag = temp;
             }
-            else if (temp.urlpx4v2.ToLower().Contains("copter") && !temp.urlpx4v2.ToLower().Contains("heli"))
+            else if (temp.urlpx4v2.ToLower().Contains("copter") && !temp.urlpx4v2.ToLower().Contains("heli")||
+                     temp.urlfmuv3.ToLower().Contains("copter") && !temp.urlfmuv3.ToLower().Contains("heli"))
             {
                 pictureBoxOcta.Text = temp.name + " Octa";
                 pictureBoxOcta.Tag = temp;
