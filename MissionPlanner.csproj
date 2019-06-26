@@ -341,6 +341,12 @@
     <Compile Include="ConnectionOptions.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Controls\RelayOptions.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\RelayOptions.Designer.cs">
+      <DependentUpon>RelayOptions.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\UAVCANInspector.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -499,6 +505,36 @@
     <Compile Include="Log\LogStrings.Designer.cs">
       <DependentUpon>LogStrings.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Controls\RelayOptions.ar.resx">
+      <DependentUpon>RelayOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\RelayOptions.az-Latn-AZ.resx">
+      <DependentUpon>RelayOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\RelayOptions.id-ID.resx">
+      <DependentUpon>RelayOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\RelayOptions.ja-JP.resx">
+      <DependentUpon>RelayOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\RelayOptions.ko-KR.resx">
+      <DependentUpon>RelayOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\RelayOptions.pt.resx">
+      <DependentUpon>RelayOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\RelayOptions.resx">
+      <DependentUpon>RelayOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\RelayOptions.ru-KZ.resx">
+      <DependentUpon>RelayOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\RelayOptions.tr.resx">
+      <DependentUpon>RelayOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\RelayOptions.zh-Hans.resx">
+      <DependentUpon>RelayOptions.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\UAVCANInspector.resx">
       <DependentUpon>UAVCANInspector.cs</DependentUpon>
     </EmbeddedResource>
