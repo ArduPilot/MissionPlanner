@@ -2922,14 +2922,14 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                         if (req.current == 2)
                         {
-                            MAVlist[req.target_system, req.target_component].GuidedMode = req;
+                            MAVlist[req.target_system, req.target_component].GuidedMode = (Locationwp)req;
                         }
                         else if (req.current == 3)
                         {
                         }
                         else
                         {
-                            MAVlist[req.target_system, req.target_component].wps[req.seq] = req;
+                            MAVlist[req.target_system, req.target_component].wps[req.seq] = (Locationwp)req;
                         }
 
                         //if (ans.target_system == req.target_system && ans.target_component == req.target_component)
@@ -2954,14 +2954,14 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                             if (req.current == 2)
                             {
-                                MAVlist[req.target_system, req.target_component].GuidedMode = req;
+                                MAVlist[req.target_system, req.target_component].GuidedMode = (Locationwp)req;
                             }
                             else if (req.current == 3)
                             {
                             }
                             else
                             {
-                                MAVlist[req.target_system, req.target_component].wps[req.seq] = req;
+                                MAVlist[req.target_system, req.target_component].wps[req.seq] = (Locationwp)req;
                             }
 
                             //if (ans.target_system == req.target_system && ans.target_component == req.target_component)
@@ -2996,14 +2996,14 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                             if (req.current == 2)
                             {
-                                MAVlist[req.target_system, req.target_component].GuidedMode = req;
+                                MAVlist[req.target_system, req.target_component].GuidedMode = (Locationwp)req;
                             }
                             else if (req.current == 3)
                             {
                             }
                             else
                             {
-                                MAVlist[req.target_system, req.target_component].wps[req.seq] = req;
+                                MAVlist[req.target_system, req.target_component].wps[req.seq] = (Locationwp)req;
                             }
 
                             //if (ans.target_system == req.target_system && ans.target_component == req.target_component)
@@ -3329,9 +3329,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             if (pos)
             {
                 if (lat != 0)
-                    MAVlist[sysid, compid].GuidedMode.x = (float)lat;
+                    MAVlist[sysid, compid].GuidedMode.x = (int)(lat*1e7);
                 if (lng != 0)
-                    MAVlist[sysid, compid].GuidedMode.y = (float)lng;
+                    MAVlist[sysid, compid].GuidedMode.y = (int)(lng * 1e7);
                 MAVlist[sysid, compid].GuidedMode.z = (float)alt;
             }
 
@@ -4302,11 +4302,11 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 if (wp.current == 2)
                 {
                     // guide mode wp
-                    MAVlist[wp.target_system, wp.target_component].GuidedMode = wp;
+                    MAVlist[wp.target_system, wp.target_component].GuidedMode = (Locationwp)wp;
                 }
                 else
                 {
-                    MAVlist[wp.target_system, wp.target_component].wps[wp.seq] = wp;
+                    MAVlist[wp.target_system, wp.target_component].wps[wp.seq] = (Locationwp)wp;
                 }
 
                 //Console.WriteLine("WP # {7} cmd {8} p1 {0} p2 {1} p3 {2} p4 {3} x {4} y {5} z {6}", wp.param1, wp.param2, wp.param3, wp.param4, wp.x, wp.y, wp.z, wp.seq, wp.command);
@@ -4324,12 +4324,11 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 if (wp.current == 2)
                 {
                     // guide mode wp
-                    MAVlist[wp.target_system, wp.target_component].GuidedMode = (mavlink_mission_item_t) (Locationwp) wp;
+                    MAVlist[wp.target_system, wp.target_component].GuidedMode = (Locationwp) wp;
                 }
                 else
                 {
-                    MAVlist[wp.target_system, wp.target_component].wps[wp.seq] =
-                        (mavlink_mission_item_t) (Locationwp) wp;
+                    MAVlist[wp.target_system, wp.target_component].wps[wp.seq] = (Locationwp) wp;
                 }
 
                 //Console.WriteLine("WP INT # {7} cmd {8} p1 {0} p2 {1} p3 {2} p4 {3} x {4} y {5} z {6}", wp.param1, wp.param2, wp.param3, wp.param4, wp.x, wp.y, wp.z, wp.seq, wp.command);
@@ -4338,7 +4337,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             {
                 mavlink_set_position_target_global_int_t setpos = buffer.ToStructure<mavlink_set_position_target_global_int_t>();
 
-                MAVlist[setpos.target_system, setpos.target_component].GuidedMode = (mavlink_mission_item_t)(Locationwp)setpos;
+                MAVlist[setpos.target_system, setpos.target_component].GuidedMode = (Locationwp)setpos;
 
                 //Console.WriteLine("SET_POSITION_TARGET_GLOBAL_INT x {0} y {1} z {2} frame {3}", setpos.lat_int/1e7, setpos.lon_int/1e7, setpos.alt, setpos.coordinate_frame);
             }

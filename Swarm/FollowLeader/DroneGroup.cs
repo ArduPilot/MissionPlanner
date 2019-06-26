@@ -98,8 +98,8 @@ namespace MissionPlanner.Swarm.FollowLeader
             // send new position to airmaster
             AirMasterDrone.SendPositionVelocity(AirMasterDrone.TargetLocation, AirMasterDrone.TargetVelocity * 0.6);
 
-            AirMasterDrone.MavState.GuidedMode.x = (float)AirMasterDrone.TargetLocation.Lat;
-            AirMasterDrone.MavState.GuidedMode.y = (float)AirMasterDrone.TargetLocation.Lng;
+            AirMasterDrone.MavState.GuidedMode.x = (int) ((AirMasterDrone.TargetLocation.Lat) * 1e7);
+            AirMasterDrone.MavState.GuidedMode.y = (int) ((AirMasterDrone.TargetLocation.Lng) * 1e7);
             AirMasterDrone.MavState.GuidedMode.z = (float)AirMasterDrone.TargetLocation.Alt;
 
             // get the path
@@ -129,8 +129,8 @@ namespace MissionPlanner.Swarm.FollowLeader
                 // spline control
                 drone.SendPositionVelocity(newpositions[a], drone.TargetVelocity/2);
 
-                drone.MavState.GuidedMode.x = (float)newpositions[a].Lat;
-                drone.MavState.GuidedMode.y = (float)newpositions[a].Lng;
+                drone.MavState.GuidedMode.x = (int)(newpositions[a].Lat *1e7);
+                drone.MavState.GuidedMode.y = (int)(newpositions[a].Lng *1e7);
                 drone.MavState.GuidedMode.z = (float) newpositions[a].Alt;
 
                 // vel only

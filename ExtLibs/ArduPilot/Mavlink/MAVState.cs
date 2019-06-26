@@ -237,7 +237,7 @@ namespace MissionPlanner
         /// <summary>
         /// used as a snapshot of what is loaded on the ap atm. - derived from the stream
         /// </summary>
-        public ConcurrentDictionary<int, mavlink_mission_item_t> wps = new ConcurrentDictionary<int, mavlink_mission_item_t>();
+        public ConcurrentDictionary<int, mavlink_mission_item_int_t> wps = new ConcurrentDictionary<int, mavlink_mission_item_int_t>();
 
         public ConcurrentDictionary<int, mavlink_rally_point_t> rallypoints = new ConcurrentDictionary<int, mavlink_rally_point_t>();
 
@@ -248,7 +248,7 @@ namespace MissionPlanner
         /// <summary>
         /// Store the guided mode wp location
         /// </summary>
-        public mavlink_mission_item_t GuidedMode = new mavlink_mission_item_t();
+        public mavlink_mission_item_int_t GuidedMode = new mavlink_mission_item_int_t();
 
         public Proximity Proximity;
 

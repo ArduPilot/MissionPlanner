@@ -535,7 +535,7 @@ namespace MissionPlanner.GCSViews
                 int a = 1;
                 commandlist.ForEach(i =>
                 {
-                    MAVLink.mavlink_mission_item_t item = (MAVLink.mavlink_mission_item_t) i;
+                    MAVLink.mavlink_mission_item_int_t item = i;
                     item.seq = (ushort)a;
                     MainV2.comPort.MAV.wps[a] = item;
                     a++;
@@ -2061,7 +2061,7 @@ namespace MissionPlanner.GCSViews
                             continue;
                         }
 
-                        MAVLink.mavlink_mission_item_t temp = DataViewtoLocationwp(a);
+                        MAVLink.mavlink_mission_item_int_t temp = DataViewtoLocationwp(a);
 
                         if (temp.command == item.command &&
                             temp.x == item.x &&
@@ -4392,7 +4392,7 @@ namespace MissionPlanner.GCSViews
 
                 if (MainV2.comPort.MAV.cs.mode.ToLower() == "guided" && MainV2.comPort.MAV.GuidedMode.x != 0)
                 {
-                    addpolygonmarker("Guided Mode", MainV2.comPort.MAV.GuidedMode.y, MainV2.comPort.MAV.GuidedMode.x,
+                    addpolygonmarker("Guided Mode", MainV2.comPort.MAV.GuidedMode.y / 1e7, MainV2.comPort.MAV.GuidedMode.x / 1e7,
                         (int) MainV2.comPort.MAV.GuidedMode.z, Color.Blue, routesoverlay);
                 }
             }

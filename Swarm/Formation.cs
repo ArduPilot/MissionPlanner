@@ -145,8 +145,8 @@ namespace MissionPlanner.Swarm
                             }
 
                             // display update
-                            mav.GuidedMode.x = (float)target.Lat;
-                            mav.GuidedMode.y = (float)target.Lng;
+                            mav.GuidedMode.x = (int)(target.Lat *1e7);
+                            mav.GuidedMode.y = (int)(target.Lng *1e7);
                             mav.GuidedMode.z = (float)target.Alt;
 
                             MAVLink.mavlink_set_attitude_target_t att_target = new MAVLink.mavlink_set_attitude_target_t();

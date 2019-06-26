@@ -9,7 +9,7 @@ namespace MissionPlanner.Swarm.WaypointLeader
         {
             List<PointLatLngAlt> result = new List<PointLatLngAlt>();
 
-            MAVLink.mavlink_mission_item_t? prevwp = null;
+            MAVLink.mavlink_mission_item_int_t? prevwp = null;
 
             int a = -1;
 
@@ -19,7 +19,7 @@ namespace MissionPlanner.Swarm.WaypointLeader
                 if (!prevwp.HasValue)
                 {
                     // change firstwp/aka home to valid alt
-                    prevwp = new MAVLink.mavlink_mission_item_t?(new MAVLink.mavlink_mission_item_t() { x=wp.x,y = wp.y, z = 0});
+                    prevwp = new MAVLink.mavlink_mission_item_int_t?(new MAVLink.mavlink_mission_item_int_t() { x=wp.x,y = wp.y, z = 0});
                     continue;
                 }
 

@@ -124,8 +124,8 @@ namespace MissionPlanner.Swarm.SRB
                             return;
                         }
 
-                        drone.MavState.GuidedMode.x = (float)drone.TargetLocation.Lat;
-                        drone.MavState.GuidedMode.y = (float)drone.TargetLocation.Lng;
+                        drone.MavState.GuidedMode.x = (int)(drone.TargetLocation.Lat *1e7);
+                        drone.MavState.GuidedMode.y = (int)(drone.TargetLocation.Lng *1e7);
                         drone.MavState.GuidedMode.z = (float) drone.TargetLocation.Alt;
 
                         // wait for takeoff
@@ -141,8 +141,8 @@ namespace MissionPlanner.Swarm.SRB
 
                                 //drone.SendPositionVelocity(drone.TargetLocation, drone.TargetVelocity);
 
-                                drone.MavState.GuidedMode.x = (float)drone.TargetLocation.Lat;
-                                drone.MavState.GuidedMode.y = (float)drone.TargetLocation.Lng;
+                                drone.MavState.GuidedMode.x = (int)((float)drone.TargetLocation.Lat *1e7);
+                                drone.MavState.GuidedMode.y = (int)((float)drone.TargetLocation.Lng *1e7);
                                 drone.MavState.GuidedMode.z = (float)drone.TargetLocation.Alt;
 
                             // alt target must be reached
@@ -156,8 +156,8 @@ namespace MissionPlanner.Swarm.SRB
                         // position control
                         drone.SendPositionVelocity(drone.TargetLocation, Vector3.Zero);
 
-                        drone.MavState.GuidedMode.x = (float) drone.TargetLocation.Lat;
-                        drone.MavState.GuidedMode.y = (float) drone.TargetLocation.Lng;
+                        drone.MavState.GuidedMode.x = (int)((float) drone.TargetLocation.Lat *1e7);
+                        drone.MavState.GuidedMode.y = (int)((float) drone.TargetLocation.Lng *1e7);
                         drone.MavState.GuidedMode.z = (float) drone.TargetLocation.Alt;
                     }
                     CurrentMode = Mode.alongside;
@@ -180,8 +180,8 @@ namespace MissionPlanner.Swarm.SRB
                         if (GetBasePosition()?.Heading != null)
                             drone.SendYaw(GetBasePosition().Heading);
 
-                        drone.MavState.GuidedMode.x = (float) drone.TargetLocation.Lat;
-                        drone.MavState.GuidedMode.y = (float) drone.TargetLocation.Lng;
+                        drone.MavState.GuidedMode.x = (int)((float) drone.TargetLocation.Lat *1e7);
+                        drone.MavState.GuidedMode.y = (int)((float) drone.TargetLocation.Lng *1e7);
                         drone.MavState.GuidedMode.z = (float) drone.TargetLocation.Alt;
                     }
 
@@ -204,8 +204,8 @@ namespace MissionPlanner.Swarm.SRB
                         if(GetBasePosition()?.Heading != null)
                             drone.SendYaw(GetBasePosition().Heading);
 
-                        drone.MavState.GuidedMode.x = (float)drone.TargetLocation.Lat;
-                        drone.MavState.GuidedMode.y = (float)drone.TargetLocation.Lng;
+                        drone.MavState.GuidedMode.x = (int)((float)drone.TargetLocation.Lat *1e7);
+                        drone.MavState.GuidedMode.y = (int)((float)drone.TargetLocation.Lng *1e7);
                         drone.MavState.GuidedMode.z = (float)drone.TargetLocation.Alt;
                     }
                     break;
@@ -288,8 +288,8 @@ namespace MissionPlanner.Swarm.SRB
                         // position control
                         drone.SendPositionVelocity(drone.TargetLocation, drone.TargetVelocity);
 
-                        drone.MavState.GuidedMode.x = (float)drone.TargetLocation.Lat;
-                        drone.MavState.GuidedMode.y = (float)drone.TargetLocation.Lng;
+                        drone.MavState.GuidedMode.x = (int)((float)drone.TargetLocation.Lat *1e7);
+                        drone.MavState.GuidedMode.y = (int)((float)drone.TargetLocation.Lng *1e7);
                         drone.MavState.GuidedMode.z = (float)drone.TargetLocation.Alt;
                     }
                     break;

@@ -1,19 +1,19 @@
-﻿using System;
-using System.Windows.Forms;
-using System.Net;
-using System.IO;
-using System.Text;
-using System.Threading;
+﻿using GMap.NET.MapProviders;
 using log4net;
 using log4net.Config;
-using System.Diagnostics;
-using System.Drawing;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using GMap.NET.MapProviders;
 using MissionPlanner.Comms;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
+using System;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
+using System.Net;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace MissionPlanner
 {
@@ -25,7 +25,10 @@ namespace MissionPlanner
 
         public static string name { get; internal set; }
 
-        public static bool WindowsStoreApp { get { return Application.ExecutablePath.Contains("WindowsApps"); } }
+        public static bool WindowsStoreApp
+        {
+            get { return Application.ExecutablePath.Contains("WindowsApps"); }
+        }
 
         public static Image Logo = null;
         public static Image Logo2 = null;
@@ -35,10 +38,10 @@ namespace MissionPlanner
 
         internal static Thread Thread;
 
-        public static string[] args = new string[] {};
+        public static string[] args = new string[] { };
         public static Bitmap SplashBG = null;
 
-        public static string[] names = new string[] { "VVVVZ" };
+        public static string[] names = new string[] {"VVVVZ"};
         public static bool MONO = false;
 
         static Program()

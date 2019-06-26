@@ -312,8 +312,8 @@ namespace MissionPlanner.Swarm.WaypointLeader
                         // position control
                         drone.SendPositionVelocity(drone.TargetLocation, Vector3.Zero);
 
-                        drone.MavState.GuidedMode.x = (float)drone.TargetLocation.Lat;
-                        drone.MavState.GuidedMode.y = (float)drone.TargetLocation.Lng;
+                        drone.MavState.GuidedMode.x = (int)(drone.TargetLocation.Lat *1e7);
+                        drone.MavState.GuidedMode.y = (int)(drone.TargetLocation.Lng *1e7);
                         drone.MavState.GuidedMode.z = (float)drone.TargetLocation.Alt;
 
                         // check how far off target we are
@@ -371,8 +371,8 @@ namespace MissionPlanner.Swarm.WaypointLeader
                         // position control
                         drone.SendPositionVelocity(drone.TargetLocation, Vector3.Zero);
 
-                        drone.MavState.GuidedMode.x = (float)drone.TargetLocation.Lat;
-                        drone.MavState.GuidedMode.y = (float)drone.TargetLocation.Lng;
+                        drone.MavState.GuidedMode.x = (int)(drone.TargetLocation.Lat*1e7);
+                        drone.MavState.GuidedMode.y = (int)(drone.TargetLocation.Lng *1e7);
                         drone.MavState.GuidedMode.z = (float)drone.TargetLocation.Alt;
 
                         b++;
@@ -444,8 +444,8 @@ namespace MissionPlanner.Swarm.WaypointLeader
                         // spline control
                         drone.SendPositionVelocity(drone.TargetLocation, drone.TargetVelocity / 3);
 
-                        drone.MavState.GuidedMode.x = (float)drone.TargetLocation.Lat;
-                        drone.MavState.GuidedMode.y = (float)drone.TargetLocation.Lng;
+                        drone.MavState.GuidedMode.x = (int)(drone.TargetLocation.Lat *1e7);
+                        drone.MavState.GuidedMode.y = (int)(drone.TargetLocation.Lng *1e7);
                         drone.MavState.GuidedMode.z = (float)drone.TargetLocation.Alt;
 
                         // vel only
@@ -502,8 +502,8 @@ namespace MissionPlanner.Swarm.WaypointLeader
                         // position control
                         drone.SendPositionVelocity(drone.TargetLocation, Vector3.Zero);
 
-                        drone.MavState.GuidedMode.x = (float)drone.TargetLocation.Lat;
-                        drone.MavState.GuidedMode.y = (float)drone.TargetLocation.Lng;
+                        drone.MavState.GuidedMode.x = (int)(drone.TargetLocation.Lat *1e7);
+                        drone.MavState.GuidedMode.y = (int)(drone.TargetLocation.Lng *1e7);
                         drone.MavState.GuidedMode.z = (float)drone.TargetLocation.Alt;
 
                         // used for next step

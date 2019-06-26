@@ -1420,8 +1420,9 @@ namespace MissionPlanner.GCSViews
                             // draw guide mode point for only main mav
                             if (MainV2.comPort.MAV.cs.mode.ToLower() == "guided" && MainV2.comPort.MAV.GuidedMode.x != 0)
                             {
-                                addpolygonmarker("Guided Mode", MainV2.comPort.MAV.GuidedMode.y,
-                                    MainV2.comPort.MAV.GuidedMode.x, (int)MainV2.comPort.MAV.GuidedMode.z, Color.Blue,
+                                addpolygonmarker("Guided Mode", MainV2.comPort.MAV.GuidedMode.y / 1e7,
+                                    MainV2.comPort.MAV.GuidedMode.x / 1e7, (int) MainV2.comPort.MAV.GuidedMode.z,
+                                    Color.Blue,
                                     routes);
                             }
 
@@ -3464,8 +3465,8 @@ namespace MissionPlanner.GCSViews
                 MainV2.comPort.setGuidedModeWP(new Locationwp
                 {
                     alt = MainV2.comPort.MAV.GuidedMode.z,
-                    lat = MainV2.comPort.MAV.GuidedMode.x,
-                    lng = MainV2.comPort.MAV.GuidedMode.y
+                    lat = MainV2.comPort.MAV.GuidedMode.x / 1e7,
+                    lng = MainV2.comPort.MAV.GuidedMode.y / 1e7
                 });
             }
         }

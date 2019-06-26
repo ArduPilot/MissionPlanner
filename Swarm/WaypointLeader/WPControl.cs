@@ -208,7 +208,7 @@ namespace MissionPlanner.Swarm.WaypointLeader
                             ((Status) ctl).Armed.Text = MAV.cs.armed.ToString();
                             ((Status) ctl).Mode.Text = MAV.cs.mode;
                             ((Status) ctl).MAV.Text = String.Format("MAV {0}-{1}",MAV.sysid,MAV.compid);
-                            ((Status) ctl).Guided.Text = MAV.GuidedMode.x + "," + MAV.GuidedMode.y + "," +
+                            ((Status) ctl).Guided.Text = MAV.GuidedMode.x/1e7 + "," + MAV.GuidedMode.y / 1e7 + "," +
                                                          MAV.GuidedMode.z;
                             ((Status)ctl).Location1.Text = MAV.cs.lat.ToString("0.00000") + "," + MAV.cs.lng.ToString("0.00000") + "," +
                                                       MAV.cs.alt;

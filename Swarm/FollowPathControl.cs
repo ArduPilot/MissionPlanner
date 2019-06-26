@@ -173,7 +173,7 @@ namespace MissionPlanner.Swarm
                         ((Status) ctl).Armed.Text = port.MAV.cs.armed.ToString();
                         ((Status) ctl).Mode.Text = port.MAV.cs.mode;
                         ((Status) ctl).MAV.Text = port.ToString();
-                        ((Status) ctl).Guided.Text = port.MAV.GuidedMode.x + "," + port.MAV.GuidedMode.y + "," +
+                        ((Status) ctl).Guided.Text = port.MAV.GuidedMode.x/1e7 + "," + port.MAV.GuidedMode.y/1e7 + "," +
                                                      port.MAV.GuidedMode.z;
                     }
                 }
