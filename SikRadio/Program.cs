@@ -42,6 +42,7 @@
  * 2.29 - Resolved bug in which the value ranges available from the remote modem weren't being parsed and used in the
  *          combo box e.g. for the min and max frequency ranges.  Also, added a work-around for an issue in the RFDSiK
  *          RFD900x 3.07 firmware in which it didn't return the complete set of parameters in response to an RTI5? command.
+ * 2.30 - For RFD900x multipoint firmware, now allows correct broadcast id for nodedestination parameter.   
  */
 
 using System;

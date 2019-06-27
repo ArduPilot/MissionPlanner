@@ -24,6 +24,8 @@ namespace RFD.RFD900
         /// </summary>
         Dictionary<string, TSetting> _DefaultSettings = new Dictionary<string, TSetting>();
         const int BOOTLOADER_BAUD = 115200;
+        const string NODEID = "NODEID";
+        const string NODEDESTINATION = "NODEDESTINATION";
 
         public TSession(MissionPlanner.Comms.ICommsSerial Port, int MainFirmwareBaud)
         {
@@ -437,6 +439,26 @@ namespace RFD.RFD900
         }
 
         /// <summary>
+        /// Skip over the multipoint node number in an ATI5 or ATI5? response line.
+        /// </summary>
+        /// <param name="Line">The response line</param>
+        /// <returns>The character index of the designator.</returns>
+        static int SkipMultipointNodeNumber(string Line)
+        {
+            int n = 0;
+
+            for (; n < Line.Length; n++)
+            {
+                if (RFDLib.Text.CheckIsLetter(Line[n]))
+                {
+                    return n;
+                }
+            }
+
+            return 0;
+        }
+
+        /// <summary>
         /// Parse the setting designator from the given Line and character positon.
         /// </summary>
         /// <param name="Line">The ATI5? line.  Must not be null.</param>
@@ -444,19 +466,18 @@ namespace RFD.RFD900
         /// <returns></returns>
         static string ParseDesignator(string Line, ref int n)
         {
-            n = 0;
+            n = SkipMultipointNodeNumber(Line);
             string Designator = "";
-
-            if (RFDLib.Text.CheckIsLetter(Line[0]))
+               
+            if (RFDLib.Text.CheckIsLetter(Line[n]))
             {
-                Designator += Line[0];
+                Designator += Line[n];
+                n++;
             }
             else
             {
                 return null;
             }
-
-            n = 1;
 
             while (Line[n] != ':')
             {
@@ -527,7 +548,7 @@ namespace RFD.RFD900
             }
         }
 
-        static TSetting.TRange ParseRange(string Line, ref int n)
+        static TSetting.TRange ParseRange(string Line, ref int n, string Name)
         {
             if (Line[n] != '[')
             {
@@ -544,7 +565,7 @@ namespace RFD.RFD900
             {
                 return null;
             }
-            return new TSetting.TRange(Min, Max);
+            return new TSetting.TSimpleRange(Min, Max, GetIncrement(Name));
         }
 
         static bool ParseValue(string Line, ref int n, out int Value)
@@ -686,27 +707,29 @@ namespace RFD.RFD900
                 return Result;
             }
 
+            int[] RO = Range.GetOptions();
             if (Options.Length == 2)
             {
                 //Match up with min and max.
                 TSetting.TOption[] Result = new TSetting.TOption[2];
-                Result[0] = new TSetting.TOption(Range.Min, Options[0]);
-                Result[1] = new TSetting.TOption(Range.Max, Options[1]);
+
+                Result[0] = new TSetting.TOption(RO[0], Options[0]);
+                Result[1] = new TSetting.TOption(RO[RO.Length-1], Options[1]);
                 return Result;
             }
-            else if ((Range.Max - Range.Min + 1) == Options.Length)
+            else if (RO.Length == Options.Length)
             {
-                TSetting.TOption[] Result = new TSetting.TOption[Range.Max - Range.Min + 1];
-                for (int n = 0; n < (Range.Max - Range.Min + 1); n++)
+                TSetting.TOption[] Result = new TSetting.TOption[RO.Length];
+                for (int n = 0; n < (RO.Length); n++)
                 {
-                    Result[n] = new TSetting.TOption(Range.Min + n, Options[n]);
+                    Result[n] = new TSetting.TOption(RO[n], Options[n]);
                 }
                 return Result;
             }
-            else if ((Range.Max - Range.Min + 1) < Options.Length)
+            else if (RO.Length < Options.Length)
             {
                 //Account for the freq/band setting.
-                string[] ResultOptionStrings = new string[Range.Max - Range.Min + 1];
+                string[] ResultOptionStrings = new string[RO.Length];
                 string CountryCode = null;
                 int OptionIndex = 0;
                 bool GotToMax = false;
@@ -750,10 +773,10 @@ namespace RFD.RFD900
 
                 if (GotToMax)
                 {
-                    TSetting.TOption[] Result = new TSetting.TOption[Range.Max - Range.Min + 1];
-                    for (int n = 0; n < (Range.Max - Range.Min + 1); n++)
+                    TSetting.TOption[] Result = new TSetting.TOption[RO.Length];
+                    for (int n = 0; n < RO.Length; n++)
                     {
-                        Result[n] = new TSetting.TOption(Range.Min + n, ResultOptionStrings[n]);
+                        Result[n] = new TSetting.TOption(RO[n], ResultOptionStrings[n]);
                     }
                     return Result;
                 }
@@ -815,7 +838,7 @@ namespace RFD.RFD900
                     {
                         return null;
                     }
-                    Range = ParseRange(Line, ref n);
+                    Range = ParseRange(Line, ref n, Name);
                     if (Range == null)
                     {
                         return null;
@@ -991,6 +1014,41 @@ namespace RFD.RFD900
                     Result[kvp.Key] = kvp.Value;
                 }
             }
+
+            //If the result contains a nodeid and nodedestination parameter, it's multipoint firmware
+            //and it needs its settings ranges modified...
+            //We want the node dest to have the same options as node id, except we want the 
+            //last value parsed for node dest to be appended to the end for the node dest.
+            if (Result.ContainsKey(NODEID) && Result.ContainsKey(NODEDESTINATION))
+            {
+                var NodeIDRange = Result[NODEID].Range;
+                var NodeDestRange = Result[NODEDESTINATION].Range;
+                //If the destination id range is null...
+                if (NodeDestRange == null)
+                {
+                    //Do nothing
+                }
+                else if (NodeIDRange != null)
+                {
+                    //Both parameters have parsed ranges...
+                    if (NodeIDRange is TSetting.TSimpleRange)
+                    {
+                        //The node id range is a simple range.
+                        var NodeIDOptions = NodeIDRange.GetOptions();
+                        var NodeDestOptions = NodeDestRange.GetOptions();
+                        if (NodeDestOptions[NodeDestOptions.Length-1] > NodeIDOptions[NodeIDOptions.Length-1])
+                        {
+                            Result[NODEDESTINATION].Range = new TSetting.TMultiRange(new TSetting.TSimpleRange[]
+                                {
+                                    (TSetting.TSimpleRange)NodeIDRange,
+                                    new TSetting.TSimpleRange(NodeDestOptions[NodeDestOptions.Length-1], NodeDestOptions[NodeDestOptions.Length-1], 1)
+                                }
+                            );
+                        }
+                    }
+                }
+            }
+
             return Result;
         }
     }
@@ -1060,15 +1118,87 @@ namespace RFD.RFD900
             return null;
         }
 
-        public class TRange
+        public abstract class TRange
+        {
+            public abstract int[] GetOptions();
+        }
+
+        public class TSimpleRange : TRange
         {
             public readonly int Min;
             public readonly int Max;
+            public readonly int Increment;
 
-            public TRange(int Min, int Max)
+            public TSimpleRange(int Min, int Max, int Increment)
             {
                 this.Min = Min;
                 this.Max = Max;
+                this.Increment = Increment;
+            }
+
+            public override int[] GetOptions()
+            {
+                int[] list;
+                int index = 0;
+                bool GotEnd = false;
+
+                if (Min == Max)
+                {
+                    list = new int[1];
+                }
+                else
+                {
+                    list = new int[((Max - Min - 1) / Increment) + 2];
+                }
+
+                for (var a = Min; a <= Max; a += Increment)
+                {
+                    if (a == Max)
+                    {
+                        GotEnd = true;
+                    }
+                    list[index++] = a;
+                }
+
+                if (!GotEnd)
+                {
+                    list[index++] = Max;
+                }
+
+                return list;
+            }
+        }
+
+        public class TMultiRange : TRange
+        {
+            TSimpleRange[] _SimpleRanges;
+
+            public TMultiRange(TSimpleRange[] SimpleRanges)
+            {
+                _SimpleRanges = SimpleRanges;
+            }
+
+            public override int[] GetOptions()
+            {
+                int TotalLength = 0;
+                int SRIndex;
+
+                for (SRIndex = 0; SRIndex < _SimpleRanges.Length; SRIndex++)
+                {
+                    TotalLength += _SimpleRanges[SRIndex].GetOptions().Length;
+                }
+
+                int[] Result = new int[TotalLength];
+                int ResultIndex = 0;
+
+                for (SRIndex = 0; SRIndex < _SimpleRanges.Length; SRIndex++)
+                {
+                    int[] SubResult = _SimpleRanges[SRIndex].GetOptions();
+                    Array.Copy(SubResult, 0, Result, ResultIndex, SubResult.Length);
+                    ResultIndex += SubResult.Length;
+                }
+
+                return Result;
             }
         }
 

@@ -905,7 +905,7 @@ S15: MAX_WINDOW=131
                     }
                     if (Setting.Range != null)
                     {
-                        CB.DataSource = Range(Setting.Range.Min, Setting.Increment, Setting.Range.Max);
+                        CB.DataSource = Setting.Range.GetOptions();
                         CB.Text = Value;
                         CB.Tag = null;
                         return true;
@@ -1027,20 +1027,6 @@ S15: MAX_WINDOW=131
                                 ((ComboBox)controls[0]).Text = values[2].Trim();
                                 if (((ComboBox)controls[0]).Text != values[2].Trim())
                                 {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                                     SomeSettingsInvalid = true;
                                 }
                             }
