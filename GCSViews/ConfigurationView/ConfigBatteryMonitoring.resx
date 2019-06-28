@@ -304,7 +304,7 @@
     <value>CMB_batmontype</value>
   </data>
   <data name="&gt;&gt;CMB_batmontype.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.3.7081.20031, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.3.7117.32415, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CMB_batmontype.Parent" xml:space="preserve">
     <value>$this</value>
@@ -342,49 +342,52 @@
   <metadata name="timer1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <data name="CMB_apmversion.Items" xml:space="preserve">
+  <data name="CMB_HWVersion.Items" xml:space="preserve">
     <value>0: CUAV V5/Pixhawk4 or APM1</value>
   </data>
-  <data name="CMB_apmversion.Items1" xml:space="preserve">
+  <data name="CMB_HWVersion.Items1" xml:space="preserve">
     <value>1: APM2 - 2.5 non 3DR</value>
   </data>
-  <data name="CMB_apmversion.Items2" xml:space="preserve">
+  <data name="CMB_HWVersion.Items2" xml:space="preserve">
     <value>2: APM2.5+ - 3DR Power Module</value>
   </data>
-  <data name="CMB_apmversion.Items3" xml:space="preserve">
+  <data name="CMB_HWVersion.Items3" xml:space="preserve">
     <value>3: PX4</value>
   </data>
-  <data name="CMB_apmversion.Items4" xml:space="preserve">
+  <data name="CMB_HWVersion.Items4" xml:space="preserve">
     <value>4: The Cube or Pixhawk</value>
   </data>
-  <data name="CMB_apmversion.Items5" xml:space="preserve">
+  <data name="CMB_HWVersion.Items5" xml:space="preserve">
     <value>5: VR Brain 4.5 - 5</value>
   </data>
-  <data name="CMB_apmversion.Items6" xml:space="preserve">
+  <data name="CMB_HWVersion.Items6" xml:space="preserve">
     <value>6: VR Micro Brain 5</value>
   </data>
-  <data name="CMB_apmversion.Items7" xml:space="preserve">
+  <data name="CMB_HWVersion.Items7" xml:space="preserve">
     <value>7: VR Brain 4</value>
   </data>
-  <data name="CMB_apmversion.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="CMB_HWVersion.Items8" xml:space="preserve">
+    <value>8: Cube Orange</value>
+  </data>
+  <data name="CMB_HWVersion.Location" type="System.Drawing.Point, System.Drawing">
     <value>160, 95</value>
   </data>
-  <data name="CMB_apmversion.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="CMB_HWVersion.Size" type="System.Drawing.Size, System.Drawing">
     <value>162, 21</value>
   </data>
-  <data name="CMB_apmversion.TabIndex" type="System.Int32, mscorlib">
+  <data name="CMB_HWVersion.TabIndex" type="System.Int32, mscorlib">
     <value>51</value>
   </data>
-  <data name="&gt;&gt;CMB_apmversion.Name" xml:space="preserve">
-    <value>CMB_apmversion</value>
+  <data name="&gt;&gt;CMB_HWVersion.Name" xml:space="preserve">
+    <value>CMB_HWVersion</value>
   </data>
-  <data name="&gt;&gt;CMB_apmversion.Type" xml:space="preserve">
+  <data name="&gt;&gt;CMB_HWVersion.Type" xml:space="preserve">
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;CMB_apmversion.Parent" xml:space="preserve">
+  <data name="&gt;&gt;CMB_HWVersion.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;CMB_apmversion.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;CMB_HWVersion.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
   <data name="label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
@@ -702,78 +705,6 @@
   <data name="&gt;&gt;label32.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="&gt;&gt;txt_current.Name" xml:space="preserve">
-    <value>txt_current</value>
-  </data>
-  <data name="&gt;&gt;txt_current.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;txt_current.Parent" xml:space="preserve">
-    <value>groupBox4</value>
-  </data>
-  <data name="&gt;&gt;txt_current.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;label4.Name" xml:space="preserve">
-    <value>label4</value>
-  </data>
-  <data name="&gt;&gt;label4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
-    <value>groupBox4</value>
-  </data>
-  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;txt_meascurrent.Name" xml:space="preserve">
-    <value>txt_meascurrent</value>
-  </data>
-  <data name="&gt;&gt;txt_meascurrent.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;txt_meascurrent.Parent" xml:space="preserve">
-    <value>groupBox4</value>
-  </data>
-  <data name="&gt;&gt;txt_meascurrent.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;label3.Name" xml:space="preserve">
-    <value>label3</value>
-  </data>
-  <data name="&gt;&gt;label3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
-    <value>groupBox4</value>
-  </data>
-  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="groupBox4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>19, 142</value>
-  </data>
-  <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>276, 164</value>
-  </data>
-  <data name="groupBox4.TabIndex" type="System.Int32, mscorlib">
-    <value>50</value>
-  </data>
-  <data name="groupBox4.Text" xml:space="preserve">
-    <value>Calibration</value>
-  </data>
-  <data name="&gt;&gt;groupBox4.Name" xml:space="preserve">
-    <value>groupBox4</value>
-  </data>
-  <data name="&gt;&gt;groupBox4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox4.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;groupBox4.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
   <data name="txt_current.Location" type="System.Drawing.Point, System.Drawing">
     <value>183, 98</value>
   </data>
@@ -887,6 +818,30 @@
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
     <value>3</value>
+  </data>
+  <data name="groupBox4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>19, 142</value>
+  </data>
+  <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>276, 164</value>
+  </data>
+  <data name="groupBox4.TabIndex" type="System.Int32, mscorlib">
+    <value>50</value>
+  </data>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>Calibration</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Name" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.ZOrder" xml:space="preserve">
+    <value>4</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

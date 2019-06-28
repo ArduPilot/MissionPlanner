@@ -584,7 +584,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             // ConfigFailSafe
             // 
-            
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);

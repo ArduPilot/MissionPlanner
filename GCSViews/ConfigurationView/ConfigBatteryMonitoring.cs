@@ -97,51 +97,51 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // determine the board type
             if (MainV2.comPort.MAV.param["BATT_VOLT_PIN"] != null)
             {
-                CMB_apmversion.Enabled = true;
+                CMB_HWVersion.Enabled = true;
 
                 var value = (double) MainV2.comPort.MAV.param["BATT_VOLT_PIN"];
                 if (value == 0) // apm1
                 {
-                    CMB_apmversion.SelectedIndex = 0;
+                    CMB_HWVersion.SelectedIndex = 0;
                 }
                 else if (value == 1) // apm2
                 {
-                    CMB_apmversion.SelectedIndex = 1;
+                    CMB_HWVersion.SelectedIndex = 1;
                 }
                 else if (value == 13) // apm2.5
                 {
-                    CMB_apmversion.SelectedIndex = 2;
+                    CMB_HWVersion.SelectedIndex = 2;
                 }
                 else if (value == 100) // px4
                 {
-                    CMB_apmversion.SelectedIndex = 3;
+                    CMB_HWVersion.SelectedIndex = 3;
                 }
                 else if (value == 2)
                 {
                     // pixhawk
-                    CMB_apmversion.SelectedIndex = 4;
+                    CMB_HWVersion.SelectedIndex = 4;
                 }
                 else if (value == 6)
                 {
                     // vrbrain4
-                    CMB_apmversion.SelectedIndex = 7;
+                    CMB_HWVersion.SelectedIndex = 7;
                 }
                 else if (value == 10)
                 {
                     // vrbrain 5 or micro
                     if ((double) MainV2.comPort.MAV.param["BATT_CURR_PIN"] == 11)
                     {
-                        CMB_apmversion.SelectedIndex = 5;
+                        CMB_HWVersion.SelectedIndex = 5;
                     }
                     else
                     {
-                        CMB_apmversion.SelectedIndex = 6;
+                        CMB_HWVersion.SelectedIndex = 6;
                     }
                 }
             }
             else
             {
-                CMB_apmversion.Enabled = false;
+                CMB_HWVersion.Enabled = false;
             }
 
             startup = false;
@@ -200,7 +200,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     if (selection == 0)
                     {
                         CMB_batmonsensortype.Enabled = false;
-                        CMB_apmversion.Enabled = false;
+                        CMB_HWVersion.Enabled = false;
                         groupBox4.Enabled = false;
                         MainV2.comPort.setParam("BATT_VOLT_PIN", -1);
                         MainV2.comPort.setParam("BATT_CURR_PIN", -1);
@@ -208,7 +208,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     else if (selection == 4)
                     {
                         CMB_batmonsensortype.Enabled = true;
-                        CMB_apmversion.Enabled = true;
+                        CMB_HWVersion.Enabled = true;
                         groupBox4.Enabled = true;
                         TXT_AMP_PERVLT.Enabled = true;
                     }
@@ -216,7 +216,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     {
                         groupBox4.Enabled = true;
                         CMB_batmonsensortype.Enabled = false;
-                        CMB_apmversion.Enabled = true;
+                        CMB_HWVersion.Enabled = true;
                         TXT_AMP_PERVLT.Enabled = false;
                         TXT_measuredvoltage.Enabled = true;
                         TXT_divider_VOLT_MULT.Enabled = true;
@@ -439,7 +439,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (startup)
                 return;
 
-            var selection = int.Parse(CMB_apmversion.Text.Substring(0, 1));
+            var selection = int.Parse(CMB_HWVersion.Text.Substring(0, 1));
 
             try
             {
@@ -497,6 +497,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     MainV2.comPort.setParam("BATT_VOLT_PIN", 6);
                     MainV2.comPort.setParam("BATT_CURR_PIN", 7);
                     MainV2.comPort.setParam(new[] {"VOLT_DIVIDER", "BATT_VOLT_MULT"}, 10);
+                    TXT_divider_VOLT_MULT.Text = "10";
+                }
+                else if (selection == 8)
+                {
+                    //cube orange
+                    MainV2.comPort.setParam("BATT_VOLT_PIN", 14);
+                    MainV2.comPort.setParam("BATT_CURR_PIN", 15);
+                    MainV2.comPort.setParam(new[] { "VOLT_DIVIDER", "BATT_VOLT_MULT" }, 10);
                     TXT_divider_VOLT_MULT.Text = "10";
                 }
             }

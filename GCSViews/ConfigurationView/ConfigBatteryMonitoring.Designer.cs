@@ -41,7 +41,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.CMB_batmontype = new MissionPlanner.Controls.MavlinkComboBox();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.CMB_apmversion = new System.Windows.Forms.ComboBox();
+            this.CMB_HWVersion = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.CHK_speechbattery = new System.Windows.Forms.CheckBox();
@@ -131,22 +131,23 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // CMB_apmversion
+            // CMB_HWVersion
             // 
-            this.CMB_apmversion.DropDownWidth = 200;
-            this.CMB_apmversion.FormattingEnabled = true;
-            this.CMB_apmversion.Items.AddRange(new object[] {
-            resources.GetString("CMB_apmversion.Items"),
-            resources.GetString("CMB_apmversion.Items1"),
-            resources.GetString("CMB_apmversion.Items2"),
-            resources.GetString("CMB_apmversion.Items3"),
-            resources.GetString("CMB_apmversion.Items4"),
-            resources.GetString("CMB_apmversion.Items5"),
-            resources.GetString("CMB_apmversion.Items6"),
-            resources.GetString("CMB_apmversion.Items7")});
-            resources.ApplyResources(this.CMB_apmversion, "CMB_apmversion");
-            this.CMB_apmversion.Name = "CMB_apmversion";
-            this.CMB_apmversion.SelectedIndexChanged += new System.EventHandler(this.CMB_apmversion_SelectedIndexChanged);
+            this.CMB_HWVersion.DropDownWidth = 200;
+            this.CMB_HWVersion.FormattingEnabled = true;
+            this.CMB_HWVersion.Items.AddRange(new object[] {
+            resources.GetString("CMB_HWVersion.Items"),
+            resources.GetString("CMB_HWVersion.Items1"),
+            resources.GetString("CMB_HWVersion.Items2"),
+            resources.GetString("CMB_HWVersion.Items3"),
+            resources.GetString("CMB_HWVersion.Items4"),
+            resources.GetString("CMB_HWVersion.Items5"),
+            resources.GetString("CMB_HWVersion.Items6"),
+            resources.GetString("CMB_HWVersion.Items7"),
+            resources.GetString("CMB_HWVersion.Items8")});
+            resources.ApplyResources(this.CMB_HWVersion, "CMB_HWVersion");
+            this.CMB_HWVersion.Name = "CMB_HWVersion";
+            this.CMB_HWVersion.SelectedIndexChanged += new System.EventHandler(this.CMB_apmversion_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -257,7 +258,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Controls.Add(this.CHK_speechbattery);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.CMB_apmversion);
+            this.Controls.Add(this.CMB_HWVersion);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.label47);
             this.Controls.Add(this.CMB_batmonsensortype);
@@ -286,7 +287,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private MavlinkComboBox CMB_batmontype;
         private System.Windows.Forms.PictureBox pictureBox5;
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.ComboBox CMB_apmversion;
+        private System.Windows.Forms.ComboBox CMB_HWVersion;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.CheckBox CHK_speechbattery;
