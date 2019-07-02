@@ -3022,18 +3022,30 @@ namespace MissionPlanner
 
             GStreamer.onNewImage += (sender, image) =>
             {
+                if (image == null)
+                    return;
+                var bmp = (image as Utilities.Drawing.Bitmap);
+                if (bmp == null)
+                    return;
                 var old = GCSViews.FlightData.myhud.bgimage;
-                GCSViews.FlightData.myhud.bgimage = new Bitmap(image.Width, image.Height, 4*image.Width, PixelFormat.Format32bppPArgb,
-                    (image as Utilities.Drawing.Bitmap).LockBits(Rectangle.Empty, null,SKColorType.Bgra8888).Scan0);
+                GCSViews.FlightData.myhud.bgimage = new Bitmap(image.Width, image.Height, 4 * image.Width,
+                    PixelFormat.Format32bppPArgb,
+                    bmp.LockBits(Rectangle.Empty, null, SKColorType.Bgra8888)
+                    .Scan0);
                 if (old != null)
                     old.Dispose();
             };
 
             vlcrender.onNewImage += (sender, image) =>
             {
+                if (image == null)
+                    return;
+                var bmp = (image as Utilities.Drawing.Bitmap);
+                if (bmp == null)
+                    return;
                 var old = GCSViews.FlightData.myhud.bgimage;
                 GCSViews.FlightData.myhud.bgimage = new Bitmap(image.Width, image.Height, 4 * image.Width, PixelFormat.Format32bppPArgb,
-                    (image as Utilities.Drawing.Bitmap).LockBits(Rectangle.Empty, null,SKColorType.Bgra8888).Scan0);
+                    bmp.LockBits(Rectangle.Empty, null,SKColorType.Bgra8888).Scan0);
                 if (old != null)
                     old.Dispose();
                 };
