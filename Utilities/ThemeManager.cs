@@ -552,6 +552,19 @@ mc:Ignorable=""d""
                     TreeView txtr = (TreeView) ctl;
                     txtr.LineColor = TextColor;
                 }
+                else if (ctl.GetType() == typeof(ListView))
+                {
+                    ctl.BackColor = BGColor;
+                    ctl.ForeColor = TextColor;
+                }
+                else if (ctl.GetType() == typeof(SplitContainer))
+                {
+                    ctl.BackColor = BGColor;
+                    ctl.ForeColor = TextColor;
+                    SplitContainer txtr = (SplitContainer)ctl;
+                    ApplyCustomTheme(txtr.Panel1, level);
+                    ApplyCustomTheme(txtr.Panel2, level);
+                }
                 else if (ctl.GetType() == typeof (MyLabel))
                 {
                     ctl.BackColor = BGColor;
@@ -954,6 +967,19 @@ mc:Ignorable=""d""
                     ctl.ForeColor = TextColor;
                     TreeView txtr = (TreeView)ctl;
                     txtr.LineColor = TextColor;
+                }
+                else if (ctl.GetType() == typeof(ListView))
+                {
+                    ctl.BackColor = BGColor;
+                    ctl.ForeColor = TextColor;
+                }
+                else if (ctl.GetType() == typeof(SplitContainer))
+                {
+                    ctl.BackColor = BGColor;
+                    ctl.ForeColor = TextColor;
+                    SplitContainer txtr = (SplitContainer)ctl;
+                    ApplyCustomTheme(txtr.Panel1, level);
+                    ApplyCustomTheme(txtr.Panel2, level);
                 }
                 else if (ctl.GetType() == typeof(Panel))
                 {
