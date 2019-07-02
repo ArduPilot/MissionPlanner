@@ -459,6 +459,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     paramfiles = GitHubContent.GetDirContent("ardupilot", "ardupilot", "/Tools/Frame_params/", ".param");
                 }
 
+                if (this.IsDisposed)
+                    return;
+
                 BeginInvoke((Action) delegate
                 {
                     CMB_paramfiles.DataSource = paramfiles.ToArray();
