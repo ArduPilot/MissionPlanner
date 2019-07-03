@@ -4617,6 +4617,10 @@ namespace MissionPlanner.GCSViews
             {
                 Settings.Instance["gstreamer_url"] = url;
 
+                GStreamer.StopAll();
+
+                GStreamer.LookForGstreamer();
+
                 if (!File.Exists(GStreamer.gstlaunch))
                 {
                     UDPVideoShim.DownloadGStreamer();
@@ -4710,6 +4714,33 @@ namespace MissionPlanner.GCSViews
             }
 
             Settings.config["groundColorToolStripMenuItem"] = groundColorToolStripMenuItem.Checked.ToString();
+        }
+
+        private void HereLinkVideoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GStreamer.StopAll();
+
+            string url =
+                "rtspsrc location=rtsp://192.168.43.1:8554/fpv_stream latency=41 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! rtph264depay ! h264parse ! queue ! avdec_h264 ! video/x-raw,format=BGRx ! appsink name=outsink";
+
+            GStreamer.LookForGstreamer();
+
+                if (!File.Exists(GStreamer.gstlaunch))
+                {
+                    UDPVideoShim.DownloadGStreamer();
+
+                    if (!File.Exists(GStreamer.gstlaunch))
+                    {
+                        return;
+                    }
+                }
+
+                GStreamer.StartA(url);
+        }
+
+        private void GStreamerStopToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GStreamer.StopAll();
         }
     }
 }

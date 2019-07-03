@@ -2419,7 +2419,7 @@ namespace MissionPlanner
 
             SerialThreadrunner.Reset();
 
-            int minbytes = 0;
+            int minbytes = 10;
 
             int altwarningmax = 0;
 
