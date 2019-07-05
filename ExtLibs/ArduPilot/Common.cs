@@ -1,6 +1,7 @@
 ﻿using log4net;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Reflection;
 
 namespace MissionPlanner.ArduPilot
@@ -200,7 +201,7 @@ union px4_custom_mode {
 
             input = input.Replace("{mode}", MAV.cs.mode.ToString());
 
-            input = input.Replace("{batv}", MAV.cs.battery_voltage.ToString("0.00"));
+            input = input.Replace("{batv}", MAV.cs.battery_voltage.ToString("0.00", CultureInfo.InstalledUICulture));
 
             input = input.Replace("{batp}", (MAV.cs.battery_remaining).ToString("0"));
 
