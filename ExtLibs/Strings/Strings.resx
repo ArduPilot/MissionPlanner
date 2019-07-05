@@ -646,4 +646,10 @@ old #{0}  new #{1}</value>
   <data name="OnboardOSD" xml:space="preserve">
     <value>Onboard OSD</value>
   </data>
+  <data name="User_Params" xml:space="preserve">
+    <value>User Params</value>
+  </data>
+  <data name="Planner" xml:space="preserve">
+    <value>Planner</value>
+  </data>
 </root>

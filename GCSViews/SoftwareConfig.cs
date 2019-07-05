@@ -95,6 +95,11 @@ namespace MissionPlanner.GCSViews
                     {
                         AddBackstageViewPage(typeof(ConfigOSD), Strings.OnboardOSD);
                     }
+
+                    if (true)
+                    {
+                        AddBackstageViewPage(typeof(ConfigUserDefined), Strings.User_Params);
+                    }
                 }
 
                 if (MainV2.DisplayConfiguration.displayFullParamList)
@@ -115,11 +120,11 @@ namespace MissionPlanner.GCSViews
                         AddBackstageViewPage(typeof(ConfigAteryx), "Ateryx Pids");
                     }
 
-                    AddBackstageViewPage(typeof(ConfigPlanner), "Planner");
+                    AddBackstageViewPage(typeof(ConfigPlanner), Strings.Planner);
                 }
                 else
                 {
-                    start = AddBackstageViewPage(typeof(ConfigPlanner), "Planner");
+                    start = AddBackstageViewPage(typeof(ConfigPlanner), Strings.Planner);
                 }
 
                 // apply theme before trying to display it

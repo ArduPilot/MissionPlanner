@@ -393,6 +393,12 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigUAVCAN.Designer.cs">
       <DependentUpon>ConfigUAVCAN.cs</DependentUpon>
     </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigUserDefined.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigUserDefined.Designer.cs">
+      <DependentUpon>ConfigUserDefined.cs</DependentUpon>
+    </Compile>
     <Compile Include="Joystick\JoystickAxis.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -511,7 +517,6 @@
     <Compile Include="Log\LogStrings.Designer.cs">
       <DependentUpon>LogStrings.cs</DependentUpon>
     </Compile>
-
     <EmbeddedResource Include="Controls\RelayOptions.ar.resx">
       <DependentUpon>RelayOptions.cs</DependentUpon>
     </EmbeddedResource>
@@ -607,6 +612,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigUAVCAN.resx">
       <DependentUpon>ConfigUAVCAN.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigUserDefined.resx">
+      <DependentUpon>ConfigUserDefined.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Joystick\JoystickAxis.resx" />
     <EmbeddedResource Include="Log\LogStrings.resx">
