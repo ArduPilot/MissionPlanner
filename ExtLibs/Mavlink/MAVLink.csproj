@@ -12,13 +12,14 @@
     <Authors>Michael Oborne</Authors>
     <Company>Michael Oborne</Company>
     <Description>MAVLink for Ardupilot</Description>
-    <Version>1.0.2</Version>
+    <Version>1.0.4</Version>
     <Copyright>Michael Oborne</Copyright>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageLicenseUrl>GPLv3</PackageLicenseUrl>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>mykey.snk</AssemblyOriginatorKeyFile>
     <Configurations>Debug;Release;Test</Configurations>
+    <FileVersion>1.0.4.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
