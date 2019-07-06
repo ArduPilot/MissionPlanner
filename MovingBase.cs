@@ -151,7 +151,7 @@ namespace MissionPlanner
 
             DateTime nextrallypntupdate = DateTime.Now;
 
-            StreamWriter sw = new StreamWriter(File.OpenWrite("MovingBase.txt"));
+            StreamWriter sw = new StreamWriter(Settings.GetUserDataDirectory() + File.OpenWrite("MovingBase.txt"));
 
             threadrun = true;
             while (threadrun)
@@ -212,6 +212,9 @@ namespace MissionPlanner
                         gotohere.alt = (float) (gotolocation.Alt);
                         gotohere.lat = (gotolocation.Lat);
                         gotohere.lng = (gotolocation.Lng);
+
+                        if (chk_relalt.Checked)
+                            gotohere.alt = gotohere.alt - (float)MainV2.comPort.MAV.cs.HomeAlt;
 
                         try
                         {

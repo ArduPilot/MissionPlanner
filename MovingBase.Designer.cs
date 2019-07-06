@@ -38,6 +38,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.BUT_connect = new MissionPlanner.Controls.MyButton();
             this.CHK_updateRallyPnt = new System.Windows.Forms.CheckBox();
+            this.chk_relalt = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // CMB_serialport
@@ -125,7 +126,7 @@
             this.BUT_connect.Name = "BUT_connect";
             this.BUT_connect.Size = new System.Drawing.Size(75, 23);
             this.BUT_connect.TabIndex = 1;
-            this.BUT_connect.Text = Strings.Connect;
+            this.BUT_connect.Text = "Connect";
             this.BUT_connect.UseVisualStyleBackColor = true;
             this.BUT_connect.Click += new System.EventHandler(this.BUT_connect_Click);
             // 
@@ -140,11 +141,20 @@
             this.CHK_updateRallyPnt.UseVisualStyleBackColor = true;
             this.CHK_updateRallyPnt.CheckedChanged += new System.EventHandler(this.CHK_updateRallyPnt_CheckedChanged);
             // 
+            // chk_relalt
+            // 
+            this.chk_relalt.AutoSize = true;
+            this.chk_relalt.Location = new System.Drawing.Point(269, 44);
+            this.chk_relalt.Name = "chk_relalt";
+            this.chk_relalt.Size = new System.Drawing.Size(77, 17);
+            this.chk_relalt.TabIndex = 9;
+            this.chk_relalt.Text = "RelativeAlt";
+            this.chk_relalt.UseVisualStyleBackColor = true;
+            // 
             // MovingBase
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            
             this.ClientSize = new System.Drawing.Size(440, 300);
+            this.Controls.Add(this.chk_relalt);
             this.Controls.Add(this.CHK_updateRallyPnt);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.CMB_updaterate);
@@ -174,5 +184,6 @@
         private System.Windows.Forms.ComboBox CMB_updaterate;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.CheckBox CHK_updateRallyPnt;
+        private System.Windows.Forms.CheckBox chk_relalt;
     }
 }
