@@ -310,8 +310,8 @@ namespace MissionPlanner
             try
             {
                 // kill sim background process if its still running
-                if (Controls.SITL.simulator != null)
-                    Controls.SITL.simulator.Kill();
+                if (GCSViews.SITL.simulator != null)
+                    GCSViews.SITL.simulator.Kill();
             }
             catch
             {

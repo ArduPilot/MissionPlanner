@@ -341,19 +341,31 @@ namespace MissionPlanner.Utilities
                 FileStream fs = new FileStream(saveto + ".new", FileMode.Create);
 
                 DateTime dt = DateTime.Now;
+                int bps = 0;
 
                 while (dataStream.CanRead && bytes > 0)
                 {
                     int len = dataStream.Read(buf1, 0, buf1.Length);
                     bytes -= len;
+                    bps += len;
                     fs.Write(buf1, 0, len);
+
+                    if (dt.Second != DateTime.Now.Second)
+                    {
+                        log.Info(url + " " + bps + " " + bytes);
+                        dt = DateTime.Now;
+                        bps = 0;
+                    }
                 }
 
                 fs.Close();
                 dataStream.Close();
                 response.Close();
 
-                File.Delete(saveto);
+                if (File.Exists(saveto))
+                {
+                    File.Delete(saveto);
+                }
                 File.Move(saveto + ".new", saveto);
 
                 return true;

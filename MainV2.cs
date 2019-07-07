@@ -354,8 +354,8 @@ namespace MissionPlanner
         {
             get
             {
-                if (MissionPlanner.Controls.SITL.SITLSEND == null) return false;
-                if (MissionPlanner.Controls.SITL.SITLSEND.Client.Connected) return true;
+                if (MissionPlanner.GCSViews.SITL.SITLSEND == null) return false;
+                if (MissionPlanner.GCSViews.SITL.SITLSEND.Client.Connected) return true;
                 return false;
             }
         }
@@ -410,7 +410,7 @@ namespace MissionPlanner
         public GCSViews.FlightData FlightData;
 
         public GCSViews.FlightPlanner FlightPlanner;
-        Controls.SITL Simulation;
+        GCSViews.SITL Simulation;
 
         private Form connectionStatsForm;
         private ConnectionStats _connectionStats;
@@ -787,7 +787,7 @@ namespace MissionPlanner
                 FlightPlanner = new GCSViews.FlightPlanner();
                 //Configuration = new GCSViews.ConfigurationView.Setup();
                 log.Info("Create SIM");
-                Simulation = new SITL();
+                Simulation = new GCSViews.SITL();
                 //Firmware = new GCSViews.Firmware();
                 //Terminal = new GCSViews.Terminal();
 
@@ -2228,7 +2228,7 @@ namespace MissionPlanner
                                     {
                                         if (sitl)
                                         {
-                                            MissionPlanner.Controls.SITL.rcinput();
+                                            MissionPlanner.GCSViews.SITL.rcinput();
                                         }
                                         else
                                         {
@@ -2263,7 +2263,7 @@ namespace MissionPlanner
                                     {
                                         if (sitl)
                                         {
-                                            MissionPlanner.Controls.SITL.rcinput();
+                                            MissionPlanner.GCSViews.SITL.rcinput();
                                         }
                                         else
                                         {

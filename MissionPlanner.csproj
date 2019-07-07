@@ -645,7 +645,7 @@
     <Compile Include="Controls\ServoOptions.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\SITL.cs">
+    <Compile Include="GCSViews\SITL.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\ThemeColors.cs">
@@ -1057,7 +1057,7 @@
     <Compile Include="Controls\ServoOptions.Designer.cs">
       <DependentUpon>ServoOptions.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SITL.Designer.cs">
+    <Compile Include="GCSViews\SITL.Designer.cs">
       <DependentUpon>SITL.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\ThemeColors.Designer.cs">
@@ -1922,7 +1922,7 @@
     <EmbeddedResource Include="Controls\ServoOptions.zh-Hans.resx">
       <DependentUpon>ServoOptions.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\SITL.resx">
+    <EmbeddedResource Include="GCSViews\SITL.resx">
       <DependentUpon>SITL.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ThemeColors.resx">
