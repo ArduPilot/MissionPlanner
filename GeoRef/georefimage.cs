@@ -6,11 +6,16 @@ using System.Globalization;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using MissionPlanner.Utilities;
+using log4net;
 
 namespace MissionPlanner.GeoRef
 {
     partial class Georefimage : Form
     {
+        private static readonly ILog log =
+    LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+
         GeoRefImageBase georef = new GeoRefImageBase();
 
         private CheckBox chk_cammsg;
@@ -66,12 +71,14 @@ namespace MissionPlanner.GeoRef
 
         private void AppendText(string text)
         {
+            log.Info(text);
+
             var inv = new MethodInvoker(delegate {
                 TXT_outputlog.AppendText(text);
                 TXT_outputlog.Refresh();
             });
 
-            this.Invoke(inv);
+            this.BeginInvoke(inv);
         }
 
         private void BUT_browselog_Click(object sender, EventArgs e)
@@ -155,6 +162,8 @@ namespace MissionPlanner.GeoRef
 
             try
             {
+                log.Info("process " + selectedProcessingMode);
+
                 switch (selectedProcessingMode)
                 {
                     case PROCESSING_MODE.TIME_OFFSET:
@@ -186,6 +195,7 @@ namespace MissionPlanner.GeoRef
                 AppendText("Error " + ex.ToString());
             }
 
+            log.Info("Draw to Map");
 
             GMapRoute route = new GMapRoute("vehicle");
             if (georef.vehicleLocations != null)

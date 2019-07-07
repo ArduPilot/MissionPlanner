@@ -694,7 +694,7 @@ namespace MissionPlanner.GeoRef
 
                     p.Path = filename;
 
-                    lock(this)
+                    lock(picturesInformationTemp)
                         picturesInformationTemp.Add(filename, p);
 
                     AppendText("Photo " + Path.GetFileNameWithoutExtension(filename) +
@@ -821,7 +821,8 @@ namespace MissionPlanner.GeoRef
 
                     string picturePath = files[i];
 
-                    picturesInformationTemp.Add(picturePath, p);
+                    lock(picturesInformationTemp)
+                        picturesInformationTemp.Add(picturePath, p);
 
                     AppendText("Photo " + Path.GetFileNameWithoutExtension(picturePath) +
                                " processed from CAM Msg with " + millisShutterLag + " ms shutter lag. " +
@@ -902,7 +903,8 @@ namespace MissionPlanner.GeoRef
 
                         string picturePath = files[i];
 
-                        picturesInformationTemp.Add(picturePath, p);
+                        lock(picturesInformationTemp)
+                            picturesInformationTemp.Add(picturePath, p);
                     }
                     else
                     {
@@ -982,7 +984,8 @@ namespace MissionPlanner.GeoRef
 
                 string picturePath = files[i];
 
-                picturesInformationTemp.Add(picturePath, p);
+                lock(picturesInformationTemp)
+                    picturesInformationTemp.Add(picturePath, p);
 
                 AppendText("Photo " + Path.GetFileNameWithoutExtension(picturePath) +
                            " processed from CAM Msg with " + millisShutterLag + " ms shutter lag. " +
