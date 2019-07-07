@@ -168,5 +168,25 @@ namespace MissionPlanner.Controls
                 Settings.Instance["Servo" + thisservo + "_desc"] = desc;
             }
         }
+
+        private void But_mid_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, thisservo, (int.Parse(TXT_pwm_high.Text) - int.Parse(TXT_pwm_low.Text))/2 + int.Parse(TXT_pwm_low.Text), 0, 0,
+                    0, 0, 0))
+                {
+                    TXT_rcchannel.BackColor = Color.Orange;
+                }
+                else
+                {
+                    CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+                }
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(Strings.CommandFailed + ex.ToString(), Strings.ERROR);
+            }
+        }
     }
 }
