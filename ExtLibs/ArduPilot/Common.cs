@@ -191,6 +191,10 @@ union px4_custom_mode {
                 input = input.Replace("{wpn}", MAV.cs.wpno.ToString());
             }
 
+            input = input.Replace("{sysid}", MAV.sysid.ToString("0"));
+
+            input = input.Replace("{compid}", MAV.compid.ToString("0"));
+
             input = input.Replace("{asp}", MAV.cs.airspeed.ToString("0"));
 
             input = input.Replace("{alt}", MAV.cs.alt.ToString("0"));
@@ -205,9 +209,9 @@ union px4_custom_mode {
 
             input = input.Replace("{batp}", (MAV.cs.battery_remaining).ToString("0"));
 
-            input = input.Replace("{vsp}", (MAV.cs.verticalspeed).ToString("0.0"));
+            input = input.Replace("{vsp}", (MAV.cs.verticalspeed).ToString("0.0", CultureInfo.InstalledUICulture));
 
-            input = input.Replace("{curr}", (MAV.cs.current).ToString("0.0"));
+            input = input.Replace("{curr}", (MAV.cs.current).ToString("0.0", CultureInfo.InstalledUICulture));
 
             input = input.Replace("{hdop}", (MAV.cs.gpshdop).ToString("0.00"));
 
