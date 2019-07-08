@@ -113,10 +113,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="ExtGuidedPlugin.cs">
-      <SubType>
-      </SubType>
-    </Compile>
+    <Compile Update="ExtGuidedPlugin.cs" />
     <Compile Update="Properties\AssemblyInfo.cs" />
     <Compile Update="FilePick.cs">
       <SubType>Form</SubType>

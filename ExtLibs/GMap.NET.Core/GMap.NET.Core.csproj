@@ -27,9 +27,7 @@
     <EmbeddedResource Remove="Resources\Resource1.resx" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="GMap.NET.ObjectModel\ObservableCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Update="GMap.NET.ObjectModel\ObservableCollection.cs" />
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

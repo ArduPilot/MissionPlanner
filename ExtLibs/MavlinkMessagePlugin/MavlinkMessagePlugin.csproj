@@ -41,10 +41,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Update="MavlinkMessagePlugin.cs">
-      <SubType>
-      </SubType>
-    </Compile>
+    <Compile Update="MavlinkMessagePlugin.cs" />
     <Compile Update="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

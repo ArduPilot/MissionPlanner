@@ -12,9 +12,21 @@ namespace MissionPlanner.ArduPilot
 {
     public struct DeviceInfo
     {
+        /// <summary>
+        /// Com Port Name
+        /// </summary>
         public string name;
+        /// <summary>
+        /// Windows device description
+        /// </summary>
         public string description;
+        /// <summary>
+        /// usb reported device description
+        /// </summary>
         public string board;
+        /// <summary>
+        /// device vid pid in windows format
+        /// </summary>
         public string hardwareid;
     }
 
@@ -73,21 +85,22 @@ namespace MissionPlanner.ArduPilot
             [JsonProperty("format-version")] public Version FormatVersion { get; set; }
         }
 
-        // from generate_manifest.py
-        public enum FIRMWARE_TYPES
-        {
-            AntennaTracker,
-            Copter,
-            Plane,
-            Rover,
-            Sub
-        }
         // from generate_manifest.py - with map
         public enum RELEASE_TYPES
         {
             BETA, // beta
             DEV, // latest
             OFFICIAL // stable
+        }
+
+        public enum MAV_TYPE
+        {
+            ANTENNA_TRACKER,
+            Copter,
+            HELICOPTER,
+            FIXED_WING,
+            GROUND_ROVER,
+            SUBMARINE
         }
 
         public static void GetList(string url = "http://firmware.ardupilot.org/manifest.json.gz", bool force = false)
@@ -112,7 +125,40 @@ namespace MissionPlanner.ArduPilot
 
         public static ManifestRoot Manifest { get; set; }
 
-        public static List<FirmwareInfo> GetOptions(DeviceInfo device, FIRMWARE_TYPES? fwtype = null, RELEASE_TYPES? reltype = null)
+        public static long? GetBoardID(DeviceInfo device)
+        {
+            GetList();
+
+            // match the board description
+            var ans = Manifest.Firmware.Where(a => (
+                                                       a.Platform == device.board ||
+                                                       a.BootloaderStr.Any(b => b == device.board)) && a.BoardId != 0);
+
+            if (ans.Any())
+            {
+                return ans.First().BoardId;
+            }
+
+            // match the vid/pid
+            Regex vidpid = new Regex("VID_([0-9a-f]+)&PID_([0-9a-f]+)&", RegexOptions.IgnoreCase);
+
+            if (vidpid.IsMatch(device.hardwareid))
+            {
+                var match = vidpid.Match(device.hardwareid);
+                var lookfor = String.Format("0x{0}/0x{1}", match.Groups[1].Value, match.Groups[2].Value);
+
+                var vidandusbdesc = Manifest.Firmware.Where(a => a.Usbid.Any(b => b.ToLower().Contains(lookfor.ToLower())) && a.BoardId != 0);
+
+                if (vidandusbdesc.Any())
+                {
+                    return vidandusbdesc.First().BoardId;
+                }
+            }
+
+            return null;
+        }
+
+        public static List<FirmwareInfo> GetOptions(DeviceInfo device, RELEASE_TYPES? reltype = null, MAV_TYPE? mav_type = null)
         {
             GetList();
 
@@ -120,11 +166,14 @@ namespace MissionPlanner.ArduPilot
             var ans = Manifest.Firmware.Where(a =>
                 a.Platform == device.board || a.BootloaderStr.Any(b => b == device.board));
 
-            if (fwtype.HasValue)
-                ans = ans.Where(a => a.VehicleType == fwtype.Value.ToString());
+            // ignore platform
+            ans = Manifest.Firmware;
 
             if (reltype.HasValue)
                 ans = ans.Where(a => a.MavFirmwareVersionType == reltype.Value.ToString());
+
+            if (mav_type.HasValue)
+                ans = ans.Where(a => a.MavType == mav_type.Value.ToString());
 
             // "0x26AC/0x0011"
             //USB\VID_2DAE&PID_1011&REV_0200

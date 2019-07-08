@@ -275,7 +275,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             // ConfigFirmware
             // 
-            
             this.Controls.Add(this.imageLabel1);
             this.Controls.Add(this.pictureBoxSub);
             this.Controls.Add(this.linkLabel1);

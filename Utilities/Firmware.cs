@@ -375,7 +375,7 @@ namespace MissionPlanner.Utilities
 
             try
             {
-                if (string.IsNullOrEmpty(historyhash))
+                if (false && string.IsNullOrEmpty(historyhash))
                 {
                     try
                     {
@@ -385,10 +385,8 @@ namespace MissionPlanner.Utilities
                         {
                             log.InfoFormat("{0}: {1} - {2}", item.name, item.description, item.board);
 
-
-
                             // get the options for this device
-                            var fwitems = APFirmware.GetOptions(item, MapFWType(temp), MapRelType(temp));
+                            var fwitems = APFirmware.GetOptions(item, MapRelType(temp), MapMAVType(temp));
                             if (fwitems?.Count == 1)
                             {
                                 board = BoardDetect.boards.pass;
@@ -396,8 +394,8 @@ namespace MissionPlanner.Utilities
                             }
                             else if (fwitems?.Count > 0)
                             {
-                                FirmwareSelection fws = new FirmwareSelection(fwitems);
-                                fws.ShowXamarinControl(300, 800);
+                                FirmwareSelection fws = new FirmwareSelection(fwitems, item);
+                                fws.ShowXamarinControl(400, 800);
                                 board = BoardDetect.boards.pass;
                                 baseurl = fws.FinalResult;
                                 break;
@@ -406,8 +404,8 @@ namespace MissionPlanner.Utilities
 
                         if (baseurl == null || baseurl == string.Empty && board == BoardDetect.boards.pass)
                         {
-                            CustomMessageBox.Show(Strings.No_firmware_available_for_this_board);
-                            return false;
+                            //CustomMessageBox.Show(Strings.No_firmware_available_for_this_board);
+                            //return false;
                         }
                     }
                     catch
@@ -664,18 +662,20 @@ namespace MissionPlanner.Utilities
             return ans;
         }
 
-        private APFirmware.FIRMWARE_TYPES? MapFWType(software temp)
+        private APFirmware.MAV_TYPE? MapMAVType(software temp)
         {
+            if (temp.urlfmuv3.ToLower().Contains("-heli".ToLower()))
+                return APFirmware.MAV_TYPE.HELICOPTER;
             if (temp.urlfmuv3.ToLower().Contains("AntennaTracker".ToLower()))
-                return APFirmware.FIRMWARE_TYPES.AntennaTracker;
-            if (temp.urlfmuv3.ToLower().Contains("Copter".ToLower()))
-                return APFirmware.FIRMWARE_TYPES.Copter;
+                return APFirmware.MAV_TYPE.ANTENNA_TRACKER;
             if (temp.urlfmuv3.ToLower().Contains("Plane".ToLower()))
-                return APFirmware.FIRMWARE_TYPES.Plane;
+                return APFirmware.MAV_TYPE.FIXED_WING;
             if (temp.urlfmuv3.ToLower().Contains("Rover".ToLower()))
-                return APFirmware.FIRMWARE_TYPES.Rover;
+                return APFirmware.MAV_TYPE.GROUND_ROVER;
             if (temp.urlfmuv3.ToLower().Contains("Sub".ToLower()))
-                return APFirmware.FIRMWARE_TYPES.Sub;
+                return APFirmware.MAV_TYPE.SUBMARINE;
+            if (temp.urlfmuv3.ToLower().Contains("Copter".ToLower()))
+                return APFirmware.MAV_TYPE.Copter;
 
             return null;
         }

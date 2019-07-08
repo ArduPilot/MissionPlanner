@@ -369,6 +369,12 @@
     <Compile Include="FollowMe.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigFirmwareManifest.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigFirmwareManifest.Designer.cs">
+      <DependentUpon>ConfigFirmwareManifest.cs</DependentUpon>
+    </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigHWIDs.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -558,6 +564,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ProximityControl.resx">
       <DependentUpon>ProximityControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFirmwareManifest.resx">
+      <DependentUpon>ConfigFirmwareManifest.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWIDs.resx">
       <DependentUpon>ConfigHWIDs.cs</DependentUpon>

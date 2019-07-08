@@ -8,26 +8,64 @@ using MissionPlanner.ArduPilot;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
+using DeviceInfo = MissionPlanner.ArduPilot.DeviceInfo;
 
 namespace MissionPlanner.test
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class FirmwareSelection : ContentPage, IClose
     {
-        public FirmwareSelection(List<APFirmware.FirmwareInfo> fwitems)
+        public FirmwareSelection(List<APFirmware.FirmwareInfo> fwitems, ArduPilot.DeviceInfo? item = null)
         {
             InitializeComponent();
 
+            DevInfo = item;
             FWList = fwitems;
 
             OnSelectedIndexChanged(null, null);
+
+            if (DevInfo.HasValue)
+            {
+                platform.SelectedItem = DevInfo.Value.board.Replace("-BL", "");
+
+                mavtype.IsVisible = false;
+                lbltype.IsVisible = false;
+
+                USBID.IsVisible = false;
+                lblusbid.IsVisible = false;
+
+                bootloader_str.IsVisible = false;
+                lblbootloaderid.IsVisible = false;
+
+                board_id.IsVisible = false;
+                lblboardid.IsVisible = false;
+
+                if (versiontype.Items.Count == 2)
+                {
+                    versiontype.IsVisible = false;
+                    lblversiontype.IsVisible = false;
+                }
+
+                //if (format.Items.Count == 2)
+                {
+                    format.IsVisible = false;
+                    lblformat.IsVisible = false;
+                }
+
+                if (version.Items.Count == 2)
+                {
+                    version.IsVisible = false;
+                    lblversion.IsVisible = false;
+                }
+            }
+            this.HeightRequest = Button.Y + Button.Height + 20;
         }
+
+        public DeviceInfo? DevInfo { get; set; } = null;
 
         private void OnSelectedIndexChanged(object sender, EventArgs e)
         {
-
-
-            var FWList = this.FWList;//APFirmware.Manifest.Firmware.AsEnumerable();
+            var FWList = this.FWList;
 
             if (board_id.SelectedItem != null && board_id.SelectedItem != "Ignore")
             {
@@ -46,7 +84,7 @@ namespace MissionPlanner.test
 
             if (format.SelectedItem != null && format.SelectedItem != "Ignore")
             {
-                FWList = FWList.Where(a => a.Format == (string) format.SelectedItem);
+                //FWList = FWList.Where(a => a.Format == (string) format.SelectedItem);
             }
 
             if (platform.SelectedItem != null && platform.SelectedItem != "Ignore")
@@ -91,32 +129,34 @@ namespace MissionPlanner.test
             }
 
 
-            PopulatePicker(board_id,
+            PopulatePicker(lblboardid, board_id,
                 FWList.Select(a => a.BoardId.ToString()).Distinct().OrderBy(a => int.Parse(a)));
 
-            PopulatePicker(mavtype, FWList.Select(a => a.MavType.ToString()).Distinct().OrderBy(a => a));
+            PopulatePicker(lbltype, mavtype, FWList.Select(a => a.MavType.ToString()).Distinct().OrderBy(a => a));
 
-            PopulatePicker(versiontype, FWList.Select(a => a.MavFirmwareVersionType.ToString()).Distinct().OrderBy(a => a));
+            PopulatePicker(lblversiontype, versiontype,
+                FWList.Select(a => a.MavFirmwareVersionType.ToString()).Distinct().OrderBy(a => a));
 
-            PopulatePicker(format, FWList.Select(a => a.Format.ToString()).Distinct().OrderBy(a => a));
+            PopulatePicker(lblformat, format, FWList.Select(a => a.Format.ToString()).Distinct().OrderBy(a => a));
 
-            PopulatePicker(platform, FWList.Select(a => a.Platform.ToString()).Distinct().OrderBy(a => a));
+            PopulatePicker(lblplatform, platform, FWList.Select(a => a.Platform.ToString()).Distinct().OrderBy(a => a));
 
-            PopulatePicker(version, FWList.Select(a => a.MavFirmwareVersion.ToString()).Distinct().OrderBy(a => a));
+            PopulatePicker(lblversion, version,
+                FWList.Select(a => a.MavFirmwareVersion.ToString()).Distinct().OrderBy(a => a));
 
-
-            PopulatePicker(USBID,
+            PopulatePicker(lblusbid, USBID,
                 FWList.Where(a => a.Usbid?.Length > 0).SelectMany(a => a.Usbid, (info, s) => s).Distinct()
                     .OrderBy(a => a));
 
-            PopulatePicker(bootloader_str,
-                FWList.Where(a => a.BootloaderStr?.Length > 0).SelectMany(info => info.BootloaderStr, (info, s) => s)
+            PopulatePicker(lblbootloaderid, bootloader_str,
+                FWList.Where(a => a.BootloaderStr?.Length > 0)
+                    .SelectMany(info => info.BootloaderStr, (info, s) => s)
                     .Distinct().OrderBy(a => a));
         }
 
         public IEnumerable<APFirmware.FirmwareInfo> FWList { get; set; }
 
-        private void PopulatePicker(Picker picker, IEnumerable<string> list)
+        private void PopulatePicker(Label label, Picker picker, IEnumerable<string> list)
         {
             Console.WriteLine("PopulatePicker " + picker.Title);
             try
@@ -130,7 +170,9 @@ namespace MissionPlanner.test
 
                 // select it if its the only item (and Ignore)
                 if (list.Count() == 1 && picker.SelectedIndex == -1)
+                {
                     picker.SelectedIndex = 0;
+                }
 
                 if (picker.SelectedItem == "Ignore")
                     picker.SelectedItem = null;

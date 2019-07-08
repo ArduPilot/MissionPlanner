@@ -10,6 +10,7 @@ using log4net;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Comms;
 using MissionPlanner.Controls;
+using MissionPlanner.test;
 using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
@@ -21,7 +22,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private readonly Firmware fw = new Firmware();
         private string custom_fw_dir = "";
         private string firmwareurl = "";
-        private APFirmware.RELEASE_TYPES REL_Type = APFirmware.RELEASE_TYPES.OFFICIAL;
+        private APFirmware.RELEASE_TYPES REL_Type = (APFirmware.RELEASE_TYPES)99;// APFirmware.RELEASE_TYPES.OFFICIAL;
         private bool firstrun = true;
         private IProgressReporterDialogue pdr;
         private string detectedport;
@@ -144,7 +145,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void pdr_DoWork(IProgressReporterDialogue sender)
         {
-            if ((int)REL_Type == 99)
+            //if ((int)REL_Type == 99)
             {
                 var fw = new Firmware();
                 fw.Progress -= fw_Progress1;
@@ -337,7 +338,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             else if (temp.url2560.ToLower().Contains("ac2-heli-".ToLower()) ||
                      temp.url2560.ToLower().Contains("-heli/ArduCopter".ToLower()) ||
                      temp.name.ToLower().Contains("arducopter heli") ||
-                     temp.desc.ToLower().Contains("arducopter heli"))
+                     temp.desc.ToLower().Contains("arducopter heli") ||
+                     temp.urlfmuv2.ToLower().Contains("-heli"))
             {
                 pictureBoxHeli.Text = temp.name += " heli";
                 pictureBoxHeli.Tag = temp;
@@ -359,7 +361,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 pictureBoxOcta.Tag = temp;
             }
             else if (temp.url2560_2.ToLower().Contains("antennatracker") || 
-                     temp.urlpx4v2.ToLower().Contains("antennatracker"))
+                     temp.urlpx4v2.ToLower().Contains("antennatracker") ||
+                     temp.urlfmuv3.ToLower().Contains("antennatracker"))
             {
                 pictureAntennaTracker.Text = temp.name;
                 pictureAntennaTracker.Tag = temp;

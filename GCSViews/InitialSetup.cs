@@ -110,6 +110,8 @@ namespace MissionPlanner.GCSViews
                         isConnected);
                     AddBackstageViewPage(typeof(ConfigFirmware), rm.GetString("backstageViewPagefw.Text"),
                         isDisConnected);
+                    AddBackstageViewPage(typeof(ConfigFirmwareManifest), rm.GetString("backstageViewPagefw.Text") + " Manifest",
+                        isDisConnected);
                 }
             }
 
