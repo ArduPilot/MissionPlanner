@@ -16,9 +16,73 @@
     </style>
 </head>
 <body>
-    <app><div id="loading" style="position: absolute;   top: 50%; left: 50%; width: 100vw; height: 100vh; text-align: center;">LOADING...</div></app>
+<app>
+    <div>
+        <div class="loading-text">
+            <small id="Loading-text">Loading</small>
+            <small id="Progress-report">0%</small>
+        </div>
+    </div>
+</app>
+
+<script>
+    (function bootLoader() {
+
+        var fetchListener = window.fetch,
+            perf = window.performance.timing,
+            el = document.getElementById('Progress-report'),
+            progress = 0,
+            timer = setInterval(function () {
+                el.innerText = ++progress + '%';
+                if (progress >= 100) {
+                    clearInterval(timer);
+                    bootSequence();
+                }
+            }, Math.abs(Math.floor(((perf.loadEventEnd - perf.navigationStart) / 1e3) % 60))),
+            assemblyReferences = [];
+
+
+        window.fetch = function () {
+            console.log( arguments );
+            var result = fetchListener.apply(this, arguments);
+            if (arguments[0] === '_framework/blazor.boot.json')
+                result.then(function (response) {
+                    response.clone().json().then(function (bootConfig) {
+                        assemblyReferences = bootConfig.assemblyReferences;
+                    });
+                });
+            return result;
+        }
+
+        function bootSequence() {
+            if (window['MONO'] && MONO.mono_wasm_runtime_is_ready) return;
+            document.getElementById('Loading-text').style.display = 'none';
+            el.innerText = 'Initializing';
+            var bootWatch = setInterval(function () {
+                if (assemblyReferences.length == 0 || !window['MONO']) return;
+                el.innerText = 'Booting';
+                if (!MONO.loaded_files) return;
+                el.innerText = 'Fetching ' + MONO.loaded_files.length + '/' + assemblyReferences.length;
+                if (assemblyReferences.length === MONO.loaded_files.length) {
+                    el.innerText = 'Rendering';
+                    clearInterval(bootWatch);
+                }
+            }, 50);
+        }
+    })();
+
+    (function() {
+        var proxied = window.XMLHttpRequest.prototype.open;
+        window.XMLHttpRequest.prototype.open = function() {
+            console.log( arguments );
+            return proxied.apply(this, [].slice.call(arguments));
+        };
+    })();
+</script>
 
 <script src="_framework/blazor.webassembly.js"></script>
+
+<script aasrc="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.js"></script>
 
 <script src="hud.js"></script>
 
