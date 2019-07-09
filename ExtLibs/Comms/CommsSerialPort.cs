@@ -35,7 +35,6 @@ namespace MissionPlanner.Comms
             {
                 log.Info(PortName + " DtrEnable " + value);
                 if (base.DtrEnable == value) return;
-                if (ispx4(PortName)) return;
                 base.DtrEnable = value;
             }
         }
@@ -47,7 +46,6 @@ namespace MissionPlanner.Comms
             {
                 log.Info(PortName + " RtsEnable " + value);
                 if (base.RtsEnable == value) return;
-                if (ispx4(PortName)) return;
                 base.RtsEnable = value;
             }
         }
@@ -139,12 +137,6 @@ namespace MissionPlanner.Comms
 
         public void toggleDTR()
         {
-            if (ispx4(PortName))
-            {
-                Console.WriteLine("PX4 - no DTR");
-                return;
-            }
-
             var open = IsOpen;
             Console.WriteLine("toggleDTR " + IsOpen);
             try
@@ -257,17 +249,18 @@ namespace MissionPlanner.Comms
             // make sure we are exclusive
             lock (locker)
             {
-                log.Info("start GetNiceName " + port);
                 portnamenice = "";
 
                 if (comportnamecache.ContainsKey(port))
                 {
-                    log.Info("done GetNiceName cache " + port);
+                    log.Info("done GetNiceName cache " + port + " " + comportnamecache[port]);
                     return comportnamecache[port];
                 }
 
                 try
                 {
+                    log.Info("start GetNiceName " + port);
+
                     CallWithTimeout(GetName, 1000, port);
                 }
                 catch
@@ -282,25 +275,20 @@ namespace MissionPlanner.Comms
             }
         }
 
+        public delegate string EventArgsDeviceName(string port);
+
+        public static event EventArgsDeviceName GetDeviceName;
+
         private static void GetName(string port)
         {
             try
             {
-                /*
-                ObjectQuery query = new ObjectQuery("SELECT * FROM Win32_SerialPort");                // Win32_USBControllerDevice
-                using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(query))
+                var ans = GetDeviceName?.Invoke(port);
+                if (!String.IsNullOrEmpty(ans))
                 {
-                    foreach (ManagementObject obj2 in searcher.Get())
-                    {
-                        //DeviceID
-                        if (obj2.Properties["DeviceID"].Value.ToString().ToUpper() == port.ToUpper())
-                        {
-                            portnamenice = obj2.Properties["Name"].Value.ToString();
-                            return;
-                        }
-                    }
+                    portnamenice = ans;
+                    return;
                 }
-                */
             }
             catch
             {
@@ -328,34 +316,6 @@ namespace MissionPlanner.Comms
                 threadToKill.Abort();
                 throw new TimeoutException();
             }
-        }
-
-        internal bool ispx4(string port)
-        {
-            try
-            {
-                /*
-                ObjectQuery query = new ObjectQuery("SELECT * FROM Win32_SerialPort");// Win32_USBControllerDevice
-                using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(query))
-                {
-                    foreach (ManagementObject obj2 in searcher.Get())
-                    {
-                        //DeviceID
-                        if (obj2.Properties["DeviceID"].Value.ToString().ToUpper() == port.ToUpper())
-                        {
-                            if (obj2.Properties["Name"].Value.ToString().ToLower().Contains("px4"))
-                                return true;
-                        }
-                    }
-                }
-                */
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
-
-            return false;
         }
 
         // .NET bug: sometimes bluetooth ports are enumerated with bogus characters

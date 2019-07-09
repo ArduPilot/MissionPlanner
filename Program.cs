@@ -8,6 +8,7 @@ using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Management;
 using System.Net;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -191,6 +192,8 @@ namespace MissionPlanner
             MissionPlanner.Comms.CommsBase.Settings += CommsBase_Settings;
             MissionPlanner.Comms.CommsBase.InputBoxShow += CommsBaseOnInputBoxShow;
             MissionPlanner.Comms.CommsBase.ApplyTheme += MissionPlanner.Utilities.ThemeManager.ApplyThemeTo;
+            MissionPlanner.Comms.SerialPort.GetDeviceName += SerialPort_GetDeviceName;
+                
 
             // set the cache provider to my custom version
             GMap.NET.GMaps.Instance.PrimaryCache = new Maps.MyImageCache();
@@ -316,6 +319,24 @@ namespace MissionPlanner
             catch
             {
             }
+        }
+
+        private static string SerialPort_GetDeviceName(string port)
+        {
+            ObjectQuery query = new ObjectQuery("SELECT * FROM Win32_SerialPort");                // Win32_USBControllerDevice
+            using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(query))
+            {
+                foreach (ManagementObject obj2 in searcher.Get())
+                {
+                    //DeviceID
+                    if (obj2.Properties["DeviceID"].Value.ToString().ToUpper() == port.ToUpper())
+                    {
+                        return obj2.Properties["Name"].Value.ToString();
+                    }
+                }
+            }
+
+            return "";
         }
 
         private static void LoadDlls()
