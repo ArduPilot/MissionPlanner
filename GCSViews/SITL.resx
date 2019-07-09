@@ -702,6 +702,9 @@
   <data name="cmb_model.Items27" xml:space="preserve">
     <value>calibration</value>
   </data>
+  <data name="cmb_model.Items28" xml:space="preserve">
+    <value>plane-jet</value>
+  </data>
   <data name="cmb_model.Location" type="System.Drawing.Point, System.Drawing">
     <value>169, 17</value>
   </data>
