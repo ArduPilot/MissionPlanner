@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -21,6 +22,11 @@ namespace MissionPlanner.Utilities
                 Error =
                     (sender, args) => { args.ErrorContext.Handled = true; }
             });
+        }
+
+        public static T FromJSON<T>(this string msg)
+        {
+            return JsonConvert.DeserializeObject<T>(msg);
         }
 
         public static string RemoveFromEnd(this string s, string suffix)
@@ -50,6 +56,11 @@ namespace MissionPlanner.Utilities
                 return buffer;
             Array.Resize(ref buffer, length);
             return buffer;
+        }
+
+        public static MemoryStream ToMemoryStream(this byte[] buffer)
+        {
+            return new MemoryStream(buffer);
         }
 
         public static string TrimUnPrintable(this string input)

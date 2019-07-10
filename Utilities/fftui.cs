@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using ZedGraph;
+using InputBox = MissionPlanner.Controls.InputBox;
 
 namespace MissionPlanner.Utilities
 {
@@ -32,11 +33,22 @@ namespace MissionPlanner.Utilities
 
                 var st = File.OpenRead(ofd.FileName);
 
-                int bins = 10;
+                int bins = (int)NUM_bins.Value;
+
+                List<double[]> avg = new List<double[]>
+                {
+                    new double[1<<bins]
+                };
+                Color[] color = new Color[]
+                    {Color.Red, Color.Green, Color.Black, Color.Violet, Color.Blue, Color.Orange};
+
+                int hz = 8000;
+                InputBox.Show("sample rate", "nter source file sample rate", ref hz);
 
                 double[] buffer = new double[1 << bins];
 
                 int a = 0;
+                int samples = 0;
 
                 while (st.Position < st.Length)
                 {
@@ -51,9 +63,11 @@ namespace MissionPlanner.Utilities
 
                     if (a == (1 << bins))
                     {
+                        samples++;
+
                         var fftanswer = fft.rin(buffer, (uint) bins);
 
-                        var freqt = fft.FreqTable(buffer.Length, 1000);
+                        var freqt = fft.FreqTable(buffer.Length, hz);
 
                         ZedGraph.PointPairList ppl = new ZedGraph.PointPairList();
 
@@ -70,8 +84,30 @@ namespace MissionPlanner.Utilities
 
                         zedGraphControl1.GraphPane.XAxis.Title.Text = "Freq Hz";
                         zedGraphControl1.GraphPane.YAxis.Title.Text = "Amplitude";
-                        zedGraphControl1.GraphPane.Title.Text = "FFT";
+                        zedGraphControl1.GraphPane.Title.Text = "FFT - " + hz;
+                        zedGraphControl1.GraphPane.Y2Axis.IsVisible = true;
                         zedGraphControl1.GraphPane.CurveList.Clear();
+                        zedGraphControl1.GraphPane.CurveList.Add(curve);
+
+                        for (int b = 0; b < (1 << bins)/2; b++)
+                        {
+                            avg[0][b] = avg[0][b] * (1.0 - (1.0 / samples)) + fftanswer[b] * (1.0/ samples);
+                        }
+
+                        // 0 out all data befor cutoff
+                        for (int b = 0; b < 1 << bins / 2; b++)
+                        {
+                            if (freqt[b] < (double) NUM_startfreq.Value)
+                            {
+                                avg[0][b] = 0;
+                                continue;
+                            }
+
+                            break;
+                        }
+
+                        ppl = new ZedGraph.PointPairList(freqt, avg[0]);
+                        curve = new LineItem("Avg", ppl, color[1], SymbolType.None) {IsY2Axis = true};
                         zedGraphControl1.GraphPane.CurveList.Add(curve);
 
                         zedGraphControl1.Invalidate();
@@ -79,25 +115,10 @@ namespace MissionPlanner.Utilities
 
                         zedGraphControl1.Refresh();
 
-                        int width = Console.WindowWidth - 1;
-                        int height = Console.WindowHeight - 1;
-
-                        int r = 1;
-                        foreach (var ff in fftanswer)
-                        {
-                            int col = (int) ((r/(double) fftanswer.Length)*width);
-                            int row = (int) ((ff*0.2) + 0.5);
-
-                            //Console.SetCursorPosition(col, height - row);
-                            Console.Write("*");
-                            r++;
-                        }
-
                         // 50% overlap
                         st.Seek(-(1 << bins)/2, SeekOrigin.Current);
                         a = 0;
                         buffer = new double[buffer.Length];
-                        //Console.Clear();
                     }
                 }
             }
