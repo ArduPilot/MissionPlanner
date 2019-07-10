@@ -433,6 +433,9 @@ namespace MissionPlanner.Utilities
 
             var th = new Thread(delegate()
             {
+                // prevent it falling out of scope
+                GstAppSinkCallbacks callbacks2 = callbacks;
+
                 Thread.Sleep(500);
 
                 while (!NativeMethods.gst_app_sink_is_eos(appsink))
@@ -546,7 +549,7 @@ namespace MissionPlanner.Utilities
             Environment.SetEnvironmentVariable("GST_DEBUG_DUMP_DOT_DIR", Path.GetTempPath());
         }
 
-        //gst-launch-1.0.exe  videotestsrc pattern=ball ! video/x-raw,width=640,height=480 ! clockoverlay ! x264enc ! rtph264pay ! udpsink host=127.0.0.1 port=5600
+        //gst-launch-1.0.exe  videotestsrc pattern=ball  is-live=true ! video/x-raw,width=640,height=480 ! clockoverlay ! x264enc ! rtph264pay ! udpsink host=127.0.0.1 port=5600
         //gst-launch-1.0.exe -v udpsrc port=5600 buffer-size=60000 ! application/x-rtp ! rtph264depay ! avdec_h264 ! queue leaky=2 ! avenc_mjpeg ! tcpserversink host=127.0.0.1 port=1235 sync=false
         //udpsrc port=5600 buffer-size=60000 ! application/x-rtp ! rtph264depay ! avdec_h264 ! queue leaky=2 ! video/x-raw,format=BGRx ! appsink name=outsink
 

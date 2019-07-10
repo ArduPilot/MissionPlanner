@@ -2986,12 +2986,75 @@ namespace MissionPlanner
             // update firmware version list - only once per day
             ThreadPool.QueueUserWorkItem(BGFirmwareCheck);
 
-            log.Info("start udpvideoshim");
-            // start listener
-            UDPVideoShim.Start();
+            log.Info("start AutoConnect");
+            AutoConnect.NewMavlinkConnection += (sender, serial) => {
+                try
+                {
+                    MainV2.instance.BeginInvoke((Action) delegate
+                    {
+                        if (MainV2.comPort.BaseStream.IsOpen)
+                        {
+                            var mav = new MAVLinkInterface();
+                            mav.BaseStream = serial;
+                            MainV2.instance.doConnect(mav, "preset", serial.PortName);
 
-            log.Info("start udpmavlinkshim");
-            UDPMavlinkShim.Start();
+                            MainV2.Comports.Add(mav);
+                        }
+                        else
+                        {
+                            MainV2.comPort.BaseStream = serial;
+                            MainV2.instance.doConnect(MainV2.comPort, "preset", serial.PortName);
+                        }
+                    });
+                }catch (Exception ex) { log.Error(ex);}
+            };
+            AutoConnect.NewVideoStream += (sender, gststring) =>
+            {
+                try
+                {
+                    GStreamer.gstlaunch = GStreamer.LookForGstreamer();
+
+                    if (!File.Exists(GStreamer.gstlaunch))
+                    {
+                        if (CustomMessageBox.Show(
+                                "A video stream has been detected, but gstreamer has not been configured/installed.\nDo you want to install/config it now?",
+                                "GStreamer", System.Windows.Forms.MessageBoxButtons.YesNo) ==
+                            (int) System.Windows.Forms.DialogResult.Yes)
+                        {
+                            {
+                                ProgressReporterDialogue prd = new ProgressReporterDialogue();
+                                ThemeManager.ApplyThemeTo(prd);
+                                prd.DoWork += sender2 =>
+                                {
+                                    GStreamer.DownloadGStreamer(((i, s) =>
+                                    {
+                                        prd.UpdateProgressAndStatus(i, s);
+                                        if (prd.doWorkArgs.CancelRequested) throw new Exception("User Request");
+                                    }));
+                                };
+                                prd.RunBackgroundOperationAsync();
+
+                                GStreamer.gstlaunch = GStreamer.LookForGstreamer();
+                            }
+                            if (!File.Exists(GStreamer.gstlaunch))
+                            {
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+
+                    GStreamer.StartA(gststring);
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                }
+            };
+            AutoConnect.Start();
 
             BinaryLog.onFlightMode += (firmware, modeno) =>
             {
