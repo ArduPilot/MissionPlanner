@@ -12,6 +12,7 @@ using MissionPlanner.Utilities;
 using UAVCAN;
 using System.Globalization;
 using System.IO;
+using MissionPlanner.Comms;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -23,15 +24,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             uAVCANModelBindingSource.DataSource = allnodes;
 
-            if (!MainV2.comPort.MAV.param.ContainsKey("CAN_SLCAN_TIMOUT"))
+            if (MainV2.comPort.BaseStream.IsOpen && !MainV2.comPort.MAV.param.ContainsKey("CAN_SLCAN_TIMOUT"))
                 this.Enabled = false;
         }
-
-        private void configUAVCANBindingSource_CurrentChanged(object sender, EventArgs e)
-        {
-
-        }
-
+        
         List<UAVCANModel> allnodes = new List<UAVCANModel>();
 
         private void but_slcanmode_Click(object sender, EventArgs e)
@@ -59,11 +55,21 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             }
             {
-                // fail is good
-
+                // grab the connected port
                 var port = MainV2.comPort.BaseStream;
 
+                // place an invalid port in its place
                 MainV2.comPort.BaseStream = new Comms.SerialPort() { PortName = port.PortName, BaudRate = port.BaudRate };
+
+                //check if we started from within mavlink - if not get settings from menu and create port
+                if (!port.IsOpen)
+                {
+                    port = new Comms.SerialPort()
+                    {
+                        PortName = MainV2._connectionControl.CMB_serialport.Text,
+                        BaudRate = int.Parse(MainV2._connectionControl.CMB_baudrate.Text)
+                    };
+                }
 
                 can.SourceNode = 127;
 
