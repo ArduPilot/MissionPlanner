@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net461</TargetFrameworks>
     <ApplicationIcon />
     <OutputTypeEx>library</OutputTypeEx>
     <StartupObject />
@@ -12,18 +12,8 @@
     <RootNamespace>GDAL</RootNamespace>
     <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="gdal\**" />
-    <Compile Remove="Native\**" />
-    <EmbeddedResource Remove="gdal\**" />
-    <EmbeddedResource Remove="Native\**" />
-    <None Remove="gdal\**" />
-    <None Remove="Native\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="GDAL" Version="2.4.2" />
@@ -33,21 +23,6 @@
     <ProjectReference Include="..\GMap.NET.Core\GMap.NET.Core.csproj" />
     <ProjectReference Include="..\GMap.NET.Drawing\GMap.NET.Drawing.csproj" />
 	
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="gdalconst_csharp">
-      <HintPath>..\..\..\..\..\.nuget\packages\gdal\2.4.2\lib\net40\gdalconst_csharp.dll</HintPath>
-    </Reference>
-    <Reference Include="gdal_csharp">
-      <HintPath>..\..\..\..\..\.nuget\packages\gdal\2.4.2\lib\net40\gdal_csharp.dll</HintPath>
-    </Reference>
-    <Reference Include="ogr_csharp">
-      <HintPath>..\..\..\..\..\.nuget\packages\gdal\2.4.2\lib\net40\ogr_csharp.dll</HintPath>
-    </Reference>
-    <Reference Include="osr_csharp">
-      <HintPath>..\..\..\..\..\.nuget\packages\gdal\2.4.2\lib\net40\osr_csharp.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>
