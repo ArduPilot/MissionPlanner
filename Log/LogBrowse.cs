@@ -2488,7 +2488,7 @@ namespace MissionPlanner.Log
 
             opt.ShowDialog(this);
 
-            if (opt.SelectedItem != "")
+            if (opt.Text != "")
             {
                 logdatafilter.Clear();
 
@@ -2500,7 +2500,7 @@ namespace MissionPlanner.Log
                     b++;
                     var item = dflog.GetDFItemFromLine(item2, b);
 
-                    if (item.msgtype == opt.SelectedItem)
+                    if (item.msgtype.ToUpper() == opt.Text.ToUpper())
                     {
                         logdatafilter.Add(a, item);
                         a++;
@@ -2522,27 +2522,6 @@ namespace MissionPlanner.Log
                     dataGridView1.RowCount = logdata.Count;
                 }
             }
-
-            /*
-            dataGridView1.SuspendLayout();
-            
-            foreach (DataGridViewRow datarow in dataGridView1.Rows)
-            {
-                string celldata = datarow.Cells[0].Value.ToString().Trim();
-                if (celldata == opt.SelectedItem || opt.SelectedItem == "")
-                    datarow.Visible = true;
-                else
-                {
-                    try
-                    {
-                        datarow.Visible = false;
-                    }
-                    catch { }
-                }
-            }
-
-            dataGridView1.ResumeLayout();
-             * */
             dataGridView1.Invalidate();
         }
 
