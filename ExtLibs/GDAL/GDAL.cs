@@ -1,19 +1,14 @@
-﻿using System;
-using OSGeo.GDAL;
-using System.Drawing.Imaging;
-using System.Drawing;
+﻿using GMap.NET;
 using log4net;
-using System.Reflection;
-using OSGeo.OSR;
-using log4net.Layout;
-using log4net.Appender;
-using log4net.Config;
-using System.IO;
-using System.Collections.Generic;
-using GMap.NET;
-using GMap.NET.MapProviders;
-using System.Drawing.Drawing2D;
+using OSGeo.GDAL;
 using OSGeo.OGR;
+using OSGeo.OSR;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Reflection;
 
 namespace GDAL
 {
@@ -381,7 +376,7 @@ namespace GDAL
             var count = dataSource.GetLayerCount();
             Layer layer = dataSource.GetLayerByIndex(0);
             var litems = layer.GetFeatureCount(0);
-            var lname= layer.GetName();
+            var lname = layer.GetName();
             Envelope envelope = new Envelope();
             layer.GetExtent(envelope, 0);
             //Compute the out raster cell resolutions  

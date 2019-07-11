@@ -1,54 +1,11 @@
-﻿using System;
+﻿using OSGeo.OGR;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.InteropServices;
-using System.Text;
-using OSGeo.OGR;
-using OSGeo.OSR;
 
 namespace GDAL
 {
-    [StructLayout(LayoutKind.Explicit, Size = (3*8))]
-    public struct point
-    {
-        [FieldOffset(0)]
-        public double x;
-        [FieldOffset(8)]
-        public double y;
-        [FieldOffset(16)]
-        public double z;
-
-        public point(double x, double y, double z)
-        {
-            this.x = x;
-            this.y = y;
-            this.z = z;
-        }
-
-        public point(double[] pnt)
-        {
-            this.x = pnt[0];
-            this.y = pnt[1];
-            this.z = pnt[2];
-        }
-
-        public static implicit operator point(double[] a)
-        {
-            return new point(a);
-        }
-
-        public static implicit operator double[](point a)
-        {
-            return new[] {a.x, a.y, a.z};
-        }
-
-        public override string ToString()
-        {
-            return String.Format("point ({0},{1},{2})", x, y, z);
-        }
-    }
-
-    public class OGR: IDisposable
+    public class OGR : IDisposable
     {
         DataSource dataSource;
 
@@ -127,7 +84,7 @@ namespace GDAL
 
             var GeometryType = geom.GetGeometryType();
 
-            switch ((wkbGeometryType) ((int) GeometryType & 0xffff))
+            switch ((wkbGeometryType)((int)GeometryType & 0xffff))
             {
                 case wkbGeometryType.wkbUnknown:
                     break;
@@ -137,53 +94,53 @@ namespace GDAL
                     NewPoint?.Invoke(new point(pnt));
                     break;
                 case wkbGeometryType.wkbLineString:
-                {
-                    List<point> ls = new List<point>();
-                    var pointcount = geom.GetPointCount();
-                    for (int p = 0; p < pointcount; p++)
                     {
-                        double[] pnt2 = new double[3];
-                        geom.GetPoint(p, pnt2);
-                        ls.Add(pnt2);
-                    }
-
-                    NewLineString?.Invoke(ls);
-                    break;
-                }
-                case wkbGeometryType.wkbPolygon:
-                {
-                    List<point> poly = new List<point>();
-                    for (int i = 0; i < geom.GetGeometryCount(); i++)
-                    {
-                        var geom2 = geom.GetGeometryRef(i);
-                        var pointcount1 = geom2.GetPointCount();
-                        for (int p = 0; p < pointcount1; p++)
+                        List<point> ls = new List<point>();
+                        var pointcount = geom.GetPointCount();
+                        for (int p = 0; p < pointcount; p++)
                         {
                             double[] pnt2 = new double[3];
-                            geom2.GetPoint(p, pnt2);
-                            poly.Add(pnt2);
+                            geom.GetPoint(p, pnt2);
+                            ls.Add(pnt2);
                         }
 
-                        NewPolygon?.Invoke(poly);
+                        NewLineString?.Invoke(ls);
+                        break;
                     }
+                case wkbGeometryType.wkbPolygon:
+                    {
+                        List<point> poly = new List<point>();
+                        for (int i = 0; i < geom.GetGeometryCount(); i++)
+                        {
+                            var geom2 = geom.GetGeometryRef(i);
+                            var pointcount1 = geom2.GetPointCount();
+                            for (int p = 0; p < pointcount1; p++)
+                            {
+                                double[] pnt2 = new double[3];
+                                geom2.GetPoint(p, pnt2);
+                                poly.Add(pnt2);
+                            }
 
-                    break;
-                }
+                            NewPolygon?.Invoke(poly);
+                        }
+
+                        break;
+                    }
                 case wkbGeometryType.wkbMultiPoint:
                 case wkbGeometryType.wkbMultiLineString:
                 case wkbGeometryType.wkbMultiPolygon:
                 case wkbGeometryType.wkbGeometryCollection:
                 case wkbGeometryType.wkbLinearRing:
-                {
-                    Geometry sub_geom;
-                    for (int i = 0; i < geom.GetGeometryCount(); i++)
                     {
-                        sub_geom = geom.GetGeometryRef(i);
-                        ProcessGeometry(sub_geom);
-                    }
+                        Geometry sub_geom;
+                        for (int i = 0; i < geom.GetGeometryCount(); i++)
+                        {
+                            sub_geom = geom.GetGeometryRef(i);
+                            ProcessGeometry(sub_geom);
+                        }
 
-                    break;
-                }
+                        break;
+                    }
                 case wkbGeometryType.wkbNone:
 
                     break;

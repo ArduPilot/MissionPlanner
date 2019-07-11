@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
+﻿using GMap.NET.WindowsForms;
+using System.Collections.Generic;
 using System.IO;
 
 namespace GDAL
@@ -26,9 +26,9 @@ namespace GDAL
         {
             Instance = new GDALProvider();
 
-            Type mytype = typeof (GMapProviders);
+            Type mytype = typeof(GMapProviders);
             FieldInfo field = mytype.GetField("DbHash", BindingFlags.Static | BindingFlags.NonPublic);
-            Dictionary<int, GMapProvider> list = (Dictionary<int, GMapProvider>) field.GetValue(Instance);
+            Dictionary<int, GMapProvider> list = (Dictionary<int, GMapProvider>)field.GetValue(Instance);
 
             list.Add(Instance.DbId, Instance);
 
@@ -91,17 +91,6 @@ namespace GDAL
             bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
 
             return new GMapImage() { Img = bmp, Data = ms };
-        }
-    }
-
-    public class GMapImage : PureImage
-    {
-        public Image Img { get; set; }
-
-        public override void Dispose()
-        {
-            Img.Dispose();
-            Data.Dispose();
         }
     }
 }
