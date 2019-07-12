@@ -318,6 +318,9 @@ namespace MissionPlanner.Utilities
 
         public static double EvaluateMath(this String input)
         {
+            if (input == null || input == "")
+                return 0;
+
             String expr = "(" + input + ")";
             Stack<String> ops = new Stack<String>();
             Stack<Double> vals = new Stack<Double>();
