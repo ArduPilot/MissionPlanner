@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <OutputTypeEx>library</OutputTypeEx>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -24,13 +25,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="DotNetZip.NetStandard" Version="1.12.0" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.5.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Ionic.Zip.NetStandard">
-      <HintPath>..\Ionic.Zip.NetStandard.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 

@@ -7,6 +7,8 @@
     <title>wasm</title>
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
     <link href="css/site.css" rel="stylesheet" />
+
+    <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
@@ -97,9 +99,13 @@
 
 <script>
 
-    function evalline(line)
-    {
-        return eval(line);
+    function evalline(line) {
+        try {
+            return eval(line);
+        }
+        catch (err) {
+            console.log(err);
+        }
     }
 
     function onSignIn(googleUser) {
@@ -315,17 +321,19 @@
     var takeoff_altitude = 0;
 
     function initMap() {
-        map = new google.maps.Map(document.getElementById('map'),
-            {
-                center: { lat: -35, lng: 117.89 },
-                zoom: 1,
-                mapTypeId: 'satellite',
-                maxZoom: 21
-            });
+        try {
+            map = new google.maps.Map(document.getElementById('map'),
+                {
+                    center: { lat: -35, lng: 117.89 },
+                    zoom: 1,
+                    mapTypeId: 'satellite',
+                    maxZoom: 21
+                });
 
-        //map.setMapTypeId('satellite');
+            //map.setMapTypeId('satellite');
 
-        //map.setOptions({maxZoom: 21});
+            //map.setOptions({maxZoom: 21});
+        } catch (err) { console.log(err); }
 
         Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjODdmODk4Yy0xZDhlLTQxNjAtOTkzNS02ZjNmOGRhM2I1MDgiLCJpZCI6NDYzOCwic2NvcGVzIjpbImFzciIsImdjIl0sImlhdCI6MTU0MTMyMDQ4Nn0.GnXyBbMj8o8TZ2LeCxFB_SrdUiQodGmjT1AbNCvmezA';
 

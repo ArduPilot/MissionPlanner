@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
@@ -16,10 +16,6 @@
     <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="System.Security.Permissions" Version="4.5.0" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Comms\MissionPlanner.Comms.csproj" />

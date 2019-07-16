@@ -1,15 +1,12 @@
-using System.IO;
-using System.Net;
-using System.Net.Http;
-using System.Reflection;
+using Blazor.Extensions.Storage;
 using Blazor.FileReader;
 using log4net.Appender;
 using log4net.Core;
 using log4net.Layout;
 using log4net.Repository.Hierarchy;
-using Microsoft.AspNetCore.Blazor.Builder;
+using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
+using System.Reflection;
 
 
 namespace wasm
@@ -20,15 +17,23 @@ namespace wasm
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Add(new ServiceDescriptor(typeof(IFileReaderService), typeof(FileReaderService), ServiceLifetime.Transient));
-        }
+            services.AddStorage();
 
-        public async void Configure(IBlazorApplicationBuilder app)
+            //services.Add(new ServiceDescriptor(typeof(IFileReaderService), typeof(FileReaderService), ServiceLifetime.Transient));
+
+            var x = System.Runtime.CompilerServices.Unsafe.Unbox<int>(1);
+            services.AddFileReaderService();
+
+            //services.UseWebUSB(); // Makes IUSB available to the DI container
+        }
+        //IBlazorApplicationBuilder
+        //IComponentsApplicationBuilder
+        public void Configure(IComponentsApplicationBuilder app)
         {
             app.AddComponent<App>("app");
 
             log4net.Repository.Hierarchy.Hierarchy hierarchy =
-                (Hierarchy) log4net.LogManager.GetRepository(Assembly.GetAssembly(typeof(Startup)));
+                (Hierarchy)log4net.LogManager.GetRepository(Assembly.GetAssembly(typeof(Startup)));
 
             PatternLayout patternLayout = new PatternLayout();
             patternLayout.ConversionPattern = "%date [%thread] %-5level %logger - %message%newline";

@@ -1,0 +1,670 @@
+﻿@page "/DataFlash"
+@using System.Collections
+@using System.Globalization
+@using System.IO
+@using System.Net
+@using System.Net.WebSockets
+@using System.Threading
+@using MissionPlanner
+@using MissionPlanner.Comms
+@using MissionPlanner.Utilities
+@using MissionPlanner.Log
+@using System.IO;
+@using System.Text;
+@using  System.Net.Http.Headers;
+@using System.Security.Cryptography;
+@using Blazor.FileReader;
+@using Flurl.Http;
+@using Ionic.Zip;
+@using System.Xml.Linq;
+@using Flurl.Http.Content
+@using ICSharpCode.SharpZipLib.Lzw
+@using Microsoft.AspNetCore.Components
+@using MissionPlanner.ArduPilot
+@using Newtonsoft.Json
+@using Org.BouncyCastle.Utilities.Encoders
+@using Microsoft.AspNetCore.Blazor.Services;
+@using SevenZip
+@implements IDisposable
+@inject IFileReaderService fileReaderService;
+@inject HttpClient Http
+@inject IUriHelper UriHelper
+
+<div id="container">
+    <div id="right" style="float:right; width: 150px;">
+        @if (cb != null)
+        {
+            @foreach (var item in SeenMessageTypes)
+            {
+                <ul style="margin: 0;">
+                    <input type="checkbox" value="@item" onclick="if ($(this).is(':checked')) {$(this).siblings().css('display', 'block');} else {$(this).siblings().css('display', 'none');}" />
+                    @item
+                    @foreach (var subitem in cb.FMT.First(a => a.Value.Item2 == item).Value.Item4.Split(','))
+                    {
+                        <div style="display: none; margin-left: 20px;">
+                            @if (AmIChecked(item + "." + subitem))
+                            {
+                                <li><input type="checkbox" @onchange=@(async (eventArgs) => PlotItem(@item, @subitem, (bool)eventArgs.Value)) value="@item.@subitem" checked />@subitem</li>
+                            }
+                            else
+                            {
+                                <li><input type="checkbox" @onchange=@(async (eventArgs) => PlotItem(@item, @subitem, (bool)eventArgs.Value)) value="@item.@subitem" />@subitem</li>
+                            }
+                        </div>
+                    }
+                </ul>
+            }
+        }
+
+    </div>
+    <div id="left" style="margin-right: 150px;">
+        <input type="file" @ref="@inputTypeFileElement" accept=".bin, .log" @onchange="@ReadFile" />
+        <button @onclick="@UploadLog">Upload </button>
+
+        <div id="cesiumContainer" style="width: 100%; height: 75%;"></div>
+
+        <ul>
+            @foreach (var gra in graphs)
+            {
+                <li>
+                    <div id="@gra" style="width: 100%; height: 50vh" onmousedown="@(selectedchart = gra)"></div>
+                </li>
+            }
+            <li><button @onclick="@addNewGraph">New Graph</button></li>
+        </ul>
+        <div id="div2" style="width: 100%; height: 50vh"></div>
+        <div id="div3" style="width: 100%; height: 50vh"></div>
+        <table id="myTable" class="display"></table>
+        <div>
+            <input id="searchstring" value="" onkeyup="  var value = $(this).val().toLowerCase(); $('#paramlist > li#paramrow').filter(function () { $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1) });" />
+            <ul id="paramlist">
+                <li id="paramheader">
+                    <div>Name</div>
+                    <div>Value</div>
+                    <div>Options</div>
+                    <div>Desc</div>
+                </li>
+                @if (cb != null)
+                {
+                    @foreach (var item in CleanParamList)
+                    {
+                        <li id="paramrow">
+                            <div>@item["Name"]</div>
+                            <div>@item["Value"]</div>
+                            <div>@ParameterMetaDataRepository.GetParameterOptionsInt(item["Name"], Firmwares.ArduCopter2.ToString()).Select(a => a.Key + " = " + a.Value).Aggregate("", (current, next) => current + "; " + next)</div>
+                            <div>@ParameterMetaDataRepository.GetParameterMetaData(item["Name"], ParameterMetaDataConstants.DisplayName, Firmwares.ArduCopter2.ToString()) <br />@ParameterMetaDataRepository.GetParameterMetaData(item["Name"], ParameterMetaDataConstants.Description, Firmwares.ArduCopter2.ToString())</div>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+
+<button @onclick="@ListBlobs">ListBlobs </button>
+@if (blobs != null)
+{
+    @foreach (var blob in blobs)
+    {
+        <li><a href="/DataFlash?dflog=@blob[0]">@blob[0] - @blob[1]</a></li>
+    }
+}
+
+@functions {
+
+    [Parameter]
+    public string dflog { get; set; } = null;
+
+    private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+    protected override void OnInit()
+    {
+        UriHelper.OnLocationChanged += async (e, a) =>
+        {
+            var uri = new Uri(UriHelper.GetAbsoluteUri());
+
+            dflog = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query).TryGetValue("dflog", out var type) ? type.First() : "";
+
+            if (dflog != "")
+            {
+                MemoryStream outStream = new MemoryStream();
+                var inStream = await GetBlob(dflog);
+                byte[] properties = new byte[5];
+                if (inStream.Read(properties, 0, 5) != 5)
+                    throw (new Exception("input .lzma is too short"));
+                SevenZip.Compression.LZMA.Decoder decoder = new SevenZip.Compression.LZMA.Decoder();
+                decoder.SetDecoderProperties(properties);
+                long outSize = 0;
+                for (int i = 0; i < 8; i++)
+                {
+                    int v = inStream.ReadByte();
+                    if (v < 0)
+                        throw (new Exception("Can't Read 1"));
+                    outSize |= ((long)(byte)v) << (8 * i);
+                }
+                long compressedSize = inStream.Length - inStream.Position;
+                decoder.Code(inStream, outStream, compressedSize, outSize, null);
+                outStream.Position = 0;
+                ProcessStream(outStream);
+            }
+        };
+
+
+    }
+
+    protected override async Task OnInitAsync()
+    {
+        Console.WriteLine("DataFlash OnInitAsync");
+        var paramdata = "ParameterMetaDataBackup.xml";
+        if (!File.Exists(paramdata))
+        {
+            log.Info("get param");
+            var content = await Http.GetStringAsync((paramdata));
+            log.Info("get param done");
+
+            File.WriteAllText(paramdata, content);
+
+            //localStorage.SetItem(paramdata, content);
+        }
+
+        log.Info(UriHelper.GetAbsoluteUri());
+
+    }
+
+    bool initMap = false;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        Console.WriteLine("DataFlash OnParametersSetAsync Done");
+    }
+    protected override async Task OnAfterRenderAsync()
+    {
+        if (!initMap)
+            JSRuntime.InvokeAsync<object>("initMap", null);
+
+        initMap = true;
+
+        Console.WriteLine("DataFlash OnAfterRenderAsync Done");
+    }
+    protected override bool ShouldRender()
+    {
+        var renderUI = true;
+        Console.WriteLine("DataFlash ShouldRender Done");
+        return renderUI;
+    }
+
+    ElementRef inputTypeFileElement;
+
+    CollectionBuffer cb = null;
+
+    List<string[]> blobs = null;
+
+    List<string> graphs = new List<string>() { "div1" };
+
+    string selectedchart = "div1";
+
+    public async Task<Stream> GetBlob(string blobName)
+    {
+        string storageAccount = "mptlog";
+        string containerName = "tlog";
+        string queryString = "";
+
+        string requestUri = $"https://{storageAccount}.blob.core.windows.net/{containerName}/{blobName}{queryString}";
+
+        return await Http.GetStreamAsync(requestUri);
+    }
+
+    public async void ListBlobs()
+    {
+        string storageAccount = "mptlog";
+        string containerName = "tlog";
+        string queryString = "?maxresults=50&restype=container&comp=list&sv=2018-03-28&si=tlog-list&sr=c&sig=f%2BfdlQfXGFFwMs%2FBkA%2Fng3iUF8iBUrJszanSawYe9dc%3D";
+
+        string method = "GET";
+
+        string requestUri = $"https://{storageAccount}.blob.core.windows.net/{containerName}{queryString}";
+
+
+        var an = await Http.GetStringAsync(requestUri);
+        log.Info(an);
+        var sample = "";
+        XElement blobsxml = XElement.Parse(an);
+
+        blobs = (from item in blobsxml.Descendants("Blob")
+                 select new[] { (string)item.Element("Name").Value, (string)item.Element("Properties").Element("Content-Length").Value }).ToList();
+
+        log.Info(blobs);
+
+        StateHasChanged();
+    }
+
+    public bool AmIChecked(string item)
+    {
+        if (item == "GPS.Alt")
+            return true;
+
+        return false;
+    }
+
+    public async void UploadLog()
+    {
+        foreach (var file in await fileReaderService.CreateReference(inputTypeFileElement).EnumerateFilesAsync())
+        {
+            log.Debug(file.ToJSON());
+
+            var info = await file.ReadFileInfoAsync();
+
+            log.Debug(info.ToJSON());
+
+            using (MemoryStream memoryStream = await file.CreateMemoryStreamAsync(40960))
+            {
+                var filename = Guid.NewGuid().ToString();
+
+                var outStream = new FileStream(filename, FileMode.Create, FileAccess.Write);
+
+
+                var dictionary = 1 << 15; //23
+
+                Int32 posStateBits = 2;
+                Int32 litContextBits = 3;
+
+                Int32 litPosBits = 0;
+
+                Int32 algorithm = 2;
+                Int32 numFastBytes = 16;//128;
+
+                CoderPropID[] propIDs =
+            {
+                CoderPropID.DictionarySize,
+                CoderPropID.PosStateBits,
+                CoderPropID.LitContextBits,
+                CoderPropID.LitPosBits,
+                CoderPropID.Algorithm,
+                CoderPropID.NumFastBytes,
+                CoderPropID.MatchFinder,
+                CoderPropID.EndMarker
+            };
+                object[] properties =
+                {
+                    (Int32)(dictionary),
+                    (Int32)(posStateBits),
+                    (Int32)(litContextBits),
+                    (Int32)(litPosBits),
+                    (Int32)(algorithm),
+                    (Int32)(numFastBytes),
+                  //  mf,
+                  //  eos
+                };
+                SevenZip.Compression.LZMA.Encoder encoder = new SevenZip.Compression.LZMA.Encoder();
+                encoder.SetCoderProperties(propIDs, properties);
+                encoder.WriteCoderProperties(outStream);
+
+                var fileSize = info.Size;
+                for (int i = 0; i < 8; i++)
+                    outStream.WriteByte((Byte)(fileSize >> (8 * i)));
+
+                encoder.Code(memoryStream, outStream, -1, -1, new CodeProgress((l, l1) =>
+                {
+                    var percent = (double)l / info.Size;
+                    log.Info((percent * 100) + "% " + l1);
+                }));
+
+                outStream.Close();
+
+
+                await UploadBlobWithRestAPI(filename, File.ReadAllBytes(filename));
+
+                //Http.PutAsync("/put", new ByteArrayContent(File.ReadAllBytes(filename)));
+
+            }
+        }
+
+    }
+
+    async Task<HttpStatusCode> UploadBlobWithRestAPI(string blobName, byte[] sampleContent)
+    {
+        string storageKey = "";
+        string storageAccount = "mptlog";
+        string containerName = "tlog";
+        string queryString = "?sv=2018-03-28&si=tlog-create&sr=c&sig=jPtAHdnssVoz0ASmZPW8MJCIuBN%2FX%2Fq9UvroMgmYfi0%3D";
+
+        string method = "PUT";
+        int contentLength = sampleContent.Length;
+
+        string requestUri = $"https://{storageAccount}.blob.core.windows.net/{containerName}/{blobName}{queryString}";
+
+        string now = DateTime.UtcNow.ToString("R");
+
+        Http.DefaultRequestHeaders.Clear();
+        Http.DefaultRequestHeaders.TryAddWithoutValidation("x-ms-version", "2018-03-28");
+        Http.DefaultRequestHeaders.TryAddWithoutValidation("x-ms-date", now);
+        Http.DefaultRequestHeaders.TryAddWithoutValidation("x-ms-blob-type", "BlockBlob");
+        //Http.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", AuthorizationHeader(method, now, storageAccount, storageKey, containerName, blobName, contentLength));
+
+        var result = await Http.PutAsync(requestUri, new ByteArrayContent(sampleContent));
+
+        return result.StatusCode;
+
+        return HttpStatusCode.ServiceUnavailable;
+    }
+
+    public string AuthorizationHeader(string method, string now, string storageAccount, string storageKey, string containerName, string blobName, int ContentLength)
+    {
+
+        string headerResource = $"x-ms-blob-type:BlockBlob\nx-ms-date:{now}\nx-ms-version:2018-03-28";
+        string urlResource = $"/{storageAccount}/{containerName}/{blobName}";
+
+        /*
+StringToSign = VERB + "\n" +
+               Content-Encoding + "\n" +
+               Content-Language + "\n" +
+               Content-Length + "\n" +
+               Content-MD5 + "\n" +
+               Content-Type + "\n" +
+               Date + "\n" +
+               If-Modified-Since + "\n" +
+               If-Match + "\n" +
+               If-None-Match + "\n" +
+               If-Unmodified-Since + "\n" +
+               Range + "\n" +
+               CanonicalizedHeaders +
+               CanonicalizedResource;
+           */
+
+        string stringToSign = $"{method}\n\n\n{ContentLength}\n\n\n\n\n\n\n\n\n{headerResource}\n{urlResource}";
+
+        log.InfoFormat("{0}", stringToSign);
+
+        HMACSHA256 hmac = new HMACSHA256(Convert.FromBase64String(storageKey));
+        string signature = Convert.ToBase64String(hmac.ComputeHash(Encoding.UTF8.GetBytes(stringToSign)));
+
+        String AuthorizationHeader = String.Format("{0} {1}:{2}", "SharedKey", storageAccount, signature);
+        return AuthorizationHeader;
+    }
+
+    public class CodeProgress : ICodeProgress
+    {
+        private readonly Action<long, long> _act;
+
+        public CodeProgress(Action<long, long> act)
+        {
+            _act = act;
+        }
+
+        public void SetProgress(long inSize, long outSize)
+        {
+            _act?.Invoke(inSize, outSize);
+        }
+    }
+
+    int a = 1;
+
+    public void addNewGraph()
+    {
+        graphs.Add("graph" + a++);
+
+
+    }
+
+    public async void PlotItem(string type, string item, bool checked1)
+    {
+        if (checked1)
+        {
+            plotly line = new plotly(type + "." + item);
+            int last = DateTime.MinValue.Second;
+            foreach (var msg in cb.GetEnumeratorType(type))
+            {
+                var itemvalue = Convert.ToDouble(msg.GetRaw(item));
+                if (itemvalue == null)
+                    continue;
+
+                if (last != DateTime.Now.Second)
+                {
+                    Console.WriteLine(msg.time.ToString("yyyy-MM-dd hh:mm:ss.fff") + " " + msg.lineno);
+                    last = DateTime.Now.Second;
+                }
+
+                line.AddXY(msg.time.ToString("yyyy-MM-dd hh:mm:ss.fff"), itemvalue);
+            }
+            Console.WriteLine("got data about to plot");
+            await JSRuntime.InvokeAsync<object>("plotData", new object[] { selectedchart, line.getJSON() });
+        }
+        else
+        {
+            await JSRuntime.InvokeAsync<object>("evalline", new object[] { " index = " + selectedchart + ".data.findIndex(item => item.name === '" + type + "." + item + "'); if (index >= 0) Plotly.deleteTraces(" + selectedchart + ", index , 1 ); " });
+        }
+    }
+
+    public async Task ReadFile()
+    {
+        foreach (var file in await fileReaderService.CreateReference(inputTypeFileElement).EnumerateFilesAsync())
+        {
+            var info = await file.ReadFileInfoAsync();
+
+            log.Debug(info.ToJSON());
+
+            using (var memoryStream = await file.CreateMemoryStreamAsync(1024*256))
+            {
+                ProcessStream(memoryStream);
+            }
+        }
+    }
+
+    public async void ProcessStream(Stream memoryStream)
+    {
+        log.Info("ProcessStream: " + memoryStream.Position + " - " + memoryStream.Length);
+
+        cb = new CollectionBuffer(memoryStream);
+
+        foreach (var msg in cb.GetEnumeratorType("MSG"))
+        {
+            log.Debug(msg.msgtype + " " + cb[msg.lineno]);
+        }
+
+        // entire msg dataset
+        await JSRuntime.InvokeAsync<object>("evalline", new object[] { "dataSet = " + cb.GetEnumeratorType("MSG").Select(a => a.items).ToList().ToJSON() });
+
+        /* ajax: function (data, callback, settings) {
+        callback(
+        JSON.parse( localStorage.getItem('dataTablesData') )
+        );
+        },
+                deferLoading: "+cb.GetEnumeratorType("MSG").Count()+@"
+                */
+
+        await JSRuntime.InvokeAsync<object>("evalline", new object[] { @"$('#myTable').DataTable( {
+        retrieve: true,
+        data: dataSet,
+        columns: [
+            { title: 'MSG' },
+            { title: 'Time' },
+            { title: 'Message' }
+        ]
+    } );" });
+
+        plotly linelat = new plotly("GPS.Lat");
+        plotly linelng = new plotly("GPS.Lng");
+        plotly linealt = new plotly("GPS.Alt");
+
+        plotly linemap = new plotly("Map");
+        linemap.root.mode = "linesa";
+        linemap.root.type = "scattergeo";
+
+        plotly scatter3d = new plotly("map3d");
+        scatter3d.root.type = "scatter3d";
+        scatter3d.root.mode = "lines";
+
+
+        foreach (var msg in cb.GetEnumeratorType("GPS"))
+        {
+            var lat = msg["Lat"];
+            var lng = msg["Lng"];
+            var alt = msg["Alt"];
+            if (lat == null)
+                continue;
+
+            var lat2 = double.Parse(lat, CultureInfo.InvariantCulture);
+            var lng2 = double.Parse(lng, CultureInfo.InvariantCulture);
+            var alt2 = double.Parse(alt, CultureInfo.InvariantCulture);
+
+            if (lat2 == 0)
+                continue;
+
+            linelat.AddXY(msg.time, lat2);
+            linelng.AddXY(msg.time, lng2);
+            linealt.AddXY(msg.time, alt2);
+
+            linemap.AddLatLng(lat2, lng2);
+
+            scatter3d.AddXYZ(lat2, lng2, alt2);
+        }
+
+        log.Debug("About to PLOT");
+
+        await JSRuntime.InvokeAsync<object>("plotData", new object[] { "div1", linealt.getJSON() });
+        await JSRuntime.InvokeAsync<object>("plotData", new object[] { "div2", linemap.getJSON() });
+        await JSRuntime.InvokeAsync<object>("plotData", new object[] { "div3", scatter3d.getJSON() });
+
+        var time = linelat.root.x.GetEnumerator();
+        var x = scatter3d.root.x.GetEnumerator();
+        var y = scatter3d.root.y.GetEnumerator();
+        var z = scatter3d.root.z.GetEnumerator();
+
+        var firsttime = (DateTime)(linelat.root.x.First());
+        var lasttime = (DateTime)(linelat.root.x.Last());
+
+        List<object> track = new List<object>();
+
+        while (x.MoveNext() && y.MoveNext() && z.MoveNext() && time.MoveNext())
+        {
+            track.Add(new[] { ((DateTime)time.Current).ToString("o"), y.Current, x.Current, z.Current });
+        }
+
+        var element1 = @"{
+    name : 'Yellow dashed line with a dash pattern.',
+    polyline : {
+        positions : Cesium.Cartesian3.fromDegreesArrayHeights(" + track.ToJSON() + @"),
+        width : 10,
+        material : new Cesium.PolylineDashMaterialProperty({
+            color : Cesium.Color.YELLOW
+        })
+    }
+}";
+
+        //https://cesiumjs.org/Cesium/Build/Apps/Sandcastle/?src=Interpolation.html&label=All
+        var element = @"
+position_data = " + track.ToJSON() +@";
+
+function computePositionProperty() {
+    var property = new Cesium.SampledPositionProperty();
+	var position;
+    
+    for (var i = 0; i < position_data.length; ++i) {
+        var cur_pos = position_data[i];
+        var time = Cesium.JulianDate.fromIso8601(cur_pos[0]);
+        position = Cesium.Cartesian3.fromDegrees(cur_pos[1], cur_pos[2],
+			cur_pos[3]);
+        property.addSample(time, position);
+    }
+    return property;
+}
+
+position = computePositionProperty();
+
+var default_model_scale = 20;
+
+//Set bounds of our simulation time
+var start = Cesium.JulianDate.fromDate(new Date("""+firsttime.ToString("o")+@"""));
+var stop = Cesium.JulianDate.fromDate(new Date("""+lasttime.ToString("o")+@"""));
+
+//Make sure viewer is at the desired time.
+viewer.clock.startTime = start.clone();
+viewer.clock.stopTime = stop.clone();
+viewer.clock.currentTime = start.clone();
+viewer.clock.clockRange = Cesium.ClockRange.LOOP_STOP; //Loop at the end
+viewer.clock.multiplier = 10;
+
+viewer.animation.viewModel.setShuttleRingTicks([
+	0.01, 0.02, 0.05,
+	0.1, 0.25, 0.5,
+	1, 2, 5, 10, 15, 30, 60,
+	100, 300, 600, 1000]);
+
+//Set timeline to simulation bounds
+viewer.timeline.zoomTo(start, stop);
+
+target = viewer.entities.add({
+
+    //Set the entity availability to the same interval as the simulation time.
+    availability : new Cesium.TimeIntervalCollection([new Cesium.TimeInterval({
+        start : start,
+        stop : stop
+    })]),
+
+    //Use our computed positions
+    position : position,
+
+    //Automatically compute orientation based on position movement.
+    orientation : new Cesium.VelocityOrientationProperty(position),
+
+    //Load the Cesium plane model to represent the entity
+    model : {
+        uri : 'Cesium_Air.txt',
+        minimumPixelSize : 64
+    },
+
+    //Show the path as a pink line sampled in 1 second increments.
+    path : {
+        resolution : 1,
+        material : new Cesium.PolylineGlowMaterialProperty({
+            glowPower : 0.1,
+            color : Cesium.Color.YELLOW
+        }),
+        width : 10
+    }
+});
+
+viewer.timeline.updateFromClock();
+viewer.timeline.zoomTo(viewer.clock.startTime, viewer.clock.stopTime);
+
+viewer.zoomTo(viewer.entities);
+viewer.trackEntity = target;
+
+
+";
+
+
+        await JSRuntime.InvokeAsync<object>("evalline", new object[] { element });
+    }
+
+    public void Dispose()
+    {
+    }
+
+    public IEnumerable<string> SeenMessageTypes
+    {
+        get
+        {
+            var sorted = cb.SeenMessageTypes;
+            sorted.Sort();
+            return sorted;
+        }
+
+    }
+
+    public IEnumerable<DFLog.DFItem> CleanParamList
+    {
+        get
+        {
+            var originalList = cb.GetEnumeratorType("PARM");
+            var filteredList = originalList.GroupBy(param => param["Name"]).OrderBy(a => a.Key).Select(group => group.First());
+            return filteredList;
+        }
+    }
+
+    private void setLastGraph(string gra)
+    {
+        selectedchart = gra;
+    }
+
+}

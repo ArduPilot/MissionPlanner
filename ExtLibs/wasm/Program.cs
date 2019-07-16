@@ -13,7 +13,7 @@ namespace wasm
         public static IWebAssemblyHostBuilder CreateHostBuilder(string[] args)
         {
             return BlazorWebAssemblyHost.CreateDefaultBuilder()
-.UseBlazorStartup<Startup>();
+                .UseBlazorStartup<Startup>();
         }
     }
 }
