@@ -1112,7 +1112,7 @@ gnssId GNSS Type
             {
                 foreach (var item in paramlist)
                 {
-                    paramoutput.WriteLine("{0}\t{1}", item.Key, item.Value);
+                    paramoutput.WriteLine("{0},{1}", item.Key, item.Value);
                 }
             }
         }
