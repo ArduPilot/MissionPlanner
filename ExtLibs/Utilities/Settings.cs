@@ -23,6 +23,10 @@ namespace MissionPlanner.Utilities
                 if (_instance == null)
                 {
                     _instance = new Settings();
+                    try
+                    {
+                        _instance.Load();
+                    } catch { }
                 }
                 return _instance;
             }
@@ -33,7 +37,7 @@ namespace MissionPlanner.Utilities
         }
 
         /// <summary>
-        /// use to store all internal config
+        /// use to store all internal config - use Instance
         /// </summary>
         public static Dictionary<string, string> config = new Dictionary<string, string>();
 
@@ -51,6 +55,17 @@ namespace MissionPlanner.Utilities
             set
             {
                 config[key] = value;
+            }
+        }
+
+        public string this[string key, string defaultvalue]
+        {
+            get
+            {
+                string value = this[key];
+                if (value == null)
+                    value = defaultvalue;
+                return value;
             }
         }
 

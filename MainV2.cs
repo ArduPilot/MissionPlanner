@@ -3608,7 +3608,7 @@ namespace MissionPlanner
             }
             if (keyData == (Keys.Control | Keys.L)) // limits
             {
-                new GCSViews.ConfigurationView.ConfigUAVCAN().ShowUserControl();
+                new DigitalSkyUI().ShowUserControl();
 
                 return true;
             }

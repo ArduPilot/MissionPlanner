@@ -341,6 +341,12 @@
     <Compile Include="ConnectionOptions.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Controls\DigitalSkyUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\DigitalSkyUI.Designer.cs">
+      <DependentUpon>DigitalSkyUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\RelayOptions.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -523,6 +529,9 @@
     <Compile Include="Log\LogStrings.Designer.cs">
       <DependentUpon>LogStrings.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Controls\DigitalSkyUI.resx">
+      <DependentUpon>DigitalSkyUI.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\RelayOptions.ar.resx">
       <DependentUpon>RelayOptions.cs</DependentUpon>
     </EmbeddedResource>
