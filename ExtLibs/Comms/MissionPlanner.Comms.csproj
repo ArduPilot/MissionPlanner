@@ -20,12 +20,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="log4net" Version="2.0.8" />
-    <PackageReference Include="Microsoft.Win32.Registry" Version="4.5.0" />
+    <Compile Remove="AndroidSerial.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\UsbSerialForAndroid\UsbSerialForAndroid.csproj" />
+    <None Include="AndroidSerial.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="log4net" Version="2.0.8" />
+    <PackageReference Include="Microsoft.Win32.Registry" Version="4.5.0" />
   </ItemGroup>
 
   <ItemGroup>
