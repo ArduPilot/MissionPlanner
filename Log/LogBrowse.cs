@@ -2484,9 +2484,14 @@ namespace MissionPlanner.Log
 
             opt.Combobox.DataSource = options;
             opt.Button1.Text = "Filter";
+            opt.Button1.DialogResult = DialogResult.OK;
             opt.Button2.Text = "Cancel";
+            opt.Button2.DialogResult = DialogResult.Cancel;
 
-            opt.ShowDialog(this);
+            var dr = opt.ShowDialog(this);
+
+            if (dr != DialogResult.OK)
+                return;
 
             if (opt.Text != "")
             {
