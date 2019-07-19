@@ -48,12 +48,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             TUNE.setup(
                 ParameterMetaDataRepository.GetParameterOptionsInt("TUNE", MainV2.comPort.MAV.cs.firmware.ToString())
                     .ToList(), "TUNE", MainV2.comPort.MAV.param);
-            CH7_OPT.setup(
-                ParameterMetaDataRepository.GetParameterOptionsInt("CH7_OPT", MainV2.comPort.MAV.cs.firmware.ToString())
-                    .ToList(), "CH7_OPT", MainV2.comPort.MAV.param);
-            CH8_OPT.setup(
-                ParameterMetaDataRepository.GetParameterOptionsInt("CH8_OPT", MainV2.comPort.MAV.cs.firmware.ToString())
-                    .ToList(), "CH8_OPT", MainV2.comPort.MAV.param);
+
+            CH7_OPTION.setup(new[] { "CH7_OPTION", "RC7_OPTION" }, MainV2.comPort.MAV.param);
+            CH8_OPTION.setup(new[] { "CH8_OPTION", "RC8_OPTION" }, MainV2.comPort.MAV.param);
+            CH9_OPTION.setup(new[] { "CH9_OPTION", "RC9_OPTION" }, MainV2.comPort.MAV.param);
+            CH10_OPTION.setup(new[] { "CH10_OPTION", "RC10_OPTION" }, MainV2.comPort.MAV.param);
 
             TUNE_LOW.setup(0, 10000, 1000, 0.01f, "TUNE_LOW", MainV2.comPort.MAV.param);
             TUNE_HIGH.setup(0, 10000, 1000, 0.01f, "TUNE_HIGH", MainV2.comPort.MAV.param);

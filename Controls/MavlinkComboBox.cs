@@ -1,5 +1,7 @@
-﻿using System;
+﻿using MissionPlanner.Utilities;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace MissionPlanner.Controls
@@ -32,8 +34,42 @@ namespace MissionPlanner.Controls
             this.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
+        public void setup(string[] paramnames, MAVLink.MAVLinkParamList paramlist)
+        {
+            base.SelectedIndexChanged -= MavlinkComboBox_SelectedIndexChanged;
+
+            var paramname = paramnames.FirstOrDefault(a => paramlist.ContainsKey(a));
+
+            if (paramname != null)
+            {
+                var source = ParameterMetaDataRepository.GetParameterOptionsInt(paramname, MainV2.comPort.MAV.cs.firmware.ToString());
+
+                _source2 = source;
+
+                this.DisplayMember = "Value";
+                this.ValueMember = "Key";
+                this.DataSource = source;
+
+                this.ParamName = paramname;
+
+                this.Enabled = true;
+                this.Visible = true;
+
+                enableControl(true);
+
+                var item = paramlist[paramname];
+
+                this.SelectedValue = (int)paramlist[paramname].Value;
+            }
+            else
+            {
+
+            }
+
+            base.SelectedIndexChanged += new EventHandler(MavlinkComboBox_SelectedIndexChanged);
+        }
+
         public void setup(List<KeyValuePair<int, string>> source, string paramname, MAVLink.MAVLinkParamList paramlist)
-            //, string paramname2 = "", Control enabledisable = null)
         {
             base.SelectedIndexChanged -= MavlinkComboBox_SelectedIndexChanged;
 
