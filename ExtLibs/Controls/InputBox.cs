@@ -66,7 +66,13 @@ namespace MissionPlanner.Controls
             if (password)
                 textBox.UseSystemPasswordChar = true;
             if (multiline)
+            {
                 textBox.Multiline = true;
+                textBox.ScrollBars = ScrollBars.Vertical;
+                textBox.AcceptsReturn = true;
+                textBox.AcceptsTab = true;
+                textBox.WordWrap = true;
+            }
             MyButton buttonOk = new MyButton();
             MyButton buttonCancel = new MyButton();
             //System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainV2));
@@ -92,6 +98,11 @@ namespace MissionPlanner.Controls
             textBox.Size = new Size(372, 20);
             textBox.Text = value;
             textBox.TextChanged += textBox_TextChanged;
+
+            if (multiline)
+            {
+                textBox.Size = new Size(372, 400);
+            }
 
             //
             // buttonOk
