@@ -3,13 +3,42 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width">
-    <meta name="google-signin-client_id" content="231071795566-ndne81l07vb5fqi6b5429ol75kk96nva.apps.googleusercontent.com">
+    <meta name="google-signin-client_id" content="231071795566-r5pjfa4o8c15407fiif3k764fccjv5tb.apps.googleusercontent.com">
     <title>wasm</title>
+
+    <script data-pagespeed-no-defer>   
+        
+        assemblyReferences = [];
+
+        (function () {
+            var proxied = window.XMLHttpRequest.prototype.open;
+            window.XMLHttpRequest.prototype.open = function () {
+                console.log(arguments);
+                return proxied.apply(this, [].slice.call(arguments));
+            };
+        })();
+
+        (function () {
+            var fetchListener = window.fetch;
+            window.fetch = function () {
+                console.log(arguments);
+                var result = fetchListener.apply(this, arguments);
+                if (arguments[0] === '_framework/blazor.boot.json')
+                    result.then(function (response) {
+                        response.clone().json().then(function (bootConfig) {
+                            assemblyReferences = bootConfig.assemblyReferences;
+                        });
+                    });
+                return result;
+            };
+        })();
+    </script>
+
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
     <link href="css/site.css" rel="stylesheet" />
 
     <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     <script src="Cesium/Cesium.js"></script>
@@ -27,11 +56,9 @@
     </div>
 </app>
 
-<script>
+<script> 
     (function bootLoader() {
-
-        var fetchListener = window.fetch,
-            perf = window.performance.timing,
+        var perf = window.performance.timing,
             el = document.getElementById('Progress-report'),
             progress = 0,
             timer = setInterval(function () {
@@ -40,21 +67,7 @@
                     clearInterval(timer);
                     bootSequence();
                 }
-            }, Math.abs(Math.floor(((perf.loadEventEnd - perf.navigationStart) / 1e3) % 60))),
-            assemblyReferences = [];
-
-
-        window.fetch = function () {
-            console.log( arguments );
-            var result = fetchListener.apply(this, arguments);
-            if (arguments[0] === '_framework/blazor.boot.json')
-                result.then(function (response) {
-                    response.clone().json().then(function (bootConfig) {
-                        assemblyReferences = bootConfig.assemblyReferences;
-                    });
-                });
-            return result;
-        }
+            }, Math.abs(Math.floor(((perf.loadEventEnd - perf.navigationStart) / 1e3) % 60)));
 
         function bootSequence() {
             if (window['MONO'] && MONO.mono_wasm_runtime_is_ready) return;
@@ -72,19 +85,9 @@
             }, 50);
         }
     })();
-
-    (function() {
-        var proxied = window.XMLHttpRequest.prototype.open;
-        window.XMLHttpRequest.prototype.open = function() {
-            console.log( arguments );
-            return proxied.apply(this, [].slice.call(arguments));
-        };
-    })();
 </script>
 
 <script src="_framework/blazor.webassembly.js"></script>
-
-<script aasrc="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.js"></script>
 
 <script src="hud.js"></script>
 
@@ -98,6 +101,21 @@
 <script src="https://apis.google.com/js/platform.js" async defer></script>
 
 <script>
+    function onFailure(error) {
+      console.log(error);
+    }
+    function renderButton() {
+        //gapi.signin2.go()
+      gapi.signin2.render('g-signin2', {
+        'scope': 'profile email',
+        'width': 240,
+        'height': 50,
+        'longtitle': true,
+        'theme': 'dark',
+        'onsuccess': onSignIn,
+        'onfailure': onFailure
+      });
+    }
 
     function evalline(line) {
         try {
@@ -108,22 +126,20 @@
         }
     }
 
+    function dotNetObjectRefSave(dotnetHelper) {
+        dotNetObjectRef = dotnetHelper;
+    }
+
     function onSignIn(googleUser) {
         var profile = googleUser.getBasicProfile();
-        console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-        console.log('Name: ' + profile.getName());
+        console.log('ID: ' + profile.getId());
+        console.log('Full Name: ' + profile.getName());
+        console.log('Given Name: ' + profile.getGivenName());
+        console.log('Family Name: ' + profile.getFamilyName());
         console.log('Image URL: ' + profile.getImageUrl());
-        console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+        console.log('Email: ' + profile.getEmail());
 
-        if (auth2.isSignedIn.get()) {
-            var profile = auth2.currentUser.get().getBasicProfile();
-            console.log('ID: ' + profile.getId());
-            console.log('Full Name: ' + profile.getName());
-            console.log('Given Name: ' + profile.getGivenName());
-            console.log('Family Name: ' + profile.getFamilyName());
-            console.log('Image URL: ' + profile.getImageUrl());
-            console.log('Email: ' + profile.getEmail());
-        }
+        var id_token = googleUser.getAuthResponse().id_token;
     }
 
     function initWebSocket(host) {
@@ -504,7 +520,7 @@
 
     //&callback=initMap
 
-    function plotData(div = "", line1="",line2="",line3="") {
+    function plotData(div = "", line1="",line2="",line3="",line4="",line5="",line6="") {
 
         var data = [];
 
@@ -514,8 +530,21 @@
             data.push(JSON.parse(line2));
         if (line3 != "")
             data.push(JSON.parse(line3));
+        if (line4 != "")
+            data.push(JSON.parse(line4));
+        if (line5 != "")
+            data.push(JSON.parse(line5));
+        if (line6 != "")
+            data.push(JSON.parse(line6));
             
-        var layout = {};
+        var layout = {
+              yaxis: {title: ''},
+            yaxis2: {
+                title: '',
+                overlaying: 'y',
+                side: 'right'
+            }
+        };
 
         //Plotly.newPlot
         Plotly.plot(div, data, layout, { responsive: true });

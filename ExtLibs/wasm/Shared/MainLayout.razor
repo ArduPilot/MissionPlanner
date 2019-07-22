@@ -1,4 +1,5 @@
 @inherits LayoutComponentBase
+@inject IJSRuntime JSRuntime
 
 <div class="sidebar">
     <NavMenu />
@@ -8,13 +9,14 @@
     <div class="top-row px-4">
         <!--<a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>-->
         By Michael Oborne
-        <div class="g-signin2"></div>
+        <div id="g-signin2" class="g-signin2"></div>
     </div>
 
     <div class="content px-4">
         @Body
     </div>
 </div>
+
 @code
 {
 
@@ -23,6 +25,8 @@
     protected override void OnAfterRender()
     {
         base.OnAfterRender();
+
+        JSRuntime.InvokeAsync<object>("renderButton", new { });
 
         Console.WriteLine("MainLayout OnAfterRender Done");
     }

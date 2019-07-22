@@ -70,9 +70,6 @@
 
 static websocket instance;
 
-[JSInvokable]
-public string SayHello() => $"Hello, {currentCount}!";
-
 private void Log(string message) => Console.WriteLine($"{DateTime.UtcNow.ToString("O")} - {message}");
 
 protected async override void OnInit()

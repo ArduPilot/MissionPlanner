@@ -387,8 +387,9 @@ namespace MissionPlanner.Utilities
             int position = 0; // state
             while (position < Count)
             {
+                yield return this[(long)position];
                 position++;
-                yield return this[(long)position - 1];
+                
             }
         }
 
@@ -420,14 +421,14 @@ namespace MissionPlanner.Utilities
                 yield return this[(long) l];
             }
         }
-
+        
         public IEnumerator<String> GetEnumerator()
         {
             int position = 0; // state
             while (position < Count)
-            {
+            {                
+                yield return this[position];
                 position++;
-                yield return this[position - 1];
             }
         }
 

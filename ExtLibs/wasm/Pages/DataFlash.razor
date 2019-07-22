@@ -75,6 +75,7 @@
         <div id="div2" style="width: 100%; height: 50vh"></div>
         <div id="div3" style="width: 100%; height: 50vh"></div>
         <table id="myTable" class="display"></table>
+        <table id="rawTable" class="display"></table>
         <div>
             <input id="searchstring" value="" onkeyup="  var value = $(this).val().toLowerCase(); $('#paramlist > li#paramrow').filter(function () { $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1) });" />
             <ul id="paramlist">
@@ -117,8 +118,17 @@
 
     private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
+    bool init = false;
+
     protected override void OnInit()
     {
+        Console.WriteLine("DataFlash OnInit");
+
+        if (init)
+            return;
+
+        init = true;
+
         UriHelper.OnLocationChanged += async (e, a) =>
         {
             var uri = new Uri(UriHelper.GetAbsoluteUri());
@@ -199,9 +209,9 @@
 
     List<string[]> blobs = null;
 
-    List<string> graphs = new List<string>() { "div1" };
+    List<string> graphs = new List<string>() { "graph1", "graph2", "graph3", "graph4" };
 
-    string selectedchart = "div1";
+    string selectedchart = "graph1";
 
     public async Task<Stream> GetBlob(string blobName)
     {
@@ -256,14 +266,14 @@
 
             log.Debug(info.ToJSON());
 
-            using (MemoryStream memoryStream = await file.CreateMemoryStreamAsync(40960))
+            using (MemoryStream memoryStream = await file.CreateMemoryStreamAsync(1024*256))
             {
                 var filename = Guid.NewGuid().ToString();
 
                 var outStream = new FileStream(filename, FileMode.Create, FileAccess.Write);
 
 
-                var dictionary = 1 << 15; //23
+                var dictionary = 1 << 14; //23
 
                 Int32 posStateBits = 2;
                 Int32 litContextBits = 3;
@@ -271,7 +281,32 @@
                 Int32 litPosBits = 0;
 
                 Int32 algorithm = 2;
-                Int32 numFastBytes = 16;//128;
+                Int32 numFastBytes = 5;//128;
+
+                /*
+ <Properties>
+
+dictionary - [0,28], default: 23 (2^23 = 8MB)
+
+numFastBytes: set number of fast bytes - [5, 255], default: 128
+  Usually big number gives a little bit better compression ratio 
+  and slower compression process.
+
+listContextBits: set number of literal context bits - [0, 8], default: 3
+  Sometimes lc=4 gives gain for big files.
+
+litPosBits: set number of literal pos bits - [0, 4], default: 0
+  lp switch is intended for periodical data when period is 
+  equal 2^value (where lp=value). For example, for 32-bit (4 bytes) 
+  periodical data you can use lp=2. Often it's better to set lc=0, 
+  if you change lp switch.
+
+-pb{N}: set number of pos bits - [0, 4], default: 2
+  pb switch is intended for periodical data 
+  when period is equal 2^value (where lp=value).
+
+-eos:   write End Of Stream marker
+ */
 
                 CoderPropID[] propIDs =
             {
@@ -303,16 +338,21 @@
                 for (int i = 0; i < 8; i++)
                     outStream.WriteByte((Byte)(fileSize >> (8 * i)));
 
-                encoder.Code(memoryStream, outStream, -1, -1, new CodeProgress((l, l1) =>
+                await Task.Run(delegate
                 {
-                    var percent = (double)l / info.Size;
-                    log.Info((percent * 100) + "% " + l1);
-                }));
+                    encoder.Code(memoryStream, outStream, -1, -1, new CodeProgress((l, l1) =>
+                    {
+                        var percent = (double)l / info.Size;
+                        log.Info((percent * 100) + "% " + l1);
+                    }));
+                });
 
                 outStream.Close();
 
 
                 await UploadBlobWithRestAPI(filename, File.ReadAllBytes(filename));
+
+                File.Delete(filename);
 
                 //Http.PutAsync("/put", new ByteArrayContent(File.ReadAllBytes(filename)));
 
@@ -339,6 +379,7 @@
         Http.DefaultRequestHeaders.TryAddWithoutValidation("x-ms-version", "2018-03-28");
         Http.DefaultRequestHeaders.TryAddWithoutValidation("x-ms-date", now);
         Http.DefaultRequestHeaders.TryAddWithoutValidation("x-ms-blob-type", "BlockBlob");
+        Http.DefaultRequestHeaders.TryAddWithoutValidation("x-ms-meta-name", "value");
         //Http.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", AuthorizationHeader(method, now, storageAccount, storageKey, containerName, blobName, contentLength));
 
         var result = await Http.PutAsync(requestUri, new ByteArrayContent(sampleContent));
@@ -464,13 +505,6 @@ StringToSign = VERB + "\n" +
         // entire msg dataset
         await JSRuntime.InvokeAsync<object>("evalline", new object[] { "dataSet = " + cb.GetEnumeratorType("MSG").Select(a => a.items).ToList().ToJSON() });
 
-        /* ajax: function (data, callback, settings) {
-        callback(
-        JSON.parse( localStorage.getItem('dataTablesData') )
-        );
-        },
-                deferLoading: "+cb.GetEnumeratorType("MSG").Count()+@"
-                */
 
         await JSRuntime.InvokeAsync<object>("evalline", new object[] { @"$('#myTable').DataTable( {
         retrieve: true,
@@ -521,9 +555,43 @@ StringToSign = VERB + "\n" +
 
         log.Debug("About to PLOT");
 
-        await JSRuntime.InvokeAsync<object>("plotData", new object[] { "div1", linealt.getJSON() });
+        await JSRuntime.InvokeAsync<object>("plotData", new object[] { "graph1", linealt.getJSON() });
         await JSRuntime.InvokeAsync<object>("plotData", new object[] { "div2", linemap.getJSON() });
         await JSRuntime.InvokeAsync<object>("plotData", new object[] { "div3", scatter3d.getJSON() });
+
+        log.Debug("before ATTdata");
+        var ATTdata = cb.GetEnumeratorType("ATT").Select(a => new { time = a.time, Roll = a["Roll"], DesRoll = a["DesRoll"], Pitch = a["Pitch"], DesPitch = a["DesPitch"], Yaw = a["Yaw"], DesYaw = a["DesYaw"] }).ToList();
+        log.Debug("after ATTdata");
+        await JSRuntime.InvokeAsync<object>("plotData", new object[] { "graph2",
+
+            new {
+                name = "ATT.Roll",
+            x = ATTdata.Select(a => a.time).ToList(),
+            y = ATTdata.Select(a => a.Roll).ToList()
+        }.ToJSON(),  new {name = "ATT.DesRoll",
+            x = ATTdata.Select(a => a.time).ToList(),
+            y = ATTdata.Select(a => a.DesRoll).ToList()
+        }.ToJSON(),  new {name = "ATT.Pitch",
+            x = ATTdata.Select(a => a.time).ToList(),
+            y = ATTdata.Select(a => a.Pitch).ToList()
+        }.ToJSON(),new {name = "ATT.DesPitch",
+            x = ATTdata.Select(a => a.time).ToList(),
+            y = ATTdata.Select(a => a.DesPitch).ToList()
+        }.ToJSON(),   new {name = "ATT.Yaw",yaxis =  "y2",
+            x = ATTdata.Select(a => a.time).ToList(),
+            y = ATTdata.Select(a => a.Yaw).ToList()
+        }.ToJSON(),  new {name = "ATT.DesYaw",yaxis =  "y2",
+            x = ATTdata.Select(a => a.time).ToList(),
+            y = ATTdata.Select(a => a.DesYaw).ToList()
+        }.ToJSON()
+
+        });
+        log.Debug("after plotData 1");
+
+        await JSRuntime.InvokeAsync<object>("plotData", new object[] { "graph3",
+
+            });
+        log.Debug("after plotData 2");
 
         var time = linelat.root.x.GetEnumerator();
         var x = scatter3d.root.x.GetEnumerator();
@@ -627,14 +695,61 @@ target = viewer.entities.add({
 viewer.timeline.updateFromClock();
 viewer.timeline.zoomTo(viewer.clock.startTime, viewer.clock.stopTime);
 
-viewer.zoomTo(viewer.entities);
+viewer.zoomTo(target);
 viewer.trackEntity = target;
 
-
+(0)
 ";
 
+        try
+        {
+            log.Debug("about to element");
+            await JSRuntime.InvokeAsync<object>("evalline", new object[] { element });
+        }
+        catch (Exception ex)
+        { log.Error(ex); }
 
-        await JSRuntime.InvokeAsync<object>("evalline", new object[] { element });
+        var dotNetObjectRef = DotNetObjectRef.Create(this);
+
+        await JSRuntime.InvokeAsync<object>("dotNetObjectRefSave", dotNetObjectRef);
+
+        log.Debug("about to rawtable");
+        await JSRuntime.InvokeAsync<object>("evalline", new object[] { @"$('#rawTable').DataTable( {
+        retrieve: true,
+        deferLoading: " + cb.Count + @",
+        serverSide: true,
+        ajax: function (data, callback, settings) {
+                console.log(data);
+                console.log(callback);
+                console.log(settings);
+                d1 = dotNetObjectRef.invokeMethod('GetCBLines', data.draw, data.start, data.length);
+                d2 = JSON.parse(d1);
+            callback(
+                d2
+            );
+        },
+        deferRender: true,
+        columns: [
+            { data: 0, title: 'MSG' },
+            { data: 1 },
+            { data: 2 },
+            { data: 3 },
+            { data: 4 },
+            { data: 5 },
+            { data: 6 },
+            { data: 7 },
+            { data: 8 },
+            { data: 9 }
+        ]
+    } );" });
+
+        log.Debug("done");
+    }
+
+    [JSInvokable]
+    public string GetCBLines(int draw, int start, int length)
+    {
+        return new { draw = draw, recordsTotal = cb.Count, recordsFiltered = cb.Count, data = cb.GetEnumeratorTypeAll().Skip(start).Take(length).Select(a => { var b = a.items.ToArray(); Array.Resize(ref b, 10); return b; }) }.ToJSON();
     }
 
     public void Dispose()
