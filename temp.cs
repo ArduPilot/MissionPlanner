@@ -174,10 +174,14 @@ namespace MissionPlanner
 
         private void BUT_paramgen_Click(object sender, EventArgs e)
         {
+            /*
             if(MissionPlanner.Utilities.Update.dobeta)
                 ParameterMetaDataParser.GetParameterInformation(ConfigurationManager.AppSettings["ParameterLocationsBleeding"]);
             else
                 ParameterMetaDataParser.GetParameterInformation(ConfigurationManager.AppSettings["ParameterLocations"]);
+                */
+            // scan latest, and append older
+            ParameterMetaDataParser.GetParameterInformation(ConfigurationManager.AppSettings["ParameterLocationsBleeding"] + ";" + ConfigurationManager.AppSettings["ParameterLocations"]);
 
             ParameterMetaDataRepositoryAPM.Reload();
         }
