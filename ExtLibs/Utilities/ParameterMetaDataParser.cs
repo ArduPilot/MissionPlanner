@@ -76,30 +76,12 @@ namespace MissionPlanner.Utilities
 
                     objXmlTextWriter.WriteStartElement("Params");
 
+                    parameterLocations.Sort((a, b) => GetVechile(a).CompareTo(GetVechile(b)));
+
+                    var lastelement = "";
                     foreach (string parameterLocation in parameterLocations)
                     {
-                        string element = "none";
-
-                        if (parameterLocation.ToLower().Contains("arducopter"))
-                        {
-                            element = "ArduCopter2";
-                        }
-                        else if (parameterLocation.ToLower().Contains("arduplane"))
-                        {
-                            element = "ArduPlane";
-                        }
-                        else if (parameterLocation.ToLower().Contains("rover"))
-                        {
-                            element = "ArduRover";
-                        }
-                        else if (parameterLocation.ToLower().Contains("ardusub"))
-                        {
-                            element = "ArduSub";
-                        }
-                        else if (parameterLocation.ToLower().Contains("tracker"))
-                        {
-                            element = "ArduTracker";
-                        }
+                        string element = GetVechile(parameterLocation.ToLower());                       
 
                         // Read and parse the content.
                         string dataFromAddress = ReadDataFromAddress(parameterLocation.Trim());
@@ -110,14 +92,21 @@ namespace MissionPlanner.Utilities
                         if (dataFromAddress.Length < 200) // blank template file
                             continue;
 
-                        // Write the start element for this parameter location
-                        objXmlTextWriter.WriteStartElement(element);
+                        // write start and end
+                        if (lastelement != element)
+                        {
+                            // Write the end element for this parameter location
+                            if(lastelement != "")
+                                objXmlTextWriter.WriteEndElement();
+                            // Write the start element for this parameter location      
+                            objXmlTextWriter.WriteStartElement(element);
+                            lastelement = element;
+                        }
                         ParseParameterInformation(dataFromAddress, objXmlTextWriter, string.Empty, string.Empty, element);
                         ParseGroupInformation(dataFromAddress, objXmlTextWriter, parameterLocation.Trim(), string.Empty, element);
-
-                        // Write the end element for this parameter location
-                        objXmlTextWriter.WriteEndElement();
                     }
+
+                    objXmlTextWriter.WriteEndElement();
 
                     objXmlTextWriter.WriteEndElement();
 
@@ -130,7 +119,7 @@ namespace MissionPlanner.Utilities
                 XElement root = XElement.Load(XMLFileName);
                 foreach (var vech in root.Elements())
                 {
-                    var paramlist = vech.Elements().OrderBy(xt => xt.Name.ToString()).ToArray();
+                    var paramlist = vech.Elements().OrderBy(xt => xt.Name.ToString()).Distinct(new NameComparer()).ToArray();
 
                     vech.RemoveAll();
 
@@ -139,6 +128,46 @@ namespace MissionPlanner.Utilities
                 }
                 root.Save(XMLFileName);
             }
+        }
+
+        private class NameComparer : IEqualityComparer<XElement>
+        {
+            public bool Equals(XElement g1, XElement g2)
+            {
+                return g1.Name == g2.Name;
+            }
+            public int GetHashCode(XElement obj)
+            {
+                return obj.Name.GetHashCode();
+            }
+        }
+
+        private static string GetVechile(string parameterLocation)
+        {
+            var element = "none";
+
+            if (parameterLocation.ToLower().Contains("arducopter"))
+            {
+                element = "ArduCopter2";
+            }
+            else if (parameterLocation.ToLower().Contains("arduplane"))
+            {
+                element = "ArduPlane";
+            }
+            else if (parameterLocation.ToLower().Contains("rover"))
+            {
+                element = "ArduRover";
+            }
+            else if (parameterLocation.ToLower().Contains("ardusub"))
+            {
+                element = "ArduSub";
+            }
+            else if (parameterLocation.ToLower().Contains("tracker"))
+            {
+                element = "ArduTracker";
+            }
+
+            return element;
         }
 
         /// <summary>
