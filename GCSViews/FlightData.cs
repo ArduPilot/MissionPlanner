@@ -3838,8 +3838,16 @@ namespace MissionPlanner.GCSViews
             {
                 try
                 {
+                    var alt = srtm.getAltitude(MouseDownStart.Lat, MouseDownStart.Lng);
+
+                    if (alt.currenttype != srtm.tiletype.valid)
+                    {
+                        CustomMessageBox.Show("No SRTM data for this area", Strings.ERROR);
+                        return;
+                    }
+
                     MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_HOME, 0, 0, 0, 0, (float) MouseDownStart.Lat,
-                        (float) MouseDownStart.Lng, (float) srtm.getAltitude(MouseDownStart.Lat, MouseDownStart.Lng).alt);
+                        (float) MouseDownStart.Lng, (float)alt.alt);
                 }
                 catch
                 {
@@ -4644,11 +4652,19 @@ namespace MissionPlanner.GCSViews
             if (!MainV2.comPort.BaseStream.IsOpen)
                 return;
 
+            var alt = srtm.getAltitude(MouseDownStart.Lat, MouseDownStart.Lng);
+
+            if(alt.currenttype != srtm.tiletype.valid)
+            {
+                CustomMessageBox.Show("No SRTM data for this area", Strings.ERROR);
+                return;
+            }
+
             MAVLink.mavlink_set_gps_global_origin_t go = new MAVLink.mavlink_set_gps_global_origin_t()
             {
                 latitude = (int)(MouseDownStart.Lat * 1e7),
                 longitude = (int)(MouseDownStart.Lng * 1e7),
-                altitude = (int)srtm.getAltitude(MouseDownStart.Lat, MouseDownStart.Lng).alt,
+                altitude = (int)alt.alt,
                 target_system = MainV2.comPort.MAV.sysid
             };
 
