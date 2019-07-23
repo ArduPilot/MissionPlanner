@@ -145,7 +145,7 @@
 
 
     Console.WriteLine("about to read into memory");
-    using (MemoryStream memoryStream = await file.CreateMemoryStreamAsync(40960))
+    using (MemoryStream memoryStream = await file.CreateMemoryStreamAsync(1024*256))
     {
     Console.WriteLine("canread " + memoryStream.CanRead + " pos " + memoryStream.Position + "<" + memoryStream.Length);
 
@@ -156,7 +156,7 @@
     {
     Console.WriteLine("about to read into memory");
     // Read into memory and act
-    using (MemoryStream memoryStream = await file.CreateMemoryStreamAsync(40960))
+    using (MemoryStream memoryStream = await file.CreateMemoryStreamAsync(1024*256))
     {
     // Sync calls are ok once file is in memory
     //memoryStream.Read(buffer, ...)

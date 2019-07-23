@@ -72,7 +72,6 @@
             }
             <li><button @onclick="@addNewGraph">New Graph</button></li>
         </ul>
-        <div id="div2" style="width: 100%; height: 50vh"></div>
         <div id="div3" style="width: 100%; height: 50vh"></div>
         <table id="myTable" class="display"></table>
         <table id="rawTable" class="display"></table>
@@ -165,17 +164,6 @@
     protected override async Task OnInitAsync()
     {
         Console.WriteLine("DataFlash OnInitAsync");
-        var paramdata = "ParameterMetaDataBackup.xml";
-        if (!File.Exists(paramdata))
-        {
-            log.Info("get param");
-            var content = await Http.GetStringAsync((paramdata));
-            log.Info("get param done");
-
-            File.WriteAllText(paramdata, content);
-
-            //localStorage.SetItem(paramdata, content);
-        }
 
         log.Info(UriHelper.GetAbsoluteUri());
 
@@ -209,7 +197,7 @@
 
     List<string[]> blobs = null;
 
-    List<string> graphs = new List<string>() { "graph1", "graph2", "graph3", "graph4" };
+    List<string> graphs = new List<string>() { "graph1", "graph2" };
 
     string selectedchart = "graph1";
 
@@ -258,6 +246,7 @@
 
     public async void UploadLog()
     {
+
         foreach (var file in await fileReaderService.CreateReference(inputTypeFileElement).EnumerateFilesAsync())
         {
             log.Debug(file.ToJSON());
@@ -273,7 +262,7 @@
                 var outStream = new FileStream(filename, FileMode.Create, FileAccess.Write);
 
 
-                var dictionary = 1 << 14; //23
+                var dictionary = 1 << 12; //23
 
                 Int32 posStateBits = 2;
                 Int32 litContextBits = 3;
@@ -469,6 +458,7 @@ StringToSign = VERB + "\n" +
             }
             Console.WriteLine("got data about to plot");
             await JSRuntime.InvokeAsync<object>("plotData", new object[] { selectedchart, line.getJSON() });
+            
         }
         else
         {
@@ -556,7 +546,7 @@ StringToSign = VERB + "\n" +
         log.Debug("About to PLOT");
 
         await JSRuntime.InvokeAsync<object>("plotData", new object[] { "graph1", linealt.getJSON() });
-        await JSRuntime.InvokeAsync<object>("plotData", new object[] { "div2", linemap.getJSON() });
+       // await JSRuntime.InvokeAsync<object>("plotData", new object[] { "div2", linemap.getJSON() });
         await JSRuntime.InvokeAsync<object>("plotData", new object[] { "div3", scatter3d.getJSON() });
 
         log.Debug("before ATTdata");
@@ -588,27 +578,24 @@ StringToSign = VERB + "\n" +
         });
         log.Debug("after plotData 1");
 
-        await JSRuntime.InvokeAsync<object>("plotData", new object[] { "graph3",
-
-            });
-        log.Debug("after plotData 2");
-
-        var time = linelat.root.x.GetEnumerator();
-        var x = scatter3d.root.x.GetEnumerator();
-        var y = scatter3d.root.y.GetEnumerator();
-        var z = scatter3d.root.z.GetEnumerator();
-
-        var firsttime = (DateTime)(linelat.root.x.First());
-        var lasttime = (DateTime)(linelat.root.x.Last());
-
-        List<object> track = new List<object>();
-
-        while (x.MoveNext() && y.MoveNext() && z.MoveNext() && time.MoveNext())
+        try
         {
-            track.Add(new[] { ((DateTime)time.Current).ToString("o"), y.Current, x.Current, z.Current });
-        }
+            var time = linelat.root.x.GetEnumerator();
+            var x = scatter3d.root.x.GetEnumerator();
+            var y = scatter3d.root.y.GetEnumerator();
+            var z = scatter3d.root.z.GetEnumerator();
 
-        var element1 = @"{
+            var firsttime = (DateTime)(linelat.root.x.First());
+            var lasttime = (DateTime)(linelat.root.x.Last());
+
+            List<object> track = new List<object>();
+
+            while (x.MoveNext() && y.MoveNext() && z.MoveNext() && time.MoveNext())
+            {
+                track.Add(new[] { ((DateTime)time.Current).ToString("o"), y.Current, x.Current, z.Current });
+            }
+
+            var element1 = @"{
     name : 'Yellow dashed line with a dash pattern.',
     polyline : {
         positions : Cesium.Cartesian3.fromDegreesArrayHeights(" + track.ToJSON() + @"),
@@ -619,9 +606,9 @@ StringToSign = VERB + "\n" +
     }
 }";
 
-        //https://cesiumjs.org/Cesium/Build/Apps/Sandcastle/?src=Interpolation.html&label=All
-        var element = @"
-position_data = " + track.ToJSON() +@";
+            //https://cesiumjs.org/Cesium/Build/Apps/Sandcastle/?src=Interpolation.html&label=All
+            var element = @"
+position_data = " + track.ToJSON() + @";
 
 function computePositionProperty() {
     var property = new Cesium.SampledPositionProperty();
@@ -642,15 +629,15 @@ position = computePositionProperty();
 var default_model_scale = 20;
 
 //Set bounds of our simulation time
-var start = Cesium.JulianDate.fromDate(new Date("""+firsttime.ToString("o")+@"""));
-var stop = Cesium.JulianDate.fromDate(new Date("""+lasttime.ToString("o")+@"""));
+var start = Cesium.JulianDate.fromDate(new Date(""" + firsttime.ToString("o") + @"""));
+var stop = Cesium.JulianDate.fromDate(new Date(""" + lasttime.ToString("o") + @"""));
 
 //Make sure viewer is at the desired time.
 viewer.clock.startTime = start.clone();
 viewer.clock.stopTime = stop.clone();
 viewer.clock.currentTime = start.clone();
 viewer.clock.clockRange = Cesium.ClockRange.LOOP_STOP; //Loop at the end
-viewer.clock.multiplier = 10;
+viewer.clock.multiplier = 1;
 
 viewer.animation.viewModel.setShuttleRingTicks([
 	0.01, 0.02, 0.05,
@@ -701,8 +688,6 @@ viewer.trackEntity = target;
 (0)
 ";
 
-        try
-        {
             log.Debug("about to element");
             await JSRuntime.InvokeAsync<object>("evalline", new object[] { element });
         }
@@ -728,7 +713,6 @@ viewer.trackEntity = target;
                 d2
             );
         },
-        deferRender: true,
         columns: [
             { data: 0, title: 'MSG' },
             { data: 1 },

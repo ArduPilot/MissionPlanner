@@ -1,5 +1,7 @@
 @inherits LayoutComponentBase
 @inject IJSRuntime JSRuntime
+@inject HttpClient Http
+@using System.IO
 
 <div class="sidebar">
     <NavMenu />
@@ -19,8 +21,21 @@
 
 @code
 {
+    private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
 
+    protected override async Task OnInitAsync()
+    {
+        var paramdata = "ParameterMetaDataBackup.xml";
+        if (!File.Exists(paramdata))
+        {
+            log.Info("get param");
+            var content = await Http.GetStringAsync((paramdata));
+            log.Info("get param done");
+
+            File.WriteAllText(paramdata, content);
+        }
+    }
 
     protected override void OnAfterRender()
     {
