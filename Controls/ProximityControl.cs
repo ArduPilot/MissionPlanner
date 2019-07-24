@@ -8,8 +8,9 @@ using MissionPlanner.ArduPilot;
 using static MAVLink;
 using MissionPlanner.Properties;
 using System.ComponentModel;
+using MissionPlanner.Utilities;
 
-namespace MissionPlanner.Utilities
+namespace MissionPlanner.Controls
 {
     public class ProximityControl : Form
     {

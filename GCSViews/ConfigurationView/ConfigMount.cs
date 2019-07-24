@@ -7,7 +7,6 @@ using System.Linq;
 using System.Windows.Forms;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
-using MissionPlanner.Models;
 using MissionPlanner.Utilities;
 using Transitions;
 
@@ -30,10 +29,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             _ErrorTransition = new[] {delay, fadeIn};
 
             _NoErrorTransition = new Transition(new TransitionType_Linear(10));
-
-            //setup button actions
-            foreach (var btn in Controls.Cast<Control>().OfType<Button>())
-                btn.Click += HandleButtonClick;
 
             LNK_wiki.MouseEnter += (s, e) => FadeLinkTo((LinkLabel) s, Color.CornflowerBlue);
             LNK_wiki.MouseLeave += (s, e) => FadeLinkTo((LinkLabel) s, Color.WhiteSmoke);
@@ -345,32 +340,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var changeColorTransition = new Transition(new TransitionType_Linear(300));
             changeColorTransition.add(l, "LinkColor", c);
             changeColorTransition.run();
-        }
-
-        // Common handler for all buttons
-        // Will execute an ICommand if one is found on the button Tag
-        private static void HandleButtonClick(object sender, EventArgs e)
-        {
-            if (sender is Button)
-            {
-                var cmd = (sender as Button).Tag as ICommand;
-
-                if (cmd != null)
-                    if (cmd.CanExecute(null))
-                        cmd.Execute(null);
-            }
-        }
-
-        // Something has changed on the presenter - This may be an Icommand
-        // enabled state, so update the buttons as appropriate
-        private void CheckCommandStates(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
-        {
-            foreach (var btn in Controls.Cast<Control>().OfType<Button>())
-            {
-                var cmd = btn.Tag as ICommand;
-                if (cmd != null)
-                    btn.Enabled = cmd.CanExecute(null);
-            }
         }
 
         private void LNK_Wiki_Clicked(object sender, LinkLabelLinkClickedEventArgs e)

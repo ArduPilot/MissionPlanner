@@ -4574,7 +4574,7 @@ namespace MissionPlanner.GCSViews
 
                 if (!File.Exists(GStreamer.gstlaunch))
                 {
-                    UDPVideoShim.DownloadGStreamer();
+                    GStreamerUI.DownloadGStreamer();
 
                     if (!File.Exists(GStreamer.gstlaunch))
                     {
@@ -4686,7 +4686,7 @@ namespace MissionPlanner.GCSViews
 
                 if (!File.Exists(GStreamer.gstlaunch))
                 {
-                    UDPVideoShim.DownloadGStreamer();
+                    GStreamerUI.DownloadGStreamer();
 
                     if (!File.Exists(GStreamer.gstlaunch))
                     {

@@ -1957,9 +1957,6 @@ namespace MissionPlanner
             log.Info("stop WarningEngine");
             Warnings.WarningEngine.Stop();
 
-            log.Info("stop UDPVideoShim");
-            UDPVideoShim.Stop();
-
             log.Info("stop GStreamer");
             GStreamer.StopAll();
 
@@ -3296,7 +3293,7 @@ namespace MissionPlanner
                                 "GStreamer", System.Windows.Forms.MessageBoxButtons.YesNo) ==
                             (int)System.Windows.Forms.DialogResult.Yes)
                         {
-                            UDPVideoShim.DownloadGStreamer();
+                            GStreamerUI.DownloadGStreamer();
                         }
                     }
 

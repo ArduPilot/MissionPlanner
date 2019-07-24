@@ -29,6 +29,7 @@ using Microsoft.Scripting.Utils;
 using MissionPlanner.Comms;
 using MissionPlanner.Controls;
 using MissionPlanner.GCSViews;
+using MissionPlanner.GCSViews.ConfigurationView;
 using MissionPlanner.GeoRef;
 using MissionPlanner.Log;
 using MissionPlanner.Maps;
@@ -592,7 +593,7 @@ namespace MissionPlanner
 
         private void but_injectgps_Click(object sender, EventArgs e)
         {
-            new SerialInjectGPS().Show();
+            new ConfigSerialInjectGPS().Show();
         }
 
         private void BUT_fft_Click(object sender, EventArgs e)
@@ -657,7 +658,7 @@ namespace MissionPlanner
                 }
                 else
                 {
-                    UDPVideoShim.DownloadGStreamer();
+                    GStreamerUI.DownloadGStreamer();
                 }
             }
             catch (Exception ex)

@@ -10,8 +10,6 @@ namespace MissionPlanner.Log
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        static bool issitl = false;
-
         public static void SortLogs(string[] logs, string masterdestdir = "")
         {
             Parallel.ForEach(logs, logfile =>
@@ -19,8 +17,6 @@ namespace MissionPlanner.Log
             {
                 if (masterdestdir == "")
                     masterdestdir = Path.GetDirectoryName(logfile);
-
-                issitl = false;
 
                 FileInfo info = new FileInfo(logfile);
 
@@ -60,6 +56,8 @@ namespace MissionPlanner.Log
                     return;
                 }
 
+                bool issitl = false;
+
                 try
                 {
                     using (MAVLinkInterface mine = new MAVLinkInterface())
@@ -75,8 +73,14 @@ namespace MissionPlanner.Log
                         mine.logplaybackfile.BaseStream.Seek(midpoint, SeekOrigin.Begin);
 
                         // used for sitl detection
-                        mine.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.SIMSTATE, SitlDetection);
-                        mine.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.SIM_STATE, SitlDetection);
+                        mine.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.SIMSTATE, (m) =>
+                        {
+                            issitl = true; return true;
+                        });
+                        mine.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.SIM_STATE, (m) =>
+                        {
+                            issitl = true; return true;
+                        });
 
                         MAVLink.MAVLinkMessage hbpacket = mine.getHeartBeat();
                         MAVLink.MAVLinkMessage hbpacket1 = mine.getHeartBeat();
@@ -185,13 +189,6 @@ namespace MissionPlanner.Log
                     return;
                 }
             });
-        }
-
-        private static bool SitlDetection(MAVLink.MAVLinkMessage arg)
-        {
-            issitl = true;
-
-            return true;
         }
 
         static void MoveFileUsingMask(string logfile, string destdir)

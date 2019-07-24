@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Threading;
 using log4net;
 using MissionPlanner.Controls;
+using MissionPlanner.GCSViews.ConfigurationView;
 using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Swarm.SRB
@@ -334,16 +335,16 @@ namespace MissionPlanner.Swarm.SRB
 
         public adsb.PointLatLngAltHdg GetBasePosition()
         {
-            if (SerialInjectGPS.ubxpvt.fix_type < 3)
+            if (ConfigSerialInjectGPS.ubxpvt.fix_type < 3)
                 return null;
 
-            return new adsb.PointLatLngAltHdg(SerialInjectGPS.ubxpvt.lat / 1e7, SerialInjectGPS.ubxpvt.lon / 1e7,
-                SerialInjectGPS.ubxpvt.h_msl / 1000.0, (float)(SerialInjectGPS.ubxpvt.head_mot / 1e5), -1, "", DateTime.Now);
+            return new adsb.PointLatLngAltHdg(ConfigSerialInjectGPS.ubxpvt.lat / 1e7, ConfigSerialInjectGPS.ubxpvt.lon / 1e7,
+                ConfigSerialInjectGPS.ubxpvt.h_msl / 1000.0, (float)(ConfigSerialInjectGPS.ubxpvt.head_mot / 1e5), -1, "", DateTime.Now);
         }
 
         public Vector3 GetBaseVelocity()
         {
-            return new Vector3(SerialInjectGPS.ubxvelned.velN/100.0, SerialInjectGPS.ubxvelned.velE / 100.0, SerialInjectGPS.ubxvelned.velD / 100.0);
+            return new Vector3(ConfigSerialInjectGPS.ubxvelned.velN/100.0, ConfigSerialInjectGPS.ubxvelned.velE / 100.0, ConfigSerialInjectGPS.ubxvelned.velD / 100.0);
         }
 
         public float TakeOffAlt { get; set; }
