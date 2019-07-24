@@ -54,11 +54,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             else
             {
-                //setup bindings
-                chroll = (int) (float) MainV2.comPort.MAV.param["RCMAP_ROLL"];
-                chpitch = (int) (float) MainV2.comPort.MAV.param["RCMAP_PITCH"];
-                chthro = (int) (float) MainV2.comPort.MAV.param["RCMAP_THROTTLE"];
-                chyaw = (int) (float) MainV2.comPort.MAV.param["RCMAP_YAW"];
+                try
+                {
+                    //setup bindings
+                    chroll = (int)(float)MainV2.comPort.MAV.param["RCMAP_ROLL"];
+                    chpitch = (int)(float)MainV2.comPort.MAV.param["RCMAP_PITCH"];
+                    chthro = (int)(float)MainV2.comPort.MAV.param["RCMAP_THROTTLE"];
+                    chyaw = (int)(float)MainV2.comPort.MAV.param["RCMAP_YAW"];
+                }
+                catch (Exception ex)
+                {
+                    CustomMessageBox.Show(Strings.ErrorReceivingParams, Strings.ERROR);
+                    this.Enabled = false;
+                    return;
+                }
             }
 
             BARroll.DataBindings.Clear();

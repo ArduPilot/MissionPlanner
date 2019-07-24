@@ -1516,6 +1516,14 @@ namespace MissionPlanner.GCSViews
             {
                 return (ushort) input;
             }
+            if (input.GetType() == typeof(byte))
+            {
+                return (byte)input;
+            }
+            if (input.GetType() == typeof(sbyte))
+            {
+                return (sbyte)input;
+            }
             if (input.GetType() == typeof (bool))
             {
                 return (bool) input ? 1 : 0;
