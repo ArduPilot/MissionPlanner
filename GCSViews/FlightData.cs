@@ -1070,25 +1070,25 @@ namespace MissionPlanner.GCSViews
                     {
                         double time = (Environment.TickCount - tickStart)/1000.0;
                         if (list1item != null)
-                            list1.Add(time, ConvertToDouble(list1item.GetValue(MainV2.comPort.MAV.cs, null)));
+                            list1.Add(time, (list1item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
                         if (list2item != null)
-                            list2.Add(time, ConvertToDouble(list2item.GetValue(MainV2.comPort.MAV.cs, null)));
+                            list2.Add(time, (list2item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
                         if (list3item != null)
-                            list3.Add(time, ConvertToDouble(list3item.GetValue(MainV2.comPort.MAV.cs, null)));
+                            list3.Add(time, (list3item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
                         if (list4item != null)
-                            list4.Add(time, ConvertToDouble(list4item.GetValue(MainV2.comPort.MAV.cs, null)));
+                            list4.Add(time, (list4item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
                         if (list5item != null)
-                            list5.Add(time, ConvertToDouble(list5item.GetValue(MainV2.comPort.MAV.cs, null)));
+                            list5.Add(time, (list5item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
                         if (list6item != null)
-                            list6.Add(time, ConvertToDouble(list6item.GetValue(MainV2.comPort.MAV.cs, null)));
+                            list6.Add(time, (list6item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
                         if (list7item != null)
-                            list7.Add(time, ConvertToDouble(list7item.GetValue(MainV2.comPort.MAV.cs, null)));
+                            list7.Add(time, (list7item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
                         if (list8item != null)
-                            list8.Add(time, ConvertToDouble(list8item.GetValue(MainV2.comPort.MAV.cs, null)));
+                            list8.Add(time, (list8item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
                         if (list9item != null)
-                            list9.Add(time, ConvertToDouble(list9item.GetValue(MainV2.comPort.MAV.cs, null)));
+                            list9.Add(time, (list9item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
                         if (list10item != null)
-                            list10.Add(time, ConvertToDouble(list10item.GetValue(MainV2.comPort.MAV.cs, null)));
+                            list10.Add(time, (list10item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
                     }
 
                     // update map
@@ -1480,71 +1480,6 @@ namespace MissionPlanner.GCSViews
                 }
             }
             Console.WriteLine("FD Main loop exit");
-        }
-
-        private double ConvertToDouble(object input)
-        {
-            if (input.GetType() == typeof (float))
-            {
-                return (float) input;
-            }
-            if (input.GetType() == typeof (double))
-            {
-                return (double) input;
-            }
-            if (input.GetType() == typeof(ulong))
-            {
-                return (ulong)input;
-            }
-            if (input.GetType() == typeof(long))
-            {
-                return (long)input;
-            }
-            if (input.GetType() == typeof (int))
-            {
-                return (int) input;
-            }
-            if (input.GetType() == typeof(uint))
-            {
-                return (uint)input;
-            }
-            if (input.GetType() == typeof(short))
-            {
-                return (short)input;
-            }
-            if (input.GetType() == typeof (ushort))
-            {
-                return (ushort) input;
-            }
-            if (input.GetType() == typeof(byte))
-            {
-                return (byte)input;
-            }
-            if (input.GetType() == typeof(sbyte))
-            {
-                return (sbyte)input;
-            }
-            if (input.GetType() == typeof (bool))
-            {
-                return (bool) input ? 1 : 0;
-            }
-            if (input.GetType() == typeof(string))
-            {
-                double ans = 0;
-                if (double.TryParse((string)input, out ans))
-                {
-                    return ans;
-                }
-            }
-            if (input is Enum)
-            {
-                return Convert.ToInt32(input);
-            }
-
-            if (input == null)
-                throw new Exception("Bad Type Null");
-            else 
-                throw new Exception("Bad Type " + input.GetType().ToString());
         }
 
         private void updateClearRoutesMarkers()
