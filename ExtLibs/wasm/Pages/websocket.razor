@@ -48,7 +48,7 @@
 <div id="pageload" style="    bottom: 0;    right: 0; position:absolute; top:0px; left:0px;    overflow: hidden; background-color: #80808080;  @(pageloadvisible ? null : "display: none; ") ">
     <div style="text-align: center;       margin-top: 25%;">
         Raw MAVLink website url (wss:// for https)<br />
-        <input type="text" id="wsuri" ref="wsuri" value="ws://localhost:56781/websocket/raw" style="    width: 350px;" /><br />
+        <input type="text" id="wsuri" @ref="@wsuri" value="ws://localhost:56781/websocket/raw" style="    width: 350px;" /><br />
         <button onclick="@wsconnect">Connect</button>
     </div>
 </div>

@@ -24,6 +24,8 @@
 @using Newtonsoft.Json
 @using Org.BouncyCastle.Utilities.Encoders
 @using Microsoft.AspNetCore.Blazor.Services;
+@using Mono.WebAssembly.Interop;
+@using System.Runtime.InteropServices
 @using SevenZip
 @implements IDisposable
 @inject IFileReaderService fileReaderService;
@@ -157,8 +159,6 @@
                 ProcessStream(outStream);
             }
         };
-
-
     }
 
     protected override async Task OnInitAsync()
@@ -255,7 +255,7 @@
 
             log.Debug(info.ToJSON());
 
-            using (MemoryStream memoryStream = await file.CreateMemoryStreamAsync(1024*256))
+            using (MemoryStream memoryStream = await file.CreateMemoryStreamAsync(1024 * 256))
             {
                 var filename = Guid.NewGuid().ToString();
 
@@ -278,20 +278,20 @@
 dictionary - [0,28], default: 23 (2^23 = 8MB)
 
 numFastBytes: set number of fast bytes - [5, 255], default: 128
-  Usually big number gives a little bit better compression ratio 
+  Usually big number gives a little bit better compression ratio
   and slower compression process.
 
 listContextBits: set number of literal context bits - [0, 8], default: 3
   Sometimes lc=4 gives gain for big files.
 
 litPosBits: set number of literal pos bits - [0, 4], default: 0
-  lp switch is intended for periodical data when period is 
-  equal 2^value (where lp=value). For example, for 32-bit (4 bytes) 
-  periodical data you can use lp=2. Often it's better to set lc=0, 
+  lp switch is intended for periodical data when period is
+  equal 2^value (where lp=value). For example, for 32-bit (4 bytes)
+  periodical data you can use lp=2. Often it's better to set lc=0,
   if you change lp switch.
 
 -pb{N}: set number of pos bits - [0, 4], default: 2
-  pb switch is intended for periodical data 
+  pb switch is intended for periodical data
   when period is equal 2^value (where lp=value).
 
 -eos:   write End Of Stream marker
@@ -458,7 +458,7 @@ StringToSign = VERB + "\n" +
             }
             Console.WriteLine("got data about to plot");
             await JSRuntime.InvokeAsync<object>("plotData", new object[] { selectedchart, line.getJSON() });
-            
+
         }
         else
         {
@@ -473,8 +473,19 @@ StringToSign = VERB + "\n" +
             var info = await file.ReadFileInfoAsync();
 
             log.Debug(info.ToJSON());
+            /*
+            var st = await file.OpenReadAsync();
+            log.Debug("opened");
+            var buffer = new byte[info.Size];
+             log.Debug("buffer created");
+            await st.ReadAsync(buffer, 0, buffer.Length);
+             log.Debug("read done");
 
-            using (var memoryStream = await file.CreateMemoryStreamAsync(1024*256))
+            ProcessStream(new MemoryStream(buffer));
+
+            return;
+            */
+            using (var memoryStream = await file.CreateMemoryStreamAsync(1024 * 256))
             {
                 ProcessStream(memoryStream);
             }
@@ -546,7 +557,7 @@ StringToSign = VERB + "\n" +
         log.Debug("About to PLOT");
 
         await JSRuntime.InvokeAsync<object>("plotData", new object[] { "graph1", linealt.getJSON() });
-       // await JSRuntime.InvokeAsync<object>("plotData", new object[] { "div2", linemap.getJSON() });
+        // await JSRuntime.InvokeAsync<object>("plotData", new object[] { "div2", linemap.getJSON() });
         await JSRuntime.InvokeAsync<object>("plotData", new object[] { "div3", scatter3d.getJSON() });
 
         log.Debug("before ATTdata");
@@ -596,14 +607,14 @@ StringToSign = VERB + "\n" +
             }
 
             var element1 = @"{
-    name : 'Yellow dashed line with a dash pattern.',
-    polyline : {
-        positions : Cesium.Cartesian3.fromDegreesArrayHeights(" + track.ToJSON() + @"),
-        width : 10,
-        material : new Cesium.PolylineDashMaterialProperty({
-            color : Cesium.Color.YELLOW
-        })
-    }
+name : 'Yellow dashed line with a dash pattern.',
+polyline : {
+    positions : Cesium.Cartesian3.fromDegreesArrayHeights(" + track.ToJSON() + @"),
+    width : 10,
+    material : new Cesium.PolylineDashMaterialProperty({
+        color : Cesium.Color.YELLOW
+    })
+}
 }";
 
             //https://cesiumjs.org/Cesium/Build/Apps/Sandcastle/?src=Interpolation.html&label=All
@@ -611,17 +622,17 @@ StringToSign = VERB + "\n" +
 position_data = " + track.ToJSON() + @";
 
 function computePositionProperty() {
-    var property = new Cesium.SampledPositionProperty();
-	var position;
-    
-    for (var i = 0; i < position_data.length; ++i) {
-        var cur_pos = position_data[i];
-        var time = Cesium.JulianDate.fromIso8601(cur_pos[0]);
-        position = Cesium.Cartesian3.fromDegrees(cur_pos[1], cur_pos[2],
-			cur_pos[3]);
-        property.addSample(time, position);
-    }
-    return property;
+var property = new Cesium.SampledPositionProperty();
+var position;
+
+for (var i = 0; i < position_data.length; ++i) {
+    var cur_pos = position_data[i];
+    var time = Cesium.JulianDate.fromIso8601(cur_pos[0]);
+    position = Cesium.Cartesian3.fromDegrees(cur_pos[1], cur_pos[2],
+        cur_pos[3]);
+    property.addSample(time, position);
+}
+return property;
 }
 
 position = computePositionProperty();
@@ -640,43 +651,43 @@ viewer.clock.clockRange = Cesium.ClockRange.LOOP_STOP; //Loop at the end
 viewer.clock.multiplier = 1;
 
 viewer.animation.viewModel.setShuttleRingTicks([
-	0.01, 0.02, 0.05,
-	0.1, 0.25, 0.5,
-	1, 2, 5, 10, 15, 30, 60,
-	100, 300, 600, 1000]);
+0.01, 0.02, 0.05,
+0.1, 0.25, 0.5,
+1, 2, 5, 10, 15, 30, 60,
+100, 300, 600, 1000]);
 
 //Set timeline to simulation bounds
 viewer.timeline.zoomTo(start, stop);
 
 target = viewer.entities.add({
 
-    //Set the entity availability to the same interval as the simulation time.
-    availability : new Cesium.TimeIntervalCollection([new Cesium.TimeInterval({
-        start : start,
-        stop : stop
-    })]),
+//Set the entity availability to the same interval as the simulation time.
+availability : new Cesium.TimeIntervalCollection([new Cesium.TimeInterval({
+    start : start,
+    stop : stop
+})]),
 
-    //Use our computed positions
-    position : position,
+//Use our computed positions
+position : position,
 
-    //Automatically compute orientation based on position movement.
-    orientation : new Cesium.VelocityOrientationProperty(position),
+//Automatically compute orientation based on position movement.
+orientation : new Cesium.VelocityOrientationProperty(position),
 
-    //Load the Cesium plane model to represent the entity
-    model : {
-        uri : 'Cesium_Air.txt',
-        minimumPixelSize : 64
-    },
+//Load the Cesium plane model to represent the entity
+model : {
+    uri : 'Cesium_Air.txt',
+    minimumPixelSize : 64
+},
 
-    //Show the path as a pink line sampled in 1 second increments.
-    path : {
-        resolution : 1,
-        material : new Cesium.PolylineGlowMaterialProperty({
-            glowPower : 0.1,
-            color : Cesium.Color.YELLOW
-        }),
-        width : 10
-    }
+//Show the path as a pink line sampled in 1 second increments.
+path : {
+    resolution : 1,
+    material : new Cesium.PolylineGlowMaterialProperty({
+        glowPower : 0.1,
+        color : Cesium.Color.YELLOW
+    }),
+    width : 10
+}
 });
 
 viewer.timeline.updateFromClock();
@@ -701,7 +712,7 @@ viewer.trackEntity = target;
         log.Debug("about to rawtable");
         await JSRuntime.InvokeAsync<object>("evalline", new object[] { @"$('#rawTable').DataTable( {
         retrieve: true,
-        deferLoading: " + cb.Count + @",
+       // deferLoading: " + cb.Count + @",
         serverSide: true,
         ajax: function (data, callback, settings) {
                 console.log(data);
