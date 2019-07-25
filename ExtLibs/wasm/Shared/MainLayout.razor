@@ -19,10 +19,27 @@
     </div>
 </div>
 
+<div id="loading" style="display: @(Loading ? "block": "none");  position: fixed;  left: 0px;  top: 0px;  width: 100%;  height: 100%;  z-index: 9999;  background: url('//upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Phi_fenomeni.gif/50px-Phi_fenomeni.gif')               50% 50% no-repeat ;">
+
+</div>
+
 @code
 {
     private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
+    public static string googleid = "";
+    private bool _loading = true;
+
+    public bool Loading {
+        get { return _loading; }
+        set { log.Info("Loading " + _loading); _loading = value; }
+    }
+
+    [JSInvokable]
+    public static void SetGoogleID(string id)
+    {
+        googleid = id;
+    }
 
     protected override async Task OnInitAsync()
     {
@@ -34,6 +51,8 @@
             log.Info("get param done");
 
             File.WriteAllText(paramdata, content);
+
+            Loading = false;
         }
     }
 
@@ -41,7 +60,8 @@
     {
         base.OnAfterRender();
 
-        JSRuntime.InvokeAsync<object>("renderButton", new { });
+        if(googleid == "")
+            JSRuntime.InvokeAsync<object>("renderButton", new { });
 
         Console.WriteLine("MainLayout OnAfterRender Done");
     }

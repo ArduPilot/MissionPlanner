@@ -11,6 +11,7 @@
 @using MissionPlanner.Log
 @using System.IO;
 @using System.Text;
+@using  System.Web;
 @using  System.Net.Http.Headers;
 @using System.Security.Cryptography;
 @using Blazor.FileReader;
@@ -60,7 +61,7 @@
 
     </div>
     <div id="left" style="margin-right: 150px;">
-        <input type="file" @ref="@inputTypeFileElement" accept=".bin, .log" @onchange="@ReadFile" />
+        <input type="file" id="files" @ref="@inputTypeFileElement" accept=".bin, .log" @onchange="@ReadFile" />
         <button @onclick="@UploadLog">Upload </button>
 
         <div id="cesiumContainer" style="width: 100%; height: 75%;"></div>
@@ -77,29 +78,58 @@
         <div id="div3" style="width: 100%; height: 50vh"></div>
         <table id="myTable" class="display"></table>
         <table id="rawTable" class="display"></table>
-        <div>
-            <input id="searchstring" value="" onkeyup="  var value = $(this).val().toLowerCase(); $('#paramlist > li#paramrow').filter(function () { $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1) });" />
-            <ul id="paramlist">
-                <li id="paramheader">
-                    <div>Name</div>
-                    <div>Value</div>
-                    <div>Options</div>
-                    <div>Desc</div>
-                </li>
-                @if (cb != null)
+
+        <table id="rawparams" class="display">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Value</th>
+                    <th>Options</th>
+                    <th>Desc</th>
+                </tr>
+            </thead>
+            @if (cb != null)
+            {
+        <tbody>
+            @foreach (var item in CleanParamList)
+            {
+                <tr>
+                    <td>@item["Name"]</td>
+                    <td>@item["Value"]</td>
+                    <td>@ParameterMetaDataRepository.GetParameterOptionsInt(item["Name"], Firmwares.ArduCopter2.ToString()).Select(a => a.Key + " = " + a.Value).Aggregate("", (current, next) => current + "; " + next)</td>
+                    <td>@ParameterMetaDataRepository.GetParameterMetaData(item["Name"], ParameterMetaDataConstants.DisplayName, Firmwares.ArduCopter2.ToString()) @ParameterMetaDataRepository.GetParameterMetaData(item["Name"], ParameterMetaDataConstants.Description, Firmwares.ArduCopter2.ToString())</td>
+
+                </tr>
+            }
+        </tbody>
+            }
+        </table>
+
+        <!--
+    <div>
+        <input id="searchstring" value="" onkeyup="  var value = $(this).val().toLowerCase(); $('#paramlist > li#paramrow').filter(function () { $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1) });" />
+        <ul id="paramlist">
+            <li id="paramheader">
+                <div>Name</div>
+                <div>Value</div>
+                <div>Options</div>
+                <div>Desc</div>
+            </li>
+            @if (cb != null)
+            {
+                @foreach (var item in CleanParamList)
                 {
-                    @foreach (var item in CleanParamList)
-                    {
-                        <li id="paramrow">
-                            <div>@item["Name"]</div>
-                            <div>@item["Value"]</div>
-                            <div>@ParameterMetaDataRepository.GetParameterOptionsInt(item["Name"], Firmwares.ArduCopter2.ToString()).Select(a => a.Key + " = " + a.Value).Aggregate("", (current, next) => current + "; " + next)</div>
-                            <div>@ParameterMetaDataRepository.GetParameterMetaData(item["Name"], ParameterMetaDataConstants.DisplayName, Firmwares.ArduCopter2.ToString()) <br />@ParameterMetaDataRepository.GetParameterMetaData(item["Name"], ParameterMetaDataConstants.Description, Firmwares.ArduCopter2.ToString())</div>
-                        </li>
-                    }
+                    <li id="paramrow">
+                        <div>@item["Name"]</div>
+                        <div>@item["Value"]</div>
+                        <div>@ParameterMetaDataRepository.GetParameterOptionsInt(item["Name"], Firmwares.ArduCopter2.ToString()).Select(a => a.Key + " = " + a.Value).Aggregate("", (current, next) => current + "; " + next)</div>
+                        <div>@ParameterMetaDataRepository.GetParameterMetaData(item["Name"], ParameterMetaDataConstants.DisplayName, Firmwares.ArduCopter2.ToString()) <br />@ParameterMetaDataRepository.GetParameterMetaData(item["Name"], ParameterMetaDataConstants.Description, Firmwares.ArduCopter2.ToString())</div>
+                    </li>
                 }
-            </ul>
-        </div>
+            }
+        </ul>
+    </div>
+        -->
     </div>
 </div>
 
@@ -112,55 +142,50 @@
     }
 }
 
-@functions {
+<div id="loading" style="display: @(Loading ? "block": "none");  position: fixed;  left: 0px;  top: 0px;  width: 100%;  height: 100%;  z-index: 9999;  background: url('//upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Phi_fenomeni.gif/50px-Phi_fenomeni.gif')               50% 50% no-repeat ;">
 
-    [Parameter]
-    public string dflog { get; set; } = null;
+</div>
+
+@functions {
+    private bool _loading = false;
+
+    public bool Loading
+    {
+        get { return _loading; }
+        set { _loading = value; log.Info("Loading " + _loading); StateHasChanged(); }
+    }
+    public string dflog { get { var uri = new Uri(UriHelper.GetAbsoluteUri()); return Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query).TryGetValue("dflog", out var type) ? type.First() : ""; } }
 
     private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-    bool init = false;
+    bool initrender = false;
+
+    static DataFlash instance;
 
     protected override void OnInit()
     {
+        instance = this;
         Console.WriteLine("DataFlash OnInit");
-
-        if (init)
-            return;
-
-        init = true;
-
-        UriHelper.OnLocationChanged += async (e, a) =>
-        {
-            var uri = new Uri(UriHelper.GetAbsoluteUri());
-
-            dflog = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query).TryGetValue("dflog", out var type) ? type.First() : "";
-
-            if (dflog != "")
-            {
-                MemoryStream outStream = new MemoryStream();
-                var inStream = await GetBlob(dflog);
-                byte[] properties = new byte[5];
-                if (inStream.Read(properties, 0, 5) != 5)
-                    throw (new Exception("input .lzma is too short"));
-                SevenZip.Compression.LZMA.Decoder decoder = new SevenZip.Compression.LZMA.Decoder();
-                decoder.SetDecoderProperties(properties);
-                long outSize = 0;
-                for (int i = 0; i < 8; i++)
-                {
-                    int v = inStream.ReadByte();
-                    if (v < 0)
-                        throw (new Exception("Can't Read 1"));
-                    outSize |= ((long)(byte)v) << (8 * i);
-                }
-                long compressedSize = inStream.Length - inStream.Position;
-                decoder.Code(inStream, outStream, compressedSize, outSize, null);
-                outStream.Position = 0;
-                ProcessStream(outStream);
-            }
-        };
     }
 
+    public async void Checkdflog()
+    {
+        if (dflog != "")
+        {
+            MemoryStream outStream = new MemoryStream();
+            var inStream = await GetBlob(dflog);
+            log.Info("instream " + inStream.Position + " " + inStream.Length);
+            var zipstream = new ICSharpCode.SharpZipLib.Zip.ZipInputStream(inStream);
+            var theEntry = zipstream.GetNextEntry();
+            log.Info(theEntry.ToJSON());
+            zipstream.CopyTo(outStream);
+            outStream.Position = 0;
+            log.Info("outStream " + outStream.Position + " " + outStream.Length);
+            ProcessStream(outStream);
+
+            StateHasChanged();
+        }
+    }
     protected override async Task OnInitAsync()
     {
         Console.WriteLine("DataFlash OnInitAsync");
@@ -181,6 +206,21 @@
             JSRuntime.InvokeAsync<object>("initMap", null);
 
         initMap = true;
+
+
+        if (initrender)
+            return;
+
+        initrender = true;
+
+        UriHelper.OnLocationChanged += async (e, a) =>
+        {
+            // if user picks dflog
+            Checkdflog();
+        };
+
+        // if first draw
+        Checkdflog();
 
         Console.WriteLine("DataFlash OnAfterRenderAsync Done");
     }
@@ -246,6 +286,7 @@
 
     public async void UploadLog()
     {
+        Loading = true;
 
         foreach (var file in await fileReaderService.CreateReference(inputTypeFileElement).EnumerateFilesAsync())
         {
@@ -255,91 +296,28 @@
 
             log.Debug(info.ToJSON());
 
-            using (MemoryStream memoryStream = await file.CreateMemoryStreamAsync(1024 * 256))
+            using (MemoryStream memoryStream = new MemoryStream(buffer))
             {
+                log.Debug("Memorystream loaded");
                 var filename = Guid.NewGuid().ToString();
 
                 var outStream = new FileStream(filename, FileMode.Create, FileAccess.Write);
 
+                var zipstream = new ICSharpCode.SharpZipLib.Zip.ZipOutputStream(outStream);
 
-                var dictionary = 1 << 12; //23
+                zipstream.SetLevel(2); // 0 - none 9 = max
 
-                Int32 posStateBits = 2;
-                Int32 litContextBits = 3;
+                var entry = new ICSharpCode.SharpZipLib.Zip.ZipEntry(filename);
+                zipstream.PutNextEntry(entry);
 
-                Int32 litPosBits = 0;
+                await memoryStream.CopyToAsync(zipstream);
 
-                Int32 algorithm = 2;
-                Int32 numFastBytes = 5;//128;
-
-                /*
- <Properties>
-
-dictionary - [0,28], default: 23 (2^23 = 8MB)
-
-numFastBytes: set number of fast bytes - [5, 255], default: 128
-  Usually big number gives a little bit better compression ratio
-  and slower compression process.
-
-listContextBits: set number of literal context bits - [0, 8], default: 3
-  Sometimes lc=4 gives gain for big files.
-
-litPosBits: set number of literal pos bits - [0, 4], default: 0
-  lp switch is intended for periodical data when period is
-  equal 2^value (where lp=value). For example, for 32-bit (4 bytes)
-  periodical data you can use lp=2. Often it's better to set lc=0,
-  if you change lp switch.
-
--pb{N}: set number of pos bits - [0, 4], default: 2
-  pb switch is intended for periodical data
-  when period is equal 2^value (where lp=value).
-
--eos:   write End Of Stream marker
- */
-
-                CoderPropID[] propIDs =
-            {
-                CoderPropID.DictionarySize,
-                CoderPropID.PosStateBits,
-                CoderPropID.LitContextBits,
-                CoderPropID.LitPosBits,
-                CoderPropID.Algorithm,
-                CoderPropID.NumFastBytes,
-                CoderPropID.MatchFinder,
-                CoderPropID.EndMarker
-            };
-                object[] properties =
-                {
-                    (Int32)(dictionary),
-                    (Int32)(posStateBits),
-                    (Int32)(litContextBits),
-                    (Int32)(litPosBits),
-                    (Int32)(algorithm),
-                    (Int32)(numFastBytes),
-                  //  mf,
-                  //  eos
-                };
-                SevenZip.Compression.LZMA.Encoder encoder = new SevenZip.Compression.LZMA.Encoder();
-                encoder.SetCoderProperties(propIDs, properties);
-                encoder.WriteCoderProperties(outStream);
-
-                var fileSize = info.Size;
-                for (int i = 0; i < 8; i++)
-                    outStream.WriteByte((Byte)(fileSize >> (8 * i)));
-
-                await Task.Run(delegate
-                {
-                    encoder.Code(memoryStream, outStream, -1, -1, new CodeProgress((l, l1) =>
-                    {
-                        var percent = (double)l / info.Size;
-                        log.Info((percent * 100) + "% " + l1);
-                    }));
-                });
-
+                zipstream.CloseEntry();
+                zipstream.Finish();
+                zipstream.Close();
                 outStream.Close();
 
-
-                await UploadBlobWithRestAPI(filename, File.ReadAllBytes(filename));
+                await UploadBlobWithRestAPI(filename, File.ReadAllBytes(filename), info);
 
                 File.Delete(filename);
 
@@ -348,9 +326,10 @@ litPosBits: set number of literal pos bits - [0, 4], default: 0
             }
         }
 
+        Loading = false;
     }
 
-    async Task<HttpStatusCode> UploadBlobWithRestAPI(string blobName, byte[] sampleContent)
+    async Task<HttpStatusCode> UploadBlobWithRestAPI(string blobName, byte[] sampleContent, IFileInfo info, bool publiclog = true)
     {
         string storageKey = "";
         string storageAccount = "mptlog";
@@ -368,7 +347,14 @@ litPosBits: set number of literal pos bits - [0, 4], default: 0
         Http.DefaultRequestHeaders.TryAddWithoutValidation("x-ms-version", "2018-03-28");
         Http.DefaultRequestHeaders.TryAddWithoutValidation("x-ms-date", now);
         Http.DefaultRequestHeaders.TryAddWithoutValidation("x-ms-blob-type", "BlockBlob");
-        Http.DefaultRequestHeaders.TryAddWithoutValidation("x-ms-meta-name", "value");
+        Http.DefaultRequestHeaders.TryAddWithoutValidation("x-ms-meta-name", HttpUtility.UrlEncode(info.Name));
+        Http.DefaultRequestHeaders.TryAddWithoutValidation("x-ms-meta-size", info.Size.ToString());
+        Http.DefaultRequestHeaders.TryAddWithoutValidation("x-ms-meta-LastModified", info.LastModifiedDate.Value.ToString("o"));
+        Http.DefaultRequestHeaders.TryAddWithoutValidation("x-ms-meta-type", info.Type);
+        Http.DefaultRequestHeaders.TryAddWithoutValidation("x-ms-meta-googleid", MainLayout.googleid);
+        Http.DefaultRequestHeaders.TryAddWithoutValidation("x-ms-meta-public", publiclog.ToString());
+
+
         //Http.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", AuthorizationHeader(method, now, storageAccount, storageKey, containerName, blobName, contentLength));
 
         var result = await Http.PutAsync(requestUri, new ByteArrayContent(sampleContent));
@@ -438,6 +424,7 @@ StringToSign = VERB + "\n" +
 
     public async void PlotItem(string type, string item, bool checked1)
     {
+        Loading = true;
         if (checked1)
         {
             plotly line = new plotly(type + "." + item);
@@ -464,32 +451,45 @@ StringToSign = VERB + "\n" +
         {
             await JSRuntime.InvokeAsync<object>("evalline", new object[] { " index = " + selectedchart + ".data.findIndex(item => item.name === '" + type + "." + item + "'); if (index >= 0) Plotly.deleteTraces(" + selectedchart + ", index , 1 ); " });
         }
+        Loading = false;
+    }
+
+    internal byte[] buffer;
+
+    [JSInvokable]
+    public async static void fileReadyDF()
+    {
+        if (instance == null)
+            return;
+        log.Info("fileReady start");
+        instance.ProcessStream(new MemoryStream(instance.buffer));
+        log.Info("fileReady done");
+
     }
 
     public async Task ReadFile()
     {
+        log.Info("ReadFile start");
+        Loading = true;
+
         foreach (var file in await fileReaderService.CreateReference(inputTypeFileElement).EnumerateFilesAsync())
         {
             var info = await file.ReadFileInfoAsync();
 
             log.Debug(info.ToJSON());
-            /*
-            var st = await file.OpenReadAsync();
-            log.Debug("opened");
-            var buffer = new byte[info.Size];
-             log.Debug("buffer created");
-            await st.ReadAsync(buffer, 0, buffer.Length);
-             log.Debug("read done");
 
-            ProcessStream(new MemoryStream(buffer));
+            buffer = new byte[info.Size];
 
-            return;
-            */
-            using (var memoryStream = await file.CreateMemoryStreamAsync(1024 * 256))
-            {
-                ProcessStream(memoryStream);
-            }
+            var handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+
+            var js = JSRuntime as MonoWebAssemblyJSRuntime;
+            js.InvokeUnmarshalled<byte[], string, bool>("filebuffer", buffer, "fileReadyDF");
+
+
+
         }
+
+        log.Info("ReadFile done");
     }
 
     public async void ProcessStream(Stream memoryStream)
@@ -510,6 +510,7 @@ StringToSign = VERB + "\n" +
         await JSRuntime.InvokeAsync<object>("evalline", new object[] { @"$('#myTable').DataTable( {
         retrieve: true,
         data: dataSet,
+        serverSide: false, 
         columns: [
             { title: 'MSG' },
             { title: 'Time' },
@@ -598,6 +599,7 @@ StringToSign = VERB + "\n" +
 
             var firsttime = (DateTime)(linelat.root.x.First());
             var lasttime = (DateTime)(linelat.root.x.Last());
+            var homelocation = new PointLatLngAlt((double) scatter3d.root.x.First(), (double) scatter3d.root.y.First(), (double) scatter3d.root.z.First());
 
             List<object> track = new List<object>();
 
@@ -606,36 +608,75 @@ StringToSign = VERB + "\n" +
                 track.Add(new[] { ((DateTime)time.Current).ToString("o"), y.Current, x.Current, z.Current });
             }
 
-            var element1 = @"{
-name : 'Yellow dashed line with a dash pattern.',
-polyline : {
-    positions : Cesium.Cartesian3.fromDegreesArrayHeights(" + track.ToJSON() + @"),
-    width : 10,
-    material : new Cesium.PolylineDashMaterialProperty({
-        color : Cesium.Color.YELLOW
-    })
-}
-}";
+            List<object> att = new List<object>();
+
+            // every 2th
+            foreach (var item in ATTdata.Where((value, index) => index % 2 == 0))
+            {
+                att.Add(new[] {((DateTime) item.time).ToString("o"), item.Roll, item.Pitch, item.Yaw});
+            }
 
             //https://cesiumjs.org/Cesium/Build/Apps/Sandcastle/?src=Interpolation.html&label=All
             var element = @"
 position_data = " + track.ToJSON() + @";
+attitude_data = " + att.ToJSON() + @";
 
-function computePositionProperty() {
-var property = new Cesium.SampledPositionProperty();
-var position;
+takeoff_altitude = " + homelocation.Alt + @";
+takeoff_position = Cesium.Cartographic.fromDegrees( " + homelocation.Lng + @" ,  " + homelocation.Lat + @" );
 
-for (var i = 0; i < position_data.length; ++i) {
-    var cur_pos = position_data[i];
-    var time = Cesium.JulianDate.fromIso8601(cur_pos[0]);
-    position = Cesium.Cartesian3.fromDegrees(cur_pos[1], cur_pos[2],
-        cur_pos[3]);
-    property.addSample(time, position);
+function computePositionProperty(attitude_data) {
+    var property = new Cesium.SampledPositionProperty();
+    var position;
+
+    for (var i = 0; i < position_data.length; ++i) {
+        var cur_pos = position_data[i];
+        var time = Cesium.JulianDate.fromIso8601(cur_pos[0]);
+        position = Cesium.Cartesian3.fromDegrees(cur_pos[1], cur_pos[2],
+            cur_pos[3] + attitude_data);
+        property.addSample(time, position);
+    }
+    return property;
 }
-return property;
+
+function computeOrientationProperty() {
+	var orientationProperty = new Cesium.TimeIntervalCollectionProperty();
+
+    var position = Cesium.Cartesian3.fromRadians(takeoff_position.longitude,
+		 takeoff_position.latitude);
+    
+    for (i = 0; i < attitude_data.length; ++i) {
+        var cur_attitude = attitude_data[i];
+        var time_att = Cesium.JulianDate.fromIso8601(cur_attitude[0]);
+
+//https://cesiumjs.org/Cesium/Build/Apps/Sandcastle/?src=3D%20Models.html
+    var heading = Cesium.Math.toRadians(cur_attitude[3] - 90);
+    var pitch = Cesium.Math.toRadians(cur_attitude[2]);
+    var roll = Cesium.Math.toRadians(cur_attitude[1]);
+    var hpr = new Cesium.HeadingPitchRoll(heading, pitch, roll);
+    var orientation = Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
+
+
+
+        if (i < attitude_data.length - 1) {
+            var next_attitude = attitude_data[i+1];
+            var time_att_next = Cesium.JulianDate.fromIso8601(next_attitude[0]);
+			var timeInterval = new Cesium.TimeInterval({
+				start : time_att,
+				stop : time_att_next,
+				isStartIncluded : true,
+				isStopIncluded : false,
+				data : orientation
+			});
+			orientationProperty.intervals.addInterval(timeInterval);
+        }
+        
+    }
+    
+    return orientationProperty;
 }
 
-position = computePositionProperty();
+positionProperty = computePositionProperty(0);
+orientationProperty = computeOrientationProperty();
 
 var default_model_scale = 20;
 
@@ -668,10 +709,11 @@ availability : new Cesium.TimeIntervalCollection([new Cesium.TimeInterval({
 })]),
 
 //Use our computed positions
-position : position,
+    position : positionProperty,
+    orientation : orientationProperty,
 
 //Automatically compute orientation based on position movement.
-orientation : new Cesium.VelocityOrientationProperty(position),
+//orientation : new Cesium.VelocityOrientationProperty(positionProperty),
 
 //Load the Cesium plane model to represent the entity
 model : {
@@ -690,13 +732,19 @@ path : {
 }
 });
 
+var promise = Cesium.sampleTerrainMostDetailed(viewer.terrainProvider, [ takeoff_position ]);
+Cesium.when(promise, function(updatedPositions) {
+	var ground_offset = takeoff_position.height - takeoff_altitude;
+    console.log('Ground Offset in meters: ' + ground_offset);
+	var positionProperty = computePositionProperty(ground_offset + 2);
+	target.position = positionProperty;
+});
+
 viewer.timeline.updateFromClock();
 viewer.timeline.zoomTo(viewer.clock.startTime, viewer.clock.stopTime);
 
 viewer.zoomTo(target);
 viewer.trackEntity = target;
-
-(0)
 ";
 
             log.Debug("about to element");
@@ -705,15 +753,15 @@ viewer.trackEntity = target;
         catch (Exception ex)
         { log.Error(ex); }
 
+        // used for rawtable callbacks
         var dotNetObjectRef = DotNetObjectRef.Create(this);
-
         await JSRuntime.InvokeAsync<object>("dotNetObjectRefSave", dotNetObjectRef);
 
         log.Debug("about to rawtable");
         await JSRuntime.InvokeAsync<object>("evalline", new object[] { @"$('#rawTable').DataTable( {
         retrieve: true,
-       // deferLoading: " + cb.Count + @",
         serverSide: true,
+        searching: false, 
         ajax: function (data, callback, settings) {
                 console.log(data);
                 console.log(callback);
@@ -738,7 +786,16 @@ viewer.trackEntity = target;
         ]
     } );" });
 
+
+        // render the table before converting to a datatable
+        StateHasChanged();
+
+        await JSRuntime.InvokeAsync<object>("evalline", new object[] { @"$('#rawparams').DataTable( { searching: true,  serverSide: false, retrieve: true    } );" });
+
+
         log.Debug("done");
+
+        Loading = false;
     }
 
     [JSInvokable]
@@ -749,6 +806,8 @@ viewer.trackEntity = target;
 
     public void Dispose()
     {
+        instance = null;
+        buffer = null;
     }
 
     public IEnumerable<string> SeenMessageTypes

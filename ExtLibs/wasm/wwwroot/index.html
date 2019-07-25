@@ -37,7 +37,7 @@
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
     <link href="css/site.css" rel="stylesheet" />
 
-    <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+    <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"  rel="stylesheet"/>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
@@ -119,7 +119,12 @@
 
         function evalline(line) {
             try {
-                return eval(line);
+                ans = eval(line);
+
+                if (typeof ans === 'object')
+                    return 0;
+
+                return ans;
             }
             catch (err) {
                 console.log(err);
@@ -140,6 +145,11 @@
             console.log('Email: ' + profile.getEmail());
 
             var id_token = googleUser.getAuthResponse().id_token;
+
+            //https://www.googleapis.com/oauth2/v1/certs
+            //https://oauth2.googleapis.com/tokeninfo?id_token=
+
+            DotNet.invokeMethodAsync('wasm', 'SetGoogleID', profile.getId());
         }
 
         function initWebSocket(host) {
@@ -245,10 +255,29 @@
             dotNetArrayPtr = dotNetArrayPtrI;
         }
 
-var data = new Uint8Array(32);
-var stream = FS.open('dummy', 'w+');
-FS.write(stream, data, 0, data.length, 0);
-FS.close(stream);
+        function filebuffer(dotNetArrayPtrI, staticCallback) {
+            console.log(dotNetArrayPtrI);
+            console.log(Blazor.platform.toJavaScriptString(staticCallback));
+            var arrayBuffer;
+            var fileReader = new FileReader();
+            fileReader.onload = function (r) {
+                arrayBuffer = r.target.result;
+
+                var dotNetBuffer = { toUint8Array: function () { return Blazor.platform.toUint8Array(dotNetArrayPtrI); } };
+                var dotNetBufferView = dotNetBuffer.toUint8Array();
+                dotNetBufferView.set(new Uint8Array(arrayBuffer));
+
+                DotNet.invokeMethodAsync('wasm', Blazor.platform.toJavaScriptString(staticCallback));
+            };
+
+            var files = document.getElementById('files').files;
+            if (!files.length) {
+                alert('Please select a file!');
+                return;
+            }
+            var file = files[0];
+            fileReader.readAsArrayBuffer(file);
+        }
 
         function websocketsend(data) {
             socket.send(data);

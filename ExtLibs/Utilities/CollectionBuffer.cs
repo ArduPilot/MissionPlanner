@@ -43,10 +43,18 @@ namespace MissionPlanner.Utilities
                 messageindexline[a] = new List<uint>();
             }
 
-            basestream = new MemoryStream((int) instream.Length);
-            instream.CopyTo(basestream);
-            basestream.Position = 0;
-            instream.Close();
+            if (instream.CanSeek)
+            {
+                basestream = instream;
+            }
+            else
+            {
+                Console.WriteLine("CollectionBuffer: not seekable - copying to memorystream");
+                basestream = new MemoryStream((int)instream.Length);
+                instream.CopyTo(basestream);
+                basestream.Position = 0;
+                instream.Close();
+            }
 
             if (basestream.ReadByte() == BinaryLog.HEAD_BYTE1)
             {
@@ -56,11 +64,13 @@ namespace MissionPlanner.Utilities
                 }
             }
 
+            Console.WriteLine("Binary: " + binary);
+
             // back to start
             basestream.Position = 0;
             DateTime start = DateTime.Now;
             setlinecount();
-            Console.WriteLine("CollectionBuffer-linecount: " + (DateTime.Now - start).TotalMilliseconds);
+            Console.WriteLine("CollectionBuffer-linecount: " + Count + " time(ms): " + (DateTime.Now - start).TotalMilliseconds);
             basestream.Position = 0;
         }
 
