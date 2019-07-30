@@ -16,7 +16,7 @@ using MissionPlanner.Comms;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigUAVCAN : UserControl, MissionPlanner.Controls.IDeactivate
+    public partial class ConfigUAVCAN : UserControl, MissionPlanner.Controls.IDeactivate, IActivate
     {
         public ConfigUAVCAN()
         {
@@ -29,6 +29,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         }
         
         List<UAVCANModel> allnodes = new List<UAVCANModel>();
+
+        public void Activate()
+        {
+            if (MainV2.comPort.MAV.param.Count > 5 && !MainV2.comPort.MAV.param.ContainsKey("CAN_SLCAN_TIMOUT"))
+                this.Enabled = false;
+        }
 
         private void but_slcanmode_Click(object sender, EventArgs e)
         {
@@ -46,11 +52,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             but_slcanmode2.Enabled = false;
             try
             {
-                MainV2.comPort.setParam("CAN_SLCAN_CPORT", canport, true);
-                MainV2.comPort.setParam("CAN_SLCAN_TIMOUT", 2, true);
-                MainV2.comPort.setParam("CAN_SLCAN_SERNUM", 0, true); // usb
+                if (MainV2.comPort.BaseStream.IsOpen)
+                {
+                    var cport = MainV2.comPort.MAV.param["CAN_SLCAN_CPORT"].Value;
+                    MainV2.comPort.setParam("CAN_SLCAN_CPORT", canport, true);
+                    if (cport == 0)
+                    {
+                        CustomMessageBox.Show("Reboot required" + " after setting CPORT. Please reboot!", Strings.ERROR);
+                        return;
+                    }
+                    MainV2.comPort.setParam("CAN_SLCAN_TIMOUT", 2, true);
+                    MainV2.comPort.setParam("CAN_SLCAN_SERNUM", 0, true); // usb
+                }
             }
-            catch
+            catch 
             {
 
             }
@@ -294,6 +309,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             new UAVCANInspector(can).Show();
         }
+
     }
 
     public class UAVCANModel

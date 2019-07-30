@@ -85,32 +85,63 @@ namespace UAVCAN
         public void StartSLCAN(Stream stream)
         {
             //cleanup
-            stream.Write(new byte[] { (byte)'\r' }, 0, 1);
+            stream.Write(new byte[] { (byte)'\r', (byte)'\r', (byte)'\r' }, 0, 3);
+            Thread.Sleep(50);
+            stream.Read(new byte[1024 * 1024], 0, 1024 * 1024);
+
+            // \a = false;
+            // \r = true;
+
             // close
             stream.Write(new byte[] { (byte)'C', (byte)'\r' }, 0, 2);
+
+            var resp1 = ReadLine(stream);
             // speed 
             stream.Write(new byte[] { (byte)'S', (byte)'8', (byte)'\r' }, 0, 3);
+
+            var resp2 = ReadLine(stream);
             //hwid
             stream.Write(new byte[] { (byte)'N', (byte)'\r' }, 0, 2);
+
+            var resp3 = ReadLine(stream);
             // open
             stream.Write(new byte[] { (byte)'O', (byte)'\r' }, 0, 2);
+
+            var resp4 = ReadLine(stream);
             // clear status
             stream.Write(new byte[] { (byte)'F', (byte)'\r' }, 0, 2);
 
+            var resp5 = ReadLine(stream);
+
             sr = stream;
+
+            bool run = true;
 
             // read everything
             Task.Run(() =>
             {
-                while (sr.CanRead)
-                {                   
+                int readfail = 0;
+                while (run)
+                {
                     try
                     {
                         var line = ReadLine(stream);
                         ReadMessage(line);
+                        readfail = 0;
+                    }
+                    catch (ObjectDisposedException)
+                    {
+                        run = false;
+                    }
+                    catch (IOException)
+                    {
+                        run = false;
                     }
                     catch
                     {
+                        readfail++;
+                        if (readfail > 500)
+                            run = false;
                     }
                 }
             });
@@ -118,7 +149,7 @@ namespace UAVCAN
             // 1 second nodestatus send
             Task.Run(() =>
             {
-                while (stream.CanWrite)
+                while (run)
                 {
                     try
                     {
@@ -131,6 +162,10 @@ namespace UAVCAN
                             lock (sr_lock)
                                 WriteToStream(slcan);
                         }
+                    }
+                    catch (ObjectDisposedException)
+                    {
+                        run = false;
                     }
                     catch
                     {
