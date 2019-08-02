@@ -154,6 +154,27 @@ namespace MissionPlanner.Utilities
             }
         }
 
+        public static void CallWithTimeout<T>(Action<T> action, int timeoutMilliseconds, T data)
+        {
+            Thread threadToKill = null;
+            Action wrappedAction = () =>
+            {
+                threadToKill = Thread.CurrentThread;
+                action(data);
+            };
+
+            var result = wrappedAction.BeginInvoke(null, null);
+            if (result.AsyncWaitHandle.WaitOne(timeoutMilliseconds))
+            {
+                wrappedAction.EndInvoke(result);
+            }
+            else
+            {
+                threadToKill.Abort();
+                throw new TimeoutException();
+            }
+        }
+
         public static async void Async(this Action function)
         {
             await Task.Run(() => { function(); });

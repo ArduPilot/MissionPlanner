@@ -297,7 +297,7 @@ namespace MissionPlanner.Comms
             portnamenice = "";
         }
 
-        private static void CallWithTimeout(Action<string> action, int timeoutMilliseconds, string data)
+        private static void CallWithTimeout<T>(Action<T> action, int timeoutMilliseconds, T data)
         {
             Thread threadToKill = null;
             Action wrappedAction = () =>
@@ -328,7 +328,7 @@ namespace MissionPlanner.Comms
             if (!portName.StartsWith("COM"))
                 return portName;
             var newPortName = "COM"; // Start over with "COM"
-            foreach (var portChar in portName.Substring(3).ToCharArray()
+            foreach (var portChar in portName.Substring(3).Take(3)
             ) //  Remove "COM", put the rest in a character array
                 if (char.IsDigit(portChar))
                     newPortName += portChar.ToString(); // Good character, append to portName
