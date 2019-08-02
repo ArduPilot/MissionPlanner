@@ -15,6 +15,7 @@ using System.Net.Sockets;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
@@ -295,6 +296,10 @@ namespace MissionPlanner.Utilities
             }
         }
 
+        object urlcachelock = new object();
+        Dictionary<string, SemaphoreSlim> urlcacheSem = new Dictionary<string, SemaphoreSlim>();
+        static Dictionary<string, string> urlcache = new Dictionary<string, string>();
+
         /// <summary>
         /// Get fw version from firmeware.diydrones.com
         /// </summary>
@@ -320,9 +325,45 @@ namespace MissionPlanner.Utilities
 
                 Uri url = new Uri(new Uri(baseurl), "git-version.txt");
 
-                log.Info("Get url " + url.ToString());
+                log.Info("Get url " + url.ToString() + " for " + temp.name);
 
                 updateProgress(-1, Strings.GettingFWVersion);
+
+                var line = GetAPMVERSIONFile(url);
+
+                // get index
+                var index = options.softwares.IndexOf(temp);
+                // get item to modify
+                var item = options.softwares[index];
+                // move existing name
+                item.desc = item.name;
+                // change name
+                item.name = line.Substring(line.IndexOf(':') + 2);
+                // save back to list
+                options.softwares[index] = item;
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+        }
+
+        private string GetAPMVERSIONFile(Uri url)
+        {
+            lock (urlcachelock)
+                if (!urlcacheSem.ContainsKey(url.AbsoluteUri))
+                    urlcacheSem[url.AbsoluteUri] = new SemaphoreSlim(1, 1);
+
+            urlcacheSem[url.AbsoluteUri].Wait();
+
+            try
+            {
+                lock (urlcachelock)
+                    if (urlcache.ContainsKey(url.AbsoluteUri))
+                    {
+                        log.Info("GetAPMVERSIONFile: using cache " + url.AbsoluteUri);
+                        return urlcache[url.AbsoluteUri];
+                    }
 
                 WebRequest wr = WebRequest.Create(url);
                 wr.Timeout = 10000;
@@ -337,28 +378,20 @@ namespace MissionPlanner.Utilities
                         {
                             log.Info(line);
 
-                            // get index
-                            var index = options.softwares.IndexOf(temp);
-                            // get item to modify
-                            var item = options.softwares[index];
-                            // move existing name
-                            item.desc = item.name;
-                            // change name
-                            item.name = line.Substring(line.IndexOf(':') + 2);
-                            // save back to list
-                            options.softwares[index] = item;
+                            lock (urlcachelock)
+                                urlcache[url.AbsoluteUri] = line;
 
-                            return;
+                            return line;
                         }
                     }
                 }
-
-                log.Info("no answer");
             }
-            catch (Exception ex)
+            finally
             {
-                log.Error(ex);
+                urlcacheSem[url.AbsoluteUri].Release();
             }
+
+            throw new TimeoutException();
         }
 
         /// <summary>
