@@ -14,12 +14,7 @@ namespace MissionPlanner.Utilities
         BinaryLog binlog = new BinaryLog();
 
         // used for fmt messages
-        public DFLog dflog 
-        {
-            get { return _dflog; }
-        }
-
-        DFLog _dflog = new DFLog();
+        public DFLog dflog { get; } = new DFLog();
 
         Stream basestream;
         private int _count;
@@ -209,6 +204,8 @@ namespace MissionPlanner.Utilities
 
             BuildUnitMultiList();
 
+            // try get gps time - when a dfitem is created and no valid gpstime has been establish the messages are parsed to get a valid gpstime
+            // here we just force the parsing of gps messages to get the valid board time to gps time offset
             int gpsa = 0;
             foreach (var item in GetEnumeratorType(new[]
             {
@@ -216,8 +213,14 @@ namespace MissionPlanner.Utilities
             }))
             {
                 gpsa++;
+                int status = 0;
+                if (int.TryParse(item["status"], out status))
+                {
+                    if (status >= 3)
+                        break;
+                }
                 // get first gps time
-                if(gpsa > 10)
+                if (gpsa > 2000)
                     break;
             }
 

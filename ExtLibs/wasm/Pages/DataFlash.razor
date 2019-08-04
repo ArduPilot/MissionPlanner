@@ -503,11 +503,11 @@ StringToSign = VERB + "\n" +
             log.Debug(msg.msgtype + " " + cb[msg.lineno]);
         }
 
-        // entire msg dataset
-        await JSRuntime.InvokeAsync<object>("evalline", new object[] { "dataSet = " + cb.GetEnumeratorType("MSG").Select(a => a.items).ToList().ToJSON() });
+    // entire msg dataset
+        await JSRuntime.InvokeAsync<object>("evalline", new object[] {"dataSet = " + cb.GetEnumeratorType("MSG").Select(a => a.items).ToList().ToJSON()});
 
 
-        await JSRuntime.InvokeAsync<object>("evalline", new object[] { @"$('#myTable').DataTable( {
+        await JSRuntime.InvokeAsync<object>("evalline", new object[] {@"$('#myTable').DataTable( {
         retrieve: true,
         data: dataSet,
         serverSide: false, 
@@ -516,7 +516,7 @@ StringToSign = VERB + "\n" +
             { title: 'Time' },
             { title: 'Message' }
         ]
-    } );" });
+    } );"});
 
         plotly linelat = new plotly("GPS.Lat");
         plotly linelng = new plotly("GPS.Lng");
@@ -530,29 +530,39 @@ StringToSign = VERB + "\n" +
         scatter3d.root.type = "scatter3d";
         scatter3d.root.mode = "lines";
 
+    // create anon type
+        var ATTdata = Enumerable.Repeat(new {time = DateTime.MinValue.ToString("o"), Roll = "", DesRoll = "", Pitch = "", DesPitch = "", Yaw = "", DesYaw = ""}, 0).ToList();
 
-        foreach (var msg in cb.GetEnumeratorType("GPS"))
+        log.Debug("parse GPS and ATT");
+    foreach (var msg in cb.GetEnumeratorType(new [] {"GPS","ATT"}))
         {
-            var lat = msg["Lat"];
-            var lng = msg["Lng"];
-            var alt = msg["Alt"];
-            if (lat == null)
-                continue;
+            if (msg.msgtype == "ATT")
+            {
+                ATTdata.Add(new {time = msg.time.ToString("o"), Roll = msg["Roll"], DesRoll = msg["DesRoll"], Pitch = msg["Pitch"], DesPitch = msg["DesPitch"], Yaw = msg["Yaw"], DesYaw = msg["DesYaw"]});
+            }
+            else if (msg.msgtype == "GPS")
+            {
+                var lat = msg["Lat"];
+                var lng = msg["Lng"];
+                var alt = msg["Alt"];
+                if (lat == null)
+                    continue;
 
-            var lat2 = double.Parse(lat, CultureInfo.InvariantCulture);
-            var lng2 = double.Parse(lng, CultureInfo.InvariantCulture);
-            var alt2 = double.Parse(alt, CultureInfo.InvariantCulture);
+                var lat2 = double.Parse(lat, CultureInfo.InvariantCulture);
+                var lng2 = double.Parse(lng, CultureInfo.InvariantCulture);
+                var alt2 = double.Parse(alt, CultureInfo.InvariantCulture);
 
-            if (lat2 == 0)
-                continue;
+                if (lat2 == 0)
+                    continue;
 
-            linelat.AddXY(msg.time, lat2);
-            linelng.AddXY(msg.time, lng2);
-            linealt.AddXY(msg.time, alt2);
+                linelat.AddXY(msg.time, lat2);
+                linelng.AddXY(msg.time, lng2);
+                linealt.AddXY(msg.time, alt2);
 
-            linemap.AddLatLng(lat2, lng2);
+                linemap.AddLatLng(lat2, lng2);
 
-            scatter3d.AddXYZ(lat2, lng2, alt2);
+                scatter3d.AddXYZ(lat2, lng2, alt2);
+            }
         }
 
         log.Debug("About to PLOT");
@@ -561,31 +571,46 @@ StringToSign = VERB + "\n" +
         // await JSRuntime.InvokeAsync<object>("plotData", new object[] { "div2", linemap.getJSON() });
         await JSRuntime.InvokeAsync<object>("plotData", new object[] { "div3", scatter3d.getJSON() });
 
-        log.Debug("before ATTdata");
-        var ATTdata = cb.GetEnumeratorType("ATT").Select(a => new { time = a.time, Roll = a["Roll"], DesRoll = a["DesRoll"], Pitch = a["Pitch"], DesPitch = a["DesPitch"], Yaw = a["Yaw"], DesYaw = a["DesYaw"] }).ToList();
-        log.Debug("after ATTdata");
-        await JSRuntime.InvokeAsync<object>("plotData", new object[] { "graph2",
+        await JSRuntime.InvokeAsync<object>("plotData", new object[]
+        {
+            "graph2",
 
-            new {
+            new
+            {
                 name = "ATT.Roll",
-            x = ATTdata.Select(a => a.time).ToList(),
-            y = ATTdata.Select(a => a.Roll).ToList()
-        }.ToJSON(),  new {name = "ATT.DesRoll",
-            x = ATTdata.Select(a => a.time).ToList(),
-            y = ATTdata.Select(a => a.DesRoll).ToList()
-        }.ToJSON(),  new {name = "ATT.Pitch",
-            x = ATTdata.Select(a => a.time).ToList(),
-            y = ATTdata.Select(a => a.Pitch).ToList()
-        }.ToJSON(),new {name = "ATT.DesPitch",
-            x = ATTdata.Select(a => a.time).ToList(),
-            y = ATTdata.Select(a => a.DesPitch).ToList()
-        }.ToJSON(),   new {name = "ATT.Yaw",yaxis =  "y2",
-            x = ATTdata.Select(a => a.time).ToList(),
-            y = ATTdata.Select(a => a.Yaw).ToList()
-        }.ToJSON(),  new {name = "ATT.DesYaw",yaxis =  "y2",
-            x = ATTdata.Select(a => a.time).ToList(),
-            y = ATTdata.Select(a => a.DesYaw).ToList()
-        }.ToJSON()
+                x = ATTdata.Select(a => a.time).ToList(),
+                y = ATTdata.Select(a => a.Roll).ToList()
+            }.ToJSON(),
+            new
+            {
+                name = "ATT.DesRoll",
+                x = ATTdata.Select(a => a.time).ToList(),
+                y = ATTdata.Select(a => a.DesRoll).ToList()
+            }.ToJSON(),
+            new
+            {
+                name = "ATT.Pitch",
+                x = ATTdata.Select(a => a.time).ToList(),
+                y = ATTdata.Select(a => a.Pitch).ToList()
+            }.ToJSON(),
+            new
+            {
+                name = "ATT.DesPitch",
+                x = ATTdata.Select(a => a.time).ToList(),
+                y = ATTdata.Select(a => a.DesPitch).ToList()
+            }.ToJSON(),
+            new
+            {
+                name = "ATT.Yaw", yaxis = "y2",
+                x = ATTdata.Select(a => a.time).ToList(),
+                y = ATTdata.Select(a => a.Yaw).ToList()
+            }.ToJSON(),
+            new
+            {
+                name = "ATT.DesYaw", yaxis = "y2",
+                x = ATTdata.Select(a => a.time).ToList(),
+                y = ATTdata.Select(a => a.DesYaw).ToList()
+            }.ToJSON()
 
         });
         log.Debug("after plotData 1");
@@ -613,7 +638,7 @@ StringToSign = VERB + "\n" +
             // every 2th
             foreach (var item in ATTdata.Where((value, index) => index % 2 == 0))
             {
-                att.Add(new[] {((DateTime) item.time).ToString("o"), item.Roll, item.Pitch, item.Yaw});
+                att.Add(new[] {item.time, item.Roll, item.Pitch, item.Yaw});
             }
 
             //https://cesiumjs.org/Cesium/Build/Apps/Sandcastle/?src=Interpolation.html&label=All
