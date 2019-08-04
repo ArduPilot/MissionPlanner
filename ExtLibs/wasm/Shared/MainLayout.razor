@@ -19,7 +19,7 @@
     </div>
 </div>
 
-<div id="loading" style="display: @(Loading ? "block": "none");  position: fixed;  left: 0px;  top: 0px;  width: 100%;  height: 100%;  z-index: 9999;  background: url('//upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Phi_fenomeni.gif/50px-Phi_fenomeni.gif')               50% 50% no-repeat ;">
+<div id="loadingML" style="display: @(Loading ? "block": "none");  position: fixed;  left: 0px;  top: 0px;  width: 100%;  height: 100%;  z-index: 9999;  background: url('//upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Phi_fenomeni.gif/50px-Phi_fenomeni.gif')               50% 50% no-repeat ;">
 
 </div>
 
@@ -43,17 +43,17 @@
 
     protected override async Task OnInitAsync()
     {
-        var paramdata = "ParameterMetaDataBackup.xml";
-        if (!File.Exists(paramdata))
-        {
-            log.Info("get param");
-            var content = await Http.GetStringAsync((paramdata));
-            log.Info("get param done");
+        GetFile("ParameterMetaDataBackup.xml");
 
-            File.WriteAllText(paramdata, content);
+        Directory.CreateDirectory("graphs");
 
-            Loading = false;
-        }
+        GetFile("graphs/ekf3Graphs.xml");
+        GetFile("graphs/ekfGraphs.xml");
+        GetFile("graphs/mavgraphs.xml");
+        GetFile("graphs/mavgraphs2.xml");
+        GetFile("graphs/mavgraphsMP.xml");
+
+        Loading = false;
     }
 
     protected override void OnAfterRender()
@@ -64,5 +64,17 @@
             JSRuntime.InvokeAsync<object>("renderButton", new { });
 
         Console.WriteLine("MainLayout OnAfterRender Done");
+    }
+
+    async void GetFile(string filename)
+    {
+        if (!File.Exists(filename))
+        {
+            log.Info("get "+filename);
+            var content = await Http.GetStringAsync((filename));
+            log.Info("get "+filename+" done");
+
+            File.WriteAllText(filename, content);
+        }
     }
 }

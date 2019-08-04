@@ -27,58 +27,205 @@
 @using Microsoft.AspNetCore.Blazor.Services;
 @using Mono.WebAssembly.Interop;
 @using System.Runtime.InteropServices
+@using System.Text.RegularExpressions
 @using SevenZip
 @implements IDisposable
 @inject IFileReaderService fileReaderService;
 @inject HttpClient Http
 @inject IUriHelper UriHelper
 
-<div id="container">
-    <div id="right" style="float:right; width: 150px;">
-        @if (cb != null)
-        {
-            @foreach (var item in SeenMessageTypes)
-            {
-                <ul style="margin: 0;">
-                    <input type="checkbox" value="@item" onclick="if ($(this).is(':checked')) {$(this).siblings().css('display', 'block');} else {$(this).siblings().css('display', 'none');}" />
-                    @item
-                    @foreach (var subitem in cb.FMT.First(a => a.Value.Item2 == item).Value.Item4.Split(','))
-                    {
-                        <div style="display: none; margin-left: 20px;">
-                            @if (AmIChecked(item + "." + subitem))
-                            {
-                                <li><input type="checkbox" @onchange=@(async (eventArgs) => PlotItem(@item, @subitem, (bool)eventArgs.Value)) value="@item.@subitem" checked />@subitem</li>
-                            }
-                            else
-                            {
-                                <li><input type="checkbox" @onchange=@(async (eventArgs) => PlotItem(@item, @subitem, (bool)eventArgs.Value)) value="@item.@subitem" />@subitem</li>
-                            }
-                        </div>
-                    }
-                </ul>
-            }
+<style>
+    #toolbar {
+        background: rgba(42, 42, 42, 0.8);
+        padding: 4px;
+        border-radius: 4px;
+        margin: 5px;
+        padding: 2px 5px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: white;
+    }
+
+        #toolbar input {
+            vertical-align: middle;
+            padding-top: 2px;
+            padding-bottom: 2px;
         }
 
-    </div>
-    <div id="left" style="margin-right: 150px;">
+    #radio-controller {
+        position: absolute;
+        width: 300px;
+        height: 200px;
+        top: 100%;
+        left: 100%;
+        margin-left: -320px;
+        margin-top: -300px;
+    }
+</style>
+<div id="container">
+    <div style="position: relative;">
         <input type="file" id="files" @ref="@inputTypeFileElement" accept=".bin, .log" @onchange="@ReadFile" />
         <button @onclick="@UploadLog">Upload </button>
-
+    </div>
+    <div id="cesiummap" style="position: relative;">
         <div id="cesiumContainer" style="width: 100%; height: 75%;"></div>
-
-        <ul>
-            @foreach (var gra in graphs)
+        <div id="radio-controller"></div>
+        <div id="toolbar">
+            <div class="demo-container">
+                <label> <input type="checkbox" value="false" data-bind="checked: track_vehicle, valueUpdate: 'input'">Camera Tracks Vehicle </label>
+            </div>
+            <div class="demo-container">
+                <div>
+                    <label><input type="checkbox" data-bind="checked: enableContour">Enable Contour Lines</label>
+                </div>
+                <div>
+                    Spacing <input style="width: 136px" type="range" min="1.0" max="500.0" step="1.0" data-bind="value: contourSpacing, valueUpdate: 'input', enable: enableContour"> <span data-bind="text: contourSpacing"></span>m
+                </div>
+                <div>
+                    Line Width <input style="width: 125px" type="range" min="1.0" max="10.0" step="1.0" data-bind="value: contourWidth, valueUpdate: 'input', enable: enableContour"> <span data-bind="text: contourWidth"></span>px
+                </div>
+                <div>
+                    <button type="button" data-bind="click: changeColor, enable: enableContour">Change contour color</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="plot" style="position: relative;">
+        <div id="right" style="float:right; width: 150px; font-size: x-small; overflow-y: scroll;">
+            @if (cb != null)
             {
-                <li>
-                    <div id="@gra" style="width: 100%; height: 50vh" onmousedown="@(selectedchart = gra)"></div>
-                </li>
+                @foreach (var item in SeenMessageTypes)
+                {
+                    <ul style="margin: 0;">
+                        <input type="checkbox" value="@item" onclick="if ($(this).is(':checked')) {$(this).siblings().css('display', 'block');} else {$(this).siblings().css('display', 'none');}" />
+                        @item
+                        @foreach (var subitem in cb.FMT.First(a => a.Value.Item2 == item).Value.Item4.Split(','))
+                        {
+                            <div style="display: none; margin-left: 20px;">
+                                @if (AmIChecked(item + "." + subitem))
+                                {
+                                    <li><input type="checkbox" onchange=@(async (eventArgs) => PlotItem(@item, @subitem, (bool)eventArgs.Value)) value="@item.@subitem" checked />@subitem</li>
+                                }
+                                else
+                                {
+                                    <li><input type="checkbox" onchange=@(async (eventArgs) => PlotItem(@item, @subitem, (bool)eventArgs.Value)) value="@item.@subitem" />@subitem</li>
+                                }
+                            </div>
+                        }
+                    </ul>
+                }
             }
-            <li><button @onclick="@addNewGraph">New Graph</button></li>
-        </ul>
-        <div id="div3" style="width: 100%; height: 50vh"></div>
-        <table id="myTable" class="display"></table>
-        <table id="rawTable" class="display"></table>
 
+        </div>
+        <div id="left" style="margin-right: 150px;">
+            <select onchange="@processMavGraph" @ref="@mavgraphselect">
+                @foreach (var gra in mavgraph.graphs)
+                {
+                    <option value="@gra">@gra</option>
+                }
+            </select>
+            <ul>
+                @foreach (var gra in graphs)
+                {
+                    <li style="@(selectedchart == gra ? "border-style: dotted;" : "")">
+                        <div id="@gra" style="width: 100%; height: 50vh" onmousedown="@(async () => setLastGraph(gra))"></div>
+                    </li>
+                }
+                <li><button onclick="@addNewGraph">New Graph</button></li>
+            </ul>
+        </div>
+    </div>
+
+    <div style="position: relative;">
+        <div id="div3" style="width: 100%; height: 50vh"></div>
+        @if (cb != null)
+        {
+            @if (cb.dflog.logformat.ContainsKey("MSG"))
+            {
+                @DateTime.Now.ToString("o")
+                <h3>MSG</h3>
+                <table id="myTable">
+                    <thead>
+                        <tr>
+                            <th>MSG</th>
+                            @foreach (var head in cb.dflog.logformat["MSG"].FieldNames)
+                            {
+                                <th>@head</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var msg in cb.GetEnumeratorType("MSG"))
+                        {
+                            <tr>
+                                @foreach (var item in msg.items)
+                                {
+                                    <td>@item</td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            @if (cb.dflog.logformat.ContainsKey("ERR"))
+            {
+                @DateTime.Now.ToString("o")
+                <h3>Errors</h3>
+                <table id="myTable">
+                    <thead>
+                        <tr>
+                            <th>MSG</th>
+                            @foreach (var head in cb.dflog.logformat["ERR"].FieldNames)
+                            {
+                                <th>@head</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var msg in cb.GetEnumeratorType("ERR"))
+                        {
+                            <tr>
+                                @foreach (var item in msg.items)
+                                {
+                                    <td>@item</td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            @if (cb.dflog.logformat.ContainsKey("MODE"))
+            {
+                @DateTime.Now.ToString("o")
+                <h3>Flight Mode</h3>
+                <table id="myTable">
+                    <thead>
+                        <tr>
+                            <th>MSG</th>
+                            @foreach (var head in cb.dflog.logformat["MODE"].FieldNames)
+                            {
+                                <th>@head</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var msg in cb.GetEnumeratorType("MODE"))
+                        {
+                            <tr>
+                                @foreach (var item in msg.items)
+                                {
+                                    <td>@item</td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        }
+        @DateTime.Now.ToString("o")
+        <table id="rawTable" class="display"></table>
+        @DateTime.Now.ToString("o")
         <table id="rawparams" class="display">
             <thead>
                 <tr>
@@ -90,49 +237,24 @@
             </thead>
             @if (cb != null)
             {
-        <tbody>
-            @foreach (var item in CleanParamList)
-            {
-                <tr>
-                    <td>@item["Name"]</td>
-                    <td>@item["Value"]</td>
-                    <td>@ParameterMetaDataRepository.GetParameterOptionsInt(item["Name"], Firmwares.ArduCopter2.ToString()).Select(a => a.Key + " = " + a.Value).Aggregate("", (current, next) => current + "; " + next)</td>
-                    <td>@ParameterMetaDataRepository.GetParameterMetaData(item["Name"], ParameterMetaDataConstants.DisplayName, Firmwares.ArduCopter2.ToString()) @ParameterMetaDataRepository.GetParameterMetaData(item["Name"], ParameterMetaDataConstants.Description, Firmwares.ArduCopter2.ToString())</td>
-
-                </tr>
-            }
-        </tbody>
+                <tbody>
+                    @foreach (var item in CleanParamList)
+                    {
+                    <tr>
+                        <td>@item["Name"]</td>
+                        <td>@item["Value"]</td>
+                        <td>@ParameterMetaDataRepository.GetParameterOptionsInt(item["Name"], Firmwares.ArduCopter2.ToString()).Select(a => a.Key + " = " + a.Value).Aggregate("", (current, next) => current + "; " + next)</td>
+                        <td>@ParameterMetaDataRepository.GetParameterMetaData(item["Name"], ParameterMetaDataConstants.DisplayName, Firmwares.ArduCopter2.ToString()) @ParameterMetaDataRepository.GetParameterMetaData(item["Name"], ParameterMetaDataConstants.Description, Firmwares.ArduCopter2.ToString())</td>
+    
+                    </tr>
+                    }
+                </tbody>
             }
         </table>
-
-        <!--
-    <div>
-        <input id="searchstring" value="" onkeyup="  var value = $(this).val().toLowerCase(); $('#paramlist > li#paramrow').filter(function () { $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1) });" />
-        <ul id="paramlist">
-            <li id="paramheader">
-                <div>Name</div>
-                <div>Value</div>
-                <div>Options</div>
-                <div>Desc</div>
-            </li>
-            @if (cb != null)
-            {
-                @foreach (var item in CleanParamList)
-                {
-                    <li id="paramrow">
-                        <div>@item["Name"]</div>
-                        <div>@item["Value"]</div>
-                        <div>@ParameterMetaDataRepository.GetParameterOptionsInt(item["Name"], Firmwares.ArduCopter2.ToString()).Select(a => a.Key + " = " + a.Value).Aggregate("", (current, next) => current + "; " + next)</div>
-                        <div>@ParameterMetaDataRepository.GetParameterMetaData(item["Name"], ParameterMetaDataConstants.DisplayName, Firmwares.ArduCopter2.ToString()) <br />@ParameterMetaDataRepository.GetParameterMetaData(item["Name"], ParameterMetaDataConstants.Description, Firmwares.ArduCopter2.ToString())</div>
-                    </li>
-                }
-            }
-        </ul>
-    </div>
-        -->
+        @DateTime.Now.ToString("o")
     </div>
 </div>
-
+@DateTime.Now.ToString("o")
 <button @onclick="@ListBlobs">ListBlobs </button>
 @if (blobs != null)
 {
@@ -142,18 +264,39 @@
     }
 }
 
-<div id="loading" style="display: @(Loading ? "block": "none");  position: fixed;  left: 0px;  top: 0px;  width: 100%;  height: 100%;  z-index: 9999;  background: url('//upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Phi_fenomeni.gif/50px-Phi_fenomeni.gif')               50% 50% no-repeat ;">
-
+<div id="loadingDF" style="display: @(Loading ? "block": "none"); text-align: center; vertical-align: middle;  position: fixed;  left: 0px;  top: 0px;  width: 100%;  height: 100%;  z-index: 9999;  background: url('//upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Phi_fenomeni.gif/50px-Phi_fenomeni.gif')               50% 50% no-repeat ;">
+    <h3 style="padding-top: 55vh;">@LoadingStatus</h3>
 </div>
+@DateTime.Now.ToString("o")
 
 @functions {
+    ElementRef inputTypeFileElement;
+
+    ElementRef mavgraphselect;
+
+    CollectionBuffer cb = null;
+
+    static List<string[]> blobs = null;
+
+    List<string> graphs = new List<string>() { "graph1", "graph2" };
+
+    string selectedchart = "graph1";
+
+    string _loadingStatus = "";
     private bool _loading = false;
 
     public bool Loading
     {
         get { return _loading; }
-        set { _loading = value; log.Info("Loading " + _loading); StateHasChanged(); }
+        set
+        {
+            if (_loading == value) return;
+            _loading = value;
+            log.Info("Loading " + _loading);
+            StateHasChanged();
+        }
     }
+
     public string dflog { get { var uri = new Uri(UriHelper.GetAbsoluteUri()); return Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query).TryGetValue("dflog", out var type) ? type.First() : ""; } }
 
     private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -167,6 +310,123 @@
         instance = this;
         Console.WriteLine("DataFlash OnInit");
     }
+
+    public async void ClearPlot()
+    {
+        await JSRuntime.InvokeAsync<object>("evalline", new object[]
+        {
+            "Plotly.deleteTraces(" + selectedchart + ", 0 );" +
+            "Plotly.deleteTraces(" + selectedchart + ", 0  );" +
+            "Plotly.deleteTraces(" + selectedchart + ", 0  );" +
+            "Plotly.deleteTraces(" + selectedchart + ", 0  );" +
+            "Plotly.deleteTraces(" + selectedchart + ", 0  );" +
+            "Plotly.deleteTraces(" + selectedchart + ", 0  );" +
+            "Plotly.deleteTraces(" + selectedchart + ", 0  );" +
+            "Plotly.deleteTraces(" + selectedchart + ", 0  );" +
+            "Plotly.deleteTraces(" + selectedchart + ", 0  );" +
+            "Plotly.deleteTraces(" + selectedchart + ", 0  ); "
+                    });
+
+    }
+
+    public void processMavGraph(UIChangeEventArgs e)
+    {
+        var selectedString = e.Value.ToString();
+
+        var selectlist = mavgraph.graphs.First(a => a.Name == selectedString);
+
+        Loading = true;
+
+        ClearPlot();
+
+        foreach (var item in selectlist.items)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(item.expression))
+                {
+                    GraphItem(item.expression, "", item.left, false, true);
+                }
+                else
+                {
+                    GraphItem(item.type, item.field, item.left, false);
+                }
+            }
+            catch
+                (Exception ex)
+            {
+                log.Error(ex);
+            }
+        }
+
+        Loading = false;
+    }
+
+    void GraphItem(string type, string fieldname, bool left = true, bool displayerror = true,
+        bool isexpression = false)
+    {
+        log.InfoFormat("GraphItem: {0} {1}", type, fieldname);
+
+        if (!isexpression)
+        {
+            if (!cb.dflog.logformat.ContainsKey(type))
+            {
+                if (displayerror)
+                    CustomMessageBox.Show(Strings.NoFMTMessage + type + " - " + fieldname, Strings.ERROR);
+                return;
+            }
+
+            log.Info("Graphing " + type + " - " + fieldname);
+
+            ThreadPool.QueueUserWorkItem(o =>
+            {
+                try
+                {
+                    List<string> time = new List<string>();
+                    List<string> field = new List<string>();
+                    cb.GetEnumeratorType(type).Where(a =>
+                    {
+                        time.Add(a.time.ToString("o"));
+                        field.Add(a[fieldname]);
+                        return false;
+                    }).ToList();
+
+                    JSRuntime.InvokeAsync<object>("plotData", new object[]
+                    {
+                        selectedchart,
+                        new
+                        {
+                            name = type + "." + fieldname,
+                            x = time,
+                            y = field
+                        }.ToJSON()
+                                });
+                }
+                catch (Exception ex)
+                {
+                    CustomMessageBox.Show("Failed to graph item: " + ex.Message, Strings.ERROR);
+                }
+            });
+        }
+        else
+        {
+            var list1 = DFLogScript.ProcessExpression(cb.dflog, cb, type);
+
+            var data = list1.Select(a => new { time = a.Item1.time.ToString("o"), field = a.Item2 }).ToList();
+
+            JSRuntime.InvokeAsync<object>("plotData", new object[]
+            {
+                selectedchart,
+                new
+                {
+                    name = type + "." + fieldname,
+                    x = data.Select(a => a.time).ToList(),
+                    y = data.Select(a => a.field).ToList()
+                }.ToJSON()
+                        });
+        }
+    }
+
 
     public async void Checkdflog()
     {
@@ -188,7 +448,7 @@
     }
     protected override async Task OnInitAsync()
     {
-        Console.WriteLine("DataFlash OnInitAsync");
+        log.Debug("DataFlash OnInitAsync");
 
         log.Info(UriHelper.GetAbsoluteUri());
 
@@ -198,10 +458,12 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        Console.WriteLine("DataFlash OnParametersSetAsync Done");
+        log.Debug("DataFlash OnParametersSetAsync Done");
     }
     protected override async Task OnAfterRenderAsync()
     {
+        log.Debug("DataFlash OnAfterRenderAsync Start");
+
         if (!initMap)
             JSRuntime.InvokeAsync<object>("initMap", null);
 
@@ -222,24 +484,15 @@
         // if first draw
         Checkdflog();
 
-        Console.WriteLine("DataFlash OnAfterRenderAsync Done");
+        log.Debug("DataFlash OnAfterRenderAsync Done");
     }
     protected override bool ShouldRender()
     {
         var renderUI = true;
-        Console.WriteLine("DataFlash ShouldRender Done");
+        log.Debug("DataFlash ShouldRender Done");
         return renderUI;
     }
 
-    ElementRef inputTypeFileElement;
-
-    CollectionBuffer cb = null;
-
-    List<string[]> blobs = null;
-
-    List<string> graphs = new List<string>() { "graph1", "graph2" };
-
-    string selectedchart = "graph1";
 
     public async Task<Stream> GetBlob(string blobName)
     {
@@ -353,6 +606,7 @@
         Http.DefaultRequestHeaders.TryAddWithoutValidation("x-ms-meta-type", info.Type);
         Http.DefaultRequestHeaders.TryAddWithoutValidation("x-ms-meta-googleid", MainLayout.googleid);
         Http.DefaultRequestHeaders.TryAddWithoutValidation("x-ms-meta-public", publiclog.ToString());
+        Http.DefaultRequestHeaders.TryAddWithoutValidation("x-ms-meta-uploaded", DateTime.Now.ToString("o"));
 
 
         //Http.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", AuthorizationHeader(method, now, storageAccount, storageKey, containerName, blobName, contentLength));
@@ -413,7 +667,7 @@ StringToSign = VERB + "\n" +
         }
     }
 
-    int a = 1;
+    int a = 10;
 
     public void addNewGraph()
     {
@@ -437,11 +691,11 @@ StringToSign = VERB + "\n" +
 
                 if (last != DateTime.Now.Second)
                 {
-                    Console.WriteLine(msg.time.ToString("yyyy-MM-dd hh:mm:ss.fff") + " " + msg.lineno);
+                    Console.WriteLine(msg.time.ToString("o") + " " + msg.lineno);
                     last = DateTime.Now.Second;
                 }
 
-                line.AddXY(msg.time.ToString("yyyy-MM-dd hh:mm:ss.fff"), itemvalue);
+                line.AddXY(msg.time.ToString("o"), itemvalue);
             }
             Console.WriteLine("got data about to plot");
             await JSRuntime.InvokeAsync<object>("plotData", new object[] { selectedchart, line.getJSON() });
@@ -470,6 +724,7 @@ StringToSign = VERB + "\n" +
     public async Task ReadFile()
     {
         log.Info("ReadFile start");
+        LoadingStatus = "Reading File";
         Loading = true;
 
         foreach (var file in await fileReaderService.CreateReference(inputTypeFileElement).EnumerateFilesAsync())
@@ -484,9 +739,6 @@ StringToSign = VERB + "\n" +
 
             var js = JSRuntime as MonoWebAssemblyJSRuntime;
             js.InvokeUnmarshalled<byte[], string, bool>("filebuffer", buffer, "fileReadyDF");
-
-
-
         }
 
         log.Info("ReadFile done");
@@ -495,28 +747,26 @@ StringToSign = VERB + "\n" +
     public async void ProcessStream(Stream memoryStream)
     {
         log.Info("ProcessStream: " + memoryStream.Position + " - " + memoryStream.Length);
+        LoadingStatus = "Processing File";
+        // cleanup old
+        paramaCache = null;
 
         cb = new CollectionBuffer(memoryStream);
+
+        LoadingStatus = "File loaded extracting data";
 
         foreach (var msg in cb.GetEnumeratorType("MSG"))
         {
             log.Debug(msg.msgtype + " " + cb[msg.lineno]);
         }
 
-    // entire msg dataset
-        await JSRuntime.InvokeAsync<object>("evalline", new object[] {"dataSet = " + cb.GetEnumeratorType("MSG").Select(a => a.items).ToList().ToJSON()});
+        // ensure myTable exists in the DOM
+        StateHasChanged();
 
-
-        await JSRuntime.InvokeAsync<object>("evalline", new object[] {@"$('#myTable').DataTable( {
+        await JSRuntime.InvokeAsync<object>("evalline", new object[] { @"$('#myTable').DataTable( {
         retrieve: true,
-        data: dataSet,
-        serverSide: false, 
-        columns: [
-            { title: 'MSG' },
-            { title: 'Time' },
-            { title: 'Message' }
-        ]
-    } );"});
+        serverSide: false
+    } );" });
 
         plotly linelat = new plotly("GPS.Lat");
         plotly linelng = new plotly("GPS.Lng");
@@ -530,15 +780,17 @@ StringToSign = VERB + "\n" +
         scatter3d.root.type = "scatter3d";
         scatter3d.root.mode = "lines";
 
-    // create anon type
-        var ATTdata = Enumerable.Repeat(new {time = DateTime.MinValue.ToString("o"), Roll = "", DesRoll = "", Pitch = "", DesPitch = "", Yaw = "", DesYaw = ""}, 0).ToList();
+        // create anon type - TimeUS,DesRoll,Roll,DesPitch,Pitch,DesYaw,Yaw,ErrRP,ErrYaw
+        var ATTdata = Enumerable.Repeat(new { time = DateTime.MinValue.ToString("o"), Roll = "", DesRoll = "", Pitch = "", DesPitch = "", Yaw = "", DesYaw = "" }, 0).ToList();
+
+        LoadingStatus = "Extracting GPS and ATT";
 
         log.Debug("parse GPS and ATT");
-    foreach (var msg in cb.GetEnumeratorType(new [] {"GPS","ATT"}))
+        foreach (var msg in cb.GetEnumeratorType(new[] { "GPS", "ATT" }))
         {
             if (msg.msgtype == "ATT")
             {
-                ATTdata.Add(new {time = msg.time.ToString("o"), Roll = msg["Roll"], DesRoll = msg["DesRoll"], Pitch = msg["Pitch"], DesPitch = msg["DesPitch"], Yaw = msg["Yaw"], DesYaw = msg["DesYaw"]});
+                ATTdata.Add(new { time = msg.time.ToString("o"), Roll = msg["Roll"], DesRoll = msg["DesRoll"], Pitch = msg["Pitch"], DesPitch = msg["DesPitch"], Yaw = msg["Yaw"], DesYaw = msg["DesYaw"] });
             }
             else if (msg.msgtype == "GPS")
             {
@@ -564,6 +816,28 @@ StringToSign = VERB + "\n" +
                 scatter3d.AddXYZ(lat2, lng2, alt2);
             }
         }
+
+        log.Debug("About to Modedata");
+        // Modes - TimeUS,Mode,ModeNum,Rsn
+        var Modedata = cb.GetEnumeratorType("MODE").Select(a => new[] { a.time.ToString("o"), a["Mode"] }).ToList();
+
+        await JSRuntime.InvokeAsync<object>("evalline", new object[] { "flight_modes = " + Modedata.ToJSON() });
+
+        log.Debug("About to manual_control_setpoints");
+        // RCIN - TimeUS,C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13,C14
+        var manual_control_setpoints = cb.GetEnumeratorType("RCIN").Select(a => new object[]
+        {
+            a.time.ToString("o"),
+            MathHelper.mapConstrained(double.Parse(a["C1"]), 1000, 2000, -1, 1),
+            MathHelper.mapConstrained(double.Parse(a["C2"]), 1000, 2000, -1, 1),
+            MathHelper.mapConstrained(double.Parse(a["C3"]), 1000, 2000, -1, 1),
+            MathHelper.mapConstrained(double.Parse(a["C4"]), 1000, 2000, -1, 1)
+                    }).ToList();
+
+        await JSRuntime.InvokeAsync<object>("evalline", new object[] { "manual_control_setpoints = " + manual_control_setpoints.ToJSON() });
+
+
+
 
         log.Debug("About to PLOT");
 
@@ -611,12 +885,13 @@ StringToSign = VERB + "\n" +
                 x = ATTdata.Select(a => a.time).ToList(),
                 y = ATTdata.Select(a => a.DesYaw).ToList()
             }.ToJSON()
-
-        });
+                    });
         log.Debug("after plotData 1");
 
         try
         {
+            LoadingStatus = "Creating GPS track with attitude data";
+
             var time = linelat.root.x.GetEnumerator();
             var x = scatter3d.root.x.GetEnumerator();
             var y = scatter3d.root.y.GetEnumerator();
@@ -624,7 +899,7 @@ StringToSign = VERB + "\n" +
 
             var firsttime = (DateTime)(linelat.root.x.First());
             var lasttime = (DateTime)(linelat.root.x.Last());
-            var homelocation = new PointLatLngAlt((double) scatter3d.root.x.First(), (double) scatter3d.root.y.First(), (double) scatter3d.root.z.First());
+            var homelocation = new PointLatLngAlt((double)scatter3d.root.x.First(), (double)scatter3d.root.y.First(), (double)scatter3d.root.z.First());
 
             List<object> track = new List<object>();
 
@@ -638,7 +913,7 @@ StringToSign = VERB + "\n" +
             // every 2th
             foreach (var item in ATTdata.Where((value, index) => index % 2 == 0))
             {
-                att.Add(new[] {item.time, item.Roll, item.Pitch, item.Yaw});
+                att.Add(new[] { item.time, item.Roll, item.Pitch, item.Yaw });
             }
 
             //https://cesiumjs.org/Cesium/Build/Apps/Sandcastle/?src=Interpolation.html&label=All
@@ -650,58 +925,97 @@ takeoff_altitude = " + homelocation.Alt + @";
 takeoff_position = Cesium.Cartographic.fromDegrees( " + homelocation.Lng + @" ,  " + homelocation.Lat + @" );
 
 function computePositionProperty(attitude_data) {
-    var property = new Cesium.SampledPositionProperty();
-    var position;
+var property = new Cesium.SampledPositionProperty();
+var position;
 
-    for (var i = 0; i < position_data.length; ++i) {
-        var cur_pos = position_data[i];
-        var time = Cesium.JulianDate.fromIso8601(cur_pos[0]);
-        position = Cesium.Cartesian3.fromDegrees(cur_pos[1], cur_pos[2],
-            cur_pos[3] + attitude_data);
-        property.addSample(time, position);
-    }
-    return property;
+for (var i = 0; i < position_data.length; ++i) {
+var cur_pos = position_data[i];
+var time = Cesium.JulianDate.fromIso8601(cur_pos[0]);
+position = Cesium.Cartesian3.fromDegrees(cur_pos[1], cur_pos[2],
+cur_pos[3] + attitude_data);
+property.addSample(time, position);
+}
+return property;
 }
 
 function computeOrientationProperty() {
-	var orientationProperty = new Cesium.TimeIntervalCollectionProperty();
+var orientationProperty = new Cesium.TimeIntervalCollectionProperty();
 
-    var position = Cesium.Cartesian3.fromRadians(takeoff_position.longitude,
-		 takeoff_position.latitude);
-    
-    for (i = 0; i < attitude_data.length; ++i) {
-        var cur_attitude = attitude_data[i];
-        var time_att = Cesium.JulianDate.fromIso8601(cur_attitude[0]);
+var position = Cesium.Cartesian3.fromRadians(takeoff_position.longitude,
+takeoff_position.latitude);
+
+for (i = 0; i < attitude_data.length; ++i) {
+var cur_attitude = attitude_data[i];
+var time_att = Cesium.JulianDate.fromIso8601(cur_attitude[0]);
 
 //https://cesiumjs.org/Cesium/Build/Apps/Sandcastle/?src=3D%20Models.html
-    var heading = Cesium.Math.toRadians(cur_attitude[3] - 90);
-    var pitch = Cesium.Math.toRadians(cur_attitude[2]);
-    var roll = Cesium.Math.toRadians(cur_attitude[1]);
-    var hpr = new Cesium.HeadingPitchRoll(heading, pitch, roll);
-    var orientation = Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
+var heading = Cesium.Math.toRadians(cur_attitude[3] - 90);
+var pitch = Cesium.Math.toRadians(cur_attitude[2]);
+var roll = Cesium.Math.toRadians(cur_attitude[1]);
+var hpr = new Cesium.HeadingPitchRoll(heading, pitch, roll);
+var orientation = Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
 
 
 
-        if (i < attitude_data.length - 1) {
-            var next_attitude = attitude_data[i+1];
-            var time_att_next = Cesium.JulianDate.fromIso8601(next_attitude[0]);
-			var timeInterval = new Cesium.TimeInterval({
-				start : time_att,
-				stop : time_att_next,
-				isStartIncluded : true,
-				isStopIncluded : false,
-				data : orientation
-			});
-			orientationProperty.intervals.addInterval(timeInterval);
-        }
-        
-    }
-    
-    return orientationProperty;
+if (i < attitude_data.length - 1) {
+var next_attitude = attitude_data[i+1];
+var time_att_next = Cesium.JulianDate.fromIso8601(next_attitude[0]);
+var timeInterval = new Cesium.TimeInterval({
+    start : time_att,
+    stop : time_att_next,
+    isStartIncluded : true,
+    isStopIncluded : false,
+    data : orientation
+});
+orientationProperty.intervals.addInterval(timeInterval);
+}
+
+}
+
+return orientationProperty;
 }
 
 positionProperty = computePositionProperty(0);
 orientationProperty = computeOrientationProperty();
+
+
+// flight modes
+flightModesProperty = new Cesium.TimeIntervalCollectionProperty();
+for (i = 0; i < flight_modes.length - 1; ++i) {
+var cur_flight_mode = flight_modes[i];
+var next_flight_mode = flight_modes[i+1];
+var cur_time = Cesium.JulianDate.fromIso8601(cur_flight_mode[0]);
+var next_time = Cesium.JulianDate.fromIso8601(next_flight_mode[0]);
+
+var timeInterval = new Cesium.TimeInterval({
+start : cur_time,
+stop : next_time,
+isStartIncluded : true,
+isStopIncluded : false,
+data : cur_flight_mode[1]
+});
+flightModesProperty.intervals.addInterval(timeInterval);
+}
+
+// manual control setpoints
+manualControlSetpointsProperty = new Cesium.TimeIntervalCollectionProperty();
+for (i = 0; i < manual_control_setpoints.length - 1; ++i) {
+var cur_sp = manual_control_setpoints[i];
+var next_sp = manual_control_setpoints[i+1];
+var cur_time = Cesium.JulianDate.fromIso8601(cur_sp[0]);
+var next_time = Cesium.JulianDate.fromIso8601(next_sp[0]);
+var manual_control_setpoint = Cesium.Cartesian4.fromElements(cur_sp[1],
+cur_sp[2], cur_sp[3], cur_sp[4]);
+
+var timeInterval = new Cesium.TimeInterval({
+start : cur_time,
+stop : next_time,
+isStartIncluded : true,
+isStopIncluded : false,
+data : manual_control_setpoint
+});
+manualControlSetpointsProperty.intervals.addInterval(timeInterval);
+}
 
 var default_model_scale = 20;
 
@@ -725,58 +1039,200 @@ viewer.animation.viewModel.setShuttleRingTicks([
 //Set timeline to simulation bounds
 viewer.timeline.zoomTo(start, stop);
 
+var pinBuilder = new Cesium.PinBuilder();
+
 target = viewer.entities.add({
 
 //Set the entity availability to the same interval as the simulation time.
 availability : new Cesium.TimeIntervalCollection([new Cesium.TimeInterval({
-    start : start,
-    stop : stop
+start : start,
+stop : stop
 })]),
 
 //Use our computed positions
-    position : positionProperty,
-    orientation : orientationProperty,
+position : positionProperty,
+orientation : orientationProperty,
 
 //Automatically compute orientation based on position movement.
 //orientation : new Cesium.VelocityOrientationProperty(positionProperty),
 
 //Load the Cesium plane model to represent the entity
 model : {
-    uri : 'Cesium_Air.txt',
-    minimumPixelSize : 64
+uri : 'Cesium_Air.txt',
+minimumPixelSize : 64
 },
 
 //Show the path as a pink line sampled in 1 second increments.
 path : {
-    resolution : 1,
-    material : new Cesium.PolylineGlowMaterialProperty({
-        glowPower : 0.1,
-        color : Cesium.Color.YELLOW
-    }),
-    width : 10
+resolution : 1,
+material : new Cesium.PolylineGlowMaterialProperty({
+glowPower : 0.1,
+color : Cesium.Color.YELLOW
+}),
+width : 10
+},
+
+label: {
+id: 'my label',
+text: 'Test Label',
 }
+
 });
 
 var promise = Cesium.sampleTerrainMostDetailed(viewer.terrainProvider, [ takeoff_position ]);
 Cesium.when(promise, function(updatedPositions) {
-	var ground_offset = takeoff_position.height - takeoff_altitude;
-    console.log('Ground Offset in meters: ' + ground_offset);
-	var positionProperty = computePositionProperty(ground_offset + 2);
-	target.position = positionProperty;
+var ground_offset = takeoff_position.height - takeoff_altitude;
+console.log('Ground Offset in meters: ' + ground_offset);
+var positionProperty = computePositionProperty(ground_offset + 2);
+target.position = positionProperty;
 });
 
 viewer.timeline.updateFromClock();
 viewer.timeline.zoomTo(viewer.clock.startTime, viewer.clock.stopTime);
 
-viewer.zoomTo(target);
-viewer.trackEntity = target;
+viewer.zoomTo(target, new Cesium.HeadingPitchRange(0,	Cesium.Math.toRadians(-25), 200));
+
 ";
 
             log.Debug("about to element");
             await JSRuntime.InvokeAsync<object>("evalline", new object[] { element });
+
+
+
+            await JSRuntime.InvokeAsync<object>("evalline", new object[] { @"
+// Radio Controller
+radio_controller.init(document.getElementById('radio-controller'), 300, 200);
+// update the radio whenever the time changes
+viewer.clock.onTick.addEventListener(function(clock) {
+     var manual_sp = manualControlSetpointsProperty.getValue(clock.currentTime);
+     var flight_mode = flightModesProperty.getValue(clock.currentTime);
+     if (flight_mode === undefined) flight_mode = '';
+     radio_controller.setFlightMode(flight_mode);
+     if (manual_sp === undefined) {
+         radio_controller.hideSticks();
+     } else {
+         // this is mode 2 (map throttle from [0, 1] to [-1, 1])
+         radio_controller.updateSticks(manual_sp.w, manual_sp.z,
+             manual_sp.y, manual_sp.x);
+     }
+     // stick history
+     var stick_history = [];
+     var time = clock.currentTime.clone();
+     for (var i = 0; i < 30; ++i) {
+         manual_sp = manualControlSetpointsProperty.getValue(time);
+         if (manual_sp !== undefined) {
+             stick_history.unshift([manual_sp.w, manual_sp.z,
+                 manual_sp.y, manual_sp.x]);
+         }
+         Cesium.JulianDate.addSeconds(time, -0.03333, time);
+     }
+     radio_controller.updateHistory(stick_history);
+     radio_controller.redraw();
+});
+
+
+
+
+
+var minHeight = -414.0; // approximate dead sea elevation
+var maxHeight = 8777.0; // approximate everest elevation
+var contourColor = Cesium.Color.RED.clone();
+                var contourUniforms = {};
+                var shadingUniforms = {};
+
+                // The viewModel tracks the state of our mini application.
+                var viewModel = {
+                    enableContour: false,
+                    contourSpacing: 10.0,
+                    contourWidth: 2.0,
+                    selectedShading: 'none',
+                    changeColor: function() {
+                        contourUniforms.color = Cesium.Color.fromRandom({alpha: 1.0}, contourColor);
+                    },
+                    track_vehicle : false
+                };
+
+                // Convert the viewModel members into knockout observables.
+                Cesium.knockout.track(viewModel);
+
+                // Bind the viewModel to the DOM elements of the UI that call for it.
+                var toolbar = document.getElementById('toolbar');
+                Cesium.knockout.applyBindings(viewModel, toolbar);
+
+Cesium.knockout.getObservable(viewModel, 'track_vehicle').subscribe(
+    function(newValue) {
+        if (newValue) {
+            viewer.trackedEntity = target;
+        } else {
+            viewer.trackedEntity = undefined;
+        }
+    }
+);
+
+function updateMaterial() {
+    var hasContour = viewModel.enableContour;
+    var selectedShading = viewModel.selectedShading;
+    var globe = viewer.scene.globe;
+    var material;
+    if (hasContour) {
+        if (selectedShading === 'elevation') {
+            material = getElevationContourMaterial();
+            shadingUniforms = material.materials.elevationRampMaterial.uniforms;
+            shadingUniforms.minimumHeight = minHeight;
+            shadingUniforms.maximumHeight = maxHeight;
+            contourUniforms = material.materials.contourMaterial.uniforms;
+        } else if (selectedShading === 'slope') {
+            material = getSlopeContourMaterial();
+            shadingUniforms = material.materials.slopeRampMaterial.uniforms;
+            contourUniforms = material.materials.contourMaterial.uniforms;
+        } else if (selectedShading === 'aspect') {
+            material = getAspectContourMaterial();
+            shadingUniforms = material.materials.aspectRampMaterial.uniforms;
+            contourUniforms = material.materials.contourMaterial.uniforms;
+        } else {
+            material = Cesium.Material.fromType('ElevationContour');
+            contourUniforms = material.uniforms;
+        }
+        contourUniforms.width = viewModel.contourWidth;
+        contourUniforms.spacing = viewModel.contourSpacing;
+        contourUniforms.color = contourColor;
+    } else if (selectedShading === 'elevation') {
+        material = Cesium.Material.fromType('ElevationRamp');
+        shadingUniforms = material.uniforms;
+        shadingUniforms.minimumHeight = minHeight;
+        shadingUniforms.maximumHeight = maxHeight;
+    } else if (selectedShading === 'slope') {
+        material = Cesium.Material.fromType('SlopeRamp');
+        shadingUniforms = material.uniforms;
+    } else if (selectedShading === 'aspect') {
+        material = Cesium.Material.fromType('AspectRamp');
+        shadingUniforms = material.uniforms;
+    }
+    if (selectedShading !== 'none') {
+        shadingUniforms.image = getColorRamp(selectedShading);
+    }
+
+    globe.material = material;
+}
+
+updateMaterial();
+
+                Cesium.knockout.getObservable(viewModel, 'enableContour').subscribe(function(newValue) {
+                    updateMaterial();
+                });
+
+                Cesium.knockout.getObservable(viewModel, 'contourWidth').subscribe(function(newValue) {
+                    contourUniforms.width = parseFloat(newValue);
+                });
+
+                Cesium.knockout.getObservable(viewModel, 'contourSpacing').subscribe(function(newValue) {
+                    contourUniforms.spacing = parseFloat(newValue);
+                });" });
         }
         catch (Exception ex)
-        { log.Error(ex); }
+        {
+            log.Error(ex);
+        }
 
         // used for rawtable callbacks
         var dotNetObjectRef = DotNetObjectRef.Create(this);
@@ -786,7 +1242,7 @@ viewer.trackEntity = target;
         await JSRuntime.InvokeAsync<object>("evalline", new object[] { @"$('#rawTable').DataTable( {
         retrieve: true,
         serverSide: true,
-        searching: false, 
+        searching: false,
         ajax: function (data, callback, settings) {
                 console.log(data);
                 console.log(callback);
@@ -820,6 +1276,8 @@ viewer.trackEntity = target;
 
         log.Debug("done");
 
+        LoadingStatus = "";
+
         Loading = false;
     }
 
@@ -846,19 +1304,37 @@ viewer.trackEntity = target;
 
     }
 
+    IEnumerable<DFLog.DFItem> paramaCache = null;
+
     public IEnumerable<DFLog.DFItem> CleanParamList
     {
         get
         {
-            var originalList = cb.GetEnumeratorType("PARM");
-            var filteredList = originalList.GroupBy(param => param["Name"]).OrderBy(a => a.Key).Select(group => group.First());
-            return filteredList;
+            if (paramaCache == null)
+            {
+                var originalList = cb.GetEnumeratorType("PARM");
+                paramaCache = originalList.GroupBy(param => param["Name"]).OrderBy(a => a.Key).Select(group => group.First()).ToList();
+            }
+
+            return paramaCache;
+        }
+    }
+
+    private string LoadingStatus
+    {
+        get { return _loadingStatus; }
+        set
+        {
+            _loadingStatus = value;
+            log.Debug(value);
+            StateHasChanged();
         }
     }
 
     private void setLastGraph(string gra)
     {
         selectedchart = gra;
+        StateHasChanged();
     }
 
 }

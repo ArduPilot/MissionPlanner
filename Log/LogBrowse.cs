@@ -57,8 +57,7 @@ namespace MissionPlanner.Log
         DFLog dflog;
         public string logfilename;
 
-        private bool readmavgraphsxml_runonce = false;
-
+  
         class DataModifer
         {
             private readonly bool isValid;
@@ -153,183 +152,6 @@ namespace MissionPlanner.Log
         }
 
 
-        class displayitem
-        {
-            public string type;
-            public string field;
-            public string expression;
-            public bool left = true;
-        }
-
-        class displaylist
-        {
-            public string Name;
-            public displayitem[] items;
-
-            public override string ToString()
-            {
-                return Name;
-            }
-        }
-
-        List<displaylist> graphs = new List<displaylist>()
-        {
-            new displaylist() {Name = "a/None"},
-            new displaylist()
-            {
-                Name = "Builtin/Mechanical Failure",
-                items = new displayitem[]
-                {
-                    new displayitem() {type = "ATT", field = "Roll"},
-                    new displayitem() {type = "ATT", field = "DesRoll"},
-                    new displayitem() {type = "ATT", field = "Pitch"},
-                    new displayitem() {type = "ATT", field = "DesPitch"},
-                    new displayitem() {type = "CTUN", field = "Alt", left = false},
-                    new displayitem() {type = "CTUN", field = "DAlt", left = false}
-                }
-            },
-            new displaylist()
-            {
-                Name = "Builtin/Mechanical Failure - Stab",
-                items =
-                    new displayitem[]
-                    {
-                        new displayitem() {type = "ATT", field = "Roll"},
-                        new displayitem() {type = "ATT", field = "DesRoll"}
-                    }
-            },
-            new displaylist()
-            {
-                Name = "Builtin/Mechanical Failure - Auto",
-                items =
-                    new displayitem[]
-                    {
-                        new displayitem() {type = "ATT", field = "Roll"},
-                        new displayitem() {type = "NTUN", field = "DRoll"}
-                    }
-            },
-            new displaylist()
-            {
-                Name = "Builtin/Vibrations",
-                items =
-                    new displayitem[]
-                    {
-                        new displayitem() {type = "IMU", field = "AccX"},
-                        new displayitem() {type = "IMU", field = "AccY"},
-                        new displayitem() {type = "IMU", field = "AccZ"}
-                    }
-            },
-            new displaylist()
-            {
-                Name = "Builtin/Vibrations 3.3",
-                items = new displayitem[]
-                {
-                    new displayitem() {type = "VIBE", field = "VibeX"},
-                    new displayitem() {type = "VIBE", field = "VibeY"},
-                    new displayitem() {type = "VIBE", field = "VibeZ"}
-                    , new displayitem() {type = "VIBE", field = "Clip0", left = false},
-                    new displayitem() {type = "VIBE", field = "Clip1", left = false},
-                    new displayitem() {type = "VIBE", field = "Clip2", left = false}
-                }
-            },
-            new displaylist()
-            {
-                Name = "Builtin/GPS Glitch",
-                items =
-                    new displayitem[]
-                    {
-                        new displayitem() {type = "GPS", field = "HDop"},
-                        new displayitem() {type = "GPS", field = "NSats", left = false}
-                    }
-            },
-            new displaylist()
-            {
-                Name = "Builtin/Power Issues",
-                items = new displayitem[]
-                {
-                    new displayitem() {type = "CURR", field = "Vcc"},
-                    new displayitem() {type = "POWR", field = "Vcc"}
-                }
-            },
-            new displaylist()
-            {
-                Name = "Builtin/Errors",
-                items = new displayitem[] {new displayitem() {type = "ERR", field = "ECode"}}
-            },
-            new displaylist()
-            {
-                Name = "Builtin/Battery Issues",
-                items =
-                    new displayitem[]
-                    {
-                        new displayitem() {type = "CTUN", field = "ThrIn"},
-                        new displayitem() {type = "CURR", field = "ThrOut"},
-                        new displayitem() {type = "CURR", field = "Volt", left = false}
-                    }
-            },
-            new displaylist()
-            {
-                Name = "Builtin/imu consistency xyz",
-                items = new displayitem[]
-                {
-                    new displayitem() {type = "IMU", field = "AccX"},
-                    new displayitem() {type = "IMU2", field = "AccX"},
-                    new displayitem() {type = "IMU", field = "AccY"},
-                    new displayitem() {type = "IMU2", field = "AccY"},
-                    new displayitem() {type = "IMU", field = "AccZ", left = false},
-                    new displayitem() {type = "IMU2", field = "AccZ", left = false},
-                }
-            },
-            new displaylist()
-            {
-                Name = "Builtin/mag consistency xyz",
-                items = new displayitem[]
-                {
-                    new displayitem() {type = "MAG", field = "MagX"},
-                    new displayitem() {type = "MAG2", field = "MagX"},
-                    new displayitem() {type = "MAG", field = "MagY", left = false},
-                    new displayitem() {type = "MAG2", field = "MagY", left = false},
-                    new displayitem() {type = "MAG", field = "MagZ"},
-                    new displayitem() {type = "MAG2", field = "MagZ"},
-                }
-            },
-            new displaylist()
-            {
-                Name = "Builtin/copter loiter",
-                items = new displayitem[]
-                {
-                    new displayitem() {type = "NTUN", field = "DVelX"},
-                    new displayitem() {type = "NTUN", field = "VelX"},
-                    new displayitem() {type = "NTUN", field = "DVelY"},
-                    new displayitem() {type = "NTUN", field = "VelY"},
-                }
-            },
-            new displaylist()
-            {
-                Name = "Builtin/copter althold",
-                items = new displayitem[]
-                {
-                    new displayitem() {type = "CTUN", field = "BarAlt"},
-                    new displayitem() {type = "CTUN", field = "DAlt"},
-                    new displayitem() {type = "CTUN", field = "Alt"},
-                    new displayitem() {type = "GPS", field = "Alt"},
-                }
-            },
-            new displaylist()
-            {
-                Name = "Builtin/ekf VEL tune",
-                items = new displayitem[]
-                {
-                    new displayitem() {type = "NKF3", field = "IVN"},
-                    new displayitem() {type = "NKF3", field = "IPN"},
-                    new displayitem() {type = "NKF3", field = "IVE"},
-                    new displayitem() {type = "NKF3", field = "IPE"},
-                    new displayitem() {type = "NKF3", field = "IVD"},
-                    new displayitem() {type = "NKF3", field = "IPD"},
-                }
-            },
-        };
-
         /*  
     105    +Format characters in the format string for binary log messages  
     106    +  b   : int8_t  
@@ -391,125 +213,9 @@ namespace MissionPlanner.Log
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
         }
 
-        public class graphitem
-        {
-            public string name;
-            public List<string> expressions = new List<string>();
-            public string description;
-        }
 
-        private void readmavgraphsxml()
-        {
-            if (readmavgraphsxml_runonce)
-                return;
 
-            readmavgraphsxml_runonce = true;
-
-            List<graphitem> items = new List<graphitem>();
-
-            var files = Directory.GetFiles(Settings.GetRunningDirectory() + Path.DirectorySeparatorChar + "graphs",
-                "*.xml");
-
-            foreach (var file in files)
-            {
-                try
-                {
-                    using (
-                        XmlReader reader =
-                            XmlReader.Create(file))
-                    {
-                        while (reader.Read())
-                        {
-                            if (reader.ReadToFollowing("graph"))
-                            {
-                                graphitem newGraphitem = new graphitem();
-
-                                for (int a = 0; a < reader.AttributeCount; a++)
-                                {
-                                    reader.MoveToAttribute(a);
-                                    if (reader.Name.ToLower() == "name")
-                                    {
-                                        newGraphitem.name = reader.Value + " " + Path.GetFileNameWithoutExtension(file);
-                                    }
-                                }
-
-                                reader.MoveToElement();
-
-                                XmlReader inner = reader.ReadSubtree();
-
-                                while (inner.Read())
-                                {
-                                    if (inner.IsStartElement())
-                                    {
-                                        if (inner.Name.ToLower() == "expression")
-                                            newGraphitem.expressions.Add(inner.ReadString().Trim());
-                                        else if (inner.Name.ToLower() == "description")
-                                            newGraphitem.description = inner.ReadString().Trim();
-                                    }
-                                }
-
-                                processGraphItem(newGraphitem);
-
-                                items.Add(newGraphitem);
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    log.Error(ex);
-                }
-            }
-        }
-
-        void processGraphItem(graphitem graphitem)
-        {
-            List<displayitem> list = new List<displayitem>();
-
-            foreach (var expression in graphitem.expressions)
-            {
-                var items = expression.Split(new char[] {' ', '\t', '\n'}, StringSplitOptions.RemoveEmptyEntries);
-
-                foreach (var item in items)
-                {
-                    var matchs = Regex.Matches(item.Trim(), @"^([A-z0-9_]+)\.([A-z0-9_]+)[:2]*$");
-
-                    if (matchs.Count > 0)
-                    {
-                        foreach (Match match in matchs)
-                        {
-                            var temp = new displayitem();
-                            // right axis
-                            if (item.EndsWith(":2"))
-                                temp.left = false;
-
-                            temp.type = match.Groups[1].Value.ToString();
-                            temp.field = match.Groups[2].Value.ToString();
-
-                            list.Add(temp);
-                        }
-                    }
-                    else
-                    {
-                        var temp = new displayitem();
-                        if (item.EndsWith(":2"))
-                            temp.left = false;
-                        temp.expression = item;
-                        temp.type = item;
-                        list.Add(temp);
-                    }
-                }
-            }
-
-            var dispitem = new displaylist()
-            {
-                Name = graphitem.name,
-                items = list.ToArray()
-            };
-
-            graphs.Add(dispitem);
-        }
-
+   
         void dataGridView1_RowUnshared(object sender, DataGridViewRowEventArgs e)
         {
         }
@@ -676,13 +382,13 @@ namespace MissionPlanner.Log
             }
 
             // update preselection graphs
-            readmavgraphsxml();
+            mavgraph.readmavgraphsxml();
 
-            graphs.Sort((a, b) => a.Name.CompareTo(b.Name));
+            mavgraph.graphs.Sort((a, b) => a.Name.CompareTo(b.Name));
 
             //CMB_preselect.DisplayMember = "Name";
             CMB_preselect.DataSource = null;
-            CMB_preselect.DataSource = graphs;
+            CMB_preselect.DataSource = mavgraph.graphs;
 
             log.Info("LoadLog2 Done");
         }
@@ -1170,15 +876,15 @@ namespace MissionPlanner.Log
                 List<Tuple<DFLog.DFItem, double>> list1 = null;
                 try
                 {
-                    list1 = TestPython(ref dflog, ref logdata, type);
+                    list1 = TestPython(dflog, logdata, type);
                 }
                 catch (Exception ex)
                 {
-                    //log.Error(ex);
+                    log.Error(ex);
                 }
 
                 if (list1 == null)
-                    list1 = DFLogScript.ProcessExpression(ref dflog, ref logdata, type);
+                    list1 = DFLogScript.ProcessExpression(dflog, logdata, type);
                 var newlist = new PointPairList();
                 list1.ForEach(a =>
                 {
@@ -1191,7 +897,7 @@ namespace MissionPlanner.Log
             }
         }
 
-        private List<Tuple<DFLog.DFItem, double>> TestPython(ref DFLog dflog, ref CollectionBuffer logdata, string expression)
+        private List<Tuple<DFLog.DFItem, double>> TestPython(DFLog dflog, CollectionBuffer logdata, string expression)
         {
 
             var engine = Python.CreateEngine();
@@ -2490,10 +2196,17 @@ namespace MissionPlanner.Log
 
             var dr = opt.ShowDialog(this);
 
+            // on not OK clear the filter
             if (dr != DialogResult.OK)
+            {
+                logdatafilter.Clear();
+                dataGridView1.Rows.Clear();
+                dataGridView1.RowCount = logdata.Count;
+                dataGridView1.Invalidate();
                 return;
+            }
 
-            if (opt.Text != "")
+            if (opt.SelectedItem != "")
             {
                 logdatafilter.Clear();
 
@@ -2505,7 +2218,7 @@ namespace MissionPlanner.Log
                     b++;
                     var item = dflog.GetDFItemFromLine(item2, b);
 
-                    if (item.msgtype.ToUpper() == opt.Text.ToUpper())
+                    if (item.msgtype.ToUpper() == opt.SelectedItem.ToUpper())
                     {
                         logdatafilter.Add(a, item);
                         a++;
@@ -2756,7 +2469,7 @@ namespace MissionPlanner.Log
 
         private void CMB_preselect_SelectedIndexChanged(object sender, EventArgs e)
         {
-            displaylist selectlist = (displaylist) CMB_preselect.SelectedValue;
+            mavgraph.displaylist selectlist = (mavgraph.displaylist) CMB_preselect.SelectedValue;
 
             if (selectlist == null || selectlist.items == null)
                 return;

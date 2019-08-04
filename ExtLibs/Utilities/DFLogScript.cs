@@ -139,7 +139,7 @@ namespace MissionPlanner.Log
             }
         }
 
-        public static List<Tuple<DFLog.DFItem, double>> ProcessExpression(ref DFLog dflog, ref CollectionBuffer logdata, string expression)
+        public static List<Tuple<DFLog.DFItem, double>> ProcessExpression(DFLog dflog, CollectionBuffer logdata, string expression)
         {
             List<Tuple<DFLog.DFItem, double>> answer = new List<Tuple<DFLog.DFItem, double>>();
 
@@ -212,21 +212,20 @@ namespace MissionPlanner.Log
                 bad = true;
             }
 
-            foreach (var line in logdata.GetEnumeratorType(fieldsUsed.Keys.ToArray()))
-            {
-                if (bad)
-                    break;
-                foreach (var item in fieldsUsed)
+            if (!bad)
+                foreach (var line in logdata.GetEnumeratorType(fieldsUsed.Keys.ToArray()))
                 {
-                    foreach (var value in item.Value.Distinct())
+                    foreach (var item in fieldsUsed)
                     {
-                        e.setArgumentValue(item.Key + "" + value,
-                            double.Parse(line.items[dflog.FindMessageOffset(item.Key, value)]));
+                        foreach (var value in item.Value.Distinct())
+                        {
+                            e.setArgumentValue(item.Key + "" + value,
+                                double.Parse(line.items[dflog.FindMessageOffset(item.Key, value)]));
+                        }
                     }
-                }
 
-                answer.Add(line, e.calculate());
-            }
+                    answer.Add(line, e.calculate());
+                }
 
             if (answer.Count > 0)
                 return answer;

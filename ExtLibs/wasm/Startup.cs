@@ -1,3 +1,4 @@
+using System;
 using Blazor.Extensions.Storage;
 using Blazor.FileReader;
 using log4net.Appender;
@@ -7,6 +8,9 @@ using log4net.Repository.Hierarchy;
 using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using Microsoft.JSInterop;
+using MissionPlanner.ArduPilot;
+using MissionPlanner.Utilities;
 
 
 namespace wasm
@@ -50,6 +54,41 @@ namespace wasm
             log.Info("test");
 
             log.Info("Configure Done");
+
+            BinaryLog.onFlightMode += (firmware, modeno) =>
+            {
+                try
+                {
+                    if (firmware == "")
+                        return null;
+
+                    var modes = Common.getModesList((Firmwares)Enum.Parse(typeof(Firmwares), firmware));
+                    string currentmode = null;
+
+                    foreach (var mode in modes)
+                    {
+                        if (mode.Key == modeno)
+                        {
+                            currentmode = mode.Value;
+                            break;
+                        }
+                    }
+
+                    return currentmode;
+                }
+                catch
+                {
+                    return null;
+                }
+            };
+
+            CustomMessageBox.ShowEvent += (text, caption, buttons, icon, yestext, notext) =>
+            {
+                Console.WriteLine("CustomMessageBox " + caption + " " + text);
+
+
+                return CustomMessageBox.DialogResult.OK;
+            };
         }
     }
 }
