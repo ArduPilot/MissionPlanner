@@ -200,7 +200,10 @@ namespace MissionPlanner.ArduPilot
 
             if (altmode == MAVLink.MAV_FRAME.GLOBAL_TERRAIN_ALT_INT || altmode == MAVLink.MAV_FRAME.GLOBAL_TERRAIN_ALT)
             {
-                return srtm.getAltitude(lat, lng).alt;
+                var sralt = srtm.getAltitude(lat, lng);
+                if (sralt.currenttype == srtm.tiletype.invalid)
+                    return -999;
+                return sralt.alt;
             }
 
             return homealt;
