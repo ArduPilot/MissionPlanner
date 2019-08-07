@@ -18,7 +18,7 @@ namespace MissionPlanner.Utilities
         {
             readmavgraphsxml();
 
-            graphs.Sort((a, b) => a.Name.CompareTo(b.Name));
+            graphs.Sort((a, b) => a.Name.ToUpper().CompareTo(b.Name.ToUpper()));
         }
 
         public class graphitem
