@@ -35,6 +35,7 @@
 @inject IUriHelper UriHelper
 
 <style>
+
     #toolbar {
         background: rgba(42, 42, 42, 0.8);
         padding: 4px;
@@ -125,11 +126,11 @@
                     <option value="@gra">@gra</option>
                 }
             </select>
-            <ul>
+            <ul id="graphs">
                 @foreach (var gra in graphs)
                 {
-                    <li style="@(selectedchart == gra ? "border-style: dotted;" : "")">
-                        <div id="@gra" style="width: 100%; height: 50vh" onmousedown="@(async () => setLastGraph(gra))"></div>
+                    <li>
+                        <div id="@gra" style="width: 100%; height: 50vh; box-sizing: initial;" onmousedown="@(async () => setLastGraph(gra))"></div>
                     </li>
                 }
                 <li><button onclick="@addNewGraph">New Graph</button></li>
@@ -240,13 +241,13 @@
                 <tbody>
                     @foreach (var item in CleanParamList)
                     {
-                    <tr>
-                        <td>@item["Name"]</td>
-                        <td>@item["Value"]</td>
-                        <td>@ParameterMetaDataRepository.GetParameterOptionsInt(item["Name"], Firmwares.ArduCopter2.ToString()).Select(a => a.Key + " = " + a.Value).Aggregate("", (current, next) => current + "; " + next)</td>
-                        <td>@ParameterMetaDataRepository.GetParameterMetaData(item["Name"], ParameterMetaDataConstants.DisplayName, Firmwares.ArduCopter2.ToString()) @ParameterMetaDataRepository.GetParameterMetaData(item["Name"], ParameterMetaDataConstants.Description, Firmwares.ArduCopter2.ToString())</td>
-    
-                    </tr>
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.Value</td>
+                            <td>@item.Options</td>
+                            <td>@item.Desc</td>
+
+                        </tr>
                     }
                 </tbody>
             }
@@ -270,19 +271,19 @@
 @DateTime.Now.ToString("o")
 
 @functions {
-    ElementRef inputTypeFileElement;
+        ElementRef inputTypeFileElement;
 
-    ElementRef mavgraphselect;
+        ElementRef mavgraphselect;
 
-    CollectionBuffer cb = null;
+        CollectionBuffer cb = null;
 
-    static List<string[]> blobs = null;
+        static List<string[]> blobs = null;
 
-    List<string> graphs = new List<string>() { "graph1", "graph2" };
+        List<string> graphs = new List<string>() { "graph1", "graph2" };
 
-    string selectedchart = "graph1";
+        string selectedchart = "graph1";
 
-    string _loadingStatus = "";
+        string _loadingStatus = "";
     private bool _loading = false;
 
     public bool Loading
@@ -325,7 +326,7 @@
             "Plotly.deleteTraces(" + selectedchart + ", 0  );" +
             "Plotly.deleteTraces(" + selectedchart + ", 0  );" +
             "Plotly.deleteTraces(" + selectedchart + ", 0  ); "
-                    });
+                        });
 
     }
 
@@ -400,7 +401,7 @@
                             x = time,
                             y = field
                         }.ToJSON()
-                                });
+                                    });
                 }
                 catch (Exception ex)
                 {
@@ -423,7 +424,7 @@
                     x = data.Select(a => a.time).ToList(),
                     y = data.Select(a => a.field).ToList()
                 }.ToJSON()
-                        });
+                            });
         }
     }
 
@@ -484,6 +485,8 @@
         // if first draw
         Checkdflog();
 
+        setLastGraph(selectedchart);
+            
         log.Debug("DataFlash OnAfterRenderAsync Done");
     }
     protected override bool ShouldRender()
@@ -671,9 +674,7 @@ StringToSign = VERB + "\n" +
 
     public void addNewGraph()
     {
-        graphs.Add("graph" + a++);
-
-
+        graphs.Add("graph" + a++);        
     }
 
     public async void PlotItem(string type, string item, bool checked1)
@@ -832,7 +833,7 @@ StringToSign = VERB + "\n" +
             MathHelper.mapConstrained(double.Parse(a["C2"]), 1000, 2000, -1, 1),
             MathHelper.mapConstrained(double.Parse(a["C3"]), 1000, 2000, -1, 1),
             MathHelper.mapConstrained(double.Parse(a["C4"]), 1000, 2000, -1, 1)
-                    }).ToList();
+                        }).ToList();
 
         await JSRuntime.InvokeAsync<object>("evalline", new object[] { "manual_control_setpoints = " + manual_control_setpoints.ToJSON() });
 
@@ -885,7 +886,7 @@ StringToSign = VERB + "\n" +
                 x = ATTdata.Select(a => a.time).ToList(),
                 y = ATTdata.Select(a => a.DesYaw).ToList()
             }.ToJSON()
-                    });
+                        });
         log.Debug("after plotData 1");
 
         try
@@ -961,11 +962,11 @@ if (i < attitude_data.length - 1) {
 var next_attitude = attitude_data[i+1];
 var time_att_next = Cesium.JulianDate.fromIso8601(next_attitude[0]);
 var timeInterval = new Cesium.TimeInterval({
-    start : time_att,
-    stop : time_att_next,
-    isStartIncluded : true,
-    isStopIncluded : false,
-    data : orientation
+start : time_att,
+stop : time_att_next,
+isStartIncluded : true,
+isStopIncluded : false,
+data : orientation
 });
 orientationProperty.intervals.addInterval(timeInterval);
 }
@@ -1304,16 +1305,20 @@ updateMaterial();
 
     }
 
-    IEnumerable<DFLog.DFItem> paramaCache = null;
+    IEnumerable<(string Name, string Value, string Options, string Desc)> paramaCache = null;
 
-    public IEnumerable<DFLog.DFItem> CleanParamList
+    public IEnumerable<(string Name, string Value, string Options, string Desc)> CleanParamList
     {
         get
         {
             if (paramaCache == null)
             {
-                var originalList = cb.GetEnumeratorType("PARM");
-                paramaCache = originalList.GroupBy(param => param["Name"]).OrderBy(a => a.Key).Select(group => group.First()).ToList();
+                var paramlist = cb.GetEnumeratorType("PARM").GroupBy(param => param["Name"]).OrderBy(a => a.Key).Select(group => group.First()).ToList();
+
+                paramaCache = paramlist.Select(item => (item["Name"],
+                item["Value"],
+                ParameterMetaDataRepository.GetParameterOptionsInt(item["Name"], Firmwares.ArduCopter2.ToString()).Select(a => a.Key + " = " + a.Value).Aggregate("", (current, next) => current + "; " + next),
+                ParameterMetaDataRepository.GetParameterMetaData(item["Name"], ParameterMetaDataConstants.DisplayName, Firmwares.ArduCopter2.ToString()) + " " +@ParameterMetaDataRepository.GetParameterMetaData(item["Name"], ParameterMetaDataConstants.Description, Firmwares.ArduCopter2.ToString())));
             }
 
             return paramaCache;
@@ -1325,6 +1330,8 @@ updateMaterial();
         get { return _loadingStatus; }
         set
         {
+            if (_loadingStatus == value)
+                return;
             _loadingStatus = value;
             log.Debug(value);
             StateHasChanged();
@@ -1334,7 +1341,7 @@ updateMaterial();
     private void setLastGraph(string gra)
     {
         selectedchart = gra;
-        StateHasChanged();
+        JSRuntime.InvokeAsync<bool>("evalline", new object[] { "$('ul#graphs > li > div').css('border-style', 'none'); $('ul#graphs > li > div#" + selectedchart + "').css('border-style', 'dotted')" });
     }
 
 }

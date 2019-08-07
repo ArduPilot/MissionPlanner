@@ -125,6 +125,8 @@
             try {
                 ans = eval(line);
 
+                $(window).trigger('resize');
+
                 if (typeof ans === 'object')
                     return 0;
 
