@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Security.Cryptography;
 using System.Text;
-using MissionPlanner.Controls;
 
 namespace MissionPlanner.Utilities
 {
@@ -10,41 +9,23 @@ namespace MissionPlanner.Utilities
     {
         static string pw = "";
 
-        public static void EnterPassword()
+        public static void EnterPassword(string pw)
         {
-            // keep this one local
-            string pw = "";
-
-            InputBox.Show("Enter Password", "Please enter a password", ref pw, true);
-
             Settings.Instance["password"] =
                 Convert.ToBase64String(Password.GenerateSaltedHash(UTF8Encoding.UTF8.GetBytes(pw),
                     new byte[] {(byte) 'M', (byte) 'P'}));
         }
 
-        public static bool VerifyPassword()
+        public static bool VerifyPassword(string pw)
         {
             //check if we have already entered the pw and its valid.
             if (ValidatePassword(pw) == true)
                 return true;
 
-            if (InputBox.Show("Enter Password", "Please enter your password", ref pw, true) ==
-                System.Windows.Forms.DialogResult.OK)
-            {
-                bool ans = ValidatePassword(pw);
-
-                if (ans == false)
-                {
-                    CustomMessageBox.Show("Bad Password", "Bad Password");
-                }
-
-                return ans;
-            }
-
             return false;
         }
 
-        static bool ValidatePassword(string pw)
+        public static bool ValidatePassword(string pw)
         {
             byte[] ans = Password.GenerateSaltedHash(UTF8Encoding.UTF8.GetBytes(pw), new byte[] {(byte) 'M', (byte) 'P'});
 

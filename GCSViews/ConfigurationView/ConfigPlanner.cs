@@ -785,7 +785,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             Settings.Instance["password_protect"] = CHK_Password.Checked.ToString();
             if (CHK_Password.Checked)
             {
-                Password.EnterPassword();
+                // keep this one local
+                string pw = "";
+
+                InputBox.Show("Enter Password", "Please enter a password", ref pw, true);
+
+                Password.EnterPassword(pw);
             }
         }
 
