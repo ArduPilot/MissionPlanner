@@ -62,6 +62,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         return;
                     }
                     MainV2.comPort.setParam("CAN_SLCAN_TIMOUT", 2, true);
+                    MainV2.comPort.setParam("CAN_P" + canport + "_DRIVER", 1);
                     MainV2.comPort.setParam("CAN_SLCAN_SERNUM", 0, true); // usb
                 }
             }
