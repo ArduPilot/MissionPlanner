@@ -1313,7 +1313,7 @@ namespace MissionPlanner.GCSViews
             {
                 var commandlist = GetCommandList();
 
-                var overlay = new WPOverlay();
+                overlay = new WPOverlay();
 
                 try
                 {
@@ -5880,8 +5880,8 @@ namespace MissionPlanner.GCSViews
 
         private void contextMenuStrip1_Closed(object sender, ToolStripDropDownClosedEventArgs e)
         {
-            if (e.CloseReason.ToString() == "AppClicked" || e.CloseReason.ToString() == "AppFocusChange")
-                isMouseClickOffMenu = true;
+          //  if (e.CloseReason.ToString() == "AppClicked" || e.CloseReason.ToString() == "AppFocusChange")
+           //     isMouseClickOffMenu = true;
         }
 
         private void areaToolStripMenuItem_Click(object sender, EventArgs e)
@@ -6384,6 +6384,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
         }
 
         static string zone = "50s";
+        private WPOverlay overlay;
 
         private void enterUTMCoordToolStripMenuItem_Click(object sender, EventArgs e)
         {
