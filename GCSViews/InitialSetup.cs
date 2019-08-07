@@ -158,6 +158,9 @@ namespace MissionPlanner.GCSViews
             {
                 AddBackstageViewPage(typeof(Sikradio), rm.GetString("backstageViewPageSikradio.Text"), true, opt);
             }
+
+            AddBackstageViewPage(typeof(ConfigADSB), "ADSB", isConnected, mand);
+
             if (MainV2.DisplayConfiguration.displayBattMonitor)
             {
                 AddBackstageViewPage(typeof(ConfigBatteryMonitoring), rm.GetString("backstageViewPagebatmon.Text"), isConnected, opt);
