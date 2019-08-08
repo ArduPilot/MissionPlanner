@@ -214,7 +214,7 @@ namespace MissionPlanner.Utilities
             {
                 gpsa++;
                 int status = 0;
-                if (int.TryParse(item["status"], out status))
+                if (int.TryParse(item["Status"], out status))
                 {
                     if (status >= 3)
                         break;
@@ -307,9 +307,7 @@ namespace MissionPlanner.Utilities
                     {
                         var items = binlog.ReadMessageObjects(basestream, basestream.Length);
 
-                        //var test = dflog.GetDFItemFromLine(this[index], index);
-
-                        var answer =  new DFLog.DFItem(dflog, items, (int)indexin);
+                        var answer = new DFLog.DFItem(dflog, items, (int)indexin);
 
                         return answer;
                     }
@@ -414,7 +412,7 @@ namespace MissionPlanner.Utilities
         public IEnumerable<DFLog.DFItem> GetEnumeratorType(string[] types)
         {
             // get the ids for the passed in types
-            SortedSet<long> slist = new SortedSet<long>();
+            List<long> slist = new List<long>();
             foreach (var type in types.Distinct())
             {
                 if (dflog.logformat.ContainsKey(type))
@@ -427,6 +425,8 @@ namespace MissionPlanner.Utilities
                     }
                 }
             }
+
+            slist.Sort();
 
             // work through list of lines
             foreach (var l in slist)
