@@ -212,6 +212,8 @@ namespace MissionPlanner.Utilities
 
                     log.Info("url: " + url);
                     WebRequest request = WebRequest.Create(url);
+                    if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
+                        ((HttpWebRequest)request).UserAgent = Settings.Instance.UserAgent;
                     request.Timeout = 10000;
 
                     using (WebResponse response = request.GetResponse())
@@ -366,6 +368,8 @@ namespace MissionPlanner.Utilities
                     }
 
                 WebRequest wr = WebRequest.Create(url);
+                if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
+                    ((HttpWebRequest)wr).UserAgent = Settings.Instance.UserAgent;
                 wr.Timeout = 10000;
                 using (WebResponse wresp = wr.GetResponse())
                 using (StreamReader sr = new StreamReader(wresp.GetResponseStream()))
@@ -615,6 +619,8 @@ namespace MissionPlanner.Utilities
 
                 // Create a request using a URL that can receive a post. 
                 WebRequest request = WebRequest.Create(baseurl);
+                if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
+                    ((HttpWebRequest)request).UserAgent = Settings.Instance.UserAgent;
                 request.Timeout = 10000;
                 // Set the Method property of the request to POST.
                 request.Method = "GET";

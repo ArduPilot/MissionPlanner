@@ -213,6 +213,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                         // Create a request using a URL that can receive a post. 
                         WebRequest request = WebRequest.Create(baseurl);
+                        if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
+                            ((HttpWebRequest)request).UserAgent = Settings.Instance.UserAgent;
                         request.Timeout = 10000;
                         // Set the Method property of the request to POST.
                         request.Method = "GET";

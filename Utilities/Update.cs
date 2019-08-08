@@ -129,6 +129,8 @@ namespace MissionPlanner.Utilities
 
             log.Info("Checking for update at: " + requestUriString);
             var webRequest = WebRequest.Create(requestUriString);
+            if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
+                ((HttpWebRequest)webRequest).UserAgent = Settings.Instance.UserAgent;
             webRequest.Timeout = 5000;
 
             // Set the Method property of the request to POST.
@@ -245,6 +247,8 @@ namespace MissionPlanner.Utilities
             string responseFromServer = "";
 
             WebRequest request = WebRequest.Create(md5url);
+            if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
+                ((HttpWebRequest)request).UserAgent = Settings.Instance.UserAgent;
             request.Timeout = 10000;
             // Set the Method property of the request to POST.
             request.Method = "GET";
@@ -526,6 +530,8 @@ namespace MissionPlanner.Utilities
                     string url = baseurl + file + "?" + new Random().Next();
                     // Create a request using a URL that can receive a post. 
                     WebRequest request = WebRequest.Create(url);
+                    if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
+                        ((HttpWebRequest)request).UserAgent = Settings.Instance.UserAgent;
                     log.Info("GetNewFile " + url);
                     // Set the Method property of the request to GET.
                     request.Method = "GET";

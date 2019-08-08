@@ -3089,6 +3089,8 @@ namespace MissionPlanner.GCSViews
             try
             {
                 HttpWebRequest request = WebRequest.Create(requestUrl) as HttpWebRequest;
+                if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
+                    ((HttpWebRequest)request).UserAgent = Settings.Instance.UserAgent;
                 HttpWebResponse response = request.GetResponse() as HttpWebResponse;
 
 

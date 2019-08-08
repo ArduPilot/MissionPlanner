@@ -3,6 +3,12 @@ using MissionPlanner.Comms;
 
 namespace MissionPlanner
 {
+    internal class Settings
+    {
+        internal static Settings Instance = new Settings();
+
+        internal string UserAgent = "";
+    }
     internal class MainV2
     {
         public static portproxy comPort = new portproxy();

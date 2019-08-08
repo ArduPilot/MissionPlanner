@@ -1,6 +1,85 @@
 ﻿@page "/"
+@inject HttpClient Http
+@inject IUriHelper UriHelper
+@using GMap.NET.MapProviders
+@using GMap.NET
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
 
+@functions {
+
+    private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+
+    protected override async Task OnInitAsync()
+    {
+        log.Debug("DataFlash OnInitAsync");
+
+        log.Info(UriHelper.GetAbsoluteUri());
+
+    }
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        log.Debug("DataFlash OnParametersSetAsync Done");
+    }
+    protected override async Task OnAfterRenderAsync()
+    {
+        log.Debug("DataFlash OnAfterRenderAsync Start");
+        GMapProvider type = GMap.NET.MapProviders.GoogleSatelliteMapProvider.Instance;
+        PureProjection prj = type.Projection;
+        GMap.NET.Internals.Core core = new GMap.NET.Internals.Core();
+
+        var zoom = 15;
+        var area = new RectLatLng(core.Position.Lat, core.Position.Lng, 0.1, 0.1);
+
+        core.Provider = type;
+        core.Position = new PointLatLngAlt(-35, 117.89);
+        core.Zoom = zoom;
+
+        GPoint topLeftPx = prj.FromLatLngToPixel(area.LocationTopLeft, zoom);
+        GPoint rightButtomPx = prj.FromLatLngToPixel(area.Bottom, area.Right, zoom);
+        GPoint pxDelta = new GPoint(rightButtomPx.X - topLeftPx.X, rightButtomPx.Y - topLeftPx.Y);
+
+
+        // get type list at new zoom level
+        List<GPoint> tileArea = prj.GetAreaTileList(area, zoom, 0);
+
+        // get tiles & combine into one
+        foreach (var p in tileArea)
+        {
+            Console.WriteLine("Downloading[" + p + "]: " + tileArea.IndexOf(p) + " of " + tileArea.Count);
+
+            foreach (var tp in type.Overlays)
+            {
+                Exception ex;
+                using (var tile = GMaps.Instance.GetImageFrom(tp, p, zoom, out ex))
+                {
+                    if (tile != null)
+                    {
+                        using (tile)
+                        {
+                            long x = p.X*prj.TileSize.Width - topLeftPx.X ;
+                            long y = p.Y*prj.TileSize.Width - topLeftPx.Y ;
+                            {
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    log.Debug("DataFlash OnAfterRenderAsync Done");
+    }
+    protected override bool ShouldRender()
+    {
+        var renderUI = true;
+        log.Debug("DataFlash ShouldRender Done");
+        return renderUI;
+    }
+}

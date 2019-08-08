@@ -16,9 +16,18 @@ using System.Text.RegularExpressions;
 using System.IO.Compression;
 using System.Net;
 using System.Net.Mime;
+namespace System
+{
+    internal class Settings
+    {
+        internal static Settings Instance = new Settings();
 
+        internal string UserAgent = "";
+    }
+}
 namespace Installer
 {
+ 
     public partial class Installer : Form
     {
         private static readonly ILog log =

@@ -49,9 +49,7 @@
     <Compile Include="..\Utilities\Download.cs">
       <Link>Download.cs</Link>
     </Compile>
-    <Compile Update="Installer.cs">
-    <SubType>Control</SubType>
-    </Compile>
+    <Compile Update="Installer.cs" />
     <Compile Update="Installer.Designer.cs">
       <DependentUpon>Installer.cs</DependentUpon>
     </Compile>

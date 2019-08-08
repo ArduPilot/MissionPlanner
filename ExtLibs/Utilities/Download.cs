@@ -212,6 +212,8 @@ namespace MissionPlanner.Utilities
 
                 // cache it
                 HttpWebRequest request = (HttpWebRequest) WebRequest.Create(_uri);
+                if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
+                    ((HttpWebRequest)request).UserAgent = Settings.Instance.UserAgent;
                 request.AddRange(start, end);
                 HttpWebResponse response = (HttpWebResponse) request.GetResponse();
 
@@ -298,6 +300,8 @@ namespace MissionPlanner.Utilities
                     log.Info(url);
                 // Create a request using a URL that can receive a post. 
                 WebRequest request = WebRequest.Create(url);
+                if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
+                    ((HttpWebRequest)request).UserAgent = Settings.Instance.UserAgent;
                 request.Timeout = 10000;
                 // Set the Method property of the request to POST.
                 request.Method = "GET";
@@ -396,6 +400,8 @@ namespace MissionPlanner.Utilities
                 return false;
 
             WebRequest webRequest = WebRequest.Create(url);
+            if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
+               ((HttpWebRequest)webRequest).UserAgent = Settings.Instance.UserAgent;
             webRequest.Timeout = 10000; // miliseconds
             webRequest.Method = "HEAD";
 
@@ -430,7 +436,7 @@ namespace MissionPlanner.Utilities
             long size = GetFileSize(uri);
 
             if (chunkSize == 0)
-                chunkSize = (int)(size / 20);
+                chunkSize = 1024 * 1024 * 10;
 
             using (FileStream file = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.Write))
             {
@@ -444,24 +450,35 @@ namespace MissionPlanner.Utilities
                 Parallel.ForEach(LongRange(0, 1 + size / chunkSize), new ParallelOptions { MaxDegreeOfParallelism = 3 }, (start) =>
                 {
                     HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
-                    request.AddRange(start * chunkSize, start * chunkSize + chunkSize - 1);
-                    Console.WriteLine("{0} {1}-{2}", uri, start * chunkSize, start * chunkSize + chunkSize - 1);
+                    if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
+                        ((HttpWebRequest)request).UserAgent = Settings.Instance.UserAgent;
+                    var minrange = start * chunkSize;
+                    var maxrange = Math.Min(start * chunkSize + chunkSize - 1, size);
+                    request.AddRange(minrange, maxrange);
+                    log.Info(String.Format("chunk {0} {1} {2}-{3}", start, uri, minrange, maxrange));
                     HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+                    log.Info(start + " " + uri + " " + response.StatusCode + " " + response.ContentLength);
+
+                    if (response.StatusCode != HttpStatusCode.PartialContent && start != 0)
+                    {
+                        // fallback to single connection;
+                        response.Close();
+                        return;
+                    }
 
                     using (Stream stream = response.GetResponseStream())
                     {
-                        var seek = start * chunkSize;
-
                         byte[] array = new byte[1024 * 80];
                         int count;
                         while ((count = stream.Read(array, 0, array.Length)) != 0)
                         {
                             lock (syncObject)
                             {
-                                file.Seek(seek, SeekOrigin.Begin);
+                                file.Seek(minrange, SeekOrigin.Begin);
                                 file.Write(array, 0, count);
                                 got += count;
-                                seek += count;
+                                minrange += count;
                                 var elapsed = (DateTime.Now - starttime).TotalSeconds;
                                 var percent = ((got / (float) size) * 100.0f);
                                 if (lastupdate.Second != DateTime.Now.Second)
@@ -506,6 +523,8 @@ namespace MissionPlanner.Utilities
                 return fileSizeCache[uri];
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
+            if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
+                ((HttpWebRequest)request).UserAgent = Settings.Instance.UserAgent;
             request.Method = "GET";
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
             var len = response.ContentLength;

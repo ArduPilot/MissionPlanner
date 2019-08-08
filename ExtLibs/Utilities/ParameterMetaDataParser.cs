@@ -466,6 +466,8 @@ namespace MissionPlanner.Utilities
             try
             {
                 var request = WebRequest.Create(address);
+                if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
+                    ((HttpWebRequest)request).UserAgent = Settings.Instance.UserAgent;
 
                 // Plenty of timeout
                 request.Timeout = 10000;

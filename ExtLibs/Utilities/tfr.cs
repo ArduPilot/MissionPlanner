@@ -39,9 +39,10 @@ namespace MissionPlanner.Utilities
 
         public static void GetTFRs()
         {
-                var request = WebRequest.Create(tfrurl);
-
-                request.BeginGetResponse(tfrcallback, request);
+            var request = WebRequest.Create(tfrurl);
+            if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
+                ((HttpWebRequest)request).UserAgent = Settings.Instance.UserAgent;
+            request.BeginGetResponse(tfrcallback, request);
         }
 
         private static void tfrcallback(IAsyncResult ar)

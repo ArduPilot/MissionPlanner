@@ -517,6 +517,7 @@ namespace UAVCAN
                 var url = String.Format("{0}{1}/{2}/{3}", server, devicename, hwversion.ToString("0.0##"), "firmware.bin");
                 Console.WriteLine("LookForUpdate at " + url);
                 var req = WebRequest.Create(url);
+                ((HttpWebRequest)req).UserAgent = Assembly.GetExecutingAssembly().GetName().Name;
                 req.Timeout = 4000; // miliseconds
                 req.Method = "HEAD";
 
