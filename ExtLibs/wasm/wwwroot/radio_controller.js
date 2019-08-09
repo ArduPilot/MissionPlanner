@@ -1,4 +1,5 @@
 // renders a radio controller using Two.js (https://two.js.org)
+if(radio_controller === undefined) {
 
 var radio_controller = {
 	_two: undefined,
@@ -173,3 +174,4 @@ var radio_controller = {
 	},
 };
 
+}

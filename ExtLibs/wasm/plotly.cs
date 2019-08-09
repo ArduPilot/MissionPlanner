@@ -89,6 +89,11 @@ namespace wasm
         [DefaultValue("")] // geo3
         public string geo = "";
 
+        [DefaultValue("")]
+        public string textposition = "";
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public List<string> text;
+
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore)]
         public List<double> lat;
 

@@ -181,17 +181,19 @@
                             {
                                 <th>@head</th>
                             }
+                            <th>SubSystem</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var msg in cb.GetEnumeratorType("ERR"))
                         {
-                            <tr>
-                                @foreach (var item in msg.items)
-                                {
-                                    <td>@item</td>
-                                }
-                            </tr>
+                        <tr>
+                            @foreach (var item in msg.items)
+                            {
+                                <td>@item</td>
+                            }
+                            <td>@(msg["Subsys"] != null ? ((DFLog.LogErrorSubsystem)msg.GetRaw("Subsys")).ToString() : null)</td>                            
+                        </tr>
                         }
                     </tbody>
                 </table>
@@ -273,19 +275,19 @@
 
 
 @functions {
-        ElementRef inputTypeFileElement;
+    ElementRef inputTypeFileElement;
 
-        ElementRef mavgraphselect;
+    ElementRef mavgraphselect;
 
-        CollectionBuffer cb = null;
+    CollectionBuffer cb = null;
 
-        static List<string[]> blobs = null;
+    static List<string[]> blobs = null;
 
-        List<string> graphs = new List<string>() { "graph1", "graph2" };
+    List<string> graphs = new List<string>() { "graph1", "graph2" };
 
-        string selectedchart = "graph1";
+    string selectedchart = "graph1";
 
-        string _loadingStatus = "";
+    string _loadingStatus = "";
     private bool _loading = false;
 
     public bool Loading
@@ -314,7 +316,7 @@
         Console.WriteLine("DataFlash OnInit");
     }
 
-    public async void ClearPlot()
+    public async void ClearPlot(string selectedchart)
     {
         await JSRuntime.InvokeAsync<object>("evalline", new object[]
         {
@@ -332,7 +334,7 @@
 
     }
 
-    public void processMavGraph(UIChangeEventArgs e)
+    public async void processMavGraph(UIChangeEventArgs e)
     {
         var selectedString = e.Value.ToString();
 
@@ -340,7 +342,7 @@
 
         Loading = true;
 
-        ClearPlot();
+        ClearPlot(selectedchart);
 
         foreach (var item in selectlist.items)
         {
@@ -365,7 +367,7 @@
         Loading = false;
     }
 
-    void GraphItem(string type, string fieldname, bool left = true, bool displayerror = true,
+    async void GraphItem(string type, string fieldname, bool left = true, bool displayerror = true,
         bool isexpression = false)
     {
         log.InfoFormat("GraphItem: {0} {1}", type, fieldname);
@@ -381,20 +383,30 @@
 
             log.Info("Graphing " + type + " - " + fieldname);
 
-            ThreadPool.QueueUserWorkItem(o =>
+            //ThreadPool.QueueUserWorkItem(async o =>
             {
                 try
                 {
                     List<string> time = new List<string>();
                     List<string> field = new List<string>();
-                    cb.GetEnumeratorType(type).Where(a =>
+                    log.Info("start "+type + "." + fieldname);
+                    LoadingStatus = "Gathering "+type + "." + fieldname;
+                    var count = 0;
+                    foreach (var a in cb.GetEnumeratorType(type))
                     {
                         time.Add(a.time.ToString("o"));
                         field.Add(a[fieldname]);
-                        return false;
-                    }).ToList();
+                        count++;
+                        if (DateTime.Now.Millisecond % 100 == 0)
+                        {
+                            Loading = true;
+                            log.Debug(type + "." + fieldname + " " + count);
+                            await Task.Delay(1);
+                        }
+                    }
+                    log.Info("end " +type + "." + fieldname);
 
-                    JSRuntime.InvokeAsync<object>("plotData", new object[]
+                    await JSRuntime.InvokeAsync<object>("plotData", new object[]
                     {
                         selectedchart,
                         new
@@ -404,12 +416,16 @@
                             y = field
                         }.ToJSON()
                                     });
+                    log.Info("end2 " +type + "." + fieldname);
+
+                    Loading = false;
                 }
                 catch (Exception ex)
                 {
                     CustomMessageBox.Show("Failed to graph item: " + ex.Message, Strings.ERROR);
                 }
-            });
+            }
+            //);
         }
         else
         {
@@ -417,7 +433,7 @@
 
             var data = list1.Select(a => new { time = a.Item1.time.ToString("o"), field = a.Item2 }).ToList();
 
-            JSRuntime.InvokeAsync<object>("plotData", new object[]
+            await JSRuntime.InvokeAsync<object>("plotData", new object[]
             {
                 selectedchart,
                 new
@@ -488,7 +504,7 @@
         Checkdflog();
 
         setLastGraph(selectedchart);
-            
+
         log.Debug("DataFlash OnAfterRenderAsync Done");
     }
     protected override bool ShouldRender()
@@ -676,7 +692,7 @@ StringToSign = VERB + "\n" +
 
     public void addNewGraph()
     {
-        graphs.Add("graph" + a++);        
+        graphs.Add("graph" + a++);
     }
 
     public async void PlotItem(string type, string item, bool checked1)
@@ -724,9 +740,23 @@ StringToSign = VERB + "\n" +
 
     }
 
+    public async void ClearCesium()
+    {
+        await JSRuntime.InvokeAsync<object>("evalline", new object[] { "  viewer.entities.removeAll(); " });
+    }
+
     public async Task ReadFile()
     {
         log.Info("ReadFile start");
+
+        foreach (var item in graphs)
+        {
+            ClearPlot(item);
+        }
+        ClearPlot("div3");
+
+        ClearCesium();
+
         LoadingStatus = "Reading File";
         Loading = true;
 
@@ -751,16 +781,20 @@ StringToSign = VERB + "\n" +
     {
         log.Info("ProcessStream: " + memoryStream.Position + " - " + memoryStream.Length);
         LoadingStatus = "Processing File";
+        await Task.Delay(1);
         // cleanup old
         paramaCache = null;
 
         cb = new CollectionBuffer(memoryStream);
 
         LoadingStatus = "File loaded extracting data";
+        await Task.Delay(1);
 
         foreach (var msg in cb.GetEnumeratorType("MSG"))
         {
             log.Debug(msg.msgtype + " " + cb[msg.lineno]);
+
+
         }
 
         // ensure myTable exists in the DOM
@@ -770,6 +804,8 @@ StringToSign = VERB + "\n" +
         retrieve: true,
         serverSide: false
     } );" });
+
+
 
         plotly linelat = new plotly("GPS.Lat");
         plotly linelng = new plotly("GPS.Lng");
@@ -787,10 +823,15 @@ StringToSign = VERB + "\n" +
         var ATTdata = Enumerable.Repeat(new { time = DateTime.MinValue.ToString("o"), Roll = "", DesRoll = "", Pitch = "", DesPitch = "", Yaw = "", DesYaw = "" }, 0).ToList();
 
         LoadingStatus = "Extracting GPS and ATT";
-
+        await Task.Delay(1);
         log.Debug("parse GPS and ATT");
         foreach (var msg in cb.GetEnumeratorType(new[] { "GPS", "ATT" }))
         {
+            if (DateTime.Now.Millisecond % 100 == 0)
+            {
+                await Task.Delay(1);
+            }
+
             if (msg.msgtype == "ATT")
             {
                 ATTdata.Add(new { time = msg.time.ToString("o"), Roll = msg["Roll"], DesRoll = msg["DesRoll"], Pitch = msg["Pitch"], DesPitch = msg["DesPitch"], Yaw = msg["Yaw"], DesYaw = msg["DesYaw"] });
@@ -820,6 +861,11 @@ StringToSign = VERB + "\n" +
             }
         }
 
+        log.Debug("ATTdata length: " + ATTdata.Count);
+
+        LoadingStatus = "Extracting MODE and RCIN";
+        await Task.Delay(1);
+
         log.Debug("About to Modedata");
         // Modes - TimeUS,Mode,ModeNum,Rsn
         var Modedata = cb.GetEnumeratorType("MODE").Select(a => new[] { a.time.ToString("o"), a["Mode"] }).ToList();
@@ -831,69 +877,83 @@ StringToSign = VERB + "\n" +
         var manual_control_setpoints = cb.GetEnumeratorType("RCIN").Select(a => new object[]
         {
             a.time.ToString("o"),
-            MathHelper.mapConstrained(double.Parse(a["C1"]), 1000, 2000, -1, 1),
             MathHelper.mapConstrained(double.Parse(a["C2"]), 1000, 2000, -1, 1),
+            MathHelper.mapConstrained(double.Parse(a["C1"]), 1000, 2000, -1, 1) * -1,
             MathHelper.mapConstrained(double.Parse(a["C3"]), 1000, 2000, -1, 1),
             MathHelper.mapConstrained(double.Parse(a["C4"]), 1000, 2000, -1, 1)
                         }).ToList();
 
         await JSRuntime.InvokeAsync<object>("evalline", new object[] { "manual_control_setpoints = " + manual_control_setpoints.ToJSON() });
 
-
-
-
-        log.Debug("About to PLOT");
-
-        await JSRuntime.InvokeAsync<object>("plotData", new object[] { "graph1", linealt.getJSON() });
-        // await JSRuntime.InvokeAsync<object>("plotData", new object[] { "div2", linemap.getJSON() });
-        await JSRuntime.InvokeAsync<object>("plotData", new object[] { "div3", scatter3d.getJSON() });
-
-        await JSRuntime.InvokeAsync<object>("plotData", new object[]
+        var attjson = new object[]
         {
             "graph2",
 
             new
             {
                 name = "ATT.Roll",
-                x = ATTdata.Select(a => a.time).ToList(),
-                y = ATTdata.Select(a => a.Roll).ToList()
+                x = ATTdata.Select(a => a.time),
+                y = ATTdata.Select(a => a.Roll)
             }.ToJSON(),
             new
             {
                 name = "ATT.DesRoll",
-                x = ATTdata.Select(a => a.time).ToList(),
-                y = ATTdata.Select(a => a.DesRoll).ToList()
+                x = ATTdata.Select(a => a.time),
+                y = ATTdata.Select(a => a.DesRoll)
             }.ToJSON(),
             new
             {
                 name = "ATT.Pitch",
-                x = ATTdata.Select(a => a.time).ToList(),
-                y = ATTdata.Select(a => a.Pitch).ToList()
+                x = ATTdata.Select(a => a.time),
+                y = ATTdata.Select(a => a.Pitch)
             }.ToJSON(),
             new
             {
                 name = "ATT.DesPitch",
-                x = ATTdata.Select(a => a.time).ToList(),
-                y = ATTdata.Select(a => a.DesPitch).ToList()
+                x = ATTdata.Select(a => a.time),
+                y = ATTdata.Select(a => a.DesPitch)
             }.ToJSON(),
             new
             {
                 name = "ATT.Yaw", yaxis = "y2",
-                x = ATTdata.Select(a => a.time).ToList(),
-                y = ATTdata.Select(a => a.Yaw).ToList()
+                x = ATTdata.Select(a => a.time),
+                y = ATTdata.Select(a => a.Yaw)
             }.ToJSON(),
             new
             {
                 name = "ATT.DesYaw", yaxis = "y2",
-                x = ATTdata.Select(a => a.time).ToList(),
-                y = ATTdata.Select(a => a.DesYaw).ToList()
+                x = ATTdata.Select(a => a.time),
+                y = ATTdata.Select(a => a.DesYaw)
             }.ToJSON()
-                        });
-        log.Debug("after plotData 1");
+        };
+
+        LoadingStatus = "About to plot";
+        await Task.Delay(1);
+        log.Debug("About to PLOT graph1");
+        await JSRuntime.InvokeAsync<object>("plotData", new object[] { "graph1", linealt.getJSON() });
+        log.Debug("About to PLOT div3");
+        // await JSRuntime.InvokeAsync<object>("plotData", new object[] { "div2", linemap.getJSON() });
+        await JSRuntime.InvokeAsync<object>("plotData", new object[] { "div3", scatter3d.getJSON() });
+        log.Debug("About to PLOT attjson");
+        await JSRuntime.InvokeAsync<object>("plotData", attjson);
+
+        log.Debug("after plotData");
+
+        var msgno = 1;
+        Func<int, int> offsetcalc = (no) => { return (no % 200) * -10; };
+
+        var msgplot = "Plotly.relayout("+selectedchart+", " +
+            new {
+                annotations = cb.GetEnumeratorType("MSG").Select(a => new { text= a["Message"], x = a.time.ToString("o") , y = 0, opacity = 0.5, xref='x', yref='y', showarrow = true, align = "center", ax = 0, ay = offsetcalc(msgno++) }).ToList()
+            }.ToJSON()
+            + ")";
+
+        await JSRuntime.InvokeAsync<object>("evalline", new object[] { msgplot });
 
         try
         {
             LoadingStatus = "Creating GPS track with attitude data";
+            await Task.Delay(1);
 
             var time = linelat.root.x.GetEnumerator();
             var x = scatter3d.root.x.GetEnumerator();
@@ -1337,6 +1397,7 @@ updateMaterial();
             _loadingStatus = value;
             log.Debug(value);
             StateHasChanged();
+
         }
     }
 

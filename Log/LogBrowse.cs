@@ -1209,7 +1209,7 @@ namespace MissionPlanner.Log
                         if (item.items.Length <= index)
                             continue;
 
-                        string mode = "Err: " + ((DFLog.error_subsystem) int.Parse(item.items[index].ToString())) +
+                        string mode = "Err: " + ((DFLog.LogErrorSubsystem) int.Parse(item.items[index].ToString())) +
                                       "-" +
                                       item.items[index2].ToString().Trim();
                         if (top)
@@ -1289,7 +1289,7 @@ namespace MissionPlanner.Log
                         if (item.items.Length <= index)
                             continue;
 
-                        string mode = "EV: " + ((DFLog.events) int.Parse(item.items[index].ToString()));
+                        string mode = "EV: " + ((DFLog.Log_Event) int.Parse(item.items[index].ToString()));
                         if (top)
                         {
                             var temp = new TextObj(mode, b, zg1.GraphPane.YAxis.Scale.Max, CoordType.AxisXYScale,
