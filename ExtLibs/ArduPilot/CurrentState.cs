@@ -552,6 +552,7 @@ namespace MissionPlanner
         float _airspeed;
         float _groundspeed;
         float _verticalspeed;
+        float _verticalspeed_fpm;
 
         [DisplayText("Vertical Speed (speed)")]
         public float verticalspeed
@@ -564,6 +565,20 @@ namespace MissionPlanner
             set { _verticalspeed = _verticalspeed * 0.4f + value * 0.6f; }
         }
 
+        [DisplayText("Vertical Speed (fpm)")]
+        public double verticalspeed_fpm
+        {
+            get
+            {
+                return vz * -3.28084;
+            }
+        }
+
+        [DisplayText("Glide Ratio")]
+        public double glide_ratio
+        {
+            get { var hor = Math.Sqrt(vx * vx + vy * vy); return hor / vz; }
+        }
 
         //nav state
         [DisplayText("Roll Target (deg)")]
