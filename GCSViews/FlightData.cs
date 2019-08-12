@@ -263,6 +263,7 @@ namespace MissionPlanner.GCSViews
                 list.Add("MISSION_START");
                 list.Add("PREFLIGHT_REBOOT_SHUTDOWN");
                 list.Add("Trigger Camera NOW");
+                list.Add("SYSTEM_TIME");
                 //DO_SET_SERVO
                 //DO_REPEAT_SERVO
             }
@@ -1958,6 +1959,22 @@ namespace MissionPlanner.GCSViews
             catch
             {
                 CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+                return;
+            }
+
+            if (CMB_action.Text == "SYSTEM_TIME")
+            {
+                var now = DateTime.UtcNow;
+                var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+                ulong time_unix_us = Convert.ToUInt64((now - epoch).TotalMilliseconds * 1000);
+                try
+                {
+                    MainV2.comPort.sendPacket(new MAVLink.mavlink_system_time_t() { time_unix_usec = time_unix_us, time_boot_ms = 0 }, MainV2.comPort.sysidcurrent, MainV2.comPort.compidcurrent);
+                }
+                catch
+                {
+                    CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+                }
                 return;
             }
 
