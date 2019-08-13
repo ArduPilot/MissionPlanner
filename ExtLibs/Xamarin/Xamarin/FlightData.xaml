@@ -21,7 +21,7 @@
        
 
             <controls:HUD Grid.Column="0" Grid.Row="0" x:Name="Hud" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" ></controls:HUD>
-                <controls:AGauge Grid.Column="0" Grid.Row="1" x:Name="AGauge" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" ></controls:AGauge>
+        
 
             <GMap:GMapControl Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" x:Name="GMapControl" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"></GMap:GMapControl>
             </Grid>

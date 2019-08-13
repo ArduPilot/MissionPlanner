@@ -89,7 +89,11 @@ namespace Xamarin
             string NoText = "No")
         {
             var ans = MainPage.DisplayAlert(caption, text, "OK", "Cancel");
-            return CustomMessageBox.DialogResult.OK;
+            ans.Wait();
+            if(ans.Result)
+                return CustomMessageBox.DialogResult.OK;
+
+            return CustomMessageBox.DialogResult.Cancel;
         }
 
         private IProgressReporterDialogue CreateIProgressReporterDialogue(string title)

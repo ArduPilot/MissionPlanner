@@ -27,7 +27,7 @@
     <ProjectReference Include="..\..\Comms\MissionPlanner.Comms.csproj" />
     <ProjectReference Include="..\..\GMap.NET.Core\GMap.NET.Core.csproj" />
     <ProjectReference Include="..\..\Mavlink\MAVLink.csproj" />
-    <ProjectReference Include="..\..\UAVCAN\UAVCAN.csproj" />
+    <ProjectReference Include="..\..\Strings\MissionPlanner.Strings.csproj" />
     <ProjectReference Include="..\..\Utilities\MissionPlanner.Utilities.csproj" />
   </ItemGroup>
 
@@ -72,6 +72,9 @@
     <EmbeddedResource Update="Controls\HUDT.zh-Hans.resx">
       <Generator></Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\Firmware.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="MasterDetailPage1Detail.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -79,7 +82,7 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
+      <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>

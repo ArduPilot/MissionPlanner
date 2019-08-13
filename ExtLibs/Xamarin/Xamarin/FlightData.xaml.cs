@@ -55,7 +55,7 @@ namespace Xamarin
         {
             InitializeComponent();
 
-            AGauge.BackgroundImage = Image.FromStream(new MemoryStream(Properties.Resources.guagebg));
+            //AGauge.BackgroundImage = Image.FromStream(new MemoryStream(Properties.Resources.guagebg));
 
             GMap.NET.GMaps.Instance.PrimaryCache = new MissionPlanner.Maps.MyImageCache();
 
@@ -222,7 +222,7 @@ namespace Xamarin
 
             e.Surface.Canvas.Flush();
 
-            AGauge.Value++;
+            //AGauge.Value++;
         }
         private void SkglView_OnTouch(object sender, SKTouchEventArgs e)
         {
