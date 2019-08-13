@@ -2795,9 +2795,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         }
 
         public MAV_MISSION_RESULT setWP(Locationwp loc, ushort index, MAV_FRAME frame, byte current = 0,
-            byte autocontinue = 1, bool use_int = false)
+            byte autocontinue = 1, bool use_int = false, MAV_MISSION_TYPE mission_type = MAV_MISSION_TYPE.MISSION)
         {
-            return setWP(MAV.sysid, MAV.compid, loc, index, frame, current, autocontinue, use_int);
+            return setWP(MAV.sysid, MAV.compid, loc, index, frame, current, autocontinue, use_int, mission_type);
         }
 
         /// <summary>
@@ -2808,7 +2808,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         /// <param name="frame">global or relative</param>
         /// <param name="current">0 = no , 2 = guided mode</param>
         public MAV_MISSION_RESULT setWP(byte sysid, byte compid, Locationwp loc, ushort index, MAV_FRAME frame, byte current = 0,
-            byte autocontinue = 1, bool use_int = false)
+            byte autocontinue = 1, bool use_int = false, MAV_MISSION_TYPE mission_type = MAV_MISSION_TYPE.MISSION)
         {
             if (use_int)
             {
@@ -2821,6 +2821,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                 req.current = current;
                 req.autocontinue = autocontinue;
+
+                req.mission_type = (byte)mission_type;
 
                 req.frame = (byte) frame;
                 if (loc.id == (ushort)MAV_CMD.DO_DIGICAM_CONTROL || loc.id == (ushort)MAV_CMD.DO_DIGICAM_CONFIGURE)
@@ -2855,6 +2857,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                 req.current = current;
                 req.autocontinue = autocontinue;
+
+                req.mission_type = (byte)mission_type;
 
                 req.frame = (byte)frame;
                 req.y = (float)(loc.lng);

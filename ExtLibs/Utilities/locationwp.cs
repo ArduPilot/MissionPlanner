@@ -17,6 +17,7 @@ namespace MissionPlanner.Utilities
             this.lng = lng;
             this.alt = (float)alt;
             this.id = id;
+            this.frame = 3;
 
             return this;
         }
@@ -44,7 +45,7 @@ namespace MissionPlanner.Utilities
                 lng = input.lon_int / 1e7,
                 alt = input.alt,
                 _seq = 0,
-                _frame = input.coordinate_frame
+                frame = input.coordinate_frame
             };
 
             return temp;
@@ -63,7 +64,7 @@ namespace MissionPlanner.Utilities
                 lng = input.y,
                 alt = input.z,
                 _seq = input.seq,
-                _frame = input.frame
+                frame = input.frame
             };
 
             return temp;
@@ -82,7 +83,7 @@ namespace MissionPlanner.Utilities
                 lng = input.y / 1.0e7,
                 alt = input.z,
                 _seq = input.seq,
-                _frame = input.frame
+                frame = input.frame
             };
 
             return temp;
@@ -101,7 +102,7 @@ namespace MissionPlanner.Utilities
                 lng = input.coordinate[1],
                 alt = (float)input.coordinate[2],
                 _seq = (ushort)input.doJumpId,
-                _frame = (byte)input.frame
+                frame = (byte)input.frame
             };
 
             return temp;
@@ -115,7 +116,7 @@ namespace MissionPlanner.Utilities
                 @params = new List<double>(new double[] { input.p1,input.p2,input.p3,input.p4}),
                 coordinate = new List<double>(new double[] { input.lat, input.lng, input.alt }),
                 doJumpId = input._seq,
-                frame = input._frame
+                frame = input.frame
             };
 
             return temp;
@@ -136,7 +137,7 @@ namespace MissionPlanner.Utilities
                     y = (int)(cmd.lng * 1.0e7),
                     z = (float) cmd.alt,
                     seq = cmd._seq,
-                    frame = cmd._frame
+                    frame = cmd.frame
                 };
 
                 return temp;
@@ -154,7 +155,7 @@ namespace MissionPlanner.Utilities
                     y = (float) cmd.lng,
                     z = (float) cmd.alt,
                     seq = cmd._seq,
-                    frame = cmd._frame
+                    frame = cmd.frame
                 };
 
                 return temp;
@@ -162,7 +163,7 @@ namespace MissionPlanner.Utilities
         }
 
         private ushort _seq;
-        private byte _frame;
+        public byte frame;
         public object Tag;
 
         public ushort id;				// command id
