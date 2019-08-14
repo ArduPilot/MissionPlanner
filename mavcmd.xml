@@ -685,6 +685,15 @@
       <Y></Y>
       <Z></Z>
     </CONDITION_YAW>
+    <DELAY>
+      <P1>Seconds (or -1)</P1>
+      <P2>Hour UTC (or -1)</P2>
+      <P3>Minute UTC (or -1)</P3>
+      <P4>Second UTC</P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DELAY>
     <DO_GRIPPER>
       <P1>Gripper No</P1>
       <P2>drop(0)/grab(1)</P2>
