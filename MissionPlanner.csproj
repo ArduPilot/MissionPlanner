@@ -435,8 +435,6 @@
     </Compile>
     <Compile Include="Grid\camerainfo.cs" />
     <Compile Include="Grid\GridData.cs" />
-    <Compile Include="Joystick\Extensions.cs" />
-    <Compile Include="Joystick\MyJoystickState.cs" />
     <Compile Include="L10N.cs" />
     <Compile Include="MagCalib.cs" />
     <Compile Include="MainV2.cs">
@@ -852,7 +850,6 @@
     <Compile Include="Grid\GridUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Joystick\Joystick.cs" />
     <Compile Include="Joystick\JoystickSetup.cs">
       <SubType>Form</SubType>
     </Compile>

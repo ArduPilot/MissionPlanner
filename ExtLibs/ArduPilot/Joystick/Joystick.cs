@@ -4,6 +4,7 @@ using System.Collections;
 using log4net;
 using System.Reflection;
 using System.IO;
+using System.Threading;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Utilities;
 using SharpDX.DirectInput;
@@ -147,6 +148,8 @@ namespace MissionPlanner.Joystick
 
         private Func<MAVLinkInterface> _Interface;
 
+        private SynchronizationContext _context;
+
         private MAVLinkInterface Interface
         {
             get { return _Interface(); }
@@ -155,6 +158,12 @@ namespace MissionPlanner.Joystick
         public Joystick(Func<MAVLinkInterface> currentInterface)
         {
             this._Interface = currentInterface;
+
+            this._context = SynchronizationContext.Current;
+            if (_context == null)
+            {
+                _context = new SynchronizationContext();
+            }
 
             for (int a = 0; a < JoyButtons.Length; a++)
                 JoyButtons[a].buttonno = -1;
@@ -183,15 +192,23 @@ namespace MissionPlanner.Joystick
             }
         }
 
-        public void loadconfig(string joystickconfigbutton = "joystickbuttons.xml",
-            string joystickconfigaxis = "joystickaxis.xml")
+        public void loadconfig(string joystickconfigbuttonin = "joystickbuttons.xml",
+            string joystickconfigaxisin = "joystickaxis.xml")
         {
-            log.Info("Loading joystick config files " + joystickconfigbutton + " " + joystickconfigaxis);
+            log.Info("Loading joystick config files " + joystickconfigbuttonin + " " + joystickconfigaxisin);
 
             // save for later
-            this.joystickconfigbutton = Settings.GetUserDataDirectory() + joystickconfigbutton;
-            this.joystickconfigaxis = Settings.GetUserDataDirectory() + joystickconfigaxis;
-
+            if (File.Exists(joystickconfigaxisin))
+            {
+                this.joystickconfigbutton = joystickconfigbuttonin;
+                this.joystickconfigaxis = joystickconfigaxisin;
+            }
+            else
+            {
+                this.joystickconfigbutton = Settings.GetUserDataDirectory() + joystickconfigbutton;
+                this.joystickconfigaxis = Settings.GetUserDataDirectory() + joystickconfigaxis;
+            }
+            
             // load config
             if (File.Exists(this.joystickconfigbutton) && File.Exists(this.joystickconfigaxis))
             {
@@ -635,8 +652,8 @@ namespace MissionPlanner.Joystick
                 {
                     log.Error(ex);
                     clearRCOverride();
-                    MainV2.instance.Invoke((System.Action)
-                        delegate { CustomMessageBox.Show("Lost Joystick", "Lost Joystick"); });
+                    _context.Send(
+                        delegate { CustomMessageBox.Show("Lost Joystick", "Lost Joystick"); }, null);
                     return;
                 }
                 catch (Exception ex)
@@ -750,7 +767,7 @@ namespace MissionPlanner.Joystick
                         string mode = but.mode;
                         if (mode != null)
                         {
-                            MainV2.instance.BeginInvoke((System.Action) delegate()
+                            _context.Send(delegate
                             {
                                 try
                                 {
@@ -760,12 +777,11 @@ namespace MissionPlanner.Joystick
                                 {
                                     CustomMessageBox.Show("Failed to change Modes");
                                 }
-                            });
+                            }, null);
                         }
                         break;
                     case buttonfunction.Mount_Mode:
-
-                        MainV2.instance.BeginInvoke((System.Action) delegate()
+                        _context.Send( delegate
                         {
                             try
                             {
@@ -775,12 +791,12 @@ namespace MissionPlanner.Joystick
                             {
                                 CustomMessageBox.Show("Failed to change mount mode");
                             }
-                        });
+                        }, null);
 
                         break;
 
                     case buttonfunction.Arm:
-                        MainV2.instance.BeginInvoke((System.Action) delegate()
+                        _context.Send( delegate
                         {
                             try
                             {
@@ -790,10 +806,10 @@ namespace MissionPlanner.Joystick
                             {
                                 CustomMessageBox.Show("Failed to Arm");
                             }
-                        });
+                        }, null);
                         break;
                     case buttonfunction.TakeOff:
-                        MainV2.instance.BeginInvoke((System.Action) delegate()
+                        _context.Send( delegate
                         {
                             try
                             {
@@ -811,10 +827,10 @@ namespace MissionPlanner.Joystick
                             {
                                 CustomMessageBox.Show("Failed to takeoff");
                             }
-                        });
+                        }, null);
                         break;
                     case buttonfunction.Disarm:
-                        MainV2.instance.BeginInvoke((System.Action) delegate()
+                        _context.Send( delegate
                         {
                             try
                             {
@@ -824,10 +840,10 @@ namespace MissionPlanner.Joystick
                             {
                                 CustomMessageBox.Show("Failed to Disarm");
                             }
-                        });
+                        }, null);
                         break;
                     case buttonfunction.Do_Set_Relay:
-                        MainV2.instance.BeginInvoke((System.Action) delegate()
+                        _context.Send( delegate
                         {
                             try
                             {
@@ -839,13 +855,13 @@ namespace MissionPlanner.Joystick
                             {
                                 CustomMessageBox.Show("Failed to DO_SET_RELAY");
                             }
-                        });
+                        }, null);
                         break;
                     case buttonfunction.Digicam_Control:
                         Interface.setDigicamControl(true);
                         break;
                     case buttonfunction.Do_Repeat_Relay:
-                        MainV2.instance.BeginInvoke((System.Action) delegate()
+                        _context.Send( delegate
                         {
                             try
                             {
@@ -859,10 +875,10 @@ namespace MissionPlanner.Joystick
                             {
                                 CustomMessageBox.Show("Failed to DO_REPEAT_RELAY");
                             }
-                        });
+                        }, null);
                         break;
                     case buttonfunction.Do_Set_Servo:
-                        MainV2.instance.BeginInvoke((System.Action) delegate()
+                        _context.Send( delegate
                         {
                             try
                             {
@@ -874,10 +890,10 @@ namespace MissionPlanner.Joystick
                             {
                                 CustomMessageBox.Show("Failed to DO_SET_SERVO");
                             }
-                        });
+                        }, null);
                         break;
                     case buttonfunction.Do_Repeat_Servo:
-                        MainV2.instance.BeginInvoke((System.Action) delegate()
+                        _context.Send( delegate
                         {
                             try
                             {
@@ -892,10 +908,10 @@ namespace MissionPlanner.Joystick
                             {
                                 CustomMessageBox.Show("Failed to DO_REPEAT_SERVO");
                             }
-                        });
+                        }, null);
                         break;
                     case buttonfunction.Toggle_Pan_Stab:
-                        MainV2.instance.BeginInvoke((System.Action) delegate()
+                        _context.Send( delegate
                         {
                             try
                             {
@@ -907,10 +923,10 @@ namespace MissionPlanner.Joystick
                             {
                                 CustomMessageBox.Show("Failed to Toggle_Pan_Stab");
                             }
-                        });
+                        }, null);
                         break;
                     case buttonfunction.Gimbal_pnt_track:
-                        MainV2.instance.BeginInvoke((System.Action) delegate()
+                        _context.Send( delegate
                         {
                             try
                             {
@@ -922,10 +938,10 @@ namespace MissionPlanner.Joystick
                             {
                                 CustomMessageBox.Show("Failed to Gimbal_pnt_track");
                             }
-                        });
+                        }, null);
                         break;
                     case buttonfunction.Mount_Control_0:
-                        MainV2.instance.BeginInvoke((System.Action) delegate()
+                        _context.Send( delegate
                         {
                             try
                             {
@@ -935,10 +951,10 @@ namespace MissionPlanner.Joystick
                             {
                                 CustomMessageBox.Show("Failed to Mount_Control_0");
                             }
-                        });
+                        }, null);
                         break;
                     case buttonfunction.Button_axis0:
-                        MainV2.instance.BeginInvoke((System.Action) delegate()
+                        _context.Send( delegate
                         {
                             try
                             {
@@ -954,10 +970,10 @@ namespace MissionPlanner.Joystick
                             {
                                 CustomMessageBox.Show("Failed to Button_axis0");
                             }
-                        });
+                        }, null);
                         break;
                     case buttonfunction.Button_axis1:
-                        MainV2.instance.BeginInvoke((System.Action) delegate()
+                        _context.Send( delegate
                         {
                             try
                             {
@@ -973,7 +989,7 @@ namespace MissionPlanner.Joystick
                             {
                                 CustomMessageBox.Show("Failed to Button_axis1");
                             }
-                        });
+                        }, null);
                         break;
                 }
             }
