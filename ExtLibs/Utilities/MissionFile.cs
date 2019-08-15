@@ -52,7 +52,7 @@ namespace MissionPlanner.Utilities
                     }
 
                     Locationwp temp = new Locationwp();
-                    temp.frame = int.Parse(items[2], CultureInfo.InvariantCulture);
+                    temp.frame = (byte)int.Parse(items[2], CultureInfo.InvariantCulture);
                     if (items[2] == "3")
                     {
                         // abs MAV_FRAME_GLOBAL_RELATIVE_ALT=3

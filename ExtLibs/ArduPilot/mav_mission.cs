@@ -26,7 +26,7 @@ namespace MissionPlanner.ArduPilot
                 port.setWPTotal((ushort)commandlist.Count);
 
                 // process commandlist to the mav
-                for (a = 0; a <= commandlist.Count; a++)
+                for (a = 0; a < commandlist.Count; a++)
                 {
                     var temp = commandlist[a];
 
