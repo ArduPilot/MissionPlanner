@@ -100,39 +100,51 @@ namespace MissionPlanner.ArduPilot
                              command == (ushort)MAVLink.MAV_CMD.LOITER_TURNS ||
                              command == (ushort)MAVLink.MAV_CMD.LOITER_UNLIM)
                     {
-                        pointlist.Add(new PointLatLngAlt(item.lat, item.lng,
-                            item.alt + gethomealt(item.lat, item.lng), (a + 1).ToString())
+                        if (item.lat == 0 && item.lng == 0)
                         {
-                            color = Color.LightBlue
-                        });
-
-                        // exit at tangent
-                        if (item.p4 == 1)
-                        {
-                            var from = pointlist.Last();
-                            var to = itemnext.lat != 0 && itemnext.lng != 0
-                                ? new PointLatLngAlt(itemnext) {Alt = itemnext.alt + gethomealt(item.lat, item.lng)}
-                                : from;
-
-                            var bearing = from.GetBearing(to);
-                            var dist = from.GetDistance(to);
-
-                            if (dist > loiterradius)
+                            // loiter at current location.
+                            if (fullpointlist.Count >= 1)
                             {
-                                fullpointlist.Add(pointlist[pointlist.Count - 1]);
-                                var offset = from.newpos(bearing + 90, loiterradius);
-                                fullpointlist.Add(offset);
-                            }
-                            else
-                            {
-                                fullpointlist.Add(pointlist[pointlist.Count - 1]);
+                                var lastpnt = fullpointlist[fullpointlist.Count - 1];
+                                //addpolygonmarker((a + 1).ToString(), lastpnt.Lng, lastpnt.Lat,item.alt, Color.LightBlue, loiterradius);
                             }
                         }
                         else
-                            fullpointlist.Add(pointlist[pointlist.Count - 1]);
+                        {
+                            pointlist.Add(new PointLatLngAlt(item.lat, item.lng,
+                                item.alt + gethomealt(item.lat, item.lng), (a + 1).ToString())
+                            {
+                                color = Color.LightBlue
+                            });
 
-                        addpolygonmarker((a + 1).ToString(), item.lng, item.lat,
-                            item.alt, Color.LightBlue, loiterradius);
+                            // exit at tangent
+                            if (item.p4 == 1)
+                            {
+                                var from = pointlist.Last();
+                                var to = itemnext.lat != 0 && itemnext.lng != 0
+                                    ? new PointLatLngAlt(itemnext) { Alt = itemnext.alt + gethomealt(item.lat, item.lng) }
+                                    : from;
+
+                                var bearing = from.GetBearing(to);
+                                var dist = from.GetDistance(to);
+
+                                if (dist > loiterradius)
+                                {
+                                    fullpointlist.Add(pointlist[pointlist.Count - 1]);
+                                    var offset = from.newpos(bearing + 90, loiterradius);
+                                    fullpointlist.Add(offset);
+                                }
+                                else
+                                {
+                                    fullpointlist.Add(pointlist[pointlist.Count - 1]);
+                                }
+                            }
+                            else
+                                fullpointlist.Add(pointlist[pointlist.Count - 1]);
+
+                            addpolygonmarker((a + 1).ToString(), item.lng, item.lat,
+                                item.alt, Color.LightBlue, loiterradius);
+                        }
                     }
                     else if (command == (ushort)MAVLink.MAV_CMD.SPLINE_WAYPOINT)
                     {
