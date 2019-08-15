@@ -84,20 +84,23 @@ namespace MissionPlanner.Utilities
                         if (index >= 0)
                         {
                             _timems = int.Parse(raw[index].ToString());
+                            return _timems;
                         }
                         index = parent.FindMessageOffset(items[0], "TimeUS");
                         if (index >= 0)
                         {
                             _timems = (int)(long.Parse(raw[index].ToString()) / 1000);
+                            return _timems;
                         }
                         index = parent.FindMessageOffset(msgtype, "T");
                         if (index >= 0)
                         {
                             _timems = int.Parse(raw[index].ToString());
+                            return _timems;
                         }
                     }
 
-                    return timems;
+                    return _timems;
                 }
             }
 
