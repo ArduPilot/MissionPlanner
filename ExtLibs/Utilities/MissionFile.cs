@@ -3,12 +3,99 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
+using log4net;
 using Newtonsoft.Json;
 
 namespace MissionPlanner.Utilities
 {
+    public class WaypointFile
+    {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        public static List<Locationwp> ReadWaypointFile(string file)
+        {
+            int wp_count = 0;
+            bool error = false;
+            List<Locationwp> cmds = new List<Locationwp>();
+            StreamReader sr = new StreamReader(file);
+            string header = sr.ReadLine();
+            if (header == null || !header.Contains("QGC WPL"))
+            {
+                CustomMessageBox.Show("Invalid Waypoint file");
+                return cmds;
+            }
+
+            while (!error && !sr.EndOfStream)
+            {
+                string line = sr.ReadLine();
+                // waypoints
+
+                if (line.StartsWith("#"))
+                    continue;
+
+                //seq/cur/frame/mode
+                string[] items = line.Split(new[] { '\t', ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+                if (items.Length <= 9)
+                    continue;
+
+                try
+                {
+                    // check to see if the first wp is index 0/home.
+                    // if it is not index 0, add a blank home point
+                    if (wp_count == 0 && items[0] != "0")
+                    {
+                        cmds.Add(new Locationwp());
+                    }
+
+                    Locationwp temp = new Locationwp();
+                    temp.frame = int.Parse(items[2], CultureInfo.InvariantCulture);
+                    if (items[2] == "3")
+                    {
+                        // abs MAV_FRAME_GLOBAL_RELATIVE_ALT=3
+                        temp.options = 1;
+                    }
+                    else if (items[2] == "10")
+                    {
+                        temp.options = 8;
+                    }
+                    else
+                    {
+                        temp.options = 0;
+                    }
+
+                    temp.id = (ushort)Enum.Parse(typeof(MAVLink.MAV_CMD), items[3], false);
+                    temp.p1 = float.Parse(items[4], CultureInfo.InvariantCulture);
+
+                    if (temp.id == 99)
+                        temp.id = 0;
+
+                    temp.alt = (float)(double.Parse(items[10], CultureInfo.InvariantCulture));
+                    temp.lat = (double.Parse(items[8], CultureInfo.InvariantCulture));
+                    temp.lng = (double.Parse(items[9], CultureInfo.InvariantCulture));
+
+                    temp.p2 = (float)(double.Parse(items[5], CultureInfo.InvariantCulture));
+                    temp.p3 = (float)(double.Parse(items[6], CultureInfo.InvariantCulture));
+                    temp.p4 = (float)(double.Parse(items[7], CultureInfo.InvariantCulture));
+
+                    cmds.Add(temp);
+
+                    wp_count++;
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                    CustomMessageBox.Show("Line invalid\n" + line);
+                }
+            }
+
+            sr.Close();
+            return cmds;
+        }
+    }
     public class MissionFile
     {
         public static RootObject ReadFile(string filename)

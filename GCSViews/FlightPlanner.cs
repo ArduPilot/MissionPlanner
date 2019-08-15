@@ -2712,83 +2712,11 @@ namespace MissionPlanner.GCSViews
 
         public void readQGC110wpfile(string file, bool append = false)
         {
-            int wp_count = 0;
-            bool error = false;
-            List<Locationwp> cmds = new List<Locationwp>();
+       
 
             try
             {
-                StreamReader sr = new StreamReader(file); //"defines.h"
-                string header = sr.ReadLine();
-                if (header == null || !header.Contains("QGC WPL"))
-                {
-                    CustomMessageBox.Show("Invalid Waypoint file");
-                    return;
-                }
-
-                while (!error && !sr.EndOfStream)
-                {
-                    string line = sr.ReadLine();
-                    // waypoints
-
-                    if (line.StartsWith("#"))
-                        continue;
-
-                    //seq/cur/frame/mode
-                    string[] items = line.Split(new[] {'\t', ' ', ','}, StringSplitOptions.RemoveEmptyEntries);
-
-                    if (items.Length <= 9)
-                        continue;
-
-                    try
-                    {
-                        // check to see if the first wp is index 0/home.
-                        // if it is not index 0, add a blank home point
-                        if (wp_count == 0 && items[0] != "0")
-                        {
-                            cmds.Add(new Locationwp());
-                        }
-
-                        Locationwp temp = new Locationwp();
-                        if (items[2] == "3")
-                        {
-                            // abs MAV_FRAME_GLOBAL_RELATIVE_ALT=3
-                            temp.options = 1;
-                        }
-                        else if (items[2] == "10")
-                        {
-                            temp.options = 8;
-                        }
-                        else
-                        {
-                            temp.options = 0;
-                        }
-                        temp.id = (ushort)Enum.Parse(typeof (MAVLink.MAV_CMD), items[3], false);
-                        temp.p1 = float.Parse(items[4], new CultureInfo("en-US"));
-
-                        if (temp.id == 99)
-                            temp.id = 0;
-
-                        temp.alt = (float) (double.Parse(items[10], new CultureInfo("en-US")));
-                        temp.lat = (double.Parse(items[8], new CultureInfo("en-US")));
-                        temp.lng = (double.Parse(items[9], new CultureInfo("en-US")));
-
-                        temp.p2 = (float) (double.Parse(items[5], new CultureInfo("en-US")));
-                        temp.p3 = (float) (double.Parse(items[6], new CultureInfo("en-US")));
-                        temp.p4 = (float) (double.Parse(items[7], new CultureInfo("en-US")));
-
-                        cmds.Add(temp);
-
-                        wp_count++;
-                    }
-                    catch (Exception ex)
-                    {
-                        log.Error(ex);
-                        CustomMessageBox.Show("Line invalid\n" + line);
-                    }
-                }
-
-                sr.Close();
+                var cmds = WaypointFile.ReadWaypointFile(file);
 
                 processToScreen(cmds, append);
 
@@ -2801,6 +2729,7 @@ namespace MissionPlanner.GCSViews
                 CustomMessageBox.Show("Can't open file! " + ex);
             }
         }
+
 
         private void trackBar1_ValueChanged(object sender, EventArgs e)
         {
