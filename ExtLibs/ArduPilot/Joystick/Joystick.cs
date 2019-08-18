@@ -205,8 +205,8 @@ namespace MissionPlanner.Joystick
             }
             else
             {
-                this.joystickconfigbutton = Settings.GetUserDataDirectory() + joystickconfigbutton;
-                this.joystickconfigaxis = Settings.GetUserDataDirectory() + joystickconfigaxis;
+                this.joystickconfigbutton = Settings.GetUserDataDirectory() + joystickconfigbuttonin;
+                this.joystickconfigaxis = Settings.GetUserDataDirectory() + joystickconfigaxisin;
             }
             
             // load config

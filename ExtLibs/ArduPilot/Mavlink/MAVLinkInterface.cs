@@ -798,7 +798,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         /// </summary>
         /// <param name="messageType">type number = MAVLINK_MSG_ID</param>
         /// <param name="indata">struct of data</param>
-        internal void generatePacket(int messageType, object indata, int sysid, int compid, bool forcemavlink2 = false, bool forcesigning = false)
+        public void generatePacket(int messageType, object indata, int sysid, int compid, bool forcemavlink2 = false, bool forcesigning = false)
         {
             if (BaseStream == null || !BaseStream.IsOpen)
             {
@@ -3431,6 +3431,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
             if (translateMode(sysid, compid, modein, ref mode))
             {
+                log.Info("setMode " + modein + " (" + mode.custom_mode + ")");
                 setMode(sysid, compid, mode);
             }
         }
