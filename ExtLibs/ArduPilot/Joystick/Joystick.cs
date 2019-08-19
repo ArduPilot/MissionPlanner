@@ -1133,6 +1133,9 @@ namespace MissionPlanner.Joystick
 
         public bool isButtonPressed(int buttonno)
         {
+            if (state == null)
+                return false;
+
             var buts = state.GetButtons();
 
             if (buts == null || JoyButtons[buttonno].buttonno < 0)
