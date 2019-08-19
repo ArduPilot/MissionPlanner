@@ -32,9 +32,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 var ans = devid.ToString();
 
-                var gr = CreateGraphics();
+                //var gr = CreateGraphics();
 
-                gr.DrawString(dev.Name + " " + ans, Font, new SolidBrush(ForeColor), 5, 5 + b * 25);
+                var lbl = new Label() {Text = dev.Name + " " + ans, AutoSize = true, Location = new Point(5, 5 + b * 25)};
+                Controls.Add(lbl);
+
+                //gr.DrawString(dev.Name + " " + ans, Font, new SolidBrush(ForeColor), 5, 5 + b * 25);
 
                 b++;
             }
