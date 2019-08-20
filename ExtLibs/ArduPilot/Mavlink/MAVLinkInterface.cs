@@ -135,7 +135,7 @@ namespace MissionPlanner
         /// <summary>
         /// progress form to handle connect and param requests
         /// </summary>
-        IProgressReporterDialogue frmProgressReporter;
+        public IProgressReporterDialogue frmProgressReporter;
 
         /// <summary>
         /// used for outbound packet sending
