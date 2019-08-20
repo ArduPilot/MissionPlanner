@@ -89,11 +89,20 @@ System.ComponentModel.Description("draw text under Bar")]
                 {
                     ans = base.Maximum;
                 }
-                base.Value = ans;
-                //drawlbl();
-                base.Value = ans - 1;
-                //drawlbl();
-                base.Value = ans;
+
+                // To get around this animation, we need to move the progress bar backwards.
+                if (ans == Maximum)
+                {
+                    // Special case (can't set value > Maximum).
+                    base.Value = ans;           // Set the value
+                    base.Value = ans - 1;       // Move it backwards
+                }
+                else
+                {
+                    base.Value = ans + 1;       // Move past
+                }
+                base.Value = ans;               // Move to correct value
+
                 drawlbl();
 
                 if (this.Parent != null && ctladded == false)
