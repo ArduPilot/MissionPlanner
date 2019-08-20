@@ -110,6 +110,8 @@ namespace MissionPlanner.Controls
                     msgidnode.Text = msgidheader;
 
                 var minfo = MAVLink.MAVLINK_MESSAGE_INFOS.GetMessageInfo(mavLinkMessage.msgid);
+                if (minfo.@type == null)
+                    continue;
 
                 foreach (var field in minfo.type.GetFields())
                 {
