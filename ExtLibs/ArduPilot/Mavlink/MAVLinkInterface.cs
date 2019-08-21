@@ -1541,7 +1541,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             log.Info("GetParam name: '" + name + "' or index: " + index + " " + sysid + ":" + compid);
 
             MAVLinkMessage buffer;
-
+            giveComport = true;
             mavlink_param_request_read_t req = new mavlink_param_request_read_t();
             req.target_system = sysid;
             req.target_component = compid;
@@ -1558,10 +1558,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
             if (!requireresponce)
             {
+                giveComport = false;
                 return 0f;
             }
-
-            giveComport = true;
 
             DateTime start = DateTime.Now;
             int retrys = 3;
@@ -2605,7 +2604,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         if (datin.sig != null)
                             sig = Convert.ToBase64String(datin.sig);
 
-                        textoutput = textoutput + delimeter + "sig " + sig + delimeter + "Len" + delimeter + datin.Length + "\r\n";
+                        textoutput = textoutput + delimeter + "sig " + sig + delimeter + "Len" + delimeter + datin.Length + delimeter +"crc16" + delimeter+ datin.crc16 + "\r\n";
                         if (PrintToConsole)
                             Console.Write(textoutput);
 
