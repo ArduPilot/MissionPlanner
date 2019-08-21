@@ -2628,7 +2628,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         /// </summary>
         /// <param name="startwp"></param>
         /// <param name="endwp"></param>
-        public void setWPPartialUpdate(ushort startwp, ushort endwp)
+        public void setWPPartialUpdate(ushort startwp, ushort endwp, MAV_MISSION_TYPE type = MAV_MISSION_TYPE.MISSION)
         {
             mavlink_mission_write_partial_list_t req = new mavlink_mission_write_partial_list_t();
 
@@ -2637,6 +2637,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
             req.start_index = (short) startwp;
             req.end_index = (short) endwp;
+            req.mission_type = (byte)type;
 
             generatePacket((byte) MAVLINK_MSG_ID.MISSION_WRITE_PARTIAL_LIST, req);
         }

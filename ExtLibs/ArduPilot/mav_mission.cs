@@ -40,7 +40,7 @@ namespace MissionPlanner.ArduPilot
                     if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ERROR)
                     {
                         // resend for partial upload
-                        port.setWPPartialUpdate((ushort)(uploadwpno), (ushort)commandlist.Count);
+                        port.setWPPartialUpdate((ushort)(uploadwpno), (ushort)commandlist.Count, type);
                         // reupload this point.
                         ans = port.setWP(temp, (ushort)(uploadwpno), frame, 0, 1, use_int, type);
                     }
@@ -52,7 +52,7 @@ namespace MissionPlanner.ArduPilot
                     if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_INVALID)
                     {
                         throw new Exception(
-                            "Upload failed, mission was rejected byt the Mav,\n item had a bad option wp# " + a + " " +
+                            "Upload failed, mission was rejected by the Mav,\n item had a bad option wp# " + a + " " +
                             ans);
                     }
                     if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_INVALID_SEQUENCE)
@@ -63,7 +63,16 @@ namespace MissionPlanner.ArduPilot
                         // the ans is received via mission_ack, so we dont know for certain what our current request is for. as we may have lost the mission_request
 
                         // get requested wp no - 1;
-                        a = port.getRequestedWPNo() - 1;
+                        try
+                        {
+                            a = port.getRequestedWPNo() - 1;
+                        }
+                        catch
+                        {
+                            // resend for partial upload
+                            port.setWPPartialUpdate((ushort)(uploadwpno), (ushort)commandlist.Count, type);
+                            // reupload this point.
+                        }
 
                         continue;
                     }
