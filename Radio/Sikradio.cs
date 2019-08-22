@@ -181,7 +181,7 @@ S15: MAX_WINDOW=131
         {
             if (custom)
             {
-                return getFirmwareLocal(device == Uploader.Board.DEVICE_ID_RFD900X);
+                return getFirmwareLocal((device == Uploader.Board.DEVICE_ID_RFD900X) || (device == Uploader.Board.DEVICE_ID_RFD900UX));
             }
 
             if (device == Uploader.Board.DEVICE_ID_HM_TRP)

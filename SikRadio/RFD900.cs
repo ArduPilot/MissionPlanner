@@ -1561,6 +1561,8 @@ namespace RFD.RFD900
             return SearchBinary(FilePath, new string[] { "HastaLaVistaBaby" });
         }
 
+        protected abstract string GetRefFirmwareResourcePath();
+
         /// <summary>
         /// Unpack the reference firmware embedded into this exe into a temp file and return
         /// the path to that file.
@@ -1572,7 +1574,7 @@ namespace RFD.RFD900
             var assembly = Assembly.GetExecutingAssembly();
             //var resourceName = "RFD900Tools.Properties.Resources.resources.RFDSiK_V3.00_rfd900x.bin";
             //var resourceName = "RFD900Tools.Resources.RFDSiK V3.00 rfd900x.bin";
-            var resourceName = "RFD900Tools.Resources.RFDSiK V3.01 rfd900x.bin";
+            var resourceName = GetRefFirmwareResourcePath();
 
             var Names = assembly.GetManifestResourceNames();
             Console.WriteLine(Names.ToString());
@@ -1784,6 +1786,11 @@ namespace RFD.RFD900
 
         }
 
+        protected override string GetRefFirmwareResourcePath()
+        {
+            return "RFD900Tools.Resources.RFDSiK V3.01 rfd900x.bin";
+        }
+
         protected override string[] GetFirmwareSearchTokens()
         {
             return new string[] { "RFD900x", "RFD900X" };
@@ -1804,6 +1811,11 @@ namespace RFD.RFD900
             : base(Session)
         {
 
+        }
+
+        protected override string GetRefFirmwareResourcePath()
+        {
+            return "RFD900Tools.Resources.RFDSiK V3.08 rfd900ux.bin";
         }
 
         public override Uploader.Board Board

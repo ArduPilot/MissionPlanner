@@ -312,6 +312,7 @@
     </None>
     <EmbeddedResource Include="Resources\RFDSiK V3.00 rfd900x.bin" />
     <EmbeddedResource Include="Resources\RFDSiK V3.01 rfd900x.bin" />
+    <EmbeddedResource Include="Resources\RFDSiK V3.08 rfd900ux.bin" />
     <None Include="Resources\Sik.psd" />
   </ItemGroup>
   <ItemGroup>
