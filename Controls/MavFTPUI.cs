@@ -418,7 +418,7 @@ namespace MissionPlanner.Controls
             }
         }
 
-        private async void DownloadBurstToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DownloadBurstToolStripMenuItem_Click(object sender, EventArgs e)
         {
             foreach (ListViewItem listView1SelectedItem in listView1.SelectedItems)
             {
