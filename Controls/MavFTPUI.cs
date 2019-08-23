@@ -34,7 +34,19 @@ namespace MissionPlanner.Controls
             _mavftp = new MAVFtp(_mav, (byte) _mav.sysidcurrent, (byte) mav.compidcurrent);
             _mavftp.Progress += (percent) =>
             {
-                this.BeginInvokeIfRequired(() => { toolStripProgressBar1.Value = percent; statusStrip1.Refresh(); });
+                if (toolStripProgressBar1.Value == percent)
+                    return;
+
+                if (this.IsDisposed)
+                {
+                    _mavftp = null;
+                    return;
+                }
+
+                this.BeginInvokeIfRequired(() => {
+                    toolStripProgressBar1.Value = percent;
+                    statusStrip1.Refresh();
+                });
             };
             InitializeComponent();
 
@@ -247,12 +259,12 @@ namespace MissionPlanner.Controls
                         cancel.Cancel();
                         _mavftp.kCmdResetSessions();
                     };
-                    prd.doWorkArgs.ForceExit = true;
+                    prd.doWorkArgs.ForceExit = false;
                     _mavftp.Progress += i => prd.UpdateProgressAndStatus(i, toolStripStatusLabel1.Text);
 
                     prd.DoWork += (iprd) =>
                     {
-                        var ms = _mavftp.GetFile(path, false);
+                        var ms = _mavftp.GetFile(path, cancel, false);
                         if (cancel.IsCancellationRequested)
                         {
                             iprd.doWorkArgs.CancelAcknowledged = true;
@@ -262,6 +274,7 @@ namespace MissionPlanner.Controls
 
                         File.WriteAllBytes(sfd.FileName, ms.ToArray());
 
+                        prd.UpdateProgressAndStatus(-1, "Calc CRC");
                         uint crc = 0;
                         _mavftp.kCmdCalcFileCRC32(path, ref crc);
                         var crc32a = MAVFtp.crc_crc32(0, File.ReadAllBytes(sfd.FileName));
@@ -309,19 +322,21 @@ namespace MissionPlanner.Controls
                 cancel.Cancel();
                 _mavftp.kCmdResetSessions();
             };
-            prd.doWorkArgs.ForceExit = true;
+            prd.doWorkArgs.ForceExit = false;
 
             _mavftp.Progress += i => prd.UpdateProgressAndStatus(i, toolStripStatusLabel1.Text);
 
             prd.DoWork += (iprd) =>
             {
-                _mavftp.UploadFile(fn, ofdFileName);
+                _mavftp.UploadFile(fn, ofdFileName, cancel);
                 if (cancel.IsCancellationRequested)
                 {
                     iprd.doWorkArgs.CancelAcknowledged = true;
                     iprd.doWorkArgs.CancelRequested = true;
                     return;
                 }
+
+                prd.UpdateProgressAndStatus(-1, "Calc CRC");
                 uint crc = 0;
                 _mavftp.kCmdCalcFileCRC32(fn, ref crc);
                 var crc32a = MAVFtp.crc_crc32(0, File.ReadAllBytes(ofdFileName));
@@ -439,12 +454,12 @@ namespace MissionPlanner.Controls
                         cancel.Cancel();
                         _mavftp.kCmdResetSessions();
                     };
-                    prd.doWorkArgs.ForceExit = true;
+                    prd.doWorkArgs.ForceExit = false;
                     _mavftp.Progress += i => prd.UpdateProgressAndStatus(i, toolStripStatusLabel1.Text);
 
                     prd.DoWork += (iprd) =>
                     {
-                        var ms = _mavftp.GetFile(path);
+                        var ms = _mavftp.GetFile(path, cancel);
                         if (cancel.IsCancellationRequested)
                         {
                             iprd.doWorkArgs.CancelAcknowledged = true;
@@ -453,6 +468,7 @@ namespace MissionPlanner.Controls
                         }
                         File.WriteAllBytes(sfd.FileName, ms.ToArray());
 
+                        prd.UpdateProgressAndStatus(-1, "Calc CRC");
                         uint crc = 0;
                         _mavftp.kCmdCalcFileCRC32(path, ref crc);
                         var crc32a = MAVFtp.crc_crc32(0, File.ReadAllBytes(sfd.FileName));

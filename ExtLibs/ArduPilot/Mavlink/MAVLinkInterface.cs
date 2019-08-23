@@ -4274,6 +4274,15 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 Subscriptions.Remove(ans.First());
             }
         }
+        public void UnSubscribeToPacketType(MAVLINK_MSG_ID msgtype)
+        {
+            lock (Subscriptions)
+            {
+                log.Debug("UnSubscribeToPacketType " + msgtype);
+                var ans = Subscriptions.Where(a => { return a.Key == msgtype; });
+                Subscriptions.Remove(ans.First());
+            }
+        }
 
         /// <summary>
         /// Used to extract mission from log file - both sent or received

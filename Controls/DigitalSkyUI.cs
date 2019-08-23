@@ -271,7 +271,7 @@ namespace MissionPlanner.Controls
             MAVFtp ftp = new MAVFtp(MainV2.comPort, (byte) MainV2.comPort.sysidcurrent,
                 (byte) MainV2.comPort.compidcurrent);
 
-            ftp.UploadFile(id + ".xml", destlocalfile);
+            ftp.UploadFile(id + ".xml", destlocalfile, null);
 
             ftp = null;
         }

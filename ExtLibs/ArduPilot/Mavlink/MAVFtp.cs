@@ -549,25 +549,25 @@ namespace MissionPlanner.ArduPilot.Mavlink
             return answer;
         }
 
-        public MemoryStream GetFile(string file, bool burst = true)
+        public MemoryStream GetFile(string file, CancellationTokenSource cancel, bool burst = true)
         {
             kCmdOpenFileRO(file, out var size);
             if (size == -1)
                 return null;
             MemoryStream answer;
             if (!burst)
-                answer = kCmdReadFile(file, size);
+                answer = kCmdReadFile(file, size, cancel);
             else
-                answer = kCmdBurstReadFile(file, size);
+                answer = kCmdBurstReadFile(file, size, cancel);
             kCmdResetSessions();
             return answer;
         }
 
-        public void UploadFile(string file, string srcfile)
+        public void UploadFile(string file, string srcfile, CancellationTokenSource cancel)
         {
             var size = 0;
             kCmdOpenFileWO(file, ref size);
-            kCmdWriteFile(srcfile);
+            kCmdWriteFile(srcfile, cancel);
             kCmdResetSessions();
         }
 
@@ -664,20 +664,20 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 }
             }
 
-            kCmdWriteFile("test.txt");
+            kCmdWriteFile("test.txt", null);
             kCmdResetSessions();
             uint crc = 0;
             kCmdCalcFileCRC32("/testdir/test.txt", ref crc);
 
             kCmdOpenFileRO("/testdir/test.txt", out size);
 
-            var file1 = kCmdReadFile("/testdir/test.txt", size);
+            var file1 = kCmdReadFile("/testdir/test.txt", size, null);
 
             kCmdResetSessions();
 
             kCmdOpenFileRO("/testdir/test.txt", out size);
 
-            var file2 = kCmdBurstReadFile("/testdir/test.txt", size);
+            var file2 = kCmdBurstReadFile("/testdir/test.txt", size, null);
 
             kCmdResetSessions();
 
@@ -714,7 +714,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             */
         }
 
-        public MemoryStream kCmdBurstReadFile(string file, int size)
+        public MemoryStream kCmdBurstReadFile(string file, int size, CancellationTokenSource cancel)
         {
             RetryTimeout timeout = new RetryTimeout();
             fileTransferProtocol.target_system = _sysid;
@@ -733,6 +733,11 @@ namespace MissionPlanner.ArduPilot.Mavlink
             MemoryStream answer = new MemoryStream();
             var sub = _mavint.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.FILE_TRANSFER_PROTOCOL, message =>
             {
+                if (cancel != null && cancel.IsCancellationRequested)
+                {
+                    timeout.RetriesCurrent = 999;
+                    return true;
+                }
                 var msg = (MAVLink.mavlink_file_transfer_protocol_t) message.data;
                 FTPPayloadHeader ftphead = msg.payload;
                 //log.Debug(ftphead);
@@ -811,7 +816,15 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
                 return true;
             });
-            timeout.WorkToDo = () => _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
+            timeout.WorkToDo = () =>
+            {
+                if (cancel != null && cancel.IsCancellationRequested)
+                {
+                    timeout.RetriesCurrent = 999;
+                    return;
+                }
+                _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
+            };
             timeout.DoWork();
 
             _mavint.UnSubscribeToPacketType(sub);
@@ -1223,7 +1236,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             return ans;
         }
 
-        public MemoryStream kCmdReadFile(string file, int size)
+        public MemoryStream kCmdReadFile(string file, int size, CancellationTokenSource cancel)
         {
             RetryTimeout timeout = new RetryTimeout();
             KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>> sub;
@@ -1239,6 +1252,11 @@ namespace MissionPlanner.ArduPilot.Mavlink
             MemoryStream answer = new MemoryStream();
             sub = _mavint.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.FILE_TRANSFER_PROTOCOL, message =>
             {
+                if (cancel != null && cancel.IsCancellationRequested)
+                {
+                    timeout.RetriesCurrent = 999;
+                    return true;
+                }
                 var msg = (MAVLink.mavlink_file_transfer_protocol_t) message.data;
                 FTPPayloadHeader ftphead = msg.payload;
                 // error at far end
@@ -1291,7 +1309,15 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
                 return true;
             });
-            timeout.WorkToDo = () => _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
+            timeout.WorkToDo = () =>
+            {
+                if (cancel != null && cancel.IsCancellationRequested)
+                {
+                    timeout.RetriesCurrent = 999;
+                    return;
+                }
+                _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
+            };
             timeout.DoWork();
             _mavint.UnSubscribeToPacketType(sub);
             answer.Position = 0;
@@ -1612,7 +1638,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             return ans;
         }
 
-        public bool kCmdWriteFile(string srcfile)
+        public bool kCmdWriteFile(string srcfile, CancellationTokenSource cancel)
         {
             RetryTimeout timeout = new RetryTimeout();
             KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>> sub;
@@ -1633,6 +1659,11 @@ namespace MissionPlanner.ArduPilot.Mavlink
                     return false;
                 sub = _mavint.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.FILE_TRANSFER_PROTOCOL, message =>
                 {
+                    if (cancel != null && cancel.IsCancellationRequested)
+                    {
+                        timeout.RetriesCurrent = 999;
+                        return true;
+                    }
                     var msg = (MAVLink.mavlink_file_transfer_protocol_t) message.data;
                     FTPPayloadHeader ftphead = msg.payload;
                     // error at far end
@@ -1686,7 +1717,15 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 //  package it
                 fileTransferProtocol.payload = payload;
                 // send it
-                timeout.WorkToDo = () => _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
+                timeout.WorkToDo = () =>
+                {
+                    if (cancel != null && cancel.IsCancellationRequested)
+                    {
+                        timeout.RetriesCurrent = 999;
+                        return;
+                    }
+                    _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
+                };
                 var ans = timeout.DoWork();
                 _mavint.UnSubscribeToPacketType(sub);
                 return ans;
