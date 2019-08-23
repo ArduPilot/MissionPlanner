@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Fri Jul 05 2019";
+    public const string MAVLINK_BUILD_DATE = "Fri Aug 23 2019";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -206,7 +206,7 @@ public partial class MAVLink
         new message_info(226, "RPM", 207, 8, 8, typeof( mavlink_rpm_t )),
         new message_info(230, "ESTIMATOR_STATUS", 163, 42, 42, typeof( mavlink_estimator_status_t )),
         new message_info(231, "WIND_COV", 105, 40, 40, typeof( mavlink_wind_cov_t )),
-        new message_info(232, "GPS_INPUT", 151, 63, 63, typeof( mavlink_gps_input_t )),
+        new message_info(232, "GPS_INPUT", 151, 63, 65, typeof( mavlink_gps_input_t )),
         new message_info(233, "GPS_RTCM_DATA", 35, 182, 182, typeof( mavlink_gps_rtcm_data_t )),
         new message_info(234, "HIGH_LATENCY", 150, 40, 40, typeof( mavlink_high_latency_t )),
         new message_info(241, "VIBRATION", 90, 32, 32, typeof( mavlink_vibration_t )),
@@ -1003,6 +1003,9 @@ public partial class MAVLink
         ///<summary> Update the bootloader |Empty| Empty| Empty| Empty| Magic number - set to 290876 to actually flash| Empty| Empty|  </summary>
         [Description("Update the bootloader")]
         FLASH_BOOTLOADER=42650, 
+        ///<summary> Reset battery capacity for batteries that accumulate consumed battery via integration. |to reset. Least significant bit is for the first battery.| Battery percentage remaining to set.| Reserved, send 0| Reserved, send 0| Reserved, send 0| Reserved, send 0| Reserved, send 0|  </summary>
+        [Description("Reset battery capacity for batteries that accumulate consumed battery via integration.")]
+        BATTERY_RESET=42651, 
     
     };
     
@@ -13051,11 +13054,11 @@ public partial class MAVLink
     };
 
 
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=63)]
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=65)]
     ///<summary> GPS sensor input message.  This is a raw sensor value sent by the GPS. This is NOT the global position estimate of the system. </summary>
     public struct mavlink_gps_input_t
     {
-        public mavlink_gps_input_t(ulong time_usec,uint time_week_ms,int lat,int lon,float alt,float hdop,float vdop,float vn,float ve,float vd,float speed_accuracy,float horiz_accuracy,float vert_accuracy,/*GPS_INPUT_IGNORE_FLAGS*/ushort ignore_flags,ushort time_week,byte gps_id,byte fix_type,byte satellites_visible) 
+        public mavlink_gps_input_t(ulong time_usec,uint time_week_ms,int lat,int lon,float alt,float hdop,float vdop,float vn,float ve,float vd,float speed_accuracy,float horiz_accuracy,float vert_accuracy,/*GPS_INPUT_IGNORE_FLAGS*/ushort ignore_flags,ushort time_week,byte gps_id,byte fix_type,byte satellites_visible,ushort yaw) 
         {
               this.time_usec = time_usec;
               this.time_week_ms = time_week_ms;
@@ -13075,6 +13078,7 @@ public partial class MAVLink
               this.gps_id = gps_id;
               this.fix_type = fix_type;
               this.satellites_visible = satellites_visible;
+              this.yaw = yaw;
             
         }
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
@@ -13149,6 +13153,10 @@ public partial class MAVLink
         [Units("")]
         [Description("Number of satellites visible.")]
         public  byte satellites_visible;
+            /// <summary>Yaw of vehicle, zero means not available, use 36000 for north  [cdeg] </summary>
+        [Units("[cdeg]")]
+        [Description("Yaw of vehicle, zero means not available, use 36000 for north")]
+        public  ushort yaw;
     
     };
 
