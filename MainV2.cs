@@ -551,10 +551,7 @@ namespace MissionPlanner
             log.Info("Mainv2 ctor");
 
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-
-            // set this before we reset it
-            Settings.Instance["NUM_tracklength"] = "200";
-
+            
             // create one here - but override on load
             Settings.Instance["guid"] = Guid.NewGuid().ToString();
 
@@ -773,7 +770,7 @@ namespace MissionPlanner
             // load saved
             if (Settings.Instance["showtfr"] != null)
             {
-                MainV2.ShowTFR = Settings.Instance.GetBoolean("showtfr");
+                MainV2.ShowTFR = Settings.Instance.GetBoolean("showtfr", ShowTFR);
             }
 
             if (Settings.Instance["enableadsb"] != null)

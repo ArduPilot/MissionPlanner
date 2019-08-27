@@ -123,7 +123,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             SetCheckboxFromConfig("ShowNoFly", chk_shownofly);
 
             // this can't fail because it set at startup
-            NUM_tracklength.Value = Settings.Instance.GetInt32("NUM_tracklength");
+            NUM_tracklength.Value = Settings.Instance.GetInt32("NUM_tracklength", 200);
 
             // get wps on connect
             SetCheckboxFromConfig("loadwpsonconnect", CHK_loadwponconnect);

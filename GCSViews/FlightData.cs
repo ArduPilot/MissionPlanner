@@ -1093,7 +1093,7 @@ namespace MissionPlanner.GCSViews
                     }
 
                     // update map
-                    if (tracklast.AddSeconds(1.2) < DateTime.Now)
+                    if (tracklast.AddSeconds(Settings.Instance.GetDouble("FD_MapUpdateDelay", 1.2)) < DateTime.Now)
                     {
                         // show disable joystick button
                         if (MainV2.joystick != null && MainV2.joystick.enabled)
@@ -1127,7 +1127,7 @@ namespace MissionPlanner.GCSViews
 
                         gMapControl1.HoldInvalidation = true;
 
-                        int numTrackLength = Settings.Instance.GetInt32("NUM_tracklength");
+                        int numTrackLength = Settings.Instance.GetInt32("NUM_tracklength", 200);
                         // maintain route history length
                         if (route.Points.Count > numTrackLength)
                         {
