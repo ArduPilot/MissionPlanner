@@ -1485,7 +1485,7 @@ namespace MissionPlanner.GCSViews
 
         private void updateClearRoutesMarkers()
         {
-            Invoke((MethodInvoker) delegate
+            Invoke((Action) delegate
             {
                 routes.Markers.Clear();
             });
@@ -1493,14 +1493,14 @@ namespace MissionPlanner.GCSViews
 
         private void setMapBearing()
         {
-            Invoke((MethodInvoker) delegate { gMapControl1.Bearing = (int)((MainV2.comPort.MAV.cs.yaw + 360) % 360); });
+            Invoke((Action) delegate { gMapControl1.Bearing = (int)((MainV2.comPort.MAV.cs.yaw + 360) % 360); });
         }
 
         // to prevent cross thread calls while in a draw and exception
         private void updateClearRoutes()
         {
             // not async
-            Invoke((MethodInvoker) delegate
+            Invoke((Action) delegate
             {
                 routes.Routes.Clear();
                 routes.Routes.Add(route);
@@ -1511,7 +1511,7 @@ namespace MissionPlanner.GCSViews
         private void updateClearMissionRouteMarkers()
         {
             // not async
-            Invoke((MethodInvoker) delegate
+            Invoke((Action) delegate
             {
                 polygons.Routes.Clear();
                 polygons.Markers.Clear();
@@ -1522,7 +1522,7 @@ namespace MissionPlanner.GCSViews
         private void updateRoutePosition()
         {
             // not async
-            Invoke((MethodInvoker) delegate
+            Invoke((Action) delegate
             {
                 gMapControl1.UpdateRouteLocalPosition(route);
             });
@@ -1531,7 +1531,7 @@ namespace MissionPlanner.GCSViews
         private void addMissionRouteMarker(GMapMarker marker)
         {
             // not async
-            Invoke((MethodInvoker)delegate
+            Invoke((Action)delegate
             {
                 routes.Markers.Add(marker);
             });
@@ -1540,7 +1540,7 @@ namespace MissionPlanner.GCSViews
         private void addMissionPhotoMarker(GMapMarker marker)
         {
             // not async
-            Invoke((MethodInvoker)delegate
+            Invoke((Action)delegate
             {
                 photosoverlay.Markers.Add(marker);
             });
@@ -1553,7 +1553,7 @@ namespace MissionPlanner.GCSViews
                 if (BUT_playlog.Text == "Pause")
                     return;
 
-                BeginInvoke((MethodInvoker) delegate
+                BeginInvoke((Action) delegate
                 {
                     try
                     {
@@ -1569,7 +1569,7 @@ namespace MissionPlanner.GCSViews
                 if (BUT_playlog.Text == "Play")
                     return;
 
-                BeginInvoke((MethodInvoker) delegate
+                BeginInvoke((Action) delegate
                 {
                     try
                     {
@@ -1674,7 +1674,7 @@ namespace MissionPlanner.GCSViews
 
         private void updateMapPosition(PointLatLng currentloc)
         {
-            Invoke((MethodInvoker) delegate
+            Invoke((Action) delegate
             {
                 try
                 {
@@ -1696,7 +1696,7 @@ namespace MissionPlanner.GCSViews
 
         private void updateMapZoom(int zoom)
         {
-            Invoke((MethodInvoker) delegate
+            Invoke((Action) delegate
             {
                 try
                 {
@@ -1710,7 +1710,7 @@ namespace MissionPlanner.GCSViews
 
         private void updateLogPlayPosition()
         {
-            BeginInvoke((MethodInvoker) delegate
+            BeginInvoke((Action) delegate
             {
                 try
                 {
@@ -1838,7 +1838,7 @@ namespace MissionPlanner.GCSViews
                 wppath.Points.Add(polygonPoints[a]);
             }
 
-            Invoke((MethodInvoker) delegate
+            Invoke((Action) delegate
             {
                 polygons.Routes.Add(homeroute);
                 polygons.Routes.Add(wppath);

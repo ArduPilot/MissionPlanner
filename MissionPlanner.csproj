@@ -441,9 +441,11 @@
       <DependentUpon>FirmwareSelection.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utilities\AltitudeAngel\MissionPlannerStateAdapter.cs" />
+    <Compile Include="Utilities\GimbalPoint.cs" />
     <Compile Include="Utilities\NativeLibrary.cs" />
     <Compile Include="Utilities\Speech.cs" />
     <Compile Include="Utilities\SSHTerminal.cs" />
+    <Compile Include="Utilities\Fence.cs" />
     <Compile Include="Utilities\XTermRBGColors.cs" />
     <Compile Include="Controls\GenOTP.cs">
       <SubType>Form</SubType>
@@ -960,13 +962,11 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Utilities\Firmware.cs" />
-    <Compile Include="Utilities\GimbalPoint.cs" />
     <Compile Include="Utilities\httpserver.cs" />
     <Compile Include="Utilities\LangUtility.cs" />
     <Compile Include="Utilities\LogAnalyzer.cs" />
     <Compile Include="Utilities\OpticalFlow.cs" />
     <Compile Include="Utilities\ParamFile.cs" />
-    <Compile Include="Utilities\Password.cs" />
     <Compile Include="Utilities\POI.cs" />
     <Compile Include="Utilities\StreamCombiner.cs" />
     <Compile Include="Utilities\StringRedirectWriter.cs" />

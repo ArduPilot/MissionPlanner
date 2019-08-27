@@ -17,6 +17,7 @@ using MissionPlanner.ArduPilot;
 using MissionPlanner.Comms;
 using MissionPlanner.Mavlink;
 using MissionPlanner.Utilities;
+using Newtonsoft.Json;
 using Timer = System.Timers.Timer;
 
 namespace MissionPlanner
@@ -1659,12 +1660,13 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             }
         }
 
-        public void setWPACK()
+        public void setWPACK(MAVLink.MAV_MISSION_TYPE type = MAV_MISSION_TYPE.MISSION)
         {
             mavlink_mission_ack_t req = new mavlink_mission_ack_t();
             req.target_system = MAV.sysid;
             req.target_component = MAV.compid;
             req.type = 0;
+            req.mission_type = (byte)type;
 
             generatePacket((byte) MAVLINK_MSG_ID.MISSION_ACK, req);
         }
@@ -2237,18 +2239,24 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             generatePacket((byte) MAVLINK_MSG_ID.REQUEST_DATA_STREAM, req, sysid, compid);
         }
 
+        public ushort getWPCount(MAVLink.MAV_MISSION_TYPE type = MAV_MISSION_TYPE.MISSION)
+        {
+            return getWPCount(MAV.sysid, MAV.compid, type);
+        }
+
         /// <summary>
         /// Returns WP count
         /// </summary>
         /// <returns></returns>
-        public ushort getWPCount()
+        public ushort getWPCount(byte sysid, byte compid, MAVLink.MAV_MISSION_TYPE type = MAV_MISSION_TYPE.MISSION)
         {
             giveComport = true;
             MAVLinkMessage buffer;
             mavlink_mission_request_list_t req = new mavlink_mission_request_list_t();
 
-            req.target_system = MAV.sysid;
-            req.target_component = MAV.compid;
+            req.target_system = sysid;
+            req.target_component = compid;
+            req.mission_type = (byte)type;
 
             // request list
             generatePacket((byte) MAVLINK_MSG_ID.MISSION_REQUEST_LIST, req);
@@ -2340,9 +2348,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             }
         }
 
-        public Locationwp getWP(ushort index)
+        public Locationwp getWP(ushort index, MAVLink.MAV_MISSION_TYPE type = MAV_MISSION_TYPE.MISSION)
         {
-            return getWP(MAV.sysid, MAV.compid, index);
+            return getWP(MAV.sysid, MAV.compid, index, type);
         }
 
         /// <summary>
@@ -2350,7 +2358,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         /// </summary>
         /// <param name="index"></param>
         /// <returns>WP</returns>
-        public Locationwp getWP(byte sysid, byte compid, ushort index)
+        public Locationwp getWP(byte sysid, byte compid, ushort index, MAVLink.MAV_MISSION_TYPE type = MAV_MISSION_TYPE.MISSION)
         {
             while (giveComport)
                 Thread.Sleep(100);
@@ -2365,6 +2373,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                 reqi.target_system = sysid;
                 reqi.target_component = compid;
+                reqi.mission_type = (byte)type;
 
                 reqi.seq = index;
                 
@@ -2379,6 +2388,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                 reqf.target_system = sysid;
                 reqf.target_component = compid;
+                reqf.mission_type = (byte)type;
 
                 reqf.seq = index;
 
@@ -2646,7 +2656,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         /// Sets wp total count
         /// </summary>
         /// <param name="wp_total"></param>
-        public void setWPTotal(ushort wp_total)
+        public void setWPTotal(ushort wp_total, MAVLink.MAV_MISSION_TYPE type = MAV_MISSION_TYPE.MISSION)
         {
             giveComport = true;
             mavlink_mission_count_t req = new mavlink_mission_count_t();
@@ -2655,7 +2665,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             req.target_component = MAV.compid; // MSG_NAMES.MISSION_COUNT
 
             req.count = wp_total;
+            req.mission_type = (byte)type;
 
+            log.Info("setWPTotal req MISSION_COUNT " + req.ToJSON(Formatting.None));
             generatePacket((byte) MAVLINK_MSG_ID.MISSION_COUNT, req);
 
             DateTime start = DateTime.Now;
@@ -3042,8 +3054,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
             ushort index = req.seq;
 
-            log.InfoFormat("setWPint {7}:{8} {6} frame {0} cmd {1} p1 {2} x {3} y {4} z {5}", req.frame, req.command, req.param1,
-                req.x / 1.0e7, req.y /1.0e7 , req.z, index, req.target_system, req.target_component);
+            log.Info("setWPint req MISSION_ITEM_INT " + req.ToJSON(Formatting.None));
+            //log.InfoFormat("setWPint {7}:{8} {6} frame {0} cmd {1} p1 {2} x {3} y {4} z {5}", req.frame, req.command, req.param1,
+              //  req.x / 1.0e7, req.y /1.0e7 , req.z, index, req.target_system, req.target_component);
 
             // request
             generatePacket((byte)MAVLINK_MSG_ID.MISSION_ITEM_INT, req);
@@ -3073,8 +3086,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     if (buffer.msgid == (byte)MAVLINK_MSG_ID.MISSION_ACK && buffer.sysid == req.target_system && buffer.compid == req.target_component)
                     {
                         var ans = buffer.ToStructure<mavlink_mission_ack_t>();
-                        log.Info("set wp " + index + " ACK 47 : " + buffer.msgid + " ans " +
-                                 Enum.Parse(typeof(MAV_MISSION_RESULT), ans.type.ToString()));
+                        log.Info("setWPint resp MISSION_ACK " + buffer.ToJSON(Formatting.None));
+                        //log.Info("set wp " + index + " ACK 47 : " + buffer.msgid + " ans " +
+                          //       Enum.Parse(typeof(MAV_MISSION_RESULT), ans.type.ToString()));
                         // check this gcs sent it
                         if (ans.target_system != gcssysid ||
                             ans.target_component != (byte)MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER)
@@ -3109,7 +3123,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                         if (ans.seq == (index + 1))
                         {
-                            log.Info("set wp doing " + index + " req " + ans.seq + " REQ 40 : " + buffer.msgid);
+                            log.Info("setWPint resp MISSION_REQUEST" + buffer.ToJSON(Formatting.None));
+                            //log.Info("set wp doing " + index + " req " + ans.seq + " REQ 40 : " + buffer.msgid);
                             giveComport = false;
 
                             if (req.current == 2)

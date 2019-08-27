@@ -15,13 +15,18 @@ namespace MissionPlanner.Utilities
 {
     public static class Extensions
     {
-        public static string ToJSON(this object msg)
+        public static string ToJSON(this object msg, Formatting fmt)
         {
-            return JsonConvert.SerializeObject(msg, Formatting.Indented, new JsonSerializerSettings()
+            return JsonConvert.SerializeObject(msg, fmt, new JsonSerializerSettings()
             {
                 Error =
                     (sender, args) => { args.ErrorContext.Handled = true; }
             });
+        }
+
+        public static string ToJSON(this object msg)
+        {
+            return msg.ToJSON(Formatting.Indented);
         }
 
         public static T FromJSON<T>(this string msg)
