@@ -171,7 +171,7 @@ namespace MissionPlanner.Utilities
                 get
                 {
                     var index = parent.FindMessageOffset(msgtype, item);
-                    if (index == -1)
+                    if (index == -1 || index >= items.Length)
                         return null;
                     return items[index];
                 }

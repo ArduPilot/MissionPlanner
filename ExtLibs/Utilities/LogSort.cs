@@ -21,18 +21,41 @@ namespace MissionPlanner.Log
                 if (masterdestdir == "")
                     masterdestdir = Path.GetDirectoryName(logfile);
 
-                FileInfo info;
-
                 try
                 {
-                    info = new FileInfo(logfile);
+                    FileInfo info;
 
-                    // delete 0 size files
-                    if (info.Length == 0)
+           
+                        info = new FileInfo(logfile);
+
+                        // delete 0 size files
+                        if (info.Length == 0)
+                        {
+                            try
+                            {
+                                File.Delete(logfile);
+                            }
+                            catch
+                            {
+                            }
+
+                            return;
+                        }
+
+                    // move small logs - most likerly invalid
+                    if (info.Length <= 1024)
                     {
                         try
                         {
-                            File.Delete(logfile);
+                            string destdir = masterdestdir + Path.DirectorySeparatorChar
+                                                           + "SMALL" + Path.DirectorySeparatorChar;
+
+                            if (!Directory.Exists(destdir))
+                                Directory.CreateDirectory(destdir);
+
+                            log.Info("Move log small " + logfile + " to " + destdir + Path.GetFileName(logfile));
+
+                            MoveFileUsingMask(logfile, destdir);
                         }
                         catch
                         {
@@ -40,45 +63,17 @@ namespace MissionPlanner.Log
 
                         return;
                     }
-                }
-                catch
-                {
-                    return;
-                }
 
-                // move small logs - most likerly invalid
-                if (info.Length <= 1024)
-                {
-                    try
-                    {
-                        string destdir = masterdestdir + Path.DirectorySeparatorChar
-                                                       + "SMALL" + Path.DirectorySeparatorChar;
+                    bool issitl = false;
+                    var sysid = 0;
+                    var compid = 0;
+                    var aptype = MAVLink.MAV_TYPE.GENERIC;
+                    var packetsseen = 0;
 
-                        if (!Directory.Exists(destdir))
-                            Directory.CreateDirectory(destdir);
-
-                        log.Info("Move log small " + logfile + " to " + destdir + Path.GetFileName(logfile));
-
-                        MoveFileUsingMask(logfile, destdir);
-                    }
-                    catch
-                    {
-                    }
-
-                    return;
-                }
-
-                bool issitl = false;
-                var sysid = 0;
-                var compid = 0;
-                var aptype = MAVLink.MAV_TYPE.GENERIC;
-
-                try
-                {
                     var parse = new MAVLink.MavlinkParse(true);
                     using (var binfile = File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read))
                     {
-                        var midpoint = binfile.Length / 2;
+                        var midpoint = binfile.Length / 8;
 
                         binfile.Seek(midpoint, SeekOrigin.Begin);
 
@@ -88,14 +83,22 @@ namespace MissionPlanner.Log
 
                         try
                         {
-                            while ((packet = parse.ReadPacket(binfile)) != null)
+                            var length = binfile.Length;
+                            while (binfile.Position < length)
                             {
+                                packet = parse.ReadPacket(binfile);
+                                // no gcs packets
+                                if (packet == null || packet.compid == 190)
+                                    continue;
+
                                 if (packet.msgid == (uint) MAVLink.MAVLINK_MSG_ID.SIMSTATE)
                                 {
+                                    packetsseen++;
                                     issitl = true;
                                 }
                                 else if (packet.msgid == (uint) MAVLink.MAVLINK_MSG_ID.HEARTBEAT)
                                 {
+                                    packetsseen++;
                                     hblist.Add(packet);
 
                                     var hb = (MAVLink.mavlink_heartbeat_t) packet.data;
@@ -106,21 +109,29 @@ namespace MissionPlanner.Log
                                     if (hblist.Count > 10)
                                         break;
                                 }
+                                else if (packet != MAVLink.MAVLinkMessage.Invalid)
+                                {
+                                    packetsseen++;
+                                    if (sysid == 0)
+                                        sysid = packet.sysid;
+                                    if(compid == 0)
+                                        compid = packet.compid;
+                                }
                             }
-                        }
-                        catch
-                        {
-                        }
+                        } catch (EndOfStreamException) { }
+                        catch { }
 
                         if (hblist.Count == 0)
                         {
+                            binfile.Close();
+
                             if (!Directory.Exists(masterdestdir + Path.DirectorySeparatorChar + "BAD"))
                                 Directory.CreateDirectory(masterdestdir + Path.DirectorySeparatorChar +
                                                           "BAD");
 
                             log.Info("Move log bad " + logfile + " to " + masterdestdir +
                                      Path.DirectorySeparatorChar + "BAD" + Path.DirectorySeparatorChar +
-                                     Path.GetFileName(logfile));
+                                     Path.GetFileName(logfile) + " " + info.Length);
 
                             MoveFileUsingMask(logfile,
                                 masterdestdir + Path.DirectorySeparatorChar + "BAD" +
@@ -129,19 +140,19 @@ namespace MissionPlanner.Log
                         }
 
                         // find most appropriate
-                        if (hblist.GroupBy(a=>a.sysid*256 + a.compid).ToArray().Length > 1)
+                        if (hblist.GroupBy(a => a.sysid * 256 + a.compid).ToArray().Length > 1)
                         {
                             foreach (var mav in hblist)
                             {
                                 var hb = (MAVLink.mavlink_heartbeat_t) mav.data;
-                                if (hb.type == (byte)MAVLink.MAV_TYPE.ANTENNA_TRACKER)
+                                if (hb.type == (byte) MAVLink.MAV_TYPE.ANTENNA_TRACKER)
                                     continue;
-                                if (hb.type == (byte)MAVLink.MAV_TYPE.GCS)
+                                if (hb.type == (byte) MAVLink.MAV_TYPE.GCS)
                                     continue;
 
                                 sysid = mav.sysid;
                                 compid = mav.compid;
-                                aptype = (MAVLink.MAV_TYPE)hb.type;
+                                aptype = (MAVLink.MAV_TYPE) hb.type;
                             }
                         }
 

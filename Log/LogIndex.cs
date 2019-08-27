@@ -240,7 +240,8 @@ namespace MissionPlanner.Log
                 }
             }
 
-            logs.Add(loginfo);
+            lock(logs)
+                logs.Add(loginfo);
         }
 
         static object locker = new object();
