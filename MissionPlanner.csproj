@@ -904,12 +904,10 @@
     <Compile Include="Log\LogIndex.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Log\LogSort.cs" />
     <Compile Include="Log\MatLabForms.cs" />
     <Compile Include="Log\MavlinkLog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Log\Scan.cs" />
     <Compile Include="NoFly\NoFly.cs" />
     <Compile Include="Plugin\Plugin.cs" />
     <Compile Include="Plugin\PluginLoader.cs" />

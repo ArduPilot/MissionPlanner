@@ -175,7 +175,6 @@
             // 
             // LogDownloadscp
             // 
-            
             resources.ApplyResources(this, "$this");
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "LogDownloadscp";

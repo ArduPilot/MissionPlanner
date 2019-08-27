@@ -1,0 +1,192 @@
+﻿using log4net;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
+using Core.ExtendedObjects;
+
+namespace MissionPlanner.Log
+{
+    public class LogSort
+    {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        public static void SortLogs(string[] logs, string masterdestdir = "")
+        {
+            Parallel.ForEach(logs, logfile =>
+                //foreach (var logfile in logs)
+            {
+                if (masterdestdir == "")
+                    masterdestdir = Path.GetDirectoryName(logfile);
+
+                FileInfo info;
+
+                try
+                {
+                    info = new FileInfo(logfile);
+
+                    // delete 0 size files
+                    if (info.Length == 0)
+                    {
+                        try
+                        {
+                            File.Delete(logfile);
+                        }
+                        catch
+                        {
+                        }
+
+                        return;
+                    }
+                }
+                catch
+                {
+                    return;
+                }
+
+                // move small logs - most likerly invalid
+                if (info.Length <= 1024)
+                {
+                    try
+                    {
+                        string destdir = masterdestdir + Path.DirectorySeparatorChar
+                                                       + "SMALL" + Path.DirectorySeparatorChar;
+
+                        if (!Directory.Exists(destdir))
+                            Directory.CreateDirectory(destdir);
+
+                        log.Info("Move log small " + logfile + " to " + destdir + Path.GetFileName(logfile));
+
+                        MoveFileUsingMask(logfile, destdir);
+                    }
+                    catch
+                    {
+                    }
+
+                    return;
+                }
+
+                bool issitl = false;
+                var sysid = 0;
+                var compid = 0;
+                var aptype = MAVLink.MAV_TYPE.GENERIC;
+
+                try
+                {
+                    var parse = new MAVLink.MavlinkParse(true);
+                    using (var binfile = File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read))
+                    {
+                        var midpoint = binfile.Length / 2;
+
+                        binfile.Seek(midpoint, SeekOrigin.Begin);
+
+                        MAVLink.MAVLinkMessage packet;
+
+                        List<MAVLink.MAVLinkMessage> hblist = new List<MAVLink.MAVLinkMessage>();
+
+                        try
+                        {
+                            while ((packet = parse.ReadPacket(binfile)) != null)
+                            {
+                                if (packet.msgid == (uint) MAVLink.MAVLINK_MSG_ID.SIMSTATE)
+                                {
+                                    issitl = true;
+                                }
+                                else if (packet.msgid == (uint) MAVLink.MAVLINK_MSG_ID.HEARTBEAT)
+                                {
+                                    hblist.Add(packet);
+
+                                    var hb = (MAVLink.mavlink_heartbeat_t) packet.data;
+                                    sysid = packet.sysid;
+                                    compid = packet.compid;
+                                    aptype = (MAVLink.MAV_TYPE) hb.type;
+
+                                    if (hblist.Count > 10)
+                                        break;
+                                }
+                            }
+                        }
+                        catch
+                        {
+                        }
+
+                        if (hblist.Count == 0)
+                        {
+                            if (!Directory.Exists(masterdestdir + Path.DirectorySeparatorChar + "BAD"))
+                                Directory.CreateDirectory(masterdestdir + Path.DirectorySeparatorChar +
+                                                          "BAD");
+
+                            log.Info("Move log bad " + logfile + " to " + masterdestdir +
+                                     Path.DirectorySeparatorChar + "BAD" + Path.DirectorySeparatorChar +
+                                     Path.GetFileName(logfile));
+
+                            MoveFileUsingMask(logfile,
+                                masterdestdir + Path.DirectorySeparatorChar + "BAD" +
+                                Path.DirectorySeparatorChar);
+                            return;
+                        }
+
+                        // find most appropriate
+                        if (hblist.GroupBy(a=>a.sysid*256 + a.compid).ToArray().Length > 1)
+                        {
+                            foreach (var mav in hblist)
+                            {
+                                var hb = (MAVLink.mavlink_heartbeat_t) mav.data;
+                                if (hb.type == (byte)MAVLink.MAV_TYPE.ANTENNA_TRACKER)
+                                    continue;
+                                if (hb.type == (byte)MAVLink.MAV_TYPE.GCS)
+                                    continue;
+
+                                sysid = mav.sysid;
+                                compid = mav.compid;
+                                aptype = (MAVLink.MAV_TYPE)hb.type;
+                            }
+                        }
+
+                        binfile.Close();
+
+                        string destdir = masterdestdir + Path.DirectorySeparatorChar
+                                                       + aptype.ToString() + Path.DirectorySeparatorChar
+                                                       + sysid + Path.DirectorySeparatorChar;
+
+                        if (issitl)
+                        {
+                            destdir = masterdestdir + Path.DirectorySeparatorChar
+                                                    + "SITL" + Path.DirectorySeparatorChar
+                                                    + aptype.ToString() + Path.DirectorySeparatorChar
+                                                    + sysid + Path.DirectorySeparatorChar;
+                        }
+
+                        if (!Directory.Exists(destdir))
+                            Directory.CreateDirectory(destdir);
+
+                        MoveFileUsingMask(logfile, destdir);
+                    }
+                }
+                catch
+                {
+                    return;
+                }
+            });
+        }
+
+        static void MoveFileUsingMask(string logfile, string destdir)
+        {
+            string dir = Path.GetDirectoryName(logfile);
+            string filter = Path.GetFileNameWithoutExtension(logfile) + "*";
+
+            string[] files = Directory.GetFiles(dir, filter);
+            foreach (var file in files)
+            {
+                log.Info("Move log " + file + " to " + destdir + Path.GetFileName(file));
+
+                if (file == destdir + Path.GetFileName(file))
+                    continue;
+
+                File.Move(file, destdir + Path.GetFileName(file));
+            }
+        }
+    }
+}
