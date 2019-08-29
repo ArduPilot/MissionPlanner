@@ -81,6 +81,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 CMB_batmonsensortype.SelectedIndex = 5;
             }
+            else if (TXT_AMP_PERVLT.Text == (24).ToString() && TXT_divider_VOLT_MULT.Text == (12.02).ToString())
+            {
+                CMB_batmonsensortype.SelectedIndex = 6;
+            }
+            else if (TXT_AMP_PERVLT.Text == (39.877).ToString() && TXT_divider_VOLT_MULT.Text == (12.02).ToString())
+            {
+                CMB_batmonsensortype.SelectedIndex = 7;
+            }
             else if (TXT_AMP_PERVLT.Text == (24).ToString() && TXT_divider_VOLT_MULT.Text == (18).ToString())
             {
                 CMB_batmonsensortype.SelectedIndex = 8;
@@ -222,7 +230,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         TXT_divider_VOLT_MULT.Enabled = true;
                     }
 
-                    MainV2.comPort.setParam("BATT_MONITOR", selection);
+                    if (MainV2.comPort.MAV.param.ContainsKey("BATT_MONITOR") &&
+                        MainV2.comPort.MAV.param["BATT_MONITOR"].Value == 0 &&
+                        selection != 0)
+                    {
+                        MainV2.comPort.setParam("BATT_MONITOR", selection);
+                        MainV2.comPort.getParamList();
+                        this.Activate();
+                    }
+                    else
+                    {
+                        MainV2.comPort.setParam("BATT_MONITOR", selection);
+                    }
                 }
             }
             catch
