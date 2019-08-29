@@ -185,11 +185,20 @@ namespace MissionPlanner.Utilities
                         font = "";
                 }
 
-
-                st.WriteLine(@"<div class='" + ctl.GetType() + " " + ctl.Name + @"' " +
-                             "style='" + font + fontsize + fontcol + bgcol +
-                             "overflow:hidden;position: absolute; top: " + (y + ctl.Location.Y) + "; left: " +
-                             (x + ctl.Location.X) + ";width:" + ctl.Width + ";height:" + ctl.Height + ";' >");
+                if (ctl.AutoSize == false)
+                {
+                    st.WriteLine(@"<div class='" + ctl.GetType() + " " + ctl.Name + @"' " +
+                                 "style='" + font + fontsize + fontcol + bgcol +
+                                 "overflow:hidden;position: absolute; top: " + (y + ctl.Location.Y) + "; left: " +
+                                 (x + ctl.Location.X) + ";width:" + ctl.Width + ";height:" + ctl.Height + ";' >");
+                }
+                else
+                {
+                    st.WriteLine(@"<div class='" + ctl.GetType() + " " + ctl.Name + @"' " +
+                                 "style='" + font + fontsize + fontcol + bgcol +
+                                 "overflow:hidden;position: absolute; top: " + (y + ctl.Location.Y) + "; left: " +
+                                 (x + ctl.Location.X) + ";' >");
+                }
 
                 if (ctl.GetType() == typeof(ComboBox) || ctl.GetType() == typeof(MavlinkComboBox))
                 {
