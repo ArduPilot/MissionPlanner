@@ -51,6 +51,7 @@ namespace MissionPlanner.Controls
                 this.DataSource = source;
 
                 this.ParamName = paramname;
+                this.Name = paramname;
 
                 this.Enabled = true;
                 this.Visible = true;
@@ -80,7 +81,7 @@ namespace MissionPlanner.Controls
             this.DataSource = source;
 
             this.ParamName = paramname;
-
+            this.Name = paramname;
 
             if (paramlist.ContainsKey(paramname))
             {
@@ -108,6 +109,7 @@ namespace MissionPlanner.Controls
             this.DataSource = Enum.GetNames(source);
 
             this.ParamName = paramname;
+            this.Name = paramname;
 
             if (paramlist.ContainsKey(paramname))
             {
