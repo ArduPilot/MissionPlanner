@@ -55,7 +55,7 @@ Signer Name:        Microsoft Windows Hardware Compatibility Publisher
                 Console.WriteLine("{0} {1} {2} {3} {4}", pun[i].Groups[1].Value.Trim(),
                     orn[i].Groups[1].Value.Trim(),
                     prn[i].Groups[1].Value.Trim(),
-                    cln[i].Groups[1].Value.Trim(), 
+                    cln[i].Groups[1].Value.Trim(),
                     sin[i].Groups[1].Value.Trim());
 
                 ProcessStartInfo si =
@@ -67,14 +67,28 @@ Signer Name:        Microsoft Windows Hardware Compatibility Publisher
                     continue;
                 }
 
-                if(prn[i].Groups[1].Value.Trim() == "3D Robotics" ||
-                   prn[i].Groups[1].Value.Trim() == "Laser Navigation" ||
-                   prn[i].Groups[1].Value.Trim() == "Hex Technology Limited")
+                if (prn[i].Groups[1].Value.Trim() == "3D Robotics" ||
+                    prn[i].Groups[1].Value.Trim() == "Laser Navigation" ||
+                    prn[i].Groups[1].Value.Trim() == "Hex Technology Limited")
                 {
                     Process.Start(si);
                     continue;
                 }
-        }
+            }
+
+            var driversdir = Settings.GetRunningDirectory() + Path.DirectorySeparatorChar + "drivers";
+
+            var infs = Directory.GetFiles(driversdir, "*.inf");
+
+            foreach (var inf in infs)
+            {
+                ProcessStartInfo si =
+                    new ProcessStartInfo(driversdir + Path.DirectorySeparatorChar + "DPInstx64.exe",
+                        @"/u """ + inf + @"""/d /s")
+                    {
+                        Verb = "runas"
+                    };
+            }
         }
     }
 }

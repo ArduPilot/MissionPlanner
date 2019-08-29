@@ -9,7 +9,7 @@ inf2cat.exe /driver:"%%v-t" /os:XP_X86,XP_X64,Server2003_X86,Server2003_X64,Vist
 
 pause
 
-for /r %%v in (*.cat) do copy "%%v" ".\"
+for /r %%v in (*.cat) do move "%%v" ".\"
 
 pause
 

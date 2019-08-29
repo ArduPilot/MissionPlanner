@@ -112,6 +112,8 @@
             this.but_hwids = new MissionPlanner.Controls.MyButton();
             this.but_packetbytes = new MissionPlanner.Controls.MyButton();
             this.but_acbarohight = new MissionPlanner.Controls.MyButton();
+            this.but_stayoutest = new MissionPlanner.Controls.MyButton();
+            this.but_driverclean = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -692,9 +694,25 @@
             this.but_acbarohight.UseVisualStyleBackColor = true;
             this.but_acbarohight.Click += new System.EventHandler(this.but_acbarohight_Click);
             // 
+            // but_stayoutest
+            // 
+            resources.ApplyResources(this.but_stayoutest, "but_stayoutest");
+            this.but_stayoutest.Name = "but_stayoutest";
+            this.but_stayoutest.UseVisualStyleBackColor = true;
+            this.but_stayoutest.Click += new System.EventHandler(this.But_stayoutest_Click);
+            // 
+            // but_driverclean
+            // 
+            resources.ApplyResources(this.but_driverclean, "but_driverclean");
+            this.but_driverclean.Name = "but_driverclean";
+            this.but_driverclean.UseVisualStyleBackColor = true;
+            this.but_driverclean.Click += new System.EventHandler(this.BUT_driverclean_Click);
+            // 
             // temp
             // 
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.but_driverclean);
+            this.Controls.Add(this.but_stayoutest);
             this.Controls.Add(this.but_acbarohight);
             this.Controls.Add(this.but_packetbytes);
             this.Controls.Add(this.but_hwids);
@@ -822,5 +840,7 @@
         private Controls.MyButton but_hwids;
         private Controls.MyButton but_packetbytes;
         private Controls.MyButton but_acbarohight;
+        private Controls.MyButton but_stayoutest;
+        private Controls.MyButton but_driverclean;
     }
 }
