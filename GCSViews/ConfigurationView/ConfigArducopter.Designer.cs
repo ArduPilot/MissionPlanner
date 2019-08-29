@@ -1,4 +1,6 @@
-﻿namespace MissionPlanner.GCSViews.ConfigurationView
+﻿using System.Windows.Forms;
+
+namespace MissionPlanner.GCSViews.ConfigurationView
 {
     partial class ConfigArducopter
     {
@@ -109,9 +111,9 @@
             this.label4 = new System.Windows.Forms.Label();
             this.BUT_rerequestparams = new MissionPlanner.Controls.MyButton();
             this.BUT_writePIDS = new MissionPlanner.Controls.MyButton();
-            this.myLabel3 = new MissionPlanner.Controls.MyLabel();
-            this.myLabel2 = new MissionPlanner.Controls.MyLabel();
-            this.myLabel1 = new MissionPlanner.Controls.MyLabel();
+            this.myLabel3 = new System.Windows.Forms.Label();
+            this.myLabel2 = new System.Windows.Forms.Label();
+            this.myLabel1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.THR_ACCEL_D = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label5 = new System.Windows.Forms.Label();
@@ -122,11 +124,11 @@
             this.THR_ACCEL_P = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
             this.BUT_refreshpart = new MissionPlanner.Controls.MyButton();
-            this.myLabel4 = new MissionPlanner.Controls.MyLabel();
+            this.myLabel4 = new System.Windows.Forms.Label();
             this.CH8_OPTION = new MissionPlanner.Controls.MavlinkComboBox();
-            this.myLabel5 = new MissionPlanner.Controls.MyLabel();
+            this.myLabel5 = new System.Windows.Forms.Label();
             this.CH9_OPTION = new MissionPlanner.Controls.MavlinkComboBox();
-            this.myLabel6 = new MissionPlanner.Controls.MyLabel();
+            this.myLabel6 = new System.Windows.Forms.Label();
             this.CH10_OPTION = new MissionPlanner.Controls.MavlinkComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.TUNE_LOW)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TUNE_HIGH)).BeginInit();
@@ -796,19 +798,16 @@
             // 
             resources.ApplyResources(this.myLabel3, "myLabel3");
             this.myLabel3.Name = "myLabel3";
-            this.myLabel3.resize = false;
             // 
             // myLabel2
             // 
             resources.ApplyResources(this.myLabel2, "myLabel2");
             this.myLabel2.Name = "myLabel2";
-            this.myLabel2.resize = false;
             // 
             // myLabel1
             // 
             resources.ApplyResources(this.myLabel1, "myLabel1");
             this.myLabel1.Name = "myLabel1";
-            this.myLabel1.resize = false;
             // 
             // groupBox2
             // 
@@ -896,7 +895,6 @@
             // 
             resources.ApplyResources(this.myLabel4, "myLabel4");
             this.myLabel4.Name = "myLabel4";
-            this.myLabel4.resize = false;
             // 
             // CH8_OPTION
             // 
@@ -913,7 +911,6 @@
             // 
             resources.ApplyResources(this.myLabel5, "myLabel5");
             this.myLabel5.Name = "myLabel5";
-            this.myLabel5.resize = false;
             // 
             // CH9_OPTION
             // 
@@ -929,7 +926,6 @@
             // 
             resources.ApplyResources(this.myLabel6, "myLabel6");
             this.myLabel6.Name = "myLabel6";
-            this.myLabel6.resize = false;
             // 
             // CH10_OPTION
             // 
@@ -1031,12 +1027,12 @@
 
         #endregion
 
-        private Controls.MyLabel myLabel3;
+        private Label myLabel3;
         private Controls.MavlinkNumericUpDown TUNE_LOW;
         private Controls.MavlinkNumericUpDown TUNE_HIGH;
-        private Controls.MyLabel myLabel2;
+        private Label myLabel2;
         private Controls.MavlinkComboBox  TUNE;
-        private Controls.MyLabel myLabel1;
+        private Label myLabel1;
         private Controls.MavlinkComboBox CH7_OPTION;
         private System.Windows.Forms.GroupBox groupBox5;
         private Controls.MavlinkNumericUpDown THR_RATE_P;
@@ -1117,7 +1113,7 @@
         private Controls.MavlinkNumericUpDown THR_ACCEL_P;
         private System.Windows.Forms.Label label8;
         private Controls.MyButton BUT_refreshpart;
-        private Controls.MyLabel myLabel4;
+        private Label myLabel4;
         private Controls.MavlinkComboBox CH8_OPTION;
         private Controls.MavlinkNumericUpDown RATE_YAW_FILT;
         private System.Windows.Forms.Label label18;
@@ -1125,9 +1121,9 @@
         private System.Windows.Forms.Label label14;
         private Controls.MavlinkNumericUpDown RATE_RLL_FILT;
         private System.Windows.Forms.Label label12;
-        private Controls.MyLabel myLabel5;
+        private Label myLabel5;
         private Controls.MavlinkComboBox CH9_OPTION;
-        private Controls.MyLabel myLabel6;
+        private Label myLabel6;
         private Controls.MavlinkComboBox CH10_OPTION;
     }
 }
