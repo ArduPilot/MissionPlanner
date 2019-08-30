@@ -1030,24 +1030,34 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             while (baseposList.Count <= e.RowIndex)
                 baseposList.Add(new PointLatLngAlt());
 
-            if (e.ColumnIndex == Lat.Index)
+            try
             {
-                baseposList[e.RowIndex].Lat = double.Parse(dg_basepos[e.ColumnIndex, e.RowIndex].Value.ToString());
-            }
-            if (e.ColumnIndex == Long.Index)
-            {
-                baseposList[e.RowIndex].Lng = double.Parse(dg_basepos[e.ColumnIndex, e.RowIndex].Value.ToString());
-            }
-            if (e.ColumnIndex == Alt.Index)
-            {
-                baseposList[e.RowIndex].Alt = double.Parse(dg_basepos[e.ColumnIndex, e.RowIndex].Value.ToString());
-            }
-            if (e.ColumnIndex == BaseName1.Index)
-            {
-                baseposList[e.RowIndex].Tag = dg_basepos[e.ColumnIndex, e.RowIndex].Value.ToString();
-            }
+                if (e.ColumnIndex == Lat.Index)
+                {
+                    baseposList[e.RowIndex].Lat = double.Parse(dg_basepos[e.ColumnIndex, e.RowIndex].Value.ToString());
+                }
 
-            saveBasePosList();
+                if (e.ColumnIndex == Long.Index)
+                {
+                    baseposList[e.RowIndex].Lng = double.Parse(dg_basepos[e.ColumnIndex, e.RowIndex].Value.ToString());
+                }
+
+                if (e.ColumnIndex == Alt.Index)
+                {
+                    baseposList[e.RowIndex].Alt = double.Parse(dg_basepos[e.ColumnIndex, e.RowIndex].Value.ToString());
+                }
+
+                if (e.ColumnIndex == BaseName1.Index)
+                {
+                    baseposList[e.RowIndex].Tag = dg_basepos[e.ColumnIndex, e.RowIndex].Value.ToString();
+                }
+
+                saveBasePosList();
+            }
+            catch
+            {
+
+            }
         }
 
         private void dg_basepos_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
