@@ -69,6 +69,8 @@ namespace MissionPlanner.Utilities.Drawing
             ms.CopyTo(ms2);
             ms2.Position = 0;
             var skimage = SKImage.FromEncodedData(ms2);
+            if (skimage == null)
+                return null;
             var skbitmap = SKBitmap.FromImage(skimage);
             var ans = new Bitmap() { nativeSkBitmap = skbitmap };
             return ans;

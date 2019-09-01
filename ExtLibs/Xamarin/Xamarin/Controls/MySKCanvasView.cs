@@ -24,7 +24,7 @@ namespace Xamarin.Controls
 {
     public delegate void MouseEventHandler(object sender, MouseEventArgs e);
 
-    public abstract class MySKGLView : SKGLView, IDisposable
+    public abstract class MySKCanvasView : SKCanvasView, IDisposable
     {
         private object EventMouseDown = new object();
         private object EventMouseLeave = new object();
@@ -37,16 +37,16 @@ namespace Xamarin.Controls
         private object EventMouseUp = new object();
         private object EventMouseEnter = new object();
 
-        public MySKGLView() : base()
+        public MySKCanvasView() : base()
         {
             EnableTouchEvents = true;
             Touch += OnTouch;
-
+            /*
             var pinch = new PinchGestureRecognizer();
             pinch.PinchUpdated += PinchUpdated;
 
             GestureRecognizers.Add(pinch);
-
+            */
             base.MeasureInvalidated += MySKGLView_MeasureInvalidated;
 
             base.SizeChanged += MySKGLView_SizeChanged;
@@ -113,7 +113,7 @@ namespace Xamarin.Controls
 
         public virtual Font Font { get; set; } = SystemFonts.DefaultFont;
 
-        public GraphicsMode GraphicsMode { get; set; } = GraphicsMode.Default;
+      //  public GraphicsMode GraphicsMode { get; set; } = GraphicsMode.Default;
 
         public new int Height
         {
@@ -169,9 +169,14 @@ namespace Xamarin.Controls
                 (float)(CanvasSize.Height * pt.Y / this.Height));
         }
 
+        private bool pendingredraw = false;
         public virtual void Refresh()
         {
-            InvalidateSurface();
+            if (!pendingredraw)
+            {
+                pendingredraw = true;
+                Forms.Device.BeginInvokeOnMainThread(() => { InvalidateSurface(); });
+            }
         }
 
         public void SetStyle(object optimizedDoubleBuffer, bool b)
@@ -180,7 +185,7 @@ namespace Xamarin.Controls
         }
         protected Graphics CreateGraphics()
         {
-            return new Graphics(base.GRContext.Handle, this.Width, this.Height);
+            return null;//new Graphics(base.GRContext.Handle, this.Width, this.Height);
         }
 
         protected virtual void Dispose(bool disposing)
@@ -277,8 +282,16 @@ namespace Xamarin.Controls
             //throw new NotImplementedException();
         }
 
-        protected override void OnPaintSurface(SKPaintGLSurfaceEventArgs e)
+        protected override void OnPaintSurface(SKPaintSurfaceEventArgs e)
         {
+            //     base.OnPaintSurface(e);
+            // }
+
+            //  protected override void OnPaintSurface(SKPaintGLSurfaceEventArgs e)
+            //  {
+
+            var start = DateTime.Now;
+            pendingredraw = false;
             if (!started)
             {
                 started = true;
@@ -289,7 +302,9 @@ namespace Xamarin.Controls
             base.OnPaintSurface(e);
             var sk = new Graphics(e.Surface);
             OnPaint(new PaintEventArgs(sk, ClientRectangle));
+            sk.Flush();
 
+            System.Diagnostics.Debug.WriteLine("OnPaintSurface " + (DateTime.Now - start).TotalSeconds);
         }
 
         protected virtual void OnResize(EventArgs eventArgs)
@@ -323,8 +338,8 @@ namespace Xamarin.Controls
         {
             try
             {
-                if (GRContext == null)
-                    return;
+               // if (GRContext == null)
+               //     return;
 
                 if (CanvasSize != null)
                     OnResize(null);
@@ -389,8 +404,9 @@ namespace Xamarin.Controls
 
                     mousewheeldelta = delta.Length;
                 }
-
+                OnMouseEnter(null);
                 OnMouseWheel(mouse);
+                OnMouseLeave(null);
             }
             else
             {

@@ -53,6 +53,13 @@ namespace MissionPlanner.Utilities.Drawing
             nativeSkBitmap = image.nativeSkBitmap.Copy();
         }
 
+        public Bitmap(byte[] largeIconsImage, Size clientSizeHeight)
+        {
+            nativeSkBitmap = SKBitmap.Decode(SKData.CreateCopy(largeIconsImage)).Resize(
+                new SKImageInfo(clientSizeHeight.Width, clientSizeHeight.Height),
+                SKFilterQuality.High);
+        }
+
         public Bitmap(Image largeIconsImage, Size clientSizeHeight)
         {
             SKBitmap ans = new SKBitmap(clientSizeHeight.Width, clientSizeHeight.Height, SKColorType.Bgra8888, SKAlphaType.Premul);
@@ -96,8 +103,8 @@ namespace MissionPlanner.Utilities.Drawing
             {
                 Scan0 = nativeSkBitmap.GetPixels(),
                 Stride = nativeSkBitmap.RowBytes,
-                Width = rectangle.Width,
-                Height = rectangle.Height
+                Width = nativeSkBitmap.Width,
+                Height = nativeSkBitmap.Height
             };
         }
 

@@ -14,12 +14,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="4.9.1" />
     <PackageReference Include="Microsoft.DotNet.Analyzers.Compatibility" Version="0.2.12-alpha">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
     <PackageReference Include="SkiaSharp.Views.Forms" Version="1.68.0" />
+    <PackageReference Include="System.Linq" Version="4.3.0" />
+    <PackageReference Include="System.Linq.Expressions" Version="4.3.0" />
+    <PackageReference Include="System.Linq.Queryable" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,9 +34,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="OpenTK">
-      <HintPath>..\..\..\..\..\..\.nuget\packages\opentk\3.0.1\lib\net20\OpenTK.dll</HintPath>
-      <SpecificVersion>false</SpecificVersion>
+    <Reference Include="OpenTK-1.0">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio\2019\Preview\Common7\IDE\ReferenceAssemblies\Microsoft\Framework\MonoAndroid\v4.4\OpenTK-1.0.dll</HintPath>
     </Reference>
   </ItemGroup>
 
@@ -69,11 +70,12 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>HUDT.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Controls\HUDT.zh-Hans.resx">
-      <Generator></Generator>
-    </EmbeddedResource>
+   
     <EmbeddedResource Update="GCSViews\Firmware.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Maps\Resources.resx">
+      <Generator></Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="MasterDetailPage1Detail.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>

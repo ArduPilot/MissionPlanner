@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace MissionPlanner.Utilities
@@ -7,6 +8,13 @@ namespace MissionPlanner.Utilities
     {
         internal static MAVLinkInterface comPort;
         internal static MainV2 instance;
+        /// <summary>
+        /// other planes in the area from adsb
+        /// </summary>
+        public object adsblock = new object();
+
+        public ConcurrentDictionary<string, adsb.PointLatLngAltHdg> adsbPlanes = new ConcurrentDictionary<string, adsb.PointLatLngAltHdg>();
+
 
         static MainV2()
         {
@@ -20,7 +28,8 @@ namespace MissionPlanner.Utilities
             comPort.BaseStream = new Comms.UdpSerial();
         }
 
-        public static IEnumerable<MAVLinkInterface> Comports { get; internal set; }
+        public static List<MAVLinkInterface> Comports { get; set; } = new List<MAVLinkInterface>();
+        public static bool ShowAirports { get; set; }
 
         internal void Invoke(Action methodInvoker)
         {

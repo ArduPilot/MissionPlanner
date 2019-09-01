@@ -268,7 +268,11 @@ namespace GMap.NET.WindowsForms
          this.Position = pos;
       }
 
-      public virtual void OnRender(IGraphics g)
+        public GMapMarker(SerializationInfo info, StreamingContext context)
+        {
+        }
+
+        public virtual void OnRender(IGraphics g)
       {
          //
          g.FillPie(Brushes.Red, -5, -5, 10, 10, 0, 360);
@@ -279,10 +283,11 @@ namespace GMap.NET.WindowsForms
       {
          g.DrawImage(inBmp, new Rectangle(x, y, inBmp.Width, inBmp.Height), 0, 0, inBmp.Width, inBmp.Height, GraphicsUnit.Pixel, attr);
       }
+
 #endif
 
 #if !PocketPC
-      #region ISerializable Members
+        #region ISerializable Members
 
       /// <summary>
       /// Populates a <see cref="T:System.Runtime.Serialization.SerializationInfo"/> with the data needed to serialize the target object.
@@ -328,12 +333,12 @@ namespace GMap.NET.WindowsForms
          this.IsHitTestVisible = info.GetBoolean("IsHitTestVisible");
       }
 
-      #endregion
+        #endregion
 #endif
 
-      #region IDisposable Members
+        #region IDisposable Members
 
-      bool disposed = false;
+        bool disposed = false;
 
       public virtual void Dispose()
       {
@@ -353,6 +358,11 @@ namespace GMap.NET.WindowsForms
       }
 
       #endregion
+
+      protected void GetObjectData(SerializationInfo info, StreamingContext context)
+      {
+          throw new NotImplementedException();
+      }
    }
 
    public delegate void MarkerClick(GMapMarker item, /*MouseEventArgs*/ object mouseEventArgs);

@@ -9,7 +9,7 @@
   <MasterDetailPage.Detail>
     <NavigationPage>
       <x:Arguments>
-        <pages:MainPage_old />
+        <pages:FlightData />
       </x:Arguments>
     </NavigationPage>
   </MasterDetailPage.Detail>

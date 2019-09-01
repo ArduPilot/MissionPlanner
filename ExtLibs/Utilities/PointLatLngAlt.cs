@@ -263,6 +263,21 @@ namespace MissionPlanner.Utilities
             return (MathHelper.rad2deg * (Math.Atan2(y, x)) + 360) % 360;
         }
 
+        public double GetAngle(PointLatLngAlt point, double heading)
+        {
+            double angle = GetBearing(point) - heading;
+            if (angle < -180.0)
+            {
+                angle += 360.0;
+            }
+            if (angle > 180.0)
+            {
+                angle -= 360.0;
+            }
+            return angle;
+        }
+
+
         /// <summary>
         /// Calc Distance in M
         /// </summary>

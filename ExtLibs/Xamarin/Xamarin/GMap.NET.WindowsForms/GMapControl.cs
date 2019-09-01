@@ -38,7 +38,7 @@ namespace GMap.NET.WindowsForms
     /// <summary>
     /// GMap.NET control for Windows Forms
     /// </summary>   
-    public partial class GMapControl : MySKGLView, Interface
+    public partial class GMapControl : MySKCanvasView, Interface, IControl
    {
 #if !PocketPC
       /// <summary>
@@ -1407,7 +1407,7 @@ namespace GMap.NET.WindowsForms
 
            var ts = (DateTime.Now - start);
 
-           Console.WriteLine("map render {0}", ts.TotalSeconds);
+           System.Diagnostics.Debug.WriteLine("map render {0}", ts.TotalSeconds);
            base.OnPaint(e);
 
 
@@ -2475,6 +2475,13 @@ namespace GMap.NET.WindowsForms
          return Core.FromLocalToLatLng(x, y);
       }
 
+      public Point PointToClient(Point mousePosition)
+      {
+          throw new NotImplementedException();
+      }
+
+ 
+
       /// <summary>
       /// gets local coordinate from world coordinate
       /// </summary>
@@ -3061,9 +3068,15 @@ namespace GMap.NET.WindowsForms
          this.ForceUpdateOverlays();
       }
 
-      #endregion
+        public object Invoke(Action p0)
+        {
+            Xamarin.Forms.Device.BeginInvokeOnMainThread((Action)p0);
+            return null;
+        }
+
+        #endregion
 #endif
-   }
+    }
 
    public enum ScaleModes
    {

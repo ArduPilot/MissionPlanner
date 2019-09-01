@@ -1,6 +1,4 @@
-﻿using Autofac;
-using Autofac.Core;
-using log4net;
+﻿using log4net;
 using MissionPlanner;
 using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
@@ -8,7 +6,6 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
-using System.Resources;
 using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -19,19 +16,12 @@ using Xamarin.Forms.Xaml;
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Xamarin
 {
-   
+
     public partial class App : Application
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        private static UdpClient client;
-
-        private static Timer timer;
         private Thread httpthread;
-
-        public static ContainerBuilder builder = new ContainerBuilder();
-
-        private static IContainer Container { get; set; }
 
         public App()
         {
@@ -48,7 +38,20 @@ namespace Xamarin
             {
                 try
                 {
-                    client = new UdpClient(14551, AddressFamily.InterNetwork);
+                    var client = new UdpClient(14551, AddressFamily.InterNetwork);
+                    client.BeginReceive(clientdata, client);
+                }
+                catch (Exception ex)
+                {
+                    Log.Warning("", ex.ToString());
+                }
+            });
+
+            Task.Run(async () =>
+            {
+                try
+                {
+                    var client = new UdpClient(14550, AddressFamily.InterNetwork);
                     client.BeginReceive(clientdata, client);
                 }
                 catch (Exception ex)
@@ -77,10 +80,6 @@ namespace Xamarin
             CustomMessageBox.ShowEvent += CustomMessageBox_ShowEvent;
             MAVLinkInterface.CreateIProgressReporterDialogue += CreateIProgressReporterDialogue;
 
-            Container = builder.Build();
-
-            var scope = Container.BeginLifetimeScope();
-            
         }
 
         private CustomMessageBox.DialogResult CustomMessageBox_ShowEvent(string text, string caption = "",
@@ -104,17 +103,18 @@ namespace Xamarin
         protected override void OnSleep()
         {
             // Handle when your app sleeps
+            Log.Warning("", "OnSleep");
         }
 
         protected override void OnResume()
         {
             // Handle when your app resumes
+            Log.Warning("", "OnResume");
         }
 
 
         private void clientdata(IAsyncResult ar)
         {
-            timer = null;
             var client = ((UdpClient)ar.AsyncState);
 
             if (client == null || client.Client == null)
@@ -129,6 +129,7 @@ namespace Xamarin
                 mav.BaseStream = udpclient;
 
                 MainV2.comPort = mav;
+                MainV2.Comports.Add(mav);
 
                 //MainV2.instance.doConnect(mav, "preset", port.ToString());
                 Log.Warning("", "mav init " + mav.ToString());
@@ -149,7 +150,7 @@ namespace Xamarin
                     {
                         try
                         {
-                            while (mav.BaseStream.BytesToRead < 10)
+                            while (mav.BaseStream.BytesToRead < 10 || mav.giveComport == true)
                                 Thread.Sleep(20);
 
                             var packet = mav.readPacket();

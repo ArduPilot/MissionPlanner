@@ -742,4 +742,186 @@
   <data name="hud" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\hud.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="arrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\arrow.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="arrowshadow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\arrowshadow.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="black_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\black_small.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\blue.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="blue_dot" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\blue-dot.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="blue_pushpin" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\blue-pushpin.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="blue_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\blue_small.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="brown_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\brown_small.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="CreateTileDb" xml:space="preserve">
+    <value>CREATE TABLE IF NOT EXISTS Tiles (id INTEGER NOT NULL PRIMARY KEY, X INTEGER NOT NULL, Y INTEGER NOT NULL, Zoom INTEGER NOT NULL, Type UNSIGNED INTEGER  NOT NULL, CacheTime DATETIME);
+CREATE INDEX IF NOT EXISTS IndexOfTiles ON Tiles (X, Y, Zoom, Type);
+
+CREATE TABLE IF NOT EXISTS TilesData (id INTEGER NOT NULL PRIMARY KEY CONSTRAINT fk_Tiles_id REFERENCES Tiles(id) ON DELETE CASCADE, Tile BLOB NULL);
+
+-- Foreign Key Preventing insert
+CREATE TRIGGER fki_TilesData_id_Tiles_id
+BEFORE INSERT ON [TilesData]
+FOR EACH ROW BEGIN
+  SELECT RAISE(ROLLBACK, 'insert on table "TilesData" violates foreign key constraint "fki_TilesData_id_Tiles_id"')
+  WHERE (SELECT id FROM Tiles WHERE id = NEW.id) IS NULL;
+END;
+
+-- Foreign key preventing update
+CREATE TRIGGER fku_TilesData_id_Tiles_id
+BEFORE UPDATE ON [TilesData] 
+FOR EACH ROW BEGIN
+    SELECT RAISE(ROLLBACK, 'update on table "TilesData" violates foreign key constraint "fku_TilesData_id_Tiles_id"')
+      WHERE (SELECT id FROM Tiles WHERE id = NEW.id) IS NULL;
+END;
+
+-- Cascading Delete
+CREATE TRIGGER fkdc_TilesData_id_Tiles_id
+BEFORE DELETE ON Tiles
+FOR EACH ROW BEGIN 
+    DELETE FROM TilesData WHERE TilesData.id = OLD.id;
+END;</value>
+  </data>
+  <data name="drag_cross_67_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\drag_cross_67_16.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="gray_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\gray_small.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="green" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\green.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="green_big_go" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\go-big-green.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="green_dot" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\green-dot.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="green_pushpin" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\grn-pushpin.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="green_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\green_small.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lightblue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\lightblue.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lightblue_dot" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ltblue-dot.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lightblue_pushpin" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ltblu-pushpin.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="msmarker_shadow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\msmarker.shadow.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="orange" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\orange.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="orange_dot" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\orange-dot.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="orange_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\orange_small.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="pink" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pink.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="pink_dot" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pink-dot.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="pink_pushpin" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pink-pushpin.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="purple" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\purple.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="purple_dot" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\purple-dot.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="purple_pushpin" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\purple-pushpin.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="purple_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\purple_small.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="pushpin_shadow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pushpin_shadow.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\red.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="red_big_stop" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stop-big-red.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="red_dot" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\red-dot.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="red_pushpin" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\red-pushpin.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="red_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\red_small.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="shadow_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shadow_small.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="white_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\white_small.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="yellow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\yellow.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="yellow_big_pause" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pause-big-red.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="yellow_dot" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\yellow-dot.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="yellow_pushpin" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ylw-pushpin.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="yellow_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\yellow_small.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="planeicon1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\planetracker1.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="planeicon2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\planetracker2.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="planeicon3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\planetracker3.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="planeicon4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\planetracker4.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="planeicon5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\planetracker5.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="planeicon6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\planetracker6.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="planeicon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\planetracker.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="quadicon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\quad21.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="quadicon1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\quad22.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

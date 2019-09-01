@@ -20,7 +20,7 @@ using Graphics = MissionPlanner.Utilities.Drawing.Graphics;
 
 namespace MissionPlanner.Controls
 {
-    public class HUD : MySKGLView
+    public class HUD : MySKCanvasView
     {
         public Hashtable CustomItems = new Hashtable();
 

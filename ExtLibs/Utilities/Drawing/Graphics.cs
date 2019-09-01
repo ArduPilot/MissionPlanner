@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Color = System.Drawing.Color;
@@ -429,38 +430,52 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         public void DrawImage(Image img, Rectangle rectangle, float srcX, float srcY, float srcWidth, float srcHeight,
             GraphicsUnit graphicsUnit, ImageAttributes tileFlipXYAttributes)
         {
+            if (img == null)
+                return;
+            _image.DrawBitmap(img.nativeSkBitmap, new SKRect(srcX, srcY, srcX + srcWidth, srcY + srcHeight),
+                new SKRect(rectangle.X, rectangle.Y, rectangle.Right, rectangle.Bottom), _paint);
+
+            return;
+
             var coltype = SKColorType.Bgra8888;
             ((Bitmap)img).MakeTransparent(Color.Transparent);
             var data = ((Bitmap) img).LockBits(new Rectangle(0, 0, img.Width, img.Height),
                 ImageLockMode.ReadOnly,
                 SKColorType.Bgra8888);
-
+            
             if(CompositingMode == CompositingMode.SourceOver)
                 _paint.BlendMode = SKBlendMode.SrcOver;
             if (CompositingMode == CompositingMode.SourceCopy)
                 _paint.BlendMode = SKBlendMode.Src;
             //if(img.PixelFormat == PixelFormat.Format32bppArgb)
-               _paint.Color = SKColors.Black;
+            _paint.Color = SKColors.Black;
 
-               
-
-            var imginfo = new SKImageInfo(img.Width, img.Height, coltype, SKAlphaType.Premul);
-
-            var pxmap = new SKPixmap(imginfo, data.Scan0, data.Stride);
+            var pxmap = new SKPixmap(img.nativeSkBitmap.Info, data.Scan0, data.Stride);
 
             var image = SKImage.FromPixels(pxmap);
 
             if (image == null)
                 return;
+            /*
+            lock (this)
+            {
+                img.Save(File.OpenWrite(Settings.GetDataDirectory() + Path.DirectorySeparatorChar + "img.jpg"),
+                    SKEncodedImageFormat.Jpeg);
 
+                pxmap.Encode(SKEncodedImageFormat.Jpeg, 100)
+                    .SaveTo(File.OpenWrite(Settings.GetDataDirectory() + Path.DirectorySeparatorChar + "pxmap.jpg"));
 
+                image.Encode(SKEncodedImageFormat.Jpeg, 100)
+                    .SaveTo(File.OpenWrite(Settings.GetDataDirectory() + Path.DirectorySeparatorChar + "image.jpg"));
+            }
+            */
             _image.DrawImage(image, new SKRect(srcX, srcY, srcX + srcWidth, srcY + srcHeight),
                 new SKRect(rectangle.X, rectangle.Y, rectangle.Right, rectangle.Bottom), _paint);
             ((Bitmap)img).UnlockBits(data);
             data = null;
 
             return;
-
+            
             try
             {
                 using (var skbmp =
@@ -472,7 +487,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
               
                     _image.DrawBitmap(skbmp, new SKRect(srcX, srcY, srcX + srcWidth, srcY + srcHeight),
-                        new SKRect(rectangle.X, rectangle.Y, rectangle.Right, rectangle.Bottom), _paint);
+                        new SKRect(rectangle.X, rectangle.Y, rectangle.Right, rectangle.Bottom)/*, _paint*/);
                 }
             }
             catch
