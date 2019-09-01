@@ -438,7 +438,9 @@ namespace MissionPlanner.Utilities
 
                 Thread.Sleep(500);
 
-                while (!NativeMethods.gst_app_sink_is_eos(appsink))
+                run = true;
+
+                while (run && !NativeMethods.gst_app_sink_is_eos(appsink))
                 {
                     try
                     {
@@ -1153,8 +1155,10 @@ namespace MissionPlanner.Utilities
             run = null;
         }
 
+        private static bool run = true;
         public static void StopAll()
         {
+            run = false;
             foreach (var process in processList)
             {
                 Stop(process);
