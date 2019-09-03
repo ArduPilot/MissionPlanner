@@ -645,6 +645,9 @@ namespace MissionPlanner.GCSViews
             //set default
             CMB_altmode.SelectedItem = altmode.Relative;
 
+            cmb_missiontype.DataSource = new List<MAVLink.MAV_MISSION_TYPE>()
+                {MAVLink.MAV_MISSION_TYPE.MISSION, MAVLink.MAV_MISSION_TYPE.FENCE, MAVLink.MAV_MISSION_TYPE.RALLY};
+
             updateCMDParams();
 
             foreach (DataGridViewColumn commandsColumn in Commands.Columns)
@@ -764,6 +767,25 @@ namespace MissionPlanner.GCSViews
             cmds.Add("UNKNOWN");
 
             Command.DataSource = cmds;
+
+            if ((MAVLink.MAV_MISSION_TYPE)cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.FENCE)
+            {
+                cmds.Clear();
+                cmds.Add(MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_INCLUSION.ToString());
+                cmds.Add(MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_EXCLUSION.ToString());
+                cmds.Add(MAVLink.MAV_CMD.FENCE_CIRCLE_EXCLUSION.ToString());
+                cmds.Add(MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION.ToString());
+                cmds.Add(MAVLink.MAV_CMD.FENCE_RETURN_POINT.ToString());
+
+                Command.DataSource = cmds;
+            }
+            if ((MAVLink.MAV_MISSION_TYPE)cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.RALLY)
+            {
+                cmds.Clear();
+                cmds.Add(MAVLink.MAV_CMD.RALLY_POINT.ToString());
+
+                Command.DataSource = cmds;
+            }
         }
 
         Dictionary<string, string[]> readCMDXML()
@@ -1569,63 +1591,21 @@ namespace MissionPlanner.GCSViews
 
         void getWPs(IProgressReporterDialogue sender)
         {
-            List<Locationwp> cmds = new List<Locationwp>();
-
-            try
-            {
-                MAVLinkInterface port = MainV2.comPort;
-
-                if (!port.BaseStream.IsOpen)
+            var type = (MAVLink.MAV_MISSION_TYPE) Invoke((Func<MAVLink.MAV_MISSION_TYPE>) delegate
                 {
-                    throw new Exception("Please Connect First!");
-                }
+                    return (MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue;
+                });
 
-                MainV2.comPort.giveComport = true;
-
-                log.Info("Getting Home");
-
-                ((ProgressReporterDialogue) sender).UpdateProgressAndStatus(0, "Getting WP count");
-
-                if (port.MAV.apname == MAVLink.MAV_AUTOPILOT.PX4)
-                {
-                    try
+            List<Locationwp> cmds = mav_mission.download(MainV2.comPort,
+                type,
+                (percent, status) => {
+                    if (sender.doWorkArgs.CancelRequested)
                     {
-                        cmds.Add(port.getHomePosition());
+                        sender.doWorkArgs.CancelAcknowledged = true;
+                        sender.doWorkArgs.ErrorMessage = "User Canceled";
+                        throw new Exception("User Canceled");
                     }
-                    catch (TimeoutException)
-                    {
-                        // blank home
-                        cmds.Add(new Locationwp() { id = (ushort)MAVLink.MAV_CMD.WAYPOINT });
-                    }
-                }
-
-                log.Info("Getting WP #");
-
-                int cmdcount = port.getWPCount();
-
-                for (ushort a = 0; a < cmdcount; a++)
-                {
-                    if (((ProgressReporterDialogue) sender).doWorkArgs.CancelRequested)
-                    {
-                        ((ProgressReporterDialogue) sender).doWorkArgs.CancelAcknowledged = true;
-                        throw new Exception("Cancel Requested");
-                    }
-
-                    log.Info("Getting WP" + a);
-                    ((ProgressReporterDialogue) sender).UpdateProgressAndStatus(a*100/cmdcount, "Getting WP " + a);
-                    cmds.Add(port.getWP(a));
-                }
-
-                port.setWPACK();
-
-                ((ProgressReporterDialogue) sender).UpdateProgressAndStatus(100, "Done");
-
-                log.Info("Done");
-            }
-            catch
-            {
-                throw;
-            }
+                    sender.UpdateProgressAndStatus(percent, status); });
 
             WPtoScreen(cmds);
         }
@@ -1689,6 +1669,7 @@ namespace MissionPlanner.GCSViews
             Locationwp home = new Locationwp();
             try
             {
+                home.frame = (byte)MAVLink.MAV_FRAME.GLOBAL;
                 home.id = (ushort)MAVLink.MAV_CMD.WAYPOINT;
                 home.lat = (double.Parse(TXT_homelat.Text));
                 home.lng = (double.Parse(TXT_homelng.Text));
@@ -1790,6 +1771,21 @@ namespace MissionPlanner.GCSViews
                 temp.p4 = (float) (double.Parse(Commands.Rows[a].Cells[Param4.Index].Value.ToString()));
 
                 temp.Tag = Commands.Rows[a].Cells[TagData.Index].Value;
+
+                var mode = currentaltmode;
+
+                if (mode == altmode.Terrain)
+                {
+                    temp.frame = (byte)MAVLink.MAV_FRAME.GLOBAL_TERRAIN_ALT;
+                }
+                else if (mode == altmode.Absolute)
+                {
+                    temp.frame = (byte)MAVLink.MAV_FRAME.GLOBAL;
+                }
+                else
+                {
+                    temp.frame = (byte)MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT;
+                }
 
                 return temp;
             }
@@ -2032,6 +2028,7 @@ namespace MissionPlanner.GCSViews
                 Locationwp home = new Locationwp();
                 try
                 {
+                    home.frame = (byte)MAVLink.MAV_FRAME.GLOBAL;
                     home.id = (ushort)MAVLink.MAV_CMD.WAYPOINT;
                     home.lat = (double.Parse(TXT_homelat.Text));
                     home.lng = (double.Parse(TXT_homelng.Text));
@@ -2046,185 +2043,39 @@ namespace MissionPlanner.GCSViews
                 log.Info("wps values " + MainV2.comPort.MAV.wps.Values.Count);
                 log.Info("cmd rows " + (Commands.Rows.Count + 1)); // + home
 
-                // check for changes / future mod to send just changed wp's
-                if (MainV2.comPort.MAV.wps.Values.Count == (Commands.Rows.Count + 1))
+                var type = (MAVLink.MAV_MISSION_TYPE)Invoke((Func<MAVLink.MAV_MISSION_TYPE>)delegate
                 {
-                    Hashtable wpstoupload = new Hashtable();
-
-                    a = -1;
-                    foreach (var item in MainV2.comPort.MAV.wps.Values)
-                    {
-                        // skip home
-                        if (a == -1)
-                        {
-                            a++;
-                            continue;
-                        }
-
-                        MAVLink.mavlink_mission_item_int_t temp = DataViewtoLocationwp(a);
-
-                        if (temp.command == item.command &&
-                            temp.x == item.x &&
-                            temp.y == item.y &&
-                            temp.z == item.z &&
-                            temp.param1 == item.param1 &&
-                            temp.param2 == item.param2 &&
-                            temp.param3 == item.param3 &&
-                            temp.param4 == item.param4
-                            )
-                        {
-                            log.Info("wp match " + (a + 1));
-                        }
-                        else
-                        {
-                            log.Info("wp no match" + (a + 1));
-                            wpstoupload[a] = "";
-                        }
-
-                        a++;
-                    }
-                }
-
-                bool use_int = (port.MAV.cs.capabilities & (uint)MAVLink.MAV_PROTOCOL_CAPABILITY.MISSION_INT) > 0;
-
-                // set wp total
-                ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(0, "Set total wps ");
-
-                ushort totalwpcountforupload = (ushort)(Commands.Rows.Count + 1);
-
-                if (port.MAV.apname == MAVLink.MAV_AUTOPILOT.PX4)
-                {
-                    totalwpcountforupload--;
-                }
-
-                port.setWPTotal(totalwpcountforupload); // + home
-
-                // set home location - overwritten/ignored depending on firmware.
-                ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(0, "Set home");
-
-                // upload from wp0
-                a = 0;
-
-                if (port.MAV.apname != MAVLink.MAV_AUTOPILOT.PX4)
-                {
-                    try
-                    {
-                        var homeans = port.setWP(home, (ushort)a, MAVLink.MAV_FRAME.GLOBAL, 0, 1, use_int);
-                        if (homeans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
-                        {
-                            if (homeans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_INVALID_SEQUENCE)
-                            {
-                                CustomMessageBox.Show(Strings.ErrorRejectedByMAV, Strings.ERROR);
-                                return;
-                            }
-                        }
-                        a++;
-                    }
-                    catch (TimeoutException)
-                    {
-                        use_int = false;
-                        // added here to prevent timeout errors
-                        port.setWPTotal(totalwpcountforupload);
-                        var homeans = port.setWP(home, (ushort)a, MAVLink.MAV_FRAME.GLOBAL, 0, 1, use_int);
-                        if (homeans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
-                        {
-                            if (homeans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_INVALID_SEQUENCE)
-                            {
-                                CustomMessageBox.Show(Strings.ErrorRejectedByMAV, Strings.ERROR);
-                                return;
-                            }
-                        }
-                        a++;
-                    }
-                }
-                else
-                {
-                    use_int = false;
-                }
-
-                // define the default frame.
-                MAVLink.MAV_FRAME frame = MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT;
+                    return (MAVLink.MAV_MISSION_TYPE)cmb_missiontype.SelectedValue;
+                });
 
                 // get the command list from the datagrid
                 var commandlist = GetCommandList();
 
-                // process commandlist to the mav
-                for (a = 1; a <= commandlist.Count; a++)
+                if (type == MAVLink.MAV_MISSION_TYPE.MISSION && MainV2.comPort.MAV.apname == MAVLink.MAV_AUTOPILOT.ARDUPILOTMEGA)
+                    commandlist.Insert(0, home);
+
+                // fence does not use alt, and needs to be global
+                if (type == MAVLink.MAV_MISSION_TYPE.FENCE)
                 {
-                    var temp = commandlist[a-1];
-
-                    ((ProgressReporterDialogue) sender).UpdateProgressAndStatus(a*100/Commands.Rows.Count,
-                        "Setting WP " + a);
-
-                    // make sure we are using the correct frame for these commands
-                    if (temp.id < (ushort)MAVLink.MAV_CMD.LAST || temp.id == (ushort)MAVLink.MAV_CMD.DO_SET_HOME)
+                    commandlist = commandlist.Select((fp) =>
                     {
-                        var mode = currentaltmode;
-
-                        if (mode == altmode.Terrain)
-                        {
-                            frame = MAVLink.MAV_FRAME.GLOBAL_TERRAIN_ALT;
-                        }
-                        else if (mode == altmode.Absolute)
-                        {
-                            frame = MAVLink.MAV_FRAME.GLOBAL;
-                        }
-                        else
-                        {
-                            frame = MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT;
-                        }
-                    }
-
-                    // handle current wp upload number
-                    int uploadwpno = a;
-                    if (port.MAV.apname == MAVLink.MAV_AUTOPILOT.PX4)
-                        uploadwpno--;
-
-                    // try send the wp
-                    MAVLink.MAV_MISSION_RESULT ans = port.setWP(temp, (ushort)(uploadwpno), frame, 0, 1, use_int);
-
-                    // we timed out while uploading wps/ command wasnt replaced/ command wasnt added
-                    if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ERROR)
-                    {
-                        // resend for partial upload
-                        port.setWPPartialUpdate((ushort) (uploadwpno), totalwpcountforupload);
-                        // reupload this point.
-                        ans = port.setWP(temp, (ushort) (uploadwpno), frame, 0, 1, use_int);
-                    }
-
-                    if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_NO_SPACE)
-                    {
-                        sender.doWorkArgs.ErrorMessage = "Upload failed, please reduce the number of wp's";
-                        return;
-                    }
-                    if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_INVALID)
-                    {
-                        sender.doWorkArgs.ErrorMessage =
-                            "Upload failed, mission was rejected byt the Mav,\n item had a bad option wp# " + a + " " +
-                            ans;
-                        return;
-                    }
-                    if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_INVALID_SEQUENCE)
-                    {
-                        // invalid sequence can only occur if we failed to see a response from the apm when we sent the request.
-                        // or there is io lag and we send 2 mission_items and get 2 responces, one valid, one a ack of the second send
-                        
-                        // the ans is received via mission_ack, so we dont know for certain what our current request is for. as we may have lost the mission_request
-
-                        // get requested wp no - 1;
-                        a = port.getRequestedWPNo() - 1;
-
-                        continue;
-                    }
-                    if (ans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
-                    {
-                        sender.doWorkArgs.ErrorMessage = "Upload wps failed " + Enum.Parse(typeof (MAVLink.MAV_CMD), temp.id.ToString()) +
-                                         " " + Enum.Parse(typeof (MAVLink.MAV_MISSION_RESULT), ans.ToString());
-                        return;
-                    }
+                        fp.frame = (byte) MAVLink.MAV_FRAME.GLOBAL;
+                        return fp;
+                    }).ToList();
                 }
 
-                port.setWPACK();
+                mav_mission.upload(MainV2.comPort, type, commandlist,
+                    (percent, status) =>
+                    {
+                        if (sender.doWorkArgs.CancelRequested)
+                        {
+                            sender.doWorkArgs.CancelAcknowledged = true;
+                            sender.doWorkArgs.ErrorMessage = "User Canceled";
+                            throw new Exception("User Canceled");
+                        }
+
+                        sender.UpdateProgressAndStatus((int) (percent * 0.95), status);
+                    });
 
                 ((ProgressReporterDialogue) sender).UpdateProgressAndStatus(95, "Setting params");
 
@@ -2311,7 +2162,8 @@ namespace MissionPlanner.GCSViews
                 {
                     if ((ushort) value == temp.id)
                     {
-                        cellcmd.Value = value.ToString();
+                        if(cellcmd.Items.Contains(value.ToString()))
+                            cellcmd.Value = value.ToString();
                         break;
                     }
                 }
@@ -2364,7 +2216,12 @@ namespace MissionPlanner.GCSViews
 
             setWPParams();
 
-            if (!append)
+            var type = (MAVLink.MAV_MISSION_TYPE)Invoke((Func<MAVLink.MAV_MISSION_TYPE>)delegate
+            {
+                return (MAVLink.MAV_MISSION_TYPE)cmb_missiontype.SelectedValue;
+            });
+
+            if (!append && type == MAVLink.MAV_MISSION_TYPE.MISSION)
             {
                 try
                 {
@@ -6903,6 +6760,12 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 }
             }
 
+            if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue != MAVLink.MAV_MISSION_TYPE.MISSION)
+            {
+                CustomMessageBox.Show("Only available for missions");
+                return;
+            }
+
             // check home
             Locationwp home = new Locationwp();
             try
@@ -6976,6 +6839,11 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             frmProgressReporter.Dispose();
 
             MainMap.Focus();
+        }
+
+        private void Cmb_missiontype_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Activate();
         }
     }
 }

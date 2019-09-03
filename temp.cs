@@ -1200,7 +1200,11 @@ namespace MissionPlanner
             list.Add(new Locationwp() { alt = 0, frame = frame, id = (ushort)cmd, p1 = 4, lat = br.Lat, lng = br.Lng });
             list.Add(new Locationwp() { alt = 0, frame = frame, id = (ushort)cmd, p1 = 4, lat = bl.Lat, lng = bl.Lng });
 
-            mav_mission.upload(MainV2.comPort, MAVLink.MAV_MISSION_TYPE.FENCE, list);
+            //mav_mission.upload(MainV2.comPort, MAVLink.MAV_MISSION_TYPE.FENCE, list);
+
+            var mission = mav_mission.download(MainV2.comPort, MAVLink.MAV_MISSION_TYPE.MISSION);
+            var fence = mav_mission.download(MainV2.comPort, MAVLink.MAV_MISSION_TYPE.FENCE);
+            var rally = mav_mission.download(MainV2.comPort, MAVLink.MAV_MISSION_TYPE.RALLY);
         }
     }
 }
