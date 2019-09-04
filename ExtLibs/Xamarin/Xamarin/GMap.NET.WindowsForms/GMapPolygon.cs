@@ -130,6 +130,9 @@ namespace GMap.NET.WindowsForms
           }
 
           {
+              if (LocalPoints.Count == 0)
+                  return;
+
               List<Point> pnts = new List<Point>();
               var last = Point.Empty;
               for (int i = 0; i < LocalPoints.Count; i++)

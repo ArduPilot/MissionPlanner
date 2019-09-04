@@ -95,8 +95,8 @@ namespace GMap.NET.WindowsForms
       /// </summary>
       public readonly ObservableCollectionThreadSafe<GMapPolygon> Polygons = new ObservableCollectionThreadSafe<GMapPolygon>();
 
-      GMapControl control;
-      public GMapControl Control
+      IControl control;
+      public IControl Control
       {
          get
          {

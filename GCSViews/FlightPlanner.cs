@@ -1375,8 +1375,7 @@ namespace MissionPlanner.GCSViews
                         overlay.CreateOverlay((MAVLink.MAV_FRAME) (altmode) CMB_altmode.SelectedValue, home,
                             commandlist,
                             double.Parse(TXT_WPRad.Text) / CurrentState.multiplieralt,
-                            double.Parse(TXT_loiterrad.Text) / CurrentState.multiplieralt,
-                            (MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue);
+                            double.Parse(TXT_loiterrad.Text) / CurrentState.multiplieralt);
                     }
                     catch (FormatException ex)
                     {
