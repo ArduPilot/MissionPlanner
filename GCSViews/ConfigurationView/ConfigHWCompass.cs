@@ -70,9 +70,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
             // General Compass Settings
-            CHK_enablecompass.setup(1, 0, "MAG_ENABLE", MainV2.comPort.MAV.param);
-            if (!MainV2.comPort.MAV.param.ContainsKey("MAG_ENABLE"))
-                CHK_enablecompass.Visible = false;
+            CHK_enablecompass.setup(1, 0, new[] {"MAG_ENABLE", "COMPASS_ENABLE"}, MainV2.comPort.MAV.param);
 
             CHK_compass_learn.setup(1, 0, "COMPASS_LEARN", MainV2.comPort.MAV.param);
             if (MainV2.comPort.MAV.param["COMPASS_DEC"] != null)
