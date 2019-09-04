@@ -181,7 +181,7 @@ namespace MissionPlanner.GCSViews
             }
 
             DataGridViewTextBoxCell cell;
-            if (alt == -2 && Commands.Columns[Alt.Index].HeaderText.Equals(cmdParamNames["WAYPOINT"][6] /*"Alt"*/))
+            if (alt == -2 && Commands.Columns[Alt.Index].HeaderText.Equals("Alt"))
             {
                 if (CHK_verifyheight.Checked && (altmode)CMB_altmode.SelectedValue != altmode.Terrain) //Drag with verifyheight // use srtm data
                 {
@@ -208,20 +208,20 @@ namespace MissionPlanner.GCSViews
                     }
                 }
             }
-            if (Commands.Columns[Lat.Index].HeaderText.Equals(cmdParamNames["WAYPOINT"][4] /*"Lat"*/))
+            if (Commands.Columns[Lat.Index].HeaderText.Equals("Lat"))
             {
                 cell = Commands.Rows[selectedrow].Cells[Lat.Index] as DataGridViewTextBoxCell;
                 cell.Value = lat.ToString("0.0000000");
                 cell.DataGridView.EndEdit();
             }
-            if (Commands.Columns[Lon.Index].HeaderText.Equals(cmdParamNames["WAYPOINT"][5] /*"Long"*/))
+            if (Commands.Columns[Lon.Index].HeaderText.Equals("Long"))
             {
                 cell = Commands.Rows[selectedrow].Cells[Lon.Index] as DataGridViewTextBoxCell;
                 cell.Value = lng.ToString("0.0000000");
                 cell.DataGridView.EndEdit();
             }
             if (alt != -1 && alt != -2 &&
-                Commands.Columns[Alt.Index].HeaderText.Equals(cmdParamNames["WAYPOINT"][6] /*"Alt"*/))
+                Commands.Columns[Alt.Index].HeaderText.Equals("Alt"))
             {
                 cell = Commands.Rows[selectedrow].Cells[Alt.Index] as DataGridViewTextBoxCell;
 
@@ -307,7 +307,7 @@ namespace MissionPlanner.GCSViews
             convertFromGeographic(lat, lng);
 
             // Add more for other params
-            if (Commands.Columns[Param1.Index].HeaderText.Equals(cmdParamNames["WAYPOINT"][1] /*"Delay"*/))
+            if (Commands.Columns[Param1.Index].HeaderText.Equals("Delay"))
             {
                 cell = Commands.Rows[selectedrow].Cells[Param1.Index] as DataGridViewTextBoxCell;
                 cell.Value = p1;
@@ -483,7 +483,17 @@ namespace MissionPlanner.GCSViews
 
             selectedrow = Commands.Rows.Add();
 
-            if (splinemode)
+            if ((MAVLink.MAV_MISSION_TYPE)cmb_missiontype.SelectedValue ==  MAVLink.MAV_MISSION_TYPE.RALLY)
+            {
+                Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.RALLY_POINT.ToString();
+                ChangeColumnHeader(MAVLink.MAV_CMD.RALLY_POINT.ToString());
+            }
+            else if ((MAVLink.MAV_MISSION_TYPE)cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.FENCE)
+            {
+                Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_INCLUSION.ToString();
+                ChangeColumnHeader(MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_INCLUSION.ToString());
+            }
+            else if (splinemode)
             {
                 Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.SPLINE_WAYPOINT.ToString();
                 ChangeColumnHeader(MAVLink.MAV_CMD.SPLINE_WAYPOINT.ToString());
@@ -757,6 +767,41 @@ namespace MissionPlanner.GCSViews
         {
             cmdParamNames = readCMDXML();
 
+            if ((MAVLink.MAV_MISSION_TYPE)cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.FENCE)
+            {
+                var fence = new[]
+                {
+                    "",
+                    "",
+                    "",
+                    "",
+                    "Lat",
+                    "Long",
+                    ""
+                };
+                cmdParamNames.Clear();
+                cmdParamNames.Add(MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_INCLUSION.ToString(), fence);
+                cmdParamNames.Add(MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_EXCLUSION.ToString(), fence);
+                cmdParamNames.Add(MAVLink.MAV_CMD.FENCE_CIRCLE_EXCLUSION.ToString(), fence);
+                cmdParamNames.Add(MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION.ToString(), fence);
+                cmdParamNames.Add(MAVLink.MAV_CMD.FENCE_RETURN_POINT.ToString(), fence);
+            }
+            if ((MAVLink.MAV_MISSION_TYPE)cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.RALLY)
+            {
+                var rally = new[]
+                {
+                    "",
+                    "",
+                    "",
+                    "",
+                    "Lat",
+                    "Long",
+                    "Alt"
+                };
+                cmdParamNames.Clear();
+                cmdParamNames.Add(MAVLink.MAV_CMD.RALLY_POINT.ToString(), rally);
+            }
+
             List<string> cmds = new List<string>();
 
             foreach (string item in cmdParamNames.Keys)
@@ -767,25 +812,6 @@ namespace MissionPlanner.GCSViews
             cmds.Add("UNKNOWN");
 
             Command.DataSource = cmds;
-
-            if ((MAVLink.MAV_MISSION_TYPE)cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.FENCE)
-            {
-                cmds.Clear();
-                cmds.Add(MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_INCLUSION.ToString());
-                cmds.Add(MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_EXCLUSION.ToString());
-                cmds.Add(MAVLink.MAV_CMD.FENCE_CIRCLE_EXCLUSION.ToString());
-                cmds.Add(MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION.ToString());
-                cmds.Add(MAVLink.MAV_CMD.FENCE_RETURN_POINT.ToString());
-
-                Command.DataSource = cmds;
-            }
-            if ((MAVLink.MAV_MISSION_TYPE)cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.RALLY)
-            {
-                cmds.Clear();
-                cmds.Add(MAVLink.MAV_CMD.RALLY_POINT.ToString());
-
-                Command.DataSource = cmds;
-            }
         }
 
         Dictionary<string, string[]> readCMDXML()
@@ -1335,60 +1361,66 @@ namespace MissionPlanner.GCSViews
             {
                 var commandlist = GetCommandList();
 
-                overlay = new WPOverlay();
-
-                try
+                if ((MAVLink.MAV_MISSION_TYPE)cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.MISSION)
                 {
-                    if (TXT_WPRad.Text == "")
-                        TXT_WPRad.Text = "5";
-                    if (TXT_loiterrad.Text == "")
-                        TXT_loiterrad.Text = "30";
+                    overlay = new WPOverlay();
 
-                    overlay.CreateOverlay((MAVLink.MAV_FRAME) (altmode) CMB_altmode.SelectedValue, home, commandlist,
-                        double.Parse(TXT_WPRad.Text) / CurrentState.multiplieralt,
-                        double.Parse(TXT_loiterrad.Text) / CurrentState.multiplieralt);
-                }
-                catch (FormatException ex)
-                {
-                    CustomMessageBox.Show(Strings.InvalidNumberEntered + "\n" +"WP Radius or Loiter Radius", Strings.ERROR);
-                }
-
-                MainMap.HoldInvalidation = true;
-
-                var existing = MainMap.Overlays.Where(a => a.Id == overlay.overlay.Id).ToList();
-                foreach (var b in existing)
-                {
-                    MainMap.Overlays.Remove(b);
-                }
-
-                MainMap.Overlays.Insert(1, overlay.overlay);
-
-                overlay.overlay.ForceUpdate();
-
-                lbl_distance.Text = rm.GetString("lbl_distance.Text") + ": " +
-                                    FormatDistance((
-                                                       overlay.route.Points.Select(a => (PointLatLngAlt) a)
-                                                           .Aggregate(0.0, (d, p1, p2) => d + p1.GetDistance(p2)) +
-                                                       overlay.homeroute.Points.Select(a => (PointLatLngAlt) a)
-                                                           .Aggregate(0.0, (d, p1, p2) => d + p1.GetDistance(p2))) /
-                                                   1000.0, false);
-
-                setgradanddistandaz(overlay.pointlist, home);
-
-                if (overlay.pointlist.Count <= 1)
-                {
-                    RectLatLng? rect = MainMap.GetRectOfAllMarkers(overlay.overlay.Id);
-                    if (rect.HasValue)
+                    try
                     {
-                        MainMap.Position = rect.Value.LocationMiddle;
+                        if (TXT_WPRad.Text == "")
+                            TXT_WPRad.Text = "5";
+                        if (TXT_loiterrad.Text == "")
+                            TXT_loiterrad.Text = "30";
+
+                        overlay.CreateOverlay((MAVLink.MAV_FRAME) (altmode) CMB_altmode.SelectedValue, home,
+                            commandlist,
+                            double.Parse(TXT_WPRad.Text) / CurrentState.multiplieralt,
+                            double.Parse(TXT_loiterrad.Text) / CurrentState.multiplieralt,
+                            (MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue);
+                    }
+                    catch (FormatException ex)
+                    {
+                        CustomMessageBox.Show(Strings.InvalidNumberEntered + "\n" + "WP Radius or Loiter Radius",
+                            Strings.ERROR);
                     }
 
-                    MainMap_OnMapZoomChanged();
+                    MainMap.HoldInvalidation = true;
+
+                    var existing = MainMap.Overlays.Where(a => a.Id == overlay.overlay.Id).ToList();
+                    foreach (var b in existing)
+                    {
+                        MainMap.Overlays.Remove(b);
+                    }
+
+                    MainMap.Overlays.Insert(1, overlay.overlay);
+
+                    overlay.overlay.ForceUpdate();
+
+                    lbl_distance.Text = rm.GetString("lbl_distance.Text") + ": " +
+                                        FormatDistance((
+                                                           overlay.route.Points.Select(a => (PointLatLngAlt) a)
+                                                               .Aggregate(0.0, (d, p1, p2) => d + p1.GetDistance(p2)) +
+                                                           overlay.homeroute.Points.Select(a => (PointLatLngAlt) a)
+                                                               .Aggregate(0.0, (d, p1, p2) => d + p1.GetDistance(p2))) /
+                                                       1000.0, false);
+
+                    setgradanddistandaz(overlay.pointlist, home);
+
+                    if (overlay.pointlist.Count <= 1)
+                    {
+                        RectLatLng? rect = MainMap.GetRectOfAllMarkers(overlay.overlay.Id);
+                        if (rect.HasValue)
+                        {
+                            MainMap.Position = rect.Value.LocationMiddle;
+                        }
+
+                        MainMap_OnMapZoomChanged();
+                    }
+
+                    pointlist = overlay.pointlist;
+
+                    MainMap.Refresh();
                 }
-
-                pointlist = overlay.pointlist;
-
-                MainMap.Refresh();
             }
             catch (FormatException ex)
             {

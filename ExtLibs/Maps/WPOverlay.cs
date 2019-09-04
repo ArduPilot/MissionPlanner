@@ -191,6 +191,34 @@ namespace MissionPlanner.ArduPilot
 
                     fullpointlist.AddRange(list);
                 }
+                else if (command >= (ushort)MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_INCLUSION && command <= (ushort)MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_EXCLUSION) // fence
+                {
+                    PointLatLng point = new PointLatLng(item.lat, item.lng);
+                    var m = new GMarkerGoogle(point, GMarkerGoogleType.blue_dot);
+                    m.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+                    m.Tag = (a + 1).ToString();
+                    overlay.Markers.Add(m);
+                }
+                else if (command >= (ushort)MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION && command <= (ushort)MAVLink.MAV_CMD.FENCE_CIRCLE_EXCLUSION) // fence
+                {
+                    PointLatLng point = new PointLatLng(item.lat, item.lng);
+                    var m = new GMarkerGoogle(point, GMarkerGoogleType.blue_dot);
+                    m.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+                    m.Tag = (a + 1).ToString();
+                    overlay.Markers.Add(m);
+                }
+                else if (command == (ushort)MAVLink.MAV_CMD.FENCE_RETURN_POINT) // fence
+                {
+                    PointLatLng point = new PointLatLng(item.lat, item.lng);
+                    var m = new GMarkerGoogle(point, GMarkerGoogleType.orange_dot);
+                    overlay.Markers.Add(m);
+                }
+                else if (command >= (ushort)MAVLink.MAV_CMD.RALLY_POINT) // rally
+                {
+                    PointLatLng point = new PointLatLng(item.lat, item.lng);
+                    var m = new GMarkerGoogle(point, GMarkerGoogleType.purple_dot);
+                    overlay.Markers.Add(m);
+                }
                 else
                 {
                     pointlist.Add(null);

@@ -447,7 +447,6 @@
     <Compile Include="Utilities\NativeLibrary.cs" />
     <Compile Include="Utilities\Speech.cs" />
     <Compile Include="Utilities\SSHTerminal.cs" />
-    <Compile Include="Utilities\Fence.cs" />
     <Compile Include="Utilities\XTermRBGColors.cs" />
     <Compile Include="Controls\GenOTP.cs">
       <SubType>Form</SubType>
