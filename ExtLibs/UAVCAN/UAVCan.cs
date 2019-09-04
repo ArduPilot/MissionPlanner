@@ -514,7 +514,7 @@ namespace UAVCAN
 
             foreach (var server in servers)
             {
-                var url = String.Format("{0}{1}/{2}/{3}", server, devicename, hwversion.ToString("0.0##"), "firmware.bin");
+                var url = String.Format("{0}{1}/{2}/{3}", server, devicename, hwversion.ToString("0.0##", CultureInfo.InvariantCulture), "firmware.bin");
                 Console.WriteLine("LookForUpdate at " + url);
                 var req = WebRequest.Create(url);
                 ((HttpWebRequest)req).UserAgent = Assembly.GetExecutingAssembly().GetName().Name;
