@@ -45,6 +45,7 @@
             this.lbl_devfw = new System.Windows.Forms.Label();
             this.lbl_Custom_firmware_label = new System.Windows.Forms.Label();
             this.lbl_px4bl = new System.Windows.Forms.Label();
+            this.lbl_bootloaderupdate = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // pictureBoxSub
@@ -248,10 +249,21 @@
             this.lbl_px4bl.Text = "Force Bootloader";
             this.lbl_px4bl.Click += new System.EventHandler(this.Lbl_px4bl_Click);
             // 
+            // lbl_bootloaderupdate
+            // 
+            this.lbl_bootloaderupdate.AutoSize = true;
+            this.lbl_bootloaderupdate.Location = new System.Drawing.Point(522, 341);
+            this.lbl_bootloaderupdate.Name = "lbl_bootloaderupdate";
+            this.lbl_bootloaderupdate.Size = new System.Drawing.Size(96, 13);
+            this.lbl_bootloaderupdate.TabIndex = 55;
+            this.lbl_bootloaderupdate.Text = "Bootloader Update";
+            this.lbl_bootloaderupdate.Click += new System.EventHandler(this.Lbl_bootloaderupdate_Click);
+            // 
             // ConfigFirmwareManifest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.lbl_bootloaderupdate);
             this.Controls.Add(this.lbl_px4bl);
             this.Controls.Add(this.lbl_Custom_firmware_label);
             this.Controls.Add(this.lbl_devfw);
@@ -295,5 +307,6 @@
         private System.Windows.Forms.Label lbl_devfw;
         private System.Windows.Forms.Label lbl_Custom_firmware_label;
         private System.Windows.Forms.Label lbl_px4bl;
+        private System.Windows.Forms.Label lbl_bootloaderupdate;
     }
 }

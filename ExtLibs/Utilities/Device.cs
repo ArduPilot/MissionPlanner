@@ -64,7 +64,7 @@ namespace MissionPlanner.Utilities
 
             public override string ToString()
             {
-                return string.Format("devid {5} bus type {0} bus {1} address {2} devtype {3} or {4} ", bus_type,
+                return string.Format("devid {5} bus type {0} bus {1} address {2} devtypeimu {3} or compass {4} ", bus_type,
                     bus, address, devtype, devtypeimu, devid);
             }
 
@@ -112,7 +112,8 @@ namespace MissionPlanner.Utilities
                 DEVTYPE_INS_BMI088 = 0x2B,
                 DEVTYPE_INS_ICM20948 = 0x2C,
                 DEVTYPE_INS_ICM20648 = 0x2D,
-                DEVTYPE_INS_ICM20649 = 0x2E
+                DEVTYPE_INS_ICM20649 = 0x2E,
+                DEVTYPE_INS_ICM20602 = 0x2F
             };
 
         public enum px4_i2c_bus
