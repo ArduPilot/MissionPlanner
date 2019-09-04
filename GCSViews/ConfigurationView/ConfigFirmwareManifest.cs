@@ -329,7 +329,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
             if (change)
-                Refresh();
+                this.BeginInvokeIfRequired(() => { this.Refresh(); });
         }
 
         private void Lbl_devfw_Click(object sender, EventArgs e)
