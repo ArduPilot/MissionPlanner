@@ -204,6 +204,15 @@ namespace MissionPlanner.Utilities
 
             BuildUnitMultiList();
 
+            // used to set the firmware type
+            foreach (var item in GetEnumeratorType(new[]
+            {
+                "MSG", "PARM"
+            }))
+            {
+                Console.WriteLine(item.raw.ToJSON());
+            }
+
             // try get gps time - when a dfitem is created and no valid gpstime has been establish the messages are parsed to get a valid gpstime
             // here we just force the parsing of gps messages to get the valid board time to gps time offset
             int gpsa = 0;
