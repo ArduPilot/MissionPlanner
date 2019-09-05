@@ -2742,7 +2742,10 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 var msglen = 180;
 
                 if (length > msglen * 4)
+                {
                     log.Error("Message too large " + length);
+                    return;
+                }
 
                 // number of packets we need, including a termination packet if needed
                 var nopackets = (length % msglen) == 0 ? length / msglen + 1 : (length / msglen) + 1;
