@@ -129,7 +129,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="backstageView.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1000, 919</value>
+    <value>1000, 489</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="backstageView.TabIndex" type="System.Int32, mscorlib">
@@ -148,7 +148,7 @@
     <value>29</value>
   </data>
   <data name="backstageViewPageaccel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>34, 246</value>
   </data>
   <data name="backstageViewPageaccel.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 23</value>
@@ -175,7 +175,7 @@
     <value>0</value>
   </data>
   <data name="backstageViewPageairspeed.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>34, 223</value>
   </data>
   <data name="backstageViewPageairspeed.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 23</value>
@@ -202,7 +202,7 @@
     <value>1</value>
   </data>
   <data name="backstageViewPageAntTrack.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>34, 200</value>
   </data>
   <data name="backstageViewPageAntTrack.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 23</value>
@@ -229,7 +229,7 @@
     <value>2</value>
   </data>
   <data name="backstageViewPagebatmon.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>34, 177</value>
   </data>
   <data name="backstageViewPagebatmon.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 23</value>
@@ -256,7 +256,7 @@
     <value>3</value>
   </data>
   <data name="backstageViewPageBatt2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>34, 154</value>
   </data>
   <data name="backstageViewPageBatt2.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 23</value>
@@ -283,7 +283,7 @@
     <value>4</value>
   </data>
   <data name="backstageViewPagecompass.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>34, 131</value>
   </data>
   <data name="backstageViewPagecompass.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 23</value>
@@ -310,7 +310,7 @@
     <value>5</value>
   </data>
   <data name="backstageViewPagecompassmot.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>34, 108</value>
   </data>
   <data name="backstageViewPagecompassmot.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 23</value>
@@ -337,7 +337,7 @@
     <value>6</value>
   </data>
   <data name="backstageViewPageESC.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>34, 85</value>
   </data>
   <data name="backstageViewPageESC.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 23</value>
@@ -364,7 +364,7 @@
     <value>7</value>
   </data>
   <data name="backstageViewPageESP.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>34, 62</value>
   </data>
   <data name="backstageViewPageESP.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 23</value>
@@ -391,7 +391,7 @@
     <value>8</value>
   </data>
   <data name="backstageViewPageflmode.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>34, 39</value>
   </data>
   <data name="backstageViewPageflmode.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 23</value>
@@ -418,7 +418,7 @@
     <value>9</value>
   </data>
   <data name="backstageViewPageframetype.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>34, 269</value>
   </data>
   <data name="backstageViewPageframetype.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 23</value>
@@ -445,7 +445,7 @@
     <value>10</value>
   </data>
   <data name="backstageViewPagefs.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>34, 292</value>
   </data>
   <data name="backstageViewPagefs.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 23</value>
@@ -472,7 +472,7 @@
     <value>11</value>
   </data>
   <data name="backstageViewPagefw.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>34, 315</value>
   </data>
   <data name="backstageViewPagefw.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 23</value>
@@ -499,7 +499,7 @@
     <value>12</value>
   </data>
   <data name="backstageViewPagefwdisabled.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>34, 338</value>
   </data>
   <data name="backstageViewPagefwdisabled.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 23</value>
@@ -526,7 +526,7 @@
     <value>13</value>
   </data>
   <data name="backstageViewPagegimbal.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>34, 361</value>
   </data>
   <data name="backstageViewPagegimbal.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 23</value>
@@ -553,7 +553,7 @@
     <value>14</value>
   </data>
   <data name="backstageViewPagehwbt.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>34, 384</value>
   </data>
   <data name="backstageViewPagehwbt.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 23</value>
@@ -580,7 +580,7 @@
     <value>15</value>
   </data>
   <data name="backstageViewPageinstfw.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>34, 407</value>
   </data>
   <data name="backstageViewPageinstfw.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 23</value>
@@ -607,7 +607,7 @@
     <value>16</value>
   </data>
   <data name="backstageViewPagemand.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>34, 430</value>
   </data>
   <data name="backstageViewPagemand.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 23</value>
@@ -634,7 +634,7 @@
     <value>17</value>
   </data>
   <data name="backstageViewPageMotorTest.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>196, 39</value>
   </data>
   <data name="backstageViewPageMotorTest.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 23</value>
@@ -661,7 +661,7 @@
     <value>18</value>
   </data>
   <data name="backstageViewPageopt.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>196, 62</value>
   </data>
   <data name="backstageViewPageopt.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 23</value>
@@ -688,7 +688,7 @@
     <value>19</value>
   </data>
   <data name="backstageViewPageoptflow.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>196, 85</value>
   </data>
   <data name="backstageViewPageoptflow.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 23</value>
@@ -715,7 +715,7 @@
     <value>20</value>
   </data>
   <data name="backstageViewPageosd.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>196, 108</value>
   </data>
   <data name="backstageViewPageosd.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 23</value>
@@ -742,7 +742,7 @@
     <value>21</value>
   </data>
   <data name="backstageViewPageParachute.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>196, 131</value>
   </data>
   <data name="backstageViewPageParachute.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 23</value>
@@ -769,7 +769,7 @@
     <value>22</value>
   </data>
   <data name="backstageViewPagePX4Flow.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>196, 154</value>
   </data>
   <data name="backstageViewPagePX4Flow.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 23</value>
@@ -796,7 +796,7 @@
     <value>23</value>
   </data>
   <data name="backstageViewPageradio.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>196, 177</value>
   </data>
   <data name="backstageViewPageradio.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 23</value>
@@ -823,7 +823,7 @@
     <value>24</value>
   </data>
   <data name="backstageViewPageSikradio.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>196, 200</value>
   </data>
   <data name="backstageViewPageSikradio.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 23</value>
@@ -850,7 +850,7 @@
     <value>25</value>
   </data>
   <data name="backstageViewPagesonar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>196, 223</value>
   </data>
   <data name="backstageViewPagesonar.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 23</value>
@@ -877,7 +877,7 @@
     <value>26</value>
   </data>
   <data name="backstageViewPagetradheli.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>196, 246</value>
   </data>
   <data name="backstageViewPagetradheli.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 23</value>
@@ -904,7 +904,7 @@
     <value>27</value>
   </data>
   <data name="backstageViewPagewizard.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>196, 269</value>
   </data>
   <data name="backstageViewPagewizard.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 23</value>
@@ -937,7 +937,7 @@
     <value>226</value>
   </metadata>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1000, 919</value>
+    <value>1000, 489</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>InitialSetup</value>
