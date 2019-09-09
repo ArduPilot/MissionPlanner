@@ -685,7 +685,7 @@ namespace px4uploader
                     throw new Exception("Firmware not suitable for this board");
             }
 
-            if (self.fw_maxsize < fw.image_size)
+            if (self.fw_maxsize < fw.image_size && self.fw_maxsize != 0)
                 throw new Exception("Firmware image is too large for this board");
 
             print("erase...");
