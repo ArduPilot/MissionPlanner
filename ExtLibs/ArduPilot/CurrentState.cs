@@ -978,7 +978,7 @@ namespace MissionPlanner
         }
 
         public PointLatLngAlt TargetLocation { get; set; } = PointLatLngAlt.Zero;
-
+        /*
         public float GeoFenceDist
         {
             get
@@ -1053,7 +1053,7 @@ namespace MissionPlanner
                 }
             }
         }
-
+        */
         [DisplayText("Dist to Home (dist)")]
         public float DistToHome
         {
@@ -1769,6 +1769,9 @@ namespace MissionPlanner
                         try
                         {
                             capabilities = (uint)(MAVLink.MAV_PROTOCOL_CAPABILITY)version.capabilities;
+                            var test = (MAVLink.MAV_PROTOCOL_CAPABILITY)version.capabilities;
+                            
+                            Console.WriteLine(test);
                         }
                         catch
                         {

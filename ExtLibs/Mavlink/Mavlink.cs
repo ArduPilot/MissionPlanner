@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Fri Aug 23 2019";
+    public const string MAVLINK_BUILD_DATE = "Sat Sep 07 2019";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -3066,7 +3066,8 @@ public partial class MAVLink
     };
     
     ///<summary> Power supply status flags (bitmask) </summary>
-    public enum MAV_POWER_STATUS: ushort
+    [Flags]
+	public enum MAV_POWER_STATUS: ushort
     {
             ///<summary> main brick power supply valid | </summary>
         [Description("main brick power supply valid")]
@@ -3111,7 +3112,8 @@ public partial class MAVLink
     };
     
     ///<summary> SERIAL_CONTROL flags (bitmask) </summary>
-    public enum SERIAL_CONTROL_FLAG: byte
+    [Flags]
+	public enum SERIAL_CONTROL_FLAG: byte
     {
             ///<summary> Set if this is a reply | </summary>
         [Description("Set if this is a reply")]
@@ -3285,7 +3287,8 @@ public partial class MAVLink
     };
     
     ///<summary> Bitmask of (optional) autopilot capabilities (64 bit). If a bit is set, the autopilot supports this capability. </summary>
-    public enum MAV_PROTOCOL_CAPABILITY: ulong
+    [Flags]
+	public enum MAV_PROTOCOL_CAPABILITY: ulong
     {
             ///<summary> Autopilot supports MISSION float message type. | </summary>
         [Description("Autopilot supports MISSION float message type.")]

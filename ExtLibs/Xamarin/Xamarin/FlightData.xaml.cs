@@ -507,7 +507,8 @@ namespace Xamarin
 
                                 foreach (var mark in MainV2.comPort.MAV.rallypoints.Values)
                                 {
-                                    rallypointoverlay.Markers.Add(new GMapMarkerRallyPt(mark));
+                                    rallypointoverlay.Markers.Add(
+                                        new GMapMarkerRallyPt(new PointLatLngAlt(mark.x / 1e7, mark.y / 1e7, mark.z)));
                                 }
 
                                 // optional on Flight data

@@ -239,9 +239,9 @@ namespace MissionPlanner
         /// </summary>
         public ConcurrentDictionary<int, mavlink_mission_item_int_t> wps = new ConcurrentDictionary<int, mavlink_mission_item_int_t>();
 
-        public ConcurrentDictionary<int, mavlink_rally_point_t> rallypoints = new ConcurrentDictionary<int, mavlink_rally_point_t>();
+        public ConcurrentDictionary<int, mavlink_mission_item_int_t> rallypoints = new ConcurrentDictionary<int, mavlink_mission_item_int_t>();
 
-        public ConcurrentDictionary<int, mavlink_fence_point_t> fencepoints = new ConcurrentDictionary<int, mavlink_fence_point_t>();
+        public ConcurrentDictionary<int, mavlink_mission_item_int_t> fencepoints = new ConcurrentDictionary<int, mavlink_mission_item_int_t>();
 
         public List<mavlink_camera_feedback_t> camerapoints = new List<mavlink_camera_feedback_t>();
 

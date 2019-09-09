@@ -349,6 +349,7 @@
     <Compile Include="Controls\DigitalSkyUI.Designer.cs">
       <DependentUpon>DigitalSkyUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Icon\File.cs" />
     <Compile Include="Controls\RelayOptions.cs">
       <SubType>UserControl</SubType>
     </Compile>

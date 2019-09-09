@@ -780,11 +780,14 @@ namespace MissionPlanner.GCSViews
                     ""
                 };
                 cmdParamNames.Clear();
-                cmdParamNames.Add(MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_INCLUSION.ToString(), fence);
-                cmdParamNames.Add(MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_EXCLUSION.ToString(), fence);
-                cmdParamNames.Add(MAVLink.MAV_CMD.FENCE_CIRCLE_EXCLUSION.ToString(), fence);
-                cmdParamNames.Add(MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION.ToString(), fence);
-                cmdParamNames.Add(MAVLink.MAV_CMD.FENCE_RETURN_POINT.ToString(), fence);
+                cmdParamNames.Add(MAVLink.MAV_CMD.FENCE_RETURN_POINT.ToString(), fence.ToArray());
+                fence[0] = "Points";
+                cmdParamNames.Add(MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_INCLUSION.ToString(), fence.ToArray());
+                cmdParamNames.Add(MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_EXCLUSION.ToString(), fence.ToArray());
+                fence[0] = "Radius";
+                cmdParamNames.Add(MAVLink.MAV_CMD.FENCE_CIRCLE_EXCLUSION.ToString(), fence.ToArray());
+                cmdParamNames.Add(MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION.ToString(), fence.ToArray());
+                
             }
             if ((MAVLink.MAV_MISSION_TYPE)cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.RALLY)
             {
@@ -1293,7 +1296,7 @@ namespace MissionPlanner.GCSViews
 
         void updateRowNumbers()
         {
-            if (this.IsDisposed || this.Disposing)
+            if (!this.IsHandleCreated || this.IsDisposed || this.Disposing)
                 return;
 
             // number rows 
@@ -1417,6 +1420,37 @@ namespace MissionPlanner.GCSViews
                     }
 
                     pointlist = overlay.pointlist;
+
+                    MainMap.Refresh();
+                }
+
+                if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.FENCE)
+                {
+                    var overlay = new WPOverlay();
+                    overlay.overlay.Id = "fence";
+
+                    try
+                    {
+                        overlay.CreateOverlay((MAVLink.MAV_FRAME) (altmode) CMB_altmode.SelectedValue, PointLatLngAlt.Zero, 
+                            commandlist, 0, 0);
+                    }
+                    catch (FormatException ex)
+                    {
+                        CustomMessageBox.Show(Strings.InvalidNumberEntered + "\n" + "WP Radius or Loiter Radius",
+                            Strings.ERROR);
+                    }
+
+                    MainMap.HoldInvalidation = true;
+
+                    var existing = MainMap.Overlays.Where(a => a.Id == overlay.overlay.Id).ToList();
+                    foreach (var b in existing)
+                    {
+                        MainMap.Overlays.Remove(b);
+                    }
+
+                    MainMap.Overlays.Insert(1, overlay.overlay);
+
+                    overlay.overlay.ForceUpdate();
 
                     MainMap.Refresh();
                 }
@@ -3089,11 +3123,15 @@ namespace MissionPlanner.GCSViews
 
                 if (polyicon.IsSelected)
                 {
-                    polygongridmode = true;
+                    contextMenuStripPoly.Show(MainMap, e.Location);
+
+                    return;
+                    //polygongridmode = true;
                 }
                 else
                 {
-                    polygongridmode = false;
+                    contextMenuStripPoly.Visible = false;
+                    //polygongridmode = false;
                 }
 
                 return;
@@ -3925,6 +3963,8 @@ namespace MissionPlanner.GCSViews
             {
                 CustomMessageBox.Show(
                     "You will remain in polygon mode until you clear the polygon or create a grid/upload a fence");
+                polygongridmode = true;
+                return;
             }
 
             polygongridmode = true;
@@ -5693,6 +5733,20 @@ namespace MissionPlanner.GCSViews
             {
                 deleteWPToolStripMenuItem.Enabled = true;
             }
+            
+            if (MainV2.comPort != null && MainV2.comPort.MAV != null)
+            {
+                if ((MainV2.comPort.MAV.cs.capabilities & (int)MAVLink.MAV_PROTOCOL_CAPABILITY.MISSION_FENCE) > 0)
+                {
+                    geoFenceToolStripMenuItem.Visible = false;
+                    rallyPointsToolStripMenuItem.Visible = false;
+                }
+                else
+                {
+                    geoFenceToolStripMenuItem.Visible = true;
+                    rallyPointsToolStripMenuItem.Visible = true;
+                }
+            }
 
             isMouseClickOffMenu = false; // Just incase
         }
@@ -6183,11 +6237,15 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                             {
                                 rallypointoverlay.Markers.Clear();
 
-                                rallypointoverlay.Markers.Add(new GMapMarkerRallyPt(rally));
+                                rallypointoverlay.Markers.Add(
+                                    new GMapMarkerRallyPt(new PointLatLngAlt(rally.lat / 1e7, rally.lng / 1e7,
+                                        rally.alt)));
                             }
                             else
                             {
-                                rallypointoverlay.Markers.Add(new GMapMarkerRallyPt(rally));
+                                rallypointoverlay.Markers.Add(
+                                    new GMapMarkerRallyPt(new PointLatLngAlt(rally.lat / 1e7, rally.lng / 1e7,
+                                        rally.alt)));
                             }
                             a++;
                         }
@@ -6874,7 +6932,61 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
         private void Cmb_missiontype_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // switch the mavcmd list and init
             Activate();
+
+            // update the displayed items
+            if ((MAVLink.MAV_MISSION_TYPE)cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.RALLY)
+            {
+                BUT_Add.Visible = false;
+                processToScreen(MainV2.comPort.MAV.rallypoints.Select(a => (Locationwp)a.Value).ToList());
+            }
+            else if ((MAVLink.MAV_MISSION_TYPE)cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.FENCE)
+            {
+                BUT_Add.Visible = false;
+                processToScreen(MainV2.comPort.MAV.fencepoints.Select(a => (Locationwp)a.Value).ToList());
+            }
+            else
+            {
+                BUT_Add.Visible = true;
+                processToScreen(MainV2.comPort.MAV.wps.Select(a => (Locationwp) a.Value).ToList());
+            }
+
+            writeKML();
+        }
+
+        private void FenceInclusionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int count = 0;
+            drawnpolygon.Points.ForEach(a => AddCommand(MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_INCLUSION,
+                drawnpolygon.Points.Count, 0, 0, 0, a.Lat, a.Lng, count++));
+        }
+
+        private void FenceExclusionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int count = 0;
+            drawnpolygon.Points.ForEach(a => AddCommand(MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_EXCLUSION,
+                drawnpolygon.Points.Count, 0, 0, 0, a.Lat, a.Lng, count++));
+        }
+
+        private void ContextMenuStripPoly_Opening(object sender, CancelEventArgs e)
+        {
+            // update the displayed items
+            if ((MAVLink.MAV_MISSION_TYPE)cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.RALLY)
+            {
+                fenceInclusionToolStripMenuItem.Visible = false;
+                fenceExclusionToolStripMenuItem.Visible = false;
+            }
+            else if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.FENCE)
+            {
+                fenceInclusionToolStripMenuItem.Visible = true;
+                fenceExclusionToolStripMenuItem.Visible = true;
+            }
+            else
+            {
+                fenceInclusionToolStripMenuItem.Visible = false;
+                fenceExclusionToolStripMenuItem.Visible = false;
+            }
         }
     }
 }

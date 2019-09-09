@@ -1710,8 +1710,8 @@ namespace MissionPlanner
                     {
                         foreach (var rally1 in comPort.MAV.rallypoints)
                         {
-                            var pnt1 = new PointLatLngAlt(rally.Value.lat / 10000000.0f, rally.Value.lng / 10000000.0f);
-                            var pnt2 = new PointLatLngAlt(rally1.Value.lat / 10000000.0f, rally1.Value.lng / 10000000.0f);
+                            var pnt1 = new PointLatLngAlt(rally.Value.y / 10000000.0f, rally.Value.x / 10000000.0f);
+                            var pnt2 = new PointLatLngAlt(rally1.Value.y / 10000000.0f, rally1.Value.x / 10000000.0f);
 
                             var dist = pnt1.GetDistance(pnt2);
 

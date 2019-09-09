@@ -4319,7 +4319,12 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     wp.target_component = compid;
                 }
 
-                MAVlist[wp.target_system, wp.target_component].wps.Clear();
+                if (wp.mission_type == (byte)MAV_MISSION_TYPE.MISSION)
+                    MAVlist[wp.target_system, wp.target_component].wps.Clear();
+                if (wp.mission_type == (byte)MAV_MISSION_TYPE.FENCE)
+                    MAVlist[wp.target_system, wp.target_component].fencepoints.Clear();
+                if (wp.mission_type == (byte)MAV_MISSION_TYPE.RALLY)
+                    MAVlist[wp.target_system, wp.target_component].rallypoints.Clear();
             }
             else if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_ITEM)
             {
@@ -4334,11 +4339,17 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 if (wp.current == 2)
                 {
                     // guide mode wp
-                    MAVlist[wp.target_system, wp.target_component].GuidedMode = (Locationwp)wp;
+                    if (wp.mission_type == (byte)MAV_MISSION_TYPE.MISSION)
+                        MAVlist[wp.target_system, wp.target_component].GuidedMode = (Locationwp)wp;
                 }
                 else
                 {
-                    MAVlist[wp.target_system, wp.target_component].wps[wp.seq] = (Locationwp)wp;
+                    if (wp.mission_type == (byte)MAV_MISSION_TYPE.MISSION)
+                        MAVlist[wp.target_system, wp.target_component].wps[wp.seq] = (Locationwp)wp;
+                    if (wp.mission_type == (byte) MAV_MISSION_TYPE.FENCE)
+                        MAVlist[wp.target_system, wp.target_component].fencepoints[wp.seq] = (Locationwp) wp;
+                    if (wp.mission_type == (byte) MAV_MISSION_TYPE.RALLY)
+                        MAVlist[wp.target_system, wp.target_component].rallypoints[wp.seq] = (Locationwp) wp;
                 }
 
                 //Console.WriteLine("WP # {7} cmd {8} p1 {0} p2 {1} p3 {2} p4 {3} x {4} y {5} z {6}", wp.param1, wp.param2, wp.param3, wp.param4, wp.x, wp.y, wp.z, wp.seq, wp.command);
@@ -4356,11 +4367,17 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 if (wp.current == 2)
                 {
                     // guide mode wp
-                    MAVlist[wp.target_system, wp.target_component].GuidedMode = (Locationwp) wp;
+                    if (wp.mission_type == (byte)MAV_MISSION_TYPE.MISSION)
+                        MAVlist[wp.target_system, wp.target_component].GuidedMode = (Locationwp) wp;
                 }
                 else
                 {
-                    MAVlist[wp.target_system, wp.target_component].wps[wp.seq] = (Locationwp) wp;
+                    if (wp.mission_type == (byte)MAV_MISSION_TYPE.MISSION)
+                        MAVlist[wp.target_system, wp.target_component].wps[wp.seq] = wp;
+                    if (wp.mission_type == (byte)MAV_MISSION_TYPE.FENCE)
+                        MAVlist[wp.target_system, wp.target_component].fencepoints[wp.seq] = wp;
+                    if (wp.mission_type == (byte)MAV_MISSION_TYPE.RALLY)
+                        MAVlist[wp.target_system, wp.target_component].rallypoints[wp.seq] = wp;
                 }
 
                 //Console.WriteLine("WP INT # {7} cmd {8} p1 {0} p2 {1} p3 {2} p4 {3} x {4} y {5} z {6}", wp.param1, wp.param2, wp.param3, wp.param4, wp.x, wp.y, wp.z, wp.seq, wp.command);
@@ -4383,7 +4400,10 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     rallypt.target_component = compid;
                 }
 
-                MAVlist[rallypt.target_system, rallypt.target_component].rallypoints[rallypt.idx] = rallypt;
+                MAVlist[rallypt.target_system, rallypt.target_component].rallypoints[rallypt.idx] =
+                    new mavlink_mission_item_int_t(0, 0, 0, 0, rallypt.lat, rallypt.lng, rallypt.alt, rallypt.idx,
+                        (ushort)MAV_CMD.RALLY_POINT, rallypt.target_system, rallypt.target_component,
+                        (byte)MAV_FRAME.GLOBAL_RELATIVE_ALT, 0, 0, (byte)MAV_MISSION_TYPE.RALLY);
 
                 //Console.WriteLine("RP # {0} {1} {2} {3} {4}", rallypt.idx, rallypt.lat, rallypt.lng, rallypt.alt, rallypt.break_alt);
             }
@@ -4409,7 +4429,11 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     fencept.target_component = compid;
                 }
 
-                MAVlist[fencept.target_system, fencept.target_component].fencepoints[fencept.idx] = fencept;
+                MAVlist[fencept.target_system, fencept.target_component].fencepoints[fencept.idx] =
+                    new mavlink_mission_item_int_t(fencept.count, 0, 0, 0, (int) (fencept.lat * 1e7),
+                        (int) (fencept.lng * 1e7), 0, fencept.idx, (ushort) MAV_CMD.FENCE_POLYGON_VERTEX_INCLUSION,
+                        fencept.target_system, fencept.target_component, (byte) MAV_FRAME.GLOBAL_RELATIVE_ALT, 0, 0,
+                        (byte) MAV_MISSION_TYPE.FENCE);
             }
             else if (buffer.msgid == (byte) MAVLINK_MSG_ID.PARAM_VALUE)
             {

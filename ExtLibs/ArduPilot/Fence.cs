@@ -48,6 +48,11 @@ namespace MissionPlanner.Utilities
         {
             var list = mav_mission.download(port, MAVLink.MAV_MISSION_TYPE.FENCE, progress);
 
+            LocationToFence(list);
+        }
+
+        public List<object> LocationToFence(List<Locationwp> list)
+        {
             FencePolygon pol = new FencePolygon();
 
             foreach (var locationwp in list)
@@ -108,11 +113,20 @@ namespace MissionPlanner.Utilities
                         break;
                 }
             }
+
+            return Fences;
         }
 
         public void UploadFence(MAVLinkInterface port, Action<int, string> progress = null)
         {
-            var fence = Fences.SelectMany((o, i) =>
+            var fence = FenceToLocation();
+
+            mav_mission.upload(port, MAVLink.MAV_MISSION_TYPE.FENCE, fence, progress);
+        }
+
+        public List<Locationwp> FenceToLocation()
+        {
+            return Fences.SelectMany((o, i) =>
             {
                 var ans = new List<Locationwp>();
                 if (o is FenceCircle)
@@ -153,8 +167,6 @@ namespace MissionPlanner.Utilities
 
                 return ans;
             }).ToList();
-
-            mav_mission.upload(port, MAVLink.MAV_MISSION_TYPE.FENCE, fence, progress);
         }
     }
 }
