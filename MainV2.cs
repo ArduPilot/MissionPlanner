@@ -1727,7 +1727,7 @@ namespace MissionPlanner
                                               (float)comPort.MAV.param["RALLY_LIMIT_KM"]);
                     }
                 }
-
+   
                 // get any fences
                 if (MainV2.comPort.MAV.param.ContainsKey("FENCE_TOTAL") &&
                     int.Parse(MainV2.comPort.MAV.param["FENCE_TOTAL"].ToString()) > 1 &&

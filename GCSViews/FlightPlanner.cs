@@ -1224,51 +1224,6 @@ namespace MissionPlanner.GCSViews
             }
         }
 
-        /// <summary>
-        /// used to add a marker to the map display
-        /// </summary>
-        /// <param name="tag"></param>
-        /// <param name="lng"></param>
-        /// <param name="lat"></param>
-        /// <param name="alt"></param>
-        private void addpolygonmarker(string tag, double lng, double lat, double alt, Color? color)
-        {
-            try
-            {
-                PointLatLng point = new PointLatLng(lat, lng);
-                GMapMarkerWP m = new GMapMarkerWP(point, tag);
-                m.ToolTipMode = MarkerTooltipMode.OnMouseOver;
-                m.ToolTipText = "Alt: " + alt.ToString("0");
-                m.Tag = tag;
-
-                int wpno = -1;
-                if (int.TryParse(tag, out wpno))
-                {
-                    // preselect groupmarker
-                    if (groupmarkers.Contains(wpno))
-                        m.selected = true;
-                }
-
-                //MissionPlanner.GMapMarkerRectWPRad mBorders = new MissionPlanner.GMapMarkerRectWPRad(point, (int)float.Parse(TXT_WPRad.Text), MainMap);
-                GMapMarkerRect mBorders = new GMapMarkerRect(point);
-                {
-                    mBorders.InnerMarker = m;
-                    mBorders.Tag = tag;
-                    mBorders.wprad = (int) (float.Parse(TXT_WPRad.Text)/CurrentState.multiplierdist);
-                    if (color.HasValue)
-                    {
-                        mBorders.Color = color.Value;
-                    }
-                }
-
-                objectsoverlay.Markers.Add(m);
-                objectsoverlay.Markers.Add(mBorders);
-            }
-            catch (Exception)
-            {
-            }
-        }
-
         private void addpolygonmarkergrid(string tag, double lng, double lat, int alt)
         {
             try
@@ -1367,6 +1322,7 @@ namespace MissionPlanner.GCSViews
                 if ((MAVLink.MAV_MISSION_TYPE)cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.MISSION)
                 {
                     overlay = new WPOverlay();
+                    overlay.overlay.Id = "WPOverlay";
 
                     try
                     {
@@ -1436,8 +1392,37 @@ namespace MissionPlanner.GCSViews
                     }
                     catch (FormatException ex)
                     {
-                        CustomMessageBox.Show(Strings.InvalidNumberEntered + "\n" + "WP Radius or Loiter Radius",
-                            Strings.ERROR);
+                        CustomMessageBox.Show(Strings.InvalidNumberEntered, Strings.ERROR);
+                    }
+
+                    MainMap.HoldInvalidation = true;
+
+                    var existing = MainMap.Overlays.Where(a => a.Id == overlay.overlay.Id).ToList();
+                    foreach (var b in existing)
+                    {
+                        MainMap.Overlays.Remove(b);
+                    }
+
+                    MainMap.Overlays.Insert(1, overlay.overlay);
+
+                    overlay.overlay.ForceUpdate();
+
+                    MainMap.Refresh();
+                }
+
+                if ((MAVLink.MAV_MISSION_TYPE)cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.RALLY)
+                {
+                    var overlay = new WPOverlay();
+                    overlay.overlay.Id = "rally";
+
+                    try
+                    {
+                        overlay.CreateOverlay((MAVLink.MAV_FRAME)(altmode)CMB_altmode.SelectedValue, PointLatLngAlt.Zero,
+                            commandlist, 0, 0);
+                    }
+                    catch (FormatException ex)
+                    {
+                        CustomMessageBox.Show(Strings.InvalidNumberEntered, Strings.ERROR);
                     }
 
                     MainMap.HoldInvalidation = true;
@@ -1675,7 +1660,7 @@ namespace MissionPlanner.GCSViews
             WPtoScreen(cmds);
         }
 
-        public void WPtoScreen(List<Locationwp> cmds, bool withrally = true)
+        public void WPtoScreen(List<Locationwp> cmds)
         {
             try
             {
@@ -1689,16 +1674,6 @@ namespace MissionPlanner.GCSViews
                     catch (Exception exx)
                     {
                         log.Info(exx.ToString());
-                    }
-
-                    try
-                    {
-                        if (withrally && MainV2.comPort.MAV.param.ContainsKey("RALLY_TOTAL") &&
-                            int.Parse(MainV2.comPort.MAV.param["RALLY_TOTAL"].ToString()) >= 1)
-                            getRallyPointsToolStripMenuItem_Click(null, null);
-                    }
-                    catch
-                    {
                     }
 
                     MainV2.comPort.giveComport = false;
@@ -2327,8 +2302,6 @@ namespace MissionPlanner.GCSViews
 
             writeKML();
 
-            MainMap.ZoomAndCenterMarkers("WPOverlay");
-
             MainMap_OnMapZoomChanged();
         }
 
@@ -2803,8 +2776,8 @@ namespace MissionPlanner.GCSViews
                         try
                         {
                             Commands.CurrentCell = Commands[0, answer - 1];
-                            item.ToolTipText = "Alt: " + Commands[Alt.Index, answer - 1].Value;
-                            item.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+                            //item.ToolTipText = "Alt: " + Commands[Alt.Index, answer - 1].Value;
+                            //item.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                         }
                         catch (Exception ex)
                         {
@@ -4507,6 +4480,12 @@ namespace MissionPlanner.GCSViews
             polygongridmode = false;
             int count = 1;
 
+            if ((MainV2.comPort.MAV.cs.capabilities & (uint)MAVLink.MAV_PROTOCOL_CAPABILITY.MISSION_FENCE) >= 0)
+            {
+                mav_mission.download(MainV2.comPort, MAVLink.MAV_MISSION_TYPE.FENCE);
+                return;
+            }
+
             if (MainV2.comPort.MAV.param["FENCE_ACTION"] == null || MainV2.comPort.MAV.param["FENCE_TOTAL"] == null)
             {
                 CustomMessageBox.Show("Not Supported");
@@ -4522,7 +4501,6 @@ namespace MissionPlanner.GCSViews
             geofenceoverlay.Polygons.Clear();
             geofenceoverlay.Markers.Clear();
             geofencepolygon.Points.Clear();
-
 
             for (int a = 0; a < count; a++)
             {
@@ -5892,6 +5870,13 @@ namespace MissionPlanner.GCSViews
 
         public void getRallyPointsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if ((MainV2.comPort.MAV.cs.capabilities & (uint)MAVLink.MAV_PROTOCOL_CAPABILITY.MISSION_RALLY) >= 0)
+            {
+                mav_mission.download(MainV2.comPort, MAVLink.MAV_MISSION_TYPE.RALLY);
+
+                return;
+            }
+
             if (MainV2.comPort.MAV.param["RALLY_TOTAL"] == null)
             {
                 CustomMessageBox.Show("Not Supported");
@@ -6935,6 +6920,17 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             // switch the mavcmd list and init
             Activate();
 
+            var wp = MainMap.Overlays.Where(a => a.Id == "WPOverlay");
+            var fence = MainMap.Overlays.Where(a => a.Id == "fence");
+            var rally = MainMap.Overlays.Where(a => a.Id == "rally");
+
+            if (wp.Count() > 0)
+                MainMap.Overlays.Remove(wp.First());
+            if (fence.Count() > 0)
+                MainMap.Overlays.Remove(fence.First());
+            if (rally.Count() > 0)
+                MainMap.Overlays.Remove(rally.First());
+
             // update the displayed items
             if ((MAVLink.MAV_MISSION_TYPE)cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.RALLY)
             {
@@ -6959,14 +6955,18 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
         {
             int count = 0;
             drawnpolygon.Points.ForEach(a => AddCommand(MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_INCLUSION,
-                drawnpolygon.Points.Count, 0, 0, 0, a.Lat, a.Lng, count++));
+                drawnpolygon.Points.Count, 0, 0, 0, a.Lng, a.Lat, count++));
+
+            clearPolygonToolStripMenuItem_Click(null, null);
         }
 
         private void FenceExclusionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int count = 0;
             drawnpolygon.Points.ForEach(a => AddCommand(MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_EXCLUSION,
-                drawnpolygon.Points.Count, 0, 0, 0, a.Lat, a.Lng, count++));
+                drawnpolygon.Points.Count, 0, 0, 0, a.Lng, a.Lat, count++));
+
+            clearPolygonToolStripMenuItem_Click(null, null);
         }
 
         private void ContextMenuStripPoly_Opening(object sender, CancelEventArgs e)

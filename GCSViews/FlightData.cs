@@ -1228,6 +1228,20 @@ namespace MissionPlanner.GCSViews
                                 rallypointoverlay.Markers.Add(new GMapMarkerRallyPt(new PointLatLngAlt(mark)));
                             }
 
+                            geofence.Clear();
+
+                            var fenceoverlay = new WPOverlay();
+                            fenceoverlay.overlay.Id = "fence";
+
+                            fenceoverlay.CreateOverlay(MAVLink.MAV_FRAME.GLOBAL, PointLatLngAlt.Zero, MainV2.comPort.MAV.fencepoints.Values.Select(a => (Locationwp)a).ToList(), 0, 0);
+
+                            var fence = mymap.Overlays.Where(a => a.Id == "fence");
+                            if (fence.Count() > 0)
+                                mymap.Overlays.Remove(fence.First());
+                            mymap.Overlays.Add(fenceoverlay.overlay);
+
+                            fenceoverlay.overlay.ForceUpdate();
+
                             // optional on Flight data
                             if (MainV2.ShowAirports)
                             {

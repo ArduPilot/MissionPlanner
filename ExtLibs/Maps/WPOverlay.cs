@@ -198,7 +198,7 @@ namespace MissionPlanner.ArduPilot
                 {
                     fencepoly.Points.Add(new PointLatLng(item.lat, item.lng));
                     addpolygonmarker((a + 1).ToString(), item.lng, item.lat,
-                        null, Color.Blue, 0);
+                        null, Color.Blue, 0, MAVLink.MAV_MISSION_TYPE.FENCE);
                     if (fencepoly.Points.Count == item.p1)
                     {
                         fencepoly.Fill = Brushes.Transparent;
@@ -210,7 +210,7 @@ namespace MissionPlanner.ArduPilot
                 else if (command == (ushort)MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_EXCLUSION) // fence
                 {
                     fencepoly.Points.Add(new PointLatLng(item.lat, item.lng));
-                    addpolygonmarker((a + 1).ToString(), item.lng, item.lat,null, Color.Red, 0);
+                    addpolygonmarker((a + 1).ToString(), item.lng, item.lat,null, Color.Red, 0, MAVLink.MAV_MISSION_TYPE.FENCE);
                     if (fencepoly.Points.Count == item.p1)
                     {
                         fencepoly.Fill = new SolidBrush(Color.FromArgb(30, 255, 0, 0));
@@ -222,22 +222,22 @@ namespace MissionPlanner.ArduPilot
                 else if ( command == (ushort)MAVLink.MAV_CMD.FENCE_CIRCLE_EXCLUSION) // fence
                 {
                     addpolygonmarker((a + 1).ToString(), item.lng, item.lat,
-                        null, Color.Red, item.p1);
+                        null, Color.Red, item.p1, MAVLink.MAV_MISSION_TYPE.FENCE, Color.FromArgb(30, 255, 0, 0));
                 }
                 else if (command == (ushort)MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION) // fence
                 {
                     addpolygonmarker((a + 1).ToString(), item.lng, item.lat,
-                        null, Color.Blue, item.p1);
+                        null, Color.Blue, item.p1, MAVLink.MAV_MISSION_TYPE.FENCE);
                 }
                 else if (command == (ushort)MAVLink.MAV_CMD.FENCE_RETURN_POINT) // fence
                 {
                     addpolygonmarker((a + 1).ToString(), item.lng, item.lat,
-                        null, Color.Orange, 0);
+                        null, Color.Orange, 0, MAVLink.MAV_MISSION_TYPE.FENCE);
                 }
                 else if (command >= (ushort)MAVLink.MAV_CMD.RALLY_POINT) // rally
                 {
                     addpolygonmarker((a + 1).ToString(), item.lng, item.lat,
-                        null, Color.Orange, 0);
+                        null, Color.Orange, 0, MAVLink.MAV_MISSION_TYPE.RALLY);
                 }
                 else
                 {
@@ -277,25 +277,36 @@ namespace MissionPlanner.ArduPilot
         /// <param name="lat"></param>
         /// <param name="alt"></param>
         /// <param name="color"></param>
-        private void addpolygonmarker(string tag, double lng, double lat, double? alt, Color? color, double wpradius)
+        private void addpolygonmarker(string tag, double lng, double lat, double? alt, Color? color, double wpradius, MAVLink.MAV_MISSION_TYPE type = MAVLink.MAV_MISSION_TYPE.MISSION, Color? fillcolor = null)
         {
             try
             {
                 PointLatLng point = new PointLatLng(lat, lng);
-                GMapMarkerWP m = new GMapMarkerWP(point, tag);
-                if (alt.HasValue)
+                GMapMarker m = null;                
+                if(type == MAVLink.MAV_MISSION_TYPE.MISSION)
                 {
-                    m.ToolTipMode = MarkerTooltipMode.OnMouseOver;
-                    m.ToolTipText = "Alt: " + alt.Value.ToString("0");
+                    m = new GMapMarkerWP(point, tag);
+                    if (alt.HasValue)
+                    {
+                        m.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+                        m.ToolTipText = "Alt: " + alt.Value.ToString("0");
+                    }
+                    m.Tag = tag;
                 }
-                m.Tag = tag;
-
-                int wpno = -1;
-                if (int.TryParse(tag, out wpno))
+                else if (type == MAVLink.MAV_MISSION_TYPE.FENCE)
                 {
-                    // preselect groupmarker
-                    //if (groupmarkers.Contains(wpno))
-                        //m.selected = true;
+                    m = new GMarkerGoogle(point, GMarkerGoogleType.blue_dot);
+                    m.Tag = tag;
+                }
+                else if (type == MAVLink.MAV_MISSION_TYPE.RALLY)
+                {
+                    m = new GMapMarkerRallyPt(point);
+                    if (alt.HasValue)
+                    {
+                        m.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+                        m.ToolTipText = "Alt: " + alt.Value.ToString("0");
+                    }
+                    m.Tag = tag;
                 }
 
                 //MissionPlanner.GMapMarkerRectWPRad mBorders = new MissionPlanner.GMapMarkerRectWPRad(point, (int)float.Parse(TXT_WPRad.Text), MainMap);
@@ -307,6 +318,10 @@ namespace MissionPlanner.ArduPilot
                     if (color.HasValue)
                     {
                         mBorders.Color = color.Value;
+                    }
+                    if (fillcolor.HasValue)
+                    {
+                        mBorders.FillColor = fillcolor.Value;
                     }
                 }
 

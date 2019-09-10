@@ -27,6 +27,8 @@ namespace GMap.NET.WindowsForms
 
         Color? initcolor = null;
 
+        public Color? FillColor = null;
+
         public GMapMarker InnerMarker;
 
         public int wprad = 0;
@@ -78,11 +80,21 @@ namespace GMap.NET.WindowsForms
             // MainMap.FromLatLngToLocal(wpradposition);
 
             if (m2pixelheight > 0.5 && !double.IsInfinity(m2pixelheight))
+            {
                 g.DrawArc(Pen,
                     new System.Drawing.Rectangle(
-                        LocalPosition.X - Offset.X - (int) (Math.Abs(loc.X - LocalPosition.X)/2),
-                        LocalPosition.Y - Offset.Y - (int) Math.Abs(loc.X - LocalPosition.X)/2,
-                        (int) Math.Abs(loc.X - LocalPosition.X), (int) Math.Abs(loc.X - LocalPosition.X)), 0, 360);
+                        LocalPosition.X - Offset.X - (int)(Math.Abs(loc.X - LocalPosition.X) / 2),
+                        LocalPosition.Y - Offset.Y - (int)Math.Abs(loc.X - LocalPosition.X) / 2,
+                        (int)Math.Abs(loc.X - LocalPosition.X), (int)Math.Abs(loc.X - LocalPosition.X)), 0, 360);
+
+                if (FillColor.HasValue)
+                {
+                    g.FillPie(new SolidBrush(FillColor.Value), new System.Drawing.Rectangle(
+                                LocalPosition.X - Offset.X - (int)(Math.Abs(loc.X - LocalPosition.X) / 2),
+                                LocalPosition.Y - Offset.Y - (int)Math.Abs(loc.X - LocalPosition.X) / 2,
+                                (int)Math.Abs(loc.X - LocalPosition.X), (int)Math.Abs(loc.X - LocalPosition.X)), 0, 360);
+                }
+            }
         }
     }
 }
