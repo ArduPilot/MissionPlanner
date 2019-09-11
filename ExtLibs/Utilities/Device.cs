@@ -64,7 +64,7 @@ namespace MissionPlanner.Utilities
 
             public override string ToString()
             {
-                return string.Format("devid {5} bus type {0} bus {1} address {2} devtypeimu {3} or compass {4} ", bus_type,
+                return string.Format("devid {5} bus type {0} bus {1} address {2} compass {3} or devtypeimu {4} ", bus_type,
                     bus, address, devtype, devtypeimu, devid);
             }
 
