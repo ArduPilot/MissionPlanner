@@ -5711,7 +5711,7 @@ namespace MissionPlanner.GCSViews
             {
                 deleteWPToolStripMenuItem.Enabled = true;
             }
-            
+
             if (MainV2.comPort != null && MainV2.comPort.MAV != null)
             {
                 if ((MainV2.comPort.MAV.cs.capabilities & (int)MAVLink.MAV_PROTOCOL_CAPABILITY.MISSION_FENCE) > 0)
