@@ -64,8 +64,6 @@ namespace MissionPlanner
         // AC frame type
         public string FrameString { get; set; }
 
-        public string Guid { get; set; }
-
         /// <summary>
         /// the static global state of the currently connected MAV
         /// </summary>
