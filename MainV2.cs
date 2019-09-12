@@ -621,7 +621,12 @@ namespace MissionPlanner
             catch { }
 
             Warnings.CustomWarning.defaultsrc = comPort.MAV.cs;
-            Warnings.WarningEngine.Start();
+            Warnings.WarningEngine.Start(speechEnable ? speechEngine : null);
+            Warnings.WarningEngine.WarningMessage += (sender, s) =>
+            {
+                MainV2.comPort.MAV.cs.messageHigh = s;
+                MainV2.comPort.MAV.cs.messageHighTime = DateTime.Now;
+            };
 
             // proxy loader - dll load now instead of on config form load
             new Transition(new TransitionType_EaseInEaseOut(2000));

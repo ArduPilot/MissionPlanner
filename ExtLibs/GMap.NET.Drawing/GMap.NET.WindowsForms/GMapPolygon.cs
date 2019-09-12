@@ -1,6 +1,4 @@
-﻿using SvgNet.SvgGdi;
-
-namespace GMap.NET.WindowsForms
+﻿namespace GMap.NET.WindowsForms
 {
    using System.Collections.Generic;
    using System.Drawing;

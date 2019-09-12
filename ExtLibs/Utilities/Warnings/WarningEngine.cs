@@ -57,7 +57,9 @@ namespace MissionPlanner.Warnings
             }
         }
 
-        public static void Start()
+        public static event EventHandler<string> WarningMessage;
+
+        public static void Start(ISpeech speech)
         {
             if (run == false)
             {
@@ -66,6 +68,8 @@ namespace MissionPlanner.Warnings
                 thisthread.IsBackground = true;
                 thisthread.Start();
             }
+
+            _speech = speech;
         }
 
         public static void Stop()
@@ -76,14 +80,14 @@ namespace MissionPlanner.Warnings
         }
 
         static Thread thisthread;
+        private static ISpeech _speech;
 
         public static void MainLoop()
         {
             run = true;
             while (run)
             {
-                if (MainV2.comPort.BaseStream.IsOpen)
-                {
+                
                     try
                     {
                         lock (warnings)
@@ -93,16 +97,15 @@ namespace MissionPlanner.Warnings
                                 // check primary condition
                                 if (checkCond(item))
                                 {
-                                    if (MainV2.speechEnable)
+                                    if (_speech != null)
                                     {
-                                        while (!MainV2.speechEngine.IsReady)
+                                        while (!_speech.IsReady)
                                             System.Threading.Thread.Sleep(10);
 
-                                        MainV2.speechEngine.SpeakAsync(item.SayText());
+                                        _speech.SpeakAsync(item.SayText());
                                     }
 
-                                    MainV2.comPort.MAV.cs.messageHigh = item.SayText();
-                                    MainV2.comPort.MAV.cs.messageHighTime = DateTime.Now;
+                                    WarningMessage?.Invoke(null, item.SayText());
                                 }
                             }
                         }
@@ -110,7 +113,6 @@ namespace MissionPlanner.Warnings
                     catch
                     {
                     }
-                }
 
                 System.Threading.Thread.Sleep(100);
             }

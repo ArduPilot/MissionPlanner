@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using GMap.NET;
+using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using MissionPlanner.Utilities.Drawing;
-using SharpKml.Dom;
-using SvgNet.SvgGdi;
 
 namespace MissionPlanner.Maps
 {

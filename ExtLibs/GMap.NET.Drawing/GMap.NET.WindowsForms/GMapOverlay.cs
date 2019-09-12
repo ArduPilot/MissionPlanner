@@ -1,12 +1,10 @@
 ﻿
 namespace GMap.NET.WindowsForms
 {
-   using System;
-   using System.Drawing;
-   using System.Runtime.Serialization;
-   //using System.Windows.Forms;
-   using GMap.NET.ObjectModel;
-    using SvgNet.SvgGdi;
+    //using System.Windows.Forms;
+    using GMap.NET.ObjectModel;
+    using System;
+    using System.Runtime.Serialization;
 
     /// <summary>
     /// GMap.NET overlay

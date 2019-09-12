@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Drawing;
 using GMap.NET;
-using GMap.NET.Drawing;
 using GMap.NET.WindowsForms;
 using MissionPlanner.Utilities;
 using MissionPlanner.Utilities.Drawing;
-using SvgNet.SvgGdi;
 
 namespace MissionPlanner.Maps
 {
     [Serializable]
     public class GMapMarkerSingle : GMapMarker
     {
-        private readonly Bitmap icon = global::MissionPlanner.Maps.Resources.redsinglecopter2.ToBitmap();
+        private readonly Bitmap icon = global::MissionPlanner.Maps.Resources.redsinglecopter2;
 
         float heading = 0;
         float cog = -1;

@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using MissionPlanner.Controls;
-using OpenTK;
-using SvgNet.SvgGdi;
 
 namespace MissionPlanner.Swarm
 {
@@ -69,11 +67,12 @@ namespace MissionPlanner.Swarm
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
+            /*
             OnPaint(new PaintEventArgsI(new GdiGraphics(e.Graphics), e.ClipRectangle));
         }
 
         void OnPaint(PaintEventArgsI e)
-        { 
+        { */
             xline = (this.Width - 1)/(float) xdist;
 
             yline = (this.Height - 1)/(float) ydist;
@@ -318,7 +317,7 @@ namespace MissionPlanner.Swarm
             public MAVState interf = null;
             public bool Movable = true;
 
-            public void OnPaint(PaintEventArgsI e, int xdist, int ydist, int width, int height, float centerx, float centery)
+            public void OnPaint(PaintEventArgs e, int xdist, int ydist, int width, int height, float centerx, float centery)
             {
                 bounds.X = width / 2 + width / xdist * (x - centerx) - icosize / 2;
                 bounds.Y = height / 2 - height / ydist * (y - centery) - icosize / 2;
@@ -340,7 +339,7 @@ namespace MissionPlanner.Swarm
                 return false;
             }
 
-            public void OnPaintVertical(PaintEventArgsI e, int xdist, int ydist, int width, int height, float centerx, float centery)
+            public void OnPaintVertical(PaintEventArgs e, int xdist, int ydist, int width, int height, float centerx, float centery)
             {
                 bounds.X = width / 2 + width / xdist * (x - centerx) - icosize / 2;
                 bounds.Y = height / 2 - height / ydist * (z - centery) - icosize / 2;
@@ -356,7 +355,7 @@ namespace MissionPlanner.Swarm
                 // e.ClipRectangle.Width / 2 + e.ClipRectangle.Width / xdist * x - icosize / 2, e.ClipRectangle.Height / 2 + e.ClipRectangle.Height / ydist * y - icosize / 2, icosize, icosize                
             }
 
-            public void MouseOver(PaintEventArgsI e)
+            public void MouseOver(PaintEventArgs e)
             {
             }
         }

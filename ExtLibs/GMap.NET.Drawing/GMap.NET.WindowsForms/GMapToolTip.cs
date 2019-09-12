@@ -1,7 +1,4 @@
-﻿
-using SvgNet.SvgGdi;
-
-namespace GMap.NET.WindowsForms
+﻿namespace GMap.NET.WindowsForms
 {
    using System;
    using System.Drawing;
@@ -11,9 +8,9 @@ using System.Collections;
     using System.Collections.Generic;
 
    /// <summary>
-   /// GMap.NET marker
-   /// </summary>
-   [Serializable]
+    /// GMap.NET marker
+    /// </summary>
+    [Serializable]
 #if !PocketPC
    public class GMapToolTip : ISerializable, IDisposable
 #else

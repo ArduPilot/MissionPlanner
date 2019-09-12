@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Drawing;
 using GMap.NET;
-using GMap.NET.Drawing;
 using GMap.NET.WindowsForms;
 using MissionPlanner.Utilities;
 using MissionPlanner.Utilities.Drawing;
-using SvgNet.SvgGdi;
 
 namespace MissionPlanner.Maps
 {
     [Serializable]
     public class GMapMarkerAntennaTracker : GMapMarker
     {
-        private readonly Bitmap icon = global::MissionPlanner.Maps.Resources.Antenna_Tracker_01.ToBitmap();
+        private readonly Bitmap icon = global::MissionPlanner.Maps.Resources.Antenna_Tracker_01;
 
         float heading = 0;
         private float target = 0;

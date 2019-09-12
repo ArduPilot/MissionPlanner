@@ -14,7 +14,7 @@ namespace GMap.NET.WindowsForms
    /// </summary>
    public class GMapImage : PureImage
    {
-      public System.Drawing.Image Img;
+      public Image Img;
 
       public override void Dispose()
       {

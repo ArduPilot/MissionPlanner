@@ -59,12 +59,11 @@ namespace Xamarin
 
             GMap.NET.GMaps.Instance.PrimaryCache = new MissionPlanner.Maps.MyImageCache();
 
-
             GMapControl.MapProvider = GMapProviders.GoogleSatelliteMap;
 
             GMapControl.MapScaleInfoEnabled = true;
-            GMapControl.ScalePen = new Pen(Color.Orange);
-            GMapControl.Position = new PointLatLng(-35, 117.89);
+            GMapControl.ScalePen = new Pen(Color.White);
+            GMapControl.Position = new PointLatLng(0,0);
 
             this.gMapControl1.OnPositionChanged += new GMap.NET.PositionChanged(this.gMapControl1_OnPositionChanged);
            // this.gMapControl1.Click += new System.EventHandler(this.gMapControl1_Click);

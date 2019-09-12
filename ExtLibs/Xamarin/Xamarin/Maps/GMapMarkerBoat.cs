@@ -5,17 +5,12 @@ using GMap.NET.Drawing;
 using GMap.NET.WindowsForms;
 using MissionPlanner.Utilities;
 using MissionPlanner.Utilities.Drawing;
-using SvgNet.SvgGdi;
 
 namespace MissionPlanner.Maps
 {
     [Serializable]
     public class GMapMarkerBoat : GMapMarker
     {
-        static readonly System.Drawing.Size SizeSt =
-            new System.Drawing.Size(global::MissionPlanner.Maps.Resources.boat.ToBitmap().Width,
-                global::MissionPlanner.Maps.Resources.boat.ToBitmap().Height);
-
         float heading = 0;
         float cog = -1;
         float target = -1;
@@ -28,7 +23,7 @@ namespace MissionPlanner.Maps
             this.cog = cog;
             this.target = target;
             this.nav_bearing = nav_bearing;
-            Size = SizeSt;
+            Size = global::MissionPlanner.Maps.Resources.boat.ToBitmap().Size;
         }
 
         public override void OnRender(IGraphics g)
@@ -64,8 +59,8 @@ namespace MissionPlanner.Maps
             {
             }
             g.DrawImageUnscaled(global::MissionPlanner.Maps.Resources.boat.ToBitmap(),
-                global::MissionPlanner.Maps.Resources.boat.ToBitmap().Width / -2,
-                global::MissionPlanner.Maps.Resources.boat.ToBitmap().Height / -2);
+                Size.Width / -2,
+                Size.Height / -2);
 
             g.Transform = temp;
         }

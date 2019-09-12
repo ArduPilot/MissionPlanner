@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.IO;
 using GMap.NET.Drawing;
-using SvgNet.SvgGdi;
 
 namespace GMap.NET.WindowsForms.Markers
 {

@@ -7,24 +7,19 @@
              xmlns:GMap="clr-namespace:GMap.NET.WindowsForms;assembly=Xamarin"
              x:Class="Xamarin.FlightData">
 
-    <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="5*" />
-            <RowDefinition Height="5*" />
-            <RowDefinition Height="40" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*"></ColumnDefinition>
-            <ColumnDefinition Width="7*"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
+    <ContentPage.Content>
+        <AbsoluteLayout>
+ <GMap:GMapControl AbsoluteLayout.LayoutBounds="0,0,1,1"
+                          AbsoluteLayout.LayoutFlags="All"  x:Name="GMapControl"> </GMap:GMapControl>
+
+                <controls:HUD AbsoluteLayout.LayoutBounds="1,0,0.3,0.2"
+                              AbsoluteLayout.LayoutFlags="All" x:Name="Hud"></controls:HUD>
 
 
-        <controls:HUD Grid.Column="0" Grid.Row="0" x:Name="Hud" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" ></controls:HUD>
+            <Switch x:Name="CHK_autopan"   AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,1,0.1,0.1"  ></Switch>
+            <Slider x:Name="TRK_zoom"   AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="1,1,0.9,0.1" ValueChanged="Slider_OnValueChanged"></Slider>
 
 
-        <GMap:GMapControl Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" x:Name="GMapControl" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-        </GMap:GMapControl>
-        <Switch x:Name="CHK_autopan" Grid.Column="0" Grid.Row="2"   ></Switch>
-        <Slider x:Name="TRK_zoom" Grid.Column="1" Grid.Row="2" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" ValueChanged="Slider_OnValueChanged"></Slider>
-    </Grid>
+        </AbsoluteLayout>
+    </ContentPage.Content>
 </ContentPage>

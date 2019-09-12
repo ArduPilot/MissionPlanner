@@ -3,7 +3,6 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using GMap.NET;
 using GMap.NET.WindowsForms;
-using SvgNet.SvgGdi;
 
 namespace GMap.NET.WindowsForms
 {

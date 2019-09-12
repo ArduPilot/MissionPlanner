@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
+using GMap.NET.WindowsForms;
 using OpenTK.Graphics.OpenGL;
-using SvgNet.SvgGdi;
 
 namespace MissionPlanner.Swarm
 {

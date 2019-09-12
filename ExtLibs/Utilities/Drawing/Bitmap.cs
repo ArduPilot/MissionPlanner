@@ -26,6 +26,10 @@ namespace MissionPlanner.Utilities.Drawing
             nativeSkBitmap = SKBitmap.Decode(stream);
         }
 
+        public static implicit operator Bitmap(byte[] data)
+        {
+            return new Bitmap(new MemoryStream(data));
+        }
         internal Bitmap()
         {
         }
@@ -86,6 +90,10 @@ namespace MissionPlanner.Utilities.Drawing
         public Bitmap(Bitmap bmp, Size size): this(bmp, size.Width,size.Height)
         {
          
+        }
+
+        public Bitmap(byte[] camera_icon_G, int v1, int v2): this(camera_icon_G, new Size(v1,v2))
+        {
         }
 
         public SKColorType PixelFormat

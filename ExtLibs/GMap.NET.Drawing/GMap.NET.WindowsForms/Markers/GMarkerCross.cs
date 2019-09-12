@@ -1,7 +1,4 @@
-﻿
-using SvgNet.SvgGdi;
-
-namespace GMap.NET.WindowsForms.Markers
+﻿namespace GMap.NET.WindowsForms.Markers
 {
    using System.Drawing;
    using System.Runtime.Serialization;

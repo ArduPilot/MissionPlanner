@@ -1,6 +1,4 @@
 ﻿
-using SvgNet.SvgGdi;
-
 namespace GMap.NET
 {
    using System.Collections.Generic;

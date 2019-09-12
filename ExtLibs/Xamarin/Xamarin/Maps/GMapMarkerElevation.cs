@@ -10,7 +10,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using MissionPlanner.Utilities.Drawing;
-using SvgNet.SvgGdi;
 
 namespace MissionPlanner.Maps
 {

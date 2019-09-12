@@ -4,10 +4,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using GMap.NET;
-using GMap.NET.Drawing;
 using GMap.NET.WindowsForms;
+using MissionPlanner.Utilities;
 using MissionPlanner.Utilities.Drawing;
-using SvgNet.SvgGdi;
 
 namespace MissionPlanner.Maps
 {
@@ -16,30 +15,25 @@ namespace MissionPlanner.Maps
     {
         public float? Bearing;
 
-        static readonly System.Drawing.Size SizeSt = new System.Drawing.Size(Resources.marker_02.ToBitmap().Width,
-            Resources.marker_02.ToBitmap().Height);
 
         //static Bitmap localcache1 = Resources.shadow50;
-        static Bitmap localcache2 = Resources.marker_02.ToBitmap();
+        static Bitmap localcache2 = Resources.marker_02;
 
         public int Alt { get; set; }
 
         public GMapMarkerRallyPt(PointLatLng p)
             : base(p)
         {
-            Size = SizeSt;
+            Size = localcache2.Size;
             Offset = new Point(-10, -40);
         }
 
-        public GMapMarkerRallyPt(MAVLink.mavlink_rally_point_t mark)
-            : base(new PointLatLng(mark.lat/1e7, mark.lng/1e7))
+        public GMapMarkerRallyPt(PointLatLngAlt plla)
+            : base(new PointLatLng(plla.Lat, plla.Lng))
         {
-            Size = SizeSt;
-            Offset = new Point(-10, -40);
-            Alt = mark.alt;
-            Alt = (int) mark.alt;
+            Alt = (int)plla.Alt;
             ToolTipMode = MarkerTooltipMode.OnMouseOver;
-            ToolTipText = "Rally Point" + "\nAlt: " + mark.alt;
+            ToolTipText = "Rally Point" + "\nAlt: " + plla.Alt;
         }
 
         static readonly Point[] Arrow = new Point[]

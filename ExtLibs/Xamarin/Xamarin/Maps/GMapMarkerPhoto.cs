@@ -4,19 +4,17 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using GMap.NET;
-using GMap.NET.Drawing;
 using GMap.NET.WindowsForms;
 using MissionPlanner.Utilities;
 using MissionPlanner.Utilities.Drawing;
-using SvgNet.SvgGdi;
 
 namespace MissionPlanner.Maps
 {
     [Serializable]
     public class GMapMarkerPhoto : GMapMarker
     {
-        static Bitmap localcache1 = new Bitmap(Resources.camera_icon_G.ToBitmap(), 20, 20);
-        static Bitmap localcache2 = new Bitmap(Resources.camera_icon.ToBitmap(), 20, 20);
+        static Bitmap localcache1 = new Bitmap(Resources.camera_icon_G, 20, 20);
+        static Bitmap localcache2 = new Bitmap(Resources.camera_icon, 20, 20);
 
         public double Alt { get; set; }
 

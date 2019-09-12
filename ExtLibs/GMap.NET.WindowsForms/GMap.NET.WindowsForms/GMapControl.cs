@@ -1,9 +1,7 @@
 ﻿
-using System.Threading.Tasks;
 using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
 using OpenTK.Platform;
-using SkiaSharp;
+using SvgNet.SvgGdi;
 
 namespace GMap.NET.WindowsForms
 {
@@ -26,7 +24,7 @@ namespace GMap.NET.WindowsForms
    using System.Runtime.Serialization.Formatters.Binary;
    using System.Collections.Generic;
    using GMap.NET.Projections;
-    using SvgNet.SvgGdi;
+    using SkiaSharp;
 #else
    using OpenNETCF.ComponentModel;
 #endif

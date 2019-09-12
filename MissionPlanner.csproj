@@ -188,6 +188,10 @@
       <Project>{6D4F97A1-D0A0-44EC-B2A3-F5C954209444}</Project>
       <Name>ICSharpCode.SharpZipLib</Name>
     </ProjectReference>
+    <ProjectReference Include="ExtLibs\Interfaces\Interfaces.csproj">
+      <Project>{FD4D2994-9BEA-41A1-8C51-2E02D1E8503E}</Project>
+      <Name>Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="ExtLibs\KMLib\KMLib.csproj">
       <Project>{29976BA4-A04D-4A80-A866-098C879C2FDE}</Project>
       <Name>KMLib</Name>
@@ -984,11 +988,9 @@
     <Compile Include="Utilities\AltitudeAngel\MapAdapter.cs" />
     <Compile Include="Utilities\AltitudeAngel\MissionPlannerAdaptor.cs" />
     <Compile Include="Utilities\AltitudeAngel\OverlayAdapter.cs" />
-    <Compile Include="Warnings\CustomWarning.cs" />
     <Compile Include="Warnings\WarningControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Warnings\WarningEngine.cs" />
     <Compile Include="Warnings\WarningsManager.cs">
       <SubType>Form</SubType>
     </Compile>

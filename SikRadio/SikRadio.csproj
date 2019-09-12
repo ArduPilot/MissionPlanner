@@ -74,9 +74,6 @@
       <Link>Linked\CommsSerialPort.cs</Link>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="..\ExtLibs\Comms\ICommsSerial.cs">
-      <Link>Linked\ICommsSerial.cs</Link>
-    </Compile>
     <Compile Include="..\ExtLibs\Controls\CustomMessageBox.cs">
       <Link>Linked\CustomMessageBox.cs</Link>
     </Compile>
@@ -265,9 +262,9 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ExtLibs\SvgNet\SvgNet.csproj">
-      <Project>{bb4c8021-b5e1-4de2-82cb-14bdfb9837e4}</Project>
-      <Name>SvgNet</Name>
+    <ProjectReference Include="..\ExtLibs\Interfaces\Interfaces.csproj">
+      <Project>{fd4d2994-9bea-41a1-8c51-2e02d1e8503e}</Project>
+      <Name>Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\ExtLibs\ZedGraph\ZedGraph.csproj">
       <Project>{2541686b-1673-43bf-af89-3163945db009}</Project>

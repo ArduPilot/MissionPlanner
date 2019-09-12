@@ -1443,6 +1443,35 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             throw new NotImplementedException();
         }
 
+        public object BeginContainer(RectangleF dstrect, RectangleF srcrect, GraphicsUnit unit)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object BeginContainer()
+        {
+            throw new NotImplementedException();
+        }
+
+        public object BeginContainer(Rectangle dstrect, Rectangle srcrect, GraphicsUnit unit)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndContainer(object container)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Restore(object gstate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object Save()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

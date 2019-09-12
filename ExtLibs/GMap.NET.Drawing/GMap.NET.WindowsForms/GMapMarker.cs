@@ -1,7 +1,4 @@
 ﻿
-
-using SvgNet.SvgGdi;
-
 namespace GMap.NET.WindowsForms
 {
    using System;
@@ -21,7 +18,7 @@ namespace GMap.NET.WindowsForms
 #endif
    {
 #if PocketPC
-      static readonly System.Drawing.Imaging.ImageAttributes attr = new System.Drawing.Imaging.ImageAttributes();
+      static readonly ImageAttributes attr = new ImageAttributes();
 
       static GMapMarker()
       {
