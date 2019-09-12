@@ -1122,19 +1122,19 @@ namespace MissionPlanner
             }
         }
 
-
+        [GroupText("Position")]
         public double HomeAlt
         {
             get => HomeLocation.Alt;
             set { }
         }
-
+        [GroupText("Position")]
         public PointLatLngAlt HomeLocation
         {
             get => _homelocation;
             set => _homelocation = value;
         }
-
+        [GroupText("Position")]
         public PointLatLngAlt MovingBase
         {
             get => _movingbase;
@@ -1148,7 +1148,7 @@ namespace MissionPlanner
                     _movingbase = value;
             }
         }
-
+        [GroupText("Position")]
         public PointLatLngAlt TrackerLocation
         {
             get
@@ -1158,9 +1158,9 @@ namespace MissionPlanner
             }
             set => _trackerloc = value;
         }
-
+        [GroupText("Position")]
         public PointLatLngAlt Location => new PointLatLngAlt(lat, lng, altasl);
-
+        [GroupText("Position")]
         public PointLatLngAlt TargetLocation { get; set; } = PointLatLngAlt.Zero;
 
         /*
@@ -1239,6 +1239,7 @@ namespace MissionPlanner
             }
         }
         */
+        [GroupText("Position")]
         [DisplayText("Dist to Home (dist)")]
         public float DistToHome
         {
@@ -1258,7 +1259,7 @@ namespace MissionPlanner
                 return (float) Math.Sqrt(dstlat * dstlat + dstlon * dstlon) * multiplierdist;
             }
         }
-
+        [GroupText("Position")]
         [DisplayText("Dist to Moving Base (dist)")]
         public float DistFromMovingBase
         {

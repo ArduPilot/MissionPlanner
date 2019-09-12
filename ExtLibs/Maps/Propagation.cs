@@ -203,14 +203,23 @@ namespace MissionPlanner.Maps
                                     height + extend / 2);
                                 imageDataRect = RectLatLng.FromLTRB(tl.Lng, tl.Lat, rb.Lng, rb.Lat);
 
+                                CancellationTokenSource cts = new CancellationTokenSource();
+                                ParallelOptions po = new ParallelOptions();
+                                po.CancellationToken = cts.Token;
+
                                 Parallel.ForEach(
-                                    Extensions.SteppedRange(res / 2, height + extend + 1 - res, res), y =>
+                                    Extensions.SteppedRange(res / 2, height + extend + 1 - res, res), po, y =>
                                     {
+                                        if (zoom != gMapControl1.Zoom || center != gMapControl1.Position)
+                                        {
+                                            center = gMapControl1.Position;
+                                            cts.Cancel();
+                                        }
+
+                                        if (cts.IsCancellationRequested) return;
                                         for (var x = res / 2; x < width + extend - res; x += res)
                                         {
-                                            // dont process if changed
-                                            if (zoom != gMapControl1.Zoom || area != gMapControl1.ViewArea)
-                                                return;
+                                            if (cts.IsCancellationRequested) return;
                                             var lnglat = gMapControl1.FromLocalToLatLng(x - extend / 2, y - extend / 2);
                                             var altresponce = srtm.getAltitude(lnglat.Lat, lnglat.Lng, zoom);
                                             if (altresponce != srtm.altresponce.Invalid &&
@@ -306,11 +315,19 @@ namespace MissionPlanner.Maps
                             if (!ele_enabled)
                                 return;
 
-                            gMapControl1.Invoke((Action) delegate
+                            try
                             {
-                                elevationoverlay.Markers.Add(gMapMarkerElevation);
-                                if (elevationoverlay.Markers.Count > 1) elevationoverlay.Markers.RemoveAt(0);
-                            });
+                                gMapControl1.Invoke((Action) delegate
+                                {
+                                    elevationoverlay.Markers.Add(gMapMarkerElevation);
+                                    if (elevationoverlay.Markers.Count > 1) elevationoverlay.Markers.RemoveAt(0);
+                                });
+
+                            }
+                            catch (InvalidOperationException)
+                            {
+
+                            }
 
                             prev_position = center;
                             prev_alt = alt;

@@ -149,6 +149,27 @@ namespace MissionPlanner.Utilities
 
             try
             {
+                // prevent looking for files that dont exist and are common
+                if (filename.Contains("00W000") || filename.Contains("00W001") ||
+                    filename.Contains("01W000") || filename.Contains("01W001") ||
+                    filename.Contains("00E000") || filename.Contains("00E001") ||
+                    filename.Contains("01E000") || filename.Contains("01E001"))
+                {
+                    return altresponce.Ocean;
+                }
+
+                // marked as a oceantile
+                if (oceantile.Contains(filename))
+                    return altresponce.Ocean;
+
+                // is it in our dl queue
+                lock (objlock)
+                {
+                    if (queue.Contains(filename))
+                    {
+                        return altresponce.Invalid;
+                    }
+                }
 
                 if (cache.ContainsKey(filename) || File.Exists(datadirectory + Path.DirectorySeparatorChar + filename))
                 {
@@ -350,16 +371,7 @@ namespace MissionPlanner.Utilities
                 }
                 else // get something
                 {
-                    if (filename.Contains("00W000") || filename.Contains("00W001") ||
-                        filename.Contains("01W000") || filename.Contains("01W001")||
-                        filename.Contains("00E000") || filename.Contains("00E001") ||
-                        filename.Contains("01E000") || filename.Contains("01E001"))
-                    {
-                        return altresponce.Ocean;
-                    }
 
-                    if (oceantile.Contains(filename))
-                        return altresponce.Ocean;
 
                     if (zoom >= 7)
                     {

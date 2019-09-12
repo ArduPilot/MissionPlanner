@@ -2853,7 +2853,9 @@ namespace MissionPlanner
                             break;
                         }
 
-                        while (port.BaseStream.IsOpen && port.BaseStream.BytesToRead > minbytes &&
+                        var btr = port.BaseStream.BytesToRead;
+
+                        while (port.BaseStream.IsOpen && btr > minbytes &&
                                port.giveComport == false && serialThread)
                         {
                             try
