@@ -44,6 +44,7 @@
  *          RFD900x 3.07 firmware in which it didn't return the complete set of parameters in response to an RTI5? command.
  * 2.30 - For RFD900x multipoint firmware, now allows correct broadcast id for nodedestination parameter.   
  * 2.32 - Supports programming of RFD900ux modems.
+ * 2.33 - Corrected available frequency ranges for RFD900+
  */
 
 using System;

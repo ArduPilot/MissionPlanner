@@ -1185,11 +1185,11 @@ S15: MAX_WINDOW=131
                     // 8 and 9
                     if (freq == Uploader.Frequency.FREQ_915)
                     {
-                        MIN_FREQ.DataSource = Range(895000, 1000, 935000);
-                        RMIN_FREQ.DataSource = Range(895000, 1000, 935000);
+                        MIN_FREQ.DataSource = Range(902000, 1000, 927000);
+                        RMIN_FREQ.DataSource = Range(902000, 1000, 927000);
 
-                        MAX_FREQ.DataSource = Range(895000, 1000, 935000);
-                        RMAX_FREQ.DataSource = Range(895000, 1000, 935000);
+                        MAX_FREQ.DataSource = Range(903000, 1000, 928000);
+                        RMAX_FREQ.DataSource = Range(903000, 1000, 928000);
                     }
                     else if (freq == Uploader.Frequency.FREQ_433)
                     {
