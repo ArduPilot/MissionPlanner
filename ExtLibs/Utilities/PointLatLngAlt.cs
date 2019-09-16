@@ -341,6 +341,11 @@ namespace MissionPlanner.Utilities
                 return 0;
             }
         }
+
+        public static explicit operator PointLatLngAlt(Locationwp v)
+        {
+            return new PointLatLngAlt(v.lat, v.lng, v.alt);
+        }
     }
 
 }

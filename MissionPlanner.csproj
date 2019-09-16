@@ -453,9 +453,6 @@
     <Compile Include="Utilities\Speech.cs" />
     <Compile Include="Utilities\SSHTerminal.cs" />
     <Compile Include="Utilities\XTermRBGColors.cs" />
-    <Compile Include="Controls\GenOTP.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Grid\camerainfo.cs" />
     <Compile Include="Grid\GridData.cs" />
     <Compile Include="L10N.cs" />
@@ -529,9 +526,6 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\ConnectionStats.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\ControlSensorsStatus.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\DefaultSettings.cs">
@@ -1005,9 +999,6 @@
     <Compile Include="Controls\FollowMe.Designer.cs">
       <DependentUpon>FollowMe.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\GenOTP.Designer.cs">
-      <DependentUpon>GenOTP.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controls\MovingBase.Designer.cs">
       <DependentUpon>MovingBase.cs</DependentUpon>
     </Compile>
@@ -1043,9 +1034,6 @@
     </Compile>
     <Compile Include="Controls\ConnectionStats.Designer.cs">
       <DependentUpon>ConnectionStats.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ControlSensorsStatus.Designer.cs">
-      <DependentUpon>ControlSensorsStatus.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\DefaultSettings.Designer.cs">
       <DependentUpon>DefaultSettings.cs</DependentUpon>
@@ -1390,9 +1378,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\FollowMe.zh-TW.resx">
       <DependentUpon>FollowMe.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\GenOTP.resx">
-      <DependentUpon>GenOTP.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainV2.resx">
       <DependentUpon>MainV2.cs</DependentUpon>
@@ -1822,9 +1807,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ConnectionStats.zh-Hans.resx">
       <DependentUpon>ConnectionStats.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ControlSensorsStatus.resx">
-      <DependentUpon>ControlSensorsStatus.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\DefaultSettings.resx">
       <DependentUpon>DefaultSettings.cs</DependentUpon>

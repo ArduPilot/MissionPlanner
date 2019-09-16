@@ -95,7 +95,7 @@
             this.myButton2 = new MissionPlanner.Controls.MyButton();
             this.BUT_magfit2 = new MissionPlanner.Controls.MyButton();
             this.but_gpsinj = new MissionPlanner.Controls.MyButton();
-            this.controlSensorsStatus1 = new MissionPlanner.Controls.ControlSensorsStatus();
+         
             this.but_followswarm = new MissionPlanner.Controls.MyButton();
             this.myButton3 = new MissionPlanner.Controls.MyButton();
             this.but_GDAL = new MissionPlanner.Controls.MyButton();
@@ -578,9 +578,7 @@
             // 
             // controlSensorsStatus1
             // 
-            this.controlSensorsStatus1.BackColor = System.Drawing.Color.Transparent;
-            resources.ApplyResources(this.controlSensorsStatus1, "controlSensorsStatus1");
-            this.controlSensorsStatus1.Name = "controlSensorsStatus1";
+ 
             // 
             // but_followswarm
             // 
@@ -730,7 +728,7 @@
             this.Controls.Add(this.myButton3);
             this.Controls.Add(this.but_followswarm);
             this.Controls.Add(this.but_gpsinj);
-            this.Controls.Add(this.controlSensorsStatus1);
+           
             this.Controls.Add(this.BUT_magfit2);
             this.Controls.Add(this.myButton2);
             this.Controls.Add(this.but_optflowcalib);
@@ -818,7 +816,6 @@
         private Controls.MyButton but_optflowcalib;
         private Controls.MyButton myButton2;
         private Controls.MyButton BUT_magfit2;
-        private Controls.ControlSensorsStatus controlSensorsStatus1;
         private Controls.MyButton but_gpsinj;
         private Controls.MyButton but_followswarm;
         private Controls.MyButton myButton3;

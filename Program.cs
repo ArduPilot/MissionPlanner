@@ -193,7 +193,6 @@ namespace MissionPlanner
             MissionPlanner.Comms.CommsBase.InputBoxShow += CommsBaseOnInputBoxShow;
             MissionPlanner.Comms.CommsBase.ApplyTheme += MissionPlanner.Utilities.ThemeManager.ApplyThemeTo;
             MissionPlanner.Comms.SerialPort.GetDeviceName += SerialPort_GetDeviceName;
-                
 
             // set the cache provider to my custom version
             GMap.NET.GMaps.Instance.PrimaryCache = new Maps.MyImageCache();
@@ -247,57 +246,11 @@ namespace MissionPlanner
 
             CleanupFiles();
 
-            //LoadDlls();
-
             log.InfoFormat("64bit os {0}, 64bit process {1}", System.Environment.Is64BitOperatingSystem,
                 System.Environment.Is64BitProcess);
 
-
-            Device.DeviceStructure test1 = new Device.DeviceStructure(73225);
-            Device.DeviceStructure test2 = new Device.DeviceStructure(262434);
-            Device.DeviceStructure test3 = new Device.DeviceStructure(131874);
-
-            //ph2 - cube with here
-            Device.DeviceStructure test5 = new Device.DeviceStructure(466441);
-            Device.DeviceStructure test6 = new Device.DeviceStructure(131874);
-            Device.DeviceStructure test7 = new Device.DeviceStructure(263178);
-            //
-            Device.DeviceStructure test8 = new Device.DeviceStructure(1442082);
-            Device.DeviceStructure test9 = new Device.DeviceStructure(1114914);
-            Device.DeviceStructure test10 = new Device.DeviceStructure(1442826);
-            //
-            Device.DeviceStructure test11 = new Device.DeviceStructure(2359586);
-            Device.DeviceStructure test12 = new Device.DeviceStructure(2229282);
-            Device.DeviceStructure test13 = new Device.DeviceStructure(2360330);
-
-            Device.DeviceStructure test21 = new Device.DeviceStructure(592905);
-            Device.DeviceStructure test22 = new Device.DeviceStructure(131874);
-            Device.DeviceStructure test23 = new Device.DeviceStructure(263178);
-
-            MAVLink.MavlinkParse tmp = new MAVLink.MavlinkParse();
-            MAVLink.mavlink_heartbeat_t hb = new MAVLink.mavlink_heartbeat_t()
-            {
-                autopilot = 1,
-                base_mode = 2,
-                custom_mode = 3,
-                mavlink_version = 2,
-                system_status = 6,
-                type = 7
-            };
-            var t1 = tmp.GenerateMAVLinkPacket10(MAVLink.MAVLINK_MSG_ID.HEARTBEAT, hb);
-            var t2 = tmp.GenerateMAVLinkPacket20(MAVLink.MAVLINK_MSG_ID.HEARTBEAT, hb);
-            tmp.GenerateMAVLinkPacket10(MAVLink.MAVLINK_MSG_ID.HEARTBEAT, hb);
-            tmp.GenerateMAVLinkPacket20(MAVLink.MAVLINK_MSG_ID.HEARTBEAT, hb);
-
-            tmp.GenerateMAVLinkPacket20(MAVLink.MAVLINK_MSG_ID.HEARTBEAT, hb, true);
-            tmp.GenerateMAVLinkPacket20(MAVLink.MAVLINK_MSG_ID.HEARTBEAT, hb, true);
-
-            var msg = new MAVLink.MAVLinkMessage(t2);
-
-
             try
             {
-                //System.Diagnostics.Process.GetCurrentProcess().PriorityClass = System.Diagnostics.ProcessPriorityClass.RealTime;
                 Thread.CurrentThread.Name = "Base Thread";
                 Application.Run(new MainV2());
             }
