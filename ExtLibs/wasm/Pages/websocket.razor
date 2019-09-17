@@ -1,4 +1,4 @@
-﻿@page "/websocket"
+﻿@page "/Websocket"
 @using System.IO
 @using System.Net
 @using System.Net.WebSockets
@@ -48,8 +48,8 @@
 <div id="pageload" style="    bottom: 0;    right: 0; position:absolute; top:0px; left:0px;    overflow: hidden; background-color: #80808080;  @(pageloadvisible ? null : "display: none; ") ">
     <div style="text-align: center;       margin-top: 25%;">
         Raw MAVLink website url (wss:// for https)<br />
-        <input type="text" id="wsuri" @ref="@wsuri" value="ws://localhost:56781/websocket/raw" style="    width: 350px;" /><br />
-        <button onclick="@wsconnect">Connect</button>
+        <input type="text" id="wsuri" @ref="wsuri" value="ws://localhost:56781/websocket/raw" style="    width: 350px;" /><br />
+        <button @onclick="wsconnect">Connect</button>
     </div>
 </div>
 
@@ -63,28 +63,28 @@
     DateTime gpstime;
     static bool init = false;
 
-    ElementRef wsuri;
+    ElementReference  wsuri;
     bool pageloadvisible = true;
 
   //  protected BECanvasComponent _canvasReference;
 
-static websocket instance;
+static Websocket instance;
 
 private void Log(string message) => Console.WriteLine($"{DateTime.UtcNow.ToString("O")} - {message}");
 
-protected async override void OnInit()
+protected async override void OnInitialized ()
 {
-    Log("OnInit");
-    base.OnInit();
+    Log("OnInitialized ");
+    base.OnInitialized ();
 
     instance = this;
 
     init = false;
 
-    Console.WriteLine("OnInit Done");
+    Console.WriteLine("OnInitialized  Done");
 }
 
-protected override async Task OnInitAsync() => Log("OnInitAsync");
+protected override async Task OnInitializedAsync() => Log("OnInitializedAsync");
 
 //protected override void OnAfterRender() => Log("OnAfterRender");
 
@@ -94,9 +94,9 @@ public async Task wsconnect()
     pageloadvisible = false;
 }
 
-byte[] buffer = new byte[1024];
+internal byte[] buffer = new byte[1024];
 
-protected override async Task OnAfterRenderAsync()
+protected override async Task OnAfterRenderAsync(bool firstRender)
 {
     if (init)
         return;
@@ -139,7 +139,7 @@ public static void ProcessPacketStatic(string json)
 
     if (instance == null)
     {
-        instance = new websocket();
+        instance = new Websocket();
         init = true;
     }
 
@@ -169,7 +169,7 @@ public static void ProcessPacketStaticBytes(string lengths)
 
     if (instance == null)
     {
-        instance = new websocket();
+        instance = new Websocket();
         init = true;
     }
 

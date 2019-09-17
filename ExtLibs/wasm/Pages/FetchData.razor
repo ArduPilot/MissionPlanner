@@ -1,4 +1,4 @@
-﻿@page "/fetchdata"
+﻿@page "/FetchData"
 @using Microsoft.AspNetCore.Components
 @inject HttpClient Http
 
@@ -38,7 +38,7 @@ else
 @functions {
     WeatherForecast[] forecasts;
 
-    protected override async Task OnInitAsync()
+    protected override async Task OnInitializedAsync()
     {
         forecasts = await Http.GetJsonAsync<WeatherForecast[]>("sample-data/weather.json");
     }

@@ -1,4 +1,4 @@
-﻿@page "/filetest"
+﻿@page "/Filetest"
 @using System.Collections
 @using System.Globalization
 @using System.IO
@@ -27,10 +27,8 @@
 @using Mono.WebAssembly.Interop;
 @using System.Runtime.InteropServices
 @using SevenZip
-@implements IDisposable;
 @inject IFileReaderService fileReaderService;
 @inject HttpClient Http
-@inject IUriHelper UriHelper
 
 <h3>filetest</h3>
 
@@ -86,7 +84,7 @@
 
 </div>
 
-        @code {
+        @functions {
             private bool _loading = false;
 
             public bool Loading {
@@ -95,14 +93,14 @@
             }
             private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-            ElementRef inputTypeFileElement;
+            ElementReference  inputTypeFileElement;
 
-            static filetest instance;
+            static Filetest instance;
 
-            protected override void OnInit()
+            protected override void OnInitialized ()
             {
                 instance = this;
-                base.OnInit();
+                base.OnInitialized ();
             }
 
             internal byte[] buffer;

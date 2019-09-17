@@ -32,7 +32,6 @@
 @implements IDisposable
 @inject IFileReaderService fileReaderService;
 @inject HttpClient Http
-@inject IUriHelper UriHelper
 
 <style>
 
@@ -66,8 +65,8 @@
 </style>
 <div id="container">
     <div style="position: relative;">
-        <input type="file" id="files" @ref="@inputTypeFileElement" accept=".bin, .log" @onchange="@ReadFile" />
-        <button @onclick="@UploadLog">Upload </button>
+        <input type="file" id="files" @ref="inputTypeFileElement" accept=".bin, .log" @onchange="ReadFile" />
+        <button @onclick="UploadLog">Upload </button>
     </div>
     <div id="cesiummap" style="position: relative;">
         <div id="cesiumContainer" style="width: 100%; height: 75%;"></div>
@@ -106,11 +105,11 @@
                             <div style="display: none; margin-left: 20px;">
                                 @if (AmIChecked(item + "." + subitem))
                                 {
-                                    <li><input type="checkbox" onchange=@(async (eventArgs) => PlotItem(@item, @subitem, (bool)eventArgs.Value)) value="@item.@subitem" checked />@subitem</li>
+                                    <li><input type="checkbox" @onchange=@(async (eventArgs) => PlotItem(@item, @subitem, (bool)eventArgs.Value)) value="@item.@subitem" checked />@subitem</li>
                                 }
                                 else
                                 {
-                                    <li><input type="checkbox" onchange=@(async (eventArgs) => PlotItem(@item, @subitem, (bool)eventArgs.Value)) value="@item.@subitem" />@subitem</li>
+                                    <li><input type="checkbox" @onchange=@(async (eventArgs) => PlotItem(@item, @subitem, (bool)eventArgs.Value)) value="@item.@subitem" />@subitem</li>
                                 }
                             </div>
                         }
@@ -120,7 +119,7 @@
 
         </div>
         <div id="left" style="margin-right: 150px;">
-            <select onchange="@processMavGraph" @ref="@mavgraphselect">
+            <select @onchange="processMavGraph" @ref="@mavgraphselect">
                 @foreach (var gra in mavgraph.graphs)
                 {
                     <option value="@gra">@gra</option>
@@ -130,10 +129,10 @@
                 @foreach (var gra in graphs)
                 {
                     <li>
-                        <div id="@gra" style="width: 100%; height: 50vh; box-sizing: initial;" onmousedown="@(async () => setLastGraph(gra))"></div>
+                        <div id="@gra" style="width: 100%; height: 50vh; box-sizing: initial;" @onmousedown="@(async () => setLastGraph(gra))"></div>
                     </li>
                 }
-                <li><button onclick="@addNewGraph">New Graph</button></li>
+                <li><button @onclick="addNewGraph">New Graph</button></li>
             </ul>
         </div>
     </div>
@@ -187,13 +186,13 @@
                     <tbody>
                         @foreach (var msg in cb.GetEnumeratorType("ERR"))
                         {
-                        <tr>
-                            @foreach (var item in msg.items)
-                            {
-                                <td>@item</td>
-                            }
-                            <td>@(msg["Subsys"] != null ? ((DFLog.LogErrorSubsystem)msg.GetRaw("Subsys")).ToString() : null)</td>                            
-                        </tr>
+                            <tr>
+                                @foreach (var item in msg.items)
+                                {
+                                    <td>@item</td>
+                                }
+                                <td>@(msg["Subsys"] != null ? ((DFLog.LogErrorSubsystem)msg.GetRaw("Subsys")).ToString() : null)</td>
+                            </tr>
                         }
                     </tbody>
                 </table>
@@ -275,9 +274,9 @@
 
 
 @functions {
-    ElementRef inputTypeFileElement;
+    ElementReference  inputTypeFileElement;
 
-    ElementRef mavgraphselect;
+    ElementReference  mavgraphselect;
 
     CollectionBuffer cb = null;
 
@@ -302,7 +301,7 @@
         }
     }
 
-    public string dflog { get { var uri = new Uri(UriHelper.GetAbsoluteUri()); return Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query).TryGetValue("dflog", out var type) ? type.First() : ""; } }
+    public string dflog { get { var uri = new Uri(UriHelper.Uri); return Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query).TryGetValue("dflog", out var type) ? type.First() : ""; } }
 
     private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -310,10 +309,10 @@
 
     static DataFlash instance;
 
-    protected override void OnInit()
+    protected override void OnInitialized()
     {
         instance = this;
-        Console.WriteLine("DataFlash OnInit");
+        Console.WriteLine("DataFlash OnInitialized");
     }
 
     public async void ClearPlot(string selectedchart)
@@ -330,11 +329,11 @@
             "Plotly.deleteTraces(" + selectedchart + ", 0  );" +
             "Plotly.deleteTraces(" + selectedchart + ", 0  );" +
             "Plotly.deleteTraces(" + selectedchart + ", 0  ); "
-                        });
+                            });
 
     }
 
-    public async void processMavGraph(UIChangeEventArgs e)
+    public void processMavGraph(ChangeEventArgs e)
     {
         var selectedString = e.Value.ToString();
 
@@ -389,8 +388,8 @@
                 {
                     List<string> time = new List<string>();
                     List<string> field = new List<string>();
-                    log.Info("start "+type + "." + fieldname);
-                    LoadingStatus = "Gathering "+type + "." + fieldname;
+                    log.Info("start " + type + "." + fieldname);
+                    LoadingStatus = "Gathering " + type + "." + fieldname;
                     var count = 0;
                     foreach (var a in cb.GetEnumeratorType(type))
                     {
@@ -404,7 +403,7 @@
                             await Task.Delay(1);
                         }
                     }
-                    log.Info("end " +type + "." + fieldname);
+                    log.Info("end " + type + "." + fieldname);
 
                     await JSRuntime.InvokeAsync<object>("plotData", new object[]
                     {
@@ -415,8 +414,8 @@
                             x = time,
                             y = field
                         }.ToJSON()
-                                    });
-                    log.Info("end2 " +type + "." + fieldname);
+                                        });
+                    log.Info("end2 " + type + "." + fieldname);
 
                     Loading = false;
                 }
@@ -442,7 +441,7 @@
                     x = data.Select(a => a.time).ToList(),
                     y = data.Select(a => a.field).ToList()
                 }.ToJSON()
-                            });
+                                });
         }
     }
 
@@ -451,6 +450,9 @@
     {
         if (dflog != "")
         {
+            LoadingStatus = "Loading DFLog";
+            Loading = true;
+
             MemoryStream outStream = new MemoryStream();
             var inStream = await GetBlob(dflog);
             log.Info("instream " + inStream.Position + " " + inStream.Length);
@@ -465,11 +467,11 @@
             StateHasChanged();
         }
     }
-    protected override async Task OnInitAsync()
+    protected override async Task OnInitializedAsync()
     {
-        log.Debug("DataFlash OnInitAsync");
+        log.Debug("DataFlash OnInitializedAsync");
 
-        log.Info(UriHelper.GetAbsoluteUri());
+        log.Info(UriHelper.Uri);
 
     }
 
@@ -479,7 +481,7 @@
     {
         log.Debug("DataFlash OnParametersSetAsync Done");
     }
-    protected override async Task OnAfterRenderAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         log.Debug("DataFlash OnAfterRenderAsync Start");
 
@@ -493,17 +495,17 @@
             return;
 
         initrender = true;
+        
+        setLastGraph(selectedchart);
 
-        UriHelper.OnLocationChanged += async (e, a) =>
+        UriHelper.LocationChanged += async (e, a) =>
         {
-            // if user picks dflog
-            Checkdflog();
+        // if user picks dflog
+        Checkdflog();
         };
 
         // if first draw
         Checkdflog();
-
-        setLastGraph(selectedchart);
 
         log.Debug("DataFlash OnAfterRenderAsync Done");
     }
@@ -881,7 +883,7 @@ StringToSign = VERB + "\n" +
             MathHelper.mapConstrained(double.Parse(a["C1"]), 1000, 2000, -1, 1) * -1,
             MathHelper.mapConstrained(double.Parse(a["C3"]), 1000, 2000, -1, 1),
             MathHelper.mapConstrained(double.Parse(a["C4"]), 1000, 2000, -1, 1)
-                        }).ToList();
+                            }).ToList();
 
         await JSRuntime.InvokeAsync<object>("evalline", new object[] { "manual_control_setpoints = " + manual_control_setpoints.ToJSON() });
 
@@ -925,7 +927,7 @@ StringToSign = VERB + "\n" +
                 x = ATTdata.Select(a => a.time),
                 y = ATTdata.Select(a => a.DesYaw)
             }.ToJSON()
-        };
+            };
 
         LoadingStatus = "About to plot";
         await Task.Delay(1);
@@ -942,9 +944,10 @@ StringToSign = VERB + "\n" +
         var msgno = 1;
         Func<int, int> offsetcalc = (no) => { return (no % 200) * -10; };
 
-        var msgplot = "Plotly.relayout("+selectedchart+", " +
-            new {
-                annotations = cb.GetEnumeratorType("MSG").Select(a => new { text= a["Message"], x = a.time.ToString("o") , y = 0, opacity = 0.5, xref='x', yref='y', showarrow = true, align = "center", ax = 0, ay = offsetcalc(msgno++) }).ToList()
+        var msgplot = "Plotly.relayout(" + selectedchart + ", " +
+            new
+            {
+                annotations = cb.GetEnumeratorType("MSG").Select(a => new { text = a["Message"], x = a.time.ToString("o"), y = 0, opacity = 0.5, xref = 'x', yref = 'y', showarrow = true, align = "center", ax = 0, ay = offsetcalc(msgno++) }).ToList()
             }.ToJSON()
             + ")";
 
@@ -1298,7 +1301,7 @@ updateMaterial();
         }
 
         // used for rawtable callbacks
-        var dotNetObjectRef = DotNetObjectRef.Create(this);
+        var dotNetObjectRef = DotNetObjectReference.Create(this);
         await JSRuntime.InvokeAsync<object>("dotNetObjectRefSave", dotNetObjectRef);
 
         log.Debug("about to rawtable");
@@ -1380,7 +1383,7 @@ updateMaterial();
                 paramaCache = paramlist.Select(item => (item["Name"],
                 item["Value"],
                 ParameterMetaDataRepository.GetParameterOptionsInt(item["Name"], Firmwares.ArduCopter2.ToString()).Select(a => a.Key + " = " + a.Value).Aggregate("", (current, next) => current + "; " + next),
-                ParameterMetaDataRepository.GetParameterMetaData(item["Name"], ParameterMetaDataConstants.DisplayName, Firmwares.ArduCopter2.ToString()) + " " +@ParameterMetaDataRepository.GetParameterMetaData(item["Name"], ParameterMetaDataConstants.Description, Firmwares.ArduCopter2.ToString())));
+                ParameterMetaDataRepository.GetParameterMetaData(item["Name"], ParameterMetaDataConstants.DisplayName, Firmwares.ArduCopter2.ToString()) + " " + @ParameterMetaDataRepository.GetParameterMetaData(item["Name"], ParameterMetaDataConstants.Description, Firmwares.ArduCopter2.ToString())));
             }
 
             return paramaCache;

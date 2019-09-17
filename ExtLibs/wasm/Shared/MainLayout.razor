@@ -41,7 +41,7 @@
         googleid = id;
     }
 
-    protected override async Task OnInitAsync()
+    protected override async Task OnInitializedAsync()
     {
         GetFile("ParameterMetaDataBackup.xml");
 
@@ -56,9 +56,9 @@
         Loading = false;
     }
 
-    protected override void OnAfterRender()
+    protected override void OnAfterRender(bool firstRender)
     {
-        base.OnAfterRender();
+        base.OnAfterRender(firstRender);
 
         if(googleid == "")
             JSRuntime.InvokeAsync<object>("renderButton", new { });

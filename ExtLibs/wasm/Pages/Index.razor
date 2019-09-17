@@ -1,6 +1,5 @@
 ﻿@page "/"
 @inject HttpClient Http
-@inject IUriHelper UriHelper
 @using GMap.NET.MapProviders
 @using GMap.NET
 
@@ -13,11 +12,11 @@ Welcome to your new app.
     private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
 
-    protected override async Task OnInitAsync()
+    protected override async Task OnInitializedAsync()
     {
-        log.Debug("DataFlash OnInitAsync");
+        log.Debug("DataFlash OnInitializedAsync");
 
-        log.Info(UriHelper.GetAbsoluteUri());
+        log.Info(UriHelper.Uri);
 
     }
 
@@ -26,7 +25,7 @@ Welcome to your new app.
     {
         log.Debug("DataFlash OnParametersSetAsync Done");
     }
-    protected override async Task OnAfterRenderAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         log.Debug("DataFlash OnAfterRenderAsync Start");
         GMapProvider type = GMap.NET.MapProviders.GoogleSatelliteMapProvider.Instance;

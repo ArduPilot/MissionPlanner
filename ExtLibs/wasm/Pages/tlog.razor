@@ -1,4 +1,4 @@
-﻿@page "/tlog"
+﻿@page "/Tlog"
 @using System.IO
 @using System.Net
 @using System.Net.WebSockets
@@ -24,8 +24,8 @@
     <h1>Tlog</h1>
 
     <input type="file" @ref="@inputTypeFileElement" accept=".tlog"/>
-    <button onclick="@ReadFile">Read file</button>
-    <button onclick="@ReadFileTest">Read Test file</button>
+    <button @onclick="ReadFile">Read file</button>
+    <button @onclick="ReadFileTest">Read Test file</button>
     <br />
 
     <p>@gpstime @lat @lng @alt @hdg - @percent %</p>
@@ -45,17 +45,17 @@
     static bool init = false;
     int percent = 0;
 
-    static tlog instance;
+    static Tlog instance;
 
     [JSInvokable]
     public string SayHello() => $"Hello, {currentCount}!";
 
     private void Log(string message) => Console.WriteLine($"{DateTime.UtcNow.ToString("O")} - {message}");
 
-    protected override void OnInit()
+    protected override void OnInitialized ()
     {
-        Log("OnInit");
-        base.OnInit();
+        Log("OnInitialized ");
+        base.OnInitialized ();
 
         instance = this;
 
@@ -64,13 +64,13 @@
         Console.WriteLine("OnInit Done");
     }
 
-    protected override async Task OnInitAsync() => Log("OnInitAsync");
+    protected override async Task OnInitializedAsync() => Log("OnInitializedAsync");
 
     //protected override void OnAfterRender() => Log("OnAfterRender");
 
-    protected override async Task OnAfterRenderAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        /*
+    /*
         var files = Directory.GetFiles(".", "*.*", SearchOption.AllDirectories);
 
         foreach (var file in files)
@@ -90,7 +90,7 @@
         init = true;
 
         JSRuntime.InvokeAsync<object>
-    ("initMap", null);
+            ("initMap", null);
 
     }
 
@@ -104,27 +104,27 @@
 
     protected override async Task OnParametersSetAsync()
     {
-    Log("OnParametersSetAsync");
+        Log("OnParametersSetAsync");
 
 
     }
 
 
-    ElementRef inputTypeFileElement;
+    ElementReference inputTypeFileElement;
 
     DateTime nextUpdate = DateTime.Now.AddMilliseconds(100);
 
     public async Task ReadFileTest()
     {
-    var stream = await Http.GetStreamAsync("2018-09-09 18-15-17.txt");
+        var stream = await Http.GetStreamAsync("2018-09-09 18-15-17.txt");
 
-    await ProcessTlogStream(stream);
+        await ProcessTlogStream(stream);
     }
 
     public async Task ReadFile()
     {
-    foreach (var file in await fileReaderService.CreateReference(inputTypeFileElement).EnumerateFilesAsync())
-    {
+        foreach (var file in await fileReaderService.CreateReference(inputTypeFileElement).EnumerateFilesAsync())
+        {
     /*
     // Read into buffer and act (uses less memory)
     using (Stream stream = await file.OpenReadAsync())
@@ -136,42 +136,42 @@
 
     }
     */
-    var info = await file.ReadFileInfoAsync();
+            var info = await file.ReadFileInfoAsync();
 
-    Console.WriteLine(info.Name);
+            Console.WriteLine(info.Name);
 
-    if (info.Name.ToLower().EndsWith("tlog"))
-    {
+            if (info.Name.ToLower().EndsWith("tlog"))
+            {
 
 
-    Console.WriteLine("about to read into memory");
-    using (MemoryStream memoryStream = await file.CreateMemoryStreamAsync(1024*256))
-    {
-    Console.WriteLine("canread " + memoryStream.CanRead + " pos " + memoryStream.Position + "<" + memoryStream.Length);
+                Console.WriteLine("about to read into memory");
+                using (MemoryStream memoryStream = await file.CreateMemoryStreamAsync(1024 * 256))
+                {
+                    Console.WriteLine("canread " + memoryStream.CanRead + " pos " + memoryStream.Position + "<" + memoryStream.Length);
 
-    await ProcessTlogStream(memoryStream);
-    }
-    }
-    else
-    {
-    Console.WriteLine("about to read into memory");
+                    await ProcessTlogStream(memoryStream);
+                }
+            }
+            else
+            {
+                Console.WriteLine("about to read into memory");
     // Read into memory and act
-    using (MemoryStream memoryStream = await file.CreateMemoryStreamAsync(1024*256))
-    {
+                using (MemoryStream memoryStream = await file.CreateMemoryStreamAsync(1024 * 256))
+                {
     // Sync calls are ok once file is in memory
     //memoryStream.Read(buffer, ...)
 
-    Console.WriteLine("CollectionBuffer init");
-    CollectionBuffer collectionBuffer = new CollectionBuffer(memoryStream);
+                    Console.WriteLine("CollectionBuffer init");
+                    CollectionBuffer collectionBuffer = new CollectionBuffer(memoryStream);
 
-    Console.WriteLine("CollectionBuffer loop line");
-    foreach (var line in collectionBuffer)
-    {
-    Console.Write(line);
-    }
-    }
-    }
-    }
+                    Console.WriteLine("CollectionBuffer loop line");
+                    foreach (var line in collectionBuffer)
+                    {
+                        Console.Write(line);
+                    }
+                }
+            }
+        }
     }
 
     private async Task ProcessTlogStream(Stream stream)
