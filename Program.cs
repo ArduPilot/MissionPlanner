@@ -204,6 +204,7 @@ namespace MissionPlanner
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Eniro_Topo.Instance);
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.MapBox.Instance);
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.MapboxNoFly.Instance);
+            GMap.NET.MapProviders.GMapProviders.List.Add(Maps.MapboxUser.Instance);
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Japan.Instance);
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Japan_Lake.Instance);
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Japan_1974.Instance);
