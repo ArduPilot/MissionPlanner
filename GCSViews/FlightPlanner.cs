@@ -2062,7 +2062,6 @@ namespace MissionPlanner.GCSViews
                     throw new Exception("Please connect first!");
                 }
 
-                MainV2.comPort.giveComport = true;
                 int a = 0;
 
                 // define the home point
@@ -2140,7 +2139,6 @@ namespace MissionPlanner.GCSViews
             catch (Exception ex)
             {
                 log.Error(ex);
-                MainV2.comPort.giveComport = false;
                 throw;
             }
 

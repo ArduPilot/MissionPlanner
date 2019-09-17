@@ -2684,8 +2684,12 @@ namespace MissionPlanner
                         {
                             System.Threading.ThreadPool.QueueUserWorkItem(state =>
                             {
+                                Thread.CurrentThread.Name = "Arm State change";
                                 try
                                 {
+                                    while (comPort.giveComport == true)
+                                        Thread.Sleep(100);
+
                                     MainV2.comPort.MAV.cs.HomeLocation = new PointLatLngAlt(MainV2.comPort.getWP(0));
                                     if (MyView.current != null && MyView.current.Name == "FlightPlanner")
                                     {
@@ -2765,7 +2769,7 @@ namespace MissionPlanner
                                 try
                                 {
                                     // poll for version if we dont have it - every mav every port
-                                    if (!MAV.cs.armed && (DateTime.Now.Second % 20) == 0 && MAV.cs.version < new Version(0, 1))
+                                    if (!port.giveComport && !MAV.cs.armed && (DateTime.Now.Second % 20) == 0 && MAV.cs.version < new Version(0, 1))
                                         port.getVersion(MAV.sysid, MAV.compid, false);
 
                                     // are we talking to a mavlink2 device

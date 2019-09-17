@@ -2139,7 +2139,6 @@ namespace MissionPlanner.GCSViews
             }
             catch (Exception ex)
             {
-                MainV2.comPort.giveComport = false;
                 CustomMessageBox.Show(Strings.CommandFailed + ex.Message, Strings.ERROR);
             }
         }

@@ -151,8 +151,10 @@ namespace MissionPlanner.Controls
                 listView1.Items.Add(item);
             }
 
-            listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
-
+            try
+            {
+                listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+            } catch { }
         }
 
         public class DirectoryInfo: FileSystemInfo
