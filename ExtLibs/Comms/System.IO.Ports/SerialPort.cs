@@ -158,20 +158,38 @@ namespace System.IO.Ports
 		[Browsable (false)]
 		[DesignerSerializationVisibilityAttribute (DesignerSerializationVisibility.Hidden)]
 		public int BytesToRead {
-			get {
-				CheckOpen ();
-				return stream.BytesToRead;
-			}
-		}
+            get
+            {
+                CheckOpen();
+                try
+                {
+                    return stream.BytesToRead;
+                }
+                catch (IOException)
+                {
+                    is_open = false;
+                    throw;
+                }
+            }
+        }
 
 		[Browsable (false)]
 		[DesignerSerializationVisibilityAttribute (DesignerSerializationVisibility.Hidden)]
 		public int BytesToWrite {
-			get {
-				CheckOpen ();
-				return stream.BytesToWrite;
-			}
-		}
+            get
+            {
+                CheckOpen();
+                try
+                {
+                    return stream.BytesToWrite;
+                }
+                catch (IOException)
+                {
+                    is_open = false;
+                    throw;
+                }
+            }
+        }
 
 		[Browsable (false)]
 		[DesignerSerializationVisibilityAttribute (DesignerSerializationVisibility.Hidden)]
@@ -593,9 +611,17 @@ namespace System.IO.Ports
 			if (buffer.Length - offset < count )
 				throw new ArgumentException ("offset+count",
 							      "The size of the buffer is less than offset + count.");
-			
-			return stream.Read (buffer, offset, count);
-		}
+
+            try
+            {
+                return stream.Read(buffer, offset, count);
+            }
+            catch (IOException)
+            {
+                is_open = false;
+                throw;
+            }
+        }
 
 		public int Read (char[] buffer, int offset, int count)
 		{
@@ -616,16 +642,25 @@ namespace System.IO.Ports
 			return i;
 		}
 
-		internal int read_byte ()
-		{
-			byte [] buff = new byte [1];
-			if (stream.Read (buff, 0, 1) > 0)
-				return buff [0];
+        internal int read_byte()
+        {
+            byte[] buff = new byte [1];
 
-			return -1;
-		}
-		
-		public int ReadByte ()
+            try
+            {
+                if (stream.Read(buff, 0, 1) > 0)
+                    return buff[0];
+            }
+            catch (IOException)
+            {
+                is_open = false;
+                throw;
+            }
+
+            return -1;
+        }
+
+        public int ReadByte ()
 		{
 			CheckOpen ();
 			return read_byte ();
@@ -651,18 +686,26 @@ namespace System.IO.Ports
 			return -1;
 		}
 
-		public string ReadExisting ()
-		{
-			CheckOpen ();
-			
-			int count = BytesToRead;
-			byte [] bytes = new byte [count];
-			
-			int n = stream.Read (bytes, 0, count);
-			return new String (encoding.GetChars (bytes, 0, n));
-		}
+        public string ReadExisting()
+        {
+            CheckOpen();
 
-		public string ReadLine ()
+            int count = BytesToRead;
+            byte[] bytes = new byte [count];
+
+            try
+            {
+                int n = stream.Read(bytes, 0, count);
+                return new String(encoding.GetChars(bytes, 0, n));
+            }
+            catch (IOException)
+            {
+                is_open = false;
+                throw;
+            }
+        }
+
+        public string ReadLine ()
 		{
 			return ReadTo (new_line);
 		}
