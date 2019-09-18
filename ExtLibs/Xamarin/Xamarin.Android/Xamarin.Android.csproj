@@ -87,6 +87,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AndroidSerial.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -125,6 +126,14 @@
     <ProjectReference Include="..\..\Comms\MissionPlanner.Comms.csproj">
       <Project>{825E7A10-390C-4A2B-B3A8-491D14966912}</Project>
       <Name>MissionPlanner.Comms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Interfaces\Interfaces.csproj">
+      <Project>{fd4d2994-9bea-41a1-8c51-2e02d1e8503e}</Project>
+      <Name>Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\UsbSerialForAndroid\UsbSerialForAndroid.csproj">
+      <Project>{B57854C8-5C63-4D79-96ED-ACD31815CB91}</Project>
+      <Name>UsbSerialForAndroid</Name>
     </ProjectReference>
     <ProjectReference Include="..\Xamarin\Xamarin.csproj">
       <Project>{cad00b0a-9c73-4c96-ba96-748b974d3ac3}</Project>
