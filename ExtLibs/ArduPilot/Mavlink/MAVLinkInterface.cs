@@ -1145,7 +1145,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
             Array.Resize(ref temp, 16);
             req.param_id = temp;
-            if (MAVlist[sysid, compid].apname == MAV_AUTOPILOT.ARDUPILOTMEGA)
+            if ((MAVlist[sysid, compid].cs.capabilities & (uint)MAV_PROTOCOL_CAPABILITY.PARAM_FLOAT) > 0 || MAVlist[sysid, compid].apname == MAV_AUTOPILOT.ARDUPILOTMEGA)
             {
                 req.param_value = new MAVLinkParam(paramname, value, (MAV_PARAM_TYPE.REAL32)).float_value;
             }
@@ -1318,9 +1318,11 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 if (!(start.AddMilliseconds(4000) > DateTime.Now) && !logreadmode)
                 {
                     // if we have less than 75% of the total use full list pull
-                    if (retry < 6 && indexsreceived.Count < ((param_total/4) * 3))
+                    if (retry < 2 && indexsreceived.Count < ((param_total/4) * 3))
                     {
                         retry++;
+                        log.InfoFormat("Get Param whole list retry {0} got {1} 75%={2} count {3}", retry,
+                            indexsreceived.Count, ((param_total / 4) * 3), param_total);
                         generatePacket((byte) MAVLINK_MSG_ID.PARAM_REQUEST_LIST, req);
                         start = DateTime.Now;
                         continue;
@@ -1423,11 +1425,12 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         //Console.WriteLine(DateTime.Now.Millisecond + " gp2 ");
 
                         log.Info(DateTime.Now.Millisecond + " got param " + (par.param_index) + " of " +
-                                 (par.param_count) + " name: " + paramID);
+                                 (par.param_count) + " name: " + paramID + " " + par.param_value);
 
                         //Console.WriteLine(DateTime.Now.Millisecond + " gp2a ");
 
-                        if (MAVlist[sysid,compid].apname == MAV_AUTOPILOT.ARDUPILOTMEGA)
+                        // item uses float based param system
+                        if ((MAVlist[sysid, compid].cs.capabilities & (uint)MAV_PROTOCOL_CAPABILITY.PARAM_FLOAT) > 0 || MAVlist[sysid,compid].apname == MAV_AUTOPILOT.ARDUPILOTMEGA)
                         {
                             var offset = Marshal.OffsetOf(typeof(mavlink_param_value_t), "param_value");
                             newparamlist[paramID] = new MAVLinkParam(paramID, BitConverter.GetBytes(par.param_value), MAV_PARAM_TYPE.REAL32, (MAV_PARAM_TYPE)par.param_type);
@@ -1847,6 +1850,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             req.target_component = compid;
 
             req.command = (ushort) actionid;
+            req.confirmation = 0;
 
             req.param1 = p1;
             req.param2 = p2;
@@ -1933,6 +1937,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     if (retrys > 0)
                     {
                         log.Info("doCommand Retry " + retrys);
+                        req.confirmation++;
                         generatePacket((byte) MAVLINK_MSG_ID.COMMAND_LONG, req, sysid, compid);
                         start = DateTime.Now;
                         retrys--;
