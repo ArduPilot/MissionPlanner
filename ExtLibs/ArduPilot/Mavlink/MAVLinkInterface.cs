@@ -4460,7 +4460,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         (MAV_PARAM_TYPE) value.param_type, (MAV_PARAM_TYPE) value.param_type);
                 }
 
-                MAVlist[sysid, compid].param.TotalReported = value.param_count;
+                if(value.param_count != ushort.MaxValue)
+                    MAVlist[sysid, compid].param.TotalReported = value.param_count;
             }
             else if (buffer.msgid == (byte) MAVLINK_MSG_ID.TIMESYNC)
             {

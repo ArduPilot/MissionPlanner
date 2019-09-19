@@ -177,7 +177,7 @@ def generate_message_enum_types(xml):
         for fld in m.fields:
             if fld.array_length == 0:
                 fld.type = map[fld.type]
-            if fld.enum != "":
+            if fld.enum != "" and fld.array_length == 0:
                 enumtypes[fld.enum] = fld.type
                 print fld.enum + " is type " + fld.type
 
