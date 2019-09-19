@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using DirectShowLib;
+using Flurl.Util;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
@@ -4066,13 +4067,20 @@ namespace MissionPlanner.GCSViews
         {
             if (MainV2.comPort.BaseStream.IsOpen)
             {
-                flyToHereAltToolStripMenuItem_Click(null, null);
+                string alt = Settings.Instance["takeoff_alt", "5"];
+
+                if (DialogResult.Cancel == InputBox.Show("Enter Alt", "Enter Takeoff Alt", ref alt))
+                    return;
+
+                var altf = float.Parse(alt, CultureInfo.InvariantCulture);
+
+                Settings.Instance["takeoff_alt"] = altf.ToString();
 
                 MainV2.comPort.setMode("GUIDED");
 
                 try
                 {
-                    MainV2.comPort.doCommand(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, MainV2.comPort.MAV.GuidedMode.z);
+                    MainV2.comPort.doCommand(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, altf);
                 }
                 catch
                 {
