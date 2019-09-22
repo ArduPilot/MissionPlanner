@@ -201,6 +201,14 @@ namespace MissionPlanner.Utilities
                     return null;
                 return raw[index];
             }
+
+            public T GetRaw<T>(string item)
+            {
+                var index = parent.FindMessageOffset(msgtype, item);
+                if (index == -1)
+                    return default(T);
+                return (T) raw[index];
+            }
         }
 
         //https://github.com/ArduPilot/ardupilot/blob/master/libraries/AP_Logger/AP_Logger.h
