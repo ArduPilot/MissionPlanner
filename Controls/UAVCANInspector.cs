@@ -226,25 +226,24 @@ namespace MissionPlanner.Controls
             // 
             // but_graphit
             // 
+            this.but_graphit.Enabled = false;
             this.but_graphit.Location = new System.Drawing.Point(12, 3);
             this.but_graphit.Name = "but_graphit";
             this.but_graphit.Size = new System.Drawing.Size(75, 23);
             this.but_graphit.TabIndex = 4;
             this.but_graphit.Text = "Graph It";
             this.but_graphit.UseVisualStyleBackColor = true;
-            this.but_graphit.Visible = true;
-            but_graphit.Enabled = false;
             this.but_graphit.Click += new System.EventHandler(this.but_graphit_Click);
             // 
-            // MAVLinkInspector
+            // UAVCANInspector
             // 
             this.ClientSize = new System.Drawing.Size(698, 311);
             this.Controls.Add(this.but_graphit);
             this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.groupBox1);
-            this.Name = "MAVLinkInspector";
-            this.Text = "Mavlink Inspector";
+            this.Name = "UAVCANInspector";
+            this.Text = "UAVCAN Inspector";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MAVLinkInspector_FormClosing);
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
