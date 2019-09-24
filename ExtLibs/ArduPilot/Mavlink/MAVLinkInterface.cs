@@ -89,10 +89,21 @@ namespace MissionPlanner
             {
                 log.InfoFormat("set giveComport {0} current {1} new {2}", Thread.CurrentThread.Name, _giveComport,
                     value);
-                if(_giveComport == value && value == true)
+                if(_giveComport && value)
                 {
-
+                    // trying to set it true twice
+                    log.Error(new System.Diagnostics.StackTrace().ToString());
                 }
+
+                if (value == true)
+                {
+                    // wait for current read to end before continue
+                    lock (readlock)
+                    {
+                        
+                    }
+                }
+
                 lastset = Thread.CurrentThread.Name;
                 _giveComport = value;
             }
@@ -1277,7 +1288,16 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         public Dictionary<string, double> getParamList(byte sysid, byte compid)
         {
             while (giveComport == true)
-                Thread.Sleep(10);
+            {
+                Thread.Sleep(100);
+                if (frmProgressReporter != null && frmProgressReporter.doWorkArgs.CancelRequested)
+                {
+                    frmProgressReporter.doWorkArgs.CancelAcknowledged = true;
+                    giveComport = false;
+                    frmProgressReporter.doWorkArgs.ErrorMessage = "User Canceled";
+                    return MAVlist[sysid, compid].param;
+                }
+            }
 
             giveComport = true;
             List<int> indexsreceived = new List<int>();
@@ -1484,6 +1504,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         else if (logdata.ToLower().Contains("frame"))
                         {
                             MAVlist[sysid, compid].FrameString = logdata;
+                        } else
+                        {
+
                         }
                     }
                     //stopwatch.Stop();
