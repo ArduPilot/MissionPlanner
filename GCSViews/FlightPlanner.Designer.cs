@@ -970,31 +970,37 @@ namespace MissionPlanner.GCSViews
             // 
             this.GeoFenceuploadToolStripMenuItem.Name = "GeoFenceuploadToolStripMenuItem";
             resources.ApplyResources(this.GeoFenceuploadToolStripMenuItem, "GeoFenceuploadToolStripMenuItem");
+            this.GeoFenceuploadToolStripMenuItem.Click += new System.EventHandler(this.GeoFenceuploadToolStripMenuItem_Click);
             // 
             // GeoFencedownloadToolStripMenuItem
             // 
             this.GeoFencedownloadToolStripMenuItem.Name = "GeoFencedownloadToolStripMenuItem";
             resources.ApplyResources(this.GeoFencedownloadToolStripMenuItem, "GeoFencedownloadToolStripMenuItem");
+            this.GeoFencedownloadToolStripMenuItem.Click += new System.EventHandler(this.GeoFencedownloadToolStripMenuItem_Click);
             // 
             // setReturnLocationToolStripMenuItem
             // 
             this.setReturnLocationToolStripMenuItem.Name = "setReturnLocationToolStripMenuItem";
             resources.ApplyResources(this.setReturnLocationToolStripMenuItem, "setReturnLocationToolStripMenuItem");
+            this.setReturnLocationToolStripMenuItem.Click += new System.EventHandler(this.setReturnLocationToolStripMenuItem_Click);
             // 
             // loadFromFileToolStripMenuItem
             // 
             this.loadFromFileToolStripMenuItem.Name = "loadFromFileToolStripMenuItem";
             resources.ApplyResources(this.loadFromFileToolStripMenuItem, "loadFromFileToolStripMenuItem");
+            this.loadFromFileToolStripMenuItem.Click += new System.EventHandler(this.loadFromFileToolStripMenuItem_Click);
             // 
             // saveToFileToolStripMenuItem
             // 
             this.saveToFileToolStripMenuItem.Name = "saveToFileToolStripMenuItem";
             resources.ApplyResources(this.saveToFileToolStripMenuItem, "saveToFileToolStripMenuItem");
+            this.saveToFileToolStripMenuItem.Click += new System.EventHandler(this.saveToFileToolStripMenuItem_Click);
             // 
             // clearToolStripMenuItem
             // 
             this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
             resources.ApplyResources(this.clearToolStripMenuItem, "clearToolStripMenuItem");
+            this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
             // 
             // rallyPointsToolStripMenuItem
             // 
@@ -1012,31 +1018,37 @@ namespace MissionPlanner.GCSViews
             // 
             this.setRallyPointToolStripMenuItem.Name = "setRallyPointToolStripMenuItem";
             resources.ApplyResources(this.setRallyPointToolStripMenuItem, "setRallyPointToolStripMenuItem");
+            this.setRallyPointToolStripMenuItem.Click += new System.EventHandler(this.setRallyPointToolStripMenuItem_Click);
             // 
             // getRallyPointsToolStripMenuItem
             // 
             this.getRallyPointsToolStripMenuItem.Name = "getRallyPointsToolStripMenuItem";
             resources.ApplyResources(this.getRallyPointsToolStripMenuItem, "getRallyPointsToolStripMenuItem");
+            this.getRallyPointsToolStripMenuItem.Click += new System.EventHandler(this.getRallyPointsToolStripMenuItem_Click);
             // 
             // saveRallyPointsToolStripMenuItem
             // 
             this.saveRallyPointsToolStripMenuItem.Name = "saveRallyPointsToolStripMenuItem";
             resources.ApplyResources(this.saveRallyPointsToolStripMenuItem, "saveRallyPointsToolStripMenuItem");
+            this.saveRallyPointsToolStripMenuItem.Click += new System.EventHandler(this.saveRallyPointsToolStripMenuItem_Click);
             // 
             // clearRallyPointsToolStripMenuItem
             // 
             this.clearRallyPointsToolStripMenuItem.Name = "clearRallyPointsToolStripMenuItem";
             resources.ApplyResources(this.clearRallyPointsToolStripMenuItem, "clearRallyPointsToolStripMenuItem");
+            this.clearRallyPointsToolStripMenuItem.Click += new System.EventHandler(this.clearRallyPointsToolStripMenuItem_Click);
             // 
             // saveToFileToolStripMenuItem1
             // 
             this.saveToFileToolStripMenuItem1.Name = "saveToFileToolStripMenuItem1";
             resources.ApplyResources(this.saveToFileToolStripMenuItem1, "saveToFileToolStripMenuItem1");
+            this.saveToFileToolStripMenuItem1.Click += new System.EventHandler(this.saveToFileToolStripMenuItem1_Click);
             // 
             // loadFromFileToolStripMenuItem1
             // 
             this.loadFromFileToolStripMenuItem1.Name = "loadFromFileToolStripMenuItem1";
             resources.ApplyResources(this.loadFromFileToolStripMenuItem1, "loadFromFileToolStripMenuItem1");
+            this.loadFromFileToolStripMenuItem1.Click += new System.EventHandler(this.loadFromFileToolStripMenuItem1_Click);
             // 
             // autoWPToolStripMenuItem
             // 
@@ -1054,31 +1066,37 @@ namespace MissionPlanner.GCSViews
             // 
             this.createWpCircleToolStripMenuItem.Name = "createWpCircleToolStripMenuItem";
             resources.ApplyResources(this.createWpCircleToolStripMenuItem, "createWpCircleToolStripMenuItem");
+            this.createWpCircleToolStripMenuItem.Click += new System.EventHandler(this.createWpCircleToolStripMenuItem_Click);
             // 
             // createSplineCircleToolStripMenuItem
             // 
             this.createSplineCircleToolStripMenuItem.Name = "createSplineCircleToolStripMenuItem";
             resources.ApplyResources(this.createSplineCircleToolStripMenuItem, "createSplineCircleToolStripMenuItem");
+            this.createSplineCircleToolStripMenuItem.Click += new System.EventHandler(this.createSplineCircleToolStripMenuItem_Click);
             // 
             // areaToolStripMenuItem1
             // 
             this.areaToolStripMenuItem1.Name = "areaToolStripMenuItem1";
             resources.ApplyResources(this.areaToolStripMenuItem1, "areaToolStripMenuItem1");
+            this.areaToolStripMenuItem1.Click += new System.EventHandler(this.areaToolStripMenuItem_Click);
             // 
             // textToolStripMenuItem
             // 
             this.textToolStripMenuItem.Name = "textToolStripMenuItem";
             resources.ApplyResources(this.textToolStripMenuItem, "textToolStripMenuItem");
+            this.textToolStripMenuItem.Click += new System.EventHandler(this.textToolStripMenuItem_Click);
             // 
             // createCircleSurveyToolStripMenuItem
             // 
             this.createCircleSurveyToolStripMenuItem.Name = "createCircleSurveyToolStripMenuItem";
             resources.ApplyResources(this.createCircleSurveyToolStripMenuItem, "createCircleSurveyToolStripMenuItem");
+            this.createCircleSurveyToolStripMenuItem.Click += new System.EventHandler(this.createCircleSurveyToolStripMenuItem_Click);
             // 
             // surveyGridToolStripMenuItem
             // 
             this.surveyGridToolStripMenuItem.Name = "surveyGridToolStripMenuItem";
             resources.ApplyResources(this.surveyGridToolStripMenuItem, "surveyGridToolStripMenuItem");
+            this.surveyGridToolStripMenuItem.Click += new System.EventHandler(this.surveyGridToolStripMenuItem_Click);
             // 
             // mapToolToolStripMenuItem
             // 
