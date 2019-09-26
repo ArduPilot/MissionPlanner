@@ -9,7 +9,7 @@ ClassGuid={4D36E978-E325-11CE-BFC1-08002BE10318}
 Provider=%MFGNAME%
 LayoutFile=layout.inf
 CatalogFile=Holybro.cat
-DriverVer=03/07/2019,1.0.0.0
+DriverVer=03/07/2019,1.0.0.1
 
 [Manufacturer]
 %MFGNAME%=DeviceList, NTamd64
@@ -106,5 +106,5 @@ MFGNAME="Holybro"
 INSTDISK="Holybro Installer"
 DESCRIPTION47="Pixhawk4"
 DESCRIPTION49="Pixhawk4-mini"
-DESCRIPTION4B="Pixhawk6"
+DESCRIPTION4B="Durandal"
 SERVICE="USB RS-232 Emulation Driver"
