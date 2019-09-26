@@ -131,13 +131,9 @@ namespace Xamarin
                 MainV2.comPort = mav;
                 MainV2.Comports.Add(mav);
 
-                //MainV2.instance.doConnect(mav, "preset", port.ToString());
-                Log.Warning("", "mav init " + mav.ToString());
-                var hb = mav.getHeartBeat();
-                Log.Warning("", "getHeartBeat " + hb.ToString());
-                mav.setAPType(mav.MAV.sysid, mav.MAV.compid);
-                Log.Warning("", "setAPType " + mav.MAV.ToJSON());
+                mav.Open(false, true);
 
+                mav.getParamList();
 
                 Forms.Device.BeginInvokeOnMainThread(() =>
                 {
