@@ -36,6 +36,8 @@ namespace MissionPlanner.Radio
         ExtraParamControlsSet _LocalExtraParams;
         ExtraParamControlsSet _RemoteExtraParams;
 
+        RFDLib.GUI.Settings.TDynamicLabelEditorPairRegister _DynamicLabelEditorPairRegister;
+
         public event Action DoDisconnectReconnect;
 
         /*
@@ -115,6 +117,35 @@ S15: MAX_WINDOW=131
 
             SaveDefaultCBObjects(MAX_WINDOW);
             SaveDefaultCBObjects(RMAX_WINDOW);
+
+            RFDLib.GUI.Settings.TDynamicLabelEditorPair SBUSIN = new RFDLib.GUI.Settings.TDynamicLabelEditorPair(lblSBUSIN, GPO1_3SBUSIN,
+                new RFDLib.GUI.Settings.TDynamicLabelEditorPair.TSettingNameLabelTextPair[]
+                {
+                    new RFDLib.GUI.Settings.TDynamicLabelEditorPair.TSettingNameLabelTextPair("GPO1_3SBUSIN", "GPO1_3SBUSIN"),
+                    new RFDLib.GUI.Settings.TDynamicLabelEditorPair.TSettingNameLabelTextPair("GPO1_1SBUSIN", "GPO1_1SBUSIN"),
+                });
+            RFDLib.GUI.Settings.TDynamicLabelEditorPair RSBUSIN = new RFDLib.GUI.Settings.TDynamicLabelEditorPair(lblRSBUSIN, RGPO1_3SBUSIN,
+                new RFDLib.GUI.Settings.TDynamicLabelEditorPair.TSettingNameLabelTextPair[]
+                {
+                    new RFDLib.GUI.Settings.TDynamicLabelEditorPair.TSettingNameLabelTextPair("RGPO1_3SBUSIN", "GPO1_3SBUSIN"),
+                    new RFDLib.GUI.Settings.TDynamicLabelEditorPair.TSettingNameLabelTextPair("RGPO1_1SBUSIN", "GPO1_1SBUSIN"),
+                });
+            RFDLib.GUI.Settings.TDynamicLabelEditorPair SBUSOUT = new RFDLib.GUI.Settings.TDynamicLabelEditorPair(lblSBUSOUT, GPO1_3SBUSOUT,
+                new RFDLib.GUI.Settings.TDynamicLabelEditorPair.TSettingNameLabelTextPair[]
+                {
+                    new RFDLib.GUI.Settings.TDynamicLabelEditorPair.TSettingNameLabelTextPair("GPO1_3SBUSOUT", "GPO1_3SBUSOUT"),
+                    new RFDLib.GUI.Settings.TDynamicLabelEditorPair.TSettingNameLabelTextPair("GPO1_1SBUSOUT", "GPO1_1SBUSOUT"),
+                });
+            RFDLib.GUI.Settings.TDynamicLabelEditorPair RSBUSOUT = new RFDLib.GUI.Settings.TDynamicLabelEditorPair(lblRSBUSOUT, RGPO1_3SBUSOUT,
+                new RFDLib.GUI.Settings.TDynamicLabelEditorPair.TSettingNameLabelTextPair[]
+                {
+                    new RFDLib.GUI.Settings.TDynamicLabelEditorPair.TSettingNameLabelTextPair("RGPO1_3SBUSOUT", "GPO1_3SBUSOUT"),
+                    new RFDLib.GUI.Settings.TDynamicLabelEditorPair.TSettingNameLabelTextPair("RGPO1_1SBUSOUT", "GPO1_1SBUSOUT"),
+                });
+            _DynamicLabelEditorPairRegister = new RFDLib.GUI.Settings.TDynamicLabelEditorPairRegister(new RFDLib.GUI.Settings.TDynamicLabelEditorPair[]
+                {
+                    SBUSIN, RSBUSIN, SBUSOUT, RSBUSOUT,
+                });
 
             this.Disposed += DisposedEvtHdlr;
         }
@@ -425,6 +456,162 @@ S15: MAX_WINDOW=131
             return Part1.Substring(S + 1);
         }
 
+        void SaveSettingsFromGroupBox(string answer, GroupBox GB, bool Remote, ICommsSerial Port, List<Control> EnabledControls)
+        {
+            string CommandPrefix = Remote ? "R" : "A";
+
+            var items = answer.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (var item in items)
+            {
+                if (item.Contains("ANT_MODE"))
+                {
+                    System.Diagnostics.Debug.WriteLine("Ant mode");
+                }
+
+                //if (item.StartsWith("S"))
+                {
+                    string[] values;
+
+                    if (Remote)
+                    {
+                        int multipoint_fix = -1;
+                        if (item.StartsWith("["))
+                        {
+                            multipoint_fix = item.IndexOf(']') + 1;
+                        }
+                        var mod_item = item;
+                        if (multipoint_fix > 0 && item.Length > multipoint_fix)
+                        {
+                            mod_item = item.Substring(multipoint_fix).Trim();
+                        }
+                        values = mod_item.Split(':', '=');
+                    }
+                    else
+                    {
+                        values = item.Split(':', '=');
+                    }
+
+                    if (values.Length == 3)
+                    {
+                        values[1] = values[1].Replace("/", "_");
+
+                        var control = FindControlInGroupBox(GB, (Remote ? "R" : "") + values[1].Trim());
+
+                        if ((control != null) && EnabledControls.Contains(control))
+                        {
+                            if (control.GetType() == typeof(CheckBox))
+                            {
+                                var value = ((CheckBox)control).Checked ? "1" : "0";
+
+                                if (value != values[2].Trim())
+                                {
+                                    var cmdanswer = doCommand(Port,
+                                        CommandPrefix + "TS" + GetParamNumber(values[0]) + "=" + value);
+
+                                    if (cmdanswer.Contains("OK"))
+                                    {
+                                        if (control.Name.Contains("GPO1_1R_COUT") ||
+                                            control.Name.Contains("GPO1_3SBUSOUT"))
+                                        {
+                                            if (((CheckBox)control).Checked)
+                                            {
+                                                //Also need to set RTPO.
+                                                cmdanswer = doCommand(Port,
+                                                    CommandPrefix + "TPO=1");
+                                            }
+                                            else
+                                            {
+                                                cmdanswer = doCommand(Port,
+                                                    CommandPrefix + "TPI=1");
+                                            }
+                                        }
+                                        else if (control.Name.Contains("GPI1_1R_CIN") ||
+                                            control.Name.Contains("GPO1_3SBUSIN"))
+                                        {
+                                            //Also need to set RTPI.
+                                            cmdanswer = doCommand(Port,
+                                                CommandPrefix + "TPI=1");
+                                        }
+                                        if (!cmdanswer.Contains("OK"))
+                                        {
+                                            MsgBox.CustomMessageBox.Show("Set Command error");
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        if (Remote && (values[1] == "ENCRYPTION_LEVEL"))
+                                        {
+                                            // set this on the local radio as well.
+                                            doCommand(Port, "ATS" + values[0].Trim().TrimStart('S') + "=" + value);
+                                            // both radios should now be using the default key
+                                        }
+                                        else
+                                        {
+                                            MsgBox.CustomMessageBox.Show("Set Command error");
+                                        }
+                                    }
+                                }
+                            }
+                            else if (control is TextBox)
+                            {
+                                if (Remote && !control.Name.Contains("FORMAT"))
+                                {
+                                    if (control.Text != values[2].Trim())
+                                    {
+                                        var cmdanswer = doCommand(Port,
+                                            CommandPrefix + "TS" + values[0].Trim().TrimStart('S') + "=" + control.Text);
+
+                                        if (cmdanswer.Contains("OK"))
+                                        {
+                                        }
+                                        else
+                                        {
+                                            MsgBox.CustomMessageBox.Show("Set Command error");
+                                        }
+                                    }
+                                }
+                            }
+                            else if (control.Name.Contains("MAVLINK")) //
+                            {
+                                if (((ComboBox)control).SelectedValue.ToString() != values[2].Trim())
+                                {
+                                    var cmdanswer = doCommand(Port,
+                                        CommandPrefix + "TS" + GetParamNumber(values[0]) + "=" + ((ComboBox)control).SelectedValue);
+
+                                    if (cmdanswer.Contains("OK"))
+                                    {
+                                    }
+                                    else
+                                    {
+                                        MsgBox.CustomMessageBox.Show("Set Command error");
+                                    }
+                                }
+                            }
+                            else if (control is ComboBox)
+                            {
+                                string CBValue = GetCBValue((ComboBox)control);
+                                if (CBValue != values[2].Trim())
+                                {
+                                    var cmdanswer = doCommand(Port,
+                                        CommandPrefix + "TS" + GetParamNumber(values[0]) + "=" + CBValue);
+
+                                    if (cmdanswer.Contains("OK"))
+                                    {
+                                    }
+                                    else
+                                    {
+                                        MsgBox.CustomMessageBox.Show("Set Command error");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         private void BUT_savesettings_Click(object sender, EventArgs e)
         {
             //EndSession();
@@ -470,138 +657,7 @@ S15: MAX_WINDOW=131
                     // remote
                     var answer = doCommand(Session.Port, "RTI5", true);
 
-                    var items = answer.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
-
-                    foreach (var item in items)
-                    {
-                        //if (item.StartsWith("S"))
-                        {
-                            int multipoint_fix = -1;
-                            if (item.StartsWith("["))
-                            {
-                                multipoint_fix = item.IndexOf(']') + 1;
-                            }
-                            var mod_item = item;
-                            if (multipoint_fix > 0 && item.Length > multipoint_fix)
-                            {
-                                mod_item = item.Substring(multipoint_fix).Trim();
-                            }
-                            var values = mod_item.Split(':', '=');
-
-                            if (values.Length == 3)
-                            {
-                                values[1] = values[1].Replace("/", "_");
-
-                                var controls = groupBoxRemote.Controls.Find("R" + values[1].Trim(), true);
-
-                                if ((controls.Length > 0) && EnabledControls.Contains(controls[0]))
-                                {
-                                    if (controls[0].GetType() == typeof (CheckBox))
-                                    {
-                                        var value = ((CheckBox) controls[0]).Checked ? "1" : "0";
-
-                                        if (value != values[2].Trim())
-                                        {
-                                            var cmdanswer = doCommand(Session.Port,
-                                                "RTS" + values[0].Trim().TrimStart('S') + "=" + value);
-
-                                            if (cmdanswer.Contains("OK"))
-                                            {
-                                                if (controls[0].Name.Contains("GPO1_1R_COUT") ||
-                                                    controls[0].Name.Contains("GPO1_3SBUSOUT"))
-                                                {
-                                                    if (((CheckBox)controls[0]).Checked)
-                                                    {
-                                                        //Also need to set RTPO.
-                                                        cmdanswer = doCommand(Session.Port,
-                                                            "RTPO=1");
-                                                    }
-                                                    else
-                                                    {
-                                                        cmdanswer = doCommand(Session.Port,
-                                                            "RTPI=1");
-                                                    }
-                                                }
-                                                else if (controls[0].Name.Contains("GPI1_1R_CIN") ||
-                                                    controls[0].Name.Contains("GPO1_3SBUSIN"))
-                                                {
-                                                    //Also need to set RTPI.
-                                                    cmdanswer = doCommand(Session.Port,
-                                                        "RTPI=1");
-                                                }
-                                                if (!cmdanswer.Contains("OK"))
-                                                {
-                                                    MsgBox.CustomMessageBox.Show("Set Command error");
-                                                }
-                                            }
-                                            else
-                                            {
-                                                if (values[1] == "ENCRYPTION_LEVEL")
-                                                {
-                                                    // set this on the local radio as well.
-                                                    doCommand(Session.Port, "ATS" + values[0].Trim().TrimStart('S') + "=" + value);
-                                                    // both radios should now be using the default key
-                                                }
-                                                else
-                                                {
-                                                    MsgBox.CustomMessageBox.Show("Set Command error");
-                                                }
-                                            }
-                                        }
-                                    }
-                                    else if (!controls[0].Name.Contains("FORMAT") && controls[0] is TextBox)
-                                    {
-                                        if (controls[0].Text != values[2].Trim())
-                                        {
-                                            var cmdanswer = doCommand(Session.Port,
-                                                "RTS" + values[0].Trim().TrimStart('S') + "=" + controls[0].Text);
-                                            
-                                            if (cmdanswer.Contains("OK"))
-                                            {
-                                            }
-                                            else
-                                            {
-                                                MsgBox.CustomMessageBox.Show("Set Command error");
-                                            }
-                                        }
-                                    }
-                                    else if (controls[0].Name.Contains("MAVLINK")) //
-                                    {
-                                        if (((ComboBox) controls[0]).SelectedValue.ToString() != values[2].Trim())
-                                        {
-                                            var cmdanswer = doCommand(Session.Port,
-                                                "RTS" + values[0].Trim().TrimStart('S') + "=" + ((ComboBox) controls[0]).SelectedValue);
-
-                                            if (cmdanswer.Contains("OK"))
-                                            {
-                                            }
-                                            else
-                                            {
-                                                MsgBox.CustomMessageBox.Show("Set Command error");
-                                            }
-                                        }
-                                    }
-                                    else if (controls[0] is ComboBox)
-                                    {
-                                        string CBValue = GetCBValue((ComboBox)controls[0]);
-                                        if (CBValue != values[2].Trim())
-                                        {
-                                            var cmdanswer = doCommand(Session.Port,
-                                                "RTS" + values[0].Trim().TrimStart('S') + "=" + CBValue);
-
-                                            if (cmdanswer.Contains("OK"))
-                                            {
-                                            }
-                                            else
-                                            {
-                                                MsgBox.CustomMessageBox.Show("Set Command error");
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    SaveSettingsFromGroupBox(answer, groupBoxRemote, true, Session.Port, EnabledControls);
 
                     Sleep(100);
                 }
@@ -619,107 +675,7 @@ S15: MAX_WINDOW=131
                         }
                     }
 
-                    var items = answer.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
-
-                    foreach (var item in items)
-                    {
-                        //if (item.StartsWith("S"))
-                        {
-                            var values = item.Split(':', '=');
-
-                            if (values.Length == 3)
-                            {
-                                values[1] = values[1].Replace("/", "_");
-
-                                var controls = groupBoxLocal.Controls.Find(values[1].Trim(), true);
-
-                                if ((controls.Length > 0) && EnabledControls.Contains(controls[0]))
-                                {
-                                    if (controls[0].GetType() == typeof (CheckBox))
-                                    {
-                                        var value = ((CheckBox) controls[0]).Checked ? "1" : "0";
-
-                                        if (value != values[2].Trim())
-                                        {
-                                            var cmdanswer = doCommand(Session.Port,
-                                                "ATS" + GetParamNumber(values[0]) + "=" + value);
-
-                                            if (cmdanswer.Contains("OK"))
-                                            {
-                                                if (controls[0].Name.Contains("GPO1_1R_COUT") ||
-                                                    controls[0].Name.Contains("GPO1_3SBUSOUT"))
-                                                {
-                                                    if (((CheckBox)controls[0]).Checked)
-                                                    {
-                                                        //Also need to set RTPO.
-                                                        cmdanswer = doCommand(Session.Port,
-                                                            "ATPO=1");
-                                                    }
-                                                    else
-                                                    {
-                                                        cmdanswer = doCommand(Session.Port,
-                                                            "ATPI=1");
-                                                    }
-                                                }
-                                                else if (controls[0].Name.Contains("GPI1_1R_CIN") ||
-                                                    controls[0].Name.Contains("GPO1_3SBUSIN"))
-                                                {
-                                                    //Also need to set RTPI.
-                                                    cmdanswer = doCommand(Session.Port,
-                                                        "ATPI=1");
-                                                }
-                                                if (!cmdanswer.Contains("OK"))
-                                                {
-                                                    MsgBox.CustomMessageBox.Show("Set Command error");
-                                                }
-
-                                            }
-                                            else
-                                            {
-                                                MsgBox.CustomMessageBox.Show("Set Command error");
-                                            }
-                                        }
-                                    }
-                                    else if (controls[0] is TextBox)
-                                    {
-                                    }
-                                    else if (controls[0].Name.Contains("MAVLINK")) //
-                                    {
-                                        if (((ComboBox) controls[0]).SelectedValue.ToString() != values[2].Trim())
-                                        {
-                                            var cmdanswer = doCommand(Session.Port,
-                                                "ATS" + GetParamNumber(values[0]) + "=" + ((ComboBox) controls[0]).SelectedValue);
-
-                                            if (cmdanswer.Contains("OK"))
-                                            {
-                                            }
-                                            else
-                                            {
-                                                MsgBox.CustomMessageBox.Show("Set Command error");
-                                            }
-                                        }
-                                    }
-                                    else if (controls[0] is ComboBox)
-                                    {
-                                        string CBValue = GetCBValue((ComboBox)controls[0]);
-                                        if (CBValue != values[2].Trim())
-                                        {
-                                            var cmdanswer = doCommand(Session.Port,
-                                                "ATS" + GetParamNumber(values[0]) + "=" + CBValue);
-
-                                            if (cmdanswer.Contains("OK"))
-                                            {
-                                            }
-                                            else
-                                            {
-                                                MsgBox.CustomMessageBox.Show("Set Command error");
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    SaveSettingsFromGroupBox(answer, groupBoxLocal, false, Session.Port, EnabledControls);
 
                     // set encryption keys at the same time, so if we are enabled we dont lose comms.
                     // we have set encryption to on for both radios, they will be using the default key atm
@@ -866,19 +822,8 @@ S15: MAX_WINDOW=131
         /// <param name="Remote">true if it is a remote modem setting, false if local.</param>
         /// <returns></returns>
         private bool SetupCBWithSetting(ComboBox CB, Dictionary<string, RFD.RFD900.TSetting> Settings,
-            string Value, bool Remote)
+            string Value, bool Remote, string SettingName)
         {
-            string SettingName;
-
-            if (Remote)
-            {
-                SettingName = CB.Name.Substring(1);
-            }
-            else
-            {
-                SettingName = CB.Name;
-            }
-
             foreach (var kvp in Settings)
             {
                 string CBName = kvp.Value.Name.Replace('/', '_');
@@ -978,6 +923,28 @@ S15: MAX_WINDOW=131
             return Result;
         }
 
+        Control FindControlInGroupBox(GroupBox GB, string Name)
+        {
+            Control Result = _DynamicLabelEditorPairRegister.FindAndSetUpEditorWithSettingName(Name);
+            if (Result == null)
+            {
+                var Array = GB.Controls.Find(Name, true);
+
+                if (Array.Length == 0)
+                {
+                    return null;
+                }
+                else
+                {
+                    return Array[0];
+                }
+            }
+            else
+            {
+                return Result;
+            }
+        }
+
         /// <summary>
         /// Given a groupbox containing a set of controls, load them with the given values and settings.
         /// </summary>
@@ -994,38 +961,43 @@ S15: MAX_WINDOW=131
             {
                 var values = item.Split(new char[] { ':', '=' }, StringSplitOptions.RemoveEmptyEntries);
 
+                if (item.Contains("ANT_MODE"))
+                {
+                    System.Diagnostics.Debug.WriteLine("Ant mode");
+                }
+
                 if (values.Length == 3)
                 {
                     values[1] = values[1].Replace("/", "_");
 
-                    var controls = GB.Controls.Find((Remote ? "R" : "") + values[1].Trim(), true);
+                    var control = FindControlInGroupBox(GB, (Remote ? "R" : "") + values[1].Trim());
 
-                    if (controls.Length > 0)
+                    if (control != null)
                     {
                         GB.Enabled = true;
-                        controls[0].Parent.Enabled = true;
-                        controls[0].Enabled = true;
+                        control.Parent.Enabled = true;
+                        control.Enabled = true;
 
-                        if (controls[0] is CheckBox)
+                        if (control is CheckBox)
                         {
-                            ((CheckBox)controls[0]).Checked = values[2].Trim() == "1";
+                            ((CheckBox)control).Checked = values[2].Trim() == "1";
                         }
-                        else if (controls[0] is TextBox)
+                        else if (control is TextBox)
                         {
-                            ((TextBox)controls[0]).Text = values[2].Trim();
+                            ((TextBox)control).Text = values[2].Trim();
                         }
-                        else if (controls[0].Name.Contains("MAVLINK")) //
+                        else if (control.Name.Contains("MAVLINK")) //
                         {
                             var ans = Enum.Parse(typeof(mavlink_option), values[2].Trim());
-                            ((ComboBox)controls[0]).Text = ans.ToString();
+                            ((ComboBox)control).Text = ans.ToString();
                         }
-                        else if (controls[0] is ComboBox)
+                        else if (control is ComboBox)
                         {
-                            if (!SetupCBWithSetting((ComboBox)controls[0], Settings,
-                                values[2].Trim(), Remote))
+                            if (!SetupCBWithSetting((ComboBox)control, Settings,
+                                values[2].Trim(), Remote, values[1].Trim()))
                             {
-                                ((ComboBox)controls[0]).Text = values[2].Trim();
-                                if (((ComboBox)controls[0]).Text != values[2].Trim())
+                                ((ComboBox)control).Text = values[2].Trim();
+                                if (((ComboBox)control).Text != values[2].Trim())
                                 {
                                     SomeSettingsInvalid = true;
                                 }

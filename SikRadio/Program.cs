@@ -45,6 +45,7 @@
  * 2.30 - For RFD900x multipoint firmware, now allows correct broadcast id for nodedestination parameter.   
  * 2.32 - Supports programming of RFD900ux modems.
  * 2.33 - Corrected available frequency ranges for RFD900+
+ * 2.34 - Now handles new settings GPO1_1SBUSIN, GPO1_1SBUSOUT, GPO1_3STATLED, and GPO1_0TXEN485
  */
 
 using System;

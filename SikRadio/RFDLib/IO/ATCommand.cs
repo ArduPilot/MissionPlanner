@@ -150,6 +150,32 @@ namespace RFDLib.IO.ATCommand
                 return "";
             }
         }
+
+        public string DoQueryWithMultiLineResponse(string Command)
+        {
+            string CompleteCommand = Command + GetTerminator();
+            _Port.DiscardInBuffer();
+            _Port.Write(CompleteCommand);
+
+            if (EliminateEcho(CompleteCommand))
+            {
+                string Result = "";
+                string Temp;
+                int Timeout = this.Timeout;
+
+                while (IO.TSerialPort.WaitForToken(_Port, Terminator, Timeout, out Temp))
+                {
+                    Result += Temp;
+                    Timeout = 500;
+                }
+
+                return Result;
+            }
+            else
+            {
+                return "";
+            }
+        }
     }
 
     public class TServer

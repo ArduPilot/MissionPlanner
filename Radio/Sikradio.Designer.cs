@@ -67,11 +67,7 @@
             this.ECC = new System.Windows.Forms.CheckBox();
             this.OPPRESEND = new System.Windows.Forms.CheckBox();
             this.GPO1_3SBUSIN = new System.Windows.Forms.CheckBox();
-            this.GPO1_3SBUSOUT = new System.Windows.Forms.CheckBox();
-            this.RGPO1_3SBUSOUT = new System.Windows.Forms.CheckBox();
             this.RGPO1_3SBUSIN = new System.Windows.Forms.CheckBox();
-            this.BUT_SetPPMFailSafeRemote = new MissionPlanner.Controls.MyButton();
-            this.BUT_SetPPMFailSafe = new MissionPlanner.Controls.MyButton();
             this.RTI = new System.Windows.Forms.TextBox();
             this.ATI = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
@@ -83,8 +79,8 @@
             this.txtCountry = new System.Windows.Forms.TextBox();
             this.label45 = new System.Windows.Forms.Label();
             this.RATE_FREQBAND = new System.Windows.Forms.ComboBox();
-            this.label44 = new System.Windows.Forms.Label();
-            this.label43 = new System.Windows.Forms.Label();
+            this.lblSBUSOUT = new System.Windows.Forms.Label();
+            this.lblSBUSIN = new System.Windows.Forms.Label();
             this.btnRandom = new System.Windows.Forms.Button();
             this.lblRX_ENCAP_METHOD = new System.Windows.Forms.Label();
             this.RX_ENCAP_METHOD = new System.Windows.Forms.ComboBox();
@@ -132,8 +128,8 @@
             this.groupBoxRemote = new System.Windows.Forms.GroupBox();
             this.label50 = new System.Windows.Forms.Label();
             this.txtRCountry = new System.Windows.Forms.TextBox();
-            this.label47 = new System.Windows.Forms.Label();
-            this.label48 = new System.Windows.Forms.Label();
+            this.lblRSBUSOUT = new System.Windows.Forms.Label();
+            this.lblRSBUSIN = new System.Windows.Forms.Label();
             this.label46 = new System.Windows.Forms.Label();
             this.RRATE_FREQBAND = new System.Windows.Forms.ComboBox();
             this.lblRRX_ENCAP_METHOD = new System.Windows.Forms.Label();
@@ -179,12 +175,24 @@
             this.RTI2 = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
+            this.GPO1_3SBUSOUT = new System.Windows.Forms.ComboBox();
+            this.RGPO1_3SBUSOUT = new System.Windows.Forms.ComboBox();
             this.BUT_loadcustom = new MissionPlanner.Controls.MyButton();
             this.BUT_resettodefault = new MissionPlanner.Controls.MyButton();
+            this.BUT_SetPPMFailSafeRemote = new MissionPlanner.Controls.MyButton();
+            this.BUT_SetPPMFailSafe = new MissionPlanner.Controls.MyButton();
             this.BUT_savesettings = new MissionPlanner.Controls.MyButton();
             this.BUT_getcurrent = new MissionPlanner.Controls.MyButton();
             this.BUT_upload = new MissionPlanner.Controls.MyButton();
             this.BUT_Syncoptions = new MissionPlanner.Controls.MyButton();
+            this.label43 = new System.Windows.Forms.Label();
+            this.GPO1_3STATLED = new System.Windows.Forms.CheckBox();
+            this.GPO1_0TXEN485 = new System.Windows.Forms.CheckBox();
+            this.lbl245 = new System.Windows.Forms.Label();
+            this.RGPO1_0TXEN485 = new System.Windows.Forms.CheckBox();
+            this.label44 = new System.Windows.Forms.Label();
+            this.RGPO1_3STATLED = new System.Windows.Forms.CheckBox();
+            this.label47 = new System.Windows.Forms.Label();
             this.groupBoxLocal.SuspendLayout();
             this.groupBoxRemote.SuspendLayout();
             this.SuspendLayout();
@@ -765,39 +773,11 @@
             this.GPO1_3SBUSIN.Name = "GPO1_3SBUSIN";
             this.toolTip1.SetToolTip(this.GPO1_3SBUSIN, resources.GetString("GPO1_3SBUSIN.ToolTip"));
             // 
-            // GPO1_3SBUSOUT
-            // 
-            resources.ApplyResources(this.GPO1_3SBUSOUT, "GPO1_3SBUSOUT");
-            this.GPO1_3SBUSOUT.Name = "GPO1_3SBUSOUT";
-            this.toolTip1.SetToolTip(this.GPO1_3SBUSOUT, resources.GetString("GPO1_3SBUSOUT.ToolTip"));
-            // 
-            // RGPO1_3SBUSOUT
-            // 
-            resources.ApplyResources(this.RGPO1_3SBUSOUT, "RGPO1_3SBUSOUT");
-            this.RGPO1_3SBUSOUT.Name = "RGPO1_3SBUSOUT";
-            this.toolTip1.SetToolTip(this.RGPO1_3SBUSOUT, resources.GetString("RGPO1_3SBUSOUT.ToolTip"));
-            // 
             // RGPO1_3SBUSIN
             // 
             resources.ApplyResources(this.RGPO1_3SBUSIN, "RGPO1_3SBUSIN");
             this.RGPO1_3SBUSIN.Name = "RGPO1_3SBUSIN";
             this.toolTip1.SetToolTip(this.RGPO1_3SBUSIN, resources.GetString("RGPO1_3SBUSIN.ToolTip"));
-            // 
-            // BUT_SetPPMFailSafeRemote
-            // 
-            resources.ApplyResources(this.BUT_SetPPMFailSafeRemote, "BUT_SetPPMFailSafeRemote");
-            this.BUT_SetPPMFailSafeRemote.Name = "BUT_SetPPMFailSafeRemote";
-            this.toolTip1.SetToolTip(this.BUT_SetPPMFailSafeRemote, resources.GetString("BUT_SetPPMFailSafeRemote.ToolTip"));
-            this.BUT_SetPPMFailSafeRemote.UseVisualStyleBackColor = true;
-            this.BUT_SetPPMFailSafeRemote.Click += new System.EventHandler(this.BUT_SetPPMFailSafeRemote_Click);
-            // 
-            // BUT_SetPPMFailSafe
-            // 
-            resources.ApplyResources(this.BUT_SetPPMFailSafe, "BUT_SetPPMFailSafe");
-            this.BUT_SetPPMFailSafe.Name = "BUT_SetPPMFailSafe";
-            this.toolTip1.SetToolTip(this.BUT_SetPPMFailSafe, resources.GetString("BUT_SetPPMFailSafe.ToolTip"));
-            this.BUT_SetPPMFailSafe.UseVisualStyleBackColor = true;
-            this.BUT_SetPPMFailSafe.Click += new System.EventHandler(this.BUT_SetPPMFailSafe_Click);
             // 
             // RTI
             // 
@@ -836,14 +816,18 @@
             // 
             // groupBoxLocal
             // 
+            this.groupBoxLocal.Controls.Add(this.GPO1_0TXEN485);
+            this.groupBoxLocal.Controls.Add(this.lbl245);
+            this.groupBoxLocal.Controls.Add(this.GPO1_3STATLED);
+            this.groupBoxLocal.Controls.Add(this.label43);
+            this.groupBoxLocal.Controls.Add(this.GPO1_3SBUSOUT);
             this.groupBoxLocal.Controls.Add(this.label49);
             this.groupBoxLocal.Controls.Add(this.BUT_SetPPMFailSafe);
             this.groupBoxLocal.Controls.Add(this.txtCountry);
             this.groupBoxLocal.Controls.Add(this.label45);
             this.groupBoxLocal.Controls.Add(this.RATE_FREQBAND);
-            this.groupBoxLocal.Controls.Add(this.label44);
-            this.groupBoxLocal.Controls.Add(this.GPO1_3SBUSOUT);
-            this.groupBoxLocal.Controls.Add(this.label43);
+            this.groupBoxLocal.Controls.Add(this.lblSBUSOUT);
+            this.groupBoxLocal.Controls.Add(this.lblSBUSIN);
             this.groupBoxLocal.Controls.Add(this.GPO1_3SBUSIN);
             this.groupBoxLocal.Controls.Add(this.btnRandom);
             this.groupBoxLocal.Controls.Add(this.lblRX_ENCAP_METHOD);
@@ -937,15 +921,15 @@
             this.RATE_FREQBAND.FormattingEnabled = true;
             this.RATE_FREQBAND.Name = "RATE_FREQBAND";
             // 
-            // label44
+            // lblSBUSOUT
             // 
-            resources.ApplyResources(this.label44, "label44");
-            this.label44.Name = "label44";
+            resources.ApplyResources(this.lblSBUSOUT, "lblSBUSOUT");
+            this.lblSBUSOUT.Name = "lblSBUSOUT";
             // 
-            // label43
+            // lblSBUSIN
             // 
-            resources.ApplyResources(this.label43, "label43");
-            this.label43.Name = "label43";
+            resources.ApplyResources(this.lblSBUSIN, "lblSBUSIN");
+            this.lblSBUSIN.Name = "lblSBUSIN";
             // 
             // btnRandom
             // 
@@ -1194,12 +1178,16 @@
             // 
             // groupBoxRemote
             // 
+            this.groupBoxRemote.Controls.Add(this.RGPO1_0TXEN485);
+            this.groupBoxRemote.Controls.Add(this.label44);
+            this.groupBoxRemote.Controls.Add(this.RGPO1_3STATLED);
+            this.groupBoxRemote.Controls.Add(this.label47);
+            this.groupBoxRemote.Controls.Add(this.RGPO1_3SBUSOUT);
             this.groupBoxRemote.Controls.Add(this.BUT_SetPPMFailSafeRemote);
             this.groupBoxRemote.Controls.Add(this.label50);
             this.groupBoxRemote.Controls.Add(this.txtRCountry);
-            this.groupBoxRemote.Controls.Add(this.label47);
-            this.groupBoxRemote.Controls.Add(this.RGPO1_3SBUSOUT);
-            this.groupBoxRemote.Controls.Add(this.label48);
+            this.groupBoxRemote.Controls.Add(this.lblRSBUSOUT);
+            this.groupBoxRemote.Controls.Add(this.lblRSBUSIN);
             this.groupBoxRemote.Controls.Add(this.RGPO1_3SBUSIN);
             this.groupBoxRemote.Controls.Add(this.label46);
             this.groupBoxRemote.Controls.Add(this.RRATE_FREQBAND);
@@ -1277,15 +1265,15 @@
             this.txtRCountry.Name = "txtRCountry";
             this.txtRCountry.ReadOnly = true;
             // 
-            // label47
+            // lblRSBUSOUT
             // 
-            resources.ApplyResources(this.label47, "label47");
-            this.label47.Name = "label47";
+            resources.ApplyResources(this.lblRSBUSOUT, "lblRSBUSOUT");
+            this.lblRSBUSOUT.Name = "lblRSBUSOUT";
             // 
-            // label48
+            // lblRSBUSIN
             // 
-            resources.ApplyResources(this.label48, "label48");
-            this.label48.Name = "label48";
+            resources.ApplyResources(this.lblRSBUSIN, "lblRSBUSIN");
+            this.lblRSBUSIN.Name = "lblRSBUSIN";
             // 
             // label46
             // 
@@ -1535,6 +1523,20 @@
             resources.ApplyResources(this.label10, "label10");
             this.label10.Name = "label10";
             // 
+            // GPO1_3SBUSOUT
+            // 
+            this.GPO1_3SBUSOUT.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.GPO1_3SBUSOUT, "GPO1_3SBUSOUT");
+            this.GPO1_3SBUSOUT.FormattingEnabled = true;
+            this.GPO1_3SBUSOUT.Name = "GPO1_3SBUSOUT";
+            // 
+            // RGPO1_3SBUSOUT
+            // 
+            this.RGPO1_3SBUSOUT.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.RGPO1_3SBUSOUT.FormattingEnabled = true;
+            resources.ApplyResources(this.RGPO1_3SBUSOUT, "RGPO1_3SBUSOUT");
+            this.RGPO1_3SBUSOUT.Name = "RGPO1_3SBUSOUT";
+            // 
             // BUT_loadcustom
             // 
             resources.ApplyResources(this.BUT_loadcustom, "BUT_loadcustom");
@@ -1548,6 +1550,22 @@
             this.BUT_resettodefault.Name = "BUT_resettodefault";
             this.BUT_resettodefault.UseVisualStyleBackColor = true;
             this.BUT_resettodefault.Click += new System.EventHandler(this.BUT_resettodefault_Click);
+            // 
+            // BUT_SetPPMFailSafeRemote
+            // 
+            resources.ApplyResources(this.BUT_SetPPMFailSafeRemote, "BUT_SetPPMFailSafeRemote");
+            this.BUT_SetPPMFailSafeRemote.Name = "BUT_SetPPMFailSafeRemote";
+            this.toolTip1.SetToolTip(this.BUT_SetPPMFailSafeRemote, resources.GetString("BUT_SetPPMFailSafeRemote.ToolTip"));
+            this.BUT_SetPPMFailSafeRemote.UseVisualStyleBackColor = true;
+            this.BUT_SetPPMFailSafeRemote.Click += new System.EventHandler(this.BUT_SetPPMFailSafeRemote_Click);
+            // 
+            // BUT_SetPPMFailSafe
+            // 
+            resources.ApplyResources(this.BUT_SetPPMFailSafe, "BUT_SetPPMFailSafe");
+            this.BUT_SetPPMFailSafe.Name = "BUT_SetPPMFailSafe";
+            this.toolTip1.SetToolTip(this.BUT_SetPPMFailSafe, resources.GetString("BUT_SetPPMFailSafe.ToolTip"));
+            this.BUT_SetPPMFailSafe.UseVisualStyleBackColor = true;
+            this.BUT_SetPPMFailSafe.Click += new System.EventHandler(this.BUT_SetPPMFailSafe_Click);
             // 
             // BUT_savesettings
             // 
@@ -1576,6 +1594,50 @@
             this.BUT_Syncoptions.Name = "BUT_Syncoptions";
             this.BUT_Syncoptions.UseVisualStyleBackColor = true;
             this.BUT_Syncoptions.Click += new System.EventHandler(this.BUT_Syncoptions_Click);
+            // 
+            // label43
+            // 
+            resources.ApplyResources(this.label43, "label43");
+            this.label43.Name = "label43";
+            // 
+            // GPO1_3STATLED
+            // 
+            resources.ApplyResources(this.GPO1_3STATLED, "GPO1_3STATLED");
+            this.GPO1_3STATLED.Name = "GPO1_3STATLED";
+            this.toolTip1.SetToolTip(this.GPO1_3STATLED, resources.GetString("GPO1_3STATLED.ToolTip"));
+            // 
+            // GPO1_0TXEN485
+            // 
+            resources.ApplyResources(this.GPO1_0TXEN485, "GPO1_0TXEN485");
+            this.GPO1_0TXEN485.Name = "GPO1_0TXEN485";
+            this.toolTip1.SetToolTip(this.GPO1_0TXEN485, resources.GetString("GPO1_0TXEN485.ToolTip"));
+            // 
+            // lbl245
+            // 
+            resources.ApplyResources(this.lbl245, "lbl245");
+            this.lbl245.Name = "lbl245";
+            // 
+            // RGPO1_0TXEN485
+            // 
+            resources.ApplyResources(this.RGPO1_0TXEN485, "RGPO1_0TXEN485");
+            this.RGPO1_0TXEN485.Name = "RGPO1_0TXEN485";
+            this.toolTip1.SetToolTip(this.RGPO1_0TXEN485, resources.GetString("RGPO1_0TXEN485.ToolTip"));
+            // 
+            // label44
+            // 
+            resources.ApplyResources(this.label44, "label44");
+            this.label44.Name = "label44";
+            // 
+            // RGPO1_3STATLED
+            // 
+            resources.ApplyResources(this.RGPO1_3STATLED, "RGPO1_3STATLED");
+            this.RGPO1_3STATLED.Name = "RGPO1_3STATLED";
+            this.toolTip1.SetToolTip(this.RGPO1_3STATLED, resources.GetString("RGPO1_3STATLED.ToolTip"));
+            // 
+            // label47
+            // 
+            resources.ApplyResources(this.label47, "label47");
+            this.label47.Name = "label47";
             // 
             // Sikradio
             // 
@@ -1743,22 +1805,30 @@
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Button btnRandom;
-        private System.Windows.Forms.Label label43;
+        private System.Windows.Forms.Label lblSBUSIN;
         private System.Windows.Forms.CheckBox GPO1_3SBUSIN;
-        private System.Windows.Forms.Label label44;
-        private System.Windows.Forms.CheckBox GPO1_3SBUSOUT;
+        private System.Windows.Forms.Label lblSBUSOUT;
         private System.Windows.Forms.Label label45;
         private System.Windows.Forms.ComboBox RATE_FREQBAND;
         private System.Windows.Forms.Label label46;
         private System.Windows.Forms.ComboBox RRATE_FREQBAND;
-        private System.Windows.Forms.Label label47;
-        private System.Windows.Forms.CheckBox RGPO1_3SBUSOUT;
-        private System.Windows.Forms.Label label48;
+        private System.Windows.Forms.Label lblRSBUSOUT;
+        private System.Windows.Forms.Label lblRSBUSIN;
         private System.Windows.Forms.CheckBox RGPO1_3SBUSIN;
         private System.Windows.Forms.TextBox txtCountry;
         private System.Windows.Forms.Label label49;
         private System.Windows.Forms.Label label50;
         private System.Windows.Forms.TextBox txtRCountry;
         private Controls.MyButton BUT_SetPPMFailSafeRemote;
+        private System.Windows.Forms.ComboBox GPO1_3SBUSOUT;
+        private System.Windows.Forms.ComboBox RGPO1_3SBUSOUT;
+        private System.Windows.Forms.CheckBox GPO1_0TXEN485;
+        private System.Windows.Forms.Label lbl245;
+        private System.Windows.Forms.CheckBox GPO1_3STATLED;
+        private System.Windows.Forms.Label label43;
+        private System.Windows.Forms.CheckBox RGPO1_0TXEN485;
+        private System.Windows.Forms.Label label44;
+        private System.Windows.Forms.CheckBox RGPO1_3STATLED;
+        private System.Windows.Forms.Label label47;
     }
 }

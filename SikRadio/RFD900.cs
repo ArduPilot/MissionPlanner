@@ -41,6 +41,7 @@ namespace RFD.RFD900
             AddDefaultSetting("S21:GPO1_3STATLED(N)[0..1]=0{Off,On,}\r\n");
             AddDefaultSetting("S22:GPO1_0TXEN485(N)[0..1]=0{Off,On,}\r\n");
             AddDefaultSetting("S23:RATE/FREQBAND(N)[0..3]=0{LoAus,HiAus,StdNZ,LoUSA,HiUSA,StdEU,LbtEU,StdPRC,StdINS,HiLbtJAP,HiStdJAP,LoLbtJAP,LoStdJAP,}\r\n");
+            AddDefaultSetting("S20:ANT_MODE(N)[0..3]=0{Ant1&2,Ant1,Ant2,Ant1=TX;2=RX,}\r\n");
         }
 
         /// <summary>
