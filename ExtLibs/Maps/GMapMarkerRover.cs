@@ -61,8 +61,8 @@ namespace MissionPlanner.Maps
             {
             }
             g.DrawImageUnscaled(global::MissionPlanner.Maps.Resources.rover,
-                global::MissionPlanner.Maps.Resources.rover.Width/-2,
-                global::MissionPlanner.Maps.Resources.rover.Height/-2);
+                Size.Width/-2,
+                Size.Height/-2);
 
             g.Transform = temp;
         }

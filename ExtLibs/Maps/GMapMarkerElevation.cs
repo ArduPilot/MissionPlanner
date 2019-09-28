@@ -26,11 +26,11 @@ namespace MissionPlanner.Maps
             IsHitTestVisible = false;
 
             //create a new Bitmap
-            Bitmap bmp = new Bitmap(imageData.GetLength(0), imageData.GetLength(1), System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            Bitmap bmp = new Bitmap(imageData.GetLength(0), imageData.GetLength(1), PixelFormat.Format32bppArgb);
             
             //lock it to get the BitmapData Object
-            System.Drawing.Imaging.BitmapData bmData =
-                bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), System.Drawing.Imaging.ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            BitmapData bmData =
+                bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
 
             //now we have to convert the 2 dimensional array into a one dimensional byte-array for use with 8bpp bitmaps
             // use stride and height to prevent stride mod 4 issues

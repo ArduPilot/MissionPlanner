@@ -231,7 +231,7 @@
 #if !PocketPC
       public static readonly Brush DefaultFill = new SolidBrush(Color.FromArgb(155, Color.AliceBlue));
 #else
-      public static readonly Brush DefaultFill = new System.Drawing.SolidBrush(Color.AliceBlue);
+      public static readonly Brush DefaultFill = new SolidBrush(Color.AliceBlue);
 #endif
 
       /// <summary>
