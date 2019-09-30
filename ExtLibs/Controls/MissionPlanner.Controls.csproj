@@ -70,7 +70,6 @@
     <Compile Include="HUD.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="IActivate.cs" />
     <Compile Include="IDynamicParameterControl.cs" />
     <Compile Include="ImageLabel.cs">
       <SubType>UserControl</SubType>
