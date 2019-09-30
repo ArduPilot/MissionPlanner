@@ -118,7 +118,6 @@
             this.treeView1.CheckBoxes = true;
             resources.ApplyResources(this.treeView1, "treeView1");
             this.treeView1.Name = "treeView1";
-            this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
             // 
             // splitContainer1
@@ -148,7 +147,7 @@
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.BUT_redokml);
             this.Name = "MavlinkLog";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Log_FormClosing);
+         
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();

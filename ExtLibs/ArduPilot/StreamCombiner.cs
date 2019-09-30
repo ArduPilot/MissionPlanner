@@ -208,18 +208,11 @@ namespace MissionPlanner.Utilities
                 {
                 }
 
-                //mav = null;
-
-                MainV2.instance.BeginInvoke((Action) delegate
-                {
-                    MainV2.instance.doConnect(mav, "preset",
-                        localsysid.ToString());
-
-                    MainV2.Comports.Add(mav);
-                });
-                //clients.Add(client);
+                Connect?.Invoke(mav, localsysid.ToString());
             }
 
         }
+
+        public static event Action<MAVLinkInterface, string> Connect;
     }
 }

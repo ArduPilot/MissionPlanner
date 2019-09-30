@@ -35,6 +35,10 @@ namespace MissionPlanner.GCSViews
         {
             try
             {
+                if (Program.WindowsStoreApp)
+                {
+                    return;
+                }
                 Utilities.Update.CheckForUpdate(true);
             }
             catch (Exception ex)

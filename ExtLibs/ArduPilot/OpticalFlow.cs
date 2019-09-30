@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
+using MissionPlanner.Utilities.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
+using Rectangle = System.Drawing.Rectangle;
+using Point = System.Drawing.Point;
+using Color = System.Drawing.Color;
 
 namespace MissionPlanner.Utilities
 {

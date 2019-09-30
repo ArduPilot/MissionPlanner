@@ -12,7 +12,7 @@ namespace MissionPlanner.Utilities
     /// with the written string as an argument. The string is then
     /// discarded.
     /// </summary>
-    class StringRedirectWriter : TextWriter
+    public class StringRedirectWriter : TextWriter
     {
         public override Encoding Encoding
         {

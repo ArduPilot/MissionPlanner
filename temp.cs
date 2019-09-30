@@ -494,7 +494,9 @@ namespace MissionPlanner
         private void but_gimbaltest_Click(object sender, EventArgs e)
         {
             if (MainV2.comPort.BaseStream.IsOpen)
-                GimbalPoint.ProjectPoint();
+            {
+                GimbalPoint.ProjectPoint(MainV2.comPort);
+            }
             else
                 CustomMessageBox.Show(Strings.PleaseConnect, Strings.ERROR);
         }
@@ -589,6 +591,14 @@ namespace MissionPlanner
 
         private void but_sitl_comb_Click(object sender, EventArgs e)
         {
+            StreamCombiner.Connect += (mav, localsysid) =>
+            {
+                MainV2.instance.doConnect(mav, "preset",
+                    localsysid.ToString());
+
+                MainV2.Comports.Add(mav);
+            };
+            
             StreamCombiner.Start();
         }
 

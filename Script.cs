@@ -15,7 +15,7 @@ namespace MissionPlanner
         // keeps history
         MAVLink.mavlink_rc_channels_override_t rc = new MAVLink.mavlink_rc_channels_override_t();
 
-        internal Utilities.StringRedirectWriter OutputWriter { get; private set; }
+        public StringRedirectWriter OutputWriter { get; private set; }
 
         public Script(bool redirectOutput = false)
         {

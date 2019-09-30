@@ -1,7 +1,9 @@
 ﻿using log4net;
 using ManagedNativeWifi.Simple;
 using MissionPlanner.Arduino;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.Comms;
+using MissionPlanner.test;
 using px4uploader;
 using SharpAdbClient;
 using solo;
@@ -15,12 +17,9 @@ using System.Net.Sockets;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
-using MissionPlanner.ArduPilot;
-using MissionPlanner.test;
 
 namespace MissionPlanner.Utilities
 {
@@ -93,8 +92,6 @@ namespace MissionPlanner.Utilities
                 return this.ToJSON();
             }
         }
-
-
 
         public static string getUrl(string hash, string filename)
         {
@@ -412,46 +409,6 @@ namespace MissionPlanner.Utilities
 
             try
             {
-                if (false && string.IsNullOrEmpty(historyhash))
-                {
-                    try
-                    {
-                        var ports = Win32DeviceMgmt.GetAllCOMPorts();
-
-                        foreach (var item in ports)
-                        {
-                            log.InfoFormat("{0}: {1} - {2}", item.name, item.description, item.board);
-
-                            // get the options for this device
-                            var fwitems = APFirmware.GetOptions(item, MapRelType(temp), MapMAVType(temp));
-                            if (fwitems?.Count == 1)
-                            {
-                                board = BoardDetect.boards.pass;
-                                baseurl = fwitems[0].Url.ToString();
-                            }
-                            else if (fwitems?.Count > 0)
-                            {
-                                FirmwareSelection fws = new FirmwareSelection(fwitems, item);
-                                fws.ShowXamarinControl(400, 800);
-                                board = BoardDetect.boards.pass;
-                                baseurl = fws.FinalResult;
-                                break;
-                            }
-                        }
-
-                        if (baseurl == null || baseurl == string.Empty && board == BoardDetect.boards.pass)
-                        {
-                            //CustomMessageBox.Show(Strings.No_firmware_available_for_this_board);
-                            //return false;
-                        }
-                    }
-                    catch
-                    {
-
-                    }
-                }
-
-
                 updateProgress(-1, Strings.DetectingBoardVersion);
 
                 if(board != BoardDetect.boards.pass)
@@ -699,36 +656,6 @@ namespace MissionPlanner.Utilities
             Tracking.AddTiming("Firmware Upload", board.ToString(), uploadtime, temp.name);
 
             return ans;
-        }
-
-        private APFirmware.MAV_TYPE? MapMAVType(software temp)
-        {
-            if (temp.urlfmuv3.ToLower().Contains("-heli".ToLower()))
-                return APFirmware.MAV_TYPE.HELICOPTER;
-            if (temp.urlfmuv3.ToLower().Contains("AntennaTracker".ToLower()))
-                return APFirmware.MAV_TYPE.ANTENNA_TRACKER;
-            if (temp.urlfmuv3.ToLower().Contains("Plane".ToLower()))
-                return APFirmware.MAV_TYPE.FIXED_WING;
-            if (temp.urlfmuv3.ToLower().Contains("Rover".ToLower()))
-                return APFirmware.MAV_TYPE.GROUND_ROVER;
-            if (temp.urlfmuv3.ToLower().Contains("Sub".ToLower()))
-                return APFirmware.MAV_TYPE.SUBMARINE;
-            if (temp.urlfmuv3.ToLower().Contains("Copter".ToLower()))
-                return APFirmware.MAV_TYPE.Copter;
-
-            return null;
-        }
-
-        private APFirmware.RELEASE_TYPES? MapRelType(software temp)
-        {
-            if (temp.urlfmuv3.ToLower().Contains("stable"))
-                return APFirmware.RELEASE_TYPES.OFFICIAL;
-            if (temp.urlfmuv3.ToLower().Contains("latest"))
-                return APFirmware.RELEASE_TYPES.DEV;
-            if (temp.urlfmuv3.ToLower().Contains("beta"))
-                return APFirmware.RELEASE_TYPES.BETA;
-
-            return null;
         }
 
         private string CheckChibiOS(string existingfw, string chibiosurl)

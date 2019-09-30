@@ -101,11 +101,6 @@ namespace MissionPlanner.Utilities
 
         public static void CheckForUpdate(bool NotifyNoUpdate = false)
         {
-            if (Program.WindowsStoreApp)
-            {
-                return;
-            }
-
             var baseurl = ConfigurationManager.AppSettings["UpdateLocationVersion"];
 
             if (dobeta)
@@ -188,7 +183,7 @@ namespace MissionPlanner.Utilities
             if (updateFound)
             {
                 // do the update in the main thread
-                MainV2.instance.Invoke((MethodInvoker) delegate
+                MainV2.instance.Invoke((Action) delegate
                 {
                     string extra = "";
 

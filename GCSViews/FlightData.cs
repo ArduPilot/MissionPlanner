@@ -1297,7 +1297,7 @@ namespace MissionPlanner.GCSViews
                                       (float)MainV2.comPort.MAV.param["MNT_STAB_ROLL"] == 0) ||
                                      (float)MainV2.comPort.MAV.param["MNT_TYPE"] == 4) // storm driver
                                 {
-                                    var marker = GimbalPoint.ProjectPoint();
+                                    var marker = GimbalPoint.ProjectPoint(MainV2.comPort);
 
                                     if (marker != PointLatLngAlt.Zero)
                                     {

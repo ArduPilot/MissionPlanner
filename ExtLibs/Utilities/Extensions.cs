@@ -15,6 +15,15 @@ namespace MissionPlanner.Utilities
 {
     public static class Extensions
     {
+        public static void Stop(this System.Threading.Timer timer)
+        {
+            timer.Change(Timeout.Infinite, Timeout.Infinite);
+        }
+
+        public static void Start(this System.Threading.Timer timer, int intervalms)
+        {
+            timer.Change(intervalms, intervalms);
+        }
         public static string ToJSON(this object msg, Formatting fmt)
         {
             return JsonConvert.SerializeObject(msg, fmt, new JsonSerializerSettings()

@@ -1,31 +1,30 @@
-﻿using System;
+﻿using log4net;
+using MissionPlanner.Utilities.Drawing;
+using SkiaSharp;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Net.Sockets;
 using System.Drawing;
 using System.IO;
 using System.IO.Compression;
 using System.IO.Pipes;
+using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
-using log4net;
-using LibVLC.NET;
-using MissionPlanner.Utilities.Drawing;
-using guint = System.UInt32;
-using GstClockTime = System.UInt64;
 using gsize = System.UInt64;
-using SkiaSharp;
+using GstClockTime = System.UInt64;
+using guint = System.UInt32;
 
 namespace MissionPlanner.Utilities
 {
     public class GStreamer
     {
         private static readonly ILog log =
-            LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         private static List<Process> processList = new List<Process>();
 

@@ -11,15 +11,7 @@ namespace MissionPlanner.Utilities
 {
     public static class ExtensionsMP
     {
-        public static void Stop(this System.Threading.Timer timer)
-        {
-            timer.Change(Timeout.Infinite, Timeout.Infinite);
-        }
 
-        public static void Start(this System.Threading.Timer timer, int intervalms)
-        {
-            timer.Change(intervalms, intervalms);
-        }
 
         public static Action<T> UpdateDataSource<T>(this BindingSource ctl, T input)
         {
