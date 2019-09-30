@@ -57,7 +57,7 @@ namespace MissionPlanner.Log
         DFLog dflog;
         public string logfilename;
 
-  
+
         class DataModifer
         {
             private readonly bool isValid;
@@ -121,7 +121,7 @@ namespace MissionPlanner.Log
                             break;
                         case '\\':
                         case '/':
-                            this.scalar = 1.0/value;
+                            this.scalar = 1.0 / value;
                             break;
 
                         case '+':
@@ -137,6 +137,7 @@ namespace MissionPlanner.Log
                             return false;
                     } // switch
                 } // for i
+
                 return true;
             }
 
@@ -215,7 +216,7 @@ namespace MissionPlanner.Log
 
 
 
-   
+
         void dataGridView1_RowUnshared(object sender, DataGridViewRowEventArgs e)
         {
         }
@@ -276,15 +277,13 @@ namespace MissionPlanner.Log
                                     browse.Show(this);
                                 }
                             }
+
                             a++;
                         }
                     }
                     else
                     {
-                        this.BeginInvoke((Action) delegate
-                        {
-                            this.Close();
-                        });
+                        this.BeginInvoke((Action) delegate { this.Close(); });
                         return;
                     }
                 }
@@ -334,10 +333,7 @@ namespace MissionPlanner.Log
 
                 log.Info("Done " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
 
-                this.BeginInvokeIfRequired(()=>
-                {
-                    LoadLog2(FileName, logdata, colcount);
-                });
+                this.BeginInvokeIfRequired(() => { LoadLog2(FileName, logdata, colcount); });
             }
             catch (Exception ex)
             {
@@ -365,7 +361,10 @@ namespace MissionPlanner.Log
             chk_mode.Checked = Settings.Instance.GetBoolean("LB_Mode", true);
             chk_msg.Checked = Settings.Instance.GetBoolean("LB_MSG", true);
 
-            chk_datagrid.CheckedChanged += (e, a) => { Settings.Instance["LB_Grid"] = chk_datagrid.Checked.ToString(); };
+            chk_datagrid.CheckedChanged += (e, a) =>
+            {
+                Settings.Instance["LB_Grid"] = chk_datagrid.Checked.ToString();
+            };
             chk_time.CheckedChanged += (e, a) => { Settings.Instance["LB_Time"] = chk_time.Checked.ToString(); };
             CHK_map.CheckedChanged += (e, a) => { Settings.Instance["LB_Map"] = CHK_map.Checked.ToString(); };
             chk_errors.CheckedChanged += (e, a) => { Settings.Instance["LB_Error"] = chk_errors.Checked.ToString(); };
@@ -420,8 +419,9 @@ namespace MissionPlanner.Log
                 }
 
                 //Console.WriteLine("set data {0} = {1}", dataGridView1.Rows[DGVrow].Cells[i].Value, data.Value);
-                dataGridView1.Rows[DGVrow].Cells[i].Value = String.IsNullOrEmpty(newvalue)  ? "" : newvalue;
+                dataGridView1.Rows[DGVrow].Cells[i].Value = String.IsNullOrEmpty(newvalue) ? "" : newvalue;
             }
+
             //Console.WriteLine("populateRowData done {0} {1} {2}", rowstartoffset, rowIndex, destDGV);
         }
 
@@ -481,6 +481,7 @@ namespace MissionPlanner.Log
             catch
             {
             }
+
             try
             {
                 // process the line type
@@ -495,6 +496,7 @@ namespace MissionPlanner.Log
                         dataGridView1.Columns[a].HeaderText = name;
                         a++;
                     }
+
                     for (; a < dataGridView1.Columns.Count; a++)
                     {
                         dataGridView1.Columns[a].HeaderText = "";
@@ -546,6 +548,7 @@ namespace MissionPlanner.Log
                     {
                         reader.ReadToFollowing("AC2");
                     }
+
                     reader.ReadToFollowing(option);
 
                     dataGridView1.Columns[1].HeaderText = "";
@@ -698,7 +701,7 @@ namespace MissionPlanner.Log
 
         public static Color ConvertFromRange(double r, double g, double b)
         {
-            return Color.FromArgb(255, (int) (r * 127.0)+127, (int) (g * 127.0)+127, (int) (b * 127.0)+127);
+            return Color.FromArgb(255, (int) (r * 127.0) + 127, (int) (g * 127.0) + 127, (int) (b * 127.0) + 127);
         }
 
         public static Color ConvertFromHex(string hex)
@@ -780,7 +783,8 @@ namespace MissionPlanner.Log
 
             if (col == 0)
             {
-                CustomMessageBox.Show("Please pick another column, Highlight the cell you wish to graph", Strings.ERROR);
+                CustomMessageBox.Show("Please pick another column, Highlight the cell you wish to graph",
+                    Strings.ERROR);
                 return;
             }
 
@@ -817,7 +821,7 @@ namespace MissionPlanner.Log
             foreach (var curve in zg1.GraphPane.CurveList)
             {
                 // its already on the graph, abort
-                if (curve.Label.Text.StartsWith(nodeName+" (") ||
+                if (curve.Label.Text.StartsWith(nodeName + " (") ||
                     curve.Label.Text.StartsWith(nodeName + " R ("))
                     return;
             }
@@ -942,6 +946,7 @@ namespace MissionPlanner.Log
                 {
                     ans[fieldName] = 0;
                 }
+
                 scope.SetVariable(logformatKey, ans);
             }
 
@@ -950,14 +955,15 @@ namespace MissionPlanner.Log
             List<Tuple<DFLog.DFItem, double>> answer = new List<Tuple<DFLog.DFItem, double>>();
 
 
-            foreach (var line in logdata.GetEnumeratorType(expression.Split(new char[]{'(',')',',',' ','.'}, StringSplitOptions.RemoveEmptyEntries)))
+            foreach (var line in logdata.GetEnumeratorType(expression.Split(new char[] {'(', ')', ',', ' ', '.'},
+                StringSplitOptions.RemoveEmptyEntries)))
             {
                 if (expression.Contains(line.msgtype))
                 {
                     var dict = line.ToDictionary();
                     scope.SetVariable(line.msgtype, dict);
                     var result = script.Execute(scope);
-                    answer.Add(line, (double)result);
+                    answer.Add(line, (double) result);
                 }
             }
 
@@ -968,7 +974,7 @@ namespace MissionPlanner.Log
         {
             [SpecialName]
 
-            public static object GetBoundMember(Dictionary<string, object> dict,string name)
+            public static object GetBoundMember(Dictionary<string, object> dict, string name)
 
             {
 
@@ -1042,6 +1048,7 @@ namespace MissionPlanner.Log
                                 // there is a glitch in the data, reject it by replacing it with the previous value
                                 value = value_prev;
                             }
+
                             value_prev = value;
 
                             if (dataModifier.doOffsetFirst)
@@ -1082,9 +1089,7 @@ namespace MissionPlanner.Log
                 a++;
             }
 
-            Invoke((Action) delegate {
-                GraphItem_AddCurve(list1, type, fieldname, left);
-            });
+            Invoke((Action) delegate { GraphItem_AddCurve(list1, type, fieldname, left); });
         }
 
         Color pickColour()
@@ -1101,10 +1106,10 @@ namespace MissionPlanner.Log
                 return notused.First();
 
             // failback to old method
-            return colours[zg1.GraphPane.CurveList.Count%colours.Length];
+            return colours[zg1.GraphPane.CurveList.Count % colours.Length];
         }
-        
-        void GraphItem_AddCurve(PointPairList list1,string type, string header, bool left)
+
+        void GraphItem_AddCurve(PointPairList list1, string type, string header, bool left)
         {
             if (list1.Count < 1)
             {
@@ -1142,6 +1147,7 @@ namespace MissionPlanner.Log
             catch
             {
             }
+
             // Zoom all
             zg1.ZoomOutAll(zg1.GraphPane);
 
@@ -1167,6 +1173,7 @@ namespace MissionPlanner.Log
                         item.Location.Y = zg1.GraphPane.YAxis.Scale.Max;
                         zg1.GraphPane.GraphObjList.Add(item);
                     }
+
                     return;
                 }
 
@@ -1234,6 +1241,7 @@ namespace MissionPlanner.Log
 
                     a++;
                 }
+
                 log.Info("End DrawErrors");
             });
         }
@@ -1253,6 +1261,7 @@ namespace MissionPlanner.Log
                         item.Location.Y = zg1.GraphPane.YAxis.Scale.Max;
                         zg1.GraphPane.GraphObjList.Add(item);
                     }
+
                     return;
                 }
 
@@ -1312,6 +1321,7 @@ namespace MissionPlanner.Log
 
                     a++;
                 }
+
                 log.Info("End DrawEV");
             });
         }
@@ -1377,8 +1387,10 @@ namespace MissionPlanner.Log
                             {
                                 new PointD(prevx, modeheighty), // bl
                                 new PointD(prevx, zg1.GraphPane.YAxis.Scale.Max), // tl
-                                new PointD(Math.Min( Math.Max(a,prevx),zg1.GraphPane.XAxis.Scale.Max), zg1.GraphPane.YAxis.Scale.Max), // tr
-                                new PointD(Math.Min( Math.Max(a,prevx),zg1.GraphPane.XAxis.Scale.Max), modeheighty), // br                                
+                                new PointD(Math.Min(Math.Max(a, prevx), zg1.GraphPane.XAxis.Scale.Max),
+                                    zg1.GraphPane.YAxis.Scale.Max), // tr
+                                new PointD(Math.Min(Math.Max(a, prevx), zg1.GraphPane.XAxis.Scale.Max),
+                                    modeheighty), // br                                
                             },
                             Fill = new Fill(colourspastal[prevmodeno]),
                             ZOrder = ZOrder.E_BehindCurves
@@ -1416,11 +1428,11 @@ namespace MissionPlanner.Log
                     {
                         Points = new[]
                         {
-                             new PointD(Math.Min(prevx,a), modeheighty), // bl
-                                new PointD(Math.Min(prevx,a), zg1.GraphPane.YAxis.Scale.Max), // tl
-                                new PointD(a, zg1.GraphPane.YAxis.Scale.Max), // tr
-                                new PointD(a, modeheighty), // br   
-                    },
+                            new PointD(Math.Min(prevx, a), modeheighty), // bl
+                            new PointD(Math.Min(prevx, a), zg1.GraphPane.YAxis.Scale.Max), // tl
+                            new PointD(a, zg1.GraphPane.YAxis.Scale.Max), // tr
+                            new PointD(a, modeheighty), // br   
+                        },
                         Fill = new Fill(colourspastal[modenum]),
                         ZOrder = ZOrder.E_BehindCurves
                     };
@@ -1477,7 +1489,7 @@ namespace MissionPlanner.Log
                             a = date.XLDate;
                         }
 
-                        if(item.items.Length <= index)
+                        if (item.items.Length <= index)
                             continue;
 
                         string mode = item.items[index].ToString().Trim();
@@ -1501,6 +1513,7 @@ namespace MissionPlanner.Log
 
                     a++;
                 }
+
                 log.Info("End DrawMSG");
             });
         }
@@ -1593,6 +1606,7 @@ namespace MissionPlanner.Log
 
                     a++;
                 }
+
                 log.Info("End DrawTime");
             });
         }
@@ -1604,7 +1618,7 @@ namespace MissionPlanner.Log
             public List<int> samples = new List<int>();
         }
 
-        async Task DrawMap(long startline =0, long endline = long.MaxValue)
+        async Task DrawMap(long startline = 0, long endline = long.MaxValue)
         {
             await Task.Run(() =>
             {
@@ -1917,6 +1931,7 @@ namespace MissionPlanner.Log
                 {
                     log.Error(ex);
                 }
+
                 log.Info("End DrawMap");
             });
         }
@@ -2240,21 +2255,8 @@ namespace MissionPlanner.Log
                     dataGridView1.RowCount = logdata.Count;
                 }
             }
+
             dataGridView1.Invalidate();
-        }
-
-        void BUT_go_Click(object sender, EventArgs e)
-        {
-            Controls.MyButton but = sender as Controls.MyButton;
-        }
-
-        /// <summary>
-        /// Update row number display for those only in view
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void dataGridView1_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
-        {
         }
 
         private void BUT_Graphit_R_Click(object sender, EventArgs e)
@@ -2271,17 +2273,17 @@ namespace MissionPlanner.Log
                 Task a = null, b = null, c = null, d = null, e = null, f = null;
 
                 if (chk_mode.Checked)
-                    a=DrawModes();
+                    a = DrawModes();
                 if (chk_errors.Checked)
-                    b=DrawErrors();
+                    b = DrawErrors();
                 if (!chk_time.Checked)
-                    c=DrawTime();
+                    c = DrawTime();
 
                 if (chk_events.Checked)
                     f = DrawEV();
 
                 if (chk_msg.Checked)
-                    d=DrawMSG();
+                    d = DrawMSG();
 
                 if (!chk_time.Checked && CHK_map.Checked)
                 {
@@ -2309,7 +2311,7 @@ namespace MissionPlanner.Log
                     }
                 }
 
-                if(a!= null)
+                if (a != null)
                     await a;
                 if (b != null)
                     await b;
@@ -2408,7 +2410,8 @@ namespace MissionPlanner.Log
             string title = "Apply scaler and offset to " + nodeName;
             string instructions =
                 "Enter modifer then value, they are applied in the order you provide. Modifiers are x + - /\n";
-            instructions += "Example: Convert cm to to m with an offset of 50: '/100 +50' or 'x0.01 +50' or '*0.01,+50'";
+            instructions +=
+                "Example: Convert cm to to m with an offset of 50: '/100 +50' or 'x0.01 +50' or '*0.01,+50'";
             InputBox.Show(title, instructions, ref dataModifer_str);
 
             // if it's already there, remove it.
@@ -2489,8 +2492,8 @@ namespace MissionPlanner.Log
                         GraphItem(item.type, item.field, item.left, false);
                     }
                 }
-                catch 
-                (Exception ex)
+                catch
+                    (Exception ex)
                 {
                     log.Error(ex);
                 }
@@ -2540,7 +2543,7 @@ namespace MissionPlanner.Log
             {
                 if (e.RowIndex >= logdata.Count)
                     return;
- 
+
                 var item2 = logdata[e.RowIndex];
 
                 var item = dflog.GetDFItemFromLine(item2, e.RowIndex);
@@ -2588,14 +2591,18 @@ namespace MissionPlanner.Log
                 {
                     x = dflog.GetLineNoFromTime(logdata, XDate.XLDateToDateTime(x));
                 }
+
                 //TODO - time fails
                 GoToSample((int) x, true, false, true);
-            } catch { }
+            }
+            catch
+            {
+            }
         }
 
         private void scrollGrid(DataGridView dataGridView, int index)
         {
-            int halfWay = (dataGridView.DisplayedRowCount(false)/2);
+            int halfWay = (dataGridView.DisplayedRowCount(false) / 2);
 
             if ((index < 0) && (dataGridView.SelectedRows.Count > 0))
             {
@@ -2619,7 +2626,7 @@ namespace MissionPlanner.Log
                 }
             }
         }
-        
+
         bool GetGPSFromRow(int lineNumber, out PointLatLng pt)
         {
             bool ret = false;
@@ -2733,15 +2740,17 @@ namespace MissionPlanner.Log
                     {
                         PointLatLng pt = item.Points[i];
                         double d =
-                            Math.Sqrt((pt.Lat - pt2.Lat)*(pt.Lat - pt2.Lat) + (pt.Lng - pt2.Lng)*(pt.Lng - pt2.Lng));
+                            Math.Sqrt((pt.Lat - pt2.Lat) * (pt.Lat - pt2.Lat) +
+                                      (pt.Lng - pt2.Lng) * (pt.Lng - pt2.Lng));
                         if (d < dBest)
                         {
                             dBest = d;
                             nBest = i;
                         }
                     }
-                    double perc = (double) nBest/(double) item.LocalPoints.Count;
-                    int SampleID = (int) (lri.firstpoint + (lri.lastpoint - lri.firstpoint)*perc);
+
+                    double perc = (double) nBest / (double) item.LocalPoints.Count;
+                    int SampleID = (int) (lri.firstpoint + (lri.lastpoint - lri.firstpoint) * perc);
 
                     if ((lri.samples.Count > 0) && (nBest < lri.samples.Count))
                         SampleID = lri.samples[nBest];
@@ -2777,6 +2786,7 @@ namespace MissionPlanner.Log
             {
                 zg1.GraphPane.GraphObjList.Remove(m_cursorLine);
             }
+
             m_cursorLine = new LineObj(Color.Black, SampleID, 0, SampleID, 1);
 
             m_cursorLine.Location.CoordinateFrame = CoordType.XScaleYChartFraction; // This do the trick !
@@ -2791,10 +2801,11 @@ namespace MissionPlanner.Log
             if (movegraph)
             {
                 double delta = zg1.GraphPane.XAxis.Scale.Max - zg1.GraphPane.XAxis.Scale.Min;
-                zg1.GraphPane.XAxis.Scale.Min = SampleID - delta/2;
-                zg1.GraphPane.XAxis.Scale.Max = SampleID + delta/2;
+                zg1.GraphPane.XAxis.Scale.Min = SampleID - delta / 2;
+                zg1.GraphPane.XAxis.Scale.Max = SampleID + delta / 2;
                 zg1.AxisChange();
             }
+
             zg1.Invalidate();
 
 
@@ -2891,6 +2902,7 @@ namespace MissionPlanner.Log
                             sb.Append(cell.FormattedValue);
                             sb.Append(',');
                         }
+
                         sw.WriteLine(sb.ToString());
                     }
                 }
@@ -2931,7 +2943,7 @@ namespace MissionPlanner.Log
         private void chk_datagrid_CheckedChanged(object sender1, EventArgs e)
         {
             splitContainerButGrid.Panel2Collapsed = !splitContainerButGrid.Panel2Collapsed;
-            
+
 
             if (!splitContainerButGrid.Panel2Collapsed)
             {
@@ -3003,7 +3015,8 @@ namespace MissionPlanner.Log
             }
             else
             {
-                splitContainerZgGrid.SplitterDistance = splitContainerZgGrid.Height - splitContainerButGrid.Panel1.MinimumSize.Height;
+                splitContainerZgGrid.SplitterDistance =
+                    splitContainerZgGrid.Height - splitContainerButGrid.Panel1.MinimumSize.Height;
             }
         }
 
@@ -3042,138 +3055,10 @@ namespace MissionPlanner.Log
 
         private void LogBrowse_Resize(object sender, EventArgs e)
         {
-            if(chk_datagrid.Checked)
+            if (chk_datagrid.Checked)
                 splitContainerZgGrid.SplitterDistance = this.Height / 2;
             if (!chk_datagrid.Checked)
                 splitContainerZgGrid.SplitterDistance = this.Height - splitContainerButGrid.Panel2.Height;
-        }
-
-        public IEnumerable<(double[],double[],double[])> fft(int bins = 10, int startfreq = 5)
-        {
-            Utilities.FFT2 fft = new FFT2();
-
-            var file = logdata;
-
-            int N = 1 << bins;
-
-            // 3 imus * 2 sets of measurements(gyr/acc)
-            FFT2.datastate[] alldata = new FFT2.datastate[3 * 2];
-            for (int a = 0; a < alldata.Length; a++)
-                alldata[a] = new FFT2.datastate();
-
-            // state cache
-            int Ns = 0;
-            int type = 0;
-            int instance = 0;
-            int sensorno = 0;
-
-            foreach (var item in file.GetEnumeratorType(new string[] { "ISBH", "ISBD" }))
-            {
-                if (item.msgtype == null)
-                {
-                    continue;
-                }
-
-                if (item.msgtype.StartsWith("ISBH"))
-                {
-                    Ns = int.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "N")],
-                        CultureInfo.InvariantCulture);
-                    type = int.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "type")],
-                        CultureInfo.InvariantCulture);
-                    instance = int.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "instance")],
-                        CultureInfo.InvariantCulture);
-
-                    sensorno = type * 3 + instance;
-
-                    alldata[sensorno].sample_rate = double.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "smp_rate")],
-                    CultureInfo.InvariantCulture);
-
-                    if (type == 0)
-                        alldata[sensorno].type = "ACC" + instance.ToString();
-                    if (type == 1)
-                        alldata[sensorno].type = "GYR" + instance.ToString();
-
-                }
-                else if (item.msgtype.StartsWith("ISBD"))
-                {
-                    var Nsdata = int.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "N")],
-                        CultureInfo.InvariantCulture);
-
-                    if (Ns != Nsdata)
-                        continue;
-
-                    int offsetX = file.dflog.FindMessageOffset(item.msgtype, "x");
-                    int offsetY = file.dflog.FindMessageOffset(item.msgtype, "y");
-                    int offsetZ = file.dflog.FindMessageOffset(item.msgtype, "z");
-                    int offsetTime = file.dflog.FindMessageOffset(item.msgtype, "TimeUS");
-
-                    double time = double.Parse(item.items[offsetTime],
-                                      CultureInfo.InvariantCulture) / 1000.0;
-
-                    if (time < alldata[sensorno].lasttime)
-                        continue;
-
-                    if (time != alldata[sensorno].lasttime)
-                        alldata[sensorno].timedelta = alldata[sensorno].timedelta * 0.99 +
-                                                      (time - alldata[sensorno].lasttime) * 0.01;
-
-                    alldata[sensorno].lasttime = time;
-
-                    item.items[offsetX].Split(new[] { ' ', '[', ']' }, StringSplitOptions.RemoveEmptyEntries).ForEach(aa => {
-                        alldata[sensorno].datax.Add(double.Parse(aa,
-CultureInfo.InvariantCulture));
-                    });
-                    item.items[offsetY].Split(new[] { ' ', '[', ']' }, StringSplitOptions.RemoveEmptyEntries).ForEach(aa => {
-                        alldata[sensorno].datay.Add(double.Parse(aa,
-CultureInfo.InvariantCulture));
-                    });
-                    item.items[offsetZ].Split(new[] { ' ', '[', ']' }, StringSplitOptions.RemoveEmptyEntries).ForEach(aa => {
-                        alldata[sensorno].dataz.Add(double.Parse(aa,
-CultureInfo.InvariantCulture));
-                    });
-                }
-            }
-
-            foreach (var sensordata in alldata)
-            {
-                if (sensordata.datax.Count <= N)
-                    continue;
-
-                double samplerate = 0;
-
-                samplerate = sensordata.sample_rate; // Math.Round(1000 / sensordata.timedelta, 1);
-
-                double[] freqt =  fft.FreqTable(N, (int) samplerate);
-
-                double[] avgx = new double[N / 2];
-                double[] avgy = new double[N / 2];
-                double[] avgz = new double[N / 2];
-
-                int totalsamples = sensordata.datax.Count;
-                int count = totalsamples / N;
-                int done = 0;
-                while (count > 1) // skip last part
-                {
-                    var fftanswerx = fft.rin(sensordata.datax.Skip(N * done).Take(N).ToArray(), (uint) bins);
-                    var fftanswery = fft.rin(sensordata.datay.Skip(N * done).Take(N).ToArray(), (uint) bins);
-                    var fftanswerz = fft.rin(sensordata.dataz.Skip(N * done).Take(N).ToArray(), (uint) bins);
-
-                    for (int b = 0; b < N / 2; b++)
-                    {
-                        if (freqt[b] < (double) startfreq)
-                            continue;
-
-                        avgx[b] += fftanswerx[b] / (done + count);
-                        avgy[b] += fftanswery[b] / (done + count);
-                        avgz[b] += fftanswerz[b] / (done + count);
-                    }
-
-                    count--;
-                    done++;
-                }
-
-                yield return (avgx, avgy, avgz);
-            }
         }
 
         private void chk_events_CheckedChanged(object sender, EventArgs e)

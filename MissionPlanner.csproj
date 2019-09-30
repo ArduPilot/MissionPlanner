@@ -439,6 +439,7 @@
     <Compile Include="Joystick\JoystickAxis.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Log\MavlinkLogBase.cs" />
     <Compile Include="MainV2.Designer.cs">
       <DependentUpon>MainV2.cs</DependentUpon>
     </Compile>
