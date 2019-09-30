@@ -28,7 +28,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         // sbp detection
         private static Utilities.sbp sbp = new Utilities.sbp();
         // ubx detection
-        private static Utilities.ubx_m8p ubx_m8p = new Utilities.ubx_m8p();
+        private static Utilities.Ubx ubx_m8p = new Utilities.Ubx();
 
         static nmea nmea = new nmea();
         // background thread 
@@ -103,7 +103,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             // restore setting
             if(Settings.Instance.ContainsKey("SerialInjectGPS_m8pautoconfig"))
-                chk_m8pautoconfig.Checked = bool.Parse(Settings.Instance["SerialInjectGPS_m8pautoconfig"]);
+                chk_ubloxautoconfig.Checked = bool.Parse(Settings.Instance["SerialInjectGPS_m8pautoconfig"]);
 
             if (Settings.Instance.ContainsKey("SerialInjectGPS_m8p_130p"))
                 chk_m8p_130p.Checked = bool.Parse(Settings.Instance["SerialInjectGPS_m8p_130p"]);
@@ -274,7 +274,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             ((CommsNTRIP) comPort).lat = MainV2.comPort.MAV.cs.HomeLocation.Lat;
                             ((CommsNTRIP) comPort).lng = MainV2.comPort.MAV.cs.HomeLocation.Lng;
                             ((CommsNTRIP) comPort).alt = MainV2.comPort.MAV.cs.HomeLocation.Alt;
-                            chk_m8pautoconfig.Checked = false;
+                            chk_ubloxautoconfig.Checked = false;
                             break;
                         case "TCP Client":
                             comPort = new TcpSerial();
@@ -361,9 +361,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
 
                 // inject init strings - m8p
-                if (chk_m8pautoconfig.Checked)
+                if (chk_ubloxautoconfig.Checked)
                 {
-                    this.LogInfo("Setup M8P");
+                    this.LogInfo("Setup UBLOX");
 
                     ubx_m8p.SetupM8P(comPort, chk_m8p_130p.Checked, chk_movingbase.Checked);
 
@@ -372,7 +372,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                     CMB_baudrate.Text = "115200";
 
-                    this.LogInfo("Setup M8P done");
+                    this.LogInfo("Setup UBLOX done");
                 }
 
                 t12 = new System.Threading.Thread(new System.Threading.ThreadStart(mainloop))
@@ -401,6 +401,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 labelglonass.BackColor = Color.Red;
             if (ExpireType.HasExpired(label14BDS))
                 label14BDS.BackColor = Color.Red;
+            if (ExpireType.HasExpired(labelGall))
+                labelGall.BackColor = Color.Red;
         }
 
         private void updateLabel(string line1, string line2, string line3, string line4)
@@ -606,6 +608,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         Instance.labelglonass.BackColor = Color.Green;
                         ExpireType.Set(Instance.labelglonass, 5);
                         break;
+                    case 1094:
+                    case 1095:
+                    case 1096:
+                    case 1097:
+                        Instance.labelGall.BackColor = Color.Green;
+                        ExpireType.Set(Instance.labelGall, 5);
+                        break;
                     case 1121:
                     case 1122:
                     case 1123:
@@ -630,7 +639,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 // survey in
                 if (ubx_m8p.@class == 0x1 && ubx_m8p.subclass == 0x3b)
                 {
-                    var svin = ubx_m8p.packet.ByteArrayToStructure<Utilities.ubx_m8p.ubx_nav_svin>(6);
+                    var svin = ubx_m8p.packet.ByteArrayToStructure<Utilities.Ubx.ubx_nav_svin>(6);
 
                     ubxsvin = svin;
 
@@ -653,7 +662,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 else if (ubx_m8p.@class == 0x1 && ubx_m8p.subclass == 0x7)
                 {
-                    var pvt = ubx_m8p.packet.ByteArrayToStructure<Utilities.ubx_m8p.ubx_nav_pvt>(6);
+                    var pvt = ubx_m8p.packet.ByteArrayToStructure<Utilities.Ubx.ubx_nav_pvt>(6);
                     if (pvt.fix_type >= 0x3 && (pvt.flags & 1) > 0)
                     {
                         MainV2.comPort.MAV.cs.MovingBase = new Utilities.PointLatLngAlt(pvt.lat / 1e7, pvt.lon / 1e7, pvt.height / 1000.0);
@@ -670,7 +679,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 else if (ubx_m8p.@class == 0xa && ubx_m8p.subclass == 0x4)
                 {
-                    var ver = ubx_m8p.packet.ByteArrayToStructure<Utilities.ubx_m8p.ubx_mon_ver>(6);//, ubx_m8p.length - 8);
+                    var ver = ubx_m8p.packet.ByteArrayToStructure<Utilities.Ubx.ubx_mon_ver>(6);//, ubx_m8p.length - 8);
 
                     Console.WriteLine("ubx mon-ver {0} {1}", ASCIIEncoding.ASCII.GetString(ver.hwVersion),
                         ASCIIEncoding.ASCII.GetString(ver.swVersion));
@@ -683,13 +692,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 else if (ubx_m8p.@class == 0xa && ubx_m8p.subclass == 0x9)
                 {
-                    var hw = ubx_m8p.packet.ByteArrayToStructure<Utilities.ubx_m8p.ubx_mon_hw>(6);
+                    var hw = ubx_m8p.packet.ByteArrayToStructure<Utilities.Ubx.ubx_mon_hw>(6);
 
                     Console.WriteLine("ubx mon-hw noise {0} agc% {1} jam% {2} jamstate {3}", hw.noisePerMS, (hw.agcCnt / 8191.0) * 100.0, (hw.jamInd / 256.0) * 100, hw.flags & 0xc);
                 }
                 else if (ubx_m8p.@class == 0x1 && ubx_m8p.subclass == 0x12)
                 {
-                    var velned = ubx_m8p.packet.ByteArrayToStructure<Utilities.ubx_m8p.ubx_nav_velned>(6);
+                    var velned = ubx_m8p.packet.ByteArrayToStructure<Utilities.Ubx.ubx_nav_velned>(6);
 
                     var time = (velned.iTOW - ubxvelned.iTOW) / 1000.0;
 
@@ -706,11 +715,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 else if (ubx_m8p.@class == 0x06 && ubx_m8p.subclass == 0x71)
                 {
                     // TMODE3
-                    var tmode = ubx_m8p.packet.ByteArrayToStructure<Utilities.ubx_m8p.ubx_cfg_tmode3>(6);
+                    var tmode = ubx_m8p.packet.ByteArrayToStructure<Utilities.Ubx.ubx_cfg_tmode3>(6);
 
                     ubxmode = tmode;
 
-                    log.InfoFormat("ubx TMODE3 {0} {1}", (ubx_m8p.ubx_cfg_tmode3.modeflags) tmode.flags, "");
+                    log.InfoFormat("ubx TMODE3 {0} {1}", (Ubx.ubx_cfg_tmode3.modeflags) tmode.flags, "");
                 }
                 else
                 {
@@ -732,10 +741,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         }
 
         static DateTime pollTMODE = DateTime.MinValue;
-        static ubx_m8p.ubx_cfg_tmode3 ubxmode;
-        static ubx_m8p.ubx_nav_svin ubxsvin;
-        internal static ubx_m8p.ubx_nav_velned ubxvelned;
-        internal static ubx_m8p.ubx_nav_pvt ubxpvt;
+        static Ubx.ubx_cfg_tmode3 ubxmode;
+        static Ubx.ubx_nav_svin ubxsvin;
+        internal static Ubx.ubx_nav_velned ubxvelned;
+        internal static Ubx.ubx_nav_pvt ubxpvt;
 
         private static void updateSVINLabel(bool valid, bool active, uint dur, uint obs, double acc)
         {
@@ -785,7 +794,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             else
                             {
                                 Instance.lbl_svin.Visible = true;
-                                Instance.lbl_svin.Text = "Using " + (ubx_m8p.ubx_cfg_tmode3.modeflags)ubxmode.flags;
+                                Instance.lbl_svin.Text = "Using " + (Ubx.ubx_cfg_tmode3.modeflags)ubxmode.flags;
                                 Instance.lbl_svin.BackColor = Color.Green;
                                 Instance.label7.Visible = false;
                                 Instance.label8.Visible = false;
@@ -971,9 +980,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void chk_m8pautoconfig_CheckedChanged(object sender, EventArgs e)
         {
-            Settings.Instance["SerialInjectGPS_m8pautoconfig"] = chk_m8pautoconfig.Checked.ToString();
+            Settings.Instance["SerialInjectGPS_m8pautoconfig"] = chk_ubloxautoconfig.Checked.ToString();
 
-            if (chk_m8pautoconfig.Checked)
+            if (chk_ubloxautoconfig.Checked)
                 splitContainer1.Panel1Collapsed = false;
             else
                 splitContainer1.Panel1Collapsed = true;

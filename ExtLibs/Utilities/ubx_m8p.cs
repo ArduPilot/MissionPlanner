@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 
 namespace MissionPlanner.Utilities
 {
-    public class ubx_m8p : ICorrections
+    public class Ubx: ICorrections
     {
         int step = 0;
 

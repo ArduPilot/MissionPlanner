@@ -36,7 +36,7 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.chk_rtcmmsg = new System.Windows.Forms.CheckBox();
             this.lbl_svin = new System.Windows.Forms.Label();
-            this.chk_m8pautoconfig = new System.Windows.Forms.CheckBox();
+            this.chk_ubloxautoconfig = new System.Windows.Forms.CheckBox();
             this.groupBoxm8p = new System.Windows.Forms.GroupBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label10 = new System.Windows.Forms.Label();
@@ -80,6 +80,8 @@
             this.labelgps = new System.Windows.Forms.Label();
             this.labelbase = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.labelGall = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
             this.groupBoxm8p.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -145,13 +147,13 @@
             this.lbl_svin.Name = "lbl_svin";
             this.toolTip1.SetToolTip(this.lbl_svin, resources.GetString("lbl_svin.ToolTip"));
             // 
-            // chk_m8pautoconfig
+            // chk_ubloxautoconfig
             // 
-            resources.ApplyResources(this.chk_m8pautoconfig, "chk_m8pautoconfig");
-            this.chk_m8pautoconfig.Name = "chk_m8pautoconfig";
-            this.toolTip1.SetToolTip(this.chk_m8pautoconfig, resources.GetString("chk_m8pautoconfig.ToolTip"));
-            this.chk_m8pautoconfig.UseVisualStyleBackColor = true;
-            this.chk_m8pautoconfig.CheckedChanged += new System.EventHandler(this.chk_m8pautoconfig_CheckedChanged);
+            resources.ApplyResources(this.chk_ubloxautoconfig, "chk_ubloxautoconfig");
+            this.chk_ubloxautoconfig.Name = "chk_ubloxautoconfig";
+            this.toolTip1.SetToolTip(this.chk_ubloxautoconfig, resources.GetString("chk_ubloxautoconfig.ToolTip"));
+            this.chk_ubloxautoconfig.UseVisualStyleBackColor = true;
+            this.chk_ubloxautoconfig.CheckedChanged += new System.EventHandler(this.chk_m8pautoconfig_CheckedChanged);
             // 
             // groupBoxm8p
             // 
@@ -401,6 +403,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.labelGall);
+            this.groupBox2.Controls.Add(this.label16);
             this.groupBox2.Controls.Add(this.label14BDS);
             this.groupBox2.Controls.Add(this.label15);
             this.groupBox2.Controls.Add(this.labelglonass);
@@ -456,18 +460,28 @@
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
             // 
-            // SerialInjectGPS
+            // labelGall
             // 
-            
+            this.labelGall.BackColor = System.Drawing.Color.Red;
+            resources.ApplyResources(this.labelGall, "labelGall");
+            this.labelGall.Name = "labelGall";
+            // 
+            // label16
+            // 
+            resources.ApplyResources(this.label16, "label16");
+            this.label16.Name = "label16";
+            // 
+            // ConfigSerialInjectGPS
+            // 
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.chk_m8pautoconfig);
+            this.Controls.Add(this.chk_ubloxautoconfig);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.chk_rtcmmsg);
             this.Controls.Add(this.CMB_baudrate);
             this.Controls.Add(this.BUT_connect);
             this.Controls.Add(this.CMB_serialport);
-            this.Name = "SerialInjectGPS";
+            this.Name = "ConfigSerialInjectGPS";
             resources.ApplyResources(this, "$this");
             this.groupBoxm8p.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
@@ -496,7 +510,7 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.CheckBox chk_rtcmmsg;
         private System.Windows.Forms.Label lbl_svin;
-        private System.Windows.Forms.CheckBox chk_m8pautoconfig;
+        private System.Windows.Forms.CheckBox chk_ubloxautoconfig;
         private System.Windows.Forms.GroupBox groupBoxm8p;
         private System.Windows.Forms.TextBox txt_surveyinAcc;
         private System.Windows.Forms.Label label1;
@@ -539,5 +553,7 @@
         private System.Windows.Forms.DataGridViewButtonColumn Use;
         private System.Windows.Forms.DataGridViewButtonColumn Delete;
         private System.Windows.Forms.CheckBox chk_movingbase;
+        private System.Windows.Forms.Label labelGall;
+        private System.Windows.Forms.Label label16;
     }
 }
