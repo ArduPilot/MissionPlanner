@@ -38,7 +38,7 @@ using Size = System.Drawing.Size;
 using SizeF = System.Drawing.SizeF;
 namespace MissionPlanner.Controls
 {
-    public partial class AGauge : MySKCanvasView
+    public partial class AGauge : UserControl
     {
 #region enum, var, delegate, event
         public enum NeedleColorEnum

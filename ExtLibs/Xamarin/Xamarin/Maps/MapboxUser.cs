@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Maps
 {
@@ -15,17 +16,17 @@ namespace MissionPlanner.Maps
     /// <summary>
     /// EarthBuilder Custom
     /// </summary>
-    public class MapBox : GMapProvider
+    public class MapboxUser : GMapProvider
     {
-        public static readonly MapBox Instance;
+        public static readonly MapboxUser Instance;
 
-        MapBox()
+        MapboxUser()
         {
         }
 
-        static MapBox()
+        static MapboxUser()
         {
-            Instance = new MapBox();
+            Instance = new MapboxUser();
 
             Type mytype = typeof (GMapProviders);
             FieldInfo field = mytype.GetField("DbHash", BindingFlags.Static | BindingFlags.NonPublic);
@@ -36,14 +37,14 @@ namespace MissionPlanner.Maps
 
         #region GMapProvider Members
 
-        readonly Guid id = new Guid("22d6e496-842b-4549-bd6d-8f019e6c019f");
+        readonly Guid id = new Guid("d83d5ba2-7ff4-49b0-9840-0a4bba402402");
 
         public override Guid Id
         {
             get { return id; }
         }
 
-        readonly string name = "MapBox Satellite";
+        readonly string name = "MapBox User";
 
         public override string Name
         {
@@ -82,16 +83,15 @@ namespace MissionPlanner.Maps
         {
             string ret;
 
-            ret = string.Format(CultureInfo.InvariantCulture, CustomURL, pos.X, pos.Y, zoom, mapsource, mapkey);
+            ret = string.Format(CultureInfo.InvariantCulture, CustomURL, pos.X, pos.Y, zoom, StyleId, UserName, MapKey);
 
             return ret;
         }
 
-        public static string CustomURL = "http://a.tiles.mapbox.com/v4/{3}/{2}/{0}/{1}.png?access_token={4}";
+        public static string CustomURL = "https://api.mapbox.com/styles/v1/{4}/{3}/tiles/256/{2}/{0}/{1}?access_token={5}";
 
-        public object mapsource = "mapbox.satellite";//"digitalglobe.nmghof7o";
-        public object mapkey = "pk.eyJ1IjoibWVlZSIsImEiOiJoeHpwNzJFIn0.BHJ74PT22hTY4ivnpPZEQA";
-
-        //"pk.eyJ1IjoiZGlnaXRhbGdsb2JlIiwiYSI6ImNpampsZ3JtbTAyejV0aG01bW5temdvYmIifQ.Q8pQPkSL9r_f7sOuAnkIBA";
+        public object UserName = Settings.Instance["MapBoxUserName", ""];
+        public object StyleId = Settings.Instance["MapBoxStyleID", ""];
+        public object MapKey = Settings.Instance["MapBoxMapKey", ""];
     }
 }

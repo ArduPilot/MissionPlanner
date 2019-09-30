@@ -38,7 +38,7 @@ namespace GMap.NET.WindowsForms
     /// <summary>
     /// GMap.NET control for Windows Forms
     /// </summary>   
-    public partial class GMapControl : MySKCanvasView, Interface, IControl
+    public partial class GMapControl : UserControl, Interface, IControl
    {
 #if !PocketPC
       /// <summary>
@@ -3068,15 +3068,9 @@ namespace GMap.NET.WindowsForms
          this.ForceUpdateOverlays();
       }
 
-        public object Invoke(Action p0)
-        {
-            Xamarin.Forms.Device.BeginInvokeOnMainThread((Action)p0);
-            return null;
-        }
-
-        #endregion
+      #endregion
 #endif
-    }
+   }
 
    public enum ScaleModes
    {

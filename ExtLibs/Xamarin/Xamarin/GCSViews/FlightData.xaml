@@ -10,10 +10,10 @@
     <ContentPage.Content>
         <AbsoluteLayout>
  <GMap:GMapControl AbsoluteLayout.LayoutBounds="0,0,1,1"
-                          AbsoluteLayout.LayoutFlags="All"  x:Name="GMapControl"> </GMap:GMapControl>
+                          AbsoluteLayout.LayoutFlags="All"  x:Name="gMapControl1"> </GMap:GMapControl>
 
-                <controls:HUD AbsoluteLayout.LayoutBounds="1,0,0.3,0.2"
-                              AbsoluteLayout.LayoutFlags="All" x:Name="Hud"></controls:HUD>
+                <controls:HUD AbsoluteLayout.LayoutBounds="1,0,0.26666,0.2"
+                              AbsoluteLayout.LayoutFlags="All" x:Name="hud1"></controls:HUD>
 
 
             <Switch x:Name="CHK_autopan"   AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,1,0.1,0.1"  ></Switch>

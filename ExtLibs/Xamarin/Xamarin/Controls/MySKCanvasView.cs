@@ -1,24 +1,18 @@
 ﻿using MissionPlanner.Utilities.Drawing;
-using OpenTK.Graphics;
 using SkiaSharp;
 using SkiaSharp.Views.Forms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using MissionPlanner.Utilities;
-using MissionPlanner.Utilities.Drawing;
 using Xamarin.Forms;
-using Graphics = MissionPlanner.Utilities.Drawing.Graphics;
 using Color = System.Drawing.Color;
 using Font = MissionPlanner.Utilities.Drawing.Font;
+using Graphics = MissionPlanner.Utilities.Drawing.Graphics;
 using Image = MissionPlanner.Utilities.Drawing.Image;
-using Rectangle = System.Drawing.Rectangle;
-using PointF = System.Drawing.PointF;
-using RectangleF = System.Drawing.RectangleF;
 using Point = System.Drawing.Point;
+using Rectangle = System.Drawing.Rectangle;
 using Size = System.Drawing.Size;
-using SizeF = System.Drawing.SizeF;
 
 namespace Xamarin.Controls
 {
