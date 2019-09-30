@@ -148,7 +148,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "7zip", "ExtLibs\7zip\7zip.c
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shortcuts", "Plugins\Shortcuts\Shortcuts.csproj", "{E634EFE6-FEA0-4BB9-A7B9-D8809C33BCC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interfaces", "ExtLibs\Interfaces\Interfaces.csproj", "{FD4D2994-9BEA-41A1-8C51-2E02D1E8503E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interfaces", "ExtLibs\Interfaces\Interfaces.csproj", "{FD4D2994-9BEA-41A1-8C51-2E02D1E8503E}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "UnoUI.Shared", "ExtLibs\uno\UnoUI\UnoUI.Shared\UnoUI.Shared.shproj", "{6279C845-92F8-4333-AB99-3D213163593C}"
 EndProject
