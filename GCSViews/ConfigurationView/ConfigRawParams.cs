@@ -58,9 +58,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             foreach (DataGridViewColumn col in Params.Columns)
             {
-                if (!String.IsNullOrEmpty(Settings.Instance["rawparam_" + col.Name + "_width"]))
+                if (!String.IsNullOrEmpty(Settings.Instance["rawparam_" + col.Name + "_widthpercent"]))
                 {
-                    col.Width = Math.Max(50,Settings.Instance.GetInt32("rawparam_" + col.Name + "_width"));
+                    col.Width = (int)((Math.Max(5, Settings.Instance.GetInt32("rawparam_" + col.Name + "_widthpercent")) / 100.0) * Params.Width);
                     log.InfoFormat("{0} to {1}", col.Name, col.Width);
                 }
             }
@@ -80,7 +80,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             foreach (DataGridViewColumn col in Params.Columns)
             {
-                Settings.Instance["rawparam_" + col.Name + "_width"] = col.Width.ToString();
+                Settings.Instance["rawparam_" + col.Name + "_widthpercent"] = ((col.Width / (double)Params.Width)*100.0).ToString("0");
             }
         }
 

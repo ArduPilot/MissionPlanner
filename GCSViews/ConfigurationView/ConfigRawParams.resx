@@ -529,6 +529,9 @@ format with no scaling</value>
   <data name="Command.HeaderText" xml:space="preserve">
     <value>Command</value>
   </data>
+  <data name="Command.MinimumWidth" type="System.Int32, mscorlib">
+    <value>50</value>
+  </data>
   <data name="Command.Width" type="System.Int32, mscorlib">
     <value>126</value>
   </data>
@@ -537,6 +540,9 @@ format with no scaling</value>
   </metadata>
   <data name="Value.HeaderText" xml:space="preserve">
     <value>Value</value>
+  </data>
+  <data name="Value.MinimumWidth" type="System.Int32, mscorlib">
+    <value>50</value>
   </data>
   <data name="Value.Width" type="System.Int32, mscorlib">
     <value>69</value>
@@ -547,6 +553,9 @@ format with no scaling</value>
   <data name="Units.HeaderText" xml:space="preserve">
     <value>Units</value>
   </data>
+  <data name="Units.MinimumWidth" type="System.Int32, mscorlib">
+    <value>50</value>
+  </data>
   <data name="Units.Width" type="System.Int32, mscorlib">
     <value>56</value>
   </data>
@@ -555,6 +564,9 @@ format with no scaling</value>
   </metadata>
   <data name="Options.HeaderText" xml:space="preserve">
     <value>Options</value>
+  </data>
+  <data name="Options.MinimumWidth" type="System.Int32, mscorlib">
+    <value>50</value>
   </data>
   <data name="Options.Width" type="System.Int32, mscorlib">
     <value>175</value>
@@ -565,11 +577,17 @@ format with no scaling</value>
   <data name="Desc.HeaderText" xml:space="preserve">
     <value>Desc</value>
   </data>
+  <data name="Desc.MinimumWidth" type="System.Int32, mscorlib">
+    <value>50</value>
+  </data>
   <metadata name="Fav.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="Fav.HeaderText" xml:space="preserve">
     <value>Fav</value>
+  </data>
+  <data name="Fav.MinimumWidth" type="System.Int32, mscorlib">
+    <value>30</value>
   </data>
   <data name="Fav.Width" type="System.Int32, mscorlib">
     <value>30</value>
@@ -587,7 +605,7 @@ format with no scaling</value>
     <value>Params</value>
   </data>
   <data name="&gt;&gt;Params.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.62.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.7214.25011, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Params.Parent" xml:space="preserve">
     <value>$this</value>
