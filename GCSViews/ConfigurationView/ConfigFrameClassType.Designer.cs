@@ -257,7 +257,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.radioButtonOctaQuad.BackColor = System.Drawing.Color.Black;
             this.radioButtonOctaQuad.FlatAppearance.BorderSize = 2;
             this.radioButtonOctaQuad.ForeColor = System.Drawing.Color.White;
-            this.radioButtonOctaQuad.Image = global::MissionPlanner.Properties.Resources.FW_icons_2013_logos_12;
+            this.radioButtonOctaQuad.Image = global::MissionPlanner.Properties.Resources.FW_icons_2013_logos_06;
             this.radioButtonOctaQuad.Name = "radioButtonOctaQuad";
             this.radioButtonOctaQuad.UseVisualStyleBackColor = false;
             this.radioButtonOctaQuad.CheckedChanged += new System.EventHandler(this.radioButtonClass_CheckedChanged);
@@ -342,7 +342,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             // ConfigFrameClassType
             // 
-            
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Name = "ConfigFrameClassType";
