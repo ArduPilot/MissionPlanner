@@ -306,8 +306,6 @@ namespace MissionPlanner.Utilities
         /// <returns></returns>
         void getAPMVersion(object tempin)
         {
-            System.Threading.Thread.CurrentThread.CurrentUICulture = L10N.ConfigLang;
-
             try
             {
                 software temp = (software) tempin;
@@ -402,7 +400,7 @@ namespace MissionPlanner.Utilities
         /// <param name="temp"></param>
         /// <param name="historyhash"></param>
         /// <param name="relType"></param>
-        public bool update(string comport, software temp, string historyhash)
+        public bool update(string comport, software temp, string historyhash, List<DeviceInfo> ports)
         {
             BoardDetect.boards board = BoardDetect.boards.none;
             string baseurl = "";
@@ -412,7 +410,7 @@ namespace MissionPlanner.Utilities
                 updateProgress(-1, Strings.DetectingBoardVersion);
 
                 if(board != BoardDetect.boards.pass)
-                    board = BoardDetect.DetectBoard(comport);
+                    board = BoardDetect.DetectBoard(comport, ports);
 
                 if (board == BoardDetect.boards.none)
                 {

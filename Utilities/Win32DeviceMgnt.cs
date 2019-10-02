@@ -392,11 +392,19 @@ public class Win32DeviceMgmt
 
     public static List<DeviceInfo> GetAllCOMPorts()
     {
-        // windows 7 virtualcoms
-        var devices = GetClassDevs(GUID_DEVINTERFACE_USB_DEVICE).ToList();
+        var devices = new List<DeviceInfo>();
+        try
+        {
+            // windows 7 virtualcoms
+            devices.AddRange(GetClassDevs(GUID_DEVINTERFACE_USB_DEVICE).ToList());
 
-        // window 10
-        devices.AddRange(GetClassDevs(GUID_DEVINTERFACE_COMPORT));
+            // window 10
+            devices.AddRange(GetClassDevs(GUID_DEVINTERFACE_COMPORT));
+        }
+        catch (Exception ex)
+        {
+            log.Error(ex);
+        }
 
         return devices;
     }

@@ -383,7 +383,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         }
                         else
                         {
-                            boardtype = BoardDetect.DetectBoard(MainV2.comPortName);
+                            boardtype = BoardDetect.DetectBoard(MainV2.comPortName, Win32DeviceMgmt.GetAllCOMPorts());
                         }
 
                         if (boardtype == BoardDetect.boards.none)

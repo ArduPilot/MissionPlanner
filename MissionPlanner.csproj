@@ -973,7 +973,6 @@
     <Compile Include="Utilities\httpserver.cs" />
     <Compile Include="Utilities\LangUtility.cs" />
     <Compile Include="Utilities\LogAnalyzer.cs" />
-    <Compile Include="Utilities\ParamFile.cs" />
     <Compile Include="Utilities\POI.cs" />
     <Compile Include="Utilities\ThemeManager.cs" />
     <Compile Include="Utilities\Tracking.cs" />
@@ -4494,7 +4493,6 @@
     <None Include="m3u\networklink.kml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="MissionPlanner.GCSViews.ConfigurationView.UAVCANModel.datasource" />
     <None Include="NoFly\Areas-Lisboa.kmz">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

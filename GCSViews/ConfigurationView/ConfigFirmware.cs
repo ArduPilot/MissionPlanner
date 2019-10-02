@@ -447,7 +447,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     //history = "";
                 }
 
-                var updated = fw.update(MainV2.comPortName, fwtoupload, history);
+                var updated = fw.update(MainV2.comPortName, fwtoupload, history, Win32DeviceMgmt.GetAllCOMPorts());
 
                 if (updated)
                 {
@@ -553,7 +553,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         }
                         else
                         {
-                            boardtype = BoardDetect.DetectBoard(MainV2.comPortName);
+                            boardtype = BoardDetect.DetectBoard(MainV2.comPortName, Win32DeviceMgmt.GetAllCOMPorts());
                         }
 
                         if (boardtype == BoardDetect.boards.none)
