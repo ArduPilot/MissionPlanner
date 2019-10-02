@@ -1,0 +1,27 @@
+<UserControl x:Class="MissionPlanner.Controls.fftui" d:DesignHeight="581" d:DesignWidth="825"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+xmlns:BackstageView="using:MissionPlanner.Controls.BackstageView"
+xmlns:Controls="using:MissionPlanner.Controls"
+xmlns:GCSViews="using:MissionPlanner.GCSViews"
+xmlns:Wizard="using:MissionPlanner.Wizard"
+xmlns:ConfigurationView="using:MissionPlanner.GCSViews.ConfigurationView"
+xmlns:Custom="using:Custom"
+xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+xmlns:PreFlight="using:MissionPlanner.Controls.PreFlight"
+mc:Ignorable="d"
+> <Grid><Button Name="but_ISBH" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="362,508,0,0" Width="75" Height="32">new DF log</Button>
+<Button Name="but_fftimu" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="443,508,0,0" Width="75" Height="32">Run all imus - IMU1-3 MSG</Button>
+<Button Name="BUT_log2" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="524,508,0,0" Width="87" Height="32">Run all imus - ACC GYR MSG</Button>
+<TextBlock Name="label2" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="93,508,0,0" Width="54" Height="17">Start Freq</TextBlock>
+<Custom:DecimalUpDown Name="NUM_startfreq" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="152,507,0,0" Width="42"></Custom:DecimalUpDown>
+<TextBlock Name="label1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="12,508,0,0" Width="26" Height="17">Bins</TextBlock>
+<Custom:DecimalUpDown Name="NUM_bins" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="45,507,0,0" Width="42"></Custom:DecimalUpDown>
+<Grid Name="tableLayoutPanel1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,12,0,0" Width="785" Height="489">
+</Grid>
+<Button Name="myButton1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="617,507,0,0" Width="99" Height="33">Run Log - imu1 ACC1 GYR1 MSG</Button>
+<Button Name="BUT_run" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="722,507,0,0" Width="75" Height="33">Run Wav</Button>
+</Grid></UserControl>

@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using BrightIdeasSoftware;
+using MissionPlanner.Controls.PreFlight;
 
 namespace MissionPlanner.Utilities
 {
@@ -143,6 +144,24 @@ namespace MissionPlanner.Utilities
 
                 return null;
             }).ToList();
+
+            asm = typeof(ImageLabel).Assembly;
+
+            var temp2 = asm.GetTypes().Select(a =>
+            {
+                if (a.IsSubclassOf(typeof(Control)))
+                {
+                    try
+                    {
+                        return (Control)Activator.CreateInstance(a);
+                    }
+                    catch { }
+                }
+
+                return null;
+            }).ToList();
+
+            temp.AddRange(temp2);
 
             foreach (var ctl in temp)
             {
@@ -296,12 +315,14 @@ xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
 xmlns:mc=""http://schemas.openxmlformats.org/markup-compatibility/2006""
 xmlns:d=""http://schemas.microsoft.com/expression/blend/2008""
 xmlns:xctk=""http://schemas.xceed.com/wpf/xaml/toolkit""
-xmlns:Custom=""http://schemas.microsoft.com/wpf/2008/toolkit""
-xmlns:BackstageView=""clr-namespace:MissionPlanner.Controls.BackstageView""
-xmlns:Controls=""clr-namespace:MissionPlanner.Controls""
-xmlns:GCSViews=""clr-namespace:MissionPlanner.GCSViews""
-xmlns:Wizard=""clr-namespace:MissionPlanner.Wizard""
-xmlns:ConfigurationView=""clr-namespace:MissionPlanner.GCSViews.ConfigurationView""
+xmlns:BackstageView=""using:MissionPlanner.Controls.BackstageView""
+xmlns:Controls=""using:MissionPlanner.Controls""
+xmlns:GCSViews=""using:MissionPlanner.GCSViews""
+xmlns:Wizard=""using:MissionPlanner.Wizard""
+xmlns:ConfigurationView=""using:MissionPlanner.GCSViews.ConfigurationView""
+xmlns:Custom=""using:Custom""
+xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls""
+xmlns:PreFlight=""using:MissionPlanner.Controls.PreFlight""
 mc:Ignorable=""d""
 > <Grid>";
 
@@ -314,6 +335,11 @@ mc:Ignorable=""d""
                     st.Write(footer);
 
                     st.Close();
+                    
+                    var ctl = control;
+                    
+                    File.WriteAllText(ctl.GetType().FullName + ".xaml.cs", @"namespace "+ ctl.GetType().Namespace + " { public partial class " + ctl.GetType().Name + "{public " + ctl.GetType().Name + "(){this.InitializeComponent();}}}");
+
                 }
             }
             catch
@@ -326,7 +352,9 @@ mc:Ignorable=""d""
             foreach (Control ctl in control.Controls)
             {
                 if (ctl is QuickView || ctl is ServoOptions || ctl is ModifyandSet
-                    || ctl is Coords /*|| ctl is AGaugeApp.AGauge*/|| ctl is MissionPlanner.Controls.HUD)
+                    || ctl is Coords /*|| ctl is AGaugeApp.AGauge*/|| ctl is MissionPlanner.Controls.HUD
+                    || ctl is ImageLabel|| ctl is RelayOptions|| ctl is CheckListControl
+                    || ctl is MavlinkCheckBox )
                 {
                     //   st.WriteLine(@"<WindowsFormsHost HorizontalAlignment=""Left"" VerticalAlignment=""Top"" Margin=""" + ctl.Location.X + "," + ctl.Location.Y + @",0,0"" Width=""" + ctl.Width + @""" Height=""" + ctl.Height + @""">");
 
@@ -337,42 +365,45 @@ mc:Ignorable=""d""
                     st.WriteLine(@"<" + name + @" HorizontalAlignment=""Left"" VerticalAlignment=""Top"" Margin=""" +
                                  ctl.Location.X + "," + ctl.Location.Y + @",0,0"" Width=""" + ctl.Width +
                                  @""" Height=""" + ctl.Height + @"""></" + name + ">");
-
+                                 
+                           
                     //st.WriteLine(@"</WindowsFormsHost>");
                 }
-                else if (ctl is Label)
+                else if (ctl is Label || ctl is MyLabel)
                 {
-                    st.WriteLine(@"<Label Name=""" + ctl.Name +
-                                 @""" HorizontalAlignment=""Left"" VerticalAlignment=""Top"" Margin=""" + ctl.Location.X +
-                                 "," + (ctl.Location.Y - 10) + @",0,0"" FontFamily=""Microsoft Sans Serif"" >" +
-                                 ctl.Text + "</Label>");
-                }
-                else if (ctl is MyLabel)
-                {
-                    st.WriteLine(@"<Label Name=""" + ctl.Name +
-                                 @""" HorizontalAlignment=""Left"" VerticalAlignment=""Top"" Margin=""" + ctl.Location.X +
-                                 "," + (ctl.Location.Y - 10) + @",0,0"" FontFamily=""Microsoft Sans Serif"" >" +
-                                 ctl.Text + "</Label>");
+                    var label = String.Format(
+                        "<{0} Name=\"{1}\" HorizontalAlignment=\"Left\" VerticalAlignment=\"Top\" " +
+                        "FontFamily=\"Microsoft Sans Serif\" FontSize=\"{7}\" Margin=\"{3},{4},0,0\" Width=\"{6}\" Height=\"{5}\">{2}</{0}>",
+                        "TextBlock", ctl.Name, ctl.Text, ctl.Location.X, ctl.Location.Y,
+                        ctl.Size.Height, ctl.Size.Width, ctl.Font.Size);
+
+                    st.WriteLine(label);
                 }
                 else if (ctl is ComboBox)
                 {
-                    st.WriteLine(@"<ComboBox Name=""" + ctl.Name +
-                                 @""" HorizontalAlignment=""Left"" VerticalAlignment=""Top"" Margin=""" + ctl.Location.X +
-                                 "," + ctl.Location.Y + @",0,0"" Width=""" + ctl.Width + @""">" + ctl.Text +
-                                 "</ComboBox>");
+                    var label = String.Format(
+                        "<{0} Name=\"{1}\" HorizontalAlignment=\"Left\" VerticalAlignment=\"Top\" " +
+                        "FontFamily=\"Microsoft Sans Serif\" FontSize=\"{7}\" Margin=\"{3},{4},0,0\" Width=\"{6}\" Height=\"{5}\"></{0}>",
+                        "ComboBox", ctl.Name, ctl.Text, ctl.Location.X, ctl.Location.Y,
+                        ctl.Size.Height, ctl.Size.Width, ctl.Font.Size);
+
+                    st.WriteLine(label);
                 }
                 else if (ctl is TextBox)
                 {
-                    st.WriteLine(@"<TextBox Name=""" + ctl.Name +
-                                 @""" HorizontalAlignment=""Left"" VerticalAlignment=""Top"" Margin=""" + ctl.Location.X +
-                                 "," + ctl.Location.Y + @",0,0"" Width=""" + ctl.Width + @""">" + ctl.Text +
-                                 "</TextBox>");
+                    var label = String.Format(
+                        "<{0} Name=\"{1}\" HorizontalAlignment=\"Left\" VerticalAlignment=\"Top\" " +
+                        "FontFamily=\"Microsoft Sans Serif\" Text=\"{2}\" FontSize=\"{7}\" Margin=\"{3},{4},0,0\" Width=\"{6}\" Height=\"{5}\"></{0}>",
+                        "TextBox", ctl.Name, ctl.Text, ctl.Location.X, ctl.Location.Y,
+                        ctl.Size.Height, ctl.Size.Width, ctl.Font.Size);
+
+                    st.WriteLine(label);
                 }
                 else if (ctl is NumericUpDown)
                 {
-                    st.WriteLine(@"<xctk:DecimalUpDown Name=""" + ctl.Name +
+                    st.WriteLine(@"<Custom:DecimalUpDown Name=""" + ctl.Name +
                                  @""" HorizontalAlignment=""Left"" VerticalAlignment=""Top"" Margin=""" + ctl.Location.X +
-                                 "," + ctl.Location.Y + @",0,0"" Width=""" + ctl.Width + @"""></xctk:DecimalUpDown>");
+                                 "," + ctl.Location.Y + @",0,0"" Width=""" + ctl.Width + @"""></Custom:DecimalUpDown>");
                 }
                 else if (ctl is RichTextBox)
                 {
@@ -383,30 +414,43 @@ mc:Ignorable=""d""
                 }
                 else if (ctl is MyButton)
                 {
-                    st.WriteLine(@"<Button Name=""" + ctl.Name +
-                                 @""" HorizontalAlignment=""Left"" VerticalAlignment=""Top"" Margin=""" + ctl.Location.X +
-                                 "," + ctl.Location.Y + @",0,0"" Width=""" + ctl.Width + @""">" +
-                                 ctl.Text.Replace("&", "") + "</Button>");
+                    var label = String.Format(
+                        "<{0} Name=\"{1}\" HorizontalAlignment=\"Left\" VerticalAlignment=\"Top\" " +
+                        "FontFamily=\"Microsoft Sans Serif\" FontSize=\"{7}\" Margin=\"{3},{4},0,0\" Width=\"{6}\" Height=\"{5}\">{2}</{0}>",
+                        "Button", ctl.Name, ctl.Text, ctl.Location.X, ctl.Location.Y,
+                        ctl.Size.Height, ctl.Size.Width, ctl.Font.Size);
+
+                    st.WriteLine(label);
                 }
                 else if (ctl is Button)
                 {
-                    st.WriteLine(@"<Button Name=""" + ctl.Name +
-                                 @""" HorizontalAlignment=""Left"" VerticalAlignment=""Top"" Margin=""" + ctl.Location.X +
-                                 "," + ctl.Location.Y + @",0,0"" Width=""" + ctl.Width + @""">" + ctl.Text + "</Button>");
+                    var label = String.Format(
+                        "<{0} Name=\"{1}\" HorizontalAlignment=\"Left\" VerticalAlignment=\"Top\" " +
+                        "FontFamily=\"Microsoft Sans Serif\" FontSize=\"{7}\" Margin=\"{3},{4},0,0\" Width=\"{6}\" Height=\"{5}\">{2}</{0}>",
+                        "Button", ctl.Name, ctl.Text, ctl.Location.X, ctl.Location.Y,
+                        ctl.Size.Height, ctl.Size.Width, ctl.Font.Size);
+
+                    st.WriteLine(label);
                 }
                 else if (ctl is CheckBox)
                 {
-                    st.WriteLine(@"<CheckBox Name=""" + ctl.Name +
-                                 @""" HorizontalAlignment=""Left"" VerticalAlignment=""Top"" Margin=""" + ctl.Location.X +
-                                 "," + ctl.Location.Y + @",0,0"" Width=""" + ctl.Width + @""">" + ctl.Text +
-                                 "</CheckBox>");
+                    var label = String.Format(
+                        "<{0} Name=\"{1}\" HorizontalAlignment=\"Left\" VerticalAlignment=\"Top\" " +
+                        "FontFamily=\"Microsoft Sans Serif\" FontSize=\"{7}\" Margin=\"{3},{4},0,0\" Width=\"{6}\" Height=\"{5}\">{2}</{0}>",
+                        "CheckBox", ctl.Name, ctl.Text, ctl.Location.X, ctl.Location.Y,
+                        ctl.Size.Height, ctl.Size.Width, ctl.Font.Size);
+
+                    st.WriteLine(label);
                 }
                 else if (ctl is RadioButton)
                 {
-                    st.WriteLine(@"<RadioButton Name=""" + ctl.Name +
-                                 @""" HorizontalAlignment=""Left"" VerticalAlignment=""Top"" Margin=""" + ctl.Location.X +
-                                 "," + ctl.Location.Y + @",0,0"" Width=""" + ctl.Width + @""">" + ctl.Text +
-                                 "</RadioButton>");
+                    var label = String.Format(
+                        "<{0} Name=\"{1}\" HorizontalAlignment=\"Left\" VerticalAlignment=\"Top\" " +
+                        "FontFamily=\"Microsoft Sans Serif\" FontSize=\"{7}\" Margin=\"{3},{4},0,0\" Width=\"{6}\" Height=\"{5}\">{2}</{0}>",
+                        "RadioButton", ctl.Name, ctl.Text, ctl.Location.X, ctl.Location.Y,
+                        ctl.Size.Height, ctl.Size.Width, ctl.Font.Size);
+
+                    st.WriteLine(label);
                 }
                 else if (ctl is PictureBox)
                 {
@@ -432,9 +476,12 @@ mc:Ignorable=""d""
                 else if (ctl is VerticalProgressBar || ctl is VerticalProgressBar2)
                 {
                     st.WriteLine(@"<ProgressBar Name=""" + ctl.Name +
-                                 @""" HorizontalAlignment=""Left"" VerticalAlignment=""Top"" Margin=""" + ctl.Location.X +
-                                 "," + ctl.Location.Y + @",0,0"" Width=""" + ctl.Width + @""" Height=""" + ctl.Height +
-                                 @""" Orientation=""Vertical"">" + ctl.Text + "</ProgressBar>");
+                                 @""" HorizontalAlignment=""Left"" VerticalAlignment=""Top"" Margin=""" +
+                                 ctl.Location.X +
+                                 "," + ctl.Location.Y + @",0,0"" Width=""" + ctl.Height + @""" Height=""" + ctl.Width +
+                                 @""" >" + @"    <ProgressBar.RenderTransform>
+                <CompositeTransform Rotation=""90"" TranslateX=""" + ctl.Width + @"""/>
+            </ProgressBar.RenderTransform>" + ctl.Text + " </ProgressBar>");
                 }
                 else if (ctl is ProgressBar || ctl is HorizontalProgressBar2 || ctl is HorizontalProgressBar)
                 {
@@ -445,10 +492,10 @@ mc:Ignorable=""d""
                 }
                 else if (ctl is DataGridView)
                 {
-                    st.WriteLine(@"<Custom:DataGrid Name=""" + ctl.Name +
+                    st.WriteLine(@"<controls:DataGrid Name=""" + ctl.Name +
                                  @""" HorizontalAlignment=""Left"" VerticalAlignment=""Top"" Margin=""" + ctl.Location.X +
                                  "," + ctl.Location.Y + @",0,0"" Width=""" + ctl.Width + @""">" + ctl.Text +
-                                 "</Custom:DataGrid>");
+                                 "</controls:DataGrid>");
                 }
                 else if (ctl is GroupBox)
                 {
@@ -463,28 +510,29 @@ mc:Ignorable=""d""
                     st.WriteLine(@"</Grid>");
                 }
                 else if (ctl is TabControl)
-                {
-                    st.WriteLine(@"<TabControl Name=""" + ctl.Name +
+                {/*
+                    st.WriteLine(@"<TabView Name=""" + ctl.Name +
                                  @""" HorizontalAlignment=""Left"" VerticalAlignment=""Top"" Margin=""" + ctl.Location.X +
                                  "," + ctl.Location.Y + @",0,0"" Width=""" + ctl.Width + @""" Height=""" + ctl.Height +
                                  @""">");
-
+                                 
                     if (ctl.Controls.Count > 0)
                         doxamlctls(ctl, st);
 
-                    st.WriteLine(@"</TabControl>");
+                    st.WriteLine(@"</TabView>");*/
                 }
                 else if (ctl is TabPage)
                 {
-                    // Margin=""" + ctl.Location.X + "," + ctl.Location.Y + @",0,0""
-                    st.WriteLine(@"<TabItem Name=""" + ctl.Name + @""" Header=""" + ctl.Text +
+                    /*
+                    st.WriteLine(@"<TabViewItem Name=""" + ctl.Name + @""" Header=""" + ctl.Text +
                                  @""" HorizontalAlignment=""Left"" VerticalAlignment=""Top"" ><Grid Width=""" +
                                  ctl.Width + @""" Height=""" + ctl.Height + @""">");
 
                     if (ctl.Controls.Count > 0)
                         doxamlctls(ctl, st);
 
-                    st.WriteLine(@"</Grid></TabItem>");
+                    st.WriteLine(@"</Grid></TabViewItem>");
+                    */
                 }
                 else if (ctl is SplitContainer)
                 {

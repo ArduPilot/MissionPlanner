@@ -1,0 +1,1 @@
+namespace MissionPlanner.GCSViews.ConfigurationView { public partial class ConfigHWPX4Flow{public ConfigHWPX4Flow(){this.InitializeComponent();}}}

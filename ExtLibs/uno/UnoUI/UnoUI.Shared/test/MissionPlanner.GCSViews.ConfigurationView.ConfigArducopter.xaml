@@ -1,0 +1,125 @@
+<UserControl x:Class="MissionPlanner.GCSViews.ConfigurationView.ConfigArducopter" d:DesignHeight="395" d:DesignWidth="708"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+xmlns:BackstageView="using:MissionPlanner.Controls.BackstageView"
+xmlns:Controls="using:MissionPlanner.Controls"
+xmlns:GCSViews="using:MissionPlanner.GCSViews"
+xmlns:Wizard="using:MissionPlanner.Wizard"
+xmlns:ConfigurationView="using:MissionPlanner.GCSViews.ConfigurationView"
+xmlns:Custom="using:Custom"
+xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+xmlns:PreFlight="using:MissionPlanner.Controls.PreFlight"
+mc:Ignorable="d"
+> <Grid><TextBlock Name="myLabel6" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="358,343,0,0" Width="54" Height="17">RC10 Opt</TextBlock>
+<ComboBox Name="CH10_OPTION" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="417,343,0,0" Width="112" Height="21"></ComboBox>
+<TextBlock Name="myLabel5" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="358,316,0,0" Width="48" Height="17">RC9 Opt</TextBlock>
+<ComboBox Name="CH9_OPTION" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="417,316,0,0" Width="112" Height="21"></ComboBox>
+<TextBlock Name="myLabel4" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="358,289,0,0" Width="48" Height="17">RC8 Opt</TextBlock>
+<ComboBox Name="CH8_OPTION" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="417,289,0,0" Width="112" Height="21"></ComboBox>
+<Button Name="BUT_refreshpart" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="473,369,0,0" Width="103" Height="19">Refresh Screen</Button>
+<Grid Name="groupBox2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="7,216,0,0" Width="170" Height="115">
+<Custom:DecimalUpDown Name="THR_ACCEL_D" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,66,0,0" Width="78"></Custom:DecimalUpDown>
+<TextBlock Name="label5" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,69,0,0" Width="10" Height="13">D</TextBlock>
+<TextBlock Name="label6" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,92,0,0" Width="65" Height="13">IMAX</TextBlock>
+<Custom:DecimalUpDown Name="THR_ACCEL_IMAX" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,89,0,0" Width="78"></Custom:DecimalUpDown>
+<Custom:DecimalUpDown Name="THR_ACCEL_I" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,43,0,0" Width="78"></Custom:DecimalUpDown>
+<TextBlock Name="label7" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,46,0,0" Width="10" Height="13">I</TextBlock>
+<Custom:DecimalUpDown Name="THR_ACCEL_P" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,19,0,0" Width="78"></Custom:DecimalUpDown>
+<TextBlock Name="label8" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,22,0,0" Width="14" Height="13">P</TextBlock>
+</Grid>
+<Grid Name="groupBox1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="532,74,0,0" Width="170" Height="108">
+<Custom:DecimalUpDown Name="LOITER_LAT_D" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,60,0,0" Width="78"></Custom:DecimalUpDown>
+<TextBlock Name="label1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,63,0,0" Width="10" Height="13">D</TextBlock>
+<Custom:DecimalUpDown Name="LOITER_LAT_IMAX" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,84,0,0" Width="78"></Custom:DecimalUpDown>
+<TextBlock Name="label2" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,87,0,0" Width="65" Height="13">IMAX</TextBlock>
+<Custom:DecimalUpDown Name="LOITER_LAT_I" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,37,0,0" Width="78"></Custom:DecimalUpDown>
+<TextBlock Name="label3" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,40,0,0" Width="10" Height="13">I</TextBlock>
+<Custom:DecimalUpDown Name="LOITER_LAT_P" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,13,0,0" Width="78"></Custom:DecimalUpDown>
+<TextBlock Name="label4" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,16,0,0" Width="14" Height="13">P</TextBlock>
+</Grid>
+<Button Name="BUT_rerequestparams" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="364,369,0,0" Width="103" Height="19">Refresh Params</Button>
+<Button Name="BUT_writePIDS" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="255,369,0,0" Width="103" Height="19">Write Params</Button>
+<TextBlock Name="myLabel3" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="183,286,0,0" Width="22" Height="17">Min</TextBlock>
+<Custom:DecimalUpDown Name="TUNE_LOW" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="218,289,0,0" Width="51"></Custom:DecimalUpDown>
+<Custom:DecimalUpDown Name="TUNE_HIGH" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="308,289,0,0" Width="46"></Custom:DecimalUpDown>
+<TextBlock Name="myLabel2" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="183,261,0,0" Width="30" Height="17">Tune</TextBlock>
+<ComboBox Name="TUNE" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="242,261,0,0" Width="112" Height="21"></ComboBox>
+<TextBlock Name="myLabel1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="358,262,0,0" Width="48" Height="17">RC7 Opt</TextBlock>
+<ComboBox Name="CH7_OPTION" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="417,262,0,0" Width="112" Height="21"></ComboBox>
+<Grid Name="groupBox5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="183,216,0,0" Width="170" Height="43">
+<Custom:DecimalUpDown Name="THR_RATE_P" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,13,0,0" Width="78"></Custom:DecimalUpDown>
+<TextBlock Name="label25" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,16,0,0" Width="14" Height="13">P</TextBlock>
+</Grid>
+<CheckBox Name="CHK_lockrollpitch" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="7,53,0,0" Width="158" Height="18">Lock Pitch and Roll Values</CheckBox>
+<Grid Name="groupBox4" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="532,210,0,0" Width="170" Height="131">
+<Custom:DecimalUpDown Name="WPNAV_SPEED_UP" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,60,0,0" Width="78"></Custom:DecimalUpDown>
+<TextBlock Name="label27" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,63,0,0" Width="68" Height="17">Speed Up</TextBlock>
+<Custom:DecimalUpDown Name="WPNAV_LOIT_SPEED" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,107,0,0" Width="78"></Custom:DecimalUpDown>
+<TextBlock Name="label9" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,110,0,0" Width="72" Height="18">Loiter Speed</TextBlock>
+<Custom:DecimalUpDown Name="WPNAV_SPEED_DN" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,84,0,0" Width="78"></Custom:DecimalUpDown>
+<TextBlock Name="label13" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,87,0,0" Width="68" Height="17">Speed Dn</TextBlock>
+<Custom:DecimalUpDown Name="WPNAV_RADIUS" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,37,0,0" Width="78"></Custom:DecimalUpDown>
+<TextBlock Name="label15" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,40,0,0" Width="68" Height="17">Radius</TextBlock>
+<Custom:DecimalUpDown Name="WPNAV_SPEED" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,13,0,0" Width="78"></Custom:DecimalUpDown>
+<TextBlock Name="label16" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,16,0,0" Width="68" Height="17">Speed </TextBlock>
+</Grid>
+<Grid Name="groupBox7" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="359,216,0,0" Width="170" Height="43">
+<Custom:DecimalUpDown Name="THR_ALT_P" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,13,0,0" Width="78"></Custom:DecimalUpDown>
+<TextBlock Name="label22" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,16,0,0" Width="14" Height="13">P</TextBlock>
+</Grid>
+<Grid Name="groupBox19" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="532,5,0,0" Width="170" Height="42">
+<Custom:DecimalUpDown Name="HLD_LAT_P" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,13,0,0" Width="78"></Custom:DecimalUpDown>
+<TextBlock Name="label31" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,16,0,0" Width="14" Height="13">P</TextBlock>
+</Grid>
+<Grid Name="groupBox20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="359,5,0,0" Width="170" Height="42">
+<Custom:DecimalUpDown Name="STB_YAW_P" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,13,0,0" Width="78"></Custom:DecimalUpDown>
+<TextBlock Name="label35" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,16,0,0" Width="14" Height="13">P</TextBlock>
+</Grid>
+<Grid Name="groupBox21" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="183,5,0,0" Width="170" Height="42">
+<Custom:DecimalUpDown Name="STB_PIT_P" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,13,0,0" Width="78"></Custom:DecimalUpDown>
+<TextBlock Name="label42" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,16,0,0" Width="14" Height="13">P</TextBlock>
+</Grid>
+<Grid Name="groupBox22" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="7,5,0,0" Width="170" Height="42">
+<Custom:DecimalUpDown Name="STB_RLL_P" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,13,0,0" Width="78"></Custom:DecimalUpDown>
+<TextBlock Name="label46" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,16,0,0" Width="14" Height="13">P</TextBlock>
+</Grid>
+<Grid Name="groupBox23" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="359,74,0,0" Width="170" Height="136">
+<Custom:DecimalUpDown Name="RATE_YAW_FILT" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,110,0,0" Width="78"></Custom:DecimalUpDown>
+<TextBlock Name="label18" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,113,0,0" Width="68" Height="13">FILT</TextBlock>
+<Custom:DecimalUpDown Name="RATE_YAW_D" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,60,0,0" Width="78"></Custom:DecimalUpDown>
+<TextBlock Name="label10" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,63,0,0" Width="10" Height="13">D</TextBlock>
+<Custom:DecimalUpDown Name="RATE_YAW_IMAX" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,84,0,0" Width="78"></Custom:DecimalUpDown>
+<TextBlock Name="label47" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,87,0,0" Width="65" Height="13">IMAX</TextBlock>
+<Custom:DecimalUpDown Name="RATE_YAW_I" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,37,0,0" Width="78"></Custom:DecimalUpDown>
+<TextBlock Name="label77" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,40,0,0" Width="10" Height="13">I</TextBlock>
+<Custom:DecimalUpDown Name="RATE_YAW_P" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,13,0,0" Width="78"></Custom:DecimalUpDown>
+<TextBlock Name="label82" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,16,0,0" Width="14" Height="13">P</TextBlock>
+</Grid>
+<Grid Name="groupBox24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="183,74,0,0" Width="170" Height="136">
+<Custom:DecimalUpDown Name="RATE_PIT_FILT" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,109,0,0" Width="78"></Custom:DecimalUpDown>
+<TextBlock Name="label14" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,112,0,0" Width="68" Height="13">FILT</TextBlock>
+<Custom:DecimalUpDown Name="RATE_PIT_D" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,60,0,0" Width="78"></Custom:DecimalUpDown>
+<TextBlock Name="label11" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,63,0,0" Width="10" Height="13">D</TextBlock>
+<Custom:DecimalUpDown Name="RATE_PIT_IMAX" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,83,0,0" Width="78"></Custom:DecimalUpDown>
+<TextBlock Name="label84" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,86,0,0" Width="65" Height="13">IMAX</TextBlock>
+<Custom:DecimalUpDown Name="RATE_PIT_I" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,37,0,0" Width="78"></Custom:DecimalUpDown>
+<TextBlock Name="label86" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,40,0,0" Width="10" Height="13">I</TextBlock>
+<Custom:DecimalUpDown Name="RATE_PIT_P" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,13,0,0" Width="78"></Custom:DecimalUpDown>
+<TextBlock Name="label87" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,16,0,0" Width="14" Height="13">P</TextBlock>
+</Grid>
+<Grid Name="groupBox25" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="7,74,0,0" Width="170" Height="136">
+<Custom:DecimalUpDown Name="RATE_RLL_FILT" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,109,0,0" Width="78"></Custom:DecimalUpDown>
+<TextBlock Name="label12" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,112,0,0" Width="68" Height="13">FILT</TextBlock>
+<Custom:DecimalUpDown Name="RATE_RLL_D" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,60,0,0" Width="78"></Custom:DecimalUpDown>
+<TextBlock Name="label17" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,63,0,0" Width="10" Height="13">D</TextBlock>
+<Custom:DecimalUpDown Name="RATE_RLL_IMAX" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,83,0,0" Width="78"></Custom:DecimalUpDown>
+<TextBlock Name="label88" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,86,0,0" Width="68" Height="13">IMAX</TextBlock>
+<Custom:DecimalUpDown Name="RATE_RLL_I" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,37,0,0" Width="78"></Custom:DecimalUpDown>
+<TextBlock Name="label90" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,40,0,0" Width="10" Height="13">I</TextBlock>
+<Custom:DecimalUpDown Name="RATE_RLL_P" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,13,0,0" Width="78"></Custom:DecimalUpDown>
+<TextBlock Name="label91" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,16,0,0" Width="14" Height="13">P</TextBlock>
+</Grid>
+</Grid></UserControl>

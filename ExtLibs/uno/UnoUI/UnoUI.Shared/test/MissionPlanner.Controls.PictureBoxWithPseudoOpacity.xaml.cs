@@ -1,0 +1,1 @@
+namespace MissionPlanner.Controls { public partial class PictureBoxWithPseudoOpacity{public PictureBoxWithPseudoOpacity(){this.InitializeComponent();}}}

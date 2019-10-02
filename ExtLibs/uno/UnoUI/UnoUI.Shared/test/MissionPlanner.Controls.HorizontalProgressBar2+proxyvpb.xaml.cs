@@ -1,0 +1,1 @@
+namespace MissionPlanner.Controls { public partial class proxyvpb{public proxyvpb(){this.InitializeComponent();}}}

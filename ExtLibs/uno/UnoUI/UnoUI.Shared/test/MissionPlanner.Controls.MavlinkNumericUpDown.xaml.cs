@@ -1,0 +1,1 @@
+namespace MissionPlanner.Controls { public partial class MavlinkNumericUpDown{public MavlinkNumericUpDown(){this.InitializeComponent();}}}

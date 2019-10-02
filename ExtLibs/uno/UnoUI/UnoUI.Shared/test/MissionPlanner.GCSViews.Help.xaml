@@ -1,0 +1,21 @@
+<UserControl x:Class="MissionPlanner.GCSViews.Help" d:DesignHeight="461" d:DesignWidth="1008"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+xmlns:BackstageView="using:MissionPlanner.Controls.BackstageView"
+xmlns:Controls="using:MissionPlanner.Controls"
+xmlns:GCSViews="using:MissionPlanner.GCSViews"
+xmlns:Wizard="using:MissionPlanner.Wizard"
+xmlns:ConfigurationView="using:MissionPlanner.GCSViews.ConfigurationView"
+xmlns:Custom="using:Custom"
+xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+xmlns:PreFlight="using:MissionPlanner.Controls.PreFlight"
+mc:Ignorable="d"
+> <Grid><Button Name="BUT_betaupdate" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="490,390,0,0" Width="123" Height="29">Check for BETA Updates</Button>
+<TextBlock Name="linkLabel1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="459,445,0,0" Width="66" Height="17">Change Log</TextBlock>
+<CheckBox Name="CHK_showconsole" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="403,424,0,0" Width="182" Height="18">Show Console Window (restart)</CheckBox>
+<Button Name="BUT_updatecheck" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="361,390,0,0" Width="123" Height="29">Check for Updates</Button>
+<TextBlock Name="richTextBox1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="106,80,0,0" Width="778" Height="283"></TextBlock>
+</Grid></UserControl>

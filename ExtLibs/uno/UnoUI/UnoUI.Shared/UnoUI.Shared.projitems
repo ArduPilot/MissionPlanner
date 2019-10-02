@@ -1,0 +1,1079 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>6279c845-92f8-4333-ab99-3d213163593c</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>UnoUI.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="$(MSBuildThisFileDirectory)App.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\AGaugeApp.AGauge.xaml.cs">
+      <DependentUpon>AGaugeApp.AGauge.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\Class1.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)test\DecimalUpDown.xaml.cs">
+      <DependentUpon>DecimalUpDown.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Antenna.Tracker.xaml.cs">
+      <DependentUpon>MissionPlanner.Antenna.Tracker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.ConnectionOptions.xaml.cs">
+      <DependentUpon>MissionPlanner.ConnectionOptions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.AuthKeys.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.AuthKeys.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.BackstageView.BackstageView.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.BackstageView.BackstageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.BackstageView.BackstageViewButton.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.BackstageView.BackstageViewButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.BackstageView.BackStageViewMenuPanel.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.BackstageView.BackStageViewMenuPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.ConnectionControl.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.ConnectionControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.ConnectionStats.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.ConnectionStats.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.Coords.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.Coords.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.DefaultSettings.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.DefaultSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.DigitalSkyUI.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.DigitalSkyUI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.DistanceBar.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.DistanceBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.EKFStatus.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.EKFStatus.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.fftui.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.fftui.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.FileBrowse.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.FileBrowse.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.FlashMessage.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.FlashMessage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.GradientBG.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.GradientBG.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.HorizontalProgressBar.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.HorizontalProgressBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.HorizontalProgressBar2.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.HorizontalProgressBar2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.HSI.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.HSI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.HUD.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.HUD.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.ImageLabel.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.ImageLabel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.LabelWithPseudoOpacity.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.LabelWithPseudoOpacity.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.LineSeparator.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.LineSeparator.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.Loading.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.Loading.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.MavlinkCheckBox.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.MavlinkCheckBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.MavlinkCheckBoxBitMask.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.MavlinkCheckBoxBitMask.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.MavlinkComboBox.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.MavlinkComboBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.MavlinkNumericUpDown.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.MavlinkNumericUpDown.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.ModifyandSet.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.ModifyandSet.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.MyButton.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.MyButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.MyDataGridView.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.MyDataGridView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.myGMAP.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.myGMAP.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.MyLabel.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.MyLabel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.MyProgressBar.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.MyProgressBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.MyTrackBar.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.MyTrackBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.OpenGLtest.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.OpenGLtest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.OpenGLtest2.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.OpenGLtest2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.OptionForm.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.OptionForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.PictureBoxMouseOver.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.PictureBoxMouseOver.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.PictureBoxWithPseudoOpacity.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.PictureBoxWithPseudoOpacity.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.PreFlight.CheckListControl.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.PreFlight.CheckListControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.ProgressReporterDialogue.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.ProgressReporterDialogue.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.ProgressReporterSphere.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.ProgressReporterSphere.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.ProgressStep.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.ProgressStep.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.PropagationSettings.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.PropagationSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.QuickView.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.QuickView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.RadialGradientBG.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.RadialGradientBG.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.RangeControl.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.RangeControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.RelayOptions.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.RelayOptions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.ScriptConsole.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.ScriptConsole.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.SerialOutputMD.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.SerialOutputMD.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.SerialOutputNMEA.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.SerialOutputNMEA.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.SerialOutputPass.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.SerialOutputPass.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.ServoOptions.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.ServoOptions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.Sphere.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.Sphere.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.ThemeColors.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.ThemeColors.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.ValuesControl.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.ValuesControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.VerticalProgressBar.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.VerticalProgressBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.VerticalProgressBar2.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.VerticalProgressBar2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.Vibration.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.Vibration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.Video.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.Video.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.WindDir.xaml.cs">
+      <DependentUpon>MissionPlanner.Controls.WindDir.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.FollowMe.xaml.cs">
+      <DependentUpon>MissionPlanner.FollowMe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigAccelerometerCalibration.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigAccelerometerCalibration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigAC_Fence.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigAC_Fence.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigADSB.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigADSB.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigAntennaTracker.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigAntennaTracker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigArducopter.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigArducopter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigArduplane.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigArduplane.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigArdurover.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigArdurover.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigAteryx.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigAteryx.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigAteryxSensors.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigAteryxSensors.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigBatteryMonitoring.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigBatteryMonitoring.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigBatteryMonitoring2.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigBatteryMonitoring2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigCompassMot.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigCompassMot.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigESCCalibration.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigESCCalibration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigFailSafe.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigFailSafe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigFirmwareDisabled.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigFirmwareDisabled.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigFirmwareManifest.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigFirmwareManifest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigFlightModes.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigFlightModes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigFrameClassType.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigFrameClassType.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigFrameType.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigFrameType.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigFriendlyParams.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigFriendlyParams.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigFriendlyParamsAdv.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigFriendlyParamsAdv.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigHWAirspeed.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigHWAirspeed.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigHWBT.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigHWBT.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigHWCAN.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigHWCAN.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigHWCompass.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigHWCompass.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigHWESP8266.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigHWESP8266.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigHWIDs.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigHWIDs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigHWOptFlow.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigHWOptFlow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigHWOSD.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigHWOSD.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigHWParachute.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigHWParachute.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigHWPX4Flow.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigHWPX4Flow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigHWRangeFinder.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigHWRangeFinder.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigMandatory.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigMandatory.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigMotorTest.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigMotorTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigMount.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigMount.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigOptional.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigOptional.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigOSD.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigOSD.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigPlanner.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigPlanner.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigPlannerAdv.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigPlannerAdv.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigRadioInput.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigRadioInput.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigRadioOutput.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigRadioOutput.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigRawParams.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigRawParams.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigRawParamsTree.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigRawParamsTree.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigSerialInjectGPS.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigSerialInjectGPS.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigSimplePids.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigSimplePids.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigTradHeli.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigTradHeli.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigUAVCAN.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigUAVCAN.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigUserDefined.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.ConfigurationView.ConfigUserDefined.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.FlightData.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.FlightData.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.FlightPlanner.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.FlightPlanner.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.Help.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.Help.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.InitialSetup.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.InitialSetup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.SITL.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.SITL.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.SoftwareConfig.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.SoftwareConfig.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.Terminal.xaml.cs">
+      <DependentUpon>MissionPlanner.GCSViews.Terminal.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GeoRef.Georefimage.xaml.cs">
+      <DependentUpon>MissionPlanner.GeoRef.Georefimage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Joystick.JoystickAxis.xaml.cs">
+      <DependentUpon>MissionPlanner.Joystick.JoystickAxis.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Joystick.JoystickSetup.xaml.cs">
+      <DependentUpon>MissionPlanner.Joystick.JoystickSetup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Log.LogBrowse.xaml.cs">
+      <DependentUpon>MissionPlanner.Log.LogBrowse.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Log.LogDownload.xaml.cs">
+      <DependentUpon>MissionPlanner.Log.LogDownload.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Log.LogDownloadMavLink.xaml.cs">
+      <DependentUpon>MissionPlanner.Log.LogDownloadMavLink.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Log.LogDownloadscp.xaml.cs">
+      <DependentUpon>MissionPlanner.Log.LogDownloadscp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Log.LogIndex.xaml.cs">
+      <DependentUpon>MissionPlanner.Log.LogIndex.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Log.MavlinkLog.xaml.cs">
+      <DependentUpon>MissionPlanner.Log.MavlinkLog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.MainV2.xaml.cs">
+      <DependentUpon>MissionPlanner.MainV2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.MovingBase.xaml.cs">
+      <DependentUpon>MissionPlanner.MovingBase.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.OSDVideo.xaml.cs">
+      <DependentUpon>MissionPlanner.OSDVideo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Plugin.PluginUI.xaml.cs">
+      <DependentUpon>MissionPlanner.Plugin.PluginUI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Radio.Sikradio.xaml.cs">
+      <DependentUpon>MissionPlanner.Radio.Sikradio.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Splash.xaml.cs">
+      <DependentUpon>MissionPlanner.Splash.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Swarm.FollowLeader.Control.xaml.cs">
+      <DependentUpon>MissionPlanner.Swarm.FollowLeader.Control.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Swarm.FollowPathControl.xaml.cs">
+      <DependentUpon>MissionPlanner.Swarm.FollowPathControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Swarm.FormationControl.xaml.cs">
+      <DependentUpon>MissionPlanner.Swarm.FormationControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Swarm.Grid.xaml.cs">
+      <DependentUpon>MissionPlanner.Swarm.Grid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Swarm.Sequence.LayoutEditor.xaml.cs">
+      <DependentUpon>MissionPlanner.Swarm.Sequence.LayoutEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Swarm.SRB.Control.xaml.cs">
+      <DependentUpon>MissionPlanner.Swarm.SRB.Control.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Swarm.Status.xaml.cs">
+      <DependentUpon>MissionPlanner.Swarm.Status.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.temp.xaml.cs">
+      <DependentUpon>MissionPlanner.temp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Warnings.WarningControl.xaml.cs">
+      <DependentUpon>MissionPlanner.Warnings.WarningControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Warnings.WarningsManager.xaml.cs">
+      <DependentUpon>MissionPlanner.Warnings.WarningsManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)test\resedit.Form1.xaml.cs">
+      <DependentUpon>resedit.Form1.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\AGaugeApp.AGauge.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\DecimalUpDown.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Antenna.Tracker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.ConnectionOptions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.AuthKeys.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.BackstageView.BackstageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.BackstageView.BackstageViewButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.BackstageView.BackStageViewMenuPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.ConnectionControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.ConnectionStats.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.Coords.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.DefaultSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.DigitalSkyUI.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.DistanceBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.EKFStatus.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.fftui.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.FileBrowse.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.FlashMessage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.GradientBG.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.HorizontalProgressBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.HorizontalProgressBar2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.HSI.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.HUD.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.ImageLabel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.LabelWithPseudoOpacity.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.LineSeparator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.Loading.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.MavlinkCheckBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.MavlinkCheckBoxBitMask.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.MavlinkComboBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.MavlinkNumericUpDown.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.ModifyandSet.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.MyButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.MyDataGridView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.myGMAP.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.MyLabel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.MyProgressBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.MyTrackBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.OpenGLtest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.OpenGLtest2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.OptionForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.PictureBoxMouseOver.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.PictureBoxWithPseudoOpacity.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.PreFlight.CheckListControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.ProgressReporterDialogue.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.ProgressReporterSphere.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.ProgressStep.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.PropagationSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.QuickView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.RadialGradientBG.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.RangeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.RelayOptions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.ScriptConsole.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.SerialOutputMD.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.SerialOutputNMEA.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.SerialOutputPass.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.ServoOptions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.Sphere.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.ThemeColors.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.ValuesControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.VerticalProgressBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.VerticalProgressBar2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.Vibration.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.Video.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Controls.WindDir.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.FollowMe.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigAccelerometerCalibration.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigAC_Fence.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigADSB.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigAntennaTracker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigArducopter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigArduplane.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigArdurover.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigAteryx.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigAteryxSensors.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigBatteryMonitoring.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigBatteryMonitoring2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigCompassMot.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigESCCalibration.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigFailSafe.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigFirmwareDisabled.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigFirmwareManifest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigFlightModes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigFrameClassType.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigFrameType.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigFriendlyParams.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigFriendlyParamsAdv.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigHWAirspeed.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigHWBT.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigHWCAN.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigHWCompass.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigHWESP8266.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigHWIDs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigHWOptFlow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigHWOSD.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigHWParachute.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigHWPX4Flow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigHWRangeFinder.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigMandatory.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigMotorTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigMount.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigOptional.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigOSD.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigPlanner.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigPlannerAdv.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigRadioInput.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigRadioOutput.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigRawParams.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigRawParamsTree.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigSerialInjectGPS.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigSimplePids.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigTradHeli.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigUAVCAN.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.ConfigurationView.ConfigUserDefined.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.FlightData.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.FlightPlanner.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.Help.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.InitialSetup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.SITL.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.SoftwareConfig.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GCSViews.Terminal.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.GeoRef.Georefimage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Joystick.JoystickAxis.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Joystick.JoystickSetup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Log.LogBrowse.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Log.LogDownload.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Log.LogDownloadMavLink.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Log.LogDownloadscp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Log.LogIndex.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Log.MavlinkLog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.MainV2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.MovingBase.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.OSDVideo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Plugin.PluginUI.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Radio.Sikradio.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Splash.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Swarm.FollowLeader.Control.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Swarm.FollowPathControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Swarm.FormationControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Swarm.Grid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Swarm.Sequence.LayoutEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Swarm.SRB.Control.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Swarm.Status.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.temp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Warnings.WarningControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\MissionPlanner.Warnings.WarningsManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)test\resedit.Form1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\LockScreenLogo.scale-200.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\SplashScreen.scale-200.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square150x150Logo.scale-200.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Square44x44Logo.scale-200.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\StoreLogo.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Wide310x150Logo.scale-200.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="$(MSBuildThisFileDirectory)Strings\en\Resources.resw" />
+  </ItemGroup>
+</Project>

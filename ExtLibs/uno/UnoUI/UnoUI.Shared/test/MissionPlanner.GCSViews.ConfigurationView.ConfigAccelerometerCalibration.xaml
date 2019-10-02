@@ -1,0 +1,24 @@
+<UserControl x:Class="MissionPlanner.GCSViews.ConfigurationView.ConfigAccelerometerCalibration" d:DesignHeight="192" d:DesignWidth="495"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+xmlns:BackstageView="using:MissionPlanner.Controls.BackstageView"
+xmlns:Controls="using:MissionPlanner.Controls"
+xmlns:GCSViews="using:MissionPlanner.GCSViews"
+xmlns:Wizard="using:MissionPlanner.Wizard"
+xmlns:ConfigurationView="using:MissionPlanner.GCSViews.ConfigurationView"
+xmlns:Custom="using:Custom"
+xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+xmlns:PreFlight="using:MissionPlanner.Controls.PreFlight"
+mc:Ignorable="d"
+> <Grid><TextBlock Name="label1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="60,133,0,0" Width="394" Height="30">Level your Autopilot to set default accelerometer offsets (1 axis/AHRS trims).
+This requires you to place your autopilot flat and level.</TextBlock>
+<Button Name="BUT_level" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="188,168,0,0" Width="102" Height="21">Calibrate Level</Button>
+<TextBlock Name="lbl_Accel_user" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="7,96,0,0" Width="460" Height="37"></TextBlock>
+<Button Name="BUT_calib_accell" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="188,72,0,0" Width="102" Height="21">Calibrate Accel</Button>
+<TextBlock Name="label4" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="83,45,0,0" Width="341" Height="30">Level your Autopilot to set default accelerometer Min/Max (3 axis).
+This will ask you to place your autopilot on each edge.</TextBlock>
+<TextBlock Name="label5" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="12" Margin="3,8,0,0" Width="196" Height="24">Accelerometer Calibration</TextBlock>
+</Grid></UserControl>

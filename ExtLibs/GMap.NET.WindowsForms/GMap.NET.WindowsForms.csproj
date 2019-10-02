@@ -82,7 +82,10 @@
       <Project>{D0C39D9D-BED0-418B-9A5E-713176CAF40C}</Project>
       <Name>GMap.NET.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GMap.NET.Drawing\GMap.NET.Drawing.csproj" />
+    <ProjectReference Include="..\GMap.NET.Drawing\GMap.NET.Drawing.csproj">
+      <Project>{D773ACCD-9C2D-4E94-A967-FAA7EA2D21CB}</Project>
+      <Name>GMap.NET.Drawing</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Interfaces\Interfaces.csproj">
       <Project>{FD4D2994-9BEA-41A1-8C51-2E02D1E8503E}</Project>
       <Name>Interfaces</Name>

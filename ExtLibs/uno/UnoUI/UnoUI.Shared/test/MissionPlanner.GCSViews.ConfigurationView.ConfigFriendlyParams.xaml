@@ -1,0 +1,21 @@
+<UserControl x:Class="MissionPlanner.GCSViews.ConfigurationView.ConfigFriendlyParams" d:DesignHeight="190" d:DesignWidth="652"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+xmlns:BackstageView="using:MissionPlanner.Controls.BackstageView"
+xmlns:Controls="using:MissionPlanner.Controls"
+xmlns:GCSViews="using:MissionPlanner.GCSViews"
+xmlns:Wizard="using:MissionPlanner.Wizard"
+xmlns:ConfigurationView="using:MissionPlanner.GCSViews.ConfigurationView"
+xmlns:Custom="using:Custom"
+xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+xmlns:PreFlight="using:MissionPlanner.Controls.PreFlight"
+mc:Ignorable="d"
+> <Grid><Button Name="BUT_Find" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="230,11,0,0" Width="103" Height="19">Find</Button>
+<Button Name="BUT_rerequestparams" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="121,11,0,0" Width="103" Height="19">Refresh Params</Button>
+<Button Name="BUT_writePIDS" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="12,11,0,0" Width="103" Height="19">Write Params</Button>
+<Grid Name="tableLayoutPanel1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,36,0,0" Width="626" Height="190">
+</Grid>
+</Grid></UserControl>

@@ -1,0 +1,1 @@
+namespace MissionPlanner.Controls { public partial class HorizontalProgressBar2{public HorizontalProgressBar2(){this.InitializeComponent();}}}

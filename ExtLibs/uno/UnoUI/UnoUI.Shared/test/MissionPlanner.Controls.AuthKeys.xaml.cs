@@ -1,0 +1,1 @@
+namespace MissionPlanner.Controls { public partial class AuthKeys{public AuthKeys(){this.InitializeComponent();}}}

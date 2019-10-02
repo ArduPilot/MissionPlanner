@@ -1,0 +1,1 @@
+namespace MissionPlanner { public partial class MainV2{public MainV2(){this.InitializeComponent();}}}

@@ -1,0 +1,24 @@
+<UserControl x:Class="MissionPlanner.Controls.RangeControl" d:DesignHeight="108" d:DesignWidth="365"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+xmlns:BackstageView="using:MissionPlanner.Controls.BackstageView"
+xmlns:Controls="using:MissionPlanner.Controls"
+xmlns:GCSViews="using:MissionPlanner.GCSViews"
+xmlns:Wizard="using:MissionPlanner.Wizard"
+xmlns:ConfigurationView="using:MissionPlanner.GCSViews.ConfigurationView"
+xmlns:Custom="using:Custom"
+xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+xmlns:PreFlight="using:MissionPlanner.Controls.PreFlight"
+mc:Ignorable="d"
+> <Grid><TextBlock Name="LBL_max" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="296,90,0,0" Width="66" Height="13">65535</TextBlock>
+<TextBlock Name="label1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,16,0,0" Width="359" Height="39">Y
+Y
+Y</TextBlock>
+<TextBlock Name="LBL_min" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="72,90,0,0" Width="77" Height="13">0</TextBlock>
+<TextBlock Name="myLabel1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="9.75" Margin="3,0,0,0" Width="359" Height="16">myLabel1</TextBlock>
+<Slider Name="trackBar1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="69,58,0,0" Width="293" Height="45"></Slider>
+<Custom:DecimalUpDown Name="numericUpDown1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6,58,0,0" Width="57"></Custom:DecimalUpDown>
+</Grid></UserControl>
