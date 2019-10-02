@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using log4net;
-using MissionPlanner.ArduPilot;
-using MissionPlanner.Controls;
 
 namespace MissionPlanner.Utilities
 {
@@ -25,12 +23,6 @@ namespace MissionPlanner.Utilities
                 while (!sr.EndOfStream)
                 {
                     string line = sr.ReadLine();
-
-                    if (line.Contains("NOTE:"))
-                    {
-                        CustomMessageBox.Show(line, "Saved Note");
-                        continue;
-                    }
 
                     if (line.StartsWith("#"))
                         continue;
@@ -86,15 +78,6 @@ namespace MissionPlanner.Utilities
         {
             using (StreamWriter sw = new StreamWriter(File.Open(fn, FileMode.Create)))
             {
-                string input = DateTime.Now + " Frame : ";
-                if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduPlane)
-                {
-                    input = DateTime.Now + " Plane: Skywalker";
-                }
-                InputBox.Show("Custom Note", "Enter your Notes/Frame Type etc", ref input);
-                if (input != "")
-                    sw.WriteLine("#NOTE: " + input.Replace(',', '|'));
-
                 var list = new SortedList(paramlist);
 
                 foreach (var item in list.Keys)
