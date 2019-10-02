@@ -159,6 +159,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.TRK_zoom = new MissionPlanner.Controls.MyTrackBar();
             this.map = new MissionPlanner.Controls.myGMAP();
+            this.chk_spline = new System.Windows.Forms.CheckBox();
             this.groupBox5.SuspendLayout();
             this.tabCamera.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -761,6 +762,7 @@
             // groupBox_copter
             // 
             resources.ApplyResources(this.groupBox_copter, "groupBox_copter");
+            this.groupBox_copter.Controls.Add(this.chk_spline);
             this.groupBox_copter.Controls.Add(this.TXT_headinghold);
             this.groupBox_copter.Controls.Add(this.BUT_headingholdminus);
             this.groupBox_copter.Controls.Add(this.BUT_headingholdplus);
@@ -1323,6 +1325,12 @@
             this.map.MouseDown += new System.Windows.Forms.MouseEventHandler(this.map_MouseDown);
             this.map.MouseMove += new System.Windows.Forms.MouseEventHandler(this.map_MouseMove);
             // 
+            // chk_spline
+            // 
+            resources.ApplyResources(this.chk_spline, "chk_spline");
+            this.chk_spline.Name = "chk_spline";
+            this.chk_spline.UseVisualStyleBackColor = true;
+            // 
             // GridUI
             // 
             resources.ApplyResources(this, "$this");
@@ -1514,5 +1522,6 @@
         private System.Windows.Forms.Label label43;
         private System.Windows.Forms.NumericUpDown num_corridorwidth;
         private System.Windows.Forms.CheckBox chk_spiral;
+        private System.Windows.Forms.CheckBox chk_spline;
     }
 }

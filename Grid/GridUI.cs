@@ -235,6 +235,7 @@ namespace MissionPlanner.Grid
             // Copter Settings
             NUM_copter_delay.Value = griddata.copter_delay;
             CHK_copter_headinghold.Checked = griddata.copter_headinghold_chk;
+            chk_spline.Checked = griddata.copter_spline;
             TXT_headinghold.Text = griddata.copter_headinghold.ToString();
 
             // Plane Settings
@@ -281,6 +282,7 @@ namespace MissionPlanner.Grid
 
             // Copter Settings
             griddata.copter_delay = NUM_copter_delay.Value;
+            griddata.copter_spline = chk_spline.Checked;
             griddata.copter_headinghold_chk = CHK_copter_headinghold.Checked;
             griddata.copter_headinghold = decimal.Parse(TXT_headinghold.Text);
 
@@ -414,6 +416,7 @@ namespace MissionPlanner.Grid
             plugin.Host.config["grid_breakstopstart"] = chk_stopstart.Checked.ToString();
 
             // Copter Settings
+            plugin.Host.config["grid_copter_spline"] = chk_spline.Checked.ToString();
             plugin.Host.config["grid_copter_delay"] = NUM_copter_delay.Value.ToString();
             plugin.Host.config["grid_copter_headinghold_chk"] = CHK_copter_headinghold.Checked.ToString();
 
@@ -835,7 +838,7 @@ namespace MissionPlanner.Grid
             map.Invalidate();
         }
 
-        private void AddWP(double Lng, double Lat, double Alt, object gridobject = null)
+        private void AddWP(double Lng, double Lat, double Alt, string tag, object gridobject = null)
         {
             if (CHK_copter_headinghold.Checked)
             {
@@ -848,7 +851,14 @@ namespace MissionPlanner.Grid
             }
             else
             {
-                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, Lng, Lat, (int)(Alt * CurrentState.multiplierdist), gridobject);
+                if ((tag == "S" || tag == "SM") && chk_spline.Checked)
+                {
+                    plugin.Host.AddWPtoList(MAVLink.MAV_CMD.SPLINE_WAYPOINT, 0, 0, 0, 0, Lng, Lat, (int)(Alt * CurrentState.multiplierdist), gridobject);
+                }
+                else
+                {
+                    plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, Lng, Lat, (int)(Alt * CurrentState.multiplierdist), gridobject);
+                }
             }
         }
 
@@ -1602,7 +1612,7 @@ namespace MissionPlanner.Grid
                                 {
                                     if (!chk_stopstart.Checked)
                                     {
-                                        AddWP(plla.Lng, plla.Lat, plla.Alt);
+                                        AddWP(plla.Lng, plla.Lat, plla.Alt, plla.Tag);
                                         plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_REPEAT_SERVO,
                                             (float) NUM_reptservo.Value,
                                             (float) num_reptpwm.Value, 1, (float) NUM_repttime.Value, 0, 0, 0,
@@ -1611,7 +1621,7 @@ namespace MissionPlanner.Grid
                                 }
                                 if (rad_digicam.Checked)
                                 {
-                                    AddWP(plla.Lng, plla.Lat, plla.Alt);
+                                    AddWP(plla.Lng, plla.Lat, plla.Alt, plla.Tag);
                                     plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_DIGICAM_CONTROL, 1, 0, 0, 0, 0, 1, 0,
                                         gridobject);
                                 }
@@ -1623,7 +1633,7 @@ namespace MissionPlanner.Grid
                                 {
                                     if (plla.Lat != lastplla.Lat || plla.Lng != lastplla.Lng ||
                                         plla.Alt != lastplla.Alt)
-                                        AddWP(plla.Lng, plla.Lat, plla.Alt);
+                                        AddWP(plla.Lng, plla.Lat, plla.Alt, plla.Tag);
                                 }
 
                                 // check trigger method
@@ -1637,7 +1647,7 @@ namespace MissionPlanner.Grid
                                             //  s > sm, need to dup check
                                             if (plla.Lat != lastplla.Lat || plla.Lng != lastplla.Lng ||
                                                 plla.Alt != lastplla.Alt)
-                                                AddWP(plla.Lng, plla.Lat, plla.Alt);
+                                                AddWP(plla.Lng, plla.Lat, plla.Alt, plla.Tag);
 
                                             plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST,
                                                 (float) NUM_spacing.Value,
@@ -1645,7 +1655,7 @@ namespace MissionPlanner.Grid
                                         }
                                         else if (plla.Tag == "ME")
                                         {
-                                            AddWP(plla.Lng, plla.Lat, plla.Alt);
+                                            AddWP(plla.Lng, plla.Lat, plla.Alt, plla.Tag);
 
                                             plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, 0,
                                                 0, 0, 0, 0, 0, 0, gridobject);
@@ -1663,7 +1673,7 @@ namespace MissionPlanner.Grid
                                         }
                                         else if (plla.Tag == "ME")
                                         {
-                                            AddWP(plla.Lng, plla.Lat, plla.Alt);
+                                            AddWP(plla.Lng, plla.Lat, plla.Alt, plla.Tag);
                                         }
                                     }
                                 }
@@ -1675,7 +1685,7 @@ namespace MissionPlanner.Grid
                                         {
                                             if (plla.Lat != lastplla.Lat || plla.Lng != lastplla.Lng ||
                                                 plla.Alt != lastplla.Alt)
-                                                AddWP(plla.Lng, plla.Lat, plla.Alt);
+                                                AddWP(plla.Lng, plla.Lat, plla.Alt, plla.Tag);
 
                                             plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_REPEAT_SERVO,
                                                 (float) NUM_reptservo.Value,
@@ -1684,7 +1694,7 @@ namespace MissionPlanner.Grid
                                         }
                                         else if (plla.Tag == "ME")
                                         {
-                                            AddWP(plla.Lng, plla.Lat, plla.Alt);
+                                            AddWP(plla.Lng, plla.Lat, plla.Alt, plla.Tag);
 
                                             plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_REPEAT_SERVO,
                                                 (float) NUM_reptservo.Value,
@@ -1699,7 +1709,7 @@ namespace MissionPlanner.Grid
                                     {
                                         if (plla.Lat != lastplla.Lat || plla.Lng != lastplla.Lng ||
                                             plla.Alt != lastplla.Alt)
-                                            AddWP(plla.Lng, plla.Lat, plla.Alt);
+                                            AddWP(plla.Lng, plla.Lat, plla.Alt, plla.Tag);
 
                                         plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_SERVO,
                                             (float) num_setservono.Value,
@@ -1708,7 +1718,7 @@ namespace MissionPlanner.Grid
                                     }
                                     else if (plla.Tag == "ME")
                                     {
-                                        AddWP(plla.Lng, plla.Lat, plla.Alt);
+                                        AddWP(plla.Lng, plla.Lat, plla.Alt, plla.Tag);
 
                                         plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_SERVO,
                                             (float) num_setservono.Value,
@@ -1720,7 +1730,7 @@ namespace MissionPlanner.Grid
                         }
                         else
                         {
-                            AddWP(plla.Lng, plla.Lat, plla.Alt, gridobject);
+                            AddWP(plla.Lng, plla.Lat, plla.Alt, plla.Tag, gridobject);
                         }
                         lastplla = plla;
                         ++i;
