@@ -64,9 +64,9 @@ namespace MissionPlanner.Controls
 
             foreach (DataGridViewColumn col in Params.Columns)
             {
-                if (!String.IsNullOrEmpty(Settings.Instance["rawparam_" + col.Name + "_width"]))
+                if (!String.IsNullOrEmpty(Settings.Instance["rawparamuavcan_" + col.Name + "_width"]))
                 {
-                    col.Width = Math.Max(50,Settings.Instance.GetInt32("rawparam_" + col.Name + "_width"));
+                    col.Width = Math.Max(50,Settings.Instance.GetInt32("rawparamuavcan_" + col.Name + "_width"));
                     log.InfoFormat("{0} to {1}", col.Name, col.Width);
                 }
             }
@@ -86,7 +86,7 @@ namespace MissionPlanner.Controls
         {
             foreach (DataGridViewColumn col in Params.Columns)
             {
-                Settings.Instance["rawparam_" + col.Name + "_width"] = col.Width.ToString();
+                Settings.Instance["rawparamuavcan_" + col.Name + "_width"] = col.Width.ToString();
             }
         }
 
