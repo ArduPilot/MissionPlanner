@@ -59,6 +59,7 @@ namespace MissionPlanner
         }
 
         public event EventHandler<MAVLinkMessage> OnPacketReceived;
+        public event EventHandler<MAVLinkMessage> OnPacketSent;
 
         public static event EventHandler<adsb.PointLatLngAltHdg> UpdateADSBPlanePosition;
 
@@ -1003,7 +1004,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     BaseStream.Write(packet, 0, i);
                     _bytesSentSubj.OnNext(i);
                 }
-
+              
                 try
                 {
                     if (logfile != null && logfile.CanWrite)
@@ -1018,6 +1019,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                             logfile.Write(packet, 0, i);
                         }
                     }
+
+                    OnPacketSent?.Invoke(this, new MAVLinkMessage(packet));
                 }
                 catch
                 {

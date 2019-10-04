@@ -29,6 +29,7 @@ namespace MissionPlanner.Controls
             this.mav = mav;
 
             mav.OnPacketReceived += MavOnOnPacketReceived;
+            mav.OnPacketSent += MavOnOnPacketReceived;
 
             mavi.NewSysidCompid += (sender, args) =>
             {
