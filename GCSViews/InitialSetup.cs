@@ -222,7 +222,7 @@ namespace MissionPlanner.GCSViews
             }
             if (MainV2.DisplayConfiguration.displayAntennaTracker)
             {
-                AddBackstageViewPage(typeof(Antenna.Tracker), "Antenna Tracker", true, opt);
+                AddBackstageViewPage(typeof(Antenna.TrackerUI), "Antenna Tracker", true, opt);
             }
 
             AddBackstageViewPage(typeof(ConfigFFT), "FFT Setup", isConnected, opt);

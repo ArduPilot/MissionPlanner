@@ -1,6 +1,11 @@
-﻿namespace MissionPlanner.Antenna
+﻿using System;
+using System.Windows.Forms;
+using MissionPlanner.Comms;
+using MissionPlanner.Utilities;
+
+namespace MissionPlanner.Antenna
 {
-    partial class Tracker
+    partial class TrackerUI
     {
         /// <summary>
         /// Required designer variable.
@@ -17,6 +22,7 @@
             {
                 components.Dispose();
             }
+
             base.Dispose(disposing);
         }
 
@@ -28,7 +34,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Tracker));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TrackerUI));
             this.CMB_interface = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.CMB_baudrate = new System.Windows.Forms.ComboBox();
@@ -80,7 +86,6 @@
             resources.GetString("CMB_interface.Items1")});
             resources.ApplyResources(this.CMB_interface, "CMB_interface");
             this.CMB_interface.Name = "CMB_interface";
-            this.CMB_interface.SelectedIndexChanged += new System.EventHandler(this.CMB_interface_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -117,13 +122,11 @@
             this.TRK_pantrim.Minimum = -360;
             this.TRK_pantrim.Name = "TRK_pantrim";
             this.TRK_pantrim.TickFrequency = 5;
-            this.TRK_pantrim.Scroll += new System.EventHandler(this.TRK_pantrim_Scroll);
             // 
             // TXT_panrange
             // 
             resources.ApplyResources(this.TXT_panrange, "TXT_panrange");
             this.TXT_panrange.Name = "TXT_panrange";
-            this.TXT_panrange.TextChanged += new System.EventHandler(this.TXT_panrange_TextChanged);
             // 
             // label3
             // 
@@ -149,7 +152,6 @@
             // 
             resources.ApplyResources(this.TXT_tiltrange, "TXT_tiltrange");
             this.TXT_tiltrange.Name = "TXT_tiltrange";
-            this.TXT_tiltrange.TextChanged += new System.EventHandler(this.TXT_tiltrange_TextChanged);
             // 
             // TRK_tilttrim
             // 
@@ -158,7 +160,6 @@
             this.TRK_tilttrim.Minimum = -180;
             this.TRK_tilttrim.Name = "TRK_tilttrim";
             this.TRK_tilttrim.TickFrequency = 5;
-            this.TRK_tilttrim.Scroll += new System.EventHandler(this.TRK_tilttrim_Scroll);
             // 
             // label2
             // 
@@ -175,14 +176,12 @@
             resources.ApplyResources(this.CHK_revpan, "CHK_revpan");
             this.CHK_revpan.Name = "CHK_revpan";
             this.CHK_revpan.UseVisualStyleBackColor = true;
-            this.CHK_revpan.CheckedChanged += new System.EventHandler(this.CHK_revpan_CheckedChanged);
             // 
             // CHK_revtilt
             // 
             resources.ApplyResources(this.CHK_revtilt, "CHK_revtilt");
             this.CHK_revtilt.Name = "CHK_revtilt";
             this.CHK_revtilt.UseVisualStyleBackColor = true;
-            this.CHK_revtilt.CheckedChanged += new System.EventHandler(this.CHK_revtilt_CheckedChanged);
             // 
             // TXT_pwmrangepan
             // 
@@ -224,7 +223,6 @@
             resources.ApplyResources(this.BUT_connect, "BUT_connect");
             this.BUT_connect.Name = "BUT_connect";
             this.BUT_connect.UseVisualStyleBackColor = true;
-            this.BUT_connect.Click += new System.EventHandler(this.BUT_connect_Click);
             // 
             // LBL_pantrim
             // 
@@ -241,19 +239,16 @@
             resources.ApplyResources(this.BUT_find, "BUT_find");
             this.BUT_find.Name = "BUT_find";
             this.BUT_find.UseVisualStyleBackColor = true;
-            this.BUT_find.Click += new System.EventHandler(this.BUT_find_Click);
             // 
             // TXT_centerpan
             // 
             resources.ApplyResources(this.TXT_centerpan, "TXT_centerpan");
             this.TXT_centerpan.Name = "TXT_centerpan";
-            this.TXT_centerpan.TextChanged += new System.EventHandler(this.TXT_centerpan_TextChanged);
             // 
             // TXT_centertilt
             // 
             resources.ApplyResources(this.TXT_centertilt, "TXT_centertilt");
             this.TXT_centertilt.Name = "TXT_centertilt";
-            this.TXT_centertilt.TextChanged += new System.EventHandler(this.TXT_centertilt_TextChanged);
             // 
             // label13
             // 
@@ -269,13 +264,11 @@
             // 
             resources.ApplyResources(this.TXT_panspeed, "TXT_panspeed");
             this.TXT_panspeed.Name = "TXT_panspeed";
-            this.TXT_panspeed.TextChanged += new System.EventHandler(this.TXT_panspeed_TextChanged);
             // 
             // TXT_panaccel
             // 
             resources.ApplyResources(this.TXT_panaccel, "TXT_panaccel");
             this.TXT_panaccel.Name = "TXT_panaccel";
-            this.TXT_panaccel.TextChanged += new System.EventHandler(this.TXT_panaccel_TextChanged);
             // 
             // label15
             // 
@@ -301,18 +294,14 @@
             // 
             resources.ApplyResources(this.TXT_tiltspeed, "TXT_tiltspeed");
             this.TXT_tiltspeed.Name = "TXT_tiltspeed";
-            this.TXT_tiltspeed.TextChanged += new System.EventHandler(this.TXT_tiltspeed_TextChanged);
             // 
             // TXT_tiltaccel
             // 
             resources.ApplyResources(this.TXT_tiltaccel, "TXT_tiltaccel");
             this.TXT_tiltaccel.Name = "TXT_tiltaccel";
-            this.TXT_tiltaccel.TextChanged += new System.EventHandler(this.TXT_tiltaccel_TextChanged);
             // 
             // Tracker
             // 
-            resources.ApplyResources(this, "$this");
-            
             this.Controls.Add(this.label17);
             this.Controls.Add(this.label18);
             this.Controls.Add(this.TXT_tiltspeed);
@@ -353,6 +342,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.CMB_interface);
             this.Name = "Tracker";
+            resources.ApplyResources(this, "$this");
             ((System.ComponentModel.ISupportInitialize)(this.TRK_pantrim)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TRK_tilttrim)).EndInit();
             this.ResumeLayout(false);
@@ -362,44 +352,44 @@
 
         #endregion
 
-        private System.Windows.Forms.ComboBox CMB_interface;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox CMB_baudrate;
-        private Controls.MyButton BUT_connect;
-        private System.Windows.Forms.ComboBox CMB_serialport;
-        private System.Windows.Forms.TrackBar TRK_pantrim;
-        private System.Windows.Forms.TextBox TXT_panrange;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox TXT_tiltrange;
-        private System.Windows.Forms.TrackBar TRK_tilttrim;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.CheckBox CHK_revpan;
-        private System.Windows.Forms.CheckBox CHK_revtilt;
-        private System.Windows.Forms.TextBox TXT_pwmrangepan;
-        private System.Windows.Forms.TextBox TXT_pwmrangetilt;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label LBL_pantrim;
-        private System.Windows.Forms.Label LBL_tilttrim;
-        private Controls.MyButton BUT_find;
-        private System.Windows.Forms.TextBox TXT_centerpan;
-        private System.Windows.Forms.TextBox TXT_centertilt;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.TextBox TXT_panspeed;
-        private System.Windows.Forms.TextBox TXT_panaccel;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.TextBox TXT_tiltspeed;
-        private System.Windows.Forms.TextBox TXT_tiltaccel;
+        internal ComboBox CMB_interface;
+        internal Label label1;
+        internal ComboBox CMB_baudrate;
+        internal Controls.MyButton BUT_connect;
+        internal ComboBox CMB_serialport;
+        internal TrackBar TRK_pantrim;
+        internal TextBox TXT_panrange;
+        internal Label label3;
+        internal Label label4;
+        internal Label label5;
+        internal Label label6;
+        internal TextBox TXT_tiltrange;
+        internal TrackBar TRK_tilttrim;
+        internal Label label2;
+        internal Label label7;
+        internal CheckBox CHK_revpan;
+        internal CheckBox CHK_revtilt;
+        internal TextBox TXT_pwmrangepan;
+        internal TextBox TXT_pwmrangetilt;
+        internal Label label8;
+        internal Label label9;
+        internal Label label10;
+        internal Label label11;
+        internal Label label12;
+        internal Label LBL_pantrim;
+        internal Label LBL_tilttrim;
+        internal Controls.MyButton BUT_find;
+        internal TextBox TXT_centerpan;
+        internal TextBox TXT_centertilt;
+        internal Label label13;
+        internal Label label14;
+        internal TextBox TXT_panspeed;
+        internal TextBox TXT_panaccel;
+        internal Label label15;
+        internal Label label16;
+        internal Label label17;
+        internal Label label18;
+        internal TextBox TXT_tiltspeed;
+        internal TextBox TXT_tiltaccel;
     }
 }

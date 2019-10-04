@@ -352,6 +352,7 @@
     <PackageReference Include="zlib.net" version="1.0.4.0" targetFramework="net40" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Antenna\TrackerGeneric.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="Controls\ConnectionOptions.cs">
       <SubType>Form</SubType>
@@ -524,7 +525,7 @@
     <Compile Include="temp.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Antenna\Tracker.cs">
+    <Compile Include="Antenna\TrackerUI.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\AuthKeys.cs">
@@ -1027,8 +1028,8 @@
     <Compile Include="Controls\SerialOutputPass.Designer.cs">
       <DependentUpon>SerialOutputPass.cs</DependentUpon>
     </Compile>
-    <Compile Include="Antenna\Tracker.Designer.cs">
-      <DependentUpon>Tracker.cs</DependentUpon>
+    <Compile Include="Antenna\TrackerUI.Designer.cs">
+      <DependentUpon>TrackerUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\AuthKeys.Designer.cs">
       <DependentUpon>AuthKeys.cs</DependentUpon>
@@ -1707,47 +1708,47 @@
     <EmbeddedResource Include="temp.resx">
       <DependentUpon>temp.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Antenna\Tracker.resx">
-      <DependentUpon>Tracker.cs</DependentUpon>
+    <EmbeddedResource Include="Antenna\TrackerUI.resx">
+      <DependentUpon>TrackerUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Antenna\Tracker.ar.resx">
-      <DependentUpon>Tracker.cs</DependentUpon>
+    <EmbeddedResource Include="Antenna\TrackerUI.ar.resx">
+      <DependentUpon>TrackerUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Antenna\Tracker.az-Latn-AZ.resx">
-      <DependentUpon>Tracker.cs</DependentUpon>
+    <EmbeddedResource Include="Antenna\TrackerUI.az-Latn-AZ.resx">
+      <DependentUpon>TrackerUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Antenna\Tracker.de-DE.resx">
-      <DependentUpon>Tracker.cs</DependentUpon>
+    <EmbeddedResource Include="Antenna\TrackerUI.de-DE.resx">
+      <DependentUpon>TrackerUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Antenna\Tracker.fr.resx">
-      <DependentUpon>Tracker.cs</DependentUpon>
+    <EmbeddedResource Include="Antenna\TrackerUI.fr.resx">
+      <DependentUpon>TrackerUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Antenna\Tracker.id-ID.resx">
-      <DependentUpon>Tracker.cs</DependentUpon>
+    <EmbeddedResource Include="Antenna\TrackerUI.id-ID.resx">
+      <DependentUpon>TrackerUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Antenna\Tracker.it-IT.resx">
-      <DependentUpon>Tracker.cs</DependentUpon>
+    <EmbeddedResource Include="Antenna\TrackerUI.it-IT.resx">
+      <DependentUpon>TrackerUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Antenna\Tracker.ko-KR.resx">
-      <DependentUpon>Tracker.cs</DependentUpon>
+    <EmbeddedResource Include="Antenna\TrackerUI.ko-KR.resx">
+      <DependentUpon>TrackerUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Antenna\Tracker.pt.resx">
-      <DependentUpon>Tracker.cs</DependentUpon>
+    <EmbeddedResource Include="Antenna\TrackerUI.pt.resx">
+      <DependentUpon>TrackerUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Antenna\Tracker.ru-KZ.resx">
-      <DependentUpon>Tracker.cs</DependentUpon>
+    <EmbeddedResource Include="Antenna\TrackerUI.ru-KZ.resx">
+      <DependentUpon>TrackerUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Antenna\Tracker.tr.resx">
-      <DependentUpon>Tracker.cs</DependentUpon>
+    <EmbeddedResource Include="Antenna\TrackerUI.tr.resx">
+      <DependentUpon>TrackerUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Antenna\Tracker.zh-Hans.resx">
-      <DependentUpon>Tracker.cs</DependentUpon>
+    <EmbeddedResource Include="Antenna\TrackerUI.zh-Hans.resx">
+      <DependentUpon>TrackerUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Antenna\Tracker.zh-Hant.resx">
-      <DependentUpon>Tracker.cs</DependentUpon>
+    <EmbeddedResource Include="Antenna\TrackerUI.zh-Hant.resx">
+      <DependentUpon>TrackerUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Antenna\Tracker.zh-TW.resx">
-      <DependentUpon>Tracker.cs</DependentUpon>
+    <EmbeddedResource Include="Antenna\TrackerUI.zh-TW.resx">
+      <DependentUpon>TrackerUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\AuthKeys.resx">
       <DependentUpon>AuthKeys.cs</DependentUpon>
