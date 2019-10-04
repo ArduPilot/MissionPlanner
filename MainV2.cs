@@ -2869,10 +2869,12 @@ namespace MissionPlanner
                             break;
                         }
 
-                        var btr = port.BaseStream.BytesToRead;
+                        DateTime startread = DateTime.Now;
 
-                        while (port.BaseStream.IsOpen && btr > minbytes &&
-                               port.giveComport == false && serialThread)
+                        // must be open, we have bytes, we are not yielding the port,
+                        // the thread is meant to be running and we only spend 1 seconds max in this read loop
+                        while (port.BaseStream.IsOpen && port.BaseStream.BytesToRead > minbytes &&
+                               port.giveComport == false && serialThread && startread.AddSeconds(1) > DateTime.Now)
                         {
                             try
                             {
