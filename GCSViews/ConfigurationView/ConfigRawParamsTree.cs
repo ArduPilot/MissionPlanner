@@ -209,13 +209,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
 
             // sort with enable at the bottom - this ensures params are set before the function is disabled
-            var temp = new List<string>();
-            foreach (var item in _changes.Keys)
-            {
-                temp.Add((string)item);
-            }
+            var temp = _changes.Keys.Select(a => (string)a).ToList();
 
             temp.SortENABLE();
+
+            bool enable = temp.Any(a => a.EndsWith("_ENABLE"));
+
+            if (enable)
+            {
+                CustomMessageBox.Show(
+                    "You have changed an Enable parameter. You may need to do a full param refresh to show all params",
+                    "Params");
+            }
 
             int error = 0; 
 
