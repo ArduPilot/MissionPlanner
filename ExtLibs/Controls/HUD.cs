@@ -2532,12 +2532,12 @@ namespace MissionPlanner.Controls
                     if (lowvoltagealert)
                     {
                         drawstring(text, font, fontsize + 2, (SolidBrush) Brushes.Red, fontsize,
-                            this.Height - 30 - fontoffset);
+                            this.Height - ((fontsize + 2) * 3) - fontoffset);
                     }
                     else
                     {
                         drawstring(text, font, fontsize + 2, _whiteBrush, fontsize,
-                            this.Height - 30 - fontoffset);
+                            this.Height - ((fontsize + 2) * 3) - fontoffset);
                     }
                 }
 
@@ -2546,45 +2546,54 @@ namespace MissionPlanner.Controls
                 {
                     string gps = "";
                     SolidBrush col = _whiteBrush;
-                    var _fix = Math.Max(_gpsfix, _gpsfix2);
+                    int a = 0;
+                    foreach (var _fix in new[] {_gpsfix, _gpsfix2})
+                    {
+                        if (_fix == 0)
+                        {
+                            gps = (HUDT.GPS0);
+                            col = (SolidBrush) Brushes.Red;
+                        }
+                        else if (_fix == 1)
+                        {
+                            gps = (HUDT.GPS1);
+                            col = (SolidBrush) Brushes.Red;
+                        }
+                        else if (_fix == 2)
+                        {
+                            gps = (HUDT.GPS2);
+                        }
+                        else if (_fix == 3)
+                        {
+                            gps = (HUDT.GPS3);
+                        }
+                        else if (_fix == 4)
+                        {
+                            gps = (HUDT.GPS4);
+                        }
+                        else if (_fix == 5)
+                        {
+                            gps = (HUDT.GPS5);
+                        }
+                        else if (_fix == 6)
+                        {
+                            gps = (HUDT.GPS6);
+                        }
+                        else
+                        {
+                            gps = _fix.ToString();
+                        }
 
-                    if (_fix == 0)
-                    {
-                        gps = (HUDT.GPS0);
-                        col = (SolidBrush) Brushes.Red;
-                    }
-                    else if (_fix == 1)
-                    {
-                        gps = (HUDT.GPS1);
-                        col = (SolidBrush) Brushes.Red;
-                    }
-                    else if (_fix == 2)
-                    {
-                        gps = (HUDT.GPS2);
-                    }
-                    else if (_fix == 3)
-                    {
-                        gps = (HUDT.GPS3);
-                    }
-                    else if (_fix == 4)
-                    {
-                        gps = (HUDT.GPS4);
-                    }
-                    else if (_fix == 5)
-                    {
-                        gps = (HUDT.GPS5);
-                    }
-                    else if (_fix == 6)
-                    {
-                        gps = (HUDT.GPS6);
-                    }
-                    else
-                    {
-                        gps = _fix.ToString();
-                    }
+                        // gps2
+                        if (a == 1) gps = gps.Replace("GPS:", "GPS2:");
+                        // if nogps dont display
+                        if(a >= 1 && _fix == 0)
+                            continue;
 
-                    drawstring(gps, font, fontsize + 2, col, this.Width - 13 * fontsize,
-                        this.Height - 30 - fontoffset);
+                        drawstring(gps, font, fontsize + 2, col, this.Width - 13 * fontsize,
+                            this.Height - ((fontsize + 2) * 3) - fontoffset + ((fontsize + 2) * a));
+                        a++;
+                    }
                 }
 
                 if (isNaN)
@@ -2593,7 +2602,7 @@ namespace MissionPlanner.Controls
 
                 // custom user items
                 graphicsObject.ResetTransform();
-                int height = this.Height - 30 - fontoffset - fontsize - 8;
+                int height = this.Height - ((fontsize + 2) * 3) - fontoffset - fontsize - 8;
                 foreach (string key in CustomItems.Keys)
                 {
                     try
@@ -2685,7 +2694,7 @@ namespace MissionPlanner.Controls
 
                 if (displayvibe)
                 {
-                    vibehitzone = new Rectangle(this.Width - 18 * fontsize, this.Height - 30 - fontoffset, 40,
+                    vibehitzone = new Rectangle(this.Width - 18 * fontsize, this.Height - ((fontsize + 2) * 3) - fontoffset, 40,
                         fontsize * 2);
 
                     if (vibex > 30 || vibey > 30 || vibez > 30)
@@ -2702,7 +2711,7 @@ namespace MissionPlanner.Controls
 
                 if (displayekf)
                 {
-                    ekfhitzone = new Rectangle(this.Width - 23 * fontsize, this.Height - 30 - fontoffset, 40,
+                    ekfhitzone = new Rectangle(this.Width - 23 * fontsize, this.Height - ((fontsize + 2) * 3) - fontoffset, 40,
                         fontsize * 2);
 
                     if (ekfstatus > 0.5)
