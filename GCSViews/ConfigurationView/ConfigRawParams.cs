@@ -239,6 +239,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             temp.SortENABLE();
 
+            int error = 0;
+
             foreach (string value in temp)
             {
                 try
@@ -283,11 +285,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 catch
                 {
+                    error++;
                     CustomMessageBox.Show("Set " + value + " Failed");
                 }
             }
 
-            CustomMessageBox.Show("Parameters successfully saved.", "Saved");
+            if(error > 0)
+                CustomMessageBox.Show("Not all parameters successfully saved.", "Saved");
+            else
+                CustomMessageBox.Show("Parameters successfully saved.", "Saved");
+
         }
 
         private void BUT_compare_Click(object sender, EventArgs e)
