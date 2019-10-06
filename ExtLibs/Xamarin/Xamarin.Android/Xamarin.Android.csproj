@@ -123,6 +123,10 @@
     <Folder Include="Resources\drawable\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ArduPilot\MissionPlanner.ArduPilot.csproj">
+      <Project>{ca6345d3-7a6d-478b-a0ed-a58e50dcaa83}</Project>
+      <Name>MissionPlanner.ArduPilot</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Comms\MissionPlanner.Comms.csproj">
       <Project>{825E7A10-390C-4A2B-B3A8-491D14966912}</Project>
       <Name>MissionPlanner.Comms</Name>
@@ -134,6 +138,10 @@
     <ProjectReference Include="..\..\UsbSerialForAndroid\UsbSerialForAndroid.csproj">
       <Project>{B57854C8-5C63-4D79-96ED-ACD31815CB91}</Project>
       <Name>UsbSerialForAndroid</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Utilities\MissionPlanner.Utilities.csproj">
+      <Project>{1378a66c-38e4-46f5-a05f-dc04ef7d4d16}</Project>
+      <Name>MissionPlanner.Utilities</Name>
     </ProjectReference>
     <ProjectReference Include="..\Xamarin\Xamarin.csproj">
       <Project>{cad00b0a-9c73-4c96-ba96-748b974d3ac3}</Project>

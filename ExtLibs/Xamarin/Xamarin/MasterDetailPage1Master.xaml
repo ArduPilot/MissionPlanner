@@ -7,7 +7,7 @@
     <ListView x:Name="MenuItemsListView"
               SeparatorVisibility="Default"
               HasUnevenRows="true"
-              ItemsSource="{Binding MenuItems}">
+              ItemsSource="{Binding MenuItems}" WidthRequest="100">
       <ListView.Header>
         <Grid BackgroundColor="#03A9F4">
           <Grid.ColumnDefinitions>
@@ -36,7 +36,7 @@
               <Label VerticalOptions="FillAndExpand" 
                     VerticalTextAlignment="Center" 
                     Text="{Binding Title}" 
-                    FontSize="24"/>
+                    FontSize="20"/>
             </StackLayout>
           </ViewCell>
         </DataTemplate>

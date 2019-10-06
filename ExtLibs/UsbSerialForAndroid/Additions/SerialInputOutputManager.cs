@@ -157,7 +157,7 @@ namespace Hoho.Android.UsbSerial.Util
             var len = port.Read(buffer, READ_WAIT_MILLIS);
             if (len > 0)
             {
-                Log.Debug(TAG, "Read data len=" + len);
+                //Log.Debug(TAG, "Read data len=" + len);
 
                 var data = new byte[len];
                 Array.Copy(buffer, data, len);

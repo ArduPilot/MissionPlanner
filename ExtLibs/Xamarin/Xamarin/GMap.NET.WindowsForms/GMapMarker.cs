@@ -268,9 +268,6 @@ namespace GMap.NET.WindowsForms
          this.Position = pos;
       }
 
-        public GMapMarker(SerializationInfo info, StreamingContext context)
-        {
-        }
 
         public virtual void OnRender(IGraphics g)
       {
@@ -361,9 +358,40 @@ namespace GMap.NET.WindowsForms
 
       protected void GetObjectData(SerializationInfo info, StreamingContext context)
       {
-          throw new NotImplementedException();
+          info.AddValue("Position", this.Position);
+          info.AddValue("Tag", this.Tag);
+          info.AddValue("Offset", this.Offset);
+          info.AddValue("Area", this.area);
+          info.AddValue("ToolTip", this.ToolTip);
+          info.AddValue("ToolTipMode", this.ToolTipMode);
+          info.AddValue("ToolTipText", this.ToolTipText);
+          info.AddValue("Visible", this.IsVisible);
+          info.AddValue("DisableregionCheck", this.DisableRegionCheck);
+          info.AddValue("IsHitTestVisible", this.IsHitTestVisible);
+        }
+
+      /// <summary>
+      /// Initializes a new instance of the <see cref="GMapMarker"/> class.
+      /// </summary>
+      /// <param name="info">The info.</param>
+      /// <param name="context">The context.</param>
+      protected GMapMarker(SerializationInfo info, StreamingContext context)
+      {
+          this.Position = Extensions.GetStruct<PointLatLng>(info, "Position", PointLatLng.Empty);
+          this.Tag = Extensions.GetValue<object>(info, "Tag", null);
+          this.Offset = Extensions.GetStruct<Point>(info, "Offset", Point.Empty);
+          this.area = Extensions.GetStruct<Rectangle>(info, "Area", Rectangle.Empty);
+
+          this.ToolTip = Extensions.GetValue<GMapToolTip>(info, "ToolTip", null);
+          if (this.ToolTip != null) this.ToolTip.Marker = this;
+
+          this.ToolTipMode = Extensions.GetStruct<MarkerTooltipMode>(info, "ToolTipMode", MarkerTooltipMode.OnMouseOver);
+          this.ToolTipText = info.GetString("ToolTipText");
+          this.IsVisible = info.GetBoolean("Visible");
+          this.DisableRegionCheck = info.GetBoolean("DisableregionCheck");
+          this.IsHitTestVisible = info.GetBoolean("IsHitTestVisible");
       }
-   }
+    }
 
    public delegate void MarkerClick(GMapMarker item, /*MouseEventArgs*/ object mouseEventArgs);
    public delegate void MarkerEnter(GMapMarker item);

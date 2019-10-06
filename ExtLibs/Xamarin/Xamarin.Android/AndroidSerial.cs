@@ -16,6 +16,15 @@ namespace MissionPlanner.Comms
         public AndroidSerial(SerialInputOutputManager serialIoManager)
         {
             this.serialIoManager = serialIoManager;
+
+            serialIoManager.DataReceived += (sender, e) =>
+            {
+                foreach (var b in e.Data)
+                {
+                    readbuffer.Add(b);
+                }
+            };
+            serialIoManager.ErrorReceived += (sender, e) => {  };
         }
 
         public override bool CanRead => true;

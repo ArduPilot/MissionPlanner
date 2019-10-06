@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Hardware.Usb;
@@ -10,7 +11,7 @@ namespace Hoho.Android.UsbSerial
 {
     public class AndroidSerialBase
     {
-        public IList<IUsbSerialDriver> GetPorts(UsbManager usbManager)
+        public static Task<IList<IUsbSerialDriver>> GetPorts(UsbManager usbManager)
         {
             var cdcacmTuples = new[]
             {
@@ -51,17 +52,19 @@ namespace Hoho.Android.UsbSerial
                 (0x20A0, 0x415D),
             };
 
+            var table = new ProbeTable();
+
             foreach (var cdcacmTuple in cdcacmTuples)
             {
-                UsbSerialProber.DefaultProbeTable.AddProduct(cdcacmTuple.Item1, cdcacmTuple.Item2,
+                table.AddProduct(cdcacmTuple.Item1, cdcacmTuple.Item2,
                     Java.Lang.Class.FromType(typeof(CdcAcmSerialDriver)));
             }
 
-            var drivers = UsbSerialProber.DefaultProber.FindAllDriversAsync(usbManager);
+            var prober = new UsbSerialProber(table);
 
-            drivers.Wait();
+            var drivers = prober.FindAllDriversAsync(usbManager);
 
-            return drivers.Result;
+            return drivers;
         }
     }
 }

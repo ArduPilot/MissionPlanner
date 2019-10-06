@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using MissionPlanner.Controls;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -12,8 +12,11 @@ namespace Xamarin
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainPage : MasterDetailPage
     {
+        public static MainPage Instance;
+
         public MainPage()
         {
+            Instance = this;
             InitializeComponent();
             MasterPage.ListView.ItemSelected += ListView_ItemSelected;
         }
@@ -30,7 +33,13 @@ namespace Xamarin
             Detail = new NavigationPage(page);
             IsPresented = false;
 
-            MasterPage.ListView.SelectedItem = null;
+            try
+            {
+                if (page is IActivate)
+                    ((IActivate) page).Activate();
+            } catch { }
+
+            //MasterPage.ListView.SelectedItem = null;
         }
     }
 }

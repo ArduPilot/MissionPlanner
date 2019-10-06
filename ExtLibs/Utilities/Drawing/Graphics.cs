@@ -22,7 +22,7 @@ namespace MissionPlanner.Utilities.Drawing
             new SKPaint
             {
                 IsAntialias = true,
-                FilterQuality = SKFilterQuality.High,
+                FilterQuality = SKFilterQuality.Low,
                 StrokeWidth = 0,
                 BlendMode = SKBlendMode.SrcOver
             };
@@ -92,9 +92,19 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public Matrix Transform
         {
-            get { return null; }//return new Matrix(_image.TotalMatrix.Persp0, _image.TotalMatrix.Persp1, _image.TotalMatrix.ScaleX,_image.TotalMatrix.ScaleY, _image.TotalMatrix.TransX, _image.TotalMatrix.TransY);
-            
-            set { }
+            get
+            {
+                return new Matrix()
+                {
+                    Data = _image.TotalMatrix.Values.Select(a => (double) a).ToArray()
+                };
+            }
+            set
+            {
+                var matrix = _image.TotalMatrix;
+                matrix.Values = value.Data.Select(a => (float) a).ToArray();
+                _image.SetMatrix(matrix);
+            }
         }
 
         public RectangleF VisibleClipBounds { get; }
@@ -432,7 +442,9 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         {
             if (img == null)
                 return;
-            _image.DrawBitmap(img.nativeSkBitmap, new SKRect(srcX, srcY, srcX + srcWidth, srcY + srcHeight),
+
+            _image.DrawImage(img.nativeSKImage,
+                new SKRect(srcX, srcY, srcX + srcWidth, srcY + srcHeight),
                 new SKRect(rectangle.X, rectangle.Y, rectangle.Right, rectangle.Bottom), _paint);
 
             return;

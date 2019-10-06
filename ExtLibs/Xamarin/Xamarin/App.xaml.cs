@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
+using Device = Xamarin.Forms.Device;
 
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
@@ -80,6 +81,9 @@ namespace Xamarin
             CustomMessageBox.ShowEvent += CustomMessageBox_ShowEvent;
             MAVLinkInterface.CreateIProgressReporterDialogue += CreateIProgressReporterDialogue;
 
+            Task.Run(() => { MainV2.instance.SerialReader(); });
+
+            var mp = MainPage;
         }
 
         private CustomMessageBox.DialogResult CustomMessageBox_ShowEvent(string text, string caption = "",
@@ -87,12 +91,30 @@ namespace Xamarin
             CustomMessageBox.MessageBoxIcon icon = CustomMessageBox.MessageBoxIcon.None, string YesText = "Yes",
             string NoText = "No")
         {
-            var ans = MainPage.DisplayAlert(caption, text, "OK", "Cancel");
-            ans.Wait();
-            if(ans.Result)
+            var ans = ShowMessageBoxAsync(text, caption);
+
+            //if (ans)
                 return CustomMessageBox.DialogResult.OK;
 
-            return CustomMessageBox.DialogResult.Cancel;
+            //return CustomMessageBox.DialogResult.Cancel;
+        }
+
+        public Task<bool> ShowMessageBoxAsync(string message, string caption)
+        {
+            var tcs = new TaskCompletionSource<bool>();
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                try
+                {
+                    var result = await MainPage.DisplayAlert(message, caption,"OK","Cancel");
+                    tcs.TrySetResult(result);
+                }
+                catch (Exception ex)
+                {
+                    tcs.TrySetException(ex);
+                }
+            });
+            return tcs.Task;
         }
 
         private IProgressReporterDialogue CreateIProgressReporterDialogue(string title)
@@ -140,26 +162,7 @@ namespace Xamarin
                    
                 });
 
-                Task.Run(() =>
-                {
-                    while (true)
-                    {
-                        try
-                        {
-                            while (mav.BaseStream.BytesToRead < 10 || mav.giveComport == true)
-                                Thread.Sleep(20);
-
-                            var packet = mav.readPacket();
-
-                            mav.MAV.cs.UpdateCurrentSettings(null);
-                        }
-                        catch (Exception ex)
-                        {
-                            Log.Warning("", ex.ToString());
-                            Thread.Sleep(10);
-                        }
-                    }
-                });
+                
             }
             catch (Exception ex)
             {

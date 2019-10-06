@@ -64,6 +64,11 @@ namespace Xamarin.GCSViews
 
         private async void Image_OnTapped(object sender, EventArgs e)
         {
+            string output = "this is the prefilled";
+            output = await InputBox.InputBox1("header", "enter some data", this.Navigation);
+
+            output = await InputBox.Show("header", "enter some data");
+
             var accept = await DisplayAlert(Strings.AreYouSureYouWantToUpload,
                 Strings.AreYouSureYouWantToUpload + (sender as ImageCell)?.Text + Strings.QuestionMark, Strings.OK,
                 Strings.Cancel);
