@@ -15,6 +15,12 @@ namespace MissionPlanner.Utilities
 {
     public static class Extensions
     {
+
+        public static void AddRange<T>(this IList<T> list, IEnumerable<T> extras )
+        {
+            extras.ForEach(a => list.Add(a));
+        }
+
         public static void Stop(this System.Threading.Timer timer)
         {
             timer.Change(Timeout.Infinite, Timeout.Infinite);

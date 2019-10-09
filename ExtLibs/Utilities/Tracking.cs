@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Net;
-using System.Windows.Forms;
 using log4net;
 
 namespace MissionPlanner.Utilities
@@ -57,8 +56,8 @@ namespace MissionPlanner.Utilities
                 new KeyValuePair<string, string>("tid", tid),
                 new KeyValuePair<string, string>("cid", cid.ToString()),
                 new KeyValuePair<string, string>("t", "event"),
-                new KeyValuePair<string, string>("an", Application.ProductName),
-                new KeyValuePair<string, string>("av", Application.ProductVersion),
+                new KeyValuePair<string, string>("an", productName),
+                new KeyValuePair<string, string>("av", productVersion),
 
                 new KeyValuePair<string, string>("cd", currentscreen),
                 new KeyValuePair<string, string>("dp", currentscreen),
@@ -77,12 +76,39 @@ namespace MissionPlanner.Utilities
                 sessionstart = true;
             }
 
-            param.Add(new KeyValuePair<string, string>("ul", Application.CurrentCulture.Name));
-            param.Add(new KeyValuePair<string, string>("sd", Screen.PrimaryScreen.BitsPerPixel + "-bits"));
-            param.Add(new KeyValuePair<string, string>("sr", Screen.PrimaryScreen.Bounds.Width + "x" + Screen.PrimaryScreen.Bounds.Height));
+            param.Add(new KeyValuePair<string, string>("ul", currentCultureName));
+            param.Add(new KeyValuePair<string, string>("sd", primaryScreenBitsPerPixel + "-bits"));
+            param.Add(new KeyValuePair<string, string>("sr", boundsWidth + "x" + boundsHeight));
 
             System.Threading.ThreadPool.QueueUserWorkItem(track, param);
         }
+
+        public static string productVersion
+        {
+            get; set;
+        }
+
+        public static string productName
+        {
+            get; set;
+        }
+
+        public static int boundsHeight
+        {
+            get; set;
+        }
+
+        public static int boundsWidth
+        {
+            get; set;
+        }
+
+        public static int primaryScreenBitsPerPixel
+        {
+            get; set;
+        }
+
+        public static string currentCultureName { get; set; }
 
         public static void AddPage(string page, string title)
         {
@@ -98,8 +124,8 @@ namespace MissionPlanner.Utilities
                 new KeyValuePair<string, string>("tid", tid),
                 new KeyValuePair<string, string>("cid", cid.ToString()),
                 new KeyValuePair<string, string>("t", "appview"),
-                new KeyValuePair<string, string>("an", Application.ProductName),
-                new KeyValuePair<string, string>("av", Application.ProductVersion),
+                new KeyValuePair<string, string>("an", productName),
+                new KeyValuePair<string, string>("av", productVersion),
 
                 new KeyValuePair<string, string>("cd", page),
                 new KeyValuePair<string, string>("dp", page),
@@ -112,9 +138,9 @@ namespace MissionPlanner.Utilities
                 sessionstart = true;
             }
 
-            param.Add(new KeyValuePair<string, string>("ul", Application.CurrentCulture.Name));
-            param.Add(new KeyValuePair<string, string>("sd", Screen.PrimaryScreen.BitsPerPixel + "-bits"));
-            param.Add(new KeyValuePair<string, string>("sr", Screen.PrimaryScreen.Bounds.Width + "x" + Screen.PrimaryScreen.Bounds.Height));
+            param.Add(new KeyValuePair<string, string>("ul", currentCultureName));
+            param.Add(new KeyValuePair<string, string>("sd", primaryScreenBitsPerPixel + "-bits"));
+            param.Add(new KeyValuePair<string, string>("sr", boundsWidth + "x" + boundsHeight));
 
             Console.WriteLine("Open "+page + " " + title);
 
@@ -129,8 +155,8 @@ namespace MissionPlanner.Utilities
                 new KeyValuePair<string, string>("tid", tid),
                 new KeyValuePair<string, string>("cid", cid.ToString()),
                 new KeyValuePair<string, string>("t", "exception"),
-                new KeyValuePair<string, string>("an", Application.ProductName),
-                new KeyValuePair<string, string>("av", Application.ProductVersion)
+                new KeyValuePair<string, string>("an", productName),
+                new KeyValuePair<string, string>("av", productVersion),
             };
 
             if (sessionstart == false)
@@ -179,9 +205,9 @@ namespace MissionPlanner.Utilities
             {
             }
 
-            param.Add(new KeyValuePair<string, string>("ul", Application.CurrentCulture.Name));
-            param.Add(new KeyValuePair<string, string>("sd", Screen.PrimaryScreen.BitsPerPixel + "-bits"));
-            param.Add(new KeyValuePair<string, string>("sr", Screen.PrimaryScreen.Bounds.Width + "x" + Screen.PrimaryScreen.Bounds.Height));
+            param.Add(new KeyValuePair<string, string>("ul", currentCultureName));
+            param.Add(new KeyValuePair<string, string>("sd", primaryScreenBitsPerPixel + "-bits"));
+            param.Add(new KeyValuePair<string, string>("sr", boundsWidth + "x" + boundsHeight));
 
             System.Threading.ThreadPool.QueueUserWorkItem(track, param);
         }
@@ -194,8 +220,8 @@ namespace MissionPlanner.Utilities
                 new KeyValuePair<string, string>("tid", tid),
                 new KeyValuePair<string, string>("cid", cid.ToString()),
                 new KeyValuePair<string, string>("t", "event"),
-                new KeyValuePair<string, string>("an", Application.ProductName),
-                new KeyValuePair<string, string>("av", Application.ProductVersion),
+                new KeyValuePair<string, string>("an", productName),
+                new KeyValuePair<string, string>("av", productVersion),
 
                 new KeyValuePair<string, string>("cd", currentscreen),
                 new KeyValuePair<string, string>("dp", currentscreen),
@@ -214,9 +240,9 @@ namespace MissionPlanner.Utilities
                 sessionstart = true;
             }
 
-            param.Add(new KeyValuePair<string, string>("ul", Application.CurrentCulture.Name));
-            param.Add(new KeyValuePair<string, string>("sd", Screen.PrimaryScreen.BitsPerPixel + "-bits"));
-            param.Add(new KeyValuePair<string, string>("sr", Screen.PrimaryScreen.Bounds.Width + "x" + Screen.PrimaryScreen.Bounds.Height));
+            param.Add(new KeyValuePair<string, string>("ul", currentCultureName));
+            param.Add(new KeyValuePair<string, string>("sd", primaryScreenBitsPerPixel + "-bits"));
+            param.Add(new KeyValuePair<string, string>("sr", boundsWidth + "x" + boundsHeight));
 
             System.Threading.ThreadPool.QueueUserWorkItem(track, param);
         }
@@ -229,8 +255,8 @@ namespace MissionPlanner.Utilities
                 new KeyValuePair<string, string>("tid", tid),
                 new KeyValuePair<string, string>("cid", cid.ToString()),
                 new KeyValuePair<string, string>("t", "timing"),
-                new KeyValuePair<string, string>("an", Application.ProductName),
-                new KeyValuePair<string, string>("av", Application.ProductVersion),
+                new KeyValuePair<string, string>("an", productName),
+                new KeyValuePair<string, string>("av", productVersion),
 
                 new KeyValuePair<string, string>("cd", currentscreen),
                 new KeyValuePair<string, string>("dp", currentscreen),
@@ -247,9 +273,9 @@ namespace MissionPlanner.Utilities
                 sessionstart = true;
             }
 
-            param.Add(new KeyValuePair<string, string>("ul", Application.CurrentCulture.Name));
-            param.Add(new KeyValuePair<string, string>("sd", Screen.PrimaryScreen.BitsPerPixel + "-bits"));
-            param.Add(new KeyValuePair<string, string>("sr", Screen.PrimaryScreen.Bounds.Width + "x" + Screen.PrimaryScreen.Bounds.Height));
+            param.Add(new KeyValuePair<string, string>("ul", currentCultureName));
+            param.Add(new KeyValuePair<string, string>("sd", primaryScreenBitsPerPixel + "-bits"));
+            param.Add(new KeyValuePair<string, string>("sr", boundsWidth + "x" + boundsHeight));
 
             System.Threading.ThreadPool.QueueUserWorkItem(track, param);
         }
@@ -264,7 +290,7 @@ namespace MissionPlanner.Utilities
 
                 var httpWebRequest = (HttpWebRequest)WebRequest.Create(secureTrackingEndpoint);
                 httpWebRequest.ServicePoint.Expect100Continue = false;
-                httpWebRequest.UserAgent = Application.ProductName + " " + Application.ProductVersion + " ("+ Environment.OSVersion.VersionString +")";
+                httpWebRequest.UserAgent = productName + " " + productVersion + " ("+ Environment.OSVersion.VersionString +")";
                 //httpWebRequest.ContentType = "text/plain";
                 httpWebRequest.Method = "POST";
 

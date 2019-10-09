@@ -217,6 +217,13 @@ namespace MissionPlanner
 
             GoogleMapProvider.APIKey = "AIzaSyA5nFp39fEHruCezXnG3r8rGyZtuAkmCug";
 
+            Tracking.productName = Application.ProductName;
+            Tracking.productVersion = Application.ProductVersion;
+            Tracking.currentCultureName = Application.CurrentCulture.Name;
+            Tracking.primaryScreenBitsPerPixel = Screen.PrimaryScreen.BitsPerPixel;
+            Tracking.boundsWidth = Screen.PrimaryScreen.Bounds.Width;
+            Tracking.boundsHeight = Screen.PrimaryScreen.Bounds.Height;
+
             Settings.Instance.UserAgent = Application.ProductName + " " + Application.ProductVersion + " (" + Environment.OSVersion.VersionString + ")";
 
             // optionally add gdal support

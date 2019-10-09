@@ -976,7 +976,6 @@
     <Compile Include="Utilities\LogAnalyzer.cs" />
     <Compile Include="Utilities\POI.cs" />
     <Compile Include="Utilities\ThemeManager.cs" />
-    <Compile Include="Utilities\Tracking.cs" />
     <Compile Include="Utilities\GStreamerUI.cs" />
     <Compile Include="Utilities\Update.cs" />
     <Compile Include="Utilities\Win32DeviceMgnt.cs" />
