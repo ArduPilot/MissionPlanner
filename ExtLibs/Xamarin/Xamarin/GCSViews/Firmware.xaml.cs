@@ -42,38 +42,48 @@ namespace Xamarin.GCSViews
             heli.ImageSource = ImageSource.FromStream(() => Xamarin.Properties.Resources.APM_airframes_08.ToMemoryStream());
             antennatracker.ImageSource = ImageSource.FromStream(() => Xamarin.Properties.Resources.Antenna_Tracker_01.ToMemoryStream());
 
-            APFirmware.GetList();
+            Task.Run(() =>
+            {
+                APFirmware.GetList();
 
-            var options = APFirmware.GetRelease(APFirmware.RELEASE_TYPES.OFFICIAL);
+                var options = APFirmware.GetRelease(APFirmware.RELEASE_TYPES.OFFICIAL);
 
-            // get max version for each mavtype
-            options = options.GroupBy(b => b.MavType).Select(a =>
-                a.Where(b => a.Key == b.MavType && b.MavFirmwareVersion == a.Max(c => c.MavFirmwareVersion))
-                    .FirstOrDefault()).ToList();
+                // get max version for each mavtype
+                options = options.GroupBy(b => b.MavType).Select(a =>
+                    a.Where(b => a.Key == b.MavType && b.MavFirmwareVersion == a.Max(c => c.MavFirmwareVersion))
+                        .FirstOrDefault()).ToList();
 
-            UpdateIconName(antennatracker,
-                options.First(a => a.MavType == APFirmware.MAV_TYPE.ANTENNA_TRACKER.ToString()));
-            UpdateIconName(heli,
-                options.First(a => a.MavType == APFirmware.MAV_TYPE.HELICOPTER.ToString()));
-            UpdateIconName(sub,
-                options.First(a => a.MavType == APFirmware.MAV_TYPE.SUBMARINE.ToString()));
-            UpdateIconName(rover,
-                options.First(a => a.MavType == APFirmware.MAV_TYPE.GROUND_ROVER.ToString()));
-            UpdateIconName(quad,
-                options.First(a => a.MavType == APFirmware.MAV_TYPE.Copter.ToString()));
-            UpdateIconName(plane,
-                options.First(a => a.MavType == APFirmware.MAV_TYPE.FIXED_WING.ToString()));
+                UpdateIconName(antennatracker,
+                    options.First(a => a.MavType == APFirmware.MAV_TYPE.ANTENNA_TRACKER.ToString()));
+                UpdateIconName(heli,
+                    options.First(a => a.MavType == APFirmware.MAV_TYPE.HELICOPTER.ToString()));
+                UpdateIconName(sub,
+                    options.First(a => a.MavType == APFirmware.MAV_TYPE.SUBMARINE.ToString()));
+                UpdateIconName(rover,
+                    options.First(a => a.MavType == APFirmware.MAV_TYPE.GROUND_ROVER.ToString()));
+                UpdateIconName(quad,
+                    options.First(a => a.MavType == APFirmware.MAV_TYPE.Copter.ToString()));
+                UpdateIconName(plane,
+                    options.First(a => a.MavType == APFirmware.MAV_TYPE.FIXED_WING.ToString()));
+
+                SetLoading(false);
+            });
         }
 
+        void SetLoading(bool isloading)
+        {
+            Forms.Device.BeginInvokeOnMainThread(() => { ActivityIndicator.IsVisible = isloading; });
+        }
 
         private void UpdateIconName(ImageCell imageLabel, APFirmware.FirmwareInfo first)
         {
             if (first == null)
                 return;
 
-
-            imageLabel.Text = first.VehicleType?.ToString() + " " + first.MavFirmwareVersion.ToString() + " " +
+            Forms.Device.BeginInvokeOnMainThread(()=>{
+                imageLabel.Text = first.VehicleType?.ToString() + " " + first.MavFirmwareVersion.ToString() + " " +
                               first.MavFirmwareVersionType.ToString();
+            });
         }
 
         private async void Image_OnTapped(object sender, EventArgs e)
@@ -173,6 +183,8 @@ namespace Xamarin.GCSViews
                 // update to use mirror url
                 log.Info("Using " + baseurl);
 
+                SetLoading(true);
+
                 var starttime = DateTime.Now;
 
                 // Create a request using a URL that can receive a post. 
@@ -242,6 +254,10 @@ namespace Xamarin.GCSViews
                 CustomMessageBox.Show(Strings.FailedDownload, Strings.ERROR);
                 return;
             }
+            finally
+            {
+                SetLoading(false);
+            }
 
             //MissionPlanner.Utilities.Tracking.AddFW(mavtype.ToString(), deviceInfo.board);
 
@@ -289,6 +305,8 @@ namespace Xamarin.GCSViews
                 CustomMessageBox.Show(Strings.ErrorFirmwareFile + "\n\n" + ex.ToString(), Strings.ERROR);
                 return false;
             }
+
+            SetLoading(true);
 
             await AttemptRebootToBootloader();
 
@@ -353,6 +371,7 @@ namespace Xamarin.GCSViews
                     {
                         log.Error(ex);
                         CustomMessageBox.Show("lost communication with the board.", "lost comms");
+                        SetLoading(false);
                         up.close();
                         return false;
                     }
@@ -361,6 +380,7 @@ namespace Xamarin.GCSViews
                         up.__reboot();
                         up.close();
                         CustomMessageBox.Show(Strings.NoNeedToUpload);
+                        SetLoading(false);
                         return true;
                     }
 
@@ -380,6 +400,7 @@ namespace Xamarin.GCSViews
                     finally
                     {
                         up.close();
+                        SetLoading(false);
                     }
 
                     // wait for IO firmware upgrade and boot to a mavlink state
@@ -390,6 +411,7 @@ namespace Xamarin.GCSViews
             }
 
             updateProgress(0, "ERROR: No Response from board");
+            SetLoading(false);
             return false;
         }
 

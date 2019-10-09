@@ -1,4 +1,6 @@
 ﻿
+using System.Threading.Tasks;
+
 namespace GMap.NET.MapProviders
 {
     using System;
@@ -91,131 +93,147 @@ namespace GMap.NET.MapProviders
         {
             if (!init && TryCorrectVersion)
             {
-                //http://maps.google.com/maps/api/js?v=3.2&sensor=false
-                string url = string.Format("http://maps.{0}", Server);
-                url = @"http://maps.google.com/maps/api/js?v=3.2&sensor=false";
-                try
+                Task.Run(() =>
                 {
-                    string html = GMaps.Instance.UseUrlCache ? Cache.Instance.GetContent(url, CacheType.UrlCache, TimeSpan.FromHours(8)) : string.Empty;
-
-                    if (string.IsNullOrEmpty(html))
+                    //http://maps.google.com/maps/api/js?v=3.2&sensor=false
+                    string url = string.Format("http://maps.{0}", Server);
+                    url = @"http://maps.google.com/maps/api/js?v=3.2&sensor=false";
+                    try
                     {
-                        html = GetContentUsingHttp(url);
+                        string html = GMaps.Instance.UseUrlCache
+                            ? Cache.Instance.GetContent(url, CacheType.UrlCache, TimeSpan.FromHours(8))
+                            : string.Empty;
+
+                        if (string.IsNullOrEmpty(html))
+                        {
+                            html = GetContentUsingHttp(url);
+                            if (!string.IsNullOrEmpty(html))
+                            {
+                                if (GMaps.Instance.UseUrlCache)
+                                {
+                                    Cache.Instance.SaveContent(url, CacheType.UrlCache, html);
+                                }
+                            }
+                        }
+
                         if (!string.IsNullOrEmpty(html))
                         {
-                            if (GMaps.Instance.UseUrlCache)
-                            {
-                                Cache.Instance.SaveContent(url, CacheType.UrlCache, html);
-                            }
-                        }
-                    }
+                            #region -- match versions --
 
-                    if (!string.IsNullOrEmpty(html))
+                            Regex reg = new Regex(string.Format("\"*https?://mt\\D?\\d..*/vt\\?lyrs=m@(\\d*)", Server),
+                                RegexOptions.IgnoreCase);
+                            Match mat = reg.Match(html);
+                            if (mat.Success)
+                            {
+                                GroupCollection gc = mat.Groups;
+                                int count = gc.Count;
+                                if (count > 0)
+                                {
+                                    string ver = string.Format("m@{0}", gc[1].Value);
+                                    string old = GMapProviders.GoogleMap.Version;
+
+                                    GMapProviders.GoogleMap.Version = ver;
+                                    GMapProviders.GoogleChinaMap.Version = ver;
+#if DEBUG
+                                    Debug.WriteLine("GMapProviders.GoogleMap.Version: " + ver + ", " +
+                                                    (ver == old ? "OK" : "old: " + old + ", consider updating source"));
+                                    if (Debugger.IsAttached && ver != old)
+                                    {
+                                        Thread.Sleep(1111);
+                                    }
+#endif
+                                }
+                            }
+
+                            reg = new Regex(string.Format("\"*https?://mt\\D?\\d..*/vt\\?lyrs=h@(\\d*)", Server),
+                                RegexOptions.IgnoreCase);
+                            mat = reg.Match(html);
+                            if (mat.Success)
+                            {
+                                GroupCollection gc = mat.Groups;
+                                int count = gc.Count;
+                                if (count > 0)
+                                {
+                                    string ver = string.Format("h@{0}", gc[1].Value);
+                                    string old = GMapProviders.GoogleHybridMap.Version;
+
+                                    GMapProviders.GoogleHybridMap.Version = ver;
+                                    GMapProviders.GoogleChinaHybridMap.Version = ver;
+#if DEBUG
+                                    Debug.WriteLine("GMapProviders.GoogleHybridMap.Version: " + ver + ", " +
+                                                    (ver == old ? "OK" : "old: " + old + ", consider updating source"));
+                                    if (Debugger.IsAttached && ver != old)
+                                    {
+                                        Thread.Sleep(1111);
+                                    }
+#endif
+                                }
+                            }
+
+                            reg = new Regex(string.Format("\"*https?://khm\\D?\\d.{0}/kh\\?v=(\\d*)", "googleapis.com"),
+                                RegexOptions.IgnoreCase);
+                            mat = reg.Match(html);
+                            if (mat.Success)
+                            {
+                                GroupCollection gc = mat.Groups;
+                                int count = gc.Count;
+                                if (count > 0)
+                                {
+                                    string ver = gc[1].Value;
+                                    string old = GMapProviders.GoogleSatelliteMap.Version;
+
+                                    GMapProviders.GoogleSatelliteMap.Version = ver;
+                                    GMapProviders.GoogleKoreaSatelliteMap.Version = ver;
+                                    GMapProviders.GoogleChinaSatelliteMap.Version = "s@" + ver;
+#if DEBUG
+                                    Debug.WriteLine("GMapProviders.GoogleSatelliteMap.Version: " + ver + ", " +
+                                                    (ver == old ? "OK" : "old: " + old + ", consider updating source"));
+                                    if (Debugger.IsAttached && ver != old)
+                                    {
+                                        Thread.Sleep(1111);
+                                    }
+#endif
+                                }
+                            }
+
+                            reg = new Regex(
+                                string.Format("\"*https?://mt\\D?\\d..*/vt\\?lyrs=t@(\\d*),r@(\\d*)", Server),
+                                RegexOptions.IgnoreCase);
+                            mat = reg.Match(html);
+                            if (mat.Success)
+                            {
+                                GroupCollection gc = mat.Groups;
+                                int count = gc.Count;
+                                if (count > 1)
+                                {
+                                    string ver = string.Format("t@{0},r@{1}", gc[1].Value, gc[2].Value);
+                                    string old = GMapProviders.GoogleTerrainMap.Version;
+
+                                    GMapProviders.GoogleTerrainMap.Version = ver;
+                                    GMapProviders.GoogleChinaTerrainMap.Version = ver;
+#if DEBUG
+                                    Debug.WriteLine("GMapProviders.GoogleTerrainMap.Version: " + ver + ", " +
+                                                    (ver == old ? "OK" : "old: " + old + ", consider updating source"));
+                                    if (Debugger.IsAttached && ver != old)
+                                    {
+                                        Thread.Sleep(1111);
+                                    }
+#endif
+                                }
+                            }
+
+                            #endregion
+                        }
+
+                        init = true; // try it only once
+                    }
+                    catch (Exception ex)
                     {
-                        #region -- match versions --
-                        Regex reg = new Regex(string.Format("\"*https?://mt\\D?\\d..*/vt\\?lyrs=m@(\\d*)", Server), RegexOptions.IgnoreCase);
-                        Match mat = reg.Match(html);
-                        if (mat.Success)
-                        {
-                            GroupCollection gc = mat.Groups;
-                            int count = gc.Count;
-                            if (count > 0)
-                            {
-                                string ver = string.Format("m@{0}", gc [1].Value);
-                                string old = GMapProviders.GoogleMap.Version;
-
-                                GMapProviders.GoogleMap.Version = ver;
-                                GMapProviders.GoogleChinaMap.Version = ver;
-#if DEBUG
-                                Debug.WriteLine("GMapProviders.GoogleMap.Version: " + ver + ", " + (ver == old ? "OK" : "old: " + old + ", consider updating source"));
-                                if (Debugger.IsAttached && ver != old)
-                                {
-                                    Thread.Sleep(1111);
-                                }
-#endif
-                            }
-                        }
-
-                        reg = new Regex(string.Format("\"*https?://mt\\D?\\d..*/vt\\?lyrs=h@(\\d*)", Server), RegexOptions.IgnoreCase);
-                        mat = reg.Match(html);
-                        if (mat.Success)
-                        {
-                            GroupCollection gc = mat.Groups;
-                            int count = gc.Count;
-                            if (count > 0)
-                            {
-                                string ver = string.Format("h@{0}", gc [1].Value);
-                                string old = GMapProviders.GoogleHybridMap.Version;
-
-                                GMapProviders.GoogleHybridMap.Version = ver;
-                                GMapProviders.GoogleChinaHybridMap.Version = ver;
-#if DEBUG
-                                Debug.WriteLine("GMapProviders.GoogleHybridMap.Version: " + ver + ", " + (ver == old ? "OK" : "old: " + old + ", consider updating source"));
-                                if (Debugger.IsAttached && ver != old)
-                                {
-                                    Thread.Sleep(1111);
-                                }
-#endif
-                            }
-                        }
-
-                        reg = new Regex(string.Format("\"*https?://khm\\D?\\d.{0}/kh\\?v=(\\d*)", "googleapis.com"), RegexOptions.IgnoreCase);
-                        mat = reg.Match(html);
-                        if (mat.Success)
-                        {
-                            GroupCollection gc = mat.Groups;
-                            int count = gc.Count;
-                            if (count > 0)
-                            {
-                                string ver = gc [1].Value;
-                                string old = GMapProviders.GoogleSatelliteMap.Version;
-
-                                GMapProviders.GoogleSatelliteMap.Version = ver;
-                                GMapProviders.GoogleKoreaSatelliteMap.Version = ver;
-                                GMapProviders.GoogleChinaSatelliteMap.Version = "s@" + ver;
-#if DEBUG
-                                Debug.WriteLine("GMapProviders.GoogleSatelliteMap.Version: " + ver + ", " + (ver == old ? "OK" : "old: " + old + ", consider updating source"));
-                                if (Debugger.IsAttached && ver != old)
-                                {
-                                    Thread.Sleep(1111);
-                                }
-#endif
-                            }
-                        }
-
-                        reg = new Regex(string.Format("\"*https?://mt\\D?\\d..*/vt\\?lyrs=t@(\\d*),r@(\\d*)", Server), RegexOptions.IgnoreCase);
-                        mat = reg.Match(html);
-                        if (mat.Success)
-                        {
-                            GroupCollection gc = mat.Groups;
-                            int count = gc.Count;
-                            if (count > 1)
-                            {
-                                string ver = string.Format("t@{0},r@{1}", gc [1].Value, gc [2].Value);
-                                string old = GMapProviders.GoogleTerrainMap.Version;
-
-                                GMapProviders.GoogleTerrainMap.Version = ver;
-                                GMapProviders.GoogleChinaTerrainMap.Version = ver;
-#if DEBUG
-                                Debug.WriteLine("GMapProviders.GoogleTerrainMap.Version: " + ver + ", " + (ver == old ? "OK" : "old: " + old + ", consider updating source"));
-                                if (Debugger.IsAttached && ver != old)
-                                {
-                                    Thread.Sleep(1111);
-                                }
-#endif
-                            }
-                        }
-                        #endregion
+                        Debug.WriteLine("TryCorrectGoogleVersions failed: " + ex.ToString());
+                        if (ex.InnerException != null)
+                            Debug.WriteLine(ex.InnerException.ToString());
                     }
-
-                    init = true; // try it only once
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine("TryCorrectGoogleVersions failed: " + ex.ToString());
-                    if (ex.InnerException != null)
-                        Debug.WriteLine(ex.InnerException.ToString());
-                }
+                });
             }
         }
 

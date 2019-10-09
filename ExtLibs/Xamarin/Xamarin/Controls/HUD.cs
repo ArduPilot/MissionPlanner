@@ -148,6 +148,8 @@ namespace MissionPlanner.Controls
 
             displayAOASSA = false;
 
+            IgnorePixelScaling = true;
+
             this.Name = "Hud";
         }
 

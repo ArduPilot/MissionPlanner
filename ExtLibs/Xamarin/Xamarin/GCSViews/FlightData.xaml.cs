@@ -26,6 +26,7 @@ using Xamarin.Controls;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Color = System.Drawing.Color;
+using Device = Xamarin.Forms.Device;
 using Exception = System.Exception;
 using Graphics = MissionPlanner.Utilities.Drawing.Graphics;
 using Image = MissionPlanner.Utilities.Drawing.Image;
@@ -77,6 +78,13 @@ namespace Xamarin
             instance = this;
             mymap = gMapControl1;
             myhud = hud1;
+
+            switch (Forms.Device.RuntimePlatform)
+            {
+                case Device.Android:
+                    //myhud.IgnorePixelScaling = true;
+                    break;
+            }
 
             if (!string.IsNullOrEmpty(Settings.Instance["hudcolor"]))
             {
