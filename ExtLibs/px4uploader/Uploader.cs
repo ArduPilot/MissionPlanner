@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.IO.Ports;
 using System.IO;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
@@ -11,12 +10,12 @@ using Org.BouncyCastle.Security;
 using System.Runtime.InteropServices;
 using System.Reflection;
 using System.Xml;
+using MissionPlanner.Comms;
 
 namespace px4uploader
 {
     public class Uploader: IDisposable
     {
-
         public delegate void LogEventHandler(string message, int level = 0);
 
         public delegate void ProgressEventHandler(double completed);
@@ -24,7 +23,7 @@ namespace px4uploader
         public event LogEventHandler LogEvent;
         public event ProgressEventHandler ProgressEvent;
 
-        SerialPort port;
+        ICommsSerial port;
         Uploader self;
 
         public bool skipotp = false;
@@ -97,24 +96,17 @@ namespace px4uploader
             readcerts();
         }
 
-        public Uploader(string port, int baudrate)
+        public Uploader(ICommsSerial port)
         {
             self = this;
 
-            if (port.StartsWith("/"))
-                if (!File.Exists(port))
-                    throw new Exception("No such device");
-
-            this.port = new SerialPort(port, baudrate);
+            this.port = port;
             this.port.ReadTimeout = 50;
             this.port.WriteTimeout = 50;
 
             try
             {
                 Console.Write("open");
-                if (port.StartsWith("/"))
-                    if (!File.Exists(port))
-                        throw new Exception("No such device");
                 this.port.Open();
                 this.port.Write("reboot -b\r");
                 Console.WriteLine("..done");
@@ -134,6 +126,16 @@ namespace px4uploader
                 catch { }
                 throw ex;
             }
+        }
+
+        public Uploader(string port, int baudrate)
+        {
+            if (port.StartsWith("/"))
+                if (!File.Exists(port))
+                    throw new Exception("No such device");
+
+            this.port = new SerialPort(port, baudrate);
+
         }
 
         public void close()
