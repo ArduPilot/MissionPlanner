@@ -31,7 +31,7 @@ namespace Hoho.Android.UsbSerial.Util
     public class SerialInputOutputManager : IDisposable
     {
         private static readonly string TAG = typeof(SerialInputOutputManager).Name;
-        private const int READ_WAIT_MILLIS = 200;
+        private const int READ_WAIT_MILLIS = 20;
         private const int DEFAULT_BUFFERSIZE = 4096;
         private const int DEFAULT_BAUDRATE = 9600;
         private const int DEFAULT_DATABITS = 8;
@@ -94,7 +94,11 @@ namespace Hoho.Android.UsbSerial.Util
                 {
                     while (true)
                     {
-                        cancelationToken.ThrowIfCancellationRequested();
+                        //cancelationToken.ThrowIfCancellationRequested();
+                        if (cancelationToken.IsCancellationRequested)
+                        {
+                            return;
+                        }
 
                         Step(); // execute step
                     }
