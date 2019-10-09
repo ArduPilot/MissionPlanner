@@ -47,23 +47,37 @@ namespace MissionPlanner.Controls
                     {
                         case "TCP Host - 14550":
                         case "TCP Host":
+                        {
                             MainV2.comPort.MirrorStream = new TcpSerial();
                             CMB_baudrate.SelectedIndex = 0;
-                            listener = new TcpListener(System.Net.IPAddress.Any, 14550);
+                            int port = 14550;
+                            if (InputBox.Show("Port", "Enter port", ref port) != DialogResult.OK)
+                                return;
+                            listener = new TcpListener(System.Net.IPAddress.Any, port);
                             listener.Start(0);
                             listener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback), listener);
                             BUT_connect.Text = Strings.Stop;
                             return;
+                        }
+
                         case "TCP Client":
-                            MainV2.comPort.MirrorStream = new TcpSerial() { retrys = 999999, autoReconnect = true };
+
+                            MainV2.comPort.MirrorStream = new TcpSerial() {retrys = 999999, autoReconnect = true};
                             CMB_baudrate.SelectedIndex = 0;
                             break;
                         case "UDP Host - 14550":
-                            MainV2.comPort.MirrorStream = new UdpSerial() { ConfigRef = "SerialOutputPassUDP" };
+                        {
+                            int port = 14550;
+                            if (InputBox.Show("Port", "Enter port", ref port) != DialogResult.OK)
+                                return;
+                            MainV2.comPort.MirrorStream = new UdpSerial()
+                                {ConfigRef = "SerialOutputPassUDP", Port = port.ToString()};
                             CMB_baudrate.SelectedIndex = 0;
                             break;
+                        }
+
                         case "UDP Client":
-                            MainV2.comPort.MirrorStream = new UdpSerialConnect() { ConfigRef = "SerialOutputPassUDPCL" };
+                            MainV2.comPort.MirrorStream = new UdpSerialConnect() {ConfigRef = "SerialOutputPassUDPCL"};
                             CMB_baudrate.SelectedIndex = 0;
                             break;
                         default:
@@ -77,6 +91,7 @@ namespace MissionPlanner.Controls
                     CustomMessageBox.Show(Strings.InvalidPortName);
                     return;
                 }
+
                 try
                 {
                     MainV2.comPort.MirrorStream.BaudRate = int.Parse(CMB_baudrate.Text);
