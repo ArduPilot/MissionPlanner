@@ -1726,7 +1726,7 @@ namespace Xamarin
 
         private void Button_Onclicked(object sender, EventArgs e)
         {
-            Test.TestMethod.DoUSB();
+            
         }
     }
 

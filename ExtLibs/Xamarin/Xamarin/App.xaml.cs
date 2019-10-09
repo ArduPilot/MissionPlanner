@@ -8,6 +8,10 @@ using System.Net.Sockets;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using log4net.Appender;
+using log4net.Core;
+using log4net.Layout;
+using log4net.Repository.Hierarchy;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
@@ -27,6 +31,21 @@ namespace Xamarin
         public App()
         {
             InitializeComponent();
+
+            log4net.Repository.Hierarchy.Hierarchy hierarchy =
+                (Hierarchy)log4net.LogManager.GetRepository(Assembly.GetAssembly(typeof(App)));
+
+            PatternLayout patternLayout = new PatternLayout();
+            patternLayout.ConversionPattern = "%date [%thread] %-5level %logger - %message%newline";
+            patternLayout.ActivateOptions();
+
+            var cca = new ConsoleAppender();
+            cca.Layout = patternLayout;
+            cca.ActivateOptions();
+            hierarchy.Root.AddAppender(cca);
+
+            hierarchy.Root.Level = Level.Debug;
+            hierarchy.Configured = true;
 
             MainPage = new MainPage();
         }

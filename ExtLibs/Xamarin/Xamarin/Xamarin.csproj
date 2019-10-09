@@ -14,6 +14,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\..\..\test\FirmwareSelection.xaml.cs" Link="Linked\FirmwareSelection.xaml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.DotNet.Analyzers.Compatibility" Version="0.2.12-alpha">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
@@ -27,6 +31,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="..\..\..\test\FirmwareSelection.xaml" Link="Linked\FirmwareSelection.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\7zip\7zip.csproj" />
     <ProjectReference Include="..\..\alglibnet\alglibnet.csproj" />
     <ProjectReference Include="..\..\ArduPilot\MissionPlanner.ArduPilot.csproj" />
@@ -37,6 +47,7 @@
     <ProjectReference Include="..\..\ICSharpCode.SharpZipLib\ICSharpCode.SharpZipLib.csproj" />
     <ProjectReference Include="..\..\Interfaces\Interfaces.csproj" />
     <ProjectReference Include="..\..\Mavlink\MAVLink.csproj" />
+    <ProjectReference Include="..\..\px4uploader\px4uploader.csproj" />
     <ProjectReference Include="..\..\Strings\MissionPlanner.Strings.csproj" />
     <ProjectReference Include="..\..\Utilities\MissionPlanner.Utilities.csproj" />
   </ItemGroup>
