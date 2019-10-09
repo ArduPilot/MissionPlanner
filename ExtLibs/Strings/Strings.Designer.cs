@@ -1030,6 +1030,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No valid sik radio.
+        /// </summary>
+        public static string No_valid_sik_radio {
+            get {
+                return ResourceManager.GetString("No_valid_sik_radio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No FMT message for .
         /// </summary>
         public static string NoFMTMessage {

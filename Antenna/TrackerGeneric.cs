@@ -11,9 +11,16 @@ namespace MissionPlanner.Antenna
         private System.Threading.Thread t12;
         private static bool threadrun = false;
         private static ITrackerOutput tracker;
+        private Func<MAVLinkInterface> _comPort;
 
-        public TrackerGeneric(TrackerUI tracker)
+        private MAVLinkInterface comPort
         {
+            get { return _comPort(); }
+        }
+
+        public TrackerGeneric(TrackerUI tracker, Func<MAVLinkInterface> comPort)
+        {
+            _comPort = comPort;
             _tracker = tracker;
 
             _tracker.CMB_interface.SelectedIndexChanged += new System.EventHandler(CMB_interface_SelectedIndexChanged);
@@ -194,7 +201,7 @@ namespace MissionPlanner.Antenna
                 }
             }
 
-            _tracker.BUT_connect.Text = "Disconnect";
+            _tracker.BUT_connect.Text = Strings.Disconnect;
         }
 
         private void mainloop()
@@ -205,7 +212,7 @@ namespace MissionPlanner.Antenna
                 try
                 {
                     // 10 hz - position updates default to 3 hz on the stream rate
-                    tracker.PanAndTilt(MainV2.comPort.MAV.cs.AZToMAV, MainV2.comPort.MAV.cs.ELToMAV);
+                    tracker.PanAndTilt(comPort.MAV.cs.AZToMAV, comPort.MAV.cs.ELToMAV);
                     System.Threading.Thread.Sleep(100);
                 }
                 catch
@@ -265,7 +272,7 @@ namespace MissionPlanner.Antenna
 
         private void tm1_Tick(object item)
         {
-            float snr = MainV2.comPort.MAV.cs.localsnrdb;
+            float snr = comPort.MAV.cs.localsnrdb;
             float best = snr;
 
             float tilt = 0;
@@ -273,7 +280,7 @@ namespace MissionPlanner.Antenna
 
             if (snr == 0)
             {
-                CustomMessageBox.Show("No valid sik radio", Strings.ERROR);
+                CustomMessageBox.Show(Strings.No_valid_sik_radio, Strings.ERROR);
                 return;
             }
 
@@ -328,12 +335,12 @@ namespace MissionPlanner.Antenna
 
                 System.Threading.Thread.Sleep(2000);
 
-                Console.WriteLine("Angle " + n + " snr " + MainV2.comPort.MAV.cs.localsnrdb);
+                Console.WriteLine("Angle " + n + " snr " + comPort.MAV.cs.localsnrdb);
 
-                if (MainV2.comPort.MAV.cs.localsnrdb > lastsnr)
+                if (comPort.MAV.cs.localsnrdb > lastsnr)
                 {
                     best = n;
-                    lastsnr = MainV2.comPort.MAV.cs.localsnrdb;
+                    lastsnr = comPort.MAV.cs.localsnrdb;
                 }
             }
 
@@ -404,13 +411,13 @@ namespace MissionPlanner.Antenna
 
         public void Activate()
         {
-            ThemeManager.ApplyThemeTo(this);
+            
 
             _tracker.CMB_serialport.DataSource = SerialPort.GetPortNames();
 
             if (threadrun)
             {
-                _tracker.BUT_connect.Text = "Disconnect";
+                _tracker.BUT_connect.Text = Strings.Disconnect;
             }
 
             foreach (string key in Settings.Instance.Keys)

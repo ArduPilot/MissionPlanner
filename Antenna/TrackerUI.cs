@@ -1,5 +1,6 @@
 ﻿using System.Windows.Forms;
 using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Antenna
 {
@@ -11,7 +12,7 @@ namespace MissionPlanner.Antenna
         {
             InitializeComponent();
 
-            TrackerGeneric = new TrackerGeneric(this);
+            TrackerGeneric = new TrackerGeneric(this, () => MainV2.comPort);
         }
 
         public void Deactivate()
@@ -22,6 +23,8 @@ namespace MissionPlanner.Antenna
         public void Activate()
         {
             TrackerGeneric.Activate();
+
+            ThemeManager.ApplyThemeTo(this);
         }
     }
 }
