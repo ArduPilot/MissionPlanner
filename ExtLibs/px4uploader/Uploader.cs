@@ -128,14 +128,8 @@ namespace px4uploader
             }
         }
 
-        public Uploader(string port, int baudrate)
+        public Uploader(string port, int baudrate): this(new SerialPort(port, baudrate))
         {
-            if (port.StartsWith("/"))
-                if (!File.Exists(port))
-                    throw new Exception("No such device");
-
-            this.port = new SerialPort(port, baudrate);
-
         }
 
         public void close()
