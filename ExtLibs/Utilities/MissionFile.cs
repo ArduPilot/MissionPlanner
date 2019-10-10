@@ -53,19 +53,6 @@ namespace MissionPlanner.Utilities
 
                     Locationwp temp = new Locationwp();
                     temp.frame = (byte)int.Parse(items[2], CultureInfo.InvariantCulture);
-                    if (items[2] == "3")
-                    {
-                        // abs MAV_FRAME_GLOBAL_RELATIVE_ALT=3
-                        temp.options = 1;
-                    }
-                    else if (items[2] == "10")
-                    {
-                        temp.options = 8;
-                    }
-                    else
-                    {
-                        temp.options = 0;
-                    }
 
                     temp.id = (ushort)Enum.Parse(typeof(MAVLink.MAV_CMD), items[3], false);
                     temp.p1 = float.Parse(items[4], CultureInfo.InvariantCulture);

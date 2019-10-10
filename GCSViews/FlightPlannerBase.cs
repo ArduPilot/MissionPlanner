@@ -106,6 +106,112 @@ namespace MissionPlanner.GCSViews
         public GMapOverlay top;
         public GMapPolygon wppolygon;
 
+
+        public DataGridViewTextBoxColumn Alt
+        {
+            get { return (DataGridViewTextBoxColumn)_flightPlanner.Commands.Columns["Alt"]; }
+        }
+
+        public DataGridViewComboBoxColumn Command
+        {
+            get { return (DataGridViewComboBoxColumn)_flightPlanner.Commands.Columns["Command"]; }
+        }
+
+        public DataGridViewTextBoxColumn coordEasting
+        {
+            get { return (DataGridViewTextBoxColumn)_flightPlanner.Commands.Columns["coordEasting"]; }
+        }
+
+        public DataGridViewTextBoxColumn coordNorthing
+        {
+            get { return (DataGridViewTextBoxColumn)_flightPlanner.Commands.Columns["coordNorthing"]; }
+        }
+
+        public DataGridViewTextBoxColumn coordZone
+        {
+            get { return (DataGridViewTextBoxColumn)_flightPlanner.Commands.Columns["coordZone"]; }
+        }
+
+        public DataGridViewTextBoxColumn MGRS
+        {
+            get { return (DataGridViewTextBoxColumn)_flightPlanner.Commands.Columns["MGRS"]; }
+        }
+
+        public DataGridViewTextBoxColumn Lat
+        {
+            get { return (DataGridViewTextBoxColumn)_flightPlanner.Commands.Columns["Lat"]; }
+        }
+
+        public DataGridViewTextBoxColumn Lon
+        {
+            get { return (DataGridViewTextBoxColumn)_flightPlanner.Commands.Columns["Lon"]; }
+        }
+
+        public DataGridViewButtonColumn Delete
+        {
+            get { return (DataGridViewButtonColumn)_flightPlanner.Commands.Columns["Delete"]; }
+        }
+
+        public DataGridViewImageColumn Up
+        {
+            get { return (DataGridViewImageColumn)_flightPlanner.Commands.Columns["Up"]; }
+        }
+
+        public DataGridViewImageColumn Down
+        {
+            get { return (DataGridViewImageColumn)_flightPlanner.Commands.Columns["Down"]; }
+        }
+
+        public DataGridViewTextBoxColumn Grad
+        {
+            get { return (DataGridViewTextBoxColumn)_flightPlanner.Commands.Columns["Grad"]; }
+        }
+
+        public DataGridViewTextBoxColumn Angle
+        {
+            get { return (DataGridViewTextBoxColumn)_flightPlanner.Commands.Columns["Angle"]; }
+        }
+
+        public DataGridViewTextBoxColumn Dist
+        {
+            get { return (DataGridViewTextBoxColumn)_flightPlanner.Commands.Columns["Dist"]; }
+        }
+
+        public DataGridViewTextBoxColumn AZ
+        {
+            get { return (DataGridViewTextBoxColumn)_flightPlanner.Commands.Columns["AZ"]; }
+        }
+
+        public DataGridViewTextBoxColumn Param1
+        {
+            get { return (DataGridViewTextBoxColumn)_flightPlanner.Commands.Columns["Param1"]; }
+        }
+
+        public DataGridViewTextBoxColumn Param2
+        {
+            get { return (DataGridViewTextBoxColumn)_flightPlanner.Commands.Columns["Param2"]; }
+        }
+
+        public DataGridViewTextBoxColumn Param3
+        {
+            get { return (DataGridViewTextBoxColumn)_flightPlanner.Commands.Columns["Param3"]; }
+        }
+
+        public DataGridViewTextBoxColumn Param4
+        {
+            get { return (DataGridViewTextBoxColumn)_flightPlanner.Commands.Columns["Param4"]; }
+        }
+
+        public DataGridViewTextBoxColumn TagData
+        {
+            get { return (DataGridViewTextBoxColumn)_flightPlanner.Commands.Columns["TagData"]; }
+        }
+
+        public DataGridViewComboBoxColumn Frame
+        {
+            get { return (DataGridViewComboBoxColumn)_flightPlanner.Commands.Columns["Frame"]; }
+        }
+
         public FlightPlannerBase(FlightPlanner flightPlanner)
         {
             instance = this;
@@ -322,12 +428,17 @@ namespace MissionPlanner.GCSViews
                     commandsColumn.CellTemplate.Value = "0";
             }
 
-            _flightPlanner.Commands.Columns[_flightPlanner.Delete.Index].CellTemplate.Value = "X";
-            _flightPlanner.Commands.Columns[_flightPlanner.Up.Index].CellTemplate.Value = Resources.up;
-            _flightPlanner.Commands.Columns[_flightPlanner.Down.Index].CellTemplate.Value = Resources.down;
+            _flightPlanner.Commands.Columns[Delete.Index].CellTemplate.Value = "X";
+            _flightPlanner.Commands.Columns[Up.Index].CellTemplate.Value = Resources.up;
+            _flightPlanner.Commands.Columns[Down.Index].CellTemplate.Value = Resources.down;
 
-            _flightPlanner.Up.Image = Resources.up;
-            _flightPlanner.Down.Image = Resources.down;
+            Up.Image = Resources.up;
+            Down.Image = Resources.down;
+
+
+            Frame.DisplayMember = "Value";
+            Frame.ValueMember = "Key";
+            Frame.DataSource = EnumTranslator.EnumToList<altmode>();
 
             updateMapType(null, null);
 
@@ -621,22 +732,22 @@ namespace MissionPlanner.GCSViews
 
             if ((MAVLink.MAV_MISSION_TYPE) _flightPlanner.cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.RALLY)
             {
-                _flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Command.Index].Value = MAVLink.MAV_CMD.RALLY_POINT.ToString();
+                _flightPlanner.Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.RALLY_POINT.ToString();
                 ChangeColumnHeader(MAVLink.MAV_CMD.RALLY_POINT.ToString());
             }
             else if ((MAVLink.MAV_MISSION_TYPE) _flightPlanner.cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.FENCE)
             {
-                _flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Command.Index].Value = MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_INCLUSION.ToString();
+                _flightPlanner.Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_INCLUSION.ToString();
                 ChangeColumnHeader(MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_INCLUSION.ToString());
             }
             else if (splinemode)
             {
-                _flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Command.Index].Value = MAVLink.MAV_CMD.SPLINE_WAYPOINT.ToString();
+                _flightPlanner.Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.SPLINE_WAYPOINT.ToString();
                 ChangeColumnHeader(MAVLink.MAV_CMD.SPLINE_WAYPOINT.ToString());
             }
             else
             {
-                _flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Command.Index].Value = MAVLink.MAV_CMD.WAYPOINT.ToString();
+                _flightPlanner.Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.WAYPOINT.ToString();
                 ChangeColumnHeader(MAVLink.MAV_CMD.WAYPOINT.ToString());
             }
 
@@ -731,15 +842,15 @@ namespace MissionPlanner.GCSViews
 
                     if (_flightPlanner.TXT_altwarn.Text == "") _flightPlanner.TXT_altwarn.Text = (0).ToString();
 
-                    if (_flightPlanner.Commands.Rows[a].Cells[_flightPlanner.Command.Index].Value.ToString().Contains("UNKNOWN"))
+                    if (_flightPlanner.Commands.Rows[a].Cells[Command.Index].Value.ToString().Contains("UNKNOWN"))
                         continue;
 
                     ushort cmd =
                         (ushort)
-                        Enum.Parse(typeof(MAVLink.MAV_CMD), _flightPlanner.Commands.Rows[a].Cells[_flightPlanner.Command.Index].Value.ToString(), false);
+                        Enum.Parse(typeof(MAVLink.MAV_CMD), _flightPlanner.Commands.Rows[a].Cells[Command.Index].Value.ToString(), false);
 
                     if (cmd < (ushort)MAVLink.MAV_CMD.LAST &&
-                        double.Parse(_flightPlanner.Commands[_flightPlanner.Alt.Index, a].Value.ToString()) < double.Parse(_flightPlanner.TXT_altwarn.Text))
+                        double.Parse(_flightPlanner.Commands[Alt.Index, a].Value.ToString()) < double.Parse(_flightPlanner.TXT_altwarn.Text))
                     {
                         if (cmd != (ushort)MAVLink.MAV_CMD.TAKEOFF &&
                             cmd != (ushort)MAVLink.MAV_CMD.LAND &&
@@ -1078,18 +1189,18 @@ namespace MissionPlanner.GCSViews
             }
 
             DataGridViewTextBoxCell cell;
-            if (alt == -2 && _flightPlanner.Commands.Columns[_flightPlanner.Alt.Index].HeaderText.Equals("Alt"))
+            if (alt == -2 && _flightPlanner.Commands.Columns[Alt.Index].HeaderText.Equals("Alt"))
             {
                 if (_flightPlanner.CHK_verifyheight.Checked && (altmode) _flightPlanner.CMB_altmode.SelectedValue != altmode.Terrain) //Drag with verifyheight // use srtm data
                 {
-                    cell = _flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Alt.Index] as DataGridViewTextBoxCell;
+                    cell = _flightPlanner.Commands.Rows[selectedrow].Cells[Alt.Index] as DataGridViewTextBoxCell;
                     float ans;
                     if (float.TryParse(cell.Value.ToString(), out ans))
                     {
                         ans = (int)ans;
 
-                        DataGridViewTextBoxCell celllat = _flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Lat.Index] as DataGridViewTextBoxCell;
-                        DataGridViewTextBoxCell celllon = _flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Lon.Index] as DataGridViewTextBoxCell;
+                        DataGridViewTextBoxCell celllat = _flightPlanner.Commands.Rows[selectedrow].Cells[Lat.Index] as DataGridViewTextBoxCell;
+                        DataGridViewTextBoxCell celllon = _flightPlanner.Commands.Rows[selectedrow].Cells[Lon.Index] as DataGridViewTextBoxCell;
                         int oldsrtm =
                             (int)
                             ((srtm.getAltitude(double.Parse(celllat.Value.ToString()),
@@ -1103,21 +1214,21 @@ namespace MissionPlanner.GCSViews
                     }
                 }
             }
-            if (_flightPlanner.Commands.Columns[_flightPlanner.Lat.Index].HeaderText.Equals("Lat"))
+            if (_flightPlanner.Commands.Columns[Lat.Index].HeaderText.Equals("Lat"))
             {
-                cell = _flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Lat.Index] as DataGridViewTextBoxCell;
+                cell = _flightPlanner.Commands.Rows[selectedrow].Cells[Lat.Index] as DataGridViewTextBoxCell;
                 cell.Value = lat.ToString("0.0000000");
                 cell.DataGridView.EndEdit();
             }
-            if (_flightPlanner.Commands.Columns[_flightPlanner.Lon.Index].HeaderText.Equals("Long"))
+            if (_flightPlanner.Commands.Columns[Lon.Index].HeaderText.Equals("Long"))
             {
-                cell = _flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Lon.Index] as DataGridViewTextBoxCell;
+                cell = _flightPlanner.Commands.Rows[selectedrow].Cells[Lon.Index] as DataGridViewTextBoxCell;
                 cell.Value = lng.ToString("0.0000000");
                 cell.DataGridView.EndEdit();
             }
-            if (alt != -1 && alt != -2 && _flightPlanner.Commands.Columns[_flightPlanner.Alt.Index].HeaderText.Equals("Alt"))
+            if (alt != -1 && alt != -2 && _flightPlanner.Commands.Columns[Alt.Index].HeaderText.Equals("Alt"))
             {
-                cell = _flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Alt.Index] as DataGridViewTextBoxCell;
+                cell = _flightPlanner.Commands.Rows[selectedrow].Cells[Alt.Index] as DataGridViewTextBoxCell;
 
                 {
                     double result;
@@ -1201,9 +1312,9 @@ namespace MissionPlanner.GCSViews
             convertFromGeographic(lat, lng);
 
             // Add more for other params
-            if (_flightPlanner.Commands.Columns[_flightPlanner.Param1.Index].HeaderText.Equals("Delay"))
+            if (_flightPlanner.Commands.Columns[Param1.Index].HeaderText.Equals("Delay"))
             {
-                cell = _flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Param1.Index] as DataGridViewTextBoxCell;
+                cell = _flightPlanner.Commands.Rows[selectedrow].Cells[Param1.Index] as DataGridViewTextBoxCell;
                 cell.Value = p1;
                 cell.DataGridView.EndEdit();
             }
@@ -1492,7 +1603,7 @@ namespace MissionPlanner.GCSViews
         {
             selectedrow = _flightPlanner.Commands.Rows.Add();
 
-            _flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Command.Index].Value = MAVLink.MAV_CMD.DO_DIGICAM_CONTROL.ToString();
+            _flightPlanner.Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.DO_DIGICAM_CONTROL.ToString();
 
             ChangeColumnHeader(MAVLink.MAV_CMD.DO_DIGICAM_CONTROL.ToString());
 
@@ -1753,15 +1864,15 @@ namespace MissionPlanner.GCSViews
 
                     if (_flightPlanner.TXT_altwarn.Text == "") _flightPlanner.TXT_altwarn.Text = (0).ToString();
 
-                    if (_flightPlanner.Commands.Rows[a].Cells[_flightPlanner.Command.Index].Value.ToString().Contains("UNKNOWN"))
+                    if (_flightPlanner.Commands.Rows[a].Cells[Command.Index].Value.ToString().Contains("UNKNOWN"))
                         continue;
 
                     ushort cmd =
                         (ushort)
-                        Enum.Parse(typeof(MAVLink.MAV_CMD), _flightPlanner.Commands.Rows[a].Cells[_flightPlanner.Command.Index].Value.ToString(), false);
+                        Enum.Parse(typeof(MAVLink.MAV_CMD), _flightPlanner.Commands.Rows[a].Cells[Command.Index].Value.ToString(), false);
 
                     if (cmd < (ushort)MAVLink.MAV_CMD.LAST &&
-                        double.Parse(_flightPlanner.Commands[_flightPlanner.Alt.Index, a].Value.ToString()) < double.Parse(_flightPlanner.TXT_altwarn.Text))
+                        double.Parse(_flightPlanner.Commands[Alt.Index, a].Value.ToString()) < double.Parse(_flightPlanner.TXT_altwarn.Text))
                     {
                         if (cmd != (ushort)MAVLink.MAV_CMD.TAKEOFF &&
                             cmd != (ushort)MAVLink.MAV_CMD.LAND &&
@@ -2048,7 +2159,7 @@ namespace MissionPlanner.GCSViews
             {
                 if (e.RowIndex < 0)
                     return;
-                if (e.ColumnIndex == _flightPlanner.Delete.Index && (e.RowIndex + 0) < _flightPlanner.Commands.RowCount) // delete
+                if (e.ColumnIndex == Delete.Index && (e.RowIndex + 0) < _flightPlanner.Commands.RowCount) // delete
                 {
                     quickadd = true;
                     // mono fix
@@ -2057,14 +2168,14 @@ namespace MissionPlanner.GCSViews
                     quickadd = false;
                     writeKML();
                 }
-                if (e.ColumnIndex == _flightPlanner.Up.Index && e.RowIndex != 0) // up
+                if (e.ColumnIndex == Up.Index && e.RowIndex != 0) // up
                 {
                     DataGridViewRow myrow = _flightPlanner.Commands.CurrentRow;
                     _flightPlanner.Commands.Rows.Remove(myrow);
                     _flightPlanner.Commands.Rows.Insert(e.RowIndex - 1, myrow);
                     writeKML();
                 }
-                if (e.ColumnIndex == _flightPlanner.Down.Index && e.RowIndex < _flightPlanner.Commands.RowCount - 1) // down
+                if (e.ColumnIndex == Down.Index && e.RowIndex < _flightPlanner.Commands.RowCount - 1) // down
                 {
                     DataGridViewRow myrow = _flightPlanner.Commands.CurrentRow;
                     _flightPlanner.Commands.Rows.Remove(myrow);
@@ -2081,26 +2192,26 @@ namespace MissionPlanner.GCSViews
         public void Commands_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             // we have modified a utm coords
-            if (e.ColumnIndex == _flightPlanner.coordZone.Index ||
-                e.ColumnIndex == _flightPlanner.coordNorthing.Index ||
-                e.ColumnIndex == _flightPlanner.coordEasting.Index)
+            if (e.ColumnIndex == coordZone.Index ||
+                e.ColumnIndex == coordNorthing.Index ||
+                e.ColumnIndex == coordEasting.Index)
             {
                 convertFromUTM(e.RowIndex);
             }
 
-            if (e.ColumnIndex == _flightPlanner.MGRS.Index)
+            if (e.ColumnIndex == MGRS.Index)
             {
                 convertFromMGRS(e.RowIndex);
             }
 
             // we have modified a ll coord
-            if (e.ColumnIndex == _flightPlanner.Lat.Index ||
-                e.ColumnIndex == _flightPlanner.Lon.Index)
+            if (e.ColumnIndex == Lat.Index ||
+                e.ColumnIndex == Lon.Index)
             {
                 try
                 {
-                    var lat = double.Parse(_flightPlanner.Commands.Rows[e.RowIndex].Cells[_flightPlanner.Lat.Index].Value.ToString());
-                    var lng = double.Parse(_flightPlanner.Commands.Rows[e.RowIndex].Cells[_flightPlanner.Lon.Index].Value.ToString());
+                    var lat = double.Parse(_flightPlanner.Commands.Rows[e.RowIndex].Cells[Lat.Index].Value.ToString());
+                    var lng = double.Parse(_flightPlanner.Commands.Rows[e.RowIndex].Cells[Lon.Index].Value.ToString());
                     convertFromGeographic(lat, lng);
                 }
                 catch (Exception ex)
@@ -2133,9 +2244,10 @@ namespace MissionPlanner.GCSViews
 
         public void Commands_DefaultValuesNeeded(object sender, DataGridViewRowEventArgs e)
         {
-            e.Row.Cells[_flightPlanner.Delete.Index].Value = "X";
-            e.Row.Cells[_flightPlanner.Up.Index].Value = Resources.up;
-            e.Row.Cells[_flightPlanner.Down.Index].Value = Resources.down;
+            e.Row.Cells[Frame.Index].Value = _flightPlanner.CMB_altmode.SelectedValue;
+            e.Row.Cells[Delete.Index].Value = "X";
+            e.Row.Cells[Up.Index].Value = Resources.up;
+            e.Row.Cells[Down.Index].Value = Resources.down;
         }
 
         public void Commands_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
@@ -2163,12 +2275,12 @@ namespace MissionPlanner.GCSViews
             try
             {
                 selectedrow = e.RowIndex;
-                string option = _flightPlanner.Commands[_flightPlanner.Command.Index, selectedrow].EditedFormattedValue.ToString();
+                string option = _flightPlanner.Commands[Command.Index, selectedrow].EditedFormattedValue.ToString();
                 string cmd;
                 try
                 {
-                    if (_flightPlanner.Commands[_flightPlanner.Command.Index, selectedrow].Value != null)
-                        cmd = _flightPlanner.Commands[_flightPlanner.Command.Index, selectedrow].Value.ToString();
+                    if (_flightPlanner.Commands[Command.Index, selectedrow].Value != null)
+                        cmd = _flightPlanner.Commands[Command.Index, selectedrow].Value.ToString();
                     else
                         cmd = option;
                 }
@@ -2203,12 +2315,12 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
-            DataGridViewComboBoxCell cell = _flightPlanner.Commands.Rows[e.RowIndex].Cells[_flightPlanner.Command.Index] as DataGridViewComboBoxCell;
+            DataGridViewComboBoxCell cell = _flightPlanner.Commands.Rows[e.RowIndex].Cells[Command.Index] as DataGridViewComboBoxCell;
             if (cell.Value == null)
             {
                 cell.Value = "WAYPOINT";
                 cell.DropDownWidth = 200;
-                _flightPlanner.Commands.Rows[e.RowIndex].Cells[_flightPlanner.Delete.Index].Value = "X";
+                _flightPlanner.Commands.Rows[e.RowIndex].Cells[Delete.Index].Value = "X";
                 if (!quickadd)
                 {
                     Commands_RowEnter(sender, new DataGridViewCellEventArgs(0, e.RowIndex - 0)); // do header labels
@@ -2217,7 +2329,14 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
-            if (quickadd)
+            DataGridViewComboBoxCell cellFrame = _flightPlanner.Commands.Rows[e.RowIndex].Cells[Frame.Index] as DataGridViewComboBoxCell;
+            if (cellFrame.Value == null)
+            {
+                cellFrame.Value = _flightPlanner.CMB_altmode.SelectedValue;
+            }
+
+
+                if (quickadd)
                 return;
 
             try
@@ -2226,7 +2345,7 @@ namespace MissionPlanner.GCSViews
 
                 if (_flightPlanner.Commands.Rows.Count > 1)
                 {
-                    if (_flightPlanner.Commands.Rows[e.RowIndex - 1].Cells[_flightPlanner.Command.Index].Value.ToString() == "WAYPOINT")
+                    if (_flightPlanner.Commands.Rows[e.RowIndex - 1].Cells[Command.Index].Value.ToString() == "WAYPOINT")
                     {
                         _flightPlanner.Commands.Rows[e.RowIndex].Selected = true; // highlight row
                     }
@@ -2283,19 +2402,19 @@ namespace MissionPlanner.GCSViews
                 // default takeoff to non 0 alt
                 if (((ComboBox)sender).Text == "TAKEOFF")
                 {
-                    if (_flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Alt.Index].Value != null && _flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Alt.Index].Value.ToString() == "0") _flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Alt.Index].Value = _flightPlanner.TXT_DefaultAlt.Text;
+                    if (_flightPlanner.Commands.Rows[selectedrow].Cells[Alt.Index].Value != null && _flightPlanner.Commands.Rows[selectedrow].Cells[Alt.Index].Value.ToString() == "0") _flightPlanner.Commands.Rows[selectedrow].Cells[Alt.Index].Value = _flightPlanner.TXT_DefaultAlt.Text;
                 }
 
                 // default land to 0
                 if (((ComboBox)sender).Text == "LAND")
                 {
-                    if (_flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Alt.Index].Value != null) _flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Alt.Index].Value = "0";
+                    if (_flightPlanner.Commands.Rows[selectedrow].Cells[Alt.Index].Value != null) _flightPlanner.Commands.Rows[selectedrow].Cells[Alt.Index].Value = "0";
                 }
 
                 // default to take shot
                 if (((ComboBox)sender).Text == "DO_DIGICAM_CONTROL")
                 {
-                    if (_flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Lat.Index].Value != null && _flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Lat.Index].Value.ToString() == "0") _flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Lat.Index].Value = (1).ToString();
+                    if (_flightPlanner.Commands.Rows[selectedrow].Cells[Lat.Index].Value != null && _flightPlanner.Commands.Rows[selectedrow].Cells[Lat.Index].Value.ToString() == "0") _flightPlanner.Commands.Rows[selectedrow].Cells[Lat.Index].Value = (1).ToString();
                 }
 
                 if (((ComboBox)sender).Text == "UNKNOWN")
@@ -2305,7 +2424,7 @@ namespace MissionPlanner.GCSViews
                     {
                         if (cmdid != "-1")
                         {
-                            _flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Command.Index].Tag = ushort.Parse(cmdid);
+                            _flightPlanner.Commands.Rows[selectedrow].Cells[Command.Index].Tag = ushort.Parse(cmdid);
                         }
                     }
                 }
@@ -2486,9 +2605,9 @@ namespace MissionPlanner.GCSViews
                 var temp = new PointLatLngAlt(lat, lng);
                 int zone = temp.GetUTMZone();
                 var temp2 = temp.ToUTM();
-                _flightPlanner.Commands[_flightPlanner.coordZone.Index, selectedrow].Value = zone;
-                _flightPlanner.Commands[_flightPlanner.coordEasting.Index, selectedrow].Value = temp2[0].ToString("0.000");
-                _flightPlanner.Commands[_flightPlanner.coordNorthing.Index, selectedrow].Value = temp2[1].ToString("0.000");
+                _flightPlanner.Commands[coordZone.Index, selectedrow].Value = zone;
+                _flightPlanner.Commands[coordEasting.Index, selectedrow].Value = temp2[0].ToString("0.000");
+                _flightPlanner.Commands[coordNorthing.Index, selectedrow].Value = temp2[1].ToString("0.000");
             }
             catch (Exception ex)
             {
@@ -2497,7 +2616,7 @@ namespace MissionPlanner.GCSViews
             try
             {
                 //MGRS
-                _flightPlanner.Commands[_flightPlanner.MGRS.Index, selectedrow].Value = ((MGRS)new Geographic(lng, lat)).ToString();
+                _flightPlanner.Commands[MGRS.Index, selectedrow].Value = ((MGRS)new Geographic(lng, lat)).ToString();
             }
             catch (Exception ex)
             {
@@ -2509,7 +2628,7 @@ namespace MissionPlanner.GCSViews
         {
             try
             {
-                var mgrs = _flightPlanner.Commands[_flightPlanner.MGRS.Index, rowindex].Value.ToString();
+                var mgrs = _flightPlanner.Commands[MGRS.Index, rowindex].Value.ToString();
 
                 MGRS temp = new MGRS(mgrs);
 
@@ -2518,8 +2637,8 @@ namespace MissionPlanner.GCSViews
                 if (convert.Latitude == 0 || convert.Longitude == 0)
                     return;
 
-                _flightPlanner.Commands[_flightPlanner.Lat.Index, rowindex].Value = convert.Latitude.ToString();
-                _flightPlanner.Commands[_flightPlanner.Lon.Index, rowindex].Value = convert.Longitude.ToString();
+                _flightPlanner.Commands[Lat.Index, rowindex].Value = convert.Latitude.ToString();
+                _flightPlanner.Commands[Lon.Index, rowindex].Value = convert.Longitude.ToString();
 
             }
             catch (Exception ex)
@@ -2533,11 +2652,11 @@ namespace MissionPlanner.GCSViews
         {
             try
             {
-                var zone = int.Parse(_flightPlanner.Commands[_flightPlanner.coordZone.Index, rowindex].Value.ToString());
+                var zone = int.Parse(_flightPlanner.Commands[coordZone.Index, rowindex].Value.ToString());
 
-                var east = double.Parse(_flightPlanner.Commands[_flightPlanner.coordEasting.Index, rowindex].Value.ToString());
+                var east = double.Parse(_flightPlanner.Commands[coordEasting.Index, rowindex].Value.ToString());
 
-                var north = double.Parse(_flightPlanner.Commands[_flightPlanner.coordNorthing.Index, rowindex].Value.ToString());
+                var north = double.Parse(_flightPlanner.Commands[coordNorthing.Index, rowindex].Value.ToString());
 
                 if (east == 0 && north == 0)
                 {
@@ -2546,8 +2665,8 @@ namespace MissionPlanner.GCSViews
 
                 var utm = new utmpos(east, north, zone);
 
-                _flightPlanner.Commands[_flightPlanner.Lat.Index, rowindex].Value = utm.ToLLA().Lat;
-                _flightPlanner.Commands[_flightPlanner.Lon.Index, rowindex].Value = utm.ToLLA().Lng;
+                _flightPlanner.Commands[Lat.Index, rowindex].Value = utm.ToLLA().Lat;
+                _flightPlanner.Commands[Lon.Index, rowindex].Value = utm.ToLLA().Lng;
 
             }
             catch (Exception ex)
@@ -2576,33 +2695,33 @@ namespace MissionPlanner.GCSViews
         {
             if (_flightPlanner.coords1.System == Coords.CoordsSystems.GEO.ToString())
             {
-                _flightPlanner.Lat.Visible = true;
-                _flightPlanner.Lon.Visible = true;
+                Lat.Visible = true;
+                Lon.Visible = true;
 
-                _flightPlanner.coordZone.Visible = false;
-                _flightPlanner.coordEasting.Visible = false;
-                _flightPlanner.coordNorthing.Visible = false;
-                _flightPlanner.MGRS.Visible = false;
+                coordZone.Visible = false;
+                coordEasting.Visible = false;
+                coordNorthing.Visible = false;
+                MGRS.Visible = false;
             }
             else if (_flightPlanner.coords1.System == Coords.CoordsSystems.MGRS.ToString())
             {
-                _flightPlanner.Lat.Visible = false;
-                _flightPlanner.Lon.Visible = false;
+                Lat.Visible = false;
+                Lon.Visible = false;
 
-                _flightPlanner.coordZone.Visible = false;
-                _flightPlanner.coordEasting.Visible = false;
-                _flightPlanner.coordNorthing.Visible = false;
-                _flightPlanner.MGRS.Visible = true;
+                coordZone.Visible = false;
+                coordEasting.Visible = false;
+                coordNorthing.Visible = false;
+                MGRS.Visible = true;
             }
             else if (_flightPlanner.coords1.System == Coords.CoordsSystems.UTM.ToString())
             {
-                _flightPlanner.Lat.Visible = false;
-                _flightPlanner.Lon.Visible = false;
+                Lat.Visible = false;
+                Lon.Visible = false;
 
-                _flightPlanner.coordZone.Visible = true;
-                _flightPlanner.coordEasting.Visible = true;
-                _flightPlanner.coordNorthing.Visible = true;
-                _flightPlanner.MGRS.Visible = false;
+                coordZone.Visible = true;
+                coordEasting.Visible = true;
+                coordNorthing.Visible = true;
+                MGRS.Visible = false;
             }
         }
 
@@ -2677,7 +2796,7 @@ namespace MissionPlanner.GCSViews
                 {
                     selectedrow = _flightPlanner.Commands.Rows.Add();
 
-                    _flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Command.Index].Value = MAVLink.MAV_CMD.SPLINE_WAYPOINT.ToString();
+                    _flightPlanner.Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.SPLINE_WAYPOINT.ToString();
 
                     ChangeColumnHeader(MAVLink.MAV_CMD.SPLINE_WAYPOINT.ToString());
 
@@ -2773,7 +2892,7 @@ namespace MissionPlanner.GCSViews
             {
                 selectedrow = _flightPlanner.Commands.Rows.Add();
 
-                _flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Command.Index].Value = MAVLink.MAV_CMD.WAYPOINT.ToString();
+                _flightPlanner.Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.WAYPOINT.ToString();
 
                 ChangeColumnHeader(MAVLink.MAV_CMD.WAYPOINT.ToString());
 
@@ -2805,31 +2924,34 @@ namespace MissionPlanner.GCSViews
             try
             {
                 Locationwp temp = new Locationwp();
-                if (_flightPlanner.Commands.Rows[a].Cells[_flightPlanner.Command.Index].Value.ToString().Contains("UNKNOWN"))
+                if (_flightPlanner.Commands.Rows[a].Cells[Command.Index].Value.ToString().Contains("UNKNOWN"))
                 {
-                    temp.id = (ushort) _flightPlanner.Commands.Rows[a].Cells[_flightPlanner.Command.Index].Tag;
+                    temp.id = (ushort) _flightPlanner.Commands.Rows[a].Cells[Command.Index].Tag;
                 }
                 else
                 {
                     temp.id =
                         (ushort)
-                        Enum.Parse(typeof(MAVLink.MAV_CMD), _flightPlanner.Commands.Rows[a].Cells[_flightPlanner.Command.Index].Value.ToString(),
+                        Enum.Parse(typeof(MAVLink.MAV_CMD), _flightPlanner.Commands.Rows[a].Cells[Command.Index].Value.ToString(),
                             false);
                 }
-                temp.p1 = float.Parse(_flightPlanner.Commands.Rows[a].Cells[_flightPlanner.Param1.Index].Value.ToString());
+                temp.p1 = float.Parse(_flightPlanner.Commands.Rows[a].Cells[Param1.Index].Value.ToString());
 
                 temp.alt =
                     (float)
-                    (double.Parse(_flightPlanner.Commands.Rows[a].Cells[_flightPlanner.Alt.Index].Value.ToString()) / CurrentState.multiplieralt);
-                temp.lat = (double.Parse(_flightPlanner.Commands.Rows[a].Cells[_flightPlanner.Lat.Index].Value.ToString()));
-                temp.lng = (double.Parse(_flightPlanner.Commands.Rows[a].Cells[_flightPlanner.Lon.Index].Value.ToString()));
+                    (double.Parse(_flightPlanner.Commands.Rows[a].Cells[Alt.Index].Value.ToString()) / CurrentState.multiplieralt);
+                temp.lat = (double.Parse(_flightPlanner.Commands.Rows[a].Cells[Lat.Index].Value.ToString()));
+                temp.lng = (double.Parse(_flightPlanner.Commands.Rows[a].Cells[Lon.Index].Value.ToString()));
 
-                temp.p2 = (float)(double.Parse(_flightPlanner.Commands.Rows[a].Cells[_flightPlanner.Param2.Index].Value.ToString()));
-                temp.p3 = (float)(double.Parse(_flightPlanner.Commands.Rows[a].Cells[_flightPlanner.Param3.Index].Value.ToString()));
-                temp.p4 = (float)(double.Parse(_flightPlanner.Commands.Rows[a].Cells[_flightPlanner.Param4.Index].Value.ToString()));
+                temp.p2 = (float)(double.Parse(_flightPlanner.Commands.Rows[a].Cells[Param2.Index].Value.ToString()));
+                temp.p3 = (float)(double.Parse(_flightPlanner.Commands.Rows[a].Cells[Param3.Index].Value.ToString()));
+                temp.p4 = (float)(double.Parse(_flightPlanner.Commands.Rows[a].Cells[Param4.Index].Value.ToString()));
 
-                temp.Tag = _flightPlanner.Commands.Rows[a].Cells[_flightPlanner.TagData.Index].Value;
+                temp.Tag = _flightPlanner.Commands.Rows[a].Cells[TagData.Index].Value;
 
+                temp.frame = (byte) (int)_flightPlanner.Commands.Rows[a].Cells[Frame.Index].Value;
+
+                /*
                 var mode = currentaltmode;
 
                 if (mode == altmode.Terrain)
@@ -2844,7 +2966,7 @@ namespace MissionPlanner.GCSViews
                 {
                     temp.frame = (byte)MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT;
                 }
-
+                */
                 return temp;
             }
             catch (Exception ex)
@@ -3119,23 +3241,23 @@ namespace MissionPlanner.GCSViews
         private void FillCommand(int rowIndex, MAVLink.MAV_CMD cmd, double p1, double p2, double p3, double p4, double x,
             double y, double z, object tag = null)
         {
-            _flightPlanner.Commands.Rows[rowIndex].Cells[_flightPlanner.Command.Index].Value = cmd.ToString();
-            _flightPlanner.Commands.Rows[rowIndex].Cells[_flightPlanner.TagData.Index].Tag = tag;
-            _flightPlanner.Commands.Rows[rowIndex].Cells[_flightPlanner.TagData.Index].Value = tag;
+            _flightPlanner.Commands.Rows[rowIndex].Cells[Command.Index].Value = cmd.ToString();
+            _flightPlanner.Commands.Rows[rowIndex].Cells[TagData.Index].Tag = tag;
+            _flightPlanner.Commands.Rows[rowIndex].Cells[TagData.Index].Value = tag;
 
             ChangeColumnHeader(cmd.ToString());
 
             // switch wp to spline if spline checked
             if (splinemode && cmd == MAVLink.MAV_CMD.WAYPOINT)
             {
-                _flightPlanner.Commands.Rows[rowIndex].Cells[_flightPlanner.Command.Index].Value = MAVLink.MAV_CMD.SPLINE_WAYPOINT.ToString();
+                _flightPlanner.Commands.Rows[rowIndex].Cells[Command.Index].Value = MAVLink.MAV_CMD.SPLINE_WAYPOINT.ToString();
                 ChangeColumnHeader(MAVLink.MAV_CMD.SPLINE_WAYPOINT.ToString());
             }
 
             if (cmd == MAVLink.MAV_CMD.WAYPOINT)
             {
                 // add delay if supplied
-                _flightPlanner.Commands.Rows[rowIndex].Cells[_flightPlanner.Param1.Index].Value = p1;
+                _flightPlanner.Commands.Rows[rowIndex].Cells[Param1.Index].Value = p1;
 
                 setfromMap(y, x, (int)z, Math.Round(p1, 1));
             }
@@ -3145,13 +3267,13 @@ namespace MissionPlanner.GCSViews
             }
             else
             {
-                _flightPlanner.Commands.Rows[rowIndex].Cells[_flightPlanner.Param1.Index].Value = p1;
-                _flightPlanner.Commands.Rows[rowIndex].Cells[_flightPlanner.Param2.Index].Value = p2;
-                _flightPlanner.Commands.Rows[rowIndex].Cells[_flightPlanner.Param3.Index].Value = p3;
-                _flightPlanner.Commands.Rows[rowIndex].Cells[_flightPlanner.Param4.Index].Value = p4;
-                _flightPlanner.Commands.Rows[rowIndex].Cells[_flightPlanner.Lat.Index].Value = y;
-                _flightPlanner.Commands.Rows[rowIndex].Cells[_flightPlanner.Lon.Index].Value = x;
-                _flightPlanner.Commands.Rows[rowIndex].Cells[_flightPlanner.Alt.Index].Value = z;
+                _flightPlanner.Commands.Rows[rowIndex].Cells[Param1.Index].Value = p1;
+                _flightPlanner.Commands.Rows[rowIndex].Cells[Param2.Index].Value = p2;
+                _flightPlanner.Commands.Rows[rowIndex].Cells[Param3.Index].Value = p3;
+                _flightPlanner.Commands.Rows[rowIndex].Cells[Param4.Index].Value = p4;
+                _flightPlanner.Commands.Rows[rowIndex].Cells[Lat.Index].Value = y;
+                _flightPlanner.Commands.Rows[rowIndex].Cells[Lon.Index].Value = x;
+                _flightPlanner.Commands.Rows[rowIndex].Cells[Alt.Index].Value = z;
             }
         }
 
@@ -3632,7 +3754,7 @@ namespace MissionPlanner.GCSViews
 
                 try
                 {
-                    _flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Command.Index].Value = MAVLink.MAV_CMD.SPLINE_WAYPOINT.ToString();
+                    _flightPlanner.Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.SPLINE_WAYPOINT.ToString();
                 }
                 catch
                 {
@@ -3678,11 +3800,11 @@ namespace MissionPlanner.GCSViews
 
             selectedrow = _flightPlanner.Commands.Rows.Add();
 
-            _flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Command.Index].Value = MAVLink.MAV_CMD.DO_JUMP.ToString();
+            _flightPlanner.Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.DO_JUMP.ToString();
 
-            _flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Param1.Index].Value = 1;
+            _flightPlanner.Commands.Rows[selectedrow].Cells[Param1.Index].Value = 1;
 
-            _flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Param2.Index].Value = repeat;
+            _flightPlanner.Commands.Rows[selectedrow].Cells[Param2.Index].Value = repeat;
 
             writeKML();
         }
@@ -3698,11 +3820,11 @@ namespace MissionPlanner.GCSViews
 
             selectedrow = _flightPlanner.Commands.Rows.Add();
 
-            _flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Command.Index].Value = MAVLink.MAV_CMD.DO_JUMP.ToString();
+            _flightPlanner.Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.DO_JUMP.ToString();
 
-            _flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Param1.Index].Value = wp;
+            _flightPlanner.Commands.Rows[selectedrow].Cells[Param1.Index].Value = wp;
 
-            _flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Param2.Index].Value = repeat;
+            _flightPlanner.Commands.Rows[selectedrow].Cells[Param2.Index].Value = repeat;
 
             writeKML();
         }
@@ -3865,7 +3987,7 @@ namespace MissionPlanner.GCSViews
         {
             selectedrow = _flightPlanner.Commands.Rows.Add();
 
-            _flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Command.Index].Value = MAVLink.MAV_CMD.LAND.ToString();
+            _flightPlanner.Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.LAND.ToString();
 
             //Commands.Rows[selectedrow].Cells[Param1.Index].Value = time;
 
@@ -4297,9 +4419,9 @@ namespace MissionPlanner.GCSViews
 
             selectedrow = _flightPlanner.Commands.Rows.Add();
 
-            _flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Command.Index].Value = MAVLink.MAV_CMD.LOITER_TURNS.ToString();
+            _flightPlanner.Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.LOITER_TURNS.ToString();
 
-            _flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Param1.Index].Value = turns;
+            _flightPlanner.Commands.Rows[selectedrow].Cells[Param1.Index].Value = turns;
 
             ChangeColumnHeader(MAVLink.MAV_CMD.LOITER_TURNS.ToString());
 
@@ -4312,7 +4434,7 @@ namespace MissionPlanner.GCSViews
         {
             selectedrow = _flightPlanner.Commands.Rows.Add();
 
-            _flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Command.Index].Value = MAVLink.MAV_CMD.LOITER_UNLIM.ToString();
+            _flightPlanner.Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.LOITER_UNLIM.ToString();
 
             ChangeColumnHeader(MAVLink.MAV_CMD.LOITER_UNLIM.ToString());
 
@@ -4329,9 +4451,9 @@ namespace MissionPlanner.GCSViews
 
             selectedrow = _flightPlanner.Commands.Rows.Add();
 
-            _flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Command.Index].Value = MAVLink.MAV_CMD.LOITER_TIME.ToString();
+            _flightPlanner.Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.LOITER_TIME.ToString();
 
-            _flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Param1.Index].Value = time;
+            _flightPlanner.Commands.Rows[selectedrow].Cells[Param1.Index].Value = time;
 
             ChangeColumnHeader(MAVLink.MAV_CMD.LOITER_TIME.ToString());
 
@@ -4462,8 +4584,8 @@ namespace MissionPlanner.GCSViews
 
             foreach (DataGridViewRow line in _flightPlanner.Commands.Rows)
             {
-                line.Cells[_flightPlanner.Alt.Index].Value =
-                    (int)(float.Parse(line.Cells[_flightPlanner.Alt.Index].Value.ToString()) * multiplyer + altchange);
+                line.Cells[Alt.Index].Value =
+                    (int)(float.Parse(line.Cells[Alt.Index].Value.ToString()) * multiplyer + altchange);
             }
         }
 
@@ -4770,7 +4892,7 @@ namespace MissionPlanner.GCSViews
                 //  continue;
                 DataGridViewTextBoxCell cell;
                 DataGridViewComboBoxCell cellcmd;
-                cellcmd = _flightPlanner.Commands.Rows[i].Cells[_flightPlanner.Command.Index] as DataGridViewComboBoxCell;
+                cellcmd = _flightPlanner.Commands.Rows[i].Cells[Command.Index] as DataGridViewComboBoxCell;
                 cellcmd.Value = "UNKNOWN";
                 cellcmd.Tag = temp.id;
 
@@ -4791,36 +4913,26 @@ namespace MissionPlanner.GCSViews
                     // not home
                     if (i != 0)
                     {
-                        // check relative and terrain flags
-                        if ((temp.options & 0x9) == 0)
-                        {
-                            _flightPlanner.CMB_altmode.SelectedValue = (int)altmode.Absolute;
-                        } // check terrain flag
-                        else if ((temp.options & 0x8) != 0)
-                        {
-                            _flightPlanner.CMB_altmode.SelectedValue = (int)altmode.Terrain;
-                        } // check relative flag
-                        else if ((temp.options & 0x1) != 0)
-                        {
-                            _flightPlanner.CMB_altmode.SelectedValue = (int)altmode.Relative;
-                        }
+                        _flightPlanner.CMB_altmode.SelectedValue = temp.frame;
                     }
                 }
 
-                cell = _flightPlanner.Commands.Rows[i].Cells[_flightPlanner.Alt.Index] as DataGridViewTextBoxCell;
+                DataGridViewComboBoxCell cellframe = _flightPlanner.Commands.Rows[i].Cells[Frame.Index] as DataGridViewComboBoxCell;
+                cellframe.Value = (altmode)temp.frame;
+                cell = _flightPlanner.Commands.Rows[i].Cells[Alt.Index] as DataGridViewTextBoxCell;
                 cell.Value = temp.alt * CurrentState.multiplieralt;
-                cell = _flightPlanner.Commands.Rows[i].Cells[_flightPlanner.Lat.Index] as DataGridViewTextBoxCell;
+                cell = _flightPlanner.Commands.Rows[i].Cells[Lat.Index] as DataGridViewTextBoxCell;
                 cell.Value = temp.lat;
-                cell = _flightPlanner.Commands.Rows[i].Cells[_flightPlanner.Lon.Index] as DataGridViewTextBoxCell;
+                cell = _flightPlanner.Commands.Rows[i].Cells[Lon.Index] as DataGridViewTextBoxCell;
                 cell.Value = temp.lng;
 
-                cell = _flightPlanner.Commands.Rows[i].Cells[_flightPlanner.Param1.Index] as DataGridViewTextBoxCell;
+                cell = _flightPlanner.Commands.Rows[i].Cells[Param1.Index] as DataGridViewTextBoxCell;
                 cell.Value = temp.p1;
-                cell = _flightPlanner.Commands.Rows[i].Cells[_flightPlanner.Param2.Index] as DataGridViewTextBoxCell;
+                cell = _flightPlanner.Commands.Rows[i].Cells[Param2.Index] as DataGridViewTextBoxCell;
                 cell.Value = temp.p2;
-                cell = _flightPlanner.Commands.Rows[i].Cells[_flightPlanner.Param3.Index] as DataGridViewTextBoxCell;
+                cell = _flightPlanner.Commands.Rows[i].Cells[Param3.Index] as DataGridViewTextBoxCell;
                 cell.Value = temp.p3;
-                cell = _flightPlanner.Commands.Rows[i].Cells[_flightPlanner.Param4.Index] as DataGridViewTextBoxCell;
+                cell = _flightPlanner.Commands.Rows[i].Cells[Param4.Index] as DataGridViewTextBoxCell;
                 cell.Value = temp.p4;
 
                 // convert to utm/other
@@ -4842,7 +4954,7 @@ namespace MissionPlanner.GCSViews
                 try
                 {
                     DataGridViewTextBoxCell cellhome;
-                    cellhome = _flightPlanner.Commands.Rows[0].Cells[_flightPlanner.Lat.Index] as DataGridViewTextBoxCell;
+                    cellhome = _flightPlanner.Commands.Rows[0].Cells[Lat.Index] as DataGridViewTextBoxCell;
                     if (cellhome.Value != null)
                     {
                         if (cellhome.Value.ToString() != _flightPlanner.TXT_homelat.Text && cellhome.Value.ToString() != "0")
@@ -4853,9 +4965,9 @@ namespace MissionPlanner.GCSViews
                             if (dr == (int)DialogResult.Yes)
                             {
                                 _flightPlanner.TXT_homelat.Text = (double.Parse(cellhome.Value.ToString())).ToString();
-                                cellhome = _flightPlanner.Commands.Rows[0].Cells[_flightPlanner.Lon.Index] as DataGridViewTextBoxCell;
+                                cellhome = _flightPlanner.Commands.Rows[0].Cells[Lon.Index] as DataGridViewTextBoxCell;
                                 _flightPlanner.TXT_homelng.Text = (double.Parse(cellhome.Value.ToString())).ToString();
-                                cellhome = _flightPlanner.Commands.Rows[0].Cells[_flightPlanner.Alt.Index] as DataGridViewTextBoxCell;
+                                cellhome = _flightPlanner.Commands.Rows[0].Cells[Alt.Index] as DataGridViewTextBoxCell;
                                 _flightPlanner.TXT_homealt.Text =
                                     (double.Parse(cellhome.Value.ToString()) * CurrentState.multiplieralt).ToString();
                             }
@@ -4991,7 +5103,7 @@ namespace MissionPlanner.GCSViews
         {
             selectedrow = _flightPlanner.Commands.Rows.Add();
 
-            _flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Command.Index].Value = MAVLink.MAV_CMD.RETURN_TO_LAUNCH.ToString();
+            _flightPlanner.Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.RETURN_TO_LAUNCH.ToString();
 
             //Commands.Rows[selectedrow].Cells[Param1.Index].Value = time;
 
@@ -5230,14 +5342,14 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                             if (_flightPlanner.Commands.Rows[a].Cells[0].Value.ToString() == "UNKNOWN")
                             {
-                                mode = (ushort) _flightPlanner.Commands.Rows[a].Cells[_flightPlanner.Command.Index].Tag;
+                                mode = (ushort) _flightPlanner.Commands.Rows[a].Cells[Command.Index].Tag;
                             }
                             else
                             {
                                 mode =
                                     (ushort)
                                     (MAVLink.MAV_CMD)
-                                    Enum.Parse(typeof(MAVLink.MAV_CMD), _flightPlanner.Commands.Rows[a].Cells[_flightPlanner.Command.Index].Value.ToString());
+                                    Enum.Parse(typeof(MAVLink.MAV_CMD), _flightPlanner.Commands.Rows[a].Cells[Command.Index].Value.ToString());
                             }
 
                             sw.Write((a + 1)); // seq
@@ -5245,25 +5357,25 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                             sw.Write("\t" + _flightPlanner.CMB_altmode.SelectedValue); //frame 
                             sw.Write("\t" + mode);
                             sw.Write("\t" +
-                                     double.Parse(_flightPlanner.Commands.Rows[a].Cells[_flightPlanner.Param1.Index].Value.ToString())
+                                     double.Parse(_flightPlanner.Commands.Rows[a].Cells[Param1.Index].Value.ToString())
                                          .ToString("0.00000000", new CultureInfo("en-US")));
                             sw.Write("\t" +
-                                     double.Parse(_flightPlanner.Commands.Rows[a].Cells[_flightPlanner.Param2.Index].Value.ToString())
+                                     double.Parse(_flightPlanner.Commands.Rows[a].Cells[Param2.Index].Value.ToString())
                                          .ToString("0.00000000", new CultureInfo("en-US")));
                             sw.Write("\t" +
-                                     double.Parse(_flightPlanner.Commands.Rows[a].Cells[_flightPlanner.Param3.Index].Value.ToString())
+                                     double.Parse(_flightPlanner.Commands.Rows[a].Cells[Param3.Index].Value.ToString())
                                          .ToString("0.00000000", new CultureInfo("en-US")));
                             sw.Write("\t" +
-                                     double.Parse(_flightPlanner.Commands.Rows[a].Cells[_flightPlanner.Param4.Index].Value.ToString())
+                                     double.Parse(_flightPlanner.Commands.Rows[a].Cells[Param4.Index].Value.ToString())
                                          .ToString("0.00000000", new CultureInfo("en-US")));
                             sw.Write("\t" +
-                                     double.Parse(_flightPlanner.Commands.Rows[a].Cells[_flightPlanner.Lat.Index].Value.ToString())
+                                     double.Parse(_flightPlanner.Commands.Rows[a].Cells[Lat.Index].Value.ToString())
                                          .ToString("0.00000000", new CultureInfo("en-US")));
                             sw.Write("\t" +
-                                     double.Parse(_flightPlanner.Commands.Rows[a].Cells[_flightPlanner.Lon.Index].Value.ToString())
+                                     double.Parse(_flightPlanner.Commands.Rows[a].Cells[Lon.Index].Value.ToString())
                                          .ToString("0.00000000", new CultureInfo("en-US")));
                             sw.Write("\t" +
-                                     (double.Parse(_flightPlanner.Commands.Rows[a].Cells[_flightPlanner.Alt.Index].Value.ToString()) /
+                                     (double.Parse(_flightPlanner.Commands.Rows[a].Cells[Alt.Index].Value.ToString()) /
                                       CurrentState.multiplieralt).ToString("0.000000", new CultureInfo("en-US")));
                             sw.Write("\t" + 1);
                             sw.WriteLine("");
@@ -5591,16 +5703,16 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                         double distance = lla.GetDistance(last) * CurrentState.multiplierdist;
                         double grad = height / distance;
 
-                        _flightPlanner.Commands.Rows[int.Parse(lla.Tag) - 1].Cells[_flightPlanner.Grad.Index].Value =
+                        _flightPlanner.Commands.Rows[int.Parse(lla.Tag) - 1].Cells[Grad.Index].Value =
                             (grad * 100).ToString("0.0");
 
-                        _flightPlanner.Commands.Rows[int.Parse(lla.Tag) - 1].Cells[_flightPlanner.Angle.Index].Value =
+                        _flightPlanner.Commands.Rows[int.Parse(lla.Tag) - 1].Cells[Angle.Index].Value =
                             ((180.0 / Math.PI) * Math.Atan(grad)).ToString("0.0");
 
-                        _flightPlanner.Commands.Rows[int.Parse(lla.Tag) - 1].Cells[_flightPlanner.Dist.Index].Value =
+                        _flightPlanner.Commands.Rows[int.Parse(lla.Tag) - 1].Cells[Dist.Index].Value =
                             (Math.Sqrt(Math.Pow(distance, 2) + Math.Pow(height, 2))).ToString("0.0");
 
-                        _flightPlanner.Commands.Rows[int.Parse(lla.Tag) - 1].Cells[_flightPlanner.AZ.Index].Value =
+                        _flightPlanner.Commands.Rows[int.Parse(lla.Tag) - 1].Cells[AZ.Index].Value =
                             ((lla.GetBearing(last) + 180) % 360).ToString("0");
                     }
                 }
@@ -5671,7 +5783,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
             selectedrow = _flightPlanner.Commands.Rows.Add();
 
-            _flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Command.Index].Value = MAVLink.MAV_CMD.DO_SET_ROI.ToString();
+            _flightPlanner.Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.DO_SET_ROI.ToString();
 
             //Commands.Rows[selectedrow].Cells[Param1.Index].Value = time;
 
@@ -5789,11 +5901,11 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
             selectedrow = _flightPlanner.Commands.Rows.Add();
 
-            _flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Command.Index].Value = MAVLink.MAV_CMD.TAKEOFF.ToString();
+            _flightPlanner.Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.TAKEOFF.ToString();
 
-            _flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Param1.Index].Value = topi;
+            _flightPlanner.Commands.Rows[selectedrow].Cells[Param1.Index].Value = topi;
 
-            _flightPlanner.Commands.Rows[selectedrow].Cells[_flightPlanner.Alt.Index].Value = alti;
+            _flightPlanner.Commands.Rows[selectedrow].Cells[Alt.Index].Value = alti;
 
             ChangeColumnHeader(MAVLink.MAV_CMD.TAKEOFF.ToString());
 
@@ -6090,7 +6202,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
             cmds.Add("UNKNOWN");
 
-            _flightPlanner.Command.DataSource = cmds;
+            Command.DataSource = cmds;
         }
 
         private void updateHomeText()

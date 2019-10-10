@@ -1357,7 +1357,7 @@ namespace MissionPlanner.GCSViews
                         foreach (var loc in cmds)
                         {
                             MAVLink.MAV_MISSION_RESULT ans = MainV2.comPort.setWP(loc, wpno,
-                                (MAVLink.MAV_FRAME)(loc.options));
+                                (MAVLink.MAV_FRAME) (loc.frame));
                             if (ans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
                             {
                                 CustomMessageBox.Show("Upload wps failed " +

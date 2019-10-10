@@ -44,6 +44,8 @@ public class TestPlugin : Plugin
 
     public override bool Loaded()
     {
+        return false;
+
         UTM.Auth();
 
         UAVS = UTM.GetUAVs();

@@ -2497,7 +2497,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                             continue;
                         }
 
-                        loc.options = (byte) (wp.frame);
+                        loc.frame = wp.frame;
                         loc.id = (ushort)(wp.command);
                         loc.p1 = (wp.param1);
                         loc.p2 = (wp.param2);
@@ -2509,7 +2509,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         loc.lng = ((wp.y));
 
                         log.InfoFormat("getWP {0} {1} {2} {3} {4} opt {5}", loc.id, loc.p1, loc.alt, loc.lat, loc.lng,
-                            loc.options);
+                            loc.frame);
 
                         break;
                     }
@@ -2530,7 +2530,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                             continue;
                         }
 
-                        loc.options = (byte)(wp.frame);
+                        loc.frame = wp.frame;
                         loc.id = (ushort)(wp.command);
                         loc.p1 = (wp.param1);
                         loc.p2 = (wp.param2);
@@ -2547,7 +2547,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         }
 
                         log.InfoFormat("getWPint {0} {1} {2} {3} {4} opt {5}", loc.id, loc.p1, loc.alt, loc.lat, loc.lng,
-                            loc.options);
+                            loc.frame);
 
                         break;
                     }
@@ -3268,7 +3268,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             Thread.Sleep(10);
             generatePacket((byte) MAVLINK_MSG_ID.MISSION_WRITE_PARTIAL_LIST, req);
 
-            MAV_FRAME frame = (current.options & 0x1) == 0 ? MAV_FRAME.GLOBAL : MAV_FRAME.GLOBAL_RELATIVE_ALT;
+            MAV_FRAME frame = (MAV_FRAME) current.frame;
 
             //send the point with new alt
             setWP(current, wpno, MAV_FRAME.GLOBAL_RELATIVE_ALT, 0);

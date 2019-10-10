@@ -1226,7 +1226,7 @@ namespace MissionPlanner.Log
 
                                         sw.Write((a)); // seq
                                         sw.Write("\t" + 0); // current
-                                        sw.Write("\t" + wp.options); //frame 
+                                        sw.Write("\t" + wp.frame); //frame 
                                         sw.Write("\t" + wp.id);
                                         sw.Write("\t" + wp.p1.ToString("0.000000", CultureInfo.InvariantCulture));
                                         sw.Write("\t" + wp.p2.ToString("0.000000", CultureInfo.InvariantCulture));

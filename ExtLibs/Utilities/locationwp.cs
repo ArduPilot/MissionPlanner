@@ -167,7 +167,6 @@ namespace MissionPlanner.Utilities
         public object Tag;
 
         public ushort id;				// command id
-        public byte options;
         public float p1;				// param 1
         public float p2;				// param 2
         public float p3;				// param 3
