@@ -18,6 +18,31 @@ namespace MissionPlanner.Utilities
             return (String.IsNullOrEmpty(pa) ? 32 : 64);
         }
 
+        public static void devcon()
+        {
+            Process pr = new Process();
+            pr.StartInfo = new ProcessStartInfo("devcon", "hwids *2DAE*")
+            {
+                RedirectStandardError = true,
+                RedirectStandardOutput = true,
+                UseShellExecute = false
+            };
+
+            pr.Start();
+            var so = pr.StandardOutput.ReadToEndAsync();
+            var se = pr.StandardError.ReadToEndAsync();
+
+            var ids = Regex.Matches(so.Result, @"USB\\");
+
+
+            pr.StartInfo = new ProcessStartInfo("devcon", "remove *2DAE*")
+            {
+                RedirectStandardError = true,
+                RedirectStandardOutput = true,
+                UseShellExecute = false
+            };
+        }
+
         public static void Clean()
         {
             Process pr = new Process();
@@ -59,7 +84,7 @@ Signer Name:        Microsoft Windows Hardware Compatibility Publisher
                     sin[i].Groups[1].Value.Trim());
 
                 ProcessStartInfo si =
-                    new ProcessStartInfo("pnputil", "-f -d " + pun[i].Groups[1].Value.Trim()) {Verb = "runas"};
+                    new ProcessStartInfo("pnputil", "-f -u -d " + pun[i].Groups[1].Value.Trim()) {Verb = "runas"};
 
                 if (sin[i].Groups[1].Value.Trim() == "Michael Oborne")
                 {

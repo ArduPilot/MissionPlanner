@@ -213,16 +213,20 @@ namespace wix
 
     <Binary Id=""signedcer""  SourceFile=""..\Drivers\signed.cer"" />
   
+    <CustomAction  Id='Drivercleanup' Execute='deferred' 
+    Directory='Drivers'  ExeCommand='[Drivers]DriverCleanup.exe' Return='ignore' Impersonate='no'/>
+
     <CustomAction  Id='Install_signed_Driver86' Execute='deferred' 
     Directory='Drivers'  ExeCommand='[Drivers]DPInstx86.exe' Return='ignore' Impersonate='no'/>
     <CustomAction  Id='Install_signed_Driver64' Execute='deferred' 
     Directory='Drivers'  ExeCommand='[Drivers]DPInstx64.exe' Return='ignore' Impersonate='no'/>
 
-    <InstallExecuteSequence>
+    <InstallExecuteSequence>  
     <Custom Action=""Install_signed_Driver86""  After=""CreateShortcuts"">NOT 
     Installed AND NOT VersionNT64</Custom>
     <Custom Action=""Install_signed_Driver64""  After=""CreateShortcuts"">NOT 
     Installed AND VersionNT64</Custom>
+    <Custom Action=""Drivercleanup""  After=""CreateShortcuts"">NOT Installed</Custom>
     </InstallExecuteSequence>
 
     <InstallExecuteSequence>
