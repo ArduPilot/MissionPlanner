@@ -437,6 +437,7 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigUserDefined.Designer.cs">
       <DependentUpon>ConfigUserDefined.cs</DependentUpon>
     </Compile>
+    <Compile Include="GCSViews\FlightPlannerBase.cs" />
     <Compile Include="Joystick\JoystickAxis.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -4268,6 +4269,12 @@
     <Content Include="dataflashlog.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Drivers\devcon.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Drivers\DriverCleanup.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Drivers\Holybro.inf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -4472,6 +4479,9 @@
     <Content Include="Drivers\vrugimbal.inf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Drivers\DriverCleanup.exe.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Drivers\nxp.cat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

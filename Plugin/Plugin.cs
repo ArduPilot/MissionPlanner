@@ -164,7 +164,7 @@ namespace MissionPlanner.Plugin
         /// </summary>
         public PointLatLng FPMenuMapPosition
         {
-            get { return MainV2.instance.FlightPlanner.MouseDownEnd; }
+            get { return MainV2.instance.FlightPlanner.FlightPlannerBase.MouseDownEnd; }
         }
 
         /// <summary>
@@ -174,14 +174,14 @@ namespace MissionPlanner.Plugin
         {
             get
             {
-                return new GMapPolygon(new List<PointLatLng>(MainV2.instance.FlightPlanner.drawnpolygon.Points),
-                    "Poly Copy") {Stroke = MainV2.instance.FlightPlanner.drawnpolygon.Stroke};
+                return new GMapPolygon(new List<PointLatLng>(MainV2.instance.FlightPlanner.FlightPlannerBase.drawnpolygon.Points),
+                    "Poly Copy") {Stroke = MainV2.instance.FlightPlanner.FlightPlannerBase.drawnpolygon.Stroke};
             }
         }
 
         public void RedrawFPPolygon(List<PointLatLngAlt> list)
         {
-            MainV2.instance.FlightPlanner.redrawPolygonSurvey(list);
+            MainV2.instance.FlightPlanner.FlightPlannerBase.redrawPolygonSurvey(list);
         }
 
         /// <summary>
@@ -214,14 +214,14 @@ namespace MissionPlanner.Plugin
         public int AddWPtoList(MAVLink.MAV_CMD cmd, double p1, double p2, double p3, double p4, double x, double y,
             double z, object tag = null)
         {
-            return MainV2.instance.FlightPlanner.AddCommand(cmd, p1, p2, p3, p4, x, y, z, tag);
+            return MainV2.instance.FlightPlanner.FlightPlannerBase.AddCommand(cmd, p1, p2, p3, p4, x, y, z, tag);
         }
 
         public void InsertWP(int idx, MAVLink.MAV_CMD cmd, double p1, double p2, double p3, double p4, double x,
             double y,
             double z, object tag = null)
         {
-            MainV2.instance.FlightPlanner.InsertCommand(idx, cmd, p1, p2, p3, p4, x, y, z);
+            MainV2.instance.FlightPlanner.FlightPlannerBase.InsertCommand(idx, cmd, p1, p2, p3, p4, x, y, z);
         }
 
         public int AddWPtoList(MAVLink.MAV_CMD cmd, double p1, double p2, double p3, double p4, double x, double y,
@@ -242,7 +242,7 @@ namespace MissionPlanner.Plugin
         /// </summary>
         public void GetWPs()
         {
-            MainV2.instance.FlightPlanner.BUT_read_Click(null, null);
+            MainV2.instance.FlightPlanner.FlightPlannerBase.BUT_read_Click(null, null);
         }
     }
 }

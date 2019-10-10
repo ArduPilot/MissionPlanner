@@ -15,6 +15,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
+using MissionPlanner.GCSViews;
 using MathHelper = MissionPlanner.Utilities.MathHelper;
 using Vector3 = OpenTK.Vector3;
 
@@ -505,7 +506,7 @@ namespace MissionPlanner.Controls
             {
                 GL.Enable(EnableCap.DepthTest);
 
-                if (GCSViews.FlightPlanner.instance.pointlist.Count > 1)
+                if (FlightPlannerBase.instance.pointlist.Count > 1)
                 {
                     GL.Color3(Color.Red);
 
@@ -514,7 +515,7 @@ namespace MissionPlanner.Controls
                     // render wps
                     GL.Begin(PrimitiveType.LineStrip);
 
-                    foreach (var point in GCSViews.FlightPlanner.instance.pointlist)
+                    foreach (var point in FlightPlannerBase.instance.pointlist)
                     {
                         if (point == null)
                             continue;
@@ -536,7 +537,7 @@ namespace MissionPlanner.Controls
                 GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
                 GL.Enable(EnableCap.Texture2D);
                 GL.BindTexture(TextureTarget.Texture2D, green);
-                var list = GCSViews.FlightPlanner.instance.pointlist.ToList();
+                var list = FlightPlannerBase.instance.pointlist.ToList();
                 if (MainV2.comPort.MAV.cs.mode.ToLower() == "guided")
                     list.Add((PointLatLngAlt) (Locationwp) MainV2.comPort.MAV.GuidedMode);
                 if (MainV2.comPort.MAV.cs.TargetLocation != PointLatLngAlt.Zero)

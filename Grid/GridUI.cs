@@ -1535,7 +1535,7 @@ namespace MissionPlanner.Grid
         {
             if (grid != null && grid.Count > 0)
             {
-                MainV2.instance.FlightPlanner.quickadd = true;
+                MainV2.instance.FlightPlanner.FlightPlannerBase.quickadd = true;
 
                 if (NUM_split.Value > 1 && CHK_toandland.Checked != true)
                 {
@@ -1806,9 +1806,9 @@ namespace MissionPlanner.Grid
 
                 savesettings();
 
-                MainV2.instance.FlightPlanner.quickadd = false;
+                MainV2.instance.FlightPlanner.FlightPlannerBase.quickadd = false;
 
-                MainV2.instance.FlightPlanner.writeKML();
+                MainV2.instance.FlightPlanner.FlightPlannerBase.writeKML();
 
                 this.Close();
             }

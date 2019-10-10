@@ -109,18 +109,44 @@ namespace MissionPlanner.Utilities
 
             AT(port, "AT+USECMNG=3");
 
-            mqtt_host = "test.oborne.me";
-            mqtt_port = 1883;
+            if (false)
+            {
+                mqtt_host = "test.oborne.me";
+                mqtt_port = 1883;
 
-            //server
-            AT(port, "AT+UMQTT=2,\"" + mqtt_host + "\"," + mqtt_port + "");
-            //login
-            AT(port, "AT+UMQTTC=1", 35);
+                //server
+                AT(port, "AT+UMQTT=2,\"" + mqtt_host + "\"," + mqtt_port + "");
+                //login
+                AT(port, "AT+UMQTTC=1", 35);
 
-            AT(port, "AT+UMQTTC=2,0,0,\"user\",\"Hi! This is an MQTT message. " + DateTime.Now.ToString("s")+"\"");
+                AT(port,
+                    "AT+UMQTTC=2,0,0,\"user\",\"Hi! This is an MQTT message. " + DateTime.Now.ToString("s") + "\"");
 
-            // logout
-            AT(port, "AT+UMQTTC=0");
+                // logout
+                AT(port, "AT+UMQTTC=0");
+            }
+            // tcp echo test
+            {
+                var ans = AT(port, "AT+USOCR=6"); // create tcp socket                
+
+                AT(port, "AT+USOSEC=0,1,0"); // enable ssl with profile 0
+
+                ans = AT(port, "AT+UDNSRN=0,\""+ mqtt_host + "\"", 60); // dns resolution
+                var ip = ans.reply.Replace("\tOK", "").Trim('\t').Replace("+UDNSRN:", "").Trim(new[] {' ', '"'})
+                    .Split(',').FirstOrDefault().Trim('"');
+
+                AT(port, "AT+USOCO=0,\"" + ip + "\"," + mqtt_port,120); // connect to ip
+
+                AT(port, "AT+USORD=3,0"); // bytes to read
+
+
+                //AT(port, "AT+USORD=0,32"); // get the greeting
+                AT(port, "AT+USOWR=0,4,\"Test\""); // write
+                //AT(port, "AT+USORD=0,4"); // read
+
+                AT(port, "AT+USOCL=0"); // close the socket
+            }
+
         }
 
         public static (string status, string reply, TimeSpan elapsed) AT(ICommsSerial port, string cmd = "AT",
