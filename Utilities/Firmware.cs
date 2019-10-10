@@ -423,7 +423,7 @@ namespace MissionPlanner.Utilities
                 updateProgress(-1, Strings.DetectedA + board);
 
                 // modify board to update to new bootloader
-                if (board == BoardDetect.boards.px4v3 && historyhash == "")
+                if ((board == BoardDetect.boards.px4v2 || board == BoardDetect.boards.px4v3) && historyhash == "")
                 {
                     //
                     if ((int)DialogResult.Yes ==
