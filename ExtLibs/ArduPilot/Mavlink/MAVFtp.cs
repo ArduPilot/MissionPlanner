@@ -566,7 +566,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
         public void UploadFile(string file, string srcfile, CancellationTokenSource cancel)
         {
             var size = 0;
-            kCmdOpenFileWO(file, ref size);
+            kCmdCreateFile(file, ref size);
             kCmdWriteFile(srcfile, cancel);
             kCmdResetSessions();
         }
@@ -667,7 +667,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             kCmdWriteFile("test.txt", null);
             kCmdResetSessions();
             uint crc = 0;
-            kCmdCalcFileCRC32("/testdir/test.txt", ref crc);
+            kCmdCalcFileCRC32("/testdir/test.txt", ref crc, new CancellationTokenSource());
 
             kCmdOpenFileRO("/testdir/test.txt", out size);
 
@@ -832,7 +832,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             return answer;
         }
 
-        public bool kCmdCalcFileCRC32(string file, ref uint crc32)
+        public bool kCmdCalcFileCRC32(string file, ref uint crc32, CancellationTokenSource cancel)
         {
             fileTransferProtocol.target_system = _sysid;
             fileTransferProtocol.target_component = _compid;
@@ -846,7 +846,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             };
             fileTransferProtocol.payload = payload;
             log.Info("get " + payload.opcode + " " + file);
-            var timeout = new RetryTimeout(30, 2000);
+            var timeout = new RetryTimeout(3, 30000);
             crc32 = UInt32.MaxValue;
             var localcrc32 = crc32;
             var sub = _mavint.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.FILE_TRANSFER_PROTOCOL, message =>
@@ -887,7 +887,15 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 timeout.Complete = true;
                 return true;
             });
-            timeout.WorkToDo = () => _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
+            timeout.WorkToDo = () =>
+            {
+                if (cancel != null && cancel.IsCancellationRequested)
+                {
+                    timeout.RetriesCurrent = 999;
+                    return;
+                }
+                _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
+            };
             var ans = timeout.DoWork();
             _mavint.UnSubscribeToPacketType(sub);
             crc32 = localcrc32;
@@ -1030,7 +1038,11 @@ namespace MissionPlanner.ArduPilot.Mavlink
                     }
 
                     if (errorcode == FTPErrorCode.kErrNoSessionsAvailable)
+                    {
                         kCmdResetSessions();
+                        timeout.RetriesCurrent = 0;
+                    }
+
                     return true;
                 }
 

@@ -262,7 +262,8 @@ namespace MissionPlanner.Controls
                         _mavftp.kCmdResetSessions();
                     };
                     prd.doWorkArgs.ForceExit = false;
-                    _mavftp.Progress += i => prd.UpdateProgressAndStatus(i, toolStripStatusLabel1.Text);
+                    Action<int> progress = delegate(int i) { prd.UpdateProgressAndStatus(i, toolStripStatusLabel1.Text); };
+                    _mavftp.Progress += progress;
 
                     prd.DoWork += (iprd) =>
                     {
@@ -278,7 +279,7 @@ namespace MissionPlanner.Controls
 
                         prd.UpdateProgressAndStatus(-1, "Calc CRC");
                         uint crc = 0;
-                        _mavftp.kCmdCalcFileCRC32(path, ref crc);
+                        _mavftp.kCmdCalcFileCRC32(path, ref crc, cancel);
                         var crc32a = MAVFtp.crc_crc32(0, File.ReadAllBytes(sfd.FileName));
                         if (crc32a != crc)
                         {
@@ -286,6 +287,7 @@ namespace MissionPlanner.Controls
                         }
                     };
                     prd.RunBackgroundOperationAsync();
+                    _mavftp.Progress -= progress;
                 }
                 else if (dr == DialogResult.Cancel)
                 {
@@ -326,7 +328,8 @@ namespace MissionPlanner.Controls
             };
             prd.doWorkArgs.ForceExit = false;
 
-            _mavftp.Progress += i => prd.UpdateProgressAndStatus(i, toolStripStatusLabel1.Text);
+            Action<int> progress = delegate (int i) { prd.UpdateProgressAndStatus(i, toolStripStatusLabel1.Text); };
+            _mavftp.Progress += progress;
 
             prd.DoWork += (iprd) =>
             {
@@ -340,7 +343,7 @@ namespace MissionPlanner.Controls
 
                 prd.UpdateProgressAndStatus(-1, "Calc CRC");
                 uint crc = 0;
-                _mavftp.kCmdCalcFileCRC32(fn, ref crc);
+                _mavftp.kCmdCalcFileCRC32(fn, ref crc, cancel);
                 var crc32a = MAVFtp.crc_crc32(0, File.ReadAllBytes(ofdFileName));
                 if (crc32a != crc)
                 {
@@ -348,6 +351,7 @@ namespace MissionPlanner.Controls
                 }
             };
             prd.RunBackgroundOperationAsync();
+            _mavftp.Progress -= progress;
             toolStripStatusLabel1.Text = "Ready";
         }
 
@@ -396,8 +400,21 @@ namespace MissionPlanner.Controls
 
         private void GetCRC32ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            ProgressReporterDialogue prd = new ProgressReporterDialogue();
+            CancellationTokenSource cancel = new CancellationTokenSource();
+            prd.doWorkArgs.CancelRequestChanged += (o, args) =>
+            {
+                prd.doWorkArgs.ErrorMessage = "User Cancel";
+                cancel.Cancel();
+                _mavftp.kCmdResetSessions();
+            };
+            prd.doWorkArgs.ForceExit = false;
             var crc = 0u;
-            _mavftp.kCmdCalcFileCRC32(treeView1.SelectedNode.FullPath + "/" + listView1.SelectedItems[0].Text, ref crc);
+            prd.DoWork += (iprd) =>
+            {
+                _mavftp.kCmdCalcFileCRC32(treeView1.SelectedNode.FullPath + "/" + listView1.SelectedItems[0].Text,
+                    ref crc, cancel);
+            };
 
             CustomMessageBox.Show(listView1.SelectedItems[0].Text + ": 0x" +crc.ToString("X"));
         }
@@ -457,7 +474,9 @@ namespace MissionPlanner.Controls
                         _mavftp.kCmdResetSessions();
                     };
                     prd.doWorkArgs.ForceExit = false;
-                    _mavftp.Progress += i => prd.UpdateProgressAndStatus(i, toolStripStatusLabel1.Text);
+
+                    Action<int> progress = delegate (int i) { prd.UpdateProgressAndStatus(i, toolStripStatusLabel1.Text); };
+                    _mavftp.Progress += progress;
 
                     prd.DoWork += (iprd) =>
                     {
@@ -472,7 +491,7 @@ namespace MissionPlanner.Controls
 
                         prd.UpdateProgressAndStatus(-1, "Calc CRC");
                         uint crc = 0;
-                        _mavftp.kCmdCalcFileCRC32(path, ref crc);
+                        _mavftp.kCmdCalcFileCRC32(path, ref crc, cancel);
                         var crc32a = MAVFtp.crc_crc32(0, File.ReadAllBytes(sfd.FileName));
                         if (crc32a != crc)
                         {
@@ -480,6 +499,7 @@ namespace MissionPlanner.Controls
                         }
                     };
                     prd.RunBackgroundOperationAsync();
+                    _mavftp.Progress -= progress;
                 }
                 else if (dr == DialogResult.Cancel)
                 {
