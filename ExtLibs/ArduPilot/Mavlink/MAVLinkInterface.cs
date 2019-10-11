@@ -4841,19 +4841,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         {
             List<mavlink_log_entry_t> ans = new List<mavlink_log_entry_t>();
 
-            mavlink_log_entry_t entry1 = GetLogEntry(0, ushort.MaxValue);
-
-            log.Info("id " + entry1.id + " lastllogno " + entry1.last_log_num + " #logs " + entry1.num_logs + " size " +
-                     entry1.size);
-            //ans.Add(entry1);
-
-            for (ushort a = (ushort) (entry1.last_log_num - entry1.num_logs + 1); a <= entry1.last_log_num; a++)
-            {
-                mavlink_log_entry_t entry = GetLogEntry(a, a);
-                ans.Add(entry);
-            }
-
-            return ans;
+            return GetLogEntry(0, ushort.MaxValue).Values.OrderBy(a => a.id).ToList();
         }
 
         public void GetMountStatus()
@@ -4865,10 +4853,12 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             generatePacket((byte) MAVLINK_MSG_ID.MOUNT_STATUS, req);
         }
 
-        public mavlink_log_entry_t GetLogEntry(ushort startno = 0, ushort endno = ushort.MaxValue)
+        public Dictionary<ushort,mavlink_log_entry_t> GetLogEntry(ushort startno = 0, ushort endno = ushort.MaxValue)
         {
             giveComport = true;
             MAVLinkMessage buffer;
+
+            Dictionary<ushort, mavlink_log_entry_t> ans = new Dictionary<ushort, mavlink_log_entry_t>();
 
             mavlink_log_request_list_t req = new mavlink_log_request_list_t();
 
@@ -4883,14 +4873,16 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             generatePacket((byte) MAVLINK_MSG_ID.LOG_REQUEST_LIST, req);
 
             DateTime start = DateTime.Now;
-            int retrys = 5;
+            int retrys = 4;
 
             while (true)
             {
-                if (!(start.AddMilliseconds(2000) > DateTime.Now))
+                if (!(start.AddMilliseconds(5000) > DateTime.Now))
                 {
                     if (retrys > 0)
                     {
+                        req.start = startno;
+                        req.end = endno;
                         log.Info("GetLogEntry Retry " + retrys + " - giv com " + giveComport);
                         generatePacket((byte) MAVLINK_MSG_ID.LOG_REQUEST_LIST, req);
                         start = DateTime.Now;
@@ -4906,17 +4898,29 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 {
                     if (buffer.msgid == (byte) MAVLINK_MSG_ID.LOG_ENTRY && buffer.sysid == req.target_system && buffer.compid == req.target_component)
                     {
-                        var ans = buffer.ToStructure<mavlink_log_entry_t>();
+                        var loge = buffer.ToStructure<mavlink_log_entry_t>();
 
-                        if (ans.id >= startno && ans.id <= endno)
+                        if (loge.id >= startno && loge.id <= endno)
                         {
-                            giveComport = false;
-                            return ans;
+                            // reset timeout
+                            start = DateTime.Now;
+                            // add the log to our answer
+                            ans[loge.id] = loge;
+                            // set the startno to our new min
+                            startno = (ushort)Math.Min(ans.Keys.Min() + 1, loge.id);
+                            // set the end number to logmax
+                            endno = loge.last_log_num;
+                            if (ans.Count == loge.num_logs)
+                            {
+                                giveComport = false;
+                                return ans;
+                            }
                         }
                     }
 
                     if (buffer.msgid == (byte) MAVLINK_MSG_ID.LOG_DATA && buffer.sysid == req.target_system && buffer.compid == req.target_component)
                     {
+                        giveComport = false;
                         throw new Exception("Existing log download already in progress.");
                     }
                 }
