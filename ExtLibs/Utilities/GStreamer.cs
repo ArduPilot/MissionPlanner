@@ -1,5 +1,5 @@
 ﻿using log4net;
-using MissionPlanner.Utilities.Drawing;
+using MissionPlanner.Drawing;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
@@ -15,6 +15,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
+using MissionPlanner.Drawing.Imaging;
 using gsize = System.UInt64;
 using GstClockTime = System.UInt64;
 using guint = System.UInt32;

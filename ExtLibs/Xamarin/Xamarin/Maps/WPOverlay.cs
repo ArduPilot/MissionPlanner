@@ -7,9 +7,9 @@ using MissionPlanner.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Linq;
-using MissionPlanner.Utilities.Drawing;
+using MissionPlanner.Drawing;
+using MissionPlanner.Drawing;
 
 namespace MissionPlanner.ArduPilot
 {

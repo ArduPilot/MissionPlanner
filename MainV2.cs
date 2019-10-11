@@ -3144,7 +3144,7 @@ namespace MissionPlanner
             {
                 if (image == null)
                     return;
-                var bmp = (image as Utilities.Drawing.Bitmap);
+                var bmp = (image as Drawing.Bitmap);
                 if (bmp == null)
                     return;
                 var old = GCSViews.FlightData.myhud.bgimage;
@@ -3160,7 +3160,7 @@ namespace MissionPlanner
             {
                 if (image == null)
                     return;
-                var bmp = (image as Utilities.Drawing.Bitmap);
+                var bmp = (image as Drawing.Bitmap);
                 if (bmp == null)
                     return;
                 var old = GCSViews.FlightData.myhud.bgimage;

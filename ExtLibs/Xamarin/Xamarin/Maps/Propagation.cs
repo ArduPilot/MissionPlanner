@@ -1,16 +1,15 @@
-﻿using System;
+﻿using GMap.NET;
+using GMap.NET.WindowsForms;
+using log4net;
+using MissionPlanner.Drawing;
+using MissionPlanner.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using GMap.NET;
-using GMap.NET.WindowsForms;
-using log4net;
-using MissionPlanner.Utilities;
-using MissionPlanner.Utilities.Drawing;
 using Extensions = MissionPlanner.Utilities.Extensions;
 
 namespace MissionPlanner.Maps

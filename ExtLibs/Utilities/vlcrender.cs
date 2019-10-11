@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.InteropServices;
-using MissionPlanner.Utilities.Drawing;
+using MissionPlanner.Drawing;
 using SkiaSharp;
 
 namespace MissionPlanner.Utilities

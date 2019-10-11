@@ -2,7 +2,8 @@
 using System.ComponentModel;
 using System.IO;
 using GMap.NET.Drawing;
-using MissionPlanner.Utilities.Drawing;
+using MissionPlanner.Drawing;
+using MissionPlanner.Drawing;
 using SvgNet.SvgGdi;
 
 namespace GMap.NET.WindowsForms.Markers

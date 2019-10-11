@@ -1,15 +1,16 @@
-﻿using MissionPlanner.Utilities.Drawing;
+﻿
 using SkiaSharp;
 using SkiaSharp.Views.Forms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
+using MissionPlanner.Drawing;
 using Xamarin.Forms;
 using Color = System.Drawing.Color;
-using Font = MissionPlanner.Utilities.Drawing.Font;
-using Graphics = MissionPlanner.Utilities.Drawing.Graphics;
-using Image = MissionPlanner.Utilities.Drawing.Image;
+using Font = Xamarin.Forms.Font;
+using Image = Xamarin.Forms.Image;
 using Point = System.Drawing.Point;
 using Rectangle = System.Drawing.Rectangle;
 using Size = System.Drawing.Size;
@@ -86,7 +87,7 @@ namespace Xamarin.Controls
 
         public virtual Color BackColor { get; set; } = Color.Transparent;
 
-        public Image BackgroundImage { get; set; }
+        public MissionPlanner.Drawing.Image BackgroundImage { get; set; }
 
         public virtual ImageLayout BackgroundImageLayout { get; set; }
 
@@ -105,7 +106,7 @@ namespace Xamarin.Controls
 
         public bool DoubleBuffered { get; set; }
 
-        public virtual Font Font { get; set; } = SystemFonts.DefaultFont;
+        public virtual MissionPlanner.Drawing.Font Font { get; set; } = SystemFonts.DefaultFont;
 
       //  public GraphicsMode GraphicsMode { get; set; } = GraphicsMode.Default;
 

@@ -56,6 +56,7 @@
     <ProjectReference Include="..\LibVLC.NET\LibVLC.NET.csproj" />
     <ProjectReference Include="..\Mavlink\MAVLink.csproj" />
     <ProjectReference Include="..\MetaDataExtractorCSharp240d\MetaDataExtractor.csproj" />
+    <ProjectReference Include="..\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj" />
     <ProjectReference Include="..\netDxf\netDxf.csproj" />
     <ProjectReference Include="..\ProjNet\ProjNET.csproj" />
     <ProjectReference Include="..\SharpKml\SharpKml.csproj" />

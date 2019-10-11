@@ -1,6 +1,6 @@
-﻿using System;
+﻿using MissionPlanner.Drawing;
+using System;
 using System.Drawing;
-using MissionPlanner.Utilities.Drawing;
 
 
 namespace Xamarin.Controls

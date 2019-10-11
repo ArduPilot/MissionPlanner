@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using GMap.NET;
 using GMap.NET.WindowsForms;
-using MissionPlanner.Utilities.Drawing;
+using MissionPlanner.Drawing;
+using MissionPlanner.Drawing;
 
 namespace GMap.NET.WindowsForms
 {

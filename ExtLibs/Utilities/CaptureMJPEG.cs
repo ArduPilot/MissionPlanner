@@ -7,7 +7,7 @@ using System.IO;
 using System.Drawing;
 using System.Threading;
 using log4net;
-using MissionPlanner.Utilities.Drawing;
+using MissionPlanner.Drawing;
 
 namespace MissionPlanner.Utilities
 {

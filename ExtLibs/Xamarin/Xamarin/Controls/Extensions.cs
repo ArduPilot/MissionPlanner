@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using MissionPlanner.Drawing;
 using System.IO;
-using System.Text;
-using MissionPlanner.Utilities.Drawing;
 
 namespace GMap.NET.Drawing
 {

@@ -220,6 +220,10 @@
       <Project>{B46F6C6C-9184-41AF-8F8B-E0084752CA7C}</Project>
       <Name>MetaDataExtractor</Name>
     </ProjectReference>
+    <ProjectReference Include="ExtLibs\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj">
+      <Project>{6974D22C-EDE6-4BB2-AAD2-FF23ED6EC165}</Project>
+      <Name>MissionPlanner.Drawing</Name>
+    </ProjectReference>
     <ProjectReference Include="ExtLibs\netDxf\netDxf.csproj">
       <Project>{785380e0-ceb9-4c34-82e5-60d0e33e848e}</Project>
       <Name>netDxf</Name>

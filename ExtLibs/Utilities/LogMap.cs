@@ -1,15 +1,15 @@
 ﻿using GMap.NET;
 using GMap.NET.MapProviders;
+using MissionPlanner.Comms;
+using MissionPlanner.Drawing;
 using MissionPlanner.Utilities;
+using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using MissionPlanner.Comms;
-using MissionPlanner.Utilities.Drawing;
-using SkiaSharp;
 
 namespace MissionPlanner.Log
 {

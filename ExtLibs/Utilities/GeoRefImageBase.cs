@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -18,7 +17,7 @@ using ExifLibrary;
 using log4net;
 using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
-using MissionPlanner.Utilities.Drawing;
+using MissionPlanner.Drawing;
 using SharpKml.Base;
 using SharpKml.Dom;
 

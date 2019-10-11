@@ -5,8 +5,9 @@ using System.Linq;
 using System.Text;
 using GMap.NET;
 using GMap.NET.WindowsForms;
+using MissionPlanner.Drawing;
 using MissionPlanner.Utilities;
-using MissionPlanner.Utilities.Drawing;
+using MissionPlanner.Drawing;
 
 namespace MissionPlanner.Maps
 {

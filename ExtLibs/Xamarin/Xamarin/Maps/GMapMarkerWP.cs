@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
-using MissionPlanner.Utilities.Drawing;
+using MissionPlanner.Drawing;
+using MissionPlanner.Drawing;
 
 namespace MissionPlanner.Maps
 {

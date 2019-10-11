@@ -16,7 +16,7 @@ using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
 using MissionPlanner.Maps;
 using MissionPlanner.Utilities;
-using MissionPlanner.Utilities.Drawing;
+using MissionPlanner.Drawing;
 using MissionPlanner.Warnings;
 using Plugin.FilePicker;
 using Plugin.FilePicker.Abstractions;
@@ -28,9 +28,9 @@ using Xamarin.Forms.Xaml;
 using Color = System.Drawing.Color;
 using Device = Xamarin.Forms.Device;
 using Exception = System.Exception;
-using Graphics = MissionPlanner.Utilities.Drawing.Graphics;
-using Image = MissionPlanner.Utilities.Drawing.Image;
-using Pen = MissionPlanner.Utilities.Drawing.Pen;
+using Graphics = MissionPlanner.Drawing.Graphics;
+using Image = MissionPlanner.Drawing.Image;
+using Pen = MissionPlanner.Drawing.Pen;
 
 namespace Xamarin
 {

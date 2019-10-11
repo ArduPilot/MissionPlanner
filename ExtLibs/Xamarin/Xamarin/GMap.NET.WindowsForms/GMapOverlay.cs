@@ -1,6 +1,7 @@
 ﻿
 #define PocketPC
-using MissionPlanner.Utilities.Drawing;
+using System.Drawing;
+using MissionPlanner.Drawing;
 
 namespace GMap.NET.WindowsForms
 {

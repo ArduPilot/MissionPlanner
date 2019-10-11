@@ -9,14 +9,15 @@ using System.Resources;
 using System.Threading;
 using log4net;
 using Xamarin.Controls;
-using MissionPlanner.Utilities.Drawing;
+using MissionPlanner.Drawing;
+using MissionPlanner.Drawing.Drawing2D;
 using SkiaSharp;
 using Color = System.Drawing.Color ;
 using Rectangle = System.Drawing.Rectangle;
 using PointF = System.Drawing.PointF;
 using RectangleF = System.Drawing.RectangleF;
 using Point = System.Drawing.Point;
-using Graphics = MissionPlanner.Utilities.Drawing.Graphics;
+using Graphics = MissionPlanner.Drawing.Graphics;
 
 namespace MissionPlanner.Controls
 {
@@ -117,7 +118,7 @@ namespace MissionPlanner.Controls
         // move these global as they rarely change - reduce GC
         private Font font = new Font(HUDT.Font, 10);
 
-        private Utilities.Drawing.IGraphics graphicsObject;
+        private IGraphics graphicsObject;
         bool inOnPaint = false;
         DateTime lastinvalidate = DateTime.MinValue;
         string otherthread = "";
