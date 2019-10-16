@@ -187,6 +187,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             item.HardwareVersion = gnires.hardware_version.major + "." + gnires.hardware_version.minor;
                             item.SoftwareVersion  = gnires.software_version.major + "." + gnires.software_version.minor + "."+gnires.software_version.vcs_commit.ToString("X");
                             item.SoftwareCRC = gnires.software_version.image_crc;
+                            item.HardwareUID = gnires.hardware_version.unique_id.Select(a=>a.ToString("X2")).Aggregate((a, b) =>
+                                {
+                                    return a + " " + b;
+                                });
+                            item.RawMsg = gnires;
                         }
 
                         this.BeginInvoke((Action)delegate
@@ -211,7 +216,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (e.ColumnIndex == myDataGridView1.Columns["Parameter"].Index)
             {
-                var paramlist = can.GetParameters(nodeID);
+                IProgressReporterDialogue prd = new ProgressReporterDialogue();
+                List<uavcan.uavcan_protocol_param_GetSet_res> paramlist =
+                    new List<uavcan.uavcan_protocol_param_GetSet_res>();
+                prd.DoWork += dialogue =>
+                {
+                    paramlist = can.GetParameters(nodeID);
+                };
+                prd.UpdateProgressAndStatus(-1, Strings.GettingParams);
+                prd.RunBackgroundOperationAsync();
 
                 new UAVCANParams(can, nodeID, paramlist).ShowUserControl();
             }
@@ -311,6 +324,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             new UAVCANInspector(can).Show();
         }
 
+        private void myDataGridView1_RowEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            var id = myDataGridView1[iDDataGridViewTextBoxColumn.Index, e.RowIndex].Value.ToString();
+
+            this.BeginInvoke((Action)delegate
+            {
+                var index = uAVCANModelBindingSource.Find("ID", id);
+                uAVCANModelBindingSource.Position = index;
+            });
+        }
     }
 
     public class UAVCANModel
@@ -323,5 +346,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public string HardwareVersion { get; set; }
         public string SoftwareVersion { get; set; }
         public ulong SoftwareCRC { get; set; }
+        public uavcan.uavcan_protocol_GetNodeInfo_res RawMsg { get; set; }
+        public string HardwareUID { get; set; }
     }
 }

@@ -14,8 +14,6 @@ namespace MissionPlanner.Controls
     public class UAVCANInspector : Form
     {
         private GroupBox groupBox1;
-        private ComboBox comboBox1;
-        private ComboBox comboBox2;
         private MyTreeView treeView1;
         private Timer timer1;
         private IContainer components;
@@ -35,11 +33,7 @@ namespace MissionPlanner.Controls
 
             pktinspect.NewSysidCompid += (sender, args) =>
             {
-                this.BeginInvoke((MethodInvoker) delegate
-                {
-                    comboBox1.DataSource = pktinspect.SeenSysid();
-                    comboBox2.DataSource = pktinspect.SeenCompid();
-                });
+         
             };
 
             timer1.Tick += (sender, args) => Update();
@@ -172,8 +166,6 @@ namespace MissionPlanner.Controls
             this.components = new System.ComponentModel.Container();
             this.treeView1 = new MissionPlanner.Controls.UAVCANInspector.MyTreeView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.but_graphit = new MissionPlanner.Controls.MyButton();
             this.groupBox1.SuspendLayout();
@@ -202,24 +194,6 @@ namespace MissionPlanner.Controls
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(206, 3);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
-            this.comboBox1.TabIndex = 2;
-            this.comboBox1.Visible = false;
-            // 
-            // comboBox2
-            // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(356, 3);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(121, 21);
-            this.comboBox2.TabIndex = 3;
-            this.comboBox2.Visible = false;
-            // 
             // timer1
             // 
             this.timer1.Interval = 333;
@@ -239,8 +213,6 @@ namespace MissionPlanner.Controls
             // 
             this.ClientSize = new System.Drawing.Size(698, 311);
             this.Controls.Add(this.but_graphit);
-            this.Controls.Add(this.comboBox2);
-            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.groupBox1);
             this.Name = "UAVCANInspector";
             this.Text = "UAVCAN Inspector";
@@ -337,7 +309,7 @@ namespace MissionPlanner.Controls
                     msgidfield);
                 if (typeofthing != null)
                 {
-                    var attrib = typeofthing.GetCustomAttributes(false);
+                    var attrib = typeofthing.GetCustomAttributes(false).OfType<MAVLink.Units>().ToArray();
                     if (attrib.Length > 0)
                         zg1.GraphPane.YAxis.Title.Text = attrib.OfType<MAVLink.Units>().First().Unit;
                 }

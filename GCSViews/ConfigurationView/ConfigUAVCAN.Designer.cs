@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.but_slcanmode1 = new MissionPlanner.Controls.MyButton();
@@ -48,8 +48,26 @@
             this.label1 = new System.Windows.Forms.Label();
             this.but_slcanmode2 = new MissionPlanner.Controls.MyButton();
             this.but_uavcaninspector = new MissionPlanner.Controls.MyButton();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.textBox9 = new System.Windows.Forms.TextBox();
+            this.textBox10 = new System.Windows.Forms.TextBox();
+            this.textBox11 = new System.Windows.Forms.TextBox();
+            this.textBox13 = new System.Windows.Forms.TextBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.uAVCANModelBindingSource)).BeginInit();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label6
@@ -108,9 +126,10 @@
             this.myDataGridView1.Location = new System.Drawing.Point(7, 58);
             this.myDataGridView1.Name = "myDataGridView1";
             this.myDataGridView1.ReadOnly = true;
-            this.myDataGridView1.Size = new System.Drawing.Size(785, 320);
+            this.myDataGridView1.Size = new System.Drawing.Size(785, 177);
             this.myDataGridView1.TabIndex = 1;
             this.myDataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.myDataGridView1_CellClick);
+            this.myDataGridView1.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.myDataGridView1_RowEnter);
             this.myDataGridView1.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.myDataGridView1_RowsAdded);
             // 
             // iDDataGridViewTextBoxColumn
@@ -173,9 +192,9 @@
             // SoftwareCRC
             // 
             this.SoftwareCRC.DataPropertyName = "SoftwareCRC";
-            dataGridViewCellStyle1.Format = "X";
-            dataGridViewCellStyle1.NullValue = null;
-            this.SoftwareCRC.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle13.Format = "X";
+            dataGridViewCellStyle13.NullValue = null;
+            this.SoftwareCRC.DefaultCellStyle = dataGridViewCellStyle13;
             this.SoftwareCRC.HeaderText = "SoftwareCRC";
             this.SoftwareCRC.Name = "SoftwareCRC";
             this.SoftwareCRC.ReadOnly = true;
@@ -233,10 +252,198 @@
             this.but_uavcaninspector.UseVisualStyleBackColor = true;
             this.but_uavcaninspector.Click += new System.EventHandler(this.But_uavcaninspector_Click);
             // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.ColumnCount = 4;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.70701F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.60509F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 28.24511F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 28.24511F));
+            this.tableLayoutPanel1.Controls.Add(this.textBox3, 2, 4);
+            this.tableLayoutPanel1.Controls.Add(this.textBox13, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this.textBox11, 2, 3);
+            this.tableLayoutPanel1.Controls.Add(this.textBox10, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.textBox9, 3, 2);
+            this.tableLayoutPanel1.Controls.Add(this.textBox7, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.textBox6, 3, 1);
+            this.tableLayoutPanel1.Controls.Add(this.textBox5, 2, 1);
+            this.tableLayoutPanel1.Controls.Add(this.textBox4, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.textBox2, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.label2, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.label3, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.label4, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.label5, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.label7, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.textBox1, 1, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(7, 241);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 5;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(785, 137);
+            this.tableLayoutPanel1.TabIndex = 86;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label2.Location = new System.Drawing.Point(3, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(133, 27);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Node ID / Name";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label3.Location = new System.Drawing.Point(3, 27);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(133, 27);
+            this.label3.TabIndex = 1;
+            this.label3.Text = "Mode / Health / Uptime";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label4.Location = new System.Drawing.Point(3, 54);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(133, 27);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "Vendor-specific code";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label5.Location = new System.Drawing.Point(3, 81);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(133, 27);
+            this.label5.TabIndex = 3;
+            this.label5.Text = "Software version/CRC64";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label7.Location = new System.Drawing.Point(3, 108);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(133, 29);
+            this.label7.TabIndex = 4;
+            this.label7.Text = "Hardware version/UID";
+            // 
+            // textBox1
+            // 
+            this.textBox1.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.uAVCANModelBindingSource, "ID", true));
+            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox1.Location = new System.Drawing.Point(142, 3);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(195, 20);
+            this.textBox1.TabIndex = 5;
+            // 
+            // textBox2
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.textBox2, 2);
+            this.textBox2.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.uAVCANModelBindingSource, "Name", true));
+            this.textBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox2.Location = new System.Drawing.Point(343, 3);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(439, 20);
+            this.textBox2.TabIndex = 6;
+            // 
+            // textBox4
+            // 
+            this.textBox4.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.uAVCANModelBindingSource, "Mode", true));
+            this.textBox4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox4.Location = new System.Drawing.Point(142, 30);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(195, 20);
+            this.textBox4.TabIndex = 8;
+            // 
+            // textBox5
+            // 
+            this.textBox5.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.uAVCANModelBindingSource, "Health", true));
+            this.textBox5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox5.Location = new System.Drawing.Point(343, 30);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(216, 20);
+            this.textBox5.TabIndex = 9;
+            // 
+            // textBox6
+            // 
+            this.textBox6.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.uAVCANModelBindingSource, "Uptime", true));
+            this.textBox6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox6.Location = new System.Drawing.Point(565, 30);
+            this.textBox6.Name = "textBox6";
+            this.textBox6.Size = new System.Drawing.Size(217, 20);
+            this.textBox6.TabIndex = 10;
+            // 
+            // textBox7
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.textBox7, 2);
+            this.textBox7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox7.Location = new System.Drawing.Point(142, 57);
+            this.textBox7.Name = "textBox7";
+            this.textBox7.Size = new System.Drawing.Size(417, 20);
+            this.textBox7.TabIndex = 11;
+            // 
+            // textBox9
+            // 
+            this.textBox9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox9.Location = new System.Drawing.Point(565, 57);
+            this.textBox9.Name = "textBox9";
+            this.textBox9.Size = new System.Drawing.Size(217, 20);
+            this.textBox9.TabIndex = 13;
+            // 
+            // textBox10
+            // 
+            this.textBox10.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.uAVCANModelBindingSource, "SoftwareVersion", true));
+            this.textBox10.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox10.Location = new System.Drawing.Point(142, 84);
+            this.textBox10.Name = "textBox10";
+            this.textBox10.Size = new System.Drawing.Size(195, 20);
+            this.textBox10.TabIndex = 14;
+            // 
+            // textBox11
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.textBox11, 2);
+            this.textBox11.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.uAVCANModelBindingSource, "SoftwareCRC", true));
+            this.textBox11.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox11.Location = new System.Drawing.Point(343, 84);
+            this.textBox11.Name = "textBox11";
+            this.textBox11.Size = new System.Drawing.Size(439, 20);
+            this.textBox11.TabIndex = 15;
+            // 
+            // textBox13
+            // 
+            this.textBox13.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.uAVCANModelBindingSource, "HardwareVersion", true));
+            this.textBox13.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox13.Location = new System.Drawing.Point(142, 111);
+            this.textBox13.Name = "textBox13";
+            this.textBox13.Size = new System.Drawing.Size(195, 20);
+            this.textBox13.TabIndex = 17;
+            // 
+            // textBox3
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.textBox3, 2);
+            this.textBox3.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.uAVCANModelBindingSource, "HardwareVersion", true));
+            this.textBox3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox3.Location = new System.Drawing.Point(343, 111);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(439, 20);
+            this.textBox3.TabIndex = 18;
+            // 
             // ConfigUAVCAN
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.but_uavcaninspector);
             this.Controls.Add(this.but_slcanmode2);
             this.Controls.Add(this.label1);
@@ -248,6 +455,8 @@
             this.Size = new System.Drawing.Size(795, 381);
             ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.uAVCANModelBindingSource)).EndInit();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -273,5 +482,22 @@
         private System.Windows.Forms.DataGridViewButtonColumn updateDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewButtonColumn Parameter;
         private Controls.MyButton but_uavcaninspector;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox textBox13;
+        private System.Windows.Forms.TextBox textBox11;
+        private System.Windows.Forms.TextBox textBox10;
+        private System.Windows.Forms.TextBox textBox9;
+        private System.Windows.Forms.TextBox textBox7;
+        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBox3;
     }
 }

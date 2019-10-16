@@ -46,6 +46,8 @@ namespace MissionPlanner.Controls
             _node = node;
 
             InitializeComponent();
+
+            this.Text = "UAVCAN Params - "+node;
         }
         
         public void Activate()
