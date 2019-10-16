@@ -2894,7 +2894,7 @@ namespace MissionPlanner
                 var typeofthing = typeof(CurrentState).GetProperty(name);
                 if (typeofthing != null)
                 {
-                    var attrib = typeofthing.GetCustomAttributes(false);
+                    var attrib = typeofthing.GetCustomAttributes(false).OfType<DisplayTextAttribute>().ToArray();
                     if (attrib.Length > 0)
                         desc = attrib.OfType<DisplayTextAttribute>().First().Text;
                 }

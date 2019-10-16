@@ -416,6 +416,8 @@ namespace MissionPlanner.Controls
                     ref crc, cancel);
             };
 
+            prd.RunBackgroundOperationAsync();
+
             CustomMessageBox.Show(listView1.SelectedItems[0].Text + ": 0x" +crc.ToString("X"));
         }
 

@@ -76,4 +76,6 @@ using System; namespace UAVCAN {public partial class uavcan { public static read
 (typeof(uavcan_protocol_param_GetSet_res), 11, 0xA7B622F939D1A4D5),
 (typeof(org_cubepilot_uwb_Observation), 20759, 0x817EABC2996B0D62),
 (typeof(com_hex_equipment_flow_Measurement), 20200, 0x6A908866BCB49C18),
+(typeof(com_hex_equipment_gnss_BodyPosition), 20210, 0x68DD4C23FEC97050),
+(typeof(com_hex_equipment_gnss_MovingBaseFix), 20211, 0x22930B91F2563B98),
 };}}

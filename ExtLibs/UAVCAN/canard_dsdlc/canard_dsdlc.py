@@ -51,7 +51,7 @@ for template in templates:
         template['source'] = f.read()
 
 def build_message(msg_name):
-    print 'building %s' % (msg_name,)
+    print ('building %s' % (msg_name))
     msg = message_dict[msg_name]
     with open('%s.json' % (msg_name), 'wb') as f:
         f.write(json.dumps(msg, default=lambda x: x.__dict__))
@@ -94,7 +94,7 @@ if __name__ == '__main__':
             #pool.apply_async(build_message, (msg_name,))
             build_message(msg_name)
             msg = message_dict[msg_name]
-            print dir(msg)
+            #print (dir(msg))
             if not msg.default_dtid is None and msg.kind == msg.KIND_MESSAGE:
                 message_names_enum += '(typeof(%s), %s, 0x%08X),\n' % (msg.full_name.replace('.','_'), msg.default_dtid, msg.get_data_type_signature())
 
@@ -103,12 +103,12 @@ if __name__ == '__main__':
                 message_names_enum += '(typeof(%s_res), %s, 0x%08X),\n' % (msg.full_name.replace('.','_'), msg.default_dtid, msg.get_data_type_signature())
     else:
         for msg_name in [msg.full_name for msg in messages]:
-            print 'building %s' % (msg_name,)
+            print ('building %s' % (msg_name,))
             builtlist.add(msg_name)
             #pool.apply_async(build_message, (msg_name,))
             build_message(msg_name)
             msg = message_dict[msg_name]
-            print dir(msg)
+            print (dir(msg))
             if not msg.default_dtid is None and msg.kind == msg.KIND_MESSAGE:
                 message_names_enum += '(typeof(%s), %s, 0x%08X),\n' % (msg.full_name.replace('.','_'), msg.default_dtid, msg.get_data_type_signature())
 
@@ -121,9 +121,9 @@ if __name__ == '__main__':
 
     assert buildlist is None or not buildlist-builtlist, "%s not built" % (buildlist-builtlist,)
 
-    print 'test'
+    print ('test')
     with open('messages.cs', 'wb') as f:
         f.write('using System; namespace UAVCAN {public partial class uavcan { public static readonly (Type,UInt16, ulong)[] MSG_INFO = {'+message_names_enum+'};}}')
 
-    print message_names_enum
+    print (message_names_enum)
 

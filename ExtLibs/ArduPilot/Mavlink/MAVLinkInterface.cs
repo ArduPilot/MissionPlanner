@@ -4104,6 +4104,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         }
                     }
 
+                    Console.WriteLine("MI " + DateTime.Now.ToString("O"));
+
                     // only process for active mav
                     if (sysidcurrent == sysid && compidcurrent == compid)
                         PacketReceived(message);

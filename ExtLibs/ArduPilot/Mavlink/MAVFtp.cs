@@ -1671,6 +1671,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                     return false;
                 sub = _mavint.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.FILE_TRANSFER_PROTOCOL, message =>
                 {
+                    Console.WriteLine("G " + DateTime.Now.ToString("O"));
                     if (cancel != null && cancel.IsCancellationRequested)
                     {
                         timeout.RetriesCurrent = 999;
@@ -1718,6 +1719,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                     _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
                     Progress?.Invoke((int)((float)payload.offset / size * 100.0));
                     timeout.ResetTimeout();
+                    Console.WriteLine("S " + DateTime.Now.ToString("O"));
                     return true;
                 });
                 // fill buffer

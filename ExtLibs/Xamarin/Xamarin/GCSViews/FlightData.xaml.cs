@@ -1675,6 +1675,9 @@ namespace Xamarin
                 var bounds = gMapControl1.ViewArea;
                 bounds.Inflate(1, 1);
 
+                if (kmlpolygons == null)
+                    return;
+
                 foreach (var poly in kmlpolygons.Polygons)
                 {
                     if (bounds.Contains(poly.Points[0]))
