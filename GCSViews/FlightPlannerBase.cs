@@ -5700,7 +5700,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                     if (lla.Tag != null && lla.Tag != "H" && !lla.Tag.Contains("ROI"))
                     {
                         double height = lla.Alt - last.Alt;
-                        double distance = lla.GetDistance(last) * CurrentState.multiplierdist;
+                        double distance = lla.GetDistance(last);
                         double grad = height / distance;
 
                         _flightPlanner.Commands.Rows[int.Parse(lla.Tag) - 1].Cells[Grad.Index].Value =
@@ -5710,7 +5710,8 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                             ((180.0 / Math.PI) * Math.Atan(grad)).ToString("0.0");
 
                         _flightPlanner.Commands.Rows[int.Parse(lla.Tag) - 1].Cells[Dist.Index].Value =
-                            (Math.Sqrt(Math.Pow(distance, 2) + Math.Pow(height, 2))).ToString("0.0");
+                            (Math.Sqrt(Math.Pow(distance, 2) + Math.Pow(height, 2)) * CurrentState.multiplierdist)
+                            .ToString("0.0");
 
                         _flightPlanner.Commands.Rows[int.Parse(lla.Tag) - 1].Cells[AZ.Index].Value =
                             ((lla.GetBearing(last) + 180) % 360).ToString("0");

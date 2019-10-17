@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.but_slcanmode1 = new MissionPlanner.Controls.MyButton();
@@ -49,22 +49,22 @@
             this.but_slcanmode2 = new MissionPlanner.Controls.MyButton();
             this.but_uavcaninspector = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.textBox13 = new System.Windows.Forms.TextBox();
+            this.textBox11 = new System.Windows.Forms.TextBox();
+            this.textBox10 = new System.Windows.Forms.TextBox();
+            this.textBox9 = new System.Windows.Forms.TextBox();
+            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.textBox7 = new System.Windows.Forms.TextBox();
-            this.textBox9 = new System.Windows.Forms.TextBox();
-            this.textBox10 = new System.Windows.Forms.TextBox();
-            this.textBox11 = new System.Windows.Forms.TextBox();
-            this.textBox13 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.uAVCANModelBindingSource)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -192,9 +192,9 @@
             // SoftwareCRC
             // 
             this.SoftwareCRC.DataPropertyName = "SoftwareCRC";
-            dataGridViewCellStyle13.Format = "X";
-            dataGridViewCellStyle13.NullValue = null;
-            this.SoftwareCRC.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle1.Format = "X";
+            dataGridViewCellStyle1.NullValue = null;
+            this.SoftwareCRC.DefaultCellStyle = dataGridViewCellStyle1;
             this.SoftwareCRC.HeaderText = "SoftwareCRC";
             this.SoftwareCRC.Name = "SoftwareCRC";
             this.SoftwareCRC.ReadOnly = true;
@@ -288,6 +288,98 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(785, 137);
             this.tableLayoutPanel1.TabIndex = 86;
             // 
+            // textBox3
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.textBox3, 2);
+            this.textBox3.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.uAVCANModelBindingSource, "HardwareVersion", true));
+            this.textBox3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox3.Location = new System.Drawing.Point(343, 111);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(439, 20);
+            this.textBox3.TabIndex = 18;
+            // 
+            // textBox13
+            // 
+            this.textBox13.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.uAVCANModelBindingSource, "HardwareVersion", true));
+            this.textBox13.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox13.Location = new System.Drawing.Point(142, 111);
+            this.textBox13.Name = "textBox13";
+            this.textBox13.Size = new System.Drawing.Size(195, 20);
+            this.textBox13.TabIndex = 17;
+            // 
+            // textBox11
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.textBox11, 2);
+            this.textBox11.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.uAVCANModelBindingSource, "SoftwareCRC", true));
+            this.textBox11.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox11.Location = new System.Drawing.Point(343, 84);
+            this.textBox11.Name = "textBox11";
+            this.textBox11.Size = new System.Drawing.Size(439, 20);
+            this.textBox11.TabIndex = 15;
+            // 
+            // textBox10
+            // 
+            this.textBox10.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.uAVCANModelBindingSource, "SoftwareVersion", true));
+            this.textBox10.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox10.Location = new System.Drawing.Point(142, 84);
+            this.textBox10.Name = "textBox10";
+            this.textBox10.Size = new System.Drawing.Size(195, 20);
+            this.textBox10.TabIndex = 14;
+            // 
+            // textBox9
+            // 
+            this.textBox9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox9.Location = new System.Drawing.Point(565, 57);
+            this.textBox9.Name = "textBox9";
+            this.textBox9.Size = new System.Drawing.Size(217, 20);
+            this.textBox9.TabIndex = 13;
+            // 
+            // textBox7
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.textBox7, 2);
+            this.textBox7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox7.Location = new System.Drawing.Point(142, 57);
+            this.textBox7.Name = "textBox7";
+            this.textBox7.Size = new System.Drawing.Size(417, 20);
+            this.textBox7.TabIndex = 11;
+            // 
+            // textBox6
+            // 
+            this.textBox6.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.uAVCANModelBindingSource, "Uptime", true));
+            this.textBox6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox6.Location = new System.Drawing.Point(565, 30);
+            this.textBox6.Name = "textBox6";
+            this.textBox6.Size = new System.Drawing.Size(217, 20);
+            this.textBox6.TabIndex = 10;
+            // 
+            // textBox5
+            // 
+            this.textBox5.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.uAVCANModelBindingSource, "Health", true));
+            this.textBox5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox5.Location = new System.Drawing.Point(343, 30);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(216, 20);
+            this.textBox5.TabIndex = 9;
+            // 
+            // textBox4
+            // 
+            this.textBox4.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.uAVCANModelBindingSource, "Mode", true));
+            this.textBox4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox4.Location = new System.Drawing.Point(142, 30);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(195, 20);
+            this.textBox4.TabIndex = 8;
+            // 
+            // textBox2
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.textBox2, 2);
+            this.textBox2.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.uAVCANModelBindingSource, "Name", true));
+            this.textBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox2.Location = new System.Drawing.Point(343, 3);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(439, 20);
+            this.textBox2.TabIndex = 6;
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -346,98 +438,6 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(195, 20);
             this.textBox1.TabIndex = 5;
-            // 
-            // textBox2
-            // 
-            this.tableLayoutPanel1.SetColumnSpan(this.textBox2, 2);
-            this.textBox2.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.uAVCANModelBindingSource, "Name", true));
-            this.textBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox2.Location = new System.Drawing.Point(343, 3);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(439, 20);
-            this.textBox2.TabIndex = 6;
-            // 
-            // textBox4
-            // 
-            this.textBox4.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.uAVCANModelBindingSource, "Mode", true));
-            this.textBox4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox4.Location = new System.Drawing.Point(142, 30);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(195, 20);
-            this.textBox4.TabIndex = 8;
-            // 
-            // textBox5
-            // 
-            this.textBox5.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.uAVCANModelBindingSource, "Health", true));
-            this.textBox5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox5.Location = new System.Drawing.Point(343, 30);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(216, 20);
-            this.textBox5.TabIndex = 9;
-            // 
-            // textBox6
-            // 
-            this.textBox6.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.uAVCANModelBindingSource, "Uptime", true));
-            this.textBox6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox6.Location = new System.Drawing.Point(565, 30);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(217, 20);
-            this.textBox6.TabIndex = 10;
-            // 
-            // textBox7
-            // 
-            this.tableLayoutPanel1.SetColumnSpan(this.textBox7, 2);
-            this.textBox7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox7.Location = new System.Drawing.Point(142, 57);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(417, 20);
-            this.textBox7.TabIndex = 11;
-            // 
-            // textBox9
-            // 
-            this.textBox9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox9.Location = new System.Drawing.Point(565, 57);
-            this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new System.Drawing.Size(217, 20);
-            this.textBox9.TabIndex = 13;
-            // 
-            // textBox10
-            // 
-            this.textBox10.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.uAVCANModelBindingSource, "SoftwareVersion", true));
-            this.textBox10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox10.Location = new System.Drawing.Point(142, 84);
-            this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new System.Drawing.Size(195, 20);
-            this.textBox10.TabIndex = 14;
-            // 
-            // textBox11
-            // 
-            this.tableLayoutPanel1.SetColumnSpan(this.textBox11, 2);
-            this.textBox11.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.uAVCANModelBindingSource, "SoftwareCRC", true));
-            this.textBox11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox11.Location = new System.Drawing.Point(343, 84);
-            this.textBox11.Name = "textBox11";
-            this.textBox11.Size = new System.Drawing.Size(439, 20);
-            this.textBox11.TabIndex = 15;
-            // 
-            // textBox13
-            // 
-            this.textBox13.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.uAVCANModelBindingSource, "HardwareVersion", true));
-            this.textBox13.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox13.Location = new System.Drawing.Point(142, 111);
-            this.textBox13.Name = "textBox13";
-            this.textBox13.Size = new System.Drawing.Size(195, 20);
-            this.textBox13.TabIndex = 17;
-            // 
-            // textBox3
-            // 
-            this.tableLayoutPanel1.SetColumnSpan(this.textBox3, 2);
-            this.textBox3.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.uAVCANModelBindingSource, "HardwareVersion", true));
-            this.textBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox3.Location = new System.Drawing.Point(343, 111);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(439, 20);
-            this.textBox3.TabIndex = 18;
             // 
             // ConfigUAVCAN
             // 

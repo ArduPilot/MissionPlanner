@@ -3817,7 +3817,7 @@ namespace MissionPlanner
                             CurrentState.SpeedUnit = "m/s";
                             break;
                         case speeds.fps:
-                            CurrentState.multiplierdist = 3.2808399f;
+                            CurrentState.multiplierspeed = 3.2808399f;
                             CurrentState.SpeedUnit = "fps";
                             break;
                         case speeds.kph:
