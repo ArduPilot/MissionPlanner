@@ -568,6 +568,18 @@ namespace MissionPlanner
 
             MAVLinkInterface.UpdateADSBPlanePosition += adsb_UpdatePlanePosition;
 
+            MAVLinkInterface.UpdateADSBCollision += (sender, tuple) =>
+            {
+                lock (adsblock)
+                {
+                    if (MainV2.instance.adsbPlanes.ContainsKey(tuple.id))
+                    {
+                        // update existing
+                        ((adsb.PointLatLngAltHdg) instance.adsbPlanes[tuple.id]).ThreatLevel = tuple.threat_level;
+                    }
+                }
+            };
+
             MAVLinkInterface.gcssysid = (byte)Settings.Instance.GetByte("gcsid", MAVLinkInterface.gcssysid);
 
             Form splash = Program.Splash;

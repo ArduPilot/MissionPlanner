@@ -62,6 +62,7 @@ namespace MissionPlanner
         public event EventHandler<MAVLinkMessage> OnPacketSent;
 
         public static event EventHandler<adsb.PointLatLngAltHdg> UpdateADSBPlanePosition;
+        public static event EventHandler<(string id, MAV_COLLISION_THREAT_LEVEL threat_level)> UpdateADSBCollision;
 
         public ICommsSerial MirrorStream { get; set; }
         public bool MirrorStreamWrite { get; set; }
@@ -4015,7 +4016,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                                 UpdateADSBPlanePosition(this, new adsb.PointLatLngAltHdg(adsb.lat / 1e7, adsb.lon / 1e7,
                                         adsb.altitude / 1000.0, adsb.heading * 0.01f, adsb.hor_velocity * 0.01f, id,
                                         DateTime.Now)
-                                { CallSign = ASCIIEncoding.ASCII.GetString(adsb.callsign) }
+                                    {CallSign = ASCIIEncoding.ASCII.GetString(adsb.callsign)}
                                 );
                         }
 
@@ -4037,10 +4038,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                             var threat_level = (MAV_COLLISION_THREAT_LEVEL) coll.threat_level;
 
-                            //if (MainV2.instance.adsbPlanes.ContainsKey(id))
-                            {
-                                //((adsb.PointLatLngAltHdg) MainV2.instance.adsbPlanes[id]).ThreatLevel = threat_level;
-                            }
+                            UpdateADSBCollision?.Invoke(this, (id, threat_level));
                         }
                     }
 
