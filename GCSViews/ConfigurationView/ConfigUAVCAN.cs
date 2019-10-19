@@ -107,6 +107,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (!port.IsOpen)
                     port.Open();
 
+                if(chk_log.Checked)
+                    can.LogFile = Settings.Instance.LogDir + Path.DirectorySeparatorChar +
+                              DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".can";
+
                 can.StartSLCAN(port.BaseStream);
 
                 can.SetupFileServer();

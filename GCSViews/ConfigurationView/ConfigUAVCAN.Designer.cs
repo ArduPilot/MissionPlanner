@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.but_slcanmode1 = new MissionPlanner.Controls.MyButton();
@@ -65,6 +65,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.chk_log = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.uAVCANModelBindingSource)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -192,9 +193,9 @@
             // SoftwareCRC
             // 
             this.SoftwareCRC.DataPropertyName = "SoftwareCRC";
-            dataGridViewCellStyle1.Format = "X";
-            dataGridViewCellStyle1.NullValue = null;
-            this.SoftwareCRC.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Format = "X";
+            dataGridViewCellStyle2.NullValue = null;
+            this.SoftwareCRC.DefaultCellStyle = dataGridViewCellStyle2;
             this.SoftwareCRC.HeaderText = "SoftwareCRC";
             this.SoftwareCRC.Name = "SoftwareCRC";
             this.SoftwareCRC.ReadOnly = true;
@@ -439,10 +440,22 @@
             this.textBox1.Size = new System.Drawing.Size(195, 20);
             this.textBox1.TabIndex = 5;
             // 
+            // chk_log
+            // 
+            this.chk_log.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chk_log.AutoSize = true;
+            this.chk_log.Location = new System.Drawing.Point(748, 3);
+            this.chk_log.Name = "chk_log";
+            this.chk_log.Size = new System.Drawing.Size(44, 17);
+            this.chk_log.TabIndex = 87;
+            this.chk_log.Text = "Log";
+            this.chk_log.UseVisualStyleBackColor = true;
+            // 
             // ConfigUAVCAN
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.chk_log);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.but_uavcaninspector);
             this.Controls.Add(this.but_slcanmode2);
@@ -499,5 +512,6 @@
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.CheckBox chk_log;
     }
 }

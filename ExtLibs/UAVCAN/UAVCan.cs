@@ -116,6 +116,10 @@ namespace UAVCAN
             sr = stream;
 
             bool run = true;
+            Stream logfile = null;
+
+            if (LogFile != "")
+                logfile = File.OpenWrite(LogFile);
 
             // read everything
             Task.Run(() =>
@@ -126,6 +130,13 @@ namespace UAVCAN
                     try
                     {
                         var line = ReadLine(stream);
+                        try
+                        {
+                            if (LogFile != "")
+                                logfile?.Write(ASCIIEncoding.ASCII.GetBytes(line), 0, line.Length);
+                        }
+                        catch
+                        { }
                         ReadMessage(line);
                         readfail = 0;
                     }
@@ -207,6 +218,8 @@ namespace UAVCAN
                 }
             };
         }
+
+        public string LogFile { get; set; }
 
         public void Stop(bool closestream = true)
         {
