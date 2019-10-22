@@ -16,17 +16,17 @@ namespace MissionPlanner.Maps
         public Pen Pen2 = new Pen(Brushes.Red, 3);
 
         // m
-        public int wprad = 9000;
+        public double wprad = 9000;
         public double tolerance;
 
 
-        public GMapMarkerDistance(PointLatLng p,double km,double tol)
+        public GMapMarkerDistance(PointLatLng p,double m,double tol)
             : base(p)
         {
             Pen.DashStyle = DashStyle.Dash;
             Pen2.DashStyle = DashStyle.Dash;
-            
-            wprad = (int)(km * 1000);
+
+            wprad = m;
 
             tolerance = tol;
 

@@ -1167,6 +1167,7 @@ namespace MissionPlanner.Utilities
 
             public string CallSign { get; set; }
             public double Speed { get; set; }
+            public object Raw { get; set; }
         }
     }
 }

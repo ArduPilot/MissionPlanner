@@ -4016,7 +4016,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                                 UpdateADSBPlanePosition(this, new adsb.PointLatLngAltHdg(adsb.lat / 1e7, adsb.lon / 1e7,
                                         adsb.altitude / 1000.0, adsb.heading * 0.01f, adsb.hor_velocity * 0.01f, id,
                                         DateTime.Now)
-                                    {CallSign = ASCIIEncoding.ASCII.GetString(adsb.callsign)}
+                                    {CallSign = ASCIIEncoding.ASCII.GetString(adsb.callsign), Raw = adsb}
                                 );
                         }
 
@@ -4101,8 +4101,6 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                             }
                         }
                     }
-
-                    Console.WriteLine("MI " + DateTime.Now.ToString("O"));
 
                     // only process for active mav
                     if (sysidcurrent == sysid && compidcurrent == compid)

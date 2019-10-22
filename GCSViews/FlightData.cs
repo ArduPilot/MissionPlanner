@@ -3180,6 +3180,20 @@ namespace MissionPlanner.GCSViews
                         {
                             foreach (adsb.PointLatLngAltHdg plla in MainV2.instance.adsbPlanes.Values)
                             {
+                                if(plla.Raw != null)
+                                {
+                                    var msg = ((MAVLink.mavlink_adsb_vehicle_t) plla.Raw);
+                                    if (msg.emitter_type == 255 && ASCIIEncoding.ASCII.GetString(msg.callsign).Trim('\0') == "OA_DB")
+                                    {
+                                        // cm
+                                        var radius = msg.squawk;
+
+                                        addMissionRouteMarker(new GMapMarkerDistance(plla, radius / 100.0, 0)
+                                            {Pen = new Pen(Color.Red, 3)});
+                                        continue;
+                                    }
+                                }
+
                                 // 30 seconds history
                                 if (((DateTime)plla.Time) > DateTime.Now.AddSeconds(-30))
                                 {
@@ -4720,6 +4734,14 @@ if (a is CheckBox && ((CheckBox)a).Checked)
             catch
             {
             }
+        }
+
+        private void but_test_Click(object sender, EventArgs e)
+        {
+            MainV2.comPort.doARM(true, true);
+            MainV2.comPort.doCommand(MAVLink.MAV_CMD.GUIDED_ENABLE, 0, 0, 0, 0, 0, 0, 0);
+
+
         }
     }
 }

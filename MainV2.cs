@@ -1201,15 +1201,16 @@ namespace MissionPlanner
                     ((adsb.PointLatLngAltHdg)instance.adsbPlanes[id]).Heading = adsb.Heading;
                     ((adsb.PointLatLngAltHdg)instance.adsbPlanes[id]).Time = DateTime.Now;
                     ((adsb.PointLatLngAltHdg)instance.adsbPlanes[id]).CallSign = adsb.CallSign;
+                    ((adsb.PointLatLngAltHdg)instance.adsbPlanes[id]).Raw = adsb.Raw;
                 }
                 else
                 {
                     // create new plane
                     MainV2.instance.adsbPlanes[id] =
                         new adsb.PointLatLngAltHdg(adsb.Lat, adsb.Lng,
-                            adsb.Alt, adsb.Heading, adsb.Speed, id,
-                            DateTime.Now)
-                        { CallSign = adsb.CallSign };
+                                adsb.Alt, adsb.Heading, adsb.Speed, id,
+                                DateTime.Now)
+                            {CallSign = adsb.CallSign, Raw = adsb.Raw};
                 }
 
                 try
