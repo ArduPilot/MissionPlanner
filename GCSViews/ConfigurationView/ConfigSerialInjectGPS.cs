@@ -8,12 +8,14 @@ using MissionPlanner.Comms;
 using System.Threading;
 using log4net;
 using System.Collections;
+using System.ComponentModel;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 using System.Globalization;
 using System.IO;
 using System.Xml.Serialization;
 using Flurl.Util;
+using UAVCAN;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -31,6 +33,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private static Utilities.Ubx ubx_m8p = new Utilities.Ubx();
 
         static nmea nmea = new nmea();
+
+        static uavcan can = new uavcan();
         // background thread 
         private static System.Threading.Thread t12;
         private static bool threadrun = false;
@@ -429,6 +433,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             bool isrtcm = false;
             bool issbp = false;
+            bool iscan = false;
+
+            // feed the rtcm data into the rtcm parser if we get a can message
+            can.MessageReceived += (frame, msg, id) =>
+            {
+                if (frame.MsgTypeID == (ushort)uavcan.UAVCAN_EQUIPMENT_GNSS_RTCMSTREAM_DT_ID)
+                {
+                    var rtcm = (uavcan.uavcan_equipment_gnss_RTCMStream)msg;
+                    for (int a = 0; a < rtcm.data_len; a++)
+                    {
+                        rtcm3.Read(rtcm.data[a]);
+                    }
+                }
+            };
 
             int reconnecttimeout = 10;
 
@@ -491,7 +509,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         }
 
                         // if this is raw data transport of unknown packet types
-                        if (!(isrtcm || issbp))
+                        if (!(isrtcm || issbp || iscan))
                             sendData(buffer, (ushort) read);
 
                         // check for valid rtcm/sbp/ubx packets
@@ -549,6 +567,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                 sbp.resetParser();
                                 ubx_m8p.resetParser();
                                 string msgname = "NMEA";
+                                if (!msgseen.ContainsKey(msgname))
+                                    msgseen[msgname] = 0;
+                                msgseen[msgname] = (int)msgseen[msgname] + 1;
+                            }
+                            // can_rtcm
+                            if ((seenmsg = can.Read(buffer[a])) > 0)
+                            {
+                                sbp.resetParser();
+                                ubx_m8p.resetParser();
+                                string msgname = "CAN";
                                 if (!msgseen.ContainsKey(msgname))
                                     msgseen[msgname] = 0;
                                 msgseen[msgname] = (int)msgseen[msgname] + 1;

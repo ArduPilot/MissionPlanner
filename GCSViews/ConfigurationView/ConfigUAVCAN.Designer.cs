@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.but_slcanmode1 = new MissionPlanner.Controls.MyButton();
@@ -193,9 +193,9 @@
             // SoftwareCRC
             // 
             this.SoftwareCRC.DataPropertyName = "SoftwareCRC";
-            dataGridViewCellStyle2.Format = "X";
-            dataGridViewCellStyle2.NullValue = null;
-            this.SoftwareCRC.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.Format = "X";
+            dataGridViewCellStyle5.NullValue = null;
+            this.SoftwareCRC.DefaultCellStyle = dataGridViewCellStyle5;
             this.SoftwareCRC.HeaderText = "SoftwareCRC";
             this.SoftwareCRC.Name = "SoftwareCRC";
             this.SoftwareCRC.ReadOnly = true;
@@ -292,7 +292,7 @@
             // textBox3
             // 
             this.tableLayoutPanel1.SetColumnSpan(this.textBox3, 2);
-            this.textBox3.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.uAVCANModelBindingSource, "HardwareVersion", true));
+            this.textBox3.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.uAVCANModelBindingSource, "HardwareUID", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, null, "X"));
             this.textBox3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox3.Location = new System.Drawing.Point(343, 111);
             this.textBox3.Name = "textBox3";
@@ -311,7 +311,7 @@
             // textBox11
             // 
             this.tableLayoutPanel1.SetColumnSpan(this.textBox11, 2);
-            this.textBox11.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.uAVCANModelBindingSource, "SoftwareCRC", true));
+            this.textBox11.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.uAVCANModelBindingSource, "SoftwareCRC", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, null, "X"));
             this.textBox11.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox11.Location = new System.Drawing.Point(343, 84);
             this.textBox11.Name = "textBox11";

@@ -278,7 +278,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                     FileDialog fd = new OpenFileDialog();
                     fd.RestoreDirectory = true;
-                    fd.Filter = "*-crc.bin|*-crc.bin";
+                    fd.Filter = "*.bin|*.bin";
                     var dia = fd.ShowDialog();
 
                     if (fd.CheckFileExists && dia == DialogResult.OK)
@@ -332,10 +332,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             var id = myDataGridView1[iDDataGridViewTextBoxColumn.Index, e.RowIndex].Value.ToString();
 
+            var node = allnodes.First(a => a.ID.ToString() == id);
+
+            //uAVCANModelBindingSource.ResetItem(e.RowIndex);
+
             this.BeginInvoke((Action)delegate
             {
-                var index = uAVCANModelBindingSource.Find("ID", id);
-                uAVCANModelBindingSource.Position = index;
+                //var index = uAVCANModelBindingSource.Find("ID", id);
+                //uAVCANModelBindingSource.Position = index;
             });
         }
     }

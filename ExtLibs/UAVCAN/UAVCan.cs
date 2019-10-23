@@ -118,7 +118,7 @@ namespace UAVCAN
             bool run = true;
             Stream logfile = null;
 
-            if (LogFile != "")
+            if (LogFile != null)
                 logfile = File.OpenWrite(LogFile);
 
             // read everything
@@ -132,8 +132,7 @@ namespace UAVCAN
                         var line = ReadLine(stream);
                         try
                         {
-                            if (LogFile != "")
-                                logfile?.Write(ASCIIEncoding.ASCII.GetBytes(line), 0, line.Length);
+                            logfile?.Write(ASCIIEncoding.ASCII.GetBytes(line), 0, line.Length);
                         }
                         catch
                         { }
@@ -219,7 +218,7 @@ namespace UAVCAN
             };
         }
 
-        public string LogFile { get; set; }
+        public string LogFile { get; set; } = null;
 
         public void Stop(bool closestream = true)
         {
@@ -1191,6 +1190,23 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
                 WriteToStream(slcan);
             }
 
+        }
+
+        StringBuilder readsb = new StringBuilder();
+        public int Read(byte b)
+        {
+            readsb.Append((char) b);
+            
+            if (b == '\r' || b == '\a' || b == '\n')
+            {
+                var front = readsb[0];
+                readsb.Clear();
+                if (front == 'T' || front == 't' || front == 'n')
+                    return 1;
+        
+            }
+
+            return 0;
         }
     }
 }
