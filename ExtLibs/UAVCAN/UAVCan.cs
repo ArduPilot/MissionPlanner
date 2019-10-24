@@ -406,9 +406,12 @@ namespace UAVCAN
 
         Dictionary<string, string> fileServerList = new Dictionary<string, string>();
 
-        public void ServeFile(string filetoserve)
+        public void ServeFile(string filetoserve, string filename = "")
         {
-            fileServerList[Path.GetFileName(filetoserve.ToLower())] = filetoserve;
+            if(filename == "")
+                fileServerList[Path.GetFileName(filetoserve.ToLower())] = filetoserve;
+            else
+                fileServerList[filename] = filetoserve;
         }
 
         public void SetupFileServer()
@@ -554,7 +557,7 @@ namespace UAVCAN
         {
             Console.WriteLine("Update {0} {1} {2} {3}", nodeid, devicename, hwversion, firmware_name);
 
-            ServeFile(firmware_name);
+            ServeFile(firmware_name, "fw.bin");
 
             var firmware_namebytes = ASCIIEncoding.ASCII.GetBytes(Path.GetFileName(firmware_name.ToLower()));
             ulong firmware_crc = ulong.MaxValue;
@@ -610,7 +613,7 @@ namespace UAVCAN
                         }
                         else
                         {
-                            exception = new Exception(String.Format( "{0} - No need to upload, crc matchs", frame.SourceNode));
+                            Console.WriteLine(String.Format("{0} - No need to upload, crc matchs", frame.SourceNode));
                             return;
                         }
                     }
@@ -1200,10 +1203,14 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
             if (b == '\r' || b == '\a' || b == '\n')
             {
                 var front = readsb[0];
-                readsb.Clear();
                 if (front == 'T' || front == 't' || front == 'n')
+                {
+                    var data = readsb.ToString();
+                    readsb.Clear();
+                    ReadMessage(data);
                     return 1;
-        
+                }
+                readsb.Clear();
             }
 
             return 0;

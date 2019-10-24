@@ -256,7 +256,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                 var tempfile = Path.GetTempFileName();
                                 Download.getFilefromNet(url, tempfile);
 
-                                can.Update(nodeID, devicename, hwversion, tempfile);
+                                try
+                                {
+                                    can.Update(nodeID, devicename, hwversion, tempfile);
+                                }
+                                catch (Exception ex)
+                                {
+                                    throw;
+                                }
 
                                 return;
                             };
@@ -308,7 +315,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public void Deactivate()
         {
-            can.Stop();
+            can?.Stop();
             can = null;
         }
 
