@@ -323,6 +323,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     try
                     {
                         comPort.Open();
+
+                        comPort.Write(new byte[] { (byte)'\r', (byte)'\r', (byte)'\r' }, 0, 3);
+                        comPort.Write(new byte[] { (byte)'O', (byte)'\r' }, 0, 2);
                     }
                     catch (ArgumentException ex)
                     {
@@ -443,7 +446,24 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     var rtcm = (uavcan.uavcan_equipment_gnss_RTCMStream)msg;
                     for (int a = 0; a < rtcm.data_len; a++)
                     {
-                        rtcm3.Read(rtcm.data[a]);
+                        int seenmsg = -1;
+
+                        if ((seenmsg = rtcm3.Read(rtcm.data[a])) > 0)
+                        {
+                            ubx_m8p.resetParser();
+                            nmea.resetParser();
+                            iscan = true;
+                            sendData(rtcm3.packet, (ushort) rtcm3.length);
+                            bpsusefull += rtcm3.length;
+                            string msgname = "Rtcm" + seenmsg;
+                            if (!msgseen.ContainsKey(msgname))
+                                msgseen[msgname] = 0;
+                            msgseen[msgname] = (int) msgseen[msgname] + 1;
+
+                            ExtractBasePos(seenmsg);
+
+                            seenRTCM(seenmsg);
+                        }
                     }
                 }
             };
@@ -969,14 +989,21 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                string[] bspos = Settings.Instance["base_pos"].Split(',');
+                if (Settings.Instance.ContainsKey("base_pos"))
+                {
+                    string[] bspos = Settings.Instance["base_pos"].Split(',');
 
-                log.Info("basepos: "+ Settings.Instance["base_pos"].ToString());
+                    log.Info("basepos: " + Settings.Instance["base_pos"].ToString());
 
-                basepos = new PointLatLngAlt(double.Parse(bspos[0], CultureInfo.InvariantCulture),
-                    double.Parse(bspos[1], CultureInfo.InvariantCulture),
-                    double.Parse(bspos[2], CultureInfo.InvariantCulture), 
-                    bspos[3]);
+                    basepos = new PointLatLngAlt(double.Parse(bspos[0], CultureInfo.InvariantCulture),
+                        double.Parse(bspos[1], CultureInfo.InvariantCulture),
+                        double.Parse(bspos[2], CultureInfo.InvariantCulture),
+                        bspos[3]);
+                }
+                else
+                {
+                    basepos = PointLatLngAlt.Zero;
+                }
             }
             catch
             {
