@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace MissionPlanner.Utilities
 {
@@ -210,7 +211,7 @@ namespace MissionPlanner.Utilities
                 "MSG", "PARM"
             }))
             {
-                Console.WriteLine(item.raw.ToJSON());
+                Console.WriteLine(item.raw.ToJSON(Formatting.None));
             }
 
             // try get gps time - when a dfitem is created and no valid gpstime has been establish the messages are parsed to get a valid gpstime
