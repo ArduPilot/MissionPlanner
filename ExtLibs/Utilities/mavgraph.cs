@@ -224,6 +224,7 @@ namespace MissionPlanner.Utilities
             {
                 try
                 {
+                    log.Info("readmavgraphsxml file " + file);
                     using (
                         XmlReader reader =
                             XmlReader.Create(file))
