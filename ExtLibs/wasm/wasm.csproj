@@ -17,27 +17,40 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="CanvasGraphics.cs" />
+    <Compile Remove="Controls\HUD.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="CanvasGraphics.cs" />
+    <None Include="Controls\HUD.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Blazor.Extensions.Canvas" Version="0.4.0" />
-    <PackageReference Include="Blazor.Extensions.Storage" Version="0.4.0" />
-    <PackageReference Include="DotNetZip" Version="1.13.3" />
+    <PackageReference Include="Blazor.Extensions.Storage" Version="1.0.0" />
+    <PackageReference Include="DotNetZip" Version="1.13.4" />
+    <PackageReference Include="Lib.Harmony" Version="1.2.0.1" />
     <PackageReference Include="log4net" Version="2.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.0.0-preview9.19457.4" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="3.0.0-preview9.19457.4" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.DevServer" Version="3.0.0-preview9.19457.4" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.HttpClient" Version="3.0.0-preview9.19457.4" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Mono" Version="3.0.0-preview9.19456.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.0.0-rc1.19457.4" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.0.0-rc1.19457.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="11.0.1" />
+    <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="11.1.0" />
     <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-    <PackageReference Include="Sotsera.Blazor.Toaster" Version="1.0.0-preview9.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3-beta2" />
+    <PackageReference Include="Sotsera.Blazor.Toaster" Version="1.0.0" />
     <PackageReference Include="System.Text.Encoding" Version="4.3.0" />
     <PackageReference Include="System.Text.Encoding.Extensions" Version="4.3.0" />
-    <PackageReference Include="Tewr.Blazor.FileReader" Version="0.15.0.19248" />
+    <PackageReference Include="Tewr.Blazor.FileReader" Version="1.1.0.19274" />
+    <PackageReference Include="Uno.SkiaSharp.Wasm" Version="1.68.0-uno.290" />
+    <PackageReference Include="Uno.SkiaSharp.Wasm.Extended" Version="1.60.0-uno.173" />
 
   </ItemGroup>
 
@@ -64,9 +77,24 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Controls\HUDT.Designer.cs">
+      <DependentUpon>HUDT.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Update="wwwroot\2018-09-09 18-15-17.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Controls\HUDT.resx">
+      <LastGenOutput>HUDT.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

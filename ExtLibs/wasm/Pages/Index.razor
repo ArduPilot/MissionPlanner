@@ -2,10 +2,17 @@
 @inject HttpClient Http
 @using GMap.NET.MapProviders
 @using GMap.NET
+@using MissionPlanner.Controls
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
+
+
+<BECanvas></BECanvas>
+
+<br>@(DateTime.Now.ToString("O"))
+
 
 @functions {
 
@@ -28,7 +35,7 @@ Welcome to your new app.
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         log.Debug("DataFlash OnAfterRenderAsync Start");
-        GMapProvider type = GMap.NET.MapProviders.GoogleSatelliteMapProvider.Instance;
+        GMapProvider type = GMap.NET.MapProviders.GoogleChinaSatelliteMapProvider.Instance;
         PureProjection prj = type.Projection;
         GMap.NET.Internals.Core core = new GMap.NET.Internals.Core();
 
@@ -55,22 +62,10 @@ Welcome to your new app.
             foreach (var tp in type.Overlays)
             {
                 Exception ex;
-                using (var tile = GMaps.Instance.GetImageFrom(tp, p, zoom, out ex))
-                {
-                    if (tile != null)
-                    {
-                        using (tile)
-                        {
-                            long x = p.X*prj.TileSize.Width - topLeftPx.X ;
-                            long y = p.Y*prj.TileSize.Width - topLeftPx.Y ;
-                            {
-
-                            }
-                        }
-                    }
-                }
+        
+                //var ret = tp.GetTileImage(p, zoom);
             }
-        }    
+        }
 
         log.Debug("DataFlash OnAfterRenderAsync Done");
     }

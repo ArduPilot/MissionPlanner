@@ -120,7 +120,7 @@
         </div>
         <div id="left" style="margin-right: 150px;">
             <select @onchange="processMavGraph" @ref="@mavgraphselect">
-                @foreach (var gra in mavgraph.graphs)
+                @foreach (var gra in mavgraphlist)
                 {
                     <option value="@gra">@gra</option>
                 }
@@ -143,7 +143,7 @@
         {
             @if (cb.dflog.logformat.ContainsKey("MSG"))
             {
-                @DateTime.Now.ToString("o")
+                <!--   @DateTime.Now.ToString("o") -->
                 <h3>MSG</h3>
                 <table id="myTable">
                     <thead>
@@ -170,7 +170,7 @@
             }
             @if (cb.dflog.logformat.ContainsKey("ERR"))
             {
-                @DateTime.Now.ToString("o")
+                <!--   @DateTime.Now.ToString("o") -->
                 <h3>Errors</h3>
                 <table id="myTable">
                     <thead>
@@ -199,7 +199,7 @@
             }
             @if (cb.dflog.logformat.ContainsKey("MODE"))
             {
-                @DateTime.Now.ToString("o")
+                <!--     @DateTime.Now.ToString("o") -->
                 <h3>Flight Mode</h3>
                 <table id="myTable">
                     <thead>
@@ -225,9 +225,9 @@
                 </table>
             }
         }
-        @DateTime.Now.ToString("o")
+    <!--    @DateTime.Now.ToString("o") -->
         <table id="rawTable" class="display"></table>
-        @DateTime.Now.ToString("o")
+    <!--   @DateTime.Now.ToString("o") -->
         <table id="rawparams" class="display">
             <thead>
                 <tr>
@@ -253,7 +253,7 @@
                 </tbody>
             }
         </table>
-        @DateTime.Now.ToString("o")
+    <!--   @DateTime.Now.ToString("o") -->
     </div>
 </div>
 @DateTime.Now.ToString("o")
@@ -307,6 +307,18 @@
 
     bool initrender = false;
 
+    public async Task GetFile(string filename)
+    {
+        if (!File.Exists(filename))
+        {
+            log.Info("get "+filename);
+            var content = await Http.GetStringAsync((filename));
+            log.Info("get "+filename+" done");
+
+            File.WriteAllText(filename, content);
+        }
+    }
+
     static DataFlash instance;
 
     protected override void OnInitialized()
@@ -314,6 +326,7 @@
         instance = this;
         Console.WriteLine("DataFlash OnInitialized");
     }
+
 
     public async void ClearPlot(string selectedchart)
     {
@@ -467,13 +480,30 @@
             StateHasChanged();
         }
     }
+
     protected override async Task OnInitializedAsync()
     {
         log.Debug("DataFlash OnInitializedAsync");
 
         log.Info(UriHelper.Uri);
 
+
+        Directory.CreateDirectory("graphs");
+
+        await GetFile("ParameterMetaDataBackup.xml");
+
+        await GetFile("graphs/ekf3Graphs.xml");
+        await GetFile("graphs/ekfGraphs.xml");
+        await GetFile("graphs/mavgraphs.xml");
+        await GetFile("graphs/mavgraphs2.xml");
+        await GetFile("graphs/mavgraphsMP.xml");
+
+
+        mavgraphlist = mavgraph.graphs;
+
     }
+
+    List<mavgraph.displaylist> mavgraphlist { get; set; } = new List<mavgraph.displaylist>();
 
     bool initMap = false;
 
@@ -495,13 +525,13 @@
             return;
 
         initrender = true;
-        
+
         setLastGraph(selectedchart);
 
         UriHelper.LocationChanged += async (e, a) =>
         {
-        // if user picks dflog
-        Checkdflog();
+            // if user picks dflog
+            Checkdflog();
         };
 
         // if first draw

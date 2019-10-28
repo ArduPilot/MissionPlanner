@@ -1,4 +1,9 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
 using Blazor.Extensions.Storage;
 using Blazor.FileReader;
 using log4net.Appender;
@@ -8,6 +13,9 @@ using log4net.Repository.Hierarchy;
 using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using System.Reflection.Emit;
+using System.Threading.Tasks;
+using Harmony;
 using Microsoft.JSInterop;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Utilities;
@@ -54,6 +62,12 @@ namespace wasm
             log.Info("test");
 
             log.Info("Configure Done");
+
+            //System.Net.WebRequest.get_InternalDefaultWebProxy
+
+            //WebRequest.DefaultWebProxy = GlobalProxySelection.GetEmptyWebProxy();
+
+            Directory.CreateDirectory(@"/home/web_user/Desktop");
 
             BinaryLog.onFlightMode += (firmware, modeno) =>
             {

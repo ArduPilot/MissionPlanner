@@ -30,7 +30,8 @@
     public static string googleid = "";
     private bool _loading = true;
 
-    public bool Loading {
+    public bool Loading
+    {
         get { return _loading; }
         set { log.Info("Loading " + _loading); _loading = value; }
     }
@@ -41,19 +42,16 @@
         googleid = id;
     }
 
+    protected override void OnInitialized()
+    {
+        log.Info("MainLayout OnInitialized done");
+    }
+
     protected override async Task OnInitializedAsync()
     {
-        GetFile("ParameterMetaDataBackup.xml");
-
-        Directory.CreateDirectory("graphs");
-
-        GetFile("graphs/ekf3Graphs.xml");
-        GetFile("graphs/ekfGraphs.xml");
-        GetFile("graphs/mavgraphs.xml");
-        GetFile("graphs/mavgraphs2.xml");
-        GetFile("graphs/mavgraphsMP.xml");
-
         Loading = false;
+
+        log.Info("MainLayout OnInitializedAsync done");
     }
 
     protected override void OnAfterRender(bool firstRender)
@@ -61,20 +59,9 @@
         base.OnAfterRender(firstRender);
 
         if(googleid == "")
-            JSRuntime.InvokeAsync<object>("renderButton", new { });
+            JSRuntime.InvokeAsync<object>
+    ("renderButton", new { });
 
         Console.WriteLine("MainLayout OnAfterRender Done");
-    }
-
-    async void GetFile(string filename)
-    {
-        if (!File.Exists(filename))
-        {
-            log.Info("get "+filename);
-            var content = await Http.GetStringAsync((filename));
-            log.Info("get "+filename+" done");
-
-            File.WriteAllText(filename, content);
-        }
     }
 }
