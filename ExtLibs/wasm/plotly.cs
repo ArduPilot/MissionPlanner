@@ -88,6 +88,8 @@ namespace wasm
         public string type = "scatter";
         [DefaultValue("")] // geo3
         public string geo = "";
+        [DefaultValue("")]
+        public string colorscale = "";
 
         [DefaultValue("")]
         public string textposition = "";

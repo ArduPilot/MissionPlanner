@@ -225,9 +225,9 @@
                 </table>
             }
         }
-    <!--    @DateTime.Now.ToString("o") -->
+        <!--    @DateTime.Now.ToString("o") -->
         <table id="rawTable" class="display"></table>
-    <!--   @DateTime.Now.ToString("o") -->
+        <!--   @DateTime.Now.ToString("o") -->
         <table id="rawparams" class="display">
             <thead>
                 <tr>
@@ -253,7 +253,7 @@
                 </tbody>
             }
         </table>
-    <!--   @DateTime.Now.ToString("o") -->
+        <!--   @DateTime.Now.ToString("o") -->
     </div>
 </div>
 @DateTime.Now.ToString("o")
@@ -271,49 +271,141 @@
 </div>
 @DateTime.Now.ToString("o")
 
-
+<br />
+<button @onclick="@(async() => DoFFT("ACC1","AccX"))">DoFFT AccX</button>
+<br />
+<button @onclick="@(async() => DoFFT("ACC1","AccY"))">DoFFT AccY</button>
+<br />
+<button @onclick="@(async() => DoFFT("ACC1","AccZ"))">DoFFT AccZ</button>
+<br />
+<button @onclick="@(async() => DoFFT("GYR1","GyrZ"))">DoFFT GyrZ</button>
 
 @functions {
-    ElementReference  inputTypeFileElement;
+            ElementReference inputTypeFileElement;
 
-    ElementReference  mavgraphselect;
+            ElementReference mavgraphselect;
 
-    CollectionBuffer cb = null;
+            CollectionBuffer cb = null;
 
-    static List<string[]> blobs = null;
+            static List<string[]> blobs = null;
 
-    List<string> graphs = new List<string>() { "graph1", "graph2" };
+            List<string> graphs = new List<string>() { "graph1", "graph2" };
 
-    string selectedchart = "graph1";
+            string selectedchart = "graph1";
 
-    string _loadingStatus = "";
-    private bool _loading = false;
+            string _loadingStatus = "";
+            private bool _loading = false;
 
-    public bool Loading
-    {
-        get { return _loading; }
-        set
+            public bool Loading
+            {
+                get { return _loading; }
+                set
+                {
+                    if (_loading == value) return;
+                    _loading = value;
+                    log.Info("Loading " + _loading);
+                    StateHasChanged();
+                }
+            }
+
+            public string dflog { get { var uri = new Uri(UriHelper.Uri); return Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query).TryGetValue("dflog", out var type) ? type.First() : ""; } }
+
+            private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+            bool initrender = false;
+
+            public async Task DoFFT(string type, string field)
+            {
+                LoadingStatus = "Doing FFT on log";
+                Loading = true;
+                await Task.Delay(1);
+                var bins = 10;
+                int N = 1 << bins;
+
+                var fft = new FFT2();
+
+                var plotlydata = new plotly(Guid.NewGuid().ToString());
+                plotlydata.root.mode = "";
+                plotlydata.root.type = "heatmap";
+                plotlydata.root.colorscale = "Jet";
+                plotlydata.root.x = new List<object>();
+                plotlydata.root.y = new List<object>();
+                plotlydata.root.z = new List<object>();
+
+
+                var acc1data = cb.GetEnumeratorType(type).ToArray();
+                log.Debug("acc1data ");
+
+                var firstsample = acc1data.Take(N);
+                var samplemin = double.Parse(firstsample.Min(a => a["TimeUS"]));
+                var samplemax = double.Parse(firstsample.Max(a => a["TimeUS"]));
+
+                log.Debug("samplemin " + samplemin + " samplemax " + samplemax);
+
+                var timedelta = samplemin - samplemax;
+
+                log.Debug(" timedelta " + timedelta);
+
+                double[] freqt = fft.FreqTable(N, (int)(1000 / (N / timedelta)));
+
+                // time , freq , [color] &freqcount
+                freqt.ForEach(a => plotlydata.root.y.Add(a));
+                log.Debug("freqt ");
+
+                int totalsamples = acc1data.Count();
+                int count = totalsamples / N;
+                int done = 0;
+                log.Debug("done and count ");
+                Enumerable.Range(0, N/2).ForEach(a => plotlydata.root.z.Add(new List<double>()));
+        while (count > 1) // skip last part
         {
-            if (_loading == value) return;
-            _loading = value;
-            log.Info("Loading " + _loading);
-            StateHasChanged();
-        }
+            var fftdata = acc1data.Skip(N * done).Take(N);
+
+            plotlydata.root.x.Add(fftdata.Skip(N / 2).First().time.ToString("o"));
+
+            var fftanswerz = fft.rin(fftdata.Select(a => (double)(float)a.GetRaw(field)).ToArray(), (uint)bins);
+
+            //plotlydata.root.z.Add(fftanswerz.Select(a => a > 2 ? 0 : a).ToArray());
+
+            int c1 = 0;
+            fftanswerz.ForEach((a) =>
+            {
+                if (a > 2) a = 0;
+                ((List<double>) plotlydata.root.z[c1]).Add(a);
+                c1++;
+            });
+
+            count--;
+            done++;
+
+            if (DateTime.Now.Millisecond % 100 == 0)
+            {
+                LoadingStatus = "Processing FFT data " + done;
+                Loading = true;
+                await Task.Delay(1);
     }
+        }
 
-    public string dflog { get { var uri = new Uri(UriHelper.Uri); return Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query).TryGetValue("dflog", out var type) ? type.First() : ""; } }
 
-    private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        Loading = false;
 
-    bool initrender = false;
+        ClearPlot(selectedchart);
+
+    await JSRuntime.InvokeAsync<object>("plotData", new object[]
+        {
+            selectedchart,
+            plotlydata.getJSON()
+                        });
+
+    }
 
     public async Task GetFile(string filename)
     {
         if (!File.Exists(filename))
         {
-            log.Info("get "+filename);
+            log.Info("get " + filename);
             var content = await Http.GetStringAsync((filename));
-            log.Info("get "+filename+" done");
+            log.Info("get " + filename + " done");
 
             File.WriteAllText(filename, content);
         }
@@ -342,7 +434,7 @@
             "Plotly.deleteTraces(" + selectedchart + ", 0  );" +
             "Plotly.deleteTraces(" + selectedchart + ", 0  );" +
             "Plotly.deleteTraces(" + selectedchart + ", 0  ); "
-                            });
+                                            });
 
     }
 
@@ -427,7 +519,7 @@
                             x = time,
                             y = field
                         }.ToJSON()
-                                        });
+                                                        });
                     log.Info("end2 " + type + "." + fieldname);
 
                     Loading = false;
@@ -454,7 +546,7 @@
                     x = data.Select(a => a.time).ToList(),
                     y = data.Select(a => a.field).ToList()
                 }.ToJSON()
-                                });
+                                                });
         }
     }
 
@@ -791,6 +883,7 @@ StringToSign = VERB + "\n" +
 
         LoadingStatus = "Reading File";
         Loading = true;
+        await Task.Delay(1);
 
         foreach (var file in await fileReaderService.CreateReference(inputTypeFileElement).EnumerateFilesAsync())
         {
@@ -808,6 +901,8 @@ StringToSign = VERB + "\n" +
 
         log.Info("ReadFile done");
     }
+
+    bool rcshowinit = false;
 
     public async void ProcessStream(Stream memoryStream)
     {
@@ -913,7 +1008,7 @@ StringToSign = VERB + "\n" +
             MathHelper.mapConstrained(double.Parse(a["C1"]), 1000, 2000, -1, 1) * -1,
             MathHelper.mapConstrained(double.Parse(a["C3"]), 1000, 2000, -1, 1),
             MathHelper.mapConstrained(double.Parse(a["C4"]), 1000, 2000, -1, 1)
-                            }).ToList();
+                                            }).ToList();
 
         await JSRuntime.InvokeAsync<object>("evalline", new object[] { "manual_control_setpoints = " + manual_control_setpoints.ToJSON() });
 
@@ -957,7 +1052,7 @@ StringToSign = VERB + "\n" +
                 x = ATTdata.Select(a => a.time),
                 y = ATTdata.Select(a => a.DesYaw)
             }.ToJSON()
-            };
+                            };
 
         LoadingStatus = "About to plot";
         await Task.Delay(1);
@@ -1193,11 +1288,15 @@ viewer.zoomTo(target, new Cesium.HeadingPitchRange(0,	Cesium.Math.toRadians(-25)
             log.Debug("about to element");
             await JSRuntime.InvokeAsync<object>("evalline", new object[] { element });
 
-
-
-            await JSRuntime.InvokeAsync<object>("evalline", new object[] { @"
+            if (rcshowinit == false)
+                await JSRuntime.InvokeAsync<object>("evalline", new object[] { @"
 // Radio Controller
 radio_controller.init(document.getElementById('radio-controller'), 300, 200);
+" });
+
+            rcshowinit = true;
+
+            await JSRuntime.InvokeAsync<object>("evalline", new object[] { @"
 // update the radio whenever the time changes
 viewer.clock.onTick.addEventListener(function(clock) {
      var manual_sp = manualControlSetpointsProperty.getValue(clock.currentTime);
