@@ -233,62 +233,6 @@ namespace UAVCAN
             }
         }
 
-        public void RequestFile(byte nodeID, string filename)
-        {
-            bool reading = true;
-            int gotbytes = 0;
-
-            var req = new uavcan.uavcan_protocol_file_Read_req()
-            {
-                offset = 0,
-                path = new uavcan.uavcan_protocol_file_Path()
-                {
-                    path = ASCIIEncoding.ASCII.GetBytes(filename),
-                    path_len = (byte)filename.Length
-                }
-            };
-
-            MessageRecievedDel reqfile = (frame, msg, transferID) =>
-            {
-                if (frame.IsServiceMsg && frame.SvcDestinationNode != SourceNode)
-                    return;
-
-                if (msg.GetType() == typeof(uavcan.uavcan_protocol_file_Read_res))
-                {
-                    var readres = msg as uavcan.uavcan_protocol_file_Read_res;
-
-                    //readres.data
-
-                    req.offset += readres.data_len;
-
-                    var slcan2 = PackageMessage(nodeID, 20, transferID, req);
-                    lock (sr_lock)
-                        WriteToStream(slcan2);
-                }
-                else if (msg.GetType() == typeof(uavcan.uavcan_protocol_debug_LogMessage))
-                {
-                    var debug = msg as uavcan.uavcan_protocol_debug_LogMessage;
-
-                    Console.WriteLine(frame.SourceNode + " " + ASCIIEncoding.ASCII.GetString(debug.text, 0, debug.text_len));
-                }
-            };
-            MessageReceived += reqfile;
-
-            var slcan = PackageMessage(nodeID, 20, transferID, req);
-            lock (sr_lock)
-                WriteToStream(slcan);
-
-            while (reading)
-            {
-                Thread.Sleep(3000);
-
-                if(gotbytes == 0)
-                    lock (sr_lock)
-                        WriteToStream(slcan);
-            }
-            MessageReceived -= reqfile;
-        }
-
 
         public bool SaveConfig(byte node)
         {
@@ -466,6 +410,270 @@ namespace UAVCAN
             };
         }
 
+        public class UAVCANFileInfo : System.IO.FileSystemInfo
+        {
+            public UAVCANFileInfo(string name, string parent, bool isdirectory = false, ulong size = 0)
+            {
+                Name = name;
+                isDirectory = isdirectory;
+                Size = size;
+                Parent = parent;
+                this.FullPath = (Parent.EndsWith("/") ? Parent : Parent + '/') + Name;
+            }
+
+            public override bool Exists => true;
+            public bool isDirectory { get; set; }
+            public override string Name { get; }
+            public string Parent { get; }
+            public ulong Size { get; set; }
+
+            public override void Delete()
+            {
+            }
+
+            public override string ToString()
+            {
+                if (isDirectory)
+                    return "Directory: " + Name;
+                return "File: " + Name + " " + Size;
+            }
+        }
+
+        public void testFile()
+        {
+            foreach (var directoryEntry in FileGetDirectoryEntrys(124))
+            {
+                Console.WriteLine(directoryEntry);
+            }
+        }
+
+        public List<UAVCANFileInfo> FileGetDirectoryEntrys(byte DestNode, string path = "/")
+        {
+            List<UAVCANFileInfo> answer = new List<UAVCANFileInfo>();
+
+            var counttoget = 999u;
+            var file_GetDirectoryEntryInfo_req =
+                new uavcan_protocol_file_GetDirectoryEntryInfo_req()
+                {
+                    directory_path = new uavcan_protocol_file_Path()
+                        {path = ASCIIEncoding.ASCII.GetBytes(path), path_len = (byte) path.Length},
+                    entry_index = 0
+                };
+
+            ManualResetEvent wait = new ManualResetEvent(false);
+
+            MessageRecievedDel packetrx = (frame, msg, id) =>
+            {
+                if (frame.IsServiceMsg && frame.SvcDestinationNode != SourceNode)
+                    return;
+
+                if (msg.GetType() == typeof(uavcan.uavcan_protocol_file_GetDirectoryEntryInfo_res))
+                {
+                    var gdei = msg as uavcan.uavcan_protocol_file_GetDirectoryEntryInfo_res;
+
+                    if (gdei.error.value == UAVCAN_PROTOCOL_FILE_ERROR_OK)
+                    {
+                        // add our valid entry
+                        var fullpath = ASCIIEncoding.ASCII.GetString(gdei.entry_full_path.path).TrimEnd('\0');
+                        answer.Add(new UAVCANFileInfo(Path.GetFileName(fullpath), path,
+                            (gdei.entry_type.flags & (byte) UAVCAN_PROTOCOL_FILE_ENTRYTYPE_FLAG_DIRECTORY) > 0, 0));
+                        wait.Set();
+                    } 
+                    else if (gdei.error.value == UAVCAN_PROTOCOL_FILE_ERROR_NOT_FOUND)
+                    {
+                        // set max index to 0
+                        counttoget = 0;
+                        // allow to proceed
+                        wait.Set();
+                    }
+                    else
+                    {
+                        // bad responce
+                    }
+                }
+            };
+
+            MessageReceived += packetrx;
+
+            try
+            {
+                // keep requesting until we get an error
+                for (uint i = 0; i < counttoget; i++)
+                {
+                    // retry count
+                    for (int j = 0; j < 3; j++)
+                    {
+                        file_GetDirectoryEntryInfo_req.entry_index = i;
+
+                        var slcan = PackageMessage(DestNode, 30, transferID++, file_GetDirectoryEntryInfo_req);
+                        lock (sr_lock)
+                            WriteToStream(slcan);
+
+                        if (wait.WaitOne(2000))
+                        {
+                            wait.Reset();
+                            break;
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                 MessageReceived -= packetrx;
+            }
+
+            return answer;
+        }
+
+        public void FileRead(byte DestNode, string path, Stream destfile, CancellationToken cancel)
+        {
+            var counttoget = 99999u;
+            var fileReadReq =
+                new uavcan_protocol_file_Read_req()
+                {
+                    offset = 0,
+                    path = new uavcan_protocol_file_Path()
+                        {path = ASCIIEncoding.ASCII.GetBytes(path), path_len = (byte) path.Length}
+                };
+
+            ManualResetEvent wait = new ManualResetEvent(false);
+
+            MessageRecievedDel packetrx = (frame, msg, id) =>
+            {
+                if (frame.IsServiceMsg && frame.SvcDestinationNode != SourceNode)
+                    return;
+
+                if (msg.GetType() == typeof(uavcan.uavcan_protocol_file_Read_res))
+                {
+                    var frr = msg as uavcan.uavcan_protocol_file_Read_res;
+
+                    if (frr.error.value == UAVCAN_PROTOCOL_FILE_ERROR_OK)
+                    {
+                        destfile.Seek((int) fileReadReq.offset, SeekOrigin.Begin);
+                        destfile.Write(frr.data, 0, frr.data_len);
+                        fileReadReq.offset = (ulong) destfile.Position;
+                        if (frr.data_len == 0 || frr.data_len < 256)
+                        {
+                            // set max index to 0
+                            counttoget = 0;
+                        } 
+                        wait.Set();
+                    }
+                    else
+                    {
+                        // bad responce
+                    }
+                }
+            };
+
+            MessageReceived += packetrx;
+
+            try
+            {
+                // keep requesting until we get an error
+                for (uint i = 0; i < counttoget; i++)
+                {
+                    // retry count
+                    for (int j = 0; j < 999; j++)
+                    {
+                        if (cancel.IsCancellationRequested)
+                            break;
+                        var slcan = PackageMessage(DestNode, 30, transferID++, fileReadReq);
+                        lock (sr_lock)
+                            WriteToStream(slcan);
+
+                        if (wait.WaitOne(2000))
+                        {
+                            wait.Reset();
+                            break;
+                        }
+                    }
+                    if (cancel.IsCancellationRequested)
+                        break;
+                }
+            }
+            finally
+            {
+                MessageReceived -= packetrx;
+            }
+        }
+
+        public void FileWrite(byte DestNode, string destpath, Stream sourcefile, CancellationToken cancel)
+        {
+            var counttosend = sourcefile.Length;
+            var fileWriteReq =
+                new uavcan_protocol_file_Write_req()
+                {
+                    offset = 0,
+                    path = new uavcan_protocol_file_Path()
+                    { path = ASCIIEncoding.ASCII.GetBytes(destpath), path_len = (byte)destpath.Length }
+                };
+
+            ManualResetEvent wait = new ManualResetEvent(false);
+
+            MessageRecievedDel packetrx = (frame, msg, id) =>
+            {
+                if (frame.IsServiceMsg && frame.SvcDestinationNode != SourceNode)
+                    return;
+
+                if (msg.GetType() == typeof(uavcan.uavcan_protocol_file_Write_res))
+                {
+                    var frr = msg as uavcan.uavcan_protocol_file_Write_res;
+
+                    if (frr.error.value == UAVCAN_PROTOCOL_FILE_ERROR_OK)
+                    {
+                        wait.Set();
+                    }
+                    else
+                    {
+                        // bad responce
+                    }
+                }
+            };
+
+            MessageReceived += packetrx;
+
+            try
+            {
+                // keep requesting until we get an error
+                for (uint i = 0; i < counttosend; )
+                {
+                    // retry count
+                    for (int j = 0; j < 999; j++)
+                    {
+                        if (cancel.IsCancellationRequested)
+                            break;
+                        Console.WriteLine("FileWrite " + fileWriteReq.offset + " " + sourcefile.Length);
+                        sourcefile.Seek((long)fileWriteReq.offset, SeekOrigin.Begin);
+                        var read = sourcefile.Read(fileWriteReq.data, 0, fileWriteReq.data.Length);
+                        fileWriteReq.data_len = (byte)read;
+
+                        var slcan = PackageMessage(DestNode, 30, transferID++, fileWriteReq);
+                        lock (sr_lock)
+                            WriteToStream(slcan);
+
+                        if (wait.WaitOne(2000))
+                        {
+                            i += (uint) read;
+                            fileWriteReq.offset += (ulong)read;
+                            wait.Reset();
+                            //Thread.Sleep(100);
+                            break;
+                        }
+                    }
+                    if (cancel.IsCancellationRequested)
+                        break;
+
+                    if (sourcefile.Position == sourcefile.Length)
+                        break;
+                }
+            }
+            finally
+            {
+                MessageReceived -= packetrx;
+            }
+        }
+
         List<byte> dynamicBytes = new List<byte>();
 
         public void SetupDynamicNodeAllocator()
@@ -590,10 +798,9 @@ namespace UAVCAN
                                         new uavcan.uavcan_protocol_file_BeginFirmwareUpdate_req()
                                         {
                                             image_file_remote_path = new uavcan.uavcan_protocol_file_Path()
-                                            { path = firmware_namebytes },
+                                            { path = firmware_namebytes, path_len = (byte)firmware_namebytes.Length},
                                             source_node_id = SourceNode
                                         };
-                                    req_msg.image_file_remote_path.path_len = (byte)firmware_namebytes.Length;
 
                                     var slcan = PackageMessage(frame.SourceNode, frame.Priority, transferID, req_msg);
                                     lock (sr_lock)
