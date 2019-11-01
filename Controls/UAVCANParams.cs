@@ -396,6 +396,8 @@ namespace MissionPlanner.Controls
                 }
             }
 
+            _can.SaveConfig(_node);
+
             CustomMessageBox.Show("Parameters successfully saved.", "Saved");
         }
 
