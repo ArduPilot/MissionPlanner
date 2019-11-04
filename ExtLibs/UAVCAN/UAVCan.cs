@@ -767,7 +767,7 @@ namespace UAVCAN
 
             ServeFile(firmware_name, "fw.bin");
 
-            var firmware_namebytes = ASCIIEncoding.ASCII.GetBytes(Path.GetFileName(firmware_name.ToLower()));
+            var firmware_namebytes = ASCIIEncoding.ASCII.GetBytes(Path.GetFileName("fw.bin".ToLower()));
             ulong firmware_crc = ulong.MaxValue;
             Exception exception = null;
 
@@ -821,6 +821,7 @@ namespace UAVCAN
                         else
                         {
                             Console.WriteLine(String.Format("{0} - No need to upload, crc matchs", frame.SourceNode));
+                            FileSendComplete?.Invoke(frame.SourceNode, "fw.bin");
                             return;
                         }
                     }
@@ -834,7 +835,7 @@ namespace UAVCAN
             MessageReceived += updatedelegate;
 
             // getfile crc
-            using (var stream = File.OpenRead(fileServerList[Path.GetFileName(firmware_name.ToLower())]))
+            using (var stream = File.OpenRead(fileServerList[Path.GetFileName("fw.bin".ToLower())]))
             {
                 string app_descriptor_fmt = "<8cQI";
                 var SHARED_APP_DESCRIPTOR_SIGNATURES = new byte[][] {

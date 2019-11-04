@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.but_slcanmode1 = new MissionPlanner.Controls.MyButton();
@@ -193,9 +193,9 @@
             // SoftwareCRC
             // 
             this.SoftwareCRC.DataPropertyName = "SoftwareCRC";
-            dataGridViewCellStyle5.Format = "X";
-            dataGridViewCellStyle5.NullValue = null;
-            this.SoftwareCRC.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Format = "X";
+            dataGridViewCellStyle1.NullValue = null;
+            this.SoftwareCRC.DefaultCellStyle = dataGridViewCellStyle1;
             this.SoftwareCRC.HeaderText = "SoftwareCRC";
             this.SoftwareCRC.Name = "SoftwareCRC";
             this.SoftwareCRC.ReadOnly = true;
