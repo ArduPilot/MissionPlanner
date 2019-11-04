@@ -87,6 +87,7 @@ navbar-toggler-icon
     position: absolute;
     left: 250px;
     right: 0;
+    overflow-y: scroll;
 }
 
 .navbar-toggler {
