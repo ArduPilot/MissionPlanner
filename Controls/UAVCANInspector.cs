@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using MissionPlanner.Mavlink;
@@ -45,7 +47,7 @@ namespace MissionPlanner.Controls
 
         private void Can_MessageReceived(UAVCAN.CANFrame frame, object msg, byte transferID)
         {
-            pktinspect.Add(frame.SourceNode, 0, frame.MsgTypeID, (frame,msg));
+            pktinspect.Add(frame.SourceNode, 0, frame.MsgTypeID, (frame, msg), Marshal.SizeOf(msg));
         }
 
         public new void Update()
@@ -107,58 +109,71 @@ namespace MissionPlanner.Controls
                     msgidnode.Text = msgidheader;
 
                 var minfo = UAVCAN.uavcan.MSG_INFO.First(a => a.Item1 == mavLinkMessage.Item2.GetType());
+                var fields = minfo.Item1.GetFields();
 
-                foreach (var field in minfo.Item1.GetFields())
-                {
-                    if (!msgidnode.Nodes.ContainsKey(field.Name))
-                    {
-                        msgidnode.Nodes.Add(new TreeNode() {Name = field.Name});
-                        added = true;
-                    }
-
-                    object value = field.GetValue(mavLinkMessage.message);
-
-                    if (field.Name == "time_unix_usec")
-                    {
-                        DateTime date1 = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-                        try
-                        {
-                            value = date1.AddMilliseconds((ulong)value / 1000);
-                        }
-                        catch
-                        {
-                        }
-                    }
-
-                    if (field.FieldType.IsArray)
-                    {
-                        var subtype = value.GetType();
-
-                        var value2 = (Array) value;
-
-                        if (field.Name == "param_id") // param_value
-                        {
-                            value = ASCIIEncoding.ASCII.GetString((byte[]) value2);
-                        }
-                        else if (field.Name == "text") // statustext
-                        {
-                            value = ASCIIEncoding.ASCII.GetString((byte[]) value2);
-                        }
-                        else
-                        {
-                            value = value2.Cast<object>().Aggregate((a, b) => a + "," + b);
-                        }
-                    }
-
-                    msgidnode.Nodes[field.Name].Text = (String.Format("{0,-32} {1,20} {2,-20}", field.Name, value,
-                        field.FieldType.ToString()));
-                }
+                PopulateMSG(fields, msgidnode, mavLinkMessage);
             }
 
             if(added)
                 treeView1.Sort();
 
             treeView1.EndUpdate();
+        }
+
+        private static void PopulateMSG(FieldInfo[] Fields, TreeNode MsgIdNode, object message)
+        {
+            bool added;
+            foreach (var field in Fields)
+            {
+                if (!MsgIdNode.Nodes.ContainsKey(field.Name))
+                {
+                    MsgIdNode.Nodes.Add(new TreeNode() {Name = field.Name});
+                    added = true;
+                }
+
+                object value = field.GetValue(message);
+
+                if (field.Name == "time_unix_usec")
+                {
+                    DateTime date1 = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+                    try
+                    {
+                        value = date1.AddMilliseconds((ulong) value / 1000);
+                    }
+                    catch
+                    {
+                    }
+                }
+
+                if (field.FieldType.IsArray)
+                {
+                    var subtype = value.GetType();
+
+                    var value2 = (Array) value;
+
+                    if (field.Name == "param_id") // param_value
+                    {
+                        value = ASCIIEncoding.ASCII.GetString((byte[]) value2);
+                    }
+                    else if (field.Name == "text") // statustext
+                    {
+                        value = ASCIIEncoding.ASCII.GetString((byte[]) value2);
+                    }
+                    else
+                    {
+                        value = value2.Cast<object>().Aggregate((a, b) => a + "," + b);
+                    }
+                }
+
+                if (field.FieldType.IsClass)
+                {
+                    PopulateMSG(field.FieldType.GetFields(), MsgIdNode.Nodes[field.Name], value);
+                    return;
+                }
+
+                MsgIdNode.Nodes[field.Name].Text = (String.Format("{0,-32} {1,20} {2,-20}", field.Name, value,
+                    field.FieldType.ToString()));
+            }
         }
 
         private void InitializeComponent()

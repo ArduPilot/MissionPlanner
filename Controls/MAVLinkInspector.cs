@@ -49,7 +49,7 @@ namespace MissionPlanner.Controls
 
         private void MavOnOnPacketReceived(object o, MAVLink.MAVLinkMessage linkMessage)
         {
-            mavi.Add(linkMessage.sysid, linkMessage.compid, linkMessage.msgid, linkMessage);
+            mavi.Add(linkMessage.sysid, linkMessage.compid, linkMessage.msgid, linkMessage, linkMessage.Length);
         }
 
         public new void Update()
