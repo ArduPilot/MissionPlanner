@@ -15,6 +15,7 @@ namespace MissionPlanner
         Dictionary<uint, Dictionary<uint, List<irate>>> _rate = new Dictionary<uint, Dictionary<uint, List<irate>>>();
 
         Dictionary<uint, Dictionary<uint, List<irate>>> _bps = new Dictionary<uint, Dictionary<uint, List<irate>>>();
+
         public int RateHistory { get; set; } = 200;
 
         object _lock = new object();
@@ -110,12 +111,12 @@ namespace MissionPlanner
 
                 _history[id][msgid] = message;
 
-                if (!_bps[id].ContainsKey(msgid))
+                if (!_bps.ContainsKey(id) && !_bps[id].ContainsKey(msgid))
                     _bps[id][msgid] = new List<irate>();
 
                 _bps[id][msgid].Add(new irate(DateTime.Now, size));
 
-                if (!_rate[id].ContainsKey(msgid))
+                if (!_rate.ContainsKey(id) && !_rate[id].ContainsKey(msgid))
                     _rate[id][msgid] = new List<irate>();
 
                 _rate[id][msgid].Add(new irate(DateTime.Now, 1));
