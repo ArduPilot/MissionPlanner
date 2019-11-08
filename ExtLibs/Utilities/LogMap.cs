@@ -47,36 +47,40 @@ namespace MissionPlanner.Log
 
                         while (cs.Position < cs.Length)
                         {
-                            MAVLink.MAVLinkMessage packet = parse.ReadPacket(cs);
-
-                            if (packet == null || packet.Length < 5)
-                                continue;
-
-                            if (packet.msgid == (byte)MAVLink.MAVLINK_MSG_ID.SIM_STATE ||
-                                packet.msgid == (byte)MAVLink.MAVLINK_MSG_ID.SIMSTATE)
+                            try
                             {
-                                sitl = true;
-                            }
+                                MAVLink.MAVLinkMessage packet = parse.ReadPacket(cs);
 
-                            if (packet.msgid == (byte)MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT)
-                            {
-                                var loc = packet.ToStructure<MAVLink.mavlink_global_position_int_t>();
-
-                                if (loc.lat == 0 || loc.lon == 0)
+                                if (packet == null || packet.Length < 5)
                                     continue;
 
-                                var id = packet.sysid * 256 + packet.compid;
+                                if (packet.msgid == (byte)MAVLink.MAVLINK_MSG_ID.SIM_STATE ||
+                                    packet.msgid == (byte)MAVLink.MAVLINK_MSG_ID.SIMSTATE)
+                                {
+                                    sitl = true;
+                                }
 
-                                if (!loc_list.ContainsKey(id))
-                                    loc_list[id] = new List<PointLatLngAlt>();
+                                if (packet.msgid == (byte)MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT)
+                                {
+                                    var loc = packet.ToStructure<MAVLink.mavlink_global_position_int_t>();
 
-                                loc_list[id].Add(new PointLatLngAlt(loc.lat / 10000000.0f, loc.lon / 10000000.0f));
+                                    if (loc.lat == 0 || loc.lon == 0)
+                                        continue;
 
-                                minx = Math.Min(minx, loc.lon / 10000000.0f);
-                                maxx = Math.Max(maxx, loc.lon / 10000000.0f);
-                                miny = Math.Min(miny, loc.lat / 10000000.0f);
-                                maxy = Math.Max(maxy, loc.lat / 10000000.0f);
+                                    var id = packet.sysid * 256 + packet.compid;
+
+                                    if (!loc_list.ContainsKey(id))
+                                        loc_list[id] = new List<PointLatLngAlt>();
+
+                                    loc_list[id].Add(new PointLatLngAlt(loc.lat / 10000000.0f, loc.lon / 10000000.0f));
+
+                                    minx = Math.Min(minx, loc.lon / 10000000.0f);
+                                    maxx = Math.Max(maxx, loc.lon / 10000000.0f);
+                                    miny = Math.Min(miny, loc.lat / 10000000.0f);
+                                    maxy = Math.Max(maxy, loc.lat / 10000000.0f);
+                                }
                             }
+                            catch { }
                         }
                     }
                     cf.Close();
