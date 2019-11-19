@@ -106,17 +106,18 @@ namespace MissionPlanner
 
             lock (_lock)
             {
+                // must call clear on any new unseen item to init dictionarys
                 if (!_history.ContainsKey(id))
                     Clear(sysid, compid);
 
                 _history[id][msgid] = message;
 
-                if (!_bps.ContainsKey(id) && !_bps[id].ContainsKey(msgid))
+                if (!_bps[id].ContainsKey(msgid))
                     _bps[id][msgid] = new List<irate>();
 
                 _bps[id][msgid].Add(new irate(DateTime.Now, size));
 
-                if (!_rate.ContainsKey(id) && !_rate[id].ContainsKey(msgid))
+                if (!_rate[id].ContainsKey(msgid))
                     _rate[id][msgid] = new List<irate>();
 
                 _rate[id][msgid].Add(new irate(DateTime.Now, 1));
@@ -154,6 +155,7 @@ namespace MissionPlanner
             {
                 _history = new Dictionary<uint, Dictionary<uint, T>>();
                 _rate = new Dictionary<uint, Dictionary<uint, List<irate>>>();
+                _bps = new Dictionary<uint, Dictionary<uint, List<irate>>>();
             }
 
             NewSysidCompid?.Invoke(this, null);
@@ -166,6 +168,7 @@ namespace MissionPlanner
             {
                 _history[id] = new Dictionary<uint, T>();
                 _rate[id] = new Dictionary<uint, List<irate>>();
+                _bps[id] = new Dictionary<uint, List<irate>>();
             }
 
             NewSysidCompid?.Invoke(this, null);

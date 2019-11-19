@@ -905,7 +905,11 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     // trim packet for mavlink2
                     MavlinkUtil.trim_payload(ref data);
 
-                    packet = new byte[data.Length + MAVLINK_NUM_HEADER_BYTES + MAVLINK_NUM_CHECKSUM_BYTES + MAVLINK_SIGNATURE_BLOCK_LEN];
+                    // space for signing if needed
+                    if (MAVlist[sysid, compid].signing || forcesigning)
+                        packet = new byte[data.Length + MAVLINK_NUM_HEADER_BYTES + MAVLINK_NUM_CHECKSUM_BYTES + MAVLINK_SIGNATURE_BLOCK_LEN];
+                    else 
+                        packet = new byte[data.Length + MAVLINK_NUM_HEADER_BYTES + MAVLINK_NUM_CHECKSUM_BYTES];
 
                     packet[0] = MAVLINK_STX ;
                     packet[1] = (byte)data.Length;
