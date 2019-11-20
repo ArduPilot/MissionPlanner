@@ -352,12 +352,10 @@ namespace MissionPlanner.Joystick
 
             var config = MainV2.joystick.getButton(int.Parse(name));
 
-            // do this here so putting in text works
-            this.Controls.AddRange(new Control[] {butlabel, butnumberlist, but_detect, hbar, cmbaction, but_settings});
 
             butlabel.Location = new Point(x, y);
             butlabel.Size = new Size(47, 13);
-            butlabel.Text = "Button " + (int.Parse(name) + 1);
+            butlabel.Text = "But " + (int.Parse(name) + 1);
 
             butnumberlist.Location = new Point(butlabel.Right, y);
             butnumberlist.Size = new Size(70, 21);
@@ -405,11 +403,14 @@ namespace MissionPlanner.Joystick
             but_settings.Click += but_settings_Click;
             but_settings.Tag = cmbaction;
 
+            // do this here so putting in text works
+            this.Controls.AddRange(new Control[] { butlabel, butnumberlist, but_detect, hbar, cmbaction, but_settings });
+
             if ((but_settings.Bottom + 30) > this.Height)
                 this.Height += 25;
 
             if ((but_settings.Right ) > this.Width)
-                this.Width = but_settings.Right;
+                this.Width = but_settings.Right + 5;
         }
 
         void cmbaction_SelectedIndexChanged(object sender, EventArgs e)

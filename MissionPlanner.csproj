@@ -312,6 +312,10 @@
     <PackageReference Include="DotSpatial.Topology" version="1.9" targetFramework="net462" />
     <PackageReference Include="Flurl" version="2.8.0" targetFramework="net462" />
     <PackageReference Include="Flurl.Http" version="2.3.2" targetFramework="net462" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.7">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
     <PackageReference Include="GDAL" Version="2.4.2" />
     <PackageReference Include="GeoidHeightsDotNet">
       <Version>1.0.1</Version>
