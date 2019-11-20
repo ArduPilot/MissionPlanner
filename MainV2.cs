@@ -2234,6 +2234,25 @@ namespace MissionPlanner
                                 rc.target_component = comPort.MAV.compid;
                                 rc.target_system = comPort.MAV.sysid;
 
+                                if (joystick.getJoystickAxis(1) == Joystick.Joystick.joystickaxis.None) rc.chan1_raw = ushort.MaxValue;
+                                if (joystick.getJoystickAxis(2) == Joystick.Joystick.joystickaxis.None) rc.chan2_raw = ushort.MaxValue;
+                                if (joystick.getJoystickAxis(3) == Joystick.Joystick.joystickaxis.None) rc.chan3_raw = ushort.MaxValue;
+                                if (joystick.getJoystickAxis(4) == Joystick.Joystick.joystickaxis.None) rc.chan4_raw = ushort.MaxValue;
+                                if (joystick.getJoystickAxis(5) == Joystick.Joystick.joystickaxis.None) rc.chan5_raw = ushort.MaxValue;
+                                if (joystick.getJoystickAxis(6) == Joystick.Joystick.joystickaxis.None) rc.chan6_raw = ushort.MaxValue;
+                                if (joystick.getJoystickAxis(7) == Joystick.Joystick.joystickaxis.None) rc.chan7_raw = ushort.MaxValue;
+                                if (joystick.getJoystickAxis(8) == Joystick.Joystick.joystickaxis.None) rc.chan8_raw = ushort.MaxValue;
+                                if (joystick.getJoystickAxis(9) == Joystick.Joystick.joystickaxis.None) rc.chan9_raw = (ushort)  0;
+                                if (joystick.getJoystickAxis(10) == Joystick.Joystick.joystickaxis.None) rc.chan10_raw = (ushort)  0;
+                                if (joystick.getJoystickAxis(11) == Joystick.Joystick.joystickaxis.None) rc.chan11_raw = (ushort)  0;
+                                if (joystick.getJoystickAxis(12) == Joystick.Joystick.joystickaxis.None) rc.chan12_raw = (ushort)  0;
+                                if (joystick.getJoystickAxis(13) == Joystick.Joystick.joystickaxis.None) rc.chan13_raw = (ushort)  0;
+                                if (joystick.getJoystickAxis(14) == Joystick.Joystick.joystickaxis.None) rc.chan14_raw = (ushort)  0;
+                                if (joystick.getJoystickAxis(15) == Joystick.Joystick.joystickaxis.None) rc.chan15_raw = (ushort)  0;
+                                if (joystick.getJoystickAxis(16) == Joystick.Joystick.joystickaxis.None) rc.chan16_raw = (ushort)  0;
+                                if (joystick.getJoystickAxis(17) == Joystick.Joystick.joystickaxis.None) rc.chan17_raw = (ushort)  0;
+                                if (joystick.getJoystickAxis(18) == Joystick.Joystick.joystickaxis.None) rc.chan18_raw = (ushort)  0;
+
                                 if (joystick.getJoystickAxis(1) != Joystick.Joystick.joystickaxis.None) rc.chan1_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech1;
                                 if (joystick.getJoystickAxis(2) != Joystick.Joystick.joystickaxis.None) rc.chan2_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech2;
                                 if (joystick.getJoystickAxis(3) != Joystick.Joystick.joystickaxis.None) rc.chan3_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech3;
