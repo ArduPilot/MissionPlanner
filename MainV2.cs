@@ -25,6 +25,7 @@ using MissionPlanner.ArduPilot;
 using MissionPlanner.Utilities.AltitudeAngel;
 using System.Threading.Tasks;
 using GMap.NET.WindowsForms;
+using MissionPlanner.GCSViews.ConfigurationView;
 using SkiaSharp;
 
 namespace MissionPlanner
@@ -3341,6 +3342,29 @@ namespace MissionPlanner
                     else
                     {
                         CustomMessageBox.Show("Failed to start joystick");
+                    }
+                }
+
+                if (cmds.ContainsKey("rtk"))
+                {
+                    var inject = new ConfigSerialInjectGPS();
+                    if (cmds["rtk"].ToLower().Contains("http"))
+                    {
+                        inject.CMB_serialport.Text = "NTRIP";
+                        var nt = new CommsNTRIP();
+                        ConfigSerialInjectGPS.comPort = nt;
+                        Task.Run(() =>
+                        {
+                            try
+                            {
+                                nt.Open(cmds["rtk"]);
+                                this.BeginInvokeIfRequired(() => { inject.DoConnect(); });
+                            }
+                            catch (Exception ex)
+                            {
+                                this.BeginInvokeIfRequired(() => { CustomMessageBox.Show(ex.ToString()); });
+                            }
+                        });
                     }
                 }
 

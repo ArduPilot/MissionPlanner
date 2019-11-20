@@ -246,7 +246,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.ShowUserControl();
         }
 
-        private void BUT_connect_Click(object sender, EventArgs e)
+        public void BUT_connect_Click(object sender, EventArgs e)
         {
             threadrun = false;
             if (comPort.IsOpen)
@@ -266,9 +266,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             else
             {
-                status_line3 = null;
+                DoConnect();
+            }
+        }
 
-                try
+        public void DoConnect()
+        {
+            status_line3 = null;
+
+            try
+            {
+                if (!comPort.IsOpen)
                 {
                     switch (CMB_serialport.Text)
                     {
@@ -301,101 +309,104 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     Settings.Instance["SerialInjectGPS_port"] = CMB_serialport.Text;
                     Settings.Instance["SerialInjectGPS_baud"] = CMB_baudrate.Text;
                 }
-                catch
-                {
-                    CustomMessageBox.Show(Strings.InvalidPortName);
-                    return;
-                }
-                try
-                {
-                    comPort.BaudRate = int.Parse(CMB_baudrate.Text);
-                }
-                catch
-                {
-                    CustomMessageBox.Show(Strings.InvalidBaudRate);
-                    return;
-                }
-                try
-                {
-                    comPort.ReadBufferSize = 1024*64;
+            }
+            catch
+            {
+                CustomMessageBox.Show(Strings.InvalidPortName);
+                return;
+            }
 
+            try
+            {
+                comPort.BaudRate = int.Parse(CMB_baudrate.Text);
+            }
+            catch
+            {
+                CustomMessageBox.Show(Strings.InvalidBaudRate);
+                return;
+            }
+
+            try
+            {
+                comPort.ReadBufferSize = 1024 * 64;
+
+
+                try
+                {
+                    if (!comPort.IsOpen)
+                        comPort.Open();
+
+                    comPort.Write(new byte[] {(byte) '\r', (byte) '\r', (byte) '\r'}, 0, 3);
+                    comPort.Write(new byte[] {(byte) 'O', (byte) '\r'}, 0, 2);
+                }
+                catch (ArgumentException ex)
+                {
+                    log.Error(ex);
+                    // try pipe method
+                    comPort = new CommsSerialPipe();
+                    comPort.PortName = CMB_serialport.Text;
+                    comPort.BaudRate = int.Parse(CMB_baudrate.Text);
 
                     try
                     {
                         comPort.Open();
-
-                        comPort.Write(new byte[] { (byte)'\r', (byte)'\r', (byte)'\r' }, 0, 3);
-                        comPort.Write(new byte[] { (byte)'O', (byte)'\r' }, 0, 2);
                     }
-                    catch (ArgumentException ex)
+                    catch
                     {
-                        log.Error(ex);
-                        // try pipe method
-                        comPort = new CommsSerialPipe();
-                        comPort.PortName = CMB_serialport.Text;
-                        comPort.BaudRate = int.Parse(CMB_baudrate.Text);
-
-                        try
-                        {
-                            comPort.Open();
-                        }
-                        catch
-                        {
-                            comPort.Close();
-                            throw;
-                        }
-                    }
-
-
-                    try
-                    {
-                        basedata = new BinaryWriter(new BufferedStream(
-                            File.Open(
-                                Settings.Instance.LogDir + Path.DirectorySeparatorChar +
-                                DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".gpsbase", FileMode.CreateNew,
-                                FileAccess.ReadWrite, FileShare.None)));
-                    }
-                    catch (Exception ex2)
-                    {
-                        CustomMessageBox.Show("Error creating file to save base data into " + ex2.ToString());
+                        comPort.Close();
+                        throw;
                     }
                 }
-                catch (Exception ex)
+
+
+                try
                 {
-                    CustomMessageBox.Show("Error Connecting\nif using com0com please rename the ports to COM??\n" +
-                                          ex.ToString());
-                    return;
+                    basedata = new BinaryWriter(new BufferedStream(
+                        File.Open(
+                            Settings.Instance.LogDir + Path.DirectorySeparatorChar +
+                            DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".gpsbase", FileMode.CreateNew,
+                            FileAccess.ReadWrite, FileShare.None)));
                 }
-
-                // inject init strings - m8p
-                if (chk_ubloxautoconfig.Checked)
+                catch (Exception ex2)
                 {
-                    this.LogInfo("Setup UBLOX");
-
-                    ubx_m8p.SetupM8P(comPort, chk_m8p_130p.Checked, chk_movingbase.Checked);
-
-                    if (basepos != PointLatLngAlt.Zero)
-                        ubx_m8p.SetupBasePos(comPort, basepos, 0, 0, false, chk_movingbase.Checked);
-
-                    CMB_baudrate.Text = "115200";
-
-                    this.LogInfo("Setup UBLOX done");
+                    CustomMessageBox.Show("Error creating file to save base data into " + ex2.ToString());
                 }
-
-                t12 = new System.Threading.Thread(new System.Threading.ThreadStart(mainloop))
-                {
-                    IsBackground = true,
-                    Name = "injectgps"
-                };
-                t12.Start();
-
-                BUT_connect.Text = Strings.Stop;
-
-                msgseen.Clear();
-                bytes = 0;
-                invalidateRTCMStatus();
-                panel1.Controls.Clear();
             }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show("Error Connecting\nif using com0com please rename the ports to COM??\n" +
+                                      ex.ToString());
+                return;
+            }
+
+            // inject init strings - m8p
+            if (chk_ubloxautoconfig.Checked)
+            {
+                this.LogInfo("Setup UBLOX");
+
+                ubx_m8p.SetupM8P(comPort, chk_m8p_130p.Checked, chk_movingbase.Checked);
+
+                if (basepos != PointLatLngAlt.Zero)
+                    ubx_m8p.SetupBasePos(comPort, basepos, 0, 0, false, chk_movingbase.Checked);
+
+                CMB_baudrate.Text = "115200";
+
+                this.LogInfo("Setup UBLOX done");
+            }
+
+            t12 = new System.Threading.Thread(new System.Threading.ThreadStart(mainloop))
+            {
+                IsBackground = true,
+                Name = "injectgps"
+            };
+            t12.Start();
+
+            BUT_connect.Text = Strings.Stop;
+
+            msgseen.Clear();
+            bytes = 0;
+            invalidateRTCMStatus();
+            panel1.Controls.Clear();
         }
 
         void invalidateRTCMStatus()
@@ -615,7 +626,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private static void seenRTCM(int seenmsg)
         {
-            if (Instance.IsDisposed)
+            if (Instance.IsDisposed || !Instance.IsHandleCreated)
                 return;
 
             Instance.BeginInvoke((Action) delegate()

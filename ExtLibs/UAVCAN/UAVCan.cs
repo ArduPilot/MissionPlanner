@@ -1406,19 +1406,28 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
         StringBuilder readsb = new StringBuilder();
         public int Read(byte b)
         {
-            readsb.Append((char) b);
-            
-            if (b == '\r' || b == '\a' || b == '\n')
+            if (b >= '0' && b <= 'z' || b == '\r' || b == '\a' || b == '\n')
             {
-                var front = readsb[0];
-                if (front == 'T' || front == 't' || front == 'n')
+                readsb.Append((char) b);
+
+                if (b == '\r' || b == '\a' || b == '\n')
                 {
-                    var data = readsb.ToString();
+                    var front = readsb[0];
+                    if (front == 'T' || front == 't' || front == 'n')
+                    {
+                        var data = readsb.ToString();
+                        readsb.Clear();
+                        ReadMessage(data);
+                        return 1;
+                    }
+
                     readsb.Clear();
-                    ReadMessage(data);
-                    return 1;
                 }
-                readsb.Clear();
+            }
+            else
+            {
+                if(readsb.Length > 0)
+                    readsb.Clear();
             }
 
             return 0;

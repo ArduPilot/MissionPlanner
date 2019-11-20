@@ -503,7 +503,7 @@
 
         #endregion
 
-        private System.Windows.Forms.ComboBox CMB_serialport;
+        public System.Windows.Forms.ComboBox CMB_serialport;
         private Controls.MyButton BUT_connect;
         private System.Windows.Forms.ComboBox CMB_baudrate;
         private System.Windows.Forms.Label lbl_status1;

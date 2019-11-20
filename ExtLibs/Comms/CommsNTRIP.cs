@@ -108,6 +108,11 @@ namespace MissionPlanner.Comms
 
             OnSettings("NTRIP_url", url, true);
 
+            Open(url);
+        }
+
+        public void Open(string url)
+        {
             var count = url.Split('@').Length - 1;
 
             if (count > 1)
