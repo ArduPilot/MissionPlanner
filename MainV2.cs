@@ -3156,7 +3156,7 @@ namespace MissionPlanner
                     if (firmware == "")
                         return null;
 
-                    var modes = Common.getModesList((Firmwares)Enum.Parse(typeof(Firmwares), firmware));
+                    var modes = ArduPilot.Common.getModesList((Firmwares)Enum.Parse(typeof(Firmwares), firmware));
                     string currentmode = null;
 
                     foreach (var mode in modes)

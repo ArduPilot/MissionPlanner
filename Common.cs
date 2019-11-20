@@ -186,10 +186,5 @@ namespace MissionPlanner
         {
             Settings.Instance[(string)((CheckBox)(sender)).Tag] = ((CheckBox)(sender)).Checked.ToString();
         }
-
-        public static List<KeyValuePair<int, string>> getModesList(Firmwares csFirmware)
-        {
-            return ArduPilot.Common.getModesList(csFirmware);
-        }
     }
 }
