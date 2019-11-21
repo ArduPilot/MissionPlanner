@@ -455,7 +455,11 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Log\MavlinkLogBase.cs" />
+    <Compile Include="MainV2.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="MainV2.Designer.cs">
+      <SubType>Form</SubType>
       <DependentUpon>MainV2.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -463,6 +467,7 @@
       <DependentUpon>ResEdit.cs</DependentUpon>
     </Compile>
     <Compile Include="Splash.Designer.cs">
+      <SubType>Form</SubType>
       <DependentUpon>Splash.cs</DependentUpon>
     </Compile>
     <Compile Include="Swarm\PaintEventArgsI.cs" />
@@ -480,9 +485,6 @@
     <Compile Include="Grid\GridData.cs" />
     <Compile Include="L10N.cs" />
     <Compile Include="MagCalib.cs" />
-    <Compile Include="MainV2.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Controls\MovingBase.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1402,6 +1404,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainV2.resx">
       <DependentUpon>MainV2.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MainV2.ar.resx">
       <DependentUpon>MainV2.cs</DependentUpon>
@@ -4270,6 +4273,7 @@
     <Content Include="aircraft.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\Gaugebg.png" />
     <None Include="appxmanifest.xml" />
     <Content Include="ArduCopterConfig.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
