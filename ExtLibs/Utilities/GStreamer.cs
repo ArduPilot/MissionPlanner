@@ -467,9 +467,8 @@ namespace MissionPlanner.Utilities
                                         SkiaSharp.SKColorType.Bgra8888, info.data);
 
                                     _onNewImage?.Invoke(null, image);
-
-                                    NativeMethods.gst_buffer_unmap(buffer, out info);
-                                }
+                                } 
+                                NativeMethods.gst_buffer_unmap(buffer, out info);
                             }
 
                             NativeMethods.gst_sample_unref(sample);
@@ -491,13 +490,11 @@ namespace MissionPlanner.Utilities
                     }
                 }
 
-
+                NativeMethods.gst_element_set_state(pipeline, GstState.GST_STATE_NULL);
+                NativeMethods.gst_buffer_unref(bus);
 
                 // cleanup
                 _onNewImage?.Invoke(null, null);
-
-                NativeMethods.gst_element_set_state(pipeline, GstState.GST_STATE_NULL);
-                NativeMethods.gst_buffer_unref(bus);
 
                 log.Info("Gstreamer Exit");
 
@@ -1159,6 +1156,7 @@ namespace MissionPlanner.Utilities
         public static void StopAll()
         {
             run = false;
+            Thread.Sleep(50);
             foreach (var process in processList)
             {
                 Stop(process);
@@ -1173,7 +1171,7 @@ namespace MissionPlanner.Utilities
 
             try
             {
-                Download.ParallelDownloadFile(
+                Download.getFilefromNet(
                     "http://firmware.ardupilot.org/MissionPlanner/gstreamer/gstreamer-1.0-x86_64-1.12.4.zip",
                     output, status: status);
 
