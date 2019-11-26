@@ -16,7 +16,9 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using System.Linq;
 using System.Runtime.InteropServices;
+using MissionPlanner.Utilities;
 using SvgNet.SvgGdi;
+using MathHelper = MissionPlanner.Utilities.MathHelper;
 using PixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
 
 
@@ -2686,7 +2688,10 @@ namespace MissionPlanner.Controls
 
                 if (message != "" && messagetime.AddSeconds(10) > DateTime.Now)
                 {
-                    drawstring(message, font, fontsize + 10, (SolidBrush) Brushes.Red, -halfwidth + 50,
+                    var newfontsize = calcsize(message, font, fontsize + 10, (SolidBrush) Brushes.Red, Width - 50 - 50);
+
+
+                    drawstring(message, font, newfontsize, (SolidBrush) Brushes.Red, -halfwidth + 50,
                         halfheight / 3);
                 }
 
@@ -2814,6 +2819,29 @@ namespace MissionPlanner.Controls
         /// </summary>
         private readonly GraphicsPath pth = new GraphicsPath();
 
+        float calcsize(string text, Font font, float fontsize, SolidBrush brush, int targetwidth)
+        {
+            float size = 0;
+            foreach (char cha in text)
+            {
+                int charno = (int) cha;
+                int charid = charno ^ (int) (fontsize * 1000) ^ brush.Color.ToArgb();
+
+                if (!charDict.ContainsKey(charid))
+                {
+                    size += fontsize;
+                }
+                else
+                {
+                    size += charDict[charid].width;
+                }
+            }
+
+            if (size > targetwidth && size > 3)
+                return calcsize(text, font, fontsize - 1, brush, targetwidth);
+
+            return fontsize;
+        }
         void drawstring(string text, Font font, float fontsize, SolidBrush brush, float x, float y)
         {
             if (!opengl)

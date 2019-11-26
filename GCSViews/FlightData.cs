@@ -3307,7 +3307,7 @@ namespace MissionPlanner.GCSViews
                 try
                 {
                     StringBuilder message = new StringBuilder();
-                    MainV2.comPort.MAV.cs.messages.ForEach(x => { message.Insert(0, x + "\r\n"); });
+                    MainV2.comPort.MAV.cs.messages.ForEach(x => { message.Insert(0, x.Item1 + " : " + x.Item2 + "\r\n"); });
                     txt_messagebox.Text = message.ToString();
 
                     messagecount = newmsgcount;
@@ -4345,7 +4345,7 @@ if (a is CheckBox && ((CheckBox)a).Checked)
                     updateBindingSourceThreadName = Thread.CurrentThread.Name;
                 }
 
-                this.BeginInvokeIfRequired((MethodInvoker)delegate
+                this.BeginInvokeIfRequired(delegate
                 {
                     updateBindingSourceWork();
 

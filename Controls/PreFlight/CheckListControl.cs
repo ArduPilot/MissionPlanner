@@ -51,7 +51,7 @@ namespace MissionPlanner.Controls.PreFlight
                 if (rowcount == this.CheckListItems.Count)
                     return;
 
-                panel1.SuspendLayout();
+                panel1.Visible = false;
                 panel1.Controls.Clear();
 
                 int y = 0;
@@ -67,7 +67,7 @@ namespace MissionPlanner.Controls.PreFlight
                     y = wrnctl.Bottom;
                 }
             }
-            panel1.ResumeLayout(true);
+            panel1.Visible = true;
         }
 
         void UpdateDisplay()

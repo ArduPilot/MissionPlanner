@@ -3460,7 +3460,7 @@ namespace MissionPlanner
                                 }
                             }
                         })
-                        { IsBackground = true }.Start();
+                        { IsBackground = true, Name="Gstreamer cli" }.Start();
                     }
                     catch (Exception ex)
                     {

@@ -165,7 +165,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             var message = new StringBuilder();
 
-            MainV2.comPort.MAV.cs.messages.ForEach(x => { message.AppendLine(x); });
+            MainV2.comPort.MAV.cs.messages.ForEach(x => { message.AppendLine(x.message); });
 
             txt_status.Text = message.ToString();
             txt_status.SelectionStart = txt_status.Text.Length;

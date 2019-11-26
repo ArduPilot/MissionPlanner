@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using IronPython.Hosting;
 using System.IO;
+using System.Linq;
 using MissionPlanner.Utilities;
 using Microsoft.Scripting.Hosting;
 
@@ -149,7 +150,7 @@ namespace MissionPlanner
         public bool WaitFor(string message, int timeout)
         {
             int timein = 0;
-            while (!MainV2.comPort.MAV.cs.message.Contains(message))
+            while (!MainV2.comPort.MAV.cs.messages.Any(a=>a.message.Contains(message)))
             {
                 System.Threading.Thread.Sleep(5);
                 timein += 5;

@@ -4127,11 +4127,12 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                             logdata = logdata.Substring(0, ind);
                         log.Info(DateTime.Now + " " + sev + " " + logdata);
 
-                        MAVlist[sysid, compid].cs.messages.Add(logdata);
+                        MAVlist[sysid, compid].cs.messages.Add((DateTime.Now, logdata));
 
                         // gymbals etc are a child/slave to the main sysid, this displays the children messages under the current displayed vehicle
                         if (sysid == sysidcurrent && compid != compidcurrent)
-                            MAVlist[sysidcurrent, compidcurrent].cs.messages.Add(compid + " : " + logdata);
+                            MAVlist[sysidcurrent, compidcurrent].cs.messages
+                                .Add((DateTime.Now, compid + " : " + logdata));
 
                         bool printit = false;
 
