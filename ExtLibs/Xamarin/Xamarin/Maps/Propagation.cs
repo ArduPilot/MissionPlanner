@@ -131,7 +131,7 @@ namespace MissionPlanner.Maps
 
             if (connected && home_kmleft)
             {
-                GMapMarkerDistance home_kmleft_marker = new GMapMarkerDistance(HomeLocation, battery_kmleft, Settings.Instance.GetFloat("Propagation_Tolerance"));
+                GMapMarkerDistance home_kmleft_marker = new GMapMarkerDistance(HomeLocation, battery_kmleft * 1000.0, Settings.Instance.GetFloat("Propagation_Tolerance"));
                 home_kmleft_marker.Pen = new Pen(Brushes.Red, 1);
                 home_kmleft_marker.Pen2 = new Pen(Brushes.Orange, 1);
                 distance.Markers.Add(home_kmleft_marker);
@@ -139,7 +139,7 @@ namespace MissionPlanner.Maps
 
             if (connected && drone_kmleft)
             {
-                GMapMarkerDistance drone_kmleft_marker = new GMapMarkerDistance(Location, battery_kmleft, Settings.Instance.GetFloat("Propagation_Tolerance"));
+                GMapMarkerDistance drone_kmleft_marker = new GMapMarkerDistance(Location, battery_kmleft * 1000.0, Settings.Instance.GetFloat("Propagation_Tolerance"));
                 drone_kmleft_marker.Pen = new Pen(Brushes.Red, 1);
                 drone_kmleft_marker.Pen2 = new Pen(Brushes.Orange, 1);
                 distance.Markers.Add(drone_kmleft_marker);

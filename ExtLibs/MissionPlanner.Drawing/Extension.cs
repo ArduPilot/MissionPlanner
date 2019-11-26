@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
 using MissionPlanner.Drawing.Drawing2D;
 using SkiaSharp;
 
@@ -46,14 +47,18 @@ namespace MissionPlanner.Drawing
             return paint;
         }
 
+
+        static Dictionary<string, SKTypeface> fontcache = new Dictionary<string, SKTypeface>();
         public static SKPaint ToSKPaint(this Font font)
         {
+            if (!fontcache.ContainsKey(font.SystemFontName))
+                fontcache.Add(font.SystemFontName, SKTypeface.FromFamilyName(font.SystemFontName));
+
             return new SKPaint
             {
-                Typeface = SKTypeface.FromFamilyName(font.SystemFontName),
+                Typeface = fontcache[font.SystemFontName],
                 TextSize = font.Size * 1.4f,
                 StrokeWidth = 2
-
             };
         }
 
@@ -67,11 +72,17 @@ namespace MissionPlanner.Drawing
             return new SKPoint(pnt.X, pnt.Y);
         }
 
+        static Dictionary<Color, SKPaint> brushcache = new Dictionary<Color, SKPaint>();
         public static SKPaint ToSKPaint(this Brush brush)
         {
             if (brush is SolidBrush)
-                return new SKPaint
-                    { Color = ((SolidBrush)brush).Color.ToSKColor(), IsAntialias = true, Style = SKPaintStyle.Fill };
+            {
+                if(!brushcache.ContainsKey(((SolidBrush)brush).Color))
+                    brushcache.Add(((SolidBrush) brush).Color, new SKPaint
+                    {Color = ((SolidBrush) brush).Color.ToSKColor(), IsAntialias = true, Style = SKPaintStyle.Fill});
+
+                return brushcache[((SolidBrush) brush).Color];
+            }
 
             if (brush is LinearGradientBrush)
             {

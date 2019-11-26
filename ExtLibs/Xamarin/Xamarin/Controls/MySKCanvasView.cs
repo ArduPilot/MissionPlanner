@@ -286,8 +286,8 @@ namespace Xamarin.Controls
             //  protected override void OnPaintSurface(SKPaintGLSurfaceEventArgs e)
             //  {
 
-            if (lastrender.AddMilliseconds(30) > DateTime.Now)
-                return;
+            //if (lastrender.AddMilliseconds(30) > DateTime.Now)
+              //  return;
 
             base.OnPaintSurface(e);
 
@@ -306,7 +306,7 @@ namespace Xamarin.Controls
             OnPaint(new PaintEventArgs(sk, ClientRectangle));
             sk.Flush();
           
-            System.Diagnostics.Debug.WriteLine(this.GetType() + " OnPaintSurface " + (DateTime.Now - start).TotalSeconds);
+            //System.Diagnostics.Debug.WriteLine(this.GetType() + " OnPaintSurface " + (DateTime.Now - start).TotalSeconds);
         }
 
         protected virtual void OnResize(EventArgs eventArgs)

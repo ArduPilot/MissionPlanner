@@ -956,7 +956,7 @@ namespace MissionPlanner.Controls
             {
                 //Console.WriteLine("ms "+(DateTime.Now - starttime).TotalMilliseconds);
                 //e.Graphics.DrawImageUnscaled(objBitmap, 0, 0);          
-                return;
+               // return;
             }
 
             // force texture reset

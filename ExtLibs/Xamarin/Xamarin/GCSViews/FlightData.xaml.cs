@@ -106,7 +106,10 @@ namespace Xamarin
             }
 
             GMap.NET.GMaps.Instance.PrimaryCache = new MissionPlanner.Maps.MyImageCache();
-            
+
+            gMapControl1.LevelsKeepInMemmory = 10;
+            //gMapControl1.Manager.MemoryCache.Size
+
             gMapControl1.MapProvider = GMapProviders.GoogleSatelliteMap;
 
             gMapControl1.MapScaleInfoEnabled = true;
