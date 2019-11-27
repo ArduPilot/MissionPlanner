@@ -11,16 +11,18 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Michael Oborne</Authors>
     <Company>Michael Oborne</Company>
-    <Description>MAVLink for Ardupilot</Description>
-    <Version>1.0.4</Version>
+    <Description>MAVLink 1/2 for Ardupilot</Description>
+    <Version>1.0.5</Version>
     <Copyright>Michael Oborne</Copyright>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageLicenseUrl>GPLv3</PackageLicenseUrl>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>mykey.snk</AssemblyOriginatorKeyFile>
     <Configurations>Debug;Release;Test</Configurations>
-    <FileVersion>1.0.4.0</FileVersion>
+    <FileVersion>1.0.5.0</FileVersion>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <RepositoryUrl>https://github.com/ArduPilot/MissionPlanner/tree/master/ExtLibs/Mavlink</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -30,10 +32,6 @@
     <EmbeddedResource Remove="pymavlink\**" />
     <None Remove="mavlink\**" />
     <None Remove="pymavlink\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="log4net" Version="2.0.8" />
   </ItemGroup>
 
 

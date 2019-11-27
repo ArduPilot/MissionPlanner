@@ -1,12 +1,10 @@
-﻿using log4net;
+﻿
 using System;
 
 public partial class MAVLink
 {
     public class MAVLinkMessage
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(MAVLinkMessage));
-
         public static readonly MAVLinkMessage Invalid = new MAVLinkMessage();
         object _locker = new object();
 
@@ -77,7 +75,7 @@ public partial class MAVLink
                     }
                     catch (Exception ex)
                     {
-                        log.Error(ex);
+                        System.Diagnostics.Debug.WriteLine(ex);
                     }
                 }
 
