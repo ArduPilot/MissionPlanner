@@ -87,7 +87,7 @@
             this.BUT_QNH = new MissionPlanner.Controls.MyButton();
             this.but_trimble = new MissionPlanner.Controls.MyButton();
             this.myButton_vlc = new MissionPlanner.Controls.MyButton();
-            this.but_gstream = new MissionPlanner.Controls.MyButton();
+         
             this.but_agemapdata = new MissionPlanner.Controls.MyButton();
             this.myButton1 = new MissionPlanner.Controls.MyButton();
             this.but_signkey = new MissionPlanner.Controls.MyButton();
@@ -519,13 +519,7 @@
             this.myButton_vlc.Name = "myButton_vlc";
             this.myButton_vlc.UseVisualStyleBackColor = true;
             this.myButton_vlc.Click += new System.EventHandler(this.myButton_vlc_Click);
-            // 
-            // but_gstream
-            // 
-            resources.ApplyResources(this.but_gstream, "but_gstream");
-            this.but_gstream.Name = "but_gstream";
-            this.but_gstream.UseVisualStyleBackColor = true;
-            this.but_gstream.Click += new System.EventHandler(this.but_gstream_Click);
+ 
             // 
             // but_agemapdata
             // 
@@ -735,7 +729,7 @@
             this.Controls.Add(this.but_signkey);
             this.Controls.Add(this.myButton1);
             this.Controls.Add(this.but_agemapdata);
-            this.Controls.Add(this.but_gstream);
+       
             this.Controls.Add(this.myButton_vlc);
             this.Controls.Add(this.but_trimble);
             this.Controls.Add(this.BUT_QNH);
@@ -809,7 +803,7 @@
         private Controls.MyButton BUT_QNH;
         private Controls.MyButton but_trimble;
         private Controls.MyButton myButton_vlc;
-        private Controls.MyButton but_gstream;
+   
         private Controls.MyButton but_agemapdata;
         private Controls.MyButton myButton1;
         private Controls.MyButton but_signkey;

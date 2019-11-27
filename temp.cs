@@ -658,25 +658,7 @@ namespace MissionPlanner
             }
         }
 
-        private void but_gstream_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                GStreamer.gstlaunch = GStreamer.LookForGstreamer();
-                if (File.Exists(GStreamer.gstlaunch))
-                {
-                    GStreamer.Start();
-                }
-                else
-                {
-                    GStreamerUI.DownloadGStreamer();
-                }
-            }
-            catch (Exception ex)
-            {
-                CustomMessageBox.Show(ex.ToString(), Strings.ERROR);
-            }
-        }
+    
 
         private void but_agemapdata_Click(object sender, EventArgs e)
         {
@@ -719,8 +701,8 @@ namespace MissionPlanner
                 , "ArduCopter3.3.xml");
 
             ParameterMetaDataParser.GetParameterInformation(
-         "https://raw.githubusercontent.com/ArduPilot/ardupilot/Copter-3.4/ArduCopter/Parameters.cpp"
-         , "ArduCopter3.4.xml");
+                "https://raw.githubusercontent.com/ArduPilot/ardupilot/Copter-3.4/ArduCopter/Parameters.cpp"
+                , "ArduCopter3.4.xml");
 
             ParameterMetaDataParser.GetParameterInformation(
                 "https://raw.githubusercontent.com/ArduPilot/ardupilot/Copter-3.4.6/ArduCopter/Parameters.cpp"
@@ -747,16 +729,16 @@ namespace MissionPlanner
                 , "ArduPlane3.8.3.xml");
 
             ParameterMetaDataParser.GetParameterInformation(
-          "https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduPlane-3.7.1/ArduPlane/Parameters.cpp"
-          , "ArduPlane3.7.1.xml");
+                "https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduPlane-3.7.1/ArduPlane/Parameters.cpp"
+                , "ArduPlane3.7.1.xml");
 
             ParameterMetaDataParser.GetParameterInformation(
-    "https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduPlane-3.7.0/ArduPlane/Parameters.cpp"
-    , "ArduPlane3.7.0.xml");
+                "https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduPlane-3.7.0/ArduPlane/Parameters.cpp"
+                , "ArduPlane3.7.0.xml");
 
             ParameterMetaDataParser.GetParameterInformation(
-           "https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduPlane-3.6.0/ArduPlane/Parameters.cpp"
-           , "ArduPlane3.6.0.xml");
+                "https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduPlane-3.6.0/ArduPlane/Parameters.cpp"
+                , "ArduPlane3.6.0.xml");
 
             ParameterMetaDataParser.GetParameterInformation(
                 "https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduPlane-3.5.2/ArduPlane/Parameters.cpp"
