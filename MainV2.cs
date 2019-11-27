@@ -26,6 +26,7 @@ using MissionPlanner.Utilities.AltitudeAngel;
 using System.Threading.Tasks;
 using GMap.NET.WindowsForms;
 using MissionPlanner.GCSViews.ConfigurationView;
+using MissionPlanner.Maps;
 using SkiaSharp;
 
 namespace MissionPlanner
@@ -3156,7 +3157,10 @@ namespace MissionPlanner
             vlcrender.onNewImage += (sender, image) =>
             {
                 if (image == null)
+                {
+                    GCSViews.FlightData.myhud.bgimage = null;
                     return;
+                }
                 var bmp = (image as Drawing.Bitmap);
                 if (bmp == null)
                     return;
@@ -3433,6 +3437,13 @@ namespace MissionPlanner
                     doConnect(MainV2.comPort, cmds["port"], cmds["baud"]);
                 }
             }
+
+            GMapMarkerBase.length = Settings.Instance.GetInt32("GMapMarkerBase_length", 500);
+            GMapMarkerBase.DisplayCOG = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayCOG", true);
+            GMapMarkerBase.DisplayHeading = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayHeading", true);
+            GMapMarkerBase.DisplayNavBearing = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayNavBearing", true);
+            GMapMarkerBase.DisplayRadius = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayRadius", true);
+            GMapMarkerBase.DisplayTarget = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayTarget", true);
         }
 
         private Dictionary<string, string> ProcessCommandLine(string[] args)
