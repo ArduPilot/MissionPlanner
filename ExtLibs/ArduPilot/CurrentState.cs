@@ -268,8 +268,8 @@ namespace MissionPlanner
 
                 if ((datetime - lastalt).TotalSeconds >= 0.2 && oldalt != alt || lastalt > datetime)
                 {
-                    climbrate = (alt - oldalt) / (float)(datetime - lastalt).TotalSeconds;
-                    verticalspeed = (alt - oldalt) / (float)(datetime - lastalt).TotalSeconds;
+                    climbrate = (alt - oldalt) / (float) (datetime - lastalt).TotalSeconds;
+                    verticalspeed = (alt - oldalt) / (float) (datetime - lastalt).TotalSeconds;
                     if (float.IsInfinity(_verticalspeed))
                         _verticalspeed = 0;
                     lastalt = datetime;
@@ -288,7 +288,7 @@ namespace MissionPlanner
 
         [GroupText("Position")]
         [DisplayText("Horizon Dist (dist)")]
-        public float horizondist => (float)(3570 * Math.Sqrt(alt)) * multiplierdist;
+        public float horizondist => (float) (3570 * Math.Sqrt(alt)) * multiplierdist;
 
         [GroupText("Position")]
         [DisplayText("Velocity X (ms)")]
@@ -360,7 +360,8 @@ namespace MissionPlanner
         [GroupText("Position")]
         public float satcount2 { get; set; }
 
-        [GroupText("Position")] public float groundspeed2 { get; set; }
+        [GroupText("Position")] 
+        public float groundspeed2 { get; set; }
 
         [DisplayText("GroundCourse2 (deg)")]
         [GroupText("Position")]
@@ -370,7 +371,8 @@ namespace MissionPlanner
         [GroupText("Position")]
         public float satcountB => satcount + satcount2;
 
-        [GroupText("Position")] public DateTime gpstime { get; set; }
+        [GroupText("Position")] 
+        public DateTime gpstime { get; set; }
 
         public float altd1000 => alt / 1000 % 10;
 
@@ -389,7 +391,8 @@ namespace MissionPlanner
 
         public bool lowairspeed { get; set; }
 
-        [DisplayText("Airspeed Ratio")] public float asratio { get; set; }
+        [DisplayText("Airspeed Ratio")] 
+        public float asratio { get; set; }
 
         [GroupText("Position")]
         [DisplayText("GroundSpeed (speed)")]
@@ -414,7 +417,7 @@ namespace MissionPlanner
 
         [DisplayText("Accel Strength")]
         [GroupText("Sensor")]
-        public float accelsq => (float)Math.Sqrt(Math.Pow(ax, 2) + Math.Pow(ay, 2) + Math.Pow(az, 2)) / 1000.0f;
+        public float accelsq => (float) Math.Sqrt(Math.Pow(ax, 2) + Math.Pow(ay, 2) + Math.Pow(az, 2)) / 1000.0f;
 
         // gyro
         [DisplayText("Gyro X")]
@@ -431,7 +434,7 @@ namespace MissionPlanner
 
         [DisplayText("Gyro Strength")]
         [GroupText("Sensor")]
-        public float gyrosq => (float)Math.Sqrt(Math.Pow(gx, 2) + Math.Pow(gy, 2) + Math.Pow(gz, 2));
+        public float gyrosq => (float) Math.Sqrt(Math.Pow(gx, 2) + Math.Pow(gy, 2) + Math.Pow(gz, 2));
 
         // mag
         [DisplayText("Mag X")]
@@ -448,7 +451,7 @@ namespace MissionPlanner
 
         [DisplayText("Mag Field")]
         [GroupText("Sensor")]
-        public float magfield => (float)Math.Sqrt(Math.Pow(mx, 2) + Math.Pow(my, 2) + Math.Pow(mz, 2));
+        public float magfield => (float) Math.Sqrt(Math.Pow(mx, 2) + Math.Pow(my, 2) + Math.Pow(mz, 2));
 
         // accel2
         [DisplayText("Accel2 X")]
@@ -465,7 +468,7 @@ namespace MissionPlanner
 
         [DisplayText("Accel2 Strength")]
         [GroupText("Sensor")]
-        public float accelsq2 => (float)Math.Sqrt(Math.Pow(ax2, 2) + Math.Pow(ay2, 2) + Math.Pow(az2, 2)) / 1000.0f;
+        public float accelsq2 => (float) Math.Sqrt(Math.Pow(ax2, 2) + Math.Pow(ay2, 2) + Math.Pow(az2, 2)) / 1000.0f;
 
         // gyro2
         [DisplayText("Gyro2 X")]
@@ -482,7 +485,7 @@ namespace MissionPlanner
 
         [DisplayText("Gyro2 Strength")]
         [GroupText("Sensor")]
-        public float gyrosq2 => (float)Math.Sqrt(Math.Pow(gx2, 2) + Math.Pow(gy2, 2) + Math.Pow(gz2, 2));
+        public float gyrosq2 => (float) Math.Sqrt(Math.Pow(gx2, 2) + Math.Pow(gy2, 2) + Math.Pow(gz2, 2));
 
         // mag2
         [DisplayText("Mag2 X")]
@@ -499,7 +502,7 @@ namespace MissionPlanner
 
         [DisplayText("Mag2 Field")]
         [GroupText("Sensor")]
-        public float magfield2 => (float)Math.Sqrt(Math.Pow(mx2, 2) + Math.Pow(my2, 2) + Math.Pow(mz2, 2));
+        public float magfield2 => (float) Math.Sqrt(Math.Pow(mx2, 2) + Math.Pow(my2, 2) + Math.Pow(mz2, 2));
 
         // accel3
         [DisplayText("Accel3 X")]
@@ -516,7 +519,7 @@ namespace MissionPlanner
 
         [DisplayText("Accel3 Strength")]
         [GroupText("Sensor")]
-        public float accelsq3 => (float)Math.Sqrt(Math.Pow(ax3, 2) + Math.Pow(ay3, 2) + Math.Pow(az3, 2)) / 1000.0f;
+        public float accelsq3 => (float) Math.Sqrt(Math.Pow(ax3, 2) + Math.Pow(ay3, 2) + Math.Pow(az3, 2)) / 1000.0f;
 
         // gyro3
         [DisplayText("Gyro3 X")]
@@ -533,7 +536,7 @@ namespace MissionPlanner
 
         [DisplayText("Gyro3 Strength")]
         [GroupText("Sensor")]
-        public float gyrosq3 => (float)Math.Sqrt(Math.Pow(gx3, 2) + Math.Pow(gy3, 2) + Math.Pow(gz3, 2));
+        public float gyrosq3 => (float) Math.Sqrt(Math.Pow(gx3, 2) + Math.Pow(gy3, 2) + Math.Pow(gz3, 2));
 
         // mag3
         [DisplayText("Mag3 X")]
@@ -550,7 +553,7 @@ namespace MissionPlanner
 
         [DisplayText("Mag3 Field")]
         [GroupText("Sensor")]
-        public float magfield3 => (float)Math.Sqrt(Math.Pow(mx3, 2) + Math.Pow(my3, 2) + Math.Pow(mz3, 2));
+        public float magfield3 => (float) Math.Sqrt(Math.Pow(mx3, 2) + Math.Pow(my3, 2) + Math.Pow(mz3, 2));
 
         //radio
         [GroupText("RadioIn")] public float ch1in { get; set; }
@@ -618,45 +621,45 @@ namespace MissionPlanner
 
         [GroupText("RadioOut")] public float ch16out { get; set; }
 
-        public float esc1_volt { get; set; }
-        public float esc1_curr { get; set; }
-        public float esc1_rpm { get; set; }
-        public float esc1_temp { get; set; }
+        [GroupText("ESC")] public float esc1_volt { get; set; }
+        [GroupText("ESC")] public float esc1_curr { get; set; }
+        [GroupText("ESC")] public float esc1_rpm { get; set; }
+        [GroupText("ESC")] public float esc1_temp { get; set; }
 
-        public float esc2_volt { get; set; }
-        public float esc2_curr { get; set; }
-        public float esc2_rpm { get; set; }
-        public float esc2_temp { get; set; }
+        [GroupText("ESC")] public float esc2_volt { get; set; }
+        [GroupText("ESC")] public float esc2_curr { get; set; }
+        [GroupText("ESC")] public float esc2_rpm { get; set; }
+        [GroupText("ESC")] public float esc2_temp { get; set; }
 
-        public float esc3_volt { get; set; }
-        public float esc3_curr { get; set; }
-        public float esc3_rpm { get; set; }
-        public float esc3_temp { get; set; }
+        [GroupText("ESC")] public float esc3_volt { get; set; }
+        [GroupText("ESC")] public float esc3_curr { get; set; }
+        [GroupText("ESC")] public float esc3_rpm { get; set; }
+        [GroupText("ESC")] public float esc3_temp { get; set; }
 
-        public float esc4_volt { get; set; }
-        public float esc4_curr { get; set; }
-        public float esc4_rpm { get; set; }
-        public float esc4_temp { get; set; }
+        [GroupText("ESC")] public float esc4_volt { get; set; }
+        [GroupText("ESC")] public float esc4_curr { get; set; }
+        [GroupText("ESC")] public float esc4_rpm { get; set; }
+        [GroupText("ESC")] public float esc4_temp { get; set; }
 
-        public float esc5_volt { get; set; }
-        public float esc5_curr { get; set; }
-        public float esc5_rpm { get; set; }
-        public float esc5_temp { get; set; }
+        [GroupText("ESC")] public float esc5_volt { get; set; }
+        [GroupText("ESC")] public float esc5_curr { get; set; }
+        [GroupText("ESC")] public float esc5_rpm { get; set; }
+        [GroupText("ESC")] public float esc5_temp { get; set; }
 
-        public float esc6_volt { get; set; }
-        public float esc6_curr { get; set; }
-        public float esc6_rpm { get; set; }
-        public float esc6_temp { get; set; }
+        [GroupText("ESC")] public float esc6_volt { get; set; }
+        [GroupText("ESC")] public float esc6_curr { get; set; }
+        [GroupText("ESC")] public float esc6_rpm { get; set; }
+        [GroupText("ESC")] public float esc6_temp { get; set; }
 
-        public float esc7_volt { get; set; }
-        public float esc7_curr { get; set; }
-        public float esc7_rpm { get; set; }
-        public float esc7_temp { get; set; }
+        [GroupText("ESC")] public float esc7_volt { get; set; }
+        [GroupText("ESC")] public float esc7_curr { get; set; }
+        [GroupText("ESC")] public float esc7_rpm { get; set; }
+        [GroupText("ESC")] public float esc7_temp { get; set; }
 
-        public float esc8_volt { get; set; }
-        public float esc8_curr { get; set; }
-        public float esc8_rpm { get; set; }
-        public float esc8_temp { get; set; }
+        [GroupText("ESC")] public float esc8_volt { get; set; }
+        [GroupText("ESC")] public float esc8_curr { get; set; }
+        [GroupText("ESC")] public float esc8_rpm { get; set; }
+        [GroupText("ESC")] public float esc8_temp { get; set; }
 
         public float ch3percent
         {
@@ -676,7 +679,7 @@ namespace MissionPlanner
 
                     if (ch3out == 0)
                         return 0;
-                    return (int)((ch3out - 1100) / (1900 - 1100) * 100);
+                    return (int) ((ch3out - 1100) / (1900 - 1100) * 100);
                 }
                 catch
                 {
@@ -771,7 +774,7 @@ namespace MissionPlanner
             {
                 if (_alt_error == value) return;
                 _alt_error = value;
-                targetalt = targetalt * 0.5f + (float)Math.Round(alt + alt_error, 0) * 0.5f;
+                targetalt = targetalt * 0.5f + (float) Math.Round(alt + alt_error, 0) * 0.5f;
             }
         }
 
@@ -792,7 +795,7 @@ namespace MissionPlanner
             {
                 if (_aspd_error == value) return;
                 _aspd_error = value;
-                targetairspeed = targetairspeed * 0.5f + (float)Math.Round(airspeed + aspd_error, 0) * 0.5f;
+                targetairspeed = targetairspeed * 0.5f + (float) Math.Round(airspeed + aspd_error, 0) * 0.5f;
             }
         }
 
@@ -826,7 +829,7 @@ namespace MissionPlanner
             get
             {
                 if (_groundspeed <= 0) return 0;
-                return (int)(_wpdist / _groundspeed);
+                return (int) (_wpdist / _groundspeed);
             }
         }
 
@@ -837,7 +840,7 @@ namespace MissionPlanner
             get
             {
                 if (_groundspeed <= 0) return 0;
-                return (int)(DistToHome / groundspeed);
+                return (int) (DistToHome / groundspeed);
             }
         }
 
@@ -849,7 +852,7 @@ namespace MissionPlanner
 
         //Time in Air converted to min.sec format for easier reading
         [DisplayText("Time in Air (min.sec)")]
-        public float timeInAirMinSec => (int)(timeInAir / 60) + timeInAir % 60 / 100;
+        public float timeInAirMinSec => (int) (timeInAir / 60) + timeInAir % 60 / 100;
 
         // calced turn rate
         [DisplayText("Turn Rate (speed)")]
@@ -858,12 +861,12 @@ namespace MissionPlanner
             get
             {
                 if (_groundspeed <= 1) return 0;
-                return (float)(roll * 9.80665 / groundspeed);
+                return (float) (roll * 9.80665 / groundspeed);
             }
         }
 
         //https://en.wikipedia.org/wiki/Load_factor_(aeronautics)
-        [DisplayText("Turn Gs (load)")] public float turng => (float)(1 / Math.Cos(MathHelper.deg2rad * roll));
+        [DisplayText("Turn Gs (load)")] public float turng => (float) (1 / Math.Cos(MathHelper.deg2rad * roll));
 
         // turn radius
         [DisplayText("Turn Radius (dist)")]
@@ -872,7 +875,7 @@ namespace MissionPlanner
             get
             {
                 if (_groundspeed <= 1) return 0;
-                return (float)(groundspeed * groundspeed / (9.80665 * Math.Tan(roll * MathHelper.deg2rad)));
+                return (float) (groundspeed * groundspeed / (9.80665 * Math.Tan(roll * MathHelper.deg2rad)));
             }
         }
 
@@ -886,7 +889,7 @@ namespace MissionPlanner
                 var gndtemp = 15f;
                 var C_TO_KELVIN = 273.15f;
                 var temp = gndtemp + C_TO_KELVIN; // kelvin
-                var scaling = (float)Math.Exp(Math.Log(1.0 - alt_m / (153.8462 * temp)) / 0.190259);
+                var scaling = (float) Math.Exp(Math.Log(1.0 - alt_m / (153.8462 * temp)) / 0.190259);
                 var base_pressure = pressure / scaling;
                 return base_pressure;
             }
@@ -897,10 +900,11 @@ namespace MissionPlanner
         [DisplayText("Wind Velocity (speed)")] public float wind_vel { get; set; }
 
         public float targetaltd100 => targetalt / 100 % 10;
-
+        [GroupText("NAV")]
         public float targetalt { get; private set; }
 
         public List<(DateTime time, string message)> messages { get; set; } = new List<(DateTime, string)>();
+
         /// <summary>
         /// a message that originates from the mav
         /// </summary>
@@ -1136,12 +1140,14 @@ namespace MissionPlanner
             get => HomeLocation.Alt;
             set { }
         }
+
         [GroupText("Position")]
         public PointLatLngAlt HomeLocation
         {
             get => _homelocation;
             set => _homelocation = value;
         }
+
         [GroupText("Position")]
         public PointLatLngAlt MovingBase
         {
@@ -1156,6 +1162,7 @@ namespace MissionPlanner
                     _movingbase = value;
             }
         }
+
         [GroupText("Position")]
         public PointLatLngAlt TrackerLocation
         {
@@ -1166,10 +1173,9 @@ namespace MissionPlanner
             }
             set => _trackerloc = value;
         }
-        [GroupText("Position")]
-        public PointLatLngAlt Location => new PointLatLngAlt(lat, lng, altasl);
-        [GroupText("Position")]
-        public PointLatLngAlt TargetLocation { get; set; } = PointLatLngAlt.Zero;
+
+        [GroupText("Position")] public PointLatLngAlt Location => new PointLatLngAlt(lat, lng, altasl);
+        [GroupText("Position")] public PointLatLngAlt TargetLocation { get; set; } = PointLatLngAlt.Zero;
 
         /*
         public float GeoFenceDist
@@ -1267,6 +1273,7 @@ namespace MissionPlanner
                 return (float) Math.Sqrt(dstlat * dstlat + dstlon * dstlon) * multiplierdist;
             }
         }
+
         [GroupText("Position")]
         [DisplayText("Dist to Moving Base (dist)")]
         public float DistFromMovingBase
@@ -1430,12 +1437,14 @@ namespace MissionPlanner
 
         // stats
         public ushort packetdropremote { get; set; }
-        public ushort errors_count1 { get; set; }
-        public ushort errors_count2 { get; set; }
-        public ushort errors_count3 { get; set; }
-        public ushort errors_count4 { get; set; }
-        
         public ushort linkqualitygcs { get; set; }
+
+        [DisplayText("Error Type")] public ushort errors_count1 { get; set; }
+
+        [DisplayText("Error Type")] public ushort errors_count2 { get; set; }
+        public ushort errors_count3 { get; set; }
+
+        [DisplayText("Error Count")] public ushort errors_count4 { get; set; }
 
         [DisplayText("HW Voltage")] public float hwvoltage { get; set; }
 
@@ -1538,43 +1547,43 @@ namespace MissionPlanner
 
         public int KIndex => KIndexstatic;
 
-        [DisplayText("flow_comp_m_x")] public float opt_m_x { get; set; }
+        [GroupText("Flow")] [DisplayText("flow_comp_m_x")] public float opt_m_x { get; set; }
 
-        [DisplayText("flow_comp_m_y")] public float opt_m_y { get; set; }
+        [GroupText("Flow")] [DisplayText("flow_comp_m_y")] public float opt_m_y { get; set; }
 
-        [DisplayText("flow_x")] public short opt_x { get; set; }
+        [GroupText("Flow")] [DisplayText("flow_x")] public short opt_x { get; set; }
 
-        [DisplayText("flow_y")] public short opt_y { get; set; }
+        [GroupText("Flow")] [DisplayText("flow_y")] public short opt_y { get; set; }
 
-        [DisplayText("flow quality")] public byte opt_qua { get; set; }
+        [GroupText("Flow")] [DisplayText("flow quality")] public byte opt_qua { get; set; }
 
-        public float ekfstatus { get; set; }
+        [GroupText("EKF")] public float ekfstatus { get; set; }
 
-        public int ekfflags { get; set; }
+        [GroupText("EKF")] public int ekfflags { get; set; }
 
-        public float ekfvelv { get; set; }
+        [GroupText("EKF")] public float ekfvelv { get; set; }
 
-        public float ekfcompv { get; set; }
+        [GroupText("EKF")] public float ekfcompv { get; set; }
 
-        public float ekfposhor { get; set; }
+        [GroupText("EKF")] public float ekfposhor { get; set; }
 
-        public float ekfposvert { get; set; }
+        [GroupText("EKF")] public float ekfposvert { get; set; }
 
-        public float ekfteralt { get; set; }
+        [GroupText("EKF")] public float ekfteralt { get; set; }
 
-        public float pidff { get; set; }
+        [GroupText("PID")] public float pidff { get; set; }
 
-        public float pidP { get; set; }
+        [GroupText("PID")] public float pidP { get; set; }
 
-        public float pidI { get; set; }
+        [GroupText("PID")] public float pidI { get; set; }
 
-        public float pidD { get; set; }
+        [GroupText("PID")] public float pidD { get; set; }
 
-        public byte pidaxis { get; set; }
+        [GroupText("PID")] public byte pidaxis { get; set; }
 
-        public float piddesired { get; set; }
+        [GroupText("PID")] public float piddesired { get; set; }
 
-        public float pidachieved { get; set; }
+        [GroupText("PID")] public float pidachieved { get; set; }
 
         public uint vibeclip0 { get; set; }
 
@@ -2079,7 +2088,7 @@ namespace MissionPlanner
                             }
                             catch (Exception ex)
                             {
-                                    log.Error(ex);
+                                log.Error(ex);
                             }
                         }
                     }
@@ -2104,6 +2113,12 @@ namespace MissionPlanner
                         errors_count2 = sysstatus.errors_count2;
                         errors_count3 = sysstatus.errors_count3;
                         errors_count4 = sysstatus.errors_count4;
+
+                        if (errors_count1 > 0 || errors_count2 > 0)
+                        {
+                            messageHigh = "InternalError " + Enum.GetName(typeof(AP_InternalError.error_t),
+                                              (errors_count1 + (errors_count2 << 16)));
+                        }
 
                         sensors_enabled.Value = sysstatus.onboard_control_sensors_enabled;
                         sensors_health.Value = sysstatus.onboard_control_sensors_health;
