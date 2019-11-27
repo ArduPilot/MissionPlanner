@@ -3188,7 +3188,8 @@ namespace MissionPlanner.GCSViews
                                         // cm
                                         var radius = msg.squawk;
 
-                                        addMissionRouteMarker(new GMapMarkerDistance(plla, radius / 100.0, 0)
+                                        if (((DateTime)plla.Time) > DateTime.Now.AddSeconds(-10))
+                                            addMissionRouteMarker(new GMapMarkerDistance(plla, radius / 100.0, 0)
                                             {Pen = new Pen(Color.Red, 3)});
                                         continue;
                                     }
