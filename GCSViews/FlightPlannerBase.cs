@@ -5354,7 +5354,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                             sw.Write((a + 1)); // seq
                             sw.Write("\t" + 0); // current
-                            sw.Write("\t" + _flightPlanner.CMB_altmode.SelectedValue); //frame 
+                            sw.Write("\t" + _flightPlanner.Commands.Rows[a].Cells[Frame.Index].Value.ToString()); //frame 
                             sw.Write("\t" + mode);
                             sw.Write("\t" +
                                      double.Parse(_flightPlanner.Commands.Rows[a].Cells[Param1.Index].Value.ToString())
