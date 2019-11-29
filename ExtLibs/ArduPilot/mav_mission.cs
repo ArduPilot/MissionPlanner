@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 using log4net;
 using MissionPlanner.Utilities;
 
@@ -10,7 +11,7 @@ namespace MissionPlanner.ArduPilot
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        public static List<Locationwp> download(MAVLinkInterface port, MAVLink.MAV_MISSION_TYPE type, Action<int, string> progress = null)
+        public static async Task<List<Locationwp>> download(MAVLinkInterface port, byte sysid, byte compid, MAVLink.MAV_MISSION_TYPE type, Action<int, string> progress = null)
         {
             List<Locationwp> commandlist = new List<Locationwp>();
 
@@ -21,11 +22,11 @@ namespace MissionPlanner.ArduPilot
                     throw new Exception("Please Connect First!");
                 }
 
-                bool use_supportfence = (port.MAV.cs.capabilities & (uint)MAVLink.MAV_PROTOCOL_CAPABILITY.MISSION_FENCE) > 0;
+                bool use_supportfence = (port.MAVlist[sysid, compid].cs.capabilities & (uint)MAVLink.MAV_PROTOCOL_CAPABILITY.MISSION_FENCE) > 0;
 
-                bool use_int = (port.MAV.cs.capabilities & (uint)MAVLink.MAV_PROTOCOL_CAPABILITY.MISSION_INT) > 0;
+                bool use_int = (port.MAVlist[sysid, compid].cs.capabilities & (uint)MAVLink.MAV_PROTOCOL_CAPABILITY.MISSION_INT) > 0;
 
-                if (!use_supportfence && !port.MAV.mavlinkv2 && type != MAVLink.MAV_MISSION_TYPE.MISSION)
+                if (!use_supportfence && !port.MAVlist[sysid, compid].mavlinkv2 && type != MAVLink.MAV_MISSION_TYPE.MISSION)
                 {
                     throw new Exception("Mission type only supported under mavlink2");
                 }
@@ -34,16 +35,16 @@ namespace MissionPlanner.ArduPilot
 
                 log.Info("Getting WP #");
 
-                int cmdcount = port.getWPCount(type);
+                int cmdcount = await port.getWPCountAsync(sysid, compid, type);
 
                 for (ushort a = 0; a < cmdcount; a++)
                 {
                     log.Info("Getting WP" + a);
                     progress?.Invoke((a * 100) / cmdcount, "Getting WP " + a);
-                    commandlist.Add(port.getWP(a, type));
+                    commandlist.Add(await port.getWPAsync(sysid, compid, a, type));
                 }
 
-                port.setWPACK(type);
+                port.setWPACK(sysid, compid, type);
 
                 progress?.Invoke(100, "Done");
 
@@ -58,7 +59,7 @@ namespace MissionPlanner.ArduPilot
             return commandlist;
         }
 
-        public static void upload(MAVLinkInterface port, MAVLink.MAV_MISSION_TYPE type, List<Locationwp> commandlist, Action<int,string> progress = null)
+        public static async Task upload(MAVLinkInterface port, byte sysid, byte compid, MAVLink.MAV_MISSION_TYPE type, List<Locationwp> commandlist, Action<int,string> progress = null)
         {
             try
             {
@@ -67,18 +68,18 @@ namespace MissionPlanner.ArduPilot
                     throw new Exception("Please connect first!");
                 }
 
-                bool use_supportfence = (port.MAV.cs.capabilities & (uint)MAVLink.MAV_PROTOCOL_CAPABILITY.MISSION_FENCE) > 0;
+                bool use_supportfence = (port.MAVlist[sysid, compid].cs.capabilities & (uint)MAVLink.MAV_PROTOCOL_CAPABILITY.MISSION_FENCE) > 0;
 
-                bool use_int = (port.MAV.cs.capabilities & (uint)MAVLink.MAV_PROTOCOL_CAPABILITY.MISSION_INT) > 0;
+                bool use_int = (port.MAVlist[sysid, compid].cs.capabilities & (uint)MAVLink.MAV_PROTOCOL_CAPABILITY.MISSION_INT) > 0;
 
-                if (!use_supportfence && !port.MAV.mavlinkv2 && type != MAVLink.MAV_MISSION_TYPE.MISSION)
+                if (!use_supportfence && !port.MAVlist[sysid, compid].mavlinkv2 && type != MAVLink.MAV_MISSION_TYPE.MISSION)
                 {
                     throw new Exception("Mission type only supported under mavlink2");
                 }
 
                 int a;
 
-                port.setWPTotal((ushort)commandlist.Count, type);
+                await port.setWPTotalAsync(sysid, compid, (ushort) commandlist.Count, type);
 
                 // process commandlist to the mav
                 for (a = 0; a < commandlist.Count; a++)
@@ -91,15 +92,16 @@ namespace MissionPlanner.ArduPilot
                     progress?.Invoke(((a*100) / commandlist.Count), "Uploading WP " + a);
 
                     // try send the wp
-                    MAVLink.MAV_MISSION_RESULT ans = port.setWP(temp, (ushort)(uploadwpno), (MAVLink.MAV_FRAME)temp.frame, 0, 1, use_int, type);
+                    MAVLink.MAV_MISSION_RESULT ans = await port.setWPAsync(sysid, compid, temp, (ushort)(uploadwpno), (MAVLink.MAV_FRAME)temp.frame, 0, 1, use_int, type).ConfigureAwait(false);
 
                     // we timed out while uploading wps/ command wasnt replaced/ command wasnt added
                     if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ERROR)
                     {
                         // resend for partial upload
-                        port.setWPPartialUpdate((ushort)(uploadwpno), (ushort)commandlist.Count, type);
+                        await port.setWPPartialUpdateAsync(sysid, compid, (ushort)(uploadwpno), (ushort)commandlist.Count, type);
                         // reupload this point.
-                        ans = port.setWP(temp, (ushort)(uploadwpno), (MAVLink.MAV_FRAME)temp.frame, 0, 1, use_int, type);
+                        ans = await port.setWPAsync(sysid, compid, temp, (ushort) (uploadwpno),
+                            (MAVLink.MAV_FRAME) temp.frame, 0, 1, use_int, type);
                     }
 
                     if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_NO_SPACE)
@@ -122,12 +124,12 @@ namespace MissionPlanner.ArduPilot
                         // get requested wp no - 1;
                         try
                         {
-                            a = port.getRequestedWPNo() - 1;
+                            a = await port.getRequestedWPNoAsync(sysid, compid) - 1;
                         }
                         catch
                         {
                             // resend for partial upload
-                            port.setWPPartialUpdate((ushort)(uploadwpno), (ushort)commandlist.Count, type);
+                            await port.setWPPartialUpdateAsync(sysid, compid, (ushort)(uploadwpno), (ushort)commandlist.Count, type);
                             // reupload this point.
                         }
 
@@ -140,7 +142,7 @@ namespace MissionPlanner.ArduPilot
                     }
                 }
 
-                port.setWPACK(type);
+                port.setWPACK(sysid, compid, type);
 
             }
             catch (Exception ex)

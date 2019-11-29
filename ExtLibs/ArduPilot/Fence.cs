@@ -46,7 +46,8 @@ namespace MissionPlanner.Utilities
 
         public void DownloadFence(MAVLinkInterface port, Action<int, string> progress = null)
         {
-            var list = mav_mission.download(port, MAVLink.MAV_MISSION_TYPE.FENCE, progress);
+            var list = mav_mission
+                .download(port, port.MAV.sysid, port.MAV.compid, MAVLink.MAV_MISSION_TYPE.FENCE, progress).Result;
 
             LocationToFence(list);
         }
@@ -121,7 +122,7 @@ namespace MissionPlanner.Utilities
         {
             var fence = FenceToLocation();
 
-            mav_mission.upload(port, MAVLink.MAV_MISSION_TYPE.FENCE, fence, progress);
+            mav_mission.upload(port, port.MAV.sysid, port.MAV.compid, MAVLink.MAV_MISSION_TYPE.FENCE, fence, progress).RunSynchronously();
         }
 
         public List<Locationwp> FenceToLocation()

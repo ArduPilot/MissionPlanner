@@ -981,7 +981,7 @@ namespace MissionPlanner.GCSViews
 
             if ((MainV2.comPort.MAV.cs.capabilities & (uint)MAVLink.MAV_PROTOCOL_CAPABILITY.MISSION_FENCE) >= 0)
             {
-                mav_mission.download(MainV2.comPort, MAVLink.MAV_MISSION_TYPE.FENCE);
+                mav_mission.download(MainV2.comPort, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, MAVLink.MAV_MISSION_TYPE.FENCE);
                 return;
             }
 
@@ -1052,8 +1052,7 @@ namespace MissionPlanner.GCSViews
         {
             if ((MainV2.comPort.MAV.cs.capabilities & (uint)MAVLink.MAV_PROTOCOL_CAPABILITY.MISSION_RALLY) >= 0)
             {
-                mav_mission.download(MainV2.comPort, MAVLink.MAV_MISSION_TYPE.RALLY);
-
+                mav_mission.download(MainV2.comPort, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, MAVLink.MAV_MISSION_TYPE.RALLY);
                 return;
             }
 
@@ -3719,7 +3718,7 @@ namespace MissionPlanner.GCSViews
                 return (MAVLink.MAV_MISSION_TYPE) _flightPlanner.cmb_missiontype.SelectedValue;
             });
 
-            List<Locationwp> cmds = mav_mission.download(MainV2.comPort,
+            List<Locationwp> cmds = mav_mission.download(MainV2.comPort, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid,
                 type,
                 (percent, status) =>
                 {
@@ -3730,7 +3729,7 @@ namespace MissionPlanner.GCSViews
                         throw new Exception("User Canceled");
                     }
                     sender.UpdateProgressAndStatus(percent, status);
-                });
+                }).Result;
 
             WPtoScreen(cmds);
         }
@@ -5450,7 +5449,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                     }).ToList();
                 }
 
-                mav_mission.upload(MainV2.comPort, type, commandlist,
+                mav_mission.upload(MainV2.comPort, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, type, commandlist,
                     (percent, status) =>
                     {
                         if (sender.doWorkArgs.CancelRequested)
@@ -5461,7 +5460,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                         }
 
                         sender.UpdateProgressAndStatus((int)(percent * 0.95), status);
-                    });
+                    }).RunSynchronously();
 
                 ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(95, "Setting params");
 

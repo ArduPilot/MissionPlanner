@@ -1159,7 +1159,7 @@ namespace MissionPlanner
             mavlinkNumericUpDown.ShowUserControl();
         }
 
-        private void But_stayoutest_Click(object sender, EventArgs e)
+        private async void But_stayoutest_Click(object sender, EventArgs e)
         {
             var list = new List<Locationwp>();
             var tl = (MainV2.comPort.MAV.cs.Location.gps_offset(-20, -25));
@@ -1194,9 +1194,9 @@ namespace MissionPlanner
 
             //mav_mission.upload(MainV2.comPort, MAVLink.MAV_MISSION_TYPE.FENCE, list);
 
-            var mission = mav_mission.download(MainV2.comPort, MAVLink.MAV_MISSION_TYPE.MISSION);
-            var fence = mav_mission.download(MainV2.comPort, MAVLink.MAV_MISSION_TYPE.FENCE);
-            var rally = mav_mission.download(MainV2.comPort, MAVLink.MAV_MISSION_TYPE.RALLY);
+            var mission = await mav_mission.download(MainV2.comPort, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, MAVLink.MAV_MISSION_TYPE.MISSION);
+            var fence = await mav_mission.download(MainV2.comPort, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, MAVLink.MAV_MISSION_TYPE.FENCE);
+            var rally = await mav_mission.download(MainV2.comPort, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, MAVLink.MAV_MISSION_TYPE.RALLY);
         }
     }
 }
