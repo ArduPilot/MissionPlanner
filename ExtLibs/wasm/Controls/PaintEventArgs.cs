@@ -1,6 +1,7 @@
 ﻿using MissionPlanner.Drawing;
 using System;
 using System.Drawing;
+using wasm;
 
 
 namespace MissionPlanner.Drawing
@@ -14,13 +15,13 @@ namespace MissionPlanner.Drawing
     public class PaintEventArgs : EventArgs
     {
         private Rectangle clientRectangle;
-        private IGraphics gg;
-        public PaintEventArgs(IGraphics gg, Rectangle clientRectangle)
+        private CanvasGraphics gg;
+        public PaintEventArgs(CanvasGraphics gg, Rectangle clientRectangle)
         {
             this.gg = gg;
             this.clientRectangle = clientRectangle;
         }
 
-        public IGraphics Graphics => gg;
+        public CanvasGraphics Graphics => gg;
     }
 }

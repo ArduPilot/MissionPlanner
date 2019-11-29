@@ -5,14 +5,25 @@ using System.Linq;
 using System.Threading.Tasks;
 using Blazor.Extensions;
 using Blazor.Extensions.Canvas;
+using Blazor.Extensions.Canvas.WebGL;
 using Microsoft.AspNetCore.Components.Web;
 using MissionPlanner.Drawing;
 using MissionPlanner.Drawing.Drawing2D;
+using Brush = MissionPlanner.Drawing.Brush;
+using Font = MissionPlanner.Drawing.Font;
+using GraphicsUnit = MissionPlanner.Drawing.GraphicsUnit;
+using Icon = MissionPlanner.Drawing.Icon;
+using Image = MissionPlanner.Drawing.Image;
+using Pen = MissionPlanner.Drawing.Pen;
+using Region = MissionPlanner.Drawing.Region;
+using StringFormat = MissionPlanner.Drawing.StringFormat;
 
 namespace wasm
 {
-    public class CanvasGraphics: BECanvas, IGraphics<Region,CompositingMode,CompositingQuality,InterpolationMode, GraphicsUnit, PixelOffsetMode, SmoothingMode, TextRenderingHint, Matrix, object, Pen, FillMode, Icon, Image, ImageAttributes, GraphicsPath, Font,Brush,StringFormat, FlushIntention, MatrixOrder, GraphicsState, CombineMode, CoordinateSpace>
+    public class CanvasGraphics: BECanvasComponent, IGraphics<Region,CompositingMode,CompositingQuality,InterpolationMode, GraphicsUnit, PixelOffsetMode, SmoothingMode, TextRenderingHint, Matrix, object, Pen, FillMode, Icon, Image, ImageAttributes, GraphicsPath, Font,Brush,StringFormat, FlushIntention, MatrixOrder, GraphicsState, CombineMode, CoordinateSpace>
     {
+        public WebGLContext context;
+
         public new int Width
         {
             get { return (int)base.Width; }
@@ -829,7 +840,9 @@ namespace wasm
 
         public virtual void Refresh()
         {
-            throw new NotImplementedException();
+            context.BeginBatchAsync();
+            OnPaint(new PaintEventArgs(this, Rectangle.FromLTRB(0, 0, Width, Height)));
+            context.EndBatchAsync();
         }
 
         protected void Invalidate()

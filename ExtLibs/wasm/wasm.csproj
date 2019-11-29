@@ -17,12 +17,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="CanvasGraphics.cs" />
     <Compile Remove="Controls\HUD.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="CanvasGraphics.cs" />
     <None Include="Controls\HUD.cs" />
   </ItemGroup>
 
@@ -30,6 +28,7 @@
     <PackageReference Include="Blazor.Extensions.Canvas" Version="0.4.0" />
     <PackageReference Include="Blazor.Extensions.Storage" Version="1.0.0" />
     <PackageReference Include="DotNetZip" Version="1.13.4" />
+    <PackageReference Include="DotSpatial.Data" Version="1.9.0" />
     <PackageReference Include="Lib.Harmony" Version="1.2.0.1" />
     <PackageReference Include="log4net" Version="2.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.0.0-preview9.19457.4" />
@@ -64,7 +63,9 @@
     <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\GeoUtility\GeoUtility.csproj" />
     <ProjectReference Include="..\GMap.NET.Core\GMap.NET.Core.csproj" />
+    <ProjectReference Include="..\GMap.NET.Drawing\GMap.NET.Drawing.csproj" />
     <ProjectReference Include="..\ICSharpCode.SharpZipLib\ICSharpCode.SharpZipLib.csproj" />
+    <ProjectReference Include="..\Interfaces\Interfaces.csproj" />
     <ProjectReference Include="..\KMLib\KMLib.csproj" />
     <ProjectReference Include="..\LibVLC.NET\LibVLC.NET.csproj" />
     <ProjectReference Include="..\ManagedNativeWifi.Simple\ManagedNativeWifi.Simple.csproj" />
@@ -85,6 +86,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="C:\Users\michael\.nuget\packages\uno.skiasharp.wasm.extended\1.60.0-uno.173\contentFiles\any\netstandard2.0\libSkiaSharp.wasm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="wwwroot\2018-09-09 18-15-17.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

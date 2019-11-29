@@ -19,6 +19,7 @@ using Harmony;
 using Microsoft.JSInterop;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Utilities;
+using Sotsera.Blazor.Toaster.Core.Models;
 
 
 namespace wasm
@@ -35,6 +36,15 @@ namespace wasm
 
             var x = System.Runtime.CompilerServices.Unsafe.Unbox<int>(1);
             services.AddFileReaderService();
+
+            // Add the library to the DI system
+            services.AddToaster(config =>
+            {
+                //example customizations
+                config.PositionClass = Defaults.Classes.Position.TopRight;
+                config.PreventDuplicates = true;
+                config.NewestOnTop = false;
+            });
 
             //services.UseWebUSB(); // Makes IUSB available to the DI container
         }

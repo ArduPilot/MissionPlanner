@@ -37,12 +37,14 @@
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
     <link href="css/site.css" rel="stylesheet" />
 
+    <link href="_content/Sotsera.Blazor.Toaster/toastr.min.css" rel="stylesheet" />
+
     <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/two.js/0.6.0/two.js"></script>
-    
+
     <script src="_content/Blazor.Extensions.Canvas/blazor.extensions.canvas.js"></script>
 
     <script src="radio_controller.js"></script>
@@ -163,7 +165,6 @@
         function initWebSocket(host) {
             if (window["WebSocket"]) {
                 //var host = "ws://" + window.location.hostname + ":56781/websocket/raw";
-                host = host.value;
                 if (host == "")
                     host = "ws://localhost:56781/websocket/raw";
                 try {
