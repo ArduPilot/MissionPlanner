@@ -311,10 +311,63 @@ namespace MissionPlanner.Utilities
                             {
                                 while (client.Available > 0)
                                 {
-                                    var bydata = stream.ReadByte();
-                                    Console.Write(bydata.ToString("X2"));
+                                    var paylen = 0;
+                                    var opcode = stream.ReadByte();
+                                    var lenw = stream.ReadByte();
+                                    if ((lenw & 0x7f) == 126)
+                                    {
+                                        paylen = stream.ReadByte() << 8;
+                                        paylen += stream.ReadByte();
+                                    } 
+                                    else if ((lenw & 0x7f) == 127)
+                                    {
+                                        paylen = stream.ReadByte() << 56;
+                                        paylen += stream.ReadByte() << 48;
+                                        paylen += stream.ReadByte() << 40;
+                                        paylen += stream.ReadByte() << 32;
+                                        paylen += stream.ReadByte() << 24;
+                                        paylen += stream.ReadByte() << 16;
+                                        paylen += stream.ReadByte() << 8;
+                                        paylen += stream.ReadByte();
+                                    }
+                                    else
+                                    {
+                                        paylen = (lenw & 0x7f);
+                                    }
 
-                                    if (bydata == 0x88)
+                                    var maskflag = lenw & 0x80;
+
+                                    var mask = new byte[4];
+
+                                    // masking
+                                    if (maskflag > 0)
+                                    {
+                                        stream.Read(mask, 0, 4);
+                                    }
+
+                                    //Console.Write(bydata.ToString("X2"));
+                                    var payload = new byte[paylen];
+                                    
+                                    stream.Read(payload, 0, paylen);
+
+                                    for (var i = 0; i < paylen; i++)
+                                        payload[i] ^= mask[i % 4];
+
+                                    MAVLink.MAVLinkMessage message = new MAVLink.MAVLinkMessage(payload, DateTime.Now);
+
+                                    if (message != MAVLink.MAVLinkMessage.Invalid)
+                                    {
+                                        //MainV2.comPort.sendPacket(message.data, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid);
+
+                                        lock (MainV2.comPort.objlock)
+                                        {
+                                            MainV2.comPort.BaseStream.Write(payload, 0, paylen);
+                                        }
+                                    }
+
+                                    
+
+                                    if (opcode == 0x88)
                                         return;
                                 }
 
