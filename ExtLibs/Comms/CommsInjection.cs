@@ -1,14 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace MissionPlanner.Comms
 {
     public class CommsInjection : ICommsSerial
     {
         private readonly CircularBuffer<byte> _buffer = new CircularBuffer<byte>(1024 * 100);
+
+        public void AppendBuffer(byte[] indata)
+        {
+            foreach (var b in indata)
+            {
+                _buffer.Add(b);
+            }
+        }
+
+        public EventHandler<int> ReadBufferUpdate;
+        public EventHandler<IEnumerable<byte>> WriteCallback;
 
         public void Close()
         {
@@ -114,7 +127,7 @@ namespace MissionPlanner.Comms
 
         public void Write(byte[] buffer, int offset, int count)
         {
-            foreach (var b in buffer.Skip(offset).Take(count)) _buffer.Add(b);
+            WriteCallback?.Invoke(this, buffer.Skip(offset).Take(count));
         }
 
         public void toggleDTR()
@@ -129,7 +142,14 @@ namespace MissionPlanner.Comms
         public Stream BaseStream { get; }
         public int BaudRate { get; set; }
 
-        public int BytesToRead => _buffer.Length();
+        public int BytesToRead
+        {
+            get
+            {
+                ReadBufferUpdate?.Invoke(this, 0);
+                return _buffer.Length();
+            }
+        }
 
         public int BytesToWrite { get; }
         public int DataBits { get; set; }
