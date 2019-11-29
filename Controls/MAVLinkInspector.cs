@@ -269,6 +269,7 @@ namespace MissionPlanner.Controls
         private void MAVLinkInspector_FormClosing(object sender, FormClosingEventArgs e)
         {
             mav.OnPacketReceived -= MavOnOnPacketReceived;
+            mav.OnPacketSent -= MavOnOnPacketReceived;
 
             timer1.Stop();
         }
