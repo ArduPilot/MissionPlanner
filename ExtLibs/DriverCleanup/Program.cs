@@ -30,16 +30,16 @@ namespace DriverCleanup
             try
             {
                 pr.Start();
-                var so = pr.StandardOutput.ReadToEndAsync();
-                var se = pr.StandardError.ReadToEndAsync();
+                var so = pr.StandardOutput.ReadToEnd();
+                var se = pr.StandardError.ReadToEnd();
 
-                var pun = Regex.Matches(so.Result, @"Published Name\s*:\s+(.+)", RegexOptions.IgnoreCase);
-                var orn = Regex.Matches(so.Result, @"Original Name:\s+(.+)");
-                var prn = Regex.Matches(so.Result, @"(Provider Name|Driver package provider)\s*:\s+(.+)", RegexOptions.IgnoreCase);
-                var cln = Regex.Matches(so.Result, @"(Class Name|Class)\s*:\s+(.+)");
-                var clg = Regex.Matches(so.Result, @"Class GUID:\s+(.+)");
-                var drv = Regex.Matches(so.Result, @"Driver Version:\s+(.+)");
-                var sin = Regex.Matches(so.Result, @"Signer Name\s*:\s+(.+)");
+                var pun = Regex.Matches(so, @"Published Name\s*:\s+(.+)", RegexOptions.IgnoreCase);
+                var orn = Regex.Matches(so, @"Original Name:\s+(.+)");
+                var prn = Regex.Matches(so, @"(Provider Name|Driver package provider)\s*:\s+(.+)", RegexOptions.IgnoreCase);
+                var cln = Regex.Matches(so, @"(Class Name|Class)\s*:\s+(.+)");
+                var clg = Regex.Matches(so, @"Class GUID:\s+(.+)");
+                var drv = Regex.Matches(so, @"Driver Version:\s+(.+)");
+                var sin = Regex.Matches(so, @"Signer Name\s*:\s+(.+)");
 
                 for (int i = 0; i < pun.Count; i++)
                 {

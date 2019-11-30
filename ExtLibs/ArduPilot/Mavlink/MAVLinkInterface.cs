@@ -778,7 +778,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
         public MAVLinkMessage getHeartBeat()
         {
-            return getHeartBeatAsync().Result;
+            return Task.Run(async () => await getHeartBeatAsync()).Result;
         }
 
         public async Task<MAVLinkMessage> getHeartBeatAsync()
@@ -1161,7 +1161,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
         public bool setParam(byte sysid, byte compid, string paramname, double value, bool force = false)
         {
-            return setParamAsync(sysid, compid, paramname, value, force).Result;
+            return Task.Run(async () => await setParamAsync(sysid, compid, paramname, value, force)).Result;
         }
 
         /// <summary>
@@ -1324,7 +1324,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
         public MAVLinkParamList getParamList(byte sysid, byte compid)
         {
-            return getParamListAsync(sysid, compid).Result;
+            return Task.Run(async () => await getParamListAsync(sysid, compid)).Result;
         }
 
         /// <summary>
@@ -1916,7 +1916,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             float p4,
             float p5, float p6, float p7, bool requireack = true, Action uicallback = null)
         {
-            return doCommandAsync(sysid, compid, actionid, p1, p2, p3, p4, p5, p6, p7, requireack, uicallback).Result;
+            return Task.Run(async () => await doCommandAsync(sysid, compid, actionid, p1, p2, p3, p4, p5, p6, p7, requireack, uicallback)).Result;
         }
 
         public async Task<bool> doCommandAsync(byte sysid, byte compid, MAV_CMD actionid, float p1, float p2, float p3, float p4,
@@ -2349,12 +2349,12 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         [Obsolete]
         public ushort getWPCount(MAVLink.MAV_MISSION_TYPE type = MAV_MISSION_TYPE.MISSION)
         {
-            return getWPCountAsync(MAV.sysid, MAV.compid, type).Result;
+            return Task.Run(async () => await getWPCountAsync(MAV.sysid, MAV.compid, type)).Result;
         }
 
         public ushort getWPCount(byte sysid, byte compid, MAVLink.MAV_MISSION_TYPE type = MAV_MISSION_TYPE.MISSION)
         {
-            return getWPCountAsync(sysid, compid, type).Result;
+            return Task.Run(async () => await getWPCountAsync(sysid, compid, type)).Result;
         }
 
         /// <summary>
@@ -2469,7 +2469,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         public Locationwp getWP(byte sysid, byte compid, ushort index,
             MAVLink.MAV_MISSION_TYPE type = MAV_MISSION_TYPE.MISSION)
         {
-            return getWPAsync(sysid, compid, index, type).Result;
+            return Task.Run(async () => await getWPAsync(sysid, compid, index, type)).Result;
         }
 
         /// <summary>
@@ -2951,7 +2951,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             byte current = 0,
             byte autocontinue = 1, bool use_int = false, MAV_MISSION_TYPE mission_type = MAV_MISSION_TYPE.MISSION)
         {
-            return setWPAsync(sysid, compid, loc, index, frame, current, autocontinue, use_int, mission_type).Result;
+            return Task.Run(async () => await setWPAsync(sysid, compid, loc, index, frame, current, autocontinue, use_int, mission_type)).Result;
         }
 
         /// <summary>
@@ -3305,7 +3305,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         }
        public int getRequestedWPNo(byte sysid, byte compid)
        {
-           return getRequestedWPNoAsync(sysid, compid).Result;
+           return Task.Run(async () => await getRequestedWPNoAsync(sysid, compid)).Result;
        }
 
         public async Task<int> getRequestedWPNoAsync(byte sysid, byte compid)
@@ -3608,7 +3608,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
         public MAVLinkMessage readPacket()
         {
-            return readPacketAsync().Result;
+            return Task.Run(async () => await readPacketAsync()).Result;
         }
 
         /// <summary>

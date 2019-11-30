@@ -35,13 +35,13 @@ namespace MissionPlanner.ArduPilot
 
                 log.Info("Getting WP #");
 
-                int cmdcount = await port.getWPCountAsync(sysid, compid, type);
+                int cmdcount = await port.getWPCountAsync(sysid, compid, type).ConfigureAwait(false);
 
                 for (ushort a = 0; a < cmdcount; a++)
                 {
                     log.Info("Getting WP" + a);
                     progress?.Invoke((a * 100) / cmdcount, "Getting WP " + a);
-                    commandlist.Add(await port.getWPAsync(sysid, compid, a, type));
+                    commandlist.Add(await port.getWPAsync(sysid, compid, a, type).ConfigureAwait(false));
                 }
 
                 port.setWPACK(sysid, compid, type);
@@ -79,7 +79,7 @@ namespace MissionPlanner.ArduPilot
 
                 int a;
 
-                await port.setWPTotalAsync(sysid, compid, (ushort) commandlist.Count, type);
+                await port.setWPTotalAsync(sysid, compid, (ushort) commandlist.Count, type).ConfigureAwait(false);
 
                 // process commandlist to the mav
                 for (a = 0; a < commandlist.Count; a++)
@@ -98,10 +98,10 @@ namespace MissionPlanner.ArduPilot
                     if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ERROR)
                     {
                         // resend for partial upload
-                        await port.setWPPartialUpdateAsync(sysid, compid, (ushort)(uploadwpno), (ushort)commandlist.Count, type);
+                        await port.setWPPartialUpdateAsync(sysid, compid, (ushort)(uploadwpno), (ushort)commandlist.Count, type).ConfigureAwait(false);
                         // reupload this point.
                         ans = await port.setWPAsync(sysid, compid, temp, (ushort) (uploadwpno),
-                            (MAVLink.MAV_FRAME) temp.frame, 0, 1, use_int, type);
+                            (MAVLink.MAV_FRAME) temp.frame, 0, 1, use_int, type).ConfigureAwait(false);
                     }
 
                     if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_NO_SPACE)
@@ -124,12 +124,12 @@ namespace MissionPlanner.ArduPilot
                         // get requested wp no - 1;
                         try
                         {
-                            a = await port.getRequestedWPNoAsync(sysid, compid) - 1;
+                            a = await port.getRequestedWPNoAsync(sysid, compid).ConfigureAwait(false) - 1;
                         }
                         catch
                         {
                             // resend for partial upload
-                            await port.setWPPartialUpdateAsync(sysid, compid, (ushort)(uploadwpno), (ushort)commandlist.Count, type);
+                            await port.setWPPartialUpdateAsync(sysid, compid, (ushort)(uploadwpno), (ushort)commandlist.Count, type).ConfigureAwait(false);
                             // reupload this point.
                         }
 

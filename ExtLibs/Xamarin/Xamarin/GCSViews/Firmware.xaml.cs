@@ -460,7 +460,7 @@ namespace Xamarin.GCSViews
             {
                 try
                 {
-                    if (task.Wait(TimeSpan.FromSeconds(3)) && task.Result == true)
+                    if (task.Wait(TimeSpan.FromSeconds(3)) && await task.ConfigureAwait(false) == true)
                         return;
                     else
                     {
@@ -522,9 +522,9 @@ namespace Xamarin.GCSViews
         {
             Task.Run(async () =>
             {
-                Parallel.ForEach(await Test.TestMethod.GetDeviceInfoList(), port =>
+                Parallel.ForEach(await Test.TestMethod.GetDeviceInfoList(), async (port)=>
                 {
-                    var portUsb = Test.TestMethod.GetUSB(port).Result;
+                    var portUsb = await Test.TestMethod.GetUSB(port).ConfigureAwait(false);
 
                     if (portUsb == null)
                         return;

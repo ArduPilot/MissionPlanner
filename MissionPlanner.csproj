@@ -4274,6 +4274,7 @@
     <Content Include="aircraft.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include=".editorconfig" />
     <None Include="Resources\Gaugebg.png" />
     <None Include="appxmanifest.xml" />
     <Content Include="ArduCopterConfig.xml">

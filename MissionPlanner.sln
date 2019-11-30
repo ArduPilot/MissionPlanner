@@ -175,6 +175,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissionPlanner.Drawing", "E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WinForms", "WinForms", "{82872363-B5AC-4ACE-9200-83F5EF9AF27A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{42EE913C-092C-420B-83B3-F27AA8C26BD7}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		ExtLibs\uno\UnoUI\UnoUI.Shared\UnoUI.Shared.projitems*{0850aafc-2b90-4d47-821b-f009eb099940}*SharedItemsImports = 4
