@@ -10,7 +10,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
     {
         bool focusmode = false;
 
-        OpticalFlow flow = null;
+        OpticalFlow _flow = null;
 
         public ConfigHWPX4Flow()
         {
@@ -27,24 +27,24 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             Enabled = true;
 
-            flow = new OpticalFlow(MainV2.comPort);
+            _flow = new OpticalFlow(MainV2.comPort);
 
             // setup bitmap to screen
-            flow.newImage += (s, eh) => imagebox.Image = (Image)eh.Image.Clone();
+            _flow.newImage += (s, eh) => imagebox.Image = (Image)eh.Image.Clone();
         }
 
         private void but_focusmode_Click(object sender, EventArgs e)
         {
             focusmode = !focusmode;
-            flow.CalibrationMode(focusmode);
+            _flow.CalibrationMode(focusmode);
         }
 
         public void Deactivate()
         {
-            if (flow != null)
+            if (_flow != null)
             {
-                flow.CalibrationMode(false);
-                flow.Close();
+                _flow.CalibrationMode(false);
+                _flow.Close();
             }
         }
     }

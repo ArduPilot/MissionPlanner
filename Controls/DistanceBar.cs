@@ -8,7 +8,7 @@ namespace MissionPlanner.Controls
 {
     public partial class DistanceBar : UserControl
     {
-        Brush brushbar = new SolidBrush(Color.FromArgb(50, Color.White));
+        private readonly Brush _brushbar = new SolidBrush(Color.FromArgb(50, Color.White));
 
 
         private readonly Bitmap icon = global::MissionPlanner.Properties.Resources.marker_05;
@@ -106,17 +106,17 @@ namespace MissionPlanner.Controls
 
                     etemp.Clear(Color.Transparent);
 
-                    etemp.FillRectangle(brushbar, bar);
+                    etemp.FillRectangle(_brushbar, bar);
 
                     // draw bar traveled
 
                     RectangleF bartrav = new RectangleF(bar.X, bar.Y, bar.Width*(traveleddist/totaldist), bar.Height);
 
-                    etemp.FillRectangle(brushbar, bartrav);
-                    etemp.FillRectangle(brushbar, bartrav);
-                    etemp.FillRectangle(brushbar, bartrav);
-                    etemp.FillRectangle(brushbar, bartrav);
-                    etemp.FillRectangle(brushbar, bartrav);
+                    etemp.FillRectangle(_brushbar, bartrav);
+                    etemp.FillRectangle(_brushbar, bartrav);
+                    etemp.FillRectangle(_brushbar, bartrav);
+                    etemp.FillRectangle(_brushbar, bartrav);
+                    etemp.FillRectangle(_brushbar, bartrav);
 
                     // draw wp dist
 

@@ -75,10 +75,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 var port = MainV2.comPort.BaseStream;
 
                 // place an invalid port in its place
-                MainV2.comPort.BaseStream = new Comms.SerialPort() { PortName = port.PortName, BaudRate = port.BaudRate };
+                if (port != null)
+                    MainV2.comPort.BaseStream = new Comms.SerialPort() { PortName = port.PortName, BaudRate = port.BaudRate };
 
                 //check if we started from within mavlink - if not get settings from menu and create port
-                if (!port.IsOpen)
+                if (port == null || !port.IsOpen)
                 {
                     port = new Comms.SerialPort()
                     {
@@ -332,6 +333,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void But_uavcaninspector_Click(object sender, EventArgs e)
         {
+            if (can == null)
+            {
+                CustomMessageBox.Show(Strings.PleaseConnect);
+                return;
+            }
+
             new UAVCANInspector(can).Show();
         }
 

@@ -10,7 +10,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigFailSafe : MyUserControl, IActivate, IDeactivate
     {
-        private readonly Timer timer = new Timer();
+        private readonly Timer _timer = new Timer();
         //
 
         public ConfigFailSafe()
@@ -18,7 +18,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             InitializeComponent();
 
             // setup rc update
-            timer.Tick += timer_Tick;
+            _timer.Tick += timer_Tick;
         }
 
         public void Activate()
@@ -79,9 +79,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             mavlinkCheckBoxshort_fs.setup(1, 0, "FS_SHORT_ACTN", MainV2.comPort.MAV.param);
             mavlinkCheckBoxlong_fs.setup(1, 0, "FS_LONG_ACTN", MainV2.comPort.MAV.param);
 
-            timer.Enabled = true;
-            timer.Interval = 100;
-            timer.Start();
+            _timer.Enabled = true;
+            _timer.Interval = 100;
+            _timer.Start();
 
             CustomMessageBox.Show("Ensure your props are not on the Plane/Quad", "FailSafe", MessageBoxButtons.OK,
                 MessageBoxIcon.Exclamation);
@@ -89,7 +89,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public void Deactivate()
         {
-            timer.Stop();
+            _timer.Stop();
         }
 
         private void timer_Tick(object sender, EventArgs e)

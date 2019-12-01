@@ -63,7 +63,7 @@ namespace MissionPlanner.Controls
             {
                 rootNode = new TreeNode(info.Name, 0, 0);
                 rootNode.Tag = info;
-                GetDirectories(await info.GetDirectories(), rootNode);
+                GetDirectories(await info.GetDirectories().ConfigureAwait(false), rootNode);
                 treeView1.Nodes.Add(rootNode);
             }
             toolStripStatusLabel1.Text = "Ready";
@@ -112,11 +112,11 @@ namespace MissionPlanner.Controls
             ListViewItem.ListViewSubItem[] subItems;
             ListViewItem item = null;
 
-            var dirs = await nodeDirInfo.GetDirectories();
+            var dirs = await nodeDirInfo.GetDirectories().ConfigureAwait(false);
 
             newSelected.Nodes.Clear();
 
-            await GetDirectories(dirs, newSelected);
+            await GetDirectories(dirs, newSelected).ConfigureAwait(false);
 
             foreach (DirectoryInfo dir in dirs)
             {
@@ -149,7 +149,7 @@ namespace MissionPlanner.Controls
                 listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
             } catch { }
         }
-
+        [Serializable]
         public class DirectoryInfo: FileSystemInfo
         {
             private readonly uavcan _can;
@@ -184,7 +184,7 @@ namespace MissionPlanner.Controls
                     {
                         cache = _can.FileGetDirectoryEntrys(_nodeid, FullPath);
                     }
-                });
+                }).ConfigureAwait(false);
                 return cache.Where(a => a.isDirectory && a.Name != "." && a.Name != "..")
                     .Select(a => new DirectoryInfo(a.FullName, _can, _nodeid)).ToArray();
             }
@@ -192,7 +192,7 @@ namespace MissionPlanner.Controls
             public async Task<IEnumerable<uavcan.UAVCANFileInfo>> GetFiles()
             {
                 if (cache == null)
-                    await GetDirectories();
+                    await GetDirectories().ConfigureAwait(false);
 
                 // rerequest every time
                 return cache.Where(a => !a.isDirectory);
@@ -205,7 +205,7 @@ namespace MissionPlanner.Controls
 
             foreach (var file in files)
             {
-                await UploadFile(file);
+                await UploadFile(file).ConfigureAwait(false);
             }
 
             TreeView1_NodeMouseClick(null,
@@ -290,7 +290,7 @@ namespace MissionPlanner.Controls
             {
                 foreach (var ofdFileName in ofd.FileNames)
                 {
-                    await UploadFile(ofdFileName);
+                    await UploadFile(ofdFileName).ConfigureAwait(false);
                 }
             }
 

@@ -36,18 +36,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             searchfor = textbox.Text;
 
-            filterTimer.Elapsed -= FilterTimerOnElapsed;
-            filterTimer.Stop();
-            filterTimer.Interval = 500;
-            filterTimer.Elapsed += FilterTimerOnElapsed;
-            filterTimer.Start();
+            _filterTimer.Elapsed -= FilterTimerOnElapsed;
+            _filterTimer.Stop();
+            _filterTimer.Interval = 500;
+            _filterTimer.Elapsed += FilterTimerOnElapsed;
+            _filterTimer.Start();
         }
 
-        private System.Timers.Timer filterTimer = new System.Timers.Timer();
+        private readonly System.Timers.Timer _filterTimer = new System.Timers.Timer();
 
         private void FilterTimerOnElapsed(object sender, ElapsedEventArgs elapsedEventArgs)
         {
-            filterTimer.Stop();
+            _filterTimer.Stop();
             Invoke((Action)delegate
             {
                 filterList(searchfor);

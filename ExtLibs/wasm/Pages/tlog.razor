@@ -52,15 +52,15 @@
 
     private void Log(string message) => Console.WriteLine($"{DateTime.UtcNow.ToString("O")} - {message}");
 
-    protected override void OnInitialized ()
+    protected override void OnInitialized()
     {
         Log("OnInitialized ");
-        base.OnInitialized ();
+        base.OnInitialized();
 
         instance = this;
 
         init = false;
-        
+
         Console.WriteLine("OnInit Done");
     }
 
@@ -96,7 +96,7 @@
 
     protected override void OnParametersSet()
     {
-    Log("OnParametersSet");
+        Log("OnParametersSet");
 
 
 
@@ -176,125 +176,125 @@
 
     private async Task ProcessTlogStream(Stream stream)
     {
-    mav = new MAVLinkInterface(stream);
+        mav = new MAVLinkInterface(stream);
 
     // just to prevent null exceptions
-    var cf = new CommsFile();
-    mav.BaseStream = cf;
+        var cf = new CommsFile();
+        mav.BaseStream = cf;
 
-    mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT, packetReceived);
-    mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.GPS_RAW_INT, packetReceived);
-    mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.HEARTBEAT, packetReceived);
-    mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.PARAM_VALUE, packetReceived);
+        mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT, packetReceived);
+        mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.GPS_RAW_INT, packetReceived);
+        mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.HEARTBEAT, packetReceived);
+        mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.PARAM_VALUE, packetReceived);
 
-    Console.WriteLine(mav.getHeartBeat());
-    long length = stream.Length;
-    while (stream.Position < length)
-    {
+        Console.WriteLine(await mav.getHeartBeatAsync());
+        long length = stream.Length;
+        while (stream.Position < length)
+        {
 
-    var packet = mav.readPacket();
+            var packet = await mav.readPacketAsync().ConfigureAwait(false);
 
-    percent = (int)((stream.Position / (double)length) * 100.0);
+            percent = (int) ((stream.Position / (double) length) * 100.0);
 
-    if (DateTime.Now > nextUpdate)
-    {
-    gpstime = packet.rxtime;
+            if (DateTime.Now > nextUpdate)
+            {
+                gpstime = packet.rxtime;
 
-    StateHasChanged();
-    int a = 0;
+                StateHasChanged();
+                int a = 0;
 
-    foreach (var mavd in mav.MAVlist)
-    {
-    mavd.cs.UpdateCurrentSettings(null, false, mav, mavd);
-    JSRuntime.InvokeAsync<object>
-        ("setPosition", new object[] {a, mavd.cs.lat, mavd.cs.lng, mavd.cs.altasl, mavd.cs.roll, mavd.cs.pitch, mavd.cs.yaw});
-        a++;
+                foreach (var mavd in mav.MAVlist)
+                {
+                    mavd.cs.UpdateCurrentSettings(null, false, mav, mavd);
+                    await JSRuntime.InvokeAsync<object>
+                        ("setPosition", new object[] {a, mavd.cs.lat, mavd.cs.lng, mavd.cs.altasl, mavd.cs.roll, mavd.cs.pitch, mavd.cs.yaw}).ConfigureAwait(false);
+                    a++;
+                }
+
+                try
+                {
+    //JSRuntime.Current.InvokeAsync<object>
+    //   ("test", new object[] {JsonConvert.SerializeObject(mav.MAV.cs)});
+                }
+                catch
+                {
+                }
+
+                nextUpdate = DateTime.Now.AddMilliseconds(100);
+
+                await Task.Delay(1).ConfigureAwait(false);
+            }
         }
 
-        try
-        {
-        //JSRuntime.Current.InvokeAsync<object>
-    //   ("test", new object[] {JsonConvert.SerializeObject(mav.MAV.cs)});
-    }
-    catch
-    {
-    }
-
-    nextUpdate = DateTime.Now.AddMilliseconds(100);
-
-    await Task.Delay(1);
-    }
-    }
-
-    Console.WriteLine("exit ProcessTlogStream");
+        Console.WriteLine("exit ProcessTlogStream");
     }
 
     private bool packetReceived(MAVLink.MAVLinkMessage packet)
     {
-    if (packet.data is MAVLink.mavlink_global_position_int_t)
-    {
-    var pos = (MAVLink.mavlink_global_position_int_t)packet.data;
+        if (packet.data is MAVLink.mavlink_global_position_int_t)
+        {
+            var pos = (MAVLink.mavlink_global_position_int_t) packet.data;
 
-    lat = pos.lat / 1e7;
-    lng = pos.lon / 1e7;
-    alt = pos.alt / 1e3;
-    hdg = pos.hdg / 1e2;
+            lat = pos.lat / 1e7;
+            lng = pos.lon / 1e7;
+            alt = pos.alt / 1e3;
+            hdg = pos.hdg / 1e2;
 
     //Console.WriteLine("Update mavlink_global_position_int_t ##############################");
-    }
-    else if (packet.data is MAVLink.mavlink_gps_raw_int_t)
-    {
-    var pos = (MAVLink.mavlink_gps_raw_int_t)packet.data;
+        }
+        else if (packet.data is MAVLink.mavlink_gps_raw_int_t)
+        {
+            var pos = (MAVLink.mavlink_gps_raw_int_t) packet.data;
 
-    lat = pos.lat / 1e7;
-    lng = pos.lon / 1e7;
-    alt = pos.alt / 1e3;
-    hdg = (ushort)(pos.cog / 1e2);
+            lat = pos.lat / 1e7;
+            lng = pos.lon / 1e7;
+            alt = pos.alt / 1e3;
+            hdg = (ushort) (pos.cog / 1e2);
 
     //StateHasChanged();
 
     //await Task.Delay(1);
 
     //Console.WriteLine("Update mavlink_gps_raw_int_t ##############################");
-    }
-    else if (packet.data is MAVLink.mavlink_heartbeat_t)
-    {
-    var hb = (MAVLink.mavlink_heartbeat_t)packet.data;
-
-    if (DateTime.Now > nextUpdate)
-    {
-    int a = 0;
-    foreach (var mavd in mav.MAVlist)
-    {
-    mavd.cs.UpdateCurrentSettings(null, false, mav, mavd);
-   // JSRuntime.Current.InvokeAsync<object>
-       //     ("setPosition", new object[] { a, mavd.cs.lat, mavd.cs.lng, mavd.cs.altasl, mavd.cs.roll, mavd.cs.pitch, mavd.cs.yaw });
-        a++;
         }
+        else if (packet.data is MAVLink.mavlink_heartbeat_t)
+        {
+            var hb = (MAVLink.mavlink_heartbeat_t) packet.data;
 
-        gpstime = DateTime.Now;
+            if (DateTime.Now > nextUpdate)
+            {
+                int a = 0;
+                foreach (var mavd in mav.MAVlist)
+                {
+                    mavd.cs.UpdateCurrentSettings(null, false, mav, mavd);
+    // JSRuntime.Current.InvokeAsync<object>
+    //     ("setPosition", new object[] { a, mavd.cs.lat, mavd.cs.lng, mavd.cs.altasl, mavd.cs.roll, mavd.cs.pitch, mavd.cs.yaw });
+                    a++;
+                }
 
-        StateHasChanged();
+                gpstime = DateTime.Now;
 
-        nextUpdate = DateTime.Now.AddMilliseconds(100);
-        }
+                StateHasChanged();
 
-        //mav.DebugPacket(packet, true);
+                nextUpdate = DateTime.Now.AddMilliseconds(100);
+            }
+
+    //mav.DebugPacket(packet, true);
         }
         else if (packet.data is MAVLink.mavlink_param_value_t)
         {
-        var param = (MAVLink.mavlink_param_value_t)packet.data;
+            var param = (MAVLink.mavlink_param_value_t) packet.data;
 
-        Console.WriteLine("{0} {1}", ASCIIEncoding.ASCII.GetString(param.param_id), param.param_value);
+            Console.WriteLine("{0} {1}", ASCIIEncoding.ASCII.GetString(param.param_id), param.param_value);
         }
 
         return true;
-        //mav.DebugPacket(packet, true);
-        }
+    //mav.DebugPacket(packet, true);
+    }
 
-        public void Dispose()
-        {
+    public void Dispose()
+    {
         mav?.Dispose();
-        }
+    }
 
-        }
+}

@@ -196,7 +196,14 @@ namespace MissionPlanner.MsgBox
 
         static void linklbl_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(((LinkLabel)sender).Tag.ToString());
+            try
+            {
+                System.Diagnostics.Process.Start(((LinkLabel)sender).Tag.ToString());
+            }
+            catch (Exception exception)
+            {
+                CustomMessageBox.Show("Failed to open link " + ((LinkLabel) sender).Tag.ToString());
+            }
         }
 
         // from http://stackoverflow.com/questions/2512781/winforms-big-paragraph-tooltip/2512895#2512895
