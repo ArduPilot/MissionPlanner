@@ -81,7 +81,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             foreach (DataGridViewColumn col in Params.Columns)
             {
-                Settings.Instance["rawparam_" + col.Name + "_widthpercent"] = ((col.Width / (double)Params.Width)*100.0).ToString("0");
+                Settings.Instance["rawparam_" + col.Name + "_widthpercent"] = ((col.Width / (double) Params.Width) * 100.0).ToString("0", CultureInfo.InvariantCulture);
             }
         }
 
@@ -167,7 +167,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (offline && !set)
                 {
                     set = true;
-                    MainV2.comPort.MAV.param.Add(new MAVLink.MAVLinkParam(name, double.Parse(value),
+                    MainV2.comPort.MAV.param.Add(new MAVLink.MAVLinkParam(name, double.Parse(value, CultureInfo.InvariantCulture),
                         MAVLink.MAV_PARAM_TYPE.REAL32));
                 }
 

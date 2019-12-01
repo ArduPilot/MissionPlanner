@@ -95,12 +95,12 @@ namespace Xamarin.GCSViews
 
             var accept = await DisplayAlert(Strings.AreYouSureYouWantToUpload,
                 Strings.AreYouSureYouWantToUpload + (sender as ImageCell)?.Text + Strings.QuestionMark, Strings.OK,
-                Strings.Cancel);
+                Strings.Cancel).ConfigureAwait(false);
             if (accept)
             {
                 var mavtype = ((APFirmware.MAV_TYPE)(sender as ImageCell).CommandParameter);
 
-                await LookForPort(mavtype);
+                await LookForPort(mavtype).ConfigureAwait(false);
             }
         }
         APFirmware.RELEASE_TYPES REL_Type = APFirmware.RELEASE_TYPES.OFFICIAL;
@@ -109,7 +109,7 @@ namespace Xamarin.GCSViews
         private long? detectedboardid;
         private async Task LookForPort(APFirmware.MAV_TYPE mavtype)
         {
-            var ports = await Test.TestMethod.GetDeviceInfoList();
+            var ports = await Test.TestMethod.GetDeviceInfoList().ConfigureAwait(false);
 
             foreach (var deviceInfo in ports)
             {
@@ -142,11 +142,11 @@ namespace Xamarin.GCSViews
                             Navigation.PopModalAsync();
                             baseurl = fws.FinalResult;
 
-                            await DownloadAndUpload(baseurl);
+                            await DownloadAndUpload(baseurl).ConfigureAwait(false);
 
                             return;
                         };
-                        await this.Navigation.PushModalAsync(fws);
+                        await this.Navigation.PushModalAsync(fws).ConfigureAwait(false);
                         Debug.WriteLine(fws.FinalResult);
                         baseurl = fws.FinalResult;
                         if (fws.FinalResult == null)
@@ -266,7 +266,7 @@ namespace Xamarin.GCSViews
 
             var uploadstarttime = DateTime.Now;
 
-            await UploadPX4(tempfile);
+            await UploadPX4(tempfile).ConfigureAwait(false);
             //fw.UploadFlash(deviceInfo.name, tempfile, BoardDetect.boards.pass);
 
             var uploadtime = (DateTime.Now - uploadstarttime).TotalMilliseconds;
@@ -308,7 +308,7 @@ namespace Xamarin.GCSViews
 
             SetLoading(true);
 
-            await AttemptRebootToBootloader();
+            await AttemptRebootToBootloader().ConfigureAwait(false);
 
             DateTime DEADLINE = DateTime.Now.AddSeconds(30);
 
@@ -317,13 +317,13 @@ namespace Xamarin.GCSViews
             while (DateTime.Now < DEADLINE)
             {
                 //string[] allports = SerialPort.GetPortNames();
-                var di = await Test.TestMethod.GetDeviceInfoList();
+                var di = await Test.TestMethod.GetDeviceInfoList().ConfigureAwait(false);
 
                 foreach (var port in di)
                 {
                     log.Info(DateTime.Now.Millisecond + " Trying Port " + port);
 
-                    var portUsb = await Test.TestMethod.GetUSB(port);
+                    var portUsb = await Test.TestMethod.GetUSB(port).ConfigureAwait(false);
 
                     if(portUsb == null)
                         continue;
@@ -422,13 +422,13 @@ namespace Xamarin.GCSViews
             List<Task<bool>> tasklist = new List<Task<bool>>();
 
             //string[] allports = SerialPort.GetPortNames();
-            var di = await Test.TestMethod.GetDeviceInfoList();
+            var di = await Test.TestMethod.GetDeviceInfoList().ConfigureAwait(false);
 
             foreach (var port in di)
             {
                 log.Info(DateTime.Now.Millisecond + " Trying Port " + port);
 
-                var portUsb = await Test.TestMethod.GetUSB(port);
+                var portUsb = await Test.TestMethod.GetUSB(port).ConfigureAwait(false);
 
                 if (portUsb == null)
                     continue;
@@ -480,7 +480,7 @@ namespace Xamarin.GCSViews
                     updateProgress(-1, "Look for HeartBeat");
 
                     MainV2.comPort.BaseStream =
-                        await Test.TestMethod.GetUSB((await Test.TestMethod.GetDeviceInfoList()).First());
+                        await Test.TestMethod.GetUSB((await Test.TestMethod.GetDeviceInfoList().ConfigureAwait(false)).First()).ConfigureAwait(false);
 
                     var task = Task.Run(() =>
                     {

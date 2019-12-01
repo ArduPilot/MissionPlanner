@@ -778,7 +778,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
         public MAVLinkMessage getHeartBeat()
         {
-            return Task.Run(async () => await getHeartBeatAsync()).Result;
+            return Task.Run(async () => await getHeartBeatAsync().ConfigureAwait(false)).Result;
         }
 
         public async Task<MAVLinkMessage> getHeartBeatAsync()
@@ -1161,7 +1161,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
         public bool setParam(byte sysid, byte compid, string paramname, double value, bool force = false)
         {
-            return Task.Run(async () => await setParamAsync(sysid, compid, paramname, value, force)).Result;
+            return Task.Run(async () => await setParamAsync(sysid, compid, paramname, value, force).ConfigureAwait(false)).Result;
         }
 
         /// <summary>
@@ -1324,7 +1324,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
         public MAVLinkParamList getParamList(byte sysid, byte compid)
         {
-            return Task.Run(async () => await getParamListAsync(sysid, compid)).Result;
+            return Task.Run(async () => await getParamListAsync(sysid, compid).ConfigureAwait(false)).Result;
         }
 
         /// <summary>
@@ -1335,7 +1335,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         {
             while (giveComport == true)
             {
-                await Task.Delay(100);
+                await Task.Delay(100).ConfigureAwait(false);
                 if (frmProgressReporter != null && frmProgressReporter.doWorkArgs.CancelRequested)
                 {
                     frmProgressReporter.doWorkArgs.CancelAcknowledged = true;
@@ -1916,7 +1916,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             float p4,
             float p5, float p6, float p7, bool requireack = true, Action uicallback = null)
         {
-            return Task.Run(async () => await doCommandAsync(sysid, compid, actionid, p1, p2, p3, p4, p5, p6, p7, requireack, uicallback)).Result;
+            return Task.Run(async () => await doCommandAsync(sysid, compid, actionid, p1, p2, p3, p4, p5, p6, p7, requireack, uicallback).ConfigureAwait(false)).Result;
         }
 
         public async Task<bool> doCommandAsync(byte sysid, byte compid, MAV_CMD actionid, float p1, float p2, float p3, float p4,
@@ -2349,12 +2349,12 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         [Obsolete]
         public ushort getWPCount(MAVLink.MAV_MISSION_TYPE type = MAV_MISSION_TYPE.MISSION)
         {
-            return Task.Run(async () => await getWPCountAsync(MAV.sysid, MAV.compid, type)).Result;
+            return Task.Run(async () => await getWPCountAsync(MAV.sysid, MAV.compid, type).ConfigureAwait(false)).Result;
         }
 
         public ushort getWPCount(byte sysid, byte compid, MAVLink.MAV_MISSION_TYPE type = MAV_MISSION_TYPE.MISSION)
         {
-            return Task.Run(async () => await getWPCountAsync(sysid, compid, type)).Result;
+            return Task.Run(async () => await getWPCountAsync(sysid, compid, type).ConfigureAwait(false)).Result;
         }
 
         /// <summary>
@@ -2469,7 +2469,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         public Locationwp getWP(byte sysid, byte compid, ushort index,
             MAVLink.MAV_MISSION_TYPE type = MAV_MISSION_TYPE.MISSION)
         {
-            return Task.Run(async () => await getWPAsync(sysid, compid, index, type)).Result;
+            return Task.Run(async () => await getWPAsync(sysid, compid, index, type).ConfigureAwait(false)).Result;
         }
 
         /// <summary>
@@ -2951,7 +2951,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             byte current = 0,
             byte autocontinue = 1, bool use_int = false, MAV_MISSION_TYPE mission_type = MAV_MISSION_TYPE.MISSION)
         {
-            return Task.Run(async () => await setWPAsync(sysid, compid, loc, index, frame, current, autocontinue, use_int, mission_type)).Result;
+            return Task.Run(async () => await setWPAsync(sysid, compid, loc, index, frame, current, autocontinue, use_int, mission_type).ConfigureAwait(false)).Result;
         }
 
         /// <summary>
@@ -2998,7 +2998,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                 req.seq = index;
 
-                return await setWPAsync(req);
+                return await setWPAsync(req).ConfigureAwait(false);
             }
             else
             {
@@ -3026,7 +3026,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                 req.seq = index;
 
-                return await setWPAsync(req);
+                return await setWPAsync(req).ConfigureAwait(false);
             }
         }
 
@@ -3305,7 +3305,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         }
        public int getRequestedWPNo(byte sysid, byte compid)
        {
-           return Task.Run(async () => await getRequestedWPNoAsync(sysid, compid)).Result;
+           return Task.Run(async () => await getRequestedWPNoAsync(sysid, compid).ConfigureAwait(false)).Result;
        }
 
         public async Task<int> getRequestedWPNoAsync(byte sysid, byte compid)
@@ -3608,7 +3608,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
         public MAVLinkMessage readPacket()
         {
-            return Task.Run(async () => await readPacketAsync()).Result;
+            return Task.Run(async () => await readPacketAsync().ConfigureAwait(false)).Result;
         }
 
         /// <summary>
@@ -3628,7 +3628,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             if (debug)
                 Console.WriteLine(DateTime.Now.Millisecond + " SR0 " + BaseStream?.BytesToRead);
 
-            await readlock.WaitAsync();
+            await readlock.WaitAsync().ConfigureAwait(false);
             try
             {
                 if (debug)
@@ -3673,7 +3673,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                                     throw new TimeoutException("Timeout");
                                 }
 
-                                await Task.Delay(1);
+                                await Task.Delay(1).ConfigureAwait(false);
                                 if (debug)
                                     Console.WriteLine(DateTime.Now.Millisecond + " SR0b " + BaseStream?.BytesToRead);
                             }
@@ -3753,7 +3753,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                                     throw new TimeoutException("Timeout");
                                 }
 
-                                await Task.Delay(1);
+                                await Task.Delay(1).ConfigureAwait(false);
                             }
 
                             int read = BaseStream.Read(buffer, 1, headerlength);
@@ -3798,7 +3798,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                                             break;
                                         }
 
-                                        await Task.Delay(1);
+                                        await Task.Delay(1).ConfigureAwait(false);
                                     }
 
                                     if (BaseStream.IsOpen)

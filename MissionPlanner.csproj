@@ -4589,7 +4589,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Update="**/*.Designer.cs">
-      <DependentUpon Condition="Exists($([System.String]::Copy('%(Filename)').ToLower().Replace('.designer','.cs')))">ConfigSerialInjectGPS.cs</DependentUpon>
+      <DependentUpon Condition="Exists($([System.String]::Copy('%(Filename)').ToLower().Replace('.designer','.cs')))">$([System.Text.RegularExpressions.Regex]::Replace('%(FileName)', '\.[a-zA-Z\-]+', '')).cs</DependentUpon>
     </Compile>
     <EmbeddedResource Update="**/*.99resx">
       <DependentUpon Condition="Exists($([System.Text.RegularExpressions.Regex]::Replace('%(FileName)', '\.[a-zA-Z\-]+', '.cs')))">$([System.Text.RegularExpressions.Regex]::Replace('%(FileName)', '\.[a-zA-Z\-]+', '')).cs</DependentUpon>
