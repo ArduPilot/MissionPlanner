@@ -196,10 +196,10 @@ namespace MissionPlanner.GCSViews
             depurl = new Uri(sitlurl, "cygwin1.dll");
             var t4 = Download.getFilefromNetAsync(depurl.ToString(), sitldirectory + depurl.Segments[depurl.Segments.Length - 1]);
 
-            await t1;
-            await t2;
-            await t3;
-            await t4;
+            await t1.ConfigureAwait(false);
+            await t2.ConfigureAwait(false);
+            await t3.ConfigureAwait(false);
+            await t4.ConfigureAwait(false);
 
             load.Close();
 
@@ -209,8 +209,8 @@ namespace MissionPlanner.GCSViews
         private async Task<string> GetDefaultConfig(string model)
         {
             if (await Download.getFilefromNetAsync(
-                "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/sim_vehicle.py",
-                sitldirectory + "sim_vehicle.py") || File.Exists(sitldirectory + "sim_vehicle.py"))
+                    "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/sim_vehicle.py",
+                    sitldirectory + "sim_vehicle.py").ConfigureAwait(false) || File.Exists(sitldirectory + "sim_vehicle.py"))
             {
                 var matches = default_params_regex.Matches(File.ReadAllText(sitldirectory + "sim_vehicle.py"));
 
@@ -219,17 +219,17 @@ namespace MissionPlanner.GCSViews
                     if (match.Groups[1].Value.ToLower().Equals(model))
                     {
                         if (await Download.getFilefromNetAsync(
-                            "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/" +
-                            match.Groups[2].Value.ToString(),
-                            sitldirectory + match.Groups[2].Value.ToString()) || File.Exists(sitldirectory + match.Groups[2].Value.ToString()))
+                                "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/" +
+                                match.Groups[2].Value.ToString(),
+                                sitldirectory + match.Groups[2].Value.ToString()).ConfigureAwait(false) || File.Exists(sitldirectory + match.Groups[2].Value.ToString()))
                             return sitldirectory + match.Groups[2].Value.ToString();
                     }
                 }
             }
 
             if (await Download.getFilefromNetAsync(
-                "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/pysim/vehicleinfo.py",
-                sitldirectory + "vehicleinfo.py") || File.Exists(sitldirectory + "vehicleinfo.py"))
+                    "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/pysim/vehicleinfo.py",
+                    sitldirectory + "vehicleinfo.py").ConfigureAwait(false) || File.Exists(sitldirectory + "vehicleinfo.py"))
             {
                 cleanupJson(sitldirectory + "vehicleinfo.py");
 
@@ -259,9 +259,9 @@ namespace MissionPlanner.GCSViews
                         if (configs is JValue)
                         {
                             if (await Download.getFilefromNetAsync(
-                                "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/" +
-                                configs.ToString(),
-                                sitldirectory + configs.ToString()) || File.Exists(sitldirectory + configs.ToString()))
+                                    "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/" +
+                                    configs.ToString(),
+                                    sitldirectory + configs.ToString()).ConfigureAwait(false) || File.Exists(sitldirectory + configs.ToString()))
                             {
                                 return sitldirectory + configs.ToString();
                             }
@@ -272,9 +272,9 @@ namespace MissionPlanner.GCSViews
                         foreach (var config1 in configs)
                         {
                             if (await Download.getFilefromNetAsync(
-                                "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/" +
-                                config1.ToString(),
-                                sitldirectory + config1.ToString()) || File.Exists(sitldirectory + config1.ToString()))
+                                    "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/" +
+                                    config1.ToString(),
+                                    sitldirectory + config1.ToString()).ConfigureAwait(false) || File.Exists(sitldirectory + config1.ToString()))
                             {
                                 data += "\r\n" + File.ReadAllText(sitldirectory + config1.ToString());
                             }

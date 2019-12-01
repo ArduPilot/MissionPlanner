@@ -12,7 +12,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigTradHeli : MyUserControl, IActivate, IDeactivate
     {
-        private readonly Timer timer = new Timer();
+        private readonly Timer _timer = new Timer();
         private bool inpwmdetect;
         private bool startup;
 
@@ -29,11 +29,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             }
 
-            timer.Tick += timer_Tick;
+            _timer.Tick += timer_Tick;
 
-            timer.Enabled = true;
-            timer.Interval = 100;
-            timer.Start();
+            _timer.Enabled = true;
+            _timer.Interval = 100;
+            _timer.Start();
 
             // setup graph
             GraphPane myPane = zedGraphControl1.GraphPane;
@@ -255,7 +255,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public void Deactivate()
         {
-            timer.Stop();
+            _timer.Stop();
 
             startup = true;
         }

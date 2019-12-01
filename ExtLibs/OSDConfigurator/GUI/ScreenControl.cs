@@ -63,7 +63,7 @@ namespace OSDConfigurator.GUI
 
             btnCopy.Click += (s, e) => { if (screen.Items.Any()) ScreenToCopy = screen; };
 
-            btnPaste.Click += (s, e) => { if (screen.Items.Any()) ScreenToCopy.CopyTo(screen); };                                        
+            btnPaste.Click += (s, e) => { if (screen.Items.Any() && ScreenToCopy != null) ScreenToCopy.CopyTo(screen); };                                        
 
             SetViewSize();
         }

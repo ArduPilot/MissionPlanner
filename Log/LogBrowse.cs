@@ -1243,7 +1243,7 @@ namespace MissionPlanner.Log
                 }
 
                 log.Info("End DrawErrors");
-            });
+            }).ConfigureAwait(false);
         }
 
         async Task DrawEV()
@@ -1323,7 +1323,7 @@ namespace MissionPlanner.Log
                 }
 
                 log.Info("End DrawEV");
-            });
+            }).ConfigureAwait(false);
         }
 
 
@@ -1444,7 +1444,7 @@ namespace MissionPlanner.Log
                     });
                 }
                 log.Info("End DrawModes");
-            });
+            }).ConfigureAwait(false);
         }
 
         async Task DrawMSG()
@@ -1515,7 +1515,7 @@ namespace MissionPlanner.Log
                 }
 
                 log.Info("End DrawMSG");
-            });
+            }).ConfigureAwait(false);
         }
 
         async Task DrawTime()
@@ -1608,7 +1608,7 @@ namespace MissionPlanner.Log
                 }
 
                 log.Info("End DrawTime");
-            });
+            }).ConfigureAwait(false);
         }
 
         class LogRouteInfo
@@ -1933,7 +1933,7 @@ namespace MissionPlanner.Log
                 }
 
                 log.Info("End DrawMap");
-            });
+            }).ConfigureAwait(false);
         }
 
         PointLatLngAlt getPointLatLng(DFLog.DFItem item)
@@ -2312,17 +2312,17 @@ namespace MissionPlanner.Log
                 }
 
                 if (a != null)
-                    await a;
+                    await a.ConfigureAwait(false);
                 if (b != null)
-                    await b;
+                    await b.ConfigureAwait(false);
                 if (c != null)
-                    await c;
+                    await c.ConfigureAwait(false);
                 if (d != null)
-                    await d;
+                    await d.ConfigureAwait(false);
                 if (e != null)
-                    await e;
+                    await e.ConfigureAwait(false);
                 if (f != null)
-                    await f;
+                    await f.ConfigureAwait(false);
 
                 sender.Invalidate();
             }

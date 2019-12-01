@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using MissionPlanner.ArduPilot;
 
 namespace MissionPlanner.Utilities
@@ -46,8 +47,8 @@ namespace MissionPlanner.Utilities
 
         public void DownloadFence(MAVLinkInterface port, Action<int, string> progress = null)
         {
-            var list = mav_mission
-                .download(port, port.MAV.sysid, port.MAV.compid, MAVLink.MAV_MISSION_TYPE.FENCE, progress).Result;
+            var list = Task.Run(async () => await mav_mission
+                .download(port, port.MAV.sysid, port.MAV.compid, MAVLink.MAV_MISSION_TYPE.FENCE, progress).ConfigureAwait(false)).Result;
 
             LocationToFence(list);
         }

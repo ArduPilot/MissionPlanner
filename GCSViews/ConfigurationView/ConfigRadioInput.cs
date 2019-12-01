@@ -14,7 +14,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private readonly float[] rcmax = new float[16];
         private readonly float[] rcmin = new float[16];
         private readonly float[] rctrim = new float[16];
-        private readonly Timer timer = new Timer();
+        private readonly Timer _timer = new Timer();
         private int chpitch = -1;
         private int chroll = -1;
         private int chthro = -1;
@@ -36,14 +36,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
 
             // setup rc update
-            timer.Tick += timer_Tick;
+            _timer.Tick += timer_Tick;
         }
 
         public void Activate()
         {
-            timer.Enabled = true;
-            timer.Interval = 100;
-            timer.Start();
+            _timer.Enabled = true;
+            _timer.Interval = 100;
+            _timer.Start();
 
             if (!MainV2.comPort.MAV.param.ContainsKey("RCMAP_ROLL"))
             {
@@ -150,7 +150,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public void Deactivate()
         {
-            timer.Stop();
+            _timer.Stop();
         }
 
         private void timer_Tick(object sender, EventArgs e)

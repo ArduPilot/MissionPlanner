@@ -17,7 +17,7 @@ namespace MissionPlanner.Controls
 {
     public partial class DigitalSkyUI : UserControl, IActivate
     {
-        GMapOverlay markeroverlay;
+        GMapOverlay _markeroverlay;
         private DigitalSky digitalSky;
 
         public DigitalSkyUI()
@@ -165,8 +165,8 @@ namespace MissionPlanner.Controls
             myGMAP1.Position = new PointLatLng(17.8758086, 77.7369485);
             myGMAP1.FillEmptyTiles = true;
 
-            markeroverlay = new GMapOverlay("markers");
-            myGMAP1.Overlays.Add(markeroverlay);
+            _markeroverlay = new GMapOverlay("markers");
+            myGMAP1.Overlays.Add(_markeroverlay);
 
             myGMAP1.Invalidate();
 
@@ -187,9 +187,9 @@ namespace MissionPlanner.Controls
                 {
                     Settings.Instance["DigitalSky_Password"] = new Crypto().EncryptString(pw);
 
-                    if (await digitalSky.Login(un, pw))
+                    if (await digitalSky.Login(un, pw).ConfigureAwait(false))
                     {
-                        var dronelist = (await digitalSky.GetDrones());
+                        var dronelist = (await digitalSky.GetDrones().ConfigureAwait(false));
 
                         var displaylist = dronelist.Select(a => new KeyValuePair<int, string>(
                             a.Value["id"].Value<int>(),
@@ -211,8 +211,8 @@ namespace MissionPlanner.Controls
 
         private async void Cmb_drones_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var applist = (await digitalSky
-                .ListFlyPermission((int) cmb_drones.SelectedValue));
+            var applist = await digitalSky
+                .ListFlyPermission((int) cmb_drones.SelectedValue).ConfigureAwait(false);
 
             var displaylist =
                 applist.Where(a=>a.Value["status"].Value<string>().Contains("APPROVED")).Select(a => new KeyValuePair<string, JToken>(a.Key, a.Value));
@@ -231,14 +231,14 @@ namespace MissionPlanner.Controls
 
             lbl_approvedstatus.Text = perm["status"].Value<string>();
 
-            markeroverlay.Markers.Clear();
-            markeroverlay.Polygons.Clear();
+            _markeroverlay.Markers.Clear();
+            _markeroverlay.Polygons.Clear();
 
-            markeroverlay.Polygons.Add(new GMapPolygon(flyArea.ToList().Select(a=>(PointLatLng)a).ToList(), ""));
+            _markeroverlay.Polygons.Add(new GMapPolygon(flyArea.ToList().Select(a=>(PointLatLng)a).ToList(), ""));
 
             foreach (var pointLatLngAlt in flyArea)
             {
-                markeroverlay.Markers.Add(new GMapMarkerWP(pointLatLngAlt, ""));
+                _markeroverlay.Markers.Add(new GMapMarkerWP(pointLatLngAlt, ""));
             }
 
             var rect = myGMAP1.GetRectOfAllMarkers(null);
@@ -256,7 +256,7 @@ namespace MissionPlanner.Controls
 
             var id = perm["id"].Value<string>();
 
-            var xmlfile = await digitalSky.GetPermissionArtifact(id);
+            var xmlfile = await digitalSky.GetPermissionArtifact(id).ConfigureAwait(false);
 
             var artifactdir = Settings.GetDataDirectory() + Path.DirectorySeparatorChar + "DigitalSkyArtifact";
 
@@ -285,7 +285,7 @@ namespace MissionPlanner.Controls
                 var perm = (JToken)cmb_applications.SelectedValue;
                 var id = perm["id"].Value<string>();
 
-                var ans = await digitalSky.UploadFlightLog(id, ofd.FileName);
+                var ans = await digitalSky.UploadFlightLog(id, ofd.FileName).ConfigureAwait(false);
 
                 CustomMessageBox.Show(ans.ToString());
             }

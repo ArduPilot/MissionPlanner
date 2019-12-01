@@ -8,6 +8,7 @@ using System.Linq;
 using log4net;
 using MissionPlanner.Utilities;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace MissionPlanner.Log
 {
@@ -192,7 +193,7 @@ namespace MissionPlanner.Log
             }
         }
 
-        string GetLog(ushort no, string fileName)
+        async Task<string> GetLog(ushort no, string fileName)
         {
             log.Info("GetLog " + no);
 
@@ -201,7 +202,7 @@ namespace MissionPlanner.Log
             status = SerialStatus.Reading;
 
             // get df log from mav
-            using (var ms = MainV2.comPort.GetLog(no))
+            using (var ms = await MainV2.comPort.GetLog(no).ConfigureAwait(false))
             {
                 if (ms != null)
                     log.Info("Got Log length: " + ms.Length);
@@ -329,7 +330,7 @@ namespace MissionPlanner.Log
             status = SerialStatus.Done;
         }
 
-        private void DownloadThread(int[] selectedLogs)
+        private async void DownloadThread(int[] selectedLogs)
         {
             try
             {
@@ -352,7 +353,7 @@ namespace MissionPlanner.Log
 
                     AppendSerialLog(string.Format(LogStrings.FetchingLog, fileName));
 
-                    var logname = GetLog(entry.id, fileName);
+                    var logname = await GetLog(entry.id, fileName).ConfigureAwait(false);
 
                     CreateLog(logname);
 

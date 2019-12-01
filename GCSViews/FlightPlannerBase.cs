@@ -38,6 +38,7 @@ using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using Feature = SharpKml.Dom.Feature;
@@ -974,14 +975,19 @@ namespace MissionPlanner.GCSViews
             return result;
         }
 
-        public void GeoFencedownloadToolStripMenuItem_Click(object sender, EventArgs e)
+        public async void GeoFencedownloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             polygongridmode = false;
             int count = 1;
 
             if ((MainV2.comPort.MAV.cs.capabilities & (uint)MAVLink.MAV_PROTOCOL_CAPABILITY.MISSION_FENCE) >= 0)
             {
-                mav_mission.download(MainV2.comPort, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, MAVLink.MAV_MISSION_TYPE.FENCE);
+                if (!MainV2.comPort.BaseStream.IsOpen)
+                {
+                    CustomMessageBox.Show(Strings.PleaseConnect);
+                    return;
+                }
+                await mav_mission.download(MainV2.comPort, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, MAVLink.MAV_MISSION_TYPE.FENCE).ConfigureAwait(false);
                 return;
             }
 
@@ -1005,8 +1011,8 @@ namespace MissionPlanner.GCSViews
             {
                 try
                 {
-                    PointLatLngAlt plla = MainV2.comPort.getFencePoint(a, ref count);
-                    geofencepolygon.Points.Add(new PointLatLng(plla.Lat, plla.Lng));
+                    var plla = await MainV2.comPort.getFencePoint(a).ConfigureAwait(false);
+                    geofencepolygon.Points.Add(new PointLatLng(plla.plla.Lat, plla.plla.Lng));
                 }
                 catch
                 {
@@ -1048,11 +1054,16 @@ namespace MissionPlanner.GCSViews
             _flightPlanner.MainMap.Invalidate();
         }
 
-        public void getRallyPointsToolStripMenuItem_Click(object sender, EventArgs e)
+        public async void getRallyPointsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if ((MainV2.comPort.MAV.cs.capabilities & (uint)MAVLink.MAV_PROTOCOL_CAPABILITY.MISSION_RALLY) >= 0)
             {
-                mav_mission.download(MainV2.comPort, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, MAVLink.MAV_MISSION_TYPE.RALLY);
+                if (!MainV2.comPort.BaseStream.IsOpen)
+                {
+                    CustomMessageBox.Show(Strings.PleaseConnect);
+                    return;
+                }
+                await mav_mission.download(MainV2.comPort, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, MAVLink.MAV_MISSION_TYPE.RALLY).ConfigureAwait(false);
                 return;
             }
 
@@ -1076,12 +1087,13 @@ namespace MissionPlanner.GCSViews
             {
                 try
                 {
-                    PointLatLngAlt plla = MainV2.comPort.getRallyPoint(a, ref count);
-                    rallypointoverlay.Markers.Add(new GMapMarkerRallyPt(new PointLatLng(plla.Lat, plla.Lng))
+                    var plla = await MainV2.comPort.getRallyPoint(a).ConfigureAwait(false);
+                    count = plla.total;
+                    rallypointoverlay.Markers.Add(new GMapMarkerRallyPt(new PointLatLng(plla.plla.Lat, plla.plla.Lng))
                     {
-                        Alt = (int)plla.Alt,
+                        Alt = (int)plla.plla.Alt,
                         ToolTipMode = MarkerTooltipMode.OnMouseOver,
-                        ToolTipText = "Rally Point" + "\nAlt: " + (plla.Alt * CurrentState.multiplieralt)
+                        ToolTipText = "Rally Point" + "\nAlt: " + (plla.plla.Alt * CurrentState.multiplieralt)
                     });
                 }
                 catch
@@ -3718,7 +3730,8 @@ namespace MissionPlanner.GCSViews
                 return (MAVLink.MAV_MISSION_TYPE) _flightPlanner.cmb_missiontype.SelectedValue;
             });
 
-            List<Locationwp> cmds = mav_mission.download(MainV2.comPort, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid,
+            List<Locationwp> cmds = Task.Run(async () => await mav_mission.download(MainV2.comPort, MainV2.comPort.MAV.sysid,
+                MainV2.comPort.MAV.compid,
                 type,
                 (percent, status) =>
                 {
@@ -3728,8 +3741,9 @@ namespace MissionPlanner.GCSViews
                         sender.doWorkArgs.ErrorMessage = "User Canceled";
                         throw new Exception("User Canceled");
                     }
+
                     sender.UpdateProgressAndStatus(percent, status);
-                }).Result;
+                }).ConfigureAwait(false)).Result;
 
             WPtoScreen(cmds);
         }

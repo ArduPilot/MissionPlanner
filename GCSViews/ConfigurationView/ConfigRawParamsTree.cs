@@ -726,20 +726,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             public string Value;
         }
 
-        private System.Timers.Timer filterTimer = new System.Timers.Timer();
+        private readonly System.Timers.Timer _filterTimer = new System.Timers.Timer();
 
         private void txt_search_TextChanged(object sender, EventArgs e)
         {
-            filterTimer.Elapsed -= FilterTimerOnElapsed;
-            filterTimer.Stop();
-            filterTimer.Interval = 500;
-            filterTimer.Elapsed += FilterTimerOnElapsed;
-            filterTimer.Start();
+            _filterTimer.Elapsed -= FilterTimerOnElapsed;
+            _filterTimer.Stop();
+            _filterTimer.Interval = 500;
+            _filterTimer.Elapsed += FilterTimerOnElapsed;
+            _filterTimer.Start();
         }
 
         private void FilterTimerOnElapsed(object sender, ElapsedEventArgs elapsedEventArgs)
         {
-            filterTimer.Stop();
+            _filterTimer.Stop();
             Invoke((Action)delegate
             {
                 filterList(txt_search.Text);

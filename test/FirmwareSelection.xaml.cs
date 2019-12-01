@@ -189,6 +189,11 @@ namespace MissionPlanner.test
 
         private void Button_OnClicked(object sender, EventArgs e)
         {
+            if (Result.SelectedItem == null)
+            {
+                return;
+            }
+
             FinalResult = Result.SelectedItem.ToString();
 
             CloseAction?.Invoke();

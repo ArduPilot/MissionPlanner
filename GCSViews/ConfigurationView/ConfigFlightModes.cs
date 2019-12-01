@@ -21,7 +21,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             Simple6 = 32
         }
 
-        private readonly Timer timer = new Timer();
+        private readonly Timer _timer = new Timer();
 
         public ConfigFlightModes()
         {
@@ -224,16 +224,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
             }
 
-            timer.Tick += timer_Tick;
+            _timer.Tick += timer_Tick;
 
-            timer.Enabled = true;
-            timer.Interval = 100;
-            timer.Start();
+            _timer.Enabled = true;
+            _timer.Interval = 100;
+            _timer.Start();
         }
 
         public void Deactivate()
         {
-            timer.Stop();
+            _timer.Stop();
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)

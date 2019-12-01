@@ -385,7 +385,7 @@
 
     bool running = false;
 
-    public void ProcessPacketsint()
+    public async void ProcessPacketsint()
     {
         if (running)
             return;
@@ -417,7 +417,7 @@
                 DateTime end = DateTime.Now.AddMilliseconds(10);
                 while (DateTime.Now < end && mav.BaseStream.BytesToRead > 15 && !mav.giveComport)
                 {
-                    mav.readPacket();
+                    await mav.readPacketAsync().ConfigureAwait(false);
                 }
 
                 if (mav.BaseStream.BytesToRead > 20000)

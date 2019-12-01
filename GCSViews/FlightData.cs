@@ -1373,7 +1373,7 @@ namespace MissionPlanner.GCSViews
                         FlightPlannerBase.instance.BUT_read_Click(this, null);
 
                         // set index back to 1
-                        MainV2.comPort.setWPCurrent(1);
+                        MainV2.comPort.setWPCurrent(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, 1);
 
                         if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
                         {
@@ -1476,7 +1476,7 @@ namespace MissionPlanner.GCSViews
             try
             {
                 ((Control)sender).Enabled = false;
-                MainV2.comPort.setWPCurrent((ushort)CMB_setwp.SelectedIndex); // set nav to
+                MainV2.comPort.setWPCurrent(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, (ushort)CMB_setwp.SelectedIndex); // set nav to
             }
             catch
             {
@@ -1563,7 +1563,7 @@ namespace MissionPlanner.GCSViews
             {
                 ((Control)sender).Enabled = false;
 
-                MainV2.comPort.setWPCurrent(0); // set nav to
+                MainV2.comPort.setWPCurrent(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, 0); // set nav to
             }
             catch
             {
