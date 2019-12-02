@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -20,6 +21,7 @@ namespace MissionPlanner.Comms
         public IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
 
         private int retrys = 3;
+        private IPEndPoint hostEndPoint;
 
         public string ConfigRef { get; set; } = "";
 
@@ -68,6 +70,9 @@ namespace MissionPlanner.Comms
             {
                 try
                 {
+                    if (hostEndPoint != null)
+                        return true;
+
                     return client.Client.Connected;
                 }
                 catch
@@ -110,9 +115,27 @@ namespace MissionPlanner.Comms
             OnSettings("UDP_port" + ConfigRef, Port, true);
             OnSettings("UDP_host" + ConfigRef, host, true);
 
-            client = new UdpClient(host, int.Parse(Port));
+            IPAddress addr;
 
-            client.Connect(host, int.Parse(Port));
+            if (IPAddress.TryParse(host, out addr))
+            {
+                hostEndPoint = new IPEndPoint(addr, int.Parse(Port));
+            }
+            else
+            {
+                hostEndPoint = new IPEndPoint(Dns.GetHostEntry(host).AddressList.First(), int.Parse(Port));
+            }
+
+            if (host.StartsWith("239.") || host.StartsWith("224.0.0."))
+            {
+                client = new UdpClient(int.Parse(Port));
+                client.JoinMulticastGroup(IPAddress.Parse(host));
+            }
+            else
+            {
+                client = new UdpClient();
+                client.Connect(hostEndPoint);
+            }
 
             VerifyConnected();
         }
@@ -207,7 +230,7 @@ namespace MissionPlanner.Comms
             VerifyConnected();
             try
             {
-                client.Client.Send(write, length, SocketFlags.None);
+                client.Client.SendTo(write, length, SocketFlags.None, hostEndPoint);
             }
             catch
             {
@@ -260,6 +283,15 @@ namespace MissionPlanner.Comms
 
         public void Close()
         {
+            try
+            {
+                if (hostEndPoint != null)
+                    client.DropMulticastGroup(hostEndPoint.Address);
+            }
+            catch
+            {
+            }
+
             try
             {
                 if (client.Client != null && client.Client.Connected)
