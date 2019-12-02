@@ -70,7 +70,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
             // General Compass Settings
-            CHK_enablecompass.setup(1, 0, new[] {"MAG_ENABLE", "COMPASS_ENABLE"}, MainV2.comPort.MAV.param);
 
             CHK_compass_learn.setup(1, 0, "COMPASS_LEARN", MainV2.comPort.MAV.param);
             if (MainV2.comPort.MAV.param["COMPASS_DEC"] != null)
@@ -235,7 +234,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (!MainV2.DisplayConfiguration.displayCompassConfiguration)
             {
-                CHK_enablecompass.Enabled = false;
                 CHK_compass_learn.Enabled = false;
                 CHK_autodec.Enabled = false;
                 CMB_primary_compass.Enabled = false;
