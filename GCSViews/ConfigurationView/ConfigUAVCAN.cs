@@ -106,7 +106,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 };
 
                 if (!port.IsOpen)
-                    port.Open();
+                {
+                    try
+                    {
+                        port.Open();
+                    }
+                    catch (Exception e)
+                    {
+                        CustomMessageBox.Show(Strings.CheckPortSettingsOr);
+                        return;
+                    }
+                }
 
                 if(chk_log.Checked)
                     can.LogFile = Settings.Instance.LogDir + Path.DirectorySeparatorChar +
