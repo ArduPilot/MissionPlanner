@@ -5474,7 +5474,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                         }
 
                         sender.UpdateProgressAndStatus((int)(percent * 0.95), status);
-                    }).RunSynchronously();
+                    }).ConfigureAwait(false).GetAwaiter().GetResult();
 
                 ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(95, "Setting params");
 
@@ -5687,8 +5687,8 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                 req.seq = (ushort)a;
 
-                ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(a * 100 / _flightPlanner.Commands.Rows.Count,
-                    "Setting WP " + a);
+                if(_flightPlanner.Commands.Rows.Count > 0)
+                    ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(a * 100 / _flightPlanner.Commands.Rows.Count, "Setting WP " + a);
                 Console.WriteLine("WP no " + a);
 
                 MainV2.comPort.sendPacket(req, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid);

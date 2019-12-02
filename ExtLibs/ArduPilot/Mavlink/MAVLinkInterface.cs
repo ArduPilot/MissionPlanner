@@ -2769,7 +2769,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         public void setWPPartialUpdate(ushort startwp, ushort endwp,
             MAV_MISSION_TYPE type = MAV_MISSION_TYPE.MISSION)
         {
-            setWPPartialUpdateAsync(MAV.sysid, MAV.compid, startwp, endwp, type).RunSynchronously();
+            setWPPartialUpdateAsync(MAV.sysid, MAV.compid, startwp, endwp, type).ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -2793,7 +2793,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         [Obsolete]
         public void setWPTotal(ushort wp_total, MAVLink.MAV_MISSION_TYPE type = MAV_MISSION_TYPE.MISSION)
         {
-            setWPTotalAsync(MAV.sysid, MAV.compid, wp_total, type).RunSynchronously();
+            setWPTotalAsync(MAV.sysid, MAV.compid, wp_total, type).ConfigureAwait(false).GetAwaiter().GetResult();
             return;
         }
 

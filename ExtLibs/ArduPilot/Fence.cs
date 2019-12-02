@@ -123,7 +123,7 @@ namespace MissionPlanner.Utilities
         {
             var fence = FenceToLocation();
 
-            mav_mission.upload(port, port.MAV.sysid, port.MAV.compid, MAVLink.MAV_MISSION_TYPE.FENCE, fence, progress).RunSynchronously();
+            mav_mission.upload(port, port.MAV.sysid, port.MAV.compid, MAVLink.MAV_MISSION_TYPE.FENCE, fence, progress).ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
         public List<Locationwp> FenceToLocation()
