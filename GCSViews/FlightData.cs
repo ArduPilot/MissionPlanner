@@ -435,11 +435,6 @@ namespace MissionPlanner.GCSViews
             }
         }
 
-        public void CaptureMJPEG_OnNewImage(object sender, EventArgs e)
-        {
-            myhud.bgimage = (Image)sender;
-        }
-
         public void CheckBatteryShow()
         {
             // ensure battery display is on - also set in hud if current is updated
@@ -3800,8 +3795,6 @@ if (a is CheckBox && ((CheckBox)a).Checked)
                 CaptureMJPEG.Stop();
 
                 CaptureMJPEG.URL = url;
-
-                CaptureMJPEG.OnNewImage += CaptureMJPEG_OnNewImage;
 
                 CaptureMJPEG.runAsync();
             }
