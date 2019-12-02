@@ -428,11 +428,19 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void Lbl_bootloaderupdate_Click(object sender, EventArgs e)
         {
+            // connect to mavlink
+            var mav = new MAVLinkInterface();
+            MainV2.instance.doConnect(mav, MainV2._connectionControl.CMB_serialport.Text,
+                MainV2._connectionControl.CMB_baudrate.Text, false);
+
+            if (!mav.BaseStream.IsOpen)
+                return;
+
             if (CustomMessageBox.Show("Are you sure you want to upgrade the bootloader? This can brick your board",
                     "BL Update", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == (int)DialogResult.Yes)
                 if (CustomMessageBox.Show("Are you sure you want to upgrade the bootloader? This can brick your board, Please allow 5 mins for this process",
                         "BL Update", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == (int)DialogResult.Yes)
-                    if (MainV2.comPort.doCommand(MAVLink.MAV_CMD.FLASH_BOOTLOADER, 0, 0, 0, 0, 290876, 0, 0))
+                    if (mav.doCommand(MAVLink.MAV_CMD.FLASH_BOOTLOADER, 0, 0, 0, 0, 290876, 0, 0))
                     {
                         CustomMessageBox.Show("Upgraded bootloader");
                     }
