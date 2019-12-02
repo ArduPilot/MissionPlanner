@@ -1072,23 +1072,26 @@ gnssId GNSS Type
             filename = Settings.GetRunningDirectory() +
                        "block_plane_0.dae";
 
-            // entry 2
-            entryName = ZipEntry.CleanName(Path.GetFileName(filename));
-            // Removes drive from name and fixes slash direction
-            newEntry = new ZipEntry(entryName);
-            newEntry.DateTime = DateTime.Now;
-
-            zipStream.PutNextEntry(newEntry);
-
-            // Zip the file in buffered chunks
-            // the "using" will close the stream even if an exception occurs
-            buffer = new byte[4096];
-            using (FileStream streamReader = File.OpenRead(filename))
+            if(File.Exists(filename))
             {
-                StreamUtils.Copy(streamReader, zipStream, buffer);
-            }
-            zipStream.CloseEntry();
+                // entry 2
+                entryName = ZipEntry.CleanName(Path.GetFileName(filename));
+                // Removes drive from name and fixes slash direction
+                newEntry = new ZipEntry(entryName);
+                newEntry.DateTime = DateTime.Now;
 
+                zipStream.PutNextEntry(newEntry);
+
+                // Zip the file in buffered chunks
+                // the "using" will close the stream even if an exception occurs
+                buffer = new byte[4096];
+                using (FileStream streamReader = File.OpenRead(filename))
+                {
+                    StreamUtils.Copy(streamReader, zipStream, buffer);
+                }
+
+                zipStream.CloseEntry();
+            }
 
             zipStream.IsStreamOwner = true; // Makes the Close also Close the underlying stream
             zipStream.Close();
