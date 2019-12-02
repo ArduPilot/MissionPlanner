@@ -24,6 +24,7 @@
 @using Blazor.Extensions.Canvas
 @using Blazor.Extensions.Canvas.Canvas2D
 @using Blazor.Extensions.Canvas.WebGL
+@using MissionPlanner.ArduPilot
 @inject Sotsera.Blazor.Toaster.IToaster Toaster
 @using MissionPlanner.Controls
 @implements IDisposable
@@ -46,9 +47,18 @@
                         &lt;canvas&gt; feature.
                     </p>
                 </canvas><br>
-                Lat: <input id="latbox" name="lat" val="40.713956"/>Long: <input id="lngbox" name="long" val="74.006653"/> <br/>
-                <canvas id="graphcanvas" width="500" height="80"></canvas><br/>
+                Lat: <input id="latbox" name="lat" val="40.713956" />Long: <input id="lngbox" name="long" val="74.006653" /> <br />
+                <canvas id="graphcanvas" width="500" height="80"></canvas><br />
                 <div id="curve_chart" style="width: 500px; height: 200px;"></div>
+                <button @onclick=@(async => { mav.doARMAsync(mav.MAV.sysid, mav.MAV.compid, true);})>Arm</button>
+                <button @onclick=@(async => { mav.doARMAsync(mav.MAV.sysid, mav.MAV.compid, false);})>Disarm</button>
+                <select @onchange=@(async (item) => modeselected = item.Value.ToString())>
+                    @foreach (var mode in Common.getModesList(mav?.MAV?.cs?.firmware ?? Firmwares.ArduCopter2))
+                    {
+                        <option value="@mode.Value">@mode.Value</option>
+                    }
+                </select>
+                <button @onclick=@(async => { mav.setMode(mav.MAV.sysid, mav.MAV.compid, modeselected);})>Set Mode</button>
             </div>
             <div id="serverStatus" style="width: 500px; overflow-y: auto; flex-grow: 0;"></div>
         </div>
@@ -108,6 +118,8 @@
     }
 
     public modes mode = modes.map;
+
+    string modeselected = "";
 
     async void getParamList()
     {
