@@ -114,10 +114,10 @@
         try
         {
             Toaster.Success("Getting param list");
-            await mav.getParamListAsync(mav.MAV.sysid, mav.MAV.compid);
+            await mav.getParamListAsync(mav.MAV.sysid, mav.MAV.compid).ConfigureAwait(false);
             Toaster.Success("Retrieved param list");
             StateHasChanged();
-            await JSRuntime.InvokeAsync<object>("evalline", new object[] {@"$('#rawparams').DataTable( { searching: true,  serverSide: false, retrieve: true    } );"});
+            await JSRuntime.InvokeAsync<object>("evalline", new object[] {@"$('#rawparams').DataTable( { searching: true,  serverSide: false, retrieve: true    } );"}).ConfigureAwait(false);
         }
         catch
         {
@@ -131,7 +131,7 @@
         {
             Toaster.Success("Setting " + name);
             var value = changes[name];
-            await mav.setParamAsync(mav.MAV.sysid, mav.MAV.compid, name, value);
+            await mav.setParamAsync(mav.MAV.sysid, mav.MAV.compid, name, value).ConfigureAwait(false);
             Toaster.Success(name + " set!");
             StateHasChanged();
         }
@@ -325,7 +325,7 @@
             mavbasestream.WriteCallback += async (sender, bytes) =>
             {
                 await JSRuntime.InvokeAsync<object>
-                    ("evalline", new object[] {"socket.send(new Uint8Array(" + bytes.ToJSON() + "))"});
+                    ("evalline", new object[] {"socket.send(new Uint8Array(" + bytes.ToJSON() + "))"}).ConfigureAwait(false);
             };
             mavbasestream.ReadBufferUpdate += async (sender, count) =>
             {

@@ -116,9 +116,9 @@
 
     public async Task ReadFileTest()
     {
-        var stream = await Http.GetStreamAsync("2018-09-09 18-15-17.txt");
+        var stream = await Http.GetStreamAsync("2018-09-09 18-15-17.txt").ConfigureAwait(false);
 
-        await ProcessTlogStream(stream);
+        await ProcessTlogStream(stream).ConfigureAwait(false);
     }
 
     public async Task ReadFile()
@@ -136,7 +136,7 @@
 
     }
     */
-            var info = await file.ReadFileInfoAsync();
+            var info = await file.ReadFileInfoAsync().ConfigureAwait(false);
 
             Console.WriteLine(info.Name);
 
@@ -145,18 +145,18 @@
 
 
                 Console.WriteLine("about to read into memory");
-                using (MemoryStream memoryStream = await file.CreateMemoryStreamAsync(1024 * 256))
+                using (MemoryStream memoryStream = await file.CreateMemoryStreamAsync(1024 * 256).ConfigureAwait(false))
                 {
                     Console.WriteLine("canread " + memoryStream.CanRead + " pos " + memoryStream.Position + "<" + memoryStream.Length);
 
-                    await ProcessTlogStream(memoryStream);
+                    await ProcessTlogStream(memoryStream).ConfigureAwait(false);
                 }
             }
             else
             {
                 Console.WriteLine("about to read into memory");
     // Read into memory and act
-                using (MemoryStream memoryStream = await file.CreateMemoryStreamAsync(1024 * 256))
+                using (MemoryStream memoryStream = await file.CreateMemoryStreamAsync(1024 * 256).ConfigureAwait(false))
                 {
     // Sync calls are ok once file is in memory
     //memoryStream.Read(buffer, ...)
