@@ -425,10 +425,52 @@
         var ground_offset = 0;
         var takeoff_altitude = 0;
 
-        function setPosition(mavno, lat, lng, altasl, roll, pitch, yaw) {
-            if (lat == 0 || lng == 0 || altasl == 0)
-                return;
+        missionmarkers = {};
+        flightPaths = {};
 
+        function setMission(sysid, compid, wps, fences, rallys) {
+            var mavno = indextosysidcompid.get(sysid * 256 + compid);
+            wps = JSON.parse(wps);
+            if (wps.length == 0)
+                return;
+            var list = [];
+            wps.forEach(wp => { list.push({ lat: (wp.x / 1e7), lng: (wp.y / 1e7) }) });
+
+            if (flightPaths[mavno] == undefined) {
+                var flightPath = new google.maps.Polyline({
+                    path: list,
+                    geodesic: true,
+                    strokeColor: '#FF0000',
+                    strokeOpacity: 1.0,
+                    strokeWeight: 2,
+                    map: map
+                });
+                flightPaths[mavno] = flightPath;
+            }
+
+            flightPaths[mavno].setPath(list);
+
+            wps.forEach(wp => {
+                    var offset = wp.seq * 512;
+                    if (missionmarkers[mavno+offset] == undefined) {
+                        var marker = new google.maps.Marker({
+                            position: { lat: wp.x / 1e7, lng: wp.y / 1e7 },
+                            map: map,
+                            title: '' + wp.seq
+                        });
+                        missionmarkers[mavno+offset] = marker;
+                    }
+
+                    missionmarkers[mavno+offset].setPosition({ lat: wp.x / 1e7, lng: wp.y / 1e7 });
+
+                    if (map != missionmarkers[mavno+offset].map)
+                        missionmarkers[mavno+offset].setMap(map);
+                }
+            );
+        }
+
+        function setAttitude(sysid, compid, roll, pitch, yaw)
+        {
             self.roll = roll;
             self.pitch = pitch;
             self.yaw = yaw;
@@ -437,6 +479,13 @@
             line2.append(new Date().getTime(), pitch);
 
             addData();
+        }
+
+        var indextosysidcompid = new Map();
+
+        function setPosition(sysid, compid, lat, lng, altasl, roll, pitch, yaw) {
+            if (lat == 0 || lng == 0 || altasl == 0)
+                return;
 
             if (first == 0 && altasl != 0) {
                 var takeoff_position = [Cesium.Cartographic.fromDegrees(
@@ -461,6 +510,11 @@
                 }
             }
 
+            // set the index map
+            if(indextosysidcompid.get(sysid * 256 + compid) == undefined)
+                indextosysidcompid.set(sysid * 256 + compid, indextosysidcompid.size || 0);
+            var mavno = indextosysidcompid.get(sysid * 256 + compid);
+
             var myLatLng = { lat: lat, lng: lng };
             if (markers.length >= (mavno + 1)) {
                 markers[mavno].setPosition(myLatLng);
@@ -470,7 +524,7 @@
                 var marker = new google.maps.Marker({
                     position: myLatLng,
                     map: map,
-                    title: 'ArduPilot ' + mavno
+                    title: 'ArduPilot ' + sysid
                 });
                 markers.push(marker);
             }
@@ -483,11 +537,11 @@
             }
 
             if (viewer) {
-                var pinBuilder = new Cesium.PinBuilder();
+                
 
 
                 var position = Cesium.Cartesian3.fromDegrees(myLatLng.lng, myLatLng.lat, altasl + ground_offset + 1);
-                var hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(yaw),
+                var hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(yaw-90),
                     Cesium.Math.toRadians(pitch),
                     Cesium.Math.toRadians(roll));
                 var orientation = Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
@@ -496,13 +550,14 @@
                     viewer.entities.values[mavno].position = position;
                     viewer.entities.values[mavno].orientation = orientation;
                 } else {
+                    var pinBuilder = new Cesium.PinBuilder();
                     // add a new one
                     var entity = viewer.entities.add({
-                        name: 'ArduPilot ' + viewer.entities.values.length,
+                        name: 'ArduPilot ' + sysid,
                         position: position,
                         orientation: orientation,
                         billboard: {
-                            image: pinBuilder.fromText(mavno, Cesium.Color.BLACK, 48)
+                            image: pinBuilder.fromText(sysid, Cesium.Color.BLACK, 48)
                                 .toDataURL(),
                             verticalOrigin: Cesium.VerticalOrigin.BOTTOM
                         },
@@ -524,7 +579,8 @@
 
                 }
 
-                viewer.trackedEntity = viewer.entities.values[0];
+                if(viewer.trackedEntity == undefined)
+                    viewer.trackedEntity = viewer.entities.values[0];
             }
         }
 

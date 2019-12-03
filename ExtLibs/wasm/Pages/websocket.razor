@@ -27,6 +27,7 @@
 @using MissionPlanner.ArduPilot
 @inject Sotsera.Blazor.Toaster.IToaster Toaster
 @using MissionPlanner.Controls
+@using MissionPlanner.Mavlink
 @implements IDisposable
 @inject IFileReaderService fileReaderService;
 @inject HttpClient Http
@@ -34,7 +35,19 @@
 
 <button @onclick="@(async()=> {  mode = modes.map; })">map</button>
 <button @onclick="@(async()=> {  mode = modes.parmedit; })">param</button>
-
+<select @onchange=@(async (item) => { var itemi = int.Parse(item.Value.ToString());
+                                        var id = MAVList.FromID(itemi);
+                                        mav.sysidcurrent = id.sysid;
+                                        mav.compidcurrent = id.compid;
+                    })>
+    @if (mav != null)
+    {
+        @foreach (var mode in mav.MAVlist.GetRawIDS())
+         {
+             <option value=@(mode)>MAV@(MAVList.FromID(mode).sysid + " " + MAVList.FromID(mode).compid)</option>
+         }
+    }
+</select>
 <div style="width: 100%; height: 100%; display: @(mode == modes.map ? "block" : "none")">
     <div id="message" style="position: absolute; top: 0px; left: 0px;">@gpstime @lat @lng @alt @hdg</div>
     <div id="page" style="width: 100%; height: 100%;">
@@ -58,55 +71,58 @@
                         <option value="@mode.Value">@mode.Value</option>
                     }
                 </select>
-                <button @onclick=@(async => { mav.setMode(mav.MAV.sysid, mav.MAV.compid, modeselected);})>Set Mode</button>
+                <button @onclick=@(async => { mav.setMode(mav.MAV.sysid, mav.MAV.compid, modeselected);})>Set Mode</button><br />
+                <button @onclick=@(async => { mav_mission.download(mav, mav.MAV.sysid, mav.MAV.compid, MAVLink.MAV_MISSION_TYPE.MISSION);})>Get Mission</button>
+                <button @onclick=@(async => { mav_mission.download(mav, mav.MAV.sysid, mav.MAV.compid, MAVLink.MAV_MISSION_TYPE.FENCE);})>Get Fence</button>
+                <button @onclick=@(async => { mav_mission.download(mav, mav.MAV.sysid, mav.MAV.compid, MAVLink.MAV_MISSION_TYPE.RALLY);})>Get Rally</button>
             </div>
             <div id="serverStatus" style="width: 500px; overflow-y: auto; flex-grow: 0;"></div>
         </div>
         <div style="height: 100%; display: flex; flex-direction: column; resize: horizontal; overflow: auto;">
 
-            <div id="cesiumContainer" style="height: 50%; display: none;"></div>
+            <div id="cesiumContainer" style="height: 50%; display: block;"></div>
             <div id="map" style="width: 100%; height: 100%;"></div>
         </div>
     </div>
     <div id="pageload" style="bottom: 0; right: 0; position: absolute; top: 0px; left: 0px; overflow: hidden; background-color: #80808080; @(pageloadvisible ? null : "display: none; ")">
         <div style="text-align: center; margin-top: 25%;">
-            Raw MAVLink website url (wss:// for https)<br/>
-            <input type="text" id="wsuri" @bind="wsuri" style="width: 350px;"/><br/>
+            Raw MAVLink website url (wss:// for https)<br />
+            <input type="text" id="wsuri" @bind="wsuri" style="width: 350px;" /><br />
             <button @onclick="wsconnect">Connect</button>
         </div>
     </div>
 </div>
 
-    <div style="display: @(mode == modes.parmedit ? "block" : "none")">
-        <button @onclick="getParamList">Get full param list</button>
+<div style="display: @(mode == modes.parmedit ? "block" : "none")">
+    <button @onclick="getParamList">Get full param list</button>
 
-        <table id="rawparams" class="display">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Value</th>
-                    <th>Options</th>
-                    <th>Desc</th>
-                    <th></th>
-                </tr>
-            </thead>
-            @if (mav != null && mode == modes.parmedit)
-            {
-                <tbody>
-                    @foreach (var param in mav.MAV.param/*.OrderBy(a => a.Name)*/)
-                    {
-                        <tr>
-                            <td>@param.Name</td>
-                            <td><input type="number" @onchange="@(async (newValue) => { changes[param.Name] = double.Parse(newValue.Value.ToString()); })" placeholder="@param.Value" value="@param.Value"></td>
-                            <td>@ParameterMetaDataRepository.GetParameterOptionsInt(param.Name, mav.MAV.cs.firmware.ToString()).Select(a => a.Key + " = " + a.Value).Aggregate("", (current, next) => current + "; " + next)</td>
-                            <td>@ParameterMetaDataRepository.GetParameterMetaData(param.Name, ParameterMetaDataConstants.DisplayName, mav.MAV.cs.firmware.ToString()) @ParameterMetaDataRepository.GetParameterMetaData(param.Name, ParameterMetaDataConstants.Description, mav.MAV.cs.firmware.ToString())</td>
-                            <td><button @onclick="@(async ()=> paramchanged(param.Name))">Set</button></td>
-                        </tr>
-                    }
-                </tbody>
-            }
-        </table>
-    </div>
+    <table id="rawparams" class="display">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Value</th>
+                <th>Options</th>
+                <th>Desc</th>
+                <th></th>
+            </tr>
+        </thead>
+        @if (mav != null && mode == modes.parmedit)
+        {
+            <tbody>
+                @foreach (var param in mav.MAV.param/*.OrderBy(a => a.Name)*/)
+                {
+                    <tr>
+                        <td>@param.Name</td>
+                        <td><input type="number" @onchange="@(async (newValue) => { changes[param.Name] = double.Parse(newValue.Value.ToString()); })" placeholder="@param.Value" value="@param.Value"></td>
+                        <td>@ParameterMetaDataRepository.GetParameterOptionsInt(param.Name, mav.MAV.cs.firmware.ToString()).Select(a => a.Key + " = " + a.Value).Aggregate("", (current, next) => current + "; " + next)</td>
+                        <td>@ParameterMetaDataRepository.GetParameterMetaData(param.Name, ParameterMetaDataConstants.DisplayName, mav.MAV.cs.firmware.ToString()) @ParameterMetaDataRepository.GetParameterMetaData(param.Name, ParameterMetaDataConstants.Description, mav.MAV.cs.firmware.ToString())</td>
+                        <td><button @onclick="@(async ()=> paramchanged(param.Name))">Set</button></td>
+                    </tr>
+                }
+            </tbody>
+        }
+    </table>
+</div>
 
 @functions {
     Dictionary<string, double> changes = new Dictionary<string, double>();
@@ -120,6 +136,7 @@
     public modes mode = modes.map;
 
     string modeselected = "";
+    string currentmav = "";
 
     async void getParamList()
     {
@@ -129,7 +146,7 @@
             await mav.getParamListAsync(mav.MAV.sysid, mav.MAV.compid).ConfigureAwait(false);
             Toaster.Success("Retrieved param list");
             StateHasChanged();
-            await JSRuntime.InvokeAsync<object>("evalline", new object[] {@"$('#rawparams').DataTable( { searching: true,  serverSide: false, retrieve: true    } );"}).ConfigureAwait(false);
+            await JSRuntime.InvokeAsync<object>("evalline", new object[] { @"$('#rawparams').DataTable( { searching: true,  serverSide: false, retrieve: true    } );" }).ConfigureAwait(false);
         }
         catch
         {
@@ -187,28 +204,28 @@
 
     public async Task wsconnect()
     {
-    /*
-            ClientWebSocket webSocket = new ClientWebSocket();
-            Console.WriteLine(wsuri);
-            await webSocket.ConnectAsync(new Uri(wsuri), CancellationToken.None);
-            Task.Run(async () =>
-            {
-            ArraySegment<byte>
-                bytesReceived = new ArraySegment<byte>
-                    (new byte[1024]);
-                    while (webSocket.State == WebSocketState.Open)
-                    {
-                    await webSocket.ReceiveAsync(bytesReceived, CancellationToken.None);
-                    mavbasestream.AppendBuffer(bytesReceived.Array.ToArray());
-                    }
-                    });
+        /*
+                ClientWebSocket webSocket = new ClientWebSocket();
+                Console.WriteLine(wsuri);
+                await webSocket.ConnectAsync(new Uri(wsuri), CancellationToken.None);
+                Task.Run(async () =>
+                {
+                ArraySegment<byte>
+                    bytesReceived = new ArraySegment<byte>
+                        (new byte[1024]);
+                        while (webSocket.State == WebSocketState.Open)
+                        {
+                        await webSocket.ReceiveAsync(bytesReceived, CancellationToken.None);
+                        mavbasestream.AppendBuffer(bytesReceived.Array.ToArray());
+                        }
+                        });
 
-                    mavbasestream.ReadBufferUpdate += (sender, i) => { };
-                    mavbasestream.WriteCallback += async (sender, bytes) => { await webSocket.SendAsync(new ArraySegment<byte>
-                        (bytes.ToArray()), WebSocketMessageType.Binary, true, CancellationToken.None); };
+                        mavbasestream.ReadBufferUpdate += (sender, i) => { };
+                        mavbasestream.WriteCallback += async (sender, bytes) => { await webSocket.SendAsync(new ArraySegment<byte>
+                            (bytes.ToArray()), WebSocketMessageType.Binary, true, CancellationToken.None); };
 
-                        return;
-                        */
+                            return;
+                            */
         JSRuntime.InvokeAsync<object>
             ("initWebSocket", wsuri);
         pageloadvisible = false;
@@ -260,7 +277,7 @@
 
     public static void ProcessPacketStatic(string json)
     {
-    //Console.WriteLine("ProcessPacketStatic");
+        //Console.WriteLine("ProcessPacketStatic");
 
         if (instance != null)
             instance.ProcessPacket(json);
@@ -271,14 +288,14 @@
             init = true;
         }
 
-    //Console.WriteLine("ProcessPacketStatic " + instance);
+        //Console.WriteLine("ProcessPacketStatic " + instance);
     }
 
 
     public static void ProcessPacketStaticBytes(string lengths)
     {
         var length = int.Parse(lengths);
-    //Console.WriteLine("ProcessPacketStaticBytes");
+        //Console.WriteLine("ProcessPacketStaticBytes");
         if (instance != null)
         {
             if (instance.buffer == null)
@@ -287,10 +304,10 @@
             if (length == null)
                 Console.WriteLine("buffer is null");
 
-    //Console.WriteLine(length + " " + BitConverter.ToString(instance.buffer.Take(length).ToArray()));
+            //Console.WriteLine(length + " " + BitConverter.ToString(instance.buffer.Take(length).ToArray()));
 
-    //var js = JSRuntime.Current as MonoWebAssemblyJSRuntime;
-    //js.InvokeUnmarshalled<byte[], bool>            ("setNetBuffer1024", instance.buffer);
+            //var js = JSRuntime.Current as MonoWebAssemblyJSRuntime;
+            //js.InvokeUnmarshalled<byte[], bool>            ("setNetBuffer1024", instance.buffer);
 
             instance.ProcessPacket("", instance.buffer.Take(length).ToArray());
         }
@@ -301,13 +318,13 @@
             init = true;
         }
 
-    //Console.WriteLine("ProcessPacketStaticBytes " + instance);
+        //Console.WriteLine("ProcessPacketStaticBytes " + instance);
     }
 
     //[JSInvokable]
     public async void ProcessPacket(string json, byte[] data = null)
     {
-    //Console.WriteLine(DateTime.Now + " JS to C# " + json.ToArray().Length);
+        //Console.WriteLine(DateTime.Now + " JS to C# " + json.ToArray().Length);
 
         DateTime start = DateTime.Now;
 
@@ -323,21 +340,21 @@
             return;
         }
 
-    //StateHasChanged();
-    //Console.WriteLine("mav null?");
+        //StateHasChanged();
+        //Console.WriteLine("mav null?");
         if (mav == null)
         {
             Console.WriteLine("set mav");
             mav = new MAVLinkInterface();
 
-    // just to prevent null exceptions
+            // just to prevent null exceptions
             mavbasestream = new CommsInjection();
             mav.BaseStream = mavbasestream;
 
             mavbasestream.WriteCallback += async (sender, bytes) =>
             {
                 await JSRuntime.InvokeAsync<object>
-                    ("evalline", new object[] {"socket.send(new Uint8Array(" + bytes.ToJSON() + "))"}).ConfigureAwait(false);
+                    ("evalline", new object[] { "socket.send(new Uint8Array(" + bytes.ToJSON() + "))" }).ConfigureAwait(false);
             };
             mavbasestream.ReadBufferUpdate += async (sender, count) =>
             {
@@ -350,43 +367,43 @@
             mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.PARAM_VALUE, packetReceived);
         }
 
-    //Console.WriteLine("decode json");
-    //Console.WriteLine("decode json");
+        //Console.WriteLine("decode json");
+        //Console.WriteLine("decode json");
 
         if (json != "")
             data = Base64.Decode(json);
 
         mavbasestream.AppendBuffer(data);
 
-    /*
-                                                var pos = mav.logplaybackfile.BaseStream.Position;
+        /*
+                                                    var pos = mav.logplaybackfile.BaseStream.Position;
 
-                                                mav.logplaybackfile.BaseStream.Seek(0, SeekOrigin.End);
+                                                    mav.logplaybackfile.BaseStream.Seek(0, SeekOrigin.End);
 
-                                                byte[] datearray =
-                                                BitConverter.GetBytes(
-                                                (UInt64)((DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds * 1000));
-                                                Array.Reverse(datearray);
-                                                mav.logplaybackfile.BaseStream.Write(datearray, 0, datearray.Length);
+                                                    byte[] datearray =
+                                                    BitConverter.GetBytes(
+                                                    (UInt64)((DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds * 1000));
+                                                    Array.Reverse(datearray);
+                                                    mav.logplaybackfile.BaseStream.Write(datearray, 0, datearray.Length);
 
-                                                mav.logplaybackfile.BaseStream.Write(data, 0, data.Length);
+                                                    mav.logplaybackfile.BaseStream.Write(data, 0, data.Length);
 
-                                                mav.logplaybackfile.BaseStream.Seek(pos, SeekOrigin.Begin);
+                                                    mav.logplaybackfile.BaseStream.Seek(pos, SeekOrigin.Begin);
 
-                                                mav.logreadmode = true;
-                                                */
-    //Console.WriteLine("open {0} btr {1} {2} {3}", mav.BaseStream.IsOpen, mav.BaseStream.BytesToRead, mav.BaseStream.GetType(), mav.BaseStream.BaseStream?.GetType());
+                                                    mav.logreadmode = true;
+                                                    */
+        //Console.WriteLine("open {0} btr {1} {2} {3}", mav.BaseStream.IsOpen, mav.BaseStream.BytesToRead, mav.BaseStream.GetType(), mav.BaseStream.BaseStream?.GetType());
 
         var check1 = DateTime.Now;
 
         ProcessPackets();
 
-    //var packet = await
+        //var packet = await
 
-    //((MemoryStream)mav.logplaybackfile.BaseStream).SetLength(0);
+        //((MemoryStream)mav.logplaybackfile.BaseStream).SetLength(0);
 
-    //Console.WriteLine("convert packet to bytes {0} everything {1}",check1-start, DateTime.Now - start);
-    //mav.DebugPacket(packet, true);
+        //Console.WriteLine("convert packet to bytes {0} everything {1}",check1-start, DateTime.Now - start);
+        //mav.DebugPacket(packet, true);
     }
 
     public static void ProcessPackets()
@@ -418,14 +435,14 @@
             return;
         }
 
-    //Console.WriteLine("ProcessPacketsint btr:" + mav.BaseStream.BytesToRead);
+        //Console.WriteLine("ProcessPacketsint btr:" + mav.BaseStream.BytesToRead);
 
-    //var th = new Thread(() =>
+        //var th = new Thread(() =>
         {
-    //while (mav != null)
+            //while (mav != null)
             {
 
-    //running = true;
+                //running = true;
                 DateTime end = DateTime.Now.AddMilliseconds(10);
                 while (DateTime.Now < end && mav.BaseStream.BytesToRead > 15 && !mav.giveComport)
                 {
@@ -437,8 +454,8 @@
                     Console.WriteLine("Clearing data as behind " + mav.BaseStream.BytesToRead);
                     mav.BaseStream.DiscardInBuffer();
                 }
-    //Thread.Sleep(20);
-    //Task.Delay(20);
+                //Thread.Sleep(20);
+                //Task.Delay(20);
             }
         } //);
     }
@@ -451,73 +468,76 @@
     {
         if (packet.data is MAVLink.mavlink_global_position_int_t)
         {
-            var pos = (MAVLink.mavlink_global_position_int_t) packet.data;
+            var pos = (MAVLink.mavlink_global_position_int_t)packet.data;
 
             lat = pos.lat / 1e7;
             lng = pos.lon / 1e7;
             alt = pos.alt / 1e3;
             hdg = pos.hdg / 1e2;
 
-    //Console.WriteLine("Update mavlink_global_position_int_t ##############################");
+            //Console.WriteLine("Update mavlink_global_position_int_t ##############################");
         }
         else if (packet.data is MAVLink.mavlink_gps_raw_int_t)
         {
-            var pos = (MAVLink.mavlink_gps_raw_int_t) packet.data;
+            var pos = (MAVLink.mavlink_gps_raw_int_t)packet.data;
 
             lat = pos.lat / 1e7;
             lng = pos.lon / 1e7;
             alt = pos.alt / 1e3;
-            hdg = (ushort) (pos.cog / 1e2);
+            hdg = (ushort)(pos.cog / 1e2);
 
-    //StateHasChanged();
+            //StateHasChanged();
 
 
 
-    //Console.WriteLine("Update mavlink_gps_raw_int_t ##############################");
+            //Console.WriteLine("Update mavlink_gps_raw_int_t ##############################");
         }
         else if (packet.data is MAVLink.mavlink_heartbeat_t)
         {
-            var hb = (MAVLink.mavlink_heartbeat_t) packet.data;
+            var hb = (MAVLink.mavlink_heartbeat_t)packet.data;
 
-    //mav.DebugPacket(packet, true);
+            //mav.DebugPacket(packet, true);
         }
         else if (packet.data is MAVLink.mavlink_param_value_t)
         {
-            var param = (MAVLink.mavlink_param_value_t) packet.data;
+            var param = (MAVLink.mavlink_param_value_t)packet.data;
 
             return true;
 
-    //Console.WriteLine("{0} {1}", ASCIIEncoding.ASCII.GetString(param.param_id), param.param_value);
+            //Console.WriteLine("{0} {1}", ASCIIEncoding.ASCII.GetString(param.param_id), param.param_value);
         }
 
-    // update gui if neede
+        // update gui if neede
         if (DateTime.Now > nextUpdate)
         {
             nextUpdate = DateTime.Now.AddMilliseconds(200);
 
-            int a = 0;
             foreach (var mavd in mav.MAVlist)
             {
                 mavd.cs.UpdateCurrentSettings(null, false, mav, mavd);
                 JSRuntime.InvokeAsync<object>
-                    ("setPosition", new object[] {a, mavd.cs.lat, mavd.cs.lng, mavd.cs.altasl, mavd.cs.roll, mavd.cs.pitch, mavd.cs.yaw});
-                a++;
+                    ("setPosition", new object[] { mavd.sysid, mavd.compid, mavd.cs.lat, mavd.cs.lng, mavd.cs.altasl, mavd.cs.roll, mavd.cs.pitch, mavd.cs.yaw});
+                if (mavd.sysid == mav.sysidcurrent && mavd.compid == mav.compidcurrent)
+                    JSRuntime.InvokeAsync<object>
+                        ("setAttitude", new object[] {mavd.sysid, mavd.compid, mavd.cs.roll, mavd.cs.pitch, mavd.cs.yaw});
+                JSRuntime.InvokeAsync<object>
+                    ("setMission", new object[] {mavd.sysid, mavd.compid, mavd.wps.Values.ToJSON(), mavd.fencepoints.Values.ToJSON(), mavd.rallypoints.Values.ToJSON()});
             }
 
             gpstime = DateTime.Now;
 
-            if(mode == modes.map)
+            if (mode == modes.map)
                 StateHasChanged();
         }
 
         return true;
-    //mav.DebugPacket(packet, true);
+        //mav.DebugPacket(packet, true);
     }
 
     public string getCS()
     {
         var cs = JsonConvert.SerializeObject(mav.MAV.cs);
-    //var wps = JsonConvert.SerializeObject(MainV2.comPort.MAV.wps);
+        //var wps = JsonConvert.SerializeObject(MainV2.comPort.MAV.wps);
 
         return cs;
     }
