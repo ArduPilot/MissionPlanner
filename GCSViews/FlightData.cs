@@ -1365,7 +1365,7 @@ namespace MissionPlanner.GCSViews
 
                         MainV2.comPort.setWPACK();
 
-                        FlightPlannerBase.instance.BUT_read_Click(this, null);
+                        FlightPlanner.instance.BUT_read_Click(this, null);
 
                         // set index back to 1
                         MainV2.comPort.setWPCurrent(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, 1);

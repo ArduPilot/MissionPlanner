@@ -506,7 +506,7 @@ namespace MissionPlanner.Controls
             {
                 GL.Enable(EnableCap.DepthTest);
 
-                if (FlightPlannerBase.instance.pointlist.Count > 1)
+                if (FlightPlanner.instance.pointlist.Count > 1)
                 {
                     GL.Color3(Color.Red);
 
@@ -515,7 +515,7 @@ namespace MissionPlanner.Controls
                     // render wps
                     GL.Begin(PrimitiveType.LineStrip);
 
-                    foreach (var point in FlightPlannerBase.instance.pointlist)
+                    foreach (var point in FlightPlanner.instance.pointlist)
                     {
                         if (point == null)
                             continue;
@@ -537,7 +537,7 @@ namespace MissionPlanner.Controls
                 GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
                 GL.Enable(EnableCap.Texture2D);
                 GL.BindTexture(TextureTarget.Texture2D, green);
-                var list = FlightPlannerBase.instance.pointlist.ToList();
+                var list = FlightPlanner.instance.pointlist.ToList();
                 if (MainV2.comPort.MAV.cs.mode.ToLower() == "guided")
                     list.Add((PointLatLngAlt) (Locationwp) MainV2.comPort.MAV.GuidedMode);
                 if (MainV2.comPort.MAV.cs.TargetLocation != PointLatLngAlt.Zero)

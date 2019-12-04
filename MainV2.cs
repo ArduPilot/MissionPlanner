@@ -498,7 +498,7 @@ namespace MissionPlanner
             if (MainV2.instance.FlightPlanner != null)
             {
                 //hide menu items 
-                MainV2.instance.FlightPlanner.FlightPlannerBase.updateDisplayView();
+                MainV2.instance.FlightPlanner.updateDisplayView();
             }
         }
 
@@ -1669,7 +1669,7 @@ namespace MissionPlanner
                     if (comPort.BaseStream.IsOpen)
                     {
                         MenuFlightPlanner_Click(null, null);
-                        FlightPlanner.FlightPlannerBase.BUT_read_Click(null, null);
+                        FlightPlanner.BUT_read_Click(null, null);
                     }
                 }
 
@@ -1679,7 +1679,7 @@ namespace MissionPlanner
                 {
                     try
                     {
-                        FlightPlanner.FlightPlannerBase.getRallyPointsToolStripMenuItem_Click(null, null);
+                        FlightPlanner.getRallyPointsToolStripMenuItem_Click(null, null);
 
                         double maxdist = 0;
 
@@ -1714,7 +1714,7 @@ namespace MissionPlanner
                 {
                     try
                     {
-                        FlightPlanner.FlightPlannerBase.GeoFencedownloadToolStripMenuItem_Click(null, null);
+                        FlightPlanner.GeoFencedownloadToolStripMenuItem_Click(null, null);
                     } catch (Exception ex) { log.Warn(ex); }
                 }
                 //Add HUD custom items source 
@@ -2686,7 +2686,7 @@ namespace MissionPlanner
                                     if (MyView.current != null && MyView.current.Name == "FlightPlanner")
                                     {
                                         // update home if we are on flight data tab
-                                        this.BeginInvoke((Action)delegate { FlightPlanner.FlightPlannerBase.updateHome(); });
+                                        this.BeginInvoke((Action)delegate { FlightPlanner.updateHome(); });
                                     }
 
                                 }

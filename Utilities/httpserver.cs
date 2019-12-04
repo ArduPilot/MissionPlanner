@@ -530,7 +530,7 @@ namespace MissionPlanner.Utilities
                         // draw track
                         try
                         {
-                            foreach (var point in FlightPlannerBase.instance.pointlist)
+                            foreach (var point in FlightPlanner.instance.pointlist)
                             {
                                 if (point == null)
                                     continue;
@@ -547,7 +547,7 @@ namespace MissionPlanner.Utilities
 
                         var altmode = SharpKml.Dom.AltitudeMode.Absolute;
 
-                        foreach (var point in FlightPlannerBase.instance.pointlist)
+                        foreach (var point in FlightPlanner.instance.pointlist)
                         {
                             if (point == null)
                                 continue;

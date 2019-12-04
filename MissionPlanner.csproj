@@ -450,7 +450,6 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigUserDefined.Designer.cs">
       <DependentUpon>ConfigUserDefined.cs</DependentUpon>
     </Compile>
-    <Compile Include="GCSViews\FlightPlannerBase.cs" />
     <Compile Include="Joystick\JoystickAxis.cs">
       <SubType>UserControl</SubType>
     </Compile>

@@ -411,7 +411,7 @@ namespace MissionPlanner.SimpleGrid
         {
             if (grid != null && grid.Count > 0)
             {
-                MainV2.instance.FlightPlanner.FlightPlannerBase.quickadd = true;
+                MainV2.instance.FlightPlanner.quickadd = true;
 
                 PointLatLngAlt lastpnt = PointLatLngAlt.Zero;
 
@@ -435,9 +435,9 @@ namespace MissionPlanner.SimpleGrid
                     }
                 });
 
-                MainV2.instance.FlightPlanner.FlightPlannerBase.quickadd = false;
+                MainV2.instance.FlightPlanner.quickadd = false;
 
-                MainV2.instance.FlightPlanner.FlightPlannerBase.writeKML();
+                MainV2.instance.FlightPlanner.writeKML();
 
                 savesettings();
 
