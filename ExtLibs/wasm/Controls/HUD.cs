@@ -1,27 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using log4net;
+using Microsoft.AspNetCore.Components.Web;
+using System;
 using System.Collections;
 using System.ComponentModel;
-using System.Globalization;
-using System.Reflection;
-using System.Resources;
-using System.Threading;
-using log4net;
-using Microsoft.AspNetCore.Components.Web;
-using SkiaSharp;
-using wasm;
+using System.IO;
+using Blazor.Extensions.Canvas.WebGL;
+using MissionPlanner.Drawing;
+using MissionPlanner.Drawing.Drawing2D;
 using wasm.Controls;
-using Color = System.Drawing.Color ;
-using Rectangle = System.Drawing.Rectangle;
-using PointF = System.Drawing.PointF;
-using RectangleF = System.Drawing.RectangleF;
+using Color = System.Drawing.Color;
 using Point = System.Drawing.Point;
-
+using PointF = System.Drawing.PointF;
+using Rectangle = System.Drawing.Rectangle;
+using RectangleF = System.Drawing.RectangleF;
+using IGraphics = MissionPlanner.Drawing.IGraphics;
+using MissionPlanner.Drawing;
+using MissionPlanner.Drawing.Drawing2D;
+using Brushes = MissionPlanner.Drawing.Brushes;
+using Font = MissionPlanner.Drawing.Font;
+using Image = MissionPlanner.Drawing.Image;
+using Pen = MissionPlanner.Drawing.Pen;
+using SolidBrush = MissionPlanner.Drawing.SolidBrush;
 
 namespace MissionPlanner.Controls
 {
-    public class HUD : CanvasGraphics
+    public class HUD: Control
     {
         public Hashtable CustomItems = new Hashtable();
 
@@ -60,10 +63,7 @@ namespace MissionPlanner.Controls
 
         private readonly Pen _redPen = new Pen(Color.Red, 2);
         private readonly SolidBrush _whiteBrush = new SolidBrush(Color.White);
-        /// <summary>
-        /// pth for drawstring
-        /// </summary>
-        private readonly GraphicsPath pth = new GraphicsPath();
+
 
         private float _airspeed = 0;
         private float _alt = 0;
@@ -103,7 +103,7 @@ namespace MissionPlanner.Controls
         private float _targetalt = 0;
         private float _targetheading = 0;
         private float _targetspeed = 0;
-        private character[] _texture = new character[2];
+       
         private float _turnrate = 0;
         private float _verticalspeed = 0;
         private Pen _whitePen = new Pen(Color.White, 2);
@@ -111,14 +111,14 @@ namespace MissionPlanner.Controls
         private float _xtrack_error = 0;
         float _yellowSSAp = 60;
         private DateTime armedtimer = DateTime.MinValue;
-        private Dictionary<int, character> charDict = new Dictionary<int, character>();
+     
         private int count = 0;
         private DateTime countdate = DateTime.Now;
         Rectangle ekfhitzone = new Rectangle();
         // move these global as they rarely change - reduce GC
         private Font font = new Font(HUDT.Font, 10);
 
-        private CanvasGraphics graphicsObject;
+        private /*IGraphics*/ GraphicsWeb graphicsObject;
         bool inOnPaint = false;
         DateTime lastinvalidate = DateTime.MinValue;
         string otherthread = "";
@@ -149,7 +149,7 @@ namespace MissionPlanner.Controls
 
             displayAOASSA = false;
 
-           
+         
 
             base.Name = "Hud";
         }
@@ -760,31 +760,6 @@ namespace MissionPlanner.Controls
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
         public float vibez { get; set; }
 
-        [Browsable(false)]
-        public new bool VSync
-        {
-            get
-            {
-                try
-                {
-                    return base.VSync;
-                }
-                catch
-                {
-                    return false;
-                }
-            }
-            set
-            {
-                try
-                {
-                    base.VSync = value;
-                }
-                catch
-                {
-                }
-            }
-        }
 
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
         public int wpno
@@ -813,6 +788,8 @@ namespace MissionPlanner.Controls
                 }
             }
         }
+
+
 
         public void doResize()
         {
@@ -909,16 +886,16 @@ namespace MissionPlanner.Controls
         {
             base.OnMouseClick(e);
 
-            if (ekfhitzone.IntersectsWith(new Rectangle((int)e.ClientX, (int)e.ClientY, 5, 5)))
+            //if (ekfhitzone.IntersectsWith(new Rectangle(e.X, e.Y, 5, 5)))
             {
-                if (ekfclick != null)
-                    ekfclick(this, null);
+            //    if (ekfclick != null)
+            //        ekfclick(this, null);
             }
 
-            if (vibehitzone.IntersectsWith(new Rectangle((int)e.ClientX, (int)e.ClientY, 5, 5)))
+            //if (vibehitzone.IntersectsWith(new Rectangle(e.X, e.Y, 5, 5)))
             {
-                if (vibeclick != null)
-                    vibeclick(this, null);
+            //    if (vibeclick != null)
+             //       vibeclick(this, null);
             }
         }
 
@@ -926,21 +903,21 @@ namespace MissionPlanner.Controls
         {
             base.OnMouseMove(e);
 
-            if (ekfhitzone.IntersectsWith(new Rectangle((int)e.ClientX, (int)e.ClientY, 5, 5)))
+            //if (ekfhitzone.IntersectsWith(new Rectangle(e.X, e.Y, 5, 5)))
             {
-                Cursor.Current = Cursors.Hand;
+               // Cursor.Current = Cursors.Hand;
             }
-            else if (vibehitzone.IntersectsWith(new Rectangle((int)e.ClientX, (int)e.ClientY, 5, 5)))
+            //else if (vibehitzone.IntersectsWith(new Rectangle(e.X, e.Y, 5, 5)))
             {
-                Cursor.Current = Cursors.Hand;
+               // Cursor.Current = Cursors.Hand;
             }
-            else
+            //else
             {
-                Cursor.Current = null;
+               // Cursor.Current = DefaultCursor;
             }
         }
 
-        protected override void OnPaint(PaintEventArgs e)
+        protected async override void OnPaint(PaintEventArgs e)
         {
             //GL.Enable(EnableCap.AlphaTest)
 
@@ -956,7 +933,7 @@ namespace MissionPlanner.Controls
             {
                 //Console.WriteLine("ms "+(DateTime.Now - starttime).TotalMilliseconds);
                 //e.Graphics.DrawImageUnscaled(objBitmap, 0, 0);          
-                return;
+               // return;
             }
 
             // force texture reset
@@ -989,7 +966,7 @@ namespace MissionPlanner.Controls
 
 
 
-                graphicsObject = e.Graphics;
+                graphicsObject = (GraphicsWeb)e.Graphics;
 
                 doPaint();
 
@@ -1038,8 +1015,8 @@ namespace MissionPlanner.Controls
 
             if (SixteenXNine)
             {
-                int ht = (int)(this.Width / 1.777f);
-                if (ht >= this.Height + 5 || ht <= this.Height - 5)
+                int ht = (int)(base.Width / 1.777f);
+                if (ht >= base.Height + 5 || ht <= this.Height - 5)
                 {
                     this.Height = ht;
                     return;
@@ -1059,20 +1036,10 @@ namespace MissionPlanner.Controls
           
             try
             {
-                foreach (character texid in charDict.Values)
-                {
-                    try
-                    {
-                        texid.bitmap.Dispose();
-                    }
-                    catch
-                    {
-                    }
-                }
+          
 
      
 
-                charDict.Clear();
             }
             catch
             {
@@ -1088,7 +1055,8 @@ namespace MissionPlanner.Controls
 
             Refresh();
         }
-        
+
+
 
         void doPaint()
         {
@@ -2164,83 +2132,7 @@ namespace MissionPlanner.Controls
                 return;
 
             graphicsObject.DrawString(text, font, brush, x, y);
-            return;
-
-            float maxy = 0;
-
-            foreach (char cha in text)
-            {
-                int charno = (int)cha;
-
-                int charid = charno ^ (int)(fontsize * 1000) ^ brush.Color.ToArgb();
-
-                if (!charDict.ContainsKey(charid))
-                {
-                    charDict[charid] = new character()
-                    {
-                        bitmap = new Bitmap(128, 128, SKColorType.Bgra8888),
-                        size = (int)fontsize
-                    };
-
-                    charDict[charid].bitmap.MakeTransparent(Color.Transparent);
-
-                    //charbitmaptexid
-
-                    float maxx = this.Width / 150; // for space
-
-
-                    // create bitmap
-                    using (var gfx = Graphics.FromImage(charDict[charid].bitmap))
-                    {
-                        var pth = new GraphicsPath();
-
-                        if (text != null)
-                            pth.AddString(cha + "", font.FontFamily, 0, fontsize + 5, new Point((int)0, (int)0),
-                                StringFormat.GenericTypographic);
-
-                        charDict[charid].pth = pth;
-
-                        gfx.SmoothingMode = SmoothingMode.AntiAlias;
-
-                        gfx.DrawPath(this._p, pth);
-
-                        //Draw the face
-
-                        gfx.FillPath(brush, pth);
-
-
-                        if (pth.PointCount > 0)
-                        {
-                            foreach (PointF pnt in pth.PathPoints)
-                            {
-                                if (pnt.X > maxx)
-                                    maxx = pnt.X;
-
-                                if (pnt.Y > maxy)
-                                    maxy = pnt.Y;
-                            }
-                        }
-                    }
-
-                    charDict[charid].width = (int)(maxx + 2);
-                }
-
-                // draw it
-
-                float scale = 1.0f;
-                // dont draw spaces
-                if (cha != ' ')
-                {
-                    graphicsObject.DrawImage(charDict[charid].bitmap, (int)x, (int)y, charDict[charid].bitmap.Width, charDict[charid].bitmap.Height);
-                }
-                else
-                {
-
-                }
-
-                x += charDict[charid].width * scale;
-            }
-
+       
         }
 
         float wrap360(float noin)
@@ -2284,15 +2176,6 @@ namespace MissionPlanner.Controls
             }
         }
 
-        private class character
-        {
-            public Bitmap bitmap;
-            public int gltextureid;
-            public GraphicsPath pth;
-            public int size;
-            public int width;
-        }
+   
     }
-
-
 }

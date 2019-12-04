@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Threading.Tasks;
+using GMap.NET.MapProviders;
 using Harmony;
 using Microsoft.JSInterop;
 using MissionPlanner.ArduPilot;
@@ -26,7 +27,8 @@ namespace wasm
 {
     public class Startup
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly log4net.ILog log =
+            log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -48,14 +50,75 @@ namespace wasm
 
             //services.UseWebUSB(); // Makes IUSB available to the DI container
         }
-        //IBlazorApplicationBuilder
+
+        public class FakeRequest : WebRequest
+        {
+            private Uri _uri;
+
+            public FakeRequest(Uri uri)
+            {
+                _uri = uri;
+            }
+
+            public override Uri RequestUri
+            {
+                get { return _uri; }
+            }
+
+            public override Stream GetRequestStream()
+            {
+                return base.GetRequestStream();
+            }
+
+            public override WebResponse GetResponse()
+            {
+                throw new Exception("Not ASYNC");
+                return new FakeWebResponce(new HttpClient().GetStreamAsync(RequestUri).Result);
+            }
+
+            public override IWebProxy Proxy
+            {
+                get { return EmptyWebProxy.Instance; }
+                set { }
+            } 
+        }
+
+        public class FakeWebResponce: WebResponse
+        {
+            private readonly Stream _getResult;
+
+            public FakeWebResponce(Stream getResult)
+            {
+                _getResult = getResult;
+            }
+
+            public override Stream GetResponseStream()
+            {
+                return _getResult;
+            }
+        }
+
+        public class FakeRequestFactory : IWebRequestCreate
+        {
+            public WebRequest Create(Uri uri)
+            {
+                return new FakeRequest(uri);
+            }
+        }
+
+//IBlazorApplicationBuilder
         //IComponentsApplicationBuilder
         public void Configure(IComponentsApplicationBuilder app)
         {
+            bool result1 = WebRequest.RegisterPrefix("http://", new FakeRequestFactory());
+            Console.WriteLine("webrequestmod " + result1);
+            bool result2 = WebRequest.RegisterPrefix("https://", new FakeRequestFactory());
+            Console.WriteLine("webrequestmod " + result2);
+
             app.AddComponent<App>("app");
 
             log4net.Repository.Hierarchy.Hierarchy hierarchy =
-                (Hierarchy)log4net.LogManager.GetRepository(Assembly.GetAssembly(typeof(Startup)));
+                (Hierarchy) log4net.LogManager.GetRepository(Assembly.GetAssembly(typeof(Startup)));
 
             PatternLayout patternLayout = new PatternLayout();
             patternLayout.ConversionPattern = "%date [%thread] %-5level %logger - %message%newline";
@@ -86,7 +149,7 @@ namespace wasm
                     if (firmware == "")
                         return null;
 
-                    var modes = Common.getModesList((Firmwares)Enum.Parse(typeof(Firmwares), firmware));
+                    var modes = Common.getModesList((Firmwares) Enum.Parse(typeof(Firmwares), firmware));
                     string currentmode = null;
 
                     foreach (var mode in modes)

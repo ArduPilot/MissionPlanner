@@ -1,27 +1,19 @@
-﻿using MissionPlanner.Drawing;
-using System;
+﻿using System;
 using System.Drawing;
-using wasm;
+using IGraphics = MissionPlanner.Drawing.IGraphics;
 
-
-namespace MissionPlanner.Drawing
+namespace MissionPlanner.Controls
 {
-    public class Form
-    {
-        public static Point MousePosition { get; set; }
-        public static Keys ModifierKeys { get; set; }
-    }
-
     public class PaintEventArgs : EventArgs
     {
         private Rectangle clientRectangle;
-        private CanvasGraphics gg;
-        public PaintEventArgs(CanvasGraphics gg, Rectangle clientRectangle)
+        private IGraphics gg;
+        public PaintEventArgs(IGraphics gg, Rectangle clientRectangle)
         {
             this.gg = gg;
             this.clientRectangle = clientRectangle;
         }
 
-        public CanvasGraphics Graphics => gg;
+        public IGraphics Graphics => gg;
     }
 }

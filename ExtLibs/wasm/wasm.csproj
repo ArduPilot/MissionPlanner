@@ -17,11 +17,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Controls\HUD.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Controls\HUD.cs" />
+    <Content Remove="C:\Users\michael\.nuget\packages\uno.skiasharp.wasm\1.68.0-uno.290\build\netstandard2.0\..\libSkia\libSkiaSharp.bc" />
+    <Content Remove="C:\Users\michael\.nuget\packages\uno.skiasharp.wasm\1.68.0-uno.290\build\netstandard2.0\..\libSkia\libSkiaSharp.wasm" />
   </ItemGroup>
 
   <ItemGroup>
@@ -45,6 +42,7 @@
     <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3-beta2" />
     <PackageReference Include="Sotsera.Blazor.Toaster" Version="1.0.0" />
+    <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
     <PackageReference Include="System.Text.Encoding" Version="4.3.0" />
     <PackageReference Include="System.Text.Encoding.Extensions" Version="4.3.0" />
     <PackageReference Include="Tewr.Blazor.FileReader" Version="1.1.0.19274" />
@@ -78,20 +76,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="wwwroot\2018-09-09 18-15-17.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Controls\HUDT.Designer.cs">
       <DependentUpon>HUDT.resx</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Update="C:\Users\michael\.nuget\packages\uno.skiasharp.wasm.extended\1.60.0-uno.173\contentFiles\any\netstandard2.0\libSkiaSharp.wasm">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="wwwroot\2018-09-09 18-15-17.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
   <ItemGroup>
