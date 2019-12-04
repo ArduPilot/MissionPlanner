@@ -1,26 +1,44 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using SkiaSharp;
 
 namespace MissionPlanner.Drawing
 {
     public class SolidBrush : Brush
     {
-        public SolidBrush(): this(Color.Black)
+        public SolidBrush() : this(Color.Black)
         {
         }
 
         public SolidBrush(Color color)
         {
-            nativeBrush = new SKPaint() {Color = color.ToSKColor()};
+            _color = color;
+
+            try
+            {
+                nativeBrush = new SKPaint() {Color = color.ToSKColor()};
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
         public Color Color
         {
-            get
+            get { return _color; }
+            set
             {
-                return Color.FromArgb(nativeBrush.Color.Alpha, nativeBrush.Color.Red, nativeBrush.Color.Green, nativeBrush.Color.Blue);
+                _color = value;
+                try
+                {
+                    nativeBrush.Color = value.ToSKColor();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
             }
-            set { nativeBrush.Color = value.ToSKColor(); }
         }
     }
 }

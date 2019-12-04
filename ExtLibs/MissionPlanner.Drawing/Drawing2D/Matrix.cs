@@ -31,6 +31,7 @@
 //
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.InteropServices;
 
@@ -317,5 +318,10 @@ namespace MissionPlanner.Drawing.Drawing2D
         }
 
         public double[] Data { get; set; }
+
+        internal void TransformPoints(List<PointF> points)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

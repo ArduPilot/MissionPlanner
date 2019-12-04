@@ -31,13 +31,22 @@ namespace MissionPlanner.Drawing
 
         public Font(string genericSansSerif, float size)
         {
-            nativeFont = new SKPaint() {Typeface = SKTypeface.Default, TextSize = size, TextAlign = SKTextAlign.Left};
+            Name = genericSansSerif;
+            Size = size;
+
+            try
+            {
+                nativeFont = new SKPaint() {Typeface = SKTypeface.Default, TextSize = size, TextAlign = SKTextAlign.Left};
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
-        public Font(Font genericSansSerif, FontStyle stle)
+        public Font(Font genericSansSerif, FontStyle style)
         {
             nativeFont = genericSansSerif.nativeFont;
-         
         }
 
         public Font(string microsoftSansSerif, float captionRectHeight, FontStyle bold = FontStyle.Regular, GraphicsUnit pixel = GraphicsUnit.Pixel): this(microsoftSansSerif, captionRectHeight)
@@ -57,10 +66,22 @@ namespace MissionPlanner.Drawing
 
         public FontFamily FontFamily { get; set; }
 
+        private float _size = 7;
         public float Size
         {
-            get { return nativeFont.TextSize; }
-            set { nativeFont.TextSize = value; }
+            get { return _size; }
+            set
+            {
+                _size = value;
+                try
+                {
+                    nativeFont.TextSize = value;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+            }
         }
 
         public bool Bold { get; set; }

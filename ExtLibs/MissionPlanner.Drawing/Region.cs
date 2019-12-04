@@ -1,13 +1,38 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using ClipperLib;
 using MissionPlanner.Drawing.Drawing2D;
 using SkiaSharp;
 
 namespace MissionPlanner.Drawing
 {
+    // Clipper lib definitions
+    using Path = List<IntPoint>;
+    using Paths = List<List<IntPoint>>;
     public class Region: SKRegion
     {
+        internal static Path PointFArrayToIntArray(PointF[] points, float scale)
+        {
+            Path result = new Path();
+            for (int i = 0; i < points.Length; ++i)
+            {
+                result.Add(new IntPoint((int)points[i].X * scale, (int)points[i].Y * scale));
+            }
+            return result;
+        }
+
+
+        internal static PointF[] PathToPointFArray(Path pg, float scale)
+        {
+            PointF[] result = new PointF[pg.Count];
+            for (int i = 0; i < pg.Count; ++i)
+            {
+                result[i].X = (float)pg[i].X / scale;
+                result[i].Y = (float)pg[i].Y / scale;
+            }
+            return result;
+        }
         public Region()
         {
         }
@@ -15,6 +40,11 @@ namespace MissionPlanner.Drawing
         public Region(Rectangle parentClientRectangle)
         {
             base.SetRect(parentClientRectangle.ToSKRectI());
+        }
+
+        public Region(GraphicsPath parentClientRectangle)
+        {
+            throw new NotImplementedException();
         }
 
         public RectangleF GetBounds(Graphics graphics)
@@ -96,6 +126,11 @@ namespace MissionPlanner.Drawing
         }
 
         public static Region FromHrgn(IntPtr retval)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsVisible(PointF clipRectangle)
         {
             throw new NotImplementedException();
         }

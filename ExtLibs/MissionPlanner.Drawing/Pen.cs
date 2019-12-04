@@ -21,16 +21,24 @@ namespace MissionPlanner.Drawing
         {
             Width = width;
             Color = Color.FromArgb(color.Alpha, color.Red, color.Green, color.Blue);
+            Brush = new SolidBrush(Color);
 
-            nativePen = new SKPaint()
+            try
             {
-                Color = color,
-                StrokeWidth = Width,
-                IsAntialias = true,
-                Style = SKPaintStyle.Stroke,
-                BlendMode = SKBlendMode.SrcOver,
-                FilterQuality = SKFilterQuality.High
-            };
+                nativePen = new SKPaint()
+                {
+                    Color = color,
+                    StrokeWidth = Width,
+                    IsAntialias = true,
+                    Style = SKPaintStyle.Stroke,
+                    BlendMode = SKBlendMode.SrcOver,
+                    FilterQuality = SKFilterQuality.High
+                };
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
         public Pen(Color brush, float width) : this(brush.ToSKColor(), width)
@@ -49,10 +57,12 @@ namespace MissionPlanner.Drawing
         public float Width { get; set; }
         public LineCap StartCap { get; set; }
         public DashStyle DashStyle { get; set; }
-        public Color Color { get; set; }
+        public Color Color { get; set; } 
         public Brush Brush { get; set; }
         public float[] DashPattern { get;  set; }
         public PenAlignment Alignment { get; set; }
+
+        public int MiterLimit { get; set; }
 
         public object Clone()
         {
