@@ -77,9 +77,14 @@ namespace wix
             if (args.Length > 1)
                 outputfilename = args[1];
 
+            string exepath = Path.GetFullPath(path) + Path.DirectorySeparatorChar + "MissionPlanner.exe";
+            string version = Assembly.LoadFile(exepath).GetName().Version.ToString();
+
+            System.Diagnostics.FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(exepath);
+
             sw = new StreamWriter(file);
 
-            header();
+            header(fvi.ProductVersion);
 
             sw.WriteLine("    <Directory Id=\"INSTALLDIR\" Name=\"Mission Planner\">");
 
@@ -96,10 +101,7 @@ namespace wix
 
             sw.Close();
 
-            string exepath = Path.GetFullPath(path) + Path.DirectorySeparatorChar + "MissionPlanner.exe";
-            string version = Assembly.LoadFile(exepath).GetName().Version.ToString();
-
-            System.Diagnostics.FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(exepath);
+    
 
             string fn = outputfilename + "-" + fvi.ProductVersion;
 
@@ -147,27 +149,11 @@ namespace wix
             P.Start();
         }
 
-        static void header()
+        static void header(string version)
         {
             string newid = System.Guid.NewGuid().ToString();
 
             newid = "*";
-
-            StreamReader sr = new StreamReader(File.OpenRead("../MissionPlanner.csproj"));
-
-            string version = "0";
-
-            while (!sr.EndOfStream)
-            {
-                string line = sr.ReadLine();
-                if (line.Contains("<Version>"))
-                {
-                    string[] items = line.Split(new char[] {' ','"', '<', '>'}, StringSplitOptions.RemoveEmptyEntries);
-                    version = items[1];
-                    break;
-                }
-            }
-            sr.Close();
 
             string data = @"<?xml version=""1.0"" encoding=""utf-8""?>
 <Wix xmlns=""http://schemas.microsoft.com/wix/2006/wi"" xmlns:netfx=""http://schemas.microsoft.com/wix/NetFxExtension"" xmlns:difx=""http://schemas.microsoft.com/wix/DifxAppExtension"" xmlns:iis='http://schemas.microsoft.com/wix/IIsExtension' >
