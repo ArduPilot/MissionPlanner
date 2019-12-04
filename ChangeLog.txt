@@ -1,4 +1,23 @@
-﻿*Mission Planner 1.3.69 - 28-11-2019
+﻿*Mission Planner 1.3.70 - 04-12-2019
+MAVLinkInterface: propagate radio/status across all mavs on the link
+inf2cat: update
+mavcmd: remove invalid cmd's #2249
+UdpSerialConnect: mcast support
+CaptureMJPEG: fix
+ConfigFirmwareManifest: updatebootloader fix
+LogOutput: dont include if file doesnt exist
+ConfigUAVCAN: add port open check
+ConfigHWCompass: remove enable #2264
+FlightPlanner: fix wpfile format
+Exception fixs
+CommsInjection: full read/write
+GridUI: generic font
+httpserver: support 2way websockets
+MAVLinkInspector: cleanup on exit
+srtm: fix 60N+ data status
+FlightPlanner: fix savewp frame type #2262
+
+*Mission Planner 1.3.69 - 28-11-2019
 MAVLink: update nuget
 GMapMarker: option the lines
 AP_InternalError: add support
