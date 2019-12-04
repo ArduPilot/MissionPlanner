@@ -202,7 +202,7 @@ namespace MissionPlanner.Log
             status = SerialStatus.Reading;
 
             // get df log from mav
-            using (var ms = await MainV2.comPort.GetLog(no).ConfigureAwait(false))
+            using (var ms = MainV2.comPort.GetLog(no))
             {
                 if (ms != null)
                     log.Info("Got Log length: " + ms.Length);

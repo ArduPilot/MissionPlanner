@@ -203,7 +203,7 @@ namespace MissionPlanner
         /// <summary>
         /// used as a serial port write lock
         /// </summary>
-        volatile object objlock = new object();
+        public volatile object objlock = new object();
 
         /// <summary>
         /// used for a readlock on readpacket
@@ -1043,7 +1043,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             return true;
         }
 
-        public bool setupSigning(string userseed, byte[] key = null)
+        public bool setupSigning(int sysid, int compid, string userseed,byte[] key = null)
         {
             byte[] shauser;
             bool clearkey = false;
@@ -1079,9 +1079,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             sign.target_component = (byte)compidcurrent;
             sign.target_system = (byte)sysidcurrent;
 
-            generatePacket((int) MAVLINK_MSG_ID.SETUP_SIGNING, sign, MAV.sysid, MAV.compid);
+            generatePacket((int) MAVLINK_MSG_ID.SETUP_SIGNING, sign, sysid, compid);
 
-            generatePacket((int) MAVLINK_MSG_ID.SETUP_SIGNING, sign, MAV.sysid, MAV.compid);
+            generatePacket((int) MAVLINK_MSG_ID.SETUP_SIGNING, sign, sysid, compid);
 
             if (clearkey)
             {
@@ -1725,15 +1725,15 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             generatePacket((byte) MAVLINK_MSG_ID.MISSION_ACK, req);
         }
 
-        public bool setWPCurrent(ushort index)
+        public bool setWPCurrent(byte sysid, byte compid,ushort index)
         {
             giveComport = true;
             MAVLinkMessage buffer;
 
             mavlink_mission_set_current_t req = new mavlink_mission_set_current_t();
 
-            req.target_system = MAV.sysid;
-            req.target_component = MAV.compid;
+            req.target_system = sysid;
+            req.target_component = compid;
             req.seq = index;
 
             generatePacket((byte) MAVLINK_MSG_ID.MISSION_SET_CURRENT, req);
@@ -3279,7 +3279,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             setWP(current, wpno, MAV_FRAME.GLOBAL_RELATIVE_ALT, 0);
 
             // set the point as current to reload the modified command
-            setWPCurrent(wpno);
+            setWPCurrent((byte)sysidcurrent, (byte)compidcurrent, wpno);
         }
 
         public void setGuidedModeWP(Locationwp gotohere, bool setguidedmode = true)

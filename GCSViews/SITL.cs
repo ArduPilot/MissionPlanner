@@ -196,10 +196,10 @@ namespace MissionPlanner.GCSViews
             depurl = new Uri(sitlurl, "cygwin1.dll");
             var t4 = Download.getFilefromNetAsync(depurl.ToString(), sitldirectory + depurl.Segments[depurl.Segments.Length - 1]);
 
-            await t1.ConfigureAwait(false);
-            await t2.ConfigureAwait(false);
-            await t3.ConfigureAwait(false);
-            await t4.ConfigureAwait(false);
+            await t1.ConfigureAwait(true);
+            await t2.ConfigureAwait(true);
+            await t3.ConfigureAwait(true);
+            await t4.ConfigureAwait(true);
 
             load.Close();
 
