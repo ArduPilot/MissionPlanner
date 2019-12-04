@@ -3990,25 +3990,6 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     {
                         MAVlist[sysid, compid].addPacket(message);
 
-                        // 3dr radio status packet are injected into the current mav
-                        // most radios have a fixed sysid AND componentid ...
-                        if ((msgid == (byte) MAVLINK_MSG_ID.RADIO_STATUS || msgid == (byte) MAVLINK_MSG_ID.RADIO)
-                            && (message.compid == 68) &&
-                            (message.sysid == 63)) // ascii 63="3" ascii 68="D" => "3D" branding
-                        {
-                            MAVlist[sysidcurrent, compidcurrent].addPacket(message);
-                        }
-
-                        // RFD900X radios with MultiPoint firmware present themselves with the same sysid as the aircraft that they are connected to, and with a fixed component id of 68
-                        if ((msgid == (byte) MAVLINK_MSG_ID.RADIO_STATUS || msgid == (byte) MAVLINK_MSG_ID.RADIO)
-                            && (message.compid == 68) && (message.sysid != 63))
-                        {
-                            // update the current mav - this will make the rssi jump around if using a newer firmware with multiple rssi packets
-                            MAVlist[sysidcurrent, compidcurrent].addPacket(message);
-                            // update the target mav
-                            MAVlist[message.sysid, compidcurrent].addPacket(message);
-                        }
-
                         // adsb packets are forwarded and can be from any sysid/compid
                         if (msgid == (byte) MAVLINK_MSG_ID.ADSB_VEHICLE)
                         {
