@@ -315,6 +315,9 @@ namespace MissionPlanner.Utilities
                     string hash = matchs[i].Groups[1].Value.ToString();
                     string file = matchs[i].Groups[2].Value.ToString();
 
+                    if(file.ToLower().EndsWith("files.html"))
+                        continue;
+
                     Task<bool> ismatch = Task<bool>.Factory.StartNew(() => MD5File(file, hash));
 
                     tasklist.Add(new Tuple<string, string, Task<bool>>(file, hash, ismatch));
