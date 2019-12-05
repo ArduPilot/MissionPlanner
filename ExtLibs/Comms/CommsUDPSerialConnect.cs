@@ -64,23 +64,7 @@ namespace MissionPlanner.Comms
 
         public int BytesToWrite => 0;
 
-        public bool IsOpen
-        {
-            get
-            {
-                try
-                {
-                    if (hostEndPoint != null)
-                        return true;
-
-                    return client.Client.Connected;
-                }
-                catch
-                {
-                    return false;
-                }
-            }
-        }
+        public bool IsOpen { get; set; }
 
         public bool DtrEnable { get; set; }
 
@@ -136,6 +120,8 @@ namespace MissionPlanner.Comms
                 client = new UdpClient();
                 client.Connect(hostEndPoint);
             }
+
+            IsOpen = true;
 
             VerifyConnected();
         }
@@ -283,6 +269,8 @@ namespace MissionPlanner.Comms
 
         public void Close()
         {
+            IsOpen = false;
+
             try
             {
                 if (hostEndPoint != null)
