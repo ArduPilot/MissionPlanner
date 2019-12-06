@@ -448,6 +448,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     {
                         CustomMessageBox.Show("Failed to upgrade bootloader");
                     }
+
+            mav?.Close();
         }
     }
 }

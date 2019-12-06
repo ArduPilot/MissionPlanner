@@ -268,6 +268,10 @@ namespace MissionPlanner
 
         public static ISpeech Speech;
 
+        ~MAVLinkInterface()
+        {
+            this.Dispose();
+        }
         public MAVLinkInterface()
         {
             // init fields
