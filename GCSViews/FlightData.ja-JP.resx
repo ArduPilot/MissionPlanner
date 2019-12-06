@@ -1,0 +1,444 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="pointCameraHereToolStripMenuItem.Text" xml:space="preserve">
+    <value>ここにカメラを向ける</value>
+  </data>
+  <data name="BUT_setmode.ToolTip" xml:space="preserve">
+    <value>左記のモードに変更</value>
+  </data>
+  <data name="BUT_edit_selected.Text" xml:space="preserve">
+    <value>選択したスクリプトの編集</value>
+  </data>
+  <data name="BUT_abort_script.Text" xml:space="preserve">
+    <value>動作中のスクリプトを中断</value>
+  </data>
+  <data name="BUT_quickmanual.Text" xml:space="preserve">
+    <value>Loiter</value>
+  </data>
+  <data name="tabServo.Text" xml:space="preserve">
+    <value>サーボ</value>
+  </data>
+  <data name="BUT_playlog.Text" xml:space="preserve">
+    <value>再生/一時停止</value>
+  </data>
+  <data name="BUT_setwp.ToolTip" xml:space="preserve">
+    <value>現在のターゲット・ウェイポイントの変更</value>
+  </data>
+  <data name="BUT_quickauto.ToolTip" xml:space="preserve">
+    <value>モードをAutoに変更</value>
+  </data>
+  <data name="goHereToolStripMenuItem.Text" xml:space="preserve">
+    <value>ここまで飛行</value>
+  </data>
+  <data name="BUT_speed1_10.Text" xml:space="preserve">
+    <value>1/10</value>
+  </data>
+  <data name="quickView1.ToolTip" xml:space="preserve">
+    <value>ダブルクリックして変更</value>
+  </data>
+  <data name="checkBoxRedirectOutput.Text" xml:space="preserve">
+    <value>プログラム出力のリダイレクト</value>
+  </data>
+  <data name="BUT_RAWSensor.Text" xml:space="preserve">
+    <value>センサーの生データの表示</value>
+  </data>
+  <data name="but_bintolog.Text" xml:space="preserve">
+    <value>PX4 .Bin to .Log</value>
+  </data>
+  <data name="BUTrestartmission.ToolTip" xml:space="preserve">
+    <value>ミッションを最初から再起動する</value>
+  </data>
+  <data name="BUT_loganalysis.Text" xml:space="preserve">
+    <value>自動解析</value>
+  </data>
+  <data name="BUT_clear_track.ToolTip" xml:space="preserve">
+    <value>マップ上に記録されたパスをクリアする</value>
+  </data>
+  <data name="BUT_resumemis.Text" xml:space="preserve">
+    <value>ミッション再開</value>
+  </data>
+  <data name="CB_tuning.ToolTip" xml:space="preserve">
+    <value>チューニング・グラフの表示、ターゲットと実際の方位を示す</value>
+  </data>
+  <data name="russianHudToolStripMenuItem.Text" xml:space="preserve">
+    <value>ロシアのHUD</value>
+  </data>
+  <data name="lbl_hdop.Text" xml:space="preserve">
+    <value>hdop: 0</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>スピード</value>
+  </data>
+  <data name="BUT_ARM.ToolTip" xml:space="preserve">
+    <value>アームまたはディスアーム</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>現在のWPに直行</value>
+  </data>
+  <data name="BUT_log2kml.Text" xml:space="preserve">
+    <value>TlogをKmlまたはGraphに変換</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>ズーム</value>
+  </data>
+  <data name="BUT_clear_track.Text" xml:space="preserve">
+    <value>軌跡をクリア</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>GPS 軌跡 (黒)</value>
+  </data>
+  <data name="BUT_ARM.Text" xml:space="preserve">
+    <value>Arm/Disarm</value>
+  </data>
+  <data name="dataGridViewImageColumn1.HeaderText" xml:space="preserve">
+    <value>アップ</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>現在の進行方向</value>
+  </data>
+  <data name="deleteToolStripMenuItem.Text" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>ターゲットの進行方向</value>
+  </data>
+  <data name="userItemsToolStripMenuItem.Text" xml:space="preserve">
+    <value>ユーザーアイテム</value>
+  </data>
+  <data name="myButton1.ToolTip" xml:space="preserve">
+    <value>モードをManual/Stabalizeに変更</value>
+  </data>
+  <data name="tabActionsSimple.Text" xml:space="preserve">
+    <value>アクション</value>
+  </data>
+  <data name="BUT_DFMavlink.Text" xml:space="preserve">
+    <value>データ･フラッシュ・ログをMavlinkでダウンロード</value>
+  </data>
+  <data name="CHK_autopan.ToolTip" xml:space="preserve">
+    <value>現在の位置を元に地図をオート・パンする</value>
+  </data>
+  <data name="BUT_quickrtl.ToolTip" xml:space="preserve">
+    <value>モードをRTLに変更</value>
+  </data>
+  <data name="tablogbrowse.Text" xml:space="preserve">
+    <value>データ･フラッシュ・ログ</value>
+  </data>
+  <data name="BUT_mountmode.ToolTip" xml:space="preserve">
+    <value>左記のモードに変更</value>
+  </data>
+  <data name="tabGauges.Text" xml:space="preserve">
+    <value>ゲージ</value>
+  </data>
+  <data name="CHK_autopan.Text" xml:space="preserve">
+    <value>オート・パン</value>
+  </data>
+  <data name="setMJPEGSourceToolStripMenuItem.Text" xml:space="preserve">
+    <value>MJPEG ソースをセット</value>
+  </data>
+  <data name="BUT_joystick.Text" xml:space="preserve">
+    <value>ジョイスティック</value>
+  </data>
+  <data name="Zoomlevel.ToolTip" xml:space="preserve">
+    <value>ズームレベルの変更</value>
+  </data>
+  <data name="CB_tuning.Text" xml:space="preserve">
+    <value>チューニング</value>
+  </data>
+  <data name="BUT_speed10.Text" xml:space="preserve">
+    <value>10x</value>
+  </data>
+  <data name="triggerCameraToolStripMenuItem.Text" xml:space="preserve">
+    <value>カメラトリガー</value>
+  </data>
+  <data name="BUT_run_script.Text" xml:space="preserve">
+    <value>スクリプト実行</value>
+  </data>
+  <data name="dropOutToolStripMenuItem.Text" xml:space="preserve">
+    <value>ドロップアウト</value>
+  </data>
+  <data name="tabScripts.Text" xml:space="preserve">
+    <value>スクリプト</value>
+  </data>
+  <data name="dataGridViewImageColumn2.HeaderText" xml:space="preserve">
+    <value>ダウン</value>
+  </data>
+  <data name="lbl_sats.Text" xml:space="preserve">
+    <value>Sats: 0</value>
+  </data>
+  <data name="BUTactiondo.Text" xml:space="preserve">
+    <value>アクション実行</value>
+  </data>
+  <data name="BUTrestartmission.Text" xml:space="preserve">
+    <value>ミッションのリスタート</value>
+  </data>
+  <data name="BUT_quickmanual.ToolTip" xml:space="preserve">
+    <value>モードをLoiterに変更</value>
+  </data>
+  <data name="BUT_speed1_2.Text" xml:space="preserve">
+    <value>1/2</value>
+  </data>
+  <data name="takeOffToolStripMenuItem.Text" xml:space="preserve">
+    <value>離陸</value>
+  </data>
+  <data name="BUT_RAWSensor.ToolTip" xml:space="preserve">
+    <value>ジャイロと加速度センサー及びラジオの ins/outsの生データを見る。</value>
+  </data>
+  <data name="setAspectRatioToolStripMenuItem.Text" xml:space="preserve">
+    <value>アスペクト比をセット</value>
+  </data>
+  <data name="saveFileToolStripMenuItem.Text" xml:space="preserve">
+    <value>ファイルを保存</value>
+  </data>
+  <data name="BUT_speed1_4.Text" xml:space="preserve">
+    <value>1/4</value>
+  </data>
+  <data name="BUT_matlab.Text" xml:space="preserve">
+    <value>MATLABファイルを生成</value>
+  </data>
+  <data name="Gspeed.ToolTip" xml:space="preserve">
+    <value>ダブル・クリックして最大値を変更</value>
+  </data>
+  <data name="labelScriptStatus.Text" xml:space="preserve">
+    <value>スクリプトのステータス: 実行しているスクリプトはありません。</value>
+  </data>
+  <data name="but_dflogtokml.Text" xml:space="preserve">
+    <value>KML + gpx の生成</value>
+  </data>
+  <data name="tabPagemessages.Text" xml:space="preserve">
+    <value>メッセージ</value>
+  </data>
+  <data name="tabActions.Text" xml:space="preserve">
+    <value>アクション</value>
+  </data>
+  <data name="BUTactiondo.ToolTip" xml:space="preserve">
+    <value>左記のアクションを実行</value>
+  </data>
+  <data name="BUT_Homealt.Text" xml:space="preserve">
+    <value>ホーム高度をセット</value>
+  </data>
+  <data name="setHomeHereToolStripMenuItem.Text" xml:space="preserve">
+    <value>ホームをここにセット</value>
+  </data>
+  <data name="labelSelectedScript.Text" xml:space="preserve">
+    <value>スクリプトの選択：選択されていません。</value>
+  </data>
+  <data name="tabQuick.Text" xml:space="preserve">
+    <value>クイック</value>
+  </data>
+  <data name="BUT_speed5.Text" xml:space="preserve">
+    <value>5x</value>
+  </data>
+  <data name="BUT_loadtelem.Text" xml:space="preserve">
+    <value>ログのロード</value>
+  </data>
+  <data name="addPoiToolStripMenuItem.Text" xml:space="preserve">
+    <value>POIの追加</value>
+  </data>
+  <data name="BUT_joystick.ToolTip" xml:space="preserve">
+    <value>ジョイスティックをセットアップして有効にする。</value>
+  </data>
+  <data name="BUT_Homealt.ToolTip" xml:space="preserve">
+    <value>現在表示されているaltを0にセットする。例:ホームのaltが0と表示される。</value>
+  </data>
+  <data name="BUT_speed2.Text" xml:space="preserve">
+    <value>2x</value>
+  </data>
+  <data name="BUT_speed1.Text" xml:space="preserve">
+    <value>1x</value>
+  </data>
+  <data name="recordHudToAVIToolStripMenuItem.Text" xml:space="preserve">
+    <value>HUDをAVIで記録</value>
+  </data>
+  <data name="tabStatus.Text" xml:space="preserve">
+    <value>ステータス</value>
+  </data>
+  <data name="BUT_quickauto.Text" xml:space="preserve">
+    <value>Auto</value>
+  </data>
+  <data name="BUT_setwp.Text" xml:space="preserve">
+    <value>WPのセット</value>
+  </data>
+  <data name="myButton3.Text" xml:space="preserve">
+    <value>Auto</value>
+  </data>
+  <data name="BUT_select_script.Text" xml:space="preserve">
+    <value>スクリプト選択</value>
+  </data>
+  <data name="tabTLogs.Text" xml:space="preserve">
+    <value>テレメトリ ログ</value>
+  </data>
+  <data name="myButton2.ToolTip" xml:space="preserve">
+    <value>モードをRTLに変える</value>
+  </data>
+  <data name="myButton1.Text" xml:space="preserve">
+    <value>ロイター</value>
+  </data>
+  <data name="myButton2.Text" xml:space="preserve">
+    <value>RTL</value>
+  </data>
+  <data name="lbl_logpercent.Text" xml:space="preserve">
+    <value>0.00 %</value>
+  </data>
+  <data name="flightPlannerToolStripMenuItem.Text" xml:space="preserve">
+    <value>フライトプランナー表示</value>
+  </data>
+  <data name="BUT_mountmode.Text" xml:space="preserve">
+    <value>Mount のセット</value>
+  </data>
+  <data name="myButton3.ToolTip" xml:space="preserve">
+    <value>モードをAutoに変える</value>
+  </data>
+  <data name="BUT_setmode.Text" xml:space="preserve">
+    <value>モードをセット</value>
+  </data>
+  <data name="lbl_playbackspeed.Text" xml:space="preserve">
+    <value>x 1.0</value>
+  </data>
+  <data name="BUT_logbrowse.Text" xml:space="preserve">
+    <value>ログのレビュー</value>
+  </data>
+  <data name="stopRecordToolStripMenuItem.Text" xml:space="preserve">
+    <value>記録の停止</value>
+  </data>
+  <data name="BUT_quickrtl.Text" xml:space="preserve">
+    <value>RTL</value>
+  </data>
+  <data name="flyToHereAltToolStripMenuItem.Text" xml:space="preserve">
+    <value>「ここまで飛行」の高度設定</value>
+  </data>
+  <data name="lbl_sats.ToolTip" xml:space="preserve">
+    <value>衛星数カウント</value>
+  </data>
+  <data name="lbl_hdop.ToolTip" xml:space="preserve">
+    <value>GPS hdop</value>
+  </data>
+  <data name="BUT_abortland.Text" xml:space="preserve">
+    <value>着陸中断</value>
+  </data>
+  <data name="but_disablejoystick.Text" xml:space="preserve">
+    <value>ジョイスティック無効</value>
+  </data>
+  <data name="loadFileToolStripMenuItem.Text" xml:space="preserve">
+    <value>ファイル読込</value>
+  </data>
+  <data name="PointCameraCoordsToolStripMenuItem1.Text" xml:space="preserve">
+    <value>座標にカメラを向ける</value>
+  </data>
+</root>

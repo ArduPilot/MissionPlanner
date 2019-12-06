@@ -76,7 +76,7 @@
             // ConfigHWOSD
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            
             this.Controls.Add(this.label7);
             this.Controls.Add(this.BUT_osdrates);
             this.Controls.Add(this.label6);

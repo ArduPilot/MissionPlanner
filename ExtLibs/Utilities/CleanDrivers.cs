@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.IO;
-using System.Windows.Forms;
+using System.Security.Permissions;
+using System.Text.RegularExpressions;
 
 namespace MissionPlanner.Utilities
 {
@@ -16,45 +18,101 @@ namespace MissionPlanner.Utilities
             return (String.IsNullOrEmpty(pa) ? 32 : 64);
         }
 
+        public static void devcon()
+        {
+            Process pr = new Process();
+            pr.StartInfo = new ProcessStartInfo("devcon", "hwids *2DAE*")
+            {
+                RedirectStandardError = true,
+                RedirectStandardOutput = true,
+                UseShellExecute = false
+            };
+
+            pr.Start();
+            var so = pr.StandardOutput.ReadToEndAsync();
+            var se = pr.StandardError.ReadToEndAsync();
+
+            var ids = Regex.Matches(so.Result, @"USB\\");
+
+
+            pr.StartInfo = new ProcessStartInfo("devcon", "remove *2DAE*")
+            {
+                RedirectStandardError = true,
+                RedirectStandardOutput = true,
+                UseShellExecute = false
+            };
+        }
 
         public static void Clean()
         {
-            string[] files = Directory.GetFiles(@"c:\windows\inf\", "*.inf",SearchOption.AllDirectories);
-
-            foreach (string file in files)
+            Process pr = new Process();
+            pr.StartInfo = new ProcessStartInfo("pnputil", "/enum-drivers")
             {
-                using (StreamReader sr = new StreamReader(File.OpenRead(file)))
+                RedirectStandardError = true,
+                RedirectStandardOutput = true,
+                UseShellExecute = false
+            };
+
+            pr.Start();
+            var so = pr.StandardOutput.ReadToEndAsync();
+            var se = pr.StandardError.ReadToEndAsync();
+
+            /*
+Published Name:     oem62.inf
+Original Name:      lpro564s.inf
+Provider Name:      Logitech
+Class Name:         Sound, video and game controllers
+Class GUID:         {4d36e96c-e325-11ce-bfc1-08002be10318}
+Driver Version:     10/22/2012 13.80.853.0
+Signer Name:        Microsoft Windows Hardware Compatibility Publisher
+             */
+
+            var pun = Regex.Matches(so.Result, @"Published Name:\s+(.+)");
+            var orn = Regex.Matches(so.Result, @"Original Name:\s+(.+)");
+            var prn = Regex.Matches(so.Result, @"Provider Name:\s+(.+)");
+            var cln = Regex.Matches(so.Result, @"Class Name:\s+(.+)");
+            var clg = Regex.Matches(so.Result, @"Class GUID:\s+(.+)");
+            var drv = Regex.Matches(so.Result, @"Driver Version:\s+(.+)");
+            var sin = Regex.Matches(so.Result, @"Signer Name:\s+(.+)");
+
+            for (int i = 0; i < pun.Count; i++)
+            {
+                Console.WriteLine("{0} {1} {2} {3} {4}", pun[i].Groups[1].Value.Trim(),
+                    orn[i].Groups[1].Value.Trim(),
+                    prn[i].Groups[1].Value.Trim(),
+                    cln[i].Groups[1].Value.Trim(),
+                    sin[i].Groups[1].Value.Trim());
+
+                ProcessStartInfo si =
+                    new ProcessStartInfo("pnputil", "-f -u -d " + pun[i].Groups[1].Value.Trim()) {Verb = "runas"};
+
+                if (sin[i].Groups[1].Value.Trim() == "Michael Oborne")
                 {
-
-                    // USB\VID_26AC    3dr
-                    // USB\VID_2341   arduino
-
-                    while (sr.BaseStream != null && !sr.EndOfStream)
-                    {
-                        string line = sr.ReadLine();
-                        if (line.ToUpper().Contains(@"USB\VID_26AC"))// || line.ToUpper().Contains(@"USB\VID_2341"))
-                        {
-                            try
-                            {
-                                Console.WriteLine(file);
-
-                              //  File.Delete(file);
-                            }
-                            catch { }
-
-                            if (GetOSArchitecture() == 64)
-                            {
-                                System.Diagnostics.Process.Start(Application.StartupPath + Path.DirectorySeparatorChar + "driver/DPInstx64.exe", @"/u """ + file + @""" /d");
-                            }
-                            else
-                            {
-                                System.Diagnostics.Process.Start(Application.StartupPath + Path.DirectorySeparatorChar + "driver/DPInstx86.exe", @"/u """ + file + @""" /d");
-                            }
-                        }
-                    }
-
-                    sr.Close();
+                    var pr2 = Process.Start(si);
+                    continue;
                 }
+
+                if (prn[i].Groups[1].Value.Trim() == "3D Robotics" ||
+                    prn[i].Groups[1].Value.Trim() == "Laser Navigation" ||
+                    prn[i].Groups[1].Value.Trim() == "Hex Technology Limited")
+                {
+                    Process.Start(si);
+                    continue;
+                }
+            }
+
+            var driversdir = Settings.GetRunningDirectory() + Path.DirectorySeparatorChar + "drivers";
+
+            var infs = Directory.GetFiles(driversdir, "*.inf");
+
+            foreach (var inf in infs)
+            {
+                ProcessStartInfo si =
+                    new ProcessStartInfo(driversdir + Path.DirectorySeparatorChar + "DPInstx64.exe",
+                        @"/u """ + inf + @"""/d /s")
+                    {
+                        Verb = "runas"
+                    };
             }
         }
     }

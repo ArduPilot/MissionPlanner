@@ -15,8 +15,25 @@ namespace MissionPlanner.Controls
 
         public static string value = "";
 
+        public static event EventHandler TextChanged;
+
+        public static DialogResult Show(string title, string promptText, ref int value, bool password = false)
+        {
+            string answer = value.ToString();
+            var dialog = Show(title, promptText, ref answer, password);
+            value = int.Parse(answer);
+            return dialog;
+        }
+
+        public static DialogResult Show(string title, string promptText, ref double value, bool password = false)
+        {
+            string answer = value.ToString();
+            var dialog = Show(title, promptText, ref answer, password);
+            value = double.Parse(answer);
+            return dialog;
+        }
         //from http://www.csharp-examples.net/inputbox/
-        public static DialogResult Show(string title, string promptText, ref string value, bool password = false)
+        public static DialogResult Show(string title, string promptText, ref string value, bool password = false, bool multiline = false)
         {
             DialogResult answer = DialogResult.Cancel;
 
@@ -28,12 +45,12 @@ namespace MissionPlanner.Controls
             {
                 Application.OpenForms[0].Invoke((MethodInvoker)delegate
                 {
-                    answer = ShowUI(title, promptText, passin, password);
+                    answer = ShowUI(title, promptText, passin, password, multiline);
                 });
             }
             else
             {
-                answer = ShowUI(title, promptText, passin, password);
+                answer = ShowUI(title, promptText, passin, password, multiline);
             }
 
             value = InputBox.value;
@@ -41,43 +58,74 @@ namespace MissionPlanner.Controls
             return answer;
         }
 
-        static DialogResult ShowUI(string title, string promptText, string value, bool password = false)
+        static DialogResult ShowUI(string title, string promptText, string value, bool password = false, bool multiline = false)
         {
             Form form = new Form();
-            System.Windows.Forms.Label label = new System.Windows.Forms.Label();
+            Label label = new Label();
             TextBox textBox = new TextBox();
             if (password)
                 textBox.UseSystemPasswordChar = true;
-            Controls.MyButton buttonOk = new Controls.MyButton();
-            Controls.MyButton buttonCancel = new Controls.MyButton();
+            if (multiline)
+            {
+                textBox.Multiline = true;
+                textBox.ScrollBars = ScrollBars.Vertical;
+                textBox.AcceptsReturn = true;
+                textBox.AcceptsTab = true;
+                textBox.WordWrap = true;
+            }
+            MyButton buttonOk = new MyButton();
+            MyButton buttonCancel = new MyButton();
             //System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainV2));
             //form.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 
+            // Suspend form layout.
+            form.SuspendLayout();
+            const int yMargin = 10;
+
+            //
+            // label
+            //
+            var y = 20;
+            label.AutoSize = true;
+            label.Location = new Point(9, y);
+            label.Size = new Size(372, 13);
+            label.Text = promptText;
+            label.MaximumSize = new Size(372, 0);
+
+            //
+            // textBox
+            //
+            textBox.Size = new Size(372, 20);
+            textBox.Text = value;
+            textBox.TextChanged += textBox_TextChanged;
+
+            if (multiline)
+            {
+                textBox.Size = new Size(372, 400);
+            }
+
+            //
+            // buttonOk
+            //
+            buttonOk.Size = new Size(75, 23);
+            buttonOk.Text = "OK";
+            buttonOk.DialogResult = DialogResult.OK;
+            
+            //
+            // buttonCancel
+            //
+            buttonCancel.Size = new Size(75, 23);
+            buttonCancel.Text = "Cancel";
+            buttonCancel.DialogResult = DialogResult.Cancel;
+            
+            //
+            // form
+            //
             form.TopMost = true;
             form.TopLevel = true;
-
             form.Text = title;
-            label.Text = promptText;
-            textBox.Text = value;
-
-            buttonOk.Text = "OK";
-            buttonCancel.Text = "Cancel";
-            buttonOk.DialogResult = DialogResult.OK;
-            buttonCancel.DialogResult = DialogResult.Cancel;
-
-            label.SetBounds(9, 10, 372, 26);
-            textBox.SetBounds(12, 46, 372, 20);
-            buttonOk.SetBounds(228, 72, 75, 23);
-            buttonCancel.SetBounds(309, 72, 75, 23);
-
-            label.AutoSize = true;
-            textBox.Anchor = textBox.Anchor | AnchorStyles.Right;
-            buttonOk.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            buttonCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-
             form.ClientSize = new Size(396, 107);
             form.Controls.AddRange(new Control[] { label, textBox, buttonOk, buttonCancel });
-            form.ClientSize = new Size(Math.Max(300, label.Right + 10), form.ClientSize.Height);
             form.FormBorderStyle = FormBorderStyle.FixedSingle;
             form.StartPosition = FormStartPosition.CenterScreen;
             form.MinimizeBox = false;
@@ -85,10 +133,22 @@ namespace MissionPlanner.Controls
             form.AcceptButton = buttonOk;
             form.CancelButton = buttonCancel;
 
+            // Resume form layout
+            form.ResumeLayout(false);
+            form.PerformLayout();
+
+            // Adjust the location of textBox, buttonOk, buttonCancel based on the content of the label.
+            y = y + label.Height + yMargin;
+            textBox.Location = new Point(12, y);
+            y = y + textBox.Height + yMargin;
+            buttonOk.Location = new Point(228, y);
+            buttonCancel.Location = new Point(309, y);
+            // Increase the size of the form.
+            form.ClientSize = new Size(396, y + buttonOk.Height + yMargin);
+
             if (ApplyTheme != null)
                 ApplyTheme(form);
-
-            DialogResult dialogResult = DialogResult.Cancel;
+            
 
             Console.WriteLine("Input Box " + System.Threading.Thread.CurrentThread.Name);
 
@@ -98,7 +158,7 @@ namespace MissionPlanner.Controls
 
             Console.WriteLine("Input Box 2 " + System.Threading.Thread.CurrentThread.Name);
 
-            dialogResult = form.DialogResult;
+            DialogResult dialogResult = form.DialogResult;
 
             if (dialogResult == DialogResult.OK)
             {
@@ -108,9 +168,17 @@ namespace MissionPlanner.Controls
 
             form.Dispose();
 
+            TextChanged = null;
+
             form = null;
 
             return dialogResult;
+        }
+
+        static void textBox_TextChanged(object sender, EventArgs e)
+        {
+            if (TextChanged != null)
+                TextChanged(sender, e);
         }
     }
 }

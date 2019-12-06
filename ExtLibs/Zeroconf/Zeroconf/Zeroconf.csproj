@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+    <Authors>Oren Novotny</Authors>
+    <PackageLicenseUrl>http://opensource.org/licenses/ms-pl</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/onovotny/Zeroconf</PackageProjectUrl>
+    <MinClientVersion>2.12</MinClientVersion>
+    <Description>Bonjour support for .NET Standard, .NET 4.5, .NET Core, Xamarin, Windows Phone, Windows Store/UWP</Description>
+    <Copyright>© Oren Novotny 2016</Copyright>
+    <PackageTags>zeroconf;bonjour;mdns;service;discovery;pcl;xamarin;netstandard;universal</PackageTags>
+    <Product>Zeroconf ($(TargetFramework))</Product>
+    <IncludeSymbols>true</IncludeSymbols>
+    <UseFullSemVerForNuGet>true</UseFullSemVerForNuGet>
+    <GenerateDocumentationFile Condition=" '$(Configuration)' == 'Release' ">true</GenerateDocumentationFile>
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Platforms\**\*.*" />
+    <None Include="Platforms\**\*.*" />
+    <EmbeddedResource Include="Properties\Zeroconf.rd.xml" />
+    <PackageReference Include="System.Reactive" Version="4.0.0" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+    <Compile Include="Platforms\netstandard1.3\*.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
+</Project>

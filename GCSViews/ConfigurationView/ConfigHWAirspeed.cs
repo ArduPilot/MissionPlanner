@@ -1,67 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using MissionPlanner.Controls.BackstageView;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigHWAirspeed : UserControl, IActivate
+    public partial class ConfigHWAirspeed : MyUserControl, IActivate
     {
-        bool startup = false;
-
-        const float rad2deg = (float)(180 / Math.PI);
-        const float deg2rad = (float)(1.0 / rad2deg);
+        private bool startup;
 
         public ConfigHWAirspeed()
         {
             InitializeComponent();
         }
 
-
-        private void CHK_enableairspeed_CheckedChanged(object sender, EventArgs e)
-        {
-            if (startup)
-                return;
-            try
-            {
-                if (MainV2.comPort.MAV.param["ARSPD_ENABLE"] == null)
-                {
-                    CustomMessageBox.Show(Strings.ErrorFeatureNotEnabled, Strings.ERROR);
-                }
-                else
-                {
-                    MainV2.comPort.setParam("ARSPD_ENABLE", ((CheckBox)sender).Checked == true ? 1 : 0);
-                }
-            }
-            catch { CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, "ARSPD_ENABLE"), Strings.ERROR); }
-        }
-
         public void Activate()
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
             {
-                this.Enabled = false;
+                Enabled = false;
                 return;
             }
-            else
-            {
-                this.Enabled = true;
-            }
+            Enabled = true;
 
             startup = true;
 
-       
+            if (!MainV2.comPort.MAV.param.ContainsKey("ARSPD_USE"))
+                CHK_airspeeduse.Visible = false;
+
+            if (!MainV2.comPort.MAV.param.ContainsKey("ARSPD_ENABLE"))
+                CHK_enableairspeed.Visible = false;
+
             CHK_airspeeduse.setup(1, 0, "ARSPD_USE", MainV2.comPort.MAV.param);
             CHK_enableairspeed.setup(1, 0, "ARSPD_ENABLE", MainV2.comPort.MAV.param);
 
-            List<KeyValuePair<int, string>> options = new List<KeyValuePair<int, string>>();
+            mavlinkComboBoxARSPD_TYPE.setup(ParameterMetaDataRepository.GetParameterOptionsInt("ARSPD_TYPE",
+                MainV2.comPort.MAV.cs.firmware.ToString()), "ARSPD_TYPE", MainV2.comPort.MAV.param);
+
+            var options = new List<KeyValuePair<int, string>>();
             options.Add(new KeyValuePair<int, string>(0, "APM 2 analog pin 0"));
             options.Add(new KeyValuePair<int, string>(1, "APM 2 analog pin 1"));
             options.Add(new KeyValuePair<int, string>(2, "APM 2 analog pin 2"));
@@ -80,11 +57,30 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             options.Add(new KeyValuePair<int, string>(65, "PX4/Pixhawk EagleTree or MEAS I2C AS Sensor"));
 
             mavlinkCheckBoxAirspeed_pin.setup(options, "ARSPD_PIN", MainV2.comPort.MAV.param);
-          
+
 
             startup = false;
         }
 
-       
+        private void CHK_enableairspeed_CheckedChanged(object sender, EventArgs e)
+        {
+            if (startup)
+                return;
+            try
+            {
+                if (MainV2.comPort.MAV.param["ARSPD_ENABLE"] == null)
+                {
+                    CustomMessageBox.Show(Strings.ErrorFeatureNotEnabled, Strings.ERROR);
+                }
+                else
+                {
+                    MainV2.comPort.setParam("ARSPD_ENABLE", ((CheckBox) sender).Checked ? 1 : 0);
+                }
+            }
+            catch
+            {
+                CustomMessageBox.Show(string.Format(Strings.ErrorSetValueFailed, "ARSPD_ENABLE"), Strings.ERROR);
+            }
+        }
     }
 }

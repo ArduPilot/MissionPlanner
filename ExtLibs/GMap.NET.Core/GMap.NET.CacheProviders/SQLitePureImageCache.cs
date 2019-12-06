@@ -13,15 +13,7 @@ namespace GMap.NET.CacheProviders
    using GMap.NET.MapProviders;
    using System.Threading;
 
-#if !MONO
    using System.Data.SQLite;
-#else
-   using SQLiteConnection = Mono.Data.SqliteClient.SqliteConnection;
-   using SQLiteTransaction = Mono.Data.SqliteClient.SqliteTransaction;
-   using SQLiteCommand = Mono.Data.SqliteClient.SqliteCommand;
-   using SQLiteDataReader = Mono.Data.SqliteClient.SqliteDataReader;
-   using SQLiteParameter = Mono.Data.SqliteClient.SqliteParameter;
-#endif
 
    /// <summary>
    /// ultra fast cache system for tiles
@@ -32,73 +24,10 @@ namespace GMap.NET.CacheProviders
 #if !MONO
       static SQLitePureImageCache()
       {
-         AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(CurrentDomain_AssemblyResolve);
+         //AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(CurrentDomain_AssemblyResolve);
       }
 
-      static System.Reflection.Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
-      {
-         if(args.Name.StartsWith("System.Data.SQLite", StringComparison.OrdinalIgnoreCase))
-         {
-            string rootDir = System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData) + Path.DirectorySeparatorChar + "GMap.NET" + Path.DirectorySeparatorChar;
-            string dllDir = rootDir + "DllCache" + Path.DirectorySeparatorChar;
-            string dll = dllDir + "SQLite_v84_NET" + Environment.Version.Major + "_" + (IntPtr.Size == 8 ? "x64" : "x86") + Path.DirectorySeparatorChar + "System.Data.SQLite.DLL";
-            if(!File.Exists(dll))
-            {
-               string dir = Path.GetDirectoryName(dll);
-               if(!Directory.Exists(dir))
-               {
-                  Directory.CreateDirectory(dir);
-               }
-
-               Debug.WriteLine("Saving to DllCache: " + dll);
-
-               if(Environment.Version.Major == 2)
-               {
-                  using(MemoryStream gzipDll = new MemoryStream((IntPtr.Size == 8 ? Properties.Resources.System_Data_SQLite_x64_NET2_dll : Properties.Resources.System_Data_SQLite_x86_NET2_dll)))
-                  {
-                     using(var gs = new System.IO.Compression.GZipStream(gzipDll, System.IO.Compression.CompressionMode.Decompress))
-                     {
-                        using(MemoryStream exctDll = new MemoryStream())
-                        {
-                           byte[] tmp = new byte[1024 * 256];
-                           int r = 0;
-                           while((r = gs.Read(tmp, 0, tmp.Length)) > 0)
-                           {
-                              exctDll.Write(tmp, 0, r);
-                           }
-                           File.WriteAllBytes(dll, exctDll.ToArray());
-                        }
-                     }
-                  }
-               }
-               else if(Environment.Version.Major == 4)
-               {
-                  using(MemoryStream gzipDll = new MemoryStream((IntPtr.Size == 8 ? Properties.Resources.System_Data_SQLite_x64_NET4_dll : Properties.Resources.System_Data_SQLite_x86_NET4_dll)))
-                  {
-                     using(var gs = new System.IO.Compression.GZipStream(gzipDll, System.IO.Compression.CompressionMode.Decompress))
-                     {
-                        using(MemoryStream exctDll = new MemoryStream())
-                        {
-                           byte[] tmp = new byte[1024 * 256];
-                           int r = 0;
-                           while((r = gs.Read(tmp, 0, tmp.Length)) > 0)
-                           {
-                              exctDll.Write(tmp, 0, r);
-                           }
-                           File.WriteAllBytes(dll, exctDll.ToArray());
-                        }
-                     }
-                  }
-               }
-            }
-
-            Debug.WriteLine("Assembly.LoadFile: " + dll);
-
-            return System.Reflection.Assembly.LoadFile(dll);
-         }
-         return null;
-      }
-
+ 
       static int ping = 0;
 
       /// <summary>
@@ -556,11 +485,7 @@ namespace GMap.NET.CacheProviders
                               cmd.ExecuteNonQuery();
                            }
 
-#if !MONO
                            using(SQLiteTransaction tr = cn2.BeginTransaction())
-#else
-                           using(DbTransaction tr = cn2.BeginTransaction())
-#endif
                            {
                               try
                               {

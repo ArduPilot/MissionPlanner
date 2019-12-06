@@ -33,7 +33,6 @@
             this.BUT_rerequestparams = new MissionPlanner.Controls.MyButton();
             this.BUT_writePIDS = new MissionPlanner.Controls.MyButton();
             this.BUT_Find = new MissionPlanner.Controls.MyButton();
-            this.chk_advview = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -60,18 +59,10 @@
             this.BUT_Find.UseVisualStyleBackColor = true;
             this.BUT_Find.Click += new System.EventHandler(this.BUT_Find_Click);
             // 
-            // chk_advview
-            // 
-            resources.ApplyResources(this.chk_advview, "chk_advview");
-            this.chk_advview.Name = "chk_advview";
-            this.chk_advview.UseVisualStyleBackColor = true;
-            this.chk_advview.CheckedChanged += new System.EventHandler(this.chk_advview_CheckedChanged);
-            // 
             // ConfigFriendlyParams
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.chk_advview);
+            
             this.Controls.Add(this.BUT_Find);
             this.Controls.Add(this.BUT_rerequestparams);
             this.Controls.Add(this.BUT_writePIDS);
@@ -88,6 +79,5 @@
       private Controls.MyButton BUT_rerequestparams;
       private Controls.MyButton BUT_writePIDS;
       private Controls.MyButton BUT_Find;
-      private System.Windows.Forms.CheckBox chk_advview;
    }
 }

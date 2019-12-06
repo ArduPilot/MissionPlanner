@@ -17,7 +17,7 @@ namespace MissionPlanner.Stats
         whattostat statsoverall = new whattostat();
         whattostat statssession = new whattostat();
 
-        string statsfile = System.Windows.Forms.Application.StartupPath + System.IO.Path.DirectorySeparatorChar + "stats.xml";
+        string statsfile = Settings.GetUserDataDirectory() + "stats.xml";
 
         DateTime display = DateTime.MinValue;
 

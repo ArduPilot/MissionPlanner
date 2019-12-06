@@ -9,10 +9,19 @@
 		<refreshVisibility>0</refreshVisibility>
 		<flyToView>1</flyToView>
 		<Link>
-			<href>http://127.0.0.1:56781/network.kml</href>
+			<href>http://127.0.0.1:56781/location.kml</href>
 			<refreshMode>onInterval</refreshMode>
-			<refreshInterval>0.3</refreshInterval>
-			<viewRefreshTime>0.3</viewRefreshTime>
+			<refreshInterval>3</refreshInterval>
+			<viewRefreshTime>3</viewRefreshTime>
+		</Link>
+	</NetworkLink>
+	<NetworkLink>
+		<name>View Centered Placemark</name>
+		<open>1</open>
+		<refreshVisibility>0</refreshVisibility>
+		<flyToView>0</flyToView>
+		<Link>
+			<href>http://127.0.0.1:56781/wps.kml</href>
 		</Link>
 	</NetworkLink>
 </Folder>

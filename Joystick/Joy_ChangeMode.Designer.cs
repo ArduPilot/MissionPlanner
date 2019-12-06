@@ -43,7 +43,7 @@
             // Joy_ChangeMode
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            
             this.ClientSize = new System.Drawing.Size(148, 43);
             this.Controls.Add(this.comboBox1);
             this.Name = "Joy_ChangeMode";

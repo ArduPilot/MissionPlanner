@@ -32,18 +32,18 @@
             this.CMB_mavs = new System.Windows.Forms.ComboBox();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.grid1 = new MissionPlanner.Swarm.Grid();
-            this.BUT_connect = new Controls.MyButton();
-            this.BUT_Start = new Controls.MyButton();
-            this.BUT_leader = new Controls.MyButton();
-            this.BUT_Land = new Controls.MyButton();
-            this.BUT_Takeoff = new Controls.MyButton();
-            this.BUT_Disarm = new Controls.MyButton();
-            this.BUT_Arm = new Controls.MyButton();
+            this.BUT_Start = new MissionPlanner.Controls.MyButton();
+            this.BUT_leader = new MissionPlanner.Controls.MyButton();
+            this.BUT_Land = new MissionPlanner.Controls.MyButton();
+            this.BUT_Takeoff = new MissionPlanner.Controls.MyButton();
+            this.BUT_Disarm = new MissionPlanner.Controls.MyButton();
+            this.BUT_Arm = new MissionPlanner.Controls.MyButton();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.BUT_Updatepos = new Controls.MyButton();
+            this.BUT_Updatepos = new MissionPlanner.Controls.MyButton();
             this.PNL_status = new System.Windows.Forms.FlowLayoutPanel();
             this.timer_status = new System.Windows.Forms.Timer(this.components);
+            this.but_guided = new MissionPlanner.Controls.MyButton();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -69,16 +69,6 @@
             this.grid1.Vertical = false;
             this.grid1.UpdateOffsets += new MissionPlanner.Swarm.Grid.UpdateOffsetsEvent(this.grid1_UpdateOffsets);
             // 
-            // BUT_connect
-            // 
-            this.BUT_connect.Location = new System.Drawing.Point(463, 12);
-            this.BUT_connect.Name = "BUT_connect";
-            this.BUT_connect.Size = new System.Drawing.Size(75, 23);
-            this.BUT_connect.TabIndex = 7;
-            this.BUT_connect.Text = "Connect MAVs";
-            this.BUT_connect.UseVisualStyleBackColor = true;
-            this.BUT_connect.Click += new System.EventHandler(this.BUT_connect_Click);
-            // 
             // BUT_Start
             // 
             this.BUT_Start.Enabled = false;
@@ -86,13 +76,13 @@
             this.BUT_Start.Name = "BUT_Start";
             this.BUT_Start.Size = new System.Drawing.Size(75, 23);
             this.BUT_Start.TabIndex = 6;
-            this.BUT_Start.Text = "Start";
+            this.BUT_Start.Text = global::MissionPlanner.Strings.Start;
             this.BUT_Start.UseVisualStyleBackColor = true;
             this.BUT_Start.Click += new System.EventHandler(this.BUT_Start_Click);
             // 
             // BUT_leader
             // 
-            this.BUT_leader.Location = new System.Drawing.Point(544, 12);
+            this.BUT_leader.Location = new System.Drawing.Point(463, 12);
             this.BUT_leader.Name = "BUT_leader";
             this.BUT_leader.Size = new System.Drawing.Size(75, 23);
             this.BUT_leader.TabIndex = 5;
@@ -176,10 +166,12 @@
             // 
             // PNL_status
             // 
-            this.PNL_status.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.PNL_status.Location = new System.Drawing.Point(787, 61);
+            this.PNL_status.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.PNL_status.AutoScroll = true;
+            this.PNL_status.Location = new System.Drawing.Point(783, 61);
             this.PNL_status.Name = "PNL_status";
-            this.PNL_status.Size = new System.Drawing.Size(143, 398);
+            this.PNL_status.Size = new System.Drawing.Size(147, 398);
             this.PNL_status.TabIndex = 11;
             // 
             // timer_status
@@ -188,15 +180,24 @@
             this.timer_status.Interval = 200;
             this.timer_status.Tick += new System.EventHandler(this.timer_status_Tick);
             // 
+            // but_guided
+            // 
+            this.but_guided.Location = new System.Drawing.Point(544, 12);
+            this.but_guided.Name = "but_guided";
+            this.but_guided.Size = new System.Drawing.Size(75, 23);
+            this.but_guided.TabIndex = 12;
+            this.but_guided.Text = "Guided Mode";
+            this.but_guided.UseVisualStyleBackColor = true;
+            this.but_guided.Click += new System.EventHandler(this.but_guided_Click);
+            // 
             // FormationControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            
             this.ClientSize = new System.Drawing.Size(931, 471);
+            this.Controls.Add(this.but_guided);
             this.Controls.Add(this.PNL_status);
             this.Controls.Add(this.BUT_Updatepos);
             this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.BUT_connect);
             this.Controls.Add(this.BUT_Start);
             this.Controls.Add(this.BUT_leader);
             this.Controls.Add(this.CMB_mavs);
@@ -223,7 +224,6 @@
         private System.Windows.Forms.ComboBox CMB_mavs;
         private Controls.MyButton BUT_leader;
         private Controls.MyButton BUT_Start;
-        private Controls.MyButton BUT_connect;
         private Grid grid1;
         private System.Windows.Forms.BindingSource bindingSource1;
         private System.Windows.Forms.TabControl tabControl1;
@@ -231,5 +231,6 @@
         private Controls.MyButton BUT_Updatepos;
         private System.Windows.Forms.FlowLayoutPanel PNL_status;
         private System.Windows.Forms.Timer timer_status;
+        private Controls.MyButton but_guided;
     }
 }

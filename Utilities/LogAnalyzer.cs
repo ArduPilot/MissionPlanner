@@ -1,86 +1,115 @@
-﻿using IronPython.Hosting;
 using log4net;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Windows.Forms;
 using System.Xml;
+using ICSharpCode.SharpZipLib.Zip;
+using MissionPlanner.Controls;
 
 namespace MissionPlanner.Utilities
 {
     public class LogAnalyzer
     {
-        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log =
+            LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public static string CheckLogFile(string FileName)
         {
-            var engine = Python.CreateEngine();
-            var scope = engine.CreateScope();
+            if (Program.WindowsStoreApp)
+            {
+                CustomMessageBox.Show(Strings.Not_available_when_used_as_a_windows_store_app);
+                return "";
+            }
 
-            var all = System.Reflection.Assembly.GetExecutingAssembly();
-            engine.Runtime.LoadAssembly(all);
+            var dir = Settings.GetDataDirectory() + "LogAnalyzer" +
+                      Path.DirectorySeparatorChar;
 
-            engine.CreateScriptSourceFromString("print 'hello world from python'").Execute(scope);
+            var runner = dir + "runner.exe";
 
-            List<string> paths = new List<string>(engine.GetSearchPaths());
+            var zip = dir + "LogAnalyzer.zip";
 
-            paths.Add(Environment.CurrentDirectory);
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
 
-            paths.Add(Path.GetDirectoryName(Application.StartupPath + Path.DirectorySeparatorChar + "LogAnalyzer" + Path.DirectorySeparatorChar + "LogAnalyzer.py"));
-            paths.Add(Application.StartupPath + Path.DirectorySeparatorChar + "lib" + Path.DirectorySeparatorChar + "site-packages");
+            //if (!File.Exists(runner))
+            {
+                Loading.ShowLoading("Downloading LogAnalyzer");
+                bool gotit = false;
+                if (Environment.Is64BitOperatingSystem)
+                {
+                    gotit = Download.getFilefromNet(
+                        "http://firmware.ardupilot.org/Tools/MissionPlanner/LogAnalyzer/LogAnalyzer64.zip",
+                        zip);
+                }
+                else
+                {
+                    gotit = Download.getFilefromNet(
+                        "http://firmware.ardupilot.org/Tools/MissionPlanner/LogAnalyzer/LogAnalyzer.zip",
+                        zip);
+                }
 
-            engine.SetSearchPaths(paths);
+                // download zip
+                if (gotit)
+                {
+                    Loading.ShowLoading("Extracting zip file");
+                    // extract zip
+                    FastZip fzip = new FastZip();
+                    fzip.ExtractZip(zip, dir, "");
+                }
+                else
+                {
+                    if (!File.Exists(runner))
+                    {
+                        CustomMessageBox.Show("Failed to download LogAnalyzer");
+                        return "";
+                    }
+                }
 
-            //  engine.CreateScriptSourceFromFile(@"C:\Users\hog\Desktop\DIYDrones\loganalysiscommon\Tools\LogAnalyzer\LogAnalyzer.py");
+            }
 
+            if (!File.Exists(runner))
+            {
+                CustomMessageBox.Show("Failed to download LogAnalyzer");
+                return "";
+            }
 
-            string bootloader = @"
-import sys
-import clr
-clr.AddReference('mtrand.dll')
+            var sb = new StringBuilder();
 
+            Process P = new Process();
+            P.StartInfo.FileName = runner;
+            P.StartInfo.Arguments = @" -x """ + FileName + @".xml"" -s """ + FileName + @"""";
 
+            P.StartInfo.UseShellExecute = false;
+            P.StartInfo.WorkingDirectory = dir;
 
-import numpy
-#import scipy
+            P.StartInfo.RedirectStandardOutput = true;
+            P.StartInfo.RedirectStandardError = true;
 
-print numpy.__version__
-#print scipy.__version__
+            P.OutputDataReceived += (sender, args) => sb.AppendLine(args.Data);
+            P.ErrorDataReceived += (sender, args) => sb.AppendLine(args.Data);
 
-import mtrand
-
-import numpy
-
-import LogAnalyzer
-
-import sys
-
-sys.argv.append('-x')
-sys.argv.append('" + FileName.Replace('\\', '/') + @".xml')
-sys.argv.append('-s')
-sys.argv.append('" + FileName.Replace('\\', '/') + @"')
-
-print sys.argv
-
-
-LogAnalyzer.main()
-
-";
             try
             {
-                var memstream = new MemoryStream();
+                Loading.ShowLoading("Running LogAnalyzer");
 
-                engine.Runtime.IO.SetOutput(memstream, UnicodeEncoding.ASCII);
+                P.Start();
 
-                engine.CreateScriptSourceFromString(bootloader).Execute(scope);
+                P.BeginOutputReadLine();
+                P.BeginErrorReadLine();
 
-                stringresult = Encoding.ASCII.GetString(memstream.GetBuffer());
+                // until we are done
+                P.WaitForExit();
+
+                log.Info(sb.ToString());
             }
-            catch (Exception ex) { log.Error(ex); CustomMessageBox.Show(ex.Message, Strings.ERROR); return ""; }
+            catch
+            {
+                CustomMessageBox.Show("Failed to start LogAnalyzer");
+            }
 
-            engine = null;
+            Loading.Close();
 
             return FileName + ".xml";
         }
@@ -138,7 +167,10 @@ LogAnalyzer.main()
                                             break;
                                     }
                                 }
-                                catch (Exception ex) { log.Error(ex); }
+                                catch (Exception ex)
+                                {
+                                    log.Error(ex);
+                                }
                             }
                         }
                     }
@@ -167,7 +199,7 @@ LogAnalyzer.main()
                                     case "status":
                                         res.status = subtree.ReadString();
                                         break;
-                                    case "message": 
+                                    case "message":
                                         res.message = subtree.ReadString();
                                         break;
                                     case "data":

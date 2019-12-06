@@ -1,0 +1,70 @@
+﻿<!--
+//
+// Copyright 2014 LusoVU. All rights reserved.
+//
+// This library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+// USA.
+//
+// Project home page: https://bitbucket.com/lusovu/xamarinusbserial
+//
+-->
+
+<enum-field-mappings>
+	<!--
+  This example converts the constants Fragment_id, Fragment_name,
+  and Fragment_tag from android.support.v4.app.FragmentActivity.FragmentTag
+  to an enum called Android.Support.V4.App.FragmentTagType with values
+  Id, Name, and Tag.
+
+  <mapping clr-enum-type="Android.Support.V4.App.FragmentTagType" jni-class="android/support/v4/app/FragmentActivity$FragmentTag">
+    <field clr-name="Id" jni-name="Fragment_id" value="1" />
+    <field clr-name="Name" jni-name="Fragment_name" value="0" />
+    <field clr-name="Tag" jni-name="Fragment_tag" value="2" />
+  </type>
+
+  Notes:
+  - An optional "bitfield" attribute marks the enum type with [Flags].
+  - For Java interfaces, use "jni-interface" attribute instead of "jni-class" attribute.
+  -->
+
+	<mapping clr-enum-type="Hoho.Android.UsbSerial.Driver.Parity" jni-interface="com/hoho/android/usbserial/driver/UsbSerialPort">
+		<field clr-name="None" jni-name="PARITY_NONE" value="0" />
+		<field clr-name="Odd" jni-name="PARITY_ODD" value="1" />
+		<field clr-name="Even" jni-name="PARITY_EVEN" value="2" />
+		<field clr-name="Mark" jni-name="PARITY_MARK" value="3" />
+		<field clr-name="Space" jni-name="PARITY_SPACE" value="4" />
+	</mapping>
+
+	<mapping clr-enum-type="Hoho.Android.UsbSerial.Driver.StopBits" jni-interface="com/hoho/android/usbserial/driver/UsbSerialPort">
+		<field clr-name="One" jni-name="STOPBITS_1" value="1" />
+		<field clr-name="OnePointFive" jni-name="STOPBITS_1_5" value="3" />
+		<field clr-name="Two" jni-name="STOPBITS_2" value="2" />
+	</mapping>
+
+	<mapping clr-enum-type="Hoho.Android.UsbSerial.Driver.FlowControl" jni-interface="com/hoho/android/usbserial/driver/UsbSerialPort">
+		<field clr-name="None" jni-name="FLOWCONTROL_NONE" value="0" />
+		<field clr-name="RtsCtsIn" jni-name="FLOWCONTROL_RTSCTS_IN" value="1" />
+		<field clr-name="RtsCtsOut" jni-name="FLOWCONTROL_RTSCTS_OUT" value="2" />
+		<field clr-name="XOnXOffIn" jni-name="FLOWCONTROL_XONXOFF_IN" value="4" />
+		<field clr-name="XOnXOffOut" jni-name="FLOWCONTROL_XONXOFF_OUT" value="8" />
+	</mapping>
+
+	<mapping clr-enum-type="Hoho.Android.UsbSerial.Driver.DataBits" jni-interface="com/hoho/android/usbserial/driver/UsbSerialPort">
+		<field clr-name="Five" jni-name="DATABITS_5" value="5" />
+		<field clr-name="Six" jni-name="DATABITS_6" value="6" />
+		<field clr-name="Seven" jni-name="DATABITS_7" value="7" />
+		<field clr-name="Eight" jni-name="DATABITS_8" value="8" />
+	</mapping>
+</enum-field-mappings>

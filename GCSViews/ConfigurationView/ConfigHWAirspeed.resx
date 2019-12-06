@@ -142,13 +142,13 @@
     <value>CHK_enableairspeed</value>
   </data>
   <data name="&gt;&gt;CHK_enableairspeed.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5257.37829, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.57.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_enableairspeed.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CHK_enableairspeed.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>5</value>
   </data>
   <data name="pictureBox4.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>Zoom</value>
@@ -175,7 +175,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBox4.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>8</value>
   </data>
   <data name="groupBox3.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -199,7 +199,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>7</value>
   </data>
   <data name="CHK_airspeeduse.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -223,13 +223,13 @@
     <value>CHK_airspeeduse</value>
   </data>
   <data name="&gt;&gt;CHK_airspeeduse.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5257.37829, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.57.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_airspeeduse.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CHK_airspeeduse.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="label2.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 12pt</value>
@@ -259,7 +259,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>6</value>
   </data>
   <data name="mavlinkCheckBoxAirspeed_pin.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -280,13 +280,13 @@
     <value>mavlinkCheckBoxAirspeed_pin</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxAirspeed_pin.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5257.37829, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.3.57.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxAirspeed_pin.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxAirspeed_pin.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="lbl_airspeed_pin.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -298,13 +298,13 @@
     <value>93, 61</value>
   </data>
   <data name="lbl_airspeed_pin.Size" type="System.Drawing.Size, System.Drawing">
-    <value>66, 13</value>
+    <value>22, 13</value>
   </data>
   <data name="lbl_airspeed_pin.TabIndex" type="System.Int32, mscorlib">
     <value>75</value>
   </data>
   <data name="lbl_airspeed_pin.Text" xml:space="preserve">
-    <value>Airspeed Pin</value>
+    <value>Pin</value>
   </data>
   <data name="&gt;&gt;lbl_airspeed_pin.Name" xml:space="preserve">
     <value>lbl_airspeed_pin</value>
@@ -316,14 +316,65 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lbl_airspeed_pin.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="mavlinkComboBoxARSPD_TYPE.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkComboBoxARSPD_TYPE.Location" type="System.Drawing.Point, System.Drawing">
+    <value>165, 86</value>
+  </data>
+  <data name="mavlinkComboBoxARSPD_TYPE.Size" type="System.Drawing.Size, System.Drawing">
+    <value>161, 21</value>
+  </data>
+  <data name="mavlinkComboBoxARSPD_TYPE.TabIndex" type="System.Int32, mscorlib">
+    <value>76</value>
+  </data>
+  <data name="&gt;&gt;mavlinkComboBoxARSPD_TYPE.Name" xml:space="preserve">
+    <value>mavlinkComboBoxARSPD_TYPE</value>
+  </data>
+  <data name="&gt;&gt;mavlinkComboBoxARSPD_TYPE.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.3.57.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkComboBoxARSPD_TYPE.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;mavlinkComboBoxARSPD_TYPE.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>92, 89</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 13</value>
+  </data>
+  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+    <value>77</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="&gt;&gt;label1.Name" xml:space="preserve">
+    <value>label1</value>
+  </data>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>6, 13</value>
-  </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
     <value>650, 120</value>
   </data>

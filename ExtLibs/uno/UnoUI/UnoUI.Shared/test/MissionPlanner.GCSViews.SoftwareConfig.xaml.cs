@@ -1,0 +1,1 @@
+namespace MissionPlanner.GCSViews { public partial class SoftwareConfig{public SoftwareConfig(){this.InitializeComponent();}}}

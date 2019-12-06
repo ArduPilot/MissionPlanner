@@ -1,114 +1,121 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
-using MissionPlanner.Presenter;
+using MissionPlanner.Utilities;
 using Transitions;
-using System.Collections;
-using MissionPlanner.Models;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigMount : UserControl, IActivate
+    public partial class ConfigMount : MyUserControl, IActivate
     {
+        private readonly Transition _NoErrorTransition;
         private Transition[] _ErrorTransition;
-        private Transition _NoErrorTransition;
-        bool startup = true;
-
         public string ParamHead = "MNT_";
+        private bool startup = true;
 
         public ConfigMount()
         {
             InitializeComponent();
 
-
             var delay = new Transition(new TransitionType_Linear(2000));
             var fadeIn = new Transition(new TransitionType_Linear(800));
 
-            _ErrorTransition = new[] { delay, fadeIn };
+            _ErrorTransition = new[] {delay, fadeIn};
 
             _NoErrorTransition = new Transition(new TransitionType_Linear(10));
 
-            //setup button actions
-            foreach (var btn in Controls.Cast<Control>().OfType<Button>())
-                btn.Click += HandleButtonClick;
-
-            LNK_wiki.MouseEnter += (s, e) => FadeLinkTo((LinkLabel)s, Color.CornflowerBlue);
-            LNK_wiki.MouseLeave += (s, e) => FadeLinkTo((LinkLabel)s, Color.WhiteSmoke);
+            LNK_wiki.MouseEnter += (s, e) => FadeLinkTo((LinkLabel) s, Color.CornflowerBlue);
+            LNK_wiki.MouseLeave += (s, e) => FadeLinkTo((LinkLabel) s, Color.WhiteSmoke);
 
             SetErrorMessageOpacity();
 
-            comboBox1.Items.AddRange(Enum.GetNames(typeof(ChannelCameraShutter)));
-
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
+            if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduPlane)
             {
-                mavlinkComboBoxTilt.Items.AddRange(Enum.GetNames(typeof(Channelap)));
-                mavlinkComboBoxRoll.Items.AddRange(Enum.GetNames(typeof(Channelap)));
-                mavlinkComboBoxPan.Items.AddRange(Enum.GetNames(typeof(Channelap)));
+                mavlinkComboBoxTilt.Items.AddRange(Enum.GetNames(typeof (Channelap)));
+                mavlinkComboBoxRoll.Items.AddRange(Enum.GetNames(typeof (Channelap)));
+                mavlinkComboBoxPan.Items.AddRange(Enum.GetNames(typeof (Channelap)));
+                CMB_shuttertype.Items.AddRange(Enum.GetNames(typeof (ChannelCameraShutter)));
             }
             else
             {
-                mavlinkComboBoxTilt.Items.AddRange(Enum.GetNames(typeof(Channelac)));
-                mavlinkComboBoxRoll.Items.AddRange(Enum.GetNames(typeof(Channelac)));
-                mavlinkComboBoxPan.Items.AddRange(Enum.GetNames(typeof(Channelac)));
+                mavlinkComboBoxTilt.Items.AddRange(Enum.GetNames(typeof (Channelac)));
+                mavlinkComboBoxRoll.Items.AddRange(Enum.GetNames(typeof (Channelac)));
+                mavlinkComboBoxPan.Items.AddRange(Enum.GetNames(typeof (Channelac)));
+                CMB_shuttertype.Items.AddRange(Enum.GetNames(typeof (ChannelCameraShutter)));
             }
-        }
 
-        // 0 = disabled 1 = enabled
-        enum Channelap
-        {
-            Disable = 0,
-            RC5 = 1,
-            RC6 = 1,
-            RC7 = 1,
-            RC8 = 1,
-            RC9 = 1,
-            RC10 = 1,
-            RC11 = 1
-        }
+            string remove = "SERVO";
+            //cleanup list based on version
+            if (MainV2.comPort.MAV.param.ContainsKey("SERVO1_MIN"))
+            {
+                remove = "RC";
+            }
 
-        // 0 = disabled 1 = enabled
-        enum Channelac
-        {
-            Disable = 0,
-            RC5 = 1,
-            RC6 = 1,
-            RC7 = 1,
-            RC8 = 1,
-            RC9 = 1,
-            RC10 = 1,
-            RC11 = 1
-        }
+            for (int i = 0; i < mavlinkComboBoxTilt.Items.Count; i++)
+            {
+                var item = mavlinkComboBoxTilt.Items[i] as string;
+                if (item.StartsWith(remove))
+                {
+                    mavlinkComboBoxTilt.Items.Remove(mavlinkComboBoxTilt.Items[i]);
+                    i--;
+                    continue;
+                }
+            }
+            for (int i = 0; i < mavlinkComboBoxRoll.Items.Count; i++)
+            {
+                var item = mavlinkComboBoxRoll.Items[i] as string;
+                if (item.StartsWith(remove))
+                {
+                    mavlinkComboBoxRoll.Items.Remove(mavlinkComboBoxRoll.Items[i]);
+                    i--;
+                    continue;
+                }
+            }
+            for (int i = 0; i < mavlinkComboBoxPan.Items.Count; i++)
+            {
+                var item = mavlinkComboBoxPan.Items[i] as string;
+                if (item.StartsWith(remove))
+                {
+                    mavlinkComboBoxPan.Items.Remove(mavlinkComboBoxPan.Items[i]);
+                    i--;
+                    continue;
+                }
+            }
+            for (int i = 0; i < CMB_shuttertype.Items.Count; i++)
+            {
+                var item = CMB_shuttertype.Items[i] as string;
+                if (item.StartsWith(remove))
+                {
+                    CMB_shuttertype.Items.Remove(CMB_shuttertype.Items[i]);
+                    i--;
+                    continue;
+                }
+            }
 
-        enum ChannelCameraShutter
-        {
-            Disable = 0,
-            RC5 = 5,
-            RC6 = 6,
-            RC7 = 7,
-            RC8 = 8,
-            RC9 = 1,
-            RC10 = 10,
-            RC11 = 11,
-            Relay = 1,
-            Transistor = 4
-        }
-
-        enum Channelinput
-        {
-            Disable = 0,
-            RC5 = 5,
-            RC6 = 6,
-            RC7 = 7,
-            RC8 = 8
+            CMB_mnt_type.setup(ParameterMetaDataRepository.GetParameterOptionsInt("MNT_TYPE",
+                MainV2.comPort.MAV.cs.firmware.ToString()), "MNT_TYPE", MainV2.comPort.MAV.param);
         }
 
         public void Activate()
         {
-            Hashtable copy = new Hashtable(MainV2.comPort.MAV.param);
+            var copy = new Dictionary<string, double>((Dictionary<string, double>) MainV2.comPort.MAV.param);
+
+            if (!copy.ContainsKey("CAM_TRIGG_TYPE"))
+            {
+                Enabled = false;
+                return;
+            }
+
+            startup = true;
+
+            CMB_shuttertype.SelectedItem = Enum.GetName(typeof(ChannelCameraShutter),
+                (Int32)MainV2.comPort.MAV.param["CAM_TRIGG_TYPE"]);
 
             foreach (string item in copy.Keys)
             {
@@ -126,7 +133,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             mavlinkComboBoxRoll.Text = item.Replace("_FUNCTION", "");
                             break;
                         case "10":
-                            comboBox1.Text = item.Replace("_FUNCTION", "");
+                            CMB_shuttertype.Text = item.Replace("_FUNCTION", "");
                             break;
                         default:
                             break;
@@ -143,65 +150,71 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 updateRoll();
                 updateYaw();
 
-                CHK_stab_tilt.setup(1, 0, ParamHead+"STAB_TILT", MainV2.comPort.MAV.param);
-                CHK_stab_roll.setup(1, 0, ParamHead+"STAB_ROLL", MainV2.comPort.MAV.param);
-                CHK_stab_pan.setup(1, 0, ParamHead+"STAB_PAN", MainV2.comPort.MAV.param);
+                CHK_stab_tilt.setup(1, 0, ParamHead + "STAB_TILT", MainV2.comPort.MAV.param);
+                CHK_stab_roll.setup(1, 0, ParamHead + "STAB_ROLL", MainV2.comPort.MAV.param);
+                CHK_stab_pan.setup(1, 0, ParamHead + "STAB_PAN", MainV2.comPort.MAV.param);
 
-                NUD_CONTROL_x.setup(-180, 180, 100, 1, ParamHead+"CONTROL_X",MainV2.comPort.MAV.param);
-                NUD_CONTROL_y.setup(-180, 180, 100, 1, ParamHead+"CONTROL_Y", MainV2.comPort.MAV.param);
-                NUD_CONTROL_z.setup(-180, 180, 100, 1, ParamHead+"CONTROL_Z", MainV2.comPort.MAV.param);
+                NUD_CONTROL_x.setup(-180, 180, 1, 1, ParamHead + "CONTROL_X", MainV2.comPort.MAV.param);
+                NUD_CONTROL_y.setup(-180, 180, 1, 1, ParamHead + "CONTROL_Y", MainV2.comPort.MAV.param);
+                NUD_CONTROL_z.setup(-180, 180, 1, 1, ParamHead + "CONTROL_Z", MainV2.comPort.MAV.param);
 
-                NUD_NEUTRAL_x.setup(-180, 180, 100, 1, ParamHead+"NEUTRAL_X", MainV2.comPort.MAV.param);
-                NUD_NEUTRAL_y.setup(-180, 180, 100, 1, ParamHead+"NEUTRAL_Y", MainV2.comPort.MAV.param);
-                NUD_NEUTRAL_z.setup(-180, 180, 100, 1, ParamHead+"NEUTRAL_Z", MainV2.comPort.MAV.param);
+                NUD_NEUTRAL_x.setup(-180, 180, 1, 1, ParamHead + "NEUTRAL_X", MainV2.comPort.MAV.param);
+                NUD_NEUTRAL_y.setup(-180, 180, 1, 1, ParamHead + "NEUTRAL_Y", MainV2.comPort.MAV.param);
+                NUD_NEUTRAL_z.setup(-180, 180, 1, 1, ParamHead + "NEUTRAL_Z", MainV2.comPort.MAV.param);
 
-                NUD_RETRACT_x.setup(-180, 180, 100, 1, ParamHead+"RETRACT_X", MainV2.comPort.MAV.param);
-                NUD_RETRACT_y.setup(-180, 180, 100, 1, ParamHead+"RETRACT_Y", MainV2.comPort.MAV.param);
-                NUD_RETRACT_z.setup(-180, 180, 100, 1, ParamHead+"RETRACT_Z", MainV2.comPort.MAV.param);
+                NUD_RETRACT_x.setup(-180, 180, 1, 1, ParamHead + "RETRACT_X", MainV2.comPort.MAV.param);
+                NUD_RETRACT_y.setup(-180, 180, 1, 1, ParamHead + "RETRACT_Y", MainV2.comPort.MAV.param);
+                NUD_RETRACT_z.setup(-180, 180, 1, 1, ParamHead + "RETRACT_Z", MainV2.comPort.MAV.param);
             }
-            catch (Exception ex) { CustomMessageBox.Show("Failed to set Param\n" + ex.ToString()); this.Enabled = false; return; }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show("Failed to set Param\n" + ex);
+                Enabled = false;
+            }
         }
 
-        void ensureDisabled(ComboBox cmb, int number, string exclude = "")
+        private void ensureDisabled(ComboBox cmb, int number, string exclude = "")
         {
-            foreach (string item in cmb.Items) 
+            foreach (var itemobj in cmb.Items)
             {
-                if (MainV2.comPort.MAV.param.ContainsKey(item+"_FUNCTION")) {
-                    float ans = (float)MainV2.comPort.MAV.param[item+"_FUNCTION"];
+                string item = itemobj.ToString();
+                if (MainV2.comPort.MAV.param.ContainsKey(item + "_FUNCTION"))
+                {
+                    var ans = (float) MainV2.comPort.MAV.param[item + "_FUNCTION"];
 
                     if (item == exclude)
                         continue;
 
                     if (ans == number)
                     {
-                        MainV2.comPort.setParam(item + "_FUNCTION",0);
+                        MainV2.comPort.setParam(item + "_FUNCTION", 0);
                     }
                 }
             }
         }
 
-        void updateShutter()
+        private void updateShutter()
         {
             // shutter
-            if (comboBox1.Text == "")
+            if (CMB_shuttertype.Text == "")
                 return;
 
-            if (comboBox1.Text != "Disable")
+            if (CMB_shuttertype.Text != "Disable")
             {
-                if (comboBox1.Text == ChannelCameraShutter.Relay.ToString())
+                if (CMB_shuttertype.Text == ChannelCameraShutter.Relay.ToString())
                 {
-                    ensureDisabled(comboBox1, 10);  
+                    ensureDisabled(CMB_shuttertype, 10);
                     MainV2.comPort.setParam("CAM_TRIGG_TYPE", 1);
                 }
-                else if (comboBox1.Text == ChannelCameraShutter.Transistor.ToString())
+                else if (CMB_shuttertype.Text == ChannelCameraShutter.Transistor.ToString())
                 {
-                    ensureDisabled(comboBox1, 10);  
+                    ensureDisabled(CMB_shuttertype, 10);
                     MainV2.comPort.setParam("CAM_TRIGG_TYPE", 4);
                 }
                 else
                 {
-                    ensureDisabled(comboBox1, 10);  
-                    MainV2.comPort.setParam(comboBox1.Text + "_FUNCTION", 10);
+                    ensureDisabled(CMB_shuttertype, 10);
+                    MainV2.comPort.setParam(CMB_shuttertype.Text + "_FUNCTION", 10);
                     // servo
                     MainV2.comPort.setParam("CAM_TRIGG_TYPE", 0);
                 }
@@ -210,19 +223,19 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 // servo
                 MainV2.comPort.setParam("CAM_TRIGG_TYPE", 0);
-                ensureDisabled(comboBox1, 10);
+                ensureDisabled(CMB_shuttertype, 10);
             }
 
 
-            mavlinkNumericUpDownShutM.setup(800, 2200, 1, 1, comboBox1.Text + "_MIN", MainV2.comPort.MAV.param);
-            mavlinkNumericUpDownShutMX.setup(800, 2200, 1, 1, comboBox1.Text + "_MAX", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDownShutM.setup(800, 2200, 1, 1, CMB_shuttertype.Text + "_MIN", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDownShutMX.setup(800, 2200, 1, 1, CMB_shuttertype.Text + "_MAX", MainV2.comPort.MAV.param);
 
             mavlinkNumericUpDownshut_pushed.setup(800, 2200, 1, 1, "CAM_SERVO_ON", MainV2.comPort.MAV.param);
             mavlinkNumericUpDownshut_notpushed.setup(800, 2200, 1, 1, "CAM_SERVO_OFF", MainV2.comPort.MAV.param);
-            mavlinkNumericUpDownshut_duration.setup(1, 200, 1, 1,  "CAM_DURATION", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDownshut_duration.setup(1, 200, 1, 1, "CAM_DURATION", MainV2.comPort.MAV.param);
         }
 
-        void updatePitch()
+        private void updatePitch()
         {
             // pitch
             if (mavlinkComboBoxTilt.Text == "")
@@ -236,19 +249,21 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             else
             {
                 //MainV2.comPort.setParam(ParamHead+"STAB_TILT", 0);
-                ensureDisabled(mavlinkComboBoxTilt, 7);    
+                ensureDisabled(mavlinkComboBoxTilt, 7);
             }
-            
 
-            mavlinkNumericUpDownTSM.setup(800, 2200, 1, 1, mavlinkComboBoxTilt.Text +"_MIN", MainV2.comPort.MAV.param);
+
+            mavlinkNumericUpDownTSM.setup(800, 2200, 1, 1, mavlinkComboBoxTilt.Text + "_MIN", MainV2.comPort.MAV.param);
             mavlinkNumericUpDownTSMX.setup(800, 2200, 1, 1, mavlinkComboBoxTilt.Text + "_MAX", MainV2.comPort.MAV.param);
-            mavlinkNumericUpDownTAM.setup(-90, 0, 100, 1, ParamHead+"ANGMIN_TIL", MainV2.comPort.MAV.param);
-            mavlinkNumericUpDownTAMX.setup(0, 90, 100, 1, ParamHead+"ANGMAX_TIL", MainV2.comPort.MAV.param);
-            mavlinkCheckBoxTR.setup(-1, 1, mavlinkComboBoxTilt.Text + "_REV", MainV2.comPort.MAV.param);
-            CMB_inputch_tilt.setup(typeof(Channelinput), ParamHead+"RC_IN_TILT", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDownTAM.setup(-90, 0, 100, 1, ParamHead + "ANGMIN_TIL", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDownTAMX.setup(0, 90, 100, 1, ParamHead + "ANGMAX_TIL", MainV2.comPort.MAV.param);
+            mavlinkCheckBoxTR.setup(new double[] {-1, 1}, new double[] {1, 0},
+                new string[] {mavlinkComboBoxTilt.Text + "_REV", mavlinkComboBoxTilt.Text + "_REVERSED"},
+                MainV2.comPort.MAV.param);
+            CMB_inputch_tilt.setup(typeof (Channelinput), ParamHead + "RC_IN_TILT", MainV2.comPort.MAV.param);
         }
 
-        void updateRoll()
+        private void updateRoll()
         {
             // roll
             if (mavlinkComboBoxRoll.Text == "")
@@ -262,18 +277,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             else
             {
                 //MainV2.comPort.setParam(ParamHead+"STAB_ROLL", 0);
-                ensureDisabled(mavlinkComboBoxRoll,8);
+                ensureDisabled(mavlinkComboBoxRoll, 8);
             }
 
-            mavlinkNumericUpDownRSM.setup(800, 2200, 1, 1, mavlinkComboBoxRoll.Text +"_MIN", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDownRSM.setup(800, 2200, 1, 1, mavlinkComboBoxRoll.Text + "_MIN", MainV2.comPort.MAV.param);
             mavlinkNumericUpDownRSMX.setup(800, 2200, 1, 1, mavlinkComboBoxRoll.Text + "_MAX", MainV2.comPort.MAV.param);
-            mavlinkNumericUpDownRAM.setup(-90, 0, 100, 1, ParamHead+"ANGMIN_ROL", MainV2.comPort.MAV.param);
-            mavlinkNumericUpDownRAMX.setup(0, 90, 100, 1, ParamHead+"ANGMAX_ROL", MainV2.comPort.MAV.param);
-            mavlinkCheckBoxRR.setup(-1, 1, mavlinkComboBoxRoll.Text + "_REV", MainV2.comPort.MAV.param);
-            CMB_inputch_roll.setup(typeof(Channelinput), ParamHead+"RC_IN_ROLL", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDownRAM.setup(-90, 0, 100, 1, ParamHead + "ANGMIN_ROL", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDownRAMX.setup(0, 90, 100, 1, ParamHead + "ANGMAX_ROL", MainV2.comPort.MAV.param);
+            mavlinkCheckBoxRR.setup(new double[] { -1, 1 }, new double[] { 1, 0 },
+                new string[] { mavlinkComboBoxRoll.Text + "_REV", mavlinkComboBoxRoll.Text + "_REVERSED" },
+                MainV2.comPort.MAV.param);
+            CMB_inputch_roll.setup(typeof (Channelinput), ParamHead + "RC_IN_ROLL", MainV2.comPort.MAV.param);
         }
 
-        void updateYaw()
+        private void updateYaw()
         {
             // yaw
             if (mavlinkComboBoxPan.Text == "")
@@ -287,20 +304,22 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             else
             {
                 //MainV2.comPort.setParam(ParamHead+"STAB_PAN", 0);
-                ensureDisabled(mavlinkComboBoxPan,6);
+                ensureDisabled(mavlinkComboBoxPan, 6);
             }
 
             mavlinkNumericUpDownPSM.setup(800, 2200, 1, 1, mavlinkComboBoxPan.Text + "_MIN", MainV2.comPort.MAV.param);
             mavlinkNumericUpDownPSMX.setup(800, 2200, 1, 1, mavlinkComboBoxPan.Text + "_MAX", MainV2.comPort.MAV.param);
-            mavlinkNumericUpDownPAM.setup(-180, 0, 100, 1, ParamHead+"ANGMIN_PAN", MainV2.comPort.MAV.param);
-            mavlinkNumericUpDownPAMX.setup(0, 180, 100, 1, ParamHead+"ANGMAX_PAN", MainV2.comPort.MAV.param);
-            mavlinkCheckBoxPR.setup(-1, 1, mavlinkComboBoxPan.Text + "_REV", MainV2.comPort.MAV.param);
-            CMB_inputch_pan.setup(typeof(Channelinput), ParamHead+"RC_IN_PAN", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDownPAM.setup(-180, 0, 100, 1, ParamHead + "ANGMIN_PAN", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDownPAMX.setup(0, 180, 100, 1, ParamHead + "ANGMAX_PAN", MainV2.comPort.MAV.param);
+            mavlinkCheckBoxPR.setup(new double[] { -1, 1 }, new double[] { 1, 0 },
+                new string[] { mavlinkComboBoxPan.Text + "_REV", mavlinkComboBoxPan.Text + "_REVERSED" },
+                MainV2.comPort.MAV.param);
+            CMB_inputch_pan.setup(typeof (Channelinput), ParamHead + "RC_IN_PAN", MainV2.comPort.MAV.param);
         }
 
         private void SetErrorMessageOpacity()
         {
-           /* if (_presenter.HasError)
+            /* if (_presenter.HasError)
             {
                 // Todo - is this the prob? maybe single log trasition
                 var t = new Transition(new TransitionType_Acceleration(1000));
@@ -323,62 +342,148 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             changeColorTransition.run();
         }
 
-        // Common handler for all buttons
-        // Will execute an ICommand if one is found on the button Tag
-        private static void HandleButtonClick(object sender, EventArgs e)
-        {
-            if (sender is Button)
-            {
-                var cmd = (sender as Button).Tag as ICommand;
-
-                if (cmd != null)
-                    if (cmd.CanExecute(null))
-                        cmd.Execute(null);
-            }
-        }
-
-        // Something has changed on the presenter - This may be an Icommand
-        // enabled state, so update the buttons as appropriate
-        void CheckCommandStates(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
-        {
-            foreach (var btn in Controls.Cast<Control>().OfType<Button>())
-            {
-                var cmd = btn.Tag as ICommand;
-                if (cmd != null)
-                    btn.Enabled = cmd.CanExecute(null);
-            }
-        }
-
         private void LNK_Wiki_Clicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start(new ProcessStartInfo("http://code.google.com/p/arducopter/wiki/AC2_Camera"));
+            Process.Start(
+                new ProcessStartInfo(
+                    "http://copter.ardupilot.com/wiki/common-optional-hardware/common-cameras-and-gimbals/common-camera-gimbal/"));
         }
 
         private void mavlinkComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (startup == true)
+            if (startup)
                 return;
 
-            ComboBox cmb = sender as ComboBox;
+            var cmb = sender as ComboBox;
 
             try
             {
-
                 // cleanup all others - disableing any previous selection
                 ensureDisabled(cmb, 6, mavlinkComboBoxPan.Text);
                 ensureDisabled(cmb, 7, mavlinkComboBoxTilt.Text);
                 ensureDisabled(cmb, 8, mavlinkComboBoxRoll.Text);
 
                 // enable 3 axis stabilize
-                if (MainV2.comPort.MAV.param.ContainsKey(ParamHead+"MODE"))
-                    MainV2.comPort.setParam(ParamHead+"MODE", 3);
+                if (MainV2.comPort.MAV.param.ContainsKey(ParamHead + "MODE"))
+                    MainV2.comPort.setParam(ParamHead + "MODE", 3);
 
                 updateShutter();
                 updatePitch();
                 updateRoll();
                 updateYaw();
             }
-            catch (Exception ex) { CustomMessageBox.Show("Failed to set Param\n" + ex.ToString()); return; }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show("Failed to set Param\n" + ex);
+            }
+        }
+
+        // 0 = disabled 1 = enabled
+        private enum Channelap
+        {
+            Disable = 0,
+            RC5 = 1,
+            RC6 = 1,
+            RC7 = 1,
+            RC8 = 1,
+            RC9 = 1,
+            RC10 = 1,
+            RC11 = 1,
+            RC12 = 1,
+            RC13 = 1,
+            RC14 = 1,
+            SERVO1 = 1,
+            SERVO2 = 1,
+            SERVO3 = 1,
+            SERVO4 = 1,
+            SERVO5 = 1,
+            SERVO6 = 1,
+            SERVO7 = 1,
+            SERVO8 = 1,
+            SERVO9 = 1,
+            SERVO10 = 1,
+            SERVO11 = 1,
+            SERVO12 = 1,
+            SERVO13 = 1,
+            SERVO14 = 1
+        }
+
+        // 0 = disabled 1 = enabled
+        private enum Channelac
+        {
+            Disable = 0,
+            RC5 = 1,
+            RC6 = 1,
+            RC7 = 1,
+            RC8 = 1,
+            RC9 = 1,
+            RC10 = 1,
+            RC11 = 1,
+            RC12 = 1,
+            RC13 = 1,
+            RC14 = 1,
+            SERVO1 = 1,
+            SERVO2 = 1,
+            SERVO3 = 1,
+            SERVO4 = 1,
+            SERVO5 = 1,
+            SERVO6 = 1,
+            SERVO7 = 1,
+            SERVO8 = 1,
+            SERVO9 = 1,
+            SERVO10 = 1,
+            SERVO11 = 1,
+            SERVO12 = 1,
+            SERVO13 = 1,
+            SERVO14 = 1
+        }
+
+        private enum ChannelCameraShutter
+        {
+            Disable = 0,
+            RC5 = 5,
+            RC6 = 6,
+            RC7 = 7,
+            RC8 = 8,
+            RC9 = 9,
+            RC10 = 10,
+            RC11 = 11,
+            RC12 = 12,
+            RC13 = 13,
+            RC14 = 14,
+            SERVO1 = 1,
+            SERVO2 = 2,
+            SERVO3 = 3,
+            SERVO4 = 4,
+            SERVO5 = 5,
+            SERVO6 = 6,
+            SERVO7 = 7,
+            SERVO8 = 8,
+            SERVO9 = 9,
+            SERVO10 = 10,
+            SERVO11 = 11,
+            SERVO12 = 12,
+            SERVO13 = 13,
+            SERVO14 = 14,
+            Relay = 1,
+            Transistor = 4
+        }
+
+        private enum Channelinput
+        {
+            Disable = 0,
+            RC5 = 5,
+            RC6 = 6,
+            RC7 = 7,
+            RC8 = 8,
+            RC9 = 9,
+            RC10 = 10,
+            RC11 = 11,
+            RC12 = 12,
+            RC13 = 13,
+            RC14 = 14,
+            RC15 = 15,
+            RC16 = 16,
         }
     }
 }

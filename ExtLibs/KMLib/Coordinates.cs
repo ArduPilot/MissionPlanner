@@ -33,14 +33,14 @@ namespace KMLib
 
         public virtual string Serialize()
         {
-            string ans = "";
+            StringBuilder ans = new StringBuilder();
             for (int i = 0; i < Count; i++) {
-                ans += this[i].Serialize();
+                ans.Append(this[i].Serialize());
                 if (i < Count - 1) {
-                    ans += " ";
+                    ans.Append(" ");
                 }
             }
-            return ans;
+            return ans.ToString();
         }
 
         public virtual void Deserialize(string str)

@@ -1,0 +1,1 @@
+namespace MissionPlanner.Controls { public partial class HUD{public HUD(){this.InitializeComponent();}}}

@@ -1,0 +1,345 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="pointCameraHereToolStripMenuItem.Text" xml:space="preserve">
+    <value>Apontar camera aqui</value>
+  </data>
+  <data name="BUT_setmode.ToolTip" xml:space="preserve">
+    <value>Mudar para o modo a esquerda</value>
+  </data>
+  <data name="BUT_edit_selected.Text" xml:space="preserve">
+    <value>Edite script selecionado</value>
+  </data>
+  <data name="BUT_abort_script.Text" xml:space="preserve">
+    <value>Abortar script rodando</value>
+  </data>
+  <data name="BUT_setwp.ToolTip" xml:space="preserve">
+    <value>Mudar o waipoint alvo</value>
+  </data>
+  <data name="BUT_quickauto.ToolTip" xml:space="preserve">
+    <value>Mudar modo para auto</value>
+  </data>
+  <data name="goHereToolStripMenuItem.Text" xml:space="preserve">
+    <value>Va para aqui</value>
+  </data>
+  <data name="quickView1.ToolTip" xml:space="preserve">
+    <value>Clique duplo para mudar</value>
+  </data>
+  <data name="checkBoxRedirectOutput.Text" xml:space="preserve">
+    <value>Redirecione a saida do programa</value>
+  </data>
+  <data name="BUT_RAWSensor.Text" xml:space="preserve">
+    <value>Ver sensores brutos</value>
+  </data>
+  <data name="BUTrestartmission.ToolTip" xml:space="preserve">
+    <value>Reinicia a missão do começo</value>
+  </data>
+  <data name="BUT_abortland.ToolTip" xml:space="preserve">
+    <value>Somente avião</value>
+  </data>
+  <data name="BUT_loganalysis.Text" xml:space="preserve">
+    <value>Auto analise</value>
+  </data>
+  <data name="tabPagePreFlight.Text" xml:space="preserve">
+    <value>Pre-voo</value>
+  </data>
+  <data name="BUT_clear_track.ToolTip" xml:space="preserve">
+    <value>Limpe o caminho salvo no mapa</value>
+  </data>
+  <data name="BUT_resumemis.Text" xml:space="preserve">
+    <value>Reasume a missão</value>
+  </data>
+  <data name="CB_tuning.ToolTip" xml:space="preserve">
+    <value>Mostrar grafico de ajuste, mostrando a altitude do alvo vs a atual</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Velocidade</value>
+  </data>
+  <data name="BUT_ARM.ToolTip" xml:space="preserve">
+    <value>Arm o Mav</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Direcione ao WPT atual</value>
+  </data>
+  <data name="BUT_clear_track.Text" xml:space="preserve">
+    <value>Limpar rastro</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Heading atual</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Heading do alvo</value>
+  </data>
+  <data name="userItemsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Itens do usuario</value>
+  </data>
+  <data name="myButton1.ToolTip" xml:space="preserve">
+    <value>Trocar modo para manual/estabilizar</value>
+  </data>
+  <data name="tabActionsSimple.Text" xml:space="preserve">
+    <value>Ações</value>
+  </data>
+  <data name="BUT_DFMavlink.Text" xml:space="preserve">
+    <value>Descarregar memória via MARVLink</value>
+  </data>
+  <data name="CHK_autopan.ToolTip" xml:space="preserve">
+    <value>Centralize o mapa na cordenada atual</value>
+  </data>
+  <data name="BUT_quickrtl.ToolTip" xml:space="preserve">
+    <value>Trocar modo para RTL</value>
+  </data>
+  <data name="tablogbrowse.Text" xml:space="preserve">
+    <value>Arquivos da memória</value>
+  </data>
+  <data name="BUT_mountmode.ToolTip" xml:space="preserve">
+    <value>Muda o modo da esquerda</value>
+  </data>
+  <data name="Zoomlevel.ToolTip" xml:space="preserve">
+    <value>Mude o zoom</value>
+  </data>
+  <data name="CB_tuning.Text" xml:space="preserve">
+    <value>Ajustando</value>
+  </data>
+  <data name="altitudeAngelSettingsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Ajuste do angulo altitude</value>
+  </data>
+  <data name="triggerCameraToolStripMenuItem.Text" xml:space="preserve">
+    <value>Disparar camera agora</value>
+  </data>
+  <data name="but_disablejoystick.Text" xml:space="preserve">
+    <value>Desabilitar Joystick</value>
+  </data>
+  <data name="BUT_run_script.Text" xml:space="preserve">
+    <value>Rodar Script</value>
+  </data>
+  <data name="dataGridViewImageColumn2.HeaderText" xml:space="preserve">
+    <value>Baixo</value>
+  </data>
+  <data name="BUTactiondo.Text" xml:space="preserve">
+    <value>Execute</value>
+  </data>
+  <data name="BUTrestartmission.Text" xml:space="preserve">
+    <value>Recomeçar missão</value>
+  </data>
+  <data name="BUT_quickmanual.ToolTip" xml:space="preserve">
+    <value>Mudar o modo para Manual/estabilizar</value>
+  </data>
+  <data name="takeOffToolStripMenuItem.Text" xml:space="preserve">
+    <value>Decolar</value>
+  </data>
+  <data name="BUT_RAWSensor.ToolTip" xml:space="preserve">
+    <value>Ver dados brutos da Giro e Acelerometro e os raios</value>
+  </data>
+  <data name="saveFileToolStripMenuItem.Text" xml:space="preserve">
+    <value>Gravar arquivo</value>
+  </data>
+  <data name="PointCameraCoordsToolStripMenuItem1.Text" xml:space="preserve">
+    <value>Apontar Camera Coord</value>
+  </data>
+  <data name="BUT_matlab.Text" xml:space="preserve">
+    <value>Criar arquivo Matlab </value>
+  </data>
+  <data name="BUT_abortland.Text" xml:space="preserve">
+    <value>Abortar pouso</value>
+  </data>
+  <data name="Gspeed.ToolTip" xml:space="preserve">
+    <value>Duplo click em mim para trocar Max</value>
+  </data>
+  <data name="labelScriptStatus.Text" xml:space="preserve">
+    <value>Estatus Script: Nenhum rodando</value>
+  </data>
+  <data name="but_dflogtokml.Text" xml:space="preserve">
+    <value>Criar KML + gpx</value>
+  </data>
+  <data name="tabPagemessages.Text" xml:space="preserve">
+    <value>Mansagem</value>
+  </data>
+  <data name="tabActions.Text" xml:space="preserve">
+    <value>Ações</value>
+  </data>
+  <data name="loadFileToolStripMenuItem.Text" xml:space="preserve">
+    <value>Carregar arquivo</value>
+  </data>
+  <data name="BUTactiondo.ToolTip" xml:space="preserve">
+    <value>Executar a ação da esquerda</value>
+  </data>
+  <data name="BUT_Homealt.Text" xml:space="preserve">
+    <value>Ajust Alt Home</value>
+  </data>
+  <data name="setHomeHereToolStripMenuItem.Text" xml:space="preserve">
+    <value>Transf. Home aqui</value>
+  </data>
+  <data name="labelSelectedScript.Text" xml:space="preserve">
+    <value>Script selecionado: nenhum</value>
+  </data>
+  <data name="swapWithMapToolStripMenuItem.Text" xml:space="preserve">
+    <value>Trocar com o mapa</value>
+  </data>
+  <data name="tabQuick.Text" xml:space="preserve">
+    <value>Rapido</value>
+  </data>
+  <data name="BUT_loadtelem.Text" xml:space="preserve">
+    <value>Carregar Log</value>
+  </data>
+  <data name="BUT_joystick.ToolTip" xml:space="preserve">
+    <value>Ajusta e habilita seu Joystick</value>
+  </data>
+  <data name="BUT_Homealt.ToolTip" xml:space="preserve">
+    <value>Ajuste a alt mostrada em 0, e a alt Home como mostrada 0</value>
+  </data>
+  <data name="tabStatus.Text" xml:space="preserve">
+    <value>Estatus</value>
+  </data>
+  <data name="BUT_select_script.Text" xml:space="preserve">
+    <value>Selecione Script</value>
+  </data>
+  <data name="myButton2.ToolTip" xml:space="preserve">
+    <value>Acionar RTL</value>
+  </data>
+  <data name="flightPlannerToolStripMenuItem.Text" xml:space="preserve">
+    <value>Planejamento</value>
+  </data>
+  <data name="myButton3.ToolTip" xml:space="preserve">
+    <value>Trocar para Auto</value>
+  </data>
+  <data name="BUT_setmode.Text" xml:space="preserve">
+    <value>Trocar modo</value>
+  </data>
+  <data name="onOffCameraOverlapToolStripMenuItem.Text" xml:space="preserve">
+    <value>Sobreposição da camera</value>
+  </data>
+  <data name="BUT_logbrowse.Text" xml:space="preserve">
+    <value>Rever log</value>
+  </data>
+  <data name="stopRecordToolStripMenuItem.Text" xml:space="preserve">
+    <value>Parar gravação</value>
+  </data>
+  <data name="flyToHereAltToolStripMenuItem.Text" xml:space="preserve">
+    <value>Voar para Alt aqui</value>
+  </data>
+  <data name="lbl_sats.ToolTip" xml:space="preserve">
+    <value>Contagem dos Satelites</value>
+  </data>
+  <data name="startCameraToolStripMenuItem.Text" xml:space="preserve">
+    <value>Iniciar camera</value>
+  </data>
+  <data name="lbl_hdop.ToolTip" xml:space="preserve">
+    <value>HDOP GPS</value>
+  </data>
+</root>

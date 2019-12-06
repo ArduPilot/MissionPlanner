@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
+
 <!-- TAGS ARE CASE SENSATIVE -->
 <CMD>
   <AC2>
@@ -18,7 +19,7 @@
       <P4></P4>
       <X>Lat</X>
       <Y>Long</Y>
-      <Z>Alt</Z>      
+      <Z>Alt</Z>
     </SPLINE_WAYPOINT>
     <LOITER_TURNS>
       <P1>Turns</P1>
@@ -74,8 +75,17 @@
       <Y></Y>
       <Z>Alt</Z>
     </TAKEOFF>
+    <DELAY>
+      <P1>Seconds (or -1)</P1>
+      <P2>Hour UTC (or -1)</P2>
+      <P3>Minute UTC (or -1)</P3>
+      <P4>Second UTC</P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DELAY>
     <GUIDED_ENABLE>
-    <P1>on=1/off=0</P1>
+      <P1>on=1/off=0</P1>
       <P2></P2>
       <P3></P3>
       <P4></P4>
@@ -83,6 +93,15 @@
       <Y></Y>
       <Z></Z>
     </GUIDED_ENABLE>
+    <PAYLOAD_PLACE>
+      <P1>max descent</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X>Lat</X>
+      <Y>Long</Y>
+      <Z>Alt</Z>
+    </PAYLOAD_PLACE>
     <DO_GUIDED_LIMITS>
       <P1>timeout S</P1>
       <P2>min alt</P2>
@@ -164,6 +183,15 @@
       <Y></Y>
       <Z></Z>
     </DO_GRIPPER>
+    <DO_PARACHUTE>
+      <P1>Enable(1)/Release(2)</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DO_PARACHUTE>
     <DO_SET_CAM_TRIGG_DIST>
       <P1>Dist (m)</P1>
       <P2></P2>
@@ -209,19 +237,28 @@
       <Y></Y>
       <Z></Z>
     </DO_REPEAT_SERVO>
+    <DO_DIGICAM_CONFIGURE>
+      <P1>Mode</P1>
+      <P2>Shutter Speed</P2>
+      <P3>Aperture</P3>
+      <P4>ISO</P4>
+      <X>ExposureMode</X>
+      <Y>CommandID</Y>
+      <Z></Z>
+    </DO_DIGICAM_CONFIGURE>
     <DO_DIGICAM_CONTROL>
-      <P1></P1>
-      <P2></P2>
-      <P3></P3>
-      <P4></P4>
-      <X></X>
-      <Y></Y>
+      <P1>On/Off</P1>
+      <P2>Zoom Position</P2>
+      <P3>Zoom Step</P3>
+      <P4>Focus Lock</P4>
+      <X>Shutter Cmd</X>
+      <Y>CommandID</Y>
       <Z></Z>
     </DO_DIGICAM_CONTROL>
     <DO_MOUNT_CONTROL>
-      <P1></P1>
-      <P2></P2>
-      <P3></P3>
+      <P1>Pitch</P1>
+      <P2>Roll</P2>
+      <P3>Yaw</P3>
       <P4></P4>
       <X></X>
       <Y></Y>
@@ -233,8 +270,8 @@
   <APM>
     <WAYPOINT>
       <P1></P1>
-      <P2></P2>
-      <P3></P3>
+      <P2>Acc radius</P2>
+      <P3>Pass by dist</P3>
       <P4></P4>
       <X>Lat</X>
       <Y>Long</Y>
@@ -253,7 +290,7 @@
       <P1>Turns</P1>
       <P2></P2>
       <P3>Radius</P3>
-      <P4></P4>
+      <P4>1=Exit Tangent</P4>
       <X>Lat</X>
       <Y>Long</Y>
       <Z>Alt</Z>
@@ -262,11 +299,20 @@
       <P1>Time s</P1>
       <P2></P2>
       <P3>Dir 1=CW</P3>
-      <P4></P4>
+      <P4>1=Exit Tangent</P4>
       <X>Lat</X>
       <Y>Long</Y>
       <Z>Alt</Z>
     </LOITER_TIME>
+    <LOITER_TO_ALT>
+      <P1></P1>
+      <P2>Radius</P2>
+      <P3></P3>
+      <P4>1=Exit Tangent</P4>
+      <X>Lat</X>
+      <Y>Long</Y>
+      <Z>Alt</Z>
+    </LOITER_TO_ALT>
     <RETURN_TO_LAUNCH>
       <P1></P1>
       <P2></P2>
@@ -277,7 +323,7 @@
       <Z></Z>
     </RETURN_TO_LAUNCH>
     <LAND>
-      <P1></P1>
+      <P1>Abort Alt</P1>
       <P2></P2>
       <P3></P3>
       <P4></P4>
@@ -294,6 +340,42 @@
       <Y></Y>
       <Z>Alt</Z>
     </TAKEOFF>
+    <VTOL_TAKEOFF>
+      <P1></P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z>Alt</Z>
+    </VTOL_TAKEOFF>
+    <VTOL_LAND>
+      <P1></P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X>Lat</X>
+      <Y>Long</Y>
+      <Z>Alt</Z>
+    </VTOL_LAND>
+    <DO_VTOL_TRANSITION>
+      <P1>mode (3=mc/4=plane)</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DO_VTOL_TRANSITION>
+    <ALTITUDE_WAIT>
+      <P1>Alt</P1>
+      <P2>Descent rate</P2>
+      <P3>Wiggle time</P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </ALTITUDE_WAIT>
     <CONTINUE_AND_CHANGE_ALT>
       <P1></P1>
       <P2></P2>
@@ -302,7 +384,7 @@
       <X></X>
       <Y></Y>
       <Z>Alt</Z>
-    </CONTINUE_AND_CHANGE_ALT>    
+    </CONTINUE_AND_CHANGE_ALT>
     <CONDITION_DELAY>
       <P1>Time (sec)</P1>
       <P2></P2>
@@ -312,15 +394,6 @@
       <Y></Y>
       <Z></Z>
     </CONDITION_DELAY>
-    <CONDITION_CHANGE_ALT>
-      <P1>Rate (cm/sec)</P1>
-      <P2></P2>
-      <P3></P3>
-      <P4></P4>
-      <X></X>
-      <Y></Y>
-      <Z>Alt</Z>
-    </CONDITION_CHANGE_ALT>
     <CONDITION_DISTANCE>
       <P1>Dist (m)</P1>
       <P2></P2>
@@ -367,7 +440,7 @@
       <Z></Z>
     </DO_INVERTED_FLIGHT>
     <DO_SET_MODE>
-      <P1></P1>
+      <P1>mode #</P1>
       <P2></P2>
       <P3></P3>
       <P4></P4>
@@ -448,21 +521,21 @@
       <Z></Z>
     </DO_REPEAT_SERVO>
     <DO_DIGICAM_CONFIGURE>
-      <P1></P1>
-      <P2></P2>
-      <P3></P3>
-      <P4></P4>
-      <X></X>
-      <Y></Y>
+      <P1>Mode</P1>
+      <P2>Shutter Speed</P2>
+      <P3>Aperture</P3>
+      <P4>ISO</P4>
+      <X>ExposureMode</X>
+      <Y>CommandID</Y>
       <Z></Z>
     </DO_DIGICAM_CONFIGURE>
     <DO_DIGICAM_CONTROL>
-      <P1></P1>
-      <P2></P2>
-      <P3></P3>
-      <P4></P4>
-      <X></X>
-      <Y></Y>
+      <P1>On/Off</P1>
+      <P2>Zoom Position</P2>
+      <P3>Zoom Step</P3>
+      <P4>Focus Lock</P4>
+      <X>Shutter Cmd</X>
+      <Y>CommandID</Y>
       <Z></Z>
     </DO_DIGICAM_CONTROL>
     <DO_MOUNT_CONFIGURE>
@@ -475,14 +548,23 @@
       <Z></Z>
     </DO_MOUNT_CONFIGURE>
     <DO_MOUNT_CONTROL>
-      <P1></P1>
+      <P1>Pitch</P1>
+      <P2>Roll</P2>
+      <P3>Yaw</P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DO_MOUNT_CONTROL>
+    <DO_PARACHUTE>
+      <P1>Enable(1)/Release(2)</P1>
       <P2></P2>
       <P3></P3>
       <P4></P4>
       <X></X>
       <Y></Y>
       <Z></Z>
-    </DO_MOUNT_CONTROL>
+    </DO_PARACHUTE>
   </APM>
   <!-- -->
   <APRover>
@@ -504,15 +586,6 @@
       <Y>Long</Y>
       <Z>Alt</Z>
     </LOITER_UNLIM>
-    <LOITER_TURNS>
-      <P1>Turns</P1>
-      <P2></P2>
-      <P3>Radius</P3>
-      <P4></P4>
-      <X>Lat</X>
-      <Y>Long</Y>
-      <Z>Alt</Z>
-    </LOITER_TURNS>
     <LOITER_TIME>
       <P1>Time s</P1>
       <P2></P2>
@@ -531,42 +604,6 @@
       <Y>Long</Y>
       <Z>Alt</Z>
     </RETURN_TO_LAUNCH>
-    <LAND>
-      <P1></P1>
-      <P2></P2>
-      <P3></P3>
-      <P4></P4>
-      <X>Lat</X>
-      <Y>Long</Y>
-      <Z>Alt</Z>
-    </LAND>
-    <TAKEOFF>
-      <P1>Angle</P1>
-      <P2></P2>
-      <P3></P3>
-      <P4></P4>
-      <X></X>
-      <Y></Y>
-      <Z>Alt</Z>
-    </TAKEOFF>
-    <ROI>
-      <P1></P1>
-      <P2></P2>
-      <P3></P3>
-      <P4></P4>
-      <X></X>
-      <Y></Y>
-      <Z></Z>
-    </ROI>
-    <PATHPLANNING>
-      <P1></P1>
-      <P2></P2>
-      <P3></P3>
-      <P4></P4>
-      <X></X>
-      <Y></Y>
-      <Z></Z>
-    </PATHPLANNING>
     <CONDITION_DELAY>
       <P1>Time (sec)</P1>
       <P2></P2>
@@ -576,15 +613,6 @@
       <Y></Y>
       <Z></Z>
     </CONDITION_DELAY>
-    <CONDITION_CHANGE_ALT>
-      <P1>Rate (cm/sec)</P1>
-      <P2></P2>
-      <P3></P3>
-      <P4></P4>
-      <X></X>
-      <Y></Y>
-      <Z>Alt</Z>
-    </CONDITION_CHANGE_ALT>
     <CONDITION_DISTANCE>
       <P1>Dist (m)</P1>
       <P2></P2>
@@ -603,8 +631,44 @@
       <Y></Y>
       <Z></Z>
     </CONDITION_YAW>
-    <DO_SET_MODE>
+    <DELAY>
+      <P1>Seconds (or -1)</P1>
+      <P2>Hour UTC (or -1)</P2>
+      <P3>Minute UTC (or -1)</P3>
+      <P4>Second UTC</P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DELAY>
+    <DO_GRIPPER>
+      <P1>Gripper No</P1>
+      <P2>drop(0)/grab(1)</P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DO_GRIPPER>
+    <DO_SET_ROI>
       <P1></P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X>Lat</X>
+      <Y>Long</Y>
+      <Z>Alt</Z>
+    </DO_SET_ROI>
+    <DO_SET_REVERSE>
+      <P1>Direction (0=F,1=R)</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DO_SET_REVERSE>
+    <DO_SET_MODE>
+      <P1>mode#</P1>
       <P2></P2>
       <P3></P3>
       <P4></P4>
@@ -712,9 +776,9 @@
       <Z></Z>
     </DO_MOUNT_CONFIGURE>
     <DO_MOUNT_CONTROL>
-      <P1></P1>
-      <P2></P2>
-      <P3></P3>
+      <P1>Pitch</P1>
+      <P2>Roll</P2>
+      <P3>Yaw</P3>
       <P4></P4>
       <X></X>
       <Y></Y>

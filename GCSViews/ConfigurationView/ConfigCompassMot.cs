@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using MissionPlanner.Controls;
@@ -11,15 +8,13 @@ using ZedGraph;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigCompassMot : UserControl, IActivate, IDeactivate
+    public partial class ConfigCompassMot : MyUserControl, IActivate, IDeactivate
     {
-        bool incompassmot = false;
-
-        LineItem interference = new LineItem("Interference");
-        LineItem current = new LineItem("Current");
-
-        PointPairList interferencelist = new PointPairList();
-        PointPairList currentlist = new PointPairList();
+        private readonly LineItem current = new LineItem("Current");
+        private readonly PointPairList currentlist = new PointPairList();
+        private readonly LineItem interference = new LineItem("Interference");
+        private readonly PointPairList interferencelist = new PointPairList();
+        private bool incompassmot;
 
         public ConfigCompassMot()
         {
@@ -30,6 +25,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public void Activate()
         {
             BUT_compassmot.Text = lbl_start.Text;
+
+            sub = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.COMPASSMOT_STATUS, ProcessCompassMotMSG);
         }
 
         public void Deactivate()
@@ -39,13 +36,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 if (MainV2.comPort.BaseStream.IsOpen)
                     MainV2.comPort.SendAck();
+
+                MainV2.comPort.UnSubscribeToPacketType(sub);
+
             }
-            catch {  }
+            catch
+            {
+            }
 
             timer1.Stop();
         }
 
-        void DoCompassMot()
+        private void DoCompassMot()
         {
             if (incompassmot)
             {
@@ -65,22 +67,59 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Compassmot requires AC 3.2+",Strings.ERROR);
+                    CustomMessageBox.Show("Compassmot requires AC 3.2+", Strings.ERROR);
                 }
                 incompassmot = true;
             }
         }
 
+        private KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>> sub;
+
         private void BUT_compassmot_Click(object sender, EventArgs e)
         {
             BUT_compassmot.Text = lbl_finish.Text;
             DoCompassMot();
+
+  
             timer1.Start();
         }
 
-        void setupgraph()
+        private bool ProcessCompassMotMSG(MAVLink.MAVLinkMessage arg)
         {
+            if (arg.msgid == (uint) MAVLink.MAVLINK_MSG_ID.COMPASSMOT_STATUS)
+            {
+                var status = (MAVLink.mavlink_compassmot_status_t) arg.data;
 
+                interferencelist.Add(status.throttle / 10.0, status.interference);
+                currentlist.Add(status.throttle / 10.0, status.current);
+
+                interferencelist.Sort();
+                currentlist.Sort();
+
+                var msg = "Current: " + status.current.ToString("0.00") + "\nx,y,z " +
+                          status.CompensationX.ToString("0.00") + "," +
+                          status.CompensationY.ToString("0.00") +
+                          "," + status.CompensationZ.ToString("0.00") + "\nThrottle: " +
+                          (status.throttle / 10.0) +
+                          "\nInterference: " + status.interference;
+
+                this.BeginInvokeIfRequired(() =>
+                {
+                    lbl_status.Text = msg;
+
+                    interference.Points = interferencelist;
+                    current.Points = currentlist;
+
+                    zedGraphControl1.AxisChange();
+                    zedGraphControl1.Invalidate();
+                });
+            }
+
+            return true;
+        }
+
+        private void setupgraph()
+        {
             zedGraphControl1.GraphPane.YAxis.Title.IsVisible = true;
             zedGraphControl1.GraphPane.YAxis.Title.Text = "Interference %";
             zedGraphControl1.GraphPane.Title.IsVisible = true;
@@ -91,7 +130,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             zedGraphControl1.GraphPane.Y2Axis.Title.Text = "Amps";
             zedGraphControl1.GraphPane.Y2Axis.IsVisible = true;
 
-            
 
             current.IsY2Axis = true;
             current.YAxisIndex = 0;
@@ -101,7 +139,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             //interference.Bar.Fill.Color = Color.Red;
 
             current.Line.Color = Color.Green;
-           
+
 
             interference.Line.Color = Color.Red;
             interference.Symbol.IsVisible = false;
@@ -121,39 +159,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             zedGraphControl1.AxisChange();
             zedGraphControl1.Invalidate();
-            
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            StringBuilder message = new StringBuilder();
+            var message = new StringBuilder();
 
-            MainV2.comPort.MAV.cs.messages.ForEach(x => { message.AppendLine(x); });
+            MainV2.comPort.MAV.cs.messages.ForEach(x => { message.AppendLine(x.message); });
 
-            txt_status.Text = message.ToString(); 
+            txt_status.Text = message.ToString();
             txt_status.SelectionStart = txt_status.Text.Length;
             txt_status.ScrollToCaret();
-
-            byte[] bytearray = MainV2.comPort.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.COMPASSMOT_STATUS];
-
-            if (bytearray != null)
-            {
-                var status = bytearray.ByteArrayToStructure<MAVLink.mavlink_compassmot_status_t>(6);
-
-                lbl_status.Text = "Current: " + status.current.ToString("0.00") + "\nx,y,z " + status.CompensationX.ToString("0.00") + "," + status.CompensationY.ToString("0.00") + "," + status.CompensationZ.ToString("0.00") + "\nThrottle: " + (status.throttle / 10.0) + "\nInterference: " + status.interference;
-
-                interferencelist.Add(status.throttle / 10.0, status.interference);
-                currentlist.Add(status.throttle / 10.0, status.current);
-
-                interferencelist.Sort();
-                currentlist.Sort();
-
-                interference.Points = interferencelist;
-                current.Points = currentlist;
-
-                zedGraphControl1.AxisChange();
-                zedGraphControl1.Invalidate();
-            }
         }
     }
 }

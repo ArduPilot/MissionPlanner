@@ -1,0 +1,1 @@
+namespace MissionPlanner.Controls { public partial class Loading{public Loading(){this.InitializeComponent();}}}

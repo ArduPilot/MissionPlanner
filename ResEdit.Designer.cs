@@ -117,7 +117,7 @@
             // Form1
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            
             this.Controls.Add(this.BUT_clipboard);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.richTextBox1);

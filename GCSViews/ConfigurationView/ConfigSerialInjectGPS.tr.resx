@@ -1,0 +1,228 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="chk_m8p_130p.ToolTip" xml:space="preserve">
+    <value>Ublox firmware 1.30 veya üzeri bir temel ve mobil sürümünüz varsa, bu kutuyu işaretleyin</value>
+  </data>
+  <data name="txt_surveyinAcc.ToolTip" xml:space="preserve">
+    <value>tetikleyici böyle hassas olmalı</value>
+  </data>
+  <data name="BaseName1.HeaderText" xml:space="preserve">
+    <value>Adi</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>Röportaj Giriş</value>
+  </data>
+  <data name="Use.HeaderText" xml:space="preserve">
+    <value>Kullanma</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>Glonass</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>Taban</value>
+  </data>
+  <data name="chk_rtcmmsg.ToolTip" xml:space="preserve">
+    <value>Yeni mesaj otomatik olarak veriyi işlediğinden, eğer mümkünse, açık kalsın, otopilotunuzdaki bellenimin sürümüne bağlıdır.</value>
+  </data>
+  <data name="but_restartsvin.ToolTip" xml:space="preserve">
+    <value>Kullanılan geçerli konumunu bir baz istasyonu olarak kaydet</value>
+  </data>
+  <data name="label1.ToolTip" xml:space="preserve">
+    <value>Anketi tamamlamak için hem doğruluk hem de süreyi karşılamalıdır. yani doğruluk 2 m'den az ve 60 saniyeden fazla gözlem</value>
+  </data>
+  <data name="label9.ToolTip" xml:space="preserve">
+    <value>Bilgilere genel bakış. Gerçekten: bu gerçek bir anket. InProgress: Şu anda pozisyonlarımızı tutuyor muyuz? Süre: Girişi sorguladığımız saniye sayısı. Obs: giriş anketimizde kullanılan anket sayısı. Acc: Anketimizin şu andaki doğruluğu.</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Zaman(с)</value>
+  </data>
+  <data name="chk_m8pautoconfig.Text" xml:space="preserve">
+    <value>M8P otomatik ayar</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Giriş Hızı</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Alınan Mesajlar</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>giriş anketi</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Veri aktarım hızı</value>
+  </data>
+  <data name="chk_m8pautoconfig.ToolTip" xml:space="preserve">
+    <value>Ublox m8p yapılandırmasını otomatik olarak yapılandır</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>RTCM tabanı</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>Bağlantı durumu</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>giriş anketi</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>giriş anketi</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>giriş anketi</value>
+  </data>
+  <data name="lbl_svin.Text" xml:space="preserve">
+    <value>giriş anketi</value>
+  </data>
+  <data name="chk_rtcmmsg.Text" xml:space="preserve">
+    <value>MSG Giriş Türü</value>
+  </data>
+  <data name="but_save_basepos.ToolTip" xml:space="preserve">
+    <value>Temel istasyonun mevcut konumunu bir anket olarak saklamak için kullanılır</value>
+  </data>
+  <data name="label7.ToolTip" xml:space="preserve">
+    <value>Bilgilere genel bakış. Gerçekten: bu gerçek bir anket. InProgress: Şu anda pozisyonlarımızı tutuyor muyuz? Süre: Girişi sorguladığımız saniye sayısı. Obs: giriş anketimizde kullanılan anket sayısı. Acc: Anketimizin şu andaki doğruluğu.</value>
+  </data>
+  <data name="but_restartsvin.Text" xml:space="preserve">
+    <value>yeniden başlatma</value>
+  </data>
+  <data name="BUT_connect.Text" xml:space="preserve">
+    <value>Baglan</value>
+  </data>
+  <data name="but_save_basepos.Text" xml:space="preserve">
+    <value>Mevcut konumu kaydet</value>
+  </data>
+  <data name="Delete.HeaderText" xml:space="preserve">
+    <value>Sil</value>
+  </data>
+  <data name="txt_surveyinDur.ToolTip" xml:space="preserve">
+    <value>Asgari zamanda denetim. Bu numaradan daha büyük olmalı</value>
+  </data>
+  <data name="lbl_svin.ToolTip" xml:space="preserve">
+    <value>Bilgilere genel bakış. Gerçekten: bu gerçek bir anket. InProgress: Şu anda pozisyonlarımızı tutuyor muyuz? Süre: Girişi sorguladığımız saniye sayısı. Obs: giriş anketimizde kullanılan anket sayısı. Acc: Anketimizin şu andaki doğruluğu.</value>
+  </data>
+  <data name="label10.ToolTip" xml:space="preserve">
+    <value>Bilgilere genel bakış. Gerçekten: bu gerçek bir anket. InProgress: Şu anda pozisyonlarımızı tutuyor muyuz? Süre: Girişi sorguladığımız saniye sayısı. Obs: giriş anketimizde kullanılan anket sayısı. Acc: Anketimizin şu andaki doğruluğu.</value>
+  </data>
+  <data name="chk_movingbase.Text" xml:space="preserve">
+    <value>Перемещение базы</value>
+  </data>
+  <data name="label8.ToolTip" xml:space="preserve">
+    <value>Bilgilere genel bakış. Gerçekten: bu gerçek bir anket. InProgress: Şu anda pozisyonlarımızı tutuyor muyuz? Süre: Girişi sorguladığımız saniye sayısı. Obs: giriş anketimizde kullanılan anket sayısı. Acc: Anketimizin şu andaki doğruluğu.</value>
+  </data>  
+</root>

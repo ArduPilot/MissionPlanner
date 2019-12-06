@@ -139,7 +139,7 @@ namespace MissionPlanner.Warnings
             // WarningsManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            
             this.ClientSize = new System.Drawing.Size(711, 238);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);

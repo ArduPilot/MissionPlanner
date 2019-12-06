@@ -305,7 +305,7 @@
             this.map.MarkersEnabled = true;
             this.map.MaxZoom = 19;
             this.map.MinZoom = 2;
-            this.map.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
+            this.map.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionWithoutCenter;
             this.map.Name = "map";
             this.map.NegativeMode = false;
             this.map.PolygonsEnabled = true;
@@ -315,7 +315,6 @@
             this.map.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.map.ShowTileGridLines = false;
             this.map.Zoom = 3D;
-            this.map.OnPolygonClick += new GMap.NET.WindowsForms.PolygonClick(this.map_OnPolygonClick);
             this.map.OnPolygonEnter += new GMap.NET.WindowsForms.PolygonEnter(this.map_OnPolygonEnter);
             this.map.OnPolygonLeave += new GMap.NET.WindowsForms.PolygonLeave(this.map_OnPolygonLeave);
             this.map.MouseDown += new System.Windows.Forms.MouseEventHandler(this.map_MouseDown);
@@ -612,39 +611,30 @@
             // 
             // toolStripButtonpan
             // 
-            this.toolStripButtonpan.BackColor = System.Drawing.Color.Black;
-            this.toolStripButtonpan.ForeColor = System.Drawing.Color.White;
             resources.ApplyResources(this.toolStripButtonpan, "toolStripButtonpan");
             this.toolStripButtonpan.Name = "toolStripButtonpan";
             this.toolStripButtonpan.Click += new System.EventHandler(this.toolStripButtonpan_Click);
             // 
             // toolStripButtonbox
             // 
-            this.toolStripButtonbox.BackColor = System.Drawing.Color.Black;
-            this.toolStripButtonbox.ForeColor = System.Drawing.Color.White;
             resources.ApplyResources(this.toolStripButtonbox, "toolStripButtonbox");
             this.toolStripButtonbox.Name = "toolStripButtonbox";
             this.toolStripButtonbox.Click += new System.EventHandler(this.toolStripButtonbox_Click);
             // 
             // toolStripButtonmovebox
             // 
-            this.toolStripButtonmovebox.BackColor = System.Drawing.Color.Black;
-            this.toolStripButtonmovebox.ForeColor = System.Drawing.Color.White;
             resources.ApplyResources(this.toolStripButtonmovebox, "toolStripButtonmovebox");
             this.toolStripButtonmovebox.Name = "toolStripButtonmovebox";
             this.toolStripButtonmovebox.Click += new System.EventHandler(this.toolStripButtonmovebox_Click);
             // 
             // toolStripButtoneditbox
             // 
-            this.toolStripButtoneditbox.BackColor = System.Drawing.Color.Black;
-            this.toolStripButtoneditbox.ForeColor = System.Drawing.Color.White;
             resources.ApplyResources(this.toolStripButtoneditbox, "toolStripButtoneditbox");
             this.toolStripButtoneditbox.Name = "toolStripButtoneditbox";
             this.toolStripButtoneditbox.Click += new System.EventHandler(this.toolStripButtoneditbox_Click);
             // 
             // GridUIv2
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             resources.ApplyResources(this, "$this");
             this.Controls.Add(this.map);
             this.Controls.Add(this.LBL_topdock);

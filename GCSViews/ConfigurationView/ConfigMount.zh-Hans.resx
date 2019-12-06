@@ -117,160 +117,240 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="label12.Text" xml:space="preserve">
-    <value>最小</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>73, 20</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>角度限位</value>
+  </data>
+  <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>73, 20</value>
   </data>
   <data name="label10.Text" xml:space="preserve">
-    <value>舵机限制</value>
+    <value>舵机限位</value>
   </data>
-  <data name="label13.Text" xml:space="preserve">
-    <value>最大</value>
-  </data>
-  <data name="label16.Text" xml:space="preserve">
-    <value>角度限制</value>
+  <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 12</value>
   </data>
   <data name="label11.Text" xml:space="preserve">
     <value>最大</value>
   </data>
+  <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 12</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>最小</value>
+  </data>
+  <data name="label13.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 12</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>最大</value>
+  </data>
+  <data name="label14.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 12</value>
+  </data>
   <data name="label14.Text" xml:space="preserve">
     <value>最小</value>
   </data>
-  <data name="label17.Text" xml:space="preserve">
-    <value>舵机限制</value>
+  <data name="label16.Size" type="System.Drawing.Size, System.Drawing">
+    <value>73, 20</value>
   </data>
-  <data name="label15.Text" xml:space="preserve">
-    <value>平移</value>
+  <data name="label16.Text" xml:space="preserve">
+    <value>角度限位</value>
+  </data>
+  <data name="label17.Size" type="System.Drawing.Size, System.Drawing">
+    <value>73, 20</value>
+  </data>
+  <data name="label17.Text" xml:space="preserve">
+    <value>舵机限位</value>
+  </data>
+  <data name="label18.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 12</value>
   </data>
   <data name="label18.Text" xml:space="preserve">
     <value>最大</value>
   </data>
+  <data name="label19.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 12</value>
+  </data>
   <data name="label19.Text" xml:space="preserve">
     <value>最小</value>
+  </data>
+  <data name="label20.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 12</value>
   </data>
   <data name="label20.Text" xml:space="preserve">
     <value>最大</value>
   </data>
+  <data name="label21.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 12</value>
+  </data>
   <data name="label21.Text" xml:space="preserve">
     <value>最小</value>
   </data>
-  <data name="label22.Text" xml:space="preserve">
-    <value>输入通道</value>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>73, 20</value>
   </data>
-  <data name="CHK_stab_roll.Text" xml:space="preserve">
-    <value>自稳Roll</value>
+  <data name="label1.Text" xml:space="preserve">
+    <value>角度限位</value>
   </data>
-  <data name="label23.Text" xml:space="preserve">
-    <value>输入通道</value>
-  </data>
-  <data name="label24.Text" xml:space="preserve">
-    <value>输入通道</value>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>73, 20</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>舵机限制</value>
+    <value>舵机限位</value>
   </data>
-  <data name="label25.Text" xml:space="preserve">
-    <value>X</value>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 12</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>最大</value>
   </data>
-  <data name="label26.Text" xml:space="preserve">
-    <value>Y</value>
-  </data>
-  <data name="label27.Text" xml:space="preserve">
-    <value>Z</value>
-  </data>
-  <data name="CHK_stab_tilt.Text" xml:space="preserve">
-    <value>稳定倾斜</value>
-  </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>角度限制</value>
-  </data>
-  <data name="label28.Text" xml:space="preserve">
-    <value>Z</value>
-  </data>
-  <data name="groupBox6.Text" xml:space="preserve">
-    <value>控制角度</value>
-  </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>Roll</value>
-  </data>
-  <data name="label29.Text" xml:space="preserve">
-    <value>Y</value>
-  </data>
-  <data name="label7.Text" xml:space="preserve">
-    <value>最大</value>
-  </data>
-  <data name="groupBox4.Text" xml:space="preserve">
-    <value>缩小角度</value>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 12</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
     <value>最小</value>
   </data>
-  <data name="groupBox5.Text" xml:space="preserve">
-    <value>中立角度</value>
+  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 12</value>
   </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>倾斜</value>
+  <data name="label7.Text" xml:space="preserve">
+    <value>最大</value>
+  </data>
+  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 12</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
     <value>最小</value>
   </data>
-  <data name="label9.Text" xml:space="preserve">
-    <value>角度限制</value>
+  <data name="label22.Size" type="System.Drawing.Size, System.Drawing">
+    <value>73, 20</value>
   </data>
-  <data name="label30.Text" xml:space="preserve">
-    <value>X</value>
+  <data name="label22.Text" xml:space="preserve">
+    <value>输入通道</value>
   </data>
-  <data name="label32.Text" xml:space="preserve">
-    <value>Y</value>
+  <data name="label23.Size" type="System.Drawing.Size, System.Drawing">
+    <value>73, 20</value>
   </data>
-  <data name="label31.Text" xml:space="preserve">
-    <value>Z</value>
+  <data name="label23.Text" xml:space="preserve">
+    <value>输入通道</value>
   </data>
-  <data name="label34.Text" xml:space="preserve">
-    <value>持续 (1/10th 秒)</value>
+  <data name="label24.Size" type="System.Drawing.Size, System.Drawing">
+    <value>73, 20</value>
   </data>
-  <data name="label33.Text" xml:space="preserve">
-    <value>X</value>
+  <data name="label24.Text" xml:space="preserve">
+    <value>输入通道</value>
   </data>
-  <data name="label36.Text" xml:space="preserve">
-    <value>舵机限制</value>
-  </data>
-  <data name="label35.Text" xml:space="preserve">
-    <value>关闭</value>
-  </data>
-  <data name="label38.Text" xml:space="preserve">
-    <value>动作</value>
-  </data>
-  <data name="mavlinkCheckBoxRR.Text" xml:space="preserve">
-    <value>反转</value>
-  </data>
-  <data name="label37.Text" xml:space="preserve">
-    <value>不动作</value>
-  </data>
-  <data name="label39.Text" xml:space="preserve">
-    <value>最大</value>
+  <data name="mavlinkCheckBoxTR.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 16</value>
   </data>
   <data name="mavlinkCheckBoxTR.Text" xml:space="preserve">
     <value>反转</value>
   </data>
+  <data name="mavlinkCheckBoxPR.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 16</value>
+  </data>
   <data name="mavlinkCheckBoxPR.Text" xml:space="preserve">
     <value>反转</value>
   </data>
+  <data name="mavlinkCheckBoxRR.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 16</value>
+  </data>
+  <data name="mavlinkCheckBoxRR.Text" xml:space="preserve">
+    <value>反转</value>
+  </data>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>收回角度</value>
+  </data>
+  <data name="groupBox5.Text" xml:space="preserve">
+    <value>中立角度</value>
+  </data>
+  <data name="groupBox6.Text" xml:space="preserve">
+    <value>控制角度</value>
+  </data>
+  <data name="CHK_stab_tilt.Size" type="System.Drawing.Size, System.Drawing">
+    <value>72, 16</value>
+  </data>
+  <data name="CHK_stab_tilt.Text" xml:space="preserve">
+    <value>Tilt自稳</value>
+  </data>
+  <data name="CHK_stab_roll.Size" type="System.Drawing.Size, System.Drawing">
+    <value>72, 16</value>
+  </data>
+  <data name="CHK_stab_roll.Text" xml:space="preserve">
+    <value>Roll自稳</value>
+  </data>
+  <data name="CHK_stab_pan.Size" type="System.Drawing.Size, System.Drawing">
+    <value>66, 16</value>
+  </data>
   <data name="CHK_stab_pan.Text" xml:space="preserve">
-    <value>稳定平移</value>
+    <value>Pan自稳</value>
   </data>
-  <data name="LNK_wiki.Text" xml:space="preserve">
-    <value>Wiki</value>
+  <data name="label35.Size" type="System.Drawing.Size, System.Drawing">
+    <value>41, 20</value>
   </data>
-  <data name="label42.Text" xml:space="preserve">
-    <value>请设置通道7选项为相机快门</value>
+  <data name="label35.Text" xml:space="preserve">
+    <value>快门</value>
+  </data>
+  <data name="label36.Size" type="System.Drawing.Size, System.Drawing">
+    <value>73, 20</value>
+  </data>
+  <data name="label36.Text" xml:space="preserve">
+    <value>舵机限位</value>
+  </data>
+  <data name="label37.Location" type="System.Drawing.Point, System.Drawing">
+    <value>376, 474</value>
+  </data>
+  <data name="label37.Size" type="System.Drawing.Size, System.Drawing">
+    <value>41, 12</value>
+  </data>
+  <data name="label37.Text" xml:space="preserve">
+    <value>未按下</value>
+  </data>
+  <data name="label38.Location" type="System.Drawing.Point, System.Drawing">
+    <value>388, 446</value>
+  </data>
+  <data name="label38.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 12</value>
+  </data>
+  <data name="label38.Text" xml:space="preserve">
+    <value>按下</value>
+  </data>
+  <data name="label39.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 12</value>
+  </data>
+  <data name="label39.Text" xml:space="preserve">
+    <value>最大</value>
+  </data>
+  <data name="label40.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 12</value>
   </data>
   <data name="label40.Text" xml:space="preserve">
     <value>最小</value>
   </data>
+  <data name="label41.Size" type="System.Drawing.Size, System.Drawing">
+    <value>41, 20</value>
+  </data>
   <data name="label41.Text" xml:space="preserve">
-    <value>方向舵</value>
+    <value>快门</value>
+  </data>
+  <data name="label34.Location" type="System.Drawing.Point, System.Drawing">
+    <value>364, 496</value>
+  </data>
+  <data name="label34.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 28</value>
+  </data>
+  <data name="label34.Text" xml:space="preserve">
+    <value>持续时间
+(1/10秒)</value>
+  </data>
+  <data name="label42.Size" type="System.Drawing.Size, System.Drawing">
+    <value>194, 20</value>
+  </data>
+  <data name="label42.Text" xml:space="preserve">
+    <value>请设置通道7为相机触发器</value>
   </data>
 </root>

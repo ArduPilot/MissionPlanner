@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CHK_maprotation.Text" xml:space="preserve">
     <value>Karte dreht sich, um dem Flugzeug zu folgen</value>
@@ -123,17 +123,17 @@
   <data name="CHK_speechaltwarning.Text" xml:space="preserve">
     <value>Höhenwarnung</value>
   </data>
-  <data name="label12.Text" xml:space="preserve">
-    <value>HUD</value>
-  </data>
-  <data name="BUT_videostop.Text" xml:space="preserve">
-    <value>Stop</value>
-  </data>
   <data name="CHK_speechbattery.Text" xml:space="preserve">
     <value>Batteriewarnung</value>
   </data>
   <data name="CHK_enablespeech.Text" xml:space="preserve">
-    <value>Sprache einschalten</value>
+    <value>Sprachausgabe ein</value>
+  </data>
+  <data name="CHK_Password.Text" xml:space="preserve">
+    <value>Passwortschutz konfigurieren</value>
+  </data>
+  <data name="chk_norcreceiver.Text" xml:space="preserve">
+    <value>Kein RC Empfänger</value>
   </data>
   <data name="label23.Text" xml:space="preserve">
     <value>Streckenlänge</value>
@@ -142,16 +142,16 @@
     <value>Wegpunkte</value>
   </data>
   <data name="CHK_speechcustom.Text" xml:space="preserve">
-    <value>Zeit Intervall</value>
+    <value>30s Intervall</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>Entfernung zum Startplatz</value>
   </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Log Pfad</value>
+  </data>
   <data name="label26.Text" xml:space="preserve">
     <value>Videoformat</value>
-  </data>
-  <data name="label103.Text" xml:space="preserve">
-    <value>Position</value>
   </data>
   <data name="label102.Text" xml:space="preserve">
     <value>Ausrichtung</value>
@@ -162,8 +162,8 @@
   <data name="label101.Text" xml:space="preserve">
     <value>Telemetrie-Rate</value>
   </data>
-  <data name="label107.Text" xml:space="preserve">
-    <value>RC</value>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Thema</value>
   </data>
   <data name="label104.Text" xml:space="preserve">
     <value>Modus/Status</value>
@@ -172,7 +172,7 @@
     <value>HUD Overlay aktivieren</value>
   </data>
   <data name="label108.Text" xml:space="preserve">
-    <value>APM Reset</value>
+    <value>Autopilot Reset</value>
   </data>
   <data name="CHK_loadwponconnect.Text" xml:space="preserve">
     <value>Wegpunkte beim Verbinden laden? </value>
@@ -184,7 +184,7 @@
     <value>Wegpunkt</value>
   </data>
   <data name="label99.Text" xml:space="preserve">
-    <value>Das Tab "Konfiguration" zeigt diese Rohwerte nicht an</value>
+    <value>HINWEIS: Tab "Konfiguration" zeigt diese Rohwerte nicht an</value>
   </data>
   <data name="label92.Text" xml:space="preserve">
     <value>Videogerät</value>
@@ -192,40 +192,37 @@
   <data name="label93.Text" xml:space="preserve">
     <value>UI Sprache</value>
   </data>
-  <data name="label96.Text" xml:space="preserve">
-    <value>Joystick</value>
-  </data>
   <data name="CHK_GDIPlus.Text" xml:space="preserve">
-    <value>GDI+ (old type)</value>
+    <value>GDI+ (alter Typ)</value>
   </data>
   <data name="label94.Text" xml:space="preserve">
     <value>OSD-Farbe</value>
   </data>
-  <data name="label33.Text" xml:space="preserve">
-    <value>Sensor</value>
-  </data>
   <data name="label97.Text" xml:space="preserve">
     <value>Entfernungseinheiten</value>
   </data>
+  <data name="CHK_showairports.Text" xml:space="preserve">
+    <value>Flugplätze anzeigen</value>
+  </data>
   <data name="label95.Text" xml:space="preserve">
     <value>Sprache</value>
-  </data>
-  <data name="BUT_Joystick.Text" xml:space="preserve">
-    <value>Joystick Setup</value>
   </data>
   <data name="CHK_disttohomeflightdata.Text" xml:space="preserve">
     <value>Flugdatenanzeige</value>
   </data>
   <data name="CHK_mavdebug.Text" xml:space="preserve">
-    <value>Mavlink Message Debug</value>
+    <value>Mavlink Meldungen Debug</value>
+  </data>
+  <data name="but_AAsignin.Text" xml:space="preserve">
+    <value>Höhenwinkel</value>
+  </data>
+  <data name="chk_temp.Text" xml:space="preserve">
+    <value>Testbildschirm</value>
   </data>
   <data name="CHK_resetapmonconnect.Text" xml:space="preserve">
-    <value>APM bei USB-Verbindung neu starten</value>
+    <value>Autopilot bei USB-Verbindung neu starten</value>
   </data>
   <data name="CHK_speechmode.Text" xml:space="preserve">
     <value>Modus</value>
-  </data>
-  <data name="BUT_videostart.Text" xml:space="preserve">
-    <value>Start</value>
   </data>
 </root>

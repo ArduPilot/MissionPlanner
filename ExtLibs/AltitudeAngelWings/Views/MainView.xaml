@@ -1,0 +1,321 @@
+<Window
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModels="clr-namespace:AltitudeAngelWings.ViewModels"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" xmlns:local="clr-namespace:AltitudeAngelWings.Views" x:Class="AltitudeAngelWings.Views.MainView"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance {x:Type viewModels:MainViewModel}, IsDesignTimeCreatable=True}" d:DesignWidth="610"
+             Title="Altitude Angel Wings"
+             Width="600" Height="600"
+        >
+    <Window.Resources>
+    	<ResourceDictionary>
+    		<ResourceDictionary.MergedDictionaries>
+    			<ResourceDictionary Source="..\Resources\Common.xaml"/>
+    		</ResourceDictionary.MergedDictionaries>
+    		<DataTemplate x:Key="PermitDataTemplate">
+    			<Border Style="{DynamicResource StandardBoxStyle}">
+    				<StackPanel>
+    					<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Style="{DynamicResource SectionHeading}" Text="Flight permit"/>
+    					<TextBlock TextWrapping="Wrap" Text="Flight number" Style="{DynamicResource SectionHeadingSmall}" Width="Auto"/>
+    					<TextBlock TextWrapping="NoWrap" Text="{Binding Permit.FlightNumber}" Style="{DynamicResource NormalText}" Height="19.93" Margin="0,0,2,0" TextTrimming="CharacterEllipsis"/>
+    					<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Notes" VerticalAlignment="Top" Style="{DynamicResource SectionHeadingSmall}"/>
+    					<TextBlock HorizontalAlignment="Left" TextWrapping="NoWrap" Text="{Binding Permit.Notes}" VerticalAlignment="Top" Style="{DynamicResource NormalText}" TextTrimming="CharacterEllipsis"/>
+    				</StackPanel>
+    			</Border>
+    		</DataTemplate>
+    		<DataTemplate x:Key="WeatherReportDataTemplate">
+    			<Border d:DesignWidth="318.717" d:DesignHeight="288.947" Style="{DynamicResource StandardBoxStyle}">
+    				<StackPanel Width="Auto">
+    					<Grid Height="50">
+    						<Grid.ColumnDefinitions>
+    							<ColumnDefinition Width="*"/>
+    							<ColumnDefinition Width="Auto"/>
+    						</Grid.ColumnDefinitions>
+    						<TextBlock HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="Weather" VerticalAlignment="Top" Style="{DynamicResource SectionHeading}" Margin="0" Grid.ColumnSpan="2"/>
+    						<Image Height="Auto" VerticalAlignment="Top" Width="Auto" Source="{Binding StyledWeatherIcon}" HorizontalAlignment="Left" MaxWidth="50" MaxHeight="50" Stretch="None" Grid.Column="1"/>
+    					</Grid>
+    					<TextBlock TextWrapping="Wrap" Text="Temperature" Style="{DynamicResource SectionHeadingSmall}"/>
+    					<TextBlock TextWrapping="Wrap" Text="{Binding Temperature, Mode=OneWay, TargetNullValue=Unavailable}" Style="{DynamicResource NormalText}"/>
+                        <TextBlock TextWrapping="Wrap" Style="{DynamicResource SectionHeadingSmall}" Text="Wind"/>
+                        <TextBlock TextWrapping="Wrap" Style="{DynamicResource NormalText}">
+                            <Run Text="{Binding WindSpeed, Mode=OneWay, TargetNullValue=Unavailable}"/>
+                            <Run Text="{Binding WindDirection, Mode=OneWay}" />
+                        </TextBlock>
+    				</StackPanel>
+    			</Border>
+    		</DataTemplate>
+    		<Storyboard x:Key="GoodPulse">
+    			<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="path">
+    				<EasingColorKeyFrame KeyTime="0" Value="#FF007000"/>
+    				<EasingColorKeyFrame KeyTime="0:0:0.3" Value="Lime"/>
+    				<EasingColorKeyFrame KeyTime="0:0:0.6" Value="#FF007000">
+    					<EasingColorKeyFrame.EasingFunction>
+    						<QuadraticEase EasingMode="EaseInOut"/>
+    					</EasingColorKeyFrame.EasingFunction>
+    				</EasingColorKeyFrame>
+    			</ColorAnimationUsingKeyFrames>
+    		</Storyboard>
+    	</ResourceDictionary>
+    </Window.Resources>
+	<Window.Triggers>
+		<EventTrigger RoutedEvent="FrameworkElement.Loaded">
+			<BeginStoryboard Storyboard="{StaticResource GoodPulse}"/>
+		</EventTrigger>
+	</Window.Triggers>
+	<Grid x:Name="LayoutRoot" Margin="10">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+		<VisualStateManager.VisualStateGroups>
+			<VisualStateGroup x:Name="SignInStateGroup">
+				<VisualStateGroup.Transitions>
+					<VisualTransition GeneratedDuration="0:0:1" To="NotSignedIn">
+						<VisualTransition.GeneratedEasingFunction>
+							<QuinticEase EasingMode="EaseOut"/>
+						</VisualTransition.GeneratedEasingFunction>
+						<Storyboard>
+							<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="SignInRoot">
+								<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+							</ObjectAnimationUsingKeyFrames>
+						</Storyboard>
+					</VisualTransition>
+					<VisualTransition From="NotSignedIn" GeneratedDuration="0:0:1" To="SignedIn">
+						<VisualTransition.GeneratedEasingFunction>
+							<QuinticEase EasingMode="EaseOut"/>
+						</VisualTransition.GeneratedEasingFunction>
+						<Storyboard>
+							<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="SignInRoot">
+								<DiscreteObjectKeyFrame KeyTime="0:0:1" Value="{x:Static Visibility.Collapsed}"/>
+							</ObjectAnimationUsingKeyFrames>
+							<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="MessagesArea">
+								<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+							</ObjectAnimationUsingKeyFrames>
+							<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="path">
+								<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+							</ObjectAnimationUsingKeyFrames>
+						</Storyboard>
+					</VisualTransition>
+					<VisualTransition GeneratedDuration="0:0:1">
+						<VisualTransition.GeneratedEasingFunction>
+							<QuinticEase EasingMode="EaseOut"/>
+						</VisualTransition.GeneratedEasingFunction>
+					</VisualTransition>
+				</VisualStateGroup.Transitions>
+				<VisualState x:Name="SignedIn">
+					<Storyboard>
+						<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="MessagesArea">
+							<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+						</DoubleAnimationUsingKeyFrames>
+						<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="MessagesArea">
+							<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+						</ObjectAnimationUsingKeyFrames>
+						<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Height)" Storyboard.TargetName="MessagesArea">
+							<EasingDoubleKeyFrame KeyTime="0" Value="150"/>
+						</DoubleAnimationUsingKeyFrames>
+						<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="path">
+							<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+						</ObjectAnimationUsingKeyFrames>
+					</Storyboard>
+				</VisualState>
+				<VisualState x:Name="NotSignedIn">
+					<Storyboard>
+						<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="SignInRoot">
+							<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+						</ObjectAnimationUsingKeyFrames>
+						<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="SignInRoot">
+							<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+						</DoubleAnimationUsingKeyFrames>
+					</Storyboard>
+				</VisualState>
+			</VisualStateGroup>
+			<VisualStateGroup x:Name="MainDisplay">
+				<VisualStateGroup.Transitions>
+					<VisualTransition GeneratedDuration="0:0:1">
+						<VisualTransition.GeneratedEasingFunction>
+							<QuinticEase EasingMode="EaseOut"/>
+						</VisualTransition.GeneratedEasingFunction>
+					</VisualTransition>
+				</VisualStateGroup.Transitions>
+				<VisualState x:Name="Initial"/>
+				<VisualState x:Name="Final">
+					<Storyboard>
+						<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="image">
+							<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+						</DoubleAnimationUsingKeyFrames>
+						<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="textBlock">
+							<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+						</DoubleAnimationUsingKeyFrames>
+					</Storyboard>
+				</VisualState>
+			</VisualStateGroup>
+			<VisualStateGroup x:Name="Permits">
+				<VisualStateGroup.Transitions>
+					<VisualTransition GeneratedDuration="0:0:1" To="PermitGranted">
+						<VisualTransition.GeneratedEasingFunction>
+							<QuinticEase EasingMode="EaseOut"/>
+						</VisualTransition.GeneratedEasingFunction>
+						<Storyboard>
+							<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="PermitArea">
+								<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+							</ObjectAnimationUsingKeyFrames>
+						</Storyboard>
+					</VisualTransition>
+					<VisualTransition GeneratedDuration="0:0:1">
+						<VisualTransition.GeneratedEasingFunction>
+							<QuinticEase EasingMode="EaseOut"/>
+						</VisualTransition.GeneratedEasingFunction>
+					</VisualTransition>
+					<VisualTransition From="PermitGranted" GeneratedDuration="0:0:1" To="NoPermit">
+						<VisualTransition.GeneratedEasingFunction>
+							<QuinticEase EasingMode="EaseOut"/>
+						</VisualTransition.GeneratedEasingFunction>
+						<Storyboard>
+							<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="PermitArea">
+								<DiscreteObjectKeyFrame KeyTime="0:0:1" Value="{x:Static Visibility.Collapsed}"/>
+							</ObjectAnimationUsingKeyFrames>
+						</Storyboard>
+					</VisualTransition>
+				</VisualStateGroup.Transitions>
+				<VisualState x:Name="NoPermit"/>
+				<VisualState x:Name="PermitGranted">
+					<Storyboard>
+						<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="PermitArea">
+							<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+						</DoubleAnimationUsingKeyFrames>
+						<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="PermitArea">
+							<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+						</ObjectAnimationUsingKeyFrames>
+					</Storyboard>
+				</VisualState>
+			</VisualStateGroup>
+			<VisualStateGroup x:Name="Weather">
+				<VisualStateGroup.Transitions>
+					<VisualTransition GeneratedDuration="0:0:1">
+						<VisualTransition.GeneratedEasingFunction>
+							<QuinticEase EasingMode="EaseOut"/>
+						</VisualTransition.GeneratedEasingFunction>
+					</VisualTransition>
+					<VisualTransition GeneratedDuration="0:0:1" To="WeatherAvailable">
+						<VisualTransition.GeneratedEasingFunction>
+							<QuinticEase EasingMode="EaseOut"/>
+						</VisualTransition.GeneratedEasingFunction>
+						<Storyboard>
+							<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="WeatherArea">
+								<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+							</ObjectAnimationUsingKeyFrames>
+						</Storyboard>
+					</VisualTransition>
+				</VisualStateGroup.Transitions>
+				<VisualState x:Name="WeatherUnavailable"/>
+				<VisualState x:Name="WeatherAvailable">
+					<Storyboard>
+						<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="WeatherArea">
+							<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+						</DoubleAnimationUsingKeyFrames>
+						<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="WeatherArea">
+							<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+						</ObjectAnimationUsingKeyFrames>
+					</Storyboard>
+				</VisualState>
+			</VisualStateGroup>
+		</VisualStateManager.VisualStateGroups>
+		<i:Interaction.Triggers>
+			<i:EventTrigger>
+				<ei:GoToStateAction StateName="Final"/>
+			</i:EventTrigger>
+			<ei:DataTrigger Binding="{Binding WeatherReport, Mode=OneWay}" Comparison="NotEqual" Value="{x:Null}">
+				<ei:GoToStateAction StateName="WeatherAvailable"/>
+			</ei:DataTrigger>
+		</i:Interaction.Triggers>
+		<Border x:Name="SignInRoot" Background="{DynamicResource SolidBlue}" VerticalAlignment="Center" HorizontalAlignment="Right" Width="400" Margin="0,0,-10,0" Visibility="Collapsed" RenderTransformOrigin="0.5,0.5" Grid.RowSpan="3" Height="175">
+			<Border.RenderTransform>
+				<TransformGroup>
+					<ScaleTransform/>
+					<SkewTransform/>
+					<RotateTransform/>
+					<TranslateTransform X="400"/>
+				</TransformGroup>
+			</Border.RenderTransform>
+			<StackPanel Margin="35,0,0,0" VerticalAlignment="Center">
+                <Button HorizontalAlignment="Left" Content="Sign in"
+					Padding="10"
+					Command="{Binding SignInCommand}"/>
+            </StackPanel>
+		</Border>
+		<Image x:Name="image" HorizontalAlignment="Left" VerticalAlignment="Top" Source="/AltitudeAngelWings;component/Resources/aa-logo-small.jpg" Width="224" RenderTransformOrigin="0.5,0.5">
+			<Image.RenderTransform>
+				<TransformGroup>
+					<ScaleTransform/>
+					<SkewTransform/>
+					<RotateTransform/>
+					<TranslateTransform X="-224"/>
+				</TransformGroup>
+			</Image.RenderTransform>
+		</Image>
+		<TextBlock x:Name="textBlock" HorizontalAlignment="Right" TextWrapping="Wrap" Text="{Binding SignInStatus}" VerticalAlignment="Top" Style="{DynamicResource SmallSubtleText}" RenderTransformOrigin="0.5,0.5" TextAlignment="Right">
+			<i:Interaction.Triggers>
+				<i:EventTrigger EventName="MouseLeftButtonDown">
+					<i:InvokeCommandAction Command="{Binding DisconnectCommand}"/>
+				</i:EventTrigger>
+			</i:Interaction.Triggers>
+			<TextBlock.RenderTransform>
+				<TransformGroup>
+					<ScaleTransform/>
+					<SkewTransform/>
+					<RotateTransform/>
+					<TranslateTransform X="160"/>
+				</TransformGroup>
+			</TextBlock.RenderTransform>
+		</TextBlock>
+		<Grid x:Name="MessagesArea" Margin="0" Grid.Row="2" Height="100" RenderTransformOrigin="0.5,0.5" Visibility="Collapsed">
+			<Grid.RenderTransform>
+				<TransformGroup>
+					<ScaleTransform/>
+					<SkewTransform/>
+					<RotateTransform/>
+					<TranslateTransform Y="160"/>
+				</TransformGroup>
+			</Grid.RenderTransform>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition/>
+			</Grid.RowDefinitions>
+            <TextBlock TextWrapping="Wrap" Text="Messages" VerticalAlignment="Top" Style="{DynamicResource SectionHeading}"/>
+			<local:MessagesView RenderTransformOrigin="0.5,0.5" Grid.Row="1" Margin="0,5,0,0"/>
+		</Grid>
+		<Grid Grid.Row="1">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="240"/>
+				<ColumnDefinition/>
+				<ColumnDefinition Width="240"/>
+			</Grid.ColumnDefinitions>
+			<Grid x:Name="PermitArea" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Visibility="Collapsed">
+				<Grid.RenderTransform>
+					<TransformGroup>
+						<ScaleTransform/>
+						<SkewTransform/>
+						<RotateTransform/>
+						<TranslateTransform X="-250"/>
+					</TransformGroup>
+				</Grid.RenderTransform>
+				<ContentControl Content="{Binding Permit}" ContentTemplate="{DynamicResource PermitDataTemplate}" Height="280"/>
+			</Grid>
+			<ContentControl x:Name="WeatherArea" Content="{Binding WeatherReport}" VerticalAlignment="Center" Grid.Column="2" ContentTemplate="{DynamicResource WeatherReportDataTemplate}" Height="280" RenderTransformOrigin="0.5,0.5" Visibility="Collapsed">
+				<ContentControl.RenderTransform>
+					<TransformGroup>
+						<ScaleTransform/>
+						<SkewTransform/>
+						<RotateTransform/>
+						<TranslateTransform X="250"/>
+					</TransformGroup>
+				</ContentControl.RenderTransform>
+			</ContentControl>
+		</Grid>
+		<Path x:Name="path" Data="M421.13667,24.93 L562,28" Fill="#FFF4F4F5" HorizontalAlignment="Right" Height="2" Stretch="Fill" Stroke="Red" VerticalAlignment="Top" Width="110" Margin="0,23,0,0" StrokeThickness="3" Visibility="Collapsed"/>
+	</Grid>
+</Window>

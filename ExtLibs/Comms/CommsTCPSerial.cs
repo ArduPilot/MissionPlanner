@@ -1,30 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Reflection;
-using System.Text;
-using System.IO.Ports;
-using System.Threading;
-using System.Net; // dns, ip address
-using System.Net.Sockets; // tcplistner
-using log4net;
 using System.IO;
-using MissionPlanner.Controls;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
+using System.Threading;
+using log4net;
+
+// dns, ip address
+// tcplistner
 
 namespace MissionPlanner.Comms
 {
-    public class TcpSerial : CommsBase,  ICommsSerial, IDisposable
+    public class TcpSerial : CommsBase, ICommsSerial, IDisposable
     {
-        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log = LogManager.GetLogger(typeof(TcpSerial));
+        public bool autoReconnect;
         public TcpClient client = new TcpClient();
-        IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
+        private bool inOpen;
+        private DateTime lastReconnectTime = DateTime.MinValue;
 
-        int retrys = 3;
+        private bool reconnectnoprompt;
+        private IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
 
-        public int WriteBufferSize { get; set; }
-        public int WriteTimeout { get; set; }
-        public bool RtsEnable { get; set; }
-        public Stream BaseStream { get { return this.BaseStream; } }
+        public int retrys = 3;
 
         public TcpSerial()
         {
@@ -32,226 +30,248 @@ namespace MissionPlanner.Comms
             //System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
 
             Port = "5760";
+            ReadTimeout = 500;
         }
+
+        public string Port { get; set; }
+
+        public int WriteBufferSize { get; set; }
+        public int WriteTimeout { get; set; }
+        public bool RtsEnable { get; set; }
+        public Stream BaseStream => client.GetStream();
 
         public void toggleDTR()
         {
         }
 
-        public string Port { get; set; }
-
         public int ReadTimeout
         {
-            get;// { return client.ReceiveTimeout; }
-            set;// { client.ReceiveTimeout = value; }
+            get; // { return client.ReceiveTimeout; }
+            set; // { client.ReceiveTimeout = value; }
         }
 
-        public int ReadBufferSize {get;set;}
+        public int ReadBufferSize { get; set; }
 
         public int BaudRate { get; set; }
-        public StopBits StopBits { get; set; }
-        public  Parity Parity { get; set; }
-        public  int DataBits { get; set; }
 
-        public string PortName { get; set; }
+        public int DataBits { get; set; }
 
-        public  int BytesToRead
+        public string PortName
         {
-            get { /*Console.WriteLine(DateTime.Now.Millisecond + " tcp btr " + (client.Available + rbuffer.Length - rbufferread));*/ return (int)client.Available; }
-        }
-
-        public int BytesToWrite { get { return 0; } }
-
-        public bool IsOpen { get { try { return client.Client.Connected; } catch { return false; } } }
-
-        public bool DtrEnable
-        {
-            get;
-            set;
-        }
-
-        public void Open()
-        {
-            if (client.Client.Connected)
+            get
             {
-                log.Warn("tcpserial socket already open");
-                return;
+                if (client != null && client.Client != null && client.Client.RemoteEndPoint != null)
+                    return "TCP" + ((IPEndPoint) client.Client.RemoteEndPoint).Port;
+                return "TCP" + Port;
             }
-
-            log.Info("TCP Open");
-
-            string dest = Port;
-            string host = "127.0.0.1";
-
-            dest = OnSettings("TCP_port", dest);
-
-            host = OnSettings("TCP_host", host);
-
-            //if (!MainV2.MONO)
-            {
-                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("remote host", "Enter host name/ip (ensure remote end is already started)", ref host))
-                {
-                    throw new Exception("Canceled by request");
-                }
-                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("remote Port", "Enter remote port", ref dest))
-                {
-                    throw new Exception("Canceled by request");
-                }
-            }
-
-            Port = dest;
-
-            OnSettings("TCP_port", Port, true);
-            OnSettings("TCP_host", host, true);
-
-            client = new TcpClient(host, int.Parse(Port));
-
-            client.NoDelay = true;
-            client.Client.NoDelay = true;
-
-            VerifyConnected();
-
-            return;
+            set { }
         }
 
-        void VerifyConnected()
+        public int BytesToRead => client.Available;
+
+        public int BytesToWrite => 0;
+
+        public bool IsOpen
         {
-            if (client == null || !IsOpen)
+            get
             {
                 try
                 {
-                    client.Close();
-                }
-                catch { }
+                    if (client == null) return false;
+                    if (client.Client == null) return false;
 
-                // this should only happen if we have established a connection in the first place
-                if (client != null && retrys > 0)
+                    if (autoReconnect && client.Client.Connected == false && !inOpen)
+                        doAutoReconnect();
+
+                    return client.Client.Connected;
+                }
+                catch
                 {
-                    log.Info("tcp reconnect");
-                    client.Connect(OnSettings("TCP_host", ""), int.Parse(OnSettings("TCP_port", "")));
-                    retrys--;
+                    return false;
                 }
-
-                throw new Exception("The socket/serialproxy is closed");
             }
         }
 
-        public  int Read(byte[] readto,int offset,int length)
+        public bool DtrEnable { get; set; }
+
+        public void Open()
+        {
+            try
+            {
+                inOpen = true;
+
+                if (client.Client.Connected)
+                {
+                    log.Warn("tcpserial socket already open");
+                    return;
+                }
+
+                var dest = Port;
+                var host = "127.0.0.1";
+
+                dest = OnSettings("TCP_port", dest);
+
+                host = OnSettings("TCP_host", host);
+
+                if (!reconnectnoprompt)
+                {
+                    if (inputboxreturn.Cancel == OnInputBoxShow("remote host",
+                            "Enter host name/ip (ensure remote end is already started)", ref host))
+                        throw new Exception("Canceled by request");
+                    if (inputboxreturn.Cancel == OnInputBoxShow("remote Port", "Enter remote port", ref dest))
+                        throw new Exception("Canceled by request");
+                }
+
+                Port = dest;
+
+                log.InfoFormat("TCP Open {0} {1}", host, Port);
+
+                OnSettings("TCP_port", Port, true);
+                OnSettings("TCP_host", host, true);
+
+                client = new TcpClient(host, int.Parse(Port));
+
+                client.NoDelay = true;
+                client.Client.NoDelay = true;
+
+                VerifyConnected();
+
+                reconnectnoprompt = true;
+            }
+            catch
+            {
+                // disable if the first connect fails
+                autoReconnect = false;
+                throw;
+            }
+            finally
+            {
+                inOpen = false;
+            }
+        }
+
+        public int Read(byte[] readto, int offset, int length)
         {
             VerifyConnected();
             try
             {
-                if (length < 1) { return 0; }
+                if (length < 1) return 0;
 
-				return client.Client.Receive(readto, offset, length, SocketFlags.None);
-/*
-                byte[] temp = new byte[length];
-                clientbuf.Read(temp, 0, length);
+                return client.Client.Receive(readto, offset, length, SocketFlags.None);
+                /*
+                                byte[] temp = new byte[length];
+                                clientbuf.Read(temp, 0, length);
 
-                temp.CopyTo(readto, offset);
+                                temp.CopyTo(readto, offset);
 
-                return length;*/
+                                return length;*/
             }
-            catch { throw new Exception("Socket Closed"); }
+            catch
+            {
+                throw new Exception("Socket Closed");
+            }
         }
 
-        public  int ReadByte()
+        public int ReadByte()
         {
             VerifyConnected();
-            int count = 0;
-            while (this.BytesToRead == 0)
+            var count = 0;
+            while (BytesToRead == 0)
             {
-                System.Threading.Thread.Sleep(1);
+                Thread.Sleep(1);
                 if (count > ReadTimeout)
                     throw new Exception("NetSerial Timeout on read");
                 count++;
             }
-            byte[] buffer = new byte[1];
+
+            var buffer = new byte[1];
             Read(buffer, 0, 1);
             return buffer[0];
         }
 
-        public  int ReadChar()
+        public int ReadChar()
         {
             return ReadByte();
         }
 
-        public  string ReadExisting() 
+        public string ReadExisting()
         {
             VerifyConnected();
-            byte[] data = new byte[client.Available];
+            var data = new byte[client.Available];
             if (data.Length > 0)
                 Read(data, 0, data.Length);
 
-            string line = Encoding.ASCII.GetString(data, 0, data.Length);
+            var line = Encoding.ASCII.GetString(data, 0, data.Length);
 
             return line;
         }
 
-        public  void WriteLine(string line)
+        public void WriteLine(string line)
         {
             VerifyConnected();
             line = line + "\n";
             Write(line);
         }
 
-        public  void Write(string line)
+        public void Write(string line)
         {
             VerifyConnected();
-            byte[] data = new System.Text.ASCIIEncoding().GetBytes(line);
+            var data = new ASCIIEncoding().GetBytes(line);
             Write(data, 0, data.Length);
         }
 
-        public  void Write(byte[] write, int offset, int length)
+        public void Write(byte[] write, int offset, int length)
         {
             VerifyConnected();
             try
             {
-                client.Client.Send(write, length,SocketFlags.None);
+                client.Client.Send(write, length, SocketFlags.None);
             }
-            catch { }//throw new Exception("Comport / Socket Closed"); }
+            catch
+            {
+            } //throw new Exception("Comport / Socket Closed"); }
         }
 
-        public  void DiscardInBuffer()
+        public void DiscardInBuffer()
         {
             VerifyConnected();
-            int size = (int)client.Available;
-            byte[] crap = new byte[size];
-            log.InfoFormat("TcpSerial DiscardInBuffer {0}",size);
+            var size = client.Available;
+            var crap = new byte[size];
+            log.InfoFormat("TcpSerial DiscardInBuffer {0}", size);
             Read(crap, 0, size);
         }
 
-        public  string ReadLine() {
-            byte[] temp = new byte[4000];
-            int count = 0;
-            int timeout = 0;
+        public string ReadLine()
+        {
+            var temp = new byte[4000];
+            var count = 0;
+            var timeout = 0;
 
             while (timeout <= 100)
             {
-                if (!this.IsOpen) { break; }
-                if (this.BytesToRead > 0)
+                if (!IsOpen) break;
+                if (BytesToRead > 0)
                 {
-                    byte letter = (byte)this.ReadByte();
+                    var letter = (byte) ReadByte();
 
                     temp[count] = letter;
 
                     if (letter == '\n') // normal line
-                    {
                         break;
-                    }
-
 
                     count++;
                     if (count == temp.Length)
                         break;
                     timeout = 0;
-                } else {
+                }
+                else
+                {
                     timeout++;
-                    System.Threading.Thread.Sleep(5);
+                    Thread.Sleep(5);
                 }
             }
 
-            Array.Resize<byte>(ref temp, count + 1);
+            Array.Resize(ref temp, count + 1);
 
             return Encoding.ASCII.GetString(temp, 0, temp.Length);
         }
@@ -262,19 +282,87 @@ namespace MissionPlanner.Comms
             {
                 if (client.Client != null && client.Client.Connected)
                 {
-                    client.Client.Close();
-                    client.Close();
+                    client.Client.Dispose();
+                    client.Dispose();
                 }
             }
-            catch { }
+            catch
+            {
+            }
 
             try
             {
-                client.Close();
+                client.Dispose();
             }
-            catch { }
+            catch
+            {
+            }
 
             client = new TcpClient();
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void doAutoReconnect()
+        {
+            if (!autoReconnect)
+                return;
+            try
+            {
+                if (DateTime.Now > lastReconnectTime)
+                {
+                    try
+                    {
+                        client.Dispose();
+                    }
+                    catch
+                    {
+                    }
+
+                    client = new TcpClient();
+
+                    var host = OnSettings("TCP_host", "");
+                    var port = int.Parse(OnSettings("TCP_port", ""));
+
+                    log.InfoFormat("doAutoReconnect {0} {1}", host, port);
+
+                    var task = client.ConnectAsync(host, port);
+
+                    lastReconnectTime = DateTime.Now.AddSeconds(5);
+                }
+            }
+            catch
+            {
+            }
+        }
+
+        private void VerifyConnected()
+        {
+            if (!IsOpen)
+            {
+                try
+                {
+                    client.Dispose();
+                }
+                catch
+                {
+                }
+
+                // this should only happen if we have established a connection in the first place
+                if (client != null && retrys > 0)
+                {
+                    log.Info("tcp reconnect");
+                    client = new TcpClient();
+                    client.Connect(OnSettings("TCP_host", ""), int.Parse(OnSettings("TCP_port", "")));
+                    retrys--;
+                }
+
+                throw new Exception("The socket/serialproxy is closed");
+            }
         }
 
         protected virtual void Dispose(bool disposing)
@@ -282,16 +370,11 @@ namespace MissionPlanner.Comms
             if (disposing)
             {
                 // dispose managed resources
-                this.Close();
+                Close();
                 client = null;
             }
-            // free native resources
-        }
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            // free native resources
         }
     }
 }

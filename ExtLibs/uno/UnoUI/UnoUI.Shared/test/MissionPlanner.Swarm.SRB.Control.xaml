@@ -1,0 +1,32 @@
+<UserControl x:Class="MissionPlanner.Swarm.SRB.Control" d:DesignHeight="300" d:DesignWidth="492"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+xmlns:BackstageView="using:MissionPlanner.Controls.BackstageView"
+xmlns:Controls="using:MissionPlanner.Controls"
+xmlns:GCSViews="using:MissionPlanner.GCSViews"
+xmlns:Wizard="using:MissionPlanner.Wizard"
+xmlns:ConfigurationView="using:MissionPlanner.GCSViews.ConfigurationView"
+xmlns:Custom="using:Custom"
+xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+xmlns:PreFlight="using:MissionPlanner.Controls.PreFlight"
+mc:Ignorable="d"
+> <Grid><TextBlock Name="label8" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="30,168,0,0" Width="45" Height="17">Z speed</TextBlock>
+<Custom:DecimalUpDown Name="num_zspeed" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="94,166,0,0" Width="60"></Custom:DecimalUpDown>
+<TextBlock Name="label7" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="258,128,0,0" Width="35" Height="17">label7</TextBlock>
+<TextBlock Name="label6" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="258,115,0,0" Width="35" Height="17">label6</TextBlock>
+<TextBlock Name="label5" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="258,102,0,0" Width="35" Height="17">label5</TextBlock>
+<TextBlock Name="label4" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="258,89,0,0" Width="35" Height="17">label4</TextBlock>
+<TextBlock Name="label3" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="30,142,0,0" Width="56" Height="17">MaxOffset</TextBlock>
+<Custom:DecimalUpDown Name="num_maxoffset" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="94,140,0,0" Width="60"></Custom:DecimalUpDown>
+<TextBlock Name="label2" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="30,116,0,0" Width="53" Height="17">MinOffset</TextBlock>
+<Custom:DecimalUpDown Name="num_minoffset" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="94,114,0,0" Width="60"></Custom:DecimalUpDown>
+<TextBlock Name="label1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="30,90,0,0" Width="58" Height="17">TakeOffAlt</TextBlock>
+<Custom:DecimalUpDown Name="num_TakeOffAlt" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="94,88,0,0" Width="60"></Custom:DecimalUpDown>
+<Button Name="but_stop" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="13,42,0,0" Width="75" Height="23">Stop</Button>
+<Button Name="but_land" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="175,13,0,0" Width="75" Height="23">Start Land</Button>
+<Button Name="but_z" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="94,13,0,0" Width="75" Height="23">Start Z</Button>
+<Button Name="but_start" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="13,13,0,0" Width="75" Height="23">Start</Button>
+</Grid></UserControl>

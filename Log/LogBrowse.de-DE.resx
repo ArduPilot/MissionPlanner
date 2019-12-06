@@ -112,28 +112,16 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="BUT_loadlog.Text" xml:space="preserve">
     <value>Log laden</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Log durchsuchen</value>
-  </data>
-  <data name="Graphit.Text" xml:space="preserve">
-    <value>Diagramm</value>
-  </data>
-  <data name="Graphit.ToolTip" xml:space="preserve">
-    <value>Diagramm aus markeirtem Bereich erstellen</value>
-  </data>
-  <data name="BUT_loadlog.ToolTip" xml:space="preserve">
-    <value>Andere log Datei laden</value>
-  </data>
-  <data name="BUT_cleargraph.ToolTip" xml:space="preserve">
-    <value>Daten des Diagramms löschen</value>
   </data>
   <data name="BUT_cleargraph.Text" xml:space="preserve">
     <value>Diagramm löschen</value>

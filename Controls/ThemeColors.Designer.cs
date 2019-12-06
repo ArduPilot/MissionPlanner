@@ -113,7 +113,7 @@
             // ThemeColors
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            
             this.Controls.Add(this.BUT_done);
             this.Controls.Add(this.TXT_butbord);
             this.Controls.Add(this.BUT_butbord);

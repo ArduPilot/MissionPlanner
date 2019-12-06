@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.IO.Ports;
 using System.IO;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
@@ -11,13 +10,12 @@ using Org.BouncyCastle.Security;
 using System.Runtime.InteropServices;
 using System.Reflection;
 using System.Xml;
-using System.Windows.Forms;
+using MissionPlanner.Comms;
 
 namespace px4uploader
 {
     public class Uploader: IDisposable
     {
-
         public delegate void LogEventHandler(string message, int level = 0);
 
         public delegate void ProgressEventHandler(double completed);
@@ -25,7 +23,7 @@ namespace px4uploader
         public event LogEventHandler LogEvent;
         public event ProgressEventHandler ProgressEvent;
 
-        SerialPort port;
+        ICommsSerial port;
         Uploader self;
 
         public bool skipotp = false;
@@ -57,19 +55,23 @@ namespace px4uploader
             GET_OTP = 0x2a, // read a byte from OTP at the given address 
             GET_SN = 0x2b,    // read a word from UDID area ( Serial)  at the given address 
             GET_CHIP = 0x2c, // read chip version (MCU IDCODE)
+            PROTO_SET_DELAY	= 0x2d, // set minimum boot delay
             REBOOT = 0x30,
-
-            INFO_BL_REV = 1,//	# bootloader protocol revision
-            BL_REV_MIN = 2,//	# minimum supported bootloader protocol 
-            BL_REV_MAX = 4,//	# maximum supported bootloader protocol 
-            INFO_BOARD_ID = 2,//	# board type
-            INFO_BOARD_REV = 3,//	# board revision
-            INFO_FLASH_SIZE = 4,//	# max firmware size in bytes
-
-            PROG_MULTI_MAX = 60,//		# protocol max is 255, must be multiple of 4
-            READ_MULTI_MAX = 60,//		# protocol max is 255, something overflows with >= 64
-
         }
+
+        public enum Info {
+            BL_REV = 1,//	# bootloader protocol revision
+            BOARD_ID = 2,//	# board type
+            BOARD_REV = 3,//	# board revision
+            FLASH_SIZE = 4,//	# max firmware size in bytes
+            VEC_AREA = 5
+        }
+
+        public const byte BL_REV_MIN = 2;//	# minimum supported bootloader protocol 
+        public const byte BL_REV_MAX = 10;//	# maximum supported bootloader protocol
+        public const byte PROG_MULTI_MAX = 60;//		# protocol max is 255, must be multiple of 4
+        public const byte READ_MULTI_MAX = 60;//		# protocol max is 255, something overflows with >= 64
+
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
         struct otp
@@ -94,24 +96,17 @@ namespace px4uploader
             readcerts();
         }
 
-        public Uploader(string port, int baudrate)
+        public Uploader(ICommsSerial port)
         {
             self = this;
 
-            if (port.StartsWith("/"))
-                if (!File.Exists(port))
-                    throw new Exception("No such device");
-
-            this.port = new SerialPort(port, baudrate);
+            this.port = port;
             this.port.ReadTimeout = 50;
             this.port.WriteTimeout = 50;
 
             try
             {
                 Console.Write("open");
-                if (port.StartsWith("/"))
-                    if (!File.Exists(port))
-                        throw new Exception("No such device");
                 this.port.Open();
                 this.port.Write("reboot -b\r");
                 Console.WriteLine("..done");
@@ -133,10 +128,15 @@ namespace px4uploader
             }
         }
 
+        public Uploader(string port, int baudrate): this(new SerialPort(port, baudrate))
+        {
+        }
+
         public void close()
         {
             try
             {
+                port.BaseStream.Flush();
                 port.Close();
             }
             catch { }
@@ -161,7 +161,15 @@ namespace px4uploader
             string vendor = "";
             string publickey = "";
 
-            using (XmlTextReader xmlreader = new XmlTextReader(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"validcertificates.xml"))
+            var file = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
+                       Path.DirectorySeparatorChar + @"validcertificates.xml";
+
+            if (!File.Exists(file))
+            {
+                return;
+            }
+
+            using (XmlTextReader xmlreader = new XmlTextReader(file))
             {
                 while (xmlreader.Read())
                 {
@@ -236,6 +244,22 @@ namespace px4uploader
                     {
                         print("Libre bootloader");
                         libre = true;
+                        print("Forged Key");
+                        throw new InvalidKeyException("Invalid Board");
+                    }
+
+                    if (ByteArrayCompare(sn, new byte[] { 0x00, 0x38, 0x00, 0x1F, 0x34, 0x32, 0x47, 0x0D, 0x31, 0x32, 0x35, 0x33, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }))
+                    { // pixhawk lite
+                        // please sign your board via the proper process.
+                        // nuttx has an auth command. use it.
+                        print("Forged Key");
+                        throw new InvalidKeyException("Invalid Board");
+                    }
+
+                    if (ByteArrayCompare(sn, new byte[] { 0x00, 0x38, 0x00, 0x21, 0x31, 0x34, 0x51, 0x17, 0x33, 0x36, 0x38, 0x34, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }))
+                    { // pixfalcon
+                        print("Forged Key");
+                        throw new InvalidKeyException("Invalid Board");
                     }
 
                     object obj = new otp();
@@ -346,7 +370,7 @@ namespace px4uploader
                 __send(new byte[] { (byte)Code.EOC });
                 byte[] ans = __recv(4);
                 __getSync();
-                Array.Reverse(ans);
+                ans = ans.Reverse().ToArray();
                 Array.Copy(ans, 0, sn, a, 4);
             }
 
@@ -374,7 +398,7 @@ namespace px4uploader
         public byte[] __recv(int count = 1)
         {
             // this will auto timeout
-           // Console.WriteLine("recv "+count);
+            // Console.WriteLine("recv "+count);
             byte[] c = new byte[count];
             int pos = 0;
             while (pos < count)
@@ -386,7 +410,6 @@ namespace px4uploader
         public int __recv_int()
         {
             byte[] raw = __recv(4);
-            //raw.Reverse();
             int val = BitConverter.ToInt32(raw, 0);
             return val;
         }
@@ -413,6 +436,13 @@ namespace px4uploader
             __getSync();
         }
 
+        public bool __syncAttempt()
+        {
+            port.BaseStream.Flush();
+            __send(new byte[] { (byte)Code.GET_SYNC, (byte)Code.EOC });
+            return __trySync();
+        }
+
         public bool __trySync()
         {
             port.BaseStream.Flush();
@@ -425,12 +455,11 @@ namespace px4uploader
             return true;
         }
 
-        public int __getInfo(Code param)
+        public int __getInfo(Info param)
         {
             __send(new byte[] { (byte)Code.GET_DEVICE, (byte)param, (byte)Code.EOC });
             int info = __recv_int();
             __getSync();
-            //Array.Reverse(raw);
             return info;
         }
 
@@ -530,7 +559,7 @@ namespace px4uploader
         public void __program(Firmware fw)
         {
             byte[] code = fw.imagebyte;
-            List<byte[]> groups = self.__split_len(code, (byte)Code.PROG_MULTI_MAX);
+            List<byte[]> groups = self.__split_len(code, PROG_MULTI_MAX);
             Console.WriteLine("Programing packet total: "+groups.Count);
             int a = 1;
             foreach (Byte[] bytes in groups)
@@ -551,7 +580,7 @@ namespace px4uploader
 				, (byte)Code.EOC});
             self.__getSync();
             byte[] code = fw.imagebyte;
-            List<byte[]> groups = self.__split_len(code, (byte)Code.READ_MULTI_MAX);
+            List<byte[]> groups = self.__split_len(code, READ_MULTI_MAX);
             int a = 1;
             foreach (byte[] bytes in groups)
             {
@@ -616,6 +645,8 @@ namespace px4uploader
 
         public void identify()
         {
+            port.DiscardInBuffer();
+
             //Console.WriteLine("0 " + DateTime.Now.Millisecond);
             // make sure we are in sync before starting
             self.__sync();
@@ -623,17 +654,20 @@ namespace px4uploader
             //Console.WriteLine("1 "+DateTime.Now.Millisecond);
 
             //get the bootloader protocol ID first
-            self.bl_rev = self.__getInfo(Code.INFO_BL_REV);
+            self.bl_rev = self.__getInfo(Info.BL_REV);
 
            // Console.WriteLine("2 " + DateTime.Now.Millisecond);
-            if ((bl_rev < (int)Code.BL_REV_MIN) || (bl_rev > (int)Code.BL_REV_MAX))
+            if ((bl_rev < (int)BL_REV_MIN) || (bl_rev > (int)BL_REV_MAX))
             {
                 throw new Exception("Bootloader protocol mismatch");
             }
 
-            self.board_type = self.__getInfo(Code.INFO_BOARD_ID);
-            self.board_rev = self.__getInfo(Code.INFO_BOARD_REV);
-            self.fw_maxsize = self.__getInfo(Code.INFO_FLASH_SIZE);
+            // revert to default write timeout
+            port.WriteTimeout = 500;
+
+            self.board_type = self.__getInfo(Info.BOARD_ID);
+            self.board_rev = self.__getInfo(Info.BOARD_REV);
+            self.fw_maxsize = self.__getInfo(Info.FLASH_SIZE);
         }
 
         public void upload(Firmware fw)
@@ -642,8 +676,12 @@ namespace px4uploader
 
             //Make sure we are doing the right thing
             if (self.board_type != fw.board_id)
-                throw new Exception("Firmware not suitable for this board");
-            if (self.fw_maxsize < fw.image_size)
+            {
+                if (!(self.board_type == 33 && fw.board_id == 9))
+                    throw new Exception("Firmware not suitable for this board");
+            }
+
+            if (self.fw_maxsize < fw.image_size && self.fw_maxsize != 0)
                 throw new Exception("Firmware image is too large for this board");
 
             print("erase...");

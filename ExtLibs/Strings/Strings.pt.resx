@@ -1,0 +1,576 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ReadingHex" xml:space="preserve">
+    <value>Lendo Hex</value>
+  </data>
+  <data name="SelectComport" xml:space="preserve">
+    <value>Selecione sua porta serial</value>
+  </data>
+  <data name="FullParameterTree" xml:space="preserve">
+    <value>Arvore com todos os parametros</value>
+  </data>
+  <data name="FullParameterList" xml:space="preserve">
+    <value>Lista com todos os parametros</value>
+  </data>
+  <data name="TrackerHome" xml:space="preserve">
+    <value>Monitor Home</value>
+  </data>
+  <data name="NewFirmware" xml:space="preserve">
+    <value>Novo Firmware</value>
+  </data>
+  <data name="AreYouSureYouWantToUpload" xml:space="preserve">
+    <value>Tem certeza que quer carregar</value>
+  </data>
+  <data name="ErrorSetValueFailed" xml:space="preserve">
+    <value>Set {0} Falhou</value>
+  </data>
+  <data name="BadAccelHealth" xml:space="preserve">
+    <value>Problema Acelerometro</value>
+  </data>
+  <data name="Stillmoving" xml:space="preserve">
+    <value>Seu veiculo continua a se mover, tem certeza que quer deconectar?</value>
+  </data>
+  <data name="BetaWarning" xml:space="preserve">
+    <value>Essa versão é beta e deve ser usado com seu próprio risco!!</value>
+  </data>
+  <data name="velocity_variance" xml:space="preserve">
+    <value>Varianca de velocidade</value>
+  </data>
+  <data name="Converting_bin_to_log" xml:space="preserve">
+    <value>Converter bin para log</value>
+  </data>
+  <data name="BasicTuning" xml:space="preserve">
+    <value>Ajuste básico</value>
+  </data>
+  <data name="ConnectingMavlink" xml:space="preserve">
+    <value>Conectar Mavlink</value>
+  </data>
+  <data name="InvalidUpdateRate" xml:space="preserve">
+    <value>Taxa de atualização inválida</value>
+  </data>
+  <data name="SetHere" xml:space="preserve">
+    <value>Ajusta aqui</value>
+  </data>
+  <data name="CommandFailed" xml:space="preserve">
+    <value>A execução do comando falhou</value>
+  </data>
+  <data name="GettingFWList" xml:space="preserve">
+    <value>Recebendo a lista do FW</value>
+  </data>
+  <data name="Zoom_To" xml:space="preserve">
+    <value>Zoom para</value>
+  </data>
+  <data name="BadLiDARHealth" xml:space="preserve">
+    <value>Problema no LIDAR</value>
+  </data>
+  <data name="ParamRefreshRequired" xml:space="preserve">
+    <value>Atualização dos parâmetro e requerida-aperte F5 velho #{0} novo #{1}</value>
+  </data>
+  <data name="StandardParams" xml:space="preserve">
+    <value>Parametro padrão</value>
+  </data>
+  <data name="AdvancedParams" xml:space="preserve">
+    <value>Parametro avançado</value>
+  </data>
+  <data name="BadGPSHealth" xml:space="preserve">
+    <value>GPS ruim</value>
+  </data>
+  <data name="GettingParamsD" xml:space="preserve">
+    <value>Recebendo parâmetros</value>
+  </data>
+  <data name="PleaseConnect" xml:space="preserve">
+    <value>Primeiro conectar</value>
+  </data>
+  <data name="InvalidNumberEntered" xml:space="preserve">
+    <value>Numero invalido digitado</value>
+  </data>
+  <data name="WarningLogBrowseFMTMissing" xml:space="preserve">
+    <value>O browser do Log não funciona corretamente som a mensagem FMT no Log. Aparentemente essa mensagem está faltando no seu Log.</value>
+  </data>
+  <data name="ProgrammedOK" xml:space="preserve">
+    <value>Programado com sucesso</value>
+  </data>
+  <data name="BadorNoTerrainData" xml:space="preserve">
+    <value>Sem dado do terreno ou dado ruim</value>
+  </data>
+  <data name="Getting" xml:space="preserve">
+    <value>Recebendo</value>
+  </data>
+  <data name="EppromChanged" xml:space="preserve">
+    <value>Epprom modificada, todos os seus ajustes serão perdidos durante a atualização, continuar?</value>
+  </data>
+  <data name="Only1HbD" xml:space="preserve">
+    <value>Somente um pacote de status do Mavlink foi recebido nessa porta – verifique se o hardware foi configurado corretamente Mission Planner espera 2 mensagens de status antes de conectar.</value>
+  </data>
+  <data name="WarningUpdateParamList" xml:space="preserve">
+    <value>Atualizar parametros NÃO CONTINUE SE ESTIVER VOANDO</value>
+  </data>
+  <data name="ErrorNoResponce" xml:space="preserve">
+    <value>eErro: sem resposta do MAV</value>
+  </data>
+  <data name="Trying" xml:space="preserve">
+    <value>Tentando conectar. tempo restante {0}</value>
+  </data>
+  <data name="EppromFormatChanged" xml:space="preserve">
+    <value>Fomato da Epprom mudou ({0} vs {1})</value>
+  </data>
+  <data name="NoFMTMessage" xml:space="preserve">
+    <value>Sem mensagem FMT por</value>
+  </data>
+  <data name="TrunkWarning" xml:space="preserve">
+    <value>Esses são os últimos firmware, use com risco próprio!!!</value>
+  </data>
+  <data name="pos_horiz_variance" xml:space="preserve">
+    <value>variança da pos horiz</value>
+  </data>
+  <data name="Saving" xml:space="preserve">
+    <value>Salvando</value>
+  </data>
+  <data name="PleaseUnplugTheBoardAnd" xml:space="preserve">
+    <value>Desconecte a placa, pressione OK e conecte de novo. Mission Planer vai tentar conectar por 30 seg</value>
+  </data>
+  <data name="Timeout" xml:space="preserve">
+    <value>Tempo do auto scan esgotado/nenhum dispositivo Mavlink conectado</value>
+  </data>
+  <data name="ReceivedList" xml:space="preserve">
+    <value>Lista recebida</value>
+  </data>
+  <data name="ErrorUploadingFirmware" xml:space="preserve">
+    <value>Erro carregando firmware</value>
+  </data>
+  <data name="ChangeThrottle" xml:space="preserve">
+    <value>Mude o acelerador</value>
+  </data>
+  <data name="InvalidPortName" xml:space="preserve">
+    <value>Nome da porta invalido</value>
+  </data>
+  <data name="ConnectFailed" xml:space="preserve">
+    <value>Conexão falhou</value>
+  </data>
+  <data name="ExtendedTuning" xml:space="preserve">
+    <value>Configuração extendida</value>
+  </data>
+  <data name="InvalidFileName" xml:space="preserve">
+    <value>Nome do arquivo invalido</value>
+  </data>
+  <data name="No_valid_heartbeats_read_from_port" xml:space="preserve">
+    <value>Nenhuma mensagem de verificação recebida na porta</value>
+  </data>
+  <data name="Failed_to_connect_to_SITL_instance" xml:space="preserve">
+    <value>Falha em conectar na instância STILL</value>
+  </data>
+  <data name="FailedReadHEX" xml:space="preserve">
+    <value>Falha em ler Hex</value>
+  </data>
+  <data name="Connect" xml:space="preserve">
+    <value>Conectar</value>
+  </data>
+  <data name="Click_when_Done" xml:space="preserve">
+    <value>Clicar quando pronto</value>
+  </data>
+  <data name="InvalidTiltRange" xml:space="preserve">
+    <value>Faixa do tilt invalida</value>
+  </data>
+  <data name="InvalidCert" xml:space="preserve">
+    <value>Cert invalido</value>
+  </data>
+  <data name="terrain_alt_variance" xml:space="preserve">
+    <value>Varianca de alt do terreno</value>
+  </data>
+  <data name="BadCoords" xml:space="preserve">
+    <value>Lat/lon ruim</value>
+  </data>
+  <data name="MagCalibMsg" xml:space="preserve">
+    <value>Clique Ok e movimente o piloto automático sobre os eixos em movimento circular</value>
+  </data>
+  <data name="Not_available_when_used_as_a_windows_store_app" xml:space="preserve">
+    <value>Indisponivel se utilizado como um App da loja Windows</value>
+  </data>
+  <data name="CheckPortSettingsOr" xml:space="preserve">
+    <value>Verifique o ajuste da porta ou porta em uso.</value>
+  </data>
+  <data name="BadLogging" xml:space="preserve">
+    <value>Logging ruim</value>
+  </data>
+  <data name="YouAreUsingUnsupportedHardware" xml:space="preserve">
+    <value>Hardware não suportado. Essa placa não contem um certificado de autenticação valido. Contate seu vendedor de hardware para ele validar a placa.</value>
+  </data>
+  <data name="MavlinkConnecting" xml:space="preserve">
+    <value>Conectando o Mavlink...</value>
+  </data>
+  <data name="GettingParams" xml:space="preserve">
+    <value>Recebendo parametros</value>
+  </data>
+  <data name="FailedToReadHex" xml:space="preserve">
+    <value>Falhou ao ler o firmware.hex :</value>
+  </data>
+  <data name="Load_data" xml:space="preserve">
+    <value>Carregando dados</value>
+  </data>
+  <data name="UpdateNow" xml:space="preserve">
+    <value>Atualizar agora</value>
+  </data>
+  <data name="Gotparam" xml:space="preserve">
+    <value>Recebeu parametros</value>
+  </data>
+  <data name="Failclog" xml:space="preserve">
+    <value>Falhou ao criar o Log - a sessão não será gravada</value>
+  </data>
+  <data name="DetectingBoardVersion" xml:space="preserve">
+    <value>Detectando a versão da placa</value>
+  </data>
+  <data name="FailSafe" xml:space="preserve">
+    <value>Falha de segurança</value>
+  </data>
+  <data name="GettingFWVersion" xml:space="preserve">
+    <value>Recebendo a versão do firmware</value>
+  </data>
+  <data name="Error_binding" xml:space="preserve">
+    <value>Erro sincronizando</value>
+  </data>
+  <data name="NewFirmwareA" xml:space="preserve">
+    <value>Novo firmware disponível</value>
+  </data>
+  <data name="BadCompassHealth" xml:space="preserve">
+    <value>Compasso ruim</value>
+  </data>
+  <data name="InvalidBaudRate" xml:space="preserve">
+    <value>BaudRate invalido</value>
+  </data>
+  <data name="ErrorFirmwareFile" xml:space="preserve">
+    <value>Erro carregando o arquivo firmware</value>
+  </data>
+  <data name="ErrorLogList" xml:space="preserve">
+    <value>Erro recebendo a lista de log</value>
+  </data>
+  <data name="Only1Hb" xml:space="preserve">
+    <value>somente 1 verificação recebida</value>
+  </data>
+  <data name="compass_variance" xml:space="preserve">
+    <value>Variança do compasso</value>
+  </data>
+  <data name="BadGyroHealth" xml:space="preserve">
+    <value>Giro ruim</value>
+  </data>
+  <data name="ErrorReceivingParams" xml:space="preserve">
+    <value>Erro recebendo a lista</value>
+  </data>
+  <data name="BadOptFlowHealth" xml:space="preserve">
+    <value>Erro OptFlow</value>
+  </data>
+  <data name="ERROR" xml:space="preserve">
+    <value>Erro</value>
+  </data>
+  <data name="RunAnyway" xml:space="preserve">
+    <value>Se afaste</value>
+  </data>
+  <data name="Disconnect" xml:space="preserve">
+    <value>Disconecte</value>
+  </data>
+  <data name="Units" xml:space="preserve">
+    <value>Unidades: {0}{1}</value>
+  </data>
+  <data name="CanNotConnectToComPortAnd" xml:space="preserve">
+    <value>Não conecta com a porta serial e detecta o tipo de placa</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Inicio</value>
+  </data>
+  <data name="PleaseSelectCell" xml:space="preserve">
+    <value>Selecione a celula primeiro</value>
+  </data>
+  <data name="FailedUpload" xml:space="preserve">
+    <value>Falhou em transmitir</value>
+  </data>
+  <data name="ErrorRejectedByMAV" xml:space="preserve">
+    <value>Erro: comando rejeitado pelo MAV</value>
+  </data>
+  <data name="RawParamWarning" xml:space="preserve">
+    <value>Aviso de parametros brutos</value>
+  </data>
+  <data name="Bad_KML_File" xml:space="preserve">
+    <value>Arquivo KML ruim:</value>
+  </data>
+  <data name="DownloadingFromInternet" xml:space="preserve">
+    <value>Baixando da internete</value>
+  </data>
+  <data name="ErrorConnecting" xml:space="preserve">
+    <value>Erro conectando</value>
+  </data>
+  <data name="PleaseLoadValidFile" xml:space="preserve">
+    <value>Carregue um arquivo válido</value>
+  </data>
+  <data name="InvalidPanRange" xml:space="preserve">
+    <value>Faixa do Pan inválida</value>
+  </data>
+  <data name="DownloadedFromInternet" xml:space="preserve">
+    <value>Baixando da internete</value>
+  </data>
+  <data name="ErrorCommunicating" xml:space="preserve">
+    <value>Erro conectando com o piloto automático</value>
+  </data>
+  <data name="Do_you_want_to_load_this_into_the_flight_data_screen" xml:space="preserve">
+    <value>Gostaria de carregar para a tela de dados de voo?</value>
+  </data>
+  <data name="ErrorClosingLogFile" xml:space="preserve">
+    <value>Erro ao fechar o arquivo</value>
+  </data>
+  <data name="RawParamWarningi" xml:space="preserve">
+    <value>Os valores nessa tela não são min/max verificados. Verifique suas entradas.</value>
+  </data>
+  <data name="VerifyFirmware" xml:space="preserve">
+    <value>Verifique o firmware</value>
+  </data>
+  <data name="CONNECTc" xml:space="preserve">
+    <value>CONECTAR</value>
+  </data>
+  <data name="PleaseConnectAndBackupConfig" xml:space="preserve">
+    <value>Conecte e copie suas configurações no tab de configuração</value>
+  </data>
+  <data name="ErrorRenameFile" xml:space="preserve">
+    <value>Erro ao renomear o arquivo</value>
+  </data>
+  <data name="FailedDownload" xml:space="preserve">
+    <value>Arquivo baixado</value>
+  </data>
+  <data name="NoNeedToUpload" xml:space="preserve">
+    <value>Board já atualizado</value>
+  </data>
+  <data name="GettingUpdatedParams" xml:space="preserve">
+    <value>Recebendo parametros de atualização</value>
+  </data>
+  <data name="Put_the_transmitter_in_bind_mode__Receiver_is_waiting" xml:space="preserve">
+    <value>Coloque o transmissor para parear, receptor em modo de espera</value>
+  </data>
+  <data name="ErrorFeatureNotEnabled" xml:space="preserve">
+    <value>Essa função não é habilitada na sua versão de firmware.</value>
+  </data>
+  <data name="Pleaseup" xml:space="preserve">
+    <value>Atualize</value>
+  </data>
+  <data name="PleaseWaitForTheMusicalTones" xml:space="preserve">
+    <value>Aguarde o tom musical terminar antes de clicar Ok</value>
+  </data>
+  <data name="InvalidAlt" xml:space="preserve">
+    <value>Alt invalida</value>
+  </data>
+  <data name="InvalidField" xml:space="preserve">
+    <value>Campo invalido</value>
+  </data>
+  <data name="ThisBoardHasBeenRetired" xml:space="preserve">
+    <value>Esse board foi aposentado, Mission Planner vai carregar a ultima versão disponível para a placa</value>
+  </data>
+  <data name="UploadSucceededButVerifyFailed" xml:space="preserve">
+    <value>Atualizou com sucesso, mas verifique a falha: exp {0} rec {1} no</value>
+  </data>
+  <data name="DetectedA" xml:space="preserve">
+    <value>Detectado um</value>
+  </data>
+  <data name="CommunicationErrorNoConnection" xml:space="preserve">
+    <value>Erro de comunicação - sem conexão</value>
+  </data>
+  <data name="UploadComplete" xml:space="preserve">
+    <value>Atualização completa</value>
+  </data>
+  <data name="Failed_to_download_the_SITL_image" xml:space="preserve">
+    <value>Falhou em baixar a imagem STILL</value>
+  </data>
+  <data name="MissingDataPoints" xml:space="preserve">
+    <value>Alguns dados foram perdidos. Executar a calibração de qualquer jeito?</value>
+  </data>
+  <data name="Checking" xml:space="preserve">
+    <value>Verificando</value>
+  </data>
+  <data name="ObtainFromModule" xml:space="preserve">
+    <value>Obtendo do módulo</value>
+  </data>
+  <data name="EnsurePropsNotOn" xml:space="preserve">
+    <value>Certifique-se que as helices não estão instaladas</value>
+  </data>
+  <data name="NORCReceiver" xml:space="preserve">
+    <value>Sem receptor do RC</value>
+  </data>
+  <data name="Bad_Vision_Position" xml:space="preserve">
+    <value>Posição de visão ruim</value>
+  </data>
+  <data name="BadBaroHealth" xml:space="preserve">
+    <value>Barometro ruim</value>
+  </data>
+  <data name="UpdateNotFound" xml:space="preserve">
+    <value>Sem atualização disponível</value>
+  </data>
+  <data name="InvalidBoardType" xml:space="preserve">
+    <value>Typo de placa invalida</value>
+  </data>
+  <data name="DISCONNECTc" xml:space="preserve">
+    <value>DISCONECTADO</value>
+  </data>
+  <data name="Scanning_File" xml:space="preserve">
+    <value>Buscando arquivo</value>
+  </data>
+  <data name="ErrorNotConnected" xml:space="preserve">
+    <value>não está conectado</value>
+  </data>
+  <data name="ReadingHexFile" xml:space="preserve">
+    <value>Lendo arquivo Hex</value>
+  </data>
+  <data name="FlightModes" xml:space="preserve">
+    <value>Modo de voo</value>
+  </data>
+  <data name="Invalid_home_location" xml:space="preserve">
+    <value>Localização Home Inválida</value>
+  </data>
+  <data name="VerifyComplete" xml:space="preserve">
+    <value>Verificação completa</value>
+  </data>
+  <data name="WarningAC32" xml:space="preserve">
+    <value>Aviso, se não estiver instalando AC 3.2 pela primeira vez, refaça a calibração do compasso.</value>
+  </data>
+  <data name="WarningAC31" xml:space="preserve">
+    <value>Aviso, a partir da AC 3.1 motores vão rodar quando armado, configurável via parâmetro MOT_SPIN_ARMED.</value>
+  </data>
+  <data name="UpdateFound" xml:space="preserve">
+    <value>Atualização encontrada, atualizar agora?</value>
+  </data>
+  <data name="UploadingBytesToBoard" xml:space="preserve">
+    <value>Atualizando {0} bytes para a placa:</value>
+  </data>
+  <data name="ErrorSettingParameter" xml:space="preserve">
+    <value>Erro ajustando parametro</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Aviso</value>
+  </data>
+  <data name="Zoom_to_the_center_or_the_loaded_file" xml:space="preserve">
+    <value>Zoom no centro ou no arquivo carregado?</value>
+  </data>
+  <data name="Desc" xml:space="preserve">
+    <value>Descrição:</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Feito</value>
+  </data>
+  <data name="Note" xml:space="preserve">
+    <value>Nota</value>
+  </data>
+  <data name="CantDetectBoardVersion" xml:space="preserve">
+    <value>Nao consegue detectar a versão da placa, verifique o cabo de conexão.</value>
+  </data>
+</root>

@@ -138,7 +138,8 @@
   <data name="TXT_terminal.Text" xml:space="preserve">
     <value>*NOTE* Please click connect above
 CLI Works only on first connect of power, log download only over USB
-Newer versions only support log download via mavlink, please see the flightdata &gt; dataflahs logs</value>
+Newer versions only support log download via mavlink, please see the flightdata &gt; dataflahs logs
+</value>
   </data>
   <data name="&gt;&gt;TXT_terminal.Name" xml:space="preserve">
     <value>TXT_terminal</value>
@@ -168,7 +169,7 @@ Newer versions only support log download via mavlink, please see the flightdata 
     <value>BUTsetupshow</value>
   </data>
   <data name="&gt;&gt;BUTsetupshow.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUTsetupshow.Parent" xml:space="preserve">
     <value>$this</value>
@@ -192,7 +193,7 @@ Newer versions only support log download via mavlink, please see the flightdata 
     <value>BUTradiosetup</value>
   </data>
   <data name="&gt;&gt;BUTradiosetup.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUTradiosetup.Parent" xml:space="preserve">
     <value>$this</value>
@@ -216,7 +217,7 @@ Newer versions only support log download via mavlink, please see the flightdata 
     <value>BUTtests</value>
   </data>
   <data name="&gt;&gt;BUTtests.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUTtests.Parent" xml:space="preserve">
     <value>$this</value>
@@ -240,7 +241,7 @@ Newer versions only support log download via mavlink, please see the flightdata 
     <value>Logs</value>
   </data>
   <data name="&gt;&gt;Logs.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Logs.Parent" xml:space="preserve">
     <value>$this</value>
@@ -264,7 +265,7 @@ Newer versions only support log download via mavlink, please see the flightdata 
     <value>BUT_logbrowse</value>
   </data>
   <data name="&gt;&gt;BUT_logbrowse.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_logbrowse.Parent" xml:space="preserve">
     <value>$this</value>
@@ -291,7 +292,7 @@ Newer versions only support log download via mavlink, please see the flightdata 
     <value>BUT_ConnectAPM</value>
   </data>
   <data name="&gt;&gt;BUT_ConnectAPM.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_ConnectAPM.Parent" xml:space="preserve">
     <value>$this</value>
@@ -324,7 +325,7 @@ Newer versions only support log download via mavlink, please see the flightdata 
     <value>BUT_disconnect</value>
   </data>
   <data name="&gt;&gt;BUT_disconnect.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_disconnect.Parent" xml:space="preserve">
     <value>$this</value>
@@ -340,6 +341,12 @@ Newer versions only support log download via mavlink, please see the flightdata 
   </data>
   <data name="CMB_boardtype.Items2" xml:space="preserve">
     <value>VRX/VRBRAIN</value>
+  </data>
+  <data name="CMB_boardtype.Items3" xml:space="preserve">
+    <value>NSH</value>
+  </data>
+  <data name="CMB_boardtype.Items4" xml:space="preserve">
+    <value>SSH</value>
   </data>
   <data name="CMB_boardtype.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 4</value>
@@ -368,9 +375,6 @@ Newer versions only support log download via mavlink, please see the flightdata 
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>6, 13</value>
-  </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
     <value>707, 461</value>
   </data>
@@ -378,6 +382,6 @@ Newer versions only support log download via mavlink, please see the flightdata 
     <value>Terminal</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.MyUserControl, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>System.Windows.Forms.MyUserControl, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

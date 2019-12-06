@@ -34,6 +34,7 @@
             this.but_connect = new System.Windows.Forms.Button();
             this.but_armdisarm = new System.Windows.Forms.Button();
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
+            this.but_mission = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // CMB_comport
@@ -81,11 +82,22 @@
             this.but_armdisarm.UseVisualStyleBackColor = true;
             this.but_armdisarm.Click += new System.EventHandler(this.but_armdisarm_Click);
             // 
+            // but_mission
+            // 
+            this.but_mission.Location = new System.Drawing.Point(349, 12);
+            this.but_mission.Name = "but_mission";
+            this.but_mission.Size = new System.Drawing.Size(97, 23);
+            this.but_mission.TabIndex = 4;
+            this.but_mission.Text = "Send Mission";
+            this.but_mission.UseVisualStyleBackColor = true;
+            this.but_mission.Click += new System.EventHandler(this.but_mission_Click);
+            // 
             // simpleexample
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(547, 62);
+            this.Controls.Add(this.but_mission);
             this.Controls.Add(this.but_armdisarm);
             this.Controls.Add(this.but_connect);
             this.Controls.Add(this.cmb_baudrate);
@@ -103,6 +115,7 @@
         private System.Windows.Forms.Button but_connect;
         private System.Windows.Forms.Button but_armdisarm;
         private System.IO.Ports.SerialPort serialPort1;
+        private System.Windows.Forms.Button but_mission;
     }
 }
 

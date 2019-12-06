@@ -1,0 +1,27 @@
+<UserControl x:Class="MissionPlanner.GCSViews.ConfigurationView.ConfigHWBT" d:DesignHeight="123" d:DesignWidth="650"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+xmlns:BackstageView="using:MissionPlanner.Controls.BackstageView"
+xmlns:Controls="using:MissionPlanner.Controls"
+xmlns:GCSViews="using:MissionPlanner.GCSViews"
+xmlns:Wizard="using:MissionPlanner.Wizard"
+xmlns:ConfigurationView="using:MissionPlanner.GCSViews.ConfigurationView"
+xmlns:Custom="using:Custom"
+xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+xmlns:PreFlight="using:MissionPlanner.Controls.PreFlight"
+mc:Ignorable="d"
+> <Grid><TextBlock Name="label3" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="93,90,0,0" Width="21" Height="17">Pin</TextBlock>
+<TextBlock Name="label2" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="93,66,0,0" Width="31" Height="17">Baud</TextBlock>
+<TextBlock Name="label1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="93,40,0,0" Width="34" Height="17">Name</TextBlock>
+<TextBox Name="txt_pin" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="1234" FontSize="8.25" Margin="143,83,0,0" Width="121" Height="20"></TextBox>
+<TextBox Name="txt_name" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="Ardupilot" FontSize="8.25" Margin="143,34,0,0" Width="121" Height="20"></TextBox>
+<ComboBox Name="cmb_baud" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="143,58,0,0" Width="121" Height="21"></ComboBox>
+<Button Name="BUT_btsettings" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="270,58,0,0" Width="60" Height="21">Save Settings</Button>
+<TextBlock Name="label6" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="12" Margin="7,5,0,0" Width="95" Height="18">Bluetooth</TextBlock>
+<Grid Name="groupBox5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,21,0,0" Width="644" Height="5">
+</Grid>
+<Image Name="pictureBox5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="11,32,0,0" Width="75" Height="69"></Image>
+</Grid></UserControl>

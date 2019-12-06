@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -10,11 +8,12 @@ using System.Threading;
 using System.Collections;
 using log4net;
 
-namespace MissionPlanner
+namespace MissionPlanner.Utilities
 {
-    public class srtm: IDisposable
+    public class srtm : IDisposable
     {
-        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log =
+            LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public enum tiletype
         {
@@ -25,15 +24,28 @@ namespace MissionPlanner
 
         public class altresponce
         {
+            public static readonly altresponce Invalid = new altresponce() {currenttype = tiletype.invalid, altsource = "Invalid"};
+            public static readonly altresponce Ocean = new altresponce() {currenttype = tiletype.ocean, altsource = "Ocean"};
+
             public tiletype currenttype = tiletype.invalid;
             public double alt = 0;
+            public string altsource = "";
         }
 
-        public static string datadirectory = "./srtm/";
+        private static string _datadirectory = "./srtm/";
 
-        static List<string> allhgts = new List<string>();
+        public static string datadirectory
+        {
+            get { return _datadirectory; }
+            set
+            {
+                log.Info(value);
+                _datadirectory = value;
+            }
+        }
 
         static object objlock = new object();
+        static object extract = new object();
 
         static Thread requestThread;
 
@@ -41,18 +53,87 @@ namespace MissionPlanner
 
         static List<string> queue = new List<string>();
 
-        static Hashtable fnamecache = new Hashtable();
-
         static Hashtable filecache = new Hashtable();
 
         static List<string> oceantile = new List<string>();
 
         static Dictionary<string, short[,]> cache = new Dictionary<string, short[,]>();
 
+        static Dictionary<int, string> filenameDictionary = new Dictionary<int, string>();
+
+        static srtm()
+        {
+            log.Info(".cctor");
+
+            // running tostring at a high rate was costing cpu
+            for (int y = -90; y <= 90; y++)
+            {
+                var sy = Math.Abs(y).ToString("00");
+
+                for (int x = -180; x <= 180; x++)
+                {
+                    var sx = Math.Abs(x).ToString("000");
+
+                    filenameDictionary[y*1000 + x] = string.Format("{0}{1}{2}{3}{4}", y >= 0 ? "N" : "S", sy,
+                        x >= 0 ? "E" : "W", sx, ".hgt");
+                }
+            }
+
+            StartQueueProcess();
+        }
+
+        static string GetFilename(double lat, double lng)
+        {
+            int x = /*(lng < 0) ? (int) (lng - 1) : (int) lng; */(int)Math.Floor(lng);
+            int y = /*(lat < 0) ? (int) (lat - 1) : (int) lat; */(int)Math.Floor(lat);
+
+            int id = y*1000 + x;
+
+            if (filenameDictionary.ContainsKey(id))
+            {
+                string filename = filenameDictionary[y*1000 + x];
+
+                return filename;
+            }
+
+            return "";
+        }
+
         public static altresponce getAltitude(double lat, double lng, double zoom = 16)
         {
             short alt = 0;
-            var answer = new altresponce();
+
+            try
+            {
+                var trytiff = Utilities.GeoTiff.getAltitude(lat, lng);
+
+                if (trytiff.currenttype == tiletype.valid)
+                    return trytiff;
+            }
+            catch (FileNotFoundException)
+            {
+
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+
+            try
+            {
+                var trydted = Utilities.DTED.getAltitude(lat, lng);
+
+                if (trydted.currenttype == tiletype.valid)
+                    return trydted;
+            }
+            catch (FileNotFoundException)
+            {
+
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
 
             //lat += 1 / 1199.0;
             //lng -= 1 / 1201f;
@@ -61,75 +142,86 @@ namespace MissionPlanner
             //		lng	117.94178754638671	double
             // 		alt	70	short
 
-            int x = (lng < 0) ? (int)(lng - 1) : (int)lng;//(int)Math.Floor(lng);
-            int y = (lat < 0) ? (int)(lat - 1) : (int)lat; ;//(int)Math.Floor(lat);
+            var filename = GetFilename(lat, lng);
 
-            string ns;
-            if (y > 0)
-                ns = "N";
-            else
-                ns = "S";
-
-            string ew;
-            if (x > 0)
-                ew = "E";
-            else
-                ew = "W";
-
-            // running tostring at a high rate was costing cpu
-            if (fnamecache[y] == null)
-                fnamecache[y] = Math.Abs(y).ToString("00");
-            if (fnamecache[1000 + x] == null)
-                fnamecache[1000 + x] = Math.Abs(x).ToString("000");
-
-            string filename = ns + fnamecache[y] + ew + fnamecache[1000 + x] + ".hgt";
+            if (String.IsNullOrEmpty(filename))
+                return altresponce.Invalid;
 
             try
             {
+                // prevent looking for files that dont exist and are common
+                if (filename.Contains("00W000") || filename.Contains("00W001") ||
+                    filename.Contains("01W000") || filename.Contains("01W001") ||
+                    filename.Contains("00E000") || filename.Contains("00E001") ||
+                    filename.Contains("01E000") || filename.Contains("01E001"))
+                {
+                    return altresponce.Ocean;
+                }
+
+                // marked as a oceantile
+                if (oceantile.Contains(filename))
+                    return altresponce.Ocean;
+
+                // is it in our dl queue
+                lock (objlock)
+                {
+                    if (queue.Contains(filename))
+                    {
+                        return altresponce.Invalid;
+                    }
+                }
 
                 if (cache.ContainsKey(filename) || File.Exists(datadirectory + Path.DirectorySeparatorChar + filename))
-                { // srtm hgt files
+                {
+                    // srtm hgt files
 
                     int size = -1;
 
                     // add to cache
                     if (!cache.ContainsKey(filename))
                     {
-                        FileStream fs = new FileStream(datadirectory + Path.DirectorySeparatorChar + filename, FileMode.Open, FileAccess.Read, FileShare.Read);
-
-                        if (fs.Length == (1201 * 1201 * 2))
+                        lock (extract)
                         {
-                            size = 1201;
+                            Thread.Sleep(0);
                         }
-                        else if (fs.Length == (3601 * 3601 * 2))
+
+                        using (
+                            FileStream fs = new FileStream(datadirectory + Path.DirectorySeparatorChar + filename,
+                                FileMode.Open, FileAccess.Read, FileShare.Read))
                         {
-                            size = 3601;
-                        }
-                        else
-                            return answer;
 
-                        byte[] altbytes = new byte[2];
-                        short[,] altdata = new short[size, size];
-
-
-                        int altlat = 0;
-                        int altlng = 0;
-
-                        while (fs.Read(altbytes, 0, 2) != 0)
-                        {
-                            altdata[altlat, altlng] = (short)((altbytes[0] << 8) + altbytes[1]);
-
-                            altlat++;
-                            if (altlat >= size)
+                            if (fs.Length == (1201 * 1201 * 2))
                             {
-                                altlng++;
-                                altlat = 0;
+                                size = 1201;
                             }
+                            else if (fs.Length == (3601 * 3601 * 2))
+                            {
+                                size = 3601;
+                            }
+                            else
+                                return srtm.altresponce.Invalid;
+
+                            byte[] altbytes = new byte[2];
+                            short[,] altdata = new short[size, size];
+
+
+                            int altlat = 0;
+                            int altlng = 0;
+
+                            while (fs.Read(altbytes, 0, 2) != 0)
+                            {
+                                altdata[altlat, altlng] = (short) ((altbytes[0] << 8) + altbytes[1]);
+
+                                altlat++;
+                                if (altlat >= size)
+                                {
+                                    altlng++;
+                                    altlat = 0;
+                                }
+                            }
+
+                            cache[filename] = altdata;
                         }
-
-                        fs.Close();
-
-                        cache[filename] = altdata;
                     }
 
                     if (cache[filename].Length == (1201 * 1201))
@@ -141,20 +233,23 @@ namespace MissionPlanner
                         size = 3601;
                     }
                     else
-                        return answer;
+                        return srtm.altresponce.Invalid;
+
+                    int x = /*(lng < 0) ? (int) (lng - 1) : (int) lng; */(int) Math.Floor(lng);
+                    int y = /*(lat < 0) ? (int) (lat - 1) : (int) lat; */(int) Math.Floor(lat);
 
                     // remove the base lat long
                     lat -= y;
                     lng -= x;
 
                     // values should be 0-1199, 1200 is for interpolation
-                    double xf = lng * (size - 2);
-                    double yf = lat * (size - 2);
+                    double xf = lng * (size - 1);
+                    double yf = lat * (size - 1);
 
-                    int x_int = (int)xf;
+                    int x_int = (int) xf;
                     double x_frac = xf - x_int;
 
-                    int y_int = (int)yf;
+                    int y_int = (int) yf;
                     double y_frac = yf - y_int;
 
                     y_int = (size - 2) - y_int;
@@ -166,142 +261,151 @@ namespace MissionPlanner
 
                     double v1 = avg(alt00, alt10, x_frac);
                     double v2 = avg(alt01, alt11, x_frac);
-                    double v = avg(v1, v2, -y_frac);
+                    double v = avg(v1, v2, 1 - y_frac);
 
-                    answer.currenttype = tiletype.valid;
-                    answer.alt = v;
-                    return answer;
+                    if (v < -1000)
+                        return altresponce.Invalid;
+
+                    return new altresponce()
+                    {
+                        currenttype = tiletype.valid,
+                        alt = v,
+                        altsource = "SRTM"
+                    };
                 }
 
-                string filename2 = "srtm_" + Math.Round((lng + 2.5 + 180) / 5, 0).ToString("00") + "_" + Math.Round((60 - lat + 2.5) / 5, 0).ToString("00") + ".asc";
+                string filename2 = "srtm_" + Math.Round((lng + 2.5 + 180) / 5, 0).ToString("00") + "_" +
+                                   Math.Round((60 - lat + 2.5) / 5, 0).ToString("00") + ".asc";
 
                 if (File.Exists(datadirectory + Path.DirectorySeparatorChar + filename2))
                 {
-                    StreamReader sr = new StreamReader(readFile(datadirectory + Path.DirectorySeparatorChar + filename2));
-
-                    int nox = 0;
-                    int noy = 0;
-                    float left = 0;
-                    float top = 0;
-                    int nodata = -9999;
-                    float cellsize = 0;
-
-                    int rowcounter = 0;
-
-                    float wantrow = 0;
-                    float wantcol = 0;
-
-
-                    while (!sr.EndOfStream)
+                    using (
+                        StreamReader sr =
+                            new StreamReader(readFile(datadirectory + Path.DirectorySeparatorChar + filename2)))
                     {
-                        string line = sr.ReadLine();
 
-                        if (line.StartsWith("ncols"))
-                        {
-                            nox = int.Parse(line.Substring(line.IndexOf(' ')));
+                        int nox = 0;
+                        int noy = 0;
+                        float left = 0;
+                        float top = 0;
+                        int nodata = -9999;
+                        float cellsize = 0;
 
-                            //hgtdata = new int[nox * noy];
-                        }
-                        else if (line.StartsWith("nrows"))
-                        {
-                            noy = int.Parse(line.Substring(line.IndexOf(' ')));
+                        int rowcounter = 0;
 
-                            //hgtdata = new int[nox * noy];
-                        }
-                        else if (line.StartsWith("xllcorner"))
-                        {
-                            left = float.Parse(line.Substring(line.IndexOf(' ')));
-                        }
-                        else if (line.StartsWith("yllcorner"))
-                        {
-                            top = float.Parse(line.Substring(line.IndexOf(' ')));
-                        }
-                        else if (line.StartsWith("cellsize"))
-                        {
-                            cellsize = float.Parse(line.Substring(line.IndexOf(' ')));
-                        }
-                        else if (line.StartsWith("NODATA_value"))
-                        {
-                            nodata = int.Parse(line.Substring(line.IndexOf(' ')));
-                        }
-                        else
-                        {
-                            string[] data = line.Split(new char[] { ' ' });
+                        float wantrow = 0;
+                        float wantcol = 0;
 
-                            if (data.Length == (nox + 1))
+
+                        while (!sr.EndOfStream)
+                        {
+                            string line = sr.ReadLine();
+
+                            if (line.StartsWith("ncols"))
                             {
+                                nox = int.Parse(line.Substring(line.IndexOf(' ')));
 
+                                //hgtdata = new int[nox * noy];
+                            }
+                            else if (line.StartsWith("nrows"))
+                            {
+                                noy = int.Parse(line.Substring(line.IndexOf(' ')));
 
+                                //hgtdata = new int[nox * noy];
+                            }
+                            else if (line.StartsWith("xllcorner"))
+                            {
+                                left = float.Parse(line.Substring(line.IndexOf(' ')));
+                            }
+                            else if (line.StartsWith("yllcorner"))
+                            {
+                                top = float.Parse(line.Substring(line.IndexOf(' ')));
+                            }
+                            else if (line.StartsWith("cellsize"))
+                            {
+                                cellsize = float.Parse(line.Substring(line.IndexOf(' ')));
+                            }
+                            else if (line.StartsWith("NODATA_value"))
+                            {
+                                nodata = int.Parse(line.Substring(line.IndexOf(' ')));
+                            }
+                            else
+                            {
+                                string[] data = line.Split(new char[] {' '});
 
-                                wantcol = (float)((lng - Math.Round(left, 0)));
-
-                                wantrow = (float)((lat - Math.Round(top, 0)));
-
-                                wantrow = (int)(wantrow / cellsize);
-                                wantcol = (int)(wantcol / cellsize);
-
-                                wantrow = noy - wantrow;
-
-                                if (rowcounter == wantrow)
+                                if (data.Length == (nox + 1))
                                 {
-                                    Console.WriteLine("{0} {1} {2} {3} ans {4} x {5}", lng, lat, left, top, data[(int)wantcol], (nox + wantcol * cellsize));
+                                    wantcol = (float) ((lng - Math.Round(left, 0)));
 
-                                    answer.currenttype = tiletype.valid;
-                                    answer.alt = int.Parse(data[(int)wantcol]);
-                                    return answer;
+                                    wantrow = (float) ((lat - Math.Round(top, 0)));
+
+                                    wantrow = (int) (wantrow / cellsize);
+                                    wantcol = (int) (wantcol / cellsize);
+
+                                    wantrow = noy - wantrow;
+
+                                    if (rowcounter == wantrow)
+                                    {
+                                        Console.WriteLine("{0} {1} {2} {3} ans {4} x {5}", lng, lat, left, top,
+                                            data[(int) wantcol], (nox + wantcol * cellsize));
+
+                                        return new altresponce()
+                                        {
+                                            currenttype = tiletype.valid,
+                                            alt = int.Parse(data[(int) wantcol])
+                                        };
+                                    }
+
+                                    rowcounter++;
                                 }
-
-                                rowcounter++;
                             }
                         }
-
-
-
                     }
 
-                    //sr.Close();
-                    answer.currenttype = tiletype.valid;
-                    answer.alt = alt;
-                    return answer;
+                    return new altresponce()
+                    {
+                        currenttype = tiletype.valid,
+                        alt = alt,
+                        altsource = "ASCII"
+                    };
                 }
                 else // get something
                 {
-                    if (oceantile.Contains(filename))
-                        answer.currenttype = tiletype.ocean;
+                    if(lat >= 61) // srtm data only goes to 60N
+                        return altresponce.Invalid;
 
-                    if (zoom >= 12)
+                    if (zoom >= 7)
                     {
                         if (!Directory.Exists(datadirectory))
                             Directory.CreateDirectory(datadirectory);
 
-                        if (requestThread == null)
+                        lock (objlock)
                         {
-                            Console.WriteLine("Getting " + filename);
-                            queue.Add(filename);
-
-                            requestThread = new Thread(requestRunner);
-                            requestThread.IsBackground = true;
-                            requestThread.Name = "SRTM request runner";
-                            requestThread.Start();
-                        }
-                        else
-                        {
-                            lock (objlock)
+                            if (!queue.Contains(filename))
                             {
-                                if (!queue.Contains(filename))
-                                {
-                                    Console.WriteLine("Getting " + filename);
-                                    queue.Add(filename);
-                                }
+                                log.Info("Getting " + filename);
+                                queue.Add(filename);
                             }
                         }
+
                     }
                 }
-
             }
-            catch { answer.alt = 0; answer.currenttype = tiletype.invalid; }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+                return altresponce.Invalid;
+            }
 
-            return answer;
+            return altresponce.Invalid;
+        }
+
+        private static void StartQueueProcess()
+        {
+            requestThread = new Thread(requestRunner);
+            requestThread.IsBackground = true;
+            requestThread.Name = "SRTM request runner";
+            requestThread.Start();
         }
 
         static double GetAlt(string filename, int x, int y)
@@ -311,32 +415,113 @@ namespace MissionPlanner
 
         static double avg(double v1, double v2, double weight)
         {
-            return v2 * weight + v1 * (1 - weight);
+            return v2*weight + v1*(1 - weight);
+        }
+
+        public static PointLatLngAlt getIntersectionWithTerrain(PointLatLngAlt start, PointLatLngAlt end)
+        {
+            int distout = 0;
+            int stepsize = 50;
+            var maxdist = start.GetDistance(end);
+            var bearing = start.GetBearing(end);
+            var altdiff = end.Alt - start.Alt;
+            PointLatLngAlt newpos = PointLatLngAlt.Zero;
+
+            while (distout < maxdist)
+            {
+                // get a projected point to test intersection against - not using slope distance
+                PointLatLngAlt terrainstart = start.newpos(bearing, distout);
+                terrainstart.Alt = srtm.getAltitude(terrainstart.Lat, terrainstart.Lng).alt;
+
+                // get another point stepsize infront
+                PointLatLngAlt terrainend = start.newpos(bearing, distout + stepsize);
+                terrainend.Alt = srtm.getAltitude(terrainend.Lat, terrainend.Lng).alt;
+
+                // x is dist from start, y is alt
+                var newpoint = FindLineIntersection(new PointF(0, (float)start.Alt),
+                    new PointF((float)maxdist, (float)end.Alt),
+                    new PointF((float)distout, (float)terrainstart.Alt),
+                    new PointF((float)distout + stepsize, (float)terrainend.Alt));
+
+                if (newpoint.X != 0)
+                {
+                    newpos = start.newpos(bearing, newpoint.X);
+                    newpos.Alt = newpoint.Y;
+                    break;
+                }
+
+                distout += stepsize;
+            }
+
+            if (newpos == PointLatLngAlt.Zero)
+                newpos = end;
+
+            return newpos;
+        }
+
+        class PointF
+        {
+            internal PointF()
+            {
+            }
+
+            internal  PointF(float X, float Y)
+            {
+                this.X = X;
+                this.Y = Y;
+            }
+
+            internal  float Y { get; set; }
+
+            internal  float X { get; set; }
+        }
+
+        static PointF FindLineIntersection(PointF start1, PointF end1, PointF start2, PointF end2)
+        {
+            double denom = ((end1.X - start1.X) * (end2.Y - start2.Y)) - ((end1.Y - start1.Y) * (end2.X - start2.X));
+            //  AB & CD are parallel         
+            if (denom == 0)
+                return new PointF();
+            double numer = ((start1.Y - start2.Y) * (end2.X - start2.X)) - ((start1.X - start2.X) * (end2.Y - start2.Y));
+            double r = numer / denom;
+            double numer2 = ((start1.Y - start2.Y) * (end1.X - start1.X)) - ((start1.X - start2.X) * (end1.Y - start1.Y));
+            double s = numer2 / denom;
+            if ((r < 0 || r > 1) || (s < 0 || s > 1))
+                return new PointF();
+            // Find intersection point      
+            PointF result = new PointF();
+            result.X = (float)(start1.X + (r * (end1.X - start1.X)));
+            result.Y = (float)(start1.Y + (r * (end1.Y - start1.Y)));
+            return result;
         }
 
         static MemoryStream readFile(string filename)
         {
+            log.Info(filename);
+
             if (filecache.ContainsKey(filename))
             {
-                return (MemoryStream)filecache[filename];
+                return (MemoryStream) filecache[filename];
             }
             else
             {
                 FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read);
 
                 byte[] file = new byte[fs.Length];
-                fs.Read(file, 0, (int)fs.Length);
+                fs.Read(file, 0, (int) fs.Length);
 
                 filecache[filename] = new MemoryStream(file);
 
                 fs.Close();
 
-                return (MemoryStream)filecache[filename];
+                return (MemoryStream) filecache[filename];
             }
         }
 
         static void requestRunner()
         {
+            log.Info("requestRunner start");
+
             requestThreadrun = true;
 
             while (requestThreadrun)
@@ -354,6 +539,7 @@ namespace MissionPlanner
 
                     if (item != "")
                     {
+                        log.Info(item);
                         get3secfile(item);
                         lock (objlock)
                         {
@@ -362,7 +548,7 @@ namespace MissionPlanner
                     }
                 }
                 catch (Exception ex)
-                { 
+                {
                     log.Error(ex);
                 }
                 Thread.Sleep(1000);
@@ -371,13 +557,13 @@ namespace MissionPlanner
 
         static void get3secfile(object name)
         {
-            string baseurl1sec = "http://dds.cr.usgs.gov/srtm/version2_1/SRTM1/";
-            string baseurl = "http://firmware.diydrones.com/SRTM/";
+            string baseurl1sec = "http://firmware.ardupilot.org/SRTM/USGS/SRTM1/version2_1/SRTM1/";
+            string baseurl = "http://firmware.ardupilot.org/SRTM/";
 
             // check file doesnt already exist
-            if (File.Exists(datadirectory + Path.DirectorySeparatorChar + (string)name))
+            if (File.Exists(datadirectory + Path.DirectorySeparatorChar + (string) name))
             {
-                FileInfo fi = new FileInfo(datadirectory + Path.DirectorySeparatorChar + (string)name);
+                FileInfo fi = new FileInfo(datadirectory + Path.DirectorySeparatorChar + (string) name);
                 if (fi.Length != 0)
                     return;
             }
@@ -386,7 +572,7 @@ namespace MissionPlanner
             List<string> list = new List<string>();
 
             // load 1 arc seconds first
-            list.AddRange(getListing(baseurl1sec));
+            //list.AddRange(getListing(baseurl1sec));
             // load 3 arc second
             list.AddRange(getListing(baseurl));
 
@@ -399,11 +585,11 @@ namespace MissionPlanner
                 foreach (string hgt in hgtfiles)
                 {
                     checkednames++;
-                    if (hgt.Contains((string)name))
+                    if (hgt.Contains((string) name))
                     {
                         // get file
 
-                        gethgt(hgt, (string)name);
+                        gethgt(hgt, (string) name);
                         return;
                     }
                 }
@@ -411,10 +597,10 @@ namespace MissionPlanner
 
             // if there are no http exceptions, and the list is >= 20, then everything above is valid
             // 15760 is all srtm3 and srtm1
-            if (list.Count >= 20 && checkednames > 15700)
+            if (list.Count >= 12 && checkednames > 14000 && !oceantile.Contains((string) name))
             {
                 // we must be an ocean tile - no matchs
-                oceantile.Add((string)name);
+                oceantile.Add((string) name);
             }
         }
 
@@ -422,32 +608,44 @@ namespace MissionPlanner
         {
             try
             {
+                var req = (HttpWebRequest)HttpWebRequest.Create(url);
+                if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
+                    ((HttpWebRequest)req).UserAgent = Settings.Instance.UserAgent;
 
-                WebRequest req = HttpWebRequest.Create(url);
+                log.Info("Get " + url);
 
-                WebResponse res = req.GetResponse();
-
-                Stream resstream = res.GetResponseStream();
-
-                BinaryWriter bw = new BinaryWriter(File.Create(datadirectory + Path.DirectorySeparatorChar + filename + ".zip"));
-
-                byte[] buf1 = new byte[1024];
-
-                while (resstream.CanRead)
+                using (WebResponse res = req.GetResponse())
+                using (Stream resstream = res.GetResponseStream())
+                using (
+                    BinaryWriter bw =
+                        new BinaryWriter(File.Create(datadirectory + Path.DirectorySeparatorChar + filename + ".zip")))
                 {
+                    byte[] buf1 = new byte[1024];
 
-                    int len = resstream.Read(buf1, 0, 1024);
-                    if (len == 0)
-                        break;
-                    bw.Write(buf1, 0, len);
+                    int size = 0;
 
+                    while (resstream.CanRead)
+                    {
+
+                        int len = resstream.Read(buf1, 0, 1024);
+                        if (len == 0)
+                            break;
+                        bw.Write(buf1, 0, len);
+
+                        size += len;
+                    }
+                    bw.Flush();
+                    bw.Close();
+
+                    log.Info("Got " + url + " " + size);
+
+                    FastZip fzip = new FastZip();
+
+                    lock(extract)
+                        fzip.ExtractZip(datadirectory + Path.DirectorySeparatorChar + filename + ".zip", datadirectory, "");
+
+                    fzip = null;
                 }
-
-                bw.Close();
-
-                FastZip fzip = new FastZip();
-
-                fzip.ExtractZip(datadirectory + Path.DirectorySeparatorChar + filename + ".zip", datadirectory, "");
             }
             catch (Exception ex)
             {
@@ -457,52 +655,62 @@ namespace MissionPlanner
 
         static List<string> getListing(string url)
         {
+            List<string> list = new List<string>();
+
+            if (url.EndsWith("bios"))
+                return list;
+
             string name = new Uri(url).AbsolutePath;
 
             name = Path.GetFileName(name.TrimEnd('/'));
 
-            List<string> list = new List<string>();
-
             if (File.Exists(datadirectory + Path.DirectorySeparatorChar + name))
             {
-                using (StreamReader sr = new StreamReader(datadirectory + Path.DirectorySeparatorChar + name))
+                var fi = new FileInfo(datadirectory + Path.DirectorySeparatorChar + name);
+                if (fi.Length > 0 && fi.LastWriteTime.AddDays(7) > DateTime.Now)
                 {
-                    while (!sr.EndOfStream)
+                    using (StreamReader sr = new StreamReader(datadirectory + Path.DirectorySeparatorChar + name))
                     {
-                        list.Add(sr.ReadLine());
-                    }
+                        while (!sr.EndOfStream)
+                        {
+                            list.Add(sr.ReadLine());
+                        }
 
-                    sr.Close();
+                        sr.Close();
+                    }
+                    return list;
                 }
-                return list;
             }
 
             try
             {
                 log.Info("srtm req " + url);
 
-                WebRequest req = HttpWebRequest.Create(url);
+                var req = (HttpWebRequest)HttpWebRequest.Create(url);
+                if(!String.IsNullOrEmpty(Settings.Instance.UserAgent))
+                    ((HttpWebRequest)req).UserAgent = Settings.Instance.UserAgent;
 
-                WebResponse res = req.GetResponse();
-
-                StreamReader resstream = new StreamReader(res.GetResponseStream());
-
-                string data = resstream.ReadToEnd();
-
-                Regex regex = new Regex("href=\"([^\"]+)\"", RegexOptions.IgnoreCase);
-                if (regex.IsMatch(data))
+                using (WebResponse res = req.GetResponse())
+                using (StreamReader resstream = new StreamReader(res.GetResponseStream()))
                 {
-                    MatchCollection matchs = regex.Matches(data);
-                    for (int i = 0; i < matchs.Count; i++)
-                    {
-                        if (matchs[i].Groups[1].Value.ToString().Contains(".."))
-                            continue;
-                        if (matchs[i].Groups[1].Value.ToString().Contains("http"))
-                            continue;
-                        if (matchs[i].Groups[1].Value.ToString().EndsWith("/srtm/version2_1/"))
-                            continue;
 
-                        list.Add(url.TrimEnd(new char[] { '/', '\\' }) + "/" + matchs[i].Groups[1].Value.ToString());
+                    string data = resstream.ReadToEnd();
+
+                    Regex regex = new Regex("href=\"([^\"]+)\"", RegexOptions.IgnoreCase);
+                    if (regex.IsMatch(data))
+                    {
+                        MatchCollection matchs = regex.Matches(data);
+                        for (int i = 0; i < matchs.Count; i++)
+                        {
+                            if (matchs[i].Groups[1].Value.ToString().Contains(".."))
+                                continue;
+                            if (matchs[i].Groups[1].Value.ToString().Contains("http"))
+                                continue;
+                            if (matchs[i].Groups[1].Value.ToString().EndsWith("/srtm/version2_1/"))
+                                continue;
+
+                            list.Add(url.TrimEnd(new char[] {'/', '\\'}) + "/" + matchs[i].Groups[1].Value.ToString());
+                        }
                     }
                 }
 
@@ -510,8 +718,11 @@ namespace MissionPlanner
                 {
                     list.ForEach(x =>
                     {
-                        sw.WriteLine((string)x);
+                        sw.WriteLine((string) x);
                     });
+
+                    if (name.Equals("README.txt") || name.Equals("Region_definition.jpg"))
+                        sw.Write(" ");
 
                     sw.Close();
                 }

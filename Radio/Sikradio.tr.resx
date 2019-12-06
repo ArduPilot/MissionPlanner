@@ -1,0 +1,300 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="linkLabel1.ToolTip" xml:space="preserve">
+    <value>Radyo istasyonları 3DR, biri kırmızı ve bir yeşil olmak üzere 2 LED durum göstergesine sahiptir. Yeşil LED yanıp sönüyor - Başka bir radyo arayın. Yeşil LED yanar - bağlantı kurulur. kırmızı LED yanıp sönüyor - veri iletimi. kırmızı LED açık - firmware güncellemesi.</value>
+  </data>
+  <data name="RTXPOWER.ToolTip" xml:space="preserve">
+    <value>TXPOWER, dBm'deki aktarım gücüdür. 20 dBm - 100 mW. Kısa süreli test için bunu daha düşük seviyelere ayarlamak faydalıdır.</value>
+  </data>
+  <data name="RNETID.ToolTip" xml:space="preserve">
+    <value>NETID bir 16 bit "ağ tanımlayıcısı" dır. Bu frekans atlatma dizisini olusturmak ve doğru radyodan gelen paketleri tanımlamak için kullanılır. Bölgede çalışan başka bir kullanıcıdan başka bir NETID kullandığınızdan emin olun.</value>
+  </data>
+  <data name="AIR_SPEED.ToolTip" xml:space="preserve">
+    <value>AIR_SPEED, kbps cinsinden radyo kanalları arasındaki veri hızıdır. Böylece 128, 128 Kbps anlamına gelir. Maks - 192, min - 2. Frekans atlamalı ve senkronizasyon zamanı tdm frekansı çok yüksek olduğu için 16'nın altında bir değer önermem.</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>Min. frekans</value>
+  </data>
+  <data name="label16.Text" xml:space="preserve">
+    <value>Calışma döngüsü</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>versiyon</value>
+  </data>
+  <data name="RAIR_SPEED.ToolTip" xml:space="preserve">
+    <value>AIR_SPEED, kbps cinsinden radyo kanalları arasındaki veri hızıdır. Böylece 128, 128 Kbps anlamına gelir. Maks - 192, min - 2. Frekans atlamalı ve senkronizasyon zamanı tdm frekansı çok yüksek olduğu için 16'nın altında bir değer önermem.</value>
+  </data>
+  <data name="BUT_Syncoptions.Text" xml:space="preserve">
+    <value>Uzaktan kumanda için gerekli kopya</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>Maks. frekans</value>
+  </data>
+  <data name="NUM_CHANNELS.ToolTip" xml:space="preserve">
+    <value>frekans atlamalı kanal sayısı</value>
+  </data>
+  <data name="label18.Text" xml:space="preserve">
+    <value>Max pencere (ms)</value>
+  </data>
+  <data name="BUT_savesettings.Text" xml:space="preserve">
+    <value>Ayarları kaydet</value>
+  </data>
+  <data name="RMAVLINK.ToolTip" xml:space="preserve">
+    <value>AIR_SPEED, kbps cinsinden radyo kanalları arasındaki veri hızıdır. Böylece 128, 128 Kbps anlamına gelir. Maks - 192, min - 2. Frekans atlamalı ve senkronizasyon zamanı tdm frekansı çok yüksek olduğu için 16'nın altında bir değer önermem.</value>
+  </data>
+  <data name="label21.Text" xml:space="preserve">
+    <value>Calışma döngüsü</value>
+  </data>
+  <data name="label23.Text" xml:space="preserve">
+    <value>Maks. frekans</value>
+  </data>
+  <data name="label24.Text" xml:space="preserve">
+    <value>Min. frekans</value>
+  </data>
+  <data name="OPPRESEND.ToolTip" xml:space="preserve">
+    <value>OPPRESEND, "fırsatçı yeniden gönderme" yi etkinleştirir / devre dışı bırakır. Etkinleştirildiğinde, seri arabelleğinde 256 bayttan az olduğunda telsiz paketi iki kez gönderir. İkinci iletim, ilk "OK" paketini aldığında alıcı radyo tarafından yeniden gönderme ve atma olarak işaretlenir. Bu, özellikle uplink komutları için iletişimin kalitesini önemli ölçüde etkiler.</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>biçim</value>
+  </data>
+  <data name="linkLabel_mavlink.Text" xml:space="preserve">
+    <value>Standart Mavlink ayarları</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Ruzgar Hizi</value>
+  </data>
+  <data name="SERIAL_SPEED.ToolTip" xml:space="preserve">
+    <value>Hızlı seri iletim yuvarlak kilobayt. Bu nedenle, 57 anlamına gelir 57600</value>
+  </data>
+  <data name="ROPPRESEND.ToolTip" xml:space="preserve">
+    <value>OPPRESEND, "fırsatçı yeniden gönderme" yi etkinleştirir / devre dışı bırakır. Etkinleştirildiğinde, seri arabelleğinde 256 bayttan az olduğunda telsiz paketi iki kez gönderir. İkinci iletim, ilk "OK" paketini aldığında alıcı radyo tarafından yeniden gönderme ve atma olarak işaretlenir. Bu, özellikle uplink komutları için iletişimin kalitesini önemli ölçüde etkiler.</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Guc Tx</value>
+  </data>
+  <data name="BUT_resettodefault.Text" xml:space="preserve">
+    <value>Ayarları sıfırla</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>versiyon</value>
+  </data>
+  <data name="MIN_FREQ.ToolTip" xml:space="preserve">
+    <value>kHz'de minimum frekans</value>
+  </data>
+  <data name="RSERIAL_SPEED.ToolTip" xml:space="preserve">
+    <value>Yuvarlak kilobaytta seri aktarım hızı. Böylece, 57 5700 anlamına gelir.</value>
+  </data>
+  <data name="lbl_status.Text" xml:space="preserve">
+    <value>NOT. Değiştirdiğinizde, Uzaktan Kopyala'yı tıklatın. Bu, radyo iletişimini kaybetmemenizi sağlar.</value>
+  </data>
+  <data name="RGPI1_1R_CIN.ToolTip" xml:space="preserve">
+    <value>OPPRESEND, "fırsatçı yeniden gönderme" yi etkinleştirir / devre dışı bırakır. Etkinleştirildiğinde, seri arabelleğinde 256 bayttan az olduğunda telsiz paketi iki kez gönderir. İkinci iletim, ilk "OK" paketini aldığında alıcı radyo tarafından yeniden gönderme ve atma olarak işaretlenir. Bu, özellikle uplink komutları için iletişimin kalitesini önemli ölçüde etkiler.</value>
+  </data>
+  <data name="linkLabel1.Text" xml:space="preserve">
+    <value>Durum Göstergeleri</value>
+  </data>
+  <data name="MAX_WINDOW.ToolTip" xml:space="preserve">
+    <value>Düğüm kimliği Taban düğümün tanımlayıcısı 0'dır. Bir düğüm, çoklu ortamın çalışması için temel olarak hareket etmelidir.</value>
+  </data>
+  <data name="RNUM_CHANNELS.ToolTip" xml:space="preserve">
+    <value>frekans atlamalı kanal sayısı</value>
+  </data>
+  <data name="groupBoxRemote.Text" xml:space="preserve">
+    <value>Uzaktan kumanda</value>
+  </data>
+  <data name="groupBoxLocal.Text" xml:space="preserve">
+    <value>lokal olarak</value>
+  </data>
+  <data name="label30.Text" xml:space="preserve">
+    <value>Ruzgar hızı</value>
+  </data>
+  <data name="linkLabel_lowlatency.Text" xml:space="preserve">
+    <value>Düşük gecikme ayarları</value>
+  </data>
+  <data name="ECC.ToolTip" xml:space="preserve">
+    <value>ECC - kolay hata düzeltme kodunu etkinleştirin / devre dışı bırakın. Varsayılan olarak devre dışıdır. Bunu açarsanız, bant genişliğinin yarısını kaybetmek için iki kat daha fazla bayt elde edeceksiniz, ancak her 12 bit veri için 3 bitlik hataları düzeltebilir. Bunu genellikle daha düşük bir veri hızı ile birlikte uzun menzil için kullanın. Golay kod çözme, iletilen bayt başına 20 mikrosaniye sürer (kullanıcı veri baytı başına 40'ar), bu da maksimum veri aktarım hızına sahip sınırlı bir işlemciye sahip olacağınız anlamına gelir. Böylece, genellikle golleri 128 Kbps veya daha düşük bir hızda kullanırsınız.</value>
+  </data>
+  <data name="label31.Text" xml:space="preserve">
+    <value>bicim</value>
+  </data>
+  <data name="label34.Text" xml:space="preserve">
+    <value>Max Pencere (мс)</value>
+  </data>
+  <data name="label36.Text" xml:space="preserve">
+    <value>Sifreleme AES</value>
+  </data>
+  <data name="label37.Text" xml:space="preserve">
+    <value>Sifreleme AES</value>
+  </data>
+  <data name="DUTY_CYCLE.ToolTip" xml:space="preserve">
+    <value>iletim için geçen sürenin yüzdesi</value>
+  </data>
+  <data name="RMIN_FREQ.ToolTip" xml:space="preserve">
+    <value>kHz'de minimum frekans</value>
+  </data>
+  <data name="GPI1_1R_CIN.ToolTip" xml:space="preserve">
+    <value>OPPRESEND, "fırsatçı yeniden gönderme"yi etkinleştirir / devre dışı bırakır. Etkinleştirildiğinde, seri arabelleğinde 256 bayttan az olduğunda telsiz paketi iki kez gönderir. İkinci iletim, ilk "OK" paketini aldığında alıcı radyo tarafından yeniden gönderme ve atma olarak işaretlenir. Bu, özellikle uplink komutları için iletişimin kalitesini önemli ölçüde etkiler.</value>
+  </data>
+  <data name="BUT_loadcustom.Text" xml:space="preserve">
+    <value>Özel ürün yazılımı indirin</value>
+  </data>
+  <data name="BUT_upload.Text" xml:space="preserve">
+    <value>Firmware indirme (yerel)</value>
+  </data>
+  <data name="RDUTY_CYCLE.ToolTip" xml:space="preserve">
+    <value>iletim için geçen sürenin yüzdesi</value>
+  </data>
+  <data name="RMAX_WINDOW.ToolTip" xml:space="preserve">
+    <value>Düğüm kimliği Taban düğümün tanımlayıcısı 0'dır. Bir düğüm, çoklu ortamın çalışması için temel olarak hareket etmelidir.</value>
+  </data>
+  <data name="RMAX_FREQ.ToolTip" xml:space="preserve">
+    <value>kHz'de maksimum frekans</value>
+  </data>
+  <data name="BUT_getcurrent.Text" xml:space="preserve">
+    <value>onyükleme Ayarları</value>
+  </data>
+  <data name="RGPO1_1R_COUT.ToolTip" xml:space="preserve">
+    <value>OPPRESEND, "fırsatçı yeniden gönderme" yi etkinleştirir / devre dışı bırakır. Etkinleştirildiğinde, seri arabelleğinde 256 bayttan az olduğunda telsiz paketi iki kez gönderir. İkinci iletim, ilk "OK" paketini aldığında alıcı radyo tarafından yeniden gönderme ve atma olarak işaretlenir. Bu, özellikle uplink komutları için iletişimin kalitesini önemli ölçüde etkiler.</value>
+  </data>
+  <data name="RECC.ToolTip" xml:space="preserve">
+    <value>ECC-kolay hata düzeltme kodunu etkinleştirin / devre dışı bırakın. Varsayılan olarak devre dışıdır. Bunu açarsanız, bant genişliğinin yarısını kaybetmek için iki kat daha fazla bayt elde edeceksiniz, ancak her 12 bit veri için 3 bitlik hataları düzeltebilir. Bunu genellikle daha düşük bir veri hızı ile birlikte uzun menzil için kullanın. Golay kod çözme, iletilen bayt başına 20 mikrosaniye sürer (kullanıcı veri baytı başına 40'ar), bu da maksimum veri aktarım hızına sahip sınırlı bir işlemciye sahip olacağınız anlamına gelir. Böylece, genellikle golleri 128 Kbps veya daha düşük bir hızda kullanırsınız.</value>
+  </data>
+  <data name="MAX_FREQ.ToolTip" xml:space="preserve">
+    <value>kHz'de maksimum frekans</value>
+  </data>
+  <data name="RSSI.ToolTip" xml:space="preserve">
+    <value>dBm'de RSSI grafiğinin spesifikasyonuna bakınız. Sondaki sayılar: txe: iletim hatalarının sayısı (örneğin, iletim zaman aşımları). rxe: alım hatalarının sayısı (hata crc, çerçeveleme hatası, vb.). stx: ardışık transferlerin sayısı. rrx: ardışık taşma sayısı. ecc: Goliad kodu kullanılarak başarılı bir şekilde düzeltilen 12 bitlik kelimelerin sayısı. gerçek bir parti CRC'ye giden</value>
+  </data>
+  <data name="GPO1_1R_COUT.ToolTip" xml:space="preserve">
+    <value>OPPRESEND, "fırsatçı yeniden gönderme" yi etkinleştirir / devre dışı bırakır. Etkinleştirildiğinde, seri arabelleğinde 256 bayttan az olduğunda telsiz paketi iki kez gönderir. İkinci iletim, ilk "OK" paketini aldığında alıcı radyo tarafından yeniden gönderme ve atma olarak işaretlenir. Bu, özellikle uplink komutları için iletişimin kalitesini önemli ölçüde etkiler.</value>
+  </data>
+  <data name="RRTSCTS.ToolTip" xml:space="preserve">
+    <value>Donanım akışı izlemeyi etkinleştirin veya devre dışı bırakın</value>
+  </data>
+  <data name="MAVLINK.ToolTip" xml:space="preserve">
+    <value>AIR_SPEED, yuvarlanmış kbps'deki radyo kanalları arasındaki veri hızıdır. Böylece 128, 128 Kbps anlamına gelir. Maks - 192, min - 2. Frekans atlamalı ve senkronizasyon zamanı tdm frekansı çok yüksek olduğu için 16'nın altında bir değer önermem.</value>
+  </data>
+  <data name="TXPOWER.ToolTip" xml:space="preserve">
+    <value>TXPOWER, dBm'deki aktarım gücüdür. 20 dBm - 100 mW. Kısa süreli test için bunu daha düşük seviyelere ayarlamak faydalıdır.</value>
+  </data>
+  <data name="RTSCTS.ToolTip" xml:space="preserve">
+    <value>Donanım akışı izlemeyi etkinleştirin veya devre dışı bırakın</value>
+  </data>
+</root>

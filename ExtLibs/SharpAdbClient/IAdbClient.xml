@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<IAdbClient>
+  <GetAdbVersion>
+    <summary>
+      Ask the ADB server for its internal version number.
+    </summary>
+    <returns>
+      The ADB version number.
+    </returns>
+  </GetAdbVersion>
+
+  <KillAdb>
+    <summary>
+      Ask the ADB server to quit immediately. This is used when the
+      ADB client detects that an obsolete server is running after an
+      upgrade.
+    </summary>
+  </KillAdb>
+
+  <GetDevices>
+    <summary>
+      Gets the devices that are available for communication.
+    </summary>
+    <returns>A list of devices that are connected.</returns>
+    <example>
+      <para>
+        The following example list all Android devices that are currently connected to this PC:
+      </para>
+      <code>
+        var devices = devices = AdbClient.Instance.GetDevices();
+
+        foreach(var device in devices)
+        {
+        Console.WriteLine(device.Name
+        }
+      </code>
+    </example>
+  </GetDevices>
+
+  <CreateForward>
+    <summary>
+      Asks the ADB server to forward local connections from <paramref name="local"/>
+      to the <paramref name="remote"/> address on the <paramref name="device"/>.
+    </summary>
+    <param name="device">
+      The device to which to forward the connections.
+    </param>
+    <param name="local">
+      <para>
+        The local address to forward. This value can be in one of:
+      </para>
+      <list type="ordered">
+        <item>
+          <c>tcp:&lt;port&gt;</c>: TCP connection on localhost:&lt;port&gt;
+        </item>
+        <item>
+          <c>local:&lt;path&gt;</c>: Unix local domain socket on &lt;path&gt;
+        </item>
+      </list>
+    </param>
+    <param name="remote">
+      <para>
+        The remote address to forward. This value can be in one of:
+      </para>
+      <list type="ordered">
+        <item>
+          <c>tcp:&lt;port&gt;</c>: TCP connection on localhost:&lt;port&gt; on device
+        </item>
+        <item>
+          <c>local:&lt;path&gt;</c>: Unix local domain socket on &lt;path&gt; on device
+        </item>
+        <item>
+          <c>jdwp:&lt;pid&gt;</c>: JDWP thread on VM process &lt;pid&gt; on device.
+        </item>
+      </list>
+    </param>
+    <param name="allowRebind">
+      If set to <see langword="true"/>, the request will fail if there is already a forward
+      connection from <paramref name="local"/>.
+    </param>
+  </CreateForward>
+
+  <RemoveForward>
+    <summary>
+      Remove a port forwarding between a local and a remote port.
+    </summary>
+    <param name="device">
+      The device on which to remove the port forwarding
+    </param>
+    <param name="localPort">
+      Specification of the local port that was forwarded
+    </param>
+  </RemoveForward>
+
+  <RemoveAllForwards>
+    <summary>
+      Removes all forwards for a given device.
+    </summary>
+    <param name="device">
+      The device on which to remove the port forwarding
+    </param>
+  </RemoveAllForwards>
+
+  <ListForward>
+    <summary>
+      List all existing forward connections from this server.
+    </summary>
+    <param name="device">
+      The device for which to list the existing foward connections.
+    </param>
+    <returns>
+      A <see cref="ForwardData"/> entry for each existing forward connection.
+    </returns>
+  </ListForward>
+
+  <ExecuteRemoteCommand>
+    <summary>
+      Executes the remote command.
+    </summary>
+    <param name="command">
+      The command to execute.
+    </param>
+    <param name="device">
+      The device on which to execute the command.
+    </param>
+    <param name="receiver">
+      A <see cref="IShellOutputReceiver"/> that receives the command output. Set to <see langword="null"/>
+      if you are not interested in the output.
+    </param>
+    <param name="cancellationToken">
+      A <see cref="CancellationToken"/> that can be used to cancel the task.
+    </param>
+    <param name="maxTimeToOutputResponse">The max time to output response.</param>
+  </ExecuteRemoteCommand>
+
+  <RunLogService>
+    <summary>
+      Runs the Event log service on the Device.
+    </summary>
+    <param name="device">
+      The device.
+    </param>
+    <param name="logNames">
+      Optionally, the names of the logs to receive.
+    </param>
+    <returns>
+      An enumerator which enumerates all the log entries.
+    </returns>
+  </RunLogService>
+
+  <Reboot>
+    <summary>
+      Reboots the specified device in to the specified mode.
+    </summary>
+    <param name="into">The mode into which to reboot the device.</param>
+    <param name="device">The device to reboot.</param>
+  </Reboot>
+
+  <Connect>
+    <summary>
+      Connect to a device via TCP/IP.
+    </summary>
+    <param name="endpoint">
+      The DNS endpoint at which the <c>adb</c> server on the device is running.
+    </param>
+    <returns>
+      A string with the adb server response message
+    </returns>
+  </Connect>
+
+  <SetDevice>
+    <summary>
+      Ask to switch the connection to the device/emulator identified by
+      <paramref name="device"/>. After this request, every client request will
+      be sent directly to the adbd daemon running on the device.
+    </summary>
+    <param name="socket">
+      An instance of the <see cref="IAdbSocket"/> class which is connected to
+      the Android Debug Bridge.
+    </param>
+    <param name="device">
+      The device to which to connect.
+    </param>
+    <remarks>
+      If <paramref name="device"/> is <see langword="null"/>, this metod
+      does nothing.
+    </remarks>
+  </SetDevice>
+</IAdbClient>

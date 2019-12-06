@@ -1,14 +1,17 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <AC>
   <Item>
-   <HEAD>Stabilization:</HEAD>
+    <HEAD>Stabilization:</HEAD>
     <SUBHEAD>Angular Rate Control:</SUBHEAD>
-    <DESC>How much throttle is applied to rotate the copter at the desired speed.
-    
-Adjust P by motor size
-Small:  P = 0.145
-Med:  P = 0.110
-Large:  P = 0.090</DESC>
+    <DESC>
+      How much throttle is applied to rotate the copter at the desired speed.
+
+      Adjust P by motor size
+      Small:  P = 0.145
+      Med:  P = 0.110
+      Large:  P = 0.090
+    </DESC>
     <FIELDS>
       <FIELD>
         <NAME>P</NAME>
@@ -46,9 +49,9 @@ Large:  P = 0.090</DESC>
 
     <SUBHEAD>Stabilize Control:</SUBHEAD>
     <DESC>
-How fast the copter reacts to user or autopilot input.
-Higher = more aggressive control.
-Too high = slow wobbles
+      How fast the copter reacts to user or autopilot input.
+      Higher = more aggressive control.
+      Too high = slow wobbles
     </DESC>
     <FIELDS>
       <FIELD>
@@ -78,7 +81,8 @@ Too high = slow wobbles
     </FIELDS>
 
     <SUBHEAD>Yaw Angular Rate Control:</SUBHEAD>
-    <DESC>How much throttle is applied to rotate the copter at the desired speed.
+    <DESC>
+      How much throttle is applied to rotate the copter at the desired speed.
     </DESC>
     <FIELDS>
       <FIELD>
@@ -146,7 +150,7 @@ Too high = slow wobbles
     <HEAD>Loiter:</HEAD>
     <SUBHEAD>Angular Rate Control:</SUBHEAD>
     <DESC>
-How much angle is applied to make the copter accelerate to the desired speed.
+      How much angle is applied to make the copter accelerate to the desired speed.
     </DESC>
     <FIELDS>
       <FIELD>
@@ -184,9 +188,9 @@ How much angle is applied to make the copter accelerate to the desired speed.
     </FIELDS>
     <SUBHEAD>Loiter Speed:</SUBHEAD>
     <DESC>
-How fast the copter should move towards the target. A larger value means a faster return to center, but can cause the copter to oscillate around the target.
-      
-A distance error of 100cm * P of .25 = 25 cm/s
+      How fast the copter should move towards the target. A larger value means a faster return to center, but can cause the copter to oscillate around the target.
+
+      A distance error of 100cm * P of .25 = 25 cm/s
     </DESC>
     <FIELDS>
       <FIELD>
@@ -232,7 +236,7 @@ A distance error of 100cm * P of .25 = 25 cm/s
     <SUBHEAD>Thrust Rate:</SUBHEAD>
     <DESC>
       How much thrust to give us the desired rate.
-      
+
       This will change depending on the weight and thrust of your copter.
     </DESC>
     <FIELDS>

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO.Ports;
-using System.Windows.Forms;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
@@ -12,6 +11,7 @@ using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Security;
 using Org.BouncyCastle.Crypto.Parameters;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace px4uploader
 {
@@ -34,21 +34,7 @@ namespace px4uploader
             if (args.Length == 0)
             {
                 Console.WriteLine(@"Usage: px4uploader.exe C:\px4\Firmware\Images\px4fmu.px4");
-
-                OpenFileDialog ofd = new OpenFileDialog();
-                ofd.Filter = "Firmware (*.px4)|*.px4";
-                ofd.FileName = "px4fmu.px4";
-                if (Directory.Exists(@"C:\px4\Firmware\Images"))
-                    ofd.InitialDirectory = @"C:\px4\Firmware\Images";
-                ofd.ShowDialog();
-                if (File.Exists(ofd.FileName))
-                {
-                    args = new string[] { ofd.FileName };
-                }
-                else
-                {
-                    return;
-                }
+                return;
             }
 
             Uploader(args[0]);
@@ -118,12 +104,6 @@ namespace px4uploader
 
                     try
                     {
-                        up.verifyotp();
-                    }
-                    catch (Exception ex)  { Console.WriteLine(ex.ToString()); up.close(); return false; }
-
-                    try
-                    {
                         up.currentChecksum(fw);
                     }
                     catch (Exception ex) { Console.WriteLine("No need to upload. already on the board" + ex.ToString()); up.close(); return true; }
@@ -181,13 +161,26 @@ namespace px4uploader
                 catch { }
             }
 
-            string[] ports = System.IO.Ports.SerialPort.GetPortNames()
-            .Select(p => p.TrimEnd())
-            .ToArray();
+
+            string[] ports = System.IO.Ports.SerialPort.GetPortNames();
+
+            ports = ports.Select(p => trimcomportname(p.TrimEnd())).ToArray();
 
             allPorts.AddRange(ports);
 
             return allPorts.ToArray();
+        }
+
+        static string trimcomportname(string input)
+        {
+            var match = Regex.Match(input.ToUpper(), "(COM[0-9]+)");
+
+            if (match.Success)
+            {
+                return match.Groups[0].Value;
+            }
+
+            return input;
         }
 
         /// <summary>

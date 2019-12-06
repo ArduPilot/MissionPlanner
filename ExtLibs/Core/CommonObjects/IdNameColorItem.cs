@@ -4,6 +4,7 @@ using System.Text;
 using System.Drawing;
 using System.Xml.Serialization;
 using System.ComponentModel;
+using Core.Utils;
 
 namespace Core.CommonObjects
 {
@@ -134,20 +135,20 @@ namespace Core.CommonObjects
                 m_Color = value;
             }
         }
-
+        
         [XmlAttribute("Color"), Browsable(false)]
         public string Color_XML
         {
             get
             {
-                return ColorTranslator.ToHtml(m_Color);
+                return ColorUtils.ColorTranslator.ToHtml(m_Color);
             }
             set
             {
-                Color = ColorTranslator.FromHtml(value);
+                Color = ColorUtils.ColorTranslator.FromHtml(value);
             }
         }
-
+        
         public void MatchIdNameColor(IIdNameColorItem item)
         {
             m_Id = item.Id;

@@ -1,54 +1,195 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 using DirectShowLib;
-using MissionPlanner.Controls.BackstageView;
 using MissionPlanner.Controls;
+using MissionPlanner.Joystick;
 using MissionPlanner.Utilities;
-using System.Threading;
+using WebCamService;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigPlanner : UserControl, IActivate
+    public partial class ConfigPlanner : MyUserControl, IActivate
     {
-        private bool startup = false;
         private List<CultureInfo> _languages;
-
-        public class GCSBitmapInfo
-        {
-            public int Width { get; set; }
-            public int Height { get; set; }
-            public long Fps { get; set; }
-            public string Standard { get; set; }
-            public AMMediaType Media { get; set; }
-
-            public GCSBitmapInfo(int width, int height, long fps, string standard, AMMediaType media)
-            {
-                Width = width;
-                Height = height;
-                Fps = fps;
-                Standard = standard;
-                Media = media;
-            }
-
-            public override string ToString()
-            {
-                return Width.ToString() + " x " + Height.ToString() + String.Format(" {0:0.00} fps ", 10000000.0 / Fps) + Standard;
-            }
-        }
+        private bool startup;
+        static temp temp;
 
         public ConfigPlanner()
         {
             InitializeComponent();
+            CMB_Layout.Items.Add(DisplayNames.Basic);
+            CMB_Layout.Items.Add(DisplayNames.Advanced);
+
+            txt_log_dir.TextChanged += OnLogDirTextChanged;
+
         }
 
+
+        // Called every time that this control is made current in the backstage view
+        public void Activate()
+        {
+            startup = true; // flag to ignore changes while we programatically populate controls
+            if (MainV2.DisplayConfiguration.displayName == DisplayNames.Advanced)
+            {
+                CMB_Layout.SelectedIndex = 1;
+            }
+            else if (MainV2.DisplayConfiguration.displayName == DisplayNames.Basic)
+            {
+                CMB_Layout.SelectedIndex = 0;
+            }
+            else
+            {
+                CMB_Layout.SelectedIndex = 0;
+            }
+
+
+            CMB_osdcolor.DataSource = Enum.GetNames(typeof (KnownColor));
+
+            // set distance/speed unit states
+            CMB_distunits.DataSource = Enum.GetNames(typeof (distances));
+            CMB_speedunits.DataSource = Enum.GetNames(typeof (speeds));
+            CMB_altunits.DataSource = Enum.GetNames(typeof(altitudes));
+
+            CMB_theme.DataSource = Enum.GetNames(typeof (ThemeManager.Themes));
+
+            CMB_theme.Text = ThemeManager.CurrentTheme.ToString();
+
+            num_gcsid.Value = MAVLinkInterface.gcssysid;
+
+            // setup language selection
+            var cultureCodes = new[]
+            {
+                "en-US", "zh-Hans", "zh-TW", "ru-RU", "Fr", "Pl", "it-IT", "es-ES", "de-DE", "ja-JP", "id-ID", "ko-KR",
+                "ar", "pt", "tr", "ru-KZ"
+            };
+
+            _languages = cultureCodes
+                .Select(CultureInfoEx.GetCultureInfo)
+                .Where(c => c != null)
+                .ToList();
+
+            CMB_language.DisplayMember = "DisplayName";
+            CMB_language.DataSource = _languages;
+            var currentUiCulture = Thread.CurrentThread.CurrentUICulture;
+
+            for (var i = 0; i < _languages.Count; i++)
+            {
+                if (currentUiCulture.IsChildOf(_languages[i]))
+                {
+                    try
+                    {
+                        CMB_language.SelectedIndex = i;
+                    }
+                    catch
+                    {
+                    }
+                    break;
+                }
+            }
+
+            // setup up camera button states
+            if (MainV2.cam != null)
+            {
+                BUT_videostart.Enabled = false;
+                CHK_hudshow.Checked = FlightData.myhud.hudon;
+            }
+            else
+            {
+                BUT_videostart.Enabled = true;
+            }
+
+            // setup speech states
+            SetCheckboxFromConfig("speechenable", CHK_enablespeech);
+            SetCheckboxFromConfig("speechwaypointenabled", CHK_speechwaypoint);
+            SetCheckboxFromConfig("speechmodeenabled", CHK_speechmode);
+            SetCheckboxFromConfig("speechcustomenabled", CHK_speechcustom);
+            SetCheckboxFromConfig("speechbatteryenabled", CHK_speechbattery);
+            SetCheckboxFromConfig("speechaltenabled", CHK_speechaltwarning);
+            SetCheckboxFromConfig("speecharmenabled", CHK_speecharmdisarm);
+            SetCheckboxFromConfig("speechlowspeedenabled", CHK_speechlowspeed);
+            SetCheckboxFromConfig("beta_updates", CHK_beta);
+            SetCheckboxFromConfig("password_protect", CHK_Password);
+            SetCheckboxFromConfig("showairports", CHK_showairports);
+            SetCheckboxFromConfig("enableadsb", chk_ADSB);
+            SetCheckboxFromConfig("norcreceiver", chk_norcreceiver);
+            SetCheckboxFromConfig("showtfr", chk_tfr);
+            SetCheckboxFromConfig("autoParamCommit", CHK_AutoParamCommit);
+            SetCheckboxFromConfig("ShowNoFly", chk_shownofly);
+
+            // this can't fail because it set at startup
+            NUM_tracklength.Value = Settings.Instance.GetInt32("NUM_tracklength", 200);
+
+            // get wps on connect
+            SetCheckboxFromConfig("loadwpsonconnect", CHK_loadwponconnect);
+
+            // setup other config state
+            SetCheckboxFromConfig("CHK_resetapmonconnect", CHK_resetapmonconnect);
+
+            CMB_rateattitude.Text = MainV2.comPort.MAV.cs.rateattitude.ToString();
+            CMB_rateposition.Text = MainV2.comPort.MAV.cs.rateposition.ToString();
+            CMB_raterc.Text = MainV2.comPort.MAV.cs.raterc.ToString();
+            CMB_ratestatus.Text = MainV2.comPort.MAV.cs.ratestatus.ToString();
+            CMB_ratesensors.Text = MainV2.comPort.MAV.cs.ratesensors.ToString();
+
+            SetCheckboxFromConfig("analyticsoptout", chk_analytics);
+
+            SetCheckboxFromConfig("CHK_GDIPlus", CHK_GDIPlus);
+            SetCheckboxFromConfig("CHK_maprotation", CHK_maprotation);
+
+            SetCheckboxFromConfig("CHK_disttohomeflightdata", CHK_disttohomeflightdata);
+
+            CHK_AutoParamCommit.Visible = MainV2.DisplayConfiguration.displayParamCommitButton;
+
+            //set hud color state
+            var hudcolor = Settings.Instance["hudcolor"];
+            if (hudcolor != null)
+            {
+                var index = CMB_osdcolor.Items.IndexOf(hudcolor ?? "White");
+                try
+                {
+                    CMB_osdcolor.SelectedIndex = index;
+                }
+                catch
+                {
+                }
+            }
+
+
+            if (Settings.Instance["distunits"] != null)
+                CMB_distunits.Text = Settings.Instance["distunits"].ToString();
+            if (Settings.Instance["speedunits"] != null)
+                CMB_speedunits.Text = Settings.Instance["speedunits"].ToString();
+            if (Settings.Instance["altunits"] != null)
+                CMB_altunits.Text = Settings.Instance["altunits"].ToString();
+
+            try
+            {
+                if (Settings.Instance["video_device"] != null)
+                {
+                    CMB_videosources_Click(this, null);
+                    CMB_videosources.SelectedIndex = Settings.Instance.GetInt32("video_device");
+
+                    if (Settings.Instance["video_options"] != "" && CMB_videosources.Text != "")
+                    {
+                        CMB_videoresolutions.SelectedIndex = Settings.Instance.GetInt32("video_options");
+                    }
+                }
+            }
+            catch
+            {
+            }
+
+
+            txt_log_dir.Text = Settings.Instance.LogDir;
+
+            startup = false;
+        }
 
         private void BUT_videostart_Click(object sender, EventArgs e)
         {
@@ -58,22 +199,24 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // stop first
             BUT_videostop_Click(sender, e);
 
-            var bmp = (GCSBitmapInfo)CMB_videoresolutions.SelectedItem;
+            var bmp = (GCSBitmapInfo) CMB_videoresolutions.SelectedItem;
 
             try
             {
-                MainV2.cam = new WebCamService.Capture(CMB_videosources.SelectedIndex, bmp.Media);
+                MainV2.cam = new Capture(CMB_videosources.SelectedIndex, bmp.Media);
 
                 MainV2.cam.Start();
 
-                MainV2.config["video_device"] = CMB_videosources.SelectedIndex;
+                Settings.Instance["video_device"] = CMB_videosources.SelectedIndex.ToString();
 
-                MainV2.config["video_options"] = CMB_videoresolutions.SelectedIndex;
+                Settings.Instance["video_options"] = CMB_videoresolutions.SelectedIndex.ToString();
 
                 BUT_videostart.Enabled = false;
             }
-            catch (Exception ex) { CustomMessageBox.Show("Camera Fail: " + ex.Message); }
-
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show("Camera Fail: " + ex.Message);
+            }
         }
 
         private void BUT_videostop_Click(object sender, EventArgs e)
@@ -100,32 +243,34 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             AMMediaType media = null;
             VideoInfoHeader v;
             VideoStreamConfigCaps c;
-            List<GCSBitmapInfo> modes = new List<GCSBitmapInfo>();
+            var modes = new List<GCSBitmapInfo>();
 
             // Get the ICaptureGraphBuilder2
-            capGraph = (ICaptureGraphBuilder2)new CaptureGraphBuilder2();
-            IFilterGraph2 m_FilterGraph = (IFilterGraph2)new FilterGraph();
+            capGraph = (ICaptureGraphBuilder2) new CaptureGraphBuilder2();
+            var m_FilterGraph = (IFilterGraph2) new FilterGraph();
 
             DsDevice[] capDevices;
             capDevices = DsDevice.GetDevicesOfCat(FilterCategory.VideoInputDevice);
 
             // Add the video device
-            hr = m_FilterGraph.AddSourceFilterForMoniker(capDevices[CMB_videosources.SelectedIndex].Mon, null, "Video input", out capFilter);
+            hr = m_FilterGraph.AddSourceFilterForMoniker(capDevices[CMB_videosources.SelectedIndex].Mon, null,
+                "Video input", out capFilter);
             try
             {
                 DsError.ThrowExceptionForHR(hr);
             }
             catch (Exception ex)
             {
-                CustomMessageBox.Show("Can not add video source\n" + ex.ToString());
+                CustomMessageBox.Show("Can not add video source\n" + ex);
                 return;
             }
 
             // Find the stream config interface
-            hr = capGraph.FindInterface(PinCategory.Capture, MediaType.Video, capFilter, typeof(IAMStreamConfig).GUID, out o);
+            hr = capGraph.FindInterface(PinCategory.Capture, MediaType.Video, capFilter, typeof (IAMStreamConfig).GUID,
+                out o);
             DsError.ThrowExceptionForHR(hr);
 
-            IAMStreamConfig videoStreamConfig = o as IAMStreamConfig;
+            var videoStreamConfig = o as IAMStreamConfig;
             if (videoStreamConfig == null)
             {
                 CustomMessageBox.Show("Failed to get IAMStreamConfig");
@@ -134,41 +279,44 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             hr = videoStreamConfig.GetNumberOfCapabilities(out count, out size);
             DsError.ThrowExceptionForHR(hr);
-            IntPtr TaskMemPointer = Marshal.AllocCoTaskMem(size);
-            for (int i = 0; i < count; i++)
+            var TaskMemPointer = Marshal.AllocCoTaskMem(size);
+            for (var i = 0; i < count; i++)
             {
-                IntPtr ptr = IntPtr.Zero;
+                var ptr = IntPtr.Zero;
 
                 hr = videoStreamConfig.GetStreamCaps(i, out media, TaskMemPointer);
-                v = (VideoInfoHeader)Marshal.PtrToStructure(media.formatPtr, typeof(VideoInfoHeader));
-                c = (VideoStreamConfigCaps)Marshal.PtrToStructure(TaskMemPointer, typeof(VideoStreamConfigCaps));
-                modes.Add(new GCSBitmapInfo(v.BmiHeader.Width, v.BmiHeader.Height, c.MaxFrameInterval, c.VideoStandard.ToString(), media));
+                v = (VideoInfoHeader) Marshal.PtrToStructure(media.formatPtr, typeof (VideoInfoHeader));
+                c = (VideoStreamConfigCaps) Marshal.PtrToStructure(TaskMemPointer, typeof (VideoStreamConfigCaps));
+                modes.Add(new GCSBitmapInfo(v.BmiHeader.Width, v.BmiHeader.Height, c.MaxFrameInterval,
+                    c.VideoStandard.ToString(), media));
             }
             Marshal.FreeCoTaskMem(TaskMemPointer);
             DsUtils.FreeAMMediaType(media);
 
             CMB_videoresolutions.DataSource = modes;
 
-            if (MainV2.getConfig("video_options") != "" && CMB_videosources.Text != "")
+            if (Settings.Instance["video_options"] != "" && CMB_videosources.Text != "")
             {
                 try
                 {
-                    CMB_videoresolutions.SelectedIndex = int.Parse(MainV2.getConfig("video_options"));
+                    CMB_videoresolutions.SelectedIndex = Settings.Instance.GetInt32("video_options");
                 }
-                catch { } // ignore bad entries
+                catch
+                {
+                } // ignore bad entries
             }
         }
 
         private void CHK_hudshow_CheckedChanged(object sender, EventArgs e)
         {
-            GCSViews.FlightData.myhud.hudon = CHK_hudshow.Checked;
-            MainV2.config["CHK_hudshow"] = CHK_hudshow.Checked;
+            FlightData.myhud.hudon = CHK_hudshow.Checked;
+            Settings.Instance["CHK_hudshow"] = CHK_hudshow.Checked.ToString();
         }
 
         private void CHK_enablespeech_CheckedChanged(object sender, EventArgs e)
         {
             MainV2.speechEnable = CHK_enablespeech.Checked;
-            MainV2.config["speechenable"] = CHK_enablespeech.Checked;
+            Settings.Instance["speechenable"] = CHK_enablespeech.Checked.ToString();
             if (MainV2.speechEngine != null)
                 MainV2.speechEngine.SpeakAsyncCancelAll();
 
@@ -198,12 +346,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (startup)
                 return;
-            MainV2.instance.changelanguage((CultureInfo)CMB_language.SelectedItem);
+            MainV2.instance.changelanguage((CultureInfo) CMB_language.SelectedItem);
 
-                MessageBox.Show("Please Restart the Planner");
+            MessageBox.Show("Please Restart the Planner");
 
-                MainV2.instance.Close();
-                //Application.Exit();
+            MainV2.instance.Close();
+            //Application.Exit();
         }
 
         private void CMB_osdcolor_SelectedIndexChanged(object sender, EventArgs e)
@@ -212,8 +360,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             if (CMB_osdcolor.Text != "")
             {
-                MainV2.config["hudcolor"] = CMB_osdcolor.Text;
-                GCSViews.FlightData.myhud.hudcolor = Color.FromKnownColor((KnownColor)Enum.Parse(typeof(KnownColor), CMB_osdcolor.Text));
+                Settings.Instance["hudcolor"] = CMB_osdcolor.Text;
+                FlightData.myhud.hudcolor =
+                    Color.FromKnownColor((KnownColor) Enum.Parse(typeof (KnownColor), CMB_osdcolor.Text));
             }
         }
 
@@ -221,16 +370,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (startup)
                 return;
-            MainV2.config["speechwaypointenabled"] = ((CheckBox)sender).Checked.ToString();
+            Settings.Instance["speechwaypointenabled"] = ((CheckBox) sender).Checked.ToString();
 
-            if (((CheckBox)sender).Checked)
+            if (((CheckBox) sender).Checked)
             {
-                string speechstring = "Heading to Waypoint {wpn}";
-                if (MainV2.config["speechwaypoint"] != null)
-                    speechstring = MainV2.config["speechwaypoint"].ToString();
-                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Notification", "What do you want it to say?", ref speechstring))
+                var speechstring = "Heading to Waypoint {wpn}";
+                if (Settings.Instance["speechwaypoint"] != null)
+                    speechstring = Settings.Instance["speechwaypoint"].ToString();
+                if (DialogResult.Cancel ==
+                    InputBox.Show("Notification", "What do you want it to say?", ref speechstring))
                     return;
-                MainV2.config["speechwaypoint"] = speechstring;
+                Settings.Instance["speechwaypoint"] = speechstring;
             }
         }
 
@@ -238,16 +388,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (startup)
                 return;
-            MainV2.config["speechmodeenabled"] = ((CheckBox)sender).Checked.ToString();
+            Settings.Instance["speechmodeenabled"] = ((CheckBox) sender).Checked.ToString();
 
-            if (((CheckBox)sender).Checked)
+            if (((CheckBox) sender).Checked)
             {
-                string speechstring = "Mode changed to {mode}";
-                if (MainV2.config["speechmode"] != null)
-                    speechstring = MainV2.config["speechmode"].ToString();
-                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Notification", "What do you want it to say?", ref speechstring))
+                var speechstring = "Mode changed to {mode}";
+                if (Settings.Instance["speechmode"] != null)
+                    speechstring = Settings.Instance["speechmode"].ToString();
+                if (DialogResult.Cancel ==
+                    InputBox.Show("Notification", "What do you want it to say?", ref speechstring))
                     return;
-                MainV2.config["speechmode"] = speechstring;
+                Settings.Instance["speechmode"] = speechstring;
             }
         }
 
@@ -255,16 +406,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (startup)
                 return;
-            MainV2.config["speechcustomenabled"] = ((CheckBox)sender).Checked.ToString();
+            Settings.Instance["speechcustomenabled"] = ((CheckBox) sender).Checked.ToString();
 
-            if (((CheckBox)sender).Checked)
+            if (((CheckBox) sender).Checked)
             {
-                string speechstring = "Heading to Waypoint {wpn}, altitude is {alt}, Ground speed is {gsp} ";
-                if (MainV2.config["speechcustom"] != null)
-                    speechstring = MainV2.config["speechcustom"].ToString();
-                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Notification", "What do you want it to say?", ref speechstring))
+                var speechstring = "Heading to Waypoint {wpn}, altitude is {alt}, Ground speed is {gsp} ";
+                if (Settings.Instance["speechcustom"] != null)
+                    speechstring = Settings.Instance["speechcustom"].ToString();
+                if (DialogResult.Cancel ==
+                    InputBox.Show("Notification", "What do you want it to say?", ref speechstring))
                     return;
-                MainV2.config["speechcustom"] = speechstring;
+                Settings.Instance["speechcustom"] = speechstring;
             }
         }
 
@@ -272,23 +424,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
                 return;
-            ((MyButton)sender).Enabled = false;
+            ((MyButton) sender).Enabled = false;
             try
             {
-
                 MainV2.comPort.getParamList();
-
-
-
-
             }
-            catch { CustomMessageBox.Show("Error: getting param list"); }
+            catch
+            {
+                CustomMessageBox.Show("Error: getting param list");
+            }
 
 
-            ((MyButton)sender).Enabled = true;
+            ((MyButton) sender).Enabled = true;
             startup = true;
 
-            
 
             startup = false;
         }
@@ -297,36 +446,39 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (startup)
                 return;
-            MainV2.config["speechbatteryenabled"] = ((CheckBox)sender).Checked.ToString();
+            Settings.Instance["speechbatteryenabled"] = ((CheckBox) sender).Checked.ToString();
 
-            if (((CheckBox)sender).Checked)
+            if (((CheckBox) sender).Checked)
             {
-                string speechstring = "WARNING, Battery at {batv} Volt, {batp} percent";
-                if (MainV2.config["speechbattery"] != null)
-                    speechstring = MainV2.config["speechbattery"].ToString();
-                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Notification", "What do you want it to say?", ref speechstring))
+                var speechstring = "WARNING, Battery at {batv} Volt, {batp} percent";
+                if (Settings.Instance["speechbattery"] != null)
+                    speechstring = Settings.Instance["speechbattery"].ToString();
+                if (DialogResult.Cancel ==
+                    InputBox.Show("Notification", "What do you want it to say?", ref speechstring))
                     return;
-                MainV2.config["speechbattery"] = speechstring;
+                Settings.Instance["speechbattery"] = speechstring;
 
                 speechstring = "9.6";
-                if (MainV2.config["speechbatteryvolt"] != null)
-                    speechstring = MainV2.config["speechbatteryvolt"].ToString();
-                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Battery Level", "What Voltage do you want to warn at?", ref speechstring))
+                if (Settings.Instance["speechbatteryvolt"] != null)
+                    speechstring = Settings.Instance["speechbatteryvolt"].ToString();
+                if (DialogResult.Cancel ==
+                    InputBox.Show("Battery Level", "What Voltage do you want to warn at?", ref speechstring))
                     return;
-                MainV2.config["speechbatteryvolt"] = speechstring;
+                Settings.Instance["speechbatteryvolt"] = speechstring;
 
                 speechstring = "20";
-                if (MainV2.config["speechbatterypercent"] != null)
-                    speechstring = MainV2.config["speechbatterypercent"].ToString();
-                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Battery Level", "What percentage do you want to warn at?", ref speechstring))
+                if (Settings.Instance["speechbatterypercent"] != null)
+                    speechstring = Settings.Instance["speechbatterypercent"].ToString();
+                if (DialogResult.Cancel ==
+                    InputBox.Show("Battery Level", "What percentage do you want to warn at?", ref speechstring))
                     return;
-                MainV2.config["speechbatterypercent"] = speechstring;
+                Settings.Instance["speechbatterypercent"] = speechstring;
             }
         }
 
         private void BUT_Joystick_Click(object sender, EventArgs e)
         {
-            Form joy = new Joystick.JoystickSetup();
+            Form joy = new JoystickSetup();
             ThemeManager.ApplyThemeTo(joy);
             joy.Show();
         }
@@ -335,7 +487,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (startup)
                 return;
-            MainV2.config["distunits"] = CMB_distunits.Text;
+            Settings.Instance["distunits"] = CMB_distunits.Text;
             MainV2.instance.ChangeUnits();
         }
 
@@ -343,7 +495,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (startup)
                 return;
-            MainV2.config["speedunits"] = CMB_speedunits.Text;
+            Settings.Instance["speedunits"] = CMB_speedunits.Text;
             MainV2.instance.ChangeUnits();
         }
 
@@ -351,52 +503,69 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (startup)
                 return;
-            MainV2.config[((ComboBox)sender).Name] = ((ComboBox)sender).Text;
-            MainV2.comPort.MAV.cs.rateattitude = byte.Parse(((ComboBox)sender).Text);
+            Settings.Instance[((ComboBox) sender).Name] = ((ComboBox) sender).Text;
+            MainV2.comPort.MAV.cs.rateattitude = int.Parse(((ComboBox) sender).Text);
 
-            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA1, MainV2.comPort.MAV.cs.rateattitude); // request attitude
-            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA2, MainV2.comPort.MAV.cs.rateattitude); // request vfr
+            CurrentState.rateattitudebackup = MainV2.comPort.MAV.cs.rateattitude;
+
+            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA1, MainV2.comPort.MAV.cs.rateattitude);
+            // request attitude
+            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA2, MainV2.comPort.MAV.cs.rateattitude);
+            // request vfr
         }
 
         private void CMB_rateposition_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (startup)
                 return;
-            MainV2.config[((ComboBox)sender).Name] = ((ComboBox)sender).Text;
-            MainV2.comPort.MAV.cs.rateposition = byte.Parse(((ComboBox)sender).Text);
+            Settings.Instance[((ComboBox) sender).Name] = ((ComboBox) sender).Text;
+            MainV2.comPort.MAV.cs.rateposition = int.Parse(((ComboBox) sender).Text);
 
-            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.POSITION, MainV2.comPort.MAV.cs.rateposition); // request gps
+            CurrentState.ratepositionbackup = MainV2.comPort.MAV.cs.rateposition;
+
+            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.POSITION, MainV2.comPort.MAV.cs.rateposition);
+            // request gps
         }
 
         private void CMB_ratestatus_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (startup)
                 return;
-            MainV2.config[((ComboBox)sender).Name] = ((ComboBox)sender).Text;
-            MainV2.comPort.MAV.cs.ratestatus = byte.Parse(((ComboBox)sender).Text);
+            Settings.Instance[((ComboBox) sender).Name] = ((ComboBox) sender).Text;
+            MainV2.comPort.MAV.cs.ratestatus = int.Parse(((ComboBox) sender).Text);
 
-            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTENDED_STATUS, MainV2.comPort.MAV.cs.ratestatus); // mode
+            CurrentState.ratestatusbackup = MainV2.comPort.MAV.cs.ratestatus;
+
+            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTENDED_STATUS, MainV2.comPort.MAV.cs.ratestatus);
+            // mode
         }
 
         private void CMB_raterc_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (startup)
                 return;
-            MainV2.config[((ComboBox)sender).Name] = ((ComboBox)sender).Text;
-            MainV2.comPort.MAV.cs.raterc = byte.Parse(((ComboBox)sender).Text);
+            Settings.Instance[((ComboBox) sender).Name] = ((ComboBox) sender).Text;
+            MainV2.comPort.MAV.cs.raterc = int.Parse(((ComboBox) sender).Text);
 
-            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RC_CHANNELS, MainV2.comPort.MAV.cs.raterc); // request rc info 
+            CurrentState.ratercbackup = MainV2.comPort.MAV.cs.raterc;
+
+            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RC_CHANNELS, MainV2.comPort.MAV.cs.raterc);
+            // request rc info 
         }
 
         private void CMB_ratesensors_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (startup)
                 return;
-            MainV2.config[((ComboBox)sender).Name] = ((ComboBox)sender).Text;
-            MainV2.comPort.MAV.cs.ratesensors = byte.Parse(((ComboBox)sender).Text);
+            Settings.Instance[((ComboBox) sender).Name] = ((ComboBox) sender).Text;
+            MainV2.comPort.MAV.cs.ratesensors = int.Parse(((ComboBox) sender).Text);
 
-            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA3, MainV2.comPort.MAV.cs.ratesensors); // request extra stuff - tridge
-            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors); // request raw sensor
+            CurrentState.ratesensorsbackup = MainV2.comPort.MAV.cs.ratesensors;
+
+            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA3, MainV2.comPort.MAV.cs.ratesensors);
+            // request extra stuff - tridge
+            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors);
+            // request raw sensor
         }
 
         private void CHK_mavdebug_CheckedChanged(object sender, EventArgs e)
@@ -406,43 +575,45 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void CHK_resetapmonconnect_CheckedChanged(object sender, EventArgs e)
         {
-            MainV2.config[((CheckBox)sender).Name] = ((CheckBox)sender).Checked.ToString();
+            Settings.Instance[((CheckBox) sender).Name] = ((CheckBox) sender).Checked.ToString();
         }
 
         private void CHK_speechaltwarning_CheckedChanged(object sender, EventArgs e)
         {
             if (startup)
                 return;
-            MainV2.config["speechaltenabled"] = ((CheckBox)sender).Checked.ToString();
+            Settings.Instance["speechaltenabled"] = ((CheckBox) sender).Checked.ToString();
 
-            if (((CheckBox)sender).Checked)
+            if (((CheckBox) sender).Checked)
             {
-                string speechstring = "WARNING, low altitude {alt}";
-                if (MainV2.config["speechalt"] != null)
-                    speechstring = MainV2.config["speechalt"].ToString();
-                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Notification", "What do you want it to say?", ref speechstring))
+                var speechstring = "WARNING, low altitude {alt}";
+                if (Settings.Instance["speechalt"] != null)
+                    speechstring = Settings.Instance["speechalt"].ToString();
+                if (DialogResult.Cancel ==
+                    InputBox.Show("Notification", "What do you want it to say?", ref speechstring))
                     return;
-                MainV2.config["speechalt"] = speechstring;
+                Settings.Instance["speechalt"] = speechstring;
 
                 speechstring = "2";
-                if (MainV2.config["speechaltheight"] != null)
-                    speechstring = MainV2.config["speechaltheight"].ToString();
-                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Min Alt", "What altitude do you want to warn at? (relative to home)", ref speechstring))
+                if (Settings.Instance["speechaltheight"] != null)
+                    speechstring = Settings.Instance["speechaltheight"].ToString();
+                if (DialogResult.Cancel ==
+                    InputBox.Show("Min Alt", "What altitude do you want to warn at? (relative to home)",
+                        ref speechstring))
                     return;
-                MainV2.config["speechaltheight"] = (double.Parse(speechstring) / CurrentState.multiplierdist).ToString(); // save as m
-
+                Settings.Instance["speechaltheight"] = (double.Parse(speechstring)/CurrentState.multiplieralt).ToString();
+                // save as m
             }
         }
 
         private void NUM_tracklength_ValueChanged(object sender, EventArgs e)
         {
-            MainV2.config["NUM_tracklength"] = NUM_tracklength.Value.ToString();
-
+            Settings.Instance["NUM_tracklength"] = NUM_tracklength.Value.ToString();
         }
 
         private void CHK_loadwponconnect_CheckedChanged(object sender, EventArgs e)
         {
-            MainV2.config["loadwpsonconnect"] = CHK_loadwponconnect.Checked.ToString();
+            Settings.Instance["loadwpsonconnect"] = CHK_loadwponconnect.Checked.ToString();
         }
 
         private void CHK_GDIPlus_CheckedChanged(object sender, EventArgs e)
@@ -450,17 +621,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (startup)
                 return;
             CustomMessageBox.Show("You need to restart the planner for this to take effect");
-            MainV2.config["CHK_GDIPlus"] = CHK_GDIPlus.Checked.ToString();
+            Settings.Instance["CHK_GDIPlus"] = CHK_GDIPlus.Checked.ToString();
         }
 
         // This load handler now only contains code that should execute once
         // on start up. See Activate() for the remainder
         private void ConfigPlanner_Load(object sender, EventArgs e)
         {
-            startup = true;
-
-
-            startup = false;
         }
 
         private void CMB_osdcolor_DrawItem(object sender, DrawItemEventArgs e)
@@ -468,8 +635,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (e.Index < 0)
                 return;
 
-            Graphics g = e.Graphics;
-            Rectangle rect = e.Bounds;
+            var g = e.Graphics;
+            var rect = e.Bounds;
             Brush brush = null;
 
             if ((e.State & DrawItemState.Selected) == 0)
@@ -479,7 +646,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             g.FillRectangle(brush, rect);
 
-            brush = new SolidBrush(Color.FromName((string)CMB_osdcolor.Items[e.Index]));
+            brush = new SolidBrush(Color.FromName((string) CMB_osdcolor.Items[e.Index]));
 
             g.FillRectangle(brush, rect.X + 2, rect.Y + 2, 30, rect.Height - 4);
             g.DrawRectangle(Pens.Black, rect.X + 2, rect.Y + 2, 30, rect.Height - 4);
@@ -497,9 +664,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (MainV2.MONO)
                 return;
             // the reason why i dont populate this list is because on linux/mac this call will fail.
-            WebCamService.Capture capt = new WebCamService.Capture();
+            var capt = new Capture();
 
-            List<string> devices = WebCamService.Capture.getDevices();
+            var devices = WebCamService.Capture.getDevices();
 
             CMB_videosources.DataSource = devices;
 
@@ -510,151 +677,37 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (startup)
                 return;
-            MainV2.config["CHK_maprotation"] = CHK_maprotation.Checked.ToString();
-        }
-        // Called every time that this control is made current in the backstage view
-        public void Activate()
-        {
-            startup = true; // flag to ignore changes while we programatically populate controls
-
-
-            CMB_osdcolor.DataSource = Enum.GetNames(typeof(KnownColor));
-
-            // set distance/speed unit states
-            CMB_distunits.DataSource = Enum.GetNames(typeof(Common.distances));
-            CMB_speedunits.DataSource = Enum.GetNames(typeof(Common.speeds));
-
-            CMB_theme.DataSource = Enum.GetNames(typeof(Utilities.ThemeManager.Themes));
-
-            CMB_theme.Text = ThemeManager.CurrentTheme.ToString();
-
-            // setup language selection
-            var cultureCodes = new[] { "en-US", "zh-Hans", "zh-TW", "ru-RU", "Fr", "Pl", "it-IT", "es-ES","de-DE" };
-
-            _languages = cultureCodes
-                .Select(CultureInfoEx.GetCultureInfo)
-                .Where(c => c != null)
-                .ToList();
-
-            CMB_language.DisplayMember = "DisplayName";
-            CMB_language.DataSource = _languages;
-            var currentUiCulture = Thread.CurrentThread.CurrentUICulture;
-
-            for (int i = 0; i < _languages.Count; i++)
-            {
-                if (currentUiCulture.IsChildOf(_languages[i]))
-                {
-                    try
-                    {
-                        CMB_language.SelectedIndex = i;
-                    }
-                    catch { }
-                    break;
-                }
-            }
-
-            // setup up camera button states
-            if (MainV2.cam != null)
-            {
-                BUT_videostart.Enabled = false;
-                CHK_hudshow.Checked = GCSViews.FlightData.myhud.hudon;
-            }
-            else
-            {
-                BUT_videostart.Enabled = true;
-            }
-
-            // setup speech states
-            SetCheckboxFromConfig("speechenable", CHK_enablespeech);
-            SetCheckboxFromConfig("speechwaypointenabled", CHK_speechwaypoint);
-            SetCheckboxFromConfig("speechmodeenabled", CHK_speechmode);
-            SetCheckboxFromConfig("speechcustomenabled", CHK_speechcustom);
-            SetCheckboxFromConfig("speechbatteryenabled", CHK_speechbattery);
-            SetCheckboxFromConfig("speechaltenabled", CHK_speechaltwarning);
-            SetCheckboxFromConfig("speecharmenabled", CHK_speecharmdisarm);
-            SetCheckboxFromConfig("speechlowspeedenabled", CHK_speechlowspeed);
-            SetCheckboxFromConfig("beta_updates", CHK_beta);
-            SetCheckboxFromConfig("password_protect", CHK_Password);
-            SetCheckboxFromConfig("advancedview", CHK_advancedview);
-            SetCheckboxFromConfig("showairports", CHK_showairports);
-            SetCheckboxFromConfig("enableadsb", chk_ADSB);
-
-            // this can't fail because it set at startup
-            NUM_tracklength.Value = int.Parse(MainV2.config["NUM_tracklength"].ToString());
-
-            // get wps on connect
-            SetCheckboxFromConfig("loadwpsonconnect", CHK_loadwponconnect);
-
-            // setup other config state
-            SetCheckboxFromConfig("CHK_resetapmonconnect", CHK_resetapmonconnect);
-
-            CMB_rateattitude.Text = MainV2.comPort.MAV.cs.rateattitude.ToString();
-            CMB_rateposition.Text = MainV2.comPort.MAV.cs.rateposition.ToString();
-            CMB_raterc.Text = MainV2.comPort.MAV.cs.raterc.ToString();
-            CMB_ratestatus.Text = MainV2.comPort.MAV.cs.ratestatus.ToString();
-            CMB_ratesensors.Text = MainV2.comPort.MAV.cs.ratesensors.ToString();
-
-            SetCheckboxFromConfig("analyticsoptout", chk_analytics);
-
-            SetCheckboxFromConfig("CHK_GDIPlus", CHK_GDIPlus);
-            SetCheckboxFromConfig("CHK_maprotation", CHK_maprotation);
-
-            SetCheckboxFromConfig("CHK_disttohomeflightdata", CHK_disttohomeflightdata);
-
-            //set hud color state
-            string hudcolor = (string)MainV2.config["hudcolor"];
-            int index = CMB_osdcolor.Items.IndexOf(hudcolor ?? "White");
-            try
-            {
-                CMB_osdcolor.SelectedIndex = index;
-            }
-            catch { }
-
-
-            if (MainV2.config["distunits"] != null)
-                CMB_distunits.Text = MainV2.config["distunits"].ToString();
-            if (MainV2.config["speedunits"] != null)
-                CMB_speedunits.Text = MainV2.config["speedunits"].ToString();
-
-            try 
-            {
-                if (MainV2.config["video_device"] != null)
-                {
-                    CMB_videosources_Click(this,null);
-                    CMB_videosources.SelectedIndex = int.Parse(MainV2.config["video_device"].ToString());
-
-                    if (MainV2.getConfig("video_options") != "" && CMB_videosources.Text != "")
-                    {
-                        CMB_videoresolutions.SelectedIndex = int.Parse(MainV2.getConfig("video_options"));
-                    }
-                }            
-            } catch {}
-
-
-            txt_log_dir.Text = MainV2.LogDir;
+            Settings.Instance["CHK_maprotation"] = CHK_maprotation.Checked.ToString();
+            FlightData.instance.gMapControl1.Bearing = 0;
         }
 
-
-        
         private static void SetCheckboxFromConfig(string configKey, CheckBox chk)
         {
-            if (MainV2.config[configKey] != null)
-                chk.Checked = bool.Parse(MainV2.config[configKey].ToString());
+            if (Settings.Instance[configKey] != null)
+                chk.Checked = Settings.Instance.GetBoolean(configKey);
         }
 
         private void CHK_disttohomeflightdata_CheckedChanged(object sender, EventArgs e)
         {
-            MainV2.config["CHK_disttohomeflightdata"] = CHK_disttohomeflightdata.Checked.ToString();
+            Settings.Instance["CHK_disttohomeflightdata"] = CHK_disttohomeflightdata.Checked.ToString();
         }
 
         private void BUT_logdirbrowse_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog ofd = new FolderBrowserDialog();
+            var ofd = new FolderBrowserDialog();
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 txt_log_dir.Text = ofd.SelectedPath;
-                MainV2.LogDir = ofd.SelectedPath;
-            }                       
+            }
+        }
+
+        private void OnLogDirTextChanged(object sender, EventArgs e)
+        {
+            string path = txt_log_dir.Text;
+            if (!string.IsNullOrEmpty(path) && System.IO.Directory.Exists(path))
+            {
+                Settings.Instance.LogDir = path;
+            }
         }
 
         private void CMB_theme_SelectedIndexChanged(object sender, EventArgs e)
@@ -662,11 +715,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (startup)
                 return;
 
-            MainV2.config["theme"] = CMB_theme.Text;
-            ThemeManager.SetTheme((ThemeManager.Themes)Enum.Parse(typeof(ThemeManager.Themes), CMB_theme.Text));
+            Settings.Instance["theme"] = CMB_theme.Text;
+            ThemeManager.SetTheme((ThemeManager.Themes) Enum.Parse(typeof (ThemeManager.Themes), CMB_theme.Text));
             ThemeManager.ApplyThemeTo(MainV2.instance);
 
-            CustomMessageBox.Show("You may need to restart to see the full effect.");
+            CustomMessageBox.Show("You may need to select another tab or restart to see the full effect.");
         }
 
         private void BUT_themecustom_Click(object sender, EventArgs e)
@@ -679,48 +732,49 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (startup)
                 return;
-            MainV2.config["speecharmenabled"] = ((CheckBox)sender).Checked.ToString();
+            Settings.Instance["speecharmenabled"] = ((CheckBox) sender).Checked.ToString();
 
-            if (((CheckBox)sender).Checked)
+            if (((CheckBox) sender).Checked)
             {
-                string speechstring = "Armed";
-                if (MainV2.config["speecharm"] != null)
-                    speechstring = MainV2.config["speecharm"].ToString();
-                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Arm", "What do you want it to say?", ref speechstring))
+                var speechstring = "Armed";
+                if (Settings.Instance["speecharm"] != null)
+                    speechstring = Settings.Instance["speecharm"];
+                if (DialogResult.Cancel == InputBox.Show("Arm", "What do you want it to say?", ref speechstring))
                     return;
-                MainV2.config["speecharm"] = speechstring;
+                Settings.Instance["speecharm"] = speechstring;
 
                 speechstring = "Disarmed";
-                if (MainV2.config["speechdisarm"] != null)
-                    speechstring = MainV2.config["speechdisarm"].ToString();
-                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Disarmed", "What do you want it to say?", ref speechstring))
+                if (Settings.Instance["speechdisarm"] != null)
+                    speechstring = Settings.Instance["speechdisarm"];
+                if (DialogResult.Cancel == InputBox.Show("Disarmed", "What do you want it to say?", ref speechstring))
                     return;
-                MainV2.config["speechdisarm"] = speechstring;
-
+                Settings.Instance["speechdisarm"] = speechstring;
             }
         }
 
         private void BUT_Vario_Click(object sender, EventArgs e)
         {
-            if (MissionPlanner.Utilities.Vario.run)
+            if (Vario.run)
             {
-                MissionPlanner.Utilities.Vario.Stop();
+                Vario.Stop();
             }
             else
             {
-                MissionPlanner.Utilities.Vario.Start();
+                Vario.Start();
             }
         }
 
         private void chk_analytics_CheckedChanged(object sender, EventArgs e)
         {
-            MissionPlanner.Utilities.Tracking.OptOut = chk_analytics.Checked;
-            MainV2.config["analyticsoptout"] = chk_analytics.Checked;
+            Tracking.OptOut = chk_analytics.Checked;
+            Settings.Instance["analyticsoptout"] = chk_analytics.Checked.ToString();
         }
 
         private void CHK_beta_CheckedChanged(object sender, EventArgs e)
         {
-            MainV2.config["beta_updates"] = CHK_beta.Checked;
+            Settings.Instance["beta_updates"] = CHK_beta.Checked.ToString();
+
+            MissionPlanner.Utilities.Update.dobeta = CHK_beta.Checked;
         }
 
         private void CHK_Password_CheckedChanged(object sender, EventArgs e)
@@ -728,10 +782,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (startup)
                 return;
 
-            MainV2.config["password_protect"] = CHK_Password.Checked;
-            if (CHK_Password.Checked == true)
+            Settings.Instance["password_protect"] = CHK_Password.Checked.ToString();
+            if (CHK_Password.Checked)
             {
-                Password.EnterPassword(); 
+                // keep this one local
+                string pw = "";
+
+                InputBox.Show("Enter Password", "Please enter a password", ref pw, true);
+
+                Password.EnterPassword(pw);
             }
         }
 
@@ -739,49 +798,46 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (startup)
                 return;
-            MainV2.config["speechlowspeedenabled"] = ((CheckBox)sender).Checked.ToString();
+            Settings.Instance["speechlowspeedenabled"] = ((CheckBox) sender).Checked.ToString();
 
-            if (((CheckBox)sender).Checked)
+            if (((CheckBox) sender).Checked)
             {
-                string speechstring = "Low Ground Speed {gsp}";
-                if (MainV2.config["speechlowgroundspeed"] != null)
-                    speechstring = MainV2.config["speechlowgroundspeed"].ToString();
-                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Ground Speed", "What do you want it to say?", ref speechstring))
+                var speechstring = "Low Ground Speed {gsp}";
+                if (Settings.Instance["speechlowgroundspeed"] != null)
+                    speechstring = Settings.Instance["speechlowgroundspeed"];
+                if (DialogResult.Cancel ==
+                    InputBox.Show("Ground Speed", "What do you want it to say?", ref speechstring))
                     return;
-                MainV2.config["speechlowgroundspeed"] = speechstring;
+                Settings.Instance["speechlowgroundspeed"] = speechstring;
 
                 speechstring = "0";
-                if (MainV2.config["speechlowgroundspeedtrigger"] != null)
-                    speechstring = MainV2.config["speechlowgroundspeedtrigger"].ToString();
-                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("speed trigger", "What speed do you want to warn at (m/s)?", ref speechstring))
+                if (Settings.Instance["speechlowgroundspeedtrigger"] != null)
+                    speechstring = Settings.Instance["speechlowgroundspeedtrigger"];
+                if (DialogResult.Cancel ==
+                    InputBox.Show("speed trigger", "What speed do you want to warn at (m/s)?", ref speechstring))
                     return;
-                MainV2.config["speechlowgroundspeedtrigger"] = speechstring;
+                Settings.Instance["speechlowgroundspeedtrigger"] = speechstring;
 
                 speechstring = "Low Air Speed {asp}";
-                if (MainV2.config["speechlowairspeed"] != null)
-                    speechstring = MainV2.config["speechlowairspeed"].ToString();
-                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Air Speed", "What do you want it to say?", ref speechstring))
+                if (Settings.Instance["speechlowairspeed"] != null)
+                    speechstring = Settings.Instance["speechlowairspeed"];
+                if (DialogResult.Cancel == InputBox.Show("Air Speed", "What do you want it to say?", ref speechstring))
                     return;
-                MainV2.config["speechlowairspeed"] = speechstring;
+                Settings.Instance["speechlowairspeed"] = speechstring;
 
                 speechstring = "0";
-                if (MainV2.config["speechlowairspeedtrigger"] != null)
-                    speechstring = MainV2.config["speechlowairspeedtrigger"].ToString();
-                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("speed trigger", "What speed do you want to warn at (m/s)?", ref speechstring))
+                if (Settings.Instance["speechlowairspeedtrigger"] != null)
+                    speechstring = Settings.Instance["speechlowairspeedtrigger"];
+                if (DialogResult.Cancel ==
+                    InputBox.Show("speed trigger", "What speed do you want to warn at (m/s)?", ref speechstring))
                     return;
-                MainV2.config["speechlowairspeedtrigger"] = speechstring;
+                Settings.Instance["speechlowairspeedtrigger"] = speechstring;
             }
-        }
-
-        private void CHK_advancedview_CheckedChanged(object sender, EventArgs e)
-        {
-            MainV2.config["advancedview"] = CHK_advancedview.Checked.ToString();
-            MainV2.Advanced = CHK_advancedview.Checked;
         }
 
         private void CHK_showairports_CheckedChanged(object sender, EventArgs e)
         {
-            MainV2.config["showairports"] = CHK_showairports.Checked.ToString();
+            Settings.Instance["showairports"] = CHK_showairports.Checked.ToString();
             MainV2.ShowAirports = CHK_showairports.Checked;
         }
 
@@ -790,31 +846,123 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (startup)
                 return;
 
-            if (((CheckBox)sender).Checked)
+            if (((CheckBox) sender).Checked)
             {
-                string server = "127.0.0.1";
-                if (MainV2.config["adsbserver"] != null)
-                    server = MainV2.config["adsbserver"].ToString();
-                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Server", "Server IP?", ref server))
+                var server = "127.0.0.1";
+                if (Settings.Instance["adsbserver"] != null)
+                    server = Settings.Instance["adsbserver"];
+                if (DialogResult.Cancel == InputBox.Show("Server", "Server IP?", ref server))
                     return;
-                MainV2.config["adsbserver"] = server;
+                Settings.Instance["adsbserver"] = server;
 
-                string port = "30003";
-                if (MainV2.config["adsbport"] != null)
-                    port = MainV2.config["adsbport"].ToString();
-                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Server port", "Server port?", ref port))
+                var port = "30003";
+                if (Settings.Instance["adsbport"] != null)
+                    port = Settings.Instance["adsbport"];
+                if (DialogResult.Cancel == InputBox.Show("Server port", "Server port?", ref port))
                     return;
-                MainV2.config["adsbport"] = port;
+                Settings.Instance["adsbport"] = port;
             }
 
-            MainV2.config["enableadsb"] = chk_ADSB.Checked.ToString();
-            MainV2.instance.EnableADSB = CHK_showairports.Checked;
+            Settings.Instance["enableadsb"] = chk_ADSB.Checked.ToString();
+            MainV2.instance.EnableADSB = chk_ADSB.Checked;
         }
 
         private void chk_tfr_CheckedChanged(object sender, EventArgs e)
         {
-            MainV2.config["showtfr"] = chk_tfr.Checked.ToString();
+            Settings.Instance["showtfr"] = chk_tfr.Checked.ToString();
             MainV2.ShowTFR = chk_tfr.Checked;
+        }
+
+        public class GCSBitmapInfo
+        {
+            public GCSBitmapInfo(int width, int height, long fps, string standard, AMMediaType media)
+            {
+                Width = width;
+                Height = height;
+                Fps = fps;
+                Standard = standard;
+                Media = media;
+            }
+
+            public int Width { get; set; }
+            public int Height { get; set; }
+            public long Fps { get; set; }
+            public string Standard { get; set; }
+            public AMMediaType Media { get; set; }
+
+            public override string ToString()
+            {
+                return Width + " x " + Height + string.Format(" {0:0.00} fps ", 10000000.0/Fps) + Standard;
+            }
+        }
+
+        private void chk_temp_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chk_temp.Checked)
+            {
+                temp = new temp();
+                temp.FormClosing += chk_temp_FormClosing;
+                temp.Show();
+            }
+            else
+            {
+                if (temp != null)
+                { 
+                    temp.Close();
+                }
+            }
+        }
+
+        private void chk_temp_FormClosing(object sender, EventArgs e)
+        {
+            chk_temp.Checked = false;
+        }
+
+        private void chk_norcreceiver_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Instance["norcreceiver"] = chk_norcreceiver.Checked.ToString();
+        }
+
+        private void but_AAsignin_Click(object sender, EventArgs e)
+        {
+            new Utilities.AltitudeAngel.AASettings().Show(this);
+        }
+
+        private void CMB_Layout_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if ((DisplayNames)CMB_Layout.SelectedItem == DisplayNames.Advanced)
+            {
+                MainV2.DisplayConfiguration = MainV2.DisplayConfiguration.Advanced();
+            }
+            else if ((DisplayNames)CMB_Layout.SelectedItem == DisplayNames.Basic)
+            {
+                MainV2.DisplayConfiguration = MainV2.DisplayConfiguration.Basic();
+            }
+            Settings.Instance["displayview"] = MainV2.DisplayConfiguration.ConvertToString();
+        }
+
+        private void CHK_AutoParamCommit_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Instance["autoParamCommit"] = CHK_AutoParamCommit.Checked.ToString();
+        }
+
+        private void chk_shownofly_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Instance["ShowNoFly"] = chk_shownofly.Checked.ToString();
+        }
+
+        private void CMB_altunits_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (startup)
+                return;
+            Settings.Instance["altunits"] = CMB_altunits.Text;
+            MainV2.instance.ChangeUnits();
+        }
+
+        private void num_gcsid_ValueChanged(object sender, EventArgs e)
+        {
+            MAVLinkInterface.gcssysid = (byte) num_gcsid.Value;
+            Settings.Instance["gcsid"] = num_gcsid.Value.ToString();
         }
     }
 }

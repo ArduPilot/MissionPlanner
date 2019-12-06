@@ -1,12 +1,15 @@
 ﻿
+using System;
+
 namespace GMap.NET
 {
    using System.Globalization;
 
-   /// <summary>
-   /// the size of coordinates
-   /// </summary>
-   public struct SizeLatLng
+    /// <summary>
+    /// the size of coordinates
+    /// </summary>
+    [Serializable]
+    public struct SizeLatLng
    {
       public static readonly SizeLatLng Empty;
 

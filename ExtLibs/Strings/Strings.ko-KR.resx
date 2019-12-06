@@ -1,0 +1,595 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="CannotGraphField" xml:space="preserve">
+    <value>이 영역을 도표화 할 수 없습니다</value>
+  </data>
+  <data name="ReadingHex" xml:space="preserve">
+    <value>HEX 읽어오기</value>
+  </data>
+  <data name="SelectComport" xml:space="preserve">
+    <value>Comport를 선택 하십시오.</value>
+  </data>
+  <data name="FullParameterTree" xml:space="preserve">
+    <value>전체 매개변수 트리</value>
+  </data>
+  <data name="FullParameterList" xml:space="preserve">
+    <value>전체 매개변수 리스트</value>
+  </data>
+  <data name="TrackerHome" xml:space="preserve">
+    <value>Tracker Home</value>
+  </data>
+  <data name="NewFirmware" xml:space="preserve">
+    <value>신규 펌웨어</value>
+  </data>
+  <data name="AreYouSureYouWantToUpload" xml:space="preserve">
+    <value>업로드 하시겠습니까?</value>
+  </data>
+  <data name="BadAHRS" xml:space="preserve">
+    <value>AHRS 이상</value>
+  </data>
+  <data name="ErrorSetValueFailed" xml:space="preserve">
+    <value>Set {0} Failed</value>
+  </data>
+  <data name="BadAccelHealth" xml:space="preserve">
+    <value>가속도계 이상</value>
+  </data>
+  <data name="Stillmoving" xml:space="preserve">
+    <value>귀하의 모델은 현재 움직이고 있습니다. 정말 연결을 끊겠습니까?</value>
+  </data>
+  <data name="BetaWarning" xml:space="preserve">
+    <value>이것들은 베타 펌웨어로 사용자 책임하에 사용 가능함!!!</value>
+  </data>
+  <data name="velocity_variance" xml:space="preserve">
+    <value>속도 차이</value>
+  </data>
+  <data name="AutoWP" xml:space="preserve">
+    <value>자동 WP</value>
+  </data>
+  <data name="Converting_bin_to_log" xml:space="preserve">
+    <value>bin을 log로 변환</value>
+  </data>
+  <data name="BasicTuning" xml:space="preserve">
+    <value>기본 튜닝</value>
+  </data>
+  <data name="ConnectingMavlink" xml:space="preserve">
+    <value>Mavlink 연결 중</value>
+  </data>
+  <data name="InvalidUpdateRate" xml:space="preserve">
+    <value>잘못된 업데이트 속도</value>
+  </data>
+  <data name="pos_vert_variance" xml:space="preserve">
+    <value>pos vert variance</value>
+  </data>
+  <data name="SetHere" xml:space="preserve">
+    <value>Here 설정</value>
+  </data>
+  <data name="CommandFailed" xml:space="preserve">
+    <value>명령을 실행 하지 못했습니다</value>
+  </data>
+  <data name="GettingFWList" xml:space="preserve">
+    <value>FW 목록 획득</value>
+  </data>
+  <data name="BadLiDARHealth" xml:space="preserve">
+    <value>LiDAR 이상</value>
+  </data>
+  <data name="StandardParams" xml:space="preserve">
+    <value>표준 매개 변수</value>
+  </data>
+  <data name="AdvancedParams" xml:space="preserve">
+    <value>고급 매개 변수</value>
+  </data>
+  <data name="BadGPSHealth" xml:space="preserve">
+    <value>GPS 이상</value>
+  </data>
+  <data name="GettingParamsD" xml:space="preserve">
+    <value>매개 변수 획득…</value>
+  </data>
+  <data name="PleaseConnect" xml:space="preserve">
+    <value>먼저 연결하세요.</value>
+  </data>
+  <data name="InvalidNumberEntered" xml:space="preserve">
+    <value>잘못된 번호 입력</value>
+  </data>
+  <data name="WarningLogBrowseFMTMissing" xml:space="preserve">
+    <value>Log Browse는 로그에서 FMT 메시지 없이는 정상적으로 작동 하지 않음.
+로그에서 누락된 것으로 보여짐.</value>
+  </data>
+  <data name="ProgrammedOK" xml:space="preserve">
+    <value>성공적으로 프로그래밍됨</value>
+  </data>
+  <data name="BadorNoTerrainData" xml:space="preserve">
+    <value>이상 혹은 지형 데이터 없음.</value>
+  </data>
+  <data name="Getting" xml:space="preserve">
+    <value>획득</value>
+  </data>
+  <data name="EppromChanged" xml:space="preserve">
+    <value>Epprom 변경, 모든 설정이 업데이트 하는 동안 손실 됩니다. 계속 하시겠습니까?</value>
+  </data>
+  <data name="Only1HbD" xml:space="preserve">
+    <value>이 포트에서 오직 하나의 Mavlink Heartbeat 패킷만 읽어짐 - H/W가 정상적으로 설정되었는지 확인할 것.
+Mission Planner는 연결되기 전에 2개의 유효한 heartbeat를 기다림.</value>
+  </data>
+  <data name="WarningUpdateParamList" xml:space="preserve">
+    <value>업데이트 매개 변수.
+비행 운전 중에는 실행 금지.</value>
+  </data>
+  <data name="ErrorNoResponce" xml:space="preserve">
+    <value>오류: MAV에서 응답 없음</value>
+  </data>
+  <data name="Trying" xml:space="preserve">
+    <value>연결 시도중.
+{0} 내에 종료</value>
+  </data>
+  <data name="EppromFormatChanged" xml:space="preserve">
+    <value>Epprom 형식 변경 ({0) 대 {1})</value>
+  </data>
+  <data name="NoFMTMessage" xml:space="preserve">
+    <value>No FMT message for</value>
+  </data>
+  <data name="TrunkWarning" xml:space="preserve">
+    <value>이것들은 최신 트렁크 펌웨어로서 사용자 책임하에 사용 가능 가능함!!!</value>
+  </data>
+  <data name="pos_horiz_variance" xml:space="preserve">
+    <value>pos horiz variance</value>
+  </data>
+  <data name="Saving" xml:space="preserve">
+    <value>저장중</value>
+  </data>
+  <data name="PleaseUnplugTheBoardAnd" xml:space="preserve">
+    <value>보드를 분리 하고 확인을 누른 다음 다시 연결할 것. Mission Planner는 보드를 30 초 동안 볼 것 이다!</value>
+  </data>
+  <data name="Timeout" xml:space="preserve">
+    <value>자동 검색/mavlink 장치 미연결에 관한 대기 시간 초과</value>
+  </data>
+  <data name="ReceivedList" xml:space="preserve">
+    <value>수신 목록</value>
+  </data>
+  <data name="ErrorUploadingFirmware" xml:space="preserve">
+    <value>펌웨어 업로드 오류</value>
+  </data>
+  <data name="ChangeThrottle" xml:space="preserve">
+    <value>스로틀 변경</value>
+  </data>
+  <data name="InvalidPortName" xml:space="preserve">
+    <value>잘못된 포트 이름</value>
+  </data>
+  <data name="ConnectFailed" xml:space="preserve">
+    <value>연결 실패</value>
+  </data>
+  <data name="ExtendedTuning" xml:space="preserve">
+    <value>튜닝 확장</value>
+  </data>
+  <data name="InvalidFileName" xml:space="preserve">
+    <value>잘못된 파일 이름</value>
+  </data>
+  <data name="Failed_to_connect_to_SITL_instance" xml:space="preserve">
+    <value>SITL 인스턴스에 연결 실패</value>
+  </data>
+  <data name="FailedReadHEX" xml:space="preserve">
+    <value>16진수 읽기 실패</value>
+  </data>
+  <data name="Connect" xml:space="preserve">
+    <value>연결</value>
+  </data>
+  <data name="Click_when_Done" xml:space="preserve">
+    <value>완료시 누르시오</value>
+  </data>
+  <data name="InvalidTiltRange" xml:space="preserve">
+    <value>잘못된 틸트 범위</value>
+  </data>
+  <data name="InvalidCert" xml:space="preserve">
+    <value>잘못된 인증서</value>
+  </data>
+  <data name="terrain_alt_variance" xml:space="preserve">
+    <value>지형 고도 차이</value>
+  </data>
+  <data name="BadCoords" xml:space="preserve">
+    <value>위도/경도 이상</value>
+  </data>
+  <data name="MagCalibMsg" xml:space="preserve">
+    <value>확인을 누른 후 원형 모션에서의 모든 축들 주위로 자동 조정장치를 이동하세요.</value>
+  </data>
+  <data name="QuestionMark" xml:space="preserve">
+    <value>?</value>
+  </data>
+  <data name="CheckPortSettingsOr" xml:space="preserve">
+    <value>포트가 설정되었는지 혹은 사용 중인지 확인</value>
+  </data>
+  <data name="YouAreUsingUnsupportedHardware" xml:space="preserve">
+    <value>지원 되지 않는 하드웨어 사용 중.
+이 보드에는 진위의 유효한 인증서가 없습니다.
+하드웨어 서명 관련하여 하드웨어 공급 업체에 문의 하시기 바랍니다.</value>
+  </data>
+  <data name="MavlinkConnecting" xml:space="preserve">
+    <value>Mavlink 연결…</value>
+  </data>
+  <data name="GettingParams" xml:space="preserve">
+    <value>매개 변수 획득</value>
+  </data>
+  <data name="FailedToReadHex" xml:space="preserve">
+    <value>Firmware.hex 읽기 실패</value>
+  </data>
+  <data name="UpdateNow" xml:space="preserve">
+    <value>지금 업데이트</value>
+  </data>
+  <data name="Gotparam" xml:space="preserve">
+    <value>취득 매개 변수</value>
+  </data>
+  <data name="Failclog" xml:space="preserve">
+    <value>로그 생성 실패</value>
+  </data>
+  <data name="DetectingBoardVersion" xml:space="preserve">
+    <value>보드 버전 감지</value>
+  </data>
+  <data name="FailSafe" xml:space="preserve">
+    <value>안전장치</value>
+  </data>
+  <data name="GettingFWVersion" xml:space="preserve">
+    <value>FW 버전 획득</value>
+  </data>
+  <data name="Error_binding" xml:space="preserve">
+    <value>바인딩 오류</value>
+  </data>
+  <data name="NewFirmwareA" xml:space="preserve">
+    <value>사용 가능한 신규 펌웨어</value>
+  </data>
+  <data name="BadCompassHealth" xml:space="preserve">
+    <value>나침반 이상</value>
+  </data>
+  <data name="InvalidBaudRate" xml:space="preserve">
+    <value>잘못된 전송 속도</value>
+  </data>
+  <data name="ErrorFirmwareFile" xml:space="preserve">
+    <value>펌웨어 파일 로드 오류</value>
+  </data>
+  <data name="ErrorLogList" xml:space="preserve">
+    <value>로그 목록 수신 오류</value>
+  </data>
+  <data name="Only1Hb" xml:space="preserve">
+    <value>오직 하나의 Heatbeat 수신됨</value>
+  </data>
+  <data name="compass_variance" xml:space="preserve">
+    <value>나침반 차이</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="BadGyroHealth" xml:space="preserve">
+    <value>Gyro 이상</value>
+  </data>
+  <data name="ErrorReceivingParams" xml:space="preserve">
+    <value>목록 수신 오류</value>
+  </data>
+  <data name="BadOptFlowHealth" xml:space="preserve">
+    <value>OptFlow 이상</value>
+  </data>
+  <data name="ERROR" xml:space="preserve">
+    <value>오류</value>
+  </data>
+  <data name="RunAnyway" xml:space="preserve">
+    <value>run anyway</value>
+  </data>
+  <data name="Disconnect" xml:space="preserve">
+    <value>연결 해제 </value>
+  </data>
+  <data name="Units" xml:space="preserve">
+    <value>단위: {0} {1}</value>
+  </data>
+  <data name="CanNotConnectToComPortAnd" xml:space="preserve">
+    <value>com 포트에 연결되지 않아 보드 종류 인식 불가</value>
+  </data>
+  <data name="Trunk" xml:space="preserve">
+    <value>trunk</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>시작</value>
+  </data>
+  <data name="PleaseSelectCell" xml:space="preserve">
+    <value>먼저 셀을 선택하십시오.</value>
+  </data>
+  <data name="FailedUpload" xml:space="preserve">
+    <value>업로드 실패</value>
+  </data>
+  <data name="ErrorRejectedByMAV" xml:space="preserve">
+    <value>오류: 명령이 MAV에 의해 거부됨</value>
+  </data>
+  <data name="RawParamWarning" xml:space="preserve">
+    <value>원시 매개변수 경고</value>
+  </data>
+  <data name="DownloadingFromInternet" xml:space="preserve">
+    <value>인터넷에서 내려받기</value>
+  </data>
+  <data name="ErrorConnecting" xml:space="preserve">
+    <value>연결 오류</value>
+  </data>
+  <data name="Continue" xml:space="preserve">
+    <value>계속하기</value>
+  </data>
+  <data name="PleaseLoadValidFile" xml:space="preserve">
+    <value>유효한 파일을 로드 하십시오.</value>
+  </data>
+  <data name="InvalidPanRange" xml:space="preserve">
+    <value>잘못된 팬 범위</value>
+  </data>
+  <data name="DownloadedFromInternet" xml:space="preserve">
+    <value>인터넷에서 내려받기</value>
+  </data>
+  <data name="ErrorCommunicating" xml:space="preserve">
+    <value>자동 모드 통신 오류</value>
+  </data>
+  <data name="LinkStats" xml:space="preserve">
+    <value>통계</value>
+  </data>
+  <data name="ErrorClosingLogFile" xml:space="preserve">
+    <value>로그 파일 닫음 오류</value>
+  </data>
+  <data name="RawParamWarningi" xml:space="preserve">
+    <value>이 화면의 모든 값들은 최소/최대치가 확인 되지 않았음. 입력값에 대한 재확인 필요. 안전한  설정을 위해 표준/고급 매개 변수 사용 바람.</value>
+  </data>
+  <data name="GeoFence" xml:space="preserve">
+    <value>가상울타리</value>
+  </data>
+  <data name="VerifyFirmware" xml:space="preserve">
+    <value>펌웨어 확인</value>
+  </data>
+  <data name="CONNECTc" xml:space="preserve">
+    <value>연결</value>
+  </data>
+  <data name="PleaseConnectAndBackupConfig" xml:space="preserve">
+    <value>연결 후 구성 탭에서 설정을 백업하세요.</value>
+  </data>
+  <data name="ErrorRenameFile" xml:space="preserve">
+    <value>파일 이름 바꾸기 오류</value>
+  </data>
+  <data name="FailedDownload" xml:space="preserve">
+    <value>다운로드 실패</value>
+  </data>
+  <data name="NoNeedToUpload" xml:space="preserve">
+    <value>업로드 필요 없음. 보드에 이미 존재함.</value>
+  </data>
+  <data name="GettingUpdatedParams" xml:space="preserve">
+    <value>업데이트된 매개 변수 획득</value>
+  </data>
+  <data name="Put_the_transmitter_in_bind_mode__Receiver_is_waiting" xml:space="preserve">
+    <value>바인딩 모드에 송신기를 넣어세요. 수신기는 대기 중입니다.</value>
+  </data>
+  <data name="ErrorFeatureNotEnabled" xml:space="preserve">
+    <value>이 기능은 귀하의 펌웨어에 적용되지 않았습니다.</value>
+  </data>
+  <data name="Pleaseup" xml:space="preserve">
+    <value>업그레이드하시기 바랍니다.</value>
+  </data>
+  <data name="GeofenceBreach" xml:space="preserve">
+    <value>가상울타리 위반</value>
+  </data>
+  <data name="PleaseWaitForTheMusicalTones" xml:space="preserve">
+    <value>확인을 클릭 하기 전에 완료 뮤지컬 톤을 기다려 주세요!</value>
+  </data>
+  <data name="InvalidAlt" xml:space="preserve">
+    <value>잘못된 고도</value>
+  </data>
+  <data name="InvalidField" xml:space="preserve">
+    <value>잘못된 필드</value>
+  </data>
+  <data name="ThisBoardHasBeenRetired" xml:space="preserve">
+    <value>이 보드는 더 이상 사용되지 않습니다, Mission Planner가 귀하의 보드에 마지막 사용 가능한 버전을 업로드할 것입니다.</value>
+  </data>
+  <data name="Warningrallypointdistance" xml:space="preserve">
+    <value>경고 랠리 포인트는 RALLY_LIMIT_KM 보다 큰 값에 위치합니다.</value>
+  </data>
+  <data name="UploadSucceededButVerifyFailed" xml:space="preserve">
+    <value>업로드 성공, 하지만 확인 실패: exp {0} got {1} at</value>
+  </data>
+  <data name="DetectedA" xml:space="preserve">
+    <value>감지</value>
+  </data>
+  <data name="CommunicationErrorNoConnection" xml:space="preserve">
+    <value>통신 오류-연결 안 됨</value>
+  </data>
+  <data name="UploadComplete" xml:space="preserve">
+    <value>업로드 완료</value>
+  </data>
+  <data name="MissingDataPoints" xml:space="preserve">
+    <value>데이터 포인트가 누락되고 있습니다. 보정 실행을 원하시나요?</value>
+  </data>
+  <data name="Checking" xml:space="preserve">
+    <value>확인 중...</value>
+  </data>
+  <data name="ObtainFromModule" xml:space="preserve">
+    <value>모듈에서 획득</value>
+  </data>
+  <data name="EnsurePropsNotOn" xml:space="preserve">
+    <value>귀하의 물품이 비행기에 없는지 확인 요망</value>
+  </data>
+  <data name="NORCReceiver" xml:space="preserve">
+    <value>NO RC 수신기</value>
+  </data>
+  <data name="BadBaroHealth" xml:space="preserve">
+    <value>기압계 이상</value>
+  </data>
+  <data name="UpdateNotFound" xml:space="preserve">
+    <value>사용 가능한 업데이트 없음</value>
+  </data>
+  <data name="InvalidBoardType" xml:space="preserve">
+    <value>잘못된 보드 유형</value>
+  </data>
+  <data name="DISCONNECTc" xml:space="preserve">
+    <value>연결 해제 </value>
+  </data>
+  <data name="ErrorNotConnected" xml:space="preserve">
+    <value>연결이 되지 않습니다.</value>
+  </data>
+  <data name="ReadingHexFile" xml:space="preserve">
+    <value>HEX 파일 읽어오기</value>
+  </data>
+  <data name="FlightModes" xml:space="preserve">
+    <value>비행 모드</value>
+  </data>
+  <data name="Invalid_home_location" xml:space="preserve">
+    <value>잘못된 홈 위치</value>
+  </data>
+  <data name="VerifyComplete" xml:space="preserve">
+    <value>확인 완료</value>
+  </data>
+  <data name="WarningAC32" xml:space="preserve">
+    <value>경고, 처음으로 AC 3.2를 설치 하는 경우에는나침반 보정을 다시 실행 해야 합니다 </value>
+  </data>
+  <data name="WarningAC31" xml:space="preserve">
+    <value>경고, AC 3.1 모터의 경우, MOT_SPIN_ARMED 매개 변수를 통해 구성 가능한 경우 무장이 된 상태에서 회전할 것입니다.</value>
+  </data>
+  <data name="ShowMeAgain" xml:space="preserve">
+    <value>다시 표시?</value>
+  </data>
+  <data name="Completed" xml:space="preserve">
+    <value>완료</value>
+  </data>
+  <data name="UpdateFound" xml:space="preserve">
+    <value>업데이트 발견.
+지금 업데이트 하시겠습니까?</value>
+  </data>
+  <data name="UploadingBytesToBoard" xml:space="preserve">
+    <value>보드에 {0} 바이트 업로드중</value>
+  </data>
+  <data name="ErrorSettingParameter" xml:space="preserve">
+    <value>매개변수 설정 오류</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>주의</value>
+  </data>
+  <data name="Desc" xml:space="preserve">
+    <value>설명</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>완료</value>
+  </data>
+  <data name="Beta" xml:space="preserve">
+    <value>베타</value>
+  </data>
+  <data name="Note" xml:space="preserve">
+    <value>주의</value>
+  </data>
+  <data name="Stop" xml:space="preserve">
+    <value>중지</value>
+  </data>
+  <data name="CantDetectBoardVersion" xml:space="preserve">
+    <value>보드 버전 인식 불가. 케이블 연결 확인 바람.</value>
+  </data>
+</root>

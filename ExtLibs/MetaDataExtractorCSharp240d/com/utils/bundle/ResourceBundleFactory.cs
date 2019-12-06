@@ -76,6 +76,8 @@ namespace com.utils.bundle
             return ResourceBundleFactory.CreateBundle(aName, aCulturalInfo, ResourceBundleFactory.DEFAULT_USE);
         }
 
+        static readonly object Locker = new object();
+
         /// <summary>
         /// Gives an instance of resource bundle.
         /// </summary>
@@ -90,36 +92,40 @@ namespace com.utils.bundle
             {
                 key += "_" + aCulturalInfo.ToString();
             }
+            lock (Locker)
+            {
+                IResourceBundle resu = null;
+                if (!ResourceBundleFactory.BUNDLES.ContainsKey(key))
+                {
+                    try
+                    {
+                        if (aType == ResourceBundleFactory.USE_MANAGER)
+                        {
+                            resu = new ResourceBundleWithManager(aName, aCulturalInfo);
+                        }
+                        else if (aType == ResourceBundleFactory.USE_TXTFILE)
+                        {
+                            resu = new ResourceBundle(aName, aCulturalInfo);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Trace.TraceError("Could not load bundle '" + aName + "' (" + e.Message + ")");
+                    }
+                    if (resu == null || resu["TEST"] == null)
+                    {
+                        throw new Exception("Error while loading bundle '" + aName + "' for cultural '" + aCulturalInfo +
+                                            "'");
+                    }
+                    ResourceBundleFactory.BUNDLES.Add(key, resu);
+                }
+                else
+                {
+                    resu = ResourceBundleFactory.BUNDLES[key];
+                }
 
-            IResourceBundle resu = null;
-            if (!ResourceBundleFactory.BUNDLES.ContainsKey(key))
-            {
-                try
-                {
-                    if (aType == ResourceBundleFactory.USE_MANAGER)
-                    {
-                        resu = new ResourceBundleWithManager(aName, aCulturalInfo);
-                    }
-                    else if (aType == ResourceBundleFactory.USE_TXTFILE)
-                    {
-                        resu = new ResourceBundle(aName, aCulturalInfo);
-                    }
-                }
-                catch (Exception e)
-                {
-                    Trace.TraceError("Could not load bundle '" + aName + "' (" + e.Message + ")");
-                }
-                if (resu == null || resu["TEST"] == null)
-                {
-                    throw new Exception("Error while loading bundle '" + aName + "' for cultural '" + aCulturalInfo + "'");
-                }
-                ResourceBundleFactory.BUNDLES.Add(key, resu);
+                return resu;
             }
-            else
-            {
-                resu = ResourceBundleFactory.BUNDLES[key];
-            }
-            return resu;
         }
     }
 }

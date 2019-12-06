@@ -1,21 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
-using com.drew.imaging.jpg;
-using com.drew.metadata;
-using com.drew.metadata.exif;
+using GeoAPI.CoordinateSystems;
+using GeoAPI.CoordinateSystems.Transformations;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using log4net;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.Utilities;
 using ProjNet.CoordinateSystems;
 using ProjNet.CoordinateSystems.Transformations;
@@ -26,8 +23,8 @@ namespace MissionPlanner
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        const float rad2deg = (float)(180 / Math.PI);
-        const float deg2rad = (float)(1.0 / rad2deg);
+        const double rad2deg = (180 / Math.PI);
+        const double deg2rad = (1.0 / rad2deg);
 
         GMapOverlay layerpolygons;
         GMapPolygon wppoly;
@@ -187,17 +184,19 @@ namespace MissionPlanner
         {
             System.Xml.Serialization.XmlSerializer reader = new System.Xml.Serialization.XmlSerializer(typeof(GridData));
 
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "*.grid|*.grid";
-            ofd.ShowDialog();
-
-            if (File.Exists(ofd.FileName))
+            using (OpenFileDialog ofd = new OpenFileDialog())
             {
-                using (StreamReader sr = new StreamReader(ofd.FileName))
-                {
-                    var test = (GridData)reader.Deserialize(sr);
+                ofd.Filter = "*.grid|*.grid";
+                ofd.ShowDialog();
 
-                    loadgriddata(test);
+                if (File.Exists(ofd.FileName))
+                {
+                    using (StreamReader sr = new StreamReader(ofd.FileName))
+                    {
+                        var test = (GridData)reader.Deserialize(sr);
+
+                        loadgriddata(test);
+                    }
                 }
             }
         }
@@ -208,15 +207,17 @@ namespace MissionPlanner
 
             var griddata = savegriddata();
 
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "*.grid|*.grid";
-            sfd.ShowDialog();
-
-            if (sfd.FileName != "")
+            using (SaveFileDialog sfd = new SaveFileDialog())
             {
-                using (StreamWriter sw = new StreamWriter(sfd.FileName))
+                sfd.Filter = "*.grid|*.grid";
+                sfd.ShowDialog();
+
+                if (sfd.FileName != "")
                 {
-                    writer.Serialize(sw, griddata);
+                    using (StreamWriter sw = new StreamWriter(sfd.FileName))
+                    {
+                        writer.Serialize(sw, griddata);
+                    }
                 }
             }
         }
@@ -292,7 +293,9 @@ namespace MissionPlanner
 
             boxpoly.Points.ForEach(x => { newlist.Add(x); });
 
-            grid = Grid.CreateGrid(newlist, (double)NUM_altitude.Value, (double)NUM_Distance, (double)NUM_spacing, (double)NUM_angle.Value, 0, 0, Grid.StartPosition.Home, false, 0);
+            grid = Utilities.Grid.CreateGrid(newlist, (double) NUM_altitude.Value, (double) NUM_Distance,
+                (double) NUM_spacing, (double) NUM_angle.Value, 0, 0, Utilities.Grid.StartPosition.Home, false, 0, 0,
+                plugin.Host.cs.HomeLocation);
 
             List<PointLatLng> list2 = new List<PointLatLng>();
 
@@ -330,35 +333,40 @@ namespace MissionPlanner
                     }
                     try
                     {
-                        if (TXT_fovH != "")
+                        if (chk_footprints.Checked)
                         {
-                            double fovh = double.Parse(TXT_fovH);
-                            double fovv = double.Parse(TXT_fovV);
-
-                            double startangle = 0;
-
-                            if (!RAD_camdirectionland.Checked)
+                            if (TXT_fovH != "")
                             {
-                                startangle = 90;
-                            }
+                                double fovh = double.Parse(TXT_fovH);
+                                double fovv = double.Parse(TXT_fovV);
 
-                            double angle1 = startangle - (Math.Tan((fovv / 2.0) / (fovh / 2.0)) * rad2deg);
-                            double dist1 = Math.Sqrt(Math.Pow(fovh / 2.0, 2) + Math.Pow(fovv / 2.0, 2));
+                                double startangle = 0;
 
-                            double bearing = (double)NUM_angle.Value;// (prevpoint.GetBearing(item) + 360.0) % 360;
+                                if (!RAD_camdirectionland.Checked)
+                                {
+                                    startangle = 90;
+                                }
 
-                            List<PointLatLng> footprint = new List<PointLatLng>();
-                            footprint.Add(item.newpos(bearing + angle1, dist1));
-                            footprint.Add(item.newpos(bearing + 180 - angle1, dist1));
-                            footprint.Add(item.newpos(bearing + 180 + angle1, dist1));
-                            footprint.Add(item.newpos(bearing - angle1, dist1));
+                                double angle1 = startangle - (Math.Tan((fovv/2.0)/(fovh/2.0))*rad2deg);
+                                double dist1 = Math.Sqrt(Math.Pow(fovh/2.0, 2) + Math.Pow(fovv/2.0, 2));
 
-                            GMapPolygon poly = new GMapPolygon(footprint, a.ToString());
-                            poly.Stroke.Color = Color.FromArgb(250 - ((a * 5) % 240), 250 - ((a * 3) % 240), 250 - ((a * 9) % 240));
-                            poly.Stroke.Width = 1;
-                            poly.Fill = new SolidBrush(Color.FromArgb(40, Color.Purple));
-                            if (chk_footprints.Checked)
+                                double bearing = (double) NUM_angle.Value;
+                                    // (prevpoint.GetBearing(item) + 360.0) % 360;
+
+                                List<PointLatLng> footprint = new List<PointLatLng>();
+                                footprint.Add(item.newpos(bearing + angle1, dist1));
+                                footprint.Add(item.newpos(bearing + 180 - angle1, dist1));
+                                footprint.Add(item.newpos(bearing + 180 + angle1, dist1));
+                                footprint.Add(item.newpos(bearing - angle1, dist1));
+
+                                GMapPolygon poly = new GMapPolygon(footprint, a.ToString());
+                                poly.Stroke.Color = Color.FromArgb(250 - ((a*5)%240), 250 - ((a*3)%240),
+                                    250 - ((a*9)%240));
+                                poly.Stroke.Width = 1;
+                                poly.Fill = new SolidBrush(Color.FromArgb(40, Color.Purple));
+
                                 layerpolygons.Polygons.Add(poly);
+                            }
                         }
                     }
                     catch { }
@@ -456,7 +464,7 @@ namespace MissionPlanner
 
             CoordinateTransformationFactory ctfac = new CoordinateTransformationFactory();
 
-            GeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
+            IGeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
 
             int utmzone = (int)((polygon[0].Lng - -186.0) / 6.0);
 
@@ -495,7 +503,7 @@ namespace MissionPlanner
 
                 if (CHK_includetakeoff.Checked)
                 {
-                    if (plugin.Host.cs.firmware == MainV2.Firmwares.ArduCopter2)
+                    if (plugin.Host.cs.firmware == Firmwares.ArduCopter2)
                     {
                         plugin.Host.AddWPtoList(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 30);
                     }
@@ -551,15 +559,15 @@ namespace MissionPlanner
             doCalc();
         }
 
-        private void xmlcamera(bool write, string filename = "cameras.xml")
+        private void xmlcamera(bool write, string filename)
         {
-            bool exists = File.Exists(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + filename);
+            bool exists = File.Exists(filename);
 
             if (write || !exists)
             {
                 try
                 {
-                    XmlTextWriter xmlwriter = new XmlTextWriter(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + filename, Encoding.ASCII);
+                    XmlTextWriter xmlwriter = new XmlTextWriter(filename, Encoding.ASCII);
                     xmlwriter.Formatting = Formatting.Indented;
 
                     xmlwriter.WriteStartDocument();
@@ -596,7 +604,7 @@ namespace MissionPlanner
             {
                 try
                 {
-                    using (XmlTextReader xmlreader = new XmlTextReader(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + filename))
+                    using (XmlTextReader xmlreader = new XmlTextReader(filename))
                     {
                         while (xmlreader.Read())
                         {
@@ -674,7 +682,7 @@ namespace MissionPlanner
         {
             try
             {
-                using (XmlTextReader xmlreader = new XmlTextReader(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + filename))
+                using (XmlTextReader xmlreader = new XmlTextReader(filename))
                 {
                     while (xmlreader.Read())
                     {
@@ -725,8 +733,6 @@ namespace MissionPlanner
                                 case "xml":
                                     break;
                                 default:
-                                    if (xmlreader.Name == "") // line feeds
-                                        break;
                                     break;
                             }
                         }
@@ -810,9 +816,9 @@ namespace MissionPlanner
        
         private void GridUI_Load(object sender, EventArgs e)
         {
-            xmlcamera(false, "camerasBuiltin.xml");
+            xmlcamera(false, Settings.GetRunningDirectory() + "camerasBuiltin.xml");
 
-            xmlcamera(false);
+            xmlcamera(false, Settings.GetUserDataDirectory() + "cameras.xml");
 
             xmlaircraft();
 
@@ -1011,17 +1017,6 @@ namespace MissionPlanner
                     layerpolygons.Markers.Add(new GMarkerGoogle(bestp0, GMarkerGoogleType.blue));
                     layerpolygons.Markers.Add(new GMarkerGoogle(bestp1, GMarkerGoogleType.blue));
 
-                    if (bestcrosstrack > 0) 
-                    {
-                        bearing += 90;
-                        bearing = (bearing + 360) % 360;
-                    }
-                    else
-                    {
-                        bearing -= 90;
-                        bearing = (bearing + 360) % 360;
-                    }
-
                     bearing = ((PointLatLngAlt)mousestart).GetBearing(mousecurrent);
 
                     var newposp0 = bestp0.newpos(bearing, Math.Abs(bestcrosstrack));
@@ -1060,11 +1055,6 @@ namespace MissionPlanner
         private void map_OnPolygonLeave(GMapPolygon item)
         {
             mouseinsidepoly = false;
-        }
-
-        private void map_OnPolygonClick(GMapPolygon item, MouseEventArgs e)
-        {
-
         }
 
         private void toolStripButtonpan_Click(object sender, EventArgs e)

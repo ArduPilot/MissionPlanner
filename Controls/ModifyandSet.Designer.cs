@@ -68,9 +68,9 @@
             // 
             // ModifyandSet
             // 
-            resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            
             this.Controls.Add(this.flowLayoutPanel1);
+            resources.ApplyResources(this, "$this");
             this.Name = "ModifyandSet";
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.flowLayoutPanel1.ResumeLayout(false);

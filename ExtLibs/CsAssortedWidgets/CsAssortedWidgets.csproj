@@ -1,129 +1,25 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{3B933839-C505-48D4-A5CE-D9375C88E943}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CsAssortedWidgets</RootNamespace>
-    <AssemblyName>CsAssortedWidgets.net</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <SourceAnalysisOverrideSettingsFile>C:\Documents and Settings\maguirado\Datos de programa\ICSharpCode/SharpDevelop3.0\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
-    <OutputPath>bin\debug</OutputPath>
-    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
-    <NoStdLib>False</NoStdLib>
-    <DebugType>Full</DebugType>
-    <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <DebugSymbols>true</DebugSymbols>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <UpgradeBackupLocation />
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <ApplicationIcon />
+    <OutputTypeEx>library</OutputTypeEx>
+    <StartupObject />
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>True</DebugSymbols>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <ErrorReport>prompt</ErrorReport>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <ErrorReport>prompt</ErrorReport>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <Optimize>False</Optimize>
-    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
-    <RegisterForComInterop>False</RegisterForComInterop>
-    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
-    <BaseAddress>4194304</BaseAddress>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <OutputPath>bin\release\</OutputPath>
-    <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="OpenTK, Version=1.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\OpenTK.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
+    <Folder Include="Properties\" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Events\Event.cs" />
-    <Compile Include="Events\MouseEvent.cs" />
-    <Compile Include="Graphics\TColor.cs" />
-    <Compile Include="Graphics\IndexStream.cs" />
-    <Compile Include="Graphics\Mesh.cs" />
-    <Compile Include="GLFont\Text.cs" />
-    <Compile Include="Graphics\VectorStream.cs" />
-    <Compile Include="Graphics\SubImage.cs" />
-    <Compile Include="Graphics\textures.cs" />
-    <Compile Include="Layouts\BorderLayout.cs" />
-    <Compile Include="Layouts\FlowLayout.cs" />
-    <Compile Include="Layouts\GirdLayout.cs" />
-    <Compile Include="Layouts\Layout.cs" />
-    <Compile Include="Managers\DialogManager.cs" />
-    <Compile Include="Managers\DragManager.cs" />
-    <Compile Include="Managers\DropListManager.cs" />
-    <Compile Include="Math3D\Matrix4f.cs" />
-    <Compile Include="Math3D\Vector2f.cs" />
-    <Compile Include="Math3D\Vector3f.cs" />
-    <Compile Include="Math3D\Vector4f.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Test\CheckNRadioTestDialog.cs" />
-    <Compile Include="Test\DialogTestDialog.cs" />
-    <Compile Include="Test\MultipleLayoutTestDialog.cs" />
-    <Compile Include="Test\ProgressNSliderTestDialog.cs" />
-    <Compile Include="Test\ScrollPanelTestDialog.cs" />
-    <Compile Include="Test\TextNDropTestDialog.cs" />
-    <Compile Include="Themes\DefaultTheme.cs" />
-    <Compile Include="Themes\Theme.cs" />
-    <Compile Include="UI.cs" />
-    <Compile Include="Util\BoundingBox.cs" />
-    <Compile Include="Util\Position.cs" />
-    <Compile Include="Util\Size.cs" />
-    <Compile Include="Widgets\buttons.cs" />
-    <Compile Include="Widgets\Component.cs" />
-    <Compile Include="Widgets\Container.cs" />
-    <Compile Include="Widgets\dialogs.cs" />
-    <Compile Include="Widgets\DragAble.cs" />
-    <Compile Include="Widgets\drop_list.cs" />
-    <Compile Include="Widgets\IElement.cs" />
-    <Compile Include="Widgets\Label.cs" />
-    <Compile Include="Widgets\Menus.cs" />
-    <Compile Include="Widgets\Panel.cs" />
-    <Compile Include="Widgets\ProgressBar.cs" />
-    <Compile Include="Widgets\Scrolls.cs" />
-    <Compile Include="Widgets\sliders.cs" />
-    <Compile Include="Widgets\Spacer.cs" />
-    <Content Include="AssortedWidgets.cd" />
+    <PackageReference Include="OpenTK" Version="3.0.1" />
+    <PackageReference Include="System.Drawing.Common" Version="4.5.1" />
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\move_all.cur" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\arrow-transfer.png" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
+
 </Project>

@@ -10,7 +10,7 @@ using System.Drawing.Drawing2D;
 
 namespace MissionPlanner.Controls
 {
-    public partial class MyProgressBar : UserControl
+    public partial class MyProgressBar : MyUserControl
     {
         //
         // Summary:
@@ -113,12 +113,15 @@ namespace MissionPlanner.Controls
             if (Style == ProgressBarStyle.Marquee)
                 progressdone = new Rectangle(new Point(position, 1), new System.Drawing.Size(BarSize, this.Height - 2));
 
-            // fill the background
-            e.Graphics.FillRectangle(new SolidBrush(BackColor), outside);
-            // draw the progress
-            e.Graphics.FillRectangle(linear, progressdone);
-            // draw the outside
-            e.Graphics.DrawRectangle(new Pen(Outline,1),new Rectangle(0,0,this.Width-1,this.Height-1));
+            if (this.Width > 4 && this.Height > 4)
+            {
+                // fill the background
+                e.Graphics.FillRectangle(new SolidBrush(BackColor), outside);
+                // draw the progress
+                e.Graphics.FillRectangle(linear, progressdone);
+                // draw the outside
+                e.Graphics.DrawRectangle(new Pen(Outline, 1), new Rectangle(0, 0, this.Width - 1, this.Height - 1));
+            }
         }
 
         protected override void OnPaintBackground(PaintEventArgs pevent)

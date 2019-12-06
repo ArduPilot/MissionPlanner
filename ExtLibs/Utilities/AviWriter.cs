@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
@@ -180,21 +179,22 @@ SizeConst = 4)]
     {
         avi_close();
     }
-
-
-    static int nframes;
-    static uint totalsize;
+    
+    int nframes;
+    uint totalsize;
     System.IO.BufferedStream fd;
     DateTime start = DateTime.MinValue;
     int targetfps = 10;
     int width = 0;
     int height = 0;
 
+    object locker = new object();
+
     List<AVIINDEXENTRY> indexs = new List<AVIINDEXENTRY>();
 
     public void avi_close()
     {
-        lock (indexs)
+        lock (locker)
         {
             if (fd != null)
             {
@@ -203,31 +203,35 @@ SizeConst = 4)]
                 fd.Close();
                 fd.Dispose();
             }
+
+            fd = null;
         }
-        fd = null;
     }
 
     /* start writing an AVI file */
     public void avi_start(string filename)
     {
-        avi_close();
+        lock (locker)
+        {
+            avi_close();
 
-        fd = new BufferedStream(File.Open(filename, FileMode.Create));
+            fd = new BufferedStream(File.Open(filename, FileMode.Create));
 
-        fd.Seek(8204,SeekOrigin.Begin);
+            fd.Seek(8204, SeekOrigin.Begin);
 
-        indexs.Clear();
+            indexs.Clear();
 
-        nframes = 0;
-        totalsize = 0;
-        start = DateTime.Now;
+            nframes = 0;
+            totalsize = 0;
+            start = DateTime.Now;
+        }
     }
 
 
     /* add a jpeg frame to an AVI file */
     public void avi_add(u8[] buf, uint size)
     {
-        lock (indexs)
+        lock (locker)
         {
             uint osize = size;
             Console.WriteLine(DateTime.Now.Millisecond + " avi frame");
@@ -265,7 +269,10 @@ SizeConst = 4)]
     {
         this.width = width;
         this.height = height;
-        targetfps = fps;
+        lock (locker)
+        {
+            targetfps = fps;
+        }
 
         riff_head rh = new riff_head { riff = "RIFF".ToCharArray(), size = 0, avistr = "AVI ".ToCharArray() };
         list_head lh1 = new list_head { list = "LIST".ToCharArray(), size = 0, type = "hdrl".ToCharArray() };

@@ -1,0 +1,34 @@
+<UserControl x:Class="MissionPlanner.GCSViews.ConfigurationView.ConfigFirmwareManifest" d:DesignHeight="359" d:DesignWidth="946"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+xmlns:BackstageView="using:MissionPlanner.Controls.BackstageView"
+xmlns:Controls="using:MissionPlanner.Controls"
+xmlns:GCSViews="using:MissionPlanner.GCSViews"
+xmlns:Wizard="using:MissionPlanner.Wizard"
+xmlns:ConfigurationView="using:MissionPlanner.GCSViews.ConfigurationView"
+xmlns:Custom="using:Custom"
+xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+xmlns:PreFlight="using:MissionPlanner.Controls.PreFlight"
+mc:Ignorable="d"
+> <Grid><TextBlock Name="lbl_bootloaderupdate" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="522,341,0,0" Width="99" Height="17">Bootloader Update</TextBlock>
+<TextBlock Name="lbl_px4bl" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="624,341,0,0" Width="91" Height="17">Force Bootloader</TextBlock>
+<TextBlock Name="lbl_Custom_firmware_label" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="736,341,0,0" Width="115" Height="17">Load custom firmware</TextBlock>
+<TextBlock Name="lbl_devfw" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="867,341,0,0" Width="80" Height="17">Beta firmwares</TextBlock>
+<TextBlock Name="lbl_status" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,341,0,0" Width="36" Height="17">Status</TextBlock>
+<ProgressBar Name="progress" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,315,0,0" Width="940" Height="23"></ProgressBar>
+<Controls:ImageLabel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="783,159,0,0" Width="150" Height="150"></Controls:ImageLabel>
+<Controls:ImageLabel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="783,3,0,0" Width="150" Height="150"></Controls:ImageLabel>
+<Controls:ImageLabel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,159,0,0" Width="150" Height="150"></Controls:ImageLabel>
+<Controls:ImageLabel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,3,0,0" Width="150" Height="150"></Controls:ImageLabel>
+<Controls:ImageLabel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="627,3,0,0" Width="150" Height="150"></Controls:ImageLabel>
+<Controls:ImageLabel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="627,159,0,0" Width="150" Height="150"></Controls:ImageLabel>
+<Controls:ImageLabel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="159,159,0,0" Width="150" Height="150"></Controls:ImageLabel>
+<Controls:ImageLabel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="471,159,0,0" Width="150" Height="150"></Controls:ImageLabel>
+<Controls:ImageLabel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="315,159,0,0" Width="150" Height="150"></Controls:ImageLabel>
+<Controls:ImageLabel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="471,3,0,0" Width="150" Height="150"></Controls:ImageLabel>
+<Controls:ImageLabel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="315,3,0,0" Width="150" Height="150"></Controls:ImageLabel>
+<Controls:ImageLabel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="159,3,0,0" Width="150" Height="150"></Controls:ImageLabel>
+</Grid></UserControl>

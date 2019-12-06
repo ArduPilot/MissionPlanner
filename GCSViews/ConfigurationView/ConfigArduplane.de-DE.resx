@@ -112,76 +112,46 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="label49.Text" xml:space="preserve">
-    <value>INT_MAX</value>
+  <data name="label12.Text" xml:space="preserve">
+    <value>Steigflug Max (m/s)</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>Periode</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>Pitch Dämpfung</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>Sinkflug Min (m/s)</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>Zeitzkonstante</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>Sinkflug Max (m/s)</value>
   </data>
   <data name="label83.Text" xml:space="preserve">
-    <value>P to T</value>
-  </data>
-  <data name="label80.Text" xml:space="preserve">
-    <value>Gain (cm)</value>
-  </data>
-  <data name="label81.Text" xml:space="preserve">
-    <value>Pitch Comp</value>
-  </data>
-  <data name="label56.Text" xml:space="preserve">
-    <value>P</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>FBW max</value>
-  </data>
-  <data name="label54.Text" xml:space="preserve">
-    <value>D</value>
-  </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>FBW min</value>
+    <value>P zu T</value>
   </data>
   <data name="groupBox8.Text" xml:space="preserve">
-    <value>Servo Roll Pid</value>
+    <value>Servo Roll PID</value>
   </data>
   <data name="label57.Text" xml:space="preserve">
     <value>INT_MAX</value>
   </data>
   <data name="groupBox9.Text" xml:space="preserve">
-    <value>Servo Pitch Pid</value>
-  </data>
-  <data name="label52.Text" xml:space="preserve">
-    <value>P</value>
-  </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Ratio</value>
-  </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>Max</value>
-  </data>
-  <data name="label55.Text" xml:space="preserve">
-    <value>I</value>
-  </data>
-  <data name="label50.Text" xml:space="preserve">
-    <value>D</value>
-  </data>
-  <data name="label7.Text" xml:space="preserve">
-    <value>Min</value>
-  </data>
-  <data name="label4.Text" xml:space="preserve">
-    <value>Cruise</value>
-  </data>
-  <data name="label53.Text" xml:space="preserve">
-    <value>INT_MAX</value>
+    <value>Servo Pitch PID</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>FS Value</value>
+    <value>Anstiegsrate %/s</value>
   </data>
   <data name="groupBox2.Text" xml:space="preserve">
     <value>Navigationswinkel</value>
-  </data>
-  <data name="label51.Text" xml:space="preserve">
-    <value>I</value>
   </data>
   <data name="groupBox3.Text" xml:space="preserve">
     <value>Schub 0-100%</value>
@@ -192,62 +162,32 @@
   <data name="groupBox1.Text" xml:space="preserve">
     <value>Geschwindigkeit m/s</value>
   </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Dämpfung</value>
+  </data>
   <data name="label58.Text" xml:space="preserve">
-    <value>D</value>
-  </data>
-  <data name="label64.Text" xml:space="preserve">
-    <value>P</value>
-  </data>
-  <data name="label65.Text" xml:space="preserve">
-    <value>INT_MAX</value>
+    <value>Dämpfung</value>
   </data>
   <data name="label59.Text" xml:space="preserve">
-    <value>I</value>
-  </data>
-  <data name="label66.Text" xml:space="preserve">
-    <value>D</value>
-  </data>
-  <data name="label67.Text" xml:space="preserve">
     <value>I</value>
   </data>
   <data name="label60.Text" xml:space="preserve">
     <value>P</value>
   </data>
-  <data name="label61.Text" xml:space="preserve">
-    <value>INT_MAX</value>
-  </data>
-  <data name="label62.Text" xml:space="preserve">
-    <value>D</value>
-  </data>
-  <data name="label63.Text" xml:space="preserve">
-    <value>I</value>
-  </data>
   <data name="groupBox16.Text" xml:space="preserve">
     <value>Andere Mix's</value>
   </data>
   <data name="groupBox14.Text" xml:space="preserve">
-    <value>Energy/Alt Pid</value>
+    <value>Energie/Höhe PID</value>
   </data>
   <data name="groupBox12.Text" xml:space="preserve">
-    <value>Nav Pitch AS Pid</value>
-  </data>
-  <data name="label68.Text" xml:space="preserve">
-    <value>P</value>
-  </data>
-  <data name="groupBox15.Text" xml:space="preserve">
-    <value>Xtrack Pids</value>
-  </data>
-  <data name="label69.Text" xml:space="preserve">
-    <value>INT_MAX</value>
+    <value>Nav Pitch AS PID</value>
   </data>
   <data name="groupBox10.Text" xml:space="preserve">
-    <value>Servo Gieren Pid</value>
+    <value>Servo Yaw PID</value>
   </data>
   <data name="groupBox13.Text" xml:space="preserve">
-    <value>Nav Nicken Alt Pid</value>
-  </data>
-  <data name="groupBox11.Text" xml:space="preserve">
-    <value>Nav Rollen Pid</value>
+    <value>Nav Pitch Alt PID</value>
   </data>
   <data name="label38.Text" xml:space="preserve">
     <value>Nicken Max</value>
@@ -258,35 +198,14 @@
   <data name="label39.Text" xml:space="preserve">
     <value>Nicken Min</value>
   </data>
-  <data name="label74.Text" xml:space="preserve">
-    <value>D</value>
-  </data>
-  <data name="label76.Text" xml:space="preserve">
-    <value>P</value>
-  </data>
-  <data name="label75.Text" xml:space="preserve">
-    <value>I</value>
-  </data>
-  <data name="label70.Text" xml:space="preserve">
-    <value>D</value>
-  </data>
-  <data name="label72.Text" xml:space="preserve">
-    <value>P</value>
-  </data>
-  <data name="label71.Text" xml:space="preserve">
-    <value>I</value>
-  </data>
-  <data name="label73.Text" xml:space="preserve">
-    <value>INT_MAX</value>
-  </data>
   <data name="BUT_writePIDS.Text" xml:space="preserve">
     <value>Parameter speichern</value>
   </data>
   <data name="label78.Text" xml:space="preserve">
     <value>Ruder Mix</value>
   </data>
-  <data name="label79.Text" xml:space="preserve">
-    <value>Eingangswinkel</value>
+  <data name="BUT_refreshpart.Text" xml:space="preserve">
+    <value>Bildschirm aktualisieren</value>
   </data>
   <data name="BUT_rerequestparams.Text" xml:space="preserve">
     <value>Parameter aktualisieren</value>

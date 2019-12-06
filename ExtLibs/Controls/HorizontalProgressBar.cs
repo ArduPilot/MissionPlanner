@@ -34,6 +34,31 @@ namespace MissionPlanner.Controls
         int _max = 0;
         int _value = 0;
         bool ctladded = false;
+        bool _drawlabel = true;
+
+        [System.ComponentModel.Browsable(true),
+System.ComponentModel.Category("Mine"),
+System.ComponentModel.Description("draw text under Bar")]
+        public bool DrawLabel
+        {
+            get
+            {
+                return _drawlabel;
+            }
+            set
+            {
+                _drawlabel = value;
+                if (_drawlabel == false)
+                {
+                    if (this.Parent != null && ctladded == true)
+                    {
+                        this.Parent.Controls.Remove(lbl);
+                        this.Parent.Controls.Remove(lbl1);
+                    }
+                    ctladded = true;
+                }
+            }
+        }
         System.Windows.Forms.Label lbl1 = new System.Windows.Forms.Label();
         System.Windows.Forms.Label lbl = new System.Windows.Forms.Label();
 
@@ -42,7 +67,8 @@ namespace MissionPlanner.Controls
             : base()
         {
             drawlbl();
-            //this.Parent.Controls.AddRange(new Control[] { lbl, lbl1 });
+            Maximum = 100;
+            Minimum = 0;
         }
 
         public new int Value
@@ -63,11 +89,20 @@ namespace MissionPlanner.Controls
                 {
                     ans = base.Maximum;
                 }
-                base.Value = ans;
-                //drawlbl();
-                base.Value = ans - 1;
-                //drawlbl();
-                base.Value = ans;
+
+                // To get around this animation, we need to move the progress bar backwards.
+                if (ans == Maximum)
+                {
+                    // Special case (can't set value > Maximum).
+                    base.Value = ans;           // Set the value
+                    base.Value = ans - 1;       // Move it backwards
+                }
+                else
+                {
+                    base.Value = ans + 1;       // Move past
+                }
+                base.Value = ans;               // Move to correct value
+
                 drawlbl();
 
                 if (this.Parent != null && ctladded == false)
@@ -79,6 +114,7 @@ namespace MissionPlanner.Controls
             }
         }
 
+        [System.ComponentModel.Browsable(true), DefaultValue(0)]
         public new int Minimum
         {
             get { return _min; }
@@ -105,6 +141,7 @@ namespace MissionPlanner.Controls
             }
         }
 
+        [System.ComponentModel.Browsable(true), DefaultValue(100)]
         public new int Maximum { get { return _max; } set { _max = value; base.Maximum = value; } }
 
         [System.ComponentModel.Browsable(true),
@@ -121,21 +158,25 @@ System.ComponentModel.Description("Text under Bar")]
                 if (m_Text != value)
                 {
                     m_Text = value;
+                    drawlbl();
                 }
             }
         }
 
         private void drawlbl()
         {
-            lbl.Location = new Point(this.Location.X, this.Location.Y + this.Height + 2);
-            lbl.ClientSize = new Size(this.Width, 13);
-            lbl.TextAlign = ContentAlignment.MiddleCenter;
-            lbl.Text = m_Text;
+            if (DrawLabel)
+            {
+                lbl.Location = new Point(this.Location.X, this.Location.Y + this.Height + 2);
+                lbl.ClientSize = new Size(this.Width, 13);
+                lbl.TextAlign = ContentAlignment.MiddleCenter;
+                lbl.Text = m_Text;
 
-            lbl1.Location = new Point(this.Location.X, this.Location.Y + this.Height + 15);
-            lbl1.ClientSize = new Size(this.Width, 13);
-            lbl1.TextAlign = ContentAlignment.MiddleCenter;
-            lbl1.Text = Value.ToString();
+                lbl1.Location = new Point(this.Location.X, this.Location.Y + this.Height + 15);
+                lbl1.ClientSize = new Size(this.Width, 13);
+                lbl1.TextAlign = ContentAlignment.MiddleCenter;
+                lbl1.Text = Value.ToString();
+            }
 
             if (minline != 0 || maxline != 0)
             {
@@ -175,7 +216,7 @@ System.ComponentModel.Description("Text under Bar")]
         public int minline { get; set; }
         public int maxline { get; set; }
 
-        protected override void OnPaint(PaintEventArgs e)
+        protected new void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
             drawlbl();

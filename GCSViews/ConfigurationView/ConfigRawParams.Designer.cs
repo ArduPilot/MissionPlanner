@@ -1,4 +1,6 @@
-﻿namespace MissionPlanner.GCSViews.ConfigurationView
+﻿using MissionPlanner.Controls;
+
+namespace MissionPlanner.GCSViews.ConfigurationView
 {
     partial class ConfigRawParams
     {
@@ -30,28 +32,31 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigRawParams));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.BUT_compare = new MissionPlanner.Controls.MyButton();
             this.BUT_rerequestparams = new MissionPlanner.Controls.MyButton();
             this.BUT_writePIDS = new MissionPlanner.Controls.MyButton();
             this.BUT_save = new MissionPlanner.Controls.MyButton();
             this.BUT_load = new MissionPlanner.Controls.MyButton();
-            this.Params = new System.Windows.Forms.DataGridView();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.label1 = new System.Windows.Forms.Label();
+            this.BUT_paramfileload = new MissionPlanner.Controls.MyButton();
+            this.CMB_paramfiles = new System.Windows.Forms.ComboBox();
+            this.BUT_reset_params = new MissionPlanner.Controls.MyButton();
+            this.txt_search = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.BUT_commitToFlash = new MissionPlanner.Controls.MyButton();
+            this.chk_modified = new System.Windows.Forms.CheckBox();
+            this.Params = new MissionPlanner.Controls.MyDataGridView();
             this.Command = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Units = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Options = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Desc = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.label1 = new System.Windows.Forms.Label();
-            this.BUT_find = new MissionPlanner.Controls.MyButton();
-            this.BUT_paramfileload = new MissionPlanner.Controls.MyButton();
-            this.CMB_paramfiles = new System.Windows.Forms.ComboBox();
-            this.BUT_reset_params = new MissionPlanner.Controls.MyButton();
+            this.Fav = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.Params)).BeginInit();
             this.SuspendLayout();
             // 
@@ -90,84 +95,6 @@
             this.BUT_load.UseVisualStyleBackColor = true;
             this.BUT_load.Click += new System.EventHandler(this.BUT_load_Click);
             // 
-            // Params
-            // 
-            this.Params.AllowUserToAddRows = false;
-            this.Params.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.Black;
-            this.Params.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle6;
-            resources.ApplyResources(this.Params, "Params");
-            this.Params.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.Color.Maroon;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Params.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
-            this.Params.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.Params.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Command,
-            this.Value,
-            this.Units,
-            this.Options,
-            this.Desc});
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Params.DefaultCellStyle = dataGridViewCellStyle9;
-            this.Params.Name = "Params";
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Params.RowHeadersDefaultCellStyle = dataGridViewCellStyle10;
-            this.Params.RowHeadersVisible = false;
-            this.Params.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
-            this.Params.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.Params_CellValueChanged);
-            // 
-            // Command
-            // 
-            resources.ApplyResources(this.Command, "Command");
-            this.Command.Name = "Command";
-            this.Command.ReadOnly = true;
-            // 
-            // Value
-            // 
-            resources.ApplyResources(this.Value, "Value");
-            this.Value.Name = "Value";
-            // 
-            // Units
-            // 
-            this.Units.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            resources.ApplyResources(this.Units, "Units");
-            this.Units.Name = "Units";
-            this.Units.ReadOnly = true;
-            // 
-            // Options
-            // 
-            this.Options.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            resources.ApplyResources(this.Options, "Options");
-            this.Options.Name = "Options";
-            this.Options.ReadOnly = true;
-            // 
-            // Desc
-            // 
-            this.Desc.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Desc.DefaultCellStyle = dataGridViewCellStyle8;
-            resources.ApplyResources(this.Desc, "Desc");
-            this.Desc.Name = "Desc";
-            this.Desc.ReadOnly = true;
-            // 
             // toolTip1
             // 
             this.toolTip1.AutoPopDelay = 180000;
@@ -178,13 +105,6 @@
             // 
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
-            // 
-            // BUT_find
-            // 
-            resources.ApplyResources(this.BUT_find, "BUT_find");
-            this.BUT_find.Name = "BUT_find";
-            this.BUT_find.UseVisualStyleBackColor = true;
-            this.BUT_find.Click += new System.EventHandler(this.BUT_find_Click);
             // 
             // BUT_paramfileload
             // 
@@ -207,13 +127,127 @@
             this.BUT_reset_params.UseVisualStyleBackColor = true;
             this.BUT_reset_params.Click += new System.EventHandler(this.BUT_reset_params_Click);
             // 
+            // txt_search
+            // 
+            resources.ApplyResources(this.txt_search, "txt_search");
+            this.txt_search.Name = "txt_search";
+            this.txt_search.TextChanged += new System.EventHandler(this.txt_search_TextChanged);
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
+            // 
+            // BUT_commitToFlash
+            // 
+            resources.ApplyResources(this.BUT_commitToFlash, "BUT_commitToFlash");
+            this.BUT_commitToFlash.Name = "BUT_commitToFlash";
+            this.BUT_commitToFlash.UseVisualStyleBackColor = true;
+            this.BUT_commitToFlash.Click += new System.EventHandler(this.BUT_commitToFlash_Click);
+            // 
+            // chk_modified
+            // 
+            resources.ApplyResources(this.chk_modified, "chk_modified");
+            this.chk_modified.Name = "chk_modified";
+            this.chk_modified.UseVisualStyleBackColor = true;
+            this.chk_modified.CheckedChanged += new System.EventHandler(this.chk_modified_CheckedChanged);
+            // 
+            // Params
+            // 
+            this.Params.AllowUserToAddRows = false;
+            this.Params.AllowUserToDeleteRows = false;
+            resources.ApplyResources(this.Params, "Params");
+            this.Params.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Maroon;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Params.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.Params.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Command,
+            this.Value,
+            this.Units,
+            this.Options,
+            this.Desc,
+            this.Fav});
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Params.DefaultCellStyle = dataGridViewCellStyle3;
+            this.Params.Name = "Params";
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Params.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            this.Params.RowHeadersVisible = false;
+            this.Params.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
+            this.Params.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Params_CellClick);
+            this.Params.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Params_CellContentClick);
+            this.Params.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.Params_CellValueChanged);
+            // 
+            // Command
+            // 
+            this.Command.FillWeight = 20F;
+            resources.ApplyResources(this.Command, "Command");
+            this.Command.Name = "Command";
+            this.Command.ReadOnly = true;
+            // 
+            // Value
+            // 
+            this.Value.FillWeight = 11F;
+            resources.ApplyResources(this.Value, "Value");
+            this.Value.Name = "Value";
+            // 
+            // Units
+            // 
+            this.Units.FillWeight = 9F;
+            resources.ApplyResources(this.Units, "Units");
+            this.Units.Name = "Units";
+            this.Units.ReadOnly = true;
+            // 
+            // Options
+            // 
+            this.Options.FillWeight = 28F;
+            resources.ApplyResources(this.Options, "Options");
+            this.Options.Name = "Options";
+            this.Options.ReadOnly = true;
+            // 
+            // Desc
+            // 
+            this.Desc.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Desc.DefaultCellStyle = dataGridViewCellStyle2;
+            this.Desc.FillWeight = 25F;
+            resources.ApplyResources(this.Desc, "Desc");
+            this.Desc.Name = "Desc";
+            this.Desc.ReadOnly = true;
+            // 
+            // Fav
+            // 
+            this.Fav.FillWeight = 4F;
+            resources.ApplyResources(this.Fav, "Fav");
+            this.Fav.Name = "Fav";
+            // 
             // ConfigRawParams
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.Controls.Add(this.chk_modified);
+            this.Controls.Add(this.BUT_commitToFlash);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.txt_search);
             this.Controls.Add(this.BUT_reset_params);
             this.Controls.Add(this.BUT_paramfileload);
             this.Controls.Add(this.CMB_paramfiles);
-            this.Controls.Add(this.BUT_find);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.BUT_compare);
             this.Controls.Add(this.BUT_rerequestparams);
@@ -236,17 +270,21 @@
         private Controls.MyButton BUT_writePIDS;
         private Controls.MyButton BUT_save;
         private Controls.MyButton BUT_load;
-        private System.Windows.Forms.DataGridView Params;
+        private Controls.MyDataGridView Params;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Label label1;
-        private Controls.MyButton BUT_find;
         private Controls.MyButton BUT_paramfileload;
         private System.Windows.Forms.ComboBox CMB_paramfiles;
+        private Controls.MyButton BUT_reset_params;
+        private System.Windows.Forms.TextBox txt_search;
+        private System.Windows.Forms.Label label2;
+        private MyButton BUT_commitToFlash;
+        private System.Windows.Forms.CheckBox chk_modified;
         private System.Windows.Forms.DataGridViewTextBoxColumn Command;
         private System.Windows.Forms.DataGridViewTextBoxColumn Value;
         private System.Windows.Forms.DataGridViewTextBoxColumn Units;
         private System.Windows.Forms.DataGridViewTextBoxColumn Options;
         private System.Windows.Forms.DataGridViewTextBoxColumn Desc;
-        private Controls.MyButton BUT_reset_params;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Fav;
     }
 }

@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Xamarin"
+             xmlns:forms="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
+             xmlns:controls="clr-namespace:MissionPlanner.Controls;assembly=Xamarin"
+             xmlns:GMap="clr-namespace:GMap.NET.WindowsForms;assembly=Xamarin"
+             xmlns:tabView="clr-namespace:Xam.Plugin.TabView;assembly=Xam.Plugin.TabView"
+             x:Class="Xamarin.FlightData" >
+        <Grid Margin="0" Padding="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35*"/>
+                <RowDefinition Height="32*" />
+                <RowDefinition Height="32*" />
+                <RowDefinition Height="30" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="35*" />
+                <ColumnDefinition Width="65*" />
+                <ColumnDefinition Width="30" />
+            </Grid.ColumnDefinitions>
+            <controls:HUD BackgroundColor="Blue" x:Name="hud1" Grid.Column="0" Grid.Row="0"/>
+            <tabView:TabViewControl Grid.Column="0" Grid.Row="1" Grid.RowSpan="3">
+                <tabView:TabViewControl.ItemSource>
+
+                    <tabView:TabItem HeaderText="Telemetry Logs">
+                        <StackLayout>
+                            <Button x:Name="BUT_loadtelem" Clicked="BUT_loadtelem_Click" Text="Load Log"/>
+                            <Label x:Name="lbl_playbackspeed" Text="x 1.0"/>
+                            <Label x:Name="lbl_logpercent" Text="0.00 %"/>
+
+                            <Slider  x:Name="tracklog" ValueChanged="tracklog_Scroll" Minimum="0" Maximum="100"/>
+
+                            <Label x:Name="LBL_logfn" Text=""/>
+                            <Button x:Name="BUT_log2kml" Clicked="BUT_log2kml_Click" Text="Tlog &gt; Kml or Graph"/>
+                            <Button x:Name="BUT_playlog" Clicked="BUT_playlog_Click" Text="Play/Pause"/>
+                        </StackLayout>
+                    </tabView:TabItem>
+                    <tabView:TabItem HeaderText="tab2">
+                        <StackLayout>
+                            <Button Text="b2" Clicked="Button_Onclicked"/>
+                        </StackLayout>
+                    </tabView:TabItem>
+                    <tabView:TabItem HeaderText="tab3">
+                        <StackLayout>
+                            <Button Text="b3"/>
+                        </StackLayout>
+                    </tabView:TabItem>
+                    <tabView:TabItem HeaderText="tab4">
+                        <StackLayout>
+                            <Button Text="b4"/>
+                        </StackLayout>
+                    </tabView:TabItem>
+   
+                </tabView:TabViewControl.ItemSource>
+            </tabView:TabViewControl>
+
+            <GMap:GMapControl Grid.RowSpan="3" Grid.Column="1" BackgroundColor="CornflowerBlue" Grid.Row="0" x:Name="gMapControl1"/>
+
+            <Switch x:Name="CHK_autopan" IsToggled="true" Toggled="CHK_autopan_CheckedChanged" BackgroundColor="Brown" Grid.Column="1" Grid.Row="3"   />
+            <AbsoluteLayout x:Name="slidersAbs" Grid.Column="2" Grid.Row="0" Grid.RowSpan="4" BackgroundColor="#8B9656">
+                <Slider  x:Name="TRK_zoom" AbsoluteLayout.LayoutFlags="PositionProportional" ValueChanged="TRK_zoom_Scroll" Rotation="-90" Maximum="21" Minimum="1" Value="3" AbsoluteLayout.LayoutBounds="0,1,370,30" AnchorX="0" AnchorY="0"/>
+            </AbsoluteLayout>
+
+
+        </Grid>
+</ContentPage>

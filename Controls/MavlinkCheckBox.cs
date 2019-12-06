@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using System.Collections;
 
 namespace MissionPlanner.Controls
 {
@@ -12,16 +8,14 @@ namespace MissionPlanner.Controls
         public new event EventHandler CheckedChanged;
 
         [System.ComponentModel.Browsable(true)]
-        public float OnValue { get; set; }
+        public double OnValue { get; set; }
 
         [System.ComponentModel.Browsable(true)]
-        public float OffValue { get; set; }
+        public double OffValue { get; set; }
 
         [System.ComponentModel.Browsable(true)]
         public string ParamName { get; set; }
 
-        [System.ComponentModel.Browsable(true)]
-        public Hashtable param { get; set; }
 
         Control _control;
 
@@ -33,14 +27,42 @@ namespace MissionPlanner.Controls
             this.Enabled = false;
         }
 
-        public void setup(float OnValue, float OffValue, string paramname, Hashtable paramlist, Control enabledisable = null)
+        public void setup(double[] OnValue, double[] OffValue, string[] paramname, MAVLink.MAVLinkParamList paramlist,
+            Control enabledisable = null)
+        {
+            int idx = 0;
+            foreach (var s in paramname)
+            {
+                if (paramlist.ContainsKey(s))
+                {
+                    setup(OnValue[idx], OffValue[idx], s, paramlist, enabledisable);
+                    return;
+                }
+                idx++;
+            }
+        }
+
+        public void setup(double OnValue, double OffValue, string[] paramname, MAVLink.MAVLinkParamList paramlist,
+            Control enabledisable = null)
+        {
+            foreach (var s in paramname)
+            {
+                if (paramlist.ContainsKey(s))
+                {
+                    setup(OnValue, OffValue, s, paramlist, enabledisable);
+                    return;
+                }
+            }
+        }
+
+        public void setup(double OnValue, double OffValue, string paramname, MAVLink.MAVLinkParamList paramlist,
+            Control enabledisable = null)
         {
             base.CheckedChanged -= MavlinkCheckBox_CheckedChanged;
 
             this.OnValue = OnValue;
             this.OffValue = OffValue;
             this.ParamName = paramname;
-            this.param = paramlist;
             this._control = enabledisable;
 
             if (paramlist.ContainsKey(paramname))
@@ -48,12 +70,12 @@ namespace MissionPlanner.Controls
                 this.Enabled = true;
                 this.Visible = true;
 
-                if ((float)paramlist[paramname] == OnValue)
+                if (paramlist[paramname].Value == OnValue)
                 {
                     this.Checked = true;
                     enableControl(true);
                 }
-                else if ((float)paramlist[paramname] == OffValue)
+                else if (paramlist[paramname].Value == OffValue)
                 {
                     this.Checked = false;
                     enableControl(false);
@@ -92,7 +114,10 @@ namespace MissionPlanner.Controls
                     if (ans == false)
                         CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, ParamName), Strings.ERROR);
                 }
-                catch { CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, ParamName), Strings.ERROR); }
+                catch
+                {
+                    CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, ParamName), Strings.ERROR);
+                }
             }
             else
             {
@@ -101,12 +126,13 @@ namespace MissionPlanner.Controls
                 {
                     bool ans = MainV2.comPort.setParam(ParamName, OffValue);
                     if (ans == false)
-                        CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed,ParamName), Strings.ERROR);
+                        CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, ParamName), Strings.ERROR);
                 }
-                catch { CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, ParamName), Strings.ERROR); }
+                catch
+                {
+                    CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, ParamName), Strings.ERROR);
+                }
             }
         }
-
-        
     }
 }

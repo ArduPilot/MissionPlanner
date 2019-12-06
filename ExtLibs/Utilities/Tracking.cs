@@ -2,11 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Web;
-using System.Windows.Forms;
 using log4net;
 
 namespace MissionPlanner.Utilities
@@ -54,21 +50,22 @@ namespace MissionPlanner.Utilities
 
         public static void AddEvent(string cat, string action, string label, string value)
         {
-            List<KeyValuePair<string, string>> param = new List<KeyValuePair<string, string>>();
+            List<KeyValuePair<string, string>> param = new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("v", version),
+                new KeyValuePair<string, string>("tid", tid),
+                new KeyValuePair<string, string>("cid", cid.ToString()),
+                new KeyValuePair<string, string>("t", "event"),
+                new KeyValuePair<string, string>("an", productName),
+                new KeyValuePair<string, string>("av", productVersion),
 
-            param.Add(new KeyValuePair<string, string>("v", version));
-            param.Add(new KeyValuePair<string, string>("tid", tid));
-            param.Add(new KeyValuePair<string, string>("cid", cid.ToString()));
-            param.Add(new KeyValuePair<string, string>("t", "event"));
-            param.Add(new KeyValuePair<string, string>("an", Application.ProductName));
-            param.Add(new KeyValuePair<string, string>("av", Application.ProductVersion));
+                new KeyValuePair<string, string>("cd", currentscreen),
+                new KeyValuePair<string, string>("dp", currentscreen),
 
-            param.Add(new KeyValuePair<string, string>("cd", currentscreen));
-            param.Add(new KeyValuePair<string, string>("dp", currentscreen));
-
-            param.Add(new KeyValuePair<string, string>("ec", cat));
-            param.Add(new KeyValuePair<string, string>("ea", action));
-            param.Add(new KeyValuePair<string, string>("el", label));
+                new KeyValuePair<string, string>("ec", cat),
+                new KeyValuePair<string, string>("ea", action),
+                new KeyValuePair<string, string>("el", label)
+            };
             if (value != "")
                 param.Add(new KeyValuePair<string, string>("ev", value));
 
@@ -79,29 +76,61 @@ namespace MissionPlanner.Utilities
                 sessionstart = true;
             }
 
-            param.Add(new KeyValuePair<string, string>("ul", Application.CurrentCulture.Name));
-            param.Add(new KeyValuePair<string, string>("sd", Screen.PrimaryScreen.BitsPerPixel + "-bits"));
-            param.Add(new KeyValuePair<string, string>("sr", Screen.PrimaryScreen.Bounds.Width + "x" + Screen.PrimaryScreen.Bounds.Height));
+            param.Add(new KeyValuePair<string, string>("ul", currentCultureName));
+            param.Add(new KeyValuePair<string, string>("sd", primaryScreenBitsPerPixel + "-bits"));
+            param.Add(new KeyValuePair<string, string>("sr", boundsWidth + "x" + boundsHeight));
 
             System.Threading.ThreadPool.QueueUserWorkItem(track, param);
         }
 
+        public static string productVersion
+        {
+            get; set;
+        }
+
+        public static string productName
+        {
+            get; set;
+        }
+
+        public static int boundsHeight
+        {
+            get; set;
+        }
+
+        public static int boundsWidth
+        {
+            get; set;
+        }
+
+        public static int primaryScreenBitsPerPixel
+        {
+            get; set;
+        }
+
+        public static string currentCultureName { get; set; }
+
         public static void AddPage(string page, string title)
         {
+            // check if we are already here
+            if (currentscreen == page)
+                return;
+
             currentscreen = page;
 
-            List<KeyValuePair<string, string>> param = new List<KeyValuePair<string, string>>();
+            List<KeyValuePair<string, string>> param = new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("v", version),
+                new KeyValuePair<string, string>("tid", tid),
+                new KeyValuePair<string, string>("cid", cid.ToString()),
+                new KeyValuePair<string, string>("t", "appview"),
+                new KeyValuePair<string, string>("an", productName),
+                new KeyValuePair<string, string>("av", productVersion),
 
-            param.Add(new KeyValuePair<string, string>("v", version));
-            param.Add(new KeyValuePair<string, string>("tid", tid));
-            param.Add(new KeyValuePair<string, string>("cid", cid.ToString()));
-            param.Add(new KeyValuePair<string, string>("t", "appview"));
-            param.Add(new KeyValuePair<string, string>("an", Application.ProductName));
-            param.Add(new KeyValuePair<string, string>("av", Application.ProductVersion));
-
-            param.Add(new KeyValuePair<string, string>("cd", page));
-            param.Add(new KeyValuePair<string, string>("dp", page));
-            param.Add(new KeyValuePair<string, string>("dt", title));
+                new KeyValuePair<string, string>("cd", page),
+                new KeyValuePair<string, string>("dp", page),
+                new KeyValuePair<string, string>("dt", title)
+            };
 
             if (sessionstart == false)
             {
@@ -109,9 +138,9 @@ namespace MissionPlanner.Utilities
                 sessionstart = true;
             }
 
-            param.Add(new KeyValuePair<string, string>("ul", Application.CurrentCulture.Name));
-            param.Add(new KeyValuePair<string, string>("sd", Screen.PrimaryScreen.BitsPerPixel + "-bits"));
-            param.Add(new KeyValuePair<string, string>("sr", Screen.PrimaryScreen.Bounds.Width + "x" + Screen.PrimaryScreen.Bounds.Height));
+            param.Add(new KeyValuePair<string, string>("ul", currentCultureName));
+            param.Add(new KeyValuePair<string, string>("sd", primaryScreenBitsPerPixel + "-bits"));
+            param.Add(new KeyValuePair<string, string>("sr", boundsWidth + "x" + boundsHeight));
 
             Console.WriteLine("Open "+page + " " + title);
 
@@ -120,14 +149,15 @@ namespace MissionPlanner.Utilities
 
         public static void AddException(Exception ex)
         {
-            List<KeyValuePair<string, string>> param = new List<KeyValuePair<string, string>>();
-
-            param.Add(new KeyValuePair<string, string>("v", version));
-            param.Add(new KeyValuePair<string, string>("tid", tid));
-            param.Add(new KeyValuePair<string, string>("cid", cid.ToString()));
-            param.Add(new KeyValuePair<string, string>("t", "exception"));
-            param.Add(new KeyValuePair<string, string>("an", Application.ProductName));
-            param.Add(new KeyValuePair<string, string>("av", Application.ProductVersion));
+            List<KeyValuePair<string, string>> param = new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("v", version),
+                new KeyValuePair<string, string>("tid", tid),
+                new KeyValuePair<string, string>("cid", cid.ToString()),
+                new KeyValuePair<string, string>("t", "exception"),
+                new KeyValuePair<string, string>("an", productName),
+                new KeyValuePair<string, string>("av", productVersion),
+            };
 
             if (sessionstart == false)
             {
@@ -140,21 +170,25 @@ namespace MissionPlanner.Utilities
 
             try
             {
-                string[] lines = ex.StackTrace.Split(new char[] { '\n' });
-
                 string reportline = "";
 
-                foreach (string line in lines)
+                if (ex.StackTrace != null)
                 {
-                    if (line.Contains(":line"))
-                    {
-                        reportline = line;
-                        break;
-                    }
-                }
-                // 150 bytes
+                    string[] lines = ex.StackTrace.Split(new char[] {'\n'});
 
-                reportline = reportline.Replace(@"c:\Users\hog\Documents\Visual Studio 2010\Projects\MissionPlanner.", "");
+                    foreach (string line in lines)
+                    {
+                        if (line.Contains(":line"))
+                        {
+                            reportline = line;
+                            break;
+                        }
+                    }
+                    // 150 bytes
+
+                    reportline =
+                        reportline.Replace(@"c:\Users\hog\Documents\Visual Studio 2010\Projects\MissionPlanner.", "");
+                }
 
                 param.Add(new KeyValuePair<string, string>("exd", ex.Message + reportline));
             }
@@ -163,36 +197,42 @@ namespace MissionPlanner.Utilities
                 param.Add(new KeyValuePair<string, string>("exd", ex.Message));
             }
             param.Add(new KeyValuePair<string, string>("exf", "0"));
+            try
+            {
+                param.Add(new KeyValuePair<string, string>("cd5", ex.ToString().Substring(0, 140)));
+            }
+            catch
+            {
+            }
 
-            param.Add(new KeyValuePair<string, string>("cd5", ex.ToString().Substring(0,140)));
-
-            param.Add(new KeyValuePair<string, string>("ul", Application.CurrentCulture.Name));
-            param.Add(new KeyValuePair<string, string>("sd", Screen.PrimaryScreen.BitsPerPixel + "-bits"));
-            param.Add(new KeyValuePair<string, string>("sr", Screen.PrimaryScreen.Bounds.Width + "x" + Screen.PrimaryScreen.Bounds.Height));
+            param.Add(new KeyValuePair<string, string>("ul", currentCultureName));
+            param.Add(new KeyValuePair<string, string>("sd", primaryScreenBitsPerPixel + "-bits"));
+            param.Add(new KeyValuePair<string, string>("sr", boundsWidth + "x" + boundsHeight));
 
             System.Threading.ThreadPool.QueueUserWorkItem(track, param);
         }
 
         public static void AddFW(string name, string board)
         {
-            List<KeyValuePair<string, string>> param = new List<KeyValuePair<string, string>>();
+            List<KeyValuePair<string, string>> param = new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("v", version),
+                new KeyValuePair<string, string>("tid", tid),
+                new KeyValuePair<string, string>("cid", cid.ToString()),
+                new KeyValuePair<string, string>("t", "event"),
+                new KeyValuePair<string, string>("an", productName),
+                new KeyValuePair<string, string>("av", productVersion),
 
-            param.Add(new KeyValuePair<string, string>("v", version));
-            param.Add(new KeyValuePair<string, string>("tid", tid));
-            param.Add(new KeyValuePair<string, string>("cid", cid.ToString()));
-            param.Add(new KeyValuePair<string, string>("t", "event"));
-            param.Add(new KeyValuePair<string, string>("an", Application.ProductName));
-            param.Add(new KeyValuePair<string, string>("av", Application.ProductVersion));
+                new KeyValuePair<string, string>("cd", currentscreen),
+                new KeyValuePair<string, string>("dp", currentscreen),
 
-            param.Add(new KeyValuePair<string, string>("cd", currentscreen));
-            param.Add(new KeyValuePair<string, string>("dp", currentscreen));
+                new KeyValuePair<string, string>("ec", "Firmware Upload"),
+                new KeyValuePair<string, string>("ea", board),
+                new KeyValuePair<string, string>("el", name),
 
-            param.Add(new KeyValuePair<string, string>("ec", "Firmware Upload"));
-            param.Add(new KeyValuePair<string, string>("ea", board));
-            param.Add(new KeyValuePair<string, string>("el", name));
-
-            param.Add(new KeyValuePair<string, string>("cd2", name));
-            param.Add(new KeyValuePair<string, string>("cd3", board));
+                new KeyValuePair<string, string>("cd2", name),
+                new KeyValuePair<string, string>("cd3", board)
+            };
 
             if (sessionstart == false)
             {
@@ -200,31 +240,32 @@ namespace MissionPlanner.Utilities
                 sessionstart = true;
             }
 
-            param.Add(new KeyValuePair<string, string>("ul", Application.CurrentCulture.Name));
-            param.Add(new KeyValuePair<string, string>("sd", Screen.PrimaryScreen.BitsPerPixel + "-bits"));
-            param.Add(new KeyValuePair<string, string>("sr", Screen.PrimaryScreen.Bounds.Width + "x" + Screen.PrimaryScreen.Bounds.Height));
+            param.Add(new KeyValuePair<string, string>("ul", currentCultureName));
+            param.Add(new KeyValuePair<string, string>("sd", primaryScreenBitsPerPixel + "-bits"));
+            param.Add(new KeyValuePair<string, string>("sr", boundsWidth + "x" + boundsHeight));
 
             System.Threading.ThreadPool.QueueUserWorkItem(track, param);
         }
 
         public static void AddTiming(string cat, string name, double timeinms, string label)
         {
-            List<KeyValuePair<string, string>> param = new List<KeyValuePair<string, string>>();
+            List<KeyValuePair<string, string>> param = new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("v", version),
+                new KeyValuePair<string, string>("tid", tid),
+                new KeyValuePair<string, string>("cid", cid.ToString()),
+                new KeyValuePair<string, string>("t", "timing"),
+                new KeyValuePair<string, string>("an", productName),
+                new KeyValuePair<string, string>("av", productVersion),
 
-            param.Add(new KeyValuePair<string, string>("v", version));
-            param.Add(new KeyValuePair<string, string>("tid", tid));
-            param.Add(new KeyValuePair<string, string>("cid", cid.ToString()));
-            param.Add(new KeyValuePair<string, string>("t", "timing"));
-            param.Add(new KeyValuePair<string, string>("an", Application.ProductName));
-            param.Add(new KeyValuePair<string, string>("av", Application.ProductVersion));
+                new KeyValuePair<string, string>("cd", currentscreen),
+                new KeyValuePair<string, string>("dp", currentscreen),
 
-            param.Add(new KeyValuePair<string, string>("cd", currentscreen));
-            param.Add(new KeyValuePair<string, string>("dp", currentscreen));
-
-            param.Add(new KeyValuePair<string, string>("utc", cat));
-            param.Add(new KeyValuePair<string, string>("utv", name));
-            param.Add(new KeyValuePair<string, string>("utt", ((int)timeinms).ToString()));
-            param.Add(new KeyValuePair<string, string>("utl", label));
+                new KeyValuePair<string, string>("utc", cat),
+                new KeyValuePair<string, string>("utv", name),
+                new KeyValuePair<string, string>("utt", ((int)timeinms).ToString()),
+                new KeyValuePair<string, string>("utl", label)
+            };
 
             if (sessionstart == false)
             {
@@ -232,9 +273,9 @@ namespace MissionPlanner.Utilities
                 sessionstart = true;
             }
 
-            param.Add(new KeyValuePair<string, string>("ul", Application.CurrentCulture.Name));
-            param.Add(new KeyValuePair<string, string>("sd", Screen.PrimaryScreen.BitsPerPixel + "-bits"));
-            param.Add(new KeyValuePair<string, string>("sr", Screen.PrimaryScreen.Bounds.Width + "x" + Screen.PrimaryScreen.Bounds.Height));
+            param.Add(new KeyValuePair<string, string>("ul", currentCultureName));
+            param.Add(new KeyValuePair<string, string>("sd", primaryScreenBitsPerPixel + "-bits"));
+            param.Add(new KeyValuePair<string, string>("sr", boundsWidth + "x" + boundsHeight));
 
             System.Threading.ThreadPool.QueueUserWorkItem(track, param);
         }
@@ -249,7 +290,7 @@ namespace MissionPlanner.Utilities
 
                 var httpWebRequest = (HttpWebRequest)WebRequest.Create(secureTrackingEndpoint);
                 httpWebRequest.ServicePoint.Expect100Continue = false;
-                httpWebRequest.UserAgent = Application.ProductName + " " + Application.ProductVersion + " ("+ Environment.OSVersion.VersionString +")";
+                httpWebRequest.UserAgent = productName + " " + productVersion + " ("+ Environment.OSVersion.VersionString +")";
                 //httpWebRequest.ContentType = "text/plain";
                 httpWebRequest.Method = "POST";
 
@@ -262,7 +303,7 @@ namespace MissionPlanner.Utilities
 
                 foreach (KeyValuePair<string, string> item in data1)
                 {
-                    data += "&" + item.Key + "=" + HttpUtility.UrlEncode(item.Value);
+                    data += "&" + item.Key + "=" + WebUtility.UrlEncode(item.Value);
                 }
 
                 data = data.TrimStart(new char[] {'&'});
@@ -281,15 +322,17 @@ namespace MissionPlanner.Utilities
                     streamWriter.Write(data);
                     streamWriter.Flush();
 
-                    var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-                    if (httpResponse.StatusCode >= HttpStatusCode.OK && (int)httpResponse.StatusCode < 300)
+                    using (var httpResponse = (HttpWebResponse) httpWebRequest.GetResponse())
                     {
-                        // response is a gif file
-                        log.Debug(httpResponse.StatusCode);
-                    }
-                    else
-                    {
-                        log.Debug(httpResponse.StatusCode);
+                        if (httpResponse.StatusCode >= HttpStatusCode.OK && (int) httpResponse.StatusCode < 300)
+                        {
+                            // response is a gif file
+                            log.Debug(httpResponse.StatusCode);
+                        }
+                        else
+                        {
+                            log.Debug(httpResponse.StatusCode);
+                        }
                     }
                 }
             }

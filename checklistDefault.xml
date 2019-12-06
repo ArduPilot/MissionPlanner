@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfCheckListItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <CheckListItem>
+    <TrueColor>Green</TrueColor>
+    <FalseColor>Red</FalseColor>
+    <Description>Veryify GPS</Description>
+    <Text>{value} &gt;= 3</Text>
+    <TriggerValue>3</TriggerValue>
+    <Name>gpsstatus</Name>
+    <ConditionType>GTEQ</ConditionType>
+  </CheckListItem>
+  <CheckListItem>
+    <TrueColor>Green</TrueColor>
+    <FalseColor>Red</FalseColor>
+    <Description>Gps Sat Count</Description>
+    <Text>{value} Sats</Text>
+    <TriggerValue>5</TriggerValue>
+    <Name>satcount</Name>
+    <ConditionType>GTEQ</ConditionType>
+  </CheckListItem>
+  <CheckListItem>
+    <TrueColor>Green</TrueColor>
+    <FalseColor>Red</FalseColor>
+    <Description>Telemetry Signal</Description>
+    <Text>{value}%</Text>
+    <TriggerValue>95</TriggerValue>
+    <Name>linkqualitygcs</Name>
+    <ConditionType>GT</ConditionType>
+  </CheckListItem>
+  <CheckListItem>
+    <TrueColor>Green</TrueColor>
+    <FalseColor>Red</FalseColor>
+    <Description>Battery Level</Description>
+    <Text>{value} V</Text>
+    <TriggerValue>22</TriggerValue>
+    <Name>battery_voltage</Name>
+    <ConditionType>GT</ConditionType>
+  </CheckListItem>
+  <CheckListItem>
+    <TrueColor>White</TrueColor>
+    <FalseColor>White</FalseColor>
+    <Description>Mode</Description>
+    <Text>{value}</Text>
+    <TriggerValue>0</TriggerValue>
+    <Name>mode</Name>
+    <ConditionType>NONE</ConditionType>
+  </CheckListItem>
+  <CheckListItem>
+    <TrueColor>White</TrueColor>
+    <FalseColor>White</FalseColor>
+    <Description>Check Altitude</Description>
+    <Text>{value} &lt; 5m</Text>
+    <TriggerValue>5</TriggerValue>
+    <Name>alt</Name>
+    <ConditionType>LT</ConditionType>
+  </CheckListItem>
+  <CheckListItem>
+    <TrueColor>White</TrueColor>
+    <FalseColor>White</FalseColor>
+    <Description>Tail and wings secured?</Description>
+    <Text />
+    <TriggerValue>0</TriggerValue>
+    <Name>roll</Name>
+    <ConditionType>NONE</ConditionType>
+  </CheckListItem>
+  <CheckListItem>
+    <TrueColor>White</TrueColor>
+    <FalseColor>White</FalseColor>
+    <Description>All servos respond to input?</Description>
+    <Text />
+    <TriggerValue>0</TriggerValue>
+    <Name>roll</Name>
+    <ConditionType>NONE</ConditionType>
+  </CheckListItem>
+  <CheckListItem>
+    <TrueColor>White</TrueColor>
+    <FalseColor>White</FalseColor>
+    <Description>All servos respond to pitch and roll?</Description>
+    <Text />
+    <TriggerValue>0</TriggerValue>
+    <Name>roll</Name>
+    <ConditionType>NONE</ConditionType>
+  </CheckListItem>
+  <CheckListItem>
+    <TrueColor>White</TrueColor>
+    <FalseColor>White</FalseColor>
+    <Description>Center of gravity at indicated point?</Description>
+    <Text />
+    <TriggerValue>0</TriggerValue>
+    <Name>roll</Name>
+    <ConditionType>NONE</ConditionType>
+  </CheckListItem>
+  <CheckListItem>
+    <TrueColor>White</TrueColor>
+    <FalseColor>White</FalseColor>
+    <Description>Servo linkages are secure?</Description>
+    <Text />
+    <TriggerValue>0</TriggerValue>
+    <Name>roll</Name>
+    <ConditionType>NONE</ConditionType>
+  </CheckListItem>
+  <CheckListItem>
+    <TrueColor>White</TrueColor>
+    <FalseColor>White</FalseColor>
+    <Description>Camera is on and ready to fly?</Description>
+    <Text />
+    <TriggerValue>0</TriggerValue>
+    <Name>roll</Name>
+    <ConditionType>NONE</ConditionType>
+  </CheckListItem>
+</ArrayOfCheckListItem>

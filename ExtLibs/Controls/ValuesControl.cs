@@ -9,14 +9,23 @@ using System.Windows.Forms;
 
 namespace MissionPlanner.Controls
 {
-   public partial class ValuesControl : UserControl, IDynamicParameterControl
+   public partial class ValuesControl : MyUserControl, IDynamicParameterControl
    {
       #region Properties
 
        public event EventValueChanged ValueChanged;
 
       public string LabelText { get { return myLabel1.Text; } set { myLabel1.Text = value; } }
-      public string DescriptionText { get { return label1.Text; } set { label1.Text = value; } }
+      public string DescriptionText
+      {
+          get { return label1.Text; }
+          set
+          {
+              //label1.MaximumSize = new Size(this.Width - 30, 0);
+              label1.Text = value;
+              //this.Height += label1.Height;
+          }
+      }
       public ComboBox ComboBoxControl { get { return comboBox1; } set { comboBox1 = value; } }
 
       #region Interface Properties

@@ -33,6 +33,9 @@
             this.groupBox22 = new System.Windows.Forms.GroupBox();
             this.mavlinkComboBox1 = new MissionPlanner.Controls.MavlinkComboBox();
             this.groupBox25 = new System.Windows.Forms.GroupBox();
+            this.lbl_yawpwm = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.mavlinkComboBoxservo_yaw_type = new MissionPlanner.Controls.MavlinkComboBox();
             this.BUT_test_yaw = new MissionPlanner.Controls.MyButton();
             this.mavlinkNumericUpDown3 = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.mavlinkNumericUpDown2 = new MissionPlanner.Controls.MavlinkNumericUpDown();
@@ -43,12 +46,10 @@
             this.label90 = new System.Windows.Forms.Label();
             this.label91 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.mavlinkComboBox2 = new MissionPlanner.Controls.MavlinkComboBox();
-            this.BUT_refreshpart = new MissionPlanner.Controls.MyButton();
-            this.BUT_rerequestparams = new MissionPlanner.Controls.MyButton();
-            this.BUT_writePIDS = new MissionPlanner.Controls.MyButton();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.lbl_pitchpwm = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.mavlinkComboBoxservo_pitch_type = new MissionPlanner.Controls.MavlinkComboBox();
             this.BUT_test_pitch = new MissionPlanner.Controls.MyButton();
             this.mavlinkNumericUpDown4 = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.mavlinkNumericUpDown5 = new MissionPlanner.Controls.MavlinkNumericUpDown();
@@ -86,13 +87,17 @@
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.mavlinkComboBoxalt_source = new MissionPlanner.Controls.MavlinkComboBox();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.mavlinkNumericUpDown19 = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.label18 = new System.Windows.Forms.Label();
             this.groupBox22.SuspendLayout();
             this.groupBox25.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.myTrackBar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown1)).BeginInit();
-            this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown5)).BeginInit();
@@ -114,6 +119,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown16)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown15)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown14)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown19)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox22
@@ -129,11 +136,14 @@
             resources.ApplyResources(this.mavlinkComboBox1, "mavlinkComboBox1");
             this.mavlinkComboBox1.FormattingEnabled = true;
             this.mavlinkComboBox1.Name = "mavlinkComboBox1";
-            this.mavlinkComboBox1.param = null;
             this.mavlinkComboBox1.ParamName = null;
+            this.mavlinkComboBox1.SubControl = null;
             // 
             // groupBox25
             // 
+            this.groupBox25.Controls.Add(this.lbl_yawpwm);
+            this.groupBox25.Controls.Add(this.label16);
+            this.groupBox25.Controls.Add(this.mavlinkComboBoxservo_yaw_type);
             this.groupBox25.Controls.Add(this.BUT_test_yaw);
             this.groupBox25.Controls.Add(this.mavlinkNumericUpDown3);
             this.groupBox25.Controls.Add(this.mavlinkNumericUpDown2);
@@ -146,6 +156,25 @@
             resources.ApplyResources(this.groupBox25, "groupBox25");
             this.groupBox25.Name = "groupBox25";
             this.groupBox25.TabStop = false;
+            // 
+            // lbl_yawpwm
+            // 
+            resources.ApplyResources(this.lbl_yawpwm, "lbl_yawpwm");
+            this.lbl_yawpwm.Name = "lbl_yawpwm";
+            // 
+            // label16
+            // 
+            resources.ApplyResources(this.label16, "label16");
+            this.label16.Name = "label16";
+            // 
+            // mavlinkComboBoxservo_yaw_type
+            // 
+            this.mavlinkComboBoxservo_yaw_type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.mavlinkComboBoxservo_yaw_type, "mavlinkComboBoxservo_yaw_type");
+            this.mavlinkComboBoxservo_yaw_type.FormattingEnabled = true;
+            this.mavlinkComboBoxservo_yaw_type.Name = "mavlinkComboBoxservo_yaw_type";
+            this.mavlinkComboBoxservo_yaw_type.ParamName = null;
+            this.mavlinkComboBoxservo_yaw_type.SubControl = null;
             // 
             // BUT_test_yaw
             // 
@@ -160,7 +189,6 @@
             this.mavlinkNumericUpDown3.Max = 1F;
             this.mavlinkNumericUpDown3.Min = 0F;
             this.mavlinkNumericUpDown3.Name = "mavlinkNumericUpDown3";
-            this.mavlinkNumericUpDown3.param = null;
             this.mavlinkNumericUpDown3.ParamName = null;
             // 
             // mavlinkNumericUpDown2
@@ -169,7 +197,6 @@
             this.mavlinkNumericUpDown2.Max = 1F;
             this.mavlinkNumericUpDown2.Min = 0F;
             this.mavlinkNumericUpDown2.Name = "mavlinkNumericUpDown2";
-            this.mavlinkNumericUpDown2.param = null;
             this.mavlinkNumericUpDown2.ParamName = null;
             // 
             // myTrackBar1
@@ -189,16 +216,14 @@
             this.mavlinkNumericUpDown1.Max = 1F;
             this.mavlinkNumericUpDown1.Min = 0F;
             this.mavlinkNumericUpDown1.Name = "mavlinkNumericUpDown1";
-            this.mavlinkNumericUpDown1.param = null;
             this.mavlinkNumericUpDown1.ParamName = null;
             // 
             // mavlinkCheckBox1
             // 
             resources.ApplyResources(this.mavlinkCheckBox1, "mavlinkCheckBox1");
             this.mavlinkCheckBox1.Name = "mavlinkCheckBox1";
-            this.mavlinkCheckBox1.OffValue = 0F;
-            this.mavlinkCheckBox1.OnValue = 1F;
-            this.mavlinkCheckBox1.param = null;
+            this.mavlinkCheckBox1.OffValue = 0D;
+            this.mavlinkCheckBox1.OnValue = 1D;
             this.mavlinkCheckBox1.ParamName = null;
             this.mavlinkCheckBox1.UseVisualStyleBackColor = true;
             // 
@@ -223,45 +248,11 @@
             this.toolTip1.InitialDelay = 500;
             this.toolTip1.ReshowDelay = 100;
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.mavlinkComboBox2);
-            resources.ApplyResources(this.groupBox1, "groupBox1");
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.TabStop = false;
-            // 
-            // mavlinkComboBox2
-            // 
-            this.mavlinkComboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.mavlinkComboBox2, "mavlinkComboBox2");
-            this.mavlinkComboBox2.FormattingEnabled = true;
-            this.mavlinkComboBox2.Name = "mavlinkComboBox2";
-            this.mavlinkComboBox2.param = null;
-            this.mavlinkComboBox2.ParamName = null;
-            // 
-            // BUT_refreshpart
-            // 
-            resources.ApplyResources(this.BUT_refreshpart, "BUT_refreshpart");
-            this.BUT_refreshpart.Name = "BUT_refreshpart";
-            this.BUT_refreshpart.UseVisualStyleBackColor = true;
-            this.BUT_refreshpart.Click += new System.EventHandler(this.BUT_refreshpart_Click);
-            // 
-            // BUT_rerequestparams
-            // 
-            resources.ApplyResources(this.BUT_rerequestparams, "BUT_rerequestparams");
-            this.BUT_rerequestparams.Name = "BUT_rerequestparams";
-            this.BUT_rerequestparams.UseVisualStyleBackColor = true;
-            this.BUT_rerequestparams.Click += new System.EventHandler(this.BUT_rerequestparams_Click);
-            // 
-            // BUT_writePIDS
-            // 
-            resources.ApplyResources(this.BUT_writePIDS, "BUT_writePIDS");
-            this.BUT_writePIDS.Name = "BUT_writePIDS";
-            this.BUT_writePIDS.UseVisualStyleBackColor = true;
-            this.BUT_writePIDS.Click += new System.EventHandler(this.BUT_writePIDS_Click);
-            // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.lbl_pitchpwm);
+            this.groupBox3.Controls.Add(this.label15);
+            this.groupBox3.Controls.Add(this.mavlinkComboBoxservo_pitch_type);
             this.groupBox3.Controls.Add(this.BUT_test_pitch);
             this.groupBox3.Controls.Add(this.mavlinkNumericUpDown4);
             this.groupBox3.Controls.Add(this.mavlinkNumericUpDown5);
@@ -274,6 +265,25 @@
             resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
+            // 
+            // lbl_pitchpwm
+            // 
+            resources.ApplyResources(this.lbl_pitchpwm, "lbl_pitchpwm");
+            this.lbl_pitchpwm.Name = "lbl_pitchpwm";
+            // 
+            // label15
+            // 
+            resources.ApplyResources(this.label15, "label15");
+            this.label15.Name = "label15";
+            // 
+            // mavlinkComboBoxservo_pitch_type
+            // 
+            this.mavlinkComboBoxservo_pitch_type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.mavlinkComboBoxservo_pitch_type, "mavlinkComboBoxservo_pitch_type");
+            this.mavlinkComboBoxservo_pitch_type.FormattingEnabled = true;
+            this.mavlinkComboBoxservo_pitch_type.Name = "mavlinkComboBoxservo_pitch_type";
+            this.mavlinkComboBoxservo_pitch_type.ParamName = null;
+            this.mavlinkComboBoxservo_pitch_type.SubControl = null;
             // 
             // BUT_test_pitch
             // 
@@ -288,7 +298,6 @@
             this.mavlinkNumericUpDown4.Max = 1F;
             this.mavlinkNumericUpDown4.Min = 0F;
             this.mavlinkNumericUpDown4.Name = "mavlinkNumericUpDown4";
-            this.mavlinkNumericUpDown4.param = null;
             this.mavlinkNumericUpDown4.ParamName = null;
             // 
             // mavlinkNumericUpDown5
@@ -297,7 +306,6 @@
             this.mavlinkNumericUpDown5.Max = 1F;
             this.mavlinkNumericUpDown5.Min = 0F;
             this.mavlinkNumericUpDown5.Name = "mavlinkNumericUpDown5";
-            this.mavlinkNumericUpDown5.param = null;
             this.mavlinkNumericUpDown5.ParamName = null;
             // 
             // myTrackBar2
@@ -317,16 +325,14 @@
             this.mavlinkNumericUpDown6.Max = 1F;
             this.mavlinkNumericUpDown6.Min = 0F;
             this.mavlinkNumericUpDown6.Name = "mavlinkNumericUpDown6";
-            this.mavlinkNumericUpDown6.param = null;
             this.mavlinkNumericUpDown6.ParamName = null;
             // 
             // mavlinkCheckBox2
             // 
             resources.ApplyResources(this.mavlinkCheckBox2, "mavlinkCheckBox2");
             this.mavlinkCheckBox2.Name = "mavlinkCheckBox2";
-            this.mavlinkCheckBox2.OffValue = 0F;
-            this.mavlinkCheckBox2.OnValue = 1F;
-            this.mavlinkCheckBox2.param = null;
+            this.mavlinkCheckBox2.OffValue = 0D;
+            this.mavlinkCheckBox2.OnValue = 1D;
             this.mavlinkCheckBox2.ParamName = null;
             this.mavlinkCheckBox2.UseVisualStyleBackColor = true;
             // 
@@ -359,7 +365,6 @@
             this.mavlinkNumericUpDown7.Max = 360F;
             this.mavlinkNumericUpDown7.Min = 0F;
             this.mavlinkNumericUpDown7.Name = "mavlinkNumericUpDown7";
-            this.mavlinkNumericUpDown7.param = null;
             this.mavlinkNumericUpDown7.ParamName = null;
             // 
             // label4
@@ -369,6 +374,8 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.mavlinkNumericUpDown19);
+            this.groupBox5.Controls.Add(this.label18);
             this.groupBox5.Controls.Add(this.mavlinkNumericUpDown8);
             this.groupBox5.Controls.Add(this.label5);
             resources.ApplyResources(this.groupBox5, "groupBox5");
@@ -381,7 +388,6 @@
             this.mavlinkNumericUpDown8.Max = 360F;
             this.mavlinkNumericUpDown8.Min = 0F;
             this.mavlinkNumericUpDown8.Name = "mavlinkNumericUpDown8";
-            this.mavlinkNumericUpDown8.param = null;
             this.mavlinkNumericUpDown8.ParamName = null;
             // 
             // label5
@@ -411,7 +417,6 @@
             this.mavlinkNumericUpDown13.Max = 1F;
             this.mavlinkNumericUpDown13.Min = 0F;
             this.mavlinkNumericUpDown13.Name = "mavlinkNumericUpDown13";
-            this.mavlinkNumericUpDown13.param = null;
             this.mavlinkNumericUpDown13.ParamName = null;
             // 
             // mavlinkNumericUpDown12
@@ -420,7 +425,6 @@
             this.mavlinkNumericUpDown12.Max = 1F;
             this.mavlinkNumericUpDown12.Min = 0F;
             this.mavlinkNumericUpDown12.Name = "mavlinkNumericUpDown12";
-            this.mavlinkNumericUpDown12.param = null;
             this.mavlinkNumericUpDown12.ParamName = null;
             // 
             // mavlinkNumericUpDown11
@@ -429,7 +433,6 @@
             this.mavlinkNumericUpDown11.Max = 1F;
             this.mavlinkNumericUpDown11.Min = 0F;
             this.mavlinkNumericUpDown11.Name = "mavlinkNumericUpDown11";
-            this.mavlinkNumericUpDown11.param = null;
             this.mavlinkNumericUpDown11.ParamName = null;
             // 
             // mavlinkNumericUpDown10
@@ -438,7 +441,6 @@
             this.mavlinkNumericUpDown10.Max = 1F;
             this.mavlinkNumericUpDown10.Min = 0F;
             this.mavlinkNumericUpDown10.Name = "mavlinkNumericUpDown10";
-            this.mavlinkNumericUpDown10.param = null;
             this.mavlinkNumericUpDown10.ParamName = null;
             // 
             // mavlinkNumericUpDown9
@@ -447,7 +449,6 @@
             this.mavlinkNumericUpDown9.Max = 1F;
             this.mavlinkNumericUpDown9.Min = 0F;
             this.mavlinkNumericUpDown9.Name = "mavlinkNumericUpDown9";
-            this.mavlinkNumericUpDown9.param = null;
             this.mavlinkNumericUpDown9.ParamName = null;
             // 
             // label9
@@ -497,7 +498,6 @@
             this.mavlinkNumericUpDown18.Max = 1F;
             this.mavlinkNumericUpDown18.Min = 0F;
             this.mavlinkNumericUpDown18.Name = "mavlinkNumericUpDown18";
-            this.mavlinkNumericUpDown18.param = null;
             this.mavlinkNumericUpDown18.ParamName = null;
             // 
             // mavlinkNumericUpDown17
@@ -506,7 +506,6 @@
             this.mavlinkNumericUpDown17.Max = 1F;
             this.mavlinkNumericUpDown17.Min = 0F;
             this.mavlinkNumericUpDown17.Name = "mavlinkNumericUpDown17";
-            this.mavlinkNumericUpDown17.param = null;
             this.mavlinkNumericUpDown17.ParamName = null;
             // 
             // mavlinkNumericUpDown16
@@ -515,7 +514,6 @@
             this.mavlinkNumericUpDown16.Max = 1F;
             this.mavlinkNumericUpDown16.Min = 0F;
             this.mavlinkNumericUpDown16.Name = "mavlinkNumericUpDown16";
-            this.mavlinkNumericUpDown16.param = null;
             this.mavlinkNumericUpDown16.ParamName = null;
             // 
             // mavlinkNumericUpDown15
@@ -524,7 +522,6 @@
             this.mavlinkNumericUpDown15.Max = 1F;
             this.mavlinkNumericUpDown15.Min = 0F;
             this.mavlinkNumericUpDown15.Name = "mavlinkNumericUpDown15";
-            this.mavlinkNumericUpDown15.param = null;
             this.mavlinkNumericUpDown15.ParamName = null;
             // 
             // mavlinkNumericUpDown14
@@ -533,7 +530,6 @@
             this.mavlinkNumericUpDown14.Max = 1F;
             this.mavlinkNumericUpDown14.Min = 0F;
             this.mavlinkNumericUpDown14.Name = "mavlinkNumericUpDown14";
-            this.mavlinkNumericUpDown14.param = null;
             this.mavlinkNumericUpDown14.ParamName = null;
             // 
             // label10
@@ -561,19 +557,49 @@
             resources.ApplyResources(this.label14, "label14");
             this.label14.Name = "label14";
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.mavlinkComboBoxalt_source);
+            resources.ApplyResources(this.groupBox1, "groupBox1");
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.TabStop = false;
+            // 
+            // mavlinkComboBoxalt_source
+            // 
+            this.mavlinkComboBoxalt_source.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.mavlinkComboBoxalt_source, "mavlinkComboBoxalt_source");
+            this.mavlinkComboBoxalt_source.FormattingEnabled = true;
+            this.mavlinkComboBoxalt_source.Name = "mavlinkComboBoxalt_source";
+            this.mavlinkComboBoxalt_source.ParamName = null;
+            this.mavlinkComboBoxalt_source.SubControl = null;
+            // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // mavlinkNumericUpDown19
+            // 
+            resources.ApplyResources(this.mavlinkNumericUpDown19, "mavlinkNumericUpDown19");
+            this.mavlinkNumericUpDown19.Max = 360F;
+            this.mavlinkNumericUpDown19.Min = 0F;
+            this.mavlinkNumericUpDown19.Name = "mavlinkNumericUpDown19";
+            this.mavlinkNumericUpDown19.ParamName = null;
+            // 
+            // label18
+            // 
+            resources.ApplyResources(this.label18, "label18");
+            this.label18.Name = "label18";
+            // 
             // ConfigAntennaTracker
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.BUT_refreshpart);
-            this.Controls.Add(this.BUT_rerequestparams);
-            this.Controls.Add(this.BUT_writePIDS);
             this.Controls.Add(this.groupBox22);
             this.Controls.Add(this.groupBox25);
             this.Name = "ConfigAntennaTracker";
@@ -584,7 +610,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.myTrackBar1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown1)).EndInit();
-            this.groupBox1.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown4)).EndInit();
@@ -611,6 +636,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown16)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown15)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown14)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown19)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -623,12 +650,7 @@
         private System.Windows.Forms.Label label90;
         private System.Windows.Forms.Label label91;
         private System.Windows.Forms.ToolTip toolTip1;
-        private Controls.MyButton BUT_writePIDS;
-        private Controls.MyButton BUT_rerequestparams;
-        private Controls.MyButton BUT_refreshpart;
         private Controls.MavlinkComboBox mavlinkComboBox1;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private Controls.MavlinkComboBox mavlinkComboBox2;
         private Controls.MyButton BUT_test_yaw;
         private Controls.MavlinkNumericUpDown mavlinkNumericUpDown3;
         private Controls.MavlinkNumericUpDown mavlinkNumericUpDown2;
@@ -673,5 +695,16 @@
         private Controls.MavlinkNumericUpDown mavlinkNumericUpDown16;
         private Controls.MavlinkNumericUpDown mavlinkNumericUpDown15;
         private Controls.MavlinkNumericUpDown mavlinkNumericUpDown14;
+        private System.Windows.Forms.Label label16;
+        private Controls.MavlinkComboBox mavlinkComboBoxservo_yaw_type;
+        private System.Windows.Forms.Label label15;
+        private Controls.MavlinkComboBox mavlinkComboBoxservo_pitch_type;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private Controls.MavlinkComboBox mavlinkComboBoxalt_source;
+        private System.Windows.Forms.Label lbl_yawpwm;
+        private System.Windows.Forms.Label lbl_pitchpwm;
+        private System.Windows.Forms.Timer timer1;
+        private Controls.MavlinkNumericUpDown mavlinkNumericUpDown19;
+        private System.Windows.Forms.Label label18;
     }
 }

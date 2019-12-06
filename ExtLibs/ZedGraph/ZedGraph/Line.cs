@@ -651,6 +651,7 @@ namespace ZedGraph
 					lastY = int.MaxValue;
 
 			double curX, curY, lowVal;
+            double curveMin = double.MaxValue, curveMax = double.MinValue, curveMean = 0, n = 0;
 			PointPair curPt, lastPt = new PointPair();
 
 			bool lastBad = true;
@@ -753,6 +754,12 @@ namespace ZedGraph
 														lastX, lastY, tmpX, tmpY );
 									else if ( !isOut )
 									{
+                                        n++;
+                                        curveMin = Math.Min(curveMin, curY);
+                                        curveMax = Math.Max(curveMax, curY);
+                                        curveMean = curveMean * (n - 1) + curY;
+                                        curveMean = curveMean / n;
+
 										if ( !curve.IsSelected && this._gradientFill.IsGradientValueType )
 										{
 											using ( Pen tPen = GetPen( pane, scaleFactor, lastPt ) )
@@ -826,6 +833,15 @@ namespace ZedGraph
 					}
 				}
 			}
+
+            if (n > 0)
+            {
+                string label = curve.Label.Text;
+                int idx = curve.Label.Text.IndexOf(" (Min: ");
+                if (idx > 0)
+                    label = label.Substring(0, idx);
+                curve.Label.Text = label + " (Min: " + curveMin.ToString("0") + " Max: " + curveMax.ToString("0") + " Mean: " + curveMean.ToString("0") + ")";
+            }
 		}
 
 		/// <summary>
@@ -1081,7 +1097,15 @@ namespace ZedGraph
 					tmpY = newY;
 				}
 
-				/*
+                if (float.IsInfinity(tmpX) || float.IsInfinity(tmpY) || float.IsInfinity(lastX) || float.IsInfinity(lastY))
+                    return;
+
+                if(lastX > 5000000 || lastX < -5000000 ||
+                     lastY > 5000000 || lastY < -5000000 ||
+                     tmpX > 5000000 || tmpX < -5000000 ||
+                     tmpY > 5000000 || tmpY < -5000000)
+                    return;
+                /*
 				if ( this.StepType == StepType.ForwardStep )
 				{
 					g.DrawLine( pen, lastX, lastY, tmpX, lastY );
@@ -1095,7 +1119,7 @@ namespace ZedGraph
 				else 		// non-step
 					g.DrawLine( pen, lastX, lastY, tmpX, tmpY );
 				*/
-				if ( !curve.IsSelected && this._gradientFill.IsGradientValueType )
+                if ( !curve.IsSelected && this._gradientFill.IsGradientValueType )
 				{
 					using ( Pen tPen = GetPen( pane, scaleFactor, lastPt ) )
 					{

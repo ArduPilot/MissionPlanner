@@ -1,0 +1,324 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="label12.Text" xml:space="preserve">
+    <value>Critical</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>Hover Roll</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>Rev</value>
+  </data>
+  <data name="label16.Text" xml:space="preserve">
+    <value>High Pwr</value>
+  </data>
+  <data name="H_SV3_POS.Text" xml:space="preserve">
+    <value>180</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>Bootup Servo 테스트</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>최대</value>
+  </data>
+  <data name="label17.Text" xml:space="preserve">
+    <value>Swash-Servo position</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>최소</value>
+  </data>
+  <data name="label18.Text" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label19.Text" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="label20.Text" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="label21.Text" xml:space="preserve">
+    <value>Top</value>
+  </data>
+  <data name="label22.Text" xml:space="preserve">
+    <value>집단 이동</value>
+  </data>
+  <data name="label23.Text" xml:space="preserve">
+    <value>Rudder Travel</value>
+  </data>
+  <data name="label24.Text" xml:space="preserve">
+    <value>최대</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Servo 모드</value>
+  </data>
+  <data name="label25.Text" xml:space="preserve">
+    <value>전력 부족</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>위상 각</value>
+  </data>
+  <data name="label26.Text" xml:space="preserve">
+    <value>Idle</value>
+  </data>
+  <data name="groupBox8.Text" xml:space="preserve">
+    <value>모드 1 설정값</value>
+  </data>
+  <data name="label27.Text" xml:space="preserve">
+    <value>Stab 3</value>
+  </data>
+  <data name="groupBox9.Text" xml:space="preserve">
+    <value>날개 회전 속도 제어</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Zero</value>
+  </data>
+  <data name="label28.Text" xml:space="preserve">
+    <value>Stab 2</value>
+  </data>
+  <data name="H_GYR_GAIN.Text" xml:space="preserve">
+    <value>1000</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Tail 속도</value>
+  </data>
+  <data name="label29.Text" xml:space="preserve">
+    <value>Stab 1</value>
+  </data>
+  <data name="groupBox7.Text" xml:space="preserve">
+    <value>RSC Ramp Rate</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Runup(Sec)</value>
+  </data>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>집단 Pre-Comp</value>
+  </data>
+  <data name="HS4_MIN.Text" xml:space="preserve">
+    <value>1500</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>집단 상륙</value>
+  </data>
+  <data name="groupBox5.Text" xml:space="preserve">
+    <value>Swash Type</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Rate(Sec)</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Servo</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>Tail 유형</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Cyclic Travel</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Piro Comp</value>
+  </data>
+  <data name="HS4_MAX.Text" xml:space="preserve">
+    <value>1500</value>
+  </data>
+  <data name="myButtonH_SV_MANmax.Text" xml:space="preserve">
+    <value>최대</value>
+  </data>
+  <data name="groupBox12.Text" xml:space="preserve">
+    <value>V-Curve</value>
+  </data>
+  <data name="label30.Text" xml:space="preserve">
+    <value>Stab 4</value>
+  </data>
+  <data name="groupBox13.Text" xml:space="preserve">
+    <value>커브</value>
+  </data>
+  <data name="label31.Text" xml:space="preserve">
+    <value>Acro Expo</value>
+  </data>
+  <data name="groupBox11.Text" xml:space="preserve">
+    <value>조절판 출력</value>
+  </data>
+  <data name="myButtonH_SV_MANmin.Text" xml:space="preserve">
+    <value>최소</value>
+  </data>
+  <data name="label36.Text" xml:space="preserve">
+    <value>Servo</value>
+  </data>
+  <data name="H_SV2_POS.Text" xml:space="preserve">
+    <value>60</value>
+  </data>
+  <data name="label38.Text" xml:space="preserve">
+    <value>Rev</value>
+  </data>
+  <data name="myButtonH_SV_MANmanual.Text" xml:space="preserve">
+    <value>매뉴얼</value>
+  </data>
+  <data name="label37.Text" xml:space="preserve">
+    <value>위치</value>
+  </data>
+  <data name="fbl_modeFBL.Text" xml:space="preserve">
+    <value>Flybarless</value>
+  </data>
+  <data name="label39.Text" xml:space="preserve">
+    <value>Trim</value>
+  </data>
+  <data name="H_COL_MAX.Text" xml:space="preserve">
+    <value>1500</value>
+  </data>
+  <data name="myButtonH_SV_MANtest.Text" xml:space="preserve">
+    <value>시험</value>
+  </data>
+  <data name="CCPM.Text" xml:space="preserve">
+    <value>CCPM</value>
+  </data>
+  <data name="H_SV1_POS.Text" xml:space="preserve">
+    <value>-60</value>
+  </data>
+  <data name="H_SWASH_TYPE.Text" xml:space="preserve">
+    <value>H2</value>
+  </data>
+  <data name="H_COL_MIN.Text" xml:space="preserve">
+    <value>1500</value>
+  </data>
+  <data name="H_COL_MID.Text" xml:space="preserve">
+    <value>1500</value>
+  </data>
+  <data name="myButtonH_SV_MANzero.Text" xml:space="preserve">
+    <value>Zero</value>
+  </data>
+  <data name="label46.Text" xml:space="preserve">
+    <value>이득</value>
+  </data>
+  <data name="myButtonH_SV_MAN.Text" xml:space="preserve">
+    <value>동작</value>
+  </data>
+  <data name="label44.Text" xml:space="preserve">
+    <value>Trim</value>
+  </data>
+  <data name="label43.Text" xml:space="preserve">
+    <value>Rev</value>
+  </data>
+  <data name="label40.Text" xml:space="preserve">
+    <value>최소</value>
+  </data>
+  <data name="label41.Text" xml:space="preserve">
+    <value>바닥</value>
+  </data>
+</root>

@@ -691,7 +691,8 @@ namespace ZedGraph
 			// The reverse order is done so that curves that are later in the list are plotted behind
 			// curves that are earlier in the list
 
-			for ( int i = this.Count - 1; i >= 0; i-- )
+			//for ( int i = this.Count - 1; i >= 0; i-- )
+            for (int i = 0; i < this.Count; i++)
 			{
 				CurveItem curve = this[i];
 				

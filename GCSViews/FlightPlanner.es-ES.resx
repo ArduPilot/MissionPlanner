@@ -363,4 +363,16 @@
   <data name="Down.HeaderText" xml:space="preserve">
     <value>Abajo</value>
   </data>
+  <data name="deleteWPToolStripMenuItem.Text" xml:space="preserve">
+    <value>Borrar WP</value>
+  </data>
+  <data name="insertWpToolStripMenuItem.Text" xml:space="preserve">
+    <value>Insertar Wp</value>
+  </data>
+  <data name="clearMissionToolStripMenuItem.Text" xml:space="preserve">
+    <value>Limpiar Misión</value>
+  </data>
+  <data name="polygonToolStripMenuItem.Text" xml:space="preserve">
+    <value>Dibujar Polígono</value>
+  </data>
 </root>

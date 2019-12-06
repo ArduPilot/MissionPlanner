@@ -138,7 +138,10 @@
   <data name="TXT_terminal.Text" xml:space="preserve">
     <value>*注意* 请点击上方的连接
 命令行只在第一次连接电源时工作，日志只能通过USB下载
-新版本仅支持通过mavlink下载日志，请访问 飞行数据 &gt; 数据闪存日志</value>
+
+天书注:自AC3.2起,APM1/2不再支持通过本界面下载日志，请访问 飞行数据 &gt; 数据闪存日志
+      如果需要恢复默认设置，请访问 配置/调试 &gt; 全部参数表 &gt; 重置为默认值
+</value>
   </data>
   <data name="BUT_logbrowse.Text" xml:space="preserve">
     <value>浏览日志</value>

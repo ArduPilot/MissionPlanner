@@ -1,0 +1,1206 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="S1.Items" xml:space="preserve">
+    <value>115</value>
+  </data>
+  <data name="S1.Items1" xml:space="preserve">
+    <value>111</value>
+  </data>
+  <data name="S1.Items2" xml:space="preserve">
+    <value>57</value>
+  </data>
+  <data name="S1.Items3" xml:space="preserve">
+    <value>38</value>
+  </data>
+  <data name="S1.Items4" xml:space="preserve">
+    <value>19</value>
+  </data>
+  <data name="S1.Items5" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="S1.Items6" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="S1.Items7" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="S1.Items8" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="S1.ToolTip" xml:space="preserve">
+    <value>鮑率的單位為 kbps. 所以 57 表示為 57600.</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>鮑率</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>格式版本</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>速率(空中)</value>
+  </data>
+  <data name="S2.Items" xml:space="preserve">
+    <value>250</value>
+  </data>
+  <data name="S2.Items1" xml:space="preserve">
+    <value>192</value>
+  </data>
+  <data name="S2.Items2" xml:space="preserve">
+    <value>128</value>
+  </data>
+  <data name="S2.Items3" xml:space="preserve">
+    <value>96</value>
+  </data>
+  <data name="S2.Items4" xml:space="preserve">
+    <value>64</value>
+  </data>
+  <data name="S2.Items5" xml:space="preserve">
+    <value>48</value>
+  </data>
+  <data name="S2.Items6" xml:space="preserve">
+    <value>32</value>
+  </data>
+  <data name="S2.Items7" xml:space="preserve">
+    <value>24</value>
+  </data>
+  <data name="S2.Items8" xml:space="preserve">
+    <value>19</value>
+  </data>
+  <data name="S2.Items9" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="S2.Items10" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="S2.Items11" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="S2.Items12" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="S2.ToolTip" xml:space="preserve">
+    <value>速率是無線資料傳輸率單位為 kbps。128 表示 128kbps。 最大值為 192，最小值為 2。我不建議這個頻率低於 16 這樣會造成 tdm 同步時間太久。</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>網路 ID</value>
+  </data>
+  <data name="S3.Items" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="S3.Items1" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="S3.Items2" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="S3.Items3" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="S3.Items4" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="S3.Items5" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="S3.Items6" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="S3.Items7" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="S3.Items8" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="S3.Items9" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="S3.Items10" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="S3.Items11" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="S3.Items12" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="S3.Items13" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="S3.Items14" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="S3.Items15" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="S3.Items16" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="S3.Items17" xml:space="preserve">
+    <value>18</value>
+  </data>
+  <data name="S3.Items18" xml:space="preserve">
+    <value>19</value>
+  </data>
+  <data name="S3.Items19" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="S3.Items20" xml:space="preserve">
+    <value>21</value>
+  </data>
+  <data name="S3.Items21" xml:space="preserve">
+    <value>22</value>
+  </data>
+  <data name="S3.Items22" xml:space="preserve">
+    <value>23</value>
+  </data>
+  <data name="S3.Items23" xml:space="preserve">
+    <value>24</value>
+  </data>
+  <data name="S3.Items24" xml:space="preserve">
+    <value>25</value>
+  </data>
+  <data name="S3.Items25" xml:space="preserve">
+    <value>26</value>
+  </data>
+  <data name="S3.Items26" xml:space="preserve">
+    <value>27</value>
+  </data>
+  <data name="S3.Items27" xml:space="preserve">
+    <value>28</value>
+  </data>
+  <data name="S3.Items28" xml:space="preserve">
+    <value>29</value>
+  </data>
+  <data name="S3.Items29" xml:space="preserve">
+    <value>30</value>
+  </data>
+  <data name="S3.ToolTip" xml:space="preserve">
+    <value>"網路 ID" 由 16 位元組成。這被用於發送跳頻順序並確保資料來自正確的無線電。請確保您和其他人是使用不同的"網路 ID" 除非你想要在同一個區域使用相同網域的無線電。</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>發射功率</value>
+  </data>
+  <data name="S4.Items" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="S4.Items1" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="S4.Items2" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="S4.Items3" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="S4.Items4" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="S4.Items5" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="S4.Items6" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="S4.Items7" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="S4.ToolTip" xml:space="preserve">
+    <value>發射功率的單位為 dBm。 20dBm 就是 100mW。這個值的設定對於較低階的短距離測試非常有用。</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>ECC 校檢</value>
+  </data>
+  <data name="S5.ToolTip" xml:space="preserve">
+    <value>ECC 是設定啟用/關閉格雷的糾正碼。預設為關閉。如果啟用它你的資料會需要多一倍的字節發送，所以你會損失一半的頻寬，但是它最多能糾正每12位的數據中3位的錯誤。使用於遠距離時通常需配合較低的無線數據傳輸率。格雷解碼每個字節需要20微秒(每位元組則需要40微秒)，也就是說在較高的傳輸速率時你的 CPU 會受到限制。所以速率最好不要超過 128kbps。</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Mavlink 協議</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>伺機重送</value>
+  </data>
+  <data name="S7.ToolTip" xml:space="preserve">
+    <value>OPPRESEND enables/disables "opportunistic resend". When enabled the radio will send a packet twice if the serial input buffer has less than 256 bytes in it. The 2nd send is marked as a resend and discarded by the receiving radio if it got the first packet OK. This makes a big difference to the link quality, especially for uplink commands. 
+</value>
+  </data>
+  <data name="RS7.ToolTip" xml:space="preserve">
+    <value>OPPRESEND enables/disables "opportunistic resend". When enabled the radio will send a packet twice if the serial input buffer has less than 256 bytes in it. The 2nd send is marked as a resend and discarded by the receiving radio if it got the first packet OK. This makes a big difference to the link quality, especially for uplink commands. 
+</value>
+  </data>
+  <data name="RS5.ToolTip" xml:space="preserve">
+    <value>ECC 是設定啟用/關閉格雷的糾正碼。預設為關閉。如果啟用它你的資料會需要多一倍的字節發送，所以你會損失一半的頻寬，但是它最多能糾正每12位的數據中3位的錯誤。使用於遠距離時通常需配合較低的無線數據傳輸率。格雷解碼每個字節需要20微秒(每位元組則需要40微秒)，也就是說在較高的傳輸速率時你的 CPU 會受到限制。所以速率最好不要超過 128kbps。</value>
+  </data>
+  <data name="RS4.Items" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="RS4.Items1" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="RS4.Items2" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="RS4.Items3" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="RS4.Items4" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="RS4.Items5" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="RS4.Items6" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="RS4.Items7" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="RS4.ToolTip" xml:space="preserve">
+    <value>發射功率的單位為 dBm。 20dBm 就是 100mW。這個值的設定對於較低階的短距離測試非常有用。
+</value>
+  </data>
+  <data name="RS3.Items" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="RS3.Items1" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="RS3.Items2" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="RS3.Items3" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="RS3.Items4" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="RS3.Items5" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="RS3.Items6" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="RS3.Items7" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="RS3.Items8" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="RS3.Items9" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="RS3.Items10" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="RS3.Items11" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="RS3.Items12" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="RS3.Items13" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="RS3.Items14" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="RS3.Items15" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="RS3.Items16" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="RS3.Items17" xml:space="preserve">
+    <value>18</value>
+  </data>
+  <data name="RS3.Items18" xml:space="preserve">
+    <value>19</value>
+  </data>
+  <data name="RS3.Items19" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="RS3.Items20" xml:space="preserve">
+    <value>21</value>
+  </data>
+  <data name="RS3.Items21" xml:space="preserve">
+    <value>22</value>
+  </data>
+  <data name="RS3.Items22" xml:space="preserve">
+    <value>23</value>
+  </data>
+  <data name="RS3.Items23" xml:space="preserve">
+    <value>24</value>
+  </data>
+  <data name="RS3.Items24" xml:space="preserve">
+    <value>25</value>
+  </data>
+  <data name="RS3.Items25" xml:space="preserve">
+    <value>26</value>
+  </data>
+  <data name="RS3.Items26" xml:space="preserve">
+    <value>27</value>
+  </data>
+  <data name="RS3.Items27" xml:space="preserve">
+    <value>28</value>
+  </data>
+  <data name="RS3.Items28" xml:space="preserve">
+    <value>29</value>
+  </data>
+  <data name="RS3.Items29" xml:space="preserve">
+    <value>30</value>
+  </data>
+  <data name="RS3.ToolTip" xml:space="preserve">
+    <value>"網路 ID" 由 16 位元組成。這被用於發送跳頻順序並確保資料來自正確的無線電。請確保您和其他人是使用不同的"網路 ID" 除非你想要在同一個區域使用相同網域的無線電。 </value>
+  </data>
+  <data name="RS2.Items" xml:space="preserve">
+    <value>250</value>
+  </data>
+  <data name="RS2.Items1" xml:space="preserve">
+    <value>192</value>
+  </data>
+  <data name="RS2.Items2" xml:space="preserve">
+    <value>128</value>
+  </data>
+  <data name="RS2.Items3" xml:space="preserve">
+    <value>96</value>
+  </data>
+  <data name="RS2.Items4" xml:space="preserve">
+    <value>64</value>
+  </data>
+  <data name="RS2.Items5" xml:space="preserve">
+    <value>48</value>
+  </data>
+  <data name="RS2.Items6" xml:space="preserve">
+    <value>32</value>
+  </data>
+  <data name="RS2.Items7" xml:space="preserve">
+    <value>24</value>
+  </data>
+  <data name="RS2.Items8" xml:space="preserve">
+    <value>19</value>
+  </data>
+  <data name="RS2.Items9" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="RS2.Items10" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="RS2.Items11" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="RS2.Items12" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="RS2.ToolTip" xml:space="preserve">
+    <value>速率是無線資料傳輸率單位為 kbps。128 表示 128kbps。 最大值為 192，最小值為 2。我不建議這個頻率低於 16 這樣會造成 tdm 同步時間太久。</value>
+  </data>
+  <data name="RS1.Items" xml:space="preserve">
+    <value>115</value>
+  </data>
+  <data name="RS1.Items1" xml:space="preserve">
+    <value>111</value>
+  </data>
+  <data name="RS1.Items2" xml:space="preserve">
+    <value>57</value>
+  </data>
+  <data name="RS1.Items3" xml:space="preserve">
+    <value>38</value>
+  </data>
+  <data name="RS1.Items4" xml:space="preserve">
+    <value>19</value>
+  </data>
+  <data name="RS1.Items5" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="RS1.Items6" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="RS1.Items7" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="RS1.Items8" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="RS1.ToolTip" xml:space="preserve">
+    <value>鮑率的單位為 kbps. 所以 57 表示為 57600. 
+</value>
+  </data>
+  <data name="RSSI.ToolTip" xml:space="preserve">
+    <value>see the spec for a RSSI to dBm graph. The numbers at the end are: 
+txe: 發射端錯誤代碼 (eg. transmit timeouts) 
+rxe: 接收端錯誤代碼 (crc error, framing error etc) 
+stx: 發射端溢位錯誤代碼 
+rrx: 接收端溢位錯誤代碼
+ecc: number of 12 bit words successfully corrected by the golay code
+which result in a valid packet CRC 
+</value>
+  </data>
+  <data name="S10.Items" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="S10.Items1" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="S10.Items2" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="S10.Items3" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="S10.Items4" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="S10.Items5" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="S10.Items6" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="S10.Items7" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="S10.Items8" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="S10.Items9" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="S10.Items10" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="S10.Items11" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="S10.Items12" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="S10.Items13" xml:space="preserve">
+    <value>18</value>
+  </data>
+  <data name="S10.Items14" xml:space="preserve">
+    <value>19</value>
+  </data>
+  <data name="S10.Items15" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="S10.Items16" xml:space="preserve">
+    <value>30</value>
+  </data>
+  <data name="S10.Items17" xml:space="preserve">
+    <value>40</value>
+  </data>
+  <data name="S10.Items18" xml:space="preserve">
+    <value>50</value>
+  </data>
+  <data name="S10.ToolTip" xml:space="preserve">
+    <value>跳頻的頻道數</value>
+  </data>
+  <data name="S11.Items" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="S11.Items1" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="S11.Items2" xml:space="preserve">
+    <value>30</value>
+  </data>
+  <data name="S11.Items3" xml:space="preserve">
+    <value>40</value>
+  </data>
+  <data name="S11.Items4" xml:space="preserve">
+    <value>50</value>
+  </data>
+  <data name="S11.Items5" xml:space="preserve">
+    <value>60</value>
+  </data>
+  <data name="S11.Items6" xml:space="preserve">
+    <value>70</value>
+  </data>
+  <data name="S11.Items7" xml:space="preserve">
+    <value>80</value>
+  </data>
+  <data name="S11.Items8" xml:space="preserve">
+    <value>90</value>
+  </data>
+  <data name="S11.Items9" xml:space="preserve">
+    <value>100</value>
+  </data>
+  <data name="S11.ToolTip" xml:space="preserve">
+    <value>允許傳送的時間百分比</value>
+  </data>
+  <data name="S12.Items" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="S12.Items1" xml:space="preserve">
+    <value>25</value>
+  </data>
+  <data name="S12.ToolTip" xml:space="preserve">
+    <value>先接收後傳送</value>
+  </data>
+  <data name="RS12.Items" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="RS12.Items1" xml:space="preserve">
+    <value>25</value>
+  </data>
+  <data name="RS12.ToolTip" xml:space="preserve">
+    <value>先接收後傳送</value>
+  </data>
+  <data name="RS11.Items" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="RS11.Items1" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="RS11.Items2" xml:space="preserve">
+    <value>30</value>
+  </data>
+  <data name="RS11.Items3" xml:space="preserve">
+    <value>40</value>
+  </data>
+  <data name="RS11.Items4" xml:space="preserve">
+    <value>50</value>
+  </data>
+  <data name="RS11.Items5" xml:space="preserve">
+    <value>60</value>
+  </data>
+  <data name="RS11.Items6" xml:space="preserve">
+    <value>70</value>
+  </data>
+  <data name="RS11.Items7" xml:space="preserve">
+    <value>80</value>
+  </data>
+  <data name="RS11.Items8" xml:space="preserve">
+    <value>90</value>
+  </data>
+  <data name="RS11.Items9" xml:space="preserve">
+    <value>100</value>
+  </data>
+  <data name="RS11.ToolTip" xml:space="preserve">
+    <value>允許傳送的時間百分比</value>
+  </data>
+  <data name="RS10.Items" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="RS10.Items1" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="RS10.Items2" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="RS10.Items3" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="RS10.Items4" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="RS10.Items5" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="RS10.Items6" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="RS10.Items7" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="RS10.Items8" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="RS10.Items9" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="RS10.Items10" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="RS10.Items11" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="RS10.Items12" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="RS10.Items13" xml:space="preserve">
+    <value>18</value>
+  </data>
+  <data name="RS10.Items14" xml:space="preserve">
+    <value>19</value>
+  </data>
+  <data name="RS10.Items15" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="RS10.Items16" xml:space="preserve">
+    <value>30</value>
+  </data>
+  <data name="RS10.Items17" xml:space="preserve">
+    <value>40</value>
+  </data>
+  <data name="RS10.Items18" xml:space="preserve">
+    <value>50</value>
+  </data>
+  <data name="RS10.ToolTip" xml:space="preserve">
+    <value>跳頻的頻道數</value>
+  </data>
+  <data name="S9.Items" xml:space="preserve">
+    <value>902000</value>
+  </data>
+  <data name="S9.Items1" xml:space="preserve">
+    <value>907500</value>
+  </data>
+  <data name="S9.Items2" xml:space="preserve">
+    <value>915000</value>
+  </data>
+  <data name="S9.Items3" xml:space="preserve">
+    <value>921000</value>
+  </data>
+  <data name="S9.Items4" xml:space="preserve">
+    <value>928000</value>
+  </data>
+  <data name="S9.Items5" xml:space="preserve">
+    <value>433050</value>
+  </data>
+  <data name="S9.Items6" xml:space="preserve">
+    <value>434040</value>
+  </data>
+  <data name="S9.Items7" xml:space="preserve">
+    <value>434790</value>
+  </data>
+  <data name="S9.Items8" xml:space="preserve">
+    <value>435000</value>
+  </data>
+  <data name="S9.ToolTip" xml:space="preserve">
+    <value>終止頻率的單位 kHz</value>
+  </data>
+  <data name="S8.Items" xml:space="preserve">
+    <value>902000</value>
+  </data>
+  <data name="S8.Items1" xml:space="preserve">
+    <value>907500</value>
+  </data>
+  <data name="S8.Items2" xml:space="preserve">
+    <value>915000</value>
+  </data>
+  <data name="S8.Items3" xml:space="preserve">
+    <value>921000</value>
+  </data>
+  <data name="S8.Items4" xml:space="preserve">
+    <value>928000</value>
+  </data>
+  <data name="S8.Items5" xml:space="preserve">
+    <value>433050</value>
+  </data>
+  <data name="S8.Items6" xml:space="preserve">
+    <value>434040</value>
+  </data>
+  <data name="S8.Items7" xml:space="preserve">
+    <value>434790</value>
+  </data>
+  <data name="S8.Items8" xml:space="preserve">
+    <value>435000</value>
+  </data>
+  <data name="S8.Items9" xml:space="preserve">
+    <value />
+  </data>
+  <data name="S8.Items10" xml:space="preserve">
+    <value />
+  </data>
+  <data name="S8.Items11" xml:space="preserve">
+    <value />
+  </data>
+  <data name="S8.ToolTip" xml:space="preserve">
+    <value>起始頻率的單位 kHz</value>
+  </data>
+  <data name="RS8.Items" xml:space="preserve">
+    <value>902000</value>
+  </data>
+  <data name="RS8.Items1" xml:space="preserve">
+    <value>907500</value>
+  </data>
+  <data name="RS8.Items2" xml:space="preserve">
+    <value>915000</value>
+  </data>
+  <data name="RS8.Items3" xml:space="preserve">
+    <value>921000</value>
+  </data>
+  <data name="RS8.Items4" xml:space="preserve">
+    <value>928000</value>
+  </data>
+  <data name="RS8.Items5" xml:space="preserve">
+    <value>433050</value>
+  </data>
+  <data name="RS8.Items6" xml:space="preserve">
+    <value>434040</value>
+  </data>
+  <data name="RS8.Items7" xml:space="preserve">
+    <value>434790</value>
+  </data>
+  <data name="RS8.Items8" xml:space="preserve">
+    <value>435000</value>
+  </data>
+  <data name="RS8.ToolTip" xml:space="preserve">
+    <value>起始頻率的單位 kHz </value>
+  </data>
+  <data name="RS9.Items" xml:space="preserve">
+    <value>902000</value>
+  </data>
+  <data name="RS9.Items1" xml:space="preserve">
+    <value>907500</value>
+  </data>
+  <data name="RS9.Items2" xml:space="preserve">
+    <value>915000</value>
+  </data>
+  <data name="RS9.Items3" xml:space="preserve">
+    <value>921000</value>
+  </data>
+  <data name="RS9.Items4" xml:space="preserve">
+    <value>928000</value>
+  </data>
+  <data name="RS9.Items5" xml:space="preserve">
+    <value>433050</value>
+  </data>
+  <data name="RS9.Items6" xml:space="preserve">
+    <value>434040</value>
+  </data>
+  <data name="RS9.Items7" xml:space="preserve">
+    <value>434790</value>
+  </data>
+  <data name="RS9.Items8" xml:space="preserve">
+    <value>435000</value>
+  </data>
+  <data name="RS9.ToolTip" xml:space="preserve">
+    <value>終止頻率的單位 kHz </value>
+  </data>
+  <data name="linkLabel1.Text" xml:space="preserve">
+    <value>Led 狀態說明</value>
+  </data>
+  <data name="linkLabel1.ToolTip" xml:space="preserve">
+    <value>3DR 數傳有 2 個狀態指示燈， 一紅一綠。
+綠色 LED 閃爍 - 尋找另一個數傳中 
+綠色 LED 恆亮 - 已連結另一個數傳
+紅色 LED 閃爍 - 資料傳輸中 
+紅色 LED 恆亮 - 韌體更新中</value>
+  </data>
+  <data name="S15.Items" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="S15.Items1" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="S15.Items2" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="S15.Items3" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="S15.Items4" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="S15.Items5" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="S15.Items6" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="S15.Items7" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="S15.Items8" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="S15.Items9" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="S15.Items10" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="S15.Items11" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="S15.Items12" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="S15.Items13" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="S15.Items14" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="S15.Items15" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="S15.Items16" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="S15.Items17" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="S15.Items18" xml:space="preserve">
+    <value>18</value>
+  </data>
+  <data name="S15.Items19" xml:space="preserve">
+    <value>19</value>
+  </data>
+  <data name="S15.Items20" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="S15.Items21" xml:space="preserve">
+    <value>21</value>
+  </data>
+  <data name="S15.Items22" xml:space="preserve">
+    <value>22</value>
+  </data>
+  <data name="S15.Items23" xml:space="preserve">
+    <value>23</value>
+  </data>
+  <data name="S15.Items24" xml:space="preserve">
+    <value>24</value>
+  </data>
+  <data name="S15.Items25" xml:space="preserve">
+    <value>25</value>
+  </data>
+  <data name="S15.Items26" xml:space="preserve">
+    <value>26</value>
+  </data>
+  <data name="S15.Items27" xml:space="preserve">
+    <value>27</value>
+  </data>
+  <data name="S15.Items28" xml:space="preserve">
+    <value>28</value>
+  </data>
+  <data name="S15.Items29" xml:space="preserve">
+    <value>29</value>
+  </data>
+  <data name="S15.Items30" xml:space="preserve">
+    <value>30</value>
+  </data>
+  <data name="S15.ToolTip" xml:space="preserve">
+    <value>節點 ID。預設 ID 為 0。在多點作業的環境需要有一點為基礎點 。</value>
+  </data>
+  <data name="RS15.Items" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="RS15.Items1" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="RS15.Items2" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="RS15.Items3" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="RS15.Items4" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="RS15.Items5" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="RS15.Items6" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="RS15.Items7" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="RS15.Items8" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="RS15.Items9" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="RS15.Items10" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="RS15.Items11" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="RS15.Items12" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="RS15.Items13" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="RS15.Items14" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="RS15.Items15" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="RS15.Items16" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="RS15.Items17" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="RS15.Items18" xml:space="preserve">
+    <value>18</value>
+  </data>
+  <data name="RS15.Items19" xml:space="preserve">
+    <value>19</value>
+  </data>
+  <data name="RS15.Items20" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="RS15.Items21" xml:space="preserve">
+    <value>21</value>
+  </data>
+  <data name="RS15.Items22" xml:space="preserve">
+    <value>22</value>
+  </data>
+  <data name="RS15.Items23" xml:space="preserve">
+    <value>23</value>
+  </data>
+  <data name="RS15.Items24" xml:space="preserve">
+    <value>24</value>
+  </data>
+  <data name="RS15.Items25" xml:space="preserve">
+    <value>25</value>
+  </data>
+  <data name="RS15.Items26" xml:space="preserve">
+    <value>26</value>
+  </data>
+  <data name="RS15.Items27" xml:space="preserve">
+    <value>27</value>
+  </data>
+  <data name="RS15.Items28" xml:space="preserve">
+    <value>28</value>
+  </data>
+  <data name="RS15.Items29" xml:space="preserve">
+    <value>29</value>
+  </data>
+  <data name="RS15.Items30" xml:space="preserve">
+    <value>30</value>
+  </data>
+  <data name="RS15.ToolTip" xml:space="preserve">
+    <value>節點 ID。預設 ID 為 0。在多點作業的環境需要有一點為基礎點 。</value>
+  </data>
+  <data name="S6.ToolTip" xml:space="preserve">
+    <value>速率是無線資料傳輸率單位為 kbps。128 表示 128kbps。 最大值為 192，最小值為 2。我不建議這個頻率低於 16 這樣會造成 tdm 同步時間太久。</value>
+  </data>
+  <data name="RS6.ToolTip" xml:space="preserve">
+    <value>速率是無線資料傳輸率單位為 kbps。128 表示 128kbps。 最大值為 192，最小值為 2。我不建議這個頻率低於 16 這樣會造成 tdm 同步時間太久。</value>
+  </data>
+  <data name="S14.ToolTip" xml:space="preserve">
+    <value>開啟或關閉硬體流量控制</value>
+  </data>
+  <data name="RS14.ToolTip" xml:space="preserve">
+    <value>開啟或關閉硬體流量控制</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>韌體版本</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>信號強度</value>
+  </data>
+  <data name="BUT_savesettings.Text" xml:space="preserve">
+    <value>儲存設定</value>
+  </data>
+  <data name="BUT_getcurrent.Text" xml:space="preserve">
+    <value>載入設定</value>
+  </data>
+  <data name="BUT_upload.Text" xml:space="preserve">
+    <value>更新韌體 (地面端)</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>跳頻 起始頻率</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>跳頻 終止頻率</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>跳頻 頻道數</value>
+  </data>
+  <data name="label16.Text" xml:space="preserve">
+    <value>允許發射時間%</value>
+  </data>
+  <data name="label17.Text" xml:space="preserve">
+    <value>避開已用頻率</value>
+  </data>
+  <data name="label20.Text" xml:space="preserve">
+    <value>避開已用頻率</value>
+  </data>
+  <data name="label21.Text" xml:space="preserve">
+    <value>允許發射時間%</value>
+  </data>
+  <data name="label22.Text" xml:space="preserve">
+    <value>跳頻 頻道數</value>
+  </data>
+  <data name="label23.Text" xml:space="preserve">
+    <value>跳頻 終止頻率</value>
+  </data>
+  <data name="label24.Text" xml:space="preserve">
+    <value>跳頻 起始頻率</value>
+  </data>
+  <data name="label25.Text" xml:space="preserve">
+    <value>伺機重送</value>
+  </data>
+  <data name="label26.Text" xml:space="preserve">
+    <value>Mavlink 協議</value>
+  </data>
+  <data name="label27.Text" xml:space="preserve">
+    <value>ECC 校檢</value>
+  </data>
+  <data name="label28.Text" xml:space="preserve">
+    <value>發射功率</value>
+  </data>
+  <data name="label29.Text" xml:space="preserve">
+    <value>網路 ID</value>
+  </data>
+  <data name="label30.Text" xml:space="preserve">
+    <value>速率(空中)</value>
+  </data>
+  <data name="label31.Text" xml:space="preserve">
+    <value>格式版本</value>
+  </data>
+  <data name="label32.Text" xml:space="preserve">
+    <value>鮑率</value>
+  </data>
+  <data name="label19.Text" xml:space="preserve">
+    <value>流量管制</value>
+  </data>
+  <data name="linkLabel_mavlink.Text" xml:space="preserve">
+    <value>重設為標準 Mavlink 協議</value>
+  </data>
+  <data name="linkLabel_lowlatency.Text" xml:space="preserve">
+    <value>重設為最小延遲</value>
+  </data>
+  <data name="label18.Text" xml:space="preserve">
+    <value>最大窗口 (ms)</value>
+  </data>
+  <data name="label33.Text" xml:space="preserve">
+    <value>流量管制</value>
+  </data>
+  <data name="label34.Text" xml:space="preserve">
+    <value>最大窗口 (ms)</value>
+  </data>
+  <data name="BUT_Syncoptions.Text" xml:space="preserve">
+    <value>複製設定至機上端</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>地面端</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>機上端</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>韌體版本</value>
+  </data>
+  <data name="BUT_resettodefault.Text" xml:space="preserve">
+    <value>還原出廠值</value>
+  </data>
+  <data name="BUT_loadcustom.Text" xml:space="preserve">
+    <value>更新客制化韌體</value>
+  </data>
+</root>

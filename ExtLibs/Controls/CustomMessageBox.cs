@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using MissionPlanner.Controls;
 using System.Threading;
 
-namespace System
+namespace MissionPlanner.MsgBox
 {
     public static class CustomMessageBox
     {
@@ -34,7 +34,7 @@ namespace System
             return Show(text, caption, buttons, MessageBoxIcon.None);
         }
 
-        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, string YesText = "Yes", string NoText = "No")
         {
             DialogResult answer = DialogResult.Cancel;
 
@@ -43,23 +43,35 @@ namespace System
             // ensure we run this on the right thread - mono - mac
             if (Application.OpenForms.Count > 0 && Application.OpenForms[0].InvokeRequired)
             {
-                Application.OpenForms[0].Invoke((Action)delegate
+                try
                 {
-                    Console.WriteLine("CustomMessageBox thread running invoke " + System.Threading.Thread.CurrentThread.Name);
-                    answer =  ShowUI(text, caption, buttons, icon);
-                });
+                    Application.OpenForms[0].Invoke((Action) delegate
+                    {
+                        Console.WriteLine("CustomMessageBox thread running invoke " +
+                                          System.Threading.Thread.CurrentThread.Name);
+                        answer = ShowUI(text, caption, buttons, icon, YesText, NoText);
+                    });
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    // fall back
+                    Console.WriteLine("CustomMessageBox thread running " + System.Threading.Thread.CurrentThread.Name);
+                    answer = ShowUI(text, caption, buttons, icon, YesText, NoText);
+                }
             }
             else
             {
                 Console.WriteLine("CustomMessageBox thread running " + System.Threading.Thread.CurrentThread.Name);
-                answer =  ShowUI(text, caption, buttons, icon);
+                answer =  ShowUI(text, caption, buttons, icon, YesText, NoText);
             }
 
             return answer;
         }
 
-        static DialogResult ShowUI(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
+        static DialogResult ShowUI(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, string YesText = "Yes", string NoText = "No")
         {
+            DialogResult answer = DialogResult.Abort;
 
             if (text == null)
                 text = "";
@@ -91,84 +103,107 @@ namespace System
             if (icon != MessageBoxIcon.None)
                 textSize.Width += SystemIcons.Question.Width;
 
-            var msgBoxFrm = new Form
-                                {
-                                    FormBorderStyle = FormBorderStyle.FixedDialog,
-                                    ShowInTaskbar = true,
-                                    StartPosition = FormStartPosition.CenterParent,
-                                    Text = caption,
-                                    MaximizeBox = false,
-                                    MinimizeBox = false,
-                                    Width = textSize.Width + 50,
-                                    Height = textSize.Height + 120,
-                                    TopMost = true,
-                                    AutoScaleMode = AutoScaleMode.None,
-                                };
-
-            Rectangle screenRectangle = msgBoxFrm.RectangleToScreen(msgBoxFrm.ClientRectangle);
-            int titleHeight = screenRectangle.Top - msgBoxFrm.Top;
-
-            var lblMessage = new Label
-                                 {
-                                     Left = 58,
-                                     Top = 15,
-                                     Width = textSize.Width + 10,
-                                     Height = textSize.Height + 10,
-                                     Text = text
-                                 };
-
-            msgBoxFrm.Controls.Add(lblMessage);
-
-            msgBoxFrm.Width = lblMessage.Right + 50;
-
-            if (link != "" && linktext != "")
+            using (var msgBoxFrm = new Form
             {
-                var linklbl = new LinkLabel { Left = lblMessage.Left, Top = lblMessage.Bottom, Width = lblMessage.Width, Height = 15, Text = linktext, Tag = link };
-                linklbl.Click += linklbl_Click;
-
-                msgBoxFrm.Controls.Add(linklbl);
-            }
-
-            var actualIcon = getMessageBoxIcon(icon);
-
-            if (actualIcon == null)
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                ShowInTaskbar = true,
+                StartPosition = FormStartPosition.CenterParent,
+                Text = caption,
+                MaximizeBox = false,
+                MinimizeBox = false,
+                Width = textSize.Width + 20,
+                Height = textSize.Height + 120,
+                TopMost = true,
+                AutoScaleMode = AutoScaleMode.None,
+            })
             {
-                lblMessage.Location = new Point(FORM_X_MARGIN, FORM_Y_MARGIN);
+
+                Rectangle screenRectangle = msgBoxFrm.RectangleToScreen(msgBoxFrm.ClientRectangle);
+                int titleHeight = screenRectangle.Top - msgBoxFrm.Top;
+
+                var lblMessage = new Label
+                {
+                    Left = 58,
+                    Top = 15,
+                    Width = textSize.Width + 10,
+                    Height = textSize.Height + 10,
+                    Text = text,
+                    AutoSize = true
+                };
+
+                msgBoxFrm.Controls.Add(lblMessage);
+
+                msgBoxFrm.Width = lblMessage.Right + 50;
+
+                if (link != "" && linktext != "")
+                {
+                    linktext = AddNewLinesToText(linktext);
+                    Size textSize2 = TextRenderer.MeasureText(linktext, SystemFonts.DefaultFont);
+                    var linklbl = new LinkLabel
+                    {
+                        Left = FORM_X_MARGIN,
+                        Top = lblMessage.Bottom,
+                        Width = textSize2.Width,
+                        Height = textSize2.Height,
+                        Text = linktext,
+                        Tag = link,
+                        AutoSize = true
+                    };
+                    linklbl.Click += linklbl_Click;
+
+                    msgBoxFrm.Controls.Add(linklbl);
+
+                    msgBoxFrm.Width = Math.Max(msgBoxFrm.Width, linklbl.Right + 16);
+                }
+
+                var actualIcon = getMessageBoxIcon(icon);
+
+                if (actualIcon == null)
+                {
+                    lblMessage.Location = new Point(FORM_X_MARGIN, FORM_Y_MARGIN);
+                }
+                else
+                {
+                    var iconPbox = new PictureBox
+                    {
+                        Image = actualIcon.ToBitmap(),
+                        Location = new Point(FORM_X_MARGIN, FORM_Y_MARGIN)
+                    };
+                    msgBoxFrm.Controls.Add(iconPbox);
+                }
+
+
+                AddButtonsToForm(msgBoxFrm, buttons, YesText, NoText);
+
+                // display even if theme fails
+                try
+                {
+                    if (ApplyTheme != null)
+                        ApplyTheme(msgBoxFrm);
+                    //ThemeManager.ApplyThemeTo(msgBoxFrm);
+                }
+                catch
+                {
+                }
+
+                DialogResult test = msgBoxFrm.ShowDialog();
+
+                answer = _state;
             }
-            else
-            {
-                var iconPbox = new PictureBox
-                                   {
-                                       Image = actualIcon.ToBitmap(),
-                                       Location = new Point(FORM_X_MARGIN, FORM_Y_MARGIN)
-                                   };
-                msgBoxFrm.Controls.Add(iconPbox);
-            }
-
-
-            AddButtonsToForm(msgBoxFrm, buttons);
-
-            // display even if theme fails
-            try
-            {
-                if (ApplyTheme != null)
-                    ApplyTheme(msgBoxFrm);
-                //ThemeManager.ApplyThemeTo(msgBoxFrm);
-            }
-            catch { }
-
-            DialogResult test;
-
-                test = msgBoxFrm.ShowDialog();
-
-            DialogResult answer = _state;
 
             return answer;
         }
 
         static void linklbl_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(((LinkLabel)sender).Tag.ToString());
+            try
+            {
+                System.Diagnostics.Process.Start(((LinkLabel)sender).Tag.ToString());
+            }
+            catch (Exception exception)
+            {
+                CustomMessageBox.Show("Failed to open link " + ((LinkLabel) sender).Tag.ToString());
+            }
         }
 
         // from http://stackoverflow.com/questions/2512781/winforms-big-paragraph-tooltip/2512895#2512895
@@ -207,7 +242,7 @@ namespace System
             return sb.ToString();
         }
 
-        private static void AddButtonsToForm(Form msgBoxFrm, MessageBoxButtons buttons)
+        private static void AddButtonsToForm(Form msgBoxFrm, MessageBoxButtons buttons, string YesText = "Yes", string NoText = "No")
         {
             Rectangle screenRectangle = msgBoxFrm.RectangleToScreen(msgBoxFrm.ClientRectangle);
             int titleHeight = screenRectangle.Top - msgBoxFrm.Top;
@@ -240,7 +275,7 @@ namespace System
                     var butyes = new MyButton
                     {
                         Size = new Size(75, 23),
-                        Text = "Yes",
+                        Text = YesText,
                         Left = msgBoxFrm.Width - 75 * 2 - FORM_X_MARGIN * 2,
                         Top = msgBoxFrm.Height - 23 - FORM_Y_MARGIN - titleHeight
                     };
@@ -252,7 +287,7 @@ namespace System
                     var butno = new MyButton
                     {
                         Size = new Size(75, 23),
-                        Text = "No",
+                        Text = NoText,
                         Left = msgBoxFrm.Width - 75 - FORM_X_MARGIN,
                         Top = msgBoxFrm.Height - 23 - FORM_Y_MARGIN - titleHeight
                     };

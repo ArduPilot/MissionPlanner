@@ -1,24 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
+using System.Reflection;
+using System.Threading;
 using System.Windows.Forms;
-using MissionPlanner.Controls.BackstageView;
-using MissionPlanner.Controls;
 using log4net;
+using MissionPlanner.Comms;
+using MissionPlanner.Controls;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigHWBT : UserControl, IActivate
+    public partial class ConfigHWBT : MyUserControl, IActivate
     {
-        const float rad2deg = (float)(180 / Math.PI);
-        const float deg2rad = (float)(1.0 / rad2deg);
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        
+        private readonly Dictionary<int, int> baudmap = new Dictionary<int, int>
+        {
+            {57600, 7},
+            {38400, 6},
+            {9600, 4},
+            {19200, 5},
+            {115200, 8},
+            {1200, 1},
+            {2400, 2},
+            {4800, 3}
+        };
 
         public ConfigHWBT()
         {
@@ -29,69 +34,53 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (MainV2.comPort.BaseStream.IsOpen)
             {
-                this.Enabled = false;
-                return;
+                Enabled = false;
             }
-            else
-            {
-                this.Enabled = true;
-            }
+            Enabled = true;
         }
-
-        Dictionary<int, int> baudmap = new Dictionary<int, int>
-        {
-            {57600 , 7},
-            {38400 , 6},
-            {9600 , 4},
-            {19200 , 5},
-            {115200 , 8},
-            {1200 , 1},
-            {2400 , 2},
-            {4800 , 3},
-        };
 
         private void BUT_btsettings_Click(object sender, EventArgs e)
         {
-            string[] commands = new string[] 
+            string[] commands =
             {
                 "AT",
                 "AT+VERSION",
-                string.Format("AT+ROLE={0}\r\n",0),
-                string.Format("AT+NAME={0}\r\n",txt_name.Text),
-                string.Format("AT+NAME{0}",txt_name.Text),                
-                string.Format("AT+BAUD={0}\r\n",cmb_baud.Text),
-                string.Format("AT+BAUD{0}",baudmap[int.Parse(cmb_baud.Text)]),
-                string.Format("AT+PSWD={0}\r\n",txt_pin.Text),
-                string.Format("AT+PIN{0}",txt_pin.Text),                
+                string.Format("AT+ROLE={0}\r\n", 0),
+                string.Format("AT+NAME={0}\r\n", txt_name.Text),
+                string.Format("AT+NAME{0}", txt_name.Text),
+                string.Format("AT+BAUD={0}\r\n", cmb_baud.Text),
+                string.Format("AT+BAUD{0}", baudmap[int.Parse(cmb_baud.Text)]),
+                string.Format("AT+PSWD={0}\r\n", txt_pin.Text),
+                string.Format("AT+PIN{0}", txt_pin.Text),
                 "AT+RESET"
             };
 
-            bool pass = false;
+            var pass = false;
 
             foreach (var baud in baudmap)
             {
                 log.Info("Try baud " + baud);
-                using (System.IO.Ports.SerialPort port = new System.IO.Ports.SerialPort(MainV2.comPortName, baud.Key))
+                using (var port = new SerialPort(MainV2.comPortName, baud.Key))
                 {
                     try
                     {
                         port.Open();
                     }
-                    catch
+                    catch (Exception ex)
                     {
-                        CustomMessageBox.Show(Strings.SelectComport, Strings.ERROR);
+                        CustomMessageBox.Show(Strings.SelectComport + " " + ex.ToString(), Strings.ERROR);
                         return;
                     }
 
                     port.Write("AT");
 
-                    System.Threading.Thread.Sleep(1100);
+                    Thread.Sleep(1100);
 
                     port.Write("\r\n");
 
-                    System.Threading.Thread.Sleep(200);
+                    Thread.Sleep(200);
 
-                    string isok = port.ReadExisting();
+                    var isok = port.ReadExisting();
 
                     if (isok.Contains("OK"))
                     {
@@ -101,18 +90,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         {
                             log.Info("Sending " + cmd);
                             port.Write(cmd);
-                            System.Threading.Thread.Sleep(1000);
-                            log.Info("Resp "+port.ReadExisting());
+                            Thread.Sleep(1000);
+                            log.Info("Resp " + port.ReadExisting());
                         }
 
                         pass = true;
                         break;
                     }
-                    else
-                    {
-                        log.Info("No Answer");
-                        System.Threading.Thread.Sleep(1100);
-                    }
+                    log.Info("No Answer");
+                    Thread.Sleep(1100);
                 }
             }
 

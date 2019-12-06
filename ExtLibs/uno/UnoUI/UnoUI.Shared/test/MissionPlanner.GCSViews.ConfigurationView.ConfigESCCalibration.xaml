@@ -1,0 +1,48 @@
+<UserControl x:Class="MissionPlanner.GCSViews.ConfigurationView.ConfigESCCalibration" d:DesignHeight="349" d:DesignWidth="650"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+xmlns:BackstageView="using:MissionPlanner.Controls.BackstageView"
+xmlns:Controls="using:MissionPlanner.Controls"
+xmlns:GCSViews="using:MissionPlanner.GCSViews"
+xmlns:Wizard="using:MissionPlanner.Wizard"
+xmlns:ConfigurationView="using:MissionPlanner.GCSViews.ConfigurationView"
+xmlns:Custom="using:Custom"
+xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+xmlns:PreFlight="using:MissionPlanner.Controls.PreFlight"
+mc:Ignorable="d"
+> <Grid><TextBlock Name="label13" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="181,297,0,0" Width="430" Height="17">maximum speed of motors while in flight (almost all escs have a deadzone at the top)</TextBlock>
+<TextBlock Name="label12" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="181,271,0,0" Width="407" Height="17">minimum speed of motors while in flight (slightly higher than "Spin when Armed")</TextBlock>
+<TextBlock Name="label11" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="181,245,0,0" Width="291" Height="17">speed when motors are armed but throttle is at zero (idle)</TextBlock>
+<TextBlock Name="label10" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="181,219,0,0" Width="171" Height="17">Leave as 0 to use RX input range</TextBlock>
+<TextBlock Name="label9" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="181,193,0,0" Width="171" Height="17">Leave as 0 to use RX input range</TextBlock>
+<TextBlock Name="label8" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="11,297,0,0" Width="79" Height="17">Spin Maximum</TextBlock>
+<TextBlock Name="label7" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="11,271,0,0" Width="76" Height="17">Spin minimum</TextBlock>
+<TextBlock Name="label6" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="11,245,0,0" Width="93" Height="17">Spin when Armed</TextBlock>
+<TextBlock Name="label5" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="11,219,0,0" Width="93" Height="17">Output PWM Max</TextBlock>
+<TextBlock Name="label4" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="11,193,0,0" Width="90" Height="17">Output PWM Min</TextBlock>
+<Custom:DecimalUpDown Name="mavlinkNumericUpDown5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="113,290,0,0" Width="62"></Custom:DecimalUpDown>
+<Custom:DecimalUpDown Name="mavlinkNumericUpDown4" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="113,264,0,0" Width="62"></Custom:DecimalUpDown>
+<Custom:DecimalUpDown Name="mavlinkNumericUpDown3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="113,238,0,0" Width="62"></Custom:DecimalUpDown>
+<Custom:DecimalUpDown Name="mavlinkNumericUpDown2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="113,212,0,0" Width="62"></Custom:DecimalUpDown>
+<Custom:DecimalUpDown Name="mavlinkNumericUpDown1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="113,186,0,0" Width="62"></Custom:DecimalUpDown>
+<TextBlock Name="label3" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="11,165,0,0" Width="59" Height="17">ESC Type:</TextBlock>
+<Grid Name="groupBox2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,316,0,0" Width="644" Height="5">
+</Grid>
+<Grid Name="groupBox3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,147,0,0" Width="644" Height="5">
+</Grid>
+<ComboBox Name="mavlinkComboBox1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="113,158,0,0" Width="120" Height="21"></ComboBox>
+<Button Name="buttonStart" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="11,42,0,0" Width="93" Height="25">Calibrate ESCs</Button>
+<TextBlock Name="label2" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="110,42,0,0" Width="258" Height="92">Remove Props!
+After pushing this button:
+-Disconnect USB and battery
+-Plug in battery
+-when LEDs flash, push Saftey Switch (if present)
+-ESCs should beep as they are calibrated
+- restart flight controller normally</TextBlock>
+<Grid Name="groupBox1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,23,0,0" Width="644" Height="5">
+</Grid>
+<TextBlock Name="label1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="12" Margin="7,5,0,0" Width="194" Height="24">ESC Calibration (AC3.3+)</TextBlock>
+</Grid></UserControl>

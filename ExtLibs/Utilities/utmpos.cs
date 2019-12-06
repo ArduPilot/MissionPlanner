@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GeoAPI.CoordinateSystems;
+using GeoAPI.CoordinateSystems.Transformations;
 using ProjNet.CoordinateSystems;
 using ProjNet.CoordinateSystems.Transformations;
 
@@ -16,7 +18,7 @@ namespace MissionPlanner.Utilities
         public object Tag;
 
         static CoordinateTransformationFactory ctfac = new CoordinateTransformationFactory();
-        static GeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
+        static IGeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
 
         public utmpos(double x, double y, int zone)
         {
@@ -53,7 +55,7 @@ namespace MissionPlanner.Utilities
             return a.ToLLA();
         }
 
-        public PointLatLngAlt ToLLA()
+        public PointLatLngAlt ToLLA2()
         {
             GeoUtility.GeoSystem.UTM utm = new GeoUtility.GeoSystem.UTM(Math.Abs(zone), x, y, zone < 0 ? GeoUtility.GeoSystem.Base.Geocentric.Hemisphere.South : GeoUtility.GeoSystem.Base.Geocentric.Hemisphere.North);
 
@@ -62,8 +64,10 @@ namespace MissionPlanner.Utilities
                 ans.Tag = this.Tag.ToString();
 
             return ans;
+        }
 
-            /*
+        public PointLatLngAlt ToLLA()
+        {
             IProjectedCoordinateSystem utm = ProjectedCoordinateSystem.WGS84_UTM(Math.Abs(zone), zone < 0 ? false : true);
 
             ICoordinateTransformation trans = ctfac.CreateFromCoordinateSystems(wgs84, utm);
@@ -76,7 +80,6 @@ namespace MissionPlanner.Utilities
                 ans.Tag = this.Tag.ToString();
 
             return ans;
-             */
         }
 
         public static List<utmpos> ToList(List<double[]> input, int zone)
@@ -91,6 +94,14 @@ namespace MissionPlanner.Utilities
         public double GetDistance(utmpos b)
         {
             return Math.Sqrt(Math.Pow(Math.Abs(x - b.x), 2) + Math.Pow(Math.Abs(y - b.y), 2));
+        }
+
+        public double GetBearing(utmpos b)
+        {
+            var y = b.y - this.y;
+            var x = b.x - this.x;
+
+            return (MathHelper.rad2deg * (Math.Atan2(x, y)) + 360) % 360;
         }
 
         public override bool Equals(object obj)

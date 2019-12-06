@@ -56,7 +56,7 @@
             // ConfigDefaultSettings
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            
             this.Controls.Add(this.BUT_paramfileload);
             this.Controls.Add(this.CMB_paramfiles);
             this.Controls.Add(this.textBox1);

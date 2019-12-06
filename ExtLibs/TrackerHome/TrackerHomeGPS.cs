@@ -27,12 +27,14 @@ using TrackerHomeGPS;
         {
             /* Register with Device Change event */
             Host.DeviceChanged += deviceChanged;
-            /* Add to Flight Planner Map Menu */
-            ToolStripMenuItem trkrHome = new ToolStripMenuItem("Tracker Home");
-            trkrHome.Name = "trkrHomeMenuItem";
-            ToolStripMenuItem obtainFrmMod = new ToolStripMenuItem("Obtain From Module");
+        /* Add to Flight Planner Map Menu */
+        ToolStripMenuItem trkrHome = new ToolStripMenuItem(Strings.TrackerHome)
+        {
+            Name = "trkrHomeMenuItem"
+        };
+        ToolStripMenuItem obtainFrmMod = new ToolStripMenuItem(Strings.ObtainFromModule);
             obtainFrmMod.Click += setTrackerHomeFromModule;
-            ToolStripMenuItem setAtLoc = new ToolStripMenuItem("Set Here");
+            ToolStripMenuItem setAtLoc = new ToolStripMenuItem(Strings.SetHere);
             setAtLoc.Click += setFromPlannerLocation;
 
             trkrHome.DropDownItems.AddRange( new ToolStripItem[] { obtainFrmMod, setAtLoc } );
@@ -41,7 +43,7 @@ using TrackerHomeGPS;
             int index = col.Count;
             foreach (ToolStripItem item in col)
             {
-                if (item.Text.Equals("Tracker Home"))
+                if (item.Text.Equals(Strings.TrackerHome))
                 {
                     index = col.IndexOf(item);
                     col.Remove(item);
@@ -64,7 +66,7 @@ using TrackerHomeGPS;
                 if (_Available == false)
                 {
                     _Available = true;
-                    if (CustomMessageBox.Show("A GPS module was detected on your system. Would you like to use it to set your tracker home location?", "Tracker Home", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    if (CustomMessageBox.Show("A GPS module was detected on your system. Would you like to use it to set your tracker home location?", "Tracker Home", MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
                     {
                         GPSPosition pos = gpsModule.GetCoordinates();
                         double alt = getGEAlt(pos.Lat, pos.Lng);

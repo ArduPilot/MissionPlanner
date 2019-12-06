@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SyncService>
+  <Push>
+    <summary>
+      Pushes (uploads) a file to the remote device.
+    </summary>
+    <param name="stream">
+      A <see cref="Stream"/> that contains the contents of the file.
+    </param>
+    <param name="remotePath">
+      The path, on the device, to which to push the file.
+    </param>
+    <param name="permissions">
+      The permission octet that contains the permissions of the newly created file on the device.
+    </param>
+    <param name="timestamp">
+      The time at which the file was last modified.
+    </param>
+    <param name="cancellationToken">
+      A <see cref="CancellationToken"/> that can be used to cancel the task.
+    </param>
+  </Push>
+
+  <Pull>
+    <summary>
+      Pulls (downloads) a file from the remote device.
+    </summary>
+    <param name="remotePath">
+      The path, on the device, of the file to pull.
+    </param>
+    <param name="stream">
+      A <see cref="Stream"/> that will receive the contents of the file.
+    </param>
+    <param name="cancellationToken">
+      A <see cref="CancellationToken"/> that can be used to cancel the task.
+    </param>
+  </Pull>
+
+  <Stat>
+    <summary>
+      Returns information about a file on the device.
+    </summary>
+    <param name="remotePath">
+      The path of the file on the device.
+    </param>
+    <returns>
+      A <see cref="FileStatistics"/> object that contains information about the file.
+    </returns>
+  </Stat>
+
+  <GetDirectoryListing>
+    <summary>
+      Lists the contents of a directory on the device.
+    </summary>
+    <param name="remotePath">
+      The path to the directory on the device.
+    </param>
+    <returns>
+      For each child item of the directory, a <see cref="FileStatistics"/> object
+      with information of the item.
+    </returns>
+  </GetDirectoryListing>
+
+  <Open>
+    <summary>
+      Opens this connection.
+    </summary>
+  </Open>
+
+  <IsOpen>
+    <summary>
+      Gets a value indicating whether this instance is open.
+    </summary>
+    <value>
+      <see langword="true"/> if this instance is open; otherwise, <see langword="false"/>.
+    </value>
+  </IsOpen>
+</SyncService>

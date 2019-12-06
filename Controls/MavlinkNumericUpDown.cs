@@ -1,15 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using System.Collections;
 using MissionPlanner.Utilities;
+using log4net;
+using System.Reflection;
 
 namespace MissionPlanner.Controls
 {
     public class MavlinkNumericUpDown : NumericUpDown
     {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         [System.ComponentModel.Browsable(true)]
         public float Min { get; set; }
 
@@ -19,11 +19,11 @@ namespace MissionPlanner.Controls
         [System.ComponentModel.Browsable(true)]
         public string ParamName { get; set; }
 
-        [System.ComponentModel.Browsable(true)]
-        public Hashtable param { get; set; }
 
         Control _control;
         float _scale = 1;
+
+        Timer timer = new Timer();
 
         [System.ComponentModel.Browsable(true)]
         public event EventHandler ValueUpdated;
@@ -35,15 +35,19 @@ namespace MissionPlanner.Controls
 
             this.Name = "MavlinkNumericUpDown";
 
+            timer.Tick += Timer_Tick;
+
             this.Enabled = false;
         }
 
-        public void setup(float Min, float Max, float Scale, float Increment, string paramname, Hashtable paramlist, Control enabledisable = null)
+        public void setup(float Min, float Max, float Scale, float Increment, string paramname,
+            MAVLink.MAVLinkParamList paramlist, Control enabledisable = null)
         {
-            setup(Min, Max, Scale, Increment, new string[] { paramname }, paramlist, enabledisable);
+            setup(Min, Max, Scale, Increment, new string[] {paramname}, paramlist, enabledisable);
         }
 
-        public void setup(float Min, float Max, float Scale, float Increment, string[] paramname, Hashtable paramlist, Control enabledisable = null)
+        public void setup(float Min, float Max, float Scale, float Increment, string[] paramname,
+            MAVLink.MAVLinkParamList paramlist, Control enabledisable = null)
         {
             this.ValueChanged -= MavlinkNumericUpDown_ValueChanged;
 
@@ -65,18 +69,28 @@ namespace MissionPlanner.Controls
             if (Min == Max)
             {
                 double mint = Min, maxt = Max;
-                ParameterMetaDataRepository.GetParameterRange(ParamName, ref mint, ref maxt, MainV2.comPort.MAV.cs.firmware.ToString());
-                Min = (float)mint;
-                Max = (float)maxt;
+                ParameterMetaDataRepository.GetParameterRange(ParamName, ref mint, ref maxt,
+                    MainV2.comPort.MAV.cs.firmware.ToString());
+                Min = (float) mint;
+                Max = (float) maxt;
+                if (Min == Max)
+                    log.InfoFormat("{0} {1} = {2}", ParamName, Min, Max);
+            }
+
+            if (Increment == 0)
+            {
+                double Inc = 0;
+                if (ParameterMetaDataRepository.GetParameterIncrement(ParamName, ref Inc,
+                    MainV2.comPort.MAV.cs.firmware.ToString()))
+                    Increment = (float) Inc;
             }
 
             _scale = Scale;
-            this.Minimum = (decimal)(Min);
-            this.Maximum = (decimal)(Max);
-            this.Increment = (decimal)(Increment);
-            this.DecimalPlaces = BitConverter.GetBytes(decimal.GetBits((decimal)Increment)[3])[2];
-  
-            this.param = paramlist;
+            this.Minimum = (decimal) (Min);
+            this.Maximum = (decimal) (Max);
+            this.Increment = (decimal) (Increment);
+            this.DecimalPlaces = BitConverter.GetBytes(decimal.GetBits((decimal) Increment)[3])[2];
+
             this._control = enabledisable;
 
             if (paramlist.ContainsKey(ParamName))
@@ -86,9 +100,9 @@ namespace MissionPlanner.Controls
 
                 enableControl(true);
 
-                decimal value = (decimal)((float)paramlist[ParamName] / _scale);
+                decimal value = (decimal) ((float) paramlist[ParamName]/_scale);
 
-                int dec = BitConverter.GetBytes(decimal.GetBits((decimal)value)[3])[2];
+                int dec = BitConverter.GetBytes(decimal.GetBits((decimal) value)[3])[2];
 
                 if (dec > this.DecimalPlaces)
                     this.DecimalPlaces = dec;
@@ -99,7 +113,6 @@ namespace MissionPlanner.Controls
                     this.Maximum = value;
 
                 base.Value = value;
-
             }
             else
             {
@@ -121,21 +134,51 @@ namespace MissionPlanner.Controls
 
         void MavlinkNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            if (ValueUpdated!= null)
+            string value = base.Text;
+            if (decimal.Parse(value) > base.Maximum)
+            {
+                if (
+                    CustomMessageBox.Show(ParamName + " Value out of range\nDo you want to accept the new value?",
+                        "Out of range", MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
+                {
+                    base.Maximum = decimal.Parse(value);
+                    base.Value = decimal.Parse(value);
+                }
+            }
+
+            if (ValueUpdated != null)
             {
                 this.UpdateEditText();
-                ValueUpdated(this, new MAVLinkParamChanged(ParamName, (float)base.Value * (float)_scale));
+                ValueUpdated(this, new MAVLinkParamChanged(ParamName, (float) base.Value*(float) _scale));
                 return;
             }
 
-            try
+            lock (timer)
             {
-                bool ans = MainV2.comPort.setParam(ParamName, (float)base.Value * (float)_scale);
-                if (ans == false)
-                    CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed,ParamName), Strings.ERROR);
+                timer.Interval = 300;
+
+                if (!timer.Enabled)
+                    timer.Start();
             }
-            catch { CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, ParamName), Strings.ERROR); }
         }
 
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            lock (timer)
+            {
+                try
+                {
+                    bool ans = MainV2.comPort.setParam(ParamName, (float) base.Value * (float) _scale);
+                    if (ans == false)
+                        CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, ParamName), Strings.ERROR);
+                }
+                catch
+                {
+                    CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, ParamName), Strings.ERROR);
+                }
+
+                timer.Stop();
+            }
+        }
     }
 }

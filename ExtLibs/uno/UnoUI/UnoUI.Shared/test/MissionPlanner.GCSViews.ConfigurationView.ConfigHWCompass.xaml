@@ -1,0 +1,76 @@
+<UserControl x:Class="MissionPlanner.GCSViews.ConfigurationView.ConfigHWCompass" d:DesignHeight="474" d:DesignWidth="650"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+xmlns:BackstageView="using:MissionPlanner.Controls.BackstageView"
+xmlns:Controls="using:MissionPlanner.Controls"
+xmlns:GCSViews="using:MissionPlanner.GCSViews"
+xmlns:Wizard="using:MissionPlanner.Wizard"
+xmlns:ConfigurationView="using:MissionPlanner.GCSViews.ConfigurationView"
+xmlns:Custom="using:Custom"
+xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+xmlns:PreFlight="using:MissionPlanner.Controls.PreFlight"
+mc:Ignorable="d"
+> <Grid><Button Name="buttonAPMExternal" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="497,33,0,0" Width="151" Height="23">APM and External Compass</Button>
+<Button Name="QuickAPM25" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="349,33,0,0" Width="144" Height="23">APM2.5 (Internal Compass)</Button>
+<Button Name="buttonQuickPixhawk" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="231,33,0,0" Width="114" Height="23">Pixhawk/PX4</Button>
+<TextBlock Name="label1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="14,37,0,0" Width="227" Height="17">Select device to quick-configure parameters:</TextBlock>
+<Grid Name="groupBoxCompass3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="432,153,0,0" Width="200" Height="150">
+<TextBlock Name="LBL_compass3_mot" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="9,120,0,0" Width="29" Height="17">MOT</TextBlock>
+<TextBlock Name="LBL_compass3_offset" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="9,103,0,0" Width="49" Height="17">OFFSET</TextBlock>
+<Controls:MavlinkCheckBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,39,0,0" Width="148" Height="23"></Controls:MavlinkCheckBox>
+<Controls:MavlinkCheckBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,20,0,0" Width="148" Height="23"></Controls:MavlinkCheckBox>
+<ComboBox Name="CMB_compass3_orient" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="12,68,0,0" Width="182" Height="21"></ComboBox>
+</Grid>
+<Grid Name="groupBoxCompass2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="223,153,0,0" Width="200" Height="150">
+<TextBlock Name="LBL_compass2_mot" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="9,120,0,0" Width="29" Height="17">MOT</TextBlock>
+<TextBlock Name="LBL_compass2_offset" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="9,103,0,0" Width="49" Height="17">OFFSET</TextBlock>
+<Controls:MavlinkCheckBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,39,0,0" Width="148" Height="23"></Controls:MavlinkCheckBox>
+<Controls:MavlinkCheckBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,20,0,0" Width="148" Height="23"></Controls:MavlinkCheckBox>
+<ComboBox Name="CMB_compass2_orient" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="12,68,0,0" Width="182" Height="21"></ComboBox>
+</Grid>
+<Grid Name="groupBoxCompass1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="17,153,0,0" Width="200" Height="150">
+<TextBlock Name="LBL_compass1_mot" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="12,120,0,0" Width="29" Height="17">MOT</TextBlock>
+<TextBlock Name="LBL_compass1_offset" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="12,103,0,0" Width="49" Height="17">OFFSET</TextBlock>
+<Controls:MavlinkCheckBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,39,0,0" Width="148" Height="23"></Controls:MavlinkCheckBox>
+<Controls:MavlinkCheckBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,20,0,0" Width="148" Height="23"></Controls:MavlinkCheckBox>
+<ComboBox Name="CMB_compass1_orient" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="12,68,0,0" Width="182" Height="21"></ComboBox>
+</Grid>
+<Grid Name="groupBoxGeneralSettings" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="17,62,0,0" Width="615" Height="85">
+<ComboBox Name="CMB_primary_compass" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="108,44,0,0" Width="92" Height="21"></ComboBox>
+<TextBlock Name="LBL_primary_compass" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="12,48,0,0" Width="97" Height="17">Primary Compass:</TextBlock>
+<Controls:MavlinkCheckBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="465,18,0,0" Width="148" Height="23"></Controls:MavlinkCheckBox>
+<Controls:MavlinkCheckBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6,18,0,0" Width="148" Height="23"></Controls:MavlinkCheckBox>
+<CheckBox Name="CHK_autodec" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="218,18,0,0" Width="177" Height="22">Obtain declination automatically</CheckBox>
+<TextBlock Name="label2" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="236,44,0,0" Width="47" Height="17">Degrees</TextBlock>
+<TextBlock Name="label3" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="343,43,0,0" Width="44" Height="17">Minutes</TextBlock>
+<TextBox Name="TXT_declination_min" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="" FontSize="8.25" Margin="391,40,0,0" Width="53" Height="20"></TextBox>
+<TextBox Name="TXT_declination_deg" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="" FontSize="8.25" Margin="284,41,0,0" Width="53" Height="20"></TextBox>
+<TextBlock Name="linkLabelmagdec" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="236,64,0,0" Width="106" Height="17">Declination WebSite</TextBlock>
+</Grid>
+<TextBlock Name="label4" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="436,309,0,0" Width="21" Height="17">OR</TextBlock>
+<Grid Name="groupBoxmpcalib" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="460,309,0,0" Width="172" Height="57">
+<Button Name="BUT_MagCalibrationLive" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,20,0,0" Width="66" Height="27">Live Calibration</Button>
+<TextBlock Name="linkLabel1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="76,27,0,0" Width="94" Height="17">Youtube Example</TextBlock>
+</Grid>
+<Grid Name="groupBoxonboardcalib" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="17,309,0,0" Width="413" Height="162">
+<TextBlock Name="label6" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="203,139,0,0" Width="163" Height="17">Relax fitness if calibration fails</TextBlock>
+<TextBlock Name="label10" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="7,139,0,0" Width="41" Height="17">Fitness</TextBlock>
+<ComboBox Name="mavlinkComboBoxfitness" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="77,136,0,0" Width="121" Height="21"></ComboBox>
+<TextBlock Name="label9" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,117,0,0" Width="36" Height="17">Mag 3</TextBlock>
+<TextBlock Name="label8" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,88,0,0" Width="36" Height="17">Mag 2</TextBlock>
+<TextBlock Name="label7" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,59,0,0" Width="36" Height="17">Mag 1</TextBlock>
+<ProgressBar Name="horizontalProgressBar3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="49,107,0,0" Width="204" Height="23"></ProgressBar>
+<ProgressBar Name="horizontalProgressBar2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="49,78,0,0" Width="204" Height="23"></ProgressBar>
+<ProgressBar Name="horizontalProgressBar1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="49,49,0,0" Width="204" Height="23"></ProgressBar>
+<TextBox Name="lbl_obmagresult" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="" FontSize="8.25" Margin="259,20,0,0" Width="148" Height="110"></TextBox>
+<Button Name="BUT_OBmagcalaccept" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="97,20,0,0" Width="75" Height="23">Accept</Button>
+<Button Name="BUT_OBmagcalcancel" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="178,20,0,0" Width="75" Height="23">Cancel</Button>
+<Button Name="BUT_OBmagcalstart" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="16,20,0,0" Width="75" Height="23">Start</Button>
+</Grid>
+<TextBlock Name="label5" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="12" Margin="7,3,0,0" Width="167" Height="20">Compass</TextBlock>
+<Grid Name="groupBox2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,21,0,0" Width="644" Height="5">
+</Grid>
+</Grid></UserControl>

@@ -1,0 +1,139 @@
+<UserControl x:Class="MissionPlanner.GCSViews.ConfigurationView.ConfigTradHeli" d:DesignHeight="733" d:DesignWidth="776"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+xmlns:BackstageView="using:MissionPlanner.Controls.BackstageView"
+xmlns:Controls="using:MissionPlanner.Controls"
+xmlns:GCSViews="using:MissionPlanner.GCSViews"
+xmlns:Wizard="using:MissionPlanner.Wizard"
+xmlns:ConfigurationView="using:MissionPlanner.GCSViews.ConfigurationView"
+xmlns:Custom="using:Custom"
+xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+xmlns:PreFlight="using:MissionPlanner.Controls.PreFlight"
+mc:Ignorable="d"
+> <Grid><Grid Name="groupBox13" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="520,474,0,0" Width="125" Height="179">
+<TextBlock Name="label31" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,152,0,0" Width="56" Height="17">Acro Expo</TextBlock>
+<Custom:DecimalUpDown Name="mavlinkNumericUpDownim_acro_col_exp" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="68,150,0,0" Width="51"></Custom:DecimalUpDown>
+<TextBlock Name="label30" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,99,0,0" Width="37" Height="17">Stab 4</TextBlock>
+<Custom:DecimalUpDown Name="mavlinkNumericUpDownim_stab_col_3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="68,71,0,0" Width="51"></Custom:DecimalUpDown>
+<Custom:DecimalUpDown Name="mavlinkNumericUpDownim_stab_col_4" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="68,97,0,0" Width="51"></Custom:DecimalUpDown>
+<TextBlock Name="label27" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,73,0,0" Width="37" Height="17">Stab 3</TextBlock>
+<TextBlock Name="label28" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,47,0,0" Width="37" Height="17">Stab 2</TextBlock>
+<Custom:DecimalUpDown Name="mavlinkNumericUpDownim_stab_col_2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="68,45,0,0" Width="51"></Custom:DecimalUpDown>
+<TextBlock Name="label29" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,21,0,0" Width="37" Height="17">Stab 1</TextBlock>
+<Custom:DecimalUpDown Name="mavlinkNumericUpDownim_stab_col_1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="68,19,0,0" Width="51"></Custom:DecimalUpDown>
+</Grid>
+<Grid Name="groupBox12" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="651,325,0,0" Width="117" Height="102">
+<TextBlock Name="label16" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,73,0,0" Width="50" Height="17">High Pwr</TextBlock>
+<Custom:DecimalUpDown Name="mavlinkNumericUpDownh_rsc_power_high" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="60,71,0,0" Width="51"></Custom:DecimalUpDown>
+<TextBlock Name="label25" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,47,0,0" Width="47" Height="17">Low Pwr</TextBlock>
+<Custom:DecimalUpDown Name="mavlinkNumericUpDownh_rsc_power_low" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="60,45,0,0" Width="51"></Custom:DecimalUpDown>
+<TextBlock Name="label26" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,21,0,0" Width="22" Height="17">Idle</TextBlock>
+<Custom:DecimalUpDown Name="mavlinkNumericUpDownh_rsc_idle" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="60,19,0,0" Width="51"></Custom:DecimalUpDown>
+</Grid>
+<Grid Name="groupBox11" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="651,217,0,0" Width="117" Height="102">
+<Controls:MavlinkCheckBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="96,71,0,0" Width="15" Height="14"></Controls:MavlinkCheckBox>
+<TextBlock Name="label13" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,73,0,0" Width="24" Height="17">Rev</TextBlock>
+<TextBlock Name="label14" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,47,0,0" Width="26" Height="17">Max</TextBlock>
+<Custom:DecimalUpDown Name="mavlinkNumericUpDownh_rsc_max" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="62,45,0,0" Width="49"></Custom:DecimalUpDown>
+<TextBlock Name="label15" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,21,0,0" Width="22" Height="17">Min</TextBlock>
+<Custom:DecimalUpDown Name="mavlinkNumericUpDownh_rsc_min" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="62,19,0,0" Width="49"></Custom:DecimalUpDown>
+</Grid>
+<TextBlock Name="label3" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="17,342,0,0" Width="68" Height="17">Phase Angle</TextBlock>
+<Custom:DecimalUpDown Name="mavlinkNumericUpDownH_PHANG" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="96,340,0,0" Width="50"></Custom:DecimalUpDown>
+<TextBlock Name="label2" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="337,16,0,0" Width="65" Height="17">Servo Mode</TextBlock>
+<Grid Name="groupBox6" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="334,33,0,0" Width="80" Height="209">
+<Button Name="myButtonH_SV_MANtest" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,164,0,0" Width="68" Height="23">Test</Button>
+<Button Name="myButtonH_SV_MANmin" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,135,0,0" Width="68" Height="23">Min</Button>
+<Button Name="myButtonH_SV_MANzero" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,106,0,0" Width="68" Height="23">Zero</Button>
+<Button Name="myButtonH_SV_MANmax" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,77,0,0" Width="68" Height="23">Max</Button>
+<Button Name="myButtonH_SV_MANmanual" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,48,0,0" Width="68" Height="23">Manual</Button>
+<Button Name="myButtonH_SV_MAN" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,19,0,0" Width="68" Height="23">Active</Button>
+</Grid>
+<Grid Name="groupBox10" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="242,249,0,0" Width="172" Height="136">
+<TextBlock Name="label11" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,114,0,0" Width="98" Height="17">Bootup Servo Test</TextBlock>
+<TextBlock Name="label10" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,88,0,0" Width="57" Height="17">Hover Roll</TextBlock>
+<TextBlock Name="label9" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,66,0,0" Width="58" Height="17">Piro Comp</TextBlock>
+<TextBlock Name="label8" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,42,0,0" Width="69" Height="17">Cyclic Travel</TextBlock>
+<Controls:MavlinkCheckBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="151,66,0,0" Width="15" Height="14"></Controls:MavlinkCheckBox>
+<Custom:DecimalUpDown Name="mavlinkNumericUpDownh_sv_test" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="106,112,0,0" Width="60"></Custom:DecimalUpDown>
+<Custom:DecimalUpDown Name="mavlinkNumericUpDownatc_hovr_rol_trm" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="106,86,0,0" Width="60"></Custom:DecimalUpDown>
+<Custom:DecimalUpDown Name="mavlinkNumericUpDownh_cyc_max" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="106,40,0,0" Width="60"></Custom:DecimalUpDown>
+<TextBlock Name="label4" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,16,0,0" Width="97" Height="17">Landing Collective</TextBlock>
+<Custom:DecimalUpDown Name="mavlinkNumericUpDownland_col_min" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="106,14,0,0" Width="60"></Custom:DecimalUpDown>
+</Grid>
+<Grid Name="groupBox9" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="651,18,0,0" Width="117" Height="45">
+<ComboBox Name="H_RSC_MODE" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="7,19,0,0" Width="104" Height="21"></ComboBox>
+</Grid>
+<Grid Name="groupBox8" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="651,64,0,0" Width="117" Height="47">
+<Custom:DecimalUpDown Name="mavlinkudH_RSC_SETPOINT" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6,19,0,0" Width="105"></Custom:DecimalUpDown>
+</Grid>
+<Grid Name="groupBox7" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="651,109,0,0" Width="117" Height="102">
+<TextBlock Name="label12" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,73,0,0" Width="39" Height="17">Critical</TextBlock>
+<Custom:DecimalUpDown Name="mavlinkNumericUpDownH_RSC_CRITICAL" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="62,71,0,0" Width="49"></Custom:DecimalUpDown>
+<TextBlock Name="label7" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,47,0,0" Width="65" Height="17">Runup(Sec)</TextBlock>
+<Custom:DecimalUpDown Name="mavlinkNumericUpDownrunuptime" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="74,45,0,0" Width="37"></Custom:DecimalUpDown>
+<TextBlock Name="label5" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,21,0,0" Width="55" Height="17">Rate(Sec)</TextBlock>
+<Custom:DecimalUpDown Name="mavlinkudH_RSC_RATE" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="74,19,0,0" Width="37"></Custom:DecimalUpDown>
+</Grid>
+<Grid Name="groupBox4" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="450,268,0,0" Width="169" Height="51">
+<Custom:DecimalUpDown Name="H_COLYAW" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="49,19,0,0" Width="76"></Custom:DecimalUpDown>
+</Grid>
+<Grid Name="groupBox5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,3,0,0" Width="126" Height="60">
+<Grid Name="panel1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="4,36,0,0" Width="107" Height="24">
+<Controls:MavlinkCheckBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,3,0,0" Width="75" Height="18"></Controls:MavlinkCheckBox>
+</Grid>
+<RadioButton Name="H_SWASH_TYPE" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="67,15,0,0" Width="42" Height="24">H1</RadioButton>
+<RadioButton Name="CCPM" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,19,0,0" Width="56" Height="18">CCPM</RadioButton>
+</Grid>
+<Grid Name="groupBox3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="450,182,0,0" Width="169" Height="80">
+<Custom:DecimalUpDown Name="mavlinkNumericUpDowntailspeed" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="97,57,0,0" Width="47"></Custom:DecimalUpDown>
+<TextBlock Name="label6" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="33,62,0,0" Width="58" Height="17">Tail Speed</TextBlock>
+<ComboBox Name="mavlinkComboBoxTailType" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="32,14,0,0" Width="112" Height="21"></ComboBox>
+<TextBlock Name="label46" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="33,40,0,0" Width="28" Height="17">Gain</TextBlock>
+<Custom:DecimalUpDown Name="H_GYR_GAIN" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="97,37,0,0" Width="47"></Custom:DecimalUpDown>
+</Grid>
+<Grid Name="groupBox1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="242,33,0,0" Width="80" Height="209">
+<TextBlock Name="label1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="24,87,0,0" Width="27" Height="17">Zero</TextBlock>
+<TextBlock Name="label41" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="19,157,0,0" Width="40" Height="17">Bottom</TextBlock>
+<TextBlock Name="label21" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="23,15,0,0" Width="24" Height="17">Top</TextBlock>
+<Custom:DecimalUpDown Name="H_COL_MIN" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="16,172,0,0" Width="52"></Custom:DecimalUpDown>
+<Custom:DecimalUpDown Name="H_COL_MID" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="16,102,0,0" Width="53"></Custom:DecimalUpDown>
+<Custom:DecimalUpDown Name="H_COL_MAX" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="16,31,0,0" Width="52"></Custom:DecimalUpDown>
+</Grid>
+<Grid Name="groupBox2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="450,98,0,0" Width="169" Height="78">
+<TextBlock Name="label24" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="122,16,0,0" Width="26" Height="17">Max</TextBlock>
+<Custom:DecimalUpDown Name="HS4_MIN" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,33,0,0" Width="48"></Custom:DecimalUpDown>
+<Custom:DecimalUpDown Name="HS4_MAX" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="114,33,0,0" Width="46"></Custom:DecimalUpDown>
+<TextBlock Name="label40" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="21,16,0,0" Width="22" Height="17">Min</TextBlock>
+<Controls:MavlinkCheckBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="91,60,0,0" Width="15" Height="14"></Controls:MavlinkCheckBox>
+<TextBlock Name="label43" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="58,59,0,0" Width="24" Height="17">Rev</TextBlock>
+<Custom:DecimalUpDown Name="HS4_TRIM" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="64,34,0,0" Width="44"></Custom:DecimalUpDown>
+<TextBlock Name="label44" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="70,16,0,0" Width="27" Height="17">Trim</TextBlock>
+</Grid>
+<Custom:DecimalUpDown Name="HS3_TRIM" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="102,314,0,0" Width="50"></Custom:DecimalUpDown>
+<Custom:DecimalUpDown Name="HS2_TRIM" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="102,288,0,0" Width="50"></Custom:DecimalUpDown>
+<Custom:DecimalUpDown Name="HS1_TRIM" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="102,262,0,0" Width="50"></Custom:DecimalUpDown>
+<TextBlock Name="label39" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="107,249,0,0" Width="27" Height="17">Trim</TextBlock>
+<TextBlock Name="label38" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="78,249,0,0" Width="24" Height="17">Rev</TextBlock>
+<TextBlock Name="label37" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="31,249,0,0" Width="45" Height="17">Position</TextBlock>
+<TextBlock Name="label36" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="-1,249,0,0" Width="34" Height="17">Servo</TextBlock>
+<TextBlock Name="label23" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="496,16,0,0" Width="76" Height="17">Rudder Travel</TextBlock>
+<TextBlock Name="label22" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="209,16,0,0" Width="88" Height="17">Collective Travel</TextBlock>
+<TextBlock Name="label20" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="9,317,0,0" Width="10" Height="17">3</TextBlock>
+<TextBlock Name="label19" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="9,291,0,0" Width="10" Height="17">2</TextBlock>
+<TextBlock Name="label18" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="9,265,0,0" Width="10" Height="17">1</TextBlock>
+<Custom:DecimalUpDown Name="H_SV3_POS" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="34,314,0,0" Width="41"></Custom:DecimalUpDown>
+<Custom:DecimalUpDown Name="H_SV2_POS" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="34,288,0,0" Width="41"></Custom:DecimalUpDown>
+<Custom:DecimalUpDown Name="H_SV1_POS" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="34,262,0,0" Width="41"></Custom:DecimalUpDown>
+<Controls:MavlinkCheckBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="81,317,0,0" Width="15" Height="14"></Controls:MavlinkCheckBox>
+<Controls:MavlinkCheckBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="81,291,0,0" Width="15" Height="14"></Controls:MavlinkCheckBox>
+<Controls:MavlinkCheckBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="81,268,0,0" Width="15" Height="14"></Controls:MavlinkCheckBox>
+<TextBlock Name="label17" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="42,72,0,0" Width="114" Height="17">Swash-Servo position</TextBlock>
+<ProgressBar Name="HS4" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="423,39,0,0" Width="222" Height="42"></ProgressBar>
+<ProgressBar Name="HS3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="184,33,0,0" Width="213" Height="42" >    <ProgressBar.RenderTransform>
+                <CompositeTransform Rotation="90" TranslateX="42"/>
+            </ProgressBar.RenderTransform> </ProgressBar>
+</Grid></UserControl>

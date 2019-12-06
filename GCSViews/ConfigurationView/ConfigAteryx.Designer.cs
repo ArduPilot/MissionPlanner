@@ -895,7 +895,7 @@
             // ConfigAteryx
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            
             this.Controls.Add(this.BUT_read_flash);
             this.Controls.Add(this.BUT_write_flash);
             this.Controls.Add(this.groupBox13);

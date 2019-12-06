@@ -18,7 +18,7 @@ namespace MissionPlanner.Utilities
 
         public static event EventHandler GotTFRs;
 
-        static string tfrurl = "http://www.jepptech.com/tfr/Query.asp?UserID=Public";
+        public static string tfrurl = "http://www.jepptech.com/tfr/Query.asp?UserID=Public";
 
         public static List<tfritem> tfrs = new List<tfritem>();
 
@@ -35,13 +35,14 @@ namespace MissionPlanner.Utilities
 
         // R is inclusive, B is exclusive
 
-        static string tfrcache = System.Windows.Forms.Application.StartupPath + Path.DirectorySeparatorChar + "tfr.xml";
+        public static string tfrcache = "tfr.xml";
 
         public static void GetTFRs()
         {
-                var request = WebRequest.Create(tfrurl);
-
-                request.BeginGetResponse(tfrcallback, request);
+            var request = WebRequest.Create(tfrurl);
+            if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
+                ((HttpWebRequest)request).UserAgent = Settings.Instance.UserAgent;
+            request.BeginGetResponse(tfrcallback, request);
         }
 
         private static void tfrcallback(IAsyncResult ar)
@@ -52,24 +53,26 @@ namespace MissionPlanner.Utilities
 
                 // check if cache exists and last write was today
                 if (File.Exists(tfrcache) &&
-                    new FileInfo(tfrcache).LastWriteTime.ToShortDateString() == DateTime.Now.ToShortDateString()) 
+                    new FileInfo(tfrcache).LastWriteTime.ToShortDateString() == DateTime.Now.ToShortDateString())
                 {
                     content = File.ReadAllText(tfrcache);
                 }
                 else
                 {
                     // Set the State of request to asynchronous.
-                    WebRequest myWebRequest1 = (WebRequest)ar.AsyncState;
+                    WebRequest myWebRequest1 = (WebRequest) ar.AsyncState;
 
-                    WebResponse response = myWebRequest1.EndGetResponse(ar);
+                    using (WebResponse response = myWebRequest1.EndGetResponse(ar))
+                    {
 
-                    var st = response.GetResponseStream();
+                        var st = response.GetResponseStream();
 
-                    StreamReader sr = new StreamReader(st);
+                        StreamReader sr = new StreamReader(st);
 
-                    content = sr.ReadToEnd();
+                        content = sr.ReadToEnd();
 
-                    File.WriteAllText(tfrcache, content);                    
+                        File.WriteAllText(tfrcache, content);
+                    }
                 }
 
                 XDocument xdoc = XDocument.Parse(content);
@@ -79,29 +82,29 @@ namespace MissionPlanner.Utilities
                 for (int a = 1; a < 100; a++)
                 {
                     var newtfrs = (from _item in xdoc.Element("TFRSET").Elements("TFR" + a)
-                                   select new tfritem
-                                   {
-                                       ID = _item.Element("ID").Value,
-                                       NID = _item.Element("NID").Value,
-                                       VERIFIED = _item.Element("VERIFIED").Value,
-                                       NAME = _item.Element("NAME").Value,
-                                       COMMENT = _item.Element("COMMENT").Value,
-                                       ACCESS = _item.Element("ACCESS").Value,
-                                       APPEAR = _item.Element("APPEAR").Value,
-                                       TYPE = _item.Element("TYPE").Value,
-                                       MINALT = _item.Element("MINALT").Value,
-                                       MAXALT = _item.Element("MAXALT").Value,
-                                       SEGS = _item.Element("SEGS").Value,
-                                       BOUND = _item.Element("BOUND").Value,
-                                       SRC = _item.Element("SRC").Value,
-                                       CREATED = _item.Element("CREATED").Value,
-                                       MODIFIED = _item.Element("MODIFIED").Value,
-                                       DELETED = _item.Element("DELETED").Value,
-                                       ACTIVE = _item.Element("ACTIVE").Value,
-                                       EXPIRES = _item.Element("EXPIRES").Value,
-                                       SUBMITID = _item.Element("SUBMITID").Value,
-                                       SUBMITHOST = _item.Element("SUBMITHOST").Value,
-                                   }).ToList();
+                        select new tfritem
+                        {
+                            ID = _item.Element("ID").Value,
+                            NID = _item.Element("NID").Value,
+                            VERIFIED = _item.Element("VERIFIED").Value,
+                            NAME = _item.Element("NAME").Value,
+                            COMMENT = _item.Element("COMMENT").Value,
+                            ACCESS = _item.Element("ACCESS").Value,
+                            APPEAR = _item.Element("APPEAR").Value,
+                            TYPE = _item.Element("TYPE").Value,
+                            MINALT = _item.Element("MINALT").Value,
+                            MAXALT = _item.Element("MAXALT").Value,
+                            SEGS = _item.Element("SEGS").Value,
+                            BOUND = _item.Element("BOUND").Value,
+                            SRC = _item.Element("SRC").Value,
+                            CREATED = _item.Element("CREATED").Value,
+                            MODIFIED = _item.Element("MODIFIED").Value,
+                            DELETED = _item.Element("DELETED").Value,
+                            ACTIVE = _item.Element("ACTIVE").Value,
+                            EXPIRES = _item.Element("EXPIRES").Value,
+                            SUBMITID = _item.Element("SUBMITID").Value,
+                            SUBMITHOST = _item.Element("SUBMITHOST").Value,
+                        }).ToList();
 
                     if (newtfrs == null || newtfrs.Count == 0)
                         break;
@@ -112,7 +115,13 @@ namespace MissionPlanner.Utilities
                 if (GotTFRs != null)
                     GotTFRs(tfrs, null);
             }
-            catch {  }
+            catch
+            {
+                try
+                {
+                    File.Delete(tfrcache);
+                } catch { }
+            }
         }
 
         public class tfritem
@@ -148,8 +157,6 @@ namespace MissionPlanner.Utilities
 
                 var matches = all.Matches(BOUND);
 
-                Console.WriteLine(BOUND);
-
                 bool isarcterminate = false;
                 bool iscircleterminate = false;
                 int arcdir = 0;
@@ -160,6 +167,16 @@ namespace MissionPlanner.Utilities
                 {
                     try
                     {
+                        if (item.Groups[0].Value.ToString().StartsWith("R") || item.Groups[0].Value.ToString().StartsWith("B"))
+                        {
+                            // start new element
+                            if (pointlist.Count > 0)
+                            {
+                                list.Add(pointlist);
+                                pointlist = new List<PointLatLng>();
+                            }
+                        }
+
                         if (item.Groups[2].Value == "L")
                         {
                             var point = new PointLatLngAlt(double.Parse(item.Groups[4].Value, CultureInfo.InvariantCulture), double.Parse(item.Groups[6].Value, CultureInfo.InvariantCulture));
@@ -198,8 +215,6 @@ namespace MissionPlanner.Utilities
 
                                 pointlist.Add(point);
 
-                                list.Add(pointlist);
-                                pointlist = new List<PointLatLng>();
 
                                 isarcterminate = false;
                                 iscircleterminate = false;
@@ -269,6 +284,9 @@ namespace MissionPlanner.Utilities
                     }
                     catch { }
                 }
+
+                if(pointlist.Count > 0)
+                    list.Add(pointlist);
 
                 return list;
             }

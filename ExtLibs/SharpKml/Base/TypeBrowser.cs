@@ -113,7 +113,6 @@ namespace SharpKml.Base
             }
 
             Type type = value.GetType();
-            int crap = 0;
             //string name = type.GetEnumName(value);
 
             var memInfo = type.GetMember(value.ToString());

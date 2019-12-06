@@ -65,7 +65,7 @@ namespace Core.Geometry
         {
             if (GeometryChanged != null)
             {
-                GeometryChanged(this, new EventArgs());
+                GeometryChanged(this, EventArgs.Empty);
             }
         }
 

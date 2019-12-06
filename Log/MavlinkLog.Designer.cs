@@ -38,9 +38,13 @@
             this.BUT_convertcsv = new MissionPlanner.Controls.MyButton();
             this.BUT_paramsfromlog = new MissionPlanner.Controls.MyButton();
             this.BUT_getwpsfromlog = new MissionPlanner.Controls.MyButton();
-            this.BUT_droneshare = new MissionPlanner.Controls.MyButton();
             this.BUT_matlab = new MissionPlanner.Controls.MyButton();
             this.treeView1 = new System.Windows.Forms.TreeView();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // BUT_redokml
@@ -102,13 +106,6 @@
             this.BUT_getwpsfromlog.UseVisualStyleBackColor = true;
             this.BUT_getwpsfromlog.Click += new System.EventHandler(this.BUT_getwpsfromlog_Click);
             // 
-            // BUT_droneshare
-            // 
-            resources.ApplyResources(this.BUT_droneshare, "BUT_droneshare");
-            this.BUT_droneshare.Name = "BUT_droneshare";
-            this.BUT_droneshare.UseVisualStyleBackColor = true;
-            this.BUT_droneshare.Click += new System.EventHandler(this.BUT_droneshare_Click);
-            // 
             // BUT_matlab
             // 
             resources.ApplyResources(this.BUT_matlab, "BUT_matlab");
@@ -118,29 +115,43 @@
             // 
             // treeView1
             // 
-            resources.ApplyResources(this.treeView1, "treeView1");
             this.treeView1.CheckBoxes = true;
+            resources.ApplyResources(this.treeView1, "treeView1");
             this.treeView1.Name = "treeView1";
-            this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
+            // 
+            // splitContainer1
+            // 
+            resources.ApplyResources(this.splitContainer1, "splitContainer1");
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.zg1);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.treeView1);
             // 
             // MavlinkLog
             // 
+            
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.treeView1);
+            this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.BUT_matlab);
-            this.Controls.Add(this.BUT_droneshare);
             this.Controls.Add(this.BUT_getwpsfromlog);
             this.Controls.Add(this.BUT_paramsfromlog);
             this.Controls.Add(this.BUT_convertcsv);
-            this.Controls.Add(this.zg1);
             this.Controls.Add(this.BUT_graphmavlog);
             this.Controls.Add(this.BUT_humanreadable);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.BUT_redokml);
             this.Name = "MavlinkLog";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Log_FormClosing);
+         
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -155,8 +166,8 @@
         private Controls.MyButton BUT_convertcsv;
         private Controls.MyButton BUT_paramsfromlog;
         private Controls.MyButton BUT_getwpsfromlog;
-        private Controls.MyButton BUT_droneshare;
         private Controls.MyButton BUT_matlab;
         private System.Windows.Forms.TreeView treeView1;
+        private System.Windows.Forms.SplitContainer splitContainer1;
     }
 }

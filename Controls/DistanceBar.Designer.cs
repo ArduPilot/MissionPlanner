@@ -33,7 +33,7 @@
             // DistanceBar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            
             this.Name = "DistanceBar";
             this.Size = new System.Drawing.Size(579, 54);
             this.ResumeLayout(false);

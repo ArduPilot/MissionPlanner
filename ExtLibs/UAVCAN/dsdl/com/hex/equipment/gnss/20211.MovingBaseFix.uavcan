@@ -1,0 +1,10 @@
+uavcan.Timestamp timestamp
+uint8[16] base_in_use_hwid
+void6
+uint2 CARRIER_SOLUTION_TYPE_NONE = 0
+uint2 CARRIER_SOLUTION_TYPE_FLOAT = 1
+uint2 CARRIER_SOLUTION_TYPE_FIXED = 2
+uint2 carrier_solution_type
+float32[<=3] pos_rel_body
+float32[3] pos_rel_ecef
+float16[<=6] pos_rel_ned_covariance

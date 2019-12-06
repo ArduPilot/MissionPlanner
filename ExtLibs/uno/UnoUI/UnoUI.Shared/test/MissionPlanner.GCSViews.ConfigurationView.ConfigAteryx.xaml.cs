@@ -1,0 +1,1 @@
+namespace MissionPlanner.GCSViews.ConfigurationView { public partial class ConfigAteryx{public ConfigAteryx(){this.InitializeComponent();}}}

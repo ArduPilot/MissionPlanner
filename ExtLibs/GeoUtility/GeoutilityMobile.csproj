@@ -14,7 +14,7 @@
     <PlatformID>BD0CC567-F6FD-4ca3-99D2-063EFDFC0A39</PlatformID>
     <OSVersion>5.1</OSVersion>
     <DeployDirSuffix>Geoutility</DeployDirSuffix>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <NativePlatformName>Windows Mobile 5.0 Smartphone SDK</NativePlatformName>
     <FormFactorID>
     </FormFactorID>
@@ -23,7 +23,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
+    <DebugType>portable</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Mobile\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG;Smartphone, COMPACT_FRAMEWORK</DefineConstants>

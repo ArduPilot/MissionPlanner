@@ -40,7 +40,7 @@
             // ConfigMandatory
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            
             this.Controls.Add(this.label1);
             this.Name = "ConfigMandatory";
             this.ResumeLayout(false);

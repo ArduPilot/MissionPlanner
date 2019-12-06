@@ -1,126 +1,70 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1378A66C-38E4-46F5-A05F-DC04EF7D4D16}</ProjectGuid>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <ApplicationIcon />
+    <OutputTypeEx>library</OutputTypeEx>
+    <StartupObject></StartupObject>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>True</DebugSymbols>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MissionPlanner.Utilities</RootNamespace>
-    <AssemblyName>MissionPlanner.Utilities</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
+    <DefineConstants />
   </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="DirectShowLib-2005">
-      <HintPath>..\..\extLibs\DirectShowLib-2005.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
-    <Reference Include="Ionic.Zip">
-      <HintPath>..\..\packages\DotNetZip.1.9.2\lib\net20\Ionic.Zip.dll</HintPath>
-    </Reference>
-    <Reference Include="log4net">
-      <HintPath>..\..\extLibs\log4net.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="ProjNet">
-      <HintPath>..\..\packages\ProjNet.1.2\lib\net20\ProjNet.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Speech" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <Compile Remove="UAVCAN\**" />
+    <EmbeddedResource Remove="UAVCAN\**" />
+    <None Remove="UAVCAN\**" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="adsb.cs" />
-    <Compile Include="Attributes\DisplayTextAttribute.cs" />
-    <Compile Include="Attributes\PrivateAttribute.cs" />
-    <Compile Include="AviWriter.cs" />
-    <Compile Include="BigInteger.cs" />
-    <Compile Include="Capture.cs" />
-    <Compile Include="CaptureMJPEG.cs" />
-    <Compile Include="CircularBuffer.cs" />
-    <Compile Include="CircularStream.cs" />
-    <Compile Include="CleanDrivers.cs" />
-    <Compile Include="CollectionExtensions.cs" />
-    <Compile Include="EnumTranslator.cs" />
-    <Compile Include="hires.cs" />
-    <Compile Include="KIndex.cs" />
-    <Compile Include="LangUtility.cs" />
-    <Compile Include="locationwp.cs" />
-    <Compile Include="MeasureString.cs" />
-    <Compile Include="PointLatLngAlt.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rect.cs" />
-    <Compile Include="Speech.cs" />
-    <Compile Include="srtm.cs" />
-    <Compile Include="TCPConsole.cs" />
-    <Compile Include="tfr.cs" />
-    <Compile Include="Tracking.cs" />
-    <Compile Include="utmpos.cs" />
-    <Compile Include="Vario.cs" />
+    <Compile Remove="Capture.cs" />
   </ItemGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\BaseClasses\BaseClasses.csproj">
-      <Project>{2A8E8AF5-74E7-49DB-A42E-9360FA7A6CC4}</Project>
-      <Name>BaseClasses</Name>
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\GeoUtility\GeoUtility.csproj">
-      <Project>{7F7994CE-823F-4A04-BBEA-D0A3808FF56D}</Project>
-      <Name>GeoUtility</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GMap.NET.Core\GMap.NET.Core.csproj">
-      <Project>{d0c39d9d-bed0-418b-9a5e-713176caf40c}</Project>
-      <Name>GMap.NET.Core</Name>
-    </ProjectReference>
+    <PackageReference Include="BitMiracle.LibTiff.NET" Version="2.4.584.1" />
+    <PackageReference Include="csmatio" Version="1.0.20" />
+    <PackageReference Include="DotNetZip.NetStandard" Version="1.12.0" />
+    <PackageReference Include="ExifLibNet" Version="1.2.21" />
+    <PackageReference Include="Flurl" Version="2.8.0" />
+    <PackageReference Include="Flurl.Http" Version="2.3.2" />
+    <PackageReference Include="log4net" Version="2.0.8" />
+    <PackageReference Include="MathParser.org-mXparser" Version="4.3.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0007" />
+    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta0007" />
+    <PackageReference Include="SkiaSharp" Version="1.68.0" />
+    <PackageReference Include="System.CodeDom" Version="4.5.0" />
+    <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
   </ItemGroup>
+
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\alglibnet\alglibnet.csproj" />
+    <ProjectReference Include="..\Comms\MissionPlanner.Comms.csproj" />
+    <ProjectReference Include="..\Core\Core.csproj" />
+    <ProjectReference Include="..\GeoUtility\GeoUtility.csproj" />
+    <ProjectReference Include="..\GMap.NET.Core\GMap.NET.Core.csproj" />
+    <ProjectReference Include="..\ICSharpCode.SharpZipLib\ICSharpCode.SharpZipLib.csproj" />
+    <ProjectReference Include="..\Interfaces\Interfaces.csproj" />
+    <ProjectReference Include="..\KMLib\KMLib.csproj" />
+    <ProjectReference Include="..\LibVLC.NET\LibVLC.NET.csproj" />
+    <ProjectReference Include="..\Mavlink\MAVLink.csproj" />
+    <ProjectReference Include="..\MetaDataExtractorCSharp240d\MetaDataExtractor.csproj" />
+    <ProjectReference Include="..\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj" />
+    <ProjectReference Include="..\netDxf\netDxf.csproj" />
+    <ProjectReference Include="..\ProjNet\ProjNET.csproj" />
+    <ProjectReference Include="..\SharpKml\SharpKml.csproj" />
+    <ProjectReference Include="..\Zeroconf\Zeroconf\Zeroconf.csproj" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
-  </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
+
+
 </Project>

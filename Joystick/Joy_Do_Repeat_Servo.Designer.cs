@@ -128,7 +128,7 @@
             // Joy_Do_Repeat_Servo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            
             this.ClientSize = new System.Drawing.Size(517, 33);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.numericUpDown4);

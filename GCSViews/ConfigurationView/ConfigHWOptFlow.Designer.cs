@@ -42,7 +42,7 @@
             this.CHK_enableoptflow.Name = "CHK_enableoptflow";
             this.CHK_enableoptflow.OffValue = 0F;
             this.CHK_enableoptflow.OnValue = 1F;
-            this.CHK_enableoptflow.param = null;
+            
             this.CHK_enableoptflow.ParamName = null;
             this.CHK_enableoptflow.UseVisualStyleBackColor = true;
             this.CHK_enableoptflow.CheckedChanged += new System.EventHandler(this.CHK_enableoptflow_CheckedChanged);
@@ -70,7 +70,7 @@
             // ConfigHWOptFlow
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            
             this.Controls.Add(this.CHK_enableoptflow);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.groupBox4);

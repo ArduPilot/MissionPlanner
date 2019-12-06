@@ -1,0 +1,1 @@
+namespace MissionPlanner.Swarm.WaypointLeader { public partial class WPControl{public WPControl(){this.InitializeComponent();}}}

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace MissionPlanner
 {
@@ -16,7 +10,7 @@ namespace MissionPlanner
 
             string strVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-            TXT_version.Text = "Version: " + Application.ProductVersion;// +" Build " + strVersion;
+            TXT_version.Text = "Version: " + Application.ProductVersion; // +" Build " + strVersion;
 
             if (Program.Logo != null)
             {

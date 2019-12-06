@@ -1,0 +1,1 @@
+namespace MissionPlanner.Controls { public partial class ModifyandSet{public ModifyandSet(){this.InitializeComponent();}}}

@@ -122,79 +122,46 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="linkLabelmagdec.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 12</value>
+    <value>89, 12</value>
   </data>
   <data name="linkLabelmagdec.Text" xml:space="preserve">
-    <value>磁偏角网站</value>
-  </data>
-  <data name="label100.Text" xml:space="preserve">
-    <value>磁偏角</value>
+    <value>磁偏角查询网站</value>
   </data>
   <data name="CHK_autodec.Text" xml:space="preserve">
-    <value>自动</value>
+    <value>自动获取磁偏角</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>罗盘</value>
+    <value>指南针</value>
   </data>
   <data name="linkLabel1.Size" type="System.Drawing.Size, System.Drawing">
     <value>77, 12</value>
   </data>
   <data name="linkLabel1.Text" xml:space="preserve">
-    <value>Youtube 示例</value>
+    <value>Youtube 示范</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 12</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>APM 内置罗盘: ROTATION_NONE
-
-APM 外置罗盘: ROTATION_ROLL_180
-
-PX4 内外置罗盘: ROTATION_NONE</value>
+    <value>选择设备以快速配置参数：</value>
   </data>
-  <data name="imageLabel1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAAoAAAAHgCAYAAAA10dzkAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vAAADrwBlbxySQAABL5JREFUeF7twQENAAAAwqD3T20ONyAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIALNcLuAAH0a6ijAAAAAElFTkSuQmCC
-</value>
+  <data name="buttonAPMExternal.Location" type="System.Drawing.Point, System.Drawing">
+    <value>479, 30</value>
   </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>方向</value>
+  <data name="buttonAPMExternal.Text" xml:space="preserve">
+    <value>APM与外置罗盘</value>
   </data>
-  <data name="radioButtonmanual.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 16</value>
+  <data name="QuickAPM25.Location" type="System.Drawing.Point, System.Drawing">
+    <value>331, 30</value>
   </data>
-  <data name="radioButtonmanual.Text" xml:space="preserve">
-    <value>手动</value>
+  <data name="QuickAPM25.Text" xml:space="preserve">
+    <value>APM2.5 (内置罗盘)</value>
   </data>
-  <data name="radioButton_external.Size" type="System.Drawing.Size, System.Drawing">
-    <value>95, 16</value>
+  <data name="buttonQuickPixhawk.Location" type="System.Drawing.Point, System.Drawing">
+    <value>213, 30</value>
   </data>
-  <data name="radioButton_external.Text" xml:space="preserve">
-    <value>APM 外置罗盘</value>
-  </data>
-  <data name="radioButton_onboard.Size" type="System.Drawing.Size, System.Drawing">
-    <value>95, 16</value>
-  </data>
-  <data name="radioButton_onboard.Text" xml:space="preserve">
-    <value>APM 内置罗盘</value>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>261, 41</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>17, 12</value>
@@ -202,16 +169,115 @@ PX4 内外置罗盘: ROTATION_NONE</value>
   <data name="label2.Text" xml:space="preserve">
     <value>度</value>
   </data>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>368, 40</value>
+  </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
     <value>17, 12</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>分</value>
   </data>
-  <data name="groupBox3.Text" xml:space="preserve">
-    <value>手动设置示例</value>
+  <data name="lbl_obmagresult.Text" xml:space="preserve">
+    <value>结果</value>
+  </data>
+  <data name="BUT_OBmagcalaccept.Text" xml:space="preserve">
+    <value>接受</value>
+  </data>
+  <data name="BUT_OBmagcalcancel.Text" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="BUT_OBmagcalstart.Text" xml:space="preserve">
+    <value>开始</value>
+  </data>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>板载磁校准</value>
   </data>
   <data name="CHK_enablecompass.Text" xml:space="preserve">
-    <value>启用</value>
+    <value>启用指南针</value>
+  </data>
+  <data name="groupBox5.Text" xml:space="preserve">
+    <value>Mission Planner 磁校准</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>或</value>
+  </data>
+  <data name="LBL_primary_compass.Location" type="System.Drawing.Point, System.Drawing">
+    <value>37, 44</value>
+  </data>
+  <data name="LBL_primary_compass.Size" type="System.Drawing.Size, System.Drawing">
+    <value>65, 12</value>
+  </data>
+  <data name="LBL_primary_compass.Text" xml:space="preserve">
+    <value>主指南针：</value>
+  </data>
+  <data name="CHK_compass_learn.Text" xml:space="preserve">
+    <value>自动学习偏移量</value>
+  </data>
+  <data name="groupBoxGeneralSettings.Text" xml:space="preserve">
+    <value>常规指南针设置</value>
+  </data>
+  <data name="LBL_compass1_mot.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9pt</value>
+  </data>
+  <data name="LBL_compass1_mot.Size" type="System.Drawing.Size, System.Drawing">
+    <value>33, 15</value>
+  </data>
+  <data name="LBL_compass1_offset.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9pt</value>
+  </data>
+  <data name="LBL_compass1_offset.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 15</value>
+  </data>
+  <data name="CHK_compass1_external.Text" xml:space="preserve">
+    <value>外部安装</value>
+  </data>
+  <data name="CHK_compass1_use.Text" xml:space="preserve">
+    <value>使用这个指南针</value>
+  </data>
+  <data name="groupBoxCompass1.Text" xml:space="preserve">
+    <value>指南针 #1</value>
+  </data>
+  <data name="LBL_compass2_mot.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9pt</value>
+  </data>
+  <data name="LBL_compass2_mot.Size" type="System.Drawing.Size, System.Drawing">
+    <value>33, 15</value>
+  </data>
+  <data name="LBL_compass2_offset.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9pt</value>
+  </data>
+  <data name="LBL_compass2_offset.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 15</value>
+  </data>
+  <data name="CHK_compass2_external.Text" xml:space="preserve">
+    <value>外部安装</value>
+  </data>
+  <data name="CHK_compass2_use.Text" xml:space="preserve">
+    <value>使用这个指南针</value>
+  </data>
+  <data name="groupBoxCompass2.Text" xml:space="preserve">
+    <value>指南针 #2</value>
+  </data>
+  <data name="LBL_compass3_mot.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9pt</value>
+  </data>
+  <data name="LBL_compass3_mot.Size" type="System.Drawing.Size, System.Drawing">
+    <value>33, 15</value>
+  </data>
+  <data name="LBL_compass3_offset.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9pt</value>
+  </data>
+  <data name="LBL_compass3_offset.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 15</value>
+  </data>
+  <data name="CHK_compass3_external.Text" xml:space="preserve">
+    <value>外部安装</value>
+  </data>
+  <data name="CHK_compass3_use.Text" xml:space="preserve">
+    <value>使用这个指南针</value>
+  </data>
+  <data name="groupBoxCompass3.Text" xml:space="preserve">
+    <value>指南针 #3</value>
   </data>
 </root>

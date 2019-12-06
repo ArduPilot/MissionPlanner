@@ -28,21 +28,58 @@ using System.Drawing.Drawing2D;
 
 namespace MissionPlanner.Controls
 {
-    public class HorizontalProgressBar2 : BSE.Windows.Forms.ProgressBar
+    public class HorizontalProgressBar2:  BSE.Windows.Forms.ProgressBar
     {
         private string m_Text;
         int offset = 0;
         int _min = 0;
         int _max = 0;
         int _value = 0;
-        System.Windows.Forms.Label lbl1 = new System.Windows.Forms.Label();
-        System.Windows.Forms.Label lbl = new System.Windows.Forms.Label();
         public bool reverse = false;
         int displayvalue = 0;
+        bool _drawlabel = true;
+
+        //BSE.Windows.Forms.ProgressBar basepb = new BSE.Windows.Forms.ProgressBar();
+
+        [System.ComponentModel.Browsable(true),
+System.ComponentModel.Category("Mine"),
+System.ComponentModel.Description("draw text under Bar")]
+        public bool DrawLabel
+        {
+            get
+            {
+                return _drawlabel;
+            }
+            set
+            {
+                _drawlabel = value;
+            }
+        }
+
+        internal class proxyvpb: BSE.Windows.Forms.ProgressBar
+        {
+            protected override void OnPaint(PaintEventArgs e)
+            {
+                e.Graphics.TranslateTransform(0, e.Graphics.ClipBounds.Height);
+                e.Graphics.RotateTransform(270);
+                e.Graphics.ScaleTransform((float)this.Height / (float)this.Width, (float)this.Width / (float)this.Height);
+                base.OnPaint(e);
+            }
+        }
 
         public HorizontalProgressBar2()
-            : base()
         {
+            if ((Type) this.GetType() == typeof (VerticalProgressBar2))
+            {
+                //basepb = new proxyvpb();
+            }
+
+            this.SetStyle(
+    ControlStyles.ResizeRedraw |
+    ControlStyles.OptimizedDoubleBuffer |
+    ControlStyles.AllPaintingInWmPaint |
+    ControlStyles.SupportsTransparentBackColor |
+    ControlStyles.UserPaint, true);
         }
 
         public new int Value
@@ -73,13 +110,9 @@ namespace MissionPlanner.Controls
 
                 base.Value = ans;
 
-                if (this.DesignMode) return;
+                this.Invalidate();
 
-                if (this.Parent != null)
-                {
-                    this.Parent.Controls.Add(lbl);
-                    this.Parent.Controls.Add(lbl1);
-                }
+                if (this.DesignMode) return;
             }
         }
 
@@ -120,17 +153,38 @@ System.ComponentModel.Description("Text under Bar")]
             }
         }
 
+             [System.ComponentModel.Browsable(true),
+System.ComponentModel.Category("Mine"),
+System.ComponentModel.Description("values scaled for display")]
+        public float DisplayScale
+        {
+            get { return _displayscale; }
+            set { _displayscale = value; }
+        }
+
+        private float _displayscale = 1;
+
+        StringFormat drawFormat = new StringFormat() { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
+
         private void drawlbl(Graphics e)
         {
-            lbl.Location = new Point(this.Location.X, this.Location.Y + this.Height + 2);
-            lbl.ClientSize = new Size(this.Width, 13);
-            lbl.TextAlign = ContentAlignment.MiddleCenter;
-            lbl.Text = m_Text;
+            if (DrawLabel)
+            {
+                var rect = new RectangleF(0, 0, Width, Height);
+                var tran = e.Transform;
+                e.ResetTransform();
+                if (Width < Height)
+                {
+                    drawFormat.FormatFlags = StringFormatFlags.DirectionVertical;
+                }
+                else
+                {
+                    drawFormat.FormatFlags = 0;
+                }
 
-            lbl1.Location = new Point(this.Location.X, this.Location.Y + this.Height + 15);
-            lbl1.ClientSize = new Size(this.Width, 13);
-            lbl1.TextAlign = ContentAlignment.MiddleCenter;
-            lbl1.Text = displayvalue.ToString();
+                e.DrawString((m_Text + "  " + (Value * _displayscale).ToString()+" ").Trim(), this.Font, new SolidBrush(this.ForeColor), rect, drawFormat);
+                e.Transform = tran;
+            }
 
             if (minline != 0 && maxline != 0)
             {
@@ -143,20 +197,20 @@ System.ComponentModel.Description("Text under Bar")]
                 if ((Type)this.GetType() == typeof(VerticalProgressBar2))
                 {
                     e.ResetTransform();
-                    range2 = this.Height;
+                    range2 = base.Height;
                     if (reverse)
                     {
                         e.DrawLine(redPen, 0, (maxline - this.Minimum) / range * range2 + 0, this.Width, (maxline - this.Minimum) / range * range2 + 0);
                         e.DrawLine(redPen, 0, (minline - this.Minimum) / range * range2 + 6, this.Width, (minline - this.Minimum) / range * range2 + 6);
-                        e.DrawString(maxline.ToString(), SystemFonts.DefaultFont, mybrush, 5, (maxline - this.Minimum) / range * range2 + 2);
-                        e.DrawString(minline.ToString(), SystemFonts.DefaultFont, Brushes.White, 5, (minline - this.Minimum) / range * range2 - 10);
+                        e.DrawString((maxline * _displayscale).ToString(), SystemFonts.DefaultFont, mybrush, 5, (maxline - this.Minimum) / range * range2 + 2);
+                        e.DrawString((minline * _displayscale).ToString(), SystemFonts.DefaultFont, Brushes.White, 5, (minline - this.Minimum) / range * range2 - 10);
                     }
                     else
                     {
                         e.DrawLine(redPen, 0, (this.Maximum - minline) / range * range2 + 0, this.Width, (this.Maximum - minline) / range * range2 + 0);
                         e.DrawLine(redPen, 0, (this.Maximum - maxline) / range * range2 + 6, this.Width, (this.Maximum - maxline) / range * range2 + 6);
-                        e.DrawString(minline.ToString(), SystemFonts.DefaultFont, mybrush, 5, (this.Maximum - minline) / range * range2 + 2);
-                        e.DrawString(maxline.ToString(), SystemFonts.DefaultFont, Brushes.White, 5, (this.Maximum - maxline) / range * range2 - 10);
+                        e.DrawString((minline * _displayscale).ToString(), SystemFonts.DefaultFont, mybrush, 5, (this.Maximum - minline) / range * range2 + 2);
+                        e.DrawString((maxline * _displayscale).ToString(), SystemFonts.DefaultFont, Brushes.White, 5, (this.Maximum - maxline) / range * range2 - 10);
                     }
                 }
                 else
@@ -165,18 +219,25 @@ System.ComponentModel.Description("Text under Bar")]
                     {
                         e.DrawLine(redPen, (this.Maximum - minline) / range * range2 - 0, 0, (this.Maximum - minline) / range * range2 - 0, this.Height);
                         e.DrawLine(redPen, (this.Maximum - maxline) / range * range2 - 0, 0, (this.Maximum - maxline) / range * range2 - 0, this.Height);
-                        e.DrawString(minline.ToString(), SystemFonts.DefaultFont, mybrush, (this.Maximum - minline) / range * range2 - 30, 5);
-                        e.DrawString(maxline.ToString(), SystemFonts.DefaultFont, Brushes.White, (this.Maximum - maxline) / range * range2 - 0, 5);
+                        e.DrawString((minline * _displayscale).ToString(), SystemFonts.DefaultFont, mybrush, (this.Maximum - minline) / range * range2 - 30, 5);
+                        e.DrawString((maxline * _displayscale).ToString(), SystemFonts.DefaultFont, Brushes.White, (this.Maximum - maxline) / range * range2 - 0, 5);
                     }
                     else
                     {
                         e.DrawLine(redPen, (minline - this.Minimum) / range * range2 - 0, 0, (minline - this.Minimum) / range * range2 - 0, this.Height);
                         e.DrawLine(redPen, (maxline - this.Minimum) / range * range2 - 0, 0, (maxline - this.Minimum) / range * range2 - 0, this.Height);
-                        e.DrawString(minline.ToString(), SystemFonts.DefaultFont, mybrush, (minline - this.Minimum) / range * range2 - 30, 5);
-                        e.DrawString(maxline.ToString(), SystemFonts.DefaultFont, Brushes.White, (maxline - this.Minimum) / range * range2 - 0, 5);
+                        e.DrawString((minline * _displayscale).ToString(), SystemFonts.DefaultFont, mybrush, (minline - this.Minimum) / range * range2 - 30, 5);
+                        e.DrawString((maxline * _displayscale).ToString(), SystemFonts.DefaultFont, Brushes.White, (maxline - this.Minimum) / range * range2 - 0, 5);
                     }
                 }
             }
+        }
+
+        protected override void OnResize(EventArgs e)
+        {
+            //base.Width = this.Width;
+            //base.Height = this.Height - 30;
+            base.OnResize(e);
         }
 
         public int minline { get; set; }
@@ -187,8 +248,5 @@ System.ComponentModel.Description("Text under Bar")]
             base.OnPaint(e);
             drawlbl(e.Graphics);
         }
-
     }
-
-
 }

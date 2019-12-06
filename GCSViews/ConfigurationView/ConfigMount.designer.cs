@@ -1,5 +1,5 @@
-﻿using MissionPlanner.Controls;
-using MissionPlanner.Presenter;
+﻿using System.Windows.Forms;
+using MissionPlanner.Controls;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -66,65 +66,68 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.label22 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
-            this.CMB_inputch_pan = new Controls.MavlinkComboBox();
-            this.CMB_inputch_roll = new Controls.MavlinkComboBox();
-            this.CMB_inputch_tilt = new Controls.MavlinkComboBox();
-            this.mavlinkNumericUpDownTAM = new Controls.MavlinkNumericUpDown();
-            this.mavlinkNumericUpDownTAMX = new Controls.MavlinkNumericUpDown();
-            this.mavlinkNumericUpDownTSM = new Controls.MavlinkNumericUpDown();
-            this.mavlinkNumericUpDownTSMX = new Controls.MavlinkNumericUpDown();
-            this.mavlinkCheckBoxTR = new Controls.MavlinkCheckBox();
-            this.mavlinkNumericUpDownPAM = new Controls.MavlinkNumericUpDown();
-            this.mavlinkNumericUpDownPAMX = new Controls.MavlinkNumericUpDown();
-            this.mavlinkNumericUpDownPSM = new Controls.MavlinkNumericUpDown();
-            this.mavlinkNumericUpDownPSMX = new Controls.MavlinkNumericUpDown();
-            this.mavlinkCheckBoxPR = new Controls.MavlinkCheckBox();
-            this.mavlinkNumericUpDownRAM = new Controls.MavlinkNumericUpDown();
-            this.mavlinkNumericUpDownRAMX = new Controls.MavlinkNumericUpDown();
-            this.mavlinkNumericUpDownRSM = new Controls.MavlinkNumericUpDown();
-            this.mavlinkNumericUpDownRSMX = new Controls.MavlinkNumericUpDown();
-            this.mavlinkCheckBoxRR = new Controls.MavlinkCheckBox();
+            this.CMB_inputch_pan = new MissionPlanner.Controls.MavlinkComboBox();
+            this.CMB_inputch_roll = new MissionPlanner.Controls.MavlinkComboBox();
+            this.CMB_inputch_tilt = new MissionPlanner.Controls.MavlinkComboBox();
+            this.mavlinkNumericUpDownTAM = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.mavlinkNumericUpDownTAMX = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.mavlinkNumericUpDownTSM = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.mavlinkNumericUpDownTSMX = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.mavlinkCheckBoxTR = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.mavlinkNumericUpDownPAM = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.mavlinkNumericUpDownPAMX = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.mavlinkNumericUpDownPSM = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.mavlinkNumericUpDownPSMX = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.mavlinkCheckBoxPR = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.mavlinkNumericUpDownRAM = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.mavlinkNumericUpDownRAMX = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.mavlinkNumericUpDownRSM = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.mavlinkNumericUpDownRSMX = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.mavlinkCheckBoxRR = new MissionPlanner.Controls.MavlinkCheckBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label27 = new System.Windows.Forms.Label();
-            this.NUD_RETRACT_z = new Controls.MavlinkNumericUpDown();
+            this.NUD_RETRACT_z = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label26 = new System.Windows.Forms.Label();
-            this.NUD_RETRACT_y = new Controls.MavlinkNumericUpDown();
+            this.NUD_RETRACT_y = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label25 = new System.Windows.Forms.Label();
-            this.NUD_RETRACT_x = new Controls.MavlinkNumericUpDown();
+            this.NUD_RETRACT_x = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.label28 = new System.Windows.Forms.Label();
-            this.NUD_NEUTRAL_z = new Controls.MavlinkNumericUpDown();
+            this.NUD_NEUTRAL_z = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label29 = new System.Windows.Forms.Label();
-            this.NUD_NEUTRAL_y = new Controls.MavlinkNumericUpDown();
+            this.NUD_NEUTRAL_y = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label30 = new System.Windows.Forms.Label();
-            this.NUD_NEUTRAL_x = new Controls.MavlinkNumericUpDown();
+            this.NUD_NEUTRAL_x = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.label31 = new System.Windows.Forms.Label();
-            this.NUD_CONTROL_z = new Controls.MavlinkNumericUpDown();
+            this.NUD_CONTROL_z = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label32 = new System.Windows.Forms.Label();
-            this.NUD_CONTROL_y = new Controls.MavlinkNumericUpDown();
+            this.NUD_CONTROL_y = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label33 = new System.Windows.Forms.Label();
-            this.NUD_CONTROL_x = new Controls.MavlinkNumericUpDown();
-            this.CHK_stab_tilt = new Controls.MavlinkCheckBox();
-            this.CHK_stab_roll = new Controls.MavlinkCheckBox();
-            this.CHK_stab_pan = new Controls.MavlinkCheckBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.NUD_CONTROL_x = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.CHK_stab_tilt = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.CHK_stab_roll = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.CHK_stab_pan = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.CMB_shuttertype =  new ComboBox();
             this.label35 = new System.Windows.Forms.Label();
             this.label36 = new System.Windows.Forms.Label();
             this.label37 = new System.Windows.Forms.Label();
             this.label38 = new System.Windows.Forms.Label();
-            this.mavlinkNumericUpDownshut_pushed = new Controls.MavlinkNumericUpDown();
-            this.mavlinkNumericUpDownshut_notpushed = new Controls.MavlinkNumericUpDown();
+            this.mavlinkNumericUpDownshut_pushed = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.mavlinkNumericUpDownshut_notpushed = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label39 = new System.Windows.Forms.Label();
             this.label40 = new System.Windows.Forms.Label();
-            this.mavlinkNumericUpDownShutM = new Controls.MavlinkNumericUpDown();
-            this.mavlinkNumericUpDownShutMX = new Controls.MavlinkNumericUpDown();
+            this.mavlinkNumericUpDownShutM = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.mavlinkNumericUpDownShutMX = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label41 = new System.Windows.Forms.Label();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.label34 = new System.Windows.Forms.Label();
-            this.mavlinkNumericUpDownshut_duration = new Controls.MavlinkNumericUpDown();
+            this.mavlinkNumericUpDownshut_duration = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label42 = new System.Windows.Forms.Label();
+            this.CMB_mnt_type = new MissionPlanner.Controls.MavlinkComboBox();
+            this.label43 = new System.Windows.Forms.Label();
+            this.label44 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -371,8 +374,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             resources.ApplyResources(this.CMB_inputch_pan, "CMB_inputch_pan");
             this.CMB_inputch_pan.FormattingEnabled = true;
             this.CMB_inputch_pan.Name = "CMB_inputch_pan";
-            this.CMB_inputch_pan.param = null;
             this.CMB_inputch_pan.ParamName = null;
+            this.CMB_inputch_pan.SubControl = null;
             // 
             // CMB_inputch_roll
             // 
@@ -380,8 +383,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             resources.ApplyResources(this.CMB_inputch_roll, "CMB_inputch_roll");
             this.CMB_inputch_roll.FormattingEnabled = true;
             this.CMB_inputch_roll.Name = "CMB_inputch_roll";
-            this.CMB_inputch_roll.param = null;
             this.CMB_inputch_roll.ParamName = null;
+            this.CMB_inputch_roll.SubControl = null;
             // 
             // CMB_inputch_tilt
             // 
@@ -389,8 +392,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             resources.ApplyResources(this.CMB_inputch_tilt, "CMB_inputch_tilt");
             this.CMB_inputch_tilt.FormattingEnabled = true;
             this.CMB_inputch_tilt.Name = "CMB_inputch_tilt";
-            this.CMB_inputch_tilt.param = null;
             this.CMB_inputch_tilt.ParamName = null;
+            this.CMB_inputch_tilt.SubControl = null;
             // 
             // mavlinkNumericUpDownTAM
             // 
@@ -408,7 +411,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0});
             this.mavlinkNumericUpDownTAM.Min = 0F;
             this.mavlinkNumericUpDownTAM.Name = "mavlinkNumericUpDownTAM";
-            this.mavlinkNumericUpDownTAM.param = null;
             this.mavlinkNumericUpDownTAM.ParamName = null;
             this.mavlinkNumericUpDownTAM.Value = new decimal(new int[] {
             1000,
@@ -437,7 +439,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0,
             0});
             this.mavlinkNumericUpDownTAMX.Name = "mavlinkNumericUpDownTAMX";
-            this.mavlinkNumericUpDownTAMX.param = null;
             this.mavlinkNumericUpDownTAMX.ParamName = null;
             this.mavlinkNumericUpDownTAMX.Value = new decimal(new int[] {
             2000,
@@ -466,7 +467,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0,
             0});
             this.mavlinkNumericUpDownTSM.Name = "mavlinkNumericUpDownTSM";
-            this.mavlinkNumericUpDownTSM.param = null;
             this.mavlinkNumericUpDownTSM.ParamName = null;
             this.mavlinkNumericUpDownTSM.Value = new decimal(new int[] {
             1000,
@@ -495,7 +495,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0,
             0});
             this.mavlinkNumericUpDownTSMX.Name = "mavlinkNumericUpDownTSMX";
-            this.mavlinkNumericUpDownTSMX.param = null;
             this.mavlinkNumericUpDownTSMX.ParamName = null;
             this.mavlinkNumericUpDownTSMX.Value = new decimal(new int[] {
             2000,
@@ -508,9 +507,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             resources.ApplyResources(this.mavlinkCheckBoxTR, "mavlinkCheckBoxTR");
             this.mavlinkCheckBoxTR.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.mavlinkCheckBoxTR.Name = "mavlinkCheckBoxTR";
-            this.mavlinkCheckBoxTR.OffValue = 0F;
-            this.mavlinkCheckBoxTR.OnValue = 1F;
-            this.mavlinkCheckBoxTR.param = null;
+            this.mavlinkCheckBoxTR.OffValue = 0D;
+            this.mavlinkCheckBoxTR.OnValue = 1D;
             this.mavlinkCheckBoxTR.ParamName = null;
             this.mavlinkCheckBoxTR.UseVisualStyleBackColor = true;
             // 
@@ -530,7 +528,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0});
             this.mavlinkNumericUpDownPAM.Min = 0F;
             this.mavlinkNumericUpDownPAM.Name = "mavlinkNumericUpDownPAM";
-            this.mavlinkNumericUpDownPAM.param = null;
             this.mavlinkNumericUpDownPAM.ParamName = null;
             this.mavlinkNumericUpDownPAM.Value = new decimal(new int[] {
             1000,
@@ -559,7 +556,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0,
             0});
             this.mavlinkNumericUpDownPAMX.Name = "mavlinkNumericUpDownPAMX";
-            this.mavlinkNumericUpDownPAMX.param = null;
             this.mavlinkNumericUpDownPAMX.ParamName = null;
             this.mavlinkNumericUpDownPAMX.Value = new decimal(new int[] {
             2000,
@@ -588,7 +584,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0,
             0});
             this.mavlinkNumericUpDownPSM.Name = "mavlinkNumericUpDownPSM";
-            this.mavlinkNumericUpDownPSM.param = null;
             this.mavlinkNumericUpDownPSM.ParamName = null;
             this.mavlinkNumericUpDownPSM.Value = new decimal(new int[] {
             1000,
@@ -617,7 +612,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0,
             0});
             this.mavlinkNumericUpDownPSMX.Name = "mavlinkNumericUpDownPSMX";
-            this.mavlinkNumericUpDownPSMX.param = null;
             this.mavlinkNumericUpDownPSMX.ParamName = null;
             this.mavlinkNumericUpDownPSMX.Value = new decimal(new int[] {
             2000,
@@ -630,9 +624,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             resources.ApplyResources(this.mavlinkCheckBoxPR, "mavlinkCheckBoxPR");
             this.mavlinkCheckBoxPR.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.mavlinkCheckBoxPR.Name = "mavlinkCheckBoxPR";
-            this.mavlinkCheckBoxPR.OffValue = 0F;
-            this.mavlinkCheckBoxPR.OnValue = 1F;
-            this.mavlinkCheckBoxPR.param = null;
+            this.mavlinkCheckBoxPR.OffValue = 0D;
+            this.mavlinkCheckBoxPR.OnValue = 1D;
             this.mavlinkCheckBoxPR.ParamName = null;
             this.mavlinkCheckBoxPR.UseVisualStyleBackColor = true;
             // 
@@ -652,7 +645,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0});
             this.mavlinkNumericUpDownRAM.Min = 0F;
             this.mavlinkNumericUpDownRAM.Name = "mavlinkNumericUpDownRAM";
-            this.mavlinkNumericUpDownRAM.param = null;
             this.mavlinkNumericUpDownRAM.ParamName = null;
             this.mavlinkNumericUpDownRAM.Value = new decimal(new int[] {
             1000,
@@ -681,7 +673,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0,
             0});
             this.mavlinkNumericUpDownRAMX.Name = "mavlinkNumericUpDownRAMX";
-            this.mavlinkNumericUpDownRAMX.param = null;
             this.mavlinkNumericUpDownRAMX.ParamName = null;
             this.mavlinkNumericUpDownRAMX.Value = new decimal(new int[] {
             2000,
@@ -710,7 +701,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0,
             0});
             this.mavlinkNumericUpDownRSM.Name = "mavlinkNumericUpDownRSM";
-            this.mavlinkNumericUpDownRSM.param = null;
             this.mavlinkNumericUpDownRSM.ParamName = null;
             this.mavlinkNumericUpDownRSM.Value = new decimal(new int[] {
             1000,
@@ -739,7 +729,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0,
             0});
             this.mavlinkNumericUpDownRSMX.Name = "mavlinkNumericUpDownRSMX";
-            this.mavlinkNumericUpDownRSMX.param = null;
             this.mavlinkNumericUpDownRSMX.ParamName = null;
             this.mavlinkNumericUpDownRSMX.Value = new decimal(new int[] {
             2000,
@@ -752,9 +741,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             resources.ApplyResources(this.mavlinkCheckBoxRR, "mavlinkCheckBoxRR");
             this.mavlinkCheckBoxRR.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.mavlinkCheckBoxRR.Name = "mavlinkCheckBoxRR";
-            this.mavlinkCheckBoxRR.OffValue = 0F;
-            this.mavlinkCheckBoxRR.OnValue = 1F;
-            this.mavlinkCheckBoxRR.param = null;
+            this.mavlinkCheckBoxRR.OffValue = 0D;
+            this.mavlinkCheckBoxRR.OnValue = 1D;
             this.mavlinkCheckBoxRR.ParamName = null;
             this.mavlinkCheckBoxRR.UseVisualStyleBackColor = true;
             // 
@@ -791,7 +779,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0});
             this.NUD_RETRACT_z.Min = 0F;
             this.NUD_RETRACT_z.Name = "NUD_RETRACT_z";
-            this.NUD_RETRACT_z.param = null;
             this.NUD_RETRACT_z.ParamName = null;
             this.NUD_RETRACT_z.Value = new decimal(new int[] {
             1000,
@@ -820,7 +807,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0});
             this.NUD_RETRACT_y.Min = 0F;
             this.NUD_RETRACT_y.Name = "NUD_RETRACT_y";
-            this.NUD_RETRACT_y.param = null;
             this.NUD_RETRACT_y.ParamName = null;
             this.NUD_RETRACT_y.Value = new decimal(new int[] {
             1000,
@@ -849,7 +835,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0});
             this.NUD_RETRACT_x.Min = 0F;
             this.NUD_RETRACT_x.Name = "NUD_RETRACT_x";
-            this.NUD_RETRACT_x.param = null;
             this.NUD_RETRACT_x.ParamName = null;
             this.NUD_RETRACT_x.Value = new decimal(new int[] {
             1000,
@@ -890,7 +875,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0});
             this.NUD_NEUTRAL_z.Min = 0F;
             this.NUD_NEUTRAL_z.Name = "NUD_NEUTRAL_z";
-            this.NUD_NEUTRAL_z.param = null;
             this.NUD_NEUTRAL_z.ParamName = null;
             this.NUD_NEUTRAL_z.Value = new decimal(new int[] {
             1000,
@@ -919,7 +903,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0});
             this.NUD_NEUTRAL_y.Min = 0F;
             this.NUD_NEUTRAL_y.Name = "NUD_NEUTRAL_y";
-            this.NUD_NEUTRAL_y.param = null;
             this.NUD_NEUTRAL_y.ParamName = null;
             this.NUD_NEUTRAL_y.Value = new decimal(new int[] {
             1000,
@@ -948,7 +931,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0});
             this.NUD_NEUTRAL_x.Min = 0F;
             this.NUD_NEUTRAL_x.Name = "NUD_NEUTRAL_x";
-            this.NUD_NEUTRAL_x.param = null;
             this.NUD_NEUTRAL_x.ParamName = null;
             this.NUD_NEUTRAL_x.Value = new decimal(new int[] {
             1000,
@@ -989,7 +971,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0});
             this.NUD_CONTROL_z.Min = 0F;
             this.NUD_CONTROL_z.Name = "NUD_CONTROL_z";
-            this.NUD_CONTROL_z.param = null;
             this.NUD_CONTROL_z.ParamName = null;
             this.NUD_CONTROL_z.Value = new decimal(new int[] {
             1000,
@@ -1018,7 +999,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0});
             this.NUD_CONTROL_y.Min = 0F;
             this.NUD_CONTROL_y.Name = "NUD_CONTROL_y";
-            this.NUD_CONTROL_y.param = null;
             this.NUD_CONTROL_y.ParamName = null;
             this.NUD_CONTROL_y.Value = new decimal(new int[] {
             1000,
@@ -1047,7 +1027,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0});
             this.NUD_CONTROL_x.Min = 0F;
             this.NUD_CONTROL_x.Name = "NUD_CONTROL_x";
-            this.NUD_CONTROL_x.param = null;
             this.NUD_CONTROL_x.ParamName = null;
             this.NUD_CONTROL_x.Value = new decimal(new int[] {
             1000,
@@ -1059,9 +1038,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             resources.ApplyResources(this.CHK_stab_tilt, "CHK_stab_tilt");
             this.CHK_stab_tilt.Name = "CHK_stab_tilt";
-            this.CHK_stab_tilt.OffValue = 0F;
-            this.CHK_stab_tilt.OnValue = 1F;
-            this.CHK_stab_tilt.param = null;
+            this.CHK_stab_tilt.OffValue = 0D;
+            this.CHK_stab_tilt.OnValue = 1D;
             this.CHK_stab_tilt.ParamName = null;
             this.CHK_stab_tilt.UseVisualStyleBackColor = true;
             // 
@@ -1069,9 +1047,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             resources.ApplyResources(this.CHK_stab_roll, "CHK_stab_roll");
             this.CHK_stab_roll.Name = "CHK_stab_roll";
-            this.CHK_stab_roll.OffValue = 0F;
-            this.CHK_stab_roll.OnValue = 1F;
-            this.CHK_stab_roll.param = null;
+            this.CHK_stab_roll.OffValue = 0D;
+            this.CHK_stab_roll.OnValue = 1D;
             this.CHK_stab_roll.ParamName = null;
             this.CHK_stab_roll.UseVisualStyleBackColor = true;
             // 
@@ -1079,19 +1056,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             resources.ApplyResources(this.CHK_stab_pan, "CHK_stab_pan");
             this.CHK_stab_pan.Name = "CHK_stab_pan";
-            this.CHK_stab_pan.OffValue = 0F;
-            this.CHK_stab_pan.OnValue = 1F;
-            this.CHK_stab_pan.param = null;
+            this.CHK_stab_pan.OffValue = 0D;
+            this.CHK_stab_pan.OnValue = 1D;
             this.CHK_stab_pan.ParamName = null;
             this.CHK_stab_pan.UseVisualStyleBackColor = true;
             // 
-            // comboBox1
+            // CMB_shuttertype
             // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            resources.ApplyResources(this.comboBox1, "comboBox1");
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.mavlinkComboBox_SelectedIndexChanged);
+            this.CMB_shuttertype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CMB_shuttertype.FormattingEnabled = true;
+            resources.ApplyResources(this.CMB_shuttertype, "CMB_shuttertype");
+            this.CMB_shuttertype.Name = "CMB_shuttertype";
+            this.CMB_shuttertype.SelectedIndexChanged += new System.EventHandler(this.mavlinkComboBox_SelectedIndexChanged);
             // 
             // label35
             // 
@@ -1129,7 +1105,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0});
             this.mavlinkNumericUpDownshut_pushed.Min = 0F;
             this.mavlinkNumericUpDownshut_pushed.Name = "mavlinkNumericUpDownshut_pushed";
-            this.mavlinkNumericUpDownshut_pushed.param = null;
             this.mavlinkNumericUpDownshut_pushed.ParamName = null;
             this.mavlinkNumericUpDownshut_pushed.Value = new decimal(new int[] {
             1000,
@@ -1158,7 +1133,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0,
             0});
             this.mavlinkNumericUpDownshut_notpushed.Name = "mavlinkNumericUpDownshut_notpushed";
-            this.mavlinkNumericUpDownshut_notpushed.param = null;
             this.mavlinkNumericUpDownshut_notpushed.ParamName = null;
             this.mavlinkNumericUpDownshut_notpushed.Value = new decimal(new int[] {
             2000,
@@ -1197,7 +1171,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0,
             0});
             this.mavlinkNumericUpDownShutM.Name = "mavlinkNumericUpDownShutM";
-            this.mavlinkNumericUpDownShutM.param = null;
             this.mavlinkNumericUpDownShutM.ParamName = null;
             this.mavlinkNumericUpDownShutM.Value = new decimal(new int[] {
             1000,
@@ -1226,7 +1199,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0,
             0});
             this.mavlinkNumericUpDownShutMX.Name = "mavlinkNumericUpDownShutMX";
-            this.mavlinkNumericUpDownShutMX.param = null;
             this.mavlinkNumericUpDownShutMX.ParamName = null;
             this.mavlinkNumericUpDownShutMX.Value = new decimal(new int[] {
             2000,
@@ -1273,7 +1245,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0,
             0});
             this.mavlinkNumericUpDownshut_duration.Name = "mavlinkNumericUpDownshut_duration";
-            this.mavlinkNumericUpDownshut_duration.param = null;
             this.mavlinkNumericUpDownshut_duration.ParamName = null;
             this.mavlinkNumericUpDownshut_duration.Value = new decimal(new int[] {
             20,
@@ -1286,12 +1257,34 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             resources.ApplyResources(this.label42, "label42");
             this.label42.Name = "label42";
             // 
+            // CMB_mnt_type
+            // 
+            this.CMB_mnt_type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.CMB_mnt_type, "CMB_mnt_type");
+            this.CMB_mnt_type.FormattingEnabled = true;
+            this.CMB_mnt_type.Name = "CMB_mnt_type";
+            this.CMB_mnt_type.ParamName = null;
+            this.CMB_mnt_type.SubControl = null;
+            // 
+            // label43
+            // 
+            resources.ApplyResources(this.label43, "label43");
+            this.label43.Name = "label43";
+            // 
+            // label44
+            // 
+            resources.ApplyResources(this.label44, "label44");
+            this.label44.Name = "label44";
+            // 
             // ConfigMount
             // 
+            this.Controls.Add(this.label44);
+            this.Controls.Add(this.label43);
+            this.Controls.Add(this.CMB_mnt_type);
             this.Controls.Add(this.label42);
             this.Controls.Add(this.label34);
             this.Controls.Add(this.mavlinkNumericUpDownshut_duration);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.CMB_shuttertype);
             this.Controls.Add(this.label35);
             this.Controls.Add(this.label36);
             this.Controls.Add(this.label37);
@@ -1484,7 +1477,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private MavlinkCheckBox CHK_stab_tilt;
         private MavlinkCheckBox CHK_stab_roll;
         private MavlinkCheckBox CHK_stab_pan;
-        private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label35;
         private System.Windows.Forms.Label label36;
         private System.Windows.Forms.Label label37;
@@ -1501,6 +1493,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private System.Windows.Forms.Label label34;
         private MavlinkNumericUpDown mavlinkNumericUpDownshut_duration;
         private System.Windows.Forms.Label label42;
-
+        private MavlinkComboBox CMB_mnt_type;
+        private System.Windows.Forms.Label label43;
+        private System.Windows.Forms.Label label44;
+        private ComboBox CMB_shuttertype;
     }
 }

@@ -1,11 +1,12 @@
 <?xml version="1.0"?>
+
 <dpInst>
-  <enableNotListedLanguages/>
-	<quietInstallStrict/>
-  <forceIfDriverIsNotBetter/>
-  <legacyMode/>
-  <deleteBinaries/>
-	<search>
-      <subDirectory>*</subDirectory>
-    </search>
+  <enableNotListedLanguages />
+  <quietInstallStrict />
+  <forceIfDriverIsNotBetter />
+  <legacyMode />
+  <deleteBinaries />
+  <search>
+    <subDirectory>*</subDirectory>
+  </search>
 </dpInst>

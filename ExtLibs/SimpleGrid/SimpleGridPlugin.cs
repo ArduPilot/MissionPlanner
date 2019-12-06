@@ -45,7 +45,7 @@ namespace MissionPlanner.SimpleGrid
             int index = col.Count;
             foreach (ToolStripItem item in col)
             {
-                if (item.Text.Equals("Auto WP"))
+                if (item.Text.Equals(Strings.AutoWP))
                 {
                     index = col.IndexOf(item);
                     ((ToolStripMenuItem)item).DropDownItems.Add(but);
@@ -64,9 +64,11 @@ namespace MissionPlanner.SimpleGrid
         {
             if (Host.FPDrawnPolygon != null && Host.FPDrawnPolygon.Points.Count > 2)
             {
-                Form gridui = new GridUI(this);
-                MissionPlanner.Utilities.ThemeManager.ApplyThemeTo(gridui);
-                gridui.ShowDialog();
+                using (Form gridui = new GridUI(this))
+                {
+                    MissionPlanner.Utilities.ThemeManager.ApplyThemeTo(gridui);
+                    gridui.ShowDialog();
+                }
             }
             else
             {
