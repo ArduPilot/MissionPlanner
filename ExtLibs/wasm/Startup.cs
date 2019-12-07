@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using Blazor.Extensions.Storage;
@@ -13,15 +11,11 @@ using log4net.Repository.Hierarchy;
 using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
-using System.Reflection.Emit;
-using System.Threading.Tasks;
 using GMap.NET.MapProviders;
-using Harmony;
-using Microsoft.JSInterop;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Utilities;
 using Sotsera.Blazor.Toaster.Core.Models;
-
+using Toolbelt.Blazor.Extensions.DependencyInjection;
 
 namespace wasm
 {
@@ -33,6 +27,8 @@ namespace wasm
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddStorage();
+
+            services.AddSpeechSynthesis();
 
             //services.Add(new ServiceDescriptor(typeof(IFileReaderService), typeof(FileReaderService), ServiceLifetime.Transient));
 

@@ -20,6 +20,7 @@ Welcome to your new app.
 
 <HUD Width="400" Height="400" @ref="_hud"></HUD>
 
+<button @onclick=@renderhud>renderhud</button>
 <p>
     <button id="connect">Connect</button>
 </p>
@@ -38,6 +39,17 @@ Welcome to your new app.
     protected HUD _hud;
 
     private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+    async void renderhud()
+    {
+    //var hud = new HUD();
+        _hud.Context = await this._canvasReference.CreateCanvas2DAsync();
+        _hud.Width = (int)_canvasReference.Width;
+        _hud.Height = (int)_canvasReference.Height;
+        Console.WriteLine("About to HUD " + _context);
+        _hud.Refresh();
+        Console.WriteLine("HUD refresh done ");
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -60,6 +72,13 @@ Welcome to your new app.
         {
             this._context = await this._canvasReference.CreateCanvas2DAsync();
 
+            await this._context.SetFillStyleAsync("green");
+
+            await this._context.FillRectAsync(10, 100, 100, 100);
+
+            await this._context.SetFontAsync("48px serif");
+            await this._context.StrokeTextAsync("Hello Blazor!!!", 10, 100);
+
             await JSRuntime.InvokeAsync<object>("evalline", new object[] { @"
             window.document.dispatchEvent(new Event('DOMContentLoaded', {
                 bubbles: true,
@@ -69,9 +88,6 @@ Welcome to your new app.
 
         }
 
-        //var hud = new HUD();
-        _hud.Context = _context;
-      //  _hud.Refresh();
 
         var httpClient = new HttpClient();
         httpClient.BaseAddress = new Uri(UriHelper.BaseUri);
@@ -101,10 +117,10 @@ Welcome to your new app.
             GPoint pxDelta = new GPoint(rightButtomPx.X - topLeftPx.X, rightButtomPx.Y - topLeftPx.Y);
 
 
-    // get type list at new zoom level
+            // get type list at new zoom level
             List<GPoint> tileArea = prj.GetAreaTileList(area, zoom, 0);
 
-    // get tiles & combine into one
+            // get tiles & combine into one
             foreach (var p in tileArea)
             {
                 Console.WriteLine("Downloading[" + p + "]: " + tileArea.IndexOf(p) + " of " + tileArea.Count);
@@ -120,7 +136,7 @@ Welcome to your new app.
         catch (Exception e)
         {
             Console.WriteLine(e);
-       
+
         }
 
         log.Debug("DataFlash OnAfterRenderAsync Done");

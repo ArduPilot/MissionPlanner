@@ -10,7 +10,6 @@
 
 <div class="main">
     <div class="top-row px-4">
-        <!--<a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>-->
         By Michael Oborne
         <div id="g-signin2" class="g-signin2"></div>
     </div>
@@ -26,7 +25,7 @@
 
 <ToastContainer />
 
-@code
+@functions
 {
     private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -70,15 +69,15 @@
         Console.WriteLine("MainLayout OnAfterRender Done");
     }
 
-public async Task GetFile(string filename)
-{
-if (!File.Exists(filename))
-{
-log.Info("get " + filename);
-var content = await Http.GetStringAsync((filename));
-log.Info("get " + filename + " done");
+    public async Task GetFile(string filename)
+    {
+        if (!File.Exists(filename))
+        {
+            log.Info("get " + filename);
+            var content = await Http.GetStringAsync((filename));
+            log.Info("get " + filename + " done");
 
-File.WriteAllText(filename, content);
-}
-}
+            File.WriteAllText(filename, content);
+        }
+    }
 }

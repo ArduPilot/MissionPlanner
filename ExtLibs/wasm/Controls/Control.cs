@@ -1,11 +1,19 @@
 ﻿using System;
 using System.Drawing;
+using System.Threading.Tasks;
 using Blazor.Extensions.Canvas.Canvas2D;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
 namespace MissionPlanner.Controls
 {
+    public static class Extension
+    {
+        public static string ToHex(this Color col)
+        {
+            return String.Format("rgba({0},{1},{2},{3})", col.R, col.G, col.B, col.A / (float) 255);
+        }
+    }
     public class Control: ComponentBase
     {
         public Canvas2DContext Context { get; set; }
@@ -34,14 +42,14 @@ namespace MissionPlanner.Controls
 
         protected void Invalidate()
         {
-            throw new NotImplementedException();
+            
         }
 
-        public virtual void Refresh()
+        public async virtual void Refresh()
         {
-            Context.BeginBatchAsync();
+            await this.Context.BeginBatchAsync();
             OnPaint(new PaintEventArgs(new GraphicsWeb(Context), Rectangle.FromLTRB(0, 0, Width, Height)));
-            Context.EndBatchAsync();
+            await this.Context.EndBatchAsync();
         }
 
         protected virtual void OnMouseMove(MouseEventArgs mouseEventArgs)

@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.ComponentModel;
 using System.IO;
+using System.Threading.Tasks;
 using Blazor.Extensions.Canvas.WebGL;
 using MissionPlanner.Drawing;
 using MissionPlanner.Drawing.Drawing2D;
@@ -917,7 +918,7 @@ namespace MissionPlanner.Controls
             }
         }
 
-        protected async override void OnPaint(PaintEventArgs e)
+        protected override void OnPaint(PaintEventArgs e)
         {
             //GL.Enable(EnableCap.AlphaTest)
 
@@ -940,7 +941,7 @@ namespace MissionPlanner.Controls
             if (textureResetDateTime.Hour != DateTime.Now.Hour)
             {
                 textureResetDateTime = DateTime.Now;
-                doResize();
+                //doResize();
             }
 
             lock (this)

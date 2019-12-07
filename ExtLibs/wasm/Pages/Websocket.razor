@@ -12,7 +12,9 @@
 @using System.Runtime.CompilerServices
 
 @using System.Text;
-
+@using BlazorWebSocketHelper;
+@using BlazorWebSocketHelper.Classes;
+@using static BlazorWebSocketHelper.Classes.BwsEnums;
 @using System.Security.Cryptography;
 @using Blazor.FileReader;
 @using System.Runtime.InteropServices
@@ -24,8 +26,13 @@
 @using Blazor.Extensions.Canvas
 @using Blazor.Extensions.Canvas.Canvas2D
 @using Blazor.Extensions.Canvas.WebGL
+@using BlazorWebSocketHelper
+@using BlazorWebSocketHelper.Classes
 @using MissionPlanner.ArduPilot
 @inject Sotsera.Blazor.Toaster.IToaster Toaster
+
+@inject Toolbelt.Blazor.SpeechSynthesis.SpeechSynthesis SpeechSynthesis
+
 @using MissionPlanner.Controls
 @using MissionPlanner.Mavlink
 @implements IDisposable
@@ -43,9 +50,9 @@
     @if (mav != null)
     {
         @foreach (var mode in mav.MAVlist.GetRawIDS())
-         {
-             <option value=@(mode)>MAV@(MAVList.FromID(mode).sysid + " " + MAVList.FromID(mode).compid)</option>
-         }
+        {
+            <option value=@(mode)>MAV@(MAVList.FromID(mode).sysid + " " + MAVList.FromID(mode).compid)</option>
+        }
     }
 </select>
 <div style="width: 100%; height: 100%; display: @(mode == modes.map ? "block" : "none")">
@@ -53,13 +60,15 @@
     <div id="page" style="width: 100%; height: 100%;">
         <div style="height: 100%; display: flex; flex-direction: column; float: left; resize: horizontal; overflow: auto;">
             <div style="float: left;">
-                <canvas id="canvas" width="500" height="375">
-                    <p>
-                        This example requires a browser that supports the
-                        <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
-                        &lt;canvas&gt; feature.
-                    </p>
-                </canvas><br>
+                <BECanvas Width="500" Height="375" @ref="_canvasReference"></BECanvas>
+                <!--<canvas id="canvas" width="500" height="375">
+        <p>
+            This example requires a browser that supports the
+            <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+            &lt;canvas&gt; feature.
+        </p>
+    </canvas>-->
+                <br>
                 Lat: <input id="latbox" name="lat" val="40.713956" />Long: <input id="lngbox" name="long" val="74.006653" /> <br />
                 <canvas id="graphcanvas" width="500" height="80"></canvas><br />
                 <div id="curve_chart" style="width: 500px; height: 200px;"></div>
@@ -134,6 +143,8 @@
         parmedit
     }
 
+    protected HUD _hud = new HUD();
+
     public modes mode = modes.map;
 
     string modeselected = "";
@@ -177,14 +188,13 @@
     DateTime gpstime;
     static bool init = false;
 
-    private WebGLContext _context;
-    protected BECanvasComponent _canvasReference;
+    private Canvas2DContext _context;
+
+
 
     string wsuri { get; set; } = "ws://localhost:56781/websocket/raw";
     bool pageloadvisible = true;
 
-
-    static Websocket instance;
 
     private void Log(string message) => Console.WriteLine($"{DateTime.UtcNow.ToString("O")} - {message}");
 
@@ -193,8 +203,6 @@
         Log("OnInitialized ");
         base.OnInitialized();
 
-        instance = this;
-
         init = false;
 
         Console.WriteLine("OnInitialized  Done");
@@ -202,6 +210,7 @@
 
     protected override async Task OnInitializedAsync() => Log("OnInitializedAsync");
 
+    protected WebSocketHelper WebSocketHelper1;
 
     public async Task wsconnect()
     {
@@ -227,9 +236,35 @@
 
                             return;
                             */
-        JSRuntime.InvokeAsync<object>
-            ("initWebSocket", wsuri);
+        //JSRuntime.InvokeAsync<object>("initWebSocket", wsuri);
+
+        WebSocketHelper1 = new WebSocketHelper(wsuri, BwsTransportType.ArrayBuffer, JSRuntime);
+
+        WebSocketHelper1.OnStateChange = WsOnStateChange;
+        WebSocketHelper1.OnMessage = WsOnMessage;
+        WebSocketHelper1.OnError = WsOnError;
+
+        JSRuntime.InvokeAsync<object>("startChart");
+
+    }
+
+    private void WsOnError(string obj)
+    {
+        Toaster.Error(obj);
+    }
+
+    private void WsOnMessage(BwsMessage obj)
+    {
         pageloadvisible = false;
+
+        ProcessPacket("", obj.MessageBinary);
+    }
+
+    private void WsOnStateChange(short obj)
+    {
+        SpeechSynthesis.Speak(WebSocketHelper1.bwsState.ToString());
+        Toaster.Info(WebSocketHelper1.bwsState.ToString());
+        StateHasChanged();
     }
 
 
@@ -257,9 +292,12 @@
             ("draw", null);
 
         {
-
+            _hud.Context = await this._canvasReference.CreateCanvas2DAsync();
+            _hud.Width = (int)_canvasReference.Width;
+            _hud.Height = (int)_canvasReference.Height;
         }
     }
+    protected BECanvasComponent _canvasReference;
 
     protected override void OnParametersSet()
     {
@@ -276,51 +314,7 @@
 
     }
 
-    public static void ProcessPacketStatic(string json)
-    {
-        //Console.WriteLine("ProcessPacketStatic");
 
-        if (instance != null)
-            instance.ProcessPacket(json);
-
-        if (instance == null)
-        {
-            instance = new Websocket();
-            init = true;
-        }
-
-        //Console.WriteLine("ProcessPacketStatic " + instance);
-    }
-
-
-    public static void ProcessPacketStaticBytes(string lengths)
-    {
-        var length = int.Parse(lengths);
-        //Console.WriteLine("ProcessPacketStaticBytes");
-        if (instance != null)
-        {
-            if (instance.buffer == null)
-                Console.WriteLine("buffer is null");
-
-            if (length == null)
-                Console.WriteLine("buffer is null");
-
-            //Console.WriteLine(length + " " + BitConverter.ToString(instance.buffer.Take(length).ToArray()));
-
-            //var js = JSRuntime.Current as MonoWebAssemblyJSRuntime;
-            //js.InvokeUnmarshalled<byte[], bool>            ("setNetBuffer1024", instance.buffer);
-
-            instance.ProcessPacket("", instance.buffer.Take(length).ToArray());
-        }
-
-        if (instance == null)
-        {
-            instance = new Websocket();
-            init = true;
-        }
-
-        //Console.WriteLine("ProcessPacketStaticBytes " + instance);
-    }
 
     //[JSInvokable]
     public async void ProcessPacket(string json, byte[] data = null)
@@ -328,6 +322,7 @@
         //Console.WriteLine(DateTime.Now + " JS to C# " + json.ToArray().Length);
 
         DateTime start = DateTime.Now;
+
 
         if (!init)
         {
@@ -354,8 +349,10 @@
 
             mavbasestream.WriteCallback += async (sender, bytes) =>
             {
-                await JSRuntime.InvokeAsync<object>
-                    ("evalline", new object[] { "socket.send(new Uint8Array(" + bytes.ToJSON() + "))" }).ConfigureAwait(false);
+                //await JSRuntime.InvokeAsync<object>("evalline", new object[] { "socket.send(new Uint8Array(" + bytes.ToJSON() + "))" }).ConfigureAwait(false);
+
+                WebSocketHelper1.Send(bytes.ToArray());
+
             };
             mavbasestream.ReadBufferUpdate += async (sender, count) =>
             {
@@ -365,7 +362,9 @@
             mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT, packetReceived);
             mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.GPS_RAW_INT, packetReceived);
             mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.HEARTBEAT, packetReceived);
-            mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.PARAM_VALUE, packetReceived);
+            //mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.PARAM_VALUE, packetReceived);
+
+            mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.STATUSTEXT, packetReceived);
         }
 
         //Console.WriteLine("decode json");
@@ -397,7 +396,7 @@
 
         var check1 = DateTime.Now;
 
-        ProcessPackets();
+        await ProcessPacketsint();
 
         //var packet = await
 
@@ -407,15 +406,10 @@
         //mav.DebugPacket(packet, true);
     }
 
-    public static void ProcessPackets()
-    {
-        if (instance != null)
-            instance.ProcessPacketsint();
-    }
 
     bool running = false;
 
-    public async void ProcessPacketsint()
+    public async Task ProcessPacketsint()
     {
         if (running)
             return;
@@ -507,6 +501,11 @@
 
             //Console.WriteLine("{0} {1}", ASCIIEncoding.ASCII.GetString(param.param_id), param.param_value);
         }
+        else if (packet.data is MAVLink.MAVLINK_MSG_ID.STATUSTEXT)
+        {
+            var txt = (MAVLink.mavlink_statustext_t) packet.data;
+            SpeechSynthesis.Speak(ASCIIEncoding.ASCII.GetString(txt.text).TrimUnPrintable());
+        }
 
         // update gui if neede
         if (DateTime.Now > nextUpdate)
@@ -517,18 +516,67 @@
             {
                 mavd.cs.UpdateCurrentSettings(null, false, mav, mavd);
                 JSRuntime.InvokeAsync<object>
-                    ("setPosition", new object[] { mavd.sysid, mavd.compid, mavd.cs.lat, mavd.cs.lng, mavd.cs.altasl, mavd.cs.roll, mavd.cs.pitch, mavd.cs.yaw});
+                    ("setPosition", new object[] { mavd.sysid, mavd.compid, mavd.cs.lat, mavd.cs.lng, mavd.cs.altasl, mavd.cs.roll, mavd.cs.pitch, mavd.cs.yaw });
                 if (mavd.sysid == mav.sysidcurrent && mavd.compid == mav.compidcurrent)
                     JSRuntime.InvokeAsync<object>
-                        ("setAttitude", new object[] {mavd.sysid, mavd.compid, mavd.cs.roll, mavd.cs.pitch, mavd.cs.yaw});
+                        ("setAttitude", new object[] { mavd.sysid, mavd.compid, mavd.cs.roll, mavd.cs.pitch, mavd.cs.yaw });
                 JSRuntime.InvokeAsync<object>
-                    ("setMission", new object[] {mavd.sysid, mavd.compid, mavd.wps.Values.ToJSON(), mavd.fencepoints.Values.ToJSON(), mavd.rallypoints.Values.ToJSON()});
+                    ("setMission", new object[] { mavd.sysid, mavd.compid, mavd.wps.Values.ToJSON(), mavd.fencepoints.Values.ToJSON(), mavd.rallypoints.Values.ToJSON() });
+
+                if (mavd.sysid == mav.sysidcurrent && mavd.compid == mav.compidcurrent)
+                {
+                    var hud1 = _hud;
+                    hud1.airspeed = mavd.cs.airspeed;
+                    hud1.alt = mavd.cs.alt;
+                    hud1.batterylevel = (float) mavd.cs.battery_voltage;
+                    hud1.batteryremaining = mavd.cs.battery_remaining;
+                    hud1.connected = mavd.cs.connected;
+                    hud1.current = (float) mavd.cs.current;
+                    hud1.datetime = mavd.cs.datetime;
+                    hud1.disttowp = mavd.cs.wp_dist;
+                    hud1.ekfstatus = mavd.cs.ekfstatus;
+                    hud1.failsafe = mavd.cs.failsafe;
+                    hud1.gpsfix = mavd.cs.gpsstatus;
+                    hud1.gpsfix2 = mavd.cs.gpsstatus2;
+                    hud1.gpshdop = mavd.cs.gpshdop;
+                    hud1.gpshdop2 = mavd.cs.gpshdop2;
+                    hud1.groundalt = (float) mavd.cs.HomeAlt;
+                    hud1.groundcourse = mavd.cs.groundcourse;
+                    hud1.groundspeed = mavd.cs.groundspeed;
+                    hud1.heading = mavd.cs.yaw;
+                    hud1.linkqualitygcs = mavd.cs.linkqualitygcs;
+                    hud1.message = mavd.cs.messageHigh;
+                    hud1.messagetime = mavd.cs.messageHighTime;
+                    hud1.mode = mavd.cs.mode;
+                    hud1.navpitch = mavd.cs.nav_pitch;
+                    hud1.navroll = mavd.cs.nav_roll;
+                    hud1.pitch = mavd.cs.pitch;
+                    hud1.roll = mavd.cs.roll;
+                    hud1.status = mavd.cs.armed;
+                    hud1.targetalt = mavd.cs.targetalt;
+                    hud1.targetheading = mavd.cs.nav_bearing;
+                    hud1.targetspeed = mavd.cs.targetairspeed;
+                    hud1.turnrate = mavd.cs.turnrate;
+                    hud1.verticalspeed = mavd.cs.verticalspeed;
+                    hud1.vibex = mavd.cs.vibex;
+                    hud1.vibey = mavd.cs.vibey;
+                    hud1.vibez = mavd.cs.vibez;
+                    hud1.wpno = (int) mavd.cs.wpno;
+                    hud1.xtrack_error = mavd.cs.xtrack_error;
+                    hud1.AOA = mavd.cs.AOA;
+                    hud1.SSA = mavd.cs.SSA;
+                    hud1.critAOA = mavd.cs.crit_AOA;
+
+                    _hud.Refresh();
+                }
             }
 
             gpstime = DateTime.Now;
 
             if (mode == modes.map)
+            {
                 StateHasChanged();
+            }
         }
 
         return true;
@@ -547,7 +595,7 @@
     {
         mav?.Dispose();
 
-        instance = null;
+        WebSocketHelper1?.Close();
     }
 
 }

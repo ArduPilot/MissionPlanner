@@ -12,6 +12,8 @@ namespace MissionPlanner.Controls
         {
             this.gg = gg;
             this.clientRectangle = clientRectangle;
+
+            
         }
 
         public IGraphics Graphics => gg;
