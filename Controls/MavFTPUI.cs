@@ -70,7 +70,7 @@ namespace MissionPlanner.Controls
             {
                 rootNode = new TreeNode(info.Name, 0, 0);
                 rootNode.Tag = info;
-                GetDirectories(await info.GetDirectories().ConfigureAwait(false), rootNode);
+                GetDirectories(await info.GetDirectories().ConfigureAwait(true), rootNode);
                 treeView1.Nodes.Add(rootNode);
             }
             toolStripStatusLabel1.Text = "Ready";
@@ -119,11 +119,11 @@ namespace MissionPlanner.Controls
             ListViewItem.ListViewSubItem[] subItems;
             ListViewItem item = null;
 
-            var dirs = await nodeDirInfo.GetDirectories().ConfigureAwait(false);
+            var dirs = await nodeDirInfo.GetDirectories().ConfigureAwait(true);
 
             newSelected.Nodes.Clear();
 
-            await GetDirectories(dirs, newSelected).ConfigureAwait(false);
+            await GetDirectories(dirs, newSelected).ConfigureAwait(true);
 
             foreach (DirectoryInfo dir in dirs)
             {
@@ -189,7 +189,7 @@ namespace MissionPlanner.Controls
                     {
                         cache = _mavftp.kCmdListDirectory(FullPath);
                     }
-                }).ConfigureAwait(false);
+                }).ConfigureAwait(true);
                 return cache.Where(a => a.isDirectory && a.Name != "." && a.Name != "..")
                     .Select(a => new DirectoryInfo(a.FullName, _mavftp)).ToArray();
             }
@@ -197,7 +197,7 @@ namespace MissionPlanner.Controls
             public async Task<IEnumerable<MAVFtp.FtpFileInfo>> GetFiles()
             {
                 if (cache == null)
-                    await GetDirectories().ConfigureAwait(false);
+                    await GetDirectories().ConfigureAwait(true);
 
                 // rerequest every time
                 return cache.Where(a => !a.isDirectory);
@@ -210,7 +210,7 @@ namespace MissionPlanner.Controls
 
             foreach (var file in files)
             {
-                await UploadFile(file).ConfigureAwait(false);
+                await UploadFile(file).ConfigureAwait(true);
             }
 
             TreeView1_NodeMouseClick(null,
@@ -306,7 +306,7 @@ namespace MissionPlanner.Controls
             {
                 foreach (var ofdFileName in ofd.FileNames)
                 {
-                    await UploadFile(ofdFileName).ConfigureAwait(false);
+                    await UploadFile(ofdFileName).ConfigureAwait(true);
                 }
             }
 
