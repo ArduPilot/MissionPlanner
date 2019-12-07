@@ -7,7 +7,7 @@ namespace MissionPlanner.Drawing
     public abstract class Brush: IDisposable
     {
         internal SKPaint nativeBrush;
-        internal Color _color;
+        public Color _color = Color.Black;
 
         public void Dispose()
         {

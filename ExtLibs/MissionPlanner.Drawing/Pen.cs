@@ -37,7 +37,7 @@ namespace MissionPlanner.Drawing
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                //Console.WriteLine(e);
             }
         }
 
@@ -54,10 +54,10 @@ namespace MissionPlanner.Drawing
         }
 
         public LineJoin LineJoin { get; set; }
-        public float Width { get; set; }
+        public float Width { get; set; } = 2;
         public LineCap StartCap { get; set; }
         public DashStyle DashStyle { get; set; }
-        public Color Color { get; set; } 
+        public Color Color { get; set; } = Color.Black;
         public Brush Brush { get; set; }
         public float[] DashPattern { get;  set; }
         public PenAlignment Alignment { get; set; }
