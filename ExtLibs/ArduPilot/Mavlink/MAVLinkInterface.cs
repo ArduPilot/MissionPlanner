@@ -3600,7 +3600,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
         public MAVLinkMessage readPacket()
         {
-            return Task.Run(async () => await readPacketAsync().ConfigureAwait(false)).Result;
+            return readPacketAsync().AwaitSync();
         }
 
         /// <summary>
