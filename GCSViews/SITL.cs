@@ -23,7 +23,7 @@ namespace MissionPlanner.GCSViews
         //https://regex101.com/r/cH3kV3/3
         Regex default_params_regex = new Regex(@"""([^""]+)""\s*:\s*\{\s*[^\{}]+""default_params_filename""\s*:\s*\[*""([^""]+)""\s*[^\}]*\}");
 
-        Uri sitlurl = new Uri("http://firmware.ardupilot.org/Tools/MissionPlanner/sitl/");
+        Uri sitlurl = new Uri("https://firmware.ardupilot.org/Tools/MissionPlanner/sitl/");
 
         string sitldirectory = Settings.GetUserDataDirectory() + "sitl" +
                                Path.DirectorySeparatorChar;

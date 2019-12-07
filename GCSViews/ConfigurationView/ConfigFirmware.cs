@@ -114,7 +114,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 CustomMessageBox.Show(Strings.TrunkWarning, Strings.Trunk);
                 REL_Type = APFirmware.RELEASE_TYPES.DEV;
-                firmwareurl = "https://github.com/ArduPilot/binary/raw/master/dev/firmwarelatest.xml;http://firmware.ardupilot.org/Tools/MissionPlanner/dev/firmwarelatest.xml";
+                firmwareurl = "https://github.com/ArduPilot/binary/raw/master/dev/firmwarelatest.xml;https://firmware.ardupilot.org/Tools/MissionPlanner/dev/firmwarelatest.xml";
 
                 softwares.Clear();
                 UpdateFWList();
@@ -577,7 +577,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             CustomMessageBox.Show(Strings.BetaWarning, Strings.Beta);
             REL_Type = APFirmware.RELEASE_TYPES.BETA;
-            firmwareurl = "https://github.com/ArduPilot/binary/raw/master/dev/firmware2.xml;http://firmware.ardupilot.org/Tools/MissionPlanner/dev/firmware2.xml";
+            firmwareurl = "https://github.com/ArduPilot/binary/raw/master/dev/firmware2.xml;https://firmware.ardupilot.org/Tools/MissionPlanner/dev/firmware2.xml";
             softwares.Clear();
             UpdateFWList();
             CMB_history.Visible = false;
@@ -588,11 +588,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                Process.Start("http://firmware.ardupilot.org/");
+                Process.Start("https://firmware.ardupilot.org/");
             }
             catch
             {
-                CustomMessageBox.Show("Can not open url http://firmware.ardupilot.org/", Strings.ERROR);
+                CustomMessageBox.Show("Can not open url https://firmware.ardupilot.org/", Strings.ERROR);
             }
         }
 

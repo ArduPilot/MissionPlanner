@@ -410,12 +410,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                Process.Start("http://ardupilot.org/copter/docs/simpleandsuper-simple-modes.html");
+                Process.Start("https://ardupilot.org/copter/docs/simpleandsuper-simple-modes.html");
             }
             catch
             {
                 CustomMessageBox.Show(Strings.ERROR +
-                                      " http://ardupilot.org/copter/docs/simpleandsuper-simple-modes.html");
+                                      " https://ardupilot.org/copter/docs/simpleandsuper-simple-modes.html");
             }
         }
 

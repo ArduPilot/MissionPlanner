@@ -1172,7 +1172,7 @@ namespace MissionPlanner.Utilities
             try
             {
                 Download.getFilefromNet(
-                    "http://firmware.ardupilot.org/MissionPlanner/gstreamer/gstreamer-1.0-x86_64-1.12.4.zip",
+                    "https://firmware.ardupilot.org/MissionPlanner/gstreamer/gstreamer-1.0-x86_64-1.12.4.zip",
                     output, status: status);
 
                 status?.Invoke(50, "Extracting..");

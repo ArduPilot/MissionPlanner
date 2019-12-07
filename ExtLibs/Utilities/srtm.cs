@@ -557,8 +557,8 @@ namespace MissionPlanner.Utilities
 
         static void get3secfile(object name)
         {
-            string baseurl1sec = "http://firmware.ardupilot.org/SRTM/USGS/SRTM1/version2_1/SRTM1/";
-            string baseurl = "http://firmware.ardupilot.org/SRTM/";
+            string baseurl1sec = "https://firmware.ardupilot.org/SRTM/USGS/SRTM1/version2_1/SRTM1/";
+            string baseurl = "https://firmware.ardupilot.org/SRTM/";
 
             // check file doesnt already exist
             if (File.Exists(datadirectory + Path.DirectorySeparatorChar + (string) name))

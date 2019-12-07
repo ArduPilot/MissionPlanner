@@ -3249,11 +3249,11 @@ namespace MissionPlanner
 
                 // invalidate update url
                 System.Configuration.ConfigurationManager.AppSettings["UpdateLocationVersion"] =
-                    "http://firmware.ardupilot.org/MissionPlanner/xp/";
+                    "https://firmware.ardupilot.org/MissionPlanner/xp/";
                 System.Configuration.ConfigurationManager.AppSettings["UpdateLocation"] =
-                    "http://firmware.ardupilot.org/MissionPlanner/xp/";
+                    "https://firmware.ardupilot.org/MissionPlanner/xp/";
                 System.Configuration.ConfigurationManager.AppSettings["UpdateLocationMD5"] =
-                    "http://firmware.ardupilot.org/MissionPlanner/xp/checksums.txt";
+                    "https://firmware.ardupilot.org/MissionPlanner/xp/checksums.txt";
                 System.Configuration.ConfigurationManager.AppSettings["BetaUpdateLocationVersion"] = "";
             }
 
@@ -4228,11 +4228,11 @@ namespace MissionPlanner
         {
             try
             {
-                System.Diagnostics.Process.Start("http://ardupilot.org/?utm_source=Menu&utm_campaign=MP");
+                System.Diagnostics.Process.Start("https://ardupilot.org/?utm_source=Menu&utm_campaign=MP");
             }
             catch
             {
-                CustomMessageBox.Show("Failed to open url http://ardupilot.org");
+                CustomMessageBox.Show("Failed to open url https://ardupilot.org");
             }
         }
 

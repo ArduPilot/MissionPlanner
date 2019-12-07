@@ -103,7 +103,7 @@ namespace MissionPlanner.ArduPilot
             SUBMARINE
         }
 
-        public static void GetList(string url = "http://firmware.ardupilot.org/manifest.json.gz", bool force = false)
+        public static void GetList(string url = "https://firmware.ardupilot.org/manifest.json.gz", bool force = false)
         {
             if (force == false && Manifest != null)
                 return;
