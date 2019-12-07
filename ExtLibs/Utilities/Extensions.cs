@@ -15,6 +15,10 @@ namespace MissionPlanner.Utilities
 {
     public static class Extensions
     {
+        public static T AwaitSync<T>(this Task<T> infunc)
+        {
+            return Task.Run(async () => await infunc.ConfigureAwait(false)).Result;
+        }
 
         public static void AddRange<T>(this IList<T> list, IEnumerable<T> extras )
         {
