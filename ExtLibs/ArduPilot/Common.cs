@@ -85,7 +85,7 @@ namespace MissionPlanner.ArduPilot
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public static List<KeyValuePair<int, string>> getModesList(Firmwares firmware)
         {
-            log.Info("getModesList Called");
+            //log.Info("getModesList Called");
 
             if (firmware == Firmwares.PX4)
             {
