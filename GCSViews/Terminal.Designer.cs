@@ -114,7 +114,6 @@
             // 
             // Terminal
             // 
-            
             this.Controls.Add(this.CMB_boardtype);
             this.Controls.Add(this.BUT_disconnect);
             this.Controls.Add(this.BUT_ConnectAPM);
