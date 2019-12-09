@@ -43,12 +43,14 @@ Welcome to your new app.
     async void renderhud()
     {
     //var hud = new HUD();
+        var start = DateTime.Now;
         _hud.Context = await this._canvasReference.CreateCanvas2DAsync();
         _hud.Width = (int)_canvasReference.Width;
         _hud.Height = (int)_canvasReference.Height;
-        Console.WriteLine("About to HUD " + _context);
+        //Console.WriteLine("About to HUD " + _context + (DateTime.Now - start).TotalMilliseconds);
         _hud.Refresh();
-        Console.WriteLine("HUD refresh done ");
+        var time = (DateTime.Now - start).TotalMilliseconds;
+        Console.WriteLine("HUD refresh done " + time);
     }
 
     protected override async Task OnInitializedAsync()
@@ -88,6 +90,7 @@ Welcome to your new app.
 
         }
 
+        return;
 
         var httpClient = new HttpClient();
         httpClient.BaseAddress = new Uri(UriHelper.BaseUri);

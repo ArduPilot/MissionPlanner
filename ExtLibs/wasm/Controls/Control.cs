@@ -16,6 +16,7 @@ namespace MissionPlanner.Controls
     }
     public class Control: ComponentBase
     {
+        public bool invalidated;
         public Canvas2DContext Context { get; set; }
 
         protected virtual void OnMouseClick(MouseEventArgs mouseEventArgs)
@@ -42,14 +43,19 @@ namespace MissionPlanner.Controls
 
         protected void Invalidate()
         {
-            
+            invalidated = true;
         }
 
         public async virtual void Refresh()
         {
+            var s1 = DateTime.Now;
             await this.Context.BeginBatchAsync();
-            OnPaint(new PaintEventArgs(new GraphicsWeb(Context), Rectangle.FromLTRB(0, 0, Width, Height)));
+            var s2 = DateTime.Now;
+            OnPaint(new PaintEventArgs(new GraphicsWeb(Context, Width, Height), Rectangle.FromLTRB(0, 0, Width, Height)));
+            var s3 = DateTime.Now;
             await this.Context.EndBatchAsync();
+            var s4 = DateTime.Now;
+            //Console.WriteLine("{0} {1} {2}", (s2 - s1).TotalMilliseconds, (s3 - s2).TotalMilliseconds, (s4 - s3).TotalMilliseconds);
         }
 
         protected virtual void OnMouseMove(MouseEventArgs mouseEventArgs)
@@ -74,7 +80,7 @@ namespace MissionPlanner.Controls
 
         protected virtual void OnPaint(PaintEventArgs e)
         {
-            
+            invalidated = false;
         }
 
         protected virtual void OnPaintBackground(PaintEventArgs e)

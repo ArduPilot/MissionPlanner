@@ -3,6 +3,7 @@ using System.Collections;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Blazor.Extensions.Canvas.Canvas2D;
 using Microsoft.JSInterop;
 using MissionPlanner.Drawing;
@@ -44,12 +45,16 @@ namespace MissionPlanner.Controls
     public class GraphicsWeb : IGraphics
     {
         private readonly Canvas2DContext _context;
+        private readonly int _width;
+        private readonly int _height;
 
         private bool DEBUG = false;
 
-        public GraphicsWeb(Canvas2DContext context)
+        public GraphicsWeb(Canvas2DContext context, int width, int height)
         {
             _context = context;
+            _width = width;
+            _height = height;
         }
 
         public Region Clip
@@ -155,23 +160,34 @@ namespace MissionPlanner.Controls
         {
             throw new NotImplementedException();
         }
+
         const double rad2deg = (180 / Math.PI);
         const double deg2rad = (1.0 / rad2deg);
+
         public async void Clear(Color color)
         {
             if (DEBUG) Console.WriteLine("Clear");
-            await _context.ClearRectAsync(0, 0,  999, 999);
+            await _context.ClearRectAsync(0, 0, _width, _height);
         }
 
-        public async void DrawArc(Pen pen, float x, float y, float width, float height, float startAngle, float sweepAngle)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public async void DrawArc(Pen pen, float x, float y, float width, float height, float startAngle,
+            float sweepAngle)
         {
-            await _context.SetLineWidthAsync(pen.Width);
-            await _context.SetStrokeStyleAsync(pen.Color.ToHex());
+            if (lastlinewidth != pen.Width)
+                await _context.SetLineWidthAsync(pen.Width);
+            lastlinewidth = pen.Width;
+            if(laststroke != pen.Color.ToHex())
+                await _context.SetStrokeStyleAsync(pen.Color.ToHex());
+            laststroke = pen.Color.ToHex();
             await _context.BeginPathAsync();
-            await _context.ArcAsync(x + width/2, y + height/2, Math.Min(width, height) / 2, startAngle * deg2rad, (sweepAngle - startAngle) * deg2rad);
+            await _context.ArcAsync(x + width / 2, y + height / 2, Math.Min(width, height) / 2, startAngle * deg2rad,
+                (startAngle + sweepAngle) * deg2rad);
             await _context.StrokeAsync();
         }
 
+        private string laststroke = "";
+        private float lastlinewidth = 0;
 
         public void DrawArc(Pen pen, RectangleF rect, float startAngle, float sweepAngle)
         {
@@ -181,7 +197,7 @@ namespace MissionPlanner.Controls
 
         public void DrawArc(Pen pen, int x, int y, int width, int height, int startAngle, int sweepAngle)
         {
-            DrawArc(pen, x, y, width, height, startAngle, (float)sweepAngle);
+            DrawArc(pen, x, y, width, height, startAngle, (float) sweepAngle);
         }
 
         public void DrawArc(Pen pen, Rectangle rect, float startAngle, float sweepAngle)
@@ -192,24 +208,28 @@ namespace MissionPlanner.Controls
         public void DrawBezier(Pen pen, float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4)
         {
             DrawBeziers(pen,
-                new PointF[] { new PointF(x1, y1), new PointF(x2, y2), new PointF(x3, y3), new PointF(x4, y4) });
+                new PointF[] {new PointF(x1, y1), new PointF(x2, y2), new PointF(x3, y3), new PointF(x4, y4)});
         }
 
         public void DrawBezier(Pen pen, PointF pt1, PointF pt2, PointF pt3, PointF pt4)
         {
-             DrawBezier(pen, pt1.X, pt1.Y, pt2.X, pt2.Y, pt3.X, pt3.Y, pt4.X, pt4.Y);
+            DrawBezier(pen, pt1.X, pt1.Y, pt2.X, pt2.Y, pt3.X, pt3.Y, pt4.X, pt4.Y);
         }
 
         public void DrawBezier(Pen pen, Point pt1, Point pt2, Point pt3, Point pt4)
         {
-             DrawBezier(pen, pt1.X, pt1.Y, pt2.X, pt2.Y, pt3.X, pt3.Y, pt4.X, pt4.Y);
+            DrawBezier(pen, pt1.X, pt1.Y, pt2.X, pt2.Y, pt3.X, pt3.Y, pt4.X, pt4.Y);
         }
 
 
         public async void DrawBeziers(Pen pen, PointF[] points)
         {
-            await _context.SetLineWidthAsync(pen.Width);
-            await _context.SetStrokeStyleAsync(pen.Color.ToHex());
+            if (lastlinewidth != pen.Width)
+                await _context.SetLineWidthAsync(pen.Width);
+            lastlinewidth = pen.Width;
+            if (laststroke != pen.Color.ToHex())
+                await _context.SetStrokeStyleAsync(pen.Color.ToHex());
+            laststroke = pen.Color.ToHex();
             await _context.MoveToAsync(points[0].X, points[0].Y);
             await _context.BezierCurveToAsync(
                 points[1].X, points[1].Y,
@@ -245,19 +265,19 @@ namespace MissionPlanner.Controls
         public void DrawClosedCurve(Pen pen, Point[] points, float tension, FillMode fillmode)
         {
             var pts = Spline2Bez(Point2PointF(points), 0, points.Length - 1, true, tension);
-             DrawBeziers(pen, pts);
+            DrawBeziers(pen, pts);
         }
 
         public void DrawCurve(Pen pen, PointF[] points)
         {
             var pts = Spline2Bez(points, 0, points.Length - 1, false, .5f);
-             DrawBeziers(pen, pts);
+            DrawBeziers(pen, pts);
         }
 
-        public  void DrawCurve(Pen pen, PointF[] points, float tension)
+        public void DrawCurve(Pen pen, PointF[] points, float tension)
         {
             var pts = Spline2Bez(points, 0, points.Length - 1, false, tension);
-             DrawBeziers(pen, pts);
+            DrawBeziers(pen, pts);
         }
 
         public void DrawCurve(Pen pen, PointF[] points, int offset, int numberOfSegments)
@@ -275,23 +295,24 @@ namespace MissionPlanner.Controls
         public void DrawCurve(Pen pen, Point[] points)
         {
             var pts = Spline2Bez(Point2PointF(points), 0, points.Length - 1, false, .5f);
-             DrawBeziers(pen, pts);
+            DrawBeziers(pen, pts);
         }
 
         public void DrawCurve(Pen pen, Point[] points, float tension)
         {
             var pts = Spline2Bez(Point2PointF(points), 0, points.Length - 1, false, tension);
-             DrawBeziers(pen, pts);
+            DrawBeziers(pen, pts);
         }
 
         public void DrawCurve(Pen pen, Point[] points, int offset, int numberOfSegments, float tension)
         {
             var pts = Spline2Bez(Point2PointF(points), offset, numberOfSegments, false, tension);
-             DrawBeziers(pen, pts);
+            DrawBeziers(pen, pts);
         }
+
         public void DrawEllipse(Pen pen, float x, float y, float width, float height)
         {
-             DrawArc(pen, x, y, width, height, 0, 360);
+            DrawArc(pen, x, y, width, height, 0, 360);
         }
 
         /// <summary>
@@ -299,7 +320,7 @@ namespace MissionPlanner.Controls
         /// </summary>
         public void DrawEllipse(Pen pen, RectangleF rect)
         {
-             DrawEllipse(pen, rect.X, rect.Y, rect.Width, rect.Height);
+            DrawEllipse(pen, rect.X, rect.Y, rect.Width, rect.Height);
         }
 
         /// <summary>
@@ -307,7 +328,7 @@ namespace MissionPlanner.Controls
         /// </summary>
         public void DrawEllipse(Pen pen, Rectangle rect)
         {
-             DrawEllipse(pen, rect.X, rect.Y, rect.Width, (float)rect.Height);
+            DrawEllipse(pen, rect.X, rect.Y, rect.Width, (float) rect.Height);
         }
 
         /// <summary>
@@ -315,7 +336,7 @@ namespace MissionPlanner.Controls
         /// </summary>
         public void DrawEllipse(Pen pen, int x, int y, int width, int height)
         {
-             DrawEllipse(pen, x, y, width, (float)height);
+            DrawEllipse(pen, x, y, width, (float) height);
         }
 
         public void DrawIcon(Icon icon, int x, int y)
@@ -359,29 +380,29 @@ namespace MissionPlanner.Controls
         /// </summary>
         public void DrawImage(Image image, float x, float y, float width, float height)
         {
-            DrawImage(image, (long)x, (long)y, (long)width, (long)height);
+            DrawImage(image, (long) x, (long) y, (long) width, (long) height);
             //throw new NotImplementedException();
         }
 
         public void DrawImage(Image image, Point point)
         {
-            DrawImage(image, point.X, (float)point.Y);
+            DrawImage(image, point.X, (float) point.Y);
         }
 
         public void DrawImage(Image image, int x, int y)
         {
-            DrawImage(image, x, (float)y);
+            DrawImage(image, x, (float) y);
         }
 
         public void DrawImage(Image image, Rectangle rect)
         {
-            DrawImage(image, rect.X, rect.Y, rect.Width, (float)rect.Height);
+            DrawImage(image, rect.X, rect.Y, rect.Width, (float) rect.Height);
         }
 
         public void DrawImage(Image image, int x, int y, int width, int height)
         {
-          if (DEBUG) Console.WriteLine("DrawImage");
-            DrawImage(image, (float)x, y, width, height);
+            if (DEBUG) Console.WriteLine("DrawImage");
+            DrawImage(image, (float) x, y, width, height);
         }
 
         public void DrawImage(Image image, PointF[] destPoints)
@@ -425,7 +446,7 @@ namespace MissionPlanner.Controls
             throw new NotImplementedException();
         }
 
-     
+
 
         public void DrawImage(Image image, Point[] destPoints, Rectangle srcRect, GraphicsUnit srcUnit)
         {
@@ -465,7 +486,7 @@ namespace MissionPlanner.Controls
 
         public void DrawImage(Image img, long i, long i1, long width, long height)
         {
-            DrawImage(img, new Rectangle((int)i, (int)i1, (int)width, (int)height), 0.0f, 0, width, height,
+            DrawImage(img, new Rectangle((int) i, (int) i1, (int) width, (int) height), 0.0f, 0, width, height,
                 GraphicsUnit.Pixel,
                 new ImageAttributes());
         }
@@ -473,7 +494,7 @@ namespace MissionPlanner.Controls
         public void DrawImage(Image image, Rectangle rectangle, int p1, int p2, long p3, long p4,
             GraphicsUnit graphicsUnit, ImageAttributes TileFlipXYAttributes)
         {
-            DrawImage(image, rectangle, (float)rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height,
+            DrawImage(image, rectangle, (float) rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height,
                 GraphicsUnit.Pixel, new ImageAttributes());
         }
 
@@ -484,7 +505,7 @@ namespace MissionPlanner.Controls
 
         public void DrawImageUnscaled(Image image, Point point)
         {
-            DrawImage(image, point.X, (float)point.Y);
+            DrawImage(image, point.X, (float) point.Y);
         }
 
         public void DrawImageUnscaled(Image image, int x, int y)
@@ -497,17 +518,21 @@ namespace MissionPlanner.Controls
             DrawImageUnscaled(image, rect.X, rect.Y, rect.Width, rect.Height);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public async void DrawLine(Pen pen, float x1, float y1, float x2, float y2)
         {
-          if (DEBUG) Console.WriteLine("DrawLine");
-            await _context.SetLineWidthAsync(pen.Width);
-            await _context.SetStrokeStyleAsync(pen.Color.ToHex());
+            if (DEBUG) Console.WriteLine("DrawLine");
+            if (lastlinewidth != pen.Width)
+                await _context.SetLineWidthAsync(pen.Width);
+            lastlinewidth = pen.Width;
+            if (laststroke != pen.Color.ToHex())
+                await _context.SetStrokeStyleAsync(pen.Color.ToHex());
+            laststroke = pen.Color.ToHex();
             await _context.BeginPathAsync();
-            await _context.MoveToAsync(x1, y1);
-            await _context.LineToAsync(x2, y2);
+            await _context.MoveToAsync((int)x1, (int)y1);
+            await _context.LineToAsync((int)x2, (int)y2);
             await _context.StrokeAsync();
-            await _context.ClosePathAsync();
-
+            //await _context.ClosePathAsync();
         }
 
         /// <summary>
@@ -523,7 +548,7 @@ namespace MissionPlanner.Controls
         /// </summary>
         public void DrawLine(Pen pen, int x1, int y1, int x2, int y2)
         {
-            DrawLine(pen, x1, y1, x2, (float)y2);
+            DrawLine(pen, x1, y1, x2, (float) y2);
         }
 
         /// <summary>
@@ -531,7 +556,7 @@ namespace MissionPlanner.Controls
         /// </summary>
         public void DrawLine(Pen pen, Point pt1, Point pt2)
         {
-            DrawLine(pen, pt1.X, pt1.Y, pt2.X, (float)pt2.Y);
+            DrawLine(pen, pt1.X, pt1.Y, pt2.X, (float) pt2.Y);
         }
 
         public void DrawLines(Pen pen, PointF[] points)
@@ -570,19 +595,21 @@ namespace MissionPlanner.Controls
             var types = path.PathTypes;
             int bidx = 0;
 
+            //await _context.BeginPathAsync();
+
             for (int i = 0; i < points.Length; i++)
             {
                 var point = points[i];
-                var type = (PathPointType)types[i];
+                var type = (PathPointType) types[i];
 
                 switch (type & PathPointType.PathTypeMask)
                 {
                     case PathPointType.Start:
-                        await _context.MoveToAsync(point.X, point.Y);
+                        await _context.MoveToAsync((int)point.X, (int)point.Y);
                         break;
 
                     case PathPointType.Line:
-                        await _context.LineToAsync(point.X, point.Y);
+                        await _context.LineToAsync((int)point.X, (int)point.Y);
                         break;
 
                     case PathPointType.Bezier3:
@@ -602,81 +629,100 @@ namespace MissionPlanner.Controls
                                 y3 = point.Y;
                                 break;
                         }
+
                         if (bidx == 3)
                         {
                             //_context.AddCurveToPoint(x1, y1, x2, y2, x3, y3);
                             DrawBezier(pen, x1, y1, x2, y2, x3, y3, point.X, point.Y);
                             bidx = 0;
                         }
+
                         break;
                     default:
                         throw new Exception("Inconsistent internal state, path type=" + type);
                 }
+
                 if ((type & PathPointType.CloseSubpath) != 0)
-                    await _context.ClosePathAsync();
+                    await _context.StrokeAsync();
+                //await _context.ClosePathAsync();
             }
+
             await _context.StrokeAsync();
         }
 
 
         public void DrawPie(Pen pen, RectangleF rect, float startAngle, float sweepAngle)
         {
-            throw new NotImplementedException();
+            DrawPie(pen, rect.X, rect.X, rect.Width, rect.Height, startAngle, sweepAngle);
         }
 
         public void DrawPie(Pen pen, float x, float y, float width, float height, float startAngle, float sweepAngle)
         {
-            throw new NotImplementedException();
+            DrawPie(pen, x, y, width, height, startAngle, sweepAngle);
         }
 
         public void DrawPie(Pen pen, Rectangle rect, float startAngle, float sweepAngle)
         {
-            DrawPie(pen, rect.X, rect.X, rect.Width, rect.Height, startAngle, sweepAngle);
+            DrawPie(pen, rect.X, rect.Y, rect.Width, rect.Height, startAngle, sweepAngle);
         }
 
         public void DrawPie(Pen pen, int x, int y, int width, int height, int startAngle, int sweepAngle)
         {
-            DrawPie(pen, x, y, width, height, startAngle, (float)sweepAngle);
+            DrawPie(pen, x, y, width, height, startAngle, (float) sweepAngle);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public async void DrawPolygon(Pen pen, PointF[] points)
         {
-          if (DEBUG) Console.WriteLine("DrawPolygon");
-            await _context.SetLineWidthAsync(pen.Width);
-            await _context.SetStrokeStyleAsync(pen.Color.ToHex());
+            if (DEBUG) Console.WriteLine("DrawPolygon");
+            if (lastlinewidth != pen.Width)
+                await _context.SetLineWidthAsync(pen.Width);
+            lastlinewidth = pen.Width;
+            if (laststroke != pen.Color.ToHex())
+                await _context.SetStrokeStyleAsync(pen.Color.ToHex());
+            laststroke = pen.Color.ToHex();
             await _context.BeginPathAsync();
             await _context.MoveToAsync(points[0].X, points[0].Y);
             foreach (var pointF in points)
             {
                 await _context.LineToAsync(pointF.X, pointF.Y);
             }
+
             await _context.ClosePathAsync();
             await _context.StrokeAsync();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void DrawPolygon(Pen pen, Point[] points)
         {
             DrawPolygon(pen, points.ToFloat());
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void DrawRectangle(Pen pen, Rectangle rect)
         {
             DrawRectangle(pen, rect.X, rect.Y, rect.Width, rect.Height);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public async void DrawRectangle(Pen pen, float x, float y, float width, float height)
         {
-          if (DEBUG) Console.WriteLine("DrawRectangle");
-            await _context.SetLineWidthAsync(pen.Width);
-            await _context.SetStrokeStyleAsync(pen.Color.ToHex());
+            if (DEBUG) Console.WriteLine("DrawRectangle");
+            if (lastlinewidth != pen.Width)
+                await _context.SetLineWidthAsync(pen.Width);
+            lastlinewidth = pen.Width;
+            if (laststroke != pen.Color.ToHex())
+                await _context.SetStrokeStyleAsync(pen.Color.ToHex());
+            laststroke = pen.Color.ToHex();
             await _context.BeginPathAsync();
-            await _context.RectAsync(x, y, width, height);
+            await _context.RectAsync((int)x, (int)y, (int)width, (int)height);
             await _context.StrokeAsync();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void DrawRectangle(Pen pen, int x, int y, int width, int height)
         {
-            DrawRectangle(pen, x, y, width, (float)height);
+            DrawRectangle(pen, x, y, width, (float) height);
         }
 
         public void DrawRectangles(Pen pen, RectangleF[] rects)
@@ -686,17 +732,24 @@ namespace MissionPlanner.Controls
 
         public void DrawRectangles(Pen pen, Rectangle[] rects)
         {
-            foreach (var rc in rects) DrawRectangle(pen, rc.Left, rc.Top, rc.Width, (float)rc.Height);
+            foreach (var rc in rects) DrawRectangle(pen, rc.Left, rc.Top, rc.Width, (float) rc.Height);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public async void DrawString(string s, Font font, Brush brush, float x, float y)
         {
-          if (DEBUG) Console.WriteLine("DrawString");
-            await _context.SetFontAsync(font.Size + "pt " + font.Name);
-            await _context.SetFillStyleAsync(brush._color.ToHex());
+            if (DEBUG) Console.WriteLine("DrawString");
+            if (lastfont != font.Size + "pt " + font.Name)
+                await _context.SetFontAsync(font.Size + "pt " + font.Name);
+            lastfont = font.Size + "pt " + font.Name;
+            if(lastfillstyle != brush._color.ToHex())
+                await _context.SetFillStyleAsync(brush._color.ToHex());
+            lastfillstyle = brush._color.ToHex();
             await _context.FillTextAsync(s, x, y + font.Size);
-            //throw new NotImplementedException();
         }
+
+        private string lastfillstyle = "";
+        private string lastfont = "";
 
         public void DrawString(string s, Font font, Brush brush, PointF point)
         {
@@ -737,6 +790,7 @@ namespace MissionPlanner.Controls
         {
             throw new NotImplementedException();
         }
+
         /// <summary>
         ///     Implemented
         /// </summary>
@@ -814,12 +868,13 @@ namespace MissionPlanner.Controls
         /// </summary>
         public void FillEllipse(Brush brush, Rectangle rect)
         {
-            FillEllipse(brush, rect.X, rect.Y, rect.Width, (float)rect.Height);
+            FillEllipse(brush, rect.X, rect.Y, rect.Width, (float) rect.Height);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void FillPath(Brush brush, GraphicsPath path)
         {
-          if (DEBUG) Console.WriteLine("FillPath");
+            if (DEBUG) Console.WriteLine("FillPath");
             var subpaths = new GraphicsPathIterator(path);
             var subpath = new GraphicsPath(path.FillMode);
             subpaths.Rewind();
@@ -834,9 +889,9 @@ namespace MissionPlanner.Controls
 
                 var PathPoints = subpath.PathPoints;
 
-                var lastType = (PathPointType)subpath.PathTypes[PathPoints.Length - 1];
+                var lastType = (PathPointType) subpath.PathTypes[PathPoints.Length - 1];
                 if (subpath.PathTypes.Any(pt =>
-                    ((PathPointType)pt & PathPointType.PathTypeMask) == PathPointType.Line))
+                    ((PathPointType) pt & PathPointType.PathTypeMask) == PathPointType.Line))
                     FillPolygon(brush, PathPoints, path.FillMode);
                 else
                     FillBeziers(brush, PathPoints, path.FillMode);
@@ -861,7 +916,7 @@ namespace MissionPlanner.Controls
 
         public void FillPie(Brush brush, int x, int y, int width, int height, int startAngle, int sweepAngle)
         {
-            FillPie(brush, (float)x, y, width, height, startAngle, sweepAngle);
+            FillPie(brush, (float) x, y, width, height, startAngle, sweepAngle);
         }
 
         public void FillPolygon(Brush brush, Point[] points)
@@ -871,14 +926,16 @@ namespace MissionPlanner.Controls
 
         public void FillPolygon(Brush brush, Point[] points, FillMode fillMode)
         {
-            var path = new GraphicsPath();path.AddPolygon(points);
+            var path = new GraphicsPath();
+            path.AddPolygon(points);
             FillPath(brush, path);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public async void FillPolygon(Brush brush, PointF[] points)
         {
-          if (DEBUG) Console.WriteLine("FillPolygon " + brush._color.Name);
-            if(brush is LinearGradientBrush)
+            if (DEBUG) Console.WriteLine("FillPolygon " + brush._color.Name);
+            if (brush is LinearGradientBrush)
             {
                 var tb = brush as LinearGradientBrush;
 
@@ -886,7 +943,9 @@ namespace MissionPlanner.Controls
                 //await _context.BatchCallAsync("addColorStop", true, new object[] {0, tb.LinearColors[0].ToHex()});
                 //await _context.BatchCallAsync("addColorStop", true, new object[] {1, tb.LinearColors[1].ToHex()});
 
-                await _context.SetFillStyleAsync(tb.LinearColors[0].ToHex());
+                if (lastfillstyle != tb.LinearColors[0].ToHex())
+                    await _context.SetFillStyleAsync(tb.LinearColors[0].ToHex());
+                lastfillstyle = tb.LinearColors[0].ToHex();
 
                 //return;
 
@@ -896,20 +955,25 @@ namespace MissionPlanner.Controls
             }
             else
             {
-                await _context.SetFillStyleAsync(brush._color.ToHex());
+                if (lastfillstyle != brush._color.ToHex())
+                    await _context.SetFillStyleAsync(brush._color.ToHex());
+                lastfillstyle = brush._color.ToHex();
             }
 
             await _context.BeginPathAsync();
-             await _context.MoveToAsync(points[0].X, points[0].Y);
-             foreach (var a in points)
-             {
-                 await _context.LineToAsync(a.X, a.Y);
-             }
-             await _context.ClosePathAsync();
+            await _context.MoveToAsync(points[0].X, points[0].Y);
+            for (int x=1;x<points.Length;x++)
+            {
+                var a = points[x];
+                await _context.LineToAsync(a.X, a.Y);
+            }
+
+            await _context.ClosePathAsync();
             await _context.FillAsync();
-          if (DEBUG) Console.WriteLine("FillPolygon done");
+            if (DEBUG) Console.WriteLine("FillPolygon done");
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void FillPolygon(Brush brush, PointF[] points, FillMode fillMode)
         {
             FillPolygon(brush, points);
@@ -917,25 +981,49 @@ namespace MissionPlanner.Controls
 
         public void FillRectangle(Brush brush, RectangleF rect)
         {
-          if (DEBUG) Console.WriteLine("FillRectangle");
+            if (DEBUG) Console.WriteLine("FillRectangle");
             FillRectangle(brush, rect.X, rect.Y, rect.Width, rect.Height);
         }
 
-        public void FillRectangle(Brush brush, float x, float y, float width, float height)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public async void FillRectangle(Brush brush, float x, float y, float width, float height)
         {
-            var path = new GraphicsPath();
-            path.AddRectangle(RectangleF.FromLTRB(x, y, x + width, y + height));
-            FillPath(brush, path);
+            if (brush is LinearGradientBrush)
+            {
+                var tb = brush as LinearGradientBrush;
+
+                //await _context.BatchCallAsync("createLinearGradient", true, new[] { points[0] });
+                //await _context.BatchCallAsync("addColorStop", true, new object[] {0, tb.LinearColors[0].ToHex()});
+                //await _context.BatchCallAsync("addColorStop", true, new object[] {1, tb.LinearColors[1].ToHex()});
+
+                if (lastfillstyle != tb.LinearColors[0].ToHex())
+                    await _context.SetFillStyleAsync(tb.LinearColors[0].ToHex());
+                lastfillstyle = tb.LinearColors[0].ToHex();
+
+                //return;
+
+                //gradObj = ctx.createLinearGradient(0, -halfheight * 2, 0, halfheight * 2);
+                //gradObj.addColorStop(0.0, "Blue");
+                //gradObj.addColorStop(1.0, "LightBlue");
+            }
+            else
+            {
+                if (lastfillstyle != brush._color.ToHex())
+                    await _context.SetFillStyleAsync(brush._color.ToHex());
+                lastfillstyle = brush._color.ToHex();
+            }
+            await _context.FillRectAsync(x, y, width, height);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void FillRectangle(Brush brush, Rectangle rect)
         {
-            FillRectangle(brush, (float)rect.X, rect.Y, rect.Width, rect.Height);
+            FillRectangle(brush, (float) rect.X, rect.Y, rect.Width, rect.Height);
         }
 
         public void FillRectangle(Brush brush, int x, int y, int width, int height)
         {
-            FillRectangle(brush, (float)x, y, width, height);
+            FillRectangle(brush, (float) x, y, width, height);
         }
 
         public void FillRectangles(Brush brush, RectangleF[] rects)
@@ -1028,7 +1116,8 @@ namespace MissionPlanner.Controls
             throw new NotImplementedException();
         }
 
-        public SizeF MeasureString(string text, Font font, SizeF layoutArea, StringFormat stringFormat, out int charactersFitted,
+        public SizeF MeasureString(string text, Font font, SizeF layoutArea, StringFormat stringFormat,
+            out int charactersFitted,
             out int linesFilled)
         {
             throw new NotImplementedException();
@@ -1076,13 +1165,13 @@ namespace MissionPlanner.Controls
 
         public void ResetClip()
         {
-            
+
         }
 
         public async void ResetTransform()
         {
-          if (DEBUG) Console.WriteLine("ResetTransform");
-            
+            if (DEBUG) Console.WriteLine("ResetTransform");
+
             await _context.SetTransformAsync(1, 0, 0, 1, 0, 0);
         }
 
@@ -1091,16 +1180,17 @@ namespace MissionPlanner.Controls
             throw new NotImplementedException();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public async void RotateTransform(float angle)
         {
-          if (DEBUG) Console.WriteLine("RotateTRansform");
-            await _context.RotateAsync(angle * (float)deg2rad);
+            if (DEBUG) Console.WriteLine("RotateTRansform");
+            await _context.RotateAsync(angle * (float) deg2rad);
         }
 
         public async void RotateTransform(float angle, MatrixOrder order)
         {
             if (order == MatrixOrder.Prepend)
-                await _context.RotateAsync(angle * (float)deg2rad);
+                await _context.RotateAsync(angle * (float) deg2rad);
 
             if (order == MatrixOrder.Append)
             {
@@ -1137,7 +1227,7 @@ namespace MissionPlanner.Controls
 
         public void SetClip(Rectangle rect)
         {
-          if (DEBUG) Console.WriteLine("SetClip");
+            if (DEBUG) Console.WriteLine("SetClip");
             //_context.ClipAsync();
         }
 
@@ -1191,9 +1281,10 @@ namespace MissionPlanner.Controls
             throw new NotImplementedException();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public async void TranslateTransform(float dx, float dy)
         {
-          if (DEBUG) Console.WriteLine("TRanslateTRansofmr");
+            if (DEBUG) Console.WriteLine("TRanslateTRansofmr");
             await _context.TranslateAsync(dx, dy);
         }
 
@@ -1228,9 +1319,9 @@ namespace MissionPlanner.Controls
         {
             var v = new PointF(l.X - pt.X, l.Y - pt.Y);
 
-            var vlen = (float)Math.Sqrt(v.X * v.X + v.Y * v.Y);
-            v.X /= (float)Math.Sqrt(vlen / (10 * t * t));
-            v.Y /= (float)Math.Sqrt(vlen / (10 * t * t));
+            var vlen = (float) Math.Sqrt(v.X * v.X + v.Y * v.Y);
+            v.X /= (float) Math.Sqrt(vlen / (10 * t * t));
+            v.Y /= (float) Math.Sqrt(vlen / (10 * t * t));
 
             return new PointF(pt.X + v.X, pt.Y + v.Y);
         }
@@ -1244,13 +1335,13 @@ namespace MissionPlanner.Controls
             var nlv = new PointF(lv.X - rv.X, lv.Y - rv.Y);
             var nrv = new PointF(rv.X - lv.X, rv.Y - lv.Y);
 
-            var nlvlen = (float)Math.Sqrt(nlv.X * nlv.X + nlv.Y * nlv.Y);
-            nlv.X /= (float)Math.Sqrt(nlvlen / (10 * t * t));
-            nlv.Y /= (float)Math.Sqrt(nlvlen / (10 * t * t));
+            var nlvlen = (float) Math.Sqrt(nlv.X * nlv.X + nlv.Y * nlv.Y);
+            nlv.X /= (float) Math.Sqrt(nlvlen / (10 * t * t));
+            nlv.Y /= (float) Math.Sqrt(nlvlen / (10 * t * t));
 
-            var nrvlen = (float)Math.Sqrt(nrv.X * nrv.X + nrv.Y * nrv.Y);
-            nrv.X /= (float)Math.Sqrt(nrvlen / (10 * t * t));
-            nrv.Y /= (float)Math.Sqrt(nrvlen / (10 * t * t));
+            var nrvlen = (float) Math.Sqrt(nrv.X * nrv.X + nrv.Y * nrv.Y);
+            nrv.X /= (float) Math.Sqrt(nrvlen / (10 * t * t));
+            nrv.Y /= (float) Math.Sqrt(nrvlen / (10 * t * t));
 
             var ret = new PointF[2];
 
@@ -1307,7 +1398,7 @@ namespace MissionPlanner.Controls
                 res.Add(pts[0]);
                 res.Add(points[0]);
 
-                return (PointF[])res.ToArray(typeof(PointF));
+                return (PointF[]) res.ToArray(typeof(PointF));
             }
 
             var subset = new ArrayList();
@@ -1316,7 +1407,7 @@ namespace MissionPlanner.Controls
 
             subset.Add(res[(start + num) * 3]);
 
-            return (PointF[])subset.ToArray(typeof(PointF));
+            return (PointF[]) subset.ToArray(typeof(PointF));
         }
 
         private void FillBeziers(Brush brush, PointF[] points, FillMode fillmode)

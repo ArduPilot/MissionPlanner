@@ -69,7 +69,6 @@
         </p>
     </canvas>-->
                 <br>
-                Lat: <input id="latbox" name="lat" val="40.713956" />Long: <input id="lngbox" name="long" val="74.006653" /> <br />
                 <canvas id="graphcanvas" width="500" height="80"></canvas><br />
                 <div id="curve_chart" style="width: 500px; height: 200px;"></div>
                 <button @onclick=@(async() => { await mav.doARMAsync(mav.MAV.sysid, mav.MAV.compid, true);})>Arm</button>
@@ -246,22 +245,33 @@
 
         JSRuntime.InvokeAsync<object>("startChart");
 
+        StateHasChanged();
+
     }
 
     private void WsOnError(string obj)
     {
+        SpeechSynthesis.Speak(obj);
         Toaster.Error(obj);
+        StateHasChanged();
     }
 
     private void WsOnMessage(BwsMessage obj)
     {
-        pageloadvisible = false;
-
         ProcessPacket("", obj.MessageBinary);
     }
 
     private void WsOnStateChange(short obj)
     {
+        if (WebSocketHelper1.bwsState == BwsState.Open)
+        {
+            pageloadvisible = false;
+        }
+        else
+        {
+
+            pageloadvisible = true;
+        }
         SpeechSynthesis.Speak(WebSocketHelper1.bwsState.ToString());
         Toaster.Info(WebSocketHelper1.bwsState.ToString());
         StateHasChanged();
@@ -272,10 +282,12 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        Log("OnAfterRenderAsync");
+
         if (init)
             return;
 
-        Log("OnAfterRenderAsync");
+
 
         init = true;
 
@@ -359,6 +371,7 @@
 
             };
 
+
             mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT, packetReceived);
             mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.GPS_RAW_INT, packetReceived);
             mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.HEARTBEAT, packetReceived);
@@ -429,6 +442,9 @@
             Console.WriteLine("ProcessPackets mav is null");
             return;
         }
+
+        if (mav.BaseStream.BytesToRead < 200)
+            return;
 
         //Console.WriteLine("ProcessPacketsint btr:" + mav.BaseStream.BytesToRead);
 
@@ -501,9 +517,10 @@
 
             //Console.WriteLine("{0} {1}", ASCIIEncoding.ASCII.GetString(param.param_id), param.param_value);
         }
-        else if (packet.data is MAVLink.MAVLINK_MSG_ID.STATUSTEXT)
+        else if (packet.msgid == (int)MAVLink.MAVLINK_MSG_ID.STATUSTEXT)
         {
             var txt = (MAVLink.mavlink_statustext_t) packet.data;
+            Console.WriteLine(ASCIIEncoding.ASCII.GetString(txt.text).TrimUnPrintable());
             SpeechSynthesis.Speak(ASCIIEncoding.ASCII.GetString(txt.text).TrimUnPrintable());
         }
 
@@ -567,7 +584,8 @@
                     hud1.SSA = mavd.cs.SSA;
                     hud1.critAOA = mavd.cs.crit_AOA;
 
-                    _hud.Refresh();
+                    if (hud1.invalidated)
+                        _hud.Refresh();
                 }
             }
 
@@ -575,13 +593,22 @@
 
             if (mode == modes.map)
             {
-                StateHasChanged();
+                //StateHasChanged();
             }
+        }
+
+        // once a second
+        if (second != DateTime.Now.Second)
+        {
+            second = DateTime.Now.Second;
+            StateHasChanged();
         }
 
         return true;
         //mav.DebugPacket(packet, true);
     }
+
+    int second = 0;
 
     public string getCS()
     {
