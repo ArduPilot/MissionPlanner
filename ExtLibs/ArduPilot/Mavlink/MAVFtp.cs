@@ -799,7 +799,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 fileTransferProtocol.payload = payload;
                 // ignore the burst read first response
                 if(ftphead.size > 0)
-                    Progress?.Invoke((int)((float)payload.offset / size * 100.0));
+                    Progress?.Invoke(file, (int)((float)payload.offset / size * 100.0));
                 if (ftphead.offset + ftphead.size >= size)
                 {
                     log.InfoFormat("Done {0} {1} ", ftphead.burst_complete, ftphead.offset + ftphead.size);
@@ -826,7 +826,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
             };
             timeout.DoWork();
-
+            Progress?.Invoke(file, 100);
             _mavint.UnSubscribeToPacketType(sub);
             answer.Position = 0;
             return answer;
@@ -1079,6 +1079,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 offset = 0
             };
             fileTransferProtocol.payload = payload;
+            Progress?.Invoke(dir + " Listing", 0);
             var timeout = new RetryTimeout(5);
             var sub = _mavint.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.FILE_TRANSFER_PROTOCOL,
                 message =>
@@ -1170,6 +1171,8 @@ namespace MissionPlanner.ArduPilot.Mavlink
                     if(answer.Count == 0)
                         timeout.Complete = true;
 
+                    Progress?.Invoke(dir + " " + answer.Count, answer.Count % 100);
+
                     payload.offset = (uint) answer.Count;
                     payload.seq_number = seq_no++;
                     fileTransferProtocol.payload = payload;
@@ -1181,7 +1184,8 @@ namespace MissionPlanner.ArduPilot.Mavlink
             timeout.WorkToDo = () => _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
             var ans = timeout.DoWork();
             _mavint.UnSubscribeToPacketType(sub);
-           
+            Progress?.Invoke(dir + " Ready", 100);
+
             return answer;
         }
 
@@ -1308,7 +1312,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
                 answer.Seek(ftphead.offset, SeekOrigin.Begin);
                 answer.Write(ftphead.data, 0, ftphead.size);
-                Progress?.Invoke((int)((float)payload.offset / size * 100.0));
+                Progress?.Invoke(file, (int)((float)payload.offset / size * 100.0));
                 if (ftphead.offset + ftphead.size >= size)
                 {
                     timeout.Complete = true;
@@ -1331,6 +1335,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
             };
             timeout.DoWork();
+            Progress?.Invoke(file, 100);
             _mavint.UnSubscribeToPacketType(sub);
             answer.Position = 0;
             return answer;
@@ -1717,7 +1722,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                     payload.seq_number = seq_no++;
                     fileTransferProtocol.payload = payload;
                     _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
-                    Progress?.Invoke((int)((float)payload.offset / size * 100.0));
+                    Progress?.Invoke(srcfile, (int)((float)payload.offset / size * 100.0));
                     timeout.ResetTimeout();
                     Console.WriteLine("S " + DateTime.Now.ToString("O"));
                     return true;
@@ -1741,6 +1746,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                     _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
                 };
                 var ans = timeout.DoWork();
+                Progress?.Invoke(srcfile, 100);
                 _mavint.UnSubscribeToPacketType(sub);
                 return ans;
             }
@@ -1826,7 +1832,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             }
         }
 
-        public event Action<int> Progress;
+        public event Action<string, int> Progress;
     }
 
     public class RetryTimeout
