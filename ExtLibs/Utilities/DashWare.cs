@@ -13,7 +13,7 @@ namespace MissionPlanner.Utilities
         public static void Create(string filein, string fileout, List<string> fmtList = null)
         {
             using (StreamReader tr = new StreamReader(filein))
-            using (CollectionBuffer logdata = new CollectionBuffer(tr.BaseStream))
+            using (DFLogBuffer logdata = new DFLogBuffer(tr.BaseStream))
             {
                 List<string> colList = new List<string>();
                 Dictionary<string, int> colStart = new Dictionary<string, int>();

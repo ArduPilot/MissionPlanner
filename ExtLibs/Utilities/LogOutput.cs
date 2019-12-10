@@ -41,7 +41,7 @@ namespace MissionPlanner.Log
 
         private DateTime doevent = DateTime.Now;
 
-        DFLog dflog = new DFLog();
+        DFLog dflog = new DFLog(null);
 
         public struct Data
         {

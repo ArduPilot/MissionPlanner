@@ -179,7 +179,7 @@ namespace MissionPlanner.Log
             }
             else if (file.ToLower().EndsWith(".bin") || file.ToLower().EndsWith(".log"))
             {
-                using (CollectionBuffer colbuf = new CollectionBuffer(File.OpenRead(file)))
+                using (DFLogBuffer colbuf = new DFLogBuffer(File.OpenRead(file)))
                 {
                     PointLatLngAlt lastpos = null;
                     DateTime start = DateTime.MinValue;

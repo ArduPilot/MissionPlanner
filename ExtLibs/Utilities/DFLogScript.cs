@@ -139,7 +139,7 @@ namespace MissionPlanner.Log
             }
         }
 
-        public static List<Tuple<DFLog.DFItem, double>> ProcessExpression(DFLog dflog, CollectionBuffer logdata, string expression)
+        public static List<Tuple<DFLog.DFItem, double>> ProcessExpression(DFLog dflog, DFLogBuffer logdata, string expression)
         {
             List<Tuple<DFLog.DFItem, double>> answer = new List<Tuple<DFLog.DFItem, double>>();
 

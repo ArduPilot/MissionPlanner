@@ -1008,7 +1008,7 @@ namespace MissionPlanner.GCSViews
                                 using (tr = new StreamReader(logfile))
                                 {
                                     GC.Collect();
-                                    CollectionBuffer temp = new CollectionBuffer(tr.BaseStream);
+                                    DFLogBuffer temp = new DFLogBuffer(tr.BaseStream);
 
                                     uint a = 0;
                                     foreach (var line in temp)

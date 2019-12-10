@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Reflection;
+using System.Threading;
 using System.Windows.Forms;
 using MissionPlanner.Utilities;
 using log4net;
@@ -38,15 +39,28 @@ namespace MissionPlanner.Controls
                     {
                         if (Instance.IsHandleCreated)
                         {
-
-                            MainV2.instance.Invoke((MethodInvoker) delegate { ((Form) Instance).Close(); });
-
-                            Instance = null;
+                            MainV2.instance.BeginInvoke((MethodInvoker) delegate
+                            {
+                                if (Instance == null)
+                                    return;
+                                uiSemaphoreSlim.Wait();
+                                try
+                                {
+                                    ((Form) Instance).Close();
+                                }
+                                finally
+                                {
+                                    uiSemaphoreSlim.Release();
+                                }
+                                Instance = null;
+                            });
                         }
                     }
                 }
             }
         }
+
+        static SemaphoreSlim uiSemaphoreSlim = new SemaphoreSlim(1, 1);
 
         /// <summary>
         /// Create a new dialog or use an existing one if its still valid
@@ -55,27 +69,23 @@ namespace MissionPlanner.Controls
         /// <returns></returns>
         public static void ShowLoading(string Text, IWin32Window owner = null)
         {
-            //if (MainV2.MONO)
+            log.Info(Text);
+            // create form on ui thread
+            MainV2.instance.BeginInvokeIfRequired((Action) delegate
             {
-                log.Info(Text);
-                //return;
-            }
-
-            // ensure we only have one instance at a time
-            lock (locker)
-            {
-                if (Instance != null && !Instance.IsDisposed)
+                uiSemaphoreSlim.Wait();
+                try
                 {
-                    Instance.Text = Text;
-                    return;
-                }
+                    if (Instance != null && !Instance.IsDisposed)
+                    {
+                        Instance.Text = Text;
+                        return;
+                    }
 
-                log.Info("Create Instance");
-                // create form on ui thread
-                MainV2.instance.Invoke((MethodInvoker) delegate
-                {
+                    log.Info("Create Instance");
+
                     Loading frm = new Loading();
-                    if(owner == null)
+                    if (owner == null)
                         frm.TopMost = true;
                     frm.StartPosition = FormStartPosition.CenterParent;
                     frm.Closing += Frm_Closing;
@@ -88,8 +98,12 @@ namespace MissionPlanner.Controls
                     ThemeManager.ApplyThemeTo(frm);
                     frm.Show(owner);
                     frm.Focus();
-                });
-            }
+                }
+                finally
+                {
+                    uiSemaphoreSlim.Release();
+                }
+            });
         }
 
         private static void Frm_Closing(object sender, CancelEventArgs e)

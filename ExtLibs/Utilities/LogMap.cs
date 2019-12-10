@@ -88,8 +88,8 @@ namespace MissionPlanner.Log
                 else if (logfile.ToLower().EndsWith(".bin") || logfile.ToLower().EndsWith(".log"))
                 {
                     using (
-                        CollectionBuffer colbuf =
-                            new CollectionBuffer(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                        DFLogBuffer colbuf =
+                            new DFLogBuffer(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                         )
                     {
                         loc_list[0] = new List<PointLatLngAlt>();

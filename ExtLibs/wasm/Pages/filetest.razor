@@ -115,15 +115,15 @@
                 log.Info("fileReady done");
             }
 
-            CollectionBuffer cb = null;
+            DFLogBuffer cb = null;
 
             public async void processFile(byte[] buffer)
             {
                 log.Info("processFile start");
                 var ms = new MemoryStream(buffer);
                 log.Info("MemoryStream done");
-                cb = new CollectionBuffer(ms);
-                log.Info("CollectionBuffer done");
+                cb = new DFLogBuffer(ms);
+                log.Info("DFLogBuffer done");
                 foreach (var msg in cb.GetEnumeratorType("MSG"))
                 {
                     log.Debug(msg.msgtype + " " + cb[msg.lineno]);

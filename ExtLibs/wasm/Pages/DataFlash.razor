@@ -285,7 +285,7 @@
 
             ElementReference mavgraphselect;
 
-            CollectionBuffer cb = null;
+            DFLogBuffer cb = null;
 
             static List<string[]> blobs = null;
 
@@ -912,7 +912,7 @@ StringToSign = VERB + "\n" +
         // cleanup old
         paramaCache = null;
 
-        cb = new CollectionBuffer(memoryStream);
+        cb = new DFLogBuffer(memoryStream);
 
         LoadingStatus = "File loaded extracting data";
         await Task.Delay(1);

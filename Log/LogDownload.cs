@@ -268,7 +268,7 @@ namespace MissionPlanner.Log
                         case serialstatus.Closefile:
                             sw.Close();
 
-                            DateTime logtime = new DFLog().GetFirstGpsTime(logfile);
+                            DateTime logtime = new DFLog(null).GetFirstGpsTime(logfile);
 
                             if (logtime != DateTime.MinValue)
                             {

@@ -35,7 +35,7 @@ namespace MissionPlanner.Log
 
         private static string lastLogDir;
 
-        CollectionBuffer logdata;
+        DFLogBuffer logdata;
         Hashtable logdatafilter = new Hashtable();
 
         List<TextObj> ModeCache = new List<TextObj>();
@@ -152,23 +152,6 @@ namespace MissionPlanner.Log
             }
         }
 
-
-        /*  
-    105    +Format characters in the format string for binary log messages  
-    106    +  b   : int8_t  
-    107    +  B   : uint8_t  
-    108    +  h   : int16_t  
-    109    +  H   : uint16_t  
-    110    +  i   : int32_t  
-    111    +  I   : uint32_t  
-    112    +  f   : float  
-    113    +  N   : char[16]  
-    114    +  c   : int16_t * 100  
-    115    +  C   : uint16_t * 100  
-    116    +  e   : int32_t * 100  
-    117    +  E   : uint32_t * 100  
-    118    +  L   : uint32_t latitude/longitude  
-    119    + */
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -311,7 +294,7 @@ namespace MissionPlanner.Log
 
                 log.Info("before read " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
 
-                logdata = new CollectionBuffer(stream);
+                logdata = new DFLogBuffer(stream);
 
                 dflog = logdata.dflog;
 
@@ -344,7 +327,7 @@ namespace MissionPlanner.Log
             log.Info("LoadLog Done");
         }
 
-        void LoadLog2(String FileName, CollectionBuffer logdata, int colcount)
+        void LoadLog2(String FileName, DFLogBuffer logdata, int colcount)
         {
             this.Text = "Log Browser - " + Path.GetFileName(FileName);
 
@@ -447,18 +430,35 @@ namespace MissionPlanner.Log
             dataModifierHash = new Hashtable();
 
             var sorted = new SortedList(dflog.logformat);
-
+            // go through all fmt's
             foreach (DFLog.Label item in sorted.Values)
             {
-                TreeNode tn = new TreeNode(item.Name);
-
+                // only show msg names for what we have seen
                 if (seenmessagetypes.Contains(item.Name))
                 {
-                    treeView1.Nodes.Add(tn);
-                    foreach (var item1 in item.FieldNames)
+                    TreeNode msgNode = new TreeNode(item.Name);
+
+                    var instance = logdata.InstanceType.ContainsKey(item.Id);
+                    if (instance)
                     {
-                        tn.Nodes.Add(item1);
+                        foreach (var instanceinfo in logdata.InstanceType[item.Id].value)
+                        {
+                            var instNode = msgNode.Nodes.Add(instanceinfo);
+                            foreach (var item1 in item.FieldNames)
+                            {
+                                instNode.Nodes.Add(item1);
+                            }
+                        }
                     }
+                    else
+                    {
+                        // no instance add the fields
+                        foreach (var item1 in item.FieldNames)
+                        {
+                            msgNode.Nodes.Add(item1);
+                        }
+                    }
+                    treeView1.Nodes.Add(msgNode);
                 }
             }
         }
@@ -808,21 +808,38 @@ namespace MissionPlanner.Log
 
             string fieldname = dflog.logformat[type].FieldNames[col - typecoloum - 1];
 
-            GraphItem(type, fieldname, left);
+            var typeno = dflog.logformat[type].Id;
+
+            var unittypes = logdata.FMTU[typeno].Item1;
+         
+            string instance = "";
+
+            // has instance type
+            if (unittypes.Contains("#"))
+            {
+                int colinst = typecoloum + unittypes.IndexOf("#") + 1;
+                instance = dataGridView1[colinst, row].Value.ToString().Trim();
+            }
+
+            GraphItem(type, fieldname, left, true, false, instance);
         }
 
         void GraphItem(string type, string fieldname, bool left = true, bool displayerror = true,
-            bool isexpression = false)
+            bool isexpression = false, string instance = "")
         {
-            log.InfoFormat("GraphItem: {0} {1}", type, fieldname);
+            log.InfoFormat("GraphItem: {0} {1} {2}", type, fieldname, instance);
             DataModifer dataModifier = new DataModifer();
             string nodeName = DataModifer.GetNodeName(type, fieldname);
 
             foreach (var curve in zg1.GraphPane.CurveList)
             {
+                if (instance != "")
+                {
+                    nodeName = type + "["+instance+"]." + fieldname;
+                }
+
                 // its already on the graph, abort
-                if (curve.Label.Text.StartsWith(nodeName + " (") ||
-                    curve.Label.Text.StartsWith(nodeName + " R ("))
+                if (curve.Label.Text.StartsWith(nodeName + " "))
                     return;
             }
 
@@ -838,10 +855,27 @@ namespace MissionPlanner.Log
                 {
                     foreach (TreeNode subnode in node.Nodes)
                     {
-                        if (subnode.Text == fieldname && subnode.Checked != true)
+                        if (instance != "")
                         {
-                            subnode.Checked = true;
-                            break;
+                            if (subnode.Text == instance)
+                            {
+                                foreach (TreeNode subsubnode in subnode.Nodes)
+                                {
+                                    if (subsubnode.Text == fieldname && subsubnode.Checked != true)
+                                    {
+                                        subsubnode.Checked = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (subnode.Text == fieldname && subnode.Checked != true)
+                            {
+                                subnode.Checked = true;
+                                break;
+                            }
                         }
                     }
                 }
@@ -867,7 +901,7 @@ namespace MissionPlanner.Log
                 {
                     try
                     {
-                        GraphItem_GetList(fieldname, type, dflog, dataModifier, left);
+                        GraphItem_GetList(fieldname, type, dflog, dataModifier, left, instance);
                     }
                     catch (Exception ex)
                     {
@@ -897,11 +931,11 @@ namespace MissionPlanner.Log
                     else
                         newlist.Add(new PointPair(a.Item1.lineno, a.Item2));
                 });
-                GraphItem_AddCurve(newlist, type, fieldname, left);
+                GraphItem_AddCurve(newlist, type, fieldname, left, instance);
             }
         }
 
-        private List<Tuple<DFLog.DFItem, double>> TestPython(DFLog dflog, CollectionBuffer logdata, string expression)
+        private List<Tuple<DFLog.DFItem, double>> TestPython(DFLog dflog, DFLogBuffer logdata, string expression)
         {
 
             var engine = Python.CreateEngine();
@@ -999,14 +1033,17 @@ namespace MissionPlanner.Log
             }
         }
 
-        void GraphItem_GetList(string fieldname, string type, DFLog dflog, DataModifer dataModifier, bool left)
+        void GraphItem_GetList(string fieldname, string type, DFLog dflog, DataModifer dataModifier, bool left, string instance)
         {
-            log.Info("GraphItem_GetList " + type + " " + fieldname);
+            log.Info("GraphItem_GetList " + type + " " + fieldname + " " + instance);
             int col = dflog.FindMessageOffset(type, fieldname);
 
             // field does not exist
             if (col == -1)
+            {
+                Loading.Close();
                 return;
+            }
 
             PointPairList list1 = new PointPairList();
 
@@ -1027,7 +1064,8 @@ namespace MissionPlanner.Log
                     screenupdate = DateTime.Now;
                 }
 
-                if (item.msgtype == type)
+                // same message type, with no instance, or same message with instance
+                if (item.msgtype == type && (instance == "" || item.instance == instance))
                 {
                     try
                     {
@@ -1089,7 +1127,7 @@ namespace MissionPlanner.Log
                 a++;
             }
 
-            Invoke((Action) delegate { GraphItem_AddCurve(list1, type, fieldname, left); });
+            Invoke((Action) delegate { GraphItem_AddCurve(list1, type, fieldname, left, instance); });
         }
 
         Color pickColour()
@@ -1109,7 +1147,7 @@ namespace MissionPlanner.Log
             return colours[zg1.GraphPane.CurveList.Count % colours.Length];
         }
 
-        void GraphItem_AddCurve(PointPairList list1, string type, string header, bool left)
+        void GraphItem_AddCurve(PointPairList list1, string type, string header, bool left, string instance)
         {
             if (list1.Count < 1)
             {
@@ -1134,7 +1172,7 @@ namespace MissionPlanner.Log
 
             LineItem myCurve;
 
-            myCurve = zg1.GraphPane.AddCurve(type + "." + header, list1,
+            myCurve = zg1.GraphPane.AddCurve(type + (instance != "" ? "[" + instance + "]" : "") + "." + header, list1,
                 pickColour(), SymbolType.None);
 
             leftorrightaxis(left, myCurve);
@@ -2398,7 +2436,8 @@ namespace MissionPlanner.Log
             }
 
             string dataModifer_str = "";
-            string nodeName = DataModifer.GetNodeName(treeView1.SelectedNode.Parent.Text, treeView1.SelectedNode.Text);
+            string nodeName =
+                DataModifer.GetNodeName(treeView1.SelectedNode.Parent.Text, treeView1.SelectedNode.Text);
 
             if (dataModifierHash.ContainsKey(nodeName))
             {
@@ -2434,27 +2473,38 @@ namespace MissionPlanner.Log
                     e.Node.Checked = !e.Node.Checked;
                 }
 
+                var nodepath = e.Node.FullPath;
+                var parts = nodepath.Split('\\');
+
                 if (e.Node.Checked)
                 {
                     if (e.Button == System.Windows.Forms.MouseButtons.Right)
                     {
-                        GraphItem(e.Node.Parent.Text, e.Node.Text, false);
+                        if (parts.Length == 3)
+                            GraphItem(parts[0], parts[2], false, true, false, parts[1]);
+                        else
+                            GraphItem(parts[0], parts[1], false);
                     }
                     else
                     {
-                        GraphItem(e.Node.Parent.Text, e.Node.Text, true);
+                        if (parts.Length == 3)
+                            GraphItem(parts[0], parts[2], true, true, false, parts[1]);
+                        else
+                            GraphItem(parts[0], parts[1], true);
                     }
                 }
                 else
                 {
                     List<CurveItem> removeitems = new List<CurveItem>();
 
+                    var name = parts.Length == 3
+                        ? parts[0] + "[" + parts[1] + "]." + parts[2]
+                        : parts[0] + "." + parts[1];
+
                     foreach (var item in zg1.GraphPane.CurveList)
                     {
-                        if (item.Label.Text.StartsWith(e.Node.Parent.Text + "." + e.Node.Text + " ") ||
-                            item.Label.Text.StartsWith(e.Node.Parent.Text + "." + e.Node.Text + " R ") ||
-                            item.Label.Text.Equals(e.Node.Parent.Text + "." + e.Node.Text) ||
-                            item.Label.Text.Equals(e.Node.Parent.Text + "." + e.Node.Text + " R"))
+                        if (item.Label.Text.StartsWith(name + " ") ||
+                            item.Label.Text.StartsWith(name + " R "))
                         {
                             removeitems.Add(item);
                             //break;

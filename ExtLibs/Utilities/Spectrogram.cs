@@ -14,7 +14,7 @@ namespace MissionPlanner.Utilities
         private static readonly log4net.ILog log =
             log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public static Image<Rgba32> GenerateImage(CollectionBuffer cb, string type= "ACC1", string field= "AccX", string timeus = "TimeUS")
+        public static Image<Rgba32> GenerateImage(DFLogBuffer cb, string type= "ACC1", string field= "AccX", string timeus = "TimeUS")
         {
             var bins = 10;
             int N = 1 << bins;

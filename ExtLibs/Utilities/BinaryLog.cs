@@ -442,7 +442,7 @@ namespace MissionPlanner.Utilities
                 }
             }
         }
-
+        
         private object[] ProcessMessageObjects(byte[] message, string name, string format)
         {
             char[] form = format.ToCharArray();
@@ -548,25 +548,55 @@ namespace MissionPlanner.Utilities
             return answer.ToArray();
         }
 
+        public enum TypeSize
+        {
+            a = 2*32,
+            b = 1,
+            B = 1,
+            c = 2,
+            C = 2,
+            d = 8,
+            e = 4,
+            E = 4,
+            f = 4,
+            h = 2,
+            H = 2,
+            i = 4,
+            I = 4,
+            L = 4,
+            M = 1,
+            N = 16,
+            n = 4,
+            q = 8,
+            Q = 8,
+            Z = 64,
+        }
+
         private log_format_cache[] packettypecache = new log_format_cache[256];
 
-        /*  
-    105    +Format characters in the format string for binary log messages  
-    106    +  b   : int8_t  
-    107    +  B   : uint8_t  
-    108    +  h   : int16_t  
-    109    +  H   : uint16_t  
-    110    +  i   : int32_t  
-    111    +  I   : uint32_t  
-    112    +  f   : float  
-         *     d   : double
-    113    +  N   : char[16]  
-    114    +  c   : int16_t * 100  
-    115    +  C   : uint16_t * 100  
-    116    +  e   : int32_t * 100  
-    117    +  E   : uint32_t * 100  
-    118    +  L   : uint32_t latitude/longitude  
-    a : short[32]
-    119    + */
+        /*
+         https://github.com/ArduPilot/ardupilot/blob/master/libraries/AP_Logger/LogStructure.h
+      Format characters in the format string for binary log messages
+        a   : int16_t[32]
+        b   : int8_t
+        B   : uint8_t
+        c   : int16_t * 100
+        C   : uint16_t * 100
+        d   : double
+        e   : int32_t * 100
+        E   : uint32_t * 100
+        f   : float
+        h   : int16_t
+        H   : uint16_t
+        i   : int32_t
+        I   : uint32_t
+        L   : int32_t latitude/longitude
+        M   : uint8_t flight mode
+        N   : char[16]
+        n   : char[4]
+        q   : int64_t
+        Q   : uint64_t
+        Z   : char[64]
+       */
     }
 }

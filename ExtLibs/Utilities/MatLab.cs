@@ -56,7 +56,7 @@ namespace MissionPlanner.Log
 
         public static void ProcessLog(string fn, Action<string> ProgressEvent = null)
         {
-            using (CollectionBuffer colbuf = new CollectionBuffer(File.OpenRead(fn)))
+            using (DFLogBuffer colbuf = new DFLogBuffer(File.OpenRead(fn)))
             {
                 // store all the arrays
                 List<MLArray> mlList = new List<MLArray>();
