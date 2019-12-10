@@ -113,6 +113,11 @@ namespace MissionPlanner.Comms
                     "Enter Local port (ensure remote end is already sending)", ref dest)) return;
             Port = dest;
 
+            var multicast_source = "0.0.0.0";
+            if (inputboxreturn.Cancel == OnInputBoxShow("Listen Multicast?",
+                    "Enter Multicast to Subscribe too", ref multicast_source)) return;
+
+
             OnSettings("UDP_port" + ConfigRef, Port, true);
 
             //######################################
@@ -126,6 +131,10 @@ namespace MissionPlanner.Comms
             }
 
             client = new UdpClient(int.Parse(Port));
+            if(multicast_source != "0.0.0.0")
+            {
+                client.JoinMulticastGroup(IPAddress.Parse(multicast_source));
+            }
 
             while (true)
             {
