@@ -131,7 +131,8 @@
             resources.GetString("CMB_ratesensors.Items10"),
             resources.GetString("CMB_ratesensors.Items11"),
             resources.GetString("CMB_ratesensors.Items12"),
-            resources.GetString("CMB_ratesensors.Items13")});
+            resources.GetString("CMB_ratesensors.Items13"),
+            resources.GetString("CMB_ratesensors.Items14")});
             resources.ApplyResources(this.CMB_ratesensors, "CMB_ratesensors");
             this.CMB_ratesensors.Name = "CMB_ratesensors";
             this.CMB_ratesensors.SelectedIndexChanged += new System.EventHandler(this.CMB_ratesensors_SelectedIndexChanged);
@@ -252,7 +253,10 @@
             resources.GetString("CMB_raterc.Items8"),
             resources.GetString("CMB_raterc.Items9"),
             resources.GetString("CMB_raterc.Items10"),
-            resources.GetString("CMB_raterc.Items11")});
+            resources.GetString("CMB_raterc.Items11"),
+            resources.GetString("CMB_raterc.Items12"),
+            resources.GetString("CMB_raterc.Items13"),
+            resources.GetString("CMB_raterc.Items14")});
             resources.ApplyResources(this.CMB_raterc, "CMB_raterc");
             this.CMB_raterc.Name = "CMB_raterc";
             this.CMB_raterc.SelectedIndexChanged += new System.EventHandler(this.CMB_raterc_SelectedIndexChanged);
@@ -293,7 +297,10 @@
             resources.GetString("CMB_ratestatus.Items8"),
             resources.GetString("CMB_ratestatus.Items9"),
             resources.GetString("CMB_ratestatus.Items10"),
-            resources.GetString("CMB_ratestatus.Items11")});
+            resources.GetString("CMB_ratestatus.Items11"),
+            resources.GetString("CMB_ratestatus.Items12"),
+            resources.GetString("CMB_ratestatus.Items13"),
+            resources.GetString("CMB_ratestatus.Items14")});
             resources.ApplyResources(this.CMB_ratestatus, "CMB_ratestatus");
             this.CMB_ratestatus.Name = "CMB_ratestatus";
             this.CMB_ratestatus.SelectedIndexChanged += new System.EventHandler(this.CMB_ratestatus_SelectedIndexChanged);
