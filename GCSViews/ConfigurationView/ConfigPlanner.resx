@@ -184,9 +184,12 @@
     <value>10</value>
   </data>
   <data name="CMB_ratesensors.Items12" xml:space="preserve">
-    <value>50</value>
+    <value>25</value>
   </data>
   <data name="CMB_ratesensors.Items13" xml:space="preserve">
+    <value>50</value>
+  </data>
+  <data name="CMB_ratesensors.Items14" xml:space="preserve">
     <value>100</value>
   </data>
   <data name="CMB_ratesensors.Location" type="System.Drawing.Point, System.Drawing">
@@ -609,6 +612,15 @@
   <data name="CMB_raterc.Items11" xml:space="preserve">
     <value>10</value>
   </data>
+  <data name="CMB_raterc.Items12" xml:space="preserve">
+    <value>25</value>
+  </data>
+  <data name="CMB_raterc.Items13" xml:space="preserve">
+    <value>35</value>
+  </data>
+  <data name="CMB_raterc.Items14" xml:space="preserve">
+    <value>50</value>
+  </data>
   <data name="CMB_raterc.Location" type="System.Drawing.Point, System.Drawing">
     <value>450, 224</value>
   </data>
@@ -776,6 +788,15 @@
   </data>
   <data name="CMB_ratestatus.Items11" xml:space="preserve">
     <value>10</value>
+  </data>
+  <data name="CMB_ratestatus.Items12" xml:space="preserve">
+    <value>25</value>
+  </data>
+  <data name="CMB_ratestatus.Items13" xml:space="preserve">
+    <value>35</value>
+  </data>
+  <data name="CMB_ratestatus.Items14" xml:space="preserve">
+    <value>50</value>
   </data>
   <data name="CMB_ratestatus.Location" type="System.Drawing.Point, System.Drawing">
     <value>376, 224</value>
