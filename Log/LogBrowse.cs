@@ -25,6 +25,8 @@ using System.Runtime.CompilerServices;
 using Microsoft.Scripting.Runtime;
 using System.Collections.Specialized;
 using MissionPlanner.Log;
+using MissionPlanner.Maps;
+
 [assembly: ExtensionType(typeof(Dictionary<string,object>), typeof(LogBrowse.ext))]
 
 namespace MissionPlanner.Log
@@ -1667,7 +1669,8 @@ namespace MissionPlanner.Log
                 {
                     var mapoverlay = new GMapOverlay("overlay");
                     if (gpscache.Length == 0)
-                        gpscache = logdata.GetEnumeratorType(new string[] {"GPS", "POS", "GPS2", "GPSB", "CMD"})
+                        gpscache = logdata.GetEnumeratorType(new string[]
+                                {"GPS", "POS", "GPS2", "GPSB", "CMD", "CAM", "TRIG", "SIM", "RALY"})
                             .ToArray();
 
                     DateTime starttime = DateTime.MinValue;
@@ -1849,7 +1852,7 @@ namespace MissionPlanner.Log
                                 routelistcmd.Add(ans);
                                 samplelistcmd.Add(i);
 
-                                mapoverlay.Markers.Add(new GMarkerGoogle(ans, GMarkerGoogleType.lightblue_dot));
+                                mapoverlay.Markers.Add(new GMapMarkerWP(ans, item["CNum"]));
 
                                 //FMT, 146, 45, CMD, QHHHfffffff, TimeUS,CTot,CNum,CId,Prm1,Prm2,Prm3,Prm4,Lat,Lng,Alt
                                 //CMD, 43368479, 19, 18, 85, 0, 0, 0, 0, -27.27409, 151.2901, 0
@@ -1879,6 +1882,16 @@ namespace MissionPlanner.Log
                                     samplelistcmd.Add(firstpointcmd);
                                     routelistcmd.Add(ans);
                                 }
+                            }
+                        }
+                        else if (item.msgtype == "CAM")
+                        {
+                            var ans = getPointLatLng(item);
+
+                            if (ans != null && ans.Lat != 0 && ans.Lng != 0)
+                            {
+                                mapoverlay.Markers.Add(new GMapMarkerPhoto(new MAVLink.mavlink_camera_feedback_t()
+                                    {lat = (int)(ans.Lat *1e7), lng = (int)(ans.Lng*1e7), alt_rel = (float)ans.Alt}));
                             }
                         }
 
@@ -2173,6 +2186,42 @@ namespace MissionPlanner.Log
                     if (Math.Abs(pnt.Lat) > 90 || Math.Abs(pnt.Lng) > 180)
                         return null;
 
+                    return pnt;
+                }
+                catch
+                {
+                }
+            }
+            else
+            {
+                if (!dflog.logformat.ContainsKey(item.msgtype))
+                    return null;
+
+                int index = dflog.FindMessageOffset(item.msgtype, "Lat");
+                if (index == -1)
+                {
+                    return null;
+                }
+
+                int index2 = dflog.FindMessageOffset(item.msgtype, "Lng");
+                if (index2 == -1)
+                {
+                    return null;
+                }
+
+                try
+                {
+
+                    string lat = item.items[index].ToString();
+                    string lng = item.items[index2].ToString();
+
+                    if (lat == "0" || lng == "0")
+                        return null;
+
+                    PointLatLngAlt pnt = new PointLatLngAlt() { };
+                    pnt.Lat = double.Parse(lat, System.Globalization.CultureInfo.InvariantCulture);
+                    pnt.Lng = double.Parse(lng, System.Globalization.CultureInfo.InvariantCulture);
+                    pnt.Tag = item.lineno.ToString();
                     return pnt;
                 }
                 catch
