@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Thu Sep 19 2019";
+    public const string MAVLINK_BUILD_DATE = "Wed Dec 11 2019";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -7337,7 +7337,7 @@ public partial class MAVLink
     ///<summary> Read registers for a device. </summary>
     public struct mavlink_device_op_read_t
     {
-        public mavlink_device_op_read_t(uint request_id,byte target_system,byte target_component,/*DEVICE_OP_BUSTYPE*/byte bustype,byte bus,byte address,byte[] busname,byte regstart,byte count) 
+        public mavlink_device_op_read_t(uint request_id,byte target_system,byte target_component,/*DEVICE_OP_BUSTYPE*/byte bustype,byte bus,byte address,char[] busname,byte regstart,byte count) 
         {
               this.request_id = request_id;
               this.target_system = target_system;
@@ -7378,7 +7378,7 @@ public partial class MAVLink
         [Units("")]
         [Description("Name of device on bus (for SPI).")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=40)]
-		public byte[] busname;
+		public char[] busname;
             /// <summary>First register to read.   </summary>
         [Units("")]
         [Description("First register to read.")]
@@ -7433,7 +7433,7 @@ public partial class MAVLink
     ///<summary> Write registers for a device. </summary>
     public struct mavlink_device_op_write_t
     {
-        public mavlink_device_op_write_t(uint request_id,byte target_system,byte target_component,/*DEVICE_OP_BUSTYPE*/byte bustype,byte bus,byte address,byte[] busname,byte regstart,byte count,byte[] data) 
+        public mavlink_device_op_write_t(uint request_id,byte target_system,byte target_component,/*DEVICE_OP_BUSTYPE*/byte bustype,byte bus,byte address,char[] busname,byte regstart,byte count,byte[] data) 
         {
               this.request_id = request_id;
               this.target_system = target_system;
@@ -7475,7 +7475,7 @@ public partial class MAVLink
         [Units("")]
         [Description("Name of device on bus (for SPI).")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=40)]
-		public byte[] busname;
+		public char[] busname;
             /// <summary>First register to write.   </summary>
         [Units("")]
         [Description("First register to write.")]
@@ -7979,7 +7979,7 @@ public partial class MAVLink
     ///<summary> Request to control this MAV </summary>
     public struct mavlink_change_operator_control_t
     {
-        public mavlink_change_operator_control_t(byte target_system,byte control_request,byte version,byte[] passkey) 
+        public mavlink_change_operator_control_t(byte target_system,byte control_request,byte version,char[] passkey) 
         {
               this.target_system = target_system;
               this.control_request = control_request;
@@ -8003,7 +8003,7 @@ public partial class MAVLink
         [Units("")]
         [Description("Password / Key, depending on version plaintext or encrypted. 25 or less characters, NULL terminated. The characters may involve A-Z, a-z, 0-9, and '!?,.-'")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=25)]
-		public byte[] passkey;
+		public char[] passkey;
     
     };
 
@@ -8039,7 +8039,7 @@ public partial class MAVLink
     ///<summary> Emit an encrypted signature / key identifying this system. PLEASE NOTE: This protocol has been kept simple, so transmitting the key requires an encrypted channel for true safety. </summary>
     public struct mavlink_auth_key_t
     {
-        public mavlink_auth_key_t(byte[] key) 
+        public mavlink_auth_key_t(char[] key) 
         {
               this.key = key;
             
@@ -8048,7 +8048,7 @@ public partial class MAVLink
         [Units("")]
         [Description("key")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=32)]
-		public byte[] key;
+		public char[] key;
     
     };
 
@@ -8151,7 +8151,7 @@ public partial class MAVLink
     ///<summary> Request to read the onboard parameter with the param_id string id. Onboard parameters are stored as key[const char*] -> value[float]. This allows to send a parameter to any other component (such as the GCS) without the need of previous knowledge of possible parameter names. Thus the same GCS can store different parameters for different autopilots. See also https://mavlink.io/en/services/parameter.html for a full documentation of QGroundControl and IMU code. </summary>
     public struct mavlink_param_request_read_t
     {
-        public mavlink_param_request_read_t(short param_index,byte target_system,byte target_component,byte[] param_id) 
+        public mavlink_param_request_read_t(short param_index,byte target_system,byte target_component,char[] param_id) 
         {
               this.param_index = param_index;
               this.target_system = target_system;
@@ -8175,7 +8175,7 @@ public partial class MAVLink
         [Units("")]
         [Description("Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
-		public byte[] param_id;
+		public char[] param_id;
     
     };
 
@@ -8206,7 +8206,7 @@ public partial class MAVLink
     ///<summary> Emit the value of a onboard parameter. The inclusion of param_count and param_index in the message allows the recipient to keep track of received parameters and allows him to re-request missing parameters after a loss or timeout. The parameter microservice is documented at https://mavlink.io/en/services/parameter.html </summary>
     public struct mavlink_param_value_t
     {
-        public mavlink_param_value_t(float param_value,ushort param_count,ushort param_index,byte[] param_id,/*MAV_PARAM_TYPE*/byte param_type) 
+        public mavlink_param_value_t(float param_value,ushort param_count,ushort param_index,char[] param_id,/*MAV_PARAM_TYPE*/byte param_type) 
         {
               this.param_value = param_value;
               this.param_count = param_count;
@@ -8231,7 +8231,7 @@ public partial class MAVLink
         [Units("")]
         [Description("Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
-		public byte[] param_id;
+		public char[] param_id;
             /// <summary>Onboard parameter type. MAV_PARAM_TYPE  </summary>
         [Units("")]
         [Description("Onboard parameter type.")]
@@ -8244,7 +8244,7 @@ public partial class MAVLink
     ///<summary> Set a parameter value (write new value to permanent storage). IMPORTANT: The receiving component should acknowledge the new parameter value by sending a PARAM_VALUE message to all communication partners. This will also ensure that multiple GCS all have an up-to-date list of all parameters. If the sending GCS did not receive a PARAM_VALUE message within its timeout time, it should re-send the PARAM_SET message. The parameter microservice is documented at https://mavlink.io/en/services/parameter.html </summary>
     public struct mavlink_param_set_t
     {
-        public mavlink_param_set_t(float param_value,byte target_system,byte target_component,byte[] param_id,/*MAV_PARAM_TYPE*/byte param_type) 
+        public mavlink_param_set_t(float param_value,byte target_system,byte target_component,char[] param_id,/*MAV_PARAM_TYPE*/byte param_type) 
         {
               this.param_value = param_value;
               this.target_system = target_system;
@@ -8269,7 +8269,7 @@ public partial class MAVLink
         [Units("")]
         [Description("Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
-		public byte[] param_id;
+		public char[] param_id;
             /// <summary>Onboard parameter type. MAV_PARAM_TYPE  </summary>
         [Units("")]
         [Description("Onboard parameter type.")]
@@ -9504,7 +9504,7 @@ public partial class MAVLink
     ///<summary> Bind a RC channel to a parameter. The parameter should change according to the RC channel value. </summary>
     public struct mavlink_param_map_rc_t
     {
-        public mavlink_param_map_rc_t(float param_value0,float scale,float param_value_min,float param_value_max,short param_index,byte target_system,byte target_component,byte[] param_id,byte parameter_rc_channel_index) 
+        public mavlink_param_map_rc_t(float param_value0,float scale,float param_value_min,float param_value_max,short param_index,byte target_system,byte target_component,char[] param_id,byte parameter_rc_channel_index) 
         {
               this.param_value0 = param_value0;
               this.scale = scale;
@@ -9549,7 +9549,7 @@ public partial class MAVLink
         [Units("")]
         [Description("Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
-		public byte[] param_id;
+		public char[] param_id;
             /// <summary>Index of parameter RC channel. Not equal to the RC channel id. Typically corresponds to a potentiometer-knob on the RC.   </summary>
         [Units("")]
         [Description("Index of parameter RC channel. Not equal to the RC channel id. Typically corresponds to a potentiometer-knob on the RC.")]
@@ -14789,7 +14789,7 @@ public partial class MAVLink
     ///<summary> The location and information of an ADSB vehicle </summary>
     public struct mavlink_adsb_vehicle_t
     {
-        public mavlink_adsb_vehicle_t(uint ICAO_address,int lat,int lon,int altitude,ushort heading,ushort hor_velocity,short ver_velocity,/*ADSB_FLAGS*/ushort flags,ushort squawk,/*ADSB_ALTITUDE_TYPE*/byte altitude_type,byte[] callsign,/*ADSB_EMITTER_TYPE*/byte emitter_type,byte tslc) 
+        public mavlink_adsb_vehicle_t(uint ICAO_address,int lat,int lon,int altitude,ushort heading,ushort hor_velocity,short ver_velocity,/*ADSB_FLAGS*/ushort flags,ushort squawk,/*ADSB_ALTITUDE_TYPE*/byte altitude_type,char[] callsign,/*ADSB_EMITTER_TYPE*/byte emitter_type,byte tslc) 
         {
               this.ICAO_address = ICAO_address;
               this.lat = lat;
@@ -14850,7 +14850,7 @@ public partial class MAVLink
         [Units("")]
         [Description("The callsign, 8+null")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=9)]
-		public byte[] callsign;
+		public char[] callsign;
             /// <summary>ADSB emitter type. ADSB_EMITTER_TYPE  </summary>
         [Units("")]
         [Description("ADSB emitter type.")]
@@ -14985,7 +14985,7 @@ public partial class MAVLink
     ///<summary> To debug something using a named 3D vector. </summary>
     public struct mavlink_debug_vect_t
     {
-        public mavlink_debug_vect_t(ulong time_usec,float x,float y,float z,byte[] name) 
+        public mavlink_debug_vect_t(ulong time_usec,float x,float y,float z,char[] name) 
         {
               this.time_usec = time_usec;
               this.x = x;
@@ -15014,7 +15014,7 @@ public partial class MAVLink
         [Units("")]
         [Description("Name")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=10)]
-		public byte[] name;
+		public char[] name;
     
     };
 
@@ -15023,7 +15023,7 @@ public partial class MAVLink
     ///<summary> Send a key-value pair as float. The use of this message is discouraged for normal packets, but a quite efficient way for testing new messages and getting experimental debug output. </summary>
     public struct mavlink_named_value_float_t
     {
-        public mavlink_named_value_float_t(uint time_boot_ms,float value,byte[] name) 
+        public mavlink_named_value_float_t(uint time_boot_ms,float value,char[] name) 
         {
               this.time_boot_ms = time_boot_ms;
               this.value = value;
@@ -15042,7 +15042,7 @@ public partial class MAVLink
         [Units("")]
         [Description("Name of the debug variable")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=10)]
-		public byte[] name;
+		public char[] name;
     
     };
 
@@ -15051,7 +15051,7 @@ public partial class MAVLink
     ///<summary> Send a key-value pair as integer. The use of this message is discouraged for normal packets, but a quite efficient way for testing new messages and getting experimental debug output. </summary>
     public struct mavlink_named_value_int_t
     {
-        public mavlink_named_value_int_t(uint time_boot_ms,int value,byte[] name) 
+        public mavlink_named_value_int_t(uint time_boot_ms,int value,char[] name) 
         {
               this.time_boot_ms = time_boot_ms;
               this.value = value;
@@ -15070,7 +15070,7 @@ public partial class MAVLink
         [Units("")]
         [Description("Name of the debug variable")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=10)]
-		public byte[] name;
+		public char[] name;
     
     };
 
@@ -15079,7 +15079,7 @@ public partial class MAVLink
     ///<summary> Status text message. These messages are printed in yellow in the COMM console of QGroundControl. WARNING: They consume quite some bandwidth, so use only for important status and error messages. If implemented wisely, these messages are buffered on the MCU and sent only at a limited rate (e.g. 10 Hz). </summary>
     public struct mavlink_statustext_t
     {
-        public mavlink_statustext_t(/*MAV_SEVERITY*/byte severity,byte[] text) 
+        public mavlink_statustext_t(/*MAV_SEVERITY*/byte severity,char[] text) 
         {
               this.severity = severity;
               this.text = text;
@@ -15093,7 +15093,7 @@ public partial class MAVLink
         [Units("")]
         [Description("Status text message, without null termination character")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=50)]
-		public byte[] text;
+		public char[] text;
     
     };
 
@@ -15189,7 +15189,7 @@ public partial class MAVLink
     ///<summary> Control vehicle tone generation (buzzer) </summary>
     public struct mavlink_play_tune_t
     {
-        public mavlink_play_tune_t(byte target_system,byte target_component,byte[] tune,byte[] tune2) 
+        public mavlink_play_tune_t(byte target_system,byte target_component,char[] tune,char[] tune2) 
         {
               this.target_system = target_system;
               this.target_component = target_component;
@@ -15209,12 +15209,12 @@ public partial class MAVLink
         [Units("")]
         [Description("tune in board specific format")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=30)]
-		public byte[] tune;
+		public char[] tune;
             /// <summary>tune extension (appended to tune)   </summary>
         [Units("")]
         [Description("tune extension (appended to tune)")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=200)]
-		public byte[] tune2;
+		public char[] tune2;
     
     };
 
@@ -15223,7 +15223,7 @@ public partial class MAVLink
     ///<summary> Information about a camera </summary>
     public struct mavlink_camera_information_t
     {
-        public mavlink_camera_information_t(uint time_boot_ms,uint firmware_version,float focal_length,float sensor_size_h,float sensor_size_v,/*CAMERA_CAP_FLAGS*/uint flags,ushort resolution_h,ushort resolution_v,ushort cam_definition_version,byte[] vendor_name,byte[] model_name,byte lens_id,byte[] cam_definition_uri) 
+        public mavlink_camera_information_t(uint time_boot_ms,uint firmware_version,float focal_length,float sensor_size_h,float sensor_size_v,/*CAMERA_CAP_FLAGS*/uint flags,ushort resolution_h,ushort resolution_v,ushort cam_definition_version,byte[] vendor_name,byte[] model_name,byte lens_id,char[] cam_definition_uri) 
         {
               this.time_boot_ms = time_boot_ms;
               this.firmware_version = firmware_version;
@@ -15294,7 +15294,7 @@ public partial class MAVLink
         [Units("")]
         [Description("Camera definition URI (if any, otherwise only basic functions will be available). HTTP- (http://) and MAVLink FTP- (mavlinkftp://) formatted URIs are allowed (and both must be supported by any GCS that implements the Camera Protocol).")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=140)]
-		public byte[] cam_definition_uri;
+		public char[] cam_definition_uri;
     
     };
 
@@ -15434,7 +15434,7 @@ public partial class MAVLink
     ///<summary> Information about a captured image </summary>
     public struct mavlink_camera_image_captured_t
     {
-        public mavlink_camera_image_captured_t(ulong time_utc,uint time_boot_ms,int lat,int lon,int alt,int relative_alt,float[] q,int image_index,byte camera_id,sbyte capture_result,byte[] file_url) 
+        public mavlink_camera_image_captured_t(ulong time_utc,uint time_boot_ms,int lat,int lon,int alt,int relative_alt,float[] q,int image_index,byte camera_id,sbyte capture_result,char[] file_url) 
         {
               this.time_utc = time_utc;
               this.time_boot_ms = time_boot_ms;
@@ -15494,7 +15494,7 @@ public partial class MAVLink
         [Units("")]
         [Description("URL of image taken. Either local storage or http://foo.jpg if camera provides an HTTP interface.")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=205)]
-		public byte[] file_url;
+		public char[] file_url;
     
     };
 
@@ -15685,7 +15685,7 @@ public partial class MAVLink
     ///<summary> Information about video stream </summary>
     public struct mavlink_video_stream_information_t
     {
-        public mavlink_video_stream_information_t(float framerate,uint bitrate,/*VIDEO_STREAM_STATUS_FLAGS*/ushort flags,ushort resolution_h,ushort resolution_v,ushort rotation,ushort hfov,byte stream_id,byte count,/*VIDEO_STREAM_TYPE*/byte type,byte[] name,byte[] uri) 
+        public mavlink_video_stream_information_t(float framerate,uint bitrate,/*VIDEO_STREAM_STATUS_FLAGS*/ushort flags,ushort resolution_h,ushort resolution_v,ushort rotation,ushort hfov,byte stream_id,byte count,/*VIDEO_STREAM_TYPE*/byte type,char[] name,char[] uri) 
         {
               this.framerate = framerate;
               this.bitrate = bitrate;
@@ -15745,12 +15745,12 @@ public partial class MAVLink
         [Units("")]
         [Description("Stream name.")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=32)]
-		public byte[] name;
+		public char[] name;
             /// <summary>Video stream URI (TCP or RTSP URI ground station should connect to) or port number (UDP port ground station should listen to).   </summary>
         [Units("")]
         [Description("Video stream URI (TCP or RTSP URI ground station should connect to) or port number (UDP port ground station should listen to).")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=160)]
-		public byte[] uri;
+		public char[] uri;
     
     };
 
@@ -15811,7 +15811,7 @@ public partial class MAVLink
     ///<summary> Configure AP SSID and Password. </summary>
     public struct mavlink_wifi_config_ap_t
     {
-        public mavlink_wifi_config_ap_t(byte[] ssid,byte[] password) 
+        public mavlink_wifi_config_ap_t(char[] ssid,char[] password) 
         {
               this.ssid = ssid;
               this.password = password;
@@ -15821,12 +15821,12 @@ public partial class MAVLink
         [Units("")]
         [Description("Name of Wi-Fi network (SSID). Leave it blank to leave it unchanged.")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=32)]
-		public byte[] ssid;
+		public char[] ssid;
             /// <summary>Password. Leave it blank for an open AP.   </summary>
         [Units("")]
         [Description("Password. Leave it blank for an open AP.")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=64)]
-		public byte[] password;
+		public char[] password;
     
     };
 
@@ -15916,7 +15916,7 @@ public partial class MAVLink
     ///<summary> General information describing a particular UAVCAN node. Please refer to the definition of the UAVCAN service 'uavcan.protocol.GetNodeInfo' for the background information. This message should be emitted by the system whenever a new node appears online, or an existing node reboots. Additionally, it can be emitted upon request from the other end of the MAVLink channel (see MAV_CMD_UAVCAN_GET_NODE_INFO). It is also not prohibited to emit this message unconditionally at a low frequency. The UAVCAN specification is available at http://uavcan.org. </summary>
     public struct mavlink_uavcan_node_info_t
     {
-        public mavlink_uavcan_node_info_t(ulong time_usec,uint uptime_sec,uint sw_vcs_commit,byte[] name,byte hw_version_major,byte hw_version_minor,byte[] hw_unique_id,byte sw_version_major,byte sw_version_minor) 
+        public mavlink_uavcan_node_info_t(ulong time_usec,uint uptime_sec,uint sw_vcs_commit,char[] name,byte hw_version_major,byte hw_version_minor,byte[] hw_unique_id,byte sw_version_major,byte sw_version_minor) 
         {
               this.time_usec = time_usec;
               this.uptime_sec = uptime_sec;
@@ -15945,7 +15945,7 @@ public partial class MAVLink
         [Units("")]
         [Description("Node name string. For example, 'sapog.px4.io'.")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=80)]
-		public byte[] name;
+		public char[] name;
             /// <summary>Hardware major version number.   </summary>
         [Units("")]
         [Description("Hardware major version number.")]
@@ -15975,7 +15975,7 @@ public partial class MAVLink
     ///<summary> Request to read the value of a parameter with the either the param_id string id or param_index. </summary>
     public struct mavlink_param_ext_request_read_t
     {
-        public mavlink_param_ext_request_read_t(short param_index,byte target_system,byte target_component,byte[] param_id) 
+        public mavlink_param_ext_request_read_t(short param_index,byte target_system,byte target_component,char[] param_id) 
         {
               this.param_index = param_index;
               this.target_system = target_system;
@@ -15999,7 +15999,7 @@ public partial class MAVLink
         [Units("")]
         [Description("Parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
-		public byte[] param_id;
+		public char[] param_id;
     
     };
 
@@ -16030,7 +16030,7 @@ public partial class MAVLink
     ///<summary> Emit the value of a parameter. The inclusion of param_count and param_index in the message allows the recipient to keep track of received parameters and allows them to re-request missing parameters after a loss or timeout. </summary>
     public struct mavlink_param_ext_value_t
     {
-        public mavlink_param_ext_value_t(ushort param_count,ushort param_index,byte[] param_id,byte[] param_value,/*MAV_PARAM_EXT_TYPE*/byte param_type) 
+        public mavlink_param_ext_value_t(ushort param_count,ushort param_index,char[] param_id,char[] param_value,/*MAV_PARAM_EXT_TYPE*/byte param_type) 
         {
               this.param_count = param_count;
               this.param_index = param_index;
@@ -16051,12 +16051,12 @@ public partial class MAVLink
         [Units("")]
         [Description("Parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
-		public byte[] param_id;
+		public char[] param_id;
             /// <summary>Parameter value   </summary>
         [Units("")]
         [Description("Parameter value")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=128)]
-		public byte[] param_value;
+		public char[] param_value;
             /// <summary>Parameter type. MAV_PARAM_EXT_TYPE  </summary>
         [Units("")]
         [Description("Parameter type.")]
@@ -16069,7 +16069,7 @@ public partial class MAVLink
     ///<summary> Set a parameter value. In order to deal with message loss (and retransmission of PARAM_EXT_SET), when setting a parameter value and the new value is the same as the current value, you will immediately get a PARAM_ACK_ACCEPTED response. If the current state is PARAM_ACK_IN_PROGRESS, you will accordingly receive a PARAM_ACK_IN_PROGRESS in response. </summary>
     public struct mavlink_param_ext_set_t
     {
-        public mavlink_param_ext_set_t(byte target_system,byte target_component,byte[] param_id,byte[] param_value,/*MAV_PARAM_EXT_TYPE*/byte param_type) 
+        public mavlink_param_ext_set_t(byte target_system,byte target_component,char[] param_id,char[] param_value,/*MAV_PARAM_EXT_TYPE*/byte param_type) 
         {
               this.target_system = target_system;
               this.target_component = target_component;
@@ -16090,12 +16090,12 @@ public partial class MAVLink
         [Units("")]
         [Description("Parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
-		public byte[] param_id;
+		public char[] param_id;
             /// <summary>Parameter value   </summary>
         [Units("")]
         [Description("Parameter value")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=128)]
-		public byte[] param_value;
+		public char[] param_value;
             /// <summary>Parameter type. MAV_PARAM_EXT_TYPE  </summary>
         [Units("")]
         [Description("Parameter type.")]
@@ -16108,7 +16108,7 @@ public partial class MAVLink
     ///<summary> Response from a PARAM_EXT_SET message. </summary>
     public struct mavlink_param_ext_ack_t
     {
-        public mavlink_param_ext_ack_t(byte[] param_id,byte[] param_value,/*MAV_PARAM_EXT_TYPE*/byte param_type,/*PARAM_ACK*/byte param_result) 
+        public mavlink_param_ext_ack_t(char[] param_id,char[] param_value,/*MAV_PARAM_EXT_TYPE*/byte param_type,/*PARAM_ACK*/byte param_result) 
         {
               this.param_id = param_id;
               this.param_value = param_value;
@@ -16120,12 +16120,12 @@ public partial class MAVLink
         [Units("")]
         [Description("Parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
-		public byte[] param_id;
+		public char[] param_id;
             /// <summary>Parameter value (new value if PARAM_ACK_ACCEPTED, current value otherwise)   </summary>
         [Units("")]
         [Description("Parameter value (new value if PARAM_ACK_ACCEPTED, current value otherwise)")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=128)]
-		public byte[] param_value;
+		public char[] param_value;
             /// <summary>Parameter type. MAV_PARAM_EXT_TYPE  </summary>
         [Units("")]
         [Description("Parameter type.")]
@@ -16648,7 +16648,7 @@ public partial class MAVLink
     ///<summary> Large debug/prototyping array. The message uses the maximum available payload for data. The array_id and name fields are used to discriminate between messages in code and in user interfaces (respectively). Do not use in production code. </summary>
     public struct mavlink_debug_float_array_t
     {
-        public mavlink_debug_float_array_t(ulong time_usec,ushort array_id,byte[] name,float[] data) 
+        public mavlink_debug_float_array_t(ulong time_usec,ushort array_id,char[] name,float[] data) 
         {
               this.time_usec = time_usec;
               this.array_id = array_id;
@@ -16668,7 +16668,7 @@ public partial class MAVLink
         [Units("")]
         [Description("Name, for human-friendly display in a Ground Control Station")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=10)]
-		public byte[] name;
+		public char[] name;
             /// <summary>data   </summary>
         [Units("")]
         [Description("data")]
@@ -16724,7 +16724,7 @@ public partial class MAVLink
     ///<summary> Status text message (use only for important status and error messages). The full message payload can be used for status text, but we recommend that updates be kept concise. Note: The message is intended as a less restrictive replacement for STATUSTEXT. </summary>
     public struct mavlink_statustext_long_t
     {
-        public mavlink_statustext_long_t(/*MAV_SEVERITY*/byte severity,byte[] text) 
+        public mavlink_statustext_long_t(/*MAV_SEVERITY*/byte severity,char[] text) 
         {
               this.severity = severity;
               this.text = text;
@@ -16738,7 +16738,7 @@ public partial class MAVLink
         [Units("")]
         [Description("Status text message, without null termination character.")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=254)]
-		public byte[] text;
+		public char[] text;
     
     };
 
@@ -16747,7 +16747,7 @@ public partial class MAVLink
     ///<summary> Smart Battery information (static/infrequent update). Use for updates from: smart battery to flight stack, flight stack to GCS. Use instead of BATTERY_STATUS for smart batteries. </summary>
     public struct mavlink_smart_battery_info_t
     {
-        public mavlink_smart_battery_info_t(int capacity_full_specification,int capacity_full,int serial_number,ushort cycle_count,ushort weight,ushort discharge_minimum_voltage,ushort charging_minimum_voltage,ushort resting_minimum_voltage,byte id,byte[] device_name) 
+        public mavlink_smart_battery_info_t(int capacity_full_specification,int capacity_full,int serial_number,ushort cycle_count,ushort weight,ushort discharge_minimum_voltage,ushort charging_minimum_voltage,ushort resting_minimum_voltage,byte id,char[] device_name) 
         {
               this.capacity_full_specification = capacity_full_specification;
               this.capacity_full = capacity_full;
@@ -16801,7 +16801,7 @@ public partial class MAVLink
         [Units("")]
         [Description("Static device name. Encode as manufacturer and product names separated using an underscore.")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=50)]
-		public byte[] device_name;
+		public char[] device_name;
     
     };
 
@@ -17268,7 +17268,7 @@ public partial class MAVLink
     ///<summary> Data for filling the OpenDroneID Self-ID message. The Self-ID Message is an opportunity for the Remote Pilot to (optionally) declare their identity and purpose of the flight. This message can provide additional information that could reduce the threat profile of a UA flying in a particular area or manner. </summary>
     public struct mavlink_open_drone_id_selfid_t
     {
-        public mavlink_open_drone_id_selfid_t(/*MAV_ODID_DESC_TYPE*/byte description_type,byte[] description) 
+        public mavlink_open_drone_id_selfid_t(/*MAV_ODID_DESC_TYPE*/byte description_type,char[] description) 
         {
               this.description_type = description_type;
               this.description = description;
@@ -17282,7 +17282,7 @@ public partial class MAVLink
         [Units("")]
         [Description("Text description or numeric value expressed as ASCII characters. Shall be filled with nulls in the unused portion of the field.")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=23)]
-		public byte[] description;
+		public char[] description;
     
     };
 
@@ -17338,7 +17338,7 @@ public partial class MAVLink
     ///<summary> Static data to configure the ADS-B transponder (send within 10 sec of a POR and every 10 sec thereafter) </summary>
     public struct mavlink_uavionix_adsb_out_cfg_t
     {
-        public mavlink_uavionix_adsb_out_cfg_t(uint ICAO,ushort stallSpeed,byte[] callsign,/*ADSB_EMITTER_TYPE*/byte emitterType,/*UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE*/byte aircraftSize,/*UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LAT*/byte gpsOffsetLat,/*UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LON*/byte gpsOffsetLon,/*UAVIONIX_ADSB_OUT_RF_SELECT*/byte rfSelect) 
+        public mavlink_uavionix_adsb_out_cfg_t(uint ICAO,ushort stallSpeed,char[] callsign,/*ADSB_EMITTER_TYPE*/byte emitterType,/*UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE*/byte aircraftSize,/*UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LAT*/byte gpsOffsetLat,/*UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LON*/byte gpsOffsetLon,/*UAVIONIX_ADSB_OUT_RF_SELECT*/byte rfSelect) 
         {
               this.ICAO = ICAO;
               this.stallSpeed = stallSpeed;
@@ -17362,7 +17362,7 @@ public partial class MAVLink
         [Units("")]
         [Description("Vehicle identifier (8 characters, null terminated, valid characters are A-Z, 0-9, ' ' only)")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=9)]
-		public byte[] callsign;
+		public char[] callsign;
             /// <summary>Transmitting vehicle type. See ADSB_EMITTER_TYPE enum ADSB_EMITTER_TYPE  </summary>
         [Units("")]
         [Description("Transmitting vehicle type. See ADSB_EMITTER_TYPE enum")]

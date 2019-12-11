@@ -902,7 +902,7 @@ namespace MissionPlanner.GCSViews
                 StringBuilder sb = new StringBuilder();
                 var sub = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.STATUSTEXT, message =>
                 {
-                    sb.AppendLine(ASCIIEncoding.ASCII.GetString(((MAVLink.mavlink_statustext_t)message.data).text).TrimEnd('\0'));
+                    sb.AppendLine(new String(((MAVLink.mavlink_statustext_t)message.data).text).TrimEnd('\0'));
                     return true;
                 });
                 bool ans = MainV2.comPort.doARM(!isitarmed);
@@ -3178,7 +3178,7 @@ namespace MissionPlanner.GCSViews
                                 if(plla.Raw != null)
                                 {
                                     var msg = ((MAVLink.mavlink_adsb_vehicle_t) plla.Raw);
-                                    if (msg.emitter_type == 255 && ASCIIEncoding.ASCII.GetString(msg.callsign).Trim('\0') == "OA_DB")
+                                    if (msg.emitter_type == 255 && new String(msg.callsign).Trim('\0') == "OA_DB")
                                     {
                                         // cm
                                         var radius = msg.squawk;

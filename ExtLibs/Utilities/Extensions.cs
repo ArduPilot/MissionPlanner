@@ -82,6 +82,14 @@ namespace MissionPlanner.Utilities
             return buffer;
         }
 
+        public static char[] MakeCharSize(this string item, int length)
+        {
+            var buffer = item.ToCharArray();
+            if (buffer.Length == length)
+                return buffer;
+            Array.Resize(ref buffer, length);
+            return buffer;
+        }
         public static MemoryStream ToMemoryStream(this byte[] buffer)
         {
             return new MemoryStream(buffer);
