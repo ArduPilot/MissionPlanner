@@ -38,6 +38,7 @@
     <Optimize>false</Optimize>
     <Prefer32Bit>false</Prefer32Bit>
     <DebugType>portable</DebugType>
+    <CodeAnalysisRuleSet />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -47,6 +48,7 @@
     <Prefer32Bit>false</Prefer32Bit>
     <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
+    <CodeAnalysisRuleSet />
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>false</SignManifests>
