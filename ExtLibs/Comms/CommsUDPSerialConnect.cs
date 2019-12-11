@@ -110,7 +110,7 @@ namespace MissionPlanner.Comms
                 hostEndPoint = new IPEndPoint(Dns.GetHostEntry(host).AddressList.First(), int.Parse(Port));
             }
 
-            if (host.StartsWith("239.") || host.StartsWith("224.0.0."))
+            if (host.StartsWith("239.") || host.StartsWith("224."))
             {
                 client = new UdpClient(int.Parse(Port));
                 client.JoinMulticastGroup(IPAddress.Parse(host));
