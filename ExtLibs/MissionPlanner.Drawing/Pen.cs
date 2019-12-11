@@ -45,7 +45,7 @@ namespace MissionPlanner.Drawing
         {
         }
 
-        public Pen(Brush brush, float width): this(brush.nativeBrush.Color,width)
+        public Pen(Brush brush, float width): this(brush._color,width)
         {
         }
 

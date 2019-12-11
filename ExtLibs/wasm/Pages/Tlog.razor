@@ -161,11 +161,11 @@
     // Sync calls are ok once file is in memory
     //memoryStream.Read(buffer, ...)
 
-                    Console.WriteLine("CollectionBuffer init");
-                    CollectionBuffer collectionBuffer = new CollectionBuffer(memoryStream);
+                    Console.WriteLine("DFLogBuffer init");
+                    DFLogBuffer DFLogBuffer = new DFLogBuffer(memoryStream);
 
-                    Console.WriteLine("CollectionBuffer loop line");
-                    foreach (var line in collectionBuffer)
+                    Console.WriteLine("DFLogBuffer loop line");
+                    foreach (var line in DFLogBuffer)
                     {
                         Console.Write(line);
                     }

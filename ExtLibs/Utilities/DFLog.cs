@@ -15,6 +15,7 @@ namespace MissionPlanner.Utilities
     /// </summary>
     public class DFLog
     {
+        internal readonly DFLogBuffer _dfLogBuffer;
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public struct Label
@@ -46,6 +47,22 @@ namespace MissionPlanner.Utilities
                     var time = parent.gpsstarttime.AddMilliseconds(timems - parent.msoffset);
                     parent.lasttime = time;
                     return time;
+                }
+            }
+
+            public string instance
+            {
+                get
+                {
+                    var typeno = parent.logformat[msgtype].Id;
+
+                    if (!parent._dfLogBuffer.InstanceType.ContainsKey(typeno))
+                        return "";
+
+                    var unittypes = parent._dfLogBuffer.FMTU[typeno].Item1;
+
+                    int colinst = unittypes.IndexOf("#") + 1;
+                    return raw[colinst].ToString();
                 }
             }
 
@@ -418,6 +435,11 @@ namespace MissionPlanner.Utilities
 
         long msoffset = 0;
 
+        public DFLog(DFLogBuffer dfLogBuffer)
+        {
+            _dfLogBuffer = dfLogBuffer;
+        }
+
         public List<DFItem> ReadLog(Stream fn)
         {
             Clear();
@@ -648,7 +670,7 @@ namespace MissionPlanner.Utilities
             return -1;
         }
 
-        public long GetLineNoFromTime(CollectionBuffer logdata, DateTime p1)
+        public long GetLineNoFromTime(DFLogBuffer logdata, DateTime p1)
         {
             DateTime last = DateTime.MaxValue;
 

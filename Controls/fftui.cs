@@ -149,7 +149,7 @@ namespace MissionPlanner.Controls
                 if (!File.Exists(ofd.FileName))
                     return;
 
-                var file =  new CollectionBuffer(File.OpenRead(ofd.FileName));
+                var file =  new DFLogBuffer(File.OpenRead(ofd.FileName));
 
                 int bins = (int) NUM_bins.Value;
 
@@ -337,7 +337,7 @@ namespace MissionPlanner.Controls
                 if (!File.Exists(ofd.FileName))
                     return;
 
-                var file = new CollectionBuffer(File.OpenRead(ofd.FileName));
+                var file = new DFLogBuffer(File.OpenRead(ofd.FileName));
 
                 int bins = (int) NUM_bins.Value;
 
@@ -549,7 +549,7 @@ namespace MissionPlanner.Controls
                 if (!File.Exists(ofd.FileName))
                     return;
 
-                var file = new CollectionBuffer(File.OpenRead(ofd.FileName));
+                var file = new DFLogBuffer(File.OpenRead(ofd.FileName));
 
                 int bins = (int)NUM_bins.Value;
 
@@ -735,7 +735,7 @@ namespace MissionPlanner.Controls
                 if (!File.Exists(ofd.FileName))
                     return;
 
-                var file = new CollectionBuffer(File.OpenRead(ofd.FileName));
+                var file = new DFLogBuffer(File.OpenRead(ofd.FileName));
 
                 int bins = (int)NUM_bins.Value;
 

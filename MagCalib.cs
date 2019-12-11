@@ -799,7 +799,7 @@ namespace MissionPlanner
             double[] ofsDoubles2 = new double[3];
             double[] ofsDoubles3 = new double[3];
 
-            CollectionBuffer logdata = new CollectionBuffer(File.OpenRead(fn));
+            DFLogBuffer logdata = new DFLogBuffer(File.OpenRead(fn));
 
             var dflog = logdata.dflog;
             

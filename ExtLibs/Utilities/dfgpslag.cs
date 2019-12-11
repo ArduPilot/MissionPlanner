@@ -19,7 +19,7 @@ namespace MissionPlanner.Utilities
             var dtsum = 0.0;
             var dtcount = 0;
 
-            var cb = new CollectionBuffer(File.OpenRead(file));
+            var cb = new DFLogBuffer(File.OpenRead(file));
             foreach (var item in cb.GetEnumeratorType(new string[] { "GPS", "GPS2", "IMU", "ATT" }))
             {   
                 switch (item.msgtype)

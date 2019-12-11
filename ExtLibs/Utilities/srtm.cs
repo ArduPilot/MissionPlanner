@@ -6,6 +6,8 @@ using System.Text.RegularExpressions;
 using ICSharpCode.SharpZipLib.Zip;
 using System.Threading;
 using System.Collections;
+using System.Net.Http;
+using System.Threading.Tasks;
 using log4net;
 
 namespace MissionPlanner.Utilities
@@ -78,6 +80,8 @@ namespace MissionPlanner.Utilities
                         x >= 0 ? "E" : "W", sx, ".hgt");
                 }
             }
+
+            client.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
 
             StartQueueProcess();
         }
@@ -518,7 +522,7 @@ namespace MissionPlanner.Utilities
             }
         }
 
-        static void requestRunner()
+        static async void requestRunner()
         {
             log.Info("requestRunner start");
 
@@ -540,7 +544,7 @@ namespace MissionPlanner.Utilities
                     if (item != "")
                     {
                         log.Info(item);
-                        get3secfile(item);
+                        await get3secfile(item);
                         lock (objlock)
                         {
                             queue.Remove(item);
@@ -551,11 +555,12 @@ namespace MissionPlanner.Utilities
                 {
                     log.Error(ex);
                 }
-                Thread.Sleep(1000);
+
+                await Task.Delay(1000);
             }
         }
 
-        static void get3secfile(object name)
+        static async Task get3secfile(object name)
         {
             string baseurl1sec = "https://firmware.ardupilot.org/SRTM/USGS/SRTM1/version2_1/SRTM1/";
             string baseurl = "https://firmware.ardupilot.org/SRTM/";
@@ -574,13 +579,13 @@ namespace MissionPlanner.Utilities
             // load 1 arc seconds first
             //list.AddRange(getListing(baseurl1sec));
             // load 3 arc second
-            list.AddRange(getListing(baseurl));
+            list.AddRange(await getListing(baseurl));
 
             foreach (string item in list)
             {
                 List<string> hgtfiles = new List<string>();
 
-                hgtfiles = getListing(item);
+                hgtfiles = await getListing(item);
 
                 foreach (string hgt in hgtfiles)
                 {
@@ -589,7 +594,7 @@ namespace MissionPlanner.Utilities
                     {
                         // get file
 
-                        gethgt(hgt, (string) name);
+                        await gethgt(hgt, (string) name);
                         return;
                     }
                 }
@@ -604,18 +609,16 @@ namespace MissionPlanner.Utilities
             }
         }
 
-        static void gethgt(string url, string filename)
+        static HttpClient client = new HttpClient();
+
+        static async Task gethgt(string url, string filename)
         {
             try
             {
-                var req = (HttpWebRequest)HttpWebRequest.Create(url);
-                if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
-                    ((HttpWebRequest)req).UserAgent = Settings.Instance.UserAgent;
-
                 log.Info("Get " + url);
 
-                using (WebResponse res = req.GetResponse())
-                using (Stream resstream = res.GetResponseStream())
+                using (var res = await client.GetAsync(url))
+                using (Stream resstream = await res.Content.ReadAsStreamAsync())
                 using (
                     BinaryWriter bw =
                         new BinaryWriter(File.Create(datadirectory + Path.DirectorySeparatorChar + filename + ".zip")))
@@ -626,8 +629,7 @@ namespace MissionPlanner.Utilities
 
                     while (resstream.CanRead)
                     {
-
-                        int len = resstream.Read(buf1, 0, 1024);
+                        int len = await resstream.ReadAsync(buf1, 0, 1024);
                         if (len == 0)
                             break;
                         bw.Write(buf1, 0, len);
@@ -653,7 +655,7 @@ namespace MissionPlanner.Utilities
             }
         }
 
-        static List<string> getListing(string url)
+        static async Task<List<string>> getListing(string url)
         {
             List<string> list = new List<string>();
 
@@ -686,15 +688,11 @@ namespace MissionPlanner.Utilities
             {
                 log.Info("srtm req " + url);
 
-                var req = (HttpWebRequest)HttpWebRequest.Create(url);
-                if(!String.IsNullOrEmpty(Settings.Instance.UserAgent))
-                    ((HttpWebRequest)req).UserAgent = Settings.Instance.UserAgent;
-
-                using (WebResponse res = req.GetResponse())
-                using (StreamReader resstream = new StreamReader(res.GetResponseStream()))
+                using (var res = await client.GetAsync(url))
+                using (StreamReader resstream = new StreamReader(await res.Content.ReadAsStreamAsync()))
                 {
 
-                    string data = resstream.ReadToEnd();
+                    string data = await resstream.ReadToEndAsync();
 
                     Regex regex = new Regex("href=\"([^\"]+)\"", RegexOptions.IgnoreCase);
                     if (regex.IsMatch(data))
@@ -709,7 +707,7 @@ namespace MissionPlanner.Utilities
                             if (matchs[i].Groups[1].Value.ToString().EndsWith("/srtm/version2_1/"))
                                 continue;
 
-                            list.Add(url.TrimEnd(new char[] {'/', '\\'}) + "/" + matchs[i].Groups[1].Value.ToString());
+                            list.Add(url.TrimEnd(new char[] { '/', '\\' }) + "/" + matchs[i].Groups[1].Value.ToString());
                         }
                     }
                 }

@@ -238,7 +238,7 @@
         //JSRuntime.InvokeAsync<object>("initWebSocket", wsuri);
 
         WebSocketHelper1 = new WebSocketHelper(wsuri, BwsTransportType.ArrayBuffer, JSRuntime);
-
+        WebSocketHelper1.DoLog = false;
         WebSocketHelper1.OnStateChange = WsOnStateChange;
         WebSocketHelper1.OnMessage = WsOnMessage;
         WebSocketHelper1.OnError = WsOnError;
@@ -363,7 +363,7 @@
             {
                 //await JSRuntime.InvokeAsync<object>("evalline", new object[] { "socket.send(new Uint8Array(" + bytes.ToJSON() + "))" }).ConfigureAwait(false);
 
-                WebSocketHelper1.Send(bytes.ToArray());
+                WebSocketHelper1.Send(bytes.ToArray(), false);
 
             };
             mavbasestream.ReadBufferUpdate += async (sender, count) =>

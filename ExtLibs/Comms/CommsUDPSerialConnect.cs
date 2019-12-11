@@ -110,7 +110,7 @@ namespace MissionPlanner.Comms
                 hostEndPoint = new IPEndPoint(Dns.GetHostEntry(host).AddressList.First(), int.Parse(Port));
             }
 
-            if (host.StartsWith("239.") || host.StartsWith("224.0.0."))
+            if (IsInRange("224.0.0.0", "239.255.255.255", hostEndPoint.Address.ToString()))
             {
                 client = new UdpClient(int.Parse(Port));
                 client.JoinMulticastGroup(IPAddress.Parse(host));
@@ -124,6 +124,17 @@ namespace MissionPlanner.Comms
             IsOpen = true;
 
             VerifyConnected();
+        }
+
+        public static bool IsInRange(string startIpAddr, string endIpAddr, string address)
+        {
+            long ipStart = BitConverter.ToInt32(IPAddress.Parse(startIpAddr).GetAddressBytes().Reverse().ToArray(), 0);
+
+            long ipEnd = BitConverter.ToInt32(IPAddress.Parse(endIpAddr).GetAddressBytes().Reverse().ToArray(), 0);
+
+            long ip = BitConverter.ToInt32(IPAddress.Parse(address).GetAddressBytes().Reverse().ToArray(), 0);
+
+            return ip >= ipStart && ip <= ipEnd;
         }
 
         public int Read(byte[] readto, int offset, int length)

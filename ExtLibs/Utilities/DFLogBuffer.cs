@@ -9,19 +9,25 @@ using Newtonsoft.Json;
 
 namespace MissionPlanner.Utilities
 {
-    public class CollectionBuffer : IEnumerable<String>, IDisposable
+    public class DFLogBuffer : IEnumerable<String>, IDisposable
     {
         // used for binary log line conversion
         BinaryLog binlog = new BinaryLog();
 
         // used for fmt messages
-        public DFLog dflog { get; } = new DFLog();
+        public DFLog dflog { get; }
 
         Stream basestream;
         private int _count;
         List<uint> linestartoffset = new List<uint>();
 
+        /// <summary>
+        /// Type and offsets
+        /// </summary>
         List<uint>[] messageindex = new List<uint>[256];
+        /// <summary>
+        /// Type and line numbers
+        /// </summary>
         List<uint>[] messageindexline = new List<uint>[256];
 
         bool binary = false;
@@ -31,8 +37,9 @@ namespace MissionPlanner.Utilities
         int indexcachelineno = -1;
         String currentindexcache = null;
 
-        public CollectionBuffer(Stream instream)
+        public DFLogBuffer(Stream instream)
         {
+            dflog = new DFLog(this);
             for (int a = 0; a < messageindex.Length; a++)
             {
                 messageindex[a] = new List<uint>();
@@ -45,7 +52,7 @@ namespace MissionPlanner.Utilities
             }
             else
             {
-                Console.WriteLine("CollectionBuffer: not seekable - copying to memorystream");
+                Console.WriteLine("DFLogBuffer: not seekable - copying to memorystream");
                 basestream = new MemoryStream((int)instream.Length);
                 instream.CopyTo(basestream);
                 basestream.Position = 0;
@@ -66,7 +73,7 @@ namespace MissionPlanner.Utilities
             basestream.Position = 0;
             DateTime start = DateTime.Now;
             setlinecount();
-            Console.WriteLine("CollectionBuffer-linecount: " + Count + " time(ms): " + (DateTime.Now - start).TotalMilliseconds);
+            Console.WriteLine("DFLogBuffer-linecount: " + Count + " time(ms): " + (DateTime.Now - start).TotalMilliseconds);
             basestream.Position = 0;
         }
 
@@ -164,7 +171,7 @@ namespace MissionPlanner.Utilities
             {
                 try
                 {
-                    FMT[int.Parse(item["Type"])] = new Tuple<int, string, string, string>(
+                    FMT[int.Parse(item["Type"])] = (
                         int.Parse(item["Length"].Trim()),
                         item["Name"].Trim(),
                         item["Format"].Trim(),
@@ -181,8 +188,30 @@ namespace MissionPlanner.Utilities
                 {
                     FMTU[int.Parse(item["FmtType"])] =
                         new Tuple<string, string>(item["UnitIds"].Trim(), item["MultIds"].Trim());
+
+                    if (item["UnitIds"].Trim().Contains("#"))
+                    {
+                        InstanceType[int.Parse(item["FmtType"])] =
+                            (item["UnitIds"].Trim().IndexOf("#"), new List<string>());
+                    }
                 }
                 catch { }
+            }
+
+            foreach (var b in InstanceType)
+            {
+                int a = 0;
+                foreach (var item in GetEnumeratorType(FMT[b.Key].name))
+                {
+                    var instancevalue = item.raw[b.Value.index + 1].ToString();
+
+                    if (!b.Value.value.Contains(instancevalue))
+                        b.Value.value.Add(instancevalue);
+
+                    if (a > 2000)
+                        break;
+                    a++;
+                }
             }
 
             foreach (var item in GetEnumeratorType("UNIT"))
@@ -280,8 +309,10 @@ namespace MissionPlanner.Utilities
         }
 
         public List<Tuple<string,string,string,double>> UnitMultiList = new List<Tuple<string, string, string, double>>();
+        public Dictionary<int, (int index, List<string> value)> InstanceType = new Dictionary<int, (int index, List<string> value)>();
 
-        public Dictionary<int, Tuple<int, string, string, string>> FMT { get; set; } = new Dictionary<int, Tuple<int, string, string, string>>();
+        public Dictionary<int, (int length, string name, string format, string columns)> FMT { get; set; } =
+            new Dictionary<int, (int, string, string, string)>();
         public Dictionary<int, Tuple<string, string>> FMTU { get; set; } = new Dictionary<int, Tuple<string, string>>();
 
         public Dictionary<char, string> Unit { get; set; } = new Dictionary<char, string>();
@@ -410,7 +441,6 @@ namespace MissionPlanner.Utilities
             {
                 yield return this[(long)position];
                 position++;
-                
             }
         }
 

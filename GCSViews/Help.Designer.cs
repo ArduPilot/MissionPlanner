@@ -33,9 +33,7 @@
             this.CHK_showconsole = new System.Windows.Forms.CheckBox();
             this.BUT_updatecheck = new MissionPlanner.Controls.MyButton();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-   
             this.BUT_betaupdate = new MissionPlanner.Controls.MyButton();
-     
             this.SuspendLayout();
             // 
             // richTextBox1
@@ -65,7 +63,6 @@
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.TabStop = true;
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
-
             // 
             // BUT_betaupdate
             // 
@@ -76,9 +73,7 @@
             // 
             // Help
             // 
-            
             this.Controls.Add(this.BUT_betaupdate);
- 
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.CHK_showconsole);
             this.Controls.Add(this.BUT_updatecheck);
@@ -86,7 +81,6 @@
             resources.ApplyResources(this, "$this");
             this.Name = "Help";
             this.Load += new System.EventHandler(this.Help_Load);
- 
             this.ResumeLayout(false);
             this.PerformLayout();
 
