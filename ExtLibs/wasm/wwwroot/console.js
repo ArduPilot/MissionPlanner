@@ -32,6 +32,9 @@
   document.addEventListener('DOMContentLoaded', event => {
     let connectButton = document.querySelector('#connect');
 
+    if(connectButton == undefined)
+      return;
+
     t.decorate(document.querySelector('#terminal'));
     t.setWidth(80);
     t.setHeight(24);

@@ -56,21 +56,13 @@
     }
 </select>
 <div style="width: 100%; height: 100%; display: @(mode == modes.map ? "block" : "none")">
-    <div id="message" style="position: absolute; top: 0px; left: 0px;">@gpstime @lat @lng @alt @hdg</div>
     <div id="page" style="width: 100%; height: 100%;">
         <div style="height: 100%; display: flex; flex-direction: column; float: left; resize: horizontal; overflow: auto;">
             <div style="float: left;">
-                <BECanvas Width="500" Height="375" @ref="_canvasReference"></BECanvas>
-                <!--<canvas id="canvas" width="500" height="375">
-        <p>
-            This example requires a browser that supports the
-            <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
-            &lt;canvas&gt; feature.
-        </p>
-    </canvas>-->
+                <BECanvas Width="358" Height="268" @ref="_canvasReference"></BECanvas>
                 <br>
-                <canvas id="graphcanvas" width="500" height="80"></canvas><br />
-                <div id="curve_chart" style="width: 500px; height: 200px;"></div>
+                <canvas id="graphcanvas" height="80" style="width: 100%;"></canvas><br />
+                <div id="curve_chart" style="width: 100%; height: 200px;"></div>
                 <button @onclick=@(async() => { await mav.doARMAsync(mav.MAV.sysid, mav.MAV.compid, true);})>Arm</button>
                 <button @onclick=@(async() => { await mav.doARMAsync(mav.MAV.sysid, mav.MAV.compid, false);})>Disarm</button>
                 <select @onchange=@(async (item) => modeselected = item.Value.ToString())>
@@ -82,22 +74,24 @@
                 <button @onclick=@(async() => { mav.setMode(mav.MAV.sysid, mav.MAV.compid, modeselected);})>Set Mode</button><br />
                 <button @onclick=@(async() => { await mav_mission.download(mav, mav.MAV.sysid, mav.MAV.compid, MAVLink.MAV_MISSION_TYPE.MISSION);})>Get Mission</button>
                 <button @onclick=@(async() => { await mav_mission.download(mav, mav.MAV.sysid, mav.MAV.compid, MAVLink.MAV_MISSION_TYPE.FENCE);})>Get Fence</button>
-                <button @onclick=@(async() => { await mav_mission.download(mav, mav.MAV.sysid, mav.MAV.compid, MAVLink.MAV_MISSION_TYPE.RALLY);})>Get Rally</button>
+                <button @onclick=@(async() => { await mav_mission.download(mav, mav.MAV.sysid, mav.MAV.compid, MAVLink.MAV_MISSION_TYPE.RALLY);})>Get Rally</button><br/>
                 <button @onclick=@(async() => { mav.setMode("GUIDED"); await mav.doCommandAsync(mav.MAV.sysid, mav.MAV.compid, MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 2); })>TakeOff - 2m</button>
             </div>
-            <div id="serverStatus" style="width: 500px; overflow-y: auto; flex-grow: 0;"></div>
+            <div id="serverStatus" style="width: 100%; overflow-y: auto; flex-grow: 0;"></div>
         </div>
         <div style="height: 100%; display: flex; flex-direction: column; resize: horizontal; overflow: auto;">
 
-            <div id="cesiumContainer" style="height: 50%; display: block;"></div>
+            <div id="cesiumContainer" style="height: 100%; display: block;"></div>
             <div id="map" style="width: 100%; height: 100%;"></div>
         </div>
     </div>
     <div id="pageload" style="bottom: 0; right: 0; position: absolute; top: 0px; left: 0px; overflow: hidden; background-color: #80808080; @(pageloadvisible ? null : "display: none; ")">
-        <div style="text-align: center; margin-top: 25%;">
-            Raw MAVLink website url (wss:// for https)<br />
-            <input type="text" id="wsuri" @bind="wsuri" style="width: 350px;" /><br />
-            <button @onclick="wsconnect">Connect</button>
+        <div style="text-align: center;margin-top: 25%;">
+            <div style="background-color: red;border-radius: 5px;box-shadow: 0 0 20px 7px black; display: inline-block;padding: 5px;background-color: #e6e6e6;">
+                Raw MAVLink website url (wss:// for https)<br />
+                <input type="text" id="wsuri" @bind="wsuri" style="width: 350px;" /><br />
+                <button @onclick="wsconnect">Connect</button>
+            </div>
         </div>
     </div>
 </div>
@@ -181,7 +175,7 @@
         }
     }
 
-    double lat = 0, lng = 0, alt = 0, hdg = 0;
+
     int currentCount = 0;
     MAVLinkInterface mav;
     DateTime gpstime;
@@ -480,27 +474,12 @@
         if (packet.data is MAVLink.mavlink_global_position_int_t)
         {
             var pos = (MAVLink.mavlink_global_position_int_t)packet.data;
-
-            lat = pos.lat / 1e7;
-            lng = pos.lon / 1e7;
-            alt = pos.alt / 1e3;
-            hdg = pos.hdg / 1e2;
-
             //Console.WriteLine("Update mavlink_global_position_int_t ##############################");
         }
         else if (packet.data is MAVLink.mavlink_gps_raw_int_t)
         {
             var pos = (MAVLink.mavlink_gps_raw_int_t)packet.data;
-
-            lat = pos.lat / 1e7;
-            lng = pos.lon / 1e7;
-            alt = pos.alt / 1e3;
-            hdg = (ushort)(pos.cog / 1e2);
-
             //StateHasChanged();
-
-
-
             //Console.WriteLine("Update mavlink_gps_raw_int_t ##############################");
         }
         else if (packet.data is MAVLink.mavlink_heartbeat_t)
@@ -517,17 +496,29 @@
 
             //Console.WriteLine("{0} {1}", ASCIIEncoding.ASCII.GetString(param.param_id), param.param_value);
         }
-        else if (packet.msgid == (int)MAVLink.MAVLINK_MSG_ID.STATUSTEXT)
+        else if (packet.msgid == (int) MAVLink.MAVLINK_MSG_ID.STATUSTEXT)
         {
             var txt = (MAVLink.mavlink_statustext_t) packet.data;
-            Console.WriteLine(ASCIIEncoding.ASCII.GetString(txt.text).TrimUnPrintable());
-            SpeechSynthesis.Speak(ASCIIEncoding.ASCII.GetString(txt.text).TrimUnPrintable());
+            if (txt.severity >= (byte) MAVLink.MAV_SEVERITY.NOTICE)
+            {
+                Toaster.Info(new String(txt.text).TrimUnPrintable());
+            }
+            else if (txt.severity >= (byte) MAVLink.MAV_SEVERITY.WARNING)
+            {
+                Toaster.Warning(new String(txt.text).TrimUnPrintable());
+                SpeechSynthesis.Speak(new String(txt.text).TrimUnPrintable());
+            }
+            else if (txt.severity >= (byte) MAVLink.MAV_SEVERITY.EMERGENCY)
+            {
+                Toaster.Error(new String(txt.text).TrimUnPrintable());
+                SpeechSynthesis.Speak(new String(txt.text).TrimUnPrintable());
+            }
         }
 
         // update gui if neede
         if (DateTime.Now > nextUpdate)
         {
-            nextUpdate = DateTime.Now.AddMilliseconds(200);
+            nextUpdate = DateTime.Now.AddMilliseconds(333);
 
             foreach (var mavd in mav.MAVlist)
             {
@@ -537,8 +528,9 @@
                 if (mavd.sysid == mav.sysidcurrent && mavd.compid == mav.compidcurrent)
                     JSRuntime.InvokeAsync<object>
                         ("setAttitude", new object[] { mavd.sysid, mavd.compid, mavd.cs.roll, mavd.cs.pitch, mavd.cs.yaw });
-                JSRuntime.InvokeAsync<object>
-                    ("setMission", new object[] { mavd.sysid, mavd.compid, mavd.wps.Values.ToJSON(), mavd.fencepoints.Values.ToJSON(), mavd.rallypoints.Values.ToJSON() });
+
+                if(DateTime.Now.Second % 5 == 0)
+                    JSRuntime.InvokeAsync<object>("setMission", new object[] { mavd.sysid, mavd.compid, mavd.wps.Values.Where(a=>a.x != 0 && a.y != 0).ToJSON(), mavd.fencepoints.Values.ToJSON(), mavd.rallypoints.Values.ToJSON() });
 
                 if (mavd.sysid == mav.sysidcurrent && mavd.compid == mav.compidcurrent)
                 {

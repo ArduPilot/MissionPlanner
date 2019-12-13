@@ -44,8 +44,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/two.js/0.6.0/two.js"></script>
-
-   <!--<script src="_content/Blazor.Extensions.Canvas/blazor.extensions.canvas.js"></script> -->
+    
+    <script src="js/RotateIcon.js"></script>
 
     <script src="radio_controller.js"></script>
 
@@ -178,9 +178,9 @@
                     } catch (exception) {
                         if (window.console) console.log(exception);
                     }
-                    var blobToBase64 = function(blob, cb) {
+                    var blobToBase64 = function (blob, cb) {
                         var reader = new FileReader();
-                        reader.onload = function() {
+                        reader.onload = function () {
                             var dataUrl = reader.result;
                             var base64 = dataUrl.split(',')[1];
                             cb(base64);
@@ -204,17 +204,17 @@
                     }
                     socket = new WebSocket(host);
 
-                    window.onbeforeunload = function() {
+                    window.onbeforeunload = function () {
                         socket.close();
                     };
                     console.log('WebSocket - status ' + socket.readyState);
-                    socket.onopen = function(msg) {
+                    socket.onopen = function (msg) {
 
                     };
-                    socket.onmessage = function(msg) {
+                    socket.onmessage = function (msg) {
                         var arrayBuffer;
                         var fileReader = new FileReader();
-                        fileReader.onload = function(r) {
+                        fileReader.onload = function (r) {
                             arrayBuffer = r.target.result;
 
                             // dont want to overflow buffer
@@ -222,7 +222,7 @@
                                 return;
 
                             var dotNetBuffer = {
-                                toUint8Array: function() { return Blazor.platform.toUint8Array(dotNetArrayPtr); }
+                                toUint8Array: function () { return Blazor.platform.toUint8Array(dotNetArrayPtr); }
                             };
                             var dotNetBufferView = dotNetBuffer.toUint8Array();
                             dotNetBufferView.set(new Uint8Array(arrayBuffer));
@@ -245,8 +245,7 @@
 
         }
 
-        function startChart()
-        {
+        function startChart() {
             var smoothie = new SmoothieChart();
 
             smoothie.streamTo(document.getElementById("graphcanvas"), 250);
@@ -379,296 +378,366 @@
     </script>
 
 
-    <script>
-        var map;
-        var viewer;
-        var markers = [];
-        var default_model_scale = 1.5;
-        var model_scale_factor = 0.06;
-        var takeoff_altitude = 0;
+<script>
+    var map;
+    var viewer;
+    var markers = [];
+    var default_model_scale = 1.5;
+    var model_scale_factor = 0.06;
+    var takeoff_altitude = 0;
 
-        function initMap() {
-            try {
-                map = new google.maps.Map(document.getElementById('map'),
-                    {
-                        center: { lat: -35, lng: 117.89 },
-                        zoom: 1,
-                        mapTypeId: 'satellite',
-                        maxZoom: 21
+    function initMap() {
+        try {
+            map = new google.maps.Map(document.getElementById('map'),
+                {
+                    center: { lat: -35, lng: 117.89 },
+                    zoom: 1,
+                    mapTypeId: 'satellite',
+                    maxZoom: 21
+                });
+
+            //map.setMapTypeId('satellite');
+
+            //map.setOptions({maxZoom: 21});
+        } catch (err) { console.log(err); }
+
+        Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjODdmODk4Yy0xZDhlLTQxNjAtOTkzNS02ZjNmOGRhM2I1MDgiLCJpZCI6NDYzOCwic2NvcGVzIjpbImFzciIsImdjIl0sImlhdCI6MTU0MTMyMDQ4Nn0.GnXyBbMj8o8TZ2LeCxFB_SrdUiQodGmjT1AbNCvmezA';
+
+
+        viewer = new Cesium.Viewer('cesiumContainer', {
+            infoBox: false, //Disable InfoBox widget
+            selectionIndicator: true, //Disable selection indicator
+            navigationInstructionsInitiallyVisible: false,
+            shadows: false,
+            shouldAnimate: true,
+            requestRenderMode: true,
+            maximumRenderTimeChange: 1 / 15,
+            clockStep: Cesium.ClockStep.SYSTEM_CLOCK,
+        });
+
+        var terrainProvider = Cesium.createWorldTerrain({
+            requestWaterMask: true,
+            requestVertexNormals: true
+        });
+        viewer.terrainProvider = terrainProvider;
+
+        viewer.scene.globe.depthTestAgainstTerrain = true;
+
+        var scene = viewer.scene;
+        var ellipsoid = scene.globe.ellipsoid;
+        pickCartographicPosition(scene, ellipsoid);
+
+        markers = [];
+    }
+
+    var first = 0;
+    var ground_offset = 0;
+    var takeoff_altitude = 0;
+
+    missionmarkers = {};
+    flightPaths = {};
+
+    function setMission(sysid, compid, wps, fences, rallys) {
+        var mavno = indextosysidcompid.get(sysid * 256 + compid);
+        wps = JSON.parse(wps);
+        if (wps.length == 0)
+            return;
+        var list = [];
+        wps.forEach(wp => { list.push({ lat: (wp.x / 1e7), lng: (wp.y / 1e7) }) });
+
+        if (flightPaths[mavno] == undefined) {
+            var flightPath = new google.maps.Polyline({
+                path: list,
+                geodesic: true,
+                strokeColor: '#FFFF00',
+                strokeOpacity: 1.0,
+                strokeWeight: 2,
+                map: map
+            });
+            flightPaths[mavno] = flightPath;
+        }
+
+        flightPaths[mavno].setPath(list);
+
+        wps.forEach(wp => {
+                var offset = wp.seq * 512;
+                if (missionmarkers[mavno + offset] == undefined) {
+                    var marker = new google.maps.Marker({
+                        position: { lat: wp.x / 1e7, lng: wp.y / 1e7 },
+                        map: map,
+                        label: '' + wp.seq,
+                        icon: 'https://maps.google.com/mapfiles/ms/icons/green.png'
                     });
+                    missionmarkers[mavno + offset] = marker;
+                }
 
-                //map.setMapTypeId('satellite');
+                missionmarkers[mavno + offset].setPosition({ lat: wp.x / 1e7, lng: wp.y / 1e7 });
 
-                //map.setOptions({maxZoom: 21});
-            } catch (err) { console.log(err); }
+                if (map != missionmarkers[mavno + offset].map)
+                    missionmarkers[mavno + offset].setMap(map);
+            }
+        );
 
-            Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjODdmODk4Yy0xZDhlLTQxNjAtOTkzNS02ZjNmOGRhM2I1MDgiLCJpZCI6NDYzOCwic2NvcGVzIjpbImFzciIsImdjIl0sImlhdCI6MTU0MTMyMDQ4Nn0.GnXyBbMj8o8TZ2LeCxFB_SrdUiQodGmjT1AbNCvmezA';
-
-
-            viewer = new Cesium.Viewer('cesiumContainer', {
-                infoBox: false, //Disable InfoBox widget
-                selectionIndicator: true, //Disable selection indicator
-                navigationInstructionsInitiallyVisible: false,
-                shadows: false,
-                shouldAnimate: false,
-                requestRenderMode: true,
-                maximumRenderTimeChange: 1/15
-            });
-
-            var terrainProvider = Cesium.createWorldTerrain({
-                requestWaterMask: true,
-                requestVertexNormals: true
-            });
-            viewer.terrainProvider = terrainProvider;
-
-            viewer.scene.globe.depthTestAgainstTerrain = true;
-
-            var scene = viewer.scene;
-            var ellipsoid = scene.globe.ellipsoid;
-            pickCartographicPosition(scene, ellipsoid);
-
-            markers = [];
-        }
-
-        var first = 0;
-        var ground_offset = 0;
-        var takeoff_altitude = 0;
-
-        missionmarkers = {};
-        flightPaths = {};
-
-        function setMission(sysid, compid, wps, fences, rallys) {
-            var mavno = indextosysidcompid.get(sysid * 256 + compid);
-            wps = JSON.parse(wps);
-            if (wps.length == 0)
-                return;
+        if (viewer) {
             var list = [];
-            wps.forEach(wp => { list.push({ lat: (wp.x / 1e7), lng: (wp.y / 1e7) }) });
-
-            if (flightPaths[mavno] == undefined) {
-                var flightPath = new google.maps.Polyline({
-                    path: list,
-                    geodesic: true,
-                    strokeColor: '#FF0000',
-                    strokeOpacity: 1.0,
-                    strokeWeight: 2,
-                    map: map
-                });
-                flightPaths[mavno] = flightPath;
-            }
-
-            flightPaths[mavno].setPath(list);
-
+            var home = wps[0];
             wps.forEach(wp => {
-                    var offset = wp.seq * 512;
-                    if (missionmarkers[mavno+offset] == undefined) {
-                        var marker = new google.maps.Marker({
-                            position: { lat: wp.x / 1e7, lng: wp.y / 1e7 },
-                            map: map,
-                            title: '' + wp.seq
-                        });
-                        missionmarkers[mavno+offset] = marker;
+                list.push(wp.y / 1e7);
+                list.push(wp.x / 1e7);
+                list.push(wp.z + (wp.frame == 0 ? 0 : home.z));
+            });
+
+            var wppath = viewer.entities.getById('waypoints');
+
+            if (wppath == undefined) {
+                wppath = viewer.entities.add({
+                    name: 'Path',
+                    id: 'waypoints',
+                    polyline: {
+                        positions: Cesium.Cartesian3.fromDegreesArrayHeights(list),
+                        width: 2,
+                        material: new Cesium.PolylineOutlineMaterialProperty({
+                            color: Cesium.Color.YELLOW,
+                            outlineWidth: 0,
+                            outlineColor: Cesium.Color.BLACK
+                        })
                     }
-
-                    missionmarkers[mavno+offset].setPosition({ lat: wp.x / 1e7, lng: wp.y / 1e7 });
-
-                    if (map != missionmarkers[mavno+offset].map)
-                        missionmarkers[mavno+offset].setMap(map);
-                }
-            );
-        }
-
-        function setAttitude(sysid, compid, roll, pitch, yaw)
-        {
-            self.roll = roll;
-            self.pitch = pitch;
-            self.yaw = yaw;
-
-            line1.append(new Date().getTime(), roll);
-            line2.append(new Date().getTime(), pitch);
-
-            addData();
-        }
-
-        var indextosysidcompid = new Map();
-
-        function setPosition(sysid, compid, lat, lng, altasl, roll, pitch, yaw) {
-            if (lat == 0 || lng == 0 || altasl == 0)
-                return;
-
-            if (first == 0 && altasl != 0) {
-                var takeoff_position = [Cesium.Cartographic.fromDegrees(
-                    lng,
-                    lat
-                )];
-
-                takeoff_altitude = altasl;
-
-                if (viewer) {
-                    var promise = Cesium.sampleTerrainMostDetailed(viewer.terrainProvider, takeoff_position);
-                    Cesium.when(promise,
-                        function (updatedPositions) {
-                            ground_offset = takeoff_position[0].height - takeoff_altitude;
-                            console.log('Ground Offset in meters: ' + ground_offset);
-                            // re-compute the positions taking the ground offset into account.
-                            // add 2 meters more to allow for inaccuracies
-                            //var positionProperty = computePositionProperty(ground_offset + 2);
-                            //entity.position = positionProperty;
-                        });
-                    first++;
-                }
-            }
-
-            // set the index map
-            if(indextosysidcompid.get(sysid * 256 + compid) == undefined)
-                indextosysidcompid.set(sysid * 256 + compid, indextosysidcompid.size || 0);
-            var mavno = indextosysidcompid.get(sysid * 256 + compid);
-
-            var myLatLng = { lat: lat, lng: lng };
-            if (markers.length >= (mavno + 1)) {
-                markers[mavno].setPosition(myLatLng);
-                if (map != markers[mavno].map)
-                    markers[mavno].setMap(map);
-            } else {
-                var marker = new google.maps.Marker({
-                    position: myLatLng,
-                    map: map,
-                    title: 'ArduPilot ' + sysid
                 });
-                markers.push(marker);
-            }
-            if (mavno === 0) {
-                if (map.zoom < 2) {
-                    map.setCenter({ lat: lat, lng: lng });
-                    map.setZoom(16);
-                    //viewer.camera.zoomTo(Cesium.Cartesian3.fromDegrees(lng, lat, altasl));
-                }
+            } else {
+                wppath.polyline.positions = Cesium.Cartesian3.fromDegreesArrayHeights(list);
             }
 
-            if (viewer) {
-                
-
-
-                var position = Cesium.Cartesian3.fromDegrees(myLatLng.lng, myLatLng.lat, altasl + ground_offset + 1);
-                var hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(yaw-90),
-                    Cesium.Math.toRadians(pitch),
-                    Cesium.Math.toRadians(roll));
-                var orientation = Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
-
-                if (viewer.entities.values.length >= (mavno + 1)) {
-                    viewer.entities.values[mavno].position = position;
-                    viewer.entities.values[mavno].orientation = orientation;
-                } else {
-                    var pinBuilder = new Cesium.PinBuilder();
-                    // add a new one
-                    var entity = viewer.entities.add({
-                        name: 'ArduPilot ' + sysid,
-                        position: position,
-                        orientation: orientation,
+            var pinBuilder = new Cesium.PinBuilder();
+            wps.forEach(wp => {
+                var wpitem = viewer.entities.getById('Waypoint' + wp.seq);
+                if (wpitem == undefined) {
+                    wpitem = viewer.entities.add({
+                        name: 'Waypoint ' + wp.seq,
+                        id: 'Waypoint' + wp.seq,
+                        position: Cesium.Cartesian3.fromDegrees(wp.y / 1e7, wp.x / 1e7, wp.z + (wp.frame == 0 ? 0 : home.z)),
                         billboard: {
-                            image: pinBuilder.fromText(sysid, Cesium.Color.BLACK, 48)
-                                .toDataURL(),
+                            image: pinBuilder.fromText('' + wp.seq, Cesium.Color.BLACK, 48).toDataURL(),
                             verticalOrigin: Cesium.VerticalOrigin.BOTTOM
-                        },
-                        model: {
-                            uri: 'Cesium_Air.txt',
-                            minimumPixelSize: 64,
-                            scale: default_model_scale * model_scale_factor
-                        },
-                        path: {
-                            resolution: 1,
-                            material: new Cesium.PolylineGlowMaterialProperty({
-                                glowPower: 0.1,
-                                color: Cesium.Color.YELLOW
-                            }),
-                            width: 10
                         }
                     });
-
-
+                } else {
+                    wpitem.position = Cesium.Cartesian3.fromDegrees(wp.y / 1e7, wp.x / 1e7, wp.z + (wp.frame == 0 ? 0 : home.z));
                 }
+            });
+        }
+    }
 
-                if(viewer.trackedEntity == undefined)
-                    viewer.trackedEntity = viewer.entities.values[0];
+    function setAttitude(sysid, compid, roll, pitch, yaw) {
+
+        line1.append(new Date().getTime(), roll);
+        line2.append(new Date().getTime(), pitch);
+
+        addData();
+    }
+
+    var indextosysidcompid = new Map();
+
+    function setPosition(sysid, compid, lat, lng, altasl, roll, pitch, yaw) {
+        if (lat == 0 || lng == 0 || altasl == 0)
+            return;
+
+        if (first == 0 && altasl != 0) {
+            var takeoff_position = [Cesium.Cartographic.fromDegrees(
+                lng,
+                lat
+            )];
+
+            takeoff_altitude = altasl;
+
+            if (viewer) {
+                var promise = Cesium.sampleTerrainMostDetailed(viewer.terrainProvider, takeoff_position);
+                Cesium.when(promise,
+                    function (updatedPositions) {
+                        ground_offset = takeoff_position[0].height - takeoff_altitude;
+                        console.log('Ground Offset in meters: ' + ground_offset);
+                        // re-compute the positions taking the ground offset into account.
+                        // add 2 meters more to allow for inaccuracies
+                        //var positionProperty = computePositionProperty(ground_offset + 2);
+                        //entity.position = positionProperty;
+                    });
+                first++;
             }
         }
 
-        function pickCartographicPosition(scene, ellipsoid) {
-            // Mouse over the globe to see the cartographic position
-            handler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
-            handler.setInputAction(function (movement) {
-                var cartesian = scene.camera.pickEllipsoid(movement.endPosition, ellipsoid);
-                if (cartesian) {
-                    var ray = viewer.camera.getPickRay(movement.endPosition);
-                    var cartesian = viewer.scene.globe.pick(ray, viewer.scene);
+        // set the index map
+        if (indextosysidcompid.get(sysid * 256 + compid) == undefined)
+            indextosysidcompid.set(sysid * 256 + compid, indextosysidcompid.size || 0);
+        var mavno = indextosysidcompid.get(sysid * 256 + compid);
 
-                    var cartographic = ellipsoid.cartesianToCartographic(cartesian);
-                    var position = new Cesium.Cartographic(cartographic.longitude, cartographic.latitude);
-                    var coords = Cesium.Math.toDegrees(cartographic.longitude).toFixed(6) + ', ' + Cesium.Math.toDegrees(cartographic.latitude).toFixed(6) + ';<br/> Cartesian Z: ' + cartesian.z.toFixed(2);
+        var myLatLng = { lat: lat, lng: lng };
+        if (markers.length >= (mavno + 1)) {
+            markers[mavno].setPosition(myLatLng);
+            markers[mavno].icon.url = RotateIcon.makeIcon("images/drone-icon-1.jpg")
+                .setRotation({ deg: yaw }).getUrl();
+            if (map != markers[mavno].map)
+                markers[mavno].setMap(map);
+        } else {
+            var marker = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                title: 'ArduPilot ' + sysid,
+                icon: {
+                    url: 'images/drone-icon-1.jpg',
+                    scaledSize: new google.maps.Size(50, 50), // scaled size
+                    origin: new google.maps.Point(0,0), // origin
+                    anchor: new google.maps.Point(25, 25), // anchor
+                    rotation: yaw
+                }
+            });
+            markers.push(marker);
+        }
+        if (mavno === 0) {
+            if (map.zoom < 2) {
+                map.setCenter({ lat: lat, lng: lng });
+                map.setZoom(16);
+                //viewer.camera.zoomTo(Cesium.Cartesian3.fromDegrees(lng, lat, altasl));
+            }
+        }
 
-                    var ray = viewer.camera.getPickRay(movement.endPosition);
-                    var position = viewer.scene.globe.pick(ray, viewer.scene);
-                    if (Cesium.defined(position)) {
-                        // convert position to cartographic and display altitude
+        if (viewer) {
+
+
+
+            var position = Cesium.Cartesian3.fromDegrees(myLatLng.lng, myLatLng.lat, altasl);
+            var hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(yaw - 90),
+                Cesium.Math.toRadians(pitch),
+                Cesium.Math.toRadians(roll));
+            var orientation = Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
+
+            if (viewer.entities.values.length >= (mavno + 1)) {
+                viewer.entities.values[mavno].position = position;
+                viewer.entities.values[mavno].orientation = orientation;
+                // add a trail
+                viewer.entities.getById('path').position.addSample(Cesium.JulianDate.now(), position);
+            } else {
+                var pinBuilder = new Cesium.PinBuilder();
+                // add a new one
+                var entity = viewer.entities.add({
+                    name: 'ArduPilot ' + sysid,
+                    id: 'ArduPilot ' + sysid,
+                    position: position,
+                    orientation: orientation,
+                    billboard: {
+                        image: pinBuilder.fromText(sysid, Cesium.Color.BLACK, 48)
+                            .toDataURL(),
+                        verticalOrigin: Cesium.VerticalOrigin.BOTTOM
+                    },
+                    model: {
+                        uri: 'iris.txt',
+                        minimumPixelSize: 64,
+                        scale: default_model_scale * model_scale_factor
                     }
+                });
 
-                    //or try to get the height value, result is very low value or zero
-                    var coords = Cesium.Math.toDegrees(cartographic.longitude).toFixed(6) + ', ' + Cesium.Math.toDegrees(cartographic.latitude).toFixed(6) + ';<br/> Height: ' + cartographic.height;
-                    document.getElementById('coords').innerHTML = '<p style="display: block;position: absolute;top: 30px;right: 6px" />' + coords + '<br/><p/>';
+                var pathPosition = new Cesium.SampledPositionProperty();
+                var entityPath = viewer.entities.add({
+                    position : pathPosition,
+                    name: 'path',
+                    id: 'path',
+                    path : {
+                        show : true,
+                        leadTime : 0,
+                        trailTime : 60,
+                        width : 10,
+                        resolution : 1,
+                        material : new Cesium.PolylineGlowMaterialProperty({
+                            glowPower : 0.3,
+                            taperPower : 0.3,
+                            color : Cesium.Color.PALEGOLDENROD
+                        })
+                    }
+                });
+            }
+
+            if (viewer.trackedEntity == undefined) {
+                viewer.scene.camera.lookAt(position, new Cesium.Cartesian3(30, 0, 10));
+                //viewer.flyTo(position).then(function(){
+                    viewer.trackedEntity = viewer.entities.values[0];
+                //});
+            }
+        }
+    }
+
+    function pickCartographicPosition(scene, ellipsoid) {
+        // Mouse over the globe to see the cartographic position
+        handler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
+        handler.setInputAction(function (movement) {
+            var cartesian = scene.camera.pickEllipsoid(movement.endPosition, ellipsoid);
+            if (cartesian) {
+                var ray = viewer.camera.getPickRay(movement.endPosition);
+                var cartesian = viewer.scene.globe.pick(ray, viewer.scene);
+
+                var cartographic = ellipsoid.cartesianToCartographic(cartesian);
+                var position = new Cesium.Cartographic(cartographic.longitude, cartographic.latitude);
+                var coords = Cesium.Math.toDegrees(cartographic.longitude).toFixed(6) + ', ' + Cesium.Math.toDegrees(cartographic.latitude).toFixed(6) + ';<br/> Cartesian Z: ' + cartesian.z.toFixed(2);
+
+                var ray = viewer.camera.getPickRay(movement.endPosition);
+                var position = viewer.scene.globe.pick(ray, viewer.scene);
+                if (Cesium.defined(position)) {
+                    // convert position to cartographic and display altitude
                 }
-            }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-        }
 
-        function testlog(mavlist) {
-            console.log(mavlist);
-        }
+                //or try to get the height value, result is very low value or zero
+                var coords = Cesium.Math.toDegrees(cartographic.longitude).toFixed(6) + ', ' + Cesium.Math.toDegrees(cartographic.latitude).toFixed(6) + ';<br/> Height: ' + cartographic.height;
+                document.getElementById('coords').innerHTML = '<p style="display: block;position: absolute;top: 30px;right: 6px" />' + coords + '<br/><p/>';
+            }
+        }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+    }
+
+    function testlog(mavlist) {
+        console.log(mavlist);
+    }
 
 
 
-        //map.setCenter({lat: cs.lat, lng: cs.lng});
+    //map.setCenter({lat: cs.lat, lng: cs.lng});
 
-        //&callback=initMap
+    //&callback=initMap
 
-        function plotData(div = "", line1 = "", line2 = "", line3 = "", line4 = "", line5 = "", line6 = "") {
+    function plotData(div = "", line1 = "", line2 = "", line3 = "", line4 = "", line5 = "", line6 = "") {
 
-            var data = [];
+        var data = [];
 
-            if (line1 != "")
-                data.push(JSON.parse(line1));
-            if (line2 != "")
-                data.push(JSON.parse(line2));
-            if (line3 != "")
-                data.push(JSON.parse(line3));
-            if (line4 != "")
-                data.push(JSON.parse(line4));
-            if (line5 != "")
-                data.push(JSON.parse(line5));
-            if (line6 != "")
-                data.push(JSON.parse(line6));
+        if (line1 != "")
+            data.push(JSON.parse(line1));
+        if (line2 != "")
+            data.push(JSON.parse(line2));
+        if (line3 != "")
+            data.push(JSON.parse(line3));
+        if (line4 != "")
+            data.push(JSON.parse(line4));
+        if (line5 != "")
+            data.push(JSON.parse(line5));
+        if (line6 != "")
+            data.push(JSON.parse(line6));
 
-            var layout = {
-                yaxis: { title: '' },
-                yaxis2: {
-                    title: '',
-                    overlaying: 'y',
-                    side: 'right'
-                }
-            };
+        var layout = {
+            yaxis: { title: '' },
+            yaxis2: {
+                title: '',
+                overlaying: 'y',
+                side: 'right'
+            }
+        };
 
-            //Plotly.newPlot
-            Plotly.plot(div, data, layout, { responsive: true });
-        }
+        //Plotly.newPlot
+        Plotly.plot(div, data, layout, { responsive: true });
+    }
 
-    </script>
+</script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDW05vWXeNIfZAN4Ter8gf4YLg8rPHZToc" async defer
-            onerror="    document.write('<script src=" https:\/\/maps.google.cn\/maps\/api\/js?key=AIzaSyDW05vWXeNIfZAN4Ter8gf4YLg8rPHZToc" async><\/script>');"></script>
+            onerror="    document.write('<script src="https:\/\/maps.google.cn\/maps\/api\/js?key=AIzaSyDW05vWXeNIfZAN4Ter8gf4YLg8rPHZToc" async><\/script>');"></script>
 
 
 
 
-    <!--<input type="range"  min="0" max="100" />-->
+        <!--<input type="range"  min="0" max="100" />-->
     <div id="coords"></div>
-
 
 </body>
 </html>

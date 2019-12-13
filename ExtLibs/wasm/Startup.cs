@@ -11,6 +11,8 @@ using log4net.Repository.Hierarchy;
 using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using System.Threading.Tasks;
+using Blazor.IndexedDB.Framework;
 using GMap.NET.MapProviders;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Utilities;
@@ -29,6 +31,8 @@ namespace wasm
             services.AddStorage();
 
             services.AddSpeechSynthesis();
+
+            services.AddScoped<IIndexedDbFactory, IndexedDbFactory>();
 
             //services.Add(new ServiceDescriptor(typeof(IFileReaderService), typeof(FileReaderService), ServiceLifetime.Transient));
 
@@ -69,7 +73,12 @@ namespace wasm
             public override WebResponse GetResponse()
             {
                 throw new Exception("Not ASYNC");
-                return new FakeWebResponce(new HttpClient().GetStreamAsync(RequestUri).Result);
+                return new FakeWebResponce(getStream().Result);
+            }
+
+            async Task<Stream> getStream()
+            {
+                return await new HttpClient().GetStreamAsync(RequestUri);
             }
 
             public override IWebProxy Proxy

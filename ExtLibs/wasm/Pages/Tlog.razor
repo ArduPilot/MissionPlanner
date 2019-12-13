@@ -285,7 +285,7 @@
         {
             var param = (MAVLink.mavlink_param_value_t) packet.data;
 
-            Console.WriteLine("{0} {1}", ASCIIEncoding.ASCII.GetString(param.param_id), param.param_value);
+            Console.WriteLine("{0} {1}", new String(param.param_id), param.param_value);
         }
 
         return true;
