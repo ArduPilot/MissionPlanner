@@ -1469,6 +1469,7 @@ namespace Xamarin
 
         object updateBindingSourcelock = new object();
         string updateBindingSourceThreadName = "";
+        private string modeselected;
 
         void tfr_GotTFRs(object sender, EventArgs e)
         {
@@ -1734,6 +1735,97 @@ namespace Xamarin
         private void Button_Onclicked(object sender, EventArgs e)
         {
             
+        }
+
+        private MAVLinkInterface mav => MainV2.comPort;
+
+        private async void Arm_OnClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                await MainV2.comPort.doARMAsync(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, true);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                //throw;
+            }
+        }
+
+        private async void Disarm_OnClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                await mav.doARMAsync(mav.MAV.sysid, mav.MAV.compid, false);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+               // throw;
+            }
+        }
+
+        private void Set_Mode_OnClicked(object sender, EventArgs e)
+        {
+            mav.setMode(mav.MAV.sysid, mav.MAV.compid, modeselected);
+        }
+
+        private async void Get_Mission_OnClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                await mav_mission.download(mav, mav.MAV.sysid, mav.MAV.compid, MAVLink.MAV_MISSION_TYPE.MISSION);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                //throw;
+            }
+        }
+
+        private async void Get_Fence_OnClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                await mav_mission.download(mav, mav.MAV.sysid, mav.MAV.compid, MAVLink.MAV_MISSION_TYPE.FENCE);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                //throw;
+            }
+        }
+
+        private async void Get_Rally_OnClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                await mav_mission.download(mav, mav.MAV.sysid, mav.MAV.compid, MAVLink.MAV_MISSION_TYPE.RALLY);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                //throw;
+            }
+        }
+
+        private async void Takeoff___2m_OnClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                mav.setMode("GUIDED"); 
+                await mav.doCommandAsync(mav.MAV.sysid, mav.MAV.compid, MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 2);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                //throw;
+            }
+        }
+
+        private void Mode_OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+            modeselected = Mode.SelectedItem.ToString();
         }
     }
 
