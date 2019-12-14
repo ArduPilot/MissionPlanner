@@ -4,6 +4,7 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,6 +17,8 @@ namespace MissionPlanner.Utilities
 {
     public static class ParameterMetaDataParser
     {
+        private static HttpClient httpClient;
+
         private static readonly Regex _paramMetaRegex =
             new Regex(ParameterMetaDataConstants.ParamDelimeter +
                       @"(?<MetaKey>\w+)(?:{(?<MetaFrame>[^:]+)})?:(?<MetaValue>.+)");
@@ -45,6 +48,10 @@ namespace MissionPlanner.Utilities
         /// </summary>
         public static void GetParameterInformation(string urls, string file = null)
         {
+            httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
+            httpClient.Timeout = TimeSpan.FromSeconds(30);
+
             var parameterLocationsString = urls;
 
             string XMLFileName =
@@ -219,7 +226,7 @@ namespace MissionPlanner.Utilities
                                         StringSplitOptions.None)
                                         .ForEach(separatedPath =>
                                         {
-                                            log.Info("Process " + parameterPrefix + node.Key + " : " + separatedPath);
+                                            log.Info("Process " + parameterPrefix + node.Key + " : " + separatedPath + " from " + parameterLocation);
                                             Uri newUri = new Uri(new Uri(parameterLocation), separatedPath.Trim());
 
                                             var newPath = newUri.AbsoluteUri;
@@ -440,6 +447,9 @@ namespace MissionPlanner.Utilities
             {
                 lock (cachequeue)
                 {
+                    if (cache.ContainsKey(address))
+                        break;
+
                     if (!cachequeue.Keys.Contains(address))
                     {
                         cachequeue[address] = "";
@@ -447,42 +457,42 @@ namespace MissionPlanner.Utilities
                     }
                 }
 
-                Console.WriteLine("ReadDataFromAddress attempt {1} Queued {0}", address, attempt);
+                //Console.WriteLine("ReadDataFromAddress attempt {1} Queued {0}", address, attempt);
                 Thread.Sleep(500);
             }
 
             // check cache - after delay above for other loader
-            if (cache.ContainsKey(address))
+            lock (cachequeue)
             {
-                log.Info("using cache " + address);
-                lock (cachequeue)
+                if (cache.ContainsKey(address))
                 {
+                    log.Info("using cache " + address);
                     while (cachequeue.Remove(address)) ;
+
+                    return cache[address];
                 }
-                return cache[address];
             }
 
             // Make sure we don't blow up if the user is not connected or the endpoint is not available
             try
             {
-                var request = WebRequest.Create(address);
-                if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
-                    ((HttpWebRequest)request).UserAgent = Settings.Instance.UserAgent;
-
-                // Plenty of timeout
-                request.Timeout = 10000;
-
-                // Set the Method property of the request to GET.
-                request.Method = "GET";
-
                 // Get the response.
-                using (var response = request.GetResponse())
+                using (var response = httpClient.GetAsync(address).GetAwaiter().GetResult())
                 {
                     // Display the status.
-                    log.Info(address + " " + ((HttpWebResponse) response).StatusDescription);
+                    log.Info(address + " " + ((HttpResponseMessage) response).StatusCode);
+
+                    if (response.StatusCode == HttpStatusCode.BadRequest)
+                    {
+                        cache[address] = "";
+                        return "";
+                    }
+
+                    if (!response.IsSuccessStatusCode)
+                        throw new WebException(response.StatusCode.ToString());
 
                     // Get the stream containing content returned by the server.
-                    using (var dataStream = response.GetResponseStream())
+                    using (var dataStream = response.Content.ReadAsStreamAsync().GetAwaiter().GetResult())
                     {
                         if (dataStream != null)
                         {
@@ -496,12 +506,15 @@ namespace MissionPlanner.Utilities
                     }
                 }
 
-                cache[address] = data;
+                lock (cachequeue)
+                {
+                    cache[address] = data;
+                }
 
                 // Return the data
                 return data;
             }
-            catch (WebException ex)
+            catch (Exception ex)
             {
                 log.Error(String.Format("The request to {0} failed.", address), ex);
 

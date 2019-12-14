@@ -725,7 +725,7 @@ namespace MissionPlanner.Utilities
                     sw.Close();
                 }
             }
-            catch (WebException ex)
+            catch (Exception ex)
             {
                 log.Error(ex);
                 throw;
