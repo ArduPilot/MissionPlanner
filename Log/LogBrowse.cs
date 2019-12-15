@@ -1055,7 +1055,7 @@ namespace MissionPlanner.Log
             double b = 0;
             DateTime screenupdate = DateTime.MinValue;
             double value_prev = 0;
-
+            
             foreach (var item in logdata.GetEnumeratorType(type))
             {
                 b = item.lineno;
