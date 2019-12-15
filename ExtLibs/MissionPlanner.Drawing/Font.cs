@@ -75,7 +75,8 @@ namespace MissionPlanner.Drawing
                 _size = value;
                 try
                 {
-                    nativeFont.TextSize = value;
+                    if(nativeFont != null)
+                        nativeFont.TextSize = value;
                 }
                 catch (Exception e)
                 {
