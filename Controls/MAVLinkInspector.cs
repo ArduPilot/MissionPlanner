@@ -145,11 +145,11 @@ namespace MissionPlanner.Controls
 
                         if (field.Name == "param_id") // param_value
                         {
-                            value = ASCIIEncoding.ASCII.GetString((byte[]) value2);
+                            value = new String((char[])value2);
                         }
                         else if (field.Name == "text") // statustext
                         {
-                            value = ASCIIEncoding.ASCII.GetString((byte[]) value2);
+                            value = new String((char[])value);
                         }
                         else
                         {
