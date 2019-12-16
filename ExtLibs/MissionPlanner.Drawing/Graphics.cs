@@ -437,7 +437,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             if (img == null)
                 return;
 
-            _image.DrawImage(img.nativeSKImage,
+            _image.DrawBitmap(img.nativeSkBitmap,
                 new SKRect(srcX, srcY, srcX + srcWidth, srcY + srcHeight),
                 new SKRect(rectangle.X, rectangle.Y, rectangle.Right, rectangle.Bottom), _paint);
 

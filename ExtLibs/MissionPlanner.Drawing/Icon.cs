@@ -22,7 +22,7 @@ namespace MissionPlanner.Drawing
         {
             get
             {
-                return base.nativeSKImage.Handle; }
+                return base.nativeSkBitmap.Handle; }
         }
 
         public Bitmap ToBitmap()

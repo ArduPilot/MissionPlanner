@@ -14,41 +14,35 @@ namespace MissionPlanner.Drawing
 
         private object userData;
         private SKBitmap _skBitmap;
+
         internal SKBitmap nativeSkBitmap
         {
-            get
-            {
-                if (_skBitmap != null) return _skBitmap; _skBitmap = SKBitmap.FromImage(nativeSKImage);
-                return _skBitmap;
-            }
-            set { nativeSKImage = SKImage.FromBitmap(value);
-                _skBitmap = value;
-            }
+            get { return _skBitmap; }
+            set { _skBitmap = value; }
         }
 
-        internal SKImage nativeSKImage;
 
         public int Width
         {
-            get { return nativeSKImage.Width; }
+            get { return nativeSkBitmap.Width; }
         }
         public int Height
         {
-            get { return nativeSKImage.Height; }
+            get { return nativeSkBitmap.Height; }
         }
 
         /// <summary>Gets the pixel format for this <see cref="T:MissionPlanner.Drawing.Image" />.</summary>
         /// <returns>A <see cref="T:MissionPlanner.Drawing.PixelFormat" /> that represents the pixel format for this <see cref="T:MissionPlanner.Drawing.Image" />.</returns>
         public SKColorType PixelFormat
         {
-            get { return nativeSKImage.ColorType; }
+            get { return nativeSkBitmap.ColorType; }
         }
 
 
         // System.Drawing.Image
         /// <summary>Gets the width and height, in pixels, of this image.</summary>
         /// <returns>A <see cref="T:System.Drawing.Size" /> structure that represents the width and height, in pixels, of this image.</returns>
-        public Size Size => new Size(nativeSKImage.Width, nativeSKImage.Height);
+        public Size Size => new Size(nativeSkBitmap.Width, nativeSkBitmap.Height);
 
         public static Image FromStream(Stream stream, bool useEmbeddedColorManagement, bool validateImageData)
         {
@@ -82,13 +76,13 @@ namespace MissionPlanner.Drawing
             var skimage = SKImage.FromEncodedData(ms2);
             if (skimage == null)
                 return null;
-            var ans = new Bitmap() {nativeSKImage = skimage};
+            var ans = new Bitmap() {nativeSkBitmap = SKBitmap.FromImage(skimage)};
             return ans;
         }
 
         public object Clone()
         {
-            return new Bitmap() {nativeSKImage = this.nativeSKImage.ToRasterImage()};
+            return new Bitmap() {nativeSkBitmap = this.nativeSkBitmap.Copy()};
         }
 
         internal Image()
@@ -110,12 +104,12 @@ namespace MissionPlanner.Drawing
         public void Save(string filename, SKEncodedImageFormat format)
         {
             using (var stream = File.OpenWrite(filename))
-                nativeSKImage.Encode(format, 100).SaveTo(stream);
+                SKImage.FromBitmap(nativeSkBitmap).Encode(format, 100).SaveTo(stream);
         }
 
         public void Save(Stream stream, SKEncodedImageFormat format)
         {
-            nativeSKImage.Encode(format, 100).SaveTo(stream);
+            SKImage.FromBitmap(nativeSkBitmap).Encode(format, 100).SaveTo(stream);
         }
 
         public void Save(string outputfilename)
@@ -126,7 +120,6 @@ namespace MissionPlanner.Drawing
         public void Dispose()
         {
             nativeSkBitmap?.Dispose();
-            nativeSKImage?.Dispose();
         }
     }
 }
