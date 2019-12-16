@@ -1609,7 +1609,8 @@ namespace MissionPlanner
                                 if (ver2 > ver1)
                                 {
                                     Common.MessageShowAgain(Strings.NewFirmware + "-" + item.name,
-                                        Strings.NewFirmwareA + item.name + Strings.Pleaseup);
+                                        Strings.NewFirmwareA + item.name + Strings.Pleaseup +
+                                        "[link;https://discuss.ardupilot.org/tags/stable-release;Release Notes]");
                                     break;
                                 }
 
