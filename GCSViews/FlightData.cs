@@ -800,7 +800,7 @@ namespace MissionPlanner.GCSViews
                 PointLatLng point = new PointLatLng(lat, lng);
                 GMarkerGoogle m = new GMarkerGoogle(point, GMarkerGoogleType.green);
                 m.ToolTipMode = MarkerTooltipMode.Always;
-                m.ToolTipText = tag;
+                m.ToolTipText = tag + " - " + alt;
                 m.Tag = tag;
 
                 GMapMarkerRect mBorders = new GMapMarkerRect(point);
