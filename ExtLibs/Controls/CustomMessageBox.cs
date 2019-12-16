@@ -149,7 +149,17 @@ namespace MissionPlanner.MsgBox
                         Tag = link,
                         AutoSize = true
                     };
-                    linklbl.Click += linklbl_Click;
+                    linklbl.Click += (sender, args) =>
+                    {
+                        try
+                        {
+                            System.Diagnostics.Process.Start(((LinkLabel)sender).Tag.ToString());
+                        }
+                        catch (Exception exception)
+                        {
+                            Show("Failed to open link " + ((LinkLabel)sender).Tag.ToString());
+                        }
+                    };
 
                     msgBoxFrm.Controls.Add(linklbl);
 
@@ -192,18 +202,6 @@ namespace MissionPlanner.MsgBox
             }
 
             return answer;
-        }
-
-        static void linklbl_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                System.Diagnostics.Process.Start(((LinkLabel)sender).Tag.ToString());
-            }
-            catch (Exception exception)
-            {
-                CustomMessageBox.Show("Failed to open link " + ((LinkLabel) sender).Tag.ToString());
-            }
         }
 
         // from http://stackoverflow.com/questions/2512781/winforms-big-paragraph-tooltip/2512895#2512895
