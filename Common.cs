@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using GMap.NET;
 using GMap.NET.WindowsForms;
@@ -134,6 +135,19 @@ namespace MissionPlanner
                 new System.ComponentModel.ComponentResourceManager(typeof(MainV2));
             form.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 
+            string link = "";
+            string linktext = "";
+
+
+            Regex linkregex = new Regex(@"(\[link;([^\]]+);([^\]]+)\])", RegexOptions.IgnoreCase);
+            Match match = linkregex.Match(promptText);
+            if (match.Success)
+            {
+                link = match.Groups[2].Value;
+                linktext = match.Groups[3].Value;
+                promptText = promptText.Replace(match.Groups[1].Value, "");
+            }
+
             form.Text = title;
             label.Text = promptText;
 
@@ -159,12 +173,44 @@ namespace MissionPlanner
             buttonOk.DialogResult = DialogResult.OK;
             buttonOk.Location = new Point(form.Right - 100, 80);
 
-            label.SetBounds(9, 40, 372, 13);
+            label.SetBounds(9, 9, 372, 13);
 
             label.AutoSize = true;
 
-            form.ClientSize = new Size(396, 107);
             form.Controls.AddRange(new Control[] { label, chk, buttonOk });
+
+            if (link != "" && linktext != "")
+            {
+                Size textSize2 = TextRenderer.MeasureText(linktext, SystemFonts.DefaultFont);
+                var linklbl = new LinkLabel
+                {
+                    Left = 9,
+                    Top = label.Bottom,
+                    Width = textSize2.Width,
+                    Height = textSize2.Height,
+                    Text = linktext,
+                    Tag = link,
+                    AutoSize = true
+                };
+                linklbl.Click += (sender, args) =>
+                {
+                    try
+                    {
+                        System.Diagnostics.Process.Start(((LinkLabel) sender).Tag.ToString());
+                    }
+                    catch (Exception exception)
+                    {
+                        CustomMessageBox.Show("Failed to open link " + ((LinkLabel) sender).Tag.ToString());
+                    }
+                };
+
+                form.Controls.Add(linklbl);
+
+                form.Width = Math.Max(form.Width, linklbl.Right + 16);
+            }
+
+            form.ClientSize = new Size(396, 107);
+            
             form.ClientSize = new Size(Math.Max(300, label.Right + 10), form.ClientSize.Height);
             form.FormBorderStyle = FormBorderStyle.FixedDialog;
             form.StartPosition = FormStartPosition.CenterScreen;
