@@ -30,11 +30,18 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(temp));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.but_proximity = new MissionPlanner.Controls.MyButton();
+            this.but_followswarm = new MissionPlanner.Controls.MyButton();
+            this.label16 = new System.Windows.Forms.Label();
             this.but_lockup = new MissionPlanner.Controls.MyButton();
             this.but_td = new MissionPlanner.Controls.MyButton();
+            this.but_gpsinj = new MissionPlanner.Controls.MyButton();
             this.but_dem = new MissionPlanner.Controls.MyButton();
+            this.BUT_magfit2 = new MissionPlanner.Controls.MyButton();
             this.but_GDAL = new MissionPlanner.Controls.MyButton();
+            this.myButton2 = new MissionPlanner.Controls.MyButton();
             this.but_sortlogs = new MissionPlanner.Controls.MyButton();
+            this.but_optflowcalib = new MissionPlanner.Controls.MyButton();
             this.but_logdlscp = new MissionPlanner.Controls.MyButton();
             this.label12 = new System.Windows.Forms.Label();
             this.but_signkey = new MissionPlanner.Controls.MyButton();
@@ -105,14 +112,6 @@
             this.BUT_followleader = new MissionPlanner.Controls.MyButton();
             this.label1 = new System.Windows.Forms.Label();
             this.but_mavserialport = new MissionPlanner.Controls.MyButton();
-            this.but_proximity = new MissionPlanner.Controls.MyButton();
-            this.myButton3 = new MissionPlanner.Controls.MyButton();
-            this.but_followswarm = new MissionPlanner.Controls.MyButton();
-            this.but_gpsinj = new MissionPlanner.Controls.MyButton();
-            this.BUT_magfit2 = new MissionPlanner.Controls.MyButton();
-            this.myButton2 = new MissionPlanner.Controls.MyButton();
-            this.but_optflowcalib = new MissionPlanner.Controls.MyButton();
-            this.label16 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -120,7 +119,6 @@
             // 
             this.tableLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
-            this.tableLayoutPanel1.Controls.Add(this.myButton3, 0, 15);
             this.tableLayoutPanel1.Controls.Add(this.but_proximity, 2, 27);
             this.tableLayoutPanel1.Controls.Add(this.but_followswarm, 2, 28);
             this.tableLayoutPanel1.Controls.Add(this.label16, 3, 25);
@@ -205,6 +203,25 @@
             this.tableLayoutPanel1.Controls.Add(this.but_mavserialport, 0, 14);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
+            // but_proximity
+            // 
+            resources.ApplyResources(this.but_proximity, "but_proximity");
+            this.but_proximity.Name = "but_proximity";
+            this.but_proximity.UseVisualStyleBackColor = true;
+            this.but_proximity.Click += new System.EventHandler(this.but_proximity_Click);
+            // 
+            // but_followswarm
+            // 
+            resources.ApplyResources(this.but_followswarm, "but_followswarm");
+            this.but_followswarm.Name = "but_followswarm";
+            this.but_followswarm.UseVisualStyleBackColor = true;
+            this.but_followswarm.Click += new System.EventHandler(this.but_followswarm_Click);
+            // 
+            // label16
+            // 
+            resources.ApplyResources(this.label16, "label16");
+            this.label16.Name = "label16";
+            // 
             // but_lockup
             // 
             resources.ApplyResources(this.but_lockup, "but_lockup");
@@ -219,12 +236,26 @@
             this.but_td.UseVisualStyleBackColor = true;
             this.but_td.Click += new System.EventHandler(this.but_td_Click);
             // 
+            // but_gpsinj
+            // 
+            resources.ApplyResources(this.but_gpsinj, "but_gpsinj");
+            this.but_gpsinj.Name = "but_gpsinj";
+            this.but_gpsinj.UseVisualStyleBackColor = true;
+            this.but_gpsinj.Click += new System.EventHandler(this.but_gpsinj_Click);
+            // 
             // but_dem
             // 
             resources.ApplyResources(this.but_dem, "but_dem");
             this.but_dem.Name = "but_dem";
             this.but_dem.UseVisualStyleBackColor = true;
             this.but_dem.Click += new System.EventHandler(this.but_dem_Click);
+            // 
+            // BUT_magfit2
+            // 
+            resources.ApplyResources(this.BUT_magfit2, "BUT_magfit2");
+            this.BUT_magfit2.Name = "BUT_magfit2";
+            this.BUT_magfit2.UseVisualStyleBackColor = true;
+            this.BUT_magfit2.Click += new System.EventHandler(this.BUT_magfit2_Click);
             // 
             // but_GDAL
             // 
@@ -233,12 +264,26 @@
             this.but_GDAL.UseVisualStyleBackColor = true;
             this.but_GDAL.Click += new System.EventHandler(this.but_GDAL_Click);
             // 
+            // myButton2
+            // 
+            resources.ApplyResources(this.myButton2, "myButton2");
+            this.myButton2.Name = "myButton2";
+            this.myButton2.UseVisualStyleBackColor = true;
+            this.myButton2.Click += new System.EventHandler(this.myButton2_Click);
+            // 
             // but_sortlogs
             // 
             resources.ApplyResources(this.but_sortlogs, "but_sortlogs");
             this.but_sortlogs.Name = "but_sortlogs";
             this.but_sortlogs.UseVisualStyleBackColor = true;
             this.but_sortlogs.Click += new System.EventHandler(this.but_sortlogs_Click);
+            // 
+            // but_optflowcalib
+            // 
+            resources.ApplyResources(this.but_optflowcalib, "but_optflowcalib");
+            this.but_optflowcalib.Name = "but_optflowcalib";
+            this.but_optflowcalib.UseVisualStyleBackColor = true;
+            this.but_optflowcalib.Click += new System.EventHandler(this.but_optflowcalib_Click);
             // 
             // but_logdlscp
             // 
@@ -678,60 +723,6 @@
             this.but_mavserialport.UseVisualStyleBackColor = true;
             this.but_mavserialport.Click += new System.EventHandler(this.but_mavserialport_Click);
             // 
-            // but_proximity
-            // 
-            resources.ApplyResources(this.but_proximity, "but_proximity");
-            this.but_proximity.Name = "but_proximity";
-            this.but_proximity.UseVisualStyleBackColor = true;
-            this.but_proximity.Click += new System.EventHandler(this.but_proximity_Click);
-            // 
-            // myButton3
-            // 
-            resources.ApplyResources(this.myButton3, "myButton3");
-            this.myButton3.Name = "myButton3";
-            this.myButton3.UseVisualStyleBackColor = true;
-            this.myButton3.Click += new System.EventHandler(this.myButton3_Click);
-            // 
-            // but_followswarm
-            // 
-            resources.ApplyResources(this.but_followswarm, "but_followswarm");
-            this.but_followswarm.Name = "but_followswarm";
-            this.but_followswarm.UseVisualStyleBackColor = true;
-            this.but_followswarm.Click += new System.EventHandler(this.but_followswarm_Click);
-            // 
-            // but_gpsinj
-            // 
-            resources.ApplyResources(this.but_gpsinj, "but_gpsinj");
-            this.but_gpsinj.Name = "but_gpsinj";
-            this.but_gpsinj.UseVisualStyleBackColor = true;
-            this.but_gpsinj.Click += new System.EventHandler(this.but_gpsinj_Click);
-            // 
-            // BUT_magfit2
-            // 
-            resources.ApplyResources(this.BUT_magfit2, "BUT_magfit2");
-            this.BUT_magfit2.Name = "BUT_magfit2";
-            this.BUT_magfit2.UseVisualStyleBackColor = true;
-            this.BUT_magfit2.Click += new System.EventHandler(this.BUT_magfit2_Click);
-            // 
-            // myButton2
-            // 
-            resources.ApplyResources(this.myButton2, "myButton2");
-            this.myButton2.Name = "myButton2";
-            this.myButton2.UseVisualStyleBackColor = true;
-            this.myButton2.Click += new System.EventHandler(this.myButton2_Click);
-            // 
-            // but_optflowcalib
-            // 
-            resources.ApplyResources(this.but_optflowcalib, "but_optflowcalib");
-            this.but_optflowcalib.Name = "but_optflowcalib";
-            this.but_optflowcalib.UseVisualStyleBackColor = true;
-            this.but_optflowcalib.Click += new System.EventHandler(this.but_optflowcalib_Click);
-            // 
-            // label16
-            // 
-            resources.ApplyResources(this.label16, "label16");
-            this.label16.Name = "label16";
-            // 
             // temp
             // 
             resources.ApplyResources(this, "$this");
@@ -810,7 +801,6 @@
         private Controls.MyButton BUT_magfit2;
         private Controls.MyButton but_gpsinj;
         private Controls.MyButton but_followswarm;
-        private Controls.MyButton myButton3;
         private Controls.MyButton but_GDAL;
         private Controls.MyButton but_sortlogs;
         private Controls.MyButton but_logdlscp;

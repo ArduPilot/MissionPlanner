@@ -75,7 +75,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="SkiaSharp.Views">
-      <Version>1.68.0</Version>
+      <Version>1.68.1.1-preview.9</Version>
     </PackageReference>
     <PackageReference Include="System.Security.Permissions">
       <Version>4.5.0</Version>

@@ -22,7 +22,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="SkiaSharp.Views.Forms" Version="1.68.0" />
+    <PackageReference Include="SkiaSharp.Views.Forms" Version="1.68.1.1-preview.9" />
     <PackageReference Include="System.Linq" Version="4.3.0" />
     <PackageReference Include="System.Linq.Expressions" Version="4.3.0" />
     <PackageReference Include="System.Linq.Queryable" Version="4.3.0" />
