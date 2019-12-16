@@ -184,6 +184,7 @@
             this.scriptChecker = new System.Windows.Forms.Timer(this.components);
             this.Messagetabtimer = new System.Windows.Forms.Timer(this.components);
             this.bindingSourceStatusTab = new System.Windows.Forms.BindingSource(this.components);
+            this.BUT_georefimage = new MissionPlanner.Controls.MyButton();
             ((System.ComponentModel.ISupportInitialize)(this.MainH)).BeginInit();
             this.MainH.Panel1.SuspendLayout();
             this.MainH.Panel2.SuspendLayout();
@@ -1708,6 +1709,7 @@
             // 
             // tablogbrowse
             // 
+            this.tablogbrowse.Controls.Add(this.BUT_georefimage);
             this.tablogbrowse.Controls.Add(this.BUT_loganalysis);
             this.tablogbrowse.Controls.Add(this.BUT_DFMavlink);
             this.tablogbrowse.Controls.Add(this.but_dflogtokml);
@@ -2151,7 +2153,7 @@
             this.windDir1.BackColor = System.Drawing.Color.Transparent;
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Direction", this.bindingSource1, "wind_dir", true, System.Windows.Forms.DataSourceUpdateMode.Never));
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Speed", this.bindingSource1, "wind_vel", true, System.Windows.Forms.DataSourceUpdateMode.Never));
-            this.windDir1.Direction = 180D;
+            this.windDir1.Direction = 360D;
             resources.ApplyResources(this.windDir1, "windDir1");
             this.windDir1.Name = "windDir1";
             this.windDir1.Speed = 0D;
@@ -2350,6 +2352,12 @@
             // bindingSourceStatusTab
             // 
             this.bindingSourceStatusTab.DataSource = typeof(MissionPlanner.CurrentState);
+            // 
+            // BUT_georefimage
+            // 
+            resources.ApplyResources(this.BUT_georefimage, "BUT_georefimage");
+            this.BUT_georefimage.Name = "BUT_georefimage";
+            this.BUT_georefimage.Click += new System.EventHandler(this.BUT_georefimage_Click);
             // 
             // FlightData
             // 
@@ -2600,5 +2608,6 @@
         private Controls.RelayOptions relayOptions4;
         private System.Windows.Forms.ToolStripMenuItem hereLinkVideoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gStreamerStopToolStripMenuItem;
+        private Controls.MyButton BUT_georefimage;
     }
 }
