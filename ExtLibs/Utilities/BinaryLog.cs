@@ -275,7 +275,7 @@ namespace MissionPlanner.Utilities
                         length = logfmt.length,
                         type = logfmt.type,
                         name = ASCIIEncoding.ASCII.GetString(logfmt.name).Trim(new char[] { '\0' }),
-                        format = ASCIIEncoding.ASCII.GetString(logfmt.format).Trim(new char[] { '\0' }),
+                        format = ASCIIEncoding.ASCII.GetString(logfmt.format).Trim(new char[] { '\0' })
                     };
 
                     return;
@@ -354,6 +354,33 @@ namespace MissionPlanner.Utilities
 
                 return null;
             }
+        }
+
+        public (int offset, char coltype, int typesize) GetColumnOffset(byte packettype, int colno)
+        {
+            string format = "";
+            string name = "";
+            int size = 0;
+
+            if (packettypecache[packettype].length != 0)
+            {
+                var fmt = packettypecache[packettype];
+                name = fmt.name;
+                format = fmt.format;
+                size = fmt.length;
+            }
+
+            var offset = 0;
+            var a = 0;
+            foreach (var ch in format)
+            {
+                if (a == colno)
+                    break;
+                offset += (int) Enum.Parse(typeof(TypeSize), ch.ToString());
+                a++;
+            }
+
+            return (offset, format[colno], (int) Enum.Parse(typeof(TypeSize), format[colno].ToString()));
         }
 
         object[] logEntryObjects(byte packettype, Stream br)
@@ -455,97 +482,104 @@ namespace MissionPlanner.Utilities
 
             foreach (char ch in form)
             {
-                switch (ch)
-                {
-                    case 'b':
-                        answer.Add((sbyte) message[offset]);
-                        offset++;
-                        break;
-                    case 'B':
-                        answer.Add(message[offset]);
-                        offset++;
-                        break;
-                    case 'h':
-                        answer.Add(BitConverter.ToInt16(message, offset));
-                        offset += 2;
-                        break;
-                    case 'H':
-                        answer.Add(BitConverter.ToUInt16(message, offset));
-                        offset += 2;
-                        break;
-                    case 'i':
-                        answer.Add(BitConverter.ToInt32(message, offset));
-                        offset += 4;
-                        break;
-                    case 'I':
-                        answer.Add(BitConverter.ToUInt32(message, offset));
-                        offset += 4;
-                        break;
-                    case 'q':
-                        answer.Add(BitConverter.ToInt64(message, offset));
-                        offset += 8;
-                        break;
-                    case 'Q':
-                        answer.Add(BitConverter.ToUInt64(message, offset));
-                        offset += 8;
-                        break;
-                    case 'f':
-                        answer.Add(BitConverter.ToSingle(message, offset));
-                        offset += 4;
-                        break;
-                    case 'd':
-                        answer.Add(BitConverter.ToDouble(message, offset));
-                        offset += 8;
-                        break;
-                    case 'c':
-                        answer.Add((BitConverter.ToInt16(message, offset)/100.0));
-                        offset += 2;
-                        break;
-                    case 'C':
-                        answer.Add((BitConverter.ToUInt16(message, offset)/100.0));
-                        offset += 2;
-                        break;
-                    case 'e':
-                        answer.Add((BitConverter.ToInt32(message, offset)/100.0));
-                        offset += 4;
-                        break;
-                    case 'E':
-                        answer.Add((BitConverter.ToUInt32(message, offset)/100.0));
-                        offset += 4;
-                        break;
-                    case 'L':
-                        answer.Add(((double) BitConverter.ToInt32(message, offset)/10000000.0));
-                        offset += 4;
-                        break;
-                    case 'n':
-                        answer.Add(ASCIIEncoding.ASCII.GetString(message, offset, 4).Trim(new char[] {'\0'}));
-                        offset += 4;
-                        break;
-                    case 'N':
-                        answer.Add(ASCIIEncoding.ASCII.GetString(message, offset, 16).Trim(new char[] {'\0'}));
-                        offset += 16;
-                        break;
-                    case 'M':
-                        int modeno = message[offset];
-                        string mode = onFlightMode?.Invoke(_firmware, modeno);
-                        if (mode == null)
-                            mode = modeno.ToString();
-                        answer.Add(mode);
-                        offset++;
-                        break;
-                    case 'Z':
-                        answer.Add(ASCIIEncoding.ASCII.GetString(message, offset, 64).Trim(new char[] {'\0'}));
-                        offset += 64;
-                        break;
-                    case 'a':
-                        answer.Add(new UnionArray(message.Skip(offset).Take(64).ToArray()));
-                        offset += 2 * 32;
-                        break;
-                    default:
-                        return null;
-                }
+                var temp = GetObjectFromMessage(ch, message, offset);
+                answer.Add(temp);
+                offset += (int)Enum.Parse(typeof(TypeSize), ch.ToString());
             }
             return answer.ToArray();
+        }
+
+        public object GetObjectFromMessage(char type, byte[] message, int offset)
+        {
+            switch (type)
+            {
+                case 'b':
+                    return ((sbyte)message[offset]);
+                    offset++;
+                    break;
+                case 'B':
+                    return (message[offset]);
+                    offset++;
+                    break;
+                case 'h':
+                    return (BitConverter.ToInt16(message, offset));
+                    offset += 2;
+                    break;
+                case 'H':
+                    return (BitConverter.ToUInt16(message, offset));
+                    offset += 2;
+                    break;
+                case 'i':
+                    return (BitConverter.ToInt32(message, offset));
+                    offset += 4;
+                    break;
+                case 'I':
+                    return (BitConverter.ToUInt32(message, offset));
+                    offset += 4;
+                    break;
+                case 'q':
+                    return (BitConverter.ToInt64(message, offset));
+                    offset += 8;
+                    break;
+                case 'Q':
+                    return (BitConverter.ToUInt64(message, offset));
+                    offset += 8;
+                    break;
+                case 'f':
+                    return (BitConverter.ToSingle(message, offset));
+                    offset += 4;
+                    break;
+                case 'd':
+                    return (BitConverter.ToDouble(message, offset));
+                    offset += 8;
+                    break;
+                case 'c':
+                    return ((BitConverter.ToInt16(message, offset) / 100.0));
+                    offset += 2;
+                    break;
+                case 'C':
+                    return ((BitConverter.ToUInt16(message, offset) / 100.0));
+                    offset += 2;
+                    break;
+                case 'e':
+                    return ((BitConverter.ToInt32(message, offset) / 100.0));
+                    offset += 4;
+                    break;
+                case 'E':
+                    return ((BitConverter.ToUInt32(message, offset) / 100.0));
+                    offset += 4;
+                    break;
+                case 'L':
+                    return (((double)BitConverter.ToInt32(message, offset) / 10000000.0));
+                    offset += 4;
+                    break;
+                case 'n':
+                    return (ASCIIEncoding.ASCII.GetString(message, offset, 4).Trim(new char[] { '\0' }));
+                    offset += 4;
+                    break;
+                case 'N':
+                    return (ASCIIEncoding.ASCII.GetString(message, offset, 16).Trim(new char[] { '\0' }));
+                    offset += 16;
+                    break;
+                case 'M':
+                    int modeno = message[offset];
+                    string mode = onFlightMode?.Invoke(_firmware, modeno);
+                    if (mode == null)
+                        mode = modeno.ToString();
+                    return (mode);
+                    offset++;
+                    break;
+                case 'Z':
+                    return (ASCIIEncoding.ASCII.GetString(message, offset, 64).Trim(new char[] { '\0' }));
+                    offset += 64;
+                    break;
+                case 'a':
+                    return (new UnionArray(message.Skip(offset).Take(64).ToArray()));
+                    offset += 2 * 32;
+                    break;
+                default:
+                    return null;
+            }
         }
 
         public enum TypeSize

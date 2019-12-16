@@ -106,11 +106,7 @@ namespace MissionPlanner.Utilities
                 _count = lineCount;
 
                 // build fmt line database to pre seed the FMT message
-                int amax = Math.Min(2000, _count - 1);
-                for (int a = 0; a < amax; a++)
-                {
-                    dflog.GetDFItemFromLine(this[a].ToString(), a);
-                }
+                messageindexline[128].ForEach(a => dflog.FMTLine(this[(int) a]));
             }
             else
             {
@@ -240,7 +236,7 @@ namespace MissionPlanner.Utilities
                 "MSG", "PARM"
             }))
             {
-                Console.WriteLine(item.raw.ToJSON(Formatting.None));
+                //Console.WriteLine(item.raw.ToJSON(Formatting.None));
             }
 
             // try get gps time - when a dfitem is created and no valid gpstime has been establish the messages are parsed to get a valid gpstime
@@ -248,7 +244,7 @@ namespace MissionPlanner.Utilities
             int gpsa = 0;
             foreach (var item in GetEnumeratorType(new[]
             {
-                "GPS", "GPS2"
+                "GPS", "GPS2", "GPSB"
             }))
             {
                 gpsa++;
@@ -318,6 +314,46 @@ namespace MissionPlanner.Utilities
         public Dictionary<char, string> Unit { get; set; } = new Dictionary<char, string>();
         public Dictionary<char, string> Mult { get; set; } = new Dictionary<char, string>();
 
+        public IEnumerable<object> this[string type, string col]
+        {
+            get
+            {
+                // get the ids for the passed in types
+                List<long> slist = new List<long>();
+
+                byte typeid = 0;
+                int colindex = 0;
+
+                if (dflog.logformat.ContainsKey(type))
+                {
+                    typeid = (byte) dflog.logformat[type].Id;
+                    colindex = dflog.FindMessageOffset(type, col);
+
+                    foreach (var item in messageindexline[typeid])
+                    {
+                        slist.Add(item);
+                    }
+                }
+
+                var coloffset = binlog.GetColumnOffset(typeid, colindex);
+
+                foreach (var indexin in slist)
+                {
+                    var index = (int)indexin;
+                    long startoffset = linestartoffset[index];
+
+                    startoffset += coloffset.offset;
+                    byte[] buffer = new byte[coloffset.typesize];
+                    lock (locker)
+                    {
+                        basestream.Seek(startoffset, SeekOrigin.Begin);
+                        basestream.Read(buffer, 0, buffer.Length);
+                    }
+
+                    yield return binlog.GetObjectFromMessage(coloffset.coltype, buffer, 0);
+                }
+            }
+        }
         public DFLog.DFItem this[long indexin]
         {
             get
@@ -466,7 +502,8 @@ namespace MissionPlanner.Utilities
                 }
             }
 
-            slist.Sort();
+            if(types.Length > 1)
+                slist.Sort();
 
             // work through list of lines
             foreach (var l in slist)
