@@ -29,32 +29,34 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(temp));
-            this.but_osdvideo = new MissionPlanner.Controls.MyButton();
-            this.BUT_outputMD = new MissionPlanner.Controls.MyButton();
-            this.BUT_paramgen = new MissionPlanner.Controls.MyButton();
-            this.BUT_follow_me = new MissionPlanner.Controls.MyButton();
-            this.BUT_georefimage = new MissionPlanner.Controls.MyButton();
-            this.BUT_lang_edit = new MissionPlanner.Controls.MyButton();
-            this.BUT_clearcustommaps = new MissionPlanner.Controls.MyButton();
-            this.BUT_geinjection = new MissionPlanner.Controls.MyButton();
-            this.BUT_swarm = new MissionPlanner.Controls.MyButton();
-            this.BUT_outputnmea = new MissionPlanner.Controls.MyButton();
-            this.BUT_outputMavlink = new MissionPlanner.Controls.MyButton();
-            this.BUT_followleader = new MissionPlanner.Controls.MyButton();
-            this.BUT_sorttlogs = new MissionPlanner.Controls.MyButton();
-            this.BUT_movingbase = new MissionPlanner.Controls.MyButton();
-            this.but_getfw = new MissionPlanner.Controls.MyButton();
-            this.but_mavserialport = new MissionPlanner.Controls.MyButton();
-            this.button3 = new MissionPlanner.Controls.MyButton();
-            this.BUT_shptopoly = new MissionPlanner.Controls.MyButton();
-            this.but_gimbaltest = new MissionPlanner.Controls.MyButton();
-            this.but_maplogs = new MissionPlanner.Controls.MyButton();
-            this.butlogindex = new MissionPlanner.Controls.MyButton();
-            this.but_structtest = new MissionPlanner.Controls.MyButton();
-            this.but_armandtakeoff = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.but_lockup = new MissionPlanner.Controls.MyButton();
+            this.but_td = new MissionPlanner.Controls.MyButton();
+            this.but_dem = new MissionPlanner.Controls.MyButton();
+            this.but_GDAL = new MissionPlanner.Controls.MyButton();
+            this.but_sortlogs = new MissionPlanner.Controls.MyButton();
+            this.but_logdlscp = new MissionPlanner.Controls.MyButton();
             this.label12 = new System.Windows.Forms.Label();
+            this.but_signkey = new MissionPlanner.Controls.MyButton();
+            this.but_acbarohight = new MissionPlanner.Controls.MyButton();
+            this.myButton1 = new MissionPlanner.Controls.MyButton();
+            this.but_driverclean = new MissionPlanner.Controls.MyButton();
+            this.but_agemapdata = new MissionPlanner.Controls.MyButton();
+            this.but_packetbytes = new MissionPlanner.Controls.MyButton();
+            this.myButton_vlc = new MissionPlanner.Controls.MyButton();
             this.label22 = new System.Windows.Forms.Label();
+            this.but_trimble = new MissionPlanner.Controls.MyButton();
+            this.but_hwids = new MissionPlanner.Controls.MyButton();
+            this.BUT_QNH = new MissionPlanner.Controls.MyButton();
+            this.but_reboot = new MissionPlanner.Controls.MyButton();
+            this.but_3dmap = new MissionPlanner.Controls.MyButton();
+            this.but_messageinterval = new MissionPlanner.Controls.MyButton();
+            this.but_blupdate = new MissionPlanner.Controls.MyButton();
+            this.BUT_fft = new MissionPlanner.Controls.MyButton();
+            this.but_disablearmswitch = new MissionPlanner.Controls.MyButton();
+            this.but_injectgps = new MissionPlanner.Controls.MyButton();
+            this.but_mavinspector = new MissionPlanner.Controls.MyButton();
+            this.but_sitl_comb = new MissionPlanner.Controls.MyButton();
             this.but_anonlog = new MissionPlanner.Controls.MyButton();
             this.but_dashware = new MissionPlanner.Controls.MyButton();
             this.label26 = new System.Windows.Forms.Label();
@@ -65,223 +67,94 @@
             this.label20 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
+            this.butlogindex = new MissionPlanner.Controls.MyButton();
+            this.but_armandtakeoff = new MissionPlanner.Controls.MyButton();
+            this.but_maplogs = new MissionPlanner.Controls.MyButton();
             this.label17 = new System.Windows.Forms.Label();
+            this.but_gimbaltest = new MissionPlanner.Controls.MyButton();
+            this.but_structtest = new MissionPlanner.Controls.MyButton();
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
+            this.BUT_clearcustommaps = new MissionPlanner.Controls.MyButton();
+            this.but_getfw = new MissionPlanner.Controls.MyButton();
+            this.BUT_geinjection = new MissionPlanner.Controls.MyButton();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.BUT_sorttlogs = new MissionPlanner.Controls.MyButton();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.BUT_outputMavlink = new MissionPlanner.Controls.MyButton();
+            this.BUT_outputMD = new MissionPlanner.Controls.MyButton();
+            this.BUT_outputnmea = new MissionPlanner.Controls.MyButton();
+            this.BUT_georefimage = new MissionPlanner.Controls.MyButton();
+            this.button3 = new MissionPlanner.Controls.MyButton();
+            this.BUT_lang_edit = new MissionPlanner.Controls.MyButton();
+            this.BUT_follow_me = new MissionPlanner.Controls.MyButton();
+            this.BUT_paramgen = new MissionPlanner.Controls.MyButton();
+            this.but_osdvideo = new MissionPlanner.Controls.MyButton();
+            this.BUT_movingbase = new MissionPlanner.Controls.MyButton();
+            this.BUT_shptopoly = new MissionPlanner.Controls.MyButton();
+            this.BUT_swarm = new MissionPlanner.Controls.MyButton();
+            this.BUT_followleader = new MissionPlanner.Controls.MyButton();
             this.label1 = new System.Windows.Forms.Label();
-            this.but_sitl_comb = new MissionPlanner.Controls.MyButton();
-            this.but_injectgps = new MissionPlanner.Controls.MyButton();
-            this.BUT_fft = new MissionPlanner.Controls.MyButton();
-            this.but_reboot = new MissionPlanner.Controls.MyButton();
-            this.BUT_QNH = new MissionPlanner.Controls.MyButton();
-            this.but_trimble = new MissionPlanner.Controls.MyButton();
-            this.myButton_vlc = new MissionPlanner.Controls.MyButton();
-         
-            this.but_agemapdata = new MissionPlanner.Controls.MyButton();
-            this.myButton1 = new MissionPlanner.Controls.MyButton();
-            this.but_signkey = new MissionPlanner.Controls.MyButton();
-            this.but_optflowcalib = new MissionPlanner.Controls.MyButton();
-            this.myButton2 = new MissionPlanner.Controls.MyButton();
-            this.BUT_magfit2 = new MissionPlanner.Controls.MyButton();
-            this.but_gpsinj = new MissionPlanner.Controls.MyButton();
-         
-            this.but_followswarm = new MissionPlanner.Controls.MyButton();
-            this.myButton3 = new MissionPlanner.Controls.MyButton();
-            this.but_GDAL = new MissionPlanner.Controls.MyButton();
-            this.but_sortlogs = new MissionPlanner.Controls.MyButton();
-            this.but_logdlscp = new MissionPlanner.Controls.MyButton();
-            this.but_td = new MissionPlanner.Controls.MyButton();
-            this.but_dem = new MissionPlanner.Controls.MyButton();
+            this.but_mavserialport = new MissionPlanner.Controls.MyButton();
             this.but_proximity = new MissionPlanner.Controls.MyButton();
-            this.but_mavinspector = new MissionPlanner.Controls.MyButton();
-            this.but_blupdate = new MissionPlanner.Controls.MyButton();
-            this.but_3dmap = new MissionPlanner.Controls.MyButton();
-            this.but_messageinterval = new MissionPlanner.Controls.MyButton();
-            this.but_disablearmswitch = new MissionPlanner.Controls.MyButton();
-            this.but_hwids = new MissionPlanner.Controls.MyButton();
-            this.but_packetbytes = new MissionPlanner.Controls.MyButton();
-            this.but_acbarohight = new MissionPlanner.Controls.MyButton();
-            this.but_stayoutest = new MissionPlanner.Controls.MyButton();
-            this.but_driverclean = new MissionPlanner.Controls.MyButton();
+            this.myButton3 = new MissionPlanner.Controls.MyButton();
+            this.but_followswarm = new MissionPlanner.Controls.MyButton();
+            this.but_gpsinj = new MissionPlanner.Controls.MyButton();
+            this.BUT_magfit2 = new MissionPlanner.Controls.MyButton();
+            this.myButton2 = new MissionPlanner.Controls.MyButton();
+            this.but_optflowcalib = new MissionPlanner.Controls.MyButton();
+            this.label16 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // but_osdvideo
-            // 
-            resources.ApplyResources(this.but_osdvideo, "but_osdvideo");
-            this.but_osdvideo.Name = "but_osdvideo";
-            this.but_osdvideo.UseVisualStyleBackColor = true;
-            this.but_osdvideo.Click += new System.EventHandler(this.but_osdvideo_Click);
-            // 
-            // BUT_outputMD
-            // 
-            resources.ApplyResources(this.BUT_outputMD, "BUT_outputMD");
-            this.BUT_outputMD.Name = "BUT_outputMD";
-            this.BUT_outputMD.UseVisualStyleBackColor = true;
-            this.BUT_outputMD.Click += new System.EventHandler(this.myButton1_Click);
-            // 
-            // BUT_paramgen
-            // 
-            resources.ApplyResources(this.BUT_paramgen, "BUT_paramgen");
-            this.BUT_paramgen.Name = "BUT_paramgen";
-            this.BUT_paramgen.UseVisualStyleBackColor = true;
-            this.BUT_paramgen.Click += new System.EventHandler(this.BUT_paramgen_Click);
-            // 
-            // BUT_follow_me
-            // 
-            resources.ApplyResources(this.BUT_follow_me, "BUT_follow_me");
-            this.BUT_follow_me.Name = "BUT_follow_me";
-            this.BUT_follow_me.UseVisualStyleBackColor = true;
-            this.BUT_follow_me.Click += new System.EventHandler(this.BUT_follow_me_Click);
-            // 
-            // BUT_georefimage
-            // 
-            resources.ApplyResources(this.BUT_georefimage, "BUT_georefimage");
-            this.BUT_georefimage.Name = "BUT_georefimage";
-            this.BUT_georefimage.Click += new System.EventHandler(this.BUT_georefimage_Click);
-            // 
-            // BUT_lang_edit
-            // 
-            resources.ApplyResources(this.BUT_lang_edit, "BUT_lang_edit");
-            this.BUT_lang_edit.Name = "BUT_lang_edit";
-            this.BUT_lang_edit.UseVisualStyleBackColor = true;
-            this.BUT_lang_edit.Click += new System.EventHandler(this.BUT_lang_edit_Click);
-            // 
-            // BUT_clearcustommaps
-            // 
-            resources.ApplyResources(this.BUT_clearcustommaps, "BUT_clearcustommaps");
-            this.BUT_clearcustommaps.Name = "BUT_clearcustommaps";
-            this.BUT_clearcustommaps.UseVisualStyleBackColor = true;
-            this.BUT_clearcustommaps.Click += new System.EventHandler(this.BUT_clearcustommaps_Click);
-            // 
-            // BUT_geinjection
-            // 
-            resources.ApplyResources(this.BUT_geinjection, "BUT_geinjection");
-            this.BUT_geinjection.Name = "BUT_geinjection";
-            this.BUT_geinjection.UseVisualStyleBackColor = true;
-            this.BUT_geinjection.Click += new System.EventHandler(this.BUT_geinjection_Click);
-            // 
-            // BUT_swarm
-            // 
-            resources.ApplyResources(this.BUT_swarm, "BUT_swarm");
-            this.BUT_swarm.Name = "BUT_swarm";
-            this.BUT_swarm.UseVisualStyleBackColor = true;
-            this.BUT_swarm.Click += new System.EventHandler(this.BUT_swarm_Click);
-            // 
-            // BUT_outputnmea
-            // 
-            resources.ApplyResources(this.BUT_outputnmea, "BUT_outputnmea");
-            this.BUT_outputnmea.Name = "BUT_outputnmea";
-            this.BUT_outputnmea.UseVisualStyleBackColor = true;
-            this.BUT_outputnmea.Click += new System.EventHandler(this.BUT_outputnmea_Click);
-            // 
-            // BUT_outputMavlink
-            // 
-            resources.ApplyResources(this.BUT_outputMavlink, "BUT_outputMavlink");
-            this.BUT_outputMavlink.Name = "BUT_outputMavlink";
-            this.BUT_outputMavlink.UseVisualStyleBackColor = true;
-            this.BUT_outputMavlink.Click += new System.EventHandler(this.BUT_outputMavlink_Click);
-            // 
-            // BUT_followleader
-            // 
-            resources.ApplyResources(this.BUT_followleader, "BUT_followleader");
-            this.BUT_followleader.Name = "BUT_followleader";
-            this.BUT_followleader.UseVisualStyleBackColor = true;
-            this.BUT_followleader.Click += new System.EventHandler(this.BUT_followleader_Click);
-            // 
-            // BUT_sorttlogs
-            // 
-            resources.ApplyResources(this.BUT_sorttlogs, "BUT_sorttlogs");
-            this.BUT_sorttlogs.Name = "BUT_sorttlogs";
-            this.BUT_sorttlogs.UseVisualStyleBackColor = true;
-            this.BUT_sorttlogs.Click += new System.EventHandler(this.BUT_sorttlogs_Click);
-            // 
-            // BUT_movingbase
-            // 
-            resources.ApplyResources(this.BUT_movingbase, "BUT_movingbase");
-            this.BUT_movingbase.Name = "BUT_movingbase";
-            this.BUT_movingbase.UseVisualStyleBackColor = true;
-            this.BUT_movingbase.Click += new System.EventHandler(this.BUT_movingbase_Click);
-            // 
-            // but_getfw
-            // 
-            resources.ApplyResources(this.but_getfw, "but_getfw");
-            this.but_getfw.Name = "but_getfw";
-            this.but_getfw.UseVisualStyleBackColor = true;
-            this.but_getfw.Click += new System.EventHandler(this.but_getfw_Click);
-            // 
-            // but_mavserialport
-            // 
-            resources.ApplyResources(this.but_mavserialport, "but_mavserialport");
-            this.but_mavserialport.Name = "but_mavserialport";
-            this.but_mavserialport.UseVisualStyleBackColor = true;
-            this.but_mavserialport.Click += new System.EventHandler(this.but_mavserialport_Click);
-            // 
-            // button3
-            // 
-            resources.ApplyResources(this.button3, "button3");
-            this.button3.Name = "button3";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // BUT_shptopoly
-            // 
-            resources.ApplyResources(this.BUT_shptopoly, "BUT_shptopoly");
-            this.BUT_shptopoly.Name = "BUT_shptopoly";
-            this.BUT_shptopoly.UseVisualStyleBackColor = true;
-            this.BUT_shptopoly.Click += new System.EventHandler(this.BUT_shptopoly_Click);
-            // 
-            // but_gimbaltest
-            // 
-            resources.ApplyResources(this.but_gimbaltest, "but_gimbaltest");
-            this.but_gimbaltest.Name = "but_gimbaltest";
-            this.but_gimbaltest.UseVisualStyleBackColor = true;
-            this.but_gimbaltest.Click += new System.EventHandler(this.but_gimbaltest_Click);
-            // 
-            // but_maplogs
-            // 
-            resources.ApplyResources(this.but_maplogs, "but_maplogs");
-            this.but_maplogs.Name = "but_maplogs";
-            this.but_maplogs.UseVisualStyleBackColor = true;
-            this.but_maplogs.Click += new System.EventHandler(this.but_maplogs_Click);
-            // 
-            // butlogindex
-            // 
-            resources.ApplyResources(this.butlogindex, "butlogindex");
-            this.butlogindex.Name = "butlogindex";
-            this.butlogindex.UseVisualStyleBackColor = true;
-            this.butlogindex.Click += new System.EventHandler(this.butlogindex_Click);
-            // 
-            // but_structtest
-            // 
-            resources.ApplyResources(this.but_structtest, "but_structtest");
-            this.but_structtest.Name = "but_structtest";
-            this.but_structtest.UseVisualStyleBackColor = true;
-            this.but_structtest.Click += new System.EventHandler(this.but_structtest_Click);
-            // 
-            // but_armandtakeoff
-            // 
-            resources.ApplyResources(this.but_armandtakeoff, "but_armandtakeoff");
-            this.but_armandtakeoff.Name = "but_armandtakeoff";
-            this.but_armandtakeoff.Click += new System.EventHandler(this.but_armandtakeoff_Click);
             // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
+            this.tableLayoutPanel1.Controls.Add(this.myButton3, 0, 15);
+            this.tableLayoutPanel1.Controls.Add(this.but_proximity, 2, 27);
+            this.tableLayoutPanel1.Controls.Add(this.but_followswarm, 2, 28);
+            this.tableLayoutPanel1.Controls.Add(this.label16, 3, 25);
+            this.tableLayoutPanel1.Controls.Add(this.but_lockup, 2, 10);
+            this.tableLayoutPanel1.Controls.Add(this.but_td, 2, 18);
+            this.tableLayoutPanel1.Controls.Add(this.but_gpsinj, 2, 26);
+            this.tableLayoutPanel1.Controls.Add(this.but_dem, 2, 11);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_magfit2, 0, 28);
+            this.tableLayoutPanel1.Controls.Add(this.but_GDAL, 2, 14);
+            this.tableLayoutPanel1.Controls.Add(this.myButton2, 0, 27);
+            this.tableLayoutPanel1.Controls.Add(this.but_sortlogs, 2, 13);
+            this.tableLayoutPanel1.Controls.Add(this.but_optflowcalib, 0, 26);
+            this.tableLayoutPanel1.Controls.Add(this.but_logdlscp, 2, 12);
             this.tableLayoutPanel1.Controls.Add(this.label12, 1, 11);
+            this.tableLayoutPanel1.Controls.Add(this.but_signkey, 2, 25);
+            this.tableLayoutPanel1.Controls.Add(this.but_acbarohight, 2, 9);
+            this.tableLayoutPanel1.Controls.Add(this.myButton1, 2, 24);
+            this.tableLayoutPanel1.Controls.Add(this.but_driverclean, 2, 1);
+            this.tableLayoutPanel1.Controls.Add(this.but_agemapdata, 2, 23);
+            this.tableLayoutPanel1.Controls.Add(this.but_packetbytes, 2, 8);
+            this.tableLayoutPanel1.Controls.Add(this.myButton_vlc, 2, 22);
             this.tableLayoutPanel1.Controls.Add(this.label22, 1, 21);
+            this.tableLayoutPanel1.Controls.Add(this.but_trimble, 2, 21);
+            this.tableLayoutPanel1.Controls.Add(this.but_hwids, 2, 7);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_QNH, 2, 20);
+            this.tableLayoutPanel1.Controls.Add(this.but_reboot, 2, 19);
+            this.tableLayoutPanel1.Controls.Add(this.but_3dmap, 2, 6);
+            this.tableLayoutPanel1.Controls.Add(this.but_messageinterval, 2, 3);
+            this.tableLayoutPanel1.Controls.Add(this.but_blupdate, 2, 5);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_fft, 2, 17);
+            this.tableLayoutPanel1.Controls.Add(this.but_disablearmswitch, 2, 2);
+            this.tableLayoutPanel1.Controls.Add(this.but_injectgps, 2, 16);
+            this.tableLayoutPanel1.Controls.Add(this.but_mavinspector, 2, 4);
+            this.tableLayoutPanel1.Controls.Add(this.but_sitl_comb, 2, 15);
             this.tableLayoutPanel1.Controls.Add(this.but_anonlog, 0, 11);
             this.tableLayoutPanel1.Controls.Add(this.but_dashware, 0, 21);
             this.tableLayoutPanel1.Controls.Add(this.label26, 1, 25);
@@ -332,15 +205,190 @@
             this.tableLayoutPanel1.Controls.Add(this.but_mavserialport, 0, 14);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
+            // but_lockup
+            // 
+            resources.ApplyResources(this.but_lockup, "but_lockup");
+            this.but_lockup.Name = "but_lockup";
+            this.but_lockup.UseVisualStyleBackColor = true;
+            this.but_lockup.Click += new System.EventHandler(this.but_lockup_Click);
+            // 
+            // but_td
+            // 
+            resources.ApplyResources(this.but_td, "but_td");
+            this.but_td.Name = "but_td";
+            this.but_td.UseVisualStyleBackColor = true;
+            this.but_td.Click += new System.EventHandler(this.but_td_Click);
+            // 
+            // but_dem
+            // 
+            resources.ApplyResources(this.but_dem, "but_dem");
+            this.but_dem.Name = "but_dem";
+            this.but_dem.UseVisualStyleBackColor = true;
+            this.but_dem.Click += new System.EventHandler(this.but_dem_Click);
+            // 
+            // but_GDAL
+            // 
+            resources.ApplyResources(this.but_GDAL, "but_GDAL");
+            this.but_GDAL.Name = "but_GDAL";
+            this.but_GDAL.UseVisualStyleBackColor = true;
+            this.but_GDAL.Click += new System.EventHandler(this.but_GDAL_Click);
+            // 
+            // but_sortlogs
+            // 
+            resources.ApplyResources(this.but_sortlogs, "but_sortlogs");
+            this.but_sortlogs.Name = "but_sortlogs";
+            this.but_sortlogs.UseVisualStyleBackColor = true;
+            this.but_sortlogs.Click += new System.EventHandler(this.but_sortlogs_Click);
+            // 
+            // but_logdlscp
+            // 
+            resources.ApplyResources(this.but_logdlscp, "but_logdlscp");
+            this.but_logdlscp.Name = "but_logdlscp";
+            this.but_logdlscp.UseVisualStyleBackColor = true;
+            this.but_logdlscp.Click += new System.EventHandler(this.but_logdlscp_Click);
+            // 
             // label12
             // 
             resources.ApplyResources(this.label12, "label12");
             this.label12.Name = "label12";
             // 
+            // but_signkey
+            // 
+            resources.ApplyResources(this.but_signkey, "but_signkey");
+            this.but_signkey.Name = "but_signkey";
+            this.but_signkey.UseVisualStyleBackColor = true;
+            this.but_signkey.Click += new System.EventHandler(this.but_signkey_Click);
+            // 
+            // but_acbarohight
+            // 
+            resources.ApplyResources(this.but_acbarohight, "but_acbarohight");
+            this.but_acbarohight.Name = "but_acbarohight";
+            this.but_acbarohight.UseVisualStyleBackColor = true;
+            this.but_acbarohight.Click += new System.EventHandler(this.but_acbarohight_Click);
+            // 
+            // myButton1
+            // 
+            resources.ApplyResources(this.myButton1, "myButton1");
+            this.myButton1.Name = "myButton1";
+            this.myButton1.UseVisualStyleBackColor = true;
+            this.myButton1.Click += new System.EventHandler(this.myButton1_Click_2);
+            // 
+            // but_driverclean
+            // 
+            resources.ApplyResources(this.but_driverclean, "but_driverclean");
+            this.but_driverclean.Name = "but_driverclean";
+            this.but_driverclean.UseVisualStyleBackColor = true;
+            this.but_driverclean.Click += new System.EventHandler(this.BUT_driverclean_Click);
+            // 
+            // but_agemapdata
+            // 
+            resources.ApplyResources(this.but_agemapdata, "but_agemapdata");
+            this.but_agemapdata.Name = "but_agemapdata";
+            this.but_agemapdata.UseVisualStyleBackColor = true;
+            this.but_agemapdata.Click += new System.EventHandler(this.but_agemapdata_Click);
+            // 
+            // but_packetbytes
+            // 
+            resources.ApplyResources(this.but_packetbytes, "but_packetbytes");
+            this.but_packetbytes.Name = "but_packetbytes";
+            this.but_packetbytes.UseVisualStyleBackColor = true;
+            this.but_packetbytes.Click += new System.EventHandler(this.but_packetbytes_Click);
+            // 
+            // myButton_vlc
+            // 
+            resources.ApplyResources(this.myButton_vlc, "myButton_vlc");
+            this.myButton_vlc.Name = "myButton_vlc";
+            this.myButton_vlc.UseVisualStyleBackColor = true;
+            this.myButton_vlc.Click += new System.EventHandler(this.myButton_vlc_Click);
+            // 
             // label22
             // 
             resources.ApplyResources(this.label22, "label22");
             this.label22.Name = "label22";
+            // 
+            // but_trimble
+            // 
+            resources.ApplyResources(this.but_trimble, "but_trimble");
+            this.but_trimble.Name = "but_trimble";
+            this.but_trimble.UseVisualStyleBackColor = true;
+            this.but_trimble.Click += new System.EventHandler(this.but_trimble_Click);
+            // 
+            // but_hwids
+            // 
+            resources.ApplyResources(this.but_hwids, "but_hwids");
+            this.but_hwids.Name = "but_hwids";
+            this.but_hwids.UseVisualStyleBackColor = true;
+            this.but_hwids.Click += new System.EventHandler(this.but_hwids_Click);
+            // 
+            // BUT_QNH
+            // 
+            resources.ApplyResources(this.BUT_QNH, "BUT_QNH");
+            this.BUT_QNH.Name = "BUT_QNH";
+            this.BUT_QNH.UseVisualStyleBackColor = true;
+            this.BUT_QNH.Click += new System.EventHandler(this.BUT_QNH_Click);
+            // 
+            // but_reboot
+            // 
+            resources.ApplyResources(this.but_reboot, "but_reboot");
+            this.but_reboot.Name = "but_reboot";
+            this.but_reboot.UseVisualStyleBackColor = true;
+            this.but_reboot.Click += new System.EventHandler(this.but_reboot_Click);
+            // 
+            // but_3dmap
+            // 
+            resources.ApplyResources(this.but_3dmap, "but_3dmap");
+            this.but_3dmap.Name = "but_3dmap";
+            this.but_3dmap.UseVisualStyleBackColor = true;
+            this.but_3dmap.Click += new System.EventHandler(this.but_3dmap_Click);
+            // 
+            // but_messageinterval
+            // 
+            resources.ApplyResources(this.but_messageinterval, "but_messageinterval");
+            this.but_messageinterval.Name = "but_messageinterval";
+            this.but_messageinterval.UseVisualStyleBackColor = true;
+            this.but_messageinterval.Click += new System.EventHandler(this.but_messageinterval_Click);
+            // 
+            // but_blupdate
+            // 
+            resources.ApplyResources(this.but_blupdate, "but_blupdate");
+            this.but_blupdate.Name = "but_blupdate";
+            this.but_blupdate.UseVisualStyleBackColor = true;
+            this.but_blupdate.Click += new System.EventHandler(this.but_blupdate_Click);
+            // 
+            // BUT_fft
+            // 
+            resources.ApplyResources(this.BUT_fft, "BUT_fft");
+            this.BUT_fft.Name = "BUT_fft";
+            this.BUT_fft.UseVisualStyleBackColor = true;
+            this.BUT_fft.Click += new System.EventHandler(this.BUT_fft_Click);
+            // 
+            // but_disablearmswitch
+            // 
+            resources.ApplyResources(this.but_disablearmswitch, "but_disablearmswitch");
+            this.but_disablearmswitch.Name = "but_disablearmswitch";
+            this.but_disablearmswitch.UseVisualStyleBackColor = true;
+            this.but_disablearmswitch.Click += new System.EventHandler(this.but_disablearmswitch_Click);
+            // 
+            // but_injectgps
+            // 
+            resources.ApplyResources(this.but_injectgps, "but_injectgps");
+            this.but_injectgps.Name = "but_injectgps";
+            this.but_injectgps.UseVisualStyleBackColor = true;
+            this.but_injectgps.Click += new System.EventHandler(this.but_injectgps_Click);
+            // 
+            // but_mavinspector
+            // 
+            resources.ApplyResources(this.but_mavinspector, "but_mavinspector");
+            this.but_mavinspector.Name = "but_mavinspector";
+            this.but_mavinspector.UseVisualStyleBackColor = true;
+            this.but_mavinspector.Click += new System.EventHandler(this.but_mavinspector_Click);
+            // 
+            // but_sitl_comb
+            // 
+            resources.ApplyResources(this.but_sitl_comb, "but_sitl_comb");
+            this.but_sitl_comb.Name = "but_sitl_comb";
+            this.but_sitl_comb.UseVisualStyleBackColor = true;
+            this.but_sitl_comb.Click += new System.EventHandler(this.but_sitl_comb_Click);
             // 
             // but_anonlog
             // 
@@ -396,10 +444,44 @@
             resources.ApplyResources(this.label18, "label18");
             this.label18.Name = "label18";
             // 
+            // butlogindex
+            // 
+            resources.ApplyResources(this.butlogindex, "butlogindex");
+            this.butlogindex.Name = "butlogindex";
+            this.butlogindex.UseVisualStyleBackColor = true;
+            this.butlogindex.Click += new System.EventHandler(this.butlogindex_Click);
+            // 
+            // but_armandtakeoff
+            // 
+            resources.ApplyResources(this.but_armandtakeoff, "but_armandtakeoff");
+            this.but_armandtakeoff.Name = "but_armandtakeoff";
+            this.but_armandtakeoff.Click += new System.EventHandler(this.but_armandtakeoff_Click);
+            // 
+            // but_maplogs
+            // 
+            resources.ApplyResources(this.but_maplogs, "but_maplogs");
+            this.but_maplogs.Name = "but_maplogs";
+            this.but_maplogs.UseVisualStyleBackColor = true;
+            this.but_maplogs.Click += new System.EventHandler(this.but_maplogs_Click);
+            // 
             // label17
             // 
             resources.ApplyResources(this.label17, "label17");
             this.label17.Name = "label17";
+            // 
+            // but_gimbaltest
+            // 
+            resources.ApplyResources(this.but_gimbaltest, "but_gimbaltest");
+            this.but_gimbaltest.Name = "but_gimbaltest";
+            this.but_gimbaltest.UseVisualStyleBackColor = true;
+            this.but_gimbaltest.Click += new System.EventHandler(this.but_gimbaltest_Click);
+            // 
+            // but_structtest
+            // 
+            resources.ApplyResources(this.but_structtest, "but_structtest");
+            this.but_structtest.Name = "but_structtest";
+            this.but_structtest.UseVisualStyleBackColor = true;
+            this.but_structtest.Click += new System.EventHandler(this.but_structtest_Click);
             // 
             // label15
             // 
@@ -431,6 +513,27 @@
             resources.ApplyResources(this.label9, "label9");
             this.label9.Name = "label9";
             // 
+            // BUT_clearcustommaps
+            // 
+            resources.ApplyResources(this.BUT_clearcustommaps, "BUT_clearcustommaps");
+            this.BUT_clearcustommaps.Name = "BUT_clearcustommaps";
+            this.BUT_clearcustommaps.UseVisualStyleBackColor = true;
+            this.BUT_clearcustommaps.Click += new System.EventHandler(this.BUT_clearcustommaps_Click);
+            // 
+            // but_getfw
+            // 
+            resources.ApplyResources(this.but_getfw, "but_getfw");
+            this.but_getfw.Name = "but_getfw";
+            this.but_getfw.UseVisualStyleBackColor = true;
+            this.but_getfw.Click += new System.EventHandler(this.but_getfw_Click);
+            // 
+            // BUT_geinjection
+            // 
+            resources.ApplyResources(this.BUT_geinjection, "BUT_geinjection");
+            this.BUT_geinjection.Name = "BUT_geinjection";
+            this.BUT_geinjection.UseVisualStyleBackColor = true;
+            this.BUT_geinjection.Click += new System.EventHandler(this.BUT_geinjection_Click);
+            // 
             // label8
             // 
             resources.ApplyResources(this.label8, "label8");
@@ -440,6 +543,13 @@
             // 
             resources.ApplyResources(this.label7, "label7");
             this.label7.Name = "label7";
+            // 
+            // BUT_sorttlogs
+            // 
+            resources.ApplyResources(this.BUT_sorttlogs, "BUT_sorttlogs");
+            this.BUT_sorttlogs.Name = "BUT_sorttlogs";
+            this.BUT_sorttlogs.UseVisualStyleBackColor = true;
+            this.BUT_sorttlogs.Click += new System.EventHandler(this.BUT_sorttlogs_Click);
             // 
             // label6
             // 
@@ -466,162 +576,107 @@
             resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
             // 
+            // BUT_outputMavlink
+            // 
+            resources.ApplyResources(this.BUT_outputMavlink, "BUT_outputMavlink");
+            this.BUT_outputMavlink.Name = "BUT_outputMavlink";
+            this.BUT_outputMavlink.UseVisualStyleBackColor = true;
+            this.BUT_outputMavlink.Click += new System.EventHandler(this.BUT_outputMavlink_Click);
+            // 
+            // BUT_outputMD
+            // 
+            resources.ApplyResources(this.BUT_outputMD, "BUT_outputMD");
+            this.BUT_outputMD.Name = "BUT_outputMD";
+            this.BUT_outputMD.UseVisualStyleBackColor = true;
+            this.BUT_outputMD.Click += new System.EventHandler(this.myButton1_Click);
+            // 
+            // BUT_outputnmea
+            // 
+            resources.ApplyResources(this.BUT_outputnmea, "BUT_outputnmea");
+            this.BUT_outputnmea.Name = "BUT_outputnmea";
+            this.BUT_outputnmea.UseVisualStyleBackColor = true;
+            this.BUT_outputnmea.Click += new System.EventHandler(this.BUT_outputnmea_Click);
+            // 
+            // BUT_georefimage
+            // 
+            resources.ApplyResources(this.BUT_georefimage, "BUT_georefimage");
+            this.BUT_georefimage.Name = "BUT_georefimage";
+            this.BUT_georefimage.Click += new System.EventHandler(this.BUT_georefimage_Click);
+            // 
+            // button3
+            // 
+            resources.ApplyResources(this.button3, "button3");
+            this.button3.Name = "button3";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // BUT_lang_edit
+            // 
+            resources.ApplyResources(this.BUT_lang_edit, "BUT_lang_edit");
+            this.BUT_lang_edit.Name = "BUT_lang_edit";
+            this.BUT_lang_edit.UseVisualStyleBackColor = true;
+            this.BUT_lang_edit.Click += new System.EventHandler(this.BUT_lang_edit_Click);
+            // 
+            // BUT_follow_me
+            // 
+            resources.ApplyResources(this.BUT_follow_me, "BUT_follow_me");
+            this.BUT_follow_me.Name = "BUT_follow_me";
+            this.BUT_follow_me.UseVisualStyleBackColor = true;
+            this.BUT_follow_me.Click += new System.EventHandler(this.BUT_follow_me_Click);
+            // 
+            // BUT_paramgen
+            // 
+            resources.ApplyResources(this.BUT_paramgen, "BUT_paramgen");
+            this.BUT_paramgen.Name = "BUT_paramgen";
+            this.BUT_paramgen.UseVisualStyleBackColor = true;
+            this.BUT_paramgen.Click += new System.EventHandler(this.BUT_paramgen_Click);
+            // 
+            // but_osdvideo
+            // 
+            resources.ApplyResources(this.but_osdvideo, "but_osdvideo");
+            this.but_osdvideo.Name = "but_osdvideo";
+            this.but_osdvideo.UseVisualStyleBackColor = true;
+            this.but_osdvideo.Click += new System.EventHandler(this.but_osdvideo_Click);
+            // 
+            // BUT_movingbase
+            // 
+            resources.ApplyResources(this.BUT_movingbase, "BUT_movingbase");
+            this.BUT_movingbase.Name = "BUT_movingbase";
+            this.BUT_movingbase.UseVisualStyleBackColor = true;
+            this.BUT_movingbase.Click += new System.EventHandler(this.BUT_movingbase_Click);
+            // 
+            // BUT_shptopoly
+            // 
+            resources.ApplyResources(this.BUT_shptopoly, "BUT_shptopoly");
+            this.BUT_shptopoly.Name = "BUT_shptopoly";
+            this.BUT_shptopoly.UseVisualStyleBackColor = true;
+            this.BUT_shptopoly.Click += new System.EventHandler(this.BUT_shptopoly_Click);
+            // 
+            // BUT_swarm
+            // 
+            resources.ApplyResources(this.BUT_swarm, "BUT_swarm");
+            this.BUT_swarm.Name = "BUT_swarm";
+            this.BUT_swarm.UseVisualStyleBackColor = true;
+            this.BUT_swarm.Click += new System.EventHandler(this.BUT_swarm_Click);
+            // 
+            // BUT_followleader
+            // 
+            resources.ApplyResources(this.BUT_followleader, "BUT_followleader");
+            this.BUT_followleader.Name = "BUT_followleader";
+            this.BUT_followleader.UseVisualStyleBackColor = true;
+            this.BUT_followleader.Click += new System.EventHandler(this.BUT_followleader_Click);
+            // 
             // label1
             // 
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
             // 
-            // but_sitl_comb
+            // but_mavserialport
             // 
-            resources.ApplyResources(this.but_sitl_comb, "but_sitl_comb");
-            this.but_sitl_comb.Name = "but_sitl_comb";
-            this.but_sitl_comb.UseVisualStyleBackColor = true;
-            this.but_sitl_comb.Click += new System.EventHandler(this.but_sitl_comb_Click);
-            // 
-            // but_injectgps
-            // 
-            resources.ApplyResources(this.but_injectgps, "but_injectgps");
-            this.but_injectgps.Name = "but_injectgps";
-            this.but_injectgps.UseVisualStyleBackColor = true;
-            this.but_injectgps.Click += new System.EventHandler(this.but_injectgps_Click);
-            // 
-            // BUT_fft
-            // 
-            resources.ApplyResources(this.BUT_fft, "BUT_fft");
-            this.BUT_fft.Name = "BUT_fft";
-            this.BUT_fft.UseVisualStyleBackColor = true;
-            this.BUT_fft.Click += new System.EventHandler(this.BUT_fft_Click);
-            // 
-            // but_reboot
-            // 
-            resources.ApplyResources(this.but_reboot, "but_reboot");
-            this.but_reboot.Name = "but_reboot";
-            this.but_reboot.UseVisualStyleBackColor = true;
-            this.but_reboot.Click += new System.EventHandler(this.but_reboot_Click);
-            // 
-            // BUT_QNH
-            // 
-            resources.ApplyResources(this.BUT_QNH, "BUT_QNH");
-            this.BUT_QNH.Name = "BUT_QNH";
-            this.BUT_QNH.UseVisualStyleBackColor = true;
-            this.BUT_QNH.Click += new System.EventHandler(this.BUT_QNH_Click);
-            // 
-            // but_trimble
-            // 
-            resources.ApplyResources(this.but_trimble, "but_trimble");
-            this.but_trimble.Name = "but_trimble";
-            this.but_trimble.UseVisualStyleBackColor = true;
-            this.but_trimble.Click += new System.EventHandler(this.but_trimble_Click);
-            // 
-            // myButton_vlc
-            // 
-            resources.ApplyResources(this.myButton_vlc, "myButton_vlc");
-            this.myButton_vlc.Name = "myButton_vlc";
-            this.myButton_vlc.UseVisualStyleBackColor = true;
-            this.myButton_vlc.Click += new System.EventHandler(this.myButton_vlc_Click);
- 
-            // 
-            // but_agemapdata
-            // 
-            resources.ApplyResources(this.but_agemapdata, "but_agemapdata");
-            this.but_agemapdata.Name = "but_agemapdata";
-            this.but_agemapdata.UseVisualStyleBackColor = true;
-            this.but_agemapdata.Click += new System.EventHandler(this.but_agemapdata_Click);
-            // 
-            // myButton1
-            // 
-            resources.ApplyResources(this.myButton1, "myButton1");
-            this.myButton1.Name = "myButton1";
-            this.myButton1.UseVisualStyleBackColor = true;
-            this.myButton1.Click += new System.EventHandler(this.myButton1_Click_2);
-            // 
-            // but_signkey
-            // 
-            resources.ApplyResources(this.but_signkey, "but_signkey");
-            this.but_signkey.Name = "but_signkey";
-            this.but_signkey.UseVisualStyleBackColor = true;
-            this.but_signkey.Click += new System.EventHandler(this.but_signkey_Click);
-            // 
-            // but_optflowcalib
-            // 
-            resources.ApplyResources(this.but_optflowcalib, "but_optflowcalib");
-            this.but_optflowcalib.Name = "but_optflowcalib";
-            this.but_optflowcalib.UseVisualStyleBackColor = true;
-            this.but_optflowcalib.Click += new System.EventHandler(this.but_optflowcalib_Click);
-            // 
-            // myButton2
-            // 
-            resources.ApplyResources(this.myButton2, "myButton2");
-            this.myButton2.Name = "myButton2";
-            this.myButton2.UseVisualStyleBackColor = true;
-            this.myButton2.Click += new System.EventHandler(this.myButton2_Click);
-            // 
-            // BUT_magfit2
-            // 
-            resources.ApplyResources(this.BUT_magfit2, "BUT_magfit2");
-            this.BUT_magfit2.Name = "BUT_magfit2";
-            this.BUT_magfit2.UseVisualStyleBackColor = true;
-            this.BUT_magfit2.Click += new System.EventHandler(this.BUT_magfit2_Click);
-            // 
-            // but_gpsinj
-            // 
-            resources.ApplyResources(this.but_gpsinj, "but_gpsinj");
-            this.but_gpsinj.Name = "but_gpsinj";
-            this.but_gpsinj.UseVisualStyleBackColor = true;
-            this.but_gpsinj.Click += new System.EventHandler(this.but_gpsinj_Click);
-            // 
-            // controlSensorsStatus1
-            // 
- 
-            // 
-            // but_followswarm
-            // 
-            resources.ApplyResources(this.but_followswarm, "but_followswarm");
-            this.but_followswarm.Name = "but_followswarm";
-            this.but_followswarm.UseVisualStyleBackColor = true;
-            this.but_followswarm.Click += new System.EventHandler(this.but_followswarm_Click);
-            // 
-            // myButton3
-            // 
-            resources.ApplyResources(this.myButton3, "myButton3");
-            this.myButton3.Name = "myButton3";
-            this.myButton3.UseVisualStyleBackColor = true;
-            this.myButton3.Click += new System.EventHandler(this.myButton3_Click);
-            // 
-            // but_GDAL
-            // 
-            resources.ApplyResources(this.but_GDAL, "but_GDAL");
-            this.but_GDAL.Name = "but_GDAL";
-            this.but_GDAL.UseVisualStyleBackColor = true;
-            this.but_GDAL.Click += new System.EventHandler(this.but_GDAL_Click);
-            // 
-            // but_sortlogs
-            // 
-            resources.ApplyResources(this.but_sortlogs, "but_sortlogs");
-            this.but_sortlogs.Name = "but_sortlogs";
-            this.but_sortlogs.UseVisualStyleBackColor = true;
-            this.but_sortlogs.Click += new System.EventHandler(this.but_sortlogs_Click);
-            // 
-            // but_logdlscp
-            // 
-            resources.ApplyResources(this.but_logdlscp, "but_logdlscp");
-            this.but_logdlscp.Name = "but_logdlscp";
-            this.but_logdlscp.UseVisualStyleBackColor = true;
-            this.but_logdlscp.Click += new System.EventHandler(this.but_logdlscp_Click);
-            // 
-            // but_td
-            // 
-            resources.ApplyResources(this.but_td, "but_td");
-            this.but_td.Name = "but_td";
-            this.but_td.UseVisualStyleBackColor = true;
-            this.but_td.Click += new System.EventHandler(this.but_td_Click);
-            // 
-            // but_dem
-            // 
-            resources.ApplyResources(this.but_dem, "but_dem");
-            this.but_dem.Name = "but_dem";
-            this.but_dem.UseVisualStyleBackColor = true;
-            this.but_dem.Click += new System.EventHandler(this.but_dem_Click);
+            resources.ApplyResources(this.but_mavserialport, "but_mavserialport");
+            this.but_mavserialport.Name = "but_mavserialport";
+            this.but_mavserialport.UseVisualStyleBackColor = true;
+            this.but_mavserialport.Click += new System.EventHandler(this.but_mavserialport_Click);
             // 
             // but_proximity
             // 
@@ -630,113 +685,56 @@
             this.but_proximity.UseVisualStyleBackColor = true;
             this.but_proximity.Click += new System.EventHandler(this.but_proximity_Click);
             // 
-            // but_mavinspector
+            // myButton3
             // 
-            resources.ApplyResources(this.but_mavinspector, "but_mavinspector");
-            this.but_mavinspector.Name = "but_mavinspector";
-            this.but_mavinspector.UseVisualStyleBackColor = true;
-            this.but_mavinspector.Click += new System.EventHandler(this.but_mavinspector_Click);
+            resources.ApplyResources(this.myButton3, "myButton3");
+            this.myButton3.Name = "myButton3";
+            this.myButton3.UseVisualStyleBackColor = true;
+            this.myButton3.Click += new System.EventHandler(this.myButton3_Click);
             // 
-            // but_blupdate
+            // but_followswarm
             // 
-            resources.ApplyResources(this.but_blupdate, "but_blupdate");
-            this.but_blupdate.Name = "but_blupdate";
-            this.but_blupdate.UseVisualStyleBackColor = true;
-            this.but_blupdate.Click += new System.EventHandler(this.but_blupdate_Click);
+            resources.ApplyResources(this.but_followswarm, "but_followswarm");
+            this.but_followswarm.Name = "but_followswarm";
+            this.but_followswarm.UseVisualStyleBackColor = true;
+            this.but_followswarm.Click += new System.EventHandler(this.but_followswarm_Click);
             // 
-            // but_3dmap
+            // but_gpsinj
             // 
-            resources.ApplyResources(this.but_3dmap, "but_3dmap");
-            this.but_3dmap.Name = "but_3dmap";
-            this.but_3dmap.UseVisualStyleBackColor = true;
-            this.but_3dmap.Click += new System.EventHandler(this.but_3dmap_Click);
+            resources.ApplyResources(this.but_gpsinj, "but_gpsinj");
+            this.but_gpsinj.Name = "but_gpsinj";
+            this.but_gpsinj.UseVisualStyleBackColor = true;
+            this.but_gpsinj.Click += new System.EventHandler(this.but_gpsinj_Click);
             // 
-            // but_messageinterval
+            // BUT_magfit2
             // 
-            resources.ApplyResources(this.but_messageinterval, "but_messageinterval");
-            this.but_messageinterval.Name = "but_messageinterval";
-            this.but_messageinterval.UseVisualStyleBackColor = true;
-            this.but_messageinterval.Click += new System.EventHandler(this.but_messageinterval_Click);
+            resources.ApplyResources(this.BUT_magfit2, "BUT_magfit2");
+            this.BUT_magfit2.Name = "BUT_magfit2";
+            this.BUT_magfit2.UseVisualStyleBackColor = true;
+            this.BUT_magfit2.Click += new System.EventHandler(this.BUT_magfit2_Click);
             // 
-            // but_disablearmswitch
+            // myButton2
             // 
-            resources.ApplyResources(this.but_disablearmswitch, "but_disablearmswitch");
-            this.but_disablearmswitch.Name = "but_disablearmswitch";
-            this.but_disablearmswitch.UseVisualStyleBackColor = true;
-            this.but_disablearmswitch.Click += new System.EventHandler(this.but_disablearmswitch_Click);
+            resources.ApplyResources(this.myButton2, "myButton2");
+            this.myButton2.Name = "myButton2";
+            this.myButton2.UseVisualStyleBackColor = true;
+            this.myButton2.Click += new System.EventHandler(this.myButton2_Click);
             // 
-            // but_hwids
+            // but_optflowcalib
             // 
-            resources.ApplyResources(this.but_hwids, "but_hwids");
-            this.but_hwids.Name = "but_hwids";
-            this.but_hwids.UseVisualStyleBackColor = true;
-            this.but_hwids.Click += new System.EventHandler(this.but_hwids_Click);
+            resources.ApplyResources(this.but_optflowcalib, "but_optflowcalib");
+            this.but_optflowcalib.Name = "but_optflowcalib";
+            this.but_optflowcalib.UseVisualStyleBackColor = true;
+            this.but_optflowcalib.Click += new System.EventHandler(this.but_optflowcalib_Click);
             // 
-            // but_packetbytes
+            // label16
             // 
-            resources.ApplyResources(this.but_packetbytes, "but_packetbytes");
-            this.but_packetbytes.Name = "but_packetbytes";
-            this.but_packetbytes.UseVisualStyleBackColor = true;
-            this.but_packetbytes.Click += new System.EventHandler(this.but_packetbytes_Click);
-            // 
-            // but_acbarohight
-            // 
-            resources.ApplyResources(this.but_acbarohight, "but_acbarohight");
-            this.but_acbarohight.Name = "but_acbarohight";
-            this.but_acbarohight.UseVisualStyleBackColor = true;
-            this.but_acbarohight.Click += new System.EventHandler(this.but_acbarohight_Click);
-            // 
-            // but_stayoutest
-            // 
-            resources.ApplyResources(this.but_stayoutest, "but_stayoutest");
-            this.but_stayoutest.Name = "but_stayoutest";
-            this.but_stayoutest.UseVisualStyleBackColor = true;
-            this.but_stayoutest.Click += new System.EventHandler(this.But_stayoutest_Click);
-            // 
-            // but_driverclean
-            // 
-            resources.ApplyResources(this.but_driverclean, "but_driverclean");
-            this.but_driverclean.Name = "but_driverclean";
-            this.but_driverclean.UseVisualStyleBackColor = true;
-            this.but_driverclean.Click += new System.EventHandler(this.BUT_driverclean_Click);
+            resources.ApplyResources(this.label16, "label16");
+            this.label16.Name = "label16";
             // 
             // temp
             // 
             resources.ApplyResources(this, "$this");
-            this.Controls.Add(this.but_driverclean);
-            this.Controls.Add(this.but_stayoutest);
-            this.Controls.Add(this.but_acbarohight);
-            this.Controls.Add(this.but_packetbytes);
-            this.Controls.Add(this.but_hwids);
-            this.Controls.Add(this.but_disablearmswitch);
-            this.Controls.Add(this.but_messageinterval);
-            this.Controls.Add(this.but_3dmap);
-            this.Controls.Add(this.but_blupdate);
-            this.Controls.Add(this.but_mavinspector);
-            this.Controls.Add(this.but_proximity);
-            this.Controls.Add(this.but_dem);
-            this.Controls.Add(this.but_td);
-            this.Controls.Add(this.but_logdlscp);
-            this.Controls.Add(this.but_sortlogs);
-            this.Controls.Add(this.but_GDAL);
-            this.Controls.Add(this.myButton3);
-            this.Controls.Add(this.but_followswarm);
-            this.Controls.Add(this.but_gpsinj);
-           
-            this.Controls.Add(this.BUT_magfit2);
-            this.Controls.Add(this.myButton2);
-            this.Controls.Add(this.but_optflowcalib);
-            this.Controls.Add(this.but_signkey);
-            this.Controls.Add(this.myButton1);
-            this.Controls.Add(this.but_agemapdata);
-       
-            this.Controls.Add(this.myButton_vlc);
-            this.Controls.Add(this.but_trimble);
-            this.Controls.Add(this.BUT_QNH);
-            this.Controls.Add(this.but_reboot);
-            this.Controls.Add(this.BUT_fft);
-            this.Controls.Add(this.but_injectgps);
-            this.Controls.Add(this.but_sitl_comb);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "temp";
             this.Load += new System.EventHandler(this.temp_Load);
@@ -831,7 +829,8 @@
         private Controls.MyButton but_hwids;
         private Controls.MyButton but_packetbytes;
         private Controls.MyButton but_acbarohight;
-        private Controls.MyButton but_stayoutest;
         private Controls.MyButton but_driverclean;
+        private Controls.MyButton but_lockup;
+        private System.Windows.Forms.Label label16;
     }
 }

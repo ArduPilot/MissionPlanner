@@ -1198,5 +1198,16 @@ namespace MissionPlanner
             var fence = await mav_mission.download(MainV2.comPort, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, MAVLink.MAV_MISSION_TYPE.FENCE);
             var rally = await mav_mission.download(MainV2.comPort, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, MAVLink.MAV_MISSION_TYPE.RALLY);
         }
+
+        private void but_lockup_Click(object sender, EventArgs e)
+        {
+            if (CustomMessageBox.Show("Lockup the autopilot??? this can cause a CRASH!!!!!!",
+                    "Lockup", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == (int)DialogResult.Yes)
+                if (CustomMessageBox.Show("Lockup the autopilot??? this can cause a CRASH!!!!!!",
+                        "Lockup", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == (int) DialogResult.Yes)
+                    MainV2.comPort.doCommand(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid,
+                        MAVLink.MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN,
+                        42, 24, 71, 93, 0, 0, 0, false);
+        }
     }
 }
