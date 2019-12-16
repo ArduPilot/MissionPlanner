@@ -11,7 +11,7 @@ using MissionPlanner.Utilities;
 
 namespace MissionPlanner
 {
-    public class Common
+    public static class Common
     {
         public static GMapMarker getMAVMarker(MAVState MAV)
         {

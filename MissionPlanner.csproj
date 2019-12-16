@@ -454,6 +454,7 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigUserDefined.Designer.cs">
       <DependentUpon>ConfigUserDefined.cs</DependentUpon>
     </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Joystick\JoystickAxis.cs">
       <SubType>UserControl</SubType>
     </Compile>
