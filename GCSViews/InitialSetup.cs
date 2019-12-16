@@ -227,6 +227,8 @@ namespace MissionPlanner.GCSViews
 
             AddBackstageViewPage(typeof(ConfigFFT), "FFT Setup", isConnected, opt);
 
+            var adv = AddBackstageViewPage(typeof(ConfigAdvanced), "Advanced");
+
             // remeber last page accessed
             foreach (BackstageViewPage page in backstageView.Pages)
             {

@@ -427,6 +427,12 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigHWIDs.Designer.cs">
       <DependentUpon>ConfigHWIDs.cs</DependentUpon>
     </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigAdvanced.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigAdvanced.Designer.cs">
+      <DependentUpon>ConfigAdvanced.cs</DependentUpon>
+    </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigOSD.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -635,6 +641,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWIDs.resx">
       <DependentUpon>ConfigHWIDs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAdvanced.resx">
+      <DependentUpon>ConfigAdvanced.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigOSD.resx">
       <DependentUpon>ConfigOSD.cs</DependentUpon>

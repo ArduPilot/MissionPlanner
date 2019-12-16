@@ -29,3 +29,6 @@ dotnet_diagnostic.CA1712.severity = silent
 
 # CA1307: Specify StringComparison
 dotnet_diagnostic.CA1307.severity = suggestion
+
+# CA1815: Override equals and operator equals on value types
+dotnet_diagnostic.CA1815.severity = silent
