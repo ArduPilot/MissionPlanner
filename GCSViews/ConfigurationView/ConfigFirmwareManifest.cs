@@ -160,7 +160,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
-        private void LookForPort(APFirmware.MAV_TYPE mavtype)
+        private void LookForPort(APFirmware.MAV_TYPE mavtype, bool alloptions = false)
         {
             var ports = Win32DeviceMgmt.GetAllCOMPorts();
 
@@ -182,6 +182,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     var fwitems = APFirmware.Manifest.Firmware.Where(a =>
                         a.BoardId == devid && a.MavType == mavtype.ToString() &&
                         a.MavFirmwareVersionType == REL_Type.ToString()).ToList();
+
+                    if (alloptions)
+                        fwitems = APFirmware.Manifest.Firmware.ToList();
 
                     if (fwitems?.Count == 1)
                     {
@@ -450,6 +453,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     }
 
             mav?.Close();
+        }
+
+        private void lbl_alloptions_Click(object sender, EventArgs e)
+        {
+            LookForPort(APFirmware.MAV_TYPE.Copter, true);
         }
     }
 }
