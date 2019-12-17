@@ -30,9 +30,63 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(temp));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label26 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
+            this.label32 = new System.Windows.Forms.Label();
+            this.label33 = new System.Windows.Forms.Label();
+            this.label34 = new System.Windows.Forms.Label();
+            this.label35 = new System.Windows.Forms.Label();
+            this.label36 = new System.Windows.Forms.Label();
+            this.label37 = new System.Windows.Forms.Label();
+            this.label38 = new System.Windows.Forms.Label();
+            this.label39 = new System.Windows.Forms.Label();
+            this.label40 = new System.Windows.Forms.Label();
+            this.label41 = new System.Windows.Forms.Label();
+            this.label42 = new System.Windows.Forms.Label();
+            this.label43 = new System.Windows.Forms.Label();
+            this.label44 = new System.Windows.Forms.Label();
+            this.label45 = new System.Windows.Forms.Label();
+            this.label46 = new System.Windows.Forms.Label();
+            this.label47 = new System.Windows.Forms.Label();
+            this.label48 = new System.Windows.Forms.Label();
+            this.label49 = new System.Windows.Forms.Label();
+            this.label50 = new System.Windows.Forms.Label();
+            this.label51 = new System.Windows.Forms.Label();
+            this.label52 = new System.Windows.Forms.Label();
+            this.label53 = new System.Windows.Forms.Label();
+            this.label54 = new System.Windows.Forms.Label();
+            this.label55 = new System.Windows.Forms.Label();
             this.but_proximity = new MissionPlanner.Controls.MyButton();
             this.but_followswarm = new MissionPlanner.Controls.MyButton();
-            this.label16 = new System.Windows.Forms.Label();
             this.but_lockup = new MissionPlanner.Controls.MyButton();
             this.but_td = new MissionPlanner.Controls.MyButton();
             this.but_gpsinj = new MissionPlanner.Controls.MyButton();
@@ -43,7 +97,6 @@
             this.but_sortlogs = new MissionPlanner.Controls.MyButton();
             this.but_optflowcalib = new MissionPlanner.Controls.MyButton();
             this.but_logdlscp = new MissionPlanner.Controls.MyButton();
-            this.label12 = new System.Windows.Forms.Label();
             this.but_signkey = new MissionPlanner.Controls.MyButton();
             this.but_acbarohight = new MissionPlanner.Controls.MyButton();
             this.myButton1 = new MissionPlanner.Controls.MyButton();
@@ -51,7 +104,6 @@
             this.but_agemapdata = new MissionPlanner.Controls.MyButton();
             this.but_packetbytes = new MissionPlanner.Controls.MyButton();
             this.myButton_vlc = new MissionPlanner.Controls.MyButton();
-            this.label22 = new System.Windows.Forms.Label();
             this.but_trimble = new MissionPlanner.Controls.MyButton();
             this.but_hwids = new MissionPlanner.Controls.MyButton();
             this.BUT_QNH = new MissionPlanner.Controls.MyButton();
@@ -66,37 +118,15 @@
             this.but_sitl_comb = new MissionPlanner.Controls.MyButton();
             this.but_anonlog = new MissionPlanner.Controls.MyButton();
             this.but_dashware = new MissionPlanner.Controls.MyButton();
-            this.label26 = new System.Windows.Forms.Label();
-            this.label25 = new System.Windows.Forms.Label();
-            this.label24 = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
             this.butlogindex = new MissionPlanner.Controls.MyButton();
             this.but_armandtakeoff = new MissionPlanner.Controls.MyButton();
             this.but_maplogs = new MissionPlanner.Controls.MyButton();
-            this.label17 = new System.Windows.Forms.Label();
             this.but_gimbaltest = new MissionPlanner.Controls.MyButton();
             this.but_structtest = new MissionPlanner.Controls.MyButton();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
             this.BUT_clearcustommaps = new MissionPlanner.Controls.MyButton();
             this.but_getfw = new MissionPlanner.Controls.MyButton();
             this.BUT_geinjection = new MissionPlanner.Controls.MyButton();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.BUT_sorttlogs = new MissionPlanner.Controls.MyButton();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.BUT_outputMavlink = new MissionPlanner.Controls.MyButton();
             this.BUT_outputMD = new MissionPlanner.Controls.MyButton();
             this.BUT_outputnmea = new MissionPlanner.Controls.MyButton();
@@ -110,8 +140,8 @@
             this.BUT_shptopoly = new MissionPlanner.Controls.MyButton();
             this.BUT_swarm = new MissionPlanner.Controls.MyButton();
             this.BUT_followleader = new MissionPlanner.Controls.MyButton();
-            this.label1 = new System.Windows.Forms.Label();
             this.but_mavserialport = new MissionPlanner.Controls.MyButton();
+            this.but_hexmavlink = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -201,7 +231,312 @@
             this.tableLayoutPanel1.Controls.Add(this.BUT_followleader, 0, 13);
             this.tableLayoutPanel1.Controls.Add(this.label1, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.but_mavserialport, 0, 14);
+            this.tableLayoutPanel1.Controls.Add(this.but_hexmavlink, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.label27, 1, 28);
+            this.tableLayoutPanel1.Controls.Add(this.label28, 1, 27);
+            this.tableLayoutPanel1.Controls.Add(this.label29, 1, 26);
+            this.tableLayoutPanel1.Controls.Add(this.label30, 3, 1);
+            this.tableLayoutPanel1.Controls.Add(this.label31, 3, 2);
+            this.tableLayoutPanel1.Controls.Add(this.label32, 3, 3);
+            this.tableLayoutPanel1.Controls.Add(this.label33, 3, 4);
+            this.tableLayoutPanel1.Controls.Add(this.label34, 3, 5);
+            this.tableLayoutPanel1.Controls.Add(this.label35, 3, 6);
+            this.tableLayoutPanel1.Controls.Add(this.label36, 3, 7);
+            this.tableLayoutPanel1.Controls.Add(this.label37, 3, 8);
+            this.tableLayoutPanel1.Controls.Add(this.label38, 3, 9);
+            this.tableLayoutPanel1.Controls.Add(this.label39, 3, 10);
+            this.tableLayoutPanel1.Controls.Add(this.label40, 3, 11);
+            this.tableLayoutPanel1.Controls.Add(this.label41, 3, 12);
+            this.tableLayoutPanel1.Controls.Add(this.label42, 3, 13);
+            this.tableLayoutPanel1.Controls.Add(this.label43, 3, 14);
+            this.tableLayoutPanel1.Controls.Add(this.label44, 3, 16);
+            this.tableLayoutPanel1.Controls.Add(this.label45, 3, 17);
+            this.tableLayoutPanel1.Controls.Add(this.label46, 3, 18);
+            this.tableLayoutPanel1.Controls.Add(this.label47, 3, 19);
+            this.tableLayoutPanel1.Controls.Add(this.label48, 3, 20);
+            this.tableLayoutPanel1.Controls.Add(this.label49, 3, 21);
+            this.tableLayoutPanel1.Controls.Add(this.label50, 3, 22);
+            this.tableLayoutPanel1.Controls.Add(this.label51, 3, 23);
+            this.tableLayoutPanel1.Controls.Add(this.label52, 3, 24);
+            this.tableLayoutPanel1.Controls.Add(this.label53, 3, 26);
+            this.tableLayoutPanel1.Controls.Add(this.label54, 3, 27);
+            this.tableLayoutPanel1.Controls.Add(this.label55, 3, 28);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            // 
+            // label16
+            // 
+            resources.ApplyResources(this.label16, "label16");
+            this.label16.Name = "label16";
+            // 
+            // label12
+            // 
+            resources.ApplyResources(this.label12, "label12");
+            this.label12.Name = "label12";
+            // 
+            // label22
+            // 
+            resources.ApplyResources(this.label22, "label22");
+            this.label22.Name = "label22";
+            // 
+            // label26
+            // 
+            resources.ApplyResources(this.label26, "label26");
+            this.label26.Name = "label26";
+            // 
+            // label25
+            // 
+            resources.ApplyResources(this.label25, "label25");
+            this.label25.Name = "label25";
+            // 
+            // label24
+            // 
+            resources.ApplyResources(this.label24, "label24");
+            this.label24.Name = "label24";
+            // 
+            // label23
+            // 
+            resources.ApplyResources(this.label23, "label23");
+            this.label23.Name = "label23";
+            // 
+            // label21
+            // 
+            resources.ApplyResources(this.label21, "label21");
+            this.label21.Name = "label21";
+            // 
+            // label20
+            // 
+            resources.ApplyResources(this.label20, "label20");
+            this.label20.Name = "label20";
+            // 
+            // label19
+            // 
+            resources.ApplyResources(this.label19, "label19");
+            this.label19.Name = "label19";
+            // 
+            // label18
+            // 
+            resources.ApplyResources(this.label18, "label18");
+            this.label18.Name = "label18";
+            // 
+            // label17
+            // 
+            resources.ApplyResources(this.label17, "label17");
+            this.label17.Name = "label17";
+            // 
+            // label15
+            // 
+            resources.ApplyResources(this.label15, "label15");
+            this.label15.Name = "label15";
+            // 
+            // label14
+            // 
+            resources.ApplyResources(this.label14, "label14");
+            this.label14.Name = "label14";
+            // 
+            // label13
+            // 
+            resources.ApplyResources(this.label13, "label13");
+            this.label13.Name = "label13";
+            // 
+            // label11
+            // 
+            resources.ApplyResources(this.label11, "label11");
+            this.label11.Name = "label11";
+            // 
+            // label10
+            // 
+            resources.ApplyResources(this.label10, "label10");
+            this.label10.Name = "label10";
+            // 
+            // label9
+            // 
+            resources.ApplyResources(this.label9, "label9");
+            this.label9.Name = "label9";
+            // 
+            // label8
+            // 
+            resources.ApplyResources(this.label8, "label8");
+            this.label8.Name = "label8";
+            // 
+            // label7
+            // 
+            resources.ApplyResources(this.label7, "label7");
+            this.label7.Name = "label7";
+            // 
+            // label6
+            // 
+            resources.ApplyResources(this.label6, "label6");
+            this.label6.Name = "label6";
+            // 
+            // label5
+            // 
+            resources.ApplyResources(this.label5, "label5");
+            this.label5.Name = "label5";
+            // 
+            // label4
+            // 
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.Name = "label4";
+            // 
+            // label3
+            // 
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.Name = "label3";
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
+            // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
+            // 
+            // label27
+            // 
+            resources.ApplyResources(this.label27, "label27");
+            this.label27.Name = "label27";
+            // 
+            // label28
+            // 
+            resources.ApplyResources(this.label28, "label28");
+            this.label28.Name = "label28";
+            // 
+            // label29
+            // 
+            resources.ApplyResources(this.label29, "label29");
+            this.label29.Name = "label29";
+            // 
+            // label30
+            // 
+            resources.ApplyResources(this.label30, "label30");
+            this.label30.Name = "label30";
+            // 
+            // label31
+            // 
+            resources.ApplyResources(this.label31, "label31");
+            this.label31.Name = "label31";
+            // 
+            // label32
+            // 
+            resources.ApplyResources(this.label32, "label32");
+            this.label32.Name = "label32";
+            // 
+            // label33
+            // 
+            resources.ApplyResources(this.label33, "label33");
+            this.label33.Name = "label33";
+            // 
+            // label34
+            // 
+            resources.ApplyResources(this.label34, "label34");
+            this.label34.Name = "label34";
+            // 
+            // label35
+            // 
+            resources.ApplyResources(this.label35, "label35");
+            this.label35.Name = "label35";
+            // 
+            // label36
+            // 
+            resources.ApplyResources(this.label36, "label36");
+            this.label36.Name = "label36";
+            // 
+            // label37
+            // 
+            resources.ApplyResources(this.label37, "label37");
+            this.label37.Name = "label37";
+            // 
+            // label38
+            // 
+            resources.ApplyResources(this.label38, "label38");
+            this.label38.Name = "label38";
+            // 
+            // label39
+            // 
+            resources.ApplyResources(this.label39, "label39");
+            this.label39.Name = "label39";
+            // 
+            // label40
+            // 
+            resources.ApplyResources(this.label40, "label40");
+            this.label40.Name = "label40";
+            // 
+            // label41
+            // 
+            resources.ApplyResources(this.label41, "label41");
+            this.label41.Name = "label41";
+            // 
+            // label42
+            // 
+            resources.ApplyResources(this.label42, "label42");
+            this.label42.Name = "label42";
+            // 
+            // label43
+            // 
+            resources.ApplyResources(this.label43, "label43");
+            this.label43.Name = "label43";
+            // 
+            // label44
+            // 
+            resources.ApplyResources(this.label44, "label44");
+            this.label44.Name = "label44";
+            // 
+            // label45
+            // 
+            resources.ApplyResources(this.label45, "label45");
+            this.label45.Name = "label45";
+            // 
+            // label46
+            // 
+            resources.ApplyResources(this.label46, "label46");
+            this.label46.Name = "label46";
+            // 
+            // label47
+            // 
+            resources.ApplyResources(this.label47, "label47");
+            this.label47.Name = "label47";
+            // 
+            // label48
+            // 
+            resources.ApplyResources(this.label48, "label48");
+            this.label48.Name = "label48";
+            // 
+            // label49
+            // 
+            resources.ApplyResources(this.label49, "label49");
+            this.label49.Name = "label49";
+            // 
+            // label50
+            // 
+            resources.ApplyResources(this.label50, "label50");
+            this.label50.Name = "label50";
+            // 
+            // label51
+            // 
+            resources.ApplyResources(this.label51, "label51");
+            this.label51.Name = "label51";
+            // 
+            // label52
+            // 
+            resources.ApplyResources(this.label52, "label52");
+            this.label52.Name = "label52";
+            // 
+            // label53
+            // 
+            resources.ApplyResources(this.label53, "label53");
+            this.label53.Name = "label53";
+            // 
+            // label54
+            // 
+            resources.ApplyResources(this.label54, "label54");
+            this.label54.Name = "label54";
+            // 
+            // label55
+            // 
+            resources.ApplyResources(this.label55, "label55");
+            this.label55.Name = "label55";
             // 
             // but_proximity
             // 
@@ -216,11 +551,6 @@
             this.but_followswarm.Name = "but_followswarm";
             this.but_followswarm.UseVisualStyleBackColor = true;
             this.but_followswarm.Click += new System.EventHandler(this.but_followswarm_Click);
-            // 
-            // label16
-            // 
-            resources.ApplyResources(this.label16, "label16");
-            this.label16.Name = "label16";
             // 
             // but_lockup
             // 
@@ -292,11 +622,6 @@
             this.but_logdlscp.UseVisualStyleBackColor = true;
             this.but_logdlscp.Click += new System.EventHandler(this.but_logdlscp_Click);
             // 
-            // label12
-            // 
-            resources.ApplyResources(this.label12, "label12");
-            this.label12.Name = "label12";
-            // 
             // but_signkey
             // 
             resources.ApplyResources(this.but_signkey, "but_signkey");
@@ -345,11 +670,6 @@
             this.myButton_vlc.Name = "myButton_vlc";
             this.myButton_vlc.UseVisualStyleBackColor = true;
             this.myButton_vlc.Click += new System.EventHandler(this.myButton_vlc_Click);
-            // 
-            // label22
-            // 
-            resources.ApplyResources(this.label22, "label22");
-            this.label22.Name = "label22";
             // 
             // but_trimble
             // 
@@ -449,46 +769,6 @@
             this.but_dashware.UseVisualStyleBackColor = true;
             this.but_dashware.Click += new System.EventHandler(this.but_dashware_Click);
             // 
-            // label26
-            // 
-            resources.ApplyResources(this.label26, "label26");
-            this.label26.Name = "label26";
-            // 
-            // label25
-            // 
-            resources.ApplyResources(this.label25, "label25");
-            this.label25.Name = "label25";
-            // 
-            // label24
-            // 
-            resources.ApplyResources(this.label24, "label24");
-            this.label24.Name = "label24";
-            // 
-            // label23
-            // 
-            resources.ApplyResources(this.label23, "label23");
-            this.label23.Name = "label23";
-            // 
-            // label21
-            // 
-            resources.ApplyResources(this.label21, "label21");
-            this.label21.Name = "label21";
-            // 
-            // label20
-            // 
-            resources.ApplyResources(this.label20, "label20");
-            this.label20.Name = "label20";
-            // 
-            // label19
-            // 
-            resources.ApplyResources(this.label19, "label19");
-            this.label19.Name = "label19";
-            // 
-            // label18
-            // 
-            resources.ApplyResources(this.label18, "label18");
-            this.label18.Name = "label18";
-            // 
             // butlogindex
             // 
             resources.ApplyResources(this.butlogindex, "butlogindex");
@@ -509,11 +789,6 @@
             this.but_maplogs.UseVisualStyleBackColor = true;
             this.but_maplogs.Click += new System.EventHandler(this.but_maplogs_Click);
             // 
-            // label17
-            // 
-            resources.ApplyResources(this.label17, "label17");
-            this.label17.Name = "label17";
-            // 
             // but_gimbaltest
             // 
             resources.ApplyResources(this.but_gimbaltest, "but_gimbaltest");
@@ -527,36 +802,6 @@
             this.but_structtest.Name = "but_structtest";
             this.but_structtest.UseVisualStyleBackColor = true;
             this.but_structtest.Click += new System.EventHandler(this.but_structtest_Click);
-            // 
-            // label15
-            // 
-            resources.ApplyResources(this.label15, "label15");
-            this.label15.Name = "label15";
-            // 
-            // label14
-            // 
-            resources.ApplyResources(this.label14, "label14");
-            this.label14.Name = "label14";
-            // 
-            // label13
-            // 
-            resources.ApplyResources(this.label13, "label13");
-            this.label13.Name = "label13";
-            // 
-            // label11
-            // 
-            resources.ApplyResources(this.label11, "label11");
-            this.label11.Name = "label11";
-            // 
-            // label10
-            // 
-            resources.ApplyResources(this.label10, "label10");
-            this.label10.Name = "label10";
-            // 
-            // label9
-            // 
-            resources.ApplyResources(this.label9, "label9");
-            this.label9.Name = "label9";
             // 
             // BUT_clearcustommaps
             // 
@@ -579,47 +824,12 @@
             this.BUT_geinjection.UseVisualStyleBackColor = true;
             this.BUT_geinjection.Click += new System.EventHandler(this.BUT_geinjection_Click);
             // 
-            // label8
-            // 
-            resources.ApplyResources(this.label8, "label8");
-            this.label8.Name = "label8";
-            // 
-            // label7
-            // 
-            resources.ApplyResources(this.label7, "label7");
-            this.label7.Name = "label7";
-            // 
             // BUT_sorttlogs
             // 
             resources.ApplyResources(this.BUT_sorttlogs, "BUT_sorttlogs");
             this.BUT_sorttlogs.Name = "BUT_sorttlogs";
             this.BUT_sorttlogs.UseVisualStyleBackColor = true;
             this.BUT_sorttlogs.Click += new System.EventHandler(this.BUT_sorttlogs_Click);
-            // 
-            // label6
-            // 
-            resources.ApplyResources(this.label6, "label6");
-            this.label6.Name = "label6";
-            // 
-            // label5
-            // 
-            resources.ApplyResources(this.label5, "label5");
-            this.label5.Name = "label5";
-            // 
-            // label4
-            // 
-            resources.ApplyResources(this.label4, "label4");
-            this.label4.Name = "label4";
-            // 
-            // label3
-            // 
-            resources.ApplyResources(this.label3, "label3");
-            this.label3.Name = "label3";
-            // 
-            // label2
-            // 
-            resources.ApplyResources(this.label2, "label2");
-            this.label2.Name = "label2";
             // 
             // BUT_outputMavlink
             // 
@@ -711,17 +921,19 @@
             this.BUT_followleader.UseVisualStyleBackColor = true;
             this.BUT_followleader.Click += new System.EventHandler(this.BUT_followleader_Click);
             // 
-            // label1
-            // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
-            // 
             // but_mavserialport
             // 
             resources.ApplyResources(this.but_mavserialport, "but_mavserialport");
             this.but_mavserialport.Name = "but_mavserialport";
             this.but_mavserialport.UseVisualStyleBackColor = true;
             this.but_mavserialport.Click += new System.EventHandler(this.but_mavserialport_Click);
+            // 
+            // but_hexmavlink
+            // 
+            resources.ApplyResources(this.but_hexmavlink, "but_hexmavlink");
+            this.but_hexmavlink.Name = "but_hexmavlink";
+            this.but_hexmavlink.UseVisualStyleBackColor = true;
+            this.but_hexmavlink.Click += new System.EventHandler(this.but_hexmavlink_Click);
             // 
             // temp
             // 
@@ -822,5 +1034,35 @@
         private Controls.MyButton but_driverclean;
         private Controls.MyButton but_lockup;
         private System.Windows.Forms.Label label16;
+        private Controls.MyButton but_hexmavlink;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.Label label35;
+        private System.Windows.Forms.Label label36;
+        private System.Windows.Forms.Label label37;
+        private System.Windows.Forms.Label label38;
+        private System.Windows.Forms.Label label39;
+        private System.Windows.Forms.Label label40;
+        private System.Windows.Forms.Label label41;
+        private System.Windows.Forms.Label label42;
+        private System.Windows.Forms.Label label43;
+        private System.Windows.Forms.Label label44;
+        private System.Windows.Forms.Label label45;
+        private System.Windows.Forms.Label label46;
+        private System.Windows.Forms.Label label47;
+        private System.Windows.Forms.Label label48;
+        private System.Windows.Forms.Label label49;
+        private System.Windows.Forms.Label label50;
+        private System.Windows.Forms.Label label51;
+        private System.Windows.Forms.Label label52;
+        private System.Windows.Forms.Label label53;
+        private System.Windows.Forms.Label label54;
+        private System.Windows.Forms.Label label55;
     }
 }

@@ -39,6 +39,7 @@ using MissionPlanner.Utilities;
 using MissionPlanner.Warnings;
 using resedit;
 using static MissionPlanner.Utilities.Firmware;
+using Formatting = Newtonsoft.Json.Formatting;
 using ILog = log4net.ILog;
 
 namespace MissionPlanner
@@ -906,6 +907,10 @@ namespace MissionPlanner
         {
             MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(Settings.Instance.LogDir, "*.tlog",
                 SearchOption.AllDirectories), Settings.Instance.LogDir);
+            MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(Settings.Instance.LogDir, "*.bin",
+                SearchOption.AllDirectories), Settings.Instance.LogDir);
+            MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(Settings.Instance.LogDir, "*.log",
+                SearchOption.AllDirectories), Settings.Instance.LogDir);
         }
 
         private void but_logdlscp_Click(object sender, EventArgs e)
@@ -1208,6 +1213,26 @@ namespace MissionPlanner
                     MainV2.comPort.doCommand(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid,
                         MAVLink.MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN,
                         42, 24, 71, 93, 0, 0, 0, false);
+        }
+
+        private void but_hexmavlink_Click(object sender, EventArgs e)
+        {
+            string input = "";
+            InputBox.Show("", "enter the hex value 'fd0500001a0c1'", ref input);
+
+            var packet = StringToByteArray(input);
+
+            var mavpacket = new MAVLink.MavlinkParse().ReadPacket(new MemoryStream(packet));
+
+            CustomMessageBox.Show(mavpacket.ToJSON(Formatting.Indented));
+        }
+
+        public static byte[] StringToByteArray(string hex)
+        {
+            return Enumerable.Range(0, hex.Length)
+                .Where(x => x % 2 == 0)
+                .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
+                .ToArray();
         }
     }
 }

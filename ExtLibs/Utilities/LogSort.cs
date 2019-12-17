@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Core.ExtendedObjects;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Log
 {
@@ -63,12 +64,47 @@ namespace MissionPlanner.Log
 
                         return;
                     }
-
+                    
                     bool issitl = false;
                     var sysid = 0;
                     var compid = 0;
                     var aptype = MAVLink.MAV_TYPE.GENERIC;
                     var packetsseen = 0;
+
+                    if (logfile.ToLower().EndsWith(".bin")|| logfile.ToLower().EndsWith(".log"))
+                    {
+                        var logBuffer = new DFLogBuffer(File.OpenRead(logfile));
+
+                        //PARM, 68613507, SYSID_THISMAV, 1
+
+                        var sysidlist = logBuffer.GetEnumeratorType("PARM").Where(a => a["Name"] == "SYSID_THISMAV");
+
+                        sysid = int.Parse(sysidlist.First()["Value"].ToString());
+
+                        //logBuffer.dflog
+
+                        if (logBuffer.SeenMessageTypes.Contains("SIM"))
+                        {
+                            logBuffer.Dispose();
+
+                            var destdir = masterdestdir + Path.DirectorySeparatorChar
+                                                        + "SITL" + Path.DirectorySeparatorChar
+                                                        + aptype.ToString() + Path.DirectorySeparatorChar
+                                                        + sysid + Path.DirectorySeparatorChar;
+
+
+                            if (!Directory.Exists(destdir))
+                                Directory.CreateDirectory(destdir);
+
+                            MoveFileUsingMask(logfile, destdir);
+                        }
+
+                        return;
+                    }
+                    else
+                    {
+                    }
+
 
                     var parse = new MAVLink.MavlinkParse(true);
                     using (var binfile = File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read))
