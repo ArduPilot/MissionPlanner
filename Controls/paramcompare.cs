@@ -75,7 +75,7 @@ namespace MissionPlanner.Controls
                                 dtlvcallback(row.Cells[Command.Index].Value.ToString().Trim(),
                                     float.Parse(row.Cells[newvalue.Index].Value.ToString()));
                             else
-                                MainV2.comPort.setParam(row.Cells[Command.Index].Value.ToString().Trim(),
+                                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, row.Cells[Command.Index].Value.ToString().Trim(),
                                     float.Parse(row.Cells[newvalue.Index].Value.ToString()));
                         }
                     }

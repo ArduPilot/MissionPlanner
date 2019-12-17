@@ -168,7 +168,7 @@ namespace MissionPlanner.Controls
             {
                 try
                 {
-                    bool ans = MainV2.comPort.setParam(ParamName, (float) base.Value * (float) _scale);
+                    bool ans = MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, ParamName, (float) base.Value * (float) _scale);
                     if (ans == false)
                         CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, ParamName), Strings.ERROR);
                 }

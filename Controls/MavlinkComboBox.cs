@@ -146,7 +146,7 @@ namespace MissionPlanner.Controls
                         return;
                     }
 
-                    if (!MainV2.comPort.setParam(ParamName, (float) (Int32) Enum.Parse(_source, this.Text)))
+                    if (!MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, ParamName, (float) (Int32) Enum.Parse(_source, this.Text)))
                     {
                         CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, ParamName), Strings.ERROR);
                     }
@@ -154,7 +154,7 @@ namespace MissionPlanner.Controls
                     if (paramname2 != "")
                     {
                         if (
-                            !MainV2.comPort.setParam(paramname2,
+                            !MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, paramname2,
                                 (float) (Int32) Enum.Parse(_source, this.Text) > 0 ? 1 : 0))
                         {
                             CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, paramname2), Strings.ERROR);
@@ -177,7 +177,7 @@ namespace MissionPlanner.Controls
                         return;
                     }
 
-                    if (!MainV2.comPort.setParam(ParamName, (float) (int) ((MavlinkComboBox) sender).SelectedValue))
+                    if (!MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, ParamName, (float) (int) ((MavlinkComboBox) sender).SelectedValue))
                     {
                         CustomMessageBox.Show("Set " + ParamName + " Failed!", Strings.ERROR);
                     }
@@ -185,7 +185,7 @@ namespace MissionPlanner.Controls
                     if (paramname2 != "")
                     {
                         if (
-                            !MainV2.comPort.setParam(paramname2,
+                            !MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, paramname2,
                                 (float) (int) ((MavlinkComboBox) sender).SelectedValue > 0 ? 1 : 0))
                         {
                             CustomMessageBox.Show("Set " + paramname2 + " Failed!", Strings.ERROR);

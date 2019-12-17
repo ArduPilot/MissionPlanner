@@ -494,89 +494,68 @@ namespace MissionPlanner.Utilities
             switch (type)
             {
                 case 'b':
-                    return ((sbyte)message[offset]);
-                    offset++;
-                    break;
+                    return (sbyte) message[offset];
                 case 'B':
-                    return (message[offset]);
-                    offset++;
-                    break;
+                    return message[offset];
+
                 case 'h':
-                    return (BitConverter.ToInt16(message, offset));
-                    offset += 2;
-                    break;
+                    return BitConverter.ToInt16(message, offset);
+
                 case 'H':
-                    return (BitConverter.ToUInt16(message, offset));
-                    offset += 2;
-                    break;
+                    return BitConverter.ToUInt16(message, offset);
+
                 case 'i':
-                    return (BitConverter.ToInt32(message, offset));
-                    offset += 4;
-                    break;
+                    return BitConverter.ToInt32(message, offset);
+
                 case 'I':
-                    return (BitConverter.ToUInt32(message, offset));
-                    offset += 4;
-                    break;
+                    return BitConverter.ToUInt32(message, offset);
+
                 case 'q':
-                    return (BitConverter.ToInt64(message, offset));
-                    offset += 8;
-                    break;
+                    return BitConverter.ToInt64(message, offset);
+
                 case 'Q':
-                    return (BitConverter.ToUInt64(message, offset));
-                    offset += 8;
-                    break;
+                    return BitConverter.ToUInt64(message, offset);
+
                 case 'f':
-                    return (BitConverter.ToSingle(message, offset));
-                    offset += 4;
-                    break;
+                    return BitConverter.ToSingle(message, offset);
+
                 case 'd':
-                    return (BitConverter.ToDouble(message, offset));
-                    offset += 8;
-                    break;
+                    return BitConverter.ToDouble(message, offset);
+
                 case 'c':
-                    return ((BitConverter.ToInt16(message, offset) / 100.0));
-                    offset += 2;
-                    break;
+                    return BitConverter.ToInt16(message, offset) / 100.0;
+
                 case 'C':
-                    return ((BitConverter.ToUInt16(message, offset) / 100.0));
-                    offset += 2;
-                    break;
+                    return BitConverter.ToUInt16(message, offset) / 100.0;
+
                 case 'e':
-                    return ((BitConverter.ToInt32(message, offset) / 100.0));
-                    offset += 4;
-                    break;
+                    return BitConverter.ToInt32(message, offset) / 100.0;
+
                 case 'E':
-                    return ((BitConverter.ToUInt32(message, offset) / 100.0));
-                    offset += 4;
-                    break;
+                    return BitConverter.ToUInt32(message, offset) / 100.0;
+
                 case 'L':
-                    return (((double)BitConverter.ToInt32(message, offset) / 10000000.0));
-                    offset += 4;
-                    break;
+                    return BitConverter.ToInt32(message, offset) / 10000000.0;
+
                 case 'n':
-                    return (ASCIIEncoding.ASCII.GetString(message, offset, 4).Trim(new char[] { '\0' }));
-                    offset += 4;
-                    break;
+                    return Encoding.ASCII.GetString(message, offset, 4).Trim('\0');
+
                 case 'N':
-                    return (ASCIIEncoding.ASCII.GetString(message, offset, 16).Trim(new char[] { '\0' }));
-                    offset += 16;
-                    break;
+                    return Encoding.ASCII.GetString(message, offset, 16).Trim('\0');
+
                 case 'M':
                     int modeno = message[offset];
-                    string mode = onFlightMode?.Invoke(_firmware, modeno);
+                    var mode = onFlightMode?.Invoke(_firmware, modeno);
                     if (mode == null)
                         mode = modeno.ToString();
-                    return (mode);
-                    offset++;
-                    break;
+                    return mode;
+
                 case 'Z':
-                    return (ASCIIEncoding.ASCII.GetString(message, offset, 64).Trim(new char[] { '\0' }));
-                    offset += 64;
-                    break;
+                    return Encoding.ASCII.GetString(message, offset, 64).Trim('\0');
+
                 case 'a':
-                    return (new UnionArray(message.Skip(offset).Take(64).ToArray()));
-                    offset += 2 * 32;
-                    break;
+                    return new UnionArray(message.Skip(offset).Take(64).ToArray());
+
                 default:
                     return null;
             }

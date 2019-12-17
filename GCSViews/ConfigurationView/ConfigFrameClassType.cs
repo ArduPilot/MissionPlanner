@@ -282,8 +282,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                MainV2.comPort.setParam("FRAME_CLASS", (int)frame_class);
-                MainV2.comPort.setParam("FRAME_TYPE", (int)frame_type);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "FRAME_CLASS", (int)frame_class);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "FRAME_TYPE", (int)frame_type);
             }
             catch
             {

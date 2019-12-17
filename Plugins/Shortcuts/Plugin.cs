@@ -66,12 +66,12 @@ namespace Shortcuts
 
             if (keyData == (Keys.Alt | Keys.T))
             {
-                MainV2.comPort.doCommand(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 2);
+                MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 2);
                 return true;
             }
             if (keyData == (Keys.Alt | Keys.L))
             {
-                MainV2.comPort.doCommand(MAVLink.MAV_CMD.LAND, 0, 0, 0, 0, 0, 0, 0);
+                MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.LAND, 0, 0, 0, 0, 0, 0, 0);
                 return true;
             }
 
@@ -84,7 +84,7 @@ namespace Shortcuts
 
             if (keyData == (Keys.Alt | Keys.F1))
             {
-                //MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, 1, MainV2.comPort.MAV., 0, 0, 0, 0, 0, true);
+                //MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_SET_SERVO, 1, MainV2.comPort.MAV., 0, 0, 0, 0, 0, true);
                 return true;
             }
 

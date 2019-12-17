@@ -179,21 +179,21 @@ namespace MissionPlanner.Utilities
 
                 try
                 {
-                    mav.GetParam("SYSID_THISMAV");
+                    mav.GetParam((byte) mav.sysidcurrent, (byte) mav.compidcurrent, "SYSID_THISMAV");
                 }
                 catch
                 {
                 }
                 try
                 {
-                    mav.GetParam("SYSID_THISMAV");
+                    mav.GetParam((byte) mav.sysidcurrent, (byte) mav.compidcurrent, "SYSID_THISMAV");
                 }
                 catch
                 {
                 }
                 try
                 {
-                    mav.GetParam("SYSID_THISMAV");
+                    mav.GetParam((byte) mav.sysidcurrent, (byte) mav.compidcurrent, "SYSID_THISMAV");
                 }
                 catch
                 {

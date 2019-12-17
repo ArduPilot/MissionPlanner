@@ -52,8 +52,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (CMB_sonartype.Text == "TeraRangerOne-I2C")
             {
                 // set min and max to 20cm - 10m
-                MainV2.comPort.setParam("RNGFND_MAX_CM", 100);
-                MainV2.comPort.setParam("RNGFND_MIN_CM ", 20);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "RNGFND_MAX_CM", 100);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "RNGFND_MIN_CM ", 20);
             }
         }
     }

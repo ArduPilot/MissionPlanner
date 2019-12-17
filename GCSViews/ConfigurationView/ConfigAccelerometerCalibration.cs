@@ -58,7 +58,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 Log.Info("Sending accel command (mavlink 1.0)");
 
-                MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 0, 0, 0, 0, 1, 0, 0);
+                MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 0, 0, 0, 0, 1, 0, 0);
 
                 _incalibrate = true;
 
@@ -132,7 +132,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             try
             {
                 Log.Info("Sending level command (mavlink 1.0)");
-                MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 0, 0, 0, 0, 2, 0, 0);
+                MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 0, 0, 0, 0, 2, 0, 0);
 
                 BUT_level.Text = Strings.Completed;
             }

@@ -272,7 +272,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 else
                 {
-                    MainV2.comPort.setParam("H_SWASH_TYPE", ((RadioButton) sender).Checked ? 1 : 0);
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "H_SWASH_TYPE", ((RadioButton) sender).Checked ? 1 : 0);
                 }
             }
             catch
@@ -359,10 +359,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             try
             {
-                MainV2.comPort.setParam("H_SV_MAN", 1); // randy request
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "H_SV_MAN", 1); // randy request
                 MainV2.comPort.setParam(((Control) sender).Name, test);
                 Thread.Sleep(100);
-                MainV2.comPort.setParam("H_SV_MAN", 0); // randy request - last
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "H_SV_MAN", 0); // randy request - last
             }
             catch
             {
@@ -384,10 +384,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             try
             {
-                MainV2.comPort.setParam("H_SV_MAN", 1); // randy request
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "H_SV_MAN", 1); // randy request
                 MainV2.comPort.setParam(((Control) sender).Name, test);
                 Thread.Sleep(100);
-                MainV2.comPort.setParam("H_SV_MAN", 0); // randy request - last
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "H_SV_MAN", 0); // randy request - last
             }
             catch
             {
@@ -409,10 +409,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             try
             {
-                MainV2.comPort.setParam("H_SV_MAN", 1); // randy request
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "H_SV_MAN", 1); // randy request
                 MainV2.comPort.setParam(((Control) sender).Name, test);
                 Thread.Sleep(100);
-                MainV2.comPort.setParam("H_SV_MAN", 0); // randy request - last
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "H_SV_MAN", 0); // randy request - last
             }
             catch
             {
@@ -499,7 +499,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 else
                 {
-                    MainV2.comPort.setParam("H_SV_MAN", 0);
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "H_SV_MAN", 0);
                 }
             }
             catch
@@ -518,7 +518,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 else
                 {
-                    MainV2.comPort.setParam("H_SV_MAN", 1);
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "H_SV_MAN", 1);
                 }
             }
             catch
@@ -537,7 +537,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 else
                 {
-                    MainV2.comPort.setParam("H_SV_MAN", 2);
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "H_SV_MAN", 2);
                 }
             }
             catch
@@ -556,7 +556,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 else
                 {
-                    MainV2.comPort.setParam("H_SV_MAN", 3);
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "H_SV_MAN", 3);
                 }
             }
             catch
@@ -575,7 +575,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 else
                 {
-                    MainV2.comPort.setParam("H_SV_MAN", 4);
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "H_SV_MAN", 4);
                 }
             }
             catch
@@ -594,7 +594,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 else
                 {
-                    MainV2.comPort.setParam("H_SV_MAN", 5);
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "H_SV_MAN", 5);
                 }
             }
             catch

@@ -74,7 +74,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 else
                 {
-                    MainV2.comPort.setParam("ARSPD_ENABLE", ((CheckBox) sender).Checked ? 1 : 0);
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "ARSPD_ENABLE", ((CheckBox) sender).Checked ? 1 : 0);
                 }
             }
             catch

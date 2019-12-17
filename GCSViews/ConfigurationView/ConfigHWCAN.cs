@@ -27,17 +27,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void but_startenum_Click(object sender, EventArgs e)
         {
-            MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_UAVCAN, 1, 0, 0, 0, 0, 0, 0, false);
+            MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.PREFLIGHT_UAVCAN, 1, 0, 0, 0, 0, 0, 0, false);
         }
 
         private void but_stopenum_Click(object sender, EventArgs e)
         {
-            MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_UAVCAN, 0, 0, 0, 0, 0, 0, 0, false);
+            MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.PREFLIGHT_UAVCAN, 0, 0, 0, 0, 0, 0, 0, false);
         }
 
         private void but_saveconfig_Click(object sender, EventArgs e)
         {
-            MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_STORAGE, 1, 0, 0, 0, 0, 0, 0, false);
+            MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.PREFLIGHT_STORAGE, 1, 0, 0, 0, 0, 0, 0, false);
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
@@ -47,7 +47,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void but_factoryreset_Click(object sender, EventArgs e)
         {
-            MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_STORAGE, 2, 0, 0, 0, 0, 0, 0, false);
+            MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.PREFLIGHT_STORAGE, 2, 0, 0, 0, 0, 0, 0, false);
         }
 
         private void mavlinkComboBox_can_SelectedIndexChanged(object sender, EventArgs e)

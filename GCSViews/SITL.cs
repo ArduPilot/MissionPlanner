@@ -587,10 +587,10 @@ namespace MissionPlanner.GCSViews
 
                     try
                     {
-                        mav.GetParam("SYSID_THISMAV");
+                        mav.GetParam((byte) mav.sysidcurrent, (byte) mav.compidcurrent, "SYSID_THISMAV");
                         mav.setParam("SYSID_THISMAV", a + 1, true);
 
-                        mav.GetParam("FRAME_CLASS");
+                        mav.GetParam((byte) mav.sysidcurrent, (byte) mav.compidcurrent, "FRAME_CLASS");
                         mav.setParam("FRAME_CLASS", 1, true);
                     }
                     catch

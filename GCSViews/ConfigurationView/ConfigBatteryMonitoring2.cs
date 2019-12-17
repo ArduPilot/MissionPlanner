@@ -79,7 +79,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 else
                 {
-                    MainV2.comPort.setParam("BATT2_CAPACITY", float.Parse(TXT_battcapacity.Text));
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT2_CAPACITY", float.Parse(TXT_battcapacity.Text));
                 }
             }
             catch

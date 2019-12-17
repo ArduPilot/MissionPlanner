@@ -54,7 +54,7 @@ namespace MissionPlanner.Controls
         {
             try
             {
-                if (MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_RELAY, thisrelay, 0, 0, 0,
+                if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_SET_RELAY, thisrelay, 0, 0, 0,
                     0, 0, 0))
                 {
                     TXT_rcchannel.BackColor = Color.Red;
@@ -74,7 +74,7 @@ namespace MissionPlanner.Controls
         {
             try
             {
-                if (MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_RELAY, thisrelay, 1, 0, 0,
+                if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_SET_RELAY, thisrelay, 1, 0, 0,
                     0, 0, 0))
                 {
                     TXT_rcchannel.BackColor = Color.Green;
@@ -94,7 +94,7 @@ namespace MissionPlanner.Controls
         {
             try
             {
-                if (MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_RELAY, thisrelay, 0, 0, 0,
+                if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_SET_RELAY, thisrelay, 0, 0, 0,
                     0, 0, 0))
                 {
                     TXT_rcchannel.BackColor = Color.Red;
@@ -103,7 +103,7 @@ namespace MissionPlanner.Controls
                 Application.DoEvents();
                 System.Threading.Thread.Sleep(200);
 
-                if (MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_RELAY, thisrelay, 1, 0, 0,
+                if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_SET_RELAY, thisrelay, 1, 0, 0,
                     0, 0, 0))
                 {
                     TXT_rcchannel.BackColor = Color.Green;
@@ -112,7 +112,7 @@ namespace MissionPlanner.Controls
                 Application.DoEvents();
                 System.Threading.Thread.Sleep(200);
 
-                if (MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_RELAY, thisrelay, 0, 0, 0,
+                if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_SET_RELAY, thisrelay, 0, 0, 0,
                     0, 0, 0))
                 {
                     TXT_rcchannel.BackColor = Color.Red;

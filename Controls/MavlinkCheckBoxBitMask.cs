@@ -149,7 +149,7 @@ namespace MissionPlanner.Controls
             }
             try
             {
-                bool ans = MainV2.comPort.setParam(ParamName, Value);
+                bool ans = MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, ParamName, Value);
                 if (ans == false)
                     CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, ParamName), Strings.ERROR);
             }

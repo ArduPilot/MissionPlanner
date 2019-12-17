@@ -312,7 +312,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         return;
                     }
 
-                    MainV2.comPort.setParam("COMPASS_DEC", dec*MathHelper.deg2rad);
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_DEC", dec*MathHelper.deg2rad);
                 }
             }
             catch
@@ -350,7 +350,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 else
                 {
-                    MainV2.comPort.setParam("MAG_ENABLE", ((CheckBox) sender).Checked ? 1 : 0);
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "MAG_ENABLE", ((CheckBox) sender).Checked ? 1 : 0);
                 }
             }
             catch
@@ -396,7 +396,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 else
                 {
-                    MainV2.comPort.setParam("COMPASS_AUTODEC", ((CheckBox) sender).Checked ? 1 : 0);
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_AUTODEC", ((CheckBox) sender).Checked ? 1 : 0);
                 }
             }
             catch
@@ -454,7 +454,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_START_MAG_CAL, 0, 1, 1, 0, 0, 0, 0);
+                MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_START_MAG_CAL, 0, 1, 1, 0, 0, 0, 0);
             }
             catch (Exception ex)
             {
@@ -481,7 +481,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_ACCEPT_MAG_CAL, 0, 0, 1, 0, 0, 0, 0);
+                MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_ACCEPT_MAG_CAL, 0, 0, 1, 0, 0, 0, 0);
 
             }
             catch (Exception ex)
@@ -499,7 +499,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_CANCEL_MAG_CAL, 0, 0, 1, 0, 0, 0, 0);
+                MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_CANCEL_MAG_CAL, 0, 0, 1, 0, 0, 0, 0);
             }
             catch (Exception ex)
             {
@@ -622,15 +622,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 // TODO: check this code against the original. I don't understand what the original does
                 // with the different firmware versions, and I changed something about the externality
-                MainV2.comPort.setParam("COMPASS_USE", 1);
-                MainV2.comPort.setParam("COMPASS_USE2", 1);
-                MainV2.comPort.setParam("COMPASS_USE3", 0);
-                MainV2.comPort.setParam("COMPASS_EXTERNAL", 1);
-                MainV2.comPort.setParam("COMPASS_EXTERN2", 0);
-                MainV2.comPort.setParam("COMPASS_EXTERN3", 0);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_USE", 1);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_USE2", 1);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_USE3", 0);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_EXTERNAL", 1);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_EXTERN2", 0);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_EXTERN3", 0);
 
-                MainV2.comPort.setParam("COMPASS_PRIMARY", 0);
-                MainV2.comPort.setParam("COMPASS_LEARN", 1);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_PRIMARY", 0);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_LEARN", 1);
 
                 if (
                     CustomMessageBox.Show("is the FW version greater than APM:copter 3.01 or APM:Plane 2.74?", "",
@@ -641,7 +641,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 else
                 {
                     CMB_compass1_orient.SelectedIndex = (int) Rotation.ROTATION_ROLL_180;
-                    MainV2.comPort.setParam("COMPASS_EXTERNAL", 0);
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_EXTERNAL", 0);
                 }
             }
             catch (Exception)
@@ -662,14 +662,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             try
             {
                 CMB_compass1_orient.SelectedIndex = (int) Rotation.ROTATION_NONE;
-                MainV2.comPort.setParam("COMPASS_USE1", 1);
-                MainV2.comPort.setParam("COMPASS_USE2", 0);
-                MainV2.comPort.setParam("COMPASS_USE3", 0);
-                MainV2.comPort.setParam("COMPASS_EXTERNAL", 0);
-                MainV2.comPort.setParam("COMPASS_EXTERN2", 0);
-                MainV2.comPort.setParam("COMPASS_EXTERN3", 0);
-                MainV2.comPort.setParam("COMPASS_PRIMARY", 0);
-                MainV2.comPort.setParam("COMPASS_LEARN", 1);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_USE1", 1);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_USE2", 0);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_USE3", 0);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_EXTERNAL", 0);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_EXTERN2", 0);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_EXTERN3", 0);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_PRIMARY", 0);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_LEARN", 1);
             }
             catch (Exception)
             {
@@ -689,16 +689,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             try
             {
                 CMB_compass1_orient.SelectedIndex = (int) Rotation.ROTATION_ROLL_180;
-                MainV2.comPort.setParam("COMPASS_EXTERNAL", 1);
-                MainV2.comPort.setParam("COMPASS_EXTERN2", 0);
-                MainV2.comPort.setParam("COMPASS_EXTERN3", 0);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_EXTERNAL", 1);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_EXTERN2", 0);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_EXTERN3", 0);
 
-                MainV2.comPort.setParam("COMPASS_USE1", 1);
-                MainV2.comPort.setParam("COMPASS_USE2", 0);
-                MainV2.comPort.setParam("COMPASS_USE3", 0);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_USE1", 1);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_USE2", 0);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_USE3", 0);
 
-                MainV2.comPort.setParam("COMPASS_PRIMARY", 0);
-                MainV2.comPort.setParam("COMPASS_LEARN", 1);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_PRIMARY", 0);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_LEARN", 1);
             }
             catch (Exception)
             {
@@ -717,7 +717,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 else
                 {
-                    MainV2.comPort.setParam("COMPASS_LEARN", ((CheckBox) sender).Checked ? 1 : 0);
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_LEARN", ((CheckBox) sender).Checked ? 1 : 0);
                 }
             }
             catch

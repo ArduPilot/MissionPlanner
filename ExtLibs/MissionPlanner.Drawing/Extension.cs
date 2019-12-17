@@ -30,21 +30,12 @@ namespace MissionPlanner.Drawing
 
         public static SKPaint ToSKPaint(this Pen pen)
         {
-            pen.nativePen.Style = SKPaintStyle.Stroke;
-            return pen.nativePen;
-            var paint = new SKPaint
-            {
-                Color = pen.Color.ToSKColor(),
-                StrokeWidth = pen.Width,
-                IsAntialias = true,
-                Style = SKPaintStyle.Stroke,
-                BlendMode = SKBlendMode.SrcOver,
-                FilterQuality = SKFilterQuality.High
-            };
-
+            pen.nativePen.StrokeWidth = pen.Width;
+            pen.nativePen.Color = pen.Color.ToSKColor();
+            pen.nativePen.Style = SKPaintStyle.Stroke; 
             if (pen.DashStyle != DashStyle.Solid)
-                paint.PathEffect = SKPathEffect.CreateDash(pen.DashPattern, 0);
-            return paint;
+                pen.nativePen.PathEffect = SKPathEffect.CreateDash(pen.DashPattern, 0);
+            return pen.nativePen;
         }
 
 

@@ -232,7 +232,7 @@ namespace MissionPlanner
                             nextrallypntupdate = DateTime.Now.AddSeconds(5);
                             try
                             {
-                                MainV2.comPort.setParam("RALLY_TOTAL", 1);
+                                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "RALLY_TOTAL", 1);
 
                                 MainV2.comPort.setRallyPoint(0,
                                     new PointLatLngAlt(gotolocation)
@@ -242,7 +242,7 @@ namespace MissionPlanner
                                     },
                                     0, 0, 0, (byte) (float) MainV2.comPort.MAV.param["RALLY_TOTAL"]);
 
-                                MainV2.comPort.setParam("RALLY_TOTAL", 1);
+                                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "RALLY_TOTAL", 1);
                             }
                             catch (Exception ex)
                             {

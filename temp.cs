@@ -580,7 +580,7 @@ namespace MissionPlanner
 
                     Thread.Sleep(300);
 
-                    MainV2.comPort.doCommand(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 10);
+                    MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 10);
                 }
             }
             catch (Exception ex)
@@ -630,7 +630,7 @@ namespace MissionPlanner
             {
                 var newQNH = double.Parse(currentQNH);
 
-                MainV2.comPort.setParam("GND_ABS_PRESS", newQNH);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "GND_ABS_PRESS", newQNH);
             }
         }
 
@@ -990,7 +990,7 @@ namespace MissionPlanner
                     "BL Update", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == (int)DialogResult.Yes)
                 if (CustomMessageBox.Show("Are you sure you want to upgrade the bootloader? This can brick your board, Please allow 5 mins for this process",
                         "BL Update", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == (int) DialogResult.Yes)
-                    if (MainV2.comPort.doCommand(MAVLink.MAV_CMD.FLASH_BOOTLOADER, 0, 0, 0, 0, 290876, 0, 0))
+                    if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.FLASH_BOOTLOADER, 0, 0, 0, 0, 290876, 0, 0))
                     {
                         CustomMessageBox.Show("Upgraded bootloader");
                     }
@@ -1050,7 +1050,7 @@ namespace MissionPlanner
             {
                 var rate = int.Parse(cmbrate.Text.ToString());
                 var value = Enum.Parse(typeof(MAVLink.MAVLINK_MSG_ID), cmb.Text.ToString());
-                MainV2.comPort.doCommand(MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL, (float) (int) value,
+                MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL, (float) (int) value,
                     1 / (float) rate * 1000000.0f, 0, 0, 0, 0, 0);
             };
 
@@ -1062,7 +1062,7 @@ namespace MissionPlanner
                 ((IList) cmb.DataSource).ForEach(a =>
                 {
                     var value = Enum.Parse(typeof(MAVLink.MAVLINK_MSG_ID), a.ToString());
-                    MainV2.comPort.doCommand(MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL, (float) (int) value,
+                    MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL, (float) (int) value,
                         1 / (float) rate * 1000000.0f, 0, 0, 0, 0, 0, false);
                 });
             };
@@ -1153,7 +1153,7 @@ namespace MissionPlanner
             mavlinkNumericUpDown.Padding = new Padding(20);
         mavlinkNumericUpDown.ValueChanged += (o, args) =>
             {
-                MainV2.comPort.setParam("GND_ABS_PRESS", (float)(double.Parse(currentQNH) + (double)mavlinkNumericUpDown.Value * 11.1));
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "GND_ABS_PRESS", (float)(double.Parse(currentQNH) + (double)mavlinkNumericUpDown.Value * 11.1));
             };
 
             mavlinkNumericUpDown.ShowUserControl();

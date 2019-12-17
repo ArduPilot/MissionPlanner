@@ -343,30 +343,30 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 if (MainV2.comPort.MAV.param.ContainsKey("FLTMODE1"))
                 {
-                    MainV2.comPort.setParam("FLTMODE1", int.Parse(CMB_fmode1.SelectedValue.ToString()));
-                    MainV2.comPort.setParam("FLTMODE2", int.Parse(CMB_fmode2.SelectedValue.ToString()));
-                    MainV2.comPort.setParam("FLTMODE3", int.Parse(CMB_fmode3.SelectedValue.ToString()));
-                    MainV2.comPort.setParam("FLTMODE4", int.Parse(CMB_fmode4.SelectedValue.ToString()));
-                    MainV2.comPort.setParam("FLTMODE5", int.Parse(CMB_fmode5.SelectedValue.ToString()));
-                    MainV2.comPort.setParam("FLTMODE6", int.Parse(CMB_fmode6.SelectedValue.ToString()));
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "FLTMODE1", int.Parse(CMB_fmode1.SelectedValue.ToString()));
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "FLTMODE2", int.Parse(CMB_fmode2.SelectedValue.ToString()));
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "FLTMODE3", int.Parse(CMB_fmode3.SelectedValue.ToString()));
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "FLTMODE4", int.Parse(CMB_fmode4.SelectedValue.ToString()));
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "FLTMODE5", int.Parse(CMB_fmode5.SelectedValue.ToString()));
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "FLTMODE6", int.Parse(CMB_fmode6.SelectedValue.ToString()));
                 }
                 else if (MainV2.comPort.MAV.param.ContainsKey("MODE1"))
                 {
-                    MainV2.comPort.setParam("MODE1", int.Parse(CMB_fmode1.SelectedValue.ToString()));
-                    MainV2.comPort.setParam("MODE2", int.Parse(CMB_fmode2.SelectedValue.ToString()));
-                    MainV2.comPort.setParam("MODE3", int.Parse(CMB_fmode3.SelectedValue.ToString()));
-                    MainV2.comPort.setParam("MODE4", int.Parse(CMB_fmode4.SelectedValue.ToString()));
-                    MainV2.comPort.setParam("MODE5", int.Parse(CMB_fmode5.SelectedValue.ToString()));
-                    MainV2.comPort.setParam("MODE6", int.Parse(CMB_fmode6.SelectedValue.ToString()));
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "MODE1", int.Parse(CMB_fmode1.SelectedValue.ToString()));
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "MODE2", int.Parse(CMB_fmode2.SelectedValue.ToString()));
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "MODE3", int.Parse(CMB_fmode3.SelectedValue.ToString()));
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "MODE4", int.Parse(CMB_fmode4.SelectedValue.ToString()));
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "MODE5", int.Parse(CMB_fmode5.SelectedValue.ToString()));
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "MODE6", int.Parse(CMB_fmode6.SelectedValue.ToString()));
                 }
                 else if (MainV2.comPort.MAV.param.ContainsKey("COM_FLTMODE1"))
                 {
-                    MainV2.comPort.setParam("COM_FLTMODE1", int.Parse(CMB_fmode1.SelectedValue.ToString()));
-                    MainV2.comPort.setParam("COM_FLTMODE2", int.Parse(CMB_fmode2.SelectedValue.ToString()));
-                    MainV2.comPort.setParam("COM_FLTMODE3", int.Parse(CMB_fmode3.SelectedValue.ToString()));
-                    MainV2.comPort.setParam("COM_FLTMODE4", int.Parse(CMB_fmode4.SelectedValue.ToString()));
-                    MainV2.comPort.setParam("COM_FLTMODE5", int.Parse(CMB_fmode5.SelectedValue.ToString()));
-                    MainV2.comPort.setParam("COM_FLTMODE6", int.Parse(CMB_fmode6.SelectedValue.ToString()));
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COM_FLTMODE1", int.Parse(CMB_fmode1.SelectedValue.ToString()));
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COM_FLTMODE2", int.Parse(CMB_fmode2.SelectedValue.ToString()));
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COM_FLTMODE3", int.Parse(CMB_fmode3.SelectedValue.ToString()));
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COM_FLTMODE4", int.Parse(CMB_fmode4.SelectedValue.ToString()));
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COM_FLTMODE5", int.Parse(CMB_fmode5.SelectedValue.ToString()));
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COM_FLTMODE6", int.Parse(CMB_fmode6.SelectedValue.ToString()));
                 }
 
                 if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2) // ac2
@@ -379,7 +379,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                 (CB_simple5.Checked ? (int) SimpleMode.Simple5 : 0) +
                                 (CB_simple6.Checked ? (int) SimpleMode.Simple6 : 0);
                     if (MainV2.comPort.MAV.param.ContainsKey("SIMPLE"))
-                        MainV2.comPort.setParam("SIMPLE", value);
+                        MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "SIMPLE", value);
 
                     // supersimple
                     value = (float) (chk_ss1.Checked ? (int) SimpleMode.Simple1 : 0) +
@@ -389,7 +389,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             (chk_ss5.Checked ? (int) SimpleMode.Simple5 : 0) +
                             (chk_ss6.Checked ? (int) SimpleMode.Simple6 : 0);
                     if (MainV2.comPort.MAV.param.ContainsKey("SUPER_SIMPLE"))
-                        MainV2.comPort.setParam("SUPER_SIMPLE", value);
+                        MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "SUPER_SIMPLE", value);
                 }
             }
             catch

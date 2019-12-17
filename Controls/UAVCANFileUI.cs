@@ -63,7 +63,7 @@ namespace MissionPlanner.Controls
             {
                 rootNode = new TreeNode(info.Name, 0, 0);
                 rootNode.Tag = info;
-                GetDirectories(await info.GetDirectories().ConfigureAwait(false), rootNode);
+                await GetDirectories(await info.GetDirectories().ConfigureAwait(false), rootNode);
                 treeView1.Nodes.Add(rootNode);
             }
             toolStripStatusLabel1.Text = "Ready";

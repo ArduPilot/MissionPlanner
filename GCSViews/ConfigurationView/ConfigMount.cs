@@ -204,25 +204,25 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (CMB_shuttertype.Text == ChannelCameraShutter.Relay.ToString())
                 {
                     ensureDisabled(CMB_shuttertype, 10);
-                    MainV2.comPort.setParam("CAM_TRIGG_TYPE", 1);
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "CAM_TRIGG_TYPE", 1);
                 }
                 else if (CMB_shuttertype.Text == ChannelCameraShutter.Transistor.ToString())
                 {
                     ensureDisabled(CMB_shuttertype, 10);
-                    MainV2.comPort.setParam("CAM_TRIGG_TYPE", 4);
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "CAM_TRIGG_TYPE", 4);
                 }
                 else
                 {
                     ensureDisabled(CMB_shuttertype, 10);
                     MainV2.comPort.setParam(CMB_shuttertype.Text + "_FUNCTION", 10);
                     // servo
-                    MainV2.comPort.setParam("CAM_TRIGG_TYPE", 0);
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "CAM_TRIGG_TYPE", 0);
                 }
             }
             else
             {
                 // servo
-                MainV2.comPort.setParam("CAM_TRIGG_TYPE", 0);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "CAM_TRIGG_TYPE", 0);
                 ensureDisabled(CMB_shuttertype, 10);
             }
 
