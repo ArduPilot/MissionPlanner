@@ -64,20 +64,49 @@ namespace MissionPlanner
             }
         }
 
-        public event EventHandler<MAVLinkMessage> OnPacketReceived;
-        public event EventHandler<MAVLinkMessage> OnPacketSent;
+        public event EventHandler<MAVLinkMessage> OnPacketReceived
+        {
+            add { log.Info("Subscribed " + value); _OnPacketReceived += value; }
+            remove { log.Info("UnSubscribed " + value); _OnPacketReceived += value; }
+        }
 
-        public static event EventHandler<adsb.PointLatLngAltHdg> UpdateADSBPlanePosition;
-        public static event EventHandler<(string id, MAV_COLLISION_THREAT_LEVEL threat_level)> UpdateADSBCollision;
+        public event EventHandler<MAVLinkMessage> OnPacketSent
+        {
+            add { log.Info("Subscribed " + value); _OnPacketSent += value; }
+            remove { log.Info("UnSubscribed " + value); _OnPacketSent += value; }
+        }
+
+        public static event EventHandler<adsb.PointLatLngAltHdg> UpdateADSBPlanePosition
+        {
+            add { log.Info("Subscribed " + value); _UpdateADSBPlanePosition += value; }
+            remove { log.Info("UnSubscribed " + value); _UpdateADSBPlanePosition += value; }
+        }
+        public static event EventHandler<(string id, MAV_COLLISION_THREAT_LEVEL threat_level)> UpdateADSBCollision
+        {
+            add { log.Info("Subscribed " + value); _UpdateADSBCollision += value; }
+            remove { log.Info("UnSubscribed " + value); _UpdateADSBCollision += value; }
+        }
 
         public ICommsSerial MirrorStream { get; set; }
         public bool MirrorStreamWrite { get; set; }
 
-        public event EventHandler ParamListChanged;
+        public event EventHandler ParamListChanged
+        {
+            add { log.Info("Subscribed " + value); _ParamListChanged += value; }
+            remove { log.Info("UnSubscribed " + value); _ParamListChanged += value; }
+        }
 
-        public event EventHandler MavChanged;
+        public event EventHandler MavChanged
+        {
+            add { log.Info("Subscribed " + value); _MavChanged += value; }
+            remove { log.Info("UnSubscribed " + value); _MavChanged += value; }
+        }
 
-        public event EventHandler CommsClose;
+        public event EventHandler CommsClose
+        {
+            add { log.Info("Subscribed " + value); _CommsClose += value; }
+            remove { log.Info("UnSubscribed " + value); _CommsClose += value; }
+        }
 
         public static byte gcssysid { get; set; } = 255;
 
@@ -140,7 +169,7 @@ namespace MissionPlanner
                 if (_sysidcurrent == value)
                     return;
                 _sysidcurrent = value;
-                if (MavChanged != null) MavChanged(this, null);
+                if (_MavChanged != null) _MavChanged(this, null);
             }
         }
 
@@ -154,7 +183,7 @@ namespace MissionPlanner
                 if (_compidcurrent == value)
                     return;
                 _compidcurrent = value;
-                if (MavChanged != null) MavChanged(this, null);
+                if (_MavChanged != null) _MavChanged(this, null);
             }
         }
 
@@ -345,8 +374,8 @@ namespace MissionPlanner
 
             try
             {
-                if (CommsClose != null)
-                    CommsClose(this, null);
+                if (_CommsClose != null)
+                    _CommsClose(this, null);
             }
             catch
             {
@@ -386,9 +415,9 @@ namespace MissionPlanner
 
             frmProgressReporter.Dispose();
 
-            if (ParamListChanged != null)
+            if (_ParamListChanged != null)
             {
-                ParamListChanged(this, null);
+                _ParamListChanged(this, null);
             }
         }
 
@@ -1057,7 +1086,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         }
                     }
 
-                    OnPacketSent?.Invoke(this, new MAVLinkMessage(packet));
+                    _OnPacketSent?.Invoke(this, new MAVLinkMessage(packet));
                 }
                 catch
                 {
@@ -1315,9 +1344,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
             frmProgressReporter.Dispose();
             
-            if (ParamListChanged != null)
+            if (_ParamListChanged != null)
             {
-                ParamListChanged(this, null);
+                _ParamListChanged(this, null);
             }
         }
 
@@ -2853,7 +2882,30 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                             request.target_component != (byte)MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER)
                             continue;
 
-                        if (request.seq == 0)
+                        if (request.seq == 0 || request.seq == 1)
+                        {
+                            if (MAV.param["WP_TOTAL"] != null)
+                                MAV.param["WP_TOTAL"].Value = wp_total - 1;
+                            if (MAV.param["CMD_TOTAL"] != null)
+                                MAV.param["CMD_TOTAL"].Value = wp_total - 1;
+                            if (MAV.param["MIS_TOTAL"] != null)
+                                MAV.param["MIS_TOTAL"].Value = wp_total - 1;
+
+                            MAV.wps.Clear();
+
+                            giveComport = false;
+                            return;
+                        }
+                    }
+                    else if (buffer.msgid == (byte)MAVLINK_MSG_ID.MISSION_REQUEST_INT && buffer.sysid == req.target_system && buffer.compid == req.target_component)
+                    {
+                        var request = buffer.ToStructure<mavlink_mission_request_int_t>();
+                        // check this gcs sent it
+                        if (request.target_system != gcssysid ||
+                            request.target_component != (byte)MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER)
+                            continue;
+
+                        if (request.seq == 0 || request.seq == 1)
                         {
                             if (MAV.param["WP_TOTAL"] != null)
                                 MAV.param["WP_TOTAL"].Value = wp_total - 1;
@@ -4086,8 +4138,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                             var id = adsb.ICAO_address.ToString("X5");
 
-                            if (UpdateADSBPlanePosition != null)
-                                UpdateADSBPlanePosition(this, new adsb.PointLatLngAltHdg(adsb.lat / 1e7, adsb.lon / 1e7,
+                            if (_UpdateADSBPlanePosition != null)
+                                _UpdateADSBPlanePosition(this, new adsb.PointLatLngAltHdg(adsb.lat / 1e7, adsb.lon / 1e7,
                                         adsb.altitude / 1000.0, adsb.heading * 0.01f, adsb.hor_velocity * 0.01f, id,
                                         DateTime.Now)
                                     {CallSign = new String(adsb.callsign), Raw = adsb}
@@ -4112,7 +4164,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                             var threat_level = (MAV_COLLISION_THREAT_LEVEL) coll.threat_level;
 
-                            UpdateADSBCollision?.Invoke(this, (id, threat_level));
+                            _UpdateADSBCollision?.Invoke(this, (id, threat_level));
                         }
                     }
 
@@ -4180,7 +4232,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     if (sysidcurrent == sysid && compidcurrent == compid)
                         PacketReceived(message);
 
-                    OnPacketReceived?.Invoke(this, message);
+                    _OnPacketReceived?.Invoke(this, message);
 
                     if (debugmavlink)
                         DebugPacket(message);
@@ -5187,6 +5239,13 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         }
 
         Dictionary<Stream, Tuple<string, long>> streamfncache = new Dictionary<Stream, Tuple<string, long>>();
+        private EventHandler<MAVLinkMessage> _OnPacketReceived;
+        private EventHandler<MAVLinkMessage> _OnPacketSent;
+        private static EventHandler<adsb.PointLatLngAltHdg> _UpdateADSBPlanePosition;
+        private static EventHandler<(string id, MAV_COLLISION_THREAT_LEVEL threat_level)> _UpdateADSBCollision;
+        private EventHandler _ParamListChanged;
+        private EventHandler _MavChanged;
+        private EventHandler _CommsClose;
 
         MAVLinkMessage readlogPacketMavlink()
         {
