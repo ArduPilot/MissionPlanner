@@ -342,6 +342,7 @@ namespace MissionPlanner.Grid
                 loadsetting("grid_camera", CMB_camera);
 
                 // Copter Settings
+                loadsetting("grid_copter_spline", chk_spline);
                 loadsetting("grid_copter_delay", NUM_copter_delay);
                 //loadsetting("grid_copter_headinghold_chk", CHK_copter_headinghold);
 
