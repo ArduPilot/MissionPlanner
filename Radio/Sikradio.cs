@@ -1029,6 +1029,7 @@ S15: MAX_WINDOW=131
                 return;
             }
 
+
             ResetAllControls(groupBoxLocal);
             ResetAllControls(groupBoxRemote);
 
@@ -2003,7 +2004,10 @@ red LED solid - in firmware update mode");
         /// <param name="e">ignored</param>
         private void ENCRYPTION_LEVEL_CheckedChanged(object sender, EventArgs e)
         {
-            EncryptionCheckChangedEvtHdlr(ENCRYPTION_LEVEL, "ATI5", "AT&E?", txt_aeskey, false, "ATI5");
+            if (ENCRYPTION_LEVEL.Enabled)
+            {
+                EncryptionCheckChangedEvtHdlr(ENCRYPTION_LEVEL, "ATI5", "AT&E?", txt_aeskey, false, "ATI5");
+            }
             btnRandom.Enabled = ENCRYPTION_LEVEL.Checked;
         }
 
@@ -2014,7 +2018,10 @@ red LED solid - in firmware update mode");
         /// <param name="e">ignored</param>
         private void RENCRYPTION_LEVEL_CheckedChanged(object sender, EventArgs e)
         {
-            EncryptionCheckChangedEvtHdlr(RENCRYPTION_LEVEL, "RTI5", "RT&E?", txt_Raeskey, true, "RTI5");
+            if (RENCRYPTION_LEVEL.Enabled)
+            {
+                EncryptionCheckChangedEvtHdlr(RENCRYPTION_LEVEL, "RTI5", "RT&E?", txt_Raeskey, true, "RTI5");
+            }
         }
 
         bool _AlreadyInEncCheckChangedEvtHdlr = false;
