@@ -1211,7 +1211,7 @@ namespace MissionPlanner.Log
                     foreach (var item in ErrorCache)
                     {
                         item.Location.Y = zg1.GraphPane.YAxis.Scale.Max;
-                        zg1.GraphPane.GraphObjList.Add(item);
+                        this.BeginInvokeIfRequired(() => zg1.GraphPane.GraphObjList.Add(item));
                     }
 
                     return;
@@ -1299,7 +1299,7 @@ namespace MissionPlanner.Log
                     foreach (var item in EVCache)
                     {
                         item.Location.Y = zg1.GraphPane.YAxis.Scale.Max;
-                        zg1.GraphPane.GraphObjList.Add(item);
+                        this.BeginInvokeIfRequired(() => zg1.GraphPane.GraphObjList.Add(item));
                     }
 
                     return;
@@ -2315,10 +2315,9 @@ namespace MissionPlanner.Log
                 int a = 0;
                 b = 0;
 
-                foreach (var item2 in logdata)
+                foreach (var item in logdata.GetEnumeratorType(opt.SelectedItem.ToUpper()))
                 {
                     b++;
-                    var item = dflog.GetDFItemFromLine(item2, b);
 
                     if (item.msgtype.ToUpper() == opt.SelectedItem.ToUpper())
                     {
@@ -2399,17 +2398,17 @@ namespace MissionPlanner.Log
                 }
 
                 if (a != null)
-                    await a.ConfigureAwait(false);
+                    await a.ConfigureAwait(true);
                 if (b != null)
-                    await b.ConfigureAwait(false);
+                    await b.ConfigureAwait(true);
                 if (c != null)
-                    await c.ConfigureAwait(false);
+                    await c.ConfigureAwait(true);
                 if (d != null)
-                    await d.ConfigureAwait(false);
+                    await d.ConfigureAwait(true);
                 if (e != null)
-                    await e.ConfigureAwait(false);
+                    await e.ConfigureAwait(true);
                 if (f != null)
-                    await f.ConfigureAwait(false);
+                    await f.ConfigureAwait(true);
 
                 sender.Invalidate();
             }

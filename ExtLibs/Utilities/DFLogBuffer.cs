@@ -236,7 +236,8 @@ namespace MissionPlanner.Utilities
                 "MSG", "PARM"
             }))
             {
-                //Console.WriteLine(item.raw.ToJSON(Formatting.None));
+                // must be the string version to do the firmware type detection - binarylog
+                Console.WriteLine(this[(int) item.lineno]);
             }
 
             // try get gps time - when a dfitem is created and no valid gpstime has been establish the messages are parsed to get a valid gpstime
