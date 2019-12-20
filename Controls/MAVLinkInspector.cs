@@ -20,6 +20,7 @@ namespace MissionPlanner.Controls
         private IContainer components;
         PacketInspector<MAVLink.MAVLinkMessage> mavi = new PacketInspector<MAVLink.MAVLinkMessage>();
         private MyButton but_graphit;
+        private CheckBox chk_gcstraffic;
         private MAVLinkInterface mav;
 
         public MAVLinkInspector(MAVLinkInterface mav)
@@ -29,7 +30,6 @@ namespace MissionPlanner.Controls
             this.mav = mav;
 
             mav.OnPacketReceived += MavOnOnPacketReceived;
-            mav.OnPacketSent += MavOnOnPacketReceived;
 
             mavi.NewSysidCompid += (sender, args) =>
             {
@@ -157,6 +157,11 @@ namespace MissionPlanner.Controls
                         }
                     }
 
+                    msgidnode.Nodes[field.Name].Tag = new[]
+                    {
+                        field.Name, value,
+                        field.FieldType.ToString()
+                    };
                     msgidnode.Nodes[field.Name].Text = (String.Format("{0,-32} {1,20} {2,-20}", field.Name, value,
                         field.FieldType.ToString()));
                 }
@@ -177,16 +182,18 @@ namespace MissionPlanner.Controls
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.but_graphit = new MissionPlanner.Controls.MyButton();
+            this.chk_gcstraffic = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // treeView1
             // 
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeView1.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.treeView1.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.treeView1.FullRowSelect = true;
             this.treeView1.Location = new System.Drawing.Point(3, 16);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(693, 259);
+            this.treeView1.Size = new System.Drawing.Size(521, 259);
             this.treeView1.TabIndex = 0;
             this.treeView1.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.treeView1_DrawNode);
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
@@ -199,7 +206,7 @@ namespace MissionPlanner.Controls
             this.groupBox1.Controls.Add(this.treeView1);
             this.groupBox1.Location = new System.Drawing.Point(0, 30);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(699, 278);
+            this.groupBox1.Size = new System.Drawing.Size(527, 278);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             // 
@@ -227,19 +234,30 @@ namespace MissionPlanner.Controls
             // 
             // but_graphit
             // 
+            this.but_graphit.Enabled = false;
             this.but_graphit.Location = new System.Drawing.Point(12, 3);
             this.but_graphit.Name = "but_graphit";
             this.but_graphit.Size = new System.Drawing.Size(75, 23);
             this.but_graphit.TabIndex = 4;
             this.but_graphit.Text = "Graph It";
             this.but_graphit.UseVisualStyleBackColor = true;
-            this.but_graphit.Visible = true;
-            but_graphit.Enabled = false;
             this.but_graphit.Click += new System.EventHandler(this.but_graphit_Click);
+            // 
+            // chk_gcstraffic
+            // 
+            this.chk_gcstraffic.AutoSize = true;
+            this.chk_gcstraffic.Location = new System.Drawing.Point(93, 5);
+            this.chk_gcstraffic.Name = "chk_gcstraffic";
+            this.chk_gcstraffic.Size = new System.Drawing.Size(111, 17);
+            this.chk_gcstraffic.TabIndex = 5;
+            this.chk_gcstraffic.Text = "Show GCS Traffic";
+            this.chk_gcstraffic.UseVisualStyleBackColor = true;
+            this.chk_gcstraffic.CheckedChanged += new System.EventHandler(this.chk_gcstraffic_CheckedChanged);
             // 
             // MAVLinkInspector
             // 
-            this.ClientSize = new System.Drawing.Size(698, 311);
+            this.ClientSize = new System.Drawing.Size(526, 311);
+            this.Controls.Add(this.chk_gcstraffic);
             this.Controls.Add(this.but_graphit);
             this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.comboBox1);
@@ -249,6 +267,7 @@ namespace MissionPlanner.Controls
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MAVLinkInspector_FormClosing);
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -259,10 +278,26 @@ namespace MissionPlanner.Controls
 
             var tv = sender as TreeView;
 
-            new SolidBrush(Color.FromArgb(e.Bounds.Y % 200, e.Bounds.Y % 200, e.Bounds.Y % 200));
+            if (e.Node.Tag == null)
+            {
+                e.DrawDefault = true;
+                return;
+            }
 
-            e.Graphics.DrawString(e.Node.Text, tv.Font, new SolidBrush(this.ForeColor)
+            var items = (object[])e.Node.Tag;
+
+            //(String.Format("{0,-32} {1,20} {2,-20}", field.Name, value, field.FieldType.ToString()));
+
+            e.Graphics.DrawString(items[0].ToString(), tv.Font, new SolidBrush(tv.ForeColor)
                 , e.Bounds.X,
+                e.Bounds.Y);
+
+            e.Graphics.DrawString(items[1].ToString().PadLeft(20,' '), tv.Font, new SolidBrush(tv.ForeColor)
+                , e.Bounds.X + tv.Width * 0.4f,
+                e.Bounds.Y);
+
+            e.Graphics.DrawString(items[2].ToString(), tv.Font, new SolidBrush(tv.ForeColor)
+                , e.Bounds.X + tv.Width * 0.75f,
                 e.Bounds.Y);
         }
 
@@ -274,32 +309,13 @@ namespace MissionPlanner.Controls
             timer1.Stop();
         }
 
-        public class MyTreeView: TreeView
+        public class MyTreeView : TreeView
         {
             public MyTreeView()
             {
                 SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-                //SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+                SetStyle(ControlStyles.AllPaintingInWmPaint, true);
                 //UpdateStyles();
-            }
-
-            protected override void OnPaint(PaintEventArgs e)
-            {
-                if (GetStyle(ControlStyles.UserPaint))
-                {
-                    Message m = new Message
-                    {
-                        HWnd = Handle
-                    };
-                    int WM_PRINTCLIENT = 0x318;
-                    m.Msg = WM_PRINTCLIENT;
-                    m.WParam = e.Graphics.GetHdc();
-                    int PRF_CLIENT = 0x00000004;
-                    m.LParam = (IntPtr)PRF_CLIENT;
-                    DefWndProc(ref m);
-                    e.Graphics.ReleaseHdc(m.WParam);
-                }
-                base.OnPaint(e);
             }
         }
 
@@ -378,6 +394,17 @@ namespace MissionPlanner.Controls
             form.Show(this);
             timer.Start();
             but_graphit.Enabled = false;
+        }
+
+        private void chk_gcstraffic_CheckedChanged(object sender, EventArgs e)
+        {
+            if(chk_gcstraffic.Checked)
+                mav.OnPacketSent += MavOnOnPacketReceived;
+            if (!chk_gcstraffic.Checked)
+            {
+                mav.OnPacketSent -= MavOnOnPacketReceived;
+                mav.OnPacketSent -= MavOnOnPacketReceived;
+            }
         }
     }
 }
