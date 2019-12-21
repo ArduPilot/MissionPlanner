@@ -378,6 +378,8 @@ namespace MissionPlanner.Controls
                 toolStripStatusLabel1.Text = "Delete " + listView1SelectedItem.Text;
                 var success = _mavftp.kCmdRemoveFile(((DirectoryInfo) listView1SelectedItem.Tag).FullName + "/" +
                                                      listView1SelectedItem.Text);
+                if (!success)
+                    CustomMessageBox.Show("Failed to delete file", listView1SelectedItem.Text);
             }
 
             TreeView1_NodeMouseClick(null,
