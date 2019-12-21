@@ -2301,6 +2301,9 @@
   <data name="cmb_model.Items30" xml:space="preserve">
     <value>motorboat</value>
   </data>
+  <data name="cmb_model.Items31" xml:space="preserve">
+    <value>morse-rover</value>
+  </data>
   <data name="cmb_model.Location" type="System.Drawing.Point, System.Drawing">
     <value>169, 17</value>
   </data>
