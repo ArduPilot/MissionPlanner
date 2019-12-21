@@ -33,7 +33,7 @@ namespace MissionPlanner.ArduPilot
 
                 progress?.Invoke(0, "Getting WP count");
 
-                log.Info("Getting WP #");
+                log.Info("Getting WP # " + type);
 
                 int cmdcount = await port.getWPCountAsync(sysid, compid, type).ConfigureAwait(false);
 
@@ -48,7 +48,7 @@ namespace MissionPlanner.ArduPilot
 
                 progress?.Invoke(100, "Done");
 
-                log.Info("Done");
+                log.Info("Done " + type);
             }
             catch (Exception ex)
             {

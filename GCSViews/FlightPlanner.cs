@@ -889,7 +889,7 @@ namespace MissionPlanner.GCSViews
             return result;
         }
 
-        public async void GeoFencedownloadToolStripMenuItem_Click(object sender, EventArgs e)
+        public void GeoFencedownloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             polygongridmode = false;
             int count = 1;
@@ -901,7 +901,7 @@ namespace MissionPlanner.GCSViews
                     CustomMessageBox.Show(Strings.PleaseConnect);
                     return;
                 }
-                await mav_mission.download(MainV2.comPort, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, MAVLink.MAV_MISSION_TYPE.FENCE).ConfigureAwait(false);
+                mav_mission.download(MainV2.comPort, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, MAVLink.MAV_MISSION_TYPE.FENCE).AwaitSync();
                 return;
             }
 
@@ -925,7 +925,7 @@ namespace MissionPlanner.GCSViews
             {
                 try
                 {
-                    var plla = await MainV2.comPort.getFencePoint(a).ConfigureAwait(false);
+                    var plla = MainV2.comPort.getFencePoint(a).AwaitSync();
                     geofencepolygon.Points.Add(new PointLatLng(plla.plla.Lat, plla.plla.Lng));
                 }
                 catch
@@ -968,7 +968,7 @@ namespace MissionPlanner.GCSViews
             MainMap.Invalidate();
         }
 
-        public async void getRallyPointsToolStripMenuItem_Click(object sender, EventArgs e)
+        public void getRallyPointsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if ((MainV2.comPort.MAV.cs.capabilities & (uint)MAVLink.MAV_PROTOCOL_CAPABILITY.MISSION_RALLY) >= 0)
             {
@@ -977,7 +977,7 @@ namespace MissionPlanner.GCSViews
                     CustomMessageBox.Show(Strings.PleaseConnect);
                     return;
                 }
-                await mav_mission.download(MainV2.comPort, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, MAVLink.MAV_MISSION_TYPE.RALLY).ConfigureAwait(false);
+                mav_mission.download(MainV2.comPort, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, MAVLink.MAV_MISSION_TYPE.RALLY).AwaitSync();
                 return;
             }
 
@@ -1001,7 +1001,7 @@ namespace MissionPlanner.GCSViews
             {
                 try
                 {
-                    var plla = await MainV2.comPort.getRallyPoint(a).ConfigureAwait(false);
+                    var plla = MainV2.comPort.getRallyPoint(a).AwaitSync();
                     count = plla.total;
                     rallypointoverlay.Markers.Add(new GMapMarkerRallyPt(new PointLatLng(plla.plla.Lat, plla.plla.Lng))
                     {
