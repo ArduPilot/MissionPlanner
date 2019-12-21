@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Net.Security;
 using System.Text;
 using System.Threading;
@@ -277,14 +278,105 @@ namespace MissionPlanner.Utilities
         private static readonly ILog log =
             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public static async Task<bool> getFilefromNetAsync(string url, string saveto)
+        public static async Task<bool> getFilefromNetAsync(string url, string saveto, Action<int, string> status = null)
         {
-            return await Task.Run(() =>
+            try
             {
-                return getFilefromNet(url, saveto);
-            });            
+                log.Info("Get " + url);
+
+                using (var response = await client.GetAsync(url))
+                {
+                    lock (log)
+                        log.Info((response).StatusCode.ToString());
+                    if ((response).StatusCode != HttpStatusCode.OK)
+                        return false;
+
+                    if (File.Exists(saveto))
+                    {
+                        DateTime lastfilewrite = new FileInfo(saveto).LastWriteTime;
+                        DateTime lasthttpmod = response.Content.Headers.LastModified.HasValue
+                            ? response.Content.Headers.LastModified.Value.DateTime
+                            : DateTime.MinValue;
+
+                        if (lasthttpmod < lastfilewrite)
+                        {
+                            if ((response).Content.Headers.ContentLength == new FileInfo(saveto).Length)
+                            {
+                                lock (log)
+                                    log.Info("got LastModified " + saveto + " " +
+                                             (response).Content.Headers.LastModified +
+                                             " vs " + new FileInfo(saveto).LastWriteTime);
+                                response.Dispose();
+                                return true;
+                            }
+                        }
+                    }
+
+                    int size = 0;
+                    using (Stream resstream = await response.Content.ReadAsStreamAsync())
+                    using (FileStream fs = new FileStream(saveto + ".new", FileMode.Create))
+                    {
+                        byte[] buf1 = new byte[1024];
+
+                        DateTime lastupdate = DateTime.MinValue;
+                        DateTime starttime = DateTime.Now;
+                        var contlen = response.Content.Headers.ContentLength;
+
+                        while (resstream.CanRead)
+                        {
+                            int len = await resstream.ReadAsync(buf1, 0, 1024);
+                            if (len == 0)
+                                break;
+                            fs.Write(buf1, 0, len);
+
+                            size += len;
+
+                            var elapsed = (DateTime.Now - starttime).TotalSeconds;
+                            var percent = ((size / (float) contlen) * 100.0f);
+                            if (lastupdate.Second != DateTime.Now.Second)
+                            {
+                                lastupdate = DateTime.Now;
+                                Console.WriteLine("{0} bps {1} {2}s {3}% of {4}     \r", size / elapsed, size, elapsed,
+                                    percent, contlen);
+                                var timeleft = TimeSpan.FromSeconds(((elapsed / percent) * (100 - percent)));
+                                status?.Invoke((int) percent,
+                                    "Downloading.. ETA: " +
+                                    //DateTime.Now.AddSeconds(((elapsed / percent) * (100 - percent))).ToShortTimeString()
+                                    formatTimeSpan(timeleft)
+                                );
+                            }
+                        }
+
+                        fs.Flush();
+                        fs.Close();
+                    }
+
+                    log.Info("Got " + url + " " + size);
+
+                    if (File.Exists(saveto))
+                    {
+                        File.Delete(saveto);
+                    }
+
+                    File.Move(saveto + ".new", saveto);
+
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                lock (log)
+                    log.Info("getFilefromNetAsync(): " + ex.ToString());
+                return false;
+            }
         }
 
+        static Download()
+        {
+            client.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
+        }
+
+        static HttpClient client = new HttpClient();
         public static bool getFilefromNet(string url, string saveto, Action<int, string> status = null)
         {
             try
