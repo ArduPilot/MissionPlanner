@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reactive.Subjects;
@@ -66,25 +67,38 @@ namespace MissionPlanner
 
         public event EventHandler<MAVLinkMessage> OnPacketReceived
         {
-            add { log.Info("Subscribed " + value); _OnPacketReceived += value; }
-            remove { log.Info("UnSubscribed " + value); _OnPacketReceived += value; }
+            add
+            {
+                log.Info("Subscribed " + new StackTrace(1, true).GetFrame(0).ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
+                         " " + value);
+                _OnPacketReceived += value;
+            }
+
+            remove { log.Info("UnSubscribed " + new StackTrace(1, true).GetFrame(0).ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
+                              " " + value); _OnPacketReceived += value; }
         }
 
         public event EventHandler<MAVLinkMessage> OnPacketSent
         {
-            add { log.Info("Subscribed " + value); _OnPacketSent += value; }
-            remove { log.Info("UnSubscribed " + value); _OnPacketSent += value; }
+            add { log.Info("Subscribed " + new StackTrace(1, true).GetFrame(0).ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
+                           " " + value); _OnPacketSent += value; }
+            remove { log.Info("UnSubscribed " + new StackTrace(1, true).GetFrame(0).ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
+                              " " + value); _OnPacketSent += value; }
         }
 
         public static event EventHandler<adsb.PointLatLngAltHdg> UpdateADSBPlanePosition
         {
-            add { log.Info("Subscribed " + value); _UpdateADSBPlanePosition += value; }
-            remove { log.Info("UnSubscribed " + value); _UpdateADSBPlanePosition += value; }
+            add { log.Info("Subscribed " + new StackTrace(1, true).GetFrame(0).ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
+                           " " + value); _UpdateADSBPlanePosition += value; }
+            remove { log.Info("UnSubscribed " + new StackTrace(1, true).GetFrame(0).ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
+                              " " + value); _UpdateADSBPlanePosition += value; }
         }
         public static event EventHandler<(string id, MAV_COLLISION_THREAT_LEVEL threat_level)> UpdateADSBCollision
         {
-            add { log.Info("Subscribed " + value); _UpdateADSBCollision += value; }
-            remove { log.Info("UnSubscribed " + value); _UpdateADSBCollision += value; }
+            add { log.Info("Subscribed " + new StackTrace(1, true).GetFrame(0).ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
+                           " " + value); _UpdateADSBCollision += value; }
+            remove { log.Info("UnSubscribed " + new StackTrace(1, true).GetFrame(0).ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
+                              " " + value); _UpdateADSBCollision += value; }
         }
 
         public ICommsSerial MirrorStream { get; set; }
@@ -92,20 +106,26 @@ namespace MissionPlanner
 
         public event EventHandler ParamListChanged
         {
-            add { log.Info("Subscribed " + value); _ParamListChanged += value; }
-            remove { log.Info("UnSubscribed " + value); _ParamListChanged += value; }
+            add { log.Info("Subscribed " + new StackTrace(1, true).GetFrame(0).ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
+                           " " + value); _ParamListChanged += value; }
+            remove { log.Info("UnSubscribed " + new StackTrace(1, true).GetFrame(0).ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
+                              " " + value); _ParamListChanged += value; }
         }
 
         public event EventHandler MavChanged
         {
-            add { log.Info("Subscribed " + value); _MavChanged += value; }
-            remove { log.Info("UnSubscribed " + value); _MavChanged += value; }
+            add { log.Info("Subscribed " + new StackTrace(1, true).GetFrame(0).ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
+                           " " + value); _MavChanged += value; }
+            remove { log.Info("UnSubscribed " + new StackTrace(1, true).GetFrame(0).ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
+                              " " + value); _MavChanged += value; }
         }
 
         public event EventHandler CommsClose
         {
-            add { log.Info("Subscribed " + value); _CommsClose += value; }
-            remove { log.Info("UnSubscribed " + value); _CommsClose += value; }
+            add { log.Info("Subscribed " + new StackTrace(1, true).GetFrame(0).ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
+                           " " + value); _CommsClose += value; }
+            remove { log.Info("UnSubscribed " + new StackTrace(1, true).GetFrame(0).ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
+                              " " + value); _CommsClose += value; }
         }
 
         public static byte gcssysid { get; set; } = 255;
