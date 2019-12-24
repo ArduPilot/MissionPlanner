@@ -76,7 +76,6 @@ namespace MissionPlanner.Utilities
                         try
                         {
                             var client = new UdpClient(connectionInfo.Port);
-                            client.ExclusiveAddressUse = false;
                             client.BeginReceive(clientdataMAVLink, client);
                         }
                         catch (Exception ex)
