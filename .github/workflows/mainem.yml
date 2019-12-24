@@ -40,5 +40,9 @@ jobs:
     - name: Verify
       run: emcc -v
     - name: git
-      run: git clone https://github.com/ArduPilot/ardupilot.git --depth 2
+      run: |
+        git clone https://github.com/ArduPilot/ardupilot.git --depth 2
+        cd ardupilot
+        emconfigure sh -c './waf configure --prefix=$EMSCRIPTEN/system/local/ --lightweight=fftw --emscripten'
+        emmake ./waf
       
