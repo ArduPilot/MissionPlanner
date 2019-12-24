@@ -39,3 +39,6 @@ jobs:
 
     - name: Verify
       run: emcc -v
+    - name: git
+      run: git clone https://github.com/ArduPilot/ardupilot.git --depth 2
+      
