@@ -4544,9 +4544,6 @@
     <None Include="NoFly\SouthAfricaNoRPASOutlined.kmz">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="ph2_serial.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="Properties\app.manifest" />
     <None Include="Scripts\datetime.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

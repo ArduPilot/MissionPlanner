@@ -1804,31 +1804,6 @@ namespace MissionPlanner
                 if (comPort.MAV.SerialString == "")
                     return;
 
-                var serials = File.ReadAllLines("ph2_serial.csv");
-
-                foreach (var serial in serials)
-                {
-                    if (serial.Contains(comPort.MAV.SerialString.Substring(comPort.MAV.SerialString.Length - 26, 26)) &&
-                        !Settings.Instance.ContainsKey(comPort.MAV.SerialString.Replace(" ", "")))
-                    {
-                        CustomMessageBox.Show(
-                            "Your board has a Critical service bulletin please see [link;http://discuss.ardupilot.org/t/sb-0000001-critical-service-bulletin-for-beta-cube-2-1/14711;Click here]",
-                            Strings.ERROR);
-
-                        Settings.Instance[comPort.MAV.SerialString.Replace(" ", "")] = true.ToString();
-                    }
-                }
-            }
-            catch
-            {
-
-            }
-
-            try
-            {
-                if (comPort.MAV.SerialString == "")
-                    return;
-
                 if (comPort.MAV.SerialString.Contains("CubeBlack") &&
                     comPort.MAV.param.ContainsKey("INS_ACC3_ID") && comPort.MAV.param["INS_ACC3_ID"].Value == 0 &&
                     comPort.MAV.param.ContainsKey("INS_GYR3_ID") && comPort.MAV.param["INS_GYR3_ID"].Value == 0 &&
