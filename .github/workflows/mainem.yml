@@ -43,6 +43,8 @@ jobs:
       run: |
         git clone https://github.com/ArduPilot/ardupilot.git --depth 2
         cd ardupilot
+        git submodule init
+        git submodule update
         emconfigure sh -c './waf configure --prefix=$EMSCRIPTEN/system/local/ --lightweight=fftw --emscripten'
         emmake ./waf
       
