@@ -45,6 +45,6 @@ jobs:
         cd ardupilot
         git submodule init
         git submodule update
-        emconfigure sh -c './waf configure  --emscripten'
+        emconfigure sh -c './waf configure'
         emmake ./waf
       
