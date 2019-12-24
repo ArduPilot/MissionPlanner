@@ -48,6 +48,6 @@ jobs:
         cd ardupilot
         git submodule init
         git submodule update
-        ./waf configure
+        ./waf configure --check-c-compiler=emcc
         ./waf copter
       
