@@ -158,7 +158,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="cmb_Baud.Location" type="System.Drawing.Point, System.Drawing">
-    <value>130, 4</value>
+    <value>130, 0</value>
   </data>
   <data name="cmb_Baud.Size" type="System.Drawing.Size, System.Drawing">
     <value>70, 21</value>
@@ -180,7 +180,7 @@
     <value>4</value>
   </data>
   <data name="cmb_ConnectionType.Location" type="System.Drawing.Point, System.Drawing">
-    <value>201, 4</value>
+    <value>201, 0</value>
   </data>
   <data name="cmb_ConnectionType.Size" type="System.Drawing.Size, System.Drawing">
     <value>26, 21</value>
@@ -204,7 +204,7 @@
     <value>3</value>
   </data>
   <data name="cmb_Connection.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 4</value>
+    <value>3, 0</value>
   </data>
   <data name="cmb_Connection.Size" type="System.Drawing.Size, System.Drawing">
     <value>121, 21</value>
@@ -228,7 +228,7 @@
     <value>True</value>
   </data>
   <data name="linkLabel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 33</value>
+    <value>3, 25</value>
   </data>
   <data name="linkLabel1.Size" type="System.Drawing.Size, System.Drawing">
     <value>40, 13</value>
@@ -255,7 +255,7 @@
     <value>1</value>
   </data>
   <data name="cmb_sysid.Location" type="System.Drawing.Point, System.Drawing">
-    <value>49, 31</value>
+    <value>49, 21</value>
   </data>
   <data name="cmb_sysid.Size" type="System.Drawing.Size, System.Drawing">
     <value>151, 21</value>
@@ -279,10 +279,10 @@
     <value>True</value>
   </metadata>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>230, 54</value>
+    <value>230, 40</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>230, 54</value>
+    <value>230, 40</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>ConnectionControl</value>
