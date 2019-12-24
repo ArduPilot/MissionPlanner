@@ -40,6 +40,7 @@ jobs:
     - name: Verify
       run: emcc -v
     - name: git
+      env: CXX=emcc
       run: |
         git clone https://github.com/ArduPilot/ardupilot.git --depth 2
         cd ardupilot
