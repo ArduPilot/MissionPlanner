@@ -42,6 +42,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using Feature = SharpKml.Dom.Feature;
+using Formatting = Newtonsoft.Json.Formatting;
 using ILog = log4net.ILog;
 using Placemark = SharpKml.Dom.Placemark;
 using Point = System.Drawing.Point;
@@ -5432,8 +5433,12 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                     if (MainV2.comPort.MAV.sysid != message.sysid &&
                         MainV2.comPort.MAV.compid != message.compid)
                         return true;
+                    // check this gcs sent it
+                    if (data.target_system != MAVLinkInterface.gcssysid ||
+                        data.target_component != (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER)
+                        return true;
                     result = ans;
-                    Console.WriteLine("MISSION_ACK " + ans);
+                    Console.WriteLine("MISSION_ACK " + ans + " " + data.ToJSON(Formatting.None));
                     return true;
                 });
 
@@ -5450,7 +5455,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                         data.target_component != (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER)
                         return true;
                     reqno = data.seq;
-                    Console.WriteLine("MISSION_REQUEST " + reqno);
+                    Console.WriteLine("MISSION_REQUEST " + reqno + " " + data.ToJSON(Formatting.None));
                     return true;
                 });
 
@@ -5462,6 +5467,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             try
             {
                 home.id = (ushort)MAVLink.MAV_CMD.WAYPOINT;
+                home.frame = (byte)altmode.Absolute;
                 home.lat = (double.Parse(TXT_homelat.Text));
                 home.lng = (double.Parse(TXT_homelng.Text));
                 home.alt = (float.Parse(TXT_homealt.Text) / CurrentState.multiplieralt); // use saved home
@@ -5603,7 +5609,8 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                 if (Commands.Rows.Count > 0)
                     ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(a * 100 / Commands.Rows.Count, "Setting WP " + a);
-                Console.WriteLine("WP no " + a);
+                log.Info("WP no " + a + " " + req.ToJSON(Formatting.None));
+
 
                 MainV2.comPort.sendPacket(req, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid);
             }
