@@ -1017,7 +1017,7 @@ namespace MissionPlanner
 
             if (this.InvokeRequired)
             {
-                this.Invoke((MethodInvoker)delegate
+                this.BeginInvoke((MethodInvoker)delegate
                {
                     //enable the payload control page if a mavlink gimbal is detected
                     if (instance.FlightData != null)
