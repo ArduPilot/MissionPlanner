@@ -4422,12 +4422,6 @@
     <Content Include="Drivers\signed.cer">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Drivers\stmcdc.cat">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Drivers\stmcdc.inf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Drivers\ubloxusb.cat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

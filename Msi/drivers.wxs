@@ -51,9 +51,7 @@
 				<File Id="px4mav_cat" Source="..\bin\release\net461\Drivers\px4mav.cat" />
 				<File Id="px4mav_inf" Source="..\bin\release\net461\Drivers\px4mav.inf" />
 				<File Id="signed_cer" Source="..\bin\release\net461\Drivers\signed.cer" />
-				<File Id="stmcdc_cat" Source="..\bin\release\net461\Drivers\stmcdc.cat" />
-				<File Id="stmcdc_inf" Source="..\bin\release\net461\Drivers\stmcdc.inf" />
-				<File Id="ubloxusb_cat" Source="..\bin\release\net461\Drivers\ubloxusb.cat" />
+                                <File Id="ubloxusb_cat" Source="..\bin\release\net461\Drivers\ubloxusb.cat" />
 				<File Id="ubloxusb_inf" Source="..\bin\release\net461\Drivers\ubloxusb.inf" />
 				<File Id="ubloxusb_sys" Source="..\bin\release\net461\Drivers\ubloxusb.sys" />
 				<File Id="ubloxusb64_sys" Source="..\bin\release\net461\Drivers\ubloxusb64.sys" />
