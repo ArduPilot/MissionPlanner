@@ -418,6 +418,12 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigFirmwareManifest.Designer.cs">
       <DependentUpon>ConfigFirmwareManifest.cs</DependentUpon>
     </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigHWCompass2.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigHWCompass2.Designer.cs">
+      <DependentUpon>ConfigHWCompass2.cs</DependentUpon>
+    </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigHWIDs.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -635,6 +641,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFirmwareManifest.resx">
       <DependentUpon>ConfigFirmwareManifest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWCompass2.resx">
+      <DependentUpon>ConfigHWCompass2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWIDs.resx">
       <DependentUpon>ConfigHWIDs.cs</DependentUpon>
@@ -4285,6 +4294,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include=".editorconfig" />
+    <None Include="MissionPlanner.GCSViews.ConfigurationView.CompassInfo.datasource" />
+    <None Include="MissionPlanner.GCSViews.ConfigurationView.ConfigHWCompass2.datasource" />
     <None Include="Resources\Gaugebg.png" />
     <None Include="appxmanifest.xml" />
     <Content Include="ArduCopterConfig.xml">

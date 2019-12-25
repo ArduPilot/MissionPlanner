@@ -130,6 +130,7 @@ namespace MissionPlanner.GCSViews
             }
 
             AddBackstageViewPage(typeof(ConfigHWCompass), rm.GetString("backstageViewPagecompass.Text"), isConnected, mand);
+            AddBackstageViewPage(typeof(ConfigHWCompass2), rm.GetString("backstageViewPagecompass.Text"), isConnected, mand);
 
             if (MainV2.DisplayConfiguration.displayRadioCalibration)
             {
