@@ -45,6 +45,7 @@ namespace Hoho.Android.UsbSerial
 
                 (0x0483, 0x5740),
                 (0x1209, 0x5740),
+                (0x1209, 0x5741),
                 (0x26AC, 0x11),
                 (0x20A0, 0x415E),
                 (0x20A0, 0x415C),
