@@ -9,7 +9,7 @@ ClassGuid={4D36E978-E325-11CE-BFC1-08002BE10318}
 Provider=%MFGNAME%
 LayoutFile=layout.inf
 CatalogFile=Holybro.cat
-DriverVer=03/07/2019,1.0.0.1
+DriverVer=12/26/2019,2.0.0.10
 
 [Manufacturer]
 %MFGNAME%=DeviceList, NTamd64
@@ -87,12 +87,14 @@ ServiceBinary=%12%\%DRIVERFILENAME%.sys
 [DeviceList]
 %DESCRIPTION47%=DriverInstall, USB\VID_3162&PID_0047
 %DESCRIPTION49%=DriverInstall, USB\VID_3162&PID_0049
-%DESCRIPTION4B%=DriverInstall, USB\VID_3162&PID_004B
+%DESCRIPTION4B%=DriverInstall, USB\VID_3162&PID_004B&MI_00
+%DESCRIPTION4BSL%=DriverInstall, USB\VID_3162&PID_004B&MI_02
 
 [DeviceList.NTamd64]
 %DESCRIPTION47%=DriverInstall, USB\VID_3162&PID_0047
 %DESCRIPTION49%=DriverInstall, USB\VID_3162&PID_0049
-%DESCRIPTION4B%=DriverInstall, USB\VID_3162&PID_004B
+%DESCRIPTION4B%=DriverInstall, USB\VID_3162&PID_004B&MI_00
+%DESCRIPTION4BSL%=DriverInstall, USB\VID_3162&PID_004B&MI_02
 
 ;------------------------------------------------------------------------------
 ;  String Definitions
@@ -107,4 +109,5 @@ INSTDISK="Holybro Installer"
 DESCRIPTION47="Pixhawk4"
 DESCRIPTION49="Pixhawk4-mini"
 DESCRIPTION4B="Durandal"
+DESCRIPTION4BSL="Durandal SLCAN"
 SERVICE="USB RS-232 Emulation Driver"
