@@ -67,19 +67,19 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (myDataGridView1.Rows.Count >= 1)
                 await MainV2.comPort.setParamAsync((byte) MainV2.comPort.sysidcurrent,
                     (byte) MainV2.comPort.compidcurrent,
-                    "COMPASS_1ST_DEV",
+                    "COMPASS_PRIO1_ID",
                     int.Parse(myDataGridView1.Rows[0].Cells[devIDDataGridViewTextBoxColumn.Index].Value.ToString()));
 
             if (myDataGridView1.Rows.Count >= 2)
                 await MainV2.comPort.setParamAsync((byte) MainV2.comPort.sysidcurrent,
                     (byte) MainV2.comPort.compidcurrent,
-                    "COMPASS_2ND_DEV",
+                    "COMPASS_PRIO2_ID",
                     int.Parse(myDataGridView1.Rows[1].Cells[devIDDataGridViewTextBoxColumn.Index].Value.ToString()));
 
             if (myDataGridView1.Rows.Count >= 3)
                 await MainV2.comPort.setParamAsync((byte) MainV2.comPort.sysidcurrent,
                     (byte) MainV2.comPort.compidcurrent,
-                    "COMPASS_3RD_DEV",
+                    "COMPASS_PRIO3_ID",
                     int.Parse(myDataGridView1.Rows[2].Cells[devIDDataGridViewTextBoxColumn.Index].Value.ToString()));
 
             myDataGridView1.Invalidate();
