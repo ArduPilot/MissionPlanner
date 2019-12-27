@@ -102,7 +102,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public string BusType => _devid.bus_type.ToString();
         public int Bus => (int) _devid.bus;
         public int Address => (int) _devid.address;
-        public string DevType => _devid.devtype.ToString();
 
+        public string DevType
+        {
+            get
+            {
+                if (_devid.bus_type == Device.BusType.BUS_TYPE_UAVCAN) 
+                    return "SENSOR_ID#" + ((int) _devid.devtype).ToString();
+                return _devid.devtype.ToString().Replace("DEVTYPE_","");
+            }
+        }
     }
 }
