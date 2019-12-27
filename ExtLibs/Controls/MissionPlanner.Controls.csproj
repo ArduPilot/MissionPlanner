@@ -132,6 +132,9 @@
     <Compile Include="Sphere.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="TransparentPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ValuesControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
