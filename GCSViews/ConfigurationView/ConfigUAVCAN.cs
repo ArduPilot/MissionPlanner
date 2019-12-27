@@ -50,26 +50,44 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             but_slcanmode1.Enabled = false;
             but_slcanmode2.Enabled = false;
+
+
+
             try
             {
+                if (!MainV2.comPort.BaseStream.IsOpen)
+                {
+                    if (CustomMessageBox.Show(
+                            "You are not currently connected via mavlink. Please make sure the device is already in slcan mode or this is the slcan serialport.",
+                            "SLCAN", CustomMessageBox.MessageBoxButtons.OKCancel) != CustomMessageBox.DialogResult.OK)
+                        return;
+                }
+
                 if (MainV2.comPort.BaseStream.IsOpen)
                 {
                     var cport = MainV2.comPort.MAV.param["CAN_SLCAN_CPORT"].Value;
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "CAN_SLCAN_CPORT", canport, true);
+                    MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                        "CAN_SLCAN_CPORT", canport, true);
                     if (cport == 0)
                     {
-                        CustomMessageBox.Show("Reboot required" + " after setting CPORT. Please reboot!", Strings.ERROR);
+                        CustomMessageBox.Show("Reboot required" + " after setting CPORT. Please reboot!",
+                            Strings.ERROR);
                         return;
                     }
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "CAN_SLCAN_TIMOUT", 2, true);
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "CAN_P" + canport + "_DRIVER", 1);
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "CAN_SLCAN_SERNUM", 0, true); // usb
+
+                    MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                        "CAN_SLCAN_TIMOUT", 2, true);
+                    MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                        "CAN_P" + canport + "_DRIVER", 1);
+                    MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                        "CAN_SLCAN_SERNUM", 0, true); // usb
                 }
             }
-            catch 
+            catch
             {
 
             }
+
             {
                 // grab the connected port
                 var port = MainV2.comPort.BaseStream;
