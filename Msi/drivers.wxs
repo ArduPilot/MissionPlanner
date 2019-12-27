@@ -2,7 +2,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension" xmlns:difx="http://schemas.microsoft.com/wix/DifxAppExtension" xmlns:iis='http://schemas.microsoft.com/wix/IIsExtension' >
 
 
-	<Product Id="*" Name="UAV Drivers" Language="1033" Version="1.3.10" Manufacturer="Michael Oborne" UpgradeCode="{625389D7-EB3C-4d77-A5F6-A285CF994370}">
+	<Product Id="*" Name="UAV Drivers" Language="1033" Version="1.3.11" Manufacturer="Michael Oborne" UpgradeCode="{625389D7-EB3C-4d77-A5F6-A285CF994370}">
 
 		<Package Description="driver Installer" Comments="driver Installer" Manufacturer="Michael Oborne" InstallerVersion="200" Compressed="yes" />
 
@@ -32,6 +32,8 @@
 				<File Id="ChibiOS_inf" Source="..\bin\release\net461\Drivers\ChibiOS.inf" />
 				<File Id="cube_cat" Source="..\bin\release\net461\Drivers\cube.cat" />
 				<File Id="Cube_inf" Source="..\bin\release\net461\Drivers\Cube.inf" />
+				<File Id="CubeComp_cat" Source="..\bin\release\net461\Drivers\CubeComp.cat" />
+				<File Id="CubeComp_inf" Source="..\bin\release\net461\Drivers\CubeComp.inf" />
 				<File Id="devcon_exe" Source="..\bin\release\net461\Drivers\devcon.exe" />
 				<File Id="dpinst_xml" Source="..\bin\release\net461\Drivers\dpinst.xml" />
 				<File Id="DPInstx64_exe" Source="..\bin\release\net461\Drivers\DPInstx64.exe" />

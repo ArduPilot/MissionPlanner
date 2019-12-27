@@ -58,8 +58,9 @@ namespace DriverCleanup
                             var pr2 = Process.Start(si);
                             continue;
                         }
-
-                        if (prn[i].Groups[2].Value.Trim() == "ChibiOS" || 
+                        
+                        if (prn[i].Groups[2].Value.Trim() == "ArduPilot Project" ||
+                            prn[i].Groups[2].Value.Trim() == "ChibiOS" || 
                             prn[i].Groups[2].Value.Trim() == "3D Robotics" ||
                             prn[i].Groups[2].Value.Trim() == "Laser Navigation" ||
                             prn[i].Groups[2].Value.Trim() == "Hex Technology Limited" ||
