@@ -30,6 +30,11 @@
         {
             this.components = new System.ComponentModel.Container();
             this.myDataGridView1 = new MissionPlanner.Controls.MyDataGridView();
+            this.compassInfoBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.configHWCompass2BindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.label1 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.devIDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.busTypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.busDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -37,11 +42,7 @@
             this.devTypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Up = new System.Windows.Forms.DataGridViewImageColumn();
             this.Down = new System.Windows.Forms.DataGridViewImageColumn();
-            this.compassInfoBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.configHWCompass2BindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.label1 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.Use = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.compassInfoBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.configHWCompass2BindingSource)).BeginInit();
@@ -63,7 +64,8 @@
             this.addressDataGridViewTextBoxColumn,
             this.devTypeDataGridViewTextBoxColumn,
             this.Up,
-            this.Down});
+            this.Down,
+            this.Use});
             this.myDataGridView1.DataSource = this.compassInfoBindingSource;
             this.myDataGridView1.Location = new System.Drawing.Point(3, 68);
             this.myDataGridView1.Name = "myDataGridView1";
@@ -72,6 +74,43 @@
             this.myDataGridView1.Size = new System.Drawing.Size(583, 314);
             this.myDataGridView1.TabIndex = 0;
             this.myDataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.myDataGridView1_CellContentClick);
+            // 
+            // compassInfoBindingSource
+            // 
+            this.compassInfoBindingSource.DataSource = typeof(MissionPlanner.GCSViews.ConfigurationView.CompassInfo);
+            // 
+            // configHWCompass2BindingSource
+            // 
+            this.configHWCompass2BindingSource.DataSource = typeof(MissionPlanner.GCSViews.ConfigurationView.ConfigHWCompass2);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 33);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(364, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Set the Compass Priority by moving around the compass\'s in the table below\r\n";
+            // 
+            // label6
+            // 
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.label6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label6.Location = new System.Drawing.Point(3, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(583, 22);
+            this.label6.TabIndex = 80;
+            this.label6.Text = "Compass Priority";
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox5.Location = new System.Drawing.Point(-1, 18);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(1108, 10);
+            this.groupBox5.TabIndex = 79;
+            this.groupBox5.TabStop = false;
             // 
             // devIDDataGridViewTextBoxColumn
             // 
@@ -129,42 +168,11 @@
             this.Down.ReadOnly = true;
             this.Down.Width = 40;
             // 
-            // compassInfoBindingSource
+            // Use
             // 
-            this.compassInfoBindingSource.DataSource = typeof(MissionPlanner.GCSViews.ConfigurationView.CompassInfo);
-            // 
-            // configHWCompass2BindingSource
-            // 
-            this.configHWCompass2BindingSource.DataSource = typeof(MissionPlanner.GCSViews.ConfigurationView.ConfigHWCompass2);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 33);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(364, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Set the Compass Priority by moving around the compass\'s in the table below\r\n";
-            // 
-            // label6
-            // 
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.label6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label6.Location = new System.Drawing.Point(3, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(583, 22);
-            this.label6.TabIndex = 80;
-            this.label6.Text = "Compass Priority";
-            // 
-            // groupBox5
-            // 
-            this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox5.Location = new System.Drawing.Point(-1, 18);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(1108, 10);
-            this.groupBox5.TabIndex = 79;
-            this.groupBox5.TabStop = false;
+            this.Use.HeaderText = "Use";
+            this.Use.Name = "Use";
+            this.Use.ReadOnly = true;
             // 
             // ConfigHWCompass2
             // 
@@ -189,6 +197,9 @@
         private Controls.MyDataGridView myDataGridView1;
         private System.Windows.Forms.BindingSource configHWCompass2BindingSource;
         private System.Windows.Forms.BindingSource compassInfoBindingSource;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.DataGridViewTextBoxColumn devIDDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn busTypeDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn busDataGridViewTextBoxColumn;
@@ -196,8 +207,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn devTypeDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewImageColumn Up;
         private System.Windows.Forms.DataGridViewImageColumn Down;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Use;
     }
 }

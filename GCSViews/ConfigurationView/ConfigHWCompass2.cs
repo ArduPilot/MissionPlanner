@@ -18,6 +18,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
     {
         private List<CompassInfo> list;
 
+        private bool rebootrequired = false;
 
         public ConfigHWCompass2()
         {
@@ -34,11 +35,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             myDataGridView1.DataSource = bs;
         }
 
-
-
         public void Deactivate()
         {
-
+            if (rebootrequired)
+            {
+                if (CustomMessageBox.Show("Reboot required, reboot now?", "Reboot",
+                        CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
+                {
+                    MainV2.comPort.doReboot();
+                }
+            }
         }
 
         private async void myDataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -59,6 +65,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 list.Insert(e.RowIndex + 1, item);
 
                 await UpdateFirst3();
+            }
+
+            if (e.ColumnIndex == Use.Index)
+            {
+
             }
         }
 
@@ -81,6 +92,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     (byte) MainV2.comPort.compidcurrent,
                     "COMPASS_PRIO3_ID",
                     int.Parse(myDataGridView1.Rows[2].Cells[devIDDataGridViewTextBoxColumn.Index].Value.ToString()));
+
+            rebootrequired = true;
 
             myDataGridView1.Invalidate();
         }
