@@ -43,8 +43,8 @@
             // SoftwareConfig
             // 
             this.Controls.Add(this.backstageView);
-            resources.ApplyResources(this, "$this");
             this.Name = "SoftwareConfig";
+            resources.ApplyResources(this, "$this");
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SoftwareConfig_FormClosing);
             this.Load += new System.EventHandler(this.SoftwareConfig_Load);
             this.ResumeLayout(false);
