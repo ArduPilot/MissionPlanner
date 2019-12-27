@@ -69,15 +69,21 @@ namespace UAVCAN
 
             var timeout = DateTime.Now.AddMilliseconds(timeoutms);
 
-            do
+            try
             {
-                cha = (char)st.ReadByte();
-                if (cha == -1)
-                    break;
-                sb.Append(cha);
-                if (DateTime.Now > timeout)
-                    break;
-            } while (cha != '\r' && cha != '\a');
+                do
+                {
+                    cha = (char) st.ReadByte();
+                    if (cha == -1)
+                        break;
+                    sb.Append(cha);
+                    if (DateTime.Now > timeout)
+                        break;
+                } while (cha != '\r' && cha != '\a');
+            }
+            catch 
+            {
+            }
 
             return sb.ToString();
         }
@@ -91,6 +97,7 @@ namespace UAVCAN
             //cleanup
             stream.Write(new byte[] { (byte)'\r', (byte)'\r', (byte)'\r' }, 0, 3);
             Thread.Sleep(50);
+            stream.ReadTimeout = 1000;
             stream.Read(new byte[1024 * 1024], 0, 1024 * 1024);
 
             // \a = false;

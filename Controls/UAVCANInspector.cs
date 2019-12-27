@@ -47,7 +47,7 @@ namespace MissionPlanner.Controls
 
         private void Can_MessageReceived(UAVCAN.CANFrame frame, object msg, byte transferID)
         {
-            pktinspect.Add(frame.SourceNode, 0, frame.MsgTypeID, (frame, msg), Marshal.SizeOf(msg));
+            pktinspect.Add(frame.SourceNode, 0, frame.MsgTypeID, (frame, msg), 0);
         }
 
         public new void Update()
@@ -56,18 +56,18 @@ namespace MissionPlanner.Controls
 
             bool added = false;
 
-            foreach (var mavLinkMessage in pktinspect.GetPacketMessages())
+            foreach (var uavcanMessage in pktinspect.GetPacketMessages())
             {
                 TreeNode sysidnode;
                 TreeNode compidnode;
                 TreeNode msgidnode;
 
-                var sysidnodes = treeView1.Nodes.Find(mavLinkMessage.frame.SourceNode.ToString(), false);
+                var sysidnodes = treeView1.Nodes.Find(uavcanMessage.frame.SourceNode.ToString(), false);
                 if (sysidnodes.Length == 0)
                 {
-                    sysidnode = new TreeNode("ID " + mavLinkMessage.frame.SourceNode)
+                    sysidnode = new TreeNode("ID " + uavcanMessage.frame.SourceNode)
                     {
-                        Name = mavLinkMessage.frame.SourceNode.ToString()
+                        Name = uavcanMessage.frame.SourceNode.ToString()
                     };
                     treeView1.Nodes.Add(sysidnode);
                     added = true;
@@ -88,12 +88,12 @@ namespace MissionPlanner.Controls
                 else
                     compidnode = compidnodes.First();
 
-                var msgidnodes = compidnode.Nodes.Find(mavLinkMessage.frame.MsgTypeID.ToString(), false);
+                var msgidnodes = compidnode.Nodes.Find(uavcanMessage.frame.MsgTypeID.ToString(), false);
                 if (msgidnodes.Length == 0)
                 {
-                    msgidnode = new TreeNode(mavLinkMessage.frame.MsgTypeID.ToString())
+                    msgidnode = new TreeNode(uavcanMessage.frame.MsgTypeID.ToString())
                     {
-                        Name = mavLinkMessage.frame.MsgTypeID.ToString()
+                        Name = uavcanMessage.frame.MsgTypeID.ToString()
                     };
                     compidnode.Nodes.Add(msgidnode);
                     added = true;
@@ -101,17 +101,17 @@ namespace MissionPlanner.Controls
                 else
                     msgidnode = msgidnodes.First();
 
-                var msgidheader = mavLinkMessage.message.GetType().Name + " (" +
-                                  (pktinspect.SeenRate(mavLinkMessage.frame.SourceNode, 0, mavLinkMessage.frame.MsgTypeID))
-                                  .ToString("0.0 Hz") + ", #" + mavLinkMessage.frame.MsgTypeID + ") ";
+                var msgidheader = uavcanMessage.message.GetType().Name + " (" +
+                                  (pktinspect.SeenRate(uavcanMessage.frame.SourceNode, 0, uavcanMessage.frame.MsgTypeID))
+                                  .ToString("0.0 Hz") + ", #" + uavcanMessage.frame.MsgTypeID + ") ";
 
                 if (msgidnode.Text != msgidheader)
                     msgidnode.Text = msgidheader;
 
-                var minfo = UAVCAN.uavcan.MSG_INFO.First(a => a.Item1 == mavLinkMessage.Item2.GetType());
+                var minfo = UAVCAN.uavcan.MSG_INFO.First(a => a.Item1 == uavcanMessage.Item2.GetType());
                 var fields = minfo.Item1.GetFields();
 
-                PopulateMSG(fields, msgidnode, mavLinkMessage);
+                PopulateMSG(fields, msgidnode, uavcanMessage.message);
             }
 
             if(added)
@@ -165,8 +165,9 @@ namespace MissionPlanner.Controls
                     }
                 }
 
-                if (field.FieldType.IsClass)
+                if (!field.FieldType.IsArray && field.FieldType.IsClass)
                 {
+                    MsgIdNode.Nodes[field.Name].Text = field.Name;
                     PopulateMSG(field.FieldType.GetFields(), MsgIdNode.Nodes[field.Name], value);
                     return;
                 }

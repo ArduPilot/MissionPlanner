@@ -51,8 +51,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             but_slcanmode1.Enabled = false;
             but_slcanmode2.Enabled = false;
 
-
-
             try
             {
                 if (!MainV2.comPort.BaseStream.IsOpen)
@@ -140,7 +138,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     can.LogFile = Settings.Instance.LogDir + Path.DirectorySeparatorChar +
                               DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".can";
 
-                can.StartSLCAN(port.BaseStream);
+                var prd = new ProgressReporterDialogue();
+                prd.UpdateProgressAndStatus(-1, "Trying to connect");
+                prd.DoWork += sender => can.StartSLCAN(port.BaseStream);
+                prd.btnCancel.Click += (sender, args) =>
+                {
+                    prd.doWorkArgs.CancelAcknowledged = true;
+                    port.Close();
+                };
+                prd.RunBackgroundOperationAsync();
+
+                if (prd.doWorkArgs.CancelRequested || prd.doWorkArgs.ErrorMessage != null)
+                    return;
 
                 can.SetupFileServer();
 
