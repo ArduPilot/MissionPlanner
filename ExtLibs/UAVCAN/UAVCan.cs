@@ -61,11 +61,13 @@ namespace UAVCAN
         private Stream sr;
         DateTime uptime = DateTime.Now;
 
-        string ReadLine(Stream st)
+        string ReadLine(Stream st, int timeoutms = 500)
         {
             StringBuilder sb = new StringBuilder();
 
             char cha;
+
+            var timeout = DateTime.Now.AddMilliseconds(timeoutms);
 
             do
             {
@@ -73,6 +75,8 @@ namespace UAVCAN
                 if (cha == -1)
                     break;
                 sb.Append(cha);
+                if (DateTime.Now > timeout)
+                    break;
             } while (cha != '\r' && cha != '\a');
 
             return sb.ToString();
