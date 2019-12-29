@@ -30,6 +30,8 @@
 				<File Id="arduino_inf" Source="..\bin\release\net461\Drivers\arduino.inf" />
 				<File Id="chibios_cat" Source="..\bin\release\net461\Drivers\chibios.cat" />
 				<File Id="ChibiOS_inf" Source="..\bin\release\net461\Drivers\ChibiOS.inf" />
+                <File Id="chibioscomp_cat" Source="..\bin\release\net461\Drivers\chibioscomp.cat" />
+				<File Id="ChibiOScomp_inf" Source="..\bin\release\net461\Drivers\ChibiOScomp.inf" />
 				<File Id="cube_cat" Source="..\bin\release\net461\Drivers\cube.cat" />
 				<File Id="Cube_inf" Source="..\bin\release\net461\Drivers\Cube.inf" />
 				<File Id="CubeComp_cat" Source="..\bin\release\net461\Drivers\CubeComp.cat" />
