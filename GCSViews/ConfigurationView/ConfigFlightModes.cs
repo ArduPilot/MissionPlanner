@@ -259,57 +259,47 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             float pwm = 0;
 
-            if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduPlane ||
-                MainV2.comPort.MAV.cs.firmware == Firmwares.ArduRover ||
-                MainV2.comPort.MAV.cs.firmware == Firmwares.Ateryx) // APM 
+
+            if (MainV2.comPort.MAV.param.ContainsKey("FLTMODE_CH") ||
+                MainV2.comPort.MAV.param.ContainsKey("MODE_CH"))
             {
-                if (MainV2.comPort.MAV.param.ContainsKey("FLTMODE_CH") ||
-                    MainV2.comPort.MAV.param.ContainsKey("MODE_CH"))
+                var sw = 0;
+                if (MainV2.comPort.MAV.param.ContainsKey("FLTMODE_CH"))
                 {
-                    var sw = 0;
-                    if (MainV2.comPort.MAV.param.ContainsKey("FLTMODE_CH"))
-                    {
-                        sw = (int) MainV2.comPort.MAV.param["FLTMODE_CH"].Value;
-                    }
-                    else
-                    {
-                        sw = (int) MainV2.comPort.MAV.param["MODE_CH"].Value;
-                    }
-
-                    switch (sw)
-                    {
-                        case 5:
-                            pwm = MainV2.comPort.MAV.cs.ch5in;
-                            break;
-                        case 6:
-                            pwm = MainV2.comPort.MAV.cs.ch6in;
-                            break;
-                        case 7:
-                            pwm = MainV2.comPort.MAV.cs.ch7in;
-                            break;
-                        case 8:
-                            pwm = MainV2.comPort.MAV.cs.ch8in;
-                            break;
-                        default:
-
-                            break;
-                    }
-
-                    if (MainV2.comPort.MAV.param.ContainsKey("FLTMODE_CH"))
-                    {
-                        LBL_flightmodepwm.Text = MainV2.comPort.MAV.param["FLTMODE_CH"] + ": " + pwm;
-                    }
-                    else
-                    {
-                        LBL_flightmodepwm.Text = MainV2.comPort.MAV.param["MODE_CH"] + ": " + pwm;
-                    }
+                    sw = (int) MainV2.comPort.MAV.param["FLTMODE_CH"].Value;
                 }
-            }
+                else
+                {
+                    sw = (int) MainV2.comPort.MAV.param["MODE_CH"].Value;
+                }
 
-            if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2) // ac2
-            {
-                pwm = MainV2.comPort.MAV.cs.ch5in;
-                LBL_flightmodepwm.Text = "5: " + MainV2.comPort.MAV.cs.ch5in;
+                switch (sw)
+                {
+                    case 5:
+                        pwm = MainV2.comPort.MAV.cs.ch5in;
+                        break;
+                    case 6:
+                        pwm = MainV2.comPort.MAV.cs.ch6in;
+                        break;
+                    case 7:
+                        pwm = MainV2.comPort.MAV.cs.ch7in;
+                        break;
+                    case 8:
+                        pwm = MainV2.comPort.MAV.cs.ch8in;
+                        break;
+                    default:
+
+                        break;
+                }
+
+                if (MainV2.comPort.MAV.param.ContainsKey("FLTMODE_CH"))
+                {
+                    LBL_flightmodepwm.Text = MainV2.comPort.MAV.param["FLTMODE_CH"] + ": " + pwm;
+                }
+                else
+                {
+                    LBL_flightmodepwm.Text = MainV2.comPort.MAV.param["MODE_CH"] + ": " + pwm;
+                }
             }
 
             Control[] fmodelist = {CMB_fmode1, CMB_fmode2, CMB_fmode3, CMB_fmode4, CMB_fmode5, CMB_fmode6};

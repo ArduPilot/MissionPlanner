@@ -342,7 +342,6 @@
             // 
             // ConfigFlightModes
             // 
-            
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.LBL_flightmodepwm);
