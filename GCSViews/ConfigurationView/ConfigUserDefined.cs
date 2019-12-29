@@ -58,6 +58,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 InputBox.Show("Params", "Enter Param Names", ref opts, false, true);
                 Options = opts.Split(new[] {',','\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
                 Settings.Instance["UserParams"] = Options.Aggregate((a, b) => a.Trim() + "," + b.Trim());
+                Activate();
             };
             tableLayoutPanel1.RowCount++;
             tableLayoutPanel1.Controls.Add(button);
@@ -65,7 +66,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             foreach (var option in Options)
             {
-                if (MainV2.comPort.MAV.param.ContainsKey(option))
+                if (!MainV2.comPort.MAV.param.ContainsKey(option))
                     continue;
                 tableLayoutPanel1.RowCount++;
                 tableLayoutPanel1.Controls.Add(new Label() {Text = option, Name = option});
