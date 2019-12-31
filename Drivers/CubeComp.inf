@@ -44,10 +44,10 @@ Needs=Composite.Dev.NT.Services
 [SourceDisksFiles]
 [SourceDisksNames]
 [DeviceList]
-%DESCRIPTION%=CCGPDriverInstall, USB\VID_2DAE&PID_1016
+%DESCRIPTION%=CCGPDriverInstall, USB\VID_2DAE&PID_1016, USB\VID_2DAE&PID_1026
 
 [DeviceList.NTamd64]
-%DESCRIPTION%=CCGPDriverInstall, USB\VID_2DAE&PID_1016
+%DESCRIPTION%=CCGPDriverInstall, USB\VID_2DAE&PID_1016, USB\VID_2DAE&PID_1026
 
 ;------------------------------------------------------------------------------
 ;  String Definitions
