@@ -158,20 +158,34 @@ namespace MissionPlanner.test
 
         private void PopulatePicker(Label label, Picker picker, IEnumerable<string> list)
         {
-            Console.WriteLine("PopulatePicker " + picker.Title);
+            Console.WriteLine("PopulatePicker " + picker.Title + " " + picker.SelectedItem);
             try
             {
+                if (!picker.IsVisible)
+                {
+                    picker.SelectedItem = null;
+                    return;
+                }
+
                 if (picker.SelectedItem == null)
                 {
                     var pick = list.ToList();
                     pick.Add("Ignore");
-                    picker.ItemsSource = pick;
+                    try
+                    {
+                        picker.ItemsSource = pick;
+                    } 
+                    catch
+                    {
+                        picker.ItemsSource.Clear();
+                        picker.ItemsSource = pick;
+                    }
                 }
 
                 // select it if its the only item (and Ignore)
                 if (list.Count() == 1 && picker.SelectedIndex == -1)
                 {
-                    picker.SelectedIndex = 0;
+                    //picker.SelectedIndex = 0;
                 }
 
                 if (picker.SelectedItem == "Ignore")

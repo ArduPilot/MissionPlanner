@@ -164,6 +164,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             var ports = Win32DeviceMgmt.GetAllCOMPorts();
 
+            if (alloptions)
+                ports.Add(default(DeviceInfo));
+
             foreach (var deviceInfo in ports)
             {
                 long? devid = detectedboardid;
@@ -172,7 +175,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (!devid.HasValue)
                     devid = APFirmware.GetBoardID(deviceInfo);
 
-                if (devid.HasValue && devid.Value != 0)
+                if (devid.HasValue && devid.Value != 0 || alloptions == true)
                 {
                     log.InfoFormat("{0}: {1} - {2}", deviceInfo.name, deviceInfo.description, deviceInfo.board);
 
@@ -193,7 +196,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     else if (fwitems?.Count > 0)
                     {
                         FirmwareSelection fws = new FirmwareSelection(fwitems, deviceInfo);
-                        fws.ShowXamarinControl(400, 400);
+                        fws.ShowXamarinControl(550, 400);
                         baseurl = fws.FinalResult;
                         if (fws.FinalResult == null)
                         {
