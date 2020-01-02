@@ -997,7 +997,6 @@
             // 
             // ConfigArduplane
             // 
-            
             this.Controls.Add(this.BUT_refreshpart);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);

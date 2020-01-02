@@ -63,6 +63,8 @@
             this.mavlinkNumericUpDown7 = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.mavlinkNumericUpDown19 = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.label18 = new System.Windows.Forms.Label();
             this.mavlinkNumericUpDown8 = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
@@ -90,8 +92,6 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.mavlinkComboBoxalt_source = new MissionPlanner.Controls.MavlinkComboBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.mavlinkNumericUpDown19 = new MissionPlanner.Controls.MavlinkNumericUpDown();
-            this.label18 = new System.Windows.Forms.Label();
             this.groupBox22.SuspendLayout();
             this.groupBox25.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown3)).BeginInit();
@@ -106,6 +106,7 @@
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown7)).BeginInit();
             this.groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown19)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown8)).BeginInit();
             this.groupBox6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown13)).BeginInit();
@@ -120,7 +121,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown15)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown14)).BeginInit();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown19)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox22
@@ -382,6 +382,19 @@
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.TabStop = false;
             // 
+            // mavlinkNumericUpDown19
+            // 
+            resources.ApplyResources(this.mavlinkNumericUpDown19, "mavlinkNumericUpDown19");
+            this.mavlinkNumericUpDown19.Max = 360F;
+            this.mavlinkNumericUpDown19.Min = 0F;
+            this.mavlinkNumericUpDown19.Name = "mavlinkNumericUpDown19";
+            this.mavlinkNumericUpDown19.ParamName = null;
+            // 
+            // label18
+            // 
+            resources.ApplyResources(this.label18, "label18");
+            this.label18.Name = "label18";
+            // 
             // mavlinkNumericUpDown8
             // 
             resources.ApplyResources(this.mavlinkNumericUpDown8, "mavlinkNumericUpDown8");
@@ -577,23 +590,9 @@
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // mavlinkNumericUpDown19
-            // 
-            resources.ApplyResources(this.mavlinkNumericUpDown19, "mavlinkNumericUpDown19");
-            this.mavlinkNumericUpDown19.Max = 360F;
-            this.mavlinkNumericUpDown19.Min = 0F;
-            this.mavlinkNumericUpDown19.Name = "mavlinkNumericUpDown19";
-            this.mavlinkNumericUpDown19.ParamName = null;
-            // 
-            // label18
-            // 
-            resources.ApplyResources(this.label18, "label18");
-            this.label18.Name = "label18";
-            // 
             // ConfigAntennaTracker
             // 
             resources.ApplyResources(this, "$this");
-            
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox6);
@@ -621,6 +620,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown7)).EndInit();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown19)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown8)).EndInit();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
@@ -637,7 +637,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown15)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown14)).EndInit();
             this.groupBox1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown19)).EndInit();
             this.ResumeLayout(false);
 
         }

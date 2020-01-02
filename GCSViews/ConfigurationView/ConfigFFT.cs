@@ -152,7 +152,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Controls.Add(this.but_fft);
             this.Controls.Add(this.groupBox1);
             this.Name = "ConfigFFT";
-            this.Size = new System.Drawing.Size(713, 411);
+            this.Size = new System.Drawing.Size(710, 411);
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);

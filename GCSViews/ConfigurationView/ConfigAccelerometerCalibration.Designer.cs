@@ -87,8 +87,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             // ConfigAccelerometerCalibration
             // 
-            resources.ApplyResources(this, "$this");
-            
             this.Controls.Add(this.label1);
             this.Controls.Add(this.BUT_level);
             this.Controls.Add(this.lbl_Accel_user);
@@ -97,6 +95,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label5);
             this.Name = "ConfigAccelerometerCalibration";
+            resources.ApplyResources(this, "$this");
             this.ResumeLayout(false);
             this.PerformLayout();
 

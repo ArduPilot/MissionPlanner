@@ -44,7 +44,7 @@
             this.BUT_compassmot.Name = "BUT_compassmot";
             this.BUT_compassmot.Size = new System.Drawing.Size(75, 23);
             this.BUT_compassmot.TabIndex = 0;
-            this.BUT_compassmot.Text = Strings.Start;
+            this.BUT_compassmot.Text = "Start";
             this.BUT_compassmot.UseVisualStyleBackColor = true;
             this.BUT_compassmot.Click += new System.EventHandler(this.BUT_compassmot_Click);
             // 
@@ -67,7 +67,7 @@
             this.lbl_start.Name = "lbl_start";
             this.lbl_start.Size = new System.Drawing.Size(29, 13);
             this.lbl_start.TabIndex = 2;
-            this.lbl_start.Text = Strings.Start;
+            this.lbl_start.Text = "Start";
             this.lbl_start.Visible = false;
             // 
             // lbl_finish
@@ -103,13 +103,11 @@
             this.zedGraphControl1.ScrollMinX = 0D;
             this.zedGraphControl1.ScrollMinY = 0D;
             this.zedGraphControl1.ScrollMinY2 = 0D;
-            this.zedGraphControl1.Size = new System.Drawing.Size(640, 229);
+            this.zedGraphControl1.Size = new System.Drawing.Size(627, 229);
             this.zedGraphControl1.TabIndex = 5;
             // 
             // ConfigCompassMot
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            
             this.Controls.Add(this.zedGraphControl1);
             this.Controls.Add(this.lbl_status);
             this.Controls.Add(this.lbl_finish);
@@ -117,7 +115,7 @@
             this.Controls.Add(this.txt_status);
             this.Controls.Add(this.BUT_compassmot);
             this.Name = "ConfigCompassMot";
-            this.Size = new System.Drawing.Size(647, 400);
+            this.Size = new System.Drawing.Size(634, 400);
             this.ResumeLayout(false);
             this.PerformLayout();
 

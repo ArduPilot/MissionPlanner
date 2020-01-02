@@ -639,6 +639,9 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigADSB.resx">
       <DependentUpon>ConfigADSB.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFFT.resx">
+      <DependentUpon>ConfigFFT.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFirmwareManifest.resx">
       <DependentUpon>ConfigFirmwareManifest.cs</DependentUpon>
     </EmbeddedResource>
@@ -4300,8 +4303,6 @@
     <None Include="Drivers\cubecomp.cat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="MissionPlanner.GCSViews.ConfigurationView.CompassInfo.datasource" />
-    <None Include="MissionPlanner.GCSViews.ConfigurationView.ConfigHWCompass2.datasource" />
     <None Include="Resources\Gaugebg.png" />
     <None Include="appxmanifest.xml" />
     <Content Include="ArduCopterConfig.xml">

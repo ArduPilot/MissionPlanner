@@ -228,8 +228,6 @@
             // 
             // ConfigBatteryMonitoring2
             // 
-            resources.ApplyResources(this, "$this");
-            
             this.Controls.Add(this.mavlinkComboBox3);
             this.Controls.Add(this.mavlinkComboBox2);
             this.Controls.Add(this.mavlinkComboBox1);
@@ -243,6 +241,7 @@
             this.Controls.Add(this.TXT_battcapacity);
             this.Controls.Add(this.pictureBox5);
             this.Name = "ConfigBatteryMonitoring2";
+            resources.ApplyResources(this, "$this");
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
