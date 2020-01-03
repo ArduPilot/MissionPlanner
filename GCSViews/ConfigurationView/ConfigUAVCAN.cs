@@ -104,6 +104,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     };
                 }
 
+                if(can == null)
+                    can = new uavcan();
+
                 can.SourceNode = 127;
 
                 can.NodeAdded += (id, msg) =>
