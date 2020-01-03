@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 using Xamarin.Forms;
+using Color = System.Drawing.Color;
 using Device = MissionPlanner.Utilities.Device;
 using ListView = System.Windows.Forms.ListView;
 
@@ -45,6 +46,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             mavlinkComboBoxfitness.setup(ParameterMetaDataRepository.GetParameterOptionsInt("COMPASS_CAL_FIT",
                 MainV2.comPort.MAV.cs.firmware.ToString()), "COMPASS_CAL_FIT", MainV2.comPort.MAV.param);
+
+            mavlinkCheckBoxUseCompass1.setup(1, 0, "COMPASS_USE", MainV2.comPort.MAV.param);
+            mavlinkCheckBoxUseCompass2.setup(1, 0, "COMPASS_USE2", MainV2.comPort.MAV.param);
+            mavlinkCheckBoxUseCompass3.setup(1, 0, "COMPASS_USE3", MainV2.comPort.MAV.param);
         }
 
         public void Deactivate()
@@ -79,11 +84,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 list.Insert(e.RowIndex + 1, item);
 
                 await UpdateFirst3();
-            }
-
-            if (e.ColumnIndex == Use.Index)
-            {
-                list[e.RowIndex].Use = !list[e.RowIndex].Use;
             }
         }
 
@@ -284,11 +284,22 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     try
                     {
                         if (obj.compass_id == 0)
+                        {
                             horizontalProgressBar1.Value = 100;
+                            pictureBox1.BackColor = Color.Green;
+                        }
+
                         if (obj.compass_id == 1)
+                        {
                             horizontalProgressBar2.Value = 100;
+                            pictureBox2.BackColor = Color.Green;
+                        }
+
                         if (obj.compass_id == 2)
+                        {
                             horizontalProgressBar3.Value = 100;
+                            pictureBox3.BackColor = Color.Green;
+                        }
                     }
                     catch
                     {
@@ -314,6 +325,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 timer1.Stop();
                 CustomMessageBox.Show("Please reboot the autopilot");
             }
+        }
+
+        private void myDataGridView1_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
         }
     }
 
@@ -346,28 +361,5 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
-        public bool Use
-        {
-            get
-            {
-                if (_index == 0) return int.Parse(MainV2.comPort.MAV.param["COMPASS_USE"].ToString()) > 0;
-                if (_index == 1) return int.Parse(MainV2.comPort.MAV.param["COMPASS_USE2"].ToString()) > 0;
-                if (_index == 2) return int.Parse(MainV2.comPort.MAV.param["COMPASS_USE3"].ToString()) > 0;
-                return false;
-            }
-
-            set
-            {
-                if (_index == 0)
-                    MainV2.comPort.setParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "COMPASS_USE",
-                        value ? 1 : 0);
-                if (_index == 1)
-                    MainV2.comPort.setParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "COMPASS_USE2",
-                        value ? 1 : 0);
-                if (_index == 2)
-                    MainV2.comPort.setParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "COMPASS_USE3",
-                        value ? 1 : 0);
-            }
-        }
     }
 }

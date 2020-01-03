@@ -37,12 +37,14 @@
             this.devTypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Up = new System.Windows.Forms.DataGridViewImageColumn();
             this.Down = new System.Windows.Forms.DataGridViewImageColumn();
-            this.Use = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.compassInfoBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.groupBoxonboardcalib = new System.Windows.Forms.GroupBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.mavlinkComboBoxfitness = new MissionPlanner.Controls.MavlinkComboBox();
@@ -57,9 +59,16 @@
             this.BUT_OBmagcalcancel = new MissionPlanner.Controls.MyButton();
             this.BUT_OBmagcalstart = new MissionPlanner.Controls.MyButton();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.mavlinkCheckBoxUseCompass1 = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.mavlinkCheckBoxUseCompass3 = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.mavlinkCheckBoxUseCompass2 = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.compassInfoBindingSource)).BeginInit();
             this.groupBoxonboardcalib.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // myDataGridView1
@@ -77,16 +86,16 @@
             this.addressDataGridViewTextBoxColumn,
             this.devTypeDataGridViewTextBoxColumn,
             this.Up,
-            this.Down,
-            this.Use});
+            this.Down});
             this.myDataGridView1.DataSource = this.compassInfoBindingSource;
             this.myDataGridView1.Location = new System.Drawing.Point(3, 49);
             this.myDataGridView1.Name = "myDataGridView1";
             this.myDataGridView1.ReadOnly = true;
             this.myDataGridView1.RowHeadersWidth = 20;
-            this.myDataGridView1.Size = new System.Drawing.Size(600, 147);
+            this.myDataGridView1.Size = new System.Drawing.Size(600, 209);
             this.myDataGridView1.TabIndex = 0;
             this.myDataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.myDataGridView1_CellContentClick);
+            this.myDataGridView1.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.myDataGridView1_RowPostPaint);
             // 
             // devIDDataGridViewTextBoxColumn
             // 
@@ -144,14 +153,6 @@
             this.Down.ReadOnly = true;
             this.Down.Width = 40;
             // 
-            // Use
-            // 
-            this.Use.DataPropertyName = "Use";
-            this.Use.HeaderText = "Use";
-            this.Use.Name = "Use";
-            this.Use.ReadOnly = true;
-            this.Use.Width = 40;
-            // 
             // compassInfoBindingSource
             // 
             this.compassInfoBindingSource.DataSource = typeof(MissionPlanner.GCSViews.ConfigurationView.CompassInfo);
@@ -161,9 +162,10 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(3, 33);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(364, 13);
+            this.label1.Size = new System.Drawing.Size(457, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Set the Compass Priority by moving around the compass\'s in the table below\r\n";
+            this.label1.Text = "Set the Compass Priority by moving around the compass\'s in the table below (Highe" +
+    "st at the top)\r\n";
             // 
             // label6
             // 
@@ -187,6 +189,9 @@
             // 
             // groupBoxonboardcalib
             // 
+            this.groupBoxonboardcalib.Controls.Add(this.pictureBox3);
+            this.groupBoxonboardcalib.Controls.Add(this.pictureBox2);
+            this.groupBoxonboardcalib.Controls.Add(this.pictureBox1);
             this.groupBoxonboardcalib.Controls.Add(this.label2);
             this.groupBoxonboardcalib.Controls.Add(this.label10);
             this.groupBoxonboardcalib.Controls.Add(this.mavlinkComboBoxfitness);
@@ -200,12 +205,36 @@
             this.groupBoxonboardcalib.Controls.Add(this.BUT_OBmagcalaccept);
             this.groupBoxonboardcalib.Controls.Add(this.BUT_OBmagcalcancel);
             this.groupBoxonboardcalib.Controls.Add(this.BUT_OBmagcalstart);
-            this.groupBoxonboardcalib.Location = new System.Drawing.Point(3, 202);
+            this.groupBoxonboardcalib.Location = new System.Drawing.Point(3, 302);
             this.groupBoxonboardcalib.Name = "groupBoxonboardcalib";
             this.groupBoxonboardcalib.Size = new System.Drawing.Size(600, 162);
             this.groupBoxonboardcalib.TabIndex = 81;
             this.groupBoxonboardcalib.TabStop = false;
             this.groupBoxonboardcalib.Text = "Onboard Mag Calibration";
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Location = new System.Drawing.Point(321, 107);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(23, 23);
+            this.pictureBox3.TabIndex = 20;
+            this.pictureBox3.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Location = new System.Drawing.Point(321, 78);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(23, 23);
+            this.pictureBox2.TabIndex = 19;
+            this.pictureBox2.TabStop = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(321, 49);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(23, 23);
+            this.pictureBox1.TabIndex = 18;
+            this.pictureBox1.TabStop = false;
             // 
             // label2
             // 
@@ -310,12 +339,12 @@
             // lbl_obmagresult
             // 
             this.lbl_obmagresult.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.lbl_obmagresult.Location = new System.Drawing.Point(321, 20);
+            this.lbl_obmagresult.Location = new System.Drawing.Point(350, 20);
             this.lbl_obmagresult.Multiline = true;
             this.lbl_obmagresult.Name = "lbl_obmagresult";
             this.lbl_obmagresult.ReadOnly = true;
             this.lbl_obmagresult.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.lbl_obmagresult.Size = new System.Drawing.Size(273, 110);
+            this.lbl_obmagresult.Size = new System.Drawing.Size(244, 110);
             this.lbl_obmagresult.TabIndex = 3;
             // 
             // BUT_OBmagcalaccept
@@ -357,21 +386,79 @@
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // mavlinkCheckBoxUseCompass1
+            // 
+            this.mavlinkCheckBoxUseCompass1.AutoSize = true;
+            this.mavlinkCheckBoxUseCompass1.Enabled = false;
+            this.mavlinkCheckBoxUseCompass1.Location = new System.Drawing.Point(3, 277);
+            this.mavlinkCheckBoxUseCompass1.Name = "mavlinkCheckBoxUseCompass1";
+            this.mavlinkCheckBoxUseCompass1.OffValue = 0D;
+            this.mavlinkCheckBoxUseCompass1.OnValue = 1D;
+            this.mavlinkCheckBoxUseCompass1.ParamName = null;
+            this.mavlinkCheckBoxUseCompass1.Size = new System.Drawing.Size(100, 17);
+            this.mavlinkCheckBoxUseCompass1.TabIndex = 82;
+            this.mavlinkCheckBoxUseCompass1.Text = "Use Compass 1";
+            this.mavlinkCheckBoxUseCompass1.UseVisualStyleBackColor = true;
+            // 
+            // mavlinkCheckBoxUseCompass3
+            // 
+            this.mavlinkCheckBoxUseCompass3.AutoSize = true;
+            this.mavlinkCheckBoxUseCompass3.Enabled = false;
+            this.mavlinkCheckBoxUseCompass3.Location = new System.Drawing.Point(248, 277);
+            this.mavlinkCheckBoxUseCompass3.Name = "mavlinkCheckBoxUseCompass3";
+            this.mavlinkCheckBoxUseCompass3.OffValue = 0D;
+            this.mavlinkCheckBoxUseCompass3.OnValue = 1D;
+            this.mavlinkCheckBoxUseCompass3.ParamName = null;
+            this.mavlinkCheckBoxUseCompass3.Size = new System.Drawing.Size(100, 17);
+            this.mavlinkCheckBoxUseCompass3.TabIndex = 83;
+            this.mavlinkCheckBoxUseCompass3.Text = "Use Compass 3";
+            this.mavlinkCheckBoxUseCompass3.UseVisualStyleBackColor = true;
+            // 
+            // mavlinkCheckBoxUseCompass2
+            // 
+            this.mavlinkCheckBoxUseCompass2.AutoSize = true;
+            this.mavlinkCheckBoxUseCompass2.Enabled = false;
+            this.mavlinkCheckBoxUseCompass2.Location = new System.Drawing.Point(128, 277);
+            this.mavlinkCheckBoxUseCompass2.Name = "mavlinkCheckBoxUseCompass2";
+            this.mavlinkCheckBoxUseCompass2.OffValue = 0D;
+            this.mavlinkCheckBoxUseCompass2.OnValue = 1D;
+            this.mavlinkCheckBoxUseCompass2.ParamName = null;
+            this.mavlinkCheckBoxUseCompass2.Size = new System.Drawing.Size(100, 17);
+            this.mavlinkCheckBoxUseCompass2.TabIndex = 84;
+            this.mavlinkCheckBoxUseCompass2.Text = "Use Compass 2";
+            this.mavlinkCheckBoxUseCompass2.UseVisualStyleBackColor = true;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(0, 261);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(251, 13);
+            this.label3.TabIndex = 85;
+            this.label3.Text = "Do you want to disable any of the first 3 compass\'s?";
+            // 
             // ConfigHWCompass2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.mavlinkCheckBoxUseCompass2);
+            this.Controls.Add(this.mavlinkCheckBoxUseCompass3);
+            this.Controls.Add(this.mavlinkCheckBoxUseCompass1);
             this.Controls.Add(this.groupBoxonboardcalib);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.myDataGridView1);
             this.Name = "ConfigHWCompass2";
-            this.Size = new System.Drawing.Size(606, 394);
+            this.Size = new System.Drawing.Size(606, 472);
             ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.compassInfoBindingSource)).EndInit();
             this.groupBoxonboardcalib.ResumeLayout(false);
             this.groupBoxonboardcalib.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -384,14 +471,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn devIDDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn busTypeDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn busDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn addressDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn devTypeDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewImageColumn Up;
-        private System.Windows.Forms.DataGridViewImageColumn Down;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Use;
         private System.Windows.Forms.GroupBox groupBoxonboardcalib;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label10;
@@ -407,5 +486,19 @@
         private Controls.MyButton BUT_OBmagcalcancel;
         private Controls.MyButton BUT_OBmagcalstart;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn devIDDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn busTypeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn busDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn addressDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn devTypeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewImageColumn Up;
+        private System.Windows.Forms.DataGridViewImageColumn Down;
+        private Controls.MavlinkCheckBox mavlinkCheckBoxUseCompass1;
+        private Controls.MavlinkCheckBox mavlinkCheckBoxUseCompass3;
+        private Controls.MavlinkCheckBox mavlinkCheckBoxUseCompass2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
