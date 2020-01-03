@@ -3220,7 +3220,9 @@ namespace MissionPlanner
             MissionPlanner.Utilities.Tracking.AddTiming("AppLoad", "Load Time",
                 (DateTime.Now - Program.starttime).TotalMilliseconds, "");
 
-            bool winXp = Environment.OSVersion.Version.Major == 5;
+            int p = (int) Environment.OSVersion.Platform;
+            bool isWin = (p != 4) && (p != 6) && (p != 128);
+            bool winXp = isWin && Environment.OSVersion.Version.Major == 5;
             if (winXp)
             {
                 Common.MessageShowAgain("Windows XP",
