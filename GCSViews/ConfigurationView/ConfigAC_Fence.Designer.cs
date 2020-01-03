@@ -53,7 +53,6 @@
             // label1gftitle
             // 
             resources.ApplyResources(this.label1gftitle, "label1gftitle");
-            this.label1gftitle.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.label1gftitle.Name = "label1gftitle";
             // 
             // tableLayoutPanel1

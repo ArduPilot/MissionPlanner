@@ -257,7 +257,7 @@
       <Version>2.0.8</Version>
     </PackageReference>
     <PackageReference Include="SkiaSharp.Views">
-      <Version>1.68.1.1-preview.9</Version>
+      <Version>1.68.1.1</Version>
     </PackageReference>
     <PackageReference Include="System.Drawing.Common">
       <Version>4.5.1</Version>

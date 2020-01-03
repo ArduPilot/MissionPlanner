@@ -339,11 +339,11 @@
     </PackageReference>
     <PackageReference Include="SharpDX" version="4.1.0" targetFramework="net462" />
     <PackageReference Include="SharpDX.DirectInput" version="4.1.0" targetFramework="net462" />
-    <PackageReference Include="SkiaSharp" Version="1.68.1.1-preview.9" />
+    <PackageReference Include="SkiaSharp" Version="1.68.1.1" />
     <PackageReference Include="SkiaSharp.NativeAssets.Linux">
       <Version>1.68.1.1-preview.9</Version>
     </PackageReference>
-    <PackageReference Include="SkiaSharp.Views" Version="1.68.1.1-preview.9" />
+    <PackageReference Include="SkiaSharp.Views" Version="1.68.1.1" />
     <PackageReference Include="SSH.NET" version="2016.1.0" targetFramework="net40" />
     <PackageReference Include="System.CodeDom">
       <Version>4.5.0</Version>

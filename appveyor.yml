@@ -1,5 +1,5 @@
 version: 1.0.{build}
-image: Visual Studio 2017
+image: Visual Studio 2019
 configuration: Release
 clone_folder: c:\MP\
 cache:
@@ -16,7 +16,7 @@ build_script:
     
     appveyor-retry c:\mp\.nuget\nuget.exe restore
     
-    "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\MSBuild.exe" MissionPlanner.sln /m /p:Configuration=Release /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+    MSBuild.exe MissionPlanner.sln /m /p:Configuration=Release /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
     
     dir c:\mp\bin\Release\net461
 
