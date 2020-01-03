@@ -151,11 +151,8 @@ namespace MissionPlanner.Controls
 
                     var value2 = (Array) value;
 
-                    if (field.Name == "param_id") // param_value
-                    {
-                        value = ASCIIEncoding.ASCII.GetString((byte[]) value2);
-                    }
-                    else if (field.Name == "text") // statustext
+                    if (field.Name == "param_id" || field.Name == "text" ||
+                        field.Name == "string_value" || field.Name == "name") // param_value
                     {
                         value = ASCIIEncoding.ASCII.GetString((byte[]) value2);
                     }
@@ -169,11 +166,11 @@ namespace MissionPlanner.Controls
                 {
                     MsgIdNode.Nodes[field.Name].Text = field.Name;
                     PopulateMSG(field.FieldType.GetFields(), MsgIdNode.Nodes[field.Name], value);
-                    return;
+                    continue;
                 }
 
                 MsgIdNode.Nodes[field.Name].Text = (String.Format("{0,-32} {1,20} {2,-20}", field.Name, value,
-                    field.FieldType.ToString()));
+                    field.FieldType.Name));
             }
         }
 
