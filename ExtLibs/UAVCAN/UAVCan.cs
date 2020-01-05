@@ -303,6 +303,8 @@ namespace UAVCAN
             ushort index = 0;
             var timeout = DateTime.Now.AddSeconds(2);
 
+            SemaphoreSlim wait = new SemaphoreSlim(1);
+
             MessageRecievedDel paramdelegate = (frame, msg, transferID) =>
             {
                 if (frame.IsServiceMsg && frame.SvcDestinationNode != SourceNode)
@@ -328,6 +330,8 @@ namespace UAVCAN
 
                     timeout = DateTime.Now.AddSeconds(2);
                     index++;
+
+                    wait.Release();
                 }
             };
             MessageReceived += paramdelegate;
@@ -349,7 +353,7 @@ namespace UAVCAN
                     WriteToStream(slcan);
                 }
 
-                Thread.Sleep(333);
+                wait.Wait(333);
             }
 
             MessageReceived -= paramdelegate;
