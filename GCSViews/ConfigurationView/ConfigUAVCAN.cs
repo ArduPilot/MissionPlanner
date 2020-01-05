@@ -264,6 +264,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 IProgressReporterDialogue prd = new ProgressReporterDialogue();
                 List<uavcan.uavcan_protocol_param_GetSet_res> paramlist =
                     new List<uavcan.uavcan_protocol_param_GetSet_res>();
+                prd.doWorkArgs.ForceExit = true;
                 prd.DoWork += dialogue =>
                 {
                     paramlist = can.GetParameters(nodeID);
@@ -271,7 +272,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 prd.UpdateProgressAndStatus(-1, Strings.GettingParams);
                 prd.RunBackgroundOperationAsync();
 
-                new UAVCANParams(can, nodeID, paramlist).ShowUserControl();
+                if(!prd.doWorkArgs.CancelRequested)
+                    new UAVCANParams(can, nodeID, paramlist).ShowUserControl();
             }
             else if (e.ColumnIndex == myDataGridView1.Columns["updateDataGridViewTextBoxColumn"].Index)
             {
