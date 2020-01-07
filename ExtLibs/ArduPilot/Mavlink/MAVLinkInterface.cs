@@ -2904,14 +2904,21 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                         if (request.seq == 0 || request.seq == 1)
                         {
-                            if (MAV.param["WP_TOTAL"] != null)
-                                MAV.param["WP_TOTAL"].Value = wp_total - 1;
-                            if (MAV.param["CMD_TOTAL"] != null)
-                                MAV.param["CMD_TOTAL"].Value = wp_total - 1;
-                            if (MAV.param["MIS_TOTAL"] != null)
-                                MAV.param["MIS_TOTAL"].Value = wp_total - 1;
+                            if (req.mission_type == (byte) MAV_MISSION_TYPE.MISSION)
+                            {
+                                if (MAV.param["WP_TOTAL"] != null)
+                                    MAV.param["WP_TOTAL"].Value = wp_total - 1;
+                                if (MAV.param["CMD_TOTAL"] != null)
+                                    MAV.param["CMD_TOTAL"].Value = wp_total - 1;
+                                if (MAV.param["MIS_TOTAL"] != null)
+                                    MAV.param["MIS_TOTAL"].Value = wp_total - 1;
+                                MAVlist[req.target_system, req.target_component].wps.Clear();
+                            }
 
-                            MAV.wps.Clear();
+                            if (req.mission_type == (byte)MAV_MISSION_TYPE.FENCE)
+                                MAVlist[req.target_system, req.target_component].fencepoints.Clear();
+                            if (req.mission_type == (byte)MAV_MISSION_TYPE.RALLY)
+                                MAVlist[req.target_system, req.target_component].rallypoints.Clear();
 
                             giveComport = false;
                             return;
@@ -2927,14 +2934,21 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                         if (request.seq == 0 || request.seq == 1)
                         {
-                            if (MAV.param["WP_TOTAL"] != null)
-                                MAV.param["WP_TOTAL"].Value = wp_total - 1;
-                            if (MAV.param["CMD_TOTAL"] != null)
-                                MAV.param["CMD_TOTAL"].Value = wp_total - 1;
-                            if (MAV.param["MIS_TOTAL"] != null)
-                                MAV.param["MIS_TOTAL"].Value = wp_total - 1;
+                            if (req.mission_type == (byte) MAV_MISSION_TYPE.MISSION)
+                            {
+                                if (MAV.param["WP_TOTAL"] != null)
+                                    MAV.param["WP_TOTAL"].Value = wp_total - 1;
+                                if (MAV.param["CMD_TOTAL"] != null)
+                                    MAV.param["CMD_TOTAL"].Value = wp_total - 1;
+                                if (MAV.param["MIS_TOTAL"] != null)
+                                    MAV.param["MIS_TOTAL"].Value = wp_total - 1;
+                                MAVlist[req.target_system, req.target_component].wps.Clear();
+                            }
 
-                            MAV.wps.Clear();
+                            if (req.mission_type == (byte)MAV_MISSION_TYPE.FENCE)
+                                MAVlist[req.target_system, req.target_component].fencepoints.Clear();
+                            if (req.mission_type == (byte)MAV_MISSION_TYPE.RALLY)
+                                MAVlist[req.target_system, req.target_component].rallypoints.Clear();
 
                             giveComport = false;
                             return;
@@ -3182,7 +3196,12 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         }
                         else
                         {
-                            MAVlist[req.target_system, req.target_component].wps[req.seq] = (Locationwp)req;
+                            if (req.mission_type == (byte)MAV_MISSION_TYPE.MISSION)
+                                MAVlist[req.target_system, req.target_component].wps[req.seq] = (Locationwp)req;
+                            if (req.mission_type == (byte)MAV_MISSION_TYPE.FENCE)
+                                MAVlist[req.target_system, req.target_component].fencepoints[req.seq] = (Locationwp)req;
+                            if (req.mission_type == (byte)MAV_MISSION_TYPE.RALLY)
+                                MAVlist[req.target_system, req.target_component].rallypoints[req.seq] = (Locationwp)req;
                         }
 
                         //if (ans.target_system == req.target_system && ans.target_component == req.target_component)
@@ -3214,7 +3233,12 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                             }
                             else
                             {
-                                MAVlist[req.target_system, req.target_component].wps[req.seq] = (Locationwp)req;
+                                if (req.mission_type == (byte)MAV_MISSION_TYPE.MISSION)
+                                    MAVlist[req.target_system, req.target_component].wps[req.seq] = (Locationwp)req;
+                                if (req.mission_type == (byte)MAV_MISSION_TYPE.FENCE)
+                                    MAVlist[req.target_system, req.target_component].fencepoints[req.seq] = (Locationwp)req;
+                                if (req.mission_type == (byte)MAV_MISSION_TYPE.RALLY)
+                                    MAVlist[req.target_system, req.target_component].rallypoints[req.seq] = (Locationwp)req;
                             }
 
                             //if (ans.target_system == req.target_system && ans.target_component == req.target_component)
@@ -3340,7 +3364,12 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         }
                         else
                         {
-                            MAVlist[req.target_system, req.target_component].wps[req.seq] = (Locationwp)req;
+                            if (req.mission_type == (byte)MAV_MISSION_TYPE.MISSION)
+                                MAVlist[req.target_system, req.target_component].wps[req.seq] = (Locationwp)req;
+                            if (req.mission_type == (byte)MAV_MISSION_TYPE.FENCE)
+                                MAVlist[req.target_system, req.target_component].fencepoints[req.seq] = (Locationwp)req;
+                            if (req.mission_type == (byte)MAV_MISSION_TYPE.RALLY)
+                                MAVlist[req.target_system, req.target_component].rallypoints[req.seq] = (Locationwp)req;
                         }
 
                         //if (ans.target_system == req.target_system && ans.target_component == req.target_component)
@@ -3371,7 +3400,12 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                             }
                             else
                             {
-                                MAVlist[req.target_system, req.target_component].wps[req.seq] = (Locationwp)req;
+                                if(req.mission_type == (byte)MAV_MISSION_TYPE.MISSION)
+                                    MAVlist[req.target_system, req.target_component].wps[req.seq] = (Locationwp)req;
+                                if (req.mission_type == (byte)MAV_MISSION_TYPE.FENCE)
+                                    MAVlist[req.target_system, req.target_component].fencepoints[req.seq] = (Locationwp)req;
+                                if (req.mission_type == (byte)MAV_MISSION_TYPE.RALLY)
+                                    MAVlist[req.target_system, req.target_component].rallypoints[req.seq] = (Locationwp)req;
                             }
 
                             //if (ans.target_system == req.target_system && ans.target_component == req.target_component)
