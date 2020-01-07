@@ -56,14 +56,22 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             timer1.Stop();
 
+            CheckReboot();
+        }
+
+        private bool CheckReboot()
+        {
             if (rebootrequired)
             {
                 if (CustomMessageBox.Show("Reboot required, reboot now?", "Reboot",
                         CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
                 {
                     MainV2.comPort.doReboot();
+                    return true;
                 }
             }
+
+            return false;
         }
 
         private async void myDataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -132,6 +140,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_OBmagcalstart_Click(object sender, EventArgs e)
         {
+            if (rebootrequired && !CheckReboot())
+            {
+                return;
+            }
+
             try
             {
                 MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_START_MAG_CAL, 0, 1, 1, 0, 0, 0, 0);
