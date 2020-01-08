@@ -1,4 +1,6 @@
-﻿namespace MissionPlanner.GCSViews
+﻿using MissionPlanner.Controls;
+
+namespace MissionPlanner.GCSViews
 {
     partial class FlightData
     {
@@ -64,7 +66,7 @@
             this.modifyandSetSpeed = new MissionPlanner.Controls.ModifyandSet();
             this.modifyandSetAlt = new MissionPlanner.Controls.ModifyandSet();
             this.tabActionsSimple = new System.Windows.Forms.TabPage();
-            this.myButton1 = new MissionPlanner.Controls.MyButton();
+            this.Test1 = new MissionPlanner.Controls.MyButton();
             this.myButton2 = new MissionPlanner.Controls.MyButton();
             this.myButton3 = new MissionPlanner.Controls.MyButton();
             this.tabPagePreFlight = new System.Windows.Forms.TabPage();
@@ -912,7 +914,7 @@
             // 
             // tabActionsSimple
             // 
-            this.tabActionsSimple.Controls.Add(this.myButton1);
+            this.tabActionsSimple.Controls.Add(this.Test1);
             this.tabActionsSimple.Controls.Add(this.myButton2);
             this.tabActionsSimple.Controls.Add(this.myButton3);
             resources.ApplyResources(this.tabActionsSimple, "tabActionsSimple");
@@ -921,14 +923,14 @@
             // 
             // myButton1
             // 
-            this.myButton1.ColorMouseDown = System.Drawing.Color.Empty;
-            this.myButton1.ColorMouseOver = System.Drawing.Color.Empty;
-            this.myButton1.ColorNotEnabled = System.Drawing.Color.Empty;
-            resources.ApplyResources(this.myButton1, "myButton1");
-            this.myButton1.Name = "myButton1";
-            this.toolTip1.SetToolTip(this.myButton1, resources.GetString("myButton1.ToolTip"));
-            this.myButton1.UseVisualStyleBackColor = true;
-            this.myButton1.Click += new System.EventHandler(this.BUT_quickmanual_Click);
+            this.Test1.ColorMouseDown = System.Drawing.Color.Empty;
+            this.Test1.ColorMouseOver = System.Drawing.Color.Empty;
+            this.Test1.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.Test1, "myButton1");
+            this.Test1.Name = "myButton1";
+            this.toolTip1.SetToolTip(this.Test1, resources.GetString("myButton1.ToolTip"));
+            this.Test1.UseVisualStyleBackColor = true;
+            this.Test1.Click += new System.EventHandler(this.BUT_quickmanual_Click);
             // 
             // myButton2
             // 
@@ -2609,5 +2611,7 @@
         private System.Windows.Forms.ToolStripMenuItem hereLinkVideoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gStreamerStopToolStripMenuItem;
         private Controls.MyButton BUT_georefimage;
+
+        public MyButton Test1 { get => myButton1; set => myButton1 = value; }
     }
 }

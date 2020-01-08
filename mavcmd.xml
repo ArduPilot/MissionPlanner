@@ -565,6 +565,15 @@
       <Y></Y>
       <Z></Z>
     </DO_PARACHUTE>
+    <DO_FENCE_ENABLE>
+      <P1>Disable(0)/Enable(1)/Disable Floor Only(2)</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DO_FENCE_ENABLE>
   </APM>
   <!-- -->
   <APRover>
