@@ -1618,20 +1618,6 @@
       <field type="uint16_t[4]" name="rpm" units="rpm">RPM (eRPM).</field>
       <field type="uint16_t[4]" name="count">count of telemetry packets received (wraps at 65535).</field>
     </message>
-
-
-    <message id="11100" name="AIRLAUNCH_STATUS">
-      <description>Status of air deployment state machine</description>
-      <field type="uint64_t" name="time_usec" units="us">Timestamp (since boot or Unix epoch).</field>
-      <field type="uint8_t" name="state">Deployment state.</field>
-      <field type="int32_t" name="state_timer_ms" units="ms">State timer.</field>
-      <field type="float" name="altitude_msl" units="m">[m] Altitude above sea level using standard atmosphere</field>
-      <field type="uint8_t" name="healthy_dcm">Health of DCM Nav.</field>
-      <field type="uint8_t" name="healthy_ahrs">Health of AHRS.</field>
-      <field type="uint8_t" name="have_inertial_nav">Inertial nav available.</field>
-      <field type="uint8_t" name="eject_accel_state">ejection acceleration state</field>
-      <field type="float" name="xaccel" units="m/s/s">x axis specific force</field>
-      <field type="uint8_t" name="eject_pin_state">ejection pin state</field>
-    </message>
+    
   </messages>
 </mavlink>
