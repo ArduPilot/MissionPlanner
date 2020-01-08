@@ -3,7 +3,6 @@ using System.Reflection;
 using System.Windows.Forms;
 using log4net;
 using MissionPlanner.Controls;
-using System.Text;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
