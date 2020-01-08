@@ -1,6 +1,4 @@
-﻿using Ionic.Zip;
-using log4net;
-using MissionPlanner.ArduPilot.Mavlink;
+﻿using log4net;
 using MissionPlanner.Utilities;
 using System;
 using System.Collections.Generic;
@@ -95,7 +93,7 @@ namespace MissionPlanner.Controls
                 //subSubDirs = await ((DirectoryInfo)treeNode.Tag).GetDirectories();
                 //if (subSubDirs.Length != 0)
                 {
-                  //  await GetDirectories(subSubDirs, treeNode);
+                    //  await GetDirectories(subSubDirs, treeNode);
                 }
 
             }
@@ -108,7 +106,7 @@ namespace MissionPlanner.Controls
 
             TreeNode newSelected = e.Node;
             listView1.Items.Clear();
-            DirectoryInfo nodeDirInfo = (DirectoryInfo) newSelected.Tag;
+            DirectoryInfo nodeDirInfo = (DirectoryInfo)newSelected.Tag;
             ListViewItem.ListViewSubItem[] subItems;
             ListViewItem item = null;
 
@@ -147,10 +145,11 @@ namespace MissionPlanner.Controls
             try
             {
                 listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
-            } catch { }
+            }
+            catch { }
         }
         [Serializable]
-        public class DirectoryInfo: FileSystemInfo
+        public class DirectoryInfo : FileSystemInfo
         {
             private readonly uavcan _can;
             private readonly byte _nodeid;
@@ -172,7 +171,7 @@ namespace MissionPlanner.Controls
 
             public override void Delete()
             {
-                
+
             }
 
             public async Task<DirectoryInfo[]> GetDirectories()
@@ -225,7 +224,7 @@ namespace MissionPlanner.Controls
                 var v2 = o1.SubItems[e.Column].Text;
                 if (v1.All(a => a >= '0' && a <= '9') && v2.All(a => a >= '0' && a <= '9'))
                 {
-                    if(listView1.Sorting == SortOrder.Descending)
+                    if (listView1.Sorting == SortOrder.Descending)
                         return double.Parse("0" + v1).CompareTo(double.Parse("0" + v2)) * -1;
                     return double.Parse("0" + v1).CompareTo(double.Parse("0" + v2));
                 }
@@ -256,7 +255,7 @@ namespace MissionPlanner.Controls
                         cancel.Cancel();
                     };
                     prd.doWorkArgs.ForceExit = false;
-                    Action<int> progress = delegate(int i) { prd.UpdateProgressAndStatus(i, toolStripStatusLabel1.Text); };
+                    Action<int> progress = delegate (int i) { prd.UpdateProgressAndStatus(i, toolStripStatusLabel1.Text); };
                     //_can.Progress += progress;
 
                     prd.DoWork += (iprd) =>
@@ -365,7 +364,7 @@ namespace MissionPlanner.Controls
             string folder = "";
             var dr = InputBox.Show("Folder Name", "Enter folder name", ref folder);
             //if (dr == DialogResult.OK)
-               // _mavftp.kCmdCreateDirectory(treeView1.SelectedNode.FullPath + "/" + folder);
+            // _mavftp.kCmdCreateDirectory(treeView1.SelectedNode.FullPath + "/" + folder);
 
             TreeView1_NodeMouseClick(null,
                 new TreeNodeMouseClickEventArgs(treeView1.SelectedNode, MouseButtons.Left, 1, 1, 1));
@@ -380,24 +379,24 @@ namespace MissionPlanner.Controls
             {
                 prd.doWorkArgs.ErrorMessage = "User Cancel";
                 cancel.Cancel();
-               // _mavftp.kCmdResetSessions();
+                // _mavftp.kCmdResetSessions();
             };
             prd.doWorkArgs.ForceExit = false;
             var crc = 0u;
             prd.DoWork += (iprd) =>
             {
                 //_mavftp.kCmdCalcFileCRC32(treeView1.SelectedNode.FullPath + "/" + listView1.SelectedItems[0].Text,
-                 //   ref crc, cancel);
+                //   ref crc, cancel);
             };
 
             prd.RunBackgroundOperationAsync();
 
-            CustomMessageBox.Show(listView1.SelectedItems[0].Text + ": 0x" +crc.ToString("X"));
+            CustomMessageBox.Show(listView1.SelectedItems[0].Text + ": 0x" + crc.ToString("X"));
         }
 
         private void ListView1_MouseDown(object sender, MouseEventArgs e)
         {
-      
+
         }
 
         private void ListView1_DragEnter(object sender, DragEventArgs e)
@@ -410,7 +409,7 @@ namespace MissionPlanner.Controls
 
         private void ListView1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            if (listView1.SelectedItems.Count > 0 )
+            if (listView1.SelectedItems.Count > 0)
             {
                 treeView1.SelectedNode?.Expand();
                 // find child node with name
@@ -419,7 +418,7 @@ namespace MissionPlanner.Controls
                     if (node.Text == listView1.SelectedItems[0].Text)
                     {
                         treeView1.SelectedNode = node;
-                        
+
                         TreeView1_NodeMouseClick(null,
                             new TreeNodeMouseClickEventArgs(treeView1.SelectedNode, MouseButtons.Left, 1, 1, 1));
                         break;

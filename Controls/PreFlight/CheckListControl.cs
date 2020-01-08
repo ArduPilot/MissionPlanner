@@ -1,9 +1,9 @@
-﻿using System;
+﻿using MissionPlanner.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Forms;
 using System.IO;
-using MissionPlanner.Utilities;
+using System.Windows.Forms;
 
 namespace MissionPlanner.Controls.PreFlight
 {
@@ -114,7 +114,7 @@ namespace MissionPlanner.Controls.PreFlight
 
             var height = TextRenderer.MeasureText(desctext, this.Font).Height;
 
-            GroupBox gb = new GroupBox() { Text = "", Location = new Point(x,y), Size = new Size(330, 17 + height), Name = "gb" + y };
+            GroupBox gb = new GroupBox() { Text = "", Location = new Point(x, y), Size = new Size(330, 17 + height), Name = "gb" + y };
 
             Label desc = new Label() { Text = desctext, Location = new Point(5, 9), Size = new Size(150, height), Name = "udesc" + y };
             Label text = new Label() { Text = texttext, Location = new Point(desc.Right, 9), Size = new Size(150, height), Name = "utext" + y };

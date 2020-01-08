@@ -1,7 +1,7 @@
-﻿using System;
+﻿using MissionPlanner.Utilities;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
-using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Controls
 {
@@ -149,7 +149,7 @@ namespace MissionPlanner.Controls
 
         private void renameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Control sourcectl = ((ContextMenuStrip) renameToolStripMenuItem.Owner).SourceControl;
+            Control sourcectl = ((ContextMenuStrip)renameToolStripMenuItem.Owner).SourceControl;
 
             string desc = sourcectl.Text;
             MissionPlanner.Controls.InputBox.Show("Description", "Enter new Description", ref desc);
@@ -173,7 +173,7 @@ namespace MissionPlanner.Controls
         {
             try
             {
-                if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_SET_SERVO, thisservo, (int.Parse(TXT_pwm_high.Text) - int.Parse(TXT_pwm_low.Text))/2 + int.Parse(TXT_pwm_low.Text), 0, 0,
+                if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_SET_SERVO, thisservo, (int.Parse(TXT_pwm_high.Text) - int.Parse(TXT_pwm_low.Text)) / 2 + int.Parse(TXT_pwm_low.Text), 0, 0,
                     0, 0, 0))
                 {
                     TXT_rcchannel.BackColor = Color.Orange;

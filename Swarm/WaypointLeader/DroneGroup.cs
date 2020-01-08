@@ -1,10 +1,10 @@
-﻿using System;
+﻿using log4net;
+using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using log4net;
-using MissionPlanner.Controls;
-using MissionPlanner.Utilities;
 using ZedGraph;
 
 namespace MissionPlanner.Swarm.WaypointLeader
@@ -103,13 +103,13 @@ namespace MissionPlanner.Swarm.WaypointLeader
 
                 foreach (var drone2 in newlist)
                 {
-                    if(drone1 == drone2)
+                    if (drone1 == drone2)
                         continue;
 
                     if (drone2 == GroundMasterDrone)
                         continue;
 
-                    if(!drone2.MavState.cs.armed)
+                    if (!drone2.MavState.cs.armed)
                         continue;
 
                     // check how close they are based on current position
@@ -132,11 +132,11 @@ namespace MissionPlanner.Swarm.WaypointLeader
                         }
                     }
 
-                        // check how close they are based on a 1 second projection
-                        if (drone1.ProjectedLocation.GetDistance(drone2.ProjectedLocation) < Seperation/2)
+                    // check how close they are based on a 1 second projection
+                    if (drone1.ProjectedLocation.GetDistance(drone2.ProjectedLocation) < Seperation / 2)
                     {
                         // check if they are heading the same direction
-                        if (((Math.Abs(drone1.Heading - drone2.Heading)+360)%360) < 45 && drone1.MavState.cs.groundspeed > 0.5)
+                        if (((Math.Abs(drone1.Heading - drone2.Heading) + 360) % 360) < 45 && drone1.MavState.cs.groundspeed > 0.5)
                         {
                             // check if the alt seperation is less than 1m
                             if (Math.Abs(drone1.Location.Alt - drone2.Location.Alt) < 1)
@@ -151,7 +151,7 @@ namespace MissionPlanner.Swarm.WaypointLeader
                         }
 
                         // check if the are heading are at each other
-                        if (((Math.Abs(drone1.Heading - drone2.Heading)+360)%360) > 135 )
+                        if (((Math.Abs(drone1.Heading - drone2.Heading) + 360) % 360) > 135)
                         {
                             // check if the alt seperation is less than 1m
                             if (Math.Abs(drone1.Location.Alt - drone2.Location.Alt) < 1)
@@ -193,7 +193,7 @@ namespace MissionPlanner.Swarm.WaypointLeader
                     continue;
                 drone.PathIndex = path.IndexOf(locs[0]);
             }
-            
+
 
             switch (CurrentMode)
             {
@@ -261,7 +261,7 @@ namespace MissionPlanner.Swarm.WaypointLeader
                         catch (Exception ex)
                         {
                             log.Error(ex);
-                            Loading.ShowLoading("Communication with one of the drones is failing\n"+ex.ToString());
+                            Loading.ShowLoading("Communication with one of the drones is failing\n" + ex.ToString());
 
                             return;
                         }
@@ -280,7 +280,7 @@ namespace MissionPlanner.Swarm.WaypointLeader
                                     0, takeoffalt))
                                 {
                                     drone.takeoffdone = true;
-                                }                            
+                                }
                         }
                         catch (Exception ex)
                         {
@@ -312,15 +312,15 @@ namespace MissionPlanner.Swarm.WaypointLeader
                         // position control
                         drone.SendPositionVelocity(drone.TargetLocation, Vector3.Zero);
 
-                        drone.MavState.GuidedMode.x = (int)(drone.TargetLocation.Lat *1e7);
-                        drone.MavState.GuidedMode.y = (int)(drone.TargetLocation.Lng *1e7);
+                        drone.MavState.GuidedMode.x = (int)(drone.TargetLocation.Lat * 1e7);
+                        drone.MavState.GuidedMode.y = (int)(drone.TargetLocation.Lng * 1e7);
                         drone.MavState.GuidedMode.z = (float)drone.TargetLocation.Alt;
 
                         // check how far off target we are
                         if (drone.TargetLocation.GetDistance(drone.Location) > Seperation)
                         {
                             // only return if this is the third drone without seperation
-                            if (a%3 == 2)
+                            if (a % 3 == 2)
                             {
                                 //if we are off target, we have already sent the command to this drone,
                                 //but skip the one behind it untill this one is within the seperation range 
@@ -371,8 +371,8 @@ namespace MissionPlanner.Swarm.WaypointLeader
                         // position control
                         drone.SendPositionVelocity(drone.TargetLocation, Vector3.Zero);
 
-                        drone.MavState.GuidedMode.x = (int)(drone.TargetLocation.Lat*1e7);
-                        drone.MavState.GuidedMode.y = (int)(drone.TargetLocation.Lng *1e7);
+                        drone.MavState.GuidedMode.x = (int)(drone.TargetLocation.Lat * 1e7);
+                        drone.MavState.GuidedMode.y = (int)(drone.TargetLocation.Lng * 1e7);
                         drone.MavState.GuidedMode.z = (float)drone.TargetLocation.Alt;
 
                         b++;
@@ -390,7 +390,7 @@ namespace MissionPlanner.Swarm.WaypointLeader
                                 continue;
                             var MAV = drone.MavState;
                             // update to faster speed
-                            MAV.parent.setParam(MAV.sysid, MAV.compid, "WPNAV_ACCEL", (float)WPNAV_ACCEL*100.0f);
+                            MAV.parent.setParam(MAV.sysid, MAV.compid, "WPNAV_ACCEL", (float)WPNAV_ACCEL * 100.0f);
 
                             MAV.parent.setMode(MAV.sysid, MAV.compid, "GUIDED");
                         }
@@ -444,8 +444,8 @@ namespace MissionPlanner.Swarm.WaypointLeader
                         // spline control
                         drone.SendPositionVelocity(drone.TargetLocation, drone.TargetVelocity / 3);
 
-                        drone.MavState.GuidedMode.x = (int)(drone.TargetLocation.Lat *1e7);
-                        drone.MavState.GuidedMode.y = (int)(drone.TargetLocation.Lng *1e7);
+                        drone.MavState.GuidedMode.x = (int)(drone.TargetLocation.Lat * 1e7);
+                        drone.MavState.GuidedMode.y = (int)(drone.TargetLocation.Lng * 1e7);
                         drone.MavState.GuidedMode.z = (float)drone.TargetLocation.Alt;
 
                         // vel only
@@ -502,8 +502,8 @@ namespace MissionPlanner.Swarm.WaypointLeader
                         // position control
                         drone.SendPositionVelocity(drone.TargetLocation, Vector3.Zero);
 
-                        drone.MavState.GuidedMode.x = (int)(drone.TargetLocation.Lat *1e7);
-                        drone.MavState.GuidedMode.y = (int)(drone.TargetLocation.Lng *1e7);
+                        drone.MavState.GuidedMode.x = (int)(drone.TargetLocation.Lat * 1e7);
+                        drone.MavState.GuidedMode.y = (int)(drone.TargetLocation.Lng * 1e7);
                         drone.MavState.GuidedMode.z = (float)drone.TargetLocation.Alt;
 
                         // used for next step
@@ -544,7 +544,7 @@ namespace MissionPlanner.Swarm.WaypointLeader
                     foreach (var drone in newlist)
                     {
                         // wait for alt hit
-                        while (drone.MavState.cs.alt < (drone.TargetLocation.Alt-0.5))
+                        while (drone.MavState.cs.alt < (drone.TargetLocation.Alt - 0.5))
                         {
                             if (!drone.MavState.cs.armed)
                                 break;
@@ -562,15 +562,15 @@ namespace MissionPlanner.Swarm.WaypointLeader
                     CurrentMode = Mode.Land;
                     break;
                 case Mode.Land:
-                    Drone closest = new Drone() {Location = PointLatLngAlt.Zero};
+                    Drone closest = new Drone() { Location = PointLatLngAlt.Zero };
                     var lastpnt = path.Last();
                     foreach (var drone in newlist)
                     {
-                        if(!drone.MavState.cs.armed)
+                        if (!drone.MavState.cs.armed)
                             continue;
 
                         // low flying filter, move onto next drone
-                        if (drone.MavState.cs.alt < lastpnt.Alt-1)
+                        if (drone.MavState.cs.alt < lastpnt.Alt - 1)
                             continue;
 
                         if (AirMasterDrone.MavState.cs.HomeLocation.GetDistance(drone.Location) < AirMasterDrone.MavState.cs.HomeLocation.GetDistance(closest.Location))
@@ -579,7 +579,7 @@ namespace MissionPlanner.Swarm.WaypointLeader
                         }
                     }
 
-                    if(closest.MavState!=null && !closest.MavState.cs.mode.ToLower().Equals("rtl"))
+                    if (closest.MavState != null && !closest.MavState.cs.mode.ToLower().Equals("rtl"))
                         closest.MavState.parent.setMode(closest.MavState.sysid, closest.MavState.compid, "RTL");
                     break;
             }
@@ -587,7 +587,7 @@ namespace MissionPlanner.Swarm.WaypointLeader
 
         double GetOffPathDistance(List<PointLatLngAlt> path, PointLatLngAlt Location)
         {
-            double disttotal=double.MaxValue;
+            double disttotal = double.MaxValue;
             PointLatLngAlt lineStartLatLngAlt = null;
             // check all segments
             foreach (var pathpoint in path)
@@ -641,7 +641,7 @@ namespace MissionPlanner.Swarm.WaypointLeader
         private List<PointLatLngAlt> GetLocationsV(List<PointLatLngAlt> path, PointLatLngAlt location, double lead,
             double seperation)
         {
-           List<PointLatLngAlt> result = new List<PointLatLngAlt>();
+            List<PointLatLngAlt> result = new List<PointLatLngAlt>();
             var list = GetLocations(path, location, lead, seperation);
 
             if (list.Count == 0)
@@ -658,8 +658,8 @@ namespace MissionPlanner.Swarm.WaypointLeader
                 if (pointLatLngAlt == front)
                     continue;
 
-                var left = pointLatLngAlt.newpos(pointLatLngAlt.GetBearing(front) + 90, seperation/2 * a);
-                var right = pointLatLngAlt.newpos(pointLatLngAlt.GetBearing(front) - 90, seperation/2 * a);
+                var left = pointLatLngAlt.newpos(pointLatLngAlt.GetBearing(front) + 90, seperation / 2 * a);
+                var right = pointLatLngAlt.newpos(pointLatLngAlt.GetBearing(front) - 90, seperation / 2 * a);
 
                 result.Add(left);
                 result.Add(right);
@@ -694,7 +694,7 @@ namespace MissionPlanner.Swarm.WaypointLeader
                 var targetdistance = lead - a * seperation;
 
                 if (targetdistance < 0)
-                    i-=2;
+                    i -= 2;
 
                 if (i < 0)
                     break;

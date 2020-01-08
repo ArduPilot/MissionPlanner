@@ -1,8 +1,8 @@
-﻿using System;
-using System.Windows.Forms;
-using MissionPlanner.Comms;
+﻿using MissionPlanner.Comms;
+using System;
 using System.Net.Sockets;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace MissionPlanner.Controls
 {
@@ -47,37 +47,37 @@ namespace MissionPlanner.Controls
                     {
                         case "TCP Host - 14550":
                         case "TCP Host":
-                        {
-                            MainV2.comPort.MirrorStream = new TcpSerial();
-                            CMB_baudrate.SelectedIndex = 0;
-                            int port = 14550;
-                            if (InputBox.Show("Port", "Enter port", ref port) != DialogResult.OK)
+                            {
+                                MainV2.comPort.MirrorStream = new TcpSerial();
+                                CMB_baudrate.SelectedIndex = 0;
+                                int port = 14550;
+                                if (InputBox.Show("Port", "Enter port", ref port) != DialogResult.OK)
+                                    return;
+                                listener = new TcpListener(System.Net.IPAddress.Any, port);
+                                listener.Start(0);
+                                listener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback), listener);
+                                BUT_connect.Text = Strings.Stop;
                                 return;
-                            listener = new TcpListener(System.Net.IPAddress.Any, port);
-                            listener.Start(0);
-                            listener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback), listener);
-                            BUT_connect.Text = Strings.Stop;
-                            return;
-                        }
+                            }
 
                         case "TCP Client":
 
-                            MainV2.comPort.MirrorStream = new TcpSerial() {retrys = 999999, autoReconnect = true};
+                            MainV2.comPort.MirrorStream = new TcpSerial() { retrys = 999999, autoReconnect = true };
                             CMB_baudrate.SelectedIndex = 0;
                             break;
                         case "UDP Host - 14550":
-                        {
-                            int port = 14550;
-                            if (InputBox.Show("Port", "Enter port", ref port) != DialogResult.OK)
-                                return;
-                            MainV2.comPort.MirrorStream = new UdpSerial()
-                                {ConfigRef = "SerialOutputPassUDP", Port = port.ToString()};
-                            CMB_baudrate.SelectedIndex = 0;
-                            break;
-                        }
+                            {
+                                int port = 14550;
+                                if (InputBox.Show("Port", "Enter port", ref port) != DialogResult.OK)
+                                    return;
+                                MainV2.comPort.MirrorStream = new UdpSerial()
+                                { ConfigRef = "SerialOutputPassUDP", Port = port.ToString() };
+                                CMB_baudrate.SelectedIndex = 0;
+                                break;
+                            }
 
                         case "UDP Client":
-                            MainV2.comPort.MirrorStream = new UdpSerialConnect() {ConfigRef = "SerialOutputPassUDPCL"};
+                            MainV2.comPort.MirrorStream = new UdpSerialConnect() { ConfigRef = "SerialOutputPassUDPCL" };
                             CMB_baudrate.SelectedIndex = 0;
                             break;
                         default:
@@ -116,13 +116,13 @@ namespace MissionPlanner.Controls
         void DoAcceptTcpClientCallback(IAsyncResult ar)
         {
             // Get the listener that handles the client request.
-            TcpListener listener = (TcpListener) ar.AsyncState;
+            TcpListener listener = (TcpListener)ar.AsyncState;
 
             // End the operation and display the received data on  
             // the console.
             TcpClient client = listener.EndAcceptTcpClient(ar);
 
-            ((TcpSerial) MainV2.comPort.MirrorStream).client = client;
+            ((TcpSerial)MainV2.comPort.MirrorStream).client = client;
 
             listener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback), listener);
         }

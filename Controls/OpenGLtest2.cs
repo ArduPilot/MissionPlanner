@@ -2,6 +2,7 @@
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
 using Microsoft.Scripting.Utils;
+using MissionPlanner.GCSViews;
 using MissionPlanner.Utilities;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
@@ -15,7 +16,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
-using MissionPlanner.GCSViews;
 using MathHelper = MissionPlanner.Utilities.MathHelper;
 using Vector3 = OpenTK.Vector3;
 
@@ -67,7 +67,7 @@ namespace MissionPlanner.Controls
 
                     // set our pos
                     llacenter = value;
-                    utmcenter = new double[] {0, 0};
+                    utmcenter = new double[] { 0, 0 };
                     // update a virtual center bases on llacenter
                     utmcenter = convertCoords(value);
 
@@ -87,9 +87,9 @@ namespace MissionPlanner.Controls
             get { return _rpy; }
             set
             {
-                _rpy.X = (float) Math.Round(value.X, 2);
-                _rpy.Y = (float) Math.Round(value.Y, 2);
-                _rpy.Z = (float) Math.Round(value.Z, 2);
+                _rpy.X = (float)Math.Round(value.X, 2);
+                _rpy.Y = (float)Math.Round(value.Y, 2);
+                _rpy.Z = (float)Math.Round(value.Z, 2);
                 this.Invalidate();
             }
         }
@@ -113,27 +113,27 @@ namespace MissionPlanner.Controls
 
             this.Invalidate();
 
-            bg = new Thread(imageLoader) {IsBackground = true};
+            bg = new Thread(imageLoader) { IsBackground = true };
             bg.Start();
         }
 
         private void OnMouseDown(object sender, MouseEventArgs e)
         {
-            var x = ((MouseEventArgs) e).X;
-            var y = ((MouseEventArgs) e).Y;
+            var x = ((MouseEventArgs)e).X;
+            var y = ((MouseEventArgs)e).Y;
 
             mouseDownPos = getMousePos(x, y);
 
             MainV2.comPort.setGuidedModeWP(
                 new Locationwp().Set(mouseDownPos.Lat, mouseDownPos.Lng, MainV2.comPort.MAV.GuidedMode.z,
-                    (ushort) MAVLink.MAV_CMD.WAYPOINT), false);
+                    (ushort)MAVLink.MAV_CMD.WAYPOINT), false);
             //MainV2.C
         }
 
         private void OnMouseMove(object sender, MouseEventArgs e)
         {
-            var x = ((MouseEventArgs) e).X;
-            var y = ((MouseEventArgs) e).Y;
+            var x = ((MouseEventArgs)e).X;
+            var y = ((MouseEventArgs)e).Y;
             /*
             var point = getMousePos(x, y);
 
@@ -196,8 +196,8 @@ namespace MissionPlanner.Controls
         {
             Vector4 vec;
 
-            vec.X = 2.0f * mouse.X / (float) viewport.Width - 1;
-            vec.Y = -(2.0f * mouse.Y / (float) viewport.Height - 1);
+            vec.X = 2.0f * mouse.X / (float)viewport.Width - 1;
+            vec.Y = -(2.0f * mouse.Y / (float)viewport.Height - 1);
             vec.Z = mouse.Z;
             vec.W = 1.0f;
 
@@ -296,12 +296,12 @@ namespace MissionPlanner.Controls
                 OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
 
             GL.TexEnv(TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode,
-                (float) TextureEnvModeCombine.Replace); //Important, or wrong color on some computers
+                (float)TextureEnvModeCombine.Replace); //Important, or wrong color on some computers
 
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter,
-                (int) TextureMinFilter.Linear);
+                (int)TextureMinFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
-                (int) TextureMagFilter.Linear);
+                (int)TextureMagFilter.Linear);
 
             GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
 
@@ -363,7 +363,7 @@ namespace MissionPlanner.Controls
 
             utm[2] = plla.Alt;
 
-            return new[] {utm[0], utm[1], utm[2]};
+            return new[] { utm[0], utm[1], utm[2] };
         }
 
         protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
@@ -434,16 +434,16 @@ namespace MissionPlanner.Controls
                 (float) lookX,
                 (float) lookY, (float) lookZ);
               */
-            Matrix4 modelview = Matrix4.LookAt((float) cameraX, (float) cameraY, (float) cameraZ + 100f * 0,
-                (float) lookX, (float) lookY, (float) lookZ,
+            Matrix4 modelview = Matrix4.LookAt((float)cameraX, (float)cameraY, (float)cameraZ + 100f * 0,
+                (float)lookX, (float)lookY, (float)lookZ,
                 0, 0, 1);
 
             GL.MatrixMode(MatrixMode.Modelview);
 
             // roll
-            modelview = Matrix4.Mult(modelview, Matrix4.CreateRotationZ((float) (rpy.X * MathHelper.deg2rad)));
+            modelview = Matrix4.Mult(modelview, Matrix4.CreateRotationZ((float)(rpy.X * MathHelper.deg2rad)));
             // pitch
-            modelview = Matrix4.Mult(modelview, Matrix4.CreateRotationX((float) (rpy.Y * -MathHelper.deg2rad)));
+            modelview = Matrix4.Mult(modelview, Matrix4.CreateRotationX((float)(rpy.Y * -MathHelper.deg2rad)));
 
             GL.LoadMatrix(ref modelview);
 
@@ -461,11 +461,11 @@ namespace MissionPlanner.Controls
             //      Lighting.SetupLightZero(new Vector3d(cameraX, cameraY, cameraZ + 100), 0f);
 
 
-            GL.Fog(FogParameter.FogColor, new float[] {100 / 255.0f, 149 / 255.0f, 237 / 255.0f, 1f});
+            GL.Fog(FogParameter.FogColor, new float[] { 100 / 255.0f, 149 / 255.0f, 237 / 255.0f, 1f });
             GL.Fog(FogParameter.FogDensity, 0.1f);
-            GL.Fog(FogParameter.FogMode, (int) FogMode.Linear);
-            GL.Fog(FogParameter.FogStart, (float) 300);
-            GL.Fog(FogParameter.FogEnd, (float) 2000);
+            GL.Fog(FogParameter.FogMode, (int)FogMode.Linear);
+            GL.Fog(FogParameter.FogStart, (float)300);
+            GL.Fog(FogParameter.FogEnd, (float)2000);
 
             GL.Disable(EnableCap.DepthTest);
             //GL.DepthFunc(DepthFunction.Always);
@@ -539,7 +539,7 @@ namespace MissionPlanner.Controls
                 GL.BindTexture(TextureTarget.Texture2D, green);
                 var list = FlightPlanner.instance.pointlist.ToList();
                 if (MainV2.comPort.MAV.cs.mode.ToLower() == "guided")
-                    list.Add((PointLatLngAlt) (Locationwp) MainV2.comPort.MAV.GuidedMode);
+                    list.Add((PointLatLngAlt)(Locationwp)MainV2.comPort.MAV.GuidedMode);
                 if (MainV2.comPort.MAV.cs.TargetLocation != PointLatLngAlt.Zero)
                     list.Add(MainV2.comPort.MAV.cs.TargetLocation);
                 foreach (var point in list)
@@ -717,7 +717,7 @@ namespace MissionPlanner.Controls
                                         {
                                             point = p,
                                             zoom = tilearea.zoom,
-                                            img = (Image) img.Img.Clone()
+                                            img = (Image)img.Img.Clone()
                                         };
 
                                         for (long x = xstart; x < xend; x += pxstep)
@@ -843,7 +843,7 @@ namespace MissionPlanner.Controls
             imgy = MathHelper.map(ynext, ystart, yend, 0, 1);
             ti.vertex.Add(new tileInfo.Vertex(utm2[0], utm2[1], utm2[2], 1, 1, 0, imgx, imgy));
 
-            var startindex = (uint) ti.vertex.Count - 4;
+            var startindex = (uint)ti.vertex.Count - 4;
 
             ti.indices.AddRange(new[]
             {
@@ -856,13 +856,13 @@ namespace MissionPlanner.Controls
         {
             textureid.Where(a => !tileArea.Any(b => b.points.Contains(a.Key))).ForEach(c =>
             {
-                this.BeginInvoke((MethodInvoker) delegate
-                {
-                    Console.WriteLine(DateTime.Now.Millisecond + " tile cleanup");
-                    tileInfo temp;
-                    textureid.TryRemove(c.Key, out temp);
-                    temp?.Cleanup();
-                });
+                this.BeginInvoke((MethodInvoker)delegate
+               {
+                   Console.WriteLine(DateTime.Now.Millisecond + " tile cleanup");
+                   tileInfo temp;
+                   textureid.TryRemove(c.Key, out temp);
+                   temp?.Cleanup();
+               });
             });
         }
 
@@ -946,9 +946,9 @@ namespace MissionPlanner.Controls
             GL.Enable(EnableCap.ColorMaterial);
             GL.Enable(EnableCap.Normalize);
 
-//GL.Enable(EnableCap.LineSmooth);
-//GL.Enable(EnableCap.PointSmooth);
-//GL.Enable(EnableCap.PolygonSmooth);
+            //GL.Enable(EnableCap.LineSmooth);
+            //GL.Enable(EnableCap.PointSmooth);
+            //GL.Enable(EnableCap.PolygonSmooth);
             GL.ShadeModel(ShadingModel.Smooth);
             GL.Enable(EnableCap.CullFace);
             GL.Enable(EnableCap.Texture2D);
@@ -974,9 +974,9 @@ namespace MissionPlanner.Controls
 
             GL.MatrixMode(MatrixMode.Projection);
 
-            OpenTK.Matrix4 projection = OpenTK.Matrix4.CreatePerspectiveFieldOfView((float) (90 * MathHelper.deg2rad),
-                (float) Width / Height, 0.1f,
-                (float) 20000);
+            OpenTK.Matrix4 projection = OpenTK.Matrix4.CreatePerspectiveFieldOfView((float)(90 * MathHelper.deg2rad),
+                (float)Width / Height, 0.1f,
+                (float)20000);
 
             GL.LoadMatrix(ref projection);
 
@@ -1003,7 +1003,7 @@ namespace MissionPlanner.Controls
                 set
                 {
                     _img = value;
-                    _data = ((Bitmap) _img).LockBits(new System.Drawing.Rectangle(0, 0, _img.Width, _img.Height),
+                    _data = ((Bitmap)_img).LockBits(new System.Drawing.Rectangle(0, 0, _img.Width, _img.Height),
                         ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
                 }
             }
@@ -1228,7 +1228,7 @@ void main()
                 GL.CompileShader(VertexShader);
                 Debug.WriteLine(GL.GetShaderInfoLog(VertexShader));
                 GL.GetShader(VertexShader, ShaderParameter.CompileStatus, out var code);
-                if (code != (int) All.True)
+                if (code != (int)All.True)
                 {
                     // We can use `GL.GetShaderInfoLog(shader)` to get information about the error.
                     throw new Exception(
@@ -1238,7 +1238,7 @@ void main()
                 GL.CompileShader(FragmentShader);
                 Debug.WriteLine(GL.GetShaderInfoLog(FragmentShader));
                 GL.GetShader(FragmentShader, ShaderParameter.CompileStatus, out code);
-                if (code != (int) All.True)
+                if (code != (int)All.True)
                 {
                     // We can use `GL.GetShaderInfoLog(shader)` to get information about the error.
                     throw new Exception(
@@ -1257,7 +1257,7 @@ void main()
                 GL.LinkProgram(GLHandle);
                 Debug.WriteLine(GL.GetProgramInfoLog(GLHandle));
                 GL.GetProgram(GLHandle, GetProgramParameterName.LinkStatus, out code);
-                if (code != (int) All.True)
+                if (code != (int)All.True)
                 {
                     // We can use `GL.GetProgramInfoLog(program)` to get information about the error.
                     throw new Exception(
@@ -1335,16 +1335,16 @@ void main()
 
                 public Vertex(double x, double y, double z, double r, double g, double b, double s, double t)
                 {
-                    X = (float) x;
-                    Y = (float) y;
-                    Z = (float) z;
+                    X = (float)x;
+                    Y = (float)y;
+                    Z = (float)z;
 
                     //R = (float)r;
                     //G = (float)g;
                     //B = (float)b;
 
-                    S = (float) s;
-                    T = (float) t;
+                    S = (float)s;
+                    T = (float)t;
 
                     if (S > 1 || S < 0 || T > 1 || T < 0)
                     {
@@ -1376,7 +1376,7 @@ void main()
 
             {
 
-                float[] ambient_light = {ambient, ambient, ambient, 1};
+                float[] ambient_light = { ambient, ambient, ambient, 1 };
 
                 GL.LightModel(LightModelParameter.LightModelAmbient, ambient_light);
 
@@ -1394,16 +1394,16 @@ void main()
 
             {
 
-                float[] ambient_light = {ambient, ambient, ambient, 1.0f};
+                float[] ambient_light = { ambient, ambient, ambient, 1.0f };
 
-                float[] spec = {0.5f, 0.5f, 0.5f, 1.0f};
+                float[] spec = { 0.5f, 0.5f, 0.5f, 1.0f };
 
-                float[] one = {1.0f, 1.0f, 1.0f, 1.0f};
+                float[] one = { 1.0f, 1.0f, 1.0f, 1.0f };
 
 
 
                 GL.Light(LightName.Light0, LightParameter.Position,
-                    new float[] {(float) position.X, (float) position.Y, (float) position.Z});
+                    new float[] { (float)position.X, (float)position.Y, (float)position.Z });
 
                 GL.Light(LightName.Light0, LightParameter.Ambient, ambient_light);
 
@@ -1431,11 +1431,11 @@ void main()
 
             {
 
-                float[] ambient_light = {ambient, ambient, ambient, 1.0f};
+                float[] ambient_light = { ambient, ambient, ambient, 1.0f };
 
-                float[] one = {1.0f, 1.0f, 1.0f, 1.0f};
+                float[] one = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-                float[] zero = {0.0f, 0.0f, 0.0f, 1.0f};
+                float[] zero = { 0.0f, 0.0f, 0.0f, 1.0f };
 
 
 
@@ -1446,7 +1446,7 @@ void main()
                 GL.Material(MaterialFace.FrontAndBack, MaterialParameter.Specular, one);
 
                 GL.Material(MaterialFace.FrontAndBack, MaterialParameter.Emission,
-                    new float[] {0.1f, 0.1f, 0.1f, 1.0f});
+                    new float[] { 0.1f, 0.1f, 0.1f, 1.0f });
 
                 GL.Material(MaterialFace.FrontAndBack, MaterialParameter.Shininess, 128);
 

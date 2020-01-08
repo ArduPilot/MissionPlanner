@@ -1,7 +1,7 @@
-﻿using System;
-using System.Windows.Forms;
-using MissionPlanner.Comms;
+﻿using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
+using System;
+using System.Windows.Forms;
 
 namespace MissionPlanner.Antenna
 {
@@ -49,7 +49,7 @@ namespace MissionPlanner.Antenna
             _tracker.BUT_find.Click += new System.EventHandler(BUT_find_Click);
             _tracker.TXT_tiltaccel.TextChanged += new System.EventHandler(TXT_tiltaccel_TextChanged);
 
-        
+
         }
 
         public void Deactivate()
@@ -411,7 +411,7 @@ namespace MissionPlanner.Antenna
 
         public void Activate()
         {
-            
+
 
             _tracker.CMB_serialport.DataSource = SerialPort.GetPortNames();
 

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using ICSharpCode.SharpZipLib.Checksum;
+using log4net;
+using MissionPlanner.Controls;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
@@ -10,9 +13,6 @@ using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ICSharpCode.SharpZipLib.Checksum;
-using MissionPlanner.Controls;
-using log4net;
 
 namespace MissionPlanner.Utilities
 {
@@ -40,13 +40,13 @@ namespace MissionPlanner.Utilities
                 }
                 else if (dobeta)
                 {
-                    CheckMD5(frmProgressReporter, 
+                    CheckMD5(frmProgressReporter,
                         ConfigurationManager.AppSettings["BetaUpdateLocationMD5"].ToString(),
                         ConfigurationManager.AppSettings["BetaUpdateLocationZip"]);
                 }
                 else
                 {
-                    CheckMD5(frmProgressReporter, 
+                    CheckMD5(frmProgressReporter,
                         ConfigurationManager.AppSettings["UpdateLocationMD5"].ToString(),
                         ConfigurationManager.AppSettings["UpdateLocation"]);
                 }
@@ -85,7 +85,7 @@ namespace MissionPlanner.Utilities
                 log.Info("Quitting existing process");
 
                 if (frmProgressReporter != null)
-                    frmProgressReporter.BeginInvoke((Action) delegate { Application.Exit(); });
+                    frmProgressReporter.BeginInvoke((Action)delegate { Application.Exit(); });
             }
             catch (AggregateException ex)
             {
@@ -139,7 +139,7 @@ namespace MissionPlanner.Utilities
             using (var response = webRequest.GetResponse())
             {
                 // Display the status.
-                log.Debug("Response status: " + ((HttpWebResponse) response).StatusDescription);
+                log.Debug("Response status: " + ((HttpWebResponse)response).StatusDescription);
                 // Get the stream containing content returned by the server.
 
                 if (File.Exists(path))
@@ -183,26 +183,26 @@ namespace MissionPlanner.Utilities
             if (updateFound)
             {
                 // do the update in the main thread
-                MainV2.instance.Invoke((Action) delegate
-                {
-                    string extra = "";
+                MainV2.instance.Invoke((Action)delegate
+               {
+                   string extra = "";
 
-                    if (dobeta)
-                        extra = "BETA ";
+                   if (dobeta)
+                       extra = "BETA ";
 
-                    var dr = CustomMessageBox.Show(
-                        extra + Strings.UpdateFound + " [link;" + baseurl.Replace("version.txt", "ChangeLog.txt") + ";ChangeLog]",
-                        Strings.UpdateNow, MessageBoxButtons.YesNo);
+                   var dr = CustomMessageBox.Show(
+                       extra + Strings.UpdateFound + " [link;" + baseurl.Replace("version.txt", "ChangeLog.txt") + ";ChangeLog]",
+                       Strings.UpdateNow, MessageBoxButtons.YesNo);
 
-                    if (dr == (int)DialogResult.Yes)
-                    {
-                        DoUpdate();
-                    }
-                    else
-                    {
-                        return;
-                    }
-                });
+                   if (dr == (int)DialogResult.Yes)
+                   {
+                       DoUpdate();
+                   }
+                   else
+                   {
+                       return;
+                   }
+               });
             }
             else if (NotifyNoUpdate)
             {
@@ -255,7 +255,7 @@ namespace MissionPlanner.Utilities
             using (StreamReader reader = new StreamReader(dataStream))
             {
                 // Display the status.
-                log.Info(((HttpWebResponse) response).StatusDescription);
+                log.Info(((HttpWebResponse)response).StatusDescription);
                 // Read the content.
                 responseFromServer = reader.ReadToEnd();
             }
@@ -265,7 +265,7 @@ namespace MissionPlanner.Utilities
             if (regex.IsMatch(responseFromServer))
             {
                 if (frmProgressReporter != null)
-                    frmProgressReporter.UpdateProgressAndStatus(-1,"Hashing Files");
+                    frmProgressReporter.UpdateProgressAndStatus(-1, "Hashing Files");
 
                 // cleanup dll's with the same exe name
                 var dlls = Directory.GetFiles(Settings.GetRunningDirectory(), "*.dll", SearchOption.TopDirectoryOnly);
@@ -315,7 +315,7 @@ namespace MissionPlanner.Utilities
                     string hash = matchs[i].Groups[1].Value.ToString();
                     string file = matchs[i].Groups[2].Value.ToString();
 
-                    if(file.ToLower().EndsWith("files.html"))
+                    if (file.ToLower().EndsWith("files.html"))
                         continue;
 
                     Task<bool> ismatch = Task<bool>.Factory.StartNew(() => MD5File(file, hash));
@@ -335,7 +335,7 @@ namespace MissionPlanner.Utilities
                 int done = 0;
 
                 Parallel.ForEach(tasklist, opt, task =>
-                    //foreach (var task in tasklist)
+                //foreach (var task in tasklist)
                 {
                     string file = task.Item1;
                     string hash = task.Item2;
@@ -358,7 +358,7 @@ namespace MissionPlanner.Utilities
                         if (!MD5File(file + ".new", hash))
                         {
                             if (frmProgressReporter != null)
-                                frmProgressReporter.UpdateProgressAndStatus((int)((done/(double)count)*100),
+                                frmProgressReporter.UpdateProgressAndStatus((int)((done / (double)count) * 100),
                                     Strings.Getting + file + "\n" + done + " of " + count + " of total " +
                                     tasklist.Count);
 
@@ -434,14 +434,14 @@ namespace MissionPlanner.Utilities
                 if (!File.Exists(filename))
                     return false;
 
-                
+
 
                 var crc = new Crc32();
-                
+
                 {
                     using (var stream = File.OpenRead(filename))
                     {
-                        var buf = new byte[1024*1024];
+                        var buf = new byte[1024 * 1024];
                         while (stream.Position < stream.Length)
                         {
                             var read = stream.Read(buf, 0, buf.Length);
@@ -463,7 +463,7 @@ namespace MissionPlanner.Utilities
         }
 
         static void GetNewFileZip(IProgressReporterDialogue frmProgressReporter, string baseurl, string subdir, string file)
-        {          
+        {
             // create dest dir
             string dir = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + subdir;
             if (!Directory.Exists(dir))
@@ -534,7 +534,7 @@ namespace MissionPlanner.Utilities
                     // Set the Method property of the request to GET.
                     request.Method = "GET";
                     // Allow compressed content
-                    ((HttpWebRequest) request).AutomaticDecompression = DecompressionMethods.GZip |
+                    ((HttpWebRequest)request).AutomaticDecompression = DecompressionMethods.GZip |
                                                                         DecompressionMethods.Deflate;
                     // tell server we allow compress content
                     request.Headers.Add("Accept-Encoding", "gzip,deflate");
@@ -542,7 +542,7 @@ namespace MissionPlanner.Utilities
                     using (WebResponse response = request.GetResponse())
                     {
                         // Display the status.
-                        log.Info(((HttpWebResponse) response).StatusDescription);
+                        log.Info(((HttpWebResponse)response).StatusDescription);
                         // Get the stream containing content returned by the server.
                         Stream dataStream = response.GetResponseStream();
 
@@ -570,9 +570,9 @@ namespace MissionPlanner.Utilities
                                     {
                                         if (frmProgressReporter != null)
                                             frmProgressReporter.UpdateProgressAndStatus(
-                                                (int) (((double) (contlen - bytes) / (double) contlen) * 100),
+                                                (int)(((double)(contlen - bytes) / (double)contlen) * 100),
                                                 Strings.Getting + file + ": " +
-                                                (((double) (contlen - bytes) / (double) contlen) * 100)
+                                                (((double)(contlen - bytes) / (double)contlen) * 100)
                                                 .ToString("0.0") +
                                                 "%"); //+ Math.Abs(bytes) + " bytes");
                                         dt = DateTime.Now;
@@ -603,7 +603,7 @@ namespace MissionPlanner.Utilities
                     attempt++;
                     continue;
                 }
-  
+
                 // break if we have no exception
                 break;
             }
@@ -620,7 +620,7 @@ namespace MissionPlanner.Utilities
 
             #region Fetch Parameter Meta Data
 
-            var progressReporterDialogue = ((IProgressReporterDialogue) sender);
+            var progressReporterDialogue = ((IProgressReporterDialogue)sender);
             progressReporterDialogue.UpdateProgressAndStatus(-1, "Getting updated parameter documentation");
 
             try

@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using MissionPlanner.Utilities;
+﻿using MissionPlanner.Utilities;
+using System.Collections.Generic;
 
 namespace MissionPlanner.Grid
 {
@@ -58,6 +58,6 @@ namespace MissionPlanner.Grid
         public decimal setservo_low;
         public decimal setservo_high;
 
-        
+
     }
 }

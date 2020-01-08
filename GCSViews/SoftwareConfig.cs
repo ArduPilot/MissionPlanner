@@ -1,12 +1,12 @@
-﻿using System;
-using System.Reflection;
-using System.Windows.Forms;
-using log4net;
+﻿using log4net;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
 using MissionPlanner.Controls.BackstageView;
 using MissionPlanner.GCSViews.ConfigurationView;
 using MissionPlanner.Utilities;
+using System;
+using System.Reflection;
+using System.Windows.Forms;
 
 namespace MissionPlanner.GCSViews
 {
@@ -57,7 +57,7 @@ namespace MissionPlanner.GCSViews
                     if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
                     {
                         if (MainV2.DisplayConfiguration.displayBasicTuning)
-                        { 
+                        {
                             start = AddBackstageViewPage(typeof(ConfigSimplePids), Strings.BasicTuning);
                         }
                         if (MainV2.DisplayConfiguration.displayExtendedTuning)

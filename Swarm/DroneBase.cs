@@ -1,5 +1,5 @@
-﻿using System;
-using MissionPlanner.Utilities;
+﻿using MissionPlanner.Utilities;
+using System;
 
 namespace MissionPlanner.Swarm
 {
@@ -19,7 +19,7 @@ namespace MissionPlanner.Swarm
 
         public PointLatLngAlt ProjectedLocation2 => Location.newpos(Heading, Velocity.length() * 2);
 
-        public void SendPositionVelocityYaw(PointLatLngAlt pos, Vector3 vel, double yaw, double yawrate=100)
+        public void SendPositionVelocityYaw(PointLatLngAlt pos, Vector3 vel, double yaw, double yawrate = 100)
         {
             if (pos == null || vel == null)
                 return;

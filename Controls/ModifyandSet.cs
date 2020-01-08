@@ -6,12 +6,14 @@ namespace MissionPlanner.Controls
     public partial class ModifyandSet : UserControl
     {
         [System.ComponentModel.Browsable(false)]
-        public NumericUpDown NumericUpDown {
+        public NumericUpDown NumericUpDown
+        {
             get { return numericUpDown1; }
         }
 
         [System.ComponentModel.Browsable(false)]
-        public MyButton Button {
+        public MyButton Button
+        {
             get { return myButton1; }
         }
 

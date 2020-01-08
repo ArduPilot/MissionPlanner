@@ -3,7 +3,6 @@ using ManagedNativeWifi.Simple;
 using MissionPlanner.Arduino;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Comms;
-using MissionPlanner.test;
 using px4uploader;
 using SharpAdbClient;
 using solo;
@@ -34,7 +33,7 @@ namespace MissionPlanner.Utilities
         static readonly string gholdurl = ("https://github.com/diydrones/binary/raw/!Hash!/Firmware/firmware2.xml");
         static readonly string gholdfirmwareurl = ("https://github.com/diydrones/binary/raw/!Hash!/Firmware/!Firmware!");
 
-        static string[] gholdurls = new string[] {};
+        static string[] gholdurls = new string[] { };
 
         public static List<KeyValuePair<string, string>> niceNames = new List<KeyValuePair<string, string>>();
 
@@ -74,7 +73,7 @@ namespace MissionPlanner.Utilities
             public string urlbebop2 = "";
             public string urldisco = "";
             public string urlnxpfmuk66 = "";
-            
+
             // chibios - libraries\AP_HAL_ChibiOS\hwdef
             public string urlfmuv2 = "";
             public string urlfmuv3 = "";
@@ -192,7 +191,7 @@ namespace MissionPlanner.Utilities
 
             updateProgress(-1, Strings.GettingFWList);
 
-            var urls = firmwareurl.Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries);
+            var urls = firmwareurl.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
             var valid = false;
             Exception invalidex = null;
 
@@ -202,10 +201,10 @@ namespace MissionPlanner.Utilities
                 {
                     var dnsinfo = Dns.GetHostAddresses(new Uri(url).DnsSafeHost);
 
-                    if(dnsinfo.Length ==0)
+                    if (dnsinfo.Length == 0)
                         throw new Exception("Failed to resolve dns");
 
-                    XmlSerializer xms = new XmlSerializer(typeof(optionsObject), new Type[] {typeof(software)});
+                    XmlSerializer xms = new XmlSerializer(typeof(optionsObject), new Type[] { typeof(software) });
 
                     log.Info("url: " + url);
                     WebRequest request = WebRequest.Create(url);
@@ -216,7 +215,7 @@ namespace MissionPlanner.Utilities
                     using (WebResponse response = request.GetResponse())
                     using (XmlReader xmlreader = XmlReader.Create(response.GetResponseStream()))
                     {
-                        options = (optionsObject) xms.Deserialize(xmlreader);
+                        options = (optionsObject)xms.Deserialize(xmlreader);
                     }
 
                     valid = true;
@@ -255,7 +254,7 @@ namespace MissionPlanner.Utilities
         public static void SaveSoftwares(optionsObject list)
         {
             System.Xml.Serialization.XmlSerializer writer =
-                new System.Xml.Serialization.XmlSerializer(typeof (optionsObject), new Type[] {typeof (software)});
+                new System.Xml.Serialization.XmlSerializer(typeof(optionsObject), new Type[] { typeof(software) });
 
             using (
                 StreamWriter sw =
@@ -270,13 +269,13 @@ namespace MissionPlanner.Utilities
             try
             {
                 System.Xml.Serialization.XmlSerializer reader =
-                    new System.Xml.Serialization.XmlSerializer(typeof (optionsObject), new Type[] {typeof (software)});
+                    new System.Xml.Serialization.XmlSerializer(typeof(optionsObject), new Type[] { typeof(software) });
 
                 using (
                     StreamReader sr =
                         new StreamReader(Settings.GetUserDataDirectory() + "fwversions.xml"))
                 {
-                    return ((optionsObject) reader.Deserialize(sr)).softwares;
+                    return ((optionsObject)reader.Deserialize(sr)).softwares;
                 }
             }
             catch (Exception ex)
@@ -308,7 +307,7 @@ namespace MissionPlanner.Utilities
         {
             try
             {
-                software temp = (software) tempin;
+                software temp = (software)tempin;
 
                 string baseurl = temp.urlfmuv3;
                 string baseurl2 = temp.urlpx4v2;
@@ -409,7 +408,7 @@ namespace MissionPlanner.Utilities
             {
                 updateProgress(-1, Strings.DetectingBoardVersion);
 
-                if(board != BoardDetect.boards.pass)
+                if (board != BoardDetect.boards.pass)
                     board = BoardDetect.DetectBoard(comport, ports);
 
                 if (board == BoardDetect.boards.none)
@@ -433,7 +432,7 @@ namespace MissionPlanner.Utilities
                         board = BoardDetect.boards.chbootloader;
                     }
                 }
-             
+
                 if (board == BoardDetect.boards.b2560)
                 {
                     baseurl = temp.url2560.ToString();
@@ -482,7 +481,7 @@ namespace MissionPlanner.Utilities
                 else if (board == BoardDetect.boards.px4v4pro)
                 {
                     baseurl = temp.urlpx4v4pro.ToString();
-                }				
+                }
                 else if (board == BoardDetect.boards.vrbrainv40)
                 {
                     baseurl = temp.urlvrbrainv40.ToString();
@@ -551,7 +550,7 @@ namespace MissionPlanner.Utilities
                 }
                 else if (board == BoardDetect.boards.pass)
                 {
-                    
+
                 }
                 else
                 {
@@ -796,7 +795,7 @@ namespace MissionPlanner.Utilities
         private void AttemptRebootToBootloader()
         {
             string[] allports = SerialPort.GetPortNames();
-            
+
             List<Task<bool>> tasklist = new List<Task<bool>>();
             // check if its in BL mode already
             foreach (string port in allports)
@@ -804,7 +803,8 @@ namespace MissionPlanner.Utilities
                 log.Info(DateTime.Now.Millisecond + " Trying Port " + port);
                 try
                 {
-                    var task = Task.Run(() => {
+                    var task = Task.Run(() =>
+                    {
                         using (var up = new Uploader(port, 115200))
                         {
                             up.identify();
@@ -1006,7 +1006,7 @@ namespace MissionPlanner.Utilities
                         up.board_type == 1152 || up.board_type == 1210 || up.board_type == 1351 || up.board_type == 1352 ||
                         up.board_type == 1411 || up.board_type == 1520)
                     {
-//VR boards have no tone alarm
+                        //VR boards have no tone alarm
                         if (up.board_type == 1140)
                             CustomMessageBox.Show("Upload complete! Please unplug and reconnect board.");
                         else
@@ -1036,11 +1036,11 @@ namespace MissionPlanner.Utilities
             PingReply pingReply = pingParrotVehicle(ping);
 
             updateProgress(0, "Trying to connect to " + vehicleName);
-            
+
             if (pingReply == null || pingReply.Status != IPStatus.Success)
             {
                 bool ssidFound = isParrotWifiConnected(vehicleName);
-                
+
                 if (!ssidFound)
                 {
                     CustomMessageBox.Show("Please connect to " + vehicleName + " Wifi now and after that press OK", vehicleName, MessageBoxButtons.OK);
@@ -1179,9 +1179,9 @@ namespace MissionPlanner.Utilities
                                     initAPLinesIndex[2] != (initAPLinesIndex[1] + 1) ||
                                     dragonLineIndex != (initAPLinesIndex[2] + 1))
                                 {
-                                    foreach(int i in initAPLinesIndex)
+                                    foreach (int i in initAPLinesIndex)
                                     {
-                                        if(i != -1)
+                                        if (i != -1)
                                         {
                                             if (i < dragonLineIndex)
                                                 dragonLineIndex--;
@@ -1279,7 +1279,7 @@ namespace MissionPlanner.Utilities
             {
                 AdbClient.Instance.KillAdb();
             }
-            
+
             return true;
         }
 
@@ -1324,7 +1324,7 @@ namespace MissionPlanner.Utilities
 
         void up_ProgressEvent(double completed)
         {
-            updateProgress((int) completed, _message);
+            updateProgress((int)completed, _message);
         }
 
         /// <summary>
@@ -1392,7 +1392,7 @@ namespace MissionPlanner.Utilities
         }
 
         public bool UploadArduino(string comport, string filename, BoardDetect.boards board)
-        { 
+        {
             byte[] FLASH = new byte[1];
             try
             {
@@ -1468,7 +1468,7 @@ namespace MissionPlanner.Utilities
 
                     while (start < FLASH.Length)
                     {
-                        updateProgress((int) ((start/(float) FLASH.Length)*100), Strings.VerifyFirmware);
+                        updateProgress((int)((start / (float)FLASH.Length) * 100), Strings.VerifyFirmware);
                         port.setaddress(start);
                         //log.Info("Downloading " + length + " at " + start);
                         port.downloadflash(length).CopyTo(flashverify, start);
@@ -1498,7 +1498,7 @@ namespace MissionPlanner.Utilities
 
                 try
                 {
-                    ((SerialPort) port).Open();
+                    ((SerialPort)port).Open();
                 }
                 catch
                 {
@@ -1508,7 +1508,7 @@ namespace MissionPlanner.Utilities
 
                 try
                 {
-                    ((SerialPort) port).Close();
+                    ((SerialPort)port).Close();
                 }
                 catch
                 {
@@ -1540,7 +1540,7 @@ namespace MissionPlanner.Utilities
         /// <returns></returns>
         byte[] readIntelHEXv2(StreamReader sr)
         {
-            byte[] FLASH = new byte[1024*1024];
+            byte[] FLASH = new byte[1024 * 1024];
 
             int optionoffset = 0;
             int total = 0;
@@ -1548,7 +1548,7 @@ namespace MissionPlanner.Utilities
 
             while (!sr.EndOfStream)
             {
-                updateProgress((int) (((float) sr.BaseStream.Position/(float) sr.BaseStream.Length)*100),
+                updateProgress((int)(((float)sr.BaseStream.Position / (float)sr.BaseStream.Length) * 100),
                     Strings.ReadingHex);
 
                 string line = sr.ReadLine();
@@ -1562,10 +1562,10 @@ namespace MissionPlanner.Utilities
 
                     if (option == 0)
                     {
-                        string data = line.Substring(9, length*2);
+                        string data = line.Substring(9, length * 2);
                         for (int i = 0; i < length; i++)
                         {
-                            byte byte1 = Convert.ToByte(data.Substring(i*2, 2), 16);
+                            byte byte1 = Convert.ToByte(data.Substring(i * 2, 2), 16);
                             FLASH[optionoffset + address] = byte1;
                             address++;
                             if ((optionoffset + address) > total)
@@ -1574,7 +1574,7 @@ namespace MissionPlanner.Utilities
                     }
                     else if (option == 2)
                     {
-                        optionoffset = (int) Convert.ToUInt16(line.Substring(9, 4), 16) << 4;
+                        optionoffset = (int)Convert.ToUInt16(line.Substring(9, 4), 16) << 4;
                     }
                     else if (option == 1)
                     {
@@ -1583,11 +1583,11 @@ namespace MissionPlanner.Utilities
                     int checksum = Convert.ToInt32(line.Substring(line.Length - 2, 2), 16);
 
                     byte checksumact = 0;
-                    for (int z = 0; z < ((line.Length - 1 - 2)/2); z++) // minus 1 for : then mins 2 for checksum itself
+                    for (int z = 0; z < ((line.Length - 1 - 2) / 2); z++) // minus 1 for : then mins 2 for checksum itself
                     {
-                        checksumact += Convert.ToByte(line.Substring(z*2 + 1, 2), 16);
+                        checksumact += Convert.ToByte(line.Substring(z * 2 + 1, 2), 16);
                     }
-                    checksumact = (byte) (0x100 - checksumact);
+                    checksumact = (byte)(0x100 - checksumact);
 
                     if (checksumact != checksum)
                     {

@@ -26,7 +26,7 @@ namespace MissionPlanner.Controls.PreFlight
 
         // the text to display
         public string Text { get; set; }
-        
+
         // the value to trigger the change.
         public double TriggerValue { get; set; }
 
@@ -131,7 +131,7 @@ namespace MissionPlanner.Controls.PreFlight
 
                 try
                 {
-                    return (double) Convert.ChangeType(Item.GetValue(defaultsrc, null), typeof (double));
+                    return (double)Convert.ChangeType(Item.GetValue(defaultsrc, null), typeof(double));
                 }
                 catch (InvalidCastException)
                 {

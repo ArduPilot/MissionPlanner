@@ -1,7 +1,7 @@
-﻿using System;
+﻿using MissionPlanner.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Swarm.FollowLeader
 {
@@ -29,7 +29,7 @@ namespace MissionPlanner.Swarm.FollowLeader
         public void UpdatePositions()
         {
             // add new point to trail
-            trail.Add(new PointLatLngAlt(GroundMasterDrone.MavState.cs.lat, GroundMasterDrone.MavState.cs.lng, GroundMasterDrone.MavState.cs.alt,""));
+            trail.Add(new PointLatLngAlt(GroundMasterDrone.MavState.cs.lat, GroundMasterDrone.MavState.cs.lng, GroundMasterDrone.MavState.cs.alt, ""));
 
             while (trail.Count > 1000)
                 trail.RemoveAt(0);
@@ -54,9 +54,9 @@ namespace MissionPlanner.Swarm.FollowLeader
             var targetbearing = GroundMasterDrone.Heading;
 
             //
-            if (GroundMasterDrone.MavState.cs.wp_dist < Seperation*1.5)
+            if (GroundMasterDrone.MavState.cs.wp_dist < Seperation * 1.5)
             {
-                var headingtowp = (int) GroundMasterDrone.MavState.cs.wpno;
+                var headingtowp = (int)GroundMasterDrone.MavState.cs.wpno;
                 var nextwp = headingtowp + 1;
 
                 try
@@ -77,9 +77,9 @@ namespace MissionPlanner.Swarm.FollowLeader
                         //targetbearing = bearing;
                     }
 
-                    AirMasterDrone.TargetVelocity.x = Math.Cos(targetbearing*MathHelper.deg2rad)*
+                    AirMasterDrone.TargetVelocity.x = Math.Cos(targetbearing * MathHelper.deg2rad) *
                                                       GroundMasterDrone.MavState.cs.groundspeed;
-                    AirMasterDrone.TargetVelocity.y = Math.Sin(targetbearing*MathHelper.deg2rad)*
+                    AirMasterDrone.TargetVelocity.y = Math.Sin(targetbearing * MathHelper.deg2rad) *
                                                       GroundMasterDrone.MavState.cs.groundspeed;
                 }
                 catch
@@ -88,7 +88,7 @@ namespace MissionPlanner.Swarm.FollowLeader
             }
             else
             {
-                
+
             }
 
             // calc airmaster position
@@ -98,8 +98,8 @@ namespace MissionPlanner.Swarm.FollowLeader
             // send new position to airmaster
             AirMasterDrone.SendPositionVelocity(AirMasterDrone.TargetLocation, AirMasterDrone.TargetVelocity * 0.6);
 
-            AirMasterDrone.MavState.GuidedMode.x = (int) ((AirMasterDrone.TargetLocation.Lat) * 1e7);
-            AirMasterDrone.MavState.GuidedMode.y = (int) ((AirMasterDrone.TargetLocation.Lng) * 1e7);
+            AirMasterDrone.MavState.GuidedMode.x = (int)((AirMasterDrone.TargetLocation.Lat) * 1e7);
+            AirMasterDrone.MavState.GuidedMode.y = (int)((AirMasterDrone.TargetLocation.Lng) * 1e7);
             AirMasterDrone.MavState.GuidedMode.z = (float)AirMasterDrone.TargetLocation.Alt;
 
             // get the path
@@ -115,7 +115,7 @@ namespace MissionPlanner.Swarm.FollowLeader
             // send position and velocity
             foreach (var drone in Drones)
             {
-                if(drone.MavState == airmaster)
+                if (drone.MavState == airmaster)
                     continue;
 
                 if (drone.MavState == groundmaster)
@@ -127,11 +127,11 @@ namespace MissionPlanner.Swarm.FollowLeader
                 newpositions[a].Alt += Altitude;
 
                 // spline control
-                drone.SendPositionVelocity(newpositions[a], drone.TargetVelocity/2);
+                drone.SendPositionVelocity(newpositions[a], drone.TargetVelocity / 2);
 
-                drone.MavState.GuidedMode.x = (int)(newpositions[a].Lat *1e7);
-                drone.MavState.GuidedMode.y = (int)(newpositions[a].Lng *1e7);
-                drone.MavState.GuidedMode.z = (float) newpositions[a].Alt;
+                drone.MavState.GuidedMode.x = (int)(newpositions[a].Lat * 1e7);
+                drone.MavState.GuidedMode.y = (int)(newpositions[a].Lng * 1e7);
+                drone.MavState.GuidedMode.z = (float)newpositions[a].Alt;
 
                 // vel only
                 //drone.SendVelocity(drone.TargetVelocity);

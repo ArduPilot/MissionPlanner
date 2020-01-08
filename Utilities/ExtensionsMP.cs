@@ -1,11 +1,8 @@
 ﻿using log4net;
-using System;
-using System.ComponentModel;
-using System.Threading;
-using System.Windows.Forms;
 using MissionPlanner.test;
+using System;
+using System.Windows.Forms;
 using Xamarin.Forms;
-using Xamarin.Forms.Platform.WinForms;
 
 namespace MissionPlanner.Utilities
 {
@@ -26,11 +23,11 @@ namespace MissionPlanner.Utilities
         {
             if (height)
             {
-                return (int) ((current / (double) ctl.Height) * 100.0);
+                return (int)((current / (double)ctl.Height) * 100.0);
             }
             else
             {
-                return (int) ((current / (double) ctl.Width) * 100.0);
+                return (int)((current / (double)ctl.Width) * 100.0);
             }
         }
 
@@ -38,11 +35,11 @@ namespace MissionPlanner.Utilities
         {
             if (height)
             {
-                return (int)((current/100.0 * (double)ctl.Height));
+                return (int)((current / 100.0 * (double)ctl.Height));
             }
             else
             {
-                return (int)((current/100.0 * (double)ctl.Width) );
+                return (int)((current / 100.0 * (double)ctl.Width));
             }
         }
 
@@ -81,7 +78,7 @@ namespace MissionPlanner.Utilities
 
             f.Width = Width;
             f.Height = Height;
-            var app = new Xamarin.Forms.Application() {MainPage = ctl};
+            var app = new Xamarin.Forms.Application() { MainPage = ctl };
             f.LoadApplication(app);
             ThemeManager.ApplyThemeTo(f);
             if (ctl is IClose)

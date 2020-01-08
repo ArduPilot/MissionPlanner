@@ -1,11 +1,11 @@
-﻿using System;
+﻿using log4net;
+using MissionPlanner.Comms;
+using MissionPlanner.Controls;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
-using log4net;
-using MissionPlanner.Comms;
-using MissionPlanner.Controls;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {

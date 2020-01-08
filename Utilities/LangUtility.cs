@@ -1,8 +1,8 @@
 ﻿//this file contains some simple extension methods
 
 using System;
-using System.Globalization;
 using System.ComponentModel;
+using System.Globalization;
 using System.Windows.Forms;
 
 namespace MissionPlanner.Utilities
@@ -17,7 +17,7 @@ namespace MissionPlanner.Utilities
 
         public static bool IsChildOf(this CultureInfo cX, CultureInfo cY)
         {
-            
+
             if (cX == null || cY == null)
                 return false;
 

@@ -1,4 +1,9 @@
-﻿using System;
+﻿using log4net;
+using MissionPlanner.GCSViews;
+using Newtonsoft.Json;
+using SharpKml.Base;
+using SharpKml.Dom;
+using System;
 using System.Drawing;
 using System.IO;
 using System.Net;
@@ -7,11 +12,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
-using log4net;
-using MissionPlanner.GCSViews;
-using SharpKml.Base;
-using SharpKml.Dom;
-using Newtonsoft.Json;
 
 namespace MissionPlanner.Utilities
 {
@@ -104,7 +104,7 @@ namespace MissionPlanner.Utilities
         public void DoAcceptTcpClientCallback(IAsyncResult ar)
         {
             // Get the listener that handles the client request.
-            TcpListener listener = (TcpListener) ar.AsyncState;
+            TcpListener listener = (TcpListener)ar.AsyncState;
 
             // End the operation and display the received data on  
             // the console.
@@ -121,7 +121,7 @@ namespace MissionPlanner.Utilities
         public void ProcessClient(object clientobj)
         {
             var client = clientobj as TcpClient;
-            using(client)
+            using (client)
             {
                 try
                 {
@@ -141,14 +141,14 @@ namespace MissionPlanner.Utilities
 
                     goto skipagain;
 
-                    again:
+                again:
                     log.Info("doing Again");
 
-                    skipagain:
+                skipagain:
 
                     var asciiEncoding = new ASCIIEncoding();
 
-                    var request = new byte[1024*4];
+                    var request = new byte[1024 * 4];
                     int len = 0;
 
                     // handle header
@@ -176,7 +176,7 @@ namespace MissionPlanner.Utilities
                     //url = url.Replace(" HTTP/1.1", "");
 
                     //Tracking.AddEvent("HTTPServer", "Get", url, "");
-/////////////////////////////////////////////////////////////////
+                    /////////////////////////////////////////////////////////////////
                     if (url.Contains(" /websocket/server"))
                     {
                         using (var writer = new StreamWriter(stream, Encoding.Default))
@@ -213,12 +213,12 @@ namespace MissionPlanner.Utilities
                                 var cs = JsonConvert.SerializeObject(MainV2.comPort.MAV.cs);
                                 var wps = JsonConvert.SerializeObject(MainV2.comPort.MAV.wps);
 
-                                foreach (var sendme in new[] { cs,wps })
+                                foreach (var sendme in new[] { cs, wps })
                                 {
                                     int i = 0;
                                     var tosend = sendme.Length;
                                     packet[i++] = 0x81; // fin - utf
-                                    
+
                                     if (tosend <= 125)
                                     {
                                         packet[i++] = (byte)(tosend);
@@ -229,7 +229,7 @@ namespace MissionPlanner.Utilities
                                         packet[i++] = (byte)(tosend >> 8);
                                         packet[i++] = (byte)(tosend & 0xff);
                                     }
-                                    
+
                                     foreach (char ch in sendme)
                                     {
                                         packet[i++] = (byte)ch;
@@ -260,7 +260,7 @@ namespace MissionPlanner.Utilities
                             string accept = ComputeWebSocketHandshakeSecurityHash09(head.Substring(start, end - start));
 
                             writer.WriteLine("Sec-WebSocket-Accept: " + accept);
-                            if(head.Contains("Sec-WebSocket-Protocol:"))
+                            if (head.Contains("Sec-WebSocket-Protocol:"))
                                 writer.WriteLine("Sec-WebSocket-Protocol: binary");
                             writer.WriteLine("Server: Mission Planner");
                             writer.WriteLine("");
@@ -280,18 +280,18 @@ namespace MissionPlanner.Utilities
 
                                     if (tosend <= 125)
                                     {
-                                        packet[i++] = (byte) (tosend);
+                                        packet[i++] = (byte)(tosend);
                                     }
                                     else
                                     {
                                         packet[i++] = 126; // nomask -  2 byte length
-                                        packet[i++] = (byte) (tosend >> 8);
-                                        packet[i++] = (byte) (tosend & 0xff);
+                                        packet[i++] = (byte)(tosend >> 8);
+                                        packet[i++] = (byte)(tosend & 0xff);
                                     }
 
                                     foreach (char ch in sendme)
                                     {
-                                        packet[i++] = (byte) ch;
+                                        packet[i++] = (byte)ch;
                                     }
 
                                     stream.WriteAsync(packet, 0, i);
@@ -318,7 +318,7 @@ namespace MissionPlanner.Utilities
                                     {
                                         paylen = stream.ReadByte() << 8;
                                         paylen += stream.ReadByte();
-                                    } 
+                                    }
                                     else if ((lenw & 0x7f) == 127)
                                     {
                                         paylen = stream.ReadByte() << 56;
@@ -347,7 +347,7 @@ namespace MissionPlanner.Utilities
 
                                     //Console.Write(bydata.ToString("X2"));
                                     var payload = new byte[paylen];
-                                    
+
                                     stream.Read(payload, 0, paylen);
 
                                     for (var i = 0; i < paylen; i++)
@@ -365,7 +365,7 @@ namespace MissionPlanner.Utilities
                                         }
                                     }
 
-                                    
+
 
                                     if (opcode == 0x88)
                                         return;
@@ -508,9 +508,9 @@ namespace MissionPlanner.Utilities
     </Folder>
 </kml>");
 
-     string header =
-                            "HTTP/1.1 200 OK\r\nContent-Type: application/vnd.google-earth.kml+xml\r\nContent-Length: " +
-                            buffer.Length + "\r\n\r\n";
+                        string header =
+                                               "HTTP/1.1 200 OK\r\nContent-Type: application/vnd.google-earth.kml+xml\r\nContent-Length: " +
+                                               buffer.Length + "\r\n\r\n";
                         byte[] temp = asciiEncoding.GetBytes(header);
                         stream.Write(temp, 0, temp.Length);
 
@@ -859,7 +859,7 @@ namespace MissionPlanner.Utilities
 
                         Messagejson message = new Messagejson();
 
-                        if (MainV2.comPort.MAV.getPacketLast((byte) MAVLink.MAVLINK_MSG_ID.ATTITUDE) != null)
+                        if (MainV2.comPort.MAV.getPacketLast((byte)MAVLink.MAVLINK_MSG_ID.ATTITUDE) != null)
                             message.ATTITUDE = new Message2()
                             {
                                 index = 1,
@@ -891,31 +891,31 @@ namespace MissionPlanner.Utilities
                                     MainV2.comPort.MAV.getPacketLast((byte)MAVLink.MAVLINK_MSG_ID.GPS_RAW_INT)
                                         .ToStructure<MAVLink.mavlink_gps_raw_int_t>()
                             };
-                        if (MainV2.comPort.MAV.getPacketLast((byte) MAVLink.MAVLINK_MSG_ID.HEARTBEAT) != null)
+                        if (MainV2.comPort.MAV.getPacketLast((byte)MAVLink.MAVLINK_MSG_ID.HEARTBEAT) != null)
                             message.HEARTBEAT = new Message2()
                             {
                                 index = 1,
                                 msg =
-                                    MainV2.comPort.MAV.getPacketLast((byte) MAVLink.MAVLINK_MSG_ID.HEARTBEAT)
+                                    MainV2.comPort.MAV.getPacketLast((byte)MAVLink.MAVLINK_MSG_ID.HEARTBEAT)
                                         .ToStructure<MAVLink.mavlink_heartbeat_t>()
                             };
-                        if (MainV2.comPort.MAV.getPacketLast((byte) MAVLink.MAVLINK_MSG_ID.GPS_STATUS) != null)
+                        if (MainV2.comPort.MAV.getPacketLast((byte)MAVLink.MAVLINK_MSG_ID.GPS_STATUS) != null)
                             message.GPS_STATUS = new Message2()
                             {
                                 index = 1,
                                 msg =
-                                    MainV2.comPort.MAV.getPacketLast((byte) MAVLink.MAVLINK_MSG_ID.GPS_STATUS)
+                                    MainV2.comPort.MAV.getPacketLast((byte)MAVLink.MAVLINK_MSG_ID.GPS_STATUS)
                                         .ToStructure<MAVLink.mavlink_gps_status_t>()
                             };
-                        if (MainV2.comPort.MAV.getPacketLast((byte) MAVLink.MAVLINK_MSG_ID.STATUSTEXT) != null)
+                        if (MainV2.comPort.MAV.getPacketLast((byte)MAVLink.MAVLINK_MSG_ID.STATUSTEXT) != null)
                             message.STATUSTEXT = new Message2()
                             {
                                 index = 1,
                                 msg =
-                                    MainV2.comPort.MAV.getPacketLast((byte) MAVLink.MAVLINK_MSG_ID.STATUSTEXT)
+                                    MainV2.comPort.MAV.getPacketLast((byte)MAVLink.MAVLINK_MSG_ID.STATUSTEXT)
                                         .ToStructure<MAVLink.mavlink_statustext_t>()
                             };
-                        if (MainV2.comPort.MAV.getPacketLast((byte) MAVLink.MAVLINK_MSG_ID.SYS_STATUS) != null)
+                        if (MainV2.comPort.MAV.getPacketLast((byte)MAVLink.MAVLINK_MSG_ID.SYS_STATUS) != null)
                             message.SYS_STATUS = new Message2()
                             {
                                 index = 1,
@@ -933,7 +933,7 @@ namespace MissionPlanner.Utilities
                                     msg =
                                         new META_LINKQUALITY()
                                         {
-                                            master_in = (int) MainV2.comPort.MAV.packetsnotlost,
+                                            master_in = (int)MainV2.comPort.MAV.packetsnotlost,
                                             mavpackettype = "META_LINKQUALITY",
                                             master_out = MainV2.comPort.packetcount,
                                             packet_loss = 100 - MainV2.comPort.MAV.cs.linkqualitygcs,
@@ -1175,7 +1175,7 @@ namespace MissionPlanner.Utilities
             Bitmap bmp = new Bitmap(ctl.Width, ctl.Height);
 
             MainV2.instance.Invoke(
-                (Action) delegate() { ctl.DrawToBitmap(bmp, new Rectangle(0, 0, ctl.Width, ctl.Height)); });
+                (Action)delegate () { ctl.DrawToBitmap(bmp, new Rectangle(0, 0, ctl.Width, ctl.Height)); });
 
             return bmp;
         }
@@ -1202,11 +1202,11 @@ namespace MissionPlanner.Utilities
             {
                 int originalWidth = image.Width;
                 int originalHeight = image.Height;
-                float percentWidth = (float) size.Width/(float) originalWidth;
-                float percentHeight = (float) size.Height/(float) originalHeight;
+                float percentWidth = (float)size.Width / (float)originalWidth;
+                float percentHeight = (float)size.Height / (float)originalHeight;
                 float percent = percentHeight < percentWidth ? percentHeight : percentWidth;
-                newWidth = (int) (originalWidth*percent);
-                newHeight = (int) (originalHeight*percent);
+                newWidth = (int)(originalWidth * percent);
+                newHeight = (int)(originalHeight * percent);
             }
             else
             {
@@ -1244,7 +1244,7 @@ namespace MissionPlanner.Utilities
 
         void refreshmap()
         {
-            Action m = delegate() { GCSViews.FlightData.mymap.Refresh(); };
+            Action m = delegate () { GCSViews.FlightData.mymap.Refresh(); };
             MainV2.instance.Invoke(m);
         }
 

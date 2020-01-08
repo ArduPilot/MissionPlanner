@@ -1,8 +1,6 @@
 ﻿using DotSpatial.Data;
 using DotSpatial.Projections;
 using GDAL;
-using GeoAPI.CoordinateSystems;
-using GeoAPI.CoordinateSystems.Transformations;
 using GeoUtility.GeoSystem;
 using GeoUtility.GeoSystem.Base;
 using GMap.NET;
@@ -41,6 +39,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
+using GeoAPI.CoordinateSystems;
+using GeoAPI.CoordinateSystems.Transformations;
 using Feature = SharpKml.Dom.Feature;
 using Formatting = Newtonsoft.Json.Formatting;
 using ILog = log4net.ILog;
@@ -60,7 +60,7 @@ namespace MissionPlanner.GCSViews
 
         private void but_mincommands_Click(object sender, System.EventArgs e)
         {
-            if (panelWaypoints.Height<=30)
+            if (panelWaypoints.Height <= 30)
             {
                 panelWaypoints.Height = 166;
                 but_mincommands.Text = @"\/";

@@ -1,27 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using MissionPlanner.Comms;
-using System.Threading;
+﻿using Flurl.Util;
 using log4net;
-using System.Collections;
-using System.ComponentModel;
+using MissionPlanner.Comms;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Windows.Forms;
 using System.Xml.Serialization;
-using Flurl.Util;
 using UAVCAN;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigSerialInjectGPS : UserControl, IActivate, IDeactivate
     {
-        private static ILog log = LogManager.GetLogger(typeof (ConfigSerialInjectGPS).FullName);
+        private static ILog log = LogManager.GetLogger(typeof(ConfigSerialInjectGPS).FullName);
 
         // serialport
         internal static ICommsSerial comPort = new SerialPort();
@@ -100,13 +99,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (Settings.Instance.ContainsKey("SerialInjectGPS_SITime"))
             {
                 txt_surveyinDur.Text = Settings.Instance["SerialInjectGPS_SITime"];
-            }            
+            }
 
             // restore current static state
             chk_rtcmmsg.Checked = rtcm_msg;
 
             // restore setting
-            if(Settings.Instance.ContainsKey("SerialInjectGPS_m8pautoconfig"))
+            if (Settings.Instance.ContainsKey("SerialInjectGPS_m8pautoconfig"))
                 chk_ubloxautoconfig.Checked = bool.Parse(Settings.Instance["SerialInjectGPS_m8pautoconfig"]);
 
             if (Settings.Instance.ContainsKey("SerialInjectGPS_m8p_130p"))
@@ -126,76 +125,76 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (MainV2.instance.IsDisposed)
                 threadrun = false;
 
-            MainV2.instance.BeginInvoke((MethodInvoker) delegate
-            {
-                List<rtcm3.ob> obs = sender as List<rtcm3.ob>;
+            MainV2.instance.BeginInvoke((MethodInvoker)delegate
+           {
+               List<rtcm3.ob> obs = sender as List<rtcm3.ob>;
 
-                if (obs.Count == 0) return;
-				
+               if (obs.Count == 0) return;
+
                 // get system controls
-                Func<char,List<VerticalProgressBar2>> ctls = delegate (char sys)
-                {
-                    return panel1.Controls.OfType<VerticalProgressBar2>()
-                        .Where(ctl => { return ctl.Label.StartsWith(sys + ""); }).ToList();
-                };
+                Func<char, List<VerticalProgressBar2>> ctls = delegate (char sys)
+                 {
+                   return panel1.Controls.OfType<VerticalProgressBar2>()
+                       .Where(ctl => { return ctl.Label.StartsWith(sys + ""); }).ToList();
+               };
 
                 // we need more ctls for this system
                 while (ctls.Invoke(obs[0].sys).Count() < obs.Count)
-                    panel1.Controls.Add(new VerticalProgressBar2()
-                    {
-                        Height = panel1.Height - 30,
-                        Label = obs[0].sys + ""
-                    });
+                   panel1.Controls.Add(new VerticalProgressBar2()
+                   {
+                       Height = panel1.Height - 30,
+                       Label = obs[0].sys + ""
+                   });
 
                 // we need to remove ctls for this system
                 while (ctls.Invoke(obs[0].sys).Count() > obs.Count)
-                {
-                    var list = ctls.Invoke(obs[0].sys);
-                    panel1.Controls.Remove(list.First());
-                }
+               {
+                   var list = ctls.Invoke(obs[0].sys);
+                   panel1.Controls.Remove(list.First());
+               }
 
-                int width = panel1.Width/panel1.Controls.OfType<VerticalProgressBar2>().Count();
+               int width = panel1.Width / panel1.Controls.OfType<VerticalProgressBar2>().Count();
 
-                var tmp = ctls('G');
-                var tmp2 = ctls('R');
-                var tmp3 = ctls('B');
-                var tmp4 = ctls('E');
+               var tmp = ctls('G');
+               var tmp2 = ctls('R');
+               var tmp3 = ctls('B');
+               var tmp4 = ctls('E');
 
-                var start = 0;
+               var start = 0;
 
-                if (obs[0].sys == 'G')
-                    start = 0;
-                if (obs[0].sys == 'R')
-                    start = tmp.Count;
-                if (obs[0].sys == 'B')
-                    start = tmp.Count + tmp2.Count;
-                if (obs[0].sys == 'E')
-                    start = tmp.Count + tmp2.Count + tmp3.Count;
+               if (obs[0].sys == 'G')
+                   start = 0;
+               if (obs[0].sys == 'R')
+                   start = tmp.Count;
+               if (obs[0].sys == 'B')
+                   start = tmp.Count + tmp2.Count;
+               if (obs[0].sys == 'E')
+                   start = tmp.Count + tmp2.Count + tmp3.Count;
 
                 // if G 0, if R = G.count (2 system support)
                 var a = start;
 
-                var sysctls = ctls.Invoke(obs[0].sys);
-                var cnt = 0;
-                foreach (var ob in obs)
-                {
-                    var vpb = sysctls[cnt];
-                    vpb.Value = (int) ob.snr;
+               var sysctls = ctls.Invoke(obs[0].sys);
+               var cnt = 0;
+               foreach (var ob in obs)
+               {
+                   var vpb = sysctls[cnt];
+                   vpb.Value = (int)ob.snr;
                     //vpb.Text = ob.snr.ToString();
                     vpb.Label = ob.sys + ob.prn.ToString();
-                    vpb.Location = new Point(width*(a + cnt), 0);
-                    vpb.DrawLabel = true;
-                    vpb.Width = width;
-                    vpb.Height = panel1.Height-30;
-                    vpb.Minimum = 25;
-                    vpb.Maximum = 55;
-                    vpb.minline = 40;
-                    vpb.maxline = 99;
-                    cnt++;
-                }
+                   vpb.Location = new Point(width * (a + cnt), 0);
+                   vpb.DrawLabel = true;
+                   vpb.Width = width;
+                   vpb.Height = panel1.Height - 30;
+                   vpb.Minimum = 25;
+                   vpb.Maximum = 55;
+                   vpb.minline = 40;
+                   vpb.maxline = 99;
+                   cnt++;
+               }
 
-                ThemeManager.ApplyThemeTo(panel1);
-            }
+               ThemeManager.ApplyThemeTo(panel1);
+           }
             );
         }
 
@@ -210,13 +209,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 //load config
                 System.Xml.Serialization.XmlSerializer reader =
-                    new System.Xml.Serialization.XmlSerializer(typeof (List<PointLatLngAlt>), new Type[] { typeof(Color) });
+                    new System.Xml.Serialization.XmlSerializer(typeof(List<PointLatLngAlt>), new Type[] { typeof(Color) });
 
                 using (StreamReader sr = new StreamReader(basepostlistfile))
                 {
                     try
                     {
-                        baseposList = (List<PointLatLngAlt>) reader.Deserialize(sr);
+                        baseposList = (List<PointLatLngAlt>)reader.Deserialize(sr);
                     }
                     catch (Exception ex)
                     {
@@ -283,9 +282,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         case "NTRIP":
                             comPort = new CommsNTRIP();
                             CMB_baudrate.SelectedIndex = 0;
-                            ((CommsNTRIP) comPort).lat = MainV2.comPort.MAV.cs.HomeLocation.Lat;
-                            ((CommsNTRIP) comPort).lng = MainV2.comPort.MAV.cs.HomeLocation.Lng;
-                            ((CommsNTRIP) comPort).alt = MainV2.comPort.MAV.cs.HomeLocation.Alt;
+                            ((CommsNTRIP)comPort).lat = MainV2.comPort.MAV.cs.HomeLocation.Lat;
+                            ((CommsNTRIP)comPort).lng = MainV2.comPort.MAV.cs.HomeLocation.Lng;
+                            ((CommsNTRIP)comPort).alt = MainV2.comPort.MAV.cs.HomeLocation.Alt;
                             chk_ubloxautoconfig.Checked = false;
                             break;
                         case "TCP Client":
@@ -336,8 +335,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     if (!comPort.IsOpen)
                         comPort.Open();
 
-                    comPort.Write(new byte[] {(byte) '\r', (byte) '\r', (byte) '\r'}, 0, 3);
-                    comPort.Write(new byte[] {(byte) 'O', (byte) '\r'}, 0, 2);
+                    comPort.Write(new byte[] { (byte)'\r', (byte)'\r', (byte)'\r' }, 0, 3);
+                    comPort.Write(new byte[] { (byte)'O', (byte)'\r' }, 0, 2);
                 }
                 catch (ArgumentException ex)
                 {
@@ -464,12 +463,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             ubx_m8p.resetParser();
                             nmea.resetParser();
                             iscan = true;
-                            sendData(rtcm3.packet, (ushort) rtcm3.length);
+                            sendData(rtcm3.packet, (ushort)rtcm3.length);
                             bpsusefull += rtcm3.length;
                             string msgname = "Rtcm" + seenmsg;
                             if (!msgseen.ContainsKey(msgname))
                                 msgseen[msgname] = 0;
-                            msgseen[msgname] = (int) msgseen[msgname] + 1;
+                            msgseen[msgname] = (int)msgseen[msgname] + 1;
 
                             ExtractBasePos(seenmsg);
 
@@ -541,7 +540,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                         // if this is raw data transport of unknown packet types
                         if (!(isrtcm || issbp || iscan))
-                            sendData(buffer, (ushort) read);
+                            sendData(buffer, (ushort)read);
 
                         // check for valid rtcm/sbp/ubx packets
                         for (int a = 0; a < read; a++)
@@ -559,7 +558,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                 string msgname = "Rtcm" + seenmsg;
                                 if (!msgseen.ContainsKey(msgname))
                                     msgseen[msgname] = 0;
-                                msgseen[msgname] = (int) msgseen[msgname] + 1;
+                                msgseen[msgname] = (int)msgseen[msgname] + 1;
 
                                 ExtractBasePos(seenmsg);
 
@@ -572,12 +571,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                 ubx_m8p.resetParser();
                                 nmea.resetParser();
                                 issbp = true;
-                                sendData(sbp.packet, (ushort) sbp.length);
+                                sendData(sbp.packet, (ushort)sbp.length);
                                 bpsusefull += sbp.length;
                                 string msgname = "Sbp" + seenmsg.ToString("X4");
                                 if (!msgseen.ContainsKey(msgname))
                                     msgseen[msgname] = 0;
-                                msgseen[msgname] = (int) msgseen[msgname] + 1;
+                                msgseen[msgname] = (int)msgseen[msgname] + 1;
                             }
                             // ubx
                             if ((seenmsg = ubx_m8p.Read(buffer[a])) > 0)
@@ -589,10 +588,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                 string msgname = "Ubx" + seenmsg.ToString("X4");
                                 if (!msgseen.ContainsKey(msgname))
                                     msgseen[msgname] = 0;
-                                msgseen[msgname] = (int) msgseen[msgname] + 1;
+                                msgseen[msgname] = (int)msgseen[msgname] + 1;
                             }
                             // nmea
-                            if((seenmsg = nmea.Read(buffer[a])) > 0)
+                            if ((seenmsg = nmea.Read(buffer[a])) > 0)
                             {
                                 rtcm3.resetParser();
                                 sbp.resetParser();
@@ -629,65 +628,65 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (Instance.IsDisposed || !Instance.IsHandleCreated)
                 return;
 
-            Instance.BeginInvoke((Action) delegate()
-            {
-                switch (seenmsg)
-                {
-                    case 1001:
-                    case 1002:
-                    case 1003:
-                    case 1004:
-                    case 1071:
-                    case 1072:
-                    case 1073:
-                    case 1074:
-                    case 1075:
-                    case 1076:
-                    case 1077:
-                        Instance.labelgps.BackColor = Color.Green;
-                        ExpireType.Set(Instance.labelgps, 5);
-                        break;
-                    case 1005:
-                    case 1006:
-                    case 4072: // ublox moving base
+            Instance.BeginInvoke((Action)delegate ()
+           {
+               switch (seenmsg)
+               {
+                   case 1001:
+                   case 1002:
+                   case 1003:
+                   case 1004:
+                   case 1071:
+                   case 1072:
+                   case 1073:
+                   case 1074:
+                   case 1075:
+                   case 1076:
+                   case 1077:
+                       Instance.labelgps.BackColor = Color.Green;
+                       ExpireType.Set(Instance.labelgps, 5);
+                       break;
+                   case 1005:
+                   case 1006:
+                   case 4072: // ublox moving base
                         Instance.labelbase.BackColor = Color.Green;
-                        ExpireType.Set(Instance.labelbase, 20);
-                        break;
-                    case 1009:
-                    case 1010:
-                    case 1011:
-                    case 1012:
-                    case 1081:
-                    case 1082:
-                    case 1083:
-                    case 1084:
-                    case 1085:
-                    case 1086:
-                    case 1087:
-                        Instance.labelglonass.BackColor = Color.Green;
-                        ExpireType.Set(Instance.labelglonass, 5);
-                        break;
-                    case 1094:
-                    case 1095:
-                    case 1096:
-                    case 1097:
-                        Instance.labelGall.BackColor = Color.Green;
-                        ExpireType.Set(Instance.labelGall, 5);
-                        break;
-                    case 1121:
-                    case 1122:
-                    case 1123:
-                    case 1124:
-                    case 1125:
-                    case 1126:
-                    case 1127:
-                        Instance.label14BDS.BackColor = Color.Green;
-                        ExpireType.Set(Instance.label14BDS, 5);
-                        break;
-                    default:
-                        break;
-                }
-            }
+                       ExpireType.Set(Instance.labelbase, 20);
+                       break;
+                   case 1009:
+                   case 1010:
+                   case 1011:
+                   case 1012:
+                   case 1081:
+                   case 1082:
+                   case 1083:
+                   case 1084:
+                   case 1085:
+                   case 1086:
+                   case 1087:
+                       Instance.labelglonass.BackColor = Color.Green;
+                       ExpireType.Set(Instance.labelglonass, 5);
+                       break;
+                   case 1094:
+                   case 1095:
+                   case 1096:
+                   case 1097:
+                       Instance.labelGall.BackColor = Color.Green;
+                       ExpireType.Set(Instance.labelGall, 5);
+                       break;
+                   case 1121:
+                   case 1122:
+                   case 1123:
+                   case 1124:
+                   case 1125:
+                   case 1126:
+                   case 1127:
+                       Instance.label14BDS.BackColor = Color.Green;
+                       ExpireType.Set(Instance.label14BDS, 5);
+                       break;
+                   default:
+                       break;
+               }
+           }
             );
         }
 
@@ -710,7 +709,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                     Utilities.rtcm3.ecef2pos(pos, ref baseposllh);
 
-                    if(svin.valid == 1)
+                    if (svin.valid == 1)
                     {
                         //MainV2.comPort.MAV.cs.MovingBase = new Utilities.PointLatLngAlt(baseposllh[0]*Utilities.rtcm3.R2D,
                         //baseposllh[1]*Utilities.rtcm3.R2D, baseposllh[2]);
@@ -743,7 +742,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     Console.WriteLine("ubx mon-ver {0} {1}", ASCIIEncoding.ASCII.GetString(ver.hwVersion),
                         ASCIIEncoding.ASCII.GetString(ver.swVersion));
 
-                    for (int a = 40 + 6; a < ubx_m8p.length-2; a += 30)
+                    for (int a = 40 + 6; a < ubx_m8p.length - 2; a += 30)
                     {
                         var extension = ASCIIEncoding.ASCII.GetString(ubx_m8p.buffer, a, 30);
                         Console.WriteLine("ubx mon-ver {0}", extension);
@@ -778,14 +777,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                     ubxmode = tmode;
 
-                    log.InfoFormat("ubx TMODE3 {0} {1}", (Ubx.ubx_cfg_tmode3.modeflags) tmode.flags, "");
+                    log.InfoFormat("ubx TMODE3 {0} {1}", (Ubx.ubx_cfg_tmode3.modeflags)tmode.flags, "");
                 }
                 else
                 {
                     ubx_m8p.turnon_off(comPort, ubx_m8p.@class, ubx_m8p.subclass, 0);
                 }
 
-                if(pollTMODE < DateTime.Now)
+                if (pollTMODE < DateTime.Now)
                 {
                     ubx_m8p.poll_msg(comPort, 0x06, 0x71);
                     pollTMODE = DateTime.Now.AddSeconds(30);
@@ -848,7 +847,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                     Instance.label8.Visible = true;
                                     Instance.label9.Visible = true;
                                 }
-                                Instance.label10.Text = "Current Acc: "+acc;
+                                Instance.label10.Text = "Current Acc: " + acc;
                             }
                             else
                             {
@@ -868,7 +867,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                     Instance.label8.Visible = true;
                                     Instance.label9.Visible = true;
                                 }
-                            
+
                                 Instance.label10.Visible = false;
                             }
                         }
@@ -891,12 +890,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                     Utilities.rtcm3.ecef2pos(pos, ref baseposllh);
 
-                    MainV2.comPort.MAV.cs.MovingBase = new Utilities.PointLatLngAlt(baseposllh[0]*Utilities.rtcm3.R2D,
-                        baseposllh[1]*Utilities.rtcm3.R2D, baseposllh[2]);
+                    MainV2.comPort.MAV.cs.MovingBase = new Utilities.PointLatLngAlt(baseposllh[0] * Utilities.rtcm3.R2D,
+                        baseposllh[1] * Utilities.rtcm3.R2D, baseposllh[2]);
 
                     status_line3 =
-                        (String.Format("{0} {1} {2} - {3}", baseposllh[0]*Utilities.rtcm3.R2D,
-                            baseposllh[1]*Utilities.rtcm3.R2D, baseposllh[2], DateTime.Now.ToString("HH:mm:ss")));
+                        (String.Format("{0} {1} {2} - {3}", baseposllh[0] * Utilities.rtcm3.R2D,
+                            baseposllh[1] * Utilities.rtcm3.R2D, baseposllh[2], DateTime.Now.ToString("HH:mm:ss")));
 
                     if (!Instance.IsDisposed && Instance.but_save_basepos.Enabled == false)
                         Instance.but_save_basepos.Enabled = true;
@@ -964,7 +963,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             updateLabel(String.Format("{0,10} bps", bps),
                 String.Format("{0,10} bps sent", bpsusefull), status_line3,
-                sb.ToString() );
+                sb.ToString());
             bps = 0;
             bpsusefull = 0;
 
@@ -1038,7 +1037,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 Settings.Instance["base_pos"] = String.Format("{0},{1},{2},{3}", basepos.Lat.ToString(CultureInfo.InvariantCulture), basepos.Lng.ToString(CultureInfo.InvariantCulture), basepos.Alt.ToString(CultureInfo.InvariantCulture),
                     location);
 
-                baseposList.Add(new PointLatLngAlt(basepos) {Tag = location});
+                baseposList.Add(new PointLatLngAlt(basepos) { Tag = location });
 
                 updateBasePosDG();
             }
@@ -1066,7 +1065,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             foreach (var pointLatLngAlt in baseposList)
             {
-                dg_basepos.Rows.Add(pointLatLngAlt.Lat.ToInvariantString(), pointLatLngAlt.Lng.ToInvariantString(), pointLatLngAlt.Alt.ToInvariantString(), pointLatLngAlt.Tag,"Use","Delete");
+                dg_basepos.Rows.Add(pointLatLngAlt.Lat.ToInvariantString(), pointLatLngAlt.Lng.ToInvariantString(), pointLatLngAlt.Alt.ToInvariantString(), pointLatLngAlt.Tag, "Use", "Delete");
             }
 
             saveBasePosList();
@@ -1189,7 +1188,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void chk_movingbase_CheckedChanged(object sender, EventArgs e)
         {
-            if(comPort.IsOpen)
+            if (comPort.IsOpen)
                 CustomMessageBox.Show("Please Disconnect and Reconnect to apply this change.");
         }
     }

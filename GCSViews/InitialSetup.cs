@@ -1,14 +1,14 @@
-﻿using System;
-using System.Reflection;
-using System.Windows.Forms;
-using log4net;
+﻿using log4net;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
 using MissionPlanner.Controls.BackstageView;
 using MissionPlanner.GCSViews.ConfigurationView;
-using MissionPlanner.Utilities;
-using System.Resources;
-using MissionPlanner.ArduPilot;
 using MissionPlanner.Radio;
+using MissionPlanner.Utilities;
+using System;
+using System.Reflection;
+using System.Resources;
+using System.Windows.Forms;
 
 namespace MissionPlanner.GCSViews
 {
@@ -104,7 +104,7 @@ namespace MissionPlanner.GCSViews
 
             if (MainV2.DisplayConfiguration.displayInstallFirmware)
             {
-               // if (!Program.WindowsStoreApp)
+                // if (!Program.WindowsStoreApp)
                 {
                     AddBackstageViewPage(typeof(ConfigFirmwareDisabled), rm.GetString("backstageViewPagefw.Text"),
                         isConnected);
@@ -128,7 +128,7 @@ namespace MissionPlanner.GCSViews
             {
                 AddBackstageViewPage(typeof(ConfigAccelerometerCalibration), rm.GetString("backstageViewPageaccel.Text"), isConnected, mand);
             }
-            
+
             if (MainV2.comPort.MAV.param.ContainsKey("COMPASS_PRIO1_ID"))
                 AddBackstageViewPage(typeof(ConfigHWCompass2), rm.GetString("backstageViewPagecompass.Text"), isConnected, mand);
             else
@@ -138,7 +138,7 @@ namespace MissionPlanner.GCSViews
             {
                 AddBackstageViewPage(typeof(ConfigRadioInput), rm.GetString("backstageViewPageradio.Text"), isConnected, mand);
                 AddBackstageViewPage(typeof(ConfigRadioOutput), "Servo Output", isConnected, mand);
-                
+
             }
             if (MainV2.DisplayConfiguration.displayEscCalibration)
             {

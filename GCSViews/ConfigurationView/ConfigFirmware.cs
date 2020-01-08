@@ -1,4 +1,9 @@
-﻿using System;
+﻿using log4net;
+using MissionPlanner.ArduPilot;
+using MissionPlanner.Comms;
+using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -6,12 +11,6 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using log4net;
-using MissionPlanner.ArduPilot;
-using MissionPlanner.Comms;
-using MissionPlanner.Controls;
-using MissionPlanner.test;
-using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -43,9 +42,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (Program.WindowsStoreApp)
             {
-              //  CustomMessageBox.Show("Not Available", "Unfortunately the windows store version of this app does not support uploading.", MessageBoxButtons.OK);
-              //  this.Enabled = false;
-              //  return;
+                //  CustomMessageBox.Show("Not Available", "Unfortunately the windows store version of this app does not support uploading.", MessageBoxButtons.OK);
+                //  this.Enabled = false;
+                //  return;
             }
 
             if (MainV2.DisplayConfiguration.isAdvancedMode)
@@ -195,9 +194,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             var ans = new List<Firmware.software>();
 
-            foreach (var mavtype in official.GroupBy(a=>a.MavType))
+            foreach (var mavtype in official.GroupBy(a => a.MavType))
             {
-                
+
                 var soft = new Firmware.software()
                 {
                     url = "",
@@ -280,7 +279,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                Invoke((MethodInvoker) delegate { updateDisplayName(temp); });
+                Invoke((MethodInvoker)delegate { updateDisplayName(temp); });
             }
             catch (Exception ex)
             {
@@ -360,7 +359,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 pictureBoxOcta.Text = temp.name += " Octa";
                 pictureBoxOcta.Tag = temp;
             }
-            else if (temp.url2560_2.ToLower().Contains("antennatracker") || 
+            else if (temp.url2560_2.ToLower().Contains("antennatracker") ||
                      temp.urlpx4v2.ToLower().Contains("antennatracker") ||
                      temp.urlfmuv3.ToLower().Contains("antennatracker"))
             {
@@ -373,7 +372,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 pictureBoxSub.Text = temp.name;
                 pictureBoxSub.Tag = temp;
             }
-            else if (temp.urlpx4v2.ToLower().Contains("copter") && !temp.urlpx4v2.ToLower().Contains("heli")||
+            else if (temp.urlpx4v2.ToLower().Contains("copter") && !temp.urlpx4v2.ToLower().Contains("heli") ||
                      temp.urlfmuv3.ToLower().Contains("copter") && !temp.urlfmuv3.ToLower().Contains("heli"))
             {
                 pictureBoxOcta.Text = temp.name + " Octa";
@@ -391,13 +390,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 pictureBoxQuad.Text = temp.name + " Quad";
                 pictureBoxQuad.Tag = temp;
             }
-            else if (temp.urlpx4v2.ToLower().Contains("rover")|| 
+            else if (temp.urlpx4v2.ToLower().Contains("rover") ||
                      temp.urlfmuv2.ToLower().Contains("rover"))
             {
                 pictureBoxRover.Text = temp.name;
                 pictureBoxRover.Tag = temp;
             }
-            else if (temp.urlpx4v2.ToLower().Contains("plane")|| 
+            else if (temp.urlpx4v2.ToLower().Contains("plane") ||
                      temp.urlfmuv2.ToLower().Contains("plane"))
             {
                 pictureBoxAPM.Text = temp.name;
@@ -436,12 +435,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             if (propertyInfo.Name.Contains("url"))
                             {
                                 var oldurl = propertyInfo.GetValue(fwtoupload).ToString();
-                                if(oldurl == "")
+                                if (oldurl == "")
                                     continue;
                                 var newurl = Firmware.getUrl(history, oldurl);
                                 propertyInfo.SetValue(fwtoupload, newurl);
                             }
-                        } catch { }
+                        }
+                        catch { }
                     }
 
                     //history = "";
@@ -468,13 +468,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void pictureBoxFW_Click(object sender, EventArgs e)
         {
-            if (((Control) sender).Tag.GetType() != typeof (Firmware.software))
+            if (((Control)sender).Tag.GetType() != typeof(Firmware.software))
             {
                 CustomMessageBox.Show(Strings.ErrorFirmwareFile, Strings.ERROR);
                 return;
             }
 
-            findfirmware((Firmware.software) ((Control) sender).Tag);
+            findfirmware((Firmware.software)((Control)sender).Tag);
         }
 
         private void up_LogEvent(string message, int level = 0)
@@ -485,7 +485,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void up_ProgressEvent(double completed)
         {
-            progress.Value = (int) completed;
+            progress.Value = (int)completed;
             Application.DoEvents();
         }
 
@@ -499,7 +499,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void CMB_history_SelectedIndexChanged(object sender, EventArgs e)
         {
             firmwareurl = Firmware.getUrl(CMB_history.SelectedValue.ToString(), "");
-            REL_Type = (APFirmware.RELEASE_TYPES) 99;
+            REL_Type = (APFirmware.RELEASE_TYPES)99;
             softwares.Clear();
             UpdateFWList();
         }
@@ -524,7 +524,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         //Load custom firmware (old CTRL+C shortcut)
         private void Custom_firmware_label_Click(object sender, EventArgs e)
         {
-            using (var fd = new OpenFileDialog {Filter = "Firmware (*.hex;*.px4;*.vrx;*.apj)|*.hex;*.px4;*.vrx;*.apj|All files (*.*)|*.*" })
+            using (var fd = new OpenFileDialog { Filter = "Firmware (*.hex;*.px4;*.vrx;*.apj)|*.hex;*.px4;*.vrx;*.apj|All files (*.*)|*.*" })
             {
                 if (Directory.Exists(custom_fw_dir))
                     fd.InitialDirectory = custom_fw_dir;
@@ -541,8 +541,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     {
                         if (fd.FileName.ToLower().EndsWith(".px4") || fd.FileName.ToLower().EndsWith(".apj"))
                         {
-                            if (solo.Solo.is_solo_alive && 
-                                CustomMessageBox.Show("Solo","Is this a Solo?",CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
+                            if (solo.Solo.is_solo_alive &&
+                                CustomMessageBox.Show("Solo", "Is this a Solo?", CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
                             {
                                 boardtype = BoardDetect.boards.solo;
                             }
@@ -582,7 +582,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             UpdateFWList();
             CMB_history.Visible = false;
         }
-        
+
 
         private void lbl_dlfw_Click(object sender, EventArgs e)
         {

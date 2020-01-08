@@ -1,6 +1,6 @@
-﻿using System.IO;
+﻿using MissionPlanner.Utilities;
+using System.IO;
 using System.Windows.Forms;
-using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Log
 {

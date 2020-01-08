@@ -1,11 +1,11 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using MissionPlanner.ArduPilot;
 using MissionPlanner.Comms;
-using System.Globalization;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
+using System;
+using System.Globalization;
 using System.IO;
-using MissionPlanner.ArduPilot;
+using System.Windows.Forms;
 
 namespace MissionPlanner
 {
@@ -86,23 +86,23 @@ namespace MissionPlanner
 
                 if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
                 {
-                    alt = (10*CurrentState.multiplierdist).ToString("0");
+                    alt = (10 * CurrentState.multiplierdist).ToString("0");
                 }
                 else
                 {
-                    alt = (100*CurrentState.multiplierdist).ToString("0");
+                    alt = (100 * CurrentState.multiplierdist).ToString("0");
                 }
                 if (DialogResult.Cancel == InputBox.Show("Enter Alt", "Enter Alt (relative to home alt)", ref alt))
                     return;
 
-                intalt = (int) (100*CurrentState.multiplierdist);
+                intalt = (int)(100 * CurrentState.multiplierdist);
                 if (!int.TryParse(alt, out intalt))
                 {
                     CustomMessageBox.Show(Strings.InvalidAlt, Strings.ERROR);
                     return;
                 }
 
-                intalt = (int) (intalt/CurrentState.multiplierdist);
+                intalt = (int)(intalt / CurrentState.multiplierdist);
 
                 t12 = new System.Threading.Thread(new System.Threading.ThreadStart(mainloop))
                 {
@@ -119,7 +119,7 @@ namespace MissionPlanner
         {
             DateTime nextsend = DateTime.Now;
 
-            StreamWriter sw = new StreamWriter(File.OpenWrite( Settings.GetUserDataDirectory() + "followmeraw.txt"));
+            StreamWriter sw = new StreamWriter(File.OpenWrite(Settings.GetUserDataDirectory() + "followmeraw.txt"));
 
             threadrun = true;
             while (threadrun)
@@ -135,7 +135,7 @@ namespace MissionPlanner
                     {
                         string[] items = line.Trim().Split(',', '*');
 
-                        if (items[items.Length-1] != GetChecksum(line.Trim()))
+                        if (items[items.Length - 1] != GetChecksum(line.Trim()))
                         {
                             Console.WriteLine("Bad Nmea line " + items[15] + " vs " + GetChecksum(line.Trim()));
                             continue;
@@ -147,16 +147,16 @@ namespace MissionPlanner
                             continue;
                         }
 
-                        gotolocation.Lat = double.Parse(items[2], CultureInfo.InvariantCulture)/100.0;
+                        gotolocation.Lat = double.Parse(items[2], CultureInfo.InvariantCulture) / 100.0;
 
-                        gotolocation.Lat = (int) gotolocation.Lat + ((gotolocation.Lat - (int) gotolocation.Lat)/0.60);
+                        gotolocation.Lat = (int)gotolocation.Lat + ((gotolocation.Lat - (int)gotolocation.Lat) / 0.60);
 
                         if (items[3] == "S")
                             gotolocation.Lat *= -1;
 
-                        gotolocation.Lng = double.Parse(items[4], CultureInfo.InvariantCulture)/100.0;
+                        gotolocation.Lng = double.Parse(items[4], CultureInfo.InvariantCulture) / 100.0;
 
-                        gotolocation.Lng = (int) gotolocation.Lng + ((gotolocation.Lng - (int) gotolocation.Lng)/0.60);
+                        gotolocation.Lng = (int)gotolocation.Lng + ((gotolocation.Lng - (int)gotolocation.Lng) / 0.60);
 
                         if (items[5] == "W")
                             gotolocation.Lng *= -1;
@@ -170,15 +170,15 @@ namespace MissionPlanner
                     if (DateTime.Now > nextsend && gotolocation.Lat != 0 && gotolocation.Lng != 0 &&
                         gotolocation.Alt != 0) // 200 * 10 = 2 sec /// lastgotolocation != gotolocation && 
                     {
-                        nextsend = DateTime.Now.AddMilliseconds(1000/updaterate);
+                        nextsend = DateTime.Now.AddMilliseconds(1000 / updaterate);
                         Console.WriteLine("Sending follow wp " + DateTime.Now.ToString("h:MM:ss") + " " +
                                           gotolocation.Lat + " " + gotolocation.Lng + " " + gotolocation.Alt);
                         lastgotolocation = new PointLatLngAlt(gotolocation);
 
                         Locationwp gotohere = new Locationwp();
 
-                        gotohere.id = (ushort) MAVLink.MAV_CMD.WAYPOINT;
-                        gotohere.alt = (float) (gotolocation.Alt);
+                        gotohere.id = (ushort)MAVLink.MAV_CMD.WAYPOINT;
+                        gotohere.alt = (float)(gotolocation.Alt);
                         gotohere.lat = (gotolocation.Lat);
                         gotohere.lng = (gotolocation.Lng);
 
@@ -204,7 +204,7 @@ namespace MissionPlanner
                 }
                 catch
                 {
-                    System.Threading.Thread.Sleep((int) (1000/updaterate));
+                    System.Threading.Thread.Sleep((int)(1000 / updaterate));
                 }
             }
 

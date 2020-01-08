@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MissionPlanner.Utilities;
+using System;
 using System.Windows.Forms;
-using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Controls
 {
@@ -15,19 +11,19 @@ namespace MissionPlanner.Controls
             var l1 = "Your board has a Critical service bulletin - Via " + detectedvia;
             var l2 = "To send us a report about your board, and to find out about this safety issue. Click bellow";
 
-            Form frm = new Form() {Width = 250, Height = 250, AutoSize = true};
-            FlowLayoutPanel flp = new FlowLayoutPanel() {Dock = DockStyle.Fill, FlowDirection = FlowDirection.TopDown};
-            Label lb1 = new Label() {Text = l1, AutoSize = true};
-            Label link = new Label() {Text = l2, AutoSize = true};
+            Form frm = new Form() { Width = 250, Height = 250, AutoSize = true };
+            FlowLayoutPanel flp = new FlowLayoutPanel() { Dock = DockStyle.Fill, FlowDirection = FlowDirection.TopDown };
+            Label lb1 = new Label() { Text = l1, AutoSize = true };
+            Label link = new Label() { Text = l2, AutoSize = true };
 
 
-            Label nameLabel = new Label() {Text = "Enter your name (optional): ", AutoSize = true};
+            Label nameLabel = new Label() { Text = "Enter your name (optional): ", AutoSize = true };
             TextBox nameTextBox = new TextBox()
-                {Width = TextRenderer.MeasureText("thisismyname andmysurname", frm.Font).Width};
-            Label emailLabel = new Label() {Text = "Enter your email (optional): ", AutoSize = true};
+            { Width = TextRenderer.MeasureText("thisismyname andmysurname", frm.Font).Width };
+            Label emailLabel = new Label() { Text = "Enter your email (optional): ", AutoSize = true };
             TextBox emailTextBox = new TextBox()
-                {Width = TextRenderer.MeasureText("thisisatest@thisdomain.com.fre.do", frm.Font).Width};
-            MyButton submitButton = new MyButton() {Text = "Service Bulletin"};
+            { Width = TextRenderer.MeasureText("thisisatest@thisdomain.com.fre.do", frm.Font).Width };
+            MyButton submitButton = new MyButton() { Text = "Service Bulletin" };
             frm.Controls.Add(flp);
 
             flp.Controls.Add(lb1);

@@ -1,18 +1,13 @@
-﻿using System;
+﻿using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Data;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MissionPlanner.Controls;
-using MissionPlanner.Utilities;
-using Xamarin.Forms;
 using Color = System.Drawing.Color;
 using Device = MissionPlanner.Utilities.Device;
-using ListView = System.Windows.Forms.ListView;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -38,7 +33,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
 
             list = MainV2.comPort.MAV.param.Where(a => a.Name.StartsWith("COMPASS_DEV_ID"))
-                .Select((a,b) => new CompassInfo(b, a.Name, (uint) a.Value)).ToList();
+                .Select((a, b) => new CompassInfo(b, a.Name, (uint)a.Value)).ToList();
 
             var bs = new BindingSource();
             bs.DataSource = list;
@@ -100,20 +95,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (myDataGridView1.Rows.Count >= 1)
             {
                 list[0]._index = 0;
-                bool p1 = await MainV2.comPort.setParamAsync((byte) MainV2.comPort.sysidcurrent,
-                    (byte) MainV2.comPort.compidcurrent,
+                bool p1 = await MainV2.comPort.setParamAsync((byte)MainV2.comPort.sysidcurrent,
+                    (byte)MainV2.comPort.compidcurrent,
                     "COMPASS_PRIO1_ID",
                     int.Parse(myDataGridView1.Rows[0].Cells[devIDDataGridViewTextBoxColumn.Index].Value.ToString()));
 
-                if(!p1)
+                if (!p1)
                     CustomMessageBox.Show(Strings.ErrorSettingParameter, Strings.ERROR);
             }
 
             if (myDataGridView1.Rows.Count >= 2)
             {
                 list[1]._index = 1;
-                bool p2 = await MainV2.comPort.setParamAsync((byte) MainV2.comPort.sysidcurrent,
-                    (byte) MainV2.comPort.compidcurrent,
+                bool p2 = await MainV2.comPort.setParamAsync((byte)MainV2.comPort.sysidcurrent,
+                    (byte)MainV2.comPort.compidcurrent,
                     "COMPASS_PRIO2_ID",
                     int.Parse(myDataGridView1.Rows[1].Cells[devIDDataGridViewTextBoxColumn.Index].Value.ToString()));
 
@@ -124,8 +119,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (myDataGridView1.Rows.Count >= 3)
             {
                 list[2]._index = 2;
-                bool p3 = await MainV2.comPort.setParamAsync((byte) MainV2.comPort.sysidcurrent,
-                    (byte) MainV2.comPort.compidcurrent,
+                bool p3 = await MainV2.comPort.setParamAsync((byte)MainV2.comPort.sysidcurrent,
+                    (byte)MainV2.comPort.compidcurrent,
                     "COMPASS_PRIO3_ID",
                     int.Parse(myDataGridView1.Rows[2].Cells[devIDDataGridViewTextBoxColumn.Index].Value.ToString()));
 
@@ -358,19 +353,19 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             _devid = new Device.DeviceStructure(id);
         }
 
-        public int DevID => (int) _devid.devid;
+        public int DevID => (int)_devid.devid;
 
         public string BusType => _devid.bus_type.ToString();
-        public int Bus => (int) _devid.bus;
-        public int Address => (int) _devid.address;
+        public int Bus => (int)_devid.bus;
+        public int Address => (int)_devid.address;
 
         public string DevType
         {
             get
             {
-                if (_devid.bus_type == Device.BusType.BUS_TYPE_UAVCAN) 
-                    return "SENSOR_ID#" + ((int) _devid.devtype).ToString();
-                return _devid.devtype.ToString().Replace("DEVTYPE_","");
+                if (_devid.bus_type == Device.BusType.BUS_TYPE_UAVCAN)
+                    return "SENSOR_ID#" + ((int)_devid.devtype).ToString();
+                return _devid.devtype.ToString().Replace("DEVTYPE_", "");
             }
         }
 

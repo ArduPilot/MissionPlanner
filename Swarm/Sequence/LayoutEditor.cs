@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,12 +9,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MissionPlanner.Controls;
-using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Swarm.Sequence
 {
-    public partial class LayoutEditor: Form
+    public partial class LayoutEditor : Form
     {
         private IContainer components;
         private ComboBox comboBox1;
@@ -36,7 +36,8 @@ namespace MissionPlanner.Swarm.Sequence
         {
             InitializeComponent();
 
-            this.MouseWheel += (sender, e) => {
+            this.MouseWheel += (sender, e) =>
+            {
                 if (e.Delta < 0)
                 {
                     grid.setScale(grid.getScale() + 4);
@@ -75,8 +76,8 @@ namespace MissionPlanner.Swarm.Sequence
             // 
             // grid
             // 
-            this.grid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.grid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grid.Location = new System.Drawing.Point(12, 52);
             this.grid.Name = "grid";
@@ -141,7 +142,7 @@ namespace MissionPlanner.Swarm.Sequence
             // listBox1
             // 
             this.listBox1.AllowDrop = true;
-            this.listBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.listBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listBox1.DataSource = this.stepsBindingSource;
             this.listBox1.FormattingEnabled = true;
@@ -280,7 +281,7 @@ namespace MissionPlanner.Swarm.Sequence
             string name = "Layout X";
             InputBox.Show("", "Layout Name", ref name);
 
-            var newworkingLayout = new Layout() {Id = name};
+            var newworkingLayout = new Layout() { Id = name };
 
             workingSequence.Layouts.Add(newworkingLayout);
 
@@ -320,14 +321,14 @@ namespace MissionPlanner.Swarm.Sequence
 
             bindingSource1.DataSource = workingSequence;
 
-            if (load.Layouts.Count ==0)
+            if (load.Layouts.Count == 0)
                 return;
 
             num_drones.Value = load.Layouts.First().Offset.Keys.Count();
 
             foreach (var sysid in load.Layouts.First().Offset.Keys)
             {
-                mavs[sysid] = new MAVState(mavint, (byte) sysid, 0);
+                mavs[sysid] = new MAVState(mavint, (byte)sysid, 0);
             }
 
             comboBox1_SelectedIndexChanged(null, null);
@@ -335,7 +336,7 @@ namespace MissionPlanner.Swarm.Sequence
             UpdateDisplay();
         }
 
-      
+
 
         private void UpdateDisplay()
         {
@@ -416,7 +417,7 @@ namespace MissionPlanner.Swarm.Sequence
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         public int step { get; set; } = 0;
@@ -439,7 +440,7 @@ namespace MissionPlanner.Swarm.Sequence
                 startpos = controller.DG.Drones.First().MavState.cs.Location;
             }
 
-          
+
 
             label1.Text = String.Format("{1} : {0}", step, layoutname);
 
@@ -451,7 +452,7 @@ namespace MissionPlanner.Swarm.Sequence
                 var drone = controller.DG.Drones.FirstOrDefault(a => a.MavState.sysid == vector3.Key);
                 var newpos = startpos.gps_offset(vector3.Value.x, vector3.Value.y);
                 newpos.Alt = vector3.Value.z;
-                if(drone != null)
+                if (drone != null)
                     drone.SendPositionVelocity(newpos, Vector3.Zero);
             }
 
@@ -498,7 +499,7 @@ namespace MissionPlanner.Swarm.Sequence
                     workingSequenceLayout.AddOffset(sysid, new Vector3(sysid, 0, 0));
                 }
 
-                mavs[sysid] = new MAVState(mavint, (byte) sysid, 0);
+                mavs[sysid] = new MAVState(mavint, (byte)sysid, 0);
 
                 bindingSource1.DataSource = workingSequence;
             }
@@ -672,7 +673,7 @@ namespace MissionPlanner.Swarm.Sequence
 
                 foreach (var item in list.list)
                 {
-                    var but = new Button() {Text = item.button, AutoSize = true, Location = new Point(x, y)};
+                    var but = new Button() { Text = item.button, AutoSize = true, Location = new Point(x, y) };
                     y += but.Height + 3;
                     but.Click += (sender, args) => item.action.Invoke();
                     frm.Controls.Add(but);

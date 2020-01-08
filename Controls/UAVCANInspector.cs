@@ -1,13 +1,11 @@
-﻿using System;
+﻿using MissionPlanner.Utilities;
+using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
-using MissionPlanner.Mavlink;
-using MissionPlanner.Utilities;
 using UAVCAN;
 using ZedGraph;
 
@@ -35,7 +33,7 @@ namespace MissionPlanner.Controls
 
             pktinspect.NewSysidCompid += (sender, args) =>
             {
-         
+
             };
 
             timer1.Tick += (sender, args) => Update();
@@ -72,7 +70,7 @@ namespace MissionPlanner.Controls
                     treeView1.Nodes.Add(sysidnode);
                     added = true;
                 }
-                else 
+                else
                     sysidnode = sysidnodes.First();
 
                 var compidnodes = sysidnode.Nodes.Find(0.ToString(), false);
@@ -114,7 +112,7 @@ namespace MissionPlanner.Controls
                 PopulateMSG(fields, msgidnode, uavcanMessage.message);
             }
 
-            if(added)
+            if (added)
                 treeView1.Sort();
 
             treeView1.EndUpdate();
@@ -127,7 +125,7 @@ namespace MissionPlanner.Controls
             {
                 if (!MsgIdNode.Nodes.ContainsKey(field.Name))
                 {
-                    MsgIdNode.Nodes.Add(new TreeNode() {Name = field.Name});
+                    MsgIdNode.Nodes.Add(new TreeNode() { Name = field.Name });
                     added = true;
                 }
 
@@ -138,7 +136,7 @@ namespace MissionPlanner.Controls
                     DateTime date1 = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
                     try
                     {
-                        value = date1.AddMilliseconds((ulong) value / 1000);
+                        value = date1.AddMilliseconds((ulong)value / 1000);
                     }
                     catch
                     {
@@ -149,12 +147,12 @@ namespace MissionPlanner.Controls
                 {
                     var subtype = value.GetType();
 
-                    var value2 = (Array) value;
+                    var value2 = (Array)value;
 
                     if (field.Name == "param_id" || field.Name == "text" ||
                         field.Name == "string_value" || field.Name == "name") // param_value
                     {
-                        value = ASCIIEncoding.ASCII.GetString((byte[]) value2);
+                        value = ASCIIEncoding.ASCII.GetString((byte[])value2);
                     }
                     else
                     {
@@ -197,8 +195,8 @@ namespace MissionPlanner.Controls
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.treeView1);
             this.groupBox1.Location = new System.Drawing.Point(0, 30);
@@ -256,7 +254,7 @@ namespace MissionPlanner.Controls
             timer1.Stop();
         }
 
-        public class MyTreeView: TreeView
+        public class MyTreeView : TreeView
         {
             public MyTreeView()
             {
@@ -309,15 +307,15 @@ namespace MissionPlanner.Controls
         private void but_graphit_Click(object sender, EventArgs e)
         {
             InputBox.Show("Points", "Points of history?", ref history);
-            var form = new Form() {Size = new Size(640, 480)};
-            var zg1 = new ZedGraphControl() {Dock = DockStyle.Fill};
+            var form = new Form() { Size = new Size(640, 480) };
+            var zg1 = new ZedGraphControl() { Dock = DockStyle.Fill };
             var msgid = int.Parse(selectedmsgid.msgid);
             var msgidfield = selectedmsgid.name;
             var line = new LineItem(msgidfield, new RollingPointPairList(history), Color.Red, SymbolType.None);
             zg1.GraphPane.Title.Text = "";
             try
             {
-                var msginfo = uavcan.MSG_INFO.First(a=>a.Item2 == msgid);
+                var msginfo = uavcan.MSG_INFO.First(a => a.Item2 == msgid);
                 var typeofthing = msginfo.Item1.GetField(
                     msgidfield);
                 if (typeofthing != null)
@@ -326,7 +324,8 @@ namespace MissionPlanner.Controls
                     if (attrib.Length > 0)
                         zg1.GraphPane.YAxis.Title.Text = attrib.OfType<MAVLink.Units>().First().Unit;
                 }
-            } catch { }
+            }
+            catch { }
 
             zg1.GraphPane.CurveList.Add(line);
 
@@ -335,11 +334,11 @@ namespace MissionPlanner.Controls
             zg1.GraphPane.XAxis.Scale.MajorUnit = DateUnit.Minute;
             zg1.GraphPane.XAxis.Scale.MinorUnit = DateUnit.Second;
 
-            var timer = new Timer() {Interval = 100};
+            var timer = new Timer() { Interval = 100 };
             uavcan.MessageRecievedDel msgrecv = (frame, msg, id) =>
             {
                 line.AddPoint(new XDate(DateTime.Now),
-                    (double) (dynamic) msg.GetPropertyOrField(msgidfield));
+                    (double)(dynamic)msg.GetPropertyOrField(msgidfield));
             };
             can.MessageReceived += msgrecv;
             timer.Tick += (o, args) =>

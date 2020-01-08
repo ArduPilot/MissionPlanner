@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Management;
-using log4net;
-using System.Reflection;
-using System.Text.RegularExpressions;
-using System.Threading;
+﻿using log4net;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Comms;
 using px4uploader;
+using System;
+using System.Collections.Generic;
+using System.Management;
+using System.Reflection;
+using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace MissionPlanner.Utilities
 {
@@ -442,15 +442,15 @@ namespace MissionPlanner.Utilities
             {
                 //Console.WriteLine("write " + DateTime.Now.Millisecond);
                 serialPort.DiscardInBuffer();
-                serialPort.Write(new byte[] {(byte) '0', (byte) ' '}, 0, 2);
+                serialPort.Write(new byte[] { (byte)'0', (byte)' ' }, 0, 2);
                 a++;
                 Thread.Sleep(50);
 
                 //Console.WriteLine("btr {0}", serialPort.BytesToRead);
                 if (serialPort.BytesToRead >= 2)
                 {
-                    byte b1 = (byte) serialPort.ReadByte();
-                    byte b2 = (byte) serialPort.ReadByte();
+                    byte b1 = (byte)serialPort.ReadByte();
+                    byte b2 = (byte)serialPort.ReadByte();
                     if (b1 == 0x14 && b2 == 0x10)
                     {
                         serialPort.Close();
@@ -476,7 +476,7 @@ namespace MissionPlanner.Utilities
             a = 0;
             while (a < 4)
             {
-                byte[] temp = new byte[] {0x6, 0, 0, 0, 0};
+                byte[] temp = new byte[] { 0x6, 0, 0, 0, 0 };
                 temp = BoardDetect.genstkv2packet(serialPort, temp);
                 a++;
                 Thread.Sleep(50);
@@ -577,9 +577,9 @@ namespace MissionPlanner.Utilities
             ck ^= data[0];
             data[1] = 0x1;
             ck ^= data[1];
-            data[2] = (byte) ((message.Length >> 8) & 0xff);
+            data[2] = (byte)((message.Length >> 8) & 0xff);
             ck ^= data[2];
-            data[3] = (byte) (message.Length & 0xff);
+            data[3] = (byte)(message.Length & 0xff);
             ck ^= data[3];
             data[4] = 0xe;
             ck ^= data[4];
@@ -615,7 +615,7 @@ namespace MissionPlanner.Utilities
         static byte[] readpacket(SerialPort serialPort)
         {
             byte[] temp = new byte[4000];
-            byte[] mes = new byte[2] {0x0, 0xC0}; // fail
+            byte[] mes = new byte[2] { 0x0, 0xC0 }; // fail
             int a = 7;
             int count = 0;
 
@@ -626,7 +626,7 @@ namespace MissionPlanner.Utilities
                 //Console.WriteLine("count {0} a {1} mes leng {2}",count,a,mes.Length);
                 try
                 {
-                    temp[count] = (byte) serialPort.ReadByte();
+                    temp[count] = (byte)serialPort.ReadByte();
                 }
                 catch
                 {
@@ -660,7 +660,7 @@ namespace MissionPlanner.Utilities
             //Console.WriteLine("read ck");
             try
             {
-                temp[count] = (byte) serialPort.ReadByte();
+                temp[count] = (byte)serialPort.ReadByte();
             }
             catch
             {
