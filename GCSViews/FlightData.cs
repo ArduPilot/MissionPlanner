@@ -2950,13 +2950,13 @@ namespace MissionPlanner.GCSViews
 
                                     if (wps.Count == 1)
                                     {
-                                        overlay.CreateOverlay((MAVLink.MAV_FRAME)wps[0].frame, homeplla,
+                                        overlay.CreateOverlay(homeplla,
                                             mission_items,
                                             0 / CurrentState.multiplieralt, 0 / CurrentState.multiplieralt);
                                     }
                                     else
                                     {
-                                        overlay.CreateOverlay((MAVLink.MAV_FRAME)wps[1].frame, homeplla,
+                                        overlay.CreateOverlay(homeplla,
                                             mission_items,
                                             0 / CurrentState.multiplieralt, 0 / CurrentState.multiplieralt);
 
@@ -3016,7 +3016,7 @@ namespace MissionPlanner.GCSViews
                             var fenceoverlay = new WPOverlay();
                             fenceoverlay.overlay.Id = "fence";
 
-                            fenceoverlay.CreateOverlay(MAVLink.MAV_FRAME.GLOBAL, PointLatLngAlt.Zero, MainV2.comPort.MAV.fencepoints.Values.Select(a => (Locationwp)a).ToList(), 0, 0);
+                            fenceoverlay.CreateOverlay(PointLatLngAlt.Zero, MainV2.comPort.MAV.fencepoints.Values.Select(a => (Locationwp)a).ToList(), 0, 0);
 
                             var fence = mymap.Overlays.Where(a => a.Id == "fence");
                             if (fence.Count() > 0)

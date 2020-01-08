@@ -1,18 +1,27 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net461</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
 
 
     <RootNamespace>MissionPlanner</RootNamespace>
  
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <ApplicationIcon />
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <StartupObject>MissionPlanner.Program</StartupObject>
  
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="APMPlannerXplanes\**" />
@@ -44,22 +53,22 @@
     <None Remove="packages\**" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="Properties\AssemblyInfo.cs" />
+    <Compile Remove="test\FirmwareSelection.xaml.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="test\FirmwareSelection.xaml" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="BitMiracle.LibTiff.NetStandard">
       <HintPath>.\extlibs\BitMiracle.LibTiff.NetStandard.dll</HintPath>
       <Private>true</Private>
     </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Data.Entity" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
-    <Reference Include="System.Speech" />
-    <Reference Include="System.Web, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-    <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
+    <Reference Include="System.Speech">
+      <HintPath>ExtLibs\System.Speech.dll</HintPath>
+    </Reference>
     <Reference Include="Updater, Version=1.0.7056.19890, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>Updater\bin\Release\Updater.exe</HintPath>
       <SpecificVersion>False</SpecificVersion>
@@ -251,42 +260,44 @@
     <PackageReference Include="DotNetZip.NetStandard">
       <Version>1.12.0</Version>
     </PackageReference>
-    <PackageReference Include="DotSpatial.Data" version="1.9" targetFramework="net462" />
-    <PackageReference Include="DotSpatial.Data.Forms" version="1.9" targetFramework="net462" />
-    <PackageReference Include="DotSpatial.Extensions" version="1.9" targetFramework="net462" />
-    <PackageReference Include="DotSpatial.Modeling.Forms" version="1.9" targetFramework="net462" />
-    <PackageReference Include="DotSpatial.Mono" version="1.9" targetFramework="net462" />
+    <PackageReference Include="DotSpatial.Data" version="1.9" />
+    <PackageReference Include="DotSpatial.Data.Forms" version="1.9" />
+    <PackageReference Include="DotSpatial.Extensions" version="1.9" />
+    <PackageReference Include="DotSpatial.Modeling.Forms" version="1.9" />
+    <PackageReference Include="DotSpatial.Mono" version="1.9" />
     <PackageReference Include="DotSpatial.Positioning" Version="1.9.0" />
-    <PackageReference Include="DotSpatial.Projections" version="1.9" targetFramework="net462" />
-    <PackageReference Include="DotSpatial.Projections.Forms" version="1.9" targetFramework="net462" />
-    <PackageReference Include="DotSpatial.Serialization" version="1.9" targetFramework="net462" />
-    <PackageReference Include="DotSpatial.Symbology" version="1.9" targetFramework="net462" />
-    <PackageReference Include="DotSpatial.Symbology.Forms" version="1.9" targetFramework="net462" />
-    <PackageReference Include="DotSpatial.Topology" version="1.9" targetFramework="net462" />
-    <PackageReference Include="Flurl" version="2.8.0" targetFramework="net462" />
-    <PackageReference Include="Flurl.Http" version="2.3.2" targetFramework="net462" />
+    <PackageReference Include="DotSpatial.Projections" version="1.9" />
+    <PackageReference Include="DotSpatial.Projections.Forms" version="1.9" />
+    <PackageReference Include="DotSpatial.Serialization" version="1.9" />
+    <PackageReference Include="DotSpatial.Symbology" version="1.9" />
+    <PackageReference Include="DotSpatial.Symbology.Forms" version="1.9" />
+    <PackageReference Include="DotSpatial.Topology" version="1.9" />
+    <PackageReference Include="Flurl" version="2.8.0" />
+    <PackageReference Include="Flurl.Http" version="2.3.2" />
     <PackageReference Include="GDAL" Version="2.4.2" />
     <PackageReference Include="GeoidHeightsDotNet">
       <Version>1.0.1</Version>
     </PackageReference>
-    <PackageReference Include="GeoJSON.Net" version="1.1.64" targetFramework="net462" />
-    <PackageReference Include="IronPython" version="2.7.8.1" targetFramework="net462" />
-    <PackageReference Include="IronPython.StdLib" version="2.7.8.1" targetFramework="net462" />
-    <PackageReference Include="log4net" version="2.0.8" targetFramework="net462" />
-    <PackageReference Include="Microsoft.Win32.Registry" Version="4.5.0" />
+    <PackageReference Include="GeoJSON.Net" version="1.1.64" />
+    <PackageReference Include="IronPython" version="2.7.8.1" />
+    <PackageReference Include="IronPython.StdLib" version="2.7.8.1" />
+    <PackageReference Include="log4net" version="2.0.8" />
+    <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />
     <PackageReference Include="MP.GDAL.Native" Version="2.2.3" />
     <PackageReference Include="NETStandard.Library">
       <Version>2.0.3</Version>
     </PackageReference>
-    <PackageReference Include="Newtonsoft.Json" version="12.0.3" targetFramework="net462" />
+    <PackageReference Include="Newtonsoft.Json" version="12.0.3" />
     <PackageReference Include="OpenTK">
       <Version>3.1.0</Version>
     </PackageReference>
     <PackageReference Include="OpenTK.GLControl">
       <Version>3.1.0</Version>
     </PackageReference>
-    <PackageReference Include="SharpDX" version="4.1.0" targetFramework="net462" />
-    <PackageReference Include="SharpDX.DirectInput" version="4.1.0" targetFramework="net462" />
+    <PackageReference Include="SharpDX" version="4.1.0" />
+    <PackageReference Include="SharpDX.DirectInput" version="4.1.0" />
+    <PackageReference Include="System.Management" />
+    
     <PackageReference Include="SkiaSharp" Version="1.68.1.1" />
     <PackageReference Include="SkiaSharp.NativeAssets.Linux">
       <Version>1.68.1.1-preview.9</Version>
@@ -647,10 +658,9 @@
       <Private>true</Private>
     </Reference>
   </ItemGroup>
+  
 
   <ItemGroup>
-    <EmbeddedResource Include="test\FirmwareSelection.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
+    <Folder Include="test\" />
   </ItemGroup>
 </Project>

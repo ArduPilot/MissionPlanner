@@ -63,12 +63,12 @@ namespace MissionPlanner.GCSViews
             if (panelWaypoints.Height <= 30)
             {
                 panelWaypoints.Height = 166;
-                but_mincommands.Text = @"\/";
+                but_mincommands.Text = @"˅";
             }
             else
             {
                 panelWaypoints.Height = but_mincommands.Height;
-                but_mincommands.Text = @"/\";
+                but_mincommands.Text = @"˄";
             }
         }
 
@@ -133,113 +133,6 @@ namespace MissionPlanner.GCSViews
             instance = this;
 
 
-            Commands.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(Commands_CellContentClick);
-            Commands.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(Commands_CellEndEdit);
-            Commands.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(Commands_DataError);
-            Commands.DefaultValuesNeeded += new System.Windows.Forms.DataGridViewRowEventHandler(Commands_DefaultValuesNeeded);
-            Commands.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(Commands_EditingControlShowing);
-            Commands.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(Commands_RowEnter);
-            Commands.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(Commands_RowsAdded);
-            Commands.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(Commands_RowsRemoved);
-            Commands.RowValidating += new System.Windows.Forms.DataGridViewCellCancelEventHandler(Commands_RowValidating);
-
-            TXT_WPRad.KeyPress += new System.Windows.Forms.KeyPressEventHandler(TXT_WPRad_KeyPress);
-            TXT_WPRad.Leave += new System.EventHandler(TXT_WPRad_Leave);
-
-            TXT_DefaultAlt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(TXT_DefaultAlt_KeyPress);
-            TXT_DefaultAlt.Leave += new System.EventHandler(TXT_DefaultAlt_Leave);
-
-            TXT_loiterrad.KeyPress += new System.Windows.Forms.KeyPressEventHandler(TXT_loiterrad_KeyPress);
-            TXT_loiterrad.Leave += new System.EventHandler(TXT_loiterrad_Leave);
-
-
-            but_writewpfast.Click += new System.EventHandler(but_writewpfast_Click); BUT_write.Click += new System.EventHandler(BUT_write_Click); BUT_read.Click += new System.EventHandler(BUT_read_Click);
-            label4.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(label4_LinkClicked);
-
-            TXT_homealt.TextChanged += new System.EventHandler(TXT_homealt_TextChanged);
-            TXT_homelng.TextChanged += new System.EventHandler(TXT_homelng_TextChanged);
-            TXT_homelat.TextChanged += new System.EventHandler(TXT_homelat_TextChanged);
-            TXT_homelat.Enter += new System.EventHandler(TXT_homelat_Enter);
-            coords1.SystemChanged += new System.EventHandler(coords1_SystemChanged);
-            CMB_altmode.SelectedIndexChanged += new System.EventHandler(CMB_altmode_SelectedIndexChanged);
-            CHK_splinedefault.CheckedChanged += new System.EventHandler(CHK_splinedefault_CheckedChanged);
-            BUT_Add.Click += new System.EventHandler(BUT_Add_Click);
-            chk_grid.CheckedChanged += new System.EventHandler(chk_grid_CheckedChanged);
-            lnk_kml.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(lnk_kml_LinkClicked);
-            BUT_loadwpfile.Click += new System.EventHandler(BUT_loadwpfile_Click);
-            BUT_saveWPFile.Click += new System.EventHandler(BUT_saveWPFile_Click);
-            panelMap.Resize += new System.EventHandler(panelMap_Resize);
-            trackBar1.Scroll += new System.EventHandler(trackBar1_Scroll);
-            cmb_missiontype.SelectedIndexChanged += new System.EventHandler(Cmb_missiontype_SelectedIndexChanged);
-            MainMap.Paint += new System.Windows.Forms.PaintEventHandler(MainMap_Paint);
-            contextMenuStrip1.Closed += new System.Windows.Forms.ToolStripDropDownClosedEventHandler(contextMenuStrip1_Closed);
-            contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(contextMenuStrip1_Opening);
-            deleteWPToolStripMenuItem.Click += new System.EventHandler(deleteWPToolStripMenuItem_Click);
-            insertWpToolStripMenuItem.Click += new System.EventHandler(insertWpToolStripMenuItem_Click);
-            currentPositionToolStripMenuItem.Click += new System.EventHandler(currentPositionToolStripMenuItem_Click);
-            insertSplineWPToolStripMenuItem.Click += new System.EventHandler(insertSplineWPToolStripMenuItem_Click);
-            loiterForeverToolStripMenuItem.Click += new System.EventHandler(loiterForeverToolStripMenuItem_Click);
-            loitertimeToolStripMenuItem.Click += new System.EventHandler(loitertimeToolStripMenuItem_Click);
-            loitercirclesToolStripMenuItem.Click += new System.EventHandler(loitercirclesToolStripMenuItem_Click);
-            jumpstartToolStripMenuItem.Click += new System.EventHandler(jumpstartToolStripMenuItem_Click);
-            jumpwPToolStripMenuItem.Click += new System.EventHandler(jumpwPToolStripMenuItem_Click);
-            rTLToolStripMenuItem.Click += new System.EventHandler(rTLToolStripMenuItem_Click);
-            landToolStripMenuItem.Click += new System.EventHandler(landToolStripMenuItem_Click);
-            takeoffToolStripMenuItem.Click += new System.EventHandler(takeoffToolStripMenuItem_Click);
-            setROIToolStripMenuItem.Click += new System.EventHandler(setROIToolStripMenuItem_Click);
-            clearMissionToolStripMenuItem.Click += new System.EventHandler(clearMissionToolStripMenuItem_Click);
-            GeoFenceuploadToolStripMenuItem.Click += new System.EventHandler(GeoFenceuploadToolStripMenuItem_Click);
-            GeoFencedownloadToolStripMenuItem.Click += new System.EventHandler(GeoFencedownloadToolStripMenuItem_Click);
-            setReturnLocationToolStripMenuItem.Click += new System.EventHandler(setReturnLocationToolStripMenuItem_Click);
-            loadFromFileToolStripMenuItem.Click += new System.EventHandler(loadFromFileToolStripMenuItem_Click);
-            saveToFileToolStripMenuItem.Click += new System.EventHandler(saveToFileToolStripMenuItem_Click);
-            clearToolStripMenuItem.Click += new System.EventHandler(clearToolStripMenuItem_Click);
-            setRallyPointToolStripMenuItem.Click += new System.EventHandler(setRallyPointToolStripMenuItem_Click);
-            getRallyPointsToolStripMenuItem.Click += new System.EventHandler(getRallyPointsToolStripMenuItem_Click);
-            saveRallyPointsToolStripMenuItem.Click += new System.EventHandler(saveRallyPointsToolStripMenuItem_Click);
-            clearRallyPointsToolStripMenuItem.Click += new System.EventHandler(clearRallyPointsToolStripMenuItem_Click);
-            saveToFileToolStripMenuItem1.Click += new System.EventHandler(saveToFileToolStripMenuItem1_Click);
-            loadFromFileToolStripMenuItem1.Click += new System.EventHandler(loadFromFileToolStripMenuItem1_Click);
-            createWpCircleToolStripMenuItem.Click += new System.EventHandler(createWpCircleToolStripMenuItem_Click);
-            createSplineCircleToolStripMenuItem.Click += new System.EventHandler(createSplineCircleToolStripMenuItem_Click);
-            areaToolStripMenuItem1.Click += new System.EventHandler(areaToolStripMenuItem_Click);
-            textToolStripMenuItem.Click += new System.EventHandler(textToolStripMenuItem_Click);
-            createCircleSurveyToolStripMenuItem.Click += new System.EventHandler(createCircleSurveyToolStripMenuItem_Click);
-            surveyGridToolStripMenuItem.Click += new System.EventHandler(surveyGridToolStripMenuItem_Click);
-            ContextMeasure.Click += new System.EventHandler(ContextMeasure_Click);
-            rotateMapToolStripMenuItem.Click += new System.EventHandler(rotateMapToolStripMenuItem_Click);
-            zoomToToolStripMenuItem.Click += new System.EventHandler(zoomToToolStripMenuItem_Click);
-            prefetchToolStripMenuItem.Click += new System.EventHandler(prefetchToolStripMenuItem_Click);
-            prefetchWPPathToolStripMenuItem.Click += new System.EventHandler(prefetchWPPathToolStripMenuItem_Click);
-            kMLOverlayToolStripMenuItem.Click += new System.EventHandler(kMLOverlayToolStripMenuItem_Click);
-            elevationGraphToolStripMenuItem.Click += new System.EventHandler(elevationGraphToolStripMenuItem_Click);
-            reverseWPsToolStripMenuItem.Click += new System.EventHandler(reverseWPsToolStripMenuItem_Click);
-            loadWPFileToolStripMenuItem.Click += new System.EventHandler(loadWPFileToolStripMenuItem_Click);
-            loadAndAppendToolStripMenuItem.Click += new System.EventHandler(loadAndAppendToolStripMenuItem_Click);
-            saveWPFileToolStripMenuItem.Click += new System.EventHandler(saveWPFileToolStripMenuItem_Click);
-            loadKMLFileToolStripMenuItem.Click += new System.EventHandler(loadKMLFileToolStripMenuItem_Click);
-            loadSHPFileToolStripMenuItem.Click += new System.EventHandler(loadSHPFileToolStripMenuItem_Click);
-            poiaddToolStripMenuItem.Click += new System.EventHandler(poiaddToolStripMenuItem_Click);
-            poideleteToolStripMenuItem.Click += new System.EventHandler(poideleteToolStripMenuItem_Click);
-            poieditToolStripMenuItem.Click += new System.EventHandler(poieditToolStripMenuItem_Click);
-            trackerHomeToolStripMenuItem.Click += new System.EventHandler(trackerHomeToolStripMenuItem_Click);
-            modifyAltToolStripMenuItem.Click += new System.EventHandler(modifyAltToolStripMenuItem_Click);
-            enterUTMCoordToolStripMenuItem.Click += new System.EventHandler(enterUTMCoordToolStripMenuItem_Click);
-            switchDockingToolStripMenuItem.Click += new System.EventHandler(switchDockingToolStripMenuItem_Click);
-            setHomeHereToolStripMenuItem.Click += new System.EventHandler(setHomeHereToolStripMenuItem_Click);
-            addPolygonPointToolStripMenuItem.Click += new System.EventHandler(addPolygonPointToolStripMenuItem_Click);
-            clearPolygonToolStripMenuItem.Click += new System.EventHandler(clearPolygonToolStripMenuItem_Click);
-            savePolygonToolStripMenuItem.Click += new System.EventHandler(savePolygonToolStripMenuItem_Click);
-            loadPolygonToolStripMenuItem.Click += new System.EventHandler(loadPolygonToolStripMenuItem_Click);
-            fromSHPToolStripMenuItem.Click += new System.EventHandler(fromSHPToolStripMenuItem_Click);
-            areaToolStripMenuItem.Click += new System.EventHandler(areaToolStripMenuItem_Click);
-            timer1.Tick += new System.EventHandler(timer1_Tick);
-            contextMenuStripPoly.Opening += new System.ComponentModel.CancelEventHandler(ContextMenuStripPoly_Opening);
-            fenceInclusionToolStripMenuItem.Click += new System.EventHandler(FenceInclusionToolStripMenuItem_Click);
-            fenceExclusionToolStripMenuItem.Click += new System.EventHandler(FenceExclusionToolStripMenuItem_Click);
-            FormClosing += new System.Windows.Forms.FormClosingEventHandler(FlightPlanner_FormClosing);
-            Load += new System.EventHandler(FlightPlanner_Load);
-            Resize += new System.EventHandler(Planner_Resize);
 
             // config map             
             MainMap.CacheLocation = Settings.GetDataDirectory() +
@@ -1405,7 +1298,7 @@ namespace MissionPlanner.GCSViews
                         if (TXT_WPRad.Text == "") TXT_WPRad.Text = "5";
                         if (TXT_loiterrad.Text == "") TXT_loiterrad.Text = "30";
 
-                        overlay.CreateOverlay((MAVLink.MAV_FRAME)(altmode)CMB_altmode.SelectedValue, home,
+                        overlay.CreateOverlay(home,
                             commandlist,
                             double.Parse(TXT_WPRad.Text) / CurrentState.multiplieralt,
                             double.Parse(TXT_loiterrad.Text) / CurrentState.multiplieralt);
@@ -1461,7 +1354,7 @@ namespace MissionPlanner.GCSViews
 
                     try
                     {
-                        overlay.CreateOverlay((MAVLink.MAV_FRAME)(altmode)CMB_altmode.SelectedValue, PointLatLngAlt.Zero,
+                        overlay.CreateOverlay(PointLatLngAlt.Zero,
                             commandlist, 0, 0);
                     }
                     catch (FormatException ex)
@@ -1491,7 +1384,7 @@ namespace MissionPlanner.GCSViews
 
                     try
                     {
-                        overlay.CreateOverlay((MAVLink.MAV_FRAME)(altmode)CMB_altmode.SelectedValue, PointLatLngAlt.Zero,
+                        overlay.CreateOverlay(PointLatLngAlt.Zero,
                             commandlist, 0, 0);
                     }
                     catch (FormatException ex)
@@ -2877,22 +2770,6 @@ namespace MissionPlanner.GCSViews
 
                 temp.frame = (byte)(int)Commands.Rows[a].Cells[Frame.Index].Value;
 
-                /*
-                var mode = currentaltmode;
-
-                if (mode == altmode.Terrain)
-                {
-                    temp.frame = (byte)MAVLink.MAV_FRAME.GLOBAL_TERRAIN_ALT;
-                }
-                else if (mode == altmode.Absolute)
-                {
-                    temp.frame = (byte)MAVLink.MAV_FRAME.GLOBAL;
-                }
-                else
-                {
-                    temp.frame = (byte)MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT;
-                }
-                */
                 return temp;
             }
             catch (Exception ex)
@@ -3041,7 +2918,7 @@ namespace MissionPlanner.GCSViews
         {
             writeKML();
             double homealt = MainV2.comPort.MAV.cs.HomeAlt;
-            Form temp = new ElevationProfile(pointlist, homealt, (altmode)CMB_altmode.SelectedValue);
+            Form temp = new ElevationProfile(pointlist, homealt);
             ThemeManager.ApplyThemeTo(temp);
             temp.ShowDialog();
         }
@@ -6310,16 +6187,6 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             {
                 ((GMapMarkerWP)((GMapMarkerRect)marker).InnerMarker).selected = true;
             }
-        }
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-            if (objectsoverlay.Markers.Count > 0)
-            {
-                MainMap.ZoomAndCenterMarkers(null);
-            }
-
-            trackBar1.Value = (int)MainMap.Zoom;
         }
 
         private void MainMap_MouseDown(object sender, MouseEventArgs e)
