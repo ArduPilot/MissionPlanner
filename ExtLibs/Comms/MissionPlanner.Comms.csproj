@@ -22,6 +22,7 @@
   <ItemGroup>
     <PackageReference Include="log4net" Version="2.0.8" />
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />
+    <PackageReference Include="System.Net.Security" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
