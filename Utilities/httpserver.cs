@@ -244,7 +244,7 @@ namespace MissionPlanner.Utilities
                         }
                     }
                     /////////////////////////////////////////////////////////////////
-                    else if (url.Contains(" /websocket/raw"))
+                    else if (url.Contains(" /websocket/raw") || url.Contains(" / ") && head.Contains("Upgrade: websocket"))
                     {
                         using (var writer = new StreamWriter(stream, Encoding.Default))
                         {
@@ -359,9 +359,12 @@ namespace MissionPlanner.Utilities
                                     {
                                         //MainV2.comPort.sendPacket(message.data, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid);
 
+                                        MainV2.comPort.DoOnPacketSent(message);
+
                                         lock (MainV2.comPort.objlock)
                                         {
-                                            MainV2.comPort.BaseStream.Write(payload, 0, paylen);
+                                            if (MainV2.comPort.BaseStream.IsOpen)
+                                                MainV2.comPort.BaseStream.Write(payload, 0, paylen);
                                         }
                                     }
 

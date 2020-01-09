@@ -78,6 +78,11 @@ namespace MissionPlanner
                               " " + value); _OnPacketReceived += value; }
         }
 
+        public void DoOnPacketSent(MAVLinkMessage pkt)
+        {
+            _OnPacketSent?.Invoke(this, pkt);
+        }
+
         public event EventHandler<MAVLinkMessage> OnPacketSent
         {
             add { log.Info("Subscribed " + new StackTrace(1, true).GetFrame(0).ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
