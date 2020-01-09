@@ -1719,14 +1719,7 @@ namespace RFD.RFD900
             }
         }
 
-        /// <summary>
-        /// Program the given firmware without doing any checks.
-        /// </summary>
-        /// <param name="FilePath">The path of the firmware file.  Must not be null.</param>
-        /// <param name="Progress">A function to use to provide real-time feedback about the
-        /// programming progress.</param>
-        /// <returns>true if successful, false if failed.</returns>
-        protected override bool DoFirmwareProgramming(string FilePath, Action<string, double> Progress)
+        bool TryFirmwareProgrammingOnce(string FilePath, Action<string, double> Progress)
         {
             _Session.Port.Write("\r");
             Thread.Sleep(100);
@@ -1737,9 +1730,9 @@ namespace RFD.RFD900
                 try
                 {
                     MissionPlanner.Radio.XModem.ProgressEvent += (d) => Progress(null, d);
-                    MissionPlanner.Radio.XModem.Upload(FilePath, _Session.Port);
+                    bool Result = MissionPlanner.Radio.XModem.Upload(FilePath, _Session.Port);
                     _Session.AssumeMode(TSession.TMode.INIT);
-                    return true;
+                    return Result;
                 }
                 catch
                 {
@@ -1750,6 +1743,30 @@ namespace RFD.RFD900
             {
                 return false;
             }
+
+        }
+
+        /// <summary>
+        /// Program the given firmware without doing any checks.
+        /// </summary>
+        /// <param name="FilePath">The path of the firmware file.  Must not be null.</param>
+        /// <param name="Progress">A function to use to provide real-time feedback about the
+        /// programming progress.</param>
+        /// <returns>true if successful, false if failed.</returns>
+        protected override bool DoFirmwareProgramming(string FilePath, Action<string, double> Progress)
+        {
+            while (!TryFirmwareProgrammingOnce(FilePath, Progress))
+            {
+                switch (System.Windows.Forms.MessageBox.Show("Programming firmware failed.  Try again?", "Programming firmware failed.  Try again?", System.Windows.Forms.MessageBoxButtons.YesNoCancel))
+                {
+                    case System.Windows.Forms.DialogResult.Yes:
+                        break;
+                    case System.Windows.Forms.DialogResult.No:
+                    case System.Windows.Forms.DialogResult.Cancel:
+                        return false;
+                }
+            }
+            return true;
         }
 
         /// <summary>

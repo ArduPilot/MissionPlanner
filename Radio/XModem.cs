@@ -64,13 +64,88 @@ namespace MissionPlanner.Radio
             Serial.Write(packet, 0, packet.Length);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data">Must be no more than 128 bytes in length.  Must not be null.</param>
+        /// <param name="Serial"></param>
+        /// <param name="bNumber"></param>
+        public static void SendBlock(byte[] data, int DataLength, ICommsSerial Serial, int bNumber)
+        {
+            byte[] packet = new byte[133];
+            byte[] bits = new byte[128];
+            UInt16 CRC = 0;
+
+            for (int i = 0; i < bits.Length; i++) { bits[i] = 0x26; }
+
+            packet[0] = SOH;
+            packet[1] = (byte)(bNumber % 256);
+            packet[2] = (byte)(255 - (bNumber % 256));
+
+            Array.Copy(data, bits, DataLength);
+
+            CRC = CRC_calc(bits, 128);
+            System.Buffer.BlockCopy(bits, 0, packet, 3, 128);
+            packet[131] = (byte)(CRC >> 8);
+            packet[132] = (byte)(CRC);
+            Serial.DiscardInBuffer();
+            Serial.Write(packet, 0, packet.Length);
+        }
+
         static void SendEOT(ICommsSerial Serial)
         {
             Serial.Write(new byte[] { EOT }, 0, 1);
             ProgressEvent?.Invoke(100);
         }
 
-        public static void Upload(string firmwarebin, ICommsSerial comPort)
+        static bool UploadBlock(ICommsSerial comPort, byte[] Data, int DataLength, int bNumber)
+        {
+            for (int Retry = 0; Retry < 10; Retry++)
+            {
+                //comPort.DiscardInBuffer();
+                SendBlock(Data, DataLength, comPort, bNumber);
+                // responce ACK
+                var ack = comPort.ReadByte();
+                while (ack == 'C')
+                {
+                    ack = comPort.ReadByte();
+                }
+
+                if (ack == ACK)
+                {
+                    return true;
+                }
+
+                //Thread.Sleep(1000);
+            }
+
+            return false;
+        }
+
+        static bool UploadEnd(ICommsSerial comPort)
+        {
+            for (int Retry = 0; Retry < 10; Retry++)
+            {
+                SendEOT(comPort);
+
+                var ack = comPort.ReadByte();
+                while (ack == 'C')
+                    ack = comPort.ReadByte();
+
+                if (ack == ACK)
+                {
+                    return true;
+                }
+
+                //Thread.Sleep(1000);
+            }
+
+            /*MsgBox.CustomMessageBox.Show("Corrupted packet. Please power cycle and try again.\r\n", "Warning",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning);*/
+            return false;
+        }
+
+        public static bool Upload(string firmwarebin, ICommsSerial comPort)
         {
             comPort.ReadTimeout = 2000;
 
@@ -81,75 +156,33 @@ namespace MissionPlanner.Radio
                 var startlen = len;
 
                 int a = 1;
-                int NoAckCount = 0;
                 while (len > 0)
                 {
                     LogEvent?.Invoke("Uploading block " + a + "/" + startlen);
 
-                    //comPort.DiscardInBuffer();
-                    SendBlock(fs, comPort, a);
-                    // responce ACK
-                    var ack = comPort.ReadByte();
-                    while (ack == 'C')
-                        ack = comPort.ReadByte();
+                    byte[] Data = new byte[128];
 
-                    if (ack == ACK)
+                    var bytesRead = fs.Read(Data, 0, Data.Length);
+
+                    if (UploadBlock(comPort, Data, bytesRead, a))
                     {
-                        //Console.WriteLine("Block number " + a.ToString());
-
-                        NoAckCount = 0;
                         len--;
                         a++;
-
                         ProgressEvent?.Invoke(1 - ((double)len / (double)startlen));
-                    }
-                    else if (ack == NAK)
-                    {
-                        MsgBox.CustomMessageBox.Show("Corrupted packet. Please power cycle and try again.\r\n", "Warning",
-                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        len = 0;
                     }
                     else
                     {
-                        NoAckCount++;
-                        if (NoAckCount >= 10)
-                        {
-                            //Console.WriteLine("Something is wrong");
-                        }
+                        /*MsgBox.CustomMessageBox.Show("Corrupted packet. Please power cycle and try again.\r\n", "Warning",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);*/
+                        len = 0;
+
+                        return false;
                     }
                 }
 
-                NoAckCount = 0;
-
-                while (true)
+                if (!UploadEnd(comPort))
                 {
-                    SendEOT(comPort);
-
-                    var ack = comPort.ReadByte();
-                    while (ack == 'C')
-                        ack = comPort.ReadByte();
-
-                    if (ack == ACK)
-                    {
-                        break;
-                    }
-                    else if (ack == NAK)
-                    {
-                        MsgBox.CustomMessageBox.Show("Corrupted packet. Please power cycle and try again.\r\n", "Warning",
-                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        len = 0;
-                    }
-                    else
-                    {
-                        NoAckCount++;
-
-                        if (NoAckCount >= 10)
-                        {
-                            MsgBox.CustomMessageBox.Show("Corrupted packet. Please power cycle and try again.\r\n", "Warning",
-                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            break;
-                        }
-                    }
+                    return false;
                 }
 
                 //Console.WriteLine("Finished " + len.ToString());
@@ -161,6 +194,8 @@ namespace MissionPlanner.Radio
             Thread.Sleep(100);
             comPort.Write("BOOTNEW\r\n");
             Thread.Sleep(100);
+
+            return true;
         }
     }
 }
