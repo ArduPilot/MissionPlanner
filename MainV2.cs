@@ -36,8 +36,7 @@ namespace MissionPlanner
         private static readonly ILog log =
             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-   
-        public static menuicons displayicons = new burntkermitmenuicons();
+        public static menuicons displayicons;  //do not initialize to allow update of custom icons
 
         public abstract class menuicons
         {
@@ -59,61 +58,133 @@ namespace MissionPlanner
         {
             public override Image fd
             {
-                get { return global::MissionPlanner.Properties.Resources.light_flightdata_icon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "light_flightdata_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "light_flightdata_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.light_flightdata_icon;
+                }
             }
 
             public override Image fp
             {
-                get { return global::MissionPlanner.Properties.Resources.light_flightplan_icon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "light_flightplan_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "light_flightplan_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.light_flightplan_icon;
+                }
             }
 
             public override Image initsetup
             {
-                get { return global::MissionPlanner.Properties.Resources.light_initialsetup_icon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "light_initialsetup_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "light_initialsetup_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.light_initialsetup_icon;
+                }
             }
 
             public override Image config_tuning
             {
-                get { return global::MissionPlanner.Properties.Resources.light_tuningconfig_icon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "light_tuningconfig_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "light_tuningconfig_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.light_tuningconfig_icon;
+                }
             }
 
             public override Image sim
             {
-                get { return global::MissionPlanner.Properties.Resources.light_simulation_icon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "light_simulation_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "light_simulation_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.light_simulation_icon;
+                }
             }
 
             public override Image terminal
             {
-                get { return global::MissionPlanner.Properties.Resources.light_terminal_icon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "light_terminal_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "light_terminal_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.light_terminal_icon;
+                }
             }
 
             public override Image help
             {
-                get { return global::MissionPlanner.Properties.Resources.light_help_icon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "light_help_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "light_help_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.light_help_icon;
+                }
             }
 
             public override Image donate
             {
-                get { return global::MissionPlanner.Properties.Resources.donate; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "light_donate_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "light_donate_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.donate;
+                }
             }
 
             public override Image connect
             {
-                get { return global::MissionPlanner.Properties.Resources.light_connect_icon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "light_connect_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "light_connect_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.light_connect_icon;
+                }
             }
 
             public override Image disconnect
             {
-                get { return global::MissionPlanner.Properties.Resources.light_disconnect_icon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "light_disconnect_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "light_disconnect_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.light_disconnect_icon;
+                }
             }
 
             public override Image bg
             {
-                get { return global::MissionPlanner.Properties.Resources.bgdark; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "light_icon_background.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "light_icon_background.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.bgdark;
+                }
             }
             public override Image wizard
             {
-                get { return global::MissionPlanner.Properties.Resources.wizardicon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "light_wizard_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "light_wizard_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.wizardicon;
+                }
             }
         }
 
@@ -121,61 +192,133 @@ namespace MissionPlanner
         {
             public override Image fd
             {
-                get { return global::MissionPlanner.Properties.Resources.dark_flightdata_icon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "dark_flightdata_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_flightdata_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.dark_flightdata_icon;
+                }
             }
 
             public override Image fp
             {
-                get { return global::MissionPlanner.Properties.Resources.dark_flightplan_icon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "dark_flightplan_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_flightplan_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.dark_flightplan_icon;
+                }
             }
 
             public override Image initsetup
             {
-                get { return global::MissionPlanner.Properties.Resources.dark_initialsetup_icon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "dark_initialsetup_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_initialsetup_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.dark_initialsetup_icon;
+                }
             }
 
             public override Image config_tuning
             {
-                get { return global::MissionPlanner.Properties.Resources.dark_tuningconfig_icon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "dark_tuningconfig_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_tuningconfig_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.dark_tuningconfig_icon;
+                }
             }
 
             public override Image sim
             {
-                get { return global::MissionPlanner.Properties.Resources.dark_simulation_icon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "dark_simulation_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_simulation_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.dark_simulation_icon;
+                }
             }
 
             public override Image terminal
             {
-                get { return global::MissionPlanner.Properties.Resources.dark_terminal_icon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "dark_terminal_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_terminal_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.dark_terminal_icon;
+                }
             }
 
             public override Image help
             {
-                get { return global::MissionPlanner.Properties.Resources.dark_help_icon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "dark_help_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_help_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.dark_help_icon;
+                }
             }
 
             public override Image donate
             {
-                get { return global::MissionPlanner.Properties.Resources.donate; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "dark_donate_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_donate_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.donate;
+                }
             }
 
             public override Image connect
             {
-                get { return global::MissionPlanner.Properties.Resources.dark_connect_icon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "dark_connect_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_connect_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.dark_connect_icon;
+                }
             }
 
             public override Image disconnect
             {
-                get { return global::MissionPlanner.Properties.Resources.dark_disconnect_icon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "dark_disconnect_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_disconnect_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.dark_disconnect_icon;
+                }
             }
 
             public override Image bg
             {
-                get { return null; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "dark_icon_background.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_icon_background.png");
+                    else
+                        return null;
+                }
             }
             public override Image wizard
             {
-                get { return global::MissionPlanner.Properties.Resources.wizardicon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "dark_wizard_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_wizard_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.wizardicon;
+                }
             }
         }
 
@@ -1075,9 +1218,13 @@ namespace MissionPlanner
 
         public void switchicons(menuicons icons)
         {
-            // dont update if no change
-            if (displayicons.GetType() == icons.GetType())
-                return;
+            //Check if we starting 
+            if (displayicons != null)
+            {
+                // dont update if no change
+                if (displayicons.GetType() == icons.GetType())
+                    return;
+            }
 
             displayicons = icons;
 
