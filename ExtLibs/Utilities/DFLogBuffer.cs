@@ -171,7 +171,8 @@ namespace MissionPlanner.Utilities
                         int.Parse(item["Length"].Trim()),
                         item["Name"].Trim(),
                         item["Format"].Trim(),
-                        item.items.Skip(dflog.FindMessageOffset("FMT", "Columns")).FirstOrDefault());
+                        item.items.Skip(dflog.FindMessageOffset("FMT", "Columns")).Aggregate((s, s1) => s.Trim() + "," + s1.Trim())
+                            .TrimStart(','));
 
                     dflog.FMTLine(this[item.lineno]);
                 }
