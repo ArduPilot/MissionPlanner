@@ -648,8 +648,8 @@
             // 
             // modifyandSetLoiterRad
             // 
-            this.modifyandSetLoiterRad.ButtonText = "Set Loiter Rad";
             resources.ApplyResources(this.modifyandSetLoiterRad, "modifyandSetLoiterRad");
+            this.modifyandSetLoiterRad.ButtonText = "Set Loiter Rad";
             this.modifyandSetLoiterRad.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -867,8 +867,8 @@
             // 
             // modifyandSetSpeed
             // 
-            this.modifyandSetSpeed.ButtonText = "Change Speed";
             resources.ApplyResources(this.modifyandSetSpeed, "modifyandSetSpeed");
+            this.modifyandSetSpeed.ButtonText = "Change Speed";
             this.modifyandSetSpeed.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -890,8 +890,8 @@
             // 
             // modifyandSetAlt
             // 
-            this.modifyandSetAlt.ButtonText = "Change Alt";
             resources.ApplyResources(this.modifyandSetAlt, "modifyandSetAlt");
+            this.modifyandSetAlt.ButtonText = "Change Alt";
             this.modifyandSetAlt.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -2159,7 +2159,7 @@
             this.windDir1.BackColor = System.Drawing.Color.Transparent;
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Direction", this.bindingSource1, "wind_dir", true, System.Windows.Forms.DataSourceUpdateMode.Never));
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Speed", this.bindingSource1, "wind_vel", true, System.Windows.Forms.DataSourceUpdateMode.Never));
-            this.windDir1.Direction = 180D;
+            this.windDir1.Direction = 360D;
             resources.ApplyResources(this.windDir1, "windDir1");
             this.windDir1.Name = "windDir1";
             this.windDir1.Speed = 0D;
@@ -2385,6 +2385,7 @@
             this.contextMenuStripQuickView.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceQuickTab)).EndInit();
             this.tabActions.ResumeLayout(false);
+            this.tabActions.PerformLayout();
             this.tabActionsSimple.ResumeLayout(false);
             this.tabPagePreFlight.ResumeLayout(false);
             this.tabGauges.ResumeLayout(false);

@@ -23,11 +23,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public void Activate()
         {
-            if (MainV2.comPort.MAV.param["H_SWASH_TYPE"] == null)
-            {
-                Enabled = false;
-                return;
-            }
+    
 
             _timer.Tick += timer_Tick;
 
@@ -66,10 +62,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             mavlinkNumericUpDownh_rsc_power_low.setup(0, 99, 1, 1f, "H_RSC_POWER_LOW", MainV2.comPort.MAV.param);
             mavlinkNumericUpDownh_rsc_idle.setup(0, 99, 1, 1f, "H_RSC_IDLE", MainV2.comPort.MAV.param);
 
-            mavlinkNumericUpDownim_stab_col_1.setup(0, 1000, 1, 1f, "IM_STAB_COL_1", MainV2.comPort.MAV.param);
-            mavlinkNumericUpDownim_stab_col_2.setup(0, 1000, 1, 1f, "IM_STAB_COL_2", MainV2.comPort.MAV.param);
-            mavlinkNumericUpDownim_stab_col_3.setup(0, 1000, 1, 1f, "IM_STAB_COL_3", MainV2.comPort.MAV.param);
-            mavlinkNumericUpDownim_stab_col_4.setup(0, 1000, 1, 1f, "IM_STAB_COL_4", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDownim_stab_col_1.setup(0, 1000, 1, 1f, new string[] {"IM_STAB_COL_1", "IM_STB_COL_1"},
+                MainV2.comPort.MAV.param);
+            mavlinkNumericUpDownim_stab_col_2.setup(0, 1000, 1, 1f, new string[] {"IM_STAB_COL_2", "IM_STB_COL_2"},
+                MainV2.comPort.MAV.param);
+            mavlinkNumericUpDownim_stab_col_3.setup(0, 1000, 1, 1f, new string[] {"IM_STAB_COL_3", "IM_STB_COL_3"},
+                MainV2.comPort.MAV.param);
+            mavlinkNumericUpDownim_stab_col_4.setup(0, 1000, 1, 1f, new string[] {"IM_STAB_COL_4", "IM_STB_COL_4"},
+                MainV2.comPort.MAV.param);
             mavlinkNumericUpDownim_acro_col_exp.setup(0, 1, 1, 0.01f, "IM_ACRO_COL_EXP", MainV2.comPort.MAV.param);
 
             mavlinkComboBoxTailType.setup(
