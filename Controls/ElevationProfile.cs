@@ -286,7 +286,7 @@ namespace MissionPlanner
             LineItem myCurve;
 
             myCurve = myPane.AddCurve("Planned Path", list1, Color.Red, SymbolType.None);
-            myCurve = myPane.AddCurve("Google", list2, Color.Green, SymbolType.None);
+            //myCurve = myPane.AddCurve("Google", list2, Color.Green, SymbolType.None);
             myCurve = myPane.AddCurve("DEM", list3, Color.Blue, SymbolType.None);
 
             foreach (PointPair pp in list1)
