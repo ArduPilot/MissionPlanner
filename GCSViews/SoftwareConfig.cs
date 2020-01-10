@@ -96,6 +96,9 @@ namespace MissionPlanner.GCSViews
                         AddBackstageViewPage(typeof(ConfigOSD), Strings.OnboardOSD);
                     }
 
+                    if ((MainV2.comPort.MAV.cs.capabilities & (int)MAVLink.MAV_PROTOCOL_CAPABILITY.FTP) > 0)
+                        AddBackstageViewPage(typeof(MavFTPUI), Strings.MAVFtp);
+
                     if (true)
                     {
                         AddBackstageViewPage(typeof(ConfigUserDefined), Strings.User_Params);
