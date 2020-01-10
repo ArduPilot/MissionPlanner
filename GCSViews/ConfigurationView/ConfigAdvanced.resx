@@ -144,7 +144,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>6</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="but_mavinspector.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
@@ -172,33 +172,141 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;but_mavinspector.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>5</value>
   </data>
-  <data name="button3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="but_warningmanager.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="button3.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="but_warningmanager.Location" type="System.Drawing.Point, System.Drawing">
     <value>19, 27</value>
   </data>
-  <data name="button3.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="but_warningmanager.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
   </data>
-  <data name="button3.TabIndex" type="System.Int32, mscorlib">
+  <data name="but_warningmanager.TabIndex" type="System.Int32, mscorlib">
     <value>94</value>
   </data>
-  <data name="button3.Text" xml:space="preserve">
+  <data name="but_warningmanager.Text" xml:space="preserve">
     <value>Warning Manager</value>
   </data>
-  <data name="&gt;&gt;button3.Name" xml:space="preserve">
-    <value>button3</value>
+  <data name="&gt;&gt;but_warningmanager.Name" xml:space="preserve">
+    <value>but_warningmanager</value>
   </data>
-  <data name="&gt;&gt;button3.Type" xml:space="preserve">
+  <data name="&gt;&gt;but_warningmanager.Type" xml:space="preserve">
     <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;button3.Parent" xml:space="preserve">
+  <data name="&gt;&gt;but_warningmanager.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;button3.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;but_warningmanager.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="but_proximity.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="but_proximity.Location" type="System.Drawing.Point, System.Drawing">
+    <value>19, 85</value>
+  </data>
+  <data name="but_proximity.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="but_proximity.TabIndex" type="System.Int32, mscorlib">
+    <value>95</value>
+  </data>
+  <data name="but_proximity.Text" xml:space="preserve">
+    <value>Proximity</value>
+  </data>
+  <data name="&gt;&gt;but_proximity.Name" xml:space="preserve">
+    <value>but_proximity</value>
+  </data>
+  <data name="&gt;&gt;but_proximity.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;but_proximity.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;but_proximity.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="but_signkey.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="but_signkey.Location" type="System.Drawing.Point, System.Drawing">
+    <value>19, 114</value>
+  </data>
+  <data name="but_signkey.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="but_signkey.TabIndex" type="System.Int32, mscorlib">
+    <value>96</value>
+  </data>
+  <data name="but_signkey.Text" xml:space="preserve">
+    <value>signing</value>
+  </data>
+  <data name="&gt;&gt;but_signkey.Name" xml:space="preserve">
+    <value>but_signkey</value>
+  </data>
+  <data name="&gt;&gt;but_signkey.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;but_signkey.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;but_signkey.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="BUT_outputMavlink.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_outputMavlink.Location" type="System.Drawing.Point, System.Drawing">
+    <value>19, 143</value>
+  </data>
+  <data name="BUT_outputMavlink.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="BUT_outputMavlink.TabIndex" type="System.Int32, mscorlib">
+    <value>97</value>
+  </data>
+  <data name="BUT_outputMavlink.Text" xml:space="preserve">
+    <value>Mavlink</value>
+  </data>
+  <data name="&gt;&gt;BUT_outputMavlink.Name" xml:space="preserve">
+    <value>BUT_outputMavlink</value>
+  </data>
+  <data name="&gt;&gt;BUT_outputMavlink.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_outputMavlink.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BUT_outputMavlink.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="BUT_outputnmea.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_outputnmea.Location" type="System.Drawing.Point, System.Drawing">
+    <value>19, 172</value>
+  </data>
+  <data name="BUT_outputnmea.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="BUT_outputnmea.TabIndex" type="System.Int32, mscorlib">
+    <value>98</value>
+  </data>
+  <data name="BUT_outputnmea.Text" xml:space="preserve">
+    <value>NMEA</value>
+  </data>
+  <data name="&gt;&gt;BUT_outputnmea.Name" xml:space="preserve">
+    <value>BUT_outputnmea</value>
+  </data>
+  <data name="&gt;&gt;BUT_outputnmea.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_outputnmea.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BUT_outputnmea.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
