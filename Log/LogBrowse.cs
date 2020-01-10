@@ -13,6 +13,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -1164,6 +1165,7 @@ namespace MissionPlanner.Log
 
             if (multiplier != 0 && multiplier != 1)
             {
+                log.InfoFormat("{0}[{1}].{2} * {3}", type, instance, header, multiplier);
                 for (var i = 0; i < list1.Count; i++)
                 {
                     list1[i].Y *= multiplier;
@@ -1613,9 +1615,9 @@ namespace MissionPlanner.Log
                         if (item.items.Length <= index)
                             continue;
 
-                        string time = double.Parse(item.items[index]).ToString();
+                        string time = double.Parse(item.items[index], CultureInfo.InvariantCulture).ToString(CultureInfo.InvariantCulture);
                         UInt64 tempt;
-                        if (UInt64.TryParse(time, out tempt))
+                        if (UInt64.TryParse(time,NumberStyles.Any, CultureInfo.InvariantCulture, out tempt))
                         {
                             if (startdelta == 0)
                                 startdelta = tempt;
