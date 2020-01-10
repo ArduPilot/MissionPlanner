@@ -2354,9 +2354,12 @@ namespace GMap.NET.WindowsForms
       {
          if(overObjectCount <= 0 && cursorBefore != null)
          {
-            overObjectCount = 0;
-            this.Cursor = this.cursorBefore;
-            cursorBefore = null;
+             if (!this.InvokeRequired)
+             {
+                 overObjectCount = 0;
+                 this.Cursor = this.cursorBefore;
+                 cursorBefore = null;
+             }
          }
       }
 
