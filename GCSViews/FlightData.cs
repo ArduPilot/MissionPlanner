@@ -4571,23 +4571,7 @@ namespace MissionPlanner.GCSViews
                 AutoScroll = true
             };
 
-            int x = 5;
-            int y = 2;
-
-            {
-                CheckBox chk_box = new CheckBox();
-                chk_box.Text = "Logarithmic";
-                chk_box.Name = "Logarithmic";
-                chk_box.Location = new Point(x, y);
-                chk_box.Size = new Size(100, 20);
-                chk_box.CheckedChanged += chk_log_CheckedChanged;
-
-                selectform.Controls.Add(chk_box);
-            }
-
             ThemeManager.ApplyThemeTo(selectform);
-
-            y += 20;
 
             object thisBoxed = MainV2.comPort.MAV.cs;
             Type test = thisBoxed.GetType();
@@ -4684,18 +4668,7 @@ namespace MissionPlanner.GCSViews
                 chk_box.AutoSize = true;
 
                 selectform.Controls.Add(chk_box);
-
-                x += 0;
-                y += 20;
                 i++;
-
-                if (y > selectform.Height - 50)
-                {
-                    x += 120;
-                    y = 10;
-
-                    selectform.Width = x + 120;
-                }
             }
 
             selectform.ResumeLayout();
