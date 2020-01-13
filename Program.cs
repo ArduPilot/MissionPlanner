@@ -13,6 +13,7 @@ using System.Net;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -256,6 +257,30 @@ namespace MissionPlanner
 
             log.InfoFormat("64bit os {0}, 64bit process {1}", System.Environment.Is64BitOperatingSystem,
                 System.Environment.Is64BitProcess);
+
+            log.InfoFormat("Runtime Version {0}",
+                System.Reflection.Assembly.GetExecutingAssembly().ImageRuntimeVersion);
+
+            Type type = Type.GetType("Mono.Runtime");
+            if (type != null)
+            {
+                MethodInfo displayName = type.GetMethod("GetDisplayName", BindingFlags.NonPublic | BindingFlags.Static);
+                if (displayName != null)
+                {
+                    log.Info(displayName.Invoke(null, null));
+                    //6.6.0.161 (tarball Tue Dec 10 10:36:32 UTC 2019)
+
+                    var match = Regex.Match(displayName.Invoke(null, null).ToString(), @"([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)");
+                    if(match.Success)
+                    {
+                        if (int.Parse(match.Groups[1].Value) < 6)
+                        {
+                            CustomMessageBox.Show(
+                                "Please upgrade your mono version to 6+ https://www.mono-project.com/download/stable/");
+                        }
+                    }
+                }
+            }
 
             try
             {
