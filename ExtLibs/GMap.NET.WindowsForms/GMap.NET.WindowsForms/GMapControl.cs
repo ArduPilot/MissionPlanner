@@ -1427,7 +1427,7 @@ namespace GMap.NET.WindowsForms
                doPaint(f);
                var ts = (DateTime.Now - start);
 
-               Console.WriteLine("map render {0}", ts.TotalSeconds);
+               //Console.WriteLine("map render {0}", ts.TotalSeconds);
                 base.OnPaint(e);
                 return;
            }
