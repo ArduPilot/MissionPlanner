@@ -86,6 +86,8 @@ namespace MissionPlanner
             var t = Type.GetType("Mono.Runtime");
             MONO = (t != null);
 
+            Directory.SetCurrentDirectory(Settings.GetRunningDirectory());
+
             Thread = Thread.CurrentThread;
 
             System.Windows.Forms.Application.EnableVisualStyles();
