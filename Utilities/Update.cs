@@ -473,30 +473,33 @@ namespace MissionPlanner.Utilities
             string path = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + subdir +
                           file;
 
-            DownloadStream ds = new DownloadStream(baseurl);
-
-            ZipArchive zip = new ZipArchive(ds);
-
-            var entry = zip.GetEntry((subdir.TrimStart('\\').Replace('\\', '/') + file));
-
-            if (entry == null)
+            using (DownloadStream ds = new DownloadStream(baseurl))
+            using (ZipArchive zip = new ZipArchive(ds))
             {
-                Console.WriteLine("{0} {1}", file, baseurl);
-                return;
+                log.InfoFormat("zip entry get {0}", (subdir.TrimStart('/').TrimStart('\\').Replace('\\', '/') + file));
+
+                var entry = zip.GetEntry((subdir.TrimStart('/').TrimStart('\\').Replace('\\', '/') + file));
+
+                if (entry == null)
+                {
+                    log.InfoFormat("zip missing entry {0} {1}", file, baseurl);
+                    return;
+                }
+
+                ds.chunksize = (int) entry.CompressedLength;
+
+                log.InfoFormat("unzip {0}", file);
+
+                using (var fo = File.Open(path + ".new", FileMode.Create))
+                {
+                    entry.Open().CopyTo(fo, 1024 * 1024);
+                    fo.Flush(true);
+                    fo.Dispose();
+                }
+
+                zip.Dispose();
+                ds.Dispose();
             }
-
-            ds.chunksize = (int)entry.CompressedLength;
-
-            log.InfoFormat("unzip {0}", file);
-
-            //entry.ExtractToFile(path + ".new", true);
-
-            using (var fo = File.Open(path + ".new", FileMode.Create))
-                entry.Open().CopyTo(fo);
-
-            zip.Dispose();
-
-            ds.Dispose();
         }
 
         static void GetNewFile(IProgressReporterDialogue frmProgressReporter, string baseurl, string subdir, string file)
@@ -593,6 +596,8 @@ namespace MissionPlanner.Utilities
                             }
 
                             log.Info("GetNewFile: " + file + " Done with length: " + fs.Length);
+                            fs.Flush(true);
+                            fs.Dispose();
                         }
                     }
                 }
