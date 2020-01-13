@@ -1,10 +1,10 @@
-﻿using System;
+﻿using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
+using SharpDX.DirectInput;
+using System;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using MissionPlanner.Controls;
-using MissionPlanner.Utilities;
-using SharpDX.DirectInput;
 
 
 namespace MissionPlanner.Joystick
@@ -55,7 +55,7 @@ namespace MissionPlanner.Joystick
 
             try
             {
-                if(Settings.Instance.ContainsKey("joy_elevons"))
+                if (Settings.Instance.ContainsKey("joy_elevons"))
                     CHK_elevons.Checked = bool.Parse(Settings.Instance["joy_elevons"].ToString());
             }
             catch
@@ -287,9 +287,9 @@ namespace MissionPlanner.Joystick
 
                     var items = this.Controls.Find("hbar" + name, false);
 
-                    if(items.Length > 0)
-                    ((HorizontalProgressBar)items[0]).Value =
-                        MainV2.joystick.isButtonPressed(f) ? 100 : 0;
+                    if (items.Length > 0)
+                        ((HorizontalProgressBar)items[0]).Value =
+                            MainV2.joystick.isButtonPressed(f) ? 100 : 0;
                 }
             }
             catch
@@ -317,16 +317,16 @@ namespace MissionPlanner.Joystick
             if (startup)
                 return;
 
-            string name = ((ComboBox) sender).Name.Replace("cmbbutton", "");
+            string name = ((ComboBox)sender).Name.Replace("cmbbutton", "");
 
-            MainV2.joystick.changeButton((int.Parse(name)), int.Parse(((ComboBox) sender).Text));
+            MainV2.joystick.changeButton((int.Parse(name)), int.Parse(((ComboBox)sender).Text));
         }
 
         private void BUT_detbutton_Click(object sender, EventArgs e)
         {
-            string name = ((MyButton) sender).Name.Replace("mybut", "");
+            string name = ((MyButton)sender).Name.Replace("mybut", "");
 
-            ComboBox cmb = (ComboBox) (this.Controls.Find("cmbbutton" + name, false)[0]);
+            ComboBox cmb = (ComboBox)(this.Controls.Find("cmbbutton" + name, false)[0]);
             cmb.Text = Joystick.getPressedButton(CMB_joysticks.Text).ToString();
         }
 
@@ -383,8 +383,8 @@ namespace MissionPlanner.Joystick
             cmbaction.Location = new Point(hbar.Right + 5, y);
             cmbaction.Size = new Size(100, 21);
 
-            cmbaction.DataSource = Enum.GetNames(typeof (Joystick.buttonfunction));
-                //Common.getModesList(MainV2.comPort.MAV.cs);
+            cmbaction.DataSource = Enum.GetNames(typeof(Joystick.buttonfunction));
+            //Common.getModesList(MainV2.comPort.MAV.cs);
             //cmbaction.ValueMember = "Key";
             //cmbaction.DisplayMember = "Value";
             cmbaction.Tag = name;
@@ -409,48 +409,48 @@ namespace MissionPlanner.Joystick
             if ((but_settings.Bottom + 30) > this.Height)
                 this.Height += 25;
 
-            if ((but_settings.Right ) > this.Width)
+            if ((but_settings.Right) > this.Width)
                 this.Width = but_settings.Right + 5;
         }
 
         void cmbaction_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int num = int.Parse(((Control) sender).Tag.ToString());
+            int num = int.Parse(((Control)sender).Tag.ToString());
             var config = MainV2.joystick.getButton(num);
             config.function =
-                (Joystick.buttonfunction) Enum.Parse(typeof (Joystick.buttonfunction), ((Control) sender).Text);
+                (Joystick.buttonfunction)Enum.Parse(typeof(Joystick.buttonfunction), ((Control)sender).Text);
             MainV2.joystick.setButton(num, config);
         }
 
         void but_settings_Click(object sender, EventArgs e)
         {
-            var cmb = ((Control) sender).Tag as ComboBox;
+            var cmb = ((Control)sender).Tag as ComboBox;
 
-            switch ((Joystick.buttonfunction) Enum.Parse(typeof (Joystick.buttonfunction), cmb.SelectedItem.ToString()))
+            switch ((Joystick.buttonfunction)Enum.Parse(typeof(Joystick.buttonfunction), cmb.SelectedItem.ToString()))
             {
                 case Joystick.buttonfunction.ChangeMode:
-                    new Joy_ChangeMode((string) cmb.Tag).ShowDialog();
+                    new Joy_ChangeMode((string)cmb.Tag).ShowDialog();
                     break;
                 case Joystick.buttonfunction.Mount_Mode:
-                    new Joy_Mount_Mode((string) cmb.Tag).ShowDialog();
+                    new Joy_Mount_Mode((string)cmb.Tag).ShowDialog();
                     break;
                 case Joystick.buttonfunction.Do_Repeat_Relay:
-                    new Joy_Do_Repeat_Relay((string) cmb.Tag).ShowDialog();
+                    new Joy_Do_Repeat_Relay((string)cmb.Tag).ShowDialog();
                     break;
                 case Joystick.buttonfunction.Do_Repeat_Servo:
-                    new Joy_Do_Repeat_Servo((string) cmb.Tag).ShowDialog();
+                    new Joy_Do_Repeat_Servo((string)cmb.Tag).ShowDialog();
                     break;
                 case Joystick.buttonfunction.Do_Set_Relay:
-                    new Joy_Do_Set_Relay((string) cmb.Tag).ShowDialog();
+                    new Joy_Do_Set_Relay((string)cmb.Tag).ShowDialog();
                     break;
                 case Joystick.buttonfunction.Do_Set_Servo:
-                    new Joy_Do_Set_Servo((string) cmb.Tag).ShowDialog();
+                    new Joy_Do_Set_Servo((string)cmb.Tag).ShowDialog();
                     break;
                 case Joystick.buttonfunction.Button_axis0:
-                    new Joy_Button_axis((string) cmb.Tag).ShowDialog();
+                    new Joy_Button_axis((string)cmb.Tag).ShowDialog();
                     break;
                 case Joystick.buttonfunction.Button_axis1:
-                    new Joy_Button_axis((string) cmb.Tag).ShowDialog();
+                    new Joy_Button_axis((string)cmb.Tag).ShowDialog();
                     break;
                 default:
                     CustomMessageBox.Show("No settings to set", "No settings");

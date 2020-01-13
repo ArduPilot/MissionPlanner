@@ -46,7 +46,7 @@ namespace MissionPlanner.Swarm.SRB
             label4.Text = "BasePos: " + ctl.DG.GetBasePosition()?.ToString();
             label5.Text = "BaseVel: " + ctl.DG.GetBaseVelocity()?.ToString();
 
-            label6.Text = "Mode: "+ctl.DG.CurrentMode.ToString();
+            label6.Text = "Mode: " + ctl.DG.CurrentMode.ToString();
 
             label7.Text = "BaseHeading: " + ctl.DG.GetBasePosition()?.Heading.ToString();
         }

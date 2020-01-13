@@ -3,6 +3,7 @@ using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Net.Security;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -20,6 +21,7 @@ namespace MissionPlanner.Comms
         private DateTime _lastnmea = DateTime.MinValue;
         public double alt = 0;
         public TcpClient client = new TcpClient();
+        private Stream st;
 
         private string host;
 
@@ -41,7 +43,7 @@ namespace MissionPlanner.Comms
         public int WriteTimeout { get; set; }
         public bool RtsEnable { get; set; }
 
-        public Stream BaseStream => client.GetStream();
+        public Stream BaseStream => st;
 
         public void toggleDTR()
         {
@@ -138,14 +140,7 @@ namespace MissionPlanner.Comms
             {
                 if (length < 1) return 0;
 
-                return client.Client.Receive(readto, offset, length, SocketFlags.Partial);
-                /*
-                                byte[] temp = new byte[length];
-                                clientbuf.Read(temp, 0, length);
-
-                                temp.CopyTo(readto, offset);
-
-                                return length;*/
+                return st.Read(readto, offset, length);
             }
             catch
             {
@@ -206,7 +201,7 @@ namespace MissionPlanner.Comms
             VerifyConnected();
             try
             {
-                client.Client.Send(write, length, SocketFlags.None);
+                st.Write(write, offset, length);
             }
             catch
             {
@@ -315,10 +310,17 @@ namespace MissionPlanner.Comms
             client = new TcpClient(host, int.Parse(Port));
             client.Client.IOControl(IOControlCode.KeepAliveValues, TcpKeepAlive(true, 36000000, 3000), null);
 
-            var ns = client.GetStream();
+            if (Port == "443" || remoteUri.Scheme == "https")
+            {
+                var ssl = new SslStream(client.GetStream(), false);
+                ssl.AuthenticateAsClient(host);
+                st = ssl;
+            }
+            else
+                st = client.GetStream();
 
-            var sw = new StreamWriter(ns);
-            var sr = new StreamReader(ns);
+            var sw = new StreamWriter(st);
+            var sr = new StreamReader(st);
 
             var line = "GET " + remoteUri.PathAndQuery + " HTTP/1.0\r\n"
                        + "User-Agent: NTRIP MissionPlanner/1.0\r\n"

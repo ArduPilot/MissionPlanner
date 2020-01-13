@@ -1,10 +1,10 @@
-﻿using System;
+﻿using MissionPlanner.ArduPilot;
+using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
+using System;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using MissionPlanner.ArduPilot;
-using MissionPlanner.Controls;
-using MissionPlanner.Utilities;
 using Transitions;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
@@ -43,9 +43,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             // pre seed the correct values
             work_frame_class = (motor_frame_class)
-                Enum.Parse(typeof (motor_frame_class), MainV2.comPort.MAV.param["FRAME_CLASS"].ToString());
+                Enum.Parse(typeof(motor_frame_class), MainV2.comPort.MAV.param["FRAME_CLASS"].ToString());
             work_frame_type = (motor_frame_type)
-                Enum.Parse(typeof (motor_frame_type), MainV2.comPort.MAV.param["FRAME_TYPE"].ToString());
+                Enum.Parse(typeof(motor_frame_type), MainV2.comPort.MAV.param["FRAME_TYPE"].ToString());
 
             this.LogInfoFormat("Existing Class: {0} Type: {1}", work_frame_class, work_frame_type);
 

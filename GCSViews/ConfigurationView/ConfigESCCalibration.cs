@@ -1,7 +1,7 @@
-﻿using System;
-using System.Windows.Forms;
-using MissionPlanner.Controls;
+﻿using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
+using System;
+using System.Windows.Forms;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -38,7 +38,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             catch
             {
                 CustomMessageBox.Show("Set param error. Please ensure your version is AC3.3+.");
-                    return;
+                return;
             }
 
             buttonStart.Enabled = false;

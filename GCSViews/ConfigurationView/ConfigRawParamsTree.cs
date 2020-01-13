@@ -1,4 +1,9 @@
-﻿using System;
+﻿using BrightIdeasSoftware;
+using log4net;
+using Microsoft.Scripting.Utils;
+using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
@@ -10,12 +15,6 @@ using System.Text;
 using System.Threading;
 using System.Timers;
 using System.Windows.Forms;
-using BrightIdeasSoftware;
-using Flurl.Util;
-using log4net;
-using Microsoft.Scripting.Utils;
-using MissionPlanner.Controls;
-using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -222,7 +221,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     "Params");
             }
 
-            int error = 0; 
+            int error = 0;
 
             foreach (string value in temp)
             {
@@ -234,7 +233,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         return;
                     }
 
-                    MainV2.comPort.setParam(value, (float) _changes[value]);
+                    MainV2.comPort.setParam(value, (float)_changes[value]);
 
                     _changes.Remove(value);
                 }
@@ -288,7 +287,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (!MainV2.comPort.MAV.cs.armed || (int)DialogResult.OK ==
                 CustomMessageBox.Show(Strings.WarningUpdateParamList, Strings.ERROR, MessageBoxButtons.OKCancel))
             {
-                ((Control) sender).Enabled = false;
+                ((Control)sender).Enabled = false;
 
                 try
                 {
@@ -301,7 +300,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
 
 
-                ((Control) sender).Enabled = true;
+                ((Control)sender).Enabled = true;
 
                 startup = true;
 
@@ -315,7 +314,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (text.Length < maximumSingleLineTooltipLength)
                 return text;
-            var lineLength = (int) Math.Sqrt(text.Length)*2;
+            var lineLength = (int)Math.Sqrt(text.Length) * 2;
             var sb = new StringBuilder();
             var currentLinePosition = 0;
             for (var textIndex = 0; textIndex < text.Length; textIndex++)
@@ -349,17 +348,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             Params.CellEditActivation = ObjectListView.CellEditActivateMode.SingleClick;
 
-            Params.CanExpandGetter = delegate(object x)
+            Params.CanExpandGetter = delegate (object x)
             {
-                var y = (data) x;
+                var y = (data)x;
                 if (y.children != null && y.children.Count > 0)
                     return true;
                 return false;
             };
 
-            Params.ChildrenGetter = delegate(object x)
+            Params.ChildrenGetter = delegate (object x)
             {
-                var y = (data) x;
+                var y = (data)x;
                 return new ArrayList(y.children);
             };
 
@@ -413,7 +412,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     }
                     else
                     {
-                        var newroot = new data {root = split[0], paramname = split[0]};
+                        var newroot = new data { root = split[0], paramname = split[0] };
                         newroot.children.Add(data);
                         roots.Add(newroot);
                         lastroot = newroot;
@@ -474,13 +473,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (this.IsDisposed)
                     return;
 
-                BeginInvoke((Action) delegate
-                {
-                    CMB_paramfiles.DataSource = paramfiles.ToArray();
-                    CMB_paramfiles.DisplayMember = "name";
-                    CMB_paramfiles.Enabled = true;
-                    BUT_paramfileload.Enabled = true;
-                });
+                BeginInvoke((Action)delegate
+               {
+                   CMB_paramfiles.DataSource = paramfiles.ToArray();
+                   CMB_paramfiles.DisplayMember = "name";
+                   CMB_paramfiles.Enabled = true;
+                   BUT_paramfileload.Enabled = true;
+               });
             }
             catch (Exception ex)
             {
@@ -503,18 +502,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     }
 
                     return false;
-                }) .ToArray();
+                }).ToArray();
 
                 Params.Visible = false;
                 Params.UseFiltering = false;
                 Params.ExpandAll();
                 Params.ModelFilter = TextMatchFilter.Regex(Params, searchfor.Replace("*", ".*").Replace("..*", ".*").ToLower());
-                Params.DefaultRenderer = new HighlightTextRenderer((TextMatchFilter) Params.ModelFilter);
+                Params.DefaultRenderer = new HighlightTextRenderer((TextMatchFilter)Params.ModelFilter);
                 Params.UseFiltering = true;
 
                 if (Params.Items.Count > 0)
                 {
-                    if(searchfor.Length == 0)
+                    if (searchfor.Length == 0)
                         Params.CollapseAll();
 
                     foreach (var row in expanded)
@@ -542,7 +541,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             try
             {
                 var data = GitHubContent.GetFileContent("ardupilot", "ardupilot",
-                    ((GitHubContent.FileInfo) CMB_paramfiles.SelectedValue).path);
+                    ((GitHubContent.FileInfo)CMB_paramfiles.SelectedValue).path);
 
                 File.WriteAllBytes(filepath, data);
 
@@ -560,7 +559,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 // no activate the user needs to click write.
                 //this.Activate();
-            } 
+            }
             catch (Exception ex)
             {
                 CustomMessageBox.Show("Failed to load file.\n" + ex);
@@ -602,7 +601,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 try
                 {
-                    MainV2.comPort.setParam(new[] {"FORMAT_VERSION", "SYSID_SW_MREV"}, 0);
+                    MainV2.comPort.setParam(new[] { "FORMAT_VERSION", "SYSID_SW_MREV" }, 0);
                     Thread.Sleep(1000);
                     MainV2.comPort.doReboot(false, true);
                     MainV2.comPort.BaseStream.Close();
@@ -639,14 +638,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     return;
                 }
 
-                if (ParameterMetaDataRepository.GetParameterRange(((data) e.RowObject).paramname, ref min, ref max,
+                if (ParameterMetaDataRepository.GetParameterRange(((data)e.RowObject).paramname, ref min, ref max,
                     MainV2.comPort.MAV.cs.firmware.ToString()))
                 {
                     if (newvalue > max || newvalue < min)
                     {
                         if (
                             CustomMessageBox.Show(
-                                ((data) e.RowObject).paramname + " value is out of range. Do you want to continue?",
+                                ((data)e.RowObject).paramname + " value is out of range. Do you want to continue?",
                                 "Out of range", MessageBoxButtons.YesNo) == (int)DialogResult.No)
                         {
                             return;
@@ -655,10 +654,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
 
                 // add to change record
-                _changes[((data) e.RowObject).paramname] = newvalue;
+                _changes[((data)e.RowObject).paramname] = newvalue;
 
                 // update underlying data
-                ((data) e.RowObject).Value = e.NewValue.ToString();
+                ((data)e.RowObject).Value = e.NewValue.ToString();
 
 
                 e.Cancel = false;
@@ -670,7 +669,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void Params_FormatRow(object sender, FormatRowEventArgs e)
         {
-            var shortv = _changes.Keys.Select(a => {
+            var shortv = _changes.Keys.Select(a =>
+            {
                 if (a.ToString().Contains('_'))
                     return a.ToString().Substring(0, a.ToString().IndexOf('_'));
                 return "";
@@ -678,7 +678,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (e != null && e.ListView != null && e.ListView.Items.Count > 0)
             {
-                var it = ((data) e.Model);
+                var it = ((data)e.Model);
                 if (_changes.ContainsKey(it.paramname) || shortv.Contains(it.paramname))
                 {
                     e.Item.BackColor = Color.Green;
@@ -695,13 +695,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 //Params.RowHeight = 26;
                 return;
 
-               var size = TextRenderer.MeasureText(item.desc, Params.Font, new Size(olvColumn5.Width, 26), TextFormatFlags.WordBreak);
-                if(size.Height >= Params.RowHeight)
+                var size = TextRenderer.MeasureText(item.desc, Params.Font, new Size(olvColumn5.Width, 26), TextFormatFlags.WordBreak);
+                if (size.Height >= Params.RowHeight)
                     Params.RowHeight = Math.Min(size.Height, 50);
 
                 size = TextRenderer.MeasureText(item.range, Params.Font, new Size(olvColumn4.Width, 26), TextFormatFlags.WordBreak);
                 if (size.Height >= Params.RowHeight)
-                    Params.RowHeight = Math.Min(size.Height,50);
+                    Params.RowHeight = Math.Min(size.Height, 50);
             }
         }
 
@@ -770,7 +770,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     mcb.ValueChanged += (o, s, value) =>
                     {
                         paramCompareForm_dtlvcallback(s, int.Parse(value));
-                            ((data) e.HitTest.RowObject).Value = value;
+                        ((data)e.HitTest.RowObject).Value = value;
                         Params.RefreshItem(e.HitTest.Item);
                         e.HitTest.SubItem.Text = value;
                         Params.CancelCellEdit();
@@ -810,16 +810,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void Params_CellToolTipShowing(object sender, ToolTipShowingEventArgs e)
         {
 
-            
+
         }
 
         private void Params_CellOver(object sender, CellOverEventArgs e)
         {
-            if(e.ColumnIndex == 4 || e.ColumnIndex == 5)
+            if (e.ColumnIndex == 4 || e.ColumnIndex == 5)
             {
-           //     toolTip1.Show(e.HitTest.Item.Text, this.Parent, 3000);
+                //     toolTip1.Show(e.HitTest.Item.Text, this.Parent, 3000);
             }
-            }
+        }
 
         private void chk_modified_CheckedChanged(object sender, EventArgs e)
         {

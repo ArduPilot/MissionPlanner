@@ -1,9 +1,9 @@
-﻿using System;
-using System.Diagnostics;
-using System.Windows.Forms;
-using MissionPlanner.Controls;
+﻿using MissionPlanner.Controls;
 using MissionPlanner.Properties;
 using MissionPlanner.Utilities;
+using System;
+using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace MissionPlanner.GCSViews
 {

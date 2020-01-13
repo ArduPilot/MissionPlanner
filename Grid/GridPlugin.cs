@@ -5,7 +5,7 @@ namespace MissionPlanner.Grid
 {
     public class GridPlugin : MissionPlanner.Plugin.Plugin
     {
-        
+
 
         ToolStripMenuItem but;
 

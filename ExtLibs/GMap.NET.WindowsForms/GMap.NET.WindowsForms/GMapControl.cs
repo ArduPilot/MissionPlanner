@@ -1427,7 +1427,7 @@ namespace GMap.NET.WindowsForms
                doPaint(f);
                var ts = (DateTime.Now - start);
 
-               Console.WriteLine("map render {0}", ts.TotalSeconds);
+               //Console.WriteLine("map render {0}", ts.TotalSeconds);
                 base.OnPaint(e);
                 return;
            }
@@ -2354,9 +2354,12 @@ namespace GMap.NET.WindowsForms
       {
          if(overObjectCount <= 0 && cursorBefore != null)
          {
-            overObjectCount = 0;
-            this.Cursor = this.cursorBefore;
-            cursorBefore = null;
+             if (!this.InvokeRequired)
+             {
+                 overObjectCount = 0;
+                 this.Cursor = this.cursorBefore;
+                 cursorBefore = null;
+             }
          }
       }
 

@@ -1,14 +1,14 @@
-﻿using System;
+﻿using AviFile;
+using DirectShowLib;
+using DirectShowLib.DES;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Forms;
-using System.Runtime.InteropServices;
-using System.Threading;
 using System.Drawing.Imaging;
 using System.IO;
-using DirectShowLib;
-using AviFile;
-using DirectShowLib.DES;
+using System.Runtime.InteropServices;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace MissionPlanner
 {
@@ -150,7 +150,7 @@ namespace MissionPlanner
             {
             }
 
-            th = new System.Threading.Thread(delegate() { StartCapture(); });
+            th = new System.Threading.Thread(delegate () { StartCapture(); });
             th.Name = "Video Thread";
             th.Start();
         }
@@ -176,7 +176,7 @@ namespace MissionPlanner
             // redraw
             hud1.Refresh();
             // clone current screen with trans
-            return (Bitmap) hud1.objBitmap.Clone();
+            return (Bitmap)hud1.objBitmap.Clone();
         }
 
         private void StartCapture()
@@ -190,14 +190,14 @@ namespace MissionPlanner
             if (System.IO.File.Exists(txtAviFileName.Text))
             {
                 // Get the graphbuilder object
-                m_FilterGraph = (IFilterGraph2) new FilterGraph();
+                m_FilterGraph = (IFilterGraph2)new FilterGraph();
                 m_mediaCtrl = m_FilterGraph as IMediaControl;
 
                 // Get the ICaptureGraphBuilder2
-                capGraph = (ICaptureGraphBuilder2) new CaptureGraphBuilder2();
+                capGraph = (ICaptureGraphBuilder2)new CaptureGraphBuilder2();
 
                 // Get the SampleGrabber interface
-                sampGrabber = (ISampleGrabber) new SampleGrabber();
+                sampGrabber = (ISampleGrabber)new SampleGrabber();
 
                 // Start building the graph
                 hr = capGraph.SetFiltergraph(m_FilterGraph);
@@ -208,13 +208,13 @@ namespace MissionPlanner
                 DsError.ThrowExceptionForHR(hr);
 
                 //add AVI Decompressor
-                IBaseFilter pAVIDecompressor = (IBaseFilter) new AVIDec();
+                IBaseFilter pAVIDecompressor = (IBaseFilter)new AVIDec();
                 hr = m_FilterGraph.AddFilter(pAVIDecompressor, "AVI Decompressor");
                 DsError.ThrowExceptionForHR(hr);
- 
-                
+
+
                 //
-                IBaseFilter baseGrabFlt = (IBaseFilter) sampGrabber;
+                IBaseFilter baseGrabFlt = (IBaseFilter)sampGrabber;
                 ConfigureSampleGrabber(sampGrabber);
 
                 // Add the frame grabber to the graph
@@ -222,7 +222,7 @@ namespace MissionPlanner
                 DsError.ThrowExceptionForHR(hr);
 
 
-                IBaseFilter vidrender = (IBaseFilter) new VideoRenderer();
+                IBaseFilter vidrender = (IBaseFilter)new VideoRenderer();
                 hr = m_FilterGraph.AddFilter(vidrender, "Render");
                 DsError.ThrowExceptionForHR(hr);
 
@@ -234,7 +234,7 @@ namespace MissionPlanner
                 DsError.ThrowExceptionForHR(hr);
 
                 FileWriter filewritter = new FileWriter();
-                IFileSinkFilter filemux = (IFileSinkFilter) filewritter;
+                IFileSinkFilter filemux = (IFileSinkFilter)filewritter;
                 //filemux.SetFileName("test.avi",);
 
                 //hr = capGraph.RenderStream(null, MediaType.Video, capFilter, null, vidrender);
@@ -244,7 +244,7 @@ namespace MissionPlanner
 
                 // setup buffer
                 if (m_handle == IntPtr.Zero)
-                    m_handle = Marshal.AllocCoTaskMem(m_stride*m_videoHeight);
+                    m_handle = Marshal.AllocCoTaskMem(m_stride * m_videoHeight);
 
                 // tell the callback to ignore new images
                 m_PictureReady = new ManualResetEvent(false);
@@ -261,7 +261,7 @@ namespace MissionPlanner
                 double length = 0;
                 m_mediapos.get_Duration(out length);
                 trackBar_mediapos.Minimum = 0;
-                trackBar_mediapos.Maximum = (int) length;
+                trackBar_mediapos.Maximum = (int)length;
 
                 Start();
             }
@@ -318,13 +318,13 @@ namespace MissionPlanner
                     // if ((float)(cs.lat + cs.lng + cs.alt) != oldlatlngsum
                     //     && cs.lat != 0 && cs.lng != 0)
 
-                    DateTime nexttime = mine.lastlogread.AddMilliseconds(-(mine.lastlogread.Millisecond%100));
+                    DateTime nexttime = mine.lastlogread.AddMilliseconds(-(mine.lastlogread.Millisecond % 100));
 
                     if (!flightdata.ContainsKey(nexttime))
                     {
                         Console.WriteLine(cs.lat + " " + cs.lng + " " + cs.alt + "   lah " +
-                                          (float) (cs.lat + cs.lng + cs.alt) + "!=" + oldlatlngsum);
-                        CurrentState cs2 = (CurrentState) cs.Clone();
+                                          (float)(cs.lat + cs.lng + cs.alt) + "!=" + oldlatlngsum);
+                        CurrentState cs2 = (CurrentState)cs.Clone();
 
                         try
                         {
@@ -366,7 +366,7 @@ namespace MissionPlanner
                         break;
                     //  videopos = videopos.AddMilliseconds(1000 / 25);
 
-//                    m_mediaseek = m_FilterGraph as IMediaSeeking;
+                    //                    m_mediaseek = m_FilterGraph as IMediaSeeking;
 
                     //  m_mediapos.put_CurrentPosition((vidpos - startlogtime).TotalSeconds);
 
@@ -376,10 +376,10 @@ namespace MissionPlanner
                     //long poscurrent = 0;
                     //long posend = 0;
 
-//                    m_mediaseek.GetPositions(out poscurrent,out posend);
+                    //                    m_mediaseek.GetPositions(out poscurrent,out posend);
 
                     DateTime cstimestamp =
-                        videopos.AddSeconds(trackBar1.Value).AddMilliseconds(-(videopos.Millisecond%20));
+                        videopos.AddSeconds(trackBar1.Value).AddMilliseconds(-(videopos.Millisecond % 20));
 
                     int tb = trackBar1.Value;
 
@@ -426,7 +426,7 @@ namespace MissionPlanner
         public IntPtr GetBitMap()
         {
             if (m_handle == IntPtr.Zero)
-                m_handle = Marshal.AllocCoTaskMem(m_stride*m_videoHeight);
+                m_handle = Marshal.AllocCoTaskMem(m_stride * m_videoHeight);
 
             try
             {
@@ -545,10 +545,10 @@ namespace MissionPlanner
 
             // Grab the size info
             VideoInfoHeader videoInfoHeader =
-                (VideoInfoHeader) Marshal.PtrToStructure(media.formatPtr, typeof (VideoInfoHeader));
+                (VideoInfoHeader)Marshal.PtrToStructure(media.formatPtr, typeof(VideoInfoHeader));
             m_videoWidth = videoInfoHeader.BmiHeader.Width;
             m_videoHeight = videoInfoHeader.BmiHeader.Height;
-            m_stride = m_videoWidth*(videoInfoHeader.BmiHeader.BitCount/8);
+            m_stride = m_videoWidth * (videoInfoHeader.BmiHeader.BitCount / 8);
             m_avgtimeperframe = videoInfoHeader.AvgTimePerFrame;
 
             DsUtils.FreeAMMediaType(media);
@@ -680,12 +680,12 @@ namespace MissionPlanner
                 pSample.GetPointer(out pBuffer);
                 int iBufferLen = pSample.GetSize();
 
-                if (pSample.GetSize() > m_stride*m_videoHeight)
+                if (pSample.GetSize() > m_stride * m_videoHeight)
                 {
                     throw new Exception("Buffer is wrong size");
                 }
 
-                NativeMethods.CopyMemory(m_handle, pBuffer, m_stride*m_videoHeight);
+                NativeMethods.CopyMemory(m_handle, pBuffer, m_stride * m_videoHeight);
 
                 // Picture is ready.
                 m_PictureReady.Set();
@@ -703,10 +703,10 @@ namespace MissionPlanner
 
             videopos = startlogtime.AddSeconds(SampleTime);
 
-            trackBar_mediapos.Value = (int) SampleTime;
+            trackBar_mediapos.Value = (int)SampleTime;
 
             // The buffer should be long enought
-            if (BufferLen <= m_stride*m_videoHeight)
+            if (BufferLen <= m_stride * m_videoHeight)
             {
                 // Copy the frame to the buffer
                 // CopyMemory(m_handle, pBuffer, m_stride * m_videoHeight);
@@ -745,7 +745,7 @@ namespace MissionPlanner
 
                 Console.WriteLine("1d " + DateTime.Now.Millisecond);
 
-                Bitmap bmp = (Bitmap) hud1.objBitmap.Clone();
+                Bitmap bmp = (Bitmap)hud1.objBitmap.Clone();
 
                 //  bmp.Save(framecount+".bmp");
 
@@ -755,7 +755,7 @@ namespace MissionPlanner
                 {
                     //double frate = GetFrameRate(txtAviFileName.Text);
 
-                    double frate = Math.Round(10000000.0/m_avgtimeperframe, 0);
+                    double frate = Math.Round(10000000.0 / m_avgtimeperframe, 0);
 
                     newStream = newManager.AddVideoStream(true, frate, bmp);
                 }
@@ -771,7 +771,7 @@ namespace MissionPlanner
 
                 Console.WriteLine("3 " + DateTime.Now.Millisecond);
             }
-                //System.Windows.Forms.CustomMessageBox.Show("Problem with capture device, grabbing frame took longer than 5 sec");
+            //System.Windows.Forms.CustomMessageBox.Show("Problem with capture device, grabbing frame took longer than 5 sec");
             catch (Exception ex)
             {
                 Console.WriteLine("Grab bmp failed " + ex.ToString());
@@ -788,8 +788,8 @@ namespace MissionPlanner
         {
             lock (avienclock)
             {
-                newStream.AddFrame((Bitmap) bmp);
-                ((Bitmap) bmp).Dispose();
+                newStream.AddFrame((Bitmap)bmp);
+                ((Bitmap)bmp).Dispose();
             }
         }
 
@@ -813,7 +813,7 @@ namespace MissionPlanner
 
         private void trackBar_mediapos_Scroll(object sender, EventArgs e)
         {
-            m_mediapos.put_CurrentPosition((double) trackBar_mediapos.Value);
+            m_mediapos.put_CurrentPosition((double)trackBar_mediapos.Value);
         }
 
         private void OSDVideo_FormClosing(object sender, FormClosingEventArgs e)

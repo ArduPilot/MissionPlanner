@@ -70,6 +70,8 @@ namespace MissionPlanner.Utilities
 
             sb = sb.Replace("\r\n", "");
 
+            log.Debug(sb.ToString());
+
             return sb.ToString();
         }
 

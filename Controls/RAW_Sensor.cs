@@ -1,20 +1,20 @@
-﻿using System;
+﻿using MissionPlanner.Utilities;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 using ZedGraph;
-using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Controls
 {
     public partial class RAW_Sensor : Form
     {
         // for graph
-        RollingPointPairList list1 = new RollingPointPairList(10*50);
-        RollingPointPairList list2 = new RollingPointPairList(10*50);
-        RollingPointPairList list3 = new RollingPointPairList(10*50);
-        RollingPointPairList list4 = new RollingPointPairList(10*50);
-        RollingPointPairList list5 = new RollingPointPairList(10*50);
-        RollingPointPairList list6 = new RollingPointPairList(10*50);
+        RollingPointPairList list1 = new RollingPointPairList(10 * 50);
+        RollingPointPairList list2 = new RollingPointPairList(10 * 50);
+        RollingPointPairList list3 = new RollingPointPairList(10 * 50);
+        RollingPointPairList list4 = new RollingPointPairList(10 * 50);
+        RollingPointPairList list5 = new RollingPointPairList(10 * 50);
+        RollingPointPairList list6 = new RollingPointPairList(10 * 50);
         object thisLock = new object();
 
         int tickStart = 0;
@@ -91,7 +91,7 @@ namespace MissionPlanner.Controls
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            double time = (Environment.TickCount - tickStart)/1000.0;
+            double time = (Environment.TickCount - tickStart) / 1000.0;
 
             // Make sure that the curvelist has at least one curve
             if (zg1.GraphPane == null || zg1.GraphPane.CurveList.Count <= 0)
@@ -154,7 +154,7 @@ namespace MissionPlanner.Controls
                     MainV2.comPort.MAV.cs.gx, MainV2.comPort.MAV.cs.gy, MainV2.comPort.MAV.cs.gz));
             }
 
-            double time = (Environment.TickCount - tickStart)/1000.0;
+            double time = (Environment.TickCount - tickStart) / 1000.0;
 
             if (chkax.Checked)
             {
@@ -255,7 +255,7 @@ namespace MissionPlanner.Controls
                 //comPort.requestDatastream((byte)MissionPlanner.MAVLink09.MAV_DATA_STREAM.EXTRA1, 3); // request attitude
                 //comPort.requestDatastream((byte)MissionPlanner.MAVLink09.MAV_DATA_STREAM.EXTRA2, 3); // request vfr
                 MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors);
-                    // request raw sensor
+                // request raw sensor
                 //comPort.requestDatastream((byte)MissionPlanner.MAVLink09.MAV_DATA_STREAM.RC_CHANNELS, 3); // request rc info
             }
             catch

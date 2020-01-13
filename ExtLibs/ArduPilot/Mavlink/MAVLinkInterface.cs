@@ -69,35 +69,40 @@ namespace MissionPlanner
         {
             add
             {
-                log.Info("Subscribed " + new StackTrace(1, true).GetFrame(0).ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
+                log.Info("Subscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value?.Method?.Name + " " + value?.Target?.GetType()?.Name +
                          " " + value);
                 _OnPacketReceived += value;
             }
 
-            remove { log.Info("UnSubscribed " + new StackTrace(1, true).GetFrame(0).ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
+            remove { log.Info("UnSubscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value?.Method?.Name + " " + value?.Target?.GetType()?.Name +
                               " " + value); _OnPacketReceived += value; }
+        }
+
+        public void DoOnPacketSent(MAVLinkMessage pkt)
+        {
+            _OnPacketSent?.Invoke(this, pkt);
         }
 
         public event EventHandler<MAVLinkMessage> OnPacketSent
         {
-            add { log.Info("Subscribed " + new StackTrace(1, true).GetFrame(0).ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
+            add { log.Info("Subscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
                            " " + value); _OnPacketSent += value; }
-            remove { log.Info("UnSubscribed " + new StackTrace(1, true).GetFrame(0).ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
+            remove { log.Info("UnSubscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
                               " " + value); _OnPacketSent += value; }
         }
 
         public static event EventHandler<adsb.PointLatLngAltHdg> UpdateADSBPlanePosition
         {
-            add { log.Info("Subscribed " + new StackTrace(1, true).GetFrame(0).ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
+            add { log.Info("Subscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
                            " " + value); _UpdateADSBPlanePosition += value; }
-            remove { log.Info("UnSubscribed " + new StackTrace(1, true).GetFrame(0).ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
+            remove { log.Info("UnSubscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
                               " " + value); _UpdateADSBPlanePosition += value; }
         }
         public static event EventHandler<(string id, MAV_COLLISION_THREAT_LEVEL threat_level)> UpdateADSBCollision
         {
-            add { log.Info("Subscribed " + new StackTrace(1, true).GetFrame(0).ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
+            add { log.Info("Subscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
                            " " + value); _UpdateADSBCollision += value; }
-            remove { log.Info("UnSubscribed " + new StackTrace(1, true).GetFrame(0).ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
+            remove { log.Info("UnSubscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
                               " " + value); _UpdateADSBCollision += value; }
         }
 
@@ -106,25 +111,25 @@ namespace MissionPlanner
 
         public event EventHandler ParamListChanged
         {
-            add { log.Info("Subscribed " + new StackTrace(1, true).GetFrame(0).ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
+            add { log.Info("Subscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
                            " " + value); _ParamListChanged += value; }
-            remove { log.Info("UnSubscribed " + new StackTrace(1, true).GetFrame(0).ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
+            remove { log.Info("UnSubscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
                               " " + value); _ParamListChanged += value; }
         }
 
         public event EventHandler MavChanged
         {
-            add { log.Info("Subscribed " + new StackTrace(1, true).GetFrame(0).ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
+            add { log.Info("Subscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
                            " " + value); _MavChanged += value; }
-            remove { log.Info("UnSubscribed " + new StackTrace(1, true).GetFrame(0).ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
+            remove { log.Info("UnSubscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
                               " " + value); _MavChanged += value; }
         }
 
         public event EventHandler CommsClose
         {
-            add { log.Info("Subscribed " + new StackTrace(1, true).GetFrame(0).ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
+            add { log.Info("Subscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
                            " " + value); _CommsClose += value; }
-            remove { log.Info("UnSubscribed " + new StackTrace(1, true).GetFrame(0).ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
+            remove { log.Info("UnSubscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
                               " " + value); _CommsClose += value; }
         }
 
@@ -2904,14 +2909,21 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                         if (request.seq == 0 || request.seq == 1)
                         {
-                            if (MAV.param["WP_TOTAL"] != null)
-                                MAV.param["WP_TOTAL"].Value = wp_total - 1;
-                            if (MAV.param["CMD_TOTAL"] != null)
-                                MAV.param["CMD_TOTAL"].Value = wp_total - 1;
-                            if (MAV.param["MIS_TOTAL"] != null)
-                                MAV.param["MIS_TOTAL"].Value = wp_total - 1;
+                            if (req.mission_type == (byte) MAV_MISSION_TYPE.MISSION)
+                            {
+                                if (MAV.param["WP_TOTAL"] != null)
+                                    MAV.param["WP_TOTAL"].Value = wp_total - 1;
+                                if (MAV.param["CMD_TOTAL"] != null)
+                                    MAV.param["CMD_TOTAL"].Value = wp_total - 1;
+                                if (MAV.param["MIS_TOTAL"] != null)
+                                    MAV.param["MIS_TOTAL"].Value = wp_total - 1;
+                                MAVlist[req.target_system, req.target_component].wps.Clear();
+                            }
 
-                            MAV.wps.Clear();
+                            if (req.mission_type == (byte)MAV_MISSION_TYPE.FENCE)
+                                MAVlist[req.target_system, req.target_component].fencepoints.Clear();
+                            if (req.mission_type == (byte)MAV_MISSION_TYPE.RALLY)
+                                MAVlist[req.target_system, req.target_component].rallypoints.Clear();
 
                             giveComport = false;
                             return;
@@ -2927,14 +2939,21 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                         if (request.seq == 0 || request.seq == 1)
                         {
-                            if (MAV.param["WP_TOTAL"] != null)
-                                MAV.param["WP_TOTAL"].Value = wp_total - 1;
-                            if (MAV.param["CMD_TOTAL"] != null)
-                                MAV.param["CMD_TOTAL"].Value = wp_total - 1;
-                            if (MAV.param["MIS_TOTAL"] != null)
-                                MAV.param["MIS_TOTAL"].Value = wp_total - 1;
+                            if (req.mission_type == (byte) MAV_MISSION_TYPE.MISSION)
+                            {
+                                if (MAV.param["WP_TOTAL"] != null)
+                                    MAV.param["WP_TOTAL"].Value = wp_total - 1;
+                                if (MAV.param["CMD_TOTAL"] != null)
+                                    MAV.param["CMD_TOTAL"].Value = wp_total - 1;
+                                if (MAV.param["MIS_TOTAL"] != null)
+                                    MAV.param["MIS_TOTAL"].Value = wp_total - 1;
+                                MAVlist[req.target_system, req.target_component].wps.Clear();
+                            }
 
-                            MAV.wps.Clear();
+                            if (req.mission_type == (byte)MAV_MISSION_TYPE.FENCE)
+                                MAVlist[req.target_system, req.target_component].fencepoints.Clear();
+                            if (req.mission_type == (byte)MAV_MISSION_TYPE.RALLY)
+                                MAVlist[req.target_system, req.target_component].rallypoints.Clear();
 
                             giveComport = false;
                             return;
@@ -3182,7 +3201,12 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         }
                         else
                         {
-                            MAVlist[req.target_system, req.target_component].wps[req.seq] = (Locationwp)req;
+                            if (req.mission_type == (byte)MAV_MISSION_TYPE.MISSION)
+                                MAVlist[req.target_system, req.target_component].wps[req.seq] = (Locationwp)req;
+                            if (req.mission_type == (byte)MAV_MISSION_TYPE.FENCE)
+                                MAVlist[req.target_system, req.target_component].fencepoints[req.seq] = (Locationwp)req;
+                            if (req.mission_type == (byte)MAV_MISSION_TYPE.RALLY)
+                                MAVlist[req.target_system, req.target_component].rallypoints[req.seq] = (Locationwp)req;
                         }
 
                         //if (ans.target_system == req.target_system && ans.target_component == req.target_component)
@@ -3214,7 +3238,12 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                             }
                             else
                             {
-                                MAVlist[req.target_system, req.target_component].wps[req.seq] = (Locationwp)req;
+                                if (req.mission_type == (byte)MAV_MISSION_TYPE.MISSION)
+                                    MAVlist[req.target_system, req.target_component].wps[req.seq] = (Locationwp)req;
+                                if (req.mission_type == (byte)MAV_MISSION_TYPE.FENCE)
+                                    MAVlist[req.target_system, req.target_component].fencepoints[req.seq] = (Locationwp)req;
+                                if (req.mission_type == (byte)MAV_MISSION_TYPE.RALLY)
+                                    MAVlist[req.target_system, req.target_component].rallypoints[req.seq] = (Locationwp)req;
                             }
 
                             //if (ans.target_system == req.target_system && ans.target_component == req.target_component)
@@ -3340,7 +3369,12 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         }
                         else
                         {
-                            MAVlist[req.target_system, req.target_component].wps[req.seq] = (Locationwp)req;
+                            if (req.mission_type == (byte)MAV_MISSION_TYPE.MISSION)
+                                MAVlist[req.target_system, req.target_component].wps[req.seq] = (Locationwp)req;
+                            if (req.mission_type == (byte)MAV_MISSION_TYPE.FENCE)
+                                MAVlist[req.target_system, req.target_component].fencepoints[req.seq] = (Locationwp)req;
+                            if (req.mission_type == (byte)MAV_MISSION_TYPE.RALLY)
+                                MAVlist[req.target_system, req.target_component].rallypoints[req.seq] = (Locationwp)req;
                         }
 
                         //if (ans.target_system == req.target_system && ans.target_component == req.target_component)
@@ -3371,7 +3405,12 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                             }
                             else
                             {
-                                MAVlist[req.target_system, req.target_component].wps[req.seq] = (Locationwp)req;
+                                if(req.mission_type == (byte)MAV_MISSION_TYPE.MISSION)
+                                    MAVlist[req.target_system, req.target_component].wps[req.seq] = (Locationwp)req;
+                                if (req.mission_type == (byte)MAV_MISSION_TYPE.FENCE)
+                                    MAVlist[req.target_system, req.target_component].fencepoints[req.seq] = (Locationwp)req;
+                                if (req.mission_type == (byte)MAV_MISSION_TYPE.RALLY)
+                                    MAVlist[req.target_system, req.target_component].rallypoints[req.seq] = (Locationwp)req;
                             }
 
                             //if (ans.target_system == req.target_system && ans.target_component == req.target_component)

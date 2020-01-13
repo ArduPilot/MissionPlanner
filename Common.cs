@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Text.RegularExpressions;
-using System.Windows.Forms;
-using GMap.NET;
+﻿using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Maps;
 using MissionPlanner.Utilities;
+using System;
+using System.Drawing;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace MissionPlanner
 {
@@ -196,11 +195,11 @@ namespace MissionPlanner
                 {
                     try
                     {
-                        System.Diagnostics.Process.Start(((LinkLabel) sender).Tag.ToString());
+                        System.Diagnostics.Process.Start(((LinkLabel)sender).Tag.ToString());
                     }
                     catch (Exception exception)
                     {
-                        CustomMessageBox.Show("Failed to open link " + ((LinkLabel) sender).Tag.ToString());
+                        CustomMessageBox.Show("Failed to open link " + ((LinkLabel)sender).Tag.ToString());
                     }
                 };
 
@@ -210,7 +209,7 @@ namespace MissionPlanner
             }
 
             form.ClientSize = new Size(396, 107);
-            
+
             form.ClientSize = new Size(Math.Max(300, label.Right + 10), form.ClientSize.Height);
             form.FormBorderStyle = FormBorderStyle.FixedDialog;
             form.StartPosition = FormStartPosition.CenterScreen;

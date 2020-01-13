@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using MissionPlanner.Controls;
+﻿using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
-using UAVCAN;
+using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Globalization;
 using System.IO;
-using MissionPlanner.Comms;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using UAVCAN;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -27,7 +23,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (MainV2.comPort.BaseStream.IsOpen && !MainV2.comPort.MAV.param.ContainsKey("CAN_SLCAN_TIMOUT"))
                 this.Enabled = false;
         }
-        
+
         List<UAVCANModel> allnodes = new List<UAVCANModel>();
 
         public void Activate()
@@ -64,7 +60,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (MainV2.comPort.BaseStream.IsOpen)
                 {
                     var cport = MainV2.comPort.MAV.param["CAN_SLCAN_CPORT"].Value;
-                    MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent,
                         "CAN_SLCAN_CPORT", canport, true);
                     if (cport == 0)
                     {
@@ -73,11 +69,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         return;
                     }
 
-                    MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent,
                         "CAN_SLCAN_TIMOUT", 2, true);
-                    MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent,
                         "CAN_P" + canport + "_DRIVER", 1);
-                    MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent,
                         "CAN_SLCAN_SERNUM", 0, true); // usb
                 }
             }
@@ -103,6 +99,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         BaudRate = int.Parse(MainV2._connectionControl.CMB_baudrate.Text)
                     };
                 }
+
+                if (can == null)
+                    can = new uavcan();
 
                 can.SourceNode = 127;
 
@@ -134,7 +133,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     }
                 }
 
-                if(chk_log.Checked)
+                if (chk_log.Checked)
                     can.LogFile = Settings.Instance.LogDir + Path.DirectorySeparatorChar +
                               DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".can";
 
@@ -227,12 +226,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         {
                             item.Name = ASCIIEncoding.ASCII.GetString(gnires.name, 0, gnires.name_len);
                             item.HardwareVersion = gnires.hardware_version.major + "." + gnires.hardware_version.minor;
-                            item.SoftwareVersion  = gnires.software_version.major + "." + gnires.software_version.minor + "."+gnires.software_version.vcs_commit.ToString("X");
+                            item.SoftwareVersion = gnires.software_version.major + "." + gnires.software_version.minor + "." + gnires.software_version.vcs_commit.ToString("X");
                             item.SoftwareCRC = gnires.software_version.image_crc;
-                            item.HardwareUID = gnires.hardware_version.unique_id.Select(a=>a.ToString("X2")).Aggregate((a, b) =>
-                                {
-                                    return a + " " + b;
-                                });
+                            item.HardwareUID = gnires.hardware_version.unique_id.Select(a => a.ToString("X2")).Aggregate((a, b) =>
+                                  {
+                                      return a + " " + b;
+                                  });
                             item.RawMsg = gnires;
                         }
 
@@ -261,6 +260,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 IProgressReporterDialogue prd = new ProgressReporterDialogue();
                 List<uavcan.uavcan_protocol_param_GetSet_res> paramlist =
                     new List<uavcan.uavcan_protocol_param_GetSet_res>();
+                prd.doWorkArgs.ForceExit = true;
                 prd.DoWork += dialogue =>
                 {
                     paramlist = can.GetParameters(nodeID);
@@ -268,14 +268,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 prd.UpdateProgressAndStatus(-1, Strings.GettingParams);
                 prd.RunBackgroundOperationAsync();
 
-                new UAVCANParams(can, nodeID, paramlist).ShowUserControl();
+                if (!prd.doWorkArgs.CancelRequested)
+                    new UAVCANParams(can, nodeID, paramlist).ShowUserControl();
             }
             else if (e.ColumnIndex == myDataGridView1.Columns["updateDataGridViewTextBoxColumn"].Index)
             {
                 ProgressReporterDialogue prd = new ProgressReporterDialogue();
                 uavcan.FileSendProgressArgs filesend = (id, file, percent) =>
                 {
-                    prd.UpdateProgressAndStatus((int) percent, id + " " + file);
+                    prd.UpdateProgressAndStatus((int)percent, id + " " + file);
                 };
                 can.FileSendProgress += filesend;
                 if (CustomMessageBox.Show("Do you want to search the internet for an update?", "Update", CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
@@ -289,7 +290,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     {
                         try
                         {
-                            prd.DoWork += dialogue => 
+                            prd.DoWork += dialogue =>
                             {
                                 var tempfile = Path.GetTempFileName();
                                 Download.getFilefromNet(url, tempfile);

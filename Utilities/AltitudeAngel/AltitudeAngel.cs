@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using AltitudeAngelWings;
+﻿using AltitudeAngelWings;
 using AltitudeAngelWings.Extra;
 using AltitudeAngelWings.Service;
 using MissionPlanner.GCSViews;
+using System;
+using System.Threading.Tasks;
 
 namespace MissionPlanner.Utilities.AltitudeAngel
 {

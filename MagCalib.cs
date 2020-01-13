@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using System.IO;
-using System.Collections;
-using netDxf.Entities;
-using netDxf.Tables;
-using System.Reflection;
-using log4net;
+﻿using log4net;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
+using netDxf.Entities;
+using netDxf.Tables;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
+using System.Windows.Forms;
 
 namespace MissionPlanner
 {
@@ -187,20 +187,20 @@ namespace MissionPlanner
 
         static bool ReceviedPacket(MAVLink.MAVLinkMessage rawpacket)
         {
-            if (rawpacket.msgid == (byte) MAVLink.MAVLINK_MSG_ID.SCALED_IMU2)
+            if (rawpacket.msgid == (byte)MAVLink.MAVLINK_MSG_ID.SCALED_IMU2)
             {
                 MAVLink.mavlink_scaled_imu2_t packet = rawpacket.ToStructure<MAVLink.mavlink_scaled_imu2_t>();
 
                 // filter dataset
-                string item = (int) (packet.xmag/div) + "," +
-                              (int) (packet.ymag/div) + "," +
-                              (int) (packet.zmag/div);
+                string item = (int)(packet.xmag / div) + "," +
+                              (int)(packet.ymag / div) + "," +
+                              (int)(packet.zmag / div);
 
                 if (filtercompass2.ContainsKey(item))
                 {
-                    filtercompass2[item] = (int) filtercompass2[item] + 1;
+                    filtercompass2[item] = (int)filtercompass2[item] + 1;
 
-                    if ((int) filtercompass2[item] > 3)
+                    if ((int)filtercompass2[item] > 3)
                         return false;
                 }
                 else
@@ -224,20 +224,20 @@ namespace MissionPlanner
 
                 return true;
             }
-            else if (rawpacket.msgid == (byte) MAVLink.MAVLINK_MSG_ID.SCALED_IMU3)
+            else if (rawpacket.msgid == (byte)MAVLink.MAVLINK_MSG_ID.SCALED_IMU3)
             {
                 MAVLink.mavlink_scaled_imu3_t packet = rawpacket.ToStructure<MAVLink.mavlink_scaled_imu3_t>();
 
                 // filter dataset
-                string item = (int) (packet.xmag/div) + "," +
-                              (int) (packet.ymag/div) + "," +
-                              (int) (packet.zmag/div);
+                string item = (int)(packet.xmag / div) + "," +
+                              (int)(packet.ymag / div) + "," +
+                              (int)(packet.zmag / div);
 
                 if (filtercompass3.ContainsKey(item))
                 {
-                    filtercompass3[item] = (int) filtercompass3[item] + 1;
+                    filtercompass3[item] = (int)filtercompass3[item] + 1;
 
-                    if ((int) filtercompass3[item] > 3)
+                    if ((int)filtercompass3[item] > 3)
                         return false;
                 }
                 else
@@ -261,7 +261,7 @@ namespace MissionPlanner
 
                 return true;
             }
-            else if (rawpacket.msgid == (byte) MAVLink.MAVLINK_MSG_ID.RAW_IMU)
+            else if (rawpacket.msgid == (byte)MAVLink.MAVLINK_MSG_ID.RAW_IMU)
             {
                 MAVLink.mavlink_raw_imu_t packet = rawpacket.ToStructure<MAVLink.mavlink_raw_imu_t>();
 
@@ -269,15 +269,15 @@ namespace MissionPlanner
                     return false;
 
                 // filter dataset
-                string item = (int) (packet.xmag/div) + "," +
-                              (int) (packet.ymag/div) + "," +
-                              (int) (packet.zmag/div);
+                string item = (int)(packet.xmag / div) + "," +
+                              (int)(packet.ymag / div) + "," +
+                              (int)(packet.zmag / div);
 
                 if (filtercompass1.ContainsKey(item))
                 {
-                    filtercompass1[item] = (int) filtercompass1[item] + 1;
+                    filtercompass1[item] = (int)filtercompass1[item] + 1;
 
-                    if ((int) filtercompass1[item] > 3)
+                    if ((int)filtercompass1[item] > 3)
                         return false;
                 }
                 else
@@ -286,9 +286,9 @@ namespace MissionPlanner
                 }
 
                 // values
-                float rawmx = packet.xmag - (float) MainV2.comPort.MAV.cs.mag_ofs_x;
-                float rawmy = packet.ymag - (float) MainV2.comPort.MAV.cs.mag_ofs_y;
-                float rawmz = packet.zmag - (float) MainV2.comPort.MAV.cs.mag_ofs_z;
+                float rawmx = packet.xmag - (float)MainV2.comPort.MAV.cs.mag_ofs_x;
+                float rawmy = packet.ymag - (float)MainV2.comPort.MAV.cs.mag_ofs_y;
+                float rawmz = packet.zmag - (float)MainV2.comPort.MAV.cs.mag_ofs_z;
 
                 // add data
                 lock (_locker)
@@ -518,7 +518,7 @@ namespace MissionPlanner
                             log.Info("new centre " + centre.ToString());
 
                             prsphere.sphere1.CenterPoint = new OpenTK.Vector3(
-                                (float) centre.x, (float) centre.y, (float) centre.z);
+                                (float)centre.x, (float)centre.y, (float)centre.z);
                         }
                     }
                 }
@@ -537,7 +537,7 @@ namespace MissionPlanner
                             log.Info("new centre2 " + centre2.ToString());
 
                             prsphere.sphere2.CenterPoint = new OpenTK.Vector3(
-                                (float) centre2.x, (float) centre2.y, (float) centre2.z);
+                                (float)centre2.x, (float)centre2.y, (float)centre2.z);
                         }
                     }
                 }
@@ -556,7 +556,7 @@ namespace MissionPlanner
                             log.Info("new centre2 " + centre3.ToString());
 
                             prsphere.sphere3.CenterPoint = new OpenTK.Vector3(
-                                (float) centre3.x, (float) centre3.y, (float) centre3.z);
+                                (float)centre3.x, (float)centre3.y, (float)centre3.z);
                         }
                     }
                 }
@@ -604,7 +604,7 @@ namespace MissionPlanner
                 for (int i = 0; i < datacompass1.Count; i++)
                 {
                     point = new Vector3(datacompass1[i].Item1, datacompass1[i].Item2, datacompass1[i].Item3);
-                    radius += (float) (point + centre).length();
+                    radius += (float)(point + centre).length();
                 }
                 radius /= datacompass1.Count;
 
@@ -613,19 +613,19 @@ namespace MissionPlanner
                 string displayresult = "";
                 int factor = 3; // pitch
                 int factor2 = 4; // yaw
-                float max_distance = radius/3; //pretty generouse
+                float max_distance = radius / 3; //pretty generouse
                 for (int j = 0; j <= factor; j++)
                 {
-                    double theta = (Math.PI*(j + 0.5))/factor;
+                    double theta = (Math.PI * (j + 0.5)) / factor;
 
                     for (int i = 0; i <= factor2; i++)
                     {
-                        double phi = (2*Math.PI*i)/factor2;
+                        double phi = (2 * Math.PI * i) / factor2;
 
                         Vector3 point_sphere = new Vector3(
-                            (float) (Math.Sin(theta)*Math.Cos(phi)*radius),
-                            (float) (Math.Sin(theta)*Math.Sin(phi)*radius),
-                            (float) (Math.Cos(theta)*radius)) - centre;
+                            (float)(Math.Sin(theta) * Math.Cos(phi) * radius),
+                            (float)(Math.Sin(theta) * Math.Sin(phi) * radius),
+                            (float)(Math.Cos(theta) * radius)) - centre;
 
                         //log.InfoFormat("magcalib check - {0} {1} dist {2}", theta * MathHelper.rad2deg, phi * MathHelper.rad2deg, max_distance);
 
@@ -646,9 +646,9 @@ namespace MissionPlanner
                         if (!found)
                         {
                             displayresult = "more data needed Aim For " +
-                                            GetColour((int) (theta*MathHelper.rad2deg), (int) (phi*MathHelper.rad2deg));
-                            prsphere.sphere1.AimFor(new OpenTK.Vector3((float) point_sphere.x,
-                                (float) point_sphere.y, (float) point_sphere.z));
+                                            GetColour((int)(theta * MathHelper.rad2deg), (int)(phi * MathHelper.rad2deg));
+                            prsphere.sphere1.AimFor(new OpenTK.Vector3((float)point_sphere.x,
+                                (float)point_sphere.y, (float)point_sphere.z));
                             //j = factor;
                             //break;
                         }
@@ -677,17 +677,17 @@ namespace MissionPlanner
             MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors);
 
             MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.POSITION, MainV2.comPort.MAV.cs.rateposition);
-                // request gps
+            // request gps
             MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA1, MainV2.comPort.MAV.cs.rateattitude);
-                // request attitude
+            // request attitude
             MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA2, MainV2.comPort.MAV.cs.rateattitude);
-                // request vfr
+            // request vfr
             MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA3, MainV2.comPort.MAV.cs.ratesensors);
-                // request extra stuff - tridge
+            // request extra stuff - tridge
             MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors);
-                // request raw sensor
+            // request raw sensor
             MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RC_CHANNELS, MainV2.comPort.MAV.cs.raterc);
-                // request rc info
+            // request rc info
 
             if (MainV2.speechEnable)
             {
@@ -767,11 +767,11 @@ namespace MissionPlanner
         {
             // remove outlyers
             data.Sort(
-                delegate(Tuple<float, float, float> d1, Tuple<float, float, float> d2)
+                delegate (Tuple<float, float, float> d1, Tuple<float, float, float> d2)
                 {
                     // get distance from 0,0,0
-                    double ans1 = Math.Sqrt(d1.Item1*d1.Item1 + d1.Item2*d1.Item2 + d1.Item3*d1.Item3);
-                    double ans2 = Math.Sqrt(d2.Item1*d2.Item1 + d2.Item2*d2.Item2 + d2.Item3*d2.Item3);
+                    double ans1 = Math.Sqrt(d1.Item1 * d1.Item1 + d1.Item2 * d1.Item2 + d1.Item3 * d1.Item3);
+                    double ans2 = Math.Sqrt(d2.Item1 * d2.Item1 + d2.Item2 * d2.Item2 + d2.Item3 * d2.Item3);
                     if (ans1 > ans2)
                         return 1;
                     if (ans1 < ans2)
@@ -780,7 +780,7 @@ namespace MissionPlanner
                 }
                 );
 
-            data.RemoveRange(data.Count - (data.Count/16), data.Count/16);
+            data.RemoveRange(data.Count - (data.Count / 16), data.Count / 16);
         }
 
         public static double[] getOffsetsLog(string fn)
@@ -802,8 +802,8 @@ namespace MissionPlanner
             DFLogBuffer logdata = new DFLogBuffer(File.OpenRead(fn));
 
             var dflog = logdata.dflog;
-            
-            foreach (var line in logdata.GetEnumeratorType(new[]{"MAG","MAG2","MAG3"}))
+
+            foreach (var line in logdata.GetEnumeratorType(new[] { "MAG", "MAG2", "MAG3" }))
             {
                 if (line.msgtype == "MAG" || line.msgtype == "MAG2" || line.msgtype == "MAG3")
                 {
@@ -874,8 +874,8 @@ namespace MissionPlanner
             double[] x = LeastSq(data, false);
 
             log.InfoFormat("magcal 1 ofs {0},{1},{2} strength {3} old ofs {4},{5},{6}", x[0], x[1], x[2], x[3], ofsDoubles[0], ofsDoubles[1], ofsDoubles[2]);
-            
-            x = LeastSq(data,true);
+
+            x = LeastSq(data, true);
 
             log.InfoFormat("magcalel 1 ofs {0},{1},{2} strength {3} old ofs {4},{5},{6}", x[0], x[1], x[2], x[3], ofsDoubles[0], ofsDoubles[1], ofsDoubles[2]);
 
@@ -952,7 +952,7 @@ namespace MissionPlanner
                 {
                     log.Debug(ex.ToString());
                     CustomMessageBox.Show("Log Can not be opened. Are you still connected?");
-                    return new double[] {0};
+                    return new double[] { 0 };
                 }
 
                 mine.logreadmode = true;
@@ -968,9 +968,9 @@ namespace MissionPlanner
                     if (packet == null)
                         continue;
 
-                    if (packet.GetType() == typeof (MAVLink.mavlink_vfr_hud_t))
+                    if (packet.GetType() == typeof(MAVLink.mavlink_vfr_hud_t))
                     {
-                        if (((MAVLink.mavlink_vfr_hud_t) packet).throttle >= throttleThreshold)
+                        if (((MAVLink.mavlink_vfr_hud_t)packet).throttle >= throttleThreshold)
                         {
                             useData = true;
                         }
@@ -980,41 +980,41 @@ namespace MissionPlanner
                         }
                     }
 
-                    if (packet.GetType() == typeof (MAVLink.mavlink_sensor_offsets_t))
+                    if (packet.GetType() == typeof(MAVLink.mavlink_sensor_offsets_t))
                     {
                         offset = new Tuple<float, float, float>(
-                            ((MAVLink.mavlink_sensor_offsets_t) packet).mag_ofs_x,
-                            ((MAVLink.mavlink_sensor_offsets_t) packet).mag_ofs_y,
-                            ((MAVLink.mavlink_sensor_offsets_t) packet).mag_ofs_z);
+                            ((MAVLink.mavlink_sensor_offsets_t)packet).mag_ofs_x,
+                            ((MAVLink.mavlink_sensor_offsets_t)packet).mag_ofs_y,
+                            ((MAVLink.mavlink_sensor_offsets_t)packet).mag_ofs_z);
                     }
-                    else if (packet.GetType() == typeof (MAVLink.mavlink_raw_imu_t) && useData)
+                    else if (packet.GetType() == typeof(MAVLink.mavlink_raw_imu_t) && useData)
                     {
                         int div = 20;
 
                         // fox dxf
                         vertex = new PolylineVertex(new netDxf.Vector3(
-                            ((MAVLink.mavlink_raw_imu_t) packet).xmag - offset.Item1,
-                            ((MAVLink.mavlink_raw_imu_t) packet).ymag - offset.Item2,
-                            ((MAVLink.mavlink_raw_imu_t) packet).zmag - offset.Item3)
+                            ((MAVLink.mavlink_raw_imu_t)packet).xmag - offset.Item1,
+                            ((MAVLink.mavlink_raw_imu_t)packet).ymag - offset.Item2,
+                            ((MAVLink.mavlink_raw_imu_t)packet).zmag - offset.Item3)
                             );
                         vertexes.Add(vertex);
 
 
                         // for old method
-                        setMinorMax(((MAVLink.mavlink_raw_imu_t) packet).xmag - offset.Item1, ref minx, ref maxx);
-                        setMinorMax(((MAVLink.mavlink_raw_imu_t) packet).ymag - offset.Item2, ref miny, ref maxy);
-                        setMinorMax(((MAVLink.mavlink_raw_imu_t) packet).zmag - offset.Item3, ref minz, ref maxz);
+                        setMinorMax(((MAVLink.mavlink_raw_imu_t)packet).xmag - offset.Item1, ref minx, ref maxx);
+                        setMinorMax(((MAVLink.mavlink_raw_imu_t)packet).ymag - offset.Item2, ref miny, ref maxy);
+                        setMinorMax(((MAVLink.mavlink_raw_imu_t)packet).zmag - offset.Item3, ref minz, ref maxz);
 
                         // for new lease sq
-                        string item = (int) (((MAVLink.mavlink_raw_imu_t) packet).xmag/div) + "," +
-                                      (int) (((MAVLink.mavlink_raw_imu_t) packet).ymag/div) + "," +
-                                      (int) (((MAVLink.mavlink_raw_imu_t) packet).zmag/div);
+                        string item = (int)(((MAVLink.mavlink_raw_imu_t)packet).xmag / div) + "," +
+                                      (int)(((MAVLink.mavlink_raw_imu_t)packet).ymag / div) + "," +
+                                      (int)(((MAVLink.mavlink_raw_imu_t)packet).zmag / div);
 
                         if (filter.ContainsKey(item))
                         {
-                            filter[item] = (int) filter[item] + 1;
+                            filter[item] = (int)filter[item] + 1;
 
-                            if ((int) filter[item] > 3)
+                            if ((int)filter[item] > 3)
                                 continue;
                         }
                         else
@@ -1024,9 +1024,9 @@ namespace MissionPlanner
 
 
                         data.Add(new Tuple<float, float, float>(
-                            ((MAVLink.mavlink_raw_imu_t) packet).xmag - offset.Item1,
-                            ((MAVLink.mavlink_raw_imu_t) packet).ymag - offset.Item2,
-                            ((MAVLink.mavlink_raw_imu_t) packet).zmag - offset.Item3));
+                            ((MAVLink.mavlink_raw_imu_t)packet).xmag - offset.Item1,
+                            ((MAVLink.mavlink_raw_imu_t)packet).ymag - offset.Item2,
+                            ((MAVLink.mavlink_raw_imu_t)packet).zmag - offset.Item3));
                     }
                 }
 
@@ -1047,11 +1047,11 @@ namespace MissionPlanner
             }
 
             data.Sort(
-                delegate(Tuple<float, float, float> d1, Tuple<float, float, float> d2)
+                delegate (Tuple<float, float, float> d1, Tuple<float, float, float> d2)
                 {
                     // get distance from 0,0,0
-                    double ans1 = Math.Sqrt(d1.Item1*d1.Item1 + d1.Item2*d1.Item2 + d1.Item3*d1.Item3);
-                    double ans2 = Math.Sqrt(d2.Item1*d2.Item1 + d2.Item2*d2.Item2 + d2.Item3*d2.Item3);
+                    double ans1 = Math.Sqrt(d1.Item1 * d1.Item1 + d1.Item2 * d1.Item2 + d1.Item3 * d1.Item3);
+                    double ans2 = Math.Sqrt(d2.Item1 * d2.Item1 + d2.Item2 * d2.Item2 + d2.Item3 * d2.Item3);
                     if (ans1 > ans2)
                         return 1;
                     if (ans1 < ans2)
@@ -1060,9 +1060,9 @@ namespace MissionPlanner
                 }
                 );
 
-            data.RemoveRange(data.Count - (data.Count/16), data.Count/16);
+            data.RemoveRange(data.Count - (data.Count / 16), data.Count / 16);
 
-            System.Console.WriteLine("Old Method {0} {1} {2}", -(maxx + minx)/2, -(maxy + miny)/2, -(maxz + minz)/2);
+            System.Console.WriteLine("Old Method {0} {1} {2}", -(maxx + minx) / 2, -(maxy + miny) / 2, -(maxz + minz) / 2);
 
             double[] x = LeastSq(data);
 
@@ -1070,9 +1070,9 @@ namespace MissionPlanner
 
             x = LeastSq(data, true);
 
-            log.InfoFormat("magcalel 1 ofs {0},{1},{2} di {3},{4},{5} di {6} {7} {8} rad {9}", x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], x[8],rad);
+            log.InfoFormat("magcalel 1 ofs {0},{1},{2} di {3},{4},{5} di {6} {7} {8} rad {9}", x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], x[8], rad);
 
-            x = doLSQ(data, sphere_ellipsoid_error, new double[] {x[0], x[1], x[2], 1, 1, 1, 0, 0, 0});
+            x = doLSQ(data, sphere_ellipsoid_error, new double[] { x[0], x[1], x[2], 1, 1, 1, 0, 0, 0 });
 
             log.InfoFormat("magcalel 2 ofs {0},{1},{2} di {3},{4},{5} di {6} {7} {8} rad {9}", x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], x[8], rad);
 
@@ -1095,7 +1095,7 @@ namespace MissionPlanner
             polyline.Layer.Color.Index = 24;
             dxf.AddEntity(polyline);
 
-            var pnt = new Point(new netDxf.Vector3(-(float) x[0], -(float) x[1], -(float) x[2]));
+            var pnt = new Point(new netDxf.Vector3(-(float)x[0], -(float)x[1], -(float)x[2]));
             pnt.Layer = new Layer("new offset");
             pnt.Layer.Color.Index = 21;
             dxf.AddEntity(pnt);
@@ -1134,7 +1134,7 @@ namespace MissionPlanner
             double[] x;
 
             //
-            x = new double[] {0, 0, 0, avg_samples};
+            x = new double[] { 0, 0, 0, avg_samples };
 
             x = doLSQ(data, sphere_error, x);
 
@@ -1147,12 +1147,12 @@ namespace MissionPlanner
             if (ellipsoid)
             {
                 // offsets + diagonals
-                x = new double[] {x[0], x[1], x[2], 1, 1, 1};
+                x = new double[] { x[0], x[1], x[2], 1, 1, 1 };
 
                 x = doLSQ(data, sphere_ellipsoid_error, x);
 
                 // offsets + diagonals + offdiagonals
-                x = new double[] {x[0], x[1], x[2], x[3], x[4], x[5], 0, 0, 0};
+                x = new double[] { x[0], x[1], x[2], x[3], x[4], x[5], 0, 0, 0 };
 
                 x = doLSQ(data, sphere_ellipsoid_error, x);
             }
@@ -1240,13 +1240,13 @@ namespace MissionPlanner
                     MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_LEARN", 0);
 
                     if (
-                        !MainV2.comPort.SetSensorOffsets(MAVLinkInterface.sensoroffsetsenum.magnetometer, (float) ofs[0],
-                            (float) ofs[1], (float) ofs[2]))
+                        !MainV2.comPort.SetSensorOffsets(MAVLinkInterface.sensoroffsetsenum.magnetometer, (float)ofs[0],
+                            (float)ofs[1], (float)ofs[2]))
                     {
                         // set values
-                        MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_OFS_X", (float) ofs[0]);
-                        MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_OFS_Y", (float) ofs[1]);
-                        MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_OFS_Z", (float) ofs[2]);
+                        MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_OFS_X", (float)ofs[0]);
+                        MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_OFS_Y", (float)ofs[1]);
+                        MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_OFS_Z", (float)ofs[2]);
                     }
                     else
                     {
@@ -1297,12 +1297,12 @@ namespace MissionPlanner
 
                     if (
                         !MainV2.comPort.SetSensorOffsets(MAVLinkInterface.sensoroffsetsenum.second_magnetometer,
-                            (float) ofs[0], (float) ofs[1], (float) ofs[2]))
+                            (float)ofs[0], (float)ofs[1], (float)ofs[2]))
                     {
                         // set values
-                        MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_OFS2_X", (float) ofs[0]);
-                        MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_OFS2_Y", (float) ofs[1]);
-                        MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_OFS2_Z", (float) ofs[2]);
+                        MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_OFS2_X", (float)ofs[0]);
+                        MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_OFS2_Y", (float)ofs[1]);
+                        MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_OFS2_Z", (float)ofs[2]);
                     }
                     else
                     {
@@ -1402,8 +1402,8 @@ namespace MissionPlanner
 
         static void sphere_ellipsoid_error(double[] p1, double[] fi, object obj)
         {
-            var data = (List<Tuple<float, float, float>>) obj;
-            var offsets = new Vector3(0,0,0);//(p1[0], p1[1], p1[2]);
+            var data = (List<Tuple<float, float, float>>)obj;
+            var offsets = new Vector3(0, 0, 0);//(p1[0], p1[1], p1[2]);
             var diagonals = new Vector3(1.0, 1.0, 1.0);
             var offdiagonals = new Vector3(0.0, 0.0, 0.0);
             if (p1.Length >= 6)
@@ -1436,7 +1436,7 @@ namespace MissionPlanner
             var rot = new Matrix3(new Vector3(diagonals.x, offdiagonals.x, offdiagonals.y),
                 new Vector3(offdiagonals.x, diagonals.y, offdiagonals.z),
                 new Vector3(offdiagonals.y, offdiagonals.z, diagonals.z));
-            mag2 = rot*mag2;
+            mag2 = rot * mag2;
             return mag2.length();
         }
 
@@ -1448,7 +1448,7 @@ namespace MissionPlanner
             double zofs = xi[2];
             double r = xi[3];
             int a = 0;
-            foreach (var d in (List<Tuple<float, float, float>>) obj)
+            foreach (var d in (List<Tuple<float, float, float>>)obj)
             {
                 double x = d.Item1;
                 double y = d.Item2;
@@ -1474,15 +1474,15 @@ namespace MissionPlanner
             //  xscale = yscale = zscale = 1;
 
             int a = 0;
-            foreach (var d in (List<Tuple<float, float, float>>) obj)
+            foreach (var d in (List<Tuple<float, float, float>>)obj)
             {
                 double x = d.Item1;
                 double y = d.Item2;
                 double z = d.Item3;
 
                 double err = avg_samples -
-                             Math.Sqrt(Math.Pow((x + xofs)*xscale, 2) + Math.Pow((y + yofs)*yscale, 2) +
-                                       Math.Pow((z + zofs)*zscale, 2));
+                             Math.Sqrt(Math.Pow((x + xofs) * xscale, 2) + Math.Pow((y + yofs) * yscale, 2) +
+                                       Math.Pow((z + zofs) * zscale, 2));
                 fi[a] = err;
                 a++;
             }

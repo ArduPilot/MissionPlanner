@@ -23,7 +23,7 @@ namespace MissionPlanner.Swarm.FollowLeader
             {
                 foreach (var MAV in port.MAVlist)
                 {
-                    DG.Drones.Add(new Drone() { MavState = MAV});
+                    DG.Drones.Add(new Drone() { MavState = MAV });
                 }
             }
         }

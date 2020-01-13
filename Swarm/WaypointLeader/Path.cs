@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using MissionPlanner.Utilities;
+﻿using MissionPlanner.Utilities;
+using System.Collections.Generic;
 
 namespace MissionPlanner.Swarm.WaypointLeader
 {
@@ -19,7 +19,7 @@ namespace MissionPlanner.Swarm.WaypointLeader
                 if (!prevwp.HasValue)
                 {
                     // change firstwp/aka home to valid alt
-                    prevwp = new MAVLink.mavlink_mission_item_int_t?(new MAVLink.mavlink_mission_item_int_t() { x=wp.x,y = wp.y, z = 0});
+                    prevwp = new MAVLink.mavlink_mission_item_int_t?(new MAVLink.mavlink_mission_item_int_t() { x = wp.x, y = wp.y, z = 0 });
                     continue;
                 }
 
@@ -38,13 +38,13 @@ namespace MissionPlanner.Swarm.WaypointLeader
                     startalt = endalt;
                 }
 
-                if(distwps > 5000)
+                if (distwps > 5000)
                     continue;
 
                 for (double d = 0.1; d < distwps; d += 0.1)
                 {
                     var pnt = wp1.newpos(bearing, d);
-                    pnt.Alt = startalt + (d/distwps) * (endalt-startalt);
+                    pnt.Alt = startalt + (d / distwps) * (endalt - startalt);
                     result.Add(pnt);
                 }
 

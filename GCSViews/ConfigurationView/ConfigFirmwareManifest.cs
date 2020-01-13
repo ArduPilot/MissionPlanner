@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using log4net;
+﻿using log4net;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Comms;
 using MissionPlanner.Controls;
 using MissionPlanner.test;
 using MissionPlanner.Utilities;
+using System;
+using System.Data;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Reflection;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -91,13 +87,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (this.IsDisposed)
                 return;
 
-            this.BeginInvoke((MethodInvoker) delegate
-            {
-                imageLabel.Text = first.VehicleType?.ToString() + " " + first.MavFirmwareVersion.ToString() + " " +
-                                  first.MavFirmwareVersionType.ToString();
+            this.BeginInvoke((MethodInvoker)delegate
+           {
+               imageLabel.Text = first.VehicleType?.ToString() + " " + first.MavFirmwareVersion.ToString() + " " +
+                                 first.MavFirmwareVersionType.ToString();
 
-                this.Enabled = true;
-            });
+               this.Enabled = true;
+           });
         }
 
         public void Deactivate()
@@ -154,7 +150,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var mavtype = ((APFirmware.MAV_TYPE)(sender as ImageLabel).Tag);
             var dr = CustomMessageBox.Show(Strings.AreYouSureYouWantToUpload + (sender as ImageLabel)?.Text + Strings.QuestionMark,
                 Strings.Continue, MessageBoxButtons.YesNo);
-            if (dr == (int) DialogResult.Yes)
+            if (dr == (int)DialogResult.Yes)
             {
                 LookForPort(mavtype);
             }

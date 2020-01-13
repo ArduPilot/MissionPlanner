@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Reflection;
-using log4net;
+﻿using log4net;
 using MissionPlanner.Utilities;
+using System;
+using System.Collections.Concurrent;
+using System.Reflection;
 
 namespace MissionPlanner.Swarm.Sequence
 {
@@ -30,7 +29,7 @@ namespace MissionPlanner.Swarm.Sequence
         }
 
         public ConcurrentBag<Drone> Drones = new ConcurrentBag<Drone>();
-        
+
         public void UpdatePositions()
         {
             // get current positions and velocitys
@@ -62,14 +61,14 @@ namespace MissionPlanner.Swarm.Sequence
                     if (!drone2.MavState.cs.armed)
                         continue;
 
-                  
+
                 }
             }
 
             switch (CurrentMode)
             {
                 case Mode.idle:
-                    
+
                     // request positon at 10hz
                     foreach (var drone in Drones)
                     {
@@ -77,7 +76,7 @@ namespace MissionPlanner.Swarm.Sequence
 
                         MAV.parent.requestDatastream(MAVLink.MAV_DATA_STREAM.POSITION, 10, MAV.sysid, MAV.compid);
                         MAV.cs.rateposition = 10;
-                        
+
                     }
 
                     CurrentMode = Mode.running;

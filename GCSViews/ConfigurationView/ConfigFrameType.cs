@@ -1,9 +1,9 @@
-﻿using System;
-using System.Reflection;
-using System.Windows.Forms;
-using log4net;
+﻿using log4net;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
+using System;
+using System.Reflection;
+using System.Windows.Forms;
 using Transitions;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
@@ -30,7 +30,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             }
 
-            DoChange((Frame) Enum.Parse(typeof (Frame), MainV2.comPort.MAV.param["FRAME"].ToString()));
+            DoChange((Frame)Enum.Parse(typeof(Frame), MainV2.comPort.MAV.param["FRAME"].ToString()));
         }
 
         public void Deactivate()
@@ -157,7 +157,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "FRAME", (int) frame);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "FRAME", (int)frame);
             }
             catch
             {

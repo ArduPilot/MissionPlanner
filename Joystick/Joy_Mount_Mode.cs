@@ -1,6 +1,6 @@
-﻿using System;
+﻿using MissionPlanner.Utilities;
+using System;
 using System.Windows.Forms;
-using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Joystick
 {
@@ -31,7 +31,7 @@ namespace MissionPlanner.Joystick
 
             var config = MainV2.joystick.getButton(int.Parse(name));
 
-            comboBox1.SelectedValue = (int) config.p1;
+            comboBox1.SelectedValue = (int)config.p1;
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -44,7 +44,7 @@ namespace MissionPlanner.Joystick
 
             // change what we modified
             config.function = Joystick.buttonfunction.Mount_Mode;
-            config.p1 = (int) comboBox1.SelectedValue;
+            config.p1 = (int)comboBox1.SelectedValue;
 
             // update entry
             MainV2.joystick.setButton(name, config);

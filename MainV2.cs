@@ -1,33 +1,33 @@
-﻿using System;
+﻿using GMap.NET.WindowsForms;
+using log4net;
+using MissionPlanner.ArduPilot;
+using MissionPlanner.Comms;
+using MissionPlanner.Controls;
+using MissionPlanner.GCSViews.ConfigurationView;
+using MissionPlanner.Log;
+using MissionPlanner.Maps;
+using MissionPlanner.Utilities;
+using MissionPlanner.Utilities.AltitudeAngel;
+using MissionPlanner.Warnings;
+using SkiaSharp;
+using System;
+using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using System.IO;
-using System.Collections;
-using System.Runtime.InteropServices;
-using System.Globalization;
-using System.Linq;
-using System.Threading;
-using MissionPlanner.Utilities;
-using log4net;
-using MissionPlanner.Controls;
-using MissionPlanner.Comms;
-using MissionPlanner.Log;
-using Transitions;
-using MissionPlanner.Warnings;
-using System.Collections.Concurrent;
 using System.Drawing.Imaging;
+using System.Globalization;
+using System.IO;
+using System.Linq;
 using System.Net.Sockets;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Text.RegularExpressions;
-using MissionPlanner.ArduPilot;
-using MissionPlanner.Utilities.AltitudeAngel;
+using System.Threading;
 using System.Threading.Tasks;
-using GMap.NET.WindowsForms;
-using MissionPlanner.GCSViews.ConfigurationView;
-using MissionPlanner.Maps;
-using SkiaSharp;
+using System.Windows.Forms;
+using Transitions;
 
 namespace MissionPlanner
 {
@@ -36,8 +36,7 @@ namespace MissionPlanner
         private static readonly ILog log =
             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-   
-        public static menuicons displayicons = new burntkermitmenuicons();
+        public static menuicons displayicons;  //do not initialize to allow update of custom icons
 
         public abstract class menuicons
         {
@@ -59,61 +58,133 @@ namespace MissionPlanner
         {
             public override Image fd
             {
-                get { return global::MissionPlanner.Properties.Resources.light_flightdata_icon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "light_flightdata_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "light_flightdata_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.light_flightdata_icon;
+                }
             }
 
             public override Image fp
             {
-                get { return global::MissionPlanner.Properties.Resources.light_flightplan_icon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "light_flightplan_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "light_flightplan_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.light_flightplan_icon;
+                }
             }
 
             public override Image initsetup
             {
-                get { return global::MissionPlanner.Properties.Resources.light_initialsetup_icon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "light_initialsetup_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "light_initialsetup_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.light_initialsetup_icon;
+                }
             }
 
             public override Image config_tuning
             {
-                get { return global::MissionPlanner.Properties.Resources.light_tuningconfig_icon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "light_tuningconfig_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "light_tuningconfig_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.light_tuningconfig_icon;
+                }
             }
 
             public override Image sim
             {
-                get { return global::MissionPlanner.Properties.Resources.light_simulation_icon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "light_simulation_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "light_simulation_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.light_simulation_icon;
+                }
             }
 
             public override Image terminal
             {
-                get { return global::MissionPlanner.Properties.Resources.light_terminal_icon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "light_terminal_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "light_terminal_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.light_terminal_icon;
+                }
             }
 
             public override Image help
             {
-                get { return global::MissionPlanner.Properties.Resources.light_help_icon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "light_help_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "light_help_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.light_help_icon;
+                }
             }
 
             public override Image donate
             {
-                get { return global::MissionPlanner.Properties.Resources.donate; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "light_donate_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "light_donate_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.donate;
+                }
             }
 
             public override Image connect
             {
-                get { return global::MissionPlanner.Properties.Resources.light_connect_icon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "light_connect_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "light_connect_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.light_connect_icon;
+                }
             }
 
             public override Image disconnect
             {
-                get { return global::MissionPlanner.Properties.Resources.light_disconnect_icon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "light_disconnect_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "light_disconnect_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.light_disconnect_icon;
+                }
             }
 
             public override Image bg
             {
-                get { return global::MissionPlanner.Properties.Resources.bgdark; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "light_icon_background.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "light_icon_background.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.bgdark;
+                }
             }
             public override Image wizard
             {
-                get { return global::MissionPlanner.Properties.Resources.wizardicon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "light_wizard_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "light_wizard_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.wizardicon;
+                }
             }
         }
 
@@ -121,61 +192,133 @@ namespace MissionPlanner
         {
             public override Image fd
             {
-                get { return global::MissionPlanner.Properties.Resources.dark_flightdata_icon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "dark_flightdata_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_flightdata_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.dark_flightdata_icon;
+                }
             }
 
             public override Image fp
             {
-                get { return global::MissionPlanner.Properties.Resources.dark_flightplan_icon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "dark_flightplan_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_flightplan_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.dark_flightplan_icon;
+                }
             }
 
             public override Image initsetup
             {
-                get { return global::MissionPlanner.Properties.Resources.dark_initialsetup_icon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "dark_initialsetup_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_initialsetup_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.dark_initialsetup_icon;
+                }
             }
 
             public override Image config_tuning
             {
-                get { return global::MissionPlanner.Properties.Resources.dark_tuningconfig_icon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "dark_tuningconfig_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_tuningconfig_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.dark_tuningconfig_icon;
+                }
             }
 
             public override Image sim
             {
-                get { return global::MissionPlanner.Properties.Resources.dark_simulation_icon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "dark_simulation_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_simulation_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.dark_simulation_icon;
+                }
             }
 
             public override Image terminal
             {
-                get { return global::MissionPlanner.Properties.Resources.dark_terminal_icon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "dark_terminal_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_terminal_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.dark_terminal_icon;
+                }
             }
 
             public override Image help
             {
-                get { return global::MissionPlanner.Properties.Resources.dark_help_icon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "dark_help_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_help_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.dark_help_icon;
+                }
             }
 
             public override Image donate
             {
-                get { return global::MissionPlanner.Properties.Resources.donate; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "dark_donate_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_donate_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.donate;
+                }
             }
 
             public override Image connect
             {
-                get { return global::MissionPlanner.Properties.Resources.dark_connect_icon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "dark_connect_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_connect_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.dark_connect_icon;
+                }
             }
 
             public override Image disconnect
             {
-                get { return global::MissionPlanner.Properties.Resources.dark_disconnect_icon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "dark_disconnect_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_disconnect_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.dark_disconnect_icon;
+                }
             }
 
             public override Image bg
             {
-                get { return null; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "dark_icon_background.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_icon_background.png");
+                    else
+                        return null;
+                }
             }
             public override Image wizard
             {
-                get { return global::MissionPlanner.Properties.Resources.wizardicon; }
+                get
+                {
+                    if (File.Exists(Settings.GetRunningDirectory() + "dark_wizard_icon.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_wizard_icon.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.wizardicon;
+                }
             }
         }
 
@@ -508,7 +651,7 @@ namespace MissionPlanner
             log.Info("Mainv2 ctor");
 
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-            
+
             // create one here - but override on load
             Settings.Instance["guid"] = Guid.NewGuid().ToString();
 
@@ -532,7 +675,7 @@ namespace MissionPlanner
                     if (MainV2.instance.adsbPlanes.ContainsKey(tuple.id))
                     {
                         // update existing
-                        ((adsb.PointLatLngAltHdg) instance.adsbPlanes[tuple.id]).ThreatLevel = tuple.threat_level;
+                        ((adsb.PointLatLngAltHdg)instance.adsbPlanes[tuple.id]).ThreatLevel = tuple.threat_level;
                     }
                 }
             };
@@ -1022,8 +1165,8 @@ namespace MissionPlanner
             {
                 this.BeginInvoke((MethodInvoker)delegate
                {
-                    //enable the payload control page if a mavlink gimbal is detected
-                    if (instance.FlightData != null)
+                   //enable the payload control page if a mavlink gimbal is detected
+                   if (instance.FlightData != null)
                    {
                        instance.FlightData.updatePayloadTabVisible();
                    }
@@ -1075,9 +1218,13 @@ namespace MissionPlanner
 
         public void switchicons(menuicons icons)
         {
-            // dont update if no change
-            if (displayicons.GetType() == icons.GetType())
-                return;
+            //Check if we starting 
+            if (displayicons != null)
+            {
+                // dont update if no change
+                if (displayicons.GetType() == icons.GetType())
+                    return;
+            }
 
             displayicons = icons;
 
@@ -1170,7 +1317,7 @@ namespace MissionPlanner
                         new adsb.PointLatLngAltHdg(adsb.Lat, adsb.Lng,
                                 adsb.Alt, adsb.Heading, adsb.Speed, id,
                                 DateTime.Now)
-                            {CallSign = adsb.CallSign, Raw = adsb.Raw};
+                        { CallSign = adsb.CallSign, Raw = adsb.Raw };
                 }
 
                 try
@@ -1702,15 +1849,16 @@ namespace MissionPlanner
                         }
 
                         if (comPort.MAV.param.ContainsKey("RALLY_LIMIT_KM") &&
-                            (maxdist / 1000.0) > (float) comPort.MAV.param["RALLY_LIMIT_KM"])
+                            (maxdist / 1000.0) > (float)comPort.MAV.param["RALLY_LIMIT_KM"])
                         {
                             CustomMessageBox.Show(Strings.Warningrallypointdistance + " " +
                                                   (maxdist / 1000.0).ToString("0.00") + " > " +
-                                                  (float) comPort.MAV.param["RALLY_LIMIT_KM"]);
+                                                  (float)comPort.MAV.param["RALLY_LIMIT_KM"]);
                         }
-                    } catch (Exception ex) { log.Warn(ex); }
+                    }
+                    catch (Exception ex) { log.Warn(ex); }
                 }
-   
+
                 // get any fences
                 if (MainV2.comPort.MAV.param.ContainsKey("FENCE_TOTAL") &&
                     int.Parse(MainV2.comPort.MAV.param["FENCE_TOTAL"].ToString()) > 1 &&
@@ -1719,7 +1867,8 @@ namespace MissionPlanner
                     try
                     {
                         FlightPlanner.GeoFencedownloadToolStripMenuItem_Click(null, null);
-                    } catch (Exception ex) { log.Warn(ex); }
+                    }
+                    catch (Exception ex) { log.Warn(ex); }
                 }
                 //Add HUD custom items source 
                 HUD.Custom.src = MainV2.comPort.MAV.cs;
@@ -2177,16 +2326,16 @@ namespace MissionPlanner
                                 if (joystick.getJoystickAxis(6) == Joystick.Joystick.joystickaxis.None) rc.chan6_raw = ushort.MaxValue;
                                 if (joystick.getJoystickAxis(7) == Joystick.Joystick.joystickaxis.None) rc.chan7_raw = ushort.MaxValue;
                                 if (joystick.getJoystickAxis(8) == Joystick.Joystick.joystickaxis.None) rc.chan8_raw = ushort.MaxValue;
-                                if (joystick.getJoystickAxis(9) == Joystick.Joystick.joystickaxis.None) rc.chan9_raw = (ushort)  0;
-                                if (joystick.getJoystickAxis(10) == Joystick.Joystick.joystickaxis.None) rc.chan10_raw = (ushort)  0;
-                                if (joystick.getJoystickAxis(11) == Joystick.Joystick.joystickaxis.None) rc.chan11_raw = (ushort)  0;
-                                if (joystick.getJoystickAxis(12) == Joystick.Joystick.joystickaxis.None) rc.chan12_raw = (ushort)  0;
-                                if (joystick.getJoystickAxis(13) == Joystick.Joystick.joystickaxis.None) rc.chan13_raw = (ushort)  0;
-                                if (joystick.getJoystickAxis(14) == Joystick.Joystick.joystickaxis.None) rc.chan14_raw = (ushort)  0;
-                                if (joystick.getJoystickAxis(15) == Joystick.Joystick.joystickaxis.None) rc.chan15_raw = (ushort)  0;
-                                if (joystick.getJoystickAxis(16) == Joystick.Joystick.joystickaxis.None) rc.chan16_raw = (ushort)  0;
-                                if (joystick.getJoystickAxis(17) == Joystick.Joystick.joystickaxis.None) rc.chan17_raw = (ushort)  0;
-                                if (joystick.getJoystickAxis(18) == Joystick.Joystick.joystickaxis.None) rc.chan18_raw = (ushort)  0;
+                                if (joystick.getJoystickAxis(9) == Joystick.Joystick.joystickaxis.None) rc.chan9_raw = (ushort)0;
+                                if (joystick.getJoystickAxis(10) == Joystick.Joystick.joystickaxis.None) rc.chan10_raw = (ushort)0;
+                                if (joystick.getJoystickAxis(11) == Joystick.Joystick.joystickaxis.None) rc.chan11_raw = (ushort)0;
+                                if (joystick.getJoystickAxis(12) == Joystick.Joystick.joystickaxis.None) rc.chan12_raw = (ushort)0;
+                                if (joystick.getJoystickAxis(13) == Joystick.Joystick.joystickaxis.None) rc.chan13_raw = (ushort)0;
+                                if (joystick.getJoystickAxis(14) == Joystick.Joystick.joystickaxis.None) rc.chan14_raw = (ushort)0;
+                                if (joystick.getJoystickAxis(15) == Joystick.Joystick.joystickaxis.None) rc.chan15_raw = (ushort)0;
+                                if (joystick.getJoystickAxis(16) == Joystick.Joystick.joystickaxis.None) rc.chan16_raw = (ushort)0;
+                                if (joystick.getJoystickAxis(17) == Joystick.Joystick.joystickaxis.None) rc.chan17_raw = (ushort)0;
+                                if (joystick.getJoystickAxis(18) == Joystick.Joystick.joystickaxis.None) rc.chan18_raw = (ushort)0;
 
                                 if (joystick.getJoystickAxis(1) != Joystick.Joystick.joystickaxis.None) rc.chan1_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech1;
                                 if (joystick.getJoystickAxis(2) != Joystick.Joystick.joystickaxis.None) rc.chan2_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech2;
@@ -2913,6 +3062,12 @@ namespace MissionPlanner
             MyView.AddScreen(new MainSwitcher.Screen("Terminal", typeof(GCSViews.Terminal), false));
             MyView.AddScreen(new MainSwitcher.Screen("Help", typeof(GCSViews.Help), false));
 
+            // hide simulation under mono
+            if (Program.MONO)
+            {
+                MenuSimulation.Visible = false;
+            }
+
             try
             {
                 if (Control.ModifierKeys == Keys.Shift)
@@ -3419,7 +3574,7 @@ namespace MissionPlanner
                                 }
                             }
                         })
-                        { IsBackground = true, Name="Gstreamer cli" }.Start();
+                        { IsBackground = true, Name = "Gstreamer cli" }.Start();
                     }
                     catch (Exception ex)
                     {

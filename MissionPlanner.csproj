@@ -325,7 +325,7 @@
     <PackageReference Include="IronPython" version="2.7.8.1" targetFramework="net462" />
     <PackageReference Include="IronPython.StdLib" version="2.7.8.1" targetFramework="net462" />
     <PackageReference Include="log4net" version="2.0.8" targetFramework="net462" />
-    <PackageReference Include="Microsoft.Win32.Registry" Version="4.5.0" />
+    <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />
     <PackageReference Include="MP.GDAL.Native" Version="2.2.3" />
     <PackageReference Include="NETStandard.Library">
       <Version>2.0.3</Version>
@@ -339,11 +339,11 @@
     </PackageReference>
     <PackageReference Include="SharpDX" version="4.1.0" targetFramework="net462" />
     <PackageReference Include="SharpDX.DirectInput" version="4.1.0" targetFramework="net462" />
-    <PackageReference Include="SkiaSharp" Version="1.68.1.1-preview.9" />
+    <PackageReference Include="SkiaSharp" Version="1.68.1.1" />
     <PackageReference Include="SkiaSharp.NativeAssets.Linux">
-      <Version>1.68.1.1-preview.9</Version>
+      <Version>1.68.1.1</Version>
     </PackageReference>
-    <PackageReference Include="SkiaSharp.Views" Version="1.68.1.1-preview.9" />
+    <PackageReference Include="SkiaSharp.Views" Version="1.68.1.1" />
     <PackageReference Include="SSH.NET" version="2016.1.0" targetFramework="net40" />
     <PackageReference Include="System.CodeDom">
       <Version>4.5.0</Version>
@@ -450,6 +450,12 @@
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigSerialInjectGPS.Designer.cs">
       <DependentUpon>ConfigSerialInjectGPS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigTradHeli4.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigTradHeli4.Designer.cs">
+      <DependentUpon>ConfigTradHeli4.cs</DependentUpon>
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigUAVCAN.cs">
       <SubType>UserControl</SubType>
@@ -701,6 +707,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\UAVCANParams.zh-TW.resx">
       <DependentUpon>UAVCANParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTradHeli4.resx">
+      <DependentUpon>ConfigTradHeli4.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigUAVCAN.resx">
       <DependentUpon>ConfigUAVCAN.cs</DependentUpon>
@@ -2007,6 +2016,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\FlightData.resx">
       <DependentUpon>FlightData.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\FlightData.ar.resx">
       <DependentUpon>FlightData.cs</DependentUpon>

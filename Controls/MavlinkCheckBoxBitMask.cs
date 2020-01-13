@@ -1,7 +1,7 @@
-﻿using System;
+﻿using MissionPlanner.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Controls
 {
@@ -45,7 +45,7 @@ namespace MissionPlanner.Controls
                 else if (Type == MAVLink.MAV_PARAM_TYPE.INT32)
                 {
                     answer = (int)answer;
-                } 
+                }
 
                 return (float)answer;
             }
@@ -53,10 +53,10 @@ namespace MissionPlanner.Controls
             {
                 for (int a = 0; a < chkcount; a++)
                 {
-                    CheckBox chk = (CheckBox) panel1.Controls[a];
+                    CheckBox chk = (CheckBox)panel1.Controls[a];
 
 
-                    chk.Checked = (((uint) value & (1 << list[a].Key)) > 0);
+                    chk.Checked = (((uint)value & (1 << list[a].Key)) > 0);
                 }
             }
         }
@@ -94,7 +94,7 @@ namespace MissionPlanner.Controls
                 int top = 9;
                 int bottom = 0;
 
-                uint value = (uint) paramlist[paramname].Value;
+                uint value = (uint)paramlist[paramname].Value;
 
                 Type = paramlist[paramname].TypeAP;
 

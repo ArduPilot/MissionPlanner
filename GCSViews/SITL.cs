@@ -1,5 +1,10 @@
 ﻿using GMap.NET;
 using GMap.NET.WindowsForms;
+using MissionPlanner.Controls;
+using MissionPlanner.Maps;
+using MissionPlanner.Utilities;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Diagnostics;
 using System.Globalization;
@@ -7,13 +12,8 @@ using System.IO;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Windows.Forms;
-using MissionPlanner.Maps;
-using MissionPlanner.Utilities;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using MissionPlanner.Controls;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace MissionPlanner.GCSViews
 {
@@ -237,7 +237,7 @@ namespace MissionPlanner.GCSViews
                     new JsonTextReader(File.OpenText(sitldirectory + "vehicleinfo.py")))
                 {
                     JsonSerializer serializer = new JsonSerializer();
-                    var obj = (JObject) serializer.Deserialize(reader);
+                    var obj = (JObject)serializer.Deserialize(reader);
 
                     if (obj == null)
                         return "";
@@ -363,7 +363,7 @@ namespace MissionPlanner.GCSViews
             var config = await GetDefaultConfig(model);
 
             if (!string.IsNullOrEmpty(config))
-                extraargs += @" --defaults """ + config+@"""";
+                extraargs += @" --defaults """ + config + @"""";
 
             extraargs += " " + txt_cmdline.Text + " ";
 
@@ -393,7 +393,7 @@ namespace MissionPlanner.GCSViews
             }
             catch (Exception ex)
             {
-                CustomMessageBox.Show("Failed to start the simulator\n"+ ex.ToString(), Strings.ERROR);
+                CustomMessageBox.Show("Failed to start the simulator\n" + ex.ToString(), Strings.ERROR);
                 return;
             }
 
@@ -426,15 +426,15 @@ namespace MissionPlanner.GCSViews
         {
             try
             {
-                byte[] rcreceiver = new byte[2*8];
-                Array.ConstrainedCopy(BitConverter.GetBytes((ushort) MainV2.comPort.MAV.cs.rcoverridech1), 0, rcreceiver,0, 2);
-                Array.ConstrainedCopy(BitConverter.GetBytes((ushort) MainV2.comPort.MAV.cs.rcoverridech2), 0, rcreceiver,2, 2);
-                Array.ConstrainedCopy(BitConverter.GetBytes((ushort) MainV2.comPort.MAV.cs.rcoverridech3), 0, rcreceiver,4, 2);
-                Array.ConstrainedCopy(BitConverter.GetBytes((ushort) MainV2.comPort.MAV.cs.rcoverridech4), 0, rcreceiver,6, 2);
-                Array.ConstrainedCopy(BitConverter.GetBytes((ushort) MainV2.comPort.MAV.cs.rcoverridech5), 0, rcreceiver,8, 2);
-                Array.ConstrainedCopy(BitConverter.GetBytes((ushort) MainV2.comPort.MAV.cs.rcoverridech6), 0, rcreceiver,10, 2);
-                Array.ConstrainedCopy(BitConverter.GetBytes((ushort) MainV2.comPort.MAV.cs.rcoverridech7), 0, rcreceiver,12, 2);
-                Array.ConstrainedCopy(BitConverter.GetBytes((ushort) MainV2.comPort.MAV.cs.rcoverridech8), 0, rcreceiver,14, 2);
+                byte[] rcreceiver = new byte[2 * 8];
+                Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech1), 0, rcreceiver, 0, 2);
+                Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech2), 0, rcreceiver, 2, 2);
+                Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech3), 0, rcreceiver, 4, 2);
+                Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech4), 0, rcreceiver, 6, 2);
+                Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech5), 0, rcreceiver, 8, 2);
+                Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech6), 0, rcreceiver, 10, 2);
+                Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech7), 0, rcreceiver, 12, 2);
+                Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech8), 0, rcreceiver, 14, 2);
 
                 SITLSEND.Send(rcreceiver, rcreceiver.Length);
             }
@@ -523,27 +523,27 @@ namespace MissionPlanner.GCSViews
 
             max--;
 
-            for (int a = (int) max; a >= 0; a--)
+            for (int a = (int)max; a >= 0; a--)
             {
                 var extra = " --disable-fgview -r50 ";
 
                 if (!string.IsNullOrEmpty(config))
                     extra += @" --defaults """ + config + @""" -P SERIAL0_PROTOCOL=2 -P SERIAL1_PROTOCOL=2 ";
 
-                var home = new PointLatLngAlt(markeroverlay.Markers[0].Position).newpos((double) NUM_heading.Value, a * 4);
+                var home = new PointLatLngAlt(markeroverlay.Markers[0].Position).newpos((double)NUM_heading.Value, a * 4);
 
                 if (max == a)
                 {
                     extra += String.Format(
                         " -M{4} -s1 --home {3} --instance {0} --uartA tcp:0 {1} -P SYSID_THISMAV={2} ",
-                        a, "", a + 1, BuildHomeLocation(home, (int) NUM_heading.Value), model);
+                        a, "", a + 1, BuildHomeLocation(home, (int)NUM_heading.Value), model);
                 }
                 else
                 {
                     extra += String.Format(
                         " -M{4} -s1 --home {3} --instance {0} --uartA tcp:0 {1} -P SYSID_THISMAV={2} ",
                         a, "" /*"--uartD tcpclient:127.0.0.1:" + (5770 + 10 * a)*/, a + 1,
-                        BuildHomeLocation(home, (int) NUM_heading.Value), model);
+                        BuildHomeLocation(home, (int)NUM_heading.Value), model);
                 }
 
                 string simdir = sitldirectory + model + (a + 1) + Path.DirectorySeparatorChar;
@@ -569,7 +569,7 @@ namespace MissionPlanner.GCSViews
 
             try
             {
-                for (int a = (int) max; a >= 0; a--)
+                for (int a = (int)max; a >= 0; a--)
                 {
                     var mav = new MAVLinkInterface();
 
@@ -587,10 +587,10 @@ namespace MissionPlanner.GCSViews
 
                     try
                     {
-                        mav.GetParam((byte) mav.sysidcurrent, (byte) mav.compidcurrent, "SYSID_THISMAV");
+                        mav.GetParam((byte)mav.sysidcurrent, (byte)mav.compidcurrent, "SYSID_THISMAV");
                         mav.setParam("SYSID_THISMAV", a + 1, true);
 
-                        mav.GetParam((byte) mav.sysidcurrent, (byte) mav.compidcurrent, "FRAME_CLASS");
+                        mav.GetParam((byte)mav.sysidcurrent, (byte)mav.compidcurrent, "FRAME_CLASS");
                         mav.setParam("FRAME_CLASS", 1, true);
                     }
                     catch
@@ -622,27 +622,27 @@ namespace MissionPlanner.GCSViews
 
             max--;
 
-            for (int a = (int) max; a >= 0; a--)
+            for (int a = (int)max; a >= 0; a--)
             {
                 var extra = " --disable-fgview -r50";
 
                 if (!string.IsNullOrEmpty(config))
                     extra += @" --defaults """ + config + @""" -P SERIAL0_PROTOCOL=2 -P SERIAL1_PROTOCOL=2 ";
 
-                var home = new PointLatLngAlt(markeroverlay.Markers[0].Position).newpos((double) NUM_heading.Value, a * 4);
+                var home = new PointLatLngAlt(markeroverlay.Markers[0].Position).newpos((double)NUM_heading.Value, a * 4);
 
                 if (max == a)
                 {
                     extra += String.Format(
                         " -M{4} -s1 --home {3} --instance {0} --uartA tcp:0 {1} -P SYSID_THISMAV={2} ",
-                        a, "", a + 1, BuildHomeLocation(home, (int) NUM_heading.Value), model);
+                        a, "", a + 1, BuildHomeLocation(home, (int)NUM_heading.Value), model);
                 }
                 else
                 {
                     extra += String.Format(
                         " -M{4} -s1 --home {3} --instance {0} --uartA tcp:0 {1} -P SYSID_THISMAV={2} ",
                         a, "--uartD tcpclient:127.0.0.1:" + (5772 + 10 * a), a + 1,
-                        BuildHomeLocation(home, (int) NUM_heading.Value), model);
+                        BuildHomeLocation(home, (int)NUM_heading.Value), model);
                 }
 
                 string simdir = sitldirectory + model + (a + 1) + Path.DirectorySeparatorChar;

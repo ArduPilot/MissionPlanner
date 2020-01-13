@@ -1,9 +1,9 @@
-﻿using System;
-using System.Diagnostics;
-using System.Windows.Forms;
-using MissionPlanner.ArduPilot;
+﻿using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
+using System;
+using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -266,11 +266,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 var sw = 0;
                 if (MainV2.comPort.MAV.param.ContainsKey("FLTMODE_CH"))
                 {
-                    sw = (int) MainV2.comPort.MAV.param["FLTMODE_CH"].Value;
+                    sw = (int)MainV2.comPort.MAV.param["FLTMODE_CH"].Value;
                 }
                 else
                 {
-                    sw = (int) MainV2.comPort.MAV.param["MODE_CH"].Value;
+                    sw = (int)MainV2.comPort.MAV.param["MODE_CH"].Value;
                 }
 
                 switch (sw)
@@ -302,7 +302,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
             }
 
-            Control[] fmodelist = {CMB_fmode1, CMB_fmode2, CMB_fmode3, CMB_fmode4, CMB_fmode5, CMB_fmode6};
+            Control[] fmodelist = { CMB_fmode1, CMB_fmode2, CMB_fmode3, CMB_fmode4, CMB_fmode5, CMB_fmode6 };
 
             foreach (var ctl in fmodelist)
             {
@@ -317,7 +317,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         // from arducopter code
         private byte readSwitch(float inpwm)
         {
-            var pulsewidth = (int) inpwm; // default for Arducopter
+            var pulsewidth = (int)inpwm; // default for Arducopter
 
             if (pulsewidth > 1230 && pulsewidth <= 1360) return 1;
             if (pulsewidth > 1360 && pulsewidth <= 1490) return 2;
@@ -362,22 +362,22 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2) // ac2
                 {
                     // simple
-                    var value = (float) (CB_simple1.Checked ? (int) SimpleMode.Simple1 : 0) +
-                                (CB_simple2.Checked ? (int) SimpleMode.Simple2 : 0) +
-                                (CB_simple3.Checked ? (int) SimpleMode.Simple3 : 0)
-                                + (CB_simple4.Checked ? (int) SimpleMode.Simple4 : 0) +
-                                (CB_simple5.Checked ? (int) SimpleMode.Simple5 : 0) +
-                                (CB_simple6.Checked ? (int) SimpleMode.Simple6 : 0);
+                    var value = (float)(CB_simple1.Checked ? (int)SimpleMode.Simple1 : 0) +
+                                (CB_simple2.Checked ? (int)SimpleMode.Simple2 : 0) +
+                                (CB_simple3.Checked ? (int)SimpleMode.Simple3 : 0)
+                                + (CB_simple4.Checked ? (int)SimpleMode.Simple4 : 0) +
+                                (CB_simple5.Checked ? (int)SimpleMode.Simple5 : 0) +
+                                (CB_simple6.Checked ? (int)SimpleMode.Simple6 : 0);
                     if (MainV2.comPort.MAV.param.ContainsKey("SIMPLE"))
                         MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "SIMPLE", value);
 
                     // supersimple
-                    value = (float) (chk_ss1.Checked ? (int) SimpleMode.Simple1 : 0) +
-                            (chk_ss2.Checked ? (int) SimpleMode.Simple2 : 0) +
-                            (chk_ss3.Checked ? (int) SimpleMode.Simple3 : 0)
-                            + (chk_ss4.Checked ? (int) SimpleMode.Simple4 : 0) +
-                            (chk_ss5.Checked ? (int) SimpleMode.Simple5 : 0) +
-                            (chk_ss6.Checked ? (int) SimpleMode.Simple6 : 0);
+                    value = (float)(chk_ss1.Checked ? (int)SimpleMode.Simple1 : 0) +
+                            (chk_ss2.Checked ? (int)SimpleMode.Simple2 : 0) +
+                            (chk_ss3.Checked ? (int)SimpleMode.Simple3 : 0)
+                            + (chk_ss4.Checked ? (int)SimpleMode.Simple4 : 0) +
+                            (chk_ss5.Checked ? (int)SimpleMode.Simple5 : 0) +
+                            (chk_ss6.Checked ? (int)SimpleMode.Simple6 : 0);
                     if (MainV2.comPort.MAV.param.ContainsKey("SUPER_SIMPLE"))
                         MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "SUPER_SIMPLE", value);
                 }
@@ -413,7 +413,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
             {
-                var sender2 = (Control) sender;
+                var sender2 = (Control)sender;
                 var currentmode = sender2.Text.ToLower();
 
                 if (currentmode.Contains("althold") || currentmode.Contains("auto") ||

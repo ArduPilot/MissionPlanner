@@ -1,12 +1,11 @@
-﻿using System;
-using System.Reflection;
-using System.Windows.Forms;
-using System.IO;
-using System.Text.RegularExpressions;
-using log4net;
+﻿using log4net;
 using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
-using System.IO.Ports;
+using System;
+using System.IO;
+using System.Reflection;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace MissionPlanner.Log
 {
@@ -75,7 +74,7 @@ namespace MissionPlanner.Log
                 {
                     if (comPort.BytesToRead > 0)
                     {
-                        comPort_DataReceived((object) null, null);
+                        comPort_DataReceived((object)null, null);
                     }
                 }
                 catch
@@ -128,7 +127,7 @@ namespace MissionPlanner.Log
                 return;
             }
 
-            var t11 = new System.Threading.Thread(delegate()
+            var t11 = new System.Threading.Thread(delegate ()
             {
                 var start = DateTime.Now;
 
@@ -157,7 +156,7 @@ namespace MissionPlanner.Log
                             break;
                         while (comPort.BytesToRead >= 4)
                         {
-                            comPort_DataReceived((object) null, null);
+                            comPort_DataReceived((object)null, null);
                         }
                     }
                     catch (Exception ex)
@@ -166,7 +165,8 @@ namespace MissionPlanner.Log
                     } // cant exit unless told to
                 }
                 log.Info("Comport thread close");
-            }) {Name = "comport reader", IsBackground = true};
+            })
+            { Name = "comport reader", IsBackground = true };
             t11.Start();
 
             // doesnt seem to work on mac
@@ -175,7 +175,7 @@ namespace MissionPlanner.Log
 
         void genchkcombo(int logcount)
         {
-            MethodInvoker m = delegate()
+            MethodInvoker m = delegate ()
             {
                 //CHK_logs.Items.Clear();
                 //for (int a = 1; a <= logcount; a++)
@@ -197,17 +197,17 @@ namespace MissionPlanner.Log
         {
             if (start.Second != DateTime.Now.Second)
             {
-                this.BeginInvoke((System.Windows.Forms.MethodInvoker) delegate()
-                {
-                    try
-                    {
-                        if (comPort.IsOpen)
-                            TXT_status.Text = status.ToString() + " " + receivedbytes + " " + comPort.BytesToRead;
-                    }
-                    catch
-                    {
-                    }
-                });
+                this.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate ()
+               {
+                   try
+                   {
+                       if (comPort.IsOpen)
+                           TXT_status.Text = status.ToString() + " " + receivedbytes + " " + comPort.BytesToRead;
+                   }
+                   catch
+                   {
+                   }
+               });
                 start = DateTime.Now;
             }
         }
@@ -259,7 +259,7 @@ namespace MissionPlanner.Log
                                 System.Threading.Thread.Sleep(500);
 
                                 // clear history
-                                this.Invoke((System.Windows.Forms.MethodInvoker) delegate() { TXT_seriallog.Clear(); });
+                                this.Invoke((System.Windows.Forms.MethodInvoker)delegate () { TXT_seriallog.Clear(); });
 
                                 // comPort.Write("logs\r");
                                 status = serialstatus.Done;
@@ -293,7 +293,7 @@ namespace MissionPlanner.Log
 
                             this.Invoke(
                                 (System.Windows.Forms.MethodInvoker)
-                                    delegate() { TXT_seriallog.AppendText("Creating KML for " + logfile); });
+                                    delegate () { TXT_seriallog.AppendText("Creating KML for " + logfile); });
 
                             LogOutput lo = new LogOutput();
 
@@ -323,26 +323,26 @@ namespace MissionPlanner.Log
                             status = serialstatus.Waiting;
                             lock (thisLock)
                             {
-                                this.Invoke((System.Windows.Forms.MethodInvoker) delegate() { TXT_seriallog.Clear(); });
+                                this.Invoke((System.Windows.Forms.MethodInvoker)delegate () { TXT_seriallog.Clear(); });
                             }
                             //if (line.Contains("Dumping Log"))
-                        {
-                            status = serialstatus.Reading;
-                        }
+                            {
+                                status = serialstatus.Reading;
+                            }
                             break;
                         case serialstatus.Done:
                             // 
                             // if (line.Contains("start") && line.Contains("end"))
-                        {
-                            Regex regex2 = new Regex(@"^Log ([0-9]+)[,\s]", RegexOptions.IgnoreCase);
-                            if (regex2.IsMatch(line))
                             {
-                                MatchCollection matchs = regex2.Matches(line);
-                                logcount = int.Parse(matchs[0].Groups[1].Value);
-                                genchkcombo(logcount);
-                                //status = serialstatus.Done;
+                                Regex regex2 = new Regex(@"^Log ([0-9]+)[,\s]", RegexOptions.IgnoreCase);
+                                if (regex2.IsMatch(line))
+                                {
+                                    MatchCollection matchs = regex2.Matches(line);
+                                    logcount = int.Parse(matchs[0].Groups[1].Value);
+                                    genchkcombo(logcount);
+                                    //status = serialstatus.Done;
+                                }
                             }
-                        }
                             if (line.Contains("No logs"))
                             {
                                 status = serialstatus.Done;
@@ -368,24 +368,24 @@ namespace MissionPlanner.Log
                     }
                     lock (thisLock)
                     {
-                        this.BeginInvoke((MethodInvoker) delegate()
-                        {
-                            Console.Write(line);
+                        this.BeginInvoke((MethodInvoker)delegate ()
+                       {
+                           Console.Write(line);
 
-                            TXT_seriallog.AppendText(line.Replace((char) 0x0, ' '));
+                           TXT_seriallog.AppendText(line.Replace((char)0x0, ' '));
 
                             // auto scroll
                             if (TXT_seriallog.TextLength >= 10000)
-                            {
-                                TXT_seriallog.Text = TXT_seriallog.Text.Substring(TXT_seriallog.TextLength/2);
-                            }
+                           {
+                               TXT_seriallog.Text = TXT_seriallog.Text.Substring(TXT_seriallog.TextLength / 2);
+                           }
 
-                            TXT_seriallog.SelectionStart = TXT_seriallog.Text.Length;
+                           TXT_seriallog.SelectionStart = TXT_seriallog.Text.Length;
 
-                            TXT_seriallog.ScrollToCaret();
+                           TXT_seriallog.ScrollToCaret();
 
-                            TXT_seriallog.Refresh();
-                        });
+                           TXT_seriallog.Refresh();
+                       });
                     }
                 }
 
@@ -425,7 +425,7 @@ namespace MissionPlanner.Log
 
                 System.Threading.Thread t11 =
                     new System.Threading.Thread(
-                        delegate()
+                        delegate ()
                         {
                             downloadthread(int.Parse(CHK_logs.Items[0].ToString()),
                                 int.Parse(CHK_logs.Items[CHK_logs.Items.Count - 1].ToString()));
@@ -469,7 +469,7 @@ namespace MissionPlanner.Log
             {
                 for (int i = 0; i < CHK_logs.CheckedItems.Count; ++i)
                 {
-                    int a = (int) CHK_logs.CheckedItems[i];
+                    int a = (int)CHK_logs.CheckedItems[i];
                     {
                         currentlog = a;
                         System.Threading.Thread.Sleep(1100);
@@ -498,7 +498,7 @@ namespace MissionPlanner.Log
         {
             if (status == serialstatus.Done)
             {
-                System.Threading.Thread t11 = new System.Threading.Thread(delegate() { downloadsinglethread(); });
+                System.Threading.Thread t11 = new System.Threading.Thread(delegate () { downloadsinglethread(); });
                 t11.Name = "Log download single thread";
                 t11.Start();
             }
@@ -628,7 +628,7 @@ namespace MissionPlanner.Log
                 // add -1 entry
                 CHK_logs.Items.Add(-1, true);
 
-                System.Threading.Thread t11 = new System.Threading.Thread(delegate() { downloadsinglethread(); });
+                System.Threading.Thread t11 = new System.Threading.Thread(delegate () { downloadsinglethread(); });
                 t11.Name = "Log download single thread";
                 t11.Start();
             }

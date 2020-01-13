@@ -1,10 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AltitudeAngelWings.Extra;
 using AltitudeAngelWings.Models;
 using DotSpatial.Positioning;
 using DotSpatial.Topology;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MissionPlanner.Utilities.AltitudeAngel
 {
@@ -53,7 +53,7 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             {
                 Latitude = f.lat,
                 Longitude = f.lng,
-                Altitude = (int) f.alt,
+                Altitude = (int)f.alt,
             }))
             {
                 CenterLongitude = center.X,
