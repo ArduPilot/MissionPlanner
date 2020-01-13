@@ -1,17 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using MissionPlanner.Controls;
+﻿using MissionPlanner.Controls;
 using OSDConfigurator.Models;
+using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
-using OSDConfigurator.GUI;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -32,7 +26,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 get { return value; }
                 set { if (value != this.value) { this.value = value; OnUpdated(); } }
             }
-    
+
             public bool Changed
             {
                 get { return value != originalValue; }
@@ -82,8 +76,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             return GetOSDSettings().Any();
         }
-        
-        public void Activate()   
+
+        public void Activate()
         {
             parameters = GetOSDSettings().ToArray();
 
@@ -91,12 +85,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (parameters.Any())
             {
-                panel1.Enabled = true;             
+                panel1.Enabled = true;
             }
             else
             {
                 panel1.Enabled = false;
-                CustomMessageBox.Show("No Onboard OSD parameters found");                
+                CustomMessageBox.Show("No Onboard OSD parameters found");
             }
 
             MissionPlanner.Utilities.ThemeManager.ApplyThemeTo(this);
@@ -154,7 +148,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 var failedParamsEnum = string.Join(", ", failed.Take(3)) + (failed.Count > 3 ? "..." : "");
                 CustomMessageBox.Show($"Write Failed for {failed.Count} params: {failedParamsEnum}");
-            }       
+            }
             else if (!silent)
             {
                 CustomMessageBox.Show("Parameters successfully saved.", "Saved");

@@ -1,16 +1,15 @@
-﻿using System;
+﻿using log4net;
+using MissionPlanner.Comms;
+using MissionPlanner.Controls;
+using MissionPlanner.Log;
+using MissionPlanner.Utilities;
+using System;
 using System.Collections.Generic;
-using System.IO.Ports;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using log4net;
-using MissionPlanner.Comms;
-using MissionPlanner.Controls;
-using MissionPlanner.Log;
-using MissionPlanner.Utilities;
 using SerialPort = MissionPlanner.Comms.SerialPort;
 
 namespace MissionPlanner.GCSViews
@@ -79,7 +78,7 @@ namespace MissionPlanner.GCSViews
 
                     while (comPort.IsOpen && comPort.BytesToRead > 0 && !inlogview)
                     {
-                        var indata = (byte) comPort.ReadByte();
+                        var indata = (byte)comPort.ReadByte();
 
                         buffer[a] = indata;
 
@@ -108,44 +107,44 @@ namespace MissionPlanner.GCSViews
 
         private void addText(string data)
         {
-            BeginInvoke((MethodInvoker) delegate
-            {
-                if (this.Disposing)
-                    return;
+            BeginInvoke((MethodInvoker)delegate
+           {
+               if (this.Disposing)
+                   return;
 
-                if (inputStartPos > TXT_terminal.Text.Length)
-                    inputStartPos = TXT_terminal.Text.Length - 1;
+               if (inputStartPos > TXT_terminal.Text.Length)
+                   inputStartPos = TXT_terminal.Text.Length - 1;
 
                 // gather current typed data
                 string currenttypedtext = TXT_terminal.Text.Substring(inputStartPos,
-                    TXT_terminal.Text.Length - inputStartPos);
+                   TXT_terminal.Text.Length - inputStartPos);
 
                 // remove typed data
                 TXT_terminal.Text = TXT_terminal.Text.Remove(inputStartPos, TXT_terminal.Text.Length - inputStartPos);
 
-                TXT_terminal.SelectionStart = TXT_terminal.Text.Length;
+               TXT_terminal.SelectionStart = TXT_terminal.Text.Length;
 
-                data = data.TrimEnd('\r'); // else added \n all by itself
+               data = data.TrimEnd('\r'); // else added \n all by itself
                 data = data.Replace("\0", "");
-                data = data.Replace((char) 0x1b + "[K", ""); // remove control code
+               data = data.Replace((char)0x1b + "[K", ""); // remove control code
                 TXT_terminal.AppendText(data);
 
-                if (data.Contains("\b"))
-                {
-                    TXT_terminal.Text = TXT_terminal.Text.Remove(TXT_terminal.Text.IndexOf('\b'));
-                    TXT_terminal.SelectionStart = TXT_terminal.Text.Length;
-                }
+               if (data.Contains("\b"))
+               {
+                   TXT_terminal.Text = TXT_terminal.Text.Remove(TXT_terminal.Text.IndexOf('\b'));
+                   TXT_terminal.SelectionStart = TXT_terminal.Text.Length;
+               }
 
                 // erase to end of line. in our case jump to end of line
-                if (data.Contains((char) 0x1b + "[K"))
-                {
-                    TXT_terminal.SelectionStart = TXT_terminal.Text.Length;
-                }
-                inputStartPos = TXT_terminal.SelectionStart;
+                if (data.Contains((char)0x1b + "[K"))
+               {
+                   TXT_terminal.SelectionStart = TXT_terminal.Text.Length;
+               }
+               inputStartPos = TXT_terminal.SelectionStart;
 
                 //add back typed text
                 TXT_terminal.AppendText(currenttypedtext);
-            });
+           });
         }
 
         private void TXT_terminal_Click(object sender, EventArgs e)
@@ -193,8 +192,8 @@ namespace MissionPlanner.GCSViews
                             e.Handled = true;
                         break;
 
-                    //case Keys.Right:
-                    //    break;
+                        //case Keys.Right:
+                        //    break;
                 }
             }
         }
@@ -337,7 +336,7 @@ namespace MissionPlanner.GCSViews
                     comPort = new SerialPort();
                     comPort.PortName = MainV2.comPortName;
                     comPort.BaudRate = int.Parse(MainV2._connectionControl.CMB_baudrate.Text);
-                    comPort.ReadBufferSize = 1024*1024*4;
+                    comPort.ReadBufferSize = 1024 * 1024 * 4;
                 }
                 catch
                 {
@@ -370,7 +369,7 @@ namespace MissionPlanner.GCSViews
                     Thread.Sleep(400);
                 }
 
-                comPort.ReadBufferSize = 1024*1024*4;
+                comPort.ReadBufferSize = 1024 * 1024 * 4;
 
                 comPort.PortName = MainV2.comPortName;
 
@@ -489,7 +488,7 @@ namespace MissionPlanner.GCSViews
 
             BUT_disconnect.Enabled = true;
 
-            var t11 = new Thread(delegate()
+            var t11 = new Thread(delegate ()
             {
                 threadrun = true;
 
@@ -563,12 +562,12 @@ namespace MissionPlanner.GCSViews
                             if (lastsend.AddMilliseconds(500) > DateTime.Now)
                             {
                                 // 20 hz
-                                ((MAVLinkSerialPort) comPort).timeout = 50;
+                                ((MAVLinkSerialPort)comPort).timeout = 50;
                             }
                             else
                             {
                                 // 5 hz
-                                ((MAVLinkSerialPort) comPort).timeout = 200;
+                                ((MAVLinkSerialPort)comPort).timeout = 200;
                             }
                         }
                     }
@@ -620,17 +619,17 @@ namespace MissionPlanner.GCSViews
             if (IsDisposed || Disposing)
                 return;
 
-            Invoke((MethodInvoker) delegate
-            {
-                if (connected && BUT_disconnect.Enabled == false)
-                {
-                    BUT_disconnect.Enabled = true;
-                }
-                else if (!connected && BUT_disconnect.Enabled)
-                {
-                    BUT_disconnect.Enabled = false;
-                }
-            });
+            Invoke((MethodInvoker)delegate
+           {
+               if (connected && BUT_disconnect.Enabled == false)
+               {
+                   BUT_disconnect.Enabled = true;
+               }
+               else if (!connected && BUT_disconnect.Enabled)
+               {
+                   BUT_disconnect.Enabled = false;
+               }
+           });
         }
 
         private void BUTsetupshow_Click(object sender, EventArgs e)
@@ -747,7 +746,7 @@ namespace MissionPlanner.GCSViews
                     comPort.BaudRate = 0;
 
                     // 20 hz
-                    ((MAVLinkSerialPort) comPort).timeout = 50;
+                    ((MAVLinkSerialPort)comPort).timeout = 50;
 
                     comPort.Open();
 

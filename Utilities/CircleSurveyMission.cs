@@ -28,10 +28,10 @@ namespace MissionPlanner.Utilities
                 centerPoint.Alt);
 
             // alts
-            for (int alt = startalt; alt <= endalt; alt+=seperation)
+            for (int alt = startalt; alt <= endalt; alt += seperation)
             {
                 // headings
-                for (int heading = startheading; heading <= startheading+360; heading+=360/photos)
+                for (int heading = startheading; heading <= startheading + 360; heading += 360 / photos)
                 {
                     MainV2.instance.FlightPlanner.quickadd = true;
                     var newpoint = centerPoint.newpos(heading, radius);

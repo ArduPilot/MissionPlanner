@@ -1,14 +1,14 @@
-﻿using System;
+﻿using log4net;
+using MissionPlanner.Utilities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Reflection;
-using System.Windows.Forms;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using log4net;
-using MissionPlanner.Utilities;
-using System.Diagnostics;
+using System.Reflection;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace MissionPlanner.Log
 {
@@ -45,7 +45,7 @@ namespace MissionPlanner.Log
 
             ThemeManager.ApplyThemeTo(this);
 
-            MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);            
+            MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
         }
 
         private void Log_Load(object sender, EventArgs e)
@@ -359,7 +359,7 @@ namespace MissionPlanner.Log
 
                     tallyBytes += receivedbytes;
                     receivedbytes = 0;
-                    UpdateProgress(0, totalBytes, tallyBytes);                    
+                    UpdateProgress(0, totalBytes, tallyBytes);
                 }
 
                 UpdateProgress(0, totalBytes, totalBytes);

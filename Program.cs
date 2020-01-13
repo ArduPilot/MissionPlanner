@@ -13,6 +13,7 @@ using System.Net;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -42,7 +43,7 @@ namespace MissionPlanner
         public static string[] args = new string[] { };
         public static Bitmap SplashBG = null;
 
-        public static string[] names = new string[] {"VVVVZ"};
+        public static string[] names = new string[] { "VVVVZ" };
         public static bool MONO = false;
 
         static Program()
@@ -70,17 +71,17 @@ namespace MissionPlanner
 
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void Start(string[] args)
-        { 
+        {
             Program.args = args;
             Console.WriteLine(
                 "If your error is about Microsoft.DirectX.DirectInput, please install the latest directx redist from here http://www.microsoft.com/en-us/download/details.aspx?id=35 \n\n");
             Console.WriteLine("Debug under mono    MONO_LOG_LEVEL=debug mono MissionPlanner.exe");
             Console.WriteLine("To fix any filename case issues under mono use    export MONO_IOMAP=drive:case");
-                
-            Console.WriteLine("Data Dir "+Settings.GetDataDirectory());
-            Console.WriteLine("Log Dir "+Settings.GetDefaultLogDir());
-            Console.WriteLine("Running Dir "+Settings.GetRunningDirectory());
-            Console.WriteLine("User Data Dir "+Settings.GetUserDataDirectory());
+
+            Console.WriteLine("Data Dir " + Settings.GetDataDirectory());
+            Console.WriteLine("Log Dir " + Settings.GetDefaultLogDir());
+            Console.WriteLine("Running Dir " + Settings.GetRunningDirectory());
+            Console.WriteLine("User Data Dir " + Settings.GetUserDataDirectory());
 
             var t = Type.GetType("Mono.Runtime");
             MONO = (t != null);
@@ -173,10 +174,10 @@ namespace MissionPlanner
             Application.DoEvents();
             Application.DoEvents();
 
-            CustomMessageBox.ShowEvent += (text, caption, buttons, icon, yestext,notext) =>
+            CustomMessageBox.ShowEvent += (text, caption, buttons, icon, yestext, notext) =>
                 {
-                    return (CustomMessageBox.DialogResult) (int) MsgBox.CustomMessageBox.Show(text, caption,
-                        (MessageBoxButtons) (int) buttons, (MessageBoxIcon) (int) icon, yestext, notext);
+                    return (CustomMessageBox.DialogResult)(int)MsgBox.CustomMessageBox.Show(text, caption,
+                        (MessageBoxButtons)(int)buttons, (MessageBoxIcon)(int)icon, yestext, notext);
                 };
 
             // setup theme provider
@@ -257,6 +258,30 @@ namespace MissionPlanner
             log.InfoFormat("64bit os {0}, 64bit process {1}", System.Environment.Is64BitOperatingSystem,
                 System.Environment.Is64BitProcess);
 
+            log.InfoFormat("Runtime Version {0}",
+                System.Reflection.Assembly.GetExecutingAssembly().ImageRuntimeVersion);
+
+            Type type = Type.GetType("Mono.Runtime");
+            if (type != null)
+            {
+                MethodInfo displayName = type.GetMethod("GetDisplayName", BindingFlags.NonPublic | BindingFlags.Static);
+                if (displayName != null)
+                {
+                    log.Info(displayName.Invoke(null, null));
+                    //6.6.0.161 (tarball Tue Dec 10 10:36:32 UTC 2019)
+
+                    var match = Regex.Match(displayName.Invoke(null, null).ToString(), @"([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)");
+                    if(match.Success)
+                    {
+                        if (int.Parse(match.Groups[1].Value) < 6)
+                        {
+                            CustomMessageBox.Show(
+                                "Please upgrade your mono version to 6+ https://www.mono-project.com/download/stable/");
+                        }
+                    }
+                }
+            }
+
             try
             {
                 Thread.CurrentThread.Name = "Base Thread";
@@ -308,7 +333,7 @@ namespace MissionPlanner
             {
                 try
                 {
-                    log.Debug("Load: "+dll);
+                    log.Debug("Load: " + dll);
                     Assembly.LoadFile(dll);
                 }
                 catch (Exception ex)
@@ -325,7 +350,7 @@ namespace MissionPlanner
 
         private static Assembly CurrentDomain_TypeResolve(object sender, ResolveEventArgs args)
         {
-            log.Debug("TypeResolve Failed: " + args.Name + " from "+ args.RequestingAssembly);
+            log.Debug("TypeResolve Failed: " + args.Name + " from " + args.RequestingAssembly);
             return null;
         }
 
@@ -437,7 +462,7 @@ namespace MissionPlanner
 
             log.Error(list);
 
-            handleException((Exception) e.ExceptionObject);
+            handleException((Exception)e.ExceptionObject);
         }
 
         static string GetStackTrace(Exception e)
@@ -505,19 +530,19 @@ namespace MissionPlanner
                 CustomMessageBox.Show("Please update your graphics card drivers. Failed to create opengl surface\n" + ex.Message);
                 return;
             }
-            if (ex.GetType() == typeof (MissingMethodException) || ex.GetType() == typeof (TypeLoadException))
+            if (ex.GetType() == typeof(MissingMethodException) || ex.GetType() == typeof(TypeLoadException))
             {
                 CustomMessageBox.Show("Please Update - Some older library dlls are causing problems\n" + ex.Message);
                 return;
             }
-            if (ex.GetType() == typeof (ObjectDisposedException) || ex.GetType() == typeof (InvalidOperationException))
-                // something is trying to update while the form, is closing.
+            if (ex.GetType() == typeof(ObjectDisposedException) || ex.GetType() == typeof(InvalidOperationException))
+            // something is trying to update while the form, is closing.
             {
                 log.Error(ex);
                 return; // ignore
             }
-            if (ex.GetType() == typeof (FileNotFoundException) || ex.GetType() == typeof (BadImageFormatException))
-                // i get alot of error from people who click the exe from inside a zip file.
+            if (ex.GetType() == typeof(FileNotFoundException) || ex.GetType() == typeof(BadImageFormatException))
+            // i get alot of error from people who click the exe from inside a zip file.
             {
                 CustomMessageBox.Show(
                     "You are missing some DLL's. Please extract the zip file somewhere. OR Use the update feature from the menu " +
@@ -585,7 +610,7 @@ namespace MissionPlanner
                     using (WebResponse response = request.GetResponse())
                     {
                         // Display the status.
-                        Console.WriteLine(((HttpWebResponse) response).StatusDescription);
+                        Console.WriteLine(((HttpWebResponse)response).StatusDescription);
                         // Get the stream containing content returned by the server.
                         using (Stream dataStream = response.GetResponseStream())
                         {

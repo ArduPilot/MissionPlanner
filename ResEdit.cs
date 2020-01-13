@@ -1,15 +1,15 @@
-﻿using System;
+﻿using MissionPlanner.Utilities;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using System.Resources;
-using System.Collections;
 using System.Globalization;
 using System.IO;
-using System.Text.RegularExpressions;
 using System.Reflection;
-using MissionPlanner.Utilities;
+using System.Resources;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace resedit
 {
@@ -214,14 +214,14 @@ namespace resedit
 
                         var dir = "translation";
 
-                        for (int a = 0; a < strings.Length-2; a++)
+                        for (int a = 0; a < strings.Length - 2; a++)
                         {
                             dir += Path.DirectorySeparatorChar + strings[a];
                             Directory.CreateDirectory(dir);
                         }
 
-                            writer =
-                                new ResXResourceWriter(dir + Path.DirectorySeparatorChar + strings[strings.Length - 2] + "." + ci + ".resx");
+                        writer =
+                            new ResXResourceWriter(dir + Path.DirectorySeparatorChar + strings[strings.Length - 2] + "." + ci + ".resx");
                     }
 
                     if (row.Cells[colEnglish.Index].Value.ToString() != row.Cells[colOtherLang.Index].Value.ToString())
@@ -352,7 +352,7 @@ namespace resedit
                             if (dict.Value is Size)
                                 continue;
 
-                            string thing = (string) dict.Value;
+                            string thing = (string)dict.Value;
 
                             //                            dataGridView1.Rows[0].Cells[colOtherLang.Index].Value = dict.Value.ToString();
                             foreach (DataGridViewRow row in dataGridView1.Rows)

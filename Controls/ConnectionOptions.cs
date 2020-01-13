@@ -1,8 +1,8 @@
-﻿using System;
-using System.Windows.Forms;
-using MissionPlanner.Comms;
-using System.Threading;
+﻿using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
+using System;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace MissionPlanner
 {

@@ -11,6 +11,7 @@ using Android.OS;
 using Android.Util;
 using Xamarin.Forms;
 [assembly: UsesFeature("android.hardware.usb.host")]
+[assembly: UsesLibrary("org.apache.http.legacy", false)]
 
 namespace Xamarin.Droid
 {

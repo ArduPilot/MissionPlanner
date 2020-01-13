@@ -21,7 +21,7 @@
                 return;
             }
 
-            new System.Threading.Thread(mainloop) {IsBackground = true}.Start();
+            new System.Threading.Thread(mainloop) { IsBackground = true }.Start();
 
             DG.CurrentMode = DroneGroup.Mode.idle;
         }

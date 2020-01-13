@@ -41,7 +41,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0007" />
     <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta0007" />
-    <PackageReference Include="SkiaSharp" Version="1.68.1.1-preview.9" />
+    <PackageReference Include="SkiaSharp" Version="1.68.1.1" />
     <PackageReference Include="System.CodeDom" Version="4.5.0" />
     <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
   </ItemGroup>

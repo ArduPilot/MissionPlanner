@@ -138,7 +138,7 @@ namespace MissionPlanner.Utilities
                                                   if (a.IsNumber())
                                                       return (((IConvertible)a).ToString(CultureInfo.InvariantCulture));
                                                   else
-                                                      return a.ToString();
+                                                      return a?.ToString();
                                               })) + "\r\n";
 
                                 // we need to know the mav type to use the correct mode list.

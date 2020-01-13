@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using OpenTK;
-using OpenTK.Graphics.OpenGL;
-using System.Drawing.Imaging;
-using System.Drawing;
-using GMap.NET;
+﻿using GMap.NET;
+using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
 using MissionPlanner.Utilities;
-using GMap.NET.MapProviders;
+using OpenTK;
+using OpenTK.Graphics.OpenGL;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using MathHelper = MissionPlanner.Utilities.MathHelper;
 using Vector3 = OpenTK.Vector3;
 
@@ -27,7 +27,7 @@ namespace MissionPlanner.Controls
         double cameraX, cameraY, cameraZ; // camera coordinates
         double lookX, lookY, lookZ; // camera look-at coordinates
 
-        double step = 1/1200.0;
+        double step = 1 / 1200.0;
 
         // image zoom level
         int zoom = 14;
@@ -49,7 +49,7 @@ namespace MissionPlanner.Controls
 
                 _alt = value.Alt;
                 double size = 0.01;
-                area = new RectLatLng(value.Lat + size, value.Lng - size, size*2, size*2);
+                area = new RectLatLng(value.Lat + size, value.Lng - size, size * 2, size * 2);
                 // Console.WriteLine(area.LocationMiddle + " " + value.ToString());
                 this.Invalidate();
             }
@@ -121,7 +121,7 @@ namespace MissionPlanner.Controls
                     int padding = 0;
                     {
                         using (
-                            Bitmap bmpDestination = new Bitmap((int) pxDelta.X + padding*2, (int) pxDelta.Y + padding*2)
+                            Bitmap bmpDestination = new Bitmap((int)pxDelta.X + padding * 2, (int)pxDelta.Y + padding * 2)
                             )
                         {
                             Console.WriteLine((startimage - DateTime.Now).TotalMilliseconds);
@@ -142,7 +142,7 @@ namespace MissionPlanner.Controls
                                     {
                                         Console.WriteLine((startimage - DateTime.Now).TotalMilliseconds);
                                         GMapImage tile =
-                                            ((PureImageCache) Maps.MyImageCache.Instance).GetImageFromCache(type.DbId, p,
+                                            ((PureImageCache)Maps.MyImageCache.Instance).GetImageFromCache(type.DbId, p,
                                                 zoom) as GMapImage;
 
                                         //GMapImage tile = GMaps.Instance.GetImageFrom(tp, p, zoom, out ex) as GMapImage;
@@ -153,8 +153,8 @@ namespace MissionPlanner.Controls
                                         {
                                             using (tile)
                                             {
-                                                long x = p.X*prj.TileSize.Width - topLeftPx.X + padding;
-                                                long y = p.Y*prj.TileSize.Width - topLeftPx.Y + padding;
+                                                long x = p.X * prj.TileSize.Width - topLeftPx.X + padding;
+                                                long y = p.Y * prj.TileSize.Width - topLeftPx.Y + padding;
                                                 {
                                                     Console.WriteLine((startimage - DateTime.Now).TotalMilliseconds);
                                                     gfx.DrawImage(tile.Img, x, y, prj.TileSize.Width,
@@ -171,7 +171,7 @@ namespace MissionPlanner.Controls
                             }
 
                             Console.WriteLine((startimage - DateTime.Now).TotalMilliseconds);
-                            _terrain = new Bitmap(bmpDestination, 1024*2, 1024*2);
+                            _terrain = new Bitmap(bmpDestination, 1024 * 2, 1024 * 2);
 
                             // _terrain.Save(zoom +"-map.bmp");
 
@@ -191,9 +191,9 @@ namespace MissionPlanner.Controls
                             _terrain.UnlockBits(data);
 
                             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter,
-                                (int) TextureMinFilter.Linear);
+                                (int)TextureMinFilter.Linear);
                             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
-                                (int) TextureMagFilter.Linear);
+                                (int)TextureMagFilter.Linear);
                         }
                     }
                 }
@@ -235,25 +235,25 @@ namespace MissionPlanner.Controls
                 return;
             }
 
-            double heightscale = (step/90.0)*1.3;
+            double heightscale = (step / 90.0) * 1.3;
 
-            float radians = (float) (Math.PI*(rpy.Z*-1)/180.0f);
+            float radians = (float)(Math.PI * (rpy.Z * -1) / 180.0f);
 
             //radians = 0;
 
-            float mouseY = (float) (0.1);
+            float mouseY = (float)(0.1);
 
             cameraX = area.LocationMiddle.Lng; // multiplying by mouseY makes the
             cameraZ = area.LocationMiddle.Lat; // camera get closer/farther away with mouseY
             cameraY = (LocationCenter.Alt < srtm.getAltitude(cameraZ, cameraX, 20).alt)
-                ? (srtm.getAltitude(cameraZ, cameraX, 20).alt + 0.2)*heightscale
-                : LocationCenter.Alt*heightscale; // (srtm.getAltitude(lookZ, lookX, 20) + 100) * heighscale;
+                ? (srtm.getAltitude(cameraZ, cameraX, 20).alt + 0.2) * heightscale
+                : LocationCenter.Alt * heightscale; // (srtm.getAltitude(lookZ, lookX, 20) + 100) * heighscale;
 
 
-            lookX = area.LocationMiddle.Lng + Math.Sin(radians)*mouseY;
+            lookX = area.LocationMiddle.Lng + Math.Sin(radians) * mouseY;
             ;
             lookY = cameraY;
-            lookZ = area.LocationMiddle.Lat + Math.Cos(radians)*mouseY;
+            lookZ = area.LocationMiddle.Lat + Math.Cos(radians) * mouseY;
             ;
 
 
@@ -263,17 +263,17 @@ namespace MissionPlanner.Controls
             GL.MatrixMode(MatrixMode.Projection);
 
             OpenTK.Matrix4 projection = OpenTK.Matrix4.CreatePerspectiveFieldOfView((float)(100 * MathHelper.deg2rad), 1f, 0.00001f,
-                (float) step*50);
+                (float)step * 50);
             GL.LoadMatrix(ref projection);
 
-            Matrix4 modelview = Matrix4.LookAt((float) cameraX, (float) cameraY, (float) cameraZ, (float) lookX,
-                (float) lookY, (float) lookZ, 0, 1, 0);
+            Matrix4 modelview = Matrix4.LookAt((float)cameraX, (float)cameraY, (float)cameraZ, (float)lookX,
+                (float)lookY, (float)lookZ, 0, 1, 0);
             GL.MatrixMode(MatrixMode.Modelview);
 
             // roll
-            modelview = Matrix4.Mult(modelview, Matrix4.CreateRotationZ((float)(rpy.X*MathHelper.deg2rad)));
+            modelview = Matrix4.Mult(modelview, Matrix4.CreateRotationZ((float)(rpy.X * MathHelper.deg2rad)));
             // pitch
-            modelview = Matrix4.Mult(modelview, Matrix4.CreateRotationX((float)(rpy.Y*-MathHelper.deg2rad)));
+            modelview = Matrix4.Mult(modelview, Matrix4.CreateRotationX((float)(rpy.Y * -MathHelper.deg2rad)));
 
             GL.LoadMatrix(ref modelview);
 
@@ -281,7 +281,7 @@ namespace MissionPlanner.Controls
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            GL.LightModel(LightModelParameter.LightModelAmbient, new float[] {1f, 1f, 1f, 1f});
+            GL.LightModel(LightModelParameter.LightModelAmbient, new float[] { 1f, 1f, 1f, 1f });
 
             GL.Enable(EnableCap.Texture2D);
             GL.BindTexture(TextureTarget.Texture2D, texture);
@@ -313,10 +313,10 @@ namespace MissionPlanner.Controls
 
             sw.Start();
 
-            double increment = step*1;
+            double increment = step * 1;
 
-            double cleanup = area.Bottom%increment;
-            double cleanup2 = area.Left%increment;
+            double cleanup = area.Bottom % increment;
+            double cleanup2 = area.Left % increment;
 
             for (double z = (area.Bottom - cleanup); z < area.Top - step; z += increment)
             {
@@ -333,9 +333,9 @@ namespace MissionPlanner.Controls
 
                     //  int heightl = 0;
 
-                    double scale2 = (Math.Abs(x - area.Left)/area.WidthLng); // / (float)_terrain.Width;
+                    double scale2 = (Math.Abs(x - area.Left) / area.WidthLng); // / (float)_terrain.Width;
 
-                    double scale3 = (Math.Abs(z - area.Bottom)/area.HeightLat); // / (float)_terrain.Height;
+                    double scale3 = (Math.Abs(z - area.Bottom) / area.HeightLat); // / (float)_terrain.Height;
 
                     double imgx = 1 - scale2;
                     double imgy = 1 - scale3;
@@ -343,7 +343,7 @@ namespace MissionPlanner.Controls
 
                     //GL.Color3(_terrain.GetPixel(imgx, imgy));
                     GL.TexCoord2(imgx, imgy);
-                    GL.Vertex3(x, heightl*heightscale, z); //  _terrain.GetPixel(x, z).R
+                    GL.Vertex3(x, heightl * heightscale, z); //  _terrain.GetPixel(x, z).R
 
                     try
                     {
@@ -351,15 +351,15 @@ namespace MissionPlanner.Controls
 
                         //scale2 = (Math.Abs(x - area.Left) / area.WidthLng) * (float)_terrain.Width;
 
-                        scale3 = (Math.Abs(((z + increment) - area.Bottom))/area.HeightLat);
-                            // / (float)_terrain.Height;
+                        scale3 = (Math.Abs(((z + increment) - area.Bottom)) / area.HeightLat);
+                        // / (float)_terrain.Height;
 
                         imgx = 1 - scale2;
                         imgy = 1 - scale3;
                         // GL.Color3(Color.Green);
                         //GL.Color3(_terrain.GetPixel(imgx, imgy));
                         GL.TexCoord2(imgx, imgy);
-                        GL.Vertex3(x, heightl*heightscale, z + increment);
+                        GL.Vertex3(x, heightl * heightscale, z + increment);
 
                         //  Console.WriteLine(x + " " + (z + step));
                     }

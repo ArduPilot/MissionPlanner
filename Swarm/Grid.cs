@@ -1,12 +1,12 @@
-﻿using System;
+﻿using MissionPlanner.Controls;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using MissionPlanner.Controls;
 
 namespace MissionPlanner.Swarm
 {
-    public partial class Grid: MyUserControl
+    public partial class Grid : MyUserControl
     {
         int xdist = 40;
         int ydist = 40;
@@ -38,7 +38,7 @@ namespace MissionPlanner.Swarm
         {
             if (dist > 6)
             {
-                ydist = (int)(dist * (this.Height/(double)this.Width));
+                ydist = (int)(dist * (this.Height / (double)this.Width));
                 xdist = dist;
                 if (ydist % 2 == 1)
                     ydist++;
@@ -73,9 +73,9 @@ namespace MissionPlanner.Swarm
 
         void OnPaint(PaintEventArgsI e)
         { */
-            xline = (this.Width - 1)/(float) xdist;
+            xline = (this.Width - 1) / (float)xdist;
 
-            yline = (this.Height - 1)/(float) ydist;
+            yline = (this.Height - 1) / (float)ydist;
 
             var pen = new Pen(Color.Silver);
             pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
@@ -87,9 +87,9 @@ namespace MissionPlanner.Swarm
 
             //lines
             for (float x = 0; x <= xdist; x++)
-            { 
+            {
                 // middle
-                if (x == xdist/2)
+                if (x == xdist / 2)
                 {
                 }
                 else if (x % 2 == 0)
@@ -105,7 +105,7 @@ namespace MissionPlanner.Swarm
             for (float y = 0; y <= ydist; y++)
             {
                 // middle
-                if (y == ydist/2.0f)
+                if (y == ydist / 2.0f)
                 {
                 }
                 else if (y % 2 == 0)
@@ -119,22 +119,22 @@ namespace MissionPlanner.Swarm
             }
 
             // draw the middle lines
-            e.Graphics.DrawLine(Pens.Green, xdist/2*xline, 0, xdist/2*xline, this.Height);
-            e.Graphics.DrawLine(Pens.Green, 0, ydist/2*yline, this.Width, ydist/2*yline);
+            e.Graphics.DrawLine(Pens.Green, xdist / 2 * xline, 0, xdist / 2 * xline, this.Height);
+            e.Graphics.DrawLine(Pens.Green, 0, ydist / 2 * yline, this.Width, ydist / 2 * yline);
 
             //text
             for (float x = 1; x <= xdist; x++)
             {
-                if (x%2 == 0)
-                    e.Graphics.DrawString(((xdist/-2) + x + centerx).ToString("0.0"), SystemFonts.DefaultFont, Brushes.Red, x*xline,
+                if (x % 2 == 0)
+                    e.Graphics.DrawString(((xdist / -2) + x + centerx).ToString("0.0"), SystemFonts.DefaultFont, Brushes.Red, x * xline,
                         0.0f, StringFormat.GenericDefault);
             }
 
             for (float y = 0; y <= ydist; y++)
             {
-                if (y%2 == 0)
-                    e.Graphics.DrawString((((ydist/-2) + y - centery) *-1).ToString("0.0"), SystemFonts.DefaultFont, Brushes.Red, 0.0f,
-                        y*yline, StringFormat.GenericDefault);
+                if (y % 2 == 0)
+                    e.Graphics.DrawString((((ydist / -2) + y - centery) * -1).ToString("0.0"), SystemFonts.DefaultFont, Brushes.Red, 0.0f,
+                        y * yline, StringFormat.GenericDefault);
             }
 
             //icons
@@ -191,7 +191,7 @@ namespace MissionPlanner.Swarm
             }
 
             Console.WriteLine("ADD MAV {0} {1} {2}", x, y, z);
-            icons.Add(new icon() {interf = mav, y = y, z = z, x = x, Movable = movable, Name = mav.ToString()});
+            icons.Add(new icon() { interf = mav, y = y, z = z, x = x, Movable = movable, Name = mav.ToString() });
             this.Invalidate();
         }
 
@@ -205,13 +205,13 @@ namespace MissionPlanner.Swarm
                 {
                     if (Vertical)
                     {
-                        mouseover.z = (ydist/-2 + e.Y/yline)*-1;
+                        mouseover.z = (ydist / -2 + e.Y / yline) * -1;
                         mouseover.z += centery;
                     }
                     else
                     {
-                        mouseover.x = xdist/-2 + e.X/xline;
-                        mouseover.y = (ydist/-2 + e.Y/yline)*-1;
+                        mouseover.x = xdist / -2 + e.X / xline;
+                        mouseover.y = (ydist / -2 + e.Y / yline) * -1;
                         mouseover.x += centerx;
                         mouseover.y += centery;
                     }
@@ -235,13 +235,13 @@ namespace MissionPlanner.Swarm
                     */
                     if (UpdateOffsets != null)
                     {
-                            UpdateOffsets(mouseover.interf, mouseover.x, mouseover.y, mouseover.z ,
-                                mouseover);
+                        UpdateOffsets(mouseover.interf, mouseover.x, mouseover.y, mouseover.z,
+                            mouseover);
                     }
 
                     this.Invalidate();
                 }
-                
+
 
                 return;
             }

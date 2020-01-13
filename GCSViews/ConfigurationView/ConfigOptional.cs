@@ -1,5 +1,5 @@
-﻿using System.Windows.Forms;
-using MissionPlanner.Controls;
+﻿using MissionPlanner.Controls;
+using System.Windows.Forms;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {

@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using MissionPlanner.Utilities;
+﻿using MissionPlanner.Utilities;
+using System.Collections.Generic;
 
 namespace MissionPlanner.Swarm
 {
@@ -47,12 +47,12 @@ namespace MissionPlanner.Swarm
                         PointLatLngAlt target = newpositions[a];
 
                         // send it
-                        port.setGuidedModeWP(mav.sysid,mav.compid,new Locationwp()
+                        port.setGuidedModeWP(mav.sysid, mav.compid, new Locationwp()
                         {
-                            alt = (float) target.Alt,
+                            alt = (float)target.Alt,
                             lat = target.Lat,
                             lng = target.Lng,
-                            id = (ushort) MAVLink.MAV_CMD.WAYPOINT
+                            id = (ushort)MAVLink.MAV_CMD.WAYPOINT
                         });
                     }
                 }
@@ -80,7 +80,7 @@ namespace MissionPlanner.Swarm
                 {
                     double dist = lla.GetDistance(lla2);
 
-                    if (dist < (FollowDistance/2))
+                    if (dist < (FollowDistance / 2))
                     {
                         // do nothing yet
                         //Stop();

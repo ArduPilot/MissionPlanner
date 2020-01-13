@@ -1,4 +1,8 @@
-﻿using System;
+﻿using BrightIdeasSoftware;
+using log4net;
+using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
@@ -6,10 +10,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using BrightIdeasSoftware;
-using log4net;
-using MissionPlanner.Controls;
-using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Log
 {
@@ -76,11 +76,11 @@ namespace MissionPlanner.Log
         void processbg(string file)
         {
             a++;
-            Loading.ShowLoading(a+"/"+files.Count + " " + file, this);
+            Loading.ShowLoading(a + "/" + files.Count + " " + file, this);
 
             if (!File.Exists(file + ".jpg"))
             {
-                LogMap.MapLogs(new string[] {file});
+                LogMap.MapLogs(new string[] { file });
             }
 
             var loginfo = new loginfo();
@@ -94,7 +94,7 @@ namespace MissionPlanner.Log
             }
             catch
             {
-                
+
             }
 
             if (File.Exists(file + ".jpg"))
@@ -121,7 +121,7 @@ namespace MissionPlanner.Log
                     mine.speechenabled = false;
 
                     // file is to small
-                    if (mine.logplaybackfile.BaseStream.Length < 1024*4)
+                    if (mine.logplaybackfile.BaseStream.Length < 1024 * 4)
                         return;
 
                     mine.getHeartBeat();
@@ -148,12 +148,12 @@ namespace MissionPlanner.Log
                     var a = 0;
 
                     // abandon last 100 bytes
-                    while (mine.logplaybackfile.BaseStream.Position < (length-100))
+                    while (mine.logplaybackfile.BaseStream.Position < (length - 100))
                     {
                         var packet = mine.readPacket();
 
                         // gcs
-                        if(packet.sysid == 255)
+                        if (packet.sysid == 255)
                             continue;
 
                         if (packet.msgid == (uint)MAVLink.MAVLINK_MSG_ID.CAMERA_FEEDBACK)
@@ -240,7 +240,7 @@ namespace MissionPlanner.Log
                 }
             }
 
-            lock(logs)
+            lock (logs)
                 logs.Add(loginfo);
         }
 
@@ -267,7 +267,7 @@ namespace MissionPlanner.Log
             public DateTime Date { get; set; }
             public int Aircraft { get; set; }
             public long Size { get; set; }
-            public PointLatLngAlt Home {get;set;}
+            public PointLatLngAlt Home { get; set; }
 
             public string Frame { get; set; }
 
@@ -295,7 +295,7 @@ namespace MissionPlanner.Log
             if (e.ColumnIndex != 0)
                 return;
 
-            loginfo info = (loginfo) e.Model;
+            loginfo info = (loginfo)e.Model;
 
             if (info.img == null)
                 return;

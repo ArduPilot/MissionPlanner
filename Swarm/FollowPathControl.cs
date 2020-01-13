@@ -61,7 +61,7 @@ namespace MissionPlanner.Swarm
 
             if (SwarmInterface != null)
             {
-                new System.Threading.Thread(mainloop) {IsBackground = true}.Start();
+                new System.Threading.Thread(mainloop) { IsBackground = true }.Start();
                 BUT_Start.Text = Strings.Stop;
             }
         }
@@ -154,7 +154,7 @@ namespace MissionPlanner.Swarm
             // clean up old
             foreach (Control ctl in PNL_status.Controls)
             {
-                if (!MainV2.Comports.Contains((MAVLinkInterface) ctl.Tag))
+                if (!MainV2.Comports.Contains((MAVLinkInterface)ctl.Tag))
                 {
                     ctl.Dispose();
                 }
@@ -169,11 +169,11 @@ namespace MissionPlanner.Swarm
                     if (ctl is Status && ctl.Tag == port)
                     {
                         exists = true;
-                        ((Status) ctl).GPS.Text = port.MAV.cs.gpsstatus >= 3 ? "OK" : "Bad";
-                        ((Status) ctl).Armed.Text = port.MAV.cs.armed.ToString();
-                        ((Status) ctl).Mode.Text = port.MAV.cs.mode;
-                        ((Status) ctl).MAV.Text = port.ToString();
-                        ((Status) ctl).Guided.Text = port.MAV.GuidedMode.x/1e7 + "," + port.MAV.GuidedMode.y/1e7 + "," +
+                        ((Status)ctl).GPS.Text = port.MAV.cs.gpsstatus >= 3 ? "OK" : "Bad";
+                        ((Status)ctl).Armed.Text = port.MAV.cs.armed.ToString();
+                        ((Status)ctl).Mode.Text = port.MAV.cs.mode;
+                        ((Status)ctl).MAV.Text = port.ToString();
+                        ((Status)ctl).Guided.Text = port.MAV.GuidedMode.x / 1e7 + "," + port.MAV.GuidedMode.y / 1e7 + "," +
                                                      port.MAV.GuidedMode.z;
                     }
                 }

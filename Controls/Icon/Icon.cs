@@ -11,7 +11,7 @@ namespace MissionPlanner.Controls.Icon
         private int _width = 30;
         private int _height = 30;
         private bool _isSelected = false;
-        private Point _location = new Point(0,0);
+        private Point _location = new Point(0, 0);
 
         public Pen LinePen { get; set; }
         public SolidBrush BgSolidBrush { get; set; }
@@ -91,7 +91,7 @@ namespace MissionPlanner.Controls.Icon
 
             if (IsSelected)
                 g.FillPie(BgSelectedSolidBrush, rect, 0, 360);
-            else 
+            else
                 g.FillPie(BgSolidBrush, rect, 0, 360);
             g.DrawArc(LinePen, rect, 0, 360);
 

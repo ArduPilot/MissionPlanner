@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using System.IO;
+﻿using log4net;
 using MissionPlanner.Utilities;
-using log4net;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace MissionPlanner.Controls
 {
@@ -32,7 +32,8 @@ namespace MissionPlanner.Controls
 
         void UpdateDefaultList(object crap)
         {
-            Task.Run(delegate() {
+            Task.Run(delegate ()
+            {
                 try
                 {
                     if (paramfiles == null)
@@ -71,7 +72,7 @@ namespace MissionPlanner.Controls
             try
             {
                 byte[] data = GitHubContent.GetFileContent("ardupilot", "ardupilot",
-                    ((GitHubContent.FileInfo) CMB_paramfiles.SelectedValue).path);
+                    ((GitHubContent.FileInfo)CMB_paramfiles.SelectedValue).path);
 
                 File.WriteAllBytes(filepath, data);
 

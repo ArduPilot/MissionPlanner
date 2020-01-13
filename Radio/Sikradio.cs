@@ -1,4 +1,7 @@
-﻿using System;
+﻿using log4net;
+using MissionPlanner.Comms;
+using MissionPlanner.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -8,9 +11,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
-using log4net;
-using MissionPlanner.Comms;
-using MissionPlanner.Utilities;
 using uploader;
 
 namespace MissionPlanner.Radio
@@ -55,9 +55,9 @@ S15: MAX_WINDOW=131
             NETID.DataSource = Enumerable.Range(0, 500).ToArray();
             RNETID.DataSource = Enumerable.Range(0, 500).ToArray();
 
-            var dict = Enum.GetValues(typeof (mavlink_option))
+            var dict = Enum.GetValues(typeof(mavlink_option))
                 .Cast<mavlink_option>()
-                .ToDictionary(t => (int) t, t => t.ToString());
+                .ToDictionary(t => (int)t, t => t.ToString());
 
             MAVLINK.DisplayMember = "Value";
             MAVLINK.ValueMember = "Key";
@@ -411,7 +411,7 @@ S15: MAX_WINDOW=131
                 MsgBox.CustomMessageBox.Show("Failed to identify Radio");
             }
 
-            exit:
+        exit:
             if (comPort.IsOpen)
                 comPort.Close();
         }
@@ -420,7 +420,7 @@ S15: MAX_WINDOW=131
         {
             try
             {
-                Progressbar.Value = (int) (completed*100);
+                Progressbar.Value = (int)(completed * 100);
                 Application.DoEvents();
             }
             catch
@@ -470,7 +470,7 @@ S15: MAX_WINDOW=131
         {
             try
             {
-                Progressbar.Value = (int)Math.Min (completed*100,100);
+                Progressbar.Value = (int)Math.Min(completed * 100, 100);
                 Application.DoEvents();
             }
             catch
@@ -521,7 +521,7 @@ S15: MAX_WINDOW=131
                     // remote
                     var answer = doCommand(comPort, "RTI5", true);
 
-                    var items = answer.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
+                    var items = answer.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
                     foreach (var item in items)
                     {
@@ -537,9 +537,9 @@ S15: MAX_WINDOW=131
 
                                 if (controls.Length > 0)
                                 {
-                                    if (controls[0].GetType() == typeof (CheckBox))
+                                    if (controls[0].GetType() == typeof(CheckBox))
                                     {
-                                        var value = ((CheckBox) controls[0]).Checked ? "1" : "0";
+                                        var value = ((CheckBox)controls[0]).Checked ? "1" : "0";
 
                                         if (value != values[2].Trim())
                                         {
@@ -569,10 +569,10 @@ S15: MAX_WINDOW=131
                                     }
                                     else if (controls[0].Name.Contains("MAVLINK")) //
                                     {
-                                        if (((ComboBox) controls[0]).SelectedValue.ToString() != values[2].Trim())
+                                        if (((ComboBox)controls[0]).SelectedValue.ToString() != values[2].Trim())
                                         {
                                             var cmdanswer = doCommand(comPort,
-                                                "RTS" + values[0].Trim().TrimStart('S') + "=" + ((ComboBox) controls[0]).SelectedValue +
+                                                "RTS" + values[0].Trim().TrimStart('S') + "=" + ((ComboBox)controls[0]).SelectedValue +
                                                 "\r");
 
                                             if (cmdanswer.Contains("OK"))
@@ -614,7 +614,7 @@ S15: MAX_WINDOW=131
 
                     var answer = doCommand(comPort, "ATI5", true);
 
-                    var items = answer.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
+                    var items = answer.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
                     foreach (var item in items)
                     {
@@ -630,9 +630,9 @@ S15: MAX_WINDOW=131
 
                                 if (controls.Length > 0)
                                 {
-                                    if (controls[0].GetType() == typeof (CheckBox))
+                                    if (controls[0].GetType() == typeof(CheckBox))
                                     {
-                                        var value = ((CheckBox) controls[0]).Checked ? "1" : "0";
+                                        var value = ((CheckBox)controls[0]).Checked ? "1" : "0";
 
                                         if (value != values[2].Trim())
                                         {
@@ -653,10 +653,10 @@ S15: MAX_WINDOW=131
                                     }
                                     else if (controls[0].Name.Contains("MAVLINK")) //
                                     {
-                                        if (((ComboBox) controls[0]).SelectedValue.ToString() != values[2].Trim())
+                                        if (((ComboBox)controls[0]).SelectedValue.ToString() != values[2].Trim())
                                         {
                                             var cmdanswer = doCommand(comPort,
-                                                "ATS" + values[0].Trim().TrimStart('S') + "=" + ((ComboBox) controls[0]).SelectedValue +
+                                                "ATS" + values[0].Trim().TrimStart('S') + "=" + ((ComboBox)controls[0]).SelectedValue +
                                                 "\r");
 
                                             if (cmdanswer.Contains("OK"))
@@ -823,12 +823,12 @@ S15: MAX_WINDOW=131
 
                     var freqstring = doCommand(comPort, "ATI3").Trim();
 
-                    if(freqstring.ToLower().Contains('x'))
+                    if (freqstring.ToLower().Contains('x'))
                         style = NumberStyles.AllowHexSpecifier;
 
                     var freq =
                         (Uploader.Frequency)
-                            Enum.Parse(typeof (Uploader.Frequency),
+                            Enum.Parse(typeof(Uploader.Frequency),
                                 int.Parse(freqstring.ToLower().Replace("x", ""), style).ToString());
 
                     ATI3.Text = freq.ToString();
@@ -842,7 +842,7 @@ S15: MAX_WINDOW=131
 
                     var board =
                         (Uploader.Board)
-                            Enum.Parse(typeof (Uploader.Board),
+                            Enum.Parse(typeof(Uploader.Board),
                                 int.Parse(boardstring.ToLower().Replace("x", ""), style).ToString());
 
                     ATI2.Text = board.ToString();
@@ -897,7 +897,7 @@ S15: MAX_WINDOW=131
                     {
                         //if (item.StartsWith("S"))
                         {
-                            var values = item.Split(new char[] { ':', '='}, StringSplitOptions.RemoveEmptyEntries);
+                            var values = item.Split(new char[] { ':', '=' }, StringSplitOptions.RemoveEmptyEntries);
 
                             if (values.Length == 3)
                             {
@@ -911,20 +911,20 @@ S15: MAX_WINDOW=131
 
                                     if (controls[0] is CheckBox)
                                     {
-                                        ((CheckBox) controls[0]).Checked = values[2].Trim() == "1";
+                                        ((CheckBox)controls[0]).Checked = values[2].Trim() == "1";
                                     }
                                     else if (controls[0] is TextBox)
                                     {
-                                        ((TextBox) controls[0]).Text = values[2].Trim();
+                                        ((TextBox)controls[0]).Text = values[2].Trim();
                                     }
                                     else if (controls[0].Name.Contains("MAVLINK")) //
                                     {
-                                        var ans = Enum.Parse(typeof (mavlink_option), values[2].Trim());
-                                        ((ComboBox) controls[0]).Text = ans.ToString();
+                                        var ans = Enum.Parse(typeof(mavlink_option), values[2].Trim());
+                                        ((ComboBox)controls[0]).Text = ans.ToString();
                                     }
                                     else if (controls[0] is ComboBox)
                                     {
-                                        ((ComboBox) controls[0]).Text = values[2].Trim();
+                                        ((ComboBox)controls[0]).Text = values[2].Trim();
                                     }
                                 }
                             }
@@ -980,20 +980,20 @@ S15: MAX_WINDOW=131
 
                                 if (controls[0] is CheckBox)
                                 {
-                                    ((CheckBox) controls[0]).Checked = values[2].Trim() == "1";
+                                    ((CheckBox)controls[0]).Checked = values[2].Trim() == "1";
                                 }
                                 else if (controls[0] is TextBox)
                                 {
-                                    ((TextBox) controls[0]).Text = values[2].Trim();
+                                    ((TextBox)controls[0]).Text = values[2].Trim();
                                 }
                                 else if (controls[0].Name.Contains("MAVLINK")) //
                                 {
-                                    var ans = Enum.Parse(typeof (mavlink_option), values[2].Trim());
-                                    ((ComboBox) controls[0]).Text = ans.ToString();
+                                    var ans = Enum.Parse(typeof(mavlink_option), values[2].Trim());
+                                    ((ComboBox)controls[0]).Text = ans.ToString();
                                 }
                                 else if (controls[0] is ComboBox)
                                 {
-                                    ((ComboBox) controls[0]).Text = values[2].Trim();
+                                    ((ComboBox)controls[0]).Text = values[2].Trim();
                                 }
                             }
                             else
@@ -1059,8 +1059,8 @@ S15: MAX_WINDOW=131
             {
                 if (comPort.BytesToRead > 0)
                 {
-                    var data = (byte) comPort.ReadByte();
-                    sb.Append((char) data);
+                    var data = (byte)comPort.ReadByte();
+                    sb.Append((char)data);
                     if (data == '\n')
                         break;
                 }
@@ -1140,7 +1140,7 @@ S15: MAX_WINDOW=131
                 // setup a known enviroment
                 comPort.Write("ATO\r\n");
 
-                retry:
+            retry:
 
                 // wait
                 Sleep(1500, comPort);
@@ -1319,7 +1319,7 @@ red LED solid - in firmware update mode");
             string item = txt.Text;
             if (!(Regex.IsMatch(item, "^[0-9a-fA-F]+$")))
             {
-                if(item.Length != 0)
+                if (item.Length != 0)
                     txt.Text = item.Remove(item.Length - 1, 1);
                 txt.SelectionStart = txt.Text.Length;
             }

@@ -55,7 +55,7 @@ namespace MissionPlanner.Swarm
                     if (mav == Leader)
                         continue;
 
-                    port.setMode(mav.sysid,mav.compid,"GUIDED");
+                    port.setMode(mav.sysid, mav.compid, "GUIDED");
 
                     port.doCommand(mav.sysid, mav.compid, MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 5);
                 }

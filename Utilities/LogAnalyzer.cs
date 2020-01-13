@@ -1,12 +1,12 @@
+using ICSharpCode.SharpZipLib.Zip;
 using log4net;
+using MissionPlanner.Controls;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Xml;
-using ICSharpCode.SharpZipLib.Zip;
-using MissionPlanner.Controls;
 
 namespace MissionPlanner.Utilities
 {

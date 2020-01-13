@@ -1,3 +1,6 @@
+using AltitudeAngelWings.Extra;
+using GMap.NET;
+using GMap.NET.WindowsForms;
 using System;
 using System.Linq;
 using System.Reactive.Concurrency;
@@ -5,10 +8,6 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using AltitudeAngelWings.Extra;
-using GMap.NET;
-using GMap.NET.WindowsForms;
-using MissionPlanner.Maps;
 using Feature = GeoJSON.Net.Feature.Feature;
 using Unit = System.Reactive.Unit;
 
@@ -111,7 +110,7 @@ namespace MissionPlanner.Utilities.AltitudeAngel
         {
             if (item is Feature)
             {
-                var prop = ((Feature) item).Properties;
+                var prop = ((Feature)item).Properties;
 
                 var display = prop["display"] as Newtonsoft.Json.Linq.JObject;
 

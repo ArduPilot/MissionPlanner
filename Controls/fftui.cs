@@ -7,7 +7,6 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using ZedGraph;
-using InputBox = MissionPlanner.Controls.InputBox;
 
 namespace MissionPlanner.Controls
 {
@@ -56,7 +55,7 @@ namespace MissionPlanner.Controls
                     byte[] temp = new byte[2];
                     var read = st.Read(temp, 0, temp.Length);
 
-                    var val = (double) BitConverter.ToInt16(temp, 0);
+                    var val = (double)BitConverter.ToInt16(temp, 0);
 
                     buffer[a] = val;
 
@@ -66,7 +65,7 @@ namespace MissionPlanner.Controls
                     {
                         samples++;
 
-                        var fftanswer = fft.rin(buffer, (uint) bins);
+                        var fftanswer = fft.rin(buffer, (uint)bins);
 
                         var freqt = fft.FreqTable(buffer.Length, hz);
 
@@ -90,15 +89,15 @@ namespace MissionPlanner.Controls
                         zedGraphControl1.GraphPane.CurveList.Clear();
                         zedGraphControl1.GraphPane.CurveList.Add(curve);
 
-                        for (int b = 0; b < (1 << bins)/2; b++)
+                        for (int b = 0; b < (1 << bins) / 2; b++)
                         {
-                            avg[0][b] = avg[0][b] * (1.0 - (1.0 / samples)) + fftanswer[b] * (1.0/ samples);
+                            avg[0][b] = avg[0][b] * (1.0 - (1.0 / samples)) + fftanswer[b] * (1.0 / samples);
                         }
 
                         // 0 out all data befor cutoff
                         for (int b = 0; b < 1 << bins / 2; b++)
                         {
-                            if (freqt[b] < (double) NUM_startfreq.Value)
+                            if (freqt[b] < (double)NUM_startfreq.Value)
                             {
                                 avg[0][b] = 0;
                                 continue;
@@ -108,7 +107,7 @@ namespace MissionPlanner.Controls
                         }
 
                         ppl = new ZedGraph.PointPairList(freqt, avg[0]);
-                        curve = new LineItem("Avg", ppl, color[1], SymbolType.None) {IsY2Axis = true};
+                        curve = new LineItem("Avg", ppl, color[1], SymbolType.None) { IsY2Axis = true };
                         zedGraphControl1.GraphPane.CurveList.Add(curve);
 
                         zedGraphControl1.Invalidate();
@@ -117,7 +116,7 @@ namespace MissionPlanner.Controls
                         zedGraphControl1.Refresh();
 
                         // 50% overlap
-                        st.Seek(-(1 << bins)/2, SeekOrigin.Current);
+                        st.Seek(-(1 << bins) / 2, SeekOrigin.Current);
                         a = 0;
                         buffer = new double[buffer.Length];
                     }
@@ -149,9 +148,9 @@ namespace MissionPlanner.Controls
                 if (!File.Exists(ofd.FileName))
                     return;
 
-                var file =  new DFLogBuffer(File.OpenRead(ofd.FileName));
+                var file = new DFLogBuffer(File.OpenRead(ofd.FileName));
 
-                int bins = (int) NUM_bins.Value;
+                int bins = (int)NUM_bins.Value;
 
                 int N = 1 << bins;
 
@@ -174,7 +173,7 @@ namespace MissionPlanner.Controls
                     new double[N / 2]
                 };
 
-                object[] datas = new object[] {datainGX, datainGY, datainGZ, datainAX, datainAY, datainAZ};
+                object[] datas = new object[] { datainGX, datainGY, datainGZ, datainAX, datainAY, datainAZ };
                 string[] datashead = new string[]
                 {"GYR1-GyrX", "GYR1-GyrY", "GYR1-GyrZ", "ACC1-AccX", "ACC1-AccY", "ACC1-AccZ"};
                 Color[] color = new Color[]
@@ -203,9 +202,9 @@ namespace MissionPlanner.Controls
                         int offsetTime = file.dflog.FindMessageOffset("ACC1", "TimeUS");
 
                         double time = double.Parse(item.items[offsetTime],
-                                          CultureInfo.InvariantCulture) /1000.0;
+                                          CultureInfo.InvariantCulture) / 1000.0;
 
-                        timedelta = timedelta*0.99 + (time - lasttime)*0.01;
+                        timedelta = timedelta * 0.99 + (time - lasttime) * 0.01;
 
                         // we missed gyro data
                         if (samplecounta >= N)
@@ -230,7 +229,7 @@ namespace MissionPlanner.Controls
                         int offsetTime = file.dflog.FindMessageOffset("ACC1", "TimeUS");
 
                         double time = double.Parse(item.items[offsetTime],
-                                          CultureInfo.InvariantCulture) /1000.0;
+                                          CultureInfo.InvariantCulture) / 1000.0;
 
                         // we missed accel data
                         if (samplecountg >= N)
@@ -252,11 +251,11 @@ namespace MissionPlanner.Controls
 
                         foreach (var itemlist in datas)
                         {
-                            var fftanswer = fft.rin((double[]) itemlist, (uint) bins);
+                            var fftanswer = fft.rin((double[])itemlist, (uint)bins);
 
-                            for (int b = 0; b < N/2; b++)
+                            for (int b = 0; b < N / 2; b++)
                             {
-                                avg[inputdataindex][b] += fftanswer[b]*(1.0/(N/2.0));
+                                avg[inputdataindex][b] += fftanswer[b] * (1.0 / (N / 2.0));
                             }
 
                             samplecounta = 0;
@@ -268,16 +267,16 @@ namespace MissionPlanner.Controls
 
                 if (freqt == null)
                 {
-                    samplerate = Math.Round(1000/timedelta, 1);
-                    freqt = fft.FreqTable(N, (int) samplerate);
+                    samplerate = Math.Round(1000 / timedelta, 1);
+                    freqt = fft.FreqTable(N, (int)samplerate);
                 }
 
                 // 0 out all data befor cutoff
                 for (int inputdataindex = 0; inputdataindex < 6; inputdataindex++)
                 {
-                    for (int b = 0; b < N/2; b++)
+                    for (int b = 0; b < N / 2; b++)
                     {
-                        if (freqt[b] < (double) NUM_startfreq.Value)
+                        if (freqt[b] < (double)NUM_startfreq.Value)
                         {
                             avg[inputdataindex][b] = 0;
                             continue;
@@ -317,7 +316,7 @@ namespace MissionPlanner.Controls
 
                     controlindex++;
                 }
-                
+
                 SetScale(ctls);
             }
         }
@@ -339,7 +338,7 @@ namespace MissionPlanner.Controls
 
                 var file = new DFLogBuffer(File.OpenRead(ofd.FileName));
 
-                int bins = (int) NUM_bins.Value;
+                int bins = (int)NUM_bins.Value;
 
                 int N = 1 << bins;
 
@@ -352,7 +351,7 @@ namespace MissionPlanner.Controls
                 };
 
                 // 3 imus * 2 sets of measurements(gyr/acc)
-                FFT2.datastate[] alldata = new FFT2.datastate[3*2];
+                FFT2.datastate[] alldata = new FFT2.datastate[3 * 2];
                 for (int a = 0; a < alldata.Length; a++)
                     alldata[a] = new FFT2.datastate();
 
@@ -375,14 +374,14 @@ namespace MissionPlanner.Controls
                         int offsetTime = file.dflog.FindMessageOffset(item.msgtype, "TimeUS");
 
                         double time = double.Parse(item.items[offsetTime],
-                                          CultureInfo.InvariantCulture) /1000.0;
+                                          CultureInfo.InvariantCulture) / 1000.0;
 
                         if (time < alldata[sensorno].lasttime)
                             continue;
 
                         if (time != alldata[sensorno].lasttime)
-                            alldata[sensorno].timedelta = alldata[sensorno].timedelta*0.99 +
-                                                          (time - alldata[sensorno].lasttime)*0.01;
+                            alldata[sensorno].timedelta = alldata[sensorno].timedelta * 0.99 +
+                                                          (time - alldata[sensorno].lasttime) * 0.01;
 
                         alldata[sensorno].lasttime = time;
 
@@ -405,14 +404,14 @@ namespace MissionPlanner.Controls
                         int offsetTime = file.dflog.FindMessageOffset(item.msgtype, "TimeUS");
 
                         double time = double.Parse(item.items[offsetTime],
-                                          CultureInfo.InvariantCulture) /1000.0;
+                                          CultureInfo.InvariantCulture) / 1000.0;
 
-                        if(time < alldata[sensorno].lasttime)
+                        if (time < alldata[sensorno].lasttime)
                             continue;
 
                         if (time != alldata[sensorno].lasttime)
-                            alldata[sensorno].timedelta = alldata[sensorno].timedelta*0.99 +
-                                                          (time - alldata[sensorno].lasttime)*0.01;
+                            alldata[sensorno].timedelta = alldata[sensorno].timedelta * 0.99 +
+                                                          (time - alldata[sensorno].lasttime) * 0.01;
 
                         alldata[sensorno].lasttime = time;
 
@@ -434,31 +433,31 @@ namespace MissionPlanner.Controls
 
                     double samplerate = 0;
 
-                    samplerate = Math.Round(1000/sensordata.timedelta, 1);
+                    samplerate = Math.Round(1000 / sensordata.timedelta, 1);
 
-                    double[] freqt = fft.FreqTable(N, (int) samplerate);
+                    double[] freqt = fft.FreqTable(N, (int)samplerate);
 
-                    double[] avgx = new double[N/2];
-                    double[] avgy = new double[N/2];
-                    double[] avgz = new double[N/2];
+                    double[] avgx = new double[N / 2];
+                    double[] avgy = new double[N / 2];
+                    double[] avgz = new double[N / 2];
 
                     int totalsamples = sensordata.datax.Count;
-                    int count = totalsamples/N;
+                    int count = totalsamples / N;
                     int done = 0;
                     while (count > 1) // skip last part
                     {
-                        var fftanswerx = fft.rin(sensordata.datax.Skip(N*done).Take(N).ToArray(), (uint) bins);
-                        var fftanswery = fft.rin(sensordata.datay.Skip(N*done).Take(N).ToArray(), (uint) bins);
-                        var fftanswerz = fft.rin(sensordata.dataz.Skip(N*done).Take(N).ToArray(), (uint) bins);
+                        var fftanswerx = fft.rin(sensordata.datax.Skip(N * done).Take(N).ToArray(), (uint)bins);
+                        var fftanswery = fft.rin(sensordata.datay.Skip(N * done).Take(N).ToArray(), (uint)bins);
+                        var fftanswerz = fft.rin(sensordata.dataz.Skip(N * done).Take(N).ToArray(), (uint)bins);
 
-                        for (int b = 0; b < N/2; b++)
+                        for (int b = 0; b < N / 2; b++)
                         {
-                            if (freqt[b] < (double) NUM_startfreq.Value)
+                            if (freqt[b] < (double)NUM_startfreq.Value)
                                 continue;
 
-                            avgx[b] += fftanswerx[b]/ (done + count);
-                            avgy[b] += fftanswery[b]/ (done + count);
-                            avgz[b] += fftanswerz[b]/ (done + count);
+                            avgx[b] += fftanswerx[b] / (done + count);
+                            avgy[b] += fftanswery[b] / (done + count);
+                            avgz[b] += fftanswerz[b] / (done + count);
                         }
 
                         count--;
@@ -490,7 +489,7 @@ namespace MissionPlanner.Controls
                     ctls[controlindex].Invalidate();
                     ctls[controlindex].AxisChange();
 
-                    ctls[controlindex].GraphPane.XAxis.Scale.Max = samplerate/2;
+                    ctls[controlindex].GraphPane.XAxis.Scale.Max = samplerate / 2;
 
                     ctls[controlindex].Refresh();
 
@@ -533,7 +532,7 @@ namespace MissionPlanner.Controls
 
         private string zedGraphControl_PointValueEvent(ZedGraphControl sender, GraphPane pane, CurveItem curve, int iPt)
         {
-            return String.Format("{0} hz/{1} rpm", curve[iPt].X, curve[iPt].X*60.0);
+            return String.Format("{0} hz/{1} rpm", curve[iPt].X, curve[iPt].X * 60.0);
         }
 
         private void but_fftimu_Click(object sender, EventArgs e)
@@ -567,7 +566,7 @@ namespace MissionPlanner.Controls
                 for (int a = 0; a < alldata.Length; a++)
                     alldata[a] = new FFT2.datastate();
 
-                foreach (var item in file.GetEnumeratorType(new string[] {"IMU","IMU2","IMU3"}))
+                foreach (var item in file.GetEnumeratorType(new string[] { "IMU", "IMU2", "IMU3" }))
                 {
                     if (item.msgtype == null)
                     {
@@ -584,7 +583,7 @@ namespace MissionPlanner.Controls
                         if (item.msgtype == "IMU3")
                             sensorno = 2;
 
-                        alldata[sensorno+3].type = item.msgtype +" ACC";
+                        alldata[sensorno + 3].type = item.msgtype + " ACC";
 
                         int offsetAX = file.dflog.FindMessageOffset(item.msgtype, "AccX");
                         int offsetAY = file.dflog.FindMessageOffset(item.msgtype, "AccY");
@@ -705,8 +704,8 @@ namespace MissionPlanner.Controls
             }
         }
 
-        double prevMouseX = 0; 
-        double prevMouseY = 0;  
+        double prevMouseX = 0;
+        double prevMouseY = 0;
 
         private bool zedGraphControl1_MouseMoveEvent(ZedGraphControl sender, MouseEventArgs e)
         {
@@ -775,16 +774,16 @@ namespace MissionPlanner.Controls
                             CultureInfo.InvariantCulture);
                         instance = int.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "instance")],
                             CultureInfo.InvariantCulture);
-                    
+
                         sensorno = type * 3 + instance;
 
                         alldata[sensorno].sample_rate = double.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "smp_rate")],
                         CultureInfo.InvariantCulture);
 
                         if (type == 0)
-                            alldata[sensorno].type = "ACC"+ instance.ToString();
+                            alldata[sensorno].type = "ACC" + instance.ToString();
                         if (type == 1)
-                            alldata[sensorno].type = "GYR"+ instance.ToString();
+                            alldata[sensorno].type = "GYR" + instance.ToString();
 
                     }
                     else if (item.msgtype.StartsWith("ISBD"))
@@ -812,12 +811,21 @@ namespace MissionPlanner.Controls
 
                         alldata[sensorno].lasttime = time;
 
-                        item.items[offsetX].Split(new[] { ' ', '[', ']' }, StringSplitOptions.RemoveEmptyEntries).ForEach(aa => { alldata[sensorno].datax.Add(double.Parse(aa,
-                            CultureInfo.InvariantCulture)); });
-                        item.items[offsetY].Split(new[] { ' ', '[', ']' }, StringSplitOptions.RemoveEmptyEntries).ForEach(aa => { alldata[sensorno].datay.Add(double.Parse(aa,
-                            CultureInfo.InvariantCulture)); });
-                        item.items[offsetZ].Split(new[] { ' ', '[', ']' }, StringSplitOptions.RemoveEmptyEntries).ForEach(aa => { alldata[sensorno].dataz.Add(double.Parse(aa,
-                            CultureInfo.InvariantCulture)); });
+                        item.items[offsetX].Split(new[] { ' ', '[', ']' }, StringSplitOptions.RemoveEmptyEntries).ForEach(aa =>
+                        {
+                            alldata[sensorno].datax.Add(double.Parse(aa,
+CultureInfo.InvariantCulture));
+                        });
+                        item.items[offsetY].Split(new[] { ' ', '[', ']' }, StringSplitOptions.RemoveEmptyEntries).ForEach(aa =>
+                        {
+                            alldata[sensorno].datay.Add(double.Parse(aa,
+CultureInfo.InvariantCulture));
+                        });
+                        item.items[offsetZ].Split(new[] { ' ', '[', ']' }, StringSplitOptions.RemoveEmptyEntries).ForEach(aa =>
+                        {
+                            alldata[sensorno].dataz.Add(double.Parse(aa,
+CultureInfo.InvariantCulture));
+                        });
                     }
                 }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -171,7 +172,8 @@ namespace MissionPlanner.Utilities
                         int.Parse(item["Length"].Trim()),
                         item["Name"].Trim(),
                         item["Format"].Trim(),
-                        item.items.Skip(dflog.FindMessageOffset("FMT", "Columns")).FirstOrDefault());
+                        item.items.Skip(dflog.FindMessageOffset("FMT", "Columns")).Aggregate((s, s1) => s.Trim() + "," + s1.Trim())
+                            .TrimStart(','));
 
                     dflog.FMTLine(this[item.lineno]);
                 }
@@ -287,7 +289,8 @@ namespace MissionPlanner.Utilities
                     var unit = units.Skip(i).FirstOrDefault().Value;
                     var binfmt = binfmts[i];
                     var multi = 1.0;
-                    double.TryParse(multipliers.Skip(i).FirstOrDefault().Value, out multi);
+                    double.TryParse(multipliers.Skip(i).FirstOrDefault().Value, NumberStyles.Any,
+                        CultureInfo.InvariantCulture, out multi);
 
                     if (binfmt == 'c' || binfmt == 'C' ||
                         binfmt == 'e' || binfmt == 'E' ||

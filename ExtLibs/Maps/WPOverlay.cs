@@ -22,7 +22,7 @@ namespace MissionPlanner.ArduPilot
         /// list of point as per mission including jump repeats
         public List<PointLatLngAlt> fullpointlist = new List<PointLatLngAlt>();
 
-        public void CreateOverlay(MAVLink.MAV_FRAME altmode, PointLatLngAlt home, List<Locationwp> missionitems, double wpradius, double loiterradius)
+        public void CreateOverlay(PointLatLngAlt home, List<Locationwp> missionitems, double wpradius, double loiterradius)
         {
             overlay.Clear();
 
@@ -33,13 +33,13 @@ namespace MissionPlanner.ArduPilot
             double minlat = 180;
             double minlong = 180;
 
-            Func<double, double, double> gethomealt = (lat, lng) => GetHomeAlt(altmode, home.Alt, lat, lng);
-
+            Func<MAVLink.MAV_FRAME, double, double, double> gethomealt = (altmode, lat, lng) =>
+                GetHomeAlt(altmode, home.Alt, lat, lng);
+ 
 
             if (home != PointLatLngAlt.Zero)
             {
                 home.Tag = "H";
-                home.Tag2 = altmode.ToString();
                 pointlist.Add(home);
                 fullpointlist.Add(pointlist[pointlist.Count - 1]);
                 addpolygonmarker("H", home.Lng, home.Lat, home.Alt, null, 0);
@@ -74,7 +74,7 @@ namespace MissionPlanner.ArduPilot
                     if (command == (ushort)MAVLink.MAV_CMD.DO_SET_ROI)
                     {
                         pointlist.Add(new PointLatLngAlt(item.lat, item.lng,
-                                item.alt + gethomealt(item.lat, item.lng), "ROI" + (a + 1))
+                                item.alt + gethomealt((MAVLink.MAV_FRAME)item.frame, item.lat, item.lng), "ROI" + (a + 1))
                         { color = Color.Red });
                         // do set roi is not a nav command. so we dont route through it
                         //fullpointlist.Add(pointlist[pointlist.Count - 1]);
@@ -115,7 +115,7 @@ namespace MissionPlanner.ArduPilot
                         else
                         {
                             pointlist.Add(new PointLatLngAlt(item.lat, item.lng,
-                                item.alt + gethomealt(item.lat, item.lng), (a + 1).ToString())
+                                item.alt + gethomealt((MAVLink.MAV_FRAME)item.frame, item.lat, item.lng), (a + 1).ToString())
                             {
                                 color = Color.LightBlue
                             });
@@ -125,7 +125,7 @@ namespace MissionPlanner.ArduPilot
                             {
                                 var from = pointlist.Last();
                                 var to = itemnext.lat != 0 && itemnext.lng != 0
-                                    ? new PointLatLngAlt(itemnext) { Alt = itemnext.alt + gethomealt(item.lat, item.lng) }
+                                    ? new PointLatLngAlt(itemnext) { Alt = itemnext.alt + gethomealt((MAVLink.MAV_FRAME)item.frame, item.lat, item.lng) }
                                     : from;
 
                                 var bearing = from.GetBearing(to);
@@ -152,7 +152,7 @@ namespace MissionPlanner.ArduPilot
                     else if (command == (ushort)MAVLink.MAV_CMD.SPLINE_WAYPOINT)
                     {
                         pointlist.Add(new PointLatLngAlt(item.lat, item.lng,
-                                item.alt + gethomealt(item.lat, item.lng), (a + 1).ToString())
+                                item.alt + gethomealt((MAVLink.MAV_FRAME)item.frame, item.lat, item.lng), (a + 1).ToString())
                         { Tag2 = "spline" });
                         fullpointlist.Add(pointlist[pointlist.Count - 1]);
                         addpolygonmarker((a + 1).ToString(), item.lng, item.lat,
@@ -161,7 +161,7 @@ namespace MissionPlanner.ArduPilot
                     else
                     {
                         pointlist.Add(new PointLatLngAlt(item.lat, item.lng,
-                            item.alt + gethomealt(item.lat, item.lng), (a + 1).ToString()));
+                            item.alt + gethomealt((MAVLink.MAV_FRAME)item.frame, item.lat, item.lng), (a + 1).ToString()));
                         fullpointlist.Add(pointlist[pointlist.Count - 1]);
                         addpolygonmarker((a + 1).ToString(), item.lng, item.lat,
                             item.alt, null, wpradius);

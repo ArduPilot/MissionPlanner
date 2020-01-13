@@ -65,8 +65,10 @@ namespace MissionPlanner.Utilities
                 var parameterLocations = parameterLocationsString.Split(';').ToList();
                 parameterLocations.RemoveAll(String.IsNullOrEmpty);
 
+                ParallelOptions opt = new ParallelOptions() { MaxDegreeOfParallelism = 3 };
+
                 // precache all the base urls
-                Parallel.ForEach(parameterLocations,
+                Parallel.ForEach(parameterLocations, opt,
                     parameterLocation =>
                     {
                         // load the base urls
@@ -134,6 +136,8 @@ namespace MissionPlanner.Utilities
                         vech.Add(item);
                 }
                 root.Save(XMLFileName);
+
+                Console.WriteLine("Saved to " + XMLFileName);
             }
         }
 
@@ -476,6 +480,12 @@ namespace MissionPlanner.Utilities
             // Make sure we don't blow up if the user is not connected or the endpoint is not available
             try
             {
+                if (!address.ToLower().StartsWith("http"))
+                {
+                    log.Info(address);
+                    data = File.ReadAllText(address.Replace("file:///",""));
+                    return data;
+                }
                 // Get the response.
                 using (var response = httpClient.GetAsync(address).GetAwaiter().GetResult())
                 {

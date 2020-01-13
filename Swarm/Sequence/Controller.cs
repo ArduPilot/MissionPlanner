@@ -5,7 +5,7 @@ namespace MissionPlanner.Swarm.Sequence
 {
     public class Controller
     {
-        private static readonly ILog log =    LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public DroneGroup DG;
 
@@ -29,8 +29,8 @@ namespace MissionPlanner.Swarm.Sequence
                     DG.Drones.Add(new Drone() { MavState = MAV });
                 }
             }
-            
-            thread = new Thread(mainloop) {IsBackground = true};
+
+            thread = new Thread(mainloop) { IsBackground = true };
             thread.Start();
 
             DG.CurrentMode = DroneGroup.Mode.idle;
@@ -39,7 +39,7 @@ namespace MissionPlanner.Swarm.Sequence
         public void Stop()
         {
             threadrun = false;
-            if(thread != null)
+            if (thread != null)
                 thread.Join();
             thread = null;
         }

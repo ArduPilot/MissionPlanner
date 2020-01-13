@@ -1,7 +1,7 @@
-﻿using System;
-using System.Windows.Forms;
-using MissionPlanner.Comms;
+﻿using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
+using System;
+using System.Windows.Forms;
 
 namespace MissionPlanner.Controls
 {
@@ -122,7 +122,7 @@ namespace MissionPlanner.Controls
                     int week, seconds;
                     GetGPSTime(out week, out seconds);
 
-                    writeline(string.Format("#4,{0},{1},{2},{3},", counter/10, seconds, week, 25));
+                    writeline(string.Format("#4,{0},{1},{2},{3},", counter / 10, seconds, week, 25));
 
                     //    writeline("#4,counter/2,111732000,1595,0,");
 
@@ -131,16 +131,16 @@ namespace MissionPlanner.Controls
                     GetGeo(out x, out y, out z, MainV2.comPort.MAV.cs.lat, MainV2.comPort.MAV.cs.lng,
                         MainV2.comPort.MAV.cs.alt);
 
-                    writeline(string.Format("#5,{0},{1},{2},{3},{4},", x*100, y*100, z*100,
+                    writeline(string.Format("#5,{0},{1},{2},{3},{4},", x * 100, y * 100, z * 100,
                         MainV2.comPort.MAV.cs.gpshdop + 0.01, MainV2.comPort.MAV.cs.satcount));
 
                     writeline(string.Format("#6,{0},{1},{2},{3},",
-                        MainV2.comPort.MAV.cs.groundspeed*Math.Sin(MainV2.comPort.MAV.cs.groundcourse*MathHelper.deg2rad),
-                        MainV2.comPort.MAV.cs.groundspeed*Math.Cos(MainV2.comPort.MAV.cs.groundcourse*MathHelper.deg2rad),
+                        MainV2.comPort.MAV.cs.groundspeed * Math.Sin(MainV2.comPort.MAV.cs.groundcourse * MathHelper.deg2rad),
+                        MainV2.comPort.MAV.cs.groundspeed * Math.Cos(MainV2.comPort.MAV.cs.groundcourse * MathHelper.deg2rad),
                         MainV2.comPort.MAV.cs.verticalspeed, 2));
 
-                    writeline(string.Format("#7,{0},{1},{2},", MainV2.comPort.MAV.cs.roll*MathHelper.deg2rad,
-                        MainV2.comPort.MAV.cs.pitch*MathHelper.deg2rad, MainV2.comPort.MAV.cs.yaw*MathHelper.deg2rad));
+                    writeline(string.Format("#7,{0},{1},{2},", MainV2.comPort.MAV.cs.roll * MathHelper.deg2rad,
+                        MainV2.comPort.MAV.cs.pitch * MathHelper.deg2rad, MainV2.comPort.MAV.cs.yaw * MathHelper.deg2rad));
 
                     writeline(string.Format("#8,{0},{1},{2},", MainV2.comPort.MAV.cs.alt, MainV2.comPort.MAV.cs.alt,
                         MainV2.comPort.MAV.cs.press_temp));
@@ -162,7 +162,7 @@ namespace MissionPlanner.Controls
         DateTime GetFromGps(int weeknumber, int seconds)
         {
             DateTime datum = new DateTime(1980, 1, 6, 0, 0, 0, DateTimeKind.Utc);
-            DateTime week = datum.AddDays(weeknumber*7);
+            DateTime week = datum.AddDays(weeknumber * 7);
             DateTime time = week.AddSeconds(seconds);
             return time;
         }
@@ -173,48 +173,48 @@ namespace MissionPlanner.Controls
 
             TimeSpan ts = DateTime.Now - datum;
 
-            weeknumber = ((int) ts.TotalDays/7);
+            weeknumber = ((int)ts.TotalDays / 7);
 
             ts = DateTime.Now - GetFromGps(weeknumber, 0);
 
-            seconds = (int) ts.TotalSeconds;
+            seconds = (int)ts.TotalSeconds;
         }
 
 
         void GetDegrees(double x, double y, double z, out double latitude, out double longitude)
         {
             double deg = 0.01745329252;
-            double r = Math.Sqrt(x*x + y*y);
-            longitude = Math.Asin(y/r)/deg;
+            double r = Math.Sqrt(x * x + y * y);
+            longitude = Math.Asin(y / r) / deg;
             if (longitude > 180d)
                 longitude = 180d - longitude;
 
-            latitude = Math.Atan(z/r)/deg;
+            latitude = Math.Atan(z / r) / deg;
         }
 
         void GetGeo(out double x, out double y, out double z, double latitude, double longitude, double alt)
         {
             double wgs84a = 6378137;
-            double wgs84f = 1.0/298.257223563;
-            double wgs84b = wgs84a*(1.0 - wgs84f);
+            double wgs84f = 1.0 / 298.257223563;
+            double wgs84b = wgs84a * (1.0 - wgs84f);
 
-            double clat = Math.Cos(MathHelper.deg2rad*latitude);
-            double slat = Math.Sin(MathHelper.deg2rad*latitude);
-            double clon = Math.Cos(MathHelper.deg2rad*longitude);
-            double slon = Math.Sin(MathHelper.deg2rad*longitude);
+            double clat = Math.Cos(MathHelper.deg2rad * latitude);
+            double slat = Math.Sin(MathHelper.deg2rad * latitude);
+            double clon = Math.Cos(MathHelper.deg2rad * longitude);
+            double slon = Math.Sin(MathHelper.deg2rad * longitude);
 
-            var ecc = Math.Sqrt(2*wgs84f - Math.Pow(wgs84f, 2));
-            var esq = ecc*ecc;
+            var ecc = Math.Sqrt(2 * wgs84f - Math.Pow(wgs84f, 2));
+            var esq = ecc * ecc;
 
-            alt = alt*0.0001;
+            alt = alt * 0.0001;
 
             // var rrnrm  = radcur (flat);
             var rn = wgs84a; /// (Math.Sqrt(1-esq)*(slat*slat));// rrnrm[1];
             var re = wgs84a; // rrnrm[0];
 
-            x = (rn + alt)*clat*clon;
-            y = (rn + alt)*clat*slon;
-            z = ((1 - esq)*rn + (alt))*slat;
+            x = (rn + alt) * clat * clon;
+            y = (rn + alt) * clat * slon;
+            z = ((1 - esq) * rn + (alt)) * slat;
         }
 
         void writeline(string line)
@@ -227,9 +227,9 @@ namespace MissionPlanner.Controls
             byte ans = 0;
             foreach (char ch in line.ToCharArray())
             {
-                ans += (byte) ch;
+                ans += (byte)ch;
             }
-            ans = (byte) (ans ^ 0xff);
+            ans = (byte)(ans ^ 0xff);
 
             return ans;
         }

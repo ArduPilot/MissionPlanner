@@ -1,11 +1,11 @@
-﻿using System;
+﻿using log4net;
+using MissionPlanner.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using log4net;
-using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Plugin
 {
@@ -15,7 +15,7 @@ namespace MissionPlanner.Plugin
 
         public static List<Plugin> Plugins = new List<Plugin>();
 
-        public static Dictionary<string,string[]> filecache = new Dictionary<string, string[]>();
+        public static Dictionary<string, string[]> filecache = new Dictionary<string, string[]>();
 
         static Assembly LoadFromSameFolder(object sender, ResolveEventArgs args)
         {
@@ -36,14 +36,15 @@ namespace MissionPlanner.Plugin
                 filecache[folderPath] = search1;
             }
 
-            foreach (var file in filecache[folderPath].Where(a=>a.ToLower().Contains(new AssemblyName(args.Name).Name.ToLower() + ".dll")))
+            foreach (var file in filecache[folderPath].Where(a => a.ToLower().Contains(new AssemblyName(args.Name).Name.ToLower() + ".dll")))
             {
                 try
                 {
                     Assembly assembly = Assembly.LoadFrom(file);
                     if (assembly.FullName == args.Name)
                         return assembly;
-                } catch { }
+                }
+                catch { }
             }
 
             // check local directory
@@ -67,10 +68,11 @@ namespace MissionPlanner.Plugin
                     Assembly assembly = Assembly.LoadFrom(file);
                     if (assembly.FullName == args.Name)
                         return assembly;
-                } catch { }
+                }
+                catch { }
             }
 
-            log.Info("LoadFromSameFolder " + args.RequestingAssembly + "-> "+ args.Name);
+            log.Info("LoadFromSameFolder " + args.RequestingAssembly + "-> " + args.Name);
 
             return null;
         }
@@ -81,7 +83,7 @@ namespace MissionPlanner.Plugin
                 file.ToLower().Contains("microsoft.") ||
                 file.ToLower().Contains("system.") ||
                 file.ToLower().Contains("missionplanner.grid.dll") ||
-                file.ToLower().Contains("usbserialforandroid") 
+                file.ToLower().Contains("usbserialforandroid")
                 )
                 return;
 
@@ -89,14 +91,14 @@ namespace MissionPlanner.Plugin
             if (File.Exists(file) && File.Exists(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
                                                  Path.DirectorySeparatorChar + Path.GetFileName(file)))
                 return;
-            
+
             AppDomain currentDomain = AppDomain.CurrentDomain;
             currentDomain.AssemblyResolve += new ResolveEventHandler(LoadFromSameFolder);
 
             Assembly asm = null;
 
             DateTime startDateTime = DateTime.Now;
-            
+
             try
             {
                 asm = Assembly.LoadFile(file);
@@ -111,9 +113,9 @@ namespace MissionPlanner.Plugin
             try
             {
                 Type[] types = asm.GetTypes();
-                Type type = typeof (MissionPlanner.Plugin.Plugin);
+                Type type = typeof(MissionPlanner.Plugin.Plugin);
                 foreach (var t in types)
-                    if (type.IsAssignableFrom((Type) t))
+                    if (type.IsAssignableFrom((Type)t))
                     {
                         pluginInfo = t;
                         break;
@@ -124,7 +126,7 @@ namespace MissionPlanner.Plugin
                     log.Info("Plugin Load " + file);
 
                     Object o = Activator.CreateInstance(pluginInfo, BindingFlags.Default, null, null, CultureInfo.CurrentUICulture);
-                    Plugin plugin = (Plugin) o;
+                    Plugin plugin = (Plugin)o;
 
                     plugin.Assembly = asm;
 

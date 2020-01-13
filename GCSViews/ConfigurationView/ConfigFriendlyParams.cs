@@ -1,4 +1,7 @@
-﻿using System;
+﻿using log4net;
+using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
@@ -7,9 +10,6 @@ using System.Reflection;
 using System.Text;
 using System.Timers;
 using System.Windows.Forms;
-using log4net;
-using MissionPlanner.Controls;
-using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -63,9 +63,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 foreach (Control ctl in tableLayoutPanel1.Controls)
                 {
-                    if (ctl.GetType() == typeof (RangeControl))
+                    if (ctl.GetType() == typeof(RangeControl))
                     {
-                        var rng = (RangeControl) ctl;
+                        var rng = (RangeControl)ctl;
                         if (rng.LabelText.ToLower().Contains(searchfor.ToLower()) ||
                             rng.DescriptionText.ToLower().Contains(searchfor.ToLower()))
                         {
@@ -78,9 +78,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             ctl.Visible = false;
                         }
                     }
-                    else if (ctl.GetType() == typeof (ValuesControl))
+                    else if (ctl.GetType() == typeof(ValuesControl))
                     {
-                        var vctl = (ValuesControl) ctl;
+                        var vctl = (ValuesControl)ctl;
                         if (vctl.LabelText.ToLower().Contains(searchfor.ToLower()) ||
                             vctl.DescriptionText.ToLower().Contains(searchfor.ToLower()))
                         {
@@ -214,7 +214,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if ((int)DialogResult.OK ==
                 CustomMessageBox.Show(Strings.WarningUpdateParamList, Strings.ERROR, MessageBoxButtons.OKCancel))
             {
-                ((Control) sender).Enabled = false;
+                ((Control)sender).Enabled = false;
 
                 try
                 {
@@ -227,7 +227,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
 
 
-                ((Control) sender).Enabled = true;
+                ((Control)sender).Enabled = true;
 
                 Activate();
             }
@@ -388,28 +388,28 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     var items = Controls.Find(x.Key, true);
                     if (items.Length > 0)
                     {
-                        if (items[0].GetType() == typeof (RangeControl))
+                        if (items[0].GetType() == typeof(RangeControl))
                         {
-                            ((RangeControl) items[0]).ValueChanged -= Control_ValueChanged;
-                            ((RangeControl) items[0]).DeAttachEvents();
-                            ((RangeControl) items[0]).Value = value;
-                            ThemeManager.ApplyThemeTo(((RangeControl) items[0]));
-                            ((RangeControl) items[0]).AttachEvents();
-                            ((RangeControl) items[0]).ValueChanged += Control_ValueChanged;
+                            ((RangeControl)items[0]).ValueChanged -= Control_ValueChanged;
+                            ((RangeControl)items[0]).DeAttachEvents();
+                            ((RangeControl)items[0]).Value = value;
+                            ThemeManager.ApplyThemeTo(((RangeControl)items[0]));
+                            ((RangeControl)items[0]).AttachEvents();
+                            ((RangeControl)items[0]).ValueChanged += Control_ValueChanged;
                             return;
                         }
-                        if (items[0].GetType() == typeof (ValuesControl))
+                        if (items[0].GetType() == typeof(ValuesControl))
                         {
-                            ((ValuesControl) items[0]).ValueChanged -= Control_ValueChanged;
-                            ((ValuesControl) items[0]).Value = value;
-                            ((ValuesControl) items[0]).ValueChanged += Control_ValueChanged;
+                            ((ValuesControl)items[0]).ValueChanged -= Control_ValueChanged;
+                            ((ValuesControl)items[0]).Value = value;
+                            ((ValuesControl)items[0]).ValueChanged += Control_ValueChanged;
                             return;
                         }
-                        if (items[0].GetType() == typeof (MavlinkCheckBoxBitMask))
+                        if (items[0].GetType() == typeof(MavlinkCheckBoxBitMask))
                         {
-                            ((MavlinkCheckBoxBitMask) items[0]).ValueChanged -= Control_ValueChanged;
-                            ((MavlinkCheckBoxBitMask) items[0]).Value = Convert.ToSingle(value);
-                            ((MavlinkCheckBoxBitMask) items[0]).ValueChanged += Control_ValueChanged;
+                            ((MavlinkCheckBoxBitMask)items[0]).ValueChanged -= Control_ValueChanged;
+                            ((MavlinkCheckBoxBitMask)items[0]).Value = Convert.ToSingle(value);
+                            ((MavlinkCheckBoxBitMask)items[0]).ValueChanged += Control_ValueChanged;
                             return;
                         }
                     }
@@ -506,7 +506,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             bitmask.setup(x.Key, MainV2.comPort.MAV.param);
 
                             bitmask.myLabel1.Text = displayName;
-                            bitmask.label1.Text = FitDescriptionText(units, description, tableLayoutPanel1.Width-50);
+                            bitmask.label1.Text = FitDescriptionText(units, description, tableLayoutPanel1.Width - 50);
                             bitmask.Width = tableLayoutPanel1.Width - 50;
 
                             ThemeManager.ApplyThemeTo(bitmask);
@@ -609,7 +609,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     var appendtext = string.Format("{0} ", descriptionParts[i]);
                     returnDescription.Append(appendtext);
 
-                    if (i != 0 && i%(width/40) == 0)
+                    if (i != 0 && i % (width / 40) == 0)
                     {
                         returnDescription.Append(Environment.NewLine);
                     }

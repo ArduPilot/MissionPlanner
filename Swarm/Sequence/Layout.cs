@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using MissionPlanner.Utilities;
+﻿using MissionPlanner.Utilities;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.IO;
 
 namespace MissionPlanner.Swarm.Sequence
 {

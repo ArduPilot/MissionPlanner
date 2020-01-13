@@ -1,16 +1,16 @@
-﻿using System;
+﻿using ICSharpCode.SharpZipLib.Core;
+using ICSharpCode.SharpZipLib.Zip;
+using MissionPlanner.Utilities;
+using SharpKml.Base;
+using SharpKml.Dom;
+using SharpKml.Dom.GX;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Xml;
-using ICSharpCode.SharpZipLib.Core;
-using ICSharpCode.SharpZipLib.Zip;
-using MissionPlanner.Utilities;
-using SharpKml.Base;
-using SharpKml.Dom;
-using SharpKml.Dom.GX;
 
 namespace MissionPlanner.Log
 {
@@ -129,7 +129,7 @@ namespace MissionPlanner.Log
             return color;
         }
 
-        public static void writeKML(string filename, Dictionary<int, List<CurrentState>> flightdatas, Action<double> progressBar1,double basealt = 0)
+        public static void writeKML(string filename, Dictionary<int, List<CurrentState>> flightdatas, Action<double> progressBar1, double basealt = 0)
         {
             SharpKml.Dom.AltitudeMode altmode = SharpKml.Dom.AltitudeMode.Absolute;
 
@@ -201,7 +201,7 @@ namespace MissionPlanner.Log
 
                 foreach (CurrentState cs in flightdata)
                 {
-                    progressBar1(50 + (int) ((float) a / (float) flightdata.Count * 100.0f / 2.0f));
+                    progressBar1(50 + (int)((float)a / (float)flightdata.Count * 100.0f / 2.0f));
 
                     if (starttime == DateTime.MinValue)
                     {

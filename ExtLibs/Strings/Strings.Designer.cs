@@ -975,6 +975,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to MAVFtp.
+        /// </summary>
+        public static string MAVFtp {
+            get {
+                return ResourceManager.GetString("MAVFtp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mavlink Connecting....
         /// </summary>
         public static string MavlinkConnecting {

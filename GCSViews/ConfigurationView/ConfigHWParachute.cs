@@ -1,7 +1,7 @@
-﻿using System;
+﻿using MissionPlanner.Controls;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using MissionPlanner.Controls;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -16,7 +16,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public void Activate()
         {
-            var copy = new Dictionary<string, double>((Dictionary<string, double>) MainV2.comPort.MAV.param);
+            var copy = new Dictionary<string, double>((Dictionary<string, double>)MainV2.comPort.MAV.param);
 
             foreach (string item in copy.Keys)
             {
@@ -49,7 +49,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (startup)
                 return;
 
-            ensureDisabled((ComboBox) sender, 27, mavlinkComboBoxServoNum.Text);
+            ensureDisabled((ComboBox)sender, 27, mavlinkComboBoxServoNum.Text);
 
             MainV2.comPort.setParam(mavlinkComboBoxServoNum.Text + "_FUNCTION", 27);
         }
@@ -60,7 +60,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 if (MainV2.comPort.MAV.param.ContainsKey(item + "_FUNCTION"))
                 {
-                    var ans = (float) MainV2.comPort.MAV.param[item + "_FUNCTION"];
+                    var ans = (float)MainV2.comPort.MAV.param[item + "_FUNCTION"];
 
                     if (item == exclude)
                         continue;

@@ -1,9 +1,8 @@
-﻿using System;
+﻿using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using MissionPlanner.Controls;
-using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -34,7 +33,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 //var gr = CreateGraphics();
 
-                var lbl = new Label() {Text = dev.Name + " " + ans, AutoSize = true, Location = new Point(5, 5 + b * 25)};
+                var lbl = new Label() { Text = dev.Name + " " + ans, AutoSize = true, Location = new Point(5, 5 + b * 25) };
                 Controls.Add(lbl);
 
                 //gr.DrawString(dev.Name + " " + ans, Font, new SolidBrush(ForeColor), 5, 5 + b * 25);
@@ -42,6 +41,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 b++;
             }
         }
-        
+
     }
 }
