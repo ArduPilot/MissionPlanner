@@ -65,8 +65,10 @@ namespace MissionPlanner.Utilities
                 var parameterLocations = parameterLocationsString.Split(';').ToList();
                 parameterLocations.RemoveAll(String.IsNullOrEmpty);
 
+                ParallelOptions opt = new ParallelOptions() { MaxDegreeOfParallelism = 3 };
+
                 // precache all the base urls
-                Parallel.ForEach(parameterLocations,
+                Parallel.ForEach(parameterLocations, opt,
                     parameterLocation =>
                     {
                         // load the base urls
