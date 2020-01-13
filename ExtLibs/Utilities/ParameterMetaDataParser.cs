@@ -85,12 +85,12 @@ namespace MissionPlanner.Utilities
 
                     objXmlTextWriter.WriteStartElement("Params");
 
-                    parameterLocations.Sort((a, b) => GetVechile(a).CompareTo(GetVechile(b)));
+                    parameterLocations.Sort((a, b) => GetVehicle(a).CompareTo(GetVehicle(b)));
 
                     var lastelement = "";
                     foreach (string parameterLocation in parameterLocations)
                     {
-                        string element = GetVechile(parameterLocation.ToLower());                       
+                        string element = GetVehicle(parameterLocation.ToLower());                       
 
                         // Read and parse the content.
                         string dataFromAddress = ReadDataFromAddress(parameterLocation.Trim());
@@ -153,7 +153,7 @@ namespace MissionPlanner.Utilities
             }
         }
 
-        private static string GetVechile(string parameterLocation)
+        private static string GetVehicle(string parameterLocation)
         {
             var element = "none";
 
@@ -477,6 +477,7 @@ namespace MissionPlanner.Utilities
                 }
             }
 
+            DateTime start = DateTime.Now;
             // Make sure we don't blow up if the user is not connected or the endpoint is not available
             try
             {
@@ -492,9 +493,12 @@ namespace MissionPlanner.Utilities
                     // Display the status.
                     log.Info(address + " " + ((HttpResponseMessage) response).StatusCode);
 
-                    if (response.StatusCode == HttpStatusCode.BadRequest)
+                    if (response.StatusCode == HttpStatusCode.BadRequest || response.StatusCode == HttpStatusCode.NotFound)
                     {
-                        cache[address] = "";
+                        lock (cachequeue)
+                        {
+                            cache[address] = "";
+                        }
                         return "";
                     }
 
@@ -526,7 +530,10 @@ namespace MissionPlanner.Utilities
             }
             catch (Exception ex)
             {
-                log.Error(String.Format("The request to {0} failed.", address), ex);
+                DateTime end = DateTime.Now;
+                log.Error(
+                    String.Format("The request to {0} failed after {1} sec attempt {2}", address,
+                        (end - start).TotalSeconds, attempt), ex);
 
                 attempt++;
 
