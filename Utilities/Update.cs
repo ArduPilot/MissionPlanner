@@ -404,20 +404,22 @@ namespace MissionPlanner.Utilities
         {
             try
             {
-                if (!File.Exists(filename))
-                    return false;
-
-                using (var md5 = MD5.Create())
+                if (File.Exists(filename))
                 {
-                    using (var stream = File.OpenRead(filename))
+                    using (var md5 = MD5.Create())
                     {
-                        var answer = BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", "").ToLower();
+                        using (var stream = File.OpenRead(filename))
+                        {
+                            var answer = BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", "").ToLower();
 
-                        log.Debug(filename + "," + hash + "," + answer);
+                            log.Debug(filename + "," + hash + "," + answer);
 
-                        return hash == answer;
+                            return hash == answer;
+                        }
                     }
                 }
+
+                log.Debug(filename + "," + hash + "," + "File does not not exist");
             }
             catch (Exception ex)
             {
