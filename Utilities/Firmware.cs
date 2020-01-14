@@ -183,12 +183,6 @@ namespace MissionPlanner.Utilities
 
             software temp = new software();
 
-            // this is for mono to a ssl server
-            //ServicePointManager.CertificatePolicy = new NoCheckCertificatePolicy(); 
-            ServicePointManager.ServerCertificateValidationCallback =
-                new System.Net.Security.RemoteCertificateValidationCallback(
-                    (sender1, certificate, chain, policyErrors) => { return true; });
-
             updateProgress(-1, Strings.GettingFWList);
 
             var urls = firmwareurl.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);

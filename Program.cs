@@ -16,6 +16,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
+using Newtonsoft.Json.Serialization;
 
 namespace MissionPlanner
 {
@@ -88,6 +89,11 @@ namespace MissionPlanner
 
             Directory.SetCurrentDirectory(Settings.GetRunningDirectory());
 
+            var listener = new TextWriterTraceListener(Settings.GetDataDirectory() + Path.DirectorySeparatorChar + "trace.log",
+                "defaulttrace");
+
+            Trace.Listeners.Add(listener);
+
             Thread = Thread.CurrentThread;
 
             System.Windows.Forms.Application.EnableVisualStyles();
@@ -97,11 +103,6 @@ namespace MissionPlanner
             ServicePointManager.DefaultConnectionLimit = 10;
 
             System.Windows.Forms.Application.ThreadException += Application_ThreadException;
-
-            // fix ssl on mono
-            ServicePointManager.ServerCertificateValidationCallback =
-                new System.Net.Security.RemoteCertificateValidationCallback(
-                    (sender, certificate, chain, policyErrors) => { return true; });
 
             if (args.Length > 0 && args[0] == "/update")
             {

@@ -381,13 +381,6 @@ namespace MissionPlanner.Utilities
         {
             try
             {
-                // this is for mono to a ssl server
-                //ServicePointManager.CertificatePolicy = new NoCheckCertificatePolicy(); 
-
-                ServicePointManager.ServerCertificateValidationCallback =
-                    new System.Net.Security.RemoteCertificateValidationCallback(
-                        (sender, certificate, chain, policyErrors) => { return true; });
-
                 lock (log)
                     log.Info(url);
                 // Create a request using a URL that can receive a post. 

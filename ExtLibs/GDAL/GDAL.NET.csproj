@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net461</TargetFrameworks>
+    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
     <ApplicationIcon />
     <OutputTypeEx>library</OutputTypeEx>
     <StartupObject />
@@ -19,10 +19,29 @@
     <PackageReference Include="GDAL" Version="2.4.2" />
     <PackageReference Include="GDAL.Native" Version="2.4.2" />
     <PackageReference Include="log4net" Version="2.0.8" />
-    <PackageReference Include="System.Drawing.Common" Version="4.5.1" />
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
     <ProjectReference Include="..\GMap.NET.Core\GMap.NET.Core.csproj" />
     <ProjectReference Include="..\GMap.NET.Drawing\GMap.NET.Drawing.csproj" />
 	
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="gdalconst_csharp">
+      <HintPath>bin\Debug\net461\gdalconst_csharp.dll</HintPath>
+    </Reference>
+    <Reference Include="gdal_csharp">
+      <HintPath>bin\Debug\net461\gdal_csharp.dll</HintPath>
+    </Reference>
+    <Reference Include="ogr_csharp">
+      <HintPath>bin\Debug\net461\ogr_csharp.dll</HintPath>
+    </Reference>
+    <Reference Include="osr_csharp">
+      <HintPath>bin\Debug\net461\osr_csharp.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

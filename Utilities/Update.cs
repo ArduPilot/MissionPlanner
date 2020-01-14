@@ -113,10 +113,6 @@ namespace MissionPlanner.Utilities
 
             path = path + Path.DirectorySeparatorChar + "version.txt";
 
-            ServicePointManager.ServerCertificateValidationCallback =
-                new System.Net.Security.RemoteCertificateValidationCallback(
-                    (sender, certificate, chain, policyErrors) => { return true; });
-
             log.Debug(path);
 
             // Create a request using a URL that can receive a post. 
