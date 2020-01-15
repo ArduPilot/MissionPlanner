@@ -1391,19 +1391,6 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         /// <returns></returns>
         public async Task<MAVLinkParamList> getParamListAsync(byte sysid, byte compid)
         {
-            while (giveComport == true)
-            {
-                await Task.Delay(100).ConfigureAwait(false);
-                if (frmProgressReporter != null && frmProgressReporter.doWorkArgs.CancelRequested)
-                {
-                    frmProgressReporter.doWorkArgs.CancelAcknowledged = true;
-                    giveComport = false;
-                    frmProgressReporter.doWorkArgs.ErrorMessage = "User Canceled";
-                    return MAVlist[sysid, compid].param;
-                }
-            }
-
-            giveComport = true;
             List<int> indexsreceived = new List<int>();
 
             // create new list so if canceled we use the old list
@@ -1428,12 +1415,135 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             bool onebyone = false;
             DateTime lastonebyone = DateTime.MinValue;
 
+            var sub2 = SubscribeToPacketType(MAVLINK_MSG_ID.STATUSTEXT, buffer =>
+            {
+                if (buffer.msgid == (byte) MAVLINK_MSG_ID.STATUSTEXT)
+                {
+                    var msg = buffer.ToStructure<mavlink_statustext_t>();
+
+                    string logdata = new String(msg.text);
+
+                    int ind = logdata.IndexOf('\0');
+                    if (ind != -1)
+                        logdata = logdata.Substring(0, ind);
+
+                    if (logdata.ToLower().Contains("copter") || logdata.ToLower().Contains("rover") ||
+                        logdata.ToLower().Contains("plane"))
+                    {
+                        MAVlist[sysid, compid].VersionString = logdata;
+                    }
+                    else if (logdata.ToLower().Contains("nuttx") || logdata.ToLower().Contains("chibios"))
+                    {
+                        MAVlist[sysid, compid].SoftwareVersions = logdata;
+                    }
+                    else if (logdata.ToLower().Contains("px4v2") ||
+                             Regex.IsMatch(logdata, @"\s[0-9A-F]+\s[0-9A-F]+\s[0-9A-F]+"))
+                    {
+                        MAVlist[sysid, compid].SerialString = logdata;
+                    }
+                    else if (logdata.ToLower().Contains("frame"))
+                    {
+                        MAVlist[sysid, compid].FrameString = logdata;
+                    }
+                    else
+                    {
+
+                    }
+                }
+
+                return true;
+            });
+
+            var sub1 = SubscribeToPacketType(MAVLINK_MSG_ID.PARAM_VALUE, buffer =>
+            {
+                if (buffer.msgid == (byte) MAVLINK_MSG_ID.PARAM_VALUE && buffer.sysid == req.target_system &&
+                    buffer.compid == req.target_component)
+                {
+                    restart = DateTime.Now;
+                    // if we are doing one by one dont update start time
+                    if (!onebyone)
+                        start = DateTime.Now;
+
+                    mavlink_param_value_t par = buffer.ToStructure<mavlink_param_value_t>();
+
+                    // set new target
+                    param_total = (par.param_count);
+                    newparamlist.TotalReported = param_total;
+
+                    if (param_total == 0)
+                        return true;
+
+                    string paramID = new String(par.param_id);
+
+                    int pos = paramID.IndexOf('\0');
+                    if (pos != -1)
+                    {
+                        paramID = paramID.Substring(0, pos);
+                    }
+
+                    // check if we already have it
+                    if (indexsreceived.Contains(par.param_index))
+                    {
+                        log.Info("Already got " + (par.param_index) + " '" + paramID + "' " +
+                                 (indexsreceived.Count * 100) / param_total);
+                        if (frmProgressReporter != null)
+                            this.frmProgressReporter.UpdateProgressAndStatus(
+                                (indexsreceived.Count * 100) / param_total, "Already Got param " + paramID);
+                        return true;
+                    }
+
+                    //Console.WriteLine(DateTime.Now.Millisecond + " gp2 ");
+
+                    log.Info(DateTime.Now.Millisecond + " got param " + (par.param_index) + " of " +
+                             (par.param_count) + " name: " + paramID + " " + par.param_value);
+
+                    //Console.WriteLine(DateTime.Now.Millisecond + " gp2a ");
+
+                    // item uses float based param system
+                    if ((MAVlist[sysid, compid].cs.capabilities & (uint) MAV_PROTOCOL_CAPABILITY.PARAM_FLOAT) > 0 ||
+                        MAVlist[sysid, compid].apname == MAV_AUTOPILOT.ARDUPILOTMEGA)
+                    {
+                        var offset = Marshal.OffsetOf(typeof(mavlink_param_value_t), "param_value");
+                        newparamlist[paramID] = new MAVLinkParam(paramID, BitConverter.GetBytes(par.param_value),
+                            MAV_PARAM_TYPE.REAL32, (MAV_PARAM_TYPE) par.param_type);
+                    }
+                    else
+                    {
+                        var offset = Marshal.OffsetOf(typeof(mavlink_param_value_t), "param_value");
+                        newparamlist[paramID] = new MAVLinkParam(paramID, BitConverter.GetBytes(par.param_value),
+                            (MAV_PARAM_TYPE) par.param_type, (MAV_PARAM_TYPE) par.param_type);
+                    }
+
+                    //Console.WriteLine(DateTime.Now.Millisecond + " gp2b ");
+
+                    // exclude index of 65535
+                    if (par.param_index != 65535)
+                        indexsreceived.Add(par.param_index);
+
+                    MAVlist[sysid, compid].param_types[paramID] = (MAV_PARAM_TYPE) par.param_type;
+
+                    //Console.WriteLine(DateTime.Now.Millisecond + " gp3 ");
+
+                    if (frmProgressReporter != null)
+                        this.frmProgressReporter.UpdateProgressAndStatus((indexsreceived.Count * 100) / param_total,
+                            Strings.Gotparam + paramID);
+
+                    // we hit the last param - lets escape eq total = 176 index = 0-175
+                    if (par.param_index == (param_total - 1))
+                        start = DateTime.MinValue;
+                }
+
+                return true;
+            });
+
             do
             {
                 if (frmProgressReporter != null && frmProgressReporter.doWorkArgs.CancelRequested)
                 {
                     frmProgressReporter.doWorkArgs.CancelAcknowledged = true;
-                    giveComport = false;
+               
+                    UnSubscribeToPacketType(sub1);
+                    UnSubscribeToPacketType(sub2);
                     frmProgressReporter.doWorkArgs.ErrorMessage = "User Canceled";
                     return MAVlist[sysid, compid].param;
                 }
@@ -1467,7 +1577,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                                 if (frmProgressReporter != null && frmProgressReporter.doWorkArgs.CancelRequested)
                                 {
                                     frmProgressReporter.doWorkArgs.CancelAcknowledged = true;
-                                    giveComport = false;
+                                    UnSubscribeToPacketType(sub1);
+                                    UnSubscribeToPacketType(sub2);
                                     frmProgressReporter.doWorkArgs.ErrorMessage = "User Canceled";
                                     return MAVlist[sysid, compid].param;
                                 }
@@ -1495,7 +1606,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                                 catch (Exception excp)
                                 {
                                     log.Info("GetParam Failed index: " + i + " " + excp);
-                                    giveComport = false;
+                                    UnSubscribeToPacketType(sub1);
+                                    UnSubscribeToPacketType(sub2);
                                     throw excp;
                                 }
                             }
@@ -1504,119 +1616,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     }
                 }
 
-                //Console.WriteLine(DateTime.Now.Millisecond + " gp0 ");
-
-                MAVLinkMessage buffer = await readPacketAsync().ConfigureAwait(false);
-                //Console.WriteLine(DateTime.Now.Millisecond + " gp1 ");
-                if (buffer.Length > 5)
-                {
-                    packets++;
-                    // stopwatch.Start();
-                    if (buffer.msgid == (byte)MAVLINK_MSG_ID.PARAM_VALUE && buffer.sysid == req.target_system && buffer.compid == req.target_component)
-                    {
-                        restart = DateTime.Now;
-                        // if we are doing one by one dont update start time
-                        if (!onebyone)
-                            start = DateTime.Now;
-
-                        mavlink_param_value_t par = buffer.ToStructure<mavlink_param_value_t>();
-
-                        // set new target
-                        param_total = (par.param_count);
-                        newparamlist.TotalReported = param_total;
-
-                        if (param_total == 0)
-                            break;
-
-                        string paramID = new String(par.param_id);
-
-                        int pos = paramID.IndexOf('\0');
-                        if (pos != -1)
-                        {
-                            paramID = paramID.Substring(0, pos);
-                        }
-
-                        // check if we already have it
-                        if (indexsreceived.Contains(par.param_index))
-                        {
-                            log.Info("Already got " + (par.param_index) + " '" + paramID + "' " + (indexsreceived.Count * 100) / param_total);
-                            if (frmProgressReporter != null)
-                                this.frmProgressReporter.UpdateProgressAndStatus(
-                                    (indexsreceived.Count * 100) / param_total, "Already Got param " + paramID);
-                            continue;
-                        }
-
-                        //Console.WriteLine(DateTime.Now.Millisecond + " gp2 ");
-
-                        log.Info(DateTime.Now.Millisecond + " got param " + (par.param_index) + " of " +
-                                 (par.param_count) + " name: " + paramID + " " + par.param_value);
-
-                        //Console.WriteLine(DateTime.Now.Millisecond + " gp2a ");
-
-                        // item uses float based param system
-                        if ((MAVlist[sysid, compid].cs.capabilities & (uint)MAV_PROTOCOL_CAPABILITY.PARAM_FLOAT) > 0 || MAVlist[sysid,compid].apname == MAV_AUTOPILOT.ARDUPILOTMEGA)
-                        {
-                            var offset = Marshal.OffsetOf(typeof(mavlink_param_value_t), "param_value");
-                            newparamlist[paramID] = new MAVLinkParam(paramID, BitConverter.GetBytes(par.param_value), MAV_PARAM_TYPE.REAL32, (MAV_PARAM_TYPE)par.param_type);
-                        }
-                        else
-                        {
-                            var offset = Marshal.OffsetOf(typeof(mavlink_param_value_t), "param_value");
-                            newparamlist[paramID] = new MAVLinkParam(paramID, BitConverter.GetBytes(par.param_value), (MAV_PARAM_TYPE)par.param_type, (MAV_PARAM_TYPE)par.param_type);
-                        }
-
-                        //Console.WriteLine(DateTime.Now.Millisecond + " gp2b ");
-
-                        // exclude index of 65535
-                        if (par.param_index != 65535)
-                            indexsreceived.Add(par.param_index);
-
-                        MAVlist[sysid, compid].param_types[paramID] = (MAV_PARAM_TYPE) par.param_type;
-
-                        //Console.WriteLine(DateTime.Now.Millisecond + " gp3 ");
-
-                        if(frmProgressReporter != null)
-                            this.frmProgressReporter.UpdateProgressAndStatus((indexsreceived.Count*100)/param_total,Strings.Gotparam + paramID);
-
-                        // we hit the last param - lets escape eq total = 176 index = 0-175
-                        if (par.param_index == (param_total - 1))
-                            start = DateTime.MinValue;
-                    }
-                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.STATUSTEXT)
-                    {
-                        var msg = buffer.ToStructure<mavlink_statustext_t>();
-
-                        string logdata = new String(msg.text);
-
-                        int ind = logdata.IndexOf('\0');
-                        if (ind != -1)
-                            logdata = logdata.Substring(0, ind);
-
-                        if (logdata.ToLower().Contains("copter") || logdata.ToLower().Contains("rover") ||
-                            logdata.ToLower().Contains("plane"))
-                        {
-                            MAVlist[sysid, compid].VersionString = logdata;
-                        }
-                        else if (logdata.ToLower().Contains("nuttx") || logdata.ToLower().Contains("chibios"))
-                        {
-                            MAVlist[sysid, compid].SoftwareVersions = logdata;
-                        }
-                        else if (logdata.ToLower().Contains("px4v2") || Regex.IsMatch(logdata, @"\s[0-9A-F]+\s[0-9A-F]+\s[0-9A-F]+"))
-                        {
-                            MAVlist[sysid, compid].SerialString = logdata;
-                        }
-                        else if (logdata.ToLower().Contains("frame"))
-                        {
-                            MAVlist[sysid, compid].FrameString = logdata;
-                        } else
-                        {
-
-                        }
-                    }
-                    //stopwatch.Stop();
-                    // Console.WriteLine("Time elapsed: {0}", stopwatch.Elapsed);
-                    // Console.WriteLine(DateTime.Now.Millisecond + " gp4 " + BaseStream.BytesToRead);
-                }
+                await Task.Delay(100);
+                
                 if (logreadmode && logplaybackfile.BaseStream.Position >= logplaybackfile.BaseStream.Length)
                 {
                     break;
@@ -1625,7 +1626,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 {
                     var exp = new Exception("Not Connected");
                     frmProgressReporter.doWorkArgs.ErrorMessage = exp.Message;
-                    giveComport = false;
+                    UnSubscribeToPacketType(sub1);
+                    UnSubscribeToPacketType(sub2);
                     throw exp;
                 }
             } while (indexsreceived.Count < param_total);
@@ -1634,10 +1636,13 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             {
                 var exp = new Exception("Missing Params " + indexsreceived.Count + " vs " + param_total);
                 frmProgressReporter.doWorkArgs.ErrorMessage = exp.Message;
-                giveComport = false;
+                UnSubscribeToPacketType(sub1);
+                UnSubscribeToPacketType(sub2);
                 throw exp;
             }
-            giveComport = false;
+
+            UnSubscribeToPacketType(sub1);
+            UnSubscribeToPacketType(sub2);
 
             MAVlist[sysid, compid].param.Clear();
             MAVlist[sysid, compid].param.TotalReported = param_total;

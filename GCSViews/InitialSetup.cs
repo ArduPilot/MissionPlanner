@@ -115,6 +115,12 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
+            log.InfoFormat("TotalReceived {0} TotalReported {1}", MainV2.comPort.MAV.param.TotalReceived, MainV2.comPort.MAV.param.TotalReported);
+            if (MainV2.comPort.MAV.param.TotalReceived < MainV2.comPort.MAV.param.TotalReported)
+            {
+                return;
+            }
+
             var mand = AddBackstageViewPage(typeof(ConfigMandatory), rm.GetString("backstageViewPagemand.Text"), isConnected);
 
             if (MainV2.DisplayConfiguration.displayFrameType)

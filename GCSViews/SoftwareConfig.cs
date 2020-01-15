@@ -44,64 +44,69 @@ namespace MissionPlanner.GCSViews
             {
                 BackstageViewPage start = null;
 
-                if (MainV2.comPort.BaseStream.IsOpen)
+                log.InfoFormat("TotalReceived {0} TotalReported {1}", MainV2.comPort.MAV.param.TotalReceived, MainV2.comPort.MAV.param.TotalReported);
+                if (MainV2.comPort.MAV.param.TotalReceived >= MainV2.comPort.MAV.param.TotalReported)
                 {
-                    if (MainV2.DisplayConfiguration.displayFlightModes)
+                    if (MainV2.comPort.BaseStream.IsOpen)
                     {
-                        start = AddBackstageViewPage(typeof(ConfigFlightModes), Strings.FlightModes);
-                    }
+                        if (MainV2.DisplayConfiguration.displayFlightModes)
+                        {
+                            start = AddBackstageViewPage(typeof(ConfigFlightModes), Strings.FlightModes);
+                        }
 
-                    if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
-                        AddBackstageViewPage(typeof(ConfigAC_Fence), Strings.GeoFence);
+                        if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
+                            AddBackstageViewPage(typeof(ConfigAC_Fence), Strings.GeoFence);
 
-                    if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
-                    {
+                        if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
+                        {
+                            if (MainV2.DisplayConfiguration.displayBasicTuning)
+                            {
+                                start = AddBackstageViewPage(typeof(ConfigSimplePids), Strings.BasicTuning);
+                            }
+
+                            if (MainV2.DisplayConfiguration.displayExtendedTuning)
+                            {
+                                AddBackstageViewPage(typeof(ConfigArducopter), Strings.ExtendedTuning);
+                            }
+                        }
+
+                        if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduPlane)
+                        {
+                            start = AddBackstageViewPage(typeof(ConfigArduplane), Strings.BasicTuning);
+                        }
+
+                        if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduRover)
+                        {
+                            start = AddBackstageViewPage(typeof(ConfigArdurover), Strings.BasicTuning);
+                        }
+
+                        if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduTracker)
+                        {
+                            start = AddBackstageViewPage(typeof(ConfigAntennaTracker), Strings.ExtendedTuning);
+                        }
+
                         if (MainV2.DisplayConfiguration.displayBasicTuning)
                         {
-                            start = AddBackstageViewPage(typeof(ConfigSimplePids), Strings.BasicTuning);
+                            AddBackstageViewPage(typeof(ConfigFriendlyParams), Strings.StandardParams);
                         }
-                        if (MainV2.DisplayConfiguration.displayExtendedTuning)
+
+                        if (MainV2.DisplayConfiguration.displayAdvancedParams)
                         {
-                            AddBackstageViewPage(typeof(ConfigArducopter), Strings.ExtendedTuning);
+                            AddBackstageViewPage(typeof(ConfigFriendlyParamsAdv), Strings.AdvancedParams, null, true);
                         }
-                    }
 
-                    if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduPlane)
-                    {
-                        start = AddBackstageViewPage(typeof(ConfigArduplane), Strings.BasicTuning);
-                    }
+                        if (!Program.MONO && ConfigOSD.IsApplicable())
+                        {
+                            AddBackstageViewPage(typeof(ConfigOSD), Strings.OnboardOSD);
+                        }
 
-                    if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduRover)
-                    {
-                        start = AddBackstageViewPage(typeof(ConfigArdurover), Strings.BasicTuning);
-                    }
+                        if ((MainV2.comPort.MAV.cs.capabilities & (int) MAVLink.MAV_PROTOCOL_CAPABILITY.FTP) > 0)
+                            AddBackstageViewPage(typeof(MavFTPUI), Strings.MAVFtp);
 
-                    if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduTracker)
-                    {
-                        start = AddBackstageViewPage(typeof(ConfigAntennaTracker), Strings.ExtendedTuning);
-                    }
-
-                    if (MainV2.DisplayConfiguration.displayBasicTuning)
-                    {
-                        AddBackstageViewPage(typeof(ConfigFriendlyParams), Strings.StandardParams);
-                    }
-
-                    if (MainV2.DisplayConfiguration.displayAdvancedParams)
-                    {
-                        AddBackstageViewPage(typeof(ConfigFriendlyParamsAdv), Strings.AdvancedParams, null, true);
-                    }
-
-                    if (!Program.MONO && ConfigOSD.IsApplicable())
-                    {
-                        AddBackstageViewPage(typeof(ConfigOSD), Strings.OnboardOSD);
-                    }
-
-                    if ((MainV2.comPort.MAV.cs.capabilities & (int)MAVLink.MAV_PROTOCOL_CAPABILITY.FTP) > 0)
-                        AddBackstageViewPage(typeof(MavFTPUI), Strings.MAVFtp);
-
-                    if (true)
-                    {
-                        AddBackstageViewPage(typeof(ConfigUserDefined), Strings.User_Params);
+                        if (true)
+                        {
+                            AddBackstageViewPage(typeof(ConfigUserDefined), Strings.User_Params);
+                        }
                     }
                 }
 
