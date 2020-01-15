@@ -56,9 +56,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_paramgen_Click(object sender, System.EventArgs e)
         {
-            ParameterMetaDataParser.GetParameterInformation(ConfigurationManager.AppSettings["ParameterLocationsBleeding"] + ";" + ConfigurationManager.AppSettings["ParameterLocations"]);
+            ProgressReporterDialogue prd = new ProgressReporterDialogue();
 
-            ParameterMetaDataRepositoryAPM.Reload();
+            prd.DoWork += dialogue =>
+            {
+                ParameterMetaDataParser.GetParameterInformation(
+                    ConfigurationManager.AppSettings["ParameterLocationsBleeding"] + ";" +
+                    ConfigurationManager.AppSettings["ParameterLocations"]);
+
+                ParameterMetaDataRepositoryAPM.Reload();
+            };
+
+            prd.doWorkArgs.ForceExit = true;
+
+            prd.RunBackgroundOperationAsync();
         }
 
         private void BUT_movingbase_Click(object sender, System.EventArgs e)
