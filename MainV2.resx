@@ -324,9 +324,6 @@
   <data name="MainMenu.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
-  <data name="MenuFlightData.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 6pt</value>
-  </data>
   <data name="MenuFlightData.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADEAAAAtCAYAAAAHiIP8AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -368,10 +365,10 @@
     <value>Magenta</value>
   </data>
   <data name="MenuFlightData.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 49</value>
+    <value>49, 40</value>
   </data>
   <data name="MenuFlightData.Text" xml:space="preserve">
-    <value>FLIGHT DATA</value>
+    <value>DATA</value>
   </data>
   <data name="MenuFlightData.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>BottomCenter</value>
@@ -381,9 +378,6 @@
   </data>
   <data name="MenuFlightData.ToolTipText" xml:space="preserve">
     <value>Flight Data</value>
-  </data>
-  <data name="MenuFlightPlanner.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 6pt</value>
   </data>
   <data name="MenuFlightPlanner.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -438,10 +432,10 @@
     <value>White</value>
   </data>
   <data name="MenuFlightPlanner.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 49</value>
+    <value>49, 40</value>
   </data>
   <data name="MenuFlightPlanner.Text" xml:space="preserve">
-    <value>FLIGHT PLAN</value>
+    <value>PLAN</value>
   </data>
   <data name="MenuFlightPlanner.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>BottomCenter</value>
@@ -451,9 +445,6 @@
   </data>
   <data name="MenuFlightPlanner.ToolTipText" xml:space="preserve">
     <value>Flight Planner</value>
-  </data>
-  <data name="MenuInitConfig.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 6pt</value>
   </data>
   <data name="MenuInitConfig.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -502,7 +493,7 @@
     <value>Magenta</value>
   </data>
   <data name="MenuInitConfig.Size" type="System.Drawing.Size, System.Drawing">
-    <value>49, 49</value>
+    <value>49, 40</value>
   </data>
   <data name="MenuInitConfig.Text" xml:space="preserve">
     <value>SETUP</value>
@@ -515,9 +506,6 @@
   </data>
   <data name="MenuInitConfig.ToolTipText" xml:space="preserve">
     <value>Hardware Config</value>
-  </data>
-  <data name="MenuConfigTune.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 6pt</value>
   </data>
   <data name="MenuConfigTune.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -566,7 +554,7 @@
     <value>Magenta</value>
   </data>
   <data name="MenuConfigTune.Size" type="System.Drawing.Size, System.Drawing">
-    <value>49, 49</value>
+    <value>49, 40</value>
   </data>
   <data name="MenuConfigTune.Text" xml:space="preserve">
     <value>CONFIG</value>
@@ -579,9 +567,6 @@
   </data>
   <data name="MenuConfigTune.ToolTipText" xml:space="preserve">
     <value>Software Config</value>
-  </data>
-  <data name="MenuSimulation.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 6pt</value>
   </data>
   <data name="MenuSimulation.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -624,7 +609,7 @@
     <value>Magenta</value>
   </data>
   <data name="MenuSimulation.Size" type="System.Drawing.Size, System.Drawing">
-    <value>56, 49</value>
+    <value>49, 40</value>
   </data>
   <data name="MenuSimulation.Text" xml:space="preserve">
     <value>SIMULATION</value>
@@ -637,9 +622,6 @@
   </data>
   <data name="MenuSimulation.ToolTipText" xml:space="preserve">
     <value>Simulation</value>
-  </data>
-  <data name="MenuTerminal.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 6pt</value>
   </data>
   <data name="MenuTerminal.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -667,7 +649,7 @@
     <value>Magenta</value>
   </data>
   <data name="MenuTerminal.Size" type="System.Drawing.Size, System.Drawing">
-    <value>49, 49</value>
+    <value>49, 40</value>
   </data>
   <data name="MenuTerminal.Text" xml:space="preserve">
     <value>TERMINAL</value>
@@ -680,9 +662,6 @@
   </data>
   <data name="MenuTerminal.ToolTipText" xml:space="preserve">
     <value>Terminal</value>
-  </data>
-  <data name="MenuHelp.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 6pt</value>
   </data>
   <data name="MenuHelp.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -719,7 +698,7 @@
     <value>Magenta</value>
   </data>
   <data name="MenuHelp.Size" type="System.Drawing.Size, System.Drawing">
-    <value>49, 49</value>
+    <value>49, 40</value>
   </data>
   <data name="MenuHelp.Text" xml:space="preserve">
     <value>HELP</value>
@@ -732,9 +711,6 @@
   </data>
   <data name="MenuHelp.ToolTipText" xml:space="preserve">
     <value>Help</value>
-  </data>
-  <data name="MenuDonate.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 6pt</value>
   </data>
   <data name="MenuDonate.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -772,7 +748,7 @@
 </value>
   </data>
   <data name="MenuDonate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>49, 49</value>
+    <value>49, 40</value>
   </data>
   <data name="MenuDonate.Text" xml:space="preserve">
     <value>DONATE</value>
@@ -785,9 +761,6 @@
   </data>
   <data name="MenuDonate.ToolTipText" xml:space="preserve">
     <value>Donate</value>
-  </data>
-  <data name="MenuConnect.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 6pt</value>
   </data>
   <data name="MenuConnect.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -828,7 +801,7 @@
     <value>Magenta</value>
   </data>
   <data name="MenuConnect.Size" type="System.Drawing.Size, System.Drawing">
-    <value>49, 49</value>
+    <value>49, 40</value>
   </data>
   <data name="MenuConnect.Text" xml:space="preserve">
     <value>CONNECT</value>
@@ -997,20 +970,17 @@
 </value>
   </data>
   <data name="toolStripConnectionControl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>230, 49</value>
+    <value>230, 40</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="MenuArduPilot.AutoSize" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="MenuArduPilot.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
-    <value>None</value>
+  <data name="MenuArduPilot.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Stretch</value>
   </data>
   <data name="MenuArduPilot.Size" type="System.Drawing.Size, System.Drawing">
-    <value>140, 45</value>
-  </data>
-  <data name="MenuArduPilot.Text" xml:space="preserve">
-    <value>ArduPilot</value>
+    <value>255, 40</value>
   </data>
   <data name="MenuArduPilot.TextImageRelation" type="System.Windows.Forms.TextImageRelation, System.Windows.Forms">
     <value>Overlay</value>
@@ -1022,7 +992,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="MainMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1034, 49</value>
+    <value>1034, 40</value>
   </data>
   <data name="MainMenu.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1082,7 +1052,7 @@
     <value>133332, 123</value>
   </data>
   <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1034, 49</value>
+    <value>1034, 40</value>
   </data>
   <data name="panel1.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -2861,7 +2831,7 @@
     <value>toolStripConnectionControl</value>
   </data>
   <data name="&gt;&gt;toolStripConnectionControl.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.ToolStripConnectionControl, MissionPlanner, Version=1.3.7300.21070, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.ToolStripConnectionControl, MissionPlanner, Version=1.3.7319.25140, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;MenuArduPilot.Name" xml:space="preserve">
     <value>MenuArduPilot</value>
