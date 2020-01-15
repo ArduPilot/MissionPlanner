@@ -2595,7 +2595,11 @@ namespace MissionPlanner.GCSViews
             Console.WriteLine("HUD resize " + hud1.Width + " " + hud1.Height); // +"\n"+ System.Environment.StackTrace);
 
             if (hud1.Parent == this.SubMainLeft.Panel1)
-                SubMainLeft.SplitterDistance = hud1.Height;
+            {
+                var ht = SubMainLeft.SplitterDistance;
+                if (ht >= hud1.Height + 5 || ht <= hud1.Height - 5)
+                    SubMainLeft.SplitterDistance = hud1.Height;
+            }
         }
 
         private void hud1_vibeclick(object sender, EventArgs e)
