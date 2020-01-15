@@ -133,6 +133,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             pdr.DoWork -= pdr_DoWork;
 
+            pdr.doWorkArgs.ForceExit = true;
+
+            pdr.doWorkArgs.CancelRequestChanged += (sender, args) => { pdr.doWorkArgs.CancelAcknowledged = true; };
+
             pdr.DoWork += pdr_DoWork;
 
             ThemeManager.ApplyThemeTo(pdr);

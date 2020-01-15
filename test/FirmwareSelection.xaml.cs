@@ -9,7 +9,7 @@ using DeviceInfo = MissionPlanner.ArduPilot.DeviceInfo;
 
 namespace MissionPlanner.test
 {
-    [XamlCompilation(XamlCompilationOptions.Skip)]
+    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class FirmwareSelection : ContentPage, IClose
     {
         public FirmwareSelection(List<APFirmware.FirmwareInfo> fwitems, ArduPilot.DeviceInfo? item = null)
