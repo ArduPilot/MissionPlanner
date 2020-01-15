@@ -22,7 +22,7 @@ namespace System
     {
         internal static Settings Instance = new Settings();
 
-        internal string UserAgent = "";
+        internal string UserAgent = "MP Installer";
     }
 }
 namespace Installer
