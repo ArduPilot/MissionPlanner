@@ -372,6 +372,12 @@
       <DependentUpon>DigitalSkyUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\Icon\File.cs" />
+    <Compile Include="Controls\ThemeEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\ThemeEditor.Designer.cs">
+      <DependentUpon>ThemeEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\UAVCANFileUI.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -597,6 +603,9 @@
     <EmbeddedResource Include="Controls\DigitalSkyUI.resx">
       <DependentUpon>DigitalSkyUI.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ThemeEditor.resx">
+      <DependentUpon>ThemeEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\UAVCANFileUI.resx">
       <DependentUpon>UAVCANFileUI.cs</DependentUpon>
     </EmbeddedResource>
@@ -748,9 +757,6 @@
     </Compile>
     <Compile Include="GCSViews\SITL.cs">
       <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\ThemeColors.cs">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Controls\ToolStripConnectionControl.cs">
       <SubType>Component</SubType>
@@ -1037,6 +1043,7 @@
     <Compile Include="Utilities\AltitudeAngel\MapAdapter.cs" />
     <Compile Include="Utilities\AltitudeAngel\MissionPlannerAdaptor.cs" />
     <Compile Include="Utilities\AltitudeAngel\OverlayAdapter.cs" />
+    <Compile Include="Utilities\XMLColor.cs" />
     <Compile Include="Warnings\WarningControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1113,9 +1120,6 @@
     </Compile>
     <Compile Include="GCSViews\SITL.Designer.cs">
       <DependentUpon>SITL.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ThemeColors.Designer.cs">
-      <DependentUpon>ThemeColors.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\Vibration.Designer.cs">
       <DependentUpon>Vibration.cs</DependentUpon>
@@ -1971,36 +1975,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\SITL.resx">
       <DependentUpon>SITL.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ThemeColors.resx">
-      <DependentUpon>ThemeColors.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ThemeColors.ar.resx">
-      <DependentUpon>ThemeColors.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ThemeColors.az-Latn-AZ.resx">
-      <DependentUpon>ThemeColors.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ThemeColors.id-ID.resx">
-      <DependentUpon>ThemeColors.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ThemeColors.ja-JP.resx">
-      <DependentUpon>ThemeColors.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ThemeColors.ko-KR.resx">
-      <DependentUpon>ThemeColors.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ThemeColors.pt.resx">
-      <DependentUpon>ThemeColors.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ThemeColors.ru-KZ.resx">
-      <DependentUpon>ThemeColors.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ThemeColors.tr.resx">
-      <DependentUpon>ThemeColors.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ThemeColors.zh-Hans.resx">
-      <DependentUpon>ThemeColors.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Vibration.resx">
       <DependentUpon>Vibration.cs</DependentUpon>
@@ -4307,11 +4281,17 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include=".editorconfig" />
+    <None Include="BurntKermit.mpsystheme">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Drivers\chibioscomp.cat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Drivers\cubecomp.cat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="HighContrast.mpsystheme">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Resources\Gaugebg.png" />
     <None Include="appxmanifest.xml" />

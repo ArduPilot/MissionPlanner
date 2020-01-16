@@ -186,10 +186,12 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
+            /* It comes from the Theme not from the settings
             if (!string.IsNullOrEmpty(Settings.Instance["hudcolor"]))
             {
                 hud1.hudcolor = Color.FromName(Settings.Instance["hudcolor"]);
             }
+            */
 
             log.Info("HUD Settings");
             foreach (string item in Settings.Instance.Keys)
@@ -285,6 +287,13 @@ namespace MissionPlanner.GCSViews
             }
 
             MainV2.comPort.ParamListChanged += FlightData_ParentChanged;
+
+            //HUD Theming, color setup
+            myhud.groundColor1 = ThemeManager.HudGroundTop;
+            myhud.groundColor2 = ThemeManager.HudGroundBot;
+            myhud.skyColor1 = ThemeManager.HudSkyTop;
+            myhud.skyColor2 = ThemeManager.HudSkyBot;
+            myhud.hudcolor = ThemeManager.HudText;
 
         }
 
@@ -2060,8 +2069,9 @@ namespace MissionPlanner.GCSViews
                 hud1.Russian = Settings.Instance.GetBoolean("russian_hud");
             }
 
-            groundColorToolStripMenuItem.Checked = Settings.Instance.GetBoolean("groundColorToolStripMenuItem");
-            groundColorToolStripMenuItem_Click(null, null);
+            //Remove it later, do not need
+            //groundColorToolStripMenuItem.Checked = Settings.Instance.GetBoolean("groundColorToolStripMenuItem");
+            //groundColorToolStripMenuItem_Click(null, null);
 
             hud1.doResize();
 
