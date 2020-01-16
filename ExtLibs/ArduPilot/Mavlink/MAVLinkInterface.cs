@@ -5095,6 +5095,12 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                         if (loge.id >= startno && loge.id <= endno)
                         {
+                            if (loge.num_logs == 0 && loge.last_log_num == 0)
+                            {
+                                giveComport = false;
+                                return ans;
+                            }
+
                             // reset timeout
                             start = DateTime.Now;
                             // add the log to our answer
@@ -5103,7 +5109,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                             startno = (ushort)Math.Min(ans.Keys.Min() + 1, loge.id);
                             // set the end number to logmax
                             endno = loge.last_log_num;
-                            if (ans.Count == loge.num_logs)
+                            if (ans.Count >= loge.num_logs)
                             {
                                 giveComport = false;
                                 return ans;
