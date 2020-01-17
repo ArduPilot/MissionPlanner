@@ -75,7 +75,7 @@ namespace MissionPlanner
             }
 
             remove { log.Info("UnSubscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value?.Method?.Name + " " + value?.Target?.GetType()?.Name +
-                              " " + value); _OnPacketReceived += value; }
+                              " " + value); _OnPacketReceived -= value; }
         }
 
         public void DoOnPacketSent(MAVLinkMessage pkt)
@@ -88,7 +88,7 @@ namespace MissionPlanner
             add { log.Info("Subscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
                            " " + value); _OnPacketSent += value; }
             remove { log.Info("UnSubscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
-                              " " + value); _OnPacketSent += value; }
+                              " " + value); _OnPacketSent -= value; }
         }
 
         public static event EventHandler<adsb.PointLatLngAltHdg> UpdateADSBPlanePosition
@@ -96,14 +96,14 @@ namespace MissionPlanner
             add { log.Info("Subscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
                            " " + value); _UpdateADSBPlanePosition += value; }
             remove { log.Info("UnSubscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
-                              " " + value); _UpdateADSBPlanePosition += value; }
+                              " " + value); _UpdateADSBPlanePosition -= value; }
         }
         public static event EventHandler<(string id, MAV_COLLISION_THREAT_LEVEL threat_level)> UpdateADSBCollision
         {
             add { log.Info("Subscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
                            " " + value); _UpdateADSBCollision += value; }
             remove { log.Info("UnSubscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
-                              " " + value); _UpdateADSBCollision += value; }
+                              " " + value); _UpdateADSBCollision -= value; }
         }
 
         public ICommsSerial MirrorStream { get; set; }
@@ -114,7 +114,7 @@ namespace MissionPlanner
             add { log.Info("Subscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
                            " " + value); _ParamListChanged += value; }
             remove { log.Info("UnSubscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
-                              " " + value); _ParamListChanged += value; }
+                              " " + value); _ParamListChanged -= value; }
         }
 
         public event EventHandler MavChanged
@@ -122,7 +122,7 @@ namespace MissionPlanner
             add { log.Info("Subscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
                            " " + value); _MavChanged += value; }
             remove { log.Info("UnSubscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
-                              " " + value); _MavChanged += value; }
+                              " " + value); _MavChanged -= value; }
         }
 
         public event EventHandler CommsClose
@@ -130,7 +130,7 @@ namespace MissionPlanner
             add { log.Info("Subscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
                            " " + value); _CommsClose += value; }
             remove { log.Info("UnSubscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value.Method.Name + " " + value.Target.GetType().Name +
-                              " " + value); _CommsClose += value; }
+                              " " + value); _CommsClose -= value; }
         }
 
         public static byte gcssysid { get; set; } = 255;
