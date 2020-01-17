@@ -56,6 +56,7 @@ namespace MissionPlanner
             this.MenuArduPilot = new System.Windows.Forms.ToolStripButton();
             this.menu = new MissionPlanner.Controls.MyButton();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.status1 = new MissionPlanner.Controls.Status();
             this.MainMenu.SuspendLayout();
             this.CTX_mainmenu.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -241,11 +242,17 @@ namespace MissionPlanner
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.Controls.Add(this.status1);
             this.panel1.Controls.Add(this.MainMenu);
             resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
             this.panel1.MouseLeave += new System.EventHandler(this.MainMenu_MouseLeave);
+            // 
+            // status1
+            // 
+            resources.ApplyResources(this.status1, "status1");
+            this.status1.Name = "status1";
+            this.status1.Percent = 0D;
             // 
             // MainV2
             // 
@@ -289,5 +296,6 @@ namespace MissionPlanner
         public System.Windows.Forms.ToolStripButton MenuHelp;
         public System.Windows.Forms.ToolStripButton MenuDonate;
         public System.Windows.Forms.ToolStripButton MenuArduPilot;
+        public Controls.Status status1;
     }
 }

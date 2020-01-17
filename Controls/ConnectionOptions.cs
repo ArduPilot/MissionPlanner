@@ -19,6 +19,7 @@ namespace MissionPlanner
             CMB_serialport.Items.Add("TCP");
             CMB_serialport.Items.Add("UDP");
             CMB_serialport.Items.Add("UDPCl");
+            CMB_serialport.Items.Add("WS");
 
             ThemeManager.ApplyThemeTo(this);
 

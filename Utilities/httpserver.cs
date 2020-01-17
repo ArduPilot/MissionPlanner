@@ -246,12 +246,12 @@ namespace MissionPlanner.Utilities
                     /////////////////////////////////////////////////////////////////
                     else if (url.Contains(" /websocket/raw") || url.Contains(" / ") && head.Contains("Upgrade: websocket"))
                     {
-                        using (var writer = new StreamWriter(stream, Encoding.Default))
+                        using (var writer = new StreamWriter(stream, Encoding.ASCII))
                         {
                             writer.WriteLine("HTTP/1.1 101 WebSocket Protocol Handshake");
                             writer.WriteLine("Upgrade: WebSocket");
-                            writer.WriteLine("Connection: Upgrade");
-                            writer.WriteLine("WebSocket-Location: ws://localhost:56781/websocket/raw");
+                            writer.WriteLine("Connection: upgrade");
+                            writer.WriteLine("Date: " + DateTime.UtcNow.ToString("R"));
 
                             int start = head.IndexOf("Sec-WebSocket-Key:") + 19;
                             int end = head.IndexOf('\r', start);
@@ -313,6 +313,8 @@ namespace MissionPlanner.Utilities
                                 {
                                     var paylen = 0;
                                     var opcode = stream.ReadByte();
+                                    if (opcode == 0x88)
+                                        return;
                                     var lenw = stream.ReadByte();
                                     if ((lenw & 0x7f) == 126)
                                     {
@@ -370,8 +372,7 @@ namespace MissionPlanner.Utilities
 
 
 
-                                    if (opcode == 0x88)
-                                        return;
+                         
                                 }
 
                                 Thread.Sleep(200);

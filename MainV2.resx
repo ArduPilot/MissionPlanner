@@ -1010,7 +1010,7 @@
     <value>panel1</value>
   </data>
   <data name="&gt;&gt;MainMenu.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="menu.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>
@@ -1041,6 +1041,33 @@
   </data>
   <data name="&gt;&gt;menu.ZOrder" xml:space="preserve">
     <value>2</value>
+  </data>
+  <data name="status1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left, Right</value>
+  </data>
+  <data name="status1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 35</value>
+  </data>
+  <data name="status1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1034, 4</value>
+  </data>
+  <data name="status1.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="status1.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;status1.Name" xml:space="preserve">
+    <value>status1</value>
+  </data>
+  <data name="&gt;&gt;status1.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.Status, MissionPlanner, Version=1.3.7321.23139, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;status1.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;status1.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 54</value>
@@ -2831,7 +2858,7 @@
     <value>toolStripConnectionControl</value>
   </data>
   <data name="&gt;&gt;toolStripConnectionControl.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.ToolStripConnectionControl, MissionPlanner, Version=1.3.7319.25140, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.ToolStripConnectionControl, MissionPlanner, Version=1.3.7321.23139, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;MenuArduPilot.Name" xml:space="preserve">
     <value>MenuArduPilot</value>

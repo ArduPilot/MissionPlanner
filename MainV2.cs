@@ -1377,6 +1377,7 @@ namespace MissionPlanner
             _connectionControl.CMB_serialport.Items.Add("TCP");
             _connectionControl.CMB_serialport.Items.Add("UDP");
             _connectionControl.CMB_serialport.Items.Add("UDPCl");
+            _connectionControl.CMB_serialport.Items.Add("WS");
         }
 
         private void MenuFlightData_Click(object sender, EventArgs e)
@@ -1539,6 +1540,10 @@ namespace MissionPlanner
                 case "UDP":
                     comPort.BaseStream = new UdpSerial();
                     _connectionControl.CMB_serialport.Text = "UDP";
+                    break;
+                case "WS":
+                    comPort.BaseStream = new WebSocket();
+                    _connectionControl.CMB_serialport.Text = "WS";
                     break;
                 case "UDPCl":
                     comPort.BaseStream = new UdpSerialConnect();
@@ -2811,6 +2816,13 @@ namespace MissionPlanner
                                 }
                             }
                         }
+                    }
+
+                    if (comPort.MAV.param.TotalReceived < comPort.MAV.param.TotalReported)
+                    {
+                        if (comPort.MAV.param.TotalReported > 0 && comPort.BaseStream.IsOpen)
+                            instance.status1.Percent =
+                                (comPort.MAV.param.TotalReceived / (double)comPort.MAV.param.TotalReported) * 100.0;
                     }
 
                     // send a hb every seconds from gcs to ap
