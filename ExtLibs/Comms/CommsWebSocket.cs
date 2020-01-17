@@ -298,6 +298,7 @@ namespace MissionPlanner.Comms
         {
             try
             {
+                autoReconnect = false;
                 client.Dispose();
             }
             catch
