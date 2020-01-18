@@ -15,6 +15,7 @@ using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
@@ -862,6 +863,14 @@ namespace MissionPlanner
             if (Settings.Instance["enableadsb"] != null)
             {
                 MainV2.instance.EnableADSB = Settings.Instance.GetBoolean("enableadsb");
+            }
+
+            try
+            {
+                log.Info(Process.GetCurrentProcess().Modules.ToJSON());
+            }
+            catch
+            {
             }
 
             try

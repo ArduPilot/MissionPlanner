@@ -264,6 +264,14 @@ namespace MissionPlanner
             log.InfoFormat("Runtime Version {0}",
                 System.Reflection.Assembly.GetExecutingAssembly().ImageRuntimeVersion);
 
+            try
+            {
+                log.Info(Process.GetCurrentProcess().Modules.ToJSON());
+            }
+            catch
+            {
+            }
+
             Type type = Type.GetType("Mono.Runtime");
             if (type != null)
             {
@@ -584,6 +592,17 @@ namespace MissionPlanner
                     {
                     }
 
+                    string processinfo = "";
+
+                    try
+                    {
+                        processinfo = Process.GetCurrentProcess().Modules.ToJSON();
+                    }
+                    catch
+                    {
+                       
+                    }
+
                     // Create a request using a URL that can receive a post.
                     WebRequest request = WebRequest.Create("http://vps.oborne.me/mail.php");
                     request.Timeout = 10000; // 10 sec
@@ -597,7 +616,8 @@ namespace MissionPlanner
                                       + "\nStack: " + ex.StackTrace.ToString().Replace('&', ' ').Replace('=', ' ')
                                       + "\nTargetSite " + ex.TargetSite + " " + ex.TargetSite.DeclaringType
                                       + "\ndata " + data
-                                      + "\nmessage " + message.Replace('&', ' ').Replace('=', ' ');
+                                      + "\nmessage " + message.Replace('&', ' ').Replace('=', ' ')
+                                      + "\n\n" + processinfo;
                     byte[] byteArray = Encoding.ASCII.GetBytes(postData);
                     // Set the ContentType property of the WebRequest.
                     request.ContentType = "application/x-www-form-urlencoded";
