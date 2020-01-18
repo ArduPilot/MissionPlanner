@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Security;
 using System.Text;
 using System.Threading;
@@ -18,6 +19,8 @@ namespace MissionPlanner.Utilities
         private long _length;
         string _uri = "";
         public int chunksize { get; set; } = 1000 * 250;
+
+        static HttpClient client = new HttpClient();
 
         private static object _lock = new object();
         /// <summary>
@@ -73,6 +76,7 @@ namespace MissionPlanner.Utilities
         static DownloadStream()
         {
             _timer = new Timer(a => { expireCache(); }, null, 1000 * 30, 1000 * 30);
+            client.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
         }
 
         public DownloadStream(string uri)
@@ -212,16 +216,13 @@ namespace MissionPlanner.Utilities
                 var end = Math.Min(Length, start + chunksize);
 
                 // cache it
-                HttpWebRequest request = (HttpWebRequest) WebRequest.Create(_uri);
-                if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
-                    ((HttpWebRequest)request).UserAgent = Settings.Instance.UserAgent;
-                request.AddRange(start, end);
-                HttpWebResponse response = (HttpWebResponse) request.GetResponse();
+                var request = new HttpRequestMessage() {RequestUri = new Uri(_uri)};
+                request.Headers.Range = new RangeHeaderValue(start, end);
 
                 Console.WriteLine("{0}: {1} - {2}", _uri, start, end);
 
                 MemoryStream ms = new MemoryStream();
-                using (Stream stream = response.GetResponseStream())
+                using (Stream stream = client.SendAsync(request).GetAwaiter().GetResult().Content.ReadAsStreamAsync().GetAwaiter().GetResult())
                 {
                     stream.CopyTo(ms);
 

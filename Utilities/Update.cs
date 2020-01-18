@@ -9,6 +9,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -24,6 +25,13 @@ namespace MissionPlanner.Utilities
         static bool MONO = false;
         public static bool dobeta = false;
         public static bool domaster = false;
+
+        static HttpClient client = new HttpClient();
+
+        static Update()
+        {
+            client.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
+        }
 
         public static void updateCheckMain(IProgressReporterDialogue frmProgressReporter)
         {
@@ -119,23 +127,14 @@ namespace MissionPlanner.Utilities
             string requestUriString = baseurl;
 
             log.Info("Checking for update at: " + requestUriString);
-            var webRequest = WebRequest.Create(requestUriString);
-            if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
-                ((HttpWebRequest)webRequest).UserAgent = Settings.Instance.UserAgent;
-            webRequest.Timeout = 5000;
-
-            // Set the Method property of the request to POST.
-            webRequest.Method = "GET";
-
-            // ((HttpWebRequest)webRequest).IfModifiedSince = File.GetLastWriteTimeUtc(path);
 
             bool updateFound = false;
 
             // Get the response.
-            using (var response = webRequest.GetResponse())
+            using (var response = client.GetAsync(requestUriString).GetAwaiter().GetResult())
             {
                 // Display the status.
-                log.Debug("Response status: " + ((HttpWebResponse)response).StatusDescription);
+                log.Debug("Response status: " + response.StatusCode);
                 // Get the stream containing content returned by the server.
 
                 if (File.Exists(path))
@@ -156,7 +155,7 @@ namespace MissionPlanner.Utilities
                         }
                     }
 
-                    using (StreamReader sr = new StreamReader(response.GetResponseStream()))
+                    using (StreamReader sr = new StreamReader(response.Content.ReadAsStreamAsync().GetAwaiter().GetResult()))
                     {
                         WebVersion = new Version(sr.ReadLine());
                     }
@@ -224,6 +223,8 @@ namespace MissionPlanner.Utilities
 
             frmProgressReporter.DoWork += new DoWorkEventHandler(DoUpdateWorker_DoWork);
 
+            frmProgressReporter.doWorkArgs.ForceExit = true;
+
             frmProgressReporter.UpdateProgressAndStatus(-1, "Checking for Updates");
 
             frmProgressReporter.RunBackgroundOperationAsync();
@@ -236,25 +237,7 @@ namespace MissionPlanner.Utilities
             log.InfoFormat("get checksums {0} - base {1}", md5url, baseurl);
 
             string responseFromServer = "";
-
-            WebRequest request = WebRequest.Create(md5url);
-            if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
-                ((HttpWebRequest)request).UserAgent = Settings.Instance.UserAgent;
-            request.Timeout = 10000;
-            // Set the Method property of the request to POST.
-            request.Method = "GET";
-            // Get the response.
-            // Get the stream containing content returned by the server.
-            // Open the stream using a StreamReader for easy access.
-            using (WebResponse response = request.GetResponse())
-            using (Stream dataStream = response.GetResponseStream())
-            using (StreamReader reader = new StreamReader(dataStream))
-            {
-                // Display the status.
-                log.Info(((HttpWebResponse)response).StatusDescription);
-                // Read the content.
-                responseFromServer = reader.ReadToEnd();
-            }
+            responseFromServer = client.GetStringAsync(md5url).GetAwaiter().GetResult();
 
             Regex regex = new Regex(@"([^\s]+)\s+[^/]+/(.*)", RegexOptions.IgnoreCase);
 
