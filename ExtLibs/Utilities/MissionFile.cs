@@ -20,7 +20,7 @@ namespace MissionPlanner.Utilities
             int wp_count = 0;
             bool error = false;
             List<Locationwp> cmds = new List<Locationwp>();
-            StreamReader sr = new StreamReader(file);
+            StreamReader sr = new StreamReader(File.Open(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
             string header = sr.ReadLine();
             if (header == null || !header.Contains("QGC WPL"))
             {
@@ -87,11 +87,13 @@ namespace MissionPlanner.Utilities
     {
         public static RootObject ReadFile(string filename)
         {
-            var file = File.ReadAllText(filename);
+            using (var file =
+                new StreamReader(File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
+            {
+                var output = JsonConvert.DeserializeObject<RootObject>(file.ReadToEnd());
 
-            var output = JsonConvert.DeserializeObject<RootObject>(file);
-
-            return output;
+                return output;
+            }
         }
 
         public static void WriteFile(string filename, RootObject format)

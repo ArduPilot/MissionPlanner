@@ -1598,7 +1598,8 @@ namespace MissionPlanner.GCSViews
                     else
                     {
                         string line = "";
-                        using (var fs = File.OpenText(file))
+                        using (var fstream = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                        using (var fs = new StreamReader(fstream))
                         {
                             line = fs.ReadLine();
                         }
