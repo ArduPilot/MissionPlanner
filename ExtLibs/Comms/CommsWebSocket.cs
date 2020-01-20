@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Net.WebSockets;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using log4net;
@@ -109,7 +110,16 @@ namespace MissionPlanner.Comms
 
             Open(url);
 
-            Task.Run(() => RunReader());
+            Task.Run(() =>
+            {
+                try
+                {
+                    RunReader();
+                }
+                catch
+                {
+                }
+            });
         }
         
         MemoryStream readMemoryStream = new MemoryStream();
@@ -133,6 +143,31 @@ namespace MissionPlanner.Comms
                             readMemoryStream.Write(buffer.Array, 0, data.Count);
                         }
                     }
+                    else if (data.MessageType == WebSocketMessageType.Text)
+                    {
+                        var stringdata = ASCIIEncoding.ASCII.GetString(buffer.Array, 0, data.Count);
+                        log.Info(stringdata);
+
+                        if (stringdata[0] == '0')
+                        {
+                            Regex match = new Regex(@"""sid"":""([^""]+)""");
+                            var mat = match.Match(stringdata);
+                            if (mat.Success)
+                            {
+                                _url += "&sid=" + mat.Groups[1].Value;
+                                //Open(_url);
+                                socketio = true;
+                            }
+                        } 
+                        else if (stringdata[0] == '3')
+                        {
+                            client.SendAsync(new ArraySegment<byte>("40/MAVControl,".ToCharArray().Select(a => (byte)a).ToArray()),
+                                WebSocketMessageType.Text, true, CancellationToken.None);
+
+                            client.SendAsync(new ArraySegment<byte>("5".ToCharArray().Select(a => (byte) a).ToArray()),
+                                WebSocketMessageType.Text, true, CancellationToken.None);
+                        }
+                    }
                     else
                     {
                         log.Info("unknown websocket data");
@@ -151,6 +186,7 @@ namespace MissionPlanner.Comms
             }
         }
 
+        private bool socketio = false;
         private string _url;
 
         private async void Open(string url)
@@ -159,6 +195,12 @@ namespace MissionPlanner.Comms
             client = new ClientWebSocket();
             client.ConnectAsync(new Uri(url), CancellationToken.None).GetAwaiter().GetResult();
             log.Info("WS opened " + client);
+            {
+                //https://github.com/socketio/engine.io-protocol
+                // socket.io
+                client.SendAsync(new ArraySegment<byte>("2probe".ToCharArray().Select(a => (byte) a).ToArray()),
+                    WebSocketMessageType.Text, true, CancellationToken.None);
+            }
         }
 
         public int Read(byte[] readto, int offset, int length)
@@ -241,8 +283,18 @@ namespace MissionPlanner.Comms
     
             try
             {
-                client.SendAsync(new ArraySegment<byte>(write, offset, length), WebSocketMessageType.Binary, true,
-                    CancellationToken.None).GetAwaiter().GetResult();
+                if (socketio)
+                {
+                    var temp = new byte[length + 1];
+                    temp[0] = (byte)4;
+                    Array.Copy(write, offset, temp, 1, length);
+                    client.SendAsync(new ArraySegment<byte>(temp), WebSocketMessageType.Binary, true,
+                        CancellationToken.None).GetAwaiter().GetResult();
+                }
+                else
+                    client.SendAsync(new ArraySegment<byte>(write, offset, length), WebSocketMessageType.Binary, true,
+                        CancellationToken.None).GetAwaiter().GetResult();
+
             }
             catch (Exception ex)
             {
