@@ -60,9 +60,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             prd.DoWork += dialogue =>
             {
+                prd.UpdateProgressAndStatus(-1, "Downloading updated data");
                 ParameterMetaDataParser.GetParameterInformation(
                     ConfigurationManager.AppSettings["ParameterLocationsBleeding"] + ";" +
-                    ConfigurationManager.AppSettings["ParameterLocations"]);
+                    ConfigurationManager.AppSettings["ParameterLocations"] + ";"
+                    + "https://raw.githubusercontent.com/ArduPilot/ardupilot/Copter-3.6/ArduCopter/Parameters.cpp;" +
+                    "https://raw.githubusercontent.com/ArduPilot/ardupilot/Copter-3.5/ArduCopter/Parameters.cpp;" +
+                    "https://raw.githubusercontent.com/ArduPilot/ardupilot/plane3.9/ArduCopter/Parameters.cpp;" +
+                    "https://raw.githubusercontent.com/ArduPilot/ardupilot/plane3.8/ArduCopter/Parameters.cpp;");
 
                 ParameterMetaDataRepositoryAPM.Reload();
             };
