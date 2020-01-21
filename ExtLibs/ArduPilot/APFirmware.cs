@@ -139,6 +139,9 @@ namespace MissionPlanner.ArduPilot
                 return ans.First().BoardId;
             }
 
+            if (device.hardwareid == null)
+                return null;
+
             // match the vid/pid
             Regex vidpid = new Regex("VID_([0-9a-f]+)&PID_([0-9a-f]+)&", RegexOptions.IgnoreCase);
 
