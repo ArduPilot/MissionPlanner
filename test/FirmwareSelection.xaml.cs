@@ -23,7 +23,7 @@ namespace MissionPlanner.test
 
             if (DevInfo.HasValue)
             {
-                platform.SelectedItem = DevInfo.Value.board.Replace("-BL", "");
+                platform.SelectedItem = DevInfo.Value.board?.Replace("-BL", "");
 
                 mavtype.IsVisible = false;
                 lbltype.IsVisible = false;
