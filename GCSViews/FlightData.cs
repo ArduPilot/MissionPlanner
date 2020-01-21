@@ -24,6 +24,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using Microsoft.Scripting.Utils;
 using WebCamService;
 using ZedGraph;
 using LogAnalyzer = MissionPlanner.Utilities.LogAnalyzer;
@@ -3821,6 +3822,7 @@ namespace MissionPlanner.GCSViews
 
         private void setQuickViewRowsCols(string cols, string rows)
         {
+            tableLayoutPanelQuick.SuspendLayout();
             tableLayoutPanelQuick.ColumnCount = Math.Max(1, int.Parse(cols));
             tableLayoutPanelQuick.RowCount = Math.Max(1, int.Parse(rows));
 
@@ -3830,8 +3832,22 @@ namespace MissionPlanner.GCSViews
             int total = tableLayoutPanelQuick.ColumnCount * tableLayoutPanelQuick.RowCount;
 
             // clean up extra
-            while (tableLayoutPanelQuick.Controls.Count > total)
-                tableLayoutPanelQuick.Controls.RemoveAt(tableLayoutPanelQuick.Controls.Count - 1);
+            var ctls = tableLayoutPanelQuick.Controls.Select(a=> (Control)a).ToList();
+            // remove those in row/cols outside our selection
+            ctls.Select(a =>
+            {
+                var pos = tableLayoutPanelQuick.GetPositionFromControl((Control)a);
+                if (pos.Column >= tableLayoutPanelQuick.ColumnCount)
+                {
+                    tableLayoutPanelQuick.Controls.Remove((Control)a);
+                }
+                else if (pos.Row >= tableLayoutPanelQuick.RowCount)
+                {
+                    tableLayoutPanelQuick.Controls.Remove((Control)a);
+                }
+
+                return pos;
+            }).ToList();
 
             // add extra
             while (total != tableLayoutPanelQuick.Controls.Count)
@@ -3864,6 +3880,10 @@ namespace MissionPlanner.GCSViews
                 tableLayoutPanelQuick.RowStyles[j].SizeType = SizeType.Percent;
                 tableLayoutPanelQuick.RowStyles[j].Height = 100.0f / tableLayoutPanelQuick.RowCount;
             }
+
+            tableLayoutPanelQuick.Controls.ForEach(a => ((Control) a).Invalidate());
+
+            tableLayoutPanelQuick.ResumeLayout(true);
         }
 
         bool setupPropertyInfo(ref PropertyInfo input, string name, object source)
