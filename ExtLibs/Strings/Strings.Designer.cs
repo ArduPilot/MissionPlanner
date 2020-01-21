@@ -88,11 +88,38 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bad Battery.
+        /// </summary>
+        public static string Bad_Battery {
+            get {
+                return ResourceManager.GetString("Bad_Battery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bad KML File :.
         /// </summary>
         public static string Bad_KML_File {
             get {
                 return ResourceManager.GetString("Bad_KML_File", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bad Proximity.
+        /// </summary>
+        public static string Bad_Proximity {
+            get {
+                return ResourceManager.GetString("Bad_Proximity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bad SatCom.
+        /// </summary>
+        public static string Bad_SatCom {
+            get {
+                return ResourceManager.GetString("Bad_SatCom", resourceCulture);
             }
         }
         
@@ -1237,6 +1264,15 @@ namespace MissionPlanner {
         public static string pos_vert_variance {
             get {
                 return ResourceManager.GetString("pos_vert_variance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Prearm check failed.
+        /// </summary>
+        public static string Prearm_check_failed {
+            get {
+                return ResourceManager.GetString("Prearm_check_failed", resourceCulture);
             }
         }
         
