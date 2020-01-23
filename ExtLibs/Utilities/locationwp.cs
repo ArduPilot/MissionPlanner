@@ -94,13 +94,13 @@ namespace MissionPlanner.Utilities
             Locationwp temp = new Locationwp()
             {
                 id = (ushort)input.command,
-                p1 = (float)input.@params[0],
-                p2 = (float)input.@params[1],
-                p3 = (float)input.@params[2],
-                p4 = (float)input.@params[3],
-                lat = input.coordinate[0],
-                lng = input.coordinate[1],
-                alt = (float)input.coordinate[2],
+                p1 = (float)(input.@params[0] ?? 0.0f),
+                p2 = (float)(input.@params[1] ?? 0.0f),
+                p3 = (float)(input.@params[2] ?? 0.0f),
+                p4 = (float)(input.@params[3] ?? 0.0f),
+                lat = input.@params[4] ?? 0.0,
+                lng = input.@params[5] ?? 0.0,
+                alt = (float)(input.@params[6] ?? 0.0f),
                 _seq = (ushort)input.doJumpId,
                 frame = (byte)input.frame
             };
@@ -113,8 +113,7 @@ namespace MissionPlanner.Utilities
             MissionFile.Item temp = new MissionFile.Item()
             {
                 command = input.id,
-                @params = new List<double>(new double[] { input.p1,input.p2,input.p3,input.p4}),
-                coordinate = new List<double>(new double[] { input.lat, input.lng, input.alt }),
+                @params = new List<double?>(new double?[] { input.p1,input.p2,input.p3,input.p4, input.lat, input.lng, input.alt }),
                 doJumpId = input._seq,
                 frame = input.frame
             };
