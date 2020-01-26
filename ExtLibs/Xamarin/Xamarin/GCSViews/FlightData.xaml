@@ -23,7 +23,8 @@
         <tabView:TabViewControl Grid.Column="0" Grid.Row="1" Grid.RowSpan="3">
             <tabView:TabViewControl.ItemSource>
                 <tabView:TabItem HeaderText="Actions">
-                    <StackLayout>
+                    <ScrollView>
+                        <StackLayout>
                         <Button x:Name="Arm" Text="Arm"  Clicked="Arm_OnClicked"></Button>
                         <Button x:Name="Disarm" Text="Disarm"  Clicked="Disarm_OnClicked"></Button>
                         <Picker x:Name="Mode"  SelectedIndexChanged="Mode_OnSelectedIndexChanged"></Picker>
@@ -33,9 +34,11 @@
                         <Button x:Name="Get_Rally" Text="Get Rally"  Clicked="Get_Rally_OnClicked"></Button>
                         <Button x:Name="Takeoff_2m"  Text="TakeOff - 2m" Clicked="Takeoff___2m_OnClicked"></Button>
                     </StackLayout>
+                        </ScrollView>
                 </tabView:TabItem>
                 <tabView:TabItem HeaderText="Telemetry Logs">
-                    <StackLayout>
+                    <ScrollView>
+                        <StackLayout>
                         <Button x:Name="BUT_loadtelem" Clicked="BUT_loadtelem_Click" Text="Load Log"/>
                         <Label x:Name="lbl_playbackspeed" Text="x 1.0"/>
                         <Label x:Name="lbl_logpercent" Text="0.00 %"/>
@@ -45,7 +48,8 @@
                         <Label x:Name="LBL_logfn" Text=""/>
                         <Button x:Name="BUT_log2kml" Clicked="BUT_log2kml_Click" Text="Tlog &gt; Kml or Graph"/>
                         <Button x:Name="BUT_playlog" Clicked="BUT_playlog_Click" Text="Play/Pause"/>
-                    </StackLayout>
+                        </StackLayout>
+                    </ScrollView>
                 </tabView:TabItem>
 
                 <tabView:TabItem HeaderText="tab3">

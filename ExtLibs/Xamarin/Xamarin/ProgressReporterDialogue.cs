@@ -1,4 +1,5 @@
 ﻿using System;
+using Acr.UserDialogs;
 using MissionPlanner.Utilities;
 
 namespace Xamarin
@@ -12,7 +13,7 @@ namespace Xamarin
             this.title = title;
         }
 
-        public ProgressWorkerEventArgs doWorkArgs { get; set; }
+        public ProgressWorkerEventArgs doWorkArgs { get; set; } = new ProgressWorkerEventArgs();
 
         public event DoWorkEventHandler DoWork;
 
@@ -34,6 +35,7 @@ namespace Xamarin
 
         public void UpdateProgressAndStatus(int progress, string status)
         {
+            UserDialogs.Instance.Toast(status, TimeSpan.FromSeconds(3));
             //throw new NotImplementedException();
         }
     }

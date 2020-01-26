@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
+using System.Threading;
 using MissionPlanner.Drawing;
 using Xamarin.Forms;
 using Color = System.Drawing.Color;
@@ -191,7 +192,14 @@ namespace Xamarin.Controls
 
         protected void Invalidate()
         {
-            InvalidateSurface();
+            if (_timer == null)
+                _timer = new Timer(state => { Forms.Device.BeginInvokeOnMainThread(() => { InvalidateSurface(); }); },
+                    null, TimeSpan.FromMilliseconds(-1), TimeSpan.FromMilliseconds(-1));
+
+            if (pendingredraw)
+            {
+                _timer.Change(TimeSpan.FromMilliseconds(100), TimeSpan.FromMilliseconds(1000));
+            }
         }
 
         protected void MakeCurrent()
@@ -278,6 +286,8 @@ namespace Xamarin.Controls
         }
 
         private DateTime lastrender = DateTime.MinValue;
+        private Timer _timer;
+
         protected override void OnPaintSurface(SKPaintSurfaceEventArgs e)
         {
             //     base.OnPaintSurface(e);

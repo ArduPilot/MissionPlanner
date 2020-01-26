@@ -4,7 +4,7 @@
              x:Class="Xamarin.MainPage"
              xmlns:pages="clr-namespace:Xamarin">
 	<MasterDetailPage.ToolbarItems>
-		<ToolbarItem Text="test"/>
+		<ToolbarItem Text="toggle radio" Clicked="MenuItem_OnClicked"/>
 	</MasterDetailPage.ToolbarItems>
   <MasterDetailPage.Master>
     <pages:MasterDetailPage1Master x:Name="MasterPage" />
