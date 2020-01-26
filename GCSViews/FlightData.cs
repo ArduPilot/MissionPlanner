@@ -3359,54 +3359,16 @@ namespace MissionPlanner.GCSViews
             }
         }
 
-        private void modifyandSetSpeed_Click(object sender, EventArgs e)
+        private async void modifyandSetSpeed_Click(object sender, EventArgs e)
         {
-            // QUAD
-            if (MainV2.comPort.MAV.param.ContainsKey("WP_SPEED_MAX"))
+            try
             {
-                try
-                {
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "WP_SPEED_MAX", ((float)modifyandSetSpeed.Value * 100.0f));
-                }
-                catch
-                {
-                    CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, "WP_SPEED_MAX"), Strings.ERROR);
-                }
-            } // plane 3.7 and below with airspeed, uses ARSPD_ENABLE:
-            else if ((MainV2.comPort.MAV.param.ContainsKey("TRIM_ARSPD_CM") &&
-                     MainV2.comPort.MAV.param.ContainsKey("ARSPD_ENABLE")
-                     && MainV2.comPort.MAV.param.ContainsKey("ARSPD_USE") &&
-                     (float)MainV2.comPort.MAV.param["ARSPD_ENABLE"] == 1
-                     && (float)MainV2.comPort.MAV.param["ARSPD_USE"] == 1) ||
-                     // plane 3.8 and above with airspeed as per plane 3.7 to plane 3.8 migration wiki page, no longer uses ARSPD_ENABLE, uses ARSPD_TYPE instead:
-                     (MainV2.comPort.MAV.param.ContainsKey("TRIM_ARSPD_CM") &&
-                     MainV2.comPort.MAV.param.ContainsKey("ARSPD_TYPE")
-                     && MainV2.comPort.MAV.param.ContainsKey("ARSPD_USE") &&
-                     (float)MainV2.comPort.MAV.param["ARSPD_TYPE"] > 0
-                     && (float)MainV2.comPort.MAV.param["ARSPD_USE"] == 1))
+                await MainV2.comPort.doCommandAsync(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid,
+                    MAVLink.MAV_CMD.DO_CHANGE_SPEED, 0, (float) modifyandSetSpeed.Value, 0, 0, 0, 0, 0);
+            }
+            catch
             {
-                try
-                {
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "TRIM_ARSPD_CM", ((float)modifyandSetSpeed.Value * 100.0f));
-                }
-                catch
-                {
-                    CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, "TRIM_ARSPD_CM"), Strings.ERROR);
-                }
-            } // plane without airspeed
-            else if (MainV2.comPort.MAV.param.ContainsKey("TRIM_THROTTLE") &&
-                     MainV2.comPort.MAV.param.ContainsKey("ARSPD_USE")
-                     && (float)MainV2.comPort.MAV.param["ARSPD_USE"] == 0)
-            {
-                try
-                {
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "TRIM_THROTTLE", (float)modifyandSetSpeed.Value);
-                }
-                catch
-                {
-                    CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, "TRIM_THROTTLE"),
-                        Strings.ERROR);
-                }
+                CustomMessageBox.Show(Strings.ErrorCommunicating, Strings.ERROR);
             }
         }
 
