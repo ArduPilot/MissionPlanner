@@ -31,6 +31,7 @@ namespace MissionPlanner.Utilities
         static Update()
         {
             client.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
+            client.Timeout = TimeSpan.FromSeconds(30);
         }
 
         public static void updateCheckMain(IProgressReporterDialogue frmProgressReporter)
@@ -238,6 +239,8 @@ namespace MissionPlanner.Utilities
 
             string responseFromServer = "";
             responseFromServer = client.GetStringAsync(md5url).GetAwaiter().GetResult();
+
+            File.WriteAllText(Settings.GetRunningDirectory() + "checksums.txt.new", responseFromServer);
 
             Regex regex = new Regex(@"([^\s]+)\s+[^/]+/(.*)", RegexOptions.IgnoreCase);
 
