@@ -1,6 +1,6 @@
 ﻿namespace MissionPlanner.GCSViews
 {
-    partial class Terminal
+    partial class ConfigTerminal
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Terminal));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigTerminal));
             this.TXT_terminal = new System.Windows.Forms.RichTextBox();
             this.BUTsetupshow = new MissionPlanner.Controls.MyButton();
             this.BUTradiosetup = new MissionPlanner.Controls.MyButton();

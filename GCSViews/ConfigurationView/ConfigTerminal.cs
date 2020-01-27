@@ -14,7 +14,7 @@ using SerialPort = MissionPlanner.Comms.SerialPort;
 
 namespace MissionPlanner.GCSViews
 {
-    public partial class Terminal : MyUserControl, IActivate, IDeactivate
+    public partial class ConfigTerminal : MyUserControl, IActivate, IDeactivate
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         internal static ICommsSerial comPort;
@@ -28,7 +28,7 @@ namespace MissionPlanner.GCSViews
         public static bool SSHTerminal;
         private SSHTerminal term = null;
 
-        public Terminal()
+        public ConfigTerminal()
         {
             threadrun = false;
 

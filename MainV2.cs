@@ -530,9 +530,7 @@ namespace MissionPlanner
         public void updateLayout(object sender, EventArgs e)
         {
             MenuSimulation.Visible = DisplayConfiguration.displaySimulation;
-            MenuTerminal.Visible = DisplayConfiguration.displayTerminal;
             MenuHelp.Visible = DisplayConfiguration.displayHelp;
-            MenuDonate.Visible = DisplayConfiguration.displayDonate;
             MissionPlanner.Controls.BackstageView.BackstageView.Advanced = DisplayConfiguration.isAdvancedMode;
 
             if (Settings.Instance.GetBoolean("menu_autohide") != DisplayConfiguration.autoHideMenuForce)
@@ -1079,31 +1077,6 @@ namespace MissionPlanner
             if (Program.Logo2 != null)
                 MenuArduPilot.Image = Program.Logo2;
 
-            if (Program.Logo != null && Program.name == "VVVVZ")
-            {
-                MenuDonate.Click -= this.toolStripMenuItem1_Click;
-                MenuDonate.Text = "";
-                MenuDonate.Image = Program.Logo;
-
-                MenuDonate.Click += MenuCustom_Click;
-
-                MenuFlightData.Visible = false;
-                MenuFlightPlanner.Visible = true;
-                MenuConfigTune.Visible = false;
-                MenuHelp.Visible = false;
-                MenuInitConfig.Visible = false;
-                MenuSimulation.Visible = false;
-                MenuTerminal.Visible = false;
-            }
-            else if (Program.Logo != null && Program.names.Contains(Program.name))
-            {
-                MenuDonate.Click -= this.toolStripMenuItem1_Click;
-                MenuDonate.Text = "";
-                MenuDonate.Image = Program.Logo;
-            }
-
-
-
             Application.DoEvents();
 
             Comports.Add(comPort);
@@ -1215,10 +1188,8 @@ namespace MissionPlanner
             MenuInitConfig.Image = displayicons.initsetup;
             MenuSimulation.Image = displayicons.sim;
             MenuConfigTune.Image = displayicons.config_tuning;
-            MenuTerminal.Image = displayicons.terminal;
             MenuConnect.Image = displayicons.connect;
             MenuHelp.Image = displayicons.help;
-            MenuDonate.Image = displayicons.donate;
 
 
             MenuFlightData.ForeColor = ThemeManager.TextColor;
@@ -1226,49 +1197,8 @@ namespace MissionPlanner
             MenuInitConfig.ForeColor = ThemeManager.TextColor;
             MenuSimulation.ForeColor = ThemeManager.TextColor;
             MenuConfigTune.ForeColor = ThemeManager.TextColor;
-            MenuTerminal.ForeColor = ThemeManager.TextColor;
             MenuConnect.ForeColor = ThemeManager.TextColor;
             MenuHelp.ForeColor = ThemeManager.TextColor;
-            MenuDonate.ForeColor = ThemeManager.TextColor;
-        }
-
-        void MenuCustom_Click(object sender, EventArgs e)
-        {
-            if (Settings.Instance.GetBoolean("password_protect") == false)
-            {
-                MenuFlightData.Visible = true;
-                MenuFlightPlanner.Visible = true;
-                MenuConfigTune.Visible = true;
-                MenuHelp.Visible = true;
-                MenuInitConfig.Visible = true;
-                MenuSimulation.Visible = true;
-                MenuTerminal.Visible = true;
-            }
-            else
-            {
-                var pw = "";
-                if (InputBox.Show("Enter Password", "Please enter your password", ref pw, true) ==
-    System.Windows.Forms.DialogResult.OK)
-                {
-                    bool ans = Password.ValidatePassword(pw);
-
-                    if (ans == false)
-                    {
-                        CustomMessageBox.Show("Bad Password", "Bad Password");
-                    }
-                }
-
-                if (Password.VerifyPassword(pw))
-                {
-                    MenuFlightData.Visible = true;
-                    MenuFlightPlanner.Visible = true;
-                    MenuConfigTune.Visible = true;
-                    MenuHelp.Visible = true;
-                    MenuInitConfig.Visible = true;
-                    MenuSimulation.Visible = true;
-                    MenuTerminal.Visible = true;
-                }
-            }
         }
 
         void adsb_UpdatePlanePosition(object sender, MissionPlanner.Utilities.adsb.PointLatLngAltHdg adsb)
@@ -2590,12 +2520,12 @@ namespace MissionPlanner
 
                     try
                     {
-                        if (GCSViews.Terminal.comPort is MAVLinkSerialPort)
+                        if (GCSViews.ConfigTerminal.comPort is MAVLinkSerialPort)
                         {
                         }
                         else
                         {
-                            if (GCSViews.Terminal.comPort != null && GCSViews.Terminal.comPort.IsOpen)
+                            if (GCSViews.ConfigTerminal.comPort != null && GCSViews.ConfigTerminal.comPort.IsOpen)
                                 continue;
                         }
                     }
@@ -3048,7 +2978,6 @@ namespace MissionPlanner
             MyView.AddScreen(new MainSwitcher.Screen("HWConfig", typeof(GCSViews.InitialSetup), false));
             MyView.AddScreen(new MainSwitcher.Screen("SWConfig", typeof(GCSViews.SoftwareConfig), false));
             MyView.AddScreen(new MainSwitcher.Screen("Simulation", Simulation, true));
-            MyView.AddScreen(new MainSwitcher.Screen("Terminal", typeof(GCSViews.Terminal), false));
             MyView.AddScreen(new MainSwitcher.Screen("Help", typeof(GCSViews.Help), false));
 
             // hide simulation under mono
@@ -3782,7 +3711,7 @@ namespace MissionPlanner
         /// <returns></returns>
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if (GCSViews.Terminal.SSHTerminal) { return false; }
+            if (GCSViews.ConfigTerminal.SSHTerminal) { return false; }
             if (keyData == Keys.F12)
             {
                 MenuConnect_Click(null, null);

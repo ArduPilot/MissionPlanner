@@ -812,7 +812,7 @@
     <Compile Include="GCSViews\SoftwareConfig.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GCSViews\Terminal.cs">
+    <Compile Include="GCSViews\ConfigurationView\ConfigTerminal.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.cs">
@@ -1166,8 +1166,8 @@
     <Compile Include="GCSViews\SoftwareConfig.Designer.cs">
       <DependentUpon>SoftwareConfig.cs</DependentUpon>
     </Compile>
-    <Compile Include="GCSViews\Terminal.Designer.cs">
-      <DependentUpon>Terminal.cs</DependentUpon>
+    <Compile Include="GCSViews\ConfigurationView\ConfigTerminal.Designer.cs">
+      <DependentUpon>ConfigTerminal.cs</DependentUpon>
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.Designer.cs">
       <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
@@ -2211,59 +2211,59 @@
     <EmbeddedResource Include="GCSViews\SoftwareConfig.resx">
       <DependentUpon>SoftwareConfig.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Terminal.resx">
-      <DependentUpon>Terminal.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTerminal.resx">
+      <DependentUpon>ConfigTerminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Terminal.ar.resx">
-      <DependentUpon>Terminal.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTerminal.ar.resx">
+      <DependentUpon>ConfigTerminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Terminal.az-Latn-AZ.resx">
-      <DependentUpon>Terminal.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTerminal.az-Latn-AZ.resx">
+      <DependentUpon>ConfigTerminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Terminal.de-DE.resx">
-      <DependentUpon>Terminal.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTerminal.de-DE.resx">
+      <DependentUpon>ConfigTerminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Terminal.es-ES.resx">
-      <DependentUpon>Terminal.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTerminal.es-ES.resx">
+      <DependentUpon>ConfigTerminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Terminal.fr.resx">
-      <DependentUpon>Terminal.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTerminal.fr.resx">
+      <DependentUpon>ConfigTerminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Terminal.id-ID.resx">
-      <DependentUpon>Terminal.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTerminal.id-ID.resx">
+      <DependentUpon>ConfigTerminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Terminal.it-IT.resx">
-      <DependentUpon>Terminal.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTerminal.it-IT.resx">
+      <DependentUpon>ConfigTerminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Terminal.ja-JP.resx">
-      <DependentUpon>Terminal.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTerminal.ja-JP.resx">
+      <DependentUpon>ConfigTerminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Terminal.ko-KR.resx">
-      <DependentUpon>Terminal.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTerminal.ko-KR.resx">
+      <DependentUpon>ConfigTerminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Terminal.pl.resx">
-      <DependentUpon>Terminal.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTerminal.pl.resx">
+      <DependentUpon>ConfigTerminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Terminal.pt.resx">
-      <DependentUpon>Terminal.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTerminal.pt.resx">
+      <DependentUpon>ConfigTerminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Terminal.ru-KZ.resx">
-      <DependentUpon>Terminal.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTerminal.ru-KZ.resx">
+      <DependentUpon>ConfigTerminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Terminal.ru-RU.resx">
-      <DependentUpon>Terminal.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTerminal.ru-RU.resx">
+      <DependentUpon>ConfigTerminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Terminal.tr.resx">
-      <DependentUpon>Terminal.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTerminal.tr.resx">
+      <DependentUpon>ConfigTerminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Terminal.zh-Hans.resx">
-      <DependentUpon>Terminal.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTerminal.zh-Hans.resx">
+      <DependentUpon>ConfigTerminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Terminal.zh-Hant.resx">
-      <DependentUpon>Terminal.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTerminal.zh-Hant.resx">
+      <DependentUpon>ConfigTerminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Terminal.zh-TW.resx">
-      <DependentUpon>Terminal.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTerminal.zh-TW.resx">
+      <DependentUpon>ConfigTerminal.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.resx">
       <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>

@@ -249,6 +249,9 @@ namespace MissionPlanner.GCSViews
 
             var adv = AddBackstageViewPage(typeof(ConfigAdvanced), "Advanced");
 
+            AddBackstageViewPage(typeof(GCSViews.ConfigTerminal), "Terminal", true, adv);
+           
+
             // remeber last page accessed
             foreach (BackstageViewPage page in backstageView.Pages)
             {

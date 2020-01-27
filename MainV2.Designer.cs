@@ -48,9 +48,7 @@ namespace MissionPlanner
             this.MenuInitConfig = new System.Windows.Forms.ToolStripButton();
             this.MenuConfigTune = new System.Windows.Forms.ToolStripButton();
             this.MenuSimulation = new System.Windows.Forms.ToolStripButton();
-            this.MenuTerminal = new System.Windows.Forms.ToolStripButton();
             this.MenuHelp = new System.Windows.Forms.ToolStripButton();
-            this.MenuDonate = new System.Windows.Forms.ToolStripButton();
             this.MenuConnect = new System.Windows.Forms.ToolStripButton();
             this.toolStripConnectionControl = new MissionPlanner.Controls.ToolStripConnectionControl();
             this.MenuArduPilot = new System.Windows.Forms.ToolStripButton();
@@ -74,9 +72,7 @@ namespace MissionPlanner
             this.MenuInitConfig,
             this.MenuConfigTune,
             this.MenuSimulation,
-            this.MenuTerminal,
             this.MenuHelp,
-            this.MenuDonate,
             this.MenuConnect,
             this.toolStripConnectionControl,
             this.MenuArduPilot});
@@ -174,15 +170,6 @@ namespace MissionPlanner
             this.MenuSimulation.Name = "MenuSimulation";
             this.MenuSimulation.Click += new System.EventHandler(this.MenuSimulation_Click);
             // 
-            // MenuTerminal
-            // 
-            this.MenuTerminal.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.MenuTerminal.ForeColor = System.Drawing.SystemColors.ControlLight;
-            resources.ApplyResources(this.MenuTerminal, "MenuTerminal");
-            this.MenuTerminal.Margin = new System.Windows.Forms.Padding(0);
-            this.MenuTerminal.Name = "MenuTerminal";
-            this.MenuTerminal.Click += new System.EventHandler(this.MenuTerminal_Click);
-            // 
             // MenuHelp
             // 
             this.MenuHelp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -191,15 +178,6 @@ namespace MissionPlanner
             this.MenuHelp.Margin = new System.Windows.Forms.Padding(0);
             this.MenuHelp.Name = "MenuHelp";
             this.MenuHelp.Click += new System.EventHandler(this.MenuHelp_Click);
-            // 
-            // MenuDonate
-            // 
-            this.MenuDonate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.MenuDonate.ForeColor = System.Drawing.SystemColors.ControlLight;
-            resources.ApplyResources(this.MenuDonate, "MenuDonate");
-            this.MenuDonate.Margin = new System.Windows.Forms.Padding(0);
-            this.MenuDonate.Name = "MenuDonate";
-            this.MenuDonate.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // MenuConnect
             // 
@@ -281,7 +259,6 @@ namespace MissionPlanner
         public System.Windows.Forms.ToolStripButton MenuInitConfig;
         public System.Windows.Forms.ToolStripButton MenuSimulation;
         public System.Windows.Forms.ToolStripButton MenuConfigTune;
-        public System.Windows.Forms.ToolStripButton MenuTerminal;
         public System.Windows.Forms.ToolStripButton MenuConnect;
         private Controls.ToolStripConnectionControl toolStripConnectionControl;
         private Controls.MyButton menu;
@@ -294,7 +271,6 @@ namespace MissionPlanner
         private System.Windows.Forms.ToolStripMenuItem connectionOptionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem connectionListToolStripMenuItem;
         public System.Windows.Forms.ToolStripButton MenuHelp;
-        public System.Windows.Forms.ToolStripButton MenuDonate;
         public System.Windows.Forms.ToolStripButton MenuArduPilot;
         public Controls.Status status1;
     }

@@ -89,7 +89,7 @@ namespace MissionPlanner.Log
         {
             status = serialstatus.Connecting;
 
-            comPort = GCSViews.Terminal.comPort;
+            comPort = GCSViews.ConfigTerminal.comPort;
 
             try
             {
