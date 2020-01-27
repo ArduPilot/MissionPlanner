@@ -250,8 +250,8 @@ namespace MissionPlanner.Utilities
                     frmProgressReporter.UpdateProgressAndStatus(-1, "Hashing Files");
 
                 // cleanup dll's with the same exe name
-                var dlls = Directory.GetFiles(Settings.GetRunningDirectory(), "*.dll", SearchOption.TopDirectoryOnly);
-                var exes = Directory.GetFiles(Settings.GetRunningDirectory(), "*.exe", SearchOption.TopDirectoryOnly);
+                var dlls = Directory.GetFiles(Settings.GetRunningDirectory(), "*.dll", SearchOption.AllDirectories);
+                var exes = Directory.GetFiles(Settings.GetRunningDirectory(), "*.exe", SearchOption.AllDirectories);
                 List<string> files = new List<string>();
 
                 // hash everything
@@ -288,6 +288,8 @@ namespace MissionPlanner.Utilities
                     }
                     catch { }
                 });
+
+
 
                 // background md5
                 List<Tuple<string, string, Task<bool>>> tasklist = new List<Tuple<string, string, Task<bool>>>();
