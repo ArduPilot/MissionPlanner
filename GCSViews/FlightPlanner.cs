@@ -546,8 +546,8 @@ namespace MissionPlanner.GCSViews
             }
             else if ((MAVLink.MAV_MISSION_TYPE)cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.FENCE)
             {
-                Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_INCLUSION.ToString();
-                ChangeColumnHeader(MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_INCLUSION.ToString());
+                Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION.ToString();
+                ChangeColumnHeader(MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION.ToString());
             }
             else if (splinemode)
             {
@@ -578,7 +578,7 @@ namespace MissionPlanner.GCSViews
                 else
                 {
                     if (
-                        CustomMessageBox.Show("This will clear your existing planned mission, Continue?", "Confirm",
+                        CustomMessageBox.Show("This will clear your existing points, Continue?", "Confirm",
                             MessageBoxButtons.OKCancel) != (int)DialogResult.OK)
                     {
                         return;
@@ -1920,11 +1920,17 @@ namespace MissionPlanner.GCSViews
             {
                 BUT_Add.Visible = false;
                 processToScreen(MainV2.comPort.MAV.rallypoints.Select(a => (Locationwp)a.Value).ToList());
+
             }
             else if ((MAVLink.MAV_MISSION_TYPE)cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.FENCE)
             {
                 BUT_Add.Visible = false;
                 processToScreen(MainV2.comPort.MAV.fencepoints.Select(a => (Locationwp)a.Value).ToList());
+
+                Common.MessageShowAgain("FlightPlan Fence", "Please use the Polygon drawing tool to draw " +
+                                                            "Inclusion and Exclusion areas (round circle to the left)," +
+                                                            " once drawn use the same icon to convert it to a inclusion " +
+                                                            "or exclusion fence");
             }
             else
             {
@@ -6403,8 +6409,6 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             // check if the mouse up happend over our button
             if (polyicon.Rectangle.Contains(e.Location))
             {
-                polyicon.IsSelected = !polyicon.IsSelected;
-
                 if (e.Button == MouseButtons.Right)
                 {
                     polyicon.IsSelected = false;
@@ -6415,19 +6419,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                     return;
                 }
 
-                if (polyicon.IsSelected)
-                {
-                    contextMenuStripPoly.Show(MainMap, e.Location);
-
-                    return;
-                    //polygongridmode = true;
-                }
-                else
-                {
-                    contextMenuStripPoly.Visible = false;
-                    //polygongridmode = false;
-                }
-
+                contextMenuStripPoly.Show(MainMap, e.Location);
                 return;
             }
 
