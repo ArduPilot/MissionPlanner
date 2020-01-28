@@ -27,6 +27,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public void Activate()
         {
+            this.Visible = false;
+
             setup(mavlinkCheckBoxrev1, mavlinkComboBoxfunc1, mavlinkNumericUpDownmin1, mavlinkNumericUpDowntrim1,
                 mavlinkNumericUpDownmax1, 1);
             setup(mavlinkCheckBoxrev2, mavlinkComboBoxfunc2, mavlinkNumericUpDownmin2, mavlinkNumericUpDowntrim2,
@@ -65,15 +67,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (a.type == uitype.Combo)
                 {
                     var ctl = new MavlinkComboBox() { Padding = new Padding(4)};
-                    ctl.setup(new[] {a.name}, MainV2.comPort.MAV.param);
                     current.Controls.Add(ctl, 1, index);
+                    ctl.setup(new[] { a.name }, MainV2.comPort.MAV.param);
                     toolTip1.SetToolTip(ctl, desc);
                 }
                 else if (a.type == uitype.Num)
                 {
                     var ctl = new MavlinkNumericUpDown() { Padding = new Padding(4)};
-                    ctl.setup(0, 0, 1, 1, new[] {a.name}, MainV2.comPort.MAV.param);
                     current.Controls.Add(ctl, 1, index);
+                    ctl.setup(0, 0, 1, 1, new[] { a.name }, MainV2.comPort.MAV.param);
                     toolTip1.SetToolTip(ctl, desc);
                 }
 
@@ -156,6 +158,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 current.RowCount = misc.Length;
                 misc.Select(populatetable).ToList();
             }
+
+            this.Visible = true;
         }
 
         private void setup(MavlinkCheckBox rev1, MavlinkComboBox func1,
