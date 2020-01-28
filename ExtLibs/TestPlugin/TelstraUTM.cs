@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Security;
 using System.Net.Sockets;
 using System.Security.Cryptography;
@@ -45,7 +46,7 @@ namespace MissionPlanner.Utilities
         {
             var port = new SerialPort(portname, 115200);
             port.ReadTimeout = 1000;
-            port.Open();
+            port.Open();    
             AT(port);
             AT(port, "ATE0"); /// echo off
             AT(port, "AT+CMEE=2"); //  Report mobile termination error - 2: +CME ERROR: <err> result code enabled and verbose <err> values used
@@ -64,6 +65,16 @@ namespace MissionPlanner.Utilities
             AT(port, "AT+CEREG=0"); // 0: network registration URC disabled
             AT(port, "AT+CSQ"); // Signal quality
 
+            AT(port, "AT+COPS=0,0"); // Operator selection - auto
+
+            AT(port, "AT+COPS?");
+
+            //https://www.u-blox.com/en/docs/UBX-13001820
+            //AT(port, "AT+CFUN=4"); // aeroplane mode
+            //AT(port, "AT+URAT=7,8");// set lte as prefered RAT // M1/NB1
+            //AT(port, "AT+CFUN=1"); // normal mode
+
+
             //AT+UMQTT=1,1883
             //AT+UMQTT=2,"home.oborne.me",1883
             //AT+UMQTTC=1
@@ -74,28 +85,32 @@ namespace MissionPlanner.Utilities
             //https://portal.u-blox.com/s/question/0D52p00008LRmCwCAL/how-to-debug-cme-error-usecmng-invalid-certificatekey-format
             {
                 // load the certs
-                var ca = File.ReadAllBytes("ca.der");
+                var ca = File.ReadAllBytes(
+                    @"ca.der");
                 port.WriteLine("AT+USECMNG=0,0,\"CA\"," + ca.Length);
                 Thread.Sleep(100);
                 port.Write(ca, 0, ca.Length);
                 Thread.Sleep(1000);
                 Console.Write(port.ReadExisting());
 
-                var clientcrt = File.ReadAllBytes("client.der");
-                var clientkey = File.ReadAllBytes("clientkey.der");
+                var clientcrt =
+                    File.ReadAllBytes(
+                        @"client.der");
+                // var clientkey = File.ReadAllBytes(@"clientkey.der");
 
                 port.WriteLine("AT+USECMNG=0,1,\"client\"," + clientcrt.Length);
                 Thread.Sleep(100);
                 port.Write(clientcrt, 0, clientcrt.Length);
                 Thread.Sleep(1000);
                 Console.Write(port.ReadExisting());
-
+                /*
                 port.WriteLine("AT+USECMNG=0,2,\"clientkey\"," + clientkey.Length);
                 Thread.Sleep(100);
                 port.Write(clientkey, 0, clientkey.Length);
                 Thread.Sleep(1000);
                 Console.Write(port.ReadExisting());
-
+                */
+                //http://forum.sodaq.com/t/sodaq-sara-r410m-connect-erro-over-tls/2078
                 // create profile
                 AT(port, "AT+USECPRF=0,3,\"CA\"");
                 AT(port, "AT+USECPRF=0,5,\"client\"");
@@ -115,42 +130,59 @@ namespace MissionPlanner.Utilities
                 mqtt_port = 1883;
 
                 //server
-                AT(port, "AT+UMQTT=2,\"" + mqtt_host + "\"," + mqtt_port + "");
+                AT(port, "AT+UMQTT=2,\"" + mqtt_host + "\"," + mqtt_port + "", 35);
                 //login
-                AT(port, "AT+UMQTTC=1", 35);
+                AT(port, "AT+UMQTTC=1", 120);
 
-                AT(port,
-                    "AT+UMQTTC=2,0,0,\"user\",\"Hi! This is an MQTT message. " + DateTime.Now.ToString("s") + "\"");
+                AT(port, "AT+UMQTTC=2,0,0,\"user\",\"Hi! This is an MQTT message. " + DateTime.Now.ToString("s") + "\"",
+                    120);
 
                 // logout
-                AT(port, "AT+UMQTTC=0");
+                AT(port, "AT+UMQTTC=0", 120);
             }
+
             // tcp echo test
             {
+                mqtt_host = "test.oborne.me";
+                mqtt_port = 1883;
+
+                AT(port, "AT+USOCL=0"); // close the socket
+
                 var ans = AT(port, "AT+USOCR=6"); // create tcp socket                
+
+                AT(port, "AT+USOSO=0,65535,8,1"); // turn on keepalive
 
                 AT(port, "AT+USOSEC=0,1,0"); // enable ssl with profile 0
 
-                ans = AT(port, "AT+UDNSRN=0,\""+ mqtt_host + "\"", 60); // dns resolution
+                ans = AT(port, "AT+UDNSRN=0,\"" + mqtt_host + "\"", 71); // dns resolution
+
                 var ip = ans.reply.Replace("\tOK", "").Trim('\t').Replace("+UDNSRN:", "").Trim(new[] {' ', '"'})
                     .Split(',').FirstOrDefault().Trim('"');
 
-                AT(port, "AT+USOCO=0,\"" + ip + "\"," + mqtt_port,120); // connect to ip
+                AT(port, "AT+USOCO=0,\"" + ip + "\"," + mqtt_port, 120); // connect to ip
 
-                AT(port, "AT+USORD=3,0"); // bytes to read
+                var data = AT(port, "AT+USORD=0,0"); // bytes waiting to be read
 
+                //AT+USODL=0   // direct link mode
 
                 //AT(port, "AT+USORD=0,32"); // get the greeting
-                AT(port, "AT+USOWR=0,4,\"Test\""); // write
-                //AT(port, "AT+USORD=0,4"); // read
+                AT(port, "AT+USOWR=0,25", 0.05); // write
+                port.Write("\x10\x17\x00\x04MQTT\x04\x02\x00<\x00\x0bpython_test");
+                Thread.Sleep(50); // wait 50ms
 
+                AT(port, "AT+USOWR=0,19", 0.05); // write
+                port.Write("\x30\x11\x00\x04MQTTpython_test");
+                Thread.Sleep(50); // wait 50ms
+
+                //AT(port, "AT+USORD=0,4"); // read
+                Thread.Sleep(1000);
                 AT(port, "AT+USOCL=0"); // close the socket
             }
 
         }
 
         public static (string status, string reply, TimeSpan elapsed) AT(ICommsSerial port, string cmd = "AT",
-            int timeout = 10, string success = "OK", string failure = "+CME ERROR")
+            double timeout = 10, string success = "OK", string failure = "+CME ERROR")
         {
             // clear the buffer
             Console.WriteLine("Existing: " + port.ReadExisting());
@@ -182,12 +214,14 @@ namespace MissionPlanner.Utilities
                         if (line.StartsWith(success))
                         {
                             Console.WriteLine("RX: Success");
+                            Thread.Sleep(50);
                             return ("Success", reply, DateTime.Now - start);
                         }
 
                         if (line.StartsWith(failure))
                         {
                             Console.WriteLine("RX: Error");
+                            Thread.Sleep(50);
                             return ("Error", reply, DateTime.Now - start);
                         }
                     }
@@ -203,8 +237,68 @@ namespace MissionPlanner.Utilities
             }
         }
 
+        public void test()
+        {
+            var utm = this;
+            var dev = "1234567";
+
+            utm.Auth();
+            utm.SetUAV(dev,"654");
+            utm.GetUAVs();
+            utm.SetMission(dev, utm.UavResponse["operatorId"].ToString(), new List<PointLatLngAlt>()
+            {
+                new PointLatLngAlt(-35, 118),
+                new PointLatLngAlt(-35.1, 118.1),
+                new PointLatLngAlt(-35.2, 118.2),
+                new PointLatLngAlt(-35.2, 118.1),
+                new PointLatLngAlt(-35.1, 118.2)
+            });
+            
+            utm.GetMissions();
+            utm.SetFlightPlan(dev, "1", new List<MAVLink.mavlink_mission_item_int_t>()
+                {
+                    new MAVLink.mavlink_mission_item_int_t(0, 0, 0, 0, (int) (118 * 1e7), (int) (-35 * 1e7), 10, 0,
+                        (ushort) MAVLink.MAV_CMD.WAYPOINT, 1, 1,
+                        (byte) MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT, 0, 0, (byte) MAVLink.MAV_MISSION_TYPE.MISSION),
+                    new MAVLink.mavlink_mission_item_int_t(0, 0, 0, 0, (int) (118.1 * 1e7), (int) (-35.1 * 1e7), 10,
+                        0,
+                        (ushort) MAVLink.MAV_CMD.WAYPOINT, 1, 1,
+                        (byte) MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT, 0, 0, (byte) MAVLink.MAV_MISSION_TYPE.MISSION),
+                    new MAVLink.mavlink_mission_item_int_t(0, 0, 0, 0, (int) (118.2 * 1e7), (int) (-35.2 * 1e7), 10,
+                        0,
+                        (ushort) MAVLink.MAV_CMD.WAYPOINT, 1, 1,
+                        (byte) MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT, 0, 0, (byte) MAVLink.MAV_MISSION_TYPE.MISSION),
+                    new MAVLink.mavlink_mission_item_int_t(0, 0, 0, 0, (int) (118.1 * 1e7), (int) (-35.2 * 1e7), 10,
+                        0,
+                        (ushort) MAVLink.MAV_CMD.WAYPOINT, 1, 1,
+                        (byte) MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT, 0, 0, (byte) MAVLink.MAV_MISSION_TYPE.MISSION),
+                    new MAVLink.mavlink_mission_item_int_t(0, 0, 0, 0, (int) (118.2 * 1e7), (int) (-35.1 * 1e7), 10,
+                        0,
+                        (ushort) MAVLink.MAV_CMD.WAYPOINT, 1, 1,
+                        (byte) MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT, 0, 0, (byte) MAVLink.MAV_MISSION_TYPE.MISSION)
+                });
+            utm.GetFlightPlans();
+            utm.StartMQTT(dev, @"ca.crt",
+                @"client.crt",
+                @"client.key");
+            utm.Telemetry(dev);
+        }
+
         public void Auth()
         {
+            var data = new
+            {
+                grant_type = "client_credentials",
+                //client_id = client_id,
+                //client_secret = client_secret
+            };
+
+            AccessTokenResponse = token_url.WithBasicAuth(client_id, client_secret).PostUrlEncodedAsync(data).ReceiveJson<JObject>().Result;
+        }
+        public void Auth_old()
+        {
+         
+            //https://docs.aws.amazon.com/cognito/latest/developerguide/authorization-endpoint.html
             var authorization_redirect_url = authorize_url + "?response_type=code&client_id=" + client_id +
                                              "&redirect_uri=" + callback_uri + "";
 
@@ -231,6 +325,8 @@ namespace MissionPlanner.Utilities
 
             var authorization_code =
                 System.Web.HttpUtility.ParseQueryString(new Uri(new Uri(callback_uri), requesturl.Split(' ')[1]).Query);
+                
+
 
             var data = new
             {
@@ -250,19 +346,19 @@ namespace MissionPlanner.Utilities
 
         }
 
-        public void SetUAV(string id)
+        public void SetUAV(string id,string iccid)
         {
-            var data = new { deviceId = id };
-            UavResponse = api_base_url.AppendPathSegment("/api/uav")
-                .WithOAuthBearerToken(AccessTokenResponse["access_token"].ToString())
-                .PostJsonAsync(data).ReceiveJson<JObject>().Result;
+            var data = new {deviceId = id.PadLeft(14,'0'), iccid = iccid.PadLeft(20,'0')};
+            UavResponse = api_base_url.AppendPathSegment("/api/uavs").AllowHttpStatus(new HttpStatusCode[] {HttpStatusCode.OK, HttpStatusCode.Unauthorized, HttpStatusCode.Forbidden})
+                .WithOAuthBearerToken(AccessTokenResponse["access_token"].Value<string>()).PostJsonAsync(data)
+                .ReceiveJson<JObject>().Result;
 
 
         }
 
         public JArray GetUAVs()
         {
-            return api_base_url.AppendPathSegment("/api/uav")
+            return api_base_url.AppendPathSegment("/api/uavs")
                 .WithOAuthBearerToken(AccessTokenResponse["access_token"].ToString()).GetJsonAsync<JArray>().Result;
         }
 
@@ -395,7 +491,7 @@ namespace MissionPlanner.Utilities
                 .GetJsonAsync<JArray>().Result;
         }
 
-        public void StartMQTT(string clientid, string cafile, string clientcertfile, string clientprivate, string clientprivatepassword = "")
+        public async void StartMQTT(string clientid, string cafile, string clientcertfile, string clientprivate, string clientprivatepassword = "")
         {
             var ca = new X509Certificate(cafile, "");
 
@@ -457,7 +553,7 @@ namespace MissionPlanner.Utilities
                 Console.WriteLine("### DISCONNECTED FROM SERVER ###");
             });
 
-            var connect = MQTTClient.ConnectAsync(options).Result;
+            var connect = await MQTTClient.ConnectAsync(options);
 
             var sub = MQTTClient.SubscribeAsync(new TopicFilter
             { Topic = "test", QualityOfServiceLevel = MqttQualityOfServiceLevel.AtMostOnce });
@@ -494,7 +590,7 @@ namespace MissionPlanner.Utilities
                 }
             };
 
-            if (MQTTClient.IsConnected)
+            if (MQTTClient != null && MQTTClient.IsConnected)
             {
                 var msg = new MqttApplicationMessageBuilder().WithTopic("prod/device/telemetry/" + devid)
                     .WithPayload(data.ToJSON().Select(a => (byte) a)).WithAtLeastOnceQoS().Build();
