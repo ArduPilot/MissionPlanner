@@ -979,7 +979,7 @@ namespace MissionPlanner.GCSViews
         /// <param name="lat"></param>
         /// <param name="lng"></param>
         /// <param name="alt"></param>
-        public void setfromMap(double lat, double lng, int alt, double p1 = 0)
+        public void setfromMap(double lat, double lng, int alt, double p1 = -1)
         {
             if (selectedrow > Commands.RowCount)
             {
@@ -1134,7 +1134,7 @@ namespace MissionPlanner.GCSViews
             convertFromGeographic(lat, lng);
 
             // Add more for other params
-            if (Commands.Columns[Param1.Index].HeaderText.Equals("Delay"))
+            if (Commands.Columns[Param1.Index].HeaderText.Equals("Delay") && p1 != -1)
             {
                 cell = Commands.Rows[selectedrow].Cells[Param1.Index] as DataGridViewTextBoxCell;
                 cell.Value = p1;
