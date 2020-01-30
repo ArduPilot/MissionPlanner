@@ -289,13 +289,9 @@ namespace MissionPlanner.Log
 
             try
             {
-                Stream stream;
-
-                stream = File.Open(FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
-
                 log.Info("before read " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
 
-                logdata = new DFLogBuffer(stream);
+                logdata = new DFLogBuffer(FileName);
 
                 dflog = logdata.dflog;
 
@@ -336,7 +332,7 @@ namespace MissionPlanner.Log
 
             ResetTreeView(logdata.SeenMessageTypes);
 
-            zg1_ZoomEvent(zg1, null, null);
+            
 
             chk_datagrid.Checked = Settings.Instance.GetBoolean("LB_Grid", false);
             chk_time.Checked = Settings.Instance.GetBoolean("LB_Time", true);
@@ -372,6 +368,8 @@ namespace MissionPlanner.Log
             //CMB_preselect.DisplayMember = "Name";
             CMB_preselect.DataSource = null;
             CMB_preselect.DataSource = mavgraph.graphs;
+
+            zg1_ZoomEvent(zg1, null, null);
 
             log.Info("LoadLog2 Done");
         }
@@ -2350,10 +2348,14 @@ namespace MissionPlanner.Log
             graphit_clickprocess(false);
         }
 
+        private SemaphoreSlim zg1LabelSemaphoreSlim = new SemaphoreSlim(1);
+
         private async void zg1_ZoomEvent(ZedGraphControl sender, ZoomState oldState, ZoomState newState)
         {
             try
             {
+                await zg1LabelSemaphoreSlim.WaitAsync();
+
                 sender.GraphPane.GraphObjList.Clear();
 
                 Task a = null, b = null, c = null, d = null, e = null, f = null;
@@ -2379,7 +2381,8 @@ namespace MissionPlanner.Log
                     }
                     else
                     {
-                        e = DrawMap((long)sender.GraphPane.XAxis.Scale.Min, (long)sender.GraphPane.XAxis.Scale.Max);
+                        e = DrawMap((long) sender.GraphPane.XAxis.Scale.Min,
+                            (long) sender.GraphPane.XAxis.Scale.Max);
                     }
                 }
 
@@ -2410,10 +2413,14 @@ namespace MissionPlanner.Log
                 if (f != null)
                     await f.ConfigureAwait(true);
 
-                sender.Invalidate();
+                zg1.Invalidate();
             }
             catch
             {
+            }
+            finally
+            {
+                zg1LabelSemaphoreSlim.Release();
             }
         }
 
