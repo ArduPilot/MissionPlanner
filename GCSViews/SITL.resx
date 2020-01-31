@@ -2233,13 +2233,13 @@
     <value>9, 44</value>
   </data>
   <data name="but_swarmseq.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>89, 23</value>
   </data>
   <data name="but_swarmseq.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
   </data>
   <data name="but_swarmseq.Text" xml:space="preserve">
-    <value>Swarm - Single link</value>
+    <value>Copter Swarm - Single link</value>
   </data>
   <data name="&gt;&gt;but_swarmseq.Name" xml:space="preserve">
     <value>but_swarmseq</value>
@@ -2254,16 +2254,16 @@
     <value>0</value>
   </data>
   <data name="but_swarmlink.Location" type="System.Drawing.Point, System.Drawing">
-    <value>90, 44</value>
+    <value>104, 44</value>
   </data>
   <data name="but_swarmlink.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>89, 23</value>
   </data>
   <data name="but_swarmlink.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
   </data>
   <data name="but_swarmlink.Text" xml:space="preserve">
-    <value>Swarm - Multilink</value>
+    <value>Copter Swarm - Multilink</value>
   </data>
   <data name="&gt;&gt;but_swarmlink.Name" xml:space="preserve">
     <value>but_swarmlink</value>

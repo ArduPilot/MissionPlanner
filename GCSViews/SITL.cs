@@ -6,6 +6,7 @@ using MissionPlanner.Utilities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -37,7 +38,7 @@ namespace MissionPlanner.GCSViews
 
         internal static UdpClient SITLSEND;
 
-        internal static System.Diagnostics.Process simulator;
+        internal static List<System.Diagnostics.Process> simulator = new List<Process>();
 
         /*
     { "quadplane",          QuadPlane::create },
@@ -76,8 +77,13 @@ namespace MissionPlanner.GCSViews
         {
             try
             {
-                if (simulator != null)
-                    simulator.Kill();
+                simulator.ForEach(a=>
+                {
+                    try
+                    {
+                        a.Kill();
+                    }catch { }
+                });
             }
             catch
             {
@@ -353,8 +359,14 @@ namespace MissionPlanner.GCSViews
             // kill old session
             try
             {
-                if (simulator != null)
-                    simulator.Kill();
+                simulator.ForEach(a =>
+                {
+                    try
+                    {
+                        a.Kill();
+                    }
+                    catch { }
+                });
             }
             catch
             {
@@ -393,7 +405,7 @@ namespace MissionPlanner.GCSViews
 
             try
             {
-                simulator = System.Diagnostics.Process.Start(exestart);
+                simulator.Add(System.Diagnostics.Process.Start(exestart));
             }
             catch (Exception ex)
             {
@@ -514,17 +526,34 @@ namespace MissionPlanner.GCSViews
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        public async void StartSwarmSeperate()
+        public async Task StartSwarmSeperate()
         {
-            var exepath = CheckandGetSITLImage("ArduCopter.elf");
-            var model = "+";
-
-            var config = await GetDefaultConfig(model);
             var max = 10.0;
 
             if (InputBox.Show("how many?", "how many?", ref max) != DialogResult.OK)
                 return;
 
+            // kill old session
+            try
+            {
+                simulator.ForEach(a =>
+                {
+                    try
+                    {
+                        a.Kill();
+                    }
+                    catch { }
+                });
+            }
+            catch
+            {
+            }
+
+            var exepath = CheckandGetSITLImage("ArduCopter.elf");
+            var model = "+";
+
+            var config = await GetDefaultConfig(model);
+            
             max--;
 
             for (int a = (int)max; a >= 0; a--)
@@ -578,8 +607,12 @@ SIM_DRIFT_TIME=0
                 exestart.WindowStyle = ProcessWindowStyle.Minimized;
                 exestart.UseShellExecute = true;
 
-                Process.Start(exestart);
+                simulator.Add(System.Diagnostics.Process.Start(exestart));
             }
+
+            System.Threading.Thread.Sleep(2000);
+
+            MainV2.View.ShowScreen(MainV2.View.screens[0].Name);
 
             try
             {
@@ -624,16 +657,31 @@ SIM_DRIFT_TIME=0
         }
 
         public async void StartSwarmChain()
-        {
-            var exepath = CheckandGetSITLImage("ArduCopter.elf");
-            var model = "+";
-
-            var config = await GetDefaultConfig(model);
+        {  
             var max = 10.0;
-
             if (InputBox.Show("how many?", "how many?", ref max) != DialogResult.OK)
                 return;
 
+            // kill old session
+            try
+            {
+                simulator.ForEach(a =>
+                {
+                    try
+                    {
+                        a.Kill();
+                    }
+                    catch { }
+                });
+            }
+            catch
+            {
+            }
+
+            var exepath = CheckandGetSITLImage("ArduCopter.elf");
+            var model = "+";
+
+            var config= await GetDefaultConfig(model);
             max--;
 
             for (int a = (int)max; a >= 0; a--)
@@ -688,15 +736,19 @@ SIM_DRIFT_TIME=0
                 exestart.UseShellExecute = true;
 
                 File.AppendAllText(Settings.GetUserDataDirectory() + "sitl.bat",
-                    "mkdir " + (a + 1) + "\ncd " + (a + 1) + "\n" + @"""" + exepath + @"""" + " " + extra + " &\n");
+                    "mkdir " + (a + 1) + "\ncd " + (a + 1) + "\n" + @"""" + await exepath + @"""" + " " + extra + " &\n");
 
                 File.AppendAllText(Settings.GetUserDataDirectory() + "sitl1.sh",
                     "mkdir " + (a + 1) + "\ncd " + (a + 1) + "\n" + @"""../" +
                     Path.GetFileName(await exepath).Replace("C:", "/mnt/c").Replace("\\", "/").Replace(".exe", ".elf") + @"""" + " " +
                     extra.Replace("C:", "/mnt/c").Replace("\\", "/") + " &\nsleep .3\ncd ..\n");
 
-                Process.Start(exestart);
+                simulator.Add(System.Diagnostics.Process.Start(exestart));
             }
+
+            System.Threading.Thread.Sleep(2000);
+
+            MainV2.View.ShowScreen(MainV2.View.screens[0].Name);
 
             try
             {
@@ -723,12 +775,12 @@ SIM_DRIFT_TIME=0
 
         private void but_swarmseq_Click(object sender, EventArgs e)
         {
-            StartSwarmChain();
+             StartSwarmChain();
         }
 
         private void but_swarmlink_Click(object sender, EventArgs e)
         {
-            StartSwarmSeperate();
+             StartSwarmSeperate();
         }
     }
 }
