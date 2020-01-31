@@ -3823,7 +3823,7 @@ namespace MissionPlanner.GCSViews
             }).ToList();
 
             // add extra
-            while (total < tableLayoutPanelQuick.Controls.Count)
+            while (total > tableLayoutPanelQuick.Controls.Count)
             {
                 var QV = new QuickView()
                 {
