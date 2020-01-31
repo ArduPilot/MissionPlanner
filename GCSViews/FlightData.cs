@@ -28,6 +28,7 @@ using Microsoft.Scripting.Utils;
 using WebCamService;
 using ZedGraph;
 using LogAnalyzer = MissionPlanner.Utilities.LogAnalyzer;
+using TableLayoutPanelCellPosition = System.Windows.Forms.TableLayoutPanelCellPosition;
 
 // written by michael oborne
 
@@ -3798,17 +3799,27 @@ namespace MissionPlanner.GCSViews
             // remove those in row/cols outside our selection
             ctls.Select(a =>
             {
-                var pos = tableLayoutPanelQuick.GetPositionFromControl((Control)a);
-                if (pos.Column >= tableLayoutPanelQuick.ColumnCount)
+                try
                 {
-                    tableLayoutPanelQuick.Controls.Remove((Control)a);
-                }
-                else if (pos.Row >= tableLayoutPanelQuick.RowCount)
-                {
-                    tableLayoutPanelQuick.Controls.Remove((Control)a);
-                }
+                    if(a == null)
+                        return default(TableLayoutPanelCellPosition);
+                    var pos = tableLayoutPanelQuick.GetPositionFromControl((Control) a);
+                    if (pos.Column >= tableLayoutPanelQuick.ColumnCount)
+                    {
+                        tableLayoutPanelQuick.Controls.Remove((Control) a);
+                    }
+                    else if (pos.Row >= tableLayoutPanelQuick.RowCount)
+                    {
+                        tableLayoutPanelQuick.Controls.Remove((Control) a);
+                    }
 
-                return pos;
+                    return pos;
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                    return default(TableLayoutPanelCellPosition);
+                }
             }).ToList();
 
             // add extra
