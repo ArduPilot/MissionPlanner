@@ -258,6 +258,8 @@ namespace MissionPlanner.GCSViews
 
                         if (configs is JValue)
                         {
+                            Directory.CreateDirectory(Path.GetDirectoryName(sitldirectory + configs.ToString()));
+
                             if (await Download.getFilefromNetAsync(
                                     "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/" +
                                     configs.ToString(),
@@ -271,6 +273,8 @@ namespace MissionPlanner.GCSViews
 
                         foreach (var config1 in configs)
                         {
+                            Directory.CreateDirectory(Path.GetDirectoryName(sitldirectory + config1.ToString()));
+
                             if (await Download.getFilefromNetAsync(
                                     "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/" +
                                     config1.ToString(),
@@ -528,7 +532,7 @@ namespace MissionPlanner.GCSViews
                 var extra = " --disable-fgview -r50 ";
 
                 if (!string.IsNullOrEmpty(config))
-                    extra += @" --defaults """ + config + @""" -P SERIAL0_PROTOCOL=2 -P SERIAL1_PROTOCOL=2 ";
+                    extra += @" --defaults """ + config + @",identity.parm"" -P SERIAL0_PROTOCOL=2 -P SERIAL1_PROTOCOL=2 ";
 
                 var home = new PointLatLngAlt(markeroverlay.Markers[0].Position).newpos((double)NUM_heading.Value, a * 4);
 
@@ -549,6 +553,11 @@ namespace MissionPlanner.GCSViews
                 string simdir = sitldirectory + model + (a + 1) + Path.DirectorySeparatorChar;
 
                 Directory.CreateDirectory(simdir);
+
+                File.WriteAllText(simdir + "identity.parm", String.Format(@"SERIAL0_PROTOCOL=2
+SERIAL1_PROTOCOL=2
+SYSID_THISMAV={0}
+", a + 1));
 
                 string path = Environment.GetEnvironmentVariable("PATH");
 
@@ -627,7 +636,7 @@ namespace MissionPlanner.GCSViews
                 var extra = " --disable-fgview -r50";
 
                 if (!string.IsNullOrEmpty(config))
-                    extra += @" --defaults """ + config + @""" -P SERIAL0_PROTOCOL=2 -P SERIAL1_PROTOCOL=2 ";
+                    extra += @" --defaults """ + config + @",identity.parm"" -P SERIAL0_PROTOCOL=2 -P SERIAL1_PROTOCOL=2 ";
 
                 var home = new PointLatLngAlt(markeroverlay.Markers[0].Position).newpos((double)NUM_heading.Value, a * 4);
 
@@ -648,6 +657,11 @@ namespace MissionPlanner.GCSViews
                 string simdir = sitldirectory + model + (a + 1) + Path.DirectorySeparatorChar;
 
                 Directory.CreateDirectory(simdir);
+
+                File.WriteAllText(simdir + "identity.parm", String.Format(@"SERIAL0_PROTOCOL=2
+SERIAL1_PROTOCOL=2
+SYSID_THISMAV={0}
+", a + 1));
 
                 string path = Environment.GetEnvironmentVariable("PATH");
 
