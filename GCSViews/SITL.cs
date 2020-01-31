@@ -557,6 +557,11 @@ namespace MissionPlanner.GCSViews
                 File.WriteAllText(simdir + "identity.parm", String.Format(@"SERIAL0_PROTOCOL=2
 SERIAL1_PROTOCOL=2
 SYSID_THISMAV={0}
+SIM_TERRAIN=0
+TERRAIN_ENABLE=0
+SCHED_LOOP_RATE=50
+SIM_DRIFT_SPEED=0
+SIM_DRIFT_TIME=0
 ", a + 1));
 
                 string path = Environment.GetEnvironmentVariable("PATH");
@@ -661,6 +666,11 @@ SYSID_THISMAV={0}
                 File.WriteAllText(simdir + "identity.parm", String.Format(@"SERIAL0_PROTOCOL=2
 SERIAL1_PROTOCOL=2
 SYSID_THISMAV={0}
+SIM_TERRAIN=0
+TERRAIN_ENABLE=0
+SCHED_LOOP_RATE=50
+SIM_DRIFT_SPEED=0
+SIM_DRIFT_TIME=0
 ", a + 1));
 
                 string path = Environment.GetEnvironmentVariable("PATH");
@@ -709,6 +719,16 @@ SYSID_THISMAV={0}
                 CustomMessageBox.Show(Strings.Failed_to_connect_to_SITL_instance, Strings.ERROR);
                 return;
             }
+        }
+
+        private void but_swarmseq_Click(object sender, EventArgs e)
+        {
+            StartSwarmChain();
+        }
+
+        private void but_swarmlink_Click(object sender, EventArgs e)
+        {
+            StartSwarmSeperate();
         }
     }
 }
