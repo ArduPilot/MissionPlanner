@@ -1,0 +1,29 @@
+###############################################################################
+# Set default behavior to automatically normalize line endings.
+###############################################################################
+* text=auto
+*.cs diff=csharp eol=lf whitespace=blank-at-eol,-blank-at-eof,-space-before-tab,tab-in-indent,tabwidth=4
+*.txt     text eol=lf whitespace=blank-at-eol,-blank-at-eof,-space-before-tab,tab-in-indent,tabwidth=4
+*.xml     text eol=lf whitespace=blank-at-eol,-blank-at-eof,-space-before-tab,tab-in-indent,tabwidth=4
+*.resx     text eol=lf whitespace=blank-at-eol,-blank-at-eof,-space-before-tab,tab-in-indent,tabwidth=4
+
+
+# Define binary file attributes.
+# - Do not treat them as text.
+# - Include binary diff in patches instead of "binary files differ."
+*.gif     -text diff
+*.gz      -text diff
+*.ico     -text diff
+*.jpeg    -text diff
+*.jpg     -text diff
+*.png     -text diff
+*.phar    -text diff
+*.pdf     -text diff
+*.exe     -text diff
+*.dll     -text diff
+*.zip     -text diff
+*.svgz    -text diff
+*.eot     -text diff
+*.ttf     -text diff
+*.woff    -text diff
+*.woff2   -text diff
