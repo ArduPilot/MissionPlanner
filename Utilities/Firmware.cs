@@ -171,7 +171,7 @@ namespace MissionPlanner.Utilities
         /// Load xml from internet based on firmwareurl, and return softwarelist
         /// </summary>
         /// <returns></returns>
-        public List<software> getFWList(string firmwareurl = "", APFirmware.RELEASE_TYPES rEL_Type = APFirmware.RELEASE_TYPES.OFFICIAL)
+        public List<software> getFWList(string firmwareurl = "")
         {
             if (firmwareurl == "")
                 firmwareurl = this.firmwareurl;

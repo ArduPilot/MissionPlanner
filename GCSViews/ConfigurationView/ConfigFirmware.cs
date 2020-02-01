@@ -21,7 +21,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private readonly Firmware fw = new Firmware();
         private string custom_fw_dir = "";
         private string firmwareurl = "";
-        private APFirmware.RELEASE_TYPES REL_Type = (APFirmware.RELEASE_TYPES)99;// APFirmware.RELEASE_TYPES.OFFICIAL;
         private bool firstrun = true;
         private IProgressReporterDialogue pdr;
         private string detectedport;
@@ -112,7 +111,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (keyData == (Keys.Control | Keys.Q))
             {
                 CustomMessageBox.Show(Strings.TrunkWarning, Strings.Trunk);
-                REL_Type = APFirmware.RELEASE_TYPES.DEV;
                 firmwareurl = "https://github.com/ArduPilot/binary/raw/master/dev/firmwarelatest.xml;https://firmware.ardupilot.org/Tools/MissionPlanner/dev/firmwarelatest.xml";
 
                 softwares.Clear();
@@ -148,40 +146,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void pdr_DoWork(IProgressReporterDialogue sender)
         {
-            //if ((int)REL_Type == 99)
-            {
-                var fw = new Firmware();
-                fw.Progress -= fw_Progress1;
-                fw.Progress += fw_ProgressPDR;
-                softwares = fw.getFWList(firmwareurl, REL_Type);
-
-                foreach (var soft in softwares)
-                {
-                    if (sender.doWorkArgs.CancelRequested)
-                    {
-                        sender.doWorkArgs.CancelAcknowledged = true;
-                        return;
-                    }
-
-                    updateDisplayNameInvoke(soft);
-                }
-
-                return;
-            }
-
-            try
-            {
-                APFirmware.GetList();
-
-                var official = APFirmware.GetRelease(REL_Type);
-
-                var before = softwares.ToJSON();
-
-                softwares = ConvertToOld(official);
-
-                var after = softwares.ToJSON();
-            }
-            catch { }
+            var fw = new Firmware();
+            fw.Progress -= fw_Progress1;
+            fw.Progress += fw_ProgressPDR;
+            softwares = fw.getFWList(firmwareurl);
 
             foreach (var soft in softwares)
             {
@@ -190,6 +158,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     sender.doWorkArgs.CancelAcknowledged = true;
                     return;
                 }
+
                 updateDisplayNameInvoke(soft);
             }
         }
@@ -503,7 +472,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void CMB_history_SelectedIndexChanged(object sender, EventArgs e)
         {
             firmwareurl = Firmware.getUrl(CMB_history.SelectedValue.ToString(), "");
-            REL_Type = (APFirmware.RELEASE_TYPES)99;
             softwares.Clear();
             UpdateFWList();
         }
@@ -580,7 +548,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void lbl_devfw_Click(object sender, EventArgs e)
         {
             CustomMessageBox.Show(Strings.BetaWarning, Strings.Beta);
-            REL_Type = APFirmware.RELEASE_TYPES.BETA;
             firmwareurl = "https://github.com/ArduPilot/binary/raw/master/dev/firmware2.xml;https://firmware.ardupilot.org/Tools/MissionPlanner/dev/firmware2.xml";
             softwares.Clear();
             UpdateFWList();
