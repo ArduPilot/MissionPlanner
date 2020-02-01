@@ -5,8 +5,10 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text.RegularExpressions;
 using log4net;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.ArduPilot
 {
@@ -110,7 +112,12 @@ namespace MissionPlanner.ArduPilot
 
             log.Info(url);
 
-            var manifestgz = new WebClient().DownloadData(url);
+            var client = new HttpClient();
+
+            if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
+                client.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
+
+            var manifestgz = client.GetByteArrayAsync(url).GetAwaiter().GetResult();
             var mssrc = new MemoryStream(manifestgz);
             var msdest = new MemoryStream();
             GZipStream gz = new GZipStream(mssrc, CompressionMode.Decompress);

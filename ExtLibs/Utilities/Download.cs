@@ -20,7 +20,7 @@ namespace MissionPlanner.Utilities
         string _uri = "";
         public int chunksize { get; set; } = 1000 * 250;
 
-        static HttpClient client = new HttpClient();
+        HttpClient client = new HttpClient();
 
         private static object _lock = new object();
         /// <summary>
@@ -73,13 +73,14 @@ namespace MissionPlanner.Utilities
 
         private static Timer _timer;
 
-        static DownloadStream()
+        internal DownloadStream()
         {
             _timer = new Timer(a => { expireCache(); }, null, 1000 * 30, 1000 * 30);
-            client.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
+            if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
+                client.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
         }
 
-        public DownloadStream(string uri)
+        public DownloadStream(string uri): this()
         {
             _uri = uri;
             SetLength(Download.GetFileSize(uri));
@@ -374,7 +375,8 @@ namespace MissionPlanner.Utilities
 
         static Download()
         {
-            client.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
+            if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
+                client.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
         }
 
         static HttpClient client = new HttpClient();
