@@ -99,6 +99,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public void Deactivate()
         {
             MainV2.instance.DeviceChanged -= Instance_DeviceChanged;
+
+            // reset to official on any reload
+            REL_Type = APFirmware.RELEASE_TYPES.OFFICIAL;
         }
 
         private void Instance_DeviceChanged(MainV2.WM_DEVICECHANGE_enum cause)
