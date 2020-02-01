@@ -224,6 +224,7 @@ namespace MissionPlanner.Utilities
 
             frmProgressReporter.DoWork += new DoWorkEventHandler(DoUpdateWorker_DoWork);
 
+            frmProgressReporter.doWorkArgs.CancelRequestChanged += (sender, args) => { frmProgressReporter.doWorkArgs.CancelAcknowledged = true; };
             frmProgressReporter.doWorkArgs.ForceExit = true;
 
             frmProgressReporter.UpdateProgressAndStatus(-1, "Checking for Updates");

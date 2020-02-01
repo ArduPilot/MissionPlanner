@@ -261,6 +261,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 List<uavcan.uavcan_protocol_param_GetSet_res> paramlist =
                     new List<uavcan.uavcan_protocol_param_GetSet_res>();
                 prd.doWorkArgs.ForceExit = true;
+                prd.doWorkArgs.CancelRequestChanged += (sender2, args) => { prd.doWorkArgs.CancelAcknowledged = true; };
                 prd.DoWork += dialogue =>
                 {
                     paramlist = can.GetParameters(nodeID);

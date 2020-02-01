@@ -72,6 +72,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 ParameterMetaDataRepositoryAPM.Reload();
             };
 
+            prd.doWorkArgs.CancelRequestChanged += (sender2, args) => { prd.doWorkArgs.CancelAcknowledged = true; };
+
             prd.doWorkArgs.ForceExit = true;
 
             prd.RunBackgroundOperationAsync();
