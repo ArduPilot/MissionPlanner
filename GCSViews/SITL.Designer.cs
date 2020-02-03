@@ -47,6 +47,8 @@ namespace MissionPlanner.GCSViews
             this.label1 = new System.Windows.Forms.Label();
             this.NUM_heading = new System.Windows.Forms.NumericUpDown();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.but_swarmseq = new MissionPlanner.Controls.MyButton();
+            this.but_swarmlink = new MissionPlanner.Controls.MyButton();
             this.chk_wipe = new System.Windows.Forms.CheckBox();
             this.label8 = new System.Windows.Forms.Label();
             this.txt_cmdline = new System.Windows.Forms.TextBox();
@@ -54,8 +56,6 @@ namespace MissionPlanner.GCSViews
             this.cmb_model = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.num_simspeed = new System.Windows.Forms.NumericUpDown();
-            this.but_swarmlink = new MissionPlanner.Controls.MyButton();
-            this.but_swarmseq = new MissionPlanner.Controls.MyButton();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxheli)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxquad)).BeginInit();
@@ -222,6 +222,20 @@ namespace MissionPlanner.GCSViews
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.TabStop = false;
             // 
+            // but_swarmseq
+            // 
+            resources.ApplyResources(this.but_swarmseq, "but_swarmseq");
+            this.but_swarmseq.Name = "but_swarmseq";
+            this.but_swarmseq.UseVisualStyleBackColor = true;
+            this.but_swarmseq.Click += new System.EventHandler(this.but_swarmseq_Click);
+            // 
+            // but_swarmlink
+            // 
+            resources.ApplyResources(this.but_swarmlink, "but_swarmlink");
+            this.but_swarmlink.Name = "but_swarmlink";
+            this.but_swarmlink.UseVisualStyleBackColor = true;
+            this.but_swarmlink.Click += new System.EventHandler(this.but_swarmlink_Click);
+            // 
             // chk_wipe
             // 
             resources.ApplyResources(this.chk_wipe, "chk_wipe");
@@ -301,20 +315,6 @@ namespace MissionPlanner.GCSViews
             0,
             0,
             0});
-            // 
-            // but_swarmlink
-            // 
-            resources.ApplyResources(this.but_swarmlink, "but_swarmlink");
-            this.but_swarmlink.Name = "but_swarmlink";
-            this.but_swarmlink.UseVisualStyleBackColor = true;
-            this.but_swarmlink.Click += new System.EventHandler(this.but_swarmlink_Click);
-            // 
-            // but_swarmseq
-            // 
-            resources.ApplyResources(this.but_swarmseq, "but_swarmseq");
-            this.but_swarmseq.Name = "but_swarmseq";
-            this.but_swarmseq.UseVisualStyleBackColor = true;
-            this.but_swarmseq.Click += new System.EventHandler(this.but_swarmseq_Click);
             // 
             // SITL
             // 

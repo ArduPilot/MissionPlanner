@@ -697,7 +697,7 @@ namespace GMap.NET.WindowsForms
                                               {
                                                   g.DrawImage(img.Img,
                                                       new Rectangle((int) Core.tileRect.X, (int) Core.tileRect.Y,
-                                                          (int) Core.tileRect.Width, (int) Core.tileRect.Height), 0, 0,
+                                                          (int) Core.tileRect.Width+1, (int) Core.tileRect.Height+1), 0, 0,
                                                       Core.tileRect.Width, Core.tileRect.Height, GraphicsUnit.Pixel,
                                                       TileFlipXYAttributes);
                                               }

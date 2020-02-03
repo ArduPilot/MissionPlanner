@@ -150,7 +150,17 @@ namespace MissionPlanner.GCSViews
 
 
                 if (backstageView.SelectedPage == null && start != null)
-                    backstageView.ActivatePage(start);
+                    this.BeginInvoke((Action) delegate
+                    {
+                        try
+                        {
+                            backstageView.ActivatePage(start);
+                        }
+                        catch (Exception ex)
+                        {
+                            log.Error(ex);
+                        }
+                    });
             }
             catch (Exception ex)
             {

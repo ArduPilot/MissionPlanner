@@ -425,7 +425,7 @@
     <value>Commands</value>
   </data>
   <data name="&gt;&gt;Commands.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.7333.11631, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.7337.13797, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Commands.Parent" xml:space="preserve">
     <value>panelWaypoints</value>
@@ -1454,6 +1454,108 @@
   <data name="&gt;&gt;splitter1.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="&gt;&gt;flowLayoutPanel1.Name" xml:space="preserve">
+    <value>flowLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel1.Parent" xml:space="preserve">
+    <value>panelAction</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="panelAction.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="panelAction.Location" type="System.Drawing.Point, System.Drawing">
+    <value>618, 0</value>
+  </data>
+  <data name="panelAction.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>21, 21</value>
+  </data>
+  <data name="panelAction.Size" type="System.Drawing.Size, System.Drawing">
+    <value>131, 400</value>
+  </data>
+  <data name="panelAction.TabIndex" type="System.Int32, mscorlib">
+    <value>50</value>
+  </data>
+  <data name="panelAction.Text" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="&gt;&gt;panelAction.Name" xml:space="preserve">
+    <value>panelAction</value>
+  </data>
+  <data name="&gt;&gt;panelAction.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panelAction.Parent" xml:space="preserve">
+    <value>panelBASE</value>
+  </data>
+  <data name="&gt;&gt;panelAction.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;panel4.Name" xml:space="preserve">
+    <value>panel4</value>
+  </data>
+  <data name="&gt;&gt;panel4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panel4.Parent" xml:space="preserve">
+    <value>flowLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;panel4.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;panel3.Name" xml:space="preserve">
+    <value>panel3</value>
+  </data>
+  <data name="&gt;&gt;panel3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panel3.Parent" xml:space="preserve">
+    <value>flowLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;panel3.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;panel2.Name" xml:space="preserve">
+    <value>panel2</value>
+  </data>
+  <data name="&gt;&gt;panel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panel2.Parent" xml:space="preserve">
+    <value>flowLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;panel2.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="flowLayoutPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="flowLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="flowLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>131, 400</value>
+  </data>
+  <data name="flowLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
+    <value>51</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel1.Name" xml:space="preserve">
+    <value>flowLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel1.Parent" xml:space="preserve">
+    <value>panelAction</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="panel4.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 3</value>
   </data>
@@ -1531,162 +1633,6 @@
   </data>
   <data name="&gt;&gt;panel3.ZOrder" xml:space="preserve">
     <value>1</value>
-  </data>
-  <data name="lbl_wpfile.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lbl_wpfile.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 59</value>
-  </data>
-  <data name="lbl_wpfile.Size" type="System.Drawing.Size, System.Drawing">
-    <value>16, 13</value>
-  </data>
-  <data name="lbl_wpfile.TabIndex" type="System.Int32, mscorlib">
-    <value>48</value>
-  </data>
-  <data name="lbl_wpfile.Text" xml:space="preserve">
-    <value>...</value>
-  </data>
-  <data name="&gt;&gt;lbl_wpfile.Name" xml:space="preserve">
-    <value>lbl_wpfile</value>
-  </data>
-  <data name="&gt;&gt;lbl_wpfile.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lbl_wpfile.Parent" xml:space="preserve">
-    <value>panel2</value>
-  </data>
-  <data name="&gt;&gt;lbl_wpfile.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="BUT_loadwpfile.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="BUT_loadwpfile.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
-  </data>
-  <data name="BUT_loadwpfile.Size" type="System.Drawing.Size, System.Drawing">
-    <value>107, 23</value>
-  </data>
-  <data name="BUT_loadwpfile.TabIndex" type="System.Int32, mscorlib">
-    <value>46</value>
-  </data>
-  <data name="BUT_loadwpfile.Text" xml:space="preserve">
-    <value>Load File</value>
-  </data>
-  <data name="&gt;&gt;BUT_loadwpfile.Name" xml:space="preserve">
-    <value>BUT_loadwpfile</value>
-  </data>
-  <data name="&gt;&gt;BUT_loadwpfile.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;BUT_loadwpfile.Parent" xml:space="preserve">
-    <value>panel2</value>
-  </data>
-  <data name="&gt;&gt;BUT_loadwpfile.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="BUT_saveWPFile.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="BUT_saveWPFile.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 32</value>
-  </data>
-  <data name="BUT_saveWPFile.Size" type="System.Drawing.Size, System.Drawing">
-    <value>107, 23</value>
-  </data>
-  <data name="BUT_saveWPFile.TabIndex" type="System.Int32, mscorlib">
-    <value>47</value>
-  </data>
-  <data name="BUT_saveWPFile.Text" xml:space="preserve">
-    <value>Save File</value>
-  </data>
-  <data name="&gt;&gt;BUT_saveWPFile.Name" xml:space="preserve">
-    <value>BUT_saveWPFile</value>
-  </data>
-  <data name="&gt;&gt;BUT_saveWPFile.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;BUT_saveWPFile.Parent" xml:space="preserve">
-    <value>panel2</value>
-  </data>
-  <data name="&gt;&gt;BUT_saveWPFile.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="panel2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 131</value>
-  </data>
-  <data name="panel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 75</value>
-  </data>
-  <data name="panel2.TabIndex" type="System.Int32, mscorlib">
-    <value>48</value>
-  </data>
-  <data name="&gt;&gt;panel2.Name" xml:space="preserve">
-    <value>panel2</value>
-  </data>
-  <data name="&gt;&gt;panel2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panel2.Parent" xml:space="preserve">
-    <value>flowLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;panel2.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="flowLayoutPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="flowLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="flowLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>131, 400</value>
-  </data>
-  <data name="flowLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
-    <value>51</value>
-  </data>
-  <data name="&gt;&gt;flowLayoutPanel1.Name" xml:space="preserve">
-    <value>flowLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;flowLayoutPanel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;flowLayoutPanel1.Parent" xml:space="preserve">
-    <value>panelAction</value>
-  </data>
-  <data name="&gt;&gt;flowLayoutPanel1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="panelAction.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Right</value>
-  </data>
-  <data name="panelAction.Location" type="System.Drawing.Point, System.Drawing">
-    <value>618, 0</value>
-  </data>
-  <data name="panelAction.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>21, 21</value>
-  </data>
-  <data name="panelAction.Size" type="System.Drawing.Size, System.Drawing">
-    <value>131, 400</value>
-  </data>
-  <data name="panelAction.TabIndex" type="System.Int32, mscorlib">
-    <value>50</value>
-  </data>
-  <data name="panelAction.Text" xml:space="preserve">
-    <value>Action</value>
-  </data>
-  <data name="&gt;&gt;panelAction.Name" xml:space="preserve">
-    <value>panelAction</value>
-  </data>
-  <data name="&gt;&gt;panelAction.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelAction.Parent" xml:space="preserve">
-    <value>panelBASE</value>
-  </data>
-  <data name="&gt;&gt;panelAction.ZOrder" xml:space="preserve">
-    <value>4</value>
   </data>
   <data name="chk_grid.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1768,6 +1714,144 @@
   </data>
   <data name="&gt;&gt;lnk_kml.ZOrder" xml:space="preserve">
     <value>3</value>
+  </data>
+  <data name="&gt;&gt;lbl_wpfile.Name" xml:space="preserve">
+    <value>lbl_wpfile</value>
+  </data>
+  <data name="&gt;&gt;lbl_wpfile.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lbl_wpfile.Parent" xml:space="preserve">
+    <value>panel2</value>
+  </data>
+  <data name="&gt;&gt;lbl_wpfile.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;BUT_loadwpfile.Name" xml:space="preserve">
+    <value>BUT_loadwpfile</value>
+  </data>
+  <data name="&gt;&gt;BUT_loadwpfile.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_loadwpfile.Parent" xml:space="preserve">
+    <value>panel2</value>
+  </data>
+  <data name="&gt;&gt;BUT_loadwpfile.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;BUT_saveWPFile.Name" xml:space="preserve">
+    <value>BUT_saveWPFile</value>
+  </data>
+  <data name="&gt;&gt;BUT_saveWPFile.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_saveWPFile.Parent" xml:space="preserve">
+    <value>panel2</value>
+  </data>
+  <data name="&gt;&gt;BUT_saveWPFile.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="panel2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 131</value>
+  </data>
+  <data name="panel2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>123, 75</value>
+  </data>
+  <data name="panel2.TabIndex" type="System.Int32, mscorlib">
+    <value>48</value>
+  </data>
+  <data name="&gt;&gt;panel2.Name" xml:space="preserve">
+    <value>panel2</value>
+  </data>
+  <data name="&gt;&gt;panel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panel2.Parent" xml:space="preserve">
+    <value>flowLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;panel2.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="lbl_wpfile.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lbl_wpfile.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 59</value>
+  </data>
+  <data name="lbl_wpfile.Size" type="System.Drawing.Size, System.Drawing">
+    <value>16, 13</value>
+  </data>
+  <data name="lbl_wpfile.TabIndex" type="System.Int32, mscorlib">
+    <value>48</value>
+  </data>
+  <data name="lbl_wpfile.Text" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="&gt;&gt;lbl_wpfile.Name" xml:space="preserve">
+    <value>lbl_wpfile</value>
+  </data>
+  <data name="&gt;&gt;lbl_wpfile.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lbl_wpfile.Parent" xml:space="preserve">
+    <value>panel2</value>
+  </data>
+  <data name="&gt;&gt;lbl_wpfile.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="BUT_loadwpfile.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_loadwpfile.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="BUT_loadwpfile.Size" type="System.Drawing.Size, System.Drawing">
+    <value>107, 23</value>
+  </data>
+  <data name="BUT_loadwpfile.TabIndex" type="System.Int32, mscorlib">
+    <value>46</value>
+  </data>
+  <data name="BUT_loadwpfile.Text" xml:space="preserve">
+    <value>Load File</value>
+  </data>
+  <data name="&gt;&gt;BUT_loadwpfile.Name" xml:space="preserve">
+    <value>BUT_loadwpfile</value>
+  </data>
+  <data name="&gt;&gt;BUT_loadwpfile.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_loadwpfile.Parent" xml:space="preserve">
+    <value>panel2</value>
+  </data>
+  <data name="&gt;&gt;BUT_loadwpfile.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="BUT_saveWPFile.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_saveWPFile.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 32</value>
+  </data>
+  <data name="BUT_saveWPFile.Size" type="System.Drawing.Size, System.Drawing">
+    <value>107, 23</value>
+  </data>
+  <data name="BUT_saveWPFile.TabIndex" type="System.Int32, mscorlib">
+    <value>47</value>
+  </data>
+  <data name="BUT_saveWPFile.Text" xml:space="preserve">
+    <value>Save File</value>
+  </data>
+  <data name="&gt;&gt;BUT_saveWPFile.Name" xml:space="preserve">
+    <value>BUT_saveWPFile</value>
+  </data>
+  <data name="&gt;&gt;BUT_saveWPFile.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_saveWPFile.Parent" xml:space="preserve">
+    <value>panel2</value>
+  </data>
+  <data name="&gt;&gt;BUT_saveWPFile.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
   <data name="splitter2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Right</value>
@@ -2610,7 +2694,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;panelBASE.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>172, 17</value>
@@ -2647,6 +2731,36 @@
   </data>
   <data name="testToolStripMenuItem.Text" xml:space="preserve">
     <value>test</value>
+  </data>
+  <metadata name="contextMenuStripZoom.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>528, 17</value>
+  </metadata>
+  <data name="zoomToVehicleToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="zoomToVehicleToolStripMenuItem.Text" xml:space="preserve">
+    <value>Zoom to Vehicle</value>
+  </data>
+  <data name="zoomToMissionToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="zoomToMissionToolStripMenuItem.Text" xml:space="preserve">
+    <value>Zoom to Mission</value>
+  </data>
+  <data name="zoomToHomeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="zoomToHomeToolStripMenuItem.Text" xml:space="preserve">
+    <value>Zoom to Home</value>
+  </data>
+  <data name="contextMenuStripZoom.Size" type="System.Drawing.Size, System.Drawing">
+    <value>181, 92</value>
+  </data>
+  <data name="&gt;&gt;contextMenuStripZoom.Name" xml:space="preserve">
+    <value>contextMenuStripZoom</value>
+  </data>
+  <data name="&gt;&gt;contextMenuStripZoom.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -3288,6 +3402,24 @@
     <value>testToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;testToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;zoomToVehicleToolStripMenuItem.Name" xml:space="preserve">
+    <value>zoomToVehicleToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;zoomToVehicleToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;zoomToMissionToolStripMenuItem.Name" xml:space="preserve">
+    <value>zoomToMissionToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;zoomToMissionToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;zoomToHomeToolStripMenuItem.Name" xml:space="preserve">
+    <value>zoomToHomeToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;zoomToHomeToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">

@@ -378,6 +378,7 @@
       <DependentUpon>DigitalSkyUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\Icon\File.cs" />
+    <Compile Include="Controls\Icon\Zoom.cs" />
     <Compile Include="Controls\Status.cs">
       <SubType>UserControl</SubType>
     </Compile>

@@ -119,6 +119,7 @@ namespace MissionPlanner.GCSViews
         private WPOverlay overlay;
         private bool polygongridmode;
         private MissionPlanner.Controls.Icon.Polygon polyicon = new MissionPlanner.Controls.Icon.Polygon();
+        private MissionPlanner.Controls.Icon.Zoom zoomicon = new MissionPlanner.Controls.Icon.Zoom();
         private ComponentResourceManager rm = new ComponentResourceManager(typeof(FlightPlanner));
         private int selectedrow;
         private bool sethome;
@@ -3789,6 +3790,10 @@ namespace MissionPlanner.GCSViews
                 TXT_homealt.Text = (MainV2.comPort.MAV.cs.altasl).ToString("0");
                 TXT_homelat.Text = MainV2.comPort.MAV.cs.lat.ToString();
                 TXT_homelng.Text = MainV2.comPort.MAV.cs.lng.ToString();
+
+                writeKML();
+
+                zoomToHomeToolStripMenuItem_Click(null, null);
             }
             else
             {
@@ -4360,6 +4365,11 @@ namespace MissionPlanner.GCSViews
 
             polyicon.Location = new Point(10, 100);
             polyicon.Paint(e.Graphics);
+
+            e.Graphics.ResetTransform();
+
+            zoomicon.Location = new Point(10, polyicon.Location.Y + polyicon.Height + 5);
+            zoomicon.Paint(e.Graphics);
 
             e.Graphics.ResetTransform();
         }
@@ -6423,6 +6433,12 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 return;
             }
 
+            if (zoomicon.Rectangle.Contains(e.Location))
+            {
+                contextMenuStripZoom.Show(MainMap, e.Location);
+                return;
+            }
+
             MouseDownEnd = MainMap.FromLocalToLatLng(e.X, e.Y);
 
             // Console.WriteLine("MainMap MU");
@@ -6943,6 +6959,31 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                     MainMap.Zoom = 15;
                 }
             }
+        }
+
+        private void zoomToVehicleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MainV2.comPort.MAV.cs.Location.Lat == 0 && MainV2.comPort.MAV.cs.Location.Lng == 0)
+            {
+                CustomMessageBox.Show(Strings.Invalid_Location, Strings.ERROR);
+                return;
+            }
+
+            MainMap.Position = MainV2.comPort.MAV.cs.Location;
+            if(MainMap.Zoom < 17)
+                MainMap.Zoom = 17;
+        }
+
+        private void zoomToMissionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MainMap.ZoomAndCenterMarkers("WPOverlay");
+        }
+
+        private void zoomToHomeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MainMap.Position = MainV2.comPort.MAV.cs.HomeLocation;
+            if (MainMap.Zoom < 17)
+                MainMap.Zoom = 17;
         }
     }
 }
