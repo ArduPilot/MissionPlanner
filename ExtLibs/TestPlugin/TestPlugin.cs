@@ -61,12 +61,13 @@ public class TestPlugin : Plugin
             };
 
             var options = new MqttServerOptionsBuilder()
-                .WithEncryptedEndpointPort(1883)
-                .WithEncryptionSslProtocol(SslProtocols.Tls12)
-                .WithRemoteCertificateValidationCallback((sender, certificate, chain, errors) => { return true; }).Build();
+                //.WithEncryptedEndpointPort(1883)
+                //.WithEncryptionSslProtocol(SslProtocols.Tls12)
+                //.WithRemoteCertificateValidationCallback((sender, certificate, chain, errors) => { return true; })
+                .Build();
 
-            options.TlsEndpointOptions.ClientCertificateRequired = true;
-            options.TlsEndpointOptions.CheckCertificateRevocation = false;
+            //options.TlsEndpointOptions.ClientCertificateRequired = true;
+            //options.TlsEndpointOptions.CheckCertificateRevocation = false;
 
             mqttServer.StartAsync(options);
             mqttServer.ApplicationMessageReceivedHandler = new MqttApplicationMessageReceivedHandlerDelegate(e =>
@@ -90,13 +91,15 @@ public class TestPlugin : Plugin
         Task.Run(() => {
             try
             {
-                UTM.confighardware("com3");
+                UTM.confighardware("com8");
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
           
             }
+
+            Console.ForegroundColor = ConsoleColor.White;
         });
 
         //UTM.test();
@@ -118,7 +121,7 @@ public class TestPlugin : Plugin
 
                 var obj = JsonConvert.DeserializeObject<JObject>(json);
 
-                var item = obj["telemetry"]["altitude"];
+                var item = obj?["telemetry"]?["altitude"];
             });
 
         return true;

@@ -84,32 +84,41 @@ namespace MissionPlanner.Utilities
             //https://github.com/daz/MKRGSM/blob/master/src/GSMSecurity.cpp
             //https://portal.u-blox.com/s/question/0D52p00008LRmCwCAL/how-to-debug-cme-error-usecmng-invalid-certificatekey-format
             {
-                // load the certs
-                var ca = File.ReadAllBytes(
-                    @"ca.der");
-                port.WriteLine("AT+USECMNG=0,0,\"CA\"," + ca.Length);
-                Thread.Sleep(100);
-                port.Write(ca, 0, ca.Length);
-                Thread.Sleep(1000);
-                Console.Write(port.ReadExisting());
+                try
+                {
+                    // load the certs
+                    var ca = File.ReadAllBytes(
+                        @"ca.der");
+                    port.WriteLine("AT+USECMNG=0,0,\"CA\"," + ca.Length);
+                    Thread.Sleep(100);
+                    port.Write(ca, 0, ca.Length);
+                    Thread.Sleep(1000);
+                    Console.Write(port.ReadExisting());
 
-                var clientcrt =
-                    File.ReadAllBytes(
-                        @"client.der");
-                // var clientkey = File.ReadAllBytes(@"clientkey.der");
+                    var clientcrt =
+                        File.ReadAllBytes(
+                            @"client.der");
+                    port.WriteLine("AT+USECMNG=0,1,\"client\"," + clientcrt.Length);
+                    Thread.Sleep(100);
+                    port.Write(clientcrt, 0, clientcrt.Length);
+                    Thread.Sleep(1000);
+                    Console.Write(port.ReadExisting());
 
-                port.WriteLine("AT+USECMNG=0,1,\"client\"," + clientcrt.Length);
-                Thread.Sleep(100);
-                port.Write(clientcrt, 0, clientcrt.Length);
-                Thread.Sleep(1000);
-                Console.Write(port.ReadExisting());
-                /*
-                port.WriteLine("AT+USECMNG=0,2,\"clientkey\"," + clientkey.Length);
-                Thread.Sleep(100);
-                port.Write(clientkey, 0, clientkey.Length);
-                Thread.Sleep(1000);
-                Console.Write(port.ReadExisting());
-                */
+                    // var clientkey = File.ReadAllBytes(@"clientkey.der");
+                    /*
+                    port.WriteLine("AT+USECMNG=0,2,\"clientkey\"," + clientkey.Length);
+                    Thread.Sleep(100);
+                    port.Write(clientkey, 0, clientkey.Length);
+                    Thread.Sleep(1000);
+                    Console.Write(port.ReadExisting());
+                    */
+
+                }
+                catch
+                {
+
+                }
+
                 //http://forum.sodaq.com/t/sodaq-sara-r410m-connect-erro-over-tls/2078
                 // create profile
                 AT(port, "AT+USECPRF=0,3,\"CA\"");
@@ -152,7 +161,7 @@ namespace MissionPlanner.Utilities
 
                 AT(port, "AT+USOSO=0,65535,8,1"); // turn on keepalive
 
-                AT(port, "AT+USOSEC=0,1,0"); // enable ssl with profile 0
+                //AT(port, "AT+USOSEC=0,1,0"); // enable ssl with profile 0
 
                 ans = AT(port, "AT+UDNSRN=0,\"" + mqtt_host + "\"", 71); // dns resolution
 
@@ -184,6 +193,7 @@ namespace MissionPlanner.Utilities
         public static (string status, string reply, TimeSpan elapsed) AT(ICommsSerial port, string cmd = "AT",
             double timeout = 10, string success = "OK", string failure = "+CME ERROR")
         {
+            Console.ForegroundColor = ConsoleColor.White;
             // clear the buffer
             Console.WriteLine("Existing: " + port.ReadExisting());
             port.Write(cmd + "\r\n");
@@ -213,6 +223,7 @@ namespace MissionPlanner.Utilities
                         reply += "\t" + line.TrimEnd();
                         if (line.StartsWith(success))
                         {
+                            Console.ForegroundColor = ConsoleColor.Green;
                             Console.WriteLine("RX: Success");
                             Thread.Sleep(50);
                             return ("Success", reply, DateTime.Now - start);
@@ -220,6 +231,7 @@ namespace MissionPlanner.Utilities
 
                         if (line.StartsWith(failure))
                         {
+                            Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("RX: Error");
                             Thread.Sleep(50);
                             return ("Error", reply, DateTime.Now - start);
@@ -229,6 +241,7 @@ namespace MissionPlanner.Utilities
 
                 if ((DateTime.Now - start).TotalSeconds > timeout)
                 {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine("RX: Timeout");
                     return ("Timeout", reply, DateTime.Now - start);
                 }
@@ -278,9 +291,9 @@ namespace MissionPlanner.Utilities
                         (byte) MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT, 0, 0, (byte) MAVLink.MAV_MISSION_TYPE.MISSION)
                 });
             utm.GetFlightPlans();
-            utm.StartMQTT(dev, @"ca.crt",
-                @"client.crt",
-                @"client.key");
+            utm.StartMQTT(dev, @"C:\Users\michael\Desktop\Hex\laam-mqtt-control\Hardware\pi_zero\certs\ca.crt",
+                @"C:\Users\michael\Desktop\Hex\laam-mqtt-control\Hardware\pi_zero\certs\client.crt",
+                @"C:\Users\michael\Desktop\Hex\laam-mqtt-control\Hardware\pi_zero\certs\client.key");
             utm.Telemetry(dev);
         }
 
