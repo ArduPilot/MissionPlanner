@@ -32,15 +32,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KMLib", "ExtLibs\KMLib\KMLi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpKml", "ExtLibs\SharpKml\SharpKml.csproj", "{53F12A60-E9CC-44BC-8366-1AE3AB2B547D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZedGraph", "ExtLibs\ZedGraph\ZedGraph.csproj", "{2541686B-1673-43BF-AF89-3163945DB009}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZedGraph", "ExtLibs\ZedGraph\ZedGraph.csproj", "{2541686B-1673-43BF-AF89-3163945DB009}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSE.Windows.Forms", "ExtLibs\BSE.Windows.Forms\BSE.Windows.Forms.csproj", "{9CA367B8-0B98-49D1-84FB-735E612E3BA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BSE.Windows.Forms", "ExtLibs\BSE.Windows.Forms\BSE.Windows.Forms.csproj", "{9CA367B8-0B98-49D1-84FB-735E612E3BA9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetaDataExtractor", "ExtLibs\MetaDataExtractorCSharp240d\MetaDataExtractor.csproj", "{B46F6C6C-9184-41AF-8F8B-E0084752CA7C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseClasses", "ExtLibs\BaseClasses\BaseClasses.csproj", "{2A8E8AF5-74E7-49DB-A42E-9360FA7A6CC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseClasses", "ExtLibs\BaseClasses\BaseClasses.csproj", "{2A8E8AF5-74E7-49DB-A42E-9360FA7A6CC4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MissionPlanner.Controls", "ExtLibs\Controls\MissionPlanner.Controls.csproj", "{C8B88795-6D01-494D-83AD-6944BD4C5023}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissionPlanner.Controls", "ExtLibs\Controls\MissionPlanner.Controls.csproj", "{C8B88795-6D01-494D-83AD-6944BD4C5023}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissionPlanner.Comms", "ExtLibs\Comms\MissionPlanner.Comms.csproj", "{825E7A10-390C-4A2B-B3A8-491D14966912}"
 EndProject
@@ -52,7 +52,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "px4uploader", "ExtLibs\px4u
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GMap.NET.Core", "ExtLibs\GMap.NET.Core\GMap.NET.Core.csproj", "{D0C39D9D-BED0-418B-9A5E-713176CAF40C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GMap.NET.WindowsForms", "ExtLibs\GMap.NET.WindowsForms\GMap.NET.WindowsForms.csproj", "{E06DEF77-F933-42FB-AFD7-DB2D0D8D6A98}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GMap.NET.WindowsForms", "ExtLibs\GMap.NET.WindowsForms\GMap.NET.WindowsForms.csproj", "{E06DEF77-F933-42FB-AFD7-DB2D0D8D6A98}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{6A21E082-A0A2-48A3-A631-CF3FE0382DF7}"
 	ProjectSection(SolutionItems) = preProject
@@ -73,7 +73,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManagedNativeWifi.Simple", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpAdbClient", "ExtLibs\SharpAdbClient\SharpAdbClient.csproj", "{65473257-E70F-410B-9269-D0C0F771EA87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AltitudeAngelWings", "ExtLibs\AltitudeAngelWings\AltitudeAngelWings.csproj", "{098F542C-7C70-4B9C-B2E2-AC5DC5E0294B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AltitudeAngelWings", "ExtLibs\AltitudeAngelWings\AltitudeAngelWings.csproj", "{098F542C-7C70-4B9C-B2E2-AC5DC5E0294B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "solo", "ExtLibs\solo\solo.csproj", "{CF402948-A3F4-4962-8A57-E40B46759D25}"
 EndProject
@@ -87,7 +87,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zeroconf", "ExtLibs\Zerocon
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Installer", "ExtLibs\Installer\Installer.csproj", "{FF6AA762-7AD3-4F38-94B1-EA75D7B1F217}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "md5sum", "ExtLibs\md5sum\md5sum.csproj", "{624AFC60-565F-4F01-BD51-BCCE7AA09BE9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "md5sum", "ExtLibs\md5sum\md5sum.csproj", "{624AFC60-565F-4F01-BD51-BCCE7AA09BE9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SvgNet", "ExtLibs\SvgNet\SvgNet.csproj", "{BB4C8021-B5E1-4DE2-82CB-14BDFB9837E4}"
 EndProject
@@ -119,7 +119,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissionPlanner.Antenna", "E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissionPlanner.HIL", "ExtLibs\HIL\MissionPlanner.HIL.csproj", "{077E19BA-4129-4AAE-8FCD-34D6FAF85B78}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSDConfigurator", "ExtLibs\OSDConfigurator\OSDConfigurator.csproj", "{1442B805-D6B1-4729-89F8-3A5A1C7547AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSDConfigurator", "ExtLibs\OSDConfigurator\OSDConfigurator.csproj", "{1442B805-D6B1-4729-89F8-3A5A1C7547AD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UAVCAN", "ExtLibs\UAVCAN\UAVCAN.csproj", "{3A413E59-A20E-477C-997E-64B1398E0E80}"
 EndProject
@@ -169,7 +169,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XamarinUI", "XamarinUI", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestPlugin", "ExtLibs\TestPlugin\TestPlugin.csproj", "{B8C24868-6811-4FED-82DF-0C8CB607B00F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DriverCleanup", "ExtLibs\DriverCleanup\DriverCleanup.csproj", "{DF86AFC2-CA79-4137-9BB5-70AA529C3B79}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DriverCleanup", "ExtLibs\DriverCleanup\DriverCleanup.csproj", "{DF86AFC2-CA79-4137-9BB5-70AA529C3B79}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissionPlanner.Drawing", "ExtLibs\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj", "{6974D22C-EDE6-4BB2-AAD2-FF23ED6EC165}"
 EndProject
@@ -181,6 +181,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParameterMetaDataGenerator", "ExtLibs\ParameterMetaDataGenerator\ParameterMetaDataGenerator.csproj", "{A0B60830-D1C0-4E1F-9E44-793A71C5D720}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissionPlannerCore", "MissionPlannerCore.csproj", "{150A3586-54BC-4A50-B91A-3C44B90DDF63}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -3862,6 +3864,52 @@ Global
 		{A0B60830-D1C0-4E1F-9E44-793A71C5D720}.Release|x64.Build.0 = Release|Any CPU
 		{A0B60830-D1C0-4E1F-9E44-793A71C5D720}.Release|x86.ActiveCfg = Release|Any CPU
 		{A0B60830-D1C0-4E1F-9E44-793A71C5D720}.Release|x86.Build.0 = Release|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.Ad-Hoc|Any CPU.ActiveCfg = Debug|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.Ad-Hoc|Any CPU.Build.0 = Debug|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.Ad-Hoc|ARM.ActiveCfg = Debug|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.Ad-Hoc|ARM.Build.0 = Debug|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.Ad-Hoc|iPhone.ActiveCfg = Debug|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.Ad-Hoc|iPhone.Build.0 = Debug|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.Ad-Hoc|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.Ad-Hoc|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.Ad-Hoc|x64.ActiveCfg = Debug|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.Ad-Hoc|x64.Build.0 = Debug|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.Ad-Hoc|x86.ActiveCfg = Debug|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.Ad-Hoc|x86.Build.0 = Debug|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.AppStore|Any CPU.ActiveCfg = Debug|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.AppStore|Any CPU.Build.0 = Debug|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.AppStore|ARM.ActiveCfg = Debug|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.AppStore|ARM.Build.0 = Debug|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.AppStore|iPhone.ActiveCfg = Debug|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.AppStore|iPhone.Build.0 = Debug|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.AppStore|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.AppStore|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.AppStore|x64.ActiveCfg = Debug|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.AppStore|x64.Build.0 = Debug|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.AppStore|x86.ActiveCfg = Debug|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.AppStore|x86.Build.0 = Debug|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.Debug|ARM.Build.0 = Debug|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.Debug|x64.Build.0 = Debug|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.Debug|x86.Build.0 = Debug|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.Release|ARM.ActiveCfg = Release|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.Release|ARM.Build.0 = Release|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.Release|iPhone.Build.0 = Release|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.Release|x64.ActiveCfg = Release|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.Release|x64.Build.0 = Release|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.Release|x86.ActiveCfg = Release|Any CPU
+		{150A3586-54BC-4A50-B91A-3C44B90DDF63}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
