@@ -1587,11 +1587,14 @@ namespace MissionPlanner.GCSViews
             using (OpenFileDialog fd = new OpenFileDialog())
             {
                 fd.Filter = "All Supported Types|*.txt;*.waypoints;*.shp;*.plan";
+                if (Directory.Exists(Settings.Instance["WPFileDirectory"] ?? ""))
+                    fd.InitialDirectory = Settings.Instance["WPFileDirectory"];
                 DialogResult result = fd.ShowDialog();
                 string file = fd.FileName;
 
                 if (File.Exists(file))
                 {
+                    Settings.Instance["WPFileDirectory"] = Path.GetDirectoryName(file);
                     if (file.ToLower().EndsWith(".shp"))
                     {
                         LoadSHPFile(file);
@@ -5115,11 +5118,13 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             {
                 fd.Filter = "Mission|*.waypoints;*.txt|Mission JSON|*.mission";
                 fd.DefaultExt = ".waypoints";
+                fd.InitialDirectory = Settings.Instance["WPFileDirectory"] ?? "";
                 fd.FileName = wpfilename;
                 DialogResult result = fd.ShowDialog();
                 string file = fd.FileName;
                 if (file != "" && result == DialogResult.OK)
                 {
+                    Settings.Instance["WPFileDirectory"] = Path.GetDirectoryName(file);
                     try
                     {
                         if (file.EndsWith(".mission"))

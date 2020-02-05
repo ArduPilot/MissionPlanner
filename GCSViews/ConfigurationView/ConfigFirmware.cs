@@ -19,7 +19,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private static List<Firmware.software> softwares = new List<Firmware.software>();
         private readonly Firmware fw = new Firmware();
-        private string custom_fw_dir = "";
+        private string custom_fw_dir = Settings.Instance["FirmwareFileDirectory"] ?? "";
         private string firmwareurl = "";
         private bool firstrun = true;
         private IProgressReporterDialogue pdr;
@@ -504,6 +504,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (File.Exists(fd.FileName))
                 {
                     custom_fw_dir = Path.GetDirectoryName(fd.FileName);
+                    Settings.Instance["FirmwareFileDirectory"] = custom_fw_dir;
 
                     fw.Progress -= fw_ProgressPDR;
                     fw.Progress += fw_Progress1;
