@@ -307,6 +307,9 @@ namespace MissionPlanner.GCSViews
 
             match = Regex.Replace(match, @"#.*", "");
 
+            // ensure any handles are closed
+            GC.Collect();
+
             File.WriteAllText(filename, match);
         }
 
