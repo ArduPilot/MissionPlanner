@@ -19,5 +19,10 @@ namespace MissionPlanner
                 pictureBox1.Visible = true;
             }
         }
+
+        private void label1_Click(object sender, System.EventArgs e)
+        {
+
+        }
     }
 }
