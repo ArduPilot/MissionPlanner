@@ -1,5 +1,4 @@
 
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -20,32 +19,16 @@ namespace UAVCAN
 public partial class uavcan {
 
 
-
-
 public const int UAVCAN_COARSEORIENTATION_MAX_PACK_SIZE = 2;
 public const ulong UAVCAN_COARSEORIENTATION_DT_SIG = 0x271BA10B0DAC9E52;
 
 
 
-
-
 public const double UAVCAN_COARSEORIENTATION_ANGLE_MULTIPLIER = 4.77464829276; // saturated float32
 
-
-
-
 public class uavcan_CoarseOrientation: IUAVCANSerialize {
-
-
-
     [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)] public int8_t[] fixed_axis_roll_pitch_yaw = new int8_t[3];
-
-
-
     public bool orientation_defined = new bool();
-
-
-
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

@@ -1,0 +1,7 @@
+#
+# Command Ack
+#
+
+uint8 gimbal_id                 #it cannot be zero, it must by a unique id of the gimbal
+
+uint8[<=128] payload

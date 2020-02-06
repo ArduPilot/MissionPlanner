@@ -1,0 +1,51 @@
+#
+# Gimbal Control
+#
+# aeronautical frame, NED (right-handed, X-front, Y-right, Z-down)
+#
+# The gimbal can be controlled in four ways:
+# A) Specifcation of the gimbal angles only.
+#    In this case do not specify the angular rates, or set them to NAN.
+#    The frame field will be ignored, and the angles will be interpreted as natural gimbal angles.
+#    As a consequence, it is up to the sender of the message to ensure that proper angles are sent. 
+# B) Specifcation of the gimbal orientation quaternion only.
+#    In this case do not specify the angular rates, or set them to NAN.
+#    The quaternion will be interpreted as specified in the frame field.
+# C) Specifcation of the gimbal angular rates only.
+#    In this case set the angles/quaternion to NAN.
+#    The angular rates will be interpreted as specified in the frame field.
+# D) Specifcation of the gimbal orientation quaternion and angular rates.
+#    The quaternion and angular rates will be interpreted as specified in the frame field.
+#
+# Any gimbal is required to support A), and B) with frame = 1. All other combinatons are
+# optional. If a gimbal doesn't support a combination, the mode field should be respected,
+# but all other fields should be ignored by the gimbal. It is up to the sender of the
+# message to ensure that proper data are sent. 
+#
+# Notes: 
+# 1) The gimbal orientation is usually expressed neither in a body nor fixed frame.
+# This is so because a gimbal usally doesn't know about the absolute heading, but only
+# about its heading in reference to the vehicle. Thus the natural quantities to express 
+# the gimbal orientation is using roll and pitch in the fixed frame, and a yaw in relation
+# to the body frame. Only if the absolute heading of the vehicle is known to the gimbal,
+# it can handle orientations in the fixed frame.
+# 2) Most 3-axis gimbals use a pitch-roll-yaw arrangement, corresponding to 312 Euler
+# angles. The gimbal angles do thus not correspond to the 321-Euler angles usually used
+# in aeronautics, and the latter would in fact be useless for gimbal control.
+#
+# mode = 0 means that the mode should not be changed
+#
+# frame = 0 means the "natural" quaternion frame of a 3-axis gimbal
+# frame = 0x7F means that no frame is specified, and that only the mode field should be considered
+#
+
+uint8 gimbal_id                 #0 means broadcast, any gimbal should listen
+
+uint8 mode                      #0 means that the mode should not be changed
+
+uint8 control_mode              #specifies the meaning of the data
+
+float32[4] orientation          #the meaning of the content is defined by frame, angles: roll, pitch, yaw in rad, otherwise: orientation quaternion in xyzw
+
+float32[<=3] angular_velocity   #roll, pitch, yaw rates in rad/s
+

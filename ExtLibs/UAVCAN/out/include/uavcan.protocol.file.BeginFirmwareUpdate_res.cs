@@ -1,5 +1,4 @@
 
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -20,40 +19,20 @@ namespace UAVCAN
 public partial class uavcan {
 
 
-
-
 public const int UAVCAN_PROTOCOL_FILE_BEGINFIRMWAREUPDATE_RES_MAX_PACK_SIZE = 129;
 public const ulong UAVCAN_PROTOCOL_FILE_BEGINFIRMWAREUPDATE_RES_DT_SIG = 0xB7D725DF72724126;
-
 public const int UAVCAN_PROTOCOL_FILE_BEGINFIRMWAREUPDATE_RES_DT_ID = 40;
 
 
 
-
-
 public const double UAVCAN_PROTOCOL_FILE_BEGINFIRMWAREUPDATE_RES_ERROR_OK = 0; // saturated uint8
-
 public const double UAVCAN_PROTOCOL_FILE_BEGINFIRMWAREUPDATE_RES_ERROR_INVALID_MODE = 1; // saturated uint8
-
 public const double UAVCAN_PROTOCOL_FILE_BEGINFIRMWAREUPDATE_RES_ERROR_IN_PROGRESS = 2; // saturated uint8
-
 public const double UAVCAN_PROTOCOL_FILE_BEGINFIRMWAREUPDATE_RES_ERROR_UNKNOWN = 255; // saturated uint8
 
-
-
-
 public class uavcan_protocol_file_BeginFirmwareUpdate_res: IUAVCANSerialize {
-
-
-
     public uint8_t error = new uint8_t();
-
-
-
     public uint8_t optional_error_message_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=127)] public uint8_t[] optional_error_message = new uint8_t[127];
-
-
-
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {
