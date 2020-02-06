@@ -6,6 +6,7 @@ using Microsoft.CSharp;
 using System.CodeDom.Compiler;
 using System.Reflection;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace MissionPlanner
@@ -59,30 +60,15 @@ namespace MissionPlanner
         /// <returns></returns>
         public static CompilerParameters CreateCompilerParameters()
         {
+            var refs = AppDomain.CurrentDomain.GetAssemblies();
+            var refFiles = refs.Where(a => !a.IsDynamic).Select(a => a.Location).ToArray();
+
             //add compiler parameters and assembly references
-            CompilerParameters compilerParams = new CompilerParameters();
-            compilerParams.CompilerOptions = "/target:library /optimize";
+            CompilerParameters compilerParams = new CompilerParameters(refFiles);
+            compilerParams.CompilerOptions = "/target:library";
             compilerParams.GenerateExecutable = false;
             compilerParams.GenerateInMemory = true;
-            compilerParams.IncludeDebugInformation = false;
-            compilerParams.ReferencedAssemblies.Add("netstandard.dll");
-
-            foreach (var assembly in Assembly.GetExecutingAssembly().GetReferencedAssemblies())
-            { try
-                {
-                    var ass = Assembly.ReflectionOnlyLoad(assembly.FullName);
-
-                    var loc = ass.Location;
-
-                    var file = Path.GetFileName(loc);
-
-                    if (!compilerParams.ReferencedAssemblies.Contains(file))
-                        compilerParams.ReferencedAssemblies.Add(file);
-                }
-                catch { }
-            }
-
-            compilerParams.ReferencedAssemblies.Add("");
+            compilerParams.IncludeDebugInformation = true;
 
             //add any aditional references needed
             //            foreach (string refAssembly in code.References)
