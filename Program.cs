@@ -22,7 +22,7 @@ namespace MissionPlanner
 {
     public static class Program
     {
-        private static readonly ILog log = LogManager.GetLogger("Program");
+        private static readonly ILog log = LogManager.GetLogger(typeof(Program));
 
         public static DateTime starttime = DateTime.Now;
 
@@ -97,7 +97,7 @@ namespace MissionPlanner
             Thread = Thread.CurrentThread;
 
             System.Windows.Forms.Application.EnableVisualStyles();
-            XmlConfigurator.Configure();
+            XmlConfigurator.Configure(LogManager.GetRepository(Assembly.GetCallingAssembly()));
             log.Info("******************* Logging Configured *******************");
 
             ServicePointManager.DefaultConnectionLimit = 10;

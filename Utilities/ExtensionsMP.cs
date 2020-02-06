@@ -45,28 +45,28 @@ namespace MissionPlanner.Utilities
 
         public static void LogInfoFormat(this Control ctl, string format, params object[] args)
         {
-            ILog log = LogManager.GetLogger(ctl.GetType().FullName);
+            ILog log = LogManager.GetLogger(ctl.GetType());
 
             log.InfoFormat(format, args);
         }
 
         public static void LogErrorFormat(this Control ctl, string format, params object[] args)
         {
-            ILog log = LogManager.GetLogger(ctl.GetType().FullName);
+            ILog log = LogManager.GetLogger(ctl.GetType());
 
             log.ErrorFormat(format, args);
         }
 
         public static void LogInfo(this Control ctl, object ex)
         {
-            ILog log = LogManager.GetLogger(ctl.GetType().FullName);
+            ILog log = LogManager.GetLogger(ctl.GetType());
 
             log.Info(ex);
         }
 
         public static void LogError(this Control ctl, object ex)
         {
-            ILog log = LogManager.GetLogger(ctl.GetType().FullName);
+            ILog log = LogManager.GetLogger(ctl.GetType());
 
             log.Error(ex);
         }

@@ -20,7 +20,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigSerialInjectGPS : UserControl, IActivate, IDeactivate
     {
-        private static ILog log = LogManager.GetLogger(typeof(ConfigSerialInjectGPS).FullName);
+        private static ILog log = LogManager.GetLogger(typeof(ConfigSerialInjectGPS));
 
         // serialport
         internal static ICommsSerial comPort = new SerialPort();

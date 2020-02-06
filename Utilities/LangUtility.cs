@@ -40,8 +40,8 @@ namespace MissionPlanner.Utilities
             foreach (Control subctrl in ctrl.Controls)
                 ApplyResource(rm, subctrl);
 
-            if (ctrl.ContextMenu != null)
-                ApplyResource(rm, ctrl.ContextMenu);
+            if (ctrl.ContextMenuStrip != null)
+                ApplyResource(rm, ctrl.ContextMenuStrip);
 
             if (ctrl is MenuStrip)
             {
@@ -55,13 +55,6 @@ namespace MissionPlanner.Utilities
                 foreach (DataGridViewColumn col in (ctrl as DataGridView).Columns)
                     rm.ApplyResources(col, col.Name);
             }
-        }
-
-        public static void ApplyResource(this ComponentResourceManager rm, Menu menu)
-        {
-            rm.ApplyResources(menu, menu.Name);
-            foreach (MenuItem submenu in menu.MenuItems)
-                ApplyResource(rm, submenu);
         }
     }
 }
