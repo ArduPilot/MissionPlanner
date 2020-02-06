@@ -1616,8 +1616,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     }
                 }
 
-                await Task.Delay(100);
-                
+                await readPacketAsync().ConfigureAwait(false);
+
                 if (logreadmode && logplaybackfile.BaseStream.Position >= logplaybackfile.BaseStream.Length)
                 {
                     break;
