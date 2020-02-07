@@ -883,11 +883,14 @@ namespace MissionPlanner
         private void but_GDAL_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
+            if (Directory.Exists(Settings.Instance["GDALImageDir"]))
+                fbd.SelectedPath = Settings.Instance["GDALImageDir"];
 
             if (fbd.ShowDialog() == DialogResult.OK)
             {
                 if (Directory.Exists(fbd.SelectedPath))
                 {
+                    Settings.Instance["GDALImageDir"] = fbd.SelectedPath;
                     GDAL.GDAL.OnProgress += GDAL_OnProgress;
                     GDAL.GDAL.ScanDirectory(fbd.SelectedPath);
                     DTED.OnProgress += GDAL_OnProgress;
