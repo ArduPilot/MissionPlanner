@@ -539,7 +539,7 @@ namespace MissionPlanner
             {
                 return;
             }
-            if (ex.Message == "The port is closed.")
+            if (ex.Message.Contains("The port is closed"))
             {
                 CustomMessageBox.Show("Serial connection has been lost");
                 return;
@@ -550,7 +550,7 @@ namespace MissionPlanner
                 Application.Exit();
                 return;
             }
-            if (ex.Message == "A device attached to the system is not functioning.")
+            if (ex.Message.Contains("A device attached to the system is not functioning"))
             {
                 CustomMessageBox.Show("Serial connection has been lost");
                 return;
