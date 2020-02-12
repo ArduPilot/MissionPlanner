@@ -14,11 +14,17 @@ namespace MissionPlanner.Controls.PreFlight
 
             InitializeComponent();
 
+            if (DesignMode)
+            {
+                _parent.CheckListItems.Add(new CheckListItem() { Description = "desc", Name = "name", Text = "text" });
+            }
+
             reload();
         }
 
         public void reload()
         {
+            panel1.Visible = false;
             panel1.Controls.Clear();
 
             int y = 0;
@@ -34,12 +40,14 @@ namespace MissionPlanner.Controls.PreFlight
             }
 
             Utilities.ThemeManager.ApplyThemeTo(this);
+            panel1.PerformLayout();
+            panel1.Visible = true;
         }
 
         CheckListInput addwarningcontrol(int x, int y, CheckListItem item, bool hideforchild = false)
         {
             CheckListInput wrnctl = new CheckListInput(_parent, item);
-
+            
             wrnctl.ReloadList += wrnctl_ChildAdd;
 
             wrnctl.Location = new Point(x, y);
@@ -51,7 +59,7 @@ namespace MissionPlanner.Controls.PreFlight
                 wrnctl.CMB_colour1.Visible = false;
                 wrnctl.CMB_colour2.Visible = false;
             }
-
+            
             panel1.Controls.Add(wrnctl);
 
             y = wrnctl.Bottom;
