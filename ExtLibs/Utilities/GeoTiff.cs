@@ -92,7 +92,16 @@ namespace MissionPlanner.Utilities
                 return true;
             }
 
-            public bool cacheable {get { return new FileInfo(FileName).Length < 1024*1024*1000; }}
+            private long size = -1;
+
+            public bool cacheable
+            {
+                get
+                {
+                    if (size == -1) size = new FileInfo(FileName).Length;
+                    return size < 1024 * 1024 * 1000;
+                }
+            }
 
             public string FileName;
             public int width;
@@ -155,21 +164,69 @@ namespace MissionPlanner.Utilities
 
                         using (Tiff tiff = Tiff.Open(geotiffdata.FileName, "r"))
                         {
-                            byte[] scanline = new byte[tiff.ScanlineSize()];
-
-                            for (int row = 0; row < geotiffdata.height; row++)
+                            if (tiff.GetField(TiffTag.TILEWIDTH).Length >= 1)
                             {
-                                tiff.ReadScanline(scanline, row);
+                                FieldValue[] value = tiff.GetField(TiffTag.IMAGEWIDTH);
+                                int imageWidth = value[0].ToInt();
 
-                                for (int col = 0; col < geotiffdata.width; col++)
+                                value = tiff.GetField(TiffTag.IMAGELENGTH);
+                                int imageLength = value[0].ToInt();
+
+                                value = tiff.GetField(TiffTag.TILEWIDTH);
+                                int tileWidth = value[0].ToInt();
+
+                                value = tiff.GetField(TiffTag.TILELENGTH);
+                                int tileLength = value[0].ToInt();
+
+                                byte[] buf = new byte[tiff.TileSize()];
+                                for (int y = 0; y < imageLength; y += tileLength)
                                 {
-                                    if (geotiffdata.bits == 16)
+                                    for (int x = 0; x < imageWidth; x += tileWidth)
                                     {
-                                        altdata[row, col] = (short) ((scanline[col*2 + 1] << 8) + scanline[col*2]);
+                                        tiff.ReadTile(buf, 0, x, y, 0, 0);
+
+                                        for (int row = 0; row < tileLength; row++)
+                                        {
+                                            for (int col = 0; col < tileWidth; col++)
+                                            {
+                                                if (x + col >= imageWidth || y + row >= imageLength)
+                                                    break;
+
+                                                if (geotiffdata.bits == 16)
+                                                {
+                                                    altdata[y + row, x + col] =
+                                                        (short) ((buf[row * tileWidth * 2 + col * 2 + 1] << 8) + buf[row * tileWidth * 2 + col * 2]);
+                                                }
+                                                else if (geotiffdata.bits == 32)
+                                                {
+                                                    altdata[y + row, x + col] =
+                                                        (float) BitConverter.ToSingle(buf, row * tileWidth * 4 + col * 4);
+                                                }
+                                            }
+                                        }
                                     }
-                                    else if (geotiffdata.bits == 32)
+                                }
+                            }
+                            else
+                            {
+
+                                byte[] scanline = new byte[tiff.ScanlineSize()];
+
+                                for (int row = 0; row < geotiffdata.height; row++)
+                                {
+                                    tiff.ReadScanline(scanline, row);
+
+                                    for (int col = 0; col < geotiffdata.width; col++)
                                     {
-                                        altdata[row, col] = (float) BitConverter.ToSingle(scanline, col*4);
+                                        if (geotiffdata.bits == 16)
+                                        {
+                                            altdata[row, col] =
+                                                (short) ((scanline[col * 2 + 1] << 8) + scanline[col * 2]);
+                                        }
+                                        else if (geotiffdata.bits == 32)
+                                        {
+                                            altdata[row, col] = (float) BitConverter.ToSingle(scanline, col * 4);
+                                        }
                                     }
                                 }
                             }
