@@ -7,8 +7,6 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using Core.ExtendedObjects;
 using log4net;
 using Newtonsoft.Json;
 using uint8_t = System.Byte;
@@ -1657,6 +1655,11 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
         public bool kCmdWriteFile(string srcfile, CancellationTokenSource cancel)
         {
+            return kCmdWriteFile(new BufferedStream(File.OpenRead(srcfile), 1024 * 1024), srcfile, cancel);
+        }
+
+        public bool kCmdWriteFile(Stream srcfile, string friendlyname, CancellationTokenSource cancel)
+        {
             RetryTimeout timeout = new RetryTimeout();
             KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>> sub;
             var payload = new FTPPayloadHeader()
@@ -1667,8 +1670,8 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 session = 0
             };
             fileTransferProtocol.payload = payload;
-            log.Info("get " + payload.opcode + " " + srcfile + " ");
-            using (var stream = new BufferedStream(File.OpenRead(srcfile), 1024 * 1024))
+            log.Info("get " + payload.opcode + " " + friendlyname + " ");
+            using (var stream = srcfile)
             {
                 var size = stream.Length;
                 var bytes_read = 0;
@@ -1722,7 +1725,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                     payload.seq_number = seq_no++;
                     fileTransferProtocol.payload = payload;
                     _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
-                    Progress?.Invoke(srcfile, (int)((float)payload.offset / size * 100.0));
+                    Progress?.Invoke(friendlyname, (int)((float)payload.offset / size * 100.0));
                     timeout.ResetTimeout();
                     Console.WriteLine("S " + DateTime.Now.ToString("O"));
                     return true;
@@ -1746,7 +1749,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                     _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
                 };
                 var ans = timeout.DoWork();
-                Progress?.Invoke(srcfile, 100);
+                Progress?.Invoke(friendlyname, 100);
                 _mavint.UnSubscribeToPacketType(sub);
                 return ans;
             }
@@ -1833,65 +1836,5 @@ namespace MissionPlanner.ArduPilot.Mavlink
         }
 
         public event Action<string, int> Progress;
-    }
-
-    public class RetryTimeout
-    {
-        public bool Complete = false;
-        public int Retries = 3;
-        public int RetriesCurrent = 0;
-        public int TimeoutMS = 1000;
-        public Action WorkToDo;
-        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private DateTime _timeOutDateTime = DateTime.MinValue;
-
-        public RetryTimeout(int Retrys = 30, int TimeoutMS = 1000)
-        {
-            this.Retries = Retrys;
-            this.TimeoutMS = TimeoutMS;
-        }
-
-        public DateTime TimeOutDateTime
-        {
-            get
-            {
-                lock (this) return _timeOutDateTime;
-            }
-            set
-            {
-                lock (this) _timeOutDateTime = value;
-            }
-        }
-
-        public bool DoWork()
-        {
-            if (WorkToDo == null)
-                throw new ArgumentNullException("WorkToDo");
-            return Task.Run<bool>(() =>
-            {
-                Complete = false;
-                for (RetriesCurrent = 0; RetriesCurrent < Retries; RetriesCurrent++)
-                {
-                    log.InfoFormat("Retry {0} - {1}", RetriesCurrent,
-                        TimeOutDateTime.ToString("yyyy-MM-ddTHH:mm:ss.fff"));
-                    WorkToDo();
-                    TimeOutDateTime = DateTime.Now.AddMilliseconds(TimeoutMS);
-                    while (DateTime.Now < TimeOutDateTime)
-                    {
-                        if (Complete)
-                            return true;
-                        Thread.Sleep(100);
-                        log.Debug("TimeOutDateTime " + TimeOutDateTime.ToString("yyyy-MM-ddTHH:mm:ss.fff"));
-                    }
-                }
-
-                return false;
-            }).Result;
-        }
-
-        public void ResetTimeout()
-        {
-            TimeOutDateTime = DateTime.Now.AddMilliseconds(TimeoutMS);
-        }
     }
 }

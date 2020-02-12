@@ -5599,6 +5599,4 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             logplaybackfile = null;
         }
     }
-
-    public delegate void ProgressEventHandler(int percent, string status);
 }
