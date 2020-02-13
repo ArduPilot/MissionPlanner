@@ -605,6 +605,12 @@ namespace MissionPlanner.ArduPilot.Mavlink
                         log.Error(ftphead.req_opcode + " " + errorcode);
                     }
 
+                    if (errorcode == FTPErrorCode.kErrFail)
+                    {
+                        //stop trying
+                        timeout.Retries = 0;
+                    }
+
                     if (errorcode == FTPErrorCode.kErrNoSessionsAvailable)
                     {
                         kCmdResetSessions();
@@ -979,6 +985,12 @@ namespace MissionPlanner.ArduPilot.Mavlink
                         log.Error(ftphead.req_opcode + " " + errorcode);
                     }
 
+                    if (errorcode == FTPErrorCode.kErrFail)
+                    {
+                        //stop trying
+                        timeout.Retries = 0;
+                    }
+
                     if (errorcode == FTPErrorCode.kErrNoSessionsAvailable)
                         kCmdResetSessions();
                     return true;
@@ -1033,6 +1045,12 @@ namespace MissionPlanner.ArduPilot.Mavlink
                     else
                     {
                         log.Error(ftphead.req_opcode + " " + errorcode);
+                    }
+
+                    if (errorcode == FTPErrorCode.kErrFail)
+                    {
+                        //stop trying
+                        timeout.Retries = 0;
                     }
 
                     if (errorcode == FTPErrorCode.kErrNoSessionsAvailable)
@@ -1223,6 +1241,12 @@ namespace MissionPlanner.ArduPilot.Mavlink
                         log.Error(ftphead.req_opcode + " " + errorcode);
                     }
 
+                    if (errorcode == FTPErrorCode.kErrFail)
+                    {
+                        //stop trying
+                        timeout.Retries = 0;
+                    }
+
                     if (errorcode == FTPErrorCode.kErrNoSessionsAvailable)
                     {
                         kCmdResetSessions();
@@ -1286,6 +1310,21 @@ namespace MissionPlanner.ArduPilot.Mavlink
                     else
                     {
                         log.Error(ftphead.req_opcode + " " + errorcode);
+                    }
+
+                    if (errorcode == FTPErrorCode.kErrFail)
+                    {
+                        //stop trying
+                        timeout.Retries = 0;
+                    }
+
+                    if (errorcode == FTPErrorCode.kErrEOF)
+                    {
+                        if (ftphead.offset + ftphead.size >= size)
+                        {
+                            timeout.Complete = true;
+                            return true;
+                        }
                     }
 
                     return true;
@@ -1700,6 +1739,12 @@ namespace MissionPlanner.ArduPilot.Mavlink
                         else
                         {
                             log.Error(ftphead.req_opcode + " " + errorcode);
+                        }
+
+                        if (errorcode == FTPErrorCode.kErrFail)
+                        {
+                            //stop trying
+                            timeout.Retries = 0;
                         }
 
                         return true;

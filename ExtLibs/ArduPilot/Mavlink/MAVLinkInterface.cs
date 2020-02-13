@@ -881,6 +881,10 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         public void sendPacket(object indata, int sysid, int compid)
         {
             bool validPacket = false;
+
+            if (!BaseStream.IsOpen)
+                return;
+
             foreach (var ty in MAVLINK_MESSAGE_INFOS)
             {
                 if (ty.type == indata.GetType())
@@ -2121,6 +2125,109 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         log.InfoFormat("doCommand cmd resp {0} - {1}", (MAV_CMD) ack.command, (MAV_RESULT) ack.result);
 
                         if (ack.result == (byte) MAV_RESULT.ACCEPTED)
+                        {
+                            giveComport = false;
+                            return true;
+                        }
+                        else
+                        {
+                            giveComport = false;
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+
+        public bool doCommandInt(byte sysid, byte compid, MAV_CMD actionid, float p1, float p2, float p3, float p4,
+            int p5, int p6, int p7, bool requireack = true, Action uicallback = null)
+        {
+            return Task.Run(async () =>
+                await doCommandIntAsync(sysid, compid, actionid, p1, p2, p3, p4, p5, p6, p7, requireack, uicallback)
+                    .ConfigureAwait(false)).Result;
+        }
+
+        public async Task<bool> doCommandIntAsync(byte sysid, byte compid, MAV_CMD actionid, float p1, float p2, float p3, float p4,
+        int p5, int p6, int p7, bool requireack = true, Action uicallback = null)
+        {
+            MAVLinkMessage buffer;
+
+            mavlink_command_int_t req = new mavlink_command_int_t();
+
+            req.target_system = sysid;
+            req.target_component = compid;
+
+            req.command = (ushort)actionid;
+
+            req.param1 = p1;
+            req.param2 = p2;
+            req.param3 = p3;
+            req.param4 = p4;
+            req.x = p5;
+            req.y = p6;
+            req.z = p7;
+
+            log.InfoFormat("doCommandIntAsync cmd {0} {1} {2} {3} {4} {5} {6} {7}", actionid.ToString(), p1, p2, p3, p4, p5, p6,
+                p7);
+
+            if (requireack)
+                giveComport = true;
+
+            generatePacket((byte)MAVLINK_MSG_ID.COMMAND_INT, req, sysid, compid);
+
+            if (!requireack)
+            {
+                giveComport = false;
+                return true;
+            }
+
+            DateTime GUI = DateTime.Now;
+
+            DateTime start = DateTime.Now;
+            int retrys = 3;
+
+            int timeout = 2000;
+
+            while (true)
+            {
+                if (DateTime.Now > GUI.AddMilliseconds(100))
+                {
+                    GUI = DateTime.Now;
+
+                    uicallback?.Invoke();
+                }
+
+                if (!(start.AddMilliseconds(timeout) > DateTime.Now))
+                {
+                    if (retrys > 0)
+                    {
+                        log.Info("doCommandIntAsync Retry " + retrys);
+                        generatePacket((byte)MAVLINK_MSG_ID.COMMAND_LONG, req, sysid, compid);
+                        start = DateTime.Now;
+                        retrys--;
+                        continue;
+                    }
+                    giveComport = false;
+                    throw new TimeoutException("Timeout on read - doCommand");
+                }
+
+                buffer = await readPacketAsync().ConfigureAwait(false);
+                if (buffer.Length > 5)
+                {
+                    if (buffer.msgid == (byte)MAVLINK_MSG_ID.COMMAND_ACK && buffer.sysid == req.target_system && buffer.compid == req.target_component)
+                    {
+                        var ack = buffer.ToStructure<mavlink_command_ack_t>();
+
+                        if (ack.command != req.command)
+                        {
+                            log.InfoFormat("doCommandIntAsync cmd resp {0} - {1} - Commands dont match", (MAV_CMD)ack.command,
+                                (MAV_RESULT)ack.result);
+                            continue;
+                        }
+
+                        log.InfoFormat("doCommandIntAsync cmd resp {0} - {1}", (MAV_CMD)ack.command, (MAV_RESULT)ack.result);
+
+                        if (ack.result == (byte)MAV_RESULT.ACCEPTED)
                         {
                             giveComport = false;
                             return true;

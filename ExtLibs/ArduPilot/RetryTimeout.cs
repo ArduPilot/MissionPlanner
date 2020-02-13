@@ -8,10 +8,25 @@ namespace MissionPlanner.ArduPilot
 {
     public class RetryTimeout
     {
+        /// <summary>
+        /// Has the task completed
+        /// </summary>
         public bool Complete = false;
+        /// <summary>
+        /// Number of total retrys
+        /// </summary>
         public int Retries = 3;
+        /// <summary>
+        /// Current retry count
+        /// </summary>
         public int RetriesCurrent = 0;
+        /// <summary>
+        /// timeout between retrys
+        /// </summary>
         public int TimeoutMS = 1000;
+        /// <summary>
+        /// Action to do on retry
+        /// </summary>
         public Action WorkToDo;
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private DateTime _timeOutDateTime = DateTime.MinValue;

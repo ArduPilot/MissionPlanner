@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using MissionPlanner.ArduPilot.Mavlink;
@@ -20,10 +21,15 @@ namespace MissionPlanner.ArduPilot
         private Timer _timer;
 
         private int _outsize;
+        private int _outskip = 0;
 
         private SemaphoreSlim _semaphore = new SemaphoreSlim(1);
 
         public EventHandler<string> NewResponse;
+
+        CancellationTokenSource _cancellation = new CancellationTokenSource();
+
+        private bool _active;
         //handle_command_int_packet
         //MAV_CMD_SCRIPTING
         //SCRIPTING_CMD_REPL_START
@@ -38,50 +44,100 @@ namespace MissionPlanner.ArduPilot
 
         public void Start()
         {
-            _mavint.doCommand(_mavint.MAV.sysid, _mavint.MAV.compid, (MAVLink.MAV_CMD) 42701, 0, 0, 0, 0, 0, 0, 0);
-            _timer = new Timer(state =>
+            if (_mavint.doCommandInt(_mavint.MAV.sysid, _mavint.MAV.compid, (MAVLink.MAV_CMD) 42701, 0, 0, 0, 0, 0, 0, 0))
             {
-                _semaphore.Wait();
-                try
+                _active = true;
+                _timer = new Timer(state =>
                 {
-                    if (_mavftp.kCmdOpenFileRO("repl/out", out _outsize))
+                    _semaphore.Wait();
+                    try
                     {
-                        var stream = _mavftp.kCmdReadFile("repl/out", _outsize, null);
-                        _mavftp.kCmdTerminateSession();
+                        if (!_active)
+                            return;
 
-                        NewResponse?.Invoke(this, ASCIIEncoding.ASCII.GetString(stream.ToArray()));
+                        if (!_mavint.BaseStream.IsOpen)
+                            return;
+
+                        if (_mavftp.kCmdOpenFileRO("repl/out", out _outsize))
+                        {
+                            var stream = _mavftp.kCmdReadFile("repl/out", _outsize, _cancellation);
+
+                            _mavftp.kCmdTerminateSession();
+
+                            NewResponse?.Invoke(this,
+                                ASCIIEncoding.ASCII.GetString(stream.ToArray().Skip(_outskip).ToArray()));
+
+                            _outskip = (int)stream.Length;
+                        }
+
+                        _mavftp.kCmdTerminateSession();
                     }
-                }
-                finally
-                {
-                    _semaphore.Release();
-                }
-            }, this, 0, 200);
+                    finally
+                    {
+                        _semaphore.Release();
+                    }
+                }, this, 0, 1000);
+
+                SendLine(@"""Hello World!!"""+ "\n");
+            }
+            else
+            {
+                NewResponse?.Invoke(this, "Failed to start REPL");
+            }
         }
 
         public void Stop()
         {
-            _timer.Dispose();
-            _mavint.doCommand(_mavint.MAV.sysid, _mavint.MAV.compid, (MAVLink.MAV_CMD) 42701, 1, 0, 0, 0, 0, 0, 0);
+            _active = false;
+            _timer?.Dispose();
+            if (_mavint.doCommandInt(_mavint.MAV.sysid, _mavint.MAV.compid, (MAVLink.MAV_CMD) 42701, 1, 0, 0, 0, 0, 0, 0))
+            {
+
+            }
+            else
+            {
+                NewResponse?.Invoke(this, "Failed to stop REPL");
+            }
+            _cancellation.Cancel();
         }
-        
+
         public void SendLine(string line)
+        {
+            SendLine(ASCIIEncoding.ASCII.GetBytes(line));
+        }
+
+        private int sessionwrite = 0;
+        public void SendLine(byte[] bytedata)
         {
             int createsize = 0;
 
             _semaphore.Wait();
             try
             {
-                if (_mavftp.kCmdCreateFile("repl/in", ref createsize))
+                var list =_mavftp.kCmdListDirectory("repl");
+
+                var useopen = list.Any(a => a.Name == "in");
+
+                if ((useopen && _mavftp.kCmdOpenFileWO("repl/in", ref createsize)) || _mavftp.kCmdCreateFile("repl/in", ref createsize))
                 {
-                    _mavftp.kCmdWriteFile(new MemoryStream(ASCIIEncoding.ASCII.GetBytes(line)), "REPL", null);
+                    /// fixme - partial write
+                    /// 
+                    var bytedest = new byte[bytedata.Length + sessionwrite];
+                    Array.Copy(bytedata, 0, bytedest, bytedest.Length - bytedata.Length, bytedata.Length);
+                    _mavftp.kCmdWriteFile(new MemoryStream(bytedest), "REPL", _cancellation);
                     _mavftp.kCmdTerminateSession();
+                    sessionwrite += bytedata.Length;
                 }
             }
             finally
             {
                 _semaphore.Release();
             }
+        }
+
+        public void Write(byte[] bytes, int offset, int length)
+        {
+            SendLine(bytes.Skip(offset).Take(length).ToArray());
         }
     }
 }
