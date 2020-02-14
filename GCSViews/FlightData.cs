@@ -2999,20 +2999,23 @@ namespace MissionPlanner.GCSViews
 
                                 var i = -1;
                                 var travdist = 0.0;
-                                var lastplla = overlay.pointlist.First();
-                                foreach (var plla in overlay.pointlist)
+                                if (overlay.pointlist.Count > 0)
                                 {
-                                    i++;
-                                    if (plla == null)
-                                        continue;
-
-                                    var dist = lastplla.GetDistance(plla);
-
-                                    distanceBar1.AddWPDist((float)dist);
-
-                                    if (i <= MainV2.comPort.MAV.cs.wpno)
+                                    var lastplla = overlay.pointlist.First();
+                                    foreach (var plla in overlay.pointlist)
                                     {
-                                        travdist += dist;
+                                        i++;
+                                        if (plla == null)
+                                            continue;
+
+                                        var dist = lastplla.GetDistance(plla);
+
+                                        distanceBar1.AddWPDist((float) dist);
+
+                                        if (i <= MainV2.comPort.MAV.cs.wpno)
+                                        {
+                                            travdist += dist;
+                                        }
                                     }
                                 }
 
