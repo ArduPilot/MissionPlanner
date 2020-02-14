@@ -717,7 +717,7 @@ namespace MissionPlanner.Utilities
 
                     try
                     {
-                        up.identify();
+                        Extensions.CallWithTimeout((Action) delegate { up.identify(); }, 50);
                         updateProgress(-1, "Identify");
                         log.InfoFormat("Found board type {0} boardrev {1} bl rev {2} fwmax {3} on {4}", up.board_type,
                             up.board_rev, up.bl_rev, up.fw_maxsize, port);
@@ -774,9 +774,6 @@ namespace MissionPlanner.Utilities
                     {
                         up.close();
                     }
-
-                    // wait for IO firmware upgrade and boot to a mavlink state
-                    CustomMessageBox.Show(Strings.PleaseWaitForTheMusicalTones);
 
                     return true;
                 }
