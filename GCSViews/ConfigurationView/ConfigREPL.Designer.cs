@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigREPL));
             this.TXT_terminal = new System.Windows.Forms.RichTextBox();
-            this.BUT_ConnectAPM = new MissionPlanner.Controls.MyButton();
+            this.BUT_Connect = new MissionPlanner.Controls.MyButton();
             this.BUT_disconnect = new MissionPlanner.Controls.MyButton();
             this.SuspendLayout();
             // 
@@ -41,16 +41,15 @@
             this.TXT_terminal.BackColor = System.Drawing.Color.Black;
             this.TXT_terminal.ForeColor = System.Drawing.Color.White;
             this.TXT_terminal.Name = "TXT_terminal";
-            this.TXT_terminal.Click += new System.EventHandler(this.TXT_terminal_Click);
             this.TXT_terminal.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TXT_terminal_KeyDown);
             this.TXT_terminal.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TXT_terminal_KeyPress);
             // 
-            // BUT_ConnectAPM
+            // BUT_Connect
             // 
-            resources.ApplyResources(this.BUT_ConnectAPM, "BUT_ConnectAPM");
-            this.BUT_ConnectAPM.Name = "BUT_ConnectAPM";
-            this.BUT_ConnectAPM.UseVisualStyleBackColor = true;
-            this.BUT_ConnectAPM.Click += new System.EventHandler(this.BUT_RebootAPM_Click);
+            resources.ApplyResources(this.BUT_Connect, "BUT_Connect");
+            this.BUT_Connect.Name = "BUT_Connect";
+            this.BUT_Connect.UseVisualStyleBackColor = true;
+            this.BUT_Connect.Click += new System.EventHandler(this.BUT_RebootAPM_Click);
             // 
             // BUT_disconnect
             // 
@@ -62,12 +61,10 @@
             // ConfigREPL
             // 
             this.Controls.Add(this.BUT_disconnect);
-            this.Controls.Add(this.BUT_ConnectAPM);
+            this.Controls.Add(this.BUT_Connect);
             this.Controls.Add(this.TXT_terminal);
             this.Name = "ConfigREPL";
             resources.ApplyResources(this, "$this");
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Terminal_FormClosing);
-            
             this.ResumeLayout(false);
 
         }
@@ -75,7 +72,7 @@
         #endregion
 
         private System.Windows.Forms.RichTextBox TXT_terminal;
-        private Controls.MyButton BUT_ConnectAPM;
+        private Controls.MyButton BUT_Connect;
         private Controls.MyButton BUT_disconnect;
     }
 }

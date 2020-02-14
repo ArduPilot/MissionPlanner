@@ -1,36 +1,27 @@
 ﻿using log4net;
-using MissionPlanner.Comms;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
-using MissionPlanner.Log;
-using MissionPlanner.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading;
 using System.Windows.Forms;
-using MissionPlanner.ArduPilot;
-using SerialPort = MissionPlanner.Comms.SerialPort;
 
 namespace MissionPlanner.GCSViews
 {
     public partial class ConfigREPL : MyUserControl, IActivate, IDeactivate
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        public static bool threadrun;
         private readonly List<string> cmdHistory = new List<string>();
         private readonly object thisLock = new object();
         private int history;
-        private bool inlogview;
         private int inputStartPos;
         DateTime lastsend = DateTime.MinValue;
         private AP_REPL AP_REPL;
 
         public ConfigREPL()
         {
-            threadrun = false;
-
             InitializeComponent();
         }
 
@@ -66,19 +57,22 @@ namespace MissionPlanner.GCSViews
                if (inputStartPos > TXT_terminal.Text.Length)
                    inputStartPos = TXT_terminal.Text.Length - 1;
 
-                // gather current typed data
-                string currenttypedtext = TXT_terminal.Text.Substring(inputStartPos,
-                   TXT_terminal.Text.Length - inputStartPos);
+               if (inputStartPos == -1)
+                   inputStartPos = 0;
 
-                // remove typed data
-                TXT_terminal.Text = TXT_terminal.Text.Remove(inputStartPos, TXT_terminal.Text.Length - inputStartPos);
+               // gather current typed data
+               string currenttypedtext = TXT_terminal.Text.Substring(inputStartPos,
+                  TXT_terminal.Text.Length - inputStartPos);
+
+               // remove typed data
+               TXT_terminal.Text = TXT_terminal.Text.Remove(inputStartPos, TXT_terminal.Text.Length - inputStartPos);
 
                TXT_terminal.SelectionStart = TXT_terminal.Text.Length;
 
                data = data.TrimEnd('\r'); // else added \n all by itself
-                data = data.Replace("\0", "");
+               data = data.Replace("\0", "");
                data = data.Replace((char)0x1b + "[K", ""); // remove control code
-                TXT_terminal.AppendText(data);
+               TXT_terminal.AppendText(data);
 
                if (data.Contains("\b"))
                {
@@ -86,26 +80,16 @@ namespace MissionPlanner.GCSViews
                    TXT_terminal.SelectionStart = TXT_terminal.Text.Length;
                }
 
-                // erase to end of line. in our case jump to end of line
-                if (data.Contains((char)0x1b + "[K"))
+               // erase to end of line. in our case jump to end of line
+               if (data.Contains((char)0x1b + "[K"))
                {
                    TXT_terminal.SelectionStart = TXT_terminal.Text.Length;
                }
                inputStartPos = TXT_terminal.SelectionStart;
 
-                //add back typed text
-                TXT_terminal.AppendText(currenttypedtext);
+               //add back typed text
+               TXT_terminal.AppendText(currenttypedtext);
            });
-        }
-
-        private void TXT_terminal_Click(object sender, EventArgs e)
-        {
-            // auto scroll
-            //TXT_terminal.SelectionStart = TXT_terminal.Text.Length;
-
-            //TXT_terminal.ScrollToCaret();
-
-            //TXT_terminal.Refresh();
         }
 
         private void TXT_terminal_KeyDown(object sender, KeyEventArgs e)
@@ -147,11 +131,6 @@ namespace MissionPlanner.GCSViews
                         //    break;
                 }
             }
-        }
-
-        private void Terminal_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            threadrun = false;
         }
 
         private void TXT_terminal_KeyPress(object sender, KeyPressEventArgs e)
@@ -213,6 +192,7 @@ namespace MissionPlanner.GCSViews
         {
             TXT_terminal.ReadOnly = false;
             TXT_terminal.Clear();
+            addText("Starting REPL\n");
             BUT_disconnect.Enabled = true;
             AP_REPL.Start();
         }

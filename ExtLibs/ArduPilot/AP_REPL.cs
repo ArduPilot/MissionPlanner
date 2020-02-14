@@ -106,7 +106,7 @@ namespace MissionPlanner.ArduPilot
             SendLine(ASCIIEncoding.ASCII.GetBytes(line));
         }
 
-        private int sessionwrite = 0;
+        private int _sessionwrite = 0;
         public void SendLine(byte[] bytedata)
         {
             int createsize = 0;
@@ -116,17 +116,13 @@ namespace MissionPlanner.ArduPilot
             {
                 var list =_mavftp.kCmdListDirectory("repl");
 
-                var useopen = list.Any(a => a.Name == "in");
+                var useopen = list.Where(a => a.Name == "in");
 
-                if ((useopen && _mavftp.kCmdOpenFileWO("repl/in", ref createsize)) || _mavftp.kCmdCreateFile("repl/in", ref createsize))
+                if ((useopen.Count() > 0 && _mavftp.kCmdOpenFileWO("repl/in", ref createsize)) || _mavftp.kCmdCreateFile("repl/in", ref createsize))
                 {
-                    /// fixme - partial write
-                    /// 
-                    var bytedest = new byte[bytedata.Length + sessionwrite];
-                    Array.Copy(bytedata, 0, bytedest, bytedest.Length - bytedata.Length, bytedata.Length);
-                    _mavftp.kCmdWriteFile(new MemoryStream(bytedest), "REPL", _cancellation);
+                    _mavftp.kCmdWriteFile(bytedata, (uint)(useopen.FirstOrDefault()?.Size ?? 0), "REPL", _cancellation);
                     _mavftp.kCmdTerminateSession();
-                    sessionwrite += bytedata.Length;
+                    _sessionwrite += bytedata.Length;
                 }
             }
             finally
