@@ -89,9 +89,11 @@
             this.Down});
             this.myDataGridView1.DataSource = this.compassInfoBindingSource;
             this.myDataGridView1.Location = new System.Drawing.Point(3, 49);
+            this.myDataGridView1.MultiSelect = false;
             this.myDataGridView1.Name = "myDataGridView1";
             this.myDataGridView1.ReadOnly = true;
             this.myDataGridView1.RowHeadersWidth = 20;
+            this.myDataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.myDataGridView1.Size = new System.Drawing.Size(600, 209);
             this.myDataGridView1.TabIndex = 0;
             this.myDataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.myDataGridView1_CellContentClick);
@@ -162,10 +164,10 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(3, 33);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(457, 13);
+            this.label1.Size = new System.Drawing.Size(438, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Set the Compass Priority by moving around the compass\'s in the table below (Highe" +
-    "st at the top)\r\n";
+            this.label1.Text = "Set the Compass Priority by reordering the compasses in the table below (Highest " +
+    "at the top)\r\n";
             // 
             // label6
             // 
@@ -433,9 +435,9 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(0, 261);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(251, 13);
+            this.label3.Size = new System.Drawing.Size(255, 13);
             this.label3.TabIndex = 85;
-            this.label3.Text = "Do you want to disable any of the first 3 compass\'s?";
+            this.label3.Text = "Do you want to disable any of the first 3 compasses?";
             // 
             // ConfigHWCompass2
             // 

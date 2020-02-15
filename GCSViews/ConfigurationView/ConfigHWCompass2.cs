@@ -56,12 +56,23 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private bool CheckReboot()
         {
+            if (!MainV2.comPort.BaseStream.IsOpen)
+                return true;
+
             if (rebootrequired)
             {
                 if (CustomMessageBox.Show("Reboot required, reboot now?", "Reboot",
                         CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
                 {
-                    MainV2.comPort.doReboot();
+                    try
+                    {
+                        MainV2.comPort.doReboot();
+                    }
+                    catch
+                    {
+                        CustomMessageBox.Show(Strings.ErrorCommunicating, Strings.ERROR);
+                    }
+
                     return true;
                 }
             }
@@ -355,7 +366,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public int DevID => (int)_devid.devid;
 
-        public string BusType => _devid.bus_type.ToString();
+        public string BusType => _devid.bus_type.ToString().Replace("BUS_TYPE_", "");
         public int Bus => (int)_devid.bus;
         public int Address => (int)_devid.address;
 
