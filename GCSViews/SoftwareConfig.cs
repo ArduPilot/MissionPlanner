@@ -15,6 +15,20 @@ namespace MissionPlanner.GCSViews
         internal static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private static string lastpagename = "";
 
+        public bool gotAllParams
+        {
+            get
+            {
+                log.InfoFormat("TotalReceived {0} TotalReported {1}", MainV2.comPort.MAV.param.TotalReceived,
+                    MainV2.comPort.MAV.param.TotalReported);
+                if (MainV2.comPort.MAV.param.TotalReceived < MainV2.comPort.MAV.param.TotalReported)
+                {
+                    return false;
+                }
+
+                return true;
+            }
+        }
         public SoftwareConfig()
         {
             InitializeComponent();
@@ -44,8 +58,7 @@ namespace MissionPlanner.GCSViews
             {
                 BackstageViewPage start = null;
 
-                log.InfoFormat("TotalReceived {0} TotalReported {1}", MainV2.comPort.MAV.param.TotalReceived, MainV2.comPort.MAV.param.TotalReported);
-                if (MainV2.comPort.MAV.param.TotalReceived >= MainV2.comPort.MAV.param.TotalReported)
+                if (gotAllParams)
                 {
                     if (MainV2.comPort.BaseStream.IsOpen)
                     {
@@ -112,11 +125,13 @@ namespace MissionPlanner.GCSViews
 
                 if (MainV2.DisplayConfiguration.displayFullParamList)
                 {
-                    AddBackstageViewPage(typeof(ConfigRawParams), Strings.FullParameterList, null, true);
+                    if(!MainV2.comPort.BaseStream.IsOpen || gotAllParams)
+                        AddBackstageViewPage(typeof(ConfigRawParams), Strings.FullParameterList, null, true);
                 }
                 if (MainV2.DisplayConfiguration.displayFullParamTree && !Program.MONO)
                 {
-                    AddBackstageViewPage(typeof(ConfigRawParamsTree), Strings.FullParameterTree, null, true);
+                    if (!MainV2.comPort.BaseStream.IsOpen || gotAllParams)
+                        AddBackstageViewPage(typeof(ConfigRawParamsTree), Strings.FullParameterTree, null, true);
                 }
 
                 if (MainV2.comPort.BaseStream.IsOpen)
@@ -126,6 +141,14 @@ namespace MissionPlanner.GCSViews
                         start = AddBackstageViewPage(typeof(ConfigFlightModes), Strings.FlightModes);
                         AddBackstageViewPage(typeof(ConfigAteryxSensors), "Ateryx Zero Sensors");
                         AddBackstageViewPage(typeof(ConfigAteryx), "Ateryx Pids");
+                    }
+
+                    if (!gotAllParams)
+                    {
+                        if (start == null)
+                            start = AddBackstageViewPage(typeof(ConfigParamLoading), Strings.Loading);
+                        else
+                            AddBackstageViewPage(typeof(ConfigParamLoading), Strings.Loading);
                     }
 
                     AddBackstageViewPage(typeof(ConfigPlanner), Strings.Planner);

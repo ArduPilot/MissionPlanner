@@ -1002,6 +1002,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Loading.
+        /// </summary>
+        public static string Loading {
+            get {
+                return ResourceManager.GetString("Loading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please click ok and move the autopilot around all axises in a circular motion.
         /// </summary>
         public static string MagCalibMsg {
