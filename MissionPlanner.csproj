@@ -467,6 +467,12 @@
     <Compile Include="Controls\UAVCANParams.Designer.cs">
       <DependentUpon>UAVCANParams.cs</DependentUpon>
     </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigParamLoading.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigParamLoading.Designer.cs">
+      <DependentUpon>ConfigParamLoading.cs</DependentUpon>
+    </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigSerialInjectGPS.Designer.cs">
       <DependentUpon>ConfigSerialInjectGPS.cs</DependentUpon>
     </Compile>
@@ -741,6 +747,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\UAVCANParams.zh-TW.resx">
       <DependentUpon>UAVCANParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigParamLoading.resx">
+      <DependentUpon>ConfigParamLoading.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigREPL.resx">
       <DependentUpon>ConfigREPL.cs</DependentUpon>
