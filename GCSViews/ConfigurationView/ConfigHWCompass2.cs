@@ -361,7 +361,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             _index = index;
             _paramName = ParamName;
-            _devid = new Device.DeviceStructure(id);
+            _devid = new Device.DeviceStructure(ParamName, id);
         }
 
         public int DevID => (int)_devid.devid;
