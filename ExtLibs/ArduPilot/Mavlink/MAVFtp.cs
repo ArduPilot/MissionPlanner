@@ -1795,7 +1795,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
         }
 
 
-            public bool kCmdWriteFile(string srcfile, CancellationTokenSource cancel)
+        public bool kCmdWriteFile(string srcfile, CancellationTokenSource cancel)
         {
             return kCmdWriteFile(new BufferedStream(File.OpenRead(srcfile), 1024 * 1024), srcfile, cancel);
         }

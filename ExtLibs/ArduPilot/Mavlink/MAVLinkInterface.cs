@@ -1648,6 +1648,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             UnSubscribeToPacketType(sub1);
             UnSubscribeToPacketType(sub2);
 
+            log.InfoFormat("list count {0}, rcvd total {1} indexseen count {2}", newparamlist.Count, param_total, indexsreceived.Count);
+
             MAVlist[sysid, compid].param.Clear();
             MAVlist[sysid, compid].param.TotalReported = param_total;
             MAVlist[sysid, compid].param.AddRange(newparamlist);
@@ -2867,11 +2869,11 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                             if (field.FieldType.IsArray)
                             {
                                 textoutput = textoutput + field.Name + delimeter;
-                                if (fieldValue.GetType() == typeof (byte[]))
+                                if (fieldValue.GetType() == typeof(byte[]))
                                 {
                                     try
                                     {
-                                        byte[] crap = (byte[]) fieldValue;
+                                        byte[] crap = (byte[])fieldValue;
 
                                         foreach (byte fiel in crap)
                                         {
@@ -2881,7 +2883,29 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                                             }
                                             else
                                             {
-                                                textoutput = textoutput + (char) fiel;
+                                                textoutput = textoutput + (char)fiel;
+                                            }
+                                        }
+                                    }
+                                    catch
+                                    {
+                                    }
+                                }
+                                if (fieldValue.GetType() == typeof(char[]))
+                                {
+                                    try
+                                    {
+                                        char[] crap = (char[])fieldValue;
+
+                                        foreach (char fiel in crap)
+                                        {
+                                            if (fiel == 0)
+                                            {
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                textoutput = textoutput + fiel;
                                             }
                                         }
                                     }
