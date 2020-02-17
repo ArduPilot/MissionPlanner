@@ -107,6 +107,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             WPNAV_SPEED_DN.setup(0, 0, 1, 0.001f, "WPNAV_SPEED_DN", MainV2.comPort.MAV.param);
             WPNAV_SPEED_UP.setup(0, 0, 1, 0.001f, "WPNAV_SPEED_UP", MainV2.comPort.MAV.param);
 
+            mavlinkNumericUpDownatc_accel_r_max.setup(0, 0, 1, 0.001f, "ATC_ACCEL_R_MAX", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDownatc_accel_p_max.setup(0, 0, 1, 0.001f, "ATC_ACCEL_P_MAX", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDownatc_accel_y_max.setup(0, 0, 1, 0.001f, "ATC_ACCEL_Y_MAX", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDownatc_input_tc.setup(0, 0, 1, 0.001f, "ATC_INPUT_TC", MainV2.comPort.MAV.param);
+
             // unlock entries if they differ
             if (RATE_RLL_P.Value != RATE_PIT_P.Value || RATE_RLL_I.Value != RATE_PIT_I.Value
                 || RATE_RLL_D.Value != RATE_PIT_D.Value || RATE_RLL_IMAX.Value != RATE_PIT_IMAX.Value)
