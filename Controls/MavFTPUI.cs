@@ -58,6 +58,8 @@ namespace MissionPlanner.Controls
         {
             toolStripStatusLabel1.Text = "Updating Folders";
 
+            treeView1.BeginUpdate();
+
             treeView1.Enabled = false;
 
             treeView1.Nodes.Clear();
@@ -76,6 +78,8 @@ namespace MissionPlanner.Controls
             toolStripStatusLabel1.Text = "Ready";
 
             treeView1.Enabled = true;
+            
+            treeView1.EndUpdate();
 
             treeView1.SelectedNode = rootNode;
 

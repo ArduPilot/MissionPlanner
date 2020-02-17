@@ -395,6 +395,26 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 //uAVCANModelBindingSource.Position = index;
             });
         }
+
+        private void but_uavcanfilebrowser_Click(object sender, EventArgs e)
+        {
+            if (can == null)
+            {
+                CustomMessageBox.Show(Strings.PleaseConnect);
+                return;
+            }
+
+            if (myDataGridView1.SelectedCells.Count <= 0)
+            {
+                CustomMessageBox.Show(Strings.InvalidField + " Row");
+                return;
+            }
+
+            var id = byte.Parse(myDataGridView1[iDDataGridViewTextBoxColumn.Index, myDataGridView1.SelectedCells[0].RowIndex].Value
+                .ToString());
+
+            new UAVCANFileUI(can, id).ShowUserControl();
+        }
     }
 
     public class UAVCANModel
