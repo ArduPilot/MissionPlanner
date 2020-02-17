@@ -754,5 +754,22 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             CMB_primary_compass.Visible = MainV2.comPort.MAV.param.ContainsKey("COMPASS_PRIMARY");
             LBL_primary_compass.Visible = MainV2.comPort.MAV.param.ContainsKey("COMPASS_PRIMARY");
         }
+
+        private void but_largemagcal_Click(object sender, EventArgs e)
+        {
+            double value = 0;
+            if (InputBox.Show("MagCal Yaw", "Enter current heading in degrees\nNOTE: gps lock is required", ref value) == DialogResult.OK)
+            {
+                try
+                {
+                    MainV2.comPort.doCommand(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid,
+                        MAVLink.MAV_CMD.FIXED_MAG_CAL_YAW, (float)value, 0, 0, 0, 0, 0, 0);
+                }
+                catch (Exception exception)
+                {
+                    CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+                }
+            }
+        }
     }
 }
