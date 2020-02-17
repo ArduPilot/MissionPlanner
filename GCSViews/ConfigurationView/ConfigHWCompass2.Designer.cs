@@ -63,6 +63,7 @@
             this.mavlinkCheckBoxUseCompass3 = new MissionPlanner.Controls.MavlinkCheckBox();
             this.mavlinkCheckBoxUseCompass2 = new MissionPlanner.Controls.MavlinkCheckBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.but_largemagcal = new MissionPlanner.Controls.MyButton();
             ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.compassInfoBindingSource)).BeginInit();
             this.groupBoxonboardcalib.SuspendLayout();
@@ -439,10 +440,22 @@
             this.label3.TabIndex = 85;
             this.label3.Text = "Do you want to disable any of the first 3 compasses?";
             // 
+            // but_largemagcal
+            // 
+            this.but_largemagcal.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.but_largemagcal.Location = new System.Drawing.Point(3, 470);
+            this.but_largemagcal.Name = "but_largemagcal";
+            this.but_largemagcal.Size = new System.Drawing.Size(75, 23);
+            this.but_largemagcal.TabIndex = 21;
+            this.but_largemagcal.Text = "Large Vehicle MagCal";
+            this.but_largemagcal.UseVisualStyleBackColor = true;
+            this.but_largemagcal.Click += new System.EventHandler(this.but_largemagcal_Click);
+            // 
             // ConfigHWCompass2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.but_largemagcal);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.mavlinkCheckBoxUseCompass2);
             this.Controls.Add(this.mavlinkCheckBoxUseCompass3);
@@ -453,7 +466,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.myDataGridView1);
             this.Name = "ConfigHWCompass2";
-            this.Size = new System.Drawing.Size(606, 472);
+            this.Size = new System.Drawing.Size(606, 579);
             ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.compassInfoBindingSource)).EndInit();
             this.groupBoxonboardcalib.ResumeLayout(false);
@@ -502,5 +515,6 @@
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private Controls.MyButton but_largemagcal;
     }
 }

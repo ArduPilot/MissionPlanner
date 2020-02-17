@@ -349,6 +349,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void myDataGridView1_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
         {
         }
+
+        private void but_largemagcal_Click(object sender, EventArgs e)
+        {
+            double value = 0;
+            if (InputBox.Show("MagCal Yaw", "Enter current heading in degrees", ref value) == DialogResult.OK)
+            {
+                MainV2.comPort.doCommand(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid,
+                    MAVLink.MAV_CMD.FIXED_MAG_CAL_YAW, (float) value, 0, 0, 0, 0, 0, 0);
+            }
+        }
     }
 
     public class CompassInfo
