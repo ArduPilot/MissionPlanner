@@ -173,7 +173,10 @@ namespace MissionPlanner.GCSViews
                         }
                         else
                         {
-                            AP_REPL.Write(Encoding.ASCII.GetBytes(cmd + "\n"), 0, cmd.Length + 1);
+                            if (Program.MONO)
+                                AP_REPL.Write(Encoding.ASCII.GetBytes(cmd), 0, cmd.Length);
+                            else
+                                AP_REPL.Write(Encoding.ASCII.GetBytes(cmd + "\n"), 0, cmd.Length + 1);
                             lastsend = DateTime.Now;
 
                             //local echo
