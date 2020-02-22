@@ -2994,6 +2994,8 @@ namespace MissionPlanner
                 else
                 {
                     log.Info("Load Pluggins");
+                    Plugin.PluginLoader.DisabledPluginNames.Clear();
+                    foreach (var s in Settings.Instance.GetList("DisabledPlugins")) Plugin.PluginLoader.DisabledPluginNames.Add(s);
                     Plugin.PluginLoader.LoadAll();
                     log.Info("Load Pluggins... Done");
                 }
@@ -3753,6 +3755,12 @@ namespace MissionPlanner
                 ScreenShot();
                 return true;
             }*/
+            if (keyData == (Keys.Control | Keys.P))
+            {
+                new PluginUI().Show();
+                return true;
+            }
+
             if (keyData == (Keys.Control | Keys.G)) // nmea out
             {
                 Form frm = new SerialOutputNMEA();
