@@ -27,13 +27,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             foreach (var dev in all_dev_ids)
             {
-                var devid = new Device.DeviceStructure((uint)dev.Value);
+                var devid = new Device.DeviceStructure(dev.Name, (uint)dev.Value);
 
                 var ans = devid.ToString();
 
                 //var gr = CreateGraphics();
 
-                var lbl = new Label() { Text = dev.Name + " " + ans, AutoSize = true, Location = new Point(5, 5 + b * 25) };
+                var lbl = new Label() { Text = ans, AutoSize = true, Location = new Point(5, 5 + b * 25) };
                 Controls.Add(lbl);
 
                 //gr.DrawString(dev.Name + " " + ans, Font, new SolidBrush(ForeColor), 5, 5 + b * 25);

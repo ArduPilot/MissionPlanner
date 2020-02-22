@@ -346,9 +346,9 @@
     <PackageReference Include="SkiaSharp.Views" Version="1.68.1.1" />
     <PackageReference Include="SSH.NET" version="2016.1.0" targetFramework="net40" />
     <PackageReference Include="System.CodeDom">
-      <Version>4.5.0</Version>
+      <Version>4.7.0</Version>
     </PackageReference>
-    <PackageReference Include="System.Drawing.Common" Version="4.5.1" />
+    <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
     <PackageReference Include="System.IO.Ports" Version="4.7.0" />
     <PackageReference Include="System.Reactive" Version="4.0.0" />
     <PackageReference Include="System.Reactive.Core" Version="4.0.0" />
@@ -365,6 +365,12 @@
     <Compile Include="Controls\ConnectionOptions.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Controls\ControlSensorsStatus.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ControlSensorsStatus.Designer.cs">
+      <DependentUpon>ControlSensorsStatus.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\DigitalSkyUI.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -372,6 +378,19 @@
       <DependentUpon>DigitalSkyUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\Icon\File.cs" />
+    <Compile Include="Controls\Icon\Zoom.cs" />
+    <Compile Include="Controls\Status.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Status.Designer.cs">
+      <DependentUpon>Status.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ThemeEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\ThemeEditor.Designer.cs">
+      <DependentUpon>ThemeEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\UAVCANFileUI.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -448,8 +467,20 @@
     <Compile Include="Controls\UAVCANParams.Designer.cs">
       <DependentUpon>UAVCANParams.cs</DependentUpon>
     </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigParamLoading.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigParamLoading.Designer.cs">
+      <DependentUpon>ConfigParamLoading.cs</DependentUpon>
+    </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigSerialInjectGPS.Designer.cs">
       <DependentUpon>ConfigSerialInjectGPS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigREPL.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigREPL.Designer.cs">
+      <DependentUpon>ConfigREPL.cs</DependentUpon>
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigTradHeli4.cs">
       <SubType>UserControl</SubType>
@@ -594,8 +625,17 @@
     <Compile Include="Log\LogStrings.Designer.cs">
       <DependentUpon>LogStrings.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Controls\ControlSensorsStatus.resx">
+      <DependentUpon>ControlSensorsStatus.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\DigitalSkyUI.resx">
       <DependentUpon>DigitalSkyUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Status.resx">
+      <DependentUpon>Status.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ThemeEditor.resx">
+      <DependentUpon>ThemeEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\UAVCANFileUI.resx">
       <DependentUpon>UAVCANFileUI.cs</DependentUpon>
@@ -708,6 +748,12 @@
     <EmbeddedResource Include="Controls\UAVCANParams.zh-TW.resx">
       <DependentUpon>UAVCANParams.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigParamLoading.resx">
+      <DependentUpon>ConfigParamLoading.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigREPL.resx">
+      <DependentUpon>ConfigREPL.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTradHeli4.resx">
       <DependentUpon>ConfigTradHeli4.cs</DependentUpon>
     </EmbeddedResource>
@@ -749,9 +795,6 @@
     <Compile Include="GCSViews\SITL.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\ThemeColors.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Controls\ToolStripConnectionControl.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -788,7 +831,7 @@
     <Compile Include="GCSViews\SoftwareConfig.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GCSViews\Terminal.cs">
+    <Compile Include="GCSViews\ConfigurationView\ConfigTerminal.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.cs">
@@ -1037,6 +1080,7 @@
     <Compile Include="Utilities\AltitudeAngel\MapAdapter.cs" />
     <Compile Include="Utilities\AltitudeAngel\MissionPlannerAdaptor.cs" />
     <Compile Include="Utilities\AltitudeAngel\OverlayAdapter.cs" />
+    <Compile Include="Utilities\XMLColor.cs" />
     <Compile Include="Warnings\WarningControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1114,9 +1158,6 @@
     <Compile Include="GCSViews\SITL.Designer.cs">
       <DependentUpon>SITL.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ThemeColors.Designer.cs">
-      <DependentUpon>ThemeColors.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controls\Vibration.Designer.cs">
       <DependentUpon>Vibration.cs</DependentUpon>
     </Compile>
@@ -1144,8 +1185,8 @@
     <Compile Include="GCSViews\SoftwareConfig.Designer.cs">
       <DependentUpon>SoftwareConfig.cs</DependentUpon>
     </Compile>
-    <Compile Include="GCSViews\Terminal.Designer.cs">
-      <DependentUpon>Terminal.cs</DependentUpon>
+    <Compile Include="GCSViews\ConfigurationView\ConfigTerminal.Designer.cs">
+      <DependentUpon>ConfigTerminal.cs</DependentUpon>
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.Designer.cs">
       <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
@@ -1972,36 +2013,6 @@
     <EmbeddedResource Include="GCSViews\SITL.resx">
       <DependentUpon>SITL.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ThemeColors.resx">
-      <DependentUpon>ThemeColors.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ThemeColors.ar.resx">
-      <DependentUpon>ThemeColors.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ThemeColors.az-Latn-AZ.resx">
-      <DependentUpon>ThemeColors.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ThemeColors.id-ID.resx">
-      <DependentUpon>ThemeColors.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ThemeColors.ja-JP.resx">
-      <DependentUpon>ThemeColors.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ThemeColors.ko-KR.resx">
-      <DependentUpon>ThemeColors.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ThemeColors.pt.resx">
-      <DependentUpon>ThemeColors.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ThemeColors.ru-KZ.resx">
-      <DependentUpon>ThemeColors.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ThemeColors.tr.resx">
-      <DependentUpon>ThemeColors.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ThemeColors.zh-Hans.resx">
-      <DependentUpon>ThemeColors.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Controls\Vibration.resx">
       <DependentUpon>Vibration.cs</DependentUpon>
     </EmbeddedResource>
@@ -2179,6 +2190,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\InitialSetup.resx">
       <DependentUpon>InitialSetup.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\InitialSetup.ar.resx">
       <DependentUpon>InitialSetup.cs</DependentUpon>
@@ -2219,59 +2231,59 @@
     <EmbeddedResource Include="GCSViews\SoftwareConfig.resx">
       <DependentUpon>SoftwareConfig.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Terminal.resx">
-      <DependentUpon>Terminal.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTerminal.resx">
+      <DependentUpon>ConfigTerminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Terminal.ar.resx">
-      <DependentUpon>Terminal.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTerminal.ar.resx">
+      <DependentUpon>ConfigTerminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Terminal.az-Latn-AZ.resx">
-      <DependentUpon>Terminal.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTerminal.az-Latn-AZ.resx">
+      <DependentUpon>ConfigTerminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Terminal.de-DE.resx">
-      <DependentUpon>Terminal.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTerminal.de-DE.resx">
+      <DependentUpon>ConfigTerminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Terminal.es-ES.resx">
-      <DependentUpon>Terminal.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTerminal.es-ES.resx">
+      <DependentUpon>ConfigTerminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Terminal.fr.resx">
-      <DependentUpon>Terminal.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTerminal.fr.resx">
+      <DependentUpon>ConfigTerminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Terminal.id-ID.resx">
-      <DependentUpon>Terminal.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTerminal.id-ID.resx">
+      <DependentUpon>ConfigTerminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Terminal.it-IT.resx">
-      <DependentUpon>Terminal.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTerminal.it-IT.resx">
+      <DependentUpon>ConfigTerminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Terminal.ja-JP.resx">
-      <DependentUpon>Terminal.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTerminal.ja-JP.resx">
+      <DependentUpon>ConfigTerminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Terminal.ko-KR.resx">
-      <DependentUpon>Terminal.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTerminal.ko-KR.resx">
+      <DependentUpon>ConfigTerminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Terminal.pl.resx">
-      <DependentUpon>Terminal.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTerminal.pl.resx">
+      <DependentUpon>ConfigTerminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Terminal.pt.resx">
-      <DependentUpon>Terminal.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTerminal.pt.resx">
+      <DependentUpon>ConfigTerminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Terminal.ru-KZ.resx">
-      <DependentUpon>Terminal.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTerminal.ru-KZ.resx">
+      <DependentUpon>ConfigTerminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Terminal.ru-RU.resx">
-      <DependentUpon>Terminal.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTerminal.ru-RU.resx">
+      <DependentUpon>ConfigTerminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Terminal.tr.resx">
-      <DependentUpon>Terminal.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTerminal.tr.resx">
+      <DependentUpon>ConfigTerminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Terminal.zh-Hans.resx">
-      <DependentUpon>Terminal.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTerminal.zh-Hans.resx">
+      <DependentUpon>ConfigTerminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Terminal.zh-Hant.resx">
-      <DependentUpon>Terminal.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTerminal.zh-Hant.resx">
+      <DependentUpon>ConfigTerminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Terminal.zh-TW.resx">
-      <DependentUpon>Terminal.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTerminal.zh-TW.resx">
+      <DependentUpon>ConfigTerminal.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.resx">
       <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
@@ -4307,11 +4319,17 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include=".editorconfig" />
+    <None Include="BurntKermit.mpsystheme">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Drivers\chibioscomp.cat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Drivers\cubecomp.cat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="HighContrast.mpsystheme">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Resources\Gaugebg.png" />
     <None Include="appxmanifest.xml" />

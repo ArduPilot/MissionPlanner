@@ -81,7 +81,8 @@ namespace MissionPlanner.Utilities
                 }
             }
 
-            client.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
+            if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
+                client.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
 
             StartQueueProcess();
         }

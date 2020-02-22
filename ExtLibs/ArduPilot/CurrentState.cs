@@ -2117,19 +2117,25 @@ namespace MissionPlanner
                         errors_count3 = sysstatus.errors_count3;
                         errors_count4 = sysstatus.errors_count4;
 
-                        if (errors_count1 > 0 || errors_count2 > 0)
-                        {
-                            messageHigh = "InternalError " + Enum.GetName(typeof(AP_InternalError.error_t),
-                                              (errors_count1 + (errors_count2 << 16)));
-                        }
-
                         sensors_enabled.Value = sysstatus.onboard_control_sensors_enabled;
                         sensors_health.Value = sysstatus.onboard_control_sensors_health;
                         sensors_present.Value = sysstatus.onboard_control_sensors_present;
 
                         terrainactive = sensors_health.terrain && sensors_enabled.terrain && sensors_present.terrain;
 
-                        if (!sensors_health.gps && sensors_enabled.gps && sensors_present.gps)
+                        if (errors_count1 > 0 || errors_count2 > 0)
+                        {
+                            messageHigh = "InternalError " + Enum.GetName(typeof(AP_InternalError.error_t),
+                                              (errors_count1 + (errors_count2 << 16)));
+                            messageHighTime = DateTime.Now;
+                        } 
+                        
+                        if (!sensors_health.prearm && sensors_enabled.prearm && sensors_present.prearm)
+                        {
+                            messageHigh = Strings.Prearm_check_failed;
+                            messageHighTime = DateTime.Now;
+                        }
+                        else if (!sensors_health.gps && sensors_enabled.gps && sensors_present.gps)
                         {
                             messageHigh = Strings.BadGPSHealth;
                             messageHighTime = DateTime.Now;
@@ -2201,9 +2207,19 @@ namespace MissionPlanner
                                 messageHighTime = DateTime.Now;
                             }
                         }
-                        else if (!sensors_health.logging && sensors_enabled.logging && sensors_present.logging)
+                        else if (!sensors_health.battery && sensors_enabled.battery && sensors_present.battery)
                         {
-                            messageHigh = Strings.BadLogging;
+                            messageHigh = Strings.Bad_Battery;
+                            messageHighTime = DateTime.Now;
+                        }
+                        else if (!sensors_health.proximity && sensors_enabled.proximity && sensors_present.proximity)
+                        {
+                            messageHigh = Strings.Bad_Proximity;
+                            messageHighTime = DateTime.Now;
+                        }
+                        else if (!sensors_health.satcom && sensors_enabled.satcom && sensors_present.satcom)
+                        {
+                            messageHigh = Strings.Bad_SatCom;
                             messageHighTime = DateTime.Now;
                         }
                     }
@@ -3309,6 +3325,33 @@ namespace MissionPlanner
                 set =>
                     bitArray[ConvertValuetoBitmaskOffset((int) MAVLink.MAV_SYS_STATUS_SENSOR.MAV_SYS_STATUS_LOGGING)] =
                         value;
+            }
+
+            public bool battery
+            {
+                get => bitArray[ConvertValuetoBitmaskOffset((int) MAVLink.MAV_SYS_STATUS_SENSOR.BATTERY)];
+                set => bitArray[ConvertValuetoBitmaskOffset((int) MAVLink.MAV_SYS_STATUS_SENSOR.BATTERY)] = value;
+            }
+
+            public bool proximity
+            {
+                get => bitArray[ConvertValuetoBitmaskOffset((int) MAVLink.MAV_SYS_STATUS_SENSOR.PROXIMITY)];
+                set => bitArray[ConvertValuetoBitmaskOffset((int) MAVLink.MAV_SYS_STATUS_SENSOR.PROXIMITY)] = value;
+            }
+
+            public bool satcom
+            {
+                get => bitArray[ConvertValuetoBitmaskOffset((int) MAVLink.MAV_SYS_STATUS_SENSOR.SATCOM)];
+                set => bitArray[ConvertValuetoBitmaskOffset((int) MAVLink.MAV_SYS_STATUS_SENSOR.SATCOM)] = value;
+            }
+
+            public bool prearm
+            {
+                get => bitArray[
+                    ConvertValuetoBitmaskOffset((int) MAVLink.MAV_SYS_STATUS_SENSOR.MAV_SYS_STATUS_PREARM_CHECK)];
+                set => bitArray[
+                        ConvertValuetoBitmaskOffset((int) MAVLink.MAV_SYS_STATUS_SENSOR.MAV_SYS_STATUS_PREARM_CHECK)] =
+                    value;
             }
 
             public uint Value

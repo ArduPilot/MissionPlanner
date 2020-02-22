@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
+using Flurl.Util;
 
 namespace MissionPlanner.ArduPilot
 {
@@ -252,7 +253,19 @@ union px4_custom_mode {
                     }
 
                     var fname = String.Format("{{{0}}}", field.Name);
-                    input = input.Replace(fname, fieldValue.ToString());
+
+                    if (typeCode == TypeCode.Double)
+                    {
+                        input = input.Replace(fname, ((double) fieldValue).ToString("F1"));
+                    }
+                    else if (typeCode == TypeCode.Single)
+                    {
+                        input = input.Replace(fname, ((float) fieldValue).ToString("F1"));
+                    }
+                    else
+                    {
+                        input = input.Replace(fname, fieldValue.ToInvariantString());
+                    }
                 }
             }
             catch

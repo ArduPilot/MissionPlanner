@@ -648,6 +648,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                 ((data)e.RowObject).paramname + " value is out of range. Do you want to continue?",
                                 "Out of range", MessageBoxButtons.YesNo) == (int)DialogResult.No)
                         {
+                            e.Cancel = true;
                             return;
                         }
                     }

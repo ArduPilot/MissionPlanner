@@ -44,6 +44,8 @@ namespace MissionPlanner.Utilities
 
         public struct DeviceStructure
         {
+            private readonly string _paramname;
+
             // the data
             public UInt32 devid;
 
@@ -55,17 +57,28 @@ namespace MissionPlanner.Utilities
 
             public imu_types devtypeimu { get { return (imu_types)((devid >> 16) & 0xff); } }
 
+            public DeviceStructure(string paramname, UInt32 id)
+            {
+                devid = id;
+                _paramname = paramname;
+            }
+
             public DeviceStructure(UInt32 id)
             {
                 devid = id;
+                _paramname = "";
 
                 Console.WriteLine(ToString());
             }
 
             public override string ToString()
             {
-                return string.Format("devid {5} bus type {0} bus {1} address {2} compass {3} or devtypeimu {4} ", bus_type,
-                    bus, address, devtype, devtypeimu, devid);
+                return string.Format("{5} devid {4} bus type {0} bus {1} address {2} devtype {3} ",
+                    bus_type.ToString().Replace("BUS_TYPE_", ""),
+                    bus, address,
+                    (_paramname.Contains("COMPASS") ? devtype.ToString() : devtypeimu.ToString()).Replace("DEVTYPE_",
+                        ""),
+                    devid, _paramname);
             }
 
             // from AP_Compass_Backend.h

@@ -392,6 +392,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             Params[Command.Index, e.RowIndex].Value +
                             " is marked as ReadOnly, and will not be changed", "ReadOnly",
                             MessageBoxButtons.OK);
+                        Params.CellValueChanged -= Params_CellValueChanged;
+                        Params[e.ColumnIndex, e.RowIndex].Value = cellEditValue;
+                        Params.CellValueChanged += Params_CellValueChanged;
                         return;
                     }
                 }
@@ -407,6 +410,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                 " value is out of range. Do you want to continue?", "Out of range",
                                 MessageBoxButtons.YesNo) == (int)DialogResult.No)
                         {
+                            Params.CellValueChanged -= Params_CellValueChanged;
+                            Params[e.ColumnIndex, e.RowIndex].Value = cellEditValue;
+                            Params.CellValueChanged += Params_CellValueChanged;
                             return;
                         }
                     }
@@ -692,6 +698,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         }
 
         private readonly System.Timers.Timer _filterTimer = new System.Timers.Timer();
+        private string cellEditValue;
 
         private void txt_search_TextChanged(object sender, EventArgs e)
         {
@@ -824,6 +831,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void chk_modified_CheckedChanged(object sender, EventArgs e)
         {
             FilterTimerOnElapsed(null, null);
+        }
+
+        private void Params_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            cellEditValue = Params[e.ColumnIndex, e.RowIndex].Value.ToString();
         }
     }
 }

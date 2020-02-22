@@ -24,9 +24,12 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using Microsoft.Scripting.Utils;
 using WebCamService;
 using ZedGraph;
 using LogAnalyzer = MissionPlanner.Utilities.LogAnalyzer;
+using TableLayoutPanelCellPosition = System.Windows.Forms.TableLayoutPanelCellPosition;
+using UnauthorizedAccessException = System.UnauthorizedAccessException;
 
 // written by michael oborne
 
@@ -186,10 +189,12 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
+            /* It comes from the Theme not from the settings
             if (!string.IsNullOrEmpty(Settings.Instance["hudcolor"]))
             {
                 hud1.hudcolor = Color.FromName(Settings.Instance["hudcolor"]);
             }
+            */
 
             log.Info("HUD Settings");
             foreach (string item in Settings.Instance.Keys)
@@ -285,6 +290,13 @@ namespace MissionPlanner.GCSViews
             }
 
             MainV2.comPort.ParamListChanged += FlightData_ParentChanged;
+
+            //HUD Theming, color setup
+            myhud.groundColor1 = ThemeManager.HudGroundTop;
+            myhud.groundColor2 = ThemeManager.HudGroundBot;
+            myhud.skyColor1 = ThemeManager.HudSkyTop;
+            myhud.skyColor2 = ThemeManager.HudSkyBot;
+            myhud.hudcolor = ThemeManager.HudText;
 
         }
 
@@ -517,6 +529,8 @@ namespace MissionPlanner.GCSViews
             {
                 try
                 {
+                    tlogdir = Path.GetDirectoryName(file);
+
                     BUT_clear_track_Click(null, null);
 
                     MainV2.comPort.logreadmode = true;
@@ -988,7 +1002,7 @@ namespace MissionPlanner.GCSViews
                 openFileDialog1.Multiselect = true;
                 try
                 {
-                    openFileDialog1.InitialDirectory = Settings.Instance.LogDir + Path.DirectorySeparatorChar;
+                    openFileDialog1.InitialDirectory = tlogdir;
                 }
                 catch
                 {
@@ -1098,6 +1112,8 @@ namespace MissionPlanner.GCSViews
             joy.Show();
         }
 
+        private string tlogdir = Settings.Instance.LogDir;
+
         private void BUT_loadtelem_Click(object sender, EventArgs e)
         {
             LBL_logfn.Text = "";
@@ -1118,7 +1134,7 @@ namespace MissionPlanner.GCSViews
             {
                 fd.AddExtension = true;
                 fd.Filter = "Telemetry log (*.tlog)|*.tlog;*.tlog.*|Mavlink Log (*.mavlog)|*.mavlog";
-                fd.InitialDirectory = Settings.Instance.LogDir;
+                fd.InitialDirectory = tlogdir;
                 fd.DefaultExt = ".tlog";
                 DialogResult result = fd.ShowDialog();
                 string file = fd.FileName;
@@ -1138,6 +1154,7 @@ namespace MissionPlanner.GCSViews
             using (OpenFileDialog ofd = new OpenFileDialog())
             {
                 ofd.Filter = "*.log;*.bin|*.log;*.bin;*.BIN;*.LOG";
+                ofd.InitialDirectory = tlogdir;
                 ofd.ShowDialog();
 
                 if (ofd.FileName != "")
@@ -2060,8 +2077,9 @@ namespace MissionPlanner.GCSViews
                 hud1.Russian = Settings.Instance.GetBoolean("russian_hud");
             }
 
-            groundColorToolStripMenuItem.Checked = Settings.Instance.GetBoolean("groundColorToolStripMenuItem");
-            groundColorToolStripMenuItem_Click(null, null);
+            //Remove it later, do not need
+            //groundColorToolStripMenuItem.Checked = Settings.Instance.GetBoolean("groundColorToolStripMenuItem");
+            //groundColorToolStripMenuItem_Click(null, null);
 
             hud1.doResize();
 
@@ -2585,7 +2603,11 @@ namespace MissionPlanner.GCSViews
             Console.WriteLine("HUD resize " + hud1.Width + " " + hud1.Height); // +"\n"+ System.Environment.StackTrace);
 
             if (hud1.Parent == this.SubMainLeft.Panel1)
-                SubMainLeft.SplitterDistance = hud1.Height;
+            {
+                var ht = SubMainLeft.SplitterDistance;
+                if (ht >= hud1.Height + 5 || ht <= hud1.Height - 5)
+                    SubMainLeft.SplitterDistance = hud1.Height;
+            }
         }
 
         private void hud1_vibeclick(object sender, EventArgs e)
@@ -2875,12 +2897,12 @@ namespace MissionPlanner.GCSViews
                     }
 
                     // update map
-                    if (tracklast.AddSeconds(Settings.Instance.GetDouble("FD_MapUpdateDelay", 1.2)) < DateTime.Now)
+                    if (tracklast.AddSeconds(Settings.Instance.GetDouble("FD_MapUpdateDelay", 0.3)) < DateTime.Now)
                     {
                         // show disable joystick button
                         if (MainV2.joystick != null && MainV2.joystick.enabled)
                         {
-                            this.Invoke((MethodInvoker)delegate
+                            this.BeginInvoke((MethodInvoker)delegate
                             {
                                 but_disablejoystick.Visible = true;
                             });
@@ -2977,20 +2999,23 @@ namespace MissionPlanner.GCSViews
 
                                 var i = -1;
                                 var travdist = 0.0;
-                                var lastplla = overlay.pointlist.First();
-                                foreach (var plla in overlay.pointlist)
+                                if (overlay.pointlist.Count > 0)
                                 {
-                                    i++;
-                                    if (plla == null)
-                                        continue;
-
-                                    var dist = lastplla.GetDistance(plla);
-
-                                    distanceBar1.AddWPDist((float)dist);
-
-                                    if (i <= MainV2.comPort.MAV.cs.wpno)
+                                    var lastplla = overlay.pointlist.First();
+                                    foreach (var plla in overlay.pointlist)
                                     {
-                                        travdist += dist;
+                                        i++;
+                                        if (plla == null)
+                                            continue;
+
+                                        var dist = lastplla.GetDistance(plla);
+
+                                        distanceBar1.AddWPDist((float) dist);
+
+                                        if (i <= MainV2.comPort.MAV.cs.wpno)
+                                        {
+                                            travdist += dist;
+                                        }
                                     }
                                 }
 
@@ -3051,7 +3076,7 @@ namespace MissionPlanner.GCSViews
                         updateClearRoutesMarkers();
 
                         // add this after the mav icons are drawn
-                        if (MainV2.comPort.MAV.cs.MovingBase != null && MainV2.comPort.MAV.cs.MovingBase == PointLatLngAlt.Zero)
+                        if (MainV2.comPort.MAV.cs.MovingBase != null && MainV2.comPort.MAV.cs.MovingBase != PointLatLngAlt.Zero)
                         {
                             addMissionRouteMarker(new GMarkerGoogle(currentloc, GMarkerGoogleType.blue_dot)
                             {
@@ -3163,7 +3188,8 @@ namespace MissionPlanner.GCSViews
                             }
                             else if (kmlpolygons.Markers.Contains(GMapMarkerOverlapCount))
                             {
-                                kmlpolygons.Markers.Clear();
+                                kmlpolygons.Markers.OfType<GMapMarkerOverlapCount>().ToArray()
+                                    .ForEach(c => kmlpolygons.Markers.Remove(c));
                             }
                         }
                         catch (Exception ex)
@@ -3210,7 +3236,7 @@ namespace MissionPlanner.GCSViews
                                     switch (plla.ThreatLevel)
                                     {
                                         case MAVLink.MAV_COLLISION_THREAT_LEVEL.NONE:
-                                            adsbplane.AlertLevel = GMapMarkerADSBPlane.AlertLevelOptions.Green;
+                                            adsbplane.AlertLevel = GMapMarkerADSBPlane.AlertLevelOptions.Orange;
                                             break;
                                         case MAVLink.MAV_COLLISION_THREAT_LEVEL.LOW:
                                             adsbplane.AlertLevel = GMapMarkerADSBPlane.AlertLevelOptions.Orange;
@@ -3343,54 +3369,16 @@ namespace MissionPlanner.GCSViews
             }
         }
 
-        private void modifyandSetSpeed_Click(object sender, EventArgs e)
+        private async void modifyandSetSpeed_Click(object sender, EventArgs e)
         {
-            // QUAD
-            if (MainV2.comPort.MAV.param.ContainsKey("WP_SPEED_MAX"))
+            try
             {
-                try
-                {
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "WP_SPEED_MAX", ((float)modifyandSetSpeed.Value * 100.0f));
-                }
-                catch
-                {
-                    CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, "WP_SPEED_MAX"), Strings.ERROR);
-                }
-            } // plane 3.7 and below with airspeed, uses ARSPD_ENABLE:
-            else if ((MainV2.comPort.MAV.param.ContainsKey("TRIM_ARSPD_CM") &&
-                     MainV2.comPort.MAV.param.ContainsKey("ARSPD_ENABLE")
-                     && MainV2.comPort.MAV.param.ContainsKey("ARSPD_USE") &&
-                     (float)MainV2.comPort.MAV.param["ARSPD_ENABLE"] == 1
-                     && (float)MainV2.comPort.MAV.param["ARSPD_USE"] == 1) ||
-                     // plane 3.8 and above with airspeed as per plane 3.7 to plane 3.8 migration wiki page, no longer uses ARSPD_ENABLE, uses ARSPD_TYPE instead:
-                     (MainV2.comPort.MAV.param.ContainsKey("TRIM_ARSPD_CM") &&
-                     MainV2.comPort.MAV.param.ContainsKey("ARSPD_TYPE")
-                     && MainV2.comPort.MAV.param.ContainsKey("ARSPD_USE") &&
-                     (float)MainV2.comPort.MAV.param["ARSPD_TYPE"] > 0
-                     && (float)MainV2.comPort.MAV.param["ARSPD_USE"] == 1))
+                await MainV2.comPort.doCommandAsync(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid,
+                    MAVLink.MAV_CMD.DO_CHANGE_SPEED, 0, (float) modifyandSetSpeed.Value, 0, 0, 0, 0, 0);
+            }
+            catch
             {
-                try
-                {
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "TRIM_ARSPD_CM", ((float)modifyandSetSpeed.Value * 100.0f));
-                }
-                catch
-                {
-                    CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, "TRIM_ARSPD_CM"), Strings.ERROR);
-                }
-            } // plane without airspeed
-            else if (MainV2.comPort.MAV.param.ContainsKey("TRIM_THROTTLE") &&
-                     MainV2.comPort.MAV.param.ContainsKey("ARSPD_USE")
-                     && (float)MainV2.comPort.MAV.param["ARSPD_USE"] == 0)
-            {
-                try
-                {
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "TRIM_THROTTLE", (float)modifyandSetSpeed.Value);
-                }
-                catch
-                {
-                    CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, "TRIM_THROTTLE"),
-                        Strings.ERROR);
-                }
+                CustomMessageBox.Show(Strings.ErrorCommunicating, Strings.ERROR);
             }
         }
 
@@ -3577,11 +3565,18 @@ namespace MissionPlanner.GCSViews
             CustomMessageBox.Show("Output avi will be saved to the log folder");
 
             aviwriter = new AviWriter();
-            Directory.CreateDirectory(Settings.Instance.LogDir);
-            aviwriter.avi_start(Settings.Instance.LogDir + Path.DirectorySeparatorChar +
-                                DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".avi");
+            try
+            {
+                Directory.CreateDirectory(Settings.Instance.LogDir);
+                aviwriter.avi_start(Settings.Instance.LogDir + Path.DirectorySeparatorChar +
+                                    DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".avi");
 
-            recordHudToAVIToolStripMenuItem.Text = "Recording";
+                recordHudToAVIToolStripMenuItem.Text = "Recording";
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                CustomMessageBox.Show(ex.Message, Strings.ERROR);
+            }
         }
 
         /// <summary>
@@ -3806,6 +3801,7 @@ namespace MissionPlanner.GCSViews
 
         private void setQuickViewRowsCols(string cols, string rows)
         {
+            tableLayoutPanelQuick.SuspendLayout();
             tableLayoutPanelQuick.ColumnCount = Math.Max(1, int.Parse(cols));
             tableLayoutPanelQuick.RowCount = Math.Max(1, int.Parse(rows));
 
@@ -3815,11 +3811,35 @@ namespace MissionPlanner.GCSViews
             int total = tableLayoutPanelQuick.ColumnCount * tableLayoutPanelQuick.RowCount;
 
             // clean up extra
-            while (tableLayoutPanelQuick.Controls.Count > total)
-                tableLayoutPanelQuick.Controls.RemoveAt(tableLayoutPanelQuick.Controls.Count - 1);
+            var ctls = tableLayoutPanelQuick.Controls.Select(a=> (Control)a).ToList();
+            // remove those in row/cols outside our selection
+            ctls.Select(a =>
+            {
+                try
+                {
+                    if(a == null)
+                        return default(TableLayoutPanelCellPosition);
+                    var pos = tableLayoutPanelQuick.GetPositionFromControl((Control) a);
+                    if (pos.Column >= tableLayoutPanelQuick.ColumnCount)
+                    {
+                        tableLayoutPanelQuick.Controls.Remove((Control) a);
+                    }
+                    else if (pos.Row >= tableLayoutPanelQuick.RowCount)
+                    {
+                        tableLayoutPanelQuick.Controls.Remove((Control) a);
+                    }
+
+                    return pos;
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                    return default(TableLayoutPanelCellPosition);
+                }
+            }).ToList();
 
             // add extra
-            while (total != tableLayoutPanelQuick.Controls.Count)
+            while (total > tableLayoutPanelQuick.Controls.Count)
             {
                 var QV = new QuickView()
                 {
@@ -3849,6 +3869,10 @@ namespace MissionPlanner.GCSViews
                 tableLayoutPanelQuick.RowStyles[j].SizeType = SizeType.Percent;
                 tableLayoutPanelQuick.RowStyles[j].Height = 100.0f / tableLayoutPanelQuick.RowCount;
             }
+
+            tableLayoutPanelQuick.Controls.ForEach(a => ((Control) a).Invalidate());
+
+            tableLayoutPanelQuick.ResumeLayout(true);
         }
 
         bool setupPropertyInfo(ref PropertyInfo input, string name, object source)

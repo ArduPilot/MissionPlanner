@@ -49,7 +49,8 @@ namespace MissionPlanner.Utilities
         public static void GetParameterInformation(string urls, string file = null)
         {
             httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
+            if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
+                httpClient.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
             httpClient.Timeout = TimeSpan.FromSeconds(30);
 
             var parameterLocationsString = urls;

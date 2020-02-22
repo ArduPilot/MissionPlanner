@@ -16,12 +16,13 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
+using Newtonsoft.Json.Serialization;
 
 namespace MissionPlanner
 {
     public static class Program
     {
-        private static readonly ILog log = LogManager.GetLogger("Program");
+        private static readonly ILog log = LogManager.GetLogger(typeof(Program));
 
         public static DateTime starttime = DateTime.Now;
 
@@ -88,20 +89,20 @@ namespace MissionPlanner
 
             Directory.SetCurrentDirectory(Settings.GetRunningDirectory());
 
+            var listener = new TextWriterTraceListener(Settings.GetDataDirectory() + Path.DirectorySeparatorChar + "trace.log",
+                "defaulttrace");
+
+            Trace.Listeners.Add(listener);
+
             Thread = Thread.CurrentThread;
 
             System.Windows.Forms.Application.EnableVisualStyles();
-            XmlConfigurator.Configure();
+            XmlConfigurator.Configure(LogManager.GetRepository(Assembly.GetCallingAssembly()));
             log.Info("******************* Logging Configured *******************");
 
             ServicePointManager.DefaultConnectionLimit = 10;
 
             System.Windows.Forms.Application.ThreadException += Application_ThreadException;
-
-            // fix ssl on mono
-            ServicePointManager.ServerCertificateValidationCallback =
-                new System.Net.Security.RemoteCertificateValidationCallback(
-                    (sender, certificate, chain, policyErrors) => { return true; });
 
             if (args.Length > 0 && args[0] == "/update")
             {
@@ -263,6 +264,14 @@ namespace MissionPlanner
             log.InfoFormat("Runtime Version {0}",
                 System.Reflection.Assembly.GetExecutingAssembly().ImageRuntimeVersion);
 
+            try
+            {
+                log.Info(Process.GetCurrentProcess().Modules.ToJSON());
+            }
+            catch
+            {
+            }
+
             Type type = Type.GetType("Mono.Runtime");
             if (type != null)
             {
@@ -301,8 +310,14 @@ namespace MissionPlanner
             try
             {
                 // kill sim background process if its still running
-                if (GCSViews.SITL.simulator != null)
-                    GCSViews.SITL.simulator.Kill();
+                GCSViews.SITL.simulator.ForEach(a =>
+                {
+                    try
+                    {
+                        a.Kill();
+                    }
+                    catch { }
+                });
             }
             catch
             {
@@ -416,6 +431,19 @@ namespace MissionPlanner
 
             try
             {
+                var file = "libSkiaSharp.dll";
+                if (File.Exists(file))
+                {
+                    File.Delete(file);
+                }
+            }
+            catch
+            {
+
+            }
+
+            try
+            {
                 foreach (string newupdater in Directory.GetFiles(Settings.GetRunningDirectory(), "Updater.exe*.new"))
                 {
                     File.Copy(newupdater, newupdater.Remove(newupdater.Length - 4), true);
@@ -511,7 +539,7 @@ namespace MissionPlanner
             {
                 return;
             }
-            if (ex.Message == "The port is closed.")
+            if (ex.Message.Contains("The port is closed"))
             {
                 CustomMessageBox.Show("Serial connection has been lost");
                 return;
@@ -522,7 +550,7 @@ namespace MissionPlanner
                 Application.Exit();
                 return;
             }
-            if (ex.Message == "A device attached to the system is not functioning.")
+            if (ex.Message.Contains("A device attached to the system is not functioning"))
             {
                 CustomMessageBox.Show("Serial connection has been lost");
                 return;
@@ -583,6 +611,17 @@ namespace MissionPlanner
                     {
                     }
 
+                    string processinfo = "";
+
+                    try
+                    {
+                        processinfo = Process.GetCurrentProcess().Modules.ToJSON();
+                    }
+                    catch
+                    {
+                       
+                    }
+
                     // Create a request using a URL that can receive a post.
                     WebRequest request = WebRequest.Create("http://vps.oborne.me/mail.php");
                     request.Timeout = 10000; // 10 sec
@@ -596,7 +635,8 @@ namespace MissionPlanner
                                       + "\nStack: " + ex.StackTrace.ToString().Replace('&', ' ').Replace('=', ' ')
                                       + "\nTargetSite " + ex.TargetSite + " " + ex.TargetSite.DeclaringType
                                       + "\ndata " + data
-                                      + "\nmessage " + message.Replace('&', ' ').Replace('=', ' ');
+                                      + "\nmessage " + message.Replace('&', ' ').Replace('=', ' ')
+                                      + "\n\n" + processinfo;
                     byte[] byteArray = Encoding.ASCII.GetBytes(postData);
                     // Set the ContentType property of the WebRequest.
                     request.ContentType = "application/x-www-form-urlencoded";

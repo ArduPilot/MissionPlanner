@@ -56,12 +56,23 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private bool CheckReboot()
         {
+            if (!MainV2.comPort.BaseStream.IsOpen)
+                return true;
+
             if (rebootrequired)
             {
                 if (CustomMessageBox.Show("Reboot required, reboot now?", "Reboot",
                         CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
                 {
-                    MainV2.comPort.doReboot();
+                    try
+                    {
+                        MainV2.comPort.doReboot();
+                    }
+                    catch
+                    {
+                        CustomMessageBox.Show(Strings.ErrorCommunicating, Strings.ERROR);
+                    }
+
                     return true;
                 }
             }
@@ -338,6 +349,24 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void myDataGridView1_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
         {
         }
+
+        private void but_largemagcal_Click(object sender, EventArgs e)
+        {
+            double value = 0;
+            if (InputBox.Show("MagCal Yaw", "Enter current heading in degrees\nNOTE: gps lock is required", ref value) == DialogResult.OK)
+            {
+                try
+                {
+                    MainV2.comPort.doCommand(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid,
+                        MAVLink.MAV_CMD.FIXED_MAG_CAL_YAW, (float) value, 0, 0, 0, 0, 0, 0);
+
+                }
+                catch (Exception exception)
+                {
+                    CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+                }
+            }
+        }
     }
 
     public class CompassInfo
@@ -350,12 +379,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             _index = index;
             _paramName = ParamName;
-            _devid = new Device.DeviceStructure(id);
+            _devid = new Device.DeviceStructure(ParamName, id);
         }
 
         public int DevID => (int)_devid.devid;
 
-        public string BusType => _devid.bus_type.ToString();
+        public string BusType => _devid.bus_type.ToString().Replace("BUS_TYPE_", "");
         public int Bus => (int)_devid.bus;
         public int Address => (int)_devid.address;
 

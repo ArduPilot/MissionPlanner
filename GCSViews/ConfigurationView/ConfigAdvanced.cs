@@ -56,9 +56,27 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_paramgen_Click(object sender, System.EventArgs e)
         {
-            ParameterMetaDataParser.GetParameterInformation(ConfigurationManager.AppSettings["ParameterLocationsBleeding"] + ";" + ConfigurationManager.AppSettings["ParameterLocations"]);
+            ProgressReporterDialogue prd = new ProgressReporterDialogue();
 
-            ParameterMetaDataRepositoryAPM.Reload();
+            prd.DoWork += dialogue =>
+            {
+                prd.UpdateProgressAndStatus(-1, "Downloading updated data");
+                ParameterMetaDataParser.GetParameterInformation(
+                    ConfigurationManager.AppSettings["ParameterLocationsBleeding"] + ";" +
+                    ConfigurationManager.AppSettings["ParameterLocations"] + ";"
+                    + "https://raw.githubusercontent.com/ArduPilot/ardupilot/Copter-3.6/ArduCopter/Parameters.cpp;" +
+                    "https://raw.githubusercontent.com/ArduPilot/ardupilot/Copter-3.5/ArduCopter/Parameters.cpp;" +
+                    "https://raw.githubusercontent.com/ArduPilot/ardupilot/plane3.9/ArduCopter/Parameters.cpp;" +
+                    "https://raw.githubusercontent.com/ArduPilot/ardupilot/plane3.8/ArduCopter/Parameters.cpp;");
+
+                ParameterMetaDataRepositoryAPM.Reload();
+            };
+
+            prd.doWorkArgs.CancelRequestChanged += (sender2, args) => { prd.doWorkArgs.CancelAcknowledged = true; };
+
+            prd.doWorkArgs.ForceExit = true;
+
+            prd.RunBackgroundOperationAsync();
         }
 
         private void BUT_movingbase_Click(object sender, System.EventArgs e)

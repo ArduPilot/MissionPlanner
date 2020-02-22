@@ -158,6 +158,10 @@ namespace MissionPlanner.ArduPilot
                         addpolygonmarker((a + 1).ToString(), item.lng, item.lat,
                             item.alt, Color.Green, wpradius);
                     }
+                    else if (command == (ushort)MAVLink.MAV_CMD.WAYPOINT && item.lat == 0 && item.lng == 0)
+                    {
+                        fullpointlist.Add(pointlist[pointlist.Count - 1]);
+                    }
                     else
                     {
                         pointlist.Add(new PointLatLngAlt(item.lat, item.lng,

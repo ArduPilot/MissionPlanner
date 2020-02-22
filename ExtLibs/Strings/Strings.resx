@@ -661,4 +661,22 @@ old #{0}  new #{1}</value>
   <data name="MAVFtp" xml:space="preserve">
     <value>MAVFtp</value>
   </data>
+  <data name="Bad_Battery" xml:space="preserve">
+    <value>Bad Battery</value>
+  </data>
+  <data name="Bad_Proximity" xml:space="preserve">
+    <value>Bad Proximity</value>
+  </data>
+  <data name="Bad_SatCom" xml:space="preserve">
+    <value>Bad SatCom</value>
+  </data>
+  <data name="Prearm_check_failed" xml:space="preserve">
+    <value>Prearm check failed</value>
+  </data>
+  <data name="Invalid_Location" xml:space="preserve">
+    <value>Invalid Location</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>Loading</value>
+  </data>
 </root>

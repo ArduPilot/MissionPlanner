@@ -119,6 +119,7 @@ namespace MissionPlanner.GCSViews
         private WPOverlay overlay;
         private bool polygongridmode;
         private MissionPlanner.Controls.Icon.Polygon polyicon = new MissionPlanner.Controls.Icon.Polygon();
+        private MissionPlanner.Controls.Icon.Zoom zoomicon = new MissionPlanner.Controls.Icon.Zoom();
         private ComponentResourceManager rm = new ComponentResourceManager(typeof(FlightPlanner));
         private int selectedrow;
         private bool sethome;
@@ -546,8 +547,8 @@ namespace MissionPlanner.GCSViews
             }
             else if ((MAVLink.MAV_MISSION_TYPE)cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.FENCE)
             {
-                Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_INCLUSION.ToString();
-                ChangeColumnHeader(MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_INCLUSION.ToString());
+                Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION.ToString();
+                ChangeColumnHeader(MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION.ToString());
             }
             else if (splinemode)
             {
@@ -578,7 +579,7 @@ namespace MissionPlanner.GCSViews
                 else
                 {
                     if (
-                        CustomMessageBox.Show("This will clear your existing planned mission, Continue?", "Confirm",
+                        CustomMessageBox.Show("This will clear your existing points, Continue?", "Confirm",
                             MessageBoxButtons.OKCancel) != (int)DialogResult.OK)
                     {
                         return;
@@ -978,7 +979,7 @@ namespace MissionPlanner.GCSViews
         /// <param name="lat"></param>
         /// <param name="lng"></param>
         /// <param name="alt"></param>
-        public void setfromMap(double lat, double lng, int alt, double p1 = 0)
+        public void setfromMap(double lat, double lng, int alt, double p1 = -1)
         {
             if (selectedrow > Commands.RowCount)
             {
@@ -1133,7 +1134,7 @@ namespace MissionPlanner.GCSViews
             convertFromGeographic(lat, lng);
 
             // Add more for other params
-            if (Commands.Columns[Param1.Index].HeaderText.Equals("Delay"))
+            if (Commands.Columns[Param1.Index].HeaderText.Equals("Delay") && p1 != -1)
             {
                 cell = Commands.Rows[selectedrow].Cells[Param1.Index] as DataGridViewTextBoxCell;
                 cell.Value = p1;
@@ -1586,11 +1587,14 @@ namespace MissionPlanner.GCSViews
             using (OpenFileDialog fd = new OpenFileDialog())
             {
                 fd.Filter = "All Supported Types|*.txt;*.waypoints;*.shp;*.plan";
+                if (Directory.Exists(Settings.Instance["WPFileDirectory"] ?? ""))
+                    fd.InitialDirectory = Settings.Instance["WPFileDirectory"];
                 DialogResult result = fd.ShowDialog();
                 string file = fd.FileName;
 
                 if (File.Exists(file))
                 {
+                    Settings.Instance["WPFileDirectory"] = Path.GetDirectoryName(file);
                     if (file.ToLower().EndsWith(".shp"))
                     {
                         LoadSHPFile(file);
@@ -1598,7 +1602,8 @@ namespace MissionPlanner.GCSViews
                     else
                     {
                         string line = "";
-                        using (var fs = File.OpenText(file))
+                        using (var fstream = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                        using (var fs = new StreamReader(fstream))
                         {
                             line = fs.ReadLine();
                         }
@@ -1919,11 +1924,17 @@ namespace MissionPlanner.GCSViews
             {
                 BUT_Add.Visible = false;
                 processToScreen(MainV2.comPort.MAV.rallypoints.Select(a => (Locationwp)a.Value).ToList());
+
             }
             else if ((MAVLink.MAV_MISSION_TYPE)cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.FENCE)
             {
                 BUT_Add.Visible = false;
                 processToScreen(MainV2.comPort.MAV.fencepoints.Select(a => (Locationwp)a.Value).ToList());
+
+                Common.MessageShowAgain("FlightPlan Fence", "Please use the Polygon drawing tool to draw " +
+                                                            "Inclusion and Exclusion areas (round circle to the left)," +
+                                                            " once drawn use the same icon to convert it to a inclusion " +
+                                                            "or exclusion fence");
             }
             else
             {
@@ -3782,6 +3793,10 @@ namespace MissionPlanner.GCSViews
                 TXT_homealt.Text = (MainV2.comPort.MAV.cs.altasl).ToString("0");
                 TXT_homelat.Text = MainV2.comPort.MAV.cs.lat.ToString();
                 TXT_homelng.Text = MainV2.comPort.MAV.cs.lng.ToString();
+
+                writeKML();
+
+                zoomToHomeToolStripMenuItem_Click(null, null);
             }
             else
             {
@@ -4353,6 +4368,11 @@ namespace MissionPlanner.GCSViews
 
             polyicon.Location = new Point(10, 100);
             polyicon.Paint(e.Graphics);
+
+            e.Graphics.ResetTransform();
+
+            zoomicon.Location = new Point(10, polyicon.Location.Y + polyicon.Height + 5);
+            zoomicon.Paint(e.Graphics);
 
             e.Graphics.ResetTransform();
         }
@@ -5098,11 +5118,13 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             {
                 fd.Filter = "Mission|*.waypoints;*.txt|Mission JSON|*.mission";
                 fd.DefaultExt = ".waypoints";
+                fd.InitialDirectory = Settings.Instance["WPFileDirectory"] ?? "";
                 fd.FileName = wpfilename;
                 DialogResult result = fd.ShowDialog();
                 string file = fd.FileName;
                 if (file != "" && result == DialogResult.OK)
                 {
+                    Settings.Instance["WPFileDirectory"] = Path.GetDirectoryName(file);
                     try
                     {
                         if (file.EndsWith(".mission"))
@@ -6402,8 +6424,6 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             // check if the mouse up happend over our button
             if (polyicon.Rectangle.Contains(e.Location))
             {
-                polyicon.IsSelected = !polyicon.IsSelected;
-
                 if (e.Button == MouseButtons.Right)
                 {
                     polyicon.IsSelected = false;
@@ -6414,19 +6434,13 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                     return;
                 }
 
-                if (polyicon.IsSelected)
-                {
-                    contextMenuStripPoly.Show(MainMap, e.Location);
+                contextMenuStripPoly.Show(MainMap, e.Location);
+                return;
+            }
 
-                    return;
-                    //polygongridmode = true;
-                }
-                else
-                {
-                    contextMenuStripPoly.Visible = false;
-                    //polygongridmode = false;
-                }
-
+            if (zoomicon.Rectangle.Contains(e.Location))
+            {
+                contextMenuStripZoom.Show(MainMap, e.Location);
                 return;
             }
 
@@ -6950,6 +6964,31 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                     MainMap.Zoom = 15;
                 }
             }
+        }
+
+        private void zoomToVehicleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MainV2.comPort.MAV.cs.Location.Lat == 0 && MainV2.comPort.MAV.cs.Location.Lng == 0)
+            {
+                CustomMessageBox.Show(Strings.Invalid_Location, Strings.ERROR);
+                return;
+            }
+
+            MainMap.Position = MainV2.comPort.MAV.cs.Location;
+            if(MainMap.Zoom < 17)
+                MainMap.Zoom = 17;
+        }
+
+        private void zoomToMissionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MainMap.ZoomAndCenterMarkers("WPOverlay");
+        }
+
+        private void zoomToHomeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MainMap.Position = MainV2.comPort.MAV.cs.HomeLocation;
+            if (MainMap.Zoom < 17)
+                MainMap.Zoom = 17;
         }
     }
 }

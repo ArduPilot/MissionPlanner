@@ -9,9 +9,14 @@ namespace Xamarin
 {
     public class Test
     {
-        public static IUSBDevices TestMethod { get; set; }
+        public static IUSBDevices UsbDevices { get; set; }
+        public static IRadio Radio { get; set; }
     }
 
+    public interface IRadio
+    {
+        void Toggle();
+    }
     public interface IUSBDevices
     {
         /// <summary>

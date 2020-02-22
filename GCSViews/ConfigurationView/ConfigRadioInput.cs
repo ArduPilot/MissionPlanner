@@ -328,13 +328,22 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 BUT_Calibrateradio.Text = Strings.Saving;
                 try
                 {
-                    if (rcmin[a] != rcmax[a])
+                    // min < max and min/max != 0
+                    // trim < max && trim >= min && trim != 0
+                    if (rcmin[a] < rcmax[a] && rcmin[a] != 0 && rcmax[a] != 0 &&
+                        rctrim[a] <= rcmax[a] && rctrim[a] >= rcmin[a] && rctrim[a] != 0)
                     {
-                        MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "RC" + (a + 1).ToString("0") + "_MIN", rcmin[a], true);
-                        MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "RC" + (a + 1).ToString("0") + "_MAX", rcmax[a], true);
+                        MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                            "RC" + (a + 1).ToString("0") + "_MIN", rcmin[a], true);
+                        MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                            "RC" + (a + 1).ToString("0") + "_MAX", rcmax[a], true);
+                        MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                            "RC" + (a + 1).ToString("0") + "_TRIM", rctrim[a], true);
                     }
-                    if (rctrim[a] < 1195 || rctrim[a] > 1205)
-                        MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "RC" + (a + 1).ToString("0") + "_TRIM", rctrim[a], true);
+                    else
+                    {
+                        continue;
+                    }
                 }
                 catch
                 {

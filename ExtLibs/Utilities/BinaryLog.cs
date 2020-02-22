@@ -298,10 +298,10 @@ namespace MissionPlanner.Utilities
                     if (size == 0)
                         return;
 
-                    //byte[] buf = new byte[size - 3];
-                    //br.Read(buf, 0, buf.Length);
+                    byte[] buf = new byte[size - 3];
+                    br.Read(buf, 0, buf.Length);
 
-                    br.Seek(br.Position + size - 3, SeekOrigin.Begin);
+                    //br.Seek(br.Position + size - 3, SeekOrigin.Begin);
                     break;
             }
         }
@@ -355,34 +355,7 @@ namespace MissionPlanner.Utilities
                 return null;
             }
         }
-
-        public (int offset, char coltype, int typesize) GetColumnOffset(byte packettype, int colno)
-        {
-            string format = "";
-            string name = "";
-            int size = 0;
-
-            if (packettypecache[packettype].length != 0)
-            {
-                var fmt = packettypecache[packettype];
-                name = fmt.name;
-                format = fmt.format;
-                size = fmt.length;
-            }
-
-            var offset = 0;
-            var a = 0;
-            foreach (var ch in format)
-            {
-                if (a == colno)
-                    break;
-                offset += (int) Enum.Parse(typeof(TypeSize), ch.ToString());
-                a++;
-            }
-
-            return (offset, format[colno], (int) Enum.Parse(typeof(TypeSize), format[colno].ToString()));
-        }
-
+        
         object[] logEntryObjects(byte packettype, Stream br)
         {
             lock (locker)
@@ -483,107 +456,84 @@ namespace MissionPlanner.Utilities
             foreach (char ch in form)
             {
                 var temp = GetObjectFromMessage(ch, message, offset);
-                answer.Add(temp);
-                offset += (int)Enum.Parse(typeof(TypeSize), ch.ToString());
+                answer.Add(temp.item);
+                offset += temp.size;
             }
             return answer.ToArray();
         }
 
-        public object GetObjectFromMessage(char type, byte[] message, int offset)
+        public (object item, int size) GetObjectFromMessage(char type, byte[] message, int offset)
         {
             switch (type)
             {
                 case 'b':
-                    return (sbyte) message[offset];
+                    return ((sbyte) message[offset], 1);
                 case 'B':
-                    return message[offset];
+                    return (message[offset], 1);
 
                 case 'h':
-                    return BitConverter.ToInt16(message, offset);
+                    return (BitConverter.ToInt16(message, offset), 2);
 
                 case 'H':
-                    return BitConverter.ToUInt16(message, offset);
+                    return (BitConverter.ToUInt16(message, offset), 2);
 
                 case 'i':
-                    return BitConverter.ToInt32(message, offset);
+                    return (BitConverter.ToInt32(message, offset), 4);
 
                 case 'I':
-                    return BitConverter.ToUInt32(message, offset);
+                    return (BitConverter.ToUInt32(message, offset), 4);
 
                 case 'q':
-                    return BitConverter.ToInt64(message, offset);
+                    return (BitConverter.ToInt64(message, offset), 8);
 
                 case 'Q':
-                    return BitConverter.ToUInt64(message, offset);
+                    return (BitConverter.ToUInt64(message, offset), 8);
 
                 case 'f':
-                    return BitConverter.ToSingle(message, offset);
+                    return (BitConverter.ToSingle(message, offset), 4);
 
                 case 'd':
-                    return BitConverter.ToDouble(message, offset);
+                    return (BitConverter.ToDouble(message, offset), 8);
 
                 case 'c':
-                    return BitConverter.ToInt16(message, offset) / 100.0;
+                    return (BitConverter.ToInt16(message, offset) / 100.0, 2);
 
                 case 'C':
-                    return BitConverter.ToUInt16(message, offset) / 100.0;
+                    return (BitConverter.ToUInt16(message, offset) / 100.0, 2);
 
                 case 'e':
-                    return BitConverter.ToInt32(message, offset) / 100.0;
+                    return (BitConverter.ToInt32(message, offset) / 100.0, 4);
 
                 case 'E':
-                    return BitConverter.ToUInt32(message, offset) / 100.0;
+                    return (BitConverter.ToUInt32(message, offset) / 100.0, 4);
 
                 case 'L':
-                    return BitConverter.ToInt32(message, offset) / 10000000.0;
+                    return (BitConverter.ToInt32(message, offset) / 10000000.0, 4);
 
                 case 'n':
-                    return Encoding.ASCII.GetString(message, offset, 4).Trim('\0');
+                    return (Encoding.ASCII.GetString(message, offset, 4).Trim('\0'), 4);
 
                 case 'N':
-                    return Encoding.ASCII.GetString(message, offset, 16).Trim('\0');
+                    return (Encoding.ASCII.GetString(message, offset, 16).Trim('\0'), 16);
 
                 case 'M':
                     int modeno = message[offset];
                     var mode = onFlightMode?.Invoke(_firmware, modeno);
                     if (mode == null)
                         mode = modeno.ToString();
-                    return mode;
+                    return (mode, 1);
 
                 case 'Z':
-                    return Encoding.ASCII.GetString(message, offset, 64).Trim('\0');
+                    return (Encoding.ASCII.GetString(message, offset, 64).Trim('\0'), 64);
 
                 case 'a':
-                    return new UnionArray(message.Skip(offset).Take(64).ToArray());
+                    return (new UnionArray(message.Skip(offset).Take(64).ToArray()), 2 * 32);
 
                 default:
-                    return null;
+                    return (null, 0);
             }
         }
 
-        public enum TypeSize
-        {
-            a = 2*32,
-            b = 1,
-            B = 1,
-            c = 2,
-            C = 2,
-            d = 8,
-            e = 4,
-            E = 4,
-            f = 4,
-            h = 2,
-            H = 2,
-            i = 4,
-            I = 4,
-            L = 4,
-            M = 1,
-            N = 16,
-            n = 4,
-            q = 8,
-            Q = 8,
-            Z = 64,
-        }
 
         private log_format_cache[] packettypecache = new log_format_cache[256];
 

@@ -261,6 +261,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 List<uavcan.uavcan_protocol_param_GetSet_res> paramlist =
                     new List<uavcan.uavcan_protocol_param_GetSet_res>();
                 prd.doWorkArgs.ForceExit = true;
+                prd.doWorkArgs.CancelRequestChanged += (sender2, args) => { prd.doWorkArgs.CancelAcknowledged = true; };
                 prd.DoWork += dialogue =>
                 {
                     paramlist = can.GetParameters(nodeID);
@@ -393,6 +394,26 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 //var index = uAVCANModelBindingSource.Find("ID", id);
                 //uAVCANModelBindingSource.Position = index;
             });
+        }
+
+        private void but_uavcanfilebrowser_Click(object sender, EventArgs e)
+        {
+            if (can == null)
+            {
+                CustomMessageBox.Show(Strings.PleaseConnect);
+                return;
+            }
+
+            if (myDataGridView1.SelectedCells.Count <= 0)
+            {
+                CustomMessageBox.Show(Strings.InvalidField + " Row");
+                return;
+            }
+
+            var id = byte.Parse(myDataGridView1[iDDataGridViewTextBoxColumn.Index, myDataGridView1.SelectedCells[0].RowIndex].Value
+                .ToString());
+
+            new UAVCANFileUI(can, id).ShowUserControl();
         }
     }
 

@@ -20,7 +20,7 @@ namespace MissionPlanner.Utilities
             int wp_count = 0;
             bool error = false;
             List<Locationwp> cmds = new List<Locationwp>();
-            StreamReader sr = new StreamReader(file);
+            StreamReader sr = new StreamReader(File.Open(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
             string header = sr.ReadLine();
             if (header == null || !header.Contains("QGC WPL"))
             {
@@ -87,11 +87,13 @@ namespace MissionPlanner.Utilities
     {
         public static RootObject ReadFile(string filename)
         {
-            var file = File.ReadAllText(filename);
+            using (var file =
+                new StreamReader(File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
+            {
+                var output = JsonConvert.DeserializeObject<RootObject>(file.ReadToEnd());
 
-            var output = JsonConvert.DeserializeObject<RootObject>(file);
-
-            return output;
+                return output;
+            }
         }
 
         public static void WriteFile(string filename, RootObject format)
@@ -113,7 +115,10 @@ namespace MissionPlanner.Utilities
                 {
                     if (missionItem.type == "ComplexItem")
                     {
-                        
+                        foreach (var item in missionItem.TransectStyleComplexItem.Items)
+                        {
+                            cmds.Add(ConvertFromMissionItem(item));
+                        }
                     }
                     continue;
                 }
@@ -139,54 +144,70 @@ namespace MissionPlanner.Utilities
         }
 
         //http://json2csharp.com/#
-        public class GeoFence
+      
+        public class Circle2
         {
-            public List<double> breachReturn { get; set; }
+            public List<double> center { get; set; }
+            public double radius { get; set; }
+        }
+
+        public class Circle
+        {
+            public Circle2 circle { get; set; }
+            public bool inclusion { get; set; }
+            public int version { get; set; }
+        }
+
+        public class Polygon
+        {
+            public bool inclusion { get; set; }
             public List<List<double>> polygon { get; set; }
             public int version { get; set; }
         }
 
-        public class Camera
+        public class GeoFence
         {
-            public int focalLength { get; set; }
-            public int groundResolution { get; set; }
-            public int imageFrontalOverlap { get; set; }
-            public int imageSideOverlap { get; set; }
-            public string name { get; set; }
-            public bool orientationLandscape { get; set; }
-            public int resolutionHeight { get; set; }
-            public int resolutionWidth { get; set; }
-            public double sensorHeight { get; set; }
-            public double sensorWidth { get; set; }
+            public List<Circle> circles { get; set; }
+            public List<Polygon> polygons { get; set; }
+            public int version { get; set; }
         }
-
-        public class Grid
+        public class CameraCalc
         {
-            public double altitude { get; set; }
-            public int angle { get; set; }
-            public bool relativeAltitude { get; set; }
-            public double spacing { get; set; }
-            public int turnAroundDistance { get; set; }
+            public int AdjustedFootprintFrontal { get; set; }
+            public int AdjustedFootprintSide { get; set; }
+            public string CameraName { get; set; }
+            public int DistanceToSurface { get; set; }
+            public bool DistanceToSurfaceRelative { get; set; }
+            public int version { get; set; }
         }
-
+        public class TransectStyleComplexItem
+        {
+            public CameraCalc CameraCalc { get; set; }
+            public int CameraShots { get; set; }
+            public bool CameraTriggerInTurnAround { get; set; }
+            public bool FollowTerrain { get; set; }
+            public bool HoverAndCapture { get; set; }
+            public List<Item> Items { get; set; }
+            public bool Refly90Degrees { get; set; }
+            public int TurnAroundDistance { get; set; }
+            public List<List<double>> VisualTransectPoints { get; set; }
+            public int version { get; set; }
+        }
         public class Item
         {
             public bool autoContinue { get; set; }
             public int command { get; set; }
-            public List<double> coordinate { get; set; }
             public int doJumpId { get; set; }
             public int frame { get; set; }
-            public List<double> @params { get; set; }
+            public List<double?> @params { get; set; }
             public string type { get; set; }
-            public Camera camera { get; set; }
-            public int? cameraTriggerDistance { get; set; }
+            public TransectStyleComplexItem TransectStyleComplexItem { get; set; }
+            public int? angle { get; set; }
             public string complexItemType { get; set; }
-            public bool? fixedValueIsAltitude { get; set; }
-            public Grid grid { get; set; }
-            public bool? hoverAndCapture { get; set; }
-            public bool? manualGrid { get; set; }
+            public int? entryLocation { get; set; }
+            public bool? flyAlternateTransects { get; set; }
             public List<List<double?>> polygon { get; set; }
-            public bool? refly90Degrees { get; set; }
+            public bool? splitConcavePolygons { get; set; }
             public int? version { get; set; }
         }
 
@@ -225,8 +246,9 @@ namespace MissionPlanner.Utilities
                 version = 1
             };
 
-            if (list.Count>0)
-                temp.mission.plannedHomePosition = ConvertFromLocationwp(list[0]).coordinate.ToList();
+            if (list.Count > 0)
+                temp.mission.plannedHomePosition =
+                    ConvertFromLocationwp(list[0]).@params.Skip(4).Select(a => a ?? 0.0).ToList();
 
             if (list.Count > 1)
             {

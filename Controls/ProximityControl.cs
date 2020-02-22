@@ -17,7 +17,7 @@ namespace MissionPlanner.Controls
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         MAVState _parent;
-        private Proximity.directionState _dS => _parent.Proximity.DirectionState;
+        private Proximity.directionState _dS => _parent?.Proximity?.DirectionState;
 
         private Timer timer1;
         private IContainer components;
@@ -88,8 +88,6 @@ namespace MissionPlanner.Controls
 
         private void Temp_Paint(object sender, PaintEventArgs e)
         {
-            var rawdata = _dS.GetRaw();
-
             e.Graphics.Clear(BackColor);
 
             var midx = e.ClipRectangle.Width / 2.0f;
@@ -111,7 +109,11 @@ namespace MissionPlanner.Controls
                     e.Graphics.DrawImage(Resources.quadicon, midx - imw, midy - imw, size, size);
                     break;
             }
+            
+            if (_dS == null)
+                return;
 
+            var rawdata = _dS.GetRaw();
             foreach (var temp in rawdata.ToList())
             {
                 Vector3 location = new Vector3(0, Math.Min(temp.Distance / scale, (screenradius) / scale), 0);

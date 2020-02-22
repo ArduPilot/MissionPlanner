@@ -66,6 +66,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.chk_log = new System.Windows.Forms.CheckBox();
+            this.but_uavcanfilebrowser = new MissionPlanner.Controls.MyButton();
             ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.uAVCANModelBindingSource)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -127,7 +128,7 @@
             this.myDataGridView1.Location = new System.Drawing.Point(7, 58);
             this.myDataGridView1.Name = "myDataGridView1";
             this.myDataGridView1.ReadOnly = true;
-            this.myDataGridView1.Size = new System.Drawing.Size(785, 177);
+            this.myDataGridView1.Size = new System.Drawing.Size(785, 401);
             this.myDataGridView1.TabIndex = 1;
             this.myDataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.myDataGridView1_CellClick);
             this.myDataGridView1.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.myDataGridView1_RowEnter);
@@ -247,7 +248,7 @@
             // 
             this.but_uavcaninspector.Location = new System.Drawing.Point(269, 29);
             this.but_uavcaninspector.Name = "but_uavcaninspector";
-            this.but_uavcaninspector.Size = new System.Drawing.Size(125, 23);
+            this.but_uavcaninspector.Size = new System.Drawing.Size(75, 23);
             this.but_uavcaninspector.TabIndex = 85;
             this.but_uavcaninspector.Text = "Inspector";
             this.but_uavcaninspector.UseVisualStyleBackColor = true;
@@ -278,7 +279,7 @@
             this.tableLayoutPanel1.Controls.Add(this.label5, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.label7, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.textBox1, 1, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(7, 241);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(7, 465);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 5;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
@@ -451,10 +452,21 @@
             this.chk_log.Text = "Log";
             this.chk_log.UseVisualStyleBackColor = true;
             // 
+            // but_uavcanfilebrowser
+            // 
+            this.but_uavcanfilebrowser.Location = new System.Drawing.Point(350, 29);
+            this.but_uavcanfilebrowser.Name = "but_uavcanfilebrowser";
+            this.but_uavcanfilebrowser.Size = new System.Drawing.Size(75, 23);
+            this.but_uavcanfilebrowser.TabIndex = 88;
+            this.but_uavcanfilebrowser.Text = "File Browser";
+            this.but_uavcanfilebrowser.UseVisualStyleBackColor = true;
+            this.but_uavcanfilebrowser.Click += new System.EventHandler(this.but_uavcanfilebrowser_Click);
+            // 
             // ConfigUAVCAN
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.but_uavcanfilebrowser);
             this.Controls.Add(this.chk_log);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.but_uavcaninspector);
@@ -465,7 +477,7 @@
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.myDataGridView1);
             this.Name = "ConfigUAVCAN";
-            this.Size = new System.Drawing.Size(795, 381);
+            this.Size = new System.Drawing.Size(795, 605);
             ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.uAVCANModelBindingSource)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -513,5 +525,6 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.CheckBox chk_log;
+        private Controls.MyButton but_uavcanfilebrowser;
     }
 }

@@ -99,6 +99,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public void Deactivate()
         {
             MainV2.instance.DeviceChanged -= Instance_DeviceChanged;
+
+            // reset to official on any reload
+            REL_Type = APFirmware.RELEASE_TYPES.OFFICIAL;
         }
 
         private void Instance_DeviceChanged(MainV2.WM_DEVICECHANGE_enum cause)
@@ -351,7 +354,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        private string custom_fw_dir = "";
+        private string custom_fw_dir = Settings.Instance["FirmwareFileDirectory"] ?? "";
 
         private void Lbl_Custom_firmware_label_Click(object sender, EventArgs e)
         {
@@ -363,6 +366,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (File.Exists(fd.FileName))
                 {
                     custom_fw_dir = Path.GetDirectoryName(fd.FileName);
+                    Settings.Instance["FirmwareFileDirectory"] = custom_fw_dir;
 
                     var fw = new Firmware();
 

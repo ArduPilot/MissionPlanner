@@ -6,6 +6,7 @@ using MissionPlanner.Utilities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -37,7 +38,7 @@ namespace MissionPlanner.GCSViews
 
         internal static UdpClient SITLSEND;
 
-        internal static System.Diagnostics.Process simulator;
+        internal static List<System.Diagnostics.Process> simulator = new List<Process>();
 
         /*
     { "quadplane",          QuadPlane::create },
@@ -76,8 +77,13 @@ namespace MissionPlanner.GCSViews
         {
             try
             {
-                if (simulator != null)
-                    simulator.Kill();
+                simulator.ForEach(a=>
+                {
+                    try
+                    {
+                        a.Kill();
+                    }catch { }
+                });
             }
             catch
             {
@@ -258,6 +264,8 @@ namespace MissionPlanner.GCSViews
 
                         if (configs is JValue)
                         {
+                            Directory.CreateDirectory(Path.GetDirectoryName(sitldirectory + configs.ToString()));
+
                             if (await Download.getFilefromNetAsync(
                                     "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/" +
                                     configs.ToString(),
@@ -271,6 +279,8 @@ namespace MissionPlanner.GCSViews
 
                         foreach (var config1 in configs)
                         {
+                            Directory.CreateDirectory(Path.GetDirectoryName(sitldirectory + config1.ToString()));
+
                             if (await Download.getFilefromNetAsync(
                                     "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/" +
                                     config1.ToString(),
@@ -296,6 +306,9 @@ namespace MissionPlanner.GCSViews
             var match = BraceMatch(content, '{', '}');
 
             match = Regex.Replace(match, @"#.*", "");
+
+            // ensure any handles are closed
+            GC.Collect();
 
             File.WriteAllText(filename, match);
         }
@@ -349,8 +362,14 @@ namespace MissionPlanner.GCSViews
             // kill old session
             try
             {
-                if (simulator != null)
-                    simulator.Kill();
+                simulator.ForEach(a =>
+                {
+                    try
+                    {
+                        a.Kill();
+                    }
+                    catch { }
+                });
             }
             catch
             {
@@ -389,7 +408,7 @@ namespace MissionPlanner.GCSViews
 
             try
             {
-                simulator = System.Diagnostics.Process.Start(exestart);
+                simulator.Add(System.Diagnostics.Process.Start(exestart));
             }
             catch (Exception ex)
             {
@@ -510,17 +529,34 @@ namespace MissionPlanner.GCSViews
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        public async void StartSwarmSeperate()
+        public async Task StartSwarmSeperate()
         {
-            var exepath = CheckandGetSITLImage("ArduCopter.elf");
-            var model = "+";
-
-            var config = await GetDefaultConfig(model);
             var max = 10.0;
 
             if (InputBox.Show("how many?", "how many?", ref max) != DialogResult.OK)
                 return;
 
+            // kill old session
+            try
+            {
+                simulator.ForEach(a =>
+                {
+                    try
+                    {
+                        a.Kill();
+                    }
+                    catch { }
+                });
+            }
+            catch
+            {
+            }
+
+            var exepath = CheckandGetSITLImage("ArduCopter.elf");
+            var model = "+";
+
+            var config = await GetDefaultConfig(model);
+            
             max--;
 
             for (int a = (int)max; a >= 0; a--)
@@ -528,7 +564,7 @@ namespace MissionPlanner.GCSViews
                 var extra = " --disable-fgview -r50 ";
 
                 if (!string.IsNullOrEmpty(config))
-                    extra += @" --defaults """ + config + @""" -P SERIAL0_PROTOCOL=2 -P SERIAL1_PROTOCOL=2 ";
+                    extra += @" --defaults """ + config + @",identity.parm"" -P SERIAL0_PROTOCOL=2 -P SERIAL1_PROTOCOL=2 ";
 
                 var home = new PointLatLngAlt(markeroverlay.Markers[0].Position).newpos((double)NUM_heading.Value, a * 4);
 
@@ -550,6 +586,16 @@ namespace MissionPlanner.GCSViews
 
                 Directory.CreateDirectory(simdir);
 
+                File.WriteAllText(simdir + "identity.parm", String.Format(@"SERIAL0_PROTOCOL=2
+SERIAL1_PROTOCOL=2
+SYSID_THISMAV={0}
+SIM_TERRAIN=0
+TERRAIN_ENABLE=0
+SCHED_LOOP_RATE=50
+SIM_DRIFT_SPEED=0
+SIM_DRIFT_TIME=0
+", a + 1));
+
                 string path = Environment.GetEnvironmentVariable("PATH");
 
                 Environment.SetEnvironmentVariable("PATH", sitldirectory + ";" + simdir + ";" + path,
@@ -564,8 +610,12 @@ namespace MissionPlanner.GCSViews
                 exestart.WindowStyle = ProcessWindowStyle.Minimized;
                 exestart.UseShellExecute = true;
 
-                Process.Start(exestart);
+                simulator.Add(System.Diagnostics.Process.Start(exestart));
             }
+
+            System.Threading.Thread.Sleep(2000);
+
+            MainV2.View.ShowScreen(MainV2.View.screens[0].Name);
 
             try
             {
@@ -610,16 +660,31 @@ namespace MissionPlanner.GCSViews
         }
 
         public async void StartSwarmChain()
-        {
-            var exepath = CheckandGetSITLImage("ArduCopter.elf");
-            var model = "+";
-
-            var config = await GetDefaultConfig(model);
+        {  
             var max = 10.0;
-
             if (InputBox.Show("how many?", "how many?", ref max) != DialogResult.OK)
                 return;
 
+            // kill old session
+            try
+            {
+                simulator.ForEach(a =>
+                {
+                    try
+                    {
+                        a.Kill();
+                    }
+                    catch { }
+                });
+            }
+            catch
+            {
+            }
+
+            var exepath = CheckandGetSITLImage("ArduCopter.elf");
+            var model = "+";
+
+            var config= await GetDefaultConfig(model);
             max--;
 
             for (int a = (int)max; a >= 0; a--)
@@ -627,7 +692,7 @@ namespace MissionPlanner.GCSViews
                 var extra = " --disable-fgview -r50";
 
                 if (!string.IsNullOrEmpty(config))
-                    extra += @" --defaults """ + config + @""" -P SERIAL0_PROTOCOL=2 -P SERIAL1_PROTOCOL=2 ";
+                    extra += @" --defaults """ + config + @",identity.parm"" -P SERIAL0_PROTOCOL=2 -P SERIAL1_PROTOCOL=2 ";
 
                 var home = new PointLatLngAlt(markeroverlay.Markers[0].Position).newpos((double)NUM_heading.Value, a * 4);
 
@@ -649,6 +714,16 @@ namespace MissionPlanner.GCSViews
 
                 Directory.CreateDirectory(simdir);
 
+                File.WriteAllText(simdir + "identity.parm", String.Format(@"SERIAL0_PROTOCOL=2
+SERIAL1_PROTOCOL=2
+SYSID_THISMAV={0}
+SIM_TERRAIN=0
+TERRAIN_ENABLE=0
+SCHED_LOOP_RATE=50
+SIM_DRIFT_SPEED=0
+SIM_DRIFT_TIME=0
+", a + 1));
+
                 string path = Environment.GetEnvironmentVariable("PATH");
 
                 Environment.SetEnvironmentVariable("PATH", sitldirectory + ";" + simdir + ";" + path,
@@ -664,15 +739,19 @@ namespace MissionPlanner.GCSViews
                 exestart.UseShellExecute = true;
 
                 File.AppendAllText(Settings.GetUserDataDirectory() + "sitl.bat",
-                    "mkdir " + (a + 1) + "\ncd " + (a + 1) + "\n" + @"""" + exepath + @"""" + " " + extra + " &\n");
+                    "mkdir " + (a + 1) + "\ncd " + (a + 1) + "\n" + @"""" + await exepath + @"""" + " " + extra + " &\n");
 
                 File.AppendAllText(Settings.GetUserDataDirectory() + "sitl1.sh",
                     "mkdir " + (a + 1) + "\ncd " + (a + 1) + "\n" + @"""../" +
                     Path.GetFileName(await exepath).Replace("C:", "/mnt/c").Replace("\\", "/").Replace(".exe", ".elf") + @"""" + " " +
                     extra.Replace("C:", "/mnt/c").Replace("\\", "/") + " &\nsleep .3\ncd ..\n");
 
-                Process.Start(exestart);
+                simulator.Add(System.Diagnostics.Process.Start(exestart));
             }
+
+            System.Threading.Thread.Sleep(2000);
+
+            MainV2.View.ShowScreen(MainV2.View.screens[0].Name);
 
             try
             {
@@ -695,6 +774,16 @@ namespace MissionPlanner.GCSViews
                 CustomMessageBox.Show(Strings.Failed_to_connect_to_SITL_instance, Strings.ERROR);
                 return;
             }
+        }
+
+        private void but_swarmseq_Click(object sender, EventArgs e)
+        {
+             StartSwarmChain();
+        }
+
+        private void but_swarmlink_Click(object sender, EventArgs e)
+        {
+             StartSwarmSeperate();
         }
     }
 }

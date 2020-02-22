@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace MissionPlanner.Controls.Icon
 {
@@ -86,6 +87,8 @@ namespace MissionPlanner.Controls.Icon
         {
             // move 0,0 to out start location - no clipping is used, so we can draw anywhere on the parent control
             g.TranslateTransform(Location.X, Location.Y);
+            g.InterpolationMode = InterpolationMode.High;
+            g.SmoothingMode = SmoothingMode.AntiAlias;
 
             var rect = new Rectangle(0, 0, _width, _height);
 

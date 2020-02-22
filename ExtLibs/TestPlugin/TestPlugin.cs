@@ -6,8 +6,12 @@ using MissionPlanner.Plugin;
 using MissionPlanner;
 using System.Windows.Forms;
 using System.IO;
+using System.Security.Authentication;
+using System.Threading.Tasks;
 using MissionPlanner.Utilities;
+using MQTTnet;
 using MQTTnet.Client.Receiving;
+using MQTTnet.Server;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -37,37 +41,88 @@ public class TestPlugin : Plugin
 
     public override bool Init()
     {
-        loopratehz = 1f;
+        loopratehz = 0.2f;
         UTM = new TelstraUTM();
         return true;
     }
 
     public override bool Loaded()
     {
-        return false;
+        {
+            var mqttServer = new MqttFactory().CreateMqttServer();
+            var tlsoptions = new MqttServerTlsTcpEndpointOptions()
+            {
+                RemoteCertificateValidationCallback =
+                    (sender, certificate, chain, errors) => { return true; },
+                SslProtocol = SslProtocols.Tls12,
+                CheckCertificateRevocation = false, 
+                ClientCertificateRequired = true,
+                Certificate = new byte[0]
+            };
 
-        UTM.Auth();
+            var options = new MqttServerOptionsBuilder()
+                //.WithEncryptedEndpointPort(1883)
+                //.WithEncryptionSslProtocol(SslProtocols.Tls12)
+                //.WithRemoteCertificateValidationCallback((sender, certificate, chain, errors) => { return true; })
+                .Build();
 
-        UAVS = UTM.GetUAVs();
+            //options.TlsEndpointOptions.ClientCertificateRequired = true;
+            //options.TlsEndpointOptions.CheckCertificateRevocation = false;
 
+            mqttServer.StartAsync(options);
+            mqttServer.ApplicationMessageReceivedHandler = new MqttApplicationMessageReceivedHandlerDelegate(e =>
+            {
+                Console.WriteLine("### RECEIVED APPLICATION MESSAGE ###");
+                Console.WriteLine($"+ Topic = {e.ApplicationMessage.Topic}");
+                Console.WriteLine($"+ Payload = {Encoding.UTF8.GetString(e.ApplicationMessage.Payload)}");
+                Console.WriteLine($"+ QoS = {e.ApplicationMessage.QualityOfServiceLevel}");
+                Console.WriteLine($"+ Retain = {e.ApplicationMessage.Retain}");
+                Console.WriteLine();
+            });
+
+            mqttServer.ClientConnectedHandler = new MqttServerClientConnectedHandlerDelegate(a =>
+            {
+                Console.WriteLine("### CLIENT CONNECTED ###");
+                Console.WriteLine(a.ClientId);
+            });
+        }
+
+
+        Task.Run(() => {
+            try
+            {
+                UTM.confighardware("com8");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+          
+            }
+
+            Console.ForegroundColor = ConsoleColor.White;
+        });
+
+        //UTM.test();
+        /*
         UTM.StartMQTT(clientid, @"C:\Users\michael\Desktop\Hex\laam-mqtt-control\Hardware\pi_zero\certs\ca.crt",
             @"C:\Users\michael\Desktop\Hex\laam-mqtt-control\Hardware\pi_zero\certs\client.crt",
             @"C:\Users\michael\Desktop\Hex\laam-mqtt-control\Hardware\pi_zero\certs\client.key");
+            */
+        if (UTM.MQTTClient != null)
+            UTM.MQTTClient.ApplicationMessageReceivedHandler = new MqttApplicationMessageReceivedHandlerDelegate(e =>
+            {
+                Console.WriteLine("### RECEIVED APPLICATION MESSAGE ###");
+                Console.WriteLine($"+ Topic = {e.ApplicationMessage.Topic}");
+                Console.WriteLine($"+ Payload = {Encoding.UTF8.GetString(e.ApplicationMessage.Payload)}");
+                Console.WriteLine($"+ QoS = {e.ApplicationMessage.QualityOfServiceLevel}");
+                Console.WriteLine($"+ Retain = {e.ApplicationMessage.Retain}");
 
-        UTM.MQTTClient.ApplicationMessageReceivedHandler = new MqttApplicationMessageReceivedHandlerDelegate(e =>
-        {
-            Console.WriteLine("### RECEIVED APPLICATION MESSAGE ###");
-            Console.WriteLine($"+ Topic = {e.ApplicationMessage.Topic}");
-            Console.WriteLine($"+ Payload = {Encoding.UTF8.GetString(e.ApplicationMessage.Payload)}");
-            Console.WriteLine($"+ QoS = {e.ApplicationMessage.QualityOfServiceLevel}");
-            Console.WriteLine($"+ Retain = {e.ApplicationMessage.Retain}");
+                var json = Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
 
-            var json = Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
+                var obj = JsonConvert.DeserializeObject<JObject>(json);
 
-            var obj = JsonConvert.DeserializeObject<JObject>(json);
-
-            var item = obj["telemetry"]["altitude"];
-        });
+                var item = obj?["telemetry"]?["altitude"];
+            });
 
         return true;
     }

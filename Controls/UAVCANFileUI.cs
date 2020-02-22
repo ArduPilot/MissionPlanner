@@ -50,6 +50,8 @@ namespace MissionPlanner.Controls
         {
             toolStripStatusLabel1.Text = "Updating Folders";
 
+            treeView1.BeginUpdate();
+
             treeView1.Enabled = false;
 
             treeView1.Nodes.Clear();
@@ -61,12 +63,15 @@ namespace MissionPlanner.Controls
             {
                 rootNode = new TreeNode(info.Name, 0, 0);
                 rootNode.Tag = info;
-                await GetDirectories(await info.GetDirectories().ConfigureAwait(false), rootNode);
+                await GetDirectories(await info.GetDirectories(), rootNode);
                 treeView1.Nodes.Add(rootNode);
             }
+
             toolStripStatusLabel1.Text = "Ready";
 
             treeView1.Enabled = true;
+            
+            treeView1.EndUpdate();
 
             treeView1.SelectedNode = rootNode;
 
@@ -110,11 +115,11 @@ namespace MissionPlanner.Controls
             ListViewItem.ListViewSubItem[] subItems;
             ListViewItem item = null;
 
-            var dirs = await nodeDirInfo.GetDirectories().ConfigureAwait(false);
+            var dirs = await nodeDirInfo.GetDirectories();
 
             newSelected.Nodes.Clear();
 
-            await GetDirectories(dirs, newSelected).ConfigureAwait(false);
+            await GetDirectories(dirs, newSelected).ConfigureAwait(true);
 
             foreach (DirectoryInfo dir in dirs)
             {
@@ -135,7 +140,7 @@ namespace MissionPlanner.Controls
                 subItems = new ListViewItem.ListViewSubItem[]
                 {
                     new ListViewItem.ListViewSubItem(item, "File"),
-                    new ListViewItem.ListViewSubItem(item,file.Size.ToString())
+                    new ListViewItem.ListViewSubItem(item, file.Size.ToString())
                 };
                 item.Tag = nodeDirInfo;
                 item.SubItems.AddRange(subItems);
@@ -146,8 +151,11 @@ namespace MissionPlanner.Controls
             {
                 listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
             }
-            catch { }
+            catch
+            {
+            }
         }
+
         [Serializable]
         public class DirectoryInfo : FileSystemInfo
         {
@@ -183,7 +191,7 @@ namespace MissionPlanner.Controls
                     {
                         cache = _can.FileGetDirectoryEntrys(_nodeid, FullPath);
                     }
-                }).ConfigureAwait(false);
+                }).ConfigureAwait(true);
                 return cache.Where(a => a.isDirectory && a.Name != "." && a.Name != "..")
                     .Select(a => new DirectoryInfo(a.FullName, _can, _nodeid)).ToArray();
             }
@@ -191,7 +199,7 @@ namespace MissionPlanner.Controls
             public async Task<IEnumerable<uavcan.UAVCANFileInfo>> GetFiles()
             {
                 if (cache == null)
-                    await GetDirectories().ConfigureAwait(false);
+                    await GetDirectories();
 
                 // rerequest every time
                 return cache.Where(a => !a.isDirectory);
@@ -204,7 +212,7 @@ namespace MissionPlanner.Controls
 
             foreach (var file in files)
             {
-                await UploadFile(file).ConfigureAwait(false);
+                await UploadFile(file).ConfigureAwait(true);
             }
 
             TreeView1_NodeMouseClick(null,
@@ -228,6 +236,7 @@ namespace MissionPlanner.Controls
                         return double.Parse("0" + v1).CompareTo(double.Parse("0" + v2)) * -1;
                     return double.Parse("0" + v1).CompareTo(double.Parse("0" + v2));
                 }
+
                 if (listView1.Sorting == SortOrder.Descending)
                     return v1.CompareTo(v2) * -1;
                 return v1.CompareTo(v2);
@@ -289,7 +298,7 @@ namespace MissionPlanner.Controls
             {
                 foreach (var ofdFileName in ofd.FileNames)
                 {
-                    await UploadFile(ofdFileName).ConfigureAwait(false);
+                    await UploadFile(ofdFileName).ConfigureAwait(true);
                 }
             }
 

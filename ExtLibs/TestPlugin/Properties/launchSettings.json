@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "TestPlugin": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Users\\michael\\Source\\Repos\\MissionPlanner\\bin\\Debug\\net461\\MissionPlanner.exe"
+    }
+  }
+}

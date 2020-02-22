@@ -75,5 +75,10 @@ namespace Xamarin
 
             //MasterPage.ListView.SelectedItem = null;
         }
+
+        private void MenuItem_OnClicked(object sender, EventArgs e)
+        {
+            Test.Radio?.Toggle();
+        }
     }
 }

@@ -38,6 +38,10 @@ namespace MissionPlanner.Utilities
         int indexcachelineno = -1;
         String currentindexcache = null;
 
+        public DFLogBuffer(string filename) : this(File.Open(filename,FileMode.Open,FileAccess.Read,FileShare.Read))
+        {
+        }
+
         public DFLogBuffer(Stream instream)
         {
             dflog = new DFLog(this);
@@ -46,7 +50,7 @@ namespace MissionPlanner.Utilities
                 messageindex[a] = new List<uint>();
                 messageindexline[a] = new List<uint>();
             }
-
+            
             if (instream.CanSeek)
             {
                 basestream = instream;
@@ -318,46 +322,6 @@ namespace MissionPlanner.Utilities
         public Dictionary<char, string> Unit { get; set; } = new Dictionary<char, string>();
         public Dictionary<char, string> Mult { get; set; } = new Dictionary<char, string>();
 
-        public IEnumerable<object> this[string type, string col]
-        {
-            get
-            {
-                // get the ids for the passed in types
-                List<long> slist = new List<long>();
-
-                byte typeid = 0;
-                int colindex = 0;
-
-                if (dflog.logformat.ContainsKey(type))
-                {
-                    typeid = (byte) dflog.logformat[type].Id;
-                    colindex = dflog.FindMessageOffset(type, col);
-
-                    foreach (var item in messageindexline[typeid])
-                    {
-                        slist.Add(item);
-                    }
-                }
-
-                var coloffset = binlog.GetColumnOffset(typeid, colindex);
-
-                foreach (var indexin in slist)
-                {
-                    var index = (int)indexin;
-                    long startoffset = linestartoffset[index];
-
-                    startoffset += coloffset.offset;
-                    byte[] buffer = new byte[coloffset.typesize];
-                    lock (locker)
-                    {
-                        basestream.Seek(startoffset, SeekOrigin.Begin);
-                        basestream.Read(buffer, 0, buffer.Length);
-                    }
-
-                    yield return binlog.GetObjectFromMessage(coloffset.coltype, buffer, 0);
-                }
-            }
-        }
         public DFLog.DFItem this[long indexin]
         {
             get
@@ -386,7 +350,7 @@ namespace MissionPlanner.Utilities
 
                     if (binary)
                     {
-                        var items = binlog.ReadMessageObjects(basestream, basestream.Length);
+                        var items = binlog.ReadMessageObjects(basestream, endoffset);
 
                         var answer = new DFLog.DFItem(dflog, items, (int)indexin);
 

@@ -260,7 +260,7 @@
     <value>解锁/锁定</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>爬升率测定</value>
+    <value>布局</value>
   </data>
   <data name="chk_analytics.Size" type="System.Drawing.Size, System.Drawing">
     <value>120, 16</value>

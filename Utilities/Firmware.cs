@@ -171,7 +171,7 @@ namespace MissionPlanner.Utilities
         /// Load xml from internet based on firmwareurl, and return softwarelist
         /// </summary>
         /// <returns></returns>
-        public List<software> getFWList(string firmwareurl = "", APFirmware.RELEASE_TYPES rEL_Type = APFirmware.RELEASE_TYPES.OFFICIAL)
+        public List<software> getFWList(string firmwareurl = "")
         {
             if (firmwareurl == "")
                 firmwareurl = this.firmwareurl;
@@ -182,12 +182,6 @@ namespace MissionPlanner.Utilities
             options.softwares.Clear();
 
             software temp = new software();
-
-            // this is for mono to a ssl server
-            //ServicePointManager.CertificatePolicy = new NoCheckCertificatePolicy(); 
-            ServicePointManager.ServerCertificateValidationCallback =
-                new System.Net.Security.RemoteCertificateValidationCallback(
-                    (sender1, certificate, chain, policyErrors) => { return true; });
 
             updateProgress(-1, Strings.GettingFWList);
 
@@ -723,7 +717,7 @@ namespace MissionPlanner.Utilities
 
                     try
                     {
-                        up.identify();
+                        Extensions.CallWithTimeout((Action) delegate { up.identify(); }, 50);
                         updateProgress(-1, "Identify");
                         log.InfoFormat("Found board type {0} boardrev {1} bl rev {2} fwmax {3} on {4}", up.board_type,
                             up.board_rev, up.bl_rev, up.fw_maxsize, port);
@@ -780,9 +774,6 @@ namespace MissionPlanner.Utilities
                     {
                         up.close();
                     }
-
-                    // wait for IO firmware upgrade and boot to a mavlink state
-                    CustomMessageBox.Show(Strings.PleaseWaitForTheMusicalTones);
 
                     return true;
                 }

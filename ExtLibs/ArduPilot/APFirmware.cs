@@ -5,31 +5,13 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text.RegularExpressions;
 using log4net;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.ArduPilot
 {
-    public struct DeviceInfo
-    {
-        /// <summary>
-        /// Com Port Name
-        /// </summary>
-        public string name;
-        /// <summary>
-        /// Windows device description
-        /// </summary>
-        public string description;
-        /// <summary>
-        /// usb reported device description
-        /// </summary>
-        public string board;
-        /// <summary>
-        /// device vid pid in windows format
-        /// </summary>
-        public string hardwareid;
-    }
-
     public class APFirmware
     {
         private static readonly ILog log =
@@ -110,7 +92,12 @@ namespace MissionPlanner.ArduPilot
 
             log.Info(url);
 
-            var manifestgz = new WebClient().DownloadData(url);
+            var client = new HttpClient();
+
+            if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
+                client.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
+
+            var manifestgz = client.GetByteArrayAsync(url).GetAwaiter().GetResult();
             var mssrc = new MemoryStream(manifestgz);
             var msdest = new MemoryStream();
             GZipStream gz = new GZipStream(mssrc, CompressionMode.Decompress);
@@ -138,6 +125,9 @@ namespace MissionPlanner.ArduPilot
             {
                 return ans.First().BoardId;
             }
+
+            if (device.hardwareid == null)
+                return null;
 
             // match the vid/pid
             Regex vidpid = new Regex("VID_([0-9a-f]+)&PID_([0-9a-f]+)&", RegexOptions.IgnoreCase);
