@@ -4229,9 +4229,6 @@
     <EmbeddedResource Include="Log\MavlinkLog.zh-Hans.resx">
       <DependentUpon>MavlinkLog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Plugin\PluginUI.resx">
-      <DependentUpon>PluginUI.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Radio\Sikradio.resx">
       <DependentUpon>Sikradio.cs</DependentUpon>
     </EmbeddedResource>
