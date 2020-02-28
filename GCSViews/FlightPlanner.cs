@@ -4388,7 +4388,7 @@ namespace MissionPlanner.GCSViews
             InputBox.Show("Alt Change", "Please enter the alitude change you require.\n(20 = up 20, *2 = up by alt * 2)",
                 ref altdif);
 
-            int altchange = 0;
+            float altchange = 0;
             float multiplyer = 1;
 
             try
@@ -4399,7 +4399,7 @@ namespace MissionPlanner.GCSViews
                 }
                 else
                 {
-                    altchange = int.Parse(altdif);
+                    altchange = float.Parse(altdif);
                 }
             }
             catch
@@ -4412,7 +4412,7 @@ namespace MissionPlanner.GCSViews
             foreach (DataGridViewRow line in Commands.Rows)
             {
                 line.Cells[Alt.Index].Value =
-                    (int)(float.Parse(line.Cells[Alt.Index].Value.ToString()) * multiplyer + altchange);
+                    float.Parse(line.Cells[Alt.Index].Value.ToString()) * multiplyer + altchange;
             }
         }
 
