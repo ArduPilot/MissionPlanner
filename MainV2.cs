@@ -3070,6 +3070,9 @@ namespace MissionPlanner
             };
             pluginthread.Start();
 
+
+            ThreadPool.QueueUserWorkItem(LoadGDALImages);
+            
             ThreadPool.QueueUserWorkItem(BGLoadAirports);
 
             ThreadPool.QueueUserWorkItem(BGCreateMaps);
@@ -3515,6 +3518,21 @@ namespace MissionPlanner
             GMapMarkerBase.DisplayNavBearing = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayNavBearing", true);
             GMapMarkerBase.DisplayRadius = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayRadius", true);
             GMapMarkerBase.DisplayTarget = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayTarget", true);
+        }
+
+        public void LoadGDALImages(object nothing)
+        {
+            if (Settings.Instance.ContainsKey("GDALImageDir"))
+            {
+                try
+                {
+                    GDAL.GDAL.ScanDirectory(Settings.Instance["GDALImageDir"]);
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                }
+            }
         }
 
         private Dictionary<string, string> ProcessCommandLine(string[] args)
