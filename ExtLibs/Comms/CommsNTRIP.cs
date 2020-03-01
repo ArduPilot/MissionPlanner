@@ -346,6 +346,17 @@ namespace MissionPlanner.Comms
                 throw new Exception("Bad ntrip Responce\n\n" + line);
             }
 
+            if (line.Contains("SOURCETABLE"))
+            {
+                log.Info(sr.ReadToEnd());
+
+                client.Dispose();
+
+                client = new TcpClient();
+
+                throw new Exception("Got SOURCETABLE - Bad ntrip mount point\n\n" + line);
+            }
+
             // vrs may take up to 60+ seconds to respond
             SendNMEA();
 
