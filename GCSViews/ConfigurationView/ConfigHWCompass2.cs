@@ -66,7 +66,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     try
                     {
-                        MainV2.comPort.doReboot();
+                        if (MainV2.comPort.doReboot())
+                        {
+                            CustomMessageBox.Show("Reboot failed. please manually reboot the hardware.", Strings.ERROR);
+                        }
+                        rebootrequired = false;
                     }
                     catch
                     {
