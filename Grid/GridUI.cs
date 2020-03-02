@@ -814,17 +814,20 @@ namespace MissionPlanner.Grid
 
             try
             {
-                // speed m/s
-                var speed = ((float)NUM_UpDownFlySpeed.Value / CurrentState.multiplierspeed);
-                // cmpix cm/pixel
-                var cmpix = float.Parse(TXT_cmpixel.Text.TrimEnd(new[] { 'c', 'm', ' ' }));
-                // m pix = m/pixel
-                var mpix = cmpix * 0.01;
-                // gsd / 2.0
-                var minmpix = mpix / 2.0;
-                // min sutter speed
-                var minshutter = speed / minmpix;
-                lbl_minshutter.Text = "1/" + (minshutter - minshutter % 1).ToString();
+                if (TXT_cmpixel.Text != "")
+                {
+                    // speed m/s
+                    var speed = ((float) NUM_UpDownFlySpeed.Value / CurrentState.multiplierspeed);
+                    // cmpix cm/pixel
+                    var cmpix = float.Parse(TXT_cmpixel.Text.TrimEnd(new[] {'c', 'm', ' '}));
+                    // m pix = m/pixel
+                    var mpix = cmpix * 0.01;
+                    // gsd / 2.0
+                    var minmpix = mpix / 2.0;
+                    // min sutter speed
+                    var minshutter = speed / minmpix;
+                    lbl_minshutter.Text = "1/" + (minshutter - minshutter % 1).ToString();
+                }
             }
             catch { }
 
