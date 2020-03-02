@@ -2649,9 +2649,9 @@ namespace MissionPlanner.Log
                 if (e.RowIndex >= logdata.Count)
                     return;
 
-                var item2 = logdata[e.RowIndex];
+                //var item2 = logdata[e.RowIndex];
 
-                var item = dflog.GetDFItemFromLine(item2, e.RowIndex);
+                var item = logdata[(long)e.RowIndex];// dflog.GetDFItemFromLine(item2, e.RowIndex);
 
                 if (logdatafilter.Count > 0)
                 {
@@ -2659,6 +2659,38 @@ namespace MissionPlanner.Log
                         return;
 
                     item = (DFLog.DFItem)logdatafilter[e.RowIndex];
+                }
+
+                if (item.msgtype == "EV")
+                {
+                    try
+                    {
+                        var temp = item.raw.ToList();
+                        temp.AddRange(new[] {"" + (DFLog.Log_Event) int.Parse(item["Id"])});
+
+                        item.raw = temp.ToArray();
+                    }
+                    catch
+                    {
+                    }
+                } 
+                else if (item.msgtype == "ERR")
+                {
+                    try
+                    {
+                        var temp = item.raw.ToList();
+                        temp.AddRange(new[]
+                        {
+                            ((DFLog.LogErrorSubsystem) int.Parse(item["Subsys"].ToString())) +
+                            "-" +
+                            item["ECode"].ToString().Trim()
+                        });
+
+                        item.raw = temp.ToArray();
+                    }
+                    catch
+                    {
+                    }
                 }
 
                 if (e.ColumnIndex == 0)
