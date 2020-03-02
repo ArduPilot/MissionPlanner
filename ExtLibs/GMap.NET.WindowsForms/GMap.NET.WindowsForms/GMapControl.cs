@@ -1671,7 +1671,7 @@ namespace GMap.NET.WindowsForms
 #if !PocketPC
          g.SmoothingMode = SmoothingMode.Default;
 #endif
-         foreach(GMapOverlay o in Overlays)
+         foreach(GMapOverlay o in Overlays.ToArray())
          {
             if(o.IsVisibile)
             {
