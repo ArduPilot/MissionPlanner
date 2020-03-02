@@ -160,6 +160,9 @@ namespace MissionPlanner.Utilities
                     // add to cache
                     if (!cache.ContainsKey(geotiffdata.FileName) && geotiffdata.cacheable)
                     {
+                        if (!File.Exists(geotiffdata.FileName))
+                            continue;
+
                         float[,] altdata = new float[geotiffdata.height, geotiffdata.width];
 
                         using (Tiff tiff = Tiff.Open(geotiffdata.FileName, "r"))
