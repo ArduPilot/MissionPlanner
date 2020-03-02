@@ -1,4 +1,5 @@
 ﻿
+using System.Linq;
 using OpenTK.Graphics;
 using OpenTK.Platform;
 using SvgNet.SvgGdi;
@@ -619,7 +620,7 @@ namespace GMap.NET.WindowsForms
          {
             HoldInvalidation = true;
 
-            foreach(GMapOverlay o in Overlays)
+            foreach(GMapOverlay o in Overlays.ToArray())
             {
                if(o.IsVisibile)
                {
