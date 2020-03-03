@@ -82,7 +82,7 @@ namespace MissionPlanner.Utilities
             return config.ContainsKey(key);
         }
 
-        public string UserAgent { get; set; } = "";
+        public string UserAgent { get; set; } = "MissionPlanner";
         
         public string ComPort
         {

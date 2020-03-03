@@ -1,5 +1,4 @@
 
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -20,36 +19,18 @@ namespace UAVCAN
 public partial class uavcan {
 
 
-
-
 public const int UAVCAN_PROTOCOL_ENUMERATION_BEGIN_REQ_MAX_PACK_SIZE = 95;
 public const ulong UAVCAN_PROTOCOL_ENUMERATION_BEGIN_REQ_DT_SIG = 0x196AE06426A3B5D8;
-
 public const int UAVCAN_PROTOCOL_ENUMERATION_BEGIN_REQ_DT_ID = 15;
 
 
 
-
-
 public const double UAVCAN_PROTOCOL_ENUMERATION_BEGIN_REQ_TIMEOUT_CANCEL = 0; // saturated uint16
-
 public const double UAVCAN_PROTOCOL_ENUMERATION_BEGIN_REQ_TIMEOUT_INFINITE = 65535; // saturated uint16
 
-
-
-
 public class uavcan_protocol_enumeration_Begin_req: IUAVCANSerialize {
-
-
-
     public uint16_t timeout_sec = new uint16_t();
-
-
-
     public uint8_t parameter_name_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=92)] public uint8_t[] parameter_name = new uint8_t[92];
-
-
-
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

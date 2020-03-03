@@ -1,10 +1,10 @@
-﻿using System;
+﻿using log4net;
+using MissionPlanner.Utilities;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -13,9 +13,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
-using log4net;
-using MissionPlanner.Controls;
-using MissionPlanner.Utilities;
 using UAVCAN;
 
 namespace MissionPlanner.Controls
@@ -47,9 +44,9 @@ namespace MissionPlanner.Controls
 
             InitializeComponent();
 
-            this.Text = "UAVCAN Params - "+node;
+            this.Text = "UAVCAN Params - " + node;
         }
-        
+
         public void Activate()
         {
             startup = true;
@@ -60,7 +57,7 @@ namespace MissionPlanner.Controls
             BUT_rerequestparams.Enabled = true;
             BUT_reset_params.Enabled = true;
             BUT_commitToFlash.Visible = true;
-            
+
 
             Params.Enabled = false;
 
@@ -68,7 +65,7 @@ namespace MissionPlanner.Controls
             {
                 if (!String.IsNullOrEmpty(Settings.Instance["rawparamuavcan_" + col.Name + "_width"]))
                 {
-                    col.Width = Math.Max(50,Settings.Instance.GetInt32("rawparamuavcan_" + col.Name + "_width"));
+                    col.Width = Math.Max(50, Settings.Instance.GetInt32("rawparamuavcan_" + col.Name + "_width"));
                     log.InfoFormat("{0} to {1}", col.Name, col.Width);
                 }
             }
@@ -247,7 +244,7 @@ namespace MissionPlanner.Controls
                 {
                     loadparamsfromfile(ofd.FileName, true);
 
-                        Activate();
+                    Activate();
                 }
             }
         }
@@ -255,7 +252,7 @@ namespace MissionPlanner.Controls
         private void BUT_rerequestparams_Click(object sender, EventArgs e)
         {
 
-            if ( (int)DialogResult.OK ==
+            if ((int)DialogResult.OK ==
                 CustomMessageBox.Show(Strings.WarningUpdateParamList, Strings.ERROR, MessageBoxButtons.OKCancel))
             {
                 ((Control)sender).Enabled = false;
@@ -530,7 +527,7 @@ namespace MissionPlanner.Controls
                 {
                     list += item + " ";
                 }
-                CustomMessageBox.Show("Missing " + missed + " params\n"+ list, "No matching Params", MessageBoxButtons.OK);
+                CustomMessageBox.Show("Missing " + missed + " params\n" + list, "No matching Params", MessageBoxButtons.OK);
             }
         }
         private void OnParamsOnSortCompare(object sender, DataGridViewSortCompareEventArgs args)
@@ -605,7 +602,7 @@ namespace MissionPlanner.Controls
                 double min = 0;
                 double max = 0;
 
-                var value = (string) Params[e.ColumnIndex, e.RowIndex].Value;
+                var value = (string)Params[e.ColumnIndex, e.RowIndex].Value;
 
                 Params[e.ColumnIndex, e.RowIndex].Style.BackColor = Color.Green;
                 float asfloat = 0;
@@ -616,7 +613,7 @@ namespace MissionPlanner.Controls
                 else
                 {
                     _changes[Params[Command.Index, e.RowIndex].Value] =
-                        ((string) Params[e.ColumnIndex, e.RowIndex].Value);
+                        ((string)Params[e.ColumnIndex, e.RowIndex].Value);
                 }
             }
             catch (Exception)

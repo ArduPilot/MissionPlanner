@@ -116,9 +116,19 @@ namespace MissionPlanner.Controls
                 // Examine the work args, if there is an error, then display that and the exception details
                 // Otherwise display 'Unexpected error' and exception details
                 timer1.Stop();
-                ShowDoneWithError(e, doWorkArgs.ErrorMessage);
-                Running = false;
-                return;
+                if (doWorkArgs.CancelRequested && doWorkArgs.CancelAcknowledged)
+                {
+                    // must be actioned inside the catch, as this thread was just aborted
+                    Running = false;
+                    this.BeginInvoke((MethodInvoker)this.Close);
+                    return;
+                }
+                else
+                {
+                    ShowDoneWithError(e, doWorkArgs.ErrorMessage);
+                    Running = false;
+                    return;
+                }
             }
 
             // stop the timer

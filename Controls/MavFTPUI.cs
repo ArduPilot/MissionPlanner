@@ -1,23 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using ExifLibrary;
-using Force.Crc32;
-using ICSharpCode.SharpZipLib.Checksum;
-using Ionic.Zip;
+﻿using Ionic.Zip;
 using log4net;
 using MissionPlanner.ArduPilot.Mavlink;
 using MissionPlanner.Utilities;
-using OpenTK.Audio.OpenAL;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace MissionPlanner.Controls
 {
@@ -29,10 +21,14 @@ namespace MissionPlanner.Controls
         private MAVLinkInterface _mav;
         private MAVFtp _mavftp;
 
+        public MavFTPUI() : this(MainV2.comPort)
+        {
+        }
+
         public MavFTPUI(MAVLinkInterface mav)
         {
             _mav = mav;
-            _mavftp = new MAVFtp(_mav, (byte) _mav.sysidcurrent, (byte) mav.compidcurrent);
+            _mavftp = new MAVFtp(_mav, (byte)_mav.sysidcurrent, (byte)mav.compidcurrent);
             _mavftp.Progress += (message, percent) =>
             {
                 if (toolStripProgressBar1.Value == percent)
@@ -62,6 +58,8 @@ namespace MissionPlanner.Controls
         {
             toolStripStatusLabel1.Text = "Updating Folders";
 
+            treeView1.BeginUpdate();
+
             treeView1.Enabled = false;
 
             treeView1.Nodes.Clear();
@@ -80,6 +78,8 @@ namespace MissionPlanner.Controls
             toolStripStatusLabel1.Text = "Ready";
 
             treeView1.Enabled = true;
+            
+            treeView1.EndUpdate();
 
             treeView1.SelectedNode = rootNode;
 
@@ -119,7 +119,7 @@ namespace MissionPlanner.Controls
 
             TreeNode newSelected = e.Node;
             listView1.Items.Clear();
-            DirectoryInfo nodeDirInfo = (DirectoryInfo) newSelected.Tag;
+            DirectoryInfo nodeDirInfo = (DirectoryInfo)newSelected.Tag;
             ListViewItem.ListViewSubItem[] subItems;
             ListViewItem item = null;
 
@@ -271,7 +271,7 @@ namespace MissionPlanner.Controls
                         _mavftp.kCmdResetSessions();
                     };
                     prd.doWorkArgs.ForceExit = false;
-                    Action<string, int> progress = delegate(string message, int i)
+                    Action<string, int> progress = delegate (string message, int i)
                     {
                         prd.UpdateProgressAndStatus(i, toolStripStatusLabel1.Text);
                     };
@@ -341,7 +341,7 @@ namespace MissionPlanner.Controls
             };
             prd.doWorkArgs.ForceExit = false;
 
-            Action<string, int> progress = delegate(string message, int i)
+            Action<string, int> progress = delegate (string message, int i)
             {
                 prd.UpdateProgressAndStatus(i, toolStripStatusLabel1.Text);
             };
@@ -376,7 +376,7 @@ namespace MissionPlanner.Controls
             foreach (ListViewItem listView1SelectedItem in listView1.SelectedItems)
             {
                 toolStripStatusLabel1.Text = "Delete " + listView1SelectedItem.Text;
-                var success = _mavftp.kCmdRemoveFile(((DirectoryInfo) listView1SelectedItem.Tag).FullName + "/" +
+                var success = _mavftp.kCmdRemoveFile(((DirectoryInfo)listView1SelectedItem.Tag).FullName + "/" +
                                                      listView1SelectedItem.Text);
                 if (!success)
                     CustomMessageBox.Show("Failed to delete file", listView1SelectedItem.Text);
@@ -496,7 +496,7 @@ namespace MissionPlanner.Controls
                     };
                     prd.doWorkArgs.ForceExit = false;
 
-                    Action<string, int> progress = delegate(string message, int i)
+                    Action<string, int> progress = delegate (string message, int i)
                     {
                         prd.UpdateProgressAndStatus(i, toolStripStatusLabel1.Text);
                     };

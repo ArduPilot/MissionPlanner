@@ -1,16 +1,14 @@
-﻿using System;
+﻿using MissionPlanner.Utilities;
+using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using MissionPlanner.Mavlink;
-using MissionPlanner.Utilities;
 using ZedGraph;
 
 namespace MissionPlanner.Controls
 {
-    public class MAVLinkInspector: Form
+    public class MAVLinkInspector : Form
     {
         private GroupBox groupBox1;
         private ComboBox comboBox1;
@@ -33,11 +31,11 @@ namespace MissionPlanner.Controls
 
             mavi.NewSysidCompid += (sender, args) =>
             {
-                this.BeginInvoke((MethodInvoker) delegate
-                {
-                    comboBox1.DataSource = mavi.SeenSysid();
-                    comboBox2.DataSource = mavi.SeenCompid();
-                });
+                this.BeginInvoke((MethodInvoker)delegate
+               {
+                   comboBox1.DataSource = mavi.SeenSysid();
+                   comboBox2.DataSource = mavi.SeenCompid();
+               });
             };
 
             timer1.Tick += (sender, args) => Update();
@@ -74,7 +72,7 @@ namespace MissionPlanner.Controls
                     treeView1.Nodes.Add(sysidnode);
                     added = true;
                 }
-                else 
+                else
                     sysidnode = sysidnodes.First();
 
                 var compidnodes = sysidnode.Nodes.Find(mavLinkMessage.compid.ToString(), false);
@@ -105,7 +103,7 @@ namespace MissionPlanner.Controls
 
                 var msgidheader = mavLinkMessage.msgtypename + " (" +
                                   (mavi.SeenRate(mavLinkMessage.sysid, mavLinkMessage.compid, mavLinkMessage.msgid))
-                                  .ToString("0.0 Hz") + ", #" + mavLinkMessage.msgid + ") " + 
+                                  .ToString("0.0 Hz") + ", #" + mavLinkMessage.msgid + ") " +
                                   mavi.SeenBps(mavLinkMessage.sysid, mavLinkMessage.compid, mavLinkMessage.msgid).ToString("0bps");
 
                 if (msgidnode.Text != msgidheader)
@@ -119,7 +117,7 @@ namespace MissionPlanner.Controls
                 {
                     if (!msgidnode.Nodes.ContainsKey(field.Name))
                     {
-                        msgidnode.Nodes.Add(new TreeNode() {Name = field.Name});
+                        msgidnode.Nodes.Add(new TreeNode() { Name = field.Name });
                         added = true;
                     }
 
@@ -141,7 +139,7 @@ namespace MissionPlanner.Controls
                     {
                         var subtype = value.GetType();
 
-                        var value2 = (Array) value;
+                        var value2 = (Array)value;
 
                         if (field.Name == "param_id") // param_value
                         {
@@ -167,7 +165,7 @@ namespace MissionPlanner.Controls
                 }
             }
 
-            if(added)
+            if (added)
                 treeView1.Sort();
 
             treeView1.EndUpdate();
@@ -200,8 +198,8 @@ namespace MissionPlanner.Controls
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.treeView1);
             this.groupBox1.Location = new System.Drawing.Point(0, 30);
@@ -292,7 +290,7 @@ namespace MissionPlanner.Controls
                 , e.Bounds.X,
                 e.Bounds.Y);
 
-            e.Graphics.DrawString(items[1].ToString().PadLeft(20,' '), tv.Font, new SolidBrush(tv.ForeColor)
+            e.Graphics.DrawString(items[1].ToString().PadLeft(20, ' '), tv.Font, new SolidBrush(tv.ForeColor)
                 , e.Bounds.X + tv.Width * 0.4f,
                 e.Bounds.Y);
 
@@ -343,8 +341,8 @@ namespace MissionPlanner.Controls
         private void but_graphit_Click(object sender, EventArgs e)
         {
             InputBox.Show("Points", "Points of history?", ref history);
-            var form = new Form() {Size = new Size(640, 480)};
-            var zg1 = new ZedGraphControl() {Dock = DockStyle.Fill};
+            var form = new Form() { Size = new Size(640, 480) };
+            var zg1 = new ZedGraphControl() { Dock = DockStyle.Fill };
             var msgid = int.Parse(selectedmsgid.msgid);
             var msgidfield = selectedmsgid.name;
             var line = new LineItem(msgidfield, new RollingPointPairList(history), Color.Red, SymbolType.None);
@@ -360,7 +358,8 @@ namespace MissionPlanner.Controls
                     if (attrib.Length > 0)
                         zg1.GraphPane.YAxis.Title.Text = attrib.OfType<MAVLink.Units>().First().Unit;
                 }
-            } catch { }
+            }
+            catch { }
 
             zg1.GraphPane.CurveList.Add(line);
 
@@ -369,13 +368,13 @@ namespace MissionPlanner.Controls
             zg1.GraphPane.XAxis.Scale.MajorUnit = DateUnit.Minute;
             zg1.GraphPane.XAxis.Scale.MinorUnit = DateUnit.Second;
 
-            var timer = new Timer() {Interval = 100};
+            var timer = new Timer() { Interval = 100 };
             var subscribeToPacket =
                 mav.SubscribeToPacketType((MAVLink.MAVLINK_MSG_ID)msgid,
                     message =>
                     {
                         line.AddPoint(new XDate(message.rxtime),
-                            (double)(dynamic) message.data.GetPropertyOrField(msgidfield));
+                            (double)(dynamic)message.data.GetPropertyOrField(msgidfield));
                         return true;
                     });
             timer.Tick += (o, args) =>
@@ -398,7 +397,7 @@ namespace MissionPlanner.Controls
 
         private void chk_gcstraffic_CheckedChanged(object sender, EventArgs e)
         {
-            if(chk_gcstraffic.Checked)
+            if (chk_gcstraffic.Checked)
                 mav.OnPacketSent += MavOnOnPacketReceived;
             if (!chk_gcstraffic.Checked)
             {

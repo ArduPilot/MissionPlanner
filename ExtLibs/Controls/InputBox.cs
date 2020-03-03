@@ -152,8 +152,6 @@ namespace MissionPlanner.Controls
 
             Console.WriteLine("Input Box " + System.Threading.Thread.CurrentThread.Name);
 
-            Application.DoEvents();
-
             form.ShowDialog();
 
             Console.WriteLine("Input Box 2 " + System.Threading.Thread.CurrentThread.Name);

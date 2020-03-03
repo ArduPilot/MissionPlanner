@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(temp));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label16 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
@@ -142,6 +141,7 @@
             this.BUT_followleader = new MissionPlanner.Controls.MyButton();
             this.but_mavserialport = new MissionPlanner.Controls.MyButton();
             this.but_hexmavlink = new MissionPlanner.Controls.MyButton();
+            this.controlSensorsStatus1 = new MissionPlanner.Controls.ControlSensorsStatus();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -162,7 +162,6 @@
             this.tableLayoutPanel1.Controls.Add(this.but_sortlogs, 2, 13);
             this.tableLayoutPanel1.Controls.Add(this.but_optflowcalib, 0, 26);
             this.tableLayoutPanel1.Controls.Add(this.but_logdlscp, 2, 12);
-            this.tableLayoutPanel1.Controls.Add(this.label12, 1, 11);
             this.tableLayoutPanel1.Controls.Add(this.but_signkey, 2, 25);
             this.tableLayoutPanel1.Controls.Add(this.but_acbarohight, 2, 9);
             this.tableLayoutPanel1.Controls.Add(this.myButton1, 2, 24);
@@ -267,11 +266,6 @@
             // 
             resources.ApplyResources(this.label16, "label16");
             this.label16.Name = "label16";
-            // 
-            // label12
-            // 
-            resources.ApplyResources(this.label12, "label12");
-            this.label12.Name = "label12";
             // 
             // label22
             // 
@@ -935,15 +929,22 @@
             this.but_hexmavlink.UseVisualStyleBackColor = true;
             this.but_hexmavlink.Click += new System.EventHandler(this.but_hexmavlink_Click);
             // 
+            // controlSensorsStatus1
+            // 
+            resources.ApplyResources(this.controlSensorsStatus1, "controlSensorsStatus1");
+            this.controlSensorsStatus1.Name = "controlSensorsStatus1";
+            // 
             // temp
             // 
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.controlSensorsStatus1);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "temp";
             this.Load += new System.EventHandler(this.temp_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -1026,7 +1027,6 @@
         private Controls.MyButton but_anonlog;
         private Controls.MyButton but_messageinterval;
         private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.Label label12;
         private Controls.MyButton but_disablearmswitch;
         private Controls.MyButton but_hwids;
         private Controls.MyButton but_packetbytes;
@@ -1064,5 +1064,6 @@
         private System.Windows.Forms.Label label53;
         private System.Windows.Forms.Label label54;
         private System.Windows.Forms.Label label55;
+        private Controls.ControlSensorsStatus controlSensorsStatus1;
     }
 }

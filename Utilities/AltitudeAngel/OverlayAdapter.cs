@@ -1,13 +1,13 @@
+using AltitudeAngelWings.Extra;
+using GeoJSON.Net.Feature;
+using GMap.NET;
+using GMap.NET.WindowsForms;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using AltitudeAngelWings.Extra;
-using GeoJSON.Net.Feature;
-using GMap.NET;
-using GMap.NET.WindowsForms;
 
 namespace MissionPlanner.Utilities.AltitudeAngel
 {
@@ -68,11 +68,11 @@ namespace MissionPlanner.Utilities.AltitudeAngel
                         polygon = new GMapPolygon(points, name);
                         _overlay.Polygons.Add(polygon);
                     }
-                    polygon.Fill = new SolidBrush(Color.FromArgb((int) colorInfo.FillColor));
-                    polygon.Stroke = new Pen(Color.FromArgb((int) colorInfo.StrokeColor), colorInfo.StrokeWidth);
+                    polygon.Fill = new SolidBrush(Color.FromArgb((int)colorInfo.FillColor));
+                    polygon.Stroke = new Pen(Color.FromArgb((int)colorInfo.StrokeColor), colorInfo.StrokeWidth);
                     polygon.IsHitTestVisible = true;
                     polygon.Tag = featureInfo;
-               }, null);
+                }, null);
             }
             catch (InvalidAsynchronousStateException)
             {
@@ -130,7 +130,7 @@ namespace MissionPlanner.Utilities.AltitudeAngel
                         route = new GMapRoute(points, name);
                         _overlay.Routes.Add(route);
                     }
-                    route.Stroke = new Pen(Color.FromArgb((int) colorInfo.StrokeColor), colorInfo.StrokeWidth + 2);
+                    route.Stroke = new Pen(Color.FromArgb((int)colorInfo.StrokeColor), colorInfo.StrokeWidth + 2);
                     route.IsHitTestVisible = true;
                     route.Tag = featureInfo;
                 }, null);

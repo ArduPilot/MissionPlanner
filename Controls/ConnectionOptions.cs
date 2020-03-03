@@ -1,8 +1,8 @@
-﻿using System;
-using System.Windows.Forms;
-using MissionPlanner.Comms;
-using System.Threading;
+﻿using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
+using System;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace MissionPlanner
 {
@@ -19,6 +19,7 @@ namespace MissionPlanner
             CMB_serialport.Items.Add("TCP");
             CMB_serialport.Items.Add("UDP");
             CMB_serialport.Items.Add("UDPCl");
+            CMB_serialport.Items.Add("WS");
 
             ThemeManager.ApplyThemeTo(this);
 

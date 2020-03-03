@@ -1,13 +1,5 @@
-﻿using System;
-using System.IO;
-using System.Net;
-using System.Net.NetworkInformation;
-using System.Net.Sockets;
-using System.Reflection;
-using System.Text;
-using System.Threading;
-using log4net;
-using MissionPlanner.Controls;
+﻿using MissionPlanner.Controls;
+using System;
 
 namespace MissionPlanner.Utilities
 {

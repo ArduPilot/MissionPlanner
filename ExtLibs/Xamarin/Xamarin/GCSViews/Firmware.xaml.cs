@@ -109,7 +109,7 @@ namespace Xamarin.GCSViews
         private long? detectedboardid;
         private async Task LookForPort(APFirmware.MAV_TYPE mavtype)
         {
-            var ports = await Test.TestMethod.GetDeviceInfoList().ConfigureAwait(false);
+            var ports = await Test.UsbDevices.GetDeviceInfoList().ConfigureAwait(false);
 
             foreach (var deviceInfo in ports)
             {
@@ -317,13 +317,13 @@ namespace Xamarin.GCSViews
             while (DateTime.Now < DEADLINE)
             {
                 //string[] allports = SerialPort.GetPortNames();
-                var di = await Test.TestMethod.GetDeviceInfoList().ConfigureAwait(false);
+                var di = await Test.UsbDevices.GetDeviceInfoList().ConfigureAwait(false);
 
                 foreach (var port in di)
                 {
                     log.Info(DateTime.Now.Millisecond + " Trying Port " + port);
 
-                    var portUsb = await Test.TestMethod.GetUSB(port).ConfigureAwait(false);
+                    var portUsb = await Test.UsbDevices.GetUSB(port).ConfigureAwait(false);
 
                     if(portUsb == null)
                         continue;
@@ -422,13 +422,13 @@ namespace Xamarin.GCSViews
             List<Task<bool>> tasklist = new List<Task<bool>>();
 
             //string[] allports = SerialPort.GetPortNames();
-            var di = await Test.TestMethod.GetDeviceInfoList().ConfigureAwait(false);
+            var di = await Test.UsbDevices.GetDeviceInfoList().ConfigureAwait(false);
 
             foreach (var port in di)
             {
                 log.Info(DateTime.Now.Millisecond + " Trying Port " + port);
 
-                var portUsb = await Test.TestMethod.GetUSB(port).ConfigureAwait(false);
+                var portUsb = await Test.UsbDevices.GetUSB(port).ConfigureAwait(false);
 
                 if (portUsb == null)
                     continue;
@@ -480,7 +480,7 @@ namespace Xamarin.GCSViews
                     updateProgress(-1, "Look for HeartBeat");
 
                     MainV2.comPort.BaseStream =
-                        await Test.TestMethod.GetUSB((await Test.TestMethod.GetDeviceInfoList().ConfigureAwait(false)).First()).ConfigureAwait(false);
+                        await Test.UsbDevices.GetUSB((await Test.UsbDevices.GetDeviceInfoList().ConfigureAwait(false)).First()).ConfigureAwait(false);
 
                     var task = Task.Run(() =>
                     {
@@ -522,9 +522,9 @@ namespace Xamarin.GCSViews
         {
             Task.Run(async () =>
             {
-                Parallel.ForEach(await Test.TestMethod.GetDeviceInfoList(), async (port)=>
+                Parallel.ForEach(await Test.UsbDevices.GetDeviceInfoList(), async (port)=>
                 {
-                    var portUsb = await Test.TestMethod.GetUSB(port).ConfigureAwait(false);
+                    var portUsb = await Test.UsbDevices.GetUSB(port).ConfigureAwait(false);
 
                     if (portUsb == null)
                         return;
@@ -580,12 +580,12 @@ namespace Xamarin.GCSViews
 
         public void Activate()
         {
-            Test.TestMethod.USBEvent += DeviceAttached;
+            Test.UsbDevices.USBEvent += DeviceAttached;
         }
 
         public void Deactivate()
         {
-            Test.TestMethod.USBEvent -= DeviceAttached;
+            Test.UsbDevices.USBEvent -= DeviceAttached;
         }
     }
 }

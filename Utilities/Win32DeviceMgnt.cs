@@ -1,18 +1,18 @@
-﻿using System;
-using System.Text;
-using System.Runtime.InteropServices;
+﻿using log4net;
+using MissionPlanner.ArduPilot;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using log4net;
 using System.Reflection;
-using MissionPlanner.ArduPilot;
+using System.Runtime.InteropServices;
+using System.Text;
 
 //http://www.nakov.com/blog/2009/05/10/enumerate-all-com-ports-and-find-their-name-and-description-in-c/
 public class Win32DeviceMgmt
 {
     private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-    private const int BUFFER_SIZE=255;
+    private const int BUFFER_SIZE = 255;
     private const UInt32 DIGCF_PRESENT = 0x00000002;
     private const UInt32 DIGCF_DEVICEINTERFACE = 0x00000010;
     private const UInt32 SPDRP_DEVICEDESC = 0x00000000;
@@ -342,7 +342,7 @@ public class Win32DeviceMgmt
         [MarshalAs(UnmanagedType.U4)] FileAttributes flagsAndAttributes,
         IntPtr templateFile);
 
-    public static string GetManufact(IntPtr h , USB_DEVICE_DESCRIPTOR PortDeviceDescriptor, int PortPortNumber)
+    public static string GetManufact(IntPtr h, USB_DEVICE_DESCRIPTOR PortDeviceDescriptor, int PortPortNumber)
     {
         if (PortDeviceDescriptor.iManufacturer > 0)
         {
@@ -481,8 +481,8 @@ public class Win32DeviceMgmt
                 {
                     try
                     {
-                        log.Info((SPDRP) prop + ": " +
-                                 GetDeviceDescription(hDeviceInfoSet, deviceInfoData, (SPDRP) prop));
+                        log.Info((SPDRP)prop + ": " +
+                                 GetDeviceDescription(hDeviceInfoSet, deviceInfoData, (SPDRP)prop));
                     }
                     catch
                     {
@@ -568,7 +568,7 @@ public class Win32DeviceMgmt
     {
         DEVPROPKEY key = new DEVPROPKEY();
         key.pid = v12;
-        key.fmtid = new Guid(v1, (ushort) v2, (ushort) v3, v4, v5, v6, v7, v8, v9, v10, v11);
+        key.fmtid = new Guid(v1, (ushort)v2, (ushort)v3, v4, v5, v6, v7, v8, v9, v10, v11);
         key.name = dEVPKEY_Device_Manufacturer;
         return key;
     }

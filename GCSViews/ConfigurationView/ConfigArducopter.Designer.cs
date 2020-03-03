@@ -55,15 +55,23 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.THR_ALT_P = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label22 = new System.Windows.Forms.Label();
             this.groupBox19 = new System.Windows.Forms.GroupBox();
+            this.mavlinkNumericUpDownatc_input_tc = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.label23 = new System.Windows.Forms.Label();
             this.HLD_LAT_P = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label31 = new System.Windows.Forms.Label();
             this.groupBox20 = new System.Windows.Forms.GroupBox();
+            this.mavlinkNumericUpDownatc_accel_y_max = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.label21 = new System.Windows.Forms.Label();
             this.STB_YAW_P = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label35 = new System.Windows.Forms.Label();
             this.groupBox21 = new System.Windows.Forms.GroupBox();
+            this.mavlinkNumericUpDownatc_accel_p_max = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.label20 = new System.Windows.Forms.Label();
             this.STB_PIT_P = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label42 = new System.Windows.Forms.Label();
             this.groupBox22 = new System.Windows.Forms.GroupBox();
+            this.mavlinkNumericUpDownatc_accel_r_max = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.label19 = new System.Windows.Forms.Label();
             this.STB_RLL_P = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label46 = new System.Windows.Forms.Label();
             this.groupBox23 = new System.Windows.Forms.GroupBox();
@@ -143,12 +151,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.groupBox7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.THR_ALT_P)).BeginInit();
             this.groupBox19.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownatc_input_tc)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.HLD_LAT_P)).BeginInit();
             this.groupBox20.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownatc_accel_y_max)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.STB_YAW_P)).BeginInit();
             this.groupBox21.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownatc_accel_p_max)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.STB_PIT_P)).BeginInit();
             this.groupBox22.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownatc_accel_r_max)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.STB_RLL_P)).BeginInit();
             this.groupBox23.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_YAW_FILT)).BeginInit();
@@ -360,11 +372,26 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             // groupBox19
             // 
+            this.groupBox19.Controls.Add(this.mavlinkNumericUpDownatc_input_tc);
+            this.groupBox19.Controls.Add(this.label23);
             this.groupBox19.Controls.Add(this.HLD_LAT_P);
             this.groupBox19.Controls.Add(this.label31);
             resources.ApplyResources(this.groupBox19, "groupBox19");
             this.groupBox19.Name = "groupBox19";
             this.groupBox19.TabStop = false;
+            // 
+            // mavlinkNumericUpDownatc_input_tc
+            // 
+            resources.ApplyResources(this.mavlinkNumericUpDownatc_input_tc, "mavlinkNumericUpDownatc_input_tc");
+            this.mavlinkNumericUpDownatc_input_tc.Max = 1F;
+            this.mavlinkNumericUpDownatc_input_tc.Min = 0F;
+            this.mavlinkNumericUpDownatc_input_tc.Name = "mavlinkNumericUpDownatc_input_tc";
+            this.mavlinkNumericUpDownatc_input_tc.ParamName = null;
+            // 
+            // label23
+            // 
+            resources.ApplyResources(this.label23, "label23");
+            this.label23.Name = "label23";
             // 
             // HLD_LAT_P
             // 
@@ -382,11 +409,26 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             // groupBox20
             // 
+            this.groupBox20.Controls.Add(this.mavlinkNumericUpDownatc_accel_y_max);
+            this.groupBox20.Controls.Add(this.label21);
             this.groupBox20.Controls.Add(this.STB_YAW_P);
             this.groupBox20.Controls.Add(this.label35);
             resources.ApplyResources(this.groupBox20, "groupBox20");
             this.groupBox20.Name = "groupBox20";
             this.groupBox20.TabStop = false;
+            // 
+            // mavlinkNumericUpDownatc_accel_y_max
+            // 
+            resources.ApplyResources(this.mavlinkNumericUpDownatc_accel_y_max, "mavlinkNumericUpDownatc_accel_y_max");
+            this.mavlinkNumericUpDownatc_accel_y_max.Max = 1F;
+            this.mavlinkNumericUpDownatc_accel_y_max.Min = 0F;
+            this.mavlinkNumericUpDownatc_accel_y_max.Name = "mavlinkNumericUpDownatc_accel_y_max";
+            this.mavlinkNumericUpDownatc_accel_y_max.ParamName = null;
+            // 
+            // label21
+            // 
+            resources.ApplyResources(this.label21, "label21");
+            this.label21.Name = "label21";
             // 
             // STB_YAW_P
             // 
@@ -404,11 +446,26 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             // groupBox21
             // 
+            this.groupBox21.Controls.Add(this.mavlinkNumericUpDownatc_accel_p_max);
+            this.groupBox21.Controls.Add(this.label20);
             this.groupBox21.Controls.Add(this.STB_PIT_P);
             this.groupBox21.Controls.Add(this.label42);
             resources.ApplyResources(this.groupBox21, "groupBox21");
             this.groupBox21.Name = "groupBox21";
             this.groupBox21.TabStop = false;
+            // 
+            // mavlinkNumericUpDownatc_accel_p_max
+            // 
+            resources.ApplyResources(this.mavlinkNumericUpDownatc_accel_p_max, "mavlinkNumericUpDownatc_accel_p_max");
+            this.mavlinkNumericUpDownatc_accel_p_max.Max = 1F;
+            this.mavlinkNumericUpDownatc_accel_p_max.Min = 0F;
+            this.mavlinkNumericUpDownatc_accel_p_max.Name = "mavlinkNumericUpDownatc_accel_p_max";
+            this.mavlinkNumericUpDownatc_accel_p_max.ParamName = null;
+            // 
+            // label20
+            // 
+            resources.ApplyResources(this.label20, "label20");
+            this.label20.Name = "label20";
             // 
             // STB_PIT_P
             // 
@@ -426,11 +483,26 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             // groupBox22
             // 
+            this.groupBox22.Controls.Add(this.mavlinkNumericUpDownatc_accel_r_max);
+            this.groupBox22.Controls.Add(this.label19);
             this.groupBox22.Controls.Add(this.STB_RLL_P);
             this.groupBox22.Controls.Add(this.label46);
             resources.ApplyResources(this.groupBox22, "groupBox22");
             this.groupBox22.Name = "groupBox22";
             this.groupBox22.TabStop = false;
+            // 
+            // mavlinkNumericUpDownatc_accel_r_max
+            // 
+            resources.ApplyResources(this.mavlinkNumericUpDownatc_accel_r_max, "mavlinkNumericUpDownatc_accel_r_max");
+            this.mavlinkNumericUpDownatc_accel_r_max.Max = 1F;
+            this.mavlinkNumericUpDownatc_accel_r_max.Min = 0F;
+            this.mavlinkNumericUpDownatc_accel_r_max.Name = "mavlinkNumericUpDownatc_accel_r_max";
+            this.mavlinkNumericUpDownatc_accel_r_max.ParamName = null;
+            // 
+            // label19
+            // 
+            resources.ApplyResources(this.label19, "label19");
+            this.label19.Name = "label19";
             // 
             // STB_RLL_P
             // 
@@ -983,12 +1055,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.groupBox7.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.THR_ALT_P)).EndInit();
             this.groupBox19.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownatc_input_tc)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.HLD_LAT_P)).EndInit();
             this.groupBox20.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownatc_accel_y_max)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.STB_YAW_P)).EndInit();
             this.groupBox21.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownatc_accel_p_max)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.STB_PIT_P)).EndInit();
             this.groupBox22.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownatc_accel_r_max)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.STB_RLL_P)).EndInit();
             this.groupBox23.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.RATE_YAW_FILT)).EndInit();
@@ -1125,5 +1201,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private Controls.MavlinkComboBox CH9_OPTION;
         private Label myLabel6;
         private Controls.MavlinkComboBox CH10_OPTION;
+        private Controls.MavlinkNumericUpDown mavlinkNumericUpDownatc_input_tc;
+        private Label label23;
+        private Controls.MavlinkNumericUpDown mavlinkNumericUpDownatc_accel_y_max;
+        private Label label21;
+        private Controls.MavlinkNumericUpDown mavlinkNumericUpDownatc_accel_p_max;
+        private Label label20;
+        private Controls.MavlinkNumericUpDown mavlinkNumericUpDownatc_accel_r_max;
+        private Label label19;
     }
 }

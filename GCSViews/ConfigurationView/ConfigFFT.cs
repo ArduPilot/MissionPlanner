@@ -1,9 +1,9 @@
-﻿using System;
-using System.Reflection;
-using System.Windows.Forms;
-using log4net;
+﻿using log4net;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
+using System;
+using System.Reflection;
+using System.Windows.Forms;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -40,9 +40,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             INS_LOG_BAT_CNT.setup("INS_LOG_BAT_CNT", ParameterMetaDataRepository.GetParameterMetaData("INS_LOG_BAT_CNT",
                     ParameterMetaDataConstants.Description, MainV2.comPort.MAV.cs.firmware.ToString()),
                 ParameterMetaDataRepository.GetParameterMetaData("INS_LOG_BAT_CNT",
-                    ParameterMetaDataConstants.DisplayName, MainV2.comPort.MAV.cs.firmware.ToString()), (float) inc, 1,
+                    ParameterMetaDataConstants.DisplayName, MainV2.comPort.MAV.cs.firmware.ToString()), (float)inc, 1,
                 32, 1024 * 4, MainV2.comPort.MAV.param["INS_LOG_BAT_CNT"].ToString());
-            
+
             INS_LOG_BAT_CNT.ValueChanged += RangeControl1OnValueChanged;
 
             INS_LOG_BAT_MASK.setup("INS_LOG_BAT_MASK", MainV2.comPort.MAV.param);

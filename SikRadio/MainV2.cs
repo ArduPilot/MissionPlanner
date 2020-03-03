@@ -7,7 +7,7 @@ namespace MissionPlanner
     {
         internal static Settings Instance = new Settings();
 
-        internal string UserAgent = "";
+        internal string UserAgent = "SikRadio";
     }
     internal class MainV2
     {

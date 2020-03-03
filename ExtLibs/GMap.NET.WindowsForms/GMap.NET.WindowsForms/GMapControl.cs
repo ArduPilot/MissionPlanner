@@ -1,4 +1,5 @@
 ﻿
+using System.Linq;
 using OpenTK.Graphics;
 using OpenTK.Platform;
 using SvgNet.SvgGdi;
@@ -619,7 +620,7 @@ namespace GMap.NET.WindowsForms
          {
             HoldInvalidation = true;
 
-            foreach(GMapOverlay o in Overlays)
+            foreach(GMapOverlay o in Overlays.ToArray())
             {
                if(o.IsVisibile)
                {
@@ -697,7 +698,7 @@ namespace GMap.NET.WindowsForms
                                               {
                                                   g.DrawImage(img.Img,
                                                       new Rectangle((int) Core.tileRect.X, (int) Core.tileRect.Y,
-                                                          (int) Core.tileRect.Width, (int) Core.tileRect.Height), 0, 0,
+                                                          (int) Core.tileRect.Width+1, (int) Core.tileRect.Height+1), 0, 0,
                                                       Core.tileRect.Width, Core.tileRect.Height, GraphicsUnit.Pixel,
                                                       TileFlipXYAttributes);
                                               }
@@ -1427,7 +1428,7 @@ namespace GMap.NET.WindowsForms
                doPaint(f);
                var ts = (DateTime.Now - start);
 
-               Console.WriteLine("map render {0}", ts.TotalSeconds);
+               //Console.WriteLine("map render {0}", ts.TotalSeconds);
                 base.OnPaint(e);
                 return;
            }
@@ -1670,7 +1671,7 @@ namespace GMap.NET.WindowsForms
 #if !PocketPC
          g.SmoothingMode = SmoothingMode.Default;
 #endif
-         foreach(GMapOverlay o in Overlays)
+         foreach(GMapOverlay o in Overlays.ToArray())
          {
             if(o.IsVisibile)
             {
@@ -2354,9 +2355,12 @@ namespace GMap.NET.WindowsForms
       {
          if(overObjectCount <= 0 && cursorBefore != null)
          {
-            overObjectCount = 0;
-            this.Cursor = this.cursorBefore;
-            cursorBefore = null;
+             if (!this.InvokeRequired)
+             {
+                 overObjectCount = 0;
+                 this.Cursor = this.cursorBefore;
+                 cursorBefore = null;
+             }
          }
       }
 

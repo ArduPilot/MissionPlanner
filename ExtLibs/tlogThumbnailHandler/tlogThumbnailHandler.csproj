@@ -34,7 +34,4 @@
     <ProjectReference Include="..\Maps\MissionPlanner.Maps.csproj" />
     <ProjectReference Include="..\Utilities\MissionPlanner.Utilities.csproj" />
   </ItemGroup>
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="rem C:\Windows\Microsoft.NET\Framework64\v4.0.30319\regasm /regfile /codebase &quot;$(TargetPath)&quot;&#xD;&#xA;" />
-  </Target>
 </Project>

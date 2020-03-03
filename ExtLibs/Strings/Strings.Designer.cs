@@ -88,11 +88,38 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bad Battery.
+        /// </summary>
+        public static string Bad_Battery {
+            get {
+                return ResourceManager.GetString("Bad_Battery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bad KML File :.
         /// </summary>
         public static string Bad_KML_File {
             get {
                 return ResourceManager.GetString("Bad_KML_File", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bad Proximity.
+        /// </summary>
+        public static string Bad_Proximity {
+            get {
+                return ResourceManager.GetString("Bad_Proximity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bad SatCom.
+        /// </summary>
+        public static string Bad_SatCom {
+            get {
+                return ResourceManager.GetString("Bad_SatCom", resourceCulture);
             }
         }
         
@@ -115,7 +142,7 @@ namespace MissionPlanner {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bad AHRS.
+        ///   Looks up a localized string similar to Unhealthy AHRS.
         /// </summary>
         public static string BadAHRS {
             get {
@@ -151,7 +178,7 @@ namespace MissionPlanner {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bad GPS Signal Health.
+        ///   Looks up a localized string similar to Unhealthy GPS Signal.
         /// </summary>
         public static string BadGPSHealth {
             get {
@@ -848,6 +875,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid Location.
+        /// </summary>
+        public static string Invalid_Location {
+            get {
+                return ResourceManager.GetString("Invalid_Location", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid Alt.
         /// </summary>
         public static string InvalidAlt {
@@ -966,11 +1002,29 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Loading.
+        /// </summary>
+        public static string Loading {
+            get {
+                return ResourceManager.GetString("Loading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please click ok and move the autopilot around all axises in a circular motion.
         /// </summary>
         public static string MagCalibMsg {
             get {
                 return ResourceManager.GetString("MagCalibMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MAVFtp.
+        /// </summary>
+        public static string MAVFtp {
+            get {
+                return ResourceManager.GetString("MAVFtp", resourceCulture);
             }
         }
         
@@ -1228,6 +1282,15 @@ namespace MissionPlanner {
         public static string pos_vert_variance {
             get {
                 return ResourceManager.GetString("pos_vert_variance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Prearm check failed.
+        /// </summary>
+        public static string Prearm_check_failed {
+            get {
+                return ResourceManager.GetString("Prearm_check_failed", resourceCulture);
             }
         }
         

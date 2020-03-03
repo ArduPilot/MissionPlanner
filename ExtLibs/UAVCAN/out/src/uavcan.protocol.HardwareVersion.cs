@@ -1,6 +1,4 @@
 
-
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -22,7 +20,6 @@ public partial class uavcan {
 
 
 
-
 static void encode_uavcan_protocol_HardwareVersion(uavcan_protocol_HardwareVersion msg, uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx) {
     uint8_t[] buffer = new uint8_t[8];
     _encode_uavcan_protocol_HardwareVersion(buffer, msg, chunk_cb, ctx, true);
@@ -36,166 +33,54 @@ static uint32_t decode_uavcan_protocol_HardwareVersion(CanardRxTransfer transfer
 
 static void _encode_uavcan_protocol_HardwareVersion(uint8_t[] buffer, uavcan_protocol_HardwareVersion msg, uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
 
-
-
-
-
-
     memset(buffer,0,8);
-
     canardEncodeScalar(buffer, 0, 8, msg.major);
-
     chunk_cb(buffer, 8, ctx);
-
-
-
-
-
     memset(buffer,0,8);
-
     canardEncodeScalar(buffer, 0, 8, msg.minor);
-
     chunk_cb(buffer, 8, ctx);
-
-
-
-
-
-
     for (int i=0; i < 16; i++) {
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 8, msg.unique_id[i]);
-
             chunk_cb(buffer, 8, ctx);
-
-
     }
-
-
-
-
-
-
-
     if (!tao) {
-
-
         memset(buffer,0,8);
         canardEncodeScalar(buffer, 0, 8, msg.certificate_of_authenticity_len);
         chunk_cb(buffer, 8, ctx);
-
-
     }
-
     for (int i=0; i < msg.certificate_of_authenticity_len; i++) {
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 8, msg.certificate_of_authenticity[i]);
-
             chunk_cb(buffer, 8, ctx);
-
-
     }
-
-
-
-
-
 }
 
 static void _decode_uavcan_protocol_HardwareVersion(CanardRxTransfer transfer,ref uint32_t bit_ofs, uavcan_protocol_HardwareVersion msg, bool tao) {
 
-
-
-
-
-
-
-
     canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.major);
-
-
     bit_ofs += 8;
-
-
-
-
-
-
-
 
     canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.minor);
-
-
     bit_ofs += 8;
-
-
-
-
-
-
 
 /*['__doc__', '__init__', '__module__', '__repr__', '__str__', 'get_normalized_definition', 'name', 'type']*/
     for (int i=0; i < 16; i++) {
-
-
-
-
         canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.unique_id[i]);
-
         bit_ofs += 8;
-
-
     }
-
-
-
-
-
-
-
-
 
     if (!tao) {
-
-
         canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.certificate_of_authenticity_len);
         bit_ofs += 8;
-
-
-
     } else {
-
         msg.certificate_of_authenticity_len = (uint8_t)(((transfer.payload_len*8)-bit_ofs)/8);
-
-
     }
-
-
 
     for (int i=0; i < msg.certificate_of_authenticity_len; i++) {
-
-
-
-
         canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.certificate_of_authenticity[i]);
-
         bit_ofs += 8;
-
-
     }
-
-
-
-
-
 
 }
 

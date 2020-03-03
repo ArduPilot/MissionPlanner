@@ -1,17 +1,13 @@
-﻿using System;
+﻿using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Data;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MissionPlanner.Controls;
-using MissionPlanner.Utilities;
-using Xamarin.Forms;
+using Color = System.Drawing.Color;
 using Device = MissionPlanner.Utilities.Device;
-using ListView = System.Windows.Forms.ListView;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -37,7 +33,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
 
             list = MainV2.comPort.MAV.param.Where(a => a.Name.StartsWith("COMPASS_DEV_ID"))
-                .Select((a,b) => new CompassInfo(b, a.Name, (uint) a.Value)).ToList();
+                .Select((a, b) => new CompassInfo(b, a.Name, (uint)a.Value)).ToList();
 
             var bs = new BindingSource();
             bs.DataSource = list;
@@ -45,20 +41,47 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             mavlinkComboBoxfitness.setup(ParameterMetaDataRepository.GetParameterOptionsInt("COMPASS_CAL_FIT",
                 MainV2.comPort.MAV.cs.firmware.ToString()), "COMPASS_CAL_FIT", MainV2.comPort.MAV.param);
+
+            mavlinkCheckBoxUseCompass1.setup(1, 0, "COMPASS_USE", MainV2.comPort.MAV.param);
+            mavlinkCheckBoxUseCompass2.setup(1, 0, "COMPASS_USE2", MainV2.comPort.MAV.param);
+            mavlinkCheckBoxUseCompass3.setup(1, 0, "COMPASS_USE3", MainV2.comPort.MAV.param);
         }
 
         public void Deactivate()
         {
             timer1.Stop();
 
+            CheckReboot();
+        }
+
+        private bool CheckReboot()
+        {
+            if (!MainV2.comPort.BaseStream.IsOpen)
+                return true;
+
             if (rebootrequired)
             {
                 if (CustomMessageBox.Show("Reboot required, reboot now?", "Reboot",
                         CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
                 {
-                    MainV2.comPort.doReboot();
+                    try
+                    {
+                        if (MainV2.comPort.doReboot())
+                        {
+                            CustomMessageBox.Show("Reboot failed. please manually reboot the hardware.", Strings.ERROR);
+                        }
+                        rebootrequired = false;
+                    }
+                    catch
+                    {
+                        CustomMessageBox.Show(Strings.ErrorCommunicating, Strings.ERROR);
+                    }
+
+                    return true;
                 }
             }
+
+            return false;
         }
 
         private async void myDataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -80,11 +103,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 await UpdateFirst3();
             }
-
-            if (e.ColumnIndex == Use.Index)
-            {
-                list[e.RowIndex].Use = !list[e.RowIndex].Use;
-            }
         }
 
         private async Task UpdateFirst3()
@@ -92,20 +110,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (myDataGridView1.Rows.Count >= 1)
             {
                 list[0]._index = 0;
-                bool p1 = await MainV2.comPort.setParamAsync((byte) MainV2.comPort.sysidcurrent,
-                    (byte) MainV2.comPort.compidcurrent,
+                bool p1 = await MainV2.comPort.setParamAsync((byte)MainV2.comPort.sysidcurrent,
+                    (byte)MainV2.comPort.compidcurrent,
                     "COMPASS_PRIO1_ID",
                     int.Parse(myDataGridView1.Rows[0].Cells[devIDDataGridViewTextBoxColumn.Index].Value.ToString()));
 
-                if(!p1)
+                if (!p1)
                     CustomMessageBox.Show(Strings.ErrorSettingParameter, Strings.ERROR);
             }
 
             if (myDataGridView1.Rows.Count >= 2)
             {
                 list[1]._index = 1;
-                bool p2 = await MainV2.comPort.setParamAsync((byte) MainV2.comPort.sysidcurrent,
-                    (byte) MainV2.comPort.compidcurrent,
+                bool p2 = await MainV2.comPort.setParamAsync((byte)MainV2.comPort.sysidcurrent,
+                    (byte)MainV2.comPort.compidcurrent,
                     "COMPASS_PRIO2_ID",
                     int.Parse(myDataGridView1.Rows[1].Cells[devIDDataGridViewTextBoxColumn.Index].Value.ToString()));
 
@@ -116,8 +134,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (myDataGridView1.Rows.Count >= 3)
             {
                 list[2]._index = 2;
-                bool p3 = await MainV2.comPort.setParamAsync((byte) MainV2.comPort.sysidcurrent,
-                    (byte) MainV2.comPort.compidcurrent,
+                bool p3 = await MainV2.comPort.setParamAsync((byte)MainV2.comPort.sysidcurrent,
+                    (byte)MainV2.comPort.compidcurrent,
                     "COMPASS_PRIO3_ID",
                     int.Parse(myDataGridView1.Rows[2].Cells[devIDDataGridViewTextBoxColumn.Index].Value.ToString()));
 
@@ -132,6 +150,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_OBmagcalstart_Click(object sender, EventArgs e)
         {
+            if (rebootrequired && !CheckReboot())
+            {
+                return;
+            }
+
             try
             {
                 MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_START_MAG_CAL, 0, 1, 1, 0, 0, 0, 0);
@@ -284,11 +307,22 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     try
                     {
                         if (obj.compass_id == 0)
+                        {
                             horizontalProgressBar1.Value = 100;
+                            pictureBox1.BackColor = Color.Green;
+                        }
+
                         if (obj.compass_id == 1)
+                        {
                             horizontalProgressBar2.Value = 100;
+                            pictureBox2.BackColor = Color.Green;
+                        }
+
                         if (obj.compass_id == 2)
+                        {
                             horizontalProgressBar3.Value = 100;
+                            pictureBox3.BackColor = Color.Green;
+                        }
                     }
                     catch
                     {
@@ -315,6 +349,28 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CustomMessageBox.Show("Please reboot the autopilot");
             }
         }
+
+        private void myDataGridView1_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+        }
+
+        private void but_largemagcal_Click(object sender, EventArgs e)
+        {
+            double value = 0;
+            if (InputBox.Show("MagCal Yaw", "Enter current heading in degrees\nNOTE: gps lock is required", ref value) == DialogResult.OK)
+            {
+                try
+                {
+                    MainV2.comPort.doCommand(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid,
+                        MAVLink.MAV_CMD.FIXED_MAG_CAL_YAW, (float) value, 0, 0, 0, 0, 0, 0);
+
+                }
+                catch (Exception exception)
+                {
+                    CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+                }
+            }
+        }
     }
 
     public class CompassInfo
@@ -327,47 +383,24 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             _index = index;
             _paramName = ParamName;
-            _devid = new Device.DeviceStructure(id);
+            _devid = new Device.DeviceStructure(ParamName, id);
         }
 
-        public int DevID => (int) _devid.devid;
+        public int DevID => (int)_devid.devid;
 
-        public string BusType => _devid.bus_type.ToString();
-        public int Bus => (int) _devid.bus;
-        public int Address => (int) _devid.address;
+        public string BusType => _devid.bus_type.ToString().Replace("BUS_TYPE_", "");
+        public int Bus => (int)_devid.bus;
+        public int Address => (int)_devid.address;
 
         public string DevType
         {
             get
             {
-                if (_devid.bus_type == Device.BusType.BUS_TYPE_UAVCAN) 
-                    return "SENSOR_ID#" + ((int) _devid.devtype).ToString();
-                return _devid.devtype.ToString().Replace("DEVTYPE_","");
+                if (_devid.bus_type == Device.BusType.BUS_TYPE_UAVCAN)
+                    return "SENSOR_ID#" + ((int)_devid.devtype).ToString();
+                return _devid.devtype.ToString().Replace("DEVTYPE_", "");
             }
         }
 
-        public bool Use
-        {
-            get
-            {
-                if (_index == 0) return int.Parse(MainV2.comPort.MAV.param["COMPASS_USE"].ToString()) > 0;
-                if (_index == 1) return int.Parse(MainV2.comPort.MAV.param["COMPASS_USE2"].ToString()) > 0;
-                if (_index == 2) return int.Parse(MainV2.comPort.MAV.param["COMPASS_USE3"].ToString()) > 0;
-                return false;
-            }
-
-            set
-            {
-                if (_index == 0)
-                    MainV2.comPort.setParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "COMPASS_USE",
-                        value ? 1 : 0);
-                if (_index == 1)
-                    MainV2.comPort.setParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "COMPASS_USE2",
-                        value ? 1 : 0);
-                if (_index == 2)
-                    MainV2.comPort.setParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "COMPASS_USE3",
-                        value ? 1 : 0);
-            }
-        }
     }
 }

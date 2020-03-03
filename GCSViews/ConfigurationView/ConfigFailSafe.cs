@@ -1,10 +1,10 @@
-﻿using System;
+﻿using MissionPlanner.ArduPilot;
+using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
+using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
-using MissionPlanner.ArduPilot;
-using MissionPlanner.Controls;
-using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -171,7 +171,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 if (MainV2.comPort.MAV.param.ContainsKey("FS_THR_VALUE"))
                 {
-                    if (MainV2.comPort.MAV.cs.ch3in < (float) MainV2.comPort.MAV.param["FS_THR_VALUE"])
+                    if (MainV2.comPort.MAV.cs.ch3in < (float)MainV2.comPort.MAV.param["FS_THR_VALUE"])
                     {
                         lbl_currentmode.ForeColor = Color.Red;
                     }

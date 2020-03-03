@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -37,6 +38,10 @@ namespace MissionPlanner.Utilities
         int indexcachelineno = -1;
         String currentindexcache = null;
 
+        public DFLogBuffer(string filename) : this(File.Open(filename,FileMode.Open,FileAccess.Read,FileShare.Read))
+        {
+        }
+
         public DFLogBuffer(Stream instream)
         {
             dflog = new DFLog(this);
@@ -45,7 +50,7 @@ namespace MissionPlanner.Utilities
                 messageindex[a] = new List<uint>();
                 messageindexline[a] = new List<uint>();
             }
-
+            
             if (instream.CanSeek)
             {
                 basestream = instream;
@@ -171,7 +176,8 @@ namespace MissionPlanner.Utilities
                         int.Parse(item["Length"].Trim()),
                         item["Name"].Trim(),
                         item["Format"].Trim(),
-                        item.items.Skip(dflog.FindMessageOffset("FMT", "Columns")).FirstOrDefault());
+                        item.items.Skip(dflog.FindMessageOffset("FMT", "Columns")).Aggregate((s, s1) => s.Trim() + "," + s1.Trim())
+                            .TrimStart(','));
 
                     dflog.FMTLine(this[item.lineno]);
                 }
@@ -287,7 +293,8 @@ namespace MissionPlanner.Utilities
                     var unit = units.Skip(i).FirstOrDefault().Value;
                     var binfmt = binfmts[i];
                     var multi = 1.0;
-                    double.TryParse(multipliers.Skip(i).FirstOrDefault().Value, out multi);
+                    double.TryParse(multipliers.Skip(i).FirstOrDefault().Value, NumberStyles.Any,
+                        CultureInfo.InvariantCulture, out multi);
 
                     if (binfmt == 'c' || binfmt == 'C' ||
                         binfmt == 'e' || binfmt == 'E' ||
@@ -315,46 +322,6 @@ namespace MissionPlanner.Utilities
         public Dictionary<char, string> Unit { get; set; } = new Dictionary<char, string>();
         public Dictionary<char, string> Mult { get; set; } = new Dictionary<char, string>();
 
-        public IEnumerable<object> this[string type, string col]
-        {
-            get
-            {
-                // get the ids for the passed in types
-                List<long> slist = new List<long>();
-
-                byte typeid = 0;
-                int colindex = 0;
-
-                if (dflog.logformat.ContainsKey(type))
-                {
-                    typeid = (byte) dflog.logformat[type].Id;
-                    colindex = dflog.FindMessageOffset(type, col);
-
-                    foreach (var item in messageindexline[typeid])
-                    {
-                        slist.Add(item);
-                    }
-                }
-
-                var coloffset = binlog.GetColumnOffset(typeid, colindex);
-
-                foreach (var indexin in slist)
-                {
-                    var index = (int)indexin;
-                    long startoffset = linestartoffset[index];
-
-                    startoffset += coloffset.offset;
-                    byte[] buffer = new byte[coloffset.typesize];
-                    lock (locker)
-                    {
-                        basestream.Seek(startoffset, SeekOrigin.Begin);
-                        basestream.Read(buffer, 0, buffer.Length);
-                    }
-
-                    yield return binlog.GetObjectFromMessage(coloffset.coltype, buffer, 0);
-                }
-            }
-        }
         public DFLog.DFItem this[long indexin]
         {
             get
@@ -383,7 +350,7 @@ namespace MissionPlanner.Utilities
 
                     if (binary)
                     {
-                        var items = binlog.ReadMessageObjects(basestream, basestream.Length);
+                        var items = binlog.ReadMessageObjects(basestream, endoffset);
 
                         var answer = new DFLog.DFItem(dflog, items, (int)indexin);
 

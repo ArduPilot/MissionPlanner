@@ -47,6 +47,8 @@ namespace MissionPlanner.GCSViews
             this.label1 = new System.Windows.Forms.Label();
             this.NUM_heading = new System.Windows.Forms.NumericUpDown();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.but_swarmseq = new MissionPlanner.Controls.MyButton();
+            this.but_swarmlink = new MissionPlanner.Controls.MyButton();
             this.chk_wipe = new System.Windows.Forms.CheckBox();
             this.label8 = new System.Windows.Forms.Label();
             this.txt_cmdline = new System.Windows.Forms.TextBox();
@@ -208,6 +210,8 @@ namespace MissionPlanner.GCSViews
             // groupBox4
             // 
             resources.ApplyResources(this.groupBox4, "groupBox4");
+            this.groupBox4.Controls.Add(this.but_swarmseq);
+            this.groupBox4.Controls.Add(this.but_swarmlink);
             this.groupBox4.Controls.Add(this.chk_wipe);
             this.groupBox4.Controls.Add(this.label8);
             this.groupBox4.Controls.Add(this.txt_cmdline);
@@ -217,6 +221,20 @@ namespace MissionPlanner.GCSViews
             this.groupBox4.Controls.Add(this.num_simspeed);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.TabStop = false;
+            // 
+            // but_swarmseq
+            // 
+            resources.ApplyResources(this.but_swarmseq, "but_swarmseq");
+            this.but_swarmseq.Name = "but_swarmseq";
+            this.but_swarmseq.UseVisualStyleBackColor = true;
+            this.but_swarmseq.Click += new System.EventHandler(this.but_swarmseq_Click);
+            // 
+            // but_swarmlink
+            // 
+            resources.ApplyResources(this.but_swarmlink, "but_swarmlink");
+            this.but_swarmlink.Name = "but_swarmlink";
+            this.but_swarmlink.UseVisualStyleBackColor = true;
+            this.but_swarmlink.Click += new System.EventHandler(this.but_swarmlink_Click);
             // 
             // chk_wipe
             // 
@@ -349,5 +367,7 @@ namespace MissionPlanner.GCSViews
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txt_cmdline;
         private System.Windows.Forms.CheckBox chk_wipe;
+        private MyButton but_swarmseq;
+        private MyButton but_swarmlink;
     }
 }

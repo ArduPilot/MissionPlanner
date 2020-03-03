@@ -1,10 +1,10 @@
-﻿using System;
+﻿using log4net;
+using MissionPlanner.Controls;
+using System;
 using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
-using log4net;
-using MissionPlanner.Controls;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -23,9 +23,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 MainV2.comPort.sendPacket(new MAVLink.mavlink_param_request_list_t()
                 {
-                    target_system = (byte) 0,
-                    target_component = (byte) MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE
-                }, MainV2.comPort.sysidcurrent, (byte) MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE);
+                    target_system = (byte)0,
+                    target_component = (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE
+                }, MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE);
             }
 
             if (MainV2.comPort.BaseStream.IsOpen
@@ -33,7 +33,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 byte sysid = MainV2.comPort.MAV.sysid;
 
-                var mav = MainV2.comPort.MAVlist[sysid, (byte) MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE];
+                var mav = MainV2.comPort.MAVlist[sysid, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE];
 
                 if (mav.param.ContainsKey("WIFI_SSID1"))
                 {
@@ -64,15 +64,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     var DEBUG_ENABLED = mav.param["DEBUG_ENABLED"].ToString();
                     var WIFI_MODE = mav.param["WIFI_MODE"].ToString();
                     var WIFI_IPADDRESS =
-                        new IPAddress(BitConverter.GetBytes((int) mav.param["WIFI_IPADDRESS"])).ToString();
+                        new IPAddress(BitConverter.GetBytes((int)mav.param["WIFI_IPADDRESS"])).ToString();
                     var WIFI_UDP_HPORT = mav.param["WIFI_UDP_HPORT"].ToString();
                     var WIFI_UDP_CPORT = mav.param["WIFI_UDP_CPORT"].ToString();
 
-                    var WIFI_IPSTA = new IPAddress(BitConverter.GetBytes((int) mav.param["WIFI_IPSTA"])).ToString();
+                    var WIFI_IPSTA = new IPAddress(BitConverter.GetBytes((int)mav.param["WIFI_IPSTA"])).ToString();
                     var WIFI_GATEWAYSTA =
-                        new IPAddress(BitConverter.GetBytes((int) mav.param["WIFI_GATEWAYSTA"])).ToString();
+                        new IPAddress(BitConverter.GetBytes((int)mav.param["WIFI_GATEWAYSTA"])).ToString();
                     var WIFI_SUBNET_STA =
-                        new IPAddress(BitConverter.GetBytes((int) mav.param["WIFI_SUBNET_STA"])).ToString();
+                        new IPAddress(BitConverter.GetBytes((int)mav.param["WIFI_SUBNET_STA"])).ToString();
 
                     txt_ip.Text = WIFI_IPSTA;
                     txt_gateway.Text = WIFI_GATEWAYSTA;
@@ -88,7 +88,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                                 "WIFI_IPSTA {5},\n" +
                                                 "WIFI_GATEWAYSTA {6},\n" +
                                                 "WIFI_SUBNET_STA {7}\n",
-                        DEBUG_ENABLED, WIFI_MODE,WIFI_IPADDRESS,
+                        DEBUG_ENABLED, WIFI_MODE, WIFI_IPADDRESS,
                         WIFI_UDP_HPORT,
                         WIFI_UDP_CPORT, WIFI_IPSTA, WIFI_GATEWAYSTA, WIFI_SUBNET_STA);
 
@@ -107,19 +107,19 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             byte[] dst = new byte[length];
 
-            Array.ConstrainedCopy(ans,start,dst,0,length);
+            Array.ConstrainedCopy(ans, start, dst, 0, length);
 
             return dst;
         }
 
         private void BUT_ESPsettings_Click(object sender, EventArgs e)
         {
-            MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE,"WIFI_CHANNEL", int.Parse(cmb_channel.Text));
+            MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE, "WIFI_CHANNEL", int.Parse(cmb_channel.Text));
             MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE, "UART_BAUDRATE", int.Parse(cmb_baud.Text));
 
-            MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE, "WIFI_SSID1", BitConverter.ToUInt32(stringTobytearray(txt_ssid.Text, 0, 4),0));
-            MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE, "WIFI_SSID2",BitConverter.ToUInt32( stringTobytearray(txt_ssid.Text, 4, 4),0));
-            MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE, "WIFI_SSID3", BitConverter.ToUInt32(stringTobytearray(txt_ssid.Text, 8, 4),0));
+            MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE, "WIFI_SSID1", BitConverter.ToUInt32(stringTobytearray(txt_ssid.Text, 0, 4), 0));
+            MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE, "WIFI_SSID2", BitConverter.ToUInt32(stringTobytearray(txt_ssid.Text, 4, 4), 0));
+            MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE, "WIFI_SSID3", BitConverter.ToUInt32(stringTobytearray(txt_ssid.Text, 8, 4), 0));
             MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE, "WIFI_SSID4", BitConverter.ToUInt32(stringTobytearray(txt_ssid.Text, 12, 4), 0));
 
             MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE, "WIFI_PASSWORD1", BitConverter.ToUInt32(stringTobytearray(txt_password.Text, 0, 4), 0));
@@ -147,7 +147,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             bool pass = MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE, MAVLink.MAV_CMD.PREFLIGHT_STORAGE, 1, 0, 0, 0, 0, 0, 0);
 
             // reboot
-            pass =  pass & MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE, MAVLink.MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN, 0, 1, 0, 0, 0, 0, 0);
+            pass = pass & MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE, MAVLink.MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN, 0, 1, 0, 0, 0, 0, 0);
 
             if (!pass)
                 CustomMessageBox.Show(Strings.ErrorSettingParameter, Strings.ERROR);
@@ -158,13 +158,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void but_resetdefault_Click(object sender, EventArgs e)
         {
             // reset to defaults
-            if (MainV2.comPort.doCommand((byte) MainV2.comPort.sysidcurrent,
-                (byte) MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE, MAVLink.MAV_CMD.PREFLIGHT_STORAGE, 2, 0, 0, 0, 0,
+            if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent,
+                (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE, MAVLink.MAV_CMD.PREFLIGHT_STORAGE, 2, 0, 0, 0, 0,
                 0, 0))
             {
                 // save the defaults
-                if (MainV2.comPort.doCommand((byte) MainV2.comPort.sysidcurrent,
-                    (byte) MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE, MAVLink.MAV_CMD.PREFLIGHT_STORAGE, 1, 0, 0, 0,
+                if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent,
+                    (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE, MAVLink.MAV_CMD.PREFLIGHT_STORAGE, 1, 0, 0, 0,
                     0, 0, 0))
                 {
                     // pass control back to the user

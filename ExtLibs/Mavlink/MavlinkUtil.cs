@@ -39,6 +39,9 @@ public static class MavlinkUtil
 
     public static void ByteArrayToStructure(byte[] bytearray, ref object obj, int startoffset, int payloadlength = 0)
     {
+        if (bytearray == null || bytearray.Length < (startoffset + payloadlength) || payloadlength == 0)
+            return;
+
         int len = Marshal.SizeOf(obj);
 
         IntPtr iptr = Marshal.AllocHGlobal(len);
@@ -64,6 +67,9 @@ public static class MavlinkUtil
 
     public static TMavlinkPacket ByteArrayToStructureT<TMavlinkPacket>(byte[] bytearray, int startoffset)
     {
+        if (bytearray == null || bytearray.Length < startoffset)
+            return default(TMavlinkPacket);
+
         int len = bytearray.Length - startoffset;
 
         IntPtr i = Marshal.AllocHGlobal(len);
@@ -99,6 +105,8 @@ public static class MavlinkUtil
 #if UNSAFE
     public static T ReadUsingPointer<T>(byte[] data, int startoffset) where T : struct
     {
+        if (data == null || data.Length < (startoffset))
+            return default(T);
         unsafe
         {
             fixed (byte* p = &data[startoffset])

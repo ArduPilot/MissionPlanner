@@ -1,7 +1,6 @@
-﻿using System;
+﻿using OpenTK.Graphics.OpenGL;
+using System;
 using System.Drawing;
-using GMap.NET.WindowsForms;
-using OpenTK.Graphics.OpenGL;
 
 namespace MissionPlanner.Swarm
 {
@@ -27,7 +26,7 @@ namespace MissionPlanner.Swarm
 
             GL.Ortho(0, ClipRectangle.Width, ClipRectangle.Height, 0, -1, 1);
 
-            GL.Viewport(0,0,clipRect.Width,clipRect.Height);
+            GL.Viewport(0, 0, clipRect.Width, clipRect.Height);
         }
         /// <summary>Allows an object to try to free resources and perform other cleanup operations before it is reclaimed by garbage collection.</summary>
         ~PaintEventArgsI() { }

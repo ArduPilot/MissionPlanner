@@ -32,7 +32,7 @@ namespace MissionPlanner.Swarm.WaypointLeader
             {
                 foreach (var MAV in port.MAVlist)
                 {
-                    DG.Drones.Add(new Drone() { MavState = MAV});
+                    DG.Drones.Add(new Drone() { MavState = MAV });
                 }
             }
         }
@@ -182,7 +182,7 @@ namespace MissionPlanner.Swarm.WaypointLeader
                     }
                 }
 
-                if(!found)
+                if (!found)
                     ctl.Dispose();
             }
 
@@ -199,34 +199,34 @@ namespace MissionPlanner.Swarm.WaypointLeader
                             exists = true;
                             if (MAV.cs.gpsstatus < 3)
                             {
-                                ((Status) ctl).GPS.Text = "Bad";
+                                ((Status)ctl).GPS.Text = "Bad";
                             }
                             else if (MAV.cs.gpsstatus >= 3)
                             {
-                                ((Status) ctl).GPS.Text = "OK " + Math.Max(MAV.cs.gpsstatus, MAV.cs.gpsstatus2);
+                                ((Status)ctl).GPS.Text = "OK " + Math.Max(MAV.cs.gpsstatus, MAV.cs.gpsstatus2);
                             }
-                            ((Status) ctl).Armed.Text = MAV.cs.armed.ToString();
-                            ((Status) ctl).Mode.Text = MAV.cs.mode;
-                            ((Status) ctl).MAV.Text = String.Format("MAV {0}-{1}",MAV.sysid,MAV.compid);
-                            ((Status) ctl).Guided.Text = MAV.GuidedMode.x/1e7 + "," + MAV.GuidedMode.y / 1e7 + "," +
+                            ((Status)ctl).Armed.Text = MAV.cs.armed.ToString();
+                            ((Status)ctl).Mode.Text = MAV.cs.mode;
+                            ((Status)ctl).MAV.Text = String.Format("MAV {0}-{1}", MAV.sysid, MAV.compid);
+                            ((Status)ctl).Guided.Text = MAV.GuidedMode.x / 1e7 + "," + MAV.GuidedMode.y / 1e7 + "," +
                                                          MAV.GuidedMode.z;
                             ((Status)ctl).Location1.Text = MAV.cs.lat.ToString("0.00000") + "," + MAV.cs.lng.ToString("0.00000") + "," +
                                                       MAV.cs.alt;
                             ((Status)ctl).Speed.Text = MAV.cs.groundspeed.ToString("0.00");
 
                             if (MAV == DG.airmaster)
-                                ((Status) ctl).MAV.Text = String.Format("MAV {0}-{1} airmaster", MAV.sysid, MAV.compid);
+                                ((Status)ctl).MAV.Text = String.Format("MAV {0}-{1} airmaster", MAV.sysid, MAV.compid);
 
                             if (MAV == DG.groundmaster)
                                 ((Status)ctl).MAV.Text = String.Format("MAV {0}-{1} groundmaster", MAV.sysid, MAV.compid);
 
                             if (MAV == DG.airmaster || MAV == DG.groundmaster)
                             {
-                                ((Status) ctl).ForeColor = Color.Red;
+                                ((Status)ctl).ForeColor = Color.Red;
                             }
                             else
                             {
-                                ((Status) ctl).ForeColor = Color.Black;
+                                ((Status)ctl).ForeColor = Color.Black;
                             }
                         }
                     }
@@ -250,7 +250,7 @@ namespace MissionPlanner.Swarm.WaypointLeader
                         // create the curve
                         zedGraphControl1.GraphPane.CurveList.Add(
                             new LineItem("MAV " + drone.MavState.sysid.ToString(),
-                                new PointPairList(new[] {(double) drone.PathIndex}, new[] {drone.Location.Alt}),
+                                new PointPairList(new[] { (double)drone.PathIndex }, new[] { drone.Location.Alt }),
                                 colours[zedGraphControl1.GraphPane.CurveList.Count % colours.Length],
                                 SymbolType.Triangle));
 
@@ -265,15 +265,16 @@ namespace MissionPlanner.Swarm.WaypointLeader
                     try
                     {
                         curve.AddPoint((double)(drone.PathIndex * 0.1), drone.Location.Alt);
-                    } catch { }
+                    }
+                    catch { }
                 }
             }
 
             zedGraphControl1.Invalidate();
         }
 
-       Color[] colours = new Color[]
-       {
+        Color[] colours = new Color[]
+        {
             Color.Red,
             Color.Green,
             Color.Blue,
@@ -288,7 +289,7 @@ namespace MissionPlanner.Swarm.WaypointLeader
             Color.Aqua,
             Color.Brown,
             Color.WhiteSmoke
-       };
+        };
 
         private void but_resetmode_Click(object sender, EventArgs e)
         {

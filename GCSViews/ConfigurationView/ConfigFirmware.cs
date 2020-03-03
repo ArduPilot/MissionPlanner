@@ -1,4 +1,9 @@
-﻿using System;
+﻿using log4net;
+using MissionPlanner.ArduPilot;
+using MissionPlanner.Comms;
+using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -6,12 +11,6 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using log4net;
-using MissionPlanner.ArduPilot;
-using MissionPlanner.Comms;
-using MissionPlanner.Controls;
-using MissionPlanner.test;
-using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -20,9 +19,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private static List<Firmware.software> softwares = new List<Firmware.software>();
         private readonly Firmware fw = new Firmware();
-        private string custom_fw_dir = "";
+        private string custom_fw_dir = Settings.Instance["FirmwareFileDirectory"] ?? "";
         private string firmwareurl = "";
-        private APFirmware.RELEASE_TYPES REL_Type = (APFirmware.RELEASE_TYPES)99;// APFirmware.RELEASE_TYPES.OFFICIAL;
         private bool firstrun = true;
         private IProgressReporterDialogue pdr;
         private string detectedport;
@@ -43,9 +41,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (Program.WindowsStoreApp)
             {
-              //  CustomMessageBox.Show("Not Available", "Unfortunately the windows store version of this app does not support uploading.", MessageBoxButtons.OK);
-              //  this.Enabled = false;
-              //  return;
+                //  CustomMessageBox.Show("Not Available", "Unfortunately the windows store version of this app does not support uploading.", MessageBoxButtons.OK);
+                //  this.Enabled = false;
+                //  return;
             }
 
             if (MainV2.DisplayConfiguration.isAdvancedMode)
@@ -113,7 +111,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (keyData == (Keys.Control | Keys.Q))
             {
                 CustomMessageBox.Show(Strings.TrunkWarning, Strings.Trunk);
-                REL_Type = APFirmware.RELEASE_TYPES.DEV;
                 firmwareurl = "https://github.com/ArduPilot/binary/raw/master/dev/firmwarelatest.xml;https://firmware.ardupilot.org/Tools/MissionPlanner/dev/firmwarelatest.xml";
 
                 softwares.Clear();
@@ -134,6 +131,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             pdr.DoWork -= pdr_DoWork;
 
+            pdr.doWorkArgs.ForceExit = true;
+
+            pdr.doWorkArgs.CancelRequestChanged += (sender, args) => { pdr.doWorkArgs.CancelAcknowledged = true; };
+
             pdr.DoWork += pdr_DoWork;
 
             ThemeManager.ApplyThemeTo(pdr);
@@ -145,40 +146,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void pdr_DoWork(IProgressReporterDialogue sender)
         {
-            //if ((int)REL_Type == 99)
-            {
-                var fw = new Firmware();
-                fw.Progress -= fw_Progress1;
-                fw.Progress += fw_ProgressPDR;
-                softwares = fw.getFWList(firmwareurl, REL_Type);
-
-                foreach (var soft in softwares)
-                {
-                    if (sender.doWorkArgs.CancelRequested)
-                    {
-                        sender.doWorkArgs.CancelAcknowledged = true;
-                        return;
-                    }
-
-                    updateDisplayNameInvoke(soft);
-                }
-
-                return;
-            }
-
-            try
-            {
-                APFirmware.GetList();
-
-                var official = APFirmware.GetRelease(REL_Type);
-
-                var before = softwares.ToJSON();
-
-                softwares = ConvertToOld(official);
-
-                var after = softwares.ToJSON();
-            }
-            catch { }
+            var fw = new Firmware();
+            fw.Progress -= fw_Progress1;
+            fw.Progress += fw_ProgressPDR;
+            softwares = fw.getFWList(firmwareurl);
 
             foreach (var soft in softwares)
             {
@@ -187,6 +158,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     sender.doWorkArgs.CancelAcknowledged = true;
                     return;
                 }
+
                 updateDisplayNameInvoke(soft);
             }
         }
@@ -195,9 +167,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             var ans = new List<Firmware.software>();
 
-            foreach (var mavtype in official.GroupBy(a=>a.MavType))
+            foreach (var mavtype in official.GroupBy(a => a.MavType))
             {
-                
+
                 var soft = new Firmware.software()
                 {
                     url = "",
@@ -280,7 +252,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                Invoke((MethodInvoker) delegate { updateDisplayName(temp); });
+                Invoke((MethodInvoker)delegate { updateDisplayName(temp); });
             }
             catch (Exception ex)
             {
@@ -360,7 +332,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 pictureBoxOcta.Text = temp.name += " Octa";
                 pictureBoxOcta.Tag = temp;
             }
-            else if (temp.url2560_2.ToLower().Contains("antennatracker") || 
+            else if (temp.url2560_2.ToLower().Contains("antennatracker") ||
                      temp.urlpx4v2.ToLower().Contains("antennatracker") ||
                      temp.urlfmuv3.ToLower().Contains("antennatracker"))
             {
@@ -373,7 +345,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 pictureBoxSub.Text = temp.name;
                 pictureBoxSub.Tag = temp;
             }
-            else if (temp.urlpx4v2.ToLower().Contains("copter") && !temp.urlpx4v2.ToLower().Contains("heli")||
+            else if (temp.urlpx4v2.ToLower().Contains("copter") && !temp.urlpx4v2.ToLower().Contains("heli") ||
                      temp.urlfmuv3.ToLower().Contains("copter") && !temp.urlfmuv3.ToLower().Contains("heli"))
             {
                 pictureBoxOcta.Text = temp.name + " Octa";
@@ -391,13 +363,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 pictureBoxQuad.Text = temp.name + " Quad";
                 pictureBoxQuad.Tag = temp;
             }
-            else if (temp.urlpx4v2.ToLower().Contains("rover")|| 
+            else if (temp.urlpx4v2.ToLower().Contains("rover") ||
                      temp.urlfmuv2.ToLower().Contains("rover"))
             {
                 pictureBoxRover.Text = temp.name;
                 pictureBoxRover.Tag = temp;
             }
-            else if (temp.urlpx4v2.ToLower().Contains("plane")|| 
+            else if (temp.urlpx4v2.ToLower().Contains("plane") ||
                      temp.urlfmuv2.ToLower().Contains("plane"))
             {
                 pictureBoxAPM.Text = temp.name;
@@ -436,12 +408,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             if (propertyInfo.Name.Contains("url"))
                             {
                                 var oldurl = propertyInfo.GetValue(fwtoupload).ToString();
-                                if(oldurl == "")
+                                if (oldurl == "")
                                     continue;
                                 var newurl = Firmware.getUrl(history, oldurl);
                                 propertyInfo.SetValue(fwtoupload, newurl);
                             }
-                        } catch { }
+                        }
+                        catch { }
                     }
 
                     //history = "";
@@ -468,13 +441,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void pictureBoxFW_Click(object sender, EventArgs e)
         {
-            if (((Control) sender).Tag.GetType() != typeof (Firmware.software))
+            if (((Control)sender).Tag.GetType() != typeof(Firmware.software))
             {
                 CustomMessageBox.Show(Strings.ErrorFirmwareFile, Strings.ERROR);
                 return;
             }
 
-            findfirmware((Firmware.software) ((Control) sender).Tag);
+            findfirmware((Firmware.software)((Control)sender).Tag);
         }
 
         private void up_LogEvent(string message, int level = 0)
@@ -485,7 +458,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void up_ProgressEvent(double completed)
         {
-            progress.Value = (int) completed;
+            progress.Value = (int)completed;
             Application.DoEvents();
         }
 
@@ -499,7 +472,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void CMB_history_SelectedIndexChanged(object sender, EventArgs e)
         {
             firmwareurl = Firmware.getUrl(CMB_history.SelectedValue.ToString(), "");
-            REL_Type = (APFirmware.RELEASE_TYPES) 99;
             softwares.Clear();
             UpdateFWList();
         }
@@ -524,7 +496,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         //Load custom firmware (old CTRL+C shortcut)
         private void Custom_firmware_label_Click(object sender, EventArgs e)
         {
-            using (var fd = new OpenFileDialog {Filter = "Firmware (*.hex;*.px4;*.vrx;*.apj)|*.hex;*.px4;*.vrx;*.apj|All files (*.*)|*.*" })
+            using (var fd = new OpenFileDialog { Filter = "Firmware (*.hex;*.px4;*.vrx;*.apj)|*.hex;*.px4;*.vrx;*.apj|All files (*.*)|*.*" })
             {
                 if (Directory.Exists(custom_fw_dir))
                     fd.InitialDirectory = custom_fw_dir;
@@ -532,6 +504,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (File.Exists(fd.FileName))
                 {
                     custom_fw_dir = Path.GetDirectoryName(fd.FileName);
+                    Settings.Instance["FirmwareFileDirectory"] = custom_fw_dir;
 
                     fw.Progress -= fw_ProgressPDR;
                     fw.Progress += fw_Progress1;
@@ -541,8 +514,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     {
                         if (fd.FileName.ToLower().EndsWith(".px4") || fd.FileName.ToLower().EndsWith(".apj"))
                         {
-                            if (solo.Solo.is_solo_alive && 
-                                CustomMessageBox.Show("Solo","Is this a Solo?",CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
+                            if (solo.Solo.is_solo_alive &&
+                                CustomMessageBox.Show("Solo", "Is this a Solo?", CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
                             {
                                 boardtype = BoardDetect.boards.solo;
                             }
@@ -576,13 +549,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void lbl_devfw_Click(object sender, EventArgs e)
         {
             CustomMessageBox.Show(Strings.BetaWarning, Strings.Beta);
-            REL_Type = APFirmware.RELEASE_TYPES.BETA;
             firmwareurl = "https://github.com/ArduPilot/binary/raw/master/dev/firmware2.xml;https://firmware.ardupilot.org/Tools/MissionPlanner/dev/firmware2.xml";
             softwares.Clear();
             UpdateFWList();
             CMB_history.Visible = false;
         }
-        
+
 
         private void lbl_dlfw_Click(object sender, EventArgs e)
         {

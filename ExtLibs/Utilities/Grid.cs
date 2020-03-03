@@ -231,25 +231,22 @@ namespace MissionPlanner.Utilities
                 if (tree.ChildCount == 0)
                     break;
 
-                ans1 = tree.GetFirst().Contour.Select(a => new utmpos(a.X / 1000.0, a.Y / 1000.0, utmzone)).ToList();
-
-                if (ans.Count() > 2)
+                foreach (var treeChild in tree.Childs)
                 {
-                    var start1 = ans[ans.Count() - 1];
-                    var end1 = ans[ans.Count() - 2];
+                    ans1 = treeChild.Contour.Select(a => new utmpos(a.X / 1000.0, a.Y / 1000.0, utmzone))
+                        .ToList();
 
-                    var start2 = ans1[0];
-                    var end2 = ans1[ans1.Count() - 1];
-
-                    var intersection = FindLineIntersectionExtension(start1, end1, start2, end2);
-
-                    if (intersection != utmpos.Zero)
+                    if (ans.Count() > 2)
                     {
-                        //ans.Add(intersection);
-                    }
-                }
+                        var start1 = ans[ans.Count() - 1];
+                        var end1 = ans[ans.Count() - 2];
 
-                ans.AddRange(ans1);
+                        var start2 = ans1[0];
+                        var end2 = ans1[ans1.Count() - 1];
+                    }
+
+                    ans.AddRange(ans1);
+                }
             }
 
             // set the altitude on all points

@@ -1,12 +1,12 @@
 ﻿using GMap.NET;
 using GMap.NET.WindowsForms;
+using Ionic.Zip;
+using MissionPlanner.Utilities;
+using SharpKml.Dom;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using Ionic.Zip;
-using MissionPlanner.Utilities;
-using SharpKml.Dom;
 
 namespace MissionPlanner.NoFly
 {
@@ -32,7 +32,7 @@ namespace MissionPlanner.NoFly
         {
             var files = Directory.GetFiles(directory, "*.kmz");
 
-            foreach (var file in  files)
+            foreach (var file in files)
             {
                 try
                 {

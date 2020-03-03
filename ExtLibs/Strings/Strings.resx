@@ -484,7 +484,7 @@ Please use Standard/Advanced Params for the safe settings</value>
     <value>These are the latest trunk firmware, use at your own risk!!!</value>
   </data>
   <data name="BadGPSHealth" xml:space="preserve">
-    <value>Bad GPS Signal Health</value>
+    <value>Unhealthy GPS Signal</value>
   </data>
   <data name="BadGyroHealth" xml:space="preserve">
     <value>Bad Gyro Health</value>
@@ -511,7 +511,7 @@ Please use Standard/Advanced Params for the safe settings</value>
     <value>Geofence Breach</value>
   </data>
   <data name="BadAHRS" xml:space="preserve">
-    <value>Bad AHRS</value>
+    <value>Unhealthy AHRS</value>
   </data>
   <data name="NORCReceiver" xml:space="preserve">
     <value>NO RC Receiver</value>
@@ -657,5 +657,26 @@ old #{0}  new #{1}</value>
   </data>
   <data name="No_valid_sik_radio" xml:space="preserve">
     <value>No valid sik radio</value>
+  </data>
+  <data name="MAVFtp" xml:space="preserve">
+    <value>MAVFtp</value>
+  </data>
+  <data name="Bad_Battery" xml:space="preserve">
+    <value>Bad Battery</value>
+  </data>
+  <data name="Bad_Proximity" xml:space="preserve">
+    <value>Bad Proximity</value>
+  </data>
+  <data name="Bad_SatCom" xml:space="preserve">
+    <value>Bad SatCom</value>
+  </data>
+  <data name="Prearm_check_failed" xml:space="preserve">
+    <value>Prearm check failed</value>
+  </data>
+  <data name="Invalid_Location" xml:space="preserve">
+    <value>Invalid Location</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>Loading</value>
   </data>
 </root>

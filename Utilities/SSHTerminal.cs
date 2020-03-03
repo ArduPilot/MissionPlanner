@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading;
-using System.Windows.Forms;
-using log4net;
+﻿using log4net;
 using Renci.SshNet;
 using Renci.SshNet.Common;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
-using System.Text.RegularExpressions;
+using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace MissionPlanner.Utilities
 {
@@ -70,7 +70,7 @@ namespace MissionPlanner.Utilities
 
             TXT_terminal.AcceptsTab = true;
         }
-        
+
         [DllImport("user32.dll")]
         public static extern long ShowCaret(IntPtr hwnd);
 
@@ -135,47 +135,47 @@ namespace MissionPlanner.Utilities
                             e.Handled = true;
                         break;
                     case Keys.F1:
-                        if (SSHTerm) {shellStream.Write("\u001bOP"); e.Handled = true; }
+                        if (SSHTerm) { shellStream.Write("\u001bOP"); e.Handled = true; }
                         break;
                     case Keys.F2:
                         if (SSHTerm) { shellStream.Write("\u001bOQ"); e.Handled = true; }
-                            break;
+                        break;
                     case Keys.F3:
                         if (SSHTerm) { shellStream.Write("\u001bOR"); e.Handled = true; }
-                            break;
+                        break;
                     case Keys.F4:
                         if (SSHTerm) { shellStream.Write("\u001bOS"); e.Handled = true; }
-                            break;
+                        break;
                     case Keys.F5:
                         if (SSHTerm) { shellStream.Write("\u001b[15~"); e.Handled = true; }
-                            break;
+                        break;
                     case Keys.F6:
                         if (SSHTerm) { shellStream.Write("\u001b[17~"); e.Handled = true; }
-                            break;
+                        break;
                     case Keys.F7:
                         if (SSHTerm) { shellStream.Write("\u001b[18~"); e.Handled = true; }
-                            break;
+                        break;
                     case Keys.F8:
                         if (SSHTerm) { shellStream.Write("\u001b[19~"); e.Handled = true; }
-                            break;
+                        break;
                     case Keys.F9:
                         if (SSHTerm) { shellStream.Write("\u001b[20~"); e.Handled = true; }
-                            break;
+                        break;
                     case Keys.F10:
                         if (SSHTerm) { shellStream.Write("\u001b[21~"); e.Handled = true; }
-                            break;
+                        break;
                     case Keys.F11:
                         if (SSHTerm) { shellStream.Write("\u001b[23~"); e.Handled = true; }
-                            break;
+                        break;
                     case Keys.F12:
                         if (SSHTerm) { shellStream.Write("\u001b[24~"); e.Handled = true; }
-                            break;
+                        break;
                     case Keys.PageUp:
                         if (SSHTerm) { shellStream.Write("\u001b[5~"); e.Handled = true; }
-                            break;
+                        break;
                     case Keys.PageDown:
                         if (SSHTerm) { shellStream.Write("\u001b[6~"); e.Handled = true; }
-                            break;
+                        break;
                     case Keys.Home:
                         if (SSHTerm)
                         {
@@ -194,10 +194,10 @@ namespace MissionPlanner.Utilities
                         break;
                     case Keys.Insert:
                         if (SSHTerm && DECKPAM && !Control.IsKeyLocked(Keys.NumLock)) { shellStream.Write("\u001b[2~"); e.Handled = true; }
-                            break;
+                        break;
                     case Keys.Delete:
                         if (SSHTerm && DECKPAM && !Control.IsKeyLocked(Keys.NumLock)) { shellStream.Write("\u001b[3~"); e.Handled = true; }
-                            break;
+                        break;
                 }
             }
         }
@@ -213,7 +213,7 @@ namespace MissionPlanner.Utilities
                     client.Disconnect();
                     client.Dispose();
                     SSHTerm = false;
-                    threadrun = ConnectionInfo = ReverseIndex  = ArrowMovement = false;
+                    threadrun = ConnectionInfo = ReverseIndex = ArrowMovement = false;
                     DisplayChars = true;
                 }
             }
@@ -270,7 +270,7 @@ namespace MissionPlanner.Utilities
             }
         }
 
- 
+
 
         private void start_SSHterminal()
         {
@@ -368,53 +368,53 @@ namespace MissionPlanner.Utilities
 
         private void SSH_AddText(string data)
         {
-            TXT_terminal.BeginInvoke((MethodInvoker) delegate
-            {
+            TXT_terminal.BeginInvoke((MethodInvoker)delegate
+           {
                 //Need to clear clipboard for controls to work in nano
                 try
-                {
-                    Clipboard.Clear();
-                }
-                catch
-                {
+               {
+                   Clipboard.Clear();
+               }
+               catch
+               {
 
-                }
+               }
 
-                if (inputStartPos > TXT_terminal.Text.Length)
-                    inputStartPos = TXT_terminal.Text.Length - 1;
+               if (inputStartPos > TXT_terminal.Text.Length)
+                   inputStartPos = TXT_terminal.Text.Length - 1;
                 // gather current typed data
                 string currenttypedtext = TXT_terminal.Text.Substring(inputStartPos,
-                    TXT_terminal.Text.Length - inputStartPos);
+                   TXT_terminal.Text.Length - inputStartPos);
                 // remove typed data
                 TXT_terminal.Select(inputStartPos, 1);
-                TXT_terminal.SelectedText = String.Empty;
+               TXT_terminal.SelectedText = String.Empty;
 
-                if (SelectStartIndex < inputStartPos)
-                {
-                    TXT_terminal.SelectionStart = SelectStartIndex;
-                }
+               if (SelectStartIndex < inputStartPos)
+               {
+                   TXT_terminal.SelectionStart = SelectStartIndex;
+               }
 
                 //Set ReverseIndex if data contains flag
                 if (Regex.IsMatch(data, @"\eM"))
-                {
-                    ReverseIndex = true;
-                }
+               {
+                   ReverseIndex = true;
+               }
 
                 //Handle directional arrows
                 if (Regex.IsMatch(data, @".*ESC.*O.*[ABCD]\r"))
-                {
-                    Match m = Regex.Match(data, @".*ESC.*O.*[ABCD]\r");
-                    data = data.Remove(m.Index, m.Length - 1);
-                    Scrolling = true;
-                }
+               {
+                   Match m = Regex.Match(data, @".*ESC.*O.*[ABCD]\r");
+                   data = data.Remove(m.Index, m.Length - 1);
+                   Scrolling = true;
+               }
 
                 //Handle page up or page down
                 if (Regex.IsMatch(data, @".*ESC.*\[?[56].*~\r"))
-                {
-                    Match m = Regex.Match(data, @".*ESC.*\[?[56].*~\r");
-                    data = data.Remove(m.Index, m.Length - 1);
-                    Scrolling = true;
-                }
+               {
+                   Match m = Regex.Match(data, @".*ESC.*\[?[56].*~\r");
+                   data = data.Remove(m.Index, m.Length - 1);
+                   Scrolling = true;
+               }
 
                 #region Code to disable Byobu 
 
@@ -433,44 +433,44 @@ namespace MissionPlanner.Utilities
                 string pattern = @"\e[\(\[\]](\d+;)*\??(\d+)?[ABCDEFGHJKSPTLMflXthmbnirpdsu]";
                 //Removing Unnessary carriage returns
                 if (data.StartsWith("\r") && !data.StartsWith("\r\n"))
-                {
-                    data = data.Remove(data.IndexOf("\r"), 1);
-                    CursorToColumn(0);
-                }
+               {
+                   data = data.Remove(data.IndexOf("\r"), 1);
+                   CursorToColumn(0);
+               }
 
-                foreach (Match match in Regex.Matches(data, pattern))
-                {
-                    var index = data.IndexOf(match.Value);
-                    if (index != 0) //There are words to add before next ANSI character
+               foreach (Match match in Regex.Matches(data, pattern))
+               {
+                   var index = data.IndexOf(match.Value);
+                   if (index != 0) //There are words to add before next ANSI character
                     {
-                        var subString = data.Substring(0, data.IndexOf(match.Value));
-                        if (subString != "") data = data.Remove(0, subString.Length);
+                       var subString = data.Substring(0, data.IndexOf(match.Value));
+                       if (subString != "") data = data.Remove(0, subString.Length);
                         //Format Data to remove any unwanted characters
                         subString = FormatData(subString);
                         //If newline or return character move down line instead of printing newline or return character
                         if (subString.Contains("\r\n")) subString = TrimText(subString, "\r\n");
-                        if (subString.Contains("\r")) subString = TrimText(subString, "\r");
+                       if (subString.Contains("\r")) subString = TrimText(subString, "\r");
                         //Print received  Text
                         SendReceivedPackets(subString);
-                        inputStartPos = TXT_terminal.TextLength;
-                    }
+                       inputStartPos = TXT_terminal.TextLength;
+                   }
 
-                    ResolveCommand(match.Value);
-                    data = data.Remove(0, match.Length);
-                }
+                   ResolveCommand(match.Value);
+                   data = data.Remove(0, match.Length);
+               }
 
                 //Format Data to remove any unwanted characters
                 data = FormatData(data);
                 //If newline or return character move down line instead of printing newline or return character
                 if (data.Contains("\r\n")) data = TrimText(data, "\r\n");
-                if (data.Contains("\r") && !DECKAWM) data = TrimText(data, "\r");
+               if (data.Contains("\r") && !DECKAWM) data = TrimText(data, "\r");
                 //Print received  Text
                 SendReceivedPackets(data);
-                inputStartPos = TXT_terminal.TextLength;
-                SelectStartIndex = TXT_terminal.SelectionStart;
-                TXT_terminal.Focus();
-                ReverseIndex = ArrowMovement = false;
-            });
+               inputStartPos = TXT_terminal.TextLength;
+               SelectStartIndex = TXT_terminal.SelectionStart;
+               TXT_terminal.Focus();
+               ReverseIndex = ArrowMovement = false;
+           });
             Thread.Sleep(70);
         }
 
@@ -787,7 +787,7 @@ namespace MissionPlanner.Utilities
                 inputStartPos = TXT_terminal.TextLength;
             }
         }
-        
+
 
         #region ANSI Escape Sequence Resolvers
         private void ResolveCommand(string command)
@@ -1122,7 +1122,8 @@ namespace MissionPlanner.Utilities
             }
             if (Commandvalue == 1) { DECCKM = true; }
             else if (Commandvalue == 7) { DECKAWM = true; }
-            else if (Commandvalue == 25) {
+            else if (Commandvalue == 25)
+            {
                 try
                 {
                     ShowCaret(TXT_terminal.Handle);
@@ -1145,7 +1146,8 @@ namespace MissionPlanner.Utilities
             }
             if (Commandvalue == 1) { DECCKM = false; }
             else if (Commandvalue == 7) { DECKAWM = false; }
-            else if (Commandvalue == 25) {
+            else if (Commandvalue == 25)
+            {
                 try
                 {
                     HideCaret(TXT_terminal.Handle);

@@ -1,8 +1,8 @@
 ﻿//this file contains some simple extension methods
 
 using System;
-using System.Globalization;
 using System.ComponentModel;
+using System.Globalization;
 using System.Windows.Forms;
 
 namespace MissionPlanner.Utilities
@@ -17,7 +17,7 @@ namespace MissionPlanner.Utilities
 
         public static bool IsChildOf(this CultureInfo cX, CultureInfo cY)
         {
-            
+
             if (cX == null || cY == null)
                 return false;
 
@@ -40,8 +40,8 @@ namespace MissionPlanner.Utilities
             foreach (Control subctrl in ctrl.Controls)
                 ApplyResource(rm, subctrl);
 
-            if (ctrl.ContextMenu != null)
-                ApplyResource(rm, ctrl.ContextMenu);
+            if (ctrl.ContextMenuStrip != null)
+                ApplyResource(rm, ctrl.ContextMenuStrip);
 
             if (ctrl is MenuStrip)
             {
@@ -55,13 +55,6 @@ namespace MissionPlanner.Utilities
                 foreach (DataGridViewColumn col in (ctrl as DataGridView).Columns)
                     rm.ApplyResources(col, col.Name);
             }
-        }
-
-        public static void ApplyResource(this ComponentResourceManager rm, Menu menu)
-        {
-            rm.ApplyResources(menu, menu.Name);
-            foreach (MenuItem submenu in menu.MenuItems)
-                ApplyResource(rm, submenu);
         }
     }
 }

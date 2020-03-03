@@ -1,4 +1,7 @@
-﻿using System;
+﻿using ICSharpCode.SharpZipLib.Checksum;
+using log4net;
+using MissionPlanner.Controls;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
@@ -6,13 +9,11 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ICSharpCode.SharpZipLib.Checksum;
-using MissionPlanner.Controls;
-using log4net;
 
 namespace MissionPlanner.Utilities
 {
@@ -24,6 +25,14 @@ namespace MissionPlanner.Utilities
         static bool MONO = false;
         public static bool dobeta = false;
         public static bool domaster = false;
+
+        static HttpClient client = new HttpClient();
+
+        static Update()
+        {
+            client.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
+            client.Timeout = TimeSpan.FromSeconds(30);
+        }
 
         public static void updateCheckMain(IProgressReporterDialogue frmProgressReporter)
         {
@@ -40,13 +49,13 @@ namespace MissionPlanner.Utilities
                 }
                 else if (dobeta)
                 {
-                    CheckMD5(frmProgressReporter, 
+                    CheckMD5(frmProgressReporter,
                         ConfigurationManager.AppSettings["BetaUpdateLocationMD5"].ToString(),
                         ConfigurationManager.AppSettings["BetaUpdateLocationZip"]);
                 }
                 else
                 {
-                    CheckMD5(frmProgressReporter, 
+                    CheckMD5(frmProgressReporter,
                         ConfigurationManager.AppSettings["UpdateLocationMD5"].ToString(),
                         ConfigurationManager.AppSettings["UpdateLocation"]);
                 }
@@ -85,7 +94,7 @@ namespace MissionPlanner.Utilities
                 log.Info("Quitting existing process");
 
                 if (frmProgressReporter != null)
-                    frmProgressReporter.BeginInvoke((Action) delegate { Application.Exit(); });
+                    frmProgressReporter.BeginInvoke((Action)delegate { Application.Exit(); });
             }
             catch (AggregateException ex)
             {
@@ -113,33 +122,20 @@ namespace MissionPlanner.Utilities
 
             path = path + Path.DirectorySeparatorChar + "version.txt";
 
-            ServicePointManager.ServerCertificateValidationCallback =
-                new System.Net.Security.RemoteCertificateValidationCallback(
-                    (sender, certificate, chain, policyErrors) => { return true; });
-
             log.Debug(path);
 
             // Create a request using a URL that can receive a post. 
             string requestUriString = baseurl;
 
             log.Info("Checking for update at: " + requestUriString);
-            var webRequest = WebRequest.Create(requestUriString);
-            if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
-                ((HttpWebRequest)webRequest).UserAgent = Settings.Instance.UserAgent;
-            webRequest.Timeout = 5000;
-
-            // Set the Method property of the request to POST.
-            webRequest.Method = "GET";
-
-            // ((HttpWebRequest)webRequest).IfModifiedSince = File.GetLastWriteTimeUtc(path);
 
             bool updateFound = false;
 
             // Get the response.
-            using (var response = webRequest.GetResponse())
+            using (var response = client.GetAsync(requestUriString).GetAwaiter().GetResult())
             {
                 // Display the status.
-                log.Debug("Response status: " + ((HttpWebResponse) response).StatusDescription);
+                log.Debug("Response status: " + response.StatusCode);
                 // Get the stream containing content returned by the server.
 
                 if (File.Exists(path))
@@ -160,7 +156,7 @@ namespace MissionPlanner.Utilities
                         }
                     }
 
-                    using (StreamReader sr = new StreamReader(response.GetResponseStream()))
+                    using (StreamReader sr = new StreamReader(response.Content.ReadAsStreamAsync().GetAwaiter().GetResult()))
                     {
                         WebVersion = new Version(sr.ReadLine());
                     }
@@ -183,26 +179,26 @@ namespace MissionPlanner.Utilities
             if (updateFound)
             {
                 // do the update in the main thread
-                MainV2.instance.Invoke((Action) delegate
-                {
-                    string extra = "";
+                MainV2.instance.Invoke((Action)delegate
+               {
+                   string extra = "";
 
-                    if (dobeta)
-                        extra = "BETA ";
+                   if (dobeta)
+                       extra = "BETA ";
 
-                    var dr = CustomMessageBox.Show(
-                        extra + Strings.UpdateFound + " [link;" + baseurl.Replace("version.txt", "ChangeLog.txt") + ";ChangeLog]",
-                        Strings.UpdateNow, MessageBoxButtons.YesNo);
+                   var dr = CustomMessageBox.Show(
+                       extra + Strings.UpdateFound + " [link;" + baseurl.Replace("version.txt", "ChangeLog.txt") + ";ChangeLog]",
+                       Strings.UpdateNow, MessageBoxButtons.YesNo);
 
-                    if (dr == (int)DialogResult.Yes)
-                    {
-                        DoUpdate();
-                    }
-                    else
-                    {
-                        return;
-                    }
-                });
+                   if (dr == (int)DialogResult.Yes)
+                   {
+                       DoUpdate();
+                   }
+                   else
+                   {
+                       return;
+                   }
+               });
             }
             else if (NotifyNoUpdate)
             {
@@ -228,6 +224,9 @@ namespace MissionPlanner.Utilities
 
             frmProgressReporter.DoWork += new DoWorkEventHandler(DoUpdateWorker_DoWork);
 
+            frmProgressReporter.doWorkArgs.CancelRequestChanged += (sender, args) => { frmProgressReporter.doWorkArgs.CancelAcknowledged = true; };
+            frmProgressReporter.doWorkArgs.ForceExit = true;
+
             frmProgressReporter.UpdateProgressAndStatus(-1, "Checking for Updates");
 
             frmProgressReporter.RunBackgroundOperationAsync();
@@ -240,36 +239,20 @@ namespace MissionPlanner.Utilities
             log.InfoFormat("get checksums {0} - base {1}", md5url, baseurl);
 
             string responseFromServer = "";
+            responseFromServer = client.GetStringAsync(md5url).GetAwaiter().GetResult();
 
-            WebRequest request = WebRequest.Create(md5url);
-            if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
-                ((HttpWebRequest)request).UserAgent = Settings.Instance.UserAgent;
-            request.Timeout = 10000;
-            // Set the Method property of the request to POST.
-            request.Method = "GET";
-            // Get the response.
-            // Get the stream containing content returned by the server.
-            // Open the stream using a StreamReader for easy access.
-            using (WebResponse response = request.GetResponse())
-            using (Stream dataStream = response.GetResponseStream())
-            using (StreamReader reader = new StreamReader(dataStream))
-            {
-                // Display the status.
-                log.Info(((HttpWebResponse) response).StatusDescription);
-                // Read the content.
-                responseFromServer = reader.ReadToEnd();
-            }
+            File.WriteAllText(Settings.GetRunningDirectory() + "checksums.txt.new", responseFromServer);
 
             Regex regex = new Regex(@"([^\s]+)\s+[^/]+/(.*)", RegexOptions.IgnoreCase);
 
             if (regex.IsMatch(responseFromServer))
             {
                 if (frmProgressReporter != null)
-                    frmProgressReporter.UpdateProgressAndStatus(-1,"Hashing Files");
+                    frmProgressReporter.UpdateProgressAndStatus(-1, "Hashing Files");
 
                 // cleanup dll's with the same exe name
-                var dlls = Directory.GetFiles(Settings.GetRunningDirectory(), "*.dll", SearchOption.TopDirectoryOnly);
-                var exes = Directory.GetFiles(Settings.GetRunningDirectory(), "*.exe", SearchOption.TopDirectoryOnly);
+                var dlls = Directory.GetFiles(Settings.GetRunningDirectory(), "*.dll", SearchOption.AllDirectories);
+                var exes = Directory.GetFiles(Settings.GetRunningDirectory(), "*.exe", SearchOption.AllDirectories);
                 List<string> files = new List<string>();
 
                 // hash everything
@@ -307,6 +290,8 @@ namespace MissionPlanner.Utilities
                     catch { }
                 });
 
+
+
                 // background md5
                 List<Tuple<string, string, Task<bool>>> tasklist = new List<Tuple<string, string, Task<bool>>>();
 
@@ -315,7 +300,7 @@ namespace MissionPlanner.Utilities
                     string hash = matchs[i].Groups[1].Value.ToString();
                     string file = matchs[i].Groups[2].Value.ToString();
 
-                    if(file.ToLower().EndsWith("files.html"))
+                    if (file.ToLower().EndsWith("files.html"))
                         continue;
 
                     Task<bool> ismatch = Task<bool>.Factory.StartNew(() => MD5File(file, hash));
@@ -335,7 +320,7 @@ namespace MissionPlanner.Utilities
                 int done = 0;
 
                 Parallel.ForEach(tasklist, opt, task =>
-                    //foreach (var task in tasklist)
+                //foreach (var task in tasklist)
                 {
                     string file = task.Item1;
                     string hash = task.Item2;
@@ -358,7 +343,7 @@ namespace MissionPlanner.Utilities
                         if (!MD5File(file + ".new", hash))
                         {
                             if (frmProgressReporter != null)
-                                frmProgressReporter.UpdateProgressAndStatus((int)((done/(double)count)*100),
+                                frmProgressReporter.UpdateProgressAndStatus((int)((done / (double)count) * 100),
                                     Strings.Getting + file + "\n" + done + " of " + count + " of total " +
                                     tasklist.Count);
 
@@ -404,20 +389,22 @@ namespace MissionPlanner.Utilities
         {
             try
             {
-                if (!File.Exists(filename))
-                    return false;
-
-                using (var md5 = MD5.Create())
+                if (File.Exists(filename))
                 {
-                    using (var stream = File.OpenRead(filename))
+                    using (var md5 = MD5.Create())
                     {
-                        var answer = BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", "").ToLower();
+                        using (var stream = File.OpenRead(filename))
+                        {
+                            var answer = BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", "").ToLower();
 
-                        log.Debug(filename + "," + hash + "," + answer);
+                            log.Debug(filename + "," + hash + "," + answer);
 
-                        return hash == answer;
+                            return hash == answer;
+                        }
                     }
                 }
+
+                log.Debug(filename + "," + hash + "," + "File does not not exist");
             }
             catch (Exception ex)
             {
@@ -434,14 +421,14 @@ namespace MissionPlanner.Utilities
                 if (!File.Exists(filename))
                     return false;
 
-                
+
 
                 var crc = new Crc32();
-                
+
                 {
                     using (var stream = File.OpenRead(filename))
                     {
-                        var buf = new byte[1024*1024];
+                        var buf = new byte[1024 * 1024];
                         while (stream.Position < stream.Length)
                         {
                             var read = stream.Read(buf, 0, buf.Length);
@@ -463,7 +450,7 @@ namespace MissionPlanner.Utilities
         }
 
         static void GetNewFileZip(IProgressReporterDialogue frmProgressReporter, string baseurl, string subdir, string file)
-        {          
+        {
             // create dest dir
             string dir = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + subdir;
             if (!Directory.Exists(dir))
@@ -473,30 +460,33 @@ namespace MissionPlanner.Utilities
             string path = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + subdir +
                           file;
 
-            DownloadStream ds = new DownloadStream(baseurl);
-
-            ZipArchive zip = new ZipArchive(ds);
-
-            var entry = zip.GetEntry((subdir.TrimStart('\\').Replace('\\', '/') + file));
-
-            if (entry == null)
+            using (DownloadStream ds = new DownloadStream(baseurl))
+            using (ZipArchive zip = new ZipArchive(ds))
             {
-                Console.WriteLine("{0} {1}", file, baseurl);
-                return;
+                log.InfoFormat("zip entry get {0}", (subdir.TrimStart('/').TrimStart('\\').Replace('\\', '/') + file));
+
+                var entry = zip.GetEntry((subdir.TrimStart('/').TrimStart('\\').Replace('\\', '/') + file));
+
+                if (entry == null)
+                {
+                    log.InfoFormat("zip missing entry {0} {1}", file, baseurl);
+                    return;
+                }
+
+                ds.chunksize = (int) entry.CompressedLength;
+
+                log.InfoFormat("unzip {0}", file);
+
+                using (var fo = File.Open(path + ".new", FileMode.Create))
+                {
+                    entry.Open().CopyTo(fo, 1024 * 1024);
+                    fo.Flush(true);
+                    fo.Dispose();
+                }
+
+                zip.Dispose();
+                ds.Dispose();
             }
-
-            ds.chunksize = (int)entry.CompressedLength;
-
-            log.InfoFormat("unzip {0}", file);
-
-            //entry.ExtractToFile(path + ".new", true);
-
-            using (var fo = File.Open(path + ".new", FileMode.Create))
-                entry.Open().CopyTo(fo);
-
-            zip.Dispose();
-
-            ds.Dispose();
         }
 
         static void GetNewFile(IProgressReporterDialogue frmProgressReporter, string baseurl, string subdir, string file)
@@ -534,7 +524,7 @@ namespace MissionPlanner.Utilities
                     // Set the Method property of the request to GET.
                     request.Method = "GET";
                     // Allow compressed content
-                    ((HttpWebRequest) request).AutomaticDecompression = DecompressionMethods.GZip |
+                    ((HttpWebRequest)request).AutomaticDecompression = DecompressionMethods.GZip |
                                                                         DecompressionMethods.Deflate;
                     // tell server we allow compress content
                     request.Headers.Add("Accept-Encoding", "gzip,deflate");
@@ -542,7 +532,7 @@ namespace MissionPlanner.Utilities
                     using (WebResponse response = request.GetResponse())
                     {
                         // Display the status.
-                        log.Info(((HttpWebResponse) response).StatusDescription);
+                        log.Info(((HttpWebResponse)response).StatusDescription);
                         // Get the stream containing content returned by the server.
                         Stream dataStream = response.GetResponseStream();
 
@@ -570,9 +560,9 @@ namespace MissionPlanner.Utilities
                                     {
                                         if (frmProgressReporter != null)
                                             frmProgressReporter.UpdateProgressAndStatus(
-                                                (int) (((double) (contlen - bytes) / (double) contlen) * 100),
+                                                (int)(((double)(contlen - bytes) / (double)contlen) * 100),
                                                 Strings.Getting + file + ": " +
-                                                (((double) (contlen - bytes) / (double) contlen) * 100)
+                                                (((double)(contlen - bytes) / (double)contlen) * 100)
                                                 .ToString("0.0") +
                                                 "%"); //+ Math.Abs(bytes) + " bytes");
                                         dt = DateTime.Now;
@@ -593,6 +583,8 @@ namespace MissionPlanner.Utilities
                             }
 
                             log.Info("GetNewFile: " + file + " Done with length: " + fs.Length);
+                            fs.Flush(true);
+                            fs.Dispose();
                         }
                     }
                 }
@@ -603,7 +595,7 @@ namespace MissionPlanner.Utilities
                     attempt++;
                     continue;
                 }
-  
+
                 // break if we have no exception
                 break;
             }
@@ -620,7 +612,7 @@ namespace MissionPlanner.Utilities
 
             #region Fetch Parameter Meta Data
 
-            var progressReporterDialogue = ((IProgressReporterDialogue) sender);
+            var progressReporterDialogue = ((IProgressReporterDialogue)sender);
             progressReporterDialogue.UpdateProgressAndStatus(-1, "Getting updated parameter documentation");
 
             try

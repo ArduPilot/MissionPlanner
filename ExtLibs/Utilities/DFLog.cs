@@ -78,7 +78,7 @@ namespace MissionPlanner.Utilities
                             if (a.IsNumber())
                                 return (((IConvertible)a).ToString(CultureInfo.InvariantCulture));
                             else
-                                return a.ToString();
+                                return a?.ToString();
                         }).ToArray();
                     }
                     return _items;
@@ -103,7 +103,7 @@ namespace MissionPlanner.Utilities
                             _timems = int.Parse(raw[index].ToString());
                             return _timems;
                         }
-                        index = parent.FindMessageOffset(items[0], "TimeUS");
+                        index = parent.FindMessageOffset(msgtype, "TimeUS");
                         if (index >= 0)
                         {
                             _timems = (int)(long.Parse(raw[index].ToString()) / 1000);
@@ -122,7 +122,18 @@ namespace MissionPlanner.Utilities
             }
 
             public int lineno;
-            public object[] raw;
+            private object[] _raw;
+
+            public object[] raw
+            {
+                get { return _raw; }
+                set
+                {
+                    _raw = value;
+                    _items = null;
+                }
+            }
+
             public DFLog parent;
 
             public DFItem(DFLog _parent, object[] _answer, int lineno) : this()

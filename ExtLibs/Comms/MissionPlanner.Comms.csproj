@@ -20,8 +20,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="System.IO.Ports\**" />
+    <EmbeddedResource Remove="System.IO.Ports\**" />
+    <None Remove="System.IO.Ports\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="log4net" Version="2.0.8" />
-    <PackageReference Include="Microsoft.Win32.Registry" Version="4.5.0" />
+    <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />
+    <PackageReference Include="System.AppContext" Version="4.3.0" />
+    <PackageReference Include="System.IO.Ports" Version="4.7.0" />
+    <PackageReference Include="System.Net.Security" Version="4.3.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,9 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="CommsSerialPort.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Update="CommsSerialPort.cs" />
   </ItemGroup>
 
 

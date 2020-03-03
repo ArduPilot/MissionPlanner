@@ -1,10 +1,10 @@
-﻿using System;
+﻿using MissionPlanner.Comms;
+using MissionPlanner.Utilities;
+using System;
 using System.Globalization;
 using System.Net.Sockets;
 using System.Threading;
 using System.Windows.Forms;
-using MissionPlanner.Comms;
-using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Controls
 {
@@ -100,7 +100,7 @@ namespace MissionPlanner.Controls
                 }
                 try
                 {
-                    if(listener == null)
+                    if (listener == null)
                         NmeaStream.Open();
                 }
                 catch
@@ -135,14 +135,14 @@ namespace MissionPlanner.Controls
                         continue;
                     }
                     //GGA
-                    double lat = (int) MainV2.comPort.MAV.cs.lat +
-                                 ((MainV2.comPort.MAV.cs.lat - (int) MainV2.comPort.MAV.cs.lat)*.6f);
-                    double lng = (int) MainV2.comPort.MAV.cs.lng +
-                                 ((MainV2.comPort.MAV.cs.lng - (int) MainV2.comPort.MAV.cs.lng)*.6f);
+                    double lat = (int)MainV2.comPort.MAV.cs.lat +
+                                 ((MainV2.comPort.MAV.cs.lat - (int)MainV2.comPort.MAV.cs.lat) * .6f);
+                    double lng = (int)MainV2.comPort.MAV.cs.lng +
+                                 ((MainV2.comPort.MAV.cs.lng - (int)MainV2.comPort.MAV.cs.lng) * .6f);
                     string line = string.Format(System.Globalization.CultureInfo.InvariantCulture,
                         "$GP{0},{1:HHmmss.fff},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},", "GGA",
-                        DateTime.Now.ToUniversalTime(), Math.Abs(lat*100).ToString("0.00000",CultureInfo.InvariantCulture), MainV2.comPort.MAV.cs.lat < 0 ? "S" : "N",
-                        Math.Abs(lng*100).ToString("0.00000", CultureInfo.InvariantCulture), MainV2.comPort.MAV.cs.lng < 0 ? "W" : "E",
+                        DateTime.Now.ToUniversalTime(), Math.Abs(lat * 100).ToString("0.00000", CultureInfo.InvariantCulture), MainV2.comPort.MAV.cs.lat < 0 ? "S" : "N",
+                        Math.Abs(lng * 100).ToString("0.00000", CultureInfo.InvariantCulture), MainV2.comPort.MAV.cs.lng < 0 ? "W" : "E",
                         MainV2.comPort.MAV.cs.gpsstatus >= 3 ? 1 : 0, MainV2.comPort.MAV.cs.satcount,
                         MainV2.comPort.MAV.cs.gpshdop, MainV2.comPort.MAV.cs.altasl, "M", 0, "M", "");
 
@@ -154,7 +154,7 @@ namespace MissionPlanner.Controls
                         "$GP{0},{1},{2},{3},{4},{5:HHmmss.fff},{6},{7}", "GLL",
                         Math.Abs(lat * 100).ToString("0.00", CultureInfo.InvariantCulture), MainV2.comPort.MAV.cs.lat < 0 ? "S" : "N",
                         Math.Abs(lng * 100).ToString("0.00", CultureInfo.InvariantCulture), MainV2.comPort.MAV.cs.lng < 0 ? "W" : "E",
-                        DateTime.Now.ToUniversalTime(),"A","A");
+                        DateTime.Now.ToUniversalTime(), "A", "A");
 
                     checksum = GetChecksum(line);
                     NmeaStream.WriteLine(line + "*" + checksum);
@@ -170,7 +170,7 @@ namespace MissionPlanner.Controls
                     //VTG
                     line = string.Format(System.Globalization.CultureInfo.InvariantCulture,
                         "$GP{0},{1},{2},{3},{4}", "VTG",
-                        MainV2.comPort.MAV.cs.groundcourse.ToString("000"), MainV2.comPort.MAV.cs.yaw.ToString("000"), 
+                        MainV2.comPort.MAV.cs.groundcourse.ToString("000"), MainV2.comPort.MAV.cs.yaw.ToString("000"),
                         (MainV2.comPort.MAV.cs.groundspeed * 1.943844).ToString("00.0", CultureInfo.InvariantCulture),
                         (MainV2.comPort.MAV.cs.groundspeed * 3.6).ToString("00.0", CultureInfo.InvariantCulture));
 
@@ -180,19 +180,19 @@ namespace MissionPlanner.Controls
                     //RMC
                     line = string.Format(System.Globalization.CultureInfo.InvariantCulture,
                         "$GP{0},{1:HHmmss.fff},{2},{3},{4},{5},{6},{7},{8},{9:ddMMyy},{10},{11},{12}", "RMC",
-                        DateTime.Now.ToUniversalTime(), "A", Math.Abs(lat*100).ToString("0.00000", CultureInfo.InvariantCulture),
-                        MainV2.comPort.MAV.cs.lat < 0 ? "S" : "N", Math.Abs(lng*100).ToString("0.00000", CultureInfo.InvariantCulture),
-                        MainV2.comPort.MAV.cs.lng < 0 ? "W" : "E", (MainV2.comPort.MAV.cs.groundspeed*1.943844).ToString("0.0", CultureInfo.InvariantCulture),
-                        MainV2.comPort.MAV.cs.groundcourse.ToString("0.0", CultureInfo.InvariantCulture), DateTime.Now, 0,"E","A");
+                        DateTime.Now.ToUniversalTime(), "A", Math.Abs(lat * 100).ToString("0.00000", CultureInfo.InvariantCulture),
+                        MainV2.comPort.MAV.cs.lat < 0 ? "S" : "N", Math.Abs(lng * 100).ToString("0.00000", CultureInfo.InvariantCulture),
+                        MainV2.comPort.MAV.cs.lng < 0 ? "W" : "E", (MainV2.comPort.MAV.cs.groundspeed * 1.943844).ToString("0.0", CultureInfo.InvariantCulture),
+                        MainV2.comPort.MAV.cs.groundcourse.ToString("0.0", CultureInfo.InvariantCulture), DateTime.Now, 0, "E", "A");
 
                     checksum = GetChecksum(line);
                     NmeaStream.WriteLine(line + "*" + checksum);
 
-                    if (counter%20 == 0 && HomeLoc.Lat != 0 && HomeLoc.Lng != 0)
+                    if (counter % 20 == 0 && HomeLoc.Lat != 0 && HomeLoc.Lng != 0)
                     {
                         line = string.Format(System.Globalization.CultureInfo.InvariantCulture,
                             "$GP{0},{1:HHmmss.fff},{2},{3},{4},{5},{6},{7},", "HOM", DateTime.Now.ToUniversalTime(),
-                            Math.Abs(HomeLoc.Lat*100).ToString("0.00000", CultureInfo.InvariantCulture), HomeLoc.Lat < 0 ? "S" : "N", Math.Abs(HomeLoc.Lng*100).ToString("0.00000", CultureInfo.InvariantCulture),
+                            Math.Abs(HomeLoc.Lat * 100).ToString("0.00000", CultureInfo.InvariantCulture), HomeLoc.Lat < 0 ? "S" : "N", Math.Abs(HomeLoc.Lng * 100).ToString("0.00000", CultureInfo.InvariantCulture),
                             HomeLoc.Lng < 0 ? "W" : "E", HomeLoc.Alt, "M");
 
                         checksum = GetChecksum(line);
@@ -204,7 +204,7 @@ namespace MissionPlanner.Controls
 
                     checksum = GetChecksum(line);
                     NmeaStream.WriteLine(line + "*" + checksum);
-                    
+
                     var nextsend = DateTime.Now.AddMilliseconds(1000 / updaterate);
                     var sleepfor = Math.Min((int)Math.Abs((nextsend - DateTime.Now).TotalMilliseconds), 4000);
                     System.Threading.Thread.Sleep(sleepfor);
@@ -277,7 +277,7 @@ namespace MissionPlanner.Controls
                 // the console.
                 TcpClient client = listener.EndAcceptTcpClient(ar);
 
-                ((TcpSerial) NmeaStream).client = client;
+                ((TcpSerial)NmeaStream).client = client;
 
                 listener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback), listener);
             }

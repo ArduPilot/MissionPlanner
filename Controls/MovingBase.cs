@@ -1,10 +1,10 @@
-﻿using System;
-using System.Windows.Forms;
-using MissionPlanner.Comms;
-using System.Globalization;
+﻿using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
+using System;
+using System.Globalization;
 using System.IO;
 using System.Net.Sockets;
+using System.Windows.Forms;
 
 namespace MissionPlanner
 {
@@ -167,7 +167,7 @@ namespace MissionPlanner
                     {
                         string[] items = line.Trim().Split(',', '*');
 
-                        if (items[items.Length-1] != GetChecksum(line.Trim()))
+                        if (items[items.Length - 1] != GetChecksum(line.Trim()))
                         {
                             Console.WriteLine("Bad Nmea line " + items[15] + " vs " + GetChecksum(line.Trim()));
                             continue;
@@ -179,16 +179,16 @@ namespace MissionPlanner
                             continue;
                         }
 
-                        gotolocation.Lat = double.Parse(items[2], CultureInfo.InvariantCulture)/100.0;
+                        gotolocation.Lat = double.Parse(items[2], CultureInfo.InvariantCulture) / 100.0;
 
-                        gotolocation.Lat = (int) gotolocation.Lat + ((gotolocation.Lat - (int) gotolocation.Lat)/0.60);
+                        gotolocation.Lat = (int)gotolocation.Lat + ((gotolocation.Lat - (int)gotolocation.Lat) / 0.60);
 
                         if (items[3] == "S")
                             gotolocation.Lat *= -1;
 
-                        gotolocation.Lng = double.Parse(items[4], CultureInfo.InvariantCulture)/100.0;
+                        gotolocation.Lng = double.Parse(items[4], CultureInfo.InvariantCulture) / 100.0;
 
-                        gotolocation.Lng = (int) gotolocation.Lng + ((gotolocation.Lng - (int) gotolocation.Lng)/0.60);
+                        gotolocation.Lng = (int)gotolocation.Lng + ((gotolocation.Lng - (int)gotolocation.Lng) / 0.60);
 
                         if (items[5] == "W")
                             gotolocation.Lng *= -1;
@@ -201,7 +201,7 @@ namespace MissionPlanner
 
                     if (DateTime.Now > nextsend && gotolocation.Lat != 0 && gotolocation.Lng != 0) // 200 * 10 = 2 sec /// lastgotolocation != gotolocation && 
                     {
-                        nextsend = DateTime.Now.AddMilliseconds(1000/updaterate);
+                        nextsend = DateTime.Now.AddMilliseconds(1000 / updaterate);
                         Console.WriteLine("new home wp " + DateTime.Now.ToString("h:MM:ss") + " " + gotolocation.Lat +
                                           " " + gotolocation.Lng + " " + gotolocation.Alt);
                         lastgotolocation = new PointLatLngAlt(gotolocation);
@@ -209,7 +209,7 @@ namespace MissionPlanner
                         Locationwp gotohere = new Locationwp();
 
                         gotohere.id = (ushort)MAVLink.MAV_CMD.WAYPOINT;
-                        gotohere.alt = (float) (gotolocation.Alt);
+                        gotohere.alt = (float)(gotolocation.Alt);
                         gotohere.lat = (gotolocation.Lat);
                         gotohere.lng = (gotolocation.Lng);
 
@@ -240,7 +240,7 @@ namespace MissionPlanner
                                         Alt =
                                             gotolocation.Alt + double.Parse(Settings.Instance["TXT_DefaultAlt"].ToString())
                                     },
-                                    0, 0, 0, (byte) (float) MainV2.comPort.MAV.param["RALLY_TOTAL"]);
+                                    0, 0, 0, (byte)(float)MainV2.comPort.MAV.param["RALLY_TOTAL"]);
 
                                 MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "RALLY_TOTAL", 1);
                             }
@@ -253,7 +253,7 @@ namespace MissionPlanner
                 }
                 catch
                 {
-                    System.Threading.Thread.Sleep((int) (1000/updaterate));
+                    System.Threading.Thread.Sleep((int)(1000 / updaterate));
                 }
             }
 

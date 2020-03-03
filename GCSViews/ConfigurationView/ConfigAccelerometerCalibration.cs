@@ -1,8 +1,8 @@
-﻿using System;
+﻿using log4net;
+using MissionPlanner.Controls;
+using System;
 using System.Reflection;
 using System.Windows.Forms;
-using log4net;
-using MissionPlanner.Controls;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -39,7 +39,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 count++;
                 try
                 {
-                    MainV2.comPort.sendPacket(new MAVLink.mavlink_command_ack_t {command = 1, result = count},
+                    MainV2.comPort.sendPacket(new MAVLink.mavlink_command_ack_t { command = 1, result = count },
                         MainV2.comPort.sysidcurrent, MainV2.comPort.compidcurrent);
                 }
                 catch
@@ -78,7 +78,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (arg.msgid == (uint)MAVLink.MAVLINK_MSG_ID.STATUSTEXT)
             {
-                var message =new String(arg.ToStructure<MAVLink.mavlink_statustext_t>().text);
+                var message = new String(arg.ToStructure<MAVLink.mavlink_statustext_t>().text);
 
                 UpdateUserMessage(message);
 
@@ -119,11 +119,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public void UpdateUserMessage(string message)
         {
-            Invoke((MethodInvoker) delegate
-            {
-                if (message.ToLower().Contains("place vehicle") || message.ToLower().Contains("calibration"))
-                    lbl_Accel_user.Text = message;
-            });
+            Invoke((MethodInvoker)delegate
+           {
+               if (message.ToLower().Contains("place vehicle") || message.ToLower().Contains("calibration"))
+                   lbl_Accel_user.Text = message;
+           });
         }
 
         private void BUT_level_Click(object sender, EventArgs e)

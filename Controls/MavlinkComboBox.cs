@@ -92,7 +92,7 @@ namespace MissionPlanner.Controls
 
                 var item = paramlist[paramname];
 
-                this.SelectedValue = (int) paramlist[paramname].Value;
+                this.SelectedValue = (int)paramlist[paramname].Value;
             }
 
             base.SelectedIndexChanged += new EventHandler(MavlinkComboBox_SelectedIndexChanged);
@@ -100,7 +100,7 @@ namespace MissionPlanner.Controls
 
 
         public void setup(Type source, string paramname, MAVLink.MAVLinkParamList paramlist)
-            //, string paramname2 = "", Control enabledisable = null)
+        //, string paramname2 = "", Control enabledisable = null)
         {
             base.SelectedIndexChanged -= MavlinkComboBox_SelectedIndexChanged;
 
@@ -118,7 +118,7 @@ namespace MissionPlanner.Controls
 
                 enableControl(true);
 
-                this.Text = Enum.GetName(source, (Int32) paramlist[paramname].Value);
+                this.Text = Enum.GetName(source, (Int32)paramlist[paramname].Value);
             }
 
             base.SelectedIndexChanged += new EventHandler(MavlinkComboBox_SelectedIndexChanged);
@@ -142,11 +142,11 @@ namespace MissionPlanner.Controls
                     if (ValueUpdated != null)
                     {
                         ValueUpdated(this,
-                            new MAVLinkParamChanged(ParamName, (float) (Int32) Enum.Parse(_source, this.Text)));
+                            new MAVLinkParamChanged(ParamName, (float)(Int32)Enum.Parse(_source, this.Text)));
                         return;
                     }
 
-                    if (!MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, ParamName, (float) (Int32) Enum.Parse(_source, this.Text)))
+                    if (!MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, ParamName, (float)(Int32)Enum.Parse(_source, this.Text)))
                     {
                         CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, ParamName), Strings.ERROR);
                     }
@@ -155,7 +155,7 @@ namespace MissionPlanner.Controls
                     {
                         if (
                             !MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, paramname2,
-                                (float) (Int32) Enum.Parse(_source, this.Text) > 0 ? 1 : 0))
+                                (float)(Int32)Enum.Parse(_source, this.Text) > 0 ? 1 : 0))
                         {
                             CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, paramname2), Strings.ERROR);
                         }
@@ -173,11 +173,11 @@ namespace MissionPlanner.Controls
                     if (ValueUpdated != null)
                     {
                         ValueUpdated(this,
-                            new MAVLinkParamChanged(ParamName, (float) (int) ((MavlinkComboBox) sender).SelectedValue));
+                            new MAVLinkParamChanged(ParamName, (float)(int)((MavlinkComboBox)sender).SelectedValue));
                         return;
                     }
 
-                    if (!MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, ParamName, (float) (int) ((MavlinkComboBox) sender).SelectedValue))
+                    if (!MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, ParamName, (float)(int)((MavlinkComboBox)sender).SelectedValue))
                     {
                         CustomMessageBox.Show("Set " + ParamName + " Failed!", Strings.ERROR);
                     }
@@ -186,7 +186,7 @@ namespace MissionPlanner.Controls
                     {
                         if (
                             !MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, paramname2,
-                                (float) (int) ((MavlinkComboBox) sender).SelectedValue > 0 ? 1 : 0))
+                                (float)(int)((MavlinkComboBox)sender).SelectedValue > 0 ? 1 : 0))
                         {
                             CustomMessageBox.Show("Set " + paramname2 + " Failed!", Strings.ERROR);
                         }

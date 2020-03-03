@@ -12,7 +12,7 @@
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0007" />
     <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta0007" />
     <PackageReference Include="SixLabors.Shapes.Text" Version="1.0.0-beta0009" />
-    <PackageReference Include="SkiaSharp" Version="1.68.1.1-preview.9" />
+    <PackageReference Include="SkiaSharp" Version="1.68.1.1" />
     <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
   </ItemGroup>
 

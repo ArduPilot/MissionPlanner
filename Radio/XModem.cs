@@ -1,7 +1,7 @@
-﻿using System;
+﻿using MissionPlanner.Comms;
+using System;
 using System.IO;
 using System.Windows.Forms;
-using MissionPlanner.Comms;
 
 namespace MissionPlanner.Radio
 {

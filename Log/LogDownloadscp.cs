@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Reflection;
-using System.Windows.Forms;
-using System.IO;
-using System.Linq;
-using log4net;
-using MissionPlanner.Utilities;
-using System.Diagnostics;
+﻿using log4net;
 using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
 using Renci.SshNet;
 using Renci.SshNet.Sftp;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Windows.Forms;
 
 namespace MissionPlanner.Log
 {
@@ -48,7 +48,7 @@ namespace MissionPlanner.Log
 
             ThemeManager.ApplyThemeTo(this);
 
-            MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);            
+            MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
         }
 
         private void Log_Load(object sender, EventArgs e)
@@ -65,14 +65,14 @@ namespace MissionPlanner.Log
         {
             string path = Settings.Instance["LogDownloadscppath"];
 
-            if(path == null)
+            if (path == null)
                 path = "user:edison@10.0.1.128:/home/user/dflogger/dataflash/";
 
             //solo - root:TjSDBkAu@10.1.1.10:/log/dataflash/
 
             InputBox.Show("", "Please enter scp path eg (user:password@host:/dir/path/to/files/)", ref path);
 
-            Uri ur = new Uri("http://"+path);
+            Uri ur = new Uri("http://" + path);
 
             Settings.Instance["LogDownloadscppath"] = path;
 
@@ -215,17 +215,17 @@ namespace MissionPlanner.Log
         {
             log.Info("GetLog " + no);
 
-            
+
             status = SerialStatus.Reading;
 
-                logfile = Settings.Instance.LogDir + Path.DirectorySeparatorChar
-                          + MakeValidFileName(fileName) + ".bin";
+            logfile = Settings.Instance.LogDir + Path.DirectorySeparatorChar
+                      + MakeValidFileName(fileName) + ".bin";
 
-                // make log dir
-                Directory.CreateDirectory(Path.GetDirectoryName(logfile));
+            // make log dir
+            Directory.CreateDirectory(Path.GetDirectoryName(logfile));
 
-                log.Info("about to write: " + logfile);
-                // save memorystream to file
+            log.Info("about to write: " + logfile);
+            // save memorystream to file
 
 
             SftpClient client = new SftpClient(_connectionInfo);
@@ -370,7 +370,7 @@ namespace MissionPlanner.Log
 
                     tallyBytes += receivedbytes;
                     receivedbytes = 0;
-                    UpdateProgress(0, totalBytes, tallyBytes);                    
+                    UpdateProgress(0, totalBytes, tallyBytes);
                 }
 
                 UpdateProgress(0, totalBytes, totalBytes);

@@ -47,10 +47,10 @@ namespace MissionPlanner.Comms
 
         public string PortName { get; set; }
         public int ReadBufferSize { get; set; }
-        public int ReadTimeout { get; set; }
+        public override int ReadTimeout { get; set; }
         public bool RtsEnable { get; set; }
         public int WriteBufferSize { get; set; }
-        public int WriteTimeout { get; set; }
+        public override int WriteTimeout { get; set; }
 
         public override long Position
         {
@@ -58,7 +58,7 @@ namespace MissionPlanner.Comms
             set => throw new NotImplementedException();
         }
 
-        public void Close()
+        public override void Close()
         {
             serialIoManager.Close();
         }
@@ -68,7 +68,7 @@ namespace MissionPlanner.Comms
             readbuffer.Clear();
         }
 
-        public void Dispose()
+        public new void Dispose()
         {
             serialIoManager.Dispose();
         }
@@ -78,7 +78,7 @@ namespace MissionPlanner.Comms
             serialIoManager.Open();
         }
 
-        public int ReadByte()
+        public override int ReadByte()
         {
             var ans = new byte[] { 0 };
             var count = Read(ans, 0, 1);

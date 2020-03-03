@@ -1165,15 +1165,26 @@ namespace MissionPlanner.Utilities
 
         public static void DownloadGStreamer(Action<int, string> status = null)
         {
-            var output = Settings.GetDataDirectory() + "gstreamer-1.0-x86_64-1.12.4.zip";
+            string output = "";
+            string url = "";
+
+            if (System.Environment.Is64BitProcess)
+            {
+                output = Settings.GetDataDirectory() + "gstreamer-1.0-x86_64-1.12.4.zip";
+                url = "https://firmware.ardupilot.org/MissionPlanner/gstreamer/gstreamer-1.0-x86_64-1.12.4.zip";
+            }
+            else
+            {
+                output = Settings.GetDataDirectory() + "gstreamer-1.0-x86-1.9.2.zip";
+                url = "https://firmware.ardupilot.org/MissionPlanner/gstreamer/gstreamer-1.0-x86-1.9.2.zip";
+            }
+
 
             status?.Invoke(0, "Downloading..");
 
             try
             {
-                Download.getFilefromNet(
-                    "https://firmware.ardupilot.org/MissionPlanner/gstreamer/gstreamer-1.0-x86_64-1.12.4.zip",
-                    output, status: status);
+                Download.getFilefromNet(url, output, status: status);
 
                 status?.Invoke(50, "Extracting..");
                 ZipFile.ExtractToDirectory(output, Settings.GetDataDirectory());

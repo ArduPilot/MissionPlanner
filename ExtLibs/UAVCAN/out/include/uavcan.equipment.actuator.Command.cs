@@ -1,5 +1,4 @@
 
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -20,42 +19,20 @@ namespace UAVCAN
 public partial class uavcan {
 
 
-
-
 public const int UAVCAN_EQUIPMENT_ACTUATOR_COMMAND_MAX_PACK_SIZE = 4;
 public const ulong UAVCAN_EQUIPMENT_ACTUATOR_COMMAND_DT_SIG = 0x8D9A6A920C1D616C;
 
 
 
-
-
 public const double UAVCAN_EQUIPMENT_ACTUATOR_COMMAND_COMMAND_TYPE_UNITLESS = 0; // saturated uint8
-
 public const double UAVCAN_EQUIPMENT_ACTUATOR_COMMAND_COMMAND_TYPE_POSITION = 1; // saturated uint8
-
 public const double UAVCAN_EQUIPMENT_ACTUATOR_COMMAND_COMMAND_TYPE_FORCE = 2; // saturated uint8
-
 public const double UAVCAN_EQUIPMENT_ACTUATOR_COMMAND_COMMAND_TYPE_SPEED = 3; // saturated uint8
 
-
-
-
 public class uavcan_equipment_actuator_Command: IUAVCANSerialize {
-
-
-
     public uint8_t actuator_id = new uint8_t();
-
-
-
     public uint8_t command_type = new uint8_t();
-
-
-
     public Single command_value = new Single();
-
-
-
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

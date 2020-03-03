@@ -1,10 +1,10 @@
-﻿using System;
+﻿using log4net;
+using MissionPlanner.Utilities;
+using System;
 using System.ComponentModel;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
-using MissionPlanner.Utilities;
-using log4net;
 
 namespace MissionPlanner.Controls
 {
@@ -39,21 +39,21 @@ namespace MissionPlanner.Controls
                     {
                         if (Instance.IsHandleCreated)
                         {
-                            MainV2.instance.BeginInvoke((MethodInvoker) delegate
-                            {
-                                if (Instance == null)
-                                    return;
-                                uiSemaphoreSlim.Wait();
-                                try
-                                {
-                                    ((Form) Instance).Close();
-                                }
-                                finally
-                                {
-                                    uiSemaphoreSlim.Release();
-                                }
-                                Instance = null;
-                            });
+                            MainV2.instance.BeginInvoke((MethodInvoker)delegate
+                           {
+                               if (Instance == null)
+                                   return;
+                               uiSemaphoreSlim.Wait();
+                               try
+                               {
+                                   ((Form)Instance).Close();
+                               }
+                               finally
+                               {
+                                   uiSemaphoreSlim.Release();
+                               }
+                               Instance = null;
+                           });
                         }
                     }
                 }
@@ -71,39 +71,39 @@ namespace MissionPlanner.Controls
         {
             log.Info(Text);
             // create form on ui thread
-            MainV2.instance.BeginInvokeIfRequired((Action) delegate
-            {
-                uiSemaphoreSlim.Wait();
-                try
-                {
-                    if (Instance != null && !Instance.IsDisposed)
-                    {
-                        Instance.Text = Text;
-                        return;
-                    }
+            MainV2.instance.BeginInvokeIfRequired((Action)delegate
+           {
+               uiSemaphoreSlim.Wait();
+               try
+               {
+                   if (Instance != null && !Instance.IsDisposed)
+                   {
+                       Instance.Text = Text;
+                       return;
+                   }
 
-                    log.Info("Create Instance");
+                   log.Info("Create Instance");
 
-                    Loading frm = new Loading();
-                    if (owner == null)
-                        frm.TopMost = true;
-                    frm.StartPosition = FormStartPosition.CenterParent;
-                    frm.Closing += Frm_Closing;
+                   Loading frm = new Loading();
+                   if (owner == null)
+                       frm.TopMost = true;
+                   frm.StartPosition = FormStartPosition.CenterParent;
+                   frm.Closing += Frm_Closing;
 
                     // set instance
                     Instance = frm;
                     // set text
                     Instance.label1.Text = Text;
 
-                    ThemeManager.ApplyThemeTo(frm);
-                    frm.Show(owner);
-                    frm.Focus();
-                }
-                finally
-                {
-                    uiSemaphoreSlim.Release();
-                }
-            });
+                   ThemeManager.ApplyThemeTo(frm);
+                   frm.Show(owner);
+                   frm.Focus();
+               }
+               finally
+               {
+                   uiSemaphoreSlim.Release();
+               }
+           });
         }
 
         private static void Frm_Closing(object sender, CancelEventArgs e)

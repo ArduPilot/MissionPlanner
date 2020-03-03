@@ -136,6 +136,24 @@ namespace MissionPlanner.Utilities
             return false;
         }
 
+        public static bool operator ==(PointLatLngAlt p1, PointLatLng p2)
+        {
+            if (p1 == null || p2 == null)
+                return false;
+
+            if (p1.Lat == p2.Lat &&
+                p1.Lng == p2.Lng)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public static bool operator !=(PointLatLngAlt p1, PointLatLng p2)
+        {
+            return !(p1 == p2);
+        }
+
         public override int GetHashCode()
         {
             return (int) (BitConverter.DoubleToInt64Bits(Lat) ^

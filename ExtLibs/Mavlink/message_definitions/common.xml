@@ -15,7 +15,7 @@
         <description>SLUGS autopilot, http://slugsuav.soe.ucsc.edu</description>
       </entry>
       <entry value="3" name="MAV_AUTOPILOT_ARDUPILOTMEGA">
-        <description>ArduPilot - Plane/Copter/Rover/Sub/Tracker, http://ardupilot.org</description>
+        <description>ArduPilot - Plane/Copter/Rover/Sub/Tracker, https://ardupilot.org</description>
       </entry>
       <entry value="4" name="MAV_AUTOPILOT_OPENPILOT">
         <description>OpenPilot, http://openpilot.org</description>
@@ -912,6 +912,19 @@
       </entry>
       <entry value="3" name="FENCE_BREACH_BOUNDARY">
         <description>Breached fence boundary</description>
+      </entry>
+    </enum>
+    <enum name="FENCE_MITIGATE">
+      <!-- This enum is work-in-progress and it can therefore change. It should NOT be used in stable production environments. -->
+      <description>Actions being taken to mitigate/prevent fence breach</description>
+      <entry value="0" name="FENCE_MITIGATE_UNKNOWN">
+        <description>Unknown</description>
+      </entry>
+      <entry value="1" name="FENCE_MITIGATE_NONE">
+        <description>No actions being taken</description>
+      </entry>
+      <entry value="2" name="FENCE_MITIGATE_VEL_LIMIT">
+        <description>Velocity limiting active to prevent breach</description>
       </entry>
     </enum>
     <!-- Camera Mount mode Enumeration -->
@@ -3352,6 +3365,7 @@
       <field type="uint32_t" name="v_acc" units="mm">Altitude uncertainty. Positive for up.</field>
       <field type="uint32_t" name="vel_acc" units="mm">Speed uncertainty. Positive for up.</field>
       <field type="uint32_t" name="hdg_acc" units="degE5">Heading / track uncertainty</field>
+      <field type="uint16_t" name="yaw" units="cdeg">Yaw in earth frame from north. Use 0 if this GPS does not provide yaw. Use 65535 if this GPS is configured to provide yaw and is currently unable to provide it. Use 36000 for north.</field>
     </message>
     <message id="25" name="GPS_STATUS">
       <description>The positioning status, as reported by GPS. This message is intended to display status information about each satellite visible to the receiver. See message GLOBAL_POSITION for the global position estimate. This message can contain information for up to 20 satellites.</description>
@@ -4301,6 +4315,8 @@
       <field type="uint8_t" name="satellites_visible">Number of satellites visible. If unknown, set to 255</field>
       <field type="uint8_t" name="dgps_numch">Number of DGPS satellites</field>
       <field type="uint32_t" name="dgps_age" units="ms">Age of DGPS info</field>
+      <extensions/>
+      <field type="uint16_t" name="yaw" units="cdeg">Yaw in earth frame from north. Use 0 if this GPS does not provide yaw. Use 65535 if this GPS is configured to provide yaw and is currently unable to provide it. Use 36000 for north.</field>
     </message>
     <message id="125" name="POWER_STATUS">
       <description>Power supply status</description>
@@ -4570,6 +4586,8 @@
       <field type="uint16_t" name="breach_count">Number of fence breaches.</field>
       <field type="uint8_t" name="breach_type" enum="FENCE_BREACH">Last breach type.</field>
       <field type="uint32_t" name="breach_time" units="ms">Time (since boot) of last breach.</field>
+      <extensions/>
+      <field type="uint8_t" name="breach_mitigation" enum="FENCE_MITIGATE">Active action to prevent fence breach</field>
     </message>
     <!-- MESSAGE IDs 180 - 229: Space for custom messages in individual projectname_messages.xml files -->
     <message id="230" name="ESTIMATOR_STATUS">
@@ -4769,6 +4787,9 @@
       <description>Status text message. These messages are printed in yellow in the COMM console of QGroundControl. WARNING: They consume quite some bandwidth, so use only for important status and error messages. If implemented wisely, these messages are buffered on the MCU and sent only at a limited rate (e.g. 10 Hz).</description>
       <field type="uint8_t" name="severity" enum="MAV_SEVERITY">Severity of status. Relies on the definitions within RFC-5424.</field>
       <field type="char[50]" name="text">Status text message, without null termination character</field>
+      <extensions/>
+      <field type="uint16_t" name="id">Unique (opaque) identifier for this statustext message.  May be used to reassemble a logical long-statustext message from a sequence of chunks.  A value of zero indicates this is the only chunk in the sequence and the message can be emitted immediately.</field>
+      <field type="uint8_t" name="chunk_seq">This chunk's sequence number; indexing is from zero.  Any null character in the text field is taken to mean this was the last chunk.</field>
     </message>
     <message id="254" name="DEBUG">
       <description>Send a debug value. The index is used to discriminate between values. These values show up in the plot of QGroundControl as DEBUG N.</description>
@@ -4999,3 +5020,4 @@
     </message>
   </messages>
 </mavlink>
+

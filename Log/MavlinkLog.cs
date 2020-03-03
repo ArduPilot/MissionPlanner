@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections;
-using System.Drawing;
-using System.Windows.Forms;
-using System.IO;
-using System.Reflection;
-using log4net;
-using ZedGraph; // Graphs
-using MissionPlanner.Utilities;
-using System.CodeDom.Compiler;
-using System.Globalization;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿using log4net;
 using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
+using System;
+using System.CodeDom.Compiler;
+using System.Collections;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Windows.Forms;
+using ZedGraph; // Graphs
 
 namespace MissionPlanner.Log
 {
@@ -103,7 +102,7 @@ namespace MissionPlanner.Log
 
                             mine.OnPacketReceived += ((o, message) =>
                             {
-                                if (message.msgid == (int) MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT)
+                                if (message.msgid == (int)MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT)
                                 {
                                     newsample = true;
                                     sysidsample = message.sysid;
@@ -119,8 +118,8 @@ namespace MissionPlanner.Log
                             {
                                 int percent =
                                     (int)
-                                    ((float) mine.logplaybackfile.BaseStream.Position /
-                                     (float) mine.logplaybackfile.BaseStream.Length * 100.0f);
+                                    ((float)mine.logplaybackfile.BaseStream.Position /
+                                     (float)mine.logplaybackfile.BaseStream.Length * 100.0f);
                                 if (progressBar1.Value != percent)
                                 {
                                     progressBar1.Value = percent;
@@ -151,7 +150,7 @@ namespace MissionPlanner.Log
                                         flightdataDictionary[sysidsample] = new List<CurrentState>();
 
                                     flightdataDictionary[sysidsample]
-                                        .Add((CurrentState) mine.MAVlist[sysidsample, compidsample].cs.Clone());
+                                        .Add((CurrentState)mine.MAVlist[sysidsample, compidsample].cs.Clone());
                                 }
                             }
 
@@ -195,7 +194,7 @@ namespace MissionPlanner.Log
             }
         }
 
-      
+
 
         private void BUT_humanreadable_Click(object sender, EventArgs e)
         {
@@ -241,8 +240,8 @@ namespace MissionPlanner.Log
                             {
                                 int percent =
                                     (int)
-                                        ((float) mine.logplaybackfile.BaseStream.Position/
-                                         (float) mine.logplaybackfile.BaseStream.Length*100.0f);
+                                        ((float)mine.logplaybackfile.BaseStream.Position /
+                                         (float)mine.logplaybackfile.BaseStream.Length * 100.0f);
                                 if (progressBar1.Value != percent)
                                 {
                                     progressBar1.Value = percent;
@@ -274,7 +273,7 @@ namespace MissionPlanner.Log
             //http://devreminder.wordpress.com/net/net-framework-fundamentals/c-dynamic-math-expression-evaluation/
             //http://www.c-sharpcorner.com/UploadFile/mgold/CodeDomCalculator08082005003253AM/CodeDomCalculator.aspx
 
-//string mathExpression = "(1+1)*3";
+            //string mathExpression = "(1+1)*3";
             //Console.WriteLine(String.Format("{0}={1}",mathExpression, Evaluate(mathExpression)));
 
 
@@ -378,8 +377,8 @@ namespace MissionPlanner.Log
                 {
                     int percent =
                         (int)
-                            ((float) MavlinkInterface.logplaybackfile.BaseStream.Position/
-                             (float) MavlinkInterface.logplaybackfile.BaseStream.Length*100.0f);
+                            ((float)MavlinkInterface.logplaybackfile.BaseStream.Position /
+                             (float)MavlinkInterface.logplaybackfile.BaseStream.Length * 100.0f);
                     if (progressBar1.Value != percent)
                     {
                         progressBar1.Value = percent;
@@ -402,7 +401,7 @@ namespace MissionPlanner.Log
 
                     if (data is MAVLink.mavlink_heartbeat_t)
                     {
-                        if (((MAVLink.mavlink_heartbeat_t) data).type == (byte) MAVLink.MAV_TYPE.GCS)
+                        if (((MAVLink.mavlink_heartbeat_t)data).type == (byte)MAVLink.MAV_TYPE.GCS)
                             continue;
                     }
 
@@ -419,7 +418,7 @@ namespace MissionPlanner.Log
                             packetdata[packetname] = new Dictionary<DateTime, object>();
                         }
 
-                        Dictionary<DateTime, object> temp = (Dictionary<DateTime, object>) packetdata[packetname];
+                        Dictionary<DateTime, object> temp = (Dictionary<DateTime, object>)packetdata[packetname];
 
                         //double time = (MavlinkInterface.lastlogread - startlogtime).TotalMilliseconds / 1000.0;
                         DateTime time = MavlinkInterface.lastlogread;
@@ -449,7 +448,7 @@ namespace MissionPlanner.Log
                                 this.datappl[field.Name + " " + field.DeclaringType.Name] = new PointPairList();
 
                             PointPairList list =
-                                ((PointPairList) this.datappl[field.Name + " " + field.DeclaringType.Name]);
+                                ((PointPairList)this.datappl[field.Name + " " + field.DeclaringType.Name]);
 
                             object value = fieldValue;
                             // seconds scale
@@ -457,45 +456,45 @@ namespace MissionPlanner.Log
 
                             XDate time = new XDate(MavlinkInterface.lastlogread);
 
-                            if (value.GetType() == typeof (Single))
+                            if (value.GetType() == typeof(Single))
                             {
-                                list.Add(time, (Single) field.GetValue(data));
+                                list.Add(time, (Single)field.GetValue(data));
                             }
-                            else if (value.GetType() == typeof (short))
+                            else if (value.GetType() == typeof(short))
                             {
-                                list.Add(time, (short) field.GetValue(data));
+                                list.Add(time, (short)field.GetValue(data));
                             }
-                            else if (value.GetType() == typeof (ushort))
+                            else if (value.GetType() == typeof(ushort))
                             {
-                                list.Add(time, (ushort) field.GetValue(data));
+                                list.Add(time, (ushort)field.GetValue(data));
                             }
-                            else if (value.GetType() == typeof (byte))
+                            else if (value.GetType() == typeof(byte))
                             {
-                                list.Add(time, (byte) field.GetValue(data));
+                                list.Add(time, (byte)field.GetValue(data));
                             }
-                            else if (value.GetType() == typeof (sbyte))
+                            else if (value.GetType() == typeof(sbyte))
                             {
-                                list.Add(time, (sbyte) field.GetValue(data));
+                                list.Add(time, (sbyte)field.GetValue(data));
                             }
-                            else if (value.GetType() == typeof (Int32))
+                            else if (value.GetType() == typeof(Int32))
                             {
-                                list.Add(time, (Int32) field.GetValue(data));
+                                list.Add(time, (Int32)field.GetValue(data));
                             }
-                            else if (value.GetType() == typeof (UInt32))
+                            else if (value.GetType() == typeof(UInt32))
                             {
-                                list.Add(time, (UInt32) field.GetValue(data));
+                                list.Add(time, (UInt32)field.GetValue(data));
                             }
-                            else if (value.GetType() == typeof (ulong))
+                            else if (value.GetType() == typeof(ulong))
                             {
-                                list.Add(time, (ulong) field.GetValue(data));
+                                list.Add(time, (ulong)field.GetValue(data));
                             }
-                            else if (value.GetType() == typeof (long))
+                            else if (value.GetType() == typeof(long))
                             {
-                                list.Add(time, (long) field.GetValue(data));
+                                list.Add(time, (long)field.GetValue(data));
                             }
-                            else if (value.GetType() == typeof (double))
+                            else if (value.GetType() == typeof(double))
                             {
-                                list.Add(time, (double) field.GetValue(data));
+                                list.Add(time, (double)field.GetValue(data));
                             }
 
                             else
@@ -530,7 +529,7 @@ namespace MissionPlanner.Log
                 }
 
                 // custom sort based on packet name
-                options.Sort(delegate(string c1, string c2) { return String.Compare(c1, c2); });
+                options.Sort(delegate (string c1, string c2) { return String.Compare(c1, c2); });
                 //String.Compare(c1.Substring(0,c1.IndexOf('.')),c2.Substring(0,c2.IndexOf('.')))
 
                 // this needs sorting
@@ -557,7 +556,7 @@ namespace MissionPlanner.Log
 
         public static T Cast<T>(object o)
         {
-            return (T) o;
+            return (T)o;
         }
 
         void dospecial(string PacketName)
@@ -566,7 +565,7 @@ namespace MissionPlanner.Log
 
             try
             {
-                temp = (Dictionary<DateTime, object>) packetdata[PacketName];
+                temp = (Dictionary<DateTime, object>)packetdata[PacketName];
             }
             catch
             {
@@ -609,7 +608,7 @@ namespace MissionPlanner.Log
 
 
                 // from here
-                PointPairList result = (PointPairList) this.datappl[field];
+                PointPairList result = (PointPairList)this.datappl[field];
 
                 try
                 {
@@ -621,7 +620,7 @@ namespace MissionPlanner.Log
                     foreach (DateTime time in temp.Keys)
                     {
                         XDate time2 = new XDate(time);
-                        result.Add(time2, (double) mi.Invoke(assemblyInstance, new object[] {temp[time]}));
+                        result.Add(time2, (double)mi.Invoke(assemblyInstance, new object[] { temp[time] }));
                     }
                 }
                 catch
@@ -680,9 +679,9 @@ namespace MissionPlanner.Log
         {
             // eg RAW_IMU.xmag to "xmag mavlink_raw_imu_t"
 
-            string[] items = name.ToLower().Split(new char[] {'.', ' '});
+            string[] items = name.ToLower().Split(new char[] { '.', ' ' });
 
-            PointPairList list = ((PointPairList) this.datappl[items[1] + " mavlink_" + items[0] + "_t"]);
+            PointPairList list = ((PointPairList)this.datappl[items[1] + " mavlink_" + items[0] + "_t"]);
 
             return list;
         }
@@ -695,11 +694,11 @@ namespace MissionPlanner.Log
 
             this.datappl[field] = new PointPairList();
 
-            PointPairList list = ((PointPairList) this.datappl[field]);
+            PointPairList list = ((PointPairList)this.datappl[field]);
 
-            PointPairList listx = ((PointPairList) this.datappl["xmag mavlink_raw_imu_t"]);
-            PointPairList listy = ((PointPairList) this.datappl["ymag mavlink_raw_imu_t"]);
-            PointPairList listz = ((PointPairList) this.datappl["zmag mavlink_raw_imu_t"]);
+            PointPairList listx = ((PointPairList)this.datappl["xmag mavlink_raw_imu_t"]);
+            PointPairList listy = ((PointPairList)this.datappl["ymag mavlink_raw_imu_t"]);
+            PointPairList listz = ((PointPairList)this.datappl["zmag mavlink_raw_imu_t"]);
 
             //(float)Math.Sqrt(Math.Pow(mx, 2) + Math.Pow(my, 2) + Math.Pow(mz, 2));
 
@@ -721,21 +720,21 @@ namespace MissionPlanner.Log
 
             this.datappl[field] = new PointPairList();
 
-            PointPairList list = ((PointPairList) this.datappl[field]);
+            PointPairList list = ((PointPairList)this.datappl[field]);
 
-            PointPairList listtime = ((PointPairList) this.datappl["time_usec mavlink_raw_imu_t"]);
+            PointPairList listtime = ((PointPairList)this.datappl["time_usec mavlink_raw_imu_t"]);
 
             double lastrealtime = listtime[0].X;
-            double lastvalue = listtime[0].Y*1.0e-6;
+            double lastvalue = listtime[0].Y * 1.0e-6;
 
             for (int a = 0; a < listtime.Count; a++)
             {
-                double delta = ((listtime[a].Y*1.0e-6) - lastvalue);
+                double delta = ((listtime[a].Y * 1.0e-6) - lastvalue);
 
                 // convert to seconds
                 list.Add(listtime[a].X, delta);
 
-                lastvalue = listtime[a].Y*1.0e-6;
+                lastvalue = listtime[a].Y * 1.0e-6;
                 lastrealtime = listtime[a].X;
             }
         }
@@ -750,18 +749,18 @@ namespace MissionPlanner.Log
 
             PointLatLngAlt home = new PointLatLngAlt();
 
-            PointPairList list = ((PointPairList) this.datappl[field]);
+            PointPairList list = ((PointPairList)this.datappl[field]);
 
-            PointPairList listfix = ((PointPairList) this.datappl["fix_type mavlink_gps_raw_int_t"]);
-            PointPairList listx = ((PointPairList) this.datappl["lat mavlink_gps_raw_int_t"]);
-            PointPairList listy = ((PointPairList) this.datappl["lon mavlink_gps_raw_int_t"]);
-            PointPairList listz = ((PointPairList) this.datappl["alt mavlink_gps_raw_int_t"]);
+            PointPairList listfix = ((PointPairList)this.datappl["fix_type mavlink_gps_raw_int_t"]);
+            PointPairList listx = ((PointPairList)this.datappl["lat mavlink_gps_raw_int_t"]);
+            PointPairList listy = ((PointPairList)this.datappl["lon mavlink_gps_raw_int_t"]);
+            PointPairList listz = ((PointPairList)this.datappl["alt mavlink_gps_raw_int_t"]);
 
             for (int a = 0; a < listfix.Count; a++)
             {
                 if (listfix[a].Y == 3)
                 {
-                    home = new PointLatLngAlt(listx[a].Y/10000000.0, listy[a].Y/10000000.0, listz[a].Y/1000.0, "Home");
+                    home = new PointLatLngAlt(listx[a].Y / 10000000.0, listy[a].Y / 10000000.0, listz[a].Y / 1000.0, "Home");
                     break;
                 }
             }
@@ -771,7 +770,7 @@ namespace MissionPlanner.Log
             for (int a = 0; a < listx.Count; a++)
             {
                 double ans =
-                    home.GetDistance(new PointLatLngAlt(listx[a].Y/10000000.0, listy[a].Y/10000000.0, listz[a].Y/1000.0,
+                    home.GetDistance(new PointLatLngAlt(listx[a].Y / 10000000.0, listy[a].Y / 10000000.0, listz[a].Y / 1000.0,
                         "Point"));
 
                 //Console.WriteLine("{0} {1} {2} {3}", ans, listx[a].Y, listy[a].Y, listz[a].Y);
@@ -838,21 +837,21 @@ namespace MissionPlanner.Log
 
         void chk_box_CheckedChanged(object sender, EventArgs e)
         {
-            if (((CheckBox) sender).Checked)
+            if (((CheckBox)sender).Checked)
             {
-                selection.Add(((CheckBox) sender).Name);
+                selection.Add(((CheckBox)sender).Name);
 
                 LineItem myCurve;
 
-                int colorvalue = MavlinkLogBase.ColourValues[colorStep% MavlinkLogBase.ColourValues.Length];
+                int colorvalue = MavlinkLogBase.ColourValues[colorStep % MavlinkLogBase.ColourValues.Length];
                 colorStep++;
                 Console.WriteLine("Color " + colorvalue);
 
-                myCurve = zg1.GraphPane.AddCurve(((CheckBox) sender).Name.Replace("mavlink_", ""),
-                    (PointPairList) datappl[((CheckBox) sender).Name],
-                    Color.FromArgb(unchecked(colorvalue + (int) 0xff000000)), SymbolType.None);
+                myCurve = zg1.GraphPane.AddCurve(((CheckBox)sender).Name.Replace("mavlink_", ""),
+                    (PointPairList)datappl[((CheckBox)sender).Name],
+                    Color.FromArgb(unchecked(colorvalue + (int)0xff000000)), SymbolType.None);
 
-                var split = ((CheckBox) sender).Name.Split(' ');
+                var split = ((CheckBox)sender).Name.Split(' ');
 
                 if (split.Length == 2)
                 {
@@ -893,16 +892,16 @@ namespace MissionPlanner.Log
                     myCurve.YAxisIndex = 0;
                 }
 
-                myCurve.Tag = ((CheckBox) sender).Name;
+                myCurve.Tag = ((CheckBox)sender).Name;
 
                 if (myCurve.Tag.ToString() == "roll mavlink_attitude_t" ||
                     myCurve.Tag.ToString() == "pitch mavlink_attitude_t" ||
                     myCurve.Tag.ToString() == "yaw mavlink_attitude_t")
                 {
-                    PointPairList ppl = new PointPairList((PointPairList) datappl[((CheckBox) sender).Name]);
+                    PointPairList ppl = new PointPairList((PointPairList)datappl[((CheckBox)sender).Name]);
                     for (int a = 0; a < ppl.Count; a++)
                     {
-                        ppl[a].Y = ppl[a].Y*(180.0/Math.PI);
+                        ppl[a].Y = ppl[a].Y * (180.0 / Math.PI);
                     }
 
                     myCurve.Points = ppl;
@@ -922,12 +921,12 @@ namespace MissionPlanner.Log
             }
             else
             {
-                selection.Remove(((CheckBox) sender).Name);
+                selection.Remove(((CheckBox)sender).Name);
                 foreach (var item in zg1.GraphPane.CurveList)
                 {
                     if (item.Tag == null)
                         continue;
-                    if (item.Tag.ToString() == ((CheckBox) sender).Name)
+                    if (item.Tag.ToString() == ((CheckBox)sender).Name)
                     {
                         zg1.GraphPane.CurveList.Remove(item);
                         break;
@@ -1020,8 +1019,8 @@ namespace MissionPlanner.Log
                             {
                                 int percent =
                                     (int)
-                                        ((float) mine.logplaybackfile.BaseStream.Position/
-                                         (float) mine.logplaybackfile.BaseStream.Length*100.0f);
+                                        ((float)mine.logplaybackfile.BaseStream.Position /
+                                         (float)mine.logplaybackfile.BaseStream.Length * 100.0f);
                                 if (progressBar1.Value != percent)
                                 {
                                     progressBar1.Value = percent;
@@ -1094,8 +1093,8 @@ namespace MissionPlanner.Log
 
                                 int percent =
                                     (int)
-                                        ((float) mine.logplaybackfile.BaseStream.Position/
-                                         (float) mine.logplaybackfile.BaseStream.Length*100.0f);
+                                        ((float)mine.logplaybackfile.BaseStream.Position /
+                                         (float)mine.logplaybackfile.BaseStream.Length * 100.0f);
                                 if (progressBar1.Value != percent)
                                 {
                                     progressBar1.Value = percent;
@@ -1174,8 +1173,8 @@ namespace MissionPlanner.Log
                             {
                                 int percent =
                                     (int)
-                                        ((float) mine.logplaybackfile.BaseStream.Position/
-                                         (float) mine.logplaybackfile.BaseStream.Length*100.0f);
+                                        ((float)mine.logplaybackfile.BaseStream.Position /
+                                         (float)mine.logplaybackfile.BaseStream.Length * 100.0f);
                                 if (progressBar1.Value != percent)
                                 {
                                     progressBar1.Value = percent;
@@ -1370,7 +1369,7 @@ namespace MissionPlanner.Log
             rightclick = !leftaxis;
 
             chk_box_CheckedChanged(
-                new CheckBox() {Name = text + " mavlink_" + parenttext.ToLower() + "_t", Checked = true}, null);
+                new CheckBox() { Name = text + " mavlink_" + parenttext.ToLower() + "_t", Checked = true }, null);
         }
     }
 }

@@ -1,13 +1,12 @@
-﻿using System;
+﻿using MissionPlanner.ArduPilot;
+using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using MissionPlanner.ArduPilot;
-using MissionPlanner.Controls;
-using MissionPlanner.Utilities;
 using Transitions;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
@@ -26,28 +25,28 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var delay = new Transition(new TransitionType_Linear(2000));
             var fadeIn = new Transition(new TransitionType_Linear(800));
 
-            _ErrorTransition = new[] {delay, fadeIn};
+            _ErrorTransition = new[] { delay, fadeIn };
 
             _NoErrorTransition = new Transition(new TransitionType_Linear(10));
 
-            LNK_wiki.MouseEnter += (s, e) => FadeLinkTo((LinkLabel) s, Color.CornflowerBlue);
-            LNK_wiki.MouseLeave += (s, e) => FadeLinkTo((LinkLabel) s, Color.WhiteSmoke);
+            LNK_wiki.MouseEnter += (s, e) => FadeLinkTo((LinkLabel)s, Color.CornflowerBlue);
+            LNK_wiki.MouseLeave += (s, e) => FadeLinkTo((LinkLabel)s, Color.WhiteSmoke);
 
             SetErrorMessageOpacity();
 
             if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduPlane)
             {
-                mavlinkComboBoxTilt.Items.AddRange(Enum.GetNames(typeof (Channelap)));
-                mavlinkComboBoxRoll.Items.AddRange(Enum.GetNames(typeof (Channelap)));
-                mavlinkComboBoxPan.Items.AddRange(Enum.GetNames(typeof (Channelap)));
-                CMB_shuttertype.Items.AddRange(Enum.GetNames(typeof (ChannelCameraShutter)));
+                mavlinkComboBoxTilt.Items.AddRange(Enum.GetNames(typeof(Channelap)));
+                mavlinkComboBoxRoll.Items.AddRange(Enum.GetNames(typeof(Channelap)));
+                mavlinkComboBoxPan.Items.AddRange(Enum.GetNames(typeof(Channelap)));
+                CMB_shuttertype.Items.AddRange(Enum.GetNames(typeof(ChannelCameraShutter)));
             }
             else
             {
-                mavlinkComboBoxTilt.Items.AddRange(Enum.GetNames(typeof (Channelac)));
-                mavlinkComboBoxRoll.Items.AddRange(Enum.GetNames(typeof (Channelac)));
-                mavlinkComboBoxPan.Items.AddRange(Enum.GetNames(typeof (Channelac)));
-                CMB_shuttertype.Items.AddRange(Enum.GetNames(typeof (ChannelCameraShutter)));
+                mavlinkComboBoxTilt.Items.AddRange(Enum.GetNames(typeof(Channelac)));
+                mavlinkComboBoxRoll.Items.AddRange(Enum.GetNames(typeof(Channelac)));
+                mavlinkComboBoxPan.Items.AddRange(Enum.GetNames(typeof(Channelac)));
+                CMB_shuttertype.Items.AddRange(Enum.GetNames(typeof(ChannelCameraShutter)));
             }
 
             string remove = "SERVO";
@@ -104,7 +103,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public void Activate()
         {
-            var copy = new Dictionary<string, double>((Dictionary<string, double>) MainV2.comPort.MAV.param);
+            var copy = new Dictionary<string, double>((Dictionary<string, double>)MainV2.comPort.MAV.param);
 
             if (!copy.ContainsKey("CAM_TRIGG_TYPE"))
             {
@@ -180,7 +179,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 string item = itemobj.ToString();
                 if (MainV2.comPort.MAV.param.ContainsKey(item + "_FUNCTION"))
                 {
-                    var ans = (float) MainV2.comPort.MAV.param[item + "_FUNCTION"];
+                    var ans = (float)MainV2.comPort.MAV.param[item + "_FUNCTION"];
 
                     if (item == exclude)
                         continue;
@@ -257,10 +256,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             mavlinkNumericUpDownTSMX.setup(800, 2200, 1, 1, mavlinkComboBoxTilt.Text + "_MAX", MainV2.comPort.MAV.param);
             mavlinkNumericUpDownTAM.setup(-90, 0, 100, 1, ParamHead + "ANGMIN_TIL", MainV2.comPort.MAV.param);
             mavlinkNumericUpDownTAMX.setup(0, 90, 100, 1, ParamHead + "ANGMAX_TIL", MainV2.comPort.MAV.param);
-            mavlinkCheckBoxTR.setup(new double[] {-1, 1}, new double[] {1, 0},
-                new string[] {mavlinkComboBoxTilt.Text + "_REV", mavlinkComboBoxTilt.Text + "_REVERSED"},
+            mavlinkCheckBoxTR.setup(new double[] { -1, 1 }, new double[] { 1, 0 },
+                new string[] { mavlinkComboBoxTilt.Text + "_REV", mavlinkComboBoxTilt.Text + "_REVERSED" },
                 MainV2.comPort.MAV.param);
-            CMB_inputch_tilt.setup(typeof (Channelinput), ParamHead + "RC_IN_TILT", MainV2.comPort.MAV.param);
+            CMB_inputch_tilt.setup(typeof(Channelinput), ParamHead + "RC_IN_TILT", MainV2.comPort.MAV.param);
         }
 
         private void updateRoll()
@@ -287,7 +286,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             mavlinkCheckBoxRR.setup(new double[] { -1, 1 }, new double[] { 1, 0 },
                 new string[] { mavlinkComboBoxRoll.Text + "_REV", mavlinkComboBoxRoll.Text + "_REVERSED" },
                 MainV2.comPort.MAV.param);
-            CMB_inputch_roll.setup(typeof (Channelinput), ParamHead + "RC_IN_ROLL", MainV2.comPort.MAV.param);
+            CMB_inputch_roll.setup(typeof(Channelinput), ParamHead + "RC_IN_ROLL", MainV2.comPort.MAV.param);
         }
 
         private void updateYaw()
@@ -314,7 +313,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             mavlinkCheckBoxPR.setup(new double[] { -1, 1 }, new double[] { 1, 0 },
                 new string[] { mavlinkComboBoxPan.Text + "_REV", mavlinkComboBoxPan.Text + "_REVERSED" },
                 MainV2.comPort.MAV.param);
-            CMB_inputch_pan.setup(typeof (Channelinput), ParamHead + "RC_IN_PAN", MainV2.comPort.MAV.param);
+            CMB_inputch_pan.setup(typeof(Channelinput), ParamHead + "RC_IN_PAN", MainV2.comPort.MAV.param);
         }
 
         private void SetErrorMessageOpacity()

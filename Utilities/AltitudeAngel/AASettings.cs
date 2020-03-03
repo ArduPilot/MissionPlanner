@@ -1,9 +1,9 @@
-﻿using System;
-using System.Diagnostics;
-using System.Windows.Forms;
-using AltitudeAngelWings;
+﻿using AltitudeAngelWings;
 using AltitudeAngelWings.Extra;
 using AltitudeAngelWings.Service;
+using System;
+using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace MissionPlanner.Utilities.AltitudeAngel
 {
@@ -34,7 +34,7 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             txt_FlightReportName.Text = _settings.FlightReportName;
             chk_FlightReportCommercial.Checked = _settings.FlightReportCommercial;
             txt_FlightReportDuration.Text =
-                ((int) _settings.FlightReportTimeSpan.TotalMinutes).ToString();
+                ((int)_settings.FlightReportTimeSpan.TotalMinutes).ToString();
 
             but_enable.Enabled = !_altitudeAngelService.IsSignedIn;
             but_disable.Enabled = _altitudeAngelService.IsSignedIn;

@@ -1,11 +1,11 @@
-﻿using System;
+﻿using MissionPlanner.ArduPilot;
+using MissionPlanner.Utilities;
+using ProjNet.CoordinateSystems;
+using ProjNet.CoordinateSystems.Transformations;
+using System;
 using System.Collections.Generic;
 using GeoAPI.CoordinateSystems;
 using GeoAPI.CoordinateSystems.Transformations;
-using ProjNet.CoordinateSystems.Transformations;
-using ProjNet.CoordinateSystems;
-using MissionPlanner.Utilities;
-using MissionPlanner.ArduPilot;
 using Vector3 = MissionPlanner.Utilities.Vector3;
 
 namespace MissionPlanner.Swarm
@@ -83,14 +83,14 @@ namespace MissionPlanner.Swarm
 
                     try
                     {
-                        int utmzone = (int) ((masterpos.Lng - -186.0)/6.0);
+                        int utmzone = (int)((masterpos.Lng - -186.0) / 6.0);
 
                         IProjectedCoordinateSystem utm = ProjectedCoordinateSystem.WGS84_UTM(utmzone,
                             masterpos.Lat < 0 ? false : true);
 
                         ICoordinateTransformation trans = ctfac.CreateFromCoordinateSystems(wgs84, utm);
 
-                        double[] pll1 = {target.Lng, target.Lat};
+                        double[] pll1 = { target.Lng, target.Lat };
 
                         double[] p1 = trans.MathTransform.Transform(pll1);
 
@@ -98,12 +98,12 @@ namespace MissionPlanner.Swarm
 
                         double length = offsets[mav].length();
 
-                        var x = ((Vector3) offsets[mav]).x;
-                        var y = ((Vector3) offsets[mav]).y;
+                        var x = ((Vector3)offsets[mav]).x;
+                        var y = ((Vector3)offsets[mav]).y;
 
                         // add offsets to utm
-                        p1[0] += x*Math.Cos(heading*MathHelper.deg2rad) - y*Math.Sin(heading*MathHelper.deg2rad);
-                        p1[1] += x*Math.Sin(heading*MathHelper.deg2rad) + y*Math.Cos(heading*MathHelper.deg2rad);
+                        p1[0] += x * Math.Cos(heading * MathHelper.deg2rad) - y * Math.Sin(heading * MathHelper.deg2rad);
+                        p1[1] += x * Math.Sin(heading * MathHelper.deg2rad) + y * Math.Cos(heading * MathHelper.deg2rad);
 
                         // convert back to wgs84
                         IMathTransform inversedTransform = trans.MathTransform.Inverse();
@@ -111,7 +111,7 @@ namespace MissionPlanner.Swarm
 
                         target.Lat = point[1];
                         target.Lng = point[0];
-                        target.Alt += ((Vector3) offsets[mav]).z;
+                        target.Alt += ((Vector3)offsets[mav]).z;
 
                         if (mav.cs.firmware == Firmwares.ArduPlane)
                         {
@@ -145,8 +145,8 @@ namespace MissionPlanner.Swarm
                             }
 
                             // display update
-                            mav.GuidedMode.x = (int)(target.Lat *1e7);
-                            mav.GuidedMode.y = (int)(target.Lng *1e7);
+                            mav.GuidedMode.x = (int)(target.Lat * 1e7);
+                            mav.GuidedMode.y = (int)(target.Lng * 1e7);
                             mav.GuidedMode.z = (float)target.Alt;
 
                             MAVLink.mavlink_set_attitude_target_t att_target = new MAVLink.mavlink_set_attitude_target_t();
@@ -259,10 +259,10 @@ namespace MissionPlanner.Swarm
                                 att_target.type_mask -= 0b01000000;
 
                                 // in m out 0-1
-                                thrustp.set_input_filter_all((float) dist);
+                                thrustp.set_input_filter_all((float)dist);
 
                                 // prevent buildup prior to being close
-                                if(dist>40)
+                                if (dist > 40)
                                     thrustp.reset_I();
 
                                 // 0.1 demand + pid results
@@ -273,22 +273,22 @@ namespace MissionPlanner.Swarm
                             q.from_vector312(newroll * MathHelper.deg2rad, newpitch * MathHelper.deg2rad, yawerror * MathHelper.deg2rad);
 
                             att_target.q = new float[4];
-                            att_target.q[0] = (float) q.q1;
-                            att_target.q[1] = (float) q.q2;
-                            att_target.q[2] = (float) q.q3;
-                            att_target.q[3] = (float) q.q4;
-                   
-                             //0b0= rpy
+                            att_target.q[0] = (float)q.q1;
+                            att_target.q[1] = (float)q.q2;
+                            att_target.q[2] = (float)q.q3;
+                            att_target.q[3] = (float)q.q4;
+
+                            //0b0= rpy
                             att_target.type_mask -= 0b10000101;
                             //att_target.type_mask -= 0b10000100;
 
                             Console.WriteLine("sysid {0} - {1} dist {2} r {3} p {4} y {5}", mav.sysid,
                                 att_target.thrust, dist, newroll, newpitch, (targyaw - mav.cs.yaw));
 
-                          /*  Console.WriteLine("rpyt {0} {1} {2} {3} I {4} {5} {6} {7}",
-                                rollp.get_pid(), pitchp.get_pid(), yawp.get_pid(), thrustp.get_pid(),
-                                rollp.get_i(), pitchp.get_i(), yawp.get_i(), thrustp.get_i());
-                                */
+                            /*  Console.WriteLine("rpyt {0} {1} {2} {3} I {4} {5} {6} {7}",
+                                  rollp.get_pid(), pitchp.get_pid(), yawp.get_pid(), thrustp.get_pid(),
+                                  rollp.get_i(), pitchp.get_i(), yawp.get_i(), thrustp.get_i());
+                                  */
                             port.sendPacket(att_target, mav.sysid, mav.compid);
                         }
                         else

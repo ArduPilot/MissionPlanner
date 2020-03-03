@@ -1,9 +1,9 @@
-﻿using System;
+﻿using MissionPlanner.Controls;
+using MissionPlanner.HIL;
+using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
-using MissionPlanner.Controls;
-using MissionPlanner.HIL;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -44,7 +44,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             for (var a = 1; a <= motormax; a++)
             {
                 but = new MyButton();
-                but.Text = "Test motor " + (char) ((a - 1) + 'A');
+                but.Text = "Test motor " + (char)((a - 1) + 'A');
                 but.Location = new Point(x, y);
                 but.Click += but_Click;
                 but.Tag = a;
@@ -180,8 +180,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void but_TestAll(object sender, EventArgs e)
         {
-            int speed = (int) NUM_thr_percent.Value;
-            int time = (int) NUM_duration.Value;
+            int speed = (int)NUM_thr_percent.Value;
+            int time = (int)NUM_duration.Value;
 
             int motormax = this.get_motormax();
             for (int i = 1; i <= motormax; i++)
@@ -193,8 +193,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void but_TestAllSeq(object sender, EventArgs e)
         {
             int motormax = this.get_motormax();
-            int speed = (int) NUM_thr_percent.Value;
-            int time = (int) NUM_duration.Value;
+            int speed = (int)NUM_thr_percent.Value;
+            int time = (int)NUM_duration.Value;
 
             testMotor(1, speed, time, motormax);
         }
@@ -210,11 +210,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void but_Click(object sender, EventArgs e)
         {
-            int speed = (int) NUM_thr_percent.Value;
-            int time = (int) NUM_duration.Value;
+            int speed = (int)NUM_thr_percent.Value;
+            int time = (int)NUM_duration.Value;
             try
             {
-                var motor = (int) ((MyButton) sender).Tag;
+                var motor = (int)((MyButton)sender).Tag;
                 this.testMotor(motor, speed, time);
             }
             catch (Exception ex)
@@ -223,7 +223,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
-        private void testMotor(int motor, int speed, int time,int motorcount = 0)
+        private void testMotor(int motor, int speed, int time, int motorcount = 0)
         {
             try
             {

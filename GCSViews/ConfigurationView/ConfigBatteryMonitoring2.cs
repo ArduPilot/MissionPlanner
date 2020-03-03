@@ -1,7 +1,7 @@
-﻿using System;
-using System.Windows.Forms;
-using MissionPlanner.Controls;
+﻿using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
+using System;
+using System.Windows.Forms;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -69,7 +69,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void TXT_battcapacity_Validated(object sender, EventArgs e)
         {
-            if (_startup || ((TextBox) sender).Enabled == false)
+            if (_startup || ((TextBox)sender).Enabled == false)
                 return;
             try
             {
@@ -90,7 +90,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void TXT_measuredvoltage_Validated(object sender, EventArgs e)
         {
-            if (_startup || ((TextBox) sender).Enabled == false)
+            if (_startup || ((TextBox)sender).Enabled == false)
                 return;
             try
             {
@@ -99,7 +99,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 var divider = float.Parse(TXT_divider.Text);
                 if (voltage == 0)
                     return;
-                var newDivider = (measuredvoltage*divider)/voltage;
+                var newDivider = (measuredvoltage * divider) / voltage;
                 TXT_divider.Text = newDivider.ToString();
             }
             catch
@@ -110,7 +110,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             try
             {
-                MainV2.comPort.setParam(new[] {"BATT2_VOLT_MULT"}, float.Parse(TXT_divider.Text));
+                MainV2.comPort.setParam(new[] { "BATT2_VOLT_MULT" }, float.Parse(TXT_divider.Text));
             }
             catch
             {
@@ -120,11 +120,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void TXT_divider_Validated(object sender, EventArgs e)
         {
-            if (_startup || ((TextBox) sender).Enabled == false)
+            if (_startup || ((TextBox)sender).Enabled == false)
                 return;
             try
             {
-                MainV2.comPort.setParam(new[] {"BATT2_VOLT_MULT"}, float.Parse(TXT_divider.Text));
+                MainV2.comPort.setParam(new[] { "BATT2_VOLT_MULT" }, float.Parse(TXT_divider.Text));
             }
             catch
             {
@@ -134,11 +134,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void TXT_ampspervolt_Validated(object sender, EventArgs e)
         {
-            if (_startup || ((TextBox) sender).Enabled == false)
+            if (_startup || ((TextBox)sender).Enabled == false)
                 return;
             try
             {
-                MainV2.comPort.setParam(new[] {"BATT2_AMP_PERVOL"}, float.Parse(TXT_ampspervolt.Text));
+                MainV2.comPort.setParam(new[] { "BATT2_AMP_PERVOL" }, float.Parse(TXT_ampspervolt.Text));
             }
             catch
             {
@@ -171,11 +171,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
 
             // enable the battery event
-            Settings.Instance["speechbatteryenabled"] = ((CheckBox) sender).Checked.ToString();
+            Settings.Instance["speechbatteryenabled"] = ((CheckBox)sender).Checked.ToString();
             // enable speech engine
             Settings.Instance["speechenable"] = true.ToString();
 
-            if (((CheckBox) sender).Checked)
+            if (((CheckBox)sender).Checked)
             {
                 var speechstring = "WARNING, Battery at {batv} Volt, {batp} percent";
                 if (Settings.Instance["speechbattery"] != null)
@@ -223,7 +223,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void txt_meascurrent_Validated(object sender, EventArgs e)
         {
-            if (_startup || ((TextBox) sender).Enabled == false)
+            if (_startup || ((TextBox)sender).Enabled == false)
                 return;
             try
             {
@@ -232,7 +232,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 var divider = float.Parse(TXT_ampspervolt.Text);
                 if (current == 0)
                     return;
-                var newDivider = (measuredcurrent*divider)/current;
+                var newDivider = (measuredcurrent * divider) / current;
                 TXT_ampspervolt.Text = newDivider.ToString();
             }
             catch
@@ -243,7 +243,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             try
             {
-                MainV2.comPort.setParam(new[] {"BATT2_AMP_PERVOL"}, float.Parse(TXT_ampspervolt.Text));
+                MainV2.comPort.setParam(new[] { "BATT2_AMP_PERVOL" }, float.Parse(TXT_ampspervolt.Text));
             }
             catch
             {

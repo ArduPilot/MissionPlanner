@@ -6,6 +6,7 @@ using System.Net;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using Acr.UserDialogs;
 using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
@@ -185,7 +186,8 @@ namespace Xamarin
             hud1.speedunit = CurrentState.SpeedUnit;
             hud1.distunit = CurrentState.DistanceUnit;
 
-
+            Mode.Items.AddRange(MissionPlanner.ArduPilot.Common.getModesList(MainV2.comPort.MAV.cs.firmware)
+                .Select(a => a.Value));
 
             CheckBatteryShow();
 
@@ -1747,6 +1749,7 @@ namespace Xamarin
             }
             catch (Exception exception)
             {
+                UserDialogs.Instance.Toast(exception.Message, TimeSpan.FromSeconds(3));
                 Console.WriteLine(exception);
                 //throw;
             }
@@ -1760,6 +1763,7 @@ namespace Xamarin
             }
             catch (Exception exception)
             {
+                UserDialogs.Instance.Toast(exception.Message, TimeSpan.FromSeconds(3));
                 Console.WriteLine(exception);
                // throw;
             }
@@ -1778,6 +1782,7 @@ namespace Xamarin
             }
             catch (Exception exception)
             {
+                UserDialogs.Instance.Toast(exception.Message, TimeSpan.FromSeconds(3));
                 Console.WriteLine(exception);
                 //throw;
             }
@@ -1791,6 +1796,7 @@ namespace Xamarin
             }
             catch (Exception exception)
             {
+                UserDialogs.Instance.Toast(exception.Message, TimeSpan.FromSeconds(3));
                 Console.WriteLine(exception);
                 //throw;
             }
@@ -1804,6 +1810,7 @@ namespace Xamarin
             }
             catch (Exception exception)
             {
+                UserDialogs.Instance.Toast(exception.Message, TimeSpan.FromSeconds(3));
                 Console.WriteLine(exception);
                 //throw;
             }
@@ -1818,6 +1825,7 @@ namespace Xamarin
             }
             catch (Exception exception)
             {
+                UserDialogs.Instance.Toast(exception.Message, TimeSpan.FromSeconds(3));
                 Console.WriteLine(exception);
                 //throw;
             }
