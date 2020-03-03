@@ -142,7 +142,7 @@ namespace MissionPlanner {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bad AHRS.
+        ///   Looks up a localized string similar to Unhealthy AHRS.
         /// </summary>
         public static string BadAHRS {
             get {
@@ -178,7 +178,7 @@ namespace MissionPlanner {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bad GPS Signal Health.
+        ///   Looks up a localized string similar to Unhealthy GPS Signal.
         /// </summary>
         public static string BadGPSHealth {
             get {
