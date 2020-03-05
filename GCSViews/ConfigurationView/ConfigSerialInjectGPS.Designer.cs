@@ -74,14 +74,15 @@
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.labelGall = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
             this.label14BDS = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.labelglonass = new System.Windows.Forms.Label();
             this.labelgps = new System.Windows.Forms.Label();
             this.labelbase = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.labelGall = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
+            this.myGMAP1 = new MissionPlanner.Controls.myGMAP();
             this.groupBoxm8p.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -419,6 +420,17 @@
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
+            // labelGall
+            // 
+            this.labelGall.BackColor = System.Drawing.Color.Red;
+            resources.ApplyResources(this.labelGall, "labelGall");
+            this.labelGall.Name = "labelGall";
+            // 
+            // label16
+            // 
+            resources.ApplyResources(this.label16, "label16");
+            this.label16.Name = "label16";
+            // 
             // label14BDS
             // 
             this.label14BDS.BackColor = System.Drawing.Color.Red;
@@ -460,19 +472,33 @@
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
             // 
-            // labelGall
+            // myGMAP1
             // 
-            this.labelGall.BackColor = System.Drawing.Color.Red;
-            resources.ApplyResources(this.labelGall, "labelGall");
-            this.labelGall.Name = "labelGall";
-            // 
-            // label16
-            // 
-            resources.ApplyResources(this.label16, "label16");
-            this.label16.Name = "label16";
+            this.myGMAP1.Bearing = 0F;
+            this.myGMAP1.CanDragMap = true;
+            this.myGMAP1.EmptyTileColor = System.Drawing.Color.Navy;
+            this.myGMAP1.GrayScaleMode = false;
+            this.myGMAP1.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
+            this.myGMAP1.HoldInvalidation = false;
+            this.myGMAP1.LevelsKeepInMemmory = 5;
+            resources.ApplyResources(this.myGMAP1, "myGMAP1");
+            this.myGMAP1.MarkersEnabled = true;
+            this.myGMAP1.MaxZoom = 2;
+            this.myGMAP1.MinZoom = 2;
+            this.myGMAP1.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
+            this.myGMAP1.Name = "myGMAP1";
+            this.myGMAP1.NegativeMode = false;
+            this.myGMAP1.PolygonsEnabled = true;
+            this.myGMAP1.RetryLoadTile = 0;
+            this.myGMAP1.RoutesEnabled = true;
+            this.myGMAP1.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
+            this.myGMAP1.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
+            this.myGMAP1.ShowTileGridLines = false;
+            this.myGMAP1.Zoom = 0D;
             // 
             // ConfigSerialInjectGPS
             // 
+            this.Controls.Add(this.myGMAP1);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.chk_ubloxautoconfig);
@@ -555,5 +581,6 @@
         private System.Windows.Forms.CheckBox chk_movingbase;
         private System.Windows.Forms.Label labelGall;
         private System.Windows.Forms.Label label16;
+        private Controls.myGMAP myGMAP1;
     }
 }
