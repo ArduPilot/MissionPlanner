@@ -1590,8 +1590,15 @@ namespace MissionPlanner.GCSViews
                         param1 = 1; // reboot
                     }
 
-                    MainV2.comPort.doCommand((MAVLink.MAV_CMD) Enum.Parse(typeof(MAVLink.MAV_CMD), CMB_action.Text),
-                        param1, 0, param3, 0, 0, 0, 0);
+                    if (MainV2.comPort.doCommand((MAVLink.MAV_CMD) Enum.Parse(typeof(MAVLink.MAV_CMD), CMB_action.Text),
+                        param1, 0, param3, 0, 0, 0, 0))
+                    {
+
+                    }
+                    else
+                    {
+                        CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+                    }
                 }
                 catch
                 {
