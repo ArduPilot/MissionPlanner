@@ -164,7 +164,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var ports = Win32DeviceMgmt.GetAllCOMPorts();
 
             if (alloptions)
-                ports.Add(default(DeviceInfo));
+                ports.Add(default(ArduPilot.DeviceInfo));
 
             foreach (var deviceInfo in ports)
             {

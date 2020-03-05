@@ -7,13 +7,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Color = System.Drawing.Color;
-using Device = MissionPlanner.Utilities.Device;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigHWCompass2 : MyUserControl, IActivate, IDeactivate
     {
-        private List<CompassInfo> list;
+        private List<DeviceInfo> list;
 
         private bool rebootrequired = false;
 
@@ -31,9 +30,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public void Activate()
         {
-
             list = MainV2.comPort.MAV.param.Where(a => a.Name.StartsWith("COMPASS_DEV_ID"))
-                .Select((a, b) => new CompassInfo(b, a.Name, (uint)a.Value)).ToList();
+                .Select((a, b) => new DeviceInfo(b, a.Name, (uint)a.Value)).ToList();
 
             var bs = new BindingSource();
             bs.DataSource = list;
@@ -361,9 +359,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 try
                 {
-                    MainV2.comPort.doCommand(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid,
-                        MAVLink.MAV_CMD.FIXED_MAG_CAL_YAW, (float) value, 0, 0, 0, 0, 0, 0);
+                    if (MainV2.comPort.doCommand(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid,
+                        MAVLink.MAV_CMD.FIXED_MAG_CAL_YAW, (float) value, 0, 0, 0, 0, 0, 0))
+                    {
 
+                    }
+                    else
+                    {
+                        CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+                    }
                 }
                 catch (Exception exception)
                 {
@@ -371,36 +375,5 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
             }
         }
-    }
-
-    public class CompassInfo
-    {
-        public int _index;
-        private readonly string _paramName;
-        private Device.DeviceStructure _devid;
-
-        public CompassInfo(int index, string ParamName, uint id)
-        {
-            _index = index;
-            _paramName = ParamName;
-            _devid = new Device.DeviceStructure(ParamName, id);
-        }
-
-        public int DevID => (int)_devid.devid;
-
-        public string BusType => _devid.bus_type.ToString().Replace("BUS_TYPE_", "");
-        public int Bus => (int)_devid.bus;
-        public int Address => (int)_devid.address;
-
-        public string DevType
-        {
-            get
-            {
-                if (_devid.bus_type == Device.BusType.BUS_TYPE_UAVCAN)
-                    return "SENSOR_ID#" + ((int)_devid.devtype).ToString();
-                return _devid.devtype.ToString().Replace("DEVTYPE_", "");
-            }
-        }
-
     }
 }

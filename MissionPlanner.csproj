@@ -500,6 +500,7 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigUserDefined.Designer.cs">
       <DependentUpon>ConfigUserDefined.cs</DependentUpon>
     </Compile>
+    <Compile Include="GCSViews\ConfigurationView\DeviceInfo.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Joystick\JoystickAxis.cs">
       <SubType>UserControl</SubType>
@@ -2335,6 +2336,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAC_Fence.resx">
       <DependentUpon>ConfigAC_Fence.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAC_Fence.ar.resx">
       <DependentUpon>ConfigAC_Fence.cs</DependentUpon>
@@ -2758,6 +2760,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFailSafe.resx">
       <DependentUpon>ConfigFailSafe.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFailSafe.ar.resx">
       <DependentUpon>ConfigFailSafe.cs</DependentUpon>
@@ -4328,6 +4331,7 @@
     <None Include="HighContrast.mpsystheme">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="MissionPlanner.GCSViews.ConfigurationView.DeviceInfo.datasource" />
     <None Include="Resources\Gaugebg.png" />
     <None Include="appxmanifest.xml" />
     <Content Include="ArduCopterConfig.xml">
