@@ -186,6 +186,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissionPlannerCore", "Missi
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		ExtLibs\uno\UnoUI\UnoUI.Shared\UnoUI.Shared.projitems*{06b132f9-524b-44c0-9ed6-e0348641ab3d}*SharedItemsImports = 5
 		ExtLibs\uno\UnoUI\UnoUI.Shared\UnoUI.Shared.projitems*{0850aafc-2b90-4d47-821b-f009eb099940}*SharedItemsImports = 4
 		ExtLibs\uno\UnoUI\UnoUI.Shared\UnoUI.Shared.projitems*{61874fb1-9803-4ccb-bc90-70b4222b44c0}*SharedItemsImports = 4
 		ExtLibs\uno\UnoUI\UnoUI.Shared\UnoUI.Shared.projitems*{6279c845-92f8-4333-ab99-3d213163593c}*SharedItemsImports = 13
