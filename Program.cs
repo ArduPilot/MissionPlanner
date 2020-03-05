@@ -8,6 +8,7 @@ using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Management;
 using System.Net;
 using System.Reflection;
@@ -92,7 +93,8 @@ namespace MissionPlanner
             var listener = new TextWriterTraceListener(Settings.GetDataDirectory() + Path.DirectorySeparatorChar + "trace.log",
                 "defaulttrace");
 
-            Trace.Listeners.Add(listener);
+            if (args.Any(a=>a.Contains("trace")))
+                Trace.Listeners.Add(listener);
 
             Thread = Thread.CurrentThread;
 
