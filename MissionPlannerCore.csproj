@@ -5,6 +5,7 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
     <Deterministic>false</Deterministic><StartupObject>MissionPlanner.Program</StartupObject><ApplicationIcon /><RootNamespace>MissionPlanner</RootNamespace>
+    <BaseIntermediateOutputPath>objcore</BaseIntermediateOutputPath>
   </PropertyGroup>  <ItemGroup>
     <Compile Remove="APMPlannerXplanes\**" />
     <Compile Remove="Msi\**" />
