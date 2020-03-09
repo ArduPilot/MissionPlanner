@@ -65,6 +65,7 @@ namespace WebCamService
         private event CamImage m_camimage = null;
 
         Thread timer1;
+        private bool _camrun;
 
         #endregion
 
@@ -115,7 +116,9 @@ namespace WebCamService
         {
             DateTime last = DateTime.Now;
 
-            while (true)
+            _camrun = true;
+
+            while (_camrun)
             {
                 try
                 {
@@ -138,8 +141,7 @@ namespace WebCamService
         /// <summary> release everything. </summary>
         public void Dispose()
         {
-            if (timer1 != null)
-                timer1.Abort();
+            _camrun = false;
 
             if (m_camimage != null)
             {

@@ -154,6 +154,9 @@ namespace MissionPlanner.GCSViews
                                 cmd = TXT_terminal.Text.Substring(inputStartPos,
                                     TXT_terminal.Text.Length - inputStartPos - 1);
                             }
+
+                            cmd = cmd.TrimEnd(new[] { '\r', '\n' }).TrimEnd(new[] { '\r', '\n' });
+
                             TXT_terminal.Select(inputStartPos, TXT_terminal.Text.Length - inputStartPos);
                             TXT_terminal.SelectedText = "";
                             if (cmd.Length > 0 && (cmdHistory.Count == 0 || cmdHistory.Last() != cmd))
@@ -173,10 +176,7 @@ namespace MissionPlanner.GCSViews
                         }
                         else
                         {
-                            if (Program.MONO)
-                                AP_REPL.Write(Encoding.ASCII.GetBytes(cmd), 0, cmd.Length);
-                            else
-                                AP_REPL.Write(Encoding.ASCII.GetBytes(cmd + "\n"), 0, cmd.Length + 1);
+                            AP_REPL.Write(Encoding.ASCII.GetBytes(cmd + "\n"), 0, cmd.Length + 1);
                             lastsend = DateTime.Now;
 
                             //local echo

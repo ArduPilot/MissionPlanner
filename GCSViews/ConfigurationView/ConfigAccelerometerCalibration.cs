@@ -57,14 +57,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 Log.Info("Sending accel command (mavlink 1.0)");
 
-                MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 0, 0, 0, 0, 1, 0, 0);
+                if (MainV2.comPort.doCommand((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                    MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 0, 0, 0, 0, 1, 0, 0))
+                {
+                    _incalibrate = true;
 
-                _incalibrate = true;
+                    MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.STATUSTEXT, receivedPacket);
+                    MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.COMMAND_LONG, receivedPacket);
 
-                MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.STATUSTEXT, receivedPacket);
-                MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.COMMAND_LONG, receivedPacket);
-
-                BUT_calib_accell.Text = Strings.Click_when_Done;
+                    BUT_calib_accell.Text = Strings.Click_when_Done;
+                }
+                else
+                {
+                    CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+                }
             }
             catch (Exception ex)
             {
@@ -131,9 +137,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             try
             {
                 Log.Info("Sending level command (mavlink 1.0)");
-                MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 0, 0, 0, 0, 2, 0, 0);
-
-                BUT_level.Text = Strings.Completed;
+                if (MainV2.comPort.doCommand((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                    MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 0, 0, 0, 0, 2, 0, 0))
+                {
+                    BUT_level.Text = Strings.Completed;
+                }
+                else
+                {
+                    CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+                }
             }
             catch (Exception ex)
             {

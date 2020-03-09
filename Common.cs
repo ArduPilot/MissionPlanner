@@ -31,8 +31,8 @@ namespace MissionPlanner
                     MAV.cs.radius * CurrentState.multiplierdist)
                 {
                     ToolTipText = MAV.cs.alt.ToString("0") + CurrentState.AltUnit + " | " + (int)MAV.cs.airspeed +
-                                  CurrentState.SpeedUnit + " | id:" + (int)MAV.sysid,
-                    ToolTipMode = MarkerTooltipMode.Always
+                                  CurrentState.SpeedUnit + " | id:" + (int)MAV.sysid + " | Sats:" + (int)MAV.cs.satcount + " | HDOP:" + (float)MAV.cs.gpshdop + " | Volts: " + (float)MAV.cs.battery_voltage, 
+                    ToolTipMode = MarkerTooltipMode.Always 
                 });
             }
             else if (MAV.aptype == MAVLink.MAV_TYPE.GROUND_ROVER)
@@ -79,7 +79,12 @@ namespace MissionPlanner
                 }
 
                 return (new GMapMarkerQuad(portlocation, MAV.cs.yaw,
-                    MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.sysid));
+                        MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.sysid)
+                {
+                    ToolTipText = MAV.cs.alt.ToString("0") + CurrentState.AltUnit + " | " + (int)MAV.cs.airspeed +
+                                 CurrentState.SpeedUnit + " | id:" + (int)MAV.sysid + " | Sats:" + (int)MAV.cs.satcount + " | HDOP:" + (float)MAV.cs.gpshdop + " | Volts: " + (float)MAV.cs.battery_voltage,
+                    ToolTipMode = MarkerTooltipMode.Always
+                });
             }
             else if (MAV.aptype == MAVLink.MAV_TYPE.COAXIAL)
             {

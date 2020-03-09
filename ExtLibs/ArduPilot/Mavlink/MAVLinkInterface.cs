@@ -1914,8 +1914,15 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             // reboot the current selected mav
             if (currentvehicle)
             {
-                doCommand(MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN, param1, 0, 0, 0, 0, 0, 0);
-                doCommand(MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN, 1, 0, 0, 0, 0, 0, 0);
+                var ans1 = doCommand(MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN, param1, 0, 0, 0, 0, 0, 0);
+                if (ans1)
+                    return true;
+                var ans2 = doCommand(MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN, 1, 0, 0, 0, 0, 0, 0);
+                if (ans2)
+                    return true;
+
+                giveComport = false;
+                return false;
             }
             else 
             {

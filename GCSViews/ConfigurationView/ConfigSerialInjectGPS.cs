@@ -14,6 +14,10 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using GMap.NET;
+using GMap.NET.WindowsForms;
+using GMap.NET.WindowsForms.Markers;
+using MissionPlanner.Maps;
 using UAVCAN;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
@@ -911,7 +915,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                     Utilities.rtcm3.ecef2pos(pos, ref baseposllh);
 
-                    MainV2.comPort.MAV.cs.MovingBase = new Utilities.PointLatLngAlt(baseposllh[0], baseposllh[1],
+                    MainV2.comPort.MAV.cs.MovingBase = new Utilities.PointLatLngAlt(baseposllh[0] * Utilities.rtcm3.R2D, baseposllh[1] * Utilities.rtcm3.R2D,
                         baseposllh[2]);
 
                     status_line3 =
@@ -969,6 +973,26 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             invalidateRTCMStatus();
 
+            if(myGMAP1.Overlays.Count > 1)
+                myGMAP1.Overlays.Clear();
+            if(myGMAP1.Overlays.Count == 0)
+                myGMAP1.Overlays.Add(new GMapOverlay("base"));
+            if (MainV2.comPort.MAV.cs.MovingBase != PointLatLng.Empty)
+            {
+                if (myGMAP1.Overlays[0].Markers.Count == 0)
+                {
+                    myGMAP1.Overlays[0].Markers
+                        .Add(new GMarkerGoogle(MainV2.comPort.MAV.cs.MovingBase, GMarkerGoogleType.yellow_dot));
+                    myGMAP1.ZoomAndCenterMarkers("base");
+                }
+
+                if (myGMAP1.Overlays[0].Markers[0].Position != MainV2.comPort.MAV.cs.MovingBase)
+                {
+                    myGMAP1.Overlays[0].Markers[0].Position = MainV2.comPort.MAV.cs.MovingBase;
+                    myGMAP1.ZoomAndCenterMarkers("base");
+                }
+            }
+            
             try
             {
                 if (basedata != null)
@@ -982,6 +1006,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public void Activate()
         {
+            myGMAP1.MapProvider = GCSViews.FlightData.mymap.MapProvider;
+            myGMAP1.MaxZoom = 22;
+            myGMAP1.Zoom = 16;
+            myGMAP1.DisableFocusOnMouseEnter = true;
+
             timer1.Start();
         }
 

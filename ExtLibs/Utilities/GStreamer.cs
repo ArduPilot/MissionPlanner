@@ -354,11 +354,19 @@ namespace MissionPlanner.Utilities
 
             try
             {
+                //https://github.com/GStreamer/gstreamer/blob/master/tools/gst-launch.c#L1125
                 NativeMethods.gst_init(ref argc, argv);
+            }
+            catch (DllNotFoundException)
+            {
+                CustomMessageBox.Show("The file was not found at " + gstlaunch +
+                                      "\nPlease verify permissions");
+                return null;
             }
             catch (BadImageFormatException)
             {
-                CustomMessageBox.Show("The incorrect exe architecture has been detected at " + gstlaunch + "\nPlease install gstreamer for the correct architecture");
+                CustomMessageBox.Show("The incorrect exe architecture has been detected at " + gstlaunch +
+                                      "\nPlease install gstreamer for the correct architecture");
                 return null;
             }
 
@@ -536,8 +544,12 @@ namespace MissionPlanner.Utilities
             // Prepend native path to environment path, to ensure the
             // right libs are being used.
             var path = Environment.GetEnvironmentVariable("PATH");
-            path = Path.Combine(gstdir, "bin") + ";" + Path.Combine(gstdir, "lib") + ";" + path;
-            Environment.SetEnvironmentVariable("PATH", path);
+            if (!path.Contains(gstdir))
+            {
+                path = Path.Combine(gstdir, "bin") + ";" + Path.Combine(gstdir, "lib") + ";" + path;
+
+                Environment.SetEnvironmentVariable("PATH", path);
+            }
 
             Environment.SetEnvironmentVariable("GSTREAMER_ROOT", gstdir);
 
@@ -587,12 +599,17 @@ namespace MissionPlanner.Utilities
                     dirs.Add(d.RootDirectory.Name + "Program Files (x86)" + Path.DirectorySeparatorChar + "gstreamer");
                 }
             }
-            
+
+            var is64bit = Environment.Is64BitProcess;
+
             foreach (var dir in dirs)
             {
                 if (Directory.Exists(dir))
                 {
                     var ans = Directory.GetFiles(dir, "libgstreamer-1.0-0.dll", SearchOption.AllDirectories);
+
+                    ans = ans.Where(a =>
+                        (!is64bit && !a.ToLower().Contains("_64")) || is64bit && a.ToLower().Contains("_64")).ToArray();
 
                     if (ans.Length > 0)
                     {
@@ -1165,15 +1182,26 @@ namespace MissionPlanner.Utilities
 
         public static void DownloadGStreamer(Action<int, string> status = null)
         {
-            var output = Settings.GetDataDirectory() + "gstreamer-1.0-x86_64-1.12.4.zip";
+            string output = "";
+            string url = "";
+
+            if (System.Environment.Is64BitProcess)
+            {
+                output = Settings.GetDataDirectory() + "gstreamer-1.0-x86_64-1.12.4.zip";
+                url = "https://firmware.ardupilot.org/MissionPlanner/gstreamer/gstreamer-1.0-x86_64-1.12.4.zip";
+            }
+            else
+            {
+                output = Settings.GetDataDirectory() + "gstreamer-1.0-x86-1.9.2.zip";
+                url = "https://firmware.ardupilot.org/MissionPlanner/gstreamer/gstreamer-1.0-x86-1.9.2.zip";
+            }
+
 
             status?.Invoke(0, "Downloading..");
 
             try
             {
-                Download.getFilefromNet(
-                    "https://firmware.ardupilot.org/MissionPlanner/gstreamer/gstreamer-1.0-x86_64-1.12.4.zip",
-                    output, status: status);
+                Download.getFilefromNet(url, output, status: status);
 
                 status?.Invoke(50, "Extracting..");
                 ZipFile.ExtractToDirectory(output, Settings.GetDataDirectory());

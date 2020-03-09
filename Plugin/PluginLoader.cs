@@ -13,6 +13,11 @@ namespace MissionPlanner.Plugin
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
+        //List of disabled plugins (as dll file names)
+        public static List<String> DisabledPluginNames = new List<String>();
+        // Plugin enable/disable settings changed not loaded but enabled plugins will not shown
+        public static bool bRestartRequired = false;
+
         public static List<Plugin> Plugins = new List<Plugin>();
 
         public static Dictionary<string, string[]> filecache = new Dictionary<string, string[]>();
@@ -86,6 +91,13 @@ namespace MissionPlanner.Plugin
                 file.ToLower().Contains("usbserialforandroid")
                 )
                 return;
+
+            //Check if it is disabled (moved out from the previous IF, to make it loggable)
+            if (DisabledPluginNames.Contains(Path.GetFileName(file).ToLower()))
+            {
+                log.InfoFormat("Plugin {0} is disabled in config.xml", Path.GetFileName(file));
+                return;
+            }
 
             // file exists in the install directory, so skip trying to load it as a plugin
             if (File.Exists(file) && File.Exists(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +

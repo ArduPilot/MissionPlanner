@@ -484,7 +484,7 @@ Please use Standard/Advanced Params for the safe settings</value>
     <value>These are the latest trunk firmware, use at your own risk!!!</value>
   </data>
   <data name="BadGPSHealth" xml:space="preserve">
-    <value>Bad GPS Signal Health</value>
+    <value>Unhealthy GPS Signal</value>
   </data>
   <data name="BadGyroHealth" xml:space="preserve">
     <value>Bad Gyro Health</value>
@@ -511,7 +511,7 @@ Please use Standard/Advanced Params for the safe settings</value>
     <value>Geofence Breach</value>
   </data>
   <data name="BadAHRS" xml:space="preserve">
-    <value>Bad AHRS</value>
+    <value>Unhealthy AHRS</value>
   </data>
   <data name="NORCReceiver" xml:space="preserve">
     <value>NO RC Receiver</value>

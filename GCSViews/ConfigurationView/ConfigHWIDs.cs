@@ -21,25 +21,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             Enabled = true;
 
-            var all_dev_ids = MainV2.comPort.MAV.param.Where(a => a.Name.Contains("_ID"));
+            var list = MainV2.comPort.MAV.param.Where(a => a.Name.Contains("_ID"))
+                .Select((a, b) => new DeviceInfo(b, a.Name, (uint)a.Value)).ToList();
 
-            var b = 0;
-
-            foreach (var dev in all_dev_ids)
-            {
-                var devid = new Device.DeviceStructure(dev.Name, (uint)dev.Value);
-
-                var ans = devid.ToString();
-
-                //var gr = CreateGraphics();
-
-                var lbl = new Label() { Text = ans, AutoSize = true, Location = new Point(5, 5 + b * 25) };
-                Controls.Add(lbl);
-
-                //gr.DrawString(dev.Name + " " + ans, Font, new SolidBrush(ForeColor), 5, 5 + b * 25);
-
-                b++;
-            }
+            var bs = new BindingSource();
+            bs.DataSource = list;
+            myDataGridView1.DataSource = bs;
         }
 
     }

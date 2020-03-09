@@ -317,7 +317,7 @@
     <PackageReference Include="DotSpatial.Topology" version="1.9" targetFramework="net462" />
     <PackageReference Include="Flurl" version="2.8.0" targetFramework="net462" />
     <PackageReference Include="Flurl.Http" version="2.3.2" targetFramework="net462" />
-    <PackageReference Include="GDAL" Version="2.4.2" />
+    <PackageReference Include="GDAL" Version="2.3.2" />
     <PackageReference Include="GeoidHeightsDotNet">
       <Version>1.0.1</Version>
     </PackageReference>
@@ -326,7 +326,6 @@
     <PackageReference Include="IronPython.StdLib" version="2.7.8.1" targetFramework="net462" />
     <PackageReference Include="log4net" version="2.0.8" targetFramework="net462" />
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />
-    <PackageReference Include="MP.GDAL.Native" Version="2.2.3" />
     <PackageReference Include="NETStandard.Library">
       <Version>2.0.3</Version>
     </PackageReference>
@@ -376,6 +375,12 @@
     </Compile>
     <Compile Include="Controls\DigitalSkyUI.Designer.cs">
       <DependentUpon>DigitalSkyUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\GMAPCache.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\GMAPCache.Designer.cs">
+      <DependentUpon>GMAPCache.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\Icon\File.cs" />
     <Compile Include="Controls\Icon\Zoom.cs" />
@@ -500,6 +505,7 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigUserDefined.Designer.cs">
       <DependentUpon>ConfigUserDefined.cs</DependentUpon>
     </Compile>
+    <Compile Include="GCSViews\ConfigurationView\DeviceInfo.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Joystick\JoystickAxis.cs">
       <SubType>UserControl</SubType>
@@ -630,6 +636,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\DigitalSkyUI.resx">
       <DependentUpon>DigitalSkyUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\GMAPCache.resx">
+      <DependentUpon>GMAPCache.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Status.resx">
       <DependentUpon>Status.cs</DependentUpon>
@@ -2335,6 +2344,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAC_Fence.resx">
       <DependentUpon>ConfigAC_Fence.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAC_Fence.ar.resx">
       <DependentUpon>ConfigAC_Fence.cs</DependentUpon>
@@ -2758,6 +2768,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFailSafe.resx">
       <DependentUpon>ConfigFailSafe.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFailSafe.ar.resx">
       <DependentUpon>ConfigFailSafe.cs</DependentUpon>
@@ -4229,9 +4240,6 @@
     <EmbeddedResource Include="Log\MavlinkLog.zh-Hans.resx">
       <DependentUpon>MavlinkLog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Plugin\PluginUI.resx">
-      <DependentUpon>PluginUI.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Radio\Sikradio.resx">
       <DependentUpon>Sikradio.cs</DependentUpon>
     </EmbeddedResource>
@@ -4331,6 +4339,7 @@
     <None Include="HighContrast.mpsystheme">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="MissionPlanner.GCSViews.ConfigurationView.DeviceInfo.datasource" />
     <None Include="Resources\Gaugebg.png" />
     <None Include="appxmanifest.xml" />
     <Content Include="ArduCopterConfig.xml">
@@ -4690,6 +4699,9 @@
     <EmbeddedResource Include="test\FirmwareSelection.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

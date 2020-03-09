@@ -1868,7 +1868,7 @@ namespace MissionPlanner
                 if (comPort.MAV.SerialString == "")
                     return;
 
-                if (comPort.MAV.SerialString.Contains("CubeBlack") &&
+                if (comPort.MAV.SerialString.Contains("CubeBlack") && !comPort.MAV.SerialString.Contains("CubeBlack+") &&
                     comPort.MAV.param.ContainsKey("INS_ACC3_ID") && comPort.MAV.param["INS_ACC3_ID"].Value == 0 &&
                     comPort.MAV.param.ContainsKey("INS_GYR3_ID") && comPort.MAV.param["INS_GYR3_ID"].Value == 0 &&
                     comPort.MAV.param.ContainsKey("INS_ENABLE_MASK") && comPort.MAV.param["INS_ENABLE_MASK"].Value >= 7)
@@ -1888,7 +1888,7 @@ namespace MissionPlanner
                 // baro does not list a devid
 
                 //devop read spi lsm9ds0_ext_am 0 0 0x8f 1
-                if (comPort.MAV.SerialString.Contains("CubeBlack"))
+                if (comPort.MAV.SerialString.Contains("CubeBlack") && !comPort.MAV.SerialString.Contains("CubeBlack+"))
                 {
                     Task.Run(() =>
                         {
@@ -2994,6 +2994,8 @@ namespace MissionPlanner
                 else
                 {
                     log.Info("Load Pluggins");
+                    Plugin.PluginLoader.DisabledPluginNames.Clear();
+                    foreach (var s in Settings.Instance.GetList("DisabledPlugins")) Plugin.PluginLoader.DisabledPluginNames.Add(s);
                     Plugin.PluginLoader.LoadAll();
                     log.Info("Load Pluggins... Done");
                 }
@@ -3070,6 +3072,9 @@ namespace MissionPlanner
             };
             pluginthread.Start();
 
+
+            ThreadPool.QueueUserWorkItem(LoadGDALImages);
+            
             ThreadPool.QueueUserWorkItem(BGLoadAirports);
 
             ThreadPool.QueueUserWorkItem(BGCreateMaps);
@@ -3517,6 +3522,21 @@ namespace MissionPlanner
             GMapMarkerBase.DisplayTarget = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayTarget", true);
         }
 
+        public void LoadGDALImages(object nothing)
+        {
+            if (Settings.Instance.ContainsKey("GDALImageDir"))
+            {
+                try
+                {
+                    GDAL.GDAL.ScanDirectory(Settings.Instance["GDALImageDir"]);
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                }
+            }
+        }
+
         private Dictionary<string, string> ProcessCommandLine(string[] args)
         {
             Dictionary<string, string> cmdargs = new Dictionary<string, string>();
@@ -3753,6 +3773,12 @@ namespace MissionPlanner
                 ScreenShot();
                 return true;
             }*/
+            if (keyData == (Keys.Control | Keys.P))
+            {
+                new PluginUI().Show();
+                return true;
+            }
+
             if (keyData == (Keys.Control | Keys.G)) // nmea out
             {
                 Form frm = new SerialOutputNMEA();
@@ -3762,12 +3788,8 @@ namespace MissionPlanner
             }
             if (keyData == (Keys.Control | Keys.X))
             {
-                //var ftp = new MissionPlanner.ArduPilot.Mavlink.MAVFtp(MainV2.comPort, (byte) comPort.sysidcurrent, (byte) comPort.compidcurrent);
-
-                new MavFTPUI(comPort).ShowUserControl();
-
-                //ftp.test();
-
+                new GMAPCache().ShowUserControl();
+                return true;
             }
             if (keyData == (Keys.Control | Keys.L)) // limits
             {

@@ -122,7 +122,18 @@ namespace MissionPlanner.Utilities
             }
 
             public int lineno;
-            public object[] raw;
+            private object[] _raw;
+
+            public object[] raw
+            {
+                get { return _raw; }
+                set
+                {
+                    _raw = value;
+                    _items = null;
+                }
+            }
+
             public DFLog parent;
 
             public DFItem(DFLog _parent, object[] _answer, int lineno) : this()
