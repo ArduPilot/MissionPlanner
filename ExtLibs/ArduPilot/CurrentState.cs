@@ -201,7 +201,14 @@ namespace MissionPlanner
             var t = Type.GetType("Mono.Runtime");
             MONO = t != null;
         }
-
+        
+        //external variables for use with plugins
+        public float extra1 { get; set; }
+        public float extra2 { get; set; }
+        public float extra3 { get; set; }
+        public float extra4 { get; set; }
+        public float extra5 { get; set; }
+        
         // orientation - rads
         [DisplayText("Roll (deg)")]
         [GroupText("Attitude")]
@@ -2962,7 +2969,9 @@ namespace MissionPlanner
             else if (desc.Contains("(speed)"))
                 desc = desc.Replace("(speed)", "(" + SpeedUnit + ")");
             else if (desc.Contains("(alt)")) desc = desc.Replace("(alt)", "(" + AltUnit + ")");
-
+            else if (desc.Contains("extra") && (Settings.Instance[desc + "_desc"] != null)) 
+                desc = Settings.Instance[desc + "_desc"];   //Check if we have description defined in settings
+                
             return desc;
         }
 
