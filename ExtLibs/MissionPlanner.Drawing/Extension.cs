@@ -42,8 +42,11 @@ namespace MissionPlanner.Drawing
         static Dictionary<string, SKTypeface> fontcache = new Dictionary<string, SKTypeface>();
         public static SKPaint ToSKPaint(this Font font)
         {
-            if (!fontcache.ContainsKey(font.SystemFontName))
-                fontcache[font.SystemFontName] = SKTypeface.FromFamilyName(font.SystemFontName);
+            lock (fontcache)
+            {
+                if (!fontcache.ContainsKey(font.SystemFontName))
+                    fontcache[font.SystemFontName] = SKTypeface.FromFamilyName(font.SystemFontName);
+            }
 
             return new SKPaint
             {
@@ -68,9 +71,13 @@ namespace MissionPlanner.Drawing
         {
             if (brush is SolidBrush)
             {
-                if(!brushcache.ContainsKey(((SolidBrush)brush).Color))
-                    brushcache[((SolidBrush) brush).Color] = new SKPaint
-                    {Color = ((SolidBrush) brush).Color.ToSKColor(), IsAntialias = true, Style = SKPaintStyle.Fill};
+                lock(brushcache)
+                    if (!brushcache.ContainsKey(((SolidBrush) brush).Color))
+                        brushcache[((SolidBrush) brush).Color] = new SKPaint
+                        {
+                            Color = ((SolidBrush) brush).Color.ToSKColor(), IsAntialias = true,
+                            Style = SKPaintStyle.Fill
+                        };
 
                 return brushcache[((SolidBrush) brush).Color];
             }
