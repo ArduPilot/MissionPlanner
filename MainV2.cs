@@ -1893,14 +1893,15 @@ namespace MissionPlanner
                     Task.Run(() =>
                         {
                             bool bad1 = false;
+                            byte[] data = new byte[0];
 
-                            var data = comPort.device_op(comPort.MAV.sysid, comPort.MAV.compid,
+                            comPort.device_op(comPort.MAV.sysid, comPort.MAV.compid, out data,
                                 MAVLink.DEVICE_OP_BUSTYPE.SPI,
                                 "lsm9ds0_ext_g", 0, 0, 0x8f, 1);
                             if (data.Length != 0 && (data[0] != 0xd4 && data[0] != 0xd7))
                                 bad1 = true;
 
-                            data = comPort.device_op(comPort.MAV.sysid, comPort.MAV.compid,
+                            comPort.device_op(comPort.MAV.sysid, comPort.MAV.compid, out data,
                                 MAVLink.DEVICE_OP_BUSTYPE.SPI,
                                 "lsm9ds0_ext_am", 0, 0, 0x8f, 1);
                             if (data.Length != 0 && data[0] != 0x49)
@@ -3805,6 +3806,7 @@ namespace MissionPlanner
             }
             if (keyData == (Keys.Control | Keys.Z))
             {
+                ScanHW.Scan(comPort);
                 return true;
             }
             if (keyData == (Keys.Control | Keys.T)) // for override connect
