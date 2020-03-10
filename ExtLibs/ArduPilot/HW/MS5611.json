@@ -1,0 +1,23 @@
+{
+  "name": "MS5611",
+  "scan": [
+    {
+      "type": "spi",
+      "name": "baro",
+      "device": "ms5611",
+      "query": {
+        "data": "0xa0",
+        "length": 2
+      }
+    },
+    {
+      "type": "spi",
+      "name": "baro",
+      "device": "ms5611_ext",
+      "query": {
+        "data": "0xa0",
+        "length": 2
+      }
+    }
+  ]
+}

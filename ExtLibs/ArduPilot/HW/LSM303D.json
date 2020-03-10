@@ -1,0 +1,15 @@
+{
+  "name": "lsm 303d",
+  "scan": [
+    {
+      "type": "spi",
+      "name": "accel/mag",
+      "device": "lsm9ds0_ext_am",
+      "query": {
+        "data": "0x0f",
+        "length": 1,
+        "responce": [ "0x49" ]
+      }
+    }
+  ]
+}
