@@ -4845,5 +4845,95 @@ namespace MissionPlanner.GCSViews
         {
             new Georefimage().Show();
         }
+
+        private void flyToCoordsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var location = "";
+            InputBox.Show("Enter Fly To Coords", "Please enter the coords 'lat;long;alt' or 'lat;long'", ref location);
+
+            var split = location.Split(';');
+
+            if (split.Length == 3)
+            {
+                var lat = float.Parse(split[0], CultureInfo.InvariantCulture);
+                var lng = float.Parse(split[1], CultureInfo.InvariantCulture);
+                var alt = float.Parse(split[2], CultureInfo.InvariantCulture);
+
+                var plla = new PointLatLngAlt(lat, lng, alt);
+
+                Locationwp gotohere = new Locationwp();
+
+                gotohere.id = (ushort)MAVLink.MAV_CMD.WAYPOINT;
+                gotohere.alt = (float)plla.Alt / CurrentState.multiplieralt; // back to m
+                gotohere.lat = (plla.Lat);
+                gotohere.lng = (plla.Lng);
+
+                try
+                {
+                    MainV2.comPort.setGuidedModeWP(gotohere);
+                }
+                catch (Exception ex)
+                {
+                    CustomMessageBox.Show(Strings.CommandFailed + ex.Message, Strings.ERROR);
+                }
+            }
+            else if (split.Length == 2)
+            {
+                var lat = float.Parse(split[0], CultureInfo.InvariantCulture);
+                var lng = float.Parse(split[1], CultureInfo.InvariantCulture);
+                var alt = srtm.getAltitude(MouseDownStart.Lat, MouseDownStart.Lng).alt / CurrentState.multiplieralt;
+
+                var plla = new PointLatLngAlt(lat, lng, alt);
+
+                Locationwp gotohere = new Locationwp();
+
+                gotohere.id = (ushort)MAVLink.MAV_CMD.WAYPOINT;
+                gotohere.alt = MainV2.comPort.MAV.GuidedMode.z; // back to m
+                gotohere.lat = (plla.Lat);
+                gotohere.lng = (plla.Lng);
+
+                try
+                {
+                    MainV2.comPort.setGuidedModeWP(gotohere);
+                }
+                catch (Exception ex)
+                {
+                    CustomMessageBox.Show(Strings.CommandFailed + ex.Message, Strings.ERROR);
+                }
+            }
+            else
+            {
+                CustomMessageBox.Show(Strings.InvalidField, Strings.ERROR);
+            }
+        }
+
+        private void poiatcoordsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var location = "";
+            InputBox.Show("Enter POI Coords", "Please enter the coords 'lat;long;alt' or 'lat;long'", ref location);
+
+            var split = location.Split(';');
+
+            if (split.Length == 3)
+            {
+                var lat = float.Parse(split[0], CultureInfo.InvariantCulture);
+                var lng = float.Parse(split[1], CultureInfo.InvariantCulture);
+                var alt = float.Parse(split[2], CultureInfo.InvariantCulture);
+
+                POI.POIAdd(new PointLatLngAlt(lat, lng, alt));
+            }
+            else if (split.Length == 2)
+            {
+                var lat = float.Parse(split[0], CultureInfo.InvariantCulture);
+                var lng = float.Parse(split[1], CultureInfo.InvariantCulture);
+                var alt = srtm.getAltitude(MouseDownStart.Lat, MouseDownStart.Lng).alt / CurrentState.multiplieralt;
+
+                POI.POIAdd(new PointLatLngAlt(lat, lng, alt));
+            }
+            else
+            {
+                CustomMessageBox.Show(Strings.InvalidField, Strings.ERROR);
+            }
+        }
     }
 }
