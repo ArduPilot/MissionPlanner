@@ -973,7 +973,7 @@ namespace MissionPlanner
 
             if (ofd.CheckFileExists)
             {
-                string options = "GPS;ATT;NTUN;CTUN;MODE;CURR";
+                string options = "GPS;ATT;NTUN;CTUN;MODE;BAT";
                 InputBox.Show("", "Enter Messages you want eg PARM;NTUN;CTUN", ref options);
 
                 var split = options.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
