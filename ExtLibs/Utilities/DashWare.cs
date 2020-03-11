@@ -35,8 +35,10 @@ namespace MissionPlanner.Utilities
                 using (StreamWriter sr = new StreamWriter(fileout))
                 {
                     // header
+                    var nCols = 0;
                     foreach (var item in colList)
                     {
+                        nCols++;
                         sr.Write(item + ",");
                     }
                     sr.WriteLine();
@@ -65,6 +67,12 @@ namespace MissionPlanner.Utilities
                         foreach (var item in dfitem.items.Skip(1))
                         {
                             sb.Append(item?.Trim());
+                            idx++;
+                            sb.Append(',');
+                        }
+
+                        while (idx < nCols)
+                        {
                             idx++;
                             sb.Append(',');
                         }
