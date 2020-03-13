@@ -31,7 +31,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public void Activate()
         {
             list = MainV2.comPort.MAV.param.Where(a => a.Name.StartsWith("COMPASS_DEV_ID"))
-                .Select((a, b) => new DeviceInfo(b, a.Name, (uint)a.Value)).ToList();
+                .Select((a, b) => new DeviceInfo(b, a.Name, (uint) a.Value))
+                .OrderBy((a) => a.ParamName).ToList();
 
             var bs = new BindingSource();
             bs.DataSource = list;

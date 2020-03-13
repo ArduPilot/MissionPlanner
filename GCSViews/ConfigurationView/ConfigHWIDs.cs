@@ -22,7 +22,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             Enabled = true;
 
             var list = MainV2.comPort.MAV.param.Where(a => a.Name.Contains("_ID"))
-                .Select((a, b) => new DeviceInfo(b, a.Name, (uint)a.Value)).ToList();
+                .Select((a, b) => new DeviceInfo(b, a.Name, (uint) a.Value))
+                .OrderBy((a) => a.ParamName).ToList();
 
             var bs = new BindingSource();
             bs.DataSource = list;

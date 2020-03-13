@@ -1,9 +1,11 @@
 ﻿using MissionPlanner.Utilities;
+using Newtonsoft.Json;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public class DeviceInfo
     {
+        [JsonIgnore]
         public int _index;
         private Device.DeviceStructure _devid;
 
@@ -36,5 +38,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        public override string ToString()
+        {
+            return this.ToJSON(Formatting.None);
+        }
     }
 }
