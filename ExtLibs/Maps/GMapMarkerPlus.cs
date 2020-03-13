@@ -18,7 +18,8 @@ namespace MissionPlanner.Maps
             : base(p)
         {
             // used for hitarea
-            Size = new Size(30, 30);
+            Size = icong.Size;
+            Offset = new Point(-Size.Width / 2, -Size.Height / 2);
         }
 
         public override void OnRender(IGraphics g)
@@ -28,10 +29,11 @@ namespace MissionPlanner.Maps
 
             if (IsMouseOver)
             {
+                g.TranslateTransform(icong.Width / 2, icong.Height / -4);
                 g.RotateTransform(45);
             }
 
-            g.DrawImageUnscaled(icong, icong.Width / -2, icong.Height / -2);
+            g.DrawImageUnscaled(icong, 0, 0);// icong.Width / -2, icong.Height / -2);
 
             g.Transform = temp;
         }
