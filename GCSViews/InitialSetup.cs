@@ -117,6 +117,12 @@ namespace MissionPlanner.GCSViews
         {
             ResourceManager rm = new ResourceManager(this.GetType());
 
+            if (!gotAllParams)
+            {
+                if (MainV2.comPort.BaseStream.IsOpen)
+                    AddBackstageViewPage(typeof(ConfigParamLoading), Strings.Loading);
+            }
+
             if (MainV2.DisplayConfiguration.displayInstallFirmware)
             {
                 // if (!Program.WindowsStoreApp)
