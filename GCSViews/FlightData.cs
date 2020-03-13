@@ -2544,8 +2544,18 @@ namespace MissionPlanner.GCSViews
         {
             GStreamer.StopAll();
 
-            string url =
-                "rtspsrc location=rtsp://192.168.43.1:8554/fpv_stream latency=41 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! rtph264depay ! h264parse ! queue ! avdec_h264 ! video/x-raw,format=BGRx ! appsink name=outsink";
+            string ipaddr = "192.168.43.1";
+
+            if (Settings.Instance["herelinkip"] != null)
+                ipaddr = Settings.Instance["herelinkip"].ToString();
+
+            InputBox.Show("herelink ip","Enter herelink ip address", ref ipaddr);
+
+            Settings.Instance["herelinkip"] = ipaddr;
+
+            string url = String.Format(
+                "rtspsrc location=rtsp://{0}:8554/fpv_stream latency=1 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! rtph264depay ! h264parse ! queue ! avdec_h264 ! videoconvert ! video/x-raw,format=BGRx ! appsink name=outsink",
+                ipaddr);
 
             GStreamer.LookForGstreamer();
 
