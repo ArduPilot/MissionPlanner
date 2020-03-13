@@ -971,6 +971,24 @@ namespace MissionPlanner.GCSViews
 
             drawnpolygonsoverlay.Polygons.Add(drawnpolygon);
             MainMap.UpdatePolygonLocalPosition(drawnpolygon);
+
+            {
+                foreach (var pointLatLngAlt in drawnpolygon.Points.PrevNowNext())
+                {
+                    var now = pointLatLngAlt.Item2;
+                    var next = pointLatLngAlt.Item3;
+
+                    if (now == null || next == null)
+                        continue;
+
+                    var mid = new PointLatLngAlt((now.Lat + next.Lat) / 2, (now.Lng + next.Lng) / 2, 0);
+
+                    var pnt = new GMapMarkerPlus(mid);
+                    pnt.Tag = new midline() { now = now, next = next };
+                    drawnpolygonsoverlay.Markers.Add(pnt);
+                }
+            }
+
             MainMap.Invalidate();
         }
 
@@ -1402,6 +1420,26 @@ namespace MissionPlanner.GCSViews
 
                     overlay.overlay.ForceUpdate();
 
+                    if (false) {
+                        foreach (var poly in overlay.overlay.Polygons)
+                        {
+                            foreach (var pointLatLngAlt in poly.Points.PrevNowNext())
+                            {
+                                var now = pointLatLngAlt.Item2;
+                                var next = pointLatLngAlt.Item3;
+
+                                if (now == null || next == null)
+                                    continue;
+
+                                var mid = new PointLatLngAlt((now.Lat + next.Lat) / 2, (now.Lng + next.Lng) / 2, 0);
+
+                                var pnt = new GMapMarkerPlus(mid);
+                                pnt.Tag = new midline() {now = now, next = next};
+                                //overlay.overlay.Markers.Add(pnt);
+                            }
+                        }
+                    }
+
                     MainMap.Refresh();
                 }
 
@@ -1543,12 +1581,10 @@ namespace MissionPlanner.GCSViews
             if (drawnpolygon.Points.Count > 1 &&
                 drawnpolygon.Points[0] == drawnpolygon.Points[drawnpolygon.Points.Count - 1])
                 drawnpolygon.Points.RemoveAt(drawnpolygon.Points.Count - 1); // unmake a full loop
-
+            
             drawnpolygon.Points.Add(new PointLatLng(MouseDownStart.Lat, MouseDownStart.Lng));
 
-            addpolygonmarkergrid(drawnpolygon.Points.Count.ToString(), MouseDownStart.Lng, MouseDownStart.Lat, 0);
-
-            MainMap.UpdatePolygonLocalPosition(drawnpolygon);
+            redrawPolygonSurvey(drawnpolygon.Points.Select(a => new PointLatLngAlt(a)).ToList());
 
             MainMap.Invalidate();
         }
@@ -6344,8 +6380,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                             drawnpolygon.Points[
                                     int.Parse(CurentRectMarker.InnerMarker.Tag.ToString().Replace("grid", "")) - 1] =
                                 new PointLatLng(point.Lat, point.Lng);
-                            MainMap.UpdatePolygonLocalPosition(drawnpolygon);
-                            MainMap.Invalidate();
+                            redrawPolygonSurvey(drawnpolygon.Points.Select(a => new PointLatLngAlt(a)).ToList());
                         }
                     }
                     catch (Exception ex)
@@ -6492,11 +6527,22 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                     int pnt2 = 0;
                     var midline = CurrentMidLine.Tag as midline;
                     // var pnt1 = int.Parse(midline.now.Tag);
-                    if (int.TryParse(midline.next.Tag, out pnt2))
-                    {
 
-                        InsertCommand(pnt2 - 1, MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, CurrentMidLine.Position.Lng,
-                            CurrentMidLine.Position.Lat, float.Parse(TXT_DefaultAlt.Text));
+                    if (polygongridmode && midline.now != null)
+                    {
+                        var idx = drawnpolygon.Points.IndexOf(midline.now);
+                        drawnpolygon.Points.Insert(idx + 1,
+                            new PointLatLng(CurrentMidLine.Position.Lat, CurrentMidLine.Position.Lng));
+
+                        redrawPolygonSurvey(drawnpolygon.Points.Select(a => new PointLatLngAlt(a)).ToList());
+                    }
+                    else
+                    {
+                        if (int.TryParse(midline.next.Tag, out pnt2))
+                        {
+                            InsertCommand(pnt2 - 1, MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, CurrentMidLine.Position.Lng,
+                                CurrentMidLine.Position.Lat, float.Parse(TXT_DefaultAlt.Text));
+                        }
                     }
 
                     isMouseDown = false;
