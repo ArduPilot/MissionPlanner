@@ -127,6 +127,7 @@ namespace MissionPlanner.GCSViews
         private PointLatLng startmeasure;
         public GMapOverlay top;
         public GMapPolygon wppolygon;
+        private GMapMarker CurrentMidLine;
 
 
         public void Init()
@@ -1256,6 +1257,12 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        public class midline
+        {
+            public PointLatLngAlt now { get; set; }
+            public PointLatLngAlt next { get; set; }
+        }
+
         /// <summary>
         /// used to write a KML, update the Map view polygon, and update the row headers
         /// </summary>
@@ -1346,6 +1353,24 @@ namespace MissionPlanner.GCSViews
                     }
 
                     pointlist = overlay.pointlist;
+
+                    {
+                        foreach (var pointLatLngAlt in pointlist.PrevNowNext())
+                        {
+                            var now = pointLatLngAlt.Item2;
+                            var next = pointLatLngAlt.Item3;
+
+                            if(now == null || next == null)
+                                continue;
+
+                            var mid = new PointLatLngAlt((now.Lat + next.Lat) / 2, (now.Lng + next.Lng) / 2,
+                                (now.Alt + next.Alt) / 2);
+
+                            var pnt = new GMapMarkerPlus(mid);
+                            pnt.Tag = new midline() {now = now, next = next};
+                            overlay.overlay.Markers.Add(pnt);
+                        }
+                    }
 
                     MainMap.Refresh();
                 }
@@ -6462,6 +6487,26 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                     CurrentPOIMarker = null;
                 }
 
+                if (CurrentMidLine is GMapMarkerPlus)
+                {
+                    int pnt2 = 0;
+                    var midline = CurrentMidLine.Tag as midline;
+                    // var pnt1 = int.Parse(midline.now.Tag);
+                    if (int.TryParse(midline.next.Tag, out pnt2))
+                    {
+
+                        InsertCommand(pnt2 - 1, MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, CurrentMidLine.Position.Lng,
+                            CurrentMidLine.Position.Lat, float.Parse(TXT_DefaultAlt.Text));
+                    }
+
+                    isMouseDown = false;
+                    isMouseDraging = false;
+                    CurrentMidLine = null;
+
+                    writeKML();
+                    return;
+                }
+
                 if (e.Button == MouseButtons.Left)
                 {
                     isMouseDown = false;
@@ -6727,6 +6772,11 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                     // do nothing - readonly
                     return;
                 }
+                if (item is GMapMarkerPlus && ((GMapMarkerPlus)item).Tag is midline)
+                {
+                    CurrentMidLine = item;
+                    return;
+                }
                 if (item is GMapMarkerPOI)
                 {
                     CurrentPOIMarker = item as GMapMarkerPOI;
@@ -6760,6 +6810,10 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 if (item is GMapMarkerPOI)
                 {
                     CurrentPOIMarker = null;
+                }
+                if (item is GMapMarkerPlus && ((GMapMarkerPlus)item).Tag is midline)
+                {
+                    CurrentMidLine = null;
                 }
                 if (item is GMapMarker)
                 {
