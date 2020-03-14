@@ -28,67 +28,74 @@ map = {
         'uint64_t' : 'ulong',
     }
     
-def generate_message_header(f, xml):
+def generate_message_header(f, xml_list):
+    dedup = {}
+    for xml in xml_list:
+        print "generate_message_header " + xml.basename
+        if xml.little_endian:
+            xml.mavlink_endian = "MAVLINK_LITTLE_ENDIAN"
+        else:
+            xml.mavlink_endian = "MAVLINK_BIG_ENDIAN"
 
-    if xml.little_endian:
-        xml.mavlink_endian = "MAVLINK_LITTLE_ENDIAN"
-    else:
-        xml.mavlink_endian = "MAVLINK_BIG_ENDIAN"
+        if xml.crc_extra:
+            xml.crc_extra_define = "1"
+        else:
+            xml.crc_extra_define = "0"
 
-    if xml.crc_extra:
-        xml.crc_extra_define = "1"
-    else:
-        xml.crc_extra_define = "0"
+        if xml.command_24bit:
+            xml.command_24bit_define = "1"
+        else:
+            xml.command_24bit_define = "0"
 
-    if xml.command_24bit:
-        xml.command_24bit_define = "1"
-    else:
-        xml.command_24bit_define = "0"
+        if xml.sort_fields:
+            xml.aligned_fields_define = "1"
+        else:
+            xml.aligned_fields_define = "0"
 
-    if xml.sort_fields:
-        xml.aligned_fields_define = "1"
-    else:
-        xml.aligned_fields_define = "0"
+        # work out the included headers
+        xml.include_list = []
+        for i in xml.include:
+            base = i[:-4]
+            xml.include_list.append(mav_include(base))
 
-    # work out the included headers
-    xml.include_list = []
-    for i in xml.include:
-        base = i[:-4]
-        xml.include_list.append(mav_include(base))
+        if not hasattr(xml , 'message_names_enum'):
+            xml.message_names_enum = ''
 
-    xml.message_names_enum = ''
+        # and message CRCs array
+        if not hasattr(xml , 'message_infos_array'):
+            xml.message_infos_array = ''
+        if xml.command_24bit:
+            # we sort with primary key msgid, secondary key dialect
+            for msgid in sorted(xml.message_names.keys()):
+                name = xml.message_names[msgid]
+                if name not in dedup:
+                    dedup[name] = 1
+                    xml_list[0].message_infos_array += '        new message_info(%u, "%s", %u, %u, %u, typeof( mavlink_%s_t )),\n' % (msgid,
+                                                                        name,
+                                                                        xml.message_crcs[msgid],
+                                                                        xml.message_min_lengths[msgid],
+                                                                        xml.message_lengths[msgid],
+                                                                        name.lower())
+                    xml_list[0].message_names_enum += '\n        %s = %u,' % (name, msgid)
+        else:
+            for msgid in range(256):
+                crc = xml.message_crcs.get(msgid, None)
+                name = xml.message_names.get(msgid, None)
+                length = xml.message_lengths.get(msgid, None)
+                if name is not None and name not in dedup:
+                    dedup[name] = 1
+                    xml_list[0].message_infos_array += '        new message_info(%u, "%s", %u, %u, %u, typeof( mavlink_%s_t )), // none 24 bit\n' % (msgid, 
+                                                                        name,
+                                                                        crc,
+                                                                        length,
+                                                                        length,
+                                                                        name.lower())
+                    xml_list[0].message_names_enum += '\n        %s = %u,' % (name, msgid)
 
-    # and message CRCs array
-    xml.message_infos_array = ''
-    if xml.command_24bit:
-        # we sort with primary key msgid, secondary key dialect
-        for msgid in sorted(xml.message_names.keys()):
-            name = xml.message_names[msgid]
-            xml.message_infos_array += '        new message_info(%u, "%s", %u, %u, %u, typeof( mavlink_%s_t )),\n' % (msgid,
-                                                                name,
-                                                                xml.message_crcs[msgid],
-                                                                xml.message_min_lengths[msgid],
-                                                                xml.message_lengths[msgid],
-                                                                name.lower())
-            xml.message_names_enum += '\n        %s = %u,' % (name, msgid)
-    else:
-        for msgid in range(256):
-            crc = xml.message_crcs.get(msgid, None)
-            name = xml.message_names.get(msgid, None)
-            length = xml.message_lengths.get(msgid, None)
-            if name is not None:
-                xml.message_infos_array += '        new message_info(%u, "%s", %u, %u, %u, typeof( mavlink_%s_t )),\n' % (msgid, 
-                                                                    name,
-                                                                    crc,
-                                                                    length,
-                                                                    length,
-                                                                    name.lower())
-                xml.message_names_enum += '\n        %s = %u,' % (name, msgid)
-
-    # add some extra field attributes for convenience with arrays
-    for m in xml.enum:
-        for fe in m.entry[:]:
-            fe.name = fe.name.replace("NAV_","")
+        # add some extra field attributes for convenience with arrays
+        for m in xml.enum:
+            for fe in m.entry[:]:
+                fe.name = fe.name.replace("NAV_","")
            
     t.write(f, '''
 using System;
@@ -128,7 +135,7 @@ public partial class MAVLink
         
     public const bool MAVLINK_NEED_BYTE_SWAP = (MAVLINK_ENDIAN == MAVLINK_LITTLE_ENDIAN);
         
-    // msgid, name, crc, length, type
+    // msgid, name, crc, minlength, length, type
     public static message_info[] MAVLINK_MESSAGE_INFOS = new message_info[] {
 ${message_infos_array}
     };
@@ -168,7 +175,7 @@ ${message_infos_array}
 ${message_names_enum}
     }
     
-''', xml)
+''', xml_list[0])
 
 
 def generate_message_enum_types(xml):
@@ -351,7 +358,7 @@ def generate(basename, xml_list):
 
     f = open(os.path.join(directory, "mavlink.cs"), mode='w')
 
-    generate_message_header(f, xml_list[0])
+    generate_message_header(f, xml_list)
 
     for xml1 in xml_list:
         generate_message_enum_types(xml1)
