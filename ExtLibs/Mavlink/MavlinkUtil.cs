@@ -323,7 +323,7 @@ public static class MavlinkUtil
                 return item;
         }
 
-        Console.WriteLine("Unknown Packet");
+        Console.WriteLine("Unknown Packet " + msgid);
         return new MAVLink.message_info();
     }
 }
