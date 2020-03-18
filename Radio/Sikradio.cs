@@ -850,7 +850,7 @@ S15: MAX_WINDOW=131
                     }
                     if (Setting.Range != null)
                     {
-                        CB.DataSource = Setting.Range.GetOptions();
+                        CB.DataSource = Setting.Range.GetOptionsIncludingValue(Setting.Value);
                         CB.Text = Value;
                         CB.Tag = null;
                         return true;

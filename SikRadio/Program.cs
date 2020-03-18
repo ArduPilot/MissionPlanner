@@ -48,6 +48,7 @@
  * 2.34 - Now handles new settings GPO1_1SBUSIN, GPO1_1SBUSOUT, GPO1_3STATLED, and GPO1_0TXEN485
  * 2.35 - Fixed bug in which re-loading settings when AES was previously enabled would cause it to disable AES.  
  * 2.36 - Added a retry option message window for when programming firmware fails.  
+ * 2.37 - Resolved issue in which a MAX_WINDOW setting value which wasn't a multiple of 20 failed to be set in the settings GUI.
  */
 
 using System;

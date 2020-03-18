@@ -522,33 +522,59 @@ namespace RFD.RFD900
             return true;
         }
 
+        /// <summary>
+        /// Parse an integer from the given string, starting at the given character index until a delimiter
+        /// is reached.  
+        /// </summary>
+        /// <param name="Line">The string to parse from.  Must not be null.</param>
+        /// <param name="n">The start character index, to be updated to be at the end of the value
+        /// and/or delimiter.</param>
+        /// <param name="Delimiter">The delimiter to end at.  Can be null if not applicable.</param>
+        /// <param name="Value">The value parsed.</param>
+        /// <returns>true if parsed, otherwise false.</returns>
         static bool ParseIntUntil(string Line, ref int n, string Delimiter, out int Value)
         {
             string Temp = "";
+            //Copy all the characters which are decimal numerals to Temp, incrementing
+            //n until it is at a non-numeral character.
             while ((n < Line.Length) && RFDLib.Text.CheckIsNumeral(Line[n]))
             {
                 Temp += Line[n];
                 n++;
             }
+            //Parse Temp.
             Value = int.Parse(Temp);
+            //If no delimiter specified...
             if (Delimiter == null)
             {
+                //Just return now.
                 return true;
             }
             else
             {
+                //If the delimiter exists in the string and it's at the current character index...
                 if (Line.IndexOf(Delimiter, n) == n)
                 {
+                    //Move the character index to character after the end of it.  
                     n += Delimiter.Length;
                     return true;
                 }
                 else
                 {
+                    //The delimiter doesn't exist.  Return that failed.
                     return false;
                 }
             }
         }
 
+        /// <summary>
+        /// Parse a [min..max] range
+        /// </summary>
+        /// <param name="Line">The ATI5? response line to parse from.  Must not be null.</param>
+        /// <param name="n">The index of the character to start parsing from.  This is also updated to be
+        /// just after the end of the range.</param>
+        /// <param name="Name">The parameter name.  Must not be null.</param>
+        /// <returns>The range if successfully parsed, otherwise null.</returns>
         static TSetting.TRange ParseRange(string Line, ref int n, string Name)
         {
             if (Line[n] != '[')
@@ -625,6 +651,12 @@ namespace RFD.RFD900
             return Options.ToArray();
         }
 
+        /// <summary>
+        /// Try to parse every element in the given array of strings to integers.
+        /// If successful, return the corresponding array of integers, otherwise return null.
+        /// </summary>
+        /// <param name="Options">The array of strings to convert.  Must not be null.</param>
+        /// <returns>The array of integers, or null if unsuccessful.</returns>
         static int[] CheckIfAllIntegers(string[] Options)
         {
             int[] Result = new int[Options.Length];
@@ -689,7 +721,7 @@ namespace RFD.RFD900
         }
 
         static TSetting.TOption[] CreateOptions(TSetting.TRange Range, string[] Options,
-            string Name)
+            string Name, int Value)
         {
             if (Range == null || Options == null)
             {
@@ -697,6 +729,7 @@ namespace RFD.RFD900
             }
 
             int[] Ints = CheckIfAllIntegers(Options);
+            //If all of the strings were integers...
             if (Ints != null)
             {
                 TSetting.TOption[] Result = new TSetting.TOption[Ints.Length];
@@ -708,7 +741,7 @@ namespace RFD.RFD900
                 return Result;
             }
 
-            int[] RO = Range.GetOptions();
+            int[] RO = Range.GetOptionsIncludingValue(Value);
             if (Options.Length == 2)
             {
                 //Match up with min and max.
@@ -874,7 +907,7 @@ namespace RFD.RFD900
                 }
 
                 return new TSetting(Designator, Name, Range, Value, 
-                    CreateOptions(Range, Options, Name), GetIncrement(Name));
+                    CreateOptions(Range, Options, Name, Value), GetIncrement(Name));
             }
             catch
             {
@@ -1035,8 +1068,8 @@ namespace RFD.RFD900
                     if (NodeIDRange is TSetting.TSimpleRange)
                     {
                         //The node id range is a simple range.
-                        var NodeIDOptions = NodeIDRange.GetOptions();
-                        var NodeDestOptions = NodeDestRange.GetOptions();
+                        var NodeIDOptions = NodeIDRange.GetOptionsIncludingValue(Result[NODEID].Value);
+                        var NodeDestOptions = NodeDestRange.GetOptionsIncludingValue(Result[NODEDESTINATION].Value);
                         if (NodeDestOptions[NodeDestOptions.Length-1] > NodeIDOptions[NodeIDOptions.Length-1])
                         {
                             Result[NODEDESTINATION].Range = new TSetting.TMultiRange(new TSetting.TSimpleRange[]
@@ -1122,6 +1155,42 @@ namespace RFD.RFD900
         public abstract class TRange
         {
             public abstract int[] GetOptions();
+            
+            /// <summary>
+            /// Get the list of options and include the option with the given value if it doesnt exist.
+            /// </summary>
+            /// <param name="Value">The value to include.</param>
+            /// <returns>The options.  Never null.</returns>
+            public int[] GetOptionsIncludingValue(int Value)
+            {
+                List<int> Result = new List<int>();
+                bool GotValue = false;
+
+                foreach (var n in GetOptions())
+                {
+                    if (n == Value)
+                    {
+                        GotValue = true;
+                    }
+                    if (!GotValue)
+                    {
+                        if (n > Value)
+                        {
+                            Result.Add(Value);
+                            GotValue = true;
+                        }
+                    }
+
+                    Result.Add(n);
+                }
+
+                if (!GotValue)
+                {
+                    Result.Add(Value);
+                }
+
+                return Result.ToArray();
+            }
         }
 
         public class TSimpleRange : TRange
