@@ -1493,7 +1493,7 @@ namespace MissionPlanner
                     // do autoscan
                     Comms.CommsSerialScan.Scan(true);
                     DateTime deadline = DateTime.Now.AddSeconds(50);
-                    while (Comms.CommsSerialScan.foundport == false && Comms.CommsSerialScan.run == 1)
+                    while (Comms.CommsSerialScan.foundport == false || Comms.CommsSerialScan.run == 1)
                     {
                         System.Threading.Thread.Sleep(500);
                         Console.WriteLine("wait for port " + CommsSerialScan.foundport + " or " + CommsSerialScan.run);
