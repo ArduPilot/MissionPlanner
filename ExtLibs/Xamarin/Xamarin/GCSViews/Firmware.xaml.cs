@@ -17,6 +17,7 @@ using MissionPlanner.test;
 using px4uploader;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Acr.UserDialogs;
 
 namespace Xamarin.GCSViews
 {
@@ -133,6 +134,8 @@ namespace Xamarin.GCSViews
                     if (fwitems?.Count == 1)
                     {
                         baseurl = fwitems[0].Url.ToString();
+
+                        await DownloadAndUpload(baseurl).ConfigureAwait(false);
                     }
                     else if (fwitems?.Count > 0)
                     {
@@ -281,6 +284,8 @@ namespace Xamarin.GCSViews
         void updateProgress(int percent, string status)
         {
             log.Info(status);
+
+            UserDialogs.Instance.Toast(status, TimeSpan.FromSeconds(3));
 
             if (Progress != null)
             {
