@@ -357,10 +357,10 @@ namespace MissionPlanner.Utilities
                 //https://github.com/GStreamer/gstreamer/blob/master/tools/gst-launch.c#L1125
                 NativeMethods.gst_init(ref argc, argv);
             }
-            catch (DllNotFoundException)
+            catch (DllNotFoundException ex)
             {
                 CustomMessageBox.Show("The file was not found at " + gstlaunch +
-                                      "\nPlease verify permissions");
+                                      "\nPlease verify permissions " + ex.ToString());
                 return null;
             }
             catch (BadImageFormatException)
@@ -585,9 +585,11 @@ namespace MissionPlanner.Utilities
         {
             List<string> dirs = new List<string>();
 
+            dirs.Add("/usr/lib/x86_64-linux-gnu");
+
             dirs.Add(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
 
-            dirs.Add(Settings.GetDataDirectory());
+            dirs.Add(Settings.GetDataDirectory());                    
             
             DriveInfo[] allDrives = DriveInfo.GetDrives();
             foreach (DriveInfo d in allDrives)
@@ -596,7 +598,7 @@ namespace MissionPlanner.Utilities
                 {
                     dirs.Add(d.RootDirectory.Name + "gstreamer");
                     dirs.Add(d.RootDirectory.Name + "Program Files" + Path.DirectorySeparatorChar + "gstreamer");
-                    dirs.Add(d.RootDirectory.Name + "Program Files (x86)" + Path.DirectorySeparatorChar + "gstreamer");
+                    dirs.Add(d.RootDirectory.Name + "Program Files (x86)" + Path.DirectorySeparatorChar + "gstreamer");                    
                 }
             }
 
@@ -606,7 +608,7 @@ namespace MissionPlanner.Utilities
             {
                 if (Directory.Exists(dir))
                 {
-                    var ans = Directory.GetFiles(dir, "libgstreamer-1.0-0.dll", SearchOption.AllDirectories);
+                    var ans = Directory.GetFiles(dir, "*.*", SearchOption.AllDirectories).Where(a => a.ToLower().Contains("libgstreamer-1.0-0.dll") || a.ToLower().Contains("libgstreamer-1.0.so.0")).ToArray();
 
                     ans = ans.Where(a =>
                         (!is64bit && !a.ToLower().Contains("_64")) || is64bit && a.ToLower().Contains("_64")).ToArray();

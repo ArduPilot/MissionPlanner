@@ -1493,10 +1493,10 @@ namespace MissionPlanner
                     // do autoscan
                     Comms.CommsSerialScan.Scan(true);
                     DateTime deadline = DateTime.Now.AddSeconds(50);
-                    while (Comms.CommsSerialScan.foundport == false || Comms.CommsSerialScan.run == 1)
+                    while (Comms.CommsSerialScan.foundport == false && Comms.CommsSerialScan.run == 1)
                     {
-                        System.Threading.Thread.Sleep(100);
-
+                        System.Threading.Thread.Sleep(500);
+                        Console.WriteLine("wait for port " + CommsSerialScan.foundport + " or " + CommsSerialScan.run);
                         if (DateTime.Now > deadline)
                         {
                             CustomMessageBox.Show(Strings.Timeout);
@@ -3255,6 +3255,7 @@ namespace MissionPlanner
             {
                 if (MainV2.instance.InvokeRequired)
                 {
+                    log.Info("CommsSerialScan.doConnect invoke");
                     MainV2.instance.BeginInvoke(
                         (Action)delegate ()
                        {
@@ -3266,6 +3267,8 @@ namespace MissionPlanner
                 }
                 else
                 {
+
+                    log.Info("CommsSerialScan.doConnect NO invoke");
                     MAVLinkInterface mav = new MAVLinkInterface();
                     mav.BaseStream = port;
                     MainV2.instance.doConnect(mav, "preset", "0");
@@ -3807,7 +3810,8 @@ namespace MissionPlanner
             }
             if (keyData == (Keys.Control | Keys.Z))
             {
-                ScanHW.Scan(comPort);
+                //ScanHW.Scan(comPort);
+                new Camera().test(MainV2.comPort.MAV);
                 return true;
             }
             if (keyData == (Keys.Control | Keys.T)) // for override connect
@@ -3841,7 +3845,7 @@ namespace MissionPlanner
             }
             if (keyData == (Keys.Control | Keys.J))
             {
-                GMapControl.GDI = !GMapControl.GDI;
+                new DevopsUI().ShowUserControl();
 
                 return true;
             }

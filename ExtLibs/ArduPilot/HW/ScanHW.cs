@@ -27,8 +27,6 @@ namespace MissionPlanner.Utilities.HW
 
         public static void Generate(string dir)
         {
-       
-
             var files = Directory.GetFiles(dir, "hwdef*.dat", SearchOption.AllDirectories);
 
             foreach (var file in files)
@@ -40,6 +38,7 @@ namespace MissionPlanner.Utilities.HW
 
                 foreach (Match spimatch in spimatches)
                 {
+                    //new hwdefspi()
                     var devname = spimatch.Groups[2].Value;
                     var spibus = spimatch.Groups[3].Value;
                     var devid = spimatch.Groups[4].Value;
@@ -120,6 +119,25 @@ namespace MissionPlanner.Utilities.HW
         BadDev = 2,
         BadSemaphore = 3,
         BadResponse = 4,
+    }
+
+    public class hwdefspi
+    {
+        public string SPIDEV { get; }
+        public string devname { get; }
+        public string spibus { get; }
+        public string devid { get; }
+        public string devcs { get; }
+
+        public string devmode { get; }
+
+        public string devspeedinit { get; }
+        public string devspeedrun { get; }
+    }
+
+    public class hwdefi2c
+    {
+
     }
 
     public class Query

@@ -370,6 +370,12 @@
     <Compile Include="Controls\ControlSensorsStatus.Designer.cs">
       <DependentUpon>ControlSensorsStatus.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\DevopsUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\DevopsUI.Designer.cs">
+      <DependentUpon>DevopsUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\DigitalSkyUI.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -639,6 +645,9 @@
     </Compile>
     <EmbeddedResource Include="Controls\ControlSensorsStatus.resx">
       <DependentUpon>ControlSensorsStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\DevopsUI.resx">
+      <DependentUpon>DevopsUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\DigitalSkyUI.resx">
       <DependentUpon>DigitalSkyUI.cs</DependentUpon>
@@ -2245,6 +2254,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\SoftwareConfig.resx">
       <DependentUpon>SoftwareConfig.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTerminal.resx">
       <DependentUpon>ConfigTerminal.cs</DependentUpon>

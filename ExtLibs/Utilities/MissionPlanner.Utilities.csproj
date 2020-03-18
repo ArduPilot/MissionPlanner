@@ -65,6 +65,12 @@
     <ProjectReference Include="..\Zeroconf\Zeroconf\Zeroconf.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="MissionPlanner.Utilities.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 
 
 </Project>
