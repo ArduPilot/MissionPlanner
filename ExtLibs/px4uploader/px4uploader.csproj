@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netcoreapp3.1</TargetFrameworks>
     <OutputTypeEx>Exe</OutputTypeEx>
     <ApplicationIcon />
     <OutputType>Exe</OutputType>
@@ -37,6 +37,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BouncyCastle\BouncyCastle.csproj" />
     <ProjectReference Include="..\Comms\MissionPlanner.Comms.csproj" />
+    <ProjectReference Include="..\Interfaces\Interfaces.csproj" />
   </ItemGroup>
 
   <ItemGroup>
