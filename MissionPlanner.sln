@@ -186,6 +186,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissionPlannerCore", "Missi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FaceMap", "Plugins\FaceMap\FaceMap.csproj", "{3D787D5F-1DCA-4C2E-8D3A-93353E7BB62A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ntrip", "ExtLibs\Ntrip\Ntrip.csproj", "{CBB78367-91B7-4D53-AD31-429B71F867D2}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		ExtLibs\uno\UnoUI\UnoUI.Shared\UnoUI.Shared.projitems*{06b132f9-524b-44c0-9ed6-e0348641ab3d}*SharedItemsImports = 5
@@ -485,6 +487,10 @@ Global
 		{3D787D5F-1DCA-4C2E-8D3A-93353E7BB62A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D787D5F-1DCA-4C2E-8D3A-93353E7BB62A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D787D5F-1DCA-4C2E-8D3A-93353E7BB62A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBB78367-91B7-4D53-AD31-429B71F867D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBB78367-91B7-4D53-AD31-429B71F867D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBB78367-91B7-4D53-AD31-429B71F867D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBB78367-91B7-4D53-AD31-429B71F867D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -564,6 +570,7 @@ Global
 		{82872363-B5AC-4ACE-9200-83F5EF9AF27A} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
 		{A0B60830-D1C0-4E1F-9E44-793A71C5D720} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
 		{3D787D5F-1DCA-4C2E-8D3A-93353E7BB62A} = {9B3AC501-5FCB-4A2A-A628-BE0985DB2BD4}
+		{CBB78367-91B7-4D53-AD31-429B71F867D2} = {B35C7AA8-707D-4575-96CD-41ECFA439286}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F7AF94B5-83B0-46CD-B258-67F2404F82FC}

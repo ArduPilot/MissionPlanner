@@ -15,6 +15,7 @@ using Image = Xamarin.Forms.Image;
 using Point = System.Drawing.Point;
 using Rectangle = System.Drawing.Rectangle;
 using Size = System.Drawing.Size;
+using System.Diagnostics;
 
 namespace Xamarin.Controls
 {
@@ -313,8 +314,12 @@ namespace Xamarin.Controls
             e.Surface.Canvas.Clear(SKColors.AliceBlue);
            
             var sk = new Graphics(e.Surface);
-            OnPaint(new PaintEventArgs(sk, ClientRectangle));
-            sk.Flush();
+            try
+            {
+                OnPaint(new PaintEventArgs(sk, ClientRectangle));
+                sk.Flush();
+            }
+            catch (Exception ex) { Debug.Write(ex); }
           
             //System.Diagnostics.Debug.WriteLine(this.GetType() + " OnPaintSurface " + (DateTime.Now - start).TotalSeconds);
         }
