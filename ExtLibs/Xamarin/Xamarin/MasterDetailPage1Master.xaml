@@ -18,14 +18,14 @@
           <Grid.RowDefinitions>
             <RowDefinition Height="0"/>
             <RowDefinition Height="0"/>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="20"/>
             <RowDefinition Height="0"/>
           </Grid.RowDefinitions>
           <Label
               Grid.Column="1"
               Grid.Row="2"
               Text="Mission Planner"
-              FontSize="24"
+              FontSize="16"
               Style="{DynamicResource SubtitleStyle}"/>
         </Grid>
       </ListView.Header>
