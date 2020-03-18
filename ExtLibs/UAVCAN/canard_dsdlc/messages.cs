@@ -85,4 +85,7 @@ using System; namespace UAVCAN {public partial class uavcan { public static read
 (typeof(com_hex_equipment_flow_Measurement), 20200, 0x6A908866BCB49C18),
 (typeof(com_hex_equipment_gnss_BodyPosition), 20210, 0x68DD4C23FEC97050),
 (typeof(com_hex_equipment_gnss_MovingBaseFix), 20211, 0x22930B91F2563B98),
+(typeof(ardupilot_equipment_trafficmonitor_TrafficReport), 20790, 0x68E45DB60B6981F8),
+(typeof(ardupilot_indication_SafetyState), 20000, 0xE965701A95A1A6A1),
+(typeof(ardupilot_indication_Button), 20001, 0x645A46EFBA7466E),
 };}}
