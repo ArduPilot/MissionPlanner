@@ -61,11 +61,12 @@ namespace MissionPlanner
         public static CompilerParameters CreateCompilerParameters()
         {
             var refs = AppDomain.CurrentDomain.GetAssemblies();
-            var refFiles = refs.Where(a => !a.IsDynamic).Select(a => a.Location).ToArray();
+            var refFiles = refs.Where(a => !a.IsDynamic && !a.FullName.Contains("mscorlib"))
+                .Select(a => a.Location);
 
             //add compiler parameters and assembly references
-            CompilerParameters compilerParams = new CompilerParameters(refFiles);
-            compilerParams.CompilerOptions = "/target:library";
+            CompilerParameters compilerParams = new CompilerParameters(refFiles.ToArray());
+            compilerParams.CompilerOptions = "/target:library /langversion:5";
             compilerParams.GenerateExecutable = false;
             compilerParams.GenerateInMemory = true;
             compilerParams.IncludeDebugInformation = true;
@@ -94,7 +95,7 @@ namespace MissionPlanner
             if (results.Errors.Count > 0)
             {
                 foreach (CompilerError error in results.Errors)
-                    Console.WriteLine("Compile Error:" + error.ErrorText);
+                    Console.WriteLine("Compile Error: Line: " + error.Line + ":" + error.Column + " " + error.ErrorText);
                 return null;
             }
 

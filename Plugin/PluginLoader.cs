@@ -114,6 +114,7 @@ namespace MissionPlanner.Plugin
             try
             {
                 asm = Assembly.LoadFile(file);
+                log.Info("Plugin Load " + file);
             }
             catch (Exception)
             {
@@ -121,13 +122,23 @@ namespace MissionPlanner.Plugin
                 return;
             }
 
+            InitPlugin(asm);
+
+            log.InfoFormat("Plugin Load {0} time {1} s", file, (DateTime.Now - startDateTime).TotalSeconds);
+        }
+
+        public static void InitPlugin(Assembly asm)
+        {
+            if (asm == null)
+                return;
+
             Type pluginInfo = null;
             try
             {
                 Type[] types = asm.GetTypes();
                 Type type = typeof(MissionPlanner.Plugin.Plugin);
                 foreach (var t in types)
-                    if (type.IsAssignableFrom((Type)t))
+                    if (type.IsAssignableFrom((Type) t))
                     {
                         pluginInfo = t;
                         break;
@@ -135,10 +146,9 @@ namespace MissionPlanner.Plugin
 
                 if (pluginInfo != null)
                 {
-                    log.Info("Plugin Load " + file);
-
-                    Object o = Activator.CreateInstance(pluginInfo, BindingFlags.Default, null, null, CultureInfo.CurrentUICulture);
-                    Plugin plugin = (Plugin)o;
+                    Object o = Activator.CreateInstance(pluginInfo, BindingFlags.Default, null, null,
+                        CultureInfo.CurrentUICulture);
+                    Plugin plugin = (Plugin) o;
 
                     plugin.Assembly = asm;
 
@@ -156,10 +166,8 @@ namespace MissionPlanner.Plugin
             }
             catch (Exception ex)
             {
-                log.Error("Failed to load plugin " + file, ex);
+                log.Error("Failed to load plugin " + asm.FullName, ex);
             }
-
-            log.InfoFormat("Plugin Load {0} time {1} s", file, (DateTime.Now - startDateTime).TotalSeconds);
         }
 
         public static void LoadAll()
@@ -169,6 +177,20 @@ namespace MissionPlanner.Plugin
 
             if (!Directory.Exists(path))
                 return;
+
+            String[] csFiles = Directory.GetFiles(path, "*.cs");
+
+            foreach (var csFile in csFiles)
+            {
+                // create a compiler
+                var compiler = CodeGen.CreateCompiler();
+                // get all the compiler parameters
+                var parms = CodeGen.CreateCompilerParameters();
+                // compile the code into an assembly
+                var results = CodeGen.CompileCode(compiler, parms, File.ReadAllText(csFile));
+
+                InitPlugin(results?.CompiledAssembly);
+            }
 
             String[] files = Directory.GetFiles(path, "*.dll");
             foreach (var s in files)
