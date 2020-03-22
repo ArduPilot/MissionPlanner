@@ -31,13 +31,11 @@ namespace Ntrip
 
             tcp.BeginAcceptTcpClient(processclient, tcp);
 
-            var comport = args[0];
-            var port = new SerialPort(comport, 115200);
-
             var ubx = new Ubx();
             var rtcm = new rtcm3();
             Stream file = null;
             DateTime filetime = DateTime.MinValue;
+            SerialPort port = null;
 
             Directory.SetCurrentDirectory(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
             
@@ -45,24 +43,14 @@ namespace Ntrip
             {
                 try
                 {
-                    if (file == null || DateTime.UtcNow.Day != filetime.Day)
+                    if (port == null || !port.IsOpen)
                     {
-                        if (file != null)
-                            file.Close();
-                        string fn = "";
-                        int no = 0;
-                        while (File.Exists((fn = DateTime.UtcNow.ToString("yyyy-MM-dd") + "-" + no + ".rtcm.Z")))
-                        {
-                            no++;
-                        }
-                        
-                        file = new GZipStream(new BufferedStream(new FileStream(fn,
-                            FileMode.OpenOrCreate)) , CompressionMode.Compress);
-                        filetime = DateTime.UtcNow;
-                    }
+                        var comport = args[0];
+                        if (comport.Contains("/dev/"))
+                            comport = Mono.Unix.UnixPath.GetRealPath(comport);
+                        Console.WriteLine("Port: " + comport);
+                        port = new SerialPort(comport, 115200);
 
-                    if (!port.IsOpen)
-                    {
                         port.Open();
                         ubx.SetupM8P(port, true, false);
 
@@ -78,22 +66,38 @@ namespace Ntrip
                         }
                     }
 
+                    if (file == null || !file.CanWrite || DateTime.UtcNow.Day != filetime.Day)
+                    {
+                        if (file != null)
+                            file.Close();
+                        string fn = "";
+                        int no = 0;
+                        while (File.Exists((fn = DateTime.UtcNow.ToString("yyyy-MM-dd") + "-" + no + ".rtcm.Z")))
+                        {
+                            no++;
+                        }
+
+                        file = new GZipStream(new BufferedStream(new FileStream(fn,
+                            FileMode.OpenOrCreate)), CompressionMode.Compress);
+                        filetime = DateTime.UtcNow;
+                    }
+
                     var btr = port.BytesToRead;
                     if (btr > 0)
                     {
                         var buffer = new byte[btr];
-                        port.Read(buffer, 0, btr);
+                        btr = port.Read(buffer, 0, btr);
 
                         foreach (byte by in buffer)
                         {
                             btr--;
 
-                            if (ubx.Read((byte)by) > 0)
+                            if (ubx.Read((byte) by) > 0)
                             {
                                 rtcm.resetParser();
                                 //Console.WriteLine(DateTime.Now + " new ubx message");
                             }
-                            else if (by >= 0 && rtcm.Read((byte)by) > 0)
+                            else if (by >= 0 && rtcm.Read((byte) by) > 0)
                             {
                                 ubx.resetParser();
                                 //Console.WriteLine(DateTime.Now + " new rtcm message");
@@ -102,6 +106,14 @@ namespace Ntrip
                             }
                         }
                     }
+                }
+                catch (UnauthorizedAccessException ex)
+                {
+                    Console.WriteLine(ex);
+                }
+                catch (IOException ex)
+                {
+                    Console.WriteLine(ex);
                 }
                 catch (Exception ex)
                 {
