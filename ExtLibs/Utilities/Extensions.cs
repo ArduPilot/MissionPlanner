@@ -234,23 +234,40 @@ namespace MissionPlanner.Utilities
 
         public static bool IsNumber(this object value)
         {
-            if (Equals(value, null))
+            return IsNumber(value?.GetType());
+        }
+
+        public static bool IsNumber(this Type value)
+        {
+            if (value == null)
             {
                 return false;
             }
 
-            return value is sbyte
-                   || value is double
-                   || value is float
-                   || value is uint
-                   || value is byte
-                   || value is short
-                   || value is ushort
-                   || value is int
-                   || value is long
-                   || value is ulong
-                   
-                   || value is decimal;
+            switch (Type.GetTypeCode(value))
+            {
+                case TypeCode.Byte:
+                case TypeCode.SByte:
+                case TypeCode.UInt16:
+                case TypeCode.UInt32:
+                case TypeCode.UInt64:
+                case TypeCode.Int16:
+                case TypeCode.Int32:
+                case TypeCode.Int64:
+                case TypeCode.Decimal:
+                case TypeCode.Double:
+                case TypeCode.Single:
+                    return true;
+                case TypeCode.Object:
+                    if (value.IsGenericType && value.GetGenericTypeDefinition() == typeof(Nullable<>))
+                    {
+                        return Nullable.GetUnderlyingType(value).IsNumber();
+                    }
+
+                    return false;
+                default:
+                    return false;
+            }
         }
 
         public static IEnumerable<MAVLink.MAVLinkMessage> GetMessageOfType(this CommsFile commsFile,
