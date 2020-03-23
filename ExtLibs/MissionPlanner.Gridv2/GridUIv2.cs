@@ -513,7 +513,7 @@ namespace MissionPlanner
                     }
                 }
 
-                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, (float)NUM_spacing, 0, 0, 0, 0, 0, 0);
+                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, (float)NUM_spacing, 0, 1, 0, 0, 0, 0);
 
                 grid.ForEach(plla =>
                 {
@@ -528,7 +528,7 @@ namespace MissionPlanner
                     }
                 });
 
-                    plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, 0, 0, 0, 0, 0, 0, 0);
+                    plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, 0, 0, 1, 0, 0, 0, 0);
 
                 if (chk_includeland.Checked)
                 {

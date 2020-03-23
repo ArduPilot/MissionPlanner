@@ -559,11 +559,11 @@ namespace MissionPlanner.Grid
 
             if (chk_Corridor.Checked)
             {
-                grid = Utilities.Grid.CreateCorridor(list, CurrentState.fromDistDisplayUnit((double)NUM_altitude.Value),
+                grid = await Utilities.Grid.CreateCorridorAsync(list, CurrentState.fromDistDisplayUnit((double)NUM_altitude.Value),
                     (double)NUM_Distance.Value, (double)NUM_spacing.Value, (double)NUM_angle.Value,
                     (double)NUM_overshoot.Value, (double)NUM_overshoot2.Value,
                     (Utilities.Grid.StartPosition)Enum.Parse(typeof(Utilities.Grid.StartPosition), CMB_startfrom.Text), false,
-                    (float)NUM_Lane_Dist.Value, (float)num_corridorwidth.Value, (float)NUM_leadin.Value);
+                    (float)NUM_Lane_Dist.Value, (float)num_corridorwidth.Value, (float)NUM_leadin.Value).ConfigureAwait(true);
             }
             else if (chk_spiral.Checked)
             {
@@ -571,7 +571,7 @@ namespace MissionPlanner.Grid
                     (double)NUM_Distance.Value, (double)NUM_spacing.Value, (double)NUM_angle.Value,
                     (double)NUM_overshoot.Value, (double)NUM_overshoot2.Value,
                     (Utilities.Grid.StartPosition)Enum.Parse(typeof(Utilities.Grid.StartPosition), CMB_startfrom.Text), false,
-                    (float)NUM_Lane_Dist.Value, (float)NUM_leadin.Value, MainV2.comPort.MAV.cs.HomeLocation);
+                    (float)NUM_Lane_Dist.Value, (float)NUM_leadin.Value, MainV2.comPort.MAV.cs.HomeLocation).ConfigureAwait(true);
             }
             else
             {
@@ -579,7 +579,7 @@ namespace MissionPlanner.Grid
                     (double)NUM_Distance.Value, (double)NUM_spacing.Value, (double)NUM_angle.Value,
                     (double)NUM_overshoot.Value, (double)NUM_overshoot2.Value,
                     (Utilities.Grid.StartPosition)Enum.Parse(typeof(Utilities.Grid.StartPosition), CMB_startfrom.Text), false,
-                    (float)NUM_Lane_Dist.Value, (float)NUM_leadin.Value, MainV2.comPort.MAV.cs.HomeLocation);
+                    (float)NUM_Lane_Dist.Value, (float)NUM_leadin.Value, MainV2.comPort.MAV.cs.HomeLocation).ConfigureAwait(true);
             }
 
             map.HoldInvalidation = true;
@@ -601,11 +601,11 @@ namespace MissionPlanner.Grid
                 // add crossover
                 Utilities.Grid.StartPointLatLngAlt = grid[grid.Count - 1];
 
-                grid.AddRange(Utilities.Grid.CreateGrid(list, CurrentState.fromDistDisplayUnit((double)NUM_altitude.Value),
+                grid.AddRange(await Utilities.Grid.CreateGridAsync(list, CurrentState.fromDistDisplayUnit((double)NUM_altitude.Value),
                     (double)NUM_Distance.Value, (double)NUM_spacing.Value, (double)NUM_angle.Value + 90.0,
                     (double)NUM_overshoot.Value, (double)NUM_overshoot2.Value,
                     Utilities.Grid.StartPosition.Point, false,
-                    (float)NUM_Lane_Dist.Value, (float)NUM_leadin.Value, MainV2.comPort.MAV.cs.HomeLocation));
+                    (float)NUM_Lane_Dist.Value, (float)NUM_leadin.Value, MainV2.comPort.MAV.cs.HomeLocation).ConfigureAwait(true));
             }
 
             if (CHK_boundary.Checked)
@@ -1648,7 +1648,7 @@ namespace MissionPlanner.Grid
 
                                     // to get around the copter leash length issue, add this here instead of ME
                                     if (chk_stopstart.Checked && plla.Tag == "E")
-                                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, 0, 0, 0, 0,
+                                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, 0, 0, 1, 0,
                                             0, 0, 0, gridobject);
                                 }
 
@@ -1667,7 +1667,7 @@ namespace MissionPlanner.Grid
 
                                             plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST,
                                                 (float)NUM_spacing.Value,
-                                                0, 0, 0, 0, 0, 0, gridobject);
+                                                0, 1, 0, 0, 0, 0, gridobject);
                                         }
                                         else if (plla.Tag == "ME")
                                         {
@@ -1684,7 +1684,7 @@ namespace MissionPlanner.Grid
                                         {
                                             plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST,
                                                 (float)NUM_spacing.Value,
-                                                0, 0, 0, 0, 0, 0, gridobject);
+                                                0, 1, 0, 0, 0, 0, gridobject);
                                             startedtrigdist = true;
                                         }
                                         else if (plla.Tag == "ME")
@@ -1755,7 +1755,7 @@ namespace MissionPlanner.Grid
                     // end
                     if (rad_trigdist.Checked)
                     {
-                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, 0, 0, 0, 0, 0, 0, 0, gridobject);
+                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, 0, 0, 1, 0, 0, 0, 0, gridobject);
                     }
 
                     if (CHK_usespeed.Checked)

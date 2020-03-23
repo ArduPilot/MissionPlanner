@@ -49,7 +49,7 @@ namespace MissionPlanner.Utilities
             float minLaneSeparation, double width, float leadin = 0)
         {
             return await Task.Run(() => CreateCorridor(polygon, altitude, distance, spacing, angle, overshoot1, overshoot2,
-                startpos, shutter, minLaneSeparation, width, leadin));
+                startpos, shutter, minLaneSeparation, width, leadin)).ConfigureAwait(false);
         }
 
         public static List<PointLatLngAlt> CreateCorridor(List<PointLatLngAlt> polygon, double altitude, double distance,
@@ -190,7 +190,7 @@ namespace MissionPlanner.Utilities
         public static async Task<List<PointLatLngAlt>> CreateRotaryAsync(List<PointLatLngAlt> polygon, double altitude, double distance, double spacing, double angle, double overshoot1, double overshoot2, StartPosition startpos, bool shutter, float minLaneSeparation, float leadin, PointLatLngAlt HomeLocation)
         {
             return await Task.Run((() => CreateRotary(polygon, altitude, distance, spacing, angle, overshoot1, overshoot2,
-                startpos, shutter, minLaneSeparation, leadin, HomeLocation)));
+                startpos, shutter, minLaneSeparation, leadin, HomeLocation))).ConfigureAwait(false);
         }
 
         public static List<PointLatLngAlt> CreateRotary(List<PointLatLngAlt> polygon, double altitude, double distance, double spacing, double angle, double overshoot1, double overshoot2, StartPosition startpos, bool shutter, float minLaneSeparation, float leadin, PointLatLngAlt HomeLocation)
@@ -273,7 +273,7 @@ namespace MissionPlanner.Utilities
             bool shutter, float minLaneSeparation, float leadin, PointLatLngAlt HomeLocation)
         {
             return await Task.Run((() => CreateGrid(polygon, altitude, distance, spacing, angle, overshoot1, overshoot2,
-                startpos, shutter, minLaneSeparation, leadin, HomeLocation)));
+                startpos, shutter, minLaneSeparation, leadin, HomeLocation))).ConfigureAwait(false);
         }
 
         public static List<PointLatLngAlt> CreateGrid(List<PointLatLngAlt> polygon, double altitude, double distance, double spacing, double angle, double overshoot1, double overshoot2, StartPosition startpos, bool shutter, float minLaneSeparation, float leadin, PointLatLngAlt HomeLocation)

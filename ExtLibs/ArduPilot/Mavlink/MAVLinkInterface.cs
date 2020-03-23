@@ -688,7 +688,6 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     if (customAttributes != null && customAttributes.Length != 0)
                     {
                         return ((AssemblyFileVersionAttribute) customAttributes[0]).Version;
-                        ;
                     }
                 }
             }
@@ -814,11 +813,6 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
             outputbuffer = buffer;
             return result;
-        }
-
-        private void ProgressWorkerEventArgs_CancelRequestChanged(object sender, PropertyChangedEventArgs e)
-        {
-            throw new NotImplementedException();
         }
 
         void SetupMavConnect(MAVLinkMessage message, mavlink_heartbeat_t hb)
