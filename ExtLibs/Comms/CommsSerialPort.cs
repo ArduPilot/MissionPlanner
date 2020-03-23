@@ -240,7 +240,7 @@ namespace MissionPlanner.Comms
                 if (ports != null)
                     allPorts.AddRange(ports);
 
-                return allPorts.ToArray();
+                return allPorts.Distinct().ToArray();
             }
         }
 
