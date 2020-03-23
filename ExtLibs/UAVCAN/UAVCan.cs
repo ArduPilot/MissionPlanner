@@ -125,6 +125,7 @@ namespace UAVCAN
             var resp5 = ReadLine(stream);
 
             sr = stream;
+            var srread = new BufferedStream(stream);
 
             bool run = true;
             Stream logfile = null;
@@ -140,7 +141,7 @@ namespace UAVCAN
                 {
                     try
                     {
-                        var line = ReadLine(stream);
+                        var line = ReadLine(srread);
                         try
                         {
                             logfile?.Write(ASCIIEncoding.ASCII.GetBytes(line), 0, line.Length);
@@ -239,6 +240,7 @@ namespace UAVCAN
                 try
                 {
                     sr.Write(new byte[] { (byte)'C', (byte)'\r' }, 0, 2);
+                    sr.Flush();
                     sr.Close();
                 } catch { }
             }

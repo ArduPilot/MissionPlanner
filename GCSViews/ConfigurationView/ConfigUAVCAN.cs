@@ -211,9 +211,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             item.Uptime = TimeSpan.FromSeconds(ns.uptime_sec);
                         }
 
+                        _updatePending = true;
                         this.BeginInvoke((Action)delegate
                         {
-                            uAVCANModelBindingSource.ResetBindings(false);
+                            if (_updatePending)
+                            {
+                                _updatePending = false;
+                                uAVCANModelBindingSource.ResetBindings(false);
+                            }
                         });
                     }
                     else if (msg.GetType() == typeof(UAVCAN.uavcan.uavcan_protocol_GetNodeInfo_res))
@@ -235,9 +240,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             item.RawMsg = gnires;
                         }
 
+                        _updatePending = true;
                         this.BeginInvoke((Action)delegate
                         {
-                            uAVCANModelBindingSource.ResetBindings(false);
+                            if (_updatePending)
+                            {
+                                _updatePending = false;
+                                uAVCANModelBindingSource.ResetBindings(false);
+                            }
                         });
                     }
                 };
@@ -245,6 +255,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         }
 
         UAVCAN.uavcan can = new UAVCAN.uavcan();
+        private bool _updatePending;
 
         private async void myDataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
