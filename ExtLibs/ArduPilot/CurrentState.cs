@@ -178,6 +178,8 @@ namespace MissionPlanner
             ratestatusbackup = 2;
             ratesensorsbackup = 2;
             ratercbackup = 2;
+            //Init dictionary for storing names for customfields
+            custom_field_names = new Dictionary<string, string>();
         }
 
         ~CurrentState()
@@ -201,6 +203,20 @@ namespace MissionPlanner
             var t = Type.GetType("Mono.Runtime");
             MONO = t != null;
         }
+
+        // propery name, Name   Name starts with MAV_ will link to named_value_float messages
+        public static Dictionary<string, string> custom_field_names {get; set;}
+
+        public float customfield0 { get; set; }
+        public float customfield1 { get; set; }
+        public float customfield2 { get; set; }
+        public float customfield3 { get; set; }
+        public float customfield4 { get; set; }
+        public float customfield5 { get; set; }
+        public float customfield6 { get; set; }
+        public float customfield7 { get; set; }
+        public float customfield8 { get; set; }
+        public float customfield9 { get; set; }
 
         // orientation - rads
         [DisplayText("Roll (deg)")]
@@ -2870,6 +2886,81 @@ namespace MissionPlanner
                         SSA = aoa_ssa.SSA;
                     }
                         break;
+
+                    case (uint)MAVLink.MAVLINK_MSG_ID.NAMED_VALUE_FLOAT:
+
+                        {
+                            var named_float = mavLinkMessage.ToStructure<MAVLink.mavlink_named_value_float_t>();
+
+                            string mav_value_name = new string(named_float.name);
+
+                            int ind = mav_value_name.IndexOf('\0');
+                            if (ind != -1)
+                                mav_value_name = mav_value_name.Substring(0, ind);
+
+                            string name = "MAV_" + mav_value_name.ToUpper();
+
+                            float value = named_float.value;
+                            var field = custom_field_names.FirstOrDefault(x => x.Value == name).Key;
+                        
+                            //todo: if field is null then check if we have a free customfield and add the named_value 
+                            if (field == null)
+                            {
+                                short i;
+                                for (i = 0; i < 10; i++)
+                                {
+                                    if (!custom_field_names.ContainsKey("customfield" + i.ToString())) break;
+                                }
+                                if (i < 10)
+                                {
+                                    field = "customfield" + i.ToString();
+                                    custom_field_names.Add(field, name);
+                                }
+                            }
+                        
+
+                            if (field != null)
+                            {
+                                switch(field)
+                                {
+                                    case "customfield0":
+                                        customfield0 = value;
+                                        break;
+                                    case "customfield1":
+                                        customfield1 = value;
+                                        break;
+                                    case "customfield2":
+                                        customfield2 = value;
+                                        break;
+                                    case "customfield3":
+                                        customfield3 = value;
+                                        break;
+                                    case "customfield4":
+                                        customfield4 = value;
+                                        break;
+                                    case "customfield5":
+                                        customfield5 = value;
+                                        break;
+                                    case "customfield6":
+                                        customfield6 = value;
+                                        break;
+                                    case "customfield7":
+                                        customfield7 = value;
+                                        break;
+                                    case "customfield8":
+                                        customfield8 = value;
+                                        break;
+                                    case "customfield9":
+                                        customfield9 = value;
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                            }
+
+                    }
+                        break;
                 }
             }
         }
@@ -2949,6 +3040,12 @@ namespace MissionPlanner
         public string GetNameandUnit(string name)
         {
             var desc = name;
+
+            if (custom_field_names.ContainsKey(name))
+            {
+                desc = custom_field_names[name];
+                return desc;
+            }
             try
             {
                 var typeofthing = typeof(CurrentState).GetProperty(name);

@@ -821,7 +821,6 @@ namespace MissionPlanner
             {
                 changelanguage(CultureInfoEx.GetCultureInfo(Settings.Instance["language"]));
             }
-
             if (splash != null)
             {
                 this.Text = splash?.Text;
@@ -995,6 +994,15 @@ namespace MissionPlanner
                     CurrentState.ratercbackup = Settings.Instance.GetInt32("CMB_raterc");
                 if (Settings.Instance["CMB_ratesensors"] != null)
                     CurrentState.ratesensorsbackup = Settings.Instance.GetInt32("CMB_ratesensors");
+
+                //Load customfield names from config
+
+                for (short i = 0; i < 10; i++)
+                {
+                    var fieldname = "customfield" + i.ToString();
+                    if (Settings.Instance.ContainsKey(fieldname))
+                        CurrentState.custom_field_names.Add(fieldname, Settings.Instance[fieldname].ToUpper());
+                }
 
                 // make sure rates propogate
                 MainV2.comPort.MAV.cs.ResetInternals();
@@ -1618,8 +1626,7 @@ namespace MissionPlanner
                     }
                     return;
                 }
-
-                comPort.getParamList();//comPort.MAV.sysid, comPort.MAV.compid);
+               comPort.getParamList();//comPort.MAV.sysid, comPort.MAV.compid);
 
                 _connectionControl.UpdateSysIDS();
 
