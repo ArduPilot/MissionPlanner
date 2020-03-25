@@ -171,7 +171,8 @@ namespace MissionPlanner.GCSViews
                 string[] lines = line.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string option in lines)
                 {
-                    using (var cb = new CheckBox {Name = option, Checked = true})
+                    string desc = MainV2.comPort.MAV.cs.GetNameandUnit(option);
+                    using (var cb = new CheckBox {Name = option, Checked = true, Text = desc})
                     {
                         chk_box_CheckedChanged(cb, EventArgs.Empty);
                     }
@@ -1674,8 +1675,9 @@ namespace MissionPlanner.GCSViews
                     if (setupPropertyInfo(ref list1item, ((CheckBox) sender).Name, MainV2.comPort.MAV.cs))
                     {
                         list1.Clear();
-                        list1curve =
-                            zg1.GraphPane.AddCurve(((CheckBox) sender).Name, list1, Color.Red, SymbolType.None);
+                        list1curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list1, Color.Red,
+                            SymbolType.None);
+                        list1curve.Tag = ((CheckBox)sender).Name;
                     }
                 }
                 else if (list2item == null)
@@ -1683,8 +1685,9 @@ namespace MissionPlanner.GCSViews
                     if (setupPropertyInfo(ref list2item, ((CheckBox) sender).Name, MainV2.comPort.MAV.cs))
                     {
                         list2.Clear();
-                        list2curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Name, list2, Color.Blue,
+                        list2curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list2, Color.Blue,
                             SymbolType.None);
+                        list2curve.Tag = ((CheckBox)sender).Name;
                     }
                 }
                 else if (list3item == null)
@@ -1692,8 +1695,9 @@ namespace MissionPlanner.GCSViews
                     if (setupPropertyInfo(ref list3item, ((CheckBox) sender).Name, MainV2.comPort.MAV.cs))
                     {
                         list3.Clear();
-                        list3curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Name, list3, Color.Green,
+                        list3curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list3, Color.Green,
                             SymbolType.None);
+                        list3curve.Tag = ((CheckBox)sender).Name;
                     }
                 }
                 else if (list4item == null)
@@ -1701,8 +1705,9 @@ namespace MissionPlanner.GCSViews
                     if (setupPropertyInfo(ref list4item, ((CheckBox) sender).Name, MainV2.comPort.MAV.cs))
                     {
                         list4.Clear();
-                        list4curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Name, list4, Color.Orange,
+                        list4curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list4, Color.Orange,
                             SymbolType.None);
+                        list4curve.Tag = ((CheckBox)sender).Name;
                     }
                 }
                 else if (list5item == null)
@@ -1710,8 +1715,9 @@ namespace MissionPlanner.GCSViews
                     if (setupPropertyInfo(ref list5item, ((CheckBox) sender).Name, MainV2.comPort.MAV.cs))
                     {
                         list5.Clear();
-                        list5curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Name, list5, Color.Yellow,
+                        list5curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list5, Color.Yellow,
                             SymbolType.None);
+                        list5curve.Tag = ((CheckBox)sender).Name;
                     }
                 }
                 else if (list6item == null)
@@ -1719,8 +1725,9 @@ namespace MissionPlanner.GCSViews
                     if (setupPropertyInfo(ref list6item, ((CheckBox) sender).Name, MainV2.comPort.MAV.cs))
                     {
                         list6.Clear();
-                        list6curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Name, list6, Color.Magenta,
+                        list6curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list6, Color.Magenta,
                             SymbolType.None);
+                        list6curve.Tag = ((CheckBox)sender).Name;
                     }
                 }
                 else if (list7item == null)
@@ -1728,8 +1735,9 @@ namespace MissionPlanner.GCSViews
                     if (setupPropertyInfo(ref list7item, ((CheckBox) sender).Name, MainV2.comPort.MAV.cs))
                     {
                         list7.Clear();
-                        list7curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Name, list7, Color.Purple,
+                        list7curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list7, Color.Purple,
                             SymbolType.None);
+                        list7curve.Tag = ((CheckBox)sender).Name;
                     }
                 }
                 else if (list8item == null)
@@ -1737,8 +1745,9 @@ namespace MissionPlanner.GCSViews
                     if (setupPropertyInfo(ref list8item, ((CheckBox) sender).Name, MainV2.comPort.MAV.cs))
                     {
                         list8.Clear();
-                        list8curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Name, list8, Color.LimeGreen,
+                        list8curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list8, Color.LimeGreen,
                             SymbolType.None);
+                        list8curve.Tag = ((CheckBox)sender).Name;
                     }
                 }
                 else if (list9item == null)
@@ -1746,8 +1755,9 @@ namespace MissionPlanner.GCSViews
                     if (setupPropertyInfo(ref list9item, ((CheckBox) sender).Name, MainV2.comPort.MAV.cs))
                     {
                         list9.Clear();
-                        list9curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Name, list9, Color.Cyan,
+                        list9curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list9, Color.Cyan,
                             SymbolType.None);
+                        list9curve.Tag = ((CheckBox)sender).Name;
                     }
                 }
                 else if (list10item == null)
@@ -1755,8 +1765,9 @@ namespace MissionPlanner.GCSViews
                     if (setupPropertyInfo(ref list10item, ((CheckBox) sender).Name, MainV2.comPort.MAV.cs))
                     {
                         list10.Clear();
-                        list10curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Name, list10, Color.Violet,
+                        list10curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list10, Color.Violet,
                             SymbolType.None);
+                        list10curve.Tag = ((CheckBox)sender).Name;
                     }
                 }
                 else
@@ -1770,7 +1781,7 @@ namespace MissionPlanner.GCSViews
                 {
                     foreach (var curve in zg1.GraphPane.CurveList)
                     {
-                        selected = selected + curve.Label.Text + "|";
+                        selected = selected + curve.Tag + "|";
                     }
                 }
                 catch
@@ -1857,7 +1868,7 @@ namespace MissionPlanner.GCSViews
                 HUD.Custom cust = new HUD.Custom();
                 HUD.Custom.src = MainV2.comPort.MAV.cs;
 
-                string prefix = checkbox.Name + ": ";
+                string prefix = checkbox.Text + ": ";
                 if (Settings.Instance["hud1_useritem_" + checkbox.Name] != null)
                     prefix = Settings.Instance["hud1_useritem_" + checkbox.Name];
 
@@ -2593,7 +2604,7 @@ namespace MissionPlanner.GCSViews
             Type test = thisBoxed.GetType();
 
             int max_length = 0;
-            List<string> fields = new List<string>();
+            List<(string name, string desc)> fields = new List<(string, string)>();
 
             foreach (var field in test.GetProperties())
             {
@@ -2602,18 +2613,27 @@ namespace MissionPlanner.GCSViews
                 if (fieldValue == null)
                     continue;
 
-                // Get the TypeCode enumeration. Multiple types get mapped to a common typecode.
-                TypeCode typeCode = Type.GetTypeCode(fieldValue.GetType());
-
                 if (!fieldValue.IsNumber())
                     continue;
 
-                max_length = Math.Max(max_length, TextRenderer.MeasureText(field.Name, selectform.Font).Width);
-                fields.Add(field.Name);
+                if (field.Name.Contains("customfield"))
+                {
+                    if (CurrentState.custom_field_names.ContainsKey(field.Name))
+                    {
+                        string name = CurrentState.custom_field_names[field.Name];
+                        max_length = Math.Max(max_length, TextRenderer.MeasureText(name, selectform.Font).Width);
+                        fields.Add((field.Name, name));
+                    }
+                }
+                else
+                {
+                    max_length = Math.Max(max_length, TextRenderer.MeasureText(field.Name, selectform.Font).Width);
+                    fields.Add((field.Name, field.Name));
+                }
             }
 
             max_length += 15;
-            fields.Sort();
+            fields.Sort((a, b) => a.Item2.CompareTo(b.Item2));
 
             int col_count = (int) (Screen.FromControl(this).Bounds.Width * 0.8f) / max_length;
             int row_count = fields.Count / col_count + ((fields.Count % col_count == 0) ? 0 : 1);
@@ -2624,12 +2644,12 @@ namespace MissionPlanner.GCSViews
             {
                 CheckBox chk_box = new CheckBox
                 {
-                    Text = fields[i],
-                    Name = fields[i],
+                    Text = fields[i].desc,
+                    Name = fields[i].name,
                     Tag = "custom",
                     Location = new Point(5 + (i / row_count) * (max_length + 5), 2 + (i % row_count) * row_height),
                     Size = new Size(max_length, row_height),
-                    Checked = hud1.CustomItems.ContainsKey(fields[i]),
+                    Checked = hud1.CustomItems.ContainsKey(fields[i].name),
                     AutoSize = true
                 };
                 chk_box.CheckedChanged += chk_box_hud_UserItem_CheckedChanged;
@@ -3597,7 +3617,7 @@ namespace MissionPlanner.GCSViews
             Type test = thisBoxed.GetType();
 
             int max_length = 0;
-            List<string> fields = new List<string>();
+            List<(string name, string desc)> fields = new List<(string,string)>();
 
             foreach (var field in test.GetProperties())
             {
@@ -3609,12 +3629,24 @@ namespace MissionPlanner.GCSViews
                 if (!fieldValue.IsNumber())
                     continue;
 
-                max_length = Math.Max(max_length, TextRenderer.MeasureText(field.Name, selectform.Font).Width);
-                fields.Add(field.Name);
+                if (field.Name.Contains("customfield"))
+                {
+                    if (CurrentState.custom_field_names.ContainsKey(field.Name))
+                    {
+                        string name = CurrentState.custom_field_names[field.Name];
+                        max_length = Math.Max(max_length, TextRenderer.MeasureText(name, selectform.Font).Width);
+                        fields.Add((field.Name,name));
+                    }
+                }
+                else
+                {
+                    max_length = Math.Max(max_length, TextRenderer.MeasureText(field.Name, selectform.Font).Width);
+                    fields.Add((field.Name,field.Name));
+                }
             }
 
             max_length += 25;
-            fields.Sort();
+            fields.Sort((a, b) => a.Item2.CompareTo(b.Item2));
 
             int col_count = (int) (Screen.FromControl(this).Bounds.Width * 0.8f) / max_length;
             int row_count = fields.Count / col_count + ((fields.Count % col_count == 0) ? 0 : 1);
@@ -3626,9 +3658,9 @@ namespace MissionPlanner.GCSViews
                 CheckBox chk_box = new CheckBox
                 {
                     // dont change to ToString() = null exception
-                    Checked = qv.Tag != null && qv.Tag.ToString() == fields[i],
-                    Text = fields[i],
-                    Name = fields[i],
+                    Checked = qv.Tag != null && qv.Tag.ToString() == fields[i].name,
+                    Text = fields[i].desc,
+                    Name = fields[i].name,
                     Tag = qv,
                     Location = new Point(5 + (i / row_count) * (max_length + 5), 2 + (i % row_count) * row_height),
                     Size = new Size(max_length, row_height),
@@ -4715,7 +4747,7 @@ namespace MissionPlanner.GCSViews
             Type test = thisBoxed.GetType();
 
             int max_length = 0;
-            List<string> fields = new List<string>();
+            List<(string name, string desc)> fields = new List<(string, string)>();
 
             foreach (var field in test.GetProperties())
             {
@@ -4727,12 +4759,24 @@ namespace MissionPlanner.GCSViews
                 if (!fieldValue.IsNumber())
                     continue;
 
-                max_length = Math.Max(max_length, TextRenderer.MeasureText(field.Name, selectform.Font).Width);
-                fields.Add(field.Name);
+                if (field.Name.Contains("customfield"))
+                {
+                    if (CurrentState.custom_field_names.ContainsKey(field.Name))
+                    {
+                        string name = CurrentState.custom_field_names[field.Name];
+                        max_length = Math.Max(max_length, TextRenderer.MeasureText(name, selectform.Font).Width);
+                        fields.Add((field.Name, name));
+                    }
+                }
+                else
+                {
+                    max_length = Math.Max(max_length, TextRenderer.MeasureText(field.Name, selectform.Font).Width);
+                    fields.Add((field.Name, field.Name));
+                }
             }
 
             max_length += 25;
-            fields.Sort();
+            fields.Sort((a, b) => a.Item2.CompareTo(b.Item2));
 
             int col_count = (int) (Screen.FromControl(this).Bounds.Width * 0.8f) / max_length;
             int row_count = fields.Count / col_count + ((fields.Count % col_count == 0) ? 0 : 1);
@@ -4747,68 +4791,68 @@ namespace MissionPlanner.GCSViews
 
                 ThemeManager.ApplyThemeTo(chk_box);
 
-                if (list1item != null && list1item.Name == field)
+                if (list1item != null && list1item.Name == field.name)
                 {
                     chk_box.Checked = true;
                     chk_box.BackColor = Color.Green;
                 }
 
-                if (list2item != null && list2item.Name == field)
+                if (list2item != null && list2item.Name == field.name)
                 {
                     chk_box.Checked = true;
                     chk_box.BackColor = Color.Green;
                 }
 
-                if (list3item != null && list3item.Name == field)
+                if (list3item != null && list3item.Name == field.name)
                 {
                     chk_box.Checked = true;
                     chk_box.BackColor = Color.Green;
                 }
 
-                if (list4item != null && list4item.Name == field)
+                if (list4item != null && list4item.Name == field.name)
                 {
                     chk_box.Checked = true;
                     chk_box.BackColor = Color.Green;
                 }
 
-                if (list5item != null && list5item.Name == field)
+                if (list5item != null && list5item.Name == field.name)
                 {
                     chk_box.Checked = true;
                     chk_box.BackColor = Color.Green;
                 }
 
-                if (list6item != null && list6item.Name == field)
+                if (list6item != null && list6item.Name == field.name)
                 {
                     chk_box.Checked = true;
                     chk_box.BackColor = Color.Green;
                 }
 
-                if (list7item != null && list7item.Name == field)
+                if (list7item != null && list7item.Name == field.name)
                 {
                     chk_box.Checked = true;
                     chk_box.BackColor = Color.Green;
                 }
 
-                if (list8item != null && list8item.Name == field)
+                if (list8item != null && list8item.Name == field.name)
                 {
                     chk_box.Checked = true;
                     chk_box.BackColor = Color.Green;
                 }
 
-                if (list9item != null && list9item.Name == field)
+                if (list9item != null && list9item.Name == field.name)
                 {
                     chk_box.Checked = true;
                     chk_box.BackColor = Color.Green;
                 }
 
-                if (list10item != null && list10item.Name == field)
+                if (list10item != null && list10item.Name == field.name)
                 {
                     chk_box.Checked = true;
                     chk_box.BackColor = Color.Green;
                 }
 
-                chk_box.Text = field;
-                chk_box.Name = field;
+                chk_box.Text = field.desc;
+                chk_box.Name = field.name;
                 chk_box.Tag = "custom";
                 chk_box.Location = new Point(5 + (i / row_count) * (max_length + 5), 2 + (i % row_count) * row_height);
                 chk_box.Size = new Size(120, 20);
