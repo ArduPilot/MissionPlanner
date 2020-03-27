@@ -20,7 +20,6 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -28,6 +27,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MissionPlanner.ArduPilot.Mavlink;
 using MissionPlanner.Utilities.HW;
 using Transitions;
 
@@ -1626,7 +1626,23 @@ namespace MissionPlanner
                     }
                     return;
                 }
-               comPort.getParamList();//comPort.MAV.sysid, comPort.MAV.compid);
+
+                var paramfile =
+                    new MAVFtp(comPort, comPort.MAV.sysid, comPort.MAV.compid).GetFile("@PARAM/param.pck",
+                        new CancellationTokenSource(4000));
+                if (paramfile != null && paramfile.Length > 0)
+                {
+                    var mavlist = parampck.unpack(paramfile.ToArray());
+                    comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param.Clear();
+                    comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param.TotalReported = mavlist.Count;
+                    comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param.AddRange(mavlist);
+                    mavlist.ForEach(a =>
+                        comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param_types[a.Name] = a.Type);
+                }
+                else
+                {
+                    comPort.getParamList(); //comPort.MAV.sysid, comPort.MAV.compid);
+                }
 
                 _connectionControl.UpdateSysIDS();
 

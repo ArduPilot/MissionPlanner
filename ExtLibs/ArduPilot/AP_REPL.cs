@@ -58,7 +58,7 @@ namespace MissionPlanner.ArduPilot
                         if (!_mavint.BaseStream.IsOpen)
                             return;
 
-                        if (_mavftp.kCmdOpenFileRO("repl/out", out _outsize))
+                        if (_mavftp.kCmdOpenFileRO("repl/out", out _outsize, new CancellationTokenSource()))
                         {
                             var stream = _mavftp.kCmdReadFile("repl/out", _outsize, _cancellation);
 
@@ -114,11 +114,11 @@ namespace MissionPlanner.ArduPilot
             _semaphore.Wait();
             try
             {
-                var list =_mavftp.kCmdListDirectory("repl");
+                var list =_mavftp.kCmdListDirectory("repl", new CancellationTokenSource());
 
                 var useopen = list.Where(a => a.Name == "in");
 
-                if ((useopen.Count() > 0 && _mavftp.kCmdOpenFileWO("repl/in", ref createsize)) || _mavftp.kCmdCreateFile("repl/in", ref createsize))
+                if ((useopen.Count() > 0 && _mavftp.kCmdOpenFileWO("repl/in", ref createsize, new CancellationTokenSource())) || _mavftp.kCmdCreateFile("repl/in", ref createsize, new CancellationTokenSource()))
                 {
                     _mavftp.kCmdWriteFile(bytedata, (uint)(useopen.FirstOrDefault()?.Size ?? 0), "REPL", _cancellation);
                     _mavftp.kCmdTerminateSession();

@@ -64,7 +64,7 @@ namespace MissionPlanner.Utilities
                 return s;
             }
         }
-
+        
         public static byte[] MakeSize(this byte[] buffer, int length)
         {
             if (buffer.Length == length)
