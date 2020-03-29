@@ -350,6 +350,8 @@ namespace MissionPlanner
             _mavlink1count = 0;
             _mavlink2count = 0;
             _mavlink2signed = 0;
+
+            AIS.Start(this);
         }
 
         public MAVLinkInterface(Stream logfileStream)
@@ -1967,18 +1969,18 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             {
                 if (armit)
                     return await doCommandAsync(sysid, compid, MAV_CMD.COMPONENT_ARM_DISARM, 1, magic_force_arm_value, 0, 0, 0, 0,
-                        0);
+                        0).ConfigureAwait(true);
                 else
                     return await doCommandAsync(sysid, compid, MAV_CMD.COMPONENT_ARM_DISARM, 0, magic_force_disarm_value, 0, 0, 0,
-                        0, 0);
+                        0, 0).ConfigureAwait(true);
             }
             else
             {
                 if (armit)
-                    return await doCommandAsync(sysid, compid, MAV_CMD.COMPONENT_ARM_DISARM, 1, 0, 0, 0, 0, 0, 0);
+                    return await doCommandAsync(sysid, compid, MAV_CMD.COMPONENT_ARM_DISARM, 1, 0, 0, 0, 0, 0, 0).ConfigureAwait(true);
                 else
                     return await doCommandAsync(sysid, compid, MAV_CMD.COMPONENT_ARM_DISARM, 0, 0, 0, 0, 0,
-                        0, 0);
+                        0, 0).ConfigureAwait(true);
             }
         }
         [Obsolete]

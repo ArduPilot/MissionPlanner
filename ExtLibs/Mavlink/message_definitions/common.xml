@@ -3535,6 +3535,27 @@
       <field type="int16_t" name="end_index">End index, equal or greater than start index.</field>
       <extensions/>
       <field type="uint8_t" name="mission_type" enum="MAV_MISSION_TYPE">Mission type.</field>
+    </message>   <message id="301" name="AIS_VESSEL">
+      <wip/>
+      <!-- This message is work-in-progress and it can therefore change. It should NOT be used in stable production environments. -->
+      <description>The location and information of an AIS vessel</description>
+      <field type="uint32_t" name="MMSI">Mobile Marine Service Identifier, 9 decimal digits</field>
+      <field type="int32_t" name="lat" units="degE7">Latitude</field>
+      <field type="int32_t" name="lon" units="degE7">Longitude</field>
+      <field type="uint16_t" name="COG" units="cdeg">Course over ground</field>
+      <field type="uint16_t" name="heading" units="cdeg">True heading</field>
+      <field type="uint16_t" name="velocity" units="cm/s">Speed over ground</field>
+      <field type="int8_t" name="turn_rate" units="cdeg/s">Turn rate</field>
+      <field type="uint8_t" name="navigational_status" enum="AIS_NAV_STATUS">Navigational status</field>
+      <field type="uint8_t" name="type" enum="AIS_TYPE">Type of vessels</field>
+      <field type="uint16_t" name="dimension_bow" units="m">Distance from lat/lon location to bow</field>
+      <field type="uint16_t" name="dimension_stern" units="m">Distance from lat/lon location to stern</field>
+      <field type="uint8_t" name="dimension_port" units="m">Distance from lat/lon location to port side</field>
+      <field type="uint8_t" name="dimension_starboard" units="m">Distance from lat/lon location to starboard side</field>
+      <field type="char[7]" name="callsign">The vessel callsign</field>
+      <field type="char[20]" name="name">The vessel name</field>
+      <field type="uint16_t" name="tslc" units="s">Time since last communication in seconds</field>
+      <field type="uint16_t" name="flags" enum="AIS_FLAGS" display="bitmask">Bitmask to indicate various statuses including valid data fields</field>
     </message>
     <message id="39" name="MISSION_ITEM">
       <description>Message encoding a mission item. This message is emitted to announce

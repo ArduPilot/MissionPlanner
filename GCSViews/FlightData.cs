@@ -3303,6 +3303,20 @@ namespace MissionPlanner.GCSViews
                             log.Error(ex);
                         }
 
+                        AIS.Vessels.ForEach(a =>
+                        {
+                            // all marker are cleard
+                            var boat = new GMapMarkerAISBoat(new PointLatLngAlt(a.lat/1e7,a.lon/1e7,0), a.heading / 100.0f)
+                            {
+                                ToolTipText = "MMSI: " + a.MMSI + "\n" +
+                                              "Speed: " + (a.velocity/100).ToString("0 m/s") + "\n" +
+                                              "TurnRate: " + (a.turn_rate/100).ToString("0"),
+                                ToolTipMode = MarkerTooltipMode.OnMouseOver,
+                                Tag = a
+                            }; 
+                            addMissionRouteMarker(boat);
+                        });
+
                         lock (MainV2.instance.adsblock)
                         {
                             foreach (adsb.PointLatLngAltHdg plla in MainV2.instance.adsbPlanes.Values)
@@ -3484,7 +3498,7 @@ namespace MissionPlanner.GCSViews
             try
             {
                 await MainV2.comPort.doCommandAsync(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid,
-                    MAVLink.MAV_CMD.DO_CHANGE_SPEED, 0, (float) modifyandSetSpeed.Value, 0, 0, 0, 0, 0);
+                    MAVLink.MAV_CMD.DO_CHANGE_SPEED, 0, (float) modifyandSetSpeed.Value, 0, 0, 0, 0, 0).ConfigureAwait(true);
             }
             catch
             {

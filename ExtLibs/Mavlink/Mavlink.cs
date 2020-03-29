@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Sat Mar 14 2020";
+    public const string MAVLINK_BUILD_DATE = "Sun Mar 29 2020";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -35,7 +35,7 @@ public partial class MAVLink
         
     public const bool MAVLINK_NEED_BYTE_SWAP = (MAVLINK_ENDIAN == MAVLINK_LITTLE_ENDIAN);
         
-    // msgid, name, crc, length, type
+    // msgid, name, crc, minlength, length, type
     public static message_info[] MAVLINK_MESSAGE_INFOS = new message_info[] {
         new message_info(0, "HEARTBEAT", 50, 9, 9, typeof( mavlink_heartbeat_t )),
         new message_info(1, "SYS_STATUS", 124, 31, 31, typeof( mavlink_sys_status_t )),
@@ -238,6 +238,7 @@ public partial class MAVLink
         new message_info(267, "LOGGING_DATA_ACKED", 35, 255, 255, typeof( mavlink_logging_data_acked_t )),
         new message_info(268, "LOGGING_ACK", 14, 4, 4, typeof( mavlink_logging_ack_t )),
         new message_info(299, "WIFI_CONFIG_AP", 19, 96, 96, typeof( mavlink_wifi_config_ap_t )),
+        new message_info(301, "AIS_VESSEL", 243, 58, 58, typeof( mavlink_ais_vessel_t )),
         new message_info(310, "UAVCAN_NODE_STATUS", 28, 17, 17, typeof( mavlink_uavcan_node_status_t )),
         new message_info(311, "UAVCAN_NODE_INFO", 95, 116, 116, typeof( mavlink_uavcan_node_info_t )),
         new message_info(330, "OBSTACLE_DISTANCE", 23, 158, 167, typeof( mavlink_obstacle_distance_t )),
@@ -500,6 +501,7 @@ public partial class MAVLink
         LOGGING_DATA_ACKED = 267,
         LOGGING_ACK = 268,
         WIFI_CONFIG_AP = 299,
+        AIS_VESSEL = 301,
         UAVCAN_NODE_STATUS = 310,
         UAVCAN_NODE_INFO = 311,
         OBSTACLE_DISTANCE = 330,
@@ -8638,6 +8640,105 @@ public partial class MAVLink
         [Units("")]
         [Description("Mission type.")]
         public  /*MAV_MISSION_TYPE*/byte mission_type;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=58)]
+    ///<summary> The location and information of an AIS vessel </summary>
+    public struct mavlink_ais_vessel_t
+    {
+        public mavlink_ais_vessel_t(uint MMSI,int lat,int lon,ushort COG,ushort heading,ushort velocity,ushort dimension_bow,ushort dimension_stern,ushort tslc,/*AIS_FLAGS*/ushort flags,sbyte turn_rate,/*AIS_NAV_STATUS*/byte navigational_status,/*AIS_TYPE*/byte type,byte dimension_port,byte dimension_starboard,char[] callsign,char[] name) 
+        {
+              this.MMSI = MMSI;
+              this.lat = lat;
+              this.lon = lon;
+              this.COG = COG;
+              this.heading = heading;
+              this.velocity = velocity;
+              this.dimension_bow = dimension_bow;
+              this.dimension_stern = dimension_stern;
+              this.tslc = tslc;
+              this.flags = flags;
+              this.turn_rate = turn_rate;
+              this.navigational_status = navigational_status;
+              this.type = type;
+              this.dimension_port = dimension_port;
+              this.dimension_starboard = dimension_starboard;
+              this.callsign = callsign;
+              this.name = name;
+            
+        }
+        /// <summary>Mobile Marine Service Identifier, 9 decimal digits   </summary>
+        [Units("")]
+        [Description("Mobile Marine Service Identifier, 9 decimal digits")]
+        public  uint MMSI;
+            /// <summary>Latitude  [degE7] </summary>
+        [Units("[degE7]")]
+        [Description("Latitude")]
+        public  int lat;
+            /// <summary>Longitude  [degE7] </summary>
+        [Units("[degE7]")]
+        [Description("Longitude")]
+        public  int lon;
+            /// <summary>Course over ground  [cdeg] </summary>
+        [Units("[cdeg]")]
+        [Description("Course over ground")]
+        public  ushort COG;
+            /// <summary>True heading  [cdeg] </summary>
+        [Units("[cdeg]")]
+        [Description("True heading")]
+        public  ushort heading;
+            /// <summary>Speed over ground  [cm/s] </summary>
+        [Units("[cm/s]")]
+        [Description("Speed over ground")]
+        public  ushort velocity;
+            /// <summary>Distance from lat/lon location to bow  [m] </summary>
+        [Units("[m]")]
+        [Description("Distance from lat/lon location to bow")]
+        public  ushort dimension_bow;
+            /// <summary>Distance from lat/lon location to stern  [m] </summary>
+        [Units("[m]")]
+        [Description("Distance from lat/lon location to stern")]
+        public  ushort dimension_stern;
+            /// <summary>Time since last communication in seconds  [s] </summary>
+        [Units("[s]")]
+        [Description("Time since last communication in seconds")]
+        public  ushort tslc;
+            /// <summary>Bitmask to indicate various statuses including valid data fields AIS_FLAGS  bitmask</summary>
+        [Units("")]
+        [Description("Bitmask to indicate various statuses including valid data fields")]
+        public  /*AIS_FLAGS*/ushort flags;
+            /// <summary>Turn rate  [cdeg/s] </summary>
+        [Units("[cdeg/s]")]
+        [Description("Turn rate")]
+        public  sbyte turn_rate;
+            /// <summary>Navigational status AIS_NAV_STATUS  </summary>
+        [Units("")]
+        [Description("Navigational status")]
+        public  /*AIS_NAV_STATUS*/byte navigational_status;
+            /// <summary>Type of vessels AIS_TYPE  </summary>
+        [Units("")]
+        [Description("Type of vessels")]
+        public  /*AIS_TYPE*/byte type;
+            /// <summary>Distance from lat/lon location to port side  [m] </summary>
+        [Units("[m]")]
+        [Description("Distance from lat/lon location to port side")]
+        public  byte dimension_port;
+            /// <summary>Distance from lat/lon location to starboard side  [m] </summary>
+        [Units("[m]")]
+        [Description("Distance from lat/lon location to starboard side")]
+        public  byte dimension_starboard;
+            /// <summary>The vessel callsign   </summary>
+        [Units("")]
+        [Description("The vessel callsign")]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=7)]
+		public char[] callsign;
+            /// <summary>The vessel name   </summary>
+        [Units("")]
+        [Description("The vessel name")]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)]
+		public char[] name;
     
     };
 
