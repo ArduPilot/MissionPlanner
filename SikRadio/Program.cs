@@ -49,6 +49,7 @@
  * 2.35 - Fixed bug in which re-loading settings when AES was previously enabled would cause it to disable AES.  
  * 2.36 - Added a retry option message window for when programming firmware fails.  
  * 2.37 - Resolved issue in which a MAX_WINDOW setting value which wasn't a multiple of 20 failed to be set in the settings GUI.
+ * 2.38 - Manufacturing tab now includes lockdown for EU and India.
  */
 
 using System;

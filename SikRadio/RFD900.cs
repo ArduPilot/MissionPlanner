@@ -1862,6 +1862,10 @@ namespace RFD.RFD900
             AU = 1,
             NZ = 2,
             US = 3,
+            EU = 4,
+            PRC = 5,
+            Ins = 6,
+            India = 8,
         }
     }
 

@@ -215,5 +215,15 @@ namespace RFD900Tools
                 return "Manufacturing";
             }
         }
+
+        private void BtnLockdownEurope_Click(object sender, EventArgs e)
+        {
+            DoLockdown(RFD.RFD900.RFD900xux.TCountry.EU);
+        }
+
+        private void BtnLockdownIndia_Click(object sender, EventArgs e)
+        {
+            DoLockdown(RFD.RFD900.RFD900xux.TCountry.India);
+        }
     }
 }
