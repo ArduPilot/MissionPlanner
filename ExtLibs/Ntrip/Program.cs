@@ -14,6 +14,8 @@ namespace Ntrip
     class Program
     {
         private static bool stop = false;
+        private static int totalread;
+        private static int everyminute;
 
         static void Main(string[] args)
         {
@@ -36,6 +38,7 @@ namespace Ntrip
             Stream file = null;
             DateTime filetime = DateTime.MinValue;
             SerialPort port = null;
+            everyminute = DateTime.Now.Minute;
 
             Directory.SetCurrentDirectory(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
             
@@ -85,6 +88,7 @@ namespace Ntrip
                     var btr = port.BytesToRead;
                     if (btr > 0)
                     {
+                        totalread += btr;
                         var buffer = new byte[btr];
                         btr = port.Read(buffer, 0, btr);
 
@@ -105,6 +109,25 @@ namespace Ntrip
                                 file.Write(new ReadOnlySpan<byte>(rtcm.packet, 0, rtcm.length));
                             }
                         }
+                    }
+
+                    if (DateTime.Now.Minute != everyminute)
+                    {
+                        Console.WriteLine("{0} bps", totalread / 60);
+                        if (totalread == 0)
+                        {
+                            try
+                            {
+                                port.Close();
+                                port = null;
+                            }
+                            catch (Exception ex)
+                            {
+                                port = null;
+                            }
+                        }
+                        totalread = 0;
+                        everyminute = DateTime.Now.Minute;
                     }
                 }
                 catch (UnauthorizedAccessException ex)
