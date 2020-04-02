@@ -30,9 +30,21 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public void Activate()
         {
-            list = MainV2.comPort.MAV.param.Where(a => a.Name.StartsWith("COMPASS_DEV_ID"))
+            // COMPASS_DEV_ID get a list of all connected devices
+            list = MainV2.comPort.MAV.param.Where(a => a.Name.StartsWith("COMPASS_DEV_ID") && a.Value != 0)
                 .Select((a, b) => new DeviceInfo(b, a.Name, (uint) a.Value))
                 .OrderBy((a) => a.ParamName).ToList();
+
+            // COMPASS_PRIO get a list of all prios
+            var prio = MainV2.comPort.MAV.param.Where(a => a.Name.StartsWith("COMPASS_PRIO"))
+                .Select((a, b) => new DeviceInfo(b, a.Name, (uint)a.Value))
+                .OrderBy((a) => a.ParamName).ToList();
+
+            //filter list removing prio dups from the list
+            list = list.Where(a => !prio.Any(b => b.DevID == a.DevID)).ToList();
+
+            // insert prios at the top
+            list.InsertRange(0, prio);
 
             var bs = new BindingSource();
             bs.DataSource = list;
