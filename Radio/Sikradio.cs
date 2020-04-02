@@ -946,6 +946,38 @@ S15: MAX_WINDOW=131
         }
 
         /// <summary>
+        /// Returns whether it can be determined that the setting (from the given Settings) with the given
+        /// SettingName only has one value/option available (i.e. setting can't be changed).
+        /// </summary>
+        /// <param name="Settings">The dictionary of settings for the modem.  Must not be null.</param>
+        /// <param name="SettingName">The setting name.  Must not be null.</param>
+        /// <returns>Returns true if it can be determined that the setting can only have one value, otherwise false.</returns>
+        bool GetDoesCheckboxHaveOnlyOneOption(Dictionary<string, RFD.RFD900.TSetting> Settings, string SettingName)
+        {
+            if (Settings.ContainsKey(SettingName))
+            {
+                var Setting = Settings[SettingName];
+
+                if (Setting.Options != null)
+                {
+                    if (Setting.Options.Length == 1)
+                    {
+                        return true;
+                    }
+                }
+                if (Setting.Range != null)
+                {
+                    if (Setting.Range.GetOptions().Length == 1)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Given a groupbox containing a set of controls, load them with the given values and settings.
         /// </summary>
         /// <param name="GB">The groupbox.  Must not be null.</param>
@@ -981,6 +1013,12 @@ S15: MAX_WINDOW=131
                         if (control is CheckBox)
                         {
                             ((CheckBox)control).Checked = values[2].Trim() == "1";
+                            //If the setting can only have one option/value...
+                            if (GetDoesCheckboxHaveOnlyOneOption(Settings, values[1].Trim()))
+                            {
+                                //Disable the control
+                                control.Enabled = false;
+                            }
                         }
                         else if (control is TextBox)
                         {

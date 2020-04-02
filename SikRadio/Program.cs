@@ -50,6 +50,8 @@
  * 2.36 - Added a retry option message window for when programming firmware fails.  
  * 2.37 - Resolved issue in which a MAX_WINDOW setting value which wasn't a multiple of 20 failed to be set in the settings GUI.
  * 2.38 - Manufacturing tab now includes lockdown for EU and India.
+ * 2.39 - For checkbox settings for which the modem specifies (in the ATI5? query response) only one option, it now greys-out the checkbox.
+ *          This was to cater to the X modem 3.15 firmware in which the ECC paramater can't be changed and is always false.  
  */
 
 using System;
