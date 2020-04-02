@@ -1629,7 +1629,7 @@ namespace MissionPlanner
 
                 var paramfile =
                     new MAVFtp(comPort, comPort.MAV.sysid, comPort.MAV.compid).GetFile("@PARAM/param.pck",
-                        new CancellationTokenSource(4000));
+                        new CancellationTokenSource(2500));
                 if (paramfile != null && paramfile.Length > 0)
                 {
                     var mavlist = parampck.unpack(paramfile.ToArray());
@@ -1641,7 +1641,7 @@ namespace MissionPlanner
                 }
                 else
                 {
-                    comPort.getParamList(); //comPort.MAV.sysid, comPort.MAV.compid);
+                    comPort.getParamList(comPort.MAV.sysid, comPort.MAV.compid);
                 }
 
                 _connectionControl.UpdateSysIDS();
