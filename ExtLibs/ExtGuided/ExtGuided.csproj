@@ -115,9 +115,7 @@
   <ItemGroup>
     <Compile Update="ExtGuidedPlugin.cs" />
     <Compile Update="Properties\AssemblyInfo.cs" />
-    <Compile Update="FilePick.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="FilePick.cs" />
     <Compile Update="FilePick.Designer.cs">
       <DependentUpon>FilePick.cs</DependentUpon>
     </Compile>

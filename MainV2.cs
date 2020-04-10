@@ -1627,22 +1627,25 @@ namespace MissionPlanner
                     return;
                 }
 
-                var paramfile =
-                    new MAVFtp(comPort, comPort.MAV.sysid, comPort.MAV.compid).GetFile("@PARAM/param.pck",
-                        new CancellationTokenSource(2500));
-                if (paramfile != null && paramfile.Length > 0)
+                Task.Run(() =>
                 {
-                    var mavlist = parampck.unpack(paramfile.ToArray());
-                    comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param.Clear();
-                    comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param.TotalReported = mavlist.Count;
-                    comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param.AddRange(mavlist);
-                    mavlist.ForEach(a =>
-                        comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param_types[a.Name] = a.Type);
-                }
-                else
-                {
-                    comPort.getParamList(comPort.MAV.sysid, comPort.MAV.compid);
-                }
+                    var paramfile =
+                        new MAVFtp(comPort, comPort.MAV.sysid, comPort.MAV.compid).GetFile("@PARAM/param.pck",
+                            new CancellationTokenSource(2500));
+                    if (paramfile != null && paramfile.Length > 0)
+                    {
+                        var mavlist = parampck.unpack(paramfile.ToArray());
+                        comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param.Clear();
+                        comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param.TotalReported = mavlist.Count;
+                        comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param.AddRange(mavlist);
+                        mavlist.ForEach(a =>
+                            comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param_types[a.Name] = a.Type);
+                    }
+                    else
+                    {
+                        comPort.getParamList(comPort.MAV.sysid, comPort.MAV.compid);
+                    }
+                });
 
                 _connectionControl.UpdateSysIDS();
 

@@ -131,9 +131,7 @@
     <Compile Update="..\..\Grid\Grid.cs">
       <Link>Grid.cs</Link>
     </Compile>
-    <Compile Update="GridUIv2.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="GridUIv2.cs" />
     <Compile Update="GridUIv2.Designer.cs">
       <DependentUpon>GridUIv2.cs</DependentUpon>
     </Compile>
