@@ -31,6 +31,9 @@ namespace GDAL
 
         public static void ScanDirectory(string path)
         {
+            if (!Directory.Exists(path))
+                return;
+
             var files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
 
             int i = 0;
