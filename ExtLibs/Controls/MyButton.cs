@@ -187,5 +187,10 @@ namespace MissionPlanner.Controls
             _mousedown = false;
             base.OnMouseUp(mevent);
         }
+
+        protected override void WndProc(ref Message m)
+        {
+            base.WndProc(ref m);
+        }
     }
 }

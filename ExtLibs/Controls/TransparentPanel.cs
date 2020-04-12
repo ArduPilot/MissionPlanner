@@ -24,5 +24,10 @@ namespace MissionPlanner.Controls
         {
             e.Graphics.FillRectangle(new SolidBrush(this.BackColor), this.ClientRectangle);
         }
+
+        protected override void WndProc(ref Message m)
+        {
+            base.WndProc(ref m);
+        }
     }
 }

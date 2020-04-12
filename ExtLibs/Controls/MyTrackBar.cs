@@ -21,5 +21,9 @@ namespace MissionPlanner.Controls
         [System.ComponentModel.Browsable(true)]
         public new float LargeChange { get { return base.LargeChange / 1000.0f; } set { base.LargeChange = (int)(float)(value * 1000.0f); } }
 
+        protected override void WndProc(ref Message m)
+        {
+            base.WndProc(ref m);
+        }
     }
 }

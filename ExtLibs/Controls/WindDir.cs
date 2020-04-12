@@ -107,5 +107,10 @@ namespace MissionPlanner.Controls
             base.OnPaintBackground(e);
             //e.Graphics.Clear(Color.Transparent);
         }
+
+        protected override void WndProc(ref Message m)
+        {
+            base.WndProc(ref m);
+        }
     }
 }

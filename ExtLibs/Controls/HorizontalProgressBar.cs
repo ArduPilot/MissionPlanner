@@ -221,5 +221,9 @@ System.ComponentModel.Description("Text under Bar")]
             base.OnPaint(e);
             drawlbl();
         }
+        protected override void WndProc(ref Message m)
+        {
+            base.WndProc(ref m);
+        }
     }
 }

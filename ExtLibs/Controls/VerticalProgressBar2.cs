@@ -11,5 +11,9 @@ namespace MissionPlanner.Controls
             e.Graphics.ScaleTransform((float)this.Height / (float)this.Width, (float)this.Width / (float)this.Height);
             base.OnPaint(e);
         }
+        protected override void WndProc(ref Message m)
+        {
+            base.WndProc(ref m);
+        }
     }
 }

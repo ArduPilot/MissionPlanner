@@ -12,5 +12,9 @@ namespace MissionPlanner.Controls
                 return cp;
             }
         }
+        protected override void WndProc(ref Message m)
+        {
+            base.WndProc(ref m);
+        }
     }
 }

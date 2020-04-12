@@ -2786,6 +2786,10 @@ namespace MissionPlanner.Controls
             return bmp;
         }
 
+        protected override void WndProc(ref Message m)
+        {
+            base.WndProc(ref m);
+        }
 
         float wrap360(float noin)
         {

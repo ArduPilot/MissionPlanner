@@ -95,6 +95,11 @@ namespace MissionPlanner.Controls
                 base.Refresh();
         }
 
+        protected override void WndProc(ref Message m)
+        {
+            base.WndProc(ref m);
+        }
+
         protected override void OnInvalidated(InvalidateEventArgs e)
         {
             if (this.Visible && this.ThisReallyVisible())
