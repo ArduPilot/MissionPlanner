@@ -53,6 +53,11 @@ namespace MissionPlanner.Utilities
             return JsonConvert.DeserializeObject<T>(msg);
         }
 
+        public static string CleanString(this string dirtyString)
+        {
+            return new String(dirtyString.Where(Char.IsLetterOrDigit).ToArray());
+        }
+
         public static string RemoveFromEnd(this string s, string suffix)
         {
             if (s.EndsWith(suffix))
