@@ -531,7 +531,7 @@ namespace MissionPlanner.GCSViews
 
         public async Task StartSwarmSeperate()
         {
-            var max = 10.0;
+            var max = 10;
 
             if (InputBox.Show("how many?", "how many?", ref max) != DialogResult.OK)
                 return;
@@ -661,7 +661,8 @@ SIM_DRIFT_TIME=0
 
         public async void StartSwarmChain()
         {  
-            var max = 10.0;
+            var max = 10;
+
             if (InputBox.Show("how many?", "how many?", ref max) != DialogResult.OK)
                 return;
 

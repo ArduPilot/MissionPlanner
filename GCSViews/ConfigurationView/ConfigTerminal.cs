@@ -730,7 +730,7 @@ namespace MissionPlanner.GCSViews
                 term = new SSHTerminal(TXT_terminal);
                 SSHTerminal = true;
                 string ip = "";
-                InputBox.Show("", "Enter IP:port", ref ip);
+                InputBox.Show("SSH Remote", "Enter IP:port", ref ip);
                 term.SSH_ConnectionInfo(ip);
             }
         }

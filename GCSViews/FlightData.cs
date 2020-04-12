@@ -1872,7 +1872,7 @@ namespace MissionPlanner.GCSViews
                 if (Settings.Instance["hud1_useritem_" + checkbox.Name] != null)
                     prefix = Settings.Instance["hud1_useritem_" + checkbox.Name];
 
-                if (DialogResult.Cancel == InputBox.Show("Header", "Please enter your item prefix", ref prefix))
+                if (DialogResult.Cancel == InputBox.Show("Hud Header", "Please enter your item prefix", ref prefix))
                 {
                     checkbox.Checked = false;
                     return;
@@ -2539,7 +2539,7 @@ namespace MissionPlanner.GCSViews
         private void Gspeed_DoubleClick(object sender, EventArgs e)
         {
             string max = "60";
-            if (DialogResult.OK == InputBox.Show("Enter Max", "Enter Max Speed", ref max))
+            if (DialogResult.OK == InputBox.Show("Enter Max Speed", "Enter Max Speed", ref max))
             {
                 Gspeed.MaxValue = float.Parse(max);
                 Settings.Instance["GspeedMAX"] = Gspeed.MaxValue.ToString();
