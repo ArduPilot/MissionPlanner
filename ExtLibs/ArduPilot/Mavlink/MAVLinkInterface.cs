@@ -1358,7 +1358,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
         }
         */
-
+        /// <summary>
+        /// With GUI
+        /// </summary>
         public void getParamList()
         {
             log.InfoFormat("getParamList {0} {1}", sysidcurrent, compidcurrent);
@@ -1382,7 +1384,12 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         {
             getParamList(MAV.sysid, MAV.compid);
         }
-
+        /// <summary>
+        /// Without GUI
+        /// </summary>
+        /// <param name="sysid"></param>
+        /// <param name="compid"></param>
+        /// <returns></returns>
         public MAVLinkParamList getParamList(byte sysid, byte compid)
         {
             return Task.Run(async () => await getParamListAsync(sysid, compid).ConfigureAwait(false)).Result;

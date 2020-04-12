@@ -288,12 +288,6 @@ namespace MissionPlanner.GCSViews
         {
             timer1.Start();
 
-            // set the firmware type if we are not connected. this allows overrideing
-            if (!MainV2.comPort.BaseStream.IsOpen)
-            {
-                MainV2.comPort.MAV.cs.firmware = (Firmwares)MainV2._connectionControl.TOOL_APMFirmware.SelectedItem;
-            }
-
             // hide altmode if old copter version
             if (MainV2.comPort.BaseStream.IsOpen && MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2 &&
                 MainV2.comPort.MAV.cs.version < new Version(3, 3))

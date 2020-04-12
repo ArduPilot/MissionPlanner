@@ -122,6 +122,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             SetCheckboxFromConfig("showtfr", chk_tfr);
             SetCheckboxFromConfig("autoParamCommit", CHK_AutoParamCommit);
             SetCheckboxFromConfig("ShowNoFly", chk_shownofly);
+            SetCheckboxFromConfig("Params_BG", CHK_params_bg);
 
             // this can't fail because it set at startup
             NUM_tracklength.Value = Settings.Instance.GetInt32("NUM_tracklength", 200);
@@ -963,6 +964,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             MAVLinkInterface.gcssysid = (byte)num_gcsid.Value;
             Settings.Instance["gcsid"] = num_gcsid.Value.ToString();
+        }
+
+        private void CHK_params_bg_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Instance["Params_BG"] = CHK_params_bg.Checked.ToString();
         }
     }
 }

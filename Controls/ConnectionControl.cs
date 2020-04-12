@@ -28,10 +28,6 @@ namespace MissionPlanner.Controls
             get { return this.cmb_Connection; }
         }
 
-        public ComboBox TOOL_APMFirmware
-        {
-            get { return this.cmb_ConnectionType; }
-        }
 
         /// <summary>
         /// Called from the main form - set whether we are connected or not currently.
@@ -49,13 +45,7 @@ namespace MissionPlanner.Controls
 
         private void ConnectionControl_MouseClick(object sender, MouseEventArgs e)
         {
-            if (e.X > cmb_ConnectionType.Location.X &&
-                e.Y > cmb_ConnectionType.Location.Y &&
-                e.X < cmb_ConnectionType.Right &&
-                e.Y < cmb_ConnectionType.Bottom)
-            {
-                cmb_ConnectionType.Visible = true;
-            }
+
         }
 
         private void cmb_Connection_DrawItem(object sender, DrawItemEventArgs e)

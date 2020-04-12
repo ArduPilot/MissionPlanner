@@ -748,14 +748,6 @@ namespace MissionPlanner
             // proxy loader - dll load now instead of on config form load
             new Transition(new TransitionType_EaseInEaseOut(2000));
 
-            foreach (object obj in Enum.GetValues(typeof(Firmwares)))
-            {
-                _connectionControl.TOOL_APMFirmware.Items.Add(obj);
-            }
-
-            if (_connectionControl.TOOL_APMFirmware.Items.Count > 0)
-                _connectionControl.TOOL_APMFirmware.SelectedIndex = 0;
-
             PopulateSerialportList();
             if (_connectionControl.CMB_serialport.Items.Count > 0)
             {
@@ -794,28 +786,8 @@ namespace MissionPlanner
 
                 comPortBaud = int.Parse(temp2);
             }
-            string temp3 = Settings.Instance.APMFirmware;
-            if (!string.IsNullOrEmpty(temp3))
-            {
-                _connectionControl.TOOL_APMFirmware.SelectedIndex =
-                    _connectionControl.TOOL_APMFirmware.FindStringExact(temp3);
-                if (_connectionControl.TOOL_APMFirmware.SelectedIndex == -1)
-                    _connectionControl.TOOL_APMFirmware.SelectedIndex = 0;
-                MainV2.comPort.MAV.cs.firmware =
-                    (Firmwares)Enum.Parse(typeof(Firmwares), _connectionControl.TOOL_APMFirmware.Text);
-            }
 
             MissionPlanner.Utilities.Tracking.cid = new Guid(Settings.Instance["guid"].ToString());
-
-            // setup guids for droneshare
-            if (!Settings.Instance.ContainsKey("plane_guid"))
-                Settings.Instance["plane_guid"] = Guid.NewGuid().ToString();
-
-            if (!Settings.Instance.ContainsKey("copter_guid"))
-                Settings.Instance["copter_guid"] = Guid.NewGuid().ToString();
-
-            if (!Settings.Instance.ContainsKey("rover_guid"))
-                Settings.Instance["rover_guid"] = Guid.NewGuid().ToString();
 
             if (Settings.Instance.ContainsKey("language") && !string.IsNullOrEmpty(Settings.Instance["language"]))
             {
@@ -1627,8 +1599,11 @@ namespace MissionPlanner
                     return;
                 }
 
-                Task.Run(() =>
+                var prd = new ProgressReporterDialogue();
+                var ftpfile = false;
+                prd.DoWork += (IProgressReporterDialogue sender) =>
                 {
+                    sender.UpdateProgressAndStatus(-1, "Checking for Param MAVFTP");
                     var paramfile =
                         new MAVFtp(comPort, comPort.MAV.sysid, comPort.MAV.compid).GetFile("@PARAM/param.pck",
                             new CancellationTokenSource(2500));
@@ -1640,41 +1615,21 @@ namespace MissionPlanner
                         comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param.AddRange(mavlist);
                         mavlist.ForEach(a =>
                             comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param_types[a.Name] = a.Type);
+                        ftpfile = true;
                     }
-                    else
-                    {
+                };
+
+                prd.RunBackgroundOperationAsync();
+
+                if (!ftpfile)
+                {
+                    if (Settings.Instance.GetBoolean("Params_BG", false))
                         comPort.getParamList(comPort.MAV.sysid, comPort.MAV.compid);
-                    }
-                });
+                    else
+                        comPort.getParamList();
+                }
 
-                _connectionControl.UpdateSysIDS();
-
-                // detect firmware we are conected to.
-                if (comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
-                {
-                    _connectionControl.TOOL_APMFirmware.SelectedIndex =
-                        _connectionControl.TOOL_APMFirmware.Items.IndexOf(Firmwares.ArduCopter2);
-                }
-                else if (comPort.MAV.cs.firmware == Firmwares.Ateryx)
-                {
-                    _connectionControl.TOOL_APMFirmware.SelectedIndex =
-                        _connectionControl.TOOL_APMFirmware.Items.IndexOf(Firmwares.Ateryx);
-                }
-                else if (comPort.MAV.cs.firmware == Firmwares.ArduRover)
-                {
-                    _connectionControl.TOOL_APMFirmware.SelectedIndex =
-                        _connectionControl.TOOL_APMFirmware.Items.IndexOf(Firmwares.ArduRover);
-                }
-                else if (comPort.MAV.cs.firmware == Firmwares.ArduSub)
-                {
-                    _connectionControl.TOOL_APMFirmware.SelectedIndex =
-                        _connectionControl.TOOL_APMFirmware.Items.IndexOf(Firmwares.ArduSub);
-                }
-                else if (comPort.MAV.cs.firmware == Firmwares.ArduPlane)
-                {
-                    _connectionControl.TOOL_APMFirmware.SelectedIndex =
-                        _connectionControl.TOOL_APMFirmware.Items.IndexOf(Firmwares.ArduPlane);
-                }
+                _connectionControl.UpdateSysIDS();             
 
                 // check for newer firmware
                 var softwares = Firmware.LoadSoftwares();
@@ -1715,29 +1670,7 @@ namespace MissionPlanner
                 }
 
                 FlightData.CheckBatteryShow();
-                /*
-                MissionPlanner.Utilities.Tracking.AddEvent("Connect", "Connect", comPort.MAV.cs.firmware.ToString(),
-                    comPort.MAV.param.Count.ToString());
-                MissionPlanner.Utilities.Tracking.AddTiming("Connect", "Connect Time",
-                    (DateTime.Now - connecttime).TotalMilliseconds, "");
 
-                MissionPlanner.Utilities.Tracking.AddEvent("Connect", "Baud", comPort.BaseStream.BaudRate.ToString(), "");
-
-                if(comPort.MAV.param.ContainsKey("SPRAY_ENABLE"))
-                    MissionPlanner.Utilities.Tracking.AddEvent("Param", "Value", "SPRAY_ENABLE",comPort.MAV.param["SPRAY_ENABLE"].ToString());
-
-                if (comPort.MAV.param.ContainsKey("CHUTE_ENABLE"))
-                    MissionPlanner.Utilities.Tracking.AddEvent("Param", "Value", "CHUTE_ENABLE", comPort.MAV.param["CHUTE_ENABLE"].ToString());
-
-                if (comPort.MAV.param.ContainsKey("TERRAIN_ENABLE"))
-                    MissionPlanner.Utilities.Tracking.AddEvent("Param", "Value", "TERRAIN_ENABLE", comPort.MAV.param["TERRAIN_ENABLE"].ToString());
-
-                if (comPort.MAV.param.ContainsKey("ADSB_ENABLE"))
-                    MissionPlanner.Utilities.Tracking.AddEvent("Param", "Value", "ADSB_ENABLE", comPort.MAV.param["ADSB_ENABLE"].ToString());
-
-                if (comPort.MAV.param.ContainsKey("AVD_ENABLE"))
-                    MissionPlanner.Utilities.Tracking.AddEvent("Param", "Value", "AVD_ENABLE", comPort.MAV.param["AVD_ENABLE"].ToString());
-                */
                 // save the baudrate for this port
                 Settings.Instance[_connectionControl.CMB_serialport.Text + "_BAUD"] = _connectionControl.CMB_baudrate.Text;
 

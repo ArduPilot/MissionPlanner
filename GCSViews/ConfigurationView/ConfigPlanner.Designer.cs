@@ -104,6 +104,7 @@
             this.CMB_altunits = new System.Windows.Forms.ComboBox();
             this.num_gcsid = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
+            this.CHK_params_bg = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_tracklength)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_gcsid)).BeginInit();
             this.SuspendLayout();
@@ -721,9 +722,17 @@
             resources.ApplyResources(this.label7, "label7");
             this.label7.Name = "label7";
             // 
+            // CHK_params_bg
+            // 
+            resources.ApplyResources(this.CHK_params_bg, "CHK_params_bg");
+            this.CHK_params_bg.Name = "CHK_params_bg";
+            this.CHK_params_bg.UseVisualStyleBackColor = true;
+            this.CHK_params_bg.CheckedChanged += new System.EventHandler(this.CHK_params_bg_CheckedChanged);
+            // 
             // ConfigPlanner
             // 
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.CHK_params_bg);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.num_gcsid);
             this.Controls.Add(this.label6);
@@ -885,5 +894,6 @@
         private System.Windows.Forms.ComboBox CMB_altunits;
         private System.Windows.Forms.NumericUpDown num_gcsid;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.CheckBox CHK_params_bg;
     }
 }
