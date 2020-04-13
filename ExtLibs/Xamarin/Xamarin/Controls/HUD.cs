@@ -1,23 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using log4net;
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
-using System.Globalization;
-using System.Reflection;
-using System.Resources;
-using System.Threading;
-using log4net;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.IO;
 using Xamarin.Controls;
-using MissionPlanner.Drawing;
-using MissionPlanner.Drawing.Drawing2D;
-using SkiaSharp;
-using Color = System.Drawing.Color ;
-using Rectangle = System.Drawing.Rectangle;
-using PointF = System.Drawing.PointF;
-using RectangleF = System.Drawing.RectangleF;
+using Color = System.Drawing.Color;
 using Point = System.Drawing.Point;
-using Graphics = MissionPlanner.Drawing.Graphics;
+using PointF = System.Drawing.PointF;
+using Rectangle = System.Drawing.Rectangle;
+using RectangleF = System.Drawing.RectangleF;
 
 namespace MissionPlanner.Controls
 {

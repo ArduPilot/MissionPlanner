@@ -9,6 +9,7 @@ namespace Xamarin
     /// <summary>
     /// https://github.com/xamarin/monodroid-samples/blob/master/ApplicationFundamentals/ServiceSamples/StartedServicesDemo/TimestampService.cs
     /// </summary>
+ 
     public class Mavlinksvc
     {
         static readonly string TAG = typeof(Mavlinksvc).FullName;

@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using ClipperLib;
-using MissionPlanner.Drawing.Drawing2D;
 using SkiaSharp;
 
-namespace MissionPlanner.Drawing
+namespace System.Drawing
 {
     // Clipper lib definitions
     using Path = List<IntPoint>;

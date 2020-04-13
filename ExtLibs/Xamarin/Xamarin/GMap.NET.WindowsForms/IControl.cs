@@ -33,7 +33,7 @@ namespace GMap.NET.WindowsForms
         void Invalidate();
         GPoint FromLatLngToLocal(PointLatLng rectLocationTopLeft);
         PointLatLng FromLocalToLatLng(int p0, int p1);
-        Point PointToClient(Point mousePosition);
+      //  Point PointToClient(Point mousePosition);
         object Invoke(Action p0);
     }
 }

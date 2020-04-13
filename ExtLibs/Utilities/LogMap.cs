@@ -1,7 +1,6 @@
 ﻿using GMap.NET;
 using GMap.NET.MapProviders;
 using MissionPlanner.Comms;
-using MissionPlanner.Drawing;
 using MissionPlanner.Utilities;
 using SkiaSharp;
 using System;

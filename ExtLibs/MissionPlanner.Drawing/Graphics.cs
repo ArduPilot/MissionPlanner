@@ -1,14 +1,13 @@
-﻿using System;
+﻿
+using SkiaSharp;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using MissionPlanner.Drawing.Drawing2D;
-using SkiaSharp;
 
-namespace MissionPlanner.Drawing
+namespace System.Drawing
 {
     public class Graphics : IGraphics, IDeviceContext, IDisposable
     {

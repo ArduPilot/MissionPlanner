@@ -393,6 +393,16 @@ namespace Xamarin.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] boatsprite {
+            get {
+                object obj = ResourceManager.GetObject("boatsprite", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] BR_0004_03_2 {
             get {
                 object obj = ResourceManager.GetObject("BR_0004_03_2", resourceCulture);
@@ -1936,6 +1946,16 @@ namespace Xamarin.Properties {
         internal static byte[] planner {
             get {
                 object obj = ResourceManager.GetObject("planner", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] plus {
+            get {
+                object obj = ResourceManager.GetObject("plus", resourceCulture);
                 return ((byte[])(obj));
             }
         }

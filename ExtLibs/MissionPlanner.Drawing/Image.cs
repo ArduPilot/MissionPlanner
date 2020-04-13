@@ -5,7 +5,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using SkiaSharp;
 
-namespace MissionPlanner.Drawing
+namespace System.Drawing
 {
     [Serializable]
     public abstract class Image : ISerializable, ICloneable, IDisposable

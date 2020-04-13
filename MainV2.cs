@@ -1,4 +1,6 @@
-﻿using GMap.NET.WindowsForms;
+﻿extern alias Drawing;
+
+using GMap.NET.WindowsForms;
 using log4net;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Comms;
@@ -30,6 +32,8 @@ using System.Windows.Forms;
 using MissionPlanner.ArduPilot.Mavlink;
 using MissionPlanner.Utilities.HW;
 using Transitions;
+using AltitudeAngelWings;
+
 
 namespace MissionPlanner
 {
@@ -3160,8 +3164,7 @@ namespace MissionPlanner
                     return;
                 }
 
-                var bmp = (image as Drawing.Bitmap);
-                if (bmp == null)
+                if (!(image is Drawing::System.Drawing.Bitmap bmp))
                     return;
                 var old = GCSViews.FlightData.myhud.bgimage;
                 GCSViews.FlightData.myhud.bgimage = new Bitmap(image.Width, image.Height, 4 * image.Width,
@@ -3179,12 +3182,14 @@ namespace MissionPlanner
                     GCSViews.FlightData.myhud.bgimage = null;
                     return;
                 }
-                var bmp = (image as Drawing.Bitmap);
-                if (bmp == null)
+                if (!(image is Drawing::System.Drawing.Bitmap bmp))
                     return;
                 var old = GCSViews.FlightData.myhud.bgimage;
-                GCSViews.FlightData.myhud.bgimage = new Bitmap(image.Width, image.Height, 4 * image.Width, PixelFormat.Format32bppPArgb,
-                    bmp.LockBits(Rectangle.Empty, null, SKColorType.Bgra8888).Scan0);
+                GCSViews.FlightData.myhud.bgimage = new Bitmap(image.Width,
+                                                               image.Height,
+                                                               4 * image.Width,
+                                                               PixelFormat.Format32bppPArgb,
+                                                               bmp.LockBits(Rectangle.Empty, null, SKColorType.Bgra8888).Scan0);
                 if (old != null)
                     old.Dispose();
             };
@@ -3196,12 +3201,12 @@ namespace MissionPlanner
                     GCSViews.FlightData.myhud.bgimage = null;
                     return;
                 }
-                var bmp = (image as Drawing.Bitmap);
-                if (bmp == null)
+                if (!(image is Drawing::System.Drawing.Bitmap bmp))
                     return;
                 var old = GCSViews.FlightData.myhud.bgimage;
-                GCSViews.FlightData.myhud.bgimage = new Bitmap(image.Width, image.Height, 4 * image.Width, PixelFormat.Format32bppPArgb,
-                    bmp.LockBits(Rectangle.Empty, null, SKColorType.Bgra8888).Scan0);
+                GCSViews.FlightData.myhud.bgimage = new Bitmap(image.Width, image.Height, 4 * image.Width,
+                                                               PixelFormat.Format32bppPArgb,
+                                                               bmp.LockBits(Rectangle.Empty, null, SKColorType.Bgra8888).Scan0);
                 if (old != null)
                     old.Dispose();
             };

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MissionPlanner.Drawing.Imaging
+namespace System.Drawing.Imaging
 {
     public class BitmapData
     {

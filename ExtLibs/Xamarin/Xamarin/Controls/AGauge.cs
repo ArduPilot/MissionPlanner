@@ -18,25 +18,11 @@
 
 using System;
 using System.ComponentModel;
-using MissionPlanner.Drawing;
-using MissionPlanner.Drawing.Drawing2D;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 using Xamarin.Controls;
-using Bitmap = MissionPlanner.Drawing.Bitmap;
-using Brush = MissionPlanner.Drawing.Brush;
-using Brushes = MissionPlanner.Drawing.Brushes;
-using Graphics = MissionPlanner.Drawing.Graphics;
-using Pen = MissionPlanner.Drawing.Pen;
-using Pens = MissionPlanner.Drawing.Pens;
-using SolidBrush = MissionPlanner.Drawing.SolidBrush;
-using StringFormat = MissionPlanner.Drawing.StringFormat;
-using SystemColors = MissionPlanner.Drawing.SystemColors;
-using Color = System.Drawing.Color;
-using Rectangle = System.Drawing.Rectangle;
-using PointF = System.Drawing.PointF;
-using RectangleF = System.Drawing.RectangleF;
-using Point = System.Drawing.Point;
-using Size = System.Drawing.Size;
-using SizeF = System.Drawing.SizeF;
+
+
 namespace MissionPlanner.Controls
 {
     public partial class AGauge : UserControl

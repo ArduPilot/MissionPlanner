@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using GMap.NET.WindowsForms;
-using SixLabors.ImageSharp.ColorSpaces;
 
 namespace MissionPlanner.Maps
 {

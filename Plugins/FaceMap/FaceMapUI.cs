@@ -1,4 +1,6 @@
-﻿using com.drew.imaging.jpg;
+﻿extern alias Drawing;
+
+using com.drew.imaging.jpg;
 using com.drew.metadata;
 using com.drew.metadata.exif;
 using GMap.NET;
@@ -925,7 +927,7 @@ namespace MissionPlanner
 
             PointLatLng point = currentMousePosition;
 
-            marker = new GMapMarkerRect(point);
+            marker = new GMap.NET.WindowsForms.GMapMarkerRect(point);
             marker.ToolTip = new GMapToolTip(marker);
             marker.ToolTipMode = MarkerTooltipMode.Always;
             marker.ToolTipText = "Line: " + dist;

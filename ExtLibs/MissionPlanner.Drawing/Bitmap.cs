@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
-using MissionPlanner.Drawing.Imaging;
 using SkiaSharp;
 
-namespace MissionPlanner.Drawing
+namespace System.Drawing
 {
     public class Bitmap : Image
     {
+        private object p;
+        private Size size;
+
         public Bitmap(int width, int height, int stride, SKColorType bgra8888 = (SKColorType.Bgra8888),
             IntPtr data = default(IntPtr))
         {

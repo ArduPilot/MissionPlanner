@@ -1,6 +1,7 @@
-﻿using MissionPlanner.Drawing.Drawing2D;
+﻿
+using System.Drawing.Drawing2D;
 
-namespace MissionPlanner.Drawing
+namespace System.Drawing
 {
     public interface IGraphics : IGraphics<Region, CompositingMode, CompositingQuality, InterpolationMode,
         GraphicsUnit, PixelOffsetMode,

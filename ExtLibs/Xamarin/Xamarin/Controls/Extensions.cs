@@ -1,4 +1,4 @@
-﻿using MissionPlanner.Drawing;
+﻿using System.Drawing;
 using System.IO;
 
 namespace GMap.NET.Drawing

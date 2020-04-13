@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:Xamarin"
+            xmlns:video="clr-namespace:FormsVideoLibrary"
              xmlns:forms="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
              xmlns:controls="clr-namespace:MissionPlanner.Controls;assembly=Xamarin"
              xmlns:GMap="clr-namespace:GMap.NET.WindowsForms;assembly=Xamarin"
@@ -22,32 +22,35 @@
         <controls:HUD BackgroundColor="Blue" x:Name="hud1" Grid.Column="0" Grid.Row="0"/>
         <tabView:TabViewControl Grid.Column="0" Grid.Row="1" Grid.RowSpan="3">
             <tabView:TabViewControl.ItemSource>
+                <tabView:TabItem HeaderText="Video" >
+                    <video:VideoPlayer x:Name="videoPlayer" VerticalOptions="FillAndExpand"></video:VideoPlayer>
+                </tabView:TabItem>
                 <tabView:TabItem HeaderText="Actions">
-                    <ScrollView>
-                        <StackLayout>
-                        <Button x:Name="Arm" Text="Arm"  Clicked="Arm_OnClicked"></Button>
-                        <Button x:Name="Disarm" Text="Disarm"  Clicked="Disarm_OnClicked"></Button>
-                        <Picker x:Name="Mode"  SelectedIndexChanged="Mode_OnSelectedIndexChanged"></Picker>
-                        <Button x:Name="Set_Mode" Text="Set Mode"  Clicked="Set_Mode_OnClicked"></Button>
-                        <Button x:Name="Get_Mission" Text="Get Mission"  Clicked="Get_Mission_OnClicked"></Button>
-                        <Button x:Name="Get_Fence" Text="Get Fence"  Clicked="Get_Fence_OnClicked"></Button>
-                        <Button x:Name="Get_Rally" Text="Get Rally"  Clicked="Get_Rally_OnClicked"></Button>
-                        <Button x:Name="Takeoff_2m"  Text="TakeOff - 2m" Clicked="Takeoff___2m_OnClicked"></Button>
-                    </StackLayout>
-                        </ScrollView>
+                    <ScrollView>                        
+                        <StackLayout>                            
+                            <Button x:Name="Arm" Text="Arm"  Clicked="Arm_OnClicked"></Button>
+                            <Button x:Name="Disarm" Text="Disarm"  Clicked="Disarm_OnClicked"></Button>
+                            <Picker x:Name="Mode"  SelectedIndexChanged="Mode_OnSelectedIndexChanged"></Picker>
+                            <Button x:Name="Set_Mode" Text="Set Mode"  Clicked="Set_Mode_OnClicked"></Button>
+                            <Button x:Name="Get_Mission" Text="Get Mission"  Clicked="Get_Mission_OnClicked"></Button>
+                            <Button x:Name="Get_Fence" Text="Get Fence"  Clicked="Get_Fence_OnClicked"></Button>
+                            <Button x:Name="Get_Rally" Text="Get Rally"  Clicked="Get_Rally_OnClicked"></Button>
+                            <Button x:Name="Takeoff_2m"  Text="TakeOff - 2m" Clicked="Takeoff___2m_OnClicked"></Button>
+                        </StackLayout>
+                    </ScrollView>
                 </tabView:TabItem>
                 <tabView:TabItem HeaderText="Telemetry Logs">
                     <ScrollView>
                         <StackLayout>
-                        <Button x:Name="BUT_loadtelem" Clicked="BUT_loadtelem_Click" Text="Load Log"/>
-                        <Label x:Name="lbl_playbackspeed" Text="x 1.0"/>
-                        <Label x:Name="lbl_logpercent" Text="0.00 %"/>
+                            <Button x:Name="BUT_loadtelem" Clicked="BUT_loadtelem_Click" Text="Load Log"/>
+                            <Label x:Name="lbl_playbackspeed" Text="x 1.0"/>
+                            <Label x:Name="lbl_logpercent" Text="0.00 %"/>
 
-                        <Slider  x:Name="tracklog" ValueChanged="tracklog_Scroll" Minimum="0" Maximum="100"/>
+                            <Slider  x:Name="tracklog" ValueChanged="tracklog_Scroll" Minimum="0" Maximum="100"/>
 
-                        <Label x:Name="LBL_logfn" Text=""/>
-                        <Button x:Name="BUT_log2kml" Clicked="BUT_log2kml_Click" Text="Tlog &gt; Kml or Graph"/>
-                        <Button x:Name="BUT_playlog" Clicked="BUT_playlog_Click" Text="Play/Pause"/>
+                            <Label x:Name="LBL_logfn" Text=""/>
+                            <Button x:Name="BUT_log2kml" Clicked="BUT_log2kml_Click" Text="Tlog &gt; Kml or Graph"/>
+                            <Button x:Name="BUT_playlog" Clicked="BUT_playlog_Click" Text="Play/Pause"/>
                         </StackLayout>
                     </ScrollView>
                 </tabView:TabItem>

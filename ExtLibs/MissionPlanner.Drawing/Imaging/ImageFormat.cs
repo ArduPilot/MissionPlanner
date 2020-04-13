@@ -1,7 +1,7 @@
 ﻿using System;
 using SkiaSharp;
 
-namespace MissionPlanner.Drawing.Imaging
+namespace System.Drawing.Imaging
 {
     public sealed class ImageFormat : Object
     {

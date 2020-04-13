@@ -1,8 +1,8 @@
 ﻿using System.Drawing;
 
-namespace MissionPlanner.Drawing.Drawing2D
+namespace System.Drawing.Drawing2D
 {
-    public static class Extensions
+    public static class ExtensionsDrawing
     {
         public static PointF[] ToFloat(this Point[] p)
         {

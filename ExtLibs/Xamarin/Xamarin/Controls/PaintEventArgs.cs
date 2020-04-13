@@ -1,5 +1,4 @@
-﻿using MissionPlanner.Drawing;
-using System;
+﻿using System;
 using System.Drawing;
 
 

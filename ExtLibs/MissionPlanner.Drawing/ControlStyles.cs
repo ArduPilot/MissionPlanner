@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace MissionPlanner.Drawing
+namespace System.Drawing
 {
     [Flags]
     public enum ControlStyles

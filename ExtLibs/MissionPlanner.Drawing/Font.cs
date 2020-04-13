@@ -1,7 +1,7 @@
 ﻿using System;
 using SkiaSharp;
 
-namespace MissionPlanner.Drawing
+namespace System.Drawing
 {
     public class Font : IDisposable, ICloneable
     {

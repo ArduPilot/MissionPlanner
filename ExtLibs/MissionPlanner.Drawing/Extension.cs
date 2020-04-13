@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using MissionPlanner.Drawing.Drawing2D;
+using System.Drawing.Drawing2D;
 using SkiaSharp;
 
-namespace MissionPlanner.Drawing
+namespace System.Drawing
 {
     public static class Extension
     {

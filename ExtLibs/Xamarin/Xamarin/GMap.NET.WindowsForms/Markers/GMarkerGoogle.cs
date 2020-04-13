@@ -1,25 +1,20 @@
-﻿
-using System.ComponentModel;
+﻿using GMap.NET.Drawing;
 using System.IO;
-using GMap.NET.Drawing;
-using MissionPlanner.Drawing;
-using MissionPlanner.Drawing;
-using SvgNet.SvgGdi;
 
 namespace GMap.NET.WindowsForms.Markers
 {
-   using System.Drawing;
-   using System.Collections.Generic;
+    using System.Drawing;
+    using System.Collections.Generic;
 
 #if !PocketPC
     using GMap.NET.Drawing.Properties;
-   using System;
-   using System.Runtime.Serialization;
+    using System;
+    using System.Runtime.Serialization;
 #else
    using GMap.NET.WindowsMobile.Properties;
 #endif
 
-   public enum GMarkerGoogleType
+    public enum GMarkerGoogleType
    {
       none = 0,
       arrow,

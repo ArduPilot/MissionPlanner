@@ -7,6 +7,7 @@ using GMap.NET.WindowsForms.Markers;
 using MissionPlanner;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Maps;
+using SkiaSharp;
 
 namespace SvgNet.SvgGdi
 {
@@ -16,6 +17,21 @@ namespace SvgNet.SvgGdi
 
 
 }
+/*
+namespace System.Drawing 
+{
+    public class Bitmap : MissionPlanner.Drawing.Bitmap
+    {
+        public Bitmap(byte[] largeIconsImage, Size clientSizeHeight) : base(largeIconsImage, clientSizeHeight)
+        {
+        }
+
+        public Bitmap(int width, int height, SKColorType colorType = SKColorType.Bgra8888) : base(width, height, colorType)
+        {
+        }
+    }
+}
+*/
 
 namespace GMap.NET.Drawing.Properties
 {

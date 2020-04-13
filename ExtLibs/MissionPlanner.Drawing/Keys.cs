@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MissionPlanner.Drawing
+namespace System.Drawing
 {
     [Flags]
     public enum Keys

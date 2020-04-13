@@ -42,7 +42,12 @@
     <ProjectReference Include="..\..\ExtLibs\Controls\MissionPlanner.Controls.csproj" />
     <ProjectReference Include="..\..\ExtLibs\GMap.NET.Drawing\GMap.NET.Drawing.csproj" />
     <ProjectReference Include="..\..\ExtLibs\GMap.NET.WindowsForms\GMap.NET.WindowsForms.csproj" />
-    <ProjectReference Include="..\..\ExtLibs\Maps\MissionPlanner.Maps.csproj" />
+    <ProjectReference Include="..\..\ExtLibs\Maps\MissionPlanner.Maps.csproj">
+      <Aliases></Aliases>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ExtLibs\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj">
+      <Aliases>Drawing</Aliases>
+    </ProjectReference>
     <ProjectReference Include="..\..\ExtLibs\Utilities\MissionPlanner.Utilities.csproj" />
     <ProjectReference Include="..\..\MissionPlanner.csproj" />
   </ItemGroup>

@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
-using Acr.UserDialogs;
+﻿using Acr.UserDialogs;
+using FormsVideoLibrary;
 using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
@@ -17,21 +10,27 @@ using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
 using MissionPlanner.Maps;
 using MissionPlanner.Utilities;
-using MissionPlanner.Drawing;
 using MissionPlanner.Warnings;
 using Plugin.FilePicker;
 using Plugin.FilePicker.Abstractions;
 using SkiaSharp;
 using SkiaSharp.Views.Forms;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 using Xamarin.Controls;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Color = System.Drawing.Color;
 using Device = Xamarin.Forms.Device;
 using Exception = System.Exception;
-using Graphics = MissionPlanner.Drawing.Graphics;
-using Image = MissionPlanner.Drawing.Image;
-using Pen = MissionPlanner.Drawing.Pen;
+
 
 namespace Xamarin
 {
@@ -218,6 +217,10 @@ namespace Xamarin
                 {
                 }
             }
+
+            videoPlayer.Source = VideoSource.FromUri("https://archive.org/download/BigBuckBunny_328/BigBuckBunny_512kb.mp4");
+
+            videoPlayer.Play();
         }
 
         public void BUT_playlog_Click(object sender, EventArgs e)
@@ -506,7 +509,7 @@ namespace Xamarin
             ((Button) sender).IsEnabled = true;
         }
 
-        void cam_camimage(Image camimage)
+        void cam_camimage(System.Drawing.Image camimage)
         {
             hud1.bgimage = camimage;
         }
@@ -1005,27 +1008,25 @@ namespace Xamarin
 
                                 {
                                     List<Locationwp> mission_items;
-                                    mission_items = MainV2.comPort.MAV.wps.Values.Select(a => (Locationwp) a)
-                                        .ToList();
+                                    mission_items = MainV2.comPort.MAV.wps.Values.Select(a => (Locationwp) a).ToList();
                                     mission_items.RemoveAt(0);
 
                                     if (wps.Count == 1)
                                     {
-                                        overlay.CreateOverlay((MAVLink.MAV_FRAME) wps[0].frame, homeplla,
+                                        overlay.CreateOverlay(homeplla,
                                             mission_items,
                                             0 / CurrentState.multiplieralt, 0 / CurrentState.multiplieralt);
                                     }
                                     else
                                     {
-                                        overlay.CreateOverlay((MAVLink.MAV_FRAME) wps[1].frame, homeplla,
+                                        overlay.CreateOverlay(homeplla,
                                             mission_items,
                                             0 / CurrentState.multiplieralt, 0 / CurrentState.multiplieralt);
 
                                     }
                                 }
 
-                                var existing = gMapControl1.Overlays.Where(a => a.Id == overlay.overlay.Id)
-                                    .ToList();
+                                var existing = gMapControl1.Overlays.Where(a => a.Id == overlay.overlay.Id).ToList();
                                 foreach (var b in existing)
                                 {
                                     gMapControl1.Overlays.Remove(b);
@@ -1078,7 +1079,7 @@ namespace Xamarin
                             var fenceoverlay = new WPOverlay();
                             fenceoverlay.overlay.Id = "fence";
 
-                            fenceoverlay.CreateOverlay(MAVLink.MAV_FRAME.GLOBAL, PointLatLngAlt.Zero,
+                            fenceoverlay.CreateOverlay(PointLatLngAlt.Zero,
                                 MainV2.comPort.MAV.fencepoints.Values.Select(a => (Locationwp) a).ToList(), 0, 0);
 
                             var fence = mymap.Overlays.Where(a => a.Id == "fence");

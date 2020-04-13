@@ -1,4 +1,5 @@
-﻿using GMap.NET;
+﻿extern alias Drawing;
+using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
 using MissionPlanner.Controls;

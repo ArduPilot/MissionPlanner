@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace MissionPlanner.Drawing
+namespace System.Drawing
 {
    internal static class CollectionExtensions
    {

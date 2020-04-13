@@ -25,7 +25,15 @@
   <ItemGroup>
       <ProjectReference Include="..\GMap.NET.Core\GMap.NET.Core.csproj" />
     <ProjectReference Include="..\GMap.NET.Drawing\GMap.NET.Drawing.csproj" />
-    <ProjectReference Include="..\Utilities\MissionPlanner.Utilities.csproj" />
+    <ProjectReference Include="..\Interfaces\Interfaces.csproj">
+      <Aliases>Interface</Aliases>
+    </ProjectReference>
+    <ProjectReference Include="..\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj">
+      <Aliases>Drawing</Aliases>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\MissionPlanner.Utilities.csproj">
+      <Aliases></Aliases>
+    </ProjectReference>
   </ItemGroup>
 
   <ItemGroup>

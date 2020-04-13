@@ -4,18 +4,16 @@ using SkiaSharp.Views.Forms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Threading;
-using MissionPlanner.Drawing;
 using Xamarin.Forms;
 using Color = System.Drawing.Color;
-using Font = Xamarin.Forms.Font;
-using Image = Xamarin.Forms.Image;
+using Image = System.Drawing.Image;
 using Point = System.Drawing.Point;
 using Rectangle = System.Drawing.Rectangle;
 using Size = System.Drawing.Size;
-using System.Diagnostics;
 
 namespace Xamarin.Controls
 {
@@ -89,7 +87,7 @@ namespace Xamarin.Controls
 
         public virtual Color BackColor { get; set; } = Color.Transparent;
 
-        public MissionPlanner.Drawing.Image BackgroundImage { get; set; }
+        public Image BackgroundImage { get; set; }
 
         public virtual ImageLayout BackgroundImageLayout { get; set; }
 
@@ -108,7 +106,7 @@ namespace Xamarin.Controls
 
         public bool DoubleBuffered { get; set; }
 
-        public virtual MissionPlanner.Drawing.Font Font { get; set; } = SystemFonts.DefaultFont;
+        public virtual System.Drawing.Font Font { get; set; } = SystemFonts.DefaultFont;
 
       //  public GraphicsMode GraphicsMode { get; set; } = GraphicsMode.Default;
 

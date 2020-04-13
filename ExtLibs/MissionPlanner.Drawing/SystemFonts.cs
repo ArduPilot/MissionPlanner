@@ -1,5 +1,5 @@
 ﻿
-namespace MissionPlanner.Drawing
+namespace System.Drawing
 {
     public class SystemFonts
     {

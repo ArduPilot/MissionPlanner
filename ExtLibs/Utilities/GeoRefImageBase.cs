@@ -17,7 +17,6 @@ using ExifLibrary;
 using log4net;
 using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
-using MissionPlanner.Drawing;
 using SharpKml.Base;
 using SharpKml.Dom;
 

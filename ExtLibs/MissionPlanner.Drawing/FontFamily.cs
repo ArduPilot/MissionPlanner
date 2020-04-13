@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MissionPlanner.Drawing
+namespace System.Drawing
 {
     public class FontFamily
     {

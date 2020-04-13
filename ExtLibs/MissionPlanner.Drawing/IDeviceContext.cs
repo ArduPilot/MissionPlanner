@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MissionPlanner.Drawing
+namespace System.Drawing
 {
     public interface IDeviceContext : IDisposable
     {

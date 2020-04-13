@@ -32,6 +32,9 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Maps\MissionPlanner.Maps.csproj" />
+    <ProjectReference Include="..\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj">
+      <Aliases>Drawing</Aliases>
+    </ProjectReference>
     <ProjectReference Include="..\Utilities\MissionPlanner.Utilities.csproj" />
   </ItemGroup>
 </Project>

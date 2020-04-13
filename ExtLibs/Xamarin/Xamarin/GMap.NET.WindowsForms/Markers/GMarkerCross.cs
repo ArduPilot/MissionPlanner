@@ -1,16 +1,11 @@
-﻿
-using MissionPlanner.Drawing;
-using MissionPlanner.Drawing;
-using SvgNet.SvgGdi;
-
-namespace GMap.NET.WindowsForms.Markers
+﻿namespace GMap.NET.WindowsForms.Markers
 {
-   using System.Drawing;
-   using System.Runtime.Serialization;
-   using System;
+    using System;
+    using System.Drawing;
+    using System.Runtime.Serialization;
 
 #if !PocketPC
-   [Serializable]
+    [Serializable]
    public class GMarkerCross : GMapMarker, ISerializable
 #else
    public class GMarkerCross : GMapMarker

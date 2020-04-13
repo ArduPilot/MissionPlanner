@@ -1,7 +1,4 @@
-﻿
-using MissionPlanner.Drawing;
-using MissionPlanner.Drawing;
-using SkiaSharp;
+﻿using SkiaSharp;
 
 namespace GMap.NET.WindowsForms
 {

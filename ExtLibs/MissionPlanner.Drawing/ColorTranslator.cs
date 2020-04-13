@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace MissionPlanner.Drawing
+namespace System.Drawing
 {
     public class ColorTranslator
     {

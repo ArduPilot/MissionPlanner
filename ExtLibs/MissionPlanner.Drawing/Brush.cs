@@ -2,7 +2,7 @@
 using System.Drawing;
 using SkiaSharp;
 
-namespace MissionPlanner.Drawing
+namespace System.Drawing
 {
     public abstract class Brush: IDisposable
     {

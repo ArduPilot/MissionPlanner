@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Runtime.InteropServices;
 
-namespace MissionPlanner.Drawing
+namespace System.Drawing
 {
     public sealed class ColorPalette
     {

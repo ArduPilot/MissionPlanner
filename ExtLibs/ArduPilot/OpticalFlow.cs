@@ -1,6 +1,6 @@
-﻿using MissionPlanner.Drawing;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
 using Color = System.Drawing.Color;

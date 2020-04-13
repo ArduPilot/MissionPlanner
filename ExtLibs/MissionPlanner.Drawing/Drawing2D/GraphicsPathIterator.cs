@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace MissionPlanner.Drawing.Drawing2D
+namespace System.Drawing.Drawing2D
 {
     public sealed class GraphicsPathIterator : MarshalByRefObject, IDisposable
     {

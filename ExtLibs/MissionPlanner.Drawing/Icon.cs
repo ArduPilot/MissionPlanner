@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace MissionPlanner.Drawing
+namespace System.Drawing
 {
     public class Icon: Bitmap
     {

@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Linq;
 using ClipperLib;
 
-namespace MissionPlanner.Drawing.Drawing2D
+namespace System.Drawing.Drawing2D
 {
     // Clipper lib definitions
     using Path = List<IntPoint>;
