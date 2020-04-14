@@ -1614,12 +1614,15 @@ namespace MissionPlanner
                     if (paramfile != null && paramfile.Length > 0)
                     {
                         var mavlist = parampck.unpack(paramfile.ToArray());
-                        comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param.Clear();
-                        comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param.TotalReported = mavlist.Count;
-                        comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param.AddRange(mavlist);
-                        mavlist.ForEach(a =>
-                            comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param_types[a.Name] = a.Type);
-                        ftpfile = true;
+                        if (mavlist != null)
+                        {
+                            comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param.Clear();
+                            comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param.TotalReported = mavlist.Count;
+                            comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param.AddRange(mavlist);
+                            mavlist.ForEach(a =>
+                                comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param_types[a.Name] = a.Type);
+                            ftpfile = true;
+                        }
                     }
                 };
 

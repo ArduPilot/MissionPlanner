@@ -7,7 +7,9 @@ using MissionPlanner.Utilities;
 namespace MissionPlanner.ArduPilot
 {
     public static class parampck
-    {/*
+    {
+        static readonly int magic = 0x671b4e81;
+        /*
   packed format:
     uint8_t type:4;         // AP_Param type NONE=0, INT8=1, INT16=2, INT32=3, FLOAT=4
     uint8_t type_len:4;     // number of bytes in type
@@ -19,6 +21,13 @@ namespace MissionPlanner.ArduPilot
         public static MAVLink.MAVLinkParamList unpack(byte[] data)
         {
             MAVLink.MAVLinkParamList list = new MAVLink.MAVLinkParamList();
+
+            var magic2 = BitConverter.ToInt32(data.Take(4).ToArray(), 0);
+
+            if (magic != magic)
+                return null;
+
+            data = data.Skip(4).ToArray();
 
             var last_name = "";
             while (true)
