@@ -52,6 +52,10 @@
  * 2.38 - Manufacturing tab now includes lockdown for EU and India.
  * 2.39 - For checkbox settings for which the modem specifies (in the ATI5? query response) only one option, it now greys-out the checkbox.
  *          This was to cater to the X modem 3.15 firmware in which the ECC paramater can't be changed and is always false.  
+ * 2.40 - Now for remote modems which do not specify valid settings ranges, if the remote modem has the same firmware version as the
+ *          local modem, then assumes the ranges specified by the local modem.  If the remote modem does not specify valid settings ranges
+ *          and is a different firmware version to the local modem, informs the user in a message box and advises to use the same modem
+ *          firmware version.  
  */
 
 using System;

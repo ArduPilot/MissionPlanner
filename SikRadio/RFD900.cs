@@ -790,17 +790,21 @@ namespace RFD.RFD900
                             OptionIndex = 0;
                             CountryCode = CCTemp;
                         }
-                        if (ResultOptionStrings[OptionIndex] == null)
-                        {
-                            ResultOptionStrings[OptionIndex] = "";
-                        }
+
                         if (OptionIndex < ResultOptionStrings.Length)
                         {
-                            if (ResultOptionStrings[OptionIndex].Length != 0)
+                            if (ResultOptionStrings[OptionIndex] == null)
                             {
-                                ResultOptionStrings[OptionIndex] += "/";
+                                ResultOptionStrings[OptionIndex] = "";
                             }
-                            ResultOptionStrings[OptionIndex] += O;
+                            if (OptionIndex < ResultOptionStrings.Length)
+                            {
+                                if (ResultOptionStrings[OptionIndex].Length != 0)
+                                {
+                                    ResultOptionStrings[OptionIndex] += "/";
+                                }
+                                ResultOptionStrings[OptionIndex] += O;
+                            }
                         }
                     }
                 }
@@ -1016,23 +1020,37 @@ namespace RFD.RFD900
         }
 
         /// <summary>
-        /// Parse the ATI5? and ATI5 responses to get a set of settings objects.
+        /// Parse the ATI5? and ATI5 responses to get a set of settings objects.  Settings are only returned if they're
+        /// in the ATI5QResponse, or Ranges.
         /// </summary>
         /// <param name="ATI5QResponse">The ATI5? response</param>
         /// <param name="Board">The board</param>
         /// <param name="ATI5Response">The ATI5 response</param>
+        /// <param name="Ranges">A previous set of settings received to use the ranges from, in the
+        /// case that they can't be ascertained from ATI5QResponse.  Can be null if not specified.</param>
         /// <returns>Never null</returns>
         public Dictionary<string, TSetting> GetSettings(string ATI5QResponse,
-            uploader.Uploader.Board Board, string ATI5Response)
+            uploader.Uploader.Board Board, string ATI5Response,
+            Dictionary<string, TSetting> Ranges, out bool UseRanges)
         {
+            UseRanges = false;
+
             Dictionary<string, TSetting> Result = new Dictionary<string, TSetting>();
             ParseATI5QueryResponse(ATI5QResponse, Result);
-            string SerialName = "SERIAL_SPEED";
-            if (Result.ContainsKey(SerialName))
+
+            if (Result.Count == 0)
             {
-                if (Result[SerialName].Options == null)
+                UseRanges = true;
+            }
+            else
+            {
+                string SerialName = "SERIAL_SPEED";
+                if (Result.ContainsKey(SerialName))
                 {
-                    Result[SerialName].Options = GetDefaultBaudRateSettingForBoard(Board);
+                    if (Result[SerialName].Options == null)
+                    {
+                        Result[SerialName].Options = GetDefaultBaudRateSettingForBoard(Board);
+                    }
                 }
             }
 
@@ -1040,6 +1058,12 @@ namespace RFD.RFD900
             //which are RTI5? commands response is cut-off for settings S21 through S23.  
             Dictionary<string, TShortSetting> ShortSettings = new Dictionary<string, TShortSetting>();
             ParseATI5Response(ATI5Response, ShortSettings);
+
+            if (UseRanges && (Ranges != null))
+            {
+                Result = CopySettingsButUseDifferentRanges(ShortSettings, Ranges);
+            }
+
             foreach (var kvp in _DefaultSettings)
             {
                 if (ShortSettings.ContainsKey(kvp.Key) && !Result.ContainsKey(kvp.Key))
@@ -1085,9 +1109,41 @@ namespace RFD.RFD900
 
             return Result;
         }
+
+        /// <summary>
+        /// Copy the given dictionary of Values, but use the specified valid ranges/options
+        /// in the given Settings dictionary if they exist in there.  
+        /// 
+        /// This is useful for the case
+        /// of a local modem returning a full "ATI5?" reply, but the remote modem only returning
+        /// an "RTI5" reply.  In this case, the values returned from RTI5 can be used, but the
+        /// ATI5? reply is used to assume the valid ranges of the settings of the remote modem.
+        /// </summary>
+        /// <param name="Values">The values to use in the result.</param>
+        /// <param name="Settings">The ranges/options to use in the result.</param>
+        /// <returns>The resulting settings which contains the same values as Values, but has ranges/options
+        /// as specified in Settings (if they exist in there)</returns>
+        public Dictionary<string, TSetting> CopySettingsButUseDifferentRanges(
+            Dictionary<string, TShortSetting> Values,
+            Dictionary<string, TSetting> Settings)
+        {
+            Dictionary<string, TSetting> Result = new Dictionary<string, TSetting>();
+
+            foreach (var kvp in Values)
+            {
+                if (Settings.ContainsKey(kvp.Key))
+                {
+                    var S = (TSetting)Settings[kvp.Key].Clone();
+                    S.Value = kvp.Value.Value;
+                    Result[kvp.Key] = S;
+                }
+            }
+
+            return Result;
+        }
     }
 
-    public class TShortSetting
+    public class TShortSetting : ICloneable
     {
         public string Designator;
         public string Name;
@@ -1098,6 +1154,11 @@ namespace RFD.RFD900
             this.Designator = Designator;
             this.Name = Name;
             this.Value = Value;
+        }
+
+        public virtual object Clone()
+        {
+            return new TShortSetting(Designator, Name, Value);
         }
     }
 
@@ -1123,6 +1184,11 @@ namespace RFD.RFD900
             this.Value = Value;
             this.Options = Options;
             this.Increment = Increment;
+        }
+
+        public override object Clone()
+        {
+            return new TSetting(Designator, Name, Range, Value, Options, Increment);
         }
 
         public string[] GetOptionNames()
@@ -1434,6 +1500,27 @@ namespace RFD.RFD900
         }
 
         public abstract uploader.Uploader.Board Board { get; }
+
+        /// <summary>
+        /// Tries to extract the firmware version string from the ATI command response.
+        /// </summary>
+        /// <param name="ATIResponse">ATI(/RTI) command response.  Must not be null.</param>
+        /// <returns>The version string, if found, otherwise null.</returns>
+        public static string ATIResponseToFWVersion(string ATIResponse)
+        {
+            if (ATIResponse.Contains("RFD") && ATIResponse.Contains("on"))
+            {
+                int RFD = ATIResponse.IndexOf("RFD");
+                int on = ATIResponse.IndexOf("on");
+
+                if (on > RFD)
+                {
+                    return ATIResponse.Substring(RFD + 3, on - RFD - 3).Trim();
+                }
+            }
+
+            return null;
+        }
     }
 
     public abstract class RFD900APU : RFD900

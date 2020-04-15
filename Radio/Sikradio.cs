@@ -1096,6 +1096,8 @@ S15: MAX_WINDOW=131
                     }
                     ATI.Text = ati_str;
 
+                    string LocalFWVer = RFD.RFD900.RFD900.ATIResponseToFWVersion(ati_str);
+
                     NumberStyles style = NumberStyles.Any;
 
                     //Get the board frequency.
@@ -1272,9 +1274,11 @@ S15: MAX_WINDOW=131
 
                     var answer = doCommand(Session.Port, "ATI5", true);
 
+                    bool Junk;
+
                     var Settings = Session.GetSettings(
                         doCommand(Session.Port, "ATI5?", true),
-                        Session.Board, answer);
+                        Session.Board, answer, null, out Junk);
 
                     DisableRFD900xControls();
 
@@ -1321,7 +1325,18 @@ S15: MAX_WINDOW=131
 
                     Session.Port.DiscardInBuffer();
 
-                    RTI.Text = doCommand(Session.Port, "RTI");
+                    string RTIText = doCommand(Session.Port, "RTI");
+
+                    if ((RTIText.Length < 5) || RTIText.Substring(0, 5) == "ERROR")
+                    {
+                        RTI.Text = "";
+                    }
+                    else
+                    {
+                        RTI.Text = RTIText;
+                    }
+
+                    string RemoteFWVer = RFD.RFD900.RFD900.ATIResponseToFWVersion(RTI.Text);
 
                     if (RFDLib.Text.Contains(RTI.Text, "900X") || RFDLib.Text.Contains(RTI.Text, "900UX"))
                     {
@@ -1380,9 +1395,16 @@ S15: MAX_WINDOW=131
 
                         answer = doCommand(Session.Port, "RTI5", true);
 
+                        bool UsedAltRanges;
+
                         var RemoteSettings = Session.GetSettings(
                             doCommand(Session.Port, "RTI5?", true),
-                            Session.Board, answer);
+                            Session.Board, answer, (LocalFWVer == RemoteFWVer) ? Settings : null, out UsedAltRanges);
+
+                        if ((RemoteFWVer != null) &&  (LocalFWVer != RemoteFWVer) && UsedAltRanges)
+                        {
+                            MsgBox.CustomMessageBox.Show("The ranges and options shown for the remote modem may not be accurate.  To ensure accurate, use the same firmware version in both the local and remote modems");
+                        }
 
                         items = answer.Split('\n');
 
@@ -1423,6 +1445,8 @@ S15: MAX_WINDOW=131
                         lbl_status.Text = "Done";
                     }
                     EnableConfigControls(true, true);
+
+
                 }
                 else
                 {
@@ -2090,7 +2114,10 @@ red LED solid - in firmware update mode");
                 Session.PutIntoATCommandMode();
                 var answer = doCommand(Session.Port, ATCommand, true);
                 var ATI5answer = doCommand(Session.Port, ATI5Command, true);
-                var Settings = Session.GetSettings(answer, Session.Board, ATI5answer);
+
+                bool Junk;
+
+                var Settings = Session.GetSettings(answer, Session.Board, ATI5answer, null, out Junk);
                 if (Settings.ContainsKey("ENCRYPTION_LEVEL"))
                 {
                     var Setting = Settings["ENCRYPTION_LEVEL"];
