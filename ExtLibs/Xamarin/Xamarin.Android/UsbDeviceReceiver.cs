@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.Hardware.Usb;
+using Android.Runtime;
 using Android.Util;
 
 namespace Xamarin.Droid
@@ -15,6 +16,7 @@ namespace Xamarin.Droid
         public UsbDeviceReceiver(Activity activity)
         {
             this.activity = activity;
+
         }
 
         public override void OnReceive(Context context, Intent intent)

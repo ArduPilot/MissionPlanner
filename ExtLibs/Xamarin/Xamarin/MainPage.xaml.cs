@@ -19,12 +19,22 @@ namespace Xamarin
 
         public MainPage()
         {
-            Instance = this;
+         
             InitializeComponent();
-            MasterPage.ListView.ItemSelected += ListView_ItemSelected;
+          
 
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
-            TaskScheduler.UnobservedTaskException += TaskSchedulerOnUnobservedTaskException;
+            try
+            {
+                Instance = this;
+
+                MasterPage.ListView.ItemSelected += ListView_ItemSelected;
+
+                AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
+                TaskScheduler.UnobservedTaskException += TaskSchedulerOnUnobservedTaskException;
+            } catch
+            {
+
+            }
         }
 
         private void TaskSchedulerOnUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs exception)

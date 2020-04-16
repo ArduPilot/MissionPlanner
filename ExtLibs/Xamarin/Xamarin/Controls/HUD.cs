@@ -250,7 +250,7 @@ namespace MissionPlanner.Controls
         }
 
         [System.ComponentModel.Browsable(true), DefaultValue(true)]
-        public bool bgon { get; set; }
+        public bool bgon { get; set; } = true;
 
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
         public bool connected { get; set; }
@@ -1127,7 +1127,7 @@ namespace MissionPlanner.Controls
                 }
                 else
                 {
-                    bgon = true;
+                    //bgon = true;
                 }
 
                 // localize it

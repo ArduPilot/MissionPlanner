@@ -218,9 +218,9 @@ namespace Xamarin
                 }
             }
 
-            videoPlayer.Source = VideoSource.FromUri("https://archive.org/download/BigBuckBunny_328/BigBuckBunny_512kb.mp4");
+            //videoPlayer.Source = VideoSource.FromUri("rtsp://192.168.0.10:8554/H264Video");
 
-            videoPlayer.Play();
+            //videoPlayer.Play();
         }
 
         public void BUT_playlog_Click(object sender, EventArgs e)
@@ -947,6 +947,8 @@ namespace Xamarin
                         hud1.critAOA = MainV2.comPort.MAV.cs.crit_AOA;
                         hud1.HoldInvalidation = false;
                         hud1.Invalidate();
+
+                        hud1.Refresh();
                     });
                     // update map
                     if (tracklast.AddSeconds(Settings.Instance.GetDouble("FD_MapUpdateDelay", 1.2)) < DateTime.Now)
