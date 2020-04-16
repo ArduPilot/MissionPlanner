@@ -136,6 +136,24 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             CHK_revch4.setup(new double[] { -1, 1 }, new double[] { 1, 0 }, new string[] { "RC4_REV", "RC4_REVERSED" },
                 MainV2.comPort.MAV.param);
 
+            if(MainV2.comPort.MAV.param["RC"+ chroll + "_REVERSED"]?.Value == 1)
+            {
+                reverseChannel(true, BARroll);
+            }
+            if (MainV2.comPort.MAV.param["RC" + chpitch + "_REVERSED"]?.Value == 1)
+            {
+                reverseChannel(true, BARpitch);
+            }
+            if (MainV2.comPort.MAV.param["RC" + chthro + "_REVERSED"]?.Value == 1)
+            {
+                reverseChannel(true, BARthrottle);
+            }
+            if (MainV2.comPort.MAV.param["RC" + chyaw + "_REVERSED"]?.Value == 1)
+            {
+                reverseChannel(true, BARyaw);
+            }
+
+
             // run after to ensure they are disabled on copter
             if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
             {
