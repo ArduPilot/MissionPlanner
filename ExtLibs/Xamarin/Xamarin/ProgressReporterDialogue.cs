@@ -17,13 +17,25 @@ namespace Xamarin
 
             _timer = new Timer((c) =>
             {
+                Console.WriteLine("ProgressReporterDialogue _timer run");
                 if (queue.Count == 0)
+                {
+                    Console.WriteLine("ProgressReporterDialogue _timer run queue = 0");
                     return;
+                }
 
-                while (queue.Count > 2)
-                    queue.Dequeue();
+                while (queue.Count >= 2)
+                {
+                    var item2 = queue.Dequeue();
+                    Console.WriteLine("Dequeue >=2 " + item2);
+                }
 
-                UserDialogs.Instance.Toast(queue.Dequeue(), TimeSpan.FromSeconds(3));
+                var item = queue.Dequeue();
+
+                Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+                {
+                    UserDialogs.Instance.Toast(item, TimeSpan.FromSeconds(3));
+                });
             }, this, 1000, 1000);
         }
 
@@ -45,6 +57,8 @@ namespace Xamarin
         public void RunBackgroundOperationAsync()
         {
             DoWork?.Invoke(this);
+
+            _timer.Stop();
             //throw new NotImplementedException();
         }
 
@@ -52,6 +66,7 @@ namespace Xamarin
 
         public void UpdateProgressAndStatus(int progress, string status)
         {
+            Console.WriteLine("Queue message " + status);
             queue.Enqueue(status);
         }
     }

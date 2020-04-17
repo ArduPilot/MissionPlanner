@@ -182,14 +182,9 @@ namespace Xamarin
 
                 mav.Open(false, true);
 
-                mav.getParamListAsync(mav.MAV.sysid, mav.MAV.compid).ConfigureAwait(false);
+                mav.getParamList();
+                //mav.getParamListAsync(mav.MAV.sysid, mav.MAV.compid).ConfigureAwait(false);
 
-                Forms.Device.BeginInvokeOnMainThread(() =>
-                {
-                   
-                });
-
-                
             }
             catch (Exception ex)
             {

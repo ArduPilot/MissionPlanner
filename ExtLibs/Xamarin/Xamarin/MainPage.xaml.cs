@@ -71,7 +71,7 @@ namespace Xamarin
             {
             }
 
-            Detail = new NavigationPage(page);
+            Detail = page;
             IsPresented = false;
 
             try
