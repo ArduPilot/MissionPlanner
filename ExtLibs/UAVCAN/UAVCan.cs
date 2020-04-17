@@ -1239,6 +1239,9 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
                 return Convert.ToByte(a.Item1 + "" + a.Item2, 16);
             });
 
+            if (packet_data == null || packet_data.Count() == 0)
+                return;
+
             //Console.WriteLine(ASCIIEncoding.ASCII.GetString( packet_data));
             //Console.WriteLine("RX " + line.Replace("\r", "\r\n"));
 
