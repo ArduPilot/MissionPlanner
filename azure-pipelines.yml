@@ -40,6 +40,8 @@ steps:
     solution: '$(solution)'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+    msbuildArgs: '-restore /m'
+    logFileVerbosity: minimal
 
 - script: dir
   workingDirectory: '$(Build.BinariesDirectory)' 
