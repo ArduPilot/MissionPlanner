@@ -37,6 +37,7 @@ namespace MissionPlanner.Utilities
             {"ArduRover", "Rover"},
 
             {"APMrover2", "Rover"},
+            {"Rover", "Rover"},
             {"ArduSub", "Sub"},
             {"ArduCopter", "Copter"},
             {"ArduPlane", "Plane"},
