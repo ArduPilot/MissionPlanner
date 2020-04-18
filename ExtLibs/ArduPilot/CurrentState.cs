@@ -205,7 +205,7 @@ namespace MissionPlanner
         }
 
         // propery name, Name   Name starts with MAV_ will link to named_value_float messages
-        public static Dictionary<string, string> custom_field_names {get; set;}
+        public static Dictionary<string, string> custom_field_names;
 
         public float customfield0 { get; set; }
         public float customfield1 { get; set; }
