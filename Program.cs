@@ -222,7 +222,8 @@ namespace MissionPlanner
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Japan_Sea.Instance);
 
             GoogleMapProvider.APIKey = "AIzaSyA5nFp39fEHruCezXnG3r8rGyZtuAkmCug";
-
+            if (Settings.Instance["GoogleApiKey"] != null) GoogleMapProvider.APIKey = Settings.Instance["GoogleApiKey"];
+            
             Tracking.productName = Application.ProductName;
             Tracking.productVersion = Application.ProductVersion;
             Tracking.currentCultureName = Application.CurrentCulture.Name;
