@@ -51,11 +51,10 @@
             // 
             // lbl_status
             // 
-            this.lbl_status.AutoSize = true;
             this.lbl_status.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.lbl_status.Location = new System.Drawing.Point(3, 341);
             this.lbl_status.Name = "lbl_status";
-            this.lbl_status.Size = new System.Drawing.Size(37, 13);
+            this.lbl_status.Size = new System.Drawing.Size(450, 34);
             this.lbl_status.TabIndex = 51;
             this.lbl_status.Text = "Status";
             // 
@@ -294,7 +293,7 @@
             this.Controls.Add(this.pictureBoxQuad);
             this.Controls.Add(this.pictureBoxPlane);
             this.Name = "ConfigFirmwareManifest";
-            this.Size = new System.Drawing.Size(946, 359);
+            this.Size = new System.Drawing.Size(946, 375);
             this.ResumeLayout(false);
             this.PerformLayout();
 

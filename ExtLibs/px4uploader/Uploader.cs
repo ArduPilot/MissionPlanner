@@ -31,6 +31,8 @@ namespace px4uploader
         public int board_type;
         public int board_rev;
         public int fw_maxsize;
+        public int chip;
+        public string chip_desc;
         public int bl_rev;
         public bool libre = false;
 
@@ -42,6 +44,8 @@ namespace px4uploader
             FAILED = 0x11,
             INSYNC = 0x12,
             INVALID = 0x13,//	# rev3+
+
+            BAD_SILICON_REV = 0x14,
 
             // protocol commands
             EOC = 0x20,
@@ -55,8 +59,11 @@ namespace px4uploader
             GET_OTP = 0x2a, // read a byte from OTP at the given address 
             GET_SN = 0x2b,    // read a word from UDID area ( Serial)  at the given address 
             GET_CHIP = 0x2c, // read chip version (MCU IDCODE)
-            PROTO_SET_DELAY	= 0x2d, // set minimum boot delay
+            SET_DELAY = 0x2d, // set minimum boot delay
+            GET_CHIP_DES = 0x2e,
             REBOOT = 0x30,
+            PROTO_DEBUG = 0x31,
+            PROTO_SET_BAUD = 0x33
         }
 
         public enum Info {
@@ -69,8 +76,8 @@ namespace px4uploader
 
         public const byte BL_REV_MIN = 2;//	# minimum supported bootloader protocol 
         public const byte BL_REV_MAX = 10;//	# maximum supported bootloader protocol
-        public const byte PROG_MULTI_MAX = 60;//		# protocol max is 255, must be multiple of 4
-        public const byte READ_MULTI_MAX = 60;//		# protocol max is 255, something overflows with >= 64
+        public const byte PROG_MULTI_MAX = 64;//		# protocol max is 255, must be multiple of 4
+        public const byte READ_MULTI_MAX = 255;//		# protocol max is 255, something overflows with >= 64
 
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -385,6 +392,22 @@ namespace px4uploader
             return info;
         }
 
+        public string __getCHIPDES()
+        {
+            __send(new byte[] { (byte)Code.GET_CHIP_DES, (byte)Code.EOC });
+            int len = __recv_int();
+            if (len > 0)
+            {
+                var bytes = __recv(len);
+                __getSync();
+                return ASCIIEncoding.ASCII.GetString(bytes);
+            } else
+            {
+                __getSync();
+                return "";
+            }
+        }
+
         public void __send(byte c)
         {
             port.Write(new byte[] { c }, 0, 1);
@@ -560,13 +583,12 @@ namespace px4uploader
         {
             byte[] code = fw.imagebyte;
             List<byte[]> groups = self.__split_len(code, PROG_MULTI_MAX);
-            Console.WriteLine("Programing packet total: "+groups.Count);
             int a = 1;
             foreach (Byte[] bytes in groups)
             {
                 self.__program_multi(bytes);
 
-                Console.WriteLine("Program {0}/{1}",a, groups.Count);
+                System.Diagnostics.Debug.WriteLine("Program {0}/{1}", a, groups.Count);
 
                 a++;
                 if (ProgressEvent != null)
@@ -589,7 +611,7 @@ namespace px4uploader
                     throw new Exception("Verification failed");
                 }
 
-                Console.WriteLine("Verify {0}/{1}", a, groups.Count);
+                System.Diagnostics.Debug.WriteLine("Verify {0}/{1}", a, groups.Count);
 
                 a++;
                 if (ProgressEvent != null)
@@ -668,6 +690,9 @@ namespace px4uploader
             self.board_type = self.__getInfo(Info.BOARD_ID);
             self.board_rev = self.__getInfo(Info.BOARD_REV);
             self.fw_maxsize = self.__getInfo(Info.FLASH_SIZE);
+
+            self.chip = self.__getCHIP();
+            self.chip_desc = self.__getCHIPDES();
         }
 
         public void upload(Firmware fw)

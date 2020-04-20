@@ -349,8 +349,8 @@ namespace Xamarin.GCSViews
                     {
                         up.identify();
                         updateProgress(-1, "Identify");
-                        log.InfoFormat("Found board type {0} boardrev {1} bl rev {2} fwmax {3} on {4}", up.board_type,
-                            up.board_rev, up.bl_rev, up.fw_maxsize, port);
+                        log.InfoFormat("Found board type {0} brdrev {1} blrev {2} fwmax {3} chip {5:X} chipdes {6} on {4}", up.board_type,
+                        up.board_rev, up.bl_rev, up.fw_maxsize, port, up.chip, up.chip_desc);
 
                         up.ProgressEvent += new Uploader.ProgressEventHandler(up_ProgressEvent);
                         up.LogEvent += new Uploader.LogEventHandler(up_LogEvent);
@@ -550,9 +550,8 @@ namespace Xamarin.GCSViews
                     try
                     {
                         up.identify();
-                        var msg = String.Format("Found board type {0} boardrev {1} bl rev {2} fwmax {3} on {4}",
-                            up.board_type,
-                            up.board_rev, up.bl_rev, up.fw_maxsize, port);
+                        var msg = String.Format("Found board type {0} brdrev {1} blrev {2} fwmax {3} chip {5:X} chipdes {6} on {4}", up.board_type,
+                        up.board_rev, up.bl_rev, up.fw_maxsize, port, up.chip, up.chip_desc);
                         log.Info(msg);
 
                         up.close();

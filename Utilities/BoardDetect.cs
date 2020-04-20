@@ -162,10 +162,8 @@ namespace MissionPlanner.Utilities
                                             using (var up = new Uploader(port1, 115200))
                                             {
                                                 up.identify();
-                                                Console.WriteLine(
-                                                    "Found board type {0} boardrev {1} bl rev {2} fwmax {3} on {4}",
-                                                    up.board_type,
-                                                    up.board_rev, up.bl_rev, up.fw_maxsize, port1);
+                                                Console.WriteLine("Found board type {0} brdrev {1} blrev {2} fwmax {3} chip {5:X} chipdes {6} on {4}", up.board_type,
+                        up.board_rev, up.bl_rev, up.fw_maxsize, port1, up.chip, up.chip_desc);
 
                                                 if (up.fw_maxsize == 2080768 && up.board_type == 9 && up.bl_rev >= 5)
                                                 {
@@ -260,10 +258,8 @@ namespace MissionPlanner.Utilities
                                     using (var up = new Uploader(port1, 115200))
                                     {
                                         up.identify();
-                                        Console.WriteLine(
-                                            "Found board type {0} boardrev {1} bl rev {2} fwmax {3} on {4}",
-                                            up.board_type,
-                                            up.board_rev, up.bl_rev, up.fw_maxsize, port1);
+                                        Console.WriteLine("Found board type {0} brdrev {1} blrev {2} fwmax {3} chip {5:X} chipdes {6} on {4}", up.board_type,
+                        up.board_rev, up.bl_rev, up.fw_maxsize, port1, up.chip, up.chip_desc);
 
                                         if (up.fw_maxsize == 2080768 && up.board_type == 9 && up.bl_rev >= 5)
                                         {
