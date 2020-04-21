@@ -8,46 +8,78 @@ namespace MissionPlanner.ArduPilot
 {
     public static class parampck
     {
-        static readonly int magic = 0x671b4e81;
+        static readonly int magic = 0x671b;
         /*
-  packed format:
-    uint8_t type:4;         // AP_Param type NONE=0, INT8=1, INT16=2, INT32=3, FLOAT=4
-    uint8_t type_len:4;     // number of bytes in type
-    uint8_t common_len:4;   // number of name bytes in common with previous entry, 0..15
-    uint8_t name_len:4;     // non-common length of param name -1 (0..15)
-    uint8_t name[name_len]; // name
-    uint8_t data[];         // value, may be truncated by record_length
- */
+          packed format:
+            file header:
+              uint16_t magic = 0x671b
+              uint16_t num_params
+              uint16_t total_params
+            per-parameter:
+            uint8_t type:4;         // AP_Param type NONE=0, INT8=1, INT16=2, INT32=3, FLOAT=4
+            uint8_t flags:4;        // for future use
+            uint8_t common_len:4;   // number of name bytes in common with previous entry, 0..15
+            uint8_t name_len:4;     // non-common length of param name -1 (0..15)
+            uint8_t name[name_len]; // name
+            uint8_t data[];         // value, length given by variable type
+            Any leading zero bytes after the header should be discarded as pad
+            bytes. Pad bytes are used to ensure that a parameter data[] field
+            does not cross a read packet boundary
+        */
+        static Dictionary<int, (int size, char type)> map = new Dictionary<int, (int size, char type)>()
+        {
+            { 1, (1, 'b') },
+            { 2, (2, 'h') },
+            {3, (4, 'i')},
+            {4, (4, 'f')},
+        };
+
         public static MAVLink.MAVLinkParamList unpack(byte[] data)
         {
             MAVLink.MAVLinkParamList list = new MAVLink.MAVLinkParamList();
 
-            var magic2 = BitConverter.ToInt32(data.Take(4).ToArray(), 0);
-
-            if (magic != magic)
+            if (data.Length < 6)
                 return null;
 
-            data = data.Skip(4).ToArray();
+            var magic2 = BitConverter.ToUInt16(data.Take(6).ToArray(), 0);
+            var num_params = BitConverter.ToUInt16(data.Take(6).ToArray(), 2);
+            var total_params = BitConverter.ToUInt16(data.Take(6).ToArray(), 4);
 
+            if (magic2 != magic)
+                return null;
+
+            data = data.Skip(6).ToArray();
+
+            byte pad_byte = 0;
+            int count = 0;
             var last_name = "";
             while (true)
             {
-                while (len(data) > 0 && ord(data[0]) == 0)
+                while (len(data) > 0 && ord(data[0]) == pad_byte)
                     data = data.Skip(1).ToArray();
+
                 if (len(data) == 0)
                     break;
+
                 var ptype = data[0];
                 var plen = data[1];
-                var type_len = (ptype >> 4) & 0x0F;
+                var flags = (ptype >> 4) & 0x0F;
                 ptype &= 0x0F;
+
+                if (!map.ContainsKey(ptype))
+                    return null;
+
+                var (type_len, type_format) = map[ptype];
+
                 var name_len = ((plen >> 4) & 0x0F) + 1;
                 var common_len = (plen & 0x0F);
                 var name = new StringBuilder().Append(last_name.Take(common_len).ToArray())
-                    .Append(data.Skip(2).Take(name_len).Select(a=>(char)a).ToArray()).ToString();
+                    .Append(data.Skip(2).Take(name_len).Select(a => (char)a).ToArray()).ToString();
                 var vdata = data.Skip(2 + name_len).Take(type_len);
                 last_name = name;
                 data = data.Skip(2 + name_len + type_len).ToArray();
                 var v = decode_value(ptype, vdata);
+                count += 1;
                 Console.WriteLine("{0,-16} {1}", name, v);
                 //print("%-16s %f" % (name, float (v)))
 
@@ -55,12 +87,15 @@ namespace MissionPlanner.ArduPilot
                     (ptype == 1 ? MAVLink.MAV_PARAM_TYPE.INT8 :
                         ptype == 2 ? MAVLink.MAV_PARAM_TYPE.INT16 :
                         ptype == 3 ? MAVLink.MAV_PARAM_TYPE.INT32 :
-                        ptype == 4 ? MAVLink.MAV_PARAM_TYPE.REAL32 : (MAVLink.MAV_PARAM_TYPE) 0),
+                        ptype == 4 ? MAVLink.MAV_PARAM_TYPE.REAL32 : (MAVLink.MAV_PARAM_TYPE)0),
                     (ptype == 1 ? MAVLink.MAV_PARAM_TYPE.INT8 :
                         ptype == 2 ? MAVLink.MAV_PARAM_TYPE.INT16 :
                         ptype == 3 ? MAVLink.MAV_PARAM_TYPE.INT32 :
-                        ptype == 4 ? MAVLink.MAV_PARAM_TYPE.REAL32 : (MAVLink.MAV_PARAM_TYPE) 0)));
+                        ptype == 4 ? MAVLink.MAV_PARAM_TYPE.REAL32 : (MAVLink.MAV_PARAM_TYPE)0)));
             }
+
+            if (count != num_params || count > total_params)
+                return null;
 
             return list;
         }
