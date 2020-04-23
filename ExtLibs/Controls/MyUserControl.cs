@@ -18,10 +18,15 @@ namespace System.Windows.Forms
         /// </summary>
         public event FormClosingEventHandler FormClosing;
 
+        public event FormClosedEventHandler FormClosed;
+
         public void Close(object sender, FormClosingEventArgs e)
         {
             if (FormClosing != null)
                 FormClosing(sender,e);
+
+            if (FormClosed != null)
+                FormClosed(sender, new FormClosedEventArgs(e.CloseReason));
         }
 
         public void Close()

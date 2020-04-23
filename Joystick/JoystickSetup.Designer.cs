@@ -1,4 +1,6 @@
 ﻿using MissionPlanner.Controls;
+using System.Windows.Forms;
+
 namespace MissionPlanner.Joystick
 {
     partial class JoystickSetup
@@ -154,5 +156,7 @@ namespace MissionPlanner.Joystick
         private System.Windows.Forms.CheckBox CHK_elevons;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.CheckBox chk_manualcontrol;
+
+        
     }
 }

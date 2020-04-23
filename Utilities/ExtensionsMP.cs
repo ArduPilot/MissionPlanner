@@ -102,6 +102,8 @@ namespace MissionPlanner.Utilities
             frm.Height += header;
             frm.Tag = ctl;
             ctl.Dock = DockStyle.Fill;
+            ctl.SizeChanged += Ctl_SizeChanged;
+            ctl.Tag = frm;
             frm.MinimumSize = ctl.MinimumSize;
             frm.MaximumSize = ctl.MaximumSize;
             frm.Controls.Add(ctl);
@@ -112,11 +114,28 @@ namespace MissionPlanner.Utilities
             return frm;
         }
 
+        private static void Ctl_SizeChanged(object sender, EventArgs e)
+        {
+            var ctl = (sender as Control);
+            if (ctl == null)
+                return;
+            var frm = ctl.Tag as Form;
+            if (frm == null)
+                return;
+
+            frm.ClientSize = ctl.ClientSize;
+        }
+
         private static void Frm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (((Form)sender).Tag is MissionPlanner.Controls.IDeactivate)
             {
                 ((MissionPlanner.Controls.IDeactivate)((Form)sender).Tag).Deactivate();
+            }
+
+            if (((Form)sender).Tag is MyUserControl)
+            {
+                (((Form)sender).Tag as MyUserControl).Close();
             }
         }
 

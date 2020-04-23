@@ -198,6 +198,8 @@ namespace MissionPlanner.GCSViews
                 AddBackstageViewPage(typeof(ConfigUAVCAN), "UAVCAN", true, opt);
             }
 
+            AddBackstageViewPage(typeof(Joystick.JoystickSetup), "Joystick", true, opt);
+
             if (MainV2.DisplayConfiguration.displayCompassMotorCalib)
             {
                 AddBackstageViewPage(typeof(ConfigCompassMot), rm.GetString("backstageViewPagecompassmot.Text"), isConnected && gotAllParams, opt);

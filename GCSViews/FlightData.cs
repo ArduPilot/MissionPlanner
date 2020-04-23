@@ -1123,9 +1123,7 @@ namespace MissionPlanner.GCSViews
 
         private void BUT_joystick_Click(object sender, EventArgs e)
         {
-            Form joy = new JoystickSetup();
-            ThemeManager.ApplyThemeTo(joy);
-            joy.Show();
+            new JoystickSetup().ShowUserControl();            
         }
 
         private string tlogdir = Settings.Instance.LogDir;

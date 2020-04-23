@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace MissionPlanner.Joystick
 {
-    public partial class JoystickSetup : Form
+    public partial class JoystickSetup : MyUserControl, IDeactivate
     {
         bool startup = true;
 
@@ -68,6 +68,8 @@ namespace MissionPlanner.Joystick
 
             var y = label8.Bottom;
 
+            this.SuspendLayout();
+
             for (int a = 1; a <= maxaxis; a++)
             {
                 var config = tempjoystick.getChannel(a);
@@ -105,6 +107,8 @@ namespace MissionPlanner.Joystick
                 if ((ax.Right) > this.Width)
                     this.Width = ax.Right;
             }
+
+            this.ResumeLayout();
 
             if (MainV2.joystick != null && MainV2.joystick.enabled)
             {
@@ -470,6 +474,7 @@ namespace MissionPlanner.Joystick
             }
         }
 
+       
         private void JoystickSetup_FormClosed(object sender, FormClosedEventArgs e)
         {
             timer1.Stop();
@@ -493,6 +498,17 @@ namespace MissionPlanner.Joystick
         private void chk_manualcontrol_CheckedChanged(object sender, EventArgs e)
         {
             MainV2.joystick.manual_control = chk_manualcontrol.Checked;
+        }
+
+        public void Deactivate()
+        {
+            timer1.Stop();
+
+            if (MainV2.joystick != null && MainV2.joystick.enabled == false)
+            {
+                MainV2.joystick.UnAcquireJoyStick();
+                MainV2.joystick = null;
+            }
         }
     }
 }
