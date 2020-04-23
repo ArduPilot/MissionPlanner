@@ -840,7 +840,7 @@ namespace ZedGraph
                 int idx = curve.Label.Text.IndexOf(" (Min: ");
                 if (idx > 0)
                     label = label.Substring(0, idx);
-                curve.Label.Text = label + " (Min: " + curveMin.ToString("0") + " Max: " + curveMax.ToString("0") + " Mean: " + curveMean.ToString("0") + ")";
+                curve.Label.Text = label + " (Min: " + curveMin.ToString("0.##") + " Max: " + curveMax.ToString("0.##") + " Mean: " + curveMean.ToString("0.##") + ")";
             }
 		}
 
