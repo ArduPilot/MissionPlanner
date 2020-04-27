@@ -504,9 +504,7 @@ namespace MissionPlanner.Controls
 
                 if (offline && !set)
                 {
-                    set = true;
-                    MainV2.comPort.MAV.param.Add(new MAVLink.MAVLinkParam(name, double.Parse(value),
-                        MAVLink.MAV_PARAM_TYPE.REAL32));
+                    set = true;                    
                 }
 
                 if (set)
