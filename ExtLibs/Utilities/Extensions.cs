@@ -4,6 +4,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -15,9 +16,34 @@ namespace MissionPlanner.Utilities
 {
     public static class Extensions
     {
+
+        public static Action MessageLoop;
         public static T AwaitSync<T>(this Task<T> infunc)
         {
-            return Task.Run(async () => await infunc.ConfigureAwait(false)).Result;
+            var sync = SynchronizationContext.Current;
+
+            if(sync != null)
+            {
+                if (System.Diagnostics.Debugger.IsAttached)
+                {
+                    //System.Diagnostics.Debugger.Break();
+                }
+
+                if (MessageLoop == null)
+                    throw new Exception("MessageLoop not defined");
+
+                var aw = infunc.GetAwaiter();
+                while(!aw.IsCompleted)
+                {
+                    // poll the sync context
+                    sync.Send((a) => { MessageLoop?.Invoke(); }, infunc);
+                    Thread.Sleep(10);
+                }
+
+                return infunc.Result;
+            }
+
+            return infunc.ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
         public static void AddRange<T>(this IList<T> list, IEnumerable<T> extras )

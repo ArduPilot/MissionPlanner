@@ -200,6 +200,8 @@ namespace MissionPlanner
             MissionPlanner.Comms.CommsBase.ApplyTheme += MissionPlanner.Utilities.ThemeManager.ApplyThemeTo;
             MissionPlanner.Comms.SerialPort.GetDeviceName += SerialPort_GetDeviceName;
 
+            MissionPlanner.Utilities.Extensions.MessageLoop = new Action(() => Application.DoEvents());
+
             // set the cache provider to my custom version
             GMap.NET.GMaps.Instance.PrimaryCache = new Maps.MyImageCache();
             // add my custom map providers
