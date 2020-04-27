@@ -243,8 +243,6 @@ namespace MissionPlanner.Controls
                 if (dr == DialogResult.OK)
                 {
                     loadparamsfromfile(ofd.FileName, true);
-
-                    Activate();
                 }
             }
         }
