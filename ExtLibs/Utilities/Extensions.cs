@@ -16,34 +16,16 @@ namespace MissionPlanner.Utilities
 {
     public static class Extensions
     {
-
         public static Action MessageLoop;
+        //https://medium.com/rubrikkgroup/understanding-async-avoiding-deadlocks-e41f8f2c6f5d
         public static T AwaitSync<T>(this Task<T> infunc)
         {
-            var sync = SynchronizationContext.Current;
-
-            if(sync != null)
+            var tsk = Task.Run<T>(async () =>
             {
-                if (System.Diagnostics.Debugger.IsAttached)
-                {
-                    //System.Diagnostics.Debugger.Break();
-                }
+                return await infunc.ConfigureAwait(true);
+            });
 
-                if (MessageLoop == null)
-                    throw new Exception("MessageLoop not defined");
-
-                var aw = infunc.GetAwaiter();
-                while(!aw.IsCompleted)
-                {
-                    // poll the sync context
-                    sync.Send((a) => { MessageLoop?.Invoke(); }, infunc);
-                    Thread.Sleep(10);
-                }
-
-                return infunc.Result;
-            }
-
-            return infunc.ConfigureAwait(false).GetAwaiter().GetResult();
+            return tsk.GetAwaiter().GetResult();
         }
 
         public static void AddRange<T>(this IList<T> list, IEnumerable<T> extras )
@@ -236,21 +218,6 @@ namespace MissionPlanner.Utilities
                 threadToKill.Abort();
                 throw new TimeoutException();
             }
-        }
-
-        public static async void Async(this Action function)
-        {
-            await Task.Run(() => { function(); });
-        }
-
-        public static async Task<TOut> Async<TOut>(this Func<TOut> function)
-        {
-            return await Task.Run(() => { return function(); });
-        }
-
-        public static async Task<TOut> Async<TIn, TOut>(this Func<TIn, TOut> function, TIn input)
-        {
-            return await Task.Run(() => { return function(input); });
         }
 
         public static void Add<T, T2>(this List<Tuple<T, T2>> input, T in1, T2 in2)
