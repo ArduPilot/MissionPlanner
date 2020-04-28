@@ -1256,7 +1256,22 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
 
             transfer[(packet_id, payload.TransferID)].AddRange(payload.Payload);
 
-            //todo check toggle
+            {
+                var totalbytes = transfer[(packet_id, payload.TransferID)].Count;
+
+                var current = (totalbytes / 7) % 2;
+
+                if((current == 1) == payload.Toggle)
+                {
+                    if (!payload.EOT)
+                    {
+                        transfer.Remove((packet_id, payload.TransferID));
+                        Console.WriteLine("Bad Toggle {0}", frame.MsgTypeID);
+                        return;
+                        //error here
+                    }
+                }
+            }
 
             if (payload.SOT && !payload.EOT)
             {
@@ -1331,7 +1346,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
 
                     if (crc != payload_crc)
                     {
-                        Console.WriteLine("Bad Message " + frame.MsgTypeID);
+                        Console.WriteLine("Bad Message CRC Fail " + frame.MsgTypeID);
                         return;
                     }
                 }
