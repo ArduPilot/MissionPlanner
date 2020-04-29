@@ -375,7 +375,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     if (MainV2.comPort.doCommand(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid,
                         MAVLink.MAV_CMD.FIXED_MAG_CAL_YAW, (float) value, 0, 0, 0, 0, 0, 0))
                     {
-
+                        CustomMessageBox.Show(Strings.Completed, Strings.Completed);
                     }
                     else
                     {
