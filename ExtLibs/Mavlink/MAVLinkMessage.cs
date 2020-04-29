@@ -59,7 +59,12 @@ public partial class MAVLink
                     if (_data != null)
                         return _data;
 
-                    _data = Activator.CreateInstance(MAVLINK_MESSAGE_INFOS.GetMessageInfo(msgid).type);
+                    var typeinfo = MAVLINK_MESSAGE_INFOS.GetMessageInfo(msgid);
+
+                    if (typeinfo.type == null)
+                        return null;
+
+                    _data = Activator.CreateInstance(typeinfo.type);
 
                     try
                     {
