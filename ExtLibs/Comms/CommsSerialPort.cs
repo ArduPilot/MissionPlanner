@@ -20,7 +20,11 @@ namespace MissionPlanner.Comms
 
         private static string portnamenice = "";
 
-        public SerialPort(string comPortName, int key): base(comPortName,key)
+        public SerialPort(string comPortName, int baudrate): base(comPortName, baudrate)
+        {
+        }
+
+        public SerialPort(string comPortName) : base(comPortName)
         {
         }
 
@@ -94,7 +98,7 @@ namespace MissionPlanner.Comms
             try
             {
                 // this causes element not found with bluetooth devices.
-                if (BaudRate > 115200)
+                if (BaudRate >= 115200)
                 {
                     Console.WriteLine("Doing SerialPortFixer");
                     SerialPortFixer.Execute(PortName);

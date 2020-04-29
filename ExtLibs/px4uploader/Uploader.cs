@@ -98,6 +98,8 @@ namespace px4uploader
             public byte[] signature;
         }
 
+        public int ReadTimeout { get { return port.ReadTimeout; } set { port.ReadTimeout = value; } }
+
         static Uploader()
         {
             readcerts();
@@ -113,10 +115,7 @@ namespace px4uploader
 
             try
             {
-                Console.Write("open");
                 this.port.Open();
-                this.port.Write("reboot -b\r");
-                Console.WriteLine("..done");
             }
             catch (Exception ex)
             {
@@ -136,6 +135,10 @@ namespace px4uploader
         }
 
         public Uploader(string port, int baudrate): this(new SerialPort(port, baudrate))
+        {
+        }
+
+        public Uploader(string port) : this(new SerialPort(port))
         {
         }
 
@@ -440,6 +443,14 @@ namespace px4uploader
         public void __getSync()
         {
             port.BaseStream.Flush();
+
+            var deadline = DateTime.Now.AddMilliseconds(ReadTimeout);
+            while(port.BytesToRead == 0)
+            {
+                if (DateTime.Now > deadline)
+                    throw new Exception("timeout waiting for responce");
+            }
+
             byte c = __recv()[0];
             if (c != (byte)Code.INSYNC)
                 throw new Exception(string.Format("unexpected {0:X} instead of INSYNC", (byte)c));
