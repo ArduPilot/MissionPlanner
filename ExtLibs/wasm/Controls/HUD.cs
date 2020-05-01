@@ -1,4 +1,5 @@
-﻿using log4net;
+﻿extern alias MPDrawing;
+using log4net;
 using Microsoft.AspNetCore.Components.Web;
 using System;
 using System.Collections;
@@ -6,22 +7,14 @@ using System.ComponentModel;
 using System.IO;
 using System.Threading.Tasks;
 using Blazor.Extensions.Canvas.WebGL;
-using MissionPlanner.Drawing;
-using MissionPlanner.Drawing.Drawing2D;
+using MPDrawing::System.Drawing;
+using MPDrawing::System.Drawing.Drawing2D;
 using wasm.Controls;
 using Color = System.Drawing.Color;
 using Point = System.Drawing.Point;
 using PointF = System.Drawing.PointF;
 using Rectangle = System.Drawing.Rectangle;
 using RectangleF = System.Drawing.RectangleF;
-using IGraphics = MissionPlanner.Drawing.IGraphics;
-using MissionPlanner.Drawing;
-using MissionPlanner.Drawing.Drawing2D;
-using Brushes = MissionPlanner.Drawing.Brushes;
-using Font = MissionPlanner.Drawing.Font;
-using Image = MissionPlanner.Drawing.Image;
-using Pen = MissionPlanner.Drawing.Pen;
-using SolidBrush = MissionPlanner.Drawing.SolidBrush;
 
 namespace MissionPlanner.Controls
 {

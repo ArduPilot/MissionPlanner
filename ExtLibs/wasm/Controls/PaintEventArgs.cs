@@ -1,6 +1,7 @@
-﻿using System;
+﻿extern alias MPDrawing;
+using System;
 using System.Drawing;
-using IGraphics = MissionPlanner.Drawing.IGraphics;
+using IGraphics = MPDrawing::System.Drawing.IGraphics;
 
 namespace MissionPlanner.Controls
 {
