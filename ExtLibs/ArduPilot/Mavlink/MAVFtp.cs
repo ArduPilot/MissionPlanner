@@ -541,16 +541,16 @@ namespace MissionPlanner.ArduPilot.Mavlink
             kRspNak
         };
 
-        public MemoryStream GetFile(string file, CancellationTokenSource cancel, bool burst = true)
+        public MemoryStream GetFile(string file, CancellationTokenSource cancel, bool burst = true, byte readsize = 0)
         {
             kCmdOpenFileRO(file, out var size, cancel);
             if (size == -1)
                 return null;
             MemoryStream answer;
             if (!burst)
-                answer = kCmdReadFile(file, size, cancel);
+                answer = kCmdReadFile(file, size, cancel, readsize);
             else
-                answer = kCmdBurstReadFile(file, size, cancel);
+                answer = kCmdBurstReadFile(file, size, cancel, readsize);
             kCmdResetSessions();
             return answer;
         }
@@ -645,7 +645,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             return ans;
         }
 
-        public MemoryStream kCmdBurstReadFile(string file, int size, CancellationTokenSource cancel)
+        public MemoryStream kCmdBurstReadFile(string file, int size, CancellationTokenSource cancel, byte readsize = 0)
         {
             RetryTimeout timeout = new RetryTimeout();
             fileTransferProtocol.target_system = _sysid;
@@ -656,7 +656,8 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 opcode = FTPOpcode.kCmdBurstReadFile,
                 seq_number = seq_no++,
                 session = 0,
-                offset = 0
+                offset = 0,
+                size = readsize
             };
             fileTransferProtocol.payload = payload;
             log.Info("get " + payload.opcode + " " + file + " " + size);
@@ -1258,7 +1259,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             return ans;
         }
 
-        public MemoryStream kCmdReadFile(string file, int size, CancellationTokenSource cancel)
+        public MemoryStream kCmdReadFile(string file, int size, CancellationTokenSource cancel, byte readsize = 0)
         {
             RetryTimeout timeout = new RetryTimeout();
             KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>> sub;
@@ -1267,7 +1268,8 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 opcode = FTPOpcode.kCmdReadFile,
                 seq_number = seq_no++,
                 offset = 0,
-                session = 0
+                session = 0,
+                size = readsize
             };
             fileTransferProtocol.payload = payload;
             log.Info("get " + payload.opcode + " " + file + " " + size);
