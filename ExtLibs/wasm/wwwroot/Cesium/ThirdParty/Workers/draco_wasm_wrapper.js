@@ -1,25 +1,3 @@
-/**
- * Cesium - https://github.com/AnalyticalGraphicsInc/cesium
- *
- * Copyright 2011-2017 Cesium Contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- * Columbus View (Pat. Pend.)
- *
- * Portions licensed separately.
- * See https://github.com/AnalyticalGraphicsInc/cesium/blob/master/LICENSE.md for full licensing details.
- */
 var $jscomp=$jscomp||{};$jscomp.scope={};$jscomp.ASSUME_ES5=!1;$jscomp.ASSUME_NO_NATIVE_MAP=!1;$jscomp.ASSUME_NO_NATIVE_SET=!1;$jscomp.defineProperty=$jscomp.ASSUME_ES5||"function"==typeof Object.defineProperties?Object.defineProperty:function(d,f,n){d!=Array.prototype&&d!=Object.prototype&&(d[f]=n.value)};$jscomp.getGlobal=function(d){return"undefined"!=typeof window&&window===d?d:"undefined"!=typeof global&&null!=global?global:d};$jscomp.global=$jscomp.getGlobal(this);
 $jscomp.polyfill=function(d,f,n,w){if(f){n=$jscomp.global;d=d.split(".");for(w=0;w<d.length-1;w++){var g=d[w];g in n||(n[g]={});n=n[g]}d=d[d.length-1];w=n[d];f=f(w);f!=w&&null!=f&&$jscomp.defineProperty(n,d,{configurable:!0,writable:!0,value:f})}};$jscomp.polyfill("Math.imul",function(d){return d?d:function(f,d){f=Number(f);d=Number(d);var n=f&65535,g=d&65535;return n*g+((f>>>16&65535)*g+n*(d>>>16&65535)<<16>>>0)|0}},"es6","es3");
 $jscomp.polyfill("Math.clz32",function(d){return d?d:function(f){f=Number(f)>>>0;if(0===f)return 32;var d=0;0===(f&4294901760)&&(f<<=16,d+=16);0===(f&4278190080)&&(f<<=8,d+=8);0===(f&4026531840)&&(f<<=4,d+=4);0===(f&3221225472)&&(f<<=2,d+=2);0===(f&2147483648)&&d++;return d}},"es6","es3");$jscomp.polyfill("Math.trunc",function(d){return d?d:function(d){d=Number(d);if(isNaN(d)||Infinity===d||-Infinity===d||0===d)return d;var f=Math.floor(Math.abs(d));return 0>d?-f:f}},"es6","es3");
