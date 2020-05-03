@@ -10,7 +10,7 @@ using ZedGraph;
 
 namespace SikRadio
 {
-    public partial class Rssi : UserControl
+    public partial class Rssi : UserControl, ISikRadioForm
     {
         private readonly Sikradio inter = new Sikradio();
         private readonly RollingPointPairList plotdatanoicel = new RollingPointPairList(1200);
@@ -19,6 +19,7 @@ namespace SikRadio
         private readonly RollingPointPairList plotdatarssil = new RollingPointPairList(1200);
         private readonly RollingPointPairList plotdatarssir = new RollingPointPairList(1200);
         private int tickStart;
+        RFD.RFD900.TSession _Session;
 
         public Rssi()
         {
@@ -33,6 +34,47 @@ namespace SikRadio
 
             if (Terminal.sw == null)
                 Terminal.sw = new StreamWriter("Terminal-" + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".txt");
+        }
+
+        public void Connect()
+        {
+            if (_Session == null)
+            {
+                _Session = new RFD.RFD900.TSession(SikRadio.Config.comPort);
+                if (_Session.PutIntoATCommandMode() == RFD.RFD900.TSession.TMode.AT_COMMAND)
+                {
+                    inter.doCommand(Config.comPort, "AT&T=RSSI");
+
+                    _Session.AssumeMode(RFD.RFD900.TSession.TMode.TRANSPARENT);
+
+                    tickStart = Environment.TickCount;
+
+                    timer1.Start();
+                }
+            }
+        }
+
+        public void Disconnect()
+        {
+            if (_Session != null)
+            {
+                timer1.Stop();
+
+                System.Diagnostics.Debug.WriteLine("Putting into AT command mode");
+                if (_Session.PutIntoATCommandMode() == RFD.RFD900.TSession.TMode.AT_COMMAND)
+                {
+                    System.Diagnostics.Debug.WriteLine("Doing AT&T command");
+                    inter.doCommand(Config.comPort, "AT&T");
+                    System.Diagnostics.Debug.WriteLine("Putting into transparent mode");
+                    _Session.PutIntoTransparentMode();
+
+                    _Session.Dispose();
+                    _Session = null;
+
+                    BUT_disconnect.Enabled = false;
+                    BUT_connect.Enabled = true;
+                }
+            }
         }
 
         private void BUT_connect_Click(object sender, EventArgs e)
@@ -86,14 +128,16 @@ namespace SikRadio
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (MainV2.comPort.BaseStream != null && MainV2.comPort.BaseStream.IsOpen)
-            {
-                MainV2.comPort.BaseStream.WriteLine("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+            var comPort = SikRadio.Config.comPort;
 
-                if (MainV2.comPort.BaseStream.BytesToRead < 50)
+            if ((comPort != null) && comPort.IsOpen)
+            {
+                comPort.WriteLine("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+
+                if (comPort.BytesToRead < 50)
                     return;
 
-                var line = MainV2.comPort.BaseStream.ReadLine();
+                var line = comPort.ReadLine();
 
                 /*
 L/R RSSI: 12/0  L/R noise: 17/0 pkts: 0  txe=0 rxe=0 stx=0 srx=0 ecc=0/0 temp=61 dco=0

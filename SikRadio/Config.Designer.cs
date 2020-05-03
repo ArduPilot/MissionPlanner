@@ -34,7 +34,6 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -42,6 +41,7 @@
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.terminalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rssiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.btnConnect = new System.Windows.Forms.Button();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.projectPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,7 +70,10 @@
             resources.GetString("CMB_Baudrate.Items4"),
             resources.GetString("CMB_Baudrate.Items5"),
             resources.GetString("CMB_Baudrate.Items6"),
-            resources.GetString("CMB_Baudrate.Items7")});
+            resources.GetString("CMB_Baudrate.Items7"),
+            resources.GetString("CMB_Baudrate.Items8"),
+            resources.GetString("CMB_Baudrate.Items9"),
+            resources.GetString("CMB_Baudrate.Items10")});
             resources.ApplyResources(this.CMB_Baudrate, "CMB_Baudrate");
             this.CMB_Baudrate.Name = "CMB_Baudrate";
             this.CMB_Baudrate.SelectedIndexChanged += new System.EventHandler(this.CMB_Baudrate_SelectedIndexChanged);
@@ -89,11 +92,6 @@
             // 
             resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
-            // 
-            // label3
-            // 
-            resources.ApplyResources(this.label3, "label3");
-            this.label3.Name = "label3";
             // 
             // groupBox1
             // 
@@ -167,17 +165,26 @@
             resources.ApplyResources(this.projectPageToolStripMenuItem, "projectPageToolStripMenuItem");
             this.projectPageToolStripMenuItem.Click += new System.EventHandler(this.projectPageToolStripMenuItem_Click);
             // 
+            // btnConnect
+            // 
+            resources.ApplyResources(this.btnConnect, "btnConnect");
+            this.btnConnect.Name = "btnConnect";
+            this.btnConnect.UseVisualStyleBackColor = true;
+            this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
+            // 
             // Config
             // 
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             resources.ApplyResources(this, "$this");
-            
+            this.Controls.Add(this.btnConnect);
+
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Config";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Config_FormClosing);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -197,7 +204,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.MenuStrip menuStrip1;
@@ -207,6 +213,7 @@
         private System.Windows.Forms.ToolStripMenuItem terminalToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem rssiToolStripMenuItem;
+        private System.Windows.Forms.Button btnConnect;
     }
 }
 

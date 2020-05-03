@@ -57,6 +57,11 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.VisualBasic.PowerPacks, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
@@ -72,9 +77,15 @@
     <Compile Include="..\ExtLibs\Arduino\IArduinoComms.cs">
       <Link>Linked\IArduinoComms.cs</Link>
     </Compile>
+    <Compile Include="..\ExtLibs\Comms\CommsBase.cs">
+      <Link>Linked\CommsBase.cs</Link>
+    </Compile>
     <Compile Include="..\ExtLibs\Comms\CommsSerialPort.cs">
       <Link>Linked\CommsSerialPort.cs</Link>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="..\ExtLibs\Comms\CommsTCPSerial.cs">
+      <Link>Linked\CommsTCPSerial.cs</Link>
     </Compile>
     <Compile Include="..\ExtLibs\Controls\CustomMessageBox.cs">
       <Link>Linked\CustomMessageBox.cs</Link>
@@ -83,26 +94,17 @@
       <Link>Linked\MyButton.cs</Link>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="..\ExtLibs\Mavlink\Mavlink.cs">
-      <Link>Linked\Mavlink.cs</Link>
-    </Compile>
-    <Compile Include="..\ExtLibs\Mavlink\MavlinkCRC.cs">
-      <Link>Linked\MavlinkCRC.cs</Link>
-    </Compile>
-    <Compile Include="..\ExtLibs\Mavlink\MAVLinkMessage.cs">
-      <Link>Linked\MAVLinkMessage.cs</Link>
-    </Compile>
-    <Compile Include="..\ExtLibs\Mavlink\MavlinkParse.cs">
-      <Link>Linked\MavlinkParse.cs</Link>
-    </Compile>
-    <Compile Include="..\ExtLibs\Mavlink\MavlinkUtil.cs">
-      <Link>Linked\MavlinkUtil.cs</Link>
+    <Compile Include="..\ExtLibs\Interfaces\ICommsSerial.cs">
+      <Link>Linked\ICommsSerial.cs</Link>
     </Compile>
     <Compile Include="..\ExtLibs\Utilities\Download.cs">
       <Link>Linked\Download.cs</Link>
     </Compile>
     <Compile Include="..\Radio\IHex.cs">
       <Link>Linked\IHex.cs</Link>
+    </Compile>
+    <Compile Include="..\Radio\Models.cs">
+      <Link>Linked\Models.cs</Link>
     </Compile>
     <Compile Include="..\Radio\Sikradio.cs">
       <Link>Linked\Sikradio.cs</Link>
@@ -125,12 +127,16 @@
     <Compile Include="Config.Designer.cs">
       <DependentUpon>Config.cs</DependentUpon>
     </Compile>
+    <Compile Include="ISikRadioForm.cs" />
     <Compile Include="MAVLinkSerialPort.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="MainV2.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RFD900.cs" />
+    <Compile Include="RFDLib\Array.cs" />
+    <Compile Include="RFDLib\Text.cs" />
     <Compile Include="Rssi.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -267,6 +273,10 @@
     <ProjectReference Include="..\ExtLibs\Interfaces\Interfaces.csproj">
       <Project>{fd4d2994-9bea-41a1-8c51-2e02d1e8503e}</Project>
       <Name>Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExtLibs\Mavlink\MAVLink.csproj">
+      <Project>{13d2ec90-c41f-48a1-aada-859b6dc24edc}</Project>
+      <Name>MAVLink</Name>
     </ProjectReference>
     <ProjectReference Include="..\ExtLibs\ZedGraph\ZedGraph.csproj">
       <Project>{2541686b-1673-43bf-af89-3163945db009}</Project>

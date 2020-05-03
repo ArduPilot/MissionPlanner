@@ -527,9 +527,14 @@
     </Compile>
     <Compile Include="NativeMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Radio\Models.cs" />
     <Compile Include="ResEdit.Designer.cs">
       <DependentUpon>ResEdit.cs</DependentUpon>
     </Compile>
+    <Compile Include="SikRadio\ISikRadioForm.cs" />
+    <Compile Include="SikRadio\RFD900.cs" />
+    <Compile Include="SikRadio\RFDLib\Array.cs" />
+    <Compile Include="SikRadio\RFDLib\Text.cs" />
     <Compile Include="Splash.Designer.cs">
       <SubType>Form</SubType>
       <DependentUpon>Splash.cs</DependentUpon>
